@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 647AF401C2C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:19:18 +0200 (CEST)
-Received: from localhost ([::1]:34118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E836401C33
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:22:59 +0200 (CEST)
+Received: from localhost ([::1]:43456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNEWr-0006K2-EH
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:19:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57254)
+	id 1mNEaQ-0004M7-6Y
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:22:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPB-0000ge-2q
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:21 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37854)
+ id 1mNEPC-0000hl-Pw
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:28 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:36435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEP9-0007Sm-2R
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:20 -0400
-Received: by mail-wr1-x435.google.com with SMTP id v10so9797055wrd.4
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:18 -0700 (PDT)
+ id 1mNEP9-0007T3-Ny
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:22 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 79-20020a1c0452000000b002e6cf79e572so4986024wme.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mPOPkKKhr0wV8f1s7B0TgsIWkX6Xh6V7QOelvTLk/To=;
- b=MRKOpBZi7cRdyT8Y1KeIFLZHgHKPrUURQHGY3eObopMn6xD7jVH5ESA5FdCI1dvdEi
- ZNFLzU0a7mY8+6fEtOOfaZtSyA6t23kji5RgfBWSDmV1T2aUyHcbfR2ojUME9HOVeUsV
- Z1WXJk02bJOnXkF9LBWaav1/+Tj70TH3L78YKLflnTokyBk+GQjDWSDrLuBr8mstWXiT
- vjWjhezxvPnGTLgyDoDs/huipWpK5kI5DTq++Sq9JJfhqxPavarQdlcqiDmHG/sX2KRu
- ka41SnZcRuCHwqp6mqKGkPE66fQKVcEotN14gJQydKf5/nIDkrIQLMoEKTfnU7mm5G/a
- EXiA==
+ bh=tVOq4P2b9fV7Bm+VGFLgDnTn5rJi9DMdnCOkpoB4vL0=;
+ b=cGP+ZcYUA5kROXwuys8iXV6KrZjO0PTmZmB3Wi1GQ87kf1TVdUzWf+Uza39Vg0V+ZV
+ cqT0e5Xcc3e/7NoS9ox1P1YQO/Ku/nsDPJeSDNawgNZ9laOd+kxkgQ2bV3y5oLj/IQib
+ kQNLy5SUfqWssVb8OSRY8kV2+kFJ7gFJdylZ4PTix7k0IaqRz7OKx3wprakhb/pl+L5F
+ t86HVGWTMHfhx02jAwIiVK5a9iNGfIxHb2LLcppR+n97moEhE2xM06Gxh0kqNylK9j98
+ If3RAxQNBodNd9E/we8dl/jlQUtzB3iB8SWOt0aeOWe6YWQeoeFAPPpWbYP5ZAOFwwbC
+ aSVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=mPOPkKKhr0wV8f1s7B0TgsIWkX6Xh6V7QOelvTLk/To=;
- b=AvTv0j0PbHru2lC1dc1aPzrEbaAC2kcoawtQbsBiBw/3U9RY2/HHv/g9ih1S4pt9Ca
- nQgWdznKoj99PCzWlHIOlvwncgU+8JglPh06A/lNhS12SYuBk5HDnfeo4y81oUhwp+jZ
- 2vK+hlRMmQUuiBJ8fh5ULFHe7TyfAR7Lhr20SyOISHNt822jH06NZFWZPi8B+oZSRCdB
- 8r/j4Kz9ZyUtP/QEbjO2lWrDAUjQiFL1F/w3ClEUZW2P8x/RyhWM4la1ssaqL5NL2Re6
- Og1jddB/cBBRjQ81m7gGOQpJVgJSJ+VP2W1wg3ZQayps56/mOIIZwsj3cwHJjjfUQ1yF
- XrUA==
-X-Gm-Message-State: AOAM530lguO/8ikxG/QeSX2NswL5Jbh2PmTrKdF6zDD5PUwxJpmnOkJE
- uuCBhcqcc+LOB0HD9LZct7l2h958j9s=
-X-Google-Smtp-Source: ABdhPJwH7Nh/ae2eHRHkbU8E2OcFTsy05HxayEO6iEospGQG7VNfyJDglZd98lGOJ3g5PQ5mXDkD8A==
-X-Received: by 2002:adf:e712:: with SMTP id c18mr13263495wrm.438.1630933877793; 
- Mon, 06 Sep 2021 06:11:17 -0700 (PDT)
+ bh=tVOq4P2b9fV7Bm+VGFLgDnTn5rJi9DMdnCOkpoB4vL0=;
+ b=lbmZM+yTW+l/2fJiYO1ju3bnPPFP3q3AKdRhYCRWjmrrSFBjxxdi9/HMmCYZ6VcNnx
+ 1Q1JV3IQxWYclqQalcbgUFtuxCxaj3lBt+yew+EuqImXD2zoPycBDTBF+rLYm4rMScet
+ DOJ/Vtc5ZJzss8tbHatSxLwlGHPZpf5vIUCVjczmIMoJXuw4Q7mE00RJTYuM67PglRlS
+ SQlabWpWC1jE9XfQud8R3lKWeJDkp87OW0kFF7JPCrypp4MEM6o2sm9hRzCi8mhCpqHR
+ TqKkCP3nySeWmcSsbxI7IE2WQMRuz4JvDSX/CGyJ/0Rraq5y9xHi5onyYlO7CDoaVZyC
+ 4hzQ==
+X-Gm-Message-State: AOAM531pg/lOd38Ko+NtfCi1e5FC9vmSVWIb92PhsIeTjSCrnzAAYlZE
+ mSeYLxIIe6W1yFB8sq64FkY3cogE2rU=
+X-Google-Smtp-Source: ABdhPJxWC8WbBL2ek39/4VPZwQtaSmH3K9TngGVpq+/iLoqe/MHd88zmS2tMusQL+52ZlMNdf5Cahg==
+X-Received: by 2002:a1c:1c2:: with SMTP id 185mr11240669wmb.11.1630933878427; 
+ Mon, 06 Sep 2021 06:11:18 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
  k4sm7992331wrm.74.2021.09.06.06.11.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 06:11:17 -0700 (PDT)
+ Mon, 06 Sep 2021 06:11:18 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/36] configure / meson: Move the GBM handling to meson.build
-Date: Mon,  6 Sep 2021 15:10:31 +0200
-Message-Id: <20210906131059.55234-9-pbonzini@redhat.com>
+Subject: [PULL 09/36] memory: Add RAM_PROTECTED flag to skip IOMMU mappings
+Date: Mon,  6 Sep 2021 15:10:32 +0200
+Message-Id: <20210906131059.55234-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210906131059.55234-1-pbonzini@redhat.com>
 References: <20210906131059.55234-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,126 +85,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
+Cc: Yang Zhong <yang.zhong@intel.com>,
+ Sean Christopherson <sean.j.christopherson@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-The GBM library detection does not need to be in the configure script,
-since it does not have any user-facing options (there are no
---enable-gbm or --disable-gbm switches). Let's move it to meson.build
-instead, so we don't have to clutter config-host.mak with the related
-switches.
+Add a new RAMBlock flag to denote "protected" memory, i.e. memory that
+looks and acts like RAM but is inaccessible via normal mechanisms,
+including DMA.  Use the flag to skip protected memory regions when
+mapping RAM for DMA in VFIO.
 
-Additionally, only check for GBM if it is really required, i.e. if we
-either compile with OpenGL or with virglrenderer support.
+Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210713111516.734834-1-thuth@redhat.com>
+v1-->v2:
+   - Unified the "share" and "protected" arguments with ram_flags in the
+     memory_region_init_ram_from_fd()(Paolo).
+Message-Id: <20210719112136.57018-2-yang.zhong@intel.com>
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                          | 14 --------------
- contrib/vhost-user-gpu/meson.build |  5 ++---
- meson.build                        | 14 ++++++++------
- 3 files changed, 10 insertions(+), 23 deletions(-)
+ hw/vfio/common.c      |  1 +
+ include/exec/memory.h | 15 ++++++++++++++-
+ softmmu/memory.c      |  5 +++++
+ softmmu/physmem.c     |  3 ++-
+ 4 files changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index bd823307a6..8adf2127c3 100755
---- a/configure
-+++ b/configure
-@@ -3451,13 +3451,6 @@ esac
- ##########################################
- # opengl probe (for sdl2, gtk)
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 8728d4d5c2..1289cfa8be 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -562,6 +562,7 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
+ {
+     return (!memory_region_is_ram(section->mr) &&
+             !memory_region_is_iommu(section->mr)) ||
++           memory_region_is_protected(section->mr) ||
+            /*
+             * Sizing an enabled 64-bit BAR can cause spurious mappings to
+             * addresses in the upper part of the 64-bit address space.  These
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index c3d417d317..9446874d21 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -190,6 +190,9 @@ typedef struct IOMMUTLBEvent {
+  */
+ #define RAM_NORESERVE (1 << 7)
  
--gbm="no"
--if $pkg_config gbm; then
--    gbm_cflags="$($pkg_config --cflags gbm)"
--    gbm_libs="$($pkg_config --libs gbm)"
--    gbm="yes"
--fi
--
- if test "$opengl" != "no" ; then
-   epoxy=no
-   if $pkg_config epoxy; then
-@@ -4688,13 +4681,6 @@ if test "$opengl" = "yes" ; then
-   echo "OPENGL_LIBS=$opengl_libs" >> $config_host_mak
- fi
- 
--if test "$gbm" = "yes" ; then
--    echo "CONFIG_GBM=y" >> $config_host_mak
--    echo "GBM_LIBS=$gbm_libs" >> $config_host_mak
--    echo "GBM_CFLAGS=$gbm_cflags" >> $config_host_mak
--fi
--
--
- if test "$avx2_opt" = "yes" ; then
-   echo "CONFIG_AVX2_OPT=y" >> $config_host_mak
- fi
-diff --git a/contrib/vhost-user-gpu/meson.build b/contrib/vhost-user-gpu/meson.build
-index 4cb52a91d7..92c8f3a86a 100644
---- a/contrib/vhost-user-gpu/meson.build
-+++ b/contrib/vhost-user-gpu/meson.build
-@@ -1,6 +1,5 @@
--if 'CONFIG_TOOLS' in config_host and virgl.found() \
--    and 'CONFIG_GBM' in config_host and 'CONFIG_LINUX' in config_host \
--    and pixman.found()
-+if 'CONFIG_TOOLS' in config_host and virgl.found() and gbm.found() \
-+    and 'CONFIG_LINUX' in config_host and pixman.found()
-   executable('vhost-user-gpu', files('vhost-user-gpu.c', 'virgl.c', 'vugbm.c'),
-              dependencies: [qemuutil, pixman, gbm, virgl, vhost_user, opengl],
-              install: true,
-diff --git a/meson.build b/meson.build
-index bf63784812..13df8c37c7 100644
---- a/meson.build
-+++ b/meson.build
-@@ -472,11 +472,6 @@ if not get_option('zstd').auto() or have_block
-                     required: get_option('zstd'),
-                     method: 'pkg-config', kwargs: static_kwargs)
- endif
--gbm = not_found
--if 'CONFIG_GBM' in config_host
--  gbm = declare_dependency(compile_args: config_host['GBM_CFLAGS'].split(),
--                           link_args: config_host['GBM_LIBS'].split())
--endif
- virgl = not_found
- if not get_option('virglrenderer').auto() or have_system
-   virgl = dependency('virglrenderer',
-@@ -816,11 +811,17 @@ coreaudio = not_found
- if 'CONFIG_AUDIO_COREAUDIO' in config_host
-   coreaudio = declare_dependency(link_args: config_host['COREAUDIO_LIBS'].split())
- endif
++/* RAM that isn't accessible through normal means. */
++#define RAM_PROTECTED (1 << 8)
 +
- opengl = not_found
- if 'CONFIG_OPENGL' in config_host
-   opengl = declare_dependency(compile_args: config_host['OPENGL_CFLAGS'].split(),
-                               link_args: config_host['OPENGL_LIBS'].split())
- endif
-+gbm = not_found
-+if virgl.found() or 'CONFIG_OPENGL' in config_host
-+  gbm = dependency('gbm', method: 'pkg-config',
-+                   required: false, kwargs: static_kwargs)
-+endif
+ static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
+                                        IOMMUNotifierFlag flags,
+                                        hwaddr start, hwaddr end,
+@@ -1267,7 +1270,7 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
+  * @name: the name of the region.
+  * @size: size of the region.
+  * @ram_flags: RamBlock flags. Supported flags: RAM_SHARED, RAM_PMEM,
+- *             RAM_NORESERVE.
++ *             RAM_NORESERVE, RAM_PROTECTED.
+  * @fd: the fd to mmap.
+  * @offset: offset within the file referenced by fd
+  * @errp: pointer to Error*, to store an error if it happens.
+@@ -1568,6 +1571,16 @@ static inline bool memory_region_is_romd(MemoryRegion *mr)
+     return mr->rom_device && mr->romd_mode;
+ }
  
- gnutls = not_found
- gnutls_crypto = not_found
-@@ -1244,6 +1245,7 @@ config_host_data.set('CONFIG_MPATH', mpathpersist.found())
- config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
- config_host_data.set('CONFIG_CURL', curl.found())
- config_host_data.set('CONFIG_CURSES', curses.found())
-+config_host_data.set('CONFIG_GBM', gbm.found())
- config_host_data.set('CONFIG_GLUSTERFS', glusterfs.found())
- if glusterfs.found()
-   config_host_data.set('CONFIG_GLUSTERFS_XLATOR_OPT', glusterfs.version().version_compare('>=4'))
-@@ -3083,7 +3085,7 @@ summary_info += {'U2F support':       u2f.found()}
- summary_info += {'libusb':            libusb.found()}
- summary_info += {'usb net redir':     usbredir.found()}
- summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
--summary_info += {'GBM':               config_host.has_key('CONFIG_GBM')}
-+summary_info += {'GBM':               gbm.found()}
- summary_info += {'libiscsi support':  libiscsi.found()}
- summary_info += {'libnfs support':    libnfs.found()}
- if targetos == 'windows'
++/**
++ * memory_region_is_protected: check whether a memory region is protected
++ *
++ * Returns %true if a memory region is protected RAM and cannot be accessed
++ * via standard mechanisms, e.g. DMA.
++ *
++ * @mr: the memory region being queried
++ */
++bool memory_region_is_protected(MemoryRegion *mr);
++
+ /**
+  * memory_region_get_iommu: check whether a memory region is an iommu
+  *
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index bfedaf9c4d..54cd0e9824 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -1811,6 +1811,11 @@ bool memory_region_is_ram_device(MemoryRegion *mr)
+     return mr->ram_device;
+ }
+ 
++bool memory_region_is_protected(MemoryRegion *mr)
++{
++    return mr->ram && (mr->ram_block->flags & RAM_PROTECTED);
++}
++
+ uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
+ {
+     uint8_t mask = mr->dirty_log_mask;
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 23e77cb771..088660d973 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -2055,7 +2055,8 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+     int64_t file_size, file_align;
+ 
+     /* Just support these ram flags by now. */
+-    assert((ram_flags & ~(RAM_SHARED | RAM_PMEM | RAM_NORESERVE)) == 0);
++    assert((ram_flags & ~(RAM_SHARED | RAM_PMEM | RAM_NORESERVE |
++                          RAM_PROTECTED)) == 0);
+ 
+     if (xen_enabled()) {
+         error_setg(errp, "-mem-path not supported with Xen");
 -- 
 2.31.1
 
