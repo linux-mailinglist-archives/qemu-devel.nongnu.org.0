@@ -2,88 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F96401CA7
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:52:06 +0200 (CEST)
-Received: from localhost ([::1]:37664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D75E401CBD
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 16:05:20 +0200 (CEST)
+Received: from localhost ([::1]:45934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNF2b-0007mI-3D
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:52:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36840)
+	id 1mNFFP-0005ZL-4l
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 10:05:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mNExp-00019E-Fl
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:47:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22670)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mNExl-0003y8-Sp
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:47:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630936024;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+jv88y3wn04J6iv6rz1NQuneOFNu8bE+rZJlMvWPHIQ=;
- b=i2HcAnGaCEFjMII9XIBwum+5OVafzm6ebImZKRJS/sHo3udnclDYcjQbyOj2rf2T6lFFo7
- qSvz1K8m5HnxtrP6fg0ZD/1SgbEZzPIqR6J/PJd0KGn0VlEUbnZtJi+US9gYqmQZtu2ZPg
- zD6AUxqaxGgV9TVFYaGhuytzpDQHkN8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-MOqcnRfMPvy0PqDnUPR3gw-1; Mon, 06 Sep 2021 09:47:03 -0400
-X-MC-Unique: MOqcnRfMPvy0PqDnUPR3gw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- s15-20020a056402520f00b003cad788f1f6so3532584edd.22
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:47:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mNFEC-0004sf-FG
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 10:04:04 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46763)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mNFE9-0001tH-Oz
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 10:04:04 -0400
+Received: by mail-wr1-x434.google.com with SMTP id x6so9982521wrv.13
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 07:04:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3rj+RjQ/5hg7k3wDvjWFKmq5QIoDZNvMXSb/Bmcyiuw=;
+ b=Jkd5nBJWcuxkrRY1g6ptJOx1zPmDjxfG1qPcBggdhJxHEoqy5zUqEtOrAxee9wetDB
+ 0lTG+kHgMvxMLCz/IgYznKlpxUR2JesdbVfVHBjGxQKsrqEJaCykK6xp8VpXD+5PnkkB
+ 0STz792I1PXe8OKGb7iVASG83C5LuF8Tvq2ptR9VSTuJ6sVNgJYQRoa1JyUNAouBwxBd
+ VUx6cI573BZIOcZwX4KqCo8ui0kHtx3A8U6ZM64J3sfcNrQGz6x54wtWrUKIHabWgKbQ
+ 5VpVZdJwgpZskklEtn7vlL9HHzXOwX0UySsLee9HL7gCPlfLg5rLuH9Hu75E3Yx50AVq
+ 7+DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=+jv88y3wn04J6iv6rz1NQuneOFNu8bE+rZJlMvWPHIQ=;
- b=iEDgebU1xofI2ZAvHRT7cLzF3xbhKuWwJ1CQolq7+QT2aVd2fK5PCsGHDiKHhZtF7Q
- BkzIwPHY+KRMt/jO9ajBD+vIYWBL7S8d80qXnadgl+ztvVzuGmlttmFlXB6PVpqs2ZbE
- o7O9WqEcdLj0qsqwJBLGn9kiuP1kiLOizATrivsUqIEVESLx29YcQrWeADckZ6s74qlK
- TvgrrSIP/kKdUpf/Y9SwDebZMFYXH/a22XOhKwN0xq/A4MNoRsRza3y8kl8BqIHRWFAf
- dZk61Mn9bLxzzwTvhuAHBIUnZWJDfvYg8dWVcQECKguP/023IcQI6layANhDfsWVxY0J
- xSPA==
-X-Gm-Message-State: AOAM532f1Rk6n0VhjYQPt+69j1mKwY7pmam3508mhodfvTW7k28Kq05Z
- LlgDaY2PYe/7VrKGeALsRNSSiic9dBH7W8ykaFXR2TBn0M3lPnFgf0ig6SnydBGwQylW9FTdDf3
- uunF35KuQCQPD1+8=
-X-Received: by 2002:a17:906:3b99:: with SMTP id
- u25mr13346950ejf.101.1630936021962; 
- Mon, 06 Sep 2021 06:47:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxIKju7RbC7k2s6+bj90i/HO2kwj49aosIMjLOH6mD0Xk2ErX2er3IRWYVOHivSwJ2LG+GV2w==
-X-Received: by 2002:a17:906:3b99:: with SMTP id
- u25mr13346926ejf.101.1630936021743; 
- Mon, 06 Sep 2021 06:47:01 -0700 (PDT)
-Received: from steredhat (host-79-51-2-59.retail.telecomitalia.it.
- [79.51.2.59])
- by smtp.gmail.com with ESMTPSA id b12sm4777291edy.36.2021.09.06.06.47.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 06:47:01 -0700 (PDT)
-Date: Mon, 6 Sep 2021 15:46:59 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 0/2] iothread: cleanup after adding a new parameter to
- IOThread
-Message-ID: <20210906134659.g23tm2njoseyimiq@steredhat>
-References: <20210727145936.147032-1-sgarzare@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3rj+RjQ/5hg7k3wDvjWFKmq5QIoDZNvMXSb/Bmcyiuw=;
+ b=SZl5zo3VZ1cZCRaAi/hjZIMX2lm+ThgOP4tWGcl66lshPXlwqYW+ifY6IoKmMvps1w
+ ygfTNPmv3vTYOTw7CavKqW1+YDLLFe+Qa7wU+vPtIec3t3Hu1BpW3XAsPw6cPEcT2gvT
+ SP5kVFqbArILznpVqSdx7AaWZ8EmhzpmoY36nHeCTos03KWF6baxJeuHLkaqi1qjobhp
+ En7/1B4UNtc8RoS5lysGIhLoC4+qBh3AHAUuzI4pqtoi3LBgF4evB32Sk6UJAqkQ+YZK
+ b4xdxQOnbTT+dVvJMOG7lWd6hShnZFz7UMEbWh9wRPDQ7Mw657NtHDbhmkT9UIQ9s2jF
+ b3mw==
+X-Gm-Message-State: AOAM533egotHaEoPFIsHI1YnqtxKBu8OXQ11XVNWMcSc+0uJcHqnigro
+ WMdwK9+uBcSJAzop5rOhVQqt3GPS+UdmrWAE4owHsg==
+X-Google-Smtp-Source: ABdhPJxgDlI/0allqhiJd7JgXfR5N63qv5HC5eDkMncm0nIML5wc9XGo3AL+ilMHmn78rfUdWpVZVp5ws0WP9tazPAM=
+X-Received: by 2002:a5d:4647:: with SMTP id j7mr13704033wrs.149.1630937039670; 
+ Mon, 06 Sep 2021 07:03:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210727145936.147032-1-sgarzare@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210906131059.55234-1-pbonzini@redhat.com>
+In-Reply-To: <20210906131059.55234-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 6 Sep 2021 15:03:10 +0100
+Message-ID: <CAFEAcA-3nCxntVjqpQAnk-K_bjFueUwMGxwZcak2kVpBxBjyxA@mail.gmail.com>
+Subject: Re: [PULL 00/36] (Mostly) x86 changes for 2021-09-06
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,29 +76,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping :-)
+On Mon, 6 Sept 2021 at 14:13, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 31ebff513fad11f315377f6b07447169be8d9f86:
+>
+>   Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-09-03' into staging (2021-09-04 19:21:19 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 4e3cdb6ce6048bb28d70a438081252a29563b757:
+>
+>   doc: Add the SGX doc (2021-09-06 04:10:24 -0400)
+>
+> ----------------------------------------------------------------
+> * SGX support (Sean, Yang)
+> * vGIF and vVMLOAD/VMSAVE support (Lara)
+> * Move GBM handling to Meson (Thomas)
 
-Looks like it went into the crack during feature freeze,
-should I resend it?
+Hi; this has a merge conflict in meson.build; please rebase and resend.
+(I think it's likely the gbm patch that Thomas mentions that's already
+in master.)
 
-On Tue, Jul 27, 2021 at 04:59:34PM +0200, Stefano Garzarella wrote:
->We recently added a new parameter (aio-max-batch) to IOThread.
->This series cleans up the code a bit, no functional changes.
->
->Stefano Garzarella (2):
->  iothread: rename PollParamInfo to IOThreadParamInfo
->  iothread: use IOThreadParamInfo in iothread_[set|get]_param()
->
-> iothread.c | 28 +++++++++++++++-------------
-> 1 file changed, 15 insertions(+), 13 deletions(-)
->
->-- 
->2.31.1
->
->
-
+-- PMM
 
