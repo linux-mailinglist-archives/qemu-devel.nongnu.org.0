@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE46401C5D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:36:40 +0200 (CEST)
-Received: from localhost ([::1]:60678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B29C8401C7B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:39:41 +0200 (CEST)
+Received: from localhost ([::1]:40014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNEnf-0001bR-Bj
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:36:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57716)
+	id 1mNEqa-0006ic-5n
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:39:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPs-0002LM-GI
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:12:04 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:52156)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPq-000874-5V
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:12:04 -0400
-Received: by mail-wm1-x333.google.com with SMTP id n39so2855345wms.1
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:12:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Kza7dBXbFSF6CSti6JxMP2OPp7s6wTLL3y20Aq2kxwM=;
- b=NKQkMFvVRzGjuLjv69rU3Wo3t6N3s0RG2Lo/FcN0CohZ1LoxKV+njzjSTxgbb1X1v2
- 5h2ivYHin6aLrsp9+R52mQBqEzMNLeN/9qRy52uofCX1xL6I/NLWHuvyzUr1cv0v0Lvc
- G8b3RYrCzf393iCOIElu5B2dC9ID3V396l0uKi4VWlx/Ug7wWC3zE7/5+lX4KXEZcD7r
- ytaZwB3HAz93XKZD2m/umhhV0KSvXF4GXHdFzgguN3bCtHBOjhQKSOppkEMF/WaWp7mZ
- eyngQF+3sl3/VMTsHKBP1TaXKRExd3+Fczg7GOIs14Tvv7uHQLPXKGownAO28T1F10FC
- Qqkw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mNERG-00069L-5C
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:13:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44599)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mNERD-0000ls-2X
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:13:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630934005;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JAZIUusdaTCGHxSHpxbiW+xC+QInLYiAqjVq8O1dBEs=;
+ b=XBPjTqRs+2N8fXjow195JiAInU8ZAG/8GTF9F2fHJLOCrVRI5ds5SNZTJilBjIhuPtcyqK
+ zbLqEAr3XYcQ0H+uU5NT2W+TMI7cT/TsxZzdALUsLoMEmJUh8j185Wo1v80yb39mRzPXv9
+ dozLw2crOLbaMOSPTiV8MbQ1pSb4QdA=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-339-XXbQ7m8qNWqU8wNDI0LHrw-1; Mon, 06 Sep 2021 09:13:21 -0400
+X-MC-Unique: XXbQ7m8qNWqU8wNDI0LHrw-1
+Received: by mail-pg1-f198.google.com with SMTP id
+ v33-20020a634821000000b002530e4cca7bso4939456pga.10
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:13:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Kza7dBXbFSF6CSti6JxMP2OPp7s6wTLL3y20Aq2kxwM=;
- b=k3/evuBc3Kq3wiOQE9evFnT9iYRLXRmVWaHjt3lZZqtc/pJ+fDsXhoU5xGZWqc2ehu
- yD4b4Sd89W3xw0s+sPpe/C3u/l00kvK2yk6hB3wDaY0Laoxcn69o0aCuZPbyL3RedeaS
- 9KYNAGaxKdZe+2jd01OSyVAJTASGVYt4NHNmlQ5CPYHbN+0SQznJt5KUOYmqoQqi9bH2
- o7oKiDCiQVqpi5yLzo6kj06t5MKBtZRnLSmSjpZpytbJoG0CW2BzvaJZPzN//3an7OKN
- aNa8uyLQw2sc6DqdE+MKsniKcR/36VUSPRTRcrIn99pAkGuYM+cgKBDukughzmo7/7Ml
- ABbA==
-X-Gm-Message-State: AOAM531o2vg+dCsbTS/CgA7gmGOQlntX5IxFrTR0UPzI7zHThM4BXxCO
- /04vKgjtrU65tx2BGGB2LlTHS+KuZDY=
-X-Google-Smtp-Source: ABdhPJydPH3i+/0H95DcaBjawPIEQNrJhP7SpPLtcWlLoW+E+pP5zXhsjVguZGF46UJeUxweSMoHWA==
-X-Received: by 2002:a05:600c:4309:: with SMTP id
- p9mr11263167wme.174.1630933920793; 
- Mon, 06 Sep 2021 06:12:00 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- k4sm7992331wrm.74.2021.09.06.06.11.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 06:12:00 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 36/36] doc: Add the SGX doc
-Date: Mon,  6 Sep 2021 15:10:59 +0200
-Message-Id: <20210906131059.55234-37-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210906131059.55234-1-pbonzini@redhat.com>
-References: <20210906131059.55234-1-pbonzini@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JAZIUusdaTCGHxSHpxbiW+xC+QInLYiAqjVq8O1dBEs=;
+ b=hj9MqiL2niLB4KWvXBTmoDkWDucQ+gNnDHe1IWuWQB2UXY09Q7be5+wdyXK7e+8BCt
+ gShUR88yoeVx7a5N19Ibt9aP2ySey5xHWcDAgwyJ42Xd5kDMyUyYEk6s/sDoY4MzDQKk
+ DZb+8RdKgqXuaF/yJj5vmBvJlgUg34lBkRsyv+AT9aMCUysFuhzJqHBjO4Y2i3chMRhu
+ B5VC0Nmz0E+vVBd5125WjMOBW5WiJztYMsA8d57P72CJkfD5Cm/PL0GA8SH+F2JsDSHu
+ BoVZrUR8HJ5MmYv8zj7AxgMFefnHirKD9BC79e3HfAJ0uzIUbyfi8/rc4cyAVOqUw+uU
+ 4mRw==
+X-Gm-Message-State: AOAM531lqTUE35tL9uu+vZLYn6dABelrhhYg8HHyHhMOY5Yv3O/WOllR
+ ttqxgTPNmW0fhl9ToBz0rkWIRfqLEE80vWjf8PDNrEZ/46D/oTqgmJyH9S1Z9Y9DmuFZYKKjWeU
+ tDQE1FDAMmcf/YFk975AS4k1oWCI5W4Q=
+X-Received: by 2002:a63:d10b:: with SMTP id k11mr12485273pgg.26.1630934000395; 
+ Mon, 06 Sep 2021 06:13:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxX8pYXoEYfoeHBDP84pYaFz3xGUcb2OcwyZYVbUcakb/X6vXPIOwqJNajCC5iXdGG0tygxopGWi2PXVu+0/GY=
+X-Received: by 2002:a63:d10b:: with SMTP id k11mr12485249pgg.26.1630933999968; 
+ Mon, 06 Sep 2021 06:13:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210719112136.57018-1-yang.zhong@intel.com>
+In-Reply-To: <20210719112136.57018-1-yang.zhong@intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Mon, 6 Sep 2021 15:13:08 +0200
+Message-ID: <CABgObfYSXDvif5Rd8Bz-9VOjhj4sBai5msnwVySbXj6e1=Wa4A@mail.gmail.com>
+Subject: Re: [PATCH v4 00/33] Qemu SGX virtualization
+To: Yang Zhong <yang.zhong@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,196 +88,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>,
- Sean Christopherson <sean.j.christopherson@intel.com>
+Cc: Sean Christopherson <seanjc@google.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>, "Blake, Eric" <eblake@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, "Huang, Kai" <kai.huang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sean Christopherson <sean.j.christopherson@intel.com>
+Hi,
 
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210719112136.57018-34-yang.zhong@intel.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- docs/intel-sgx.txt | 167 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 167 insertions(+)
- create mode 100644 docs/intel-sgx.txt
+the monitor patches did not pass the test-hmp qtest, and also they
+should be in target/i386/monitor.c (see other commands that were
+implemented there for SEV).  However, I've sent a pull request with
+the rest.
 
-diff --git a/docs/intel-sgx.txt b/docs/intel-sgx.txt
-new file mode 100644
-index 0000000000..f934d92f37
---- /dev/null
-+++ b/docs/intel-sgx.txt
-@@ -0,0 +1,167 @@
-+===============================
-+Software Guard eXtensions (SGX)
-+===============================
-+
-+Overview
-+========
-+
-+Intel Software Guard eXtensions (SGX) is a set of instructions and mechanisms
-+for memory accesses in order to provide security accesses for sensitive
-+applications and data. SGX allows an application to use it's pariticular
-+address space as an *enclave*, which is a protected area provides confidentiality
-+and integrity even in the presence of privileged malware. Accesses to the
-+enclave memory area from any software not resident in the enclave are prevented,
-+including those from privileged software.
-+
-+Virtual SGX
-+===========
-+
-+SGX feature is exposed to guest via SGX CPUID. Looking at SGX CPUID, we can
-+report the same CPUID info to guest as on host for most of SGX CPUID. With
-+reporting the same CPUID guest is able to use full capacity of SGX, and KVM
-+doesn't need to emulate those info.
-+
-+The guest's EPC base and size are determined by Qemu, and KVM needs Qemu to
-+notify such info to it before it can initialize SGX for guest.
-+
-+Virtual EPC
-+-----------
-+
-+By default, Qemu does not assign EPC to a VM, i.e. fully enabling SGX in a VM
-+requires explicit allocation of EPC to the VM. Similar to other specialized
-+memory types, e.g. hugetlbfs, EPC is exposed as a memory backend.
-+
-+SGX EPC is enumerated through CPUID, i.e. EPC "devices" need to be realized
-+prior to realizing the vCPUs themselves, which occurs long before generic
-+devices are parsed and realized.  This limitation means that EPC does not
-+require -maxmem as EPC is not treated as {cold,hot}plugged memory.
-+
-+Qemu does not artificially restrict the number of EPC sections exposed to a
-+guest, e.g. Qemu will happily allow you to create 64 1M EPC sections. Be aware
-+that some kernels may not recognize all EPC sections, e.g. the Linux SGX driver
-+is hardwired to support only 8 EPC sections.
-+
-+The following Qemu snippet creates two EPC sections, with 64M pre-allocated
-+to the VM and an additional 28M mapped but not allocated:
-+
-+ -object memory-backend-epc,id=mem1,size=64M,prealloc=on \
-+ -object memory-backend-epc,id=mem2,size=28M \
-+ -M sgx-epc.0.memdev=mem1,sgx-epc.1.memdev=mem2
-+
-+Note:
-+
-+The size and location of the virtual EPC are far less restricted compared
-+to physical EPC. Because physical EPC is protected via range registers,
-+the size of the physical EPC must be a power of two (though software sees
-+a subset of the full EPC, e.g. 92M or 128M) and the EPC must be naturally
-+aligned.  KVM SGX's virtual EPC is purely a software construct and only
-+requires the size and location to be page aligned. Qemu enforces the EPC
-+size is a multiple of 4k and will ensure the base of the EPC is 4k aligned.
-+To simplify the implementation, EPC is always located above 4g in the guest
-+physical address space.
-+
-+Migration
-+---------
-+
-+Qemu/KVM doesn't prevent live migrating SGX VMs, although from hardware's
-+perspective, SGX doesn't support live migration, since both EPC and the SGX
-+key hierarchy are bound to the physical platform. However live migration
-+can be supported in the sense if guest software stack can support recreating
-+enclaves when it suffers sudden lose of EPC; and if guest enclaves can detect
-+SGX keys being changed, and handle gracefully. For instance, when ERESUME fails
-+with #PF.SGX, guest software can gracefully detect it and recreate enclaves;
-+and when enclave fails to unseal sensitive information from outside, it can
-+detect such error and sensitive information can be provisioned to it again.
-+
-+CPUID
-+-----
-+
-+Due to its myriad dependencies, SGX is currently not listed as supported
-+in any of Qemu's built-in CPU configuration. To expose SGX (and SGX Launch
-+Control) to a guest, you must either use `-cpu host` to pass-through the
-+host CPU model, or explicitly enable SGX when using a built-in CPU model,
-+e.g. via `-cpu <model>,+sgx` or `-cpu <model>,+sgx,+sgxlc`.
-+
-+All SGX sub-features enumerated through CPUID, e.g. SGX2, MISCSELECT,
-+ATTRIBUTES, etc... can be restricted via CPUID flags. Be aware that enforcing
-+restriction of MISCSELECT, ATTRIBUTES and XFRM requires intercepting ECREATE,
-+i.e. may marginally reduce SGX performance in the guest. All SGX sub-features
-+controlled via -cpu are prefixed with "sgx", e.g.:
-+
-+$ qemu-system-x86_64 -cpu help | xargs printf "%s\n" | grep sgx
-+  sgx
-+  sgx-debug
-+  sgx-encls-c
-+  sgx-enclv
-+  sgx-exinfo
-+  sgx-kss
-+  sgx-mode64
-+  sgx-provisionkey
-+  sgx-tokenkey
-+  sgx1
-+  sgx2
-+  sgxlc
-+
-+The following Qemu snippet passes through the host CPU (and host physical
-+address width) but restricts access to the provision and EINIT token keys:
-+
-+ -cpu host,host-phys-bits,-sgx-provisionkey,-sgx-tokenkey
-+
-+Note:
-+
-+SGX sub-features cannot be emulated, i.e. sub-features that are not present
-+in hardware cannot be forced on via '-cpu'.
-+
-+Virtualize SGX Launch Control
-+-----------------------------
-+
-+Qemu SGX support for Launch Control (LC) is passive, in the sense that it
-+does not actively change the LC configuration.  Qemu SGX provides the user
-+the ability to set/clear the CPUID flag (and by extension the associated
-+IA32_FEATURE_CONTROL MSR bit in fw_cfg) and saves/restores the LE Hash MSRs
-+when getting/putting guest state, but Qemu does not add new controls to
-+directly modify the LC configuration.  Similar to hardware behavior, locking
-+the LC configuration to a non-Intel value is left to guest firmware.  Unlike
-+host bios setting for SGX launch control(LC), there is no special bios setting
-+for SGX guest by our design. If host is in locked mode, we can still allow
-+creating VM with SGX.
-+
-+Feature Control
-+---------------
-+
-+Qemu SGX updates the `etc/msr_feature_control` fw_cfg entry to set the SGX
-+(bit 18) and SGX LC (bit 17) flags based on their respective CPUID support,
-+i.e. existing guest firmware will automatically set SGX and SGX LC accordingly,
-+assuming said firmware supports fw_cfg.msr_feature_control.
-+
-+Launch a guest
-+==============
-+
-+To launch a SGX guest
-+${QEMU} \
-+   -cpu host,+sgx-provisionkey \
-+   -object memory-backend-epc,id=mem1,size=64M,prealloc=on \
-+   -object memory-backend-epc,id=mem2,size=28M \
-+   -M sgx-epc.0.memdev=mem1,sgx-epc.1.memdev=mem2
-+
-+Utilizing SGX in the guest requires a kernel/OS with SGX support.
-+
-+The support can be determined in guest by:
-+$ grep sgx /proc/cpuinfo
-+
-+Check the SGX epc info in the Guest:
-+$ dmesg | grep sgx
-+[    1.242142] sgx: EPC section 0x180000000-0x181bfffff
-+[    1.242319] sgx: EPC section 0x181c00000-0x1837fffff
-+
-+References
-+==========
-+
-+SGX Homepage:
-+https://software.intel.com/sgx
-+
-+SGX SDK:
-+https://github.com/intel/linux-sgx.git
-+
-+SGX SPEC:
-+Intel SDM Volume 3
--- 
-2.31.1
+Thanks,
+
+Paolo
+
+On Mon, Jul 19, 2021 at 1:27 PM Yang Zhong <yang.zhong@intel.com> wrote:
+>
+> Since Sean Christopherson has left Intel and i am responsible for Qemu SGX
+> upstream work. His @intel.com address will be bouncing and his new email(
+> seanjc@google.com) is also in CC lists.
+>
+> This series is Qemu SGX virtualization implementation rebased on latest
+> Qemu release. The numa support for SGX will be sent in another patchset
+> once this basic SGX patchset are merged.
+>
+> You can find Qemu repo here:
+>
+>     https://github.com/intel/qemu-sgx.git upstream
+>
+> If you want to try SGX, you can directly install the linux release(at least 5.13.0-rc1+)
+> since kvm SGX has been merged into linux release.
+>
+>     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+>
+> To simplify, you'd better install linux on host and guest, which can support
+> SGX on host and guest kernel. And to me, use below reference command to boot
+> SGX guest:
+>
+>     #qemu-system-x86_64 \
+>         ...... \
+>         -cpu host,+sgx-provisionkey \
+>         -object memory-backend-epc,id=mem1,size=64M,prealloc=on \
+>         -object memory-backend-epc,id=mem2,size=28M \
+>         -M sgx-epc.0.memdev=mem1,sgx-epc.1.memdev=mem2
+>
+> Overview
+> ========
+>
+> Intel Software Guard eXtensions (SGX) is a set of instructions and mechanisms
+> for memory accesses in order to provide security accesses for sensitive
+> applications and data. SGX allows an application to use it's pariticular
+> address space as an *enclave*, which is a protected area provides confidentiality
+> and integrity even in the presence of privileged malware. Accesses to the
+> enclave memory area from any software not resident in the enclave are prevented,
+> including those from privileged software.
+>
+> SGX virtaulization
+> ==================
+>
+> The KVM SGX creates one new misc device, sgx_vepc, and Qemu will open '/dev/sgx_vepc'
+> device node to mmap() host EPC memory to guest. The Qemu also adds 'sgx-epc' device
+> to expose EPC sections to guest through CPUID and ACPI table.  The Qemu SGX also
+> supports multiple virtual EPC sections to guest, we just put them together physically
+> contiguous for the sake of simplicity. The kernel SGX NUMA has been merged into Linux
+> tip tree, we will support this function in the next phase.
+>
+> Although the current host SGX subsystem can not support SGX2 feature, the KVM/Qemu
+> implementation still expose this feature to guest. Guest SGX2 support doesn't have
+> interaction with host kernel SGX driver, the SGX guest can normally use those new
+> instructions.
+>
+> As for SGX virtualization detailed infomation, please reference docs/intel-sgx.txt
+> docuement(patch 33).
+>
+> Changelog:
+> =========
+>
+> (Changelog here is for global changes, please see each patch's changelog for changes
+> made to specific patch.)
+>
+> v3-->v4:
+>    - Rebased the sgx patches into latest Qemu release.
+>    - Moved sgx compound property setter/getter from MachineState to X86MachineState(Paolo).
+>    - Re-defined struct SgxEPC, removed 'id' property and added struct SgxEPCList for
+>      sgx-epc.0.{memdev}(Paolo).
+>    - Removed g_malloc0(), and changed the 'SGXEPCState *sgx_epc' to 'SGXEPCState sgx_epc'
+>      in struct PCMachineState(Paolo).
+>    - Changed the SGX compound property cmdline from sgx-epc.{memdev}.0 to
+>      sgx-epc.0.{memdev}(Paolo).
+>    - Removed the signature from the 'git format-patch' command(Jarkko).
+>
+> v2-->v3:
+>    - Rebased the sgx patches into latest Qemu release.
+>    - Implemented the compound property for SGX, ref patch5, the command from '-sgx-epc'
+>      to '-M'(Paolo).
+>    - Moved the sgx common code from sgx-epc.c to sgx.c. The sgx-epc.c is
+>      only responsible for virtual epc device.
+>    - Removed the previous patch13(linux-headers: Add placeholder for KVM_CAP_SGX_ATTRIBUTE)
+>      because ehabkost@redhat.com updated Linux headers to 5.13-rc4 with commit 278f064e452.
+>    - Updated the patch1 because ram_flags were changed by David Hildenbra.
+>    - Added one patch24, which avoid reset operation caused by bios reset.
+>    - Added one patch25, which make prealloc property consistent with Qemu cmdline during VM
+>      reset.
+>
+> v1-->v2:
+>    - Rebased the sgx patches into latest Qemu release.
+>    - Unified the "share" and "protected" arguments with ram_flags in the
+>      memory_region_init_ram_from_fd()(Paolo).
+>    - Added the new MemoryBackendEpcProperties and related documents(Eric Blake).
+>    - Changed the KVM_CAP_SGX_ATTRIBUTE from 195 to 196(Kai).
+>    - Changed the version and some grammar issues(Eric Blake).
+>
+> Sean Christopherson (21):
+>   memory: Add RAM_PROTECTED flag to skip IOMMU mappings
+>   hostmem: Add hostmem-epc as a backend for SGX EPC
+>   i386: Add 'sgx-epc' device to expose EPC sections to guest
+>   vl: Add sgx compound properties to expose SGX EPC sections to guest
+>   i386: Add primary SGX CPUID and MSR defines
+>   i386: Add SGX CPUID leaf FEAT_SGX_12_0_EAX
+>   i386: Add SGX CPUID leaf FEAT_SGX_12_0_EBX
+>   i386: Add SGX CPUID leaf FEAT_SGX_12_1_EAX
+>   i386: Add get/set/migrate support for SGX_LEPUBKEYHASH MSRs
+>   i386: Add feature control MSR dependency when SGX is enabled
+>   i386: Update SGX CPUID info according to hardware/KVM/user input
+>   i386: kvm: Add support for exposing PROVISIONKEY to guest
+>   i386: Propagate SGX CPUID sub-leafs to KVM
+>   Adjust min CPUID level to 0x12 when SGX is enabled
+>   hw/i386/fw_cfg: Set SGX bits in feature control fw_cfg accordingly
+>   hw/i386/pc: Account for SGX EPC sections when calculating device
+>     memory
+>   i386/pc: Add e820 entry for SGX EPC section(s)
+>   i386: acpi: Add SGX EPC entry to ACPI tables
+>   q35: Add support for SGX EPC
+>   i440fx: Add support for SGX EPC
+>   doc: Add the SGX doc
+>
+> Yang Zhong (12):
+>   qom: Add memory-backend-epc ObjectOptions support
+>   hostmem-epc: Add the reset interface for EPC backend reset
+>   sgx-epc: Add the reset interface for sgx-epc virt device
+>   sgx-epc: Avoid bios reset during sgx epc initialization
+>   hostmem-epc: Make prealloc consistent with qemu cmdline during reset
+>   qmp: Add query-sgx command
+>   hmp: Add 'info sgx' command
+>   i386: Add sgx_get_info() interface
+>   bitops: Support 32 and 64 bit mask macro
+>   qmp: Add the qmp_query_sgx_capabilities()
+>   Kconfig: Add CONFIG_SGX support
+>   sgx-epc: Add the fill_device_info() callback support
+>
+>  backends/hostmem-epc.c                   | 118 ++++++++++
+>  backends/meson.build                     |   1 +
+>  configs/devices/i386-softmmu/default.mak |   1 +
+>  docs/intel-sgx.txt                       | 167 ++++++++++++++
+>  hmp-commands-info.hx                     |  15 ++
+>  hw/i386/Kconfig                          |   5 +
+>  hw/i386/acpi-build.c                     |  22 ++
+>  hw/i386/fw_cfg.c                         |  10 +-
+>  hw/i386/meson.build                      |   2 +
+>  hw/i386/pc.c                             |  15 +-
+>  hw/i386/pc_piix.c                        |   4 +
+>  hw/i386/pc_q35.c                         |   3 +
+>  hw/i386/sgx-epc.c                        | 265 +++++++++++++++++++++++
+>  hw/i386/sgx-stub.c                       |  13 ++
+>  hw/i386/sgx.c                            | 170 +++++++++++++++
+>  hw/i386/x86.c                            |  29 +++
+>  hw/vfio/common.c                         |   1 +
+>  include/exec/memory.h                    |  15 +-
+>  include/hw/i386/pc.h                     |  10 +
+>  include/hw/i386/sgx-epc.h                |  68 ++++++
+>  include/hw/i386/x86.h                    |   1 +
+>  include/monitor/hmp.h                    |   1 +
+>  include/qemu/bitops.h                    |   7 +
+>  monitor/hmp-cmds.c                       |  32 +++
+>  monitor/qmp-cmds.c                       |  19 ++
+>  qapi/machine.json                        |  52 ++++-
+>  qapi/misc.json                           |  61 ++++++
+>  qapi/qom.json                            |  19 ++
+>  qemu-options.hx                          |  10 +-
+>  softmmu/memory.c                         |   5 +
+>  softmmu/physmem.c                        |   3 +-
+>  stubs/meson.build                        |   1 +
+>  stubs/sgx-stub.c                         |  12 +
+>  target/i386/cpu.c                        | 168 +++++++++++++-
+>  target/i386/cpu.h                        |  16 ++
+>  target/i386/kvm/kvm.c                    |  75 +++++++
+>  target/i386/kvm/kvm_i386.h               |   2 +
+>  target/i386/machine.c                    |  20 ++
+>  tests/qtest/qmp-cmd-test.c               |   2 +
+>  39 files changed, 1430 insertions(+), 10 deletions(-)
+>  create mode 100644 backends/hostmem-epc.c
+>  create mode 100644 docs/intel-sgx.txt
+>  create mode 100644 hw/i386/sgx-epc.c
+>  create mode 100644 hw/i386/sgx-stub.c
+>  create mode 100644 hw/i386/sgx.c
+>  create mode 100644 include/hw/i386/sgx-epc.h
+>  create mode 100644 stubs/sgx-stub.c
+>
 
 
