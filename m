@@ -2,141 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC8C5401C97
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:47:10 +0200 (CEST)
-Received: from localhost ([::1]:54576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ECA1401CA0
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:49:23 +0200 (CEST)
+Received: from localhost ([::1]:59126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNExp-0008QU-S9
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:47:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60380)
+	id 1mNEzy-00034P-BQ
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:49:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1mNEcr-0005GE-9j
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:25:29 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:52122)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNEe1-0006u4-OV
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:26:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1mNEco-000235-Ih
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:25:28 -0400
-Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 1867g9R3025550;
- Mon, 6 Sep 2021 06:25:22 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=proofpoint20171006;
- bh=+3WYhuyKVj3clAwyKn7KDUfxLW1Lz2S8+v5i0SIxpBA=;
- b=0epU/LJJ+tUVmBIPc5+RAVm9N0JJtgikInb49fnfw7E55AAsBQw+Qq/zA/JHMt0zRUoH
- hiNIwd6F8t5jXvvgG5Vddvu80pKdC2AQhzY2FNSummk5xM/LcLX1uehPpe7Dx61rT/Cb
- gNf3KVnHmOvja8d9KIJ/M3N+kBWg8Z8vc3EbsTmebxiBuEH9wYluP46BCJ7gTu4MokV3
- jyZzrLnYlpYrCoSdYMajncPZs2s5m+KBXV3zrIo0uvVQInLbz/J+b5VrMTaZtDRgNu61
- rK7vkIQnfVUrKcOEoCans95oABRNODiwpgPMghB8hHgxlt5CyhKfHxhk09f2z1nBNj3y Ag== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2173.outbound.protection.outlook.com [104.47.58.173])
- by mx0b-002c1b01.pphosted.com with ESMTP id 3avxdx1pnq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Sep 2021 06:25:22 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ncRbhHqAoMNrMIWP57zxd7+P7IogFWGavW0asgWyYnPvKS/zmV+y+HV+8Pd5+GsHLtP1TE3dCtPWAldkLuGdd4ypp81t7IkGRamd2mXgVc8rSbI09c2OWoDr3LfPZzWICX/yOnaoa10+LkOVU0VhTaNHlLxzn4QrghNTdn4mbeUrMP0StmZFmKXr3cQRGWXC4wV1jAV6z/poPbyAox6+DRH91NrTPINynhU6WJtNGouSmQk4p1LrWaLS6Bm/THHfjAAPOD5srqkG1dz4hafPAwgLPRMVrIrOzFQMYc392ASxE3Tve7lxa+KoADZAUbO6N+piUUqR1r6nKo/9Gyn2vQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+3WYhuyKVj3clAwyKn7KDUfxLW1Lz2S8+v5i0SIxpBA=;
- b=NTQD2uqX2A15xWWTGxjUiivZq3c1Y9NzLdKJh83M8uMIQtyCMqyOIUc+S9Rn6/lbYlV6fsHnd0wnbN+aqi0vwWDdFdqG2FXLXhfPIYbpf2zRi0ZmrA+SHHWG+8zOUpSTaZ//IQIpyehDp5DB3ANudGKZUDwjZllhcXf4deviAdakL3/pdeg5Drg7eqHySL012+7A3ATNVx05Tmn7jDZl7LmMcmwZv4JQQeDSJ4p+kN2ZnykrvipWuG/5QU83izz3xTewcQRs1KgEPx8FGd4hmc5uAe2QeOKsLCsd7u1LGVx1JBB40gYf9tLZo18Nmj9rAeQsPhg3vAqlxCcV1v7f2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from SN6PR02MB4543.namprd02.prod.outlook.com (2603:10b6:805:b1::24)
- by SN1PR02MB3823.namprd02.prod.outlook.com (2603:10b6:802:2e::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.20; Mon, 6 Sep
- 2021 13:25:20 +0000
-Received: from SN6PR02MB4543.namprd02.prod.outlook.com
- ([fe80::992f:b2c5:6a7c:3cfd]) by SN6PR02MB4543.namprd02.prod.outlook.com
- ([fe80::992f:b2c5:6a7c:3cfd%3]) with mapi id 15.20.4478.025; Mon, 6 Sep 2021
- 13:25:20 +0000
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: "mst@redhat.com" <mst@redhat.com>, "peter.maydell@linaro.org"
- <peter.maydell@linaro.org>, "eblake@redhat.com" <eblake@redhat.com>
-Subject: [PATCH v2] Prevent vhost-user-blk-test hang
-Thread-Topic: [PATCH v2] Prevent vhost-user-blk-test hang
-Thread-Index: AQHXoyKjk0StOk5CZE2d61DDJwYnBA==
-Date: Mon, 6 Sep 2021 13:25:20 +0000
-Message-ID: <20210906132508.15180-1-raphael.norwitz@nutanix.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: git-send-email 2.20.1
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: bebabd8d-a5df-4cee-5180-08d97139c666
-x-ms-traffictypediagnostic: SN1PR02MB3823:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN1PR02MB3823FB609036F74935512565EAD29@SN1PR02MB3823.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:773;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8t84dIw71I30cy0qKY5HZKJJGG0CjuXLUzz2iK7oHHQjLoZJdvN6gOnYE/KshUAOHoOZ5WQLF6ATLSbKj65aLJCpUhYecdG9oFSJDZTRbuZLCV4y0XPeMuQIdXY28H6MHtF1x5ap7TmYqmKzUOL/17BuYYczjd2U8GIYujhdLc+UqYZ8vMbVRQS9TWjnUaI/EfFL8I/ufzYm9eQcD5l4X1jva62MQajCFTZXc3rQ+GrVgjtqWd0XbE4ssXmTiHouCcNrE7OCAgqW/NMbyRlDofCCfKz4tXvvxTUt+sWtE3a3hTwegAnz6A2guRlVIUqPG+3b7DKmvNLDCxx0CveDupPEuBBQFtr5bipMGhWpusjbWguJ0rzT72S0mBIO+bmncGISZFfhF/U8BZ/C4RwUwc4M7p1B8Bg46lOtmlM5E0kzkghkQP7fYfn9Ti3+plVXbOvwjskxySkKz/JrkBOiLC8oK0wi7VvmlAoZPdzKZaOpRqANmR1U+gX1KAj85tI00xDFMe/WFf9Axy5OuWwnLPV2ihWS8wmV9VWY8QDlOv/UiYRvkM4vz0pKTGC5jQUkkq34xFAUqenpVwvSKYq/FSWkV0ZzKs2ndMJODkWsF063sx3XYRGMJEDQw66Mg6dVwlWEZwNlFX7ZnAewyauOuwWDWN4XeQOGqoSIBe9KnHtvlI5fjyf4ACHastu5qQteRYwq4I9rks/HYdgml6kayZnicFC5RWxsLVMpm7y6tBfOBAkMRaLdBNVJIFtpR263hw9pclMTgUtxR/qzjTYTTANi8NBOdPIPFar3NpiTG3g=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR02MB4543.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(66946007)(4326008)(66556008)(2906002)(316002)(71200400001)(44832011)(64756008)(508600001)(5660300002)(1076003)(2616005)(66446008)(966005)(66476007)(36756003)(54906003)(107886003)(8936002)(6506007)(83380400001)(76116006)(38070700005)(91956017)(186003)(122000001)(8676002)(6486002)(6512007)(110136005)(26005)(86362001)(38100700002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?MKiVWihFSJ5wlzifzD0Y1I0gBPxsAHH0GiC5iPyYde6QCByZEyM+G0eLE4?=
- =?iso-8859-1?Q?NpYhXk/UqXZigx9xDYSCRg546ro1QzlN32pMbkCnEh7Ua6LfSMTJtWBWNR?=
- =?iso-8859-1?Q?1v8HTpazgW+jBEF9lfbZxjOGAu+wWXdemF/TdPbOhY8cRDahFclTkozo1B?=
- =?iso-8859-1?Q?XAd/X2QGpmDyWzE2fBa7cTFuuvpJpnL2sg0dVPv1mQS286NL3JJB14unzD?=
- =?iso-8859-1?Q?UillQP/AUaGvQUswZna+kFd0hXCRQi24IZIbPOb/LA1szItXvEC/S1256v?=
- =?iso-8859-1?Q?ZAYF+zfyNjVE8YcDGxPG6jZVnWUXcRj27EukHVXWNagwTv7yfOZ/Yy00Gw?=
- =?iso-8859-1?Q?cslhjYJExUwvvVxX+Nr3acVxGfQeaDb/8cJ8Qu0xVtBInQdIvN63MREKOr?=
- =?iso-8859-1?Q?jGoK4d+oWwqJ1jv2j3QZX6MXolb3hj7LcLMEQ8BK94IE7hYTguVs800tYI?=
- =?iso-8859-1?Q?2Lg3tO5vnVgKZKSUE6RY4ZmRjIAUA2S4sNZ//UUT6dFXmzv7KeEVqpHtBY?=
- =?iso-8859-1?Q?zSC65pkUh5Gb1iumyfacZgZdY21VhQVhHbBUtEQlBnddXrvU1jEP8patZI?=
- =?iso-8859-1?Q?9bl02Jxw0Q7/haWJQ21FiGW7Kggj7S8LErCQwPZOCx5KHtjcqjxgcFDQup?=
- =?iso-8859-1?Q?JFYAPqKIhsxs/8zAPsFEDhE8rhlOQzT+Q8YCWQ8bDCkJp79y8anJM0cqk6?=
- =?iso-8859-1?Q?P4USol5mGb7I6MysSoN+Z5whNFOIBQRg8Aql9dq3xDUSAJ0nMztTyYW+g5?=
- =?iso-8859-1?Q?12BLP6vjjq13CKgQLIkeDMeKKy9NrFMQEtljPtAg1SquspxlflHfevRj6G?=
- =?iso-8859-1?Q?8kyl5Hvf9V3y/1af74VUZriPnKbAfToLiSy2irOAbyOC1sEmr7FvVRBLw7?=
- =?iso-8859-1?Q?r3nrvoetEsOIl6JYmAWuxir36NZusCpNP7uYWQDIteGUZoTTP+XWWeefzs?=
- =?iso-8859-1?Q?IQAk/EibR7mNOR8B2GxQg2k9NVrebyQkxVYdNABB/PgTA7k+thqIv6lcCi?=
- =?iso-8859-1?Q?D5YjLo8SrS8VI7ofsLciBDrSB/BC8Hz3jlvxkUaC/7FKNpiWt3cWyNVgKs?=
- =?iso-8859-1?Q?hugnW/wF2lFE8oUT0UsA+mUZ+Z4hCQ0PMtOqItHoiD3rfRuDQFyaVUor78?=
- =?iso-8859-1?Q?LtXc23veh07naNW28yh1qRLFyQMHnU8UowIqucbCLyYqYizDqhhiP+JGEy?=
- =?iso-8859-1?Q?paxXBq2YVNCgtqTTRbAgzINDjHVf/vihDc6kAwPwDJhs/hivQTTwyGwXD4?=
- =?iso-8859-1?Q?qTDusTSGWvvZvEH3ziP/zfML/1oacJbJKr+oB9yy1tt0oiIVzm6lRKelA5?=
- =?iso-8859-1?Q?4CIJB+sekz/Y+cEIW39OWYI3EC+rwHEjwFbUE/13UQeMdS2uk0mqdJqtpK?=
- =?iso-8859-1?Q?bbel3vs9F11aLHI1xzcMtHXU4sVUXuzw=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNEdv-0003Ax-I4
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:26:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630934794;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k++R1LDoKiCbCpb/pIGR+6lQbFuV2LJZTiJZ38lQtGI=;
+ b=fXYjAxUG9+Ufl02H77SiPi74SoQ2n7UzS6mANi8gXQJitvXx3D6+uXJXIsiNivdWMZ9gPZ
+ uKstMyXVulgYNgKiXO6RpKx2JQKslZjmoFpV3rJZuI/wsInga7wz8D5x+HigeO+kcVGvJa
+ mC80/cSz8Vcx+ZwDAt4R0Ja2uBZOcTc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-530-tn_9eOsuNneYIBVwKESj_g-1; Mon, 06 Sep 2021 09:26:21 -0400
+X-MC-Unique: tn_9eOsuNneYIBVwKESj_g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ v6-20020adfe4c6000000b001574f9d8336so1192425wrm.15
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:26:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=k++R1LDoKiCbCpb/pIGR+6lQbFuV2LJZTiJZ38lQtGI=;
+ b=QZtv97WVh5OV6PfAYy91mHetnb3ooKz4tVa24lpOnb9M0cYVnNgcYatmomHr9QtkbA
+ 50fMkVR0B9JshyinzJWMrk70A9xuc9aVwifdphSpkcnfEWU2QdkaCIVgSe8alpsnjNuV
+ X+MPX35DfYQcxYHSUN9s4kfSIclB26xFmMWLl2s+Rwl3C+JzZn2DCX5NCqkZJgyv3QGw
+ dLNcnEGAFzt0KFPOa2YC47RsN+PsxZKOXIQKpmoRQEOlAaNAsEQ1zxTAopc3oZa6nCBW
+ iUk4xdtx7Vcx1AWmaNUEhNK2eo71m9QoSaBnqlExzlsgWpikY6aAKFlAO5fm+C1dv0/m
+ uWJQ==
+X-Gm-Message-State: AOAM531BuhxJU4+kvISqdpsFa0YzeIisVM45eknBAtkXtf+jaigPjfW8
+ VWKCW/Ltmp92nh7+1CQJHWgmWTUdHkcBDHnXPs4HgmHDEwD0rXtZB7lNpsmG7fAvxbofGEcdAu0
+ p4196a8RHqRy5FVHQaV9D0XOSgBDcyQRyuybGwp6jPvrcaxey22ScjtKOMjDVNII=
+X-Received: by 2002:a05:600c:295:: with SMTP id
+ 21mr11402815wmk.37.1630934780173; 
+ Mon, 06 Sep 2021 06:26:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyJnRt1RYVsc2SYN8h8tsfASA3lDI9arPfqNBRNzZ9++mQKBqweytlgbZr/6dHwg9v/3y8mbg==
+X-Received: by 2002:a05:600c:295:: with SMTP id
+ 21mr11402796wmk.37.1630934779883; 
+ Mon, 06 Sep 2021 06:26:19 -0700 (PDT)
+Received: from thuth.remote.csb (pd9e831a0.dip0.t-ipconnect.de.
+ [217.232.49.160])
+ by smtp.gmail.com with ESMTPSA id u9sm7990289wrm.70.2021.09.06.06.26.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Sep 2021 06:26:19 -0700 (PDT)
+Subject: Re: [PULL 08/36] configure / meson: Move the GBM handling to
+ meson.build
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210906131059.55234-1-pbonzini@redhat.com>
+ <20210906131059.55234-9-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <809702cb-4d56-b5e8-2734-9aa39e3a4cfc@redhat.com>
+Date: Mon, 6 Sep 2021 15:26:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4543.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bebabd8d-a5df-4cee-5180-08d97139c666
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Sep 2021 13:25:20.4575 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rGRoxRf0nZj2gHiCtkyxp7t7jAyyXP/XGsynPas745LZI7tb9dc5RYx8/J38gD8J9BkybB9deYkTb5HdjoAd7MHEUypPYt4RGbl79j2PaA8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR02MB3823
-X-Proofpoint-GUID: oj0hHN4metDzh8lE9_qWgrbKnW_jvTGE
-X-Proofpoint-ORIG-GUID: oj0hHN4metDzh8lE9_qWgrbKnW_jvTGE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-09-06_05,2021-09-03_01,2020-04-07_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=raphael.norwitz@nutanix.com; helo=mx0b-002c1b01.pphosted.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+In-Reply-To: <20210906131059.55234-9-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -150,115 +101,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "sgarzare@redhat.com" <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the vhost-user-blk-test, as of now there is nothing stoping
-vhost-user-blk in QEMU writing to the socket right after forking off the
-storage daemon before it has a chance to come up properly, leaving the
-test hanging forever. This intermittently hanging test has caused QEMU
-automation failures reported multiple times on the mailing list [1].
+On 06/09/2021 15.10, Paolo Bonzini wrote:
+> From: Thomas Huth <thuth@redhat.com>
+> 
+> The GBM library detection does not need to be in the configure script,
+> since it does not have any user-facing options (there are no
+> --enable-gbm or --disable-gbm switches). Let's move it to meson.build
+> instead, so we don't have to clutter config-host.mak with the related
+> switches.
+> 
+> Additionally, only check for GBM if it is really required, i.e. if we
+> either compile with OpenGL or with virglrenderer support.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Message-Id: <20210713111516.734834-1-thuth@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   configure                          | 14 --------------
+>   contrib/vhost-user-gpu/meson.build |  5 ++---
+>   meson.build                        | 14 ++++++++------
+>   3 files changed, 10 insertions(+), 23 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index bd823307a6..8adf2127c3 100755
+> --- a/configure
+> +++ b/configure
+> @@ -3451,13 +3451,6 @@ esac
+>   ##########################################
+>   # opengl probe (for sdl2, gtk)
+>   
+> -gbm="no"
+> -if $pkg_config gbm; then
+> -    gbm_cflags="$($pkg_config --cflags gbm)"
+> -    gbm_libs="$($pkg_config --libs gbm)"
+> -    gbm="yes"
+> -fi
+> -
+>   if test "$opengl" != "no" ; then
+>     epoxy=no
+>     if $pkg_config epoxy; then
+> @@ -4688,13 +4681,6 @@ if test "$opengl" = "yes" ; then
+>     echo "OPENGL_LIBS=$opengl_libs" >> $config_host_mak
+>   fi
+>   
+> -if test "$gbm" = "yes" ; then
+> -    echo "CONFIG_GBM=y" >> $config_host_mak
+> -    echo "GBM_LIBS=$gbm_libs" >> $config_host_mak
+> -    echo "GBM_CFLAGS=$gbm_cflags" >> $config_host_mak
+> -fi
+> -
+> -
+>   if test "$avx2_opt" = "yes" ; then
+>     echo "CONFIG_AVX2_OPT=y" >> $config_host_mak
+>   fi
+> diff --git a/contrib/vhost-user-gpu/meson.build b/contrib/vhost-user-gpu/meson.build
+> index 4cb52a91d7..92c8f3a86a 100644
+> --- a/contrib/vhost-user-gpu/meson.build
+> +++ b/contrib/vhost-user-gpu/meson.build
+> @@ -1,6 +1,5 @@
+> -if 'CONFIG_TOOLS' in config_host and virgl.found() \
+> -    and 'CONFIG_GBM' in config_host and 'CONFIG_LINUX' in config_host \
+> -    and pixman.found()
+> +if 'CONFIG_TOOLS' in config_host and virgl.found() and gbm.found() \
+> +    and 'CONFIG_LINUX' in config_host and pixman.found()
+>     executable('vhost-user-gpu', files('vhost-user-gpu.c', 'virgl.c', 'vugbm.c'),
+>                dependencies: [qemuutil, pixman, gbm, virgl, vhost_user, opengl],
+>                install: true,
+> diff --git a/meson.build b/meson.build
+> index bf63784812..13df8c37c7 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -472,11 +472,6 @@ if not get_option('zstd').auto() or have_block
+>                       required: get_option('zstd'),
+>                       method: 'pkg-config', kwargs: static_kwargs)
+>   endif
+> -gbm = not_found
+> -if 'CONFIG_GBM' in config_host
+> -  gbm = declare_dependency(compile_args: config_host['GBM_CFLAGS'].split(),
+> -                           link_args: config_host['GBM_LIBS'].split())
+> -endif
+>   virgl = not_found
+>   if not get_option('virglrenderer').auto() or have_system
+>     virgl = dependency('virglrenderer',
+> @@ -816,11 +811,17 @@ coreaudio = not_found
+>   if 'CONFIG_AUDIO_COREAUDIO' in config_host
+>     coreaudio = declare_dependency(link_args: config_host['COREAUDIO_LIBS'].split())
+>   endif
+> +
+>   opengl = not_found
+>   if 'CONFIG_OPENGL' in config_host
+>     opengl = declare_dependency(compile_args: config_host['OPENGL_CFLAGS'].split(),
+>                                 link_args: config_host['OPENGL_LIBS'].split())
+>   endif
+> +gbm = not_found
+> +if virgl.found() or 'CONFIG_OPENGL' in config_host
+> +  gbm = dependency('gbm', method: 'pkg-config',
+> +                   required: false, kwargs: static_kwargs)
+> +endif
 
-This change makes the storage-daemon notify the vhost-user-blk-test
-that it is fully initialized and ready to handle client connections by
-creating a pidfile on initialiation. This ensures that the storage-daemon
-backend won't miss vhost-user messages and thereby resolves the hang.
+Please drop this version of the patch, it caused a new warning in Peter's 
+merge tests, see:
 
-[1] https://lore.kernel.org/qemu-devel/CAFEAcA8kYpz9LiPNxnWJAPSjc=3Dnv532bE=
-dyfynaBeMeohqBp3A@mail.gmail.com/
+  https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg01026.html
 
-Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
----
- tests/qtest/vhost-user-blk-test.c | 33 ++++++++++++++++++++++++++++++-
- 1 file changed, 32 insertions(+), 1 deletion(-)
+I've got a fixed version in my pull request from today.
 
-diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk=
--test.c
-index 6f108a1b62..78140e6f28 100644
---- a/tests/qtest/vhost-user-blk-test.c
-+++ b/tests/qtest/vhost-user-blk-test.c
-@@ -24,6 +24,9 @@
- #define TEST_IMAGE_SIZE         (64 * 1024 * 1024)
- #define QVIRTIO_BLK_TIMEOUT_US  (30 * 1000 * 1000)
- #define PCI_SLOT_HP             0x06
-+#define PIDFILE_RETRIES         5
-+
-+const char *pidfile_format =3D "/tmp/daemon-%d";
-=20
- typedef struct {
-     pid_t pid;
-@@ -885,7 +888,8 @@ static void start_vhost_user_blk(GString *cmd_line, int=
- vus_instances,
-                                  int num_queues)
- {
-     const char *vhost_user_blk_bin =3D qtest_qemu_storage_daemon_binary();
--    int i;
-+    int i, err, retries;
-+    char *daemon_pidfile_path;
-     gchar *img_path;
-     GString *storage_daemon_command =3D g_string_new(NULL);
-     QemuStorageDaemonState *qsd;
-@@ -898,6 +902,12 @@ static void start_vhost_user_blk(GString *cmd_line, in=
-t vus_instances,
-             " -object memory-backend-memfd,id=3Dmem,size=3D256M,share=3Don=
- "
-             " -M memory-backend=3Dmem -m 256M ");
-=20
-+    err =3D asprintf(&daemon_pidfile_path, pidfile_format, getpid());
-+    if (err =3D=3D -1) {
-+        fprintf(stderr, "Failed to format storage-daemon pidfile name %m")=
-;
-+        abort();
-+    }
-+
-     for (i =3D 0; i < vus_instances; i++) {
-         int fd;
-         char *sock_path =3D create_listen_socket(&fd);
-@@ -914,6 +924,9 @@ static void start_vhost_user_blk(GString *cmd_line, int=
- vus_instances,
-                                i + 1, sock_path);
-     }
-=20
-+    g_string_append_printf(storage_daemon_command, "--pidfile %s",
-+                           daemon_pidfile_path);
-+
-     g_test_message("starting vhost-user backend: %s",
-                    storage_daemon_command->str);
-     pid_t pid =3D fork();
-@@ -930,7 +943,25 @@ static void start_vhost_user_blk(GString *cmd_line, in=
-t vus_instances,
-         execlp("/bin/sh", "sh", "-c", storage_daemon_command->str, NULL);
-         exit(1);
-     }
-+
-+    /*
-+     * Ensure the storage-daemon has come up properly before allowing the
-+     * test to proceed.
-+     */
-+    retries =3D 0;
-+    while (access(daemon_pidfile_path, F_OK) !=3D 0) {
-+        if (retries > PIDFILE_RETRIES) {
-+            fprintf(stderr, "The storage-daemon failed to come up after %d=
- "
-+                    "seconds - killing the test", PIDFILE_RETRIES);
-+            abort();
-+        }
-+
-+        retries++;
-+        usleep(1000);
-+    }
-+
-     g_string_free(storage_daemon_command, true);
-+    free(daemon_pidfile_path);
-=20
-     qsd =3D g_new(QemuStorageDaemonState, 1);
-     qsd->pid =3D pid;
---=20
-2.20.1
+  Thomas
+
 
