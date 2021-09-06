@@ -2,71 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A2EA401DAA
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 17:33:34 +0200 (CEST)
-Received: from localhost ([::1]:59568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3E4401DAE
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 17:35:12 +0200 (CEST)
+Received: from localhost ([::1]:35484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNGcn-000104-87
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 11:33:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59976)
+	id 1mNGeN-0003vJ-JN
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 11:35:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNGbi-0008Fg-SH
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 11:32:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44381)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNGbh-0002Fp-5v
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 11:32:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630942344;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7Hq5JstX+g17Mg7XXxITiBVdafju0/Ho48db/Z0+J4o=;
- b=Cix9kWyxsSGpTkjRjo+ixhUFdFAZNjK6CzIFljM2BXcLNlH/W8Guy5fT5EaIA2P2Xki3qX
- B2FJirN/Dv3eBrgzko41wmOUV11cprQHrDesLb/7wHTzEWF6XGsd10s4i3c11e3gwtjKCC
- kAbGZcYtn8LGMuVSJFy/ZMVkgNY20jM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-cbglug9vMPak8PkoaXZgww-1; Mon, 06 Sep 2021 11:32:20 -0400
-X-MC-Unique: cbglug9vMPak8PkoaXZgww-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7535107ACCD
- for <qemu-devel@nongnu.org>; Mon,  6 Sep 2021 15:32:19 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
- [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B90E45C22B;
- Mon,  6 Sep 2021 15:32:19 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4A2771138606; Mon,  6 Sep 2021 17:32:18 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v3 0/6] qapi: Add support for aliases
-References: <20210812161131.92017-1-kwolf@redhat.com>
-Date: Mon, 06 Sep 2021 17:32:18 +0200
-In-Reply-To: <20210812161131.92017-1-kwolf@redhat.com> (Kevin Wolf's message
- of "Thu, 12 Aug 2021 18:11:25 +0200")
-Message-ID: <8735qhd8jh.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <andre.przywara@arm.com>)
+ id 1mNGdd-0003F8-9J
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 11:34:25 -0400
+Received: from foss.arm.com ([217.140.110.172]:49406)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <andre.przywara@arm.com>) id 1mNGda-0003oZ-LU
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 11:34:24 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7228D31B;
+ Mon,  6 Sep 2021 08:34:19 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E03483F766;
+ Mon,  6 Sep 2021 08:34:18 -0700 (PDT)
+Date: Mon, 6 Sep 2021 16:34:03 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Adam Lackorzynski <adam@l4re.org>
+Subject: Re: arm: Launching EFI-enabled arm32 Linux
+Message-ID: <20210906163403.7b091544@slackpad.fritz.box>
+In-Reply-To: <YTPIdbUCmwagL5/D@os.inf.tu-dresden.de>
+References: <YTPIdbUCmwagL5/D@os.inf.tu-dresden.de>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=andre.przywara@arm.com; helo=foss.arm.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,60 +55,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+On Sat, 4 Sep 2021 21:26:45 +0200
+Adam Lackorzynski <adam@l4re.org> wrote:
 
-> This series introduces alias definitions for QAPI object types (structs
-> and unions).
->
-> This allows using the same QAPI type and visitor even when the syntax
-> has some variations between different external interfaces such as QMP
-> and the command line.
->
-> It also provides a new tool for evolving the schema while maintaining
-> backwards compatibility (possibly during a deprecation period).
->
-> The first user is intended to be a QAPIfied -chardev command line
-> option, for which I'll send a separate series. A git tag is available
-> that contains both this series and the chardev changes that make use of
-> it:
->
->     https://repo.or.cz/qemu/kevin.git qapi-alias-chardev-v3
+Hi Adam,
 
-Review complete.  Let's discuss my findings, decide what we'd rather
-improve on top, then see whether the remainder needs a respin.
+> while trying to launch an EFI-enabled arm32 Linux binary (zImage) I
+> noticed I get an undefined instruction exception on the first
+> instruction. Now this is a bit special because Linux uses a nop
+> instruction there that also is a PE file signature ('MZ') such that the
+> CPU runs over it and the file is still recognized as a PE binary. Linux
+> uses 0x13105a4d (tstne r0, #0x4d000) as the instruction (see also
+> arch/arm/boot/compressed/head.S and efi-header.S in Linux).
+> However, QEMU's instruction decoder will only recognize TST with bits
+> 12-15 being 0, which this instruction is not fullfilling, and thus the
+> undef exception. I guess other CPU implementations will allow this
+> encoding. So while investigating I was doing the following to make Linux
+> proceed. I also believe this was working in a previous version of QEMU.
+> 
+> diff --git a/target/arm/a32.decode b/target/arm/a32.decode
+> index fcd8cd4f7d..222553750e 100644
+> --- a/target/arm/a32.decode
+> +++ b/target/arm/a32.decode
+> @@ -127,7 +127,7 @@ ADD_rri          .... 001 0100 . .... .... ............       @s_rri_rot
+>  ADC_rri          .... 001 0101 . .... .... ............       @s_rri_rot
+>  SBC_rri          .... 001 0110 . .... .... ............       @s_rri_rot
+>  RSC_rri          .... 001 0111 . .... .... ............       @s_rri_rot
+> -TST_xri          .... 001 1000 1 .... 0000 ............       @S_xri_rot
+> +TST_xri          .... 001 1000 1 .... ---- ............       @S_xri_rot
+>  TEQ_xri          .... 001 1001 1 .... 0000 ............       @S_xri_rot
+>  CMP_xri          .... 001 1010 1 .... 0000 ............       @S_xri_rot
+>  CMN_xri          .... 001 1011 1 .... 0000 ............       @S_xri_rot
+> 
+> 
+> Any thoughts on this?
 
-> v3:
-> - Mention the new functions in the big comment in visitor.h. However,
->   since the comment is about users of the visitor rather than the
->   generated code, it seems like to wrong place to go into details.
-> - Updated commit message for patch 3 ('Simplify full_name_nth() ...')
-> - Patch 4 ('qapi: Apply aliases in qobject-input-visitor'):
->     - Multiple matching wildcard aliases are considered conflicting now
->     - Improved comments for several functions
->     - Renamed bool *implicit_object into *is_alias_prefix, which
->       describes better what it is rather than what it is used for
->     - Simplified alias_present() into input_present()
->     - Fixed potential use of wrong StackObject in error message
-> - Patch 5 ('qapi: Add support for aliases'):
->     - Made QAPISchemaAlias a QAPISchemaMember
->     - Check validity of alias source paths (must exist in at least one
->       variant, no optional objects in the path of a wildcard alias, no
->       alias loops)
+thanks for the report, I was looking at this and have a kernel patch
+to fix this properly as Peter suggested. And while I agree on the
+problem, I was struggling to reproduce this in reality: both with
+-kernel and when booting through U-Boot the "Z" bit is set, which lets
+QEMU not even bother about the rest of the encoding - the condition
+flags don't match, so it proceeds. If I change the __nop to use "tsteq",
+I see it hanging due to the missing exception handler, but not with
+"tstne".
+So can you say how you spotted this issue? This would be needed as a
+justification for patching the guts of the ARM Linux kernel port.
 
-I love this one, thanks!
-
-> - Many new tests cases, both positive and negative, including unit tests
->   of the generated visit functions
-
-Tests look good now.
-
-> - Coding style changes
-> - Rebased documentation (.txt -> .rst conversion in master)
-
-[...]
-
+Cheers,
+Andre
 
