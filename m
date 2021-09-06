@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9693401C20
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:13:15 +0200 (CEST)
-Received: from localhost ([::1]:45416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A367401C21
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:13:17 +0200 (CEST)
+Received: from localhost ([::1]:45454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNER0-0003FN-NE
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:13:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57112)
+	id 1mNER2-0003HJ-Ds
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:13:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEOx-0000S9-GT
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:07 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37847)
+ id 1mNEOy-0000SZ-Ue
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:08 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEOv-0007Fl-PQ
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:07 -0400
-Received: by mail-wr1-x431.google.com with SMTP id v10so9796010wrd.4
+ id 1mNEOw-0007Gq-8V
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:08 -0400
+Received: by mail-wr1-x431.google.com with SMTP id b6so9793745wrh.10
  for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3TUCBY75XAtC7dZUWgyxvoa7nrvw4xfeBBRuc2cv7yM=;
- b=jjjmecIJwC42lWxGcZo5CGPa/BrVd0qnIwEQBQkcYTx/XXldqMdIYOk8WjvBRi4UIT
- Tu6wd3z/I+2MP31q5D0cyMAG/uDyFKpUU+1B6/Ywd7gF1j1yfRoq9PuPZZL3LSrHk0MK
- Jys8ZtCnVSEb/6Hu/ERjAclG+XtEW6f0FycOU21p/rBuR80kTlsFiBc8D/yMImlgacDo
- WMZe0oCmSRkcbiGjTef9S6HGUwzawjXxTh/9gwQzHsnDEuuSHbvUwfv3jN522JPZ4rxd
- EUPs9+CBYjWU8BxOfd7YvXKMRjKK8TMpOoJ5GaIncy1FscAALo8cuuBsJwq9sOHFyBqM
- JL7Q==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=tfrJRkAq0ykW5VhqYtFu7rbruustJjnKv79ktXDdBp8=;
+ b=nn8lR4kKaZcYxxH1S7KWC+NhiIrnS3oXHdNm3hCcs26nuRpx1B7fNvmZ8KxQi/eawf
+ h8sEWl5207ObIb9hmCD1/hagmW8CeCidBf2IMFjHrYkXN1/tvm5KW1UYrNjbGZItLn/8
+ LwmbQThttPeM96htxNMt2mdoTwU427D2+nnkunmeBE13iXiYPqjwAb0ItxNaOsRPbmNK
+ +N55zuZyPIy57M/JmmbvBHQwSx9AuyeXnPREk8c3NuDJPRjVVBiZUcD7XM4xAJ48si07
+ 1dgw5fg63aAy9xZA2YSluKulj6GDd+Su3+Gh2vvOpciQG+tdjYL/UVfoznXuE+RWqAXu
+ hyYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=3TUCBY75XAtC7dZUWgyxvoa7nrvw4xfeBBRuc2cv7yM=;
- b=QxMazACBsg4aJ3ti/+mOm3Q/i3Y+YMUWIgBYjg3B1BurUt4mblo86r3DXuHgQcD/j+
- rOzVJikBZ4h8gwE4TcfnhvdAikPHWK3X7txjGPU1nDOEVnf04RC+ykqgDGmxsvjFHuN1
- a7fwalMNZlbvKqhZE8cXOJ6xDfcjHRdDRh1dYz77e59x3v+Bt+ADH3YMRUtEdnRr0biU
- JTgrrjBxaa5MyWxrE9NjzrhzzbKVMh9ny2CdkrxJNde/6V+/IFygC1LjBdqbtoMIlc7U
- 4nvb75edjXnNa2IPhphvzRSRhZ+m0modiAbL9y86tnL+0m+Km6l1HGy/xjwJHMs7M2zB
- 3EWA==
-X-Gm-Message-State: AOAM531KOXDeI1+xOzZrIWmeIit7/cWIq1K8MXDXnJwWcSJE/+FmH5is
- AaptAO2iBngL9PX2WbaDNlS57Yv1c7o=
-X-Google-Smtp-Source: ABdhPJzLihgSJzr6G3agZjtpIbRWHezZSy3LJ29GmbvS0R91onU8BM4YRI2CsJyTVZLahekmdsHraw==
-X-Received: by 2002:a5d:618f:: with SMTP id j15mr13040364wru.80.1630933863197; 
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=tfrJRkAq0ykW5VhqYtFu7rbruustJjnKv79ktXDdBp8=;
+ b=rL6GdHQVG3CXFMz3KECbfZUwKQw/F11345sSgIuSHqajwYYbPODzkA3x3kNw4Kr0rX
+ 2E+faBD32lTjvVh4aVA5AoDNohDYUsjuiqExkGzhxcBHsvfpS3oqJVZE8G2L2OY2fqir
+ +nIL4UHvqbblA52cZO4CIUbJa+HOmhfc/vLOi5bwfkDEtTUKDr16AGDFaZR5lfksI3Gm
+ jyKYF9ccMyoL/VCu5YyFi59CXpvaoFIFUHZ6nGqFCkBpEh7WKXfl17n/8YDgrRuJOcsf
+ 0ZqM2slax+dzO7f4eQLm3ddkbRcx6ZKTRVvqgm/GmrORe31j0nCB3HO7KlIruPpCDryn
+ A6nw==
+X-Gm-Message-State: AOAM532a3fv6ULdZ0GZcknTVo4ey3POLJBbvJxHUtafFLNsqpnCu/NFK
+ diS23ABsT9CgxF0fCNE1RRinaRxLowA=
+X-Google-Smtp-Source: ABdhPJwAqtOy5BjA4x6nnta10RdF80PY3WKzNp34nlm7dnvm26AV6i7v1ZywN/TDzKgCgmkZ2FgBPw==
+X-Received: by 2002:adf:fec8:: with SMTP id q8mr13035219wrs.218.1630933863899; 
  Mon, 06 Sep 2021 06:11:03 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- k4sm7992331wrm.74.2021.09.06.06.11.02 for <qemu-devel@nongnu.org>
+ k4sm7992331wrm.74.2021.09.06.06.11.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 06:11:02 -0700 (PDT)
+ Mon, 06 Sep 2021 06:11:03 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/36] (Mostly) x86 changes for 2021-09-06
-Date: Mon,  6 Sep 2021 15:10:23 +0200
-Message-Id: <20210906131059.55234-1-pbonzini@redhat.com>
+Subject: [PULL 01/36] target/i386: VMRUN and VMLOAD canonicalizations
+Date: Mon,  6 Sep 2021 15:10:24 +0200
+Message-Id: <20210906131059.55234-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210906131059.55234-1-pbonzini@redhat.com>
+References: <20210906131059.55234-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::431;
@@ -82,119 +84,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Lara Lazier <laramglazier@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 31ebff513fad11f315377f6b07447169be8d9f86:
+From: Lara Lazier <laramglazier@gmail.com>
 
-  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-09-03' into staging (2021-09-04 19:21:19 +0100)
+APM2 requires that VMRUN and VMLOAD canonicalize (sign extend to 63
+from 48/57) all base addresses in the segment registers that have been
+respectively loaded.
 
-are available in the Git repository at:
+Signed-off-by: Lara Lazier <laramglazier@gmail.com>
+Message-Id: <20210804113058.45186-1-laramglazier@gmail.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/cpu.c                   | 19 +++++++++++--------
+ target/i386/cpu.h                   |  2 ++
+ target/i386/tcg/sysemu/svm_helper.c | 27 +++++++++++++++++----------
+ 3 files changed, 30 insertions(+), 18 deletions(-)
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 4e3cdb6ce6048bb28d70a438081252a29563b757:
-
-  doc: Add the SGX doc (2021-09-06 04:10:24 -0400)
-
-----------------------------------------------------------------
-* SGX support (Sean, Yang)
-* vGIF and vVMLOAD/VMSAVE support (Lara)
-* Move GBM handling to Meson (Thomas)
-
-----------------------------------------------------------------
-Lara Lazier (7):
-      target/i386: VMRUN and VMLOAD canonicalizations
-      target/i386: Added VGIF feature
-      target/i386: Moved int_ctl into CPUX86State structure
-      target/i386: Added VGIF V_IRQ masking capability
-      target/i386: Added ignore TPR check in ctl_has_irq
-      target/i386: Added changed priority check for VIRQ
-      target/i386: Added vVMLOAD and vVMSAVE feature
-
-Sean Christopherson (21):
-      memory: Add RAM_PROTECTED flag to skip IOMMU mappings
-      hostmem: Add hostmem-epc as a backend for SGX EPC
-      i386: Add 'sgx-epc' device to expose EPC sections to guest
-      vl: Add sgx compound properties to expose SGX EPC sections to guest
-      i386: Add primary SGX CPUID and MSR defines
-      i386: Add SGX CPUID leaf FEAT_SGX_12_0_EAX
-      i386: Add SGX CPUID leaf FEAT_SGX_12_0_EBX
-      i386: Add SGX CPUID leaf FEAT_SGX_12_1_EAX
-      i386: Add get/set/migrate support for SGX_LEPUBKEYHASH MSRs
-      i386: Add feature control MSR dependency when SGX is enabled
-      i386: Update SGX CPUID info according to hardware/KVM/user input
-      i386: kvm: Add support for exposing PROVISIONKEY to guest
-      i386: Propagate SGX CPUID sub-leafs to KVM
-      Adjust min CPUID level to 0x12 when SGX is enabled
-      hw/i386/fw_cfg: Set SGX bits in feature control fw_cfg accordingly
-      hw/i386/pc: Account for SGX EPC sections when calculating device memory
-      i386/pc: Add e820 entry for SGX EPC section(s)
-      i386: acpi: Add SGX EPC entry to ACPI tables
-      q35: Add support for SGX EPC
-      i440fx: Add support for SGX EPC
-      doc: Add the SGX doc
-
-Thomas Huth (1):
-      configure / meson: Move the GBM handling to meson.build
-
-Yang Zhong (7):
-      qom: Add memory-backend-epc ObjectOptions support
-      hostmem-epc: Add the reset interface for EPC backend reset
-      sgx-epc: Add the reset interface for sgx-epc virt device
-      sgx-epc: Avoid bios reset during sgx epc initialization
-      hostmem-epc: Make prealloc consistent with qemu cmdline during reset
-      Kconfig: Add CONFIG_SGX support
-      sgx-epc: Add the fill_device_info() callback support
-
- backends/hostmem-epc.c                   | 118 ++++++++++++++
- backends/meson.build                     |   1 +
- configs/devices/i386-softmmu/default.mak |   1 +
- configure                                |  14 --
- contrib/vhost-user-gpu/meson.build       |   5 +-
- docs/intel-sgx.txt                       | 167 +++++++++++++++++++
- hw/i386/Kconfig                          |   5 +
- hw/i386/acpi-build.c                     |  22 +++
- hw/i386/fw_cfg.c                         |  10 +-
- hw/i386/meson.build                      |   2 +
- hw/i386/pc.c                             |  15 +-
- hw/i386/pc_piix.c                        |   4 +
- hw/i386/pc_q35.c                         |   3 +
- hw/i386/sgx-epc.c                        | 265 +++++++++++++++++++++++++++++++
- hw/i386/sgx-stub.c                       |  13 ++
- hw/i386/sgx.c                            |  84 ++++++++++
- hw/i386/x86.c                            |  29 ++++
- hw/vfio/common.c                         |   1 +
- include/exec/memory.h                    |  15 +-
- include/hw/i386/pc.h                     |   8 +
- include/hw/i386/sgx-epc.h                |  67 ++++++++
- include/hw/i386/x86.h                    |   1 +
- meson.build                              |  14 +-
- monitor/hmp-cmds.c                       |  10 ++
- qapi/machine.json                        |  52 +++++-
- qapi/qom.json                            |  19 +++
- qemu-options.hx                          |  10 +-
- slirp                                    |   2 +-
- softmmu/memory.c                         |   5 +
- softmmu/physmem.c                        |   3 +-
- target/i386/cpu.c                        | 199 +++++++++++++++++++++--
- target/i386/cpu.h                        |  38 +++++
- target/i386/kvm/kvm.c                    |  75 +++++++++
- target/i386/kvm/kvm_i386.h               |   2 +
- target/i386/machine.c                    |  42 ++++-
- target/i386/svm.h                        |   8 +
- target/i386/tcg/seg_helper.c             |   2 +-
- target/i386/tcg/sysemu/excp_helper.c     |   2 +-
- target/i386/tcg/sysemu/misc_helper.c     |  11 +-
- target/i386/tcg/sysemu/svm_helper.c      | 121 +++++++++-----
- 40 files changed, 1377 insertions(+), 88 deletions(-)
- create mode 100644 backends/hostmem-epc.c
- create mode 100644 docs/intel-sgx.txt
- create mode 100644 hw/i386/sgx-epc.c
- create mode 100644 hw/i386/sgx-stub.c
- create mode 100644 hw/i386/sgx.c
- create mode 100644 include/hw/i386/sgx-epc.h
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 97e250e876..fbca4e5860 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5115,6 +5115,15 @@ static void x86_register_cpudef_types(const X86CPUDefinition *def)
+ 
+ }
+ 
++uint32_t cpu_x86_virtual_addr_width(CPUX86State *env)
++{
++    if  (env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_LA57) {
++        return 57; /* 57 bits virtual */
++    } else {
++        return 48; /* 48 bits virtual */
++    }
++}
++
+ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+                    uint32_t *eax, uint32_t *ebx,
+                    uint32_t *ecx, uint32_t *edx)
+@@ -5517,16 +5526,10 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+         break;
+     case 0x80000008:
+         /* virtual & phys address size in low 2 bytes. */
++        *eax = cpu->phys_bits;
+         if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
+             /* 64 bit processor */
+-            *eax = cpu->phys_bits; /* configurable physical bits */
+-            if  (env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_LA57) {
+-                *eax |= 0x00003900; /* 57 bits virtual */
+-            } else {
+-                *eax |= 0x00003000; /* 48 bits virtual */
+-            }
+-        } else {
+-            *eax = cpu->phys_bits;
++             *eax |= (cpu_x86_virtual_addr_width(env) << 8);
+         }
+         *ebx = env->features[FEAT_8000_0008_EBX];
+         if (cs->nr_cores * cs->nr_threads > 1) {
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 6c50d3ab4f..c9c7350c76 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1954,6 +1954,8 @@ typedef struct PropValue {
+ } PropValue;
+ void x86_cpu_apply_props(X86CPU *cpu, PropValue *props);
+ 
++uint32_t cpu_x86_virtual_addr_width(CPUX86State *env);
++
+ /* cpu.c other functions (cpuid) */
+ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+                    uint32_t *eax, uint32_t *ebx,
+diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+index 0d549b3d6c..0e7de4e054 100644
+--- a/target/i386/tcg/sysemu/svm_helper.c
++++ b/target/i386/tcg/sysemu/svm_helper.c
+@@ -41,6 +41,16 @@ static inline void svm_save_seg(CPUX86State *env, hwaddr addr,
+              ((sc->flags >> 8) & 0xff) | ((sc->flags >> 12) & 0x0f00));
+ }
+ 
++/*
++ * VMRUN and VMLOAD canonicalizes (i.e., sign-extend to bit 63) all base
++ * addresses in the segment registers that have been loaded.
++ */
++static inline void svm_canonicalization(CPUX86State *env, target_ulong *seg_base)
++{
++    uint16_t shift_amt = 64 - cpu_x86_virtual_addr_width(env);
++    *seg_base = ((((long) *seg_base) << shift_amt) >> shift_amt);
++}
++
+ static inline void svm_load_seg(CPUX86State *env, hwaddr addr,
+                                 SegmentCache *sc)
+ {
+@@ -53,6 +63,7 @@ static inline void svm_load_seg(CPUX86State *env, hwaddr addr,
+     sc->limit = x86_ldl_phys(cs, addr + offsetof(struct vmcb_seg, limit));
+     flags = x86_lduw_phys(cs, addr + offsetof(struct vmcb_seg, attrib));
+     sc->flags = ((flags & 0xff) << 8) | ((flags & 0x0f00) << 12);
++    svm_canonicalization(env, &sc->base);
+ }
+ 
+ static inline void svm_load_seg_cache(CPUX86State *env, hwaddr addr,
+@@ -245,16 +256,6 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+     env->tsc_offset = x86_ldq_phys(cs, env->vm_vmcb +
+                                offsetof(struct vmcb, control.tsc_offset));
+ 
+-    env->gdt.base  = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
+-                                                      save.gdtr.base));
+-    env->gdt.limit = x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
+-                                                      save.gdtr.limit));
+-
+-    env->idt.base  = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
+-                                                      save.idtr.base));
+-    env->idt.limit = x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
+-                                                      save.idtr.limit));
+-
+     new_cr0 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr0));
+     if (new_cr0 & SVM_CR0_RESERVED_MASK) {
+         cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
+@@ -308,6 +309,10 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+                        R_SS);
+     svm_load_seg_cache(env, env->vm_vmcb + offsetof(struct vmcb, save.ds),
+                        R_DS);
++    svm_load_seg(env, env->vm_vmcb + offsetof(struct vmcb, save.idtr),
++                       &env->idt);
++    svm_load_seg(env, env->vm_vmcb + offsetof(struct vmcb, save.gdtr),
++                       &env->gdt);
+ 
+     env->eip = x86_ldq_phys(cs,
+                         env->vm_vmcb + offsetof(struct vmcb, save.rip));
+@@ -446,6 +451,7 @@ void helper_vmload(CPUX86State *env, int aflag)
+     env->lstar = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.lstar));
+     env->cstar = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.cstar));
+     env->fmask = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.sfmask));
++    svm_canonicalization(env, &env->kernelgsbase);
+ #endif
+     env->star = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.star));
+     env->sysenter_cs = x86_ldq_phys(cs,
+@@ -454,6 +460,7 @@ void helper_vmload(CPUX86State *env, int aflag)
+                                                  save.sysenter_esp));
+     env->sysenter_eip = x86_ldq_phys(cs, addr + offsetof(struct vmcb,
+                                                  save.sysenter_eip));
++
+ }
+ 
+ void helper_vmsave(CPUX86State *env, int aflag)
 -- 
 2.31.1
+
 
 
