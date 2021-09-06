@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682C4401903
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 11:42:02 +0200 (CEST)
-Received: from localhost ([::1]:34520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A53D640191B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 11:44:24 +0200 (CEST)
+Received: from localhost ([::1]:40414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNB8b-0000fT-0H
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 05:42:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36646)
+	id 1mNBAt-0004Zr-OY
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 05:44:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mNB69-00071e-RQ
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:39:30 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:41537)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mNB6D-00073D-Ox
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:39:34 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:41774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mNB67-0001lh-So
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:39:29 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id e7so3582673plh.8
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 02:39:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mNB6A-0001oU-Cn
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:39:31 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id k24so6228778pgh.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 02:39:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0HjtGfbafd4DmU/9oP8FSbxIk/8884oXtFdvp9ieElU=;
- b=Govpt4duuyYpRVrGZEDkweDqeRo9V0cwi3q7kdXesD5JSwf7fLMRrmwxblbuQcS2pc
- GZQ7HP23Kvin5nphY6Sm5en7g4TEdqB/acSYNLVbGYCBaoChefBf3upOWDiIB5xFjvk0
- bCz7eF+l1sHnPofyDRx72m7wY9GxAJ9gv1FLypNV1n1NXvo3WYNZOdZ2Jf+Fsc6/BsoJ
- nlmPwTFlUAsnlQm0TM2uylDvs6cBpXBDl4bqHlSX0dqMThP9+YZidfCx19/dYu73qT4J
- flEL8ubl8btTG+S33Z+0FfL21Tzryzx+ooNnETEu00kGN8oLjl3uBXhDaMAVjGaKxNDk
- sx7A==
+ bh=CU6dJvUnUJTJmLyIeRl7e8FdcB6Ed36gbhogXX99+5M=;
+ b=GQp4Z7KfKg1HmEsqYVGOdaxVaGCRPIrp4vUny07tCehj3pdEBXTYl9EpRGe2UjiUt3
+ 7TIBHgHP5D8kmz3e+0ULY7gnUZJuJtaAGcfwx5L2mLM+/0uKFrHHG04eJYvg1GspKOPK
+ qCBM2183i9E4914BbdCMGfF4/K6AOO9wHO1eeWwfNuSq9qhta+t92n2EhAlKDbKQeScY
+ 3lws9s2uPILGPz0KYPInB7pQkgeKefsmqP20ZcEdtnT0oXaJQcq55JL+iWsa8p36/W7v
+ wlwYBSx6v0cZL09DaJDtvlJnQ7GHjqVqfAAAWL94I/baRhOSDvPlmJCsci17BZvewtyR
+ n8hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0HjtGfbafd4DmU/9oP8FSbxIk/8884oXtFdvp9ieElU=;
- b=hy2W/JUNy4OkLWS66YjXokRIGULgpnm5HiR6i3LDSkMIk0QyXInCkHWfZg93bFxnTn
- p63yTgwqMbmpTE+5F9TWlHD0OTl4XfEsBOX8VbcDx9/JgXf8rSsrbYvwGRxwuoSR8/xj
- KNcUbQ+/BdrrnK881/5Sw3QWuoCD/gVhqJ7oFIljMNqRqZy7Yq++Tmp3L1QhqVx9w7ce
- 4GRjhRyNpECZNPBQiH0rDe4yPAz4DEs75hV49/3P9l9z493kE0AvsHJNfwMBlvFtDS5O
- YJYqEgi3BVVOKKyxGk1sag8GJsTN0s1Qbk8owRbUivaKOUYGxHvUukafdxrXogYO5nFB
- xO9g==
-X-Gm-Message-State: AOAM532Qso2VfkW0bRTqbSzQT/qXIyzVKATCpq+CV5LuFopDmFkWLBLc
- 492BG+rfCq/KouyIJVKFyZrj0X5v9wbrpQ==
-X-Google-Smtp-Source: ABdhPJySKhZnuOsyoNXvc02ze5FpqoYb+EvKlFH8HknzzWO9v2CQhy3/7akNgmlHLry27pewTPc+HQ==
-X-Received: by 2002:a17:90a:cb83:: with SMTP id
- a3mr13073092pju.91.1630921165700; 
- Mon, 06 Sep 2021 02:39:25 -0700 (PDT)
+ bh=CU6dJvUnUJTJmLyIeRl7e8FdcB6Ed36gbhogXX99+5M=;
+ b=ZAtcj7FZ9QmMAW0bgOnKcuBJD4CXJ6pYY6R7yQpHC0z1Dbu5ZVYQXwukQjpFxOMyLv
+ T4Qq8w2feZff5vL6W/3efz3khPqNaHCYMZTImkFf/jjZwvuLcNw9Pc/Sd3uU6+hqTlf+
+ 5fCTbXvz0Ta9hoNWV2qsLRYU/ocOVj1Wu7zFn+1hOEn8gSeL29DFzMRzLy8pkrtBKaa8
+ rIy+xVDt340mNNdTG+zGfN9OJjo4KIzJS6d1fIB0SclCSl9fEqqrCuWLobuRL0cRYY6N
+ O+iRcNAW+QIEMbe25TbmheNYfI1tVeiyihHjtp65EbGl7Q159JY+05q+t7RtM5LW5gsz
+ NgWQ==
+X-Gm-Message-State: AOAM5326SUhKNxniJLR/OW0UkaqoEc2mu6Kid3P0rA7752l+wugSdpao
+ dhUbjC+H55faGubWb9Ipyol6+783bNOBPA==
+X-Google-Smtp-Source: ABdhPJxhAuftvLdk7jqOppBNbEbci+CSzld3pzM7JIUtwbZgyPAgfsXtvQHwBLuDZmTzyg+8VhBydQ==
+X-Received: by 2002:a05:6a00:244f:b0:404:fa55:c1a with SMTP id
+ d15-20020a056a00244f00b00404fa550c1amr15466500pfj.42.1630921168200; 
+ Mon, 06 Sep 2021 02:39:28 -0700 (PDT)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.142.175])
  by smtp.googlemail.com with ESMTPSA id
- z131sm7111183pfc.159.2021.09.06.02.39.23
+ z131sm7111183pfc.159.2021.09.06.02.39.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 02:39:25 -0700 (PDT)
+ Mon, 06 Sep 2021 02:39:27 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] tests/acpi: allow changes to DSDT.multi-bridge ACPI table
- blob for q35
-Date: Mon,  6 Sep 2021 15:09:09 +0530
-Message-Id: <20210906093911.2069140-2-ani@anisinha.ca>
+Subject: [PATCH 2/3] tests/acpi/pcihp: add unit tests for hotplug on
+ multifunction bridges for q35
+Date: Mon,  6 Sep 2021 15:09:10 +0530
+Message-Id: <20210906093911.2069140-3-ani@anisinha.ca>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210906093911.2069140-1-ani@anisinha.ca>
 References: <20210906093911.2069140-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62a;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: none client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,31 +88,159 @@ Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are adding a new unit test to cover the acpi hotplug support for
-multi-function bridges in q35 machines. This support was introduced with the
-following commit:
-d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction bridges")
+commit d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction bridges")
+added ACPI hotplug descriptions for cold plugged bridges for functions other
+than 0. For all other devices, the ACPI hotplug descriptions are limited to
+function 0 only. This change adds unit tests for this feature.
 
-The test uses a new table DSDT.multi-bridge. We need to allow changes in DSDT
-acpi table for addition of this new unit test.
+The diff of ACPI DSDT table before and after the change d7346e614f4e with the
+same newly added unit test is provided below:
+
+@@ -5,13 +5,13 @@
+  *
+  * Disassembling to symbolic ASL+ operators
+  *
+- * Disassembly of /tmp/aml-35UR70, Fri Aug  6 21:00:03 2021
++ * Disassembly of /tmp/aml-GY8760, Fri Aug  6 21:10:31 2021
+  *
+  * Original Table Header:
+  *     Signature        "DSDT"
+- *     Length           0x0000206A (8298)
++ *     Length           0x000020F3 (8435)
+  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
+- *     Checksum         0x59
++ *     Checksum         0x1B
+  *     OEM ID           "BOCHS "
+  *     OEM Table ID     "BXPC    "
+  *     OEM Revision     0x00000001 (1)
+@@ -20,28 +20,6 @@
+  */
+ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
+ {
+-    /*
+-     * iASL Warning: There was 1 external control method found during
+-     * disassembly, but only 0 were resolved (1 unresolved). Additional
+-     * ACPI tables may be required to properly disassemble the code. This
+-     * resulting disassembler output file may not compile because the
+-     * disassembler did not know how many arguments to assign to the
+-     * unresolved methods. Note: SSDTs can be dynamically loaded at
+-     * runtime and may or may not be available via the host OS.
+-     *
+-     * In addition, the -fe option can be used to specify a file containing
+-     * control method external declarations with the associated method
+-     * argument counts. Each line of the file must be of the form:
+-     *     External (<method pathname>, MethodObj, <argument count>)
+-     * Invocation:
+-     *     iasl -fe refs.txt -d dsdt.aml
+-     *
+-     * The following methods were unresolved and many not compile properly
+-     * because the disassembler had to guess at the number of arguments
+-     * required for each:
+-     */
+-    External (_SB_.PCI0.S09_.PCNT, MethodObj)    // Warning: Unknown method, guessing 1 arguments
+-
+     Scope (\)
+     {
+         OperationRegion (DBG, SystemIO, 0x0402, One)
+@@ -3280,9 +3258,45 @@
+                 }
+             }
+
++            Device (S09)
++            {
++                Name (_ADR, 0x00010001)  // _ADR: Address
++                Name (BSEL, Zero)
++                Device (S00)
++                {
++                    Name (_SUN, Zero)  // _SUN: Slot User Number
++                    Name (_ADR, Zero)  // _ADR: Address
++                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
++                    {
++                        PCEJ (BSEL, _SUN)
++                    }
++
++                    Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
++                    {
++                        Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, _SUN))
++                    }
++                }
++
++                Method (DVNT, 2, NotSerialized)
++                {
++                    If ((Arg0 & One))
++                    {
++                        Notify (S00, Arg1)
++                    }
++                }
++
++                Method (PCNT, 0, NotSerialized)
++                {
++                    BNUM = Zero
++                    DVNT (PCIU, One)
++                    DVNT (PCID, 0x03)
++                }
++            }
++
+             Method (PCNT, 0, NotSerialized)
+             {
+-                ^S09.PCNT (^S08.PCNT ())
++                ^S09.PCNT ()
++                ^S08.PCNT ()
+             }
+         }
+     }
 
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 ---
- tests/data/acpi/q35/DSDT.multi-bridge       | 0
- tests/qtest/bios-tables-test-allowed-diff.h | 1 +
- 2 files changed, 1 insertion(+)
- create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
+ tests/qtest/bios-tables-test.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/tests/data/acpi/q35/DSDT.multi-bridge b/tests/data/acpi/q35/DSDT.multi-bridge
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..dabc024f53 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,2 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/DSDT.multi-bridge",
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 4f11d03055..89ba1a9a9a 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -859,6 +859,33 @@ static void test_acpi_q35_tcg_bridge(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_q35_multif_bridge(void)
++{
++    test_data data = {
++        .machine = MACHINE_Q35,
++        .variant = ".multi-bridge",
++        .required_struct_types = base_required_struct_types,
++        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types)
++    };
++    /*
++     * lets try three things:
++     * (a) a multifunction bridge device
++     * (b) a bridge device with function 1
++     * (c) a non-bridge device with function 2
++     * We should see AML hotplug descriptions for (a) and (b) in DSDT.
++     * For (a) it should have a hotplug AML description for function 0.
++     */
++    test_acpi_one("-nodefaults -device pcie-root-port,id=pcie-root-port-0,"
++                  "multifunction=on,"
++                  "port=0x0,chassis=1,addr=0x1,bus=pcie.0 "
++                  "-device pcie-root-port,id=pcie-root-port-1,"
++                  "port=0x1,chassis=2,addr=0x1.0x1,bus=pcie.0 "
++                  "-device virtio-balloon,id=balloon0,"
++                  "bus=pcie.0,addr=0x1.0x2",
++                  &data);
++    free_test_data(&data);
++}
++
+ static void test_acpi_q35_tcg_mmio64(void)
+ {
+     test_data data = {
+@@ -1534,6 +1561,7 @@ int main(int argc, char *argv[])
+                        test_acpi_piix4_no_acpi_pci_hotplug);
+         qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+         qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
++        qtest_add_func("acpi/q35/multif-bridge", test_acpi_q35_multif_bridge);
+         qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
+         qtest_add_func("acpi/piix4/ipmi", test_acpi_piix4_tcg_ipmi);
+         qtest_add_func("acpi/q35/ipmi", test_acpi_q35_tcg_ipmi);
 -- 
 2.25.1
 
