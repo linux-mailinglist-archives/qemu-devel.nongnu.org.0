@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 262DB401C68
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:37:32 +0200 (CEST)
-Received: from localhost ([::1]:36200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F82401C7D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:40:00 +0200 (CEST)
+Received: from localhost ([::1]:40666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNEoV-0004B5-8o
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:37:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57654)
+	id 1mNEqt-0007Ac-KF
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:39:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPj-0001kE-5A
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:55 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39767)
+ id 1mNEPl-0001uw-OS
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:57 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:34688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPh-0007xm-Ec
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:54 -0400
-Received: by mail-wr1-x429.google.com with SMTP id z4so9781369wrr.6
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:53 -0700 (PDT)
+ id 1mNEPk-00081T-2C
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:57 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ v20-20020a1cf714000000b002e71f4d2026so3822456wmh.1
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sAWCVmhntjt3N2I3a0MmSk7QA9BliYQ2Nc92h12oy2c=;
- b=aUfHxbaLmK0NddcEfpYIatbtZy/+LvAnOrFxLc5IRaUEJBB/OIIANxOJpMnrHW+4VU
- xKtCo1x7BembYeh2rgAUD60XSb50jP/Ah2Ca1lYzwnldqqcqAfc7vvea4LfiG9iqA91Q
- CUNcd2ueHuGhT8FSoCjTtiCEyxEZegFslP2MFzwyip81xG/pz+hPCCywZoNDT5Yk/vxK
- kBgqCeO1mu4y1RRcKBsialYD0ijf1IJcNvj0FLXECI+Pl+SiepVuzYAAmRRp4DqMXArT
- tOeJBXcPqj+fsNMTeGa61f++F5MT/myp4nZ5bjeyGT8+OHcL+QfxYeH0REbzl5Z/zShv
- Wwpg==
+ bh=boHe/TN7iP4dCfI5Lt28Agud/RqY7EKeXZQNrY5FSWM=;
+ b=Icd7hdrrObvJ6F0SagAFwTPZ4XVSE9Gd6q0XWUyG6RsdeP/2aCWsrtsr8rPadMrYNk
+ Ej4muX1qEnlconrSCIZ+w6wjB37mz2b+DMpSZNpCHKXgYC0JY3StHRfxZhWDAwNAVwH2
+ qO3pIO/zXDz/92jKWHen1/FNmps8bzi3CQtt/YmcaeCRT8oG3J14Zf4JafcdCFHs+obj
+ RsA2Sq1BWMkUVD0pShe/5/Fo7RLdxVNps2Kpf0jlIA2EMS7y9UJBuq2F9IGZ5WC3Gm2E
+ CeS1qYdCAZIw9s/wCz3x9GaenvddWuwYn6kDQ+swFG5kTH+bJkAFHl12ltxVBE3bcmFM
+ r75Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=sAWCVmhntjt3N2I3a0MmSk7QA9BliYQ2Nc92h12oy2c=;
- b=YAWt4FnROJOVGC9zSzte/L8EierQCrYMnnpb95HznBAauftvGrKBzc6bnXEiBArb/Y
- OFAmT7dYy/BnXLDWaFY+nKJMZ1DrBWWdOzgD2/3RVeIGzb+/FVGOWeciSmvLp0AQwU+n
- xCb3bqRLIHGEidg26AlbYqn2k7kf14/Jp3YSg1euZzl5zKxbYJDSfLLzHSG7m2Uqd7ul
- kanoq0S+fyql1sT/StaYpASQep+0fvzhNV6byRkUy7r3YmgrCzFw2VB0Kq8eRJO1oEIJ
- R9J9qoi61n0PPvTWceN4Z3dmqvVBBIFJAOLOBa7rb9x2P7u3QrMZ3VhwEPlF2a1cbFTc
- uhCA==
-X-Gm-Message-State: AOAM530Ravj3D61pqZAoUz7tzXFfW7LPCGR6+U8s36/+KGvrnwWjEAmm
- IQjinDf0Wt/tAHsqfjbVhqORnBFtuLk=
-X-Google-Smtp-Source: ABdhPJxr8XqlK4IojaGoikoEks3lfzyo3jGyexLI6aYRbkJgnRgIclzhk679Sn4qyySFHraQZyVtkw==
-X-Received: by 2002:a5d:69c6:: with SMTP id s6mr13201598wrw.157.1630933912189; 
- Mon, 06 Sep 2021 06:11:52 -0700 (PDT)
+ bh=boHe/TN7iP4dCfI5Lt28Agud/RqY7EKeXZQNrY5FSWM=;
+ b=lGirj5emsLOiVeQHTsxAPmIhSpAhATkf8nTiv9hgbuORvfg90O0fJ6CD4KVtYYmagV
+ DgwJ9UIXpQmd1pa+wuRg7/S1qZ/dATaYGpkZIgqYmR/2NSrK3WqjSngeBZ9yFVGq4x27
+ IaW3r+5srenOBWt1W5+qtCwccFpDahOdCKU61bqtRABunPZtf7V44J6s9hdq7vhImjdF
+ lSyklUVkAwbmRnbKOSoQUX//u+yJla6r64EtrfljDH7pmFthvQu7CPqQPOCBUdDJ5QfJ
+ LabyhS6/UVCrXHZj2aMV8hAOaA44snlALeNDrkvIuGQkwUNvR4tYNEmamXfn/eNAU+Re
+ q+zg==
+X-Gm-Message-State: AOAM530u8DlHdx1R0RIDgl00fwxnM+OJxmzcRgooKN7QQQkm8lI0bIBE
+ e2szQcAwy1+k8/Ki0JoW3FHM1V2E1cs=
+X-Google-Smtp-Source: ABdhPJzi2hYQqVqdKNgxb9XZ/H79N6NSIO72DV1I2ITDWpUKP6kV8RFFBNKXo3+Wd4WiiHG2Evdh6w==
+X-Received: by 2002:a1c:158:: with SMTP id 85mr11288033wmb.187.1630933914705; 
+ Mon, 06 Sep 2021 06:11:54 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- k4sm7992331wrm.74.2021.09.06.06.11.51
+ k4sm7992331wrm.74.2021.09.06.06.11.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 06:11:51 -0700 (PDT)
+ Mon, 06 Sep 2021 06:11:54 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/36] sgx-epc: Add the reset interface for sgx-epc virt device
-Date: Mon,  6 Sep 2021 15:10:54 +0200
-Message-Id: <20210906131059.55234-32-pbonzini@redhat.com>
+Subject: [PULL 32/36] sgx-epc: Avoid bios reset during sgx epc initialization
+Date: Mon,  6 Sep 2021 15:10:55 +0200
+Message-Id: <20210906131059.55234-33-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210906131059.55234-1-pbonzini@redhat.com>
 References: <20210906131059.55234-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,143 +91,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yang Zhong <yang.zhong@intel.com>
 
-If the VM is reset, we need make sure sgx virt epc in clean status.
-Once the VM is reset, and sgx epc virt device will be reseted by
-reset callback registered by qemu_register_reset(). Since this epc
-virt device depend on backend, this reset will call backend reset
-interface to re-mmap epc to guest.
+Since bios do the reset when qemu boot up, and sgx epc will be
+reset by the registered reset callback function. Like this, the
+sgx epc will do two times initialization. This patch will check
+protected mode from cr0 register, and will bypass reset operation
+from bios. The reset callback will only accept reset operation
+from guest.
 
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210719112136.57018-24-yang.zhong@intel.com>
+Message-Id: <20210719112136.57018-25-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/sgx-epc.c | 94 ++++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 81 insertions(+), 13 deletions(-)
+ hw/i386/sgx-epc.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
-index 924dea22f0..9880d832d5 100644
+index 9880d832d5..70075db37c 100644
 --- a/hw/i386/sgx-epc.c
 +++ b/hw/i386/sgx-epc.c
-@@ -18,6 +18,9 @@
- #include "qapi/visitor.h"
+@@ -19,6 +19,7 @@
  #include "target/i386/cpu.h"
  #include "exec/address-spaces.h"
-+#include "sysemu/reset.h"
-+
-+uint32_t epc_num;
+ #include "sysemu/reset.h"
++#include "sysemu/hw_accel.h"
  
- static Property sgx_epc_properties[] = {
-     DEFINE_PROP_UINT64(SGX_EPC_ADDR_PROP, SGXEPCDevice, addr, 0),
-@@ -47,12 +50,84 @@ static void sgx_epc_init(Object *obj)
-                         NULL, NULL, NULL);
+ uint32_t epc_num;
+ 
+@@ -97,6 +98,21 @@ static void sgx_epc_initialization(DeviceState *dev)
+     sgx_epc->size += memory_device_get_region_size(md, &errp);
  }
  
-+static void sgx_epc_del_subregion(DeviceState *dev)
++static bool check_reset_from_guest(void)
 +{
-+    PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-+    SGXEPCState *sgx_epc = &pcms->sgx_epc;
-+    SGXEPCDevice *epc = SGX_EPC(dev);
++    CPUState *cs = first_cpu;
++    X86CPU *cpu = X86_CPU(cs);
++    CPUX86State *env = &cpu->env;
 +
-+    /* del subregion and related operations */
-+    memory_region_del_subregion(&sgx_epc->mr,
-+                                host_memory_backend_get_memory(epc->hostmem));
-+    host_memory_backend_set_mapped(epc->hostmem, false);
-+    g_free(sgx_epc->sections);
-+    sgx_epc->sections = NULL;
++    cpu_synchronize_state(cs);
 +
-+    /* multiple epc devices, only zero the first time */
-+    if (epc_num == sgx_epc->nr_sections) {
-+        sgx_epc->size = 0;
-+        sgx_epc->nr_sections = 0;
++    if (env->cr[0] & CR0_PE_MASK) {
++        return true;
 +    }
++
++    return false;
 +}
 +
-+static void sgx_epc_initialization(DeviceState *dev)
-+{
-+    PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-+    SGXEPCState *sgx_epc = &pcms->sgx_epc;
-+    MemoryDeviceState *md = MEMORY_DEVICE(dev);
-+    SGXEPCDevice *epc = SGX_EPC(dev);
-+    Error *errp = NULL;
-+
-+    if (!epc->hostmem) {
-+        error_setg(&errp, "'" SGX_EPC_MEMDEV_PROP "' property is not set");
-+        return;
-+    }
-+
-+    epc->addr = sgx_epc->base + sgx_epc->size;
-+
-+    memory_region_add_subregion(&sgx_epc->mr, epc->addr - sgx_epc->base,
-+                                host_memory_backend_get_memory(epc->hostmem));
-+
-+    host_memory_backend_set_mapped(epc->hostmem, true);
-+
-+    sgx_epc->sections = g_renew(SGXEPCDevice *, sgx_epc->sections,
-+                                sgx_epc->nr_sections + 1);
-+    sgx_epc->sections[sgx_epc->nr_sections++] = epc;
-+
-+    sgx_epc->size += memory_device_get_region_size(md, &errp);
-+}
-+
-+static void sgx_epc_reset(void *opaque)
-+{
-+    DeviceState *dev = opaque;
-+    SGXEPCDevice *epc = SGX_EPC(dev);
-+    Error *errp = NULL;
-+    int fd;
-+
-+    if (!epc->hostmem) {
-+        error_setg(&errp, "'" SGX_EPC_MEMDEV_PROP "' property is not set");
-+        return;
-+    }
-+
-+    /* delete subregion and related operations */
-+    sgx_epc_del_subregion(dev);
-+
-+    /* reset sgx backend */
-+    fd = memory_region_get_fd(host_memory_backend_get_memory(epc->hostmem));
-+    sgx_memory_backend_reset(epc->hostmem, fd, &errp);
-+    if (errp) {
-+        error_setg(&errp, "failed to call sgx_memory_backend_reset");
-+        return;
-+    }
-+
-+    /* re-add subregion and related operations */
-+    sgx_epc_initialization(dev);
-+}
-+
- static void sgx_epc_realize(DeviceState *dev, Error **errp)
+ static void sgx_epc_reset(void *opaque)
  {
-     PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-     X86MachineState *x86ms = X86_MACHINE(pcms);
--    MemoryDeviceState *md = MEMORY_DEVICE(dev);
--    SGXEPCState *sgx_epc = &pcms->sgx_epc;
-     SGXEPCDevice *epc = SGX_EPC(dev);
-     const char *path;
+     DeviceState *dev = opaque;
+@@ -104,6 +120,9 @@ static void sgx_epc_reset(void *opaque)
+     Error *errp = NULL;
+     int fd;
  
-@@ -71,18 +146,11 @@ static void sgx_epc_realize(DeviceState *dev, Error **errp)
++    if (!check_reset_from_guest())
++        return;
++
+     if (!epc->hostmem) {
+         error_setg(&errp, "'" SGX_EPC_MEMDEV_PROP "' property is not set");
          return;
-     }
- 
--    epc->addr = sgx_epc->base + sgx_epc->size;
-+    sgx_epc_initialization(dev);
-+    epc_num++;
- 
--    memory_region_add_subregion(&sgx_epc->mr, epc->addr - sgx_epc->base,
--                                host_memory_backend_get_memory(epc->hostmem));
--
--    host_memory_backend_set_mapped(epc->hostmem, true);
--
--    sgx_epc->sections = g_renew(SGXEPCDevice *, sgx_epc->sections,
--                                sgx_epc->nr_sections + 1);
--    sgx_epc->sections[sgx_epc->nr_sections++] = epc;
--
--    sgx_epc->size += memory_device_get_region_size(md, errp);
-+    /* register the reset callback for sgx reset */
-+    qemu_register_reset(sgx_epc_reset, dev);
- }
- 
- static void sgx_epc_unrealize(DeviceState *dev)
 -- 
 2.31.1
 
