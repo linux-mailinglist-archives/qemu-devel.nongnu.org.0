@@ -2,70 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04912401A9E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 13:33:34 +0200 (CEST)
-Received: from localhost ([::1]:34896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D9E401AA1
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 13:36:32 +0200 (CEST)
+Received: from localhost ([::1]:38214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNCsX-0007Kl-36
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 07:33:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34600)
+	id 1mNCvP-0001F6-Ge
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 07:36:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNCp8-0004XR-VA
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 07:30:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45576)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNCtm-0000K2-Er
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 07:34:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNCp5-00048x-VA
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 07:30:02 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNCtj-00087N-OP
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 07:34:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630927798;
+ s=mimecast20190719; t=1630928086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LKgp4baRhOhctVz0mMqiacNWlQIUfqjG13IU8jrSXVg=;
- b=H2IHu87AflNE6Vzwg8U5ebRqw7bRTLNdDdxKRR7iG5rIctzCvTEUf4hNqlfx8cGQpBrTuL
- GItNzXWO7haXrgXTPbHYbesInDb0Iqr6/aSA6DRQpS97RlxMuHV8AtzTu4+ptu4yh1lWFx
- Yh1vQ7BuKyYDU/+CUH3LrobeyJEVpNI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-PTloUZ_WPPCNm8O9iLYm7A-1; Mon, 06 Sep 2021 07:29:54 -0400
-X-MC-Unique: PTloUZ_WPPCNm8O9iLYm7A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5ADC10054F6;
- Mon,  6 Sep 2021 11:29:53 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F3F126788D;
- Mon,  6 Sep 2021 11:29:52 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 06/10] configure / meson: Move the GBM handling to
- meson.build
-Date: Mon,  6 Sep 2021 13:29:45 +0200
-Message-Id: <20210906112945.88042-2-thuth@redhat.com>
-In-Reply-To: <20210906112945.88042-1-thuth@redhat.com>
-References: <20210906112945.88042-1-thuth@redhat.com>
+ bh=BUj1JbQWjsSOoouppYCpQSpoL1YQ5jl2sbpzyGQGt2E=;
+ b=UhVoj3Jy+xjQb4sRkzkCe4Rpr4/xIpBCsnUWmpmDTx049gxPhXl4EPLzOjW54yKsQSHA+d
+ SISNV40TbU68ROJCnya1QdHWI7asWSuLg1jgD+WBcnUXZxoqRGwUVvKhecU6p22YFzPiEm
+ XTgk0SlPcjIFRGorbm8eXgyu0ayZ8w0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-174-AgQyqCzjN3CI1HbSQ5ChjA-1; Mon, 06 Sep 2021 07:34:43 -0400
+X-MC-Unique: AgQyqCzjN3CI1HbSQ5ChjA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v2-20020a7bcb420000b02902e6b108fcf1so3788536wmj.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 04:34:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BUj1JbQWjsSOoouppYCpQSpoL1YQ5jl2sbpzyGQGt2E=;
+ b=Q/sAmV4mdztpORc1IfNYatFLMV161NdDuuxoppubGbui7gL4r1WOyOnU7/xaudcl4G
+ WhyTYhzO6vNqxakByVDtAgsMWf9tW281FrP45BIyinuJMqKnyr7719nmcNywhvSvHnb0
+ 5ydoieSoDXl9V1LG21ZrpdMqyI6JX7COJ8x45GCJc6gdXz7J83ydj70l/D4BdL1vrrNU
+ KGSWPZYZjPX0tcDTWRVTynhYZr8iBdAl5jNCONJqVl3LHKlK4YQt7IBzraOAaGRVxXBG
+ A7vqstxGJ0beiAGx//caoSRWk5ldJeBrBp3zdq9BYUCOsVOyu1N1cbfPpZCHpC9ooLiX
+ mn7g==
+X-Gm-Message-State: AOAM5336A9mFltJLSq8zBSnqRifOJuEN4y4UGwk8w7aL2WnSDOWyZ/on
+ 4ULQTZaeDyxDzk+AHPp4fLk4oFxW18j5o3MoFZ5PXGPY9uPLWmiVg29hOqDiGbeQY48QsR3MFFO
+ pzUBr+SAMvwJSilQ=
+X-Received: by 2002:adf:d193:: with SMTP id v19mr12879556wrc.377.1630928082480; 
+ Mon, 06 Sep 2021 04:34:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzfqGhhQdVKn9eqyOFxCG+9kHfSqf0OUauKa8kMv+YT9bH3rbhLeAj9xS/i5D8LLT7HsBFlLQ==
+X-Received: by 2002:adf:d193:: with SMTP id v19mr12879546wrc.377.1630928082294; 
+ Mon, 06 Sep 2021 04:34:42 -0700 (PDT)
+Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id n5sm6924234wmd.29.2021.09.06.04.34.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Sep 2021 04:34:41 -0700 (PDT)
+Subject: Re: [PATCH v3] qemu-sockets: fix unix socket path copy (again)
+To: Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+References: <20210901131624.46171-1-mjt@msgid.tls.msk.ru>
+ <CAJ+F1CLcSZ_zE8oMZz3k_WCSOvf50hapGCu-dfSd9RxzzVhumA@mail.gmail.com>
+ <165d60fd-c91e-7b03-3ec1-21f50760ec05@msgid.tls.msk.ru>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <8929531a-c763-f01b-4a3a-70c1a0dd97cd@redhat.com>
+Date: Mon, 6 Sep 2021 13:34:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <165d60fd-c91e-7b03-3ec1-21f50760ec05@msgid.tls.msk.ru>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,123 +100,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, qemu-stable <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GBM library detection does not need to be in the configure script,
-since it does not have any user-facing options (there are no
---enable-gbm or --disable-gbm switches). Let's move it to meson.build
-instead, so we don't have to clutter config-host.mak with the related
-switches.
+On 9/6/21 1:25 PM, Michael Tokarev wrote:
+> 03.09.2021 19:04, Marc-André Lureau wrote:
+> [qemu-sockets.c unix path copy fix]
+> 
+>> Daniel or Michael, or someone else queued this already?
+> 
+> Nope, at least not me. I can send a pull request with a
+> single fix. Is it okay?
 
-Additionally, only check for GBM if it is really required, i.e. if we
-either compile with OpenGL or with virglrenderer support.
-
-Message-Id: <20210714085045.797168-1-thuth@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- configure                          | 14 --------------
- contrib/vhost-user-gpu/meson.build |  5 ++---
- meson.build                        | 14 ++++++++------
- 3 files changed, 10 insertions(+), 23 deletions(-)
-
-diff --git a/configure b/configure
-index bd823307a6..8adf2127c3 100755
---- a/configure
-+++ b/configure
-@@ -3451,13 +3451,6 @@ esac
- ##########################################
- # opengl probe (for sdl2, gtk)
- 
--gbm="no"
--if $pkg_config gbm; then
--    gbm_cflags="$($pkg_config --cflags gbm)"
--    gbm_libs="$($pkg_config --libs gbm)"
--    gbm="yes"
--fi
--
- if test "$opengl" != "no" ; then
-   epoxy=no
-   if $pkg_config epoxy; then
-@@ -4688,13 +4681,6 @@ if test "$opengl" = "yes" ; then
-   echo "OPENGL_LIBS=$opengl_libs" >> $config_host_mak
- fi
- 
--if test "$gbm" = "yes" ; then
--    echo "CONFIG_GBM=y" >> $config_host_mak
--    echo "GBM_LIBS=$gbm_libs" >> $config_host_mak
--    echo "GBM_CFLAGS=$gbm_cflags" >> $config_host_mak
--fi
--
--
- if test "$avx2_opt" = "yes" ; then
-   echo "CONFIG_AVX2_OPT=y" >> $config_host_mak
- fi
-diff --git a/contrib/vhost-user-gpu/meson.build b/contrib/vhost-user-gpu/meson.build
-index 4cb52a91d7..92c8f3a86a 100644
---- a/contrib/vhost-user-gpu/meson.build
-+++ b/contrib/vhost-user-gpu/meson.build
-@@ -1,6 +1,5 @@
--if 'CONFIG_TOOLS' in config_host and virgl.found() \
--    and 'CONFIG_GBM' in config_host and 'CONFIG_LINUX' in config_host \
--    and pixman.found()
-+if 'CONFIG_TOOLS' in config_host and virgl.found() and gbm.found() \
-+    and 'CONFIG_LINUX' in config_host and pixman.found()
-   executable('vhost-user-gpu', files('vhost-user-gpu.c', 'virgl.c', 'vugbm.c'),
-              dependencies: [qemuutil, pixman, gbm, virgl, vhost_user, opengl],
-              install: true,
-diff --git a/meson.build b/meson.build
-index ecfdce921c..7e58e6279b 100644
---- a/meson.build
-+++ b/meson.build
-@@ -472,11 +472,6 @@ if not get_option('zstd').auto() or have_block
-                     required: get_option('zstd'),
-                     method: 'pkg-config', kwargs: static_kwargs)
- endif
--gbm = not_found
--if 'CONFIG_GBM' in config_host
--  gbm = declare_dependency(compile_args: config_host['GBM_CFLAGS'].split(),
--                           link_args: config_host['GBM_LIBS'].split())
--endif
- virgl = not_found
- if not get_option('virglrenderer').auto() or have_system
-   virgl = dependency('virglrenderer',
-@@ -816,11 +811,17 @@ coreaudio = not_found
- if 'CONFIG_AUDIO_COREAUDIO' in config_host
-   coreaudio = declare_dependency(link_args: config_host['COREAUDIO_LIBS'].split())
- endif
-+
- opengl = not_found
- if 'CONFIG_OPENGL' in config_host
-   opengl = declare_dependency(compile_args: config_host['OPENGL_CFLAGS'].split(),
-                               link_args: config_host['OPENGL_LIBS'].split())
- endif
-+gbm = not_found
-+if (have_system or have_tools) and (virgl.found() or opengl.found())
-+  gbm = dependency('gbm', method: 'pkg-config', required: false,
-+                   kwargs: static_kwargs)
-+endif
- 
- gnutls = not_found
- gnutls_crypto = not_found
-@@ -1244,6 +1245,7 @@ config_host_data.set('CONFIG_MPATH', mpathpersist.found())
- config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
- config_host_data.set('CONFIG_CURL', curl.found())
- config_host_data.set('CONFIG_CURSES', curses.found())
-+config_host_data.set('CONFIG_GBM', gbm.found())
- config_host_data.set('CONFIG_GLUSTERFS', glusterfs.found())
- if glusterfs.found()
-   config_host_data.set('CONFIG_GLUSTERFS_XLATOR_OPT', glusterfs.version().version_compare('>=4'))
-@@ -3086,7 +3088,7 @@ summary_info += {'U2F support':       u2f.found()}
- summary_info += {'libusb':            libusb.found()}
- summary_info += {'usb net redir':     usbredir.found()}
- summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
--summary_info += {'GBM':               config_host.has_key('CONFIG_GBM')}
-+summary_info += {'GBM':               gbm.found()}
- summary_info += {'libiscsi support':  libiscsi.found()}
- summary_info += {'libnfs support':    libnfs.found()}
- if targetos == 'windows'
--- 
-2.27.0
+Certainly, but you could also pick the latest patches
+sent to qemu-trivial@ already reviewed ;)
 
 
