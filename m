@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06BCE401C2D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:19:49 +0200 (CEST)
-Received: from localhost ([::1]:34458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647AF401C2C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:19:18 +0200 (CEST)
+Received: from localhost ([::1]:34118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNEXM-0006ad-39
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:19:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57250)
+	id 1mNEWr-0006K2-EH
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:19:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPA-0000gY-Re
+ id 1mNEPB-0000ge-2q
  for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:21 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37734)
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEP8-0007Sk-It
+ id 1mNEP9-0007Sm-2R
  for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:20 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- c8-20020a7bc008000000b002e6e462e95fso4981201wmb.2
+Received: by mail-wr1-x435.google.com with SMTP id v10so9797055wrd.4
  for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iSNQrYrhZkJQvNWNc9Yo2OXojP0OjdX2UjBKeHwrwGg=;
- b=pgYoFrJFOiMS+ubtBvPibkAta91ko5pCw/7JLEIwJqcYs9ceKmnDJDwnQyW3aTo2T6
- 9p0a9iRknjiSYTPdKTUL4AhJb6YQu5UuLvImZe/H1QFACV43iF6912yg/kPXCGyCPcWE
- 3Ej2GD7GZW1mt7LzYF7cprhI/xj+nQvo/0t9wvp3DeENaColtJPckHITxK3kGFsORfL0
- kyxbELWcFZoMDwalgbkqWZi0fRIa5vzF72Oq7O1cVqo32NOq1fK1kB3qDUIUoueyQL7F
- tN3A/akuoAce8363I5oUDDAQyB9vVYWAMJdFISvfsS8By1fT+/7KUzOUhLv+YIh098RV
- mXBQ==
+ bh=mPOPkKKhr0wV8f1s7B0TgsIWkX6Xh6V7QOelvTLk/To=;
+ b=MRKOpBZi7cRdyT8Y1KeIFLZHgHKPrUURQHGY3eObopMn6xD7jVH5ESA5FdCI1dvdEi
+ ZNFLzU0a7mY8+6fEtOOfaZtSyA6t23kji5RgfBWSDmV1T2aUyHcbfR2ojUME9HOVeUsV
+ Z1WXJk02bJOnXkF9LBWaav1/+Tj70TH3L78YKLflnTokyBk+GQjDWSDrLuBr8mstWXiT
+ vjWjhezxvPnGTLgyDoDs/huipWpK5kI5DTq++Sq9JJfhqxPavarQdlcqiDmHG/sX2KRu
+ ka41SnZcRuCHwqp6mqKGkPE66fQKVcEotN14gJQydKf5/nIDkrIQLMoEKTfnU7mm5G/a
+ EXiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iSNQrYrhZkJQvNWNc9Yo2OXojP0OjdX2UjBKeHwrwGg=;
- b=RgQrTHBUOcQdPrSFfPCNlz5jPS4yX1OCoYUYEie0YypWtOL9gyL75bDy+XIRCaTSiE
- CU3OAvB6Fy3hG0j1QEKzePbMqpghTrHu/EpyMRiU0PHHV1gyJIyo9n2rZBjRC4oYjrrR
- fwD68tz1GX4Ye5ItSLcrqTt5u3R7ocespWv36JbdXZO+qFGJVfaw75MiM6NS7kZcomdY
- 7CU9NNssnj0DhYivk8MCvGUyO9FCtJR45lrX2J6tt1J+6AReA6hcdrgmjEg8NXSS5vmQ
- n9zDon1+LVfh6YugP4Nfr/ic4L40gCLH1JA+advXTQC/tJAVIlSiGorSUa0wFVGkBZo7
- kIOA==
-X-Gm-Message-State: AOAM532CAONMBKYdEfnl81TKj3nPGBOuMJydrBnHLrZZ6/L92zeDZb5J
- myVQvgZXUU2CDgC7thb9BQVAhWJb3rQ=
-X-Google-Smtp-Source: ABdhPJw7aQG3mpxaC+mTjs59DZwFebnzgY7zzD7OFf2l6JiwxJ8Jhi0xx/ZGJmP3joLPA1847UOcQw==
-X-Received: by 2002:a1c:acc2:: with SMTP id v185mr11375993wme.71.1630933877167; 
+ bh=mPOPkKKhr0wV8f1s7B0TgsIWkX6Xh6V7QOelvTLk/To=;
+ b=AvTv0j0PbHru2lC1dc1aPzrEbaAC2kcoawtQbsBiBw/3U9RY2/HHv/g9ih1S4pt9Ca
+ nQgWdznKoj99PCzWlHIOlvwncgU+8JglPh06A/lNhS12SYuBk5HDnfeo4y81oUhwp+jZ
+ 2vK+hlRMmQUuiBJ8fh5ULFHe7TyfAR7Lhr20SyOISHNt822jH06NZFWZPi8B+oZSRCdB
+ 8r/j4Kz9ZyUtP/QEbjO2lWrDAUjQiFL1F/w3ClEUZW2P8x/RyhWM4la1ssaqL5NL2Re6
+ Og1jddB/cBBRjQ81m7gGOQpJVgJSJ+VP2W1wg3ZQayps56/mOIIZwsj3cwHJjjfUQ1yF
+ XrUA==
+X-Gm-Message-State: AOAM530lguO/8ikxG/QeSX2NswL5Jbh2PmTrKdF6zDD5PUwxJpmnOkJE
+ uuCBhcqcc+LOB0HD9LZct7l2h958j9s=
+X-Google-Smtp-Source: ABdhPJwH7Nh/ae2eHRHkbU8E2OcFTsy05HxayEO6iEospGQG7VNfyJDglZd98lGOJ3g5PQ5mXDkD8A==
+X-Received: by 2002:adf:e712:: with SMTP id c18mr13263495wrm.438.1630933877793; 
  Mon, 06 Sep 2021 06:11:17 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- k4sm7992331wrm.74.2021.09.06.06.11.16
+ k4sm7992331wrm.74.2021.09.06.06.11.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 06:11:16 -0700 (PDT)
+ Mon, 06 Sep 2021 06:11:17 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/36] target/i386: Added vVMLOAD and vVMSAVE feature
-Date: Mon,  6 Sep 2021 15:10:30 +0200
-Message-Id: <20210906131059.55234-8-pbonzini@redhat.com>
+Subject: [PULL 08/36] configure / meson: Move the GBM handling to meson.build
+Date: Mon,  6 Sep 2021 15:10:31 +0200
+Message-Id: <20210906131059.55234-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210906131059.55234-1-pbonzini@redhat.com>
 References: <20210906131059.55234-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,131 +83,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lara Lazier <laramglazier@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lara Lazier <laramglazier@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
 
-The feature allows the VMSAVE and VMLOAD instructions to execute in guest mode without
-causing a VMEXIT. (APM2 15.33.1)
+The GBM library detection does not need to be in the configure script,
+since it does not have any user-facing options (there are no
+--enable-gbm or --disable-gbm switches). Let's move it to meson.build
+instead, so we don't have to clutter config-host.mak with the related
+switches.
 
-Signed-off-by: Lara Lazier <laramglazier@gmail.com>
+Additionally, only check for GBM if it is really required, i.e. if we
+either compile with OpenGL or with virglrenderer support.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210713111516.734834-1-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.h                    |  2 ++
- target/i386/svm.h                    |  2 ++
- target/i386/tcg/sysemu/excp_helper.c |  2 +-
- target/i386/tcg/sysemu/svm_helper.c  | 29 ++++++++++++++++++++++++++++
- 4 files changed, 34 insertions(+), 1 deletion(-)
+ configure                          | 14 --------------
+ contrib/vhost-user-gpu/meson.build |  5 ++---
+ meson.build                        | 14 ++++++++------
+ 3 files changed, 10 insertions(+), 23 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 69e722253d..573adc8c22 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -2260,6 +2260,8 @@ static inline bool ctl_has_irq(CPUX86State *env)
-     return (env->int_ctl & V_IRQ_MASK) && (int_prio >= tpr);
- }
+diff --git a/configure b/configure
+index bd823307a6..8adf2127c3 100755
+--- a/configure
++++ b/configure
+@@ -3451,13 +3451,6 @@ esac
+ ##########################################
+ # opengl probe (for sdl2, gtk)
  
-+hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
-+                        int *prot);
- #if defined(TARGET_X86_64) && \
-     defined(CONFIG_USER_ONLY) && \
-     defined(CONFIG_LINUX)
-diff --git a/target/i386/svm.h b/target/i386/svm.h
-index 036597a2ff..f9a785489d 100644
---- a/target/i386/svm.h
-+++ b/target/i386/svm.h
-@@ -24,6 +24,8 @@
- #define V_INTR_MASKING_SHIFT 24
- #define V_INTR_MASKING_MASK (1 << V_INTR_MASKING_SHIFT)
+-gbm="no"
+-if $pkg_config gbm; then
+-    gbm_cflags="$($pkg_config --cflags gbm)"
+-    gbm_libs="$($pkg_config --libs gbm)"
+-    gbm="yes"
+-fi
+-
+ if test "$opengl" != "no" ; then
+   epoxy=no
+   if $pkg_config epoxy; then
+@@ -4688,13 +4681,6 @@ if test "$opengl" = "yes" ; then
+   echo "OPENGL_LIBS=$opengl_libs" >> $config_host_mak
+ fi
  
-+#define V_VMLOAD_VMSAVE_ENABLED_MASK (1 << 1)
+-if test "$gbm" = "yes" ; then
+-    echo "CONFIG_GBM=y" >> $config_host_mak
+-    echo "GBM_LIBS=$gbm_libs" >> $config_host_mak
+-    echo "GBM_CFLAGS=$gbm_cflags" >> $config_host_mak
+-fi
+-
+-
+ if test "$avx2_opt" = "yes" ; then
+   echo "CONFIG_AVX2_OPT=y" >> $config_host_mak
+ fi
+diff --git a/contrib/vhost-user-gpu/meson.build b/contrib/vhost-user-gpu/meson.build
+index 4cb52a91d7..92c8f3a86a 100644
+--- a/contrib/vhost-user-gpu/meson.build
++++ b/contrib/vhost-user-gpu/meson.build
+@@ -1,6 +1,5 @@
+-if 'CONFIG_TOOLS' in config_host and virgl.found() \
+-    and 'CONFIG_GBM' in config_host and 'CONFIG_LINUX' in config_host \
+-    and pixman.found()
++if 'CONFIG_TOOLS' in config_host and virgl.found() and gbm.found() \
++    and 'CONFIG_LINUX' in config_host and pixman.found()
+   executable('vhost-user-gpu', files('vhost-user-gpu.c', 'virgl.c', 'vugbm.c'),
+              dependencies: [qemuutil, pixman, gbm, virgl, vhost_user, opengl],
+              install: true,
+diff --git a/meson.build b/meson.build
+index bf63784812..13df8c37c7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -472,11 +472,6 @@ if not get_option('zstd').auto() or have_block
+                     required: get_option('zstd'),
+                     method: 'pkg-config', kwargs: static_kwargs)
+ endif
+-gbm = not_found
+-if 'CONFIG_GBM' in config_host
+-  gbm = declare_dependency(compile_args: config_host['GBM_CFLAGS'].split(),
+-                           link_args: config_host['GBM_LIBS'].split())
+-endif
+ virgl = not_found
+ if not get_option('virglrenderer').auto() or have_system
+   virgl = dependency('virglrenderer',
+@@ -816,11 +811,17 @@ coreaudio = not_found
+ if 'CONFIG_AUDIO_COREAUDIO' in config_host
+   coreaudio = declare_dependency(link_args: config_host['COREAUDIO_LIBS'].split())
+ endif
 +
- #define SVM_INTERRUPT_SHADOW_MASK 1
+ opengl = not_found
+ if 'CONFIG_OPENGL' in config_host
+   opengl = declare_dependency(compile_args: config_host['OPENGL_CFLAGS'].split(),
+                               link_args: config_host['OPENGL_LIBS'].split())
+ endif
++gbm = not_found
++if virgl.found() or 'CONFIG_OPENGL' in config_host
++  gbm = dependency('gbm', method: 'pkg-config',
++                   required: false, kwargs: static_kwargs)
++endif
  
- #define SVM_IOIO_STR_SHIFT 2
-diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
-index b6d940e04e..7af887be4d 100644
---- a/target/i386/tcg/sysemu/excp_helper.c
-+++ b/target/i386/tcg/sysemu/excp_helper.c
-@@ -358,7 +358,7 @@ do_check_protect_pse36:
-     return error_code;
- }
- 
--static hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
-+hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
-                         int *prot)
- {
-     CPUX86State *env = &X86_CPU(cs)->env;
-diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-index 7bbd3a18c9..6d39611eb6 100644
---- a/target/i386/tcg/sysemu/svm_helper.c
-+++ b/target/i386/tcg/sysemu/svm_helper.c
-@@ -120,6 +120,25 @@ static inline bool virtual_gif_enabled(CPUX86State *env)
-     return false;
- }
- 
-+static inline bool virtual_vm_load_save_enabled(CPUX86State *env, uint32_t exit_code, uintptr_t retaddr)
-+{
-+    uint64_t lbr_ctl;
-+
-+    if (likely(env->hflags & HF_GUEST_MASK)) {
-+        if (likely(!(env->hflags2 & HF2_NPT_MASK)) || !(env->efer & MSR_EFER_LMA)) {
-+            cpu_vmexit(env, exit_code, 0, retaddr);
-+        }
-+
-+        lbr_ctl = x86_ldl_phys(env_cpu(env), env->vm_vmcb + offsetof(struct vmcb,
-+                                                  control.lbr_ctl));
-+        return (env->features[FEAT_SVM] & CPUID_SVM_V_VMSAVE_VMLOAD)
-+                && (lbr_ctl & V_VMLOAD_VMSAVE_ENABLED_MASK);
-+
-+    }
-+
-+    return false;
-+}
-+
- static inline bool virtual_gif_set(CPUX86State *env)
- {
-     return !virtual_gif_enabled(env) || (env->int_ctl & V_GIF_MASK);
-@@ -431,6 +450,7 @@ void helper_vmload(CPUX86State *env, int aflag)
- {
-     CPUState *cs = env_cpu(env);
-     target_ulong addr;
-+    int prot;
- 
-     cpu_svm_check_intercept_param(env, SVM_EXIT_VMLOAD, 0, GETPC());
- 
-@@ -440,6 +460,10 @@ void helper_vmload(CPUX86State *env, int aflag)
-         addr = (uint32_t)env->regs[R_EAX];
-     }
- 
-+    if (virtual_vm_load_save_enabled(env, SVM_EXIT_VMLOAD, GETPC())) {
-+        addr = get_hphys(cs, addr, MMU_DATA_LOAD, &prot);
-+    }
-+
-     qemu_log_mask(CPU_LOG_TB_IN_ASM, "vmload! " TARGET_FMT_lx
-                   "\nFS: %016" PRIx64 " | " TARGET_FMT_lx "\n",
-                   addr, x86_ldq_phys(cs, addr + offsetof(struct vmcb,
-@@ -473,6 +497,7 @@ void helper_vmsave(CPUX86State *env, int aflag)
- {
-     CPUState *cs = env_cpu(env);
-     target_ulong addr;
-+    int prot;
- 
-     cpu_svm_check_intercept_param(env, SVM_EXIT_VMSAVE, 0, GETPC());
- 
-@@ -482,6 +507,10 @@ void helper_vmsave(CPUX86State *env, int aflag)
-         addr = (uint32_t)env->regs[R_EAX];
-     }
- 
-+    if (virtual_vm_load_save_enabled(env, SVM_EXIT_VMSAVE, GETPC())) {
-+        addr = get_hphys(cs, addr, MMU_DATA_STORE, &prot);
-+    }
-+
-     qemu_log_mask(CPU_LOG_TB_IN_ASM, "vmsave! " TARGET_FMT_lx
-                   "\nFS: %016" PRIx64 " | " TARGET_FMT_lx "\n",
-                   addr, x86_ldq_phys(cs,
+ gnutls = not_found
+ gnutls_crypto = not_found
+@@ -1244,6 +1245,7 @@ config_host_data.set('CONFIG_MPATH', mpathpersist.found())
+ config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
+ config_host_data.set('CONFIG_CURL', curl.found())
+ config_host_data.set('CONFIG_CURSES', curses.found())
++config_host_data.set('CONFIG_GBM', gbm.found())
+ config_host_data.set('CONFIG_GLUSTERFS', glusterfs.found())
+ if glusterfs.found()
+   config_host_data.set('CONFIG_GLUSTERFS_XLATOR_OPT', glusterfs.version().version_compare('>=4'))
+@@ -3083,7 +3085,7 @@ summary_info += {'U2F support':       u2f.found()}
+ summary_info += {'libusb':            libusb.found()}
+ summary_info += {'usb net redir':     usbredir.found()}
+ summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
+-summary_info += {'GBM':               config_host.has_key('CONFIG_GBM')}
++summary_info += {'GBM':               gbm.found()}
+ summary_info += {'libiscsi support':  libiscsi.found()}
+ summary_info += {'libnfs support':    libnfs.found()}
+ if targetos == 'windows'
 -- 
 2.31.1
 
