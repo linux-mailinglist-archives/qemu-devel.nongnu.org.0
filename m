@@ -2,90 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D58CE401CEB
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 16:21:43 +0200 (CEST)
-Received: from localhost ([::1]:59044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15501401CFB
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 16:25:54 +0200 (CEST)
+Received: from localhost ([::1]:35318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNFVF-00072N-Eh
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 10:21:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44384)
+	id 1mNFZJ-0001kc-58
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 10:25:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNFUH-000666-Rq
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 10:20:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32983)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mNFYB-0000gH-Ap
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 10:24:43 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNFUE-0007w9-Kc
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 10:20:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630938037;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dL8fqFL7Qspfu9BADAy4kZgpFoVsh95v7mrtNsmjcww=;
- b=UXubKYrwhPOW2V0Te/uVKbfBfl51GJDJOeKmsLv2UbiezV1tFWMaiGnwinDek+cynYjeM9
- qrZ6JAhbpDjawfyqn+twNQHWX+n590nxyxOQ5VU7Zzf+2mHZsgmkdSY781LYE0vk/kwsxr
- MKWg9d5K+w7kafisRhvPopUXiWt/QnQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-D7cDp815OrSanL0FDmvThw-1; Mon, 06 Sep 2021 10:20:36 -0400
-X-MC-Unique: D7cDp815OrSanL0FDmvThw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k5-20020a7bc3050000b02901e081f69d80so2393078wmj.8
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 07:20:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dL8fqFL7Qspfu9BADAy4kZgpFoVsh95v7mrtNsmjcww=;
- b=D/jhfefpgx6lR3Dl7F9t/sgroMKN5FGbPYxhn3C5aDt53nH0yI0st9ZSx9pwK8kUxm
- 9DWkaQqTnugj7YV/x5yoLW+Fw8ZQ974dbivjJao5IXZZSx4LALpdrrerXH5WVBkV0cdH
- rw6y71NNS8ko71HbLm1vgsVsO9qh97vxG3qqAqbnyKiPALuOYrPM/r/VMFMUCuTXT/Jn
- yUlDE1+wTxaR52o2/frq7VL7L/bvkaUoSNQJXyj5Uc6SiRTAPPiWYzV3aWOa+vZI4PS+
- 57T+RxRwCZK21UiTx2I87TqIY632+JJ04aaCoTSSFDodMGHE+Fo8qnWSJ65FThzivQWB
- roSQ==
-X-Gm-Message-State: AOAM531B/YlBbUJZ1ye0me3gILmLC/f3t8nKpv+jObuFcriGtDRPpQI4
- pHt+CE98zP13RQyVr+K7SClU8dDZlwHXgYdqZHSOmXzy7OZILs+TJCjgu72uQoxdadxCHy1DECK
- KFirzupLiqFDRjgs=
-X-Received: by 2002:a1c:f713:: with SMTP id v19mr11639206wmh.188.1630938035427; 
- Mon, 06 Sep 2021 07:20:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxUaysC9A72MdCR/bK4a3jjIfT57uINiDTEX3EMGl2EC2Ru2gNYWaRE5U7yBpq3vRyz9bkJ/w==
-X-Received: by 2002:a1c:f713:: with SMTP id v19mr11639178wmh.188.1630938035100; 
- Mon, 06 Sep 2021 07:20:35 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id f20sm7302087wml.38.2021.09.06.07.20.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Sep 2021 07:20:34 -0700 (PDT)
-Subject: Re: [PATCH 0/2] iothread: cleanup after adding a new parameter to
- IOThread
-To: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
-References: <20210727145936.147032-1-sgarzare@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8669491e-1cb1-a9af-ab5b-8e5824629691@redhat.com>
-Date: Mon, 6 Sep 2021 16:20:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mNFY9-0002vj-NR
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 10:24:43 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 186EB0Hp093857
+ for <qemu-devel@nongnu.org>; Mon, 6 Sep 2021 10:24:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=hffWge1NEV8UOwrAvY8wM1DpU+B40ZHbMxCCfrmb7vk=;
+ b=rQe9p2F+tava+Dx4WcympuJrogB5BqVSpfgWt1U2Nqv6Az6jlIsnYZtbzkIQwUHy8Rfs
+ R2vKTw9KiJ1B07elQvdovJOgDPWpzHegjinYHVgX5kfBzi6IX2pR6N3QyXJlTO/H2BtU
+ nn/KX5Fs9IrgO4AVls/MwkUPK+kujv6f7gYaIxlmQecVvI+FSsPDLQVuHtf65Q9ymOVL
+ tNUacYZMtFcc0tcJSSpgoSO3Nh7XXx9xIdlOTLpMbyy1IWDM48xuudUgDQGoNmFxk8xU
+ wRzfhpcaR65Ix49YlZ4hR+y3iVDy3fcEp5uGSH5B0zl08VnFw/AUY9APmlweq2xg6wWJ 2w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3awhbymtr3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 10:24:38 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 186EBLoV095189
+ for <qemu-devel@nongnu.org>; Mon, 6 Sep 2021 10:24:38 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3awhbymtqp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Sep 2021 10:24:38 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 186EDQdu004143;
+ Mon, 6 Sep 2021 14:24:36 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma06ams.nl.ibm.com with ESMTP id 3av02jda4f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Sep 2021 14:24:36 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 186EOXbB56033552
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 6 Sep 2021 14:24:33 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6E8484C058;
+ Mon,  6 Sep 2021 14:24:33 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 182D84C046;
+ Mon,  6 Sep 2021 14:24:33 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.69.63])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon,  6 Sep 2021 14:24:33 +0000 (GMT)
+Date: Mon, 6 Sep 2021 16:24:20 +0200
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 18/28] file-posix: try BLKSECTGET on block devices too,
+ do not round to power of 2
+Message-ID: <20210906162420.5af35eb9.pasic@linux.ibm.com>
+In-Reply-To: <20210625141822.1368639-19-pbonzini@redhat.com>
+References: <20210625141822.1368639-1-pbonzini@redhat.com>
+ <20210625141822.1368639-19-pbonzini@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210727145936.147032-1-sgarzare@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: NhCXds4iN-n0mNnkFPZ0DYwJdrb2NF_z
+X-Proofpoint-ORIG-GUID: ZnkOSNHM-w1f_j79f72tYki-lb_NSbYd
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-09-06_06:2021-09-03,
+ 2021-09-06 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ mlxscore=0 impostorscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015
+ mlxlogscore=999 priorityscore=1501 spamscore=0 adultscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2108310000
+ definitions=main-2109060090
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,22 +115,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/27/21 4:59 PM, Stefano Garzarella wrote:
-> We recently added a new parameter (aio-max-batch) to IOThread.
-> This series cleans up the code a bit, no functional changes.
-> 
-> Stefano Garzarella (2):
->   iothread: rename PollParamInfo to IOThreadParamInfo
->   iothread: use IOThreadParamInfo in iothread_[set|get]_param()
-> 
->  iothread.c | 28 +++++++++++++++-------------
->  1 file changed, 15 insertions(+), 13 deletions(-)
+On Fri, 25 Jun 2021 16:18:12 +0200
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> bs->sg is only true for character devices, but block devices can also
+> be used with scsi-block and scsi-generic.  Unfortunately BLKSECTGET
+> returns bytes in an int for /dev/sgN devices, and sectors in a short
+> for block devices, so account for that in the code.
+> 
+> The maximum transfer also need not be a power of 2 (for example I have
+> seen disks with 1280 KiB maximum transfer) so there's no need to pass
+> the result through pow2floor.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
+We have found that this patch leads to in guest I/O errors when DASD
+is used as a source device. I.e. libvirt domain xml wise something like:
+
+    <disk type='block' device='disk'>
+      <driver name='qemu' type='raw' cache='none' io='native' iothread='1'/>
+      <source dev='/dev/disk/by-id/ccw-XXXXXXX'/>
+      <backingStore/>
+      <target dev='vdb' bus='virtio'/>
+      <address type='ccw' cssid='0xfe' ssid='0x0' devno='0x0008'/>
+    </disk>
+
+I don't think it is the fault of this patch: it LGTM. But it correlates
+100%, furthermore the problem seems to be related to the value of
+bl.max_iov which now comes from sysfs. 
+
+We are still investigating what is actually wrong. Just wanted to give
+everybody a heads-up that this does seem to cause a nasty regression on
+s390x, even if the code itself is perfect.
+
+Regards,
+Halil
 
