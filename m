@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4945A401C31
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:22:47 +0200 (CEST)
-Received: from localhost ([::1]:42634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2880401C53
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:33:27 +0200 (CEST)
+Received: from localhost ([::1]:49318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNEaE-0003m4-AY
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:22:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57420)
+	id 1mNEkY-0002VV-Tk
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:33:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPR-0000oY-GS
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:37 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37747)
+ id 1mNEPT-0000s3-Tz
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:41 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPM-0007bE-CF
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:35 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- c8-20020a7bc008000000b002e6e462e95fso4981830wmb.2
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:31 -0700 (PDT)
+ id 1mNEPP-0007eB-SH
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:39 -0400
+Received: by mail-wr1-x429.google.com with SMTP id q14so9813258wrp.3
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=D2ijG6oqOKQYi5XTwrixE0f+sZD4sotEKPng4B+sT8w=;
- b=V4pLBIcHZD1KJ4b8PTQyIp7nBL4sGhmVnlznB+5g03ag5r0KERWXerSxdn7zRsCVIb
- mxhra6+1U5DQH2H8maXkHfzCxd8TZkbrLc7UVR23kSmWocEwtsp2PBRL+iS6NAYv1sPc
- v3L1AZTZypwdmUYbuJaOC9RN2twSYkXFBwVTfIOc8erJwshKtqqrkPhZ7oLfsw3Me0mJ
- b09CaxorxKgvY1BAYVBaPqZyj+w1ns2XSITY81rubc1Nk8bpHQwhwDvLsaqamUl2G/hi
- s4ZIgZHbn0SQsNKY7dK74VfCjPcYVS1Cq67C+HG6TqychElmrGVs9Expg3tkz3/777qE
- ZpCA==
+ bh=5XyDYXjjt/NUWYiGwtR+NpJd7cP/OlOItJrxJR+goho=;
+ b=G/7RGmTA6W+aHd3YprNcJx8Eo2LQ4+6f72fh4oKNDLo8XEQ5IH5foWXNpez4MBbzPz
+ OQjttFyZ2+ici656Jwzwm/ee6HuyTb2GyylxXuqw99HKeyYvZVHMqYSGUFzgiFeTKBh8
+ pEqqu8OZ3OuyykIf/ee27Rxw3xI4m2mnQs0AkkgdVwprEJy2vLIGmORpxUjoZk9rMRmH
+ pPzdzUbJxKQzO7IWkbT2Xa95a5H9B+v811BVsj02e7qDxPB3XrHFi7M++jR9ZQ5L0v8e
+ T+xl2OMgJ4ye8zzFTBbtauCnzwoQGHJbaK2Sx6zSO2gpWJPVK9IS0EjyDm+RCJ2hdSDX
+ /uEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=D2ijG6oqOKQYi5XTwrixE0f+sZD4sotEKPng4B+sT8w=;
- b=Kqevbni4Uz1TozaAUzojcAofJSMbELqYxwhUJqNkxTRL0OsYr6x7w7SQTwowJ9ukka
- KvaHRUWLF40pvRzst8tAvEUVbSQVI7+y/L+ATz/hvsp+m5q5T/L1q5L8wyuBk0e6hUfo
- tSDMgqLqpUb8rlaqgZd407Zsz5vP4+1PtdUiRZe5VgBnekd/0soLsCu10HrsBPUOxTSL
- ibdg+QbFaJeuTKFOXCWGbuza6535YyKiLQqZuX5lxCGgZ6X25BAz3S2NdcPHKNN/nymS
- RVFxR+hf7zYYeJ4GbEzI9dsgorM8HFmDkhzg8PiY5DyTFFP7KMpdkDWLWp2k4MbQOSkg
- 5xag==
-X-Gm-Message-State: AOAM530WRZAUPHnUwhgczYRcgN3UZJauhhWQhpcfBDFHpBsGHe29HQNN
- PbVQ2Fpo4qzHcbs9mGZ/tWZWVgU7vb0=
-X-Google-Smtp-Source: ABdhPJyHuwpZkJ4cAu28R4FXj0dzB72uDQ97I76FcqMoMoyAeoBblj7govwAFOiTfGYLYqFqT7jHyQ==
-X-Received: by 2002:a1c:1c2:: with SMTP id 185mr11241829wmb.11.1630933890911; 
- Mon, 06 Sep 2021 06:11:30 -0700 (PDT)
+ bh=5XyDYXjjt/NUWYiGwtR+NpJd7cP/OlOItJrxJR+goho=;
+ b=F+qZt17dey8Z/gonNBdlDXKfR64ycdsw/eeMZnl8TrDhZ9AzAan8m8tbLyE7ueMGUy
+ ZTQp4tE3aBElGSNihC/d1sjSanXLngorSgMrEEMbN9GY3BRLBN0lGo7G95G0uVsPay2J
+ xRpBEoDD2TYzJZOgmhXQmF6zCbjrMEDIqK/IpnW7IHiU+E7uJE5PaKRH36BfXcbj1vig
+ hntPtE3Rex78Th3rhVGm6TMBznUVQ5ggQfTnxhb6sO7QCjkUUAdVVD5/WC/lx3j+kcdu
+ jSfDQF/rU5x/7sRdEaJ39nSRrgd9UT+1IZ9zcek3xuP2K7AG/jwRLKIfnVLlLCrPSuUf
+ q8CQ==
+X-Gm-Message-State: AOAM533z3BS8dn5xj1j4hGOHbw/65zwcpvozTzBbWnBpYfkYB6S0NPL4
+ Sk+HKR3tdV56UiA7alMqJZeR8Phxo84=
+X-Google-Smtp-Source: ABdhPJyuAB+gPkLHTvc9hWItyPM6b2r9JFd5sIc7f1BVcxzohG44HVxjIv4VkhWX6s19Qc8TyZlaKg==
+X-Received: by 2002:adf:fec8:: with SMTP id q8mr13038291wrs.218.1630933894488; 
+ Mon, 06 Sep 2021 06:11:34 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- k4sm7992331wrm.74.2021.09.06.06.11.28
+ k4sm7992331wrm.74.2021.09.06.06.11.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 06:11:30 -0700 (PDT)
+ Mon, 06 Sep 2021 06:11:34 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/36] i386: Add SGX CPUID leaf FEAT_SGX_12_1_EAX
-Date: Mon,  6 Sep 2021 15:10:40 +0200
-Message-Id: <20210906131059.55234-18-pbonzini@redhat.com>
+Subject: [PULL 18/36] i386: Add get/set/migrate support for SGX_LEPUBKEYHASH
+ MSRs
+Date: Mon,  6 Sep 2021 15:10:41 +0200
+Message-Id: <20210906131059.55234-19-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210906131059.55234-1-pbonzini@redhat.com>
 References: <20210906131059.55234-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,94 +85,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>,
+Cc: Yang Zhong <yang.zhong@intel.com>, Kai Huang <kai.huang@intel.com>,
  Sean Christopherson <sean.j.christopherson@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-CPUID leaf 12_1_EAX is an Intel-defined feature bits leaf enumerating
-the platform's SGX capabilities that may be utilized by an enclave, e.g.
-whether or not an enclave can gain access to the provision key.
-Currently there are six capabilities:
+On real hardware, on systems that supports SGX Launch Control, those
+MSRs are initialized to digest of Intel's signing key; on systems that
+don't support SGX Launch Control, those MSRs are not available but
+hardware always uses digest of Intel's signing key in EINIT.
 
-   - INIT: set when the enclave has has been initialized by EINIT.  Cannot
-           be set by software, i.e. forced to zero in CPUID.
-   - DEBUG: permits a debugger to read/write into the enclave.
-   - MODE64BIT: the enclave runs in 64-bit mode
-   - PROVISIONKEY: grants has access to the provision key
-   - EINITTOKENKEY: grants access to the EINIT token key, i.e. the
-                    enclave can generate EINIT tokens
-   - KSS: Key Separation and Sharing enabled for the enclave.
+KVM advertises SGX LC via CPUID if and only if the MSRs are writable.
+Unconditionally initialize those MSRs to digest of Intel's signing key
+when CPU is realized and reset to reflect the fact. This avoids
+potential bug in case kvm_arch_put_registers() is called before
+kvm_arch_get_registers() is called, in which case guest's virtual
+SGX_LEPUBKEYHASH MSRs will be set to 0, although KVM initializes those
+to digest of Intel's signing key by default, since KVM allows those MSRs
+to be updated by Qemu to support live migration.
 
-Note that the entirety of CPUID.0x12.0x1, i.e. all registers, enumerates
-the allowed ATTRIBUTES (128 bits), but only bits 31:0 are directly
-exposed to the user (via FEAT_12_1_EAX).  Bits 63:32 are currently all
-reserved and bits 127:64 correspond to the allowed XSAVE Feature Request
-Mask, which is calculated based on other CPU features, e.g. XSAVE, MPX,
-AVX, etc... and is not exposed to the user.
+Save/restore the SGX Launch Enclave Public Key Hash MSRs if SGX Launch
+Control (LC) is exposed to the guest. Likewise, migrate the MSRs if they
+are writable by the guest.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+Signed-off-by: Kai Huang <kai.huang@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210719112136.57018-10-yang.zhong@intel.com>
+Message-Id: <20210719112136.57018-11-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 21 +++++++++++++++++++++
- target/i386/cpu.h |  1 +
- 2 files changed, 22 insertions(+)
+ target/i386/cpu.c     | 17 ++++++++++++++++-
+ target/i386/cpu.h     |  1 +
+ target/i386/kvm/kvm.c | 22 ++++++++++++++++++++++
+ target/i386/machine.c | 20 ++++++++++++++++++++
+ 4 files changed, 59 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index c0d5c3c621..e9ecbf59e5 100644
+index e9ecbf59e5..59cb2c2d03 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -656,6 +656,7 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
- #define TCG_14_0_ECX_FEATURES 0
- #define TCG_SGX_12_0_EAX_FEATURES 0
- #define TCG_SGX_12_0_EBX_FEATURES 0
-+#define TCG_SGX_12_1_EAX_FEATURES 0
+@@ -5700,6 +5700,16 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+     }
+ }
  
- FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-     [FEAT_1_EDX] = {
-@@ -1223,6 +1224,26 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-         },
-         .tcg_features = TCG_SGX_12_0_EBX_FEATURES,
-     },
++#ifndef CONFIG_USER_ONLY
++static void x86_cpu_set_sgxlepubkeyhash(CPUX86State *env)
++{
++    env->msr_ia32_sgxlepubkeyhash[0] = 0xa6053e051270b7acULL;
++    env->msr_ia32_sgxlepubkeyhash[1] = 0x6cfbe8ba8b3b413dULL;
++    env->msr_ia32_sgxlepubkeyhash[2] = 0xc4916d99f2b3735dULL;
++    env->msr_ia32_sgxlepubkeyhash[3] = 0xd4f8c05909f9bb3bULL;
++}
++#endif
 +
-+    [FEAT_SGX_12_1_EAX] = {
-+        .type = CPUID_FEATURE_WORD,
-+        .feat_names = {
-+            NULL, "sgx-debug", "sgx-mode64", NULL,
-+            "sgx-provisionkey", "sgx-tokenkey", NULL, "sgx-kss",
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+        },
-+        .cpuid = {
-+            .eax = 0x12,
-+            .needs_ecx = true, .ecx = 1,
-+            .reg = R_EAX,
-+        },
-+        .tcg_features = TCG_SGX_12_1_EAX_FEATURES,
-+    },
+ static void x86_cpu_reset(DeviceState *dev)
+ {
+     CPUState *s = CPU(dev);
+@@ -5832,6 +5842,8 @@ static void x86_cpu_reset(DeviceState *dev)
+     if (kvm_enabled()) {
+         kvm_arch_reset_vcpu(cpu);
+     }
++
++    x86_cpu_set_sgxlepubkeyhash(env);
+ #endif
+ }
+ 
+@@ -6214,6 +6226,10 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+            & CPUID_EXT2_AMD_ALIASES);
+     }
+ 
++#ifndef CONFIG_USER_ONLY
++    x86_cpu_set_sgxlepubkeyhash(env);
++#endif
++
+     /*
+      * note: the call to the framework needs to happen after feature expansion,
+      * but before the checks/modifications to ucode_rev, mwait, phys_bits.
+@@ -6901,7 +6917,6 @@ static const TypeInfo x86_cpu_type_info = {
+     .class_init = x86_cpu_common_class_init,
  };
  
- typedef struct FeatureMask {
+-
+ /* "base" CPU model, used by query-cpu-model-expansion */
+ static void x86_cpu_base_class_init(ObjectClass *oc, void *data)
+ {
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index bc4b7cd727..04c9e0c259 100644
+index 04c9e0c259..443b2aaa44 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -579,6 +579,7 @@ typedef enum FeatureWord {
-     FEAT_14_0_ECX,
-     FEAT_SGX_12_0_EAX,  /* CPUID[EAX=0x12,ECX=0].EAX (SGX) */
-     FEAT_SGX_12_0_EBX,  /* CPUID[EAX=0x12,ECX=0].EBX (SGX MISCSELECT[31:0]) */
-+    FEAT_SGX_12_1_EAX,  /* CPUID[EAX=0x12,ECX=1].EAX (SGX ATTRIBUTES[31:0]) */
-     FEATURE_WORDS,
- } FeatureWord;
+@@ -1515,6 +1515,7 @@ typedef struct CPUX86State {
+     uint64_t mcg_status;
+     uint64_t msr_ia32_misc_enable;
+     uint64_t msr_ia32_feature_control;
++    uint64_t msr_ia32_sgxlepubkeyhash[4];
  
+     uint64_t msr_fixed_ctr_ctrl;
+     uint64_t msr_global_ctrl;
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 500d2e0e68..11551648f9 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -3107,6 +3107,17 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
+             }
+         }
+ 
++        if (env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_SGX_LC) {
++            kvm_msr_entry_add(cpu, MSR_IA32_SGXLEPUBKEYHASH0,
++                              env->msr_ia32_sgxlepubkeyhash[0]);
++            kvm_msr_entry_add(cpu, MSR_IA32_SGXLEPUBKEYHASH1,
++                              env->msr_ia32_sgxlepubkeyhash[1]);
++            kvm_msr_entry_add(cpu, MSR_IA32_SGXLEPUBKEYHASH2,
++                              env->msr_ia32_sgxlepubkeyhash[2]);
++            kvm_msr_entry_add(cpu, MSR_IA32_SGXLEPUBKEYHASH3,
++                              env->msr_ia32_sgxlepubkeyhash[3]);
++        }
++
+         /* Note: MSR_IA32_FEATURE_CONTROL is written separately, see
+          *       kvm_put_msr_feature_control. */
+     }
+@@ -3446,6 +3457,13 @@ static int kvm_get_msrs(X86CPU *cpu)
+         }
+     }
+ 
++    if (env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_SGX_LC) {
++        kvm_msr_entry_add(cpu, MSR_IA32_SGXLEPUBKEYHASH0, 0);
++        kvm_msr_entry_add(cpu, MSR_IA32_SGXLEPUBKEYHASH1, 0);
++        kvm_msr_entry_add(cpu, MSR_IA32_SGXLEPUBKEYHASH2, 0);
++        kvm_msr_entry_add(cpu, MSR_IA32_SGXLEPUBKEYHASH3, 0);
++    }
++
+     ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_MSRS, cpu->kvm_msr_buf);
+     if (ret < 0) {
+         return ret;
+@@ -3735,6 +3753,10 @@ static int kvm_get_msrs(X86CPU *cpu)
+         case MSR_IA32_RTIT_ADDR0_A ... MSR_IA32_RTIT_ADDR3_B:
+             env->msr_rtit_addrs[index - MSR_IA32_RTIT_ADDR0_A] = msrs[i].data;
+             break;
++        case MSR_IA32_SGXLEPUBKEYHASH0 ... MSR_IA32_SGXLEPUBKEYHASH3:
++            env->msr_ia32_sgxlepubkeyhash[index - MSR_IA32_SGXLEPUBKEYHASH0] =
++                           msrs[i].data;
++            break;
+         }
+     }
+ 
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index f9ab161646..b9b6ef9670 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -1415,6 +1415,25 @@ static const VMStateDescription vmstate_msr_tsx_ctrl = {
+     }
+ };
+ 
++static bool intel_sgx_msrs_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
++
++    return !!(env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_SGX_LC);
++}
++
++static const VMStateDescription vmstate_msr_intel_sgx = {
++    .name = "cpu/intel_sgx",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = intel_sgx_msrs_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64_ARRAY(env.msr_ia32_sgxlepubkeyhash, X86CPU, 4),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ const VMStateDescription vmstate_x86_cpu = {
+     .name = "cpu",
+     .version_id = 12,
+@@ -1551,6 +1570,7 @@ const VMStateDescription vmstate_x86_cpu = {
+         &vmstate_nested_state,
+ #endif
+         &vmstate_msr_tsx_ctrl,
++        &vmstate_msr_intel_sgx,
+         NULL
+     }
+ };
 -- 
 2.31.1
 
