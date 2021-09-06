@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9764015CF
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 06:57:06 +0200 (CEST)
-Received: from localhost ([::1]:56846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F12E74015FA
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 07:32:10 +0200 (CEST)
+Received: from localhost ([::1]:39072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mN6gq-0002e6-E8
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 00:57:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39310)
+	id 1mN7Ej-0003FR-RN
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 01:32:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mN6fS-0001Bb-CF
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 00:55:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23908)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mN6fO-0003c3-Ol
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 00:55:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630904132;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kpsXOEp6nHTVSNmlud4LOiGEbv5zoGmB3vhFN6ZWJ7k=;
- b=A4EXTbRtFuSabS8p/gWolCnaraooTFqv0lW75uzH+YlTSwtJbZqPjhMy/1rtb2WJixAEf2
- WZd+Z1BF96V8YqN3YgNGOUQuI5ahSVpVKhZgcExu1FVCyIhuBMjNFhIT8cYyP6ov6YpMaI
- FgJQskDUFaO5U5zMUF+g/QzSGGmLOac=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-575-k5XsDvKpO42vGx5uuU_DpQ-1; Mon, 06 Sep 2021 00:55:29 -0400
-X-MC-Unique: k5XsDvKpO42vGx5uuU_DpQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FFF6107ACC7;
- Mon,  6 Sep 2021 04:55:28 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4208D5D9CA;
- Mon,  6 Sep 2021 04:55:25 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8B0A018007A6; Mon,  6 Sep 2021 06:55:23 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] usb-storage: tag usb_msd_csw as packed struct
-Date: Mon,  6 Sep 2021 06:55:23 +0200
-Message-Id: <20210906045523.1259629-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mN7Cb-0002Mf-PI; Mon, 06 Sep 2021 01:29:53 -0400
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:34625)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mN7CZ-0006wl-FH; Mon, 06 Sep 2021 01:29:52 -0400
+Received: by mail-io1-xd2e.google.com with SMTP id y18so7251820ioc.1;
+ Sun, 05 Sep 2021 22:29:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SFGtSu5Kb1jP766/zwxI4TPZNufOd9h5gJOteHMK0Kw=;
+ b=Zob8+fb0OZCMyJbzAXyvDfrZMUEoS4tVeyurGHsAcNDP5BpzJL0KZYGR66qf6yM6dr
+ OmKar2q8jsH2wkQSggGPKd03IstkKfO42Ly3GdK6h25Cr3IiaG/S3btI2BWTj2Wm9Njt
+ 5uzYWqvqqgd5Q3NgSG4ppOsjd3RxyCrOlF6KImJin6R7abJIJvBllVvBlbOZNyWW2dew
+ eGK498K57dHMiud2zO1Rh37pZZmlBJxJqUwuPvU4Sid9hVhkyBvnP3xQIbHTAhfi0nyw
+ WKIoYNCj93TrgEVZqY6AzyXO8SJp6GikSxhaSD1QRmiXKUFNjsmVzF6eDCLFZ7lBe67/
+ kT1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SFGtSu5Kb1jP766/zwxI4TPZNufOd9h5gJOteHMK0Kw=;
+ b=AAAZYk7tgt3dt21bR1lpJcgVzxoxOgPVwEEr3LkdIO6ui06h02hA9dU1jLNHwwP/nJ
+ G5NNgNs4J7AMmqIZpYHmnhy3FYxqj90jvNJ9aR8v6RiKlF9c9vxuH9lcjLaAhNgJJMZe
+ fGq24fVUYyfQrr3nHH2AmYOdAwZv1RcyfovNhQLblTSVE8EBebPgPGMouoOuLZxlXBxF
+ kJkSmC/KWg7PDFR4iCxJOeBzrpTIF0c4zqw0wYX2FEh/YU+YFtxWZWPLxnmkkF3quwaW
+ t5iIMzu2KUQZHBKORIPNiT6+NUplDv5GIGQEsn3yTnrfPmbfQ2dXmwlse7nduQkm7Riq
+ 5Vnw==
+X-Gm-Message-State: AOAM530CHJKrUwurctEBsfga5nZl717h1FqWeSh/bifogB3xpCCHN6qM
+ qsf7YkdFcudaV8CkVJGDHXGFsbluprrg7LVXGzM=
+X-Google-Smtp-Source: ABdhPJzC1ObVLmH2Vn01yl1aiuRevwhEuwSeFJcv2CaxJClXBUUsdlp6vX/kmsJiXlxccMSjHPQhzk0TftM5yWvT7KU=
+X-Received: by 2002:a6b:ce17:: with SMTP id p23mr8415665iob.90.1630906189418; 
+ Sun, 05 Sep 2021 22:29:49 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210901124539.222868-1-zhiwei_liu@c-sky.com>
+In-Reply-To: <20210901124539.222868-1-zhiwei_liu@c-sky.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 6 Sep 2021 15:29:23 +1000
+Message-ID: <CAKmqyKOyosTvRKvzMieqiqa46YNyJNFPRcRZprqBtmu1OFZRNg@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Fix satp write
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,39 +75,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vintagepc404@protonmail.com, Gerd Hoffmann <kraxel@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Without this the struct has the wrong size: sizeof() evaluates
-to 16 instead of 13.  In most cases the bug is hidden by the
-fact that guests submits a buffer which is exactly 13 bytes
-long, so the padding added by the compiler is simply ignored.
+On Wed, Sep 1, 2021 at 10:51 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> These variables should be target_ulong. If truncated to int,
+> the bool conditions they indicate will be wrong.
+>
+> As satp is very important for Linux, this bug almost fails every boot.
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 
-But sometimes guests submit a larger buffer and expect a short
-transfer, which does not work properly with the wrong struct
-size.
+Thanks!
 
-Cc: vintagepc404@protonmail.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- include/hw/usb/msd.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to riscv-to-apply.next
 
-diff --git a/include/hw/usb/msd.h b/include/hw/usb/msd.h
-index 7538c54569bf..54e9f38bda46 100644
---- a/include/hw/usb/msd.h
-+++ b/include/hw/usb/msd.h
-@@ -17,7 +17,7 @@ enum USBMSDMode {
-     USB_MSDM_CSW /* Command Status.  */
- };
- 
--struct usb_msd_csw {
-+struct QEMU_PACKED usb_msd_csw {
-     uint32_t sig;
-     uint32_t tag;
-     uint32_t residue;
--- 
-2.31.1
+Alistair
 
+> ---
+>  target/riscv/csr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 50a2c3a3b4..ba9818f6a5 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -986,7 +986,7 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
+>  static RISCVException write_satp(CPURISCVState *env, int csrno,
+>                                   target_ulong val)
+>  {
+> -    int vm, mask, asid;
+> +    target_ulong vm, mask, asid;
+>
+>      if (!riscv_feature(env, RISCV_FEATURE_MMU)) {
+>          return RISCV_EXCP_NONE;
+> --
+> 2.25.1
+>
+>
 
