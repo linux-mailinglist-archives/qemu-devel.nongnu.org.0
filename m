@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873F040195E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 12:00:20 +0200 (CEST)
-Received: from localhost ([::1]:56612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2347C401961
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 12:02:29 +0200 (CEST)
+Received: from localhost ([::1]:60414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNBQJ-0007tr-3S
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 06:00:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41588)
+	id 1mNBSO-00029c-6a
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 06:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNBOt-0006ya-Uf
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:58:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48562)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNBNe-0006FS-Je
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:57:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNBOs-0001LV-6X
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:58:51 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNBNc-0000JW-TC
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:57:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630922329;
+ s=mimecast20190719; t=1630922251;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZbQMl5J7M5IF9S7E3ujoshf8dI8GnwxUCGqqZr1RkFQ=;
- b=dnROekVAuamMd3kvmUZj5tKIhGMhe7RtRGZ0Y3rxWjTvy4UX8/nOqTsGTqFUXib6nwgQc7
- i0fCH//GyFieEsjht7fZLNkzPddN7Ya9RA5pKud/P4l26kIKaw5Cp4oXbHo6ooR1L8ukgq
- KWZ7NJuYgpHZNXToOD0uQcf3apgjJgc=
+ bh=dSXOgrr66XXF9S+NYHIEwV5TLpP6dUZoG8ILYonFWSk=;
+ b=J8xN4IU+KP/5Tg8tLeiG9uqaouRMtA6ePRgp3SQ65RDzdqB2gWLV5gX/EG/7dOC+yraxnt
+ dN7X6Fo7GrKMSPt6wki9im1FUuaD8IEAYOkfhxKnBczr2KnORc2Kx5RpUWUQaoaumzTxS0
+ /iK7vSzfTPoItDq+ZGXiN0XcXS1hSLI=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-PLx5x31NPreJ4ow1oHMDig-1; Mon, 06 Sep 2021 05:58:47 -0400
-X-MC-Unique: PLx5x31NPreJ4ow1oHMDig-1
+ us-mta-314-Qqv65zuwOU2Be6r2lQprNA-1; Mon, 06 Sep 2021 05:57:28 -0400
+X-MC-Unique: Qqv65zuwOU2Be6r2lQprNA-1
 Received: by mail-wm1-f69.google.com with SMTP id
- h1-20020a05600c350100b002e751bf6733so3016730wmq.8
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 02:58:47 -0700 (PDT)
+ k5-20020a7bc3050000b02901e081f69d80so2145435wmj.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 02:57:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ZbQMl5J7M5IF9S7E3ujoshf8dI8GnwxUCGqqZr1RkFQ=;
- b=blAWpmb6BJfO5RK0bdyKRQMuBSMIlm5rIMZmwRyzaD+Wn1OangDGFrsC7p2vtDJJrM
- BkbNBCUJQlnxXb2b9SzUXbTG1NrO3kpLil2JUF+FGw83AxPdqGMu+apqciE4XC9UTeLe
- jO1TbjaZjMxIvBpBLUyiZQyd1pKAcIeCHG1OGSVLFE+TKa5n8QIRJZIaW6TeLPc0LYCo
- tKU7yBYqVFL2M60ppJ8aQ9p7rHBitfpo7iu+PydLgVd27Z02GfVJe8Cvtw1ds7qHJivv
- CvW1QhVS48W7xlWCYdHFnpLG6CXlGy1yfqHxAq0G18gq711Qfji7hM+mevU7EX3IsmHo
- ILHQ==
-X-Gm-Message-State: AOAM530E9JlW+WRjRfcFX57DugVBeakjXvzPnE83cnpnPlUO7HOeEwT3
- HHgKrGkgORYTLmKP3znfe4bn03EKuTCZfF14sYO/Ko/IPqkWYn/iIsCge8f6MifTGc4xDQxhZ+d
- pQibLm/Q5MM4pcgo=
-X-Received: by 2002:adf:f08b:: with SMTP id n11mr12414833wro.176.1630922326743; 
- Mon, 06 Sep 2021 02:58:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxTEjmatabs5se9QFJViWNbNX0cHirayBDsHSy59yYzXgu5xIcLfJVA54slCqyMgrrxrrD1VA==
-X-Received: by 2002:adf:f08b:: with SMTP id n11mr12414817wro.176.1630922326547; 
- Mon, 06 Sep 2021 02:58:46 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id k16sm7402931wrh.24.2021.09.06.02.58.45
+ bh=dSXOgrr66XXF9S+NYHIEwV5TLpP6dUZoG8ILYonFWSk=;
+ b=UaVgGJ8bPxN90/UItjWZZG7zA7oFc+GkiC9RhY8uBzXe+f376VYjtqf+7A90OZF4AB
+ amEASvfJAC+tQJRkdq6VYC80ZsyBdO3b9DkybHBuMRkYRup+nH4cfgf0f8AQa4FEPbpT
+ cLA0q4liSg6LskftKeOQw+uKKt4xHQ2FHiqArha3M9CEwcvGW6wKvUJg95X2vhENzpgf
+ AI7v0q5IaUKAIR4K0g+URY8DBLS7K+xMoYuNlXjLSEvHzbw/6YVetBRKOdMKBDarCzat
+ lD/gQK80UbElmM6ComtYdOfi4ddDWBhIweJHT1GyzoU2xAL7YEm+drB+Og6VjH85AAP0
+ Zg6w==
+X-Gm-Message-State: AOAM531q1XciWixytNfkmMTbmoKa4r7fDdYhrm3+QwYdmZaOgCKaN7kq
+ 5gdIFY4P/HHMbL/FXPjvNJHmEuisB+BQiQXDogySoPjXRnGYUAV1JUMehku3T6cSNiLT3Eg8PIf
+ YRBdlORnXNW1qqa8=
+X-Received: by 2002:a1c:f00a:: with SMTP id a10mr10307924wmb.112.1630922247654; 
+ Mon, 06 Sep 2021 02:57:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz4ak0lXzp7I5U4GtG4BPZTEQueUItaTApSUgIPdMX8roT6IR52M8O1gchT+rrk9vYZxuX2eQ==
+X-Received: by 2002:a1c:f00a:: with SMTP id a10mr10307906wmb.112.1630922247455; 
+ Mon, 06 Sep 2021 02:57:27 -0700 (PDT)
+Received: from thuth.remote.csb (pd9e831a0.dip0.t-ipconnect.de.
+ [217.232.49.160])
+ by smtp.gmail.com with ESMTPSA id l187sm6807477wml.39.2021.09.06.02.57.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Sep 2021 02:58:45 -0700 (PDT)
-Subject: Re: [PULL 06/35] hw/acpi: refactor acpi hp modules so that targets
- can just use what they need
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-References: <20210904213506.486886-1-mst@redhat.com>
- <20210904213506.486886-7-mst@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <6a9c2fde-317d-bd31-5a8c-135446b881dc@redhat.com>
-Date: Mon, 6 Sep 2021 11:58:44 +0200
+ Mon, 06 Sep 2021 02:57:27 -0700 (PDT)
+Subject: Re: [PATCH v3 02/13] s390x/tcg: fix ignoring bit 63 when setting the
+ storage key in SSKE
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210903155514.44772-1-david@redhat.com>
+ <20210903155514.44772-3-david@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <83186465-1a04-ffa9-c384-cee4f084965d@redhat.com>
+Date: Mon, 6 Sep 2021 11:57:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210904213506.486886-7-mst@redhat.com>
+In-Reply-To: <20210903155514.44772-3-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -69
 X-Spam_score: -7.0
@@ -86,7 +86,7 @@ X-Spam_bar: -------
 X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-3.832, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,64 +99,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>
+Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Ani,
-
-On 9/4/21 11:36 PM, Michael S. Tsirkin wrote:
-> From: Ani Sinha <ani@anisinha.ca>
+On 03/09/2021 17.55, David Hildenbrand wrote:
+> Right now we could set an 8-bit storage key via SSKE and retrieve it
+> again via ISKE, which is against the architecture description:
 > 
-> Currently various acpi hotplug modules like cpu hotplug, memory hotplug, pci
-> hotplug, nvdimm hotplug are all pulled in when CONFIG_ACPI_X86 is turned on.
-> This brings in support for whole lot of subsystems that some targets like
-> mips does not need. They are added just to satisfy symbol dependencies. This
-> is ugly and should be avoided. Targets should be able to pull in just what they
-> need and no more. For example, mips only needs support for PIIX4 and does not
-> need acpi pci hotplug support or cpu hotplug support or memory hotplug support
-> etc. This change is an effort to clean this up.
-> In this change, new config variables are added for various acpi hotplug
-> subsystems. Targets like mips can only enable PIIX4 support and not the rest
-> of all the other modules which were being previously pulled in as a part of
-> CONFIG_ACPI_X86. Function stubs make sure that symbols which piix4 needs but
-> are not required by mips (for example, symbols specific to pci hotplug etc)
-> are available to satisfy the dependencies.
+> SSKE:
+> "
+> The new seven-bit storage-key value, or selected bits
+> thereof, is obtained from bit positions 56-62 of gen-
+> eral register R 1 . The contents of bit positions 0-55
+> and 63 of the register are ignored.
+> "
 > 
-> Currently, this change only addresses issues with mips malta targets. In future
-> we might be able to clean up other targets which are similarly pulling in lot
-> of unnecessary hotplug modules by enabling ACPI_X86.
+> ISKE:
+> "
+> The seven-bit storage key is inserted in bit positions
+> 56-62 of general register R 1 , and bit 63 is set to zero.
+> "
 > 
-> This change should also address issues such as the following:
-> https://gitlab.com/qemu-project/qemu/-/issues/221
-> https://gitlab.com/qemu-project/qemu/-/issues/193
-
-FYI per https://docs.gitlab.com/ee/administration/issue_closing_pattern.html
-this should have been:
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/193
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/221
-
-Can we close these issues manually?
-
-> Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> Message-Id: <20210812071409.492299-1-ani@anisinha.ca>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> Let's properly ignore bit 63 to create the correct seven-bit storage key.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  configs/devices/mips-softmmu/common.mak |  5 +--
->  hw/acpi/acpi-cpu-hotplug-stub.c         | 50 +++++++++++++++++++++++++
->  hw/acpi/acpi-mem-hotplug-stub.c         | 35 +++++++++++++++++
->  hw/acpi/acpi-nvdimm-stub.c              |  8 ++++
->  hw/acpi/acpi-pci-hotplug-stub.c         | 47 +++++++++++++++++++++++
->  hw/acpi/Kconfig                         | 10 +++++
->  hw/acpi/meson.build                     | 14 +++++--
->  7 files changed, 161 insertions(+), 8 deletions(-)
->  create mode 100644 hw/acpi/acpi-cpu-hotplug-stub.c
->  create mode 100644 hw/acpi/acpi-mem-hotplug-stub.c
->  create mode 100644 hw/acpi/acpi-nvdimm-stub.c
->  create mode 100644 hw/acpi/acpi-pci-hotplug-stub.c
+>   target/s390x/tcg/mem_helper.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
+> index e0befd0f03..3c0820dd74 100644
+> --- a/target/s390x/tcg/mem_helper.c
+> +++ b/target/s390x/tcg/mem_helper.c
+> @@ -2210,7 +2210,7 @@ void HELPER(sske)(CPUS390XState *env, uint64_t r1, uint64_t r2)
+>           skeyclass = S390_SKEYS_GET_CLASS(ss);
+>       }
+>   
+> -    key = (uint8_t) r1;
+> +    key = r1 & 0xfe;
+>       skeyclass->set_skeys(ss, addr / TARGET_PAGE_SIZE, 1, &key);
+>      /*
+>       * As we can only flush by virtual address and not all the entries
+> 
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
