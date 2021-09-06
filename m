@@ -2,47 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3E4401DAE
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 17:35:12 +0200 (CEST)
-Received: from localhost ([::1]:35484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 655D3401DB4
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 17:41:12 +0200 (CEST)
+Received: from localhost ([::1]:39030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNGeN-0003vJ-JN
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 11:35:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60438)
+	id 1mNGkB-0006ns-Fj
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 11:41:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andre.przywara@arm.com>)
- id 1mNGdd-0003F8-9J
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 11:34:25 -0400
-Received: from foss.arm.com ([217.140.110.172]:49406)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <andre.przywara@arm.com>) id 1mNGda-0003oZ-LU
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 11:34:24 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7228D31B;
- Mon,  6 Sep 2021 08:34:19 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E03483F766;
- Mon,  6 Sep 2021 08:34:18 -0700 (PDT)
-Date: Mon, 6 Sep 2021 16:34:03 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Adam Lackorzynski <adam@l4re.org>
-Subject: Re: arm: Launching EFI-enabled arm32 Linux
-Message-ID: <20210906163403.7b091544@slackpad.fritz.box>
-In-Reply-To: <YTPIdbUCmwagL5/D@os.inf.tu-dresden.de>
-References: <YTPIdbUCmwagL5/D@os.inf.tu-dresden.de>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNGiw-0005sV-3P
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 11:39:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23687)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNGiu-0008Pq-Ig
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 11:39:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630942791;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Pw1OLeUjx5dQ8FgIh/sQ8h366t8hELvcoSaqQifC8i0=;
+ b=QX3nlgrs23E4rh+7PNKcnOTbzILc8KMGLgLTwsg7CHZ5sXxJC781b+8cGhatNxdWFJKt9H
+ /2t6vSPVO23wdZIDNhwCv3kfJBHReQj55K0M3qGwqU0WfBiCgYdC+Q9rSBe8qRh7gYpKJ1
+ g3YzLYY15crwf3kVw/S5yFzxJChPX7s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-306-6qkMlnMNM4S9Tg2A8Ykrag-1; Mon, 06 Sep 2021 11:39:49 -0400
+X-MC-Unique: 6qkMlnMNM4S9Tg2A8Ykrag-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2B45100C60B
+ for <qemu-devel@nongnu.org>; Mon,  6 Sep 2021 15:39:48 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDA6310016F2;
+ Mon,  6 Sep 2021 15:39:43 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] meson.build: Do not look for VNC-related libraries if
+ have_system is not set
+Date: Mon,  6 Sep 2021 17:39:39 +0200
+Message-Id: <20210906153939.165567-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=andre.przywara@arm.com; helo=foss.arm.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,56 +75,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 4 Sep 2021 21:26:45 +0200
-Adam Lackorzynski <adam@l4re.org> wrote:
+When running "./configure --static --disable-system" there is currently
+a warning if the static version of libpng is missing:
 
-Hi Adam,
+ WARNING: Static library 'png16' not found for dependency 'libpng', may not
+ be statically linked
 
-> while trying to launch an EFI-enabled arm32 Linux binary (zImage) I
-> noticed I get an undefined instruction exception on the first
-> instruction. Now this is a bit special because Linux uses a nop
-> instruction there that also is a PE file signature ('MZ') such that the
-> CPU runs over it and the file is still recognized as a PE binary. Linux
-> uses 0x13105a4d (tstne r0, #0x4d000) as the instruction (see also
-> arch/arm/boot/compressed/head.S and efi-header.S in Linux).
-> However, QEMU's instruction decoder will only recognize TST with bits
-> 12-15 being 0, which this instruction is not fullfilling, and thus the
-> undef exception. I guess other CPU implementations will allow this
-> encoding. So while investigating I was doing the following to make Linux
-> proceed. I also believe this was working in a previous version of QEMU.
-> 
-> diff --git a/target/arm/a32.decode b/target/arm/a32.decode
-> index fcd8cd4f7d..222553750e 100644
-> --- a/target/arm/a32.decode
-> +++ b/target/arm/a32.decode
-> @@ -127,7 +127,7 @@ ADD_rri          .... 001 0100 . .... .... ............       @s_rri_rot
->  ADC_rri          .... 001 0101 . .... .... ............       @s_rri_rot
->  SBC_rri          .... 001 0110 . .... .... ............       @s_rri_rot
->  RSC_rri          .... 001 0111 . .... .... ............       @s_rri_rot
-> -TST_xri          .... 001 1000 1 .... 0000 ............       @S_xri_rot
-> +TST_xri          .... 001 1000 1 .... ---- ............       @S_xri_rot
->  TEQ_xri          .... 001 1001 1 .... 0000 ............       @S_xri_rot
->  CMP_xri          .... 001 1010 1 .... 0000 ............       @S_xri_rot
->  CMN_xri          .... 001 1011 1 .... 0000 ............       @S_xri_rot
-> 
-> 
-> Any thoughts on this?
+Since it does not make sense to look for the VNC-related libraries at all
+when we're building without system emulator binaries, let's add a check
+for have_system here to silence this warning.
 
-thanks for the report, I was looking at this and have a kernel patch
-to fix this properly as Peter suggested. And while I agree on the
-problem, I was struggling to reproduce this in reality: both with
--kernel and when booting through U-Boot the "Z" bit is set, which lets
-QEMU not even bother about the rest of the encoding - the condition
-flags don't match, so it proceeds. If I change the __nop to use "tsteq",
-I see it hanging due to the missing exception handler, but not with
-"tstne".
-So can you say how you spotted this issue? This would be needed as a
-justification for patching the guts of the ARM Linux kernel port.
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-Andre
+diff --git a/meson.build b/meson.build
+index 7e58e6279b..f07236d947 100644
+--- a/meson.build
++++ b/meson.build
+@@ -931,7 +931,7 @@ vnc = not_found
+ png = not_found
+ jpeg = not_found
+ sasl = not_found
+-if not get_option('vnc').disabled()
++if have_system and not get_option('vnc').disabled()
+   vnc = declare_dependency() # dummy dependency
+   png = dependency('libpng', required: get_option('vnc_png'),
+                    method: 'pkg-config', kwargs: static_kwargs)
+-- 
+2.27.0
+
 
