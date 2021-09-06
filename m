@@ -2,92 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48101401F7E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 20:21:23 +0200 (CEST)
-Received: from localhost ([::1]:47350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD816401FD1
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 20:44:18 +0200 (CEST)
+Received: from localhost ([::1]:39676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNJFA-0005S8-14
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 14:21:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33576)
+	id 1mNJbN-0003H9-Cd
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 14:44:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNJDf-0004IT-6W
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 14:19:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46555)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNJDa-0003rs-4e
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 14:19:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630952380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D8dxmYI32cw4JsBNx46CVHGrUFngfBvv9tbQcMLU6p4=;
- b=Q3Qfe8vuAh+qMTctJQgg5YHAcKvrX7G22Bx4HgYXYaAzHFUTLwLBOhrYdkFXmLVOIXbx+c
- HgyMGRXTausm0LM9So6hTXkfzsIC+7uPyxcBMGZE+h2kydxLhXGM1kdBiH+JXXaO1eNoxu
- G+AZCP6hfmIUkhReRvUSb+ZUkB+atos=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-l_XZO4_eMPaTRj5XkCaPzw-1; Mon, 06 Sep 2021 14:19:39 -0400
-X-MC-Unique: l_XZO4_eMPaTRj5XkCaPzw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- s197-20020a1ca9ce000000b002e72ba822dcso32068wme.6
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 11:19:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mNJZ9-0001jO-As
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 14:41:59 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46948)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mNJZ4-00023Q-LX
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 14:41:58 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id x6so10982623wrv.13
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 11:41:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fBvu+EUAVp2BPTIvZztAaEjtfTNnk94JKHuVT8cnyIA=;
+ b=s15HJNfivbPHRbv995vP7V2QFGgIFDboV1V/lUgjUJTjaLN5lrpaDUIlV3+8O3AHQm
+ GMonds89I0ejeRfGDXdwhqjQZxMry30DyuitnXoroH6ZNB3nYmCDq9F3dp/314h4+Nw9
+ iRLHKmS7WyF0XqrFhR+3NBZH9OfN2YPZsgPw70beFbhXcTX3YtE4R/NyZ7upqBVROTHw
+ xJOg8hziHnv0LdaVntC7JAc4eiVo2FfWD2BDbwdVqLQ/NRIAoSriEFY5IMFDJUyk/54R
+ /AK8lkuiL1OEhzHQHJ7QWIarKI16LnxMTkgWI1yWpgxarE5uJ70OS6h4IVpxa5VyesXS
+ /7Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=D8dxmYI32cw4JsBNx46CVHGrUFngfBvv9tbQcMLU6p4=;
- b=BVDGRqHbRKffpWH++XQkiWGeBl81FvsLaQ3wkjEJTMuaHOnvMVC/0zWvWI11rvH0bX
- SuFngkMHhZ69mFr8ui83y8fnCeR1RbqTPrPHTBwgAt4gswWvnhwuhaRBMmNW+e4v/nWF
- LOLeTS7QeZTXf+3nJdDheyge/wvYeX4AFpy6Znal097liFGCESHG5iRd2raJpnDwwewk
- 37WWIdjXnyuyyo9Cy9zd4YUg1eQtIzLMt/zkxaZvZM/OJ0Fzww8FuzJDAfF8TnH7aSyk
- s8RLgyvIjyYixLRW+vAQh+ZewESCbwrutl0ed7MsRATsvttD2ZEgBMMHafnd76kO8BUu
- GK/A==
-X-Gm-Message-State: AOAM532ARiNkQu74niVzIirRqXpbA6uTSfhKMoS9kMNIpCDvRpDHFkse
- drtoXAeIx4oL6MTXf7g/l1HWtsZDmCVFNwGU39pTeoSVQ0qF3iygTnmtOusO1GyCRGFcb/B5Nx5
- p44FGxar4A8oBUlI=
-X-Received: by 2002:a5d:464c:: with SMTP id j12mr15110411wrs.27.1630952376852; 
- Mon, 06 Sep 2021 11:19:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw8NX7S4RHtSuQuWNNAL461Ol5fiSTDuncccEesR8fML4cELlIDQgO1Qqs6STCwJY3LUU+gQA==
-X-Received: by 2002:a5d:464c:: with SMTP id j12mr15110376wrs.27.1630952376528; 
- Mon, 06 Sep 2021 11:19:36 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id i4sm264949wmd.5.2021.09.06.11.19.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Sep 2021 11:19:36 -0700 (PDT)
-Subject: Re: [PATCH] hw/display/ati_2d: Fix buffer overflow in ati_2d_blt
- (CVE-2021-3638)
-To: Mauro Matteo Cascella <mcascell@redhat.com>,
- Alexander Bulekov <alxndr@redhat.com>
-References: <20210906153103.1661195-1-philmd@redhat.com>
- <CAA8xKjXkDwPYxSAeRb+2mfHRrbiL_kh9unVkemFXLfF68UXePA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3ef43b0d-4b89-85a4-f2bf-b7f8a256d1db@redhat.com>
-Date: Mon, 6 Sep 2021 20:19:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fBvu+EUAVp2BPTIvZztAaEjtfTNnk94JKHuVT8cnyIA=;
+ b=aMR7R7CTrUZyYem02i643G22Zw+HEQk3K4phUiWUKtwSiB0+2UAOC2rPsWX9Hd4eFT
+ myF/Dk6w9o+6Xfq7jXd5hGEj4d+DKzspmfxeRiD8hicVy52jbV9eVM/xXKt8KzsDe1Vt
+ im/zZlPR+bT3w0v8Gz5sS5pugpzx3F5OVJCsHnSrdWuEnckqZE3VJzjWcdNL/bYKoIKx
+ OyZGs0OaYhPGUFsRMiw4liWaFLwpVu9aiuev8l083lxO3xhrVxRcYI4CI8dt5io9YkcK
+ HLAJmNEsUHZNheQrIqy2ROYvIvKBySXJfXaLPT7RKUbfU3oKtrtthRf6jmF7SiP4LkdE
+ HVbQ==
+X-Gm-Message-State: AOAM5310lAHNUtiSo3SVbmOs5eUs78DorDZKiSCeAnh7dl6fgpsqeDRy
+ 1RoNR2DhkCY+lQw6wjosz0x55/h5223cktydmA9LkmW/OvSmxQ==
+X-Google-Smtp-Source: ABdhPJxZtLeXRt0SbLLlMndeEp4To3y3Hi/QIFRFldE/PE+8GvYQjVpWDj+ki3jqWN5wTd4/ZzxVSysTQeS5xJ6zV2g=
+X-Received: by 2002:a5d:6cae:: with SMTP id a14mr15189140wra.275.1630953712760; 
+ Mon, 06 Sep 2021 11:41:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAA8xKjXkDwPYxSAeRb+2mfHRrbiL_kh9unVkemFXLfF68UXePA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <cover.1630941575.git.mjt@msgid.tls.msk.ru>
+In-Reply-To: <cover.1630941575.git.mjt@msgid.tls.msk.ru>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 6 Sep 2021 19:41:03 +0100
+Message-ID: <CAFEAcA_gnDs61BMPgwwBKoGgJDKZGeTSBAs=JAiqQQarE3DiNA@mail.gmail.com>
+Subject: Re: [PULL] qemu-socket unix socket bugfix 2021-09-06
+To: Michael Tokarev <mjt@tls.msk.ru>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,102 +76,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qiang Liu <qiangliu@zju.edu.cn>, Prasad J Pandit <pjp@fedoraproject.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Gaoning Pan <pgn@zju.edu.cn>, Ziming Zhang <ezrakiez@gmail.com>,
- Salvatore Bonaccorso <carnil@debian.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(Forgot to Cc Alex for eventual reproducer)
+On Mon, 6 Sept 2021 at 16:21, Michael Tokarev <mjt@tls.msk.ru> wrote:
+>
+> The following changes since commit 935efca6c246c108253b0e4e51cc87648fc7ca10:
+>
+>   Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021-09-06' into staging (2021-09-06 12:38:07 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.corpit.ru/qemu.git tags/patch-fetch
+>
+> for you to fetch changes up to 118d527f2e4baec5fe8060b22a6212468b8e4d3f:
+>
+>   qemu-sockets: fix unix socket path copy (again) (2021-09-06 17:18:54 +0300)
+>
+> ----------------------------------------------------------------
+> qemu-socket unix socket bugfix 2021-09-06
+>
+> ----------------------------------------------------------------
+> Michael Tokarev (1):
+>       qemu-sockets: fix unix socket path copy (again)
 
-On 9/6/21 6:44 PM, Mauro Matteo Cascella wrote:
-> On Mon, Sep 6, 2021 at 5:31 PM Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> When building QEMU with DEBUG_ATI defined then running with
->> '-device ati-vga,romfile="" -d unimp,guest_errors -trace ati\*'
->> we get:
->>
->>   ati_mm_write 4 0x16c0 DP_CNTL <- 0x1
->>   ati_mm_write 4 0x146c DP_GUI_MASTER_CNTL <- 0x2
->>   ati_mm_write 4 0x16c8 DP_MIX <- 0xff0000
->>   ati_mm_write 4 0x16c4 DP_DATATYPE <- 0x2
->>   ati_mm_write 4 0x224 CRTC_OFFSET <- 0x0
->>   ati_mm_write 4 0x142c DST_PITCH_OFFSET <- 0xfe00000
->>   ati_mm_write 4 0x1420 DST_Y <- 0x3fff
->>   ati_mm_write 4 0x1410 DST_HEIGHT <- 0x3fff
->>   ati_mm_write 4 0x1588 DST_WIDTH_X <- 0x3fff3fff
->>   ati_2d_blt: vram:0x7fff5fa00000 addr:0 ds:0x7fff61273800 stride:2560 bpp:32 rop:0xff
->>   ati_2d_blt: 0 0 0, 0 127 0, (0,0) -> (16383,16383) 16383x16383 > ^
->>   ati_2d_blt: pixman_fill(dst:0x7fff5fa00000, stride:254, bpp:8, x:16383, y:16383, w:16383, h:16383, xor:0xff000000)
->>   Thread 3 "qemu-system-i38" received signal SIGSEGV, Segmentation fault.
->>   (gdb) bt
->>   #0  0x00007ffff7f62ce0 in sse2_fill.lto_priv () at /lib64/libpixman-1.so.0
->>   #1  0x00007ffff7f09278 in pixman_fill () at /lib64/libpixman-1.so.0
->>   #2  0x0000555557b5a9af in ati_2d_blt (s=0x631000028800) at hw/display/ati_2d.c:196
->>   #3  0x0000555557b4b5a2 in ati_mm_write (opaque=0x631000028800, addr=5512, data=1073692671, size=4) at hw/display/ati.c:843
->>   #4  0x0000555558b90ec4 in memory_region_write_accessor (mr=0x631000039cc0, addr=5512, ..., size=4, ...) at softmmu/memory.c:492
->>
->> Commit 584acf34cb0 ("ati-vga: Fix reverse bit blts") introduced
->> the local dst_x and dst_y which adjust the (x, y) coordinates
->> depending on the direction in the SRCCOPY ROP3 operation, but
->> forgot to address the same issue for the PATCOPY, BLACKNESS and
->> WHITENESS operations, which also call pixman_fill().
->>
->> Fix that now by using the adjusted coordinates in the pixman_fill
->> call, and update the related debug printf().
->>
->> Reported-by: Qiang Liu <qiangliu@zju.edu.cn>
->> Fixes: 584acf34cb0 ("ati-vga: Fix reverse bit blts")
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  hw/display/ati_2d.c | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
->> index 4dc10ea7952..692bec91de4 100644
->> --- a/hw/display/ati_2d.c
->> +++ b/hw/display/ati_2d.c
->> @@ -84,7 +84,7 @@ void ati_2d_blt(ATIVGAState *s)
->>      DPRINTF("%d %d %d, %d %d %d, (%d,%d) -> (%d,%d) %dx%d %c %c\n",
->>              s->regs.src_offset, s->regs.dst_offset, s->regs.default_offset,
->>              s->regs.src_pitch, s->regs.dst_pitch, s->regs.default_pitch,
->> -            s->regs.src_x, s->regs.src_y, s->regs.dst_x, s->regs.dst_y,
->> +            s->regs.src_x, s->regs.src_y, dst_x, dst_y,
->>              s->regs.dst_width, s->regs.dst_height,
->>              (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ? '>' : '<'),
->>              (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ? 'v' : '^'));
->> @@ -180,11 +180,11 @@ void ati_2d_blt(ATIVGAState *s)
->>          dst_stride /= sizeof(uint32_t);
->>          DPRINTF("pixman_fill(%p, %d, %d, %d, %d, %d, %d, %x)\n",
->>                  dst_bits, dst_stride, bpp,
->> -                s->regs.dst_x, s->regs.dst_y,
->> +                dst_x, dst_y,
->>                  s->regs.dst_width, s->regs.dst_height,
->>                  filler);
->>          pixman_fill((uint32_t *)dst_bits, dst_stride, bpp,
->> -                    s->regs.dst_x, s->regs.dst_y,
->> +                    dst_x, dst_y,
->>                      s->regs.dst_width, s->regs.dst_height,
->>                      filler);
->>          if (dst_bits >= s->vga.vram_ptr + s->vga.vbe_start_addr &&
->> --
->> 2.31.1
->>
-> 
-> Tested-by: Mauro Matteo Cascella <mcascell@redhat.com>
+Hi. gpg says the key you signed this with has expired:
 
-Thanks. I wouldn't be surprise if we get another CVE in this code /
-file / function ASAP this patch get merged... The code calls for a
-rewrite, as per this function comment in its header:
+gpg: Signature made Mon 06 Sep 2021 16:19:32 BST
+gpg:                using RSA key 7B73BAD68BE7A2C289314B22701B4F6B1A693E59
+gpg:                issuer "mjt@tls.msk.ru"
+gpg: Good signature from "Michael Tokarev <mjt@tls.msk.ru>" [expired]
+gpg:                 aka "Michael Tokarev <mjt@corpit.ru>" [expired]
+gpg:                 aka "Michael Tokarev <mjt@debian.org>" [expired]
+gpg: Note: This key has expired!
+Primary key fingerprint: 6EE1 95D1 886E 8FFB 810D  4324 457C E0A0 8044 65C5
+     Subkey fingerprint: 7B73 BAD6 8BE7 A2C2 8931  4B22 701B 4F6B 1A69 3E59
 
-void ati_2d_blt(ATIVGAState *s)
-{
-    /* FIXME it is probably more complex than this and may need to be */
-    /* rewritten but for now as a start just to get some output: */
+Assuming you've renewed the key,  can you give me a keyserver I can
+download the updated version from, please?
 
-Regards,
-
-Phil.
-
+thanks
+-- PMM
 
