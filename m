@@ -2,73 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32B3401E86
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 18:33:29 +0200 (CEST)
-Received: from localhost ([::1]:43604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92957401EAC
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 18:46:41 +0200 (CEST)
+Received: from localhost ([::1]:55962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNHYm-0000Ed-Ne
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 12:33:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42440)
+	id 1mNHlY-0001DG-7P
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 12:46:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1mNHW1-0007Qw-CO
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 12:30:37 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:36441)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1mNHVw-0000J8-Rm
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 12:30:35 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id f15so14548917ybg.3
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 09:30:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wzYgU9ufBOMksSfJdlKTPCcNzERjY30LsAkV7vakaV0=;
- b=sAwzOGDVBD/0vu47qdVaJVI8J54eVQy8PYfvWbC0KvOtmUYchd2bDnicN7TYSIRoqW
- RNcJvsVzzuTmKaB6l1ARx3LZ7M3/nSgePNz7ujoIGQ/vwXSnHvk2z46L6CULsatun1Ne
- EMsWUw1LN9ODKmV77nfRwekq8vxtU2V62GoKYdE6V5H2Uvcsbe8UbMES2hS+bGboLXKt
- TFfGTL9GEb2gv1t6BvPT47eC2RIIqbbpA5ZyAwqWq7ejmNi9CWPqAzvTVw8lu9r/u8oM
- IqlS0P2uehkMZK5VNCLcBP8COFSOFx5ftL0iAgqTzomiMvXeZpuun5hZo7WlMAq+wW9v
- ZoHQ==
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1mNHjp-0000UT-64
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 12:44:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29831)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1mNHjm-00043g-A3
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 12:44:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630946688;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=no3YxYmkC7U8U3hHHaQrGt3J0uOMIeyGJar17+sM1Vw=;
+ b=ftRYC5IUPQNKqclL/ojva38FPzsozvfePoW1haCYcpZ9g8Dl1QvRsr2Da+xL/ONAXNgbvl
+ 3O9iHRtzg9nt8MPw61LBqv/XTqlkGkQhBztSiFywG0kVek7xztBRu6iWCCv2YzVieToYXF
+ qIyoKCkc3n2gt/zg906d7p1ZyKCNwg8=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-534-PLW3lHX7Ow-4aLJfmi9kfw-1; Mon, 06 Sep 2021 12:44:47 -0400
+X-MC-Unique: PLW3lHX7Ow-4aLJfmi9kfw-1
+Received: by mail-pg1-f200.google.com with SMTP id
+ a16-20020a63d410000000b00268ebc7f4faso5211305pgh.17
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 09:44:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wzYgU9ufBOMksSfJdlKTPCcNzERjY30LsAkV7vakaV0=;
- b=WnOvIb8PRUPMrl5ncVSnQNVH3DjO1eZ2j5FdYU5d+E/E0AoGq1B/omX7AIRAl18VWo
- 6n7n3NvQy3zLzRr1E5u23v/toBScJ0FMsO/TWO3LGCyP98splPE7lueyKyR10JxbZKYY
- lDEC4FsV99GGApS6+0RHcg/o08D1PBCR2y397MLJkez/yPBQfM9jnKR6iPS8BrpFgH0J
- lj7Smy/m3+adKi+gT+ypu+GItO4+jbMQuWnsAzGY7kmEyfEC9TGy5oy1fKgAbdHjONu7
- 4IcLvjs8tnn+iLk0U80ezjYQ8rMtLO1n57t1mJoB5hreGYiaZy1pP8Lx9BgwgQb2zPwd
- u6BQ==
-X-Gm-Message-State: AOAM533CVhRysr0wKzuptppr0McMls6YU3+VCmVvn2EeZ2oVrsQVi2f7
- CccxswGQkypflKxFkAjdSgz506lppakLGdgZs705xg==
-X-Google-Smtp-Source: ABdhPJw6ZFfFllEUJMn1V+MBFMp5bZYfPrDO34jcFWNO0S5N2rEudSQAhupEj6IdLnAUwwxIQH8/RWxq8NeSIqdrYVw=
-X-Received: by 2002:a25:5e06:: with SMTP id s6mr14916326ybb.142.1630945830222; 
- Mon, 06 Sep 2021 09:30:30 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=no3YxYmkC7U8U3hHHaQrGt3J0uOMIeyGJar17+sM1Vw=;
+ b=SNlnNbGMayG1O1SKzgwKW/HDwt0Gj2MjPFWumLiCkDJZbd5eH7JFOYn1vmunb9NgGH
+ N05iBWqgO3PRB2wc3VkS/usLxuqVdVrwjJCJUl771D+QxXZEPx8pybtFPKIzzS8/KnMb
+ RD0Hsl6OgTs7k9Kdg8RkN4pc7nmaFMeTZw3TKPuTy/nZhxZjB6GQ4a/IbY0V+mPQdRJy
+ 2F3Zy3msrgf5CUy8YQWYFgVxUpk4rkvZtoU0mOrt/JDCP1EpjN8EyCH5Yfw2crzGNgNI
+ eKzNhDNb9NL+/XPWuRqNOEDFri3hVONHwjP37ZEGs7hUPkZWPOvSPd4QnmL6rCpxzXgp
+ qDyg==
+X-Gm-Message-State: AOAM532MzK5YVmePbhwgQNfFTGcxSqAulNDCOh3loWbTi3IxXWpx+f10
+ YnBmFcqZIv7942yqfj+OU2jqxTls9vKk/qE/HJUJgDWxQAOHSZZhnmIXduGxWbVa1vEuKVOVxyc
+ CGZ/J8gx4AnIwpOs+FE81qxw65z7RT8w=
+X-Received: by 2002:a17:903:2284:b0:13a:fad:7723 with SMTP id
+ b4-20020a170903228400b0013a0fad7723mr10405659plh.54.1630946684942; 
+ Mon, 06 Sep 2021 09:44:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzB3DMILVZc4TPpt2vYYT5U/qQidPdb8rEiaqdBXw4BvKzAKWIajAaPKLSnCKXss7/MpEbvzC1wTRhagOKLuSQ=
+X-Received: by 2002:a17:903:2284:b0:13a:fad:7723 with SMTP id
+ b4-20020a170903228400b0013a0fad7723mr10405633plh.54.1630946684533; Mon, 06
+ Sep 2021 09:44:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAJ28CFSFEatxgfvUE3gvnFBVX7GrqMwk0+t1foFfNzDu7bwv3A@mail.gmail.com>
- <YTDTc9NC9k7hJjpx@redhat.com> <20210902135509.GU26415@redhat.com>
- <CAJ28CFQgKDjSeF8vDCVefKtQkRPoZ5EbJz=n8CXZZtX1SnAzyQ@mail.gmail.com>
- <CAJ+F1CLJhN6hx7Z6KOYRqEkctf0-xQx4nyvsZMOazgZEbo3d6g@mail.gmail.com>
- <CAJ28CFQKbmbPk-+X882zraNp+ToT+BKJC5hV-c+i1Fe2VzTWaA@mail.gmail.com>
- <20210906155921.GU26415@redhat.com>
-In-Reply-To: <20210906155921.GU26415@redhat.com>
-From: Konstantin Kostiuk <konstantin@daynix.com>
-Date: Mon, 6 Sep 2021 19:30:19 +0300
-Message-ID: <CAJ28CFRgVm2wooiyPJqQcy1cj1ZRDqR2xDv=tkuaYUO0bdNgRw@mail.gmail.com>
-Subject: Re: Guest Agent issue with 'guest-get-osinfo' command on Windows
-To: "Richard W.M. Jones" <rjones@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000dbd00605cb562a36"
-Received-SPF: none client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=konstantin@daynix.com; helo=mail-yb1-xb2b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210906153103.1661195-1-philmd@redhat.com>
+In-Reply-To: <20210906153103.1661195-1-philmd@redhat.com>
+From: Mauro Matteo Cascella <mcascell@redhat.com>
+Date: Mon, 6 Sep 2021 18:44:33 +0200
+Message-ID: <CAA8xKjXkDwPYxSAeRb+2mfHRrbiL_kh9unVkemFXLfF68UXePA@mail.gmail.com>
+Subject: Re: [PATCH] hw/display/ati_2d: Fix buffer overflow in ati_2d_blt
+ (CVE-2021-3638)
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mcascell@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,138 +93,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Developers <qemu-devel@nongnu.org>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Tomas Golembiovsky <tgolembi@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
- Yan Vugenfirer <yan@daynix.com>
+Cc: Qiang Liu <qiangliu@zju.edu.cn>, Prasad J Pandit <pjp@fedoraproject.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gaoning Pan <pgn@zju.edu.cn>, Ziming Zhang <ezrakiez@gmail.com>,
+ Salvatore Bonaccorso <carnil@debian.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000dbd00605cb562a36
-Content-Type: text/plain; charset="UTF-8"
-
-On Mon, Sep 6, 2021 at 6:59 PM Richard W.M. Jones <rjones@redhat.com> wrote:
-
-> On Mon, Sep 06, 2021 at 06:45:08PM +0300, Konstantin Kostiuk wrote:
-> > Hi All,
-> >
-> > I reviewed glib, libguestfs, and libosinfo tools. All tools read the
-> registry
-> > to get information about Windows but read different registry values. All
-> > information is returned in a localized form.
-> > Related key: HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion
-> > We can get 'pretty-name' from 'ProductName' value (all tools use it).
-> > About 'version' there is three variant:
-> > 1. Set 'version' equals to 'kernel-version'. libguestfs and libosinfo
-> have this
-> > behavior.
-> > 2. Read 'version' from 'ReleaseId' value. glib has this behavior. In the
-> case
-> > of Windows Server 2022, 'ReleaseId' equals 2009.
-> > 3. Read 'version' from 'DisplayVersion' value. In the case of Windows
-> Server
-> > 2022, 'DisplayVersion' equals 21H2.
+On Mon, Sep 6, 2021 at 5:31 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
 >
-> The important point is, however you get it, return the information as
-> a libosinfo short value ("win2k22" in this case).
+> When building QEMU with DEBUG_ATI defined then running with
+> '-device ati-vga,romfile=3D"" -d unimp,guest_errors -trace ati\*'
+> we get:
 >
-
-To get this string libguestfs just use a set of conditions. Return
-"win2k22" if Windows type is 'server'
-and ProductName contains 2022.
-
-But as I know guest agent does not returns short name.
-
-
+>   ati_mm_write 4 0x16c0 DP_CNTL <- 0x1
+>   ati_mm_write 4 0x146c DP_GUI_MASTER_CNTL <- 0x2
+>   ati_mm_write 4 0x16c8 DP_MIX <- 0xff0000
+>   ati_mm_write 4 0x16c4 DP_DATATYPE <- 0x2
+>   ati_mm_write 4 0x224 CRTC_OFFSET <- 0x0
+>   ati_mm_write 4 0x142c DST_PITCH_OFFSET <- 0xfe00000
+>   ati_mm_write 4 0x1420 DST_Y <- 0x3fff
+>   ati_mm_write 4 0x1410 DST_HEIGHT <- 0x3fff
+>   ati_mm_write 4 0x1588 DST_WIDTH_X <- 0x3fff3fff
+>   ati_2d_blt: vram:0x7fff5fa00000 addr:0 ds:0x7fff61273800 stride:2560 bp=
+p:32 rop:0xff
+>   ati_2d_blt: 0 0 0, 0 127 0, (0,0) -> (16383,16383) 16383x16383 > ^
+>   ati_2d_blt: pixman_fill(dst:0x7fff5fa00000, stride:254, bpp:8, x:16383,=
+ y:16383, w:16383, h:16383, xor:0xff000000)
+>   Thread 3 "qemu-system-i38" received signal SIGSEGV, Segmentation fault.
+>   (gdb) bt
+>   #0  0x00007ffff7f62ce0 in sse2_fill.lto_priv () at /lib64/libpixman-1.s=
+o.0
+>   #1  0x00007ffff7f09278 in pixman_fill () at /lib64/libpixman-1.so.0
+>   #2  0x0000555557b5a9af in ati_2d_blt (s=3D0x631000028800) at hw/display=
+/ati_2d.c:196
+>   #3  0x0000555557b4b5a2 in ati_mm_write (opaque=3D0x631000028800, addr=
+=3D5512, data=3D1073692671, size=3D4) at hw/display/ati.c:843
+>   #4  0x0000555558b90ec4 in memory_region_write_accessor (mr=3D0x63100003=
+9cc0, addr=3D5512, ..., size=3D4, ...) at softmmu/memory.c:492
 >
-> > What do you think about this solution instead of using a conversion
-> matrix?
-> > What version we should use in this case?
+> Commit 584acf34cb0 ("ati-vga: Fix reverse bit blts") introduced
+> the local dst_x and dst_y which adjust the (x, y) coordinates
+> depending on the direction in the SRCCOPY ROP3 operation, but
+> forgot to address the same issue for the PATCOPY, BLACKNESS and
+> WHITENESS operations, which also call pixman_fill().
 >
-> If you need to cover old and new versions of Windows then there's no
-> good way.  You just need lots of conditionals and to constantly evolve
-> the code as new versions come out.
+> Fix that now by using the adjusted coordinates in the pixman_fill
+> call, and update the related debug printf().
 >
-> Rich.
+> Reported-by: Qiang Liu <qiangliu@zju.edu.cn>
+> Fixes: 584acf34cb0 ("ati-vga: Fix reverse bit blts")
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  hw/display/ati_2d.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
+> diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
+> index 4dc10ea7952..692bec91de4 100644
+> --- a/hw/display/ati_2d.c
+> +++ b/hw/display/ati_2d.c
+> @@ -84,7 +84,7 @@ void ati_2d_blt(ATIVGAState *s)
+>      DPRINTF("%d %d %d, %d %d %d, (%d,%d) -> (%d,%d) %dx%d %c %c\n",
+>              s->regs.src_offset, s->regs.dst_offset, s->regs.default_offs=
+et,
+>              s->regs.src_pitch, s->regs.dst_pitch, s->regs.default_pitch,
+> -            s->regs.src_x, s->regs.src_y, s->regs.dst_x, s->regs.dst_y,
+> +            s->regs.src_x, s->regs.src_y, dst_x, dst_y,
+>              s->regs.dst_width, s->regs.dst_height,
+>              (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ? '>' : '<'),
+>              (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ? 'v' : '^'));
+> @@ -180,11 +180,11 @@ void ati_2d_blt(ATIVGAState *s)
+>          dst_stride /=3D sizeof(uint32_t);
+>          DPRINTF("pixman_fill(%p, %d, %d, %d, %d, %d, %d, %x)\n",
+>                  dst_bits, dst_stride, bpp,
+> -                s->regs.dst_x, s->regs.dst_y,
+> +                dst_x, dst_y,
+>                  s->regs.dst_width, s->regs.dst_height,
+>                  filler);
+>          pixman_fill((uint32_t *)dst_bits, dst_stride, bpp,
+> -                    s->regs.dst_x, s->regs.dst_y,
+> +                    dst_x, dst_y,
+>                      s->regs.dst_width, s->regs.dst_height,
+>                      filler);
+>          if (dst_bits >=3D s->vga.vram_ptr + s->vga.vbe_start_addr &&
 > --
-> Richard Jones, Virtualization Group, Red Hat
-> http://people.redhat.com/~rjones
-> Read my programming and virtualization blog: http://rwmj.wordpress.com
-> Fedora Windows cross-compiler. Compile Windows programs, test, and
-> build Windows installers. Over 100 libraries supported.
-> http://fedoraproject.org/wiki/MinGW
->
+> 2.31.1
 >
 
---000000000000dbd00605cb562a36
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Tested-by: Mauro Matteo Cascella <mcascell@redhat.com>
 
-<div dir=3D"ltr"><div dir=3D"ltr"></div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 6, 2021 at 6:59 PM Richard W.=
-M. Jones &lt;<a href=3D"mailto:rjones@redhat.com">rjones@redhat.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, =
-Sep 06, 2021 at 06:45:08PM +0300, Konstantin Kostiuk wrote:<br>
-&gt; Hi All,<br>
-&gt; <br>
-&gt; I reviewed glib, libguestfs, and libosinfo tools. All tools read the r=
-egistry<br>
-&gt; to get information about Windows but read different registry values. A=
-ll<br>
-&gt; information is returned in a localized form.<br>
-&gt; Related key: HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion<br>
-&gt; We can get &#39;pretty-name&#39; from &#39;ProductName&#39; value (all=
- tools use it).<br>
-&gt; About &#39;version&#39; there is three variant:<br>
-&gt; 1. Set &#39;version&#39; equals to &#39;kernel-version&#39;. libguestf=
-s and libosinfo have this<br>
-&gt; behavior.<br>
-&gt; 2. Read &#39;version&#39; from &#39;ReleaseId&#39; value. glib has thi=
-s behavior. In the case<br>
-&gt; of Windows Server 2022, &#39;ReleaseId&#39; equals 2009.<br>
-&gt; 3. Read &#39;version&#39; from &#39;DisplayVersion&#39; value. In the =
-case of Windows Server<br>
-&gt; 2022, &#39;DisplayVersion&#39; equals 21H2.<br>
-<br>
-The important point is, however you get it, return the information as<br>
-a libosinfo short value (&quot;win2k22&quot; in this case).<br></blockquote=
-><div><br></div><div>To get this string libguestfs just use a set of condit=
-ions. Return &quot;win2k22&quot; if Windows type is &#39;server&#39;</div><=
-div>and ProductName contains 2022.<br></div><div><br></div><div>But as I kn=
-ow guest agent does not returns short name.<br></div><div>=C2=A0</div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; What do you think about this solution instead of using a conversion ma=
-trix?<br>
-&gt; What version we should use in this case?<br>
-<br>
-If you need to cover old and new versions of Windows then there&#39;s no<br=
->
-good way.=C2=A0 You just need lots of conditionals and to constantly evolve=
-<br>
-the code as new versions come out.<br>
-<br>
-Rich.<br>
-<br>
--- <br>
-Richard Jones, Virtualization Group, Red Hat <a href=3D"http://people.redha=
-t.com/~rjones" rel=3D"noreferrer" target=3D"_blank">http://people.redhat.co=
-m/~rjones</a><br>
-Read my programming and virtualization blog: <a href=3D"http://rwmj.wordpre=
-ss.com" rel=3D"noreferrer" target=3D"_blank">http://rwmj.wordpress.com</a><=
-br>
-Fedora Windows cross-compiler. Compile Windows programs, test, and<br>
-build Windows installers. Over 100 libraries supported.<br>
-<a href=3D"http://fedoraproject.org/wiki/MinGW" rel=3D"noreferrer" target=
-=3D"_blank">http://fedoraproject.org/wiki/MinGW</a><br>
-<br>
-</blockquote></div></div>
+Thanks.
+--=20
+Mauro Matteo Cascella
+Red Hat Product Security
+PGP-Key ID: BB3410B0
 
---000000000000dbd00605cb562a36--
 
