@@ -2,50 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D14401527
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 05:05:57 +0200 (CEST)
-Received: from localhost ([::1]:40696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5959540153C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 05:24:42 +0200 (CEST)
+Received: from localhost ([::1]:48544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mN4xH-00075X-AI
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 23:05:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53688)
+	id 1mN5FR-0006hC-0O
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 23:24:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mN4rm-0004EJ-1m; Sun, 05 Sep 2021 23:00:14 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:52505 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mN5EK-0005sh-OE; Sun, 05 Sep 2021 23:23:32 -0400
+Received: from out28-196.mail.aliyun.com ([115.124.28.196]:53823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mN4rh-0007sr-IE; Sun, 05 Sep 2021 23:00:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1630897197;
- bh=OQJX+z4Jv/1hgaNV0mmDmYOQdA3Up+iLHgsmVWE530s=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hPSiXEnlXQSyXknVxNUjHkI9d6UGDiLMafegyLVA/8eSBbiEhhETYWOJIgr9FxCP/
- w7qkJSB1XpdOCleerER2cYwYCHLOlHYoKVf0bE5Q1hzzIssZ6s2k3okJIU23Igsv/Q
- e2n7dWqRvVSwGqxSWcwnejkrgdEGOj/fXM9tCY8k=
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4H2tRd6994z9sW5; Mon,  6 Sep 2021 12:59:57 +1000 (AEST)
-Date: Mon, 6 Sep 2021 12:55:40 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Luis Pires <luis.pires@eldorado.org.br>
-Subject: Re: [PATCH] target/ppc: fix setting of CR flags in bcdcfsq
-Message-ID: <YTWDLKGEksAULDRl@yekko>
-References: <20210823150235.35759-1-luis.pires@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1mN5EH-0002zO-Rd; Sun, 05 Sep 2021 23:23:32 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07790039|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.00338137-0.00059117-0.996027;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047207; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=7; RT=7; SR=0; TI=SMTPD_---.LG4pgIz_1630898597; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.LG4pgIz_1630898597)
+ by smtp.aliyun-inc.com(10.147.42.241);
+ Mon, 06 Sep 2021 11:23:17 +0800
+Subject: Re: [PATCH] target/riscv: Fix satp write
+To: Bin Meng <bmeng.cn@gmail.com>
+References: <20210901124539.222868-1-zhiwei_liu@c-sky.com>
+ <CAEUhbmUvb4_tmevGEcK_YgyA9_g5LumRVpMc7+rwuD4D7FSBBA@mail.gmail.com>
+ <a61c6fef-4bce-0c5b-7aff-b9e2fa75aa5b@c-sky.com>
+ <CAEUhbmXULr_mcdfh6x=BGLNcNM5Q7YrFhnHOuLatbrokqP0Taw@mail.gmail.com>
+ <e5f5e2b1-8fc5-31de-c927-1ae7545957f8@c-sky.com>
+ <CAEUhbmVCYZ2j6Vp0g4JjHf5XmTDFW+wm5PoT4MmMjUvrfGpkeA@mail.gmail.com>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <fbbf6698-5145-eab9-e3c9-66c9fe1598a1@c-sky.com>
+Date: Mon, 6 Sep 2021 11:23:16 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="X3ZwSKhVJUvdD1bE"
-Content-Disposition: inline
-In-Reply-To: <20210823150235.35759-1-luis.pires@eldorado.org.br>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAEUhbmVCYZ2j6Vp0g4JjHf5XmTDFW+wm5PoT4MmMjUvrfGpkeA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.196; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-196.mail.aliyun.com
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.832,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,156 +65,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---X3ZwSKhVJUvdD1bE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2021/9/2 上午10:47, Bin Meng wrote:
+> On Thu, Sep 2, 2021 at 10:44 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>>
+>> On 2021/9/2 上午9:59, Bin Meng wrote:
+>>> On Thu, Sep 2, 2021 at 9:02 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>>>> On 2021/9/1 下午9:05, Bin Meng wrote:
+>>>>> On Wed, Sep 1, 2021 at 8:51 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>>>>>> These variables should be target_ulong. If truncated to int,
+>>>>>> the bool conditions they indicate will be wrong.
+>>>>>>
+>>>>>> As satp is very important for Linux, this bug almost fails every boot.
+>>>>> Could you please describe which Linux configuration is broken?
+>>>> I use the image from:
+>>>>
+>>>> https://gitlab.com/c-sky/buildroot/-/jobs/1251564514/artifacts/browse/output/images/
+>>>>
+>>>>>     I have
+>>>>> a 64-bit 5.10 kernel and it boots fine.
+>>>> The login is mostly OK for me. But the busybox can't run properly.
+>>> Which kernel version is this?
+>> 5.10.4
+>>> Could you please investigate and
+>>> indicate in the commit message?
+>>>
+>>> I just tested current qemu-system-riscv64 can boot to Ubuntu 20.04
+>>> distro user space.
+>> Very strange.  This will cause tlb_flush can't be called in this function.
+>>
+> Did your kernel enable asid?
 
-On Mon, Aug 23, 2021 at 12:02:35PM -0300, Luis Pires wrote:
-> According to the ISA, CR should be set based on the source value, and
-> not on the packed decimal result.
-> The way this was implemented would cause GT, LT and EQ to be set
-> incorrectly when the source value was too large and the 31 least
-> significant digits of the packed decimal result ended up being all zero.
-> This would happen for source values of +/-10^31, +/-10^32, etc.
->=20
-> The new implementation fixes this and also skips the result calculation
-> altogether in case of src overflow.
->=20
-> Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
+Yes. Is it matter?
 
-Applied to ppc-for-6.2, thanks.
+Thanks,
+Zhiwei
 
-> ---
->  target/ppc/int_helper.c | 61 ++++++++++++++++++++++++++++++++---------
->  1 file changed, 48 insertions(+), 13 deletions(-)
->=20
-> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-> index efa833ef64..de56056429 100644
-> --- a/target/ppc/int_helper.c
-> +++ b/target/ppc/int_helper.c
-> @@ -2498,10 +2498,26 @@ uint32_t helper_bcdctz(ppc_avr_t *r, ppc_avr_t *b=
-, uint32_t ps)
->      return cr;
->  }
-> =20
-> +/**
-> + * Compare 2 128-bit unsigned integers, passed in as unsigned 64-bit pai=
-rs
-> + *
-> + * Returns:
-> + * > 0 if ahi|alo > bhi|blo,
-> + * 0 if ahi|alo =3D=3D bhi|blo,
-> + * < 0 if ahi|alo < bhi|blo
-> + */
-> +static inline int ucmp128(uint64_t alo, uint64_t ahi,
-> +                          uint64_t blo, uint64_t bhi)
-> +{
-> +    return (ahi =3D=3D bhi) ?
-> +        (alo > blo ? 1 : (alo =3D=3D blo ? 0 : -1)) :
-> +        (ahi > bhi ? 1 : -1);
-> +}
-> +
->  uint32_t helper_bcdcfsq(ppc_avr_t *r, ppc_avr_t *b, uint32_t ps)
->  {
->      int i;
-> -    int cr =3D 0;
-> +    int cr;
->      uint64_t lo_value;
->      uint64_t hi_value;
->      ppc_avr_t ret =3D { .u64 =3D { 0, 0 } };
-> @@ -2510,28 +2526,47 @@ uint32_t helper_bcdcfsq(ppc_avr_t *r, ppc_avr_t *=
-b, uint32_t ps)
->          lo_value =3D -b->VsrSD(1);
->          hi_value =3D ~b->VsrD(0) + !lo_value;
->          bcd_put_digit(&ret, 0xD, 0);
-> +
-> +        cr =3D CRF_LT;
->      } else {
->          lo_value =3D b->VsrD(1);
->          hi_value =3D b->VsrD(0);
->          bcd_put_digit(&ret, bcd_preferred_sgn(0, ps), 0);
-> -    }
-> =20
-> -    if (divu128(&lo_value, &hi_value, 1000000000000000ULL) ||
-> -            lo_value > 9999999999999999ULL) {
-> -        cr =3D CRF_SO;
-> +        if (hi_value =3D=3D 0 && lo_value =3D=3D 0) {
-> +            cr =3D CRF_EQ;
-> +        } else {
-> +            cr =3D CRF_GT;
-> +        }
->      }
-> =20
-> -    for (i =3D 1; i < 16; hi_value /=3D 10, i++) {
-> -        bcd_put_digit(&ret, hi_value % 10, i);
-> -    }
-> +    /*
-> +     * Check src limits: abs(src) <=3D 10^31 - 1
-> +     *
-> +     * 10^31 - 1 =3D 0x0000007e37be2022 c0914b267fffffff
-> +     */
-> +    if (ucmp128(lo_value, hi_value,
-> +                0xc0914b267fffffffULL, 0x7e37be2022ULL) > 0) {
-> +        cr |=3D CRF_SO;
-> =20
-> -    for (; i < 32; lo_value /=3D 10, i++) {
-> -        bcd_put_digit(&ret, lo_value % 10, i);
-> -    }
-> +        /*
-> +         * According to the ISA, if src wouldn't fit in the destination
-> +         * register, the result is undefined.
-> +         * In that case, we leave r unchanged.
-> +         */
-> +    } else {
-> +        divu128(&lo_value, &hi_value, 1000000000000000ULL);
-> =20
-> -    cr |=3D bcd_cmp_zero(&ret);
-> +        for (i =3D 1; i < 16; hi_value /=3D 10, i++) {
-> +            bcd_put_digit(&ret, hi_value % 10, i);
-> +        }
-> =20
-> -    *r =3D ret;
-> +        for (; i < 32; lo_value /=3D 10, i++) {
-> +            bcd_put_digit(&ret, lo_value % 10, i);
-> +        }
-> +
-> +        *r =3D ret;
-> +    }
-> =20
->      return cr;
->  }
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---X3ZwSKhVJUvdD1bE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmE1gyoACgkQbDjKyiDZ
-s5KBgBAArI+It/VHyYBTgih9JcCL85dqL2B3HVmZb7lXCFS6xEot28Gd98/fk9RP
-oYVl9XVlBFpy7dp0N/Q0KDu/pcET8ojdXuq6Fy9+GKnK9Z6+5HwXBzg4bTNxmBTp
-SAhf8yWpz/WbjQcYrLeuMOqHVXJD7ZiG9llZQHe/HLFqvmph59md3qiqsxgM/GGg
-q1XC36aZlgAOSoFah4bpKCGRu4OUZXjhC6ZBbfYGZi/lzpKxoKcbGc4vCUqv20E1
-khZeScOjKbHK48mgp7Ekg3znuJRhnyb39ehcdcaZsDvvJjmRHx0P3BjCZwIs3sHx
-EVPIr+52/r0cSnwsUNYJ5DNRiXJ8jUp+edp5wbLT+9uu2tUdz7gGHpW7Dx+wUuNN
-SUU59J6C3Cn+QUYG6UC9s3FXKYb0uXo3O9w60kTvX/mmtrz8mP42zktymsnt2ifS
-FIp4vHQnisaWN12QiLFGFiFh7KVsiOM1BakvFUCDTt0q3+3BbeU9dad84/m0CdNv
-Av2XkNx8Vn4fpcN0bduPYMnSd/AxTe21PXnGjn53qB8qC2o7R07puQjds/FNNYWC
-d9KRccc/FLcdZ9bnGSo2EkyCUv+HQsWYQhkuCPd6eBRo87wlswmj6t1ys5KEUieg
-RW6lhCDeKHaL8q5phHlyg7/8dVps182Vip+USHgLEH88H33W0Q8=
-=EoP5
------END PGP SIGNATURE-----
-
---X3ZwSKhVJUvdD1bE--
+>
+> Regards,
+> Bin
 
