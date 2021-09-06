@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33C9401C28
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:16:26 +0200 (CEST)
-Received: from localhost ([::1]:54336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B47401C26
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:16:03 +0200 (CEST)
+Received: from localhost ([::1]:53872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNEU5-0000lh-Tz
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:16:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57170)
+	id 1mNETe-0000Sp-O8
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:16:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEP3-0000Zr-0a
+ id 1mNEP4-0000bG-NE
  for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:14 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40713)
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEP1-0007LG-EN
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:12 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id q26so8855642wrc.7
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:10 -0700 (PDT)
+ id 1mNEP3-0007MQ-CE
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:14 -0400
+Received: by mail-wr1-x432.google.com with SMTP id u16so9794326wrn.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+PlQ4XPjS/+o8fElRQpKpcAoGzpAuwqP1HdeqkBEqqo=;
- b=qYjkWs1fAtInU6SMm+hfq0znjFwl0EG6u7CH/eM3vS7thJLXlvSJSRBojjQaOSEwrj
- L/+JZHwSinGVoVyPu1j6WtPMNgVv7+2VKRvQm5Jq7dyGm5by+y+cOP3TPVHarJ1vABJ8
- yv/5ivzIcaHwH8mH41loB6jmIrstjFJG9txYvJxAOV2d+5nPjqR/BgV7sj9AsNoc2rtx
- 1jeItgmKWJPOBXe7+uNmBkRxKWacH86qOEYjgHci9cSKrCtgkGQ5XEwoQuH9UDTYqRWj
- 9bIGxxbH438RVs2JUCinwQ6dKfBu7R/BblZXZXNaOiOpHSo0SstGADYF8rgg63PqaZ2+
- afCQ==
+ bh=F257kBkfuJl6Q7MoJ0dNQEoRR26oeybWJUiYLakF928=;
+ b=E4fXyTIjpI/LJXmVSN1LtWceHG5RM5rspcRAtTNtuAmgqvwPegPgnxpPH3AAZpO82Z
+ R4KF0reTQsvIK3Ng9gmqjqI13CTGiVa9kIQbQlNenyKgL2WUO4gTQM0ijAyhhURYYh28
+ vl10HMACgnOQNP+gM/EKlQHLO0NMivAomJLJ/U4LaYCrCv8c9Ig+rMmtaoX4ipL7+RR5
+ dVJa/Xj4Mbg9C/F+YgpspdskvGkxUr5ctgqj11wcC7B49MwaJWFk60EVOMEwjuWxDQ+S
+ EVAAjiLnBxL2JuMB/xsh7ga/jkOwrdfqCOLMnTW1qeTD3rab/Xybn1K/Mjk0ud474m6v
+ wsEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+PlQ4XPjS/+o8fElRQpKpcAoGzpAuwqP1HdeqkBEqqo=;
- b=CnSVAE0x1P+ImJimDPOkT89qa3BvBrAjSaRdxnqApeexN65yQpHYLCZz15bicaCR4G
- cNmg5DYmGZe8lECUUhH3F8GHleDfIlqnfHJwrt8Jyy1uljqoWlCvCjYr8Dmg7ix/UHJq
- tKpwShuby5GM3tU4xI6KKFz20Kp6reba4bSZn4nSldfu+ij6IbdQukZU2jJx/kNBymWD
- uWwOcoq9o8iVWph0LF/o+0sqlg0N3DqproVSjn2uBOJ1C4BcK42OsNoZLT53uSrsXiWV
- XZYnauIup2TBCPvRPaQbYeTnwso1mCxFWufhHhWt2m6xJc8hinOog2a7GT//bEX78aX3
- dZjQ==
-X-Gm-Message-State: AOAM531aEslJAD9GwV1r/q7r0OKwNPBZtJEvlotv4Tvrsuo3ngDgxXh+
- K/eZHbSZUcxl8qUA+OySWK7471KBFX4=
-X-Google-Smtp-Source: ABdhPJwr8LwhWcma/fEP78rCfZqlJi6la2BvoQS2f89jsj/fS+UMM7mxa1R9IbDkpRlvcxa3lvJxKA==
-X-Received: by 2002:adf:edc2:: with SMTP id v2mr13336863wro.255.1630933870002; 
- Mon, 06 Sep 2021 06:11:10 -0700 (PDT)
+ bh=F257kBkfuJl6Q7MoJ0dNQEoRR26oeybWJUiYLakF928=;
+ b=RYAK2kOz5jopJ1WDLcMWaNhIrJHocMGX70NQN65DGE+Cg8jScpQqqfIF9UI9vOuVnF
+ SiFDgqwz8MOO9LAe8IV2xyPGGKd5/tPwHUCfbAmCswJTci+iFIpuXhAl2JdPjDoQKaY+
+ D6Vc2vZ3jLhK62TACloSIC4XetsGsKOXeWV9avOshw+MGw3ltdTk0SqAeFcX3jkH0BKR
+ 8m9HOZ01nPWiYGc5FfCN4b3PErxc7rzj41tmG2qYbOJZ+Ofm9smz6h3BDiAzWUwZ1ems
+ AiilVk3iJfIW1+UnCa11gQkkIjq4mUV/8zKI5oEyhmVP4SrS16RSWhTE2UIN3Tj+23Hv
+ 6X6Q==
+X-Gm-Message-State: AOAM530OV47RnTBJTN4wzbVZK5HgWf3g4dbtMt/LLGuHLpFCTrETPIMp
+ RsTQ+x2ZK4Cq00YxhSI82Z1pYMDVQYA=
+X-Google-Smtp-Source: ABdhPJx7/76J+mLZGv7MRuFvO4jQUvBcLUy4pAbKHKvxyJeOOnLe5riGdQeYIYccWquBlUxLppVk6w==
+X-Received: by 2002:adf:c14c:: with SMTP id w12mr13576649wre.115.1630933872095; 
+ Mon, 06 Sep 2021 06:11:12 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- k4sm7992331wrm.74.2021.09.06.06.11.07
+ k4sm7992331wrm.74.2021.09.06.06.11.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 06:11:09 -0700 (PDT)
+ Mon, 06 Sep 2021 06:11:11 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/36] target/i386: Added VGIF V_IRQ masking capability
-Date: Mon,  6 Sep 2021 15:10:27 +0200
-Message-Id: <20210906131059.55234-5-pbonzini@redhat.com>
+Subject: [PULL 05/36] target/i386: Added ignore TPR check in ctl_has_irq
+Date: Mon,  6 Sep 2021 15:10:28 +0200
+Message-Id: <20210906131059.55234-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210906131059.55234-1-pbonzini@redhat.com>
 References: <20210906131059.55234-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,115 +90,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lara Lazier <laramglazier@gmail.com>
 
-VGIF provides masking capability for when virtual interrupts
-are taken. (APM2)
+The APM2 states that if V_IGN_TPR is nonzero, the current
+virtual interrupt ignores the (virtual) TPR.
 
 Signed-off-by: Lara Lazier <laramglazier@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c                   |  7 +++++--
- target/i386/cpu.h                   |  2 ++
- target/i386/tcg/sysemu/svm_helper.c | 12 ++++++++++++
- 3 files changed, 19 insertions(+), 2 deletions(-)
+ target/i386/tcg/sysemu/svm_helper.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index ddc3b63cb8..6b029f1bdf 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5657,6 +5657,7 @@ static void x86_cpu_reset(DeviceState *dev)
-     /* init to reset state */
-     env->int_ctl = 0;
-     env->hflags2 |= HF2_GIF_MASK;
-+    env->hflags2 |= HF2_VGIF_MASK;
-     env->hflags &= ~HF_GUEST_MASK;
- 
-     cpu_x86_update_cr0(env, 0x60000010);
-@@ -6540,10 +6541,12 @@ int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request)
-                       !(env->hflags & HF_INHIBIT_IRQ_MASK))))) {
-             return CPU_INTERRUPT_HARD;
- #if !defined(CONFIG_USER_ONLY)
--        } else if ((interrupt_request & CPU_INTERRUPT_VIRQ) &&
-+        } else if (env->hflags2 & HF2_VGIF_MASK) {
-+            if((interrupt_request & CPU_INTERRUPT_VIRQ) &&
-                    (env->eflags & IF_MASK) &&
-                    !(env->hflags & HF_INHIBIT_IRQ_MASK)) {
--            return CPU_INTERRUPT_VIRQ;
-+                        return CPU_INTERRUPT_VIRQ;
-+            }
- #endif
-         }
-     }
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index e27a1aab99..d26df6de6b 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -203,6 +203,7 @@ typedef enum X86Seg {
- #define HF2_MPX_PR_SHIFT         5 /* BNDCFGx.BNDPRESERVE */
- #define HF2_NPT_SHIFT            6 /* Nested Paging enabled */
- #define HF2_IGNNE_SHIFT          7 /* Ignore CR0.NE=0 */
-+#define HF2_VGIF_SHIFT           8 /* Can take VIRQ*/
- 
- #define HF2_GIF_MASK            (1 << HF2_GIF_SHIFT)
- #define HF2_HIF_MASK            (1 << HF2_HIF_SHIFT)
-@@ -212,6 +213,7 @@ typedef enum X86Seg {
- #define HF2_MPX_PR_MASK         (1 << HF2_MPX_PR_SHIFT)
- #define HF2_NPT_MASK            (1 << HF2_NPT_SHIFT)
- #define HF2_IGNNE_MASK          (1 << HF2_IGNNE_SHIFT)
-+#define HF2_VGIF_MASK           (1 << HF2_VGIF_SHIFT)
- 
- #define CR0_PE_SHIFT 0
- #define CR0_MP_SHIFT 1
 diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-index 24c58b6a38..4612dae1ac 100644
+index 4612dae1ac..a35b79548a 100644
 --- a/target/i386/tcg/sysemu/svm_helper.c
 +++ b/target/i386/tcg/sysemu/svm_helper.c
-@@ -130,6 +130,11 @@ static inline bool virtual_gif_enabled(CPUX86State *env)
-     return false;
- }
+@@ -83,6 +83,11 @@ static inline bool ctl_has_irq(CPUX86State *env)
  
-+static inline bool virtual_gif_set(CPUX86State *env)
-+{
-+    return !virtual_gif_enabled(env) || (env->int_ctl & V_GIF_MASK);
-+}
+     int_prio = (env->int_ctl & V_INTR_PRIO_MASK) >> V_INTR_PRIO_SHIFT;
+     tpr = env->int_ctl & V_TPR_MASK;
 +
- void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
- {
-     CPUState *cs = env_cpu(env);
-@@ -364,6 +369,10 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
-         cs->interrupt_request |= CPU_INTERRUPT_VIRQ;
-     }
- 
-+    if (virtual_gif_set(env)) {
-+        env->hflags2 |= HF2_VGIF_MASK;
++    if (env->int_ctl & V_IGN_TPR_MASK) {
++        return env->int_ctl & V_IRQ_MASK;
 +    }
 +
-     /* maybe we need to inject an event */
-     event_inj = x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
-                                                  control.event_inj));
-@@ -520,6 +529,7 @@ void helper_stgi(CPUX86State *env)
+     return (env->int_ctl & V_IRQ_MASK) && (int_prio >= tpr);
+ }
  
-     if (virtual_gif_enabled(env)) {
-         env->int_ctl |= V_GIF_MASK;
-+        env->hflags2 |= HF2_VGIF_MASK;
-     } else {
-         env->hflags2 |= HF2_GIF_MASK;
-     }
-@@ -531,6 +541,7 @@ void helper_clgi(CPUX86State *env)
- 
-     if (virtual_gif_enabled(env)) {
-         env->int_ctl &= ~V_GIF_MASK;
-+        env->hflags2 &= ~HF2_VGIF_MASK;
-     } else {
-         env->hflags2 &= ~HF2_GIF_MASK;
-     }
-@@ -812,6 +823,7 @@ void do_vmexit(CPUX86State *env)
-              env->vm_vmcb + offsetof(struct vmcb, control.event_inj), 0);
- 
-     env->hflags2 &= ~HF2_GIF_MASK;
-+    env->hflags2 &= ~HF2_VGIF_MASK;
-     /* FIXME: Resets the current ASID register to zero (host ASID). */
- 
-     /* Clears the V_IRQ and V_INTR_MASKING bits inside the processor. */
 -- 
 2.31.1
 
