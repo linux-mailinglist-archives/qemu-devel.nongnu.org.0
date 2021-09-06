@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901134015FD
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 07:36:25 +0200 (CEST)
-Received: from localhost ([::1]:48182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 924E24015FF
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 07:48:51 +0200 (CEST)
+Received: from localhost ([::1]:57570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mN7Iu-0000wt-By
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 01:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44130)
+	id 1mN7Uv-0007ol-Vq
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 01:48:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mN7Gd-0006xu-Lp; Mon, 06 Sep 2021 01:34:03 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:38417)
+ id 1mN7Ri-0004q6-JL
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 01:45:33 -0400
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:36854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mN7Gc-00024q-3k; Mon, 06 Sep 2021 01:34:03 -0400
-Received: by mail-io1-xd30.google.com with SMTP id a13so7233716iol.5;
- Sun, 05 Sep 2021 22:34:01 -0700 (PDT)
+ id 1mN7Rg-0003Pf-P4
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 01:45:29 -0400
+Received: by mail-io1-xd2a.google.com with SMTP id q3so7260470iot.3
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 22:45:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yU8Xvlh1pBP/EXy8vrt075uOYV6VUj8mMUr38FpIECI=;
- b=OEebZj2Zw64CoW7ebv5MGju25tS+N/4xXWFc0nHTtZWWeh3y+mfl5/RkDJWuYhv9S3
- nUh9syqOCIJGQRzVB21ZJC090+9oliMo9yeoS37pNlOW8LW7Ns+9EgPL89Ua4I+hDpoc
- hLIXYquywav2IrtJvZMf1ofhTlwaGRjhv6X4CUgEcFMqvEFzp5MEm5T8oXzq8m5t6WMa
- 8k/HTMBpzHQVy3OJvnIXuJhuLCVzv6PDzBM2dWryqA+LoI5zNxwQua1eQe4neZsNJjz/
- q8JMWiFU6mfdHjo1hHr++MBbiTDdN74XwGUv2W4k706UrLFie0zuh3rCTRrJFhmv1qC5
- Nm9g==
+ :cc; bh=8lrXbQ/Qm+oE1JxyhYpTTy+cNpLwl3haNoe6X20koaA=;
+ b=Do7zxRCxUw+oHocx52SMc29PvCeBFNC500zu1bTvq5cCXX7ByxdvoS+SHVUl7z4eZ7
+ WZnFzPUFs36YSL2vfK9SRdnAzE30I2NACPTck1I9FBoOxKe1YT+ucbN6qT7h0qTvHjO+
+ jywYQWwbokwuz2ZKgza8O+FXIFhHtbm84TYYEJIefDIBZr+w1ZdmOZ8ZlB6xzfzCj/kS
+ UaMpfA502jwJGqfRpV/m3abr4mYgk+8Y2zo5thrJlIW6n8OZ2Dz53CbiRVs50zkn3eaP
+ TU7cOvIQQB66M6bFaXhCxgz1ePWGbEDNymU5+sIo+dfY0Nn7p/yZPzXTo9uNcGAUscTx
+ aTIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yU8Xvlh1pBP/EXy8vrt075uOYV6VUj8mMUr38FpIECI=;
- b=b0KU68PW9nseQoIbeoI5i17LLTHBe2WcZaOHzage/mcgi7vYUPpjQMnJM2MSGWlb3y
- NLpXR8fCsSKE506x601FN+drslXG+81oyBJVO/WLB1BU1I6OCD1zmkLMqsn10YMhSYVR
- qAn+VYANTkwOGbASqjcWhAdgzY8S1OrukjLvaxBzPadp6LyxchuRfyzKNrtEq0gWLVsw
- 7stgsVJ+gl2AwSDw3sMzNNOuGgE8gK45/noAYli+EvH2kRvGFqwJn14f20rmm0fcXsQC
- 33bI0/pOceivCY8siRUDex56wOEAUixi3byQcDldIDbWFzalPVv/B+dJTh2xsHNFulKZ
- 2I8A==
-X-Gm-Message-State: AOAM530Hq4iMG47wN3p+YDMOp4TmkT4nPXWxpeDT79xfJpVHBJ6SQic1
- BcEhr7xoiBPzt3pnzRrEgprblY234Wc2oc/p/UJE5D6lZh3hlA==
-X-Google-Smtp-Source: ABdhPJzj0aIwa58r4FVzRoDVccCtioDbynmD+DYA+ErTykJkPDGoCL+wUtVqYuteQJO6hE26TdYu+d/Ov4vFNJL9QkI=
-X-Received: by 2002:a6b:2b43:: with SMTP id r64mr8291050ior.187.1630906439828; 
- Sun, 05 Sep 2021 22:33:59 -0700 (PDT)
+ bh=8lrXbQ/Qm+oE1JxyhYpTTy+cNpLwl3haNoe6X20koaA=;
+ b=Glr1m9ec9BlGZ5+5urY8L7duadbH0vRYHCaKe7QpcI+5wpYZpP86Po1TQCTAGBIrC5
+ +agD3xXAlR5gz//+rYmzN75Bst9Wkk9xO0PtwJhKlEvgw20arFVkQYWmSDoeeL7/V/2h
+ QnMJwICVcEux150FzNC9s0HtJbjmTor9MFRdD88h0EVk0jztTA24QsZRDEGDd3zX5JQr
+ 9hxmCN7J253B+3l5uPtcBhkUrGZFFdAuxL+Gx7YBVd2uxBYsW9Q0EKqRSaDux0Pe6EjT
+ jZ8Vq71iwNuE8gFXZp/XGyIdqc3z0ATaV4uf3FI35FauCWFNzg51YqWru2eRY1r+w5/b
+ 2rUQ==
+X-Gm-Message-State: AOAM533iB61tBR4aL1xvt1EF5mMEL4GaYIAXtUh2ohZF/6I4tNClCekn
+ brDPBEmRpgVhnwhwkohFKjrvRpu+7+RrO8B/HzI=
+X-Google-Smtp-Source: ABdhPJxtsxdSDXpR2At0o/det/CEeZ8eGtyK5w+jQp3OYyaO6bpYNO0qBRAUx1XIBaRd/RVyeQyeNMcqDNALvPT+p4Q=
+X-Received: by 2002:a05:6638:d11:: with SMTP id
+ q17mr9234774jaj.63.1630907127713; 
+ Sun, 05 Sep 2021 22:45:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210902112520.475901-1-anup.patel@wdc.com>
- <20210902112520.475901-7-anup.patel@wdc.com>
-In-Reply-To: <20210902112520.475901-7-anup.patel@wdc.com>
+References: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
+ <20210904203516.2570119-2-philipp.tomsich@vrull.eu>
+In-Reply-To: <20210904203516.2570119-2-philipp.tomsich@vrull.eu>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 6 Sep 2021 15:33:33 +1000
-Message-ID: <CAKmqyKPyErqG2JrOhbQFxPzS-kOe7_b7BwdoqAjF1t5YBGvSZQ@mail.gmail.com>
-Subject: Re: [PATCH v2 06/22] target/riscv: Add AIA cpu feature
-To: Anup Patel <anup.patel@wdc.com>
+Date: Mon, 6 Sep 2021 15:45:01 +1000
+Message-ID: <CAKmqyKOzLMstYDMfEeVOZGZAcR_-Tx32w=LPS6jMTtT=k6y=pA@mail.gmail.com>
+Subject: Re: [PATCH v10 01/16] target/riscv: Introduce temporary in
+ gen_add_uw()
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2a.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -76,45 +80,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Kito Cheng <kito.cheng@sifive.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 2, 2021 at 9:52 PM Anup Patel <anup.patel@wdc.com> wrote:
+On Sun, Sep 5, 2021 at 6:40 AM Philipp Tomsich <philipp.tomsich@vrull.eu> wrote:
 >
-> We define a CPU feature for AIA CSR support in RISC-V CPUs which
-> can be set by machine/device emulation. The RISC-V CSR emulation
-> will also check this feature for emulating AIA CSRs.
+> Following the recent changes in translate.c, gen_add_uw() causes
+> failures on CF3 and SPEC2017 due to the reuse of arg1.  Fix these
+> regressions by introducing a temporary.
 >
-> Signed-off-by: Anup Patel <anup.patel@wdc.com>
+> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  target/riscv/cpu.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 6fe1cc67e5..2cde2df7be 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -77,7 +77,8 @@ enum {
->      RISCV_FEATURE_MMU,
->      RISCV_FEATURE_PMP,
->      RISCV_FEATURE_EPMP,
-> -    RISCV_FEATURE_MISA
-> +    RISCV_FEATURE_MISA,
-> +    RISCV_FEATURE_AIA
->  };
+> Changes in v10:
+> - new patch
 >
->  #define PRIV_VERSION_1_10_0 0x00011000
+>  target/riscv/insn_trans/trans_rvb.c.inc | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
+> index b72e76255c..c0a6e25826 100644
+> --- a/target/riscv/insn_trans/trans_rvb.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvb.c.inc
+> @@ -624,8 +624,10 @@ GEN_TRANS_SHADD_UW(3)
+>
+>  static void gen_add_uw(TCGv ret, TCGv arg1, TCGv arg2)
+>  {
+> -    tcg_gen_ext32u_tl(arg1, arg1);
+> -    tcg_gen_add_tl(ret, arg1, arg2);
+> +    TCGv t = tcg_temp_new();
+> +    tcg_gen_ext32u_tl(t, arg1);
+> +    tcg_gen_add_tl(ret, t, arg2);
+> +    tcg_temp_free(t);
+>  }
+>
+>  static bool trans_add_uw(DisasContext *ctx, arg_add_uw *a)
 > --
 > 2.25.1
 >
