@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A4C401904
+	by mail.lfdr.de (Postfix) with ESMTPS id 682C4401903
 	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 11:42:02 +0200 (CEST)
-Received: from localhost ([::1]:34572 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:34520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNB8b-0000hd-AW
+	id 1mNB8b-0000fT-0H
 	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 05:42:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36708)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mNB6D-00073H-R2
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:39:35 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:43735)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mNB69-00071e-RQ
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:39:30 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:41537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mNB66-0001je-RC
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:39:33 -0400
-Received: by mail-pf1-x435.google.com with SMTP id f65so1639308pfb.10
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 02:39:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mNB67-0001lh-So
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:39:29 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id e7so3582673plh.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 02:39:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LfikNlym+maBFavPQEKwtwVqixV7xzp4p6hLYVxRv/Q=;
- b=iMptgOE3vpsyJsJc9swdtnDMOGDcI1ul+pJFSr0Fp4ixblGoDL7wpfnbqPa748RRbJ
- naItx9pJHWJj+tQANDo7qYuQvPogZmVF1fvBZTJlH8BofN0gPmT5P4StgMlKkkOtNk+O
- hsCnrrpvOpZaFuxtpvQBcL2G/rv9XjfV0WN8hoba+FjiGll/Yg5RN2V/cKZui7Zwiz18
- 5VMKQWyoFfzQivXTjEEk4QbsHmmUFD1a1Oj5SHLp6G6uvAUFpZk4Kf8c1CqESrRe4nnY
- YYuVj+2WpwfZSdl0RnBWg1R13Ik3EUbEzKvWKdSBAfWpAfDcPUnsciQBrjS+UcgaX0gN
- 9aLQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0HjtGfbafd4DmU/9oP8FSbxIk/8884oXtFdvp9ieElU=;
+ b=Govpt4duuyYpRVrGZEDkweDqeRo9V0cwi3q7kdXesD5JSwf7fLMRrmwxblbuQcS2pc
+ GZQ7HP23Kvin5nphY6Sm5en7g4TEdqB/acSYNLVbGYCBaoChefBf3upOWDiIB5xFjvk0
+ bCz7eF+l1sHnPofyDRx72m7wY9GxAJ9gv1FLypNV1n1NXvo3WYNZOdZ2Jf+Fsc6/BsoJ
+ nlmPwTFlUAsnlQm0TM2uylDvs6cBpXBDl4bqHlSX0dqMThP9+YZidfCx19/dYu73qT4J
+ flEL8ubl8btTG+S33Z+0FfL21Tzryzx+ooNnETEu00kGN8oLjl3uBXhDaMAVjGaKxNDk
+ sx7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LfikNlym+maBFavPQEKwtwVqixV7xzp4p6hLYVxRv/Q=;
- b=EMNCq61ya8uUyd+E5stcfmd0yn6Ggc4NKwDMLrK2nPefOg9O2VccNuFH/R00pVQqlX
- Um82dqnEN3cvDjUmOFtXPoryoaU4AcyvenK21iUTfGyHlZwUxTic1ZuYfhtP9Q5u9ZTD
- YyYKZ3mtS/fUp52yMW/WRydZ8lIHddBap8zgOajpKomzD+4hrKBo3cJIslaK47qtqXd9
- r52f2f1cXPLhB3LBAS0suLNXJD68XyxBz1jnFnDswxMr0mNswmMgA/XVVpLGXIQ2mNSo
- sVRwi5Ae/tGkVeoL2912Lv8qp9uDA/hDr5UfQaMS4VYstat6Es7XTpBdewzvcDTSB3cR
- blrg==
-X-Gm-Message-State: AOAM531aqL/2b7B80tp2tp6lzA0XeQvFzSTb7CYJczeollMDjSpTESEM
- eFqWNfm4WlHZ1aBDvln2BFe02Gqb3F7z8g==
-X-Google-Smtp-Source: ABdhPJx5D81DtuL5E3qaDhawtbik51BlPSfBWSxD4QhZhFrrXXz8vAGRYxHm0xOUnuKISBpEjbg7BQ==
-X-Received: by 2002:a63:1309:: with SMTP id i9mr11721320pgl.192.1630921163173; 
- Mon, 06 Sep 2021 02:39:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0HjtGfbafd4DmU/9oP8FSbxIk/8884oXtFdvp9ieElU=;
+ b=hy2W/JUNy4OkLWS66YjXokRIGULgpnm5HiR6i3LDSkMIk0QyXInCkHWfZg93bFxnTn
+ p63yTgwqMbmpTE+5F9TWlHD0OTl4XfEsBOX8VbcDx9/JgXf8rSsrbYvwGRxwuoSR8/xj
+ KNcUbQ+/BdrrnK881/5Sw3QWuoCD/gVhqJ7oFIljMNqRqZy7Yq++Tmp3L1QhqVx9w7ce
+ 4GRjhRyNpECZNPBQiH0rDe4yPAz4DEs75hV49/3P9l9z493kE0AvsHJNfwMBlvFtDS5O
+ YJYqEgi3BVVOKKyxGk1sag8GJsTN0s1Qbk8owRbUivaKOUYGxHvUukafdxrXogYO5nFB
+ xO9g==
+X-Gm-Message-State: AOAM532Qso2VfkW0bRTqbSzQT/qXIyzVKATCpq+CV5LuFopDmFkWLBLc
+ 492BG+rfCq/KouyIJVKFyZrj0X5v9wbrpQ==
+X-Google-Smtp-Source: ABdhPJySKhZnuOsyoNXvc02ze5FpqoYb+EvKlFH8HknzzWO9v2CQhy3/7akNgmlHLry27pewTPc+HQ==
+X-Received: by 2002:a17:90a:cb83:: with SMTP id
+ a3mr13073092pju.91.1630921165700; 
+ Mon, 06 Sep 2021 02:39:25 -0700 (PDT)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.142.175])
  by smtp.googlemail.com with ESMTPSA id
- z131sm7111183pfc.159.2021.09.06.02.39.20
+ z131sm7111183pfc.159.2021.09.06.02.39.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 02:39:22 -0700 (PDT)
+ Mon, 06 Sep 2021 02:39:25 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: qemu-devel@nongnu.org
-Subject: Add a unit test to exercize support for ACPI hotplug on multifunction
- bridges in q35 
-Date: Mon,  6 Sep 2021 15:09:08 +0530
-Message-Id: <20210906093911.2069140-1-ani@anisinha.ca>
+Subject: [PATCH 1/3] tests/acpi: allow changes to DSDT.multi-bridge ACPI table
+ blob for q35
+Date: Mon,  6 Sep 2021 15:09:09 +0530
+Message-Id: <20210906093911.2069140-2-ani@anisinha.ca>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210906093911.2069140-1-ani@anisinha.ca>
+References: <20210906093911.2069140-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::435;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x435.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -85,17 +88,32 @@ Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Igor/Michael :
+We are adding a new unit test to cover the acpi hotplug support for
+multi-function bridges in q35 machines. This support was introduced with the
+following commit:
+d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction bridges")
 
-Added a unit test to exercize the following commit :
+The test uses a new table DSDT.multi-bridge. We need to allow changes in DSDT
+acpi table for addition of this new unit test.
 
-d7346e614f4ec353 ("acpi: x86: pcihp: add support hotplug on multifunction bridges")
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+---
+ tests/data/acpi/q35/DSDT.multi-bridge       | 0
+ tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+ 2 files changed, 1 insertion(+)
+ create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
 
-I had sent just the unit test earlier but since the review is getting delayed, I thought of sending
-the whole patch set which can be now reviewed in totality.
-
-Thanks
-ani
-
+diff --git a/tests/data/acpi/q35/DSDT.multi-bridge b/tests/data/acpi/q35/DSDT.multi-bridge
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..dabc024f53 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,2 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/q35/DSDT.multi-bridge",
+-- 
+2.25.1
 
 
