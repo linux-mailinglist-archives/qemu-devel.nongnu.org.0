@@ -2,94 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D2564020C9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 22:52:05 +0200 (CEST)
-Received: from localhost ([::1]:52890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64464402121
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 23:41:59 +0200 (CEST)
+Received: from localhost ([::1]:36968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNLay-0008KY-7P
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 16:52:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44590)
+	id 1mNMNH-0002Wn-1H
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 17:41:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@redhat.com>) id 1mNKB4-00012s-DK
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 15:21:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56016)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mNMMQ-0001sT-KC; Mon, 06 Sep 2021 17:41:02 -0400
+Received: from mail-vi1eur05on2130.outbound.protection.outlook.com
+ ([40.107.21.130]:12353 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@redhat.com>) id 1mNKB1-0002nr-Fa
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 15:21:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630956061;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uMCg4uX1wq7l7kuwPndBnEhtQ8FzShNJDRrJ2sVqpHM=;
- b=ThjN1CNsWnVyduitUTlj9ZB+cWsueUUAvSnkKeO9uc0EHU6p9Ee7/z4oMd7eG6iyuOZNKJ
- TH6xjNb+wDOLN3JDO9dU+wtuLAev0UQN2TP7hDMFE6sOKDbSF+RCqdRAbwPPyBpMrAsR2+
- EJi+9U7LO4b8gosgWc2/oZI7oaHtxmA=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-fMM_3ywJNr6oTBhR_BO7BA-1; Mon, 06 Sep 2021 15:19:32 -0400
-X-MC-Unique: fMM_3ywJNr6oTBhR_BO7BA-1
-Received: by mail-il1-f198.google.com with SMTP id
- h11-20020a056e02052b00b0022b4906c172so2722792ils.22
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 12:19:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=uMCg4uX1wq7l7kuwPndBnEhtQ8FzShNJDRrJ2sVqpHM=;
- b=klo83bsTSs24NMHxBJ8i+jozQBw8FTxAeh4Dgs1ZTGKV0vMHVr10mhRwBhV3pIVmBF
- KevldAVrwNvq3W7u9p/ZCxEkAROAwbQ2S6Lx3usjNRAHUG4Q9r2xZ1J7D+V0kaWOcb4H
- w1vr7sbrIRX8iT05WloTszA67SlKnJiVxuF5ib+EpDm5rc5bDbrl/3+VEQ7+kvOWWa2n
- gXQaXggh3YGDxgOZJw84Bb/zsdGhvWJxk3OzfjyZJ0HyL7dxdCcC978hrYx19bRn7psZ
- 4G/bHcI+StplvMOE40FUduUQ6BHyiYwms+zbwQBk5lhFPXGpf1vSaKjVbToWCjpiRLhT
- jL+Q==
-X-Gm-Message-State: AOAM531cK1LL4kUihODPA+hXRODlcSGDdbuAS1AC2Yrn+UCfYdxJPs8j
- bQXgPwwj3V5SaAaKF3iAdpt30F0Qyqmra0KedJfEfJTat1IYH72Ujew7sCPR5/ZHSIHqNXmxACl
- 2mlIFeIi/sE6wdDI=
-X-Received: by 2002:a05:6602:1493:: with SMTP id
- a19mr10589799iow.55.1630955971102; 
- Mon, 06 Sep 2021 12:19:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw+vMpge8IymrznzvmdaOyXaGZbTE5DNSHFlGhze4Z7s9s64Wb5pBkREA+jA0afMTk9AMfQjg==
-X-Received: by 2002:a05:6602:1493:: with SMTP id
- a19mr10589780iow.55.1630955970815; 
- Mon, 06 Sep 2021 12:19:30 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id l19sm4903564ilk.26.2021.09.06.12.19.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 12:19:30 -0700 (PDT)
-Date: Mon, 6 Sep 2021 15:19:14 -0400
-From: Alexander Bulekov <alxndr@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] hw/display/ati_2d: Fix buffer overflow in ati_2d_blt
- (CVE-2021-3638)
-Message-ID: <20210906191909.r4kva7grskpyzb6d@mozz.bu.edu>
-References: <20210906153103.1661195-1-philmd@redhat.com>
- <CAA8xKjXkDwPYxSAeRb+2mfHRrbiL_kh9unVkemFXLfF68UXePA@mail.gmail.com>
- <3ef43b0d-4b89-85a4-f2bf-b7f8a256d1db@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mNMMN-0005Im-U2; Mon, 06 Sep 2021 17:41:01 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IsmLbamhjxtD/XVbVEwTaEt/0c1syLL7XsJZy0WbYS9V6TeT0zLikeFjvJyMMqD1vCnC90o3cYQFeG5NhITFQ7sTP0Uy0SBdqJdGd6m4lxawCTOQvvzPeh6km9nZPtXMfC8fXlUK/miAhxcYXa9it+unlhB360RgeKB7mCODxn9/f9n/lh4xf41nW1TTrMIgwRGidskr8YStmvq9TrbVxjohvACrFuT6tSOREj5VhuHeZHkJjMpgZW2dmH6a3AhlkZ8gfIf53Eak0pM1z2exPDUdYaEk2t4MdO5JRjgdXGEuDnfGmlibhTleCFbsgW8qSFxwe+7ORHHjARorTdKXdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=qUXhbowfzXJ/XlMEhWzvldd2ufLM3YbCmrq59AJJ5D8=;
+ b=FETCFhEi+EVQL2mGZM1RciLvuqswu5kBbPa8+rHkyAjsjiZ8GyQ44jX629eRTa/NCKMN4ZEC0f+f8Y8ruuFItyW/cDeRWlqj2YW00VNxKBFRGnQ5RQgjU8NckpmcTSOUF4fDSqZBZDVEoIaNgpP5DyND2ljkkSB9Z/7emg2dD8FuJjSbjK7Tp6Vv6jIl8N7Lb5Oa6/uxuA418Rrt0phMjD4bPfdPS27FwowMOF1kxHPREPy4z/XKBtbCz7xymY5v6wXil/KEKOvTNK4k1hkNveBwhXqij5e8W55B2CJ0+ZrkR5qOdyoUzQYj5cQGNNE0rJUQpe2pccbA67iW3nK5IA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qUXhbowfzXJ/XlMEhWzvldd2ufLM3YbCmrq59AJJ5D8=;
+ b=CLbKS5r+PzBNyTuXNqjJNLfqb7R7jBw4acp40z2opMKbWL0jyE6bMbZJQka4FuuSWsbZ3R+uS0UNQ06KGm1g9tBWNvBTU5S1blZaqza43HFKnbjzeHpuxox0aj9KoG6yCTtlnafSdBq99mZReidyJGZxhbQDXahtbfuXCI1TnIw=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4215.eurprd08.prod.outlook.com (2603:10a6:20b:90::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19; Mon, 6 Sep
+ 2021 21:40:54 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22%8]) with mapi id 15.20.4478.025; Mon, 6 Sep 2021
+ 21:40:54 +0000
+Subject: Re: [PATCH v3 2/9] qapi: make blockdev-add a coroutine command
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, hreitz@redhat.com,
+ kwolf@redhat.com, eblake@redhat.com, den@openvz.org
+References: <20210906190654.183421-1-vsementsov@virtuozzo.com>
+ <20210906190654.183421-3-vsementsov@virtuozzo.com>
+ <87tuixa4gv.fsf@dusky.pond.sub.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <7f9959e1-851d-b38a-c92c-ae42c340f29e@virtuozzo.com>
+Date: Tue, 7 Sep 2021 00:40:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <87tuixa4gv.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM8P190CA0026.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:20b:219::31) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <3ef43b0d-4b89-85a4-f2bf-b7f8a256d1db@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alxndr@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=alxndr@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.196) by
+ AM8P190CA0026.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4478.19 via Frontend Transport; Mon, 6 Sep 2021 21:40:53 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 72ca713e-9ddc-40ca-9dc3-08d9717f00f3
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4215:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB42153154EED8F34DD0C19E8FC1D29@AM6PR08MB4215.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wU36CEj6hX+xbY2BezgZhJwJycUG1jWk9FSb0FOJpBqpP8dmBbxN1jOfk9+Q8BIqG4t/yM8K4EclRoSN3gxuhBy23o6XfiMYCIzLRFYTVJPdO6cO45EpAJb9VLdPMP1KsJhoh64UTymn6r2KzK/frncs2/ka/OvNvz/qggbqLCecVbGL9rbThbz6eRlvuXVlzfKzTdBDb9de3BWPZDkQ1CbVpyjI0nqVeyAs0VNjVjpKRKElSRLPJRBUge6xa7L3coLA0nYqgwQA+0bXTPEjqBrmEosNCqp68DMxI2mC+VJ+w9wBP4N953w3mz2HLSE17pEf0h7fuQGyGRXMvDaZAzj8ayEpBslEtoURZRF/FDWBdh5ZV+EEmba9eDh1PAmddLlIgQ4zt0d/cUT73h8KSu1kfrd5UOtG2XPcJTXPJ7qnbw3Nktu2ydfWbtJAlBAgF/Pt3uIefKLzKro9Sz8YUXHKENiIpGPnH1wYfhlPXb6bCltk+gc4uG4Kyb6iJJmRhG2KZtNZeLj3w9btv44kEOoyYHBCr83A+nHFT7EjPI5qzBi0idX0HgSC6tlr7YvclbD92KEz4eI7dUPWULqauHE7mA6T7SZu3vP1L4+QuvQpnxN4sw6nij9t+wvLFYlAX4t3MMPj4aF0iO5/06/dUw/028GCsviMtIoNlKbaf99kNnrN5vLT9/lU0CszfitYylpsb/EUYktHUZnlxwtSMiigO4NSOjj3brEXH0NqZkN3D8JEdM7tTbGT37PiQnF/HV/jB2ogBJFEMFlGz4sifFqmxQgjmefp+F9jOFTP44ovVTs17AxTmrL6Sg719sT65aKf0MeRhCI1MhCg+eoLe57M5L25PxBTvuRdyIPobAE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(366004)(396003)(376002)(39850400004)(136003)(5660300002)(83380400001)(2616005)(478600001)(38100700002)(26005)(66946007)(2906002)(8936002)(16576012)(8676002)(316002)(52116002)(86362001)(38350700002)(6486002)(31696002)(31686004)(4326008)(66556008)(66476007)(107886003)(966005)(956004)(36756003)(6916009)(186003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?KzlpK2FFU05iQ2t4bnNxTHEzZTNRN0h0VVY0R2RLazByeHNLemt3VGhINlFk?=
+ =?utf-8?B?NEs3TXpWdnRSVlA1U2t3bWVKM1V4RVdOZGczSlFvSGhiTWFvclRIZUJTclBz?=
+ =?utf-8?B?SzFkZWUwTHYzT0VIZ3NrRHNFSG02cXRzTk9TQlE4bzJySDBVSEZVb0dsZUow?=
+ =?utf-8?B?eXBQR3d4RzlVTDUyUmh2d2VxWXg2MUFmWnlNSUJWQ21xVmxmWE1HRmtjV1Yx?=
+ =?utf-8?B?VDl3UjdHT0lib211MG1Wa2QvRDhSY2pZUnFBK0hOZHlSVzREeFF1cjU0dDZa?=
+ =?utf-8?B?N2RjZk84QlNNZWtkMkhYK0VuTGRVNW1rQnV5TWt3Zjk3bkxjOVY5UDNmQ0tS?=
+ =?utf-8?B?UkhlOVVibnc1NnRxUzh6WGx0N2RLSW9ubUR5TEhvQWIrSjk5Z2VWK0JWVjA4?=
+ =?utf-8?B?NjErQnR2Ky9yWHdDNC9FT3Z5NXR4V3N5ZW83U3ZEc0lzNS9TR1l2VEN5Z3pN?=
+ =?utf-8?B?SzlKMWlCYTJYNit1RzJFclVoc01TTm12U0dRYzFmV0d5WG8wNU9oT2tqQWZF?=
+ =?utf-8?B?T3FIRk5UME12M09ZbE9sS05MaG1hazNTSUFKcyt3NjRNeE90SmdaR3h1ZU5U?=
+ =?utf-8?B?V2xsK0NSTWZWdEJkbEdjTEwvOTJqQnVZTjZZRW9CN2ZUL2NRUWFkalhEMms5?=
+ =?utf-8?B?MVZqN3R4eUw3L05YUHBObTYxdmFVVDV4bjZtY1Qva05JTitxYTlUNUpPQS9n?=
+ =?utf-8?B?YTUvbGVZYmZVRW44R0FVcURHWmprZU9xeW56c0YxUlg3ek8rL21pMTBjM2lq?=
+ =?utf-8?B?dnZxUm0rOWVweVE5eERwMEdOWHBoVjlmZzRtYmZWUzB5Qlg5anNRSkRvcWZL?=
+ =?utf-8?B?c3ZFQzgza0xpM0xZdnVwZWNDRk05TlYrNUlqN3FzTTNKeEpMVDQzc2ZicExi?=
+ =?utf-8?B?aXFSbXhzd1VFMnhrWmhCdFdZdXdjTDE5L2ZyTWd4YmRsRXlVT1M5NG9rSFZl?=
+ =?utf-8?B?ZkdhNzFoazV3QlRhOFpuU0UvTEhsT1hKc0hNc2ZuaTFoZUdvY2NsTVZyUzIz?=
+ =?utf-8?B?endDUkxJY0Eyamt2Ujdia1NyLzRMb3hHdjFyRGZrSTk5ekJLY0hrUnhJcU01?=
+ =?utf-8?B?ME0xSGg2Qk8wUVM5bHV3cnNNaytWNUVWL1lVb1VCcXZiR1VvYy9BbTUyWXV1?=
+ =?utf-8?B?TS9PT1hVb0MwNU1yalRvYm5ZK0d2VHJ1ODA4T1ZXSmM3Skw4QlFWVnpPZ0ZC?=
+ =?utf-8?B?eHlyeUhCMWZYbW1oN2I2ZWJ3ZHEzUGVuWjVRbGpJZTZmV2lOZmhkMGNqeE5K?=
+ =?utf-8?B?WlkrNGRLU0ZLblFRQ2hIa0JEYWdGdnRoMVp5SU5SS29GejRLdGtkbDU2a3VX?=
+ =?utf-8?B?WDJpTnZVRWdKd0t0U0lrTlY0WUNoT3ZmckFpYXJ5TXVtSDZOc3dRZGQ0TkJx?=
+ =?utf-8?B?akdBUFRkd0Q2aDBicFZqVUVxenhHb2d0Vk4zUTgyL2t6N0VsemFjc29qNVBW?=
+ =?utf-8?B?MC9zRFI1bVRNYk82MUsvQjFFcHJMSllxcVV0ZzRkMVpaUTFXMHF1Z0htWjFk?=
+ =?utf-8?B?cFJna3ZwMXpUQ3lZdlZ3MWI0NHd3d3ZqalYydEt3bkg4UjBIZFlsNFVPaVdE?=
+ =?utf-8?B?NTgyQ1FNazdDbDNBekNISVdwaUZQWk9JM2U2QU9CZWIyekRtSDRETXhmWXZ4?=
+ =?utf-8?B?UXdWSWgxWlM1RHhWVEozT0FqNngxWnFMYkNGTzkvNTZBcTM4blBtYXJwT04z?=
+ =?utf-8?B?QXFmQWNKbWJweWtxT0JQRitxV3NVYlRqVnN5a3RFQ2I2Wk1WL2RGZHZLTjkr?=
+ =?utf-8?Q?mrgVFeZto027oha3jdRIbpW9JNjuQGGnOCe2OSH?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72ca713e-9ddc-40ca-9dc3-08d9717f00f3
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2021 21:40:54.1601 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qHU+UHo/HSK1V3CbvgFZpFVUNnfNULtcHyikQfPtbBFnIzOdiAvd1baLKhraze1TRZmX4BxQQmIDBXwwtzwZqqZcLx6PmbDeHs4HJxEoJ4s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4215
+Received-SPF: pass client-ip=40.107.21.130;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 06 Sep 2021 16:50:04 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,142 +147,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
- Qiang Liu <qiangliu@zju.edu.cn>, Prasad J Pandit <pjp@fedoraproject.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Gaoning Pan <pgn@zju.edu.cn>, Ziming Zhang <ezrakiez@gmail.com>,
- Salvatore Bonaccorso <carnil@debian.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210906 2019, Philippe Mathieu-Daudé wrote:
-> (Forgot to Cc Alex for eventual reproducer)
-
-Here you go. Should we be fuzzing this on OSS-Fuzz?
-
-============= 8< =============
-
-/*
- * cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
- * 512M -device ati-vga,romfile= -nodefaults -qtest /dev/null -qtest stdio
- * outl 0xcf8 0x80001018
- * outl 0xcfc 0xe1000000
- * outl 0xcf8 0x80001004
- * outw 0xcfc 0x02
- * write 0xe10016c4 0x1 0x04
- * write 0xe10016e4 0x1 0x58
- * write 0xe1001438 0x4 0x0400001a
- * write 0xe100143c 0x4 0x01000015
- * EOF
- */
-static void test_fuzz(void)
-{
-    QTestState *s = qtest_init(
-        "-display none , -m 512M -device ati-vga,romfile= -nodefaults -qtest /dev/null");
-    qtest_outl(s, 0xcf8, 0x80001018);
-    qtest_outl(s, 0xcfc, 0xe1000000);
-    qtest_outl(s, 0xcf8, 0x80001004);
-    qtest_outw(s, 0xcfc, 0x02);
-    qtest_bufwrite(s, 0xe10016c4, "\x04", 0x1);
-    qtest_bufwrite(s, 0xe10016e4, "\x58", 0x1);
-    qtest_bufwrite(s, 0xe1001438, "\x04\x00\x00\x1a", 0x4);
-    qtest_bufwrite(s, 0xe100143c, "\x01\x00\x00\x15", 0x4);
-    qtest_quit(s);
-}
-
-============= >8 =============
--Alex
-
+06.09.2021 22:28, Markus Armbruster wrote:
+> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
 > 
-> On 9/6/21 6:44 PM, Mauro Matteo Cascella wrote:
-> > On Mon, Sep 6, 2021 at 5:31 PM Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
-> >>
-> >> When building QEMU with DEBUG_ATI defined then running with
-> >> '-device ati-vga,romfile="" -d unimp,guest_errors -trace ati\*'
-> >> we get:
-> >>
-> >>   ati_mm_write 4 0x16c0 DP_CNTL <- 0x1
-> >>   ati_mm_write 4 0x146c DP_GUI_MASTER_CNTL <- 0x2
-> >>   ati_mm_write 4 0x16c8 DP_MIX <- 0xff0000
-> >>   ati_mm_write 4 0x16c4 DP_DATATYPE <- 0x2
-> >>   ati_mm_write 4 0x224 CRTC_OFFSET <- 0x0
-> >>   ati_mm_write 4 0x142c DST_PITCH_OFFSET <- 0xfe00000
-> >>   ati_mm_write 4 0x1420 DST_Y <- 0x3fff
-> >>   ati_mm_write 4 0x1410 DST_HEIGHT <- 0x3fff
-> >>   ati_mm_write 4 0x1588 DST_WIDTH_X <- 0x3fff3fff
-> >>   ati_2d_blt: vram:0x7fff5fa00000 addr:0 ds:0x7fff61273800 stride:2560 bpp:32 rop:0xff
-> >>   ati_2d_blt: 0 0 0, 0 127 0, (0,0) -> (16383,16383) 16383x16383 > ^
-> >>   ati_2d_blt: pixman_fill(dst:0x7fff5fa00000, stride:254, bpp:8, x:16383, y:16383, w:16383, h:16383, xor:0xff000000)
-> >>   Thread 3 "qemu-system-i38" received signal SIGSEGV, Segmentation fault.
-> >>   (gdb) bt
-> >>   #0  0x00007ffff7f62ce0 in sse2_fill.lto_priv () at /lib64/libpixman-1.so.0
-> >>   #1  0x00007ffff7f09278 in pixman_fill () at /lib64/libpixman-1.so.0
-> >>   #2  0x0000555557b5a9af in ati_2d_blt (s=0x631000028800) at hw/display/ati_2d.c:196
-> >>   #3  0x0000555557b4b5a2 in ati_mm_write (opaque=0x631000028800, addr=5512, data=1073692671, size=4) at hw/display/ati.c:843
-> >>   #4  0x0000555558b90ec4 in memory_region_write_accessor (mr=0x631000039cc0, addr=5512, ..., size=4, ...) at softmmu/memory.c:492
-> >>
-> >> Commit 584acf34cb0 ("ati-vga: Fix reverse bit blts") introduced
-> >> the local dst_x and dst_y which adjust the (x, y) coordinates
-> >> depending on the direction in the SRCCOPY ROP3 operation, but
-> >> forgot to address the same issue for the PATCOPY, BLACKNESS and
-> >> WHITENESS operations, which also call pixman_fill().
-> >>
-> >> Fix that now by using the adjusted coordinates in the pixman_fill
-> >> call, and update the related debug printf().
-> >>
-> >> Reported-by: Qiang Liu <qiangliu@zju.edu.cn>
-> >> Fixes: 584acf34cb0 ("ati-vga: Fix reverse bit blts")
-> >> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> >> ---
-> >>  hw/display/ati_2d.c | 6 +++---
-> >>  1 file changed, 3 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
-> >> index 4dc10ea7952..692bec91de4 100644
-> >> --- a/hw/display/ati_2d.c
-> >> +++ b/hw/display/ati_2d.c
-> >> @@ -84,7 +84,7 @@ void ati_2d_blt(ATIVGAState *s)
-> >>      DPRINTF("%d %d %d, %d %d %d, (%d,%d) -> (%d,%d) %dx%d %c %c\n",
-> >>              s->regs.src_offset, s->regs.dst_offset, s->regs.default_offset,
-> >>              s->regs.src_pitch, s->regs.dst_pitch, s->regs.default_pitch,
-> >> -            s->regs.src_x, s->regs.src_y, s->regs.dst_x, s->regs.dst_y,
-> >> +            s->regs.src_x, s->regs.src_y, dst_x, dst_y,
-> >>              s->regs.dst_width, s->regs.dst_height,
-> >>              (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ? '>' : '<'),
-> >>              (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ? 'v' : '^'));
-> >> @@ -180,11 +180,11 @@ void ati_2d_blt(ATIVGAState *s)
-> >>          dst_stride /= sizeof(uint32_t);
-> >>          DPRINTF("pixman_fill(%p, %d, %d, %d, %d, %d, %d, %x)\n",
-> >>                  dst_bits, dst_stride, bpp,
-> >> -                s->regs.dst_x, s->regs.dst_y,
-> >> +                dst_x, dst_y,
-> >>                  s->regs.dst_width, s->regs.dst_height,
-> >>                  filler);
-> >>          pixman_fill((uint32_t *)dst_bits, dst_stride, bpp,
-> >> -                    s->regs.dst_x, s->regs.dst_y,
-> >> +                    dst_x, dst_y,
-> >>                      s->regs.dst_width, s->regs.dst_height,
-> >>                      filler);
-> >>          if (dst_bits >= s->vga.vram_ptr + s->vga.vbe_start_addr &&
-> >> --
-> >> 2.31.1
-> >>
-> > 
-> > Tested-by: Mauro Matteo Cascella <mcascell@redhat.com>
+>> We are going to support nbd reconnect on open in a next commit. This
+>> means that we want to do several connection attempts during some time.
+>> And this should be done in a coroutine, otherwise we'll stuck.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   qapi/block-core.json | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/qapi/block-core.json b/qapi/block-core.json
+>> index 06674c25c9..6e4042530a 100644
+>> --- a/qapi/block-core.json
+>> +++ b/qapi/block-core.json
+>> @@ -4219,7 +4219,8 @@
+>>   # <- { "return": {} }
+>>   #
+>>   ##
+>> -{ 'command': 'blockdev-add', 'data': 'BlockdevOptions', 'boxed': true }
+>> +{ 'command': 'blockdev-add', 'data': 'BlockdevOptions', 'boxed': true,
+>> +  'coroutine': true }
+>>   
+>>   ##
+>>   # @blockdev-reopen:
 > 
-> Thanks. I wouldn't be surprise if we get another CVE in this code /
-> file / function ASAP this patch get merged... The code calls for a
-> rewrite, as per this function comment in its header:
+> Why is this safe?
 > 
-> void ati_2d_blt(ATIVGAState *s)
-> {
->     /* FIXME it is probably more complex than this and may need to be */
->     /* rewritten but for now as a start just to get some output: */
-> 
-> Regards,
-> 
-> Phil.
-> 
+> Prior discusson:
+> Message-ID: <87lfq0yp9v.fsf@dusky.pond.sub.org>
+> https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg04921.html
 > 
 
+Hmm.. I'm afraid, that I can't prove that it's safe. At least it will mean to audit .bdrv_open() of all block drivers.. And nothing prevents creating new incompatible drivers in future..
+
+On the other hand, looking at qmp_blockdev_add, bdrv_open() is the only thing of interest.
+
+And theoretically, bdrv_open() should work in coroutine context. We do call this function from coroutine_fn functions sometimes. So, maybe, if in some circumstances, bdrv_open() is not compatible with coroutine context, we can consider it as a bug? And fix it later, if it happen?
+
+-- 
+Best regards,
+Vladimir
 
