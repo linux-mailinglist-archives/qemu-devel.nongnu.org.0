@@ -2,50 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462F240169B
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 08:52:52 +0200 (CEST)
-Received: from localhost ([::1]:58796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 384294016A1
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 08:53:57 +0200 (CEST)
+Received: from localhost ([::1]:33156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mN8Us-00060V-Ru
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 02:52:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55150)
+	id 1mN8Vw-0007ow-7K
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 02:53:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
- id 1mN8SC-0004qi-JT; Mon, 06 Sep 2021 02:50:05 -0400
-Received: from atcsqr.andestech.com ([60.248.187.195]:14497)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mN8Td-0005p8-A9
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 02:51:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
- id 1mN8S9-0007ju-0R; Mon, 06 Sep 2021 02:50:03 -0400
-Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
- by ATCSQR.andestech.com with ESMTP id 1866nZB2076430;
- Mon, 6 Sep 2021 14:49:35 +0800 (GMT-8)
- (envelope-from ruinland@andestech.com)
-Received: from ruinland-x1c (49.216.19.106) by ATCPCS16.andestech.com
- (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Mon, 6 Sep 2021
- 14:49:37 +0800
-Date: Mon, 6 Sep 2021 14:49:36 +0800
-From: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
-To: Alistair Francis <alistair23@gmail.com>
-Subject: Re: [RFC PATCH 0/2] riscv: Adding custom CSR related Kconfig options
-Message-ID: <YTW6ADQMBcs5csXv@ruinland-x1c>
-References: <20210826151332.32753-1-ruinland@andestech.com>
- <CAKmqyKPY=Q61x7gf_0S1-B66VMpZCFx1r5ENJG0J5FNX6NLz0w@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mN8TX-0000iv-5e
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 02:51:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630911075;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=a5OtTIJAF0X8uKPI1sqOz2T74h43+nVGzrNXOgkW24c=;
+ b=YCrhfGE5VoDevHIegIl4fXKTVE6g4QG61o6Eflr2u2T3kcAX4N2HzQyTv82PiFtORfsDX3
+ /79ltSbQ2u/OVi76odldDs/vVyIQ/EKixmD0ILxLDQO5LUUgRzTGPre6qgewMnrXEaoWyR
+ vhhBoDm3fku2UBlsHuuctLpZHpl1tNA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-Np2iGnPAOeiTf3wJNghzcA-1; Mon, 06 Sep 2021 02:51:13 -0400
+X-MC-Unique: Np2iGnPAOeiTf3wJNghzcA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ y21-20020a056402359500b003cd0257fc7fso3201759edc.10
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 23:51:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=a5OtTIJAF0X8uKPI1sqOz2T74h43+nVGzrNXOgkW24c=;
+ b=MMx8KOC6uuln6gaFfLkF9aXIkVMoHRPPZHeF+1RfyMTWEsbbo7sG6Vf+bRqX/1+wjp
+ dK+Rr30LLExHoBmWHxcVjeu7Cl60B/3yhuP8g1tNMcicLiN4qVzkTN+4/DV358e1Nh2h
+ M4GXY6pl31LPt/PB/MDWxQ9UAD5qkpbwXnypgelSaxO4hW8w5Vz6ZouZfU+PqVjIQ8ex
+ N/YjrmtcHrJcEjblGkaj1RqHJf0baXjGKoUISRBpH39ihiuAajGOZH6pfSnQHbojy+9t
+ +Wo1fHK1V+UJEy/urWSbPUco0a29bC4px1dB/ZKSWO+NlEpVPq2F8T2EpwigGm2bdoWb
+ fksQ==
+X-Gm-Message-State: AOAM5327iYAXANxQZ26DmKSXGhtKbduswFA88tYN0jxc4UiRo9e73pU2
+ PFdC1A0EST7uONQb6gH1tMT2qpfIkAivaHkUsoKEP+qD89GCqC28ZCtmfiQII9nI4xmMkNjLRWd
+ nREJpovk4bkhfaps=
+X-Received: by 2002:a50:ab42:: with SMTP id t2mr12116062edc.113.1630911072863; 
+ Sun, 05 Sep 2021 23:51:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwqr8QAiYarq939Lbxzude1H+jt1uceRHgEY8uTDmKJbhojxNU8OVmJsoYiZblFkSAcHk6oKw==
+X-Received: by 2002:a50:ab42:: with SMTP id t2mr12116053edc.113.1630911072723; 
+ Sun, 05 Sep 2021 23:51:12 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id q9sm3326913ejf.70.2021.09.05.23.51.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 05 Sep 2021 23:51:11 -0700 (PDT)
+Subject: Re: [PATCH] softmmu/memory: Validate {read,write}_with_attrs before
+ calling
+To: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bmeng.cn@gmail.com>
+References: <20210905154049.7992-1-bmeng.cn@gmail.com>
+ <CAFEAcA8frUy2wmQjj=Bk_GGT9O=qHzb5pjSFupc7SaEyDUvYZg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <8da074de-7dff-6505-5180-720cf2f47c70@redhat.com>
+Date: Mon, 6 Sep 2021 08:51:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CAKmqyKPY=Q61x7gf_0S1-B66VMpZCFx1r5ENJG0J5FNX6NLz0w@mail.gmail.com>
-User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
-X-Originating-IP: [49.216.19.106]
-X-DNSRBL: 
-X-MAIL: ATCSQR.andestech.com 1866nZB2076430
-Received-SPF: pass client-ip=60.248.187.195;
- envelope-from=ruinland@andestech.com; helo=ATCSQR.andestech.com
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA8frUy2wmQjj=Bk_GGT9O=qHzb5pjSFupc7SaEyDUvYZg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.832, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,175 +101,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: guoren@linux.alibaba.com, qemu-riscv@nongnu.org, alankao@andestech.com,
- wangjunqiang@iscas.ac.cn, dylan@andestech.com, qemu-devel@nongnu.org,
- ycliang@andestech.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>, P J P <pjp@fedoraproject.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 05/09/21 18:29, Peter Maydell wrote:
+> Last time this came up, we discussed the other option, which
+> is to have memory_region_init assert that the MemoryRegionOps
+> defines at least one valid read and one valid write pointer,
+> so that these bugs get caught quickly rather than only if the
+> guest accesses the device in the wrong way. I tend to think
+> that that is better
 
-Hi Alistair,
+I agree, and Prasad had even posted a patch for that, but it failed some 
+qtests and I ended up never checking why that was.
 
-Thanks for the heads up about the upcoming unification of RISC-V 32/64 targets.
-Yet I have several concerns and would like to have some brainstorming regarding
-such topics - -
+Paolo
 
-That is, could you elaborate more about the "runtime check/switch" which you
-mentioned in the previous e-mail :
-https://lists.nongnu.org/archive/html/qemu-devel/2021-08/msg02154.html
-I'm not quite following the context.
-If we don't have a way to toggle which (vendor) cores, which will be used,
-during compile time, it means that we have to build all the vendor code and
-link them all together; and we might have the chance to encounter collision on
-csrno between different vendors.
-
-Secondly, I'm not quite sure about how we're going to merge decode tree files
-across RV32 and RV64. Vendor-designed custom instruction would have a different
-encoding scheme on bitfields for RV32 and RV64. Currently, we (Andes) are using
-different decodetree sources for gen32 and gen64 in `target/riscv/meson.build`.
-I'm preparing the patch to demonstrate such hiccups.
-
-As far as I know, there's no control flow logic for decodetree to parse
-decodetree files differently. (e.g. ifdef XLEN == 32 then blah, blah).
-
-To meet in the halfway, maybe after the grand unification on RV32/64, we can
-still confine vendor custom logic (i.e. instrucions and CSRs) to be toggled by
-whether a certain vendor cpu model is selected ?
-
-By the way, I'm wondering how our friends from T-Head (Guo Ren ?) regard this
-issue ? AFAIK, they forked QEMU from v3.2.0 and applied their vendor features
-on top of it for quite a while.
-
-Cordially yours,
-Ruinland ChuanTzu Tsai
-
-On Thu, Sep 02, 2021 at 12:25:20PM +1000, Alistair Francis wrote:
-> On Fri, Aug 27, 2021 at 1:16 AM Ruinland Chuan-Tzu Tsai
-> <ruinland@andestech.com> wrote:
-> >
-> > From: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
-> >
-> > During my modification on my previous patch series for custom CSR support, I
-> > believe this issue deserves its own discussion (or debate) because it's _not_
-> > as simple as "just put those options in Kconfig".
-> >
-> > The obstables I've encountered and the kluges I came up is listed as follow :
-> >
-> > (1) Due to the design of top-level meson.build, all Kconfig options will land
-> > into `*-config-devices.h` since minikconf will be only used after config_target
-> > being processed. This will let to the fact that linux-users won't be able to
-> > use custom CSR code properly becuase they only includes `*-config-devices.h`.
-> > And that is reasonble due to the fact that changes on cpu.c and csr.c is a
-> > target-related matter and linux-user mode shouldn't include device related
-> > headers in most of cases.
-> >
-> > So, modify meson.build to parse target/riscv/Kconfig during config_target phase
-> > is without doubts necessary.
-> >
-> > (2) Kconfig option `RISCV_CUSTOM_CSR` is introduced for RISC-V cpu models to
-> > toggle it at its will. Yet due to the fact that csr.o and cpu.o are linked
-> > altogether for all CPU models, the suffer will be shared without option.
-> > The only reasonable way to seperate build the fire lane which seperates vendor
-> > flavored cpu and spec-conformed ones, is to build them seperately with options
-> > toggled diffrently, just like RV32 and RV64 shares almost the same source base,
-> > yet the sources are compiled with differnt flags/definitions.
-> >
-> > To achieve that, miraculously, we can just put *.mak files into `target`
-> > directoy, because that's how `configure` enumerates what targets are supported.
-> >
-> > (3) The longest days are not over yet, if we take a good look at how the minikconf
-> > is invoked during config_devices and in what way *.mak presented its options
-> > inside `default-configs/devices`, we can see that *.mak files there is formated
-> > in `CONFIG_*` style and the minikconf is reading directly during config_device
-> > phase. That's totally different from *.mak files presented in
-> > `default-configs/targets`. To make the parsing logic consistent, I
-> > introduce a rv_custom directory inside which contains minikconf-parsable
-> > mak files.
-> >
-> > With this patches, ones can build a A25/AX25 linux-user platform by :
-> > $ ./configure --target-list=riscv64-andes-linux-user,riscv32-andes-linux-user
-> 
-> Hey! Thanks for the patches
-> 
-> I'm not convinced that we want this though.
-> 
-> Right now we are trying to head towards a riscv64-softmmu binary being
-> able to run all RISC-V code. That include 32-bit cpus
-> (qemu-riscv64-softmmu -cpu r32...) and 64-bit CPUs. We shouldn't be
-> splitting out more targets.
-> 
-> It also goes against the general idea of RISC-V in that everyone has a
-> standard compliant implementation, they can then add extra
-> functionality.
-> 
-> In terms of Kconfig options. It doesn't seem like a bad idea to have
-> an option to fully disable custom CSRs. That way if someone really
-> wants performance and doesn't want custom CSRs they can disable the
-> switch. Otherwise we leave it on and all custom CSRs are available in
-> the build and then controlled by the CPU selection at runtime. If that
-> ends up being too difficult to implement though then we don't have to
-> have it.
-> 
-> Thanks again for working on this.
-> 
-> Alistair
-> 
-> 
-> > $ make
-> >
-> > P.S. The pacthes from :
-> > https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg00913.html
-> > is needed. A clean-up and modified version will be sent out soon.
-> >
-> > P.P.S.
-> > I know these parts won't be easy to digest, and the further iterations will be
-> > needed, so I didn't ask my colleagues to sign-off for now.
-> >
-> > Cordially yours,
-> > Ruinland ChuanTzu Tsai
-> >
-> > Ruinland ChuanTzu Tsai (2):
-> >   Adding Kconfig options for custom CSR support and Andes CPU model
-> >   Adding necessary files for Andes platforms, cores to enable custom CSR
-> >     support
-> >
-> >  Kconfig                                       |  1 +
-> >  .../devices/riscv32-andes-softmmu.mak         | 17 ++++++++++++
-> >  .../devices/riscv64-andes-softmmu.mak         | 17 ++++++++++++
-> >  .../targets/riscv32-andes-linux-user.mak      |  1 +
-> >  .../targets/riscv32-andes-softmmu.mak         |  1 +
-> >  .../targets/riscv64-andes-linux-user.mak      |  1 +
-> >  .../targets/riscv64-andes-softmmu.mak         |  1 +
-> >  .../targets/rv_custom/no_custom.mak           |  0
-> >  .../rv_custom/riscv32-andes-linux-user.mak    |  1 +
-> >  .../rv_custom/riscv32-andes-softmmu.mak       |  1 +
-> >  .../targets/rv_custom/riscv32-linux-user.mak  |  1 +
-> >  .../targets/rv_custom/riscv32-softmmu.mak     |  1 +
-> >  .../rv_custom/riscv64-andes-linux-user.mak    |  1 +
-> >  .../rv_custom/riscv64-andes-softmmu.mak       |  1 +
-> >  .../targets/rv_custom/riscv64-linux-user.mak  |  1 +
-> >  .../targets/rv_custom/riscv64-softmmu.mak     |  1 +
-> >  meson.build                                   | 26 +++++++++++++++++++
-> >  target/riscv/Kconfig                          |  6 +++++
-> >  18 files changed, 79 insertions(+)
-> >  create mode 100644 default-configs/devices/riscv32-andes-softmmu.mak
-> >  create mode 100644 default-configs/devices/riscv64-andes-softmmu.mak
-> >  create mode 120000 default-configs/targets/riscv32-andes-linux-user.mak
-> >  create mode 120000 default-configs/targets/riscv32-andes-softmmu.mak
-> >  create mode 120000 default-configs/targets/riscv64-andes-linux-user.mak
-> >  create mode 120000 default-configs/targets/riscv64-andes-softmmu.mak
-> >  create mode 100644 default-configs/targets/rv_custom/no_custom.mak
-> >  create mode 100644 default-configs/targets/rv_custom/riscv32-andes-linux-user.mak
-> >  create mode 100644 default-configs/targets/rv_custom/riscv32-andes-softmmu.mak
-> >  create mode 120000 default-configs/targets/rv_custom/riscv32-linux-user.mak
-> >  create mode 120000 default-configs/targets/rv_custom/riscv32-softmmu.mak
-> >  create mode 100644 default-configs/targets/rv_custom/riscv64-andes-linux-user.mak
-> >  create mode 100644 default-configs/targets/rv_custom/riscv64-andes-softmmu.mak
-> >  create mode 120000 default-configs/targets/rv_custom/riscv64-linux-user.mak
-> >  create mode 120000 default-configs/targets/rv_custom/riscv64-softmmu.mak
-> >  create mode 100644 target/riscv/Kconfig
-> >
-> > --
-> > 2.32.0
-> >
 
