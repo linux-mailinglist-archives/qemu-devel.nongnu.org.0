@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B022D401D30
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 16:40:00 +0200 (CEST)
-Received: from localhost ([::1]:51624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28CF401D3A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 16:42:46 +0200 (CEST)
+Received: from localhost ([::1]:54640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNFmx-0005W2-9N
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 10:39:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48700)
+	id 1mNFpd-0007mu-RB
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 10:42:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mNFm4-0004fM-OA
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 10:39:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33673)
+ id 1mNFoR-0006uc-3n
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 10:41:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mNFm3-0006uf-0c
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 10:39:04 -0400
+ id 1mNFoP-0000fx-LG
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 10:41:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630939142;
+ s=mimecast20190719; t=1630939288;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hD2DgVkuL0eKnO1s63CcIuBdztRtwDhIrROJ2rKhexM=;
- b=NMS2uKhOIzdffIhnWfZyuHxfFlnuko9ZI3wLNihTw+lgsPUTFZUfCfW/ipiYc+qf78Z9Uy
- wPiL+zO+jcsdT1ItxPqD98g8eflw2uTUY2fWLutIV//pM7bOpD6CR4uVWFDkCUs23rmrqs
- Edi67+DWvUivZhEEYIP1avVIzGAtqck=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-4XMQUIEIM7mLVjt5gXLWfQ-1; Mon, 06 Sep 2021 10:39:01 -0400
-X-MC-Unique: 4XMQUIEIM7mLVjt5gXLWfQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k5-20020a7bc3050000b02901e081f69d80so2410354wmj.8
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 07:39:00 -0700 (PDT)
+ bh=bNZmFUxIyYOyp2UU77EfnsRN0bsS1NEmfFfsmjO7RzI=;
+ b=RV20ETcfIvHGu0OVYAnTjOsaK2ZPN4wUM1RzqcQda5NlMeIkNMr2C9cOyXOGj0auoSe2bs
+ nFJQGRCzDjg0Mlf7O/BAsBefbYhj2Jgklw7qWhHLOhxCIstAudean8l9dSDTWykoHJridg
+ 3R2sCoSK1sBI9vd455oAJNVYQw0ICb8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-594-dql85_c4Pdud3UU9qcu_qQ-1; Mon, 06 Sep 2021 10:41:26 -0400
+X-MC-Unique: dql85_c4Pdud3UU9qcu_qQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ p18-20020a5d4e12000000b0015940dc586aso1256509wrt.6
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 07:41:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:reply-to:subject:to:cc:references:from
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-transfer-encoding:content-language;
- bh=hD2DgVkuL0eKnO1s63CcIuBdztRtwDhIrROJ2rKhexM=;
- b=l/veEozrUnVfgrzMHk43T4ReJ2sBjSHMH4YCF+repTZXweZLSoSaY72DaxTdAj5Hll
- yfwCKBmXli9NFc0jqVz18/Tn2Pakqf10CkuqhYJSc8jXJK9nVvS/GoYgIpfPlNEHE3zr
- p2eqadUyZRpZxgEMqvGwbA0NLTPiZ0UchBIERU1tfNLqIMxSCPwV/LmNrwq8+DD3VQ+t
- I/UBJD/R1aMbUP4M3dmtufZ8N2B7TlUB5/iNGDFQxpZZ8W75EgsPKWwsFxfIIeCr6K7o
- oToca7HZaNzwvNj0XVDaMlRTFr9rdCBfQk//mEncW1rw824FmNrkTLV24G8LD7isurpz
- k/uA==
-X-Gm-Message-State: AOAM531cMUnXXZZe7pg6ALtMv/IczQJb1D9Qg0leKbUzjd+Rl9XlCx30
- mIGvoS8EeAY3UYm9Epku42hpxzbkEOrtsKfZNiXxGFlnJBy/c9Dsn8/YY3Zqrk7IlLFxJm3sbRD
- 5aFAU+mXn9xAr3A8=
-X-Received: by 2002:a5d:548e:: with SMTP id h14mr13914081wrv.7.1630939140070; 
- Mon, 06 Sep 2021 07:39:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxMS1IkltCvS7A4VCAAwMaQIL3aJnCgVp7e7yB/zWwZoMiuS9eZ/vBR83Ere9u6RVL21qf2Lg==
-X-Received: by 2002:a5d:548e:: with SMTP id h14mr13914052wrv.7.1630939139878; 
- Mon, 06 Sep 2021 07:38:59 -0700 (PDT)
+ bh=bNZmFUxIyYOyp2UU77EfnsRN0bsS1NEmfFfsmjO7RzI=;
+ b=cnTvFRB6GBdqAoapFkG2WlXok/mcePN1u28obSpw0TrYQLUcpPQDPDbZvL9ix9teVw
+ a7Opj/IppQ2iB9OvOhWPTrhbiMT13NXN9Lz8wIA8HDHBFOjukVmsD8dZeVQX/DvfYDmC
+ 8rjxp/YbpfATsmx1ZiLqmBL+paSHKCqO4QIU4RJX0JRn41yERGsbhfen8d5ferPT07Wu
+ RAIoI5Gsh9di3EjoRBGYcg8MhGmiYqQSCN9zXKVUUh8JkY39c+Jr7hKRX0yhYO+YDECm
+ s3fKngtkECl7PyBashD8Jz3s+rW6iSyAmZYXBIdR8TqZ7LLxdR5S+Y/Pd2Z6W87otU/M
+ P2ig==
+X-Gm-Message-State: AOAM530V1iFndKWSH8oGqMS3okErCF4/QuadSKISiJUx36o6dDHYcbNY
+ 8jj7Pwx2aUVUdY22if9wIt/BpHcBRoyLg3vLqH/UsKmboVAY1kJdljAtQd7DfsQaWGxMNBBSLHz
+ Z7XPKi4pq4Bf5PiE=
+X-Received: by 2002:adf:80c8:: with SMTP id 66mr13967696wrl.65.1630939285048; 
+ Mon, 06 Sep 2021 07:41:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzCX/QposC9zgkhRvXsM6Gw5GEfhWbIJL0VGNusKfJhCT3oRymUabhxhMU3rHNnUa/Of5AQuQ==
+X-Received: by 2002:adf:80c8:: with SMTP id 66mr13967682wrl.65.1630939284887; 
+ Mon, 06 Sep 2021 07:41:24 -0700 (PDT)
 Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
  ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id h8sm7351319wmb.35.2021.09.06.07.38.58
+ by smtp.gmail.com with ESMTPSA id u26sm8491916wrd.32.2021.09.06.07.41.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Sep 2021 07:38:59 -0700 (PDT)
-Subject: Re: [PATCH v2 4/8] hw/arm/virt: Remove device tree restriction for
- virtio-iommu
+ Mon, 06 Sep 2021 07:41:24 -0700 (PDT)
+Subject: Re: [PATCH v2 8/8] docs: Add '-device virtio-iommu' entry
 To: Jean-Philippe Brucker <jean-philippe@linaro.org>
 References: <20210903143208.2434284-1-jean-philippe@linaro.org>
- <20210903143208.2434284-5-jean-philippe@linaro.org>
+ <20210903143208.2434284-9-jean-philippe@linaro.org>
 From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <79d2016a-7736-c680-0c60-074dc8e37e52@redhat.com>
-Date: Mon, 6 Sep 2021 16:38:57 +0200
+Message-ID: <4aaffa5a-e9cf-9997-aa59-dcb2726ad696@redhat.com>
+Date: Mon, 6 Sep 2021 16:41:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210903143208.2434284-5-jean-philippe@linaro.org>
+In-Reply-To: <20210903143208.2434284-9-jean-philippe@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,7 +80,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -54
 X-Spam_score: -5.5
@@ -112,63 +111,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Hi Jean,
 
 On 9/3/21 4:32 PM, Jean-Philippe Brucker wrote:
-> virtio-iommu is now supported with ACPI VIOT as well as device tree.
-> Remove the restriction that prevents from instantiating a virtio-iommu
-> device under ACPI.
->
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> Document the virtio-iommu device for qemu-system-x86_64. In particular
+Nit: this is not only for qemu-system-x86_6. This also documents the
+option usage for aarch64. Only the interrupt remapping note is x86-64
+specific.
+
+I think it also would be worth to mention the interaction with the
+bypass iommu option as you mention "for all devices".
+
+Thanks
 
 Eric
-
-> ---
->  hw/arm/virt.c                | 10 ++--------
->  hw/virtio/virtio-iommu-pci.c |  7 -------
->  2 files changed, 2 insertions(+), 15 deletions(-)
+> note the lack of interrupt remapping, which may be an important
+> limitation on x86.
 >
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 81eda46b0b..b4598d3fe6 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -2551,16 +2551,10 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
->      MachineClass *mc = MACHINE_GET_CLASS(machine);
+> Suggested-by: Eric Auger <eric.auger@redhat.com>
+> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> ---
+>  qemu-options.hx | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 83aa59a920..9a1906a748 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -976,6 +976,9 @@ SRST
+>      Please also refer to the wiki page for general scenarios of VT-d
+>      emulation in QEMU: https://wiki.qemu.org/Features/VT-d.
 >  
->      if (device_is_dynamic_sysbus(mc, dev) ||
-> -       (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM))) {
-> +        object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
-> +        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
->          return HOTPLUG_HANDLER(machine);
->      }
-> -    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-> -        VirtMachineState *vms = VIRT_MACHINE(machine);
-> -
-> -        if (!vms->bootinfo.firmware_loaded || !virt_is_acpi_enabled(vms)) {
-> -            return HOTPLUG_HANDLER(machine);
-> -        }
-> -    }
->      return NULL;
->  }
+> +``-device virtio-iommu``
+> +    Enable a paravirtual IOMMU, that manages DMA isolation and remapping
+> +    for all PCI devices, but does not support interrupt remapping.
+>  ERST
 >  
-> diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
-> index 770c286be7..f30eb16cbf 100644
-> --- a/hw/virtio/virtio-iommu-pci.c
-> +++ b/hw/virtio/virtio-iommu-pci.c
-> @@ -48,16 +48,9 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
->      VirtIOIOMMU *s = VIRTIO_IOMMU(vdev);
->  
->      if (!qdev_get_machine_hotplug_handler(DEVICE(vpci_dev))) {
-> -        MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
-> -
-> -        error_setg(errp,
-> -                   "%s machine fails to create iommu-map device tree bindings",
-> -                   mc->name);
->          error_append_hint(errp,
->                            "Check your machine implements a hotplug handler "
->                            "for the virtio-iommu-pci device\n");
-> -        error_append_hint(errp, "Check the guest is booted without FW or with "
-> -                          "-no-acpi\n");
->          return;
->      }
->      for (int i = 0; i < s->nb_reserved_regions; i++) {
+>  DEF("name", HAS_ARG, QEMU_OPTION_name,
 
 
