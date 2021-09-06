@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A8A0401C5A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:36:03 +0200 (CEST)
-Received: from localhost ([::1]:59890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 262DB401C68
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:37:32 +0200 (CEST)
+Received: from localhost ([::1]:36200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNEn4-00014X-Go
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:36:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57656)
+	id 1mNEoV-0004B5-8o
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:37:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPj-0001lj-HD
+ id 1mNEPj-0001kE-5A
  for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:55 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42660)
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPg-0007vw-Cb
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:55 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id q11so9790403wrr.9
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:51 -0700 (PDT)
+ id 1mNEPh-0007xm-Ec
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:54 -0400
+Received: by mail-wr1-x429.google.com with SMTP id z4so9781369wrr.6
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HAt0eGXEKChJ/sufXGKv5vEWs3agVzrZ8z2soVYehEo=;
- b=hsTcY4kfkhTlXqwhphSjxr50oFx5gLdJQJXwZG07mQsd3vVTcqkI1QrxSV3DkfLnQk
- PaqaI6TLkyq8ExsHvLADhPmlcowBgIMwkBxy7vTkQG8Yxkc5DUzjCRVE5BO/ObtxJK8f
- DZUnOaX96geRQkplEXDNQm4FpVNXQpSmSonvC9wn2bdL0pkdsj2Rk3367GLASiWiJsSz
- pQyogLJmcB1WbncrZbWxfAwQUUj3RvTsfe7GbJODu1dj5Xec32ITNiaSRHE4KKWL0jId
- yBvnqFUIZUgYinlfO6esRzEP7she2Ffvz2MUmRuUMk1kdwoCw4o/k+FavO11tBu8L3OH
- 2N/g==
+ bh=sAWCVmhntjt3N2I3a0MmSk7QA9BliYQ2Nc92h12oy2c=;
+ b=aUfHxbaLmK0NddcEfpYIatbtZy/+LvAnOrFxLc5IRaUEJBB/OIIANxOJpMnrHW+4VU
+ xKtCo1x7BembYeh2rgAUD60XSb50jP/Ah2Ca1lYzwnldqqcqAfc7vvea4LfiG9iqA91Q
+ CUNcd2ueHuGhT8FSoCjTtiCEyxEZegFslP2MFzwyip81xG/pz+hPCCywZoNDT5Yk/vxK
+ kBgqCeO1mu4y1RRcKBsialYD0ijf1IJcNvj0FLXECI+Pl+SiepVuzYAAmRRp4DqMXArT
+ tOeJBXcPqj+fsNMTeGa61f++F5MT/myp4nZ5bjeyGT8+OHcL+QfxYeH0REbzl5Z/zShv
+ Wwpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HAt0eGXEKChJ/sufXGKv5vEWs3agVzrZ8z2soVYehEo=;
- b=BJaP/l9IbwrleoQHM6/oRhBRlZ5A6QA/EaDum7FkuoRlOKdShaeq1nISGHIww5QoEb
- fARPM6A2feSMHclA/6c6tcoGPieVA4JPK41+pIOkU5I29w75K8ewDh0CwpiY5bpr62ts
- /fX0m9B8PO3SYZqLC9kWj+krWw95ngy/eCZmHC/mCaEwaHyJiFulYL5nmvP7ybkoUfoa
- kZ4hlEePaZ/MmOmzKyVImXzeHWywo1ighmIp1/HoyBkBxTM0CotiIvR4YXlvm9jqMbtm
- 931JSg4VGAIrWnAZo8FKkBpuJiol3qwuM1uzz/CrXhrJ2dJMn9DbiKfcnHp4mVV1Wao8
- rLuw==
-X-Gm-Message-State: AOAM5314EOUwDFu6eBx/P8qb2HXBIeUSmHVyUM0V2kiAXXMLH7ae2633
- axsb3e47l3Wjis/h7Affo+R/TQOEOgs=
-X-Google-Smtp-Source: ABdhPJzcbNJst16K630FnxGlkUn+SyeblfFnPUg1I5QnEe0Wwb5XNZJqr5aCrn3NVt1FwznPngXJqw==
-X-Received: by 2002:adf:c38c:: with SMTP id p12mr13082134wrf.113.1630933911043; 
- Mon, 06 Sep 2021 06:11:51 -0700 (PDT)
+ bh=sAWCVmhntjt3N2I3a0MmSk7QA9BliYQ2Nc92h12oy2c=;
+ b=YAWt4FnROJOVGC9zSzte/L8EierQCrYMnnpb95HznBAauftvGrKBzc6bnXEiBArb/Y
+ OFAmT7dYy/BnXLDWaFY+nKJMZ1DrBWWdOzgD2/3RVeIGzb+/FVGOWeciSmvLp0AQwU+n
+ xCb3bqRLIHGEidg26AlbYqn2k7kf14/Jp3YSg1euZzl5zKxbYJDSfLLzHSG7m2Uqd7ul
+ kanoq0S+fyql1sT/StaYpASQep+0fvzhNV6byRkUy7r3YmgrCzFw2VB0Kq8eRJO1oEIJ
+ R9J9qoi61n0PPvTWceN4Z3dmqvVBBIFJAOLOBa7rb9x2P7u3QrMZ3VhwEPlF2a1cbFTc
+ uhCA==
+X-Gm-Message-State: AOAM530Ravj3D61pqZAoUz7tzXFfW7LPCGR6+U8s36/+KGvrnwWjEAmm
+ IQjinDf0Wt/tAHsqfjbVhqORnBFtuLk=
+X-Google-Smtp-Source: ABdhPJxr8XqlK4IojaGoikoEks3lfzyo3jGyexLI6aYRbkJgnRgIclzhk679Sn4qyySFHraQZyVtkw==
+X-Received: by 2002:a5d:69c6:: with SMTP id s6mr13201598wrw.157.1630933912189; 
+ Mon, 06 Sep 2021 06:11:52 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- k4sm7992331wrm.74.2021.09.06.06.11.50
+ k4sm7992331wrm.74.2021.09.06.06.11.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 06:11:50 -0700 (PDT)
+ Mon, 06 Sep 2021 06:11:51 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/36] hostmem-epc: Add the reset interface for EPC backend
- reset
-Date: Mon,  6 Sep 2021 15:10:53 +0200
-Message-Id: <20210906131059.55234-31-pbonzini@redhat.com>
+Subject: [PULL 31/36] sgx-epc: Add the reset interface for sgx-epc virt device
+Date: Mon,  6 Sep 2021 15:10:54 +0200
+Message-Id: <20210906131059.55234-32-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210906131059.55234-1-pbonzini@redhat.com>
 References: <20210906131059.55234-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,65 +90,143 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yang Zhong <yang.zhong@intel.com>
 
-Add the sgx_memory_backend_reset() interface to handle EPC backend
-reset when VM is reset. This reset function will destroy previous
-backend memory region and re-mmap the EPC section for guest.
+If the VM is reset, we need make sure sgx virt epc in clean status.
+Once the VM is reset, and sgx epc virt device will be reseted by
+reset callback registered by qemu_register_reset(). Since this epc
+virt device depend on backend, this reset will call backend reset
+interface to re-mmap epc to guest.
 
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210719112136.57018-23-yang.zhong@intel.com>
+Message-Id: <20210719112136.57018-24-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- backends/hostmem-epc.c | 16 ++++++++++++++++
- include/hw/i386/pc.h   |  2 ++
- 2 files changed, 18 insertions(+)
+ hw/i386/sgx-epc.c | 94 ++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 81 insertions(+), 13 deletions(-)
 
-diff --git a/backends/hostmem-epc.c b/backends/hostmem-epc.c
-index b512a68cb0..3bd1535d82 100644
---- a/backends/hostmem-epc.c
-+++ b/backends/hostmem-epc.c
-@@ -16,6 +16,7 @@
- #include "qom/object_interfaces.h"
- #include "qapi/error.h"
- #include "sysemu/hostmem.h"
-+#include "hw/i386/pc.h"
+diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
+index 924dea22f0..9880d832d5 100644
+--- a/hw/i386/sgx-epc.c
++++ b/hw/i386/sgx-epc.c
+@@ -18,6 +18,9 @@
+ #include "qapi/visitor.h"
+ #include "target/i386/cpu.h"
+ #include "exec/address-spaces.h"
++#include "sysemu/reset.h"
++
++uint32_t epc_num;
  
- #define TYPE_MEMORY_BACKEND_EPC "memory-backend-epc"
- 
-@@ -55,6 +56,21 @@ sgx_epc_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
-     g_free(name);
+ static Property sgx_epc_properties[] = {
+     DEFINE_PROP_UINT64(SGX_EPC_ADDR_PROP, SGXEPCDevice, addr, 0),
+@@ -47,12 +50,84 @@ static void sgx_epc_init(Object *obj)
+                         NULL, NULL, NULL);
  }
  
-+void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
-+                              Error **errp)
++static void sgx_epc_del_subregion(DeviceState *dev)
 +{
-+    MemoryRegion *mr = &backend->mr;
++    PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
++    SGXEPCState *sgx_epc = &pcms->sgx_epc;
++    SGXEPCDevice *epc = SGX_EPC(dev);
 +
-+    mr->enabled = false;
++    /* del subregion and related operations */
++    memory_region_del_subregion(&sgx_epc->mr,
++                                host_memory_backend_get_memory(epc->hostmem));
++    host_memory_backend_set_mapped(epc->hostmem, false);
++    g_free(sgx_epc->sections);
++    sgx_epc->sections = NULL;
 +
-+    /* destroy the old memory region if it exist */
-+    if (fd > 0 && mr->destructor) {
-+        mr->destructor(mr);
++    /* multiple epc devices, only zero the first time */
++    if (epc_num == sgx_epc->nr_sections) {
++        sgx_epc->size = 0;
++        sgx_epc->nr_sections = 0;
 +    }
-+
-+    sgx_epc_backend_memory_alloc(backend, errp);
 +}
 +
- static void sgx_epc_backend_instance_init(Object *obj)
++static void sgx_epc_initialization(DeviceState *dev)
++{
++    PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
++    SGXEPCState *sgx_epc = &pcms->sgx_epc;
++    MemoryDeviceState *md = MEMORY_DEVICE(dev);
++    SGXEPCDevice *epc = SGX_EPC(dev);
++    Error *errp = NULL;
++
++    if (!epc->hostmem) {
++        error_setg(&errp, "'" SGX_EPC_MEMDEV_PROP "' property is not set");
++        return;
++    }
++
++    epc->addr = sgx_epc->base + sgx_epc->size;
++
++    memory_region_add_subregion(&sgx_epc->mr, epc->addr - sgx_epc->base,
++                                host_memory_backend_get_memory(epc->hostmem));
++
++    host_memory_backend_set_mapped(epc->hostmem, true);
++
++    sgx_epc->sections = g_renew(SGXEPCDevice *, sgx_epc->sections,
++                                sgx_epc->nr_sections + 1);
++    sgx_epc->sections[sgx_epc->nr_sections++] = epc;
++
++    sgx_epc->size += memory_device_get_region_size(md, &errp);
++}
++
++static void sgx_epc_reset(void *opaque)
++{
++    DeviceState *dev = opaque;
++    SGXEPCDevice *epc = SGX_EPC(dev);
++    Error *errp = NULL;
++    int fd;
++
++    if (!epc->hostmem) {
++        error_setg(&errp, "'" SGX_EPC_MEMDEV_PROP "' property is not set");
++        return;
++    }
++
++    /* delete subregion and related operations */
++    sgx_epc_del_subregion(dev);
++
++    /* reset sgx backend */
++    fd = memory_region_get_fd(host_memory_backend_get_memory(epc->hostmem));
++    sgx_memory_backend_reset(epc->hostmem, fd, &errp);
++    if (errp) {
++        error_setg(&errp, "failed to call sgx_memory_backend_reset");
++        return;
++    }
++
++    /* re-add subregion and related operations */
++    sgx_epc_initialization(dev);
++}
++
+ static void sgx_epc_realize(DeviceState *dev, Error **errp)
  {
-     HostMemoryBackend *m = MEMORY_BACKEND(obj);
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index b274179307..a1034aa262 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -207,6 +207,8 @@ extern const size_t pc_compat_6_0_len;
+     PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
+     X86MachineState *x86ms = X86_MACHINE(pcms);
+-    MemoryDeviceState *md = MEMORY_DEVICE(dev);
+-    SGXEPCState *sgx_epc = &pcms->sgx_epc;
+     SGXEPCDevice *epc = SGX_EPC(dev);
+     const char *path;
  
- /* sgx-epc.c */
- void pc_machine_init_sgx_epc(PCMachineState *pcms);
-+void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
-+                              Error **errp);
+@@ -71,18 +146,11 @@ static void sgx_epc_realize(DeviceState *dev, Error **errp)
+         return;
+     }
  
- extern GlobalProperty pc_compat_5_2[];
- extern const size_t pc_compat_5_2_len;
+-    epc->addr = sgx_epc->base + sgx_epc->size;
++    sgx_epc_initialization(dev);
++    epc_num++;
+ 
+-    memory_region_add_subregion(&sgx_epc->mr, epc->addr - sgx_epc->base,
+-                                host_memory_backend_get_memory(epc->hostmem));
+-
+-    host_memory_backend_set_mapped(epc->hostmem, true);
+-
+-    sgx_epc->sections = g_renew(SGXEPCDevice *, sgx_epc->sections,
+-                                sgx_epc->nr_sections + 1);
+-    sgx_epc->sections[sgx_epc->nr_sections++] = epc;
+-
+-    sgx_epc->size += memory_device_get_region_size(md, errp);
++    /* register the reset callback for sgx reset */
++    qemu_register_reset(sgx_epc_reset, dev);
+ }
+ 
+ static void sgx_epc_unrealize(DeviceState *dev)
 -- 
 2.31.1
 
