@@ -2,87 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC99C40194B
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 11:52:24 +0200 (CEST)
-Received: from localhost ([::1]:52390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 873F040195E
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 12:00:20 +0200 (CEST)
+Received: from localhost ([::1]:56612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNBId-0004R3-Fc
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 05:52:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39896)
+	id 1mNBQJ-0007tr-3S
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 06:00:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNBHW-0003cT-V5
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:51:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24565)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNBOt-0006ya-Uf
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:58:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNBHU-0003GI-CQ
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:51:13 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNBOs-0001LV-6X
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:58:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630921871;
+ s=mimecast20190719; t=1630922329;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3Xmaje7ga6aesLGfasGRK4f6vmhKmz2X6ft+3BV8Cls=;
- b=G0C82LP+TPQWgWyk1GDKa0Nyd2H0PWiIXa7Ww4SXBBCscNVM63KhDDz/WOBZob7GuUmJ+2
- e7L1VgfsXFfWL82tDJr94hNDPDJirSSNvNgloSnbIe4LHMpLt9t643zgnOyQC3dR5HdO+s
- cxBdRbV4ChWWriITurr5Ob3nT3jU7uo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-600-XORWgSiKOCGqn2IVZboikg-1; Mon, 06 Sep 2021 05:51:07 -0400
-X-MC-Unique: XORWgSiKOCGqn2IVZboikg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- u2-20020adfdd42000000b001579f5d6779so1045852wrm.8
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 02:51:07 -0700 (PDT)
+ bh=ZbQMl5J7M5IF9S7E3ujoshf8dI8GnwxUCGqqZr1RkFQ=;
+ b=dnROekVAuamMd3kvmUZj5tKIhGMhe7RtRGZ0Y3rxWjTvy4UX8/nOqTsGTqFUXib6nwgQc7
+ i0fCH//GyFieEsjht7fZLNkzPddN7Ya9RA5pKud/P4l26kIKaw5Cp4oXbHo6ooR1L8ukgq
+ KWZ7NJuYgpHZNXToOD0uQcf3apgjJgc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-482-PLx5x31NPreJ4ow1oHMDig-1; Mon, 06 Sep 2021 05:58:47 -0400
+X-MC-Unique: PLx5x31NPreJ4ow1oHMDig-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ h1-20020a05600c350100b002e751bf6733so3016730wmq.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 02:58:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3Xmaje7ga6aesLGfasGRK4f6vmhKmz2X6ft+3BV8Cls=;
- b=Skj3DE2h0kTP9QRPBbjxzNO3KblSf+OhXxNq7rnhrT01YlrKzSYtV0gtyT6yVUKtRU
- 0U9PP1m5PtsaoV2FpHGRrPAnORXlRhOf/tJsW58siUkkocHUbaVKYoLMVORVRv8/0UlK
- qlc6yYVQugjpBpSFLgh+TByWyEa1sKYCssbDgR7vZcotN794tZAxOApoYuaJYhlgyDdH
- qOcdakHhU7WgHMYm1nUAc51uphZVPmlqrMceRgKq1lS+8f9qdA6cuuCl/wxuwV0XxEGF
- T3WHiwK9VE90vQN5BY8IiUz+1KdsbBbvkIVjXAK/a202e+XTWId6bgQ5KwwnyHLQ5SsN
- KgEw==
-X-Gm-Message-State: AOAM531gwsFdmCMYd0MJpiKMM4NVjsnoDaRRkFTtiIp7gKbafLzulqY1
- qK0ZOTHu4e+7lDSTDlCUEKFx8SsRfIUmKEBTOobgyLAF2MKIdny7v2U0dS64s5qtyfRNRNtfofO
- 8wvjtvcYe4E0ocGM=
-X-Received: by 2002:a05:6000:178b:: with SMTP id
- e11mr11933686wrg.151.1630921866741; 
- Mon, 06 Sep 2021 02:51:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwnRZrdiJKzqLRcJ7Ynw/PpGL3nAAk67snvSRmN0rPwiAWRato5COGrCs8zqsBz+dETVG+eUA==
-X-Received: by 2002:a05:6000:178b:: with SMTP id
- e11mr11933663wrg.151.1630921866488; 
- Mon, 06 Sep 2021 02:51:06 -0700 (PDT)
-Received: from thuth.remote.csb (pd9e831a0.dip0.t-ipconnect.de.
- [217.232.49.160])
- by smtp.gmail.com with ESMTPSA id k17sm6222660wmj.0.2021.09.06.02.51.05
+ bh=ZbQMl5J7M5IF9S7E3ujoshf8dI8GnwxUCGqqZr1RkFQ=;
+ b=blAWpmb6BJfO5RK0bdyKRQMuBSMIlm5rIMZmwRyzaD+Wn1OangDGFrsC7p2vtDJJrM
+ BkbNBCUJQlnxXb2b9SzUXbTG1NrO3kpLil2JUF+FGw83AxPdqGMu+apqciE4XC9UTeLe
+ jO1TbjaZjMxIvBpBLUyiZQyd1pKAcIeCHG1OGSVLFE+TKa5n8QIRJZIaW6TeLPc0LYCo
+ tKU7yBYqVFL2M60ppJ8aQ9p7rHBitfpo7iu+PydLgVd27Z02GfVJe8Cvtw1ds7qHJivv
+ CvW1QhVS48W7xlWCYdHFnpLG6CXlGy1yfqHxAq0G18gq711Qfji7hM+mevU7EX3IsmHo
+ ILHQ==
+X-Gm-Message-State: AOAM530E9JlW+WRjRfcFX57DugVBeakjXvzPnE83cnpnPlUO7HOeEwT3
+ HHgKrGkgORYTLmKP3znfe4bn03EKuTCZfF14sYO/Ko/IPqkWYn/iIsCge8f6MifTGc4xDQxhZ+d
+ pQibLm/Q5MM4pcgo=
+X-Received: by 2002:adf:f08b:: with SMTP id n11mr12414833wro.176.1630922326743; 
+ Mon, 06 Sep 2021 02:58:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxTEjmatabs5se9QFJViWNbNX0cHirayBDsHSy59yYzXgu5xIcLfJVA54slCqyMgrrxrrD1VA==
+X-Received: by 2002:adf:f08b:: with SMTP id n11mr12414817wro.176.1630922326547; 
+ Mon, 06 Sep 2021 02:58:46 -0700 (PDT)
+Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id k16sm7402931wrh.24.2021.09.06.02.58.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Sep 2021 02:51:06 -0700 (PDT)
-Subject: Re: [PULL 00/13] Testing, build system and misc patches
-To: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
-References: <20210902124911.822423-1-thuth@redhat.com>
- <CAFEAcA89mGzirJWyzH+-c3WtH3G=XYV0MqRfBK+5SnA+Hob-eA@mail.gmail.com>
- <3090f5dd-d03d-bd2a-ce4d-ff0d796d9c5f@redhat.com> <87v93hpqdj.fsf@linaro.org>
- <CAFEAcA9eWukPg87mBCA-UfGuy6i-HdOyjnOpYF1eRsbCHfUjvg@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <2afbb10f-b813-e1b6-8b61-5c7874994813@redhat.com>
-Date: Mon, 6 Sep 2021 11:51:05 +0200
+ Mon, 06 Sep 2021 02:58:45 -0700 (PDT)
+Subject: Re: [PULL 06/35] hw/acpi: refactor acpi hp modules so that targets
+ can just use what they need
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+References: <20210904213506.486886-1-mst@redhat.com>
+ <20210904213506.486886-7-mst@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <6a9c2fde-317d-bd31-5a8c-135446b881dc@redhat.com>
+Date: Mon, 6 Sep 2021 11:58:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9eWukPg87mBCA-UfGuy6i-HdOyjnOpYF1eRsbCHfUjvg@mail.gmail.com>
+In-Reply-To: <20210904213506.486886-7-mst@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -69
 X-Spam_score: -7.0
@@ -103,79 +99,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/09/2021 18.49, Peter Maydell wrote:
-> On Fri, 3 Sept 2021 at 17:37, Alex Bennée <alex.bennee@linaro.org> wrote:
->> Thomas Huth <thuth@redhat.com> writes:
->>> On 03/09/2021 15.22, Peter Maydell wrote:
->>>> This provokes a new warning from meson on a linux-static build:
->>>> Run-time dependency appleframeworks found: NO (tried framework)
->>>> Library rt found: YES
->>>> Found pkg-config: /usr/bin/pkg-config (0.29.1)
->>>> WARNING: Static library 'gbm' not found for dependency 'gbm', may not
->>>> be statically linked
->>>> Run-time dependency gbm found: YES 20.0.8
->>>> Dependency libpng found: YES 1.6.34 (cached)
->>>> Dependency libjpeg found: YES unknown (cached)
->>>> If we're building statically and we can't find a static
->>>> library then (a) we shouldn't print a WARNING and
->>>> (b) we shouldn't then conclude that we've found gdm.
->>>
->>> Hmmm, no clue what's wrong here, since I basically did declare it like
->>> all other libraries are declared, too (so this problem should have
->>> shown up somewhere else already?)... Paolo, do you have any ideas
->>> what's going on here?
->>
->> In attempting to replicate I found all the dynamic libs blow up:
+Hi Ani,
+
+On 9/4/21 11:36 PM, Michael S. Tsirkin wrote:
+> From: Ani Sinha <ani@anisinha.ca>
 > 
->>    WARNING: Static library 'xkbcommon' not found for dependency 'xkbcommon', may not be statically l
->>    Run-time dependency xkbcommon found: YES 1.0.3
+> Currently various acpi hotplug modules like cpu hotplug, memory hotplug, pci
+> hotplug, nvdimm hotplug are all pulled in when CONFIG_ACPI_X86 is turned on.
+> This brings in support for whole lot of subsystems that some targets like
+> mips does not need. They are added just to satisfy symbol dependencies. This
+> is ugly and should be avoided. Targets should be able to pull in just what they
+> need and no more. For example, mips only needs support for PIIX4 and does not
+> need acpi pci hotplug support or cpu hotplug support or memory hotplug support
+> etc. This change is an effort to clean this up.
+> In this change, new config variables are added for various acpi hotplug
+> subsystems. Targets like mips can only enable PIIX4 support and not the rest
+> of all the other modules which were being previously pulled in as a part of
+> CONFIG_ACPI_X86. Function stubs make sure that symbols which piix4 needs but
+> are not required by mips (for example, symbols specific to pci hotplug etc)
+> are available to satisfy the dependencies.
 > 
-> I do vaguely recall complaining about new meson warnings for
-> static library detection in the past as well:
-> https://lore.kernel.org/qemu-devel/CAFEAcA8chPqS0keyGv0vBgNgacnMo95gA3LZDU2QfmteQ=4UZg@mail.gmail.com/
-> https://lore.kernel.org/qemu-devel/CAFEAcA_-cNmt-sY3nqnGkpUqET86M6-82rf-Uv3QkwCR14kYsw@mail.gmail.com/
-> https://lore.kernel.org/qemu-devel/CAFEAcA8xHxCGhh2hibsdCxZrYRRU+xcwVsa85O7KL9BsmW7ohw@mail.gmail.com/
+> Currently, this change only addresses issues with mips malta targets. In future
+> we might be able to clean up other targets which are similarly pulling in lot
+> of unnecessary hotplug modules by enabling ACPI_X86.
 > 
->> So is this a general problem with static libs. BTW I didn't catch this
->> because I only build user with --static as I thought system --static was
->> flakey anyway.
-> 
-> I'm not doing a system build in this case... Looking at some of
-> those older threads, it looks like part of the answer is that
-> for dependencies that we don't need for linux-user mode we should
-> guard the test with some suitable if condition so we don't create
-> the dependency unless we're going to use it, eg the brlapi check
-> uses "if not get_option('brlapi').auto() or have_system", rbd
-> has a similar thing involving have_block, etc.
+> This change should also address issues such as the following:
+> https://gitlab.com/qemu-project/qemu/-/issues/221
+> https://gitlab.com/qemu-project/qemu/-/issues/193
 
-Ok, thanks, that seems to work, I'll change the patch accordingly.
+FYI per https://docs.gitlab.com/ee/administration/issue_closing_pattern.html
+this should have been:
 
-> But I think there is an underlying meson bug here which that kind of
-> use of an if is merely working around: if we ask for a static library
-> it should not give us a dynamic library.
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/193
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/221
 
-Agreed. Actually, when I run configure with "--static --disable-system" on 
-my laptop, I'm also getting some warnings:
+Can we close these issues manually?
 
-WARNING: Static library 'z' not found for dependency 'zlib', may not be 
-statically linked
-Run-time dependency zlib found: YES 1.2.11
-Run-time dependency appleframeworks found: NO (tried framework)
-Library rt found: YES
-WARNING: Static library 'png16' not found for dependency 'libpng', may not 
-be statically linked
-WARNING: Static library 'z' not found for dependency 'libpng', may not be 
-statically linked
-
-... and linking then later fails while running "make".
-
-Paolo, could the behavior of meson be changed to fail already the 
-configuration step in this case instead of only printing a warning?
-
-  Thomas
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> Message-Id: <20210812071409.492299-1-ani@anisinha.ca>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  configs/devices/mips-softmmu/common.mak |  5 +--
+>  hw/acpi/acpi-cpu-hotplug-stub.c         | 50 +++++++++++++++++++++++++
+>  hw/acpi/acpi-mem-hotplug-stub.c         | 35 +++++++++++++++++
+>  hw/acpi/acpi-nvdimm-stub.c              |  8 ++++
+>  hw/acpi/acpi-pci-hotplug-stub.c         | 47 +++++++++++++++++++++++
+>  hw/acpi/Kconfig                         | 10 +++++
+>  hw/acpi/meson.build                     | 14 +++++--
+>  7 files changed, 161 insertions(+), 8 deletions(-)
+>  create mode 100644 hw/acpi/acpi-cpu-hotplug-stub.c
+>  create mode 100644 hw/acpi/acpi-mem-hotplug-stub.c
+>  create mode 100644 hw/acpi/acpi-nvdimm-stub.c
+>  create mode 100644 hw/acpi/acpi-pci-hotplug-stub.c
 
 
