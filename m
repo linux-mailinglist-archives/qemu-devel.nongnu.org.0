@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32D3401C30
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:21:02 +0200 (CEST)
-Received: from localhost ([::1]:37674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACFF401C43
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:27:44 +0200 (CEST)
+Received: from localhost ([::1]:60092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNEYW-0000Ns-AG
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:21:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57466)
+	id 1mNEf1-0007BV-Ib
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:27:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPU-0000sX-1z
+ id 1mNEPV-0000sw-Kl
  for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:41 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46630)
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:55015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPS-0007fh-9x
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:39 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id x6so9753575wrv.13
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:37 -0700 (PDT)
+ id 1mNEPT-0007hW-LU
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:40 -0400
+Received: by mail-wm1-x330.google.com with SMTP id g138so4567593wmg.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LC5VH5NI8pKhGNYk7uPvZs6fVdmsLzpsFOKaHgxPcHE=;
- b=MFZI5GuwAWhoUFC2vOokZhgjRajKkl87CyhE/N8VJNCqvDnvZ+P8ned9K8o7gy5TBq
- 32jIQQtNg1j/MD/sNTCyl1F2OZLHtgZzstEQG9JLbPxTMnOiVjfkQcS1rgXhA49bnyDb
- BUxNVgQrn16PIYT4xqdAl9xo0e3jAoh8H6i5jye9gbTvCoZLilKOGoJgTvmkXHoLbdWp
- mHAgHbGDkxZWqkzIz+JBsrjGny0jC47Kb2bz6V+q0eahWSGguzyBAbuUscKUtw0oNEHM
- ygVNvhM9QxdAhVa35qQyVLa5iqyiy+SbUh7rPnLuAB8BJt4yFQPU8tHv1NTfET1QV0HX
- +9mQ==
+ bh=+55luvDgxLUHmSWJWmBqLuALhR/szmakMsXeiwCOEK4=;
+ b=a3qtZB6wkM/YBdq4FUheo+gaMWyP8yloeJ8Ll0EGCFrbGvNJ0QLfKaNKX8HgLxNFW7
+ mghoxADWGdoYBN9vR4loxq2cyCCPzgBkdcmNxp//PgE9EvkeGTWaGJuOrYVcuM0golay
+ L30wHl1w+wa6DwZW/Yq9CnIEpcGPOE6f+7bi6MQGDdHXgJ58qJ+suoPTgyV4Da1Zqy+x
+ CIz2YbcKrcj+4yt219t7cD0LtSQyD5lEeO3bnEKooVkcJPK9eOjWWAai/SPMu4iSUACD
+ P0D0Q2VnSAtoDDW8AnuAofqFTa2O8U0dLwC9cmcFNbnBxd9M5TWwLhzKuByjTp972JXh
+ 8eUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LC5VH5NI8pKhGNYk7uPvZs6fVdmsLzpsFOKaHgxPcHE=;
- b=W89TFU8DAsD1NAYtTWgaNXxfnyosu4Vi2RWAYUpEXqogLfgxKl6GU8mvgDQ/Yz6Gf3
- IlKK8UEZnyrQGfC2xpztLrIrI71Jtu+eXH1snKjHE2H99L5OvDJNqvdJtVje5SpjDDzY
- 7s+41adyfgFFI/8xsu3k5sLf11hFlOkvDp4BiitrHWajPnQSLshC9gOdpqDky6mR9GTp
- qVqDltbJD1ZmjQzFhMGAIYyPSjgOBK/zcb3Vk873EIoOqD7dw9DkfIbZclJJmkxj+1UX
- gUDMFcRJGKm/v/SpRaVn1ss26GxRs1EiisCz5sO0b+gHSz+Qh7vGlVUQ+lNOcioFkd3r
- AuUQ==
-X-Gm-Message-State: AOAM531gBqvHK2WcaDNqjvbDP6pdMJbLajsx3B4bO6XAolgqwfH+x8oX
- 8YBAVUXxFetYHmHHM84VYoT+X/mc6Yw=
-X-Google-Smtp-Source: ABdhPJws7JgVfMHql/J2ORmRN00IIY/SEjAZPmW33PxIb6PPMw8VFimgJdn8Dw9Cv1ohNZa5Eg5iJQ==
-X-Received: by 2002:adf:e6c9:: with SMTP id y9mr13620431wrm.429.1630933896833; 
- Mon, 06 Sep 2021 06:11:36 -0700 (PDT)
+ bh=+55luvDgxLUHmSWJWmBqLuALhR/szmakMsXeiwCOEK4=;
+ b=HiWIwjKKw1wNvPX/fc84qmO7JMbgawqGJiZVqaf4crvdKWcKqGumllzmHZj2hjrt7s
+ oCFL9DfnvH5MkVRS+mQiyUGqpCZ3RIAq2P7F/Xo5ilhneJNluTSaj0P7i0NDfLAGxhtj
+ u1tgrjDVercSDAmARkFT2bqMATpl9vn9x27IqVNhFrvQjmCVrPfWo33rxlDpvnISvWGN
+ jz+o4oPHTSkELbWTN18BaJooMxrOvjjDFMhvY/7ZVRgQ69qjwZuMN5p5NAvt1v2pezDw
+ 54ngqo/sAI8nvsj26bsFPtZsDvUuTuSXei+potBiOOduw6LAoOzw+aQ98LVgWHkmm8Xh
+ uUYg==
+X-Gm-Message-State: AOAM531N4dDZ2mOADHI9JzgFh7reHefvSiD7EyYkyeKbcSSVQGu+H+Ny
+ pgEqkzLyNN9HYoA60lfvLGDxbUsZY6Q=
+X-Google-Smtp-Source: ABdhPJyXByrDyFagVLen4mvbbl6SX/7OWYAUdSnhBzCsAq/O3mu6oplzZzswGCMtq9kZmOYaBMCiQw==
+X-Received: by 2002:a1c:f019:: with SMTP id a25mr11439309wmb.96.1630933898101; 
+ Mon, 06 Sep 2021 06:11:38 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
  k4sm7992331wrm.74.2021.09.06.06.11.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 06:11:36 -0700 (PDT)
+ Mon, 06 Sep 2021 06:11:37 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/36] i386: Update SGX CPUID info according to
- hardware/KVM/user input
-Date: Mon,  6 Sep 2021 15:10:43 +0200
-Message-Id: <20210906131059.55234-21-pbonzini@redhat.com>
+Subject: [PULL 21/36] i386: kvm: Add support for exposing PROVISIONKEY to guest
+Date: Mon,  6 Sep 2021 15:10:44 +0200
+Message-Id: <20210906131059.55234-22-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210906131059.55234-1-pbonzini@redhat.com>
 References: <20210906131059.55234-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,174 +91,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-Expose SGX to the guest if and only if KVM is enabled and supports
-virtualization of SGX.  While the majority of ENCLS can be emulated to
-some degree, because SGX uses a hardware-based root of trust, the
-attestation aspects of SGX cannot be emulated in software, i.e.
-ultimately emulation will fail as software cannot generate a valid
-quote/report.  The complexity of partially emulating SGX in Qemu far
-outweighs the value added, e.g. an SGX specific simulator for userspace
-applications can emulate SGX for development and testing purposes.
-
-Note, access to the PROVISIONKEY is not yet advertised to the guest as
-KVM blocks access to the PROVISIONKEY by default and requires userspace
-to provide additional credentials (via ioctl()) to expose PROVISIONKEY.
+If the guest want to fully use SGX, the guest needs to be able to
+access provisioning key. Add a new KVM_CAP_SGX_ATTRIBUTE to KVM to
+support provisioning key to KVM guests.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-
-v3-->v4:
-   - Replaced g_malloc0() with directly ....
-Message-Id: <20210719112136.57018-13-yang.zhong@intel.com>
-
+Message-Id: <20210719112136.57018-14-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/sgx.c             | 17 +++++++++
- include/hw/i386/sgx-epc.h |  2 +
- target/i386/cpu.c         | 77 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 96 insertions(+)
+ target/i386/cpu.c          |  5 ++++-
+ target/i386/kvm/kvm.c      | 29 +++++++++++++++++++++++++++++
+ target/i386/kvm/kvm_i386.h |  2 ++
+ 3 files changed, 35 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
-index e77deb0b00..5f988c6368 100644
---- a/hw/i386/sgx.c
-+++ b/hw/i386/sgx.c
-@@ -18,6 +18,23 @@
- #include "qapi/error.h"
- #include "exec/address-spaces.h"
- 
-+int sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size)
-+{
-+    PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-+    SGXEPCDevice *epc;
-+
-+    if (pcms->sgx_epc.size == 0 || pcms->sgx_epc.nr_sections <= section_nr) {
-+        return 1;
-+    }
-+
-+    epc = pcms->sgx_epc.sections[section_nr];
-+
-+    *addr = epc->addr;
-+    *size = memory_device_get_region_size(MEMORY_DEVICE(epc), &error_fatal);
-+
-+    return 0;
-+}
-+
- static int sgx_epc_set_property(void *opaque, const char *name,
-                                 const char *value, Error **errp)
- {
-diff --git a/include/hw/i386/sgx-epc.h b/include/hw/i386/sgx-epc.h
-index 2b2490892b..f85fd2a4ca 100644
---- a/include/hw/i386/sgx-epc.h
-+++ b/include/hw/i386/sgx-epc.h
-@@ -55,4 +55,6 @@ typedef struct SGXEPCState {
-     int nr_sections;
- } SGXEPCState;
- 
-+int sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size);
-+
- #endif
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 59cb2c2d03..38cf507199 100644
+index 38cf507199..3b1f9cbdf6 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -36,6 +36,7 @@
- #ifndef CONFIG_USER_ONLY
- #include "exec/address-spaces.h"
- #include "hw/boards.h"
-+#include "hw/i386/sgx-epc.h"
- #endif
+@@ -5542,7 +5542,10 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+             *ecx |= XSTATE_FP_MASK | XSTATE_SSE_MASK;
  
- #include "disas/capstone.h"
-@@ -5334,6 +5335,25 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-                 *ecx |= CPUID_7_0_ECX_OSPKE;
-             }
-             *edx = env->features[FEAT_7_0_EDX]; /* Feature flags */
-+
-+            /*
-+             * SGX cannot be emulated in software.  If hardware does not
-+             * support enabling SGX and/or SGX flexible launch control,
-+             * then we need to update the VM's CPUID values accordingly.
-+             */
-+            if ((*ebx & CPUID_7_0_EBX_SGX) &&
-+                (!kvm_enabled() ||
-+                 !(kvm_arch_get_supported_cpuid(cs->kvm_state, 0x7, 0, R_EBX) &
-+                    CPUID_7_0_EBX_SGX))) {
-+                *ebx &= ~CPUID_7_0_EBX_SGX;
+             /* Access to PROVISIONKEY requires additional credentials. */
+-            *eax &= ~(1U << 4);
++            if ((*eax & (1U << 4)) &&
++                !kvm_enable_sgx_provisioning(cs->kvm_state)) {
++                *eax &= ~(1U << 4);
 +            }
-+
-+            if ((*ecx & CPUID_7_0_ECX_SGX_LC) &&
-+                (!(*ebx & CPUID_7_0_EBX_SGX) || !kvm_enabled() ||
-+                 !(kvm_arch_get_supported_cpuid(cs->kvm_state, 0x7, 0, R_ECX) &
-+                    CPUID_7_0_ECX_SGX_LC))) {
-+                *ecx &= ~CPUID_7_0_ECX_SGX_LC;
-+            }
-         } else if (count == 1) {
-             *eax = env->features[FEAT_7_1_EAX];
-             *ebx = 0;
-@@ -5469,6 +5489,63 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
          }
+ #endif
          break;
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 6dc40161e0..488926a95f 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -4644,6 +4644,35 @@ void kvm_arch_update_guest_debug(CPUState *cpu, struct kvm_guest_debug *dbg)
      }
-+    case 0x12:
-+#ifndef CONFIG_USER_ONLY
-+        if (!kvm_enabled() ||
-+            !(env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_SGX)) {
-+            *eax = *ebx = *ecx = *edx = 0;
-+            break;
-+        }
+ }
+ 
++static bool has_sgx_provisioning;
 +
-+        /*
-+         * SGX sub-leafs CPUID.0x12.{0x2..N} enumerate EPC sections.  Retrieve
-+         * the EPC properties, e.g. confidentiality and integrity, from the
-+         * host's first EPC section, i.e. assume there is one EPC section or
-+         * that all EPC sections have the same security properties.
-+         */
-+        if (count > 1) {
-+            uint64_t epc_addr, epc_size;
++static bool __kvm_enable_sgx_provisioning(KVMState *s)
++{
++    int fd, ret;
 +
-+            if (sgx_epc_get_section(count - 2, &epc_addr, &epc_size)) {
-+                *eax = *ebx = *ecx = *edx = 0;
-+                break;
-+            }
-+            host_cpuid(index, 2, eax, ebx, ecx, edx);
-+            *eax = (uint32_t)(epc_addr & 0xfffff000) | 0x1;
-+            *ebx = (uint32_t)(epc_addr >> 32);
-+            *ecx = (uint32_t)(epc_size & 0xfffff000) | (*ecx & 0xf);
-+            *edx = (uint32_t)(epc_size >> 32);
-+            break;
-+        }
++    if (!kvm_vm_check_extension(s, KVM_CAP_SGX_ATTRIBUTE)) {
++        return false;
++    }
 +
-+        /*
-+         * SGX sub-leafs CPUID.0x12.{0x0,0x1} are heavily dependent on hardware
-+         * and KVM, i.e. QEMU cannot emulate features to override what KVM
-+         * supports.  Features can be further restricted by userspace, but not
-+         * made more permissive.
-+         */
-+        *eax = kvm_arch_get_supported_cpuid(cs->kvm_state, 0x12, count, R_EAX);
-+        *ebx = kvm_arch_get_supported_cpuid(cs->kvm_state, 0x12, count, R_EBX);
-+        *ecx = kvm_arch_get_supported_cpuid(cs->kvm_state, 0x12, count, R_ECX);
-+        *edx = kvm_arch_get_supported_cpuid(cs->kvm_state, 0x12, count, R_EDX);
++    fd = qemu_open_old("/dev/sgx_provision", O_RDONLY);
++    if (fd < 0) {
++        return false;
++    }
 +
-+        if (count == 0) {
-+            *eax &= env->features[FEAT_SGX_12_0_EAX];
-+            *ebx &= env->features[FEAT_SGX_12_0_EBX];
-+        } else {
-+            *eax &= env->features[FEAT_SGX_12_1_EAX];
-+            *ebx &= 0; /* ebx reserve */
-+            *ecx &= env->features[FEAT_XSAVE_COMP_LO];
-+            *edx &= env->features[FEAT_XSAVE_COMP_HI];
++    ret = kvm_vm_enable_cap(s, KVM_CAP_SGX_ATTRIBUTE, 0, fd);
++    if (ret) {
++        error_report("Could not enable SGX PROVISIONKEY: %s", strerror(-ret));
++        exit(1);
++    }
++    close(fd);
++    return true;
++}
 +
-+            /* FP and SSE are always allowed regardless of XSAVE/XCR0. */
-+            *ecx |= XSTATE_FP_MASK | XSTATE_SSE_MASK;
++bool kvm_enable_sgx_provisioning(KVMState *s)
++{
++    return MEMORIZE(__kvm_enable_sgx_provisioning(s), has_sgx_provisioning);
++}
 +
-+            /* Access to PROVISIONKEY requires additional credentials. */
-+            *eax &= ~(1U << 4);
-+        }
-+#endif
-+        break;
-     case 0x14: {
-         /* Intel Processor Trace Enumeration */
-         *eax = 0;
+ static bool host_supports_vmx(void)
+ {
+     uint32_t ecx, unused;
+diff --git a/target/i386/kvm/kvm_i386.h b/target/i386/kvm/kvm_i386.h
+index 54667b35f0..a978509d50 100644
+--- a/target/i386/kvm/kvm_i386.h
++++ b/target/i386/kvm/kvm_i386.h
+@@ -51,4 +51,6 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp);
+ 
+ uint64_t kvm_swizzle_msi_ext_dest_id(uint64_t address);
+ 
++bool kvm_enable_sgx_provisioning(KVMState *s);
++
+ #endif
 -- 
 2.31.1
 
