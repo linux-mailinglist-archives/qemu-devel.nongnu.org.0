@@ -2,51 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 219DF4021C2
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 03:18:22 +0200 (CEST)
-Received: from localhost ([::1]:35374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B34D74021B2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 02:52:40 +0200 (CEST)
+Received: from localhost ([::1]:58436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNPki-0003k5-OZ
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 21:18:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36622)
+	id 1mNPLq-0005Wy-Tc
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 20:52:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mNPXD-0004o1-83; Mon, 06 Sep 2021 21:04:23 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:39767 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mNPX9-0005xA-QU; Mon, 06 Sep 2021 21:04:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1630976654;
- bh=UUmCah6EtYHu7IAtaSp1vIsrHV8ld6HmMt0glOID3FQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FYvo/laQy4kAJB2pA14JcNgavey8tURcPtf1NNplrzlJ+fiy4PXiK7/hVTi/ZV3FK
- ARcaiodtxSOoy9R4wTDh5P1/cdqSjez4VR6o5wRcXnJpPJUnQyUGfaVSf/PGKHrRqT
- H4bvcc4fBJegFSZ708hKlfvK53fYDSvIWrgz4IW4=
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4H3Rqf6vRnz9ssD; Tue,  7 Sep 2021 11:04:14 +1000 (AEST)
-Date: Tue, 7 Sep 2021 10:39:30 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v5 2/4] spapr_numa.c: split FORM1 code into helpers
-Message-ID: <YTa0wiMphtMv0xqo@yekko>
-References: <20210907002527.412013-1-danielhb413@gmail.com>
- <20210907002527.412013-3-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mNPHY-0002TZ-6y; Mon, 06 Sep 2021 20:48:12 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:42982)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mNPHW-0003lM-N5; Mon, 06 Sep 2021 20:48:11 -0400
+Received: by mail-qk1-x731.google.com with SMTP id t4so8441792qkb.9;
+ Mon, 06 Sep 2021 17:48:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=egwjgNP/S15p6OKs/iTt8slTdQsaL8jVwEg2txuAgpM=;
+ b=kMr5wnyyW+oQ3Qrpr+xqrakXjYzW91DZ/P1SM1tMtnwQ7ktZiX7gtTENb0o7OK4vYe
+ 2nITPgX89LmWmsUTOyXg8nSZDbM7b14FCdNJGcqPS7UMtHmPM1bntvS9baJmTlQ8KjhJ
+ ls/KlHpFCdtOq4XyC4U03W18iB6ZYxY2O8qXmK6fJm/qG/kG2z+zdNoWe/luOgviE40D
+ Ln5bIUVUG34Wkw4UgNlL366cwkayq2t1U5kaKO1l1R1vv65hHpywJaLWswLVOv2QwtrA
+ L8L+IWsEP2FPYisMMNwarcJm9OCuXuH9XcuuHL3vZ7Rfq5vFn0GMlCW6toforky+lE/u
+ Gfdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=egwjgNP/S15p6OKs/iTt8slTdQsaL8jVwEg2txuAgpM=;
+ b=CEgB+sAO5l+Tv24aIefgfMEHbuJndMFuxuyiQrknhD0DeEqPfoNsYt691EX0dQgFTi
+ ny3Qr4W3arZSQLI/xoK5gAii4B2j8fACH97JcDChPdQunVcnOr7OeXKU/HRPE9gUIqSX
+ aMiAIF3/03nqnuhXAz/K6WJ0o6fx7z8p/djANTIQfZR1pSz0stn5tdu9rOAthQmD/BDw
+ klLpRli2U33EQMikNOTz0ZrepZ0IZ3VDnq/jq9P9NnZMF1XhSiivVLHRBrUQrQDOF38w
+ 239Z1ktHPyXI61OeVgr8yKXcWzi8czLKBpd/OeAoKAEMAoX4QUkod0uLcmSJLTTxwVhP
+ jKtw==
+X-Gm-Message-State: AOAM533h3OfLfOPO1Lygnm6/ST5mX2LgWxPoce4FG3xjqyEcCuJW4RqD
+ dQ5ZidNmuRBJ3alKnouJaRbbzulo/8s=
+X-Google-Smtp-Source: ABdhPJwRR+L/Zal0cAhlvFHhBqhvCqbmag3ac3J+V/uQCMSamezcTDkbosvngfQWncoU/sfnkS1ZsQ==
+X-Received: by 2002:ae9:e502:: with SMTP id w2mr13260737qkf.200.1630975689181; 
+ Mon, 06 Sep 2021 17:48:09 -0700 (PDT)
+Received: from rekt.COMFAST ([179.247.136.122])
+ by smtp.gmail.com with ESMTPSA id x83sm7799538qkb.118.2021.09.06.17.48.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Sep 2021 17:48:08 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 0/7] DEVICE_UNPLUG_GUEST_ERROR QAPI event
+Date: Mon,  6 Sep 2021 21:47:48 -0300
+Message-Id: <20210907004755.424931-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="v6FeYsyHMpTfpJMp"
-Content-Disposition: inline
-In-Reply-To: <20210907002527.412013-3-danielhb413@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x731.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,180 +79,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
---v6FeYsyHMpTfpJMp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This new version amends the QAPI doc in patch 5, as suggested
+by David and Markus, and added all reviewed-by and acked-by
+tags.
 
-On Mon, Sep 06, 2021 at 09:25:25PM -0300, Daniel Henrique Barboza wrote:
-65;6402;1c> The upcoming FORM2 NUMA affinity will support asymmetric NUMA t=
-opologies
-> and doesn't need be concerned with all the legacy support for older
-> pseries FORM1 guests.
->=20
-> We're also not going to calculate associativity domains based on numa
-> distance (via spapr_numa_define_associativity_domains) since the
-> distances will be written directly into new DT properties.
->=20
-> Let's split FORM1 code into its own functions to allow for easier
-> insertion of FORM2 logic later on.
->=20
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  hw/ppc/spapr_numa.c | 61 +++++++++++++++++++++++++++++----------------
->  1 file changed, 39 insertions(+), 22 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index 9ee4b479fe..84636cb86a 100644
-> --- a/hw/ppc/spapr_numa.c
-> +++ b/hw/ppc/spapr_numa.c
-> @@ -155,6 +155,32 @@ static void spapr_numa_define_associativity_domains(=
-SpaprMachineState *spapr)
-> =20
->  }
-> =20
-> +/*
-> + * Set NUMA machine state data based on FORM1 affinity semantics.
-> + */
-> +static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
-> +                                           MachineState *machine)
-> +{
-> +    bool using_legacy_numa =3D spapr_machine_using_legacy_numa(spapr);
-> +
-> +    /*
-> +     * Legacy NUMA guests (pseries-5.1 and older, or guests with only
-> +     * 1 NUMA node) will not benefit from anything we're going to do
-> +     * after this point.
-> +     */
-> +    if (using_legacy_numa) {
-> +        return;
-> +    }
+changes from v7:
+- patch 5:
+  * s/internal guest/guest reported/
+- v7 link: https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg04115.html
 
-As noted on the previous version (send moments before seeing the new
-spin), I'm just slightly uncomfortable with the logic being
+Daniel Henrique Barboza (7):
+  memory_hotplug.c: handle dev->id = NULL in acpi_memory_hotplug_write()
+  spapr.c: handle dev->id in spapr_memory_unplug_rollback()
+  spapr_drc.c: do not error_report() when drc->dev->id == NULL
+  qapi/qdev.json: fix DEVICE_DELETED parameters doc
+  qapi/qdev.json: add DEVICE_UNPLUG_GUEST_ERROR QAPI event
+  spapr: use DEVICE_UNPLUG_GUEST_ERROR to report unplug errors
+  memory_hotplug.c: send DEVICE_UNPLUG_GUEST_ERROR in
+    acpi_memory_hotplug_write()
 
-   if (form1) {
-       if (!legacy) {
-          ....
-       }
-   }
+ docs/about/deprecated.rst | 10 ++++++++++
+ hw/acpi/memory_hotplug.c  | 11 ++++++++++-
+ hw/ppc/spapr.c            | 12 ++++++++++--
+ hw/ppc/spapr_drc.c        | 16 ++++++++++------
+ qapi/machine.json         |  7 ++++++-
+ qapi/qdev.json            | 31 ++++++++++++++++++++++++++++---
+ stubs/qdev.c              |  7 +++++++
+ 7 files changed, 81 insertions(+), 13 deletions(-)
 
-rather than
+-- 
+2.31.1
 
-   if (!legacy) {
-       if (form1) {
-           ....
-       }
-   }
-
-> +
-> +    if (!spapr_numa_is_symmetrical(machine)) {
-> +        error_report("Asymmetrical NUMA topologies aren't supported "
-> +                     "in the pSeries machine");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    spapr_numa_define_associativity_domains(spapr);
-> +}
-> +
->  void spapr_numa_associativity_reset(SpaprMachineState *spapr)
->  {
->      SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-> @@ -210,22 +236,7 @@ void spapr_numa_associativity_reset(SpaprMachineStat=
-e *spapr)
->          spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_b=
-e32(i);
->      }
-> =20
-> -    /*
-> -     * Legacy NUMA guests (pseries-5.1 and older, or guests with only
-> -     * 1 NUMA node) will not benefit from anything we're going to do
-> -     * after this point.
-> -     */
-> -    if (using_legacy_numa) {
-> -        return;
-> -    }
-> -
-> -    if (!spapr_numa_is_symmetrical(machine)) {
-> -        error_report("Asymmetrical NUMA topologies aren't supported "
-> -                     "in the pSeries machine");
-> -        exit(EXIT_FAILURE);
-> -    }
-> -
-> -    spapr_numa_define_associativity_domains(spapr);
-> +    spapr_numa_FORM1_affinity_init(spapr, machine);
->  }
-> =20
->  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *f=
-dt,
-> @@ -302,12 +313,8 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachin=
-eState *spapr, void *fdt,
->      return ret;
->  }
-> =20
-> -/*
-> - * Helper that writes ibm,associativity-reference-points and
-> - * max-associativity-domains in the RTAS pointed by @rtas
-> - * in the DT @fdt.
-> - */
-> -void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int r=
-tas)
-> +static void spapr_numa_FORM1_write_rtas_dt(SpaprMachineState *spapr,
-> +                                           void *fdt, int rtas)
->  {
->      MachineState *ms =3D MACHINE(spapr);
->      SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-> @@ -365,6 +372,16 @@ void spapr_numa_write_rtas_dt(SpaprMachineState *spa=
-pr, void *fdt, int rtas)
->                       maxdomains, sizeof(maxdomains)));
->  }
-> =20
-> +/*
-> + * Helper that writes ibm,associativity-reference-points and
-> + * max-associativity-domains in the RTAS pointed by @rtas
-> + * in the DT @fdt.
-> + */
-> +void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int r=
-tas)
-> +{
-> +    spapr_numa_FORM1_write_rtas_dt(spapr, fdt, rtas);
-> +}
-> +
->  static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
->                                                SpaprMachineState *spapr,
->                                                target_ulong opcode,
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---v6FeYsyHMpTfpJMp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmE2tMIACgkQbDjKyiDZ
-s5ImXg/+Np4ZB0jWyRlBNsQCcb0Ymby3aV9+xGgeQzkZ8Ur+IOcwAOLzOeZcE0Ll
-MQ+Jy8VTjS8gWXuhVNOfXfQN+bJau63qUdogZg9FTt6F7KNTn22XzdOC+Og1EVVn
-id5zS806iBciH3YndW5vy6QQNj3r53VZyJHD4ra5zQ/DWPutAr3u88FR+JAT0ZLk
-6gLUnILPZhO/QFXgQ2DAK0/3wJXJJb6boQWPQZEuT0U8EqJo7v4te5mr+fPT4RfT
-0MclzM+ah+OZiD6tnoKJS/sdM/AVZM14Pfjxnf66LYfSPsB2zbktWWZabCYA+zHd
-zFkUYmd/ulxUKOHPc0NM5HJwQDoTMqiqXpg1epo3B/cR0hTO+HuGLjuJChGhU5Tt
-nndChINt8/gVT6QQ2X8XyZRmj54xij6wZNvDqfa3LHY8izQe1KVtFKUAflEJDVkr
-a6XrMLAaUAVa7T6cQmf2cNjwer1U7kN9ZlOrIfDZyIqwfTqvqf+dX1ybsl9/V6w7
-3vK2xdZZa0t8/4Nn9uXAUp5LSBp+2eiHPIA+k4rqqr/RSH38xl1nQ4r2uN5BpgGD
-HFhiC0UzLmXgk9CHooGiPYRwCkitGPq/tp0omc/6y7E1orbAjBMXO5/nzmTBdqqf
-g44R5nEbUWrGBcU0BJF3qHVMHlbyhpOFxJNOBOakJFk0jzUHw0c=
-=4Hdx
------END PGP SIGNATURE-----
-
---v6FeYsyHMpTfpJMp--
 
