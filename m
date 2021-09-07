@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B717D402521
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 10:29:28 +0200 (CEST)
-Received: from localhost ([::1]:49316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED3040252C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 10:31:32 +0200 (CEST)
+Received: from localhost ([::1]:54056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNWTv-0004jU-Iv
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 04:29:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46138)
+	id 1mNWVv-00083x-CL
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 04:31:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1mNWPX-0000CN-FP; Tue, 07 Sep 2021 04:24:55 -0400
-Received: from mail-qv1-xf29.google.com ([2607:f8b0:4864:20::f29]:41850)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1mNWPT-0005wy-QW; Tue, 07 Sep 2021 04:24:55 -0400
-Received: by mail-qv1-xf29.google.com with SMTP id p17so5318209qvo.8;
- Tue, 07 Sep 2021 01:24:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=f4WdERIj4yJIC2Y4OE0YBud9k/nAUYxJqXzOQljQUMg=;
- b=ShuUjM68xxosBMmxc4VhUkUPIwc1rFJowKZhDPR+norBwHo0I8pxuUhov+sVkudK23
- CjlW3XOewEhLozIWUQbF2ox0R/mMx9xl+4E3+/YPbklwuAUSTIaP0zFBlidtN2pIKyMP
- z1ZXs6iYTRJvYeAuIoNMLJvoSZ2OJg8YwJCZc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=f4WdERIj4yJIC2Y4OE0YBud9k/nAUYxJqXzOQljQUMg=;
- b=OnXPgyLSbYsa/r7E/KxobFVO9Pweu2WFrT++G7+glhEKulrzeo9lFxVO/ZHgrKQT71
- jcQ3gwx47Ji0TK2FWjg89Ua0LTR7IjdeFtFlh9x1cziV8X3aBXg6KsRf/6bO2IJYbcjf
- HtBLOIvbSkxObsq21mibMQwNEzuSVfVc0f6u3U0OxNTcnR0H0fuy4eCuOH6ATp8R9J3a
- 1XgZU19oqNL5beW5PqcUU68FLwkzKz9E0gMEVFkf7+s83lPhI+dPRtvpnlSsbZ0bmnJy
- ikry4OsGimHRRxR7azDbuwHmVFJ/SSN69aIvy3jYcV2pyO9hm5eWDg9EtiZ+VTJqUPJZ
- +giA==
-X-Gm-Message-State: AOAM531njguIuYEj3g7c25e6Y96ssXJfcoDTUy9326AOM4mm1pDF79Py
- hSRrmnS/m5e76FIID/G0hnlLe/RIsPxje248KZs=
-X-Google-Smtp-Source: ABdhPJw6Zyy+m4m7ExsxypuPDKaKgAOeAeYL0LkJvWoU9nE9mTnHC2MX+orZ+ltEWY9isnLI0kW2U2BL7aNU+RgrFQg=
-X-Received: by 2002:a0c:ec02:: with SMTP id y2mr16022934qvo.43.1631003089997; 
- Tue, 07 Sep 2021 01:24:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNWSx-0005oI-Ak
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 04:28:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45098)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNWSt-0000Sx-Vs
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 04:28:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631003302;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=moawCLYSupqB2dbFtNvQHP83HMxlJBjoKwx1j16d5ko=;
+ b=H3PwwGpJ+rJADV0caJdId6qp4NUIS1B9zs0gNyCQDvHjZHf9APVNzP5VgPcIs9/N6Gn5CS
+ FM2xlAeSHPizn5q+AK9GJ7ztBq5pur+XhZuT0QQlwOohDy7TG2r1LBfjshzlUYtfXhbylJ
+ vW2/3JPPX9zDSeYxoazin5vKAPND0bM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-110-s5XS5DfpPFOLN0oJrI2XMA-1; Tue, 07 Sep 2021 04:28:19 -0400
+X-MC-Unique: s5XS5DfpPFOLN0oJrI2XMA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDB8E835DE7;
+ Tue,  7 Sep 2021 08:28:18 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
+ [10.36.112.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AA85E19723;
+ Tue,  7 Sep 2021 08:28:18 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 37A061138606; Tue,  7 Sep 2021 10:28:17 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 2/6] qapi/parser: Allow empty QAPIDoc Sections
+References: <20210520225710.168356-1-jsnow@redhat.com>
+ <20210520225710.168356-3-jsnow@redhat.com>
+Date: Tue, 07 Sep 2021 10:28:17 +0200
+In-Reply-To: <20210520225710.168356-3-jsnow@redhat.com> (John Snow's message
+ of "Thu, 20 May 2021 18:57:06 -0400")
+Message-ID: <87sfyg6b8e.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20210906134023.3711031-1-pdel@fb.com>
- <20210906134023.3711031-2-pdel@fb.com>
-In-Reply-To: <20210906134023.3711031-2-pdel@fb.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 7 Sep 2021 08:24:38 +0000
-Message-ID: <CACPK8XfyxtB2v8i4hprSgJZj3Tm9P8e7a456UKv=64gHZs-jiQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] hw/arm/aspeed: Initialize AST2600 UART clock
- selection registers
-To: pdel@fb.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f29;
- envelope-from=joel.stan@gmail.com; helo=mail-qv1-xf29.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,107 +80,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 Sept 2021 at 13:40, <pdel@fb.com> wrote:
+John Snow <jsnow@redhat.com> writes:
+
+> It simplifies the typing to say that _section is always a
+> QAPIDoc.Section().
+
+If you say so....
+
+> To accommodate this change, we must allow for this object to evaluate to
+> False for functions like _end_section which behave differently based on
+> whether or not a Section has been started.
 >
-> From: Peter Delevoryas <pdel@fb.com>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 >
-> UART5 is typically used as the default debug UART on the AST2600, but
-> UART1 is also designed to be a debug UART. All the AST2600 UART's have
-> semi-configurable clock rates through registers in the System Control
-> Unit (SCU), but only UART5 works out of the box with zero-initialized
-> values. The rest of the UART's expect a few of the registers to be
-> initialized to non-zero values, or else the clock rate calculation will
-> yield zero or undefined (due to a divide-by-zero).
->
-> For reference, the U-Boot clock rate driver here shows the calculation:
->
->     https://github.com/facebook/openbmc-uboot/blob/15f7e0dc01d8/drivers/clk/aspeed/clk_ast2600.c#L357
->
-> To summarize, UART5 allows selection from 4 rates: 24 MHz, 192 MHz, 24 /
-> 13 MHz, and 192 / 13 MHz. The other UART's allow selecting either the
-> "low" rate (UARTCLK) or the "high" rate (HUARTCLK). UARTCLK and HUARTCLK
-> are configurable themselves:
->
->     UARTCLK = UXCLK * R / (N * 2)
->     HUARTCLK = HUXCLK * HR / (HN * 2)
->
-> UXCLK and HUXCLK are also configurable, and depend on the APLL and/or
-> HPLL clock rates, which also derive from complicated calculations. Long
-> story short, there's lots of multiplication and division from
-> configurable registers, and most of these registers are zero-initialized
-> in QEMU, which at best is unexpected and at worst causes this clock rate
-> driver to hang from divide-by-zero's. This can also be difficult to
-> diagnose, because it may cause U-Boot to hang before serial console
-> initialization completes, requiring intervention from gdb.
->
-> This change just initializes all of these registers with default values
-> from the datasheet.
->
-> To test this, I used Facebook's AST2600 OpenBMC image for "fuji", with
-> the following diff applied (because fuji uses UART1 for console output,
-> not UART5).
->
->   @@ -323,8 +323,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
->        }
->
->       /* UART - attach an 8250 to the IO space as our UART5 */
->   -    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
->   -                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
->   +    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART1], 2,
->   +                   aspeed_soc_get_irq(s, ASPEED_DEV_UART1),
->                     38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
->
->        /* I2C */
->
-> Without these clock rate registers being initialized, U-Boot hangs in
-> the clock rate driver from a divide-by-zero, because the UART1 clock
-> rate register reads return zero, and there's no console output. After
-> initializing them with default values, fuji boots successfully.
->
-> Signed-off-by: Peter Delevoryas <pdel@fb.com>
 > ---
->  hw/misc/aspeed_scu.c | 4 ++++
->  1 file changed, 4 insertions(+)
 >
-> diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
-> index 05edebedeb..a95dca65f2 100644
-> --- a/hw/misc/aspeed_scu.c
-> +++ b/hw/misc/aspeed_scu.c
-> @@ -119,6 +119,8 @@
->  #define AST2600_CLK_SEL3          TO_REG(0x308)
->  #define AST2600_CLK_SEL4          TO_REG(0x310)
->  #define AST2600_CLK_SEL5          TO_REG(0x314)
-> +#define AST2600_UARTCLK_PARAM     TO_REG(0x338)
-> +#define AST2600_HUARTCLK_PARAM    TO_REG(0x33C)
+> Probably a better fix is to restructure the code to prevent empty
+> sections from being "ended", but that seems like a bigger whale than
+> what I'm after at the immediate moment.
 
-It would be consistent with the existing naming if we dropped the
-_PARAM. Not worth re-spinning just for that though.
+Do we have a TODO comment for that?
 
->  #define AST2600_HW_STRAP1         TO_REG(0x500)
->  #define AST2600_HW_STRAP1_CLR     TO_REG(0x504)
->  #define AST2600_HW_STRAP1_PROT    TO_REG(0x508)
-> @@ -681,6 +683,8 @@ static const uint32_t ast2600_a3_resets[ASPEED_AST2600_SCU_NR_REGS] = {
->      [AST2600_CLK_SEL3]          = 0x00000000,
->      [AST2600_CLK_SEL4]          = 0xF3F40000,
->      [AST2600_CLK_SEL5]          = 0x30000000,
-> +    [AST2600_UARTCLK_PARAM]     = 0x00014506,
-> +    [AST2600_HUARTCLK_PARAM]    = 0x000145C0,
-
-These match v9 of the datasheet, so they look good to me.
-
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-
->      [AST2600_CHIP_ID0]          = 0x1234ABCD,
->      [AST2600_CHIP_ID1]          = 0x88884444,
->  };
-> --
-> 2.30.2
 >
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/parser.py | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+> index b6a5e661215..3ddde318376 100644
+> --- a/scripts/qapi/parser.py
+> +++ b/scripts/qapi/parser.py
+> @@ -456,6 +456,9 @@ def __init__(self, parser, name=None, indent=0):
+>              # the expected indent level of the text of this section
+>              self._indent = indent
+>  
+> +        def __bool__(self) -> bool:
+> +            return bool(self.name or self.text)
+> +
+>          def append(self, line):
+>              # Strip leading spaces corresponding to the expected indent level
+>              # Blank lines are always OK.
+
+Overriding __bool__() is the minimally invasive compensation for the
+next hunk's replacement of None by a QAPIDoc.Section
+
+However, I'm wary of overriding __bool__().  It creates a difference
+between "if object:" and "if object is not None:".  Gives me a queasy
+feeling, as shortening the latter to the former is pretty much
+automatic.
+
+A boring .is_empty() would avoid that, but we'd have to adjust "if S" to
+"if S.is_empty()" wherever we changed S from Optional[Section] to
+Section.  Which S could be affected?
+
+The following variables get assigned Section or ArgSection:
+
+    QAPIDoc.body
+    QAPIDoc._section
+    QAPIDoc.args[NAME]
+    QAPIDoc.features[NAME]
+
+.body, .args[NAME] and .features[NAME] are never None I believe.
+
+._section is also assigned None, in ._end_section().  It remains None
+until the next ._start*_section().
+
+The only use of .section that doesn't dot into it is in ._end_section().
+That's the only spot to adjust.
+
+Confirm by testing: in all of "make check", Section.__bool__() is only
+ever called from QAPIDoc._end_section().  Checked by sticking
+traceback.print_stack() into .__bool__().
+
+> @@ -722,7 +725,7 @@ def _end_section(self):
+>                  raise QAPIParseError(
+>                      self._parser,
+>                      "empty doc section '%s'" % self._section.name)
+> -            self._section = None
+> +            self._section = QAPIDoc.Section(self._parser)
+>  
+>      def _append_freeform(self, line):
+>          match = re.match(r'(@\S+:)', line)
+
+Replacing None by QAPIDoc.Section doesn't just simplify the typing!  It
+also creates a bogus "additional section" (in the sense of QAPIDoc's
+class comment) after any section.  Works, because the .start*_section()
+all call .end_section() first, .end_section() does nothing for empty
+sections, and the bogus sections remain empty, unless we somehow screw
+up the code to add contents to them.  Such screwups are now possible,
+whereas before they would crash.
+
+This correctness argument isn't obvious, and therefore should be made in
+the commit message.
+
 
