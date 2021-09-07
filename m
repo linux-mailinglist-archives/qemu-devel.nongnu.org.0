@@ -2,87 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87C83402277
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 05:24:33 +0200 (CEST)
-Received: from localhost ([::1]:45714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33233402315
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 07:41:54 +0200 (CEST)
+Received: from localhost ([::1]:60264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNRiq-0004Bp-5v
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 23:24:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54918)
+	id 1mNTrk-0006ca-PP
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 01:41:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mNRh8-0002ts-VZ
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 23:22:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39819)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNToM-0004d2-N1
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 01:38:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mNRh5-00053w-5s
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 23:22:45 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNToI-0000dG-CD
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 01:38:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630984961;
+ s=mimecast20190719; t=1630993096;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oTHKjMyYvp/HMzx41sulKyYijospLHHfqnfkjHG1xhg=;
- b=c+6dWfOCxR3yj/a6j2S8GLX3zr/kTPhw9k3Zg6lIQKj7RDiksAOVx6V+uA3TclbURi0DVC
- pSQIlJczb3v6YpaKle/6adWGPJwB2wMStEBZCkSZc5yCNxV7f53h/zJajGmmdsZgX0VEPP
- 7AR/7teQful3QpkpuZHMf7oJYD63sc0=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-177-mHpYjO95OfyxoQ_rtYrDUA-1; Mon, 06 Sep 2021 23:22:38 -0400
-X-MC-Unique: mHpYjO95OfyxoQ_rtYrDUA-1
-Received: by mail-lf1-f69.google.com with SMTP id
- x33-20020a0565121321b02903ac51262781so2070799lfu.9
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 20:22:37 -0700 (PDT)
+ bh=YBXeCJ71E/VEdSBcCQKx212h4yvOEa2+o5kfsM4JAh0=;
+ b=dYBmSsXsmhsAusAQbBqDQf43MOtQyD78uGkxsVXQDU/Zj+U0y6B8394TyCrDk6NSmuNCBu
+ 6qUD5BVK5bXIMAm4jm+lbLuWoUmn69x0tirYMh7YnfGT/aQ975Cvc7IWJnmY+7WlErNrNU
+ TGex7uYvLWjPRJEagYaZ+jbYjAuxtL8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-2FTi8L1nOjWrMG1E1IezKA-1; Tue, 07 Sep 2021 01:38:14 -0400
+X-MC-Unique: 2FTi8L1nOjWrMG1E1IezKA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ u14-20020a7bcb0e0000b0290248831d46e4so654498wmj.6
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 22:38:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=oTHKjMyYvp/HMzx41sulKyYijospLHHfqnfkjHG1xhg=;
- b=fb2Bn9w1ji2UEElOiMxvP4krD6kv7ln6KdeMZuS0tff8QMLFdhTTkDR96frj7NypBx
- MMB3yvqjICb/b9cIGtW4P8346aogBEh2BN1grL6+gJeYuWAiuIutCiHRzAfscL3sO3II
- YQ6m/BgzVM1/gtmIFAHY1wq3Rc6glhf+u4XcRdt2/u340lg2Q2JZn7qfYJdQ4l0SvJ6L
- cptAgiPHiQkqKlJzQVO/nyYFCRS14NWy8Vk2i2vj8xB73TaEqz8kaIMuQP6VpIWJVThm
- ECQ5CFSg56CLhuqd6TAaTTtHjuSxfdcEQAgYxC9UAmw7hiZNTseoqZBZZntu/PfZhmW1
- mfsw==
-X-Gm-Message-State: AOAM533D+RXqR+QS7SfobS5YJ8SCYCWOWMFoRxy51S+iQu/MfHNBmRwa
- zJNe1dcIp0Oundl8WF1O7UO9d77ol7r9n2bBaxsQOGCNQ0cGj6Nm1RBEyxVZXt+7I8AspVigDjT
- pys7PPkLrwJ6F+NCr+AsgLAgYFiLL8RY=
-X-Received: by 2002:ac2:5fc5:: with SMTP id q5mr11121959lfg.629.1630984956362; 
- Mon, 06 Sep 2021 20:22:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz12Wc4M4CqXXUcYoCXrFI+E2/kMGfR+/9c9BBViddz8FGOWptpg79MleARDnW+OdDd5xoYZcSIJwFR6zpnx60=
-X-Received: by 2002:ac2:5fc5:: with SMTP id q5mr11121933lfg.629.1630984956021; 
- Mon, 06 Sep 2021 20:22:36 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YBXeCJ71E/VEdSBcCQKx212h4yvOEa2+o5kfsM4JAh0=;
+ b=Jgiw9xlnveHpGCYc629nFOIyr/ssWrfmxAunrHqkigHXE9s/TUeZ8L0+eNLsXbnbI1
+ 0Ahz1Bn8blyu/OUaXZRqxH+awWmg54qbJ6ZQcVw12xzUMEWZGGYJ52hazC1KabaY7i4W
+ hYFpqfl1jLmQoQa52pVpqMI18fsI5gmhl16uXyFy9JvH+XzEXKWEzH6FqlKEWbHEdaho
+ 6uX2oHiC/XWnh5E2DulRpfwNqawj3A3GdkZgnZj7wnRQh6z2tXuXfVMpPxLMtX3LNlDL
+ 6tQRiDWChkDez5ZV3uOY2G4BCUO1v9DqdqjjJITewnZVy+mLQSDxS4tVYe6KLlln3HhO
+ JbyA==
+X-Gm-Message-State: AOAM533rqbgS16j4fsrRJTgUJn9Vcpqw/MTFSix+MV71XDfyjhopr0Gy
+ M9CF1n9vQWZLz41UV72htMzh2qNm9P9dAT1w7JPFwoSzPSZcWRixVNaHSScuZgUdZKWSamNJDu4
+ xqWbk8+TBnXr3msw=
+X-Received: by 2002:a5d:4991:: with SMTP id r17mr17248379wrq.247.1630993091545; 
+ Mon, 06 Sep 2021 22:38:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwzKvEkOxWX/JUSuuBLZSeMOGooyXjMiIuHhxh/TLQ0A2AuRtKlW2HasEIs3DPT53gIHDT4tw==
+X-Received: by 2002:a5d:4991:: with SMTP id r17mr17248334wrq.247.1630993091070; 
+ Mon, 06 Sep 2021 22:38:11 -0700 (PDT)
+Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id u16sm1449991wmc.41.2021.09.06.22.38.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Sep 2021 22:38:10 -0700 (PDT)
+Subject: Re: [PATCH] hw/display/ati_2d: Fix buffer overflow in ati_2d_blt
+ (CVE-2021-3638)
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210906153103.1661195-1-philmd@redhat.com>
+ <CAA8xKjXkDwPYxSAeRb+2mfHRrbiL_kh9unVkemFXLfF68UXePA@mail.gmail.com>
+ <3ef43b0d-4b89-85a4-f2bf-b7f8a256d1db@redhat.com>
+ <bb39ee8c-a567-591a-a1c4-822683bb723@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <8ba32305-3e9f-a770-0406-7612ed4aeece@redhat.com>
+Date: Tue, 7 Sep 2021 07:38:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210713153758.323614-1-andrew@daynix.com>
- <20210713153758.323614-5-andrew@daynix.com>
- <e73ce649-a04e-5200-8258-487a565c7e20@redhat.com>
- <CAOEp5OekBjFfwPEJ3JU-x0_wrwO9szApOk=kR3e7AKhiLqa9-w@mail.gmail.com>
- <38ea6b36-b968-02bf-b3a8-3d6393df31a5@redhat.com>
- <CABcq3pGuqjBY_uqs3BthXS4oSViC=kP16sUbeqLFKJAoQWq6Xw@mail.gmail.com>
-In-Reply-To: <CABcq3pGuqjBY_uqs3BthXS4oSViC=kP16sUbeqLFKJAoQWq6Xw@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 7 Sep 2021 11:22:25 +0800
-Message-ID: <CACGkMEuwzya7Dh62=WbdFwZEYEFE7CN9ZYdkP8aThkdOFFh4iQ@mail.gmail.com>
-Subject: Re: [PATCH 4/5] ebpf_rss_helper: Added helper for eBPF RSS.
-To: Andrew Melnichenko <andrew@daynix.com>
+In-Reply-To: <bb39ee8c-a567-591a-a1c4-822683bb723@eik.bme.hu>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,302 +101,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Yan Vugenfirer <yan@daynix.com>, Eric Blake <eblake@redhat.com>
+Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
+ Qiang Liu <qiangliu@zju.edu.cn>, Prasad J Pandit <pjp@fedoraproject.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Gaoning Pan <pgn@zju.edu.cn>,
+ Ziming Zhang <ezrakiez@gmail.com>, Salvatore Bonaccorso <carnil@debian.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 6, 2021 at 11:50 PM Andrew Melnichenko <andrew@daynix.com> wrot=
-e:
->
-> Hi,
+On 9/6/21 9:52 PM, BALATON Zoltan wrote:
+> On Mon, 6 Sep 2021, Philippe Mathieu-Daudé wrote:
+>> (Forgot to Cc Alex for eventual reproducer)
 >>
->> I think it's for back-compatibility.
+>> On 9/6/21 6:44 PM, Mauro Matteo Cascella wrote:
+>>> On Mon, Sep 6, 2021 at 5:31 PM Philippe Mathieu-Daudé
+>>> <philmd@redhat.com> wrote:
+>>>>
+>>>> When building QEMU with DEBUG_ATI defined then running with
+>>>> '-device ati-vga,romfile="" -d unimp,guest_errors -trace ati\*'
+>>>> we get:
+>>>>
+>>>>   ati_mm_write 4 0x16c0 DP_CNTL <- 0x1
+>>>>   ati_mm_write 4 0x146c DP_GUI_MASTER_CNTL <- 0x2
+>>>>   ati_mm_write 4 0x16c8 DP_MIX <- 0xff0000
+>>>>   ati_mm_write 4 0x16c4 DP_DATATYPE <- 0x2
+>>>>   ati_mm_write 4 0x224 CRTC_OFFSET <- 0x0
+>>>>   ati_mm_write 4 0x142c DST_PITCH_OFFSET <- 0xfe00000
+>>>>   ati_mm_write 4 0x1420 DST_Y <- 0x3fff
+>>>>   ati_mm_write 4 0x1410 DST_HEIGHT <- 0x3fff
+>>>>   ati_mm_write 4 0x1588 DST_WIDTH_X <- 0x3fff3fff
+>>>>   ati_2d_blt: vram:0x7fff5fa00000 addr:0 ds:0x7fff61273800
+>>>> stride:2560 bpp:32 rop:0xff
+>>>>   ati_2d_blt: 0 0 0, 0 127 0, (0,0) -> (16383,16383) 16383x16383 > ^
+>>>>   ati_2d_blt: pixman_fill(dst:0x7fff5fa00000, stride:254, bpp:8,
+>>>> x:16383, y:16383, w:16383, h:16383, xor:0xff000000)
+>>>>   Thread 3 "qemu-system-i38" received signal SIGSEGV, Segmentation
+>>>> fault.
+>>>>   (gdb) bt
+>>>>   #0  0x00007ffff7f62ce0 in sse2_fill.lto_priv () at
+>>>> /lib64/libpixman-1.so.0
+>>>>   #1  0x00007ffff7f09278 in pixman_fill () at /lib64/libpixman-1.so.0
+>>>>   #2  0x0000555557b5a9af in ati_2d_blt (s=0x631000028800) at
+>>>> hw/display/ati_2d.c:196
+>>>>   #3  0x0000555557b4b5a2 in ati_mm_write (opaque=0x631000028800,
+>>>> addr=5512, data=1073692671, size=4) at hw/display/ati.c:843
+>>>>   #4  0x0000555558b90ec4 in memory_region_write_accessor
+>>>> (mr=0x631000039cc0, addr=5512, ..., size=4, ...) at
+>>>> softmmu/memory.c:492
+>>>>
+>>>> Commit 584acf34cb0 ("ati-vga: Fix reverse bit blts") introduced
+>>>> the local dst_x and dst_y which adjust the (x, y) coordinates
+>>>> depending on the direction in the SRCCOPY ROP3 operation, but
+>>>> forgot to address the same issue for the PATCOPY, BLACKNESS and
+>>>> WHITENESS operations, which also call pixman_fill().
+>>>>
+>>>> Fix that now by using the adjusted coordinates in the pixman_fill
+>>>> call, and update the related debug printf().
+>>>>
+>>>> Reported-by: Qiang Liu <qiangliu@zju.edu.cn>
+>>>> Fixes: 584acf34cb0 ("ati-vga: Fix reverse bit blts")
+>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>> ---
+>>>>  hw/display/ati_2d.c | 6 +++---
+>>>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
+>>>> index 4dc10ea7952..692bec91de4 100644
+>>>> --- a/hw/display/ati_2d.c
+>>>> +++ b/hw/display/ati_2d.c
+>>>> @@ -84,7 +84,7 @@ void ati_2d_blt(ATIVGAState *s)
+>>>>      DPRINTF("%d %d %d, %d %d %d, (%d,%d) -> (%d,%d) %dx%d %c %c\n",
+>>>>              s->regs.src_offset, s->regs.dst_offset,
+>>>> s->regs.default_offset,
+>>>>              s->regs.src_pitch, s->regs.dst_pitch,
+>>>> s->regs.default_pitch,
+>>>> -            s->regs.src_x, s->regs.src_y, s->regs.dst_x,
+>>>> s->regs.dst_y,
+>>>> +            s->regs.src_x, s->regs.src_y, dst_x, dst_y,
+>>>>              s->regs.dst_width, s->regs.dst_height,
+>>>>              (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ? '>' : '<'),
+>>>>              (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ? 'v' : '^'));
+>>>> @@ -180,11 +180,11 @@ void ati_2d_blt(ATIVGAState *s)
+>>>>          dst_stride /= sizeof(uint32_t);
+>>>>          DPRINTF("pixman_fill(%p, %d, %d, %d, %d, %d, %d, %x)\n",
+>>>>                  dst_bits, dst_stride, bpp,
+>>>> -                s->regs.dst_x, s->regs.dst_y,
+>>>> +                dst_x, dst_y,
+>>>>                  s->regs.dst_width, s->regs.dst_height,
+>>>>                  filler);
+>>>>          pixman_fill((uint32_t *)dst_bits, dst_stride, bpp,
+>>>> -                    s->regs.dst_x, s->regs.dst_y,
+>>>> +                    dst_x, dst_y,
+>>>>                      s->regs.dst_width, s->regs.dst_height,
+>>>>                      filler);
+>>>>          if (dst_bits >= s->vga.vram_ptr + s->vga.vbe_start_addr &&
+>>>> -- 
+>>>> 2.31.1
+>>>>
+>>>
+>>> Tested-by: Mauro Matteo Cascella <mcascell@redhat.com>
 >>
->> E.g current codes works without mmap(), and user will surprise that it
->> wont' work after upgrading their qemu.
->
-> Well, the current code would require additional capabilities with "kernel=
-.unprivileged_bpf_disabled=3D1", which may be possible on RedHat systems.
-> Technically we may have mmap test which will show that mmap for BPF_MAP_T=
-YPE_ARRAY works, but on the target system, we will know it only in runtime.
-> If I'm not mistaken, mmap for BPF_MAP_TYPE_ARRAY was added before kernel =
-5.4 and our bpf program requires kernel 5.8+.
+>> Thanks. I wouldn't be surprise if we get another CVE in this code /
+>> file / function ASAP this patch get merged... The code calls for a
+>> rewrite, as per this function comment in its header:
+>>
+>> void ati_2d_blt(ATIVGAState *s)
+>> {
+>>    /* FIXME it is probably more complex than this and may need to be */
+>>    /* rewritten but for now as a start just to get some output: */
+> 
+> It's also broken currently since the previous CVE fixes when I've tried
+> to change it to only use unsigned values to avoid underflows and get
+> away with only checking for overflows which simplifies it a bit. But
+> turns out that's wrong, the hardware does allow negative values and
+> while most drivers don't use that (such as Linux and MorphOS, so they
+> still work), at least Solaris driver does and it produces broken picture
+> now once X starts. (This can be reproduced with Solaris 10 x86 iso, but
 
-Ok, if this is the case, please explain this in the commit log.
+It would be useful to dump these Solaris I/O accesses to use them as
+regression tests.
 
-Btw, any reason that 5.8 is required for our bpf program?
+> Solaris also needs more features to be implemented to make it work so
+> fixing this alone is not enough to get past the first screen, text will
+> be still missing.) To fix this we will need to revert to signed values
+> and check for both over and underflow. I planned to try that eventually
+> but haven't yet got around to it.
+> 
+> I don't think assigning a CVE to a bug that is in an experimental and
+> largely unused part and happens when one enables debug code really worth
+> the hassle, this could be handled as a normal bug. As long as the
 
-Thanks
+CVE assignment can happens outside of QEMU community, we try to make it
+clear what is the "security boundary" but researchers filling CVEs
+might not understand it well.
 
-> So, there are no reasons to add bpf() update map as a fallback for mmap()=
-.
->
-> On Wed, Sep 1, 2021 at 9:42 AM Jason Wang <jasowang@redhat.com> wrote:
->>
->>
->> =E5=9C=A8 2021/8/31 =E4=B8=8A=E5=8D=881:07, Yuri Benditovich =E5=86=99=
-=E9=81=93:
->> > On Fri, Aug 20, 2021 at 6:41 AM Jason Wang <jasowang@redhat.com> wrote=
-:
->> >>
->> >> =E5=9C=A8 2021/7/13 =E4=B8=8B=E5=8D=8811:37, Andrew Melnychenko =E5=
-=86=99=E9=81=93:
->> >>> Helper program. Loads eBPF RSS program and maps and passes them thro=
-ugh unix socket.
->> >>> Libvirt may launch this helper and pass eBPF fds to qemu virtio-net.
->> >>
->> >> I wonder if this can be done as helper for TAP/bridge.
->> >>
->> >> E.g it's the qemu to launch those helper with set-uid.
->> >>
->> >> Then libvirt won't even need to care about that?
->> >>
->> > There are pros and cons for such a solution with set-uid.
->> >  From my point of view one of the cons is that set-uid is efficient
->> > only at install time so the coexistence of different qemu builds (and
->> > different helpers for each one) is kind of problematic.
->> > With the current solution this does not present any problem: the
->> > developer can have several different builds, each one automatically
->> > has its own helper and there is no conflict between these builds and
->> > between these builds and installed qemu package. Changing the
->> > 'emulator' in the libvirt profile automatically brings the proper
->> > helper to work.
->>
->>
->> I'm not sure I get you here. We can still have default/sample helper to
->> make sure it works for different builds.
->>
->> If we can avoid the involvement of libvirt, that would be better.
->>
->> Thanks
->>
->>
->> >
->> >>> Also, libbpf dependency now exclusively for Linux.
->> >>> Libbpf is used for eBPF RSS steering, which is supported only by Lin=
-ux TAP.
->> >>> There is no reason yet to build eBPF loader and helper for non Linux=
- systems,
->> >>> even if libbpf is present.
->> >>>
->> >>> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
->> >>> ---
->> >>>    ebpf/qemu-ebpf-rss-helper.c | 130 +++++++++++++++++++++++++++++++=
-+++++
->> >>>    meson.build                 |  37 ++++++----
->> >>>    2 files changed, 154 insertions(+), 13 deletions(-)
->> >>>    create mode 100644 ebpf/qemu-ebpf-rss-helper.c
->> >>>
->> >>> diff --git a/ebpf/qemu-ebpf-rss-helper.c b/ebpf/qemu-ebpf-rss-helper=
-.c
->> >>> new file mode 100644
->> >>> index 0000000000..fe68758f57
->> >>> --- /dev/null
->> >>> +++ b/ebpf/qemu-ebpf-rss-helper.c
->> >>> @@ -0,0 +1,130 @@
->> >>> +/*
->> >>> + * eBPF RSS Helper
->> >>> + *
->> >>> + * Developed by Daynix Computing LTD (http://www.daynix.com)
->> >>> + *
->> >>> + * Authors:
->> >>> + *  Andrew Melnychenko <andrew@daynix.com>
->> >>> + *
->> >>> + * This work is licensed under the terms of the GNU GPL, version 2.=
-  See
->> >>> + * the COPYING file in the top-level directory.
->> >>> + *
->> >>> + * Description: This is helper program for libvirtd.
->> >>> + *              It loads eBPF RSS program and passes fds through un=
-ix socket.
->> >>> + *              Built by meson, target - 'qemu-ebpf-rss-helper'.
->> >>> + */
->> >>> +
->> >>> +#include <stdio.h>
->> >>> +#include <stdint.h>
->> >>> +#include <stdlib.h>
->> >>> +#include <stdbool.h>
->> >>> +#include <getopt.h>
->> >>> +#include <memory.h>
->> >>> +#include <errno.h>
->> >>> +#include <sys/socket.h>
->> >>> +
->> >>> +#include "ebpf_rss.h"
->> >>> +
->> >>> +#include "qemu-helper-stamp.h"
->> >>> +
->> >>> +void QEMU_HELPER_STAMP(void) {}
->> >>> +
->> >>> +static int send_fds(int socket, int *fds, int n)
->> >>> +{
->> >>> +    struct msghdr msg =3D {};
->> >>> +    struct cmsghdr *cmsg =3D NULL;
->> >>> +    char buf[CMSG_SPACE(n * sizeof(int))];
->> >>> +    char dummy_buffer =3D 0;
->> >>> +    struct iovec io =3D { .iov_base =3D &dummy_buffer,
->> >>> +                        .iov_len =3D sizeof(dummy_buffer) };
->> >>> +
->> >>> +    memset(buf, 0, sizeof(buf));
->> >>> +
->> >>> +    msg.msg_iov =3D &io;
->> >>> +    msg.msg_iovlen =3D 1;
->> >>> +    msg.msg_control =3D buf;
->> >>> +    msg.msg_controllen =3D sizeof(buf);
->> >>> +
->> >>> +    cmsg =3D CMSG_FIRSTHDR(&msg);
->> >>> +    cmsg->cmsg_level =3D SOL_SOCKET;
->> >>> +    cmsg->cmsg_type =3D SCM_RIGHTS;
->> >>> +    cmsg->cmsg_len =3D CMSG_LEN(n * sizeof(int));
->> >>> +
->> >>> +    memcpy(CMSG_DATA(cmsg), fds, n * sizeof(int));
->> >>> +
->> >>> +    return sendmsg(socket, &msg, 0);
->> >>> +}
->> >>> +
->> >>> +static void print_help_and_exit(const char *prog, int exitcode)
->> >>> +{
->> >>> +    fprintf(stderr, "%s - load eBPF RSS program for qemu and pass e=
-BPF fds"
->> >>> +            " through unix socket.\n", prog);
->> >>> +    fprintf(stderr, "\t--fd <num>, -f <num> - unix socket file desc=
-riptor"
->> >>> +            " used to pass eBPF fds.\n");
->> >>> +    fprintf(stderr, "\t--help, -h - this help.\n");
->> >>> +    exit(exitcode);
->> >>> +}
->> >>> +
->> >>> +int main(int argc, char **argv)
->> >>> +{
->> >>> +    char *fd_string =3D NULL;
->> >>> +    int unix_fd =3D 0;
->> >>> +    struct EBPFRSSContext ctx =3D {};
->> >>> +    int fds[EBPF_RSS_MAX_FDS] =3D {};
->> >>> +    int ret =3D -1;
->> >>> +
->> >>> +    for (;;) {
->> >>> +        int c;
->> >>> +        static struct option long_options[] =3D {
->> >>> +                {"help",  no_argument, 0, 'h'},
->> >>> +                {"fd",  required_argument, 0, 'f'},
->> >>> +                {0, 0, 0, 0}
->> >>> +        };
->> >>> +        c =3D getopt_long(argc, argv, "hf:",
->> >>> +                long_options, NULL);
->> >>> +
->> >>> +        if (c =3D=3D -1) {
->> >>> +            break;
->> >>> +        }
->> >>> +
->> >>> +        switch (c) {
->> >>> +        case 'f':
->> >>> +            fd_string =3D optarg;
->> >>> +            break;
->> >>> +        case 'h':
->> >>> +        default:
->> >>> +            print_help_and_exit(argv[0],
->> >>> +                    c =3D=3D 'h' ? EXIT_SUCCESS : EXIT_FAILURE);
->> >>> +        }
->> >>> +    }
->> >>> +
->> >>> +    if (!fd_string) {
->> >>> +        fprintf(stderr, "Unix file descriptor not present.\n");
->> >>> +        print_help_and_exit(argv[0], EXIT_FAILURE);
->> >>> +    }
->> >>> +
->> >>> +    unix_fd =3D atoi(fd_string);
->> >>> +
->> >>> +    if (!unix_fd) {
->> >>> +        fprintf(stderr, "Unix file descriptor is invalid.\n");
->> >>> +        return EXIT_FAILURE;
->> >>> +    }
->> >>> +
->> >>> +    ebpf_rss_init(&ctx);
->> >>> +    if (!ebpf_rss_load(&ctx)) {
->> >>> +        fprintf(stderr, "Can't load ebpf.\n");
->> >>> +        return EXIT_FAILURE;
->> >>> +    }
->> >>> +    fds[0] =3D ctx.program_fd;
->> >>> +    fds[1] =3D ctx.map_configuration;
->> >>> +
->> >>> +    ret =3D send_fds(unix_fd, fds, EBPF_RSS_MAX_FDS);
->> >>> +    if (ret < 0) {
->> >>> +        fprintf(stderr, "Issue while sending fds: %s.\n", strerror(=
-errno));
->> >>> +    }
->> >>> +
->> >>> +    ebpf_rss_unload(&ctx);
->> >>> +
->> >>> +    return ret < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
->> >>> +}
->> >>> +
->> >>> diff --git a/meson.build b/meson.build
->> >>> index 257e51d91b..913aa1fee5 100644
->> >>> --- a/meson.build
->> >>> +++ b/meson.build
->> >>> @@ -1033,19 +1033,22 @@ if not get_option('fuse_lseek').disabled()
->> >>>    endif
->> >>>
->> >>>    # libbpf
->> >>> -libbpf =3D dependency('libbpf', required: get_option('bpf'), method=
-: 'pkg-config')
->> >>> -if libbpf.found() and not cc.links('''
->> >>> -   #include <bpf/libbpf.h>
->> >>> -   int main(void)
->> >>> -   {
->> >>> -     bpf_object__destroy_skeleton(NULL);
->> >>> -     return 0;
->> >>> -   }''', dependencies: libbpf)
->> >>> -  libbpf =3D not_found
->> >>> -  if get_option('bpf').enabled()
->> >>> -    error('libbpf skeleton test failed')
->> >>> -  else
->> >>> -    warning('libbpf skeleton test failed, disabling')
->> >>> +libbpf =3D not_found
->> >>> +if targetos =3D=3D 'linux'
->> >>> +  libbpf =3D dependency('libbpf', required: get_option('bpf'), meth=
-od: 'pkg-config')
->> >>> +  if libbpf.found() and not cc.links('''
->> >>> +    #include <bpf/libbpf.h>
->> >>> +    int main(void)
->> >>> +    {
->> >>> +      bpf_object__destroy_skeleton(NULL);
->> >>
->> >> Do we need to test whether the bpf can do mmap() here?
->> >>
->> >> Thanks
->> >>
->> >>
->> >>> +      return 0;
->> >>> +    }''', dependencies: libbpf)
->> >>> +    libbpf =3D not_found
->> >>> +    if get_option('bpf').enabled()
->> >>> +      error('libbpf skeleton test failed')
->> >>> +    else
->> >>> +      warning('libbpf skeleton test failed, disabling')
->> >>> +    endif
->> >>>      endif
->> >>>    endif
->> >>>
->> >>> @@ -2423,6 +2426,14 @@ if have_tools
->> >>>                   dependencies: [authz, crypto, io, qom, qemuutil,
->> >>>                                  libcap_ng, mpathpersist],
->> >>>                   install: true)
->> >>> +
->> >>> +    if libbpf.found()
->> >>> +        executable('qemu-ebpf-rss-helper', files(
->> >>> +                   'ebpf/qemu-ebpf-rss-helper.c', 'ebpf/ebpf_rss.c'=
-),
->> >>> +                   dependencies: [qemuutil, libbpf, glib],
->> >>> +                   install: true,
->> >>> +                   install_dir: get_option('libexecdir'))
->> >>> +    endif
->> >>>      endif
->> >>>
->> >>>      if 'CONFIG_IVSHMEM' in config_host
->>
+> proposed fix does not break MorphOS I'm OK with it as probably that's
+> the only useful case for ati-vga currently (and maybe booting Linux on
+> pegasos2) but these are hardly security critical. I don't think anybody
+> would use it for anything else at least there were no contributions or
+> reports so far. Have you tested if MorphOS still works as described at
+> http://zero.eik.bme.hu/~balaton/qemu/amiga/ ?
+
+Nop.
 
 
