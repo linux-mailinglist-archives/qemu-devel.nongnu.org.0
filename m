@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8789E4021B4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 02:55:03 +0200 (CEST)
-Received: from localhost ([::1]:37366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 834214021BB
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 02:59:53 +0200 (CEST)
+Received: from localhost ([::1]:48432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNPOA-0001rH-HM
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 20:55:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34796)
+	id 1mNPSq-0000yo-JY
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 20:59:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mNPHk-0002c4-HE; Mon, 06 Sep 2021 20:48:26 -0400
-Received: from mail-qt1-x835.google.com ([2607:f8b0:4864:20::835]:40764)
+ id 1mNPHk-0002c5-IR; Mon, 06 Sep 2021 20:48:26 -0400
+Received: from mail-qv1-xf32.google.com ([2607:f8b0:4864:20::f32]:40571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mNPHg-0003rY-RW; Mon, 06 Sep 2021 20:48:23 -0400
-Received: by mail-qt1-x835.google.com with SMTP id c19so6659908qte.7;
- Mon, 06 Sep 2021 17:48:18 -0700 (PDT)
+ id 1mNPHh-0003t8-OV; Mon, 06 Sep 2021 20:48:24 -0400
+Received: by mail-qv1-xf32.google.com with SMTP id 93so4846179qva.7;
+ Mon, 06 Sep 2021 17:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UsOT6/JeyB56WiKG7UbAHoKZig4euttAV/jLYfKeiOM=;
- b=PrQ44nydxypCtzRMe0wG5ezmRWqCpDT5i8BzpiOzMT8+Io0/bK65H3wd9/UUacFH2e
- vgRa5R/jMt0waC6nB5WWWlreePs+4G7InVwQYMccECc8nI2/5pq3336LJ4qbeilNzMXL
- FBVxQwkGIqFTu1bZDfIp/ae8nUNW/H3Fhf10vogo+mYhAfrHC5zwOd5cG2jVvbt1PKOS
- JcHdmy4PXOcwtzU9cbAn5oF6UO4CAgBAwjEPlyET/cVr4s/Bd7HlJzyY/OfZNXguoCo+
- RlzXD5Qebiu9EMNdmreaDeiwfgTa6T6+N/SxH5C9/JYT5b1aWpEKTK80+xI/LDRFB9qq
- yQnA==
+ bh=jv/FTCfQ2t/c85uXR7JxDxmo4FnVjkbZPHxekYv/OSU=;
+ b=IrcDk3Xm4O59Wo+hyTPugrw6iAA9/fStPZg6DxNoPSj7B80/o9TQltV2i0dExwgibq
+ xLMTfusd65Va2NnGzm14tIpwL+m5UTNqfzBHTYdUL57Btr6RXNNCUf+cZqjopXZxz2nN
+ uSC6otDKlfe5TFpBmGRKEYJAxD81N96pdoQBA2A/c7UNeeG4CPZNx9NJqUzmF0qZSkbO
+ PxBSPSfEqTnl5HP5TZ8T4XOtyQnSiQVHvHKS7UNflac49RVrB9kzyC8KTcsoLnMyiZ4x
+ aOhS6Awb18X0sowAkpfpR8lGaOLYpbMJdjQsBm/JavGSn1On6qCxYdiV8Gn4/3T0THnT
+ AnBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UsOT6/JeyB56WiKG7UbAHoKZig4euttAV/jLYfKeiOM=;
- b=PSdYNKYvW+GJZHv3sCnjnumT2YkbCAxyIl2PCoybTl7O+7SsVL/gjMXiDlaBHmnWAo
- sHKBbi/0oAA13P7WNd4KavKyocsow2akUeGsZ8N36b14tbuPGyk7iS9iWM8otF5q+cf7
- No1iiAJKGz9YF1AFhsZ8f8DixjdGNMgWPloElfByR05NB1kC6NBH/YjpMRybpV5PMuEs
- GLsZY7lMjzZpQU6w9zhHQQnJFB12GRwwmwrGrHO18B4634p1HQaAXDen66ovPEMmecCw
- 7SR0U+H6i4aP0OWIErEuJ2ZjX5tMmKl/d1Me/h/9NeKxlFua5UfklO5/wTrEEVNBp+L1
- UU0Q==
-X-Gm-Message-State: AOAM532kR9f5rCu5g/tZSXT4Z0uOSWEKLc/I4utmW8+nK5xm7XGbZW+i
- orM+YAqV6nK7ZiknNksPYY9PcsnGkFI=
-X-Google-Smtp-Source: ABdhPJxj0l9BCXUzHg+oxgOmHNJ7JG1MbZK5t+HRiCQbGZ8pZ19IbgLTCtnoOAmiGfTRirDZD54Pxw==
-X-Received: by 2002:ac8:424c:: with SMTP id r12mr13071293qtm.183.1630975698040; 
- Mon, 06 Sep 2021 17:48:18 -0700 (PDT)
+ bh=jv/FTCfQ2t/c85uXR7JxDxmo4FnVjkbZPHxekYv/OSU=;
+ b=bkF0AiFCa8TTZFfasYfxxBi3gaV2xK2tnLy5MryQt+FrnxUQFRMkxevhUR/E/UWVid
+ /v2lzFnYOFznH/fwuGSjQ2s1dXlw59iM2EngDOf//8qycOPRdbfmjk+4v+oE7+BQa7lS
+ ijRe3YF4SA5LG9xYpqvT1dphxryICPK68pcbI7G7Hk8UMYtlMtO8COfqqzV+K7YFBBWa
+ RN11bLiORS5Hd7MWuQV6F4A9BghAcQDLQk9Klgh48yGrN8Q8JEbfpq3jgStpKzBfmsYE
+ uZodsTs5eUHTrqF9mkfskfZJwW5DciLXldz+dqRZF/o3GKuvGCZhwHPark+tJuR5RAWS
+ eVlA==
+X-Gm-Message-State: AOAM533ryt1YG6GGkT2lcVUX9Pjr0lGUcZxpBTyg8eW2OqJqWSOt9tdd
+ LCdpHvWNN7ovj616oJkjFbg8jOvM3PQ=
+X-Google-Smtp-Source: ABdhPJxLbxBLgyWlIGrOm6mw5NBwyXLjv3wTYmlWuUZxtpHKvN1V4/Ja8DNLxSxuXMISDf275jiKng==
+X-Received: by 2002:a0c:8150:: with SMTP id 74mr14235196qvc.31.1630975700121; 
+ Mon, 06 Sep 2021 17:48:20 -0700 (PDT)
 Received: from rekt.COMFAST ([179.247.136.122])
- by smtp.gmail.com with ESMTPSA id x83sm7799538qkb.118.2021.09.06.17.48.16
+ by smtp.gmail.com with ESMTPSA id x83sm7799538qkb.118.2021.09.06.17.48.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 17:48:17 -0700 (PDT)
+ Mon, 06 Sep 2021 17:48:19 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 4/7] qapi/qdev.json: fix DEVICE_DELETED parameters doc
-Date: Mon,  6 Sep 2021 21:47:52 -0300
-Message-Id: <20210907004755.424931-5-danielhb413@gmail.com>
+Subject: [PATCH v8 5/7] qapi/qdev.json: add DEVICE_UNPLUG_GUEST_ERROR QAPI
+ event
+Date: Mon,  6 Sep 2021 21:47:53 -0300
+Message-Id: <20210907004755.424931-6-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210907004755.424931-1-danielhb413@gmail.com>
 References: <20210907004755.424931-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::835;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x835.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f32;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf32.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,39 +88,133 @@ Cc: Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clarify that @device is optional and that 'path' is the device
-path from QOM.
+At this moment we only provide one event to report a hotunplug error,
+MEM_UNPLUG_ERROR. As of Linux kernel 5.12 and QEMU 6.0.0, the pseries
+machine is now able to report unplug errors for other device types, such
+as CPUs.
 
-This change follows Markus' suggestion verbatim, provided in full
-context here:
+Instead of creating a (device_type)_UNPLUG_ERROR for each new device,
+create a generic DEVICE_UNPLUG_GUEST_ERROR event that can be used by all
+guest side unplug errors in the future. This event has a similar API as
+the existing DEVICE_DELETED event, always providing the QOM path of the
+device and dev->id if there's any.
 
-https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg01891.html
+With this new generic event, MEM_UNPLUG_ERROR is now marked as deprecated.
 
-Suggested-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- qapi/qdev.json | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ docs/about/deprecated.rst | 10 ++++++++++
+ qapi/machine.json         |  7 ++++++-
+ qapi/qdev.json            | 27 ++++++++++++++++++++++++++-
+ stubs/qdev.c              |  7 +++++++
+ 4 files changed, 49 insertions(+), 2 deletions(-)
 
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 6d438f1c8d..1a8ffc9381 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -204,6 +204,16 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
+ (the ISA has never been upstreamed to a compiler toolchain). Therefore
+ this CPU is also deprecated.
+ 
++
++QEMU API (QAPI) events
++----------------------
++
++``MEM_UNPLUG_ERROR`` (since 6.2)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Use the more generic event ``DEVICE_UNPLUG_GUEST_ERROR`` instead.
++
++
+ System emulator machines
+ ------------------------
+ 
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 157712f006..cd397f1ee4 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1271,6 +1271,10 @@
+ #
+ # @msg: Informative message
+ #
++# Features:
++# @deprecated: This event is deprecated. Use @DEVICE_UNPLUG_GUEST_ERROR
++#              instead.
++#
+ # Since: 2.4
+ #
+ # Example:
+@@ -1283,7 +1287,8 @@
+ #
+ ##
+ { 'event': 'MEM_UNPLUG_ERROR',
+-  'data': { 'device': 'str', 'msg': 'str' } }
++  'data': { 'device': 'str', 'msg': 'str' },
++  'features': ['deprecated'] }
+ 
+ ##
+ # @SMPConfiguration:
 diff --git a/qapi/qdev.json b/qapi/qdev.json
-index b83178220b..0e9cb2ae88 100644
+index 0e9cb2ae88..d75e68908b 100644
 --- a/qapi/qdev.json
 +++ b/qapi/qdev.json
-@@ -108,9 +108,9 @@
- # At this point, it's safe to reuse the specified device ID. Device removal can
- # be initiated by the guest or by HMP/QMP commands.
+@@ -84,7 +84,9 @@
+ #        This command merely requests that the guest begin the hot removal
+ #        process.  Completion of the device removal process is signaled with a
+ #        DEVICE_DELETED event. Guest reset will automatically complete removal
+-#        for all devices.
++#        for all devices.  If a guest-side error in the hot removal process is
++#        detected, the device will not be removed and a DEVICE_UNPLUG_GUEST_ERROR
++#        event is sent.  Some errors cannot be detected.
  #
--# @device: device name
+ # Since: 0.14
+ #
+@@ -124,3 +126,26 @@
+ ##
+ { 'event': 'DEVICE_DELETED',
+   'data': { '*device': 'str', 'path': 'str' } }
++
++##
++# @DEVICE_UNPLUG_GUEST_ERROR:
++#
++# Emitted when a device hot unplug fails due to a guest reported error.
++#
 +# @device: the device's ID if it has one
- #
--# @path: device path
++#
 +# @path: the device's QOM path
- #
- # Since: 1.5
- #
++#
++# Since: 6.2
++#
++# Example:
++#
++# <- { "event": "DEVICE_UNPLUG_GUEST_ERROR"
++#      "data": { "device": "core1",
++#                "path": "/machine/peripheral/core1" },
++#      },
++#      "timestamp": { "seconds": 1615570772, "microseconds": 202844 } }
++#
++##
++{ 'event': 'DEVICE_UNPLUG_GUEST_ERROR',
++  'data': { '*device': 'str', 'path': 'str' } }
+diff --git a/stubs/qdev.c b/stubs/qdev.c
+index 92e6143134..28d6d531e6 100644
+--- a/stubs/qdev.c
++++ b/stubs/qdev.c
+@@ -21,3 +21,10 @@ void qapi_event_send_device_deleted(bool has_device,
+ {
+     /* Nothing to do. */
+ }
++
++void qapi_event_send_device_unplug_guest_error(bool has_device,
++                                               const char *device,
++                                               const char *path
++{
++    /* Nothing to do. */
++}
 -- 
 2.31.1
 
