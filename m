@@ -2,80 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37786402455
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 09:30:24 +0200 (CEST)
-Received: from localhost ([::1]:51058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A09840246B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 09:33:00 +0200 (CEST)
+Received: from localhost ([::1]:53826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNVYl-0005T1-6I
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 03:30:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34566)
+	id 1mNVbH-0007Tw-8G
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 03:32:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mNVWt-0004Vo-Cb; Tue, 07 Sep 2021 03:28:27 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mNVWr-0000lp-LX; Tue, 07 Sep 2021 03:28:27 -0400
-Received: by mail-wr1-x429.google.com with SMTP id n5so12933989wro.12;
- Tue, 07 Sep 2021 00:28:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2kyYpb+GFG30Ej5TiseJixR5BoYsIMdO/A10ehgDP9M=;
- b=MbKKzvlpZgVYWritkmnMvf65AbEMiM8dvecdgvIz3dsuSs1kvhxCPQVBQuP8mhkx+p
- qcP871T8dc5/UUhTUVjtUbi1VTzR2AoVn5fS+QNWn/3XAkTzktykGTzLrZa+qHRlhxXY
- vhcvNwjaEvPGyHZOyb18fQN3/FjPzIJa2sR1469KQJDeD2LVzlHgdpP5J+TxIEHcmTWD
- Edvf61S8ETDjGufZ6Jgo718x4kPPjGXnpHOe7dvPu9sjjfzYAOz9X+HGpzr/Vu5mY1Qd
- NaQggZbKXqIRlR7P1CH8ECB8Tq55qACquf7yMMY+5iz3iljBIvzG0OfpBXtUkIN6gwms
- d/WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2kyYpb+GFG30Ej5TiseJixR5BoYsIMdO/A10ehgDP9M=;
- b=PmZgqVEB2gsnvlw/3VTmS9zmvb0ycN++icKHlrdorb4v+rvIkglggXi2snHxHzN8zG
- sDUZIaFirIH+P1ue79fWtzvs4KuVerKPT41oLIAKe8dnCecWOYIfOJqIxYLLNxAX1ebj
- SSL4LcMHmp/3UHhQ8qP73I37yj4vEVfTHQ4X2/SyezYuM+A4JJzuTVdIjfM39vQdnNIO
- xes6CDbs9Ynf35fSfpO4LrV2zCeyk3JMrRsPNXtE5luubylqMdoK+xHoPYCJ7b/I142H
- pRXXti0u4RH1LyvDeun6refkbWPR84rIdXoZS8o833FcZ8OU3ADvvuZzUtEtwKKzqG3c
- TKjw==
-X-Gm-Message-State: AOAM5305KjqIsfkYaKnMvP1e58eEN+PkdCR51bu74nmZX9SObkPD3dma
- XtRZ1cz5ZVJME3nLxc9N+HfTr+Z0FaU=
-X-Google-Smtp-Source: ABdhPJyatOPydoyshQ2L5n85v+y8MLiCkgARInxigh5XwiHc3Meqh4OVuYBzzR/IpTZX5bN4Dj9RXQ==
-X-Received: by 2002:a5d:54c3:: with SMTP id x3mr17162958wrv.208.1630999703383; 
- Tue, 07 Sep 2021 00:28:23 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id c2sm10064028wrs.60.2021.09.07.00.28.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Sep 2021 00:28:22 -0700 (PDT)
-Subject: Re: [PATCH 04/10] aspeed/smc: Drop AspeedSMCController structure
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- Joel Stanley <joel@jms.id.au>
-References: <20210907065822.1152443-1-clg@kaod.org>
- <20210907065822.1152443-5-clg@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9bf0225d-89c1-3d56-a77a-e90df3f3784a@amsat.org>
-Date: Tue, 7 Sep 2021 09:28:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mNVZU-0006Nd-5j; Tue, 07 Sep 2021 03:31:08 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:36413)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mNVZS-0002vp-0u; Tue, 07 Sep 2021 03:31:07 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.149])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 3FF5ABCB6FF6;
+ Tue,  7 Sep 2021 09:31:01 +0200 (CEST)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 7 Sep
+ 2021 09:31:00 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002e1c492da-6788-4648-9db5-b3c251ad36b6,
+ 984F41D2D9692A95DAA6D5E609006558D983FB00) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
+ <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>
+Subject: [PATCH] aspeed/i2c: QOMify AspeedI2CBus
+Date: Tue, 7 Sep 2021 09:30:59 +0200
+Message-ID: <20210907073059.1155224-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210907065822.1152443-5-clg@kaod.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.332,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 5c67d43f-a668-4e79-930e-49aaa74810e4
+X-Ovh-Tracer-Id: 1528127649440041766
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudefgedguddujecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefvdeutddvieekkeeuhfekudejjefggffghfetgfelgfevveefgefhvdegtdelveenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,26 +66,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/7/21 8:58 AM, Cédric Le Goater wrote:
-> The characteristics of the Aspeed controllers are described in a
-> AspeedSMCController structure which is redundant with the
-> AspeedSMCClass. Move all attributes under the class and adapt the code
-> to use class attributes instead.
-> 
-> This is a large change but it is functionally equivalent.
-> 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->  include/hw/ssi/aspeed_smc.h |  64 ++-
->  hw/arm/aspeed_ast2600.c     |   4 +-
->  hw/arm/aspeed_soc.c         |   4 +-
->  hw/ssi/aspeed_smc.c         | 859 ++++++++++++++++++++----------------
->  4 files changed, 510 insertions(+), 421 deletions(-)
+The AST2600 SoC realize routine needs to be adapted when connecting
+the I2C bus IRQs because the bus IRQs have moved to the AspeedI2CBus
+SysBus device, one level below the Aspeed I2C controller SysBus
+device.
 
-Overall LGTM, I might do a more detailed pass later.
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+---
+ include/hw/i2c/aspeed_i2c.h |   8 ++-
+ hw/arm/aspeed_ast2600.c     |   7 +--
+ hw/i2c/aspeed_i2c.c         | 103 +++++++++++++++++++++++++++++-------
+ 3 files changed, 93 insertions(+), 25 deletions(-)
+
+diff --git a/include/hw/i2c/aspeed_i2c.h b/include/hw/i2c/aspeed_i2c.h
+index 565f83306624..4b9be09274c7 100644
+--- a/include/hw/i2c/aspeed_i2c.h
++++ b/include/hw/i2c/aspeed_i2c.h
+@@ -36,7 +36,11 @@ OBJECT_DECLARE_TYPE(AspeedI2CState, AspeedI2CClass, ASPEED_I2C)
+ 
+ struct AspeedI2CState;
+ 
+-typedef struct AspeedI2CBus {
++#define TYPE_ASPEED_I2C_BUS "aspeed.i2c.bus"
++OBJECT_DECLARE_SIMPLE_TYPE(AspeedI2CBus, ASPEED_I2C_BUS)
++struct AspeedI2CBus {
++    SysBusDevice parent_obj;
++
+     struct AspeedI2CState *controller;
+ 
+     MemoryRegion mr;
+@@ -54,7 +58,7 @@ typedef struct AspeedI2CBus {
+     uint32_t pool_ctrl;
+     uint32_t dma_addr;
+     uint32_t dma_len;
+-} AspeedI2CBus;
++};
+ 
+ struct AspeedI2CState {
+     SysBusDevice parent_obj;
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index c69f27dff62a..a70e4c48a73c 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -337,11 +337,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < ASPEED_I2C_GET_CLASS(&s->i2c)->num_busses; i++) {
+         qemu_irq irq = qdev_get_gpio_in(DEVICE(&s->a7mpcore),
+                                         sc->irqmap[ASPEED_DEV_I2C] + i);
+-        /*
+-         * The AST2600 SoC has one IRQ per I2C bus. Skip the common
+-         * IRQ (AST2400 and AST2500) and connect all bussses.
+-         */
+-        sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c), i + 1, irq);
++        /* The AST2600 I2C controller has one IRQ per bus. */
++        sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c.busses[i]), 0, irq);
+     }
+ 
+     /* FMC, The number of CS is set at the board level */
+diff --git a/hw/i2c/aspeed_i2c.c b/hw/i2c/aspeed_i2c.c
+index 8d276d9ed391..f1dacdb925ca 100644
+--- a/hw/i2c/aspeed_i2c.c
++++ b/hw/i2c/aspeed_i2c.c
+@@ -740,20 +740,20 @@ static const VMStateDescription aspeed_i2c_vmstate = {
+ 
+ static void aspeed_i2c_reset(DeviceState *dev)
+ {
+-    int i;
+     AspeedI2CState *s = ASPEED_I2C(dev);
+-    AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(s);
+ 
+     s->intr_status = 0;
++}
++
++static void aspeed_i2c_instance_init(Object *obj)
++{
++    AspeedI2CState *s = ASPEED_I2C(obj);
++    AspeedI2CClass *aic = ASPEED_I2C_GET_CLASS(s);
++    int i;
+ 
+     for (i = 0; i < aic->num_busses; i++) {
+-        s->busses[i].intr_ctrl = 0;
+-        s->busses[i].intr_status = 0;
+-        s->busses[i].cmd = 0;
+-        s->busses[i].buf = 0;
+-        s->busses[i].dma_addr = 0;
+-        s->busses[i].dma_len = 0;
+-        i2c_end_transfer(s->busses[i].bus);
++        object_initialize_child(obj, "bus[*]", &s->busses[i],
++                                TYPE_ASPEED_I2C_BUS);
+     }
+ }
+ 
+@@ -791,17 +791,21 @@ static void aspeed_i2c_realize(DeviceState *dev, Error **errp)
+     sysbus_init_mmio(sbd, &s->iomem);
+ 
+     for (i = 0; i < aic->num_busses; i++) {
+-        char name[32];
++        Object *bus = OBJECT(&s->busses[i]);
+         int offset = i < aic->gap ? 1 : 5;
+ 
+-        sysbus_init_irq(sbd, &s->busses[i].irq);
+-        snprintf(name, sizeof(name), "aspeed.i2c.%d", i);
+-        s->busses[i].controller = s;
+-        s->busses[i].id = i;
+-        s->busses[i].bus = i2c_init_bus(dev, name);
+-        memory_region_init_io(&s->busses[i].mr, OBJECT(dev),
+-                              &aspeed_i2c_bus_ops, &s->busses[i], name,
+-                              aic->reg_size);
++        if (!object_property_set_link(bus, "controller", OBJECT(s), errp)) {
++            return;
++        }
++
++        if (!object_property_set_uint(bus, "bus-id", i, errp)) {
++            return;
++        }
++
++        if (!sysbus_realize(SYS_BUS_DEVICE(bus), errp)) {
++            return;
++        }
++
+         memory_region_add_subregion(&s->iomem, aic->reg_size * (i + offset),
+                                     &s->busses[i].mr);
+     }
+@@ -841,12 +845,74 @@ static void aspeed_i2c_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo aspeed_i2c_info = {
+     .name          = TYPE_ASPEED_I2C,
+     .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_init = aspeed_i2c_instance_init,
+     .instance_size = sizeof(AspeedI2CState),
+     .class_init    = aspeed_i2c_class_init,
+     .class_size = sizeof(AspeedI2CClass),
+     .abstract   = true,
+ };
+ 
++static void aspeed_i2c_bus_reset(DeviceState *dev)
++{
++    AspeedI2CBus *s = ASPEED_I2C_BUS(dev);
++
++    s->intr_ctrl = 0;
++    s->intr_status = 0;
++    s->cmd = 0;
++    s->buf = 0;
++    s->dma_addr = 0;
++    s->dma_len = 0;
++    i2c_end_transfer(s->bus);
++}
++
++static void aspeed_i2c_bus_realize(DeviceState *dev, Error **errp)
++{
++    AspeedI2CBus *s = ASPEED_I2C_BUS(dev);
++    char name[32];
++    AspeedI2CClass *aic;
++
++    if (!s->controller) {
++        error_setg(errp, TYPE_ASPEED_I2C_BUS ": 'controller' link not set");
++        return;
++    }
++
++    aic = ASPEED_I2C_GET_CLASS(s->controller);
++
++    snprintf(name, sizeof(name), TYPE_ASPEED_I2C_BUS ".%d", s->id);
++
++    sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
++
++    s->bus = i2c_init_bus(dev, name);
++
++    memory_region_init_io(&s->mr, OBJECT(s), &aspeed_i2c_bus_ops,
++                          s, name, aic->reg_size);
++    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mr);
++}
++
++static Property aspeed_i2c_bus_properties[] = {
++    DEFINE_PROP_UINT8("bus-id", AspeedI2CBus, id, 0),
++    DEFINE_PROP_LINK("controller", AspeedI2CBus, controller, TYPE_ASPEED_I2C,
++                     AspeedI2CState *),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void aspeed_i2c_bus_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->desc = "Aspeed I2C Bus";
++    dc->realize = aspeed_i2c_bus_realize;
++    dc->reset = aspeed_i2c_bus_reset;
++    device_class_set_props(dc, aspeed_i2c_bus_properties);
++}
++
++static const TypeInfo aspeed_i2c_bus_info = {
++    .name           = TYPE_ASPEED_I2C_BUS,
++    .parent         = TYPE_SYS_BUS_DEVICE,
++    .instance_size  = sizeof(AspeedI2CBus),
++    .class_init     = aspeed_i2c_bus_class_init,
++};
++
+ static qemu_irq aspeed_2400_i2c_bus_get_irq(AspeedI2CBus *bus)
+ {
+     return bus->controller->irq;
+@@ -951,6 +1017,7 @@ static const TypeInfo aspeed_2600_i2c_info = {
+ 
+ static void aspeed_i2c_register_types(void)
+ {
++    type_register_static(&aspeed_i2c_bus_info);
+     type_register_static(&aspeed_i2c_info);
+     type_register_static(&aspeed_2400_i2c_info);
+     type_register_static(&aspeed_2500_i2c_info);
+-- 
+2.31.1
+
 
