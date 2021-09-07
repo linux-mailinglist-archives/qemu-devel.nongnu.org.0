@@ -2,71 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC9040312D
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 00:47:54 +0200 (CEST)
-Received: from localhost ([::1]:47236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A03403180
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 01:27:18 +0200 (CEST)
+Received: from localhost ([::1]:53474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNjsf-0002bg-3X
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 18:47:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43376)
+	id 1mNkUn-0000CR-AL
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 19:27:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mNjqD-0001k4-53; Tue, 07 Sep 2021 18:45:21 -0400
-Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:40923)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mNjqB-0001R3-4B; Tue, 07 Sep 2021 18:45:20 -0400
-Received: by mail-il1-x133.google.com with SMTP id a20so277032ilq.7;
- Tue, 07 Sep 2021 15:45:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CHMaAy/JFWUxyakTODorvN54HoTBpm8agQBfjxlDtrc=;
- b=gPs8Bebvh5a4jBIST02RHpsO38LG94qBpILC4nQ2rG5Of3oNlFMphRKdywHC7aBWO/
- nhiq/JDgFU/0Fwdc288HwI5lbOZ4wmfiMc8ytIbkErpmw38Q5637drLyqc4UmNZt6UxD
- mSOr9yS7usUyX47L3fVcyEnZaTBU759N3T+C4YePFXPeeYc/f3vnyryhRg2q60WpH1QR
- 1SE0l4jibiftvkyF8dh8re8E+WIMMrQoeCfEMuG8PItYI3Z6wbfiAHt8bZIhGO9Dwrt6
- CoySB1WJWT8WgCa2ZlUesmvnHw53By7jIsi/MucpUmPVGbKIehD9hAHKf7lFKrhlSCpT
- j6+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CHMaAy/JFWUxyakTODorvN54HoTBpm8agQBfjxlDtrc=;
- b=VWKV04PQ+YhCf+7AjEXZ90HOy3q4BPU+QpmRe1IsnxaQfvHvehQY3/nUQezbt6c7Ao
- 88ZjqyjFwKPzD5MZyQpUthjY6qduNB3ReUBtyRFEzH7yFSTeeXwEmhJmzRe6EdV7k1QL
- kuSlBHqJeCd7J2vVstGHyJzw3Xn7jqCd+EbAdQf3kTSE2hgROJ5ShJ97tIpbus6cpyXe
- t48REnqzkzZiND0sNK9Au7lwpyzSvHv/b879ewOaby5Jv+GzCcK7La++/qIRgDgb9FSC
- 947JxMScBpQNJ1Ytp5/1EoTtgWYRwI4kfb4vZeINN/H0wktOFE5slqGj7I/QuY5AWv0h
- SGVw==
-X-Gm-Message-State: AOAM533GAl4AOMSazshQcSwffYEfTdiMSsAHKVqYH8PLDAh4TvqoVgFs
- /9/g8J1cKYtVA9skDTutKu3mkbWUB0X9Rltxejo=
-X-Google-Smtp-Source: ABdhPJyLQHtWmvqo5YE0rNTFU9SCj5viWGlWOZfaWwUyBrXvju83Hjoo2d3iEPyvUjrBs1W0KLM0RwO+8ipW2j+OglA=
-X-Received: by 2002:a92:2a04:: with SMTP id r4mr412249ile.221.1631054714919;
- Tue, 07 Sep 2021 15:45:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <adam@l4re.org>) id 1mNkSn-0007n1-Sp
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 19:25:14 -0400
+Received: from os.inf.tu-dresden.de ([141.76.48.99]:47568)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <adam@l4re.org>) id 1mNkSl-000329-5P
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 19:25:13 -0400
+Received: from erwin.inf.tu-dresden.de ([141.76.48.80]
+ helo=os.inf.tu-dresden.de)
+ by os.inf.tu-dresden.de with esmtps (TLS1.3:TLS_AES_256_GCM_SHA384:256) (Exim
+ 4.94.2) id 1mNkSh-0001gx-4R; Wed, 08 Sep 2021 01:25:07 +0200
+Date: Wed, 8 Sep 2021 01:25:04 +0200
+From: Adam Lackorzynski <adam@l4re.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Subject: Re: arm: Launching EFI-enabled arm32 Linux
+Message-ID: <YTf00ErKBqiDz9ZG@os.inf.tu-dresden.de>
+References: <YTPIdbUCmwagL5/D@os.inf.tu-dresden.de>
+ <20210906163403.7b091544@slackpad.fritz.box>
 MIME-Version: 1.0
-References: <069d6162f0bc2f4a4f5a44e73f6442b11c703c53.1630301632.git.alistair.francis@wdc.com>
- <84d5b1d5783d2e79eee69a2f7ac480cc0c070db3.1630301632.git.alistair.francis@wdc.com>
-In-Reply-To: <84d5b1d5783d2e79eee69a2f7ac480cc0c070db3.1630301632.git.alistair.francis@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 8 Sep 2021 08:44:49 +1000
-Message-ID: <CAKmqyKMBAm0L-NfEQr2j=t-fMBxoLT-SdEOYhkJLjuE-_tKcXA@mail.gmail.com>
-Subject: Re: [PATCH v3 5/5] hw/intc: ibex_timer: Convert the timer to use
- RISC-V CPU GPIO lines
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::133;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x133.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20210906163403.7b091544@slackpad.fritz.box>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+Received-SPF: none client-ip=141.76.48.99; envelope-from=adam@l4re.org;
+ helo=os.inf.tu-dresden.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,123 +52,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 30, 2021 at 3:36 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> Instead of using riscv_cpu_update_mip() let's instead use the new RISC-V
-> CPU GPIO lines to set the timer MIP bits.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Hi Andre,
 
-Thanks!
+On Mon Sep 06, 2021 at 16:34:03 +0100, Andre Przywara wrote:
+> On Sat, 4 Sep 2021 21:26:45 +0200
+> Adam Lackorzynski <adam@l4re.org> wrote:
+> 
+> Hi Adam,
+> 
+> > while trying to launch an EFI-enabled arm32 Linux binary (zImage) I
+> > noticed I get an undefined instruction exception on the first
+> > instruction. Now this is a bit special because Linux uses a nop
+> > instruction there that also is a PE file signature ('MZ') such that the
+> > CPU runs over it and the file is still recognized as a PE binary. Linux
+> > uses 0x13105a4d (tstne r0, #0x4d000) as the instruction (see also
+> > arch/arm/boot/compressed/head.S and efi-header.S in Linux).
+> > However, QEMU's instruction decoder will only recognize TST with bits
+> > 12-15 being 0, which this instruction is not fullfilling, and thus the
+> > undef exception. I guess other CPU implementations will allow this
+> > encoding. So while investigating I was doing the following to make Linux
+> > proceed. I also believe this was working in a previous version of QEMU.
+> > 
+> > diff --git a/target/arm/a32.decode b/target/arm/a32.decode
+> > index fcd8cd4f7d..222553750e 100644
+> > --- a/target/arm/a32.decode
+> > +++ b/target/arm/a32.decode
+> > @@ -127,7 +127,7 @@ ADD_rri          .... 001 0100 . .... .... ............       @s_rri_rot
+> >  ADC_rri          .... 001 0101 . .... .... ............       @s_rri_rot
+> >  SBC_rri          .... 001 0110 . .... .... ............       @s_rri_rot
+> >  RSC_rri          .... 001 0111 . .... .... ............       @s_rri_rot
+> > -TST_xri          .... 001 1000 1 .... 0000 ............       @S_xri_rot
+> > +TST_xri          .... 001 1000 1 .... ---- ............       @S_xri_rot
+> >  TEQ_xri          .... 001 1001 1 .... 0000 ............       @S_xri_rot
+> >  CMP_xri          .... 001 1010 1 .... 0000 ............       @S_xri_rot
+> >  CMN_xri          .... 001 1011 1 .... 0000 ............       @S_xri_rot
+> > 
+> > 
+> > Any thoughts on this?
+> 
+> thanks for the report, I was looking at this and have a kernel patch
+> to fix this properly as Peter suggested. And while I agree on the
+> problem, I was struggling to reproduce this in reality: both with
+> -kernel and when booting through U-Boot the "Z" bit is set, which lets
+> QEMU not even bother about the rest of the encoding - the condition
+> flags don't match, so it proceeds. If I change the __nop to use "tsteq",
+> I see it hanging due to the missing exception handler, but not with
+> "tstne".
+> So can you say how you spotted this issue? This would be needed as a
+> justification for patching the guts of the ARM Linux kernel port.
 
-Applied to riscv-to-apply.next
+Good point with the condition flags. I'm doing this with our own vmm
+where I'm loading the binary directly as the payload (as mandated by the
+header), and where psr is set to a defined value with all flags cleared.
+If I set the Z bit than it also works (of course).
+Looking a bit around in QEMU as well as u-boot I it looks like this is
+rather by luck how flags are set.
 
-Alistair
+Thanks for doing the Linux patch, I'll scrap mine, and also thanks to
+Peter for the idea!
 
-> ---
->  include/hw/timer/ibex_timer.h |  2 ++
->  hw/riscv/opentitan.c          |  3 +++
->  hw/timer/ibex_timer.c         | 17 ++++++++++++-----
->  3 files changed, 17 insertions(+), 5 deletions(-)
->
-> diff --git a/include/hw/timer/ibex_timer.h b/include/hw/timer/ibex_timer.=
-h
-> index 6a43537003..b6f69b38ee 100644
-> --- a/include/hw/timer/ibex_timer.h
-> +++ b/include/hw/timer/ibex_timer.h
-> @@ -48,5 +48,7 @@ struct IbexTimerState {
->      uint32_t timebase_freq;
->
->      qemu_irq irq;
-> +
-> +    qemu_irq m_timer_irq;
->  };
->  #endif /* HW_IBEX_TIMER_H */
-> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-> index 048aced0ec..f7cfcf1c3a 100644
-> --- a/hw/riscv/opentitan.c
-> +++ b/hw/riscv/opentitan.c
-> @@ -183,6 +183,9 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
-_soc, Error **errp)
->      sysbus_connect_irq(SYS_BUS_DEVICE(&s->timer),
->                         0, qdev_get_gpio_in(DEVICE(&s->plic),
->                         IBEX_TIMER_TIMEREXPIRED0_0));
-> +    qdev_connect_gpio_out(DEVICE(&s->timer), 0,
-> +                          qdev_get_gpio_in(DEVICE(qemu_get_cpu(0)),
-> +                                           IRQ_M_TIMER));
->
->      create_unimplemented_device("riscv.lowrisc.ibex.gpio",
->          memmap[IBEX_DEV_GPIO].base, memmap[IBEX_DEV_GPIO].size);
-> diff --git a/hw/timer/ibex_timer.c b/hw/timer/ibex_timer.c
-> index 5befb53506..66e1f8e48c 100644
-> --- a/hw/timer/ibex_timer.c
-> +++ b/hw/timer/ibex_timer.c
-> @@ -77,7 +77,7 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
->          /*
->           * If the mtimecmp was in the past raise the interrupt now.
->           */
-> -        riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
-> +        qemu_irq_raise(s->m_timer_irq);
->          if (s->timer_intr_enable & R_INTR_ENABLE_IE_0_MASK) {
->              s->timer_intr_state |=3D R_INTR_STATE_IS_0_MASK;
->              qemu_set_irq(s->irq, true);
-> @@ -86,7 +86,7 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
->      }
->
->      /* Setup a timer to trigger the interrupt in the future */
-> -    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(0));
-> +    qemu_irq_lower(s->m_timer_irq);
->      qemu_set_irq(s->irq, false);
->
->      diff =3D cpu->env.timecmp - now;
-> @@ -106,10 +106,8 @@ static void ibex_timer_update_irqs(IbexTimerState *s=
-)
->  static void ibex_timer_cb(void *opaque)
->  {
->      IbexTimerState *s =3D opaque;
-> -    CPUState *cs =3D qemu_get_cpu(0);
-> -    RISCVCPU *cpu =3D RISCV_CPU(cs);
->
-> -    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
-> +    qemu_irq_raise(s->m_timer_irq);
->      if (s->timer_intr_enable & R_INTR_ENABLE_IE_0_MASK) {
->          s->timer_intr_state |=3D R_INTR_STATE_IS_0_MASK;
->          qemu_set_irq(s->irq, true);
-> @@ -280,12 +278,21 @@ static void ibex_timer_init(Object *obj)
->      sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
->  }
->
-> +static void ibex_timer_realize(DeviceState *dev, Error **errp)
-> +{
-> +    IbexTimerState *s =3D IBEX_TIMER(dev);
-> +
-> +    qdev_init_gpio_out(dev, &s->m_timer_irq, 1);
-> +}
-> +
-> +
->  static void ibex_timer_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
->
->      dc->reset =3D ibex_timer_reset;
->      dc->vmsd =3D &vmstate_ibex_timer;
-> +    dc->realize =3D ibex_timer_realize;
->      device_class_set_props(dc, ibex_timer_properties);
->  }
->
-> --
-> 2.31.1
->
+
+Adam
 
