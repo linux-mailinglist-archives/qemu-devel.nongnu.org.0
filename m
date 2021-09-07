@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC3E94029C0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:32:45 +0200 (CEST)
-Received: from localhost ([::1]:43478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 626F34029C7
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:35:17 +0200 (CEST)
+Received: from localhost ([::1]:51770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNbDR-0005iH-2v
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:32:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34918)
+	id 1mNbFs-0002z0-DJ
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:35:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNas8-0007QO-5D
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:10:44 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44977)
+ id 1mNasZ-00082Y-D5
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:11:11 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNas6-0000dv-JU
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:10:43 -0400
-Received: by mail-wr1-x436.google.com with SMTP id d6so13732023wrc.11
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 06:10:42 -0700 (PDT)
+ id 1mNasX-0000nr-43
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:11:11 -0400
+Received: by mail-wr1-x433.google.com with SMTP id q26so13429659wrc.7
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 06:11:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MA2/LHlrjgpYGL2VEl8jEL7bAgpZnnITD6f0TrRFjQs=;
- b=cyHyq/BFgkRwbaGUZLwMb2ApBFcwfHvGCWeagHSXEvcAJnXp3f7NufN8O7pDYh4fx3
- O94Wpfm3N665Z5EoI2T1tm/jBB7Kd1+cZNUOwSlI6IlFGLTjKEypNDi2T3GPlUEXdauC
- 8RBMCuCm99tsHc3FsMElTIvFDAaelrA5nNHlMRZQJNrcwZeLzDdqieIghe3oqHczob6X
- ILcCpIb7w8K51nkAbE0qx5uPt8VgwVflfyrueG6yLUkhGTW/p6WOiO4jeCiyr6F1kjWH
- 0oNIKk5VJdQsPgAyj9HweTMjKTPosTcre+iT4Vx4YwFn+vdmYOgVmq/07es7UD+DSGjN
- Assw==
+ :cc; bh=0zSWHDI/J0tba1iIwegQEffJC/UcI1vvELOjPpqPN3A=;
+ b=hmCggyGZJgfO0/nGAAO4runvTgqGDZ9sVbkH70I/yEPV/DrYwAe+QaKljXst5R2beG
+ I5gqy0D0qFctAGX6/HL/L28EBl6PuYpDYun943ACONvq9Nypg46K5ho5xHVLFLN7WKt/
+ srGqrgHAOum+wGsKdGpCnldKGvkjfzctLx83aedy9iuTFWPG5tD/VncZHYvFNjvh84+a
+ fWjh+FsocMBIEetahvz+CfDpBSKB/CkgE9DSjTGBISwW7pW8VBJhLIQYmdLy7elYt8ve
+ cWduA2+HqXVi7tEPRhjLvt9K5d4lZ8pttICBANQjqGdVp7lCUx6nEGSz/PuTDD6RGiQ+
+ Q1AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=MA2/LHlrjgpYGL2VEl8jEL7bAgpZnnITD6f0TrRFjQs=;
- b=XtrXcTt67yi8Yqij9F6gsiAOauSDMO7ExNK9tRPLB24J8Dj2Y/t8TgzqPwsxoKq+If
- ztTJVDmMnJ/zFZzfu3KBwGzYj6NLyBQYBsgNwy8A1oV1E7NIc7qVSZTPFz33q3wUFSil
- hYwRYUAl2obWhMZIgzeAW8mgIk1t0ZYSGjlSbnUCkrXnB7yQiN1t6P7LtPyu0819ciLh
- FgWq8Mr57nVVsJjfqX9YCrSGTXHZFj+UwW8hcSh+DhmBqfWcNSuuaUO5XYYQCdFxrrqa
- IQK7IArnnKR30zyN7zeIGghK7VDtfzMYUTb8uMy0qf1BZbgQ8UM3ZCO9qtA0sAvHpxPP
- Yq+w==
-X-Gm-Message-State: AOAM532vF4s/CARSkWs8FK1g42Eiy9/I6F7wYA2ROtYTcNDcwxTHZL0S
- Arhw3dQPlConk7yYAQC3f5zd56PMv8Ttivn5z1AiUQ==
-X-Google-Smtp-Source: ABdhPJxuBSK/hjoIDyCcztrF2YNoyULlFwZokuIyh358o5nXaWbaofUcioZ0qGwTHrqjtQ6WiamseIjaD3Z6xkfaSxc=
-X-Received: by 2002:adf:c18a:: with SMTP id x10mr19200389wre.302.1631020241001; 
- Tue, 07 Sep 2021 06:10:41 -0700 (PDT)
+ bh=0zSWHDI/J0tba1iIwegQEffJC/UcI1vvELOjPpqPN3A=;
+ b=F/eEDZwvWB3ebqwgzUpIzMfUe7WL98ikbrqCwoiSeJUpIlcJeKmFBs3hj9QDHXviPE
+ k/+zk3PafuQDSWIRnms7Gp1+l7Eiaxy+yEV3VuOWce1C8r4VolpClA5PPyRErpNVRViF
+ NGhY/vvnt6JQngeMzMmcs9WSjVyd+8CmQuuJohMEd9FVcvtY4ks47lMuL/BwVdvkDiOb
+ uFzSLAWuX3HqdUKIIOuDltAWoM8SqmlJ0uTOfrsVr2dDfHrvUlHKUwMKzNGnlXzV4AXo
+ jt0gDsSnyHv34pw466fU2HhiJPQLCOJzFFydvPDgokxh6QqoBxxcDr24i9+f3KpACzEL
+ 8coA==
+X-Gm-Message-State: AOAM530NW5Eg2xxsBeSUnzltbtuHx+RFzWYS8l9u38jPuCUBkaITAWD2
+ bfip9PuH3I3g2G8yILb8bXzvFfoB/RMi/grrkf9uoiaIJv4=
+X-Google-Smtp-Source: ABdhPJyumrCRsa2BLfgBChB/Q74KKhTrsPOQfS8YN3EduD8uuAnMKqxQqz8/4+7WPY2Py4+xBTXpL5GpeliVZFk9EoE=
+X-Received: by 2002:a5d:4a08:: with SMTP id m8mr18541255wrq.263.1631020267547; 
+ Tue, 07 Sep 2021 06:11:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210903113223.19551-1-mark.cave-ayland@ilande.co.uk>
- <20210903113223.19551-7-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20210903113223.19551-7-mark.cave-ayland@ilande.co.uk>
+ <20210903113223.19551-8-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210903113223.19551-8-mark.cave-ayland@ilande.co.uk>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Sep 2021 14:09:51 +0100
-Message-ID: <CAFEAcA9H2a8Z1_m=4hb_OpOXtvMzuxwEb_J7jMTiPAdGbi8n6A@mail.gmail.com>
-Subject: Re: [PATCH v3 6/9] escc: implement hard reset as described in the
- datasheet
+Date: Tue, 7 Sep 2021 14:10:18 +0100
+Message-ID: <CAFEAcA9B-YmiFrM-Ph3Vk_vbKmio18FPuPP_TArhz-2KGUeG-w@mail.gmail.com>
+Subject: Re: [PATCH v3 7/9] escc: remove register changes from escc_reset_chn()
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,16 +81,17 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 3 Sept 2021 at 13:04, Mark Cave-Ayland
+On Fri, 3 Sept 2021 at 12:52, Mark Cave-Ayland
 <mark.cave-ayland@ilande.co.uk> wrote:
 >
-> The hardware reset differs from a device reset in that it only changes the contents
-> of specific registers. Remove the code that resets all the registers to zero during
-> hardware reset and implement the default values using the existing soft reset code
-> with the additional changes listed in the table in the "Z85C30 Reset" section.
+> Now that register values at reset are handled elsewhere for all of device reset,
+> soft reset and hard reset, escc_reset_chn() only needs to handle initialisation
+> of internal device state.
 >
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
+>  hw/char/escc.c | 25 -------------------------
+>  1 file changed, 25 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
