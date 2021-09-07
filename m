@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C257A4028B4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 14:25:49 +0200 (CEST)
-Received: from localhost ([::1]:43802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D2E4028B0
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 14:23:19 +0200 (CEST)
+Received: from localhost ([::1]:36724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNaAe-0006TN-Qp
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 08:25:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41958)
+	id 1mNa8E-0001Lo-Jo
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 08:23:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mNa5q-0006dF-K3
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:20:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26470)
+ id 1mNa60-0006t3-8g
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:21:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mNa5o-0006LJ-LX
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:20:50 -0400
+ id 1mNa5y-0006T6-OI
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:21:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631017247;
+ s=mimecast20190719; t=1631017258;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XAeWEZvjIXkGAYZ+H8tFtsLpCD/98+4IPunIltXcOxU=;
- b=L1/K+CXVKKy7Zzm9B0ImtPR/qyXHvmEfcoQJe2wdYq6jgWVmeNoqtFA+qrO/yoQLppgTCy
- FEQXHnf34hutCUu9Vvtdqa+iOLtmfuCcrROieC+YdmRaM0hiKVVXHjN/DZ0PsITZrkbMrm
- JZA76IU2mipwFrD9vfF/WNCLMZWzIlQ=
+ bh=vsPeXLVMoNfGTjP5mwOeVlJxyCx81Jkf/m76BRxp31I=;
+ b=EHvqbZBPEUFf9g+QPdC8C0lF//fNZr8satbLKoG46tVJwFLiq9opVMeaelPieMpk1m2/fD
+ B0EBViIHz9e49SAMCKbt7M9ciYcqvQimXMrucDiSx7AzGrfWbDF/gPcEKuixsMgljxBYKq
+ 9Oq/x/YiK3UqmnGPB9K5/hNT3Eyrrfc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-AhznjB7ZPRmpTs9r7HCQ6g-1; Tue, 07 Sep 2021 08:20:46 -0400
-X-MC-Unique: AhznjB7ZPRmpTs9r7HCQ6g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-36-OP1SMThyPO6yAeUOJ2p_zw-1; Tue, 07 Sep 2021 08:20:56 -0400
+X-MC-Unique: OP1SMThyPO6yAeUOJ2p_zw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B69CF188E3C2
- for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 12:20:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24403188E3D6
+ for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 12:20:56 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D3B4110013D7;
- Tue,  7 Sep 2021 12:20:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D47519736;
+ Tue,  7 Sep 2021 12:20:49 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 04/32] glib-compat: add G_SIZEOF_MEMBER
-Date: Tue,  7 Sep 2021 16:19:15 +0400
-Message-Id: <20210907121943.3498701-5-marcandre.lureau@redhat.com>
+Subject: [RFC v3 05/32] scripts/qapi: add QAPISchemaVisitor.visit_module_end
+Date: Tue,  7 Sep 2021 16:19:16 +0400
+Message-Id: <20210907121943.3498701-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
 References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -87,30 +87,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The macro was introduced in 2.64. Let's redefine it, to allow its usage
-with older versions and silence the deprecation warning.
+Used in following patches to generate code after visiting a module.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/glib-compat.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+ scripts/qapi/schema.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/include/glib-compat.h b/include/glib-compat.h
-index 9e95c888f5..e278e09d1d 100644
---- a/include/glib-compat.h
-+++ b/include/glib-compat.h
-@@ -110,4 +110,11 @@ qemu_g_test_slow(void)
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index 1f6301c394..6455a8f425 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -128,6 +128,9 @@ def visit_end(self):
+     def visit_module(self, name):
+         pass
  
- #pragma GCC diagnostic pop
++    def visit_module_end(self, name) -> None:
++        pass
++
+     def visit_needed(self, entity):
+         # Default to visiting everything
+         return True
+@@ -207,6 +210,7 @@ def visit(self, visitor):
+         for entity in self._entity_list:
+             if visitor.visit_needed(entity):
+                 entity.visit(visitor)
++        visitor.visit_module_end(self.name)
  
-+/* introduced in 2.64 */
-+#ifdef G_SIZEOF_MEMBER
-+#undef G_SIZEOF_MEMBER
-+#endif
-+
-+#define G_SIZEOF_MEMBER(type, member) sizeof(((type *)0)->member)
-+
- #endif
+ 
+ class QAPISchemaInclude(QAPISchemaEntity):
 -- 
 2.33.0.113.g6c40894d24
 
