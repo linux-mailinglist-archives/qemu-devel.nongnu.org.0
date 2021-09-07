@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D7F4030AC
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 00:02:15 +0200 (CEST)
-Received: from localhost ([::1]:48174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EFBB4030AF
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 00:04:40 +0200 (CEST)
+Received: from localhost ([::1]:55464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNjAV-0003fe-0J
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 18:02:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35130)
+	id 1mNjCp-0000Fy-1h
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 18:04:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2T-0005pH-4R
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:58 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:42830)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2N-0005kq-Cc
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:52 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:36616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2R-0000ub-NA
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:56 -0400
-Received: by mail-io1-xd31.google.com with SMTP id b10so447485ioq.9
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:53:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2K-0000mZ-OB
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:51 -0400
+Received: by mail-il1-x141.google.com with SMTP id x5so175461ill.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:53:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fibrjHiBo3BWeiBRUCFmwdLyefDsJC7g8aB8krYG+xI=;
- b=M6DRERTWmX8JVqHLIQb5C2vG4A8szHFR0zKKZpjtrO3DQAX6Oh2YrMZAM+BR9AeoOz
- v1ca7PwiXbCqiIh9AsCEFHKkcXxGwCAqgnRbzELFyQMnW0qoSDpiR+oxYhuaYavZtkTE
- UYRldymLGD28CS2HHN8zJbk+aLf1qklBQUEtSH86iPsEZwXv/nYtAiTCNtsazWxhxQS4
- 0cfb0eF3dqYR69OIwGmm58Urg3CCQs232bhjbBrBkN5gUUg3+rjj8dHJld4n4muMbTeQ
- CwsbTDWYAUqHannJ56Kk0x+zmwEMetwGNBbNv5c94OLPl0G4ZCh9twhCV8zh2AyOZ3aG
- CyZw==
+ bh=USbY3TMkmsnljwVWGizCiItJwGHI+n9Fqx3miK9oRCk=;
+ b=UqhkH97EtjLrNJk6xDVKW2qHuF5t1KjbwHmkwW8Nm++lmfF6QfNSbsJ9xH2JNxiO2s
+ /czMHZAv27Y7GGCkvFu5vB/Hh3nOWnnpyNFJdQSNnKKLCzbSUKOWBIEYeoHw2g+MwnNm
+ 3vjy9Aj5prG7av0KAjex3Fy0vxIiOx7PMYZlC7nDywAnOe+DZ6PyrzmosfY8wm5tBdRV
+ imnhge8474MA3ciPLaZSgegzRrFzImARukLtX3ox7aSpZrqOayiwEwQhYF46ehsndOeG
+ onSfMLKgeEORUdt5ldo4chHZHUXo6GEts1sS5/0Pmtc4uQTgO8BFiwHfbtVCLcvwmKmv
+ Vekg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fibrjHiBo3BWeiBRUCFmwdLyefDsJC7g8aB8krYG+xI=;
- b=sENrlzL6oj7uesasjK2s8+GzjaI60K3Kd5P6J0q+IxLp0FjSBaLAdj2QIboxGkJvcH
- 7uPRi72mQxqheGR1F/dNuaJH3XMf47JZHVbAjQJdkVC5E+gmM8p1Y5KslGu1z62EWU4Q
- TVuW/lsslPwLOgKLKD2XQx2A6sUMIQHap5rGFoukIMI3DL1o8z30E+l3rq23BrOqhMiJ
- eeSfra6fSMCE6pPSq77P2E+I/nXQRXh5XTwWh2vZEHcvk6qi7Y3cpYcheQXl9NiMP151
- JXIKIcvwucsWv72iBP+IPLAWwBwQOeo5KCFphKo9jVPmzJ/9GV1JIWPswDQg/Epy2STc
- Aq0w==
-X-Gm-Message-State: AOAM530vvtz51dWfq1XLHz3aLK33fjEN3NxEcZLxYsSgTTbCOgPvY3Jr
- xxRv1urJJb9WXyH47VZRVU9rd3/QofEUxplsyDo=
-X-Google-Smtp-Source: ABdhPJw000Vx0F2zoxzox+ON5wtgSUHWKNfKA3ADZVPcU+OQ09YyM2p0yVkhLL0o9po4KSzpzcfCdw==
-X-Received: by 2002:a5d:9256:: with SMTP id e22mr307869iol.152.1631051634470; 
- Tue, 07 Sep 2021 14:53:54 -0700 (PDT)
+ bh=USbY3TMkmsnljwVWGizCiItJwGHI+n9Fqx3miK9oRCk=;
+ b=G50ZwS9GabDn55mxC1TuGKWeil9X+5Vi8ZaLiMFzsC9p0ZxzD0VslWmwrON8qIPH35
+ yC/kAJhXVE8TwCY44LGx6sIk6eUND/HYAZ0Vz2VIRY5z5eXQMsnjrUmRRErXooCA6oyV
+ wRsZiH1IPNFuZH40l6qg961uyX5/cudM0ppBABsKHBjmvlm19MHmy3BC8nWdDd5dmNNC
+ HIx5EsCK/EV9xlKdGB3SjzMt91kC/IiLuhaGkETcqRVsnX6JoFG6XynyDksPCnE21Ro+
+ yLpG3y8bQPWHPrr4bScuSSdn4CIVqBNcSoW5Zp0yjW3K5/ChR6rjVSHyRtSkQaw7tNKz
+ tTzA==
+X-Gm-Message-State: AOAM533CesWZpcMl9bCf0F29zp5d65LSuEVd6iw+T8xPD6Q9iyp4Zj+T
+ 8i296VVE7pbYvMmgALxzdXIH3VHLQNsegxRKtRA=
+X-Google-Smtp-Source: ABdhPJwCHxPjqbPTWlYI+f320lQLn653+OpjNZAFRse2UOzKs+ES4ERUfMnm8xQeWC0PG5FSnrM0qw==
+X-Received: by 2002:a05:6e02:1e05:: with SMTP id
+ g5mr316030ila.48.1631051627360; 
+ Tue, 07 Sep 2021 14:53:47 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.53
+ by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 14:53:53 -0700 (PDT)
+ Tue, 07 Sep 2021 14:53:46 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/42] bsd-user: save the path to the qemu emulator
-Date: Tue,  7 Sep 2021 15:53:08 -0600
-Message-Id: <20210907215332.30737-19-imp@bsdimp.com>
+Subject: [PULL 10/42] bsd-user: implement path searching
+Date: Tue,  7 Sep 2021 15:53:00 -0600
+Message-Id: <20210907215332.30737-11-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210907215332.30737-1-imp@bsdimp.com>
 References: <20210907215332.30737-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd31.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::141;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x141.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -81,91 +82,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@FreeBSD.org>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: kevans@freebsd.org, Richard Henderson <richard.henderson@linaro.org>,
  Stacey Son <sson@FreeBSD.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@bsdimp.com>
 
-Save the path to the qemu emulator. This will be used later when we have
-a more complete implementation of exec.
+Use the PATH to find the executable given a bare argument. We need to do
+this so we can implement mixing native and emulated binaries (e.g.,
+execing a x86 native binary from an emulated arm binary to optimize
+parts of the build). By finding the binary, we will know how to exec it.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/main.c | 21 +++++++++++++++++++++
- bsd-user/qemu.h |  1 +
- 2 files changed, 22 insertions(+)
+ bsd-user/bsdload.c | 36 +++++++++++++++++++++++++++++++++++-
+ bsd-user/qemu.h    |  3 ++-
+ 2 files changed, 37 insertions(+), 2 deletions(-)
 
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 607fdd8380..d7c8a3e348 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -43,6 +43,8 @@
- 
- #include "host-os.h"
- 
-+#include <sys/sysctl.h>
-+
- int singlestep;
- unsigned long mmap_min_addr;
- uintptr_t guest_base;
-@@ -52,6 +54,7 @@ unsigned long reserved_va;
- static const char *interp_prefix = CONFIG_QEMU_INTERP_PREFIX;
- const char *qemu_uname_release;
- enum BSDType bsd_type;
-+char qemu_proc_pathname[PATH_MAX];  /* full path to exeutable */
- 
- /*
-  * XXX: on x86 MAP_GROWSDOWN only works if ESP <= address + 32, so
-@@ -336,6 +339,22 @@ void init_task_state(TaskState *ts)
-     ts->sigqueue_table[i].next = NULL;
+diff --git a/bsd-user/bsdload.c b/bsd-user/bsdload.c
+index 379015c744..32f7fd5dec 100644
+--- a/bsd-user/bsdload.c
++++ b/bsd-user/bsdload.c
+@@ -139,21 +139,55 @@ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
+     return sp;
  }
  
-+static void save_proc_pathname(char *argv0)
++static bool is_there(const char *candidate)
 +{
-+    int mib[4];
-+    size_t len;
++    struct stat fin;
 +
-+    mib[0] = CTL_KERN;
-+    mib[1] = KERN_PROC;
-+    mib[2] = KERN_PROC_PATHNAME;
-+    mib[3] = -1;
-+
-+    len = sizeof(qemu_proc_pathname);
-+    if (sysctl(mib, 4, qemu_proc_pathname, &len, NULL, 0)) {
-+        perror("sysctl");
++    /* XXX work around access(2) false positives for superuser */
++    if (access(candidate, X_OK) == 0 && stat(candidate, &fin) == 0 &&
++            S_ISREG(fin.st_mode) && (getuid() != 0 ||
++                (fin.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH)) != 0)) {
++        return true;
 +    }
++
++    return false;
 +}
 +
- int main(int argc, char **argv)
+ int loader_exec(const char *filename, char **argv, char **envp,
+                 struct target_pt_regs *regs, struct image_info *infop,
+                 struct bsd_binprm *bprm)
  {
-     const char *filename;
-@@ -360,6 +379,8 @@ int main(int argc, char **argv)
-         usage();
++    char *path, fullpath[PATH_MAX];
+     int retval, i;
+ 
+     bprm->p = TARGET_PAGE_SIZE * MAX_ARG_PAGES;
+     for (i = 0; i < MAX_ARG_PAGES; i++) {       /* clear page-table */
+         bprm->page[i] = NULL;
+     }
+-    retval = open(filename, O_RDONLY);
++
++    if (strchr(filename, '/') != NULL) {
++        path = realpath(filename, fullpath);
++        if (path == NULL) {
++            /* Failed to resolve. */
++            return -1;
++        }
++        if (!is_there(path)) {
++            return -1;
++        }
++    } else {
++        path = g_find_program_in_path(filename);
++        if (path == NULL) {
++            return -1;
++        }
++    }
++
++    retval = open(path, O_RDONLY);
+     if (retval < 0) {
++        g_free(path);
+         return retval;
      }
  
-+    save_proc_pathname(argv[0]);
-+
-     error_init(argv[0]);
-     module_call_init(MODULE_INIT_TRACE);
-     qemu_init_cpu_list();
++    bprm->fullpath = path;
+     bprm->fd = retval;
+     bprm->filename = (char *)filename;
+     bprm->argc = count(argv);
 diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index cf248ad3df..6c4ec61d76 100644
+index 5237e35f9c..6b601ce4b5 100644
 --- a/bsd-user/qemu.h
 +++ b/bsd-user/qemu.h
-@@ -207,6 +207,7 @@ void mmap_fork_start(void);
- void mmap_fork_end(int child);
+@@ -124,7 +124,8 @@ struct bsd_binprm {
+         int argc, envc;
+         char **argv;
+         char **envp;
+-        char *filename;         /* Name of binary */
++        char *filename;         /* (Given) Name of binary */
++        char *fullpath;         /* Full path of binary */
+ };
  
- /* main.c */
-+extern char qemu_proc_pathname[];
- extern unsigned long x86_stack_size;
- 
- /* user access */
+ void do_init_thread(struct target_pt_regs *regs, struct image_info *infop);
 -- 
 2.32.0
 
