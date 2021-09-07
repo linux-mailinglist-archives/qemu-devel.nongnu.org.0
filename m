@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036BF402CA5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 18:10:38 +0200 (CEST)
-Received: from localhost ([::1]:34176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CD5E402CAF
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 18:13:22 +0200 (CEST)
+Received: from localhost ([::1]:40716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNdgD-0006bC-37
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 12:10:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56012)
+	id 1mNdir-0002eF-7E
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 12:13:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNdee-0004KE-Hi
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 12:09:00 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37397)
+ id 1mNdfA-0005D7-Kt
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 12:09:32 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:43976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNdec-0005sU-4n
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 12:09:00 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id v10so15267772wrd.4
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 09:08:56 -0700 (PDT)
+ id 1mNdf8-0006Gu-IL
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 12:09:32 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ n7-20020a05600c3b8700b002f8ca941d89so2081901wms.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 09:09:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UsSWuji2N7ufZOKhk2JvmVZauV9XbuaIjdQ2MmYW+tU=;
- b=mYmMc1xQLCLleRor20CUh7uzE7iyGGni2r07qOCVIANQ+tULoHLTWqyMSFn36dHzWl
- g9bglaIGjF9mH8pQ75rK+sjbBDCxtBFqjy54YreBe+Rmy+UtU2BTA+TinoreUDp7xRsp
- uED0vR0QmHxqWJI0YGpqRcyP7zn6YdjvSRFV0McpdbZ65MBM4HbQw8EYbyA3Jn+xjy6e
- YaVC5qpDnEXswZkk8TR/blc3tc9MbwGT+ciTB9ZDzgn76EmTTNJ1sy+JIaQgOYABCtBU
- 3yeCAQZEzBUSbk+fmov46mSjVAUG3M2EJypFuhfeyxwiJCo2w+SqUPqgCDriEL8dFiIU
- HxDg==
+ :cc; bh=rA5YxKox2AMdRy4jy1ap4QkVW9HrApzRNvqR83faANA=;
+ b=FbjrEuCQZiB920tQXCl/FuEGzghe0cKBYyy1lgk55xfwpyDrayz9UY997CKI5tlOa6
+ NSpXmpxb7iJSZ7OclCJq+bHgxGbgIwGS4bKILjQdiVttgPg4qSW3bbHXCNtr6xfwpfe4
+ eQkz2CqfyD0bD9T+6yK+kNGSBIEolnq2z18TyEdyL0ZUrv7+6Fya9YHPDXaSHJafQHOw
+ W1zorBb+3nwo+P+E9zZis+7bRM0SlVVNFgfHk2VxnFv9FO/s9gHGNfQcbdYBljdzDuCD
+ 6CGRShRfEHWYfU3Ek4aCtHoxVjJWqs7dDFVHhjGIB2AempWlJi2VoftVs5Cy5NbWWL4l
+ WQtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=UsSWuji2N7ufZOKhk2JvmVZauV9XbuaIjdQ2MmYW+tU=;
- b=MlTBMkcHO0Gk3sj7QEOK5ArwtKi+bqOsL6S7B7nMouWxO2sda5kYslFi5toZcSNClI
- n13H9gxKabKFK8PBadAJozZ0IGBTQU8xnYNppJ8XVoJdIIuyqXf23y73ExsVq4gZ/3Jr
- GzXFeoc6cVn9lFNH8gfojjVM7uUXUD6mzoXY7IMGNq4+OLyeiN0OBJTDxcoBcroIBWBW
- qxjBUaS0s0AiGaMToIuFozpYu/ah21x1JFY4bqvhoSEyZT60Z0744BbhKiJnVfqSdAEX
- AmyAY/eNTyPUicMH0+idxGig7XgVp9NQhdOXalEuY3Lw7akJO+vnZleCv0MS34xgXUXS
- AvEw==
-X-Gm-Message-State: AOAM531sS3LuC9bF5026fIcxcp6N8IzUaHaSshP1o4Mb/AL0kSfx2oWf
- jUWyfmW3/giNO4hDZUZ9cZYTauywkuQVp9bNaoUqFQ==
-X-Google-Smtp-Source: ABdhPJyEPCXhGSyChTETcVcBfuJTZjCxCoZZNz0OPj/xuffJZCF6vSHLUGh2fgq3bz5zRedop+uOQ6+Nl2mN3C9lBpw=
-X-Received: by 2002:adf:fb91:: with SMTP id a17mr19092550wrr.376.1631030935639; 
- Tue, 07 Sep 2021 09:08:55 -0700 (PDT)
+ bh=rA5YxKox2AMdRy4jy1ap4QkVW9HrApzRNvqR83faANA=;
+ b=be9lSlrZdklw/yoCcQev2VqOMp8veoS3U80r671YGctdEXXGpe5IUI04Uqh+/v+0AM
+ qzPkugE4FiB1ANVnKRA2OOiKiB/nFsD+gpOaoNG2QRy+rpHC9oB5QWSfBj2CicvV7OFt
+ eGE/z21XIw3jV/btR2JA+9SKNbYd8t4TLVZVicNEK9/JRfyDniGb4mBeUpKuHsb/7whY
+ gZsKJn4V7a5fl5CJ/j82SPoWv022MFI9rba0UASTQ9VGN5aONN3bWStirCSszsaIYZDY
+ y81GWqyZNwTPvFOa4m4yMX4WNY24cvQW1HXahbaAhGUwiOBrifPQJVb7zwqBo6pHtuId
+ MW0w==
+X-Gm-Message-State: AOAM530bRsRNPkIGSWGB5rx73n4bE2kMgi8WbDYBSEwx4VxlHSw6VNK8
+ CzilyBkqxHPDLZDoXHurgfqxI0Ls2YMkNzBDFtCkdQ==
+X-Google-Smtp-Source: ABdhPJx0vZnfb52cgCwBZwkfucRSMQEaAuK2nnB8SfZLUTewHmU+UfGTdBuHNaxiHa9VxbXc9qBAzg81vVp1S2PxYs4=
+X-Received: by 2002:a7b:c246:: with SMTP id b6mr4797681wmj.37.1631030969084;
+ Tue, 07 Sep 2021 09:09:29 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210907155641.197844-1-pbonzini@redhat.com>
- <20210907155641.197844-2-pbonzini@redhat.com>
-In-Reply-To: <20210907155641.197844-2-pbonzini@redhat.com>
+ <20210907155641.197844-3-pbonzini@redhat.com>
+In-Reply-To: <20210907155641.197844-3-pbonzini@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Sep 2021 17:08:06 +0100
-Message-ID: <CAFEAcA9pw1WXbBXGjMYBLVuZp=r_8-cKOOs0_pz=-FFQL=1udw@mail.gmail.com>
-Subject: Re: [PATCH 1/5] docs: standardize book titles to === with overline
+Date: Tue, 7 Sep 2021 17:08:39 +0100
+Message-ID: <CAFEAcA_CvrcZJh+2RcOhZ_pRY1_kzjSw+nSmqrdKQbKLxdtokg@mail.gmail.com>
+Subject: Re: [PATCH 2/5] docs: standardize directory index to --- with overline
 To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,33 +84,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, 7 Sept 2021 at 16:56, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> Documents within a Sphinx manual are separate files and therefore can use
-> different conventions for headings.  However, keeping some consistency is
-> useful so that included files are easy to get right.
+> Use a standard heading format for the index.rst file in a directory.
+> Using overlines makes it clear that individual documents can use e.g.
+> === for chapter titles and --- for section titles, as suggested in the
+> Linux kernel guidelines[1].  They could do it anyway, because documents
+> included in a toctree are parsed separately and therefore are not tied
+> to the same conventions for headings.  However, keeping some consistency is
+> useful since sometimes files are included from multiple places.
 >
-> This patch uses a standard heading format for book titles, so that it is
-> obvious when a file sits at the top level toctree of a book or man page.
-> The heading is irrelevant for man pages, but keep it consistent as well.
+> [1] https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html
 >
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-> --- a/docs/system/qemu-manpage.rst
-> +++ b/docs/system/qemu-manpage.rst
-> @@ -6,8 +6,9 @@
->     parts of the documentation that go in the manpage as well as the
->     HTML manual.
->
-> -Title
-> -=====
-> +=======================
-> +QEMU User Documentation
-> +=======================
-
-NB that this text is never rendered anywhere (unless you deliberately
-edit URLs to go and look at
-https://qemu-project.gitlab.io/qemu/system/qemu-manpage.html
-which is only generated because AFAIK there is no way to tell
-Sphinx "only render this file for this output builder type").
+> ---
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
