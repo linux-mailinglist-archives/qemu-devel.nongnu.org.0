@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F9A4402B18
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:52:20 +0200 (CEST)
-Received: from localhost ([::1]:58410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E87B402B10
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:51:04 +0200 (CEST)
+Received: from localhost ([::1]:52850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNcSR-0005lV-7e
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:52:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36714)
+	id 1mNcRD-0001qO-3y
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:51:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNcOk-0005iu-R5
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:48:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28890)
+ id 1mNcOm-0005mk-7l
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:48:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNcOi-000864-V0
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:48:30 -0400
+ id 1mNcOk-00087w-5d
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:48:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631026108;
+ s=mimecast20190719; t=1631026109;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dI1nXtzrYpzKxm5Dm5hJDAuG+TqjiVGXFjLK27Te20I=;
- b=h5hfN7GqchElbEYbiCmbMEGJ7jI7WMIHbtAnIVAuNf2HoBcnLX28nZQY51GLL6iiSYPJeU
- +xuzmO9pXYokfuVXwocauXJCQYJPowX3TsAIKIwJntcmyExI+0nqOvQpcKnM6ifDUceS+I
- +S3om2cweMOlA4BnYERajLEG6KWgluc=
+ bh=FhiK3cDclA1ETV1ztaYj26JYqnMj1V69+TeydxnfnuY=;
+ b=eqGdL/YugrywRYkwIfus48T3Ngb9mKolvaR8WTo9ayH0LsPt8F/NASL853rw++QxqHWoG7
+ sIga+qwuP+s0sZ+pCWTj8o2BfYFuiKqZHVGGSMRt6sni0JLLdtIt2Zq4zAKwXdKDP2zK4E
+ CH9jGiSDhLNLt1ixbyjTz7aRufrvYVc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-_SoCgXkjNVCWac8w0FuNJQ-1; Tue, 07 Sep 2021 10:48:27 -0400
-X-MC-Unique: _SoCgXkjNVCWac8w0FuNJQ-1
+ us-mta-493-InmRq_zKNTSsP9BVqtjRGA-1; Tue, 07 Sep 2021 10:48:28 -0400
+X-MC-Unique: InmRq_zKNTSsP9BVqtjRGA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BCA884A5E9;
- Tue,  7 Sep 2021 14:48:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E42E107ACF7
+ for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 14:48:27 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 37A705D9CA;
- Tue,  7 Sep 2021 14:48:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A32DC5D9CA;
+ Tue,  7 Sep 2021 14:48:26 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/35] acpi: add helper routines to initialize ACPI tables
-Date: Tue,  7 Sep 2021 10:47:40 -0400
-Message-Id: <20210907144814.741785-2-imammedo@redhat.com>
+Subject: [PATCH v3 02/35] acpi: build_rsdt: use
+ acpi_table_begin()/acpi_table_end() instead of build_header()
+Date: Tue,  7 Sep 2021 10:47:41 -0400
+Message-Id: <20210907144814.741785-3-imammedo@redhat.com>
 In-Reply-To: <20210907144814.741785-1-imammedo@redhat.com>
 References: <20210907144814.741785-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -79,157 +80,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangyanan55@huawei.com, eric.auger@redhat.com, mst@redhat.com
+Cc: mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patch introduces acpi_table_begin()/ acpi_table_end() API
-that hides pointer/offset arithmetic from user as opposed
-to build_header(), to prevent errors caused by it [1].
+it replaces error-prone pointer arithmetic for build_header() API,
+with 2 calls to start and finish table creation,
+which hides offests magic from API user.
 
- acpi_table_begin():
-     initializes table header and keeps track of
-     table data/offsets
- acpi_table_end():
-     sets actual table length and tells bios loader
-     where table is for the later initialization on
-     guest side.
-
-1) commits
-   bb9feea43179 x86: acpi: use offset instead of pointer when using build_header()
-   4d027afeb3a9 Virt: ACPI: fix qemu assert due to re-assigned table data address
+While at it switch to build_append_int_noprefix() to build
+entries to other tables (which also removes some manual offset
+calculations).
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
-CC: eric.auger@redhat.com
-CC: wangyanan55@huawei.com
+v3:
+ * s/acpi_init_table|acpi_table_composed/acpi_table_begin|acpi_table_end/
 ---
- include/hw/acpi/aml-build.h | 31 +++++++++++++++++++
- hw/acpi/aml-build.c         | 62 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 93 insertions(+)
+ include/hw/acpi/acpi-defs.h | 10 ----------
+ hw/acpi/aml-build.c         | 27 ++++++++++++---------------
+ 2 files changed, 12 insertions(+), 25 deletions(-)
 
-diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-index 471266d739..4242382399 100644
---- a/include/hw/acpi/aml-build.h
-+++ b/include/hw/acpi/aml-build.h
-@@ -413,6 +413,37 @@ Aml *aml_concatenate(Aml *source1, Aml *source2, Aml *target);
- Aml *aml_object_type(Aml *object);
+diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+index cf9f44299c..ccfa3382aa 100644
+--- a/include/hw/acpi/acpi-defs.h
++++ b/include/hw/acpi/acpi-defs.h
+@@ -149,16 +149,6 @@ struct AcpiSerialPortConsoleRedirection {
+ typedef struct AcpiSerialPortConsoleRedirection
+                AcpiSerialPortConsoleRedirection;
  
- void build_append_int_noprefix(GArray *table, uint64_t value, int size);
-+
-+typedef struct AcpiTable {
-+    const char *sig;
-+    const uint8_t rev;
-+    const char *oem_id;
-+    const char *oem_table_id;
-+    /* private vars tracking table state */
-+    GArray *array;
-+    unsigned table_offset;
-+} AcpiTable;
-+
-+/**
-+ * acpi_table_begin:
-+ * initializes table header and keeps track of
-+ * table data/offsets
-+ * @desc: ACPI table descriptor
-+ * @array: blob where the ACPI table will be composed/stored.
-+ */
-+void acpi_table_begin(AcpiTable *desc, GArray *array);
-+
-+/**
-+ * acpi_table_end:
-+ * sets actual table length and tells bios loader
-+ * where table is for the later initialization on
-+ * guest side.
-+ * @linker: reference to BIOSLinker object to use for the table
-+ * @table: ACPI table descriptor that was used with @acpi_table_begin
-+ * counterpart
-+ */
-+void acpi_table_end(BIOSLinker *linker, AcpiTable *table);
-+
- void
- build_header(BIOSLinker *linker, GArray *table_data,
-              AcpiTableHeader *h, const char *sig, int len, uint8_t rev,
+-/*
+- * ACPI 1.0 Root System Description Table (RSDT)
+- */
+-struct AcpiRsdtDescriptorRev1 {
+-    ACPI_TABLE_HEADER_DEF       /* ACPI common table header */
+-    uint32_t table_offset_entry[];  /* Array of pointers to other */
+-    /* ACPI tables */
+-} QEMU_PACKED;
+-typedef struct AcpiRsdtDescriptorRev1 AcpiRsdtDescriptorRev1;
+-
+ /*
+  * ACPI 2.0 eXtended System Description Table (XSDT)
+  */
 diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index d5103e6d7b..229a3eb654 100644
+index 229a3eb654..32f14d4a78 100644
 --- a/hw/acpi/aml-build.c
 +++ b/hw/acpi/aml-build.c
-@@ -52,6 +52,19 @@ static void build_append_byte(GArray *array, uint8_t val)
-     g_array_append_val(array, val);
- }
- 
-+static void build_append_padded_str(GArray *array, const char *str,
-+                                    size_t maxlen, char pad)
-+{
-+    size_t i;
-+    size_t len = strlen(str);
-+
-+    g_assert(len <= maxlen);
-+    g_array_append_vals(array, str, len);
-+    for (i = maxlen - len; i > 0; i--) {
-+        g_array_append_val(array, pad);
-+    }
-+}
-+
- static void build_append_array(GArray *array, GArray *val)
+@@ -1890,27 +1890,24 @@ build_rsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
+            const char *oem_id, const char *oem_table_id)
  {
-     g_array_append_vals(array, val->data, val->len);
-@@ -1692,6 +1705,55 @@ Aml *aml_object_type(Aml *object)
-     return var;
+     int i;
+-    unsigned rsdt_entries_offset;
+-    AcpiRsdtDescriptorRev1 *rsdt;
+-    int rsdt_start = table_data->len;
+-    const unsigned table_data_len = (sizeof(uint32_t) * table_offsets->len);
+-    const unsigned rsdt_entry_size = sizeof(rsdt->table_offset_entry[0]);
+-    const size_t rsdt_len = sizeof(*rsdt) + table_data_len;
+-
+-    rsdt = acpi_data_push(table_data, rsdt_len);
+-    rsdt_entries_offset = (char *)rsdt->table_offset_entry - table_data->data;
++    AcpiTable table = { .sig = "RSDT", .rev = 1,
++                        .oem_id = oem_id, .oem_table_id = oem_table_id };
++
++    acpi_table_begin(&table, table_data);
+     for (i = 0; i < table_offsets->len; ++i) {
+         uint32_t ref_tbl_offset = g_array_index(table_offsets, uint32_t, i);
+-        uint32_t rsdt_entry_offset = rsdt_entries_offset + rsdt_entry_size * i;
++        uint32_t rsdt_entry_offset = table.array->len;
++
++        /* reserve space for entry */
++        build_append_int_noprefix(table.array, 0, 4);
+ 
+-        /* rsdt->table_offset_entry to be filled by Guest linker */
++        /* mark position of RSDT entry to be filled by Guest linker */
+         bios_linker_loader_add_pointer(linker,
+-            ACPI_BUILD_TABLE_FILE, rsdt_entry_offset, rsdt_entry_size,
++            ACPI_BUILD_TABLE_FILE, rsdt_entry_offset, 4,
+             ACPI_BUILD_TABLE_FILE, ref_tbl_offset);
++
+     }
+-    build_header(linker, table_data,
+-                 (void *)(table_data->data + rsdt_start),
+-                 "RSDT", rsdt_len, 1, oem_id, oem_table_id);
++    acpi_table_end(linker, &table);
  }
  
-+void acpi_table_begin(AcpiTable *desc, GArray *array)
-+{
-+
-+    desc->array = array;
-+    desc->table_offset = array->len;
-+
-+    /*
-+     * ACPI spec 1.0b
-+     * 5.2.3 System Description Table Header
-+     */
-+    g_assert(strlen(desc->sig) == 4);
-+    g_array_append_vals(array, desc->sig, 4); /* Signature */
-+    /*
-+     * reserve space for Length field, which will be patched by
-+     * acpi_table_end() when the table creation is finished.
-+     */
-+    build_append_int_noprefix(array, 0, 4); /* Length */
-+    build_append_int_noprefix(array, desc->rev, 1); /* Revision */
-+    build_append_int_noprefix(array, 0, 1); /* Checksum */
-+    build_append_padded_str(array, desc->oem_id, 6, ' '); /* OEMID */
-+    /* OEM Table ID */
-+    build_append_padded_str(array, desc->oem_table_id, 8, ' ');
-+    build_append_int_noprefix(array, 1, 4); /* OEM Revision */
-+    g_array_append_vals(array, ACPI_BUILD_APPNAME8, 4); /* Creator ID */
-+    build_append_int_noprefix(array, 1, 4); /* Creator Revision */
-+}
-+
-+void acpi_table_end(BIOSLinker *linker, AcpiTable *desc)
-+{
-+    /*
-+     * ACPI spec 1.0b
-+     * 5.2.3 System Description Table Header
-+     * Table 5-2 DESCRIPTION_HEADER Fields
-+     */
-+    const unsigned checksum_offset = 9;
-+    uint32_t table_len = desc->array->len - desc->table_offset;
-+    uint32_t table_len_le = cpu_to_le32(table_len);
-+    gchar *len_ptr = &desc->array->data[desc->table_offset + 4];
-+
-+    /* patch "Length" field that has been reserved by acpi_table_begin()
-+     * to the actual length, i.e. accumulated table length from
-+     * acpi_table_begin() till acpi_table_end()
-+     */
-+    memcpy(len_ptr, &table_len_le, sizeof table_len_le);
-+
-+    bios_linker_loader_add_checksum(linker, ACPI_BUILD_TABLE_FILE,
-+        desc->table_offset, table_len, desc->table_offset + checksum_offset);
-+}
-+
- void
- build_header(BIOSLinker *linker, GArray *table_data,
-              AcpiTableHeader *h, const char *sig, int len, uint8_t rev,
+ /* Build xsdt table */
 -- 
 2.27.0
 
