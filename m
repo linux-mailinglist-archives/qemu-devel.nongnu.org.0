@@ -2,89 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFF44402623
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 11:24:42 +0200 (CEST)
-Received: from localhost ([::1]:50194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E556402647
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 11:40:49 +0200 (CEST)
+Received: from localhost ([::1]:60124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNXLN-0003nB-Vc
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 05:24:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57728)
+	id 1mNXax-0002fy-0n
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 05:40:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mNXK3-0001i4-K3
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 05:23:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42720)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mNXZc-0001n1-9b; Tue, 07 Sep 2021 05:39:24 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mNXJy-0003tw-V2
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 05:23:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631006593;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7ERo37G1SgpHRzuc9dhhVg4Mk2Bs7VveQpkU3P/eaOQ=;
- b=P5Yxy1M+6cMM2dTkMrFMagARpUdVudUoPBQWJsbu+K9IeR/gl4cWFLQhiK+LgWkEwnHyp3
- 9bmSpze1S93Oi6/U+U1qAUe4ZYhA1wDDexvABwxhkCGhgRKtFTHddQXcLEb+bIqwHCrdhQ
- quSFW+w0Faf9CE5+DlFehnsPc5h0kzs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-599-7Wc57TC4Myq8MlH4kzPHWw-1; Tue, 07 Sep 2021 05:23:10 -0400
-X-MC-Unique: 7Wc57TC4Myq8MlH4kzPHWw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- h1-20020a05600c350100b002e751bf6733so869216wmq.8
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 02:23:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=7ERo37G1SgpHRzuc9dhhVg4Mk2Bs7VveQpkU3P/eaOQ=;
- b=PKpdLQ29Z098LLkGbHDZ66e4O0lq0Fw1Pz97JMkqYqmyD77OY83COl8w+K2JrdhNCE
- j4Js2eXbHy9qbiNz8fA72zGWooY8cXn4xzNXaOxUFJNXX0See7lAJghHa2quArRQ0UhY
- 4tDeOcQMaQp6AKkIa7lFGtm23uFYg69p2enAHQH4/JrzMkco48JYGTbsU7v6vhsP8J+A
- An8wKE2VnNrRbcHnyH7Zf7i2C8lNlhuI7nOBweNPaVS81LZimp2r3Ag1wGZITqY9sA2q
- nClQTsxbvNUHIrA30M0x/jEhzvAkdbZeuBM30NvKLrp0MiGPrxDx3b0tNjbus8WLPGJS
- HNtw==
-X-Gm-Message-State: AOAM531UwJ1cTC/jhhT2p1W/qFltPNyHo9/f5USpDjTXAWO57Y+aHdCp
- u74n1oNjcqKYh94Fx4uyNz8ckH7330K3Clei4rlwG3Bf1xOHAnhpZXUc8Phg5InrhraFc35UaZY
- MYbsFo9Lpl3yJ54o=
-X-Received: by 2002:a1c:1b48:: with SMTP id b69mr1899443wmb.14.1631006589030; 
- Tue, 07 Sep 2021 02:23:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxAiV4506qNFRqCav08fTEWiOJ8+T9SVsyHDqTNuudzSNiQYXQxROGN4OJ+HDgVFr0sxOYqGA==
-X-Received: by 2002:a1c:1b48:: with SMTP id b69mr1899425wmb.14.1631006588845; 
- Tue, 07 Sep 2021 02:23:08 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
- by smtp.gmail.com with ESMTPSA id g1sm2452676wmk.2.2021.09.07.02.23.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Sep 2021 02:23:08 -0700 (PDT)
-Subject: Re: [PATCH v3 0/6] block-status cache for data regions
-To: qemu-block@nongnu.org
-References: <20210812084148.14458-1-hreitz@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <121f2215-ac58-fee4-3658-9f0b802124ed@redhat.com>
-Date: Tue, 7 Sep 2021 11:23:07 +0200
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mNXZZ-0000Mu-HA; Tue, 07 Sep 2021 05:39:23 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 1879Ydni126449; Tue, 7 Sep 2021 05:39:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=MIu9CunbPurpPwBLMkxCYVykGoJ81knm68Nr1UoMMZo=;
+ b=djcntEDfy3zXvUyCm0aDC426Stc2gMM5+L+sb0rlnebeYs4ubR/NafoqRp9fBM4YwPhJ
+ alPz3fanfk551w+Sv2+X4ZfnF7fai33VpOlcQoA1ZrXlb3XY0QWuj/LB85fFkw4qf2fq
+ DYRwxD1edJCxDJ9JVwQ3CmzPX15VQQ9qppbrkWR/UgwtZYpi6E263srTAKwzcNHqmZdY
+ cz92VsOwkk+t03WlA6V9Rqpfo8nfC051YcYWX0PkBrS+5udnQ9IGrpoiF3QilnlZgQM3
+ vcZHF0mIHlZ0Fguk28Ex0GpPrGcIjrAQD/kiuf43V0v/qzdzHyTkGknP1HMnqkJLHNaE 4g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ax2drvxbd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Sep 2021 05:39:18 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1879Ygd8126684;
+ Tue, 7 Sep 2021 05:39:17 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ax2drvxap-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Sep 2021 05:39:17 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1879c4Cj013280;
+ Tue, 7 Sep 2021 09:39:15 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03ams.nl.ibm.com with ESMTP id 3av0e9d5nk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Sep 2021 09:39:15 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1879YxJI41091458
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 7 Sep 2021 09:34:59 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E6BD7AE045;
+ Tue,  7 Sep 2021 09:39:11 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A2D06AE056;
+ Tue,  7 Sep 2021 09:39:11 +0000 (GMT)
+Received: from oc3016276355.ibm.com (unknown [9.145.9.165])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  7 Sep 2021 09:39:11 +0000 (GMT)
+Subject: Re: [PATCH v2 4/5] s390x: topology: Topology list entries and SYSIB
+ 15.x.x
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+References: <1626975764-22131-1-git-send-email-pmorel@linux.ibm.com>
+ <1626975764-22131-5-git-send-email-pmorel@linux.ibm.com>
+ <ecf79a25-c5c4-a39c-5f77-56af17f26728@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+Message-ID: <21787fcd-a665-d415-1a31-99f135b2557e@linux.ibm.com>
+Date: Tue, 7 Sep 2021 11:39:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210812084148.14458-1-hreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <ecf79a25-c5c4-a39c-5f77-56af17f26728@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: gxFcGeuw9Noywg8gtilMYh-kXRHigkeX
+X-Proofpoint-ORIG-GUID: VsNCFpDiBwQYscAu7l1uMXG9HewBgL15
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-09-07_03:2021-09-03,
+ 2021-09-07 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0
+ suspectscore=0 mlxscore=0 spamscore=0 clxscore=1015 mlxlogscore=999
+ bulkscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2108310000 definitions=main-2109070063
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.332, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,48 +114,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12.08.21 10:41, Hanna Reitz wrote:
-> Hi,
->
-> See the cover letter from v1 for the general idea:
-> https://lists.nongnu.org/archive/html/qemu-block/2021-06/msg00843.html
->
-> Cover letter from v2, introducing RCU locking:
-> https://lists.nongnu.org/archive/html/qemu-block/2021-06/msg01060.html
->
->
-> v3:
-> - Patch 2:
->    - Add rcu_head object to BdrvBlockStatusCache, so we can use
->      g_free_rcu() to free it instead of synchronize_rcu()+g_free()
->    - Use qatomic_rcu_read() every time we read bs->block_status_cache
->      (except in bdrv_close(), where no concurrency is possible)
->    - Use RCU_READ_LOCK_GUARD() instead of WITH_RCU_READ_LOCK_GUARD() in
->      functions where we lock the whole scope anyway
->    - Same for QEMU_LOCK_GUARD() instead of WITH_QEMU_LOCK_GUARD() in
->      bdrv_bsc_fill()
->    - Drop from_cache variable in bdrv_co_block_status()
->      (was an artifact from v1, which had a different control flow and
->      needed this variable)
->    - Assert that local_map returned from a protocol driver’s
->      bdrv_co_block_status() implementation is equal to the offset we
->      passed to it (see comment there for why we should do this)
->
-> - Patch 3:
->    - Add note why block drivers should return larger *pnum values in
->      addition to just saying that it’s allowed
 
-Thanks for the reviews, I’ve added the `local_file == bs` assertion in 
-patch 2 as suggested by Vladimir (and updated the comment to match) and 
-applied the series to my block branch:
 
-https://github.com/XanClic/qemu/commits/block
+On 9/7/21 9:46 AM, Thomas Huth wrote:
+> On 22/07/2021 19.42, Pierre Morel wrote:
+>> We define the CPU type Topology List Entry and the
+>> Container type Topology List Entry to implement SYSIB 15.1.x
+>>
+>> This patch will be squatched with the next patch.
+> 
+> s/squatched/squashed/
+> 
+> ... anyway, why did you sent it separately?
+> 
 
-Hanna
+I thought it would be easier to review.
+I will squash it next.
 
+thanks,
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
