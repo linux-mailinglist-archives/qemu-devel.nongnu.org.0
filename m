@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 641ED402B37
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:57:14 +0200 (CEST)
-Received: from localhost ([::1]:47542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 004A8402B31
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:56:07 +0200 (CEST)
+Received: from localhost ([::1]:42720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNcXB-0000W4-FO
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:57:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36796)
+	id 1mNcW6-0005iZ-VW
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:56:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNcOu-00068K-6H
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:48:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49967)
+ id 1mNcOx-0006I5-I7
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:48:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNcOs-0008Dz-HF
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:48:39 -0400
+ id 1mNcOw-0008Gv-0H
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:48:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631026117;
+ s=mimecast20190719; t=1631026121;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OLGp7hopxMxjiL+WVPqIcL/ZByxVrHa7OPuiADcU42w=;
- b=ERuazbZULPeqrdl+NCBCddD6e27GYSbbOWAwawArMM/ElSVz2wyvZPGd7izAMxiiSMO3A6
- zfDz1hSylkfPsPoSuvyx/oxg3dcn2bHtf25xcX9fcS8JSd9gsiMuVHYAhD/DOrMbvMxS3B
- zkTwjB+LCcm7af2Q1KS0pO9wClAvK+4=
+ bh=uQ9qw6Wo+2y/RwYQx01DpUM8PBNnLYvQ3XTNHFqowQ8=;
+ b=BsmaX3QPUtRrj1QCB3kKrb9rWMJQskrxSo7fYMJ5TCgbpixRzk8q8y/iF+Mh7DQHxVMV/V
+ cgo0Qwh4c4atqzKK75SBDX7lPJKpnTBzg9vvRYp3wJWYxtZsgUqHw/Vw/MCMzncXDpvpK1
+ CCGS0Zrb6rgDNkBYyDHtZzQgKg6+bpY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-fvQgAKT0Or6ahsrNr2LWeQ-1; Tue, 07 Sep 2021 10:48:36 -0400
-X-MC-Unique: fvQgAKT0Or6ahsrNr2LWeQ-1
+ us-mta-584-8pgcZGY3OBiPPSSfO1he0A-1; Tue, 07 Sep 2021 10:48:40 -0400
+X-MC-Unique: 8pgcZGY3OBiPPSSfO1he0A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1E08107ACC7;
- Tue,  7 Sep 2021 14:48:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 929CF1940927
+ for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 14:48:39 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D99C75D9CA;
- Tue,  7 Sep 2021 14:48:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 26BCD5D9CA;
+ Tue,  7 Sep 2021 14:48:36 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/35] acpi: acpi_build_hest: use
+Subject: [PATCH v3 08/35] acpi: build_mcfg: use
  acpi_table_begin()/acpi_table_end() instead of build_header()
-Date: Tue,  7 Sep 2021 10:47:46 -0400
-Message-Id: <20210907144814.741785-8-imammedo@redhat.com>
+Date: Tue,  7 Sep 2021 10:47:47 -0400
+Message-Id: <20210907144814.741785-9-imammedo@redhat.com>
 In-Reply-To: <20210907144814.741785-1-imammedo@redhat.com>
 References: <20210907144814.741785-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -80,8 +80,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: drjones@redhat.com, Dongjiu Geng <gengdongjiu1@gmail.com>,
- eauger@redhat.com, qemu-arm@nongnu.org, mst@redhat.com
+Cc: mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -90,46 +89,53 @@ with 2 calls to start and finish table creation,
 which hides offsets magic from API user.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Dongjiu Geng <gengdongjiu1@gmail.com>
 ---
 v3:
   * s/acpi_init_table|acpi_table_composed/acpi_table_begin|acpi_table_end/
-
-CC: qemu-arm@nongnu.org
-CC: drjones@redhat.com
-CC: gengdongjiu1@gmail.com
-CC: eauger@redhat.com
 ---
- hw/acpi/ghes.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/acpi/pci.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
-index a749b84d62..45d9a809cc 100644
---- a/hw/acpi/ghes.c
-+++ b/hw/acpi/ghes.c
-@@ -362,18 +362,16 @@ static void build_ghes_v2(GArray *table_data, int source_id, BIOSLinker *linker)
- void acpi_build_hest(GArray *table_data, BIOSLinker *linker,
-                      const char *oem_id, const char *oem_table_id)
- {
--    uint64_t hest_start = table_data->len;
-+    AcpiTable table = { .sig = "HEST", .rev = 1,
-+                        .oem_id = oem_id, .oem_table_id = oem_table_id };
+diff --git a/hw/acpi/pci.c b/hw/acpi/pci.c
+index 75b1103ec4..20b70dcd81 100644
+--- a/hw/acpi/pci.c
++++ b/hw/acpi/pci.c
+@@ -28,19 +28,20 @@
+ #include "hw/acpi/pci.h"
+ #include "hw/pci/pcie_host.h"
  
--    /* Hardware Error Source Table header*/
--    acpi_data_push(table_data, sizeof(AcpiTableHeader));
++/*
++ * PCI Firmware Specification, Revision 3.0
++ * 4.1.2 MCFG Table Description.
++ */
+ void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info,
+                 const char *oem_id, const char *oem_table_id)
+ {
+-    int mcfg_start = table_data->len;
++    AcpiTable table = { .sig = "MCFG", .rev = 1,
++                        .oem_id = oem_id, .oem_table_id = oem_table_id };
++
 +    acpi_table_begin(&table, table_data);
  
-     /* Error Source Count */
-     build_append_int_noprefix(table_data, ACPI_GHES_ERROR_SOURCE_COUNT, 4);
+-    /*
+-     * PCI Firmware Specification, Revision 3.0
+-     * 4.1.2 MCFG Table Description.
+-     */
+-    acpi_data_push(table_data, sizeof(AcpiTableHeader));
+     /* Reserved */
+     build_append_int_noprefix(table_data, 0, 8);
 -
-     build_ghes_v2(table_data, ACPI_HEST_SRC_ID_SEA, linker);
+     /*
+      * Memory Mapped Enhanced Configuration Space Base Address Allocation
+      * Structure
+@@ -56,6 +57,5 @@ void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info,
+     /* Reserved */
+     build_append_int_noprefix(table_data, 0, 4);
  
--    build_header(linker, table_data, (void *)(table_data->data + hest_start),
--                 "HEST", table_data->len - hest_start, 1, oem_id, oem_table_id);
+-    build_header(linker, table_data, (void *)(table_data->data + mcfg_start),
+-                 "MCFG", table_data->len - mcfg_start, 1, oem_id, oem_table_id);
 +    acpi_table_end(linker, &table);
  }
- 
- void acpi_ghes_add_fw_cfg(AcpiGhesState *ags, FWCfgState *s,
 -- 
 2.27.0
 
