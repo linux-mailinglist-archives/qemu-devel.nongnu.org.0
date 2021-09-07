@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300724029FC
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:43:03 +0200 (CEST)
-Received: from localhost ([::1]:49546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8C8C4029E7
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:40:35 +0200 (CEST)
+Received: from localhost ([::1]:39834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNbNO-0004HT-9R
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:43:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38288)
+	id 1mNbL0-0005un-Rj
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:40:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNawo-0003HW-JR
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:15:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46589)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNawm-0003GI-Sb
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:15:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNawk-0002UG-52
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:15:34 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNawi-0002Ul-FA
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:15:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631020524;
+ s=mimecast20190719; t=1631020526;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=y7N6AQ417MJMyaWkgC2RJARSP6QhDNnRj0oh3Q5s/r4=;
- b=B8BYoy3pjlRuEu4u4y/mW2ea8XQPzBvP69wmimBvz0w69WWw62M28YzCGHULusmpASRDuR
- /S+PBvxFJryDzcdyN6HR6TB5bEXQHY5M9Yk309+eHTKvvQITRxMpQhIqEcqJE31oel5wWV
- 23Ox2AOPe8s9jUuKGswTQOceU+rU2Rs=
+ bh=pgxDINm2GHEMZcqKoxv3s7LaM40WtOIzvvw9zQeKW0E=;
+ b=ftZgihfBbKIj6j0UKiL1ngudWn1qlYcY0plSMghr+HBMPLewhRjBSysnx3aCrMwSNC1tln
+ VknsLG+8nKbH490KEYiDofYVrXRvWfIlIjjXgVyqSfMaJ43TaICKUsEPsPnfEF5MF82pNR
+ +Zyt/JH5yg/mL3OK0FsWRni5xdI1XC8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-538-TziVd-TRMAablIVvH0bVLg-1; Tue, 07 Sep 2021 09:15:23 -0400
-X-MC-Unique: TziVd-TRMAablIVvH0bVLg-1
+ us-mta-373-5n07UVy-NmevGgOsGZlESw-1; Tue, 07 Sep 2021 09:15:24 -0400
+X-MC-Unique: 5n07UVy-NmevGgOsGZlESw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E15C107ACCA;
- Tue,  7 Sep 2021 13:15:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4A97102CB6F;
+ Tue,  7 Sep 2021 13:15:23 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.194.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F0395C25D;
- Tue,  7 Sep 2021 13:15:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D62E5C1B4;
+ Tue,  7 Sep 2021 13:15:22 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 07/20] s390x/tcg: fix ignoring bit 63 when setting the storage
- key in SSKE
-Date: Tue,  7 Sep 2021 15:14:36 +0200
-Message-Id: <20210907131449.493875-8-thuth@redhat.com>
+Subject: [PULL 08/20] s390x/tcg: convert real to absolute address for RRBE,
+ SSKE and ISKE
+Date: Tue,  7 Sep 2021 15:14:37 +0200
+Message-Id: <20210907131449.493875-9-thuth@redhat.com>
 In-Reply-To: <20210907131449.493875-1-thuth@redhat.com>
 References: <20210907131449.493875-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -84,46 +84,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Right now we could set an 8-bit storage key via SSKE and retrieve it
-again via ISKE, which is against the architecture description:
+For RRBE, SSKE, and ISKE, we're dealing with real addresses, so we have to
+convert to an absolute address first.
 
-SSKE:
-"
-The new seven-bit storage-key value, or selected bits
-thereof, is obtained from bit positions 56-62 of gen-
-eral register R 1 . The contents of bit positions 0-55
-and 63 of the register are ignored.
-"
-
-ISKE:
-"
-The seven-bit storage key is inserted in bit positions
-56-62 of general register R 1 , and bit 63 is set to zero.
-"
-
-Let's properly ignore bit 63 to create the correct seven-bit storage key.
+In the future, when adding EDAT1 support, we'll have to pay attention to
+SSKE handling, as we'll be dealing with absolute addresses when the
+multiple-block control is one.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210903155514.44772-3-david@redhat.com>
+Message-Id: <20210903155514.44772-4-david@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/s390x/tcg/mem_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/s390x/tcg/mem_helper.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
-index e0befd0f03..3c0820dd74 100644
+index 3c0820dd74..dd506d8d17 100644
 --- a/target/s390x/tcg/mem_helper.c
 +++ b/target/s390x/tcg/mem_helper.c
-@@ -2210,7 +2210,7 @@ void HELPER(sske)(CPUS390XState *env, uint64_t r1, uint64_t r2)
-         skeyclass = S390_SKEYS_GET_CLASS(ss);
-     }
+@@ -2177,6 +2177,7 @@ uint64_t HELPER(iske)(CPUS390XState *env, uint64_t r2)
+     uint64_t addr = wrap_address(env, r2);
+     uint8_t key;
  
--    key = (uint8_t) r1;
-+    key = r1 & 0xfe;
-     skeyclass->set_skeys(ss, addr / TARGET_PAGE_SIZE, 1, &key);
-    /*
-     * As we can only flush by virtual address and not all the entries
++    addr = mmu_real2abs(env, addr);
+     if (addr > ms->ram_size) {
+         return 0;
+     }
+@@ -2201,6 +2202,7 @@ void HELPER(sske)(CPUS390XState *env, uint64_t r1, uint64_t r2)
+     uint64_t addr = wrap_address(env, r2);
+     uint8_t key;
+ 
++    addr = mmu_real2abs(env, addr);
+     if (addr > ms->ram_size) {
+         return;
+     }
+@@ -2228,6 +2230,7 @@ uint32_t HELPER(rrbe)(CPUS390XState *env, uint64_t r2)
+     static S390SKeysClass *skeyclass;
+     uint8_t re, key;
+ 
++    addr = mmu_real2abs(env, addr);
+     if (addr > ms->ram_size) {
+         return 0;
+     }
 -- 
 2.27.0
 
