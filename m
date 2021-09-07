@@ -2,78 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9D2402688
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 11:52:52 +0200 (CEST)
-Received: from localhost ([::1]:43174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B39A840268D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 11:54:11 +0200 (CEST)
+Received: from localhost ([::1]:45576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNXmd-0002L3-KU
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 05:52:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34750)
+	id 1mNXnu-0003zi-Qk
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 05:54:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mNXjl-00007C-0B
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 05:49:53 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:39807)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mNXji-0000gp-PZ
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 05:49:52 -0400
-Received: by mail-ed1-x536.google.com with SMTP id r7so13057878edd.6
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 02:49:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=qCkpKmFU+UpCAsAoDX99fqgW6dOxuQxW7Ax0vXDm7g4=;
- b=raQGixHPCN5RKBCDsNma/0ys6jpuwsFSHyJCNlmKY66TfDJ9gFmVVj9FrLrs9hCl4e
- rjbajNuUdLQOI/R4EpLUryd1TLj7nREdtcAJnIk0sT29NJySzSRRuur7ueSVc2WgavUN
- R2MejnGCoBb8rXs3GRO+STxFGj5METg1YhWFEz0+8KUv5eDC2nOc1rEy2UA0apag+01p
- 5PfenudG+xXwxoRR1pVH7e0+Nz5xR335FsCoZkNehQa0qR6P/U4Sjfnq2tttIW2QbtSi
- hIsPlTNgcWQ9Dz8PODjs1f4HmOyXUfUy1nZZirmakc/VOBcPEjGZBqF2bSK0V46UcAcz
- BMbw==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mNXk9-0000Hz-0b
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 05:50:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42826)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mNXk7-00012g-Gk
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 05:50:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631008214;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dGfOEugBV9i2d+1aV4zj8uZwslQyPoeKOVyAEOFnsvA=;
+ b=ecRuR/WjET6lPjzPjk85lZzQSMzzWVM58qSiKkgPavI74KjuhYS/xE+PLPnmJkh1T/947G
+ d6dMBYv7P1LtMsftJM7GALh3SH49d/e/tOeXpG88W2xJRJ4Vl1k9T9EZ9fBIAccXwExkDF
+ JML0EGIMZbGZBBmTXDYb41crP8aLlFY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-208-pFdRhwgkNsy1jwo5DQBEKg-1; Tue, 07 Sep 2021 05:50:10 -0400
+X-MC-Unique: pFdRhwgkNsy1jwo5DQBEKg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ u14-20020a7bcb0e0000b0290248831d46e4so901611wmj.6
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 02:50:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qCkpKmFU+UpCAsAoDX99fqgW6dOxuQxW7Ax0vXDm7g4=;
- b=O5Kgw4s6egFF+/SeP6NGVgfV7LrxbK2VBGahu5BRQnTDLT32aGSE3GeFUOFAIBLbKa
- u5PLaoeJAicPmsEB8YVrPu9mhqlDjS7+FMpfaDNpkkCxb9K45YQ4O9AWmc/Vi4xjbT7U
- SpivcIL5Qqv1A2Tuu1UfgGg0FRJWctsNDaDOB1FdLlMhbt452aD7R84qmPd+9f/MoLc3
- QpEQdvwxpZHaAWh4ueEDwaJxEN52nr3f3fbY6Y9DfIwMk2BSOSmVTh1GqzGEN7MHOniD
- RT4jRawPc3KO9uHWFwl7QlsNp4P2pD5wab56LlqnZHC8GdVbW8KuFxGDncMHgh4nS2zc
- aZkg==
-X-Gm-Message-State: AOAM531upYn+Fnr1HGVl9MghTXAZ8nY85ogTVWwRgNxWwBoDT96lrKKt
- IVG/n/Pk/u+QpThP5Ln2jD0DMPdPbCK8Ou/GIVOsxw==
-X-Google-Smtp-Source: ABdhPJzPB0kIHhKBU2h38vlvRPHQ5l6cemzwFcR9GvYHu9WtQQP1MB+sjRySrIFNnp6ZjqZj0r5gg6LhYcReFiZWzhM=
-X-Received: by 2002:a05:6402:cab:: with SMTP id
- cn11mr17705425edb.293.1631008188201; 
- Tue, 07 Sep 2021 02:49:48 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=dGfOEugBV9i2d+1aV4zj8uZwslQyPoeKOVyAEOFnsvA=;
+ b=XdxjEqhsJ8o1gMJ9H6SNyCwXTn4c/uBcOgthDSItE8XqUvjyYmHXHpx8Q1680KoIh0
+ qaf8cWRr+Kd3Speyq2wGeSNpMkGlfCpqPrq1qbvIs8y42Z58zTeGecMaGta2fwEy5xio
+ 2SYNiGuFWA5uK9V3Z7TrhOjKTPNRt+zafXsArPw/LKdzxxv6AW9lhHfkcGOJRPZsH3/X
+ +A+fXsWJ8K6Db+jZUjnrbdqCeJlpj0kAcHReli9X69fo3TIMzhR92Y+5FIajgvb3zTMn
+ fFeMT2J2aHiR5TRiXbJ+IlSwl/vFlasp0AfpyoULB22GBraJVMygc7jDKF7/D5myM42q
+ JGvw==
+X-Gm-Message-State: AOAM532TM10/nmGi1ephP9Qw/Ad7LFt7kYn0v8JLk147lkGUq4U7AQXo
+ Q6EF+yy2whmhroYZP3gL2YX5GR3W4/wXpTWDtvQegNVWkcs/vse6JdAWc/AE1FcHulXN7NdPj6w
+ h+VBu5/8zGmfRJDg=
+X-Received: by 2002:a05:600c:35c4:: with SMTP id
+ r4mr3110944wmq.194.1631008208899; 
+ Tue, 07 Sep 2021 02:50:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwxBT0GDg/7gWPfilbaRd4q7PWKF0u7okxOmXCJr9Qx+E1xKgcyM2pG70mMswOFq6tNREk7oQ==
+X-Received: by 2002:a05:600c:35c4:: with SMTP id
+ r4mr3110923wmq.194.1631008208620; 
+ Tue, 07 Sep 2021 02:50:08 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
+ by smtp.gmail.com with ESMTPSA id k18sm1857745wmi.25.2021.09.07.02.50.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Sep 2021 02:50:08 -0700 (PDT)
+Subject: Re: [PATCH v4 0/5] iotests/297: Cover tests/
+To: qemu-block@nongnu.org
+References: <20210902094017.32902-1-hreitz@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <4c85998f-60e0-b1e6-f355-a804e5e8ef02@redhat.com>
+Date: Tue, 7 Sep 2021 11:50:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210904213506.486886-1-mst@redhat.com>
- <20210904213506.486886-7-mst@redhat.com>
- <6a9c2fde-317d-bd31-5a8c-135446b881dc@redhat.com>
- <alpine.DEB.2.22.394.2109061531570.2070064@anisinha-lenovo>
- <43ea19c8-fdd6-554d-5138-79b8995d22cd@redhat.com>
- <CAARzgwzkMPwgwbbSnHGH5yLF=mbr7_z1zpKTjbVkg6rgpX4MfA@mail.gmail.com>
- <CAARzgwxXCJ_a4Z-x0Bc_4PV_pEScxr2fp0cMxRf49BiZUvQ9dA@mail.gmail.com>
- <81639a95-654b-9064-de24-347561b6783e@redhat.com>
- <CAARzgwxkYk=ZMB_XqF1P1zhnFB+Tdjj=yNrPG4=MqBU=PJEF0A@mail.gmail.com>
-In-Reply-To: <CAARzgwxkYk=ZMB_XqF1P1zhnFB+Tdjj=yNrPG4=MqBU=PJEF0A@mail.gmail.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 7 Sep 2021 15:19:37 +0530
-Message-ID: <CAARzgwxYW5Ab7B1v=J1O4RwcqfLt-yk-QfhszHXiH7PFNaUpaA@mail.gmail.com>
-Subject: Re: [PULL 06/35] hw/acpi: refactor acpi hp modules so that targets
- can just use what they need
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2a00:1450:4864:20::536;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210902094017.32902-1-hreitz@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,112 +99,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 7, 2021 at 12:04 PM Ani Sinha <ani@anisinha.ca> wrote:
+On 02.09.21 11:40, Hanna Reitz wrote:
+> v1: https://lists.nongnu.org/archive/html/qemu-block/2021-03/msg01471.html
+> v2: https://lists.nongnu.org/archive/html/qemu-block/2021-05/msg00492.html
+> v3: https://lists.nongnu.org/archive/html/qemu-block/2021-05/msg00569.html
 >
 >
+> Hi,
 >
-> On Tue, Sep 7, 2021 at 11:44 AM Philippe Mathieu-Daud=C3=A9 <philmd@redha=
-t.com> wrote:
->>
->> On 9/7/21 7:55 AM, Ani Sinha wrote:
->> > On Mon, Sep 6, 2021 at 4:19 PM Ani Sinha <ani@anisinha.ca> wrote:
->> >>
->> >> On Mon, Sep 6, 2021 at 3:54 PM Philippe Mathieu-Daud=C3=A9 <philmd@re=
-dhat.com> wrote:
->> >>>
->> >>> On 9/6/21 12:03 PM, Ani Sinha wrote:
->> >>>> On Mon, 6 Sep 2021, Philippe Mathieu-Daud=C3=A9 wrote:
->> >>>>> On 9/4/21 11:36 PM, Michael S. Tsirkin wrote:
->> >>>>>> From: Ani Sinha <ani@anisinha.ca>
->> >>>>>>
->> >>>>>> Currently various acpi hotplug modules like cpu hotplug, memory h=
-otplug, pci
->> >>>>>> hotplug, nvdimm hotplug are all pulled in when CONFIG_ACPI_X86 is=
- turned on.
->> >>>>>> This brings in support for whole lot of subsystems that some targ=
-ets like
->> >>>>>> mips does not need. They are added just to satisfy symbol depende=
-ncies. This
->> >>>>>> is ugly and should be avoided. Targets should be able to pull in =
-just what they
->> >>>>>> need and no more. For example, mips only needs support for PIIX4 =
-and does not
->> >>>>>> need acpi pci hotplug support or cpu hotplug support or memory ho=
-tplug support
->> >>>>>> etc. This change is an effort to clean this up.
->> >>>>>> In this change, new config variables are added for various acpi h=
-otplug
->> >>>>>> subsystems. Targets like mips can only enable PIIX4 support and n=
-ot the rest
->> >>>>>> of all the other modules which were being previously pulled in as=
- a part of
->> >>>>>> CONFIG_ACPI_X86. Function stubs make sure that symbols which piix=
-4 needs but
->> >>>>>> are not required by mips (for example, symbols specific to pci ho=
-tplug etc)
->> >>>>>> are available to satisfy the dependencies.
->> >>>>>>
->> >>>>>> Currently, this change only addresses issues with mips malta targ=
-ets. In future
->> >>>>>> we might be able to clean up other targets which are similarly pu=
-lling in lot
->> >>>>>> of unnecessary hotplug modules by enabling ACPI_X86.
->> >>>>>>
->> >>>>>> This change should also address issues such as the following:
->> >>>>>> https://gitlab.com/qemu-project/qemu/-/issues/221
->> >>>>>> https://gitlab.com/qemu-project/qemu/-/issues/193
->> >>>>>
->> >>>>> FYI per https://docs.gitlab.com/ee/administration/issue_closing_pa=
-ttern.html
->> >>>>> this should have been:
->> >>>>>
->> >>>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/193
->> >>>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/221
->> >>>>>
->> >>>>
->> >>>> Ah my apologies. Will do this next time.
->> >>>>
->> >>>>> Can we close these issues manually?
->> >>>>
->> >>>> Since both you and I have verified that those issues gets fixed wit=
-h my
->> >>>> change, yes we can close them. I do not have a gitlab account. Shou=
-ld I
->> >>>> have one? Is there special permissions needed to handle these ticke=
-ts?
->> >>>
->> >>> Since you are listed in the MAINTAINERS file, long-term you'll
->> >>> eventually use it anyway (i.e. to run the CI pipelines before sendin=
-g
->> >>> patches, to subscribe to the 'ACPI' label to get notifications or
->> >>> comment ACPI-related issues).
->> >>>
->> >>> The process is quite straight-forward, once having an account you
->> >>> simply request to be member of the project via the WebUI then you
->> >>> can help triaging the issues (and closing these two).
->> >>
->> >> Hmm. I created an account and added a comment to the tickets. However
->> >> I am unable to close them. I requested access to the project.
->> >
->> > I could be wrong, but I think only reporters can open and close bugs
->> > like yourself on gitlab.
->>
->> Hmm it is unclear who can close an issue, per:
->> https://docs.gitlab.com/ee/user/permissions.html#project-members-permiss=
-ions
->>
->> Let's wait until you get added to the project as a member: I assume
->> you are currently 'guest' and would become 'reporter'.
->
->
-> Ok will ping people on IRC today.
+> Sorry for the long delay, here is v4 to make our lint checking iotest
+> 297 cover the tests/ subdirectory.
 
-Bonzini helped. I have closed both tickets.
+Thanks for the review, applied to my block branch:
+
+https://github.com/XanClic/qemu/commits/block
+
+Hanna
+
 
