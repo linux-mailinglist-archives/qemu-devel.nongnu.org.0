@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D214C402E35
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 20:12:01 +0200 (CEST)
-Received: from localhost ([::1]:45470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE42B402E38
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 20:13:37 +0200 (CEST)
+Received: from localhost ([::1]:49658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNfZg-0002qV-V3
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 14:12:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52988)
+	id 1mNfbE-0005pZ-Ry
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 14:13:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1mNfWj-00007u-7L
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 14:08:59 -0400
-Received: from esa.hc3962-90.iphmx.com ([216.71.140.77]:57259)
+ id 1mNfWt-0000F9-Bs
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 14:09:07 -0400
+Received: from esa.hc3962-90.iphmx.com ([216.71.140.77]:26479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1mNfWe-0003Gn-7o
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 14:08:56 -0400
+ id 1mNfWr-0003PH-6y
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 14:09:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
- t=1631038132; x=1631642932;
+ t=1631038145; x=1631642945;
  h=from:to:cc:subject:date:message-id:references:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=Q2d/Qu7jpERk9kU3eQoJR9JjUl7zdnnYxfh+p5Mf+p0=;
- b=aslQ+i6wD+4C9Zjn7eSDYEOT9PDNRFhkG4S2omycOR/9sMnViwcPYnaP
- NvgAit6ctA3ehzQ9l+RAcTnF7y/7Ae2/uSGleyMkKH3AaAhH/W9NVI5cr
- Q/mNALYgCCIrAIQ7rZXFpb09PREgZ6V78JOaismBAbD8zrJweA+XTnQC9 c=;
-Received: from mail-sn1anam02lp2045.outbound.protection.outlook.com (HELO
- NAM02-SN1-obe.outbound.protection.outlook.com) ([104.47.57.45])
+ bh=S9942ko55E0NYmVLgw+mne0IIHO0Ld3li6fTIPWfzdA=;
+ b=DcxZmSfyjDgeWHoCyAtFqDZ0ylSGAZ7cq4pbz8vzxuMAYoFVzwfnHik2
+ tF158d6TKaHTJzoiFx7Yy7p9tITRCkkT6/ZWCFIPSudH3b/ILYfdxPeOU
+ rQyx3lgtBN4ptFm60PotTKhaKL317K6/If3X+pBILExYJvHmp854K71pK s=;
+Received: from mail-sn1anam02lp2048.outbound.protection.outlook.com (HELO
+ NAM02-SN1-obe.outbound.protection.outlook.com) ([104.47.57.48])
  by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2021 18:08:50 +0000
+ 07 Sep 2021 18:09:03 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PohvfW1YngbDMLoKsOjx3eXhoAiq0qaW7J86Nt4PolcMKZx6bzRRqp4NYBUEygXpsKrBiS6VD8aCV6kqeJpTOesdFc3rtez3YMB/TsqUdRw9rOxaMqd9KyY5QU+aElMfsgxA03UmgT36vNPZFxKW55wIcRhRpIJrRSrPQRFCBf30FzfvvJ+h3Qe1/Q7KlX9wzC1qMaLoO9T84rQBLZMSMamfUjhNsuQZsAd5fzGACpvBZ5Xdpx2mmf0ujDFKKCFZZXfJiUNrIkLjy8Yl/xfRvA8UPk+9mCun+FChN7EQt0vJpmv507Uagw0Lsq5BsZTQlUITkyoKsFyS0VpQUhDnMQ==
+ b=SQGV4Rwk20coBdg5IK2P+3B56TnHCKFlc+cIX0ULfso3NARyQnagPu4e9P6Im/KyLOVqR5MjoJaBJrMHQGkRWqcDkLO2qje3IdwdSoUnigmCJbuJCOz1Nb/cZEN+4+y160lku9TZdZibSQ844Y4Q2GGTyawYPoliq/CbQhtapKqpXtpP4MUUKpSV9heq8glHxvShQizsGZJLuEmICs+i8gkHO5WpQJNOJINXz9RaIf0SLG2HoOhVY7u473FkbW9bBONOYtkQAiqcrnGWrNZBqka7xT4wp/xd9ukxm//Nb1QtaqkvZxw0euJXDHfHLZtXPMnNh3D0//YcALlMB5wl8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=Q2d/Qu7jpERk9kU3eQoJR9JjUl7zdnnYxfh+p5Mf+p0=;
- b=MUiMlNdRwIcJQeal+aDMG9c25mrwNtfikJpx4EMbZCremCKFTBHAMlXk39i5dR+5WXSKEoiaUmbaw3OwpdFHhR9h532OaBA5dfbW5c/XwK6//bIEt62wxghUelXW5AKpuZtBiAdxBS1sZ93RMj05Iqz6kE5bWqqF63rABkkj2kJoBRl4SaqeQhhT5cCb42iEuVAuZY1fW69AvTnX6NFrAtyRfAu5QpAUhO+YRdP3Z2sIZ+ECVO8Z+msdnfBi4baXCSExlz1B7dHLD1m1WbXZVaAZkOPJ6dSiNkaE+iYuNaRW8eFFOICufbaUjqBGpDac1XgFwzzxY6DvGmlStsAEJw==
+ bh=S9942ko55E0NYmVLgw+mne0IIHO0Ld3li6fTIPWfzdA=;
+ b=WyYAyQ588Ngwy8bV5t/Z9uJJ0JS1m1o9uOUCDBcqpykpqeTpzUnR8q2l6svtKSmD+7BhE+5fIzowoEkYNuZTbbup2xynGOfNh2Gve1jkbnruFm8p7/5ZTC7eGyaqN5JT6hd4VsdtstcpGOlP5cA1jjneAbbPEY6Oso2M/Gv1kzP+FHj1xefGg56aN++kFaT0ekAKWVF7d2KnLmrKOBPSXO7oy9o+t2O7TLeNWMJV56q9l1zoxq7dCAjegCq8Aw760scoaZKETW+zic8BNM/xAU/JsJMLqfruEYFjcg37YD9Qe+Sq9gYFl6pAiEdX28TGgU84vGTl2/tN/b01FouOyA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
  dkim=pass header.d=quicinc.com; arc=none
@@ -46,22 +46,23 @@ Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
  by BY5PR02MB6324.namprd02.prod.outlook.com (2603:10b6:a03:1f6::24)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.21; Tue, 7 Sep
- 2021 18:08:48 +0000
+ 2021 18:09:01 +0000
 Received: from BYAPR02MB4886.namprd02.prod.outlook.com
  ([fe80::d91d:e6d8:ee5d:77b5]) by BYAPR02MB4886.namprd02.prod.outlook.com
  ([fe80::d91d:e6d8:ee5d:77b5%6]) with mapi id 15.20.4478.025; Tue, 7 Sep 2021
- 18:08:48 +0000
+ 18:09:01 +0000
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: Alessandro Di Federico <ale.qemu@rev.ng>, "qemu-devel@nongnu.org"
  <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v6 08/12] target/hexagon: import lexer for idef-parser
-Thread-Topic: [PATCH v6 08/12] target/hexagon: import lexer for idef-parser
-Thread-Index: AQHXfWMeqjE2iwrfGEuuIzlTUW5JN6uXvjRg
-Date: Tue, 7 Sep 2021 18:08:48 +0000
-Message-ID: <BYAPR02MB488608119AE6FE137C9ACE3ADED39@BYAPR02MB4886.namprd02.prod.outlook.com>
+Subject: RE: [PATCH v6 07/12] target/hexagon: prepare input for the idef-parser
+Thread-Topic: [PATCH v6 07/12] target/hexagon: prepare input for the
+ idef-parser
+Thread-Index: AQHXfWMas7KbARSe5UKIfHOyHXBG76uXuL2w
+Date: Tue, 7 Sep 2021 18:09:01 +0000
+Message-ID: <BYAPR02MB48869CA040DC32F2244A1952DED39@BYAPR02MB4886.namprd02.prod.outlook.com>
 References: <20210720123031.1101682-1-ale.qemu@rev.ng>
- <20210720123031.1101682-9-ale.qemu@rev.ng>
-In-Reply-To: <20210720123031.1101682-9-ale.qemu@rev.ng>
+ <20210720123031.1101682-8-ale.qemu@rev.ng>
+In-Reply-To: <20210720123031.1101682-8-ale.qemu@rev.ng>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -69,55 +70,55 @@ X-MS-TNEF-Correlator:
 authentication-results: rev.ng; dkim=none (message not signed)
  header.d=none;rev.ng; dmarc=none action=none header.from=quicinc.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0f797558-0156-4563-973f-08d9722a8a65
+x-ms-office365-filtering-correlation-id: 0a4dc505-a636-4a7e-275d-08d9722a9252
 x-ms-traffictypediagnostic: BY5PR02MB6324:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR02MB63245194E67411641912EADDDED39@BY5PR02MB6324.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:215;
+x-microsoft-antispam-prvs: <BY5PR02MB6324ED195E4AC8F8C0618E10DED39@BY5PR02MB6324.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:901;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 35xuTewx5Zd0F/e4ERbCJcEcUqMeE96kCRfha7RP111/CIeat5FCWsSHvrqVTYZ2Xk9XS1Hq3FUIHUGTAApl+gdiKo+IS9Kv40233Kh1SoYct0VyyXpUrn8Zt5vFCXXYPgmllZT1nsygzvBwwGnDvIlcXQFfYeP1rp8MylszcGhqtuBuPD+OSvKrdkMYktlMtbWqlO7bVtSN5X8gd+rfPbYAnocHmNqW2QIcCl3nxZDNFHJuiGCUxC+w/q4q1vIZXET4M77bPp13RHc9kgh8jEz/vPUnDn8Z01h5DYyseexVhmTMJ4nYVLDvPx8v3jAMtRPBd/6f4rKXmfxKHcLP+DtOlL9Uv/yUVg29xWO4SatBQYLi9Zq8XjW5YKUFg6pujLS03iJzfSOwJ40Q79xE99gJxZezE6LFeUJ5zRwh3CvJMoj6RasbR7fi/qdhM2t8F61x1s5tMUOUxmL02vICeS/sc7PDmycxXoIn7uu91jmdmYva0V1kfyrsYKZQDYtZ0MZgDErTnYufYI/9Yz5qSoNanCjzF1ayo9IaNuKujNYiUmWdmnXoEumfPiKWBPsQU155Bo39qdDc0bUx1R8NkIemTrP0P7S2M/QRzzGb4+qwEbvrhzvmPYjg0eXZrUv3A3Lrk9W7gopzTZmSFvHPX2sC2uf6bHV4B8pkt1yCQw7FbZRMiDrF/ZcXhEF9eBp59aK6eKs8fQjt57JUpDkedA==
+x-microsoft-antispam-message-info: XZFcUhkpokauFUehMJ73WhRhOv9Tnw/ZPC2eBqiUUbJouswXzCy6PUopvwPHz54bo33TIUTmtBwNhHn1ban18QoNVqYF6DIFXBAKKGMmkJHneAOBh1/JPZUED+R0L/m7o6O3ztfhmeKcy37i7QIq2j/fmAwtn6mgpvhA3hhgHIpmftHIahmjFXb8wkVjYrlNBt6vaZP/bGSn/I8fr+/+f/YkUmE/62pyvqbF3H/N7AD6ebuQQfsvdeqW6TPNwrjC8nVP2tHFairrEhsu63T78PNfvgeHH0RVH1W2AzDa5rRcC26iZC1XPg62KOpwEYTaIJDvxOQJNk+sVxD3Jkv4AbYl4cT834M465eA2nV2tdsWvRsBJMyjElMz1gisvgiY7t2Ra40HJxzfJ7Lq314aGyE+8+hC4JBG5AHZqcpzKIVYFsRUZUmhXFVLXPOoA0kHgHfY9gEcOxLfMwQATwjm8zBrNwuEQD2Qqk9Hzc3yl+bifoYlyB2MSMHt7CJ/f6IOpGf/qtCLNNfITzOrzY0P0gn7yP0+r7mzmDzm6jDlhMhTUQskPCpCh6/JxNwq8c4uMQWOW57vFExAoLs5O2jRFwJAaqPS4Pnv3bBAMipihalE2Mb/wFcCv+vAplV/cEHepKQcixZ6B4QcOLtZPRU2qt5Vsl0V9PighzIYASbvmxkAYl5QitUULGMpfLFVnLf4sguUDF1eRu36WkkPzWkydg==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(38100700002)(8936002)(4326008)(186003)(66946007)(33656002)(83380400001)(64756008)(122000001)(26005)(55016002)(5660300002)(9686003)(2906002)(316002)(110136005)(508600001)(6506007)(53546011)(54906003)(7696005)(71200400001)(86362001)(8676002)(66446008)(52536014)(38070700005)(66476007)(66556008)(76116006);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?TjcHj3UU26d6pFID+0hCC0bbeRQNeQaMYx0NuxabbpJMjM6Xm8qq3K0yWdef?=
- =?us-ascii?Q?PnnOCT+2V/kIVAw7Smn71lUF5+x7oJzGWhKbYnkxF/SykmA2yHbOekZgoa/w?=
- =?us-ascii?Q?l8qBypQyPpBmlpQRnwgFiSaYB5Xe53tPoasuOq8aEAVEGsXz2FiEKemJKOWn?=
- =?us-ascii?Q?wa48xlmZ8z2OtnDAiok5kUQPf5EXv1qny4/JrYetjAWHLCMOdCuE+PCRTeiX?=
- =?us-ascii?Q?lUBb2F4QXmbfq5h9RF9rlp9pfv9WwZIHUZm5r0woMRnPAZDyP9Em/09ZM5gi?=
- =?us-ascii?Q?8mRWozl4LTDH++tbN8kLcg6yxrf3NUMlO03+UXPSoxLGBv9JqHG6KQ9pZ0It?=
- =?us-ascii?Q?Xmimq6zrzIAJoUJlWvikEl+i5E4QoMDDhg9grwD4fFoDZG7QZX+xUcVn4nbm?=
- =?us-ascii?Q?sTMI1NX4ajNcaWfablcxX+Nn/GDbzZ4YxlY/e1h1mB4Y4NXQHQ1xBV1sEpt6?=
- =?us-ascii?Q?w3ZT1C7h9DwvZ5tZOcIpaj9k7r2gCxyEIx73owh+6z3x1qE2TntjirP0fen2?=
- =?us-ascii?Q?CR6pZkax4UTSnkWQ11OhHg99/sC95G8+rVhK1DeohihL5QIEXNAMS9JiOPFN?=
- =?us-ascii?Q?XFPBzyRiRGLZSh5ZjRihlGKB3LkSjpK5B7kzr0Ca+gmatIIi+B+EYt0cK3c/?=
- =?us-ascii?Q?HYItuO9gRFgzf8mpAwYRfQfKQMpiKr4Eu6E7oghoinp7h67ocFeT6Ngn2n37?=
- =?us-ascii?Q?R3ZlPmHivUuYd/GTtQzwfEHY1v5du+6ElVWro2yDs8+qVDfRx6PfjBnJJRgR?=
- =?us-ascii?Q?vBAvxo71gBBpQ60eYK71krYy3KzeSUKft4Q47556Sx0fftx9nd6UdetB7wtq?=
- =?us-ascii?Q?jvADTFFFFioOaiJuEU+EreHhnnGx2OtFwZIhCldvEBj+AjC38R4Jqbx5hWqj?=
- =?us-ascii?Q?M5ko5OO75K4arEFiQ4aBNOtQzDvHiGJzjxbZmQijYIczHPxmkYrEeOk8cVjF?=
- =?us-ascii?Q?WeswXdH2hUKFpVpON6KiIGSz4c86GDFFjdhWWBnCz4FgPUlhCPKk2kLbvw8V?=
- =?us-ascii?Q?YHnK1qNIyiLKGqeiID0QKIDTZ0aPCMGluJAFeyitIwLja9BrjT+m0ou8moMa?=
- =?us-ascii?Q?BwidmuEEi6zH+3WWpFtqlvKWCD7bzLi9DgsH0DW6W2f7DKV+uqpLcAdSdmZu?=
- =?us-ascii?Q?pavnYv6hNZJtmZU5ZNKm7O/2PrC+Q2wX4e2SKaYDXXaSr2tZICT0/m3Taass?=
- =?us-ascii?Q?qODzSWBrK3W2438Rg3CoU0yO6xKgtm+g1Blz1z/ZfftRq9278N2oL6Mis1Gv?=
- =?us-ascii?Q?Ofyhma1w4hW+dj/IHr1HHFSjAwFOiGh9B4/shZrrR0EhIiAUVrbP+StoUjJo?=
- =?us-ascii?Q?keMUFwj+evx64ReoSiUbSKbE?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ie77psQOT4KDecYRHNW0tAx2lQ+NFxmX4mfo64rvr7cw2fiFcHWcfgeWJHUI?=
+ =?us-ascii?Q?LpCJ1IrzE+lcFbQGaUU9AvjabJCaFi89Djg43+vUU4YalOXq1y9QxuUumRDX?=
+ =?us-ascii?Q?uNWGVI2bB9DlH980Qjoyqw8t9n86JD22g1D5utfnGmonj+O/iLRHiVuH49yq?=
+ =?us-ascii?Q?nYiG1H8FVA1KwejXK/s+2mBezWy5S13NDOtqp6elpi3WRQlfmUOA6oK3V0kM?=
+ =?us-ascii?Q?uOwL+EEe3nj1GpXIHw0GnRjQYluNrENFSBHn8yeH2+TijugWLGOf17Ctel0l?=
+ =?us-ascii?Q?IpTRs/xGKyRV0wuBWG+mJa+QznRBKVD9r3QBaWjxODuBuf/3S0ymJniZ+3gE?=
+ =?us-ascii?Q?gwztbbnsFjnGUrSLTdJi0K1alXkVnfcqG63Ppi+gPVzm4eoldHaxE1j7K1gB?=
+ =?us-ascii?Q?k29IGepMTyEVJx+wZj/W5tSV5p8Nuc2OEU3O6FJmyehY4QnBkXhQegXHAilp?=
+ =?us-ascii?Q?Sv+98lOls4RvUIFdhm7cbbF8dxPnwpb620qT8k8YENiE7ZAvg/KZ08fnqZtP?=
+ =?us-ascii?Q?jWS74Cqgx7D6oIz3leDHy0ycgIByOVWqQMW2y4gFl8Ni/l3F8yzPFhZhO1tK?=
+ =?us-ascii?Q?ncSQww3r0HcXzbitgXoOTqG/mN3imns9bx7FEcG8WBybhmkjWxe/K/5pTUtD?=
+ =?us-ascii?Q?TcBkIgwP2EyRdX6upnqcOACnHkAuw41V+dHXcitalI1FMgVSJPFRpkx7fbr5?=
+ =?us-ascii?Q?sttTTtI2HbMfbH1GGd7DKlyJcOXU0WCH8ZTEKQrYmoE8uj7JUp5zuvdACLlN?=
+ =?us-ascii?Q?bX+ARDjqOfT8WYse2wTyTLDZN9qja1n+zl3WnOoGhrXnbBEHUxX3N6Gd7SYG?=
+ =?us-ascii?Q?U/nTId4nLQXa1zWOzR3zDYhFNB4ysIbBYpt3GXr/kl6GaaAubJuzoVj+Hqqj?=
+ =?us-ascii?Q?A6B5nMbQACHBFoQUV8L6AAv1zA95P8xg5EL36LIPU90OuXu+WXb+9MfG7P1A?=
+ =?us-ascii?Q?TAUj9FPQklD8/+FaK8c+l2IKxm2bOaI6RL0WqcDdUtb3fl/VNifnlYxrfYOP?=
+ =?us-ascii?Q?Rc/umGDG04K4zfqbgMuq+isW+PfS2hypioDbcfg02WuOPbvLKPU4CCLU4hJo?=
+ =?us-ascii?Q?I3YsW6qGG3MpDd1Zn3mNFH6+suWQF0teUT7HAml7UsrxdbxLyFqbRO0JHJMb?=
+ =?us-ascii?Q?4V24ZHcoiTDy1exRym69Q8C8X6KP88jCQ0Blyye9NzSxUskGhqfJP9O66Wxo?=
+ =?us-ascii?Q?db5azlNlPxWdAgU3QBr1XKkFVIUCWQq0fxQdOIB/HuFQfr13RghqyZLrTZtN?=
+ =?us-ascii?Q?Nb74mORJXFoAznWGsYY1KjFKkHE01/0+Bflf6pdxx0+Ru9c5fDJRrqIugR8j?=
+ =?us-ascii?Q?PpQZVrV7Wk4FJWHKqEY8OBfD?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: quicinc.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4886.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f797558-0156-4563-973f-08d9722a8a65
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2021 18:08:48.4363 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a4dc505-a636-4a7e-275d-08d9722a9252
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2021 18:09:01.7596 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HvhCe2DL5pSD4k4CnVs5YopETDmJJoAlfqc68s7fJ0RaW9wXYG6KsmJK3b83vDj37spnYWpKbym1FW94Mwsmiw==
+X-MS-Exchange-CrossTenant-userprincipalname: EwIIb2uJUpFAzPnJpSw/pkmUTLmo3426S7fu8ljYbJWGy9IgEOLxlvn6IGQUUHaooielUJcbrEL1XL6WwUbbGA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6324
 Received-SPF: pass client-ip=216.71.140.77; envelope-from=tsimpson@quicinc.com;
  helo=esa.hc3962-90.iphmx.com
@@ -155,204 +156,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > Cc: Taylor Simpson <tsimpson@quicinc.com>; Brian Cain
 > <bcain@quicinc.com>; babush@rev.ng; nizzo@rev.ng;
 > richard.henderson@linaro.org; Alessandro Di Federico <ale@rev.ng>
-> Subject: [PATCH v6 08/12] target/hexagon: import lexer for idef-parser
+> Subject: [PATCH v6 07/12] target/hexagon: prepare input for the idef-pars=
+er
 >=20
-> From: Paolo Montesel <babush@rev.ng>
+> From: Alessandro Di Federico <ale@rev.ng>
+>=20
+> Introduce infrastructure necessary to produce a file suitable for being p=
+arsed
+> by the idef-parser.
 >=20
 > Signed-off-by: Alessandro Di Federico <ale@rev.ng>
-> Signed-off-by: Paolo Montesel <babush@rev.ng>
-> ---
->  target/hexagon/idef-parser/idef-parser.h      | 258 +++++++
->  target/hexagon/idef-parser/idef-parser.lex    | 642 ++++++++++++++++++
->  target/hexagon/meson.build                    |   4 +
->  tests/docker/dockerfiles/alpine.docker        |   1 +
->  tests/docker/dockerfiles/centos8.docker       |   1 +
->  tests/docker/dockerfiles/debian-amd64.docker  |   1 +
->  tests/docker/dockerfiles/debian10.docker      |   1 +
->  .../dockerfiles/fedora-i386-cross.docker      |   1 +
->  .../dockerfiles/fedora-win32-cross.docker     |   1 +
->  .../dockerfiles/fedora-win64-cross.docker     |   1 +
->  tests/docker/dockerfiles/fedora.docker        |   1 +
->  tests/docker/dockerfiles/opensuse-leap.docker |   1 +
->  tests/docker/dockerfiles/ubuntu.docker        |   1 +
->  tests/docker/dockerfiles/ubuntu1804.docker    |   1 +
->  tests/docker/dockerfiles/ubuntu2004.docker    |   2 +
 
-Here you are adding flex to several docker files, then in the next patch yo=
-u add bison.  Create a single patch with the necessary changes to the docke=
-r files together that is separate from the idef lexer for Hexagon.
 
->  15 files changed, 917 insertions(+)
->  create mode 100644 target/hexagon/idef-parser/idef-parser.h
->  create mode 100644 target/hexagon/idef-parser/idef-parser.lex
->=20
-> diff --git a/target/hexagon/idef-parser/idef-parser.h b/target/hexagon/id=
-ef-
-> parser/idef-parser.h
+> diff --git a/target/hexagon/gen_idef_parser_funcs.py
+> b/target/hexagon/gen_idef_parser_funcs.py
 > new file mode 100644
-> +/**
-> + * Type of register, assigned to the HexReg.type field
-> + */
-> +typedef enum {GENERAL_PURPOSE, CONTROL, MODIFIER, DOTNEW}
-> RegType;
+> index 0000000000..7b8e0f6981
+> --- /dev/null
+> +++ b/target/hexagon/gen_idef_parser_funcs.py
+> +def main():
+> +    hex_common.read_semantics_file(sys.argv[1])
+> +    hex_common.read_attribs_file(sys.argv[2])
+> +    hex_common.read_overrides_file(sys.argv[3])
 
-Should be HexRegType to match the other names in this file (e.g., HexSigned=
-ness)
-
-> +/**
-> + * Semantic record of the PRE token, identifying a predicate
-> + */
-> +typedef struct HexPre {
-> +    char id;                /**< Identifier of the predicate            =
-     */
-> +} HexPre;
-
-Call this HexPred - HexPre sounds like something that comes before ...
+Do you really need the overrides file?
 
 
-> diff --git a/target/hexagon/idef-parser/idef-parser.lex
-> b/target/hexagon/idef-parser/idef-parser.lex
-
-> +REG_ID_32                e|s|d|t|u|v|x|y
-> +REG_ID_64                ee|ss|dd|tt|uu|vv|xx|yy
-> +SYS_ID_32                s|d
-> +SYS_ID_64                ss|dd
-> +LOWER_PRE                d|s|t|u|v|e|x|x
-
-Call this PRED_ID to be consistent with REG_ID_32, etc
-
-> +"R"{REG_ID_32}"V" {
-> +                           yylval->rvalue.type =3D REGISTER_ARG;
-> +                           yylval->rvalue.reg.type =3D GENERAL_PURPOSE;
-> +                           yylval->rvalue.reg.id =3D yytext[1];
-> +                           yylval->rvalue.reg.bit_width =3D 32;
-> +                           yylval->rvalue.bit_width =3D 32;
-> +                           yylval->rvalue.is_dotnew =3D false;
-> +                           yylval->rvalue.signedness =3D SIGNED;
-> +                           return REG; }
-
-> +"in R"{REG_ID_32}"V" {
-> +                           yylval->rvalue.type =3D REGISTER_ARG;
-> +                           yylval->rvalue.reg.type =3D GENERAL_PURPOSE;
-> +                           yylval->rvalue.reg.id =3D yytext[4];
-> +                           yylval->rvalue.reg.bit_width =3D 32;
-> +                           yylval->rvalue.bit_width =3D 32;
-> +                           yylval->rvalue.is_dotnew =3D false;
-> +                           yylval->rvalue.signedness =3D SIGNED;
-> +                           return RREG; }
-
-Are you dropping the "in" here?  This looks the same as the "R"(REG_ID_32}"=
-V" case.
-
-Ditto for all the ones below ...
-
-> +"in R"{REG_ID_64}"V" {
-> +                           yylval->rvalue.type =3D REGISTER_ARG;
-> +                           yylval->rvalue.reg.type =3D GENERAL_PURPOSE;
-> +                           yylval->rvalue.reg.id =3D yytext[4];
-> +                           yylval->rvalue.reg.bit_width =3D 64;
-> +                           yylval->rvalue.bit_width =3D 64;
-> +                           yylval->rvalue.is_dotnew =3D false;
-> +                           yylval->rvalue.signedness =3D SIGNED;
-> +                           return RREG; }
-> +"in N"{REG_ID_32}"N" {
-> +                           yylval->rvalue.type =3D REGISTER_ARG;
-> +                           yylval->rvalue.reg.type =3D DOTNEW;
-> +                           yylval->rvalue.reg.id =3D yytext[4];
-> +                           yylval->rvalue.reg.bit_width =3D 32;
-> +                           yylval->rvalue.bit_width =3D 32;
-> +                           yylval->rvalue.is_dotnew =3D true;
-> +                           yylval->rvalue.signedness =3D SIGNED;
-> +                           return RREG; }
-> +"in N"{REG_ID_64}"N" {
-> +                           yylval->rvalue.type =3D REGISTER_ARG;
-> +                           yylval->rvalue.reg.type =3D DOTNEW;
-> +                           yylval->rvalue.reg.id =3D yytext[4];
-> +                           yylval->rvalue.reg.bit_width =3D 64;
-> +                           yylval->rvalue.bit_width =3D 64;
-> +                           yylval->rvalue.is_dotnew =3D true;
-> +                           yylval->rvalue.signedness =3D SIGNED;
-> +                           return RREG; }
-> +"in P"{LOWER_PRE}"V" {
-> +                           yylval->rvalue.type =3D PREDICATE;
-> +                           yylval->rvalue.pre.id =3D yytext[4];
-> +                           yylval->rvalue.bit_width =3D 32;
-> +                           yylval->rvalue.is_dotnew =3D false;
-> +                           yylval->rvalue.signedness =3D SIGNED;
-> +                           return RPRE; }
-> +"in P"{LOWER_PRE}"N" {
-> +                           yylval->rvalue.type =3D PREDICATE;
-> +                           yylval->rvalue.pre.id =3D yytext[4];
-> +                           yylval->rvalue.bit_width =3D 32;
-> +                           yylval->rvalue.is_dotnew =3D true;
-> +                           yylval->rvalue.signedness =3D SIGNED;
-> +                           return RPRE; }
-> +"in MuV" {
-> +                           yylval->rvalue.type =3D REGISTER_ARG;
-> +                           yylval->rvalue.reg.type =3D MODIFIER;
-> +                           yylval->rvalue.reg.id =3D 'u';
-> +                           yylval->rvalue.reg.bit_width =3D 32;
-> +                           yylval->rvalue.bit_width =3D 32;
-> +                           yylval->rvalue.signedness =3D SIGNED;
-> +                           return RREG; }
-> +"in C"{REG_ID_32}"V" {
-> +                           yylval->rvalue.type =3D REGISTER_ARG;
-> +                           yylval->rvalue.reg.type =3D CONTROL;
-> +                           yylval->rvalue.reg.id =3D yytext[4];
-> +                           yylval->rvalue.reg.bit_width =3D 32;
-> +                           yylval->rvalue.bit_width =3D 32;
-> +                           yylval->rvalue.is_dotnew =3D false;
-> +                           yylval->rvalue.signedness =3D SIGNED;
-> +                           return RREG; }
-> +"in C"{REG_ID_64}"V" {
-> +                           yylval->rvalue.type =3D REGISTER_ARG;
-> +                           yylval->rvalue.reg.type =3D CONTROL;
-> +                           yylval->rvalue.reg.id =3D yytext[4];
-> +                           yylval->rvalue.reg.bit_width =3D 64;
-> +                           yylval->rvalue.bit_width =3D 64;
-> +                           yylval->rvalue.is_dotnew =3D false;
-> +                           yylval->rvalue.signedness =3D SIGNED;
-> +                           return RREG; }
+> diff --git a/target/hexagon/idef-parser/macros.inc b/target/hexagon/idef-
+> parser/macros.inc
+> new file mode 100644
+> index 0000000000..20535691e8
+> --- /dev/null
+> +++ b/target/hexagon/idef-parser/macros.inc
 
 
-> +"fGEN_TCG_"{INST_NAME}"(" { return FWRAP; }
+> +/* Ease parsing */
 
-When would one of these need to be parsed?
+> +#define fADDSAT64(DST, A, B)                                            =
+\
+> +    __a =3D fCAST8u(A);                                                 =
+  \
+> +    __b =3D fCAST8u(B);                                                 =
+  \
+> +    __sum =3D __a + __b;                                                =
+  \
+> +    __xor =3D __a ^ __b;                                                =
+  \
+> +    __mask =3D fCAST8s(0x8000000000000000ULL);                          =
+  \
+> +    if (((__a ^ __b) | ~(__a ^ __sum)) & __mask) {                      =
+\
+> +        DST =3D __sum;                                                  =
+  \
+> +    } else {                                                            =
+\
+> +        DST =3D ((__sum & __mask) >> 63) + __mask;                      =
+  \
+> +        fSET_OVERFLOW();                                                =
+\
+> +    }
 
-> +"fNEWREG"                |
-> +"fCAST4s"                { yylval->cast.bit_width =3D 32;
-> +                           yylval->cast.signedness =3D SIGNED;
-> +                           return CAST; }
+There are a bunch of these with pretty complex semantics.  Wouldn't it be e=
+asier to recognize them in the parser and call a hand-written helper?
 
-This doesn't look right - is fNEWREG the same as fCAST4s?
+> +/* Assignments */
+> +#define fPCALIGN(IMM) (IMM =3D IMM & ~3)
+> +#define fWRITE_LR(A) (LR =3D A)
+> +#define fWRITE_FP(A) (FP =3D A)
+> +#define fWRITE_SP(A) (SP =3D A)
+> +#define fBRANCH(LOC, TYPE) (PC =3D LOC)
+> +#define fJUMPR(REGNO, TARGET, TYPE) (PC =3D TARGET)
 
+This should invoke write_new_pc because there may be more than one in the s=
+ame packet.
 
-> +"fNEWREG_ST"             |
-> +"fIMMEXT"                |
-> +"fMUST_IMMEXT"           |
-> +"fCAST2_2s"              |
-> +"fCAST2_2u"              |
-> +"fCAST4_4s"              |
-> +"fCAST8_8s"              |
-> +"fZE8_16"                |
-> +"fSE8_16"                |
-> +"fZE16_32"               |
-> +"fSE16_32"               |
-> +"fZE32_64"               |
-> +"fPASS"                  |
-> +"fECHO"                  { return IDENTITY; }
+> +fWRITE_NPC(VAL) (PC =3D VAL)
 
-The fCAST, fZE, and fSE macros are not the same as identity.
+Ditto
 
-=20
-> +"fCONSTLL"               { return CONSTLL; }
-> +"fCONSTULL"              { return CONSTULL; }
+> +/* Binary operators */
+> +#define fADD128(A, B) (A + B)
+> +#define fSUB128(A, B) (A - B)
+> +#define fSHIFTR128(A, B) (size8s_t) (A >> B)
+> +#define fSHIFTL128(A, B) (A << B)
+> +#define fAND128(A, B) (A & B)
 
-These can just be converts.
-
-> +"fHINTJR(RsV)"           { /* Emit no token */ }
-
-Put this in the list of IDENTITY above
-
+Will these operate on 128 bit numbers?
 
 
