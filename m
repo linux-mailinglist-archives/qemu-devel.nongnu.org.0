@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429AD402FF3
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 22:52:42 +0200 (CEST)
-Received: from localhost ([::1]:41512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 519DD40307D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 23:56:19 +0200 (CEST)
+Received: from localhost ([::1]:58540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNi5B-0001dF-BJ
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 16:52:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52556)
+	id 1mNj4j-0008GB-FS
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 17:56:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mNi3j-0000B5-Tp
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 16:51:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48358)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mNi3i-0000at-9W
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 16:51:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631047869;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7ea0YrZzNh2cxGzxg/Hi7cS2t0+zrRZIJlkN4uP9Mr8=;
- b=clJnCNIWMaADCxQ8LE4niTR8Py32SJ6lOGvwNF9ut1mGmaFHpskdaxRrczg+WUEJUuNHjW
- YIV2XrsKIW4RIvYCeZ+rxo1qkwgqUt1yUcRaaxzSPZq8nR4pfH/QJGWNcbel3pTQdfPrs+
- 6w33H/vecNqIFHk41EWJhr9Qa5kbbBY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-Vep7hNc5MK2br-40Y3KZhw-1; Tue, 07 Sep 2021 16:51:06 -0400
-X-MC-Unique: Vep7hNc5MK2br-40Y3KZhw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7081C107ACCA;
- Tue,  7 Sep 2021 20:51:05 +0000 (UTC)
-Received: from redhat.com (ovpn-112-95.phx2.redhat.com [10.3.112.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A60CB60657;
- Tue,  7 Sep 2021 20:51:04 +0000 (UTC)
-Date: Tue, 7 Sep 2021 15:51:02 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 9/9] iotests: add nbd-reconnect-on-open test
-Message-ID: <20210907205102.abygnjuqy63g7i2p@redhat.com>
-References: <20210906190654.183421-1-vsementsov@virtuozzo.com>
- <20210906190654.183421-10-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2E-0005V2-7w
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:42 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:36447)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2B-0000eh-7e
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:42 -0400
+Received: by mail-io1-xd41.google.com with SMTP id q3so476095iot.3
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:53:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=N20YvA1C4BgaRLZdR/cTp4GoIaZmAGNgGa9SKivdIro=;
+ b=yn6aMixxtRHWaURat/iyd3CK2oeMbQm6317Rg8CkkBBruDmBCUL8brJRtDugnx3wmr
+ t27zGejTFMH8sz+hs8ZcxeaYU+PZ/M4FpO54HOgNfASSwZfD/w6MOKJEuutHp0SQ49iT
+ ZymNfFK2spWyUpX1Qu1qLPNrQFqcT68HFHxnOICOPC0YyWjrpq+2KjyuZXsrWLcxQVEw
+ H5V9VTMtGqDD8qg9FkfGvK8vipfd+D/DgzxxKCWjeETMnDvTk2GwHKyMnbYCZ4DkvLH5
+ GuV3qBxmqpPUiOiZD0ixQtU+8aNURCoi4X4Hg40Qf0IJ/aqvDSrfiY5lUbY/+p4DMhbi
+ LHDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=N20YvA1C4BgaRLZdR/cTp4GoIaZmAGNgGa9SKivdIro=;
+ b=kKkPj0/Z4jEt4iX+mGoamNy34dWRQG3wDB1UOKma+0NUqRNqljd3g5BU5C4MkpUeVH
+ 23jgJ6dsmcdIQtdm8HT5DxTGJN4fY/Zdmh6sBrc7hjJccK64V7fm2MXC190BL1UKRbzP
+ lriggIXa4GeRkUDfzv1rFU1Lki2K214gawE3ZsmN9lDhRQ6nlZyhHwQYFUurd6tyRXWW
+ TvZKgx0+bNEvnRWnOLIBfM6Y8fDiAes4oDqhTbn4IygRr7INE0mBz0xhdJsyy2TSV8Nv
+ hXVgNIUdWNou/pTgRUW2txB4wQrTWyYqGDC1B3ILVxHCRYGEc6i9kdVdZmd19M0vcZqC
+ U9qQ==
+X-Gm-Message-State: AOAM532QVPLsHs+nHNElGN+mTh07B/ApBqRarTKKW9/G5iiqbgiS4lvM
+ uxuS9dXqGJdk3PZOx0vtpvJ++WmkA1UUxWsA7O8=
+X-Google-Smtp-Source: ABdhPJxs7LqsMokaCzOLaC3IK1rePhzvojliPSQbdqWplywg30TzZVM+6p9oCoO2EfEssoYxk3yrkA==
+X-Received: by 2002:a02:95ee:: with SMTP id b101mr454017jai.96.1631051616811; 
+ Tue, 07 Sep 2021 14:53:36 -0700 (PDT)
+Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
+ [50.253.99.174])
+ by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Sep 2021 14:53:36 -0700 (PDT)
+From: imp@bsdimp.com
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/42] bsd-user updates to run hello world
+Date: Tue,  7 Sep 2021 15:52:50 -0600
+Message-Id: <20210907215332.30737-1-imp@bsdimp.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <20210906190654.183421-10-vsementsov@virtuozzo.com>
-User-Agent: NeoMutt/20210205-739-420e15
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd41.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,103 +80,255 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- armbru@redhat.com, hreitz@redhat.com, den@openvz.org
+Cc: kevans@freebsd.org, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 06, 2021 at 10:06:54PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  .../qemu-iotests/tests/nbd-reconnect-on-open  | 71 +++++++++++++++++++
->  .../tests/nbd-reconnect-on-open.out           | 11 +++
->  2 files changed, 82 insertions(+)
->  create mode 100755 tests/qemu-iotests/tests/nbd-reconnect-on-open
->  create mode 100644 tests/qemu-iotests/tests/nbd-reconnect-on-open.out
+From: Warner Losh <imp@bsdimp.com>
 
-I'm less confident in my review of the python code, but...
+The following changes since commit f214d8e0150766c31172e16ef4b17674f549d852:
 
-> 
-> diff --git a/tests/qemu-iotests/tests/nbd-reconnect-on-open b/tests/qemu-iotests/tests/nbd-reconnect-on-open
-> new file mode 100755
-> index 0000000000..7ee9bce947
-> --- /dev/null
-> +++ b/tests/qemu-iotests/tests/nbd-reconnect-on-open
-> @@ -0,0 +1,71 @@
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210826' into staging (2021-08-26 18:03:57 +0100)
 
-> +
-> +def create_args(open_timeout):
-> +    return ['--image-opts', '-c', 'read 0 1M',
-> +            f'driver=nbd,open-timeout={open_timeout},'
-> +            f'server.type=unix,server.path={nbd_sock}']
-> +
-> +
-> +def check_fail_to_connect(open_timeout):
-> +    log(f'Check fail to connect with {open_timeout} seconds of timeout')
-> +
-> +    start_t = time.time()
-> +    qemu_io_log(*create_args(open_timeout))
-> +    delta_t = time.time() - start_t
-> +
-> +    max_delta = open_timeout + 0.2
+are available in the Git repository at:
 
-Is this fractional delay going to bite us on heavily-loaded CI machines?
+  https://gitlab.com/bsdimp/qemu.git tags/bsd-user-pull-20210907-tag
 
-> +    if open_timeout <= delta_t <= max_delta:
-> +        log(f'qemu_io finished in {open_timeout}..{max_delta} seconds, OK')
-> +    else:
-> +        note = 'too early' if delta_t < open_timeout else 'too long'
-> +        log(f'qemu_io finished in {delta_t:.1f} seconds, {note}')
-> +
-> +
-> +qemu_img_create('-f', iotests.imgfmt, disk, '1M')
-> +
-> +# Start NBD client when NBD server is not yet running. It should not fail, but
-> +# wait for 5 seconds for the server to be available.
-> +client = qemu_io_popen(*create_args(5))
-> +
-> +time.sleep(1)
-> +qemu_nbd('-k', nbd_sock, '-f', iotests.imgfmt, disk)
-> +
-> +# client should succeed
-> +log(client.communicate()[0], filters=[iotests.filter_qemu_io])
-> +
-> +# Server was started without --persistent flag, so it should be off now. Let's
-> +# check it and it the same time check that with open-timeout=0 client fails
+for you to fetch changes up to dc96376e46a52ac63a27ea185c3f0a6fd54e3c82:
 
-check it and at
+  bsd-user: Update mapping to handle reserved and starting conditions (2021-09-07 08:26:53 -0600)
 
-> +# immediately.
-> +check_fail_to_connect(0)
-> +
-> +# Check that we will fail after non-zero timeout if server is still unavailable
-> +check_fail_to_connect(1)
-> diff --git a/tests/qemu-iotests/tests/nbd-reconnect-on-open.out b/tests/qemu-iotests/tests/nbd-reconnect-on-open.out
-> new file mode 100644
-> index 0000000000..a35ae30ea4
-> --- /dev/null
-> +++ b/tests/qemu-iotests/tests/nbd-reconnect-on-open.out
-> @@ -0,0 +1,11 @@
-> +read 1048576/1048576 bytes at offset 0
-> +1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-> +
-> +Check fail to connect with 0 seconds of timeout
-> +qemu-io: can't open: Failed to connect to 'TEST_DIR/PID-nbd-sock': No such file or directory
-> +
-> +qemu_io finished in 0..0.2 seconds, OK
-> +Check fail to connect with 1 seconds of timeout
-> +qemu-io: can't open: Failed to connect to 'TEST_DIR/PID-nbd-sock': No such file or directory
-> +
-> +qemu_io finished in 1..1.2 seconds, OK
+----------------------------------------------------------------
 
-Overall, the test looks like a nice demonstration of the feature: you
-are showing that the client can now start before the server, and that
-the retry for N seconds is handled gracefully both by the creation of
-the server and by the expiration of the retry timeout.
+This series of patches gets me to the point that I can run "Hello World" on i386
+and x86_64. This is for static binaries only, that are relatively small, but
+it's better than the 100% instant mmap failre that is the current state of all
+things bsd-user in upstream qemu. Future patch sets will refine this, add
+the missing system calls, fix bugs preventing more sophisticated programms
+from running and add a bunch of new architecture support.
+
+There's three large themes in these patches, though the changes that
+represent them are interrelated making it hard to separate out further.
+1. Reorganization to support multiple OS and architectures (though I've only
+   tested FreeBSD, other BSDs might not even compile yet).
+2. Diff reduction with the bsd-user fork for several files. These diffs include
+   changes that borrowed from linux-user as well as changes to make things work
+   on FreeBSD. The records keeping when this was done, however, was poor at
+   best, so many of the specific borrowings are going unacknowledged here, apart
+   from this general ack. These diffs also include some minor code shuffling.
+   Some of the changes are done specifically to make it easier to rebase
+   the bsd-user fork's changes when these land in the tree (a number of changes
+   have been pushed there to make this more possible).
+3. Filling in the missing pieces to make things work. There's many changes to
+   elfload to make it load things in the right places, to find the interpreter
+   better, etc. There's changes to mmap.c to make the mappings work better and
+   there's changes to main.c that were inspired, at least, by now-ancient changes
+   to linux-user's main.c.
+
+I ran checkpatch.pl on this, and there's 350-odd errors it identifies (the vast
+majoirty come from BSD's fetish for tabs), so there will need to be a V2 to fix
+this at the very least. In addition, the change set is big (about +~4.5k/-~2.5k
+lines), so I anticipate some iteration as well just based on its sheer
+size. I've tried to keep each set small to make it easy to review in isolation,
+but I've also allowed some interrelated ones to get a little bigger than I'd
+normally like. I've not done the customary documentation of the expected
+checkpatch.pl output because it is large, and because I wanted to get review
+of the other parts rolling to get this project unstuck. Future versions of the
+patch will document the expected output.
+
+In addition, I noticed a number of places where I could modernize to make the
+code match things like linux-user better. I've resisted the urge to do these at
+this time, since it would complicate merging the other ~30k lines of diff that
+remains after this batch. Future batches should generally be smaller once this
+one has landed since they are, by and large, either a bunch of new files to
+support armv7, aarch64, riscv64, mips, mipsel, mips64, ppc, ppc64 and ppc64le,
+or are adding system calls, which can be done individually or small groups. I've
+removed sparc and sparc64 support as they've been removed from FreeBSD and
+have been near totally busted for years.
+
+Stacey Son did the bulk of this work originally, but since I had to move things
+around so much and/or retool that work in non-trivial ways, I've kept myself as
+author, and added his signed-off-by line. I'm unsure of the qemu standard
+practice for this, but am happy to learn if this is too far outside its current
+mainstream. For a while Sean Bruno did the merges from upstream, and he's
+credited using his signed-off-by in appropriate places, though for this patch
+set there's only a few. I've tried to ensure that others who have work in
+individual patches that I've aggregated together also are reflected in their
+signed-off-by. Given the chaotic stat of the upstream repo for its early
+history, this may be the best that can be reconstructed at this late date. Most
+of these files are 'foundational' so have existed from the earliest days when
+record keeping wasn't quite what I'd wish for in hindsight. There was only
+really one change that I could easily cherry-pick (Colin's), so I did that.
+
+v2: rejected patches dropped
+    Use suggested glibc routines
+    Updated to be closer to qemu style
+    Disable bsd-user on netbsd and openbsd since they don't compile
+    fold together a couple of related changes
+    [[ tagged the review-by and acked-by from last series, but by hand...
+      I think I got them all... ]]
+
+v3: Fix a bug in refactoring load_elf_sections and is_target_elf_binary
+    Fix spelling errors in commit messages
+    drop copy_cpu() patch until we use that function
+    reword a few commit messages to make them clearer
+    fix return value of setup_sigtramp to be 0 after #ifdef elimination
+    Add patch to initialize random state and implement --seed
+    Fix a boatload of style issues.
+    Rebase to tip of master
+
+NOTE: checkpatch.pl will have several warning about line length > 80 and
+admonishment to not use architecture specific defines. The slightly long lines
+look a lot better than wrapping and the arch specific defines are basically
+required (one could wrap them, and I plan to in the future once I've pruned the
+obsolete ones in a future patch set: there's so many that errors would crop up
+if I were to do it now).
+
+Warner
+
+Colin Percival (1):
+  bsd-user: Add '-0 argv0' option to bsd-user/main.c
+
+Warner Losh (41):
+  bsd-user: remove sparc and sparc64
+  bsd-user: add copyright header to elfload.c
+  bsd-user: Add Stacey's copyright to main.c
+  bsd-user: add license to bsdload.c
+  bsd-user: style nits: bsdload.c whitespace to qemu standard
+  bsd-user: Remove all non-x86 code from elfload.c
+  bsd-user: move arch specific defines out of elfload.c
+  bsd-user: pass the bsd_param into loader_exec
+  bsd-user: Fix calculation of size to allocate
+  bsd-user: implement path searching
+  bsd-user: Eliminate elf personality
+  bsd-user: remove a.out support
+  bsd-user: TARGET_NGROUPS unused in this file, remove
+  bsd-user: elfload: simplify bswap a bit.
+  bsd-user: assume pthreads and support of __thread
+  bsd-user: add host-os.h
+  bsd-user: Include host-os.h from main
+  bsd-user: save the path to the qemu emulator
+  bsd-user: start to move target CPU functions to target_arch*
+  bsd-user: Move per-cpu code into target_arch_cpu.h
+  bsd-user: pull in target_arch_thread.h update target_arch_elf.h
+  bsd-user: Include more things in qemu.h
+  bsd-user: define max args in terms of pages
+  bsd-user: Create target specific vmparam.h
+  bsd-user: Add system independent stack, data and text limiting
+  bsd-user: *BSD specific siginfo defintions
+  bsd-user: Implement --seed and initialize random state
+  bsd-user: Move stack initializtion into a per-os file.
+  bsd-user: Add architecture specific signal tramp code
+  bsd-user: elf cleanup
+  bsd-user: Remove dead #ifdefs from elfload.c
+  bsd-user: Rewrite target system call definintion glue
+  bsd-user: update debugging in mmap.c
+  bsd-user: Add target_arch_reg to describe a target's register set
+  bsd-user: Add target_os_user.h to capture the user/kernel structures
+  bsd-user: add stubbed out core dump support
+  bsd-user: elfload.c style catch up patch
+  bsd-user: Refactor load_elf_sections and is_target_elf_binary
+  bsd-user: move gemu_log to later in the file
+  bsd-user: Implement interlock for atomic operations
+  bsd-user: Update mapping to handle reserved and starting conditions
+
+ bsd-user/bsd-mman.h                           |  121 --
+ bsd-user/bsdload.c                            |  104 +-
+ bsd-user/elfcore.c                            |   10 +
+ bsd-user/elfload.c                            | 1469 +++++------------
+ bsd-user/freebsd/host-os.h                    |   25 +
+ bsd-user/freebsd/target_os_elf.h              |  137 ++
+ bsd-user/freebsd/target_os_siginfo.h          |  145 ++
+ bsd-user/freebsd/target_os_signal.h           |   78 +
+ bsd-user/freebsd/target_os_stack.h            |  181 ++
+ bsd-user/freebsd/target_os_thread.h           |   25 +
+ bsd-user/freebsd/target_os_user.h             |  427 +++++
+ bsd-user/freebsd/target_os_vmparam.h          |   38 +
+ .../target_syscall.h => i386/target_arch.h}   |   27 +-
+ bsd-user/i386/target_arch_cpu.c               |   76 +
+ bsd-user/i386/target_arch_cpu.h               |  209 +++
+ bsd-user/i386/target_arch_elf.h               |   35 +
+ bsd-user/i386/target_arch_reg.h               |   82 +
+ bsd-user/i386/target_arch_signal.h            |   94 ++
+ bsd-user/i386/target_arch_sigtramp.h          |   29 +
+ bsd-user/i386/target_arch_thread.h            |   47 +
+ bsd-user/i386/target_arch_vmparam.h           |   46 +
+ bsd-user/main.c                               |  832 ++--------
+ bsd-user/mmap.c                               |  472 +++++-
+ bsd-user/netbsd/host-os.h                     |   25 +
+ bsd-user/netbsd/target_os_elf.h               |  146 ++
+ bsd-user/netbsd/target_os_siginfo.h           |   82 +
+ bsd-user/netbsd/target_os_signal.h            |   69 +
+ bsd-user/netbsd/target_os_stack.h             |   56 +
+ bsd-user/netbsd/target_os_thread.h            |   25 +
+ bsd-user/openbsd/host-os.h                    |   25 +
+ bsd-user/openbsd/target_os_elf.h              |  146 ++
+ bsd-user/openbsd/target_os_siginfo.h          |   82 +
+ bsd-user/openbsd/target_os_signal.h           |   69 +
+ bsd-user/openbsd/target_os_stack.h            |   56 +
+ bsd-user/openbsd/target_os_thread.h           |   25 +
+ bsd-user/qemu.h                               |   63 +-
+ bsd-user/sparc/target_arch_sysarch.h          |   52 -
+ bsd-user/sparc64/target_arch_sysarch.h        |   52 -
+ bsd-user/syscall.c                            |   11 -
+ bsd-user/syscall_defs.h                       |  255 +--
+ .../target_syscall.h => x86_64/target_arch.h} |   28 +-
+ bsd-user/x86_64/target_arch_cpu.c             |   76 +
+ bsd-user/x86_64/target_arch_cpu.h             |  247 +++
+ bsd-user/x86_64/target_arch_elf.h             |   35 +
+ bsd-user/x86_64/target_arch_reg.h             |   92 ++
+ bsd-user/x86_64/target_arch_signal.h          |   94 ++
+ bsd-user/x86_64/target_arch_sigtramp.h        |   29 +
+ bsd-user/x86_64/target_arch_thread.h          |   40 +
+ bsd-user/x86_64/target_arch_vmparam.h         |   46 +
+ configure                                     |    7 +-
+ meson.build                                   |    7 +-
+ slirp                                         |    2 +-
+ 52 files changed, 4387 insertions(+), 2264 deletions(-)
+ delete mode 100644 bsd-user/bsd-mman.h
+ create mode 100644 bsd-user/elfcore.c
+ create mode 100644 bsd-user/freebsd/host-os.h
+ create mode 100644 bsd-user/freebsd/target_os_elf.h
+ create mode 100644 bsd-user/freebsd/target_os_siginfo.h
+ create mode 100644 bsd-user/freebsd/target_os_signal.h
+ create mode 100644 bsd-user/freebsd/target_os_stack.h
+ create mode 100644 bsd-user/freebsd/target_os_thread.h
+ create mode 100644 bsd-user/freebsd/target_os_user.h
+ create mode 100644 bsd-user/freebsd/target_os_vmparam.h
+ rename bsd-user/{sparc/target_syscall.h => i386/target_arch.h} (60%)
+ create mode 100644 bsd-user/i386/target_arch_cpu.c
+ create mode 100644 bsd-user/i386/target_arch_cpu.h
+ create mode 100644 bsd-user/i386/target_arch_elf.h
+ create mode 100644 bsd-user/i386/target_arch_reg.h
+ create mode 100644 bsd-user/i386/target_arch_signal.h
+ create mode 100644 bsd-user/i386/target_arch_sigtramp.h
+ create mode 100644 bsd-user/i386/target_arch_thread.h
+ create mode 100644 bsd-user/i386/target_arch_vmparam.h
+ create mode 100644 bsd-user/netbsd/host-os.h
+ create mode 100644 bsd-user/netbsd/target_os_elf.h
+ create mode 100644 bsd-user/netbsd/target_os_siginfo.h
+ create mode 100644 bsd-user/netbsd/target_os_signal.h
+ create mode 100644 bsd-user/netbsd/target_os_stack.h
+ create mode 100644 bsd-user/netbsd/target_os_thread.h
+ create mode 100644 bsd-user/openbsd/host-os.h
+ create mode 100644 bsd-user/openbsd/target_os_elf.h
+ create mode 100644 bsd-user/openbsd/target_os_siginfo.h
+ create mode 100644 bsd-user/openbsd/target_os_signal.h
+ create mode 100644 bsd-user/openbsd/target_os_stack.h
+ create mode 100644 bsd-user/openbsd/target_os_thread.h
+ delete mode 100644 bsd-user/sparc/target_arch_sysarch.h
+ delete mode 100644 bsd-user/sparc64/target_arch_sysarch.h
+ rename bsd-user/{sparc64/target_syscall.h => x86_64/target_arch.h} (59%)
+ create mode 100644 bsd-user/x86_64/target_arch_cpu.c
+ create mode 100644 bsd-user/x86_64/target_arch_cpu.h
+ create mode 100644 bsd-user/x86_64/target_arch_elf.h
+ create mode 100644 bsd-user/x86_64/target_arch_reg.h
+ create mode 100644 bsd-user/x86_64/target_arch_signal.h
+ create mode 100644 bsd-user/x86_64/target_arch_sigtramp.h
+ create mode 100644 bsd-user/x86_64/target_arch_thread.h
+ create mode 100644 bsd-user/x86_64/target_arch_vmparam.h
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.32.0
 
 
