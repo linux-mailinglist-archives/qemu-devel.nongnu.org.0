@@ -2,80 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB764027B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 13:22:19 +0200 (CEST)
-Received: from localhost ([::1]:53420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A63D4027BF
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 13:27:59 +0200 (CEST)
+Received: from localhost ([::1]:56080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNZBC-0003j1-Pp
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 07:22:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56424)
+	id 1mNZGg-0005j0-50
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 07:27:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mNZ8t-0001av-Rt
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:19:55 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:36836)
+ (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
+ id 1mNZFW-00054Q-C7
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:26:46 -0400
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:42802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mNZ8s-0007Gq-3P
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:19:55 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- l18-20020a05600c4f1200b002f8cf606262so1073121wmq.1
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 04:19:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
+ id 1mNZFU-0002H3-WA
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:26:46 -0400
+Received: by mail-io1-xd2c.google.com with SMTP id b10so12224375ioq.9
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 04:26:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PIz/0Kaysz5qP+i3bh1t2bvemo5YvREvyMKBvAmNMlY=;
- b=QOjvjRStuMEm5BTgLJbWn4Ub7F5I22x2YJAro1ks2cKxDCOZTn3Ps9ZynUswPZGH1k
- /jkT1GBcsKvGi7TAaNo52Gl+hD6iwAa+crPXluWP+GddnVamUi4BINqS6Z302iqasNDO
- y4hd/jN9OPvwkNQHeo2sRkrh0ZrXPRnmBMLaOwGrMTGKSlguxFUcbQLojlt4aWag6mQA
- tJdKMl3XRY7z1P5ZPihAk4505vJdUvXj7TvAYX5ZXFSvunOeh3Vov/3cud73Dv8OHabF
- YCewHAsLDicjCHJLmy+/yCSGdtTej4G+jaFacZu0wkLVNYsSh05Vr00DTBLf+KSANiej
- Cseg==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=OEWruaq3Ry+rktsp8xR2ol0M8XsGtzUdeTacvUYhZss=;
+ b=ARM6M4d0MXzsJ8Gnv6AvuH1ijFltt/cgLbgKUOcL5MZaf5wXV1bmht5yQqI/GeS1/o
+ s8AcsvUeUcqaesvyC+LyzAvZk94M9dmCz4taTsZotg89X1cMF78MiB3RJBZqIPP7crZg
+ rjeDgJir56Blk5D1dabeUl6hPuV7FTU1ZftHWvvgV2uqYUkY8albpArdmqOha7SronSi
+ 6llq7OsEXO7E1J7BOW0hoeXy+RJRsIp5o/0TrIWc43Qs6KLpGeO8YsAGNLhmr9sG4EbF
+ Kq0Ap0O6ZfCD7JlqVI7fqqnHmO3Yv5+6oslqEWowUtmJs63L1xyRM6kuSD7NKQu25xwC
+ a11g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PIz/0Kaysz5qP+i3bh1t2bvemo5YvREvyMKBvAmNMlY=;
- b=Cqgku44tYRcBtYq/4VBd5poV6LJYA9biojgYToeR6aZSOipV466vhWr9cMrmc9HKIm
- uXKoShX2TpNRXBdl4mqkf7xu/DH9czOrK11YvGNfxreP2fkpY1VadbMyPcShmQK8JKyE
- vk8pCnuAxT9OmCdjVVfaR/EiB6xmrddmXXrbuCmoDraxWc5uxModdzcaS8gpliKE4P6S
- dR910bTNvhxfFTFd0ZZ/x1II52Kqi8wsuA1ILE2ioJBk+p0Mf1UIlXQlTQTeq1xgnu/0
- mf4pvmGiVBy5afwvwyILgY/BXP2uMcw/DiF0tA2rddv6bmYVW8lg0FkLMvm0CX3liYaL
- k/mw==
-X-Gm-Message-State: AOAM531M3FAl/XI4qW+R5Ifk5kU0nmYAgRehIjEEq8q9P2XJehv05TSg
- eAjbBycmsyZRUxiGbbjNXFo=
-X-Google-Smtp-Source: ABdhPJzTkLoRVBURgMZXTIOl+EJKffj4Bu03buA2kRLcjojhDUCIyhyy15vpsJGf+jTBRjXjFySsEA==
-X-Received: by 2002:a1c:f60c:: with SMTP id w12mr3435777wmc.3.1631013591540;
- Tue, 07 Sep 2021 04:19:51 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id v10sm2261687wrg.15.2021.09.07.04.19.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Sep 2021 04:19:51 -0700 (PDT)
-Subject: Re: [PATCH] linux-user: Correct host errno for IP[V6]_RECVERR socket
- options
-To: qemu-devel@nongnu.org
-References: <20210907111313.1880866-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <1eb2a320-67cd-8a1c-62e6-6c2afa3dd580@amsat.org>
-Date: Tue, 7 Sep 2021 13:19:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=OEWruaq3Ry+rktsp8xR2ol0M8XsGtzUdeTacvUYhZss=;
+ b=p65hUi7pZ+zuxab6RiA4kue7MtvEI1XRApHkGtYc8n9x9pg/l/o1vHl/vgCDmSAgEJ
+ Rinp8U4X77oy4WsTbKs3qhe5xldeUOYiVQnZNAA588plBw7pSWoaM0xErfGzw4bxbkFW
+ /5kiFbFyoGZ9YVi8yEmpB47YP9cyG0PYLQ+td8srj/sz97bg5E9ugAITiiwJ00miWTMA
+ MyZu7nYcSTh0BiWc8/VjT98pwbRnIyhGyzcIH44X12fPrz7p36bVbajZ1Iywt6OL8nlG
+ R6VpXci/T7U+gJCwF+eo5vbcz/PjfJshsR/02Q/Ei2jeZhp4cdxSrbryvZNdp8Dbn94L
+ Pj/g==
+X-Gm-Message-State: AOAM533QTt9wFMw319g5F6P0RRJunHTLaYeH+FqZZQ4VB4rPzERnT0Qr
+ 1tl2sJ+fs8wHAtSgqivzlLltJlfXWa70VdMUEbFuw6l/008=
+X-Google-Smtp-Source: ABdhPJwaX88wdnXhFjVK31FTzgLDbDWyQSipzmvS44fmzf608NhfkgGVApyxafuvupZ8B3eUtTzn+syyShrIiIrYUpE=
+X-Received: by 2002:a5e:8711:: with SMTP id y17mr13302941ioj.16.1631014002691; 
+ Tue, 07 Sep 2021 04:26:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210907111313.1880866-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.332,
+From: Duo jia <jiaduo19920301@gmail.com>
+Date: Tue, 7 Sep 2021 19:26:31 +0800
+Message-ID: <CALUzjTbw0m-n0wmqYPw9C_SFVrCYvqOde6qUsB40FMM9BVPHZg@mail.gmail.com>
+Subject: Application of QEMUTimer in short timing.
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000004112ac05cb660ade"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=jiaduo19920301@gmail.com; helo=mail-io1-xd2c.google.com
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) BAYES_40=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,48 +74,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>,
- Conrad Meyer <cem@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/7/21 1:13 PM, Philippe Mathieu-Daudé wrote:
-> Target errno should be converted to host errno in IP_RECVERR
-> and IPV6_RECVERR socket options.
+--0000000000004112ac05cb660ade
+Content-Type: text/plain; charset="UTF-8"
 
-I meant "Host errno must be converted to target errno ..."
+In the controller, QEMUTimer will be used in the implementation of timer
+simulation.
 
-> Fixes: ee1ac3a1822 ("linux-user: Add sockopts for IPv6")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/602
-> Reported-by: Conrad Meyer <cem@FreeBSD.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  linux-user/syscall.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index ccd3892b2df..edc9d6b5ba2 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -1967,7 +1967,8 @@ static inline abi_long host_to_target_cmsg(struct target_msghdr *target_msgh,
->                      tgt_len != sizeof(struct errhdr_t)) {
->                      goto unimplemented;
->                  }
-> -                __put_user(errh->ee.ee_errno, &target_errh->ee.ee_errno);
-> +                __put_user(get_errno(errh->ee.ee_errno),
-> +                           &target_errh->ee.ee_errno);
->                  __put_user(errh->ee.ee_origin, &target_errh->ee.ee_origin);
->                  __put_user(errh->ee.ee_type,  &target_errh->ee.ee_type);
->                  __put_user(errh->ee.ee_code, &target_errh->ee.ee_code);
-> @@ -2011,7 +2012,8 @@ static inline abi_long host_to_target_cmsg(struct target_msghdr *target_msgh,
->                      tgt_len != sizeof(struct errhdr6_t)) {
->                      goto unimplemented;
->                  }
-> -                __put_user(errh->ee.ee_errno, &target_errh->ee.ee_errno);
-> +                __put_user(get_errno(errh->ee.ee_errno),
-> +                           &target_errh->ee.ee_errno);
->                  __put_user(errh->ee.ee_origin, &target_errh->ee.ee_origin);
->                  __put_user(errh->ee.ee_type,  &target_errh->ee.ee_type);
->                  __put_user(errh->ee.ee_code, &target_errh->ee.ee_code);
-> 
+I wrote an auto-loading timer with a period of 1ms and the clock source
+used is QEMU_CLOCK_VIRTUAL. But it doesn't seem to be very accurate,
+because the actual time after I accumulated it to 500 times took about
+700ms.
+
+I think qemu's code will consume some time, is it true?
+
+
+thank you ~
+
+--0000000000004112ac05cb660ade
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">In the controller, QEMUTimer will be used in the implement=
+ation of timer simulation.<br><br>I wrote an auto-loading timer with a peri=
+od of 1ms and the clock source used is QEMU_CLOCK_VIRTUAL. But it doesn&#39=
+;t seem to be very accurate, because the actual time after I accumulated it=
+ to 500 times took about 700ms.<br><br>I think qemu&#39;s code will consume=
+ some time, is it true?<div><br></div><div><br></div><div>thank you ~</div>=
+</div>
+
+--0000000000004112ac05cb660ade--
 
