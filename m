@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB85E4030DE
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 00:23:01 +0200 (CEST)
-Received: from localhost ([::1]:50552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47133403120
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 00:35:55 +0200 (CEST)
+Received: from localhost ([::1]:41994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNjUa-0002BW-W9
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 18:23:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35612)
+	id 1mNjh4-00079t-C5
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 18:35:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mNj3Z-000064-VE
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:55:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37764)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mNj3W-0001dz-82
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:55:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631051700;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oOM+yH2aoS/BsLUM3KkV/mi5LhM9wiq6wgW4sf+7SiU=;
- b=XLSZAqpQJ9CO/x0xru0oi48K0CqVca6Tn8la5fj6EC0f6FcX75qSSB5edOnvBeKKAyl6+l
- 5dp0GBjTa8xENyvYnuGaY9MsduqHLZcYqhuZgjfZiytHolx4fbiRwpS3m/M8mHo96DBqkJ
- g2ERC2AY+ifd4RKZVhjGV7oJ+HjCgu0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-83-DLKNSt7fP46P3qkAo4-exQ-1; Tue, 07 Sep 2021 17:54:57 -0400
-X-MC-Unique: DLKNSt7fP46P3qkAo4-exQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E26765122;
- Tue,  7 Sep 2021 21:54:55 +0000 (UTC)
-Received: from redhat.com (ovpn-112-95.phx2.redhat.com [10.3.112.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E21219739;
- Tue,  7 Sep 2021 21:54:43 +0000 (UTC)
-Date: Tue, 7 Sep 2021 16:54:41 -0500
-From: "eblake@redhat.com" <eblake@redhat.com>
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: Re: [PATCH v2] Prevent vhost-user-blk-test hang
-Message-ID: <20210907215441.43xzjdv6ctkurfsq@redhat.com>
-References: <20210906132508.15180-1-raphael.norwitz@nutanix.com>
-MIME-Version: 1.0
-In-Reply-To: <20210906132508.15180-1-raphael.norwitz@nutanix.com>
-User-Agent: NeoMutt/20210205-739-420e15
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ (Exim 4.90_1) (envelope-from
+ <3ieg3YQYKCkoo3m6q3s00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--crauer.bounces.google.com>)
+ id 1mNje2-0005iX-Pn
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 18:32:47 -0400
+Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:55127)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3ieg3YQYKCkoo3m6q3s00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--crauer.bounces.google.com>)
+ id 1mNjdz-0001KH-MS
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 18:32:46 -0400
+Received: by mail-yb1-xb49.google.com with SMTP id
+ y134-20020a25dc8c000000b0059f0301df0fso2888ybe.21
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 15:32:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=iF/zN+LW9GzOJqwhesSX2lWyW3wIuY03WUhR9KJ6MW8=;
+ b=sUdepdKih35Gui9BJJL+syGuEWolJg6JxNd3lR/uBCEU+Wmgb9kd72LlOOnaCwwtIp
+ kDLtzBbr50fqQ5XBDKard/RZgvjzCgMsqIPAPx+LOLtp3hawA+qx/nMfCItRDIniUJT1
+ XUoHS1t3JiKaR8LZBWpjZ/EXgTBff6BUr5VNUYE1TBB8oz3nLkDe81czap1IhYQKu7Tm
+ YHQdTq11gqnGbEMFbI1sueLrXUzQyck/PmD/zDJ1BS2VYRnnd3MBH/qTuEn+ABfuX0me
+ b9igrJ+J6ejXrHvObWSpm63q1yIQ6JxSoY6vR5495oscM+oXiOP3w9S1drst/utz5pZV
+ PW4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=iF/zN+LW9GzOJqwhesSX2lWyW3wIuY03WUhR9KJ6MW8=;
+ b=lHdVdm4C2gvoooeqXJ6PK/tpQIUIHUjDjM1DTA23Mr1+30q9mGUe8+FNwxWwML3+AO
+ OWqquFt5ToPG2KFbQkGJAMq3UcYiGiIt/suNe/fB4gm8Y6nBNADrHjkj15eY/dfhZ9HW
+ 4dEH3NSKQgOTMa1bQL9TH/c/dDLDSukEcukPZ3RuRl0SABre3GkRqYAkPFxrozupeUD/
+ C0Kl23FvRQDj2mbYpI5epqwjp7q7w2+ceYoT9pbL5q3IVMZkhSWN6DWnQY5bRP3bMObM
+ Z9v9Ib4XajjGbWGwxy3vbGNrja9s3KfsHJ5pD3W/ZiZRaFmJF8W/Q0S+qOLV3uWvbyg4
+ 8GNA==
+X-Gm-Message-State: AOAM532RgPq8TfLVSt8OUQ2+ODPS8Bmus8RTFHP+6/bmY1CXZ36MnWV+
+ XNDUZBrpBfpCLKSadDqVuauw3luSLNc=
+X-Google-Smtp-Source: ABdhPJxRm7XHVx1P3cyQ7bCkpFC0DKcovpU2t57fuHwq4H8UmJ0y/9Pv8DlX0xMfvOpXVjAQWWIjc5eSwb8=
+X-Received: from corumba.svl.corp.google.com
+ ([2620:15c:2a3:200:fc2b:9e42:37f:dcc3])
+ (user=crauer job=sendgmr) by 2002:a05:6902:154e:: with SMTP id
+ r14mr893755ybu.308.1631053961809; Tue, 07 Sep 2021 15:32:41 -0700 (PDT)
+Date: Tue,  7 Sep 2021 15:32:34 -0700
+Message-Id: <20210907223234.1165705-1-crauer@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.33.0.153.gba50c8fa24-goog
+Subject: [PATCH v2] hw/arm: Add support for kudo-bmc board.
+From: Chris Rauer <crauer@google.com>
+To: peter.maydell@linaro.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, hskinnemoen@google.com, 
+ kfting@nuvoton.com, Chris Rauer <crauer@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3ieg3YQYKCkoo3m6q3s00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--crauer.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,146 +82,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "sgarzare@redhat.com" <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 06, 2021 at 01:25:20PM +0000, Raphael Norwitz wrote:
-> In the vhost-user-blk-test, as of now there is nothing stoping
-> vhost-user-blk in QEMU writing to the socket right after forking off the
-> storage daemon before it has a chance to come up properly, leaving the
-> test hanging forever. This intermittently hanging test has caused QEMU
-> automation failures reported multiple times on the mailing list [1].
-> 
-> This change makes the storage-daemon notify the vhost-user-blk-test
-> that it is fully initialized and ready to handle client connections by
-> creating a pidfile on initialiation. This ensures that the storage-daemon
-> backend won't miss vhost-user messages and thereby resolves the hang.
-> 
-> [1] https://lore.kernel.org/qemu-devel/CAFEAcA8kYpz9LiPNxnWJAPSjc=nv532bEdyfynaBeMeohqBp3A@mail.gmail.com/
-> 
-> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-> ---
->  tests/qtest/vhost-user-blk-test.c | 33 ++++++++++++++++++++++++++++++-
->  1 file changed, 32 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
-> index 6f108a1b62..78140e6f28 100644
-> --- a/tests/qtest/vhost-user-blk-test.c
-> +++ b/tests/qtest/vhost-user-blk-test.c
-> @@ -24,6 +24,9 @@
->  #define TEST_IMAGE_SIZE         (64 * 1024 * 1024)
->  #define QVIRTIO_BLK_TIMEOUT_US  (30 * 1000 * 1000)
->  #define PCI_SLOT_HP             0x06
-> +#define PIDFILE_RETRIES         5
-> +
-> +const char *pidfile_format = "/tmp/daemon-%d";
+kudo-bmc is a board supported by OpenBMC.
+https://github.com/openbmc/openbmc/tree/master/meta-fii/meta-kudo
 
-Why is this not static?  In fact...
+Since v1:
+- hyphenated Cortex-A9
 
->  
->  typedef struct {
->      pid_t pid;
-> @@ -885,7 +888,8 @@ static void start_vhost_user_blk(GString *cmd_line, int vus_instances,
->                                   int num_queues)
->  {
->      const char *vhost_user_blk_bin = qtest_qemu_storage_daemon_binary();
-> -    int i;
-> +    int i, err, retries;
-> +    char *daemon_pidfile_path;
->      gchar *img_path;
->      GString *storage_daemon_command = g_string_new(NULL);
->      QemuStorageDaemonState *qsd;
-> @@ -898,6 +902,12 @@ static void start_vhost_user_blk(GString *cmd_line, int vus_instances,
->              " -object memory-backend-memfd,id=mem,size=256M,share=on "
->              " -M memory-backend=mem -m 256M ");
->  
-> +    err = asprintf(&daemon_pidfile_path, pidfile_format, getpid());
+Tested: Booted kudo firmware.
+Signed-off-by: Chris Rauer <crauer@google.com>
+---
+ docs/system/arm/nuvoton.rst |  1 +
+ hw/arm/npcm7xx_boards.c     | 34 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 35 insertions(+)
 
-...action at a distance makes it harder for gcc to warn about bad
-formats.  I'd just inline "/tmp/daemon-%d" here in the asprintf call,
-and drop pidfile_format altogether.
-
-Why are we using bare asprintf instead of glib's g_strdup_printf?
-
-> +    if (err == -1) {
-> +        fprintf(stderr, "Failed to format storage-daemon pidfile name %m");
-
-%m in printf is a glibc-ism; not portable to non-Linux.  Do we care?
-
-> +        abort();
-
-Rather than directly abort, since this is a glib test runner, is there
-a glib function we should be using?  For example, using
-g_assert_cmpint((err, !=, -1)?
-
-> +    }
-> +
->      for (i = 0; i < vus_instances; i++) {
->          int fd;
->          char *sock_path = create_listen_socket(&fd);
-> @@ -914,6 +924,9 @@ static void start_vhost_user_blk(GString *cmd_line, int vus_instances,
->                                 i + 1, sock_path);
->      }
->  
-> +    g_string_append_printf(storage_daemon_command, "--pidfile %s",
-
-Missing a space on the tail end if there are more arguments to append
-to the command line.
-
-> +                           daemon_pidfile_path);
-> +
->      g_test_message("starting vhost-user backend: %s",
->                     storage_daemon_command->str);
->      pid_t pid = fork();
-> @@ -930,7 +943,25 @@ static void start_vhost_user_blk(GString *cmd_line, int vus_instances,
->          execlp("/bin/sh", "sh", "-c", storage_daemon_command->str, NULL);
->          exit(1);
->      }
-> +
-> +    /*
-> +     * Ensure the storage-daemon has come up properly before allowing the
-> +     * test to proceed.
-> +     */
-> +    retries = 0;
-> +    while (access(daemon_pidfile_path, F_OK) != 0) {
-> +        if (retries > PIDFILE_RETRIES) {
-> +            fprintf(stderr, "The storage-daemon failed to come up after %d "
-> +                    "seconds - killing the test", PIDFILE_RETRIES);
-> +            abort();
-
-Again, would some form of g_assert*() be better than bare abort?
-
-> +        }
-> +
-> +        retries++;
-> +        usleep(1000);
-
-We're inconsistent on whether qtest files use bare usleep or g_usleep.
-
-> +    }
-> +
->      g_string_free(storage_daemon_command, true);
-> +    free(daemon_pidfile_path);
-
-Do you want to unlink() the file (if it exists)?
-
->  
->      qsd = g_new(QemuStorageDaemonState, 1);
->      qsd->pid = pid;
-> -- 
-> 2.20.1
-> 
-
+diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
+index 69f57c2886..adf497e679 100644
+--- a/docs/system/arm/nuvoton.rst
++++ b/docs/system/arm/nuvoton.rst
+@@ -20,6 +20,7 @@ Hyperscale applications. The following machines are based on this chip :
+ 
+ - ``quanta-gbs-bmc``    Quanta GBS server BMC
+ - ``quanta-gsj``        Quanta GSJ server BMC
++- ``kudo-bmc``          Fii USA Kudo server BMC
+ 
+ There are also two more SoCs, NPCM710 and NPCM705, which are single-core
+ variants of NPCM750 and NPCM730, respectively. These are currently not
+diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
+index e5a3243995..a656169f61 100644
+--- a/hw/arm/npcm7xx_boards.c
++++ b/hw/arm/npcm7xx_boards.c
+@@ -31,6 +31,7 @@
+ #define NPCM750_EVB_POWER_ON_STRAPS 0x00001ff7
+ #define QUANTA_GSJ_POWER_ON_STRAPS 0x00001fff
+ #define QUANTA_GBS_POWER_ON_STRAPS 0x000017ff
++#define KUDO_BMC_POWER_ON_STRAPS 0x00001fff
+ 
+ static const char npcm7xx_default_bootrom[] = "npcm7xx_bootrom.bin";
+ 
+@@ -357,6 +358,23 @@ static void quanta_gbs_init(MachineState *machine)
+     npcm7xx_load_kernel(machine, soc);
+ }
+ 
++static void kudo_bmc_init(MachineState *machine)
++{
++    NPCM7xxState *soc;
++
++    soc = npcm7xx_create_soc(machine, KUDO_BMC_POWER_ON_STRAPS);
++    npcm7xx_connect_dram(soc, machine->ram);
++    qdev_realize(DEVICE(soc), NULL, &error_fatal);
++
++    npcm7xx_load_bootrom(machine, soc);
++    npcm7xx_connect_flash(&soc->fiu[0], 0, "mx66u51235f",
++                          drive_get(IF_MTD, 0, 0));
++    npcm7xx_connect_flash(&soc->fiu[1], 0, "mx66u51235f",
++                          drive_get(IF_MTD, 3, 0));
++
++    npcm7xx_load_kernel(machine, soc);
++}
++
+ static void npcm7xx_set_soc_type(NPCM7xxMachineClass *nmc, const char *type)
+ {
+     NPCM7xxClass *sc = NPCM7XX_CLASS(object_class_by_name(type));
+@@ -417,6 +435,18 @@ static void gbs_bmc_machine_class_init(ObjectClass *oc, void *data)
+     mc->default_ram_size = 1 * GiB;
+ }
+ 
++static void kudo_bmc_machine_class_init(ObjectClass *oc, void *data)
++{
++    NPCM7xxMachineClass *nmc = NPCM7XX_MACHINE_CLASS(oc);
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    npcm7xx_set_soc_type(nmc, TYPE_NPCM730);
++
++    mc->desc = "Kudo BMC (Cortex-A9)";
++    mc->init = kudo_bmc_init;
++    mc->default_ram_size = 1 * GiB;
++};
++
+ static const TypeInfo npcm7xx_machine_types[] = {
+     {
+         .name           = TYPE_NPCM7XX_MACHINE,
+@@ -437,6 +467,10 @@ static const TypeInfo npcm7xx_machine_types[] = {
+         .name           = MACHINE_TYPE_NAME("quanta-gbs-bmc"),
+         .parent         = TYPE_NPCM7XX_MACHINE,
+         .class_init     = gbs_bmc_machine_class_init,
++    }, {
++        .name           = MACHINE_TYPE_NAME("kudo-bmc"),
++        .parent         = TYPE_NPCM7XX_MACHINE,
++        .class_init     = kudo_bmc_machine_class_init,
+     },
+ };
+ 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.33.0.153.gba50c8fa24-goog
 
 
