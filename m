@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9B8403094
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 23:58:54 +0200 (CEST)
-Received: from localhost ([::1]:39054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEAE040307F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 23:56:25 +0200 (CEST)
+Received: from localhost ([::1]:58944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNj7F-0005mV-LU
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 17:58:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34940)
+	id 1mNj4q-0008WE-UN
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 17:56:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2J-0005bM-Ea
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:47 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:40900)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2H-0005Xd-UR
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:45 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:38556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2F-0000hN-6J
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:47 -0400
-Received: by mail-io1-xd30.google.com with SMTP id z1so455040ioh.7
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:53:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2F-0000i0-Ps
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:45 -0400
+Received: by mail-io1-xd41.google.com with SMTP id a13so463605iol.5
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:53:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KMQsbMY5NaOGHicHu9VbpgyM/1xluEbSzTVfLIIvix4=;
- b=b2q/NpmzpNr32WJGHUK+038vXDhl8qe3ccjx0s+cCfda092jT1oOUzrZpa9+1c9Eyk
- LAowrOLxFxY83nl92ck5mPF6muJmU5eqPs4s13VxdDicLuXiStHAoknTTE0heK7hsYin
- UIvwgTUOPidoE1Cg1z12ql8N2GxwgTQV50VoawH0jBgIiyPwxxrv6nDvX0hn64J4zFpP
- FvDtkmtM7V2a01CnVXi1eXCdsDwySQu+/FH2fYi+d88Me/AKIZppZJmlth05I4XTfFhq
- 1y5z/aL/k/pOWILaRTHoSyxF9vqdBQPIFP89EGf4qEA2LGKLMzsrJ2zB73Lc5Jbasagg
- DMbg==
+ bh=lv7qzc+bwvqvCUY7KRQHdm4K9UxT525dj3NdW6F5N3A=;
+ b=awhNazjkiWjn6vpXmSZuRBQGqEWb9NQLBT80TJi+AdV1wMHvVp5iTclBc0ZQnftMeq
+ FjClOvklPEZzSgVFpHbfF9ejA6RzlNMqehRRwzq7yem5Al2Rxd0MHBnhr6Im0lF9T/+7
+ 6G35/m6Be9TXvc6nXKr3gyZYWbyj9HFgrnwbHpZebihqdorBohQBQFF5WqH+mVmAXLuh
+ X/vkmn08M0XZpDUzYbrzx1FCI+F1LAbedGfZqscnJ1x0Sfp/5dx3135e2CpdEn6/qyFt
+ VyjsNQ/8x1wyC7i9rE5Vl6ZA7BhkOcfHO21x3WXMhCt6gJXzBPsG79DmsDWclIXlCkRN
+ /zUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KMQsbMY5NaOGHicHu9VbpgyM/1xluEbSzTVfLIIvix4=;
- b=NahktRv4UUVwws8xfBsfrI001epohU0cysDK0T1JnyjqyCIJXHWFScmKowm1HmcL38
- +cdq+GgQgxPyoeHr3aStmNFES5sn+L3vifb3cmIquWmWhqAEuhKYk95zvkZYzHYY/jil
- rOJ1DlcoDuieqOGkxCuTO6r1Y9f8uHVwgmOMo/VbYWbFs8R55E5UrqrRws605Xl9iWdk
- fnul/pw4yIRYSm8rBDJksNxextF7KIYKP7B9bbh7QRskNNVECsbVXq/VMWmmuIw7q1RQ
- HLUvjQnvBzyqH8XrLLtTEO7usY7JSBZ2CLckcygC5PmfE9gW/4r/OKHkWIpynSSonvqX
- 8m7w==
-X-Gm-Message-State: AOAM531L5ofm81QdSl1Eysmb1HrXa2NzADzYAQ49jlocnQEBWSS+4OzV
- dq0illfLkWt3+nSV2ypu8AFXRXbYXBWekASvN3A=
-X-Google-Smtp-Source: ABdhPJxEQo/INhRnMZm8oSuR38iQWT4oCzV2ROgV1Lhw7kugxOo6R9k6gqQ/semeYOIpoPfClkSEHw==
-X-Received: by 2002:a05:6638:5aa:: with SMTP id
- b10mr472812jar.76.1631051620932; 
- Tue, 07 Sep 2021 14:53:40 -0700 (PDT)
+ bh=lv7qzc+bwvqvCUY7KRQHdm4K9UxT525dj3NdW6F5N3A=;
+ b=q7yRe6HDsx64vfxnZM8geZStcyIg0BJXzc9ob9k+mElEjLanUhFFI/pnlEVdq+IYv0
+ VYHa00QamOZX0BTlgHfoMT1JC5Qo9R4vvivn/T7kpvl5SNImu6h/BLXcZ/lPk+EAnhXp
+ 0auN/XrCPVQBo2ddHySLjRsS69xhQoy0h0LOXNK99hv0soOJtyhieILuOFqOTQCPTiH8
+ rjVU3+iwQ2joS5YAEwWlVoG8zvbWQFcyg8Ifzt3Lq+fGuQIxQpdLZoq7it26ZEwC89Ek
+ n43scEvZ0F0hmUnABOijpqQ2JZnMIyD5Y2G8pH37ApYNFV5zuyVK3hEUx8C+X0XvGSVA
+ hCzQ==
+X-Gm-Message-State: AOAM532JgSacEP6ks5rg2ONSHBHXJXUS/0r4boolxga+cC6av3O0jD8x
+ nGCjlYaNwpT8lwEwNlUOUbNF3+3SO2I6cGdYgfU=
+X-Google-Smtp-Source: ABdhPJznRYSk2ZiOSYK+GK1aIpb7BEjYrDn+pxnN5BBMc9vZe//U0nLBobxsSKos/e5KP0xHZvyfpQ==
+X-Received: by 2002:a05:6638:e8f:: with SMTP id
+ p15mr454456jas.114.1631051621647; 
+ Tue, 07 Sep 2021 14:53:41 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.39
+ by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 14:53:40 -0700 (PDT)
+ Tue, 07 Sep 2021 14:53:41 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/42] bsd-user: Add Stacey's copyright to main.c
-Date: Tue,  7 Sep 2021 15:52:53 -0600
-Message-Id: <20210907215332.30737-4-imp@bsdimp.com>
+Subject: [PULL 04/42] bsd-user: add license to bsdload.c
+Date: Tue,  7 Sep 2021 15:52:54 -0600
+Message-Id: <20210907215332.30737-5-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210907215332.30737-1-imp@bsdimp.com>
 References: <20210907215332.30737-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d30;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd30.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd41.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -83,36 +83,46 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kevans@freebsd.org, Richard Henderson <richard.henderson@linaro.org>,
- Warner Losh <imp@FreeBSD.org>, Warner Losh <imp@bsdimp.com>,
- Stacey Son <sson@FreeBSD.org>
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Warner Losh <imp@FreeBSD.org>
+From: Warner Losh <imp@bsdimp.com>
 
-Add Stacey's updated copyright to main.c
+Pull in the license statement at the top of the bsdload.c file
+from the bsd-user fork version of this file. No functional changes.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/main.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ bsd-user/bsdload.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 38185da111..39c4a0f33c 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -1,7 +1,8 @@
- /*
-- *  qemu user main
-+ *  qemu bsd user main
-  *
-  *  Copyright (c) 2003-2008 Fabrice Bellard
-+ *  Copyright (c) 2013-14 Stacey Son
-  *
-  *  This program is free software; you can redistribute it and/or modify
-  *  it under the terms of the GNU General Public License as published by
+diff --git a/bsd-user/bsdload.c b/bsd-user/bsdload.c
+index 8d83f21eda..0ade58b9e2 100644
+--- a/bsd-user/bsdload.c
++++ b/bsd-user/bsdload.c
+@@ -1,4 +1,19 @@
+-/* Code for loading BSD executables.  Mostly linux kernel code.  */
++/*
++ *  Load BSD executables.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
+ 
+ #include "qemu/osdep.h"
+ 
 -- 
 2.32.0
 
