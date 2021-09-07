@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617A5403096
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 23:59:01 +0200 (CEST)
-Received: from localhost ([::1]:39432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0178340307E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 23:56:24 +0200 (CEST)
+Received: from localhost ([::1]:58686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNj7M-00062N-EP
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 17:59:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34914)
+	id 1mNj4p-0008MB-23
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 17:56:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2I-0005YA-5K
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:46 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:44756)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2G-0005VS-IO
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:44 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:33656)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2D-0000g3-1X
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:45 -0400
-Received: by mail-io1-xd43.google.com with SMTP id g9so437030ioq.11
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2D-0000gK-29
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:44 -0400
+Received: by mail-io1-xd42.google.com with SMTP id f6so536052iox.0
  for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:53:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JiY2LSjoh75ub8VVneYrxWM+2JBoL2yaQmYAF6M1zUI=;
- b=bbqtVXq1pZTErUwkbIRfV00LVo32kQ8ioOSOotF35mdBf9GXfN6Azc0B7MyCtQBOAz
- RLf581ZHS4GYbZfnJYg0T6p7Ep+LS9ajCXmXgNbisUmC66wxuOIELG6YaYcfND12Y8yL
- kBKa3LHQKet8hYpamP8vSUh/cXnrzOdAU8MZbP+w07GoiKQM6kQeCoeMWkmmas7F9R9u
- VfL7dN/jA6kpnxQvLV/PPTBeXDgiEyRplw7Ym5esO9BJjh6eslBXX2o4wCHdTGnJ37wj
- fx9Mw1tHPCQ//X5gjhz6r116fy12TJdNn/Fotq6SzcGnXUQ1eVUyyYvW3pBMKdEjBgUu
- AG8g==
+ bh=hJRZgQI+QtTgjpShWzcLDKaF2c/eXvqYd/GhPRaiuEQ=;
+ b=cVwOc3leCb1qBayKsoDvzsS7MSG4mbs6CbBwBqcwYER8EJeQxhI7No57J3lsVGnFwE
+ KyoDlbN32kdoZ7gQ8S5qMmILJ1Ysodxa0tqsazQ3uHrrtNUCi6hJ741UPfQ00ik7qTHV
+ 7bdV/85jqlAYjpiaP+mVKqqFG69a9pt9da6CgQQgZYGXBARNNbovDEzf3cWYz1qvhQtp
+ BzXZ3xG7VSO4GEibQMEV9KwPoV8Vz7iamuP5HWC35CPECPDh7tV+zhe7n7bsU4zxAPrE
+ xZ/EZdBx6xp8tuyFSQBcmQ20UPeruE8pUTZwDsdcYpdSdN+mThbn/3zpbZ5TLDiRxxOX
+ wasw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JiY2LSjoh75ub8VVneYrxWM+2JBoL2yaQmYAF6M1zUI=;
- b=PWp9pJ9dTAAdVDl6ugpVxM5k6d0LExsZxz22bBjDUaVw9LSvaOvfsrvyNxBgP2RkXu
- 2VAb6RE4MdBSOiIgbvFUV+lNvJQ/K4xJJfO4XWBctpX9ETSWxLfVILpYZz+9s8oeHwNc
- YHjd++lixYMKh4EUQpX7cfMWUPEsWCDMYSEKnatQD2Xf1Pw50KKx8p9p5yEJdapEwMDH
- 1QQO/FJQXn9FaOQSfUYKa+4wqB2UiBhCvMMfOZ2x+cKqVmBb8eWFPedpjjSR8ugHNGlm
- OdJgWxb+yTdhEU2p9XFHswzdE30hija7DtCMpx7FxQjhV7GrOWgGj6us4kuSJPnV1/hI
- psXA==
-X-Gm-Message-State: AOAM530a4i/vGUS8HmdHy2ZsSQB1fptnmJAOp5pP0W27BQ0gJU1z+LpR
- 07f1OBmaaAUCVVq/IYkzr8vEAD0KcnrieOkdeZ4=
-X-Google-Smtp-Source: ABdhPJxagvDyL2w7+HmlG8jVXRRIsNhK6LeOKvT6YtvYCka3kmGHm7xb50gJHHS6oJTbBzT7ROh5zA==
-X-Received: by 2002:a05:6638:b10:: with SMTP id
- a16mr435878jab.149.1631051619182; 
+ bh=hJRZgQI+QtTgjpShWzcLDKaF2c/eXvqYd/GhPRaiuEQ=;
+ b=i9+yKgDmKNMkusKbkvdU0HVLAUW1NEkATwa9P/WlvQ9i6+99cL8bkL4tseUGvYY8gi
+ 2UNQReN1d/fe3hbwXWgMa+RsXk50SKSUXojyqKiZKocuXbxrd7+pWTrg9aXaoUcJ7Bd9
+ mOQ9uXnacfXFfi6TPDVAmQ0MssYzdypJAxbZ85VVOSsGXkxwnKdLz7Aud6Gqics6OyrJ
+ NDZXtweWh2bzLB4BMilNTrNctyHAJR9AYjd5f0i/pVAZbnnrfNvEUt8FfDNx5sqyTmrK
+ QlhdekhRXGeyLD3n6Ja1EkPzedJobSBYEpBqdxI8F9HywXfEsc77LbJCLhOzdlQE3635
+ UYsA==
+X-Gm-Message-State: AOAM533qLif+yT1wN9/pQEVIzi1jRL/Lsu2LfHyQ+/WqoCz41DbcX1U+
+ oyJuILB7CqQR6QDoctcwTfrMRk5C1HnfNzSJ6z4=
+X-Google-Smtp-Source: ABdhPJzqT9YX7AaSmppfDbxvnqQ6+c+E6/9SQtpk24q8l9tKDwV0F0aE4tc3tMnLTJQGBvxChISd7g==
+X-Received: by 2002:a05:6602:20ce:: with SMTP id
+ 14mr285574ioz.204.1631051619853; 
  Tue, 07 Sep 2021 14:53:39 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.38
+ by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 14:53:38 -0700 (PDT)
+ Tue, 07 Sep 2021 14:53:39 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/42] bsd-user: remove sparc and sparc64
-Date: Tue,  7 Sep 2021 15:52:51 -0600
-Message-Id: <20210907215332.30737-2-imp@bsdimp.com>
+Subject: [PULL 02/42] bsd-user: add copyright header to elfload.c
+Date: Tue,  7 Sep 2021 15:52:52 -0600
+Message-Id: <20210907215332.30737-3-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210907215332.30737-1-imp@bsdimp.com>
 References: <20210907215332.30737-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d43;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd43.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd42.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -83,577 +83,49 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kevans@freebsd.org, Richard Henderson <richard.henderson@linaro.org>,
- Warner Losh <imp@FreeBSD.org>, Warner Losh <imp@bsdimp.com>
+ Warner Losh <imp@FreeBSD.org>, Warner Losh <imp@bsdimp.com>,
+ Stacey Son <sson@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@FreeBSD.org>
 
-These are broken here and in the bsd-user fork. They won't be fixed as
-FreeBSD has dropped support for sparc. If people wish to support this in
-other BSDs, you're better off starting over than starting from these
-files.
+Add Stacey's copyright to elfload.c
 
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/main.c                        | 289 -------------------------
- bsd-user/sparc/target_arch_sysarch.h   |  52 -----
- bsd-user/sparc/target_syscall.h        |  36 ---
- bsd-user/sparc64/target_arch_sysarch.h |  52 -----
- bsd-user/sparc64/target_syscall.h      |  37 ----
- bsd-user/syscall.c                     |  11 -
- 6 files changed, 477 deletions(-)
- delete mode 100644 bsd-user/sparc/target_arch_sysarch.h
- delete mode 100644 bsd-user/sparc/target_syscall.h
- delete mode 100644 bsd-user/sparc64/target_arch_sysarch.h
- delete mode 100644 bsd-user/sparc64/target_syscall.h
+ bsd-user/elfload.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index fe66204b6b..38185da111 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -261,274 +261,6 @@ void cpu_loop(CPUX86State *env)
- }
- #endif
+diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+index 6edceb3ea6..ae62f3aab3 100644
+--- a/bsd-user/elfload.c
++++ b/bsd-user/elfload.c
+@@ -1,4 +1,21 @@
+-/* This is the Linux kernel elf-loading code, ported into user space */
++/*
++ *  ELF loading code
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
  
--#ifdef TARGET_SPARC
--#define SPARC64_STACK_BIAS 2047
--
--/* #define DEBUG_WIN */
--/*
-- * WARNING: dealing with register windows _is_ complicated. More info
-- * can be found at http://www.sics.se/~psm/sparcstack.html
-- */
--static inline int get_reg_index(CPUSPARCState *env, int cwp, int index)
--{
--    index = (index + cwp * 16) % (16 * env->nwindows);
--    /*
--     * wrap handling : if cwp is on the last window, then we use the
--     * registers 'after' the end
--     */
--    if (index < 8 && env->cwp == env->nwindows - 1) {
--        index += 16 * env->nwindows;
--    }
--    return index;
--}
--
--/* save the register window 'cwp1' */
--static inline void save_window_offset(CPUSPARCState *env, int cwp1)
--{
--    unsigned int i;
--    abi_ulong sp_ptr;
--
--    sp_ptr = env->regbase[get_reg_index(env, cwp1, 6)];
--#ifdef TARGET_SPARC64
--    if (sp_ptr & 3) {
--        sp_ptr += SPARC64_STACK_BIAS;
--    }
--#endif
--#if defined(DEBUG_WIN)
--    printf("win_overflow: sp_ptr=0x" TARGET_ABI_FMT_lx " save_cwp=%d\n",
--           sp_ptr, cwp1);
--#endif
--    for (i = 0; i < 16; i++) {
--        /* FIXME - what to do if put_user() fails? */
--        put_user_ual(env->regbase[get_reg_index(env, cwp1, 8 + i)], sp_ptr);
--        sp_ptr += sizeof(abi_ulong);
--    }
--}
--
--static void save_window(CPUSPARCState *env)
--{
--#ifndef TARGET_SPARC64
--    unsigned int new_wim;
--    new_wim = ((env->wim >> 1) | (env->wim << (env->nwindows - 1))) &
--        ((1LL << env->nwindows) - 1);
--    save_window_offset(env, cpu_cwp_dec(env, env->cwp - 2));
--    env->wim = new_wim;
--#else
--    /*
--     * cansave is zero if the spill trap handler is triggered by `save` and
--     * nonzero if triggered by a `flushw`
--     */
--    save_window_offset(env, cpu_cwp_dec(env, env->cwp - env->cansave - 2));
--    env->cansave++;
--    env->canrestore--;
--#endif
--}
--
--static void restore_window(CPUSPARCState *env)
--{
--#ifndef TARGET_SPARC64
--    unsigned int new_wim;
--#endif
--    unsigned int i, cwp1;
--    abi_ulong sp_ptr;
--
--#ifndef TARGET_SPARC64
--    new_wim = ((env->wim << 1) | (env->wim >> (env->nwindows - 1))) &
--        ((1LL << env->nwindows) - 1);
--#endif
--
--    /* restore the invalid window */
--    cwp1 = cpu_cwp_inc(env, env->cwp + 1);
--    sp_ptr = env->regbase[get_reg_index(env, cwp1, 6)];
--#ifdef TARGET_SPARC64
--    if (sp_ptr & 3) {
--        sp_ptr += SPARC64_STACK_BIAS;
--    }
--#endif
--#if defined(DEBUG_WIN)
--    printf("win_underflow: sp_ptr=0x" TARGET_ABI_FMT_lx " load_cwp=%d\n",
--           sp_ptr, cwp1);
--#endif
--    for (i = 0; i < 16; i++) {
--        /* FIXME - what to do if get_user() fails? */
--        get_user_ual(env->regbase[get_reg_index(env, cwp1, 8 + i)], sp_ptr);
--        sp_ptr += sizeof(abi_ulong);
--    }
--#ifdef TARGET_SPARC64
--    env->canrestore++;
--    if (env->cleanwin < env->nwindows - 1) {
--        env->cleanwin++;
--    }
--    env->cansave--;
--#else
--    env->wim = new_wim;
--#endif
--}
--
--static void flush_windows(CPUSPARCState *env)
--{
--    int offset, cwp1;
--
--    offset = 1;
--    for (;;) {
--        /* if restore would invoke restore_window(), then we can stop */
--        cwp1 = cpu_cwp_inc(env, env->cwp + offset);
--#ifndef TARGET_SPARC64
--        if (env->wim & (1 << cwp1)) {
--            break;
--        }
--#else
--        if (env->canrestore == 0) {
--            break;
--        }
--        env->cansave++;
--        env->canrestore--;
--#endif
--        save_window_offset(env, cwp1);
--        offset++;
--    }
--    cwp1 = cpu_cwp_inc(env, env->cwp + 1);
--#ifndef TARGET_SPARC64
--    /* set wim so that restore will reload the registers */
--    env->wim = 1 << cwp1;
--#endif
--#if defined(DEBUG_WIN)
--    printf("flush_windows: nb=%d\n", offset - 1);
--#endif
--}
--
--void cpu_loop(CPUSPARCState *env)
--{
--    CPUState *cs = env_cpu(env);
--    int trapnr, ret, syscall_nr;
--    /* target_siginfo_t info; */
--
--    while (1) {
--        cpu_exec_start(cs);
--        trapnr = cpu_exec(cs);
--        cpu_exec_end(cs);
--        process_queued_cpu_work(cs);
--
--        switch (trapnr) {
--#ifndef TARGET_SPARC64
--        case 0x80:
--#else
--        /* FreeBSD uses 0x141 for syscalls too */
--        case 0x141:
--            if (bsd_type != target_freebsd) {
--                goto badtrap;
--            }
--            /* fallthrough */
--        case 0x100:
--#endif
--            syscall_nr = env->gregs[1];
--            if (bsd_type == target_freebsd)
--                ret = do_freebsd_syscall(env, syscall_nr,
--                                         env->regwptr[0], env->regwptr[1],
--                                         env->regwptr[2], env->regwptr[3],
--                                         env->regwptr[4], env->regwptr[5],
--                                         0, 0);
--            else if (bsd_type == target_netbsd)
--                ret = do_netbsd_syscall(env, syscall_nr,
--                                        env->regwptr[0], env->regwptr[1],
--                                        env->regwptr[2], env->regwptr[3],
--                                        env->regwptr[4], env->regwptr[5]);
--            else { /* if (bsd_type == target_openbsd) */
--#if defined(TARGET_SPARC64)
--                syscall_nr &= ~(TARGET_OPENBSD_SYSCALL_G7RFLAG |
--                                TARGET_OPENBSD_SYSCALL_G2RFLAG);
--#endif
--                ret = do_openbsd_syscall(env, syscall_nr,
--                                         env->regwptr[0], env->regwptr[1],
--                                         env->regwptr[2], env->regwptr[3],
--                                         env->regwptr[4], env->regwptr[5]);
--            }
--            if ((unsigned int)ret >= (unsigned int)(-515)) {
--                ret = -ret;
--#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
--                env->xcc |= PSR_CARRY;
--#else
--                env->psr |= PSR_CARRY;
--#endif
--            } else {
--#if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
--                env->xcc &= ~PSR_CARRY;
--#else
--                env->psr &= ~PSR_CARRY;
--#endif
--            }
--            env->regwptr[0] = ret;
--            /* next instruction */
--#if defined(TARGET_SPARC64)
--            if (bsd_type == target_openbsd &&
--                env->gregs[1] & TARGET_OPENBSD_SYSCALL_G2RFLAG) {
--                env->pc = env->gregs[2];
--                env->npc = env->pc + 4;
--            } else if (bsd_type == target_openbsd &&
--                       env->gregs[1] & TARGET_OPENBSD_SYSCALL_G7RFLAG) {
--                env->pc = env->gregs[7];
--                env->npc = env->pc + 4;
--            } else {
--                env->pc = env->npc;
--                env->npc = env->npc + 4;
--            }
--#else
--            env->pc = env->npc;
--            env->npc = env->npc + 4;
--#endif
--            break;
--        case 0x83: /* flush windows */
--#ifdef TARGET_ABI32
--        case 0x103:
--#endif
--            flush_windows(env);
--            /* next instruction */
--            env->pc = env->npc;
--            env->npc = env->npc + 4;
--            break;
--#ifndef TARGET_SPARC64
--        case TT_WIN_OVF: /* window overflow */
--            save_window(env);
--            break;
--        case TT_WIN_UNF: /* window underflow */
--            restore_window(env);
--            break;
--        case TT_TFAULT:
--        case TT_DFAULT:
--            break;
--#else
--        case TT_SPILL: /* window overflow */
--            save_window(env);
--            break;
--        case TT_FILL: /* window underflow */
--            restore_window(env);
--            break;
--        case TT_TFAULT:
--        case TT_DFAULT:
--            break;
--#endif
--        case EXCP_INTERRUPT:
--            /* just indicate that signals should be handled asap */
--            break;
--        case EXCP_DEBUG:
--            {
--                gdb_handlesig(cs, TARGET_SIGTRAP);
--            }
--            break;
--        default:
--#ifdef TARGET_SPARC64
--        badtrap:
--#endif
--            printf("Unhandled trap: 0x%x\n", trapnr);
--            cpu_dump_state(cs, stderr, 0);
--            exit(1);
--        }
--        process_pending_signals(env);
--    }
--}
--
--#endif
--
- static void usage(void)
- {
-     printf("qemu-" TARGET_NAME " version " QEMU_FULL_VERSION
-@@ -779,12 +511,6 @@ int main(int argc, char **argv)
- #else
-         cpu_model = "qemu32";
- #endif
--#elif defined(TARGET_SPARC)
--#ifdef TARGET_SPARC64
--        cpu_model = "TI UltraSparc II";
--#else
--        cpu_model = "Fujitsu MB86904";
--#endif
- #else
-         cpu_model = "any";
- #endif
-@@ -800,9 +526,7 @@ int main(int argc, char **argv)
-     }
-     cpu = cpu_create(cpu_type);
-     env = cpu->env_ptr;
--#if defined(TARGET_SPARC) || defined(TARGET_PPC)
-     cpu_reset(cpu);
--#endif
-     thread_cpu = cpu;
+ #include "qemu/osdep.h"
  
-     if (getenv("QEMU_STRACE")) {
-@@ -1001,19 +725,6 @@ int main(int argc, char **argv)
-     cpu_x86_load_seg(env, R_FS, 0);
-     cpu_x86_load_seg(env, R_GS, 0);
- #endif
--#elif defined(TARGET_SPARC)
--    {
--        int i;
--        env->pc = regs->pc;
--        env->npc = regs->npc;
--        env->y = regs->y;
--        for (i = 0; i < 8; i++) {
--            env->gregs[i] = regs->u_regs[i];
--        }
--        for (i = 0; i < 8; i++) {
--            env->regwptr[i] = regs->u_regs[i + 8];
--        }
--    }
- #else
- #error unsupported target CPU
- #endif
-diff --git a/bsd-user/sparc/target_arch_sysarch.h b/bsd-user/sparc/target_arch_sysarch.h
-deleted file mode 100644
-index d0b85ef6bb..0000000000
---- a/bsd-user/sparc/target_arch_sysarch.h
-+++ /dev/null
-@@ -1,52 +0,0 @@
--/*
-- *  SPARC sysarch() system call emulation
-- *
-- *  Copyright (c) 2013 Stacey D. Son
-- *
-- *  This program is free software; you can redistribute it and/or modify
-- *  it under the terms of the GNU General Public License as published by
-- *  the Free Software Foundation; either version 2 of the License, or
-- *  (at your option) any later version.
-- *
-- *  This program is distributed in the hope that it will be useful,
-- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- *  GNU General Public License for more details.
-- *
-- *  You should have received a copy of the GNU General Public License
-- *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-- */
--
--#ifndef BSD_USER_ARCH_SYSARCH_H_
--#define BSD_USER_ARCH_SYSARCH_H_
--
--#include "target_syscall.h"
--
--static inline abi_long do_freebsd_arch_sysarch(void *env, int op,
--        abi_ulong parms)
--{
--    int ret = 0;
--
--    switch (op) {
--    case TARGET_SPARC_SIGTRAMP_INSTALL:
--        /* XXX not currently handled */
--    case TARGET_SPARC_UTRAP_INSTALL:
--        /* XXX not currently handled */
--    default:
--        ret = -TARGET_EINVAL;
--        break;
--    }
--
--    return ret;
--}
--
--static inline void do_freebsd_arch_print_sysarch(
--        const struct syscallname *name, abi_long arg1, abi_long arg2,
--        abi_long arg3, abi_long arg4, abi_long arg5, abi_long arg6)
--{
--
--    gemu_log("%s(%d, " TARGET_ABI_FMT_lx ", " TARGET_ABI_FMT_lx ", "
--        TARGET_ABI_FMT_lx ")", name->name, (int)arg1, arg2, arg3, arg4);
--}
--
--#endif /*!BSD_USER_ARCH_SYSARCH_H_ */
-diff --git a/bsd-user/sparc/target_syscall.h b/bsd-user/sparc/target_syscall.h
-deleted file mode 100644
-index 151284754b..0000000000
---- a/bsd-user/sparc/target_syscall.h
-+++ /dev/null
-@@ -1,36 +0,0 @@
--/*
-- *  sparc dependent system call definitions
-- *
-- *
-- *  This program is free software; you can redistribute it and/or modify
-- *  it under the terms of the GNU General Public License as published by
-- *  the Free Software Foundation; either version 2 of the License, or
-- *  (at your option) any later version.
-- *
-- *  This program is distributed in the hope that it will be useful,
-- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- *  GNU General Public License for more details.
-- *
-- *  You should have received a copy of the GNU General Public License
-- *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-- */
--#ifndef TARGET_SYSCALL_H
--#define TARGET_SYSCALL_H
--
--struct target_pt_regs {
--	abi_ulong psr;
--	abi_ulong pc;
--	abi_ulong npc;
--	abi_ulong y;
--	abi_ulong u_regs[16];
--};
--
--#define UNAME_MACHINE           "sun4"
--#define TARGET_HW_MACHINE       "sparc"
--#define TARGET_HW_MACHINE_ARCH  "sparc"
--
--#define TARGET_SPARC_UTRAP_INSTALL      1
--#define TARGET_SPARC_SIGTRAMP_INSTALL   2
--
--#endif /* TARGET_SYSCALL_H */
-diff --git a/bsd-user/sparc64/target_arch_sysarch.h b/bsd-user/sparc64/target_arch_sysarch.h
-deleted file mode 100644
-index e6f17c1504..0000000000
---- a/bsd-user/sparc64/target_arch_sysarch.h
-+++ /dev/null
-@@ -1,52 +0,0 @@
--/*
-- *  SPARC64 sysarch() system call emulation
-- *
-- *  Copyright (c) 2013 Stacey D. Son
-- *
-- *  This program is free software; you can redistribute it and/or modify
-- *  it under the terms of the GNU General Public License as published by
-- *  the Free Software Foundation; either version 2 of the License, or
-- *  (at your option) any later version.
-- *
-- *  This program is distributed in the hope that it will be useful,
-- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- *  GNU General Public License for more details.
-- *
-- *  You should have received a copy of the GNU General Public License
-- *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-- */
--
--#ifndef BSD_USER_ARCH_SYSARCH_H_
--#define BSD_USER_ARCH_SYSARCH_H_
--
--#include "target_syscall.h"
--
--static inline abi_long do_freebsd_arch_sysarch(void *env, int op,
--        abi_ulong parms)
--{
--    int ret = 0;
--
--    switch (op) {
--    case TARGET_SPARC_SIGTRAMP_INSTALL:
--        /* XXX not currently handled */
--    case TARGET_SPARC_UTRAP_INSTALL:
--        /* XXX not currently handled */
--    default:
--        ret = -TARGET_EINVAL;
--        break;
--    }
--
--    return ret;
--}
--
--static inline void do_freebsd_arch_print_sysarch(
--        const struct syscallname *name, abi_long arg1, abi_long arg2,
--        abi_long arg3, abi_long arg4, abi_long arg5, abi_long arg6)
--{
--
--    gemu_log("%s(%d, " TARGET_ABI_FMT_lx ", " TARGET_ABI_FMT_lx ", "
--        TARGET_ABI_FMT_lx ")", name->name, (int)arg1, arg2, arg3, arg4);
--}
--
--#endif /*!BSD_USER_ARCH_SYSARCH_H_ */
-diff --git a/bsd-user/sparc64/target_syscall.h b/bsd-user/sparc64/target_syscall.h
-deleted file mode 100644
-index b7d986a76d..0000000000
---- a/bsd-user/sparc64/target_syscall.h
-+++ /dev/null
-@@ -1,37 +0,0 @@
--/*
-- *  sparc64 dependent system call definitions
-- *
-- *
-- *  This program is free software; you can redistribute it and/or modify
-- *  it under the terms of the GNU General Public License as published by
-- *  the Free Software Foundation; either version 2 of the License, or
-- *  (at your option) any later version.
-- *
-- *  This program is distributed in the hope that it will be useful,
-- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- *  GNU General Public License for more details.
-- *
-- *  You should have received a copy of the GNU General Public License
-- *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-- */
--#ifndef TARGET_SYSCALL_H
--#define TARGET_SYSCALL_H
--
--struct target_pt_regs {
--	abi_ulong u_regs[16];
--	abi_ulong tstate;
--	abi_ulong pc;
--	abi_ulong npc;
--	abi_ulong y;
--	abi_ulong fprs;
--};
--
--#define UNAME_MACHINE           "sun4u"
--#define TARGET_HW_MACHINE       "sparc"
--#define TARGET_HW_MACHINE_ARCH  "sparc64"
--
--#define TARGET_SPARC_UTRAP_INSTALL      1
--#define TARGET_SPARC_SIGTRAMP_INSTALL   2
--
--#endif /* TARGET_SYSCALL_H */
-diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-index 3f44311396..372836d44d 100644
---- a/bsd-user/syscall.c
-+++ b/bsd-user/syscall.c
-@@ -138,17 +138,6 @@ static abi_long do_freebsd_sysarch(CPUX86State *env, int op, abi_ulong parms)
- }
- #endif
- 
--#ifdef TARGET_SPARC
--static abi_long do_freebsd_sysarch(void *env, int op, abi_ulong parms)
--{
--    /* XXX handle
--     * TARGET_FREEBSD_SPARC_UTRAP_INSTALL,
--     * TARGET_FREEBSD_SPARC_SIGTRAMP_INSTALL
--     */
--    return -TARGET_EINVAL;
--}
--#endif
--
- #ifdef __FreeBSD__
- /*
-  * XXX this uses the undocumented oidfmt interface to find the kind of
 -- 
 2.32.0
 
