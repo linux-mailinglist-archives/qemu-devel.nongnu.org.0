@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81BA4028D1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 14:31:10 +0200 (CEST)
-Received: from localhost ([::1]:52984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9FB402923
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 14:45:12 +0200 (CEST)
+Received: from localhost ([::1]:51664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNaFp-0004Tl-N1
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 08:31:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42430)
+	id 1mNaTP-0006QH-FG
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 08:45:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mNa7l-00030p-6f
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:22:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20426)
+ id 1mNa7w-00036t-CZ
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:23:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mNa7j-0007ih-4t
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:22:48 -0400
+ id 1mNa7u-0007li-QP
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:23:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631017366;
+ s=mimecast20190719; t=1631017378;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oEILewch93OybQzOl1KrIHEQYi+z0OjUCe2lBj5iJTs=;
- b=Fo4xHWMORUGOZ1OFGPmm84h0BJ+TuGtB0NZmMFoAJUOMUqGyRNz1TXEvimE0T9BxHMHCYp
- HzhWMdrq3mcZJhcEPGyR5BeZZ0qFnbiyE1DD/eh8/t1Le1vHvtMuYvn6BbjcgQPFZicE+5
- ezv4tliLkBwi1qmdqFlvorpnt7Q7Axw=
+ bh=EcNUWh89umV/1/EES3d61Y6beBZYrL8xwzLfr7verkc=;
+ b=D/sBvAVP5VjAJFNWtrWKwKlffJ4TYkguU4FgvPjAcS0BYwo/NVwdOHJMghF6+JQf+zDZSF
+ rD4z0E5rpifL58JDKQ5mNKn2KCwp43mNWOvLVTTVkCjbc2i0g5J37osY4RXAye7eznaDmU
+ ukLri4Xr3/bQ73qbFYmzrC8jfTzgaHo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-LTk4ZeZ0Mcew0-p8UmKfbw-1; Tue, 07 Sep 2021 08:22:44 -0400
-X-MC-Unique: LTk4ZeZ0Mcew0-p8UmKfbw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-597-1EnQa6TRPue6ZgpO__LKBA-1; Tue, 07 Sep 2021 08:22:56 -0400
+X-MC-Unique: 1EnQa6TRPue6ZgpO__LKBA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87472188E3C1
- for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 12:22:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9718801B3D
+ for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 12:22:55 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 236BE6B545;
- Tue,  7 Sep 2021 12:22:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 94DC41B46B;
+ Tue,  7 Sep 2021 12:22:47 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 13/32] rust: use vendored-sources
-Date: Tue,  7 Sep 2021 16:19:24 +0400
-Message-Id: <20210907121943.3498701-14-marcandre.lureau@redhat.com>
+Subject: [RFC v3 14/32] scripts/qapi: add QAPISchemaIfCond.rsgen()
+Date: Tue,  7 Sep 2021 16:19:25 +0400
+Message-Id: <20210907121943.3498701-15-marcandre.lureau@redhat.com>
 In-Reply-To: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
 References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,137 +87,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Most likely, QEMU will want tighter control over the sources, rather
-than relying on crates.io downloading, use a git submodule with all the
-dependencies. However, cargo --offline was added in 1.36.
-
-"cargo vendor" helps gathering and updating the dependencies.
+Generate Rust #[cfg(...)] guards from QAPI 'if' conditions.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- configure                 | 8 ++++++++
- meson.build               | 7 ++++++-
- .cargo/config.toml.in     | 5 +++++
- .cargo/meson.build        | 5 +++++
- .gitmodules               | 4 ++++
- rust/vendored             | 1 +
- scripts/archive-source.sh | 2 +-
- scripts/cargo_wrapper.py  | 1 +
- 8 files changed, 31 insertions(+), 2 deletions(-)
- create mode 100644 .cargo/config.toml.in
- create mode 100644 .cargo/meson.build
- create mode 160000 rust/vendored
+ scripts/qapi/common.py | 16 ++++++++++++++++
+ scripts/qapi/schema.py |  4 ++++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/configure b/configure
-index 470b90543f..82a94ab93b 100755
---- a/configure
-+++ b/configure
-@@ -2068,6 +2068,14 @@ if test -z "$ninja"; then
-     fi
- fi
+diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
+index 5f8f76e5b2..6d22c66391 100644
+--- a/scripts/qapi/common.py
++++ b/scripts/qapi/common.py
+@@ -201,6 +201,22 @@ def guardend(name: str) -> str:
+                  name=c_fname(name).upper())
  
-+case "$with_rust" in
-+  auto|enabled)
-+    if test -e "${source_path}/.git"; then
-+      git_submodules="${git_submodules} rust/vendored"
-+    fi
-+    ;;
-+esac
+ 
++def rsgen_ifcond(ifcond: Union[str, Dict[str, Any]]) -> str:
 +
- # Check that the C compiler works. Doing this here before testing
- # the host CPU ensures that we had a valid CC to autodetect the
- # $cpu var (and we should bail right here if that's not the case).
-diff --git a/meson.build b/meson.build
-index a21c70d77f..29d218d35a 100644
---- a/meson.build
-+++ b/meson.build
-@@ -108,7 +108,11 @@ endif
- 
- bzip2 = find_program('bzip2', required: install_edk2_blobs)
- 
--cargo = find_program('cargo', required: get_option('with_rust'))
-+cargo = find_program('cargo',
-+                     required: get_option('with_rust'),
-+                     # require --offline support (1.36), but fixed (1.42)
-+                     version: '>= 1.42')
++    def cfg(ifcond: Union[str, Dict[str, Any]]):
++        if isinstance(ifcond, str):
++            return ifcond
++        if isinstance(ifcond, list):
++            return ', '.join([cfg(c) for c in ifcond])
++        oper, operands = next(iter(ifcond.items()))
++        operands = cfg(operands)
++        return f'{oper}({operands})'
 +
- with_rust = cargo.found()
- cargo_wrapper = [
-   find_program('scripts/cargo_wrapper.py'),
-@@ -126,6 +130,7 @@ if with_rust
-       error('cross-compiling, but no Rust target-triple defined.')
-     endif
-   endif
-+  subdir('.cargo')
- endif
- config_host_data.set('CONFIG_WITH_RUST', with_rust)
- 
-diff --git a/.cargo/config.toml.in b/.cargo/config.toml.in
-new file mode 100644
-index 0000000000..d1531aa52a
---- /dev/null
-+++ b/.cargo/config.toml.in
-@@ -0,0 +1,5 @@
-+[source.crates-io]
-+replace-with = "vendored-sources"
++    if not ifcond:
++        return ''
++    return '#[cfg(%s)]' % cfg(ifcond)
 +
-+[source.vendored-sources]
-+directory = "@vendored_directory@"
-diff --git a/.cargo/meson.build b/.cargo/meson.build
-new file mode 100644
-index 0000000000..4e7c296ab0
---- /dev/null
-+++ b/.cargo/meson.build
-@@ -0,0 +1,5 @@
-+configure_file(output: 'config.toml',
-+               input: 'config.toml.in',
-+               configuration: {
-+                   'vendored_directory': meson.source_root() / 'rust/vendored'
-+               })
-diff --git a/.gitmodules b/.gitmodules
-index 08b1b48a09..f767a4f386 100644
---- a/.gitmodules
-+++ b/.gitmodules
-@@ -64,3 +64,7 @@
- [submodule "roms/vbootrom"]
- 	path = roms/vbootrom
- 	url = https://gitlab.com/qemu-project/vbootrom.git
-+[submodule "rust/vendored"]
-+	path = rust/vendored
-+	#url = https://gitlab.com/qemu-project/qemu-rust-vendored.git
-+	url = https://github.com/elmarco/qemu-rust-vendored.git
-diff --git a/rust/vendored b/rust/vendored
-new file mode 160000
-index 0000000000..7077bbbd11
---- /dev/null
-+++ b/rust/vendored
-@@ -0,0 +1 @@
-+Subproject commit 7077bbbd11a67d60062a9483f996113a349a4ca1
-diff --git a/scripts/archive-source.sh b/scripts/archive-source.sh
-index c6169db69f..03afcee8b9 100755
---- a/scripts/archive-source.sh
-+++ b/scripts/archive-source.sh
-@@ -26,7 +26,7 @@ sub_file="${sub_tdir}/submodule.tar"
- # independent of what the developer currently has initialized
- # in their checkout, because the build environment is completely
- # different to the host OS.
--submodules="dtc slirp meson ui/keycodemapdb"
-+submodules="dtc slirp meson ui/keycodemapdb rust/vendored"
- submodules="$submodules tests/fp/berkeley-softfloat-3 tests/fp/berkeley-testfloat-3"
- sub_deinit=""
++
+ def gen_ifcond(ifcond: Optional[Union[str, Dict[str, Any]]],
+                cond_fmt: str, not_fmt: str,
+                all_operator: str, any_operator: str) -> str:
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index 6455a8f425..c61f35e13f 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -26,6 +26,7 @@
+     docgen_ifcond,
+     gen_endif,
+     gen_if,
++    rsgen_ifcond,
+ )
+ from .error import QAPIError, QAPISemError, QAPISourceError
+ from .expr import check_exprs
+@@ -48,6 +49,9 @@ def gen_endif(self):
+     def docgen(self):
+         return docgen_ifcond(self.ifcond)
  
-diff --git a/scripts/cargo_wrapper.py b/scripts/cargo_wrapper.py
-index 75518e8c02..c07f51494b 100644
---- a/scripts/cargo_wrapper.py
-+++ b/scripts/cargo_wrapper.py
-@@ -78,6 +78,7 @@ def get_cargo_rustc(
-         target_dir,
-         "--manifest-path",
-         manifest_path,
-+        "--offline",
-     ]
-     cargo_cmd += cargo_rustc_args
-     if args.target_triple:
++    def rsgen(self):
++        return rsgen_ifcond(self.ifcond)
++
+     def is_present(self):
+         return bool(self.ifcond)
+ 
 -- 
 2.33.0.113.g6c40894d24
 
