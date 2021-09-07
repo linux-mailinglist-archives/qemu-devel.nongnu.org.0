@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47133403120
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 00:35:55 +0200 (CEST)
-Received: from localhost ([::1]:41994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC9040312D
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 00:47:54 +0200 (CEST)
+Received: from localhost ([::1]:47236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNjh4-00079t-C5
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 18:35:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41666)
+	id 1mNjsf-0002bg-3X
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 18:47:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3ieg3YQYKCkoo3m6q3s00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--crauer.bounces.google.com>)
- id 1mNje2-0005iX-Pn
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 18:32:47 -0400
-Received: from mail-yb1-xb49.google.com ([2607:f8b0:4864:20::b49]:55127)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mNjqD-0001k4-53; Tue, 07 Sep 2021 18:45:21 -0400
+Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:40923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3ieg3YQYKCkoo3m6q3s00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--crauer.bounces.google.com>)
- id 1mNjdz-0001KH-MS
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 18:32:46 -0400
-Received: by mail-yb1-xb49.google.com with SMTP id
- y134-20020a25dc8c000000b0059f0301df0fso2888ybe.21
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 15:32:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=iF/zN+LW9GzOJqwhesSX2lWyW3wIuY03WUhR9KJ6MW8=;
- b=sUdepdKih35Gui9BJJL+syGuEWolJg6JxNd3lR/uBCEU+Wmgb9kd72LlOOnaCwwtIp
- kDLtzBbr50fqQ5XBDKard/RZgvjzCgMsqIPAPx+LOLtp3hawA+qx/nMfCItRDIniUJT1
- XUoHS1t3JiKaR8LZBWpjZ/EXgTBff6BUr5VNUYE1TBB8oz3nLkDe81czap1IhYQKu7Tm
- YHQdTq11gqnGbEMFbI1sueLrXUzQyck/PmD/zDJ1BS2VYRnnd3MBH/qTuEn+ABfuX0me
- b9igrJ+J6ejXrHvObWSpm63q1yIQ6JxSoY6vR5495oscM+oXiOP3w9S1drst/utz5pZV
- PW4g==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mNjqB-0001R3-4B; Tue, 07 Sep 2021 18:45:20 -0400
+Received: by mail-il1-x133.google.com with SMTP id a20so277032ilq.7;
+ Tue, 07 Sep 2021 15:45:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CHMaAy/JFWUxyakTODorvN54HoTBpm8agQBfjxlDtrc=;
+ b=gPs8Bebvh5a4jBIST02RHpsO38LG94qBpILC4nQ2rG5Of3oNlFMphRKdywHC7aBWO/
+ nhiq/JDgFU/0Fwdc288HwI5lbOZ4wmfiMc8ytIbkErpmw38Q5637drLyqc4UmNZt6UxD
+ mSOr9yS7usUyX47L3fVcyEnZaTBU759N3T+C4YePFXPeeYc/f3vnyryhRg2q60WpH1QR
+ 1SE0l4jibiftvkyF8dh8re8E+WIMMrQoeCfEMuG8PItYI3Z6wbfiAHt8bZIhGO9Dwrt6
+ CoySB1WJWT8WgCa2ZlUesmvnHw53By7jIsi/MucpUmPVGbKIehD9hAHKf7lFKrhlSCpT
+ j6+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=iF/zN+LW9GzOJqwhesSX2lWyW3wIuY03WUhR9KJ6MW8=;
- b=lHdVdm4C2gvoooeqXJ6PK/tpQIUIHUjDjM1DTA23Mr1+30q9mGUe8+FNwxWwML3+AO
- OWqquFt5ToPG2KFbQkGJAMq3UcYiGiIt/suNe/fB4gm8Y6nBNADrHjkj15eY/dfhZ9HW
- 4dEH3NSKQgOTMa1bQL9TH/c/dDLDSukEcukPZ3RuRl0SABre3GkRqYAkPFxrozupeUD/
- C0Kl23FvRQDj2mbYpI5epqwjp7q7w2+ceYoT9pbL5q3IVMZkhSWN6DWnQY5bRP3bMObM
- Z9v9Ib4XajjGbWGwxy3vbGNrja9s3KfsHJ5pD3W/ZiZRaFmJF8W/Q0S+qOLV3uWvbyg4
- 8GNA==
-X-Gm-Message-State: AOAM532RgPq8TfLVSt8OUQ2+ODPS8Bmus8RTFHP+6/bmY1CXZ36MnWV+
- XNDUZBrpBfpCLKSadDqVuauw3luSLNc=
-X-Google-Smtp-Source: ABdhPJxRm7XHVx1P3cyQ7bCkpFC0DKcovpU2t57fuHwq4H8UmJ0y/9Pv8DlX0xMfvOpXVjAQWWIjc5eSwb8=
-X-Received: from corumba.svl.corp.google.com
- ([2620:15c:2a3:200:fc2b:9e42:37f:dcc3])
- (user=crauer job=sendgmr) by 2002:a05:6902:154e:: with SMTP id
- r14mr893755ybu.308.1631053961809; Tue, 07 Sep 2021 15:32:41 -0700 (PDT)
-Date: Tue,  7 Sep 2021 15:32:34 -0700
-Message-Id: <20210907223234.1165705-1-crauer@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.33.0.153.gba50c8fa24-goog
-Subject: [PATCH v2] hw/arm: Add support for kudo-bmc board.
-From: Chris Rauer <crauer@google.com>
-To: peter.maydell@linaro.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, hskinnemoen@google.com, 
- kfting@nuvoton.com, Chris Rauer <crauer@google.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CHMaAy/JFWUxyakTODorvN54HoTBpm8agQBfjxlDtrc=;
+ b=VWKV04PQ+YhCf+7AjEXZ90HOy3q4BPU+QpmRe1IsnxaQfvHvehQY3/nUQezbt6c7Ao
+ 88ZjqyjFwKPzD5MZyQpUthjY6qduNB3ReUBtyRFEzH7yFSTeeXwEmhJmzRe6EdV7k1QL
+ kuSlBHqJeCd7J2vVstGHyJzw3Xn7jqCd+EbAdQf3kTSE2hgROJ5ShJ97tIpbus6cpyXe
+ t48REnqzkzZiND0sNK9Au7lwpyzSvHv/b879ewOaby5Jv+GzCcK7La++/qIRgDgb9FSC
+ 947JxMScBpQNJ1Ytp5/1EoTtgWYRwI4kfb4vZeINN/H0wktOFE5slqGj7I/QuY5AWv0h
+ SGVw==
+X-Gm-Message-State: AOAM533GAl4AOMSazshQcSwffYEfTdiMSsAHKVqYH8PLDAh4TvqoVgFs
+ /9/g8J1cKYtVA9skDTutKu3mkbWUB0X9Rltxejo=
+X-Google-Smtp-Source: ABdhPJyLQHtWmvqo5YE0rNTFU9SCj5viWGlWOZfaWwUyBrXvju83Hjoo2d3iEPyvUjrBs1W0KLM0RwO+8ipW2j+OglA=
+X-Received: by 2002:a92:2a04:: with SMTP id r4mr412249ile.221.1631054714919;
+ Tue, 07 Sep 2021 15:45:14 -0700 (PDT)
+MIME-Version: 1.0
+References: <069d6162f0bc2f4a4f5a44e73f6442b11c703c53.1630301632.git.alistair.francis@wdc.com>
+ <84d5b1d5783d2e79eee69a2f7ac480cc0c070db3.1630301632.git.alistair.francis@wdc.com>
+In-Reply-To: <84d5b1d5783d2e79eee69a2f7ac480cc0c070db3.1630301632.git.alistair.francis@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 8 Sep 2021 08:44:49 +1000
+Message-ID: <CAKmqyKMBAm0L-NfEQr2j=t-fMBxoLT-SdEOYhkJLjuE-_tKcXA@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] hw/intc: ibex_timer: Convert the timer to use
+ RISC-V CPU GPIO lines
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
- envelope-from=3ieg3YQYKCkoo3m6q3s00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--crauer.bounces.google.com;
- helo=mail-yb1-xb49.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::133;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x133.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,101 +79,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kudo-bmc is a board supported by OpenBMC.
-https://github.com/openbmc/openbmc/tree/master/meta-fii/meta-kudo
+On Mon, Aug 30, 2021 at 3:36 PM Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
+>
+> From: Alistair Francis <alistair.francis@wdc.com>
+>
+> Instead of using riscv_cpu_update_mip() let's instead use the new RISC-V
+> CPU GPIO lines to set the timer MIP bits.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Since v1:
-- hyphenated Cortex-A9
+Thanks!
 
-Tested: Booted kudo firmware.
-Signed-off-by: Chris Rauer <crauer@google.com>
----
- docs/system/arm/nuvoton.rst |  1 +
- hw/arm/npcm7xx_boards.c     | 34 ++++++++++++++++++++++++++++++++++
- 2 files changed, 35 insertions(+)
+Applied to riscv-to-apply.next
 
-diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
-index 69f57c2886..adf497e679 100644
---- a/docs/system/arm/nuvoton.rst
-+++ b/docs/system/arm/nuvoton.rst
-@@ -20,6 +20,7 @@ Hyperscale applications. The following machines are based on this chip :
- 
- - ``quanta-gbs-bmc``    Quanta GBS server BMC
- - ``quanta-gsj``        Quanta GSJ server BMC
-+- ``kudo-bmc``          Fii USA Kudo server BMC
- 
- There are also two more SoCs, NPCM710 and NPCM705, which are single-core
- variants of NPCM750 and NPCM730, respectively. These are currently not
-diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index e5a3243995..a656169f61 100644
---- a/hw/arm/npcm7xx_boards.c
-+++ b/hw/arm/npcm7xx_boards.c
-@@ -31,6 +31,7 @@
- #define NPCM750_EVB_POWER_ON_STRAPS 0x00001ff7
- #define QUANTA_GSJ_POWER_ON_STRAPS 0x00001fff
- #define QUANTA_GBS_POWER_ON_STRAPS 0x000017ff
-+#define KUDO_BMC_POWER_ON_STRAPS 0x00001fff
- 
- static const char npcm7xx_default_bootrom[] = "npcm7xx_bootrom.bin";
- 
-@@ -357,6 +358,23 @@ static void quanta_gbs_init(MachineState *machine)
-     npcm7xx_load_kernel(machine, soc);
- }
- 
-+static void kudo_bmc_init(MachineState *machine)
-+{
-+    NPCM7xxState *soc;
-+
-+    soc = npcm7xx_create_soc(machine, KUDO_BMC_POWER_ON_STRAPS);
-+    npcm7xx_connect_dram(soc, machine->ram);
-+    qdev_realize(DEVICE(soc), NULL, &error_fatal);
-+
-+    npcm7xx_load_bootrom(machine, soc);
-+    npcm7xx_connect_flash(&soc->fiu[0], 0, "mx66u51235f",
-+                          drive_get(IF_MTD, 0, 0));
-+    npcm7xx_connect_flash(&soc->fiu[1], 0, "mx66u51235f",
-+                          drive_get(IF_MTD, 3, 0));
-+
-+    npcm7xx_load_kernel(machine, soc);
-+}
-+
- static void npcm7xx_set_soc_type(NPCM7xxMachineClass *nmc, const char *type)
- {
-     NPCM7xxClass *sc = NPCM7XX_CLASS(object_class_by_name(type));
-@@ -417,6 +435,18 @@ static void gbs_bmc_machine_class_init(ObjectClass *oc, void *data)
-     mc->default_ram_size = 1 * GiB;
- }
- 
-+static void kudo_bmc_machine_class_init(ObjectClass *oc, void *data)
-+{
-+    NPCM7xxMachineClass *nmc = NPCM7XX_MACHINE_CLASS(oc);
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    npcm7xx_set_soc_type(nmc, TYPE_NPCM730);
-+
-+    mc->desc = "Kudo BMC (Cortex-A9)";
-+    mc->init = kudo_bmc_init;
-+    mc->default_ram_size = 1 * GiB;
-+};
-+
- static const TypeInfo npcm7xx_machine_types[] = {
-     {
-         .name           = TYPE_NPCM7XX_MACHINE,
-@@ -437,6 +467,10 @@ static const TypeInfo npcm7xx_machine_types[] = {
-         .name           = MACHINE_TYPE_NAME("quanta-gbs-bmc"),
-         .parent         = TYPE_NPCM7XX_MACHINE,
-         .class_init     = gbs_bmc_machine_class_init,
-+    }, {
-+        .name           = MACHINE_TYPE_NAME("kudo-bmc"),
-+        .parent         = TYPE_NPCM7XX_MACHINE,
-+        .class_init     = kudo_bmc_machine_class_init,
-     },
- };
- 
--- 
-2.33.0.153.gba50c8fa24-goog
+Alistair
 
+> ---
+>  include/hw/timer/ibex_timer.h |  2 ++
+>  hw/riscv/opentitan.c          |  3 +++
+>  hw/timer/ibex_timer.c         | 17 ++++++++++++-----
+>  3 files changed, 17 insertions(+), 5 deletions(-)
+>
+> diff --git a/include/hw/timer/ibex_timer.h b/include/hw/timer/ibex_timer.=
+h
+> index 6a43537003..b6f69b38ee 100644
+> --- a/include/hw/timer/ibex_timer.h
+> +++ b/include/hw/timer/ibex_timer.h
+> @@ -48,5 +48,7 @@ struct IbexTimerState {
+>      uint32_t timebase_freq;
+>
+>      qemu_irq irq;
+> +
+> +    qemu_irq m_timer_irq;
+>  };
+>  #endif /* HW_IBEX_TIMER_H */
+> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> index 048aced0ec..f7cfcf1c3a 100644
+> --- a/hw/riscv/opentitan.c
+> +++ b/hw/riscv/opentitan.c
+> @@ -183,6 +183,9 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
+_soc, Error **errp)
+>      sysbus_connect_irq(SYS_BUS_DEVICE(&s->timer),
+>                         0, qdev_get_gpio_in(DEVICE(&s->plic),
+>                         IBEX_TIMER_TIMEREXPIRED0_0));
+> +    qdev_connect_gpio_out(DEVICE(&s->timer), 0,
+> +                          qdev_get_gpio_in(DEVICE(qemu_get_cpu(0)),
+> +                                           IRQ_M_TIMER));
+>
+>      create_unimplemented_device("riscv.lowrisc.ibex.gpio",
+>          memmap[IBEX_DEV_GPIO].base, memmap[IBEX_DEV_GPIO].size);
+> diff --git a/hw/timer/ibex_timer.c b/hw/timer/ibex_timer.c
+> index 5befb53506..66e1f8e48c 100644
+> --- a/hw/timer/ibex_timer.c
+> +++ b/hw/timer/ibex_timer.c
+> @@ -77,7 +77,7 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
+>          /*
+>           * If the mtimecmp was in the past raise the interrupt now.
+>           */
+> -        riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
+> +        qemu_irq_raise(s->m_timer_irq);
+>          if (s->timer_intr_enable & R_INTR_ENABLE_IE_0_MASK) {
+>              s->timer_intr_state |=3D R_INTR_STATE_IS_0_MASK;
+>              qemu_set_irq(s->irq, true);
+> @@ -86,7 +86,7 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
+>      }
+>
+>      /* Setup a timer to trigger the interrupt in the future */
+> -    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(0));
+> +    qemu_irq_lower(s->m_timer_irq);
+>      qemu_set_irq(s->irq, false);
+>
+>      diff =3D cpu->env.timecmp - now;
+> @@ -106,10 +106,8 @@ static void ibex_timer_update_irqs(IbexTimerState *s=
+)
+>  static void ibex_timer_cb(void *opaque)
+>  {
+>      IbexTimerState *s =3D opaque;
+> -    CPUState *cs =3D qemu_get_cpu(0);
+> -    RISCVCPU *cpu =3D RISCV_CPU(cs);
+>
+> -    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
+> +    qemu_irq_raise(s->m_timer_irq);
+>      if (s->timer_intr_enable & R_INTR_ENABLE_IE_0_MASK) {
+>          s->timer_intr_state |=3D R_INTR_STATE_IS_0_MASK;
+>          qemu_set_irq(s->irq, true);
+> @@ -280,12 +278,21 @@ static void ibex_timer_init(Object *obj)
+>      sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
+>  }
+>
+> +static void ibex_timer_realize(DeviceState *dev, Error **errp)
+> +{
+> +    IbexTimerState *s =3D IBEX_TIMER(dev);
+> +
+> +    qdev_init_gpio_out(dev, &s->m_timer_irq, 1);
+> +}
+> +
+> +
+>  static void ibex_timer_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc =3D DEVICE_CLASS(klass);
+>
+>      dc->reset =3D ibex_timer_reset;
+>      dc->vmsd =3D &vmstate_ibex_timer;
+> +    dc->realize =3D ibex_timer_realize;
+>      device_class_set_props(dc, ibex_timer_properties);
+>  }
+>
+> --
+> 2.31.1
+>
 
