@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD4B94030B8
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 00:08:44 +0200 (CEST)
-Received: from localhost ([::1]:39330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CA84030DC
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 00:21:35 +0200 (CEST)
+Received: from localhost ([::1]:46000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNjGl-0000XO-UQ
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 18:08:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35222)
+	id 1mNjTC-0007ZV-61
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 18:21:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2Z-0005uP-Rz
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:54:04 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:39473)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2f-00060v-1U
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:54:09 -0400
+Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:37824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2X-0000zh-SL
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:54:03 -0400
-Received: by mail-io1-xd42.google.com with SMTP id m11so459417ioo.6
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:54:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2Z-00010i-MM
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:54:08 -0400
+Received: by mail-il1-x144.google.com with SMTP id i13so173684ilm.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:54:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sA5QHzmZM8n6t08NS5xsgqcfTBm3Za7WlXfug3IWldc=;
- b=ftMhVQgIyBdwld+I8He1yn9HaP2xFO0IKa/GLOpf8D0UhXpOeuXHukj0DcmVOSMz35
- ildbyu4F03yRFFGB0ZWiH/qJdbCYQiIC/GTLOjj8ETbqH9lsrUlngFlG88InsaAL+oXy
- wqgr+8r3V/YDj5v8hUBEKLHdCUOf5Uuk2Qe0WkxSeU8A2DLtugmqfn+1vpIX/jtL0y3u
- wqJCRLIusvYricUdlw7ebNWPOBcJArS42mZfGkXVnJ4h7ZrT0O1ofz4p9FaROOg4PLh+
- 7zcToHPF/AMNBdJmASiKbybp+W9j4epmfeWOoPGZ/HJd0aF79Xsrxqp+UXV6Q5oXMVI8
- IMrQ==
+ bh=Ja4NleW1T9pWkVlrgBpTYndoQ+8tFJoJqwwFIeXzY0A=;
+ b=ogB/1exBIf3Pz35HDTsVOj36iQI4OeNRGSK7H95DjzMufo3sqryrV0jo7jloKB5uqY
+ 8tkOsp8UYswnaE/JK2FpMBxoZiqaJQ0DvX2ceHNWqGxjduHgHnoBhtR2IzSueHEwScNB
+ CypGJz5UIIKJRN8qTHcEXJ1UC0kQizNsLOuqvflGPXGniYIU/r6s4rP5DBQ+Mhg3RF0u
+ RuZpU6ZFcrkXGo+4cluU1Yfpol/4K6RqcR5GeIQ74mz/POC6yNLgCBN/aIRY6OpJ7MzG
+ ITnP/cSRGxbmG1v4xRE7jWd8CL9XnFhaII4dutEcSTitrdVIMkTBUvmv7odWJXEWjuP8
+ NKmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sA5QHzmZM8n6t08NS5xsgqcfTBm3Za7WlXfug3IWldc=;
- b=t7gUE3fFDtD+M82AOwIBkLw2VK4YLwkII3iS1fknCD6wsvnDF9pUyyKENGGlKb0kby
- Hjb6xfiRQtp2GBxr1xXbZ3EMvytJgV76fSfiOpmQm/35GYyxJuDYVk6uT/MahhtJrkNF
- Kdp3UNIdFPgQQNrtfygjOzI3OkQ7sY5wXaYEaF2WPV1I3O0iuBXpqC5TCF0fZPMA+dHa
- pixzzrm1xVR5ibH6rzFnMHXTBDwgTpfGHZqPcxKDWy9nHtILNZg4NnzLJlYJ88P4nIWe
- JMs/waqbyjOzrjseNjPqIfvg1CkomD8hVD4NT525QVPfpN4Q6lRRFkogSjm/tPWpTAX7
- OcbQ==
-X-Gm-Message-State: AOAM530jsV3wvV0+xHuyXRHbUGz7mCMq7wxj/ExBnnOluq4k5pHHi01E
- CvXRBntHNtcNN54z2C5g+5q5D4A7s0LDnXuo8D8=
-X-Google-Smtp-Source: ABdhPJx4r57MNhpmoH/zkRw6YIeaoJDgfjrqFvI6AMvoa0qTpZ1DbBctdygyGwEpQtIvBRSP1yTQdA==
-X-Received: by 2002:a05:6638:1491:: with SMTP id
- j17mr434385jak.75.1631051640716; 
- Tue, 07 Sep 2021 14:54:00 -0700 (PDT)
+ bh=Ja4NleW1T9pWkVlrgBpTYndoQ+8tFJoJqwwFIeXzY0A=;
+ b=UgWy+hsGUAMZ3xSS+D5TQLTrO/wY+GzWRh3c1ayiTLFylsiTm9/BWhGxge7Spjpscc
+ LE8AkoDWi9D9+nBqeJ4iOuXNB/lcPaFqlD83/hE28B1h+MJJhvk4qqNzay3XrdDrPHo8
+ aoGK1OX1Daxp6kVVQ37sgEHAv07nUP4JOOkHwWzZQ3/OMyO7Av9mvEyBfH+wNk3ruR0r
+ b+OquopG6Uwaqxeg5lO4gmil4O9dE2ResZk65ZdoQne0CTEh/B9xwj357TGWWzba8u+a
+ 1sRrWDwkIemgB3On1ski8RxUQ+bDvUQiK5UWmoGR5OtqrlqoQpwEinJUwuoLWZiRXQ05
+ 0Epw==
+X-Gm-Message-State: AOAM532PKYIqGmGp5QYEW0cx+4wx468jKOXCsKz2HDS0dFgSAnGVHgGy
+ 2gAQQHuo69TPnIuPYnwvraiL3Agw/K2fSfacjXc=
+X-Google-Smtp-Source: ABdhPJyKP8SQ9NWS5TeR7s6EzaEJdWUqcaoIXm154HvwfPuBJIavAsk2jedI530QhjPugGx3vVyCLA==
+X-Received: by 2002:a05:6e02:928:: with SMTP id o8mr267809ilt.37.1631051641912; 
+ Tue, 07 Sep 2021 14:54:01 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
  by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.54.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 14:54:00 -0700 (PDT)
+ Tue, 07 Sep 2021 14:54:01 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/42] bsd-user: Add system independent stack,
- data and text limiting
-Date: Tue,  7 Sep 2021 15:53:15 -0600
-Message-Id: <20210907215332.30737-26-imp@bsdimp.com>
+Subject: [PULL 26/42] bsd-user: *BSD specific siginfo defintions
+Date: Tue,  7 Sep 2021 15:53:16 -0600
+Message-Id: <20210907215332.30737-27-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210907215332.30737-1-imp@bsdimp.com>
 References: <20210907215332.30737-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d42;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd42.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::144;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x144.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -83,7 +81,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, Richard Henderson <richard.henderson@linaro.org>,
+Cc: Kyle Evans <kevans@FreeBSD.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Warner Losh <imp@FreeBSD.org>, Warner Losh <imp@bsdimp.com>,
  Stacey Son <sson@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -91,173 +90,836 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@FreeBSD.org>
 
-Eliminate the x86 specific stack stuff in favor of more generic control
-over the process size:
-    target_maxtsiz  max text size
-    target_dfldsiz  initial data size limit
-    target_maxdsiz  max data size
-    target_dflssiz  initial stack size limit
-    target_maxssiz  max stack size
-    target_sgrowsiz amount to grow stack
-These can be set on a per-arch basis, and the stack size can be set
-on the command line. Adjust the stack size parameters at startup.
+Add FreeBSD, NetBSD and OpenBSD values for the various signal info types
+and defines to decode different signals to discover more information
+about the specific signal types.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 ---
- bsd-user/elfload.c |  2 +-
- bsd-user/main.c    | 52 +++++++++++++++++++++++++++++++++-------------
- bsd-user/qemu.h    |  7 ++++++-
- 3 files changed, 45 insertions(+), 16 deletions(-)
+ bsd-user/freebsd/target_os_siginfo.h | 145 +++++++++++++++++++++++++++
+ bsd-user/freebsd/target_os_signal.h  |  78 ++++++++++++++
+ bsd-user/i386/target_arch_signal.h   |  94 +++++++++++++++++
+ bsd-user/netbsd/target_os_siginfo.h  |  82 +++++++++++++++
+ bsd-user/netbsd/target_os_signal.h   |  69 +++++++++++++
+ bsd-user/openbsd/target_os_siginfo.h |  82 +++++++++++++++
+ bsd-user/openbsd/target_os_signal.h  |  69 +++++++++++++
+ bsd-user/qemu.h                      |   1 +
+ bsd-user/syscall_defs.h              |  10 --
+ bsd-user/x86_64/target_arch_signal.h |  94 +++++++++++++++++
+ 10 files changed, 714 insertions(+), 10 deletions(-)
+ create mode 100644 bsd-user/freebsd/target_os_siginfo.h
+ create mode 100644 bsd-user/freebsd/target_os_signal.h
+ create mode 100644 bsd-user/i386/target_arch_signal.h
+ create mode 100644 bsd-user/netbsd/target_os_siginfo.h
+ create mode 100644 bsd-user/netbsd/target_os_signal.h
+ create mode 100644 bsd-user/openbsd/target_os_siginfo.h
+ create mode 100644 bsd-user/openbsd/target_os_signal.h
+ create mode 100644 bsd-user/x86_64/target_arch_signal.h
 
-diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-index c28ef34143..59465b71d4 100644
---- a/bsd-user/elfload.c
-+++ b/bsd-user/elfload.c
-@@ -204,7 +204,7 @@ static abi_ulong setup_arg_pages(abi_ulong p, struct bsd_binprm *bprm,
-     /* Create enough stack to hold everything.  If we don't use
-      * it for args, we'll use it for something else...
-      */
--    size = x86_stack_size;
-+    size = target_dflssiz;
-     if (size < MAX_ARG_PAGES * TARGET_PAGE_SIZE)
-         size = MAX_ARG_PAGES * TARGET_PAGE_SIZE;
-     error = target_mmap(0,
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 3d4ed202a0..19bf3a09a7 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -18,6 +18,11 @@
-  *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-  */
- 
-+#include <sys/types.h>
-+#include <sys/time.h>
-+#include <sys/resource.h>
-+#include <sys/sysctl.h>
+diff --git a/bsd-user/freebsd/target_os_siginfo.h b/bsd-user/freebsd/target_os_siginfo.h
+new file mode 100644
+index 0000000000..84944faa4d
+--- /dev/null
++++ b/bsd-user/freebsd/target_os_siginfo.h
+@@ -0,0 +1,145 @@
++/*
++ *  FreeBSD siginfo related definitions
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++#ifndef _TARGET_OS_SIGINFO_H_
++#define _TARGET_OS_SIGINFO_H_
 +
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu/units.h"
-@@ -44,8 +49,6 @@
- #include "host-os.h"
- #include "target_arch_cpu.h"
- 
--#include <sys/sysctl.h>
--
- int singlestep;
- unsigned long mmap_min_addr;
- uintptr_t guest_base;
-@@ -57,12 +60,12 @@ const char *qemu_uname_release;
- enum BSDType bsd_type;
- char qemu_proc_pathname[PATH_MAX];  /* full path to exeutable */
- 
--/*
-- * XXX: on x86 MAP_GROWSDOWN only works if ESP <= address + 32, so
-- * we allocate a bigger stack. Need a better solution, for example
-- * by remapping the process stack directly at the right place
-- */
--unsigned long x86_stack_size = 512 * 1024;
-+unsigned long target_maxtsiz = TARGET_MAXTSIZ;   /* max text size */
-+unsigned long target_dfldsiz = TARGET_DFLDSIZ;   /* initial data size limit */
-+unsigned long target_maxdsiz = TARGET_MAXDSIZ;   /* max data size */
-+unsigned long target_dflssiz = TARGET_DFLSSIZ;   /* initial data size limit */
-+unsigned long target_maxssiz = TARGET_MAXSSIZ;   /* max stack size */
-+unsigned long target_sgrowsiz = TARGET_SGROWSIZ; /* amount to grow stack */
- 
- void gemu_log(const char *fmt, ...)
- {
-@@ -112,7 +115,6 @@ static void usage(void)
-            "-d item1[,...]    enable logging of specified items\n"
-            "                  (use '-d help' for a list of log items)\n"
-            "-D logfile        write logs to 'logfile' (default stderr)\n"
--           "-p pagesize       set the host page size to 'pagesize'\n"
-            "-singlestep       always run in singlestep mode\n"
-            "-strace           log system calls\n"
-            "-trace            [[enable=]<pattern>][,events=<file>][,file=<file>]\n"
-@@ -132,7 +134,7 @@ static void usage(void)
-            ,
-            TARGET_NAME,
-            interp_prefix,
--           x86_stack_size);
-+           target_dflssiz);
-     exit(1);
- }
- 
-@@ -161,6 +163,23 @@ void init_task_state(TaskState *ts)
-     ts->sigqueue_table[i].next = NULL;
- }
- 
-+static void
-+adjust_ssize(void)
++#define TARGET_NSIG         128
++#define TARGET_NSIG_BPW     (sizeof(uint32_t) * 8)
++#define TARGET_NSIG_WORDS   (TARGET_NSIG / TARGET_NSIG_BPW)
++
++/* this struct defines a stack used during syscall handling */
++typedef struct target_sigaltstack {
++    abi_long    ss_sp;
++    abi_ulong   ss_size;
++    abi_long    ss_flags;
++} target_stack_t;
++
++typedef struct {
++    uint32_t __bits[TARGET_NSIG_WORDS];
++} target_sigset_t;
++
++struct target_sigaction {
++    abi_ulong   _sa_handler;
++    int32_t     sa_flags;
++    target_sigset_t sa_mask;
++};
++
++typedef union target_sigval {
++    int32_t sival_int;
++    abi_ulong sival_ptr;
++    int32_t sigval_int;
++    abi_ulong sigval_ptr;
++} target_sigval_t;
++
++typedef struct target_siginfo {
++    int32_t si_signo;   /* signal number */
++    int32_t si_errno;   /* errno association */
++    int32_t si_code;    /* signal code */
++    int32_t si_pid;     /* sending process */
++    int32_t si_uid;     /* sender's ruid */
++    int32_t si_status;  /* exit value */
++    abi_ulong si_addr;  /* faulting instruction */
++    union target_sigval si_value;   /* signal value */
++    union {
++        struct {
++            int32_t _trapno;    /* machine specific trap code */
++        } _fault;
++
++        /* POSIX.1b timers */
++        struct {
++            int32_t _timerid;
++            int32_t _overrun;
++        } _timer;
++
++        struct {
++            int32_t _mqd;
++        } _mesgp;
++
++        /* SIGPOLL */
++        struct {
++            int _band;  /* POLL_IN, POLL_OUT, POLL_MSG */
++        } _poll;
++
++        struct {
++            abi_long __spare1__;
++            int32_t  __spare2_[7];
++        } __spare__;
++    } _reason;
++} target_siginfo_t;
++
++struct target_sigevent {
++    abi_int sigev_notify;
++    abi_int sigev_signo;
++    target_sigval_t sigev_value;
++    union {
++        abi_int _threadid;
++
++        /*
++         * The kernel (and thus QEMU) never looks at these;
++         * they're only used as part of the ABI between a
++         * userspace program and libc.
++         */
++        struct {
++            abi_ulong _function;
++            abi_ulong _attribute;
++        } _sigev_thread;
++        abi_ushort _kevent_flags;
++        abi_long _pad[8];
++    } _sigev_un;
++};
++
++#define target_si_signo     si_signo
++#define target_si_code      si_code
++#define target_si_errno     si_errno
++#define target_si_addr      si_addr
++
++/* SIGILL si_codes */
++#define TARGET_ILL_ILLOPC   (1) /* Illegal opcode. */
++#define TARGET_ILL_ILLOPN   (2) /* Illegal operand. */
++#define TARGET_ILL_ILLADR   (3) /* Illegal addressing mode. */
++#define TARGET_ILL_ILLTRP   (4) /* Illegal trap. */
++#define TARGET_ILL_PRVOPC   (5) /* Privileged opcode. */
++#define TARGET_ILL_PRVREG   (6) /* Privileged register. */
++#define TARGET_ILL_COPROC   (7) /* Coprocessor error. */
++#define TARGET_ILL_BADSTK   (8) /* Internal stack error. */
++
++/* SIGSEGV si_codes */
++#define TARGET_SEGV_MAPERR  (1) /* address not mapped to object */
++#define TARGET_SEGV_ACCERR  (2) /* invalid permissions for mapped object */
++
++/* SIGTRAP si_codes */
++#define TARGET_TRAP_BRKPT   (1) /* process beakpoint */
++#define TARGET_TRAP_TRACE   (2) /* process trace trap */
++
++/* SIGBUS si_codes */
++#define TARGET_BUS_ADRALN   (1)
++#define TARGET_BUS_ADRERR   (2)
++#define TARGET_BUS_OBJERR   (3)
++
++/* SIGFPE codes */
++#define TARGET_FPE_INTOVF   (1) /* Integer overflow. */
++#define TARGET_FPE_INTDIV   (2) /* Integer divide by zero. */
++#define TARGET_FPE_FLTDIV   (3) /* Floating point divide by zero. */
++#define TARGET_FPE_FLTOVF   (4) /* Floating point overflow. */
++#define TARGET_FPE_FLTUND   (5) /* Floating point underflow. */
++#define TARGET_FPE_FLTRES   (6) /* Floating point inexact result. */
++#define TARGET_FPE_FLTINV   (7) /* Invalid floating point operation. */
++#define TARGET_FPE_FLTSUB   (8) /* Subscript out of range. */
++
++#endif /* !_TARGET_OS_SIGINFO_H_ */
+diff --git a/bsd-user/freebsd/target_os_signal.h b/bsd-user/freebsd/target_os_signal.h
+new file mode 100644
+index 0000000000..3ed454e086
+--- /dev/null
++++ b/bsd-user/freebsd/target_os_signal.h
+@@ -0,0 +1,78 @@
++#ifndef _TARGET_OS_SIGNAL_H_
++#define _TARGET_OS_SIGNAL_H_
++
++#include "target_os_siginfo.h"
++#include "target_arch_signal.h"
++
++/* Compare to sys/signal.h */
++#define TARGET_SIGHUP  1       /* hangup */
++#define TARGET_SIGINT  2       /* interrupt */
++#define TARGET_SIGQUIT 3       /* quit */
++#define TARGET_SIGILL  4       /* illegal instruction (not reset when caught) */
++#define TARGET_SIGTRAP 5       /* trace trap (not reset when caught) */
++#define TARGET_SIGABRT 6       /* abort() */
++#define TARGET_SIGIOT  SIGABRT /* compatibility */
++#define TARGET_SIGEMT  7       /* EMT instruction */
++#define TARGET_SIGFPE  8       /* floating point exception */
++#define TARGET_SIGKILL 9       /* kill (cannot be caught or ignored) */
++#define TARGET_SIGBUS  10      /* bus error */
++#define TARGET_SIGSEGV 11      /* segmentation violation */
++#define TARGET_SIGSYS  12      /* bad argument to system call */
++#define TARGET_SIGPIPE 13      /* write on a pipe with no one to read it */
++#define TARGET_SIGALRM 14      /* alarm clock */
++#define TARGET_SIGTERM 15      /* software termination signal from kill */
++#define TARGET_SIGURG  16      /* urgent condition on IO channel */
++#define TARGET_SIGSTOP 17      /* sendable stop signal not from tty */
++#define TARGET_SIGTSTP 18      /* stop signal from tty */
++#define TARGET_SIGCONT 19      /* continue a stopped process */
++#define TARGET_SIGCHLD 20      /* to parent on child stop or exit */
++#define TARGET_SIGTTIN 21      /* to readers pgrp upon background tty read */
++#define TARGET_SIGTTOU 22      /* like TTIN for output if(tp->t_local&LTOSTOP)*/
++#define TARGET_SIGIO   23      /* input/output possible signal */
++#define TARGET_SIGXCPU 24      /* exceeded CPU time limit */
++#define TARGET_SIGXFSZ 25      /* exceeded file size limit */
++#define TARGET_SIGVTALRM 26    /* virtual time alarm */
++#define TARGET_SIGPROF 27      /* profiling time alarm */
++#define TARGET_SIGWINCH 28     /* window size changes */
++#define TARGET_SIGINFO  29     /* information request */
++#define TARGET_SIGUSR1 30      /* user defined signal 1 */
++#define TARGET_SIGUSR2 31      /* user defined signal 2 */
++#define TARGET_SIGTHR 32       /* reserved by thread library */
++#define TARGET_SIGLWP SIGTHR   /* compatibility */
++#define TARGET_SIGLIBRT 33     /* reserved by the real-time library */
++#define TARGET_SIGRTMIN 65
++#define TARGET_SIGRTMAX 126
++
++/*
++ * Language spec says we must list exactly one parameter, even though we
++ * actually supply three.  Ugh!
++ */
++#define TARGET_SIG_DFL      ((abi_long)0)   /* default signal handling */
++#define TARGET_SIG_IGN      ((abi_long)1)   /* ignore signal */
++#define TARGET_SIG_ERR      ((abi_long)-1)  /* error return from signal */
++
++#define TARGET_SA_ONSTACK   0x0001  /* take signal on signal stack */
++#define TARGET_SA_RESTART   0x0002  /* restart system on signal return */
++#define TARGET_SA_RESETHAND 0x0004  /* reset to SIG_DFL when taking signal */
++#define TARGET_SA_NODEFER   0x0010  /* don't mask the signal we're delivering */
++#define TARGET_SA_NOCLDWAIT 0x0020  /* don't create zombies (assign to pid 1) */
++#define TARGET_SA_USERTRAMP 0x0100  /* do not bounce off kernel's sigtramp */
++#define TARGET_SA_NOCLDSTOP 0x0008  /* do not generate SIGCHLD on child stop */
++#define TARGET_SA_SIGINFO   0x0040  /* generate siginfo_t */
++
++/*
++ * Flags for sigprocmask:
++ */
++#define TARGET_SIG_BLOCK        1   /* block specified signal set */
++#define TARGET_SIG_UNBLOCK      2   /* unblock specified signal set */
++#define TARGET_SIG_SETMASK      3   /* set specified signal set */
++
++#define TARGET_BADSIG           SIG_ERR
++
++/*
++ * sigaltstack control
++ */
++#define TARGET_SS_ONSTACK 0x0001  /* take signals on alternate stack */
++#define TARGET_SS_DISABLE 0x0004  /* disable taking signals on alternate stack*/
++
++#endif /* !_TARGET_OS_SIGNAL_H_ */
+diff --git a/bsd-user/i386/target_arch_signal.h b/bsd-user/i386/target_arch_signal.h
+new file mode 100644
+index 0000000000..9812c6b034
+--- /dev/null
++++ b/bsd-user/i386/target_arch_signal.h
+@@ -0,0 +1,94 @@
++/*
++ *  i386 dependent signal definitions
++ *
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++#ifndef TARGET_ARCH_SIGNAL_H
++#define TARGET_ARCH_SIGNAL_H
++
++#include "cpu.h"
++
++/* Size of the signal trampolin code placed on the stack. */
++#define TARGET_SZSIGCODE    0
++
++/* compare to  x86/include/_limits.h */
++#define TARGET_MINSIGSTKSZ  (512 * 4)               /* min sig stack size */
++#define TARGET_SIGSTKSZ     (MINSIGSTKSZ + 32768)   /* recommended size */
++
++#define TARGET_MC_GET_CLEAR_RET 0x0001
++
++struct target_sigcontext {
++    /* to be added */
++};
++
++typedef struct target_mcontext {
++} target_mcontext_t;
++
++typedef struct target_ucontext {
++    target_sigset_t   uc_sigmask;
++    target_mcontext_t uc_mcontext;
++    abi_ulong         uc_link;
++    target_stack_t    uc_stack;
++    int32_t           uc_flags;
++    int32_t         __spare__[4];
++} target_ucontext_t;
++
++struct target_sigframe {
++    abi_ulong   sf_signum;
++    abi_ulong   sf_siginfo;    /* code or pointer to sf_si */
++    abi_ulong   sf_ucontext;   /* points to sf_uc */
++    abi_ulong   sf_addr;       /* undocumented 4th arg */
++    target_ucontext_t   sf_uc; /* = *sf_uncontext */
++    target_siginfo_t    sf_si; /* = *sf_siginfo (SA_SIGINFO case)*/
++    uint32_t    __spare__[2];
++};
++
++/*
++ * Compare to i386/i386/machdep.c sendsig()
++ * Assumes that target stack frame memory is locked.
++ */
++static inline abi_long set_sigtramp_args(CPUX86State *regs,
++        int sig, struct target_sigframe *frame, abi_ulong frame_addr,
++        struct target_sigaction *ka)
 +{
-+    struct rlimit rl;
-+
-+    if (getrlimit(RLIMIT_STACK, &rl) != 0) {
-+        return;
-+    }
-+
-+    target_maxssiz = MIN(target_maxssiz, rl.rlim_max);
-+    target_dflssiz = MIN(MAX(target_dflssiz, rl.rlim_cur), target_maxssiz);
-+
-+    rl.rlim_max = target_maxssiz;
-+    rl.rlim_cur = target_dflssiz;
-+    setrlimit(RLIMIT_STACK, &rl);
++    /* XXX return -TARGET_EOPNOTSUPP; */
++    return 0;
 +}
 +
- static void save_proc_pathname(char *argv0)
- {
-     int mib[4];
-@@ -197,6 +216,8 @@ int main(int argc, char **argv)
-     envlist_t *envlist = NULL;
-     bsd_type = HOST_DEFAULT_BSD_TYPE;
- 
-+    adjust_ssize();
++/* Compare to i386/i386/machdep.c get_mcontext() */
++static inline abi_long get_mcontext(CPUX86State *regs,
++        target_mcontext_t *mcp, int flags)
++{
++    /* XXX */
++    return -TARGET_EOPNOTSUPP;
++}
 +
-     if (argc <= 1) {
-         usage();
-     }
-@@ -257,14 +278,17 @@ int main(int argc, char **argv)
-             }
-         } else if (!strcmp(r, "s")) {
-             r = argv[optind++];
--            rv = qemu_strtoul(r, &r, 0, &x86_stack_size);
--            if (rv < 0 || x86_stack_size <= 0) {
-+            rv = qemu_strtoul(r, &r, 0, &target_dflssiz);
-+            if (rv < 0 || target_dflssiz <= 0) {
-                 usage();
-             }
-             if (*r == 'M') {
--                x86_stack_size *= MiB;
-+                target_dflssiz *= 1024 * 1024;
-             } else if (*r == 'k' || *r == 'K') {
--                x86_stack_size *= KiB;
-+                target_dflssiz *= 1024;
-+            }
-+            if (target_dflssiz > target_maxssiz) {
-+                usage();
-             }
-         } else if (!strcmp(r, "L")) {
-             interp_prefix = argv[optind++];
++/* Compare to i386/i386/machdep.c set_mcontext() */
++static inline abi_long set_mcontext(CPUX86State *regs,
++        target_mcontext_t *mcp, int srflag)
++{
++    /* XXX */
++    return -TARGET_EOPNOTSUPP;
++}
++
++static inline abi_long get_ucontext_sigreturn(CPUX86State *regs,
++                        abi_ulong target_sf, abi_ulong *target_uc)
++{
++    /* XXX */
++    *target_uc = 0;
++    return -TARGET_EOPNOTSUPP;
++}
++
++#endif /* TARGET_ARCH_SIGNAL_H */
+diff --git a/bsd-user/netbsd/target_os_siginfo.h b/bsd-user/netbsd/target_os_siginfo.h
+new file mode 100644
+index 0000000000..667c19cc7c
+--- /dev/null
++++ b/bsd-user/netbsd/target_os_siginfo.h
+@@ -0,0 +1,82 @@
++#ifndef _TARGET_OS_SIGINFO_H_
++#define _TARGET_OS_SIGINFO_H_
++
++#define TARGET_NSIG     32  /* counting 0; could be 33 (mask is 1-32) */
++#define TARGET_NSIG_BPW     (sizeof(uint32_t) * 8)
++#define TARGET_NSIG_WORDS   (TARGET_NSIG / TARGET_NSIG_BPW)
++
++/* this struct defines a stack used during syscall handling */
++typedef struct target_sigaltstack {
++    abi_long    ss_sp;
++    abi_ulong   ss_size;
++    abi_long    ss_flags;
++} target_stack_t;
++
++typedef struct {
++    uint32_t __bits[TARGET_NSIG_WORDS];
++} target_sigset_t
++
++struct target_sigaction {
++    abi_ulong   _sa_handler;
++    int32_t     sa_flags;
++    target_sigset_t sa_mask;
++};
++
++/* Compare to sys/siginfo.h */
++typedef union target_sigval {
++    int         sival_int;
++    abi_ulong   sival_ptr;
++} target_sigval_t;
++
++struct target_ksiginfo {
++    int32_t     _signo;
++    int32_t     _code;
++    int32_t     _errno;
++#if TARGET_ABI_BITS == 64
++    int32_t     _pad;
++#endif
++    union {
++        struct {
++            int32_t             _pid;
++            int32_t             _uid;
++            target_sigval_t    _value;
++        } _rt;
++
++        struct {
++            int32_t             _pid;
++            int32_t             _uid;
++            int32_t             _struct;
++            /* clock_t          _utime; */
++            /* clock_t          _stime; */
++        } _child;
++
++        struct {
++            abi_ulong           _addr;
++            int32_t             _trap;
++        } _fault;
++
++        struct {
++            long                _band;
++            int                 _fd;
++        } _poll;
++    } _reason;
++};
++
++typedef union target_siginfo {
++    int8_t     si_pad[128];
++    struct     target_ksiginfo  _info;
++} target_siginfo_t;
++
++#define target_si_signo     _info._signo
++#define target_si_code      _info._code
++#define target_si_errno     _info._errno
++#define target_si_addr      _info._reason._fault._addr
++
++#define TARGET_SEGV_MAPERR  1
++#define TARGET_SEGV_ACCERR  2
++
++#define TARGET_TRAP_BRKPT   1
++#define TARGET_TRAP_TRACE   2
++
++
++#endif /* ! _TARGET_OS_SIGINFO_H_ */
+diff --git a/bsd-user/netbsd/target_os_signal.h b/bsd-user/netbsd/target_os_signal.h
+new file mode 100644
+index 0000000000..a373922f7e
+--- /dev/null
++++ b/bsd-user/netbsd/target_os_signal.h
+@@ -0,0 +1,69 @@
++#ifndef _TARGET_OS_SIGNAL_H_
++#define _TARGET_OS_SIGNAL_H_
++
++#include "target_os_siginfo.h"
++#include "target_arch_signal.h"
++
++#define TARGET_SIGHUP  1       /* hangup */
++#define TARGET_SIGINT  2       /* interrupt */
++#define TARGET_SIGQUIT 3       /* quit */
++#define TARGET_SIGILL  4       /* illegal instruction (not reset when caught) */
++#define TARGET_SIGTRAP 5       /* trace trap (not reset when caught) */
++#define TARGET_SIGABRT 6       /* abort() */
++#define TARGET_SIGIOT  SIGABRT /* compatibility */
++#define TARGET_SIGEMT  7       /* EMT instruction */
++#define TARGET_SIGFPE  8       /* floating point exception */
++#define TARGET_SIGKILL 9       /* kill (cannot be caught or ignored) */
++#define TARGET_SIGBUS  10      /* bus error */
++#define TARGET_SIGSEGV 11      /* segmentation violation */
++#define TARGET_SIGSYS  12      /* bad argument to system call */
++#define TARGET_SIGPIPE 13      /* write on a pipe with no one to read it */
++#define TARGET_SIGALRM 14      /* alarm clock */
++#define TARGET_SIGTERM 15      /* software termination signal from kill */
++#define TARGET_SIGURG  16      /* urgent condition on IO channel */
++#define TARGET_SIGSTOP 17      /* sendable stop signal not from tty */
++#define TARGET_SIGTSTP 18      /* stop signal from tty */
++#define TARGET_SIGCONT 19      /* continue a stopped process */
++#define TARGET_SIGCHLD 20      /* to parent on child stop or exit */
++#define TARGET_SIGTTIN 21      /* to readers pgrp upon background tty read */
++#define TARGET_SIGTTOU 22      /* like TTIN for out if (tp->t_local&LTOSTOP) */
++#define TARGET_SIGIO   23      /* input/output possible signal */
++#define TARGET_SIGXCPU 24      /* exceeded CPU time limit */
++#define TARGET_SIGXFSZ 25      /* exceeded file size limit */
++#define TARGET_SIGVTALRM 26    /* virtual time alarm */
++#define TARGET_SIGPROF   27    /* profiling time alarm */
++#define TARGET_SIGWINCH  28    /* window size changes */
++#define TARGET_SIGINFO   29    /* information request */
++#define TARGET_SIGUSR1   30    /* user defined signal 1 */
++#define TARGET_SIGUSR2   31    /* user defined signal 2 */
++
++/*
++ * Language spec says we must list exactly one parameter, even though we
++ * actually supply three.  Ugh!
++ */
++#define TARGET_SIG_DFL         ((void (*)(int))0)
++#define TARGET_SIG_IGN         ((void (*)(int))1)
++#define TARGET_SIG_ERR         ((void (*)(int))-1)
++
++#define TARGET_SA_ONSTACK   0x0001  /* take signal on signal stack */
++#define TARGET_SA_RESTART   0x0002  /* restart system on signal return */
++#define TARGET_SA_RESETHAND 0x0004  /* reset to SIG_DFL when taking signal */
++#define TARGET_SA_NODEFER   0x0010  /* don't mask the signal we're delivering */
++#define TARGET_SA_NOCLDWAIT 0x0020  /* don't create zombies (assign to pid 1) */
++#define TARGET_SA_USERTRAMP 0x0100  /* do not bounce off kernel's sigtramp */
++#define TARGET_SA_NOCLDSTOP 0x0008  /* do not generate SIGCHLD on child stop */
++#define TARGET_SA_SIGINFO   0x0040  /* generate siginfo_t */
++
++/*
++ * Flags for sigprocmask:
++ */
++#define TARGET_SIG_BLOCK       1       /* block specified signal set */
++#define TARGET_SIG_UNBLOCK     2       /* unblock specified signal set */
++#define TARGET_SIG_SETMASK     3       /* set specified signal set */
++
++#define TARGET_BADSIG       SIG_ERR
++
++#define TARGET_SS_ONSTACK 0x0001 /* take signals on alternate stack */
++#define TARGET_SS_DISABLE 0x0004 /* disable taking signals on alternate stack */
++
++#endif /* !_TARGET_OS_SIGNAL_H_ */
+diff --git a/bsd-user/openbsd/target_os_siginfo.h b/bsd-user/openbsd/target_os_siginfo.h
+new file mode 100644
+index 0000000000..baf646a5ab
+--- /dev/null
++++ b/bsd-user/openbsd/target_os_siginfo.h
+@@ -0,0 +1,82 @@
++#ifndef _TARGET_OS_SIGINFO_H_
++#define _TARGET_OS_SIGINFO_H_
++
++#define TARGET_NSIG     32   /* counting 0; could be 33 (mask is 1-32) */
++#define TARGET_NSIG_BPW     (sizeof(uint32_t) * 8)
++#define TARGET_NSIG_WORDS   (TARGET_NSIG / TARGET_NSIG_BPW)
++
++/* this struct defines a stack used during syscall handling */
++typedef struct target_sigaltstack {
++    abi_long    ss_sp;
++    abi_ulong   ss_size;
++    abi_long    ss_flags;
++} target_stack_t;
++
++typedef struct {
++    uint32_t __bits[TARGET_NSIG_WORDS];
++} target_sigset_t
++
++struct target_sigaction {
++    abi_ulong   _sa_handler;
++    int32_t     sa_flags;
++    target_sigset_t sa_mask;
++};
++
++/* Compare to sys/siginfo.h */
++typedef union target_sigval {
++    int         sival_int;
++    abi_ulong   sival_ptr;
++} target_sigval_t;
++
++struct target_ksiginfo {
++    int32_t     _signo;
++    int32_t     _code;
++    int32_t     _errno;
++#if TARGET_ABI_BITS == 64
++    int32_t     _pad;
++#endif
++    union {
++        struct {
++            int32_t             _pid;
++            int32_t             _uid;
++            target_sigval_t    _value;
++        } _rt;
++
++        struct {
++            int32_t             _pid;
++            int32_t             _uid;
++            int32_t             _struct;
++            /* clock_t          _utime; */
++            /* clock_t          _stime; */
++        } _child;
++
++        struct {
++            abi_ulong           _addr;
++            int32_t             _trap;
++        } _fault;
++
++        struct {
++            long                _band;
++            int                 _fd;
++        } _poll;
++    } _reason;
++};
++
++typedef union target_siginfo {
++    int8_t     si_pad[128];
++    struct     target_ksiginfo  _info;
++} target_siginfo_t;
++
++#define target_si_signo     _info._signo
++#define target_si_code      _info._code
++#define target_si_errno     _info._errno
++#define target_si_addr      _info._reason._fault._addr
++
++#define TARGET_SEGV_MAPERR  1
++#define TARGET_SEGV_ACCERR  2
++
++#define TARGET_TRAP_BRKPT   1
++#define TARGET_TRAP_TRACE   2
++
++
++#endif /* ! _TARGET_OS_SIGINFO_H_ */
+diff --git a/bsd-user/openbsd/target_os_signal.h b/bsd-user/openbsd/target_os_signal.h
+new file mode 100644
+index 0000000000..a373922f7e
+--- /dev/null
++++ b/bsd-user/openbsd/target_os_signal.h
+@@ -0,0 +1,69 @@
++#ifndef _TARGET_OS_SIGNAL_H_
++#define _TARGET_OS_SIGNAL_H_
++
++#include "target_os_siginfo.h"
++#include "target_arch_signal.h"
++
++#define TARGET_SIGHUP  1       /* hangup */
++#define TARGET_SIGINT  2       /* interrupt */
++#define TARGET_SIGQUIT 3       /* quit */
++#define TARGET_SIGILL  4       /* illegal instruction (not reset when caught) */
++#define TARGET_SIGTRAP 5       /* trace trap (not reset when caught) */
++#define TARGET_SIGABRT 6       /* abort() */
++#define TARGET_SIGIOT  SIGABRT /* compatibility */
++#define TARGET_SIGEMT  7       /* EMT instruction */
++#define TARGET_SIGFPE  8       /* floating point exception */
++#define TARGET_SIGKILL 9       /* kill (cannot be caught or ignored) */
++#define TARGET_SIGBUS  10      /* bus error */
++#define TARGET_SIGSEGV 11      /* segmentation violation */
++#define TARGET_SIGSYS  12      /* bad argument to system call */
++#define TARGET_SIGPIPE 13      /* write on a pipe with no one to read it */
++#define TARGET_SIGALRM 14      /* alarm clock */
++#define TARGET_SIGTERM 15      /* software termination signal from kill */
++#define TARGET_SIGURG  16      /* urgent condition on IO channel */
++#define TARGET_SIGSTOP 17      /* sendable stop signal not from tty */
++#define TARGET_SIGTSTP 18      /* stop signal from tty */
++#define TARGET_SIGCONT 19      /* continue a stopped process */
++#define TARGET_SIGCHLD 20      /* to parent on child stop or exit */
++#define TARGET_SIGTTIN 21      /* to readers pgrp upon background tty read */
++#define TARGET_SIGTTOU 22      /* like TTIN for out if (tp->t_local&LTOSTOP) */
++#define TARGET_SIGIO   23      /* input/output possible signal */
++#define TARGET_SIGXCPU 24      /* exceeded CPU time limit */
++#define TARGET_SIGXFSZ 25      /* exceeded file size limit */
++#define TARGET_SIGVTALRM 26    /* virtual time alarm */
++#define TARGET_SIGPROF   27    /* profiling time alarm */
++#define TARGET_SIGWINCH  28    /* window size changes */
++#define TARGET_SIGINFO   29    /* information request */
++#define TARGET_SIGUSR1   30    /* user defined signal 1 */
++#define TARGET_SIGUSR2   31    /* user defined signal 2 */
++
++/*
++ * Language spec says we must list exactly one parameter, even though we
++ * actually supply three.  Ugh!
++ */
++#define TARGET_SIG_DFL         ((void (*)(int))0)
++#define TARGET_SIG_IGN         ((void (*)(int))1)
++#define TARGET_SIG_ERR         ((void (*)(int))-1)
++
++#define TARGET_SA_ONSTACK   0x0001  /* take signal on signal stack */
++#define TARGET_SA_RESTART   0x0002  /* restart system on signal return */
++#define TARGET_SA_RESETHAND 0x0004  /* reset to SIG_DFL when taking signal */
++#define TARGET_SA_NODEFER   0x0010  /* don't mask the signal we're delivering */
++#define TARGET_SA_NOCLDWAIT 0x0020  /* don't create zombies (assign to pid 1) */
++#define TARGET_SA_USERTRAMP 0x0100  /* do not bounce off kernel's sigtramp */
++#define TARGET_SA_NOCLDSTOP 0x0008  /* do not generate SIGCHLD on child stop */
++#define TARGET_SA_SIGINFO   0x0040  /* generate siginfo_t */
++
++/*
++ * Flags for sigprocmask:
++ */
++#define TARGET_SIG_BLOCK       1       /* block specified signal set */
++#define TARGET_SIG_UNBLOCK     2       /* unblock specified signal set */
++#define TARGET_SIG_SETMASK     3       /* set specified signal set */
++
++#define TARGET_BADSIG       SIG_ERR
++
++#define TARGET_SS_ONSTACK 0x0001 /* take signals on alternate stack */
++#define TARGET_SS_DISABLE 0x0004 /* disable taking signals on alternate stack */
++
++#endif /* !_TARGET_OS_SIGNAL_H_ */
 diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 1b37757e06..21efa7d777 100644
+index 21efa7d777..3e3bd96cff 100644
 --- a/bsd-user/qemu.h
 +++ b/bsd-user/qemu.h
-@@ -219,7 +219,12 @@ void mmap_fork_end(int child);
+@@ -42,6 +42,7 @@ extern enum BSDType bsd_type;
+ #include "syscall_defs.h"
+ #include "target_syscall.h"
+ #include "target_os_vmparam.h"
++#include "target_os_signal.h"
+ #include "exec/gdbstub.h"
  
- /* main.c */
- extern char qemu_proc_pathname[];
--extern unsigned long x86_stack_size;
-+extern unsigned long target_maxtsiz;
-+extern unsigned long target_dfldsiz;
-+extern unsigned long target_maxdsiz;
-+extern unsigned long target_dflssiz;
-+extern unsigned long target_maxssiz;
-+extern unsigned long target_sgrowsiz;
+ /*
+diff --git a/bsd-user/syscall_defs.h b/bsd-user/syscall_defs.h
+index 207ddeecbf..eb7d1da9b0 100644
+--- a/bsd-user/syscall_defs.h
++++ b/bsd-user/syscall_defs.h
+@@ -37,8 +37,6 @@
+  *      @(#)signal.h    8.2 (Berkeley) 1/21/94
+  */
  
- /* user access */
+-#define TARGET_NSIG     32              /* counting 0; could be 33 (mask is 1-32) */
+-
+ #define TARGET_SIGHUP  1       /* hangup */
+ #define TARGET_SIGINT  2       /* interrupt */
+ #define TARGET_SIGQUIT 3       /* quit */
+@@ -72,14 +70,6 @@
+ #define TARGET_SIGUSR1 30       /* user defined signal 1 */
+ #define TARGET_SIGUSR2 31       /* user defined signal 2 */
  
+-/*
+- * Language spec says we must list exactly one parameter, even though we
+- * actually supply three.  Ugh!
+- */
+-#define TARGET_SIG_DFL         (void (*)(int))0
+-#define TARGET_SIG_IGN         (void (*)(int))1
+-#define TARGET_SIG_ERR         (void (*)(int))-1
+-
+ #define TARGET_SA_ONSTACK       0x0001  /* take signal on signal stack */
+ #define TARGET_SA_RESTART       0x0002  /* restart system on signal return */
+ #define TARGET_SA_RESETHAND     0x0004  /* reset to SIG_DFL when taking signal */
+diff --git a/bsd-user/x86_64/target_arch_signal.h b/bsd-user/x86_64/target_arch_signal.h
+new file mode 100644
+index 0000000000..4c1ff0e5ba
+--- /dev/null
++++ b/bsd-user/x86_64/target_arch_signal.h
+@@ -0,0 +1,94 @@
++/*
++ *  x86_64 signal definitions
++ *
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++#ifndef _TARGET_ARCH_SIGNAL_H_
++#define _TARGET_ARCH_SIGNAL_H_
++
++#include "cpu.h"
++
++/* Size of the signal trampolin code placed on the stack. */
++#define TARGET_SZSIGCODE    0
++
++/* compare to  x86/include/_limits.h */
++#define TARGET_MINSIGSTKSZ  (512 * 4)               /* min sig stack size */
++#define TARGET_SIGSTKSZ     (MINSIGSTKSZ + 32768)   /* recommended size */
++
++#define TARGET_MC_GET_CLEAR_RET 0x0001
++
++struct target_sigcontext {
++    /* to be added */
++};
++
++typedef struct target_mcontext {
++} target_mcontext_t;
++
++typedef struct target_ucontext {
++    target_sigset_t   uc_sigmask;
++    target_mcontext_t uc_mcontext;
++    abi_ulong         uc_link;
++    target_stack_t    uc_stack;
++    int32_t           uc_flags;
++    int32_t         __spare__[4];
++} target_ucontext_t;
++
++struct target_sigframe {
++    abi_ulong   sf_signum;
++    abi_ulong   sf_siginfo;    /* code or pointer to sf_si */
++    abi_ulong   sf_ucontext;   /* points to sf_uc */
++    abi_ulong   sf_addr;       /* undocumented 4th arg */
++    target_ucontext_t   sf_uc; /* = *sf_uncontext */
++    target_siginfo_t    sf_si; /* = *sf_siginfo (SA_SIGINFO case)*/
++    uint32_t    __spare__[2];
++};
++
++/*
++ * Compare to amd64/amd64/machdep.c sendsig()
++ * Assumes that target stack frame memory is locked.
++ */
++static inline abi_long set_sigtramp_args(CPUX86State *regs,
++        int sig, struct target_sigframe *frame, abi_ulong frame_addr,
++        struct target_sigaction *ka)
++{
++    /* XXX return -TARGET_EOPNOTSUPP; */
++    return 0;
++}
++
++/* Compare to amd64/amd64/machdep.c get_mcontext() */
++static inline abi_long get_mcontext(CPUX86State *regs,
++                target_mcontext_t *mcp, int flags)
++{
++    /* XXX */
++    return -TARGET_EOPNOTSUPP;
++}
++
++/* Compare to amd64/amd64/machdep.c set_mcontext() */
++static inline abi_long set_mcontext(CPUX86State *regs,
++        target_mcontext_t *mcp, int srflag)
++{
++    /* XXX */
++    return -TARGET_EOPNOTSUPP;
++}
++
++static inline abi_long get_ucontext_sigreturn(CPUX86State *regs,
++        abi_ulong target_sf, abi_ulong *target_uc)
++{
++    /* XXX */
++    *target_uc = 0;
++    return -TARGET_EOPNOTSUPP;
++}
++
++#endif /* !TARGET_ARCH_SIGNAL_H_ */
 -- 
 2.32.0
 
