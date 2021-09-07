@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ED3040252C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 10:31:32 +0200 (CEST)
-Received: from localhost ([::1]:54056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5352740253B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 10:38:37 +0200 (CEST)
+Received: from localhost ([::1]:57416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNWVv-00083x-CL
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 04:31:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46954)
+	id 1mNWcm-0002KY-EI
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 04:38:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNWSx-0005oI-Ak
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 04:28:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45098)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNWSt-0000Sx-Vs
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 04:28:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631003302;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=moawCLYSupqB2dbFtNvQHP83HMxlJBjoKwx1j16d5ko=;
- b=H3PwwGpJ+rJADV0caJdId6qp4NUIS1B9zs0gNyCQDvHjZHf9APVNzP5VgPcIs9/N6Gn5CS
- FM2xlAeSHPizn5q+AK9GJ7ztBq5pur+XhZuT0QQlwOohDy7TG2r1LBfjshzlUYtfXhbylJ
- vW2/3JPPX9zDSeYxoazin5vKAPND0bM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-110-s5XS5DfpPFOLN0oJrI2XMA-1; Tue, 07 Sep 2021 04:28:19 -0400
-X-MC-Unique: s5XS5DfpPFOLN0oJrI2XMA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDB8E835DE7;
- Tue,  7 Sep 2021 08:28:18 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
- [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AA85E19723;
- Tue,  7 Sep 2021 08:28:18 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 37A061138606; Tue,  7 Sep 2021 10:28:17 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 2/6] qapi/parser: Allow empty QAPIDoc Sections
-References: <20210520225710.168356-1-jsnow@redhat.com>
- <20210520225710.168356-3-jsnow@redhat.com>
-Date: Tue, 07 Sep 2021 10:28:17 +0200
-In-Reply-To: <20210520225710.168356-3-jsnow@redhat.com> (John Snow's message
- of "Thu, 20 May 2021 18:57:06 -0400")
-Message-ID: <87sfyg6b8e.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mNWbG-0001Rv-Qw; Tue, 07 Sep 2021 04:37:02 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:42778)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mNWbF-0007od-3n; Tue, 07 Sep 2021 04:37:02 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ u19-20020a7bc053000000b002f8d045b2caso511307wmc.1; 
+ Tue, 07 Sep 2021 01:37:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=aY0SG9zXMxDTVpWt0FDaIE5RHsqaNhDGalP9dvIzl84=;
+ b=DwZDF9/Dy7RztEk9AQwsKbVIAewYEdYxvgq/yFYr3dlGePrGKhAeaNnfEDqttcZSvy
+ Xu4Qg1W8RSM+MWB5tk/s3baDj8J/W8u3SszHWBYxTHx8rwXzx/EeufnLJRn3j0YfGedb
+ IfquZ44E17QqiThLeWEO36hQJF1zlchvTE+Y5knK6Y1oySA68Fchh9qOte496lJW5qZA
+ Go+AssWozQINDibnQJk6MBuezuRKdblwrd4Nde6hPmSCRBHWavLUYuz4NTiNNAForq8l
+ aAHeGJubCmQhZmcOt7DkLRJ/cIDtpjDqus35Rv+aSd6rU81OssPM/3+RyPXr5aTXSgHf
+ QFiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aY0SG9zXMxDTVpWt0FDaIE5RHsqaNhDGalP9dvIzl84=;
+ b=kgkQual94MRGdC6Ye4yUiQcXK/sPqldwoix2aJpuWoqw7EdkLJQpbBCMBDUcE43OWY
+ HuQHMmYUTOBb7e66pVTg4xREUj1KQSb/K7cMGWpY3N1hvbIYTTvXY9p1IU5elk88sTkD
+ DsZgb6EmkERG1byiNl7tfG4P+ZDtSMSsPJfSozvq5/uXr/tBcc1CTrx/S9xijqoAl8Nr
+ QbvGS+zQY99Zfwe5ELGFRbEph7p92gV2O5xqQw1nMI6DiImmprF/q+SYFFE78U22Lme6
+ SjcHSZqw3vizyTqepDdvlmwG/S/5Bas97d1v93KBKB+WmHUXZX2dcq2VewdpEmzrFu+S
+ 5DrA==
+X-Gm-Message-State: AOAM532j6w8EC/Sm5MvgVZ1c65585E0pl6ZDl11+9j00MDFE/DLhO+xq
+ 8oNsEAwpmjSIzWK23int0xvwyEDBW48=
+X-Google-Smtp-Source: ABdhPJyPqUqT+8VvWVStC8vuzLa2OSNPXIDngz7iXEnApIoGlAgh3oviPFD+LHJOpWVrQmm6dG8r6A==
+X-Received: by 2002:a1c:f206:: with SMTP id s6mr2836772wmc.102.1631003818803; 
+ Tue, 07 Sep 2021 01:36:58 -0700 (PDT)
+Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id s15sm10073657wrb.22.2021.09.07.01.36.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Sep 2021 01:36:58 -0700 (PDT)
+Subject: Re: [PATCH 05/10] aspeed/smc: Remove the 'flash' attribute from
+ AspeedSMCFlash
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley <joel@jms.id.au>
+References: <20210907065822.1152443-1-clg@kaod.org>
+ <20210907065822.1152443-6-clg@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <497a0a23-570c-964d-80cb-e590749d20f9@amsat.org>
+Date: Tue, 7 Sep 2021 10:36:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+In-Reply-To: <20210907065822.1152443-6-clg@kaod.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.332,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,103 +91,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+On 9/7/21 8:58 AM, Cédric Le Goater wrote:
+> There is no use for it.
 
-> It simplifies the typing to say that _section is always a
-> QAPIDoc.Section().
+Hmmm this is not the correct justification.
 
-If you say so....
+This devices sits on a bus, so its state will be released when
+the bus is released. There is no need to release it manually,
+so we can remove the reference.
 
-> To accommodate this change, we must allow for this object to evaluate to
-> False for functions like _end_section which behave differently based on
-> whether or not a Section has been started.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
->
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->
-> Probably a better fix is to restructure the code to prevent empty
-> sections from being "ended", but that seems like a bigger whale than
-> what I'm after at the immediate moment.
-
-Do we have a TODO comment for that?
-
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/parser.py | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-> index b6a5e661215..3ddde318376 100644
-> --- a/scripts/qapi/parser.py
-> +++ b/scripts/qapi/parser.py
-> @@ -456,6 +456,9 @@ def __init__(self, parser, name=None, indent=0):
->              # the expected indent level of the text of this section
->              self._indent = indent
+>  include/hw/ssi/aspeed_smc.h |  1 -
+>  hw/arm/aspeed.c             | 11 +++++------
+>  2 files changed, 5 insertions(+), 7 deletions(-)
+> 
+> diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
+> index 0ea536a44c3a..f32f66f9a838 100644
+> --- a/include/hw/ssi/aspeed_smc.h
+> +++ b/include/hw/ssi/aspeed_smc.h
+> @@ -37,7 +37,6 @@ typedef struct AspeedSMCFlash {
+>      uint32_t size;
 >  
-> +        def __bool__(self) -> bool:
-> +            return bool(self.name or self.text)
-> +
->          def append(self, line):
->              # Strip leading spaces corresponding to the expected indent level
->              # Blank lines are always OK.
-
-Overriding __bool__() is the minimally invasive compensation for the
-next hunk's replacement of None by a QAPIDoc.Section
-
-However, I'm wary of overriding __bool__().  It creates a difference
-between "if object:" and "if object is not None:".  Gives me a queasy
-feeling, as shortening the latter to the former is pretty much
-automatic.
-
-A boring .is_empty() would avoid that, but we'd have to adjust "if S" to
-"if S.is_empty()" wherever we changed S from Optional[Section] to
-Section.  Which S could be affected?
-
-The following variables get assigned Section or ArgSection:
-
-    QAPIDoc.body
-    QAPIDoc._section
-    QAPIDoc.args[NAME]
-    QAPIDoc.features[NAME]
-
-.body, .args[NAME] and .features[NAME] are never None I believe.
-
-._section is also assigned None, in ._end_section().  It remains None
-until the next ._start*_section().
-
-The only use of .section that doesn't dot into it is in ._end_section().
-That's the only spot to adjust.
-
-Confirm by testing: in all of "make check", Section.__bool__() is only
-ever called from QAPIDoc._end_section().  Checked by sticking
-traceback.print_stack() into .__bool__().
-
-> @@ -722,7 +725,7 @@ def _end_section(self):
->                  raise QAPIParseError(
->                      self._parser,
->                      "empty doc section '%s'" % self._section.name)
-> -            self._section = None
-> +            self._section = QAPIDoc.Section(self._parser)
+>      MemoryRegion mmio;
+> -    DeviceState *flash;
+>  } AspeedSMCFlash;
 >  
->      def _append_freeform(self, line):
->          match = re.match(r'(@\S+:)', line)
-
-Replacing None by QAPIDoc.Section doesn't just simplify the typing!  It
-also creates a bogus "additional section" (in the sense of QAPIDoc's
-class comment) after any section.  Works, because the .start*_section()
-all call .end_section() first, .end_section() does nothing for empty
-sections, and the bogus sections remain empty, unless we somehow screw
-up the code to add contents to them.  Such screwups are now possible,
-whereas before they would crash.
-
-This correctness argument isn't obvious, and therefore should be made in
-the commit message.
+>  #define TYPE_ASPEED_SMC "aspeed.smc"
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 95ce4b1670ac..64c3a7fb66db 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -274,18 +274,17 @@ static void aspeed_board_init_flashes(AspeedSMCState *s,
+>      int i ;
+>  
+>      for (i = 0; i < s->num_cs; ++i) {
+> -        AspeedSMCFlash *fl = &s->flashes[i];
+>          DriveInfo *dinfo = drive_get_next(IF_MTD);
+>          qemu_irq cs_line;
+> +        DeviceState *dev;
+>  
+> -        fl->flash = qdev_new(flashtype);
+> +        dev = qdev_new(flashtype);
+>          if (dinfo) {
+> -            qdev_prop_set_drive(fl->flash, "drive",
+> -                                blk_by_legacy_dinfo(dinfo));
+> +            qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
+>          }
+> -        qdev_realize_and_unref(fl->flash, BUS(s->spi), &error_fatal);
+> +        qdev_realize_and_unref(dev, BUS(s->spi), &error_fatal);
+>  
+> -        cs_line = qdev_get_gpio_in_named(fl->flash, SSI_GPIO_CS, 0);
+> +        cs_line = qdev_get_gpio_in_named(dev, SSI_GPIO_CS, 0);
+>          sysbus_connect_irq(SYS_BUS_DEVICE(s), i + 1, cs_line);
+>      }
+>  }
+> 
 
 
