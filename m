@@ -2,55 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48E74023DA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 09:12:16 +0200 (CEST)
-Received: from localhost ([::1]:55276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0583F4023E4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 09:16:35 +0200 (CEST)
+Received: from localhost ([::1]:59830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNVHE-0005Ib-19
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 03:12:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59858)
+	id 1mNVLN-0008TM-W7
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 03:16:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mNVFq-0003aE-TU
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 03:10:50 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:31545)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mNVFp-0002fj-BD
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 03:10:50 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-gCeq6xD_Ny2s7N85RAJpGw-1; Tue, 07 Sep 2021 03:10:18 -0400
-X-MC-Unique: gCeq6xD_Ny2s7N85RAJpGw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA7D9835DE0;
- Tue,  7 Sep 2021 07:10:16 +0000 (UTC)
-Received: from bahia.lan (unknown [10.39.192.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D9ED619729;
- Tue,  7 Sep 2021 07:10:15 +0000 (UTC)
-Date: Tue, 7 Sep 2021 09:10:13 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v5 1/4] spapr: move NUMA associativity init to machine
- reset
-Message-ID: <20210907091013.3882663b@bahia.lan>
-In-Reply-To: <YTa0RzbdvfSQZy9+@yekko>
-References: <20210907002527.412013-1-danielhb413@gmail.com>
- <20210907002527.412013-2-danielhb413@gmail.com>
- <YTa0RzbdvfSQZy9+@yekko>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mNVIr-00076v-SS
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 03:13:58 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:35440)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mNVIo-0005JT-IU
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 03:13:57 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id i21so17798594ejd.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 00:13:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Rl+BLe5Z2hMajLfbeCnwNZ/QgGcIYiAMdh0iYw7EYx8=;
+ b=Uq8YPVv7v61Lo9x+2IpZESVaEEYqlqN1P/6f+qYaN8AoGXylNUieCYzi2oapTHwxl5
+ HyMpeb/Aq/gKM4tymT+Yql820ohB/fK5mbplqbMlpqInY059Ar+onMO7QTlf53Z3csZe
+ 4On/2/wGMCUJKB1dFuDl07fJcNzRLlfSza06atgLcn0cNWYFNwc0aqIFoUW24zg/YvZK
+ Q9qei74sELU5XZUqaE8JnmkwETdiv67lxqaUlFeSCk2upzAj/NdVQZk8Y0momjdtU7rX
+ R3XzXrs7pJzu1rGhq+d5yRKGZYl0GmwRZd986bgrqmCwKxfG3/bcfoJdIk92nMiiEIIk
+ kJ+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Rl+BLe5Z2hMajLfbeCnwNZ/QgGcIYiAMdh0iYw7EYx8=;
+ b=m5NMoOM534o2hZeVWH+ctgsKzAp7WtNtW3AIonXflFk3oqGC2ejmtAKFssuULNRUcV
+ yzcWweLEmXiwrrczmGBDmwP1/FRdzWUnE97T0RegrbDDKr2YsvdXGQf37gmfh/aXTYaI
+ o08vLwvyUugtjNswsbIxouyTOBP/2hlSgbvK8SAd1uVhQEzwbFWqZ0Qwbs2nGuV8TT8Y
+ CWVqtqLcHq+8M7igMSUSJkkpLdJsxg9pF0XnFgK3+MHKd0ljIVnogd4Bnayp8XAIOEcR
+ j3BCgdaONBY7JsNrIl14fp21pTACekQHpBpt5cY6t0J8ZocMwU3mFu5Ce6YE0dQGm0/f
+ WB/w==
+X-Gm-Message-State: AOAM532OXg8LW/AWyK0tVHMUJ0nWiX/OXXymB0kWE4oAaguSWlXzEZ+q
+ cPeeXyEYb6jwjYW15a09rvxERnNMctw=
+X-Google-Smtp-Source: ABdhPJxjr7ykp0TkXV0n/1l4R4WiFJdYEG7lAYo/+FgJ5Tf6j2xvrSdXCsf9eDioWXltIJFaxq0yHg==
+X-Received: by 2002:a17:906:3012:: with SMTP id
+ 18mr17942777ejz.136.1630998832764; 
+ Tue, 07 Sep 2021 00:13:52 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id mb14sm4955153ejb.81.2021.09.07.00.13.51
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Sep 2021 00:13:52 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v3 00/36] (Mostly) x86 changes for 2021-09-06
+Date: Tue,  7 Sep 2021 09:13:48 +0200
+Message-Id: <20210907071349.116329-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Vc1Qp03E4PfA6Ag=VpBeH.f";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,149 +84,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/Vc1Qp03E4PfA6Ag=VpBeH.f
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 935efca6c246c108253b0e4e51cc87648fc7ca10:
 
-On Tue, 7 Sep 2021 10:37:27 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+  Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021-09-06' into staging (2021-09-06 12:38:07 +0100)
 
-> On Mon, Sep 06, 2021 at 09:25:24PM -0300, Daniel Henrique Barboza wrote:
-> > At this moment we only support one form of NUMA affinity, FORM1. This
-> > allows us to init the internal structures during machine_init(), and
-> > given that NUMA distances won't change during the guest lifetime we
-> > don't need to bother with that again.
-> >=20
-> > We're about to introduce FORM2, a new NUMA affinity mode for pSeries
-> > guests. This means that we'll only be certain about the affinity mode
-> > being used after client architecture support. This also means that the
-> > guest can switch affinity modes in machine reset.
-> >=20
-> > Let's prepare the ground for the FORM2 support by moving the NUMA
-> > internal data init from machine_init() to machine_reset(). Change the
-> > name to spapr_numa_associativity_reset() to make it clearer that this is
-> > a function that can be called multiple times during the guest lifecycle.
-> > We're also simplifying its current API since this method will be called
-> > during CAS time (do_client_architecture_support()) later on and there's=
- no
-> > MachineState pointer already solved there.
-> >=20
-> > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->=20
-> Applied to ppc-for-6.2, thanks.
->=20
+are available in the Git repository at:
 
-Even if already applied :
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+for you to fetch changes up to 127c76bd1aa893122a22677b991c0f31ebef7f09:
 
-> > ---
-> >  hw/ppc/spapr.c              | 6 +++---
-> >  hw/ppc/spapr_numa.c         | 4 ++--
-> >  include/hw/ppc/spapr_numa.h | 9 +--------
-> >  3 files changed, 6 insertions(+), 13 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index d39fd4e644..8e1ff6cd10 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -1621,6 +1621,9 @@ static void spapr_machine_reset(MachineState *mac=
-hine)
-> >       */
-> >      spapr_irq_reset(spapr, &error_fatal);
-> > =20
-> > +    /* Reset numa_assoc_array */
-> > +    spapr_numa_associativity_reset(spapr);
-> > +
-> >      /*
-> >       * There is no CAS under qtest. Simulate one to please the code th=
-at
-> >       * depends on spapr->ov5_cas. This is especially needed to test de=
-vice
-> > @@ -2808,9 +2811,6 @@ static void spapr_machine_init(MachineState *mach=
-ine)
-> > =20
-> >      spapr->gpu_numa_id =3D spapr_numa_initial_nvgpu_numa_id(machine);
-> > =20
-> > -    /* Init numa_assoc_array */
-> > -    spapr_numa_associativity_init(spapr, machine);
-> > -
-> >      if ((!kvm_enabled() || kvmppc_has_cap_mmu_radix()) &&
-> >          ppc_type_check_compat(machine->cpu_type, CPU_POWERPC_LOGICAL_3=
-_00, 0,
-> >                                spapr->max_compat_pvr)) {
-> > diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> > index 779f18b994..9ee4b479fe 100644
-> > --- a/hw/ppc/spapr_numa.c
-> > +++ b/hw/ppc/spapr_numa.c
-> > @@ -155,10 +155,10 @@ static void spapr_numa_define_associativity_domai=
-ns(SpaprMachineState *spapr)
-> > =20
-> >  }
-> > =20
-> > -void spapr_numa_associativity_init(SpaprMachineState *spapr,
-> > -                                   MachineState *machine)
-> > +void spapr_numa_associativity_reset(SpaprMachineState *spapr)
-> >  {
-> >      SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-> > +    MachineState *machine =3D MACHINE(spapr);
-> >      int nb_numa_nodes =3D machine->numa_state->num_nodes;
-> >      int i, j, max_nodes_with_gpus;
-> >      bool using_legacy_numa =3D spapr_machine_using_legacy_numa(spapr);
-> > diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
-> > index 6f9f02d3de..0e457bba57 100644
-> > --- a/include/hw/ppc/spapr_numa.h
-> > +++ b/include/hw/ppc/spapr_numa.h
-> > @@ -16,14 +16,7 @@
-> >  #include "hw/boards.h"
-> >  #include "hw/ppc/spapr.h"
-> > =20
-> > -/*
-> > - * Having both SpaprMachineState and MachineState as arguments
-> > - * feels odd, but it will spare a MACHINE() call inside the
-> > - * function. spapr_machine_init() is the only caller for it, and
-> > - * it has both pointers resolved already.
-> > - */
-> > -void spapr_numa_associativity_init(SpaprMachineState *spapr,
-> > -                                   MachineState *machine);
->=20
-> Nice additional cleanup to the signature, thanks.
->=20
-> > +void spapr_numa_associativity_reset(SpaprMachineState *spapr);
-> >  void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int=
- rtas);
-> >  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void =
-*fdt,
-> >                                         int offset, int nodeid);
->=20
+  doc: Add the SGX doc (2021-09-07 08:54:57 +0200)
 
+----------------------------------------------------------------
+* SGX support (Sean, Yang)
+* vGIF and vVMLOAD/VMSAVE support (Lara)
+* Fix LA57 support in TCG (Daniel)
 
---Sig_/Vc1Qp03E4PfA6Ag=VpBeH.f
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+----------------------------------------------------------------
+v1->v2: now entirely x86 - removed gbm patch and added the first one to fix TCG LA57
 
------BEGIN PGP SIGNATURE-----
+v2->v3: fix "target/i386: Moved int_ctl into CPUX86State structure" commit
 
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAmE3EFUACgkQcdTV5YIv
-c9aABg//RwZ2bbXf2PYEY6qgLH7GTA+8IcvzRq5kadiq0FdEhSuGu1AwnWx/OGgF
-7YbFFWOS3aQz4HIV4dKW5fyGQgqfxGOldm8mrekqzkrYmFHtXYN80TIVBvGaNDOy
-VBd7LIj1OpXM5vyo995VnIMsj1i3rVL21XZFlq5lY0sfYxkQ0aNOxpnTb/+/4e8a
-y8Y502CIOfUSzs4kbEu8eif+Fgtt1d0N6cVSRtD2iVmdBeonJMoQIG+k9PfzdBlj
-QlsB1DxSuzxMAmJ0jRX8EzVQbAkke6Pv+l8R2Yxheqmpspyj269gVQcMx76bxxcV
-t521qGepdOokDO2omqVBipLh5l92ZSWArwudLYbfu7IIh5sKG98BY/wMXRGJJ/SB
-c3Ql6n/jlLLS6kHY1Unwnv/YJFiK9+exj8kbva7vKnnMMyGASIWKzpz8gu2brtdj
-FCz3S+1qqBi8KUYuKbrAvzEDNKDaD2C6CinM7vf5Vj6Gn00RT6BKYyo0Wri3n++V
-yJ7SLeRuN0U2feyyx2nX6E8roYR9VZiFsD3/Y015Qn/MIh6CxR24rusFNnFXJ9Av
-oZ+yf/2qimi6R68nP/l+FfYcnehThc9qInBlHJu4vwgeIi7f9QWbT/4yNrW3TWLn
-BBXGDI1MeTIOroKqW830dBCQkhRwd5J4lvlUpxDXbDMAznJjx7g=
-=2QAQ
------END PGP SIGNATURE-----
+Daniel P. Berrangé (1):
+      target/i386: add missing bits to CR4_RESERVED_MASK
 
---Sig_/Vc1Qp03E4PfA6Ag=VpBeH.f--
+Lara Lazier (7):
+      target/i386: VMRUN and VMLOAD canonicalizations
+      target/i386: Added VGIF feature
+      target/i386: Moved int_ctl into CPUX86State structure
+      target/i386: Added VGIF V_IRQ masking capability
+      target/i386: Added ignore TPR check in ctl_has_irq
+      target/i386: Added changed priority check for VIRQ
+      target/i386: Added vVMLOAD and vVMSAVE feature
+
+Sean Christopherson (21):
+      memory: Add RAM_PROTECTED flag to skip IOMMU mappings
+      hostmem: Add hostmem-epc as a backend for SGX EPC
+      i386: Add 'sgx-epc' device to expose EPC sections to guest
+      vl: Add sgx compound properties to expose SGX EPC sections to guest
+      i386: Add primary SGX CPUID and MSR defines
+      i386: Add SGX CPUID leaf FEAT_SGX_12_0_EAX
+      i386: Add SGX CPUID leaf FEAT_SGX_12_0_EBX
+      i386: Add SGX CPUID leaf FEAT_SGX_12_1_EAX
+      i386: Add get/set/migrate support for SGX_LEPUBKEYHASH MSRs
+      i386: Add feature control MSR dependency when SGX is enabled
+      i386: Update SGX CPUID info according to hardware/KVM/user input
+      i386: kvm: Add support for exposing PROVISIONKEY to guest
+      i386: Propagate SGX CPUID sub-leafs to KVM
+      Adjust min CPUID level to 0x12 when SGX is enabled
+      hw/i386/fw_cfg: Set SGX bits in feature control fw_cfg accordingly
+      hw/i386/pc: Account for SGX EPC sections when calculating device memory
+      i386/pc: Add e820 entry for SGX EPC section(s)
+      i386: acpi: Add SGX EPC entry to ACPI tables
+      q35: Add support for SGX EPC
+      i440fx: Add support for SGX EPC
+      doc: Add the SGX doc
+
+Yang Zhong (7):
+      qom: Add memory-backend-epc ObjectOptions support
+      hostmem-epc: Add the reset interface for EPC backend reset
+      sgx-epc: Add the reset interface for sgx-epc virt device
+      sgx-epc: Avoid bios reset during sgx epc initialization
+      hostmem-epc: Make prealloc consistent with qemu cmdline during reset
+      Kconfig: Add CONFIG_SGX support
+      sgx-epc: Add the fill_device_info() callback support
+
+ backends/hostmem-epc.c                   | 118 ++++++++++++++
+ backends/meson.build                     |   1 +
+ configs/devices/i386-softmmu/default.mak |   1 +
+ docs/intel-sgx.txt                       | 167 +++++++++++++++++++
+ hw/i386/Kconfig                          |   5 +
+ hw/i386/acpi-build.c                     |  22 +++
+ hw/i386/fw_cfg.c                         |  10 +-
+ hw/i386/meson.build                      |   2 +
+ hw/i386/pc.c                             |  15 +-
+ hw/i386/pc_piix.c                        |   4 +
+ hw/i386/pc_q35.c                         |   3 +
+ hw/i386/sgx-epc.c                        | 265 +++++++++++++++++++++++++++++++
+ hw/i386/sgx-stub.c                       |  13 ++
+ hw/i386/sgx.c                            |  84 ++++++++++
+ hw/i386/x86.c                            |  29 ++++
+ hw/vfio/common.c                         |   1 +
+ include/exec/memory.h                    |  15 +-
+ include/hw/i386/pc.h                     |   8 +
+ include/hw/i386/sgx-epc.h                |  67 ++++++++
+ include/hw/i386/x86.h                    |   1 +
+ monitor/hmp-cmds.c                       |  10 ++
+ qapi/machine.json                        |  52 +++++-
+ qapi/qom.json                            |  19 +++
+ qemu-options.hx                          |  10 +-
+ softmmu/memory.c                         |   5 +
+ softmmu/physmem.c                        |   3 +-
+ target/i386/cpu.c                        | 199 +++++++++++++++++++++--
+ target/i386/cpu.h                        |  39 +++++
+ target/i386/kvm/kvm.c                    |  75 +++++++++
+ target/i386/kvm/kvm_i386.h               |   2 +
+ target/i386/machine.c                    |  42 ++++-
+ target/i386/svm.h                        |   8 +
+ target/i386/tcg/seg_helper.c             |   2 +-
+ target/i386/tcg/sysemu/excp_helper.c     |   2 +-
+ target/i386/tcg/sysemu/misc_helper.c     |  11 +-
+ target/i386/tcg/sysemu/svm_helper.c      | 121 +++++++++-----
+ 36 files changed, 1367 insertions(+), 64 deletions(-)
+ create mode 100644 backends/hostmem-epc.c
+ create mode 100644 docs/intel-sgx.txt
+ create mode 100644 hw/i386/sgx-epc.c
+ create mode 100644 hw/i386/sgx-stub.c
+ create mode 100644 hw/i386/sgx.c
+ create mode 100644 include/hw/i386/sgx-epc.h
+-- 
+2.31.1
 
 
