@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71C84028D3
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 14:31:57 +0200 (CEST)
-Received: from localhost ([::1]:54066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 776CB4028F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 14:36:59 +0200 (CEST)
+Received: from localhost ([::1]:34484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNaGa-0005EL-Pn
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 08:31:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42254)
+	id 1mNaLR-0002w6-GB
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 08:36:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mNa6d-0008S2-NY
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:21:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47049)
+ id 1mNa6q-0000YB-Iv
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:21:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mNa6c-0006vz-6S
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:21:39 -0400
+ id 1mNa6o-00071C-Vs
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:21:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631017297;
+ s=mimecast20190719; t=1631017310;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yhb2wO8zV56juJYIJDnx8N/SZLKEAf3mSq3zq9xR3OM=;
- b=XBM1+rV7bS1VjI4pQT2FkOTk10uvT4X++ArK4PQKW7dj9TUjeKUkKok4QU80+DVYJAzu1R
- FZwpdf+ALsAoY7AcDmiz5mmuMPXyZvgIFunQtVz4Bw467xFVFv9E1jXB1xFo//vxh7JrvB
- H/t3O/oni8H95PeAm5zxe+msXrMTnCM=
+ bh=cL5/XPLTGHu6CtOojeAQ9FFcxzQ35bhD7tEB+PHjy6A=;
+ b=Hd1yfDxCgR3Tr66ovpKvXmduGcGK9nMgxinnRRTaTyZw6Er2yWnM9CZNGobNNtPjO/HF5H
+ 1zTqAc1N0o0hUcKxsQGJe+Z5sV3YJ1u2bsaf8ooDIWlIXXZ9zwkEqrSX2E2nNFMFltv3rB
+ ejpf3vyCwZnU2C/HqR++nE7GTNv2Y3A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-iLhSaF51OOq8_chk8L5bow-1; Tue, 07 Sep 2021 08:21:36 -0400
-X-MC-Unique: iLhSaF51OOq8_chk8L5bow-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-341-vt7h9C9oN5OXKSRezREk8Q-1; Tue, 07 Sep 2021 08:21:49 -0400
+X-MC-Unique: vt7h9C9oN5OXKSRezREk8Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEDAB107ACFE
- for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 12:21:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65CEB104FB69
+ for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 12:21:48 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6919660657;
- Tue,  7 Sep 2021 12:21:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E01660C05;
+ Tue,  7 Sep 2021 12:21:39 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 08/32] tests: build qapi-cabi (C ABI dump)
-Date: Tue,  7 Sep 2021 16:19:19 +0400
-Message-Id: <20210907121943.3498701-9-marcandre.lureau@redhat.com>
+Subject: [RFC v3 09/32] build-sys: add i686 cpu target
+Date: Tue,  7 Sep 2021 16:19:20 +0400
+Message-Id: <20210907121943.3498701-10-marcandre.lureau@redhat.com>
 In-Reply-To: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
 References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -87,52 +87,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Rust does not have i386 targets, so distinguish when target cpu is i686.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- tests/qapi-cabi.c |  9 +++++++++
- tests/meson.build | 13 +++++++++++--
- 2 files changed, 20 insertions(+), 2 deletions(-)
- create mode 100644 tests/qapi-cabi.c
+ configure | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qapi-cabi.c b/tests/qapi-cabi.c
-new file mode 100644
-index 0000000000..2b94edb4ab
---- /dev/null
-+++ b/tests/qapi-cabi.c
-@@ -0,0 +1,9 @@
-+#include "qemu/osdep.h"
-+
-+#include "test-qapi-types.h"
-+
-+int main(int argc, char *argv[])
-+{
-+    qapi_cabi();
-+    return 0;
-+}
-diff --git a/tests/meson.build b/tests/meson.build
-index 55a7b08275..be95223d62 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -54,8 +54,17 @@ foreach o: test_qapi_files.to_list() + test_qapi_files_extra.to_list()
-   test_qapi_sources += o
- endforeach
+diff --git a/configure b/configure
+index 8adf2127c3..48ff2837d9 100755
+--- a/configure
++++ b/configure
+@@ -617,6 +617,8 @@ esac
+ if test ! -z "$cpu" ; then
+   # command line argument
+   :
++elif check_define __i686__ ; then
++  cpu="i686"
+ elif check_define __i386__ ; then
+   cpu="i386"
+ elif check_define __x86_64__ ; then
+@@ -672,9 +674,12 @@ case "$cpu" in
+   ppc64le)
+     ARCH="ppc64"
+   ;;
+-  i386|i486|i586|i686|i86pc|BePC)
++  i386|i486|i586|i86pc|BePC)
+     cpu="i386"
+   ;;
++  i686)
++    ARCH="i386"
++  ;;
+   x86_64|amd64)
+     cpu="x86_64"
+   ;;
+@@ -1673,7 +1678,7 @@ case "$cpu" in
+            CPU_CFLAGS="-m64"
+            QEMU_LDFLAGS="-m64 $QEMU_LDFLAGS"
+            ;;
+-    i386)
++    i386|i686)
+            CPU_CFLAGS="-m32"
+            QEMU_LDFLAGS="-m32 $QEMU_LDFLAGS"
+            ;;
+@@ -4396,7 +4401,7 @@ QEMU_GA_MSI_MINGW_DLL_PATH="$($pkg_config --variable=prefix glib-2.0)/bin"
  
--libtestqapi = static_library('testqapi', sources: [genh, test_qapi_sources])
--testqapi = declare_dependency(link_with: libtestqapi, sources: [genh, test_qapi_headers])
-+libtestqapi = static_library('testqapi',
-+                             sources: [genh, test_qapi_sources],
-+                             c_args: ['-DQAPI_CABI'])
-+testqapi = declare_dependency(link_with: libtestqapi,
-+                              dependencies: [qemuutil],
-+                              sources: [genh, test_qapi_headers])
-+
-+executable('qapi-cabi',
-+           files('qapi-cabi.c'),
-+           dependencies: testqapi,
-+           c_args: ['-DQAPI_CABI'])
- 
- test_deps = {
-   'test-qht-par': qht_bench,
+ # Mac OS X ships with a broken assembler
+ roms=
+-if { test "$cpu" = "i386" || test "$cpu" = "x86_64"; } && \
++if { test "$cpu" = "i386" || test "$cpu" = "i686" || test "$cpu" = "x86_64"; } && \
+         test "$targetos" != "Darwin" && test "$targetos" != "SunOS" && \
+         test "$targetos" != "Haiku" && test "$softmmu" = yes ; then
+     # Different host OS linkers have different ideas about the name of the ELF
+@@ -4962,7 +4967,7 @@ fi
+ if test "$linux" = "yes" ; then
+   mkdir -p linux-headers
+   case "$cpu" in
+-  i386|x86_64|x32)
++  i386|i686|x86_64|x32)
+     linux_arch=x86
+     ;;
+   ppc|ppc64|ppc64le)
 -- 
 2.33.0.113.g6c40894d24
 
