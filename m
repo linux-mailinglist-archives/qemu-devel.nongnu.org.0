@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6618402AD4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:34:05 +0200 (CEST)
-Received: from localhost ([::1]:33416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B2F402AF3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:42:57 +0200 (CEST)
+Received: from localhost ([::1]:37626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNcAm-0004tr-2J
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:34:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33236)
+	id 1mNcJL-00089v-Q6
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:42:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNc8i-0003Ua-E6
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:31:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39317)
+ id 1mNcIM-0007Tx-5c
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:41:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNc8f-0002ub-Lr
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:31:55 -0400
+ id 1mNcIJ-0002tZ-Bk
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:41:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631025111;
+ s=mimecast20190719; t=1631025709;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=otYN92uAux7JIjQj2Upgp8u6P0PBc9rdyC2j963r2D4=;
- b=TrPXPgEMSKK7nYXbsq4tLm89aJjK18AlwFQNgWXKYeT/yy+2x6n/D2rxxcu6e30mYEVBu4
- 5dE2Vw6bc0SCuTyqksBtF+HWeZH2pekkeKPqaRXljY7yP4NwKbBjLlmodsMgMS5tiwW3c/
- fIqKLZH+TXODBVCcXk90S1tpZCObfBA=
+ bh=fsi1FRzr6oLGFBGNaAVV+o4kB4ulTPOJoMyAHFtDTMM=;
+ b=MPuSPpz5Hk/o5NXV6oySy46EzHNK8FbBDBd5Vpt5MfuZgEax0jiFg5CUEi9TStGLA9yv58
+ FIwt78Zt5hdrhsQ65wkRDaXnB4jonC/4ouRRAu63+B4/75udQLZzjDBAl5B50UENNkVO0I
+ eSO+2rOvtyj3k3/0s3vkRMt9+84HOKg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-ZdDrEx9dPTetbt39s1rzTw-1; Tue, 07 Sep 2021 10:31:48 -0400
-X-MC-Unique: ZdDrEx9dPTetbt39s1rzTw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-321-kZsOuZHCOh6TqjfWkGl3ZA-1; Tue, 07 Sep 2021 10:41:48 -0400
+X-MC-Unique: kZsOuZHCOh6TqjfWkGl3ZA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C98D11006CAF;
- Tue,  7 Sep 2021 14:31:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87FA510054F6;
+ Tue,  7 Sep 2021 14:41:46 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.246])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A8F5D196E6;
- Tue,  7 Sep 2021 14:31:42 +0000 (UTC)
-Date: Tue, 7 Sep 2021 15:31:41 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5CE9010013D7;
+ Tue,  7 Sep 2021 14:41:42 +0000 (UTC)
+Date: Tue, 7 Sep 2021 15:41:41 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Subject: Re: [PATCH RFC v2 08/16] vfio-user: get region info
-Message-ID: <YTd3zRAjg51tzzfd@stefanha-x1.localdomain>
+Subject: Re: [PATCH RFC v2 09/16] vfio-user: region read/write
+Message-ID: <YTd6JYvksCTqM99k@stefanha-x1.localdomain>
 References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
- <d442105953151559982c8b1a753d847fb89da3ba.1629131628.git.elena.ufimtseva@oracle.com>
+ <92fb16181e71a1c4049f9995294dbd7ff4270627.1629131628.git.elena.ufimtseva@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <d442105953151559982c8b1a753d847fb89da3ba.1629131628.git.elena.ufimtseva@oracle.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <92fb16181e71a1c4049f9995294dbd7ff4270627.1629131628.git.elena.ufimtseva@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="O5f+LX0HCDRC4TrC"
+ protocol="application/pgp-signature"; boundary="+/BlHZL71J3n5AGr"
 Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -85,147 +85,137 @@ Cc: john.g.johnson@oracle.com, jag.raman@oracle.com, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---O5f+LX0HCDRC4TrC
+--+/BlHZL71J3n5AGr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 16, 2021 at 09:42:41AM -0700, Elena Ufimtseva wrote:
-> @@ -1514,6 +1515,16 @@ bool vfio_get_info_dma_avail(struct vfio_iommu_typ=
-e1_info *info,
->      return true;
->  }
-> =20
-> +static int vfio_get_region_info_remfd(VFIODevice *vbasedev, int index)
-> +{
-> +    struct vfio_region_info *info;
-> +
-> +    if (vbasedev->regions =3D=3D NULL || vbasedev->regions[index] =3D=3D=
- NULL) {
-> +        vfio_get_region_info(vbasedev, index, &info);
-> +    }
-
-Maybe this will be called from other places in the future, but the
-vfio_region_setup() caller below already invoked vfio_get_region_info()
-so I'm not sure it's necessary to do this again?
-
-Perhaps add an int *remfd argument to vfio_get_region_info(). That way
-vfio_get_region_info_remfd() isn't necessary.
-
-> @@ -2410,6 +2442,24 @@ int vfio_get_region_info(VFIODevice *vbasedev, int=
- index,
->                           struct vfio_region_info **info)
->  {
->      size_t argsz =3D sizeof(struct vfio_region_info);
-> +    int fd =3D -1;
+On Mon, Aug 16, 2021 at 09:42:42AM -0700, Elena Ufimtseva wrote:
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 7d667b0533..a8b1ea9358 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -215,6 +215,7 @@ void vfio_region_write(void *opaque, hwaddr addr,
+>          uint32_t dword;
+>          uint64_t qword;
+>      } buf;
 > +    int ret;
-> +
-> +    /* create region cache */
-> +    if (vbasedev->regions =3D=3D NULL) {
-> +        vbasedev->regions =3D g_new0(struct vfio_region_info *,
-> +                                   vbasedev->num_regions);
-> +        if (vbasedev->proxy !=3D NULL) {
-> +            vbasedev->regfds =3D g_new0(int, vbasedev->num_regions);
-> +        }
-> +    }
-> +    /* check cache */
-> +    if (vbasedev->regions[index] !=3D NULL) {
-> +        *info =3D g_malloc0(vbasedev->regions[index]->argsz);
-> +        memcpy(*info, vbasedev->regions[index],
-> +               vbasedev->regions[index]->argsz);
-> +        return 0;
-> +    }
-
-Why is it necessary to introduce a cache? Is it to avoid passing the
-same fd multiple times?
-
 > =20
->      *info =3D g_malloc0(argsz);
-> =20
-> @@ -2417,7 +2467,17 @@ int vfio_get_region_info(VFIODevice *vbasedev, int=
- index,
->  retry:
->      (*info)->argsz =3D argsz;
-> =20
-> -    if (ioctl(vbasedev->fd, VFIO_DEVICE_GET_REGION_INFO, *info)) {
-> +    if (vbasedev->proxy !=3D NULL) {
-> +        VFIOUserFDs fds =3D { 0, 1, &fd};
-> +
-> +        ret =3D vfio_user_get_region_info(vbasedev, index, *info, &fds);
-> +    } else {
-> +        ret =3D ioctl(vbasedev->fd, VFIO_DEVICE_GET_REGION_INFO, *info);
-> +        if (ret < 0) {
-> +            ret =3D -errno;
-> +        }
-> +    }
-> +    if (ret !=3D 0) {
->          g_free(*info);
->          *info =3D NULL;
->          return -errno;
-> @@ -2426,10 +2486,22 @@ retry:
->      if ((*info)->argsz > argsz) {
->          argsz =3D (*info)->argsz;
->          *info =3D g_realloc(*info, argsz);
-> +        if (fd !=3D -1) {
-> +            close(fd);
-> +            fd =3D -1;
-> +        }
-> =20
->          goto retry;
+>      switch (size) {
+>      case 1:
+> @@ -234,7 +235,12 @@ void vfio_region_write(void *opaque, hwaddr addr,
+>          break;
 >      }
 > =20
-> +    /* fill cache */
-> +    vbasedev->regions[index] =3D g_malloc0(argsz);
-> +    memcpy(vbasedev->regions[index], *info, argsz);
-> +    *vbasedev->regions[index] =3D **info;
-
-The previous line already copied the contents of *info. What is the
-purpose of this assignment?
-
-> +    if (vbasedev->regfds !=3D NULL) {
-> +        vbasedev->regfds[index] =3D fd;
+> -    if (pwrite(vbasedev->fd, &buf, size, region->fd_offset + addr) !=3D =
+size) {
+> +    if (vbasedev->proxy !=3D NULL) {
+> +        ret =3D vfio_user_region_write(vbasedev, region->nr, addr, size,=
+ &data);
+> +    } else {
+> +        ret =3D pwrite(vbasedev->fd, &buf, size, region->fd_offset + add=
+r);
 > +    }
-> +
->      return 0;
->  }
+
+The vfio-user spec says everything is little-endian. Why does
+vfio_user_region_write() take the host-endian uint64_t data value
+instead of the little-endian buf value?
+
+> +    if (ret !=3D size) {
+>          error_report("%s(%s:region%d+0x%"HWADDR_PRIx", 0x%"PRIx64
+>                       ",%d) failed: %m",
+>                       __func__, vbasedev->name, region->nr,
+> @@ -266,8 +272,14 @@ uint64_t vfio_region_read(void *opaque,
+>          uint64_t qword;
+>      } buf;
+>      uint64_t data =3D 0;
+> +    int ret;
 > =20
+> -    if (pread(vbasedev->fd, &buf, size, region->fd_offset + addr) !=3D s=
+ize) {
+> +    if (vbasedev->proxy !=3D NULL) {
+> +        ret =3D vfio_user_region_read(vbasedev, region->nr, addr, size, =
+&buf);
+> +    } else {
+> +        ret =3D pread(vbasedev->fd, &buf, size, region->fd_offset + addr=
+);
+> +    }
+> +    if (ret !=3D size) {
+>          error_report("%s(%s:region%d+0x%"HWADDR_PRIx", %d) failed: %m",
+>                       __func__, vbasedev->name, region->nr,
+>                       addr, size);
 > diff --git a/hw/vfio/user.c b/hw/vfio/user.c
-> index b584b8e0f2..91b51f37df 100644
+> index 91b51f37df..83235b2411 100644
 > --- a/hw/vfio/user.c
 > +++ b/hw/vfio/user.c
-> @@ -734,3 +734,36 @@ int vfio_user_get_info(VFIODevice *vbasedev)
->      vbasedev->reset_works =3D !!(msg.flags & VFIO_DEVICE_FLAGS_RESET);
+> @@ -767,3 +767,46 @@ int vfio_user_get_region_info(VFIODevice *vbasedev, =
+int index,
+>      memcpy(info, &msgp->argsz, info->argsz);
 >      return 0;
 >  }
 > +
-> +int vfio_user_get_region_info(VFIODevice *vbasedev, int index,
-> +                              struct vfio_region_info *info, VFIOUserFDs=
- *fds)
+> +int vfio_user_region_read(VFIODevice *vbasedev, uint32_t index, uint64_t=
+ offset,
+> +                                 uint32_t count, void *data)
 > +{
-> +    g_autofree VFIOUserRegionInfo *msgp =3D NULL;
-> +    int size;
+> +    g_autofree VFIOUserRegionRW *msgp =3D NULL;
+> +    int size =3D sizeof(*msgp) + count;
+> +
+> +    msgp =3D g_malloc0(size);
+> +    vfio_user_request_msg(&msgp->hdr, VFIO_USER_REGION_READ, sizeof(*msg=
+p), 0);
+> +    msgp->offset =3D offset;
+> +    msgp->region =3D index;
+> +    msgp->count =3D count;
+> +
+> +    vfio_user_send_recv(vbasedev->proxy, &msgp->hdr, NULL, size, 0);
+> +    if (msgp->hdr.flags & VFIO_USER_ERROR) {
+> +        return -msgp->hdr.error_reply;
+> +    } else if (msgp->count > count) {
+> +        return -E2BIG;
+> +    } else {
+> +        memcpy(data, &msgp->data, msgp->count);
+> +    }
+> +
+> +    return msgp->count;
+> +}
+> +
+> +int vfio_user_region_write(VFIODevice *vbasedev, uint32_t index,
+> +                           uint64_t offset, uint32_t count, void *data)
+> +{
+> +    g_autofree VFIOUserRegionRW *msgp =3D NULL;
+> +    int size =3D sizeof(*msgp) + count;
+> +
+> +    msgp =3D g_malloc0(size);
+> +    vfio_user_request_msg(&msgp->hdr, VFIO_USER_REGION_WRITE, size,
+> +                          VFIO_USER_NO_REPLY);
+> +    msgp->offset =3D offset;
+> +    msgp->region =3D index;
+> +    msgp->count =3D count;
+> +    memcpy(&msgp->data, data, count);
+> +
+> +    vfio_user_send(vbasedev->proxy, &msgp->hdr, NULL);
 
-Please use uint32_t size instead of int size to prevent possible
-signedness issues:
-- VFIOUserRegionInfo->argsz is uint32_t.
-- sizeof(VFIOUserHdr) is size_t.
-- The vfio_user_request_msg() size argument is uint32_t.
+Are VFIO region writes posted writes (VFIO_USER_NO_REPLY)? This can be a
+problem if the device driver performs a write to the region followed by
+another access (e.g. to an mmap region) and expected the write to
+complete before the second access takes place.
 
---O5f+LX0HCDRC4TrC
+--+/BlHZL71J3n5AGr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE3d80ACgkQnKSrs4Gr
-c8hoAAf/VtOvxOQcqOnxLTb5SGoqK+CEWTDL5uMAIf+2ZkPOnxOujTV1QbfNufTq
-0S3pcR+hIuAQrCs47W44kC1CoATzZf/8AiNaw3jvJMeSbypySHhuy0YOZ+GrAOVi
-mTbSBgRiqoirLGdjlIaOFZyQqksbt/R24ObAntaQs5X99l3bqQJkNUwCq1dPOszn
-g+0qMaNwWfTvBi2U7TOYqvCTmgoEeHuj/KPo37a6aL7fDJ353uMX0Yh4DDGUgAql
-b3LmIYa92kvFO59+f3l09nVokNms8VmVOqjaxKf6LDj8rmXpOZ55atlepCMUVN8D
-ngZBqjdIXCIBSCA5nydEWS5PO8oH/g==
-=3kXI
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE3eiUACgkQnKSrs4Gr
+c8iMJwf/YKlleIjxs2NiyhxbGFLz7dsneEs9n2Z2JCRPaCgYbmfsA1JjdRULalEw
+jCsF67Gd3sG0+48hBiueHeXkABSNvgttJYfm5nWGKPH1E92fSgTEw26Firqvkhvl
+WnImAZjEoAvqJwYNtHMvNN6X9PigNDxexCl+N3qVPQhDaeQNNMa+b9MlDsq52slS
+zGTtpGl3MdOkU5TlKRahqdXH1RuDKV3Q9Oz09XjzIa4e40s5FpMjbqDwplDid0k3
+nsCm+p6ffgz92lNQPQw0FcWd3j/XmMiNW0yhPiBtWvik8AepeuvrO2tvNwR6ECEd
+BpnE6hPvBG5znZQHXsYsmc2N4Qb3og==
+=Q7Ks
 -----END PGP SIGNATURE-----
 
---O5f+LX0HCDRC4TrC--
+--+/BlHZL71J3n5AGr--
 
 
