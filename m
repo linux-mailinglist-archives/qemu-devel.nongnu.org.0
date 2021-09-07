@@ -2,44 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2905F4021C4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 03:22:29 +0200 (CEST)
-Received: from localhost ([::1]:39902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34BE24021C3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 03:22:09 +0200 (CEST)
+Received: from localhost ([::1]:39418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNPoi-00074l-4O
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 21:22:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38270)
+	id 1mNPoO-0006ew-4y
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 21:22:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mNPlA-0004no-IA; Mon, 06 Sep 2021 21:18:48 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:38129 helo=ozlabs.org)
+ id 1mNPlA-0004nk-HQ; Mon, 06 Sep 2021 21:18:48 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:50521 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mNPl8-0007Cu-K2; Mon, 06 Sep 2021 21:18:48 -0400
+ id 1mNPl8-0007Cs-QR; Mon, 06 Sep 2021 21:18:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1630977522;
- bh=qWH41vaz3kAk/ePRI/TOpFnC8Dt9k6Lg3GUe7Fx5nNs=;
+ bh=MgGyZHf8+WuVn3PBF28ThMO9GZTNanSXClFN44bXUXQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=m4vsj28BihP5DokuBhqcfELYf6s3LmMBzLsX4FUnK+bmXeLu5zd9sGQTPjHIIFdaC
- VqJGBjsgptaJi2xJHSvlBpSketHujlQLDtcvGzIa/HafazVozfBYKq4ev2+GUkKfUG
- OadN/HH5NAznW6MpK3zHxRGxQDyPizi/Fa7Gvbiw=
+ b=MkNUobHEMjo9Q0o4ERx2y6Nt1g0JqN0TbstcxXDU6SSghUIDKAoXLl77mV7ReQh4o
+ aUqEFBdtJqMgS/btGVxrUdA4kS9jRm/y7qsviJPj0e6es5ojTyolC1uc4Q2M7oQdUk
+ /c4lEeQL86cMRZXHkYYA+dn+uVYK5K/4EgTPsHiU=
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4H3S8L526nz9shn; Tue,  7 Sep 2021 11:18:42 +1000 (AEST)
-Date: Tue, 7 Sep 2021 11:12:35 +1000
+ id 4H3S8L5VNVz9sW4; Tue,  7 Sep 2021 11:18:42 +1000 (AEST)
+Date: Tue, 7 Sep 2021 11:17:21 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v4 2/5] spapr_numa.c: split FORM1 code into helpers
-Message-ID: <YTa8g/j5FHonCPR8@yekko>
-References: <20210827092455.125411-1-danielhb413@gmail.com>
- <20210827092455.125411-3-danielhb413@gmail.com>
- <YTaykCjgeonaGS2x@yekko>
- <e7436956-6bf6-a15d-b137-bdc1b09361a8@gmail.com>
+Subject: Re: [PATCH v8 0/7] DEVICE_UNPLUG_GUEST_ERROR QAPI event
+Message-ID: <YTa9oUveYwTjtaBm@yekko>
+References: <20210907004755.424931-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="w6FG26qljlQsJcfF"
+ protocol="application/pgp-signature"; boundary="n+/NsTiAxC57yI7D"
 Content-Disposition: inline
-In-Reply-To: <e7436956-6bf6-a15d-b137-bdc1b09361a8@gmail.com>
+In-Reply-To: <20210907004755.424931-1-danielhb413@gmail.com>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -66,73 +63,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---w6FG26qljlQsJcfF
+--n+/NsTiAxC57yI7D
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 06, 2021 at 09:50:36PM -0300, Daniel Henrique Barboza wrote:
+On Mon, Sep 06, 2021 at 09:47:48PM -0300, Daniel Henrique Barboza wrote:
+> Hi,
 >=20
->=20
-> On 9/6/21 9:30 PM, David Gibson wrote:
-> > On Fri, Aug 27, 2021 at 06:24:52AM -0300, Daniel Henrique Barboza wrote:
-> > > The upcoming FORM2 NUMA affinity will support asymmetric NUMA topolog=
-ies
-> > > and doesn't need be concerned with all the legacy support for older
-> > > pseries FORM1 guests.
-> > >=20
-> > > We're also not going to calculate associativity domains based on numa
-> > > distance (via spapr_numa_define_associativity_domains) since the
-> > > distances will be written directly into new DT properties.
-> > >=20
-> > > Let's split FORM1 code into its own functions to allow for easier
-> > > insertion of FORM2 logic later on.
-> > >=20
-> > > Reviewed-by: Greg Kurz <groug@kaod.org>
-> > > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > > ---
-> > >   hw/ppc/spapr_numa.c | 61 +++++++++++++++++++++++++++++-------------=
----
-> > >   1 file changed, 39 insertions(+), 22 deletions(-)
-> > >=20
-> > > diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> > > index 779f18b994..04a86f9b5b 100644
-> > > --- a/hw/ppc/spapr_numa.c
-> > > +++ b/hw/ppc/spapr_numa.c
-> > > @@ -155,6 +155,32 @@ static void spapr_numa_define_associativity_doma=
-ins(SpaprMachineState *spapr)
-> > >   }
-> > > +/*
-> > > + * Set NUMA machine state data based on FORM1 affinity semantics.
-> > > + */
-> > > +static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
-> > > +                                           MachineState *machine)
-> > > +{
-> > > +    bool using_legacy_numa =3D spapr_machine_using_legacy_numa(spapr=
-);
-> > > +
-> > > +    /*
-> > > +     * Legacy NUMA guests (pseries-5.1 and older, or guests with only
-> > > +     * 1 NUMA node) will not benefit from anything we're going to do
-> > > +     * after this point.
-> > > +     */
-> > > +    if (using_legacy_numa) {
-> > > +        return;
-> > > +    }
-> >=20
-> > My only concern with this patch is that handling the
-> > "using_legacy_numa" case might logically belong outside the FORM1
-> > code.  I mean, I'm pretty sure using_legacy_numa implies FORM1 in
-> > practice, but conceptually it seems like a more fundamental question
-> > than the DT encoding of the NUMA information.
->=20
-> I'll carry on this suggestion for the next spin, v6, given that the v5 I =
-sent
-> a few minutes ago is also verifying legacy numa in FORM1 code.
+> This new version amends the QAPI doc in patch 5, as suggested
+> by David and Markus, and added all reviewed-by and acked-by
+> tags.
 
-Ok.  I should note that I'm not saying what you have now is definitely
-wrong, it just looks a bit odd to me.  If you have a rationale for
-doing it this way, go ahead and tell me, rather than changing it.
+I've staged this in the ppc-for-6.2 tree.  Obviously it has some stuff
+that isn't purely ppc related, but I'm figuring that should be ok with
+the acks from Igor and Markus.  Let me know if there are any
+objections.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -140,25 +86,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---w6FG26qljlQsJcfF
+--n+/NsTiAxC57yI7D
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmE2vIMACgkQbDjKyiDZ
-s5IG1w//Y+hnkGvpqgWE25NT16cMa7kHw6GlAoXlyZwpeUxOaSP5+OCnmyqxoh6B
-ZswMK5vOmlkZXr93LEBljHUxqNB6MBRrInJsNfhduQjP8RQFmZP+ET9vEihegeL6
-VqFP4tYw5IAXAdeBJIBV/vN0uQX6at15mFOvEvLqVlTtW99uqp5QMLZxpsmndFW/
-LL4bEQDl/1/67kMWrW3amnLi1xf9gpaxmO8AZEklL2sjZe4RPhJuKFqIF8XLLHQX
-NfTmiJ/WfDDN7beiGveugGQ9gwDOd3nI5uORmsn2K+lA6Z/LrTN3Cisa/l3Q6WRw
-KyH7SrmfIxZY/0f2Nf34liKmOoRbzzcixn/5Z5V1lSeztvPw0dvqOPD3CPBN7BEQ
-vgQJGnzhcnu+4H5JVkGjiL87s+V2aYvmhk7SHfwF+yS0+CDQgH5PeohSGUs/pVP+
-QVyB1QVKqvNqkb5xD1R0txgAu5rLVCNzE/aV2I2SummTu14bfQla3ltVF9n5GQY5
-5yiqJKjGTC1QfZK3C+JlvWc4Cl+o+Wdjljl3lqLABiPqxWmY3Y00qIMW6MQfz5SV
-qPGlYWfWF26uIiDS4WhJg0N5C/hURw2KrHXKfaAkNKYeLd+1XWranVaivkpAjY52
-KpIZ6lritaNCtrf/TBpcqtcKxY2BCVEZhML+67gJFvZH8/byn/A=
-=wrDO
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmE2vaAACgkQbDjKyiDZ
+s5InQA/6AjEQL8pfg7t33OltmvUB1GXv78sy/sqZebCL4RW5L8mspKrU84boPZ3e
+/qBzyqX20Qeyjb4QRxet6T/NqMefR+7KDflbzAn2aNXzyeJz/LB7urtx2coYyZXS
+Cka6CpypWzr64TPp6op1MZN/KC5q3/GUPAsnvEJ3vZGhr/ATq4yjl9Qus5ZRbVmx
+T2KxzEi02bnIrMdEZv7qek3xb5AmkOCyBCd9rngbhkVwt9mRNqRDbcq4bQpENN1r
+vOCbJMjO/Z9SCvj/f1IlzuXneF6JFf/R1XzTegbTljf7yvzxJo/JW0Q/4Q2VQL8Z
+eeOFTqrNgNj7DunVIRwl+pRHLTS+1JOAcjwJrIwxxXxASzkg9ZfXfXfh4gJbxWvT
+wHWrJDRqHdgNCSI7pTJxV0AcTuFfHHLq/E+1LOiKGFh5zlz9oFQXSHJ5MC8Ju3Ej
+WBHAdVraDZLWAybfFNznf5PgRLgAWyJuu/c9l6P7a5Z9T3a9gayqQA++Co3pDvLi
+ibs4h6henF/4JXsOF4eySL3afc/FrCuWpbGdvsewsvZ3PWfeUMRV+YbuwuwBvOyT
+A1l16VVn7YBv77Ue4nZSYG22wI9RIpKZyXytCH067f9hKwytWGZLsR9RFZG9aL4R
+roS5OYhmcstOQcMfIAgP8OG7FoLuT7NHripQ1LzonoJTa4hUg4M=
+=DIMq
 -----END PGP SIGNATURE-----
 
---w6FG26qljlQsJcfF--
+--n+/NsTiAxC57yI7D--
 
