@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630CB402B04
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8B8402B03
 	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:47:45 +0200 (CEST)
-Received: from localhost ([::1]:42456 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:42404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNcO0-00037M-4p
+	id 1mNcO0-00035D-A1
 	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:47:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36028)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNcLI-00015b-OI
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:44:56 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:36646)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mNcLS-0001GC-ML; Tue, 07 Sep 2021 10:45:07 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:56187)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNcLG-0005Iq-6g
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:44:56 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- l18-20020a05600c4f1200b002f8cf606262so1603648wmq.1
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 07:44:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SeZzdo2kmbZtElEbgJIw4zzbrC9GzHvP+7qKkPzGnBA=;
- b=OH4DrfyuwQrZcKSpIos/uaSkg4loV5zuDr73YdPVdWHourL6CitqMnvtIa+qTIqz60
- dM2IYNTWefesuz2w9v3B4/ddBrloM7YhAF46XD6JDsbRgIRDBo2EQqfuPrX8kAXiD7ta
- hD4Ser19KuNUW1/FIYqQobJBSmG6RVHYd2+7OLo27rDAqAvgrNzNZgsFcUAdL9+6x8ob
- A0XYHOHps00ODjtjwQrCUZ97psVJJ0P4Lgj2oSo3vGPpPqGPEbADtufCuIzE/AYW5YmB
- VdHFvFeHdaP7pMOUEdtkOqO1u7IroQF4XUMR1/olRoAUGMIsQAJZT9pa6qK3lTFcw725
- HWRQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mNcLP-0005Qc-SX; Tue, 07 Sep 2021 10:45:06 -0400
+Received: by mail-wm1-x336.google.com with SMTP id g135so7047825wme.5;
+ Tue, 07 Sep 2021 07:45:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4cUyB+jjoicc+6VKMgElRtmAYhSjhZwvIUpwcJJpYdg=;
+ b=ZkoomSacSjML/EzdisQAdxzmbh8RfKLNxX0Qv7uBObtYmsumh1SvU7v+z7Jr80KQiQ
+ +8gn7VWi3EX2laxo8Udu01qaO4P8p/bPvIV4Be7f+6BzCvq20obf1GnPjoSwo+nl3vU7
+ 0HmDbMSBy15SaoFdpvikatyhAM4VWSJnG7UG4awEn2B1fYPCcz2s7i4lN5iB0DswaOPV
+ iGrxJiO4Unaufg6bNGzEAbUMJZTyqOWGpuHK+OVXVEYD5C1o+EoRn2kaRjL6YsEW7SES
+ DpWzOQXqf3LcJO7oiLDzOxpN00sPMFAmc7ip1G3qaSPY0OAXtu6ZuwFRaAdKuK8GCT8O
+ eo6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SeZzdo2kmbZtElEbgJIw4zzbrC9GzHvP+7qKkPzGnBA=;
- b=WBBp+ZQNwDTy0scDF3V0BTQPtnFNRbd5tE8F+PHzleQDIPIUJ8RC7RqjVKh2VTvOIV
- CcBgYEImV9Zo5RD0C7aNspzmZkxmRdHepUNByUY0bM9IeAhSV843MGw/5HsuEESol6Uf
- 1wY6XUpZEpv5cz2+AGd3NTNv5aRFFqMYZlm/wB1eS8JT8E/VFI8dmxuwjiNq3BT6CMI+
- pYmYGp5jsvNKiWZOejfaBZWjpmbidl1+nnGRY1/HkyGcxs6I2ddiWDIeG+UNw3fUfil0
- i0s/F4Y/ht/fivVMdCJoxq5UZEix+P6QD20/MeVAz4oMnr1pJCvgwPNnQfaTKMxKzfBU
- TDvA==
-X-Gm-Message-State: AOAM5331gL6tGacZCng1hbj6/7AZV16rBU0c3l3wSy1D/QzDRT8IhEN3
- dChzUpTVtDWb9pJQ/poLhHsnxsFnqdlI/E27h9vOtQ==
-X-Google-Smtp-Source: ABdhPJwCCZEhEdwyr2r2+A5C+9gZNTznuTXGzXfuf7YpqCB2lQYK+E7pxUptYox9G8FXoP6sV6qdbKFR2jRJGypHlCY=
-X-Received: by 2002:a05:600c:4f46:: with SMTP id
- m6mr4372668wmq.133.1631025891755; 
- Tue, 07 Sep 2021 07:44:51 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4cUyB+jjoicc+6VKMgElRtmAYhSjhZwvIUpwcJJpYdg=;
+ b=aDdc9a3g7vCVcP3EtlYnfoT9maqWAuqawDQkuBv37rPxn4O9ZHjvQbeRIi/0IEEKvh
+ fH34lM7JlVSZMVOQJ75LI+chnZdlqZlN2NprSXximG/MvYPd8+qFS9VBi90wfkRSrC7S
+ LPIieC94jc8H8xGeLzGGejZpQ6z/5pwSpQUMBHpUTBoqvZUCYqSP4etUnIN/exdJKsdN
+ GNujncKtLIL3vaH3RMSuEFy07bhvA2XbZLP0bSxkxuBxfw1YK5yKxz5+5NAMQqZ967FN
+ iHqbo8GHKeWVs1Ma98gADGE0patzr4Vl9A6mrwnA5oI7NFp1ZncMzNAdZ9zLMvj6S7sv
+ 5kDA==
+X-Gm-Message-State: AOAM532ElbfQzp3usyDSVFomREH+upnm0XdcecRl2TKAM/PP8u02An8w
+ l80h3RpTaENE85JU1SwYKHo=
+X-Google-Smtp-Source: ABdhPJzaCtHJl244QhwigsJ4LNSlZN4ewcTIdqmjzRXAYrjQKTWU8JoHeXvGsr5nugu1wHekODLqKQ==
+X-Received: by 2002:a05:600c:3543:: with SMTP id
+ i3mr4450228wmq.2.1631025901748; 
+ Tue, 07 Sep 2021 07:45:01 -0700 (PDT)
+Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id i11sm2133229wrb.48.2021.09.07.07.45.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Sep 2021 07:45:00 -0700 (PDT)
+Subject: Re: [PATCH 0/4] hw/block/pflash_cfi01: Remove
+ pflash_cfi01_get_memory()
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210307222625.347268-1-f4bug@amsat.org>
+ <6f13948a-1a33-1eb3-90d0-106afbb2caf8@redhat.com>
+ <CAFEAcA_nMogdN-Q7Z7S=5BY6RWKDq0jnHya5BaoUe+6n8oKWYQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <db4abdf8-bbc7-ae63-a7a7-8496a4ed8dbd@amsat.org>
+Date: Tue, 7 Sep 2021 16:44:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210823174924.201669-1-tong.ho@xilinx.com>
- <20210823174924.201669-2-tong.ho@xilinx.com>
-In-Reply-To: <20210823174924.201669-2-tong.ho@xilinx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Sep 2021 15:44:02 +0100
-Message-ID: <CAFEAcA8_A7cET97sG+zK7ydQdzT2sgGhSdWonCVPwVfKWCCM1w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] hw/nvram: Introduce Xilinx eFuse QOM
-To: Tong Ho <tong.ho@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <CAFEAcA_nMogdN-Q7Z7S=5BY6RWKDq0jnHya5BaoUe+6n8oKWYQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.332,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,242 +91,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Max Filippov <jcmvbkbc@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 Aug 2021 at 18:49, Tong Ho <tong.ho@xilinx.com> wrote:
->
-> This introduces the QOM for Xilinx eFuse, an one-time
-> field-programmable storage bit array.
->
-> The actual mmio interface to the array varies by device
-> families and will be provided in different change-sets.
->
-> Co-authored-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> Co-authored-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
->
-> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> Signed-off-by: Tong Ho <tong.ho@xilinx.com>
+On 3/15/21 1:08 PM, Peter Maydell wrote:
+> On Mon, 15 Mar 2021 at 11:34, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>> On 07/03/21 23:26, Philippe Mathieu-Daudé wrote:
+>>> TYPE_PFLASH_CFI01 is a TYPE_SYS_BUS_DEVICE which registers its romd
+>>> MemoryRegion with sysbus_init_mmio(), so we can use the generic
+>>> sysbus_mmio_get_region() to get the region, no need for a specific
+>>> pflash_cfi01_get_memory() helper.
+>>>
+>>> First replace the few pflash_cfi01_get_memory() uses by
+>>> sysbus_mmio_get_region(), then remove the now unused helper.
+>>
+>> Why is this an improvement?  You're replacing nice and readable code
+>> with an implementation-dependent function whose second argument is a
+>> magic number.  The right patch would _add_ more of these helpers, not
+>> remove them.
+> 
+> I agree that sysbus_mmio_get_region()'s use of arbitrary
+> integers is unfortunate (we should look at improving that
+> to use usefully named regions I guess), but I don't see
+> why pflash_cfi01 should expose its MemoryRegion to users
+> in a different way to every other sysbus device.
 
---- /dev/null
-+++ b/hw/nvram/xlnx-efuse-crc.c
-@@ -0,0 +1,118 @@
-+/*
-+ * Xilinx eFuse/bbram CRC calculator
+It is used that way (x86/pc):
 
-+ */
-+#include "hw/nvram/xlnx-efuse.h"
+        if (i == 0) {
+            flash_mem = pflash_cfi01_get_memory(system_flash);
+            pc_isa_bios_init(rom_memory, flash_mem, size);
 
-.c files must always include "qemu/osdep.h" as their first #include.
+            /* Encrypt the pflash boot ROM */
+            if (sev_enabled()) {
+                flash_ptr = memory_region_get_ram_ptr(flash_mem);
+                flash_size = memory_region_size(flash_mem);
+                /*
+                 * OVMF places a GUIDed structures in the flash, so
+                 * search for them
+                 */
+                pc_system_parse_ovmf_flash(flash_ptr, flash_size);
 
-> +#ifndef XLNX_EFUSE_ERR_DEBUG
-> +#define XLNX_EFUSE_ERR_DEBUG 0
-> +#endif
+                ret = sev_es_save_reset_vector(flash_ptr, flash_size);
 
-This define doesn't seem to be used; you could just drop it.
+The problems I see:
 
-> +#define XLNX_EFUSE(obj) \
-> +     OBJECT_CHECK(XLNXEFuse, (obj), TYPE_XLNX_EFUSE)
+- pflash_cfi01_get_memory() doesn't really document what it returns,
+  simply an internal MemoryRegion* in pflash device. Neither we
+  document this is a ROMD device providing a RAM buffer initialized
+  by qemu_ram_alloc().
 
-This is a bit of an old-style way to write this. These days we
-recommend using the OBJECT_DECLARE_TYPE macro in your .h file
-(which will provide the cast macro/function and also some typedefs
-that you're currently manually providing).
+- to update the flash content, we get the internal buffer via
+  memory_region_get_ram_ptr(). If the pflash implementation is
+  changed (.i.e. reworked to expose a MR container) we break
+  everything.
 
-> +static void efuse_sync_bdrv(XLNXEFuse *s, unsigned int bit)
-> +{
-> +    const int bswap_adj = (const_le32(0x1234) != 0x1234 ? 3 : 0);
+- memory_region_get_ram_ptr() doesn't do any check on the MR type,
+  it simply calls qemu_map_ram_ptr(mr->ram_block, offset).
 
-Don't do ad-hoc figuring out of the host endianness like this.
-I would suggest using cpu_to_le32() on the relevant word
-in fuse32[] and then writing that to the backing store.
+I agree with Peter pflash_cfi01_get_memory() has nothing special.
 
-> +    unsigned int efuse_byte;
-> +
-> +    if (!s->blk || s->blk_ro) {
-> +        return;  /* Silient on read-only backend to avoid message flood */
+Now what if we want a safer function to access pflash internal
+buffer, I'd prefer we use an explicit function such:
 
-"silent"
+  /**
+   * pflash_cfi01_get_ram_ptr_size: Return information on eventual RAMBlock
+   *                                associated with the device
+   *
+   * @pfl: the flash device being queried.
+   * @ptr: optional pointer to hold the ram address associated with the
+RAMBlock
+   * @size: optional pointer to hold length of the RAMBlock
+   * Return %true on success, %false on failure.
+   */
+  bool pflash_cfi01_get_ram_ptr_size(PFlashCFI01 *pfl,
+                                     void **ptr, uint64_t *size);
 
-> +    }
-> +
-> +    efuse_byte = bit / 8;
-> +
-> +    if (blk_pwrite(s->blk, efuse_byte,
-> +                   ((uint8_t *) s->fuse32) + (efuse_byte ^ bswap_adj),
-> +                   1, 0) < 0) {
-> +        error_report("%s: write error in byte %" PRIu32 ".",
-> +                      __func__, efuse_byte);
-> +    }
-> +}
-
-> +static void efuse_realize(DeviceState *dev, Error **errp)
-> +{
-> +    XLNXEFuse *s = XLNX_EFUSE(dev);
-> +    BlockBackend *blk;
-> +    DriveInfo *dinfo;
-> +    unsigned int nr_bytes;
-> +    const char *prefix = object_get_canonical_path(OBJECT(dev));
-> +
-> +    if (s->drv_index < 0) {
-> +        /* Set legacy compatibility */
-> +        s->drv_index = s->efuse_size <= 2048 ? 3 : 1;
-> +    }
-> +
-> +    dinfo = drive_get_by_index(IF_PFLASH, s->drv_index);
-> +    blk = dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
-
-Don't get block backends like this in device models, please.
-Instead, the device should have a property "drive" (use
-DEFINE_PROP_DRIVE() to declare this), and the board should find
-the drive and attach it to the device. In fact looking lower down
-in the file I see you have a 'drive' property, so you should
-just be using it (and getting rid of the drive-index property).
-
-> +
-> +    nr_bytes = ROUND_UP((s->efuse_nr * s->efuse_size) / 8, 4);
-> +    s->fuse32 = g_malloc0(nr_bytes);
-> +    if (blk) {
-> +        qdev_prop_set_drive(dev, "drive", blk);
-> +
-> +        s->blk_ro = !blk_supports_write_perm(s->blk);
-> +        if (s->blk_ro) {
-> +            warn_report("%s: update not saved: backstore is read-only",
-> +                        object_get_canonical_path(OBJECT(s)));
-> +        }
-> +        blk_set_perm(s->blk,
-> +                     (BLK_PERM_CONSISTENT_READ
-> +                      | (s->blk_ro ? 0 : BLK_PERM_WRITE)), BLK_PERM_ALL,
-> +                     &error_abort);
-
-&error_abort isn't really appropriate in a device model, unless
-you know the function call really can't fail. Better to pass
-the error back up to the caller. (Watch out that you need to free
-the s->fuse32 you just allocated if you return early.)
-
-> +
-> +        if (blk_pread(s->blk, 0, (void *) s->fuse32, nr_bytes) < 0) {
-> +            error_setg(&error_abort, "%s: Unable to read-out contents."
-> +                         "backing file too small? Expecting %" PRIu32" bytes",
-> +                          prefix,
-> +                          (unsigned int) (nr_bytes));
-
-You should pass this to the caller, not use error_abort.
-
-
-> +        }
-> +        if (const_le32(0x1234) != 0x1234) {
-
-Again, no ad-hoc endianness testing, please.
-
-> +            /* Convert from little-endian backstore for each 32-bit row */
-> +            unsigned int nr_u32;
-> +
-> +            for (nr_u32 = 0; nr_u32 < (nr_bytes / 4); nr_u32++) {
-> +                s->fuse32[nr_u32] = le32_to_cpu(s->fuse32[nr_u32]);
-> +            }
-> +        }
-> +    }
-> +
-> +    /* Sort readonly-list for bsearch lookup */
-> +    efuse_ro_bits_sort(s);
-> +}
-
-
-
-> +static const VMStateDescription vmstate_efuse = {
-> +    .name = TYPE_XLNX_EFUSE,
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .minimum_version_id_old = 1,
-
-You don't need to specify the minimum_version_id_old here.
-
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_END_OF_LIST(),
-
-If the device genuinely has no internal state (and it looks
-like in this case that is true), you don't need to write out
-an empty vmstate. Instead put a comment in the class init function
-like:
-
- /*
-  * This device has no internal state (it is all kept in the
-  * block device) so it does not need a vmstate.
-  */
-
-
-
-
-> +#ifndef XLNX_EFUSE_H
-> +#define XLNX_EFUSE_H
-> +
-> +#include "qemu/osdep.h"
-
-Headers should never include osdep.h.
-
-> +#include "sysemu/block-backend.h"
-> +#include "hw/qdev-core.h"
-> +
-> +#define TYPE_XLNX_EFUSE "xlnx,efuse"
-> +
-> +typedef struct XLNXEFuseLkSpec {
-> +    uint16_t row;
-> +    uint16_t lk_bit;
-> +} XLNXEFuseLkSpec;
-
-What's this struct for? Nothing in this patch or in these files uses it.
-
-> +typedef struct XLNXEFuse {
-> +    DeviceState parent_obj;
-> +    BlockBackend *blk;
-> +    bool blk_ro;
-> +    uint32_t *fuse32;
-> +
-> +    DeviceState *dev;
-> +
-> +    bool init_tbits;
-> +    int drv_index;
-> +
-> +    uint8_t efuse_nr;
-> +    uint32_t efuse_size;
-> +
-> +    uint32_t *ro_bits;
-> +    uint32_t ro_bits_cnt;
-> +} XLNXEFuse;
-> +
-> +uint32_t xlnx_efuse_calc_crc(const uint32_t *data, unsigned u32_cnt,
-> +                             unsigned zpads);
-
-Where you're providing function prototypes in a header to be used
-by other parts of QEMU, can you provide some brief doc-comment format
-comments that describe what the API of those functions is, please ?
-
-> +
-> +bool xlnx_efuse_get_bit(XLNXEFuse *s, unsigned int bit);
-> +bool xlnx_efuse_set_bit(XLNXEFuse *s, unsigned int bit);
-> +bool xlnx_efuse_k256_check(XLNXEFuse *s, uint32_t crc, unsigned start);
-> +uint32_t xlnx_efuse_tbits_check(XLNXEFuse *s);
-> +
-> +/* Return whole row containing the given bit address */
-> +static inline uint32_t xlnx_efuse_get_row(XLNXEFuse *s, unsigned int bit)
-> +{
-> +    if (!(s->fuse32)) {
-> +        return 0;
-> +    } else {
-> +        unsigned int row_idx = bit / 32;
-> +
-> +        assert(row_idx < (s->efuse_size * s->efuse_nr / 32));
-> +        return s->fuse32[row_idx];
-> +    }
-> +}
-> +
-> +#endif
-
-thanks
--- PMM
+Thoughts?
 
