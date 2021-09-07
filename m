@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4410C402DEE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 19:47:41 +0200 (CEST)
-Received: from localhost ([::1]:48270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19564402DFD
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 19:53:33 +0200 (CEST)
+Received: from localhost ([::1]:58320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNfC8-0001H1-BI
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 13:47:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48108)
+	id 1mNfHn-0008IP-Vi
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 13:53:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mNf9d-0007Jb-M9
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 13:45:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36031)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mNfGn-0007dZ-7F
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 13:52:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mNf9a-0003dR-FZ
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 13:45:04 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mNfGj-0000OQ-90
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 13:52:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631036701;
+ s=mimecast20190719; t=1631037143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yVODojG78yb9Ltiqo0u8My8MDkgfkkvlm2C5pETFoiQ=;
- b=VScWSbgxbb65Y+4NukUJAt8b7rUMMsWsGBO6mIsf9SgIgLHJKEpuAtFLZrCAOOlFKoKfPx
- I38YToVjR1TaTcaq5fP2n25iBGDMb+eGiO1lOqdF2KZradhMQ8q3lPClfy8MtN1H9ejx66
- goFmQUqj/lLxQr84aQGkvJMPD3Y8nX4=
+ bh=QFO+6Ir+tiNj6TuXNlJVCTAyo2od91mIiQTbnqv38us=;
+ b=VjAKLpkxjpfmjLBY6KK3Yr0mTeCl3hqJ1pLpMUrZMBYhr0KOAj7Lbwe6mn5nW96qEH/QBy
+ AcwW4gvtHawxXnxtkTfzZVf742aKvvXmuv6P89wPCIEF9KGXnX4Z7K+DrZMTdBfhcaM8ls
+ U2m7/RF82+vZOqc4VF0XC5c2eoO+LVA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-j2ZCKQjjOuSL6IW4cL4hNA-1; Tue, 07 Sep 2021 13:44:57 -0400
-X-MC-Unique: j2ZCKQjjOuSL6IW4cL4hNA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-220-RpClBSMDPIiAtlZNiLXx2w-1; Tue, 07 Sep 2021 13:52:22 -0400
+X-MC-Unique: RpClBSMDPIiAtlZNiLXx2w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A7A4501E0;
- Tue,  7 Sep 2021 17:44:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C127584A5EC
+ for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 17:52:21 +0000 (UTC)
 Received: from redhat.com (ovpn-112-95.phx2.redhat.com [10.3.112.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7AD2B60CD1;
- Tue,  7 Sep 2021 17:44:55 +0000 (UTC)
-Date: Tue, 7 Sep 2021 12:44:53 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 449A217258;
+ Tue,  7 Sep 2021 17:52:18 +0000 (UTC)
+Date: Tue, 7 Sep 2021 12:52:16 -0500
 From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 1/9] nbd/client-connection:
- nbd_co_establish_connection(): fix non set errp
-Message-ID: <20210907174453.vyzq6f5xgcrg6qdk@redhat.com>
-References: <20210906190654.183421-1-vsementsov@virtuozzo.com>
- <20210906190654.183421-2-vsementsov@virtuozzo.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [qemu-web PATCH] Update FUSE block export blog post
+Message-ID: <20210907175216.dze5fvinpo5pxlt2@redhat.com>
+References: <20210906162916.21714-1-hreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210906190654.183421-2-vsementsov@virtuozzo.com>
+In-Reply-To: <20210906162916.21714-1-hreitz@redhat.com>
 User-Agent: NeoMutt/20210205-739-420e15
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -78,54 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- armbru@redhat.com, hreitz@redhat.com, den@openvz.org
+Cc: Klaus Kiwi <kkiwi@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 06, 2021 at 10:06:46PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> When we don't have a connection and blocking is false, we return NULL
-> but don't set errp. That's wrong.
+On Mon, Sep 06, 2021 at 06:29:16PM +0200, Hanna Reitz wrote:
+> Because I forgot to CC Thomas on the discussion adding this post, it was
+> merged prematurely.  This patch updates the post to incorporate the
+> feedback I received on it:
+>
 
-Oops...
+Overall, nice!  I see it's already live, but another tweak you might
+want to make:
 
-> 
-> We have two paths for calling nbd_co_establish_connection():
-> 
-> 1. nbd_open() -> nbd_do_establish_connection() -> ...
->   but that will never set blocking=false
-> 
-> 2. nbd_reconnect_attempt() -> nbd_co_do_establish_connection() -> ...
->   but that uses errp=NULL
-> 
-> So, we are safe with our wrong errp policy in
-> nbd_co_establish_connection(). Still let's fix it.
-
-...phew!  Thus, it's not critical to backport.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  nbd/client-connection.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/nbd/client-connection.c b/nbd/client-connection.c
-> index 7123b1e189..695f855754 100644
-> --- a/nbd/client-connection.c
-> +++ b/nbd/client-connection.c
-> @@ -318,6 +318,7 @@ nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
->          }
+> +## File mounts
 >  
->          if (!blocking) {
-> +            error_setg(errp, "No connection at the moment");
->              return NULL;
->          }
->  
-> -- 
-> 2.29.2
-> 
+> -A perhaps little-known fact is that, on Linux, filesystems do not need to have
+> -a root directory, they only need to have a root node.  A filesystem that only
+> -provides a single regular file is perfectly valid.
+> +To transparently translate a file into a different format, like we did above, we
+> +make use of two little-known facts about filesystems and the VFS on Linux.  The
+> +first one of these we can explain immediately, for the second one we will need
+> +some more information about how FUSE exports work, so that secret will be lifted
+
+s/lifted/revealed/
+
+> +later (down in the “Mounting an image on itself” section).
+> +
 
 -- 
 Eric Blake, Principal Software Engineer
