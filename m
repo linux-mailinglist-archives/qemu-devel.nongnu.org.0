@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCBD74026F8
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 12:17:16 +0200 (CEST)
-Received: from localhost ([::1]:44404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD48402703
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 12:19:14 +0200 (CEST)
+Received: from localhost ([::1]:49964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNYAF-0006HD-Ua
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 06:17:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39914)
+	id 1mNYC9-0001aP-P5
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 06:19:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mNY8h-0004np-Ag
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:15:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52210)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mNYBC-0008Ob-43
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:18:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mNY8f-0005Xd-ES
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:15:39 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mNYBA-0007dw-9M
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:18:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631009736;
+ s=mimecast20190719; t=1631009891;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/KJBbXI8PpKa9bD+FbXtfYGiCYZ0s0Muo1dNZO+yQFk=;
- b=SOQCEa5SiDT7HuxvjfYWznEsLpiwSFPTHVHiC9d/Bl3beN/w3tE3+0OYVtQ+vNm2CjlnCT
- jspiugb1mKbytWdotD6ksaAZ0knXaLivWfyUNPO71ZPkXF1RgZm3QWY+BXNm7wT2TRiGWQ
- kLv3MpUEc0mVblr3kdquyzqA3pXPhaI=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-Yh0P8zsfNNeUpqYW45LrmA-1; Tue, 07 Sep 2021 06:15:34 -0400
-X-MC-Unique: Yh0P8zsfNNeUpqYW45LrmA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- y21-20020a056402359500b003cd0257fc7fso5008639edc.10
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 03:15:34 -0700 (PDT)
+ bh=K3C4RPhpFvataIaonCqx/aNNACHlIDgxFBxCSr+5faI=;
+ b=g78eumm9qkqbdqY2ZmepFGjxTjEWUmFPIps413BpPGzim/AQeAgeXDBxMAhg0Tw286IqLD
+ bOLFaXcAzP71g9oBWXsbMmTI9WK5ASPo2xo9n7N69rfI1BCi+ZNdZd0Z3bFZaBaytJeoRc
+ noQQXOwqAgMHkSEEqLjau01uBV6DAgo=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-260-tNXIPLgGO_GapwK_vS5pog-1; Tue, 07 Sep 2021 06:18:10 -0400
+X-MC-Unique: tNXIPLgGO_GapwK_vS5pog-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ r21-20020a1709067055b02904be5f536463so3470757ejj.0
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 03:18:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/KJBbXI8PpKa9bD+FbXtfYGiCYZ0s0Muo1dNZO+yQFk=;
- b=Tgsahc6EZyNzYHF/84tKdtGDctE/C3dno7UOLTxhRcMUkmG1FGGT/x5O5wb09g6JYT
- mmjhrthghTfsrVqE9pFM6c8fqGe7ITGabU6PvvJk5kMJ9ASwYAYxN+EUWZSCHvLWtw+6
- C1zmzf1Ir3+caIxGf/MZh5BrahmCOJNhv1AbQN9Rr7kvYZAgWnkK1b34f7ybnQesNIsr
- 5TmF1TwHaHuterDXUvS4CWsm2myFzeBnWI/cxg+Talg/NU7L4aLenrdTeNs1shQr6NwG
- 786DuJyfPdjrNuH25xMt9cdOAjI4Krwwei/bnti+xv1oUCXOKIfGOvbYnc4F5783vFr+
- heIg==
-X-Gm-Message-State: AOAM532sTKcIn6131VX+9gXRfMndHoNbD6swMjUqkwhZKdzHR7+HkM4b
- ygZqSlZW+/VTNbCNqw2NZ3WM5ZzVTyuy6C3wnTA2ICwNTkm425W0s/Vr50E3sR66/kYx53pwgZw
- 9/tbBIXef4QSaaJc=
-X-Received: by 2002:a05:6402:389:: with SMTP id
- o9mr1021806edv.213.1631009733640; 
- Tue, 07 Sep 2021 03:15:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxCiijHWfRtbwWAZkyDLmuLDTKrMSUnsWfessZtZnsXMBENNbDsveZ6XbptzkcRJNomBS3YGA==
-X-Received: by 2002:a05:6402:389:: with SMTP id
- o9mr1021784edv.213.1631009733394; 
- Tue, 07 Sep 2021 03:15:33 -0700 (PDT)
-Received: from steredhat (host-79-51-2-59.retail.telecomitalia.it.
- [79.51.2.59])
- by smtp.gmail.com with ESMTPSA id t20sm2797339ejc.105.2021.09.07.03.15.32
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=K3C4RPhpFvataIaonCqx/aNNACHlIDgxFBxCSr+5faI=;
+ b=ZhHorXJjzQoNZeKR1zkuFWncsF5wESN8rRV82FYEzYcOIvSdusAj5AfmU5GgM/xCk5
+ xKjwNzGtbK6stnjVUBVsoxq50BDWuvoSt1jEybCV7GWTjKATjrFCVBMgoUaudxj1jJ4G
+ coMpir2ywK/XTXh88mKJLgjSOBB4INKw9C1feAFycMqcwfhJ1Y0SF8Bof4BOB3Af7ukg
+ cmIxgNSB5X01rGt+P144DdtgxJ7zHO/C2Es+i5k9TMAmwcTFJ0TMm8EseO2iLZgc6GTb
+ qwZ7xuNOQVana92shBjEAMNmFx0k9id2z6r1pdo7BAkF9G85JW+zrc5MYAJ0ClcEDyqq
+ nboQ==
+X-Gm-Message-State: AOAM532LlIeTPpgOBv3bfwvmc7T67iP3moGVqjsuccNXdnemsH+8N2st
+ o5XV2Fj2bNHnfZHIMCpHSiEyzjzv5yGxyjaImvmTiQUhhdkr+h/cfcALIg0W1rUr/CgvpSktHRs
+ 5zWIpx8ScehSEQdg=
+X-Received: by 2002:a17:906:9747:: with SMTP id
+ o7mr17795187ejy.486.1631009888791; 
+ Tue, 07 Sep 2021 03:18:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyYk3TdQEaP3Z8b5RN2Kq5Ja2rmICoMvZ6Do42a6tyJDAIfwYtH4sfxfVv2235gxhAxY9Te4Q==
+X-Received: by 2002:a17:906:9747:: with SMTP id
+ o7mr17795170ejy.486.1631009888579; 
+ Tue, 07 Sep 2021 03:18:08 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id bm14sm6272484edb.71.2021.09.07.03.18.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 03:15:32 -0700 (PDT)
-Date: Tue, 7 Sep 2021 12:15:30 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: "Jiang Wang ." <jiang.wang@bytedance.com>
-Subject: Re: [PATCH v4] virtio/vsock: add two more queues for datagram types
-Message-ID: <20210907101530.djm2zsoo4f3pirof@steredhat>
-References: <CAP_N_Z_FWCQuzxKG7uXAZRm_-X4A1m1c3Rh_FcBiDAksSbMWug@mail.gmail.com>
+ Tue, 07 Sep 2021 03:18:08 -0700 (PDT)
+Date: Tue, 7 Sep 2021 12:18:06 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v2 3/3] hw/arm/virt_acpi_build: Generate DBG2 table
+Message-ID: <20210907121806.79c74f27@redhat.com>
+In-Reply-To: <20210906123139.93593-4-eric.auger@redhat.com>
+References: <20210906123139.93593-1-eric.auger@redhat.com>
+ <20210906123139.93593-4-eric.auger@redhat.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAP_N_Z_FWCQuzxKG7uXAZRm_-X4A1m1c3Rh_FcBiDAksSbMWug@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -96,130 +98,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Arseny Krasnov <arseny.krasnov@kaspersky.com>,
- Jason Wang <jasowang@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, gshan@redhat.com,
+ mst@redhat.com, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, philmd@redhat.com, ardb@kernel.org,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 05, 2021 at 11:08:34AM -0700, Jiang Wang . wrote:
->On Mon, Aug 9, 2021 at 3:58 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
->> On Thu, Aug 05, 2021 at 12:07:02PM -0700, Jiang Wang . wrote:
->> >On Wed, Aug 4, 2021 at 1:13 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
->> >> On Tue, Aug 03, 2021 at 11:41:32PM +0000, Jiang Wang wrote:
+On Mon,  6 Sep 2021 14:31:39 +0200
+Eric Auger <eric.auger@redhat.com> wrote:
 
-[...]
+> ARM SBBR specification  mandates DBG2 table (Debug Port Table 2).
+                        ^^ revision here, and possibly a pointer [chapter]
+                           to concrete place in spec where it's said.
 
->> >> >+
->> >> >+    if (nvqs == MAX_VQS_WITH_DGRAM) {
->> >> >+        vvc->dgram_recv_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
->> >> >+                                              vhost_vsock_common_handle_output);
->> >> >+        vvc->dgram_trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
->> >> >+
->> >> >vhost_vsock_common_handle_output);
->> >> >+    }
->> >> >+
->> >>
->> >> I'm still concerned about compatibility with guests that don't
->> >> support
->> >> dgram, as I mentioned in the previous email.
->> >>
->> >> I need to do some testing, but my guess is it won't work if the host
->> >> (QEMU and vhost-vsock) supports it and the guest doesn't.
->> >>
->> >> I still think that we should allocate an array of queues and then decide
->> >> at runtime which one to use for events (third or fifth) after the guest
->> >> has acked the features.
->> >>
->> >Agree. I will check where the guest ack the feature. If you have any
->>
->> I'm not sure we should delete them, I think we can allocate 5 queues and
->> then use queue 3 or 5 for events in vhost_vsock_common_start(), when the
->> guest already acked the features.
->>
->
->I think I just solved most compatibility issues during migration. The
->previous error I saw was due to a bug in vhost-vsock kernel module.
+> this latter allows to describe one or more debug ports.
+> 
+> Generate an DBG2 table featuring a single debug port, the PL011.
+> 
+> The DBG2 specification can be found at:
+> https://docs.microsoft.com/en-us/windows-hardware/drivers/bringup/acpi-debug-port-table?redirectedfrom=MSDN
 
-Please post the fix upstream.
+links tend to go stale, I'd use a combo of name and optionally link here:
+ "Microsoft Debug Port Table 2 (DBG2)"
+    link
+ 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
->After fixing that, I did not change anything for qemu ( i.e, still the same
->version 4, btw I will fix fd issue in v5) and did a few migration tests.
->Most of them are good.
->
->There are two test cases that migration failed with "Features 0x130000002
->unsupported"error, which is due to
->SEQPACKET qemu patch (my dgram patch
->is based on seqpacket patch). Not sure if we need to
->fix it or not.  I think the compatibility is good as of now. Let me
+table looks correct,
+so only style related thing to fix to match the common
+ACPI code style.
 
-I'm a bit lost. Do you mean because one of the QEMU doesn't support 
-SEQPACKET?
+> 
+> ---
+> v1 -> v2:
+> - rebased on Igor's refactoring
+> ---
+>  hw/arm/virt-acpi-build.c | 64 +++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 63 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 488ea04eed7..de604e79779 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -512,6 +512,65 @@ build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>      acpi_table_composed(linker, &table);
+>  }
+>  
+> +/* Debug Port Table 2 (DBG2) */
+> +static void
+> +build_dbg2(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+> +{
+> +    AcpiTable table = { .sig = "DBG2", .rev = 3, .oem_id = vms->oem_id,
+> +                        .oem_table_id = vms->oem_table_id };
+> +    int dbg2devicelength, baseaddroffset = 22, namespace_length;
+> +    char name[] = "COM0";
+const?
+
+Also I'd move here:
+       const int namespace_length = sizeof(name);
+
+> +
+> +    acpi_init_table(&table, table_data);
+> +
+> +    namespace_length = sizeof name;
+> +    dbg2devicelength = baseaddroffset +
+> +                       sizeof(struct AcpiGenericAddress) + 4 + namespace_length;
+                          ^^^^, fragile as it's subject to alignment which depends on target
+
+I suggest following style:
+       
+       dbg2devicelength = 22 /* BaseAddressRegister[] offset, fixed size table header */ +
+                          12 /* BaseAddressRegister[] */ +
+                          4 /* AddressSize[] */
+                          namespace_length /* NamespaceString[] */;
+
+       and drop 'baseaddroffset' and 'sizeof(struct AcpiGenericAddress)'
+       to be more consistent with other ACPI code to annotate where lengths come from
+
+> +    /* offset to the first debug struct */
+         comment should be verbatim field name from spec table, i.e. in this case 
+            /* OffsetDbgDeviceInfo */
+         ditto for the rest of field comments
+
+> +    build_append_int_noprefix(table_data, 44, 4);
+> +    /* number of debug device info struct entries */
+> +    build_append_int_noprefix(table_data, 1, 4);
+> +
+> +    /* debug device info structure */
+
+copy from spec, for ease to find it using just copy/past,
+
+ /* Table 2. Debug Device Information structure format */
+
+> +    /* revision */
+> +    build_append_int_noprefix(table_data, 0, 1);
+> +    /* length */
+> +    build_append_int_noprefix(table_data, dbg2devicelength, 2);
+> +    /* register count */
+> +    build_append_int_noprefix(table_data, 1, 1);
+> +    /* name path length */
+> +    build_append_int_noprefix(table_data, namespace_length, 2);
+> +    /* name path offset */
+> +    build_append_int_noprefix(table_data, 38, 2);
+> +    /* oem data length */
+> +    build_append_int_noprefix(table_data, 0, 2);
+> +    /* oem data offset (0 means no OEM data) */
+> +    build_append_int_noprefix(table_data, 0, 2);
+> +    /* port type (serial port) */
+> +    build_append_int_noprefix(table_data, 0x8000, 2);
+values could be annotated like following, using description from spec:
+
+          build_append_int_noprefix(table_data, 0x8000 /* Serial */, 2);
+
+> +    /* port subtype (ARM PL011)*/
+> +    build_append_int_noprefix(table_data, 0x3, 2);
+                                             0x3 /* ARM PL011 UART */
+
+it gives checkpatch warning but all APCI code uses this style,
+so it's fine
+
+> +    /* reserved */
+> +    build_append_int_noprefix(table_data, 0, 2);
+> +    /* base address offset */
+> +    build_append_int_noprefix(table_data, 22, 2);
+> +    /* address size offset */
+> +    build_append_int_noprefix(table_data, 34, 2);
+> +
+> +    /* BaseAddressRegister */
+> +    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 8, 0, 1,
+> +                     vms->memmap[VIRT_UART].base);
+> +
+> +    /* AddressSize (PL011 UART length) */
+> +    build_append_int_noprefix(table_data, 0x1000, 4);
+                                             ^^^^
+at least point out where it comes from or use macro to define
+value and use it here and in pl011_init()
 
 
->know if you have other concerns or more test cases to test.
->Otherwise, I will submit V5 soon.
->
->Test results:
->Left three columns are the source set-up,  right are destination set up.
->Host and Guest refers to the host and guest kernel respectively. These
->tests are not complete, and I make the src and dest kernel mostly the
->same version. But I did test one case where source kernel has dgram
->support while dest kernel does not and it is good. Btw, if the src kernel
->and dest kernel have a big difference( like 5.14 vs 4.19), then QEMU
->will show some msr errors which I guess is kind of expected.
->
->Host        QEMU        Guest            --> Host        QEMU            result
->dgram       no-dgram    no-dgram        dgram       no-dgram        Good
->dgram       no-dgram    dgram           dgram       no-dgram        Good
->dgram       dgram       no-dgram        dgram       dgram           Good
->dgram       dgram       no-dgram        dgram       no-dgram        Good
->dgram       dgram       dgram           dgram       no-dgram
->load feature error *1
->
->no-dgram    no-dgram    dgram           no-dgram    no-dgram        Good
->no-dgram    dgram       dgram           no-dgram    dgram             Good
->no-dgram    dgram       no-dgram        no-dgram    dgram           Good
->no-dgram    dgram       no-dgram        no-dgram    no-dgram        Good
->no-dgram    dgram       dgram           no-dgram    no-dgram
->load feature error *1
->
->dgram       dgram       no-dgram        no-dgram    no-dgram        Good
->
->*1 Qemu shows following error messages:
->qemu-system-x86_64: Features 0x130000002 unsupported. Allowed
->features: 0x179000000
->qemu-system-x86_64: Failed to load virtio-vhost_vsock:virtio
->qemu-system-x86_64: error while loading state for instance 0x0 of
->device '0000:00:05.0/virtio-vhost_vsock'
->qemu-system-x86_64: load of migration failed: Operation not permitted
->
->This is due to SEQPACKET feature bit.
-
-Can you test with both (source and destination) that support SEQPACKET 
-(or not)?
-
-I mean, it is better if the only variable is the dgram support.
-
-Anyway the tests seem ok to me :-)
-
->
->
->Step back and rethink about whether the event vq number should be 3 or or 5,
->now I think it does not matter. The tx and rx queues (whether 2 or 4 queues)
->belong to vhost, but event queue belongs to QEMU. The qemu code
->allocates an array  for vhost_dev.vqs only for tx and rx queues. So
->event queue is never in that array. That means we don't need to
->worry about even queue number is 3 or 5. And my tests confirmed that.
->I think for the virtio spec, we need to put event queue somewhere and
->it looks like having a relative position to tx rx queues. But for vhost kernel
->implementation, the event queue is a special case and not related to
->tx or rx queues.
-
-Yep, the important thing is that QEMU uses the right queue depending on 
-whether DGRAM support has been negotiated or not.
-
-Thanks,
-Stefano
+> +
+> +    /* NamespaceString */
+> +    g_array_append_vals(table_data, name, namespace_length);
+> +
+> +    acpi_table_composed(linker, &table);
+> +};
+> +
+>  /*
+>   * ACPI spec, Revision 5.1 Errata A
+>   * 5.2.12 Multiple APIC Description Table (MADT)
+> @@ -770,7 +829,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>      dsdt = tables_blob->len;
+>      build_dsdt(tables_blob, tables->linker, vms);
+>  
+> -    /* FADT MADT GTDT MCFG SPCR pointed to by RSDT */
+> +    /* FADT MADT GTDT MCFG SPCR DBG2 pointed to by RSDT */
+>      acpi_add_table(table_offsets, tables_blob);
+>      build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
+>  
+> @@ -793,6 +852,9 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>      acpi_add_table(table_offsets, tables_blob);
+>      build_spcr(tables_blob, tables->linker, vms);
+>  
+> +    acpi_add_table(table_offsets, tables_blob);
+> +    build_dbg2(tables_blob, tables->linker, vms);
+> +
+>      if (vms->ras) {
+>          build_ghes_error_table(tables->hardware_errors, tables->linker);
+>          acpi_add_table(table_offsets, tables_blob);
 
 
