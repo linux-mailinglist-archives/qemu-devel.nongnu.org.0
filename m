@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33C8402B0C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:50:03 +0200 (CEST)
-Received: from localhost ([::1]:50186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B436402B1E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:53:36 +0200 (CEST)
+Received: from localhost ([::1]:33016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNcQE-0008Ni-MP
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:50:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36738)
+	id 1mNcTf-0007fO-FU
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNcOm-0005n6-BV
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:48:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34893)
+ id 1mNcOo-0005rx-JH
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:48:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNcOk-000888-Mx
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:48:32 -0400
+ id 1mNcOl-00088M-T1
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:48:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631026110;
+ s=mimecast20190719; t=1631026111;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JKQWh5/vVJkJbNzi44G3xbbZxdpIGyhnwoVw23faxvg=;
- b=JLuzf6oPWzmJIsiwiVFek6HIJj7ne78Y93JSzqxejsP/LvBwZiQpfZ76UDA6G4SoGMZ13Q
- YNe/n8oIBB5hWScbMkAxgdBberL5JSAKo5FHeXJRr8N1PA7sulsKWmXLiKoiN9LSOiog5+
- 59uwBHRJFd8mDYoB48iC3W/Rr9qRsL0=
+ bh=5If39+Zpx7Fq5BXOmNA4mteqSL+r1K6jsvblDctOwTc=;
+ b=aXfrGjSvtRhph4oD0Q/3ip/kZbysHVwYB5awP0PWpD7gX+cjfy92JPLKdiMSkbd9AW/QJY
+ a0Z4eK515D7bXeNKMxH8X9LoHaKOoGOhgWIBpmBdnoN/rXAFqtQ/M9WmG+HaDocESc9U4X
+ LEn3frcPnKGLMcSEzJRjhrnHwoC/Rek=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-pwQ6AEtRNuOjsqbe5KEJ1A-1; Tue, 07 Sep 2021 10:48:29 -0400
-X-MC-Unique: pwQ6AEtRNuOjsqbe5KEJ1A-1
+ us-mta-596-fxeIsP-tNuK6zj7tP3en4w-1; Tue, 07 Sep 2021 10:48:30 -0400
+X-MC-Unique: fxeIsP-tNuK6zj7tP3en4w-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40F93107ACE4
- for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 14:48:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 348F580196C
+ for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 14:48:29 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 96EBE5D9CA;
- Tue,  7 Sep 2021 14:48:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8A2365D9CA;
+ Tue,  7 Sep 2021 14:48:28 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 03/35] acpi: build_xsdt: use
+Subject: [PATCH v3 04/35] acpi: build_slit: use
  acpi_table_begin()/acpi_table_end() instead of build_header()
-Date: Tue,  7 Sep 2021 10:47:42 -0400
-Message-Id: <20210907144814.741785-4-imammedo@redhat.com>
+Date: Tue,  7 Sep 2021 10:47:43 -0400
+Message-Id: <20210907144814.741785-5-imammedo@redhat.com>
 In-Reply-To: <20210907144814.741785-1-imammedo@redhat.com>
 References: <20210907144814.741785-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -88,84 +88,47 @@ it replaces error-prone pointer arithmetic for build_header() API,
 with 2 calls to start and finish table creation,
 which hides offsets magic from API user.
 
-While at it switch to build_append_int_noprefix() to build
-entries to other tables (which also removes some manual offset
-calculations).
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
 v3:
   * s/acpi_init_table|acpi_table_composed/acpi_table_begin|acpi_table_end/
 ---
- include/hw/acpi/acpi-defs.h | 10 ----------
- hw/acpi/aml-build.c         | 27 ++++++++++++---------------
- 2 files changed, 12 insertions(+), 25 deletions(-)
+ hw/acpi/aml-build.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-index ccfa3382aa..f6d2ca172b 100644
---- a/include/hw/acpi/acpi-defs.h
-+++ b/include/hw/acpi/acpi-defs.h
-@@ -149,16 +149,6 @@ struct AcpiSerialPortConsoleRedirection {
- typedef struct AcpiSerialPortConsoleRedirection
-                AcpiSerialPortConsoleRedirection;
- 
--/*
-- * ACPI 2.0 eXtended System Description Table (XSDT)
-- */
--struct AcpiXsdtDescriptorRev2 {
--    ACPI_TABLE_HEADER_DEF       /* ACPI common table header */
--    uint64_t table_offset_entry[];  /* Array of pointers to other */
--    /* ACPI tables */
--} QEMU_PACKED;
--typedef struct AcpiXsdtDescriptorRev2 AcpiXsdtDescriptorRev2;
--
- /*
-  * ACPI 1.0 Firmware ACPI Control Structure (FACS)
-  */
 diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index 32f14d4a78..daefc132f3 100644
+index daefc132f3..e54face23d 100644
 --- a/hw/acpi/aml-build.c
 +++ b/hw/acpi/aml-build.c
-@@ -1916,27 +1916,24 @@ build_xsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
-            const char *oem_id, const char *oem_table_id)
+@@ -1954,11 +1954,12 @@ void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
+ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+                 const char *oem_id, const char *oem_table_id)
  {
-     int i;
--    unsigned xsdt_entries_offset;
--    AcpiXsdtDescriptorRev2 *xsdt;
--    int xsdt_start = table_data->len;
--    const unsigned table_data_len = (sizeof(uint64_t) * table_offsets->len);
--    const unsigned xsdt_entry_size = sizeof(xsdt->table_offset_entry[0]);
--    const size_t xsdt_len = sizeof(*xsdt) + table_data_len;
--
--    xsdt = acpi_data_push(table_data, xsdt_len);
--    xsdt_entries_offset = (char *)xsdt->table_offset_entry - table_data->data;
-+    AcpiTable table = { .sig = "XSDT", .rev = 1,
+-    int slit_start, i, j;
+-    slit_start = table_data->len;
++    int i, j;
+     int nb_numa_nodes = ms->numa_state->num_nodes;
++    AcpiTable table = { .sig = "SLIT", .rev = 1,
 +                        .oem_id = oem_id, .oem_table_id = oem_table_id };
-+
-+    acpi_table_begin(&table, table_data);
-+
-     for (i = 0; i < table_offsets->len; ++i) {
-         uint64_t ref_tbl_offset = g_array_index(table_offsets, uint32_t, i);
--        uint64_t xsdt_entry_offset = xsdt_entries_offset + xsdt_entry_size * i;
-+        uint64_t xsdt_entry_offset = table.array->len;
  
--        /* xsdt->table_offset_entry to be filled by Guest linker */
-+        /* reserve space for entry */
-+        build_append_int_noprefix(table.array, 0, 8);
-+
-+        /* mark position of RSDT entry to be filled by Guest linker */
-         bios_linker_loader_add_pointer(linker,
--            ACPI_BUILD_TABLE_FILE, xsdt_entry_offset, xsdt_entry_size,
-+            ACPI_BUILD_TABLE_FILE, xsdt_entry_offset, 8,
-             ACPI_BUILD_TABLE_FILE, ref_tbl_offset);
+-    acpi_data_push(table_data, sizeof(AcpiTableHeader));
++    acpi_table_begin(&table, table_data);
+ 
+     build_append_int_noprefix(table_data, nb_numa_nodes, 8);
+     for (i = 0; i < nb_numa_nodes; i++) {
+@@ -1969,11 +1970,7 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+                                       1);
+         }
      }
+-
 -    build_header(linker, table_data,
--                 (void *)(table_data->data + xsdt_start),
--                 "XSDT", xsdt_len, 1, oem_id, oem_table_id);
+-                 (void *)(table_data->data + slit_start),
+-                 "SLIT",
+-                 table_data->len - slit_start, 1, oem_id, oem_table_id);
 +    acpi_table_end(linker, &table);
  }
  
- void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
+ /* build rev1/rev3/rev5.1 FADT */
 -- 
 2.27.0
 
