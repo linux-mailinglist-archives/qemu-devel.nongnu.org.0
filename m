@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82BB14029AE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:25:17 +0200 (CEST)
-Received: from localhost ([::1]:45944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E25564029CC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:35:42 +0200 (CEST)
+Received: from localhost ([::1]:53064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNb6C-0004ks-GU
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:25:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55510)
+	id 1mNbGI-0003sX-03
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:35:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNagi-0003iy-4v
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:58:56 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41954)
+ id 1mNahe-0006I4-SK
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:59:54 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:45571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNagf-0004Ew-UL
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:58:55 -0400
-Received: by mail-wr1-x435.google.com with SMTP id u9so14282280wrg.8
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 05:58:53 -0700 (PDT)
+ id 1mNahd-0004iA-Cv
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:59:54 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ j17-20020a05600c1c1100b002e754875260so2153324wms.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 05:59:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5900lkAEZ/6L9YX3yLKrRhWB8KnYm9l4XpxD5QVCI4Q=;
- b=iffw1HPOAcXeLtwO1sVuWL968Mdc83wMBs5ozkWh4VCd+fsYuUhBqYm6jXqTfFwy46
- Sdt3/+kwMKEzOE2QdpUMnCZv3oU6ZLSApxIor7q6RqRO/Uxus9IEPawyDi7CZcG6NcAE
- wXrPcfEtSLNPqmPKHG2Ulw0Q79UGb2T/zBWFsXLtrOJsDEatNjJHsajKQEaR/jqajxNq
- Ou1R/fpHVu5gCdJ2aYDHl+wV0OcMtsH3jaRktHM8oajEdKGu+wf7AKeEXVkKhPXH3Wr+
- tu9KzjqW+wdl5kKKLOUUnmWpnHJggKY1ZuWQuUNIVUmgsi6fCwu2xNpWeDmjapICFI6e
- sLdw==
+ :cc; bh=Ayf9E/+/5HeUXZuNjNywgORqjAQrn/NYdb5j4cI7Kno=;
+ b=SwZtvf7T2s9z//cbhgpOOxJfX9VYZM9Wd0caLSkKlRVp4/mtbzBfrbL8yup5sSiNG/
+ LRlTQfQzM1wyIllE98nWNN9MfLmEaFJ2BSg2fc+yBBKKtPjZYIzRMV6BF65i/tLr3clC
+ zFBt85CVTHLAgdgt7KFE5l/Ap6n9aaBPuPQLFTPZ3j3IynN0iCcGx6oECPOySUFddtFd
+ xfRg7jo+GncFyA30uFYkM2jlu7JgwazXBdqbQjZLeAQmJM+IXVY8MmIaU6Lf5C2kSY80
+ 2+LeGMmm6iWIvgVGK51r6zF/+lFNm30gzrYByf6I45IwB/mZJWD+m4vG1QumJBHAf0f7
+ SKXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5900lkAEZ/6L9YX3yLKrRhWB8KnYm9l4XpxD5QVCI4Q=;
- b=Okh0xdVeeSgH/2xFfzcUqJqBrHtTbRdS3urPsm9RynZWnnQ9nGi4IG3QglHEhEJSuv
- RcSEOehvSrv60TLSOBkpsuX+Gf9R9UApOFus35zSPV6dVmJVOy5fM7DTIC9xIrcy1FTz
- /gZ3gpW2hPAPPuuNhQoBQ/Ac4oWUqqOYO7a/LR0pYEcuPQ1LDurVQmaVK/rgPi93knVe
- dyIsLOzVWVbK/QuzeDdOcrgSUsYrMhGhJ3QaOYwWugaEcv/ukrvyk70/dIspTBvcDds4
- 0mKzB/3eJJ3PS3CCrV7lKMgw6gNJt32RhgZQmZZ9twK+3HrNY7xOq5wiCHca2/BKAdc9
- O4tA==
-X-Gm-Message-State: AOAM531rjqpunG+DLZTIXRHjpoiw0rXmS+jJFW3BZEDBG6AmEwNNlQy5
- OwDaxXyYshOwOybpFevWsUF3FXyqIvKLbL1fQW+9Lg==
-X-Google-Smtp-Source: ABdhPJyNz9w2xmO4gIGLIjfbsUDdHaw1SCa+g2bW1eVJgnkhUG69BUTuOpNo1cqP8VgHPCzIr+O6woJiQJA3q6jZoNU=
-X-Received: by 2002:adf:fb91:: with SMTP id a17mr18062264wrr.376.1631019532386; 
- Tue, 07 Sep 2021 05:58:52 -0700 (PDT)
+ bh=Ayf9E/+/5HeUXZuNjNywgORqjAQrn/NYdb5j4cI7Kno=;
+ b=rTJYP1ZoPMhEhxtBjxzU4IeH9zpHM/8+qTz13bnczPC9aeGGDgpVm23aL3lvjVcTu6
+ aR34DY1LPVYHvvQdNfYYsjEllD+E5sdTPmgnUyJVbqzw+zrrBXhRt9pySdpDIfS2TPwV
+ yjQ2+8Fm+Z7YQvn2KKGNCdta04hiUR01aFi9ybjli4pDPUX7wDCCKHrh1nhdgkPq2xmC
+ dzLemg19JtVAwvTT76/oQJFrdOqzm5KcqHM5oZRKDHFI5MZYkZNKofXOTjuryPr+IKsW
+ e3NpogYVjrPcxhlVuBqBmclkMVseVrioyAextQ5i4VEm6eCKnaQjP1pBdWzl5CFDYcQz
+ NxPg==
+X-Gm-Message-State: AOAM533K0Tbz6pDPACx1n3LCa+TRps2eTydjwF/HButfVtcbXxx8aj4s
+ LFVbS2Uv4eBNCSGfXSqryAn5CXx7uIThcXspa+8j5ReOA1Q=
+X-Google-Smtp-Source: ABdhPJzDJo5AIX0ME0n7g4NTVe9Vcf8D4kaOExGpzy7gbfcmcMcFILBjLkLVL9i0b8NVvt27aIncLNCbOYOhwtTU1yE=
+X-Received: by 2002:a05:600c:19d0:: with SMTP id
+ u16mr3810099wmq.21.1631019591782; 
+ Tue, 07 Sep 2021 05:59:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210822144441.1290891-1-maz@kernel.org>
- <20210822144441.1290891-3-maz@kernel.org>
-In-Reply-To: <20210822144441.1290891-3-maz@kernel.org>
+References: <20210903113223.19551-1-mark.cave-ayland@ilande.co.uk>
+ <20210903113223.19551-3-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210903113223.19551-3-mark.cave-ayland@ilande.co.uk>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Sep 2021 13:58:03 +0100
-Message-ID: <CAFEAcA9=SJd52ZEQb0gyW+2q9md4KMnLy8YsME-Mkd-AbvV41Q@mail.gmail.com>
-Subject: Re: [PATCH 2/3] hw/arm/virt: Honor highmem setting when computing
- highest_gpa
-To: Marc Zyngier <maz@kernel.org>
+Date: Tue, 7 Sep 2021 13:59:02 +0100
+Message-ID: <CAFEAcA_Scw3mwNYx8zJzGT169WGxiuq9JM5vfk9-GtWbK8onLQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/9] escc: reset register values to zero in escc_reset()
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,73 +79,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
- Android Kernel Team <kernel-team@android.com>,
- kvmarm <kvmarm@lists.cs.columbia.edu>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 22 Aug 2021 at 15:45, Marc Zyngier <maz@kernel.org> wrote:
+On Fri, 3 Sept 2021 at 12:58, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
 >
-> Even when the VM is configured with highmem=off, the highest_gpa
-> field includes devices that are above the 4GiB limit, which is
-> what highmem=off is supposed to enforce. This leads to failures
-> in virt_kvm_type() on systems that have a crippled IPA range,
-> as the reported IPA space is larger than what it should be.
+> This is to ensure that a device reset always returns the ESCC to a known state.
 >
-> Instead, honor the user-specified limit to only use the devices
-> at the lowest end of the spectrum.
+> Note that this is currently redundant with the same code in escc_reset_chn()
+> but that will change shortly.
 >
-> Note that this doesn't affect memory, which is still allowed to
-> go beyond 4GiB with highmem=on configurations.
->
-> Cc: Andrew Jones <drjones@redhat.com>
-> Cc: Eric Auger <eric.auger@redhat.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Marc Zyngier <maz@kernel.org>
-> ---
->  hw/arm/virt.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 81eda46b0b..bc189e30b8 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1598,7 +1598,7 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
->  static void virt_set_memmap(VirtMachineState *vms)
->  {
->      MachineState *ms = MACHINE(vms);
-> -    hwaddr base, device_memory_base, device_memory_size;
-> +    hwaddr base, device_memory_base, device_memory_size, ceiling;
->      int i;
->
->      vms->memmap = extended_memmap;
-> @@ -1625,7 +1625,7 @@ static void virt_set_memmap(VirtMachineState *vms)
->      device_memory_size = ms->maxram_size - ms->ram_size + ms->ram_slots * GiB;
->
->      /* Base address of the high IO region */
-> -    base = device_memory_base + ROUND_UP(device_memory_size, GiB);
-> +    ceiling = base = device_memory_base + ROUND_UP(device_memory_size, GiB);
->      if (base < device_memory_base) {
->          error_report("maxmem/slots too huge");
->          exit(EXIT_FAILURE);
-> @@ -1642,7 +1642,11 @@ static void virt_set_memmap(VirtMachineState *vms)
->          vms->memmap[i].size = size;
->          base += size;
->      }
-> -    vms->highest_gpa = base - 1;
-> +    if (vms->highmem) {
-> +           /* If we have highmem, move the IPA limit to the top */
-> +           ceiling = base;
-> +    }
-> +    vms->highest_gpa = ceiling - 1;
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-This doesn't look right to me. If highmem is false and the
-high IO region would be above the 4GB mark then we should not
-create the high IO region at all, surely? This code looks like
-it goes ahead and puts the high IO region above 4GB and then
-lies in the highest_gpa value about what the highest used GPA is.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
 -- PMM
 
