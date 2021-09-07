@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B31402941
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 14:54:01 +0200 (CEST)
-Received: from localhost ([::1]:40372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3AA40294E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:00:06 +0200 (CEST)
+Received: from localhost ([::1]:56642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNabw-0001Yq-M4
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 08:54:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43066)
+	id 1mNahp-0004Oz-Lf
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:00:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mNa9j-0007S5-HD
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:24:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60618)
+ id 1mNa9s-0007VK-TM
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:25:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mNa9a-0008Hi-M5
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:24:46 -0400
+ id 1mNa9o-0008Ky-1W
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:25:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631017481;
+ s=mimecast20190719; t=1631017494;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZGt+B4w/EtTevt91wzwwGAAD7XdUTOF5gSRxxJjaZWs=;
- b=SoSE/6job9rnT0Hlmh+eMk7lz4t78KkRYiQo9rs9AEAWMfp1OgKQ7Dfz/ApiEnfuQzDNfu
- Hj6oWo8DV0Ok6j3Lo0TqSaV+yDpj4U4ACFfNxlwSZRZ1zyFpHeTwBe0/Q5mgdb/rZRgKbc
- 4t9/Th7XOngmASwqbTkuDnBjzRN10EA=
+ bh=9791jZ10f+guLwmYZ4PgfVHbEm9I+Y2Hi55Pr1OZiLA=;
+ b=edR5y4+XGySs3FMR92/eJfVGQWRA+WckSZquUSYC7XFgsTvCNoBq9EwQqkdTeOAOjY3ugi
+ eQPPT38YGMU2+a8tCkplMMVcK1ZJ7kQvIsoHisxIJypBquD0kkMCgoxIqAiev3ASxDT9lw
+ pISD79egXVfwydnJLhHr45UtmUv3ZMY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-hHf4MAIyNg-O-71yyivfYg-1; Tue, 07 Sep 2021 08:24:40 -0400
-X-MC-Unique: hHf4MAIyNg-O-71yyivfYg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-538-n3ZDuuajOXijXA5gQcKA-w-1; Tue, 07 Sep 2021 08:24:50 -0400
+X-MC-Unique: n3ZDuuajOXijXA5gQcKA-w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBF641006C85
- for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 12:24:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14FCF107ACE4
+ for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 12:24:50 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95D4860657;
- Tue,  7 Sep 2021 12:24:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9EF1D1972D;
+ Tue,  7 Sep 2021 12:24:43 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 22/32] qga: build qapi-cabi binary (ABI from C)
-Date: Tue,  7 Sep 2021 16:19:33 +0400
-Message-Id: <20210907121943.3498701-23-marcandre.lureau@redhat.com>
+Subject: [RFC v3 23/32] qga/rust: build and link an empty static library
+Date: Tue,  7 Sep 2021 16:19:34 +0400
+Message-Id: <20210907121943.3498701-24-marcandre.lureau@redhat.com>
 In-Reply-To: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
 References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.391, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,60 +87,91 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Build a binary to dump the QAPI ABI (from C code). Ex:
-
-$ qga/qapi-cabi
-GuestAgentCommandInfo struct: sizeof=16
- name member: sizeof=8 offset=0
- enabled member: sizeof=1 offset=8
- success_response member: sizeof=1 offset=9
-...
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- qga/qapi-cabi.c |  9 +++++++++
- qga/meson.build | 12 ++++++++++++
- 2 files changed, 21 insertions(+)
- create mode 100644 qga/qapi-cabi.c
+ Cargo.lock      |  4 ++++
+ Cargo.toml      |  1 +
+ qga/Cargo.toml  |  9 +++++++++
+ qga/lib.rs      |  0
+ qga/meson.build | 20 +++++++++++++++++++-
+ 5 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 qga/Cargo.toml
+ create mode 100644 qga/lib.rs
 
-diff --git a/qga/qapi-cabi.c b/qga/qapi-cabi.c
+diff --git a/Cargo.lock b/Cargo.lock
+index f2cd0ee96e..2f5b202605 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -68,3 +68,7 @@ version = "0.0.1"
+ dependencies = [
+  "common",
+ ]
++
++[[package]]
++name = "qga"
++version = "0.1.0"
+diff --git a/Cargo.toml b/Cargo.toml
+index f4a078e62d..3db0646413 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -1,5 +1,6 @@
+ [workspace]
+ members = [
++  "qga",
+   "rust/common",
+   "tests",
+ ]
+diff --git a/qga/Cargo.toml b/qga/Cargo.toml
 new file mode 100644
-index 0000000000..0704e70869
+index 0000000000..a3bffd1fec
 --- /dev/null
-+++ b/qga/qapi-cabi.c
++++ b/qga/Cargo.toml
 @@ -0,0 +1,9 @@
-+#include "qemu/osdep.h"
++[package]
++name = "qga"
++version = "0.1.0"
++edition = "2018"
++publish = false
 +
-+#include "qga-qapi-types.h"
-+
-+int main(int argc, const char *argv[])
-+{
-+    qapi_cabi();
-+    return 0;
-+}
++[lib]
++path = "lib.rs"
++crate-type = ["staticlib"]
+diff --git a/qga/lib.rs b/qga/lib.rs
+new file mode 100644
+index 0000000000..e69de29bb2
 diff --git a/qga/meson.build b/qga/meson.build
-index cfb1fbc085..1b050d8c53 100644
+index 1b050d8c53..d272892ced 100644
 --- a/qga/meson.build
 +++ b/qga/meson.build
-@@ -21,6 +21,18 @@ qga_qapi_files = custom_target('QGA QAPI files',
-                                command: [ qapi_gen, '-o', 'qga', '-p', 'qga-', '@INPUT0@' ],
-                                depend_files: qapi_gen_depends)
+@@ -54,9 +54,27 @@ qga_ss.add(when: 'CONFIG_WIN32', if_true: files(
  
-+i = 0
-+srcs = [files('qapi-cabi.c')]
-+foreach output: qga_qapi_outputs
-+  if output.startswith('qga-qapi-types') or output.startswith('qga-qapi-visit')
-+    srcs += qga_qapi_files[i]
-+  endif
-+  i += 1
-+endforeach
-+qga_qapi_cabi = executable('qapi-cabi', srcs,
-+                           dependencies: [qemuutil],
-+                           c_args: ['-DQAPI_CABI'])
+ qga_ss = qga_ss.apply(config_host, strict: false)
+ 
++qga_rs = declare_dependency()
++if with_rust
++  cargo_qga = custom_target('cargo-qga',
++                            build_by_default: true,
++                            output: ['libqga.args', 'libqga.a'],
++                            build_always_stale: true,
++                            command: [cargo_wrapper,
++                                      meson.current_build_dir(),
++                                      meson.current_source_dir(),
++                                      meson.build_root(),
++                                      rs_build_type,
++                                      rust_target_triple,
++                                      'build-lib'])
++  qga_rs = declare_dependency(
++    link_args: '@' + cargo_qga[0].full_path(),
++    sources: cargo_qga)
++endif
 +
- qga_ss = ss.source_set()
- qga_ss.add(qga_qapi_files.to_list())
- qga_ss.add(files(
+ qga = executable('qemu-ga', qga_ss.sources(),
+                  link_args: config_host['LIBS_QGA'].split(),
+-                 dependencies: [qemuutil, libudev],
++                 dependencies: [qemuutil, libudev, qga_rs],
+                  install: true)
+ all_qga = [qga]
+ 
 -- 
 2.33.0.113.g6c40894d24
 
