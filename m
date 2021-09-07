@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15344030CA
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 00:16:19 +0200 (CEST)
-Received: from localhost ([::1]:33332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4B94030B8
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 00:08:44 +0200 (CEST)
+Received: from localhost ([::1]:39330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNjO6-0007LZ-Ot
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 18:16:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35220)
+	id 1mNjGl-0000XO-UQ
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 18:08:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2Z-0005uF-9U
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2Z-0005uP-Rz
  for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:54:04 -0400
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:38672)
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:39473)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2X-0000yY-9F
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2X-0000zh-SL
  for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:54:03 -0400
-Received: by mail-il1-x142.google.com with SMTP id u11so168043ilj.5
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:54:00 -0700 (PDT)
+Received: by mail-io1-xd42.google.com with SMTP id m11so459417ioo.6
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:54:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/alk5dhNog11lYeAdIDLuwiTsPArXCiZibQ+tOSdZPs=;
- b=R9CZcuIHaYn2OcdRT0jCyHgdH6JO3/OPeJ9QyJFfKvli4h9xPioFJGTdbgw83SJFwL
- Iv2LpjgK+ZBnynffulXV1TbKh1NBf6ABivUHTDuzpTkeRsdMojdMpFAuZ1ANCv5iQeJl
- +QHsGZw7THv4yQzDDznQkLFxcQYz05YfnzksxrZc1FU9rf5AigzmnWLktV/HR/nHQxl/
- DirVyVl8wfGHCzmRrb6xIVhhfj7f5fmwcl5/UucJzACsmnjm4Wv2z/YYIKJuv8GMnl9L
- RU10xktvecONVORvDfJbV+fJuY9pIl5fkiEPjanwjeeSyEMpUJXxPK9cSm/IAfTsMsW9
- /NWg==
+ bh=sA5QHzmZM8n6t08NS5xsgqcfTBm3Za7WlXfug3IWldc=;
+ b=ftMhVQgIyBdwld+I8He1yn9HaP2xFO0IKa/GLOpf8D0UhXpOeuXHukj0DcmVOSMz35
+ ildbyu4F03yRFFGB0ZWiH/qJdbCYQiIC/GTLOjj8ETbqH9lsrUlngFlG88InsaAL+oXy
+ wqgr+8r3V/YDj5v8hUBEKLHdCUOf5Uuk2Qe0WkxSeU8A2DLtugmqfn+1vpIX/jtL0y3u
+ wqJCRLIusvYricUdlw7ebNWPOBcJArS42mZfGkXVnJ4h7ZrT0O1ofz4p9FaROOg4PLh+
+ 7zcToHPF/AMNBdJmASiKbybp+W9j4epmfeWOoPGZ/HJd0aF79Xsrxqp+UXV6Q5oXMVI8
+ IMrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/alk5dhNog11lYeAdIDLuwiTsPArXCiZibQ+tOSdZPs=;
- b=GXkN0MbEZd2ajJeHspIWGqGlk2t27TbLmIIsvix4a+Zt7dQirNTs0qrZsDJTVELLIz
- qferbL+IC/yIwO0Af1tzLhKToRCpl/aAuUVal6eWU0FbJ8TZ1nSK4JzE5zG3YbrO79HJ
- KQKYU/iumeawV4zDvb+s8/WANZzumD1wgx8WPrti/cvI5r5B9xx3m9kmE7i1CNhbB9dN
- wxMGvxJQnbvfntirF0HrbOC/Sxd1yPdDRTFLkW42diX8BZw/+gtdkUdHopyjQcegCRia
- qiepjEmzpSwIDbgwVGMap/KPNzw2QSgKiyn70GKS0WYF0g3L9kihnENubRPaceUd2K3k
- P4hA==
-X-Gm-Message-State: AOAM531GkmEOSAkl9FAa84ahoBiPYlx7lo+p4/B8CGRQWap24Linh+w0
- EusvWWYxySPI/6qwGbaXPR54aXxG5EJehpQRDkA=
-X-Google-Smtp-Source: ABdhPJzp4wMmU27mhuwTJfOHqtOfRhc+HgOvfNmyg3sqe5eywMrHHbqRboT7E/WEOXTtruaHC0zLCw==
-X-Received: by 2002:a92:db06:: with SMTP id b6mr265511iln.305.1631051640002;
+ bh=sA5QHzmZM8n6t08NS5xsgqcfTBm3Za7WlXfug3IWldc=;
+ b=t7gUE3fFDtD+M82AOwIBkLw2VK4YLwkII3iS1fknCD6wsvnDF9pUyyKENGGlKb0kby
+ Hjb6xfiRQtp2GBxr1xXbZ3EMvytJgV76fSfiOpmQm/35GYyxJuDYVk6uT/MahhtJrkNF
+ Kdp3UNIdFPgQQNrtfygjOzI3OkQ7sY5wXaYEaF2WPV1I3O0iuBXpqC5TCF0fZPMA+dHa
+ pixzzrm1xVR5ibH6rzFnMHXTBDwgTpfGHZqPcxKDWy9nHtILNZg4NnzLJlYJ88P4nIWe
+ JMs/waqbyjOzrjseNjPqIfvg1CkomD8hVD4NT525QVPfpN4Q6lRRFkogSjm/tPWpTAX7
+ OcbQ==
+X-Gm-Message-State: AOAM530jsV3wvV0+xHuyXRHbUGz7mCMq7wxj/ExBnnOluq4k5pHHi01E
+ CvXRBntHNtcNN54z2C5g+5q5D4A7s0LDnXuo8D8=
+X-Google-Smtp-Source: ABdhPJx4r57MNhpmoH/zkRw6YIeaoJDgfjrqFvI6AMvoa0qTpZ1DbBctdygyGwEpQtIvBRSP1yTQdA==
+X-Received: by 2002:a05:6638:1491:: with SMTP id
+ j17mr434385jak.75.1631051640716; 
  Tue, 07 Sep 2021 14:54:00 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.59
+ by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.54.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 14:53:59 -0700 (PDT)
+ Tue, 07 Sep 2021 14:54:00 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/42] bsd-user: Create target specific vmparam.h
-Date: Tue,  7 Sep 2021 15:53:14 -0600
-Message-Id: <20210907215332.30737-25-imp@bsdimp.com>
+Subject: [PULL 25/42] bsd-user: Add system independent stack,
+ data and text limiting
+Date: Tue,  7 Sep 2021 15:53:15 -0600
+Message-Id: <20210907215332.30737-26-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210907215332.30737-1-imp@bsdimp.com>
 References: <20210907215332.30737-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::142;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x142.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd42.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,181 +91,173 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@FreeBSD.org>
 
-Target specific values for vm parameters and details.
+Eliminate the x86 specific stack stuff in favor of more generic control
+over the process size:
+    target_maxtsiz  max text size
+    target_dfldsiz  initial data size limit
+    target_maxdsiz  max data size
+    target_dflssiz  initial stack size limit
+    target_maxssiz  max stack size
+    target_sgrowsiz amount to grow stack
+These can be set on a per-arch basis, and the stack size can be set
+on the command line. Adjust the stack size parameters at startup.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/freebsd/target_os_vmparam.h  | 38 ++++++++++++++++++++++
- bsd-user/i386/target_arch_vmparam.h   | 46 +++++++++++++++++++++++++++
- bsd-user/qemu.h                       |  1 +
- bsd-user/x86_64/target_arch_vmparam.h | 46 +++++++++++++++++++++++++++
- 4 files changed, 131 insertions(+)
- create mode 100644 bsd-user/freebsd/target_os_vmparam.h
- create mode 100644 bsd-user/i386/target_arch_vmparam.h
- create mode 100644 bsd-user/x86_64/target_arch_vmparam.h
+ bsd-user/elfload.c |  2 +-
+ bsd-user/main.c    | 52 +++++++++++++++++++++++++++++++++-------------
+ bsd-user/qemu.h    |  7 ++++++-
+ 3 files changed, 45 insertions(+), 16 deletions(-)
 
-diff --git a/bsd-user/freebsd/target_os_vmparam.h b/bsd-user/freebsd/target_os_vmparam.h
-new file mode 100644
-index 0000000000..990300c619
---- /dev/null
-+++ b/bsd-user/freebsd/target_os_vmparam.h
-@@ -0,0 +1,38 @@
-+/*
-+ *  FreeBSD VM parameters definitions
-+ *
-+ *  Copyright (c) 2013 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+#ifndef _TARGET_OS_VMPARAM_H_
-+#define _TARGET_OS_VMPARAM_H_
+diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+index c28ef34143..59465b71d4 100644
+--- a/bsd-user/elfload.c
++++ b/bsd-user/elfload.c
+@@ -204,7 +204,7 @@ static abi_ulong setup_arg_pages(abi_ulong p, struct bsd_binprm *bprm,
+     /* Create enough stack to hold everything.  If we don't use
+      * it for args, we'll use it for something else...
+      */
+-    size = x86_stack_size;
++    size = target_dflssiz;
+     if (size < MAX_ARG_PAGES * TARGET_PAGE_SIZE)
+         size = MAX_ARG_PAGES * TARGET_PAGE_SIZE;
+     error = target_mmap(0,
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index 3d4ed202a0..19bf3a09a7 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -18,6 +18,11 @@
+  *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+  */
+ 
++#include <sys/types.h>
++#include <sys/time.h>
++#include <sys/resource.h>
++#include <sys/sysctl.h>
 +
-+#include "target_arch_vmparam.h"
-+
-+/* Compare to sys/exec.h */
-+struct target_ps_strings {
-+    abi_ulong ps_argvstr;
-+    uint32_t ps_nargvstr;
-+    abi_ulong ps_envstr;
-+    uint32_t ps_nenvstr;
-+};
-+
-+extern abi_ulong target_stkbas;
-+extern abi_ulong target_stksiz;
-+
-+#define TARGET_PS_STRINGS  ((target_stkbas + target_stksiz) - \
-+                            sizeof(struct target_ps_strings))
-+
-+#endif /* !TARGET_OS_VMPARAM_H_ */
-diff --git a/bsd-user/i386/target_arch_vmparam.h b/bsd-user/i386/target_arch_vmparam.h
-new file mode 100644
-index 0000000000..bb7718265b
---- /dev/null
-+++ b/bsd-user/i386/target_arch_vmparam.h
-@@ -0,0 +1,46 @@
-+/*
-+ *  i386 VM parameters definitions
-+ *
-+ *  Copyright (c) 2013 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+#ifndef _TARGET_ARCH_VMPARAM_H_
-+#define _TARGET_ARCH_VMPARAM_H_
-+
-+#include "cpu.h"
-+
-+/* compare to i386/include/vmparam.h */
-+#define TARGET_MAXTSIZ  (128 * MiB)             /* max text size */
-+#define TARGET_DFLDSIZ  (128 * MiB)             /* initial data size limit */
-+#define TARGET_MAXDSIZ  (512 * MiB)             /* max data size */
-+#define TARGET_DFLSSIZ  (8 * MiB)               /* initial stack size limit */
-+#define TARGET_MAXSSIZ  (64 * MiB)              /* max stack size */
-+#define TARGET_SGROWSIZ (128 * KiB)             /* amount to grow stack */
-+
-+#define TARGET_RESERVED_VA 0xf7000000
-+
-+#define TARGET_USRSTACK (0xbfc00000)
-+
-+static inline abi_ulong get_sp_from_cpustate(CPUX86State *state)
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
+ #include "qemu/units.h"
+@@ -44,8 +49,6 @@
+ #include "host-os.h"
+ #include "target_arch_cpu.h"
+ 
+-#include <sys/sysctl.h>
+-
+ int singlestep;
+ unsigned long mmap_min_addr;
+ uintptr_t guest_base;
+@@ -57,12 +60,12 @@ const char *qemu_uname_release;
+ enum BSDType bsd_type;
+ char qemu_proc_pathname[PATH_MAX];  /* full path to exeutable */
+ 
+-/*
+- * XXX: on x86 MAP_GROWSDOWN only works if ESP <= address + 32, so
+- * we allocate a bigger stack. Need a better solution, for example
+- * by remapping the process stack directly at the right place
+- */
+-unsigned long x86_stack_size = 512 * 1024;
++unsigned long target_maxtsiz = TARGET_MAXTSIZ;   /* max text size */
++unsigned long target_dfldsiz = TARGET_DFLDSIZ;   /* initial data size limit */
++unsigned long target_maxdsiz = TARGET_MAXDSIZ;   /* max data size */
++unsigned long target_dflssiz = TARGET_DFLSSIZ;   /* initial data size limit */
++unsigned long target_maxssiz = TARGET_MAXSSIZ;   /* max stack size */
++unsigned long target_sgrowsiz = TARGET_SGROWSIZ; /* amount to grow stack */
+ 
+ void gemu_log(const char *fmt, ...)
+ {
+@@ -112,7 +115,6 @@ static void usage(void)
+            "-d item1[,...]    enable logging of specified items\n"
+            "                  (use '-d help' for a list of log items)\n"
+            "-D logfile        write logs to 'logfile' (default stderr)\n"
+-           "-p pagesize       set the host page size to 'pagesize'\n"
+            "-singlestep       always run in singlestep mode\n"
+            "-strace           log system calls\n"
+            "-trace            [[enable=]<pattern>][,events=<file>][,file=<file>]\n"
+@@ -132,7 +134,7 @@ static void usage(void)
+            ,
+            TARGET_NAME,
+            interp_prefix,
+-           x86_stack_size);
++           target_dflssiz);
+     exit(1);
+ }
+ 
+@@ -161,6 +163,23 @@ void init_task_state(TaskState *ts)
+     ts->sigqueue_table[i].next = NULL;
+ }
+ 
++static void
++adjust_ssize(void)
 +{
-+    return state->regs[R_ESP];
++    struct rlimit rl;
++
++    if (getrlimit(RLIMIT_STACK, &rl) != 0) {
++        return;
++    }
++
++    target_maxssiz = MIN(target_maxssiz, rl.rlim_max);
++    target_dflssiz = MIN(MAX(target_dflssiz, rl.rlim_cur), target_maxssiz);
++
++    rl.rlim_max = target_maxssiz;
++    rl.rlim_cur = target_dflssiz;
++    setrlimit(RLIMIT_STACK, &rl);
 +}
 +
-+static inline void set_second_rval(CPUX86State *state, abi_ulong retval2)
-+{
-+    state->regs[R_EDX] = retval2;
-+}
+ static void save_proc_pathname(char *argv0)
+ {
+     int mib[4];
+@@ -197,6 +216,8 @@ int main(int argc, char **argv)
+     envlist_t *envlist = NULL;
+     bsd_type = HOST_DEFAULT_BSD_TYPE;
+ 
++    adjust_ssize();
 +
-+#endif /* !_TARGET_ARCH_VMPARAM_H_ */
+     if (argc <= 1) {
+         usage();
+     }
+@@ -257,14 +278,17 @@ int main(int argc, char **argv)
+             }
+         } else if (!strcmp(r, "s")) {
+             r = argv[optind++];
+-            rv = qemu_strtoul(r, &r, 0, &x86_stack_size);
+-            if (rv < 0 || x86_stack_size <= 0) {
++            rv = qemu_strtoul(r, &r, 0, &target_dflssiz);
++            if (rv < 0 || target_dflssiz <= 0) {
+                 usage();
+             }
+             if (*r == 'M') {
+-                x86_stack_size *= MiB;
++                target_dflssiz *= 1024 * 1024;
+             } else if (*r == 'k' || *r == 'K') {
+-                x86_stack_size *= KiB;
++                target_dflssiz *= 1024;
++            }
++            if (target_dflssiz > target_maxssiz) {
++                usage();
+             }
+         } else if (!strcmp(r, "L")) {
+             interp_prefix = argv[optind++];
 diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index fea1a167e4..1b37757e06 100644
+index 1b37757e06..21efa7d777 100644
 --- a/bsd-user/qemu.h
 +++ b/bsd-user/qemu.h
-@@ -41,6 +41,7 @@ extern enum BSDType bsd_type;
- #include "target_arch.h"
- #include "syscall_defs.h"
- #include "target_syscall.h"
-+#include "target_os_vmparam.h"
- #include "exec/gdbstub.h"
+@@ -219,7 +219,12 @@ void mmap_fork_end(int child);
  
- /*
-diff --git a/bsd-user/x86_64/target_arch_vmparam.h b/bsd-user/x86_64/target_arch_vmparam.h
-new file mode 100644
-index 0000000000..81a915f2e5
---- /dev/null
-+++ b/bsd-user/x86_64/target_arch_vmparam.h
-@@ -0,0 +1,46 @@
-+/*
-+ *  Intel x86_64 VM parameters definitions
-+ *
-+ *  Copyright (c) 2013 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+#ifndef _TARGET_ARCH_VMPARAM_H_
-+#define _TARGET_ARCH_VMPARAM_H_
-+
-+#include "cpu.h"
-+
-+/* compare to amd64/include/vmparam.h */
-+#define TARGET_MAXTSIZ  (128 * MiB)             /* max text size */
-+#define TARGET_DFLDSIZ  (32 * GiB)              /* initial data size limit */
-+#define TARGET_MAXDSIZ  (32 * GiB)              /* max data size */
-+#define TARGET_DFLSSIZ  (8 * MiB)               /* initial stack size limit */
-+#define TARGET_MAXSSIZ  (512 * MiB)             /* max stack size */
-+#define TARGET_SGROWSIZ (128 * KiB)             /* amount to grow stack */
-+
-+#define TARGET_VM_MAXUSER_ADDRESS   (0x00007fffff000000UL)
-+
-+#define TARGET_USRSTACK (TARGET_VM_MAXUSER_ADDRESS - TARGET_PAGE_SIZE)
-+
-+static inline abi_ulong get_sp_from_cpustate(CPUX86State *state)
-+{
-+    return state->regs[R_ESP];
-+}
-+
-+static inline void set_second_rval(CPUX86State *state, abi_ulong retval2)
-+{
-+    state->regs[R_EDX] = retval2;
-+}
-+
-+#endif /* !_TARGET_ARCH_VMPARAM_H_ */
+ /* main.c */
+ extern char qemu_proc_pathname[];
+-extern unsigned long x86_stack_size;
++extern unsigned long target_maxtsiz;
++extern unsigned long target_dfldsiz;
++extern unsigned long target_maxdsiz;
++extern unsigned long target_dflssiz;
++extern unsigned long target_maxssiz;
++extern unsigned long target_sgrowsiz;
+ 
+ /* user access */
+ 
 -- 
 2.32.0
 
