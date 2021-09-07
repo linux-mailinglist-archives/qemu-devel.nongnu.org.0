@@ -2,165 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D284027FF
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 13:46:28 +0200 (CEST)
-Received: from localhost ([::1]:43696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD85440280A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 13:51:26 +0200 (CEST)
+Received: from localhost ([::1]:46404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNZYZ-0000UR-CP
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 07:46:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60716)
+	id 1mNZdO-0002ky-0K
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 07:51:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1mNZWJ-0008Bs-Vv
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:44:08 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:45898)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1mNZWH-0002fG-HG
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:44:07 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1879cJmd001550; 
- Tue, 7 Sep 2021 11:44:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : content-type :
- mime-version; s=corp-2021-07-09;
- bh=lnCHwkHrcMSiJ3Jg2yHNcsMUupug8/Ji0bSYU0oqdMY=;
- b=i0yYKCWVIF1cSsblSKtJ46ZLMO4te8x2jPCXsDfHwnujtnDwteEjxLxlxZAWXQsKsPQ8
- qVrOuIVNZc64sxyIMgrXNyjlpRj1NTyr4OGjzHeyNZ+l70Le8kh6RciQyAnxrBBnUl+8
- NvEpt4LlR3f0NeF+JGJ2SDyQLdM4nJvyzlkkjwmEP3HlChFPUsGKWhpb3uW99amdjJwm
- M2uCpP2psQF5fGG816u4ufMJmEuQxJAmSORKkBAXk60DaxfLMWibrRGe7PFO+l8QX5i6
- aZJXaQQ37Ad2q75b+UkyNgTKlaG4QKHuvvfOAq2zstFoFMJZjV73Zz751cWwVWWwkTCG VA== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : content-type :
- mime-version; s=corp-2020-01-29;
- bh=lnCHwkHrcMSiJ3Jg2yHNcsMUupug8/Ji0bSYU0oqdMY=;
- b=FlF+YNgUCsAb+rNFQXA6iqvJ3P+G/NRZR06LRDfBqW27cWx5mHkdrjennqwj5gwVPEor
- xL68Fhjx8TFjG6ooVnsqRaU7xd3WlESOvdR6n+PZj+bDdvubm0H8kKaVGCoKYfPgXM7g
- h7E94B+sZOQja0uTT5ZSkdyufV3B+wMQjD/uQogKaRc/SLHFucKWUw9tU1/0sFYAeGNy
- uj8yt8FPAip4+/GzYypvU1mbPKGoWspJaaj+4p9463yTwgV6fA+57cYAMlS1QWIAHXnZ
- ibrKIxVx3hI6x9Rxud7SoeM7owyq6YtD58OkECgO1XtJJYbBMk+bRpWwagGkQVshR7DZ 1A== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3awq189jht-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Sep 2021 11:44:01 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 187Ba0ci110952;
- Tue, 7 Sep 2021 11:44:00 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
- by aserp3020.oracle.com with ESMTP id 3av0m4dvyt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 07 Sep 2021 11:44:00 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KJeNRTt9E7lmI/rM38dTm5GDFHiajdjVv2Th6HcgTLrGMmpPhVZHO/VAJ+lZuNVzEuYsDJhdaHGHmaB1X0MnYZKC0jq49v//WvbDcZPot7DlZodiXg/HUYBq3TJZZbUEbz7l0lhAXwcdTcgxbPygI/vCyI6sWC8zE8WaCtHi6l9hynlwCA4fs3wXOdDaJiK6O7KMHsbEMT18v/IZwLwN4BkL15dk9PvK9xcpx/BAobRTz2jV7cFgOBIwzudYLytRVPXJrmLNNaWhQ84ZytGZD/YpvG5Ma85jYopphDIK9c7BlboydqIhzmqJ7nvLjo/iHBk5OlwFKFBY+noEfWSmiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=lnCHwkHrcMSiJ3Jg2yHNcsMUupug8/Ji0bSYU0oqdMY=;
- b=FypyLyrggPrOWXhES6AjpSyh5EUQ8AXBw68FcVPI7BTqFjviX8+Q1C/YkGv0rMvJLu4+IhZvAvSt98B1qyO8y3FAuNQarzQhG7MLiON0lqPmsAwpPpUxpzSqHXG3VYXc+dYI2JnG/rvkV2kQfdmCVeNxZoLrg3GhOwWkZZBbcOWe797F5pCjzrzQSvxpYttKrNCbLlD3wMlpAL2JA5ItuujS0O9dTNJgx0qRpxlT1cWOVaXx+wmwKJZmpzYApGPtzG801oeKRzU5kT2NqYSFZYp1gNpuWp1iRS3DttgyOf7gYJI6xGGkPwZUyfJpJ4HRZK6UvFSTgk1Pb7sMm42k2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lnCHwkHrcMSiJ3Jg2yHNcsMUupug8/Ji0bSYU0oqdMY=;
- b=yVJ+9EOeacqxrXir5FcyBrWyy3Dq9LW9VKrmqIyYxBcIqAL6ZEk/dcAm0iVFAJLe5VJRlw6axBKQAVqIhu0sDd+Ufu+maMvWgiLOljlk2NwVAS4HqAvkq3+DZntOxvEe0qoauLiVDcHscrKcbqk7SBj2S//oRGEEd/n3kwJxXQI=
-Authentication-Results: bu.edu; dkim=none (message not signed)
- header.d=none;bu.edu; dmarc=none action=none header.from=oracle.com;
-Received: from BLAPR10MB5138.namprd10.prod.outlook.com (2603:10b6:208:322::8)
- by BLAPR10MB5187.namprd10.prod.outlook.com (2603:10b6:208:334::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19; Tue, 7 Sep
- 2021 11:43:56 +0000
-Received: from BLAPR10MB5138.namprd10.prod.outlook.com
- ([fe80::65da:ab32:53fc:a57c]) by BLAPR10MB5138.namprd10.prod.outlook.com
- ([fe80::65da:ab32:53fc:a57c%8]) with mapi id 15.20.4478.025; Tue, 7 Sep 2021
- 11:43:56 +0000
-From: Darren Kenny <darren.kenny@oracle.com>
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] fuzz: fix unbound variable in build.sh
-In-Reply-To: <20210907110841.3341786-1-alxndr@bu.edu>
-References: <20210907110841.3341786-1-alxndr@bu.edu>
-Date: Tue, 07 Sep 2021 12:43:49 +0100
-Message-ID: <m2k0jshaq2.fsf@oracle.com>
-Content-Type: text/plain
-X-ClientProxiedBy: DB8PR06CA0022.eurprd06.prod.outlook.com
- (2603:10a6:10:100::35) To BLAPR10MB5138.namprd10.prod.outlook.com
- (2603:10b6:208:322::8)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mNZc6-0001zI-V8
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:50:07 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:37453)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mNZc4-0006FA-H7
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:50:06 -0400
+Received: by mail-ej1-x630.google.com with SMTP id h9so19122397ejs.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 04:50:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Bt6J9TZT1D6V8YJEW16z95RmfGa7/YOKjsHA7QaUdy0=;
+ b=Go12waj56XfAaAkm3fp7kVFO3pCXqd2WrqvTqeG5FytA6WlQZnKdvgmO7Wqde3Cxti
+ pR+/NjtZz8+uCvqMUdqZh9uKznPrtetebd/9nE71cEs6wnugxJUICYxhqPqXGR4E8aTk
+ DnZ1ibbf5yXGc4Xyxa7KA7VJNUvljyoFMpMyw0VQTo+84aKGLzbndHbR8S+p4SeBuTu5
+ 5bEN825eD6M7zrT02aDq5leTd7qhuVD15oHIBOoL4GbSIiZGs/LvViOSAStv7Qb+04sa
+ agtfVc81g2NyqiSoMhV0v7Ztd6EJ2phPFB+ZUbZK/oW9vi2J9S4g4TKGe9zGa0PfMbhI
+ Teag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Bt6J9TZT1D6V8YJEW16z95RmfGa7/YOKjsHA7QaUdy0=;
+ b=HAtJ0wi2jAhAkCk0vd1Lsq6cVIgMksktWCcsqULy/rAiDn1GbnWWPM8ZRADftZng3B
+ 9IcH6GUxUCgpk98l4tS0GqSNf6jgYlsYuyZbaC5nD+Q2AoDKM0CEXB3F3tLfdB0Vf8NV
+ UoRSJ4dQDtLBTHXmMMhnrBSAXC4Dy7YN4vUFAWGxNdHafLH8QN7aj2n58GFJDrOzwU7x
+ 6XFiUVWHJLDo8lfYroJ0/gkJjpS2fjLTW/xlHYkOMVbWo0NVDJxIeNwJdrSTtXRzM30l
+ idMG7a6z7cJVjGZQaP3lQ7+XBVgzH1GLpNaRBMgn0ljl5hEh/UC11bnlMLBoHRMDv2th
+ FT/w==
+X-Gm-Message-State: AOAM532W8ihAHaRnnRL+ifLBWwnODnTFd3mNQDIw2iFYqx8qO74idQqt
+ b+XslLDJ995b5cVQ6e/MBsyOmg==
+X-Google-Smtp-Source: ABdhPJy3LFjnocM3sQl52DLyZyvyA57LOwbzONygkI73reCEIu7ReLIyvwRzERhw9sUaYbOvttDKmw==
+X-Received: by 2002:a17:906:b88f:: with SMTP id
+ hb15mr18801719ejb.507.1631015402189; 
+ Tue, 07 Sep 2021 04:50:02 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d16sm6446867edu.8.2021.09.07.04.50.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Sep 2021 04:50:01 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5DE8F1FF96;
+ Tue,  7 Sep 2021 12:50:00 +0100 (BST)
+References: <20210905140939.638928-1-lukas.junger@greensocs.com>
+User-agent: mu4e 1.7.0; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Lukas =?utf-8?Q?J=C3=BCnger?= <lukas.junger@greensocs.com>
+Subject: Re: [PATCH 0/1] Add missing function names to symbol list
+Date: Tue, 07 Sep 2021 12:43:57 +0100
+In-reply-to: <20210905140939.638928-1-lukas.junger@greensocs.com>
+Message-ID: <87ilzcy593.fsf@linaro.org>
 MIME-Version: 1.0
-Received: from oracle.com (46.7.162.180) by
- DB8PR06CA0022.eurprd06.prod.outlook.com (2603:10a6:10:100::35) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4478.19 via Frontend Transport; Tue, 7 Sep 2021 11:43:56 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6ce6d0bd-426c-4d6d-3d4d-08d971f4c651
-X-MS-TrafficTypeDiagnostic: BLAPR10MB5187:
-X-Microsoft-Antispam-PRVS: <BLAPR10MB5187EB61659E6B43A4C71D9DF4D39@BLAPR10MB5187.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +X0fSy6FlVn1Wghydo3v6EhiIb4EahNP5c4NLCRI+1EucZBSpywV/pgG3hPxTkYfMdmrf7ncupcA8Z9d3WPoGZr6n29NtQxbKkRrK+5HVhXov1AadmWEGHAL06iZFsrijmxIHmTTq1fnLtBj+r1dp5nEyi8V0RUVvQaeC1SW7/fs6y2YYoe/g4Ahd0JK518kDYzKAcAkaprMKEI14hLD5UDU7L16q7ZF4kzYp73fkbQ2kBaK7/nzo68VZYxUYWomH8avSeGHI0wK6f5vyMtVA/vVZnPg3Y6n+6kjh4Me4KBzB0XSFU/kIB0NZR8ZE97TmgqGX9YXC7xAmQQ+u/gRYigF31VliwTvD5rj0/1o6ipWdJ1oLTIlK7+jOWcjll23/+VtoqhZsn3vB2PZRPyojVx+XztKBVmCAL+ntQTUkAsqKshsFe0iTRTNY9U19IUcSDcLLO7Tnlq1JrqWHzmlaVlcSw82F1BqDiS1ynWG0qjcPvVl0OB1X8lCAnGv2EmzXHaJGI/dm81Sh1eZtDtK6zWo7ahWgEk1ZejVbeC55TuYeCPro9MAfUZaYJ0ParyX6//sO/o6DImSh9RbD2tr/u0IHGObLhHL01JZ7T8In9WMY5PnwR2ZcacoK8Koh5LHAvMVqQ1n8D9de+wW7CE0Qf7mDehjCx448CjbpG1WOVBqG22oqYgFXaDQkRlj2i3nn+T+Mxa1VW6o+SldLMsMiA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BLAPR10MB5138.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(8676002)(8936002)(316002)(508600001)(8886007)(2906002)(7696005)(44832011)(2616005)(956004)(54906003)(55016002)(36756003)(52116002)(26005)(186003)(38350700002)(66946007)(38100700002)(6666004)(86362001)(83380400001)(66476007)(66556008)(5660300002)(4326008);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?C+MhcoFHDz1JkHLGOGqWfm7hMPsD+hoSIZWWJ7FvuCVOYmMZtrFpTeMJBHVL?=
- =?us-ascii?Q?a6fKMX/bq6wZ3nsBy+VuUL8RMGBBAY93+Fel4dv/pRvcQm6sOP/kLAOrXeot?=
- =?us-ascii?Q?ukgc4CJeY9jDIWZ/SWuDA6kFi9LMvyZDkcvYA3Ux67dwAiiRo3lqb5fFjSsT?=
- =?us-ascii?Q?MH3E3B/+NBt428FbyulTefgUZGx+1eP6M4opchLHElg1rcl3uokQ9/FKsCfY?=
- =?us-ascii?Q?fFgs2Lg/nmySpjsC2Rs2TS42ACuRQDNx3Bh7aH98yI/j03ybwkaQ08uFsQ8r?=
- =?us-ascii?Q?rC1lWlIJm2sv8mbBR7g62y6ATQf9pHMoA1FaBa4CSavNfISNo+nOkK9oVD++?=
- =?us-ascii?Q?oc+O2ruQG2NwsWJSeoT6NKO25+pzGCQJ8+soIpGXAYpdC5Q/U1WQlsN4etzO?=
- =?us-ascii?Q?ov5kq2hMaTCow37JDBYZ+JZ976tg2kmjTdNmhYVMRjNVVBgOK65unyUD0aq5?=
- =?us-ascii?Q?Li6pJXjgNBAuDDQDMo42vrDoewWaB/OXsYnDuA+mHsquhPcb4q4Z0eh0rCxC?=
- =?us-ascii?Q?gApayZXyAY89/wBIR2sSOxeSwXrQcixGMimHVE84Um7RG7FaQahX1vzwOGZM?=
- =?us-ascii?Q?MA6sDRw6pQMRBsqusvyAjj/xf51DaPU17Fy4wcBMuuN17YRcRVm3Gm+uXyFA?=
- =?us-ascii?Q?1Jn+qUUXi6DD+/D/AiP/BcuMM2xJMH0iauhUQv0nExxo8kD7QMtdnN52Htag?=
- =?us-ascii?Q?az1/lvRs8vMmAy7jBmrfrSb7L2sG7KcBKR7RV0/IIVL4rBMtSfFbxX/mvC9Q?=
- =?us-ascii?Q?p39wsEv/TreiIpX9VnBZ5EEK6z+ATWZKABy5SzEse8v22ihLuxig/gqstgJj?=
- =?us-ascii?Q?vPED2lqzs6dlHl5UPV/wJa+unlY/Bu/pZsuFUXVWCdK7t88FC41kilRSLCQC?=
- =?us-ascii?Q?Qu4bJCDflZGQk34Cbg3i0aNJ4XHq67sEo0bobQ61Rf3Xq4rtcGCjHBbpRHma?=
- =?us-ascii?Q?0SfZ5fbOXF8+gvhBz6fd9B3Sv0VZ5eKv2sxKcS8sNWYnXa2f+GLNUn3A8Dhv?=
- =?us-ascii?Q?DLcSTBm4Vz3ZMfphV+wzpM66TdRy5q2t43OFmSE/zxGkPwgiO3Ccex0Vrws7?=
- =?us-ascii?Q?a495KPrApT+liAxluV6lxfN1ldQHixIrGnPumRQPUszha66fU8Lz8x+s1LuZ?=
- =?us-ascii?Q?nV4tHYJTAAfPzXDqdZOAiqwPfMQHTNfItU5MVlNtm/DDRQuXTE/WIzY46DNY?=
- =?us-ascii?Q?kR/NdjE4Sh6Oe9Y3XscPnbfCpzraowHE0Z/xuWivrG1bhMTFSKO01N9abMVo?=
- =?us-ascii?Q?o2G/s96nN03G3AYpDyxnxDBqKzDu3hvkeA5rUVAp5BW6NOZt/kM+074qpTed?=
- =?us-ascii?Q?ktFi+fq4O8c2elEHnbUgP9/Z?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ce6d0bd-426c-4d6d-3d4d-08d971f4c651
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5138.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2021 11:43:56.4579 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nVkp0qR95hUq90qierBSj36R3lrFwYmWqzzEdXBMOm8o2Hw7xdK4tqQYT2xJPdV2AANdkmtXLdrW3RtpcYxv2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5187
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10099
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- adultscore=0
- phishscore=0 bulkscore=0 suspectscore=0 spamscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2108310000 definitions=main-2109070076
-X-Proofpoint-GUID: OE5M2hg2buKDILn-au9L6NhwTPtwdozk
-X-Proofpoint-ORIG-GUID: OE5M2hg2buKDILn-au9L6NhwTPtwdozk
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=darren.kenny@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -173,43 +87,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: erdnaxe@crans.org, ma.mandourr@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tuesday, 2021-09-07 at 07:08:41 -04, Alexander Bulekov wrote:
-> /src/build.sh: line 76: GITLAB_CI: unbound variable
-> Fix that.
->
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Lukas J=C3=BCnger <lukas.junger@greensocs.com> writes:
 
-> ---
+> Hi all,
 >
-> This change is in preparation to revert:
-> 7602748c ("qemu: manually build glib (#5919)") on OSS-Fuzz.
-> Reverting as-is produces an unbound variable complaint when we try to
-> build the fuzzers in the OSS-Fuzz container.
+> I have been trying to use the hwprofile and cache plugin on
+> qemu-system-riscv64. They failed to load with an undefined
+> symbol error. It looks like some of the plugin API functions
+> are missing from the symbol list, so I added them.
+
+Heh I had a similar patch in plugins/next but yours includes more
+symbols so queued to plugins/next, thanks. Not sure how I missed it
+before - I think we might not have been honouring the symbol list
+before.
+
+> Afterwards
+> the plugins worked (eventhough the cache plugin is segfaulting
+> on shutdown, but that is a separate, unrelated issue).
+
+Has this been tracked down yet? There is a fix f7e68c9c99 (tcg/plugins:
+implement a qemu_plugin_user_exit helper) which was for user mode. At
+the time I didn't think system mode would be affected due to the atexit
+callback only being called once vCPUs had shutdown.
+
 >
->  scripts/oss-fuzz/build.sh | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Hope that's okay.
 >
-> diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-> index 98b56e0521..5ddc769c9c 100755
-> --- a/scripts/oss-fuzz/build.sh
-> +++ b/scripts/oss-fuzz/build.sh
-> @@ -73,7 +73,7 @@ if ! make "-j$(nproc)" qemu-fuzz-i386; then
->            "\nFor example: CC=clang CXX=clang++ $0"
->  fi
->  
-> -if [ "$GITLAB_CI" != "true" ]; then
-> +if [ -z ${GITLAB_CI+x} ]; then
->      for i in $(ldd ./qemu-fuzz-i386 | cut -f3 -d' '); do
->          cp "$i" "$DEST_DIR/lib/"
->      done
-> -- 
-> 2.30.2
+> BR,
+> Lukas
+>
+> Lukas J=C3=BCnger (1):
+>   plugins/: Add missing functions to symbol list
+>
+>  plugins/qemu-plugins.symbols | 3 +++
+>  1 file changed, 3 insertions(+)
+
+
+--=20
+Alex Benn=C3=A9e
 
