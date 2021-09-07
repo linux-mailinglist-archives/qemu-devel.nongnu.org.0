@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E040B4029AD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:24:42 +0200 (CEST)
-Received: from localhost ([::1]:43242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F07D4029AF
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:26:51 +0200 (CEST)
+Received: from localhost ([::1]:51958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNb5d-0002x8-TN
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:24:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47350)
+	id 1mNb7i-0000YE-8S
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:26:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mNaRb-00061i-NZ
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:43:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27273)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mNaRe-0006DF-Gd
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:43:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mNaRY-0006PS-TV
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:43:19 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mNaRa-0006QN-TO
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:43:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631018596;
+ s=mimecast20190719; t=1631018598;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7g4ucFPXhrunnz23VDj7Pt7l9AbbgYoJYQRKI/U2hec=;
- b=KG7I9l5ExcvbgOg+whMn9aMHAEl8facppndgim9pYX6mvvCbXrvgjxAmHjmuQr78H91Vwu
- PahNyExgr7ibt0JT+EM5GSt2PMynvfdO+5T9wb2CgOIach7KJJ6+Wzev3rnAHbj5oEZMBS
- 1dsAAtlXFY8isQBrdWSGAf5+sKjaJn4=
+ bh=7Va6dthAJ4ryg39yemtQOXF6nFMezl1sVaWdFx2t7eg=;
+ b=AydiAR6wxIdtthxtFSyk5UEiN0GYQXtT21u2l9XwNgR2PaMeVJtS3BjD1/IdjUar6dIHFJ
+ x/seNaehK4vwG77AmrGCiViMXBSN7wTCqOOm63zGoENpVNO/+cUBGMlZ8hYXREB/fUqvGq
+ vry7Ye3Ti5BuCPc/RFIMYj8FjnyzVFc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-sJe_xobkO6e8Uie8KdquoA-1; Tue, 07 Sep 2021 08:43:14 -0400
-X-MC-Unique: sJe_xobkO6e8Uie8KdquoA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-434-ztEORO7nNJ-AfgSay0QUJg-1; Tue, 07 Sep 2021 08:43:16 -0400
+X-MC-Unique: ztEORO7nNJ-AfgSay0QUJg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92B35835DE5;
- Tue,  7 Sep 2021 12:43:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CEB1319611A5;
+ Tue,  7 Sep 2021 12:43:15 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.128])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E2CB10013D7;
- Tue,  7 Sep 2021 12:43:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 44D1577BF5;
+ Tue,  7 Sep 2021 12:43:15 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 11/12] mirror: Do not clear .cancelled
-Date: Tue,  7 Sep 2021 14:42:44 +0200
-Message-Id: <20210907124245.143492-12-hreitz@redhat.com>
+Subject: [PATCH v4 12/12] iotests: Add mirror-ready-cancel-error test
+Date: Tue,  7 Sep 2021 14:42:45 +0200
+Message-Id: <20210907124245.143492-13-hreitz@redhat.com>
 In-Reply-To: <20210907124245.143492-1-hreitz@redhat.com>
 References: <20210907124245.143492-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -57,11 +57,11 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.391, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,69 +82,179 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clearing .cancelled before leaving the main loop when the job has been
-soft-cancelled is no longer necessary since job_is_cancelled() only
-returns true for jobs that have been force-cancelled.
-
-Therefore, this only makes a differences in places that call
-job_cancel_requested().  In block/mirror.c, this is done only before
-.cancelled was cleared.
-
-In job.c, there are two callers:
-- job_completed_txn_abort() asserts that .cancelled is true, so keeping
-  it true will not affect this place.
-
-- job_complete() refuses to let a job complete that has .cancelled set.
-  It is correct to refuse to let the user invoke job-complete on mirror
-  jobs that have already been soft-cancelled.
-
-With this change, there are no places that reset .cancelled to false and
-so we can be sure that .force_cancel can only be true if .cancelled is
-true as well.  Assert this in job_is_cancelled().
+Test what happens when there is an I/O error after a mirror job in the
+READY phase has been cancelled.
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/mirror.c | 2 --
- job.c          | 4 +++-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ .../tests/mirror-ready-cancel-error           | 143 ++++++++++++++++++
+ .../tests/mirror-ready-cancel-error.out       |   5 +
+ 2 files changed, 148 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/mirror-ready-cancel-error
+ create mode 100644 tests/qemu-iotests/tests/mirror-ready-cancel-error.out
 
-diff --git a/block/mirror.c b/block/mirror.c
-index af89c1716a..f94aa52fae 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -939,7 +939,6 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
-         while (!job_cancel_requested(&s->common.job) && !s->should_complete) {
-             job_yield(&s->common.job);
-         }
--        s->common.job.cancelled = false;
-         goto immediate_exit;
-     }
- 
-@@ -1078,7 +1077,6 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
-              * completion.
-              */
-             assert(QLIST_EMPTY(&bs->tracked_requests));
--            s->common.job.cancelled = false;
-             need_drain = false;
-             break;
-         }
-diff --git a/job.c b/job.c
-index be878ca5fc..85c0216734 100644
---- a/job.c
-+++ b/job.c
-@@ -217,7 +217,9 @@ const char *job_type_str(const Job *job)
- 
- bool job_is_cancelled(Job *job)
- {
--    return job->cancelled && job->force_cancel;
-+    /* force_cancel may be true only if cancelled is true, too */
-+    assert(job->cancelled || !job->force_cancel);
-+    return job->force_cancel;
- }
- 
- bool job_cancel_requested(Job *job)
+diff --git a/tests/qemu-iotests/tests/mirror-ready-cancel-error b/tests/qemu-iotests/tests/mirror-ready-cancel-error
+new file mode 100755
+index 0000000000..f2dc88881f
+--- /dev/null
++++ b/tests/qemu-iotests/tests/mirror-ready-cancel-error
+@@ -0,0 +1,143 @@
++#!/usr/bin/env python3
++# group: rw quick
++#
++# Test what happens when errors occur to a mirror job after it has
++# been cancelled in the READY phase
++#
++# Copyright (C) 2021 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++import os
++import iotests
++
++
++image_size = 1 * 1024 * 1024
++source = os.path.join(iotests.test_dir, 'source.img')
++target = os.path.join(iotests.test_dir, 'target.img')
++
++
++class TestMirrorReadyCancelError(iotests.QMPTestCase):
++    def setUp(self) -> None:
++        assert iotests.qemu_img_create('-f', iotests.imgfmt, source,
++                                       str(image_size)) == 0
++        assert iotests.qemu_img_create('-f', iotests.imgfmt, target,
++                                       str(image_size)) == 0
++
++        self.vm = iotests.VM()
++        self.vm.launch()
++
++    def tearDown(self) -> None:
++        self.vm.shutdown()
++        os.remove(source)
++        os.remove(target)
++
++    def add_blockdevs(self, once: bool) -> None:
++        res = self.vm.qmp('blockdev-add',
++                          **{'node-name': 'source',
++                             'driver': iotests.imgfmt,
++                             'file': {
++                                 'driver': 'file',
++                                 'filename': source
++                             }})
++        self.assert_qmp(res, 'return', {})
++
++        # blkdebug notes:
++        # Enter state 2 on the first flush, which happens before the
++        # job enters the READY state.  The second flush will happen
++        # when the job is about to complete, and we want that one to
++        # fail.
++        res = self.vm.qmp('blockdev-add',
++                          **{'node-name': 'target',
++                             'driver': iotests.imgfmt,
++                             'file': {
++                                 'driver': 'blkdebug',
++                                 'image': {
++                                     'driver': 'file',
++                                     'filename': target
++                                 },
++                                 'set-state': [{
++                                     'event': 'flush_to_disk',
++                                     'state': 1,
++                                     'new_state': 2
++                                 }],
++                                 'inject-error': [{
++                                     'event': 'flush_to_disk',
++                                     'once': once,
++                                     'immediately': True,
++                                     'state': 2
++                                 }]}})
++        self.assert_qmp(res, 'return', {})
++
++    def start_mirror(self) -> None:
++        res = self.vm.qmp('blockdev-mirror',
++                          job_id='mirror',
++                          device='source',
++                          target='target',
++                          filter_node_name='mirror-top',
++                          sync='full',
++                          on_target_error='stop')
++        self.assert_qmp(res, 'return', {})
++
++    def cancel_mirror_with_error(self) -> None:
++        self.vm.event_wait('BLOCK_JOB_READY')
++
++        # Write something so will not leave the job immediately, but
++        # flush first (which will fail, thanks to blkdebug)
++        res = self.vm.qmp('human-monitor-command',
++                          command_line='qemu-io mirror-top "write 0 64k"')
++        self.assert_qmp(res, 'return', '')
++
++        # Drain status change events
++        while self.vm.event_wait('JOB_STATUS_CHANGE', timeout=0.0) is not None:
++            pass
++
++        res = self.vm.qmp('block-job-cancel', device='mirror')
++        self.assert_qmp(res, 'return', {})
++
++        self.vm.event_wait('BLOCK_JOB_ERROR')
++
++    def test_transient_error(self) -> None:
++        self.add_blockdevs(True)
++        self.start_mirror()
++        self.cancel_mirror_with_error()
++
++        while True:
++            e = self.vm.event_wait('JOB_STATUS_CHANGE')
++            if e['data']['status'] == 'standby':
++                # Transient error, try again
++                self.vm.qmp('block-job-resume', device='mirror')
++            elif e['data']['status'] == 'null':
++                break
++
++    def test_persistent_error(self) -> None:
++        self.add_blockdevs(False)
++        self.start_mirror()
++        self.cancel_mirror_with_error()
++
++        while True:
++            e = self.vm.event_wait('JOB_STATUS_CHANGE')
++            if e['data']['status'] == 'standby':
++                # Persistent error, no point in continuing
++                self.vm.qmp('block-job-cancel', device='mirror', force=True)
++            elif e['data']['status'] == 'null':
++                break
++
++
++if __name__ == '__main__':
++    # LUKS would require special key-secret handling in add_blockdevs()
++    iotests.main(supported_fmts=['generic'],
++                 unsupported_fmts=['luks'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/tests/mirror-ready-cancel-error.out b/tests/qemu-iotests/tests/mirror-ready-cancel-error.out
+new file mode 100644
+index 0000000000..fbc63e62f8
+--- /dev/null
++++ b/tests/qemu-iotests/tests/mirror-ready-cancel-error.out
+@@ -0,0 +1,5 @@
++..
++----------------------------------------------------------------------
++Ran 2 tests
++
++OK
 -- 
 2.31.1
 
