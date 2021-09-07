@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B2F402AF3
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:42:57 +0200 (CEST)
-Received: from localhost ([::1]:37626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 630CB402B04
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:47:45 +0200 (CEST)
+Received: from localhost ([::1]:42456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNcJL-00089v-Q6
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:42:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35628)
+	id 1mNcO0-00037M-4p
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:47:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNcIM-0007Tx-5c
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:41:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54181)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNcIJ-0002tZ-Bk
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:41:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631025709;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fsi1FRzr6oLGFBGNaAVV+o4kB4ulTPOJoMyAHFtDTMM=;
- b=MPuSPpz5Hk/o5NXV6oySy46EzHNK8FbBDBd5Vpt5MfuZgEax0jiFg5CUEi9TStGLA9yv58
- FIwt78Zt5hdrhsQ65wkRDaXnB4jonC/4ouRRAu63+B4/75udQLZzjDBAl5B50UENNkVO0I
- eSO+2rOvtyj3k3/0s3vkRMt9+84HOKg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-kZsOuZHCOh6TqjfWkGl3ZA-1; Tue, 07 Sep 2021 10:41:48 -0400
-X-MC-Unique: kZsOuZHCOh6TqjfWkGl3ZA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87FA510054F6;
- Tue,  7 Sep 2021 14:41:46 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.246])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5CE9010013D7;
- Tue,  7 Sep 2021 14:41:42 +0000 (UTC)
-Date: Tue, 7 Sep 2021 15:41:41 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Subject: Re: [PATCH RFC v2 09/16] vfio-user: region read/write
-Message-ID: <YTd6JYvksCTqM99k@stefanha-x1.localdomain>
-References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
- <92fb16181e71a1c4049f9995294dbd7ff4270627.1629131628.git.elena.ufimtseva@oracle.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mNcLI-00015b-OI
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:44:56 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:36646)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mNcLG-0005Iq-6g
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:44:56 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ l18-20020a05600c4f1200b002f8cf606262so1603648wmq.1
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 07:44:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SeZzdo2kmbZtElEbgJIw4zzbrC9GzHvP+7qKkPzGnBA=;
+ b=OH4DrfyuwQrZcKSpIos/uaSkg4loV5zuDr73YdPVdWHourL6CitqMnvtIa+qTIqz60
+ dM2IYNTWefesuz2w9v3B4/ddBrloM7YhAF46XD6JDsbRgIRDBo2EQqfuPrX8kAXiD7ta
+ hD4Ser19KuNUW1/FIYqQobJBSmG6RVHYd2+7OLo27rDAqAvgrNzNZgsFcUAdL9+6x8ob
+ A0XYHOHps00ODjtjwQrCUZ97psVJJ0P4Lgj2oSo3vGPpPqGPEbADtufCuIzE/AYW5YmB
+ VdHFvFeHdaP7pMOUEdtkOqO1u7IroQF4XUMR1/olRoAUGMIsQAJZT9pa6qK3lTFcw725
+ HWRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SeZzdo2kmbZtElEbgJIw4zzbrC9GzHvP+7qKkPzGnBA=;
+ b=WBBp+ZQNwDTy0scDF3V0BTQPtnFNRbd5tE8F+PHzleQDIPIUJ8RC7RqjVKh2VTvOIV
+ CcBgYEImV9Zo5RD0C7aNspzmZkxmRdHepUNByUY0bM9IeAhSV843MGw/5HsuEESol6Uf
+ 1wY6XUpZEpv5cz2+AGd3NTNv5aRFFqMYZlm/wB1eS8JT8E/VFI8dmxuwjiNq3BT6CMI+
+ pYmYGp5jsvNKiWZOejfaBZWjpmbidl1+nnGRY1/HkyGcxs6I2ddiWDIeG+UNw3fUfil0
+ i0s/F4Y/ht/fivVMdCJoxq5UZEix+P6QD20/MeVAz4oMnr1pJCvgwPNnQfaTKMxKzfBU
+ TDvA==
+X-Gm-Message-State: AOAM5331gL6tGacZCng1hbj6/7AZV16rBU0c3l3wSy1D/QzDRT8IhEN3
+ dChzUpTVtDWb9pJQ/poLhHsnxsFnqdlI/E27h9vOtQ==
+X-Google-Smtp-Source: ABdhPJwCCZEhEdwyr2r2+A5C+9gZNTznuTXGzXfuf7YpqCB2lQYK+E7pxUptYox9G8FXoP6sV6qdbKFR2jRJGypHlCY=
+X-Received: by 2002:a05:600c:4f46:: with SMTP id
+ m6mr4372668wmq.133.1631025891755; 
+ Tue, 07 Sep 2021 07:44:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <92fb16181e71a1c4049f9995294dbd7ff4270627.1629131628.git.elena.ufimtseva@oracle.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+/BlHZL71J3n5AGr"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210823174924.201669-1-tong.ho@xilinx.com>
+ <20210823174924.201669-2-tong.ho@xilinx.com>
+In-Reply-To: <20210823174924.201669-2-tong.ho@xilinx.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Sep 2021 15:44:02 +0100
+Message-ID: <CAFEAcA8_A7cET97sG+zK7ydQdzT2sgGhSdWonCVPwVfKWCCM1w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/9] hw/nvram: Introduce Xilinx eFuse QOM
+To: Tong Ho <tong.ho@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,143 +79,242 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: john.g.johnson@oracle.com, jag.raman@oracle.com, swapnil.ingle@nutanix.com,
- john.levon@nutanix.com, qemu-devel@nongnu.org, alex.williamson@redhat.com,
- thanos.makatos@nutanix.com
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---+/BlHZL71J3n5AGr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 23 Aug 2021 at 18:49, Tong Ho <tong.ho@xilinx.com> wrote:
+>
+> This introduces the QOM for Xilinx eFuse, an one-time
+> field-programmable storage bit array.
+>
+> The actual mmio interface to the array varies by device
+> families and will be provided in different change-sets.
+>
+> Co-authored-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Co-authored-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+>
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+> Signed-off-by: Tong Ho <tong.ho@xilinx.com>
 
-On Mon, Aug 16, 2021 at 09:42:42AM -0700, Elena Ufimtseva wrote:
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 7d667b0533..a8b1ea9358 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -215,6 +215,7 @@ void vfio_region_write(void *opaque, hwaddr addr,
->          uint32_t dword;
->          uint64_t qword;
->      } buf;
-> +    int ret;
-> =20
->      switch (size) {
->      case 1:
-> @@ -234,7 +235,12 @@ void vfio_region_write(void *opaque, hwaddr addr,
->          break;
->      }
-> =20
-> -    if (pwrite(vbasedev->fd, &buf, size, region->fd_offset + addr) !=3D =
-size) {
-> +    if (vbasedev->proxy !=3D NULL) {
-> +        ret =3D vfio_user_region_write(vbasedev, region->nr, addr, size,=
- &data);
-> +    } else {
-> +        ret =3D pwrite(vbasedev->fd, &buf, size, region->fd_offset + add=
-r);
-> +    }
+--- /dev/null
++++ b/hw/nvram/xlnx-efuse-crc.c
+@@ -0,0 +1,118 @@
++/*
++ * Xilinx eFuse/bbram CRC calculator
 
-The vfio-user spec says everything is little-endian. Why does
-vfio_user_region_write() take the host-endian uint64_t data value
-instead of the little-endian buf value?
++ */
++#include "hw/nvram/xlnx-efuse.h"
 
-> +    if (ret !=3D size) {
->          error_report("%s(%s:region%d+0x%"HWADDR_PRIx", 0x%"PRIx64
->                       ",%d) failed: %m",
->                       __func__, vbasedev->name, region->nr,
-> @@ -266,8 +272,14 @@ uint64_t vfio_region_read(void *opaque,
->          uint64_t qword;
->      } buf;
->      uint64_t data =3D 0;
-> +    int ret;
-> =20
-> -    if (pread(vbasedev->fd, &buf, size, region->fd_offset + addr) !=3D s=
-ize) {
-> +    if (vbasedev->proxy !=3D NULL) {
-> +        ret =3D vfio_user_region_read(vbasedev, region->nr, addr, size, =
-&buf);
-> +    } else {
-> +        ret =3D pread(vbasedev->fd, &buf, size, region->fd_offset + addr=
-);
-> +    }
-> +    if (ret !=3D size) {
->          error_report("%s(%s:region%d+0x%"HWADDR_PRIx", %d) failed: %m",
->                       __func__, vbasedev->name, region->nr,
->                       addr, size);
-> diff --git a/hw/vfio/user.c b/hw/vfio/user.c
-> index 91b51f37df..83235b2411 100644
-> --- a/hw/vfio/user.c
-> +++ b/hw/vfio/user.c
-> @@ -767,3 +767,46 @@ int vfio_user_get_region_info(VFIODevice *vbasedev, =
-int index,
->      memcpy(info, &msgp->argsz, info->argsz);
->      return 0;
->  }
-> +
-> +int vfio_user_region_read(VFIODevice *vbasedev, uint32_t index, uint64_t=
- offset,
-> +                                 uint32_t count, void *data)
+.c files must always include "qemu/osdep.h" as their first #include.
+
+> +#ifndef XLNX_EFUSE_ERR_DEBUG
+> +#define XLNX_EFUSE_ERR_DEBUG 0
+> +#endif
+
+This define doesn't seem to be used; you could just drop it.
+
+> +#define XLNX_EFUSE(obj) \
+> +     OBJECT_CHECK(XLNXEFuse, (obj), TYPE_XLNX_EFUSE)
+
+This is a bit of an old-style way to write this. These days we
+recommend using the OBJECT_DECLARE_TYPE macro in your .h file
+(which will provide the cast macro/function and also some typedefs
+that you're currently manually providing).
+
+> +static void efuse_sync_bdrv(XLNXEFuse *s, unsigned int bit)
 > +{
-> +    g_autofree VFIOUserRegionRW *msgp =3D NULL;
-> +    int size =3D sizeof(*msgp) + count;
+> +    const int bswap_adj = (const_le32(0x1234) != 0x1234 ? 3 : 0);
+
+Don't do ad-hoc figuring out of the host endianness like this.
+I would suggest using cpu_to_le32() on the relevant word
+in fuse32[] and then writing that to the backing store.
+
+> +    unsigned int efuse_byte;
 > +
-> +    msgp =3D g_malloc0(size);
-> +    vfio_user_request_msg(&msgp->hdr, VFIO_USER_REGION_READ, sizeof(*msg=
-p), 0);
-> +    msgp->offset =3D offset;
-> +    msgp->region =3D index;
-> +    msgp->count =3D count;
-> +
-> +    vfio_user_send_recv(vbasedev->proxy, &msgp->hdr, NULL, size, 0);
-> +    if (msgp->hdr.flags & VFIO_USER_ERROR) {
-> +        return -msgp->hdr.error_reply;
-> +    } else if (msgp->count > count) {
-> +        return -E2BIG;
-> +    } else {
-> +        memcpy(data, &msgp->data, msgp->count);
+> +    if (!s->blk || s->blk_ro) {
+> +        return;  /* Silient on read-only backend to avoid message flood */
+
+"silent"
+
 > +    }
 > +
-> +    return msgp->count;
+> +    efuse_byte = bit / 8;
+> +
+> +    if (blk_pwrite(s->blk, efuse_byte,
+> +                   ((uint8_t *) s->fuse32) + (efuse_byte ^ bswap_adj),
+> +                   1, 0) < 0) {
+> +        error_report("%s: write error in byte %" PRIu32 ".",
+> +                      __func__, efuse_byte);
+> +    }
+> +}
+
+> +static void efuse_realize(DeviceState *dev, Error **errp)
+> +{
+> +    XLNXEFuse *s = XLNX_EFUSE(dev);
+> +    BlockBackend *blk;
+> +    DriveInfo *dinfo;
+> +    unsigned int nr_bytes;
+> +    const char *prefix = object_get_canonical_path(OBJECT(dev));
+> +
+> +    if (s->drv_index < 0) {
+> +        /* Set legacy compatibility */
+> +        s->drv_index = s->efuse_size <= 2048 ? 3 : 1;
+> +    }
+> +
+> +    dinfo = drive_get_by_index(IF_PFLASH, s->drv_index);
+> +    blk = dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
+
+Don't get block backends like this in device models, please.
+Instead, the device should have a property "drive" (use
+DEFINE_PROP_DRIVE() to declare this), and the board should find
+the drive and attach it to the device. In fact looking lower down
+in the file I see you have a 'drive' property, so you should
+just be using it (and getting rid of the drive-index property).
+
+> +
+> +    nr_bytes = ROUND_UP((s->efuse_nr * s->efuse_size) / 8, 4);
+> +    s->fuse32 = g_malloc0(nr_bytes);
+> +    if (blk) {
+> +        qdev_prop_set_drive(dev, "drive", blk);
+> +
+> +        s->blk_ro = !blk_supports_write_perm(s->blk);
+> +        if (s->blk_ro) {
+> +            warn_report("%s: update not saved: backstore is read-only",
+> +                        object_get_canonical_path(OBJECT(s)));
+> +        }
+> +        blk_set_perm(s->blk,
+> +                     (BLK_PERM_CONSISTENT_READ
+> +                      | (s->blk_ro ? 0 : BLK_PERM_WRITE)), BLK_PERM_ALL,
+> +                     &error_abort);
+
+&error_abort isn't really appropriate in a device model, unless
+you know the function call really can't fail. Better to pass
+the error back up to the caller. (Watch out that you need to free
+the s->fuse32 you just allocated if you return early.)
+
+> +
+> +        if (blk_pread(s->blk, 0, (void *) s->fuse32, nr_bytes) < 0) {
+> +            error_setg(&error_abort, "%s: Unable to read-out contents."
+> +                         "backing file too small? Expecting %" PRIu32" bytes",
+> +                          prefix,
+> +                          (unsigned int) (nr_bytes));
+
+You should pass this to the caller, not use error_abort.
+
+
+> +        }
+> +        if (const_le32(0x1234) != 0x1234) {
+
+Again, no ad-hoc endianness testing, please.
+
+> +            /* Convert from little-endian backstore for each 32-bit row */
+> +            unsigned int nr_u32;
+> +
+> +            for (nr_u32 = 0; nr_u32 < (nr_bytes / 4); nr_u32++) {
+> +                s->fuse32[nr_u32] = le32_to_cpu(s->fuse32[nr_u32]);
+> +            }
+> +        }
+> +    }
+> +
+> +    /* Sort readonly-list for bsearch lookup */
+> +    efuse_ro_bits_sort(s);
+> +}
+
+
+
+> +static const VMStateDescription vmstate_efuse = {
+> +    .name = TYPE_XLNX_EFUSE,
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .minimum_version_id_old = 1,
+
+You don't need to specify the minimum_version_id_old here.
+
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_END_OF_LIST(),
+
+If the device genuinely has no internal state (and it looks
+like in this case that is true), you don't need to write out
+an empty vmstate. Instead put a comment in the class init function
+like:
+
+ /*
+  * This device has no internal state (it is all kept in the
+  * block device) so it does not need a vmstate.
+  */
+
+
+
+
+> +#ifndef XLNX_EFUSE_H
+> +#define XLNX_EFUSE_H
+> +
+> +#include "qemu/osdep.h"
+
+Headers should never include osdep.h.
+
+> +#include "sysemu/block-backend.h"
+> +#include "hw/qdev-core.h"
+> +
+> +#define TYPE_XLNX_EFUSE "xlnx,efuse"
+> +
+> +typedef struct XLNXEFuseLkSpec {
+> +    uint16_t row;
+> +    uint16_t lk_bit;
+> +} XLNXEFuseLkSpec;
+
+What's this struct for? Nothing in this patch or in these files uses it.
+
+> +typedef struct XLNXEFuse {
+> +    DeviceState parent_obj;
+> +    BlockBackend *blk;
+> +    bool blk_ro;
+> +    uint32_t *fuse32;
+> +
+> +    DeviceState *dev;
+> +
+> +    bool init_tbits;
+> +    int drv_index;
+> +
+> +    uint8_t efuse_nr;
+> +    uint32_t efuse_size;
+> +
+> +    uint32_t *ro_bits;
+> +    uint32_t ro_bits_cnt;
+> +} XLNXEFuse;
+> +
+> +uint32_t xlnx_efuse_calc_crc(const uint32_t *data, unsigned u32_cnt,
+> +                             unsigned zpads);
+
+Where you're providing function prototypes in a header to be used
+by other parts of QEMU, can you provide some brief doc-comment format
+comments that describe what the API of those functions is, please ?
+
+> +
+> +bool xlnx_efuse_get_bit(XLNXEFuse *s, unsigned int bit);
+> +bool xlnx_efuse_set_bit(XLNXEFuse *s, unsigned int bit);
+> +bool xlnx_efuse_k256_check(XLNXEFuse *s, uint32_t crc, unsigned start);
+> +uint32_t xlnx_efuse_tbits_check(XLNXEFuse *s);
+> +
+> +/* Return whole row containing the given bit address */
+> +static inline uint32_t xlnx_efuse_get_row(XLNXEFuse *s, unsigned int bit)
+> +{
+> +    if (!(s->fuse32)) {
+> +        return 0;
+> +    } else {
+> +        unsigned int row_idx = bit / 32;
+> +
+> +        assert(row_idx < (s->efuse_size * s->efuse_nr / 32));
+> +        return s->fuse32[row_idx];
+> +    }
 > +}
 > +
-> +int vfio_user_region_write(VFIODevice *vbasedev, uint32_t index,
-> +                           uint64_t offset, uint32_t count, void *data)
-> +{
-> +    g_autofree VFIOUserRegionRW *msgp =3D NULL;
-> +    int size =3D sizeof(*msgp) + count;
-> +
-> +    msgp =3D g_malloc0(size);
-> +    vfio_user_request_msg(&msgp->hdr, VFIO_USER_REGION_WRITE, size,
-> +                          VFIO_USER_NO_REPLY);
-> +    msgp->offset =3D offset;
-> +    msgp->region =3D index;
-> +    msgp->count =3D count;
-> +    memcpy(&msgp->data, data, count);
-> +
-> +    vfio_user_send(vbasedev->proxy, &msgp->hdr, NULL);
+> +#endif
 
-Are VFIO region writes posted writes (VFIO_USER_NO_REPLY)? This can be a
-problem if the device driver performs a write to the region followed by
-another access (e.g. to an mmap region) and expected the write to
-complete before the second access takes place.
-
---+/BlHZL71J3n5AGr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE3eiUACgkQnKSrs4Gr
-c8iMJwf/YKlleIjxs2NiyhxbGFLz7dsneEs9n2Z2JCRPaCgYbmfsA1JjdRULalEw
-jCsF67Gd3sG0+48hBiueHeXkABSNvgttJYfm5nWGKPH1E92fSgTEw26Firqvkhvl
-WnImAZjEoAvqJwYNtHMvNN6X9PigNDxexCl+N3qVPQhDaeQNNMa+b9MlDsq52slS
-zGTtpGl3MdOkU5TlKRahqdXH1RuDKV3Q9Oz09XjzIa4e40s5FpMjbqDwplDid0k3
-nsCm+p6ffgz92lNQPQw0FcWd3j/XmMiNW0yhPiBtWvik8AepeuvrO2tvNwR6ECEd
-BpnE6hPvBG5znZQHXsYsmc2N4Qb3og==
-=Q7Ks
------END PGP SIGNATURE-----
-
---+/BlHZL71J3n5AGr--
-
+thanks
+-- PMM
 
