@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C154029BA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:31:11 +0200 (CEST)
-Received: from localhost ([::1]:39238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE547402A2B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:51:46 +0200 (CEST)
+Received: from localhost ([::1]:42476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNbBu-0002ke-AT
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:31:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38896)
+	id 1mNbVq-00024Q-2A
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:51:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNaxB-0003sv-QM
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNaxC-0003sx-Rr
  for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:15:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59143)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51093)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNax8-0002kD-Co
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:15:57 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNaxA-0002kf-EV
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:15:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631020553;
+ s=mimecast20190719; t=1631020555;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rq2h0Jbsv6qAY22a65KCNwEpXVf48w2nQbNi+D7kbEQ=;
- b=gZiM28LesTBWqENePwGBsRAPr1Q1dwDq+vyxEUEXJnCiPOcKTW2xW4wLcVYUiVtP2YJYu7
- T/37ftVJMglHwM7Xvd/VTE4m9kk21B94lfXxL90n8grTB6WH6Mz36mLxYR4iSY8BYkl1NG
- iw3K2iJeK4HcL2oDEjzOiBQzckANlvU=
+ bh=/qNstejLD0mDYHxXa3IwBcq9rFlh1Qp6zgdEUJVePSE=;
+ b=IO1AGeKXuaWcdAk317+0Ywv2jrRGhk2Heb9cW5XYMXpc1QrBU9RMcWpH1JJ/+3y46Y1uFr
+ C7MK1hOMt8lZqIREBupG3hHsrZZa5QJcYCrRbGOFmy15wvwEaNHx4c0EazuFr860FJaxRp
+ mJf7aYVgR8AEueIHv1ZOepHyjUsbsB0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-253-vOyUKt-GN_uWgSw_BExCtQ-1; Tue, 07 Sep 2021 09:15:51 -0400
-X-MC-Unique: vOyUKt-GN_uWgSw_BExCtQ-1
+ us-mta-525-IOwawtooOAaaQ9Vqa0x8NA-1; Tue, 07 Sep 2021 09:15:54 -0400
+X-MC-Unique: IOwawtooOAaaQ9Vqa0x8NA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73C39107ACCA;
- Tue,  7 Sep 2021 13:15:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0F126C500;
+ Tue,  7 Sep 2021 13:15:52 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.194.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9BD385C3DF;
- Tue,  7 Sep 2021 13:15:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C91F35C1B4;
+ Tue,  7 Sep 2021 13:15:50 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 18/20] hw/s390x/s390-skeys: lazy storage key enablement under
- TCG
-Date: Tue,  7 Sep 2021 15:14:47 +0200
-Message-Id: <20210907131449.493875-19-thuth@redhat.com>
+Subject: [PULL 19/20] s390x: Replace PAGE_SIZE, PAGE_SHIFT and PAGE_MASK
+Date: Tue,  7 Sep 2021 15:14:48 +0200
+Message-Id: <20210907131449.493875-20-thuth@redhat.com>
 In-Reply-To: <20210907131449.493875-1-thuth@redhat.com>
 References: <20210907131449.493875-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -55,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -78,282 +77,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, David Hildenbrand <david@redhat.com>
+Cc: Eric Farman <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ qemu-s390x@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+The PAGE_SIZE macro is causing trouble on Alpine Linux since it
+clashes with a macro from a system header there. We already have
+the TARGET_PAGE_SIZE, TARGET_PAGE_MASK and TARGET_PAGE_BITS macros
+in QEMU anyway, so let's simply replace the PAGE_SIZE, PAGE_MASK
+and PAGE_SHIFT macro with their TARGET_* counterparts.
 
-Let's enable storage keys lazily under TCG, just as we do under KVM.
-Only fairly old Linux versions actually make use of storage keys, so it
-can be kind of wasteful to allocate quite some memory and track
-changes and references if nobody cares.
-
-We have to make sure to flush the TLB when enabling storage keys after
-the VM was already running: otherwise it might happen that we don't
-catch references or modifications afterwards.
-
-Add proper documentation to all callbacks.
-
-The kvm-unit-tests skey tests keeps on working with this change.
-
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210903155514.44772-14-david@redhat.com>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/572
+Message-Id: <20210901125800.611183-1-thuth@redhat.com>
+Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Reviewed-by: Eric Farman <farman@linux.ibm.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/s390x/s390-skeys.c           | 65 ++++++++++++++++++++++++++-------
- include/hw/s390x/storage-keys.h | 63 ++++++++++++++++++++++++++++++++
- target/s390x/mmu_helper.c       |  8 ++++
- target/s390x/tcg/mem_helper.c   |  9 +++++
- 4 files changed, 131 insertions(+), 14 deletions(-)
+ hw/s390x/s390-pci-bus.c         | 10 +++++-----
+ hw/s390x/s390-pci-inst.c        |  8 ++++----
+ hw/s390x/sclp.c                 |  2 +-
+ include/hw/s390x/s390-pci-bus.h |  5 +----
+ 4 files changed, 11 insertions(+), 14 deletions(-)
 
-diff --git a/hw/s390x/s390-skeys.c b/hw/s390x/s390-skeys.c
-index 9e994a5582..5024faf411 100644
---- a/hw/s390x/s390-skeys.c
-+++ b/hw/s390x/s390-skeys.c
-@@ -191,18 +191,45 @@ out:
-     fclose(f);
- }
+diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+index 7db1c5943f..6c0225c3a0 100644
+--- a/hw/s390x/s390-pci-bus.c
++++ b/hw/s390x/s390-pci-bus.c
+@@ -330,7 +330,7 @@ static unsigned int calc_sx(dma_addr_t ptr)
  
--static void qemu_s390_skeys_init(Object *obj)
-+static bool qemu_s390_skeys_are_enabled(S390SKeysState *ss)
+ static unsigned int calc_px(dma_addr_t ptr)
  {
--    QEMUS390SKeysState *skeys = QEMU_S390_SKEYS(obj);
--    MachineState *machine = MACHINE(qdev_get_machine());
-+    QEMUS390SKeysState *skeys = QEMU_S390_SKEYS(ss);
- 
--    skeys->key_count = machine->ram_size / TARGET_PAGE_SIZE;
--    skeys->keydata = g_malloc0(skeys->key_count);
-+    /* Lockless check is sufficient. */
-+    return !!skeys->keydata;
+-    return ((unsigned long) ptr >> PAGE_SHIFT) & ZPCI_PT_MASK;
++    return ((unsigned long) ptr >> TARGET_PAGE_BITS) & ZPCI_PT_MASK;
  }
  
--static bool qemu_s390_skeys_are_enabled(S390SKeysState *ss)
-+static bool qemu_s390_enable_skeys(S390SKeysState *ss)
+ static uint64_t get_rt_sto(uint64_t entry)
+@@ -506,7 +506,7 @@ uint16_t s390_guest_io_table_walk(uint64_t g_iota, hwaddr addr,
+     int8_t ett = 1;
+     uint16_t error = 0;
+ 
+-    entry->iova = addr & PAGE_MASK;
++    entry->iova = addr & TARGET_PAGE_MASK;
+     entry->translated_addr = 0;
+     entry->perm = IOMMU_RW;
+ 
+@@ -526,7 +526,7 @@ static IOMMUTLBEntry s390_translate_iommu(IOMMUMemoryRegion *mr, hwaddr addr,
  {
--    return true;
-+    QEMUS390SKeysState *skeys = QEMU_S390_SKEYS(ss);
-+    static gsize initialized;
-+
-+    if (likely(skeys->keydata)) {
-+        return true;
-+    }
-+
-+    /*
-+     * TODO: Modern Linux doesn't use storage keys unless running KVM guests
-+     *       that use storage keys. Therefore, we keep it simple for now.
-+     *
-+     * 1) We should initialize to "referenced+changed" for an initial
-+     *    over-indication. Let's avoid touching megabytes of data for now and
-+     *    assume that any sane user will issue a storage key instruction before
-+     *    actually relying on this data.
-+     * 2) Relying on ram_size and allocating a big array is ugly. We should
-+     *    allocate and manage storage key data per RAMBlock or optimally using
-+     *    some sparse data structure.
-+     * 3) We only ever have a single S390SKeysState, so relying on
-+     *    g_once_init_enter() is good enough.
-+     */
-+    if (g_once_init_enter(&initialized)) {
-+        MachineState *machine = MACHINE(qdev_get_machine());
-+
-+        skeys->key_count = machine->ram_size / TARGET_PAGE_SIZE;
-+        skeys->keydata = g_malloc0(skeys->key_count);
-+        g_once_init_leave(&initialized, 1);
-+    }
-+    return false;
- }
- 
- static int qemu_s390_skeys_set(S390SKeysState *ss, uint64_t start_gfn,
-@@ -212,9 +239,10 @@ static int qemu_s390_skeys_set(S390SKeysState *ss, uint64_t start_gfn,
-     int i;
- 
-     /* Check for uint64 overflow and access beyond end of key data */
--    if (start_gfn + count > skeydev->key_count || start_gfn + count < count) {
--        error_report("Error: Setting storage keys for page beyond the end "
--                     "of memory: gfn=%" PRIx64 " count=%" PRId64,
-+    if (unlikely(!skeydev->keydata || start_gfn + count > skeydev->key_count ||
-+                  start_gfn + count < count)) {
-+        error_report("Error: Setting storage keys for pages with unallocated "
-+                     "storage key memory: gfn=%" PRIx64 " count=%" PRId64,
-                      start_gfn, count);
-         return -EINVAL;
-     }
-@@ -232,9 +260,10 @@ static int qemu_s390_skeys_get(S390SKeysState *ss, uint64_t start_gfn,
-     int i;
- 
-     /* Check for uint64 overflow and access beyond end of key data */
--    if (start_gfn + count > skeydev->key_count || start_gfn + count < count) {
--        error_report("Error: Getting storage keys for page beyond the end "
--                     "of memory: gfn=%" PRIx64 " count=%" PRId64,
-+    if (unlikely(!skeydev->keydata || start_gfn + count > skeydev->key_count ||
-+                  start_gfn + count < count)) {
-+        error_report("Error: Getting storage keys for pages with unallocated "
-+                     "storage key memory: gfn=%" PRIx64 " count=%" PRId64,
-                      start_gfn, count);
-         return -EINVAL;
-     }
-@@ -251,6 +280,7 @@ static void qemu_s390_skeys_class_init(ObjectClass *oc, void *data)
-     DeviceClass *dc = DEVICE_CLASS(oc);
- 
-     skeyclass->skeys_are_enabled = qemu_s390_skeys_are_enabled;
-+    skeyclass->enable_skeys = qemu_s390_enable_skeys;
-     skeyclass->get_skeys = qemu_s390_skeys_get;
-     skeyclass->set_skeys = qemu_s390_skeys_set;
- 
-@@ -261,7 +291,6 @@ static void qemu_s390_skeys_class_init(ObjectClass *oc, void *data)
- static const TypeInfo qemu_s390_skeys_info = {
-     .name          = TYPE_QEMU_S390_SKEYS,
-     .parent        = TYPE_S390_SKEYS,
--    .instance_init = qemu_s390_skeys_init,
-     .instance_size = sizeof(QEMUS390SKeysState),
-     .class_init    = qemu_s390_skeys_class_init,
-     .class_size    = sizeof(S390SKeysClass),
-@@ -341,6 +370,14 @@ static int s390_storage_keys_load(QEMUFile *f, void *opaque, int version_id)
-     S390SKeysClass *skeyclass = S390_SKEYS_GET_CLASS(ss);
-     int ret = 0;
- 
-+    /*
-+     * Make sure to lazy-enable if required to be done explicitly. No need to
-+     * flush any TLB as the VM is not running yet.
-+     */
-+    if (skeyclass->enable_skeys) {
-+        skeyclass->enable_skeys(ss);
-+    }
-+
-     while (!ret) {
-         ram_addr_t addr;
-         int flags;
-diff --git a/include/hw/s390x/storage-keys.h b/include/hw/s390x/storage-keys.h
-index eb091842c8..aa2ec2aae5 100644
---- a/include/hw/s390x/storage-keys.h
-+++ b/include/hw/s390x/storage-keys.h
-@@ -28,9 +28,72 @@ struct S390SKeysState {
- 
- struct S390SKeysClass {
-     DeviceClass parent_class;
-+
-+    /**
-+     * @skeys_are_enabled:
-+     *
-+     * Check whether storage keys are enabled. If not enabled, they were not
-+     * enabled lazily either by the guest via a storage key instruction or
-+     * by the host during migration.
-+     *
-+     * If disabled, everything not explicitly triggered by the guest,
-+     * such as outgoing migration or dirty/change tracking, should not touch
-+     * storage keys and should not lazily enable it.
-+     *
-+     * @ks: the #S390SKeysState
-+     *
-+     * Returns false if not enabled and true if enabled.
-+     */
-     bool (*skeys_are_enabled)(S390SKeysState *ks);
-+
-+    /**
-+     * @enable_skeys:
-+     *
-+     * Lazily enable storage keys. If this function is not implemented,
-+     * setting a storage key will lazily enable storage keys implicitly
-+     * instead. TCG guests have to make sure to flush the TLB of all CPUs
-+     * if storage keys were not enabled before this call.
-+     *
-+     * @ks: the #S390SKeysState
-+     *
-+     * Returns false if not enabled before this call, and true if already
-+     * enabled.
-+     */
-+    bool (*enable_skeys)(S390SKeysState *ks);
-+
-+    /**
-+     * @get_skeys:
-+     *
-+     * Get storage keys for the given PFN range. This call will fail if
-+     * storage keys have not been lazily enabled yet.
-+     *
-+     * Callers have to validate that a GFN is valid before this call.
-+     *
-+     * @ks: the #S390SKeysState
-+     * @start_gfn: the start GFN to get storage keys for
-+     * @count: the number of storage keys to get
-+     * @keys: the byte array where storage keys will be stored to
-+     *
-+     * Returns 0 on success, returns an error if getting a storage key failed.
-+     */
-     int (*get_skeys)(S390SKeysState *ks, uint64_t start_gfn, uint64_t count,
-                      uint8_t *keys);
-+    /**
-+     * @set_skeys:
-+     *
-+     * Set storage keys for the given PFN range. This call will fail if
-+     * storage keys have not been lazily enabled yet and implicit
-+     * enablement is not supported.
-+     *
-+     * Callers have to validate that a GFN is valid before this call.
-+     *
-+     * @ks: the #S390SKeysState
-+     * @start_gfn: the start GFN to set storage keys for
-+     * @count: the number of storage keys to set
-+     * @keys: the byte array where storage keys will be read from
-+     *
-+     * Returns 0 on success, returns an error if setting a storage key failed.
-+     */
-     int (*set_skeys)(S390SKeysState *ks, uint64_t start_gfn, uint64_t count,
-                      uint8_t *keys);
- };
-diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index e2b372efd9..b04b57c235 100644
---- a/target/s390x/mmu_helper.c
-+++ b/target/s390x/mmu_helper.c
-@@ -313,6 +313,14 @@ static void mmu_handle_skey(target_ulong addr, int rw, int *flags)
-         skeyclass = S390_SKEYS_GET_CLASS(ss);
+     S390PCIIOMMU *iommu = container_of(mr, S390PCIIOMMU, iommu_mr);
+     S390IOTLBEntry *entry;
+-    uint64_t iova = addr & PAGE_MASK;
++    uint64_t iova = addr & TARGET_PAGE_MASK;
+     uint16_t error = 0;
+     IOMMUTLBEntry ret = {
+         .target_as = &address_space_memory,
+@@ -562,7 +562,7 @@ static IOMMUTLBEntry s390_translate_iommu(IOMMUMemoryRegion *mr, hwaddr addr,
+         ret.perm = entry->perm;
+     } else {
+         ret.iova = iova;
+-        ret.addr_mask = ~PAGE_MASK;
++        ret.addr_mask = ~TARGET_PAGE_MASK;
+         ret.perm = IOMMU_NONE;
      }
  
-+    /*
-+     * Don't enable storage keys if they are still disabled, i.e., no actual
-+     * storage key instruction was issued yet.
-+     */
-+    if (!skeyclass->skeys_are_enabled(ss)) {
-+        return;
-+    }
-+
-     /*
-      * Whenever we create a new TLB entry, we set the storage key reference
-      * bit. In case we allow write accesses, we set the storage key change
-diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
-index 4f9f3e1f63..0bf775a37d 100644
---- a/target/s390x/tcg/mem_helper.c
-+++ b/target/s390x/tcg/mem_helper.c
-@@ -2186,6 +2186,9 @@ uint64_t HELPER(iske)(CPUS390XState *env, uint64_t r2)
-     if (unlikely(!ss)) {
-         ss = s390_get_skeys_device();
-         skeyclass = S390_SKEYS_GET_CLASS(ss);
-+        if (skeyclass->enable_skeys && !skeyclass->enable_skeys(ss)) {
-+            tlb_flush_all_cpus_synced(env_cpu(env));
-+        }
-     }
+@@ -868,7 +868,7 @@ static int s390_pci_msix_init(S390PCIBusDevice *pbdev)
  
-     rc = skeyclass->get_skeys(ss, addr / TARGET_PAGE_SIZE, 1, &key);
-@@ -2213,6 +2216,9 @@ void HELPER(sske)(CPUS390XState *env, uint64_t r1, uint64_t r2)
-     if (unlikely(!ss)) {
-         ss = s390_get_skeys_device();
-         skeyclass = S390_SKEYS_GET_CLASS(ss);
-+        if (skeyclass->enable_skeys && !skeyclass->enable_skeys(ss)) {
-+            tlb_flush_all_cpus_synced(env_cpu(env));
-+        }
-     }
+     name = g_strdup_printf("msix-s390-%04x", pbdev->uid);
+     memory_region_init_io(&pbdev->msix_notify_mr, OBJECT(pbdev),
+-                          &s390_msi_ctrl_ops, pbdev, name, PAGE_SIZE);
++                          &s390_msi_ctrl_ops, pbdev, name, TARGET_PAGE_SIZE);
+     memory_region_add_subregion(&pbdev->iommu->mr,
+                                 pbdev->pci_group->zpci_group.msia,
+                                 &pbdev->msix_notify_mr);
+diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+index 9ec277d50e..1c8ad91175 100644
+--- a/hw/s390x/s390-pci-inst.c
++++ b/hw/s390x/s390-pci-inst.c
+@@ -613,7 +613,7 @@ static uint32_t s390_pci_update_iotlb(S390PCIIOMMU *iommu,
+             .iova = entry->iova,
+             .translated_addr = entry->translated_addr,
+             .perm = entry->perm,
+-            .addr_mask = ~PAGE_MASK,
++            .addr_mask = ~TARGET_PAGE_MASK,
+         },
+     };
  
-     key = r1 & 0xfe;
-@@ -2244,6 +2250,9 @@ uint32_t HELPER(rrbe)(CPUS390XState *env, uint64_t r2)
-     if (unlikely(!ss)) {
-         ss = s390_get_skeys_device();
-         skeyclass = S390_SKEYS_GET_CLASS(ss);
-+        if (skeyclass->enable_skeys && !skeyclass->enable_skeys(ss)) {
-+            tlb_flush_all_cpus_synced(env_cpu(env));
-+        }
+@@ -640,7 +640,7 @@ static uint32_t s390_pci_update_iotlb(S390PCIIOMMU *iommu,
+         cache = g_new(S390IOTLBEntry, 1);
+         cache->iova = entry->iova;
+         cache->translated_addr = entry->translated_addr;
+-        cache->len = PAGE_SIZE;
++        cache->len = TARGET_PAGE_SIZE;
+         cache->perm = entry->perm;
+         g_hash_table_replace(iommu->iotlb, &cache->iova, cache);
+         dec_dma_avail(iommu);
+@@ -725,8 +725,8 @@ int rpcit_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra)
+         while (entry.iova < start && entry.iova < end &&
+                (dma_avail > 0 || entry.perm == IOMMU_NONE)) {
+             dma_avail = s390_pci_update_iotlb(iommu, &entry);
+-            entry.iova += PAGE_SIZE;
+-            entry.translated_addr += PAGE_SIZE;
++            entry.iova += TARGET_PAGE_SIZE;
++            entry.translated_addr += TARGET_PAGE_SIZE;
+         }
      }
+ err:
+diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
+index edb6e3ea01..89c30a8a91 100644
+--- a/hw/s390x/sclp.c
++++ b/hw/s390x/sclp.c
+@@ -51,7 +51,7 @@ static bool sccb_verify_boundary(uint64_t sccb_addr, uint16_t sccb_len,
+                                  uint32_t code)
+ {
+     uint64_t sccb_max_addr = sccb_addr + sccb_len - 1;
+-    uint64_t sccb_boundary = (sccb_addr & PAGE_MASK) + PAGE_SIZE;
++    uint64_t sccb_boundary = (sccb_addr & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
  
-     rc = skeyclass->get_skeys(ss, addr / TARGET_PAGE_SIZE, 1, &key);
+     switch (code & SCLP_CMD_CODE_MASK) {
+     case SCLP_CMDW_READ_SCP_INFO:
+diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-pci-bus.h
+index 49ae9f03d3..aa891c178d 100644
+--- a/include/hw/s390x/s390-pci-bus.h
++++ b/include/hw/s390x/s390-pci-bus.h
+@@ -81,9 +81,6 @@ OBJECT_DECLARE_SIMPLE_TYPE(S390PCIIOMMU, S390_PCI_IOMMU)
+ #define ZPCI_SDMA_ADDR 0x100000000ULL
+ #define ZPCI_EDMA_ADDR 0x1ffffffffffffffULL
+ 
+-#define PAGE_SHIFT      12
+-#define PAGE_SIZE       (1 << PAGE_SHIFT)
+-#define PAGE_MASK       (~(PAGE_SIZE-1))
+ #define PAGE_DEFAULT_ACC        0
+ #define PAGE_DEFAULT_KEY        (PAGE_DEFAULT_ACC << 4)
+ 
+@@ -137,7 +134,7 @@ enum ZpciIoatDtype {
+ 
+ #define ZPCI_TABLE_BITS         11
+ #define ZPCI_PT_BITS            8
+-#define ZPCI_ST_SHIFT           (ZPCI_PT_BITS + PAGE_SHIFT)
++#define ZPCI_ST_SHIFT           (ZPCI_PT_BITS + TARGET_PAGE_BITS)
+ #define ZPCI_RT_SHIFT           (ZPCI_ST_SHIFT + ZPCI_TABLE_BITS)
+ 
+ #define ZPCI_RTE_FLAG_MASK      0x3fffULL
 -- 
 2.27.0
 
