@@ -2,92 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C472402987
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:19:21 +0200 (CEST)
-Received: from localhost ([::1]:55878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BB14029AE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:25:17 +0200 (CEST)
+Received: from localhost ([::1]:45944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNb0S-0000tv-KZ
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:19:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54834)
+	id 1mNb6C-0004ks-GU
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:25:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mNafa-0001Za-OV
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:57:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50721)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mNafM-0003jf-9E
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:57:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631019451;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0xDdXr4Hf44fCkIifioaaBOsBZP2nc+cN8k2e3QFrIM=;
- b=IEtAQ8a9d+Nhzr0X8Qo8FdKycMTpbqCDmGCs/24F82jSOWdXJRlaLetCzIcoVmM7gMsTVa
- thasfaI6AkGsIzmXtT4rxwFoCGYjeNgHhQ2FPv0O7vY5qLq4rrsO3HONGArDYu/xH8TYpz
- g5Q5vFFxNQ3Mg2EQjS7s62anTmtDPJE=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-TkFipRqROR2xRthdhZUAcA-1; Tue, 07 Sep 2021 08:57:27 -0400
-X-MC-Unique: TkFipRqROR2xRthdhZUAcA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- cf17-20020a170906b2d100b005d42490f86bso3656021ejb.3
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 05:57:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mNagi-0003iy-4v
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:58:56 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mNagf-0004Ew-UL
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:58:55 -0400
+Received: by mail-wr1-x435.google.com with SMTP id u9so14282280wrg.8
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 05:58:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5900lkAEZ/6L9YX3yLKrRhWB8KnYm9l4XpxD5QVCI4Q=;
+ b=iffw1HPOAcXeLtwO1sVuWL968Mdc83wMBs5ozkWh4VCd+fsYuUhBqYm6jXqTfFwy46
+ Sdt3/+kwMKEzOE2QdpUMnCZv3oU6ZLSApxIor7q6RqRO/Uxus9IEPawyDi7CZcG6NcAE
+ wXrPcfEtSLNPqmPKHG2Ulw0Q79UGb2T/zBWFsXLtrOJsDEatNjJHsajKQEaR/jqajxNq
+ Ou1R/fpHVu5gCdJ2aYDHl+wV0OcMtsH3jaRktHM8oajEdKGu+wf7AKeEXVkKhPXH3Wr+
+ tu9KzjqW+wdl5kKKLOUUnmWpnHJggKY1ZuWQuUNIVUmgsi6fCwu2xNpWeDmjapICFI6e
+ sLdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0xDdXr4Hf44fCkIifioaaBOsBZP2nc+cN8k2e3QFrIM=;
- b=qHe4ALSYN1pSeWglfaC2l+fWceoR5nq/urnSbX5oxkIA/goE0E49uvHdwc6dVUIKGf
- ITciW2jMbZeGLeduG0sVT3nQ2XUAAYPtXjrumWZKE5Ga7bDX5PPMBLWk533loX4oYGb9
- N0mxZQbc7bbRuDSrSOfXlmU5JyDuGOubuXPMgKLDUf0/oLqalveJYTDpeELjwTfmGtVk
- 6cA/NSpvLFV+y/u3K+ATM4GcoHD1RDtZtxSID/rFf2HSFnrJx0PTBv+KSgxIozYt1qWl
- 1NclwVhYlfSoArOK1L+qBQlZZcOTogT7XOWE2vKc5iMCL7r93bqO9Splrc6k83C43IZZ
- /xRw==
-X-Gm-Message-State: AOAM530FQAxfRdWHG2YRBS8Aqynp0WckF232x/rLDDWXZfRKrm0bv8u6
- gshRBNH3l2tEJOL8TQ4docKIS9AQ5hjxP0z8PMNaGn2r6B6CTZFTi4a/emxTchOSSs58tssQ228
- 4fAV8h5Qnp2A6Ubs=
-X-Received: by 2002:a05:6402:3098:: with SMTP id
- de24mr18875420edb.326.1631019446387; 
- Tue, 07 Sep 2021 05:57:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxAWlv6RlnDXkoTbCDZ6aT50cNZOM5kgeIDk27n5YMCG9A2rTuZ/u3qPNjk4Dmqc0FESfCB+w==
-X-Received: by 2002:a05:6402:3098:: with SMTP id
- de24mr18875409edb.326.1631019446231; 
- Tue, 07 Sep 2021 05:57:26 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id jx21sm5414596ejb.41.2021.09.07.05.57.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Sep 2021 05:57:25 -0700 (PDT)
-Subject: Re: [qemu-web RFC] CONTRIBUTING.md: Mention maintainers
-To: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org
-References: <20210906170038.26602-1-hreitz@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <63441b5c-2262-3b7a-e0bd-e6f41401a64a@redhat.com>
-Date: Tue, 7 Sep 2021 14:57:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5900lkAEZ/6L9YX3yLKrRhWB8KnYm9l4XpxD5QVCI4Q=;
+ b=Okh0xdVeeSgH/2xFfzcUqJqBrHtTbRdS3urPsm9RynZWnnQ9nGi4IG3QglHEhEJSuv
+ RcSEOehvSrv60TLSOBkpsuX+Gf9R9UApOFus35zSPV6dVmJVOy5fM7DTIC9xIrcy1FTz
+ /gZ3gpW2hPAPPuuNhQoBQ/Ac4oWUqqOYO7a/LR0pYEcuPQ1LDurVQmaVK/rgPi93knVe
+ dyIsLOzVWVbK/QuzeDdOcrgSUsYrMhGhJ3QaOYwWugaEcv/ukrvyk70/dIspTBvcDds4
+ 0mKzB/3eJJ3PS3CCrV7lKMgw6gNJt32RhgZQmZZ9twK+3HrNY7xOq5wiCHca2/BKAdc9
+ O4tA==
+X-Gm-Message-State: AOAM531rjqpunG+DLZTIXRHjpoiw0rXmS+jJFW3BZEDBG6AmEwNNlQy5
+ OwDaxXyYshOwOybpFevWsUF3FXyqIvKLbL1fQW+9Lg==
+X-Google-Smtp-Source: ABdhPJyNz9w2xmO4gIGLIjfbsUDdHaw1SCa+g2bW1eVJgnkhUG69BUTuOpNo1cqP8VgHPCzIr+O6woJiQJA3q6jZoNU=
+X-Received: by 2002:adf:fb91:: with SMTP id a17mr18062264wrr.376.1631019532386; 
+ Tue, 07 Sep 2021 05:58:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210906170038.26602-1-hreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.332, SPF_HELO_NONE=0.001,
+References: <20210822144441.1290891-1-maz@kernel.org>
+ <20210822144441.1290891-3-maz@kernel.org>
+In-Reply-To: <20210822144441.1290891-3-maz@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Sep 2021 13:58:03 +0100
+Message-ID: <CAFEAcA9=SJd52ZEQb0gyW+2q9md4KMnLy8YsME-Mkd-AbvV41Q@mail.gmail.com>
+Subject: Re: [PATCH 2/3] hw/arm/virt: Honor highmem setting when computing
+ highest_gpa
+To: Marc Zyngier <maz@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,32 +78,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
+Cc: Andrew Jones <drjones@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
+ Android Kernel Team <kernel-team@android.com>,
+ kvmarm <kvmarm@lists.cs.columbia.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/09/21 19:00, Hanna Reitz wrote:
-> This is an RFC first because I feel bad about sending a patch that
-> gives people responsibilities who aren't me.  But Thomas seemed to agree
-> with me that making this requirement explicit would be nice, so I guess
-> someone has to send a patch for it...
-
-Don't feel bad, I'll make sure you'll have to send a v2.  Actually I'm 
-kidding, this looks good to me and I've merged it.
-
-But we should make a decision on accepting qemu-web merge requests on 
-GitLab.  For that, apart from touching the CONTRIBUTING.md file, we 
-should also edit 
-https://www.qemu.org/2017/02/04/the-new-qemu-website-is-up/ which 
-suggests using "git send-email".
-
-Paolo
-
-> Second, I'm not sure whether this is the ideal place.  Perhaps we should
-> have a MAINTAINERS file, but on the other hand, maybe that would be a
-> bit too much.
+On Sun, 22 Aug 2021 at 15:45, Marc Zyngier <maz@kernel.org> wrote:
+>
+> Even when the VM is configured with highmem=off, the highest_gpa
+> field includes devices that are above the 4GiB limit, which is
+> what highmem=off is supposed to enforce. This leads to failures
+> in virt_kvm_type() on systems that have a crippled IPA range,
+> as the reported IPA space is larger than what it should be.
+>
+> Instead, honor the user-specified limit to only use the devices
+> at the lowest end of the spectrum.
+>
+> Note that this doesn't affect memory, which is still allowed to
+> go beyond 4GiB with highmem=on configurations.
+>
+> Cc: Andrew Jones <drjones@redhat.com>
+> Cc: Eric Auger <eric.auger@redhat.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Marc Zyngier <maz@kernel.org>
 > ---
->   CONTRIBUTING.md | 5 +++++
->   1 file changed, 5 insertions(+)
+>  hw/arm/virt.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 81eda46b0b..bc189e30b8 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -1598,7 +1598,7 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
+>  static void virt_set_memmap(VirtMachineState *vms)
+>  {
+>      MachineState *ms = MACHINE(vms);
+> -    hwaddr base, device_memory_base, device_memory_size;
+> +    hwaddr base, device_memory_base, device_memory_size, ceiling;
+>      int i;
+>
+>      vms->memmap = extended_memmap;
+> @@ -1625,7 +1625,7 @@ static void virt_set_memmap(VirtMachineState *vms)
+>      device_memory_size = ms->maxram_size - ms->ram_size + ms->ram_slots * GiB;
+>
+>      /* Base address of the high IO region */
+> -    base = device_memory_base + ROUND_UP(device_memory_size, GiB);
+> +    ceiling = base = device_memory_base + ROUND_UP(device_memory_size, GiB);
+>      if (base < device_memory_base) {
+>          error_report("maxmem/slots too huge");
+>          exit(EXIT_FAILURE);
+> @@ -1642,7 +1642,11 @@ static void virt_set_memmap(VirtMachineState *vms)
+>          vms->memmap[i].size = size;
+>          base += size;
+>      }
+> -    vms->highest_gpa = base - 1;
+> +    if (vms->highmem) {
+> +           /* If we have highmem, move the IPA limit to the top */
+> +           ceiling = base;
+> +    }
+> +    vms->highest_gpa = ceiling - 1;
 
+This doesn't look right to me. If highmem is false and the
+high IO region would be above the 4GB mark then we should not
+create the high IO region at all, surely? This code looks like
+it goes ahead and puts the high IO region above 4GB and then
+lies in the highest_gpa value about what the highest used GPA is.
+
+-- PMM
 
