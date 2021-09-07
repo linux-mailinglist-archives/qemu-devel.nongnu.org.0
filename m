@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7511C4028F7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 14:37:21 +0200 (CEST)
-Received: from localhost ([::1]:35720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B31402941
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 14:54:01 +0200 (CEST)
+Received: from localhost ([::1]:40372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNaLo-0003oF-Go
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 08:37:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43062)
+	id 1mNabw-0001Yq-M4
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 08:54:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mNa9i-0007S3-TL
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:24:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33733)
+ id 1mNa9j-0007S5-HD
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:24:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mNa9Z-0008H2-52
+ id 1mNa9a-0008Hi-M5
  for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:24:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631017480;
+ s=mimecast20190719; t=1631017481;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gk4x+XbLHcqFfUpeSw0A0MHUBHJf0doVmVjshzimK5w=;
- b=IxXjzvvEG6D6aHIL1Fkrr77x7wW5h73NnB+X6UcE/gZawbESfy7isudeZeddMEBCKcRnCU
- ntrjBIoQg42zI13oR9xx3BhCmSFLzNUYvSSnU4a4URJ+Vvm2jOcqCQ67OKRQZtmjtWppkP
- dvmZhCLPRL9Ni1h/ZbDXi+T+heE7e7I=
+ bh=ZGt+B4w/EtTevt91wzwwGAAD7XdUTOF5gSRxxJjaZWs=;
+ b=SoSE/6job9rnT0Hlmh+eMk7lz4t78KkRYiQo9rs9AEAWMfp1OgKQ7Dfz/ApiEnfuQzDNfu
+ Hj6oWo8DV0Ok6j3Lo0TqSaV+yDpj4U4ACFfNxlwSZRZ1zyFpHeTwBe0/Q5mgdb/rZRgKbc
+ 4t9/Th7XOngmASwqbTkuDnBjzRN10EA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-jX6zQ6ENMtiyeZGmy8fXRA-1; Tue, 07 Sep 2021 08:24:35 -0400
-X-MC-Unique: jX6zQ6ENMtiyeZGmy8fXRA-1
+ us-mta-43-hHf4MAIyNg-O-71yyivfYg-1; Tue, 07 Sep 2021 08:24:40 -0400
+X-MC-Unique: hHf4MAIyNg-O-71yyivfYg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C222107ACC7
- for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 12:24:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBF641006C85
+ for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 12:24:39 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C3E6460657;
- Tue,  7 Sep 2021 12:24:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 95D4860657;
+ Tue,  7 Sep 2021 12:24:38 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 21/32] tests/rust: build a common library,
- checking bindings compile
-Date: Tue,  7 Sep 2021 16:19:32 +0400
-Message-Id: <20210907121943.3498701-22-marcandre.lureau@redhat.com>
+Subject: [RFC v3 22/32] qga: build qapi-cabi binary (ABI from C)
+Date: Tue,  7 Sep 2021 16:19:33 +0400
+Message-Id: <20210907121943.3498701-23-marcandre.lureau@redhat.com>
 In-Reply-To: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
 References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -88,104 +87,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Meson doesn't integrate very smoothly with Cargo. Use the cargo-wrapper
-script as a custom_target() always stale to build the Rust code. The
-"build-lib" command will produce a static library in the meson expected
-output directory, as well as link flags that must be employed to do the
-final link.
+Build a binary to dump the QAPI ABI (from C code). Ex:
 
-Those link flags can't be queried during configure time (Cargo doesn't
-have a user-queriable configure step), so we pass them to the linker
-thanks to @file argument support at build time.
+$ qga/qapi-cabi
+GuestAgentCommandInfo struct: sizeof=16
+ name member: sizeof=8 offset=0
+ enabled member: sizeof=1 offset=8
+ success_response member: sizeof=1 offset=9
+...
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- tests/Cargo.toml  |  4 ++++
- tests/lib.rs      |  2 ++
- tests/meson.build | 20 +++++++++++++++++++-
- tests/qapi.rs     | 11 +++++++++++
- 4 files changed, 36 insertions(+), 1 deletion(-)
- create mode 100644 tests/lib.rs
- create mode 100644 tests/qapi.rs
+ qga/qapi-cabi.c |  9 +++++++++
+ qga/meson.build | 12 ++++++++++++
+ 2 files changed, 21 insertions(+)
+ create mode 100644 qga/qapi-cabi.c
 
-diff --git a/tests/Cargo.toml b/tests/Cargo.toml
-index 7a4f6060b1..8a014dff89 100644
---- a/tests/Cargo.toml
-+++ b/tests/Cargo.toml
-@@ -7,6 +7,10 @@ publish = false
- [dependencies]
- common = { path = "../rust/common" }
- 
-+[lib]
-+path = "lib.rs"
-+crate-type = ["staticlib"]
-+
- [[bin]]
- name = "qapi-cabi-rs"
- path = "qapi-cabi.rs"
-diff --git a/tests/lib.rs b/tests/lib.rs
+diff --git a/qga/qapi-cabi.c b/qga/qapi-cabi.c
 new file mode 100644
-index 0000000000..e6fdf60a55
+index 0000000000..0704e70869
 --- /dev/null
-+++ b/tests/lib.rs
-@@ -0,0 +1,2 @@
-+mod qapi_ffi;
-+mod qapi;
-diff --git a/tests/meson.build b/tests/meson.build
-index f9af42caba..09aa2bdf55 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -45,7 +45,10 @@ test_qapi_files = custom_target('Test QAPI files',
-                                 depend_files: qapi_gen_depends)
++++ b/qga/qapi-cabi.c
+@@ -0,0 +1,9 @@
++#include "qemu/osdep.h"
++
++#include "qga-qapi-types.h"
++
++int main(int argc, const char *argv[])
++{
++    qapi_cabi();
++    return 0;
++}
+diff --git a/qga/meson.build b/qga/meson.build
+index cfb1fbc085..1b050d8c53 100644
+--- a/qga/meson.build
++++ b/qga/meson.build
+@@ -21,6 +21,18 @@ qga_qapi_files = custom_target('QGA QAPI files',
+                                command: [ qapi_gen, '-o', 'qga', '-p', 'qga-', '@INPUT0@' ],
+                                depend_files: qapi_gen_depends)
  
- if with_rust
--  test_qapi_rs_outputs = ['test-qapi-ffi-types.rs']
-+  test_qapi_rs_outputs = [
-+    'test-qapi-ffi-types.rs',
-+    'test-qapi-types.rs',
-+  ]
-   test_qapi_rs = custom_target('Test QAPI Rust binding',
-                                output: test_qapi_rs_outputs,
-                                input: test_qapi_inputs,
-@@ -65,6 +68,21 @@ if with_rust
-                                          'build-bin',
-                                          'qapi-cabi-rs',
-                                          '--', '--cfg', 'QAPI_CABI'])
-+  libtest_rs = custom_target('Test Rust library',
-+                             build_by_default: true,
-+                             output: ['libqemu_tests.args', 'libqemu_tests.a'],
-+                             build_always_stale: true,
-+                             depends: [test_qapi_rs],
-+                             command: [cargo_wrapper,
-+                                       meson.current_build_dir(),
-+                                       meson.current_source_dir(),
-+                                       meson.build_root(),
-+                                       rs_build_type,
-+                                       rust_target_triple,
-+                                       'build-lib'])
-+  libtest_rs = declare_dependency(
-+    link_args: '@' + libtest_rs[0].full_path(),
-+    sources: libtest_rs)
- endif
- 
- # meson doesn't like generated output in other directories
-diff --git a/tests/qapi.rs b/tests/qapi.rs
-new file mode 100644
-index 0000000000..93e3e714e7
---- /dev/null
-+++ b/tests/qapi.rs
-@@ -0,0 +1,11 @@
-+#![allow(dead_code)]
-+#![allow(non_camel_case_types)]
++i = 0
++srcs = [files('qapi-cabi.c')]
++foreach output: qga_qapi_outputs
++  if output.startswith('qga-qapi-types') or output.startswith('qga-qapi-visit')
++    srcs += qga_qapi_files[i]
++  endif
++  i += 1
++endforeach
++qga_qapi_cabi = executable('qapi-cabi', srcs,
++                           dependencies: [qemuutil],
++                           c_args: ['-DQAPI_CABI'])
 +
-+use common::*;
-+
-+new_ptr!();
-+
-+include!(concat!(
-+    env!("MESON_BUILD_ROOT"),
-+    "/tests/test-qapi-types.rs"
-+));
+ qga_ss = ss.source_set()
+ qga_ss.add(qga_qapi_files.to_list())
+ qga_ss.add(files(
 -- 
 2.33.0.113.g6c40894d24
 
