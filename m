@@ -2,77 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D944027A4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 13:14:30 +0200 (CEST)
-Received: from localhost ([::1]:43094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 222D34027A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 13:16:40 +0200 (CEST)
+Received: from localhost ([::1]:45800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNZ3c-0004iX-O3
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 07:14:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54902)
+	id 1mNZ5j-0006YK-6W
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 07:16:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mNZ2V-0003ng-VN
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:13:19 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:34708)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mNZ2T-0003gS-9S
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:13:19 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- v20-20020a1cf714000000b002e71f4d2026so1588194wmh.1
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 04:13:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Is/Luwq1bm4CYoIG+CPIF8a0JGHwBGSHyAB59kNeOMM=;
- b=ksSb7jUP6CdFVpfXMu+ahuOIGjkiRict74wzsLnyxUPaF1XamcFrwc1CORwrsqpmAb
- RJpsQL/Pm0wlZrtUVAk4APmGDAMXKhc6s44gIp60ST+ZAx79Fg7IdsSOijAlQJ+5awZ/
- tAHV3JSpyYDs6jFkGpN3LzCM9F3jnaoTIZwR51kXpRfW0D1/ZIBN/Z3mKXzQNSp2J6o3
- EGGt4e+6qxZQ0N1iFIuGz3BCgic0dgM/IKy97NsJKEU5pt4REFjQRFK+sAhH4FeTehAd
- Ub6T6GPycUEWE3tk88j+ILwqjvng65rEpr9DScLDQ+MavTqlxk4S8pr42DDso+idyKYR
- Pk4Q==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mNZ2o-000464-2Y
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:13:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30155)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mNZ2k-0003pD-E8
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:13:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631013213;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Twg4jeiFEej76t9ZEl96hMpOC+FS8eOV13iM6+vOH7c=;
+ b=dJUKy+EZlXvpnmqf50JI8HYzWJIuZXITzXfXgmDmkiqc4cMLhqXPPJN9762R6P+/icp+Ib
+ POv2WscC6qlUaG8n0RLbn1ClFfXsr00SD/2tmDnribgp412CdeWVFwTdnU8y/zp2nBUzzS
+ nUatTr66a75j0RfAzrC/B5sriESa3zI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-21-8aK1V6ehMoGSOl4zARcmqw-1; Tue, 07 Sep 2021 07:13:32 -0400
+X-MC-Unique: 8aK1V6ehMoGSOl4zARcmqw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ x10-20020a7bc76a000000b002f8cba3fd65so842375wmk.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 04:13:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=Is/Luwq1bm4CYoIG+CPIF8a0JGHwBGSHyAB59kNeOMM=;
- b=IAZB0Z69/F8aVe2s+2cub5ztGO6XH7RYI4KxjqYVuchvsxwWwtEZB9IE9nKuMgNTkd
- NfMTeC3BKalDxU1In4pO6BvNTX76H/uNMRRVZ2bqHz4NDSC81KnFx4WrzdsnysbQr2fp
- 5y2euvNN5hwgNZ5LGWMWiMf9/FNaRadTe4KDGmsBYe28ddLxOKpepcpF3aVb+3MzVXmr
- c4Hdcns5l2Ucgr26QSrHQzSb6ct0sZxZ49FPru7uDprQAejUrpN9sfjfK8SL9Z/9Rin+
- NxUz1GZEP30Km622USl/md4k+VfQ4V49Vn0m888CML8BRWhG91C3WVxn1E33CLhzX4vj
- hgFQ==
-X-Gm-Message-State: AOAM531lAnW/SYiXHzxmzQD8GUZosRt3uCYhnYNVQMJeZpStIT04xyoK
- PiiDheZDRoHa+m2z/KSToQpz/BSl694=
-X-Google-Smtp-Source: ABdhPJxrJgKVFdoROVpEgyAtIYNRmO6r2E67tqc0ozzvAfDKukCOiLpT/+lznaMkyUrNvG3a3sAnfQ==
-X-Received: by 2002:a7b:c389:: with SMTP id s9mr3420198wmj.129.1631013195538; 
- Tue, 07 Sep 2021 04:13:15 -0700 (PDT)
-Received: from x1w.redhat.com (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id z19sm2533029wma.0.2021.09.07.04.13.14
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=Twg4jeiFEej76t9ZEl96hMpOC+FS8eOV13iM6+vOH7c=;
+ b=SuneP2wQY/eo3OC6fJ5YZZOZ6ec94ii1M42aHAhiWN2Cd5X273I8EzQhNw7/LVmVcA
+ 6NFk0wluJwOkFLcovKb3FKlaSQAOPIBDOQxSzxou2TMJCx2Vh1WiWsDzrKJNPDMSRmjd
+ WeH9kUUJYiq6ogOZZqS/C4F7pMzGcvCl4goF0JbAZmtnUaWb4v4CyVJRHfZpqz8XMtKd
+ vstRZgpXjW98j8CLEg65BDWaHd2ASkkP3p3dwQ58cGory+SO5Rb1KU/pxMa8UIzVAJ1w
+ nVALafbuWQLu0ijOAQ2pFI4Y/0jA4oxNHhw/Z7+G3ADoGhwAPiqBr7yAoyXd3fjsrFyV
+ PbiQ==
+X-Gm-Message-State: AOAM533MsmyLIpLDOH/siXW6amivPYDwFsA8iCH6ybBlf42KNK8aFQFB
+ xoi9Eq2RpO7t0v9zU1EjImUlUPzJNKy1SgcIw2uus6i1c/PTo5LQHo4iB3b1QPdCtYp3t77T/AE
+ x1rrBtksV6BQ5yNk=
+X-Received: by 2002:a1c:3102:: with SMTP id x2mr3461598wmx.122.1631013210805; 
+ Tue, 07 Sep 2021 04:13:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyTLyLCCiGBPu/QUHAEWVEhsHBchfXRaTbiYVDPDZ3FkcahS4aUl73uTTZiCEhbHPWFPhPMjQ==
+X-Received: by 2002:a1c:3102:: with SMTP id x2mr3461568wmx.122.1631013210542; 
+ Tue, 07 Sep 2021 04:13:30 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id r129sm2018871wmr.7.2021.09.07.04.13.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 04:13:15 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] linux-user: Correct host errno for IP[V6]_RECVERR socket
- options
-Date: Tue,  7 Sep 2021 13:13:13 +0200
-Message-Id: <20210907111313.1880866-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
+ Tue, 07 Sep 2021 04:13:29 -0700 (PDT)
+Date: Tue, 7 Sep 2021 12:13:28 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v1 3/3] migration: multifd: Enable zerocopy
+Message-ID: <YTdJWDlQn1h9hB8J@work-vm>
+References: <20210831110238.299458-1-leobras@redhat.com>
+ <20210831110238.299458-4-leobras@redhat.com>
+ <YS4rulGV9eueB04H@redhat.com> <YS6RFcQnZEhE8XpG@t490s>
+ <YS8/cxTtiC7QIxTD@redhat.com> <YS+dxUBrhogJQkEY@t490s>
+ <YS+f3rgBLMdR2ELE@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <YS+f3rgBLMdR2ELE@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,48 +102,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Conrad Meyer <cem@FreeBSD.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Leonardo Bras <leobras@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Target errno should be converted to host errno in IP_RECVERR
-and IPV6_RECVERR socket options.
+* Daniel P. BerrangÈ (berrange@redhat.com) wrote:
+> On Wed, Sep 01, 2021 at 11:35:33AM -0400, Peter Xu wrote:
+> > On Wed, Sep 01, 2021 at 09:53:07AM +0100, Daniel P. BerrangÈ wrote:
+> > > On Tue, Aug 31, 2021 at 04:29:09PM -0400, Peter Xu wrote:
+> > > > On Tue, Aug 31, 2021 at 02:16:42PM +0100, Daniel P. BerrangÈ wrote:
+> > > > > On Tue, Aug 31, 2021 at 08:02:39AM -0300, Leonardo Bras wrote:
+> > > > > > Call qio_channel_set_zerocopy(true) in the start of every multifd thread.
+> > > > > > 
+> > > > > > Change the send_write() interface of multifd, allowing it to pass down
+> > > > > > flags for qio_channel_write*().
+> > > > > > 
+> > > > > > Pass down MSG_ZEROCOPY flag for sending memory pages, while keeping the
+> > > > > > other data being sent at the default copying approach.
+> > > > > > 
+> > > > > > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> > > > > > ---
+> > > > > >  migration/multifd-zlib.c | 7 ++++---
+> > > > > >  migration/multifd-zstd.c | 7 ++++---
+> > > > > >  migration/multifd.c      | 9 ++++++---
+> > > > > >  migration/multifd.h      | 3 ++-
+> > > > > >  4 files changed, 16 insertions(+), 10 deletions(-)
+> > > > > 
+> > > > > > @@ -675,7 +676,8 @@ static void *multifd_send_thread(void *opaque)
+> > > > > >              }
+> > > > > >  
+> > > > > >              if (used) {
+> > > > > > -                ret = multifd_send_state->ops->send_write(p, used, &local_err);
+> > > > > > +                ret = multifd_send_state->ops->send_write(p, used, MSG_ZEROCOPY,
+> > > > > > +                                                          &local_err);
+> > > > > 
+> > > > > I don't think it is valid to unconditionally enable this feature due to the
+> > > > > resource usage implications
+> > > > > 
+> > > > > https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
+> > > > > 
+> > > > >   "A zerocopy failure will return -1 with errno ENOBUFS. This happens 
+> > > > >    if the socket option was not set, the socket exceeds its optmem 
+> > > > >    limit or the user exceeds its ulimit on locked pages."
+> > > > > 
+> > > > > The limit on locked pages is something that looks very likely to be
+> > > > > exceeded unless you happen to be running a QEMU config that already
+> > > > > implies locked memory (eg PCI assignment)
+> > > > 
+> > > > Yes it would be great to be a migration capability in parallel to multifd. At
+> > > > initial phase if it's easy to be implemented on multi-fd only, we can add a
+> > > > dependency between the caps.  In the future we can remove that dependency when
+> > > > the code is ready to go without multifd.  Thanks,
+> > > 
+> > > Also, I'm wondering how zerocopy support interacts with kernel support
+> > > for kTLS and multipath-TCP, both of which we want to be able to use
+> > > with migration.
+> > 
+> > Copying Jason Wang for net implications between these features on kernel side
+> > and whether they can be enabled together (MSG_ZEROCOPY, mptcp, kTLS).
+> > 
+> > From the safe side we may want to only enable one of them until we prove
+> > they'll work together I guess..
+> 
+> MPTCP is good when we're network limited for migration
+> 
+> KTLS will be good when we're CPU limited on AES for migration,
+> which is essentially always when TLS is used.
+> 
+> ZEROCOPY will be good when we're CPU limited for data copy
+> on migration, or to reduce the impact on other concurrent
+> VMs on the same CPUs.
+> 
+> Ultimately we woudld benefit from all of them at the same
+> time, if it were technically possible todo.
 
-Fixes: ee1ac3a1822 ("linux-user: Add sockopts for IPv6")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/602
-Reported-by: Conrad Meyer <cem@FreeBSD.org>
-Signed-off-by: Philippe Mathieu-Daud√© <f4bug@amsat.org>
----
- linux-user/syscall.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+I think last time I spoke to Paolo Abeni there were some interactions
+between them; I can't remember what though (I think mptcp and ktls
+didn't play at the time).
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index ccd3892b2df..edc9d6b5ba2 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -1967,7 +1967,8 @@ static inline abi_long host_to_target_cmsg(struct target_msghdr *target_msgh,
-                     tgt_len != sizeof(struct errhdr_t)) {
-                     goto unimplemented;
-                 }
--                __put_user(errh->ee.ee_errno, &target_errh->ee.ee_errno);
-+                __put_user(get_errno(errh->ee.ee_errno),
-+                           &target_errh->ee.ee_errno);
-                 __put_user(errh->ee.ee_origin, &target_errh->ee.ee_origin);
-                 __put_user(errh->ee.ee_type,  &target_errh->ee.ee_type);
-                 __put_user(errh->ee.ee_code, &target_errh->ee.ee_code);
-@@ -2011,7 +2012,8 @@ static inline abi_long host_to_target_cmsg(struct target_msghdr *target_msgh,
-                     tgt_len != sizeof(struct errhdr6_t)) {
-                     goto unimplemented;
-                 }
--                __put_user(errh->ee.ee_errno, &target_errh->ee.ee_errno);
-+                __put_user(get_errno(errh->ee.ee_errno),
-+                           &target_errh->ee.ee_errno);
-                 __put_user(errh->ee.ee_origin, &target_errh->ee.ee_origin);
-                 __put_user(errh->ee.ee_type,  &target_errh->ee.ee_type);
-                 __put_user(errh->ee.ee_code, &target_errh->ee.ee_code);
+Dave
+
+> > Not a immediate concern as I don't really think any of them is really
+> > explicitly supported in qemu.
+> 
+> QEMU has mptcp support already:
+> 
+>   commit 8bd1078aebcec5eac196a83ef1a7e74be0ba67b7
+>   Author: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>   Date:   Wed Apr 21 12:28:34 2021 +0100
+> 
+>     sockets: Support multipath TCP
+>     
+>     Multipath TCP allows combining multiple interfaces/routes into a single
+>     socket, with very little work for the user/admin.
+>     
+>     It's enabled by 'mptcp' on most socket addresses:
+>     
+>        ./qemu-system-x86_64 -nographic -incoming tcp:0:4444,mptcp
+> 
+> > KTLS may be implicitly included by a new gnutls, but we need to mark TLS and
+> > ZEROCOPY mutual exclusive anyway because at least the userspace TLS code of
+> > gnutls won't has a way to maintain the tls buffers used by zerocopy.  So at
+> > least we need some knob to detect whether kTLS is enabled in gnutls.
+> 
+> It isn't possible for gnutls to transparently enable KTLS, because
+> GNUTLS doesn't get to see the actual socket directly - it'll need
+> some work in QEMU to enable it.  We know MPTCP and KTLS are currently
+> mutually exclusive as they both use the same kernel network hooks
+> framework.
+> 
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
 -- 
-2.31.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
