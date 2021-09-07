@@ -2,83 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F9BC402695
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 11:56:24 +0200 (CEST)
-Received: from localhost ([::1]:48490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BF0B4026A3
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 11:58:48 +0200 (CEST)
+Received: from localhost ([::1]:52882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNXq3-0005yH-55
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 05:56:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35508)
+	id 1mNXsM-0000bh-VN
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 05:58:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mNXnv-0004YB-R7
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 05:54:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25983)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mNXqx-0007zS-GN
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 05:57:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mNXnu-0004Fk-EY
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 05:54:11 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mNXqv-0006pE-Py
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 05:57:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631008449;
+ s=mimecast20190719; t=1631008633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B4kpnfdp1Th81ZOUrh9yrOx32ReddCRYlTzn4eYFYiQ=;
- b=EZ/Yx/cKl9vP3/DBg8/UwAdSMcu1h/EXzADg1qs76dwUX7d+NC+H/ADhbslZn7xTws/wWp
- lE1EW9g1So1iezp6jP0eBhaZbBJlAhQo9dADU+g6oBgDjAtgFv7kikim5jTDpaz6edztQU
- ag8EUp1o+771o3Me+hgNfA6ORIMdnYY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-yQjPHnM4O2qRtWLrJMzU5g-1; Tue, 07 Sep 2021 05:54:06 -0400
-X-MC-Unique: yQjPHnM4O2qRtWLrJMzU5g-1
-Received: by mail-wm1-f70.google.com with SMTP id
- p5-20020a7bcc85000000b002e7563efc4cso907956wma.4
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 02:54:06 -0700 (PDT)
+ bh=Yj5f6tZG8ZLDscrOhunX134eO3kiSVdbP5mwyEg910M=;
+ b=VnUjN1L2AIH07PGCxUVz/2cTgiTAujMdSZq0bEHyQLTTYlDvAL5MWeq+Q9mD2guNlChz6g
+ ZpXH1YQ+bf+ZxfnTNKAu80uHFgg1rrFGBJKAct1b/nlGjI3zSi9/RtB6r2kKXbfIU6doaF
+ 6yaHAOyr+neyeRIxhAm5BwFZjowFCPE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-232-Vtle1qOyM7irWbZUdU0tEw-1; Tue, 07 Sep 2021 05:57:11 -0400
+X-MC-Unique: Vtle1qOyM7irWbZUdU0tEw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ i16-20020adfded0000000b001572ebd528eso1930489wrn.19
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 02:57:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=B4kpnfdp1Th81ZOUrh9yrOx32ReddCRYlTzn4eYFYiQ=;
- b=T+wBbvLGgEd0KCsJ8y4Zh5oEUEmr1xQEP4D+/QYEoOxJkBUOJ9iyvwLGDFmkomsVO+
- TcGw43FjQ+JehWi2XOcSeosLhper+eEkr0AMNIfFfXcHB7SoxDt1gtDhARkmTGJOm2IY
- VHsDF5modpJacuBWDLTB77TlKxn1jCD1d+UfqZhhfonZV/UAMVtApSOGwCGwCdAdlQ91
- vwIMmB6wWCEIRruetzJwtfBkgnAMlvZB96psOh3Dav2rykWctcAACoQtiE17JVhOCBTR
- Dwh1+AAdFGe7aso3QRZa0uEYS3iROfO2hF/KvRIYnL9qiSgaiAwXWYM+stwL/g0FKrzI
- +bOQ==
-X-Gm-Message-State: AOAM532F9Hu+PNSYf8EqS19obQk5kvmY9aL25kkWPTmtInnHUXFV+ODd
- VffjNAl8sDTPXTzhq3g8v/AAw+YAJiEPBSnrUP1YjHGnuqgd7u3ktLZyPoLqWex1ITZY23wEgd4
- zt4hnn557/hCGxBM=
-X-Received: by 2002:adf:9003:: with SMTP id h3mr17668465wrh.75.1631008445805; 
- Tue, 07 Sep 2021 02:54:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyESMjlLISPr/+Yfk64fKY/2jl3QCq17o/TWxFbalGBiHDyn1oVEHYZXATY/of+R4CTDhnVtg==
-X-Received: by 2002:adf:9003:: with SMTP id h3mr17668447wrh.75.1631008445588; 
- Tue, 07 Sep 2021 02:54:05 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23fca.dip0.t-ipconnect.de. [79.242.63.202])
- by smtp.gmail.com with ESMTPSA id g1sm12835732wrb.27.2021.09.07.02.54.04
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=Yj5f6tZG8ZLDscrOhunX134eO3kiSVdbP5mwyEg910M=;
+ b=Zlb/uS5hUKcbYa2uQzYnXfzyH3HtVIHdVavC+OzvuhGaFOmdC+Tl9BzG14AGjeB23f
+ zE83i88oYTYgv2UqXJZVBbzrjvP5HUsJVhX1LyU72ClOUDmkOylXMUOzF1wKzKbFrVyn
+ kej2sJV+ywGRnCBvtFCU85fTu0rS2hZRCRxWcYkLCeQFXkmLf8VMZVwQh1HVDL4zXDZt
+ ej6dIlSpeWQFa89AMJbM8BW/Yn93ux/KazcVePXd/u4BArok2NqV5wnvr5Mv65Jh37ev
+ ZEC6c6BxJRHfbjHQHPhlJAWMnjfQP+yP7dU51BYk1kHdp9XcoXQajp4qje1aBBZwq6Ja
+ QGMg==
+X-Gm-Message-State: AOAM531IeftQ8lPzzoK1uFGnM44IoPyUWV5Nh1AKSRi7C1eOZ2GkR68w
+ ymY/yA3xTXyd4lok4V++/j/p7t/AecE+e3anJVvfD8PNFzfxlXQyE6oxlYCZbQs2fdUE5Ujs44M
+ 0yDhTzSndBaBFm5E=
+X-Received: by 2002:a05:600c:acd:: with SMTP id
+ c13mr2978606wmr.28.1631008629780; 
+ Tue, 07 Sep 2021 02:57:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxyaQv1Ku1vEsnzltMX8KvWLEXNv67dniqPXhVh2YadiSZ/t/QtxDvygcX/4R1V3TuvQqRXIw==
+X-Received: by 2002:a05:600c:acd:: with SMTP id
+ c13mr2978588wmr.28.1631008629533; 
+ Tue, 07 Sep 2021 02:57:09 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
+ by smtp.gmail.com with ESMTPSA id m6sm5849998wrw.0.2021.09.07.02.57.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Sep 2021 02:54:05 -0700 (PDT)
-Subject: Re: [PATCH] s390x/cpumodel: Add more feature to gen16 default model
-To: Christian Borntraeger <borntraeger@de.ibm.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20210907091128.25051-1-borntraeger@de.ibm.com>
- <b28c3f9b-609c-b412-4a73-86b72b222fa3@de.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <675034b4-9954-a5a8-e8c5-e66ea33632a0@redhat.com>
-Date: Tue, 7 Sep 2021 11:54:04 +0200
+ Tue, 07 Sep 2021 02:57:09 -0700 (PDT)
+Subject: Re: [PATCH v4 4/5] mirror-top-perms: Fix AbnormalShutdown path
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>
+References: <20210902094017.32902-1-hreitz@redhat.com>
+ <20210902094017.32902-5-hreitz@redhat.com>
+ <ab23a119-1315-09b7-aeec-8d9039fdbd92@virtuozzo.com>
+ <12a9bfd7-d302-f157-f88a-ff441470278e@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <8c608d35-55e9-070e-7a69-ed661ea71d45@redhat.com>
+Date: Tue, 7 Sep 2021 11:57:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <b28c3f9b-609c-b412-4a73-86b72b222fa3@de.ibm.com>
+In-Reply-To: <12a9bfd7-d302-f157-f88a-ff441470278e@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -54
 X-Spam_score: -5.5
@@ -86,7 +92,7 @@ X-Spam_bar: -----
 X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,51 +105,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Halil Pasic <pasic@linux.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07.09.21 11:22, Christian Borntraeger wrote:
-> 
-> 
-> On 07.09.21 11:11, Christian Borntraeger wrote:
->> Add the new gen16 features to the default model and fence them for
->> machine version 6.1 and earlier.
->>
->> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
->> ---
->>    hw/s390x/s390-virtio-ccw.c  | 5 +++++
->>    target/s390x/gen-features.c | 8 +++++++-
->>    2 files changed, 12 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->> index 4d25278cf20e..72573ec66e84 100644
->> --- a/hw/s390x/s390-virtio-ccw.c
->> +++ b/hw/s390x/s390-virtio-ccw.c
->> @@ -803,6 +803,11 @@ DEFINE_CCW_MACHINE(6_2, "6.2", true);
->>    static void ccw_machine_6_1_instance_options(MachineState *machine)
->>    {
->>        ccw_machine_6_2_instance_options(machine);
->> +    s390_cpudef_featoff_greater(12, 1, S390_FEAT_NNPA);
->> +    s390_cpudef_featoff_greater(12, 1, S390_FEAT_VECTOR_PACKED_DECIMAL_ENH2);
->> +    s390_cpudef_featoff_greater(12, 1, S390_FEAT_BEAR_ENH);
->> +    s390_cpudef_featoff_greater(12, 1, S390_FEAT_RDP);
->> +    s390_cpudef_featoff_greater(12, 1, S390_FEAT_PAI);
-> 
-> It does not hurt, but the 12 should be 16 of course.
-> Will fix.
-> 
+On 02.09.21 12:15, Philippe Mathieu-Daudé wrote:
+> On 9/2/21 11:58 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> 02.09.2021 12:40, Hanna Reitz wrote:
+>>> The AbnormalShutdown exception class is not in qemu.machine, but in
+>>> qemu.machine.machine.  (qemu.machine.AbnormalShutdown was enough for
+>>> Python to find it in order to run this test, but pylint complains about
+>>> it.)
+>>>
+>>> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+>>> ---
+>>>    tests/qemu-iotests/tests/mirror-top-perms | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/tests/qemu-iotests/tests/mirror-top-perms
+>>> b/tests/qemu-iotests/tests/mirror-top-perms
+>>> index 451a0666f8..2fc8dd66e0 100755
+>>> --- a/tests/qemu-iotests/tests/mirror-top-perms
+>>> +++ b/tests/qemu-iotests/tests/mirror-top-perms
+>>> @@ -47,7 +47,7 @@ class TestMirrorTopPerms(iotests.QMPTestCase):
+>>>        def tearDown(self):
+>>>            try:
+>>>                self.vm.shutdown()
+>>> -        except qemu.machine.AbnormalShutdown:
+>>> +        except qemu.machine.machine.AbnormalShutdown:
+>>>                pass
+>>>              if self.vm_b is not None:
+>>>
+>> Hmm, interesting.. May be that bad that module has same name as subpackage?
+> Confusing indeed. Could this be improved?
 
-... I was just about to reply this very second :D
+I think if we want to improve something, it would be that we make the 
+exception public in the qemu.machine namespace, like so:
 
-LGTM otherwise
+diff --git a/python/qemu/machine/__init__.py 
+b/python/qemu/machine/__init__.py
+index 9ccd58ef14..48bbb0530b 100644
+--- a/python/qemu/machine/__init__.py
++++ b/python/qemu/machine/__init__.py
+@@ -25,7 +25,7 @@
+  # pylint: disable=import-error
+  # see: https://github.com/PyCQA/pylint/issues/3624
+  # see: https://github.com/PyCQA/pylint/issues/3651
+-from .machine import QEMUMachine
++from .machine import AbnormalShutdown, QEMUMachine
+  from .qtest import QEMUQtestMachine, QEMUQtestProtocol
 
--- 
-Thanks,
+But, well.  I don’t mind a qemu.machine.machine too much, personally.
 
-David / dhildenb
+Hanna
 
 
