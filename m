@@ -2,89 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 473F5402787
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 13:03:21 +0200 (CEST)
-Received: from localhost ([::1]:57730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F18CD402789
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 13:03:48 +0200 (CEST)
+Received: from localhost ([::1]:59918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNYsq-0002f0-Ac
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 07:03:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51042)
+	id 1mNYtI-0004Cn-3S
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 07:03:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNYoa-0008R2-Bu
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:58:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53309)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNYoX-0000Wy-Mp
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:58:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631012331;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sAuF38Hyw23QNUl3knj3r28IxIC0VGP75bmbn6SJFRI=;
- b=MAJ6ibmMEbb28nqcb4cG7JDmubdXU4/j+wfgNwWjE+nLazeP+JJAF+gaVwyKto3z4HXYhK
- R/brvv3SG9oYeILtJzpzkQKecSu19oIlpy9vO2o5z5pesFgvqfa3ujHnGPDcHPlyucpjpZ
- eMmHNiyVh1C/qWJbrmUY8pmE/Lr7wek=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-39ci5WMCPz6BblV5R5LqOg-1; Tue, 07 Sep 2021 06:58:48 -0400
-X-MC-Unique: 39ci5WMCPz6BblV5R5LqOg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r125-20020a1c2b830000b0290197a4be97b7so960861wmr.9
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 03:58:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mNYrE-0002T9-2g
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:01:41 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:43669)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mNYrB-0002zJ-B1
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:01:39 -0400
+Received: by mail-wr1-x430.google.com with SMTP id b6so13789665wrh.10
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 04:01:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nRMXIbLaNYd4oqQWb1nWoA2AE8Mfyui/ubZLkGOdV0k=;
+ b=HV2lwnCZ6w9u1PrLZNpUdEk+o+X3XpuJdE/LD/GH3McEB894d8Shq71WDmHhzodURi
+ QhmWRVnN7ecpFw39iiS52bA4nRN5m6uLXFD2aludLv6lsCDqR/SbMFcwaC6Rx/nzORsZ
+ 9ST1gKIey3shyZnCUs62OqqQsqKkPFZJhkpnF+6t1J+v5+fBC8MIK9/APYV+aGYZUz1b
+ t0jejr2v25NwyRdQeO3HVw7s4UV+mE6snsSVryfPLL4BTAVnTTvMVjvzelW4FvwANdDU
+ oQgj/jFIpergLPSA3lbc/2WFDpVlc2297XPowfYqcZ3uoPYQxZiuFg90CUhDKjc6Juto
+ pQjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sAuF38Hyw23QNUl3knj3r28IxIC0VGP75bmbn6SJFRI=;
- b=BaUQoQmsR4xu4CEhXrttMB04JOBwkSucsVePH2MSxdoLyX7SF4w1gbBw5XDPfBXR56
- oJuYt+8HhnyTu27PxkmeM1s7HIzb6CVo0g+kv2FK5pI3kmeDMzmtHSvo0kvlL5K81ymG
- GsKpXHrXTBBJjXWzT37sCCMpu4dVyheQdaJtxA07Qb6nuGgE8IN8u7VjsuOV9UBalsXO
- gWw1Uyl7LN7tGVK8NIiMFQiXpM1rt+R0sKaI1jQmUrrwkYP29l0NsjOkL1QunyJP7ifJ
- ccFu5FaSqRIDzvXLFRNngHD9nqeJER59Oy40sXNfIUZYgD6TXF1s8/j5eVQVQVaLvKR3
- D2YQ==
-X-Gm-Message-State: AOAM533K+V55AYfqDaq0nucai4xIot6kOv0nnddemU7e/hZ/rMmXr8C1
- ryuuekeCQy0cSWCgG8w/5bTH8IazGveEZsbIXq6LX61eckyZMmss6yLPXLNVTPTCciDKZZKd4hD
- VNrhZPQ+L7fpoY6g=
-X-Received: by 2002:a1c:218b:: with SMTP id h133mr3369183wmh.18.1631012327559; 
- Tue, 07 Sep 2021 03:58:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxuhrkpEyh0vzlRTX8Y8qWnSdkFvtctWi0/xmknZPr4D/6g+brdk86uMvHSfpGXkQDAzHVMHQ==
-X-Received: by 2002:a1c:218b:: with SMTP id h133mr3369167wmh.18.1631012327377; 
- Tue, 07 Sep 2021 03:58:47 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id l10sm11376015wrg.50.2021.09.07.03.58.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Sep 2021 03:58:47 -0700 (PDT)
-Subject: Re: [PATCH] ebpf: only include in system emulators
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210907104512.129103-1-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <995665b7-3a95-dc88-093d-0d93a372c65c@redhat.com>
-Date: Tue, 7 Sep 2021 12:58:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nRMXIbLaNYd4oqQWb1nWoA2AE8Mfyui/ubZLkGOdV0k=;
+ b=g4lA4QPNA4a+Oz0IdG8KUziWtusKVoC/ZOa/1U+AC54Fw+Wmj7kq0/+YBuhp12dGi2
+ n1sYwUkN0E2SEv5YvRCgGDAetwMmwD/hO6bnvaOJYDeJ76yZqxZqANHSGBT0lPuB4oD4
+ TLH/Ov5htTA1gM/JRppFgAm2uDrwszs+KQXnrvFdsjF/YwAv1O+Uc8ex3M7BLYArThUn
+ 413R0lL5oMmoH1kLILSDUOMAmqiSIRd2CyFT2J85FMZyreoNZgHe4Ldsx5m/8XxVl+W4
+ s/qVYV3SjGEB9+BUYGhGYPcBLZf5AIeGpUz9ctKYWvJIe34HfwZXvasaCzoPMxN+ghp2
+ /2zA==
+X-Gm-Message-State: AOAM533yTr/Pm2NVIQqdKNGGbNwOULkzbX8uI6qL7dRurqgCz/by5tXf
+ jAREvkGs3k5yoG6Qnj+guP5lDHesI0cLTROG4NF5/w==
+X-Google-Smtp-Source: ABdhPJz2J7Ii4FA6bTHjiJMnX/pjAtMivW1XKmiRU4mdgsmRAGYOI9UWxLZGl+NTYUJGKB86xkbUmFBT49mlsWz7ATk=
+X-Received: by 2002:adf:c18a:: with SMTP id x10mr18529223wre.302.1631012494734; 
+ Tue, 07 Sep 2021 04:01:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210907104512.129103-1-pbonzini@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <1629878922-173270-1-git-send-email-chunming_li1234@163.com>
+ <1629878922-173270-5-git-send-email-chunming_li1234@163.com>
+ <756203c3-76ec-62ea-beca-91a245059536@redhat.com>
+ <49C79B700B5D8F45B8EF0861B4EF3B3B0114302BA7@SHASXM03.verisilicon.com>
+ <4ba6223c-f239-ccd2-e4a8-eb912dd4fb58@redhat.com>
+ <49C79B700B5D8F45B8EF0861B4EF3B3B011430A69F@SHASXM03.verisilicon.com>
+ <19a5f05e-1984-095f-67de-a10f0acca947@redhat.com>
+ <49C79B700B5D8F45B8EF0861B4EF3B3B011430A757@SHASXM03.verisilicon.com>
+In-Reply-To: <49C79B700B5D8F45B8EF0861B4EF3B3B011430A757@SHASXM03.verisilicon.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Sep 2021 12:00:45 +0100
+Message-ID: <CAFEAcA8B2cDXqbEStyZfV1F_3cOSTj-y_jyZkjuG3uXYzTqpAg@mail.gmail.com>
+Subject: Re: [PATCH v5 4/4] hw/arm/virt: Add PL330 DMA controller and connect
+ with SMMU v3
+To: "Li, Chunming" <Chunming.Li@verisilicon.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,22 +84,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yuri.benditovich@daynix.com, jasowang@redhat.com, andrew@daynix.com
+Cc: "Liu, Renwei" <Renwei.Liu@verisilicon.com>,
+ chunming <chunming_li1234@163.com>, "Wen,
+ Jianxian" <Jianxian.Wen@verisilicon.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, Leif Lindholm <leif@nuviainc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/7/21 12:45 PM, Paolo Bonzini wrote:
-> eBPF files are being included in system emulators, which is useless and
-> also breaks compilation because ebpf/trace-events is only processed
-> if a system emulator is included in the build.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/566
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  ebpf/meson.build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Thu, 2 Sept 2021 at 09:23, Li, Chunming <Chunming.Li@verisilicon.com> wrote:
+> Eric Auger wrote:
+>> On 9/2/21 8:46 AM, Li, Chunming wrote:
+>>> Eric Auger wrote:
 
-Thanks.
+>>>> Then I think you need to bring a proper motivation behind adding the
+>>>> PL330 in machvirt besides a testing purpose.
 
+>>>> After this series you would get a single platform device connected to
+>>>> the SMMU, the PL330. What is the actual use case?
+
+>>> The actual use case is this:
+>>> 1. We will have a SoC which has SMMUv3 connected with our owned platform
+>>>    Video Encoder/Decoder and other IPs
+>>> 2. We plan to use SMMUv3 stage 1 for continuous memory allocation
+>>>    and stage 2 for memory protection
+>>> 3. We are developing our own IP QEMU models now
+>>> 4. These models will be connected with SMMUv3 in QEMU
+>>> 5. We will use the QEMU board to development IP driver and ensure the driver
+>>>    can work well with Linux SMMU and IOMMU framework
+
+>> I see and I understand your use case for system modeling purpose.
+>>
+>> This raises few questions/comments though.
+>> - supporting platform device protection from the vIOMMU/ARM makes sense
+>> to me globally. But above use case does not justify (to me) the
+>> introduction of PL330 in machvirt because it would be just for testing
+>> purpose. Peter may validate/invalidate though. Instead I think you
+>> should try to illustrate this feature with DMA capable platform devices
+>> such virtio-net and virtio-block sysbus devices as a counterpart of
+>> their PCIe flavour.
+>
+> Thanks for your suggestion. I will try virtio-net and virtio-block sysbus
+> devices in next step.
+> But I hope to keep PL330 because it's not just for testing purpose.
+> It's a good example to show how to connect platform devices with SMMUv3 based
+> on this patch.
+> I assume other developer may have same requirement.
+
+I agree with Eric here that the 'virt' board is not the right place
+to put this PL330. The 'virt' board is not intended as a dumping
+ground or experimental testbed for every possible arm device or
+system configuration -- we try to keep it at least reasonably
+targeted towards the "generic virtual platform or VM" usecase.
+
+The "sbsa-ref" platform is intended to look more like "real hardware".
+It's possible that "memory mapped hardware that sits behind an SMMU"
+is something that you would see on the sort of system that sbsa-ref
+is trying to model. I've cc'd Leif who would have a better idea about
+that.
+
+thanks
+-- PMM
 
