@@ -2,134 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA2B402E40
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 20:16:39 +0200 (CEST)
-Received: from localhost ([::1]:57370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07867402E4E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 20:22:25 +0200 (CEST)
+Received: from localhost ([::1]:39010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNfe8-0002pc-1H
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 14:16:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53080)
+	id 1mNfjj-0001FO-Lb
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 14:22:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1mNfXM-00011W-04
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 14:09:36 -0400
-Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:52086)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNfhT-0007lh-Aq
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 14:20:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1mNfXK-0003gw-5P
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 14:09:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
- t=1631038173; x=1631642973;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=iYr4meyOPic0xpfTtMNWFS9hG7BgLBJdgGNzqK0duP4=;
- b=MamVdEDx1/EMzCbexToOgFktX52crh2gFtQUn/cKEJEJvgo5i0ARhtcm
- faRmw+p0bokJSmi39izSIrtpgg1I6AHjsTUgecp7uLx23Ki2eqijr9glX
- IBjIuKI9qahKQpMqLBWV7r2GdPkgtE8UoTrDsT38W4O/+uReV2UOIqMK9 U=;
-Received: from mail-mw2nam10lp2107.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.107])
- by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2021 18:09:32 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IbvuoVYjk8cIDfdki+qdDHGKbXhUGdfdEwJpUUcX/50zrk7a6p4CveaMDLs74en47aePm5Bl/pNF6P1k1dRDTm+5Ho4urJuSmzRAVMZdlC9O0pWxTwPtFJGzvp8N00YYDGtBKzp2uXZs0LEKLR+EQF51NpcZx5O9oj0jvb8owaA7QcyQgJWjW/J969lGm3a7jI/tV0K0U63Qo2LjH7TcVJMFOJcfCuuEooXPRrvrB0Mn5LsaHS+QSDRkI83L/uHM1+9zZZqKJlqUEpJtZcTMZm9QTA78yL1mpXNjx0qc15aY7S8Pqef4zsW9sCVBI7OnT6q8n7Sa0Uyp8jb0sFOOog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=iYr4meyOPic0xpfTtMNWFS9hG7BgLBJdgGNzqK0duP4=;
- b=ntlS97+H8jSCLCW3bnIO2M0Wa0p7BGFKm7umcFmIeICUAIXgKLtWL+6uYaQoqZageBIiM3SXyrbCWPYmxlpUwAXYy2omU/wxnG3E2MflULckpzduxhM2AEdcQW0S/iZlgSjGHnNyX+wX428ibwqTCB8rJq9nAPiv/FGWFQqBNjvH92s762ifhCA2Fh7lhxY8KLY0i6ItesmYIs2IBxhnYuPCadv4mwH83SSd7Ehu8Dfve51nE31zHnxiyHojDfX+ki/LF5FzXbF/f75vXez2mpqy2eYUmXSF2LtmysQdMqz8RtlJAKG/dXhdfE7FJzkALLdx7yDYuyVqrq2dlpRVhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
- by BYAPR02MB4949.namprd02.prod.outlook.com (2603:10b6:a03:4b::26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14; Tue, 7 Sep
- 2021 18:09:29 +0000
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::d91d:e6d8:ee5d:77b5]) by BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::d91d:e6d8:ee5d:77b5%6]) with mapi id 15.20.4478.025; Tue, 7 Sep 2021
- 18:09:29 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Alessandro Di Federico <ale.qemu@rev.ng>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v6 01/12] target/hexagon: update MAINTAINERS for
- idef-parser
-Thread-Topic: [PATCH v6 01/12] target/hexagon: update MAINTAINERS for
- idef-parser
-Thread-Index: AQHXfWMcWIgIqwbk1U+PRosv+3hQO6uXppRA
-Date: Tue, 7 Sep 2021 18:09:29 +0000
-Message-ID: <BYAPR02MB48861C0213DE9D8A887B48C9DED39@BYAPR02MB4886.namprd02.prod.outlook.com>
-References: <20210720123031.1101682-1-ale.qemu@rev.ng>
- <20210720123031.1101682-2-ale.qemu@rev.ng>
-In-Reply-To: <20210720123031.1101682-2-ale.qemu@rev.ng>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: rev.ng; dkim=none (message not signed)
- header.d=none;rev.ng; dmarc=none action=none header.from=quicinc.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0a8a9345-13ee-421c-fed8-08d9722aa2d6
-x-ms-traffictypediagnostic: BYAPR02MB4949:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR02MB4949BB5BB7655785E03F9123DED39@BYAPR02MB4949.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:538;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LE9BQprZ9nO+J0GZ/8kIB8AImbyKm/Bz+uR46vrXGDGmtL2Mocos6PAA429u9qqHlFVKCQwgxuSzBnFAfnScRxpi0A5Fi/Ktre+k5Q6m9ZK23zFX8q8mniGuXqzYBx4fPsJFikpj2Y8zDPBM5rZyjkozP0l81CE80j20VdSRhQx1ImkwbavYosObWIAmxusJwd7o78JkuBU0igJ371JuCBW7u5sH57TzSyqkKhMDqaIhF7KyIbztKNELmJ2VK9N/mkyoK+M+CvPel9Io9eHsku/Pjlu/Fw5/0DIQEJZrhulsSbLfSELyPkeyVKevImjPe1l+aSiTmvay/8qbXGeo2kCYTtK1bVHaFF6sTUUstGHB+T7ZTRunGXr6OMQlIRHmgARNkYjCLjH/iHAexnEopUNDeDVEHegrN5JWP6RrYO/xUSWOgDFxMQrS+Veg/wbZsZXpxiPtJdet+E5ZxrjVVTt08uB45iRdSnY2aVu//outrmkecZebEeybKYTeQT0hUE6FFuE7CQpn1ewSJPNATF/O/6TViveUwRdx109DneR9GtbhhD4wNvf2omcmX5hSPrMgezSslJoB7GmwUH8NMneF4dcY9fSdU+3tWqaIpkBH2/8fwjELBHFdA+fKq8dGILb3j5LOHAaSbhioE+E8EZQ49/MLoc7mH84T545TmsHmqECshx//9lh24af3f+ymCcyAW7qWq0aHsvMQJgwd2A==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(136003)(376002)(346002)(396003)(38100700002)(38070700005)(76116006)(6506007)(2906002)(53546011)(4744005)(66476007)(54906003)(15650500001)(66946007)(83380400001)(55016002)(7696005)(66446008)(66556008)(26005)(9686003)(122000001)(8936002)(5660300002)(110136005)(64756008)(316002)(186003)(33656002)(86362001)(4326008)(71200400001)(52536014)(478600001)(8676002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?at4CCcmhCmduJ4x2IeLBZUtk+ulAL3MZzbTgLs71caIqIRNJUT360C1uVFML?=
- =?us-ascii?Q?aavgzlYaGgbPq2UuujJ99gKoDTKIQg1fo6iAfQurWjBz28H5ScY1CnH0CHCH?=
- =?us-ascii?Q?6CEFW0y7osYpiA8uNMzE7khu1z35wdPpHUCDEs1nKZj6v7lYniT3U5wKCAo/?=
- =?us-ascii?Q?wj1LtEslXIYWHf7qvZzI7yLBQjM4w06Oy4ETy0ouED7OWz+hxSHXAM9RO3zK?=
- =?us-ascii?Q?2bIb0zEUmuoOTeSdbIjQ3ZG/2h2jjZXscLOzmhN7tvsVVBA/2moDmzncIa3i?=
- =?us-ascii?Q?hihd4Lm3mqUUU+aXwr5YP9DRvPECbdJsBzjCC3X/zZ8yhLvgXxL+/A8CzTUx?=
- =?us-ascii?Q?CooOGn2o80AfczQK9OmI0kFUolhqegEeYpzP38KZ8R9Rbuu51kPIXsu6vSHv?=
- =?us-ascii?Q?UhrQsvlfnbggJAbQse98b7OvDdUR3qAKKG7bq2EzrbqIKMfuBkps2fFL7Ks8?=
- =?us-ascii?Q?eTGxsRtwBJtYOLGnDSnPAkFL9QzGt7Exi/ba9AywnL+hfDriNz1LcilD7uV1?=
- =?us-ascii?Q?4GEar1Z7Ek15xP1HZh3z4OA4bh3cABf5zlVx+P/nRsJYt3sDDfipVU+7wDxx?=
- =?us-ascii?Q?YkcxdPcxYfmL05p8HyAVguI2y1MMM3JDkBMjHe63HJYhOnvVBE4C+t1bJP0V?=
- =?us-ascii?Q?HjeofCvFQVz/x8G4LliGXAI8UUXRDofQU05jXLF/FiDuTbRl9eFp8nT37jWu?=
- =?us-ascii?Q?NP7fA2uG5v4qn+j06KyU4wVH0WPLd2nWiSAYxyztzTI4F60Ml9X8VbrCvnwG?=
- =?us-ascii?Q?odZ9yG6cg2+dmchF1U0wYCLerdWWulinRflPudiTsn38fR7rFS82OWead1CZ?=
- =?us-ascii?Q?aotOYTxNyy/JnvMKtpvyS0siGXK/5vxbqjTpY/G6sukf/HRDvfuzyerUDUUI?=
- =?us-ascii?Q?sIQI0OQnzfoWHn/seddeceg62FeUAA8Paa6wquUelWP9oeXJUFqdMz2wTK7B?=
- =?us-ascii?Q?yPDgakabwCBQbrzE/RMg6Ep274ybX7WYl7LCrez1imIcGI2U86w6ZZjJYufP?=
- =?us-ascii?Q?1eEXQd5a8s41IlPFh25scYyFAw4I2+2KhV5oj40Mq6vinSdxnFWuwSkf2YWG?=
- =?us-ascii?Q?xG5XTqUFiSYYykFylyo28YrtsqSpjLjfvBf+2ABsx4gwKpxBRtf8dDJc+3Q2?=
- =?us-ascii?Q?qvibR33M/LWzp73YtpIREgMIiXZyl0LGiB+Jv/H08XlPoOerKRdHHzJqwWxf?=
- =?us-ascii?Q?qllZa2WrGSVnEiQkypIwYWsShXiNAkDD5diLrWKnbmepIUawuA5bjB9gY8ei?=
- =?us-ascii?Q?eeqaNUdnrX5owtxwpmhP3oueSCQlFUffHYD3H7ix/Y8XhtnpCwzvOJPDxBul?=
- =?us-ascii?Q?pkTUbZwQuUf+jXRlH5IW0D8C?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNfhQ-0002BZ-Ti
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 14:20:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631038799;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mcSyQIgx//K9BaRn9QJBHTH7OBXlVpIS+PAq7bopPUk=;
+ b=JbajKqTmDsP+62TJa2AWwH6WznyScOmolUsFHIaHAdgTWtJeoz7LzmzEUOrHoVsKoz9c5q
+ YWQ2kaGdJUdDElgf3fg61tlQVggTr6429HbEZBiO0XXuS7knOD8si4Lv9dCpZ1dsSPKSSD
+ 0l9HMP//sJH/moO0X7CAr+piwDN8RfU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-72-T1wtbDdBNhuIziuT6oi3vw-1; Tue, 07 Sep 2021 14:19:57 -0400
+X-MC-Unique: T1wtbDdBNhuIziuT6oi3vw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ x10-20020a7bc76a000000b002f8cba3fd65so1339911wmk.2
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 11:19:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mcSyQIgx//K9BaRn9QJBHTH7OBXlVpIS+PAq7bopPUk=;
+ b=Hh9K8u8yZ5GPWQvhSxqLlhqkny3rpD5PY3JDurul1NN5Pnc7BRv1dL0LoIDgEEe7JT
+ o9D8/LOq+LEygMrS8woK04SZWVzo8AxOq14v/I6R6WPdNVEBA+SNQ1c1GDn64VoOKDto
+ yL5Zzol+1EnL00ZE5cnZtnheUnnlQy8/H3xWZ1aKWZzZv2iLPAjp+3k/UwCgww4nGqVT
+ SsHLDgY01OA14UfhN4L6aLhh3703QvOdYEMLBXAyBPt/COegRfW/bSUdjOXidEU/pl8r
+ dHpb+0cDGSwJDAezDxqg6J0IKCid3mNZjet8yEvVf+Oz0+AA4vJIJJ0PQ9g3A/ysXCsu
+ gBOg==
+X-Gm-Message-State: AOAM532BGU2y6yhDNU9rPOrHlJitULtLvKBHIQQ4WJvXouKyBUdV+0mU
+ 3yXgGTD/wQSwzfPibDRq8+g4b5LUn2u0uU4jvPH5plKc96ulA9iA77uwAuif1LpORk3Ju+Tarat
+ q00syKe9NEfBFGJ7hKWZIxm826A/Xp9Djb27BGCUlehVj+pZWp6we36F5ILLp6UHM
+X-Received: by 2002:a05:6000:128d:: with SMTP id
+ f13mr20056833wrx.244.1631038796121; 
+ Tue, 07 Sep 2021 11:19:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRGk2g5aoU5bwkffQGNAj3cv2TgVosWK/KUVN2I07+gp164BIyjYDAlq3fe/jujOxkSVDhLw==
+X-Received: by 2002:a05:6000:128d:: with SMTP id
+ f13mr20056807wrx.244.1631038795794; 
+ Tue, 07 Sep 2021 11:19:55 -0700 (PDT)
+Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id a5sm3103254wmm.44.2021.09.07.11.19.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Sep 2021 11:19:55 -0700 (PDT)
+Subject: Re: [PATCH] fw_cfg: add etc/msr_feature_control
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210907170935.210428-1-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <f9c001a8-b81c-c559-7ba9-437827594f29@redhat.com>
+Date: Tue, 7 Sep 2021 20:19:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4886.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a8a9345-13ee-421c-fed8-08d9722aa2d6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2021 18:09:29.4328 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nxTU3gKLBDcOBqqIC6jVJH57mrqvtWwOhJVuYNBJmw+R0TxxawIWGoMY4w+XRpwZ1ijX0nhYO/ci0XEyV07wuw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4949
-Received-SPF: pass client-ip=216.71.142.165; envelope-from=tsimpson@quicinc.com;
- helo=esa.hc3962-90.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210907170935.210428-1-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -142,31 +99,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "babush@rev.ng" <babush@rev.ng>, Brian Cain <bcain@quicinc.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "nizzo@rev.ng" <nizzo@rev.ng>, Alessandro Di Federico <ale@rev.ng>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-> -----Original Message-----
-> From: Alessandro Di Federico <ale.qemu@rev.ng>
-> Sent: Tuesday, July 20, 2021 7:30 AM
-> To: qemu-devel@nongnu.org
-> Cc: Taylor Simpson <tsimpson@quicinc.com>; Brian Cain
-> <bcain@quicinc.com>; babush@rev.ng; nizzo@rev.ng;
-> richard.henderson@linaro.org; Alessandro Di Federico <ale@rev.ng>
-> Subject: [PATCH v6 01/12] target/hexagon: update MAINTAINERS for idef-
-> parser
->=20
-> From: Alessandro Di Federico <ale@rev.ng>
->=20
-> Signed-off-by: Alessandro Di Federico <ale@rev.ng>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 9/7/21 7:09 PM, Paolo Bonzini wrote:
+> The file already existed, but nobody had noticed the warning until now.
+> Add it at the bottom, since that is where unknown files go in legacy mode.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  MAINTAINERS | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  hw/nvram/fw_cfg.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+> index 9b8dcca4ea..c06b30de11 100644
+> --- a/hw/nvram/fw_cfg.c
+> +++ b/hw/nvram/fw_cfg.c
+> @@ -878,6 +878,7 @@ static struct {
+>      { "etc/tpm/log", 150 },
+>      { "etc/acpi/rsdp", 160 },
+>      { "bootorder", 170 },
+> +    { "etc/msr_feature_control", 180 },
 
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+Fixes: 217f1b4a721 ("target-i386: Publish advised value of
+MSR_IA32_FEATURE_CONTROL via fw_cfg")
+?
+
 
