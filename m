@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5538D402A54
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:02:12 +0200 (CEST)
-Received: from localhost ([::1]:37942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9734402A62
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:04:40 +0200 (CEST)
+Received: from localhost ([::1]:47492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNbfu-0001Gp-6U
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:02:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49002)
+	id 1mNbiK-00084W-0C
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:04:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mNbOu-0001BN-R5
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:44:39 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:44724)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mNb6H-00079D-Cs
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:25:21 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:37493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mNbOr-0004Cv-NQ
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:44:36 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- l7-20020a1c2507000000b002e6be5d86b3so2278266wml.3
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 06:44:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mNb6E-00085E-6e
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:25:20 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id v10so14458961wrd.4
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 06:25:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=WkJEILKIhdl3VRNi+o6WcfgG/yP64dQ+4mkD99PbiSY=;
- b=XhJXnn6iv7V1MGRg9ZkLlas1IdzwsXckNYuZK2QugSrgr+IfNKJJ0bjcJUQrbOyr06
- LrfxDlXRmjDHEcq0HrnbYOTSRwoM4wrJZM+Ife7R6e9gh7FUvhrPEb3WftwjnB1PhOH/
- CMO0ofcZwZM6h4zBz0fBtTOJtRddgsWWEmuypIxs17tSO4BiVN97qpK0J877R15g7w8r
- JDwnyFjnqEGDKCPfCv6bPiegXwWT3pNCJfsgQpeCXegUUTW6ZK1CqAAsnCUxN7hVuZwG
- LEJIpqS92a/QTzlmsNdNxmFzQZf2l07YM7a194bNQnqguxs/jRbFHNkgr9Y5jk7ichEl
- AmFw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=b9A+L0A4c+lgi3xx+wMu+0Z2+/nZhWTpfFaWN1ioKfI=;
+ b=sxLnXN/6IubEYovgwP1zOpeRFv56US2kqLqsU0utyVkUc47rfhPdeUFeVUIIPlsf4o
+ 6oPDwcFZdnKgpOsSgh9zNRspEa8z4A7Qq0awhZZlKIUoJpoukyJd13T7H5Ipl4rUCWHN
+ hoqUOZU+H1UkYtWdiMy34gnb063o8OqOyRxuHa2FEbJd5a5mswpQJjvrW8mjCAm/A5jK
+ Ikga6bznTTIMjFZagIZF6u0arkF+wZ10f/J7Kew6kytIOY5MIa25iWdlx77WOvqepADg
+ 70Q+ZAzBXhtBBurMYM5RNQZKnACS+c8FdIDAMZLDaMGVSf7gMq0bXq6baUv7oCvlWeTn
+ dg8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WkJEILKIhdl3VRNi+o6WcfgG/yP64dQ+4mkD99PbiSY=;
- b=ceKlhjGyftdy1ec4A6WXx/Ph+2FoPLPpaf4Gx/x6eoHr8Kv78FMOlbFgL9iverAc95
- TeBW1ZDGm7ScbKcN54FGU0s3oatLJS1ZDcAwxZCvTEMnBohIpXqWiTpLRnLsojaDPm1z
- 8uDwhnNMaIKZSkwGs9QGQNPHxCPeCj8Q1tKEJTWtpinZonUBGQwMa5BnsMBgIhcSYlUt
- jiB9k49f7c5L6KhTyPHBzi+bu7KKxdKXkLVyQgIR2NtEiaeASiaxcKXfojvHHpVBvZWP
- mFdsqOLk40wR8Il7n1PHGSg0xm3hasgVl6ZYovLcTSOEX+rMToR0lIyZkWSkp8R8jDLO
- ESoQ==
-X-Gm-Message-State: AOAM533SzZyiT35SrPAnDsrWoKVexv/3pG2pqValaGpBs0KXXqxcrQyt
- RccSfSgvKgyl3CV0VCE5akazsw==
-X-Google-Smtp-Source: ABdhPJznwkAIj2BBCM00XE8Pt6l/jHjtuDBdb65PfqgK9fRTDong02ISge3DaBIZvF7SqOG/fhi2pQ==
-X-Received: by 2002:a7b:cd92:: with SMTP id y18mr4120310wmj.78.1631022271773; 
- Tue, 07 Sep 2021 06:44:31 -0700 (PDT)
-Received: from [192.168.1.165] ([139.47.33.227])
- by smtp.gmail.com with ESMTPSA id r129sm2357134wmr.7.2021.09.07.06.44.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Sep 2021 06:44:31 -0700 (PDT)
-Subject: Re: [PATCH v5 17/31] target/arm: Enforce alignment for LDM/STM
-To: Nathan Chancellor <nathan@kernel.org>
-References: <20210419202257.161730-1-richard.henderson@linaro.org>
- <20210419202257.161730-18-richard.henderson@linaro.org>
- <YS19IBEGrIUnUT2p@Ryzen-9-3900X.localdomain>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0699da7b-354f-aecc-a62f-e25693209af4@linaro.org>
-Date: Tue, 7 Sep 2021 15:44:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=b9A+L0A4c+lgi3xx+wMu+0Z2+/nZhWTpfFaWN1ioKfI=;
+ b=FLaenkN+KHcoovT9AHJrR7eHinCB93QnBK4VfsLP9pZwf4GwiHnZEeEocWPTrxdix9
+ 2WgMw5QmfvfjQFX68NCQsq5+yIOSMoK5bgDsE4chbxLmPVcu//YFtxIqbSjeN4/8bKYE
+ t5JTAp1lXHR1vQqgj7GlYLqTd3HO6cjZRS6FijWVPfIER5Kp8StV47KU1W9CDfrX1adu
+ hm5Ro/zYneJygh89OWQxBph4wcYGNmJ/50ACLk5JJwa0M5B4qaNy3clTw+fYsUQy4qug
+ 8drMklexu2VJiOfxjC7WTuShtgmus6lipYrTnrzSzEP8JuqrHs0/dRONoH7PeLlBQGqM
+ G4gQ==
+X-Gm-Message-State: AOAM531Ddkz9E6m3+2ZYmYixJgac8SOXvSbYZaktXsOzlMNnaoho0wRB
+ kbH/nag42ojrjoH3lju6ATirYa9l+TsUIwiJA9UhKg==
+X-Google-Smtp-Source: ABdhPJy5rxjElUlooOuECJ2k6H4WycKk4cCy2xOEixDWf+gQwcXcKQFtmwz0CArC/N8MeUu31OmgGIqDNt4MhV9MW8Y=
+X-Received: by 2002:a5d:6cae:: with SMTP id a14mr19317761wra.275.1631021116403; 
+ Tue, 07 Sep 2021 06:25:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YS19IBEGrIUnUT2p@Ryzen-9-3900X.localdomain>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.332,
+References: <20210903153820.686913-1-philmd@redhat.com>
+In-Reply-To: <20210903153820.686913-1-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 Sep 2021 14:24:27 +0100
+Message-ID: <CAFEAcA9hjVYRT+=sdfoowd+=Q54r7p--K9wL32Y-G7amO_4fCA@mail.gmail.com>
+Subject: Re: [RFC PATCH] physmem: Do not allow unprivileged device map
+ privileged memory
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,55 +79,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- llvm@lists.linux.dev, qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/31/21 2:51 AM, Nathan Chancellor wrote:
-> I just bisected a boot hang with an LLVM-built multi_v7_defconfig +
-> CONFIG_THUMB2_KERNEL=y kernel down to this commit. I do not see the same
-> hang when the kernel is compiled with GCC 11.2.0 and binutils 2.37 nor
-> do I see a hang with multi_v7_defconfig by itself. Is there something
-> that LLVM is doing wrong when compiling/assembling/linking the kernel or
-> is there something wrong/too aggressive with this commit? I can
-> reproduce this with current QEMU HEAD (ad22d05833).
-> 
-> My QEMU invocation is:
-> 
-> $ qemu-system-arm \
->      -append "console=ttyAMA0 earlycon" \
->      -display none \
->      -initrd rootfs.cpio \
->      -kernel zImage \
->      -M virt \
->      -m 512m \
->      -nodefaults \
->      -no-reboot \
->      -serial mon:stdio
-> 
-> and the rootfs.cpio and zImage files can be found here:
-> 
-> https://github.com/nathanchance/bug-files/tree/15c1fd6e44622a3c27823d2c5c3083dfc7246146/qemu-2e1f39e29bf9a6b28eaee9fc0949aab50dbad94a
+On Fri, 3 Sept 2021 at 16:38, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> Since commits cc05c43ad94..42874d3a8c6 ("memory: Define API for
+> MemoryRegionOps to take attrs and return status") the Memory API
+> returns a zero (MEMTX_OK) response meaning success, anything else
+> indicating a failure.
+>
+> In commits c874dc4f5e8..2f7b009c2e7 ("Make address_space_map() take
+> a MemTxAttrs argument") we updated the AddressSpace and FlatView
+> APIs but forgot to check the returned value by the FlatView from
+> the MemoryRegion.
+>
+> Adjust that now, only returning a non-NULL address if the transaction
+> succeeded with the requested memory attributes.
+>
+> Reported-by: Gerd Hoffmann <kraxel@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> RFC because this could become a security issue in a core component,
+>     however currently all callers pass MEMTXATTRS_UNSPECIFIED.
 
-Hmm.  I see
+"Wrong set of memattrs" isn't the only reason that a device
+could return a failure from the memory transaction. It looks to
+me like what this patch is really doing is propagating the
+possibly transaction failure up to the callers of address_space_map(),
+which seems like the right thing to me.
 
-IN:
-0xc13038e2:  e890 008c  ldm.w    r0, {r2, r3, r7}
+There are two reasons (now) why address_space_map() could fail:
+ (1) QEMU has run out of some internal limited resource
+     (ie the bounce buffer is in use elsewhere)
+ (2) the emulated guest memory transaction returned a failure;
+     this should generally not be fatal, but result in whatever
+     the device's reaction to "whoops, DMA failed" is, eg
+     setting error registers, stopping processing of DMA, etc
 
-R00=c13077ca R01=c11a8058 R02=c11a8058 R03=c031737f
-R04=48379000 R05=00000024 R06=c031748d R07=c03174bb
-R08=412fc0f1 R09=c0ce9308 R10=50c5387d R11=00000000
-R12=00000009 R13=c1501f88 R14=c0301739 R15=c13038e2
-PSR=200001f3 --C- T svc32
-Taking exception 4 [Data Abort]
-...from EL1 to EL1
-...with ESR 0x25/0x9600003f
-...with DFSR 0x1 DFAR 0xc13077ca
+Do we want to make them indistinguishable to callers? It might
+be better to have address_space_map() have a way to return the
+MemTxResult to callers. (This would bring it into line with other
+APIs which both allow passing in MemTxAttrs and getting back a
+MemTxResult.) There aren't that many callers of address_space_map()
+and dma_memory_map() so it wouldn't be too hard to add an extra
+argument or whatever.
 
-So, yes, it's a ldm from an address % 4 = 2, so it is correct that we should trap.  You 
-should see the same trap on real hw.
+Side note: looking at some of the callsites, error handling on
+the failure case is not always great. Eg:
+ * hw/hyperv/vmbus.c calls dma_memory_unmap() if dma_memory_map()
+   fails, which is definitely the wrong thing to do, because it
+   will try to unmap NULL
+ * hw/misc/aspeed_hace.c just ploughs on using the NULL pointer
+   regardless
+ * target/ppc/mmu-hash64.c calls hw_error(), ie kills QEMU,
+   on failure, which is not strictly wrong but seems a bit harsh.
 
-
-r~
+-- PMM
 
