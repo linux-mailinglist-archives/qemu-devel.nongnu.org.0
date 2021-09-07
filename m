@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7CF4029B2
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:27:30 +0200 (CEST)
-Received: from localhost ([::1]:54842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDEAD4029A4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:22:35 +0200 (CEST)
+Received: from localhost ([::1]:37028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNb8L-0002fn-3A
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56764)
+	id 1mNb3b-0007D7-0Z
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:22:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNaic-00072F-W4
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:00:55 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43540)
+ id 1mNajG-0007vo-1X
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:01:34 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNaib-0005AK-CQ
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:00:54 -0400
-Received: by mail-wr1-x429.google.com with SMTP id b6so14323299wrh.10
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 06:00:52 -0700 (PDT)
+ id 1mNaj3-0005Jy-68
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:01:33 -0400
+Received: by mail-wr1-x435.google.com with SMTP id z4so14308798wrr.6
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 06:01:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=R3eYbZNXwn4mNxMrolgxJrWbLePzrDji+56X/IC7ZdM=;
- b=HRZUyo7SePrbiM2v9PrAFWev4/SP7gO91VFjpjdsshM4gxop8NNh7AzwnyP7+d61lB
- BCFwnAYTa4sH1Sf4CIjyoYILU6XHnn4bprTVQ0pT7A9uXhdIoaezPML1D5qdydDEJeCL
- q3pynLTkC2HH34BjRUWVzCnTmMEEviqUCq80M1fBqH0pzVqH96Ixd0MPT9JRUOcARhHz
- gZEW6Uvcm+POCeOSRRr9YZizElhiu3xYWCa1txJeizYXbZbTtglb8eFV1pHMAO0ty/BG
- ubyqsjk8dQaGAVP582lsvzzi4ihSDCZ+X/7FL/Gw6F0vIAfTZWD6IWkmUdN8oO3xmJh3
- CRRw==
+ :cc; bh=b5jEEzqd0bhK10FNist/D4ePXVJ3XwGaxELBu8WCqHA=;
+ b=G5zMqCUuIXbn7jccCH7qhV90HQ9Y75SDEbN7fn4Y/ugrpZnCJChKLdE3qlbJgJi4xN
+ BHZkAv/wPf9zcKh3GM0QxD7AGnoGnUOIqSW9DatFLpAR8fhvu0rXGmTLcMREZYzC+DTP
+ MnMWDWHqvAHnUmp6/lVwUy99aMw8VFlWquYY54eT15SlPtQUZoiIIwbtv6i/5hBB0IW3
+ IRJJPk2AKRCRIieOvuJ1zVb/QuzbJa8fPYnwQPBmigeiUDrRp0rIfeIMCVdlXaFgRPyl
+ rvGaaqt65vjMm/PGYJ0uwa1SqzsUC1v853iZ+sP8V5GsQpHjp6XOAN4Q5HEqjzDDAt2F
+ FdhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=R3eYbZNXwn4mNxMrolgxJrWbLePzrDji+56X/IC7ZdM=;
- b=PVMiJGoawOYt/YO8ITjkMWImaAA/S3ONayk4gedmBWDabbyVoKtsPx66FtLX4UsOBs
- kHjP/4SMmXHYxjMKnolz5RdrHWpj9QXLeFNoCdNltIwVDPlRFuuXqnRN3NiIIA4uwrkB
- d3gC8e1Llbj47dgrtsKqNwoMIaXjz5/R2hkLSxrjchD1nDDk62Oerj0+WsQRrpYhVwhP
- F5xuB60ckrGovREsPQCnW54Etc1tkJ5B9vsi41voL6Sw+qVf7QgagRqlMUC+9DRKdpdf
- OjTRLzzxesDntbOsXEG0KZWjqVbNV5o9vKW5CI04+X+hqtBlbU68MNXuflks/VDcThwf
- P2TA==
-X-Gm-Message-State: AOAM53133K1MMUTNhrVyOBhnvELg9IlrvVdLkW7TB4q0FEOX017m2dxT
- Q2hwXSHp7nFx/N/vDro7K6M7+LNz/mc5n7P403FEAw==
-X-Google-Smtp-Source: ABdhPJyvCeKbHBG2O44FVIGjNgFMCjrObmoCahhJKoOexo+ZnT/wHeZtTaImrr4h4pdB/o3/iyE5MYO5UYNhvK4PPys=
-X-Received: by 2002:a5d:6cae:: with SMTP id a14mr19161825wra.275.1631019651724; 
- Tue, 07 Sep 2021 06:00:51 -0700 (PDT)
+ bh=b5jEEzqd0bhK10FNist/D4ePXVJ3XwGaxELBu8WCqHA=;
+ b=NCbqvTdqL98bimbrIYQQw7eFLHaE3yo+gRlzwM8u3znZSH7Ki5E7UF7zmbb9cxA5RU
+ LM8wZ0Msdj5WXJCnWTudRdgMe+f5j7JbK48qzbyHN/eAi2L48XuMYn+CsueHOOUi4JCT
+ QU3cp+/iUVqGL7rqofqtsrx25ueLAKyyh5gDynbpdF+h6Dby1tUsv9AQOI+qfP6ytKy0
+ pKPcT6arO9iQrUAjWBC3ACc29cWqUt/eSTwsiVvB6BocsVzMmEoV3qfWHg2l6Ct7NGSn
+ U1sQYQE1skgzp3fl4Zz6StfhAAtN/hdz/EHJ/qjVQLZZh+x/BIVjOU0Hl5kbiAC1HdrU
+ 0Rtw==
+X-Gm-Message-State: AOAM531qNsxFoU5SZtPaZvU3D4rZiIYoSYNIMWP1bnP6tRYXtkqEFTai
+ bcJOv+uvjZEovwfQUrSKOdyPjBHZaoDbjvvAfqHiDw==
+X-Google-Smtp-Source: ABdhPJzPEqiG2SssRqDA6ZKbtLGFXis2SdHIjSv4bYYz+p0TytEJMJAs1KHFaHTGFqAGef4FEzYeAhy5nximc6lJHRg=
+X-Received: by 2002:a5d:4647:: with SMTP id j7mr18871080wrs.149.1631019679850; 
+ Tue, 07 Sep 2021 06:01:19 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210903113223.19551-1-mark.cave-ayland@ilande.co.uk>
- <20210903113223.19551-4-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20210903113223.19551-4-mark.cave-ayland@ilande.co.uk>
+ <20210903113223.19551-5-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210903113223.19551-5-mark.cave-ayland@ilande.co.uk>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Sep 2021 14:00:02 +0100
-Message-ID: <CAFEAcA8Fzx0hz+kTzZEMXHx1=46Ryv2NwD-jH9fumyszKO0veQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/9] escc: introduce escc_soft_reset_chn() for software
+Date: Tue, 7 Sep 2021 14:00:30 +0100
+Message-ID: <CAFEAcA-S_+ZoevK2JfG3AgwMM-bmG3tVezjLvhNzk+hst+UY9Q@mail.gmail.com>
+Subject: Re: [PATCH v3 4/9] escc: introduce escc_hard_reset_chn() for hardware
  reset
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,22 +82,17 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 3 Sept 2021 at 13:01, Mark Cave-Ayland
+On Fri, 3 Sept 2021 at 12:46, Mark Cave-Ayland
 <mark.cave-ayland@ilande.co.uk> wrote:
 >
-> This new software reset function is to be called when the appropriate channel
-> software reset bit is written to register WR9. Its initial implementation is
+> This new hardware reset function is to be called for both channels when the
+> hardware reset bit is written to register WR9. Its initial implementation is
 > the same as the existing escc_reset_chn() function used for device reset.
 >
-> Add a new trace event when the guest initiates a soft reset via the WR9 register
+> Add a new trace event when the guest initiates a hard reset via the WR9 register
 > to help diagnose guest reset issues.
 >
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/char/escc.c       | 40 ++++++++++++++++++++++++++++++++++++++--
->  hw/char/trace-events |  1 +
->  2 files changed, 39 insertions(+), 2 deletions(-)
->
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
