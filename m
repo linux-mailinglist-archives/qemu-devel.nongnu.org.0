@@ -2,95 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8977640235F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 08:23:59 +0200 (CEST)
-Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB8940238A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 08:39:59 +0200 (CEST)
+Received: from localhost ([::1]:40900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNUWU-0002C1-M2
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 02:23:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52536)
+	id 1mNUly-0000a1-G5
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 02:39:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNUVD-0001BL-TR
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 02:22:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56441)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1mNUjw-0007av-M8
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 02:37:52 -0400
+Received: from mga04.intel.com ([192.55.52.120]:31160)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNUVC-0004dc-8i
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 02:22:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630995757;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3fjIjyV+luo+mjdMwd92NXBYM+xdCsPqZ3+Ski7784o=;
- b=cOSMXeBB4Z9pNRMvARKKPpAvNpMUTUwaKIvbCaekzZ0ZQXXuNFmtL4WNwfvXFdLm4Vhpje
- Z+ynh/gRhFdh/qHuDBVTp1S8JWBnnMgeqDJ7OBT8thbrRcs5GXw9gRlcFaMwSJeXoye+9C
- p01lxLhfnJPAUzAKGMuVTrg4a9XuWlw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164--7RR8d5UOUO3IGn-uoy1JQ-1; Tue, 07 Sep 2021 02:22:36 -0400
-X-MC-Unique: -7RR8d5UOUO3IGn-uoy1JQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- x10-20020a7bc20a000000b002f8cf761457so180018wmi.1
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 23:22:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3fjIjyV+luo+mjdMwd92NXBYM+xdCsPqZ3+Ski7784o=;
- b=LyiENDreRZ2FbBBsUwOZPVHna82bKzaH+lZMiD3TK09NHC+ugQIU06EO9R3ZfvncLE
- p7Y+g/KVvZFmPLXx4sD4cFNhTXnpt6/sbhhKeF7bRE6oiuQm6/AnbgvVI/eB4xYuZ/uV
- 45RGKetf9PLNXZC0CCntg3Wf5vpnD5DRwuSCxYi3fFF6yXZ5rbat7RxYX8WjOTpMGu5W
- vyByBgk2EJrKTetwSDWcLVbfGtt51ATpiUrUeEOGKKn5Vh1TtG1+eTat5zkXEpbDVcN+
- 588wuo6o7WO0UrzACqVJ62sGb1mIIWQN6m9gpkxgJ0Y9sQah9qMwQgich2HqOa88NYRW
- otWQ==
-X-Gm-Message-State: AOAM530ybv6XJjFrQ2t+/soKl7MKEwAZ+Jj+AA6yZsgUva6zfQgQwl1n
- PVkinfBSyjMNL34svhBnW+xZWvpBwd5UGlPD3YVEMvKHh7Qu5xoPgydgDx582JWeNKbT3QpgtKu
- i2tJ11pDCTIeI4Xg=
-X-Received: by 2002:a05:600c:4f81:: with SMTP id
- n1mr2173009wmq.99.1630995753411; 
- Mon, 06 Sep 2021 23:22:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzNQwGK6xtyFudDyYihpVqo+k7OQ+0S7H3EiAptaXkLnro0sUmHaI16csxr52zM8Vea4drJqA==
-X-Received: by 2002:a05:600c:4f81:: with SMTP id
- n1mr2172974wmq.99.1630995753113; 
- Mon, 06 Sep 2021 23:22:33 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id x13sm1143882wrg.62.2021.09.06.23.22.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Sep 2021 23:22:32 -0700 (PDT)
-Subject: Re: [PATCH] hw/display/ati_2d: Fix buffer overflow in ati_2d_blt
- (CVE-2021-3638)
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210906153103.1661195-1-philmd@redhat.com>
- <CAA8xKjXkDwPYxSAeRb+2mfHRrbiL_kh9unVkemFXLfF68UXePA@mail.gmail.com>
- <3ef43b0d-4b89-85a4-f2bf-b7f8a256d1db@redhat.com>
- <bb39ee8c-a567-591a-a1c4-822683bb723@eik.bme.hu>
- <8ba32305-3e9f-a770-0406-7612ed4aeece@redhat.com>
-Message-ID: <3ee3ca31-0d6c-a439-74c0-6397c3492893@redhat.com>
-Date: Tue, 7 Sep 2021 08:22:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1mNUjt-0000ZF-0h
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 02:37:51 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10099"; a="218251302"
+X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; d="scan'208";a="218251302"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2021 23:37:46 -0700
+X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; d="scan'208";a="537796858"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.144.101])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 06 Sep 2021 23:37:45 -0700
+Date: Tue, 7 Sep 2021 14:23:52 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 10/36] hostmem: Add hostmem-epc as a backend for SGX EPC
+Message-ID: <20210907062352.GB18368@yangzhon-Virtual>
+References: <20210906131059.55234-1-pbonzini@redhat.com>
+ <20210906131059.55234-11-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <8ba32305-3e9f-a770-0406-7612ed4aeece@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210906131059.55234-11-pbonzini@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=yang.zhong@intel.com;
+ helo=mga04.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,80 +60,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
- Qiang Liu <qiangliu@zju.edu.cn>, Prasad J Pandit <pjp@fedoraproject.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Gaoning Pan <pgn@zju.edu.cn>,
- Ziming Zhang <ezrakiez@gmail.com>, Salvatore Bonaccorso <carnil@debian.org>
+Cc: yang.zhong@intel.com, seanjc@google.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/7/21 7:38 AM, Philippe Mathieu-Daudé wrote:
-> On 9/6/21 9:52 PM, BALATON Zoltan wrote:
->> On Mon, 6 Sep 2021, Philippe Mathieu-Daudé wrote:
->>> (Forgot to Cc Alex for eventual reproducer)
->>>
->>> On 9/6/21 6:44 PM, Mauro Matteo Cascella wrote:
->>>> On Mon, Sep 6, 2021 at 5:31 PM Philippe Mathieu-Daudé
->>>> <philmd@redhat.com> wrote:
->>>>>
->>>>> When building QEMU with DEBUG_ATI defined then running with
->>>>> '-device ati-vga,romfile="" -d unimp,guest_errors -trace ati\*'
->>>>> we get:
->>>>>
->>>>>   ati_mm_write 4 0x16c0 DP_CNTL <- 0x1
->>>>>   ati_mm_write 4 0x146c DP_GUI_MASTER_CNTL <- 0x2
->>>>>   ati_mm_write 4 0x16c8 DP_MIX <- 0xff0000
->>>>>   ati_mm_write 4 0x16c4 DP_DATATYPE <- 0x2
->>>>>   ati_mm_write 4 0x224 CRTC_OFFSET <- 0x0
->>>>>   ati_mm_write 4 0x142c DST_PITCH_OFFSET <- 0xfe00000
->>>>>   ati_mm_write 4 0x1420 DST_Y <- 0x3fff
->>>>>   ati_mm_write 4 0x1410 DST_HEIGHT <- 0x3fff
->>>>>   ati_mm_write 4 0x1588 DST_WIDTH_X <- 0x3fff3fff
->>>>>   ati_2d_blt: vram:0x7fff5fa00000 addr:0 ds:0x7fff61273800
->>>>> stride:2560 bpp:32 rop:0xff
->>>>>   ati_2d_blt: 0 0 0, 0 127 0, (0,0) -> (16383,16383) 16383x16383 > ^
->>>>>   ati_2d_blt: pixman_fill(dst:0x7fff5fa00000, stride:254, bpp:8,
->>>>> x:16383, y:16383, w:16383, h:16383, xor:0xff000000)
->>>>>   Thread 3 "qemu-system-i38" received signal SIGSEGV, Segmentation
->>>>> fault.
->>>>>   (gdb) bt
->>>>>   #0  0x00007ffff7f62ce0 in sse2_fill.lto_priv () at
->>>>> /lib64/libpixman-1.so.0
->>>>>   #1  0x00007ffff7f09278 in pixman_fill () at /lib64/libpixman-1.so.0
->>>>>   #2  0x0000555557b5a9af in ati_2d_blt (s=0x631000028800) at
->>>>> hw/display/ati_2d.c:196
->>>>>   #3  0x0000555557b4b5a2 in ati_mm_write (opaque=0x631000028800,
->>>>> addr=5512, data=1073692671, size=4) at hw/display/ati.c:843
->>>>>   #4  0x0000555558b90ec4 in memory_region_write_accessor
->>>>> (mr=0x631000039cc0, addr=5512, ..., size=4, ...) at
->>>>> softmmu/memory.c:492
->>>>>
->>>>> Commit 584acf34cb0 ("ati-vga: Fix reverse bit blts") introduced
->>>>> the local dst_x and dst_y which adjust the (x, y) coordinates
->>>>> depending on the direction in the SRCCOPY ROP3 operation, but
->>>>> forgot to address the same issue for the PATCOPY, BLACKNESS and
->>>>> WHITENESS operations, which also call pixman_fill().
->>>>>
->>>>> Fix that now by using the adjusted coordinates in the pixman_fill
->>>>> call, and update the related debug printf().
->>>>>
->>>>> Reported-by: Qiang Liu <qiangliu@zju.edu.cn>
->>>>> Fixes: 584acf34cb0 ("ati-vga: Fix reverse bit blts")
->>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>>> ---
->>>>>  hw/display/ati_2d.c | 6 +++---
->>>>>  1 file changed, 3 insertions(+), 3 deletions(-)
-
->> I don't think assigning a CVE to a bug that is in an experimental and
->> largely unused part and happens when one enables debug code really worth
->> the hassle, this could be handled as a normal bug. As long as the
+On Mon, Sep 06, 2021 at 03:10:33PM +0200, Paolo Bonzini wrote:
+> From: Sean Christopherson <sean.j.christopherson@intel.com>
 > 
-> CVE assignment can happens outside of QEMU community, we try to make it
-> clear what is the "security boundary" but researchers filling CVEs
-> might not understand it well.
+> EPC (Enclave Page Cahe) is a specialized type of memory used by Intel
+> SGX (Software Guard Extensions).  The SDM desribes EPC as:
+> 
+>     The Enclave Page Cache (EPC) is the secure storage used to store
+>     enclave pages when they are a part of an executing enclave. For an
+>     EPC page, hardware performs additional access control checks to
+>     restrict access to the page. After the current page access checks
+>     and translations are performed, the hardware checks that the EPC
+>     page is accessible to the program currently executing. Generally an
+>     EPC page is only accessed by the owner of the executing enclave or
+>     an instruction which is setting up an EPC page.
+> 
+> Because of its unique requirements, Linux manages EPC separately from
+> normal memory.  Similar to memfd, the device /dev/sgx_vepc can be
+> opened to obtain a file descriptor which can in turn be used to mmap()
+> EPC memory.
+> 
+> Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> 
+> v1-->v2:
+>    - Unified the "share" and "protected" arguments with ram_flags in the
+>      memory_region_init_ram_from_fd()(Paolo).
 
-BTW see commit b317006a3f1 ("docs/secure-coding-practices: Describe how
-to use 'null-co' block driver") which is related to your suggestion.
 
+  Paolo, I justly verified this PULL list and SGX works well. By the way,
+  please help remove the version review info in the commit message.
+
+  Let me list all patches related with version review here(Only from PULL list), thanks!
+  [PULL 09/36] memory: Add RAM_PROTECTED flag to skip IOMMU mappings
+  [PULL 10/36] hostmem: Add hostmem-epc as a backend for SGX EPC
+  [PULL 11/36] qom: Add memory-backend-epc ObjectOptions support
+  [PULL 13/36] vl: Add sgx compound properties to expose SGX EPC sections
+  [PULL 20/36] i386: Update SGX CPUID info according to hardware/KVM/user input
+  [PULL 35/36] sgx-epc: Add the fill_device_info() callback support
+
+  Yang
+
+
+> Message-Id: <20210719112136.57018-3-yang.zhong@intel.com>
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  backends/hostmem-epc.c | 92 ++++++++++++++++++++++++++++++++++++++++++
+>  backends/meson.build   |  1 +
+>  2 files changed, 93 insertions(+)
+>  create mode 100644 backends/hostmem-epc.c
+> 
+> diff --git a/backends/hostmem-epc.c b/backends/hostmem-epc.c
+> new file mode 100644
+> index 0000000000..b512a68cb0
+> --- /dev/null
+> +++ b/backends/hostmem-epc.c
+> @@ -0,0 +1,92 @@
+> +/*
+> + * QEMU host SGX EPC memory backend
+> + *
+> + * Copyright (C) 2019 Intel Corporation
+> + *
+> + * Authors:
+> + *   Sean Christopherson <sean.j.christopherson@intel.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +#include <sys/ioctl.h>
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +#include "qom/object_interfaces.h"
+> +#include "qapi/error.h"
+> +#include "sysemu/hostmem.h"
+> +
+> +#define TYPE_MEMORY_BACKEND_EPC "memory-backend-epc"
+> +
+> +#define MEMORY_BACKEND_EPC(obj)                                        \
+> +    OBJECT_CHECK(HostMemoryBackendEpc, (obj), TYPE_MEMORY_BACKEND_EPC)
+> +
+> +typedef struct HostMemoryBackendEpc HostMemoryBackendEpc;
+> +
+> +struct HostMemoryBackendEpc {
+> +    HostMemoryBackend parent_obj;
+> +};
+> +
+> +static void
+> +sgx_epc_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+> +{
+> +    uint32_t ram_flags;
+> +    char *name;
+> +    int fd;
+> +
+> +    if (!backend->size) {
+> +        error_setg(errp, "can't create backend with size 0");
+> +        return;
+> +    }
+> +
+> +    fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
+> +    if (fd < 0) {
+> +        error_setg_errno(errp, errno,
+> +                         "failed to open /dev/sgx_vepc to alloc SGX EPC");
+> +        return;
+> +    }
+> +
+> +    name = object_get_canonical_path(OBJECT(backend));
+> +    ram_flags = (backend->share ? RAM_SHARED : 0) | RAM_PROTECTED;
+> +    memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend),
+> +                                   name, backend->size, ram_flags,
+> +                                   fd, 0, errp);
+> +    g_free(name);
+> +}
+> +
+> +static void sgx_epc_backend_instance_init(Object *obj)
+> +{
+> +    HostMemoryBackend *m = MEMORY_BACKEND(obj);
+> +
+> +    m->share = true;
+> +    m->merge = false;
+> +    m->dump = false;
+> +}
+> +
+> +static void sgx_epc_backend_class_init(ObjectClass *oc, void *data)
+> +{
+> +    HostMemoryBackendClass *bc = MEMORY_BACKEND_CLASS(oc);
+> +
+> +    bc->alloc = sgx_epc_backend_memory_alloc;
+> +}
+> +
+> +static const TypeInfo sgx_epc_backed_info = {
+> +    .name = TYPE_MEMORY_BACKEND_EPC,
+> +    .parent = TYPE_MEMORY_BACKEND,
+> +    .instance_init = sgx_epc_backend_instance_init,
+> +    .class_init = sgx_epc_backend_class_init,
+> +    .instance_size = sizeof(HostMemoryBackendEpc),
+> +};
+> +
+> +static void register_types(void)
+> +{
+> +    int fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
+> +    if (fd >= 0) {
+> +        close(fd);
+> +
+> +        type_register_static(&sgx_epc_backed_info);
+> +    }
+> +}
+> +
+> +type_init(register_types);
+> diff --git a/backends/meson.build b/backends/meson.build
+> index d4221831fc..46fd16b269 100644
+> --- a/backends/meson.build
+> +++ b/backends/meson.build
+> @@ -16,5 +16,6 @@ softmmu_ss.add(when: ['CONFIG_VHOST_USER', 'CONFIG_VIRTIO'], if_true: files('vho
+>  softmmu_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('cryptodev-vhost.c'))
+>  softmmu_ss.add(when: ['CONFIG_VIRTIO_CRYPTO', 'CONFIG_VHOST_CRYPTO'], if_true: files('cryptodev-vhost-user.c'))
+>  softmmu_ss.add(when: 'CONFIG_GIO', if_true: [files('dbus-vmstate.c'), gio])
+> +softmmu_ss.add(when: 'CONFIG_LINUX', if_true: files('hostmem-epc.c'))
+>  
+>  subdir('tpm')
+> -- 
+> 2.31.1
+> 
 
