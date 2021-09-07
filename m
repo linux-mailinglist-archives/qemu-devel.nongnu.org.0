@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAE040307F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 23:56:25 +0200 (CEST)
-Received: from localhost ([::1]:58944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F89403095
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 23:58:54 +0200 (CEST)
+Received: from localhost ([::1]:39040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNj4q-0008WE-UN
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 17:56:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34904)
+	id 1mNj7F-0005ls-TV
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 17:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2H-0005Xd-UR
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2H-0005WU-Aj
  for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:45 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:38556)
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:37514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2F-0000i0-Ps
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2F-0000iM-NC
  for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:45 -0400
-Received: by mail-io1-xd41.google.com with SMTP id a13so463605iol.5
+Received: by mail-io1-xd31.google.com with SMTP id b7so472026iob.4
  for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:53:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lv7qzc+bwvqvCUY7KRQHdm4K9UxT525dj3NdW6F5N3A=;
- b=awhNazjkiWjn6vpXmSZuRBQGqEWb9NQLBT80TJi+AdV1wMHvVp5iTclBc0ZQnftMeq
- FjClOvklPEZzSgVFpHbfF9ejA6RzlNMqehRRwzq7yem5Al2Rxd0MHBnhr6Im0lF9T/+7
- 6G35/m6Be9TXvc6nXKr3gyZYWbyj9HFgrnwbHpZebihqdorBohQBQFF5WqH+mVmAXLuh
- X/vkmn08M0XZpDUzYbrzx1FCI+F1LAbedGfZqscnJ1x0Sfp/5dx3135e2CpdEn6/qyFt
- VyjsNQ/8x1wyC7i9rE5Vl6ZA7BhkOcfHO21x3WXMhCt6gJXzBPsG79DmsDWclIXlCkRN
- /zUw==
+ bh=okxKdJbOUcfEuQyncikhmmKgqqr7aQZgUfGvRlvwHSo=;
+ b=fvbmt0/KgZdk5BI8LuSE+LA35revyjxtISv/IBgFwURxWkdOMpZUwtY8yUcY5+drC5
+ LL9jv+wlrSiVEggNF3lOOvuu0I1WAkB58ijgj/9COjGQtFD7fSaQolSbFNO3e7r4SOvb
+ S0wbeH33DheNCMWAlQcple2BUfauqaKe+PqOFLxNeiDoJ7Z6jI1OEL+0r5rVG3fY+hN5
+ OeUv1y6UvxlnXmOzetbXsi9eJF+5qmcFNwzyMPhBjgUTmCjNNjWeInCpav9x8d2vqx97
+ eUv18JbyW6P/xE4Gclre0dYIH6uT6BDu1eTJRGFfMGtdk7VgwGEaU/todKHtllBQ6xd9
+ lWeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lv7qzc+bwvqvCUY7KRQHdm4K9UxT525dj3NdW6F5N3A=;
- b=q7yRe6HDsx64vfxnZM8geZStcyIg0BJXzc9ob9k+mElEjLanUhFFI/pnlEVdq+IYv0
- VYHa00QamOZX0BTlgHfoMT1JC5Qo9R4vvivn/T7kpvl5SNImu6h/BLXcZ/lPk+EAnhXp
- 0auN/XrCPVQBo2ddHySLjRsS69xhQoy0h0LOXNK99hv0soOJtyhieILuOFqOTQCPTiH8
- rjVU3+iwQ2joS5YAEwWlVoG8zvbWQFcyg8Ifzt3Lq+fGuQIxQpdLZoq7it26ZEwC89Ek
- n43scEvZ0F0hmUnABOijpqQ2JZnMIyD5Y2G8pH37ApYNFV5zuyVK3hEUx8C+X0XvGSVA
- hCzQ==
-X-Gm-Message-State: AOAM532JgSacEP6ks5rg2ONSHBHXJXUS/0r4boolxga+cC6av3O0jD8x
- nGCjlYaNwpT8lwEwNlUOUbNF3+3SO2I6cGdYgfU=
-X-Google-Smtp-Source: ABdhPJznRYSk2ZiOSYK+GK1aIpb7BEjYrDn+pxnN5BBMc9vZe//U0nLBobxsSKos/e5KP0xHZvyfpQ==
-X-Received: by 2002:a05:6638:e8f:: with SMTP id
- p15mr454456jas.114.1631051621647; 
- Tue, 07 Sep 2021 14:53:41 -0700 (PDT)
+ bh=okxKdJbOUcfEuQyncikhmmKgqqr7aQZgUfGvRlvwHSo=;
+ b=HhhqEVIX06cEiTg2CjG+V9aBPPXnnD0sNNP53b6JmMqQc8tvsKlyPbNZ0DYaJsOIDg
+ GUxhwuQFSLnaDWcm9Z6rPH6fE87ImCpxZVHWS3UTuIOoJIl+qvso2DZdJvyiPtJRcZ5+
+ zdU0bU4iGgiqR4sM4/NxGCEG1vCJfzqDvspkaiyPG538EZQbwl/zned5Y6V+9DjPMBGA
+ a0ZQqDux1U+AOtXQ9GXtVydL0VINqJ+uNYMRrWotZFiSrZu6UZIq3pzvqjkiysvPe66/
+ SQGU9JNr1V3X4TVhLeBUykIf+8TXuIQMyJ7wsMkna1XbP+gGlKa7jTLi4Dgo4rg7F7/Q
+ L+aw==
+X-Gm-Message-State: AOAM530EcFlZO15aRDZRVhhLiGR7SE41GCU0xF4iVlobeiysyxgbnOvt
+ KngkFZH8FruKBoYf3RtyqTyFpczUbr0NUvkT5Aw=
+X-Google-Smtp-Source: ABdhPJzdSMIaQlYOHGhWbO0799BbqZ6hbYDZRrgWs0XP1xaUEm0fN7i3qwABESI2/tpr2jVHaoNvsA==
+X-Received: by 2002:a02:6a55:: with SMTP id m21mr467307jaf.74.1631051622494;
+ Tue, 07 Sep 2021 14:53:42 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.40
+ by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 07 Sep 2021 14:53:41 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/42] bsd-user: add license to bsdload.c
-Date: Tue,  7 Sep 2021 15:52:54 -0600
-Message-Id: <20210907215332.30737-5-imp@bsdimp.com>
+Subject: [PULL 05/42] bsd-user: style nits: bsdload.c whitespace to qemu
+ standard
+Date: Tue,  7 Sep 2021 15:52:55 -0600
+Message-Id: <20210907215332.30737-6-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210907215332.30737-1-imp@bsdimp.com>
 References: <20210907215332.30737-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d41;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd41.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd31.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,40 +89,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@bsdimp.com>
 
-Pull in the license statement at the top of the bsdload.c file
-from the bsd-user fork version of this file. No functional changes.
-
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/bsdload.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ bsd-user/bsdload.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/bsd-user/bsdload.c b/bsd-user/bsdload.c
-index 8d83f21eda..0ade58b9e2 100644
+index 0ade58b9e2..ec71c5e923 100644
 --- a/bsd-user/bsdload.c
 +++ b/bsd-user/bsdload.c
-@@ -1,4 +1,19 @@
--/* Code for loading BSD executables.  Mostly linux kernel code.  */
-+/*
-+ *  Load BSD executables.
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
+@@ -140,7 +140,7 @@ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
+ }
  
- #include "qemu/osdep.h"
+ int loader_exec(const char *filename, char **argv, char **envp,
+-             struct target_pt_regs *regs, struct image_info *infop)
++                struct target_pt_regs *regs, struct image_info *infop)
+ {
+     struct bsd_binprm bprm;
+     int retval;
+@@ -148,7 +148,7 @@ int loader_exec(const char *filename, char **argv, char **envp,
  
+     bprm.p = TARGET_PAGE_SIZE * MAX_ARG_PAGES - sizeof(unsigned int);
+     for (i = 0 ; i < MAX_ARG_PAGES ; i++) {     /* clear page-table */
+-            bprm.page[i] = NULL;
++        bprm.page[i] = NULL;
+     }
+     retval = open(filename, O_RDONLY);
+     if (retval < 0) {
 -- 
 2.32.0
 
