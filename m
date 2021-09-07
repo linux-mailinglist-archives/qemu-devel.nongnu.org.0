@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E294840251E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 10:28:18 +0200 (CEST)
-Received: from localhost ([::1]:49732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B717D402521
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 10:29:28 +0200 (CEST)
+Received: from localhost ([::1]:49316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNWSo-00050L-1F
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 04:28:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44442)
+	id 1mNWTv-0004jU-Iv
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 04:29:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNWFe-0005Cm-SA
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 04:14:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31209)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNWFd-00062W-1N
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 04:14:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631002480;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KGJG/Cv2iUbtf3xyS49RMJu5hUyBKS31W5r+ddrVYUo=;
- b=QdIHNxO/dia6HMb/QNV6sqVEe/eDNy44QKqVeYh2zv84URbSX7f7U4G8yDt78Jw+nGpxPa
- fDh8qEKi5HSZh5f7tSd67JDbyCSufHAfpNEGnwVXyl9IPwtBuIL/5c9zeiQHwOXmq51jG1
- sVPeRam0twIiJmQvp3vVISMx/4uZOwM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-7MG771uWMHWFu50t4sX1fA-1; Tue, 07 Sep 2021 04:14:39 -0400
-X-MC-Unique: 7MG771uWMHWFu50t4sX1fA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07BA81020C53;
- Tue,  7 Sep 2021 08:14:23 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.246])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A61EF1B5C1;
- Tue,  7 Sep 2021 08:14:22 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 11/11] block/nvme: Only report VFIO error on failed retry
-Date: Tue,  7 Sep 2021 09:14:03 +0100
-Message-Id: <20210907081403.816404-12-stefanha@redhat.com>
-In-Reply-To: <20210907081403.816404-1-stefanha@redhat.com>
-References: <20210907081403.816404-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1mNWPX-0000CN-FP; Tue, 07 Sep 2021 04:24:55 -0400
+Received: from mail-qv1-xf29.google.com ([2607:f8b0:4864:20::f29]:41850)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1mNWPT-0005wy-QW; Tue, 07 Sep 2021 04:24:55 -0400
+Received: by mail-qv1-xf29.google.com with SMTP id p17so5318209qvo.8;
+ Tue, 07 Sep 2021 01:24:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=f4WdERIj4yJIC2Y4OE0YBud9k/nAUYxJqXzOQljQUMg=;
+ b=ShuUjM68xxosBMmxc4VhUkUPIwc1rFJowKZhDPR+norBwHo0I8pxuUhov+sVkudK23
+ CjlW3XOewEhLozIWUQbF2ox0R/mMx9xl+4E3+/YPbklwuAUSTIaP0zFBlidtN2pIKyMP
+ z1ZXs6iYTRJvYeAuIoNMLJvoSZ2OJg8YwJCZc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=f4WdERIj4yJIC2Y4OE0YBud9k/nAUYxJqXzOQljQUMg=;
+ b=OnXPgyLSbYsa/r7E/KxobFVO9Pweu2WFrT++G7+glhEKulrzeo9lFxVO/ZHgrKQT71
+ jcQ3gwx47Ji0TK2FWjg89Ua0LTR7IjdeFtFlh9x1cziV8X3aBXg6KsRf/6bO2IJYbcjf
+ HtBLOIvbSkxObsq21mibMQwNEzuSVfVc0f6u3U0OxNTcnR0H0fuy4eCuOH6ATp8R9J3a
+ 1XgZU19oqNL5beW5PqcUU68FLwkzKz9E0gMEVFkf7+s83lPhI+dPRtvpnlSsbZ0bmnJy
+ ikry4OsGimHRRxR7azDbuwHmVFJ/SSN69aIvy3jYcV2pyO9hm5eWDg9EtiZ+VTJqUPJZ
+ +giA==
+X-Gm-Message-State: AOAM531njguIuYEj3g7c25e6Y96ssXJfcoDTUy9326AOM4mm1pDF79Py
+ hSRrmnS/m5e76FIID/G0hnlLe/RIsPxje248KZs=
+X-Google-Smtp-Source: ABdhPJw6Zyy+m4m7ExsxypuPDKaKgAOeAeYL0LkJvWoU9nE9mTnHC2MX+orZ+ltEWY9isnLI0kW2U2BL7aNU+RgrFQg=
+X-Received: by 2002:a0c:ec02:: with SMTP id y2mr16022934qvo.43.1631003089997; 
+ Tue, 07 Sep 2021 01:24:49 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210906134023.3711031-1-pdel@fb.com>
+ <20210906134023.3711031-2-pdel@fb.com>
+In-Reply-To: <20210906134023.3711031-2-pdel@fb.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Tue, 7 Sep 2021 08:24:38 +0000
+Message-ID: <CACPK8XfyxtB2v8i4hprSgJZj3Tm9P8e7a456UKv=64gHZs-jiQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] hw/arm/aspeed: Initialize AST2600 UART clock
+ selection registers
+To: pdel@fb.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f29;
+ envelope-from=joel.stan@gmail.com; helo=mail-qv1-xf29.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,78 +74,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Tingting Mao <timao@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Mon, 6 Sept 2021 at 13:40, <pdel@fb.com> wrote:
+>
+> From: Peter Delevoryas <pdel@fb.com>
+>
+> UART5 is typically used as the default debug UART on the AST2600, but
+> UART1 is also designed to be a debug UART. All the AST2600 UART's have
+> semi-configurable clock rates through registers in the System Control
+> Unit (SCU), but only UART5 works out of the box with zero-initialized
+> values. The rest of the UART's expect a few of the registers to be
+> initialized to non-zero values, or else the clock rate calculation will
+> yield zero or undefined (due to a divide-by-zero).
+>
+> For reference, the U-Boot clock rate driver here shows the calculation:
+>
+>     https://github.com/facebook/openbmc-uboot/blob/15f7e0dc01d8/drivers/clk/aspeed/clk_ast2600.c#L357
+>
+> To summarize, UART5 allows selection from 4 rates: 24 MHz, 192 MHz, 24 /
+> 13 MHz, and 192 / 13 MHz. The other UART's allow selecting either the
+> "low" rate (UARTCLK) or the "high" rate (HUARTCLK). UARTCLK and HUARTCLK
+> are configurable themselves:
+>
+>     UARTCLK = UXCLK * R / (N * 2)
+>     HUARTCLK = HUXCLK * HR / (HN * 2)
+>
+> UXCLK and HUXCLK are also configurable, and depend on the APLL and/or
+> HPLL clock rates, which also derive from complicated calculations. Long
+> story short, there's lots of multiplication and division from
+> configurable registers, and most of these registers are zero-initialized
+> in QEMU, which at best is unexpected and at worst causes this clock rate
+> driver to hang from divide-by-zero's. This can also be difficult to
+> diagnose, because it may cause U-Boot to hang before serial console
+> initialization completes, requiring intervention from gdb.
+>
+> This change just initializes all of these registers with default values
+> from the datasheet.
+>
+> To test this, I used Facebook's AST2600 OpenBMC image for "fuji", with
+> the following diff applied (because fuji uses UART1 for console output,
+> not UART5).
+>
+>   @@ -323,8 +323,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+>        }
+>
+>       /* UART - attach an 8250 to the IO space as our UART5 */
+>   -    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+>   -                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
+>   +    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART1], 2,
+>   +                   aspeed_soc_get_irq(s, ASPEED_DEV_UART1),
+>                     38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
+>
+>        /* I2C */
+>
+> Without these clock rate registers being initialized, U-Boot hangs in
+> the clock rate driver from a divide-by-zero, because the UART1 clock
+> rate register reads return zero, and there's no console output. After
+> initializing them with default values, fuji boots successfully.
+>
+> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+> ---
+>  hw/misc/aspeed_scu.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
+> index 05edebedeb..a95dca65f2 100644
+> --- a/hw/misc/aspeed_scu.c
+> +++ b/hw/misc/aspeed_scu.c
+> @@ -119,6 +119,8 @@
+>  #define AST2600_CLK_SEL3          TO_REG(0x308)
+>  #define AST2600_CLK_SEL4          TO_REG(0x310)
+>  #define AST2600_CLK_SEL5          TO_REG(0x314)
+> +#define AST2600_UARTCLK_PARAM     TO_REG(0x338)
+> +#define AST2600_HUARTCLK_PARAM    TO_REG(0x33C)
 
-We expect the first qemu_vfio_dma_map() to fail (indicating
-DMA mappings exhaustion, see commit 15a730e7a3a). Do not
-report the first failure as error, since we are going to
-flush the mappings and retry.
+It would be consistent with the existing naming if we dropped the
+_PARAM. Not worth re-spinning just for that though.
 
-This removes spurious error message displayed on the monitor:
+>  #define AST2600_HW_STRAP1         TO_REG(0x500)
+>  #define AST2600_HW_STRAP1_CLR     TO_REG(0x504)
+>  #define AST2600_HW_STRAP1_PROT    TO_REG(0x508)
+> @@ -681,6 +683,8 @@ static const uint32_t ast2600_a3_resets[ASPEED_AST2600_SCU_NR_REGS] = {
+>      [AST2600_CLK_SEL3]          = 0x00000000,
+>      [AST2600_CLK_SEL4]          = 0xF3F40000,
+>      [AST2600_CLK_SEL5]          = 0x30000000,
+> +    [AST2600_UARTCLK_PARAM]     = 0x00014506,
+> +    [AST2600_HUARTCLK_PARAM]    = 0x000145C0,
 
-  (qemu) c
-  (qemu) qemu-kvm: VFIO_MAP_DMA failed: No space left on device
-  (qemu) info status
-  VM status: running
+These match v9 of the datasheet, so they look good to me.
 
-Reported-by: Tingting Mao <timao@redhat.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20210902070025.197072-12-philmd@redhat.com
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- block/nvme.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-diff --git a/block/nvme.c b/block/nvme.c
-index 80546b0bab..abfe305baf 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -1019,6 +1019,7 @@ static coroutine_fn int nvme_cmd_map_qiov(BlockDriverState *bs, NvmeCmd *cmd,
-     uint64_t *pagelist = req->prp_list_page;
-     int i, j, r;
-     int entries = 0;
-+    Error *local_err = NULL, **errp = NULL;
- 
-     assert(qiov->size);
-     assert(QEMU_IS_ALIGNED(qiov->size, s->page_size));
-@@ -1031,7 +1032,7 @@ static coroutine_fn int nvme_cmd_map_qiov(BlockDriverState *bs, NvmeCmd *cmd,
- try_map:
-         r = qemu_vfio_dma_map(s->vfio,
-                               qiov->iov[i].iov_base,
--                              len, true, &iova, NULL);
-+                              len, true, &iova, errp);
-         if (r == -ENOSPC) {
-             /*
-              * In addition to the -ENOMEM error, the VFIO_IOMMU_MAP_DMA
-@@ -1066,6 +1067,8 @@ try_map:
-                     goto fail;
-                 }
-             }
-+            errp = &local_err;
-+
-             goto try_map;
-         }
-         if (r) {
-@@ -1109,6 +1112,9 @@ fail:
-      * because they are already mapped before calling this function; for
-      * temporary mappings, a later nvme_cmd_(un)map_qiov will reclaim by
-      * calling qemu_vfio_dma_reset_temporary when necessary. */
-+    if (local_err) {
-+        error_reportf_err(local_err, "Cannot map buffer for DMA: ");
-+    }
-     return r;
- }
- 
--- 
-2.31.1
-
+>      [AST2600_CHIP_ID0]          = 0x1234ABCD,
+>      [AST2600_CHIP_ID1]          = 0x88884444,
+>  };
+> --
+> 2.30.2
+>
 
