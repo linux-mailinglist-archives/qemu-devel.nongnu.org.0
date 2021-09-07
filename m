@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485244030B7
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 00:08:02 +0200 (CEST)
-Received: from localhost ([::1]:36586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E077D4030AE
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 00:04:39 +0200 (CEST)
+Received: from localhost ([::1]:55576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNjG5-00072G-Bg
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 18:08:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35020)
+	id 1mNjCo-0000Kj-I6
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 18:04:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2N-0005ks-P6
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:52 -0400
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:40894)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2P-0005lp-H2
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:54 -0400
+Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:43620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2M-0000nY-1Z
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:51 -0400
-Received: by mail-io1-xd29.google.com with SMTP id z1so455468ioh.7
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:53:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2M-0000nq-PW
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:53 -0400
+Received: by mail-il1-x12f.google.com with SMTP id v16so150582ilo.10
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:53:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JbEdUvbo/mrg2leYF7EcbjbkdggBVAu4KQwCBbiNYLY=;
- b=yLNCkiZOVRZ3LXk+YeS3DY9IFvdSe2mxLTANEQMKGgj8xXdmOYPiCmWyoJjdDp0LVS
- SRjHjA/eC3kHIYonAr353GomjlsLpsNzrLiDPuML4z5rGiMdmH7FPpzPCFRuQNDFi1uv
- wn/8Ft44n5/s5w6HxzHMVCK62HCNu79geTaAYzkjUc5vh2kDEwp95uLYnVcLvZL5hBVv
- ikc6qhZn6AVzO+oN6eHjy6W7UdJClCQiFddRD/0bxoAidwHv8zfFEUjx/7b48ovybCSk
- ysa5jag3LB7n8UeKPwIvyxtiD152Ke3kB5r2YZ1EPtOdjOijHkLcTvli5yWzRPBV6NQB
- ZPpA==
+ bh=PMz+5ER2t5fUTW7WHAivqWR4OLzMPh8lmfQ/oyNPgnk=;
+ b=xtq504ZJ8oD4dFQW1fSQPaP5fg7FgyGZtqezBVZ2PHsa+Dn5hXrm02xn2Q4H6pr9Ou
+ KydCYcIIOYG1UQFy7H1+6poo97wzwZ9w79oeBztlNI/rHNaS2VdiW9rmzdC3iQnJLYY5
+ CbnWeheIsMsME9n0R07f50P641cp9BfyST0QSG03j+Ob0WhHV1pdSve2JPLw4YPg8PXf
+ BcMtVTQvy+gUWw1Xb3CL4Ojq5Sorx4B4c8vD+YTkR4Ges0Ry4/t5TN73+Go/KUvwxoNh
+ gEeN2PYoWSpY/OwkgBY5FD7NwS3qwcY6wXu9Rvu8PXyRNFLoVuvK9ZJG1InOvEs/mcKN
+ FUzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JbEdUvbo/mrg2leYF7EcbjbkdggBVAu4KQwCBbiNYLY=;
- b=cVTiQ39AXbueV3jPj/rIDW1Nco8LM9bG0L4DH8FBM62y5GHpmh2azOQJEOFt53Ko8x
- 2WwIOqMdHPTUnL1PQIvylkXjOEGX9eWKhXxMk3zfE8642P5E/fzR/5xqIxSlsu4SenTL
- TtqL0Df/857nj5M/i6f3tXo2ZZJadp8nAQY1Lo+bPFyop2i3SHDOD4rQ3wsd4eTYEh6I
- onCpo1hME4jutGXqwm54vKhZbpkVNecg2kJ0IZfiIZNH+NlHGSbq/OHp9pO3krg4cpBG
- HYKMHMRxP+VUYqZUmiNoJJZpZM4ggPMnamTppwkcErK0QwQQWG53aK26iqRAeD1/dHoD
- fK8A==
-X-Gm-Message-State: AOAM531mlr+jyvUVVgHdhASmSQcVDcOH0bpslGtwnz5Vt+EhXcUGzy42
- UUZxvy0xfjTEGLyd2bG7JH97GA7rVq6kmucsjlk=
-X-Google-Smtp-Source: ABdhPJzFhJgABGAVcWbgO/jG8mDYXO8U7pJbwhaXNlua4V3zIhk1/4bqS9A9MIBdPt2R4YYaHs14vw==
-X-Received: by 2002:a02:9542:: with SMTP id y60mr431670jah.87.1631051628189;
+ bh=PMz+5ER2t5fUTW7WHAivqWR4OLzMPh8lmfQ/oyNPgnk=;
+ b=LUQXL1vgY7v9R0hQSJ9PH3mNjS6sP6dDyRPIPJQP4TRs25IzrbBEt7a0OlCohdNwQc
+ tVFUzoEg1sJw+VNAOxATTnR++6HfcrevCZhLKVyluSUZUoxY7R7V+/GHJXow97jVY94c
+ bj8c/7YumS/sUTIDpUi4vJKZCqNaYQnxX3j9eRswahc/q7O57UmQ8kVMSgCIc4v2RWV3
+ v+dnOGZptiWsywS8Va/6Wxv5RtQGH0ZT3XW085ZsGAbBorBqbl+4DWdjqe9mjvK68Pkn
+ CNlHi/XwCjx0N+Y071jUMaM7D3MzjnlmSUgKmKQ3lm3FrV9/MRJw463utnmDLtxwhdrO
+ lQjA==
+X-Gm-Message-State: AOAM530/8jjdALJrkK3bXPwg9nHdNcbRH456rnX1pqRP6OgOEcVUbWMB
+ OfmXqunlBz/2Yjg/F0VzYnv30n4iQpkEvI7EA8E=
+X-Google-Smtp-Source: ABdhPJySigL6XvispN5LW1bKT3WDpae16cHszjtl396vilx/Vswf/5CrdKdfFhRxpcYxNRImo/NcTw==
+X-Received: by 2002:a92:a801:: with SMTP id o1mr277529ilh.128.1631051628984;
  Tue, 07 Sep 2021 14:53:48 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.47
+ by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 14:53:47 -0700 (PDT)
+ Tue, 07 Sep 2021 14:53:48 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/42] bsd-user: Eliminate elf personality
-Date: Tue,  7 Sep 2021 15:53:01 -0600
-Message-Id: <20210907215332.30737-12-imp@bsdimp.com>
+Subject: [PULL 12/42] bsd-user: remove a.out support
+Date: Tue,  7 Sep 2021 15:53:02 -0600
+Message-Id: <20210907215332.30737-13-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210907215332.30737-1-imp@bsdimp.com>
 References: <20210907215332.30737-1-imp@bsdimp.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d29;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd29.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12f;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -82,169 +83,298 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kevans@freebsd.org, Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@bsdimp.com>
 
-The linux kernel supports a number of different ELF binaries. The Linux userland
-emulator inheritted some of that. And we inheritted it from there. However, for
-BSD there's only one kind of ELF file supported per platform, so there's no need
-to cope with historical quirks. Simply the code as a result.
+Remove still-born a.out support. The BSDs switched from a.out to ELF 20+ years
+ago. It's out of scope for bsd-user, and what little support there was would
+simply wind up at a not-implemented message. Simplify the whole mess by removing
+it entirely. Should future support be required, it would be better to start from
+scratch.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- bsd-user/elfload.c | 87 ----------------------------------------------
- bsd-user/qemu.h    |  1 -
- 2 files changed, 88 deletions(-)
+ bsd-user/bsdload.c |   9 +---
+ bsd-user/elfload.c | 105 ++++++++-------------------------------------
+ bsd-user/qemu.h    |   2 +-
+ 3 files changed, 21 insertions(+), 95 deletions(-)
 
+diff --git a/bsd-user/bsdload.c b/bsd-user/bsdload.c
+index 32f7fd5dec..6aefc7a28b 100644
+--- a/bsd-user/bsdload.c
++++ b/bsd-user/bsdload.c
+@@ -98,7 +98,7 @@ static int prepare_binprm(struct bsd_binprm *bprm)
+ 
+ /* Construct the envp and argv tables on the target stack.  */
+ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
+-                              abi_ulong stringp, int push_ptr)
++                              abi_ulong stringp)
+ {
+     int n = sizeof(abi_ulong);
+     abi_ulong envp;
+@@ -108,13 +108,6 @@ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
+     envp = sp;
+     sp -= (argc + 1) * n;
+     argv = sp;
+-    if (push_ptr) {
+-        /* FIXME - handle put_user() failures */
+-        sp -= n;
+-        put_user_ual(envp, sp);
+-        sp -= n;
+-        put_user_ual(argv, sp);
+-    }
+     sp -= n;
+     /* FIXME - handle put_user() failures */
+     put_user_ual(argc, sp);
 diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-index 639673f5b7..e950732978 100644
+index e950732978..4f3fa83c2c 100644
 --- a/bsd-user/elfload.c
 +++ b/bsd-user/elfload.c
-@@ -25,66 +25,6 @@
+@@ -52,25 +52,6 @@
  
- #include "target_arch_elf.h"
+ #include "elf.h"
  
--/* from personality.h */
--
--/*
-- * Flags for bug emulation.
-- *
-- * These occupy the top three bytes.
-- */
--enum {
--        ADDR_NO_RANDOMIZE =     0x0040000,      /* disable randomization of VA space */
--        FDPIC_FUNCPTRS =        0x0080000,      /* userspace function ptrs point to descriptors
--                                                 * (signal handling)
--                                                 */
--        MMAP_PAGE_ZERO =        0x0100000,
--        ADDR_COMPAT_LAYOUT =    0x0200000,
--        READ_IMPLIES_EXEC =     0x0400000,
--        ADDR_LIMIT_32BIT =      0x0800000,
--        SHORT_INODE =           0x1000000,
--        WHOLE_SECONDS =         0x2000000,
--        STICKY_TIMEOUTS =       0x4000000,
--        ADDR_LIMIT_3GB =        0x8000000,
+-struct exec
+-{
+-  unsigned int a_info;   /* Use macros N_MAGIC, etc for access */
+-  unsigned int a_text;   /* length of text, in bytes */
+-  unsigned int a_data;   /* length of data, in bytes */
+-  unsigned int a_bss;    /* length of uninitialized data area, in bytes */
+-  unsigned int a_syms;   /* length of symbol table data in file, in bytes */
+-  unsigned int a_entry;  /* start address */
+-  unsigned int a_trsize; /* length of relocation info for text, in bytes */
+-  unsigned int a_drsize; /* length of relocation info for data, in bytes */
 -};
 -
--/*
-- * Personality types.
-- *
-- * These go in the low byte.  Avoid using the top bit, it will
-- * conflict with error returns.
-- */
--enum {
--        PER_LINUX =             0x0000,
--        PER_LINUX_32BIT =       0x0000 | ADDR_LIMIT_32BIT,
--        PER_LINUX_FDPIC =       0x0000 | FDPIC_FUNCPTRS,
--        PER_SVR4 =              0x0001 | STICKY_TIMEOUTS | MMAP_PAGE_ZERO,
--        PER_SVR3 =              0x0002 | STICKY_TIMEOUTS | SHORT_INODE,
--        PER_SCOSVR3 =           0x0003 | STICKY_TIMEOUTS |
--                                         WHOLE_SECONDS | SHORT_INODE,
--        PER_OSR5 =              0x0003 | STICKY_TIMEOUTS | WHOLE_SECONDS,
--        PER_WYSEV386 =          0x0004 | STICKY_TIMEOUTS | SHORT_INODE,
--        PER_ISCR4 =             0x0005 | STICKY_TIMEOUTS,
--        PER_BSD =               0x0006,
--        PER_SUNOS =             0x0006 | STICKY_TIMEOUTS,
--        PER_XENIX =             0x0007 | STICKY_TIMEOUTS | SHORT_INODE,
--        PER_LINUX32 =           0x0008,
--        PER_LINUX32_3GB =       0x0008 | ADDR_LIMIT_3GB,
--        PER_IRIX32 =            0x0009 | STICKY_TIMEOUTS,/* IRIX5 32-bit */
--        PER_IRIXN32 =           0x000a | STICKY_TIMEOUTS,/* IRIX6 new 32-bit */
--        PER_IRIX64 =            0x000b | STICKY_TIMEOUTS,/* IRIX6 64-bit */
--        PER_RISCOS =            0x000c,
--        PER_SOLARIS =           0x000d | STICKY_TIMEOUTS,
--        PER_UW7 =               0x000e | STICKY_TIMEOUTS | MMAP_PAGE_ZERO,
--        PER_OSF4 =              0x000f,                  /* OSF/1 v4 */
--        PER_HPUX =              0x0010,
--        PER_MASK =              0x00ff,
--};
 -
--/*
-- * Return the base personality without flags.
-- */
--#define personality(pers)       (pers & PER_MASK)
+-#define N_MAGIC(exec) ((exec).a_info & 0xffff)
+-#define OMAGIC 0407
+-#define NMAGIC 0410
+-#define ZMAGIC 0413
+-#define QMAGIC 0314
 -
- /* this flag is uneffective under linux too, should be deleted */
- #ifndef MAP_DENYWRITE
- #define MAP_DENYWRITE 0
-@@ -750,7 +690,6 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+ /* max code+data+bss space allocated to elf interpreter */
+ #define INTERP_MAP_SIZE (32 * 1024 * 1024)
+ 
+@@ -82,10 +63,6 @@ struct exec
+ #define TARGET_ELF_PAGESTART(_v) ((_v) & ~(unsigned long)(TARGET_ELF_EXEC_PAGESIZE - 1))
+ #define TARGET_ELF_PAGEOFFSET(_v) ((_v) & (TARGET_ELF_EXEC_PAGESIZE - 1))
+ 
+-#define INTERPRETER_NONE 0
+-#define INTERPRETER_AOUT 1
+-#define INTERPRETER_ELF 2
+-
+ #define DLINFO_ITEMS 12
+ 
+ static inline void memcpy_fromfs(void *to, const void *from, unsigned long n)
+@@ -93,8 +70,6 @@ static inline void memcpy_fromfs(void *to, const void *from, unsigned long n)
+         memcpy(to, from, n);
+ }
+ 
+-static int load_aout_interp(void *exptr, int interp_fd);
+-
+ #ifdef BSWAP_NEEDED
+ static void bswap_ehdr(struct elfhdr *ehdr)
+ {
+@@ -300,7 +275,7 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+                                    struct elfhdr * exec,
+                                    abi_ulong load_addr,
+                                    abi_ulong load_bias,
+-                                   abi_ulong interp_load_addr, int ibcs,
++                                   abi_ulong interp_load_addr,
+                                    struct image_info *info)
+ {
+         abi_ulong sp;
+@@ -330,7 +305,7 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+         size += DLINFO_ARCH_ITEMS * 2;
+ #endif
+         size += envc + argc + 2;
+-        size += (!ibcs ? 3 : 1);        /* argc itself */
++        size += 1;        /* argc itself */
+         size *= n;
+         if (size & 15)
+                 sp -= 16 - (size & 15);
+@@ -370,7 +345,7 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+ #endif
+ #undef NEW_AUX_ENT
+ 
+-        sp = loader_build_argptr(envc, argc, sp, p, !ibcs);
++        sp = loader_build_argptr(envc, argc, sp, p);
+         return sp;
+ }
+ 
+@@ -432,7 +407,7 @@ static abi_ulong load_elf_interp(struct elfhdr *interp_elf_ex,
+     if (retval < 0) {
+         perror("load_elf_interp");
+         exit(-1);
+-        free (elf_phdata);
++        free(elf_phdata);
+         return retval;
+     }
+ #ifdef BSWAP_NEEDED
+@@ -685,11 +660,9 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+ {
+     struct elfhdr elf_ex;
+     struct elfhdr interp_elf_ex;
+-    struct exec interp_ex;
+     int interpreter_fd = -1; /* avoid warning */
      abi_ulong load_addr, load_bias;
      int load_addr_set = 0;
-     unsigned int interpreter_type = INTERPRETER_NONE;
--    unsigned char ibcs2_interpreter;
+-    unsigned int interpreter_type = INTERPRETER_NONE;
      int i;
      struct elf_phdr * elf_ppnt;
      struct elf_phdr *elf_phdata;
-@@ -765,7 +704,6 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+@@ -702,7 +675,6 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+ #ifdef LOW_ELF_STACK
+     abi_ulong elf_stack = ~((abi_ulong)0UL);
  #endif
-     char passed_fileno[6];
+-    char passed_fileno[6];
  
--    ibcs2_interpreter = 0;
      load_addr = 0;
      load_bias = 0;
-     elf_ex = *((struct elfhdr *) bprm->buf);          /* exec-header */
-@@ -856,20 +794,6 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
-                 exit(-1);
-             }
+@@ -760,7 +732,6 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+     end_code = 0;
+     start_data = 0;
+     end_data = 0;
+-    interp_ex.a_info = 0;
  
--            /* If the program interpreter is one of these two,
--               then assume an iBCS2 image. Otherwise assume
--               a native linux image. */
--
--            /* JRP - Need to add X86 lib dir stuff here... */
--
--            if (strcmp(elf_interpreter, "/usr/lib/libc.so.1") == 0 ||
--                strcmp(elf_interpreter, "/usr/lib/ld.so.1") == 0) {
--              ibcs2_interpreter = 1;
--            }
--
--#if 0
--            printf("Using ELF interpreter %s\n", path(elf_interpreter));
--#endif
+     for (i = 0;i < elf_ex.e_phnum; i++) {
+         if (elf_ppnt->p_type == PT_INTERP) {
+@@ -813,7 +784,6 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+                 }
+             }
              if (retval >= 0) {
-                 retval = open(path(elf_interpreter), O_RDONLY);
-                 if (retval >= 0) {
-@@ -1099,7 +1023,6 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+-                interp_ex = *((struct exec *) bprm->buf); /* aout exec-header */
+                 interp_elf_ex = *((struct elfhdr *) bprm->buf); /* elf exec-header */
+             }
+             if (retval < 0) {
+@@ -830,20 +800,8 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+ 
+     /* Some simple consistency checks for the interpreter */
+     if (elf_interpreter) {
+-        interpreter_type = INTERPRETER_ELF | INTERPRETER_AOUT;
+-
+-        /* Now figure out which format our binary is */
+-        if ((N_MAGIC(interp_ex) != OMAGIC) && (N_MAGIC(interp_ex) != ZMAGIC) &&
+-                (N_MAGIC(interp_ex) != QMAGIC)) {
+-            interpreter_type = INTERPRETER_ELF;
+-        }
+-
+         if (interp_elf_ex.e_ident[0] != 0x7f ||
+-                strncmp((char *)&interp_elf_ex.e_ident[1], "ELF", 3) != 0) {
+-            interpreter_type &= ~INTERPRETER_ELF;
+-        }
+-
+-        if (!interpreter_type) {
++            strncmp((char *)&interp_elf_ex.e_ident[1], "ELF", 3) != 0) {
+             free(elf_interpreter);
+             free(elf_phdata);
+             close(bprm->fd);
+@@ -854,24 +812,11 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+     /* OK, we are done with that, now set up the arg stuff,
+        and then start this sucker up */
+ 
+-    {
+-        char *passed_p;
+-
+-        if (interpreter_type == INTERPRETER_AOUT) {
+-            snprintf(passed_fileno, sizeof(passed_fileno), "%d", bprm->fd);
+-            passed_p = passed_fileno;
+-
+-            if (elf_interpreter) {
+-                bprm->p = copy_elf_strings(1, &passed_p, bprm->page, bprm->p);
+-                bprm->argc++;
+-            }
+-        }
+-        if (!bprm->p) {
+-            free(elf_interpreter);
+-            free(elf_phdata);
+-            close(bprm->fd);
+-            return -E2BIG;
+-        }
++    if (!bprm->p) {
++        free(elf_interpreter);
++        free(elf_phdata);
++        close(bprm->fd);
++        return -E2BIG;
+     }
+ 
+     /* OK, This is the point of no return */
+@@ -997,13 +942,8 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+     end_data += load_bias;
+ 
+     if (elf_interpreter) {
+-        if (interpreter_type & 1) {
+-            elf_entry = load_aout_interp(&interp_ex, interpreter_fd);
+-        }
+-        else if (interpreter_type & 2) {
+-            elf_entry = load_elf_interp(&interp_elf_ex, interpreter_fd,
+-                                            &interp_load_addr);
+-        }
++        elf_entry = load_elf_interp(&interp_elf_ex, interpreter_fd,
++                                    &interp_load_addr);
+         reloc_func_desc = interp_load_addr;
+ 
+         close(interpreter_fd);
+@@ -1022,19 +962,18 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+     if (qemu_log_enabled())
          load_symbols(&elf_ex, bprm->fd);
  
-     if (interpreter_type != INTERPRETER_AOUT) close(bprm->fd);
--    info->personality = (ibcs2_interpreter ? PER_SVR4 : PER_LINUX);
+-    if (interpreter_type != INTERPRETER_AOUT) close(bprm->fd);
++    close(bprm->fd);
  
  #ifdef LOW_ELF_STACK
      info->start_stack = bprm->p = elf_stack - 4;
-@@ -1135,16 +1058,6 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
-     printf("(brk) %x\n" , info->brk);
  #endif
- 
--    if (info->personality == PER_SVR4)
--    {
--            /* Why this, you ask???  Well SVr4 maps page 0 as read-only,
--               and some applications "depend" upon this behavior.
--               Since we do not have the power to recompile these, we
--               emulate the SVr4 behavior.  Sigh.  */
--            target_mmap(0, qemu_host_page_size, PROT_READ | PROT_EXEC,
--                                      MAP_FIXED | MAP_PRIVATE, -1, 0);
--    }
--
-     info->entry = elf_entry;
- 
+     bprm->p = create_elf_tables(bprm->p,
+-                    bprm->argc,
+-                    bprm->envc,
+-                    &elf_ex,
+-                    load_addr, load_bias,
+-                    interp_load_addr,
+-                    (interpreter_type == INTERPRETER_AOUT ? 0 : 1),
+-                    info);
++                                bprm->argc,
++                                bprm->envc,
++                                &elf_ex,
++                                load_addr, load_bias,
++                                interp_load_addr,
++                                info);
+     info->load_addr = reloc_func_desc;
+     info->start_brk = info->brk = elf_brk;
+     info->end_code = end_code;
+@@ -1063,12 +1002,6 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
      return 0;
+ }
+ 
+-static int load_aout_interp(void *exptr, int interp_fd)
+-{
+-    printf("a.out interpreter not yet supported\n");
+-    return(0);
+-}
+-
+ void do_init_thread(struct target_pt_regs *regs, struct image_info *infop)
+ {
+     init_thread(regs, infop);
 diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 6b601ce4b5..e85c164bab 100644
+index e85c164bab..d1ab58a8eb 100644
 --- a/bsd-user/qemu.h
 +++ b/bsd-user/qemu.h
-@@ -66,7 +66,6 @@ struct image_info {
-     abi_ulong entry;
-     abi_ulong code_offset;
-     abi_ulong data_offset;
--    int       personality;
- };
+@@ -129,7 +129,7 @@ struct bsd_binprm {
  
- #define MAX_SIGQUEUE_SIZE 1024
+ void do_init_thread(struct target_pt_regs *regs, struct image_info *infop);
+ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
+-                              abi_ulong stringp, int push_ptr);
++                              abi_ulong stringp);
+ int loader_exec(const char *filename, char **argv, char **envp,
+                 struct target_pt_regs *regs, struct image_info *infop,
+                 struct bsd_binprm *bprm);
 -- 
 2.32.0
 
