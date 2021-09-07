@@ -2,44 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D8E402A4D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:58:45 +0200 (CEST)
-Received: from localhost ([::1]:60792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 078C2402A1E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:49:04 +0200 (CEST)
+Received: from localhost ([::1]:35204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNbca-00067p-Hi
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:58:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41936)
+	id 1mNbTC-0005XX-Mu
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:49:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mNb0o-0004Ji-CV; Tue, 07 Sep 2021 09:19:42 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106]:62609)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mNb2e-0007sY-FT
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:21:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mNb0l-0004M0-U6; Tue, 07 Sep 2021 09:19:41 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id D1FCB445F7;
- Tue,  7 Sep 2021 15:19:28 +0200 (CEST)
-Subject: Re: [PATCH v3] qemu-sockets: fix unix socket path copy (again)
-To: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org
-References: <20210901131624.46171-1-mjt@msgid.tls.msk.ru>
-From: Stefan Reiter <s.reiter@proxmox.com>
-Message-ID: <4f9e8064-c346-3c54-fa94-1b6a641f9971@proxmox.com>
-Date: Tue, 7 Sep 2021 15:19:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mNb2c-0005Vs-LN
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:21:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631020893;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kmGcQ8ycBbHI/lCJq6QqUju6yN1qIo5hni6cMUlhaQY=;
+ b=brD+b/hSyy2/J+VZbZMhOm/Cvv1OiaS/9f3RRULbsGOe3bMYdXF/9fBjrMJZThmGTYt+TC
+ t3/TG/urcSGpxyI0yEv7LIHhAgn1RfRKFJgMM4pIQNMe/Yvm2CJEVw38INmV64e552iIo6
+ Dk6XXw0TRXChv+yxfO6XlzNZV3Fd4FA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-519-ZLSLH3W9MoCsvEKN6DA_0A-1; Tue, 07 Sep 2021 09:21:27 -0400
+X-MC-Unique: ZLSLH3W9MoCsvEKN6DA_0A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12B96107ACC7;
+ Tue,  7 Sep 2021 13:21:26 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.246])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AFE045D9DE;
+ Tue,  7 Sep 2021 13:21:20 +0000 (UTC)
+Date: Tue, 7 Sep 2021 14:21:19 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: John Johnson <john.g.johnson@oracle.com>
+Subject: Re: [PATCH RFC v2 04/16] vfio-user: connect vfio proxy to remote
+ server
+Message-ID: <YTdnT27fLn4nwp2n@stefanha-x1.localdomain>
+References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
+ <e9fa92081e0faf49089f4afb9a45187e49ea4bad.1629131628.git.elena.ufimtseva@oracle.com>
+ <YST++FLqV02TlusW@stefanha-x1.localdomain>
+ <924FF1F2-E7AF-4044-B5A4-94A2F1504110@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20210901131624.46171-1-mjt@msgid.tls.msk.ru>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=s.reiter@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.332,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <924FF1F2-E7AF-4044-B5A4-94A2F1504110@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Gk6BKDPR5tvLrA2F"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,98 +82,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-stable@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Jag Raman <jag.raman@oracle.com>, Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John Levon <john.levon@nutanix.com>,
+ QEMU Devel Mailing List <qemu-devel@nongnu.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for the patch, ran into the same issue here and was
-about to send my own ;)
+--Gk6BKDPR5tvLrA2F
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 9/1/21 3:16 PM, Michael Tokarev wrote:
-> Commit 4cfd970ec188558daa6214f26203fe553fb1e01f added an
-> assert which ensures the path within an address of a unix
-> socket returned from the kernel is at least one byte and
-> does not exceed sun_path buffer. Both of this constraints
-> are wrong:
-> 
-> A unix socket can be unnamed, in this case the path is
-> completely empty (not even \0)
-> 
-> And some implementations (notable linux) can add extra
-> trailing byte (\0) _after_ the sun_path buffer if we
-> passed buffer larger than it (and we do).
-> 
-> So remove the assertion (since it causes real-life breakage)
-> but at the same time fix the usage of sun_path. Namely,
-> we should not access sun_path[0] if kernel did not return
-> it at all (this is the case for unnamed sockets),
-> and use the returned salen when copyig actual path as an
-> upper constraint for the amount of bytes to copy - this
-> will ensure we wont exceed the information provided by
-> the kernel, regardless whenever there is a trailing \0
-> or not. This also helps with unnamed sockets.
-> 
-> Note the case of abstract socket, the sun_path is actually
-> a blob and can contain \0 characters, - it should not be
-> passed to g_strndup and the like, it should be accessed by
-> memcpy-like functions.
+On Mon, Aug 30, 2021 at 03:00:37AM +0000, John Johnson wrote:
+> > On Aug 24, 2021, at 7:15 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
+e:
+> > On Mon, Aug 16, 2021 at 09:42:37AM -0700, Elena Ufimtseva wrote:
+> >> +    proxy->ioc =3D ioc;
+> >> +    proxy->flags =3D VFIO_PROXY_CLIENT;
+> >> +    proxy->state =3D VFIO_PROXY_CONNECTED;
+> >> +    qemu_cond_init(&proxy->close_cv);
+> >> +
+> >> +    if (vfio_user_iothread =3D=3D NULL) {
+> >> +        vfio_user_iothread =3D iothread_create("VFIO user", errp);
+> >> +    }
+> >=20
+> > Why is a dedicated IOThread needed for VFIO user?
+> >=20
+>=20
+> =09It seemed the best model for inbound message processing.  Most message=
+s
+> are replies, so the receiver will either signal a thread waiting the repl=
+y or
+> report any errors from the server if there is no waiter.  None of this re=
+quires
+> the BQL.
+>=20
+> =09If the message is a request - which currently only happens if device
+> DMA targets guest memory that wasn=E2=80=99t mmap()d by QEMU or if the =
+=E2=80=99secure-dma=E2=80=99
+> option is used - then the receiver can then acquire BQL so it can call th=
+e
+> VFIO code to handle the request.
 
-I know this is already applied now, but I noticed that you
-don't actually follow through on that part - g_strndup is
-still used in both cases for sun_path.
+QEMU is generally event-driven and the APIs are designed for that style.
+Threads in QEMU are there for parallelism or resource control,
+everything else is event-driven.
 
-Haven't run into a bug with this, just noting that the
-commit message is a bit confusing paired with the patch.
+It's not clear to me if there is a reason why the message processing
+must be done in a separate thread or whether it is just done this way
+because the code was written in multi-threaded style instead of
+event-driven style.
 
-Might be a bit tricky though, as all callers would need to
-be careful too...
+You mentioned other threads waiting for replies. Which threads are they?
 
-> 
-> Fixes: 4cfd970ec188558daa6214f26203fe553fb1e01f
-> Fixes: http://bugs.debian.org/993145
-> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-> CC: qemu-stable@nongnu.org
-> ---
->   util/qemu-sockets.c | 13 +++++--------
->   1 file changed, 5 insertions(+), 8 deletions(-)
-> 
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index f2f3676d1f..c5043999e9 100644
-> --- a/util/qemu-sockets.c
-> +++ b/util/qemu-sockets.c
-> @@ -1345,25 +1345,22 @@ socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
->       SocketAddress *addr;
->       struct sockaddr_un *su = (struct sockaddr_un *)sa;
->   
-> -    assert(salen >= sizeof(su->sun_family) + 1 &&
-> -           salen <= sizeof(struct sockaddr_un));
-> -
->       addr = g_new0(SocketAddress, 1);
->       addr->type = SOCKET_ADDRESS_TYPE_UNIX;
-> +    salen -= offsetof(struct sockaddr_un, sun_path);
->   #ifdef CONFIG_LINUX
-> -    if (!su->sun_path[0]) {
-> +    if (salen > 0 && !su->sun_path[0]) {
->           /* Linux abstract socket */
-> -        addr->u.q_unix.path = g_strndup(su->sun_path + 1,
-> -                                        salen - sizeof(su->sun_family) - 1);
-> +        addr->u.q_unix.path = g_strndup(su->sun_path + 1, salen - 1);
->           addr->u.q_unix.has_abstract = true;
->           addr->u.q_unix.abstract = true;
->           addr->u.q_unix.has_tight = true;
-> -        addr->u.q_unix.tight = salen < sizeof(*su);
-> +        addr->u.q_unix.tight = salen < sizeof(su->sun_path);
->           return addr;
->       }
->   #endif
->   
-> -    addr->u.q_unix.path = g_strndup(su->sun_path, sizeof(su->sun_path));
-> +    addr->u.q_unix.path = g_strndup(su->sun_path, salen);
->       return addr;
->   }
->   #endif /* WIN32 */
-> 
+> > Please use true. '1' is shorter but it's less obvious to the reader (I
+> > had to jump to the definition to check whether this field was bool or
+> > int).
+> >=20
+>=20
+> =09I assume this is also true for the other boolean struct members
+> I=E2=80=99ve added.
+
+Yes, please. QEMU uses bool and true/false.
+
+>=20
+>=20
+> >> +    aio_bh_schedule_oneshot(iothread_get_aio_context(vfio_user_iothre=
+ad),
+> >> +                            vfio_user_cb, proxy);
+> >> +
+> >> +    /* drop locks so the iothread can make progress */
+> >> +    qemu_mutex_unlock_iothread();
+> >=20
+> > Why does the BQL needs to be dropped so vfio_user_iothread can make
+> > progress?
+> >=20
+>=20
+> =09See above.  Acquiring BQL by the iothread is rare, but I have to
+> handle the case where a disconnect is concurrent with an incoming request
+> message that is waiting for the BQL.  See the proxy state check after BQL
+> is acquired in vfio_user_recv()
+
+Here is how this code looks when written using coroutines (this is from
+nbd/server.c):
+
+  static coroutine_fn void nbd_trip(void *opaque)
+  {
+      ...
+      req =3D nbd_request_get(client);
+      ret =3D nbd_co_receive_request(req, &request, &local_err);
+      client->recv_coroutine =3D NULL;
+ =20
+      if (client->closing) {
+          /*
+           * The client may be closed when we are blocked in
+           * nbd_co_receive_request()
+           */
+          goto done;
+      }
+
+It's the same check. The code is inverted: the server reads the next
+request using nbd_co_receive_request() (this coroutine function can
+yield while waiting for data on the socket).
+
+This way the network communication code doesn't need to know how
+messages will by processed by the client or server. There is no need for
+if (isreply) { qemu_cond_signal(&reply->cv); } else {
+proxy->request(proxy->reqarg, buf, &reqfds); }. The callbacks and
+threads aren't hardcoded into the network communication code.
+
+This goes back to the question earlier about why a dedicated thread is
+necessary here. I suggest writing the network communication code using
+coroutines. That way the code is easier to read (no callbacks or
+thread synchronization), there are fewer thread-safety issues to worry
+about, and users or management tools don't need to know about additional
+threads (e.g. CPU/NUMA affinity).
+
+Stefan
+
+--Gk6BKDPR5tvLrA2F
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE3Z08ACgkQnKSrs4Gr
+c8iIgwgAu8PEGzWjsCuoiH3QWbJQ76hOkBABUr9tcbzZYesMaMzI1F46WLZMsNru
+fLU5ha0UA0RVqyb91O2M9IrNSXF6XL4pBssZP77EshkQSoiXGkU7WEbiXhCxCavw
+t35Ozbz1jI6bU5lPrB5zhQENNyRrfcHj9h+99n68SFLMSGPr9l4DZfta3lMwfKX8
+b1dse9OGavvjqwejvFh9udbLAJEnSjKq7SNztb1dfy6cXHaizJNfx5uuV20xysz6
+m6Zo1QFacSeFGCVKXLZQAEiNJqfIbIYUkbkHrHL5IijAAn8ot1AK9CYrJRymVKD7
+wT1G08g7FvbmYewRc/RQ1wLR1NhMRQ==
+=Nmjv
+-----END PGP SIGNATURE-----
+
+--Gk6BKDPR5tvLrA2F--
 
 
