@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F0C402FD6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 22:38:44 +0200 (CEST)
-Received: from localhost ([::1]:51938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0AC3402FDA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 22:44:37 +0200 (CEST)
+Received: from localhost ([::1]:56662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNhre-0005rR-Mh
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 16:38:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49996)
+	id 1mNhxM-0000ua-7i
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 16:44:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mNhq7-0004XS-Jk
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 16:37:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33907)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mNhv7-0007Ud-Fr
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 16:42:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mNhq5-0000ed-2K
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 16:37:06 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mNhv5-0003fK-KK
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 16:42:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631047022;
+ s=mimecast20190719; t=1631047334;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=r0mIVp1Yli1I4yEYozPSJjOGyElRH6OMi+Y+2UCDPwE=;
- b=IWKWomjEPLfQDpva1kchHEanf/2uNn/7PQShnluQ5KUw1sq7wGBpcGriIZ3WUTojzPbhfR
- wEezRrCfw9HPIfLFJTQ6Q8wFlq31MfnJPClo64mzItfMzFFd+nxoQZHXGExb3a3ku/UhOR
- LmXfEiV7llwAMTXcGEIFNuUM16xx8Uc=
+ bh=16J/uN4kM9fmWTvVNf63fladX6PRrNGyj6CFqx9K3ZI=;
+ b=f6B6IqJrjV+BcUA9vzJGDBH+v1wk7yrcXuYVLi6XYsDqxMNtFmZH0H92N+YsCyNJSOQIar
+ WFg+9hiVrKwC22r5PaZi/++5AAXKSspoUvsEFssoaRr+8PIzYBer1s0sEiES2Oe9XMpAek
+ tr66gZ9eL/7xgCxrbpKsyuITN3jg77E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-CyqpfilUOheWLboE8L93GQ-1; Tue, 07 Sep 2021 16:36:59 -0400
-X-MC-Unique: CyqpfilUOheWLboE8L93GQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-497-t8dLRznQMrS1DQ0mV5aAZQ-1; Tue, 07 Sep 2021 16:42:13 -0400
+X-MC-Unique: t8dLRznQMrS1DQ0mV5aAZQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDAD6800FF3;
- Tue,  7 Sep 2021 20:36:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D6A310054F6;
+ Tue,  7 Sep 2021 20:42:12 +0000 (UTC)
 Received: from redhat.com (ovpn-112-95.phx2.redhat.com [10.3.112.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EEDD66A902;
- Tue,  7 Sep 2021 20:36:56 +0000 (UTC)
-Date: Tue, 7 Sep 2021 15:36:55 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 99B3C1972E;
+ Tue,  7 Sep 2021 20:42:11 +0000 (UTC)
+Date: Tue, 7 Sep 2021 15:42:09 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 3/9] nbd: allow reconnect on open, with corresponding
- new options
-Message-ID: <20210907203655.smjfnr4bj72esd4v@redhat.com>
+Subject: Re: [PATCH v3 4/9] nbd/client-connection:
+ nbd_co_establish_connection(): return real error
+Message-ID: <20210907204209.dwkbue4xsset5qc5@redhat.com>
 References: <20210906190654.183421-1-vsementsov@virtuozzo.com>
- <20210906190654.183421-4-vsementsov@virtuozzo.com>
+ <20210906190654.183421-5-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210906190654.183421-4-vsementsov@virtuozzo.com>
+In-Reply-To: <20210906190654.183421-5-vsementsov@virtuozzo.com>
 User-Agent: NeoMutt/20210205-739-420e15
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,21 +83,29 @@ Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 06, 2021 at 10:06:48PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> It is useful when start of vm and start of nbd server are not
-> simple to sync.
+On Mon, Sep 06, 2021 at 10:06:49PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> The only user of errp is call to nbd_do_establish_connection() in
+> nbd_open(). The only way to cancel this call is through open_timer
+
+The only caller of nbd_do_establish_connection() that uses errp is
+nbd_open().
+
+> timeout. And for this case, user will be more interested in description
+> of last failed connect rather than in
+> "Connection attempt cancelled by other operation".
+> 
+> So, let's change behavior on cancel to return previous failure error if
+> available.
+> 
+> Do the same for non-blocking failure case. In this case we still don't
+> have a caller that is interested in errp. But let's be consistent.
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  qapi/block-core.json |  9 ++++++++-
->  block/nbd.c          | 45 +++++++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 52 insertions(+), 2 deletions(-)
->
+>  nbd/client-connection.c | 50 ++++++++++++++++++++++++++++-------------
+>  1 file changed, 34 insertions(+), 16 deletions(-)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
-
-This is when qemu is acting as NBD client (and does not affect qemu
-acting as NBD server).
 
 -- 
 Eric Blake, Principal Software Engineer
