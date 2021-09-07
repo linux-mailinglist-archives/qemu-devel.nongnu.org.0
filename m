@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645074028B6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 14:26:50 +0200 (CEST)
-Received: from localhost ([::1]:45392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DC64028CF
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 14:30:22 +0200 (CEST)
+Received: from localhost ([::1]:52268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNaBd-0007ax-Di
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 08:26:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42116)
+	id 1mNaF2-00040e-Uu
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 08:30:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mNa6J-0007ej-8T
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:21:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40450)
+ id 1mNa6T-00080E-EZ
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:21:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53656)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mNa6G-0006gQ-IW
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:21:18 -0400
+ id 1mNa6Q-0006kV-Kr
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:21:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631017276;
+ s=mimecast20190719; t=1631017285;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MdWjztreNk1HSfZb6qrkgsYAfbyLwZ8/w91WuKIhg24=;
- b=KJ+Pw2PtuEXXINPk8XnHXcrl8fNXDaeEtCVIfDN3IHTpQ2ZKxdwFawrcZ3KdyoE2VXuTBj
- o/6xxTztHutU2G1A09rp7uK/aa1JIPrf0DxzZ6o2QXXp4hSlx8KptPlAPsToq/UrjB3Qw0
- 6io5GpyfJfUzOAB3DHEmwVnGtP1Ok9U=
+ bh=JjfIS7D5gRlY8u0FConsY0Eqp5GrMUohAFdsVp3sruY=;
+ b=ViLOBIizEk9QdbBB88YGjKARHdaTvUqNvKHj7ZmRnPW3RKEwlUM9+SPFIm4V2bl8hWD6bi
+ 776BUnbAZvLBzXPZtNSJ8FKihwArMkE38UuNTfeH5AFk2KpejfUFODVT88QwjMX8h8f3sb
+ 5NxahAKzrbD8ao7PCEYRlceXSh52dKU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-lo3dDzczOC-GVelyvUgisA-1; Tue, 07 Sep 2021 08:21:11 -0400
-X-MC-Unique: lo3dDzczOC-GVelyvUgisA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-459-P1qsUGyAP-K7NWmjOvNxuw-1; Tue, 07 Sep 2021 08:21:24 -0400
+X-MC-Unique: P1qsUGyAP-K7NWmjOvNxuw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99A806D58F
- for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 12:21:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CBBF6D58A
+ for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 12:21:23 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2801C5D6CF;
- Tue,  7 Sep 2021 12:20:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 79AA61B46B;
+ Tue,  7 Sep 2021 12:21:14 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 06/32] scripts/qapi: add a CABI module
-Date: Tue,  7 Sep 2021 16:19:17 +0400
-Message-Id: <20210907121943.3498701-7-marcandre.lureau@redhat.com>
+Subject: [RFC v3 07/32] scripts/qapi: generate CABI dump for C types
+Date: Tue,  7 Sep 2021 16:19:18 +0400
+Message-Id: <20210907121943.3498701-8-marcandre.lureau@redhat.com>
 In-Reply-To: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
 References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -87,184 +87,127 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-This module will help to build C ABI tests for both Rust and C QAPI
-generated types.
-
-Currently, it will simply print basic struct layout (size and offset of
-members) and the enum size and maximum values. By diffing the output, it
-will help to ensure that the Rust definition is compatible with the C
-version, including with configuration specifics.
-
-Example output:
-
-GuestDeviceAddress struct: sizeof=16
- type member: sizeof=4 offset=0
-
-GuestDeviceAddressKind enum: sizeof=4
- max=1
+With type units, generate the C ABI dump functions (as blocks protected
+with QAPI_CABI define). The top-level function is qapi_cabi(), and it
+calls the sub-modules dump functions.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- meson.build          |   1 +
- scripts/qapi/cabi.py | 137 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 138 insertions(+)
- create mode 100644 scripts/qapi/cabi.py
+ scripts/qapi/types.py | 58 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 57 insertions(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 6e871af4d0..cbf3ce19ae 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1966,6 +1966,7 @@ hxtool = find_program('scripts/hxtool')
- shaderinclude = find_program('scripts/shaderinclude.pl')
- qapi_gen = find_program('scripts/qapi-gen.py')
- qapi_gen_depends = [ meson.source_root() / 'scripts/qapi/__init__.py',
-+                     meson.source_root() / 'scripts/qapi/cabi.py',
-                      meson.source_root() / 'scripts/qapi/commands.py',
-                      meson.source_root() / 'scripts/qapi/common.py',
-                      meson.source_root() / 'scripts/qapi/error.py',
-diff --git a/scripts/qapi/cabi.py b/scripts/qapi/cabi.py
-new file mode 100644
-index 0000000000..f33680477f
---- /dev/null
-+++ b/scripts/qapi/cabi.py
-@@ -0,0 +1,137 @@
-+#
-+# QAPI helper library
-+# C ABI verification test generator
-+#
-+# pylint: disable=too-few-public-methods
-+
-+from typing import List, Optional
-+
-+from .common import c_enum_const, c_name, mcgen
-+from .schema import (
-+    QAPISchemaEnumMember,
-+    QAPISchemaIfCond,
-+    QAPISchemaObjectType,
-+    QAPISchemaObjectTypeMember,
-+    QAPISchemaVariants,
+diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+index 831294fe42..7ac3645d18 100644
+--- a/scripts/qapi/types.py
++++ b/scripts/qapi/types.py
+@@ -13,8 +13,15 @@
+ # See the COPYING file in the top-level directory.
+ """
+ 
+-from typing import List, Optional
++from pathlib import Path
++from typing import (
++    Dict,
++    List,
++    Optional,
++    Set,
 +)
+ 
++from .cabi import CABI, CABIEnum, gen_object_cabi
+ from .common import c_enum_const, c_name, mcgen
+ from .gen import QAPISchemaModularCVisitor, ifcontext
+ from .schema import (
+@@ -22,6 +29,7 @@
+     QAPISchemaEnumMember,
+     QAPISchemaFeature,
+     QAPISchemaIfCond,
++    QAPISchemaModule,
+     QAPISchemaObjectType,
+     QAPISchemaObjectTypeMember,
+     QAPISchemaType,
+@@ -265,6 +273,13 @@ def __init__(self, prefix: str):
+         super().__init__(
+             prefix, 'qapi-types', ' * Schema-defined QAPI types',
+             ' * Built-in QAPI types', __doc__)
++        self._cabi_functions: List[str] = []
++        self._cabi_functions_called: Set[str] = set()
++        self._cabi: Dict[str, CABI] = {}
 +
++    def _cabi_add(self, cabis: List[CABI]) -> None:
++        for cabi in cabis:
++            self._cabi.setdefault(cabi.name, cabi)
+ 
+     def _begin_builtin_module(self) -> None:
+         self._genc.preamble_add(mcgen('''
+@@ -295,6 +310,43 @@ def visit_begin(self, schema: QAPISchema) -> None:
+         # gen_object() is recursive, ensure it doesn't visit the empty type
+         objects_seen.add(schema.the_empty_object_type.name)
+ 
++    def _get_qapi_cabi_fn(self, name: str) -> str:
++        fn_name = 'qapi_cabi'
++        if QAPISchemaModule.is_builtin_module(name):
++            fn_name += '_builtin'
++        elif name != self._main_module:
++            name = Path(name).stem
++            fn_name += '_' + c_name(name)
++        return fn_name
 +
-+class CABI:
-+    def __init__(self, name: str, ifcond: QAPISchemaIfCond):
-+        self.name = name
-+        self.ifcond = ifcond
++    def visit_include(self, name: str, info: Optional[QAPISourceInfo]) -> None:
++        super().visit_include(name, info)
++        cabi_fn = self._get_qapi_cabi_fn(name)
++        if cabi_fn not in self._cabi_functions_called:
++            self._cabi_functions.append(cabi_fn)
 +
-+    def gen_c(self) -> str:
-+        raise NotImplementedError()
++    def visit_module_end(self, name: str) -> None:
++        cabi_gen = "".join(f'    {fn}();\n' for fn in self._cabi_functions)
++        self._cabi_functions_called |= set(self._cabi_functions)
++        self._cabi_functions = []
++        cabi_gen += "".join([c.gen_c() for _, c in sorted(self._cabi.items())])
++        self._cabi = {}
++        fn_name = self._get_qapi_cabi_fn(name)
++        self._genh.add(mcgen('''
 +
++#ifdef QAPI_CABI
++void %(fn_name)s(void);
++#endif
++''', fn_name=fn_name))
++        self._genc.add(mcgen('''
 +
-+class CABIEnum(CABI):
-+    def __init__(
-+        self,
-+        name: str,
-+        ifcond: QAPISchemaIfCond,
-+        members: List[QAPISchemaEnumMember],
-+        prefix: Optional[str] = None,
-+    ):
-+        super().__init__(name, ifcond)
-+        self.members = members
-+        self.prefix = prefix
++#ifdef QAPI_CABI
++void %(fn_name)s(void) {
++%(cabi_gen)s
++}
++#endif
++''', fn_name=fn_name, cabi_gen=cabi_gen))
 +
-+    def gen_c(self) -> str:
-+        last = c_enum_const(self.name, "_MAX", self.prefix)
-+        ret = self.ifcond.gen_if()
-+        ret += mcgen("""
-+    printf("%(name)s enum: sizeof=%%zu\\n", sizeof(%(cname)s));
-+    printf(" max=%%d\\n", %(last)s);
-+    printf("\\n");
-+""", name=self.name, cname=c_name(self.name), last=last)
-+        ret += self.ifcond.gen_endif()
-+        return ret
-+
-+
-+class CABIStruct(CABI):
-+    def __init__(self, name: str, ifcond: QAPISchemaIfCond):
-+        super().__init__(name, ifcond)
-+        self.members: List[CABIStructMember] = []
-+
-+    def add_members(self, members: List[QAPISchemaObjectTypeMember]) -> None:
-+        for memb in members:
-+            if memb.optional:
-+                self.add_member(memb.name, memb.ifcond, "has_")
-+            self.add_member(memb.name, memb.ifcond)
-+
-+    def add_variants(self, variants: QAPISchemaVariants) -> None:
-+        for var in variants.variants:
-+            if var.type.name == "q_empty":
-+                continue
-+            self.add_member(var.name, var.ifcond, "u.")
-+
-+    def add_member(self, member: str,
-+                   ifcond: Optional[QAPISchemaIfCond] = None,
-+                   prefix: str = '') -> None:
-+        self.members.append(CABIStructMember(self, member, ifcond, prefix))
-+
-+    def gen_c(self) -> str:
-+        ret = self.ifcond.gen_if()
-+        ret += mcgen("""
-+    printf("%(name)s struct: sizeof=%%zu\\n", sizeof(%(name)s));
-+""", name=self.name)
-+        for member in self.members:
-+            ret += member.gen_c()
-+        ret += mcgen("""
-+    printf("\\n");
-+""")
-+        ret += self.ifcond.gen_endif()
-+        return ret
-+
-+
-+class CABIStructMember:
-+    def __init__(self, struct: CABIStruct, name: str,
-+                 ifcond: Optional[QAPISchemaIfCond] = None,
-+                 prefix: str = ''):
-+        self.struct = struct
-+        self.name = name
-+        self.ifcond = ifcond or QAPISchemaIfCond()
-+        self.prefix = prefix
-+
-+    def gen_c(self) -> str:
-+        ret = self.ifcond.gen_if()
-+        cmember = self.prefix + c_name(self.name)
-+        ret += mcgen("""
-+    printf(" %(member)s member: sizeof=%%zu offset=%%zu\\n",
-+            G_SIZEOF_MEMBER(struct %(sname)s, %(cmember)s),
-+            offsetof(struct %(sname)s, %(cmember)s));
-+""", member=self.name, sname=self.struct.name, cmember=cmember)
-+        ret += self.ifcond.gen_endif()
-+        return ret
-+
-+
-+def gen_object_cabi(
-+    name: str,
-+    ifcond: QAPISchemaIfCond,
-+    base: Optional[QAPISchemaObjectType],
-+    members: List[QAPISchemaObjectTypeMember],
-+    variants: Optional[QAPISchemaVariants],
-+) -> List[CABI]:
-+    if name == 'q_empty':
-+        return []
-+    ret = []
-+    for var in variants.variants if variants else ():
-+        obj = var.type
-+        if not isinstance(obj, QAPISchemaObjectType):
-+            continue
-+        ret.extend(
-+            gen_object_cabi(
-+                obj.name, obj.ifcond, obj.base, obj.local_members, obj.variants
-+            )
-+        )
-+    cabi = CABIStruct(c_name(name), ifcond)
-+    if base:
-+        cabi.add_members(base.members)
-+    cabi.add_members(members)
-+    if variants:
-+        cabi.add_variants(variants)
-+    if (not base or base.is_empty()) and not members and not variants:
-+        cabi.add_member('qapi_dummy_for_empty_struct')
-+    ret.append(cabi)
-+    return ret
+     def _gen_type_cleanup(self, name: str) -> None:
+         self._genh.add(gen_type_cleanup_decl(name))
+         self._genc.add(gen_type_cleanup(name))
+@@ -309,6 +361,7 @@ def visit_enum_type(self,
+         with ifcontext(ifcond, self._genh, self._genc):
+             self._genh.preamble_add(gen_enum(name, members, prefix))
+             self._genc.add(gen_enum_lookup(name, members, prefix))
++        self._cabi_add([CABIEnum(name, ifcond, members, prefix)])
+ 
+     def visit_array_type(self,
+                          name: str,
+@@ -334,6 +387,7 @@ def visit_object_type(self,
+         with ifcontext(ifcond, self._genh):
+             self._genh.preamble_add(gen_fwd_object_or_array(name))
+         self._genh.add(gen_object(name, ifcond, base, members, variants))
++        self._cabi_add(gen_object_cabi(name, ifcond, base, members, variants))
+         with ifcontext(ifcond, self._genh, self._genc):
+             if base and not base.is_implicit():
+                 self._genh.add(gen_upcast(name, base))
+@@ -353,6 +407,8 @@ def visit_alternate_type(self,
+             self._genh.preamble_add(gen_fwd_object_or_array(name))
+         self._genh.add(gen_object(name, ifcond, None,
+                                   [variants.tag_member], variants))
++        self._cabi_add(gen_object_cabi(name, ifcond, None,
++                                       [variants.tag_member], variants))
+         with ifcontext(ifcond, self._genh, self._genc):
+             self._gen_type_cleanup(name)
+ 
 -- 
 2.33.0.113.g6c40894d24
 
