@@ -2,90 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA962402711
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 12:22:27 +0200 (CEST)
-Received: from localhost ([::1]:52520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCEC2402712
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 12:23:11 +0200 (CEST)
+Received: from localhost ([::1]:55484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNYFG-0003Qm-Uc
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 06:22:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40878)
+	id 1mNYFy-0005RP-SV
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 06:23:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNYDD-0002Qy-3x
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:20:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57176)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNYDB-0000yr-M8
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:20:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631010015;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NRNInx7vUzsisgZPFyAYXt3Ei5qwj9SPX3Hi5nzLxWY=;
- b=YtoXJoJSwEMSDZIAYIAmpZE59F7HCRDeaVEvDn1GEmDAO1O1JRJC2/jJl5CMePFjlK3Sfe
- OvWpx0Qz4suHTKi5xQ26vwpIUWqXfJtqYMV1kG1yJa8Mf3IzRzB1h6lvtJfB4UuwENmCoP
- yxwY2uGbno4j47DOh4R4jeMYzYDqBCA=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-lPNeJCUJNHC8Bwe0qXXseA-1; Tue, 07 Sep 2021 06:20:15 -0400
-X-MC-Unique: lPNeJCUJNHC8Bwe0qXXseA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- b15-20020a05640202cf00b003cd5efcd633so5047077edx.9
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 03:20:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mNYEq-0003ib-Qm; Tue, 07 Sep 2021 06:22:00 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39725)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mNYEo-0002R2-PT; Tue, 07 Sep 2021 06:22:00 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id z4so13601494wrr.6;
+ Tue, 07 Sep 2021 03:21:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=QTa5TnsuH+B8PtZL2t3R7v717uVXFxH6V4paXHM0NsA=;
+ b=FBRfWhRhYO/ijC0J7f4oHEtuFSjYw99jyVoLhCI0lQEwMfudrx9kA9gva5B+PU6BC6
+ M7mlMxZGgX24AdsXxqj8NjAXh2jRV7et7ksAwBH36OMfXNUnmT+ixeLO+APf4q3cXhOk
+ n2skGL3LXiWkfvp+3xKPhhRHdESG8h4RiQPqpctNeU8Mzhe97Jw5H5C39WpF2iNoKRh6
+ CEQSOfTz7jMg273ul7nsk3ivh872YcGw/iL2UlTnAXW6N9gARcAFfqGFMEnpMgtUQspA
+ xza6rfJk9pfpUOyx2C2AGF7XWvb2OLM9iA9a851Ty9des50mLCcrsULYTy7EPfxrBI7O
+ NwGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NRNInx7vUzsisgZPFyAYXt3Ei5qwj9SPX3Hi5nzLxWY=;
- b=Ejv1F2zpFljNkzMRyLJTBdHZyu5qRPQ8MXAPyRxBxXI72SnbESOO4HEcDChaM842x+
- tuOJ2Bg+8/SmOWtXXy4I3j+ZqXAwQ2u5kcfa/A56i9LQc20WBD/vzQNyT86X4bq9jC4k
- JNStqqXmUKg+cLMcooRR0ruG8K8HYHkymd/RnU4RpUJw7mRWi+nIYsaNy5gXkflo2Goa
- GiI34XVW+8k8W0Kz6/v72GVL4ilDtPJ9u/GN6oI0n1YtMbxAMlm7w+dUkz3baA2JGU05
- 2jDyv0rljP8P6YqpE7bY5qx4MdFVSeQC97iqEm1okqcS2GVMvvVHQB8xdsDOA03pIDSJ
- VrkA==
-X-Gm-Message-State: AOAM531qtyO15hRzUcbIlLP8h8i/AB5vltPDF9QJ2diO+yPh3pualUJh
- Qc+qDxc/tzhC23f4om+1YVjOMScr4z+F5xckyCcFB32Vu0ES+fCcW0GXCho/SpXGgnr1YjEX0vh
- HrHqpKzrwoPRxX4k=
-X-Received: by 2002:a17:906:1d41:: with SMTP id
- o1mr18065471ejh.232.1631010013852; 
- Tue, 07 Sep 2021 03:20:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyTxclFqyfomPf6bROJSKIA4XlltHfiYFdWi4mgJOIfyobL/la5loo9PHKycdCVTKiPE9EvGw==
-X-Received: by 2002:a17:906:1d41:: with SMTP id
- o1mr18065439ejh.232.1631010013557; 
- Tue, 07 Sep 2021 03:20:13 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id bx11sm5282992ejb.107.2021.09.07.03.20.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 03:20:13 -0700 (PDT)
-Date: Tue, 7 Sep 2021 12:20:11 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v2 1/3] tests/acpi: Add void table for virt/DBG2
- bios-tables-test
-Message-ID: <20210907122011.368a4e1e@redhat.com>
-In-Reply-To: <20210906123139.93593-2-eric.auger@redhat.com>
-References: <20210906123139.93593-1-eric.auger@redhat.com>
- <20210906123139.93593-2-eric.auger@redhat.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QTa5TnsuH+B8PtZL2t3R7v717uVXFxH6V4paXHM0NsA=;
+ b=Gomo6xXuzfuNHAAT0+1abzztyYt9ROdhkoahrTTj0dOlou9k8SRUX7y5WbYeeIYY0m
+ cwzR+26NMriPLtHa3MbA+7UZKIHa7IgKMRsa34eSoFlHCQrigm5JA9rL7Xknm0b0HwcQ
+ LeEzg7luJZfUtTRdIvrQAeTY/K5roLl3g2QXaMLZbLAQXsg1lwbYlR+wkxiCbJYAcLPJ
+ GBtPPl/SvUgRDvc0yjvQdMRrOFSY+th82wFTRIRtqLJ9/NMfHarycwysA6cZ8M5r2niX
+ qNSOC05PcQOXyE6vI8wKwMuT0oJKH/stX16+C6CYPAkSXsTdn5f47PNe3CxRZy6Kn1b6
+ Mdrg==
+X-Gm-Message-State: AOAM533Owzjh5T/aRMb5S14xnAb4ggA3PB5UrLFIhHJi1TeO2CTKLS1t
+ 8lOvGmkxjmmX6JK2OpOzhfY=
+X-Google-Smtp-Source: ABdhPJyqU7D3swT/tmr5zr97xhwdqjvZWIN9rmgzuHOWXJwWzw8e7i6FIuQGh5to6lgdvhWGdXSxpg==
+X-Received: by 2002:adf:9d42:: with SMTP id o2mr18106038wre.295.1631010115744; 
+ Tue, 07 Sep 2021 03:21:55 -0700 (PDT)
+Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id z5sm1936712wmp.26.2021.09.07.03.21.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Sep 2021 03:21:55 -0700 (PDT)
+Subject: Re: [PATCH 05/10] aspeed/smc: Remove the 'flash' attribute from
+ AspeedSMCFlash
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Joel Stanley <joel@jms.id.au>
+References: <20210907065822.1152443-1-clg@kaod.org>
+ <20210907065822.1152443-6-clg@kaod.org>
+ <497a0a23-570c-964d-80cb-e590749d20f9@amsat.org>
+ <31b33d22-6458-308d-afff-a76657824a52@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <63ad98d0-ecda-1c3a-1f68-1c7c32916231@amsat.org>
+Date: Tue, 7 Sep 2021 12:21:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+In-Reply-To: <31b33d22-6458-308d-afff-a76657824a52@kaod.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.332,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,41 +92,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, gshan@redhat.com,
- mst@redhat.com, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, philmd@redhat.com, ardb@kernel.org,
- eric.auger.pro@gmail.com
+Cc: Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon,  6 Sep 2021 14:31:37 +0200
-Eric Auger <eric.auger@redhat.com> wrote:
-
-> Add placeholders for DBG2 reference table for
-> virt tests and ignore this later for the time being.
-
-s/ignore.*/ignore till reference blob is added /
-
+On 9/7/21 11:40 AM, Cédric Le Goater wrote:
+> On 9/7/21 10:36 AM, Philippe Mathieu-Daudé wrote:
+>> On 9/7/21 8:58 AM, Cédric Le Goater wrote:
+>>> There is no use for it.
+>>
+>> Hmmm this is not the correct justification.
+>>
+>> This devices sits on a bus, so its state will be released when
+>> the bus is released. There is no need to release it manually,
+>> so we can remove the reference.
 > 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
->  tests/data/acpi/virt/DBG2                   | 0
->  tests/qtest/bios-tables-test-allowed-diff.h | 1 +
->  2 files changed, 1 insertion(+)
->  create mode 100644 tests/data/acpi/virt/DBG2
+> That's what the code is doing AFAIUI.
 > 
-> diff --git a/tests/data/acpi/virt/DBG2 b/tests/data/acpi/virt/DBG2
-> new file mode 100644
-> index 00000000000..e69de29bb2d
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index dfb8523c8bf..1910d154c27 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1 +1,2 @@
->  /* List of comma-separated changed AML files to ignore */
-> +"tests/data/acpi/virt/DBG2",
+> This is just removing the AspeedSMCFlash attribute because it is 
+> not used anywhere else than under aspeed_board_init_flashes().
+>  
+> Is there anything else ? I am bit lost by your comment.
 
+I was thinking of d4e1d8f57eb ("hw/arm/tosa: Encapsulate misc
+GPIO handling in a device"), if the device were not created on
+a bus, the we'd need to keep this reference, otherwise we'd
+leak it.
+
+Anyhow this is board code where we are not releasing anything.
+
+Maybe "There is no need to keep a reference of the flash qdev in the
+AspeedSMCFlash state: the SPI bus takes ownership and will release
+its resources. Remove AspeedSMCFlash::flash."?
+
+Anyway no big deal with the comment,
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
