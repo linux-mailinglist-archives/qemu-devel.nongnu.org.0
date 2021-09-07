@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57B52403081
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 23:56:37 +0200 (CEST)
-Received: from localhost ([::1]:59668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650EC403097
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 23:59:23 +0200 (CEST)
+Received: from localhost ([::1]:39822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNj52-0000bB-EF
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 17:56:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34970)
+	id 1mNj7i-0006II-Fd
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 17:59:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2L-0005iT-8u
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:49 -0400
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:43617)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2Q-0005mH-If
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:54 -0400
+Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:46800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2J-0000lr-NZ
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:49 -0400
-Received: by mail-il1-x12c.google.com with SMTP id v16so150492ilo.10
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:53:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2P-0000rp-5d
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:54 -0400
+Received: by mail-il1-x12a.google.com with SMTP id u17so141700ilm.13
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:53:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GiaQIIYvzMX3kBsTWafB+XsF4D6nhHn7w46Aapsrz8s=;
- b=cBEe+ihCDlFBfUGAmrSyLq40+gG5F2opVrXyU8kqo0AxxTTpzRhEDBRzu0RZOrpyTJ
- Kcx8ZeG07Ey6aaN9/yNTBK6nffQwaXuEjkAm2bgLpUvZiY5j+9wvBs3iN8lBvzF/nSPb
- gnFhu9MyVspPtKMim4BiQTYsTB63EtyjA+2Q0PFXqU2fYuxvrTWWtaSMgqfMfHQOksgn
- JFU1p37wIyjGH8PLdVhU0O/67NIr0VSquNnCHlIdRmpa0+ZCo23zkCav9/TQh9XWF/Bo
- 9Ccdluea2whzdEm4p2So+r/i2VkA3PZ26xyqeOwOuvdKyNOlXCKo9HU5PR6cuoooP312
- K7Og==
+ bh=+8JkNpfesdBOSdFjmNZn5gJ/TH6i2DvTMe8UnLYkrDo=;
+ b=Gei2yzz7XZ7oH4ZXDddBsadV9cwNJoRmWJnOfmuUri7ajgZbdhxtxStBbzVqHQ+LNY
+ r6dJpcQCilEWs1I69luuWjwi/VARmpzXpc03gI7ygE5c6j9tr/wCoWkTAVkNIlMuetPD
+ +sIOyPhGksQibFqGjuCQYQnEFkIxqBW7lDDxPa+6guK0xVmgUcg1gjWGIp6+ZFGFPa6C
+ ae8m0j8nLz+YlNjq7aS0YRRXdaxfcvL9bLoviD7E0jVHL5yMIlkexK5LYdJUmgPlJgw/
+ 2QA+L116leB4+4//Pe3Um4EaitrIBkrE+NG7LiHJ5rJl+Pe/oSspXi7KCmcq7KAShZKU
+ 7hPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GiaQIIYvzMX3kBsTWafB+XsF4D6nhHn7w46Aapsrz8s=;
- b=gIZcU80JjL+94nFc6+3yo7Vhqblz7z3C4HbAeHtz3vzZJIUajnVGkeP2erlevtgETO
- J81xsF/zimp1xFrK1dkOFq0djUB0b7YQ4ilYVDc3pErukYKsibhzayRpf3lrragh/34R
- GnEUy+VqcIEHDmCxm4fQHTEq7Vg7xyxvXc5sbEuuOp0EgtM9mZh7wITXjG2KdrVCezBa
- AcL3s7XjO3y2fO+19opSIcyZ5Ao62ZjjMCRoTEWPL09G0FsL1+9kyKBgjdjJ8WY7z2yu
- yy/MOpxAWb7+9lZCuMwT8CE0Ac3TMgjlSOUNIkAnHnXOgB0huDqCbCc5ssSqA28Uw1a5
- RU5w==
-X-Gm-Message-State: AOAM530CZUa24S/DaH7MfEHCk7cDjMTSo7zZ6JGrNY3zYdqYFLMnZeEU
- SEzc1YJWeiJWKhNRs+a2+Arp9ksPRNDvyESMors=
-X-Google-Smtp-Source: ABdhPJynLcqyGFc3ugFjcwsnM1ZQkxTDEzZwy8MmySqYO4T3rzAWvTyMVX9uriL7nda+PEEAsvRHjw==
-X-Received: by 2002:a05:6e02:12c2:: with SMTP id
- i2mr287565ilm.261.1631051626474; 
- Tue, 07 Sep 2021 14:53:46 -0700 (PDT)
+ bh=+8JkNpfesdBOSdFjmNZn5gJ/TH6i2DvTMe8UnLYkrDo=;
+ b=fhGy4hrfPtSuSNYVMUvEJWZ6EZFdyxVXs78V3U67A1BaSv8/J6OAyajBfikh/xy/N0
+ Opx7P4jN0KHjKVol+5bFoVkTWQzlLWxB2ey0D7PfRyBUbpYMoQD+2iwVNaZiwt9xllIY
+ v9GdskeGJmZaRi00XqmfRtCH/klcDR6DWKm3SEwfUhumt2u1kpuMJPmEki1faMs/TSJh
+ 94dhMga91n7vwm+W7zPkiov6cfU6FPQY6zW9cso2OzTjaGO20x6+Utyb4u8afzmpCIkB
+ weH5Dl5QEN6MCY0S0evFsvOTgO4kmSZaKQPu7Z3ckVFi8HJUKQNSTGBN2abEYLQv4deB
+ 9BbA==
+X-Gm-Message-State: AOAM531HrkZefZWEXNv0FDq0aMLr4g++7KXNpCevywmd7Tp4dZ8RBkVV
+ PIJ4bkXZkKVIC9GvBPSHaENHDvtW7VdWVHtOFHQ=
+X-Google-Smtp-Source: ABdhPJz6npR2nPrVyiXXwc11qopf2Yr4fDB4rTQV16pWdIp1glWO+q7dZyrhiAMiFxqYnltCHv7bTQ==
+X-Received: by 2002:a05:6e02:d0b:: with SMTP id
+ g11mr252805ilj.321.1631051631652; 
+ Tue, 07 Sep 2021 14:53:51 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.45
+ by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 14:53:45 -0700 (PDT)
+ Tue, 07 Sep 2021 14:53:51 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/42] bsd-user: Fix calculation of size to allocate
-Date: Tue,  7 Sep 2021 15:52:59 -0600
-Message-Id: <20210907215332.30737-10-imp@bsdimp.com>
+Subject: [PULL 15/42] bsd-user: assume pthreads and support of __thread
+Date: Tue,  7 Sep 2021 15:53:05 -0600
+Message-Id: <20210907215332.30737-16-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210907215332.30737-1-imp@bsdimp.com>
 References: <20210907215332.30737-1-imp@bsdimp.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::12c;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12c.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -83,40 +84,74 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kevans@freebsd.org, Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@bsdimp.com>
 
-It was incorrect to subtract off the size of an unsigned int here.  In
-bsd-user fork, this change was made when moving the arch specific items
-to specific files.  The size in BSD that's available for the arguments
-does not need a return address subtracted from it.
+All compilers for some time have supported this. Follow linux-user and
+eliminate the #define THREAD and unconditionally insert __thread where
+needed. Please insert: "(see 24cb36a61c6: "configure: Make NPTL
+non-optional")"
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- bsd-user/bsdload.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ bsd-user/main.c |  2 +-
+ bsd-user/qemu.h | 10 +---------
+ 2 files changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/bsd-user/bsdload.c b/bsd-user/bsdload.c
-index 5282a7c4f2..379015c744 100644
---- a/bsd-user/bsdload.c
-+++ b/bsd-user/bsdload.c
-@@ -143,10 +143,9 @@ int loader_exec(const char *filename, char **argv, char **envp,
-                 struct target_pt_regs *regs, struct image_info *infop,
-                 struct bsd_binprm *bprm)
- {
--    int retval;
--    int i;
-+    int retval, i;
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index 1388c7a13d..e06cc7b414 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -309,7 +309,7 @@ static void usage(void)
+     exit(1);
+ }
  
--    bprm->p = TARGET_PAGE_SIZE * MAX_ARG_PAGES - sizeof(unsigned int);
-+    bprm->p = TARGET_PAGE_SIZE * MAX_ARG_PAGES;
-     for (i = 0; i < MAX_ARG_PAGES; i++) {       /* clear page-table */
-         bprm->page[i] = NULL;
-     }
+-THREAD CPUState *thread_cpu;
++__thread CPUState *thread_cpu;
+ 
+ bool qemu_cpu_is_self(CPUState *cpu)
+ {
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index d1ab58a8eb..cf248ad3df 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -40,12 +40,6 @@ extern enum BSDType bsd_type;
+ #include "target_syscall.h"
+ #include "exec/gdbstub.h"
+ 
+-#if defined(CONFIG_USE_NPTL)
+-#define THREAD __thread
+-#else
+-#define THREAD
+-#endif
+-
+ /*
+  * This struct is used to hold certain information about the image.  Basically,
+  * it replicates in user space what would be certain task_struct fields in the
+@@ -155,7 +149,7 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
+                             abi_long arg2, abi_long arg3, abi_long arg4,
+                             abi_long arg5, abi_long arg6);
+ void gemu_log(const char *fmt, ...) GCC_FMT_ATTR(1, 2);
+-extern THREAD CPUState *thread_cpu;
++extern __thread CPUState *thread_cpu;
+ void cpu_loop(CPUArchState *env);
+ char *target_strerror(int err);
+ int get_osversion(void);
+@@ -422,8 +416,6 @@ static inline void *lock_user_string(abi_ulong guest_addr)
+ #define unlock_user_struct(host_ptr, guest_addr, copy)          \
+     unlock_user(host_ptr, guest_addr, (copy) ? sizeof(*host_ptr) : 0)
+ 
+-#if defined(CONFIG_USE_NPTL)
+ #include <pthread.h>
+-#endif
+ 
+ #endif /* QEMU_H */
 -- 
 2.32.0
 
