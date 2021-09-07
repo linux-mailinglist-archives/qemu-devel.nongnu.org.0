@@ -2,91 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39A840268D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 11:54:11 +0200 (CEST)
-Received: from localhost ([::1]:45576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB24402698
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 11:56:46 +0200 (CEST)
+Received: from localhost ([::1]:49080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNXnu-0003zi-Qk
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 05:54:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34838)
+	id 1mNXqP-0006NI-B0
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 05:56:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mNXk9-0000Hz-0b
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 05:50:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42826)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mNXmR-0002f3-CK; Tue, 07 Sep 2021 05:52:39 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mNXk7-00012g-Gk
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 05:50:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631008214;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dGfOEugBV9i2d+1aV4zj8uZwslQyPoeKOVyAEOFnsvA=;
- b=ecRuR/WjET6lPjzPjk85lZzQSMzzWVM58qSiKkgPavI74KjuhYS/xE+PLPnmJkh1T/947G
- d6dMBYv7P1LtMsftJM7GALh3SH49d/e/tOeXpG88W2xJRJ4Vl1k9T9EZ9fBIAccXwExkDF
- JML0EGIMZbGZBBmTXDYb41crP8aLlFY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-208-pFdRhwgkNsy1jwo5DQBEKg-1; Tue, 07 Sep 2021 05:50:10 -0400
-X-MC-Unique: pFdRhwgkNsy1jwo5DQBEKg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- u14-20020a7bcb0e0000b0290248831d46e4so901611wmj.6
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 02:50:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=dGfOEugBV9i2d+1aV4zj8uZwslQyPoeKOVyAEOFnsvA=;
- b=XdxjEqhsJ8o1gMJ9H6SNyCwXTn4c/uBcOgthDSItE8XqUvjyYmHXHpx8Q1680KoIh0
- qaf8cWRr+Kd3Speyq2wGeSNpMkGlfCpqPrq1qbvIs8y42Z58zTeGecMaGta2fwEy5xio
- 2SYNiGuFWA5uK9V3Z7TrhOjKTPNRt+zafXsArPw/LKdzxxv6AW9lhHfkcGOJRPZsH3/X
- +A+fXsWJ8K6Db+jZUjnrbdqCeJlpj0kAcHReli9X69fo3TIMzhR92Y+5FIajgvb3zTMn
- fFeMT2J2aHiR5TRiXbJ+IlSwl/vFlasp0AfpyoULB22GBraJVMygc7jDKF7/D5myM42q
- JGvw==
-X-Gm-Message-State: AOAM532TM10/nmGi1ephP9Qw/Ad7LFt7kYn0v8JLk147lkGUq4U7AQXo
- Q6EF+yy2whmhroYZP3gL2YX5GR3W4/wXpTWDtvQegNVWkcs/vse6JdAWc/AE1FcHulXN7NdPj6w
- h+VBu5/8zGmfRJDg=
-X-Received: by 2002:a05:600c:35c4:: with SMTP id
- r4mr3110944wmq.194.1631008208899; 
- Tue, 07 Sep 2021 02:50:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwxBT0GDg/7gWPfilbaRd4q7PWKF0u7okxOmXCJr9Qx+E1xKgcyM2pG70mMswOFq6tNREk7oQ==
-X-Received: by 2002:a05:600c:35c4:: with SMTP id
- r4mr3110923wmq.194.1631008208620; 
- Tue, 07 Sep 2021 02:50:08 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
- by smtp.gmail.com with ESMTPSA id k18sm1857745wmi.25.2021.09.07.02.50.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Sep 2021 02:50:08 -0700 (PDT)
-Subject: Re: [PATCH v4 0/5] iotests/297: Cover tests/
-To: qemu-block@nongnu.org
-References: <20210902094017.32902-1-hreitz@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <4c85998f-60e0-b1e6-f355-a804e5e8ef02@redhat.com>
-Date: Tue, 7 Sep 2021 11:50:07 +0200
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mNXmJ-0002vM-9M; Tue, 07 Sep 2021 05:52:39 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 1879ZQrD057391; Tue, 7 Sep 2021 05:52:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=A3EuiHBXM5a3NYbOZVb9Q/IbePsMBb9P3APYF9HRlMI=;
+ b=JKP8jeQgGLetLqGAlsTAJVNMIY4EO6hpwp5Ix8iVen8IABOAzA8s8/xiw6GJbExDlPaz
+ gwzCUjrl8OsmM2Lr18uGjOM9T1BaC521OFzVy8dGhNDwta07KcOhZYdBKKRxji2Uv3oY
+ wnsNJMcbYvRvOwKMwvEoNUbrm0uGaNWsJ5r92JspWUoKMcepbL7ZQcf3R7Na+4tvoCNj
+ wKs+rIf9mGK9hS1EFBbbGxiwjok3aRLjfAbwbBAv0lW4UMx8/WPw+Y8t2XZpBTHDW/CN
+ e43bvGiclLiHvgSvQR5lXnUl923PWRSBz8j73XTWrZFq0BRJIp/Am0NiO0EJPcKg3IPj 4g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ax4mh20ak-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Sep 2021 05:52:28 -0400
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1879cuRP063879;
+ Tue, 7 Sep 2021 05:52:27 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3ax4mh20a6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Sep 2021 05:52:27 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1879q3CF007142;
+ Tue, 7 Sep 2021 09:52:25 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06ams.nl.ibm.com with ESMTP id 3av02jne3h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Sep 2021 09:52:25 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1879qLmo49938906
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 7 Sep 2021 09:52:21 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BEBCCAE05A;
+ Tue,  7 Sep 2021 09:52:21 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7414EAE057;
+ Tue,  7 Sep 2021 09:52:21 +0000 (GMT)
+Received: from oc3016276355.ibm.com (unknown [9.145.9.165])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  7 Sep 2021 09:52:21 +0000 (GMT)
+Subject: Re: [PATCH v2 5/5] s390x: topology: implementating Store Topology
+ System Information
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+References: <1626975764-22131-1-git-send-email-pmorel@linux.ibm.com>
+ <1626975764-22131-6-git-send-email-pmorel@linux.ibm.com>
+ <cd353458-d70e-b020-4195-2f8f9f9c6741@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+Message-ID: <70fe96ef-89df-9321-c1d9-2496073aa3e5@linux.ibm.com>
+Date: Tue, 7 Sep 2021 11:52:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210902094017.32902-1-hreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <cd353458-d70e-b020-4195-2f8f9f9c6741@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: W5WGUR8RJTo5pgeCASe2f1gh6T7gswQK
+X-Proofpoint-ORIG-GUID: 1_M6ixHQo4sqQDj-EYfP9kmKpUt5nFiJ
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-09-07_03:2021-09-03,
+ 2021-09-07 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ lowpriorityscore=0 mlxlogscore=999 clxscore=1015 malwarescore=0
+ phishscore=0 impostorscore=0 bulkscore=0 mlxscore=0 adultscore=0
+ spamscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2108310000 definitions=main-2109070063
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.332,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,27 +114,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02.09.21 11:40, Hanna Reitz wrote:
-> v1: https://lists.nongnu.org/archive/html/qemu-block/2021-03/msg01471.html
-> v2: https://lists.nongnu.org/archive/html/qemu-block/2021-05/msg00492.html
-> v3: https://lists.nongnu.org/archive/html/qemu-block/2021-05/msg00569.html
->
->
-> Hi,
->
-> Sorry for the long delay, here is v4 to make our lint checking iotest
-> 297 cover the tests/ subdirectory.
 
-Thanks for the review, applied to my block branch:
 
-https://github.com/XanClic/qemu/commits/block
+On 9/7/21 10:00 AM, Thomas Huth wrote:
+> On 22/07/2021 19.42, Pierre Morel wrote:
+>> The handling of STSI is enhenced with the interception of the
+> 
+> s/enhenced/enhanced/
 
-Hanna
+yes, thanks
 
+> 
+>> function code 15 for storing CPU topology.
+
+...
+
+>> +static void insert_stsi_15_1_x(S390CPU *cpu, int sel2, __u64 addr, 
+>> uint8_t ar)
+>> +{
+>> +    const MachineState *machine = MACHINE(qdev_get_machine());
+>> +    void *p;
+>> +    int ret, cc;
+>> +
+>> +    /*
+>> +     * Until the SCLP STSI Facility reporting the MNEST value is used,
+>> +     * a sel2 value of 2 is the only value allowed in STSI 15.1.x.
+>> +     */
+>> +    if (sel2 != 2) {
+>> +        setcc(cpu, 3);
+>> +        return;
+>> +    }
+>> +
+>> +    p = g_malloc0(4096);
+> 
+> Use TARGET_PAGE_SIZE instead of magic value 4096?
+yes
+> 
+>> +   insert_stsi_15_1_2(machine, p);
+> 
+> Wrong indentation (3 instead of 4 spaces).
+
+oh, yes, thanks
+
+> 
+>> +    if (s390_is_pv()) {
+>> +        ret = s390_cpu_pv_mem_write(cpu, 0, p, 4096);
+>> +    } else {
+>> +        ret = s390_cpu_virt_mem_write(cpu, addr, ar, p, 4096);
+> 
+> TARGET_PAGE_SIZE?
+
+yes, of course.
+
+> 
+>> +    }
+>> +    cc = ret ? 3 : 0;
+>> +    setcc(cpu, cc);
+>> +    g_free(p);
+>> +}
+>> +
+>>   static int handle_stsi(S390CPU *cpu)
+>>   {
+>>       CPUState *cs = CPU(cpu);
+>> @@ -1920,6 +2017,10 @@ static int handle_stsi(S390CPU *cpu)
+>>           /* Only sysib 3.2.2 needs post-handling for now. */
+>>           insert_stsi_3_2_2(cpu, run->s390_stsi.addr, run->s390_stsi.ar);
+>>           return 0;
+>> +    case 15:
+>> +        insert_stsi_15_1_x(cpu, run->s390_stsi.sel2, 
+>> run->s390_stsi.addr,
+>> +                           run->s390_stsi.ar);
+>> +        return 0;
+>>       default:
+>>           return 0;
+>>       }
+>>
+> 
+>   Thomas
+> 
+
+Thanks for reviewing,
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
