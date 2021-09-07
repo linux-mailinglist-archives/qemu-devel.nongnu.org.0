@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C71340274E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 12:41:46 +0200 (CEST)
-Received: from localhost ([::1]:38284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D4E402759
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 12:46:58 +0200 (CEST)
+Received: from localhost ([::1]:42232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNYXv-0005Qd-4Y
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 06:41:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45664)
+	id 1mNYcz-0008HZ-UQ
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 06:46:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1mNYWy-0004lg-Jv
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:40:44 -0400
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:46919)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1mNYWw-0001ip-4c
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:40:44 -0400
-Received: by mail-ot1-x329.google.com with SMTP id
- v33-20020a0568300921b0290517cd06302dso12151512ott.13
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 03:40:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CXnWyaVA/V9ELfj4aH2u1c+ohwiY38Iu8u1jjYPMbLM=;
- b=fitvHWNc5m/nsY/wxyYLWHfyFra8IT2srWxb5WsZKoWQa4bjPp5Q05pmtn7W4xlzZP
- BmJw+zH6fj+z5AsLPUnCuwVGHkQTOC9uwIO8hpGC9C/ZMnTF8euYC3aDeSUR2q8k4wre
- vJdHHBg6KgOmlqk1KPGxJleWdwDxr6FghEiicfnRPDqs38ZkH0w8eY0CA0QG1QpzewWX
- jRRQNwPpZK56YqbJBNCTghBc6zJK48Tr+XLpAS4d4bwG88Kt3L0fhO3hbrvVDVPZ95+v
- RE+tMqObXXd7MCOw2Ggj3ZNydEF8ECiFhio7WBXGVh8KOMMgmjGIUVglGzvluU+AhmKX
- KrWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CXnWyaVA/V9ELfj4aH2u1c+ohwiY38Iu8u1jjYPMbLM=;
- b=itb3AxrrFpEP7lmyUcjp1JHCOtMrxfp+o4ziKQ+EfQXBZkGGIiTPGm1rYAiwa185pQ
- gvf8wNv7KS6gPZlhGk9YfPlHN5iKAk30zG19wAOKEK5NytqM43vzcPYywhOKigipN5DA
- Dpy8Vu4jbZezH7jzQQ0O58ag0hz2JMeAFbFVBh+MIk3R2zQa1USZ1LPramXVd7UDhO8t
- 7trSwL6NtwLIbdhlIu9hG3GT+rEytnPteSi5foYd0NpWntQre3kgqHV7NuhDcLlB0JGt
- aTsm2q46uv25SpKEQTe7eTurgWe9jW54y+7tcpu1UmgHgYFq0vCNMIQNuIAC1pNv7YRS
- L0mg==
-X-Gm-Message-State: AOAM531dw/UMpyrXR1/YSo0WlD9Akkg5vebnecU07Wx27961UbKclqtn
- aoY1CYd8Zzt8gvrz5Yvvxx8l5sxggonHFZpkGbshIQ==
-X-Google-Smtp-Source: ABdhPJy+GE+vobwjI5fU46INdAB05rmRl/w0Gm83BFM1kfj47cHyHI7BZpM9jzUB039aIZf5fCJHT1M5sn01/AcMcJw=
-X-Received: by 2002:a05:6830:86:: with SMTP id
- a6mr14358747oto.88.1631011240392; 
- Tue, 07 Sep 2021 03:40:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNYbG-000705-91
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:45:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58352)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNYbC-0005Uz-0y
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:45:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631011504;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Zw66zTct1qzYq1oay75/NHyFTRFNO2YfUe/1e3jBuK8=;
+ b=LTIZovNpdTXYTtyLWvTN7HeQlUfxmREzvRgxo/WxzHBAsojlxjWU6IwlQeNEqQzcIvNcen
+ 51LQm3h1EuiJIfsMKlrHryLZ6xxKNQCNjfKPTbbHNrxNRZurhdUDw/PRNe/ORzL5iixs10
+ DXHKol9veEd+tJzlf/ngqGUV2ZEpX48=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-268-uzIoodEeNoK1w1q9lCM2nw-1; Tue, 07 Sep 2021 06:44:57 -0400
+X-MC-Unique: uzIoodEeNoK1w1q9lCM2nw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C74201966329;
+ Tue,  7 Sep 2021 10:44:56 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
+ [10.36.112.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A9246A255;
+ Tue,  7 Sep 2021 10:44:56 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9957E1138606; Tue,  7 Sep 2021 12:44:54 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 3/6] qapi/parser: add type hint annotations (QAPIDoc)
+References: <20210520225710.168356-1-jsnow@redhat.com>
+ <20210520225710.168356-4-jsnow@redhat.com>
+Date: Tue, 07 Sep 2021 12:44:54 +0200
+In-Reply-To: <20210520225710.168356-4-jsnow@redhat.com> (John Snow's message
+ of "Thu, 20 May 2021 18:57:07 -0400")
+Message-ID: <87o8943brt.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20210713153758.323614-1-andrew@daynix.com>
- <20210713153758.323614-5-andrew@daynix.com>
- <e73ce649-a04e-5200-8258-487a565c7e20@redhat.com>
- <CAOEp5OekBjFfwPEJ3JU-x0_wrwO9szApOk=kR3e7AKhiLqa9-w@mail.gmail.com>
- <38ea6b36-b968-02bf-b3a8-3d6393df31a5@redhat.com>
-In-Reply-To: <38ea6b36-b968-02bf-b3a8-3d6393df31a5@redhat.com>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Tue, 7 Sep 2021 13:40:28 +0300
-Message-ID: <CAOEp5OcrwBJh=89wQ-eA0Z1MZpprYtLVvJSF1YrNPhu2kzqzCA@mail.gmail.com>
-Subject: Re: [PATCH 4/5] ebpf_rss_helper: Added helper for eBPF RSS.
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::329;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-ot1-x329.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, URIBL_DBL_SPAM=2.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,297 +80,325 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Melnychenko <andrew@daynix.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Yan Vugenfirer <yan@daynix.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 1, 2021 at 9:42 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2021/8/31 =E4=B8=8A=E5=8D=881:07, Yuri Benditovich =E5=86=99=E9=
-=81=93:
-> > On Fri, Aug 20, 2021 at 6:41 AM Jason Wang <jasowang@redhat.com> wrote:
-> >>
-> >> =E5=9C=A8 2021/7/13 =E4=B8=8B=E5=8D=8811:37, Andrew Melnychenko =E5=86=
-=99=E9=81=93:
-> >>> Helper program. Loads eBPF RSS program and maps and passes them throu=
-gh unix socket.
-> >>> Libvirt may launch this helper and pass eBPF fds to qemu virtio-net.
-> >>
-> >> I wonder if this can be done as helper for TAP/bridge.
-> >>
-> >> E.g it's the qemu to launch those helper with set-uid.
-> >>
-> >> Then libvirt won't even need to care about that?
-> >>
-> > There are pros and cons for such a solution with set-uid.
-> >  From my point of view one of the cons is that set-uid is efficient
-> > only at install time so the coexistence of different qemu builds (and
-> > different helpers for each one) is kind of problematic.
-> > With the current solution this does not present any problem: the
-> > developer can have several different builds, each one automatically
-> > has its own helper and there is no conflict between these builds and
-> > between these builds and installed qemu package. Changing the
-> > 'emulator' in the libvirt profile automatically brings the proper
-> > helper to work.
->
->
-> I'm not sure I get you here. We can still have default/sample helper to
-> make sure it works for different builds.
->
-> If we can avoid the involvement of libvirt, that would be better.
+John Snow <jsnow@redhat.com> writes:
 
-Hi Jason,
-
-Indeed I did not get the idea, can you please explain it in more
-details (as detailed as possible to avoid future misunderstanding),
-especially how exactly we can use the set-uid and what is the 'default' hel=
-per.
-We also would prefer to do everything from qemu but we do not see how
-we can do that.
-
-Our main points (what should be addressed):
-- qemu should be able to load ebpf and use the maps when it runs from
-libvirt (without special caps) and standalone (with caps)
-- it is possible that there are different qemu builds on the machine,
-one of them might be installed, their ebpf's might be different and
-the interface between qemu and ebpf (exact content of maps and number
-of maps)
-- qemu configures the RSS dynamically according to the commands
-provided by the guest
-
-Thanks in advance
-Yuri
-
+> Annotations do not change runtime behavior.
 >
-> Thanks
+> This commit adds mostly annotations, but uses a TYPE_CHECKING runtime
+> check to conditionally import dependencies, which only triggers during
+> runs of mypy.
+
+Please add a reference to
+https://mypy.readthedocs.io/en/latest/runtime_troubles.html#import-cycles
+
+> Signed-off-by: John Snow <jsnow@redhat.com>
 >
+> ---
 >
-> >
-> >>> Also, libbpf dependency now exclusively for Linux.
-> >>> Libbpf is used for eBPF RSS steering, which is supported only by Linu=
-x TAP.
-> >>> There is no reason yet to build eBPF loader and helper for non Linux =
-systems,
-> >>> even if libbpf is present.
-> >>>
-> >>> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-> >>> ---
-> >>>    ebpf/qemu-ebpf-rss-helper.c | 130 ++++++++++++++++++++++++++++++++=
-++++
-> >>>    meson.build                 |  37 ++++++----
-> >>>    2 files changed, 154 insertions(+), 13 deletions(-)
-> >>>    create mode 100644 ebpf/qemu-ebpf-rss-helper.c
-> >>>
-> >>> diff --git a/ebpf/qemu-ebpf-rss-helper.c b/ebpf/qemu-ebpf-rss-helper.=
-c
-> >>> new file mode 100644
-> >>> index 0000000000..fe68758f57
-> >>> --- /dev/null
-> >>> +++ b/ebpf/qemu-ebpf-rss-helper.c
-> >>> @@ -0,0 +1,130 @@
-> >>> +/*
-> >>> + * eBPF RSS Helper
-> >>> + *
-> >>> + * Developed by Daynix Computing LTD (http://www.daynix.com)
-> >>> + *
-> >>> + * Authors:
-> >>> + *  Andrew Melnychenko <andrew@daynix.com>
-> >>> + *
-> >>> + * This work is licensed under the terms of the GNU GPL, version 2. =
- See
-> >>> + * the COPYING file in the top-level directory.
-> >>> + *
-> >>> + * Description: This is helper program for libvirtd.
-> >>> + *              It loads eBPF RSS program and passes fds through uni=
-x socket.
-> >>> + *              Built by meson, target - 'qemu-ebpf-rss-helper'.
-> >>> + */
-> >>> +
-> >>> +#include <stdio.h>
-> >>> +#include <stdint.h>
-> >>> +#include <stdlib.h>
-> >>> +#include <stdbool.h>
-> >>> +#include <getopt.h>
-> >>> +#include <memory.h>
-> >>> +#include <errno.h>
-> >>> +#include <sys/socket.h>
-> >>> +
-> >>> +#include "ebpf_rss.h"
-> >>> +
-> >>> +#include "qemu-helper-stamp.h"
-> >>> +
-> >>> +void QEMU_HELPER_STAMP(void) {}
-> >>> +
-> >>> +static int send_fds(int socket, int *fds, int n)
-> >>> +{
-> >>> +    struct msghdr msg =3D {};
-> >>> +    struct cmsghdr *cmsg =3D NULL;
-> >>> +    char buf[CMSG_SPACE(n * sizeof(int))];
-> >>> +    char dummy_buffer =3D 0;
-> >>> +    struct iovec io =3D { .iov_base =3D &dummy_buffer,
-> >>> +                        .iov_len =3D sizeof(dummy_buffer) };
-> >>> +
-> >>> +    memset(buf, 0, sizeof(buf));
-> >>> +
-> >>> +    msg.msg_iov =3D &io;
-> >>> +    msg.msg_iovlen =3D 1;
-> >>> +    msg.msg_control =3D buf;
-> >>> +    msg.msg_controllen =3D sizeof(buf);
-> >>> +
-> >>> +    cmsg =3D CMSG_FIRSTHDR(&msg);
-> >>> +    cmsg->cmsg_level =3D SOL_SOCKET;
-> >>> +    cmsg->cmsg_type =3D SCM_RIGHTS;
-> >>> +    cmsg->cmsg_len =3D CMSG_LEN(n * sizeof(int));
-> >>> +
-> >>> +    memcpy(CMSG_DATA(cmsg), fds, n * sizeof(int));
-> >>> +
-> >>> +    return sendmsg(socket, &msg, 0);
-> >>> +}
-> >>> +
-> >>> +static void print_help_and_exit(const char *prog, int exitcode)
-> >>> +{
-> >>> +    fprintf(stderr, "%s - load eBPF RSS program for qemu and pass eB=
-PF fds"
-> >>> +            " through unix socket.\n", prog);
-> >>> +    fprintf(stderr, "\t--fd <num>, -f <num> - unix socket file descr=
-iptor"
-> >>> +            " used to pass eBPF fds.\n");
-> >>> +    fprintf(stderr, "\t--help, -h - this help.\n");
-> >>> +    exit(exitcode);
-> >>> +}
-> >>> +
-> >>> +int main(int argc, char **argv)
-> >>> +{
-> >>> +    char *fd_string =3D NULL;
-> >>> +    int unix_fd =3D 0;
-> >>> +    struct EBPFRSSContext ctx =3D {};
-> >>> +    int fds[EBPF_RSS_MAX_FDS] =3D {};
-> >>> +    int ret =3D -1;
-> >>> +
-> >>> +    for (;;) {
-> >>> +        int c;
-> >>> +        static struct option long_options[] =3D {
-> >>> +                {"help",  no_argument, 0, 'h'},
-> >>> +                {"fd",  required_argument, 0, 'f'},
-> >>> +                {0, 0, 0, 0}
-> >>> +        };
-> >>> +        c =3D getopt_long(argc, argv, "hf:",
-> >>> +                long_options, NULL);
-> >>> +
-> >>> +        if (c =3D=3D -1) {
-> >>> +            break;
-> >>> +        }
-> >>> +
-> >>> +        switch (c) {
-> >>> +        case 'f':
-> >>> +            fd_string =3D optarg;
-> >>> +            break;
-> >>> +        case 'h':
-> >>> +        default:
-> >>> +            print_help_and_exit(argv[0],
-> >>> +                    c =3D=3D 'h' ? EXIT_SUCCESS : EXIT_FAILURE);
-> >>> +        }
-> >>> +    }
-> >>> +
-> >>> +    if (!fd_string) {
-> >>> +        fprintf(stderr, "Unix file descriptor not present.\n");
-> >>> +        print_help_and_exit(argv[0], EXIT_FAILURE);
-> >>> +    }
-> >>> +
-> >>> +    unix_fd =3D atoi(fd_string);
-> >>> +
-> >>> +    if (!unix_fd) {
-> >>> +        fprintf(stderr, "Unix file descriptor is invalid.\n");
-> >>> +        return EXIT_FAILURE;
-> >>> +    }
-> >>> +
-> >>> +    ebpf_rss_init(&ctx);
-> >>> +    if (!ebpf_rss_load(&ctx)) {
-> >>> +        fprintf(stderr, "Can't load ebpf.\n");
-> >>> +        return EXIT_FAILURE;
-> >>> +    }
-> >>> +    fds[0] =3D ctx.program_fd;
-> >>> +    fds[1] =3D ctx.map_configuration;
-> >>> +
-> >>> +    ret =3D send_fds(unix_fd, fds, EBPF_RSS_MAX_FDS);
-> >>> +    if (ret < 0) {
-> >>> +        fprintf(stderr, "Issue while sending fds: %s.\n", strerror(e=
-rrno));
-> >>> +    }
-> >>> +
-> >>> +    ebpf_rss_unload(&ctx);
-> >>> +
-> >>> +    return ret < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
-> >>> +}
-> >>> +
-> >>> diff --git a/meson.build b/meson.build
-> >>> index 257e51d91b..913aa1fee5 100644
-> >>> --- a/meson.build
-> >>> +++ b/meson.build
-> >>> @@ -1033,19 +1033,22 @@ if not get_option('fuse_lseek').disabled()
-> >>>    endif
-> >>>
-> >>>    # libbpf
-> >>> -libbpf =3D dependency('libbpf', required: get_option('bpf'), method:=
- 'pkg-config')
-> >>> -if libbpf.found() and not cc.links('''
-> >>> -   #include <bpf/libbpf.h>
-> >>> -   int main(void)
-> >>> -   {
-> >>> -     bpf_object__destroy_skeleton(NULL);
-> >>> -     return 0;
-> >>> -   }''', dependencies: libbpf)
-> >>> -  libbpf =3D not_found
-> >>> -  if get_option('bpf').enabled()
-> >>> -    error('libbpf skeleton test failed')
-> >>> -  else
-> >>> -    warning('libbpf skeleton test failed, disabling')
-> >>> +libbpf =3D not_found
-> >>> +if targetos =3D=3D 'linux'
-> >>> +  libbpf =3D dependency('libbpf', required: get_option('bpf'), metho=
-d: 'pkg-config')
-> >>> +  if libbpf.found() and not cc.links('''
-> >>> +    #include <bpf/libbpf.h>
-> >>> +    int main(void)
-> >>> +    {
-> >>> +      bpf_object__destroy_skeleton(NULL);
-> >>
-> >> Do we need to test whether the bpf can do mmap() here?
-> >>
-> >> Thanks
-> >>
-> >>
-> >>> +      return 0;
-> >>> +    }''', dependencies: libbpf)
-> >>> +    libbpf =3D not_found
-> >>> +    if get_option('bpf').enabled()
-> >>> +      error('libbpf skeleton test failed')
-> >>> +    else
-> >>> +      warning('libbpf skeleton test failed, disabling')
-> >>> +    endif
-> >>>      endif
-> >>>    endif
-> >>>
-> >>> @@ -2423,6 +2426,14 @@ if have_tools
-> >>>                   dependencies: [authz, crypto, io, qom, qemuutil,
-> >>>                                  libcap_ng, mpathpersist],
-> >>>                   install: true)
-> >>> +
-> >>> +    if libbpf.found()
-> >>> +        executable('qemu-ebpf-rss-helper', files(
-> >>> +                   'ebpf/qemu-ebpf-rss-helper.c', 'ebpf/ebpf_rss.c')=
-,
-> >>> +                   dependencies: [qemuutil, libbpf, glib],
-> >>> +                   install: true,
-> >>> +                   install_dir: get_option('libexecdir'))
-> >>> +    endif
-> >>>      endif
-> >>>
-> >>>      if 'CONFIG_IVSHMEM' in config_host
+> TopLevelExpr, an idea from previous drafts, makes a return here in order
+> to give a semantic meaning to check_expr(). The type is intended to be
+> used more in forthcoming commits (pt5c), but I opted to include it now
+> instead of creating yet-another Dict[str, object] type hint that I would
+> forget to change later.
 >
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  scripts/qapi/parser.py | 77 ++++++++++++++++++++++++++----------------
+>  1 file changed, 48 insertions(+), 29 deletions(-)
+>
+> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+> index 3ddde318376..b1e2fa5c577 100644
+> --- a/scripts/qapi/parser.py
+> +++ b/scripts/qapi/parser.py
+> @@ -18,6 +18,7 @@
+>  import os
+>  import re
+>  from typing import (
+> +    TYPE_CHECKING,
+>      Dict,
+>      List,
+>      Optional,
+> @@ -30,6 +31,15 @@
+>  from .source import QAPISourceInfo
+>  
+>  
+> +if TYPE_CHECKING:
+> +    # pylint: disable=cyclic-import
+> +    # TODO: Remove cycle. [schema -> expr -> parser -> schema]
+> +    from .schema import QAPISchemaFeature, QAPISchemaMember
+> +
+> +
+> +#: Represents a single Top Level QAPI schema expression.
+> +TopLevelExpr = Dict[str, object]
+
+Related: _ExprValue below, and _JSONObject in expr.py.  The latter's
+comment gives the best rationale (except I don't get "the purpose of
+this module is to interrogate that type").
+
+I think we'd like to have
+
+* A recursive type for JSON value (in our bastardized version of JSON)
+
+  This is Union of bool, str, List[Self], Dict[str, Self].  It's what
+  .get_expr() returns.
+
+  Since mypy can't do recursive, we approximate with _ExprValue.
+
+* A recursive type for JSON object
+
+  This is the Dict branch of the above.  It's what check_keys() &
+  friends take as argument.
+
+  We approximate with _JSONObject.
+
+  Same for the List branch would make sense if we had a use for the
+  type.
+
+* A recursive type for TOP-LEVEL-EXPR
+
+  Actually the same type as the previous one, to be used only for the
+  schema's top-level expressions.  It's the elements of
+  QAPISchemaParser.exprs[], and what check_exprs() takes as argument.
+
+  We approximate with TopLevelExpr, but so far use it only for
+  check_exprs().
+
+  Doesn't really improve type checking, but may serve as documentation.
+
+Shouldn't these types be all defined in one place, namely right here?
+Bonus: we need to explain the mypy sadness just once then.
+
+Shouldn't their names be more systematic?  _ExprValue, _JSONObject and
+TopLevelExpr hardly suggest any relation...
+
+> +
+>  # Return value alias for get_expr().
+>  _ExprValue = Union[List[object], Dict[str, object], str, bool]
+>  
+> @@ -447,7 +457,8 @@ class QAPIDoc:
+>      """
+>  
+>      class Section:
+> -        def __init__(self, parser, name=None, indent=0):
+> +        def __init__(self, parser: QAPISchemaParser,
+> +                     name: Optional[str] = None, indent: int = 0):
+>              # parser, for error messages about indentation
+>              self._parser = parser
+>              # optional section name (argument/member or section name)
+> @@ -459,7 +470,7 @@ def __init__(self, parser, name=None, indent=0):
+>          def __bool__(self) -> bool:
+>              return bool(self.name or self.text)
+>  
+> -        def append(self, line):
+> +        def append(self, line: str) -> None:
+>              # Strip leading spaces corresponding to the expected indent level
+>              # Blank lines are always OK.
+>              if line:
+> @@ -474,39 +485,40 @@ def append(self, line):
+>              self.text += line.rstrip() + '\n'
+>  
+>      class ArgSection(Section):
+> -        def __init__(self, parser, name, indent=0):
+> +        def __init__(self, parser: QAPISchemaParser,
+> +                     name: Optional[str] = None, indent: int = 0):
+
+Why not name: str?  All callers pass a str argument...
+
+>              super().__init__(parser, name, indent)
+> -            self.member = None
+> +            self.member: Optional['QAPISchemaMember'] = None
+
+I guess you need to quote 'QAPISchemaMember', because we actually import
+it only if TYPE_CHECKING.  More of the same below.
+
+>  
+> -        def connect(self, member):
+> +        def connect(self, member: 'QAPISchemaMember') -> None:
+>              self.member = member
+>  
+> -    def __init__(self, parser, info):
+> +    def __init__(self, parser: QAPISchemaParser, info: QAPISourceInfo):
+>          # self._parser is used to report errors with QAPIParseError.  The
+>          # resulting error position depends on the state of the parser.
+>          # It happens to be the beginning of the comment.  More or less
+>          # servicable, but action at a distance.
+>          self._parser = parser
+>          self.info = info
+> -        self.symbol = None
+> +        self.symbol: Optional[str] = None
+>          self.body = QAPIDoc.Section(parser)
+>          # dict mapping parameter name to ArgSection
+> -        self.args = OrderedDict()
+> -        self.features = OrderedDict()
+> +        self.args: Dict[str, QAPIDoc.ArgSection] = OrderedDict()
+> +        self.features: Dict[str, QAPIDoc.ArgSection] = OrderedDict()
+>          # a list of Section
+> -        self.sections = []
+> +        self.sections: List[QAPIDoc.Section] = []
+>          # the current section
+>          self._section = self.body
+>          self._append_line = self._append_body_line
+>  
+> -    def has_section(self, name):
+> +    def has_section(self, name: str) -> bool:
+>          """Return True if we have a section with this name."""
+>          for i in self.sections:
+>              if i.name == name:
+>                  return True
+>          return False
+>  
+> -    def append(self, line):
+> +    def append(self, line: str) -> None:
+>          """
+>          Parse a comment line and add it to the documentation.
+>  
+> @@ -527,18 +539,18 @@ def append(self, line):
+>          line = line[1:]
+>          self._append_line(line)
+>  
+> -    def end_comment(self):
+> +    def end_comment(self) -> None:
+>          self._end_section()
+>  
+>      @staticmethod
+> -    def _is_section_tag(name):
+> +    def _is_section_tag(name: str) -> bool:
+>          return name in ('Returns:', 'Since:',
+>                          # those are often singular or plural
+>                          'Note:', 'Notes:',
+>                          'Example:', 'Examples:',
+>                          'TODO:')
+>  
+> -    def _append_body_line(self, line):
+> +    def _append_body_line(self, line: str) -> None:
+>          """
+>          Process a line of documentation text in the body section.
+>  
+> @@ -578,7 +590,7 @@ def _append_body_line(self, line):
+>              # This is a free-form documentation block
+>              self._append_freeform(line)
+>  
+> -    def _append_args_line(self, line):
+> +    def _append_args_line(self, line: str) -> None:
+>          """
+>          Process a line of documentation text in an argument section.
+>  
+> @@ -624,7 +636,7 @@ def _append_args_line(self, line):
+>  
+>          self._append_freeform(line)
+>  
+> -    def _append_features_line(self, line):
+> +    def _append_features_line(self, line: str) -> None:
+>          name = line.split(' ', 1)[0]
+>  
+>          if name.startswith('@') and name.endswith(':'):
+> @@ -656,7 +668,7 @@ def _append_features_line(self, line):
+>  
+>          self._append_freeform(line)
+>  
+> -    def _append_various_line(self, line):
+> +    def _append_various_line(self, line: str) -> None:
+>          """
+>          Process a line of documentation text in an additional section.
+>  
+> @@ -692,7 +704,11 @@ def _append_various_line(self, line):
+>  
+>          self._append_freeform(line)
+>  
+> -    def _start_symbol_section(self, symbols_dict, name, indent):
+> +    def _start_symbol_section(
+> +            self,
+> +            symbols_dict: Dict[str, 'QAPIDoc.ArgSection'],
+
+The need to quote this within the very class that defines it is
+annoying.
+
+> +            name: str,
+> +            indent: int) -> None:
+>          # FIXME invalid names other than the empty string aren't flagged
+>          if not name:
+>              raise QAPIParseError(self._parser, "invalid parameter name")
+> @@ -704,13 +720,14 @@ def _start_symbol_section(self, symbols_dict, name, indent):
+>          self._section = QAPIDoc.ArgSection(self._parser, name, indent)
+>          symbols_dict[name] = self._section
+>  
+> -    def _start_args_section(self, name, indent):
+> +    def _start_args_section(self, name: str, indent: int) -> None:
+>          self._start_symbol_section(self.args, name, indent)
+>  
+> -    def _start_features_section(self, name, indent):
+> +    def _start_features_section(self, name: str, indent: int) -> None:
+>          self._start_symbol_section(self.features, name, indent)
+>  
+> -    def _start_section(self, name=None, indent=0):
+> +    def _start_section(self, name: Optional[str] = None,
+> +                       indent: int = 0) -> None:
+>          if name in ('Returns', 'Since') and self.has_section(name):
+>              raise QAPIParseError(self._parser,
+>                                   "duplicated '%s' section" % name)
+> @@ -718,7 +735,7 @@ def _start_section(self, name=None, indent=0):
+>          self._section = QAPIDoc.Section(self._parser, name, indent)
+>          self.sections.append(self._section)
+>  
+> -    def _end_section(self):
+> +    def _end_section(self) -> None:
+>          if self._section:
+>              text = self._section.text = self._section.text.strip()
+>              if self._section.name and (not text or text.isspace()):
+> @@ -727,7 +744,7 @@ def _end_section(self):
+>                      "empty doc section '%s'" % self._section.name)
+>              self._section = QAPIDoc.Section(self._parser)
+>  
+> -    def _append_freeform(self, line):
+> +    def _append_freeform(self, line: str) -> None:
+>          match = re.match(r'(@\S+:)', line)
+>          if match:
+>              raise QAPIParseError(self._parser,
+> @@ -735,28 +752,30 @@ def _append_freeform(self, line):
+>                                   % match.group(1))
+>          self._section.append(line)
+>  
+> -    def connect_member(self, member):
+> +    def connect_member(self, member: 'QAPISchemaMember') -> None:
+>          if member.name not in self.args:
+>              # Undocumented TODO outlaw
+>              self.args[member.name] = QAPIDoc.ArgSection(self._parser,
+>                                                          member.name)
+>          self.args[member.name].connect(member)
+>  
+> -    def connect_feature(self, feature):
+> +    def connect_feature(self, feature: 'QAPISchemaFeature') -> None:
+>          if feature.name not in self.features:
+>              raise QAPISemError(feature.info,
+>                                 "feature '%s' lacks documentation"
+>                                 % feature.name)
+>          self.features[feature.name].connect(feature)
+>  
+> -    def check_expr(self, expr):
+> +    def check_expr(self, expr: TopLevelExpr) -> None:
+>          if self.has_section('Returns') and 'command' not in expr:
+>              raise QAPISemError(self.info,
+>                                 "'Returns:' is only valid for commands")
+>  
+> -    def check(self):
+> +    def check(self) -> None:
+>  
+> -        def check_args_section(args, what):
+> +        def check_args_section(
+> +                args: Dict[str, QAPIDoc.ArgSection], what: str
+> +        ) -> None:
+
+This is the fourth use of Dict[str, QAPIDoc.ArgSection].  Still fine,
+but if we acquire even more, we should consider giving it a name.
+
+>              bogus = [name for name, section in args.items()
+>                       if not section.member]
+>              if bogus:
+
 
