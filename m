@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 650EC403097
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 23:59:23 +0200 (CEST)
-Received: from localhost ([::1]:39822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D7F4030AC
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 00:02:15 +0200 (CEST)
+Received: from localhost ([::1]:48174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNj7i-0006II-Fd
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 17:59:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35076)
+	id 1mNjAV-0003fe-0J
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 18:02:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2Q-0005mH-If
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:54 -0400
-Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:46800)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2T-0005pH-4R
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:58 -0400
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:42830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2P-0000rp-5d
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:54 -0400
-Received: by mail-il1-x12a.google.com with SMTP id u17so141700ilm.13
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:53:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mNj2R-0000ub-NA
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 17:53:56 -0400
+Received: by mail-io1-xd31.google.com with SMTP id b10so447485ioq.9
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 14:53:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+8JkNpfesdBOSdFjmNZn5gJ/TH6i2DvTMe8UnLYkrDo=;
- b=Gei2yzz7XZ7oH4ZXDddBsadV9cwNJoRmWJnOfmuUri7ajgZbdhxtxStBbzVqHQ+LNY
- r6dJpcQCilEWs1I69luuWjwi/VARmpzXpc03gI7ygE5c6j9tr/wCoWkTAVkNIlMuetPD
- +sIOyPhGksQibFqGjuCQYQnEFkIxqBW7lDDxPa+6guK0xVmgUcg1gjWGIp6+ZFGFPa6C
- ae8m0j8nLz+YlNjq7aS0YRRXdaxfcvL9bLoviD7E0jVHL5yMIlkexK5LYdJUmgPlJgw/
- 2QA+L116leB4+4//Pe3Um4EaitrIBkrE+NG7LiHJ5rJl+Pe/oSspXi7KCmcq7KAShZKU
- 7hPw==
+ bh=fibrjHiBo3BWeiBRUCFmwdLyefDsJC7g8aB8krYG+xI=;
+ b=M6DRERTWmX8JVqHLIQb5C2vG4A8szHFR0zKKZpjtrO3DQAX6Oh2YrMZAM+BR9AeoOz
+ v1ca7PwiXbCqiIh9AsCEFHKkcXxGwCAqgnRbzELFyQMnW0qoSDpiR+oxYhuaYavZtkTE
+ UYRldymLGD28CS2HHN8zJbk+aLf1qklBQUEtSH86iPsEZwXv/nYtAiTCNtsazWxhxQS4
+ 0cfb0eF3dqYR69OIwGmm58Urg3CCQs232bhjbBrBkN5gUUg3+rjj8dHJld4n4muMbTeQ
+ CwsbTDWYAUqHannJ56Kk0x+zmwEMetwGNBbNv5c94OLPl0G4ZCh9twhCV8zh2AyOZ3aG
+ CyZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+8JkNpfesdBOSdFjmNZn5gJ/TH6i2DvTMe8UnLYkrDo=;
- b=fhGy4hrfPtSuSNYVMUvEJWZ6EZFdyxVXs78V3U67A1BaSv8/J6OAyajBfikh/xy/N0
- Opx7P4jN0KHjKVol+5bFoVkTWQzlLWxB2ey0D7PfRyBUbpYMoQD+2iwVNaZiwt9xllIY
- v9GdskeGJmZaRi00XqmfRtCH/klcDR6DWKm3SEwfUhumt2u1kpuMJPmEki1faMs/TSJh
- 94dhMga91n7vwm+W7zPkiov6cfU6FPQY6zW9cso2OzTjaGO20x6+Utyb4u8afzmpCIkB
- weH5Dl5QEN6MCY0S0evFsvOTgO4kmSZaKQPu7Z3ckVFi8HJUKQNSTGBN2abEYLQv4deB
- 9BbA==
-X-Gm-Message-State: AOAM531HrkZefZWEXNv0FDq0aMLr4g++7KXNpCevywmd7Tp4dZ8RBkVV
- PIJ4bkXZkKVIC9GvBPSHaENHDvtW7VdWVHtOFHQ=
-X-Google-Smtp-Source: ABdhPJz6npR2nPrVyiXXwc11qopf2Yr4fDB4rTQV16pWdIp1glWO+q7dZyrhiAMiFxqYnltCHv7bTQ==
-X-Received: by 2002:a05:6e02:d0b:: with SMTP id
- g11mr252805ilj.321.1631051631652; 
- Tue, 07 Sep 2021 14:53:51 -0700 (PDT)
+ bh=fibrjHiBo3BWeiBRUCFmwdLyefDsJC7g8aB8krYG+xI=;
+ b=sENrlzL6oj7uesasjK2s8+GzjaI60K3Kd5P6J0q+IxLp0FjSBaLAdj2QIboxGkJvcH
+ 7uPRi72mQxqheGR1F/dNuaJH3XMf47JZHVbAjQJdkVC5E+gmM8p1Y5KslGu1z62EWU4Q
+ TVuW/lsslPwLOgKLKD2XQx2A6sUMIQHap5rGFoukIMI3DL1o8z30E+l3rq23BrOqhMiJ
+ eeSfra6fSMCE6pPSq77P2E+I/nXQRXh5XTwWh2vZEHcvk6qi7Y3cpYcheQXl9NiMP151
+ JXIKIcvwucsWv72iBP+IPLAWwBwQOeo5KCFphKo9jVPmzJ/9GV1JIWPswDQg/Epy2STc
+ Aq0w==
+X-Gm-Message-State: AOAM530vvtz51dWfq1XLHz3aLK33fjEN3NxEcZLxYsSgTTbCOgPvY3Jr
+ xxRv1urJJb9WXyH47VZRVU9rd3/QofEUxplsyDo=
+X-Google-Smtp-Source: ABdhPJw000Vx0F2zoxzox+ON5wtgSUHWKNfKA3ADZVPcU+OQ09YyM2p0yVkhLL0o9po4KSzpzcfCdw==
+X-Received: by 2002:a5d:9256:: with SMTP id e22mr307869iol.152.1631051634470; 
+ Tue, 07 Sep 2021 14:53:54 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.50
+ by smtp.gmail.com with ESMTPSA id t17sm192477iln.24.2021.09.07.14.53.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 14:53:51 -0700 (PDT)
+ Tue, 07 Sep 2021 14:53:53 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/42] bsd-user: assume pthreads and support of __thread
-Date: Tue,  7 Sep 2021 15:53:05 -0600
-Message-Id: <20210907215332.30737-16-imp@bsdimp.com>
+Subject: [PULL 18/42] bsd-user: save the path to the qemu emulator
+Date: Tue,  7 Sep 2021 15:53:08 -0600
+Message-Id: <20210907215332.30737-19-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210907215332.30737-1-imp@bsdimp.com>
 References: <20210907215332.30737-1-imp@bsdimp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::12a;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd31.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -83,75 +81,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: Kyle Evans <kevans@FreeBSD.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stacey Son <sson@FreeBSD.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@bsdimp.com>
 
-All compilers for some time have supported this. Follow linux-user and
-eliminate the #define THREAD and unconditionally insert __thread where
-needed. Please insert: "(see 24cb36a61c6: "configure: Make NPTL
-non-optional")"
+Save the path to the qemu emulator. This will be used later when we have
+a more complete implementation of exec.
 
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 ---
- bsd-user/main.c |  2 +-
- bsd-user/qemu.h | 10 +---------
- 2 files changed, 2 insertions(+), 10 deletions(-)
+ bsd-user/main.c | 21 +++++++++++++++++++++
+ bsd-user/qemu.h |  1 +
+ 2 files changed, 22 insertions(+)
 
 diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 1388c7a13d..e06cc7b414 100644
+index 607fdd8380..d7c8a3e348 100644
 --- a/bsd-user/main.c
 +++ b/bsd-user/main.c
-@@ -309,7 +309,7 @@ static void usage(void)
-     exit(1);
+@@ -43,6 +43,8 @@
+ 
+ #include "host-os.h"
+ 
++#include <sys/sysctl.h>
++
+ int singlestep;
+ unsigned long mmap_min_addr;
+ uintptr_t guest_base;
+@@ -52,6 +54,7 @@ unsigned long reserved_va;
+ static const char *interp_prefix = CONFIG_QEMU_INTERP_PREFIX;
+ const char *qemu_uname_release;
+ enum BSDType bsd_type;
++char qemu_proc_pathname[PATH_MAX];  /* full path to exeutable */
+ 
+ /*
+  * XXX: on x86 MAP_GROWSDOWN only works if ESP <= address + 32, so
+@@ -336,6 +339,22 @@ void init_task_state(TaskState *ts)
+     ts->sigqueue_table[i].next = NULL;
  }
  
--THREAD CPUState *thread_cpu;
-+__thread CPUState *thread_cpu;
- 
- bool qemu_cpu_is_self(CPUState *cpu)
++static void save_proc_pathname(char *argv0)
++{
++    int mib[4];
++    size_t len;
++
++    mib[0] = CTL_KERN;
++    mib[1] = KERN_PROC;
++    mib[2] = KERN_PROC_PATHNAME;
++    mib[3] = -1;
++
++    len = sizeof(qemu_proc_pathname);
++    if (sysctl(mib, 4, qemu_proc_pathname, &len, NULL, 0)) {
++        perror("sysctl");
++    }
++}
++
+ int main(int argc, char **argv)
  {
+     const char *filename;
+@@ -360,6 +379,8 @@ int main(int argc, char **argv)
+         usage();
+     }
+ 
++    save_proc_pathname(argv[0]);
++
+     error_init(argv[0]);
+     module_call_init(MODULE_INIT_TRACE);
+     qemu_init_cpu_list();
 diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index d1ab58a8eb..cf248ad3df 100644
+index cf248ad3df..6c4ec61d76 100644
 --- a/bsd-user/qemu.h
 +++ b/bsd-user/qemu.h
-@@ -40,12 +40,6 @@ extern enum BSDType bsd_type;
- #include "target_syscall.h"
- #include "exec/gdbstub.h"
+@@ -207,6 +207,7 @@ void mmap_fork_start(void);
+ void mmap_fork_end(int child);
  
--#if defined(CONFIG_USE_NPTL)
--#define THREAD __thread
--#else
--#define THREAD
--#endif
--
- /*
-  * This struct is used to hold certain information about the image.  Basically,
-  * it replicates in user space what would be certain task_struct fields in the
-@@ -155,7 +149,7 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
-                             abi_long arg2, abi_long arg3, abi_long arg4,
-                             abi_long arg5, abi_long arg6);
- void gemu_log(const char *fmt, ...) GCC_FMT_ATTR(1, 2);
--extern THREAD CPUState *thread_cpu;
-+extern __thread CPUState *thread_cpu;
- void cpu_loop(CPUArchState *env);
- char *target_strerror(int err);
- int get_osversion(void);
-@@ -422,8 +416,6 @@ static inline void *lock_user_string(abi_ulong guest_addr)
- #define unlock_user_struct(host_ptr, guest_addr, copy)          \
-     unlock_user(host_ptr, guest_addr, (copy) ? sizeof(*host_ptr) : 0)
+ /* main.c */
++extern char qemu_proc_pathname[];
+ extern unsigned long x86_stack_size;
  
--#if defined(CONFIG_USE_NPTL)
- #include <pthread.h>
--#endif
- 
- #endif /* QEMU_H */
+ /* user access */
 -- 
 2.32.0
 
