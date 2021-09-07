@@ -2,54 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5C60402172
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 01:48:54 +0200 (CEST)
-Received: from localhost ([::1]:49254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E8854021A4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 02:27:30 +0200 (CEST)
+Received: from localhost ([::1]:36444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNOM9-00021P-5J
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 19:48:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53606)
+	id 1mNOxV-00066Z-0f
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 20:27:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mNOHz-00012W-5f; Mon, 06 Sep 2021 19:44:35 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45009 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mNOHu-0003Gq-5S; Mon, 06 Sep 2021 19:44:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1630971861;
- bh=DV4lrVOZKimkmV5SG3VEodRqN88dZWosvhDRUFWOs98=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=httFMzl9ayg9UWpj6zDqIHqvSws4rnJuSx5ZnUl4JjjFfwnjOS2AY5s7DWutkU5W3
- vZIJ2TDLbMydkW+PKQUvzDTuc7X2E3hGjbvO7L5kkJe/5QdgiUMfe/lFZocdf0gBBN
- C4WUFRC57fPLeKCKZ0RX3agb0SH+J6L9u/lu7+ZI=
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4H3Q3T4xwYz9shn; Tue,  7 Sep 2021 09:44:21 +1000 (AEST)
-Date: Tue, 7 Sep 2021 09:24:55 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v7 5/7] qapi/qdev.json: add DEVICE_UNPLUG_GUEST_ERROR
- QAPI event
-Message-ID: <YTajR1sxqg8APAfJ@yekko>
-References: <20210825004835.472919-1-danielhb413@gmail.com>
- <20210825004835.472919-6-danielhb413@gmail.com>
- <87tuj4a0wx.fsf@dusky.pond.sub.org> <YTLtvn5ywJce0iqE@yekko>
- <874kb0pnlq.fsf@dusky.pond.sub.org>
- <3dad103a-0019-2643-815a-ac9fb08b743e@gmail.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mNOvk-0003qt-Nh; Mon, 06 Sep 2021 20:25:40 -0400
+Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a]:45653)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mNOvj-0005f0-7C; Mon, 06 Sep 2021 20:25:40 -0400
+Received: by mail-qv1-xf2a.google.com with SMTP id bn14so4817117qvb.12;
+ Mon, 06 Sep 2021 17:25:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YFryoeA2nfaxBDooZqUFX5D7j+mLuO2YKVQ4ULT72LE=;
+ b=BZ6pBEcUB4WxQz0CAXcMSEx8ijjsomtBwiw0xgVvbqiYLm3oYcvGiJTHHdP388QZko
+ sUOapFf/WJjPlDmTdU4sqZ1O9NaKzOgPsy5UO5BhDvDuxRN3nzwnSoQNLnXM/fzHk1gP
+ Z6n2oI1duOnHSg6X5QWRlOpMDm0d32EsUrJPTDQ1WGz0+yZTsOat82G+h4Z8efXZylUQ
+ d8JCZKyHy19mO9PXG9lRW44CY0SBly5Bm//xrrfGmfkZDLuUfgjJchzOIaRQbHB7qaG0
+ Hm39+cqQSd3FK9PjBHmOMh2kV7hwTEUYuvPHfP5Fzf4/sg8sHuAjdu5tSRy2lN9gjGr0
+ nh/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YFryoeA2nfaxBDooZqUFX5D7j+mLuO2YKVQ4ULT72LE=;
+ b=MRlC2fcEmg+cRUlSTs3H0tv4JV+ccK3XWxPcn0Ff080wTIrgpVKepTYkrE/NCGfhup
+ 9gIWedJ+swTd2v24BqzsFTFm9vjWYAE4lIYSkrH/uxwhXXoJrKpwD0TX71ju3zG0j9/i
+ Q2uMVM0xtFRjGsR14YQqt7lH/oofEFsChc8Yg2Cc0jM1jp0Zi0sqvhH1JyxVJLR4xWdo
+ wyFzD5gcUqRhIPp55qwz2oeZIksqiaARiwA1o4GmYY7W7llH0R4nnLbp41lKFXjHljKw
+ Dptj6faKVoyFwLYCq420RKoozbqR3rVfxlfI2VuIIVTzfGxbUXbnyZ91JkHsez3M3RKW
+ m9oA==
+X-Gm-Message-State: AOAM531dRU1hxJ93pz8t74GTkpKFXBzsFQW0WLQssuG4XmO6qR5Q8OaX
+ lYLedCKGIHKxK0B9GMJyiYdYqC+P120=
+X-Google-Smtp-Source: ABdhPJyXDh8b5YJ1GeWsdBQaR1LsdRTF080Jscdiq+LkAwvBb2ZAs/u7VEbsMm49WoVfntsLQMXXDA==
+X-Received: by 2002:ad4:482d:: with SMTP id h13mr14510374qvy.5.1630974337909; 
+ Mon, 06 Sep 2021 17:25:37 -0700 (PDT)
+Received: from rekt.COMFAST ([179.247.136.122])
+ by smtp.gmail.com with ESMTPSA id 207sm7892056qkh.45.2021.09.06.17.25.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Sep 2021 17:25:37 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/4] pSeries FORM2 affinity support
+Date: Mon,  6 Sep 2021 21:25:23 -0300
+Message-Id: <20210907002527.412013-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="20oJoPVHEmZvm+/O"
-Content-Disposition: inline
-In-Reply-To: <3dad103a-0019-2643-815a-ac9fb08b743e@gmail.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf2a.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,124 +79,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, qemu-ppc@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
---20oJoPVHEmZvm+/O
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In this new version, the biggest change is that now we're initializing
+NUMA associativity internal data during machine_reset(), instead of
+machine_init(), to allow for the guest to switch between FORM1 and
+FORM2 during guest reset. All other changes are consequence of this
+design change.
 
-On Mon, Sep 06, 2021 at 09:40:47AM -0300, Daniel Henrique Barboza wrote:
->=20
->=20
-> On 9/4/21 8:49 AM, Markus Armbruster wrote:
-> > David Gibson <david@gibson.dropbear.id.au> writes:
-> >=20
-> > > On Wed, Sep 01, 2021 at 03:19:26PM +0200, Markus Armbruster wrote:
-> > > > Daniel Henrique Barboza <danielhb413@gmail.com> writes:
-> > > >=20
-> > > > > At this moment we only provide one event to report a hotunplug er=
-ror,
-> > > > > MEM_UNPLUG_ERROR. As of Linux kernel 5.12 and QEMU 6.0.0, the pse=
-ries
-> > > > > machine is now able to report unplug errors for other device type=
-s, such
-> > > > > as CPUs.
-> > > > >=20
-> > > > > Instead of creating a (device_type)_UNPLUG_ERROR for each new dev=
-ice,
-> > > > > create a generic DEVICE_UNPLUG_GUEST_ERROR event that can be used=
- by all
-> > > > > guest side unplug errors in the future. This event has a similar =
-API as
-> > > > > the existing DEVICE_DELETED event, always providing the QOM path =
-of the
-> > > > > device and dev->id if there's any.
-> > > > >=20
-> > > > > With this new generic event, MEM_UNPLUG_ERROR is now marked as de=
-precated.
-> > > > >=20
-> > > > > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > > > > ---
-> > > >=20
-> > > > [...]
-> > > >=20
-> > > > > diff --git a/qapi/qdev.json b/qapi/qdev.json
-> > > > > index 0e9cb2ae88..8b1a1dd43b 100644
-> > > > > --- a/qapi/qdev.json
-> > > > > +++ b/qapi/qdev.json
-> > > > > @@ -84,7 +84,9 @@
-> > > > >   #        This command merely requests that the guest begin the =
-hot removal
-> > > > >   #        process.  Completion of the device removal process is =
-signaled with a
-> > > > >   #        DEVICE_DELETED event. Guest reset will automatically c=
-omplete removal
-> > > > > -#        for all devices.
-> > > > > +#        for all devices.  If a guest-side error in the hot remo=
-val process is
-> > > > > +#        detected, the device will not be removed and a DEVICE_U=
-NPLUG_GUEST_ERROR
-> > > > > +#        event is sent.  Some errors cannot be detected.
-> > > > >   #
-> > > > >   # Since: 0.14
-> > > > >   #
-> > > > > @@ -124,3 +126,27 @@
-> > > > >   ##
-> > > > >   { 'event': 'DEVICE_DELETED',
-> > > > >     'data': { '*device': 'str', 'path': 'str' } }
-> > > > > +
-> > > > > +##
-> > > > > +# @DEVICE_UNPLUG_GUEST_ERROR:
-> > > > > +#
-> > > > > +# Emitted when a device hot unplug fails due to an internal guest
-> > > > > +# error.
-> > > >=20
-> > > > Suggest to scratch "internal".
-> > >=20
-> > > I'd suggest s/internal guest/guest reported/.  "guest error" is a bit
-> > > vague, this doesn't neccessarily indicate a bug in the guest.  The key
-> > > point is that we're reporting this event because the guest performed
-> > > some explicit action to tell us something went wrong with the plug
-> > > attempt.
-> >=20
-> > Yes, that's better.
->=20
->=20
-> I agree.  David, let me know if you need another spin with this
-> change.
+Changes from v4:
+- former patch 1:
+  * dropped, pseries-6.2 machine type is already available
+- new patch 1:
+  * move numa associativity init to machine reset
+- patch 3:
+  * avoid resetting associativity data if FORM1 was chosen
+- former patch 4:
+  * dropped, folded into patch 1
+- patch 4 (former 5):
+  * move both FORM1 verifications to post-CAS
+- v4 link: https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg04860.html
+ 
 
-Yes please.  I'm afraid I kind of lost track of the last posting.
+Daniel Henrique Barboza (4):
+  spapr: move NUMA associativity init to machine reset
+  spapr_numa.c: split FORM1 code into helpers
+  spapr_numa.c: base FORM2 NUMA affinity support
+  spapr: move FORM1 verifications to do_client_architecture_support()
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+ hw/ppc/spapr.c              |  63 +++++-----
+ hw/ppc/spapr_hcall.c        |  16 +++
+ hw/ppc/spapr_numa.c         | 225 +++++++++++++++++++++++++++++++++---
+ include/hw/ppc/spapr.h      |   1 +
+ include/hw/ppc/spapr_numa.h |  10 +-
+ include/hw/ppc/spapr_ovec.h |   1 +
+ 6 files changed, 253 insertions(+), 63 deletions(-)
 
---20oJoPVHEmZvm+/O
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.31.1
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmE2o0UACgkQbDjKyiDZ
-s5L6vRAAylf/b4LldWuz2SKZswpFB/OGfGsE9KkpsyCVVOTl3JLnOQxpDdsisXSr
-BCqU6K0RyqdDnSnRKpsAyxM8ChyCynCW1xuPyvXGYajtGVZ47/L0hlJ/Qj/jG3tv
-ajgLia+A5PaiJxVlTrZTM85PN8evwxBTnw4PhLoCSwHw/mjK/ZwHCy+oo7W72GV4
-AY+ZM869KBx7EzL2aLHYn9m/zHKK/K8oN8dotCjYbFzMiIKJlIkpGnoInIsorsfH
-KYnjCmn9UmY8M946Iv1lUbvedlJY0+OPj6KqTqwnz5k/iWja4PKD8LG4txZJkEUm
-DVC4oAQLZCWwawjfrQ2XM7zlUmoyShvX9c+uh4dAXowAnLuI51DOcMzpV9uAUnnY
-2rS0LdPk7FUpv8sJwSr3a9QKklMJukEhJn1qJoKXqHKjpssjsFtVPE+4Y1q8NbCW
-MBSN/3GG3qkdBLio7Ow1l+xzPYpUTdKjhRanfWU1+2NOSIsomC3EHiGa2zmAN2/6
-SK8gGdICCjB2EGgy9+KwowgiewobeFgK4H4oqP7wjJqmdCkllANXU29yIgjp18Qd
-/Y75dalvoZ2ESaBaZz6sGzh+mh+nIP4fzEUHbJ6DM+Y58M7BTPSbjiN5S9krC+NH
-ykiQYhC+Wxx9d0DGuke/F4YPhOdDuSlh1x21EJxnrncQA4gJECg=
-=hQce
------END PGP SIGNATURE-----
-
---20oJoPVHEmZvm+/O--
 
