@@ -2,71 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5973B402A65
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:07:10 +0200 (CEST)
-Received: from localhost ([::1]:53976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE7A402A79
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:12:42 +0200 (CEST)
+Received: from localhost ([::1]:44684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNbkj-00049q-EU
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:07:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52122)
+	id 1mNbq5-0000WC-HI
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:12:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNbYi-0000Z3-Vb
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:54:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60168)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mNbag-0003zE-0s
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:56:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNbYh-0002YI-8u
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:54:44 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mNbac-0003rp-Vg
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 09:56:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631022882;
+ s=mimecast20190719; t=1631023002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ITQDaNC8EBh1Dt71Yns1G9hCbBYXaiSPpJjmwnxwsZY=;
- b=DQpH6SbIuTvA+WMnCwogkJ/EsBhelmRLNda0w9LYZa0zZaHiMXqhsY/tA1XNRhh+eMJwnJ
- xmhpSo3qSPdOijf+xww6eiF6pjvItgngUWy18MIPuYMGYGJf6oefgsEz/zPmWLEMlqaGC/
- QY/JPC4+FKoLRtBfphXSsFKN+G5O4l0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-Rbn4-VuGP_a3cCnYsgM9gw-1; Tue, 07 Sep 2021 09:54:41 -0400
-X-MC-Unique: Rbn4-VuGP_a3cCnYsgM9gw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B3511005523;
- Tue,  7 Sep 2021 13:54:39 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.246])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4EE4E5D9CA;
- Tue,  7 Sep 2021 13:54:36 +0000 (UTC)
-Date: Tue, 7 Sep 2021 14:54:35 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: John Johnson <john.g.johnson@oracle.com>
-Subject: Re: [PATCH RFC v2 07/16] vfio-user: get device info
-Message-ID: <YTdvG9Ea1KJ+nM7M@stefanha-x1.localdomain>
-References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
- <d2c6a72f9b0b207bcb2c7fe49abe45854d4e017b.1629131628.git.elena.ufimtseva@oracle.com>
- <YSUYfS442NY5TltC@stefanha-x1.localdomain>
- <057C9D51-759C-4424-A582-ABA783C4D923@oracle.com>
+ bh=WDW6fzLUU6CHzmdb0BPu1PT1hFSWrlUO/b+GtVF+gbc=;
+ b=RPZwU+8lucKvmqD1aWelIu0XXMtpDLHMQ3WbG/YRgiq3btiUz45SH8SrsrkSi6JrrGeyZ8
+ hw2taKF+vrJrNensmUbY2KENMziZUh/cODfTki1Q6IKHcqVAOkaYv9sLt5jKVvtRleoYvV
+ vTh15RPuhUNqNjmJM5qTitDQ5hSmXvw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-538-IIu9QgBpNYGEXLb0SMj45g-1; Tue, 07 Sep 2021 09:56:39 -0400
+X-MC-Unique: IIu9QgBpNYGEXLb0SMj45g-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ n1-20020a5d4c41000000b00159305d19baso2146211wrt.11
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 06:56:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=WDW6fzLUU6CHzmdb0BPu1PT1hFSWrlUO/b+GtVF+gbc=;
+ b=sfBliV6IWNFBW8HqonP1XNVWE7aGP8V8t2YOQ34o0K1kBkCWxCfPgN8wNSKAK1AdnC
+ u1NlNaEgRpn184vKxONIP8qQSkwKl4hI4za4o28XJorGvFA/d83WblIMsby6if5M/O8O
+ IC83MS83TM418CIAcyxIeJHsIoCwQisx6+r1RgsWwUYN9Q5ob4QXdLR/5obsEo4DP5Xw
+ 9h0c5a8jYoDTD7tY4MTbEmT2Cijccd9x7VR1EALIkHg2QhUpSQpFrqIlOmJdT4Pqekkq
+ P6KG/eB2U0O+4exuurDaldyAzus0KVV3jnovzmUojOCa3WtLLRapLPp47Vg2LaXBYSd5
+ lrlw==
+X-Gm-Message-State: AOAM533AhIyU3QcXuW5gufr0gOu5c1XZ5JbxFVf7zcWJ7+uZp06cDypN
+ +R8ZXfnMrrtxwA2zcvAepegLkKtJEJ8r6pUm4P868/QJUu9p/3jH/hQHdpG73j+9ioDPIWzrx5E
+ wZmVNrQKEJpgjqiY=
+X-Received: by 2002:a5d:410b:: with SMTP id l11mr19351024wrp.76.1631022998492; 
+ Tue, 07 Sep 2021 06:56:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzlydQ9C5jwfgiZZd2PC+EynOCa3P9MAoRD/DQHKGEQ4p3Q2GFAkt68myaKxUKjDRsOGWAekw==
+X-Received: by 2002:a5d:410b:: with SMTP id l11mr19351005wrp.76.1631022998233; 
+ Tue, 07 Sep 2021 06:56:38 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
+ by smtp.gmail.com with ESMTPSA id k17sm2604099wmj.0.2021.09.07.06.56.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Sep 2021 06:56:37 -0700 (PDT)
+Subject: Re: [qemu-web RFC] CONTRIBUTING.md: Mention maintainers
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210906170038.26602-1-hreitz@redhat.com>
+ <63441b5c-2262-3b7a-e0bd-e6f41401a64a@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <a1f5fc57-a5df-2e02-680e-b7010642f168@redhat.com>
+Date: Tue, 7 Sep 2021 15:56:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <057C9D51-759C-4424-A582-ABA783C4D923@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <63441b5c-2262-3b7a-e0bd-e6f41401a64a@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5YJJuspUPTHvx8xj"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-3.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.391, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.332,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,78 +98,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Jag Raman <jag.raman@oracle.com>,
- "swapnil.ingle@nutanix.com" <swapnil.ingle@nutanix.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- QEMU Devel Mailing List <qemu-devel@nongnu.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---5YJJuspUPTHvx8xj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 07.09.21 14:57, Paolo Bonzini wrote:
+> On 06/09/21 19:00, Hanna Reitz wrote:
+>> This is an RFC first because I feel bad about sending a patch that
+>> gives people responsibilities who aren't me.  But Thomas seemed to agree
+>> with me that making this requirement explicit would be nice, so I guess
+>> someone has to send a patch for it...
+>
+> Don't feel bad, I'll make sure you'll have to send a v2.
 
-On Mon, Aug 30, 2021 at 03:11:39AM +0000, John Johnson wrote:
->=20
->=20
-> > On Aug 24, 2021, at 9:04 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
-e:
-> >=20
-> > On Mon, Aug 16, 2021 at 09:42:40AM -0700, Elena Ufimtseva wrote:
-> >> +int vfio_user_get_info(VFIODevice *vbasedev)
-> >> +{
-> >> +    VFIOUserDeviceInfo msg;
-> >> +
-> >> +    memset(&msg, 0, sizeof(msg));
-> >> +    vfio_user_request_msg(&msg.hdr, VFIO_USER_DEVICE_GET_INFO, sizeof=
-(msg), 0);
-> >> +    msg.argsz =3D sizeof(struct vfio_device_info);
-> >> +
-> >> +    vfio_user_send_recv(vbasedev->proxy, &msg.hdr, NULL, 0, 0);
-> >> +    if (msg.hdr.flags & VFIO_USER_ERROR) {
-> >> +        return -msg.hdr.error_reply;
-> >> +    }
-> >> +
-> >> +    vbasedev->num_irqs =3D msg.num_irqs;
-> >> +    vbasedev->num_regions =3D msg.num_regions;
-> >> +    vbasedev->flags =3D msg.flags;
-> >> +    vbasedev->reset_works =3D !!(msg.flags & VFIO_DEVICE_FLAGS_RESET)=
-;
-> >=20
-> > No input validation. I haven't checked what happens when num_irqs,
-> > num_regions, or flags are bogus but it's a little concerning. Unlike
-> > kernel VFIO, we do not trust these values.
-> >=20
->=20
-> =09As in the last reply, vfio-user doesn=E2=80=99t know valid values
-> from invalid, so I need to re-work this so the PCI-specific code that
-> calls vfio-user_get_info() can test for invalid values.
+Well, as long as you aren’t asking me to take responsibility so I could 
+feel less bad...
 
-Sounds good. I won't look further for missing input validation in the
-VFIO message contents in this revision of the patch series. Once you're
-happy with input validation I'll look at the code from this angle again.
+> Actually I'm kidding, this looks good to me and I've merged it.
 
-Stefan
+Thanks!
 
---5YJJuspUPTHvx8xj
-Content-Type: application/pgp-signature; name="signature.asc"
+> But we should make a decision on accepting qemu-web merge requests on 
+> GitLab.  For that, apart from touching the CONTRIBUTING.md file, we 
+> should also edit 
+> https://www.qemu.org/2017/02/04/the-new-qemu-website-is-up/ which 
+> suggests using "git send-email".
 
------BEGIN PGP SIGNATURE-----
+Well, it’s definitely not my decision to make, but FWIW I’m in favor.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE3bxsACgkQnKSrs4Gr
-c8jd4Qf9E0N7pC5kr3ZdZye2jFDNIMGep0CfnWvTqi1Bnr00DGcPeHG/WUYixE/E
-jszUxGuQm6zIvxzx5XF0B89Xc0wlXYnTFLu+dCw66MItAVdUqvuMeJSaZ0S0C8lD
-MT+rboGR2mDDvodoSGJsrBM6DttWD0TYyPB3nPC2ScXR2737LSWAhq9Il/Cn8Kmj
-q3UW3oLiCrUpGA0vZuUYN05QE7i/a6Z0j6MuxlVAe5wg95M700nXfZ8ykU2/iglC
-iwlZqJAWpAlxTV6pku7S6Pql8UD7IDoXOSVnEekc2jTXa70pPn/LFIEyHAuWZKMo
-JI72TYgA6gQvFQY9YY3b4UTW+8a7+g==
-=nxof
------END PGP SIGNATURE-----
-
---5YJJuspUPTHvx8xj--
+Hanna
 
 
