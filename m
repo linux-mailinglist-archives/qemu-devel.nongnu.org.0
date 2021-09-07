@@ -2,74 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DFDB40234D
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 08:17:12 +0200 (CEST)
-Received: from localhost ([::1]:50924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FFE840234E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 08:18:58 +0200 (CEST)
+Received: from localhost ([::1]:53336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNUPv-0004DO-M1
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 02:17:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51370)
+	id 1mNURd-0005rU-Nk
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 02:18:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNUNr-0002LQ-4H
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 02:15:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41286)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNUPz-0004oQ-Uh
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 02:17:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNUNn-0006WX-EJ
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 02:15:02 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNUPy-0000B1-IY
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 02:17:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630995298;
+ s=mimecast20190719; t=1630995434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EAwV1E6T9D5eBJGPJZIWrPXexGBqvRgn/2pmc8vL/fg=;
- b=giwx55TfVi6YmImUEX3h0Xw5NLzG7J/QQ98plRghzmYqbOl5yP7lBFr57vaJGMxg59IBTp
- D8OebZ7/YHut8pT9rEEGFNd2PUDVRTGY8ZlGit5NeSmzjuZ/QOAPu3MqWnfyHzZm6/71Mh
- wlxNbFb/TgH8YqIkUTiENWp7kB/bK5w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-595-yAY7k-YHNlmzDkViNfUT8g-1; Tue, 07 Sep 2021 02:14:56 -0400
-X-MC-Unique: yAY7k-YHNlmzDkViNfUT8g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F058A5184;
- Tue,  7 Sep 2021 06:14:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
- [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2728E5FC08;
- Tue,  7 Sep 2021 06:14:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9C2131138606; Tue,  7 Sep 2021 08:14:52 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 2/9] qapi: make blockdev-add a coroutine command
-References: <20210906190654.183421-1-vsementsov@virtuozzo.com>
- <20210906190654.183421-3-vsementsov@virtuozzo.com>
- <87tuixa4gv.fsf@dusky.pond.sub.org>
- <7f9959e1-851d-b38a-c92c-ae42c340f29e@virtuozzo.com>
-Date: Tue, 07 Sep 2021 08:14:52 +0200
-In-Reply-To: <7f9959e1-851d-b38a-c92c-ae42c340f29e@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Tue, 7 Sep 2021 00:40:52 +0300")
-Message-ID: <87v93c9ajn.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=g5LMbxaYQTPsnz6CsNmrHaShIEuyXYW1sUonCUEZgsw=;
+ b=Ie2fj/Dsaad3zeHhodyREUj9+CcqRtGpoIw5UQiURr1wzZ975Z6V7L2jRAMmUFKz4QXVGS
+ aHcgVVcY/CbonzqhE15TcX90qBGBaD0dcNyUWxnI7/+VMawHQdQPCXBMLDpXm1qebthTUd
+ M3vqUKB4+rdNEfmfCgr1u76BgJcKbXY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-315-Sia6lP8gNVyRXteJcH9EAA-1; Tue, 07 Sep 2021 02:17:11 -0400
+X-MC-Unique: Sia6lP8gNVyRXteJcH9EAA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ u14-20020a7bcb0e0000b0290248831d46e4so694477wmj.6
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 23:17:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=g5LMbxaYQTPsnz6CsNmrHaShIEuyXYW1sUonCUEZgsw=;
+ b=TRNtNlAKz5H+TCanXe0zFC9SbzgRwYZT8f23TsSOXFjt2qhAh43IskgYhqxRp2t9vR
+ LjVtX/ZV8uF24fYTdQk97mWFnjP/KN2X0qkzfE8wBsJt53rU4bcTYECWq1OqagJJikcu
+ U0PHc2fSlsl/ZKiEPZPuppUvddY83zsLDviSsTX16e3euV8HmgFDjC42wax6YxhukinD
+ LL9xKiHUE2109K18uPcFvO5Wv8hs5n3E6yqb0rWgIfEbwy+VHvq7kldfK69gB04txsVC
+ /SNiI+0RCGAkXxyw0sb08dPoWz2RDZX0AHsXWsNWgEzqnQonHAs8dwxeehDlf+5NHXPN
+ UZ0Q==
+X-Gm-Message-State: AOAM5321R0H5Du09MSooSvEXa/60u48AWOVfhThZCyK5JoDC2C60Glag
+ 8prbOUbzTbhudZ/yxiisSTr6o6Z/k/IJXvm+ZlmYOvQoXLYCK8J/VFRTwyBkN1NwKgMgQtORoPg
+ exCbOgHiOP6/JAJc=
+X-Received: by 2002:a1c:f414:: with SMTP id z20mr2211149wma.94.1630995430728; 
+ Mon, 06 Sep 2021 23:17:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyLtpjmBZkwigCrJQb9WPvgxSy3kXX+r+mEcz3AsshZqkZRdxxjZ9Cf+nxWR+vxo+Bl4Eaarg==
+X-Received: by 2002:a1c:f414:: with SMTP id z20mr2211115wma.94.1630995430384; 
+ Mon, 06 Sep 2021 23:17:10 -0700 (PDT)
+Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id o7sm1332443wmc.46.2021.09.06.23.17.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Sep 2021 23:17:10 -0700 (PDT)
+Subject: Re: [PATCH v3] qemu-sockets: fix unix socket path copy (again)
+To: Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+References: <20210901131624.46171-1-mjt@msgid.tls.msk.ru>
+ <CAJ+F1CLcSZ_zE8oMZz3k_WCSOvf50hapGCu-dfSd9RxzzVhumA@mail.gmail.com>
+ <165d60fd-c91e-7b03-3ec1-21f50760ec05@msgid.tls.msk.ru>
+ <8929531a-c763-f01b-4a3a-70c1a0dd97cd@redhat.com>
+ <e93958d0-3015-c490-64e9-261dabc6b301@msgid.tls.msk.ru>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c89046ba-687c-bb64-7dc5-91541d3802dd@redhat.com>
+Date: Tue, 7 Sep 2021 08:17:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <e93958d0-3015-c490-64e9-261dabc6b301@msgid.tls.msk.ru>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.391, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,91 +102,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- hreitz@redhat.com, den@openvz.org, eblake@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, qemu-stable <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+On 9/6/21 1:39 PM, Michael Tokarev wrote:
+> 06.09.2021 14:34, Philippe Mathieu-Daudé wrote:
+> 
+>> Certainly, but you could also pick the latest patches
+>> sent to qemu-trivial@ already reviewed ;)
+> 
+> I haven't done this in years..
 
-> 06.09.2021 22:28, Markus Armbruster wrote:
->> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
->> 
->>> We are going to support nbd reconnect on open in a next commit. This
->>> means that we want to do several connection attempts during some time.
->>> And this should be done in a coroutine, otherwise we'll stuck.
->>>
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>> ---
->>>   qapi/block-core.json | 3 ++-
->>>   1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/qapi/block-core.json b/qapi/block-core.json
->>> index 06674c25c9..6e4042530a 100644
->>> --- a/qapi/block-core.json
->>> +++ b/qapi/block-core.json
->>> @@ -4219,7 +4219,8 @@
->>>   # <- { "return": {} }
->>>   #
->>>   ##
->>> -{ 'command': 'blockdev-add', 'data': 'BlockdevOptions', 'boxed': true }
->>> +{ 'command': 'blockdev-add', 'data': 'BlockdevOptions', 'boxed': true,
->>> +  'coroutine': true }
->>>   
->>>   ##
->>>   # @blockdev-reopen:
->> 
->> Why is this safe?
->> 
->> Prior discusson:
->> Message-ID: <87lfq0yp9v.fsf@dusky.pond.sub.org>
->> https://lists.gnu.org/archive/html/qemu-devel/2020-01/msg04921.html
->> 
->
-> Hmm.. I'm afraid, that I can't prove that it's safe. At least it will mean to audit .bdrv_open() of all block drivers.. And nothing prevents creating new incompatible drivers in future..
+Not sure what that means... you are still listed as
+maintainer:
 
-Breaking existing block drivers is more serious than adding new drivers
-broken.
-
-> On the other hand, looking at qmp_blockdev_add, bdrv_open() is the only thing of interest.
->
-> And theoretically, bdrv_open() should work in coroutine context. We do call this function from coroutine_fn functions sometimes. So, maybe, if in some circumstances, bdrv_open() is not compatible with coroutine context, we can consider it as a bug? And fix it later, if it happen?
-
-If it's already used in ways that require coroutine-compatibility, we'd
-merely add another way for existing bugs to bite.  Kevin, is it?
-
-In general, the less coroutine-incompatibility we have, the better.
-From the thread I quoted:
-
-    Kevin Wolf <kwolf@redhat.com> writes:
-
-    > AM 22.01.2020 um 13:15 hat Markus Armbruster geschrieben:
-    [...]
-    >> Is coroutine-incompatible command handler code necessary or accidental?
-    >> 
-    >> By "necessary" I mean there are (and likely always will be) commands
-    >> that need to do stuff that cannot or should not be done on coroutine
-    >> context.
-    >> 
-    >> "Accidental" is the opposite: coroutine-incompatibility can be regarded
-    >> as a fixable flaw.
-    >
-    > I expect it's mostly accidental, but maybe not all of it.
-
-I'm inclinded to regard accidental coroutine-incompatibility as a bug.
-
-As long as the command doesn't have the coroutine flag set, it's a
-latent bug.
-
-Setting the coroutine flag without auditing the code risks making such
-latent bugs actual bugs.  A typical outcome is deadlock.
-
-Whether we're willing to accept such risk is not for me to decide.
-
-We weren't when we merged the coroutine work, at least not wholesale.
-The risk is perhaps less scary for a single command.  On the other hand,
-code audit is less daunting, too.
-
-Kevin, what do you think?
+Trivial patches
+---------------
+Trivial patches
+M: Michael Tokarev <mjt@tls.msk.ru>
+M: Laurent Vivier <laurent@vivier.eu>
+S: Maintained
+L: qemu-trivial@nongnu.org
 
 
