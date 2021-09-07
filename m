@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7EDC402961
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 15:07:09 +0200 (CEST)
-Received: from localhost ([::1]:45036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0E840293F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 14:53:50 +0200 (CEST)
+Received: from localhost ([::1]:39354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNaoe-0007Sv-Uo
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 09:07:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43484)
+	id 1mNabl-0000sZ-1M
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 08:53:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mNaB3-0000Rg-Q5
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:26:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45593)
+ id 1mNaB7-0000Vr-H1
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:26:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mNaAx-0000Kx-CX
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:26:13 -0400
+ id 1mNaB3-0000NV-D6
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 08:26:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631017566;
+ s=mimecast20190719; t=1631017572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hhGnKr6ZqWdteqsKevxCBVGezoJVsxx1I6b8HFCfc74=;
- b=adhBMWtfAyQjOP7zpxrk6EQZtMSPu4I7HjLeYp2o6aQRHtnMlXjGMdRX1cY/Zd60AwJ391
- gp98/aza7boExnbjE9gNKlnsn+5wx+P8T1NuAzdH4Ma+EBFa6gJQWbqMoDCyx6bHJ41lB4
- kAgd69JZdSBn59TUeguYnEGtn9ndB40=
+ bh=xDSOvQHHwljQVtxLeHxQnkkpRBmp5a4O7Ndy4k1bOLs=;
+ b=VWsZY0HfEFTeiy3rrdH32QnFjLKEZ3dvKG30hnSY4SlbB8tkWkBfBbXL4PMZoFPjFUWJlR
+ X8Zf8LdVYVnHEgMBd6cpP/BQ6hCRn2Ott11e6ar3+iSwLxMYoBgaOVxbRDvCEPrQBleJtP
+ WNHOiv+ZxDCev6prNmbp+EIel/GKO20=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-567-hE2zLGVJOtmbzxZ1thhw6g-1; Tue, 07 Sep 2021 08:26:04 -0400
-X-MC-Unique: hE2zLGVJOtmbzxZ1thhw6g-1
+ us-mta-153-YygMETnKNgmpWIhQSIV8aQ-1; Tue, 07 Sep 2021 08:26:10 -0400
+X-MC-Unique: YygMETnKNgmpWIhQSIV8aQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39DDD101371B
- for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 12:26:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94B886F303
+ for <qemu-devel@nongnu.org>; Tue,  7 Sep 2021 12:26:09 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D3AED78433;
- Tue,  7 Sep 2021 12:26:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BECF61B46B;
+ Tue,  7 Sep 2021 12:26:06 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [RFC v3 28/32] qga/rust: implement get-host-name in Rust (example)
-Date: Tue,  7 Sep 2021 16:19:39 +0400
-Message-Id: <20210907121943.3498701-29-marcandre.lureau@redhat.com>
+Subject: [RFC v3 29/32] qga/rust: implement {get,set}-vcpus in Rust (example)
+Date: Tue,  7 Sep 2021 16:19:40 +0400
+Message-Id: <20210907121943.3498701-30-marcandre.lureau@redhat.com>
 In-Reply-To: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
 References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -60,13 +60,13 @@ Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ PDS_OTHER_BAD_TLD=1.999, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,285 +87,549 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Use the "hostname" crate (https://github.com/svartalf/hostname)
+This is a rewrite of the C version (using the nix & winapi crates).
 
-(notice the wrong error message in our win32 implementation)
+The main difference is that Rust doesn't let you mix const/mut logic,
+the way transfer_vcpu in C does. The Rust version does introduce some
+duplication, but is also more strict and can prevent mistakes.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/qemu/osdep.h  | 10 ----------
- qga/commands.c        | 20 ++++----------------
- tests/unit/test-qga.c |  2 ++
- util/oslib-posix.c    | 35 -----------------------------------
- util/oslib-win32.c    | 13 -------------
- Cargo.lock            | 40 ++++++++++++++++++++++++++++++++++++++++
- qga/Cargo.toml        |  1 +
- qga/lib.rs            |  3 +++
- qga/qmp/hostname.rs   |  9 +++++++++
- qga/qmp/mod.rs        | 10 ++++++++++
- 10 files changed, 69 insertions(+), 74 deletions(-)
- create mode 100644 qga/qmp/hostname.rs
- create mode 100644 qga/qmp/mod.rs
+ qga/commands-posix.c  | 152 ---------------------------------------
+ qga/commands-win32.c  |  71 -------------------
+ qga/commands.c        |  14 ++++
+ tests/unit/test-qga.c |   2 +
+ Cargo.lock            |   2 +
+ qga/Cargo.toml        |   6 ++
+ qga/qmp/mod.rs        |  20 +++++-
+ qga/qmp/vcpus.rs      | 161 ++++++++++++++++++++++++++++++++++++++++++
+ 8 files changed, 204 insertions(+), 224 deletions(-)
+ create mode 100644 qga/qmp/vcpus.rs
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 60718fc342..ca8f3465d2 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -740,16 +740,6 @@ static inline void qemu_reset_optind(void)
- #endif
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index 75dbaab68e..97ca70e762 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -2371,146 +2371,6 @@ error:
+     return NULL;
  }
  
--/**
-- * qemu_get_host_name:
-- * @errp: Error object
+-/* Transfer online/offline status between @vcpu and the guest system.
 - *
-- * Operating system agnostic way of querying host name.
+- * On input either @errp or *@errp must be NULL.
 - *
-- * Returns allocated hostname (caller should free), NULL on failure.
+- * In system-to-@vcpu direction, the following @vcpu fields are accessed:
+- * - R: vcpu->logical_id
+- * - W: vcpu->online
+- * - W: vcpu->can_offline
+- *
+- * In @vcpu-to-system direction, the following @vcpu fields are accessed:
+- * - R: vcpu->logical_id
+- * - R: vcpu->online
+- *
+- * Written members remain unmodified on error.
 - */
--char *qemu_get_host_name(Error **errp);
+-static void transfer_vcpu(GuestLogicalProcessor *vcpu, bool sys2vcpu,
+-                          char *dirpath, Error **errp)
+-{
+-    int fd;
+-    int res;
+-    int dirfd;
+-    static const char fn[] = "online";
 -
- /**
-  * qemu_get_host_physmem:
-  *
-diff --git a/qga/commands.c b/qga/commands.c
-index 80501e4a73..117c219ac4 100644
---- a/qga/commands.c
-+++ b/qga/commands.c
-@@ -508,25 +508,13 @@ int ga_parse_whence(GuestFileWhence *whence, Error **errp)
-     return -1;
- }
- 
-+#ifndef CONFIG_WITH_RUST
- GuestHostName *qmp_guest_get_host_name(Error **errp)
- {
--    GuestHostName *result = NULL;
--    g_autofree char *hostname = qemu_get_host_name(errp);
--
--    /*
--     * We want to avoid using g_get_host_name() because that
--     * caches the result and we wouldn't reflect changes in the
--     * host name.
--     */
--
--    if (!hostname) {
--        hostname = g_strdup("localhost");
+-    dirfd = open(dirpath, O_RDONLY | O_DIRECTORY);
+-    if (dirfd == -1) {
+-        error_setg_errno(errp, errno, "open(\"%s\")", dirpath);
+-        return;
 -    }
 -
--    result = g_new0(GuestHostName, 1);
--    result->host_name = g_steal_pointer(&hostname);
--    return result;
+-    fd = openat(dirfd, fn, sys2vcpu ? O_RDONLY : O_RDWR);
+-    if (fd == -1) {
+-        if (errno != ENOENT) {
+-            error_setg_errno(errp, errno, "open(\"%s/%s\")", dirpath, fn);
+-        } else if (sys2vcpu) {
+-            vcpu->online = true;
+-            vcpu->can_offline = false;
+-        } else if (!vcpu->online) {
+-            error_setg(errp, "logical processor #%" PRId64 " can't be "
+-                       "offlined", vcpu->logical_id);
+-        } /* otherwise pretend successful re-onlining */
+-    } else {
+-        unsigned char status;
+-
+-        res = pread(fd, &status, 1, 0);
+-        if (res == -1) {
+-            error_setg_errno(errp, errno, "pread(\"%s/%s\")", dirpath, fn);
+-        } else if (res == 0) {
+-            error_setg(errp, "pread(\"%s/%s\"): unexpected EOF", dirpath,
+-                       fn);
+-        } else if (sys2vcpu) {
+-            vcpu->online = (status != '0');
+-            vcpu->can_offline = true;
+-        } else if (vcpu->online != (status != '0')) {
+-            status = '0' + vcpu->online;
+-            if (pwrite(fd, &status, 1, 0) == -1) {
+-                error_setg_errno(errp, errno, "pwrite(\"%s/%s\")", dirpath,
+-                                 fn);
+-            }
+-        } /* otherwise pretend successful re-(on|off)-lining */
+-
+-        res = close(fd);
+-        g_assert(res == 0);
+-    }
+-
+-    res = close(dirfd);
+-    g_assert(res == 0);
+-}
+-
+-GuestLogicalProcessorList *qmp_guest_get_vcpus(Error **errp)
+-{
+-    GuestLogicalProcessorList *head, **tail;
+-    const char *cpu_dir = "/sys/devices/system/cpu";
+-    const gchar *line;
+-    g_autoptr(GDir) cpu_gdir = NULL;
+-    Error *local_err = NULL;
+-
+-    head = NULL;
+-    tail = &head;
+-    cpu_gdir = g_dir_open(cpu_dir, 0, NULL);
+-
+-    if (cpu_gdir == NULL) {
+-        error_setg_errno(errp, errno, "failed to list entries: %s", cpu_dir);
+-        return NULL;
+-    }
+-
+-    while (local_err == NULL && (line = g_dir_read_name(cpu_gdir)) != NULL) {
+-        GuestLogicalProcessor *vcpu;
+-        int64_t id;
+-        if (sscanf(line, "cpu%" PRId64, &id)) {
+-            g_autofree char *path = g_strdup_printf("/sys/devices/system/cpu/"
+-                                                    "cpu%" PRId64 "/", id);
+-            vcpu = g_malloc0(sizeof *vcpu);
+-            vcpu->logical_id = id;
+-            vcpu->has_can_offline = true; /* lolspeak ftw */
+-            transfer_vcpu(vcpu, true, path, &local_err);
+-            QAPI_LIST_APPEND(tail, vcpu);
+-        }
+-    }
+-
+-    if (local_err == NULL) {
+-        /* there's no guest with zero VCPUs */
+-        g_assert(head != NULL);
+-        return head;
+-    }
+-
+-    qapi_free_GuestLogicalProcessorList(head);
+-    error_propagate(errp, local_err);
+-    return NULL;
+-}
+-
+-int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
+-{
+-    int64_t processed;
+-    Error *local_err = NULL;
+-
+-    processed = 0;
+-    while (vcpus != NULL) {
+-        char *path = g_strdup_printf("/sys/devices/system/cpu/cpu%" PRId64 "/",
+-                                     vcpus->value->logical_id);
+-
+-        transfer_vcpu(vcpus->value, false, path, &local_err);
+-        g_free(path);
+-        if (local_err != NULL) {
+-            break;
+-        }
+-        ++processed;
+-        vcpus = vcpus->next;
+-    }
+-
+-    if (local_err != NULL) {
+-        if (processed == 0) {
+-            error_propagate(errp, local_err);
+-        } else {
+-            error_free(local_err);
+-        }
+-    }
+-
+-    return processed;
+-}
+-
+ void qmp_guest_set_user_password(const char *username,
+                                  const char *password,
+                                  bool crypted,
+@@ -2946,18 +2806,6 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
+     return NULL;
+ }
+ 
+-GuestLogicalProcessorList *qmp_guest_get_vcpus(Error **errp)
+-{
+-    error_setg(errp, QERR_UNSUPPORTED);
+-    return NULL;
+-}
+-
+-int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
+-{
+-    error_setg(errp, QERR_UNSUPPORTED);
+-    return -1;
+-}
+-
+ void qmp_guest_set_user_password(const char *username,
+                                  const char *password,
+                                  bool crypted,
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 4e84afd83b..33a3fd7218 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -1816,77 +1816,6 @@ void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
+     }
+ }
+ 
+-GuestLogicalProcessorList *qmp_guest_get_vcpus(Error **errp)
+-{
+-    PSYSTEM_LOGICAL_PROCESSOR_INFORMATION pslpi, ptr;
+-    DWORD length;
+-    GuestLogicalProcessorList *head, **tail;
+-    Error *local_err = NULL;
+-    int64_t current;
+-
+-    ptr = pslpi = NULL;
+-    length = 0;
+-    current = 0;
+-    head = NULL;
+-    tail = &head;
+-
+-    if ((GetLogicalProcessorInformation(pslpi, &length) == FALSE) &&
+-        (GetLastError() == ERROR_INSUFFICIENT_BUFFER) &&
+-        (length > sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION))) {
+-        ptr = pslpi = g_malloc0(length);
+-        if (GetLogicalProcessorInformation(pslpi, &length) == FALSE) {
+-            error_setg(&local_err, "Failed to get processor information: %d",
+-                       (int)GetLastError());
+-        }
+-    } else {
+-        error_setg(&local_err,
+-                   "Failed to get processor information buffer length: %d",
+-                   (int)GetLastError());
+-    }
+-
+-    while ((local_err == NULL) && (length > 0)) {
+-        if (pslpi->Relationship == RelationProcessorCore) {
+-            ULONG_PTR cpu_bits = pslpi->ProcessorMask;
+-
+-            while (cpu_bits > 0) {
+-                if (!!(cpu_bits & 1)) {
+-                    GuestLogicalProcessor *vcpu;
+-
+-                    vcpu = g_malloc0(sizeof *vcpu);
+-                    vcpu->logical_id = current++;
+-                    vcpu->online = true;
+-                    vcpu->has_can_offline = true;
+-
+-                    QAPI_LIST_APPEND(tail, vcpu);
+-                }
+-                cpu_bits >>= 1;
+-            }
+-        }
+-        length -= sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION);
+-        pslpi++; /* next entry */
+-    }
+-
+-    g_free(ptr);
+-
+-    if (local_err == NULL) {
+-        if (head != NULL) {
+-            return head;
+-        }
+-        /* there's no guest with zero VCPUs */
+-        error_setg(&local_err, "Guest reported zero VCPUs");
+-    }
+-
+-    qapi_free_GuestLogicalProcessorList(head);
+-    error_propagate(errp, local_err);
+-    return NULL;
+-}
+-
+-int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
+-{
+-    error_setg(errp, QERR_UNSUPPORTED);
+-    return -1;
+-}
+-
+ static gchar *
+ get_net_error_message(gint error)
+ {
+diff --git a/qga/commands.c b/qga/commands.c
+index 117c219ac4..d5ad904480 100644
+--- a/qga/commands.c
++++ b/qga/commands.c
+@@ -573,3 +573,17 @@ GuestFileRead *qmp_guest_file_read(int64_t handle, bool has_count,
+ 
+     return read_data;
+ }
++
++#ifndef CONFIG_WITH_RUST
++GuestLogicalProcessorList *qmp_guest_get_vcpus(Error **errp)
++{
 +    error_setg(errp, QERR_UNSUPPORTED);
 +    return NULL;
- }
++}
++
++int64_t qmp_guest_set_vcpus(GuestLogicalProcessorList *vcpus, Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return 0;
++}
 +#endif
- 
- GuestTimezone *qmp_guest_get_timezone(Error **errp)
- {
 diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-index 5cb140d1b5..a22ab8c82c 100644
+index a22ab8c82c..47fd8eb717 100644
 --- a/tests/unit/test-qga.c
 +++ b/tests/unit/test-qga.c
-@@ -864,6 +864,7 @@ static void test_qga_guest_exec_invalid(gconstpointer fix)
+@@ -308,6 +308,7 @@ static void test_qga_info(gconstpointer fix)
  
- static void test_qga_guest_get_host_name(gconstpointer fix)
+ static void test_qga_get_vcpus(gconstpointer fix)
  {
 +#ifdef CONFIG_WITH_RUST
      const TestFixture *fixture = fix;
-     QDict *ret, *val;
- 
-@@ -875,6 +876,7 @@ static void test_qga_guest_get_host_name(gconstpointer fix)
-     g_assert(qdict_haskey(val, "host-name"));
+     QDict *ret;
+     QList *list;
+@@ -324,6 +325,7 @@ static void test_qga_get_vcpus(gconstpointer fix)
+     g_assert(qdict_haskey(qobject_to(QDict, entry->value), "logical-id"));
  
      qobject_unref(ret);
 +#endif
  }
  
- static void test_qga_guest_get_timezone(gconstpointer fix)
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index e8bdb02e1d..1498e0b7f5 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -809,41 +809,6 @@ void sigaction_invoke(struct sigaction *action,
-     action->sa_sigaction(info->ssi_signo, &si, NULL);
- }
- 
--#ifndef HOST_NAME_MAX
--# ifdef _POSIX_HOST_NAME_MAX
--#  define HOST_NAME_MAX _POSIX_HOST_NAME_MAX
--# else
--#  define HOST_NAME_MAX 255
--# endif
--#endif
--
--char *qemu_get_host_name(Error **errp)
--{
--    long len = -1;
--    g_autofree char *hostname = NULL;
--
--#ifdef _SC_HOST_NAME_MAX
--    len = sysconf(_SC_HOST_NAME_MAX);
--#endif /* _SC_HOST_NAME_MAX */
--
--    if (len < 0) {
--        len = HOST_NAME_MAX;
--    }
--
--    /* Unfortunately, gethostname() below does not guarantee a
--     * NULL terminated string. Therefore, allocate one byte more
--     * to be sure. */
--    hostname = g_new0(char, len + 1);
--
--    if (gethostname(hostname, len) < 0) {
--        error_setg_errno(errp, errno,
--                         "cannot get hostname");
--        return NULL;
--    }
--
--    return g_steal_pointer(&hostname);
--}
--
- size_t qemu_get_host_physmem(void)
- {
- #ifdef _SC_PHYS_PAGES
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index af559ef339..575f697815 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -629,19 +629,6 @@ bool qemu_write_pidfile(const char *filename, Error **errp)
-     return true;
- }
- 
--char *qemu_get_host_name(Error **errp)
--{
--    wchar_t tmp[MAX_COMPUTERNAME_LENGTH + 1];
--    DWORD size = G_N_ELEMENTS(tmp);
--
--    if (GetComputerNameW(tmp, &size) == 0) {
--        error_setg_win32(errp, GetLastError(), "failed close handle");
--        return NULL;
--    }
--
--    return g_utf16_to_utf8(tmp, size, NULL, NULL, NULL);
--}
--
- size_t qemu_get_host_physmem(void)
- {
-     MEMORYSTATUSEX statex;
+ static void test_qga_get_fsinfo(gconstpointer fix)
 diff --git a/Cargo.lock b/Cargo.lock
-index ad5bb47762..8752dbf2ac 100644
+index 8752dbf2ac..f3d2631865 100644
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -34,12 +34,29 @@ dependencies = [
-  "nix",
- ]
- 
-+[[package]]
-+name = "hostname"
-+version = "0.3.1"
-+source = "registry+https://github.com/rust-lang/crates.io-index"
-+checksum = "3c731c3e10504cc8ed35cfe2f1db4c9274c3d35fa486e3b31df46f068ef3e867"
-+dependencies = [
-+ "libc",
-+ "match_cfg",
-+ "winapi",
-+]
-+
- [[package]]
- name = "libc"
- version = "0.2.101"
- source = "registry+https://github.com/rust-lang/crates.io-index"
- checksum = "3cb00336871be5ed2c8ed44b60ae9959dc5b9f08539422ed43f09e34ecaeba21"
- 
-+[[package]]
-+name = "match_cfg"
-+version = "0.1.0"
-+source = "registry+https://github.com/rust-lang/crates.io-index"
-+checksum = "ffbee8634e0d45d258acb448e7eaab3fce7a0a467395d4d9f228e3c1f01fb2e4"
-+
- [[package]]
- name = "memoffset"
- version = "0.6.4"
-@@ -74,4 +91,27 @@ name = "qga"
- version = "0.1.0"
+@@ -92,6 +92,8 @@ version = "0.1.0"
  dependencies = [
   "common",
-+ "hostname",
+  "hostname",
++ "nix",
++ "winapi",
  ]
-+
-+[[package]]
-+name = "winapi"
-+version = "0.3.9"
-+source = "registry+https://github.com/rust-lang/crates.io-index"
-+checksum = "5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b00f419"
-+dependencies = [
-+ "winapi-i686-pc-windows-gnu",
-+ "winapi-x86_64-pc-windows-gnu",
-+]
-+
-+[[package]]
-+name = "winapi-i686-pc-windows-gnu"
-+version = "0.4.0"
-+source = "registry+https://github.com/rust-lang/crates.io-index"
-+checksum = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
-+
-+[[package]]
-+name = "winapi-x86_64-pc-windows-gnu"
-+version = "0.4.0"
-+source = "registry+https://github.com/rust-lang/crates.io-index"
-+checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
+ 
+ [[package]]
 diff --git a/qga/Cargo.toml b/qga/Cargo.toml
-index d262b847fa..387af59a30 100644
+index 387af59a30..0661b8b7c6 100644
 --- a/qga/Cargo.toml
 +++ b/qga/Cargo.toml
-@@ -6,6 +6,7 @@ publish = false
- 
- [dependencies]
+@@ -8,6 +8,12 @@ publish = false
  common = { path = "../rust/common" }
-+hostname = "0.3.1"
+ hostname = "0.3.1"
  
++[target."cfg(unix)".dependencies]
++nix = "0.20.0"
++
++[target."cfg(windows)".dependencies]
++winapi = { version = "0.3.9", features = ["sysinfoapi", "winnt"] }
++
  [lib]
  path = "lib.rs"
-diff --git a/qga/lib.rs b/qga/lib.rs
-index 7f62788ff6..e51e211006 100644
---- a/qga/lib.rs
-+++ b/qga/lib.rs
-@@ -1,2 +1,5 @@
-+pub use common::{err, libc, Error, Result};
-+
- mod qapi;
- mod qapi_ffi;
-+mod qmp;
-diff --git a/qga/qmp/hostname.rs b/qga/qmp/hostname.rs
-new file mode 100644
-index 0000000000..c3eb1f6fd2
---- /dev/null
-+++ b/qga/qmp/hostname.rs
-@@ -0,0 +1,9 @@
-+use crate::*;
-+
-+pub(crate) fn get() -> Result<qapi::GuestHostName> {
-+    let host_name = hostname::get()?
-+        .into_string()
-+        .or_else(|_| err!("Invalid hostname"))?;
-+
-+    Ok(qapi::GuestHostName { host_name })
-+}
+ crate-type = ["staticlib"]
 diff --git a/qga/qmp/mod.rs b/qga/qmp/mod.rs
-new file mode 100644
-index 0000000000..c192e4247d
---- /dev/null
+index c192e4247d..5b4f17a07d 100644
+--- a/qga/qmp/mod.rs
 +++ b/qga/qmp/mod.rs
-@@ -0,0 +1,10 @@
-+use common::*;
+@@ -1,6 +1,6 @@
+ use common::*;
+ 
+-use crate::qapi_ffi;
++use crate::{qapi::NewPtr, qapi_ffi};
+ 
+ mod hostname;
+ 
+@@ -8,3 +8,21 @@ mod hostname;
+ extern "C" fn qmp_guest_get_host_name(errp: *mut *mut ffi::Error) -> *mut qapi_ffi::GuestHostName {
+     qmp!(hostname::get(), errp)
+ }
 +
-+use crate::qapi_ffi;
-+
-+mod hostname;
++mod vcpus;
 +
 +#[no_mangle]
-+extern "C" fn qmp_guest_get_host_name(errp: *mut *mut ffi::Error) -> *mut qapi_ffi::GuestHostName {
-+    qmp!(hostname::get(), errp)
++extern "C" fn qmp_guest_get_vcpus(
++    errp: *mut *mut ffi::Error,
++) -> *mut qapi_ffi::GuestLogicalProcessorList {
++    qmp!(vcpus::get(), errp)
++}
++
++#[no_mangle]
++extern "C" fn qmp_guest_set_vcpus(
++    vcpus: *const qapi_ffi::GuestLogicalProcessorList,
++    errp: *mut *mut ffi::Error,
++) -> libc::c_longlong {
++    let vcpus = unsafe { from_qemu_none(NewPtr(vcpus)) };
++    qmp!(vcpus::set(vcpus), errp, -1)
++}
+diff --git a/qga/qmp/vcpus.rs b/qga/qmp/vcpus.rs
+new file mode 100644
+index 0000000000..f86838355e
+--- /dev/null
++++ b/qga/qmp/vcpus.rs
+@@ -0,0 +1,161 @@
++#[cfg(unix)]
++use std::fs::OpenOptions;
++#[cfg(unix)]
++use std::io::ErrorKind;
++#[cfg(unix)]
++use std::os::unix::fs::FileExt;
++
++#[cfg(windows)]
++use winapi::um::{sysinfoapi, winnt};
++
++use crate::*;
++
++#[cfg(target_os = "linux")]
++fn get_sysfs_cpu_path(id: i64) -> String {
++    format!("/sys/devices/system/cpu/cpu{}", id)
++}
++
++#[cfg(target_os = "linux")]
++fn set_vcpu(vcpu: &qapi::GuestLogicalProcessor) -> Result<()> {
++    let path = get_sysfs_cpu_path(vcpu.logical_id);
++    std::fs::metadata(&path)?;
++
++    let path = format!("{}/online", path);
++    match OpenOptions::new().read(true).write(true).open(&path) {
++        Ok(file) => {
++            let mut buf = [0u8; 1];
++            file.read_exact_at(&mut buf, 0)?;
++            let online = buf[0] != 0;
++            if vcpu.online != online {
++                buf[0] = if vcpu.online { b'1' } else { b'0' };
++                file.write_all_at(&buf, 0)?;
++            }
++        }
++        Err(e) => {
++            if e.kind() != ErrorKind::NotFound {
++                return Err(e.into());
++            } else if !vcpu.online {
++                return err!(format!(
++                    "logical processor #{} can't be offlined",
++                    vcpu.logical_id
++                ));
++            }
++        }
++    }
++
++    Ok(())
++}
++
++#[cfg(not(target_os = "linux"))]
++fn set_vcpu(_vcpu: &qapi::GuestLogicalProcessor) -> Result<()> {
++    err!("unimplemented")
++}
++
++pub(crate) fn set(vcpus: Vec<qapi::GuestLogicalProcessor>) -> Result<i64> {
++    let mut processed = 0;
++
++    for vcpu in &vcpus {
++        if let Err(e) = set_vcpu(vcpu) {
++            if processed != 0 {
++                break;
++            }
++            return Err(e);
++        }
++
++        processed += 1;
++    }
++
++    Ok(processed)
++}
++
++#[cfg(target_os = "linux")]
++pub(crate) fn get() -> Result<Vec<qapi::GuestLogicalProcessor>> {
++    use nix::unistd::sysconf;
++
++    let mut vcpus = vec![];
++    let nproc_conf = match sysconf(unsafe { std::mem::transmute(libc::_SC_NPROCESSORS_CONF) })? {
++        Some(nproc) => nproc,
++        None => {
++            return err!("Indefinite number of processors.");
++        }
++    };
++
++    for logical_id in 0..nproc_conf {
++        let path = get_sysfs_cpu_path(logical_id);
++        if std::fs::metadata(&path).is_err() {
++            continue;
++        }
++
++        let path = format!("{}/online", path);
++        let (online, can_offline) = match OpenOptions::new().read(true).open(&path) {
++            Ok(file) => {
++                let mut buf = [0u8; 1];
++                file.read_exact_at(&mut buf, 0)?;
++                (buf[0] != 0, Some(true))
++            }
++            Err(e) => {
++                if e.kind() != ErrorKind::NotFound {
++                    return Err(e.into());
++                }
++                (true, Some(false))
++            }
++        };
++
++        vcpus.push(qapi::GuestLogicalProcessor {
++            logical_id,
++            online,
++            can_offline,
++        });
++    }
++
++    Ok(vcpus)
++}
++
++#[cfg(target_os = "windows")]
++fn get_logical_processor_info() -> Result<Vec<winnt::SYSTEM_LOGICAL_PROCESSOR_INFORMATION>> {
++    unsafe {
++        let mut needed_size = 0;
++        sysinfoapi::GetLogicalProcessorInformation(std::ptr::null_mut(), &mut needed_size);
++        let struct_size = std::mem::size_of::<winnt::SYSTEM_LOGICAL_PROCESSOR_INFORMATION>() as u32;
++        if needed_size == 0 || needed_size < struct_size || needed_size % struct_size != 0 {
++            return err!("Failed to get processor information");
++        }
++
++        let nstruct = needed_size / struct_size;
++        let mut buf = Vec::with_capacity(nstruct as usize);
++        let result = sysinfoapi::GetLogicalProcessorInformation(buf.as_mut_ptr(), &mut needed_size);
++        if result == 0 {
++            return err!("Failed to get processor information");
++        }
++
++        let nstruct = needed_size / struct_size;
++        buf.set_len(nstruct as usize);
++        Ok(buf)
++    }
++}
++
++#[cfg(target_os = "windows")]
++pub(crate) fn get() -> Result<Vec<qapi::GuestLogicalProcessor>> {
++    let mut vcpus = vec![];
++
++    get_logical_processor_info()?.iter().map(|info| {
++        for _ in 0..info.ProcessorMask.count_ones() {
++            vcpus.push(qapi::GuestLogicalProcessor {
++                logical_id: vcpus.len() as i64,
++                online: true,
++                can_offline: Some(false),
++            });
++        }
++    });
++
++    if vcpus.is_empty() {
++        return err!("Guest reported zero VCPUs");
++    }
++
++    Ok(vcpus)
++}
++
++#[cfg(not(any(target_os = "linux", target_os = "windows")))]
++pub(crate) fn get() -> Result<Vec<qapi::GuestLogicalProcessor>> {
++    err!("unimplemented")
 +}
 -- 
 2.33.0.113.g6c40894d24
