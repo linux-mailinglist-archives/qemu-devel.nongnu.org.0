@@ -2,78 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD85440280A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 13:51:26 +0200 (CEST)
-Received: from localhost ([::1]:46404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D2C402815
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 13:54:14 +0200 (CEST)
+Received: from localhost ([::1]:49858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNZdO-0002ky-0K
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 07:51:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34256)
+	id 1mNZg4-00056v-Ln
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 07:54:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mNZc6-0001zI-V8
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:50:07 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:37453)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mNZc4-0006FA-H7
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:50:06 -0400
-Received: by mail-ej1-x630.google.com with SMTP id h9so19122397ejs.4
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 04:50:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=Bt6J9TZT1D6V8YJEW16z95RmfGa7/YOKjsHA7QaUdy0=;
- b=Go12waj56XfAaAkm3fp7kVFO3pCXqd2WrqvTqeG5FytA6WlQZnKdvgmO7Wqde3Cxti
- pR+/NjtZz8+uCvqMUdqZh9uKznPrtetebd/9nE71cEs6wnugxJUICYxhqPqXGR4E8aTk
- DnZ1ibbf5yXGc4Xyxa7KA7VJNUvljyoFMpMyw0VQTo+84aKGLzbndHbR8S+p4SeBuTu5
- 5bEN825eD6M7zrT02aDq5leTd7qhuVD15oHIBOoL4GbSIiZGs/LvViOSAStv7Qb+04sa
- agtfVc81g2NyqiSoMhV0v7Ztd6EJ2phPFB+ZUbZK/oW9vi2J9S4g4TKGe9zGa0PfMbhI
- Teag==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mNZf7-0003xf-2a
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:53:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mNZf3-00082h-PQ
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 07:53:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631015588;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bDMFQmF9abA7FH3kW22IoOdwgo0kVH6NuYbQllxE+Qk=;
+ b=J3Kr/9dYA54AOJsYsuKLAqnVE5724IMOeZHKTYNaDz2zt97qFvG4WbPNrfIQSBj2AaLUXI
+ mvINAJ/f8yLMZYTEs1QIB77rhuiZe2MIfEUdOw80jdASZDZyzG1QshlSv2cFkxztlR+8DI
+ UCGGlg6Nd9PusBFTflMtcI01/n+DszE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-249-I_kV_R8_MWaQ4jbpG6U1qg-1; Tue, 07 Sep 2021 07:52:58 -0400
+X-MC-Unique: I_kV_R8_MWaQ4jbpG6U1qg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ n1-20020a5d4c41000000b00159305d19baso2031734wrt.11
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 04:52:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Bt6J9TZT1D6V8YJEW16z95RmfGa7/YOKjsHA7QaUdy0=;
- b=HAtJ0wi2jAhAkCk0vd1Lsq6cVIgMksktWCcsqULy/rAiDn1GbnWWPM8ZRADftZng3B
- 9IcH6GUxUCgpk98l4tS0GqSNf6jgYlsYuyZbaC5nD+Q2AoDKM0CEXB3F3tLfdB0Vf8NV
- UoRSJ4dQDtLBTHXmMMhnrBSAXC4Dy7YN4vUFAWGxNdHafLH8QN7aj2n58GFJDrOzwU7x
- 6XFiUVWHJLDo8lfYroJ0/gkJjpS2fjLTW/xlHYkOMVbWo0NVDJxIeNwJdrSTtXRzM30l
- idMG7a6z7cJVjGZQaP3lQ7+XBVgzH1GLpNaRBMgn0ljl5hEh/UC11bnlMLBoHRMDv2th
- FT/w==
-X-Gm-Message-State: AOAM532W8ihAHaRnnRL+ifLBWwnODnTFd3mNQDIw2iFYqx8qO74idQqt
- b+XslLDJ995b5cVQ6e/MBsyOmg==
-X-Google-Smtp-Source: ABdhPJy3LFjnocM3sQl52DLyZyvyA57LOwbzONygkI73reCEIu7ReLIyvwRzERhw9sUaYbOvttDKmw==
-X-Received: by 2002:a17:906:b88f:: with SMTP id
- hb15mr18801719ejb.507.1631015402189; 
- Tue, 07 Sep 2021 04:50:02 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d16sm6446867edu.8.2021.09.07.04.50.00
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=bDMFQmF9abA7FH3kW22IoOdwgo0kVH6NuYbQllxE+Qk=;
+ b=GkaT50+6O4SDoNc/F+Nslpl1qpQdHA0WS1muheNjCnpG33ghZ7zv4FBeKulEKtTtPB
+ JEdNopOoF2I4wpR2rEBSMJFPSqD14DCpQxnY3BcfThQ+ILC6Ziq3t4DPuG6qoivLei1Q
+ OvcVgvQ6kIMhNiUXOHw9+5AGPT9+sTaZaJJV2J+0VGxMze2Hx/Nmav0whArlSBwsbHHI
+ /mSG8qHUWxtVEj4M4bd05731sipu/FdwO33QaYg3zhURf6CIC48fi3h8BUkIU0eFNqKV
+ WphDwwj6fFruTce1j2lEOcMq8QMo4zH7osf62LqkI97b4gSxX3U5rmehVnjsWebwyRzX
+ iXQA==
+X-Gm-Message-State: AOAM532e39OEp5fdpxrNMp/1h3UTRLahMka1IYDzY3f9d9cWY+QJytV5
+ d0jg5v0N2U0qyiu41eGpEPD8jRxPGCGCxBK+P+owR5KZlxPRNOnQjETSV4mU1jwbtNiWmrepLdL
+ ZczX6kmAZ1B/7P5k=
+X-Received: by 2002:a1c:7515:: with SMTP id o21mr3545416wmc.150.1631015576863; 
+ Tue, 07 Sep 2021 04:52:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwHxe4yH6ilYBJA3hJkKY2poll1mO2ckp+SxguAMhtTrGcUJkvFGJmhevvElBczEpLytn66rA==
+X-Received: by 2002:a1c:7515:: with SMTP id o21mr3545390wmc.150.1631015576666; 
+ Tue, 07 Sep 2021 04:52:56 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id f25sm479560wml.38.2021.09.07.04.52.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 04:50:01 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5DE8F1FF96;
- Tue,  7 Sep 2021 12:50:00 +0100 (BST)
-References: <20210905140939.638928-1-lukas.junger@greensocs.com>
-User-agent: mu4e 1.7.0; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Lukas =?utf-8?Q?J=C3=BCnger?= <lukas.junger@greensocs.com>
-Subject: Re: [PATCH 0/1] Add missing function names to symbol list
-Date: Tue, 07 Sep 2021 12:43:57 +0100
-In-reply-to: <20210905140939.638928-1-lukas.junger@greensocs.com>
-Message-ID: <87ilzcy593.fsf@linaro.org>
+ Tue, 07 Sep 2021 04:52:56 -0700 (PDT)
+Date: Tue, 7 Sep 2021 12:52:54 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [RFC PATCH v2 12/12] i386/sev: update query-sev QAPI format to
+ handle SEV-SNP
+Message-ID: <YTdSlg5NymDQex5T@work-vm>
+References: <20210826222627.3556-1-michael.roth@amd.com>
+ <20210826222627.3556-13-michael.roth@amd.com>
+ <87tuj4qt71.fsf@dusky.pond.sub.org> <YTJGzrnqO9vzUqNq@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YTJGzrnqO9vzUqNq@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,47 +101,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: erdnaxe@crans.org, ma.mandourr@gmail.com, qemu-devel@nongnu.org
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm@vger.kernel.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ James Bottomley <jejb@linux.ibm.com>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> On Wed, Sep 01, 2021 at 04:14:10PM +0200, Markus Armbruster wrote:
+> > Michael Roth <michael.roth@amd.com> writes:
+> > 
+> > > Most of the current 'query-sev' command is relevant to both legacy
+> > > SEV/SEV-ES guests and SEV-SNP guests, with 2 exceptions:
+> > >
+> > >   - 'policy' is a 64-bit field for SEV-SNP, not 32-bit, and
+> > >     the meaning of the bit positions has changed
+> > >   - 'handle' is not relevant to SEV-SNP
+> > >
+> > > To address this, this patch adds a new 'sev-type' field that can be
+> > > used as a discriminator to select between SEV and SEV-SNP-specific
+> > > fields/formats without breaking compatibility for existing management
+> > > tools (so long as management tools that add support for launching
+> > > SEV-SNP guest update their handling of query-sev appropriately).
+> > 
+> > Technically a compatibility break: query-sev can now return an object
+> > that whose member @policy has different meaning, and also lacks @handle.
+> > 
+> > Matrix:
+> > 
+> >                             Old mgmt app    New mgmt app
+> >     Old QEMU, SEV/SEV-ES       good            good(1)
+> >     New QEMU, SEV/SEV-ES       good(2)         good
+> >     New QEMU, SEV-SNP           bad(3)         good
+> > 
+> > Notes:
+> > 
+> > (1) As long as the management application can cope with absent member
+> > @sev-type.
+> > 
+> > (2) As long as the management application ignores unknown member
+> > @sev-type.
+> > 
+> > (3) Management application may choke on missing member @handle, or
+> > worse, misinterpret member @policy.  Can only happen when something
+> > other than the management application created the SEV-SNP guest (or the
+> > user somehow made the management application create one even though it
+> > doesn't know how, say with CLI option passthrough, but that's always
+> > fragile, and I wouldn't worry about it here).
+> > 
+> > I think (1) and (2) are reasonable.  (3) is an issue for management
+> > applications that support attaching to existing guests.  Thoughts?
+> 
+> IIUC you can only reach scenario (3) if you have created a guest
+> using '-object sev-snp-guest', which is a new feature introduced
+> in patch 2.
+> 
+> IOW, scenario (3)  old mgmt app + new QEMU + sev-snp guest does
+> not exist as a combination. Thus the (bad) field is actually (n/a)
+> 
+> So I believe this proposed change is acceptable in all scenarios
+> with existing deployed usage, as well as all newly introduced
+> scenarios.
 
-Lukas J=C3=BCnger <lukas.junger@greensocs.com> writes:
+I wonder if it's worth going firther and renaming 'policy' in the 
+SNP world to 'snppolicy' just to reduce the risk of accidentally
+specifying the wrong one.
 
-> Hi all,
->
-> I have been trying to use the hwprofile and cache plugin on
-> qemu-system-riscv64. They failed to load with an undefined
-> symbol error. It looks like some of the plugin API functions
-> are missing from the symbol list, so I added them.
+Dave
 
-Heh I had a similar patch in plugins/next but yours includes more
-symbols so queued to plugins/next, thanks. Not sure how I missed it
-before - I think we might not have been honouring the symbol list
-before.
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-> Afterwards
-> the plugins worked (eventhough the cache plugin is segfaulting
-> on shutdown, but that is a separate, unrelated issue).
-
-Has this been tracked down yet? There is a fix f7e68c9c99 (tcg/plugins:
-implement a qemu_plugin_user_exit helper) which was for user mode. At
-the time I didn't think system mode would be affected due to the atexit
-callback only being called once vCPUs had shutdown.
-
->
-> Hope that's okay.
->
-> BR,
-> Lukas
->
-> Lukas J=C3=BCnger (1):
->   plugins/: Add missing functions to symbol list
->
->  plugins/qemu-plugins.symbols | 3 +++
->  1 file changed, 3 insertions(+)
-
-
---=20
-Alex Benn=C3=A9e
 
