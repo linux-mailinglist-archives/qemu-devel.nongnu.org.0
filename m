@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A974402B38
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 16:57:39 +0200 (CEST)
-Received: from localhost ([::1]:49442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE66402B57
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 17:09:46 +0200 (CEST)
+Received: from localhost ([::1]:57152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNcXa-0001nA-1v
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 10:57:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37086)
+	id 1mNcjJ-00010s-NX
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 11:09:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNcPU-00082G-NI
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:49:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58065)
+ id 1mNcPT-0007wz-AE
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:49:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNcPS-0000Ht-NT
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:49:16 -0400
+ id 1mNcPR-0000Gd-F0
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 10:49:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631026154;
+ s=mimecast20190719; t=1631026152;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TYMZwvvpx8cmwyOZax7jh/dPMJqEXOoXp1Lcr+pi7Ts=;
- b=hu++RZHz8keVmhjucGA6q0uA0W2EitKUyjADFXeElQRxn1tb6OX69dsAVFJxwGVRsB+qc7
- zdojZ6hDHZorOzvcK2g2V7r+bemjgwAwMYQvYEAbi17+nacdObecb43QZOv7aV7NE8Z5Ph
- QuhapgBHeFqTNbI7XXepiyJBkbKtVYA=
+ bh=rMs08cMbZFMgX0Qkjj/ciLBVevpqIt2wtM2FShfZ3KQ=;
+ b=JofSlpZRt+PLf6Du9ln0WglEspoZaB7NB0DjqBYdOTprZsqPAmKgrBziylqqCXwT6aaFG1
+ ZegJVFwcgq2CcgkrY6/ST6MYaECKKb++7hklLtVNiXuUzIwq3h3+zzxeMy6SRuJ94sll/s
+ nj+XczpsBNGYw9HuX61yWoukHYYk3Nc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-DkiyMTKFMeeLzcukzFel-g-1; Tue, 07 Sep 2021 10:49:09 -0400
-X-MC-Unique: DkiyMTKFMeeLzcukzFel-g-1
+ us-mta-290-SAsZvleGOCq7FBP2K8O3oQ-1; Tue, 07 Sep 2021 10:49:11 -0400
+X-MC-Unique: SAsZvleGOCq7FBP2K8O3oQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3DC984A5E0;
- Tue,  7 Sep 2021 14:49:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4718802C91;
+ Tue,  7 Sep 2021 14:49:10 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2EA25D9CA;
- Tue,  7 Sep 2021 14:49:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 083BE5D9CA;
+ Tue,  7 Sep 2021 14:49:08 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 20/35] acpi: build_amd_iommu: use
+Subject: [PATCH v3 21/35] acpi: madt: arm/x86: use
  acpi_table_begin()/acpi_table_end() instead of build_header()
-Date: Tue,  7 Sep 2021 10:47:59 -0400
-Message-Id: <20210907144814.741785-21-imammedo@redhat.com>
+Date: Tue,  7 Sep 2021 10:48:00 -0400
+Message-Id: <20210907144814.741785-22-imammedo@redhat.com>
 In-Reply-To: <20210907144814.741785-1-imammedo@redhat.com>
 References: <20210907144814.741785-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -80,7 +80,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com
+Cc: peter.maydell@linaro.org, drjones@redhat.com, mst@redhat.com,
+ shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, eauger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,42 +95,133 @@ v3:
   * s/acpi_init_table|acpi_table_composed/acpi_table_begin|acpi_table_end/
 
 CC: marcel.apfelbaum@gmail.com
+CC: shannon.zhaosl@gmail.com
+CC: peter.maydell@linaro.org
+CC: qemu-arm@nongnu.org
+CC: drjones@redhat.com
+CC: eauger@redhat.com
 ---
- hw/i386/acpi-build.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ include/hw/acpi/acpi-defs.h |  9 ---------
+ hw/arm/virt-acpi-build.c    | 19 +++++++++++--------
+ hw/i386/acpi-common.c       | 19 +++++++++++--------
+ 3 files changed, 22 insertions(+), 25 deletions(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 45724469b0..9f888d5a2c 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2319,12 +2319,12 @@ build_amd_iommu(GArray *table_data, BIOSLinker *linker, const char *oem_id,
-                 const char *oem_table_id)
- {
-     int ivhd_table_len = 24;
--    int iommu_start = table_data->len;
-     AMDVIState *s = AMD_IOMMU_DEVICE(x86_iommu_get_default());
-     GArray *ivhd_blob = g_array_new(false, true, 1);
-+    AcpiTable table = { .sig = "IVRS", .rev = 1, .oem_id = oem_id,
-+                        .oem_table_id = oem_table_id };
+diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+index c4f0a202e8..c7fa5caa06 100644
+--- a/include/hw/acpi/acpi-defs.h
++++ b/include/hw/acpi/acpi-defs.h
+@@ -176,15 +176,6 @@ typedef struct AcpiFacsDescriptorRev1 AcpiFacsDescriptorRev1;
+ #define ACPI_DUAL_PIC                0
+ #define ACPI_MULTIPLE_APIC           1
  
--    /* IVRS header */
--    acpi_data_push(table_data, sizeof(AcpiTableHeader));
+-/* Master MADT */
+-
+-struct AcpiMultipleApicTable {
+-    ACPI_TABLE_HEADER_DEF     /* ACPI common table header */
+-    uint32_t local_apic_address;     /* Physical address of local APIC */
+-    uint32_t flags;
+-} QEMU_PACKED;
+-typedef struct AcpiMultipleApicTable AcpiMultipleApicTable;
+-
+ /* Values for Type in APIC sub-headers */
+ 
+ #define ACPI_APIC_PROCESSOR          0
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 6ba02cf281..e3bdcd44e8 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -567,19 +567,26 @@ build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+                  vms->oem_table_id);
+ }
+ 
+-/* MADT */
++/*
++ * ACPI spec, Revision 5.0
++ * 5.2.12 Multiple APIC Description Table (MADT)
++ */
+ static void
+ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+ {
+     VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
+-    int madt_start = table_data->len;
+     const MemMapEntry *memmap = vms->memmap;
+     const int *irqmap = vms->irqmap;
+     AcpiMadtGenericDistributor *gicd;
+     AcpiMadtGenericMsiFrame *gic_msi;
+     int i;
++    AcpiTable table = { .sig = "APIC", .rev = 3, .oem_id = vms->oem_id,
++                        .oem_table_id = vms->oem_table_id };
+ 
+-    acpi_data_push(table_data, sizeof(AcpiMultipleApicTable));
 +    acpi_table_begin(&table, table_data);
-     /* IVinfo - IO virtualization information common to all
-      * IOMMU units in a system
-      */
-@@ -2409,10 +2409,7 @@ build_amd_iommu(GArray *table_data, BIOSLinker *linker, const char *oem_id,
-                                  0x48,                      /* special device */
-                                  8);
++    /* Local Interrupt Controller Address */
++    build_append_int_noprefix(table_data, 0, 4);
++    build_append_int_noprefix(table_data, 0, 4); /* Flags */
+ 
+     gicd = acpi_data_push(table_data, sizeof *gicd);
+     gicd->type = ACPI_APIC_GENERIC_DISTRIBUTOR;
+@@ -650,11 +657,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+         gic_msi->spi_count = cpu_to_le16(NUM_GICV2M_SPIS);
+         gic_msi->spi_base = cpu_to_le16(irqmap[VIRT_GIC_V2M] + ARM_SPI_BASE);
      }
 -
--    build_header(linker, table_data, (void *)(table_data->data + iommu_start),
--                 "IVRS", table_data->len - iommu_start, 1, oem_id,
--                 oem_table_id);
+-    build_header(linker, table_data,
+-                 (void *)(table_data->data + madt_start), "APIC",
+-                 table_data->len - madt_start, 3, vms->oem_id,
+-                 vms->oem_table_id);
 +    acpi_table_end(linker, &table);
  }
  
- typedef
+ /* FADT */
+diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+index 1f5947fcf9..a0cde1d874 100644
+--- a/hw/i386/acpi-common.c
++++ b/hw/i386/acpi-common.c
+@@ -71,24 +71,29 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+     }
+ }
+ 
++/*
++ * ACPI spec, Revision 1.0b
++ * 5.2.8 Multiple APIC Description Table
++ */
+ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+                      X86MachineState *x86ms, AcpiDeviceIf *adev,
+                      const char *oem_id, const char *oem_table_id)
+ {
+     MachineClass *mc = MACHINE_GET_CLASS(x86ms);
+     const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(MACHINE(x86ms));
+-    int madt_start = table_data->len;
+     AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_GET_CLASS(adev);
+     bool x2apic_mode = false;
+ 
+-    AcpiMultipleApicTable *madt;
+     AcpiMadtIoApic *io_apic;
+     AcpiMadtIntsrcovr *intsrcovr;
+     int i;
++    AcpiTable table = { .sig = "APIC", .rev = 1, .oem_id = oem_id,
++                        .oem_table_id = oem_table_id };
+ 
+-    madt = acpi_data_push(table_data, sizeof *madt);
+-    madt->local_apic_address = cpu_to_le32(APIC_DEFAULT_ADDRESS);
+-    madt->flags = cpu_to_le32(1);
++    acpi_table_begin(&table, table_data);
++    /* Local APIC Address */
++    build_append_int_noprefix(table_data, APIC_DEFAULT_ADDRESS, 4);
++    build_append_int_noprefix(table_data, 1 /* PCAT_COMPAT */, 4); /* Flags */
+ 
+     for (i = 0; i < apic_ids->len; i++) {
+         adevc->madt_cpu(adev, i, apic_ids, table_data);
+@@ -156,8 +161,6 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+         local_nmi->lint         = 1; /* ACPI_LINT1 */
+     }
+ 
+-    build_header(linker, table_data,
+-                 (void *)(table_data->data + madt_start), "APIC",
+-                 table_data->len - madt_start, 1, oem_id, oem_table_id);
++    acpi_table_end(linker, &table);
+ }
+ 
 -- 
 2.27.0
 
