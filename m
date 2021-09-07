@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DE2A402507
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 10:21:36 +0200 (CEST)
-Received: from localhost ([::1]:58208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0ED40251B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 10:26:31 +0200 (CEST)
+Received: from localhost ([::1]:44506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNWMJ-0008NX-G0
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 04:21:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44310)
+	id 1mNWR3-0001RG-82
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 04:26:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNWFR-0004vI-Fm
+ id 1mNWFS-0004vQ-Ts
  for qemu-devel@nongnu.org; Tue, 07 Sep 2021 04:14:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49928)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNWFO-0005q8-Pe
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 04:14:29 -0400
+ id 1mNWFQ-0005qZ-B9
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 04:14:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1631002466;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7HQiZUpQzhTafhnBU6B6Q8PRTOlVoSxJAHMWZjU5/K0=;
- b=M+Jsc037r+dhWvNOxR6hYLMBmP4VKBU150uXSZSEdBRF4kjQdWjoipcW7ZJo3/qOtHLua0
- SgmNoc1wwbJHgPZDEtA7jwelZQIp/SRkUAA0aoYlf3ngnT+u1R5cjns8CvYbZ31lJhv8/y
- 9ncWtxeCc7hDmC5cUlEQ+WOTq4c/+EI=
+ bh=hXpFeGMVgxi61M/SQMqA46qcKx93VZOyZUrQKfOfgAA=;
+ b=JbYjWn+LMgIzbEJ1uJv+ugGY18zX9BaUroA2oV8hhrJSxw3IwrDPKgr56r9rKoUXf/jFvo
+ rguY+dnn/23qOLs2H1CXzb/mvnsbFXwRGGeUnc/1R2FPspzgCUtkHxTXA8R5Vsn3DcxPXD
+ fpj7Ta7q+m0p7C0q6uIsTiTpMPm0Yrk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-2Pkiad-4PySQlHBoWMGU1Q-1; Tue, 07 Sep 2021 04:14:23 -0400
-X-MC-Unique: 2Pkiad-4PySQlHBoWMGU1Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-427-02Z_m-cdPgmgbPDOxSXSgw-1; Tue, 07 Sep 2021 04:14:25 -0400
+X-MC-Unique: 02Z_m-cdPgmgbPDOxSXSgw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A192F8464CE;
- Tue,  7 Sep 2021 08:14:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DA8689841C;
+ Tue,  7 Sep 2021 08:14:17 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.246])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3367760C05;
- Tue,  7 Sep 2021 08:14:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CAF575C25D;
+ Tue,  7 Sep 2021 08:14:16 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 06/11] util/vfio-helpers: Pass Error handle to
- qemu_vfio_dma_map()
-Date: Tue,  7 Sep 2021 09:13:58 +0100
-Message-Id: <20210907081403.816404-7-stefanha@redhat.com>
+Subject: [PULL 07/11] util/vfio-helpers: Extract qemu_vfio_water_mark_reached()
+Date: Tue,  7 Sep 2021 09:13:59 +0100
+Message-Id: <20210907081403.816404-8-stefanha@redhat.com>
 In-Reply-To: <20210907081403.816404-1-stefanha@redhat.com>
 References: <20210907081403.816404-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,139 +88,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Currently qemu_vfio_dma_map() displays errors on stderr.
-When using management interface, this information is simply
-lost. Pass qemu_vfio_dma_map() an Error** handle so it can
-propagate the error to callers.
+Extract qemu_vfio_water_mark_reached() for readability,
+and have it provide an error hint it its Error* handle.
 
-Reviewed-by: Fam Zheng <fam@euphon.net>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Suggested-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20210902070025.197072-7-philmd@redhat.com
+Message-id: 20210902070025.197072-8-philmd@redhat.com
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/qemu/vfio-helpers.h |  2 +-
- block/nvme.c                | 22 +++++++++++-----------
- util/vfio-helpers.c         | 10 ++++++----
- 3 files changed, 18 insertions(+), 16 deletions(-)
+ util/vfio-helpers.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/include/qemu/vfio-helpers.h b/include/qemu/vfio-helpers.h
-index 4491c8e1a6..bde9495b25 100644
---- a/include/qemu/vfio-helpers.h
-+++ b/include/qemu/vfio-helpers.h
-@@ -18,7 +18,7 @@ typedef struct QEMUVFIOState QEMUVFIOState;
- QEMUVFIOState *qemu_vfio_open_pci(const char *device, Error **errp);
- void qemu_vfio_close(QEMUVFIOState *s);
- int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
--                      bool temporary, uint64_t *iova_list);
-+                      bool temporary, uint64_t *iova_list, Error **errp);
- int qemu_vfio_dma_reset_temporary(QEMUVFIOState *s);
- void qemu_vfio_dma_unmap(QEMUVFIOState *s, void *host);
- void *qemu_vfio_pci_map_bar(QEMUVFIOState *s, int index,
-diff --git a/block/nvme.c b/block/nvme.c
-index 0786c501e4..80546b0bab 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -176,12 +176,11 @@ static bool nvme_init_queue(BDRVNVMeState *s, NVMeQueue *q,
-         return false;
-     }
-     memset(q->queue, 0, bytes);
--    r = qemu_vfio_dma_map(s->vfio, q->queue, bytes, false, &q->iova);
-+    r = qemu_vfio_dma_map(s->vfio, q->queue, bytes, false, &q->iova, errp);
-     if (r) {
--        error_setg(errp, "Cannot map queue");
--        return false;
-+        error_prepend(errp, "Cannot map queue: ");
-     }
--    return true;
-+    return r == 0;
- }
- 
- static void nvme_free_queue_pair(NVMeQueuePair *q)
-@@ -239,9 +238,9 @@ static NVMeQueuePair *nvme_create_queue_pair(BDRVNVMeState *s,
-     qemu_co_queue_init(&q->free_req_queue);
-     q->completion_bh = aio_bh_new(aio_context, nvme_process_completion_bh, q);
-     r = qemu_vfio_dma_map(s->vfio, q->prp_list_pages, bytes,
--                          false, &prp_list_iova);
-+                          false, &prp_list_iova, errp);
-     if (r) {
--        error_setg_errno(errp, -r, "Cannot map buffer for DMA");
-+        error_prepend(errp, "Cannot map buffer for DMA: ");
-         goto fail;
-     }
-     q->free_req_head = -1;
-@@ -534,9 +533,9 @@ static bool nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
-         error_setg(errp, "Cannot allocate buffer for identify response");
-         goto out;
-     }
--    r = qemu_vfio_dma_map(s->vfio, id, id_size, true, &iova);
-+    r = qemu_vfio_dma_map(s->vfio, id, id_size, true, &iova, errp);
-     if (r) {
--        error_setg(errp, "Cannot map buffer for DMA");
-+        error_prepend(errp, "Cannot map buffer for DMA: ");
-         goto out;
-     }
- 
-@@ -1032,7 +1031,7 @@ static coroutine_fn int nvme_cmd_map_qiov(BlockDriverState *bs, NvmeCmd *cmd,
- try_map:
-         r = qemu_vfio_dma_map(s->vfio,
-                               qiov->iov[i].iov_base,
--                              len, true, &iova);
-+                              len, true, &iova, NULL);
-         if (r == -ENOSPC) {
-             /*
-              * In addition to the -ENOMEM error, the VFIO_IOMMU_MAP_DMA
-@@ -1524,14 +1523,15 @@ static void nvme_aio_unplug(BlockDriverState *bs)
- static void nvme_register_buf(BlockDriverState *bs, void *host, size_t size)
- {
-     int ret;
-+    Error *local_err = NULL;
-     BDRVNVMeState *s = bs->opaque;
- 
--    ret = qemu_vfio_dma_map(s->vfio, host, size, false, NULL);
-+    ret = qemu_vfio_dma_map(s->vfio, host, size, false, NULL, &local_err);
-     if (ret) {
-         /* FIXME: we may run out of IOVA addresses after repeated
-          * bdrv_register_buf/bdrv_unregister_buf, because nvme_vfio_dma_unmap
-          * doesn't reclaim addresses for fixed mappings. */
--        error_report("nvme_register_buf failed: %s", strerror(-ret));
-+        error_reportf_err(local_err, "nvme_register_buf failed: ");
-     }
- }
- 
 diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index e7909222cf..77cdec845d 100644
+index 77cdec845d..306b5a83e4 100644
 --- a/util/vfio-helpers.c
 +++ b/util/vfio-helpers.c
-@@ -463,13 +463,15 @@ static void qemu_vfio_ram_block_added(RAMBlockNotifier *n, void *host,
-                                       size_t size, size_t max_size)
- {
-     QEMUVFIOState *s = container_of(n, QEMUVFIOState, ram_notifier);
-+    Error *local_err = NULL;
-     int ret;
- 
-     trace_qemu_vfio_ram_block_added(s, host, max_size);
--    ret = qemu_vfio_dma_map(s, host, max_size, false, NULL);
-+    ret = qemu_vfio_dma_map(s, host, max_size, false, NULL, &local_err);
-     if (ret) {
--        error_report("qemu_vfio_dma_map(%p, %zu) failed: %s", host, max_size,
--                     strerror(-ret));
-+        error_reportf_err(local_err,
-+                          "qemu_vfio_dma_map(%p, %zu) failed: ",
-+                          host, max_size);
-     }
+@@ -721,6 +721,21 @@ qemu_vfio_find_temp_iova(QEMUVFIOState *s, size_t size, uint64_t *iova)
+     return -ENOMEM;
  }
  
-@@ -725,7 +727,7 @@ qemu_vfio_find_temp_iova(QEMUVFIOState *s, size_t size, uint64_t *iova)
-  * mapping status within this area is not allowed).
-  */
- int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
--                      bool temporary, uint64_t *iova)
-+                      bool temporary, uint64_t *iova, Error **errp)
- {
-     int ret = 0;
-     int index;
++/**
++ * qemu_vfio_water_mark_reached:
++ *
++ * Returns %true if high watermark has been reached, %false otherwise.
++ */
++static bool qemu_vfio_water_mark_reached(QEMUVFIOState *s, size_t size,
++                                         Error **errp)
++{
++    if (s->high_water_mark - s->low_water_mark + 1 < size) {
++        error_setg(errp, "iova exhausted (water mark reached)");
++        return true;
++    }
++    return false;
++}
++
+ /* Map [host, host + size) area into a contiguous IOVA address space, and store
+  * the result in @iova if not NULL. The caller need to make sure the area is
+  * aligned to page size, and mustn't overlap with existing mapping areas (split
+@@ -742,7 +757,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
+     if (mapping) {
+         iova0 = mapping->iova + ((uint8_t *)host - (uint8_t *)mapping->host);
+     } else {
+-        if (s->high_water_mark - s->low_water_mark + 1 < size) {
++        if (qemu_vfio_water_mark_reached(s, size, errp)) {
+             ret = -ENOMEM;
+             goto out;
+         }
 -- 
 2.31.1
 
