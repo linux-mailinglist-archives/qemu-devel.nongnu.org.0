@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D4E402759
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 12:46:58 +0200 (CEST)
-Received: from localhost ([::1]:42232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94C9D40275E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 12:47:15 +0200 (CEST)
+Received: from localhost ([::1]:42730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNYcz-0008HZ-UQ
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 06:46:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47236)
+	id 1mNYdG-0000AI-Nd
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 06:47:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNYbG-000705-91
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:45:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58352)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNYbC-0005Uz-0y
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:45:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631011504;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Zw66zTct1qzYq1oay75/NHyFTRFNO2YfUe/1e3jBuK8=;
- b=LTIZovNpdTXYTtyLWvTN7HeQlUfxmREzvRgxo/WxzHBAsojlxjWU6IwlQeNEqQzcIvNcen
- 51LQm3h1EuiJIfsMKlrHryLZ6xxKNQCNjfKPTbbHNrxNRZurhdUDw/PRNe/ORzL5iixs10
- DXHKol9veEd+tJzlf/ngqGUV2ZEpX48=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-268-uzIoodEeNoK1w1q9lCM2nw-1; Tue, 07 Sep 2021 06:44:57 -0400
-X-MC-Unique: uzIoodEeNoK1w1q9lCM2nw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C74201966329;
- Tue,  7 Sep 2021 10:44:56 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
- [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A9246A255;
- Tue,  7 Sep 2021 10:44:56 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9957E1138606; Tue,  7 Sep 2021 12:44:54 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 3/6] qapi/parser: add type hint annotations (QAPIDoc)
-References: <20210520225710.168356-1-jsnow@redhat.com>
- <20210520225710.168356-4-jsnow@redhat.com>
-Date: Tue, 07 Sep 2021 12:44:54 +0200
-In-Reply-To: <20210520225710.168356-4-jsnow@redhat.com> (John Snow's message
- of "Thu, 20 May 2021 18:57:07 -0400")
-Message-ID: <87o8943brt.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mNYbW-0007AA-K9
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:45:26 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:39431)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mNYbU-0005pP-2g
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 06:45:25 -0400
+Received: by mail-ed1-x531.google.com with SMTP id r7so13257336edd.6
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 03:45:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=W6nkUTduml/1nQ1y3YWlDYA5jPHtMeFK1UZSpWA0WGg=;
+ b=aaEbem1grHdT5zU9BHOvU8xyhE/HEGK8ABCuCQ8STRKhYqwoPFQ/d7tMRywk7Ia77x
+ zdn0psAT7LEBsqfkeiKGf9datBhtxx+EUpI0mNc/rMgZHnzhYujRBADzJlABRYxQm7iu
+ glQKEhErZcQToBa6W+sowFv0x85AU+d8Y6TZs3/l4a0yMRvRuvMWXaCk5BRybxx2DhEH
+ J47I/uDEec6BP9WEPyaUBhKQlMxXo0v3NKZJW9YagmD04JxVdaUNkXRnp2AsiSQleUV7
+ 6S+TP1cPnu8R4Piz0CSVpyahJ0y3WSrFRtFmxQJgoqcximy3gr436LdyFTVJgK5jCpkC
+ t2jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=W6nkUTduml/1nQ1y3YWlDYA5jPHtMeFK1UZSpWA0WGg=;
+ b=ZXejm6smMxyoI1eqS7+uKHCzuv0cJWvaUxZ8EUUzcycTvGX7FZZHpdCiYbw8MtJihw
+ WklhVjMkEWcDDMv6PJ/amks6xeq/Ibk9+PryF0Y+3emU1DZuIvi00YwVsAYhUsOD38hS
+ T/Mkc+QcfPTezPQAD8V5aVIkiine9NwVGfVRNqNqeEwy1fRGFCN0YZdVnxMdItExfpl9
+ kwAM1s06EwrrVwzrJchPmTaKuouT4+OEcvlJMW2KF0BtdVQaMXEr+6U8E160QGORxbCq
+ FPhYltj552JGL7amU4IYT3OnCUvNNeFB0KIxWK8peMxRYX6oRGg+DQCaA+Oox4MIlC67
+ MxTw==
+X-Gm-Message-State: AOAM533MDQGTeJZrE/6K3V93f1GoD10MgnsDozJhcGSJHkfhNwd8RdkA
+ YIerFjTJp8km0kezHH8mp+eJr2xAvKU=
+X-Google-Smtp-Source: ABdhPJywyovBsm/jrn0tVkdduPijqlK5netAM9BJTvYCIfeQh4iz208BYISoL3L5leH/vV3hCjrD1Q==
+X-Received: by 2002:a05:6402:31b9:: with SMTP id
+ dj25mr18151202edb.180.1631011522548; 
+ Tue, 07 Sep 2021 03:45:22 -0700 (PDT)
+Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id lm21sm5294316ejb.58.2021.09.07.03.45.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Sep 2021 03:45:22 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] ebpf: only include in system emulators
+Date: Tue,  7 Sep 2021 12:45:12 +0200
+Message-Id: <20210907104512.129103-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URIBL_DBL_SPAM=2.5 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,325 +82,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: yuri.benditovich@daynix.com, jasowang@redhat.com, andrew@daynix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+eBPF files are being included in system emulators, which is useless and
+also breaks compilation because ebpf/trace-events is only processed
+if a system emulator is included in the build.
 
-> Annotations do not change runtime behavior.
->
-> This commit adds mostly annotations, but uses a TYPE_CHECKING runtime
-> check to conditionally import dependencies, which only triggers during
-> runs of mypy.
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/566
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ ebpf/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Please add a reference to
-https://mypy.readthedocs.io/en/latest/runtime_troubles.html#import-cycles
-
-> Signed-off-by: John Snow <jsnow@redhat.com>
->
-> ---
->
-> TopLevelExpr, an idea from previous drafts, makes a return here in order
-> to give a semantic meaning to check_expr(). The type is intended to be
-> used more in forthcoming commits (pt5c), but I opted to include it now
-> instead of creating yet-another Dict[str, object] type hint that I would
-> forget to change later.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/parser.py | 77 ++++++++++++++++++++++++++----------------
->  1 file changed, 48 insertions(+), 29 deletions(-)
->
-> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-> index 3ddde318376..b1e2fa5c577 100644
-> --- a/scripts/qapi/parser.py
-> +++ b/scripts/qapi/parser.py
-> @@ -18,6 +18,7 @@
->  import os
->  import re
->  from typing import (
-> +    TYPE_CHECKING,
->      Dict,
->      List,
->      Optional,
-> @@ -30,6 +31,15 @@
->  from .source import QAPISourceInfo
->  
->  
-> +if TYPE_CHECKING:
-> +    # pylint: disable=cyclic-import
-> +    # TODO: Remove cycle. [schema -> expr -> parser -> schema]
-> +    from .schema import QAPISchemaFeature, QAPISchemaMember
-> +
-> +
-> +#: Represents a single Top Level QAPI schema expression.
-> +TopLevelExpr = Dict[str, object]
-
-Related: _ExprValue below, and _JSONObject in expr.py.  The latter's
-comment gives the best rationale (except I don't get "the purpose of
-this module is to interrogate that type").
-
-I think we'd like to have
-
-* A recursive type for JSON value (in our bastardized version of JSON)
-
-  This is Union of bool, str, List[Self], Dict[str, Self].  It's what
-  .get_expr() returns.
-
-  Since mypy can't do recursive, we approximate with _ExprValue.
-
-* A recursive type for JSON object
-
-  This is the Dict branch of the above.  It's what check_keys() &
-  friends take as argument.
-
-  We approximate with _JSONObject.
-
-  Same for the List branch would make sense if we had a use for the
-  type.
-
-* A recursive type for TOP-LEVEL-EXPR
-
-  Actually the same type as the previous one, to be used only for the
-  schema's top-level expressions.  It's the elements of
-  QAPISchemaParser.exprs[], and what check_exprs() takes as argument.
-
-  We approximate with TopLevelExpr, but so far use it only for
-  check_exprs().
-
-  Doesn't really improve type checking, but may serve as documentation.
-
-Shouldn't these types be all defined in one place, namely right here?
-Bonus: we need to explain the mypy sadness just once then.
-
-Shouldn't their names be more systematic?  _ExprValue, _JSONObject and
-TopLevelExpr hardly suggest any relation...
-
-> +
->  # Return value alias for get_expr().
->  _ExprValue = Union[List[object], Dict[str, object], str, bool]
->  
-> @@ -447,7 +457,8 @@ class QAPIDoc:
->      """
->  
->      class Section:
-> -        def __init__(self, parser, name=None, indent=0):
-> +        def __init__(self, parser: QAPISchemaParser,
-> +                     name: Optional[str] = None, indent: int = 0):
->              # parser, for error messages about indentation
->              self._parser = parser
->              # optional section name (argument/member or section name)
-> @@ -459,7 +470,7 @@ def __init__(self, parser, name=None, indent=0):
->          def __bool__(self) -> bool:
->              return bool(self.name or self.text)
->  
-> -        def append(self, line):
-> +        def append(self, line: str) -> None:
->              # Strip leading spaces corresponding to the expected indent level
->              # Blank lines are always OK.
->              if line:
-> @@ -474,39 +485,40 @@ def append(self, line):
->              self.text += line.rstrip() + '\n'
->  
->      class ArgSection(Section):
-> -        def __init__(self, parser, name, indent=0):
-> +        def __init__(self, parser: QAPISchemaParser,
-> +                     name: Optional[str] = None, indent: int = 0):
-
-Why not name: str?  All callers pass a str argument...
-
->              super().__init__(parser, name, indent)
-> -            self.member = None
-> +            self.member: Optional['QAPISchemaMember'] = None
-
-I guess you need to quote 'QAPISchemaMember', because we actually import
-it only if TYPE_CHECKING.  More of the same below.
-
->  
-> -        def connect(self, member):
-> +        def connect(self, member: 'QAPISchemaMember') -> None:
->              self.member = member
->  
-> -    def __init__(self, parser, info):
-> +    def __init__(self, parser: QAPISchemaParser, info: QAPISourceInfo):
->          # self._parser is used to report errors with QAPIParseError.  The
->          # resulting error position depends on the state of the parser.
->          # It happens to be the beginning of the comment.  More or less
->          # servicable, but action at a distance.
->          self._parser = parser
->          self.info = info
-> -        self.symbol = None
-> +        self.symbol: Optional[str] = None
->          self.body = QAPIDoc.Section(parser)
->          # dict mapping parameter name to ArgSection
-> -        self.args = OrderedDict()
-> -        self.features = OrderedDict()
-> +        self.args: Dict[str, QAPIDoc.ArgSection] = OrderedDict()
-> +        self.features: Dict[str, QAPIDoc.ArgSection] = OrderedDict()
->          # a list of Section
-> -        self.sections = []
-> +        self.sections: List[QAPIDoc.Section] = []
->          # the current section
->          self._section = self.body
->          self._append_line = self._append_body_line
->  
-> -    def has_section(self, name):
-> +    def has_section(self, name: str) -> bool:
->          """Return True if we have a section with this name."""
->          for i in self.sections:
->              if i.name == name:
->                  return True
->          return False
->  
-> -    def append(self, line):
-> +    def append(self, line: str) -> None:
->          """
->          Parse a comment line and add it to the documentation.
->  
-> @@ -527,18 +539,18 @@ def append(self, line):
->          line = line[1:]
->          self._append_line(line)
->  
-> -    def end_comment(self):
-> +    def end_comment(self) -> None:
->          self._end_section()
->  
->      @staticmethod
-> -    def _is_section_tag(name):
-> +    def _is_section_tag(name: str) -> bool:
->          return name in ('Returns:', 'Since:',
->                          # those are often singular or plural
->                          'Note:', 'Notes:',
->                          'Example:', 'Examples:',
->                          'TODO:')
->  
-> -    def _append_body_line(self, line):
-> +    def _append_body_line(self, line: str) -> None:
->          """
->          Process a line of documentation text in the body section.
->  
-> @@ -578,7 +590,7 @@ def _append_body_line(self, line):
->              # This is a free-form documentation block
->              self._append_freeform(line)
->  
-> -    def _append_args_line(self, line):
-> +    def _append_args_line(self, line: str) -> None:
->          """
->          Process a line of documentation text in an argument section.
->  
-> @@ -624,7 +636,7 @@ def _append_args_line(self, line):
->  
->          self._append_freeform(line)
->  
-> -    def _append_features_line(self, line):
-> +    def _append_features_line(self, line: str) -> None:
->          name = line.split(' ', 1)[0]
->  
->          if name.startswith('@') and name.endswith(':'):
-> @@ -656,7 +668,7 @@ def _append_features_line(self, line):
->  
->          self._append_freeform(line)
->  
-> -    def _append_various_line(self, line):
-> +    def _append_various_line(self, line: str) -> None:
->          """
->          Process a line of documentation text in an additional section.
->  
-> @@ -692,7 +704,11 @@ def _append_various_line(self, line):
->  
->          self._append_freeform(line)
->  
-> -    def _start_symbol_section(self, symbols_dict, name, indent):
-> +    def _start_symbol_section(
-> +            self,
-> +            symbols_dict: Dict[str, 'QAPIDoc.ArgSection'],
-
-The need to quote this within the very class that defines it is
-annoying.
-
-> +            name: str,
-> +            indent: int) -> None:
->          # FIXME invalid names other than the empty string aren't flagged
->          if not name:
->              raise QAPIParseError(self._parser, "invalid parameter name")
-> @@ -704,13 +720,14 @@ def _start_symbol_section(self, symbols_dict, name, indent):
->          self._section = QAPIDoc.ArgSection(self._parser, name, indent)
->          symbols_dict[name] = self._section
->  
-> -    def _start_args_section(self, name, indent):
-> +    def _start_args_section(self, name: str, indent: int) -> None:
->          self._start_symbol_section(self.args, name, indent)
->  
-> -    def _start_features_section(self, name, indent):
-> +    def _start_features_section(self, name: str, indent: int) -> None:
->          self._start_symbol_section(self.features, name, indent)
->  
-> -    def _start_section(self, name=None, indent=0):
-> +    def _start_section(self, name: Optional[str] = None,
-> +                       indent: int = 0) -> None:
->          if name in ('Returns', 'Since') and self.has_section(name):
->              raise QAPIParseError(self._parser,
->                                   "duplicated '%s' section" % name)
-> @@ -718,7 +735,7 @@ def _start_section(self, name=None, indent=0):
->          self._section = QAPIDoc.Section(self._parser, name, indent)
->          self.sections.append(self._section)
->  
-> -    def _end_section(self):
-> +    def _end_section(self) -> None:
->          if self._section:
->              text = self._section.text = self._section.text.strip()
->              if self._section.name and (not text or text.isspace()):
-> @@ -727,7 +744,7 @@ def _end_section(self):
->                      "empty doc section '%s'" % self._section.name)
->              self._section = QAPIDoc.Section(self._parser)
->  
-> -    def _append_freeform(self, line):
-> +    def _append_freeform(self, line: str) -> None:
->          match = re.match(r'(@\S+:)', line)
->          if match:
->              raise QAPIParseError(self._parser,
-> @@ -735,28 +752,30 @@ def _append_freeform(self, line):
->                                   % match.group(1))
->          self._section.append(line)
->  
-> -    def connect_member(self, member):
-> +    def connect_member(self, member: 'QAPISchemaMember') -> None:
->          if member.name not in self.args:
->              # Undocumented TODO outlaw
->              self.args[member.name] = QAPIDoc.ArgSection(self._parser,
->                                                          member.name)
->          self.args[member.name].connect(member)
->  
-> -    def connect_feature(self, feature):
-> +    def connect_feature(self, feature: 'QAPISchemaFeature') -> None:
->          if feature.name not in self.features:
->              raise QAPISemError(feature.info,
->                                 "feature '%s' lacks documentation"
->                                 % feature.name)
->          self.features[feature.name].connect(feature)
->  
-> -    def check_expr(self, expr):
-> +    def check_expr(self, expr: TopLevelExpr) -> None:
->          if self.has_section('Returns') and 'command' not in expr:
->              raise QAPISemError(self.info,
->                                 "'Returns:' is only valid for commands")
->  
-> -    def check(self):
-> +    def check(self) -> None:
->  
-> -        def check_args_section(args, what):
-> +        def check_args_section(
-> +                args: Dict[str, QAPIDoc.ArgSection], what: str
-> +        ) -> None:
-
-This is the fourth use of Dict[str, QAPIDoc.ArgSection].  Still fine,
-but if we acquire even more, we should consider giving it a name.
-
->              bogus = [name for name, section in args.items()
->                       if not section.member]
->              if bogus:
+diff --git a/ebpf/meson.build b/ebpf/meson.build
+index 9cd0635370..2dd0fd8948 100644
+--- a/ebpf/meson.build
++++ b/ebpf/meson.build
+@@ -1 +1 @@
+-common_ss.add(when: libbpf, if_true: files('ebpf_rss.c'), if_false: files('ebpf_rss-stub.c'))
++softmmu_ss.add(when: libbpf, if_true: files('ebpf_rss.c'), if_false: files('ebpf_rss-stub.c'))
+-- 
+2.31.1
 
 
