@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED91B402EEF
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 21:24:56 +0200 (CEST)
-Received: from localhost ([::1]:45426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F0C402FD6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 22:38:44 +0200 (CEST)
+Received: from localhost ([::1]:51938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNgiF-0002sv-J9
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 15:24:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36542)
+	id 1mNhre-0005rR-Mh
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 16:38:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNgh4-0001xL-Aj
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 15:23:46 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:33575)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNgh1-0003KN-RT
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 15:23:42 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- 192-20020a1c04c9000000b002f7a4ab0a49so2455006wme.0
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 12:23:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=r67SiY/P+5Lvmv7Q+5JplGppBknDQoGYmHLwweL4P2A=;
- b=xyTmL9qKkTwp2Jrv0zN0Ry/Fp+/dR1jEsTZA6a5KOjMo8STFztomflB6jAk11hPaOx
- i2uR5gIxTM1XcGVvD0SQpk5L8jsMqCWFCrV6uAfDhB4VaH9/8zn7n8f09uDY0b1ttshC
- PFhyl7rpxn8TbG/W3vy7mpx/uka3wecIbacY5lnt4L9rpZsIanX+r3ZXumhccoMlGKU4
- mbZ84vNZVNbZrKCDC3VM5kJ73D21t1EC8bYhnyKIPAflfsfEwXU5ITtDZpBN4l4WmdIw
- tHWPZFzbAHyhafNEAFgRyTW4wvZ60i3rx0p2Td/RIHzfn7YSYGQxOEoJ+ZdlX0GoclM4
- zwiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=r67SiY/P+5Lvmv7Q+5JplGppBknDQoGYmHLwweL4P2A=;
- b=YsCGEWoRshmUGNervdh+ZqM1ichaLPuibt3Y+N3mGIP2ZHXuHXF5m42Ek+lDd6hHrP
- 6NoD/aKhFoclVJxn0E0XH9DyEDh40x1bsKanlR6iSSG228Pq5z/nGc/rMNJFuHSscgwZ
- GU/FLU4L4z7pRCzoUw1K7EFcPKV8X/QFsyHW2c3Wx3S+Gxs95Oh5gM7du5uI0YwKvV8K
- e3n7hvPa6JiLW1KthesqA7Cds2pkfiNdMMceazKSUMo7432P4zBXSnyMOMAAlLrM186T
- tytW07DHhJ9bVP6ubvrcD3ecNKUMX81jsvbTJox3vHD4mx9b7xTGn+PFEGRo9V2m0f+4
- bcLw==
-X-Gm-Message-State: AOAM532EtluOrVJZs+FgYdPVWc94gMHctZGCAK802vNktv/s2fpZc1rP
- RzXwr315Nw1Yoq/NdBOuzkgb51AtoaDkLqJOefYBCg==
-X-Google-Smtp-Source: ABdhPJwnR3dzDgS/fGgGAZI5O8njM1BfqMX5sLMMrL0sADW6+Aye2pAMEIYwUfP9JkHiogCz3EBqzkMdg767+jz3gGc=
-X-Received: by 2002:a05:600c:4fcd:: with SMTP id
- o13mr5576742wmq.32.1631042618044; 
- Tue, 07 Sep 2021 12:23:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mNhq7-0004XS-Jk
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 16:37:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33907)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mNhq5-0000ed-2K
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 16:37:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631047022;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=r0mIVp1Yli1I4yEYozPSJjOGyElRH6OMi+Y+2UCDPwE=;
+ b=IWKWomjEPLfQDpva1kchHEanf/2uNn/7PQShnluQ5KUw1sq7wGBpcGriIZ3WUTojzPbhfR
+ wEezRrCfw9HPIfLFJTQ6Q8wFlq31MfnJPClo64mzItfMzFFd+nxoQZHXGExb3a3ku/UhOR
+ LmXfEiV7llwAMTXcGEIFNuUM16xx8Uc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-445-CyqpfilUOheWLboE8L93GQ-1; Tue, 07 Sep 2021 16:36:59 -0400
+X-MC-Unique: CyqpfilUOheWLboE8L93GQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDAD6800FF3;
+ Tue,  7 Sep 2021 20:36:57 +0000 (UTC)
+Received: from redhat.com (ovpn-112-95.phx2.redhat.com [10.3.112.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EEDD66A902;
+ Tue,  7 Sep 2021 20:36:56 +0000 (UTC)
+Date: Tue, 7 Sep 2021 15:36:55 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 3/9] nbd: allow reconnect on open, with corresponding
+ new options
+Message-ID: <20210907203655.smjfnr4bj72esd4v@redhat.com>
+References: <20210906190654.183421-1-vsementsov@virtuozzo.com>
+ <20210906190654.183421-4-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-References: <20210907131449.493875-1-thuth@redhat.com>
-In-Reply-To: <20210907131449.493875-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 Sep 2021 20:22:48 +0100
-Message-ID: <CAFEAcA9fJuuSRvxx8fCgrN=Vx1PNzz2obDu4uW0ywgEJS3LCeg@mail.gmail.com>
-Subject: Re: [PULL 00/20] s390x patches
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210906190654.183421-4-vsementsov@virtuozzo.com>
+User-Agent: NeoMutt/20210205-739-420e15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,41 +78,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ armbru@redhat.com, hreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Sept 2021 at 14:15, Thomas Huth <thuth@redhat.com> wrote:
+On Mon, Sep 06, 2021 at 10:06:48PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> It is useful when start of vm and start of nbd server are not
+> simple to sync.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  qapi/block-core.json |  9 ++++++++-
+>  block/nbd.c          | 45 +++++++++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 52 insertions(+), 2 deletions(-)
 >
->  Hi Peter!
->
-> The following changes since commit 935efca6c246c108253b0e4e51cc87648fc7ca10:
->
->   Merge remote-tracking branch 'remotes/thuth-gitlab/tags/pull-request-2021-09-06' into staging (2021-09-06 12:38:07 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/thuth/qemu.git tags/s390x-pull-request-2021-09-07
->
-> for you to fetch changes up to 30e398f796d882d829162a16ab7c920f7422da3b:
->
->   s390x/cpumodel: Add more feature to gen16 default model (2021-09-07 13:36:43 +0200)
->
-> (Cornelia is currently on vacation, so I'm doing the s390x patches this time)
->
-> ----------------------------------------------------------------
-> * Some CSS related fixes
-> * Storage key related fixes
-> * Test SIGILL and SIGSEGV handling in usermode emulation
-> * Fix SETPREFIX instruction
-> * Replace PAGE_SIZE, PAGE_SHIFT and PAGE_MASK to fix Alpine compilation
-> * Add more feature to gen16 default model
 
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Applied, thanks.
+This is when qemu is acting as NBD client (and does not affect qemu
+acting as NBD server).
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
-for any user-visible changes.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
--- PMM
 
