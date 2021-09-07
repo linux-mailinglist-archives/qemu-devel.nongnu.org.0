@@ -2,87 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7138D4023D7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 09:08:37 +0200 (CEST)
-Received: from localhost ([::1]:47156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E48E74023DA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 Sep 2021 09:12:16 +0200 (CEST)
+Received: from localhost ([::1]:55276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNVDg-00086p-Gd
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 03:08:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58750)
+	id 1mNVHE-0005Ib-19
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 03:12:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNV7r-0007tR-Ki
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 03:02:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33215)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mNVFq-0003aE-TU
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 03:10:50 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:31545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNV7o-0004YD-OL
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 03:02:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630998151;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F3mhJan8ywxd9Sx7hi45fU6A3A+1Ay23w95AkNMpVN4=;
- b=GjsHzbOf1Y4Ors7C3TDACJwJ61LWBikF/wK1dhZFgRCJ++lAZZye7m0U8kbSdAxv6zlvYV
- kHhp/16ks6q70LpeZqDln6o9RhSXs/0841qzR9Uj6kzKb9HW5m+1dI+QJieFXhfykNigNb
- Am+ZEcopZsiUFYlZWmkSNPl3y5nSNes=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-H9x7tol4NvWRbinHU5eChg-1; Tue, 07 Sep 2021 03:02:29 -0400
-X-MC-Unique: H9x7tol4NvWRbinHU5eChg-1
-Received: by mail-ej1-f72.google.com with SMTP id
- bx10-20020a170906a1ca00b005c341820edeso3207761ejb.10
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 00:02:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=F3mhJan8ywxd9Sx7hi45fU6A3A+1Ay23w95AkNMpVN4=;
- b=h/x0qWxCCGUoj6Q4pjs7gkvGH9uOh4YDD26im6B+VY0dn8yfH2CYwWzAg6emvbgmL2
- rPyN26kQj9MTuSPF40FWSkY+4txKbWkREZ7GLaFcP0S9Mc6/as7J2fz0wkHmXcO2q4P3
- Zf/nEneAOkdBDLx0ZZH4JbwFXE1DinWAkVldBleKwmbZTwXjwr/McTtz8+nTPCkJ+HS/
- iFbMq3uh/sX/jSHQPMdjYxUBzJXXsQ3DMjDcUW554JVUWcSj9UppNKm1yHQV3FtM6Zf+
- cFFbGDRw+i3J75PecYKJ34g9BM4I8Jd7X/8LWk2DqKv+Ax79CfyufzpOk5NDB2Mz6DRf
- PQgA==
-X-Gm-Message-State: AOAM532q8KMfXsqWCuH9iricmda5rOYG4uZBULWoiZyIZl+fvJsvVL6q
- QsSjjUcmeCi5DqiA5C0Ohuo/cTvnN8q51HFbWnH3a2ZdnNvHjB7Rx0b4xJk60Bkp2i0m5jA3eih
- 1veDo7Y04wXdoLL4=
-X-Received: by 2002:a50:ff0a:: with SMTP id a10mr17276112edu.273.1630998148012; 
- Tue, 07 Sep 2021 00:02:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzNHbJD5VgNfZN57x6+kzK01tMVNJlOlIDnWW06/g1/sNj2jSwqits6WMRhHRGKigvdWMi7wg==
-X-Received: by 2002:a50:ff0a:: with SMTP id a10mr17276058edu.273.1630998147207; 
- Tue, 07 Sep 2021 00:02:27 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id cf11sm5922308edb.65.2021.09.07.00.02.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 00:02:26 -0700 (PDT)
-Date: Tue, 7 Sep 2021 09:02:25 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v2 0/3] hw/arm/virt_acpi_build: Generate DBG2 table
-Message-ID: <20210907090225.3c8d3d96@redhat.com>
-In-Reply-To: <20210906123139.93593-1-eric.auger@redhat.com>
-References: <20210906123139.93593-1-eric.auger@redhat.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mNVFp-0002fj-BD
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 03:10:50 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-gCeq6xD_Ny2s7N85RAJpGw-1; Tue, 07 Sep 2021 03:10:18 -0400
+X-MC-Unique: gCeq6xD_Ny2s7N85RAJpGw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA7D9835DE0;
+ Tue,  7 Sep 2021 07:10:16 +0000 (UTC)
+Received: from bahia.lan (unknown [10.39.192.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D9ED619729;
+ Tue,  7 Sep 2021 07:10:15 +0000 (UTC)
+Date: Tue, 7 Sep 2021 09:10:13 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v5 1/4] spapr: move NUMA associativity init to machine
+ reset
+Message-ID: <20210907091013.3882663b@bahia.lan>
+In-Reply-To: <YTa0RzbdvfSQZy9+@yekko>
+References: <20210907002527.412013-1-danielhb413@gmail.com>
+ <20210907002527.412013-2-danielhb413@gmail.com>
+ <YTa0RzbdvfSQZy9+@yekko>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/Vc1Qp03E4PfA6Ag=VpBeH.f";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,57 +63,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, gshan@redhat.com,
- mst@redhat.com, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, philmd@redhat.com, ardb@kernel.org,
- eric.auger.pro@gmail.com
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon,  6 Sep 2021 14:31:36 +0200
-Eric Auger <eric.auger@redhat.com> wrote:
+--Sig_/Vc1Qp03E4PfA6Ag=VpBeH.f
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-> This series generates the ACPI DBG2 table along with machvirt.
-> It applies on top of Igor's
-> [PATCH v2 00/35] acpi: refactor error prone build_header() and
-> packed structures usage in ACPI tables
+On Tue, 7 Sep 2021 10:37:27 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
+
+> On Mon, Sep 06, 2021 at 09:25:24PM -0300, Daniel Henrique Barboza wrote:
+> > At this moment we only support one form of NUMA affinity, FORM1. This
+> > allows us to init the internal structures during machine_init(), and
+> > given that NUMA distances won't change during the guest lifetime we
+> > don't need to bother with that again.
+> >=20
+> > We're about to introduce FORM2, a new NUMA affinity mode for pSeries
+> > guests. This means that we'll only be certain about the affinity mode
+> > being used after client architecture support. This also means that the
+> > guest can switch affinity modes in machine reset.
+> >=20
+> > Let's prepare the ground for the FORM2 support by moving the NUMA
+> > internal data init from machine_init() to machine_reset(). Change the
+> > name to spapr_numa_associativity_reset() to make it clearer that this is
+> > a function that can be called multiple times during the guest lifecycle.
+> > We're also simplifying its current API since this method will be called
+> > during CAS time (do_client_architecture_support()) later on and there's=
+ no
+> > MachineState pointer already solved there.
+> >=20
+> > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>=20
+> Applied to ppc-for-6.2, thanks.
+>=20
+
+Even if already applied :
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+> > ---
+> >  hw/ppc/spapr.c              | 6 +++---
+> >  hw/ppc/spapr_numa.c         | 4 ++--
+> >  include/hw/ppc/spapr_numa.h | 9 +--------
+> >  3 files changed, 6 insertions(+), 13 deletions(-)
+> >=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index d39fd4e644..8e1ff6cd10 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -1621,6 +1621,9 @@ static void spapr_machine_reset(MachineState *mac=
+hine)
+> >       */
+> >      spapr_irq_reset(spapr, &error_fatal);
+> > =20
+> > +    /* Reset numa_assoc_array */
+> > +    spapr_numa_associativity_reset(spapr);
+> > +
+> >      /*
+> >       * There is no CAS under qtest. Simulate one to please the code th=
+at
+> >       * depends on spapr->ov5_cas. This is especially needed to test de=
+vice
+> > @@ -2808,9 +2811,6 @@ static void spapr_machine_init(MachineState *mach=
+ine)
+> > =20
+> >      spapr->gpu_numa_id =3D spapr_numa_initial_nvgpu_numa_id(machine);
+> > =20
+> > -    /* Init numa_assoc_array */
+> > -    spapr_numa_associativity_init(spapr, machine);
+> > -
+> >      if ((!kvm_enabled() || kvmppc_has_cap_mmu_radix()) &&
+> >          ppc_type_check_compat(machine->cpu_type, CPU_POWERPC_LOGICAL_3=
+_00, 0,
+> >                                spapr->max_compat_pvr)) {
+> > diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+> > index 779f18b994..9ee4b479fe 100644
+> > --- a/hw/ppc/spapr_numa.c
+> > +++ b/hw/ppc/spapr_numa.c
+> > @@ -155,10 +155,10 @@ static void spapr_numa_define_associativity_domai=
+ns(SpaprMachineState *spapr)
+> > =20
+> >  }
+> > =20
+> > -void spapr_numa_associativity_init(SpaprMachineState *spapr,
+> > -                                   MachineState *machine)
+> > +void spapr_numa_associativity_reset(SpaprMachineState *spapr)
+> >  {
+> >      SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
+> > +    MachineState *machine =3D MACHINE(spapr);
+> >      int nb_numa_nodes =3D machine->numa_state->num_nodes;
+> >      int i, j, max_nodes_with_gpus;
+> >      bool using_legacy_numa =3D spapr_machine_using_legacy_numa(spapr);
+> > diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
+> > index 6f9f02d3de..0e457bba57 100644
+> > --- a/include/hw/ppc/spapr_numa.h
+> > +++ b/include/hw/ppc/spapr_numa.h
+> > @@ -16,14 +16,7 @@
+> >  #include "hw/boards.h"
+> >  #include "hw/ppc/spapr.h"
+> > =20
+> > -/*
+> > - * Having both SpaprMachineState and MachineState as arguments
+> > - * feels odd, but it will spare a MACHINE() call inside the
+> > - * function. spapr_machine_init() is the only caller for it, and
+> > - * it has both pointers resolved already.
+> > - */
+> > -void spapr_numa_associativity_init(SpaprMachineState *spapr,
+> > -                                   MachineState *machine);
+>=20
+> Nice additional cleanup to the signature, thanks.
+>=20
+> > +void spapr_numa_associativity_reset(SpaprMachineState *spapr);
+> >  void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int=
+ rtas);
+> >  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void =
+*fdt,
+> >                                         int offset, int nodeid);
+>=20
 
 
-FYI: I'm preparing to post v3 today, with so far received feedback
-addressed. Change that will affect 3/3 is
- s/acpi_init_table|acpi_table_composed/acpi_table_begin|acpi_table_end/
+--Sig_/Vc1Qp03E4PfA6Ag=VpBeH.f
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
 
-> The DBG2 specification can be found at
-> https://docs.microsoft.com/en-us/windows-hardware/drivers/bringup/acpi-debug-port-table.
-> 
-> DBG2 is mandated by ARM SBBR since its v1.0 release (the rationale
-> behind is Windows requires it on all systems).
-> 
-> The DBG2 is used to describe a debug port, used by the kernel debugger.
-> 
-> This series and its dependency can be found at
-> https://github.com/eauger/qemu.git
-> branch: dbg2-v2-igor-v2-fix
-> 
-> History:
-> v1 -> v2:
-> - rebase on top of Igor's series and use acpi_init_table/acpi_table_composed
->   and build_append_int_noprefix()
-> 
-> Eric Auger (3):
->   tests/acpi: Add void table for virt/DBG2 bios-tables-test
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAmE3EFUACgkQcdTV5YIv
+c9aABg//RwZ2bbXf2PYEY6qgLH7GTA+8IcvzRq5kadiq0FdEhSuGu1AwnWx/OGgF
+7YbFFWOS3aQz4HIV4dKW5fyGQgqfxGOldm8mrekqzkrYmFHtXYN80TIVBvGaNDOy
+VBd7LIj1OpXM5vyo995VnIMsj1i3rVL21XZFlq5lY0sfYxkQ0aNOxpnTb/+/4e8a
+y8Y502CIOfUSzs4kbEu8eif+Fgtt1d0N6cVSRtD2iVmdBeonJMoQIG+k9PfzdBlj
+QlsB1DxSuzxMAmJ0jRX8EzVQbAkke6Pv+l8R2Yxheqmpspyj269gVQcMx76bxxcV
+t521qGepdOokDO2omqVBipLh5l92ZSWArwudLYbfu7IIh5sKG98BY/wMXRGJJ/SB
+c3Ql6n/jlLLS6kHY1Unwnv/YJFiK9+exj8kbva7vKnnMMyGASIWKzpz8gu2brtdj
+FCz3S+1qqBi8KUYuKbrAvzEDNKDaD2C6CinM7vf5Vj6Gn00RT6BKYyo0Wri3n++V
+yJ7SLeRuN0U2feyyx2nX6E8roYR9VZiFsD3/Y015Qn/MIh6CxR24rusFNnFXJ9Av
+oZ+yf/2qimi6R68nP/l+FfYcnehThc9qInBlHJu4vwgeIi7f9QWbT/4yNrW3TWLn
+BBXGDI1MeTIOroKqW830dBCQkhRwd5J4lvlUpxDXbDMAznJjx7g=
+=2QAQ
+-----END PGP SIGNATURE-----
 
->   bios-tables-test: Generate reference table for virt/DBG2
->   hw/arm/virt_acpi_build: Generate DBG2 table
-
-I'd swap 2/3 and 3/3, so it would be obvious where DBG2 comes from.
-
-> 
->  hw/arm/virt-acpi-build.c  |  64 +++++++++++++++++++++++++++++++++++++-
->  tests/data/acpi/virt/DBG2 | Bin 0 -> 87 bytes
->  2 files changed, 63 insertions(+), 1 deletion(-)
->  create mode 100644 tests/data/acpi/virt/DBG2
-> 
+--Sig_/Vc1Qp03E4PfA6Ag=VpBeH.f--
 
 
