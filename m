@@ -2,93 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C2840341E
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 08:07:45 +0200 (CEST)
-Received: from localhost ([::1]:42632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 740DD403421
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 08:16:28 +0200 (CEST)
+Received: from localhost ([::1]:45030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNqkK-0000RU-EE
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 02:07:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48866)
+	id 1mNqsl-0002U1-I6
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 02:16:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mNqjE-0008BJ-Fh
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 02:06:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42887)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mNqjD-0005fs-33
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 02:06:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631081194;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+UTHv8YS4AgvpbBSxm/zplofz9TwT9wJ99XgYSg8cbc=;
- b=TpwEMM7lG6O6xV3KYgpG/dMdP4n21ts+wOLmqcvq9N+OZmb0LpJyCOK3JYYSuJ/ptwuoXD
- 5aOu6InQZRgdCrUl1JWRtvoygPsUgMS8klQpNzp50xkB3j5B7OWD6FtnmGXu6m1q5e3/kn
- z23H1hMpwv+Tkjqc0vcr2lfk9tqDWVM=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-CH91Uur5Mr6OlcYC_nDENQ-1; Wed, 08 Sep 2021 02:06:30 -0400
-X-MC-Unique: CH91Uur5Mr6OlcYC_nDENQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- f23-20020a17090624d700b005d7f8be91eeso468570ejb.13
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 23:06:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mNqrR-0001gN-Ow; Wed, 08 Sep 2021 02:15:05 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:38911)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mNqrQ-0004F9-7f; Wed, 08 Sep 2021 02:15:05 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id v10so2022975ybm.5;
+ Tue, 07 Sep 2021 23:15:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wsQH+oVAoJfz081UhLOwBFkvr7MAfyLoR++rYFAzaSw=;
+ b=jz5LtAIQfR33uNhsL6KoLDpU4ZRYi+tHN5WUOqkubVYIDI/NtsuAjc5cEWSEZi566v
+ 5QnhbCevvdCR7F4aCRfjRg1G01wXspRSdmuA3UPIFKVFVsRnQFsZnzm3nU5Vm5iE9SKw
+ GT+C+lMrWfDyTMlRglEEgpdP1WY4wwOfzTBRFqEUtY4kDK0h2dN6s6X1sIAc/LzYgJbb
+ EWP54Tth0uU/3umAy6SZ0UicCtqVmQPfyE5wuVi4QkdMUarRqp2H3lzXKqMaEN/Wa/dC
+ Zzj526W9ifJEyirZF1DHbc4NiRfBCNWc6b6GNf90rMgyt9H5OatS5zduBD5kSvFS5NyS
+ 2IeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+UTHv8YS4AgvpbBSxm/zplofz9TwT9wJ99XgYSg8cbc=;
- b=mQ4UxJpujrbk3s7NF31q5896yOm0XgxG//6hLK5/sqMzOyFH9L8ZyIn9NR5W9bhncw
- YaKDjnJpEp+vRffATNXBe4bkIeOGy4JiedHE/QJWrFgntAQnw07nwT9cVflwViBCV1ZR
- t6cvPcqUqTFw4iaIWNGeRWIBlEz9MEmoc9CscKVYDNmk/zsSRo+m26O01/LiK1jJAace
- otT3pMLWfie+9jc7VFgJCRjIgVJF1OqVSsqpKu5e87SJ3VRNuJk+LyyD3XgWgczJGqRP
- +cxyAjyYfgpbJELPPPFXd9fluCyRm2FzzhlA8AqbACz5P0bgkCgFCYc6gzUOvvZ+p0Xo
- KRMw==
-X-Gm-Message-State: AOAM530HTjUXhl0vB8u16fa1pvwHN4/jgmoZdZf0CZcQV0p5FiPvrcPD
- qk5w5fQT4hi/z/9TcUTyoSlZH/peBSAxQhMo1KiEqFtIdvUzxZHphIfPFqsTTKMlYHtvcwYie2A
- gc7IAMrsEneD3/i0=
-X-Received: by 2002:a05:6402:4247:: with SMTP id
- g7mr2098522edb.287.1631081189658; 
- Tue, 07 Sep 2021 23:06:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxkwBY1jfelH9OUPuCqSHpFzVcTbXklH1zXy8tV1Juf6tjpEbRu9sEa+rRAq6/gnqs4g427Mw==
-X-Received: by 2002:a05:6402:4247:: with SMTP id
- g7mr2098501edb.287.1631081189445; 
- Tue, 07 Sep 2021 23:06:29 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id i11sm529651edu.32.2021.09.07.23.06.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Sep 2021 23:06:28 -0700 (PDT)
-Subject: Re: [PATCH] fuzz: fix unbound variable in build.sh
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20210907110841.3341786-1-alxndr@bu.edu>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e93ce7f6-2f0c-f676-e1e7-b5a59376561b@redhat.com>
-Date: Wed, 8 Sep 2021 08:06:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wsQH+oVAoJfz081UhLOwBFkvr7MAfyLoR++rYFAzaSw=;
+ b=N3ll/W8frBqFK3dyhblF/bf+e901mP/lGVGfgJpCDhtNqfk7ksIK2wbImKXm4+eDMR
+ erP6P+2KW2M/zDbZyzlscBoEnGc8le727bbjmlEM7ng0tUpg2I02pQtBecgp0szyYIr7
+ WiltyGpUbUj08o95Hy89yMR+J8ogEjxbmhT4sy3EDUWfTRzK75S+nzWuQFWc/8uWRW31
+ NwjgcmrToyMglLgReLC74I2vzp78fiC8ZMjXC6xe9FzJOuKOErRhBVM+jKzqjYsG6TyN
+ Bv5hSyh5lAYRQpMpfTdj2vLmPjg7xs/sfM3USKoYHU3N/Nq2pIg7e2ulZ1QfqRLqPpPe
+ riaw==
+X-Gm-Message-State: AOAM5338eo/bmDjqFJAgett93ngNDaw4Kf/TUviiPZXjYG3vBg8Z9KK3
+ P9+IvnxIZKX37tABnhnJ2c2KURHBjMBagRdOHAs=
+X-Google-Smtp-Source: ABdhPJxDZGrdjbOimsCiw7gwyzG//+JCM1WY5LNWSaqtGbIyZbISslktO/vv03/4mX4RdHrRLyafNxYdWE3wnmUf2s8=
+X-Received: by 2002:a25:76c7:: with SMTP id r190mr2986707ybc.467.1631081702835; 
+ Tue, 07 Sep 2021 23:15:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210907110841.3341786-1-alxndr@bu.edu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210831110603.338681-1-anup.patel@wdc.com>
+ <20210831110603.338681-3-anup.patel@wdc.com>
+In-Reply-To: <20210831110603.338681-3-anup.patel@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 8 Sep 2021 14:14:52 +0800
+Message-ID: <CAEUhbmWR-c-nwoDRYbvb__tHpVKDj2gQW5XVUAwEaDWbraYhJw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] hw/intc: Upgrade the SiFive CLINT implementation
+ to RISC-V ACLINT
+To: Anup Patel <anup.patel@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb33.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,27 +76,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/09/21 13:08, Alexander Bulekov wrote:
->   
-> -if [ "$GITLAB_CI" != "true" ]; then
-> +if [ -z ${GITLAB_CI+x} ]; then
+On Tue, Aug 31, 2021 at 7:07 PM Anup Patel <anup.patel@wdc.com> wrote:
+>
+> The RISC-V ACLINT is more modular and backward compatible with
+> original SiFive CLINT so instead of duplicating the original
+> SiFive CLINT implementation we upgrade the current SiFive CLINT
+> implementation to RISC-V ACLINT implementation.
+>
+> Signed-off-by: Anup Patel <anup.patel@wdc.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  hw/intc/riscv_aclint.c         | 373 +++++++++++++++++++++++----------
+>  hw/riscv/microchip_pfsoc.c     |   9 +-
+>  hw/riscv/shakti_c.c            |  11 +-
+>  hw/riscv/sifive_e.c            |  11 +-
+>  hw/riscv/sifive_u.c            |   9 +-
+>  hw/riscv/spike.c               |  14 +-
+>  hw/riscv/virt.c                |  14 +-
+>  include/hw/intc/riscv_aclint.h |  54 +++--
+>  8 files changed, 339 insertions(+), 156 deletions(-)
+>
 
-I would slightly prefer to have "${GITLAB_CI+x}", since "test" in 
-general doesn't like parameters that go away:
-
-$ [ = abc ]
-bash: [: =: unary operator expected
-
-What you wrote however works, so it's okay.
-
-Thanks,
-
-Paolo
-
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
