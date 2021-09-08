@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0048A403A09
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:39:53 +0200 (CEST)
-Received: from localhost ([::1]:48904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E061403A0C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:41:22 +0200 (CEST)
+Received: from localhost ([::1]:52564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNwro-0003PH-VR
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:39:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43240)
+	id 1mNwtF-0005to-7n
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:41:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNwlt-0006uT-H5
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:33:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32183)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mNwpg-0002ez-RD
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:37:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNwlr-0007IF-Km
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:33:45 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mNwpe-0001hv-TK
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:37:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631104422;
+ s=mimecast20190719; t=1631104658;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=o63FY9tLvpaM73PzHbWVAWHVMiMttA4VFwDXu3pz/Zo=;
- b=eAbkwD8GCG9kYwkPbG8Uopqn+XXRU4TUC8rRxa4ahB2WQ2hlBllJUGZ1kv3tHII3jh9nDD
- 42QFAeNRm+P1pXEh/lE4x25JF15KaQ9dMXEcjHBUMQnytXF/WyctXFAFJGOjMlQv4SxnR9
- dtpMRRxmWC7NfO7JpTbUSVZYqX2S4a4=
+ bh=rMxf9uddiaN7fH56GkLAsJGC/ipr3Aw2ncYeFfGzYgk=;
+ b=Yecq7wmE9kTpQGDPbR3DAAFU4lKMgSJ28lVlnJcJnh2aLmkoPLKH0/D7Kwv+7Ixd6P5EYH
+ e9FQrLASm3Fl68qWuRh8AyLDWOVxyx/NAq9kZ5siQLJYt/ybgH4czzh5ZmN5JrmoqsfpVz
+ v96gUXmrQRG9oTQ6l6aGHkN0K3Fl1BM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-n2e4C5exMgGECakD5rCpNA-1; Wed, 08 Sep 2021 08:33:40 -0400
-X-MC-Unique: n2e4C5exMgGECakD5rCpNA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-49-G_bo0UpfMIuhsh6lV2ebJg-1; Wed, 08 Sep 2021 08:37:37 -0400
+X-MC-Unique: G_bo0UpfMIuhsh6lV2ebJg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7E12100C662
- for <qemu-devel@nongnu.org>; Wed,  8 Sep 2021 12:33:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
- [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C06D310074EF;
- Wed,  8 Sep 2021 12:33:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 52BDD1138606; Wed,  8 Sep 2021 14:33:31 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [RFC v3 14/32] scripts/qapi: add QAPISchemaIfCond.rsgen()
-References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
- <20210907121943.3498701-15-marcandre.lureau@redhat.com>
-Date: Wed, 08 Sep 2021 14:33:31 +0200
-In-Reply-To: <20210907121943.3498701-15-marcandre.lureau@redhat.com>
- (marcandre lureau's message of "Tue, 7 Sep 2021 16:19:25 +0400")
-Message-ID: <87h7evw8kk.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6820C10168C0;
+ Wed,  8 Sep 2021 12:37:35 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 16F0C77F3C;
+ Wed,  8 Sep 2021 12:37:30 +0000 (UTC)
+Date: Wed, 8 Sep 2021 13:37:30 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH RFC server v2 02/11] vfio-user: define vfio-user object
+Message-ID: <YTiuih20Ka5yPPF/@stefanha-x1.localdomain>
+References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
+ <cover.1630084211.git.jag.raman@oracle.com>
+ <ff8864013462e53eb0bed0aa609b55b21c0b18e0.1630084211.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <ff8864013462e53eb0bed0aa609b55b21c0b18e0.1630084211.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Orm5qaO4MiGa1tUv"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,73 +80,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com
+Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
+ swapnil.ingle@nutanix.com, john.levon@nutanix.com, philmd@redhat.com,
+ qemu-devel@nongnu.org, alex.williamson@redhat.com, marcandre.lureau@gmail.com,
+ thanos.makatos@nutanix.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-marcandre.lureau@redhat.com writes:
+--Orm5qaO4MiGa1tUv
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Generate Rust #[cfg(...)] guards from QAPI 'if' conditions.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+On Fri, Aug 27, 2021 at 01:53:21PM -0400, Jagannathan Raman wrote:
+> Define vfio-user object which is remote process server for QEMU. Setup
+> object initialization functions and properties necessary to instantiate
+> the object
+>=20
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 > ---
->  scripts/qapi/common.py | 16 ++++++++++++++++
->  scripts/qapi/schema.py |  4 ++++
->  2 files changed, 20 insertions(+)
->
-> diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-> index 5f8f76e5b2..6d22c66391 100644
-> --- a/scripts/qapi/common.py
-> +++ b/scripts/qapi/common.py
-> @@ -201,6 +201,22 @@ def guardend(name: str) -> str:
->                   name=3Dc_fname(name).upper())
+>  qapi/qom.json             |  20 ++++++-
+>  hw/remote/vfio-user-obj.c | 145 ++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  MAINTAINERS               |   1 +
+>  hw/remote/meson.build     |   1 +
+>  hw/remote/trace-events    |   3 +
+>  5 files changed, 168 insertions(+), 2 deletions(-)
+>  create mode 100644 hw/remote/vfio-user-obj.c
+>=20
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index a25616b..3e941ee 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -689,6 +689,20 @@
+>    'data': { 'fd': 'str', 'devid': 'str' } }
 > =20
-> =20
-> +def rsgen_ifcond(ifcond: Union[str, Dict[str, Any]]) -> str:
-> +
-> +    def cfg(ifcond: Union[str, Dict[str, Any]]):
-> +        if isinstance(ifcond, str):
-> +            return ifcond
-> +        if isinstance(ifcond, list):
-> +            return ', '.join([cfg(c) for c in ifcond])
-> +        oper, operands =3D next(iter(ifcond.items()))
-> +        operands =3D cfg(operands)
-> +        return f'{oper}({operands})'
-> +
-> +    if not ifcond:
-> +        return ''
-> +    return '#[cfg(%s)]' % cfg(ifcond)
-> +
-> +
->  def gen_ifcond(ifcond: Optional[Union[str, Dict[str, Any]]],
->                 cond_fmt: str, not_fmt: str,
->                 all_operator: str, any_operator: str) -> str:
+>  ##
+> +# @VfioUserProperties:
+> +#
+> +# Properties for vfio-user objects.
+> +#
+> +# @socket: path to be used as socket by the libvfiouser library
+> +#
+> +# @devid: the id of the device to be associated with the file descriptor
+> +#
+> +# Since: 6.0
+> +##
+> +{ 'struct': 'VfioUserProperties',
+> +  'data': { 'socket': 'str', 'devid': 'str' } }
 
-Can we generalize gen_ifcond() to work for rsgen_ifcond(), too?
+Please use 'SocketAddress' for socket instead of 'str'. That way file
+descriptor passing is easy to support and additional socket address
+families can be supported in the future.
 
-> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-> index 6455a8f425..c61f35e13f 100644
-> --- a/scripts/qapi/schema.py
-> +++ b/scripts/qapi/schema.py
-> @@ -26,6 +26,7 @@
->      docgen_ifcond,
->      gen_endif,
->      gen_if,
-> +    rsgen_ifcond,
->  )
->  from .error import QAPIError, QAPISemError, QAPISourceError
->  from .expr import check_exprs
-> @@ -48,6 +49,9 @@ def gen_endif(self):
->      def docgen(self):
->          return docgen_ifcond(self.ifcond)
-> =20
-> +    def rsgen(self):
-> +        return rsgen_ifcond(self.ifcond)
 > +
->      def is_present(self):
->          return bool(self.ifcond)
+> +##
+>  # @RngProperties:
+>  #
+>  # Properties for objects of classes derived from rng.
+> @@ -812,7 +826,8 @@
+>      'tls-creds-psk',
+>      'tls-creds-x509',
+>      'tls-cipher-suites',
+> -    'x-remote-object'
+> +    'x-remote-object',
+> +    'vfio-user'
+>    ] }
+> =20
+>  ##
+> @@ -868,7 +883,8 @@
+>        'tls-creds-psk':              'TlsCredsPskProperties',
+>        'tls-creds-x509':             'TlsCredsX509Properties',
+>        'tls-cipher-suites':          'TlsCredsProperties',
+> -      'x-remote-object':            'RemoteObjectProperties'
+> +      'x-remote-object':            'RemoteObjectProperties',
+> +      'vfio-user':                  'VfioUserProperties'
+
+"vfio-user" doesn't communicate whether this is a client or server. Is
+"vfio-user-server" clearer?
+
+>    } }
+> =20
+>  ##
+> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+> new file mode 100644
+> index 0000000..4a1e297
+> --- /dev/null
+> +++ b/hw/remote/vfio-user-obj.c
+> @@ -0,0 +1,145 @@
+> +/**
+> + * QEMU vfio-user server object
+> + *
+> + * Copyright =A9 2021 Oracle and/or its affiliates.
+> + *
+> + * This work is licensed under the terms of the GNU GPL-v2, version 2 or=
+ later.
+> + *
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +/**
+> + * Usage: add options:
+> + *     -machine x-remote
+> + *     -device <PCI-device>,id=3D<pci-dev-id>
+> + *     -object vfio-user,id=3D<id>,socket=3D<socket-path>,devid=3D<pci-d=
+ev-id>
+
+I suggest renaming devid=3D to device=3D or pci-device=3D (similar to drive=
+=3D
+and netdev=3D) for consistency and to avoid confusion with PCI Device IDs.
+
+> diff --git a/hw/remote/meson.build b/hw/remote/meson.build
+> index fb35fb8..cd44dfc 100644
+> --- a/hw/remote/meson.build
+> +++ b/hw/remote/meson.build
+> @@ -6,6 +6,7 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files=
+('message.c'))
+>  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'=
+))
+>  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy.c'))
+>  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('iohub.c'))
+> +remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('vfio-user-obj=
+.c'))
+
+If you use CONFIG_VFIO_USER_SERVER then it's easier to separate mpqemu
+from vfio-user. Sharing CONFIG_MULTIPROCESS could become messy later.
+
+--Orm5qaO4MiGa1tUv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE4rokACgkQnKSrs4Gr
+c8g70ggAkqEUO9VawLARJdnXbsKgbqfOkdP2mX/0qC0c6x8OsE4JNf8NZO24Vdl6
+s8cB12qKmY08fwm1EIOqGEFGpVrEc5Yidxw8m1h+bv2BwiqSxliVhsY5IvcB15tV
+ysELG8tKX/QsvoTj7BiiwAXRkkbXXp2AfCTuYggTR+sx1B0NwGWLHmDtHe3vw/AY
+PcwEeFmGMrErqlDI0M7pOP4rGtAHu1LpZDJQ32gjsmkQucmyAPGK518+0Z4JKCNb
+lbuzMImmSgQopAet2WnnQafunihp/wPf/0yjfv5ZHH6J+W+0M4X48ur/8QDGPfEd
+WvZDUWufpLZ8uAWmvyWXKVQP2rNCpA==
+=LqtX
+-----END PGP SIGNATURE-----
+
+--Orm5qaO4MiGa1tUv--
 
 
