@@ -2,66 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492554032F3
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 05:38:17 +0200 (CEST)
-Received: from localhost ([::1]:57918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A9140330E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 05:46:35 +0200 (CEST)
+Received: from localhost ([::1]:34514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNoPg-0004GR-5a
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 23:38:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55908)
+	id 1mNoXi-0007rP-Fr
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 23:46:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mNoNx-0002jg-TG; Tue, 07 Sep 2021 23:36:29 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:42688)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mNoNv-000576-Ss; Tue, 07 Sep 2021 23:36:29 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id v17so1347572ybs.9;
- Tue, 07 Sep 2021 20:36:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hbvYd98Jh8JYbaee08TNVP9fXxHmt5wXIJKkU4W1j7Q=;
- b=TaE9GisudOmnn2SVTbk3tLF98wfSv6ZO+h34QUjopzrNbETS5hLH6UUkvYIi9YlMk6
- Re29RbXXr29/PHltY9j5TcMZ0VSMDhYdQOvUuvzVz0RoYl1h0fBGU5barKwcpZ/E1kab
- lfo07QfnFe/UHO+ER36kBlvwUGP5xo0f3QLgyrDEjoKd2qo3TMDk/ertyxsxqeLV5i8u
- KE/QKz7D5lCvTjqZh00Dic8Efx3uDid0v1oHuto9suwrSX71CosoX/af0MbG8j2QgGDh
- 7yiFFDAtaFZ/bb4cpjSVfl498HgFzv5mjrkKC0TOMcAAwR67HLyVLnHmXfyQoeMQdKJt
- gBjg==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mNoWe-000763-GJ
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 23:45:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40650)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mNoWb-0003yL-48
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 23:45:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631072723;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=371P1Fs6s5y/Sc/nGnCU7G917ApD8GsRLotGVIDEUQc=;
+ b=cBnsQtNeAnawfhFXwg+bmWDZSKynT/1FwcivFGugwgDe+tvFp/wl5Ag7o2CGK0vy0e54Xp
+ rOkyumVZtG5llHxoF039C8vp4KGa+MhcPfXSnSTm+JOmYU624aravRThmU3Xb4GxiV/ArY
+ qAVfNDgAFi9zBS7BDaP0+sjD4ZFbJgQ=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-RbFX3AUdMcSxr5LjbuK5Og-1; Tue, 07 Sep 2021 23:45:19 -0400
+X-MC-Unique: RbFX3AUdMcSxr5LjbuK5Og-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ f83-20020a25cf56000000b005a0445377e8so854817ybg.20
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 20:45:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hbvYd98Jh8JYbaee08TNVP9fXxHmt5wXIJKkU4W1j7Q=;
- b=IerIvkfMmMvpVo1Y0H+GcNfZ024J/MXlfbOaOYs7acJDlH7KeQLPOCnSwgcaFjH5C+
- kpkaaC9lSkOv+7nSx24u5MsCbu7euxCIctajsR5zNumMZ6uDeBCxTUG0IqCroUsdKLXi
- F0gnuhPJVUDDgy+X95CY6BvTILsm0rrL4vU0+nD9UHFtI9DtNEk4LpbVkX+EZE9KicGW
- PgseTm9YkgBte/A4xe1ICFMjr1HI47GrItGtB9JJ7vI+3NTw7w4ERYtI11cN+cKsjRba
- T07zheI8QCS5BwApLVKOWLPcVqjwAGuARba/0XZRqUoIEyR1bfF7FbXh1KGPJSEGaDOX
- wxtw==
-X-Gm-Message-State: AOAM533EFPUcnA0BW4Qk0iRd3U+RK//nQEBtbbD/Pan9Sz719TDaOhqy
- i+NxDGPKld6RY79+huyO26npvqpLyPOlTDWicvE=
-X-Google-Smtp-Source: ABdhPJwMB1dKnZZM4yWyibFjXvcQGJrADgCbS6C2qHMSZNVioH9rtpqEEyacc2J/VVVMwtskXnEmCBtTEbAnyWtYWZ8=
-X-Received: by 2002:a25:76c7:: with SMTP id r190mr2307465ybc.467.1631072186526; 
- Tue, 07 Sep 2021 20:36:26 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=371P1Fs6s5y/Sc/nGnCU7G917ApD8GsRLotGVIDEUQc=;
+ b=Piwi6uw5iBOy0VLLP16F7yhFc1F+bnVorRNmLt6m95BohK2rK7Vbu7fmBLcYaI36hN
+ JaD5z87fXl7v3WwUOJSMsngTDRxlGtgrKgnkvonMc5FlXVqrZLLIZy3ooB3E+L1p0/fO
+ 9EmLNM6IJupVxoCbuONVBVVPS0G8U6OrdedLGs/J4Rmogq9XY/5yLNh0SOAZg0ujtN7R
+ Kd2fWNJs6TPlgKLPcK8EhhrXuSp/yJVjdvhx7VnXpSXlzocchi//jnkbGLLRg8/FKUA4
+ 8YgI9dxNeeoThEHnvT7PDd9Mr4DgsU3B2AqV38ufwa94O1Ec4zBejfJfBo7/4H1wCoZc
+ 4Vrw==
+X-Gm-Message-State: AOAM530lOSr3wzX1GSjESuzPk+NieydyGl6PZVwa3k1uYOiBJnHqKjbl
+ eH1DjIsT9uWPTEzrQMFZjmCYFyHEvUCeVShKOVFv3py+I30s66G2J/Az7Sh3d3Cby45RIdVdZUK
+ hqHi+hLdt00CeODOZhbJgyuGZt7Qs3RM=
+X-Received: by 2002:a25:b98b:: with SMTP id r11mr2170271ybg.189.1631072719032; 
+ Tue, 07 Sep 2021 20:45:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJypaC2jfKV611IJAZIYgFdLrofCZMgF2hjsVhN3Ij/C9F4qT8M+riq+obPiyi/A8dtOTTTrPYtawass4B9DXoc=
+X-Received: by 2002:a25:b98b:: with SMTP id r11mr2170244ybg.189.1631072718728; 
+ Tue, 07 Sep 2021 20:45:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1630625094.git.alistair.francis@wdc.com>
- <da274fb1833ecf9ea3a0dc343439aa4d4b3c4d76.1630625094.git.alistair.francis@wdc.com>
-In-Reply-To: <da274fb1833ecf9ea3a0dc343439aa4d4b3c4d76.1630625094.git.alistair.francis@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 8 Sep 2021 11:36:16 +0800
-Message-ID: <CAEUhbmVKjFY=6JYJj3tGv8CveLzGzrS0PVkOifBOac5hYOe0eA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] sifive_u: Connect the SiFive PWM device
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
+References: <20210713153758.323614-1-andrew@daynix.com>
+ <20210713153758.323614-5-andrew@daynix.com>
+ <e73ce649-a04e-5200-8258-487a565c7e20@redhat.com>
+ <CAOEp5OekBjFfwPEJ3JU-x0_wrwO9szApOk=kR3e7AKhiLqa9-w@mail.gmail.com>
+ <38ea6b36-b968-02bf-b3a8-3d6393df31a5@redhat.com>
+ <CAOEp5OcrwBJh=89wQ-eA0Z1MZpprYtLVvJSF1YrNPhu2kzqzCA@mail.gmail.com>
+In-Reply-To: <CAOEp5OcrwBJh=89wQ-eA0Z1MZpprYtLVvJSF1YrNPhu2kzqzCA@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 8 Sep 2021 11:45:07 +0800
+Message-ID: <CACGkMEua49tvtz8xv63umSbjS1nSZy6dFhrfu13ytps4socVPw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] ebpf_rss_helper: Added helper for eBPF RSS.
+To: Yuri Benditovich <yuri.benditovich@daynix.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,207 +95,332 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
+Cc: Andrew Melnychenko <andrew@daynix.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Yan Vugenfirer <yan@daynix.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 3, 2021 at 7:25 AM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
+On Tue, Sep 7, 2021 at 6:40 PM Yuri Benditovich
+<yuri.benditovich@daynix.com> wrote:
 >
-> From: Alistair Francis <alistair.francis@wdc.com>
+> On Wed, Sep 1, 2021 at 9:42 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> >
+> > =E5=9C=A8 2021/8/31 =E4=B8=8A=E5=8D=881:07, Yuri Benditovich =E5=86=99=
+=E9=81=93:
+> > > On Fri, Aug 20, 2021 at 6:41 AM Jason Wang <jasowang@redhat.com> wrot=
+e:
+> > >>
+> > >> =E5=9C=A8 2021/7/13 =E4=B8=8B=E5=8D=8811:37, Andrew Melnychenko =E5=
+=86=99=E9=81=93:
+> > >>> Helper program. Loads eBPF RSS program and maps and passes them thr=
+ough unix socket.
+> > >>> Libvirt may launch this helper and pass eBPF fds to qemu virtio-net=
+.
+> > >>
+> > >> I wonder if this can be done as helper for TAP/bridge.
+> > >>
+> > >> E.g it's the qemu to launch those helper with set-uid.
+> > >>
+> > >> Then libvirt won't even need to care about that?
+> > >>
+> > > There are pros and cons for such a solution with set-uid.
+> > >  From my point of view one of the cons is that set-uid is efficient
+> > > only at install time so the coexistence of different qemu builds (and
+> > > different helpers for each one) is kind of problematic.
+> > > With the current solution this does not present any problem: the
+> > > developer can have several different builds, each one automatically
+> > > has its own helper and there is no conflict between these builds and
+> > > between these builds and installed qemu package. Changing the
+> > > 'emulator' in the libvirt profile automatically brings the proper
+> > > helper to work.
+> >
+> >
+> > I'm not sure I get you here. We can still have default/sample helper to
+> > make sure it works for different builds.
+> >
+> > If we can avoid the involvement of libvirt, that would be better.
 >
-> Connect the SiFive PWM device and expose it via the device tree.
+> Hi Jason,
 >
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  include/hw/riscv/sifive_u.h | 14 +++++++++-
->  hw/riscv/sifive_u.c         | 55 ++++++++++++++++++++++++++++++++++++-
->  hw/timer/sifive_pwm.c       |  1 +
->  hw/riscv/Kconfig            |  1 +
->  4 files changed, 69 insertions(+), 2 deletions(-)
+> Indeed I did not get the idea, can you please explain it in more
+> details (as detailed as possible to avoid future misunderstanding),
+> especially how exactly we can use the set-uid and what is the 'default' h=
+elper.
+> We also would prefer to do everything from qemu but we do not see how
+> we can do that.
 
-Please also update docs/system/riscv/sifive_u.rst for the supported device list
+
+Something like:
+
+1) -netdev tap,rss_helper=3D/path/to/name
+2) having a sample/default helper implemented in Qemu
+3) we can introduce something special path like "default", then if
+-netdev tap,rss_helper=3D"default" is specified, qemu will use the
+sample helper
+
+So we have:
+1) set set-uid for the helper
+2) libvirt may just choose to launch the default helper
 
 >
-> diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-> index 2656b39808..0d010c7309 100644
-> --- a/include/hw/riscv/sifive_u.h
-> +++ b/include/hw/riscv/sifive_u.h
-> @@ -27,6 +27,7 @@
->  #include "hw/misc/sifive_u_otp.h"
->  #include "hw/misc/sifive_u_prci.h"
->  #include "hw/ssi/sifive_spi.h"
-> +#include "hw/timer/sifive_pwm.h"
->
->  #define TYPE_RISCV_U_SOC "riscv.sifive.u.soc"
->  #define RISCV_U_SOC(obj) \
-> @@ -49,6 +50,7 @@ typedef struct SiFiveUSoCState {
->      SiFiveSPIState spi0;
->      SiFiveSPIState spi2;
->      CadenceGEMState gem;
-> +    SiFiveUPwmState pwm[2];
->
->      uint32_t serial;
->      char *cpu_type;
-> @@ -92,7 +94,9 @@ enum {
->      SIFIVE_U_DEV_FLASH0,
->      SIFIVE_U_DEV_DRAM,
->      SIFIVE_U_DEV_GEM,
-> -    SIFIVE_U_DEV_GEM_MGMT
-> +    SIFIVE_U_DEV_GEM_MGMT,
-> +    SIFIVE_U_DEV_PWM0,
-> +    SIFIVE_U_DEV_PWM1
->  };
->
->  enum {
-> @@ -126,6 +130,14 @@ enum {
->      SIFIVE_U_PDMA_IRQ5 = 28,
->      SIFIVE_U_PDMA_IRQ6 = 29,
->      SIFIVE_U_PDMA_IRQ7 = 30,
-> +    SIFIVE_U_DEV_PWM0_0 = 42,
+> Our main points (what should be addressed):
+> - qemu should be able to load ebpf and use the maps when it runs from
+> libvirt (without special caps) and standalone (with caps)
 
-For consistency, these should be SIFIVE_U_PWM0_IRQ0/1/2/3
+This is solved by leaving the privileged operations to the helper with set-=
+uid.
 
-> +    SIFIVE_U_DEV_PWM0_1 = 43,
-> +    SIFIVE_U_DEV_PWM0_2 = 44,
-> +    SIFIVE_U_DEV_PWM0_3 = 45,
-> +    SIFIVE_U_DEV_PWM1_0 = 46,
-> +    SIFIVE_U_DEV_PWM1_1 = 47,
-> +    SIFIVE_U_DEV_PWM1_2 = 48,
-> +    SIFIVE_U_DEV_PWM1_3 = 49,
->      SIFIVE_U_QSPI0_IRQ = 51,
->      SIFIVE_U_GEM_IRQ = 53
->  };
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 6cc1a62b0f..ed2e75df36 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -17,6 +17,7 @@
->   * 7) DMA (Direct Memory Access Controller)
->   * 8) SPI0 connected to an SPI flash
->   * 9) SPI2 connected to an SD card
-> + * 10) PWM0 and PWM1
->   *
->   * This board currently generates devicetree dynamically that indicates at least
->   * two harts and up to five harts.
-> @@ -75,6 +76,8 @@ static const MemMapEntry sifive_u_memmap[] = {
->      [SIFIVE_U_DEV_PRCI] =     { 0x10000000,     0x1000 },
->      [SIFIVE_U_DEV_UART0] =    { 0x10010000,     0x1000 },
->      [SIFIVE_U_DEV_UART1] =    { 0x10011000,     0x1000 },
-> +    [SIFIVE_U_DEV_PWM0] =     { 0x10020000,     0x1000 },
-> +    [SIFIVE_U_DEV_PWM1] =     { 0x10021000,     0x1000 },
->      [SIFIVE_U_DEV_QSPI0] =    { 0x10040000,     0x1000 },
->      [SIFIVE_U_DEV_QSPI2] =    { 0x10050000,     0x1000 },
->      [SIFIVE_U_DEV_GPIO] =     { 0x10060000,     0x1000 },
-> @@ -441,6 +444,38 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
->      qemu_fdt_setprop_cell(fdt, nodename, "reg", 0x0);
->      g_free(nodename);
->
-> +    nodename = g_strdup_printf("/soc/pwm@%lx",
-> +        (long)memmap[SIFIVE_U_DEV_PWM0].base);
-> +    qemu_fdt_add_subnode(fdt, nodename);
-> +    qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,pwm0");
-> +    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-> +        0x0, memmap[SIFIVE_U_DEV_PWM0].base,
-> +        0x0, memmap[SIFIVE_U_DEV_PWM0].size);
-> +    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
-> +    qemu_fdt_setprop_cells(fdt, nodename, "interrupts",
-> +                           SIFIVE_U_DEV_PWM0_0, SIFIVE_U_DEV_PWM0_1,
-> +                           SIFIVE_U_DEV_PWM0_2, SIFIVE_U_DEV_PWM0_3);
-> +    qemu_fdt_setprop_cells(fdt, nodename, "clocks",
-> +                           prci_phandle, PRCI_CLK_TLCLK);
-> +    qemu_fdt_setprop_cell(fdt, nodename, "#pwm-cells", 0);
-> +    g_free(nodename);
-> +
-> +    nodename = g_strdup_printf("/soc/pwm@%lx",
-> +        (long)memmap[SIFIVE_U_DEV_PWM1].base);
-> +    qemu_fdt_add_subnode(fdt, nodename);
-> +    qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,pwm0");
-> +    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-> +        0x0, memmap[SIFIVE_U_DEV_PWM1].base,
-> +        0x0, memmap[SIFIVE_U_DEV_PWM1].size);
-> +    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
-> +    qemu_fdt_setprop_cells(fdt, nodename, "interrupts",
-> +                           SIFIVE_U_DEV_PWM1_0, SIFIVE_U_DEV_PWM1_1,
-> +                           SIFIVE_U_DEV_PWM1_2, SIFIVE_U_DEV_PWM1_3);
-> +    qemu_fdt_setprop_cells(fdt, nodename, "clocks",
-> +                           prci_phandle, PRCI_CLK_TLCLK);
-> +    qemu_fdt_setprop_cell(fdt, nodename, "#pwm-cells", 0);
-> +    g_free(nodename);
-> +
->      nodename = g_strdup_printf("/soc/serial@%lx",
->          (long)memmap[SIFIVE_U_DEV_UART1].base);
->      qemu_fdt_add_subnode(fdt, nodename);
-> @@ -765,6 +800,8 @@ static void sifive_u_soc_instance_init(Object *obj)
->      object_initialize_child(obj, "pdma", &s->dma, TYPE_SIFIVE_PDMA);
->      object_initialize_child(obj, "spi0", &s->spi0, TYPE_SIFIVE_SPI);
->      object_initialize_child(obj, "spi2", &s->spi2, TYPE_SIFIVE_SPI);
-> +    object_initialize_child(obj, "pwm0", &s->pwm[0], TYPE_SIFIVE_PWM);
-> +    object_initialize_child(obj, "pwm1", &s->pwm[1], TYPE_SIFIVE_PWM);
->  }
->
->  static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-> @@ -777,7 +814,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
->      MemoryRegion *l2lim_mem = g_new(MemoryRegion, 1);
->      char *plic_hart_config;
->      size_t plic_hart_config_len;
-> -    int i;
-> +    int i, j;
->      NICInfo *nd = &nd_table[0];
->
->      qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", ms->smp.cpus - 1);
-> @@ -904,6 +941,22 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
->      sysbus_connect_irq(SYS_BUS_DEVICE(&s->gem), 0,
->                         qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_U_GEM_IRQ));
->
-> +    /* PWM */
-> +    for (i = 0; i < 2; i++) {
-> +        if (!sysbus_realize(SYS_BUS_DEVICE(&s->pwm[i]), errp)) {
-> +            return;
-> +        }
-> +        sysbus_mmio_map(SYS_BUS_DEVICE(&s->pwm[i]), 0,
-> +                                memmap[SIFIVE_U_DEV_PWM0].base + (0x1000 * i));
-> +
-> +        /* Connect PWM interrupts to the PLIC */
-> +        for (j = 0; j < SIFIVE_PWM_IRQS; j++) {
-> +            sysbus_connect_irq(SYS_BUS_DEVICE(&s->pwm[i]), j,
-> +                               qdev_get_gpio_in(DEVICE(s->plic),
-> +                                        SIFIVE_U_DEV_PWM0_0 + (i * 4) + j));
-> +        }
-> +    }
-> +
->      create_unimplemented_device("riscv.sifive.u.gem-mgmt",
->          memmap[SIFIVE_U_DEV_GEM_MGMT].base, memmap[SIFIVE_U_DEV_GEM_MGMT].size);
->
-> diff --git a/hw/timer/sifive_pwm.c b/hw/timer/sifive_pwm.c
-> index 61a97f9b46..3b533d4484 100644
-> --- a/hw/timer/sifive_pwm.c
-> +++ b/hw/timer/sifive_pwm.c
-> @@ -25,6 +25,7 @@
->   */
->
->  #include "qemu/osdep.h"
-> +#include "trace.h"
->  #include "hw/irq.h"
->  #include "hw/timer/sifive_pwm.h"
->  #include "hw/qdev-properties.h"
-> diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-> index ff75add6f3..d56c339ef6 100644
-> --- a/hw/riscv/Kconfig
-> +++ b/hw/riscv/Kconfig
-> @@ -69,6 +69,7 @@ config SIFIVE_U
->      select SIFIVE_UART
->      select SIFIVE_U_OTP
->      select SIFIVE_U_PRCI
-> +    select SIFIVE_PWM
->      select SSI_M25P80
->      select SSI_SD
->      select UNIMP
+> - it is possible that there are different qemu builds on the machine,
+> one of them might be installed, their ebpf's might be different and
+> the interface between qemu and ebpf (exact content of maps and number
+> of maps)
 
-Regards,
-Bin
+We can use different helpers in this way.
+
+> - qemu configures the RSS dynamically according to the commands
+> provided by the guest
+
+Consider we decided to use mmap() based maps, this is not an issue.
+
+Or am I missing something?
+
+Thanks
+
+>
+> Thanks in advance
+> Yuri
+>
+> >
+> > Thanks
+> >
+> >
+> > >
+> > >>> Also, libbpf dependency now exclusively for Linux.
+> > >>> Libbpf is used for eBPF RSS steering, which is supported only by Li=
+nux TAP.
+> > >>> There is no reason yet to build eBPF loader and helper for non Linu=
+x systems,
+> > >>> even if libbpf is present.
+> > >>>
+> > >>> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+> > >>> ---
+> > >>>    ebpf/qemu-ebpf-rss-helper.c | 130 ++++++++++++++++++++++++++++++=
+++++++
+> > >>>    meson.build                 |  37 ++++++----
+> > >>>    2 files changed, 154 insertions(+), 13 deletions(-)
+> > >>>    create mode 100644 ebpf/qemu-ebpf-rss-helper.c
+> > >>>
+> > >>> diff --git a/ebpf/qemu-ebpf-rss-helper.c b/ebpf/qemu-ebpf-rss-helpe=
+r.c
+> > >>> new file mode 100644
+> > >>> index 0000000000..fe68758f57
+> > >>> --- /dev/null
+> > >>> +++ b/ebpf/qemu-ebpf-rss-helper.c
+> > >>> @@ -0,0 +1,130 @@
+> > >>> +/*
+> > >>> + * eBPF RSS Helper
+> > >>> + *
+> > >>> + * Developed by Daynix Computing LTD (http://www.daynix.com)
+> > >>> + *
+> > >>> + * Authors:
+> > >>> + *  Andrew Melnychenko <andrew@daynix.com>
+> > >>> + *
+> > >>> + * This work is licensed under the terms of the GNU GPL, version 2=
+.  See
+> > >>> + * the COPYING file in the top-level directory.
+> > >>> + *
+> > >>> + * Description: This is helper program for libvirtd.
+> > >>> + *              It loads eBPF RSS program and passes fds through u=
+nix socket.
+> > >>> + *              Built by meson, target - 'qemu-ebpf-rss-helper'.
+> > >>> + */
+> > >>> +
+> > >>> +#include <stdio.h>
+> > >>> +#include <stdint.h>
+> > >>> +#include <stdlib.h>
+> > >>> +#include <stdbool.h>
+> > >>> +#include <getopt.h>
+> > >>> +#include <memory.h>
+> > >>> +#include <errno.h>
+> > >>> +#include <sys/socket.h>
+> > >>> +
+> > >>> +#include "ebpf_rss.h"
+> > >>> +
+> > >>> +#include "qemu-helper-stamp.h"
+> > >>> +
+> > >>> +void QEMU_HELPER_STAMP(void) {}
+> > >>> +
+> > >>> +static int send_fds(int socket, int *fds, int n)
+> > >>> +{
+> > >>> +    struct msghdr msg =3D {};
+> > >>> +    struct cmsghdr *cmsg =3D NULL;
+> > >>> +    char buf[CMSG_SPACE(n * sizeof(int))];
+> > >>> +    char dummy_buffer =3D 0;
+> > >>> +    struct iovec io =3D { .iov_base =3D &dummy_buffer,
+> > >>> +                        .iov_len =3D sizeof(dummy_buffer) };
+> > >>> +
+> > >>> +    memset(buf, 0, sizeof(buf));
+> > >>> +
+> > >>> +    msg.msg_iov =3D &io;
+> > >>> +    msg.msg_iovlen =3D 1;
+> > >>> +    msg.msg_control =3D buf;
+> > >>> +    msg.msg_controllen =3D sizeof(buf);
+> > >>> +
+> > >>> +    cmsg =3D CMSG_FIRSTHDR(&msg);
+> > >>> +    cmsg->cmsg_level =3D SOL_SOCKET;
+> > >>> +    cmsg->cmsg_type =3D SCM_RIGHTS;
+> > >>> +    cmsg->cmsg_len =3D CMSG_LEN(n * sizeof(int));
+> > >>> +
+> > >>> +    memcpy(CMSG_DATA(cmsg), fds, n * sizeof(int));
+> > >>> +
+> > >>> +    return sendmsg(socket, &msg, 0);
+> > >>> +}
+> > >>> +
+> > >>> +static void print_help_and_exit(const char *prog, int exitcode)
+> > >>> +{
+> > >>> +    fprintf(stderr, "%s - load eBPF RSS program for qemu and pass =
+eBPF fds"
+> > >>> +            " through unix socket.\n", prog);
+> > >>> +    fprintf(stderr, "\t--fd <num>, -f <num> - unix socket file des=
+criptor"
+> > >>> +            " used to pass eBPF fds.\n");
+> > >>> +    fprintf(stderr, "\t--help, -h - this help.\n");
+> > >>> +    exit(exitcode);
+> > >>> +}
+> > >>> +
+> > >>> +int main(int argc, char **argv)
+> > >>> +{
+> > >>> +    char *fd_string =3D NULL;
+> > >>> +    int unix_fd =3D 0;
+> > >>> +    struct EBPFRSSContext ctx =3D {};
+> > >>> +    int fds[EBPF_RSS_MAX_FDS] =3D {};
+> > >>> +    int ret =3D -1;
+> > >>> +
+> > >>> +    for (;;) {
+> > >>> +        int c;
+> > >>> +        static struct option long_options[] =3D {
+> > >>> +                {"help",  no_argument, 0, 'h'},
+> > >>> +                {"fd",  required_argument, 0, 'f'},
+> > >>> +                {0, 0, 0, 0}
+> > >>> +        };
+> > >>> +        c =3D getopt_long(argc, argv, "hf:",
+> > >>> +                long_options, NULL);
+> > >>> +
+> > >>> +        if (c =3D=3D -1) {
+> > >>> +            break;
+> > >>> +        }
+> > >>> +
+> > >>> +        switch (c) {
+> > >>> +        case 'f':
+> > >>> +            fd_string =3D optarg;
+> > >>> +            break;
+> > >>> +        case 'h':
+> > >>> +        default:
+> > >>> +            print_help_and_exit(argv[0],
+> > >>> +                    c =3D=3D 'h' ? EXIT_SUCCESS : EXIT_FAILURE);
+> > >>> +        }
+> > >>> +    }
+> > >>> +
+> > >>> +    if (!fd_string) {
+> > >>> +        fprintf(stderr, "Unix file descriptor not present.\n");
+> > >>> +        print_help_and_exit(argv[0], EXIT_FAILURE);
+> > >>> +    }
+> > >>> +
+> > >>> +    unix_fd =3D atoi(fd_string);
+> > >>> +
+> > >>> +    if (!unix_fd) {
+> > >>> +        fprintf(stderr, "Unix file descriptor is invalid.\n");
+> > >>> +        return EXIT_FAILURE;
+> > >>> +    }
+> > >>> +
+> > >>> +    ebpf_rss_init(&ctx);
+> > >>> +    if (!ebpf_rss_load(&ctx)) {
+> > >>> +        fprintf(stderr, "Can't load ebpf.\n");
+> > >>> +        return EXIT_FAILURE;
+> > >>> +    }
+> > >>> +    fds[0] =3D ctx.program_fd;
+> > >>> +    fds[1] =3D ctx.map_configuration;
+> > >>> +
+> > >>> +    ret =3D send_fds(unix_fd, fds, EBPF_RSS_MAX_FDS);
+> > >>> +    if (ret < 0) {
+> > >>> +        fprintf(stderr, "Issue while sending fds: %s.\n", strerror=
+(errno));
+> > >>> +    }
+> > >>> +
+> > >>> +    ebpf_rss_unload(&ctx);
+> > >>> +
+> > >>> +    return ret < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
+> > >>> +}
+> > >>> +
+> > >>> diff --git a/meson.build b/meson.build
+> > >>> index 257e51d91b..913aa1fee5 100644
+> > >>> --- a/meson.build
+> > >>> +++ b/meson.build
+> > >>> @@ -1033,19 +1033,22 @@ if not get_option('fuse_lseek').disabled()
+> > >>>    endif
+> > >>>
+> > >>>    # libbpf
+> > >>> -libbpf =3D dependency('libbpf', required: get_option('bpf'), metho=
+d: 'pkg-config')
+> > >>> -if libbpf.found() and not cc.links('''
+> > >>> -   #include <bpf/libbpf.h>
+> > >>> -   int main(void)
+> > >>> -   {
+> > >>> -     bpf_object__destroy_skeleton(NULL);
+> > >>> -     return 0;
+> > >>> -   }''', dependencies: libbpf)
+> > >>> -  libbpf =3D not_found
+> > >>> -  if get_option('bpf').enabled()
+> > >>> -    error('libbpf skeleton test failed')
+> > >>> -  else
+> > >>> -    warning('libbpf skeleton test failed, disabling')
+> > >>> +libbpf =3D not_found
+> > >>> +if targetos =3D=3D 'linux'
+> > >>> +  libbpf =3D dependency('libbpf', required: get_option('bpf'), met=
+hod: 'pkg-config')
+> > >>> +  if libbpf.found() and not cc.links('''
+> > >>> +    #include <bpf/libbpf.h>
+> > >>> +    int main(void)
+> > >>> +    {
+> > >>> +      bpf_object__destroy_skeleton(NULL);
+> > >>
+> > >> Do we need to test whether the bpf can do mmap() here?
+> > >>
+> > >> Thanks
+> > >>
+> > >>
+> > >>> +      return 0;
+> > >>> +    }''', dependencies: libbpf)
+> > >>> +    libbpf =3D not_found
+> > >>> +    if get_option('bpf').enabled()
+> > >>> +      error('libbpf skeleton test failed')
+> > >>> +    else
+> > >>> +      warning('libbpf skeleton test failed, disabling')
+> > >>> +    endif
+> > >>>      endif
+> > >>>    endif
+> > >>>
+> > >>> @@ -2423,6 +2426,14 @@ if have_tools
+> > >>>                   dependencies: [authz, crypto, io, qom, qemuutil,
+> > >>>                                  libcap_ng, mpathpersist],
+> > >>>                   install: true)
+> > >>> +
+> > >>> +    if libbpf.found()
+> > >>> +        executable('qemu-ebpf-rss-helper', files(
+> > >>> +                   'ebpf/qemu-ebpf-rss-helper.c', 'ebpf/ebpf_rss.c=
+'),
+> > >>> +                   dependencies: [qemuutil, libbpf, glib],
+> > >>> +                   install: true,
+> > >>> +                   install_dir: get_option('libexecdir'))
+> > >>> +    endif
+> > >>>      endif
+> > >>>
+> > >>>      if 'CONFIG_IVSHMEM' in config_host
+> >
+>
+
 
