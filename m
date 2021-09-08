@@ -2,82 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5BC403D44
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 18:05:59 +0200 (CEST)
-Received: from localhost ([::1]:48154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A52403D62
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 18:11:19 +0200 (CEST)
+Received: from localhost ([::1]:36988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mO05G-0000GH-HH
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 12:05:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40424)
+	id 1mO0AQ-0003Vl-88
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 12:11:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mO00p-0000y4-Fk
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 12:01:26 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:46643)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mO00n-0008CK-DV
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 12:01:23 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- m25-20020a7bcb99000000b002e751bcb5dbso1943547wmi.5
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 09:01:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6LeNwf5XH15FQjgitK8l0TeYqm5/YwJUfyN9VarTqtk=;
- b=nuWHtuHIUDIt59ePKxi0dCJub/SWvzMNEhPthYi+8Wujd8YuKr8RDvvKs78IytRf0i
- myaE4rJyA/MaxuuQIIU18qRZnrfEUiZW3xppDGRhF73sc0xtmn3hEWCF6l2hWLJV3bgZ
- IKBxwKPcvgHziyGUHDNjdybgFlOa/czdzVdx4RbFkySkTZMtC0kpiCz7DHqGtJygumkO
- 2qstz6qBIgGTRokCE11Te6YBcgZkPM/9hwZDeuY8BLy/cN9JV6bXRyn+tsMQ6nLl5A3o
- 71qkHIooM2Tdr5QAE3pGqwbNuN3Dp2wx8MUqmSvo8KOHOT4Mpz7XzG+VzCwEQyR1LRDX
- ZPsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6LeNwf5XH15FQjgitK8l0TeYqm5/YwJUfyN9VarTqtk=;
- b=CvxRXUtDUNK6sxcWqiOXf8Ycq0Kfi9og6wXBAVj1GUNgOIRhlu/0Q2rDNGXPVTJke3
- r5RuY0gV1UKhEYzyvsCy2o2lY3wTwL4BKu+vYNg05HFOJ3UOgspYsInC0NOetwc/WfF3
- RDLox7X3K2T0WFwnAqg1QNQmmww9dKDdYixLDazMEUNTLHDcfpjTXOp6vp0LBfk11/Q2
- FzP15q/O4AImDzi1EHntzIitRWJBL/sZFt4dsc6YFPnNhhrpqypxIt6R2nz5D01a1fIp
- Oi7jqUmEzgZGuZPG5PblhfsRPxTc5hztx1ksUjoT+0O/feUEZ1rOrAIsildv5Q+FQqTr
- hERA==
-X-Gm-Message-State: AOAM532WftImdDTAKx/uDkG+S/oiTnvi0zChpCNeo/W8duVy/uFmAL3A
- tAT5zDsMgfXuRkfcEyBNzPjMoPjcE14=
-X-Google-Smtp-Source: ABdhPJy4vnXq2jklD/GXpxHskxRmAwMzLF7xPp7qNfPS08n8R/blfI8LkPB5aamcR95gvQNoL3Ht7Q==
-X-Received: by 2002:a05:600c:2295:: with SMTP id
- 21mr4332564wmf.84.1631116878098; 
- Wed, 08 Sep 2021 09:01:18 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id d129sm1705115wmd.23.2021.09.08.09.01.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Sep 2021 09:01:17 -0700 (PDT)
-Subject: Re: [PATCH v2 5/9] linux-user: Split mmap prototypes into user-mmap.h
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210908154405.15417-1-peter.maydell@linaro.org>
- <20210908154405.15417-6-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d6e749fb-8f1c-415b-b722-afc40ec50a5a@amsat.org>
-Date: Wed, 8 Sep 2021 18:01:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mO07h-00005Y-P2
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 12:08:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33877)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mO07e-0004UW-8v
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 12:08:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631117304;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type; bh=NZ0CujZS15jFoGgFAZTeU5wxeIqmhKCbQqBQ7kub5Io=;
+ b=J+izkrxqYHTC0ly4OGQn9I+iHf9LPLAol9jkb5AbL2GoqrDhO7PL5jxJlSzMqq5Fm4dent
+ KWpcJzMaAsQ3xKtL5wu2G2iisxYqnmpgZww5BIXp6mUQu8o0fUCVPhHLatEXmTDbZjOQEx
+ vSpnc8RtpvMBZJcsBsXs1QT9xjOBsG4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14--2UxTdeFPZW2p_hdyfC2WQ-1; Wed, 08 Sep 2021 12:08:17 -0400
+X-MC-Unique: -2UxTdeFPZW2p_hdyfC2WQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6ABAC801A92
+ for <qemu-devel@nongnu.org>; Wed,  8 Sep 2021 16:08:16 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 13DD660657;
+ Wed,  8 Sep 2021 16:08:10 +0000 (UTC)
+Date: Wed, 8 Sep 2021 17:08:08 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Compatibility between -device sga and -machine graphics=off
+Message-ID: <YTjf6BhpPU3aLct9@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210908154405.15417-6-peter.maydell@linaro.org>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.922,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,26 +75,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/8/21 5:44 PM, Peter Maydell wrote:
-> Split out the mmap prototypes into a new header user-mmap.h
-> which we only include where required.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  linux-user/qemu.h          | 14 --------------
->  linux-user/user-mmap.h     | 34 ++++++++++++++++++++++++++++++++++
->  linux-user/elfload.c       |  1 +
->  linux-user/flatload.c      |  1 +
->  linux-user/i386/cpu_loop.c |  1 +
->  linux-user/main.c          |  1 +
->  linux-user/mmap.c          |  1 +
->  linux-user/syscall.c       |  1 +
->  8 files changed, 40 insertions(+), 14 deletions(-)
->  create mode 100644 linux-user/user-mmap.h
+Given the libvirt XML snippet
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+  <os>
+    ...
+    <bios useserial="yes"/>
+    ...
+  </os>
+
+libvirt QEMU driver will always format
+
+  -device sga
+
+Libguestfs uses this syntax, so we need to make sure it still works
+in future even if 'sga' is disabled or removed in a QEMU build in
+favour of SeaBIOS' built-in support.
+
+
+There are the following combinations that matter
+
+ 1. Graphical display only, no serial port, BIOS to graphical display
+
+     <video>
+       <model type='vga'/>
+     </video>
+
+   QEMU cli
+
+     -device VGA
+
+
+ 2. Serial port only, no graphics, BIOS to nowhere
+
+     <serial type='pty'/>
+
+   QEMU cli
+
+     -serial pty
+
+
+ 3. Serial port only, no graphics, BIOS to serial
+
+     <os>
+       <bios useserial='yes'/>
+     </os>
+     <serial type='pty'/>
+
+   QEMU cli
+
+     -serial pty -device sga
+     -serial pty -M graphics=off
+
+
+ 4. Graphical display, serial port, BIOS only to graphical display
+
+     <video>
+       <model type='vga'/>
+     </video>
+     <serial type='pty'/>
+
+   QEMU cli
+
+     -device VGA -serial pty
+
+
+ 5. Graphical display, serial port, BIOS to graphical display + serial
+
+     <os>
+       <bios useserial='yes'/>
+     </os>
+     <video>
+       <model type='vga'/>
+     </video>
+     <serial type='pty'/>
+
+   QEMU cli
+
+     -device VGA -serial pty -device sga
+     -device VGA -serial pty -M graphics=off
+
+
+
+The cases 3 and 5 appear to have the same effect on output with x86
+for SGA and graphics=off, which is good.
+
+If I do 'info mtree' though, I do see a different memory layout
+when changing from SGA to graphics=off
+
+
+@@ -18,7 +18,7 @@
+     00000000000c0000-00000000000c3fff (prio 1, ram): alias pam-rom @pc.ram 00000000000c0000-00000000000c3fff
+     00000000000c4000-00000000000c7fff (prio 1, ram): alias pam-rom @pc.ram 00000000000c4000-00000000000c7fff
+     00000000000c8000-00000000000cbfff (prio 1, ram): alias pam-rom @pc.ram 00000000000c8000-00000000000cbfff
+-    00000000000cb000-00000000000cdfff (prio 1000, ram): alias kvmvapic-rom @pc.ram 00000000000cb000-00000000000cdfff
++    00000000000ca000-00000000000ccfff (prio 1000, ram): alias kvmvapic-rom @pc.ram 00000000000ca000-00000000000ccfff
+     00000000000cc000-00000000000cffff (prio 1, ram): alias pam-rom @pc.ram 00000000000cc000-00000000000cffff
+     00000000000d0000-00000000000d3fff (prio 1, ram): alias pam-rom @pc.ram 00000000000d0000-00000000000d3fff
+     00000000000d4000-00000000000d7fff (prio 1, ram): alias pam-rom @pc.ram 00000000000d4000-00000000000d7fff
+@@ -109,7 +109,7 @@
+     00000000000c0000-00000000000c3fff (prio 1, ram): alias pam-rom @pc.ram 00000000000c0000-00000000000c3fff
+     00000000000c4000-00000000000c7fff (prio 1, ram): alias pam-rom @pc.ram 00000000000c4000-00000000000c7fff
+     00000000000c8000-00000000000cbfff (prio 1, ram): alias pam-rom @pc.ram 00000000000c8000-00000000000cbfff
+-    00000000000cb000-00000000000cdfff (prio 1000, ram): alias kvmvapic-rom @pc.ram 00000000000cb000-00000000000cdfff
++    00000000000ca000-00000000000ccfff (prio 1000, ram): alias kvmvapic-rom @pc.ram 00000000000ca000-00000000000ccfff
+     00000000000cc000-00000000000cffff (prio 1, ram): alias pam-rom @pc.ram 00000000000cc000-00000000000cffff
+     00000000000d0000-00000000000d3fff (prio 1, ram): alias pam-rom @pc.ram 00000000000d0000-00000000000d3fff
+     00000000000d4000-00000000000d7fff (prio 1, ram): alias pam-rom @pc.ram 00000000000d4000-00000000000d7fff
+@@ -185,7 +185,7 @@
+     00000000000c0000-00000000000c3fff (prio 1, ram): alias pam-rom @pc.ram 00000000000c0000-00000000000c3fff
+     00000000000c4000-00000000000c7fff (prio 1, ram): alias pam-rom @pc.ram 00000000000c4000-00000000000c7fff
+     00000000000c8000-00000000000cbfff (prio 1, ram): alias pam-rom @pc.ram 00000000000c8000-00000000000cbfff
+-    00000000000cb000-00000000000cdfff (prio 1000, ram): alias kvmvapic-rom @pc.ram 00000000000cb000-00000000000cdfff
++    00000000000ca000-00000000000ccfff (prio 1000, ram): alias kvmvapic-rom @pc.ram 00000000000ca000-00000000000ccfff
+     00000000000cc000-00000000000cffff (prio 1, ram): alias pam-rom @pc.ram 00000000000cc000-00000000000cffff
+     00000000000d0000-00000000000d3fff (prio 1, ram): alias pam-rom @pc.ram 00000000000d0000-00000000000d3fff
+     00000000000d4000-00000000000d7fff (prio 1, ram): alias pam-rom @pc.ram 00000000000d4000-00000000000d7fff
+
+
+Despite this difference, I was able migrate from a x86 guest using SGA
+to a guest using graphics=off without errors being reported. So it
+doesn't seem to change the migration data sections sent on the wire
+at least.
+
+With this in mind, is the different memory layout harmless from the
+POV of migration, or is it none the less going to cause subtle
+problems for the guest at some point in future ?
+
+
+On non-x86 emulators I see graphics=off has semantic effects beyond
+just controlling whether the firmware prints to the serial or not
+though. IOW it is overloaded to do multiple jobs, while -device sga
+only did one specific job. This makes graphics=off somewhat undesirable
+to use.  We're possibly lucky in this specific case though, because
+the 'sgabios.bin' ROM is x86 asm code, so was never valid to use in
+the non-x86 case.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
