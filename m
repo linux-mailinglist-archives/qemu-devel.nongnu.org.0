@@ -2,67 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45ED64039CA
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:30:03 +0200 (CEST)
-Received: from localhost ([::1]:60458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8194039FE
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:36:54 +0200 (CEST)
+Received: from localhost ([::1]:42970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNwiI-00006C-9r
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:30:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41822)
+	id 1mNwou-0007X2-Ql
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:36:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNwez-0005kR-8E
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:26:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55943)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mNwgg-0007w3-3r
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:28:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNwex-0002LA-Lr
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:26:36 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mNwgd-0003ru-KZ
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:28:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631103994;
+ s=mimecast20190719; t=1631104099;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WkD8nqexLetrk7nAT45C0Bgwnsb8GeHF2bPooj3p1d8=;
- b=WA35jnnccf19oziC0dTnSN1sikmDSKZGr8jbPcTHwVJi2JfqKjtZYFaLNPx4OZwLebqgPx
- n9o+0HpDbB+aol5BiQY88dZtyB6AbZ0e/pxS60yPm0ob/o6//kEVGuLOgWsW8tYGmcr7JA
- uqH2rXgUapxHVEifBW0mxMUbiiixOdI=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hFGZAoJ2TiDqy/5eihaxOx9iM3KvWq6AXavgN5u5kDc=;
+ b=AF3h8iFTRlg8W8q+1biAsMYd2CRy5+z1P9KKxPLoR172vXgGgVaWU05dFu9RGQr7X08uqF
+ SVn6McBh4oQTz3PjsyO5jcS7GeCBGotMMzxiSlrMDr0TyyApQudJ0rzENMYcFpXzOlxtNl
+ V00pFGXyIp7gWrg2TDmEFdG2W4odCxs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-F0xS5cIhO-y4JKstLLdSaA-1; Wed, 08 Sep 2021 08:26:33 -0400
-X-MC-Unique: F0xS5cIhO-y4JKstLLdSaA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-117-I-9JZ0gmMxiRD0sFcXEQwg-1; Wed, 08 Sep 2021 08:28:17 -0400
+X-MC-Unique: I-9JZ0gmMxiRD0sFcXEQwg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 760DA814270
- for <qemu-devel@nongnu.org>; Wed,  8 Sep 2021 12:26:32 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
- [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD48F5C1BB;
- Wed,  8 Sep 2021 12:26:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 42EE71138606; Wed,  8 Sep 2021 14:26:23 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [RFC v3 05/32] scripts/qapi: add
- QAPISchemaVisitor.visit_module_end
-References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
- <20210907121943.3498701-6-marcandre.lureau@redhat.com>
-Date: Wed, 08 Sep 2021 14:26:23 +0200
-In-Reply-To: <20210907121943.3498701-6-marcandre.lureau@redhat.com> (marcandre
- lureau's message of "Tue, 7 Sep 2021 16:19:16 +0400")
-Message-ID: <87mtonw8wg.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C8C0DF8A3
+ for <qemu-devel@nongnu.org>; Wed,  8 Sep 2021 12:28:16 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.39.192.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FA4060C04;
+ Wed,  8 Sep 2021 12:28:14 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [qemu-web PATCH 0/6] Small header/footer layout changes
+Date: Wed,  8 Sep 2021 13:28:08 +0100
+Message-Id: <20210908122814.707744-1-berrange@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -83,60 +75,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-marcandre.lureau@redhat.com writes:
-
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Used in following patches to generate code after visiting a module.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  scripts/qapi/schema.py | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-> index 1f6301c394..6455a8f425 100644
-> --- a/scripts/qapi/schema.py
-> +++ b/scripts/qapi/schema.py
-> @@ -128,6 +128,9 @@ def visit_end(self):
->      def visit_module(self, name):
->          pass
-> =20
-> +    def visit_module_end(self, name) -> None:
-> +        pass
-> +
->      def visit_needed(self, entity):
->          # Default to visiting everything
->          return True
-> @@ -207,6 +210,7 @@ def visit(self, visitor):
->          for entity in self._entity_list:
->              if visitor.visit_needed(entity):
->                  entity.visit(visitor)
-> +        visitor.visit_module_end(self.name)
-> =20
-> =20
->  class QAPISchemaInclude(QAPISchemaEntity):
-
-QAPISchema.visit(vis) now calls:
-
-    vis.visit_begin
-    for each module:
-        vis.visit_module(module.name)
-        for each entity in module
-            entity.visit(vis)
-        vis.visit_module_end(module.name)
-    vis.visit_end
-
-The .visit_module_end() isn't strictly necessary (we could do its work
-in .visit_module() and .visit_end()).  But it's probably simpler this
-way.
-
-Let's rename .visit_module() to .visit_module_begin(), for symmetry with
-.visit_begin(), .visit_end().
+I previously sent a large series to more fully re-design the=0D
+website, especially the front page=0D
+=0D
+  https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg08205.html=0D
+=0D
+Paolo had some feedback on that which I want to take into account=0D
+but playing with CSS / layout always takes me way too long. I=0D
+figured it could still be beneficial to take some of the simpler=0D
+patches in that series.=0D
+=0D
+So essentially this small series is the part of that large series=0D
+that changes the header and footer. The changes to the front page=0D
+body content are cut out until I can get them working better.=0D
+=0D
+In a slight change from the previous posting for the "edit page"=0D
+link at the bottom, I've now used an icon to represent it and=0D
+moved its position, such that the layout is more visually=0D
+pleasant.=0D
+=0D
+The slight downside with only taking the header/footer changes=0D
+is that some of the links I removed from the footer, would have=0D
+been added in the page body of the front page instead. I think=0D
+that's probably ok not to have them regardless though, as they=0D
+are just a single jump away in an obvious place from the navbar=0D
+header.=0D
+=0D
+Daniel P. Berrang=C3=A9 (6):=0D
+  Compress the two front page headings into one=0D
+  Simplify copyright and integrate into footer=0D
+  Put a full SFC membership blurb in footer of every page=0D
+  Move wiki link from footer into the header navbar=0D
+  Simplify and restructure the page footer=0D
+  Add link to "page source" for all pages=0D
+=0D
+ _includes/copyright.html     |   8 -----=0D
+ _includes/footer.html        |  33 +++++++-----------=0D
+ _includes/nav.html           |   1 +=0D
+ _layouts/blog.html           |   1 -=0D
+ _layouts/home.html           |   1 -=0D
+ _layouts/page.html           |   1 -=0D
+ assets/css/style-desktop.css |  21 +-----------=0D
+ assets/css/style-mobile.css  |  22 +-----------=0D
+ assets/css/style.css         |  63 ++++++++++++++++++++++-------------=0D
+ assets/images/edit-page.png  | Bin 0 -> 4997 bytes=0D
+ index.html                   |   8 +----=0D
+ 11 files changed, 56 insertions(+), 103 deletions(-)=0D
+ delete mode 100644 _includes/copyright.html=0D
+ create mode 100644 assets/images/edit-page.png=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
