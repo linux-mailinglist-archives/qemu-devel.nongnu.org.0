@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC4B4040DF
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 00:08:52 +0200 (CEST)
-Received: from localhost ([::1]:55566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E7E4040E2
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 00:11:38 +0200 (CEST)
+Received: from localhost ([::1]:57750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mO5kR-00067v-9Q
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 18:08:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54890)
+	id 1mO5n7-0007ju-Cs
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 18:11:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mO5iO-0004yl-Ow
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 18:07:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52114)
+ id 1mO5mJ-00074M-Ek
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 18:10:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22964)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mO5iM-0004gT-6z
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 18:06:43 -0400
+ id 1mO5m8-0007CQ-2x
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 18:10:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631138801;
+ s=mimecast20190719; t=1631139035;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BWEDMI48/Pvy0BQasMLnEvkTA/LSO/V6Xqf2OEOMrgk=;
- b=Zk0oa6Sd6ioSOo1hjFMSvz6uokr8Ssw1xBgjUuLsYBmhrlz2O3dSruYybwRXL8f5fL4XY+
- Xpf6PfD3v0l6gS3KbmwV/UVSDp+KH0o82Gl4vIGBMoM3tWQQJnHFRjB3e/DLvuOFEWZfhK
- +ha4oPkatwDGsUsceCuY6p+uAldyG8w=
+ bh=/N7itHTnfErWHF0aBsFC3rVXStzBzituJGTSBaKDoic=;
+ b=DgfHMHOtpwHsc6XJEAzIktc8kFwW4shQj5IJfaAIjUUMVv7EPpNB1wLnh8G/6Bnwd/ov3/
+ 8kcuODbJUwn2Ffgp521F0VokrZyJGk56iqTH1yKUM7ae6rXTzQF4BgYdsf88os0/z7SugJ
+ CO3/LfHjYvLRcJTORUA1Qu4EWMYAUJw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-rjm-bNfDM7OKaaSTUEn_AA-1; Wed, 08 Sep 2021 18:06:39 -0400
-X-MC-Unique: rjm-bNfDM7OKaaSTUEn_AA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-304-djb3TSXLOsm4Pkqv6-kJRw-1; Wed, 08 Sep 2021 18:10:34 -0400
+X-MC-Unique: djb3TSXLOsm4Pkqv6-kJRw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D213718414A1;
- Wed,  8 Sep 2021 22:06:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85C83362FA
+ for <qemu-devel@nongnu.org>; Wed,  8 Sep 2021 22:10:33 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.192.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BB8511972E;
- Wed,  8 Sep 2021 22:06:35 +0000 (UTC)
-Date: Wed, 8 Sep 2021 23:06:33 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 889A960C82;
+ Wed,  8 Sep 2021 22:10:29 +0000 (UTC)
+Date: Wed, 8 Sep 2021 23:10:27 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 3/5] target/i386: convert to use format_state instead of
- dump_state
-Message-ID: <YTkz6UpDAs4qPrUZ@redhat.com>
-References: <20210908103711.683940-1-berrange@redhat.com>
- <20210908103711.683940-4-berrange@redhat.com>
- <20210908180513.6pvaonrzmq2gchfa@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: Compatibility between -device sga and -machine graphics=off
+Message-ID: <YTk006bQJSi9PFmM@redhat.com>
+References: <YTjf6BhpPU3aLct9@redhat.com>
+ <20210908205053.kn5o57t25qy2qbmo@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <20210908180513.6pvaonrzmq2gchfa@redhat.com>
+In-Reply-To: <20210908205053.kn5o57t25qy2qbmo@sirius.home.kraxel.org>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -70,8 +68,8 @@ X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,62 +83,58 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 08, 2021 at 01:05:13PM -0500, Eric Blake wrote:
-> On Wed, Sep 08, 2021 at 11:37:09AM +0100, Daniel P. Berrangé wrote:
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >  target/i386/cpu-dump.c | 325 ++++++++++++++++++++++-------------------
-> >  target/i386/cpu.c      |   2 +-
-> >  target/i386/cpu.h      |   2 +-
-> >  3 files changed, 174 insertions(+), 155 deletions(-)
+On Wed, Sep 08, 2021 at 10:50:53PM +0200, Gerd Hoffmann wrote:
+> On Wed, Sep 08, 2021 at 05:08:08PM +0100, Daniel P. Berrangé wrote:
+> > Given the libvirt XML snippet
 > > 
-> > diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
-> > index 02b635a52c..8e19485a20 100644
-> > --- a/target/i386/cpu-dump.c
-> > +++ b/target/i386/cpu-dump.c
-> > @@ -94,41 +94,45 @@ static const char *cc_op_str[CC_OP_NB] = {
-> >  };
-> >  
-> >  static void
-> > -cpu_x86_dump_seg_cache(CPUX86State *env, FILE *f,
-> > +cpu_x86_dump_seg_cache(CPUX86State *env, GString *buf,
-> >                         const char *name, struct SegmentCache *sc)
-> >  {
-> >  #ifdef TARGET_X86_64
-> >      if (env->hflags & HF_CS64_MASK) {
-> > -        qemu_fprintf(f, "%-3s=%04x %016" PRIx64 " %08x %08x", name,
-> > -                     sc->selector, sc->base, sc->limit,
-> > -                     sc->flags & 0x00ffff00);
-> > +        g_string_append_printf(buf, "%-3s=%04x %016" PRIx64 " %08x %08x", name,
-> > +                               sc->selector, sc->base, sc->limit,
-> > +                               sc->flags & 0x00ffff00);
+> >   <os>
+> >     ...
+> >     <bios useserial="yes"/>
+> >     ...
+> >   </os>
+> > 
+> > libvirt QEMU driver will always format
+> > 
+> >   -device sga
+> > 
+> > Libguestfs uses this syntax, so we need to make sure it still works
+> > in future even if 'sga' is disabled or removed in a QEMU build in
+> > favour of SeaBIOS' built-in support.
 > 
-> Did you consider using open_memstream() to get a FILE* that can then
-> be passed into these callbacks unchanged, rather than rewriting all
-> the callbacks to a new signature?
+> Just replacing '-device sga' with '-machine graphics=off' in case sga is
+> not available should work fine.
+> 
+> serial console support in seabios is available for quite a while
+> (merged in 2017, seabios 1.11 in rhel-7 has it), so switching over
+> unconditionally is possibly an option too.  Not sure what the libvirt
+> backward compatibility policy is though.
 
-That is certainly an option, but it wouldn't eliminate the need to do
-a rewrite. I would still want to replace qemu_fprintf with fprintf in
-that scenario. It is desirable to be able to eliminate the QEMU
-specific printf wrappers which only exist because they need to treat
-a NULL FILE* object as an indication to output to the HMP chardev.
-Admittedly that would result in shorter lines than today.
+libvirt currently targets QEMU 2.11.0 and newer.
 
-> Then again, I like the GString signature better than FILE*, even if it
-> makes for longer lines.
+Fortunately it appears that QEMU 2.11.0 included SeaBIOS 1.11.0,
+so we can thus eliminate usage of 'sga' from libvirt entirely,
+provided I can convince myself migration is safe, which looks
+probable.
 
-Yes, the verbosity is not ideal. I like the GString API as a general
-purpose API for formatting text output to a buffer overall.
+> > On non-x86 emulators I see graphics=off has semantic effects beyond
+> > just controlling whether the firmware prints to the serial or not
+> > though.
+> 
+> It's been a while, but yes, IIRC on ppc this is passed to the linux
+> kernel somehow (device tree?) so it also affects the default console
+> device used by linux.
+> 
+> But sgabios is x86-only anyway so that should not be a problem here.
 
-I don't feel too strongly either way though, as long as we get to a place
-where we eliminate the custom QEMU printf wrappers that integrate with
-the monitor APIs.
+libvirt has never validated the arch when enabling sga, but clearly
+it can't ever have been usable on non-x86. So I'll probably restrict
+the usage of graphics=off to only those arches where I can validate
+it something useful for the firmware output. 
+
 
 Regards,
 Daniel
