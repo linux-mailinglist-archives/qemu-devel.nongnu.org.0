@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C58403C79
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:28:16 +0200 (CEST)
-Received: from localhost ([::1]:33920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 809EB403C7F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:29:46 +0200 (CEST)
+Received: from localhost ([::1]:39064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNzUl-0000lG-4g
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:28:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60376)
+	id 1mNzWD-0004Gt-KH
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:29:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mNzRU-000767-0S
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:24:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58324)
+ id 1mNzTS-00011x-1U
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:26:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mNzRS-0003Cc-1g
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:24:51 -0400
+ id 1mNzTP-0004zF-Ku
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:26:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631114689;
+ s=mimecast20190719; t=1631114810;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J7YyjVbnsjX6chBrO10o+RIZZjfwnfY/sRQ+SDIhPfg=;
- b=Sf4waFpPLHHofeShTaEI49LMR0ST6FaC865idl4cuMT1vNzS58z+MgmedVqEweCZgObgW4
- 46uzRhaNW9RqADuDV48WxF8o45O/xm1br86TMJRqdHNOUhdHF8nNLk+sFJVghCT2kNN16j
- 3CHEzwea5mVIoWw0/1T0ln6RUPsv1Os=
+ bh=PbzmeEcp4P8e4n7R9kcF7rDGTLBiX7MePObeHG1VYdw=;
+ b=Mn0k2LC25ixAJXKsOzgnWEKJnIye3ay0XdUibVa++SqDI7/sDi0ZyIAno6kbd74noteMmL
+ zOxzAFjXwHq0Vp4P0fe5+Yin1YRNii228w2zerr08HN4xPBtWHUNdDF2PQo58tRZL967+e
+ IaUd5TxgRWe9EfDzea/HE/yqDF4enVY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-3BTQoC_-OaulGy0Bscq-EQ-1; Wed, 08 Sep 2021 11:24:46 -0400
-X-MC-Unique: 3BTQoC_-OaulGy0Bscq-EQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-161-WVK_K9lJNtinYrBHLzCOaQ-1; Wed, 08 Sep 2021 11:26:49 -0400
+X-MC-Unique: WVK_K9lJNtinYrBHLzCOaQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AE8F1023F4E;
- Wed,  8 Sep 2021 15:24:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1873E19057B2;
+ Wed,  8 Sep 2021 15:26:48 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.193.206])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2054B5D9C6;
- Wed,  8 Sep 2021 15:24:42 +0000 (UTC)
-Date: Wed, 8 Sep 2021 16:24:40 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8992F10016FE;
+ Wed,  8 Sep 2021 15:26:33 +0000 (UTC)
+Date: Wed, 8 Sep 2021 16:26:31 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 0/5] Stop adding HMP-only commands, allow QMP for all
-Message-ID: <YTjVuEg+wlKPHkAi@redhat.com>
-References: <20210908103711.683940-1-berrange@redhat.com>
- <875yvbrtnq.fsf@dusky.pond.sub.org>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v1 3/3] migration: multifd: Enable zerocopy
+Message-ID: <YTjWJz2duKzcRGe/@redhat.com>
+References: <20210831110238.299458-1-leobras@redhat.com>
+ <20210831110238.299458-4-leobras@redhat.com>
+ <YS4rulGV9eueB04H@redhat.com> <YS6RFcQnZEhE8XpG@t490s>
+ <YS8/cxTtiC7QIxTD@redhat.com> <YS+dxUBrhogJQkEY@t490s>
+ <YS+f3rgBLMdR2ELE@redhat.com> <YTdJWDlQn1h9hB8J@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <875yvbrtnq.fsf@dusky.pond.sub.org>
+In-Reply-To: <YTdJWDlQn1h9hB8J@work-vm>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -69,7 +72,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,146 +86,96 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Leonardo Bras <leobras@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 08, 2021 at 05:09:13PM +0200, Markus Armbruster wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
+On Tue, Sep 07, 2021 at 12:13:28PM +0100, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > On Wed, Sep 01, 2021 at 11:35:33AM -0400, Peter Xu wrote:
+> > > On Wed, Sep 01, 2021 at 09:53:07AM +0100, Daniel P. Berrangé wrote:
+> > > > On Tue, Aug 31, 2021 at 04:29:09PM -0400, Peter Xu wrote:
+> > > > > On Tue, Aug 31, 2021 at 02:16:42PM +0100, Daniel P. Berrangé wrote:
+> > > > > > On Tue, Aug 31, 2021 at 08:02:39AM -0300, Leonardo Bras wrote:
+> > > > > > > Call qio_channel_set_zerocopy(true) in the start of every multifd thread.
+> > > > > > > 
+> > > > > > > Change the send_write() interface of multifd, allowing it to pass down
+> > > > > > > flags for qio_channel_write*().
+> > > > > > > 
+> > > > > > > Pass down MSG_ZEROCOPY flag for sending memory pages, while keeping the
+> > > > > > > other data being sent at the default copying approach.
+> > > > > > > 
+> > > > > > > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> > > > > > > ---
+> > > > > > >  migration/multifd-zlib.c | 7 ++++---
+> > > > > > >  migration/multifd-zstd.c | 7 ++++---
+> > > > > > >  migration/multifd.c      | 9 ++++++---
+> > > > > > >  migration/multifd.h      | 3 ++-
+> > > > > > >  4 files changed, 16 insertions(+), 10 deletions(-)
+> > > > > > 
+> > > > > > > @@ -675,7 +676,8 @@ static void *multifd_send_thread(void *opaque)
+> > > > > > >              }
+> > > > > > >  
+> > > > > > >              if (used) {
+> > > > > > > -                ret = multifd_send_state->ops->send_write(p, used, &local_err);
+> > > > > > > +                ret = multifd_send_state->ops->send_write(p, used, MSG_ZEROCOPY,
+> > > > > > > +                                                          &local_err);
+> > > > > > 
+> > > > > > I don't think it is valid to unconditionally enable this feature due to the
+> > > > > > resource usage implications
+> > > > > > 
+> > > > > > https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
+> > > > > > 
+> > > > > >   "A zerocopy failure will return -1 with errno ENOBUFS. This happens 
+> > > > > >    if the socket option was not set, the socket exceeds its optmem 
+> > > > > >    limit or the user exceeds its ulimit on locked pages."
+> > > > > > 
+> > > > > > The limit on locked pages is something that looks very likely to be
+> > > > > > exceeded unless you happen to be running a QEMU config that already
+> > > > > > implies locked memory (eg PCI assignment)
+> > > > > 
+> > > > > Yes it would be great to be a migration capability in parallel to multifd. At
+> > > > > initial phase if it's easy to be implemented on multi-fd only, we can add a
+> > > > > dependency between the caps.  In the future we can remove that dependency when
+> > > > > the code is ready to go without multifd.  Thanks,
+> > > > 
+> > > > Also, I'm wondering how zerocopy support interacts with kernel support
+> > > > for kTLS and multipath-TCP, both of which we want to be able to use
+> > > > with migration.
+> > > 
+> > > Copying Jason Wang for net implications between these features on kernel side
+> > > and whether they can be enabled together (MSG_ZEROCOPY, mptcp, kTLS).
+> > > 
+> > > From the safe side we may want to only enable one of them until we prove
+> > > they'll work together I guess..
+> > 
+> > MPTCP is good when we're network limited for migration
+> > 
+> > KTLS will be good when we're CPU limited on AES for migration,
+> > which is essentially always when TLS is used.
+> > 
+> > ZEROCOPY will be good when we're CPU limited for data copy
+> > on migration, or to reduce the impact on other concurrent
+> > VMs on the same CPUs.
+> > 
+> > Ultimately we woudld benefit from all of them at the same
+> > time, if it were technically possible todo.
 > 
-> > We are still adding HMP commands without any QMP counterparts. This is
-> > done because there are a reasonable number of scenarios where the cost
-> > of designing a QAPI data type for the command is not justified.
-> >
-> > This has the downside, however, that we will never be able to fully
-> > isolate the monitor code from the remainder of QEMU internals. It is
-> > desirable to be able to get to a point where subsystems in QEMU are
-> > exclusively implemented using QAPI types and never need to have any
-> > knowledge of the monitor APIs.
-> >
-> > The way to get there is to stop adding commands to HMP only. All
-> > commands must be implemented using QMP, and any HMP implementation
-> > be a shim around the QMP implementation.
-> >
-> > We don't want to compromise our supportability of QMP long term though.
-> >
-> > This series proposes that we relax our requirements around fine grained
-> > QAPI data design,
-> 
-> Specifics?  QMP command returns a string, HMP wrapper prints that
-> string?
+> I think last time I spoke to Paolo Abeni there were some interactions
+> between them; I can't remember what though (I think mptcp and ktls
+> didn't play at the time).
 
-yes, a command returning a single opaque printf formatted string would
-be the common case.  At a more general POV though, the JSON doc received
-by the client should be usable "as received", immediately after JSON
-de-serialization without needing any further custom parsing on top.
-
-ie if a value needs to be parsed by the client, then it must be split
-into multiple distinct values in the QAPI data type design to remove
-the need for parsing by the client. 
-
-If a command's design violates that, then it must remain under the
-"x-" prefix.  "info registers" is a example because we're printf
-formatting each register value into a opaque string. Any client
-needing a specific register value would have to scanf parse this
-string. The justification for not representing each register as
-a distinct QAPI field is that we don't think machines genuinely
-need to parse this, as its just adhoc human operator debug info.
-So we take the easy option and just printf to a string and put
-it under "x-" prefix
-
-
-
-> For many HMP commands, a QMP commands with the same name exists, and the
-> former is probably a wrapper around the latter.  Same for HMP "info FOO"
-> and QMP query-FOO.
-> 
-> HMP commands without such a match:
-> 
->     boot_set
->     change
->     commit
->     cpu
->     delvm
->     drive_add
->     drive_del
->     exit_preconfig
->     gdbserver
->     gpa2hpa
->     gpa2hva
->     gva2gpa
->     help
->     hostfwd_add
->     hostfwd_remove
->     i
->     info
->     info capture
->     info cmma
->     info cpus
->     info history
->     info ioapic
->     info irq
->     info jit
->     info lapic
->     info mem
->     info mtree
->     info network
->     info numa
->     info opcount
->     info pic
->     info profile
->     info qdm
->     info qom-tree
->     info qtree
->     info ramblock
->     info rdma
->     info registers
->     info roms
->     info skeys
->     info snapshots
->     info sync-profile
->     info tlb
->     info trace-events
->     info usb
->     info usbhost
->     info usernet
->     loadvm
->     log
->     logfile
->     mce
->     migrate_set_capability
->     migrate_set_parameter
->     migration_mode
->     mouse_button
->     mouse_move
->     mouse_set
->     nmi
->     o
->     pcie_aer_inject_error
->     print
->     qemu-io
->     savevm
->     sendkey
->     singlestep
->     snapshot_blkdev
->     snapshot_blkdev_internal
->     snapshot_delete_blkdev_internal
->     stopcapture
->     sum
->     sync-profile
->     trace-event
->     trace-file
->     watchdog_action
->     wavcapture
->     x
->     xp
-> 
-> This is 77 out of 170 HMP commands.  I was hoping for fewer.
-
-Wow, yes, I'm surprised ! A few of those do indeed have QMP
-equivalents, but with slight differences eg savevm ->
-snapshot-save, but clearly we have a big list regardless
+MPTCP and KTLS use the same kernel hook in the network layer and
+only 1 hook is permitted at a time, making them mutually exclusive
+for now. In theory this can be fixed but no one is actively working
+on it yet.
 
 
 Regards,
