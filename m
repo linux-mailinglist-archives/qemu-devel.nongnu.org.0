@@ -2,82 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3413D40366C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 10:56:25 +0200 (CEST)
-Received: from localhost ([::1]:42618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD3BE40366D
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 10:56:42 +0200 (CEST)
+Received: from localhost ([::1]:43946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNtNY-00042A-9M
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 04:56:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53154)
+	id 1mNtNp-00051d-RM
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 04:56:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNtL8-0001jC-Tl
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 04:53:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39206)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mNtLQ-0002Or-QL
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 04:54:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNtL7-0002Qk-DV
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 04:53:54 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mNtLP-0002ed-7K
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 04:54:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631091232;
+ s=mimecast20190719; t=1631091250;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1Xjm35xCRc6Jm47gTzai2wD4k9AlLefOWX9iM2UHAJY=;
- b=U//+ujUC5gCbwj5dDQOXTGp4bGaHATapbyrcVrnQxuF7qhe+is2wEQSlorgRsNSt+Z6/lu
- 7GbdQf4q1R3YMsL/UNgOoYyWEciiW3d8524Rffyic09WQIHBklMx/TKZmfoMAZ70oD3yT9
- /VFCR+W0q0jePuI0q49SJdZocvVhplU=
+ bh=soKqeoV9tDu7pLkh1tRGV9RUANS0gpPaTigb/8qMz7A=;
+ b=CdncBc9DXThpwVp4zId1/a8VK9gBB5XFRE3rsQGdkNn1uv9VSc/17XHm0eC63Murq+4FB3
+ zP/Eng5Mv4m7M1R4o8KVq9cL4RFeUDedoW2HefsduzjAcm0gBqNy3B/fJ849T2UbpObX5X
+ 2vVIBMAGqjjbv0WLLLihg0wbVHIeS38=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-Tepksfp8OJm1N-PXmHw4dA-1; Wed, 08 Sep 2021 04:53:51 -0400
-X-MC-Unique: Tepksfp8OJm1N-PXmHw4dA-1
+ us-mta-187--m8AwSoVPK-GkE763DvhzA-1; Wed, 08 Sep 2021 04:54:09 -0400
+X-MC-Unique: -m8AwSoVPK-GkE763DvhzA-1
 Received: by mail-wr1-f69.google.com with SMTP id
- u30-20020adfa19e000000b00159aba4fe42so297536wru.9
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 01:53:50 -0700 (PDT)
+ n1-20020a5d4c41000000b00159305d19baso298957wrt.11
+ for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 01:54:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
+ d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=1Xjm35xCRc6Jm47gTzai2wD4k9AlLefOWX9iM2UHAJY=;
- b=YhiF92K+sQVNE1BmFx6v2QKxagaynF1iJd7Z+Xz78WC5ODXp6v8HpcyEjcEzvJUeTy
- l56tlVUD4fl9jlVaBLd3xh0D9pXJBbM7pGFm1yFtvO/B7gUvnJr+Xdn5LYkUEQCNfxeV
- d0SB16Y28KdJIMwQRJui9t5Fe/GKDd+hjihXbvNg6HjME5ml0VLfkooOLGpMv4yYFQvt
- vrHAchYXpsIkXnAz5NvIaTroGgC+Ez5Y5BO9Rzjw8uF9Xf9PJkvJFv7RZxLKDv+omtv3
- fVp/23iFPAXKh3TBpc49N8ZZJGbh0CdM0vBJcBRlQ6IyP+zw/TEAvojNzHtIDpsdPmF1
- /kAg==
-X-Gm-Message-State: AOAM533Lpt9AXG4FoAGFXYdvUktwcKwEaSJwKGW4OS7B+Zdz8Hbeg512
- C2PzYAGXKDsG+rpa/E0m73NdoZlD2iUXAYUw2/ML6ZGBPVWOXJBx3HJQBCiZJ4m6wENpoXsTV8S
- eJgI7CW/3VcK4x5Y=
-X-Received: by 2002:a5d:526a:: with SMTP id l10mr2767709wrc.279.1631091230051; 
- Wed, 08 Sep 2021 01:53:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwukSBOtv0FPcdN0zPWjwKlnEs6KsK3M+Iu48YT9yKqoWc3NrQDgDykGRW3f5TOzmqF2JSk1g==
-X-Received: by 2002:a5d:526a:: with SMTP id l10mr2767694wrc.279.1631091229908; 
- Wed, 08 Sep 2021 01:53:49 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id j20sm1471595wrb.5.2021.09.08.01.53.49
+ bh=soKqeoV9tDu7pLkh1tRGV9RUANS0gpPaTigb/8qMz7A=;
+ b=G675tL+lTZWTgTiqLJ0wcI+qhHfMjmFJY1+ccjIkkW66R9FLxbAvMOl2akWDSlOKsi
+ wrU4rTCnJ1A+6NYiC7bYNrzftD4LEJXZt5lwuP2SaJTHO+cyhyk+vUYoFpK/HQjuK+OR
+ 7AR0jhV4l0sfFn9imjfj7iIUBY/e8wri3kiG0AUrNnHrMx6GCd7Lp+INx85zMCwJSdQ7
+ M2Fm5gGqTDr3M8VP+Ih484K9FD34I6QPRkqN2Mcl/FbWvXMonmR9RysYrzMKrzz5VkZV
+ mGNCpgnPdqIXmyMPTcjdnYW3Qzl7nmT4olqjG6E/IrlNyW7fXzDLBmJJ7nyTxfN0zoHC
+ 7/Hg==
+X-Gm-Message-State: AOAM532l42b9rVMfqh99FQQFyq1cJODG3o4vn5pusZvhOar3ujorYes2
+ m56h+XFy9Jc2D/44us6Ww2jXvDPNbj0IC44SpXe9yDwaGc4aJI+sVK60wBvJA/BTnIMfd7WpiqU
+ 9CBmnocopAX01aJI=
+X-Received: by 2002:a05:600c:295:: with SMTP id
+ 21mr2366772wmk.37.1631091248162; 
+ Wed, 08 Sep 2021 01:54:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzM2NjhJCRNQdMp0M1vqxrl+cF3XHEu4XAWUutw6TWwbRa5EVzJ836sgMVZN8AzLkqs3vS0PQ==
+X-Received: by 2002:a05:600c:295:: with SMTP id
+ 21mr2366755wmk.37.1631091247924; 
+ Wed, 08 Sep 2021 01:54:07 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id w9sm1500759wrs.7.2021.09.08.01.54.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Sep 2021 01:53:49 -0700 (PDT)
+ Wed, 08 Sep 2021 01:54:07 -0700 (PDT)
 Subject: Re: [PATCH 6/7] monitor: Fix coredump issue in non-x86 platform
 To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
 References: <20210908081937.77254-1-yang.zhong@intel.com>
  <20210908081937.77254-7-yang.zhong@intel.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <fe225574-3b4c-1969-6ed0-3a9103608c12@redhat.com>
-Date: Wed, 8 Sep 2021 10:53:48 +0200
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <17d61d04-4276-dd5b-b23f-9597c1fad1f1@redhat.com>
+Date: Wed, 8 Sep 2021 10:54:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
 In-Reply-To: <20210908081937.77254-7-yang.zhong@intel.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -54
 X-Spam_score: -5.5
@@ -98,30 +102,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, eblake@redhat.com, seanjc@google.com
+Cc: seanjc@google.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/8/21 10:19 AM, Yang Zhong wrote:
-> The monitor will coredump if we use 'info sgx' in the '-machine none' or
-> other non-x86 platform, add the sgx_enabled bool variable to avoid this
-> coredump issue.
+On 08/09/21 10:19, Yang Zhong wrote:
+> +    if (sgx_enabled) {
+> +        MachineState *ms = MACHINE(qdev_get_machine());
+> +        X86MachineState *x86ms = X86_MACHINE(qdev_get_machine());
+> +
 
-But this code is only built for x86...
+You can use object_dynamic_cast(ms, TYPE_PC_MACHINE), something like:
 
-> 
-> ./qemu-system-x86_64 -S -no-user-config -nodefaults -nographic -machine none,accel=kvm -monitor stdio
-> QEMU 6.1.50 monitor - type 'help' for more information
-> (qemu) info sgx
-> /home/vmm/project/upstream/9-8/qemu/include/hw/i386/x86.h:93:X86_MACHINE: Object 0x5615d71a6fd0 is not an instance of type x86-machine
-> Aborted (core dumped)
 
-Paolo suggested on IRC to use object_class_dynamic_cast().
+PCMachineState *pcms =
+     object_dynamic_cast(qdev_get_machine(), TYPE_PC_MACHINE);
+X86MachineState *x86ms;
 
-> 
-> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> ---
->  hw/i386/sgx.c | 32 +++++++++++++++++++-------------
->  1 file changed, 19 insertions(+), 13 deletions(-)
+if (!pcms) {
+     return NULL;
+}
+x86ms = X86_MACHINE(pcms);
+if (!x86ms->sgx_epc_list) {
+     return NULL;
+}
+info = g_new0(SGXInfo, 1);
+...
+return info;
+
+Also please squash this patch directly into patch 3 that introduces 
+sgx_get_info.
+
+Paolo
 
 
