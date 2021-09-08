@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD176403934
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 13:57:23 +0200 (CEST)
-Received: from localhost ([::1]:58718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D58403933
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 13:57:22 +0200 (CEST)
+Received: from localhost ([::1]:58622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNwCg-0007qc-Op
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 07:57:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33392)
+	id 1mNwCf-0007n7-7X
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 07:57:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mNwAZ-0005PC-ED
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 07:55:11 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59008
+ id 1mNwAY-0005P3-Qv
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 07:55:10 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59014
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mNwAU-0005A8-73
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 07:55:11 -0400
+ id 1mNwAX-0005Cp-8y
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 07:55:10 -0400
 Received: from host86-140-11-91.range86-140.btcentralplus.com ([86.140.11.91]
  helo=kentang.home) by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mNwAN-0009u6-Mk; Wed, 08 Sep 2021 12:55:03 +0100
+ id 1mNwAR-0009u6-ML; Wed, 08 Sep 2021 12:55:07 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Date: Wed,  8 Sep 2021 12:54:39 +0100
-Message-Id: <20210908115451.9821-1-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  8 Sep 2021 12:54:40 +0100
+Message-Id: <20210908115451.9821-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210908115451.9821-1-mark.cave-ayland@ilande.co.uk>
+References: <20210908115451.9821-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.140.11.91
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 00/12] qemu-sparc queue 20210908
+Subject: [PULL 01/12] target/sparc: Drop use of gen_io_end()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -62,43 +63,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit abf7aee72ea66944a62962603e4c2381f5e473e7:
+From: Peter Maydell <peter.maydell@linaro.org>
 
-  Merge remote-tracking branch 'remotes/thuth-gitlab/tags/s390x-pull-request-2021-09-07' into staging (2021-09-07 17:46:13 +0100)
+The gen_io_end() function is obsolete (as documented in
+docs/devel/tcg-icount.rst). Where an instruction is an I/O
+operation, the translator frontend should call gen_io_start()
+before generating the code which does the I/O, and then
+end the TB immediately after this insn.
 
-are available in the Git repository at:
+Remove the calls to gen_io_end() in the SPARC frontend,
+and ensure that the insns which were calling it end the
+TB if they didn't do so already.
 
-  git://github.com/mcayland/qemu.git tags/qemu-sparc-20210908
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210724134902.7785-2-peter.maydell@linaro.org>
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ target/sparc/translate.c | 25 ++++++++++---------------
+ 1 file changed, 10 insertions(+), 15 deletions(-)
 
-for you to fetch changes up to 15a2a1a4d1eecc74a87e1552f5cc4e3668375715:
+diff --git a/target/sparc/translate.c b/target/sparc/translate.c
+index 11de5a4963..bb70ba17de 100644
+--- a/target/sparc/translate.c
++++ b/target/sparc/translate.c
+@@ -3401,7 +3401,8 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+                         tcg_temp_free_i32(r_const);
+                         gen_store_gpr(dc, rd, cpu_dst);
+                         if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
+-                            gen_io_end();
++                            /* I/O operations in icount mode must end the TB */
++                            dc->base.is_jmp = DISAS_EXIT;
+                         }
+                     }
+                     break;
+@@ -3454,7 +3455,8 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+                         tcg_temp_free_i32(r_const);
+                         gen_store_gpr(dc, rd, cpu_dst);
+                         if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
+-                            gen_io_end();
++                            /* I/O operations in icount mode must end the TB */
++                            dc->base.is_jmp = DISAS_EXIT;
+                         }
+                     }
+                     break;
+@@ -3588,7 +3590,8 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+                         tcg_temp_free_ptr(r_tickptr);
+                         tcg_temp_free_i32(r_const);
+                         if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
+-                            gen_io_end();
++                            /* I/O operations in icount mode must end the TB */
++                            dc->base.is_jmp = DISAS_EXIT;
+                         }
+                     }
+                     break;
+@@ -4582,7 +4585,8 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+                                 }
+                                 gen_helper_wrpstate(cpu_env, cpu_tmp0);
+                                 if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
+-                                    gen_io_end();
++                                    /* I/O ops in icount mode must end the TB */
++                                    dc->base.is_jmp = DISAS_EXIT;
+                                 }
+                                 dc->npc = DYNAMIC_PC;
+                                 break;
+@@ -4598,7 +4602,8 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+                                 }
+                                 gen_helper_wrpil(cpu_env, cpu_tmp0);
+                                 if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
+-                                    gen_io_end();
++                                    /* I/O ops in icount mode must end the TB */
++                                    dc->base.is_jmp = DISAS_EXIT;
+                                 }
+                                 break;
+                             case 9: // cwp
+@@ -4697,10 +4702,6 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+                                     gen_helper_tick_set_limit(r_tickptr,
+                                                               cpu_hstick_cmpr);
+                                     tcg_temp_free_ptr(r_tickptr);
+-                                    if (tb_cflags(dc->base.tb) &
+-                                           CF_USE_ICOUNT) {
+-                                        gen_io_end();
+-                                    }
+                                     /* End TB to handle timer interrupt */
+                                     dc->base.is_jmp = DISAS_EXIT;
+                                 }
+@@ -5327,9 +5328,6 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+                                 gen_io_start();
+                             }
+                             gen_helper_done(cpu_env);
+-                            if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
+-                                gen_io_end();
+-                            }
+                             goto jmp_insn;
+                         case 1:
+                             if (!supervisor(dc))
+@@ -5340,9 +5338,6 @@ static void disas_sparc_insn(DisasContext * dc, unsigned int insn)
+                                 gen_io_start();
+                             }
+                             gen_helper_retry(cpu_env);
+-                            if (tb_cflags(dc->base.tb) & CF_USE_ICOUNT) {
+-                                gen_io_end();
+-                            }
+                             goto jmp_insn;
+                         default:
+                             goto illegal_insn;
+-- 
+2.20.1
 
-  escc: fix STATUS_SYNC bit in R_STATUS register (2021-09-08 11:09:45 +0100)
-
-----------------------------------------------------------------
-qemu-sparc queue
-
-----------------------------------------------------------------
-Mark Cave-Ayland (10):
-      sun4m: fix setting CPU id when more than one CPU is present
-      escc: checkpatch fixes
-      escc: reset register values to zero in escc_reset()
-      escc: introduce escc_soft_reset_chn() for software reset
-      escc: introduce escc_hard_reset_chn() for hardware reset
-      escc: implement soft reset as described in the datasheet
-      escc: implement hard reset as described in the datasheet
-      escc: remove register changes from escc_reset_chn()
-      escc: re-use escc_reset_chn() for soft reset
-      escc: fix STATUS_SYNC bit in R_STATUS register
-
-Peter Maydell (2):
-      target/sparc: Drop use of gen_io_end()
-      tcg: Drop gen_io_end()
-
- docs/devel/tcg-icount.rst |   3 -
- hw/char/escc.c            | 263 +++++++++++++++++++++++++++++++---------------
- hw/char/trace-events      |   2 +
- hw/sparc/sun4m.c          |   2 +-
- include/exec/gen-icount.h |  27 ++---
- target/sparc/translate.c  |  25 ++---
- 6 files changed, 202 insertions(+), 120 deletions(-)
 
