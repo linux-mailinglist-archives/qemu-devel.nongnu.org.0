@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54EB4403A8A
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 15:24:07 +0200 (CEST)
-Received: from localhost ([::1]:54830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF29403A97
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 15:29:16 +0200 (CEST)
+Received: from localhost ([::1]:34006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNxYb-0005RE-Al
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 09:24:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56340)
+	id 1mNxdb-0002Cl-Rl
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 09:29:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNxXC-000438-LY
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 09:22:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45130)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNxcQ-00019M-2B
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 09:28:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNxXB-00085J-58
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 09:22:38 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNxcN-0004Oi-K3
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 09:28:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631107356;
+ s=mimecast20190719; t=1631107678;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=wxjD85aNsJcGw/4gjVkCyrLzfOd+HU932uifldvqjiI=;
- b=KeuQax7Jo+JaZ+ayLYfJ9VtvAP+QjeYeJe2rFaUOF26RMhXWDJAvUtlsmpz3K3jcHKDiwp
- 8r0tHeHl8mkYo6T26sZXACALB2rbr8uBnWhogKe6JV2wXgHN+hmw1gI5jVQoI7vSyu4CFx
- 9a/BYO84EupJKR27JvKA1o2SmQ2phMo=
+ bh=fvehdbiMEPj4zImZA008Sygv1b9VHQGjTar5D2QDOkw=;
+ b=DLv6OsthnO1HwGV3xy6V4/w9T89WrQQzFSzZ4/TmuPvIYJAfVbRlPvgK/ELN4mcLBc80tU
+ 2wUd/saogpr/IAg2WxWQxyFeb+SEl/62XyQmtW+Yax/l7DXhtsfTGklWHnamWYhBfTk9I3
+ L1mkrgwwcS8XDk+U1/bNmtOmLzfspR4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-8-BWTi5PPH2NAkRI0ZwhEQ-1; Wed, 08 Sep 2021 09:22:35 -0400
-X-MC-Unique: 8-BWTi5PPH2NAkRI0ZwhEQ-1
+ us-mta-218-N97KKDUWPvS5HtmzNaXsLA-1; Wed, 08 Sep 2021 09:27:57 -0400
+X-MC-Unique: N97KKDUWPvS5HtmzNaXsLA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 908CB801B3D
- for <qemu-devel@nongnu.org>; Wed,  8 Sep 2021 13:22:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D70BC824FA7;
+ Wed,  8 Sep 2021 13:27:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B8D39196FC;
- Wed,  8 Sep 2021 13:22:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FEA01971F;
+ Wed,  8 Sep 2021 13:27:53 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 48AEE1138606; Wed,  8 Sep 2021 15:22:25 +0200 (CEST)
+ id 932411138606; Wed,  8 Sep 2021 15:27:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [RFC v3 00/32] Rust binding for QAPI and qemu-ga QMP handler
- examples
-References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
-Date: Wed, 08 Sep 2021 15:22:25 +0200
-In-Reply-To: <20210907121943.3498701-1-marcandre.lureau@redhat.com> (marcandre
- lureau's message of "Tue, 7 Sep 2021 16:19:11 +0400")
-Message-ID: <871r5zurqm.fsf@dusky.pond.sub.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 5/5] qapi: Fix bogus error for 'if': { 'not': '' }
+References: <20210908045428.2689093-1-armbru@redhat.com>
+ <20210908045428.2689093-6-armbru@redhat.com>
+Date: Wed, 08 Sep 2021 15:27:51 +0200
+In-Reply-To: <20210908045428.2689093-6-armbru@redhat.com> (Markus Armbruster's
+ message of "Wed, 8 Sep 2021 06:54:28 +0200")
+Message-ID: <87tuivtcx4.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
@@ -80,40 +80,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, armbru@redhat.com
+Cc: marcandre.lureau@redhat.com, jsnow@redhat.com, michael.roth@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Build fails for me:
+Markus Armbruster <armbru@redhat.com> writes:
 
-make: Entering directory '/work/armbru/qemu/bld'
-config-host.mak is out-of-date, running configure
-  GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc capstone slirp
-fatal: remote error: upload-pack: not our ref 7077bbbd11a67d60062a9483f996113a349a4ca1
-Fetched in submodule path 'rust/vendored', but it did not contain 7077bbbd11a67d60062a9483f996113a349a4ca1. Direct fetching of that commit failed.
-/work/armbru/qemu/scripts/git-submodule.sh: failed to update modules
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  scripts/qapi/expr.py             | 21 +++++++++++++--------
+>  tests/qapi-schema/bad-if-not.err |  2 +-
+>  2 files changed, 14 insertions(+), 9 deletions(-)
+>
+> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> index b62f0a3640..ad3732c7f0 100644
+> --- a/scripts/qapi/expr.py
+> +++ b/scripts/qapi/expr.py
+> @@ -293,17 +293,22 @@ def _check_if(cond: Union[str, object]) -> None:
+>                  info,
+>                  "'if' condition of %s has conflicting keys" % source)
+>  
+> -        oper, operands = next(iter(cond.items()))
+> +        if 'not' in cond:
+> +            _check_if(cond['not'])
+> +        elif 'all' in cond:
+> +            _check_infix('all', cond['all'])
+> +        else:
+> +            _check_infix('any', cond['any'])
+> +
+> +    def _check_infix(operator: str, operands: object):
+> +        if not isinstance(operands, list):
+> +            raise QAPISemError(
+> +                info,
+> +                "'%s' condition of %s must be an array"
+> +                % (operator, source))
+>          if not operands:
+>              raise QAPISemError(
+>                  info, "'if' condition [] of %s is useless" % source)
+> -
+> -        if oper == "not":
+> -            _check_if(operands)
+> -            return
+> -        if oper in ("all", "any") and not isinstance(operands, list):
+> -            raise QAPISemError(
+> -                info, "'%s' condition of %s must be an array" % (oper, source))
+>          for operand in operands:
+>              _check_if(operand)
+>  
+> diff --git a/tests/qapi-schema/bad-if-not.err b/tests/qapi-schema/bad-if-not.err
+> index b3acdd679a..b33f5e16b8 100644
+> --- a/tests/qapi-schema/bad-if-not.err
+> +++ b/tests/qapi-schema/bad-if-not.err
+> @@ -1,2 +1,2 @@
+>  bad-if-not.json: In struct 'TestIfStruct':
+> -bad-if-not.json:2: 'if' condition [] of struct is useless
+> +bad-if-not.json:2: 'if' condition '' of struct is not a valid identifier
 
-Unable to automatically checkout GIT submodules ' ui/keycodemapdb meson rust/vendored tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc capstone slirp'.
-If you require use of an alternative GIT binary (for example to
-enable use of a transparent proxy), then please specify it by
-running configure by with the '--with-git' argument. e.g.
+Squashing in this fixup:
 
- $ ./configure --with-git='tsocks git'
-
-Alternatively you may disable automatic GIT submodule checkout
-with:
-
- $ ./configure --with-git-submodules=validate
-
-and then manually update submodules prior to running make, with:
-
- $ scripts/git-submodule.sh update  ui/keycodemapdb meson rust/vendored tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc capstone slirp
-
-make: *** No rule to make target 'config-host.mak', needed by 'meson.stamp'.
-make: Failed to remake makefile 'config-host.mak'.
-make: Failed to remake makefile 'Makefile'.
-make: Target 'all' not remade because of errors.
-make: Leaving directory '/work/armbru/qemu/bld'
+diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+index ad3732c7f0..90bde501b0 100644
+--- a/scripts/qapi/expr.py
++++ b/scripts/qapi/expr.py
+@@ -300,7 +300,7 @@ def _check_if(cond: Union[str, object]) -> None:
+         else:
+             _check_infix('any', cond['any'])
+ 
+-    def _check_infix(operator: str, operands: object):
++    def _check_infix(operator: str, operands: object) -> None:
+         if not isinstance(operands, list):
+             raise QAPISemError(
+                 info,
 
 
