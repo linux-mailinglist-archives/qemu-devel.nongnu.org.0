@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75AE403E70
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 19:44:40 +0200 (CEST)
-Received: from localhost ([::1]:46940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E906403EBA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 19:57:06 +0200 (CEST)
+Received: from localhost ([::1]:50884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mO1cl-000313-Fj
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 13:44:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37044)
+	id 1mO1om-0006DM-S2
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 13:57:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mO1ar-0001Yh-Iu
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 13:42:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25983)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mO1nV-0004mh-Ee
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 13:55:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mO1an-0003UB-KC
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 13:42:40 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mO1nS-0003qB-J0
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 13:55:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631122955;
+ s=mimecast20190719; t=1631123741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ruq/bWbRNQXAhoNsbximW47xSPboio+O9QrqiTeqQ/0=;
- b=XgglZ2CViwqE3CV89RcrNS2G9JvRmPdAocyg65O6gKYTb5gCy9qva+KUvJqQ2EdOUXGluR
- g5Dlq5PmE2Mq/vyMMhEktJtXuAjLXsjAdJ1FOW98817g9OUp5/DyWyroPMI0JhOfHsyBzF
- dgZbqdvVRxx+Ck/5L20uUmzxqMLGEeU=
+ bh=FCmN9kUWaPVDUKO2RSVmvDjIGWte1IDieKchhcs1suo=;
+ b=JAYLX3GcQ9WSxTEo1SAu/99SPSraADZctKt6lG+coCAnDg+ODRb6gXuP9fCwf0MdwbUWW5
+ KcUpKvjYDOOTEDm2Y8gpeulUug+9pUiHzuhnxtMx1Wl7yZ2k4WCJrjbI5vI5mYB++2cql6
+ bvha8GF1+iXN1RFoOmQ0U/cSgmk69qU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-OMiWprn1MlGqOYJ3R99LtQ-1; Wed, 08 Sep 2021 13:42:32 -0400
-X-MC-Unique: OMiWprn1MlGqOYJ3R99LtQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-48-voGy2eG3PtSA4-Aqup-50Q-1; Wed, 08 Sep 2021 13:55:38 -0400
+X-MC-Unique: voGy2eG3PtSA4-Aqup-50Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB183802934;
- Wed,  8 Sep 2021 17:42:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 442B7801E72;
+ Wed,  8 Sep 2021 17:55:36 +0000 (UTC)
 Received: from redhat.com (ovpn-113-24.phx2.redhat.com [10.3.113.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 46A911002391;
- Wed,  8 Sep 2021 17:42:31 +0000 (UTC)
-Date: Wed, 8 Sep 2021 12:42:29 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FA6760C7F;
+ Wed,  8 Sep 2021 17:55:34 +0000 (UTC)
+Date: Wed, 8 Sep 2021 12:55:33 -0500
 From: Eric Blake <eblake@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH 1/5] docs/devel: document expectations for QAPI data
- modelling for QMP
-Message-ID: <20210908174229.kl2zdp3juxp45kco@redhat.com>
-References: <20210908103711.683940-1-berrange@redhat.com>
- <20210908103711.683940-2-berrange@redhat.com>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh.ext@zeiss.com>
+Subject: Re: [PATCH] vmdk: allow specification of tools version
+Message-ID: <20210908175436.7xnongfo7st42ixb@redhat.com>
+References: <20210908174250.12946-1-thomas.weissschuh.ext@zeiss.com>
 MIME-Version: 1.0
-In-Reply-To: <20210908103711.683940-2-berrange@redhat.com>
+In-Reply-To: <20210908174250.12946-1-thomas.weissschuh.ext@zeiss.com>
 User-Agent: NeoMutt/20210205-739-420e15
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -59,7 +57,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -80,105 +78,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>, thomas@t-8ch.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 08, 2021 at 11:37:07AM +0100, Daniel P. Berrangé wrote:
-> Traditionally we have required that newly added QMP commands will model
-> any returned data using fine grained QAPI types. This is good for
-> commands that are intended to be consumed by machines, where clear data
-> representation is very important. Commands that don't satisfy this have
-> generally been added to HMP only.
+On Wed, Sep 08, 2021 at 07:42:50PM +0200, Thomas Weißschuh wrote:
+> VMDK files support an attribute that represents the version of the guest
+> tools that are installed on the disk.
+> This attribute is used by vSphere before a machine has been started to
+> determine if the VM has the guest tools installed.
+> This is important when configuring "Operating system customizations" in
+> vSphere, as it checks for the presence of the guest tools before
+> allowing those customizations.
+> Thus when the VM has not yet booted normally it would be impossible to
+> customize it, therefore preventing a customized first-boot.
 > 
-> In effect the decision of whether to add a new command to QMP vs HMP has
-> been used as a proxy for the decision of whether the cost of designing a
-> fine grained QAPI type is justified by the potential benefits.
+> The attribute should not hurt on disks that do not have the guest tools
+> installed and indeed the VMware tools also unconditionally add this
+> attribute.
+> (Defaulting to the value "2147483647", as is done in this patch)
 > 
-> As a result the commands present in QMP and HMP are non-overlapping
-> sets, although HMP comamnds can be accessed indirectly via the QMP
-> command 'human-monitor-command'.
-> 
-> One of the downsides of 'human-monitor-command' is that the QEMU monitor
-> APIs remain tied into various internal parts of the QEMU code. For
-> example any exclusively HMP command will need to use 'monitor_printf'
-> to get data out. It would be desirable to be able to fully isolate the
-> monitor implementation from QEMU internals, however, this is only
-> possible if all commands are exclusively based on QAPI with direct
-> QMP exposure.
-> 
-> The way to achieve this desired end goal is to finese the requirements
-> for QMP command design. For cases where the output of a command is only
-> intended for human consumption, it is reasonable to want to simplify
-> the implementation by returning a plain string containing formatted
-> data instead of designing a fine grained QAPI data type. This can be
-> permitted if-and-only-if the command is exposed under the 'x-' name
-> prefix. This indicates that the command data format is liable to
-> future change and that it is not following QAPI design best practice.
-> 
-> The poster child example for this would be the 'info registers' HMP
-> command which returns printf formatted data representing CPU state.
-> This information varies enourmously across target architectures and
-> changes relatively frequently as new CPU features are implemented.
-> It is there as debugging data for human operators, and any machine
-> usage would treat it as an opaque blob. It is thus reasonable to
-> expose this in QMP as 'x-query-registers' returning a 'str' field.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Thomas Weißschuh <thomas.weissschuh.ext@zeiss.com>
 > ---
->  docs/devel/writing-qmp-commands.rst | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
-> diff --git a/docs/devel/writing-qmp-commands.rst b/docs/devel/writing-qmp-commands.rst
-> index 6a10a06c48..d032daa62d 100644
-> --- a/docs/devel/writing-qmp-commands.rst
-> +++ b/docs/devel/writing-qmp-commands.rst
-> @@ -350,6 +350,31 @@ In this section we will focus on user defined types. Please, check the QAPI
->  documentation for information about the other types.
->  
->  
-> +Modelling data in QAPI
-> +~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +For a QMP command that to be considered stable and supported long term there
-> +is a requirement returned data should be explicitly modelled using fine grained
-> +QAPI types. As a general guide, a caller of the QMP command should never need
-> +to parse individual returned data fields. If a field appears to need parsing,
-> +them it should be split into separate fields corresponding to each distinct
+>  block/vmdk.c         | 24 ++++++++++++++++++++----
+>  qapi/block-core.json |  2 ++
+>  2 files changed, 22 insertions(+), 4 deletions(-)
 
-then
+UI review:
 
-> +data item. This should be the common case for any new QMP command that is
-> +intended to be used by machines, as opposed to exclusively human operators.
-> +
-> +Some QMP commands, however, are only intended as adhoc debugging aids for human
+> +++ b/qapi/block-core.json
+> @@ -4597,6 +4597,7 @@
+>  # @adapter-type: The adapter type used to fill in the descriptor. Default: ide.
+>  # @hwversion: Hardware version. The meaningful options are "4" or "6".
+>  #             Default: "4".
+> +# @toolsversion: VMware guest tools version.
 
-ad hoc
+Missing a '(since 6.2)' blurb, and a description of its default value.
 
-> +operators. While they may return large amounts of formatted data, it is not
-> +expected that machines will need to parse the result. The overhead of defining
-> +a fine grained QAPI type for the data may not be justified by the potential
-> +benefit. In such cases, it is permitted to have a command return a simple string
-> +that contains formatted data, however, it is mandatory for the command to use
-> +the 'x-' name prefix. This indicates that the command is not guaranteed to be
-> +long term stable / liable to change in future and is not following QAPI design
-> +best practices. An example where this approach is taken is the QMP command
-> +"x-query-registers". This returns a printf formatted dump of the architecture
-> +specific CPU state. The way the data is formatted varies across QEMU targets,
-> +is liable to change over time, and is only intended to be consumed as an opaque
-> +string by machines.
-> +
->  User Defined Types
->  ~~~~~~~~~~~~~~~~~~
->  
-> -- 
-> 2.31.1
->
+>  # @zeroed-grain: Whether to enable zeroed-grain feature for sparse subformats.
+>  #                Default: false.
+>  #
+> @@ -4610,6 +4611,7 @@
+>              '*backing-file':    'str',
+>              '*adapter-type':    'BlockdevVmdkAdapterType',
+>              '*hwversion':       'str',
+> +            '*toolsversion':    'str',
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
+Is it an arbitrary string, or must a valid value always be parseable
+as a numeric value?  If the latter, then make the QMP representation
+numeric rather than string.
 
 -- 
 Eric Blake, Principal Software Engineer
