@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2A1403CA5
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:39:52 +0200 (CEST)
-Received: from localhost ([::1]:34464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B2B403CB5
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:43:18 +0200 (CEST)
+Received: from localhost ([::1]:45164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNzg0-0003ZD-2E
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:39:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34752)
+	id 1mNzjJ-0002LY-Ig
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:43:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mNzbu-0003jz-0I
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:35:38 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:45137)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mNzc3-0004Ig-24
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:35:47 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:43337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mNzbr-0003pJ-5q
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:35:37 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mNzbz-0003w6-DO
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:35:46 -0400
 Received: from quad ([82.142.27.6]) by mrelayeu.kundenserver.de (mreue009
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MLz3R-1mfnZk2X3J-00Hv7O; Wed, 08
- Sep 2021 17:35:33 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MTznO-1mXJGW0HL8-00QxnB; Wed, 08
+ Sep 2021 17:35:34 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/12] mac_via: move q800 VIA1 timer variables to q800 VIA1
- VMStateDescription
-Date: Wed,  8 Sep 2021 17:35:23 +0200
-Message-Id: <20210908153529.453843-7-laurent@vivier.eu>
+Subject: [PULL 07/12] mac_via: move VIA1 reset logic from mac_via_reset() to
+ mos6522_q800_via1_reset()
+Date: Wed,  8 Sep 2021 17:35:24 +0200
+Message-Id: <20210908153529.453843-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210908153529.453843-1-laurent@vivier.eu>
 References: <20210908153529.453843-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ewZF2ORRbufnA7lHqAK+1c5tVQlQhRmIe4nNXrZEfdzOPuEPYMI
- 62oS8G+zPQwpHCsWjyTXI8RYDhfF474lBsKvYuveAGLCS42eWddMkvpm2K5ynchphqXY3yJ
- tqZ9J5aoeWqJv4LawoWSuDOWsMI7BcCPspTtYY5tmyaqAL6+86Dxn6w6R846DZs/jlwHFyF
- kut4eR0WyMFjm2ZOAHXDA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/pOmEockyF4=:vsrI+kjJqAOxEoZPeJUvtm
- 2STzrWBEKALWbS9YiCrtOPZ8BnlooJa9oZtQZmqaEPBggegdq6wca4fr62DW/zgbmyiaDcSX8
- bfd8Tzr9pi5nXAuiWONlKwE0p20n1CjhIzytLHvQpabdbFDgIUvDO6Pf0ZYagSfR+Dhl64B65
- NNybuJGHMTBiZGrpxkwc6fFtA+naLkhSqt2H10C3pJ0jAbU6ijUaVZPTYDHBzOg3ML51p6d3D
- B5MDMQ6e0dkFC/ipA1mII4AUTHKymQTh0+I/81Am74t2aGvTulM94L/To8VcJ3gONa1UyDD4d
- JvZqm8IUxZq9QucCVczcJLt5DTLIqb1CJPy1/RVPirf1QlhPa7dG8/qxcE4b6JntxZPJJJJek
- 9Q5OZlKjTfQbWFoxedmGuzAiNiZ91cqb+PskmxTNm1axyxxKpjxa7MI3K1nmpooj13Hnm0EUs
- n3ih158L75elpxYLLmULtsdXPhr5sf7GMhmIdQiXR0taohHL/vVcg4OapEgfOlyXcmjBz22Uf
- BpQk5qrdCkT5eYPKlDdTelCeSNYx0UUjg5bmZ8FbL4+XiEqUn8lZK6c+mlJW5fEhx2/gK9Asp
- AC1mfbziV3lRYLf9u5SRRaqIeN9/xSowtQBbT1223zhn/sfBBdBM4mUl7wIUjzsDRM37TwvTl
- ll7lWvNecqFAArZHZKr9LiRLerz2wmT/GGRXwZlahWaNoA3Ih2a7L9pltdsAGHV/9Fg8SWw29
- Wlxgvpx2aVIftqk095q3QX2ICae17WvsqQgxKA==
+X-Provags-ID: V03:K1:mGRE4x8hf0sqPHDyJhnCWll5dtKJ6b1Ftu7E3x+HH70PeAAE2wH
+ PXbHV9mXIFTWWsmZY6be1aAqyqBvugaXxNLO9JaehR1ChdelP4I8rPdwcRe9JFDbPWydFwf
+ 6a+kKLQW2uadgSBEHhPVbmSsyWOc2peXlHwoCRW46faFvI9Mw6NuminTD068bt47ixmCkTu
+ aOYkoTJtXaLV1FrXbg6qg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lUCLxtEORvw=:UpoWr/uSNVl6L+HYOJuHQf
+ hciQSfse7a2G11RpO4Pmy2So8VMm1YBIBBQdomA6rfawWc0bBeRt3GA5nkDAR3WSlEcV1ZtMR
+ vv2UFg0GFBbsLrRQ+43UJ+YUrTst3kvP+74gr8bAKi0lefpK9f0AaCkj1gjjFvsVSb/x8Vs6j
+ VgEbSJUib2P5D+q9gAB7+RnOqzWuZdC9fB7paLpMLO0XvglLXDVFiSgMYugFgyWsxuJu4rHuA
+ LShH07EmZbM2o5oDSNzFWQnFWoFy3FJ+//CiFw0DkGpprAMR4yRHkjyigHX7YqS6qZ4VWz/Ti
+ EB9+1/+RCXFeVjyy6BPQYhROoVqcxpDoypme62JX/iLo/BUSvU9+fBOpd0asA2f+cnFBKvHeo
+ SoBFn67Y9QdesJp2wF/KIusDruxBJ9alMiNkt1O+6aztTF2WloRW8fJPBvZWSPdGtvUaqjJb2
+ fTbU0id9Dp+NTZ6zf1gyWzxVACYZOYMQEQLGpGV58isCqL38dpRj10UrFHfKDDfRxORfLbP0G
+ /Bnm2iIWxRc6NSloQM2spa7zOOhYnD7haNh1I/7nUbm2PZbOeCxy+XAKUGSzpHmqSxLK33rhb
+ fl5OFo2YAvo+T6bafb1q0Mze5Jo1sEzeeKyCmaBxerG7+d7RUNhUu00YU7eelup6YIIQe9qft
+ vULlrBZFEDjmdX1h7R26vfTkFUZtl0IJ7MhCAppOYwaaInjwjnvKfLGBseCGn6+1sBIHBPdMD
+ MZp5gPjU8vMjIT2t/3qs5YYw4lie5EPoNtl4Fg==
 Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -68,70 +69,79 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-These variables are already present in MOS6522Q800VIA1State and so it is just
-the VMStateDescription move that is needed.
-
-With this change the mac_via VMStateDescription is now empty and can be removed
-completely.
+After this change mac_via_reset() is now empty and can be removed.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210830102447.10806-7-mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210830102447.10806-8-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/misc/mac_via.c | 20 +++++---------------
- 1 file changed, 5 insertions(+), 15 deletions(-)
+ hw/misc/mac_via.c | 22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
 
 diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index b4a65480fdc8..47e221dd88cf 100644
+index 47e221dd88cf..a2df17d9bed1 100644
 --- a/hw/misc/mac_via.c
 +++ b/hw/misc/mac_via.c
-@@ -1067,27 +1067,12 @@ static int via1_post_load(void *opaque, int version_id)
-     return 0;
- }
+@@ -945,18 +945,6 @@ static const MemoryRegionOps mos6522_q800_via2_ops = {
+     },
+ };
  
--static const VMStateDescription vmstate_mac_via = {
--    .name = "mac-via",
--    .version_id = 2,
--    .minimum_version_id = 2,
--    .fields = (VMStateField[]) {
--        /* VIAs */
--        VMSTATE_TIMER_PTR(mos6522_via1.one_second_timer, MacVIAState),
--        VMSTATE_INT64(mos6522_via1.next_second, MacVIAState),
--        VMSTATE_TIMER_PTR(mos6522_via1.sixty_hz_timer, MacVIAState),
--        VMSTATE_INT64(mos6522_via1.next_sixty_hz, MacVIAState),
--        VMSTATE_END_OF_LIST()
--    }
--};
+-static void mac_via_reset(DeviceState *dev)
+-{
+-    MacVIAState *m = MAC_VIA(dev);
+-    MOS6522Q800VIA1State *v1s = &m->mos6522_via1;
+-    ADBBusState *adb_bus = &v1s->adb_bus;
 -
- static void mac_via_class_init(ObjectClass *oc, void *data)
+-    adb_set_autopoll_enabled(adb_bus, true);
+-
+-    v1s->cmd = REG_EMPTY;
+-    v1s->alt = REG_EMPTY;
+-}
+-
+ static void mac_via_realize(DeviceState *dev, Error **errp)
  {
+     MacVIAState *m = MAC_VIA(dev);
+@@ -1072,7 +1060,6 @@ static void mac_via_class_init(ObjectClass *oc, void *data)
      DeviceClass *dc = DEVICE_CLASS(oc);
  
      dc->realize = mac_via_realize;
-     dc->reset = mac_via_reset;
--    dc->vmsd = &vmstate_mac_via;
+-    dc->reset = mac_via_reset;
  }
  
  static TypeInfo mac_via_info = {
-@@ -1150,6 +1135,11 @@ static const VMStateDescription vmstate_q800_via1 = {
-         VMSTATE_BUFFER(adb_data_in, MOS6522Q800VIA1State),
-         VMSTATE_BUFFER(adb_data_out, MOS6522Q800VIA1State),
-         VMSTATE_UINT8(adb_autopoll_cmd, MOS6522Q800VIA1State),
-+        /* Timers */
-+        VMSTATE_TIMER_PTR(one_second_timer, MOS6522Q800VIA1State),
-+        VMSTATE_INT64(next_second, MOS6522Q800VIA1State),
-+        VMSTATE_TIMER_PTR(sixty_hz_timer, MOS6522Q800VIA1State),
-+        VMSTATE_INT64(next_sixty_hz, MOS6522Q800VIA1State),
-         VMSTATE_END_OF_LIST()
-     }
- };
+@@ -1086,8 +1073,10 @@ static TypeInfo mac_via_info = {
+ /* VIA 1 */
+ static void mos6522_q800_via1_reset(DeviceState *dev)
+ {
+-    MOS6522State *ms = MOS6522(dev);
++    MOS6522Q800VIA1State *v1s = MOS6522_Q800_VIA1(dev);
++    MOS6522State *ms = MOS6522(v1s);
+     MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(ms);
++    ADBBusState *adb_bus = &v1s->adb_bus;
+ 
+     mdc->parent_reset(dev);
+ 
+@@ -1095,6 +1084,11 @@ static void mos6522_q800_via1_reset(DeviceState *dev)
+     ms->timers[1].frequency = VIA_TIMER_FREQ;
+ 
+     ms->b = VIA1B_vADB_StateMask | VIA1B_vADBInt | VIA1B_vRTCEnb;
++
++    /* ADB/RTC */
++    adb_set_autopoll_enabled(adb_bus, true);
++    v1s->cmd = REG_EMPTY;
++    v1s->alt = REG_EMPTY;
+ }
+ 
+ static void mos6522_q800_via1_init(Object *obj)
 -- 
 2.31.1
 
