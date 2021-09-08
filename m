@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB3E403C43
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:07:10 +0200 (CEST)
-Received: from localhost ([::1]:34544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0E36403C4E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:11:04 +0200 (CEST)
+Received: from localhost ([::1]:41734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNzAL-0006qw-OA
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:07:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55028)
+	id 1mNzE6-0003PV-AV
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:11:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNz86-0005T7-Ch
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:04:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44878)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNzCc-0001yX-3M
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:09:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNz84-0002zn-Qt
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:04:50 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNzCS-0006qA-Ht
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:09:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631113485;
+ s=mimecast20190719; t=1631113759;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Qe+Fvox/Y6hysJn2de5feHP0lwIaNK4c3YlaHGiqSzo=;
- b=ZUpiuQtwXWQZ64sOS5oBr25gu/f1aIANAIJZVNgR6LM4oBK8nVzUd+qEmNAy8ZKDQvm3Ho
- CelAtcKoYp7eLz7cpkPSigSYL9Zq6T0B/61wk2DjOZP565WIoXxmHOUrmIv91/Sg+Ix9pZ
- USmqGDdBIrcIIsYpltl0HebYVFtJAzA=
+ bh=axQyIexBJuEt90gNFeQcEt6mxYjyz75HytoOJS3tRdo=;
+ b=Z75aX3Sz016HyFcfMj/YVMl3mCJR6MYNzGesDeE563RMGSqHwbMccUV9oWU48bqh9EY1cO
+ OvCpKUk/8PQAyfZmfrNzn2C9H7Udr3jBKE3XDQiuKWiX+zviR6tgpz4UIr1oi6FqaPgsrT
+ +1QJXN2xAkPIIc8VQmakVN8eJLUM6Yo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-A_p2xqGhMYi2DTfn-CHF0w-1; Wed, 08 Sep 2021 11:04:44 -0400
-X-MC-Unique: A_p2xqGhMYi2DTfn-CHF0w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-394-IxpYlROBMnaSSw0dtxDOgQ-1; Wed, 08 Sep 2021 11:09:16 -0400
+X-MC-Unique: IxpYlROBMnaSSw0dtxDOgQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BAFB111ED65
- for <qemu-devel@nongnu.org>; Wed,  8 Sep 2021 15:04:09 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.211])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB6A87F0C8;
- Wed,  8 Sep 2021 15:04:08 +0000 (UTC)
-Date: Wed, 8 Sep 2021 16:04:07 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: [PATCH 0/2] iothread: cleanup after adding a new parameter to
- IOThread
-Message-ID: <YTjQ5yT+q6FL3F5J@stefanha-x1.localdomain>
-References: <20210727145936.147032-1-sgarzare@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3432362F8;
+ Wed,  8 Sep 2021 15:09:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 17F305D9C6;
+ Wed,  8 Sep 2021 15:09:15 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9D5AF1138606; Wed,  8 Sep 2021 17:09:13 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH 0/5] Stop adding HMP-only commands, allow QMP for all
+References: <20210908103711.683940-1-berrange@redhat.com>
+Date: Wed, 08 Sep 2021 17:09:13 +0200
+In-Reply-To: <20210908103711.683940-1-berrange@redhat.com> ("Daniel
+ P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Wed, 8 Sep 2021 11:37:06
+ +0100")
+Message-ID: <875yvbrtnq.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210727145936.147032-1-sgarzare@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZrP/KZ05g7MT6yyx"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,50 +81,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---ZrP/KZ05g7MT6yyx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-On Tue, Jul 27, 2021 at 04:59:34PM +0200, Stefano Garzarella wrote:
-> We recently added a new parameter (aio-max-batch) to IOThread.
-> This series cleans up the code a bit, no functional changes.
->=20
-> Stefano Garzarella (2):
->   iothread: rename PollParamInfo to IOThreadParamInfo
->   iothread: use IOThreadParamInfo in iothread_[set|get]_param()
->=20
->  iothread.c | 28 +++++++++++++++-------------
->  1 file changed, 15 insertions(+), 13 deletions(-)
->=20
-> --=20
-> 2.31.1
->=20
+> We are still adding HMP commands without any QMP counterparts. This is
+> done because there are a reasonable number of scenarios where the cost
+> of designing a QAPI data type for the command is not justified.
+>
+> This has the downside, however, that we will never be able to fully
+> isolate the monitor code from the remainder of QEMU internals. It is
+> desirable to be able to get to a point where subsystems in QEMU are
+> exclusively implemented using QAPI types and never need to have any
+> knowledge of the monitor APIs.
+>
+> The way to get there is to stop adding commands to HMP only. All
+> commands must be implemented using QMP, and any HMP implementation
+> be a shim around the QMP implementation.
+>
+> We don't want to compromise our supportability of QMP long term though.
+>
+> This series proposes that we relax our requirements around fine grained
+> QAPI data design,
 
-Thanks, applied to my block tree:
-https://gitlab.com/stefanha/qemu/commits/block
+Specifics?  QMP command returns a string, HMP wrapper prints that
+string?
 
-Stefan
+>                   but with the caveat that any command taking this
+> design approach is mandated to use the 'x-' name prefix.
+>
+> This tradeoff should be suitable for any commands we have been adding
+> exclusively to HMP in recent times, and thus mean we have mandate QMP
+> support for all new commands going forward.
+>
+> This series illustrates the concept by converting the "info registers"
+> HMP to invoke a new 'x-query-registers' QMP command. Note that only
+> the i386 CPU target is converted to work with this new approach, so
+> this series needs to be considered incomplete. If we go forward with
+> this idea, then a subsequent version of this series would need to
+> obviously convert all other CPU targets.
+>
+> After doing that conversion the only use of qemu_fprintf() would be
+> the disas.c file. Remaining uses of qemu_fprintf and qemu_printf
+> could be tackled in a similar way and eventually eliminate the need
+> for any of these printf wrappers in QEMU.
+>
+> NB: I added docs to devel/writing-qmp-commands.rst about the two
+> design approaches to QMP. I didn't see another good place to put
+> an explicit note that we will not add any more HMP-only commands.
+> Obviously HMP/QMP maintainers control this in their reviews of
+> patches, and maybe that's sufficient ?
 
---ZrP/KZ05g7MT6yyx
-Content-Type: application/pgp-signature; name="signature.asc"
+We could add devel/writing-hmp-commands.rst, or go with a single
+document devel/writing-monitor-commands.rst.
 
------BEGIN PGP SIGNATURE-----
+> NB: if we take this approach we'll want to figure out how many
+> HMP-only commands we actually have left and then perhaps have
+> HMP-only commands we actually have left
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE40OcACgkQnKSrs4Gr
-c8gjHAgAqoFz8TTlsW4Ed+Kap0c35SOXtCETXN8KwXeg6fVwnw02oYgfzdy6C1ON
-3OZm1MTOtZk8425IAI0t2n5WVw6dm56YwlLSvEP4LVlraIIbUH44RFO7g4vP1ZSo
-6mIrG3Ii//SF/+D3U+T2KnjCd/5ZzH9XojVQA6I4AitWHQgovuioxa2qbN+AYTKf
-JxwlVGG0R1OmSPGJMIiJ6IsgsvpX8fiEaMEjcIms5retA/3VQMbnHVktQwBr8z9i
-O158wMy9KoKtMpeOPlfjuh+fRFQflsTTz60uPqilXYTvgPw62tQcXZPItv0vxckV
-+AysksBfuFeTelYpRLyUZxEyy/M4lQ==
-=vcPr
------END PGP SIGNATURE-----
+Yes.
 
---ZrP/KZ05g7MT6yyx--
+For many HMP commands, a QMP commands with the same name exists, and the
+former is probably a wrapper around the latter.  Same for HMP "info FOO"
+and QMP query-FOO.
+
+HMP commands without such a match:
+
+    boot_set
+    change
+    commit
+    cpu
+    delvm
+    drive_add
+    drive_del
+    exit_preconfig
+    gdbserver
+    gpa2hpa
+    gpa2hva
+    gva2gpa
+    help
+    hostfwd_add
+    hostfwd_remove
+    i
+    info
+    info capture
+    info cmma
+    info cpus
+    info history
+    info ioapic
+    info irq
+    info jit
+    info lapic
+    info mem
+    info mtree
+    info network
+    info numa
+    info opcount
+    info pic
+    info profile
+    info qdm
+    info qom-tree
+    info qtree
+    info ramblock
+    info rdma
+    info registers
+    info roms
+    info skeys
+    info snapshots
+    info sync-profile
+    info tlb
+    info trace-events
+    info usb
+    info usbhost
+    info usernet
+    loadvm
+    log
+    logfile
+    mce
+    migrate_set_capability
+    migrate_set_parameter
+    migration_mode
+    mouse_button
+    mouse_move
+    mouse_set
+    nmi
+    o
+    pcie_aer_inject_error
+    print
+    qemu-io
+    savevm
+    sendkey
+    singlestep
+    snapshot_blkdev
+    snapshot_blkdev_internal
+    snapshot_delete_blkdev_internal
+    stopcapture
+    sum
+    sync-profile
+    trace-event
+    trace-file
+    watchdog_action
+    wavcapture
+    x
+    xp
+
+This is 77 out of 170 HMP commands.  I was hoping for fewer.
+
+>                                         and then perhaps have
+> a task to track their conversion to QMP. This could possibly
+> be a useful task for newbies if we make it clear that they
+> wouldn't be required to undertake complex QAPI modelling in
+> doing this conversion.
+
+Yes.
+
+Thanks for tackling this!
 
 
