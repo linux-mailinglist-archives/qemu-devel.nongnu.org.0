@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DFE240404A
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 22:47:47 +0200 (CEST)
-Received: from localhost ([::1]:33512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC93340404B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 22:48:07 +0200 (CEST)
+Received: from localhost ([::1]:34192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mO4Ty-00028y-5B
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 16:47:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41126)
+	id 1mO4UJ-0002bz-0V
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 16:48:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mO4S0-0000o4-GT
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 16:45:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37545)
+ id 1mO4SE-0001DU-C3
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 16:45:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mO4Rx-0000Qt-HG
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 16:45:43 -0400
+ id 1mO4SC-0000bv-OQ
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 16:45:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631133939;
+ s=mimecast20190719; t=1631133956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RRtcUZvx5ZzivmG7XQQhgF4FfNxFYNnbxWG9PmYfDuk=;
- b=h+kC7m+0Q/auDyIFp7CoQ0c1+JorOWW0mGe4Fp9LwbOs61vmP5GPHNTPVBZvpSYCPx0wZA
- 4Jj6ums7dy1zF8K+6foDJ3Awx/V9axT8+SYC2/IrgK2Ao4HNqnxtToiXReJlNz+/s5JisJ
- tRhpHUDJHidYq0BkDYWZCzuQe7JV9O8=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-GlDUiDG5MNWyfMV8VYJUgA-1; Wed, 08 Sep 2021 16:45:38 -0400
-X-MC-Unique: GlDUiDG5MNWyfMV8VYJUgA-1
-Received: by mail-oo1-f70.google.com with SMTP id
- j22-20020a4ad196000000b002903f4c4467so2020084oor.1
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 13:45:38 -0700 (PDT)
+ bh=5sdy/ct/oQTiCaRjwGY9g71XATxH8HkaoxpCa2DMTUQ=;
+ b=Vu0kRq2FJFU/nGvsLV1L6SmCflkRsP0lWzEJpgc6bcGSrIPkypHq/xF9bQ/nz3KTyBsTjL
+ prGvW4MItjq/XQ52cI1PO8OuLhuxe8Dsnk1Nvuk+LsIQ8jGjdQnVUuNv+J6XJiMtO+GYMl
+ SUikzSP3OENJ8n5PIIv9PwhMmJQMu1o=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-532-0JSzSb1qMxW3-MyVJ-wvPw-1; Wed, 08 Sep 2021 16:45:55 -0400
+X-MC-Unique: 0JSzSb1qMxW3-MyVJ-wvPw-1
+Received: by mail-ot1-f69.google.com with SMTP id
+ x38-20020a05683040a600b0051e1c81337bso2176506ott.3
+ for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 13:45:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:organization:mime-version:content-transfer-encoding;
- bh=RRtcUZvx5ZzivmG7XQQhgF4FfNxFYNnbxWG9PmYfDuk=;
- b=kl5nCFm6xuImLUuqcXtH7DytzTwa84zUAOsDoxZuphOYdi/GJ0yaMrBpD7qPxTjsfu
- SvCBQ1exg+kQZhQc2PzWERrdnMM65ckO/I61qQSgfkZLyEoelNqOKO2GbvQph7ty4LBK
- FH/GuvKlcEJJbpJd6UoTLZxd2E+QT56kyYOnvsXLmL6SEFdLSOFj4lzxANJv3aH9cxMH
- sNFBic6nfJ3gtgcX8Ijji7o9tdNggM4prnTgP96VYALC6o4ttYixh+wd4eLLtGsSVnpd
- ijdtbb3h9o9G0WdwXaHdKT/NP3TVeUeNHyROlgH+Zw0RjHxTA4CQpIWfVAmHGB1csgNg
- x+mA==
-X-Gm-Message-State: AOAM532x97arp0965Tw0zVg8TxbCB1ctoYIkL1bIAVuvftD4gSEP+k0S
- KknaC6eEoDrZQdV8bJk3JsKHXTzFSzAp2z59gu0aBvbM0E1bCkORcBFLQyikfafoajhQbH7CKb6
- ezB2iu5UARWzht1s=
-X-Received: by 2002:a4a:d108:: with SMTP id k8mr176537oor.90.1631133937540;
- Wed, 08 Sep 2021 13:45:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy2X3ejV/eeCG2io5pRAWDLw1TDFjbMN9u135o6IOK72VEXjcrnEAqjk3LLERM0b2GxWUZNKg==
-X-Received: by 2002:a4a:d108:: with SMTP id k8mr176517oor.90.1631133937312;
- Wed, 08 Sep 2021 13:45:37 -0700 (PDT)
+ bh=5sdy/ct/oQTiCaRjwGY9g71XATxH8HkaoxpCa2DMTUQ=;
+ b=g0Q6gLma0FGmablATWkN3GfjRCJJ/YwZhHNM/XQUHJ5d1omWUNtqdugOZXgAX0PSVn
+ RftQfNcl5qqfnTU/ltLTDVlLlVXIZmOi++9rWK0owqHu931OdqH2ErTNSpi3MQlFwm7F
+ pb0tgI1rkB/XJw2U7dJ8SeDGrd2T3dOTalXUL/fr3cI+H+O+5P3jcO78uBh6gF4EAQGu
+ egNTNMItNq5Ii9to956ykedYWJuEBdlVQX1OWNDU7IyoU9iiyFkKeUMYHF/0DCZHR6V0
+ s0FOZUidunE42preVB8DzyBzGXp44x4mdRQ1MkTFVxDp6k4Uq+QmVMxX2VsbHfG0jdJE
+ 8WCA==
+X-Gm-Message-State: AOAM531CVO/ma7qnucFQlSdBOspSxF73sWPRBF8YaIQMA0L2VczAq1A+
+ ZO03ivK0UrDK6QMDwqKmvXh7H5Y+QqGF21j0J/91/pLOx1rsVBFFUDglJkJtzUi0khSRcBUcMv6
+ 9SHXSE9bk9ebwnLQ=
+X-Received: by 2002:a4a:d814:: with SMTP id f20mr163881oov.51.1631133954312;
+ Wed, 08 Sep 2021 13:45:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy2dlOY5ebtg8bNvgg+3JMUUI0gibk3BhgZhG02FwxbG2FTPISvPZg5yXR8TpWAm2GXS7By8w==
+X-Received: by 2002:a4a:d814:: with SMTP id f20mr163867oov.51.1631133954120;
+ Wed, 08 Sep 2021 13:45:54 -0700 (PDT)
 Received: from redhat.com ([198.99.80.109])
- by smtp.gmail.com with ESMTPSA id 17sm42598oip.16.2021.09.08.13.45.36
+ by smtp.gmail.com with ESMTPSA id a1sm45950otr.33.2021.09.08.13.45.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Sep 2021 13:45:36 -0700 (PDT)
-Date: Wed, 8 Sep 2021 14:45:35 -0600
+ Wed, 08 Sep 2021 13:45:53 -0700 (PDT)
+Date: Wed, 8 Sep 2021 14:45:52 -0600
 From: Alex Williamson <alex.williamson@redhat.com>
 To: Kunkun Jiang <jiangkunkun@huawei.com>
-Subject: Re: [PATCH 1/2] vfio/pci: Fix vfio-pci sub-page MMIO BAR mmaping in
- live migration
-Message-ID: <20210908144535.66463b6c.alex.williamson@redhat.com>
-In-Reply-To: <20210903093611.1159-2-jiangkunkun@huawei.com>
+Subject: Re: [PATCH 2/2] vfio/common: Add trace point when a MMIO RAM
+ section less than PAGE_SIZE
+Message-ID: <20210908144552.1f7f072e.alex.williamson@redhat.com>
+In-Reply-To: <20210903093611.1159-3-jiangkunkun@huawei.com>
 References: <20210903093611.1159-1-jiangkunkun@huawei.com>
- <20210903093611.1159-2-jiangkunkun@huawei.com>
+ <20210903093611.1159-3-jiangkunkun@huawei.com>
 Organization: Red Hat
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -105,60 +105,56 @@ Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 3 Sep 2021 17:36:10 +0800
+On Fri, 3 Sep 2021 17:36:11 +0800
 Kunkun Jiang <jiangkunkun@huawei.com> wrote:
 
-> We expand MemoryRegions of vfio-pci sub-page MMIO BARs to
-> vfio_pci_write_config to improve IO performance.
-> The MemoryRegions of destination VM will not be expanded
-> successful in live migration, because their addresses have
-> been updated in vmstate_load_state (vfio_pci_load_config).
+> The MSI-X structures of some devices and other non-MSI-X structures
+> are in the same BAR. They may share one host page, especially in the
+> case of large page granularity, suck as 64K.
 
-What's the call path through vfio_pci_write_config() that you're
-relying on to get triggered to enable this and why wouldn't we just
-walk all sub-page BARs in vfio_pci_load_config() to resolve the issue
-then?  It's my understanding that we do this update in write-config
-because it's required that the VM sizes the BAR before using it, which
-is not the case when we resume from migration.  Thanks,
+s/suck/such/
 
+> For example, MSIX-Table size of 82599 NIC is 0x30 and the offset in
+> Bar 3(size 64KB) is 0x0. If host page size is 64KB.
+> vfio_listenerregion_add() will be called to map the remaining range
+
+s/vfio_listenerregion_add/vfio_listener_region_add/
+
+> (0x30-0xffff). And it will return early at
+> 'int128_ge((int128_make64(iova), llend))' and hasn't any message.
+> Let's add a trace point to informed users like 5c08600547c did.
+
+Please use the following syntax for referencing previous commits
+(12-char sha1 is standard):
+
+  commit 5c08600547c0 ("vfio: Use a trace point when a RAM section
+  cannot be DMA mapped")
+
+Thanks,
 Alex
- 
-> Remove the restriction on base address change in
-> vfio_pci_write_config for correct mmapping sub-page MMIO
-> BARs. Accroding to my analysis, the remaining parameter
-> verification is enough.
-> 
-> Fixes: c5e2fb3ce4d (vfio: Add save and load functions for VFIO PCI devices)
-> Reported-by: Nianyao Tang <tangnianyao@huawei.com>
-> Reported-by: Qixin Gan <ganqixin@huawei.com>
+
 > Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
 > ---
->  hw/vfio/pci.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
+>  hw/vfio/common.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index e1ea1d8a23..891b211ddf 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -1189,18 +1189,12 @@ void vfio_pci_write_config(PCIDevice *pdev,
->          }
->      } else if (ranges_overlap(addr, len, PCI_BASE_ADDRESS_0, 24) ||
->          range_covers_byte(addr, len, PCI_COMMAND)) {
-> -        pcibus_t old_addr[PCI_NUM_REGIONS - 1];
->          int bar;
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 8728d4d5c2..2fc6213c0f 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -892,6 +892,13 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>      llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask));
 >  
-> -        for (bar = 0; bar < PCI_ROM_SLOT; bar++) {
-> -            old_addr[bar] = pdev->io_regions[bar].addr;
-> -        }
-> -
->          pci_default_write_config(pdev, addr, val, len);
->  
->          for (bar = 0; bar < PCI_ROM_SLOT; bar++) {
-> -            if (old_addr[bar] != pdev->io_regions[bar].addr &&
-> -                vdev->bars[bar].region.size > 0 &&
-> +            if (vdev->bars[bar].region.size > 0 &&
->                  vdev->bars[bar].region.size < qemu_real_host_page_size) {
->                  vfio_sub_page_bar_update_mapping(pdev, bar);
->              }
+>      if (int128_ge(int128_make64(iova), llend)) {
+> +        if (memory_region_is_ram_device(section->mr)) {
+> +            trace_vfio_listener_region_add_no_dma_map(
+> +                memory_region_name(section->mr),
+> +                section->offset_within_address_space,
+> +                int128_getlo(section->size),
+> +                qemu_real_host_page_size);
+> +        }
+>          return;
+>      }
+>      end = int128_get64(int128_sub(llend, int128_one()));
 
 
