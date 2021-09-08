@@ -2,91 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9684033F3
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 07:55:02 +0200 (CEST)
-Received: from localhost ([::1]:56746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9EE34033F8
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 07:56:26 +0200 (CEST)
+Received: from localhost ([::1]:58884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNqY2-0007Fi-1n
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 01:55:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46704)
+	id 1mNqZN-0000Jy-Oy
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 01:56:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNqWf-0006R9-Rb
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 01:53:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37263)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNqWe-00034g-48
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 01:53:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631080415;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MjYYIASgk6ylk1MWCKo8yh6U0TJvBaulzxRoFhnTUQQ=;
- b=SGSXWn0maLkknRVWeXNeWYFL7V7FrK2f7kzF5kiwPPA9Z+3PGDT6J7y+aRXjz/wGuJy/xY
- hEvEbX5kRdcvkrbHRcv2+9UeVIAmPin1GAoLGvqKE44N7WUxySKUARZK+fjuX6io/t+Eb/
- 5ahMQ3W//LN1Y/q0FPg7UXUqhDKIdQ0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-505-dz18BNgEP2O2EmoL5wLS4Q-1; Wed, 08 Sep 2021 01:53:30 -0400
-X-MC-Unique: dz18BNgEP2O2EmoL5wLS4Q-1
-Received: by mail-wm1-f70.google.com with SMTP id
- c203-20020a1c9ad4000000b002f8cba155ccso555698wme.4
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 22:53:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mNqWp-0006bW-M5; Wed, 08 Sep 2021 01:53:47 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:46069)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mNqWo-0003Ce-9y; Wed, 08 Sep 2021 01:53:47 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id c206so1873337ybb.12;
+ Tue, 07 Sep 2021 22:53:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yY3cIVJ4t+f/TjVBHCAvYuk1iDgnrl7gRmC6RRqq62o=;
+ b=L7g9EpaJXdaOqtSbg7caIWaHZuFUbx3tFhuSeQmx0/cw00BeEutT7CZjnuaJTKpBZ9
+ AH2IhDec0KHUScU82s0tSMHNnXaUxlRVEuDjAKkTwBdUGKPwrIg9OiGkGpgJQgWEUes0
+ ernIsmg5oIRuK5PTJ3LbdV4XiH39PmbEfD1GVB/ngXvsFClkHsOXq165JeXWDZAdcS7J
+ pyRfPL3uEm07sLi6QXT2cWBXEVtZMIBFGI8A75gQgGv3pUzqLXjhcicnZFv7A09xYuWP
+ pHumP6ZNqu3E2C+8KtDpyYExySa2FdOXI/OZYE9o4loELv4xT8J1tfRBkGgbwgJTu5r8
+ zZIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MjYYIASgk6ylk1MWCKo8yh6U0TJvBaulzxRoFhnTUQQ=;
- b=pV9LHC5/ZpNwSmn29i98Qc0mwEi6X2XAKbP6OTuZJkCzedBcMnMH/9mOatMvtdFFvH
- N2wRHiGbFNrO5O+JBpZgPTHHXy050X2UrN42Htljqoa5f1d94e8J1kHzYmvaR9LdyIbT
- j4/kYZk/eiahTydsid+vDSvSgm+B4RGK6m4OjjAq5J4BipX/TvUTloSDCIdcS0NzJns1
- lPo2a9CcsaBkN2I7ZCYvrTVHAXkCpbI2bg6nUttGc0s1HX4oFPSpnqxZaWg2I49Sudvp
- DwpRjUfVJCl/XUPBlAoHtvrauvyQxa+wVNzOmHyn24pAsWkgkOwKNCuVJGgsvYELHdE5
- Smog==
-X-Gm-Message-State: AOAM532EvW7aAb6yVM3TfK27wsEnRdTsEmwbTs2zlCmsm2HpfxFowFCC
- 5gASeHBdD7W/zV4aZD8uDn1tstpBrnqh8qAqUZyNWgdwDnH+jEPHkbBDXkds6QH3qEpJXZdehjv
- YhpiI7WgDBTMkKZw=
-X-Received: by 2002:adf:e606:: with SMTP id p6mr1902525wrm.231.1631080409786; 
- Tue, 07 Sep 2021 22:53:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyEy/SjaqsBok7XCLIjk2zEcfTZk4nynNamCcrG9aONdVlGbXLTUnkt5dUpqSC7yCMOBbRvRw==
-X-Received: by 2002:adf:e606:: with SMTP id p6mr1902512wrm.231.1631080409583; 
- Tue, 07 Sep 2021 22:53:29 -0700 (PDT)
-Received: from thuth.remote.csb (pd95752bf.dip0.t-ipconnect.de.
- [217.87.82.191])
- by smtp.gmail.com with ESMTPSA id 19sm1003726wmo.39.2021.09.07.22.53.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Sep 2021 22:53:29 -0700 (PDT)
-Subject: Re: [PATCH] fuzz: fix unbound variable in build.sh
-To: Alexander Bulekov <alxndr@bu.edu>
-References: <20210907110841.3341786-1-alxndr@bu.edu>
- <8995d50d-dbd5-c37c-6bd0-477e2f58d1aa@redhat.com>
- <20210907125108.44h7vpprunbb7yy4@mozz.bu.edu>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <97821a92-b067-7527-c1ec-5b1469fcab58@redhat.com>
-Date: Wed, 8 Sep 2021 07:53:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yY3cIVJ4t+f/TjVBHCAvYuk1iDgnrl7gRmC6RRqq62o=;
+ b=T9OazkWTOJW3oPlIcZwYtUIxhnFq0ONdTnY3exT/TTlRtRSWN0YGl5uP0ziUyPG6fn
+ NCmT7PMVgliwCx0wQm0lQtVb9US3543C3K/Ju7PzZsW4m8s0zkrVCY2MYhW0i9e8t+wi
+ +gSauArFIWMNyoXBOrCLtlrfNImbnyXJz9oOt9nCiG8cU4+ZQrYa52loqgSBEo9UjuHn
+ 7eZkrvyikgQPwXPbN1YkMVg3ozBM9iIfWi+khIUwujfv2n+wf7VcV0DWq752eSmoIhhs
+ clzOfnKYiNbgLYbMpQEDQTCoRm15RInUp39wq6wMRQQDFhA3nPfsg1/xkm0tQAvLrTuH
+ vn3A==
+X-Gm-Message-State: AOAM532bliGpxXIpDlt869/UpSvBDNInRaEcI8YbdBOhOAMh4Vt5nTu6
+ zqFI5VAErDF+OD6/t9As//sDhlfjnRrnxvcQQYw=
+X-Google-Smtp-Source: ABdhPJyLPmGapK7Hi32kBLRdE9v5NwI65AsDdb8yGQgvpRXdHYVhR4SXgcys+2onG61dseIBzP7H2FMBWmJUqj5EFbg=
+X-Received: by 2002:a05:6902:120a:: with SMTP id
+ s10mr2703172ybu.293.1631080424887; 
+ Tue, 07 Sep 2021 22:53:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210907125108.44h7vpprunbb7yy4@mozz.bu.edu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <cover.1631076834.git.alistair.francis@wdc.com>
+ <6809670a315a07e7e6b435cf7942f82bdd8b99d6.1631076834.git.alistair.francis@wdc.com>
+In-Reply-To: <6809670a315a07e7e6b435cf7942f82bdd8b99d6.1631076834.git.alistair.francis@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 8 Sep 2021 13:53:34 +0800
+Message-ID: <CAEUhbmXThA117GO+nUM9nNAW54ZxwKhn4-t7Eco7mMWS6kxthA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] target/riscv: Implement the stval/mtval illegal
+ instruction
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb33.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,52 +77,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qiuhao Li <Qiuhao.Li@outlook.com>, qemu-devel@nongnu.org,
- Darren Kenny <darren.kenny@oracle.com>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/09/2021 14.51, Alexander Bulekov wrote:
-> On 210907 1432, Thomas Huth wrote:
->> On 07/09/2021 13.08, Alexander Bulekov wrote:
->>> /src/build.sh: line 76: GITLAB_CI: unbound variable
->>> Fix that.
->>>
->>> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
->>> ---
->>>
->>> This change is in preparation to revert:
->>> 7602748c ("qemu: manually build glib (#5919)") on OSS-Fuzz.
->>> Reverting as-is produces an unbound variable complaint when we try to
->>> build the fuzzers in the OSS-Fuzz container.
->>>
->>>    scripts/oss-fuzz/build.sh | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
->>> index 98b56e0521..5ddc769c9c 100755
->>> --- a/scripts/oss-fuzz/build.sh
->>> +++ b/scripts/oss-fuzz/build.sh
->>> @@ -73,7 +73,7 @@ if ! make "-j$(nproc)" qemu-fuzz-i386; then
->>>              "\nFor example: CC=clang CXX=clang++ $0"
->>>    fi
->>> -if [ "$GITLAB_CI" != "true" ]; then
->>> +if [ -z ${GITLAB_CI+x} ]; then
->>
->> My bash-foo is really not the best, but shouldn't there be a colon in there,
->> i.e. ${GITLAB_CI:+x} ?
-> 
-> I think the difference is that GITLAB_CI+x only checks if GITLAB_CI is
-> set, while GITLAB_CI:+x checks that it is set and non-null.
-> https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
-> 
-> I don't think that makes much of a difference here.
+On Wed, Sep 8, 2021 at 12:54 PM Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
+>
+> From: Alistair Francis <alistair.francis@wdc.com>
+>
+> The stval and mtval registers can optionally contain the faulting
+> instruction on an illegal instruction exception. This patch adds support
+> for setting the stval and mtval registers based on the CPU feature.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/cpu.h        |  5 ++++-
+>  target/riscv/cpu_helper.c | 10 ++++++++++
+>  target/riscv/translate.c  | 31 +++++++++++++++++--------------
+>  3 files changed, 31 insertions(+), 15 deletions(-)
+>
 
-TIL, and I agree that it does not make a difference here (and if it would, 
-your variant is certainly better).
-
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
