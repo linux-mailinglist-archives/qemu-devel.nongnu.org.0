@@ -2,51 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0AF740397C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:08:29 +0200 (CEST)
-Received: from localhost ([::1]:56576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8A2403973
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:04:49 +0200 (CEST)
+Received: from localhost ([::1]:49416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNwNQ-0000Mu-Mm
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:08:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33624)
+	id 1mNwJs-0003nu-HR
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:04:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mNwBC-0006gU-CV
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 07:55:50 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59078
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNwGa-0000zw-4r
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:01:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mNwBA-0005ij-TM
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 07:55:50 -0400
-Received: from host86-140-11-91.range86-140.btcentralplus.com ([86.140.11.91]
- helo=kentang.home) by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mNwB5-0009u6-Qq; Wed, 08 Sep 2021 12:55:47 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Date: Wed,  8 Sep 2021 12:54:51 +0100
-Message-Id: <20210908115451.9821-13-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210908115451.9821-1-mark.cave-ayland@ilande.co.uk>
-References: <20210908115451.9821-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNwGP-0000lp-9L
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:01:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631102472;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Hryo2ggHEsDfgRqmE1WAYWOciyEy6Cl4ghptHeO+TLw=;
+ b=Bednqjr3Zt861ymyEk7jBizVoSaS0p3K6okHVleIIgSNrRGKwWTcBghiUg8oHMtnYOuqJI
+ X2VlGdiMAzTydell+zaQP7tu7KagQmSGs+Vuolsx/c/0UoQAtruzK0xJ0wrsFZPe3GDzod
+ w4KAt235vNcQcWf/gR4nYKs4lFzCFbI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-584-mNqr3pNkO7WGdsuMMDfmmQ-1; Wed, 08 Sep 2021 08:01:11 -0400
+X-MC-Unique: mNqr3pNkO7WGdsuMMDfmmQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7710010168C3
+ for <qemu-devel@nongnu.org>; Wed,  8 Sep 2021 12:01:10 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
+ [10.36.112.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 444921000186;
+ Wed,  8 Sep 2021 12:01:10 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C4D4F1138606; Wed,  8 Sep 2021 14:01:08 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [RFC v3 02/32] build-sys: add HAVE_IPPROTO_MPTCP
+References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
+ <20210907121943.3498701-3-marcandre.lureau@redhat.com>
+Date: Wed, 08 Sep 2021 14:01:08 +0200
+In-Reply-To: <20210907121943.3498701-3-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Tue, 7 Sep 2021 16:19:13 +0400")
+Message-ID: <8735qfxomz.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.140.11.91
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 12/12] escc: fix STATUS_SYNC bit in R_STATUS register
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,52 +82,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After an SDLC "Enter hunt" command has been sent the STATUS_SYNC bit should remain
-high until the flag byte has been detected. Whilst the ESCC device doesn't yet
-implement SDLC mode, without this change the active low STATUS_SYNC is constantly
-asserted causing the MacOS OpenTransport extension to hang on startup as it thinks
-it is constantly receiving LocalTalk responses during its initial negotiation
-phase.
+marcandre.lureau@redhat.com writes:
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20210903113223.19551-10-mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- hw/char/escc.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> The QAPI schema shouldn't rely on C system headers #define, but on
+> configure-time project #define, so we can express the build condition in
+> a C-independent way.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-diff --git a/hw/char/escc.c b/hw/char/escc.c
-index 9283ed70a6..0fce4f6324 100644
---- a/hw/char/escc.c
-+++ b/hw/char/escc.c
-@@ -94,6 +94,7 @@
- #define W_IVEC    2
- #define W_RXCTRL  3
- #define RXCTRL_RXEN    0x01
-+#define RXCTRL_HUNT    0x10
- #define W_TXCTRL1 4
- #define TXCTRL1_PAREN  0x01
- #define TXCTRL1_PAREV  0x02
-@@ -561,7 +562,13 @@ static void escc_mem_write(void *opaque, hwaddr addr,
-                 break;
-             }
-             break;
--        case W_INTR ... W_RXCTRL:
-+        case W_RXCTRL:
-+            s->wregs[s->reg] = val;
-+            if (val & RXCTRL_HUNT) {
-+                s->rregs[R_STATUS] |= STATUS_SYNC;
-+            }
-+            break;
-+        case W_INTR ... W_IVEC:
-         case W_SYNC1 ... W_TXBUF:
-         case W_MISC1 ... W_CLOCK:
-         case W_MISC2 ... W_EXTINT:
--- 
-2.20.1
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
