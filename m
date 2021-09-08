@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69BBE403822
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 12:43:50 +0200 (CEST)
-Received: from localhost ([::1]:39942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 107604037B8
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 12:19:44 +0200 (CEST)
+Received: from localhost ([::1]:36734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNv3V-00035S-DC
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 06:43:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39338)
+	id 1mNugB-000477-3i
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 06:19:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNuS9-0006xC-MT
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:05:15 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51824)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNuS4-0003HY-DH
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:05:11 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id y132so1292727wmc.1
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 03:05:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Gp7mqeRq3e3ylXQpJ7SvcJk+47ZSWE8k331AQJCQtB4=;
- b=crt4fMRKvcBgxvy2W3yzBP+5h0hGg7a80f0gy2SFLpfQYtqmqpAdwpirWLbFFf1bZb
- +MMESRZyO1m7CvNWhlx0Gz3aXCdgA0bXZCT1ujYBTkpMSjDRnRzQWEvTeiMGkp0zqFkg
- k5VCzx9UmcLDgMRj1zBwxcHbe+9DUVfLLHJbp2SInf6ap5CMvPqadXtk3dRfujMOQ/8U
- bunPin1LDEXiDroC2vS56oFZHEZcMhua36IjOHVyTyAyaiPhtKsxaMjZV7gyOJWQmUCh
- u0MX82nC6EREdo/x6bhkAiRf0MzX6qhFzlZ4wvcXAA/Iwp8CTdR1l45ji7U8Po/lS/c8
- DJTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Gp7mqeRq3e3ylXQpJ7SvcJk+47ZSWE8k331AQJCQtB4=;
- b=bsSvF5lyn5BkUFsc4z1HTRo278YQZVvPzLeOu7nepe3XGXDbxMorhnyYl53VZHmUSg
- aANnPxNw5tzNsBflwNDdMKb8XJEiQNtG9/O0n3jiYvEZuJqCASCEInqRp+PEX7tK0CGE
- F/XsH5swKNq1Es30UCbSuVZkgfM9T0gtDb8scZ77xVbMCFAlYS5L3bZW8P4FsGEhSIjW
- 554cafKZyJmP7GLpKeqgXYDbmfOX2QydMPG4kFu6hNx70S5hO2eqJWq/RZCv3un9eNqr
- MgS9qbPewjmI68HmwP5Q02C0fG0VAdCxyN10vLJt7DLN/gUUETNbZ9uUMjnq50kUZwAL
- CDNQ==
-X-Gm-Message-State: AOAM530AnBTou396OY2Plq6EI0HvbeSlZPKhX8y0zTzg64T/P08pv/mH
- CnvtA6YBKGJRmXz7gWc29BcI0mTMRIg=
-X-Google-Smtp-Source: ABdhPJwmLPaNZgFQ2gm1GFEHJOOKfMrtaRNoAvHSj+QwdrQ0lyN4S3EZZASGnnZXZQgrOYhu+yjEiw==
-X-Received: by 2002:a1c:e91a:: with SMTP id q26mr2030146wmc.128.1631095507206; 
- Wed, 08 Sep 2021 03:05:07 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u8sm1683715wmq.45.2021.09.08.03.05.06
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Sep 2021 03:05:06 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v4 43/43] ebpf: only include in system emulators
-Date: Wed,  8 Sep 2021 12:04:26 +0200
-Message-Id: <20210908100426.264356-44-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210908100426.264356-1-pbonzini@redhat.com>
-References: <20210908100426.264356-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mNuRo-0006XN-Tn
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:04:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32874)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mNuRl-0002ys-5e
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:04:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631095488;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9hKbytCQcHoIiZgL3lHMpYb4IRomg4nyFm8vBDrF/2g=;
+ b=NvfG0dl36G7numVGhhXzMsGPDNB4mY3h+H1teSBRKTKlPJE0aIB7qQk+tC2Yi3uzcVnBY5
+ TsfrAn29rgGJLdvyyenIDa2FIJjlk935z06Z99Gw4lttZawX81I5cx6p0MNZSgW1U0kT+K
+ 4nt5H7YBl2ljksgnOVboJemjowjGR84=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-wiJCwNYeM6SQC9rLABAOUg-1; Wed, 08 Sep 2021 06:04:44 -0400
+X-MC-Unique: wiJCwNYeM6SQC9rLABAOUg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 881AF9126D;
+ Wed,  8 Sep 2021 10:04:43 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 788D260C17;
+ Wed,  8 Sep 2021 10:04:39 +0000 (UTC)
+Date: Wed, 8 Sep 2021 11:04:38 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Subject: Re: [PATCH RFC v2 16/16] vfio-user: migration support
+Message-ID: <YTiKtg7peEyOUQI8@stefanha-x1.localdomain>
+References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
+ <42758d8b56b1036d86cf2252c175071c1094a8b0.1629131628.git.elena.ufimtseva@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <42758d8b56b1036d86cf2252c175071c1094a8b0.1629131628.git.elena.ufimtseva@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yIvnKdsuY5B/OB93"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,27 +79,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: john.g.johnson@oracle.com, jag.raman@oracle.com, swapnil.ingle@nutanix.com,
+ john.levon@nutanix.com, qemu-devel@nongnu.org, alex.williamson@redhat.com,
+ thanos.makatos@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-eBPF files are being included in user emulators.  That is useless, and
-it also breaks --disable-system compilation because ebpf/trace-events is
-only processed if a system emulator is included in the build.
+--yIvnKdsuY5B/OB93
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/566
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- ebpf/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Aug 16, 2021 at 09:42:49AM -0700, Elena Ufimtseva wrote:
+> @@ -1356,7 +1365,11 @@ static int vfio_get_dirty_bitmap(VFIOContainer *co=
+ntainer, uint64_t iova,
+>          goto err_out;
+>      }
+> =20
+> -    ret =3D ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
+> +    if (container->proxy !=3D NULL) {
+> +        ret =3D vfio_user_dirty_bitmap(container->proxy, dbitmap, range)=
+;
+> +    } else {
+> +        ret =3D ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
+> +    }
+>      if (ret) {
+>          error_report("Failed to get dirty bitmap for iova: 0x%"PRIx64
+>                  " size: 0x%"PRIx64" err: %d", (uint64_t)range->iova,
 
-diff --git a/ebpf/meson.build b/ebpf/meson.build
-index 9cd0635370..2dd0fd8948 100644
---- a/ebpf/meson.build
-+++ b/ebpf/meson.build
-@@ -1 +1 @@
--common_ss.add(when: libbpf, if_true: files('ebpf_rss.c'), if_false: files('ebpf_rss-stub.c'))
-+softmmu_ss.add(when: libbpf, if_true: files('ebpf_rss.c'), if_false: files('ebpf_rss-stub.c'))
--- 
-2.31.1
+This error_report() relies on errno. vfio_user_region_write() doesn't
+set errno.
+
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 82f654afb6..89926a3b01 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -27,6 +27,7 @@
+>  #include "pci.h"
+>  #include "trace.h"
+>  #include "hw/hw.h"
+> +#include "user.h"
+> =20
+>  /*
+>   * Flags to be used as unique delimiters for VFIO devices in the migrati=
+on
+> @@ -49,10 +50,18 @@ static int64_t bytes_transferred;
+>  static inline int vfio_mig_access(VFIODevice *vbasedev, void *val, int c=
+ount,
+>                                    off_t off, bool iswrite)
+>  {
+> +    VFIORegion *region =3D &vbasedev->migration->region;
+>      int ret;
+> =20
+> -    ret =3D iswrite ? pwrite(vbasedev->fd, val, count, off) :
+> -                    pread(vbasedev->fd, val, count, off);
+> +    if (vbasedev->proxy !=3D NULL) {
+> +        ret =3D iswrite ?
+> +            vfio_user_region_write(vbasedev, region->nr, off, count, val=
+) :
+> +            vfio_user_region_read(vbasedev, region->nr, off, count, val)=
+;
+> +    } else {
+> +        off +=3D region->fd_offset;
+> +        ret =3D iswrite ? pwrite(vbasedev->fd, val, count, off) :
+> +                        pread(vbasedev->fd, val, count, off);
+> +    }
+>      if (ret < count) {
+>          error_report("vfio_mig_%s %d byte %s: failed at offset 0x%"
+>                       HWADDR_PRIx", err: %s", iswrite ? "write" : "read",=
+ count,
+
+Another errno user. I haven't exhaustively audited all the code for
+these issues. Please take a look.
+
+--yIvnKdsuY5B/OB93
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE4irYACgkQnKSrs4Gr
+c8jtzAf/YJORePUMUvmf93+9yvvUSRHvXZfH0rYfCLT79pNeZAhqeu4MS4oUaXu/
++CO5SfuIiRCNOQZ/2FlzTfaPa22lYiJV/8H5/W8E4Q5tEtD48HrEt11WLguNVN5F
+sKgk9NJEuJGNH/fh8sD/6vddxBWR1iEiJi47S2NPTCP9KGZ8MvqLzTHJHfChBITt
+chxLc11styQyGUXF6iBF1oNnz8AuZYBb3lFx5JRvb+xDuH0YO8i9qtQGzUbY8SjP
+34dyKmuDdElWAA8q0zWSCODsZ0N+jb5pzxCx/3WU+vUWo79rBa7IPnr3CtLRrX4v
+InjdNWNhJmysMXnioOLtxs0+BdpskQ==
+=JyeE
+-----END PGP SIGNATURE-----
+
+--yIvnKdsuY5B/OB93--
 
 
