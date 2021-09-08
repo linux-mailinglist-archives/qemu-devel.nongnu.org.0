@@ -2,72 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90823403D75
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 18:17:38 +0200 (CEST)
-Received: from localhost ([::1]:48754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 111CF403D76
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 18:18:53 +0200 (CEST)
+Received: from localhost ([::1]:50944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mO0GX-0003Lg-50
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 12:17:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44284)
+	id 1mO0Hk-0004oA-4K
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 12:18:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mO0ER-0001w2-5g
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 12:15:28 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36674)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mO0EM-0000tb-Vs
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 12:15:26 -0400
-Received: by mail-wr1-x433.google.com with SMTP id g16so4149118wrb.3
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 09:15:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MPGeft/XEGURbrh3KuR7T60ZfzBU74vEoJ4it6oxv/Y=;
- b=BN9btDZVzmKiwsaosI6gBHCWRSqT6X32Dsyxi5Q9bzIp7xP0Fql3OmhmKgxtRBZb0d
- fwqbpnladXwGykDbAvDEGOeruQTX7MGHEPAdTvYFPoNMaPwuFAEPTjGuvcUQuFa15imT
- yRooCC8WQVtkQz91Sz/HWmqbub14ny9z926ayyYK2FkaB6uyRh0h0B1aSBHxMqJ2AJOU
- gy5grq7fCOL/9GhP3flRMEgBlKQZqPnV2XjVAg4PBiTYMBuJvEKouqVuG1WoCzFaDh9D
- +QOe4xGc+0D+4+g/oFIKJU7q+ar1ww8Lvy+0I2B6G5J5xy6RtNKDhA4oddZkpjFxE3Nx
- K1NA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mO0F7-0002YO-Pu
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 12:16:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36790)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mO0F1-0001K9-Ko
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 12:16:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631117761;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hQHFLtMmb/JvuF9iTTZxUncbATWuvzH2GzdqIQsEkno=;
+ b=Z1WS9qDfvAQr4XSRGpL+1DGdkVshsytAxtty1pfKkFpNe7dlBTFvzOahg4soPCQBSQuWRC
+ /9+PS6yTDMij8ybhKqiGsFZwp4H6HTu0201Z7nBd7WkWdzGx/SKV1+NNVrcRccOaMj8rWd
+ G8653nPRtlJRhIroOw7QK0+YWvnNKIA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-525-m_MePQGBM_Sk9zNb-zLDqw-1; Wed, 08 Sep 2021 12:16:00 -0400
+X-MC-Unique: m_MePQGBM_Sk9zNb-zLDqw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m22-20020a7bca56000000b002e7508f3faeso1126651wml.2
+ for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 09:16:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MPGeft/XEGURbrh3KuR7T60ZfzBU74vEoJ4it6oxv/Y=;
- b=GQGDBVtEpW7Z3V1YmlQUwdCIeavnkk8jLybdOPfL02VOe5XRAFsopN9AOjlzhIoV5f
- PyCuOfuFK/tQksYvYCY1o4AnnOywOejJ2BegVN2npdu718S3DrgNwMF/CZkDAnhpTGBh
- qfit1iY3QBB5wAkr/BRLgDfD3AJjk7yA7BKGG6u9hbII2mR9N2nonBnv63zq39szJtn/
- lRdgg/OqkCXSYtzzMldnk85cjJ7J4R4G6yTKC7TU8GKJEOMUBXJynx8px26OaYxejvQM
- NF/k0ISQds7Jdtv3PEuhvrlcz7qIdYyktdmaOXIpsLo56PpsALb8umqO5ZfoWg66LnRf
- Ylcw==
-X-Gm-Message-State: AOAM531q2KPRDmuyhbn3/WAhBcFVDImQ+BAStiMJ72esYQzogLfWiIbj
- yd+ajqrxzbH3sZ9EJJeRBWBFfqQFpeg/LYCbuVQ=
-X-Google-Smtp-Source: ABdhPJwFFntx905Tbq4hmSnWPCfwI0ZrZB9I3EbFQM02vatmzlWXroJHbocJLaNY68MYF/qhEIfT/uev80u84AQJ4hA=
-X-Received: by 2002:adf:ff8e:: with SMTP id j14mr4860829wrr.239.1631117721149; 
- Wed, 08 Sep 2021 09:15:21 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hQHFLtMmb/JvuF9iTTZxUncbATWuvzH2GzdqIQsEkno=;
+ b=oJ/uNNuU1ETZNkCZpTbnbl03V+9HYzpiNcRCgtvkl5YXwFbF7w4MfeoX52oOue66XV
+ Ri5jA27cEX1JEhqzOCGIQlwNIIll2i+DMLtXsX7QwZja4hr7a2KWliVbhh9G4pr5xhOB
+ sZXTHlsuNq8faNGpZQRuCwRFQcs0IuHfUdpAG21IUS4A9rdd9zP5aNsKSTgbvcpjii+m
+ bB78K96FNg7amQrQmm8311YkeM1/eligHTIM5OOM16jZwlank6Sj6f+Cp33p4n28F2Ru
+ cPBR29eo9E3/5EVnF8E2Ravc6FGJQd1zvRwwBsZoG8E7AbByVJuBZ9rhDZbD/04boFVJ
+ DnIg==
+X-Gm-Message-State: AOAM531ahjVGKc0uyLkNEuv4+7gF2/5UfWI83bU6/MdLtporeLeUps+Q
+ oA0OQRhxMoFEGsMURJNjg2RY/OixYCyqhrh8lr+O1sbXDY7lkLiJ3HCxGejJx+gDNy0BUEONkuR
+ y/sQoKP4YpO3YyGw=
+X-Received: by 2002:a05:6000:374:: with SMTP id
+ f20mr5005718wrf.129.1631117759240; 
+ Wed, 08 Sep 2021 09:15:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwRchfAihZzRe8OarUix8rOy1EMFVGma+e0OLMwzez+CD4Rg2EGqhmqOwQcZyZFun9xQPfoLw==
+X-Received: by 2002:a05:6000:374:: with SMTP id
+ f20mr5005692wrf.129.1631117758971; 
+ Wed, 08 Sep 2021 09:15:58 -0700 (PDT)
+Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id t23sm2717407wrb.71.2021.09.08.09.15.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Sep 2021 09:15:58 -0700 (PDT)
+Subject: Re: [PATCH 0/5] Stop adding HMP-only commands, allow QMP for all
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210908103711.683940-1-berrange@redhat.com>
+ <875yvbrtnq.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e1ad6243-7967-3035-d6db-f6b3087a620c@redhat.com>
+Date: Wed, 8 Sep 2021 18:15:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
- <20210907121943.3498701-14-marcandre.lureau@redhat.com>
- <24888.55565.53378.616422@mariner.uk.xensource.com>
- <CAJ+F1CJF-0j0+kP=_Zwox9LsspFN+6kUG54uhdKx9KaHLx=H9A@mail.gmail.com>
- <24888.56575.675507.669862@mariner.uk.xensource.com>
-In-Reply-To: <24888.56575.675507.669862@mariner.uk.xensource.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 8 Sep 2021 20:15:08 +0400
-Message-ID: <CAJ+F1CJ4bhzXd0ASrtcGzn63i04HMWHDbgoAoWqizKnhRqiWjw@mail.gmail.com>
-Subject: Re: [RFC v3 13/32] rust: use vendored-sources
-To: Ian Jackson <iwj@xenproject.org>
-Content-Type: multipart/alternative; boundary="0000000000005b272305cb7e30de"
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <875yvbrtnq.fsf@dusky.pond.sub.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.922, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,187 +101,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005b272305cb7e30de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 9/8/21 5:09 PM, Markus Armbruster wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
+> 
+>> We are still adding HMP commands without any QMP counterparts. This is
+>> done because there are a reasonable number of scenarios where the cost
+>> of designing a QAPI data type for the command is not justified.
+>>
+>> This has the downside, however, that we will never be able to fully
+>> isolate the monitor code from the remainder of QEMU internals. It is
+>> desirable to be able to get to a point where subsystems in QEMU are
+>> exclusively implemented using QAPI types and never need to have any
+>> knowledge of the monitor APIs.
+>>
+>> The way to get there is to stop adding commands to HMP only. All
+>> commands must be implemented using QMP, and any HMP implementation
+>> be a shim around the QMP implementation.
+>>
+>> We don't want to compromise our supportability of QMP long term though.
+>>
+>> This series proposes that we relax our requirements around fine grained
+>> QAPI data design,
+> 
+> Specifics?  QMP command returns a string, HMP wrapper prints that
+> string?
+> 
+>>                   but with the caveat that any command taking this
+>> design approach is mandated to use the 'x-' name prefix.
+>>
+>> This tradeoff should be suitable for any commands we have been adding
+>> exclusively to HMP in recent times, and thus mean we have mandate QMP
+>> support for all new commands going forward.
+>>
+>> This series illustrates the concept by converting the "info registers"
+>> HMP to invoke a new 'x-query-registers' QMP command. Note that only
+>> the i386 CPU target is converted to work with this new approach, so
+>> this series needs to be considered incomplete. If we go forward with
+>> this idea, then a subsequent version of this series would need to
+>> obviously convert all other CPU targets.
+>>
+>> After doing that conversion the only use of qemu_fprintf() would be
+>> the disas.c file. Remaining uses of qemu_fprintf and qemu_printf
+>> could be tackled in a similar way and eventually eliminate the need
+>> for any of these printf wrappers in QEMU.
+>>
+>> NB: I added docs to devel/writing-qmp-commands.rst about the two
+>> design approaches to QMP. I didn't see another good place to put
+>> an explicit note that we will not add any more HMP-only commands.
+>> Obviously HMP/QMP maintainers control this in their reviews of
+>> patches, and maybe that's sufficient ?
+> 
+> We could add devel/writing-hmp-commands.rst, or go with a single
+> document devel/writing-monitor-commands.rst.
+> 
+>> NB: if we take this approach we'll want to figure out how many
+>> HMP-only commands we actually have left and then perhaps have
+>> HMP-only commands we actually have left
+> 
+> Yes.
+> 
+> For many HMP commands, a QMP commands with the same name exists, and the
+> former is probably a wrapper around the latter.  Same for HMP "info FOO"
+> and QMP query-FOO.
+> 
+> HMP commands without such a match:
 
-Hi
+(1) Handy HMP commands while debugging:
 
-On Wed, Sep 8, 2021 at 7:55 PM Ian Jackson <iwj@xenproject.org> wrote:
+- help
+- info *
+- i/o
+- loadvm/savevm
+- trace-event/trace-file
+- wavcapture/stopcapture
+- xp
 
-> Marc-Andr=C3=A9 Lureau writes ("Re: [RFC v3 13/32] rust: use vendored-sou=
-rces"):
-> > Hmm, I do "cargo vendor --versioned-dirs ../rust/vendored" to vendor
-> crates.
-> >
-> > It seems cc was updated, and I didn't update the submodule accordingly.
-> For
-> > reference, this is the dependency tree that WFM:
->
-> git submodules are just awful IMO.
->
+Eventually also:
 
-Yes, but it's often (always?) the user fault. CI should help, when it will
-check Rust code.
+- hostfwd_add/hostfwd_remove
+- log
+- logfile
+- print
+- sendkey
 
+(2) I suppose these are pre-QMP and wonder about their
+    usefulness in the monitor (I'd certainly use a QMP
+    equivalent to test).
 
-> > $ cargo tree -p qga
-> > qga v0.1.0 (/home/elmarco/src/qemu/qga)
-> > =E2=94=9C=E2=94=80=E2=94=80 common v0.1.0 (/home/elmarco/src/qemu/rust/=
-common)
-> > =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 libc v0.2.101
-> > =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 nix v0.20.1
-> > =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 bitflags v1.2.1
-> > =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 cfg-if v1.0.0
-> > =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 libc v0.2.101
-> > =E2=94=82       =E2=94=94=E2=94=80=E2=94=80 memoffset v0.6.4
-> > =E2=94=82           [build-dependencies]
-> > =E2=94=82           =E2=94=94=E2=94=80=E2=94=80 autocfg v1.0.1
-> > =E2=94=9C=E2=94=80=E2=94=80 hostname v0.3.1
-> > =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 libc v0.2.101
-> > =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 match_cfg v0.1.0
-> > =E2=94=94=E2=94=80=E2=94=80 nix v0.20.1 (*)
->
-> With the .config/cargo.toml "replace-with" commented out, I see this:
->
-> rustcargo@zealot:~/Rustup/Qemu/qemu.pwt/build$ cargo tree -p qga
-> qga v0.1.0 (/volatile/rustcargo/Rustup/Qemu/qemu.pwt/qga)
-> =E2=94=9C=E2=94=80=E2=94=80 common v0.1.0 (/volatile/rustcargo/Rustup/Qem=
-u/qemu.pwt/rust/common)
-> =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 libc v0.2.101
-> =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 nix v0.20.1
-> =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 bitflags v1.2.1
-> =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 cfg-if v1.0.0
-> =E2=94=82       =E2=94=9C=E2=94=80=E2=94=80 libc v0.2.101
-> =E2=94=82       =E2=94=94=E2=94=80=E2=94=80 memoffset v0.6.4
-> =E2=94=82           [build-dependencies]
-> =E2=94=82           =E2=94=94=E2=94=80=E2=94=80 autocfg v1.0.1
-> =E2=94=9C=E2=94=80=E2=94=80 hostname v0.3.1
-> =E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 libc v0.2.101
-> =E2=94=82   =E2=94=94=E2=94=80=E2=94=80 match_cfg v0.1.0
-> =E2=94=94=E2=94=80=E2=94=80 nix v0.20.1 (*)
-> rustcargo@zealot:~/Rustup/Qemu/qemu.pwt/build$
->
-> Which is the same as yours.  Although "cargo build" doesn't work
-> build, guessed from the messagese that perhaps this was the automatic
-> codegen hadn't run.  I'm now trying "make" and and it seems to be
-> running.
->
-> With the "replace-with" uncommented, cargo tree bombs out.  I'm afraid
-> I haven't used cargo vendor so I'm not sure if I am going in the right
-> direction with this workaround.  Hopefully it will finish the build.
->
-> Would it be possible to have a configure option to use unvendored
-> upstream Rust libraries from crates.io ?
->
+- migrate_set_capability
+- migrate_set_parameter
+- migration_mode
+- mouse_button
+- mouse_move
+- mouse_set
+- nmi
+- pcie_aer_inject_error
+- exit_preconfig
+- singlestep
+- snapshot_blkdev_internal
+- snapshot_delete_blkdev_internal
 
-Not easily, but we could have a --disable-rust-offline configure option.
-Whether this is desirable, I am not sure.
+(3) I don't use them, I expect them to belong
+    in either (1) or (2).
 
+>     boot_set
+>     change
+>     commit
+>     cpu
+>     delvm
+>     drive_add
+>     drive_del
+>     gdbserver
+>     gpa2hpa
+>     gpa2hva
+>     gva2gpa
+>     mce
+>     qemu-io
+>     snapshot_blkdev
+>     sum
+>     sync-profile
+>     watchdog_action
 
---=20
-Marc-Andr=C3=A9 Lureau
+> 
+> This is 77 out of 170 HMP commands.  I was hoping for fewer.
 
---0000000000005b272305cb7e30de
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 8, 2021 at 7:55 PM Ian =
-Jackson &lt;<a href=3D"mailto:iwj@xenproject.org">iwj@xenproject.org</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Marc-An=
-dr=C3=A9 Lureau writes (&quot;Re: [RFC v3 13/32] rust: use vendored-sources=
-&quot;):<br>
-&gt; Hmm, I do &quot;cargo vendor --versioned-dirs ../rust/vendored&quot; t=
-o vendor crates.<br>
-&gt; <br>
-&gt; It seems cc was updated, and I didn&#39;t update the submodule accordi=
-ngly. For<br>
-&gt; reference, this is the dependency tree that WFM:<br>
-<br>
-git submodules are just awful IMO.<br></blockquote><div><br></div><div>Yes,=
- but it&#39;s often (always?) the user fault. CI should help, when it will =
-check Rust code.<br></div><div> <br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">
-<br>
-&gt; $ cargo tree -p qga =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>
-&gt; qga v0.1.0 (/home/elmarco/src/qemu/qga)<br>
-&gt; =E2=94=9C=E2=94=80=E2=94=80 common v0.1.0 (/home/elmarco/src/qemu/rust=
-/common)<br>
-&gt; =E2=94=82 =C2=A0 =E2=94=9C=E2=94=80=E2=94=80 libc v0.2.101<br>
-&gt; =E2=94=82 =C2=A0 =E2=94=94=E2=94=80=E2=94=80 nix v0.20.1<br>
-&gt; =E2=94=82 =C2=A0 =C2=A0 =C2=A0 =E2=94=9C=E2=94=80=E2=94=80 bitflags v1=
-.2.1<br>
-&gt; =E2=94=82 =C2=A0 =C2=A0 =C2=A0 =E2=94=9C=E2=94=80=E2=94=80 cfg-if v1.0=
-.0<br>
-&gt; =E2=94=82 =C2=A0 =C2=A0 =C2=A0 =E2=94=9C=E2=94=80=E2=94=80 libc v0.2.1=
-01<br>
-&gt; =E2=94=82 =C2=A0 =C2=A0 =C2=A0 =E2=94=94=E2=94=80=E2=94=80 memoffset v=
-0.6.4<br>
-&gt; =E2=94=82 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [build-dependencies]<br>
-&gt; =E2=94=82 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =E2=94=94=E2=94=80=E2=94=
-=80 autocfg v1.0.1<br>
-&gt; =E2=94=9C=E2=94=80=E2=94=80 hostname v0.3.1<br>
-&gt; =E2=94=82 =C2=A0 =E2=94=9C=E2=94=80=E2=94=80 libc v0.2.101<br>
-&gt; =E2=94=82 =C2=A0 =E2=94=94=E2=94=80=E2=94=80 match_cfg v0.1.0<br>
-&gt; =E2=94=94=E2=94=80=E2=94=80 nix v0.20.1 (*)<br>
-<br>
-With the .config/cargo.toml &quot;replace-with&quot; commented out, I see t=
-his:<br>
-<br>
-rustcargo@zealot:~/Rustup/Qemu/qemu.pwt/build$ cargo tree -p qga<br>
-qga v0.1.0 (/volatile/rustcargo/Rustup/Qemu/qemu.pwt/qga)<br>
-=E2=94=9C=E2=94=80=E2=94=80 common v0.1.0 (/volatile/rustcargo/Rustup/Qemu/=
-qemu.pwt/rust/common)<br>
-=E2=94=82=C2=A0 =C2=A0=E2=94=9C=E2=94=80=E2=94=80 libc v0.2.101<br>
-=E2=94=82=C2=A0 =C2=A0=E2=94=94=E2=94=80=E2=94=80 nix v0.20.1<br>
-=E2=94=82=C2=A0 =C2=A0 =C2=A0 =C2=A0=E2=94=9C=E2=94=80=E2=94=80 bitflags v1=
-.2.1<br>
-=E2=94=82=C2=A0 =C2=A0 =C2=A0 =C2=A0=E2=94=9C=E2=94=80=E2=94=80 cfg-if v1.0=
-.0<br>
-=E2=94=82=C2=A0 =C2=A0 =C2=A0 =C2=A0=E2=94=9C=E2=94=80=E2=94=80 libc v0.2.1=
-01<br>
-=E2=94=82=C2=A0 =C2=A0 =C2=A0 =C2=A0=E2=94=94=E2=94=80=E2=94=80 memoffset v=
-0.6.4<br>
-=E2=94=82=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[build-dependencies]<br>
-=E2=94=82=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E2=94=94=E2=94=80=E2=94=
-=80 autocfg v1.0.1<br>
-=E2=94=9C=E2=94=80=E2=94=80 hostname v0.3.1<br>
-=E2=94=82=C2=A0 =C2=A0=E2=94=9C=E2=94=80=E2=94=80 libc v0.2.101<br>
-=E2=94=82=C2=A0 =C2=A0=E2=94=94=E2=94=80=E2=94=80 match_cfg v0.1.0<br>
-=E2=94=94=E2=94=80=E2=94=80 nix v0.20.1 (*)<br>
-rustcargo@zealot:~/Rustup/Qemu/qemu.pwt/build$ <br>
-<br>
-Which is the same as yours.=C2=A0 Although &quot;cargo build&quot; doesn&#3=
-9;t work<br>
-build, guessed from the messagese that perhaps this was the automatic<br>
-codegen hadn&#39;t run.=C2=A0 I&#39;m now trying &quot;make&quot; and and i=
-t seems to be<br>
-running.<br>
-<br>
-With the &quot;replace-with&quot; uncommented, cargo tree bombs out.=C2=A0 =
-I&#39;m afraid<br>
-I haven&#39;t used cargo vendor so I&#39;m not sure if I am going in the ri=
-ght<br>
-direction with this workaround.=C2=A0 Hopefully it will finish the build.<b=
-r>
-<br>
-Would it be possible to have a configure option to use unvendored<br>
-upstream Rust libraries from <a href=3D"http://crates.io" rel=3D"noreferrer=
-" target=3D"_blank">crates.io</a> ?<br></blockquote><div><br></div><div>Not=
- easily, but we could have a --disable-rust-offline configure option. Wheth=
-er this is desirable, I am not sure.<br></div></div><br clear=3D"all"><br>-=
-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br>=
-</div></div>
-
---0000000000005b272305cb7e30de--
 
