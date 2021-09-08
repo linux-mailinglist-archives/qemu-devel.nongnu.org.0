@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32864037FD
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 12:38:59 +0200 (CEST)
-Received: from localhost ([::1]:54124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C2A4037F7
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 12:37:25 +0200 (CEST)
+Received: from localhost ([::1]:49370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNuyl-0001nG-D0
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 06:38:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39348)
+	id 1mNuxI-0006ti-QB
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 06:37:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNuSE-0006yl-8j
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:05:18 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38881)
+ id 1mNuS2-0006ud-ID
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:05:08 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNuRy-0003Bk-Jl
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:05:16 -0400
-Received: by mail-wr1-x435.google.com with SMTP id u16so2409858wrn.5
+ id 1mNuS0-0003DA-CD
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:05:05 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id z4so2397089wrr.6
  for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 03:05:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zi6XC7xgXM4E75DCCFQG+dfwQNv3xa2eHtXmh1sF/QU=;
- b=PJGC99++uvylq0bGOqzma1mnJ2D8unoH6MzAJu0Lw/VmtEerErGfF3xvJkJLDuTRyZ
- GeDsytpI1531/CheCBmywGmHt/IdlceKp2MV06ZwajlWkBo3dDhEEf/+lZuYLiUPmusA
- tet1cn4Lfb82Z/HZt+PS3Qkmtuf8DptX27wo/G0IZBSeM8/UcBDjvRxF631MhbNMeXkW
- FmLBOtaZbpyhSCJ6RCgZ5DqMEMwFjvASzqN5s53ACDFDg8aa4IgUaCt1kiRt6DJ9IgJ4
- nhrAjKkRGspVqzwcaV5xzbpxF6ubizeVxho1wJ0BJXJVXZ5jfSyynoT5yMDFN26edLAq
- vPbw==
+ bh=lmGIbQ3pyoWC76VZj4ie9GYX4qqPuNvX4g9NmbF5xHw=;
+ b=TBnwrRoLDCwbM2Ma97y4qkv0Cou36rN3jg6N9mqstt8QRJmw7Fy38eD/8GEUoHI/0E
+ /RzXPjdorWu+gE0BH8bK9v8ZbirJBp5bfDH5aAYClPz/oHRXxA8EIj93qjAdECtHmaXl
+ P01gTBPNFxNBzKMFHxk2cCpbkniRuEf2o2R3E5tNozxS07/aolCm4nABTh2RQHhuqGL5
+ k7pEuX85ABZ/cmIpXX60W6awNt++lGy0vU/btdJtFrASNWGziaYYnqlkIbR/dz2GIMiq
+ 1Lv4qoso7nx1jbsA2DHPW+vrucS3uwLzLt4/t0nUTNQjoNIsU9+ME/Oe5+cNor+1nvwL
+ 5kBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zi6XC7xgXM4E75DCCFQG+dfwQNv3xa2eHtXmh1sF/QU=;
- b=KdTslvdMfGvkgad2wsWZwcuuh44i89pq3yyZiQZVGzHocP8Gq9JD1t/Xs0xx59FLsB
- EW8fhlRSExxwfFdvVk/QUrwI6TBB3bZOqzuUqXzUsWVO/eqhGswH38TYIeo0vZmt74Ga
- QqH2UQG9eeQ0ZbTar3lq1VNuRppq5zOkmR631wmdkAX27aleK+KREANV0l3OvtS56qWr
- qBRn0xLzhe0YYE2gXsr0ou3vhC/fSCFnRK60Q9WIHmJrZ2p29brn9Hvy9L+hbfl6LV3t
- mudwPbzChgj1rkyR5CD75kKMBmnjgM0Oe9rQobUjTACxmjqM1Vt4/gWX3u3E4pOPaWdo
- 6big==
-X-Gm-Message-State: AOAM530YAxWwt6gkp0G8ihHd+8534GpIjjJRiw4kscdPyLbcWmrnALpx
- 0tp+M8ULK5/d1ETUsYpu0YEPsaMhTdE=
-X-Google-Smtp-Source: ABdhPJwN7p4d7yzEv9mONWbC2wfeD1jf/81s8BdenoUg4X//Q291WlXZVyAl+oO6TApzlEf/nJ4wyQ==
-X-Received: by 2002:adf:ec8b:: with SMTP id z11mr3056490wrn.122.1631095501257; 
- Wed, 08 Sep 2021 03:05:01 -0700 (PDT)
+ bh=lmGIbQ3pyoWC76VZj4ie9GYX4qqPuNvX4g9NmbF5xHw=;
+ b=DQW++MOqwpsa48PoWI2o+cX18WcBx1w7EqPp+RAxh6FtfdUctNJA+dLlLTWiOFhEgS
+ mEs1Vhq+HaVnSwZ0wMPkT3eooGS3d0p+rGkCh2MUsYfKl2EXX3TG0CVW82NLjtrmwacL
+ IhJpREygn+otiN2uzaMa/uzZ85NX7pDQKi0wLEDRWxCypgc55tb6t+3bc1PheS09w+/G
+ gYNdkD9/XK56+8vspEmPvx7zcJLVaMB+9LxXjgRTtS5l4BFFX0LtEVTOm/ocXuIZm2Ks
+ QTw5y2qB8WcW7VAlx5cW+A9kHDhWAJ6wzyPs24Nnf1R0Y3AcHcmrYjSINDn2VZN70D/c
+ iYKw==
+X-Gm-Message-State: AOAM530ekYrFuxYLyrAyZ898WuQ6myAZkgrYrr60KVPxuFhyYlSRtyff
+ Xi6KSbLX6gZc5YOU5An1rL2yZJsmESw=
+X-Google-Smtp-Source: ABdhPJysFQBEMflepTLrfNo0kFjI0JI1hvQjhZCm+PT5EouBgwrbKiBzoEGkd+dkncacLUE1KaI3bg==
+X-Received: by 2002:a5d:6b8a:: with SMTP id n10mr3049383wrx.276.1631095502041; 
+ Wed, 08 Sep 2021 03:05:02 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u8sm1683715wmq.45.2021.09.08.03.05.00
+ by smtp.gmail.com with ESMTPSA id u8sm1683715wmq.45.2021.09.08.03.05.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Sep 2021 03:05:00 -0700 (PDT)
+ Wed, 08 Sep 2021 03:05:01 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 35/43] Kconfig: Add CONFIG_SGX support
-Date: Wed,  8 Sep 2021 12:04:18 +0200
-Message-Id: <20210908100426.264356-36-pbonzini@redhat.com>
+Subject: [PULL v4 36/43] sgx-epc: Add the fill_device_info() callback support
+Date: Wed,  8 Sep 2021 12:04:19 +0200
+Message-Id: <20210908100426.264356-37-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210908100426.264356-1-pbonzini@redhat.com>
 References: <20210908100426.264356-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,109 +89,133 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yang Zhong <yang.zhong@intel.com>
 
-Add new CONFIG_SGX for sgx support in the Qemu, and the Kconfig
-default enable sgx in the i386 platform.
+Since there is no fill_device_info() callback support, and when we
+execute "info memory-devices" command in the monitor, the segfault
+will be found.
+
+This patch will add this callback support and "info memory-devices"
+will show sgx epc memory exposed to guest. The result as below:
+
+qemu) info memory-devices
+Memory device [sgx-epc]: ""
+  memaddr: 0x180000000
+  size: 29360128
+  memdev: /objects/mem1
+Memory device [sgx-epc]: ""
+  memaddr: 0x181c00000
+  size: 10485760
+  memdev: /objects/mem2
 
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210719112136.57018-32-yang.zhong@intel.com>
+
+v3-->v4:
+    - Removed the epc device 'id' from compound property(Paolo).
+
+v1-->v2:
+    - "Since: 5.1" to "Since: 6.1"(Eric Blake).
+Message-Id: <20210719112136.57018-33-yang.zhong@intel.com>
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- backends/meson.build                     |  2 +-
- configs/devices/i386-softmmu/default.mak |  1 +
- hw/i386/Kconfig                          |  5 +++++
- hw/i386/meson.build                      |  4 ++--
- hw/i386/sgx-stub.c                       | 13 +++++++++++++
- 5 files changed, 22 insertions(+), 3 deletions(-)
- create mode 100644 hw/i386/sgx-stub.c
+ hw/i386/sgx-epc.c  | 11 ++++++++++-
+ monitor/hmp-cmds.c | 10 ++++++++++
+ qapi/machine.json  | 26 +++++++++++++++++++++++++-
+ 3 files changed, 45 insertions(+), 2 deletions(-)
 
-diff --git a/backends/meson.build b/backends/meson.build
-index 46fd16b269..6e68945528 100644
---- a/backends/meson.build
-+++ b/backends/meson.build
-@@ -16,6 +16,6 @@ softmmu_ss.add(when: ['CONFIG_VHOST_USER', 'CONFIG_VIRTIO'], if_true: files('vho
- softmmu_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('cryptodev-vhost.c'))
- softmmu_ss.add(when: ['CONFIG_VIRTIO_CRYPTO', 'CONFIG_VHOST_CRYPTO'], if_true: files('cryptodev-vhost-user.c'))
- softmmu_ss.add(when: 'CONFIG_GIO', if_true: [files('dbus-vmstate.c'), gio])
--softmmu_ss.add(when: 'CONFIG_LINUX', if_true: files('hostmem-epc.c'))
-+softmmu_ss.add(when: 'CONFIG_SGX', if_true: files('hostmem-epc.c'))
+diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
+index 70075db37c..7fc3dd81b9 100644
+--- a/hw/i386/sgx-epc.c
++++ b/hw/i386/sgx-epc.c
+@@ -214,7 +214,16 @@ static MemoryRegion *sgx_epc_md_get_memory_region(MemoryDeviceState *md,
+ static void sgx_epc_md_fill_device_info(const MemoryDeviceState *md,
+                                         MemoryDeviceInfo *info)
+ {
+-    /* TODO */
++    SgxEPCDeviceInfo *se = g_new0(SgxEPCDeviceInfo, 1);
++    SGXEPCDevice *epc = SGX_EPC(md);
++
++    se->memaddr = epc->addr;
++    se->size = object_property_get_uint(OBJECT(epc), SGX_EPC_SIZE_PROP,
++                                        NULL);
++    se->memdev = object_get_canonical_path(OBJECT(epc->hostmem));
++
++    info->u.sgx_epc.data = se;
++    info->type = MEMORY_DEVICE_INFO_KIND_SGX_EPC;
+ }
  
- subdir('tpm')
-diff --git a/configs/devices/i386-softmmu/default.mak b/configs/devices/i386-softmmu/default.mak
-index 84d1a2487c..598c6646df 100644
---- a/configs/devices/i386-softmmu/default.mak
-+++ b/configs/devices/i386-softmmu/default.mak
-@@ -22,6 +22,7 @@
- #CONFIG_TPM_CRB=n
- #CONFIG_TPM_TIS_ISA=n
- #CONFIG_VTD=n
-+#CONFIG_SGX=n
+ static void sgx_epc_class_init(ObjectClass *oc, void *data)
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index e00255f7ee..0d414d60c7 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1823,6 +1823,7 @@ void hmp_info_memory_devices(Monitor *mon, const QDict *qdict)
+     VirtioMEMDeviceInfo *vmi;
+     MemoryDeviceInfo *value;
+     PCDIMMDeviceInfo *di;
++    SgxEPCDeviceInfo *se;
  
- # Boards:
+     for (info = info_list; info; info = info->next) {
+         value = info->value;
+@@ -1870,6 +1871,15 @@ void hmp_info_memory_devices(Monitor *mon, const QDict *qdict)
+                                vmi->block_size);
+                 monitor_printf(mon, "  memdev: %s\n", vmi->memdev);
+                 break;
++            case MEMORY_DEVICE_INFO_KIND_SGX_EPC:
++                se = value->u.sgx_epc.data;
++                monitor_printf(mon, "Memory device [%s]: \"%s\"\n",
++                               MemoryDeviceInfoKind_str(value->type),
++                               se->id ? se->id : "");
++                monitor_printf(mon, "  memaddr: 0x%" PRIx64 "\n", se->memaddr);
++                monitor_printf(mon, "  size: %" PRIu64 "\n", se->size);
++                monitor_printf(mon, "  memdev: %s\n", se->memdev);
++                break;
+             default:
+                 g_assert_not_reached();
+             }
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 10d36da83f..61514c6d9f 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1220,6 +1220,29 @@
+   'data': { 'sgx-epc': ['SgxEPC'] }
+ }
+ 
++##
++# @SgxEPCDeviceInfo:
++#
++# Sgx EPC state information
++#
++# @id: device's ID
++#
++# @memaddr: physical address in memory, where device is mapped
++#
++# @size: size of memory that the device provides
++#
++# @memdev: memory backend linked with device
++#
++# Since: 6.1
++##
++{ 'struct': 'SgxEPCDeviceInfo',
++  'data': { '*id': 'str',
++            'memaddr': 'size',
++            'size': 'size',
++            'memdev': 'str'
++          }
++}
++
+ ##
+ # @MemoryDeviceInfo:
  #
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index ddedcef0b2..962d2c981b 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -6,6 +6,10 @@ config SEV
-     select X86_FW_OVMF
-     depends on KVM
+@@ -1234,7 +1257,8 @@
+   'data': { 'dimm': 'PCDIMMDeviceInfo',
+             'nvdimm': 'PCDIMMDeviceInfo',
+             'virtio-pmem': 'VirtioPMEMDeviceInfo',
+-            'virtio-mem': 'VirtioMEMDeviceInfo'
++            'virtio-mem': 'VirtioMEMDeviceInfo',
++            'sgx-epc': 'SgxEPCDeviceInfo'
+           }
+ }
  
-+config SGX
-+    bool
-+    depends on KVM
-+
- config PC
-     bool
-     imply APPLESMC
-@@ -21,6 +25,7 @@ config PC
-     imply PVPANIC_ISA
-     imply QXL
-     imply SEV
-+    imply SGX
-     imply SGA
-     imply TEST_DEVICES
-     imply TPM_CRB
-diff --git a/hw/i386/meson.build b/hw/i386/meson.build
-index fefce9e4ba..c502965219 100644
---- a/hw/i386/meson.build
-+++ b/hw/i386/meson.build
-@@ -5,8 +5,6 @@ i386_ss.add(files(
-   'e820_memory_layout.c',
-   'multiboot.c',
-   'x86.c',
--  'sgx-epc.c',
--  'sgx.c'
- ))
- 
- i386_ss.add(when: 'CONFIG_X86_IOMMU', if_true: files('x86-iommu.c'),
-@@ -18,6 +16,8 @@ i386_ss.add(when: 'CONFIG_Q35', if_true: files('pc_q35.c'))
- i386_ss.add(when: 'CONFIG_VMMOUSE', if_true: files('vmmouse.c'))
- i386_ss.add(when: 'CONFIG_VMPORT', if_true: files('vmport.c'))
- i386_ss.add(when: 'CONFIG_VTD', if_true: files('intel_iommu.c'))
-+i386_ss.add(when: 'CONFIG_SGX', if_true: files('sgx-epc.c','sgx.c'),
-+                                if_false: files('sgx-stub.c'))
- 
- i386_ss.add(when: 'CONFIG_ACPI', if_true: files('acpi-common.c'))
- i386_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device_x86.c'))
-diff --git a/hw/i386/sgx-stub.c b/hw/i386/sgx-stub.c
-new file mode 100644
-index 0000000000..edf17c3309
---- /dev/null
-+++ b/hw/i386/sgx-stub.c
-@@ -0,0 +1,13 @@
-+#include "qemu/osdep.h"
-+#include "hw/i386/pc.h"
-+#include "hw/i386/sgx-epc.h"
-+
-+void pc_machine_init_sgx_epc(PCMachineState *pcms)
-+{
-+    return;
-+}
-+
-+int sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size)
-+{
-+    return 1;
-+}
 -- 
 2.31.1
 
