@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBDC2403C40
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:04:00 +0200 (CEST)
-Received: from localhost ([::1]:59006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB3E403C43
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:07:10 +0200 (CEST)
+Received: from localhost ([::1]:34544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNz7H-00046H-C4
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:03:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54500)
+	id 1mNzAL-0006qw-OA
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:07:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNz5v-0003Jd-KP
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:02:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48435)
+ id 1mNz86-0005T7-Ch
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:04:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNz5s-0001Cw-Uf
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:02:34 -0400
+ id 1mNz84-0002zn-Qt
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:04:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631113350;
+ s=mimecast20190719; t=1631113485;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=mCC3JkEkPR2CArHSprk5N6TmGV99kHNE4A7prEB4e98=;
- b=YofEOf2PohmR6rF33q+GIR7V9WuGSzqmyUbOoORY0w+YgBv2C3bpi0CRE2UtkA1b4P5dBW
- N10I0m9yWjRguZuqg26dp7j5zIRsZ7x1tTrSWP34KUdAmcy8AChqTe2ZP8bIGI0nGx4fRd
- hO7BkUFbxAUa1o8KbwzP/r7zX3et0Z0=
+ bh=Qe+Fvox/Y6hysJn2de5feHP0lwIaNK4c3YlaHGiqSzo=;
+ b=ZUpiuQtwXWQZ64sOS5oBr25gu/f1aIANAIJZVNgR6LM4oBK8nVzUd+qEmNAy8ZKDQvm3Ho
+ CelAtcKoYp7eLz7cpkPSigSYL9Zq6T0B/61wk2DjOZP565WIoXxmHOUrmIv91/Sg+Ix9pZ
+ USmqGDdBIrcIIsYpltl0HebYVFtJAzA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437-npYUt6UvN8Gocl3LaVG5tA-1; Wed, 08 Sep 2021 11:02:29 -0400
-X-MC-Unique: npYUt6UvN8Gocl3LaVG5tA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-513-A_p2xqGhMYi2DTfn-CHF0w-1; Wed, 08 Sep 2021 11:04:44 -0400
+X-MC-Unique: A_p2xqGhMYi2DTfn-CHF0w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFCD5824FA9;
- Wed,  8 Sep 2021 15:02:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BAFB111ED65
+ for <qemu-devel@nongnu.org>; Wed,  8 Sep 2021 15:04:09 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.211])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 33E1810016FE;
- Wed,  8 Sep 2021 15:02:23 +0000 (UTC)
-Date: Wed, 8 Sep 2021 16:02:22 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB6A87F0C8;
+ Wed,  8 Sep 2021 15:04:08 +0000 (UTC)
+Date: Wed, 8 Sep 2021 16:04:07 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: John Levon <john.levon@nutanix.com>
-Subject: Re: [PATCH RFC server v2 05/11] vfio-user: run vfio-user context
-Message-ID: <YTjQfvz6PmpFH/QL@stefanha-x1.localdomain>
-References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
- <cover.1630084211.git.jag.raman@oracle.com>
- <3c043becf2b6e820f5392e0cadb465d5d9b9e6f8.1630084211.git.jag.raman@oracle.com>
- <YTizhs1m7EsAs9UG@stefanha-x1.localdomain>
- <YTi8sYZkET5tffj/@movementarian.org>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: [PATCH 0/2] iothread: cleanup after adding a new parameter to
+ IOThread
+Message-ID: <YTjQ5yT+q6FL3F5J@stefanha-x1.localdomain>
+References: <20210727145936.147032-1-sgarzare@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YTi8sYZkET5tffj/@movementarian.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210727145936.147032-1-sgarzare@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="KsXh8+Mb2nb0h3Z7"
+ protocol="application/pgp-signature"; boundary="ZrP/KZ05g7MT6yyx"
 Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -82,124 +79,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "elena.ufimtseva@oracle.com" <elena.ufimtseva@oracle.com>,
- "john.g.johnson@oracle.com" <john.g.johnson@oracle.com>,
- "thuth@redhat.com" <thuth@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- "philmd@redhat.com" <philmd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "marcandre.lureau@gmail.com" <marcandre.lureau@gmail.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---KsXh8+Mb2nb0h3Z7
+--ZrP/KZ05g7MT6yyx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 08, 2021 at 01:37:53PM +0000, John Levon wrote:
-> On Wed, Sep 08, 2021 at 01:58:46PM +0100, Stefan Hajnoczi wrote:
+On Tue, Jul 27, 2021 at 04:59:34PM +0200, Stefano Garzarella wrote:
+> We recently added a new parameter (aio-max-batch) to IOThread.
+> This series cleans up the code a bit, no functional changes.
 >=20
-> > > +static void *vfu_object_attach_ctx(void *opaque)
-> > > +{
-> > > +    VfuObject *o =3D opaque;
-> > > +    int ret;
-> > > +
-> > > +retry_attach:
-> > > +    ret =3D vfu_attach_ctx(o->vfu_ctx);
-> > > +    if (ret < 0 && (errno =3D=3D EAGAIN || errno =3D=3D EWOULDBLOCK)=
-) {
-> >=20
-> > Does this loop consume 100% CPU since this is non-blocking?
+> Stefano Garzarella (2):
+>   iothread: rename PollParamInfo to IOThreadParamInfo
+>   iothread: use IOThreadParamInfo in iothread_[set|get]_param()
 >=20
-> Looks like it. Instead after vfu_create_ctx, there should be a vfu_get_po=
-ll_fd()
-> to get the listen socket, then a qemu_set_fd_handler(vfu_object_attach_ct=
-x)
-> to handle the attach when the listen socket is ready, modulo the below pa=
-rt.
+>  iothread.c | 28 +++++++++++++++-------------
+>  1 file changed, 15 insertions(+), 13 deletions(-)
 >=20
-> > libvfio-user has non-blocking listen_fd but conn_fd is always blocking.
+> --=20
+> 2.31.1
 >=20
-> It is, but in vfu_run_ctx(), we poll on it:
->=20
-> ```
-> 790     if (vfu_ctx->flags & LIBVFIO_USER_FLAG_ATTACH_NB) {              =
-           =20
-> 791         sock_flags =3D MSG_DONTWAIT | MSG_WAITALL;                   =
-             =20
-> 792     }                                                                =
-           =20
-> 793     return get_msg(hdr, sizeof(*hdr), fds, nr_fds, ts->conn_fd, sock_=
-flags);    =20
-> ```
 
-This is only used for the request header. Other I/O is blocking.
-
->=20
-> > This means ATTACH_NB is not useful because vfu_attach_ctx() is actually
-> > blocking.
->=20
-> You're correct that vfu_attach_ctx is in fact partially blocking: after
-> accepting the connection, we call negotiate(), which can indeed block wai=
-ting if
-> the client hasn't sent anything.
->=20
-> > I think this means vfu_run_ctx() is also blocking in some places
->=20
-> Correct. There's a presumption that if a message is ready, we can read it=
- all
-> without blocking, and equally that we can write to the socket without blo=
-cking.
->=20
-> The library docs are not at all clear on this point.
->=20
-> > and QEMU's event loop might hang :(
-> >=20
-> > Can you make libvfio-user non-blocking in order to solve these issues?
->=20
-> I presume you're concerned about the security aspect: a malicious client =
-could
-> withhold a write, and hence hang the device server.
->=20
-> Problem is the libvfio-user API is synchronous: there's no way to return
-> half-way through a vfu_attach_ctx() (or a vfu_run_ctx() after we read the
-> header) then resume.
->=20
-> We'd have to have a whole separate API to do that, so a separate thread s=
-eems a
-> better approach?
-
-Whether to support non-blocking properly in libvfio-user is a decision
-for you. If libvfio-user doesn't support non-blocking, then QEMU should
-run a dedicated thread instead of the partially non-blocking approach in
-this patch.
-
-A non-blocking approach is nice when there are many devices hosted in a
-single process or a lot of async replies (which requires extra thread
-synchronization with the blocking approach).
+Thanks, applied to my block tree:
+https://gitlab.com/stefanha/qemu/commits/block
 
 Stefan
 
---KsXh8+Mb2nb0h3Z7
+--ZrP/KZ05g7MT6yyx
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE40H0ACgkQnKSrs4Gr
-c8hs8ggAjeHI/lPas4AOI8E+jnya/pGHAutbk2whXgRXCRgdm1SbjrSwLnV7qwL3
-zzvWoRyz7GUlcIpHfTV0ez1B2+jl9BOhKoijaTXXtXDEY+qQN0f+rLvg+iB50Y0f
-tFOnWzJjFRhWIOOijS3WDbbdqWl17+uwgTx5rsqHyjVzTyuMuGsT8M7umbBxoUua
-X0VPMwi5qV5dmJs/liDNZu+aqnjdvPgMfjV7xZM7EsItw8/Yw5N72dNLfc5eF47Z
-2PL8l2MrZyxudySxzXS0MbNvBwQAwCVhsVNixmU1uwmM5nDj0Y+JE3+IaarKwF8m
-9bJ1tWzr7BGlVaJc6q0YY51zNTfwCg==
-=xbk8
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE40OcACgkQnKSrs4Gr
+c8gjHAgAqoFz8TTlsW4Ed+Kap0c35SOXtCETXN8KwXeg6fVwnw02oYgfzdy6C1ON
+3OZm1MTOtZk8425IAI0t2n5WVw6dm56YwlLSvEP4LVlraIIbUH44RFO7g4vP1ZSo
+6mIrG3Ii//SF/+D3U+T2KnjCd/5ZzH9XojVQA6I4AitWHQgovuioxa2qbN+AYTKf
+JxwlVGG0R1OmSPGJMIiJ6IsgsvpX8fiEaMEjcIms5retA/3VQMbnHVktQwBr8z9i
+O158wMy9KoKtMpeOPlfjuh+fRFQflsTTz60uPqilXYTvgPw62tQcXZPItv0vxckV
++AysksBfuFeTelYpRLyUZxEyy/M4lQ==
+=vcPr
 -----END PGP SIGNATURE-----
 
---KsXh8+Mb2nb0h3Z7--
+--ZrP/KZ05g7MT6yyx--
 
 
