@@ -2,64 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E1BA4036C7
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 11:19:07 +0200 (CEST)
-Received: from localhost ([::1]:58588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C5EB4036CC
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 11:21:04 +0200 (CEST)
+Received: from localhost ([::1]:33950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNtjW-0007aN-MQ
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 05:19:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57462)
+	id 1mNtlP-0001a4-CY
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 05:21:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1mNthO-0005fG-At
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 05:16:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45552)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1mNthM-0004Zj-3P
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 05:16:53 -0400
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
- [51.254.78.96])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9C50961158;
- Wed,  8 Sep 2021 09:16:50 +0000 (UTC)
-Received: from 82-132-223-170.dab.02.net ([82.132.223.170]
- helo=wait-a-minute.misterjones.org)
- by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <maz@kernel.org>)
- id 1mNthI-009YGr-J9; Wed, 08 Sep 2021 10:16:48 +0100
-Date: Wed, 08 Sep 2021 10:16:47 +0100
-Message-ID: <877dfrctq8.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mNtjj-0000dt-8e
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 05:19:19 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39735)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mNtjh-0006UE-KP
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 05:19:18 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id z4so2202704wrr.6
+ for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 02:19:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zfkAKvckiHUBOnhbwSX7IQ1MbXNPzUdNaVKWFOa6Tu4=;
+ b=TCdr/EALVfiBpf593ys2qhh5aTUx/y3TaGqIuaFKzU+zY1yNEGGx5vxMlSQCw/uYFN
+ 3T56O9oSnPPj9SZG/KqulpNfRdNOIDLESV2xbn1si4w0aU+EK8ppB9efGGgva+1TGMdi
+ nySTNLz43UZzlBWAuWFn4VcolzLHLmB9vjWx6Gdf/wDUqK20ECumh5IFy/jLISFub90Q
+ jmDzHyctXq5Yi9V/O3vMfYAJ0Huha+/VPKTFB0DPHnDWaR+w76kzJh+1F6VLN2SsTZia
+ v9UWsZoYj73zLgMhKicspO4ea5tsZCOkUe+w2gBZ3uKQe9qRmTjXPBUSIyJ7DLIgrOEt
+ bfeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zfkAKvckiHUBOnhbwSX7IQ1MbXNPzUdNaVKWFOa6Tu4=;
+ b=jPCbd+7323mP6tSmSTwWxW+CsjjahpJ+4Rqf/rEHuH2gBUS9opGq1lS+B+JTNDWqZy
+ 0TMy7vdopiQ4e8mcR6h/ejLy71ltS8vIuzeHvhTM0hYDVjNmzA2tdamThrQn8D6tXt+y
+ 2nU0bmZ1sKQhE0O7GtMXbSC7wDaQvN/SHB1ALrlHvcEbA3RyJynLcpyFzDhy7rhaB50P
+ CMDhVvXuNn9wzrVgeXyFeW6/hG29huZ+k92aLy38eLEbez4kwW8VEnEU8Ac99Qtm3GOx
+ 3+6o8M4dtAOFGbpbngs+4Par1uGgAoQ+IhnYbENzx5AFEAMkwOrbPu2S5/HSmjf1wWtX
+ W/NA==
+X-Gm-Message-State: AOAM532ccEevn72Pz8k04knHGbo/kMCNADpNcZQ2SirtHaCtUKVWzz4Z
+ efQleItNdEN6pj3rbHaD2tR4DA==
+X-Google-Smtp-Source: ABdhPJzPWWtHdXNgwz3cM+z3XGZ8E5S+TXZswlpm5rsNaekBpLCBDVR/4hzXmfk4t+Lce26bR46m2A==
+X-Received: by 2002:adf:ea90:: with SMTP id s16mr2830731wrm.235.1631092755991; 
+ Wed, 08 Sep 2021 02:19:15 -0700 (PDT)
+Received: from [192.168.1.165] ([139.47.33.227])
+ by smtp.gmail.com with ESMTPSA id a9sm1048157wru.27.2021.09.08.02.19.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Sep 2021 02:19:15 -0700 (PDT)
+Subject: Re: [PATCH v2 4/8] linux-user/arm: Report SIGBUS and SIGSEGV correctly
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 3/3] docs/system/arm/virt: Fix documentation for the
- 'highmem' option
-In-Reply-To: <CAFEAcA_MRyd2AcgAhvEwJY8LGbHoyz_JgTdMGAEtGegvZB0d7A@mail.gmail.com>
-References: <20210822144441.1290891-1-maz@kernel.org>
- <20210822144441.1290891-4-maz@kernel.org>
- <CAFEAcA_J5W6kaaZ-oYtcRcQ5=z5nFv6bOVVu5n_ad0N8-NGzpg@mail.gmail.com>
- <87bl54cnx5.wl-maz@kernel.org>
- <CAFEAcA_MRyd2AcgAhvEwJY8LGbHoyz_JgTdMGAEtGegvZB0d7A@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 82.132.223.170
-X-SA-Exim-Rcpt-To: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- drjones@redhat.com, eric.auger@redhat.com, kvmarm@lists.cs.columbia.edu,
- kvm@vger.kernel.org, kernel-team@android.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
- SAEximRunCond expanded to false
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210821195958.41312-1-richard.henderson@linaro.org>
+ <20210821195958.41312-5-richard.henderson@linaro.org>
+ <CAFEAcA82iZptWmCcgonZvLTU4g+5nnEEQDdtHD5y=X7m82N1Yg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <83aac1b9-35a9-bcdb-c424-6852cbb25305@linaro.org>
+Date: Wed, 8 Sep 2021 11:19:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA82iZptWmCcgonZvLTU4g+5nnEEQDdtHD5y=X7m82N1Yg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.332,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,60 +88,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
- Android Kernel Team <kernel-team@android.com>,
- kvmarm <kvmarm@lists.cs.columbia.edu>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 07 Sep 2021 19:25:23 +0100,
-Peter Maydell <peter.maydell@linaro.org> wrote:
-> 
-> On Tue, 7 Sept 2021 at 18:10, Marc Zyngier <maz@kernel.org> wrote:
-> >
-> > Hi Peter,
-> >
-> > On Tue, 07 Sep 2021 13:51:13 +0100,
-> > Peter Maydell <peter.maydell@linaro.org> wrote:
-> > >
-> > > On Sun, 22 Aug 2021 at 15:45, Marc Zyngier <maz@kernel.org> wrote:
-> > > >
-> > > > The documentation for the 'highmem' option indicates that it controls
-> > > > the placement of both devices and RAM. The actual behaviour of QEMU
-> > > > seems to be that RAM is allowed to go beyond the 4GiB limit, and
-> > > > that only devices are constraint by this option.
-> > > >
-> > > > Align the documentation with the actual behaviour.
-> > >
-> > > I think it would be better to align the behaviour with the documentation.
-> > >
-> > > The intent of 'highmem' is to allow a configuration for use with guests
-> > > that can't address more than 32 bits (originally, 32-bit guests without
-> > > LPAE support compiled in). It seems like a bug that we allow the user
-> > > to specify more RAM than will fit into that 32-bit range. We should
-> > > instead make QEMU exit with an error if the user tries to specify
-> > > both highmem=off and a memory size that's too big to fit.
-> >
-> > I'm happy to address this if you are OK with the change in user
-> > visible behaviour.
-> >
-> > However, I am still struggling with my original goal, which is to
-> > allow QEMU to create a usable KVM_based VM on systems with a small IPA
-> > space (36 bits on the system I have). What would an acceptable way to
-> > convey this to the code that deals with the virt memory map so that it
-> > falls back to something that actually works?
-> 
-> Hmm, so at the moment we can either do "fits in 32 bits" or
-> "assumes at least 40 bits" but not 36 ?
+On 8/26/21 3:31 PM, Peter Maydell wrote:
+> Side note: for cases like this where we can tell MAPERR from
+> ACCERR based on info the exception handler passes to us, should
+> we prefer that or the "check the page flags" approach that
+> force_sigsegv_for_addr() takes ?  I feel like the former is
+> nicer, because in a multithreaded program some other thread
+> might have changed whether the page is mapped between our taking
+> the fault and getting here. But maybe that's always racy...
 
-Exactly. I have the gut feeling that we need a 'gpa_bits' option that
-would limit the guest physical range and generalise highmem. High IO
-ranges would simply not be available if the GPA range isn't big
-enough.
+Both ways are racy.
 
-	M.
+After having played with SIGBUS, what I believe should happen is that we clean up the 
+signal handling such that we can pass through the host MAPERR/ACCERR, remapping any fault 
+address, after filtering the write-protect case that we care about.
 
--- 
-Without deviation from the norm, progress is not possible.
+I'm not sure how much effort it would be to do that.  Certainly the test matrix is pretty 
+darn large.  But perhaps it would simplify the huge SIGBUS patch set, and thus make it all 
+worthwhile.
+
+
+r~
 
