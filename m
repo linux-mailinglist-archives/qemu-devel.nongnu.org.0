@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5FCF4033C2
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 07:26:19 +0200 (CEST)
-Received: from localhost ([::1]:55596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A248C4033C3
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 07:27:02 +0200 (CEST)
+Received: from localhost ([::1]:57774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNq6E-00035X-VK
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 01:26:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41702)
+	id 1mNq6v-0004fa-Or
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 01:27:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mNq4X-0001mc-CP
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 01:24:33 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:39559)
+ id 1mNq5j-0003CZ-Tw
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 01:25:47 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:43848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mNq4U-0003G2-Ng
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 01:24:33 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id y13so1800652ybi.6
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 22:24:30 -0700 (PDT)
+ id 1mNq5i-0004If-Eg
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 01:25:47 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id c6so1763384ybm.10
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 22:25:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=icfVIsIDt1OFttGoRsFT85NX8Sg8AAuXzrdD2zbqEsQ=;
- b=gDLoY5bezW3ygK4sa4/+97hrHN0JjodC4cMOuF7awituz9DwjZtCqR2FCy3vnFvzdt
- ub4RxDYtu7IcxBpOVOOwvRkVO95rae9OaD+20REU/yXKBWjgC76gluywLu869rTzECMu
- cu8WbiW6P6rPuyyiJH+Wx39dYUPeTCK4d/+/5lctBdI0ltuD4f0oe20snZTCjlZrYOgZ
- 5qNeOuhjMG1XaB/bI5FrATaz1/8f7HC2eMjQjzzGeubfBBh7MQAHkObKSw70nEBmhbMe
- /xlo7wIixmSuDgp2w+wGg0fgyP4CtcY5zPTdjvjChlH8VcYM3vmaaSIOR/GQx+k+Sz5a
- gLyg==
+ :cc; bh=tO46fVX7ZKClLBB/Qma2STuWS534urrw9a1/MhmrKnw=;
+ b=ikkbg+a5AzhCDubUlebCgQJPwrxCeMTNXh4o294CKWPfY3W4OPwhZdJNt4BY1lh5Rd
+ C3frAxH7gEvNSfi1LisLomgG/v6DiyfiZ+EkMQQDHnbEqzyI1uCRMN+W6ojTRhQWvCCC
+ iU3AZXoGKrxcm2mtmrmBSg7dMt8AOWAjn00FvgfQEUmsOAKYmFayESWRw2EHjZwpCLcB
+ SwwIyG3+3c1Z9L33cS7HZGrs8Pku4S38p7V+Y4vv+STeGS4rMVYNQtsV1B8/aCdu8GPL
+ u6z6rDEhNjN2/03kb59R9GZMHlC8d0An44dMTeoC71f1xWRg6w54XDUMBMRNM4k9RM9k
+ KL8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=icfVIsIDt1OFttGoRsFT85NX8Sg8AAuXzrdD2zbqEsQ=;
- b=lnjDxlQ5pu8XP8plTrBQd5NbBLOJ4otXQTToJJBHmsa25FdciwWQHlx+5LoUnpkIsd
- jyy92ImxNgeH7lv66zbya8shZiJOjB73vSIMLiFkf+J7pezEtCiYUI4U1OmyAmooVVg7
- BKwfW2LrXAzPflSPSLQ6DvrTGZtyxbamf6dsxy0ZkyPvP1pCf1UIT7mnBlemKTfIXVH+
- 0ESTk4cZ/TdrNmV+SsSkC2wz7fTpq6yyu4Fy2jwki1tl597OojBPxRhSlFsgOOgRsSQP
- lgdyMCNhHbrMVl3EZ4BjxRz8Kw0fR0/+ZHaL+LY4FXw1kf2Tx4cXSVqEPwEd+U8EdDM6
- k70Q==
-X-Gm-Message-State: AOAM532KOuVdrbRros2SKS/gQjz6x8ecGYOeRRQpS95PFGp5ORgtfHQu
- a5FpE57DjRv0HyphY4sumxwPcpZiKehvXsxHw/I=
-X-Google-Smtp-Source: ABdhPJzsQOrTwZxFtoNKgvr8EEp5oFalgEC9qXOtH9zBhaUnxolhAMZVwMsZfiiQD9t9JJ+EHdMFhUAup37rACZ5u8Y=
-X-Received: by 2002:a25:2e42:: with SMTP id b2mr2555352ybn.313.1631078669813; 
- Tue, 07 Sep 2021 22:24:29 -0700 (PDT)
+ bh=tO46fVX7ZKClLBB/Qma2STuWS534urrw9a1/MhmrKnw=;
+ b=DueZ4f5pAKwRwnrND6Spv4xuImshb/BrtQpSWowq4t0XZTsy2dPP0lk4puD/ndsxek
+ HZ712B/BE5bXtjsTGcqOESooOIovBRAJqXhai9l0zGzSp4UN3aD7DG+AgRLV9gqFyWCs
+ c2dp+HrKFJ9sP4ekXelAB+DULKPwSUt8QHOy8YHxp0IOGpxtAitjk1vSYO3RgjP89gya
+ LmrOGkVarz3TbuUIIfsw88sJ7jLAMBN6Nka4XIIiBejKuXJsau0cJerYz+twkYR6lFax
+ WvVpXdN+lLQp63U+rO9/s9e3XyGPIfq61yDTCd44SzfTpC00H5f3LJB6ATOIovj7IspM
+ +BJA==
+X-Gm-Message-State: AOAM533mdPr5w7d73lZ+LJEsb6YKk+h4o9MRAl3A6XEBWL1Stwk0ODgk
+ +0QRytcXsyfqstZSWhLgYd1Y7/mVsI/EaPi7et4xu11nRXs=
+X-Google-Smtp-Source: ABdhPJzICw/W8KgsXe1qis7ftzQmG5iRwxnRBLIlytoQ1bw98CQ6Xh2t8XnVOVLNKa3QhybcZaXEGa7rnRfHmjl2SAs=
+X-Received: by 2002:a05:6902:120a:: with SMTP id
+ s10mr2588172ybu.293.1631078745156; 
+ Tue, 07 Sep 2021 22:25:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
- <20210904203516.2570119-11-philipp.tomsich@vrull.eu>
-In-Reply-To: <20210904203516.2570119-11-philipp.tomsich@vrull.eu>
+ <20210904203516.2570119-13-philipp.tomsich@vrull.eu>
+In-Reply-To: <20210904203516.2570119-13-philipp.tomsich@vrull.eu>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 8 Sep 2021 13:24:19 +0800
-Message-ID: <CAEUhbmV8YwrSyW40n8qB7Hw1VgiA6uLf0cLvz5WAkMVSTm0RHA@mail.gmail.com>
-Subject: Re: [PATCH v10 10/16] target/riscv: Reassign instructions to the
- Zbb-extension
+Date: Wed, 8 Sep 2021 13:25:35 +0800
+Message-ID: <CAEUhbmXMj9veb3zLd1Vg8b5j-FUw1z6ZuVUzs5hgkoBeXJG2sg@mail.gmail.com>
+Subject: Re: [PATCH v10 12/16] target/riscv: Add a REQUIRE_32BIT macro
 To: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,11 +85,11 @@ Cc: Alistair Francis <alistair.francis@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 5, 2021 at 4:38 AM Philipp Tomsich <philipp.tomsich@vrull.eu> wrote:
+On Sun, Sep 5, 2021 at 4:47 AM Philipp Tomsich <philipp.tomsich@vrull.eu> wrote:
 >
-> This reassigns the instructions that are part of Zbb into it, with the
-> notable exceptions of the instructions (rev8, zext.w and orc.b) that
-> changed due to gorci, grevi and pack not being part of Zb[abcs].
+> With the changes to Zb[abcs], there's some encodings that are
+> different in RV64 and RV32 (e.g., for rev8 and zext.h). For these,
+> we'll need a helper macro allowing us to select on RV32, as well.
 >
 > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
@@ -99,13 +99,11 @@ On Sun, Sep 5, 2021 at 4:38 AM Philipp Tomsich <philipp.tomsich@vrull.eu> wrote:
 > (no changes since v3)
 >
 > Changes in v3:
-> - The changes to the Zbb instructions (i.e. use the REQUIRE_ZBB macro)
->   are now in a separate commit.
+> - Moved the REQUIRE_32BIT macro into a separate commit.
 >
->  target/riscv/insn32.decode              | 40 ++++++++++---------
->  target/riscv/insn_trans/trans_rvb.c.inc | 51 ++++++++++++++-----------
->  2 files changed, 50 insertions(+), 41 deletions(-)
+>  target/riscv/translate.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 >
 
-Acked-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
