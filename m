@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E906403EBA
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 19:57:06 +0200 (CEST)
-Received: from localhost ([::1]:50884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA9F403EDC
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 20:06:55 +0200 (CEST)
+Received: from localhost ([::1]:53746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mO1om-0006DM-S2
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 13:57:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39586)
+	id 1mO1yI-00006W-7y
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 14:06:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mO1nV-0004mh-Ee
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 13:55:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27007)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mO1x2-0007rD-Ie
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 14:05:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mO1nS-0003qB-J0
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 13:55:44 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mO1wz-0002FR-Cv
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 14:05:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631123741;
+ s=mimecast20190719; t=1631124331;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FCmN9kUWaPVDUKO2RSVmvDjIGWte1IDieKchhcs1suo=;
- b=JAYLX3GcQ9WSxTEo1SAu/99SPSraADZctKt6lG+coCAnDg+ODRb6gXuP9fCwf0MdwbUWW5
- KcUpKvjYDOOTEDm2Y8gpeulUug+9pUiHzuhnxtMx1Wl7yZ2k4WCJrjbI5vI5mYB++2cql6
- bvha8GF1+iXN1RFoOmQ0U/cSgmk69qU=
+ bh=rWdtrISBEuzsMczxvfV5zszd48BFTtyg/H0Vk7PimRM=;
+ b=e0EotzEv2b0q1k7Jec6VEIW3nwHDy60MxHz7QxyJvgas19mRwwCBtecNDlRJSMmD6wrTy6
+ SSzlQDOJ4IEYe3O/+OLGX4C3PvD58mVSax6WtE4FxAOjif4s6PYIceCQotW3SiDUaSh7yJ
+ FlQZSKJ5G71OsFv8Tru3V+rg9HU23ss=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-voGy2eG3PtSA4-Aqup-50Q-1; Wed, 08 Sep 2021 13:55:38 -0400
-X-MC-Unique: voGy2eG3PtSA4-Aqup-50Q-1
+ us-mta-568-n6xbrW-hPsG2pyCPJaJ6Qw-1; Wed, 08 Sep 2021 14:05:30 -0400
+X-MC-Unique: n6xbrW-hPsG2pyCPJaJ6Qw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 442B7801E72;
- Wed,  8 Sep 2021 17:55:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 471A310B7464;
+ Wed,  8 Sep 2021 18:05:29 +0000 (UTC)
 Received: from redhat.com (ovpn-113-24.phx2.redhat.com [10.3.113.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FA6760C7F;
- Wed,  8 Sep 2021 17:55:34 +0000 (UTC)
-Date: Wed, 8 Sep 2021 12:55:33 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DDBD60C82;
+ Wed,  8 Sep 2021 18:05:15 +0000 (UTC)
+Date: Wed, 8 Sep 2021 13:05:13 -0500
 From: Eric Blake <eblake@redhat.com>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh.ext@zeiss.com>
-Subject: Re: [PATCH] vmdk: allow specification of tools version
-Message-ID: <20210908175436.7xnongfo7st42ixb@redhat.com>
-References: <20210908174250.12946-1-thomas.weissschuh.ext@zeiss.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH 3/5] target/i386: convert to use format_state instead of
+ dump_state
+Message-ID: <20210908180513.6pvaonrzmq2gchfa@redhat.com>
+References: <20210908103711.683940-1-berrange@redhat.com>
+ <20210908103711.683940-4-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210908174250.12946-1-thomas.weissschuh.ext@zeiss.com>
+In-Reply-To: <20210908103711.683940-4-berrange@redhat.com>
 User-Agent: NeoMutt/20210205-739-420e15
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
@@ -78,57 +80,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>, thomas@t-8ch.de
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 08, 2021 at 07:42:50PM +0200, Thomas Weißschuh wrote:
-> VMDK files support an attribute that represents the version of the guest
-> tools that are installed on the disk.
-> This attribute is used by vSphere before a machine has been started to
-> determine if the VM has the guest tools installed.
-> This is important when configuring "Operating system customizations" in
-> vSphere, as it checks for the presence of the guest tools before
-> allowing those customizations.
-> Thus when the VM has not yet booted normally it would be impossible to
-> customize it, therefore preventing a customized first-boot.
-> 
-> The attribute should not hurt on disks that do not have the guest tools
-> installed and indeed the VMware tools also unconditionally add this
-> attribute.
-> (Defaulting to the value "2147483647", as is done in this patch)
-> 
-> Signed-off-by: Thomas Weißschuh <thomas.weissschuh.ext@zeiss.com>
+On Wed, Sep 08, 2021 at 11:37:09AM +0100, Daniel P. Berrangé wrote:
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  block/vmdk.c         | 24 ++++++++++++++++++++----
->  qapi/block-core.json |  2 ++
->  2 files changed, 22 insertions(+), 4 deletions(-)
+>  target/i386/cpu-dump.c | 325 ++++++++++++++++++++++-------------------
+>  target/i386/cpu.c      |   2 +-
+>  target/i386/cpu.h      |   2 +-
+>  3 files changed, 174 insertions(+), 155 deletions(-)
+> 
+> diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
+> index 02b635a52c..8e19485a20 100644
+> --- a/target/i386/cpu-dump.c
+> +++ b/target/i386/cpu-dump.c
+> @@ -94,41 +94,45 @@ static const char *cc_op_str[CC_OP_NB] = {
+>  };
+>  
+>  static void
+> -cpu_x86_dump_seg_cache(CPUX86State *env, FILE *f,
+> +cpu_x86_dump_seg_cache(CPUX86State *env, GString *buf,
+>                         const char *name, struct SegmentCache *sc)
+>  {
+>  #ifdef TARGET_X86_64
+>      if (env->hflags & HF_CS64_MASK) {
+> -        qemu_fprintf(f, "%-3s=%04x %016" PRIx64 " %08x %08x", name,
+> -                     sc->selector, sc->base, sc->limit,
+> -                     sc->flags & 0x00ffff00);
+> +        g_string_append_printf(buf, "%-3s=%04x %016" PRIx64 " %08x %08x", name,
+> +                               sc->selector, sc->base, sc->limit,
+> +                               sc->flags & 0x00ffff00);
 
-UI review:
+Did you consider using open_memstream() to get a FILE* that can then
+be passed into these callbacks unchanged, rather than rewriting all
+the callbacks to a new signature?
 
-> +++ b/qapi/block-core.json
-> @@ -4597,6 +4597,7 @@
->  # @adapter-type: The adapter type used to fill in the descriptor. Default: ide.
->  # @hwversion: Hardware version. The meaningful options are "4" or "6".
->  #             Default: "4".
-> +# @toolsversion: VMware guest tools version.
-
-Missing a '(since 6.2)' blurb, and a description of its default value.
-
->  # @zeroed-grain: Whether to enable zeroed-grain feature for sparse subformats.
->  #                Default: false.
->  #
-> @@ -4610,6 +4611,7 @@
->              '*backing-file':    'str',
->              '*adapter-type':    'BlockdevVmdkAdapterType',
->              '*hwversion':       'str',
-> +            '*toolsversion':    'str',
-
-Is it an arbitrary string, or must a valid value always be parseable
-as a numeric value?  If the latter, then make the QMP representation
-numeric rather than string.
+Then again, I like the GString signature better than FILE*, even if it
+makes for longer lines.
 
 -- 
 Eric Blake, Principal Software Engineer
