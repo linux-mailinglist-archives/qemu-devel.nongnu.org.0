@@ -2,53 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808A34032E6
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 05:30:02 +0200 (CEST)
-Received: from localhost ([::1]:33346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0704032C1
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 04:51:54 +0200 (CEST)
+Received: from localhost ([::1]:43996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNoHg-0004In-Th
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 23:30:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52150)
+	id 1mNngn-0007ll-AB
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 22:51:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mNoAk-0000Tx-FV; Tue, 07 Sep 2021 23:22:51 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:52661 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mNoAf-0000uk-FF; Tue, 07 Sep 2021 23:22:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1631071359;
- bh=EN9yxB85BqourxkMDq6tvMO+rXadOB5IJEFHZwdP+yQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BdD0EpMYs61DYGLzqTqg37Yh9piQceyM5UndMkeNDYl77hLYv2hRHLT2D6DxI4aU0
- QvqP4Eznp0O2nI5W3pIGbI1niPJUdyFTTQ68Wy09QfrN74oPDtBzR1I7uPBkrcLhjT
- UxQNZyDsAlyKeAlFeHPiuvQLdHjrEuJ5XQF5g+ts=
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4H46rv4Q8Jz9t9b; Wed,  8 Sep 2021 13:22:39 +1000 (AEST)
-Date: Wed, 8 Sep 2021 11:54:42 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v5 3/4] spapr_numa.c: base FORM2 NUMA affinity support
-Message-ID: <YTgX4iSUHsjlJQwY@yekko>
-References: <20210907002527.412013-1-danielhb413@gmail.com>
- <20210907002527.412013-4-danielhb413@gmail.com>
- <YTa6DUxTo2os9EIZ@yekko>
- <9ade69a3-bb89-a227-3966-243aedfff126@gmail.com>
+ (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
+ id 1mNnfe-0006kk-5m
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 22:50:42 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:45020)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
+ id 1mNnfc-0007mN-Gu
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 22:50:41 -0400
+Received: by mail-io1-xd32.google.com with SMTP id g9so1213780ioq.11
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 19:50:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3qbXLdBt9HSWHHYMQLDoMk1bdYBalLH8Qnk10bQw3hI=;
+ b=ZzN3IagwG23I7TEjiTv1Y9BjQNtxlJ/0JlAHvA3VVurOXOOUiRMwR8QGZ2IOH8eujU
+ iMrzGip0WEpwaf5ndy0FnBBEQvVcJaLskkJ0O4uIdX9rX+V65YBd3zHe5qdDIUZ/dO8E
+ SHSCSVXJm1/fj3tA4euZGtt/w0TxaL6+vJV6EYK2OzpBmI+hJi2udrcd8SFO9ekto5SJ
+ kcbHKnP0rvCmY66okVh1I1D2nS6nKU4DttL3jwi/6AthOE57XMOLl6kXMce1+B2wGKEk
+ LvuZSEcrArzXIJ3JoYgp50No042rnIlbE/vzFV/0e1NKU9GkPHTCzlpO0+g2auTmL4lG
+ PoIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3qbXLdBt9HSWHHYMQLDoMk1bdYBalLH8Qnk10bQw3hI=;
+ b=ufHaZxk1JMvvdTEZA8N8BsUCHKcIYXGqbXGaJ4lWl/CTkFUvOfQPFRaBMVA0Lc31sQ
+ rhAlgHfUiUlnfxDYh+Qrr0Ej2YdVj3LTp+UY9/PrqclRjdOETAfNUxmO6jxxSCxS6EOv
+ +9B8Y9GAmyuzLFAMJbRVKGEJa6tRv3R4YH1v9mMu7Uwxs8A0aMkwJi5Mj+5lecpptCo2
+ Y0oeA2X/swvMG1cTcC2kbcsVQvdp6WuHwMNRgc1h6oQAFCgjLY1UhlhD9daGUqBLbtiH
+ N/yqCUGod5PsA7X5cRIQhpsjQjdxu8fLxGa3vOUDSWOJiM3yfWQi5yTmDizOO/+0uskg
+ g+1Q==
+X-Gm-Message-State: AOAM533z9WhFB2eXnl/eprr2RFazbcdi7G/nluFToVoYDx+1O7ZAaYHX
+ ReKQ6fu9SvR4RAdodfPzAN1K+BrRQQ4erXNUA+U=
+X-Google-Smtp-Source: ABdhPJxcqZNdH6wyz2kdX/uVTIVkygbqWU4NtWmhGIYm4brI5McHbP8KPUbuVdosTrNKM0ZzOxz76QwVVRFI/C4lPVU=
+X-Received: by 2002:a05:6602:d9:: with SMTP id
+ z25mr1249320ioe.154.1631069439301; 
+ Tue, 07 Sep 2021 19:50:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Z1oW3n/u7hIxmGZS"
-Content-Disposition: inline
-In-Reply-To: <9ade69a3-bb89-a227-3966-243aedfff126@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+References: <CALUzjTbw0m-n0wmqYPw9C_SFVrCYvqOde6qUsB40FMM9BVPHZg@mail.gmail.com>
+ <CAFEAcA-H_titydNAYO94k4i5uiJyTXXt=tNyPd7RfjFMjRYb1w@mail.gmail.com>
+In-Reply-To: <CAFEAcA-H_titydNAYO94k4i5uiJyTXXt=tNyPd7RfjFMjRYb1w@mail.gmail.com>
+From: Duo jia <jiaduo19920301@gmail.com>
+Date: Wed, 8 Sep 2021 10:50:27 +0800
+Message-ID: <CALUzjTbsSte6rzFVr+k6EyUJTJV8GW2N5yhxBYxZcjkoCJ=K7g@mail.gmail.com>
+Subject: Re: Application of QEMUTimer in short timing.
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000889d0b05cb72f28d"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=jiaduo19920301@gmail.com; helo=mail-io1-xd32.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,114 +79,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---Z1oW3n/u7hIxmGZS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--000000000000889d0b05cb72f28d
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 07, 2021 at 07:07:41AM -0300, Daniel Henrique Barboza wrote:
-65;6402;1c>=20
->=20
-> On 9/6/21 10:02 PM, David Gibson wrote:
-> > On Mon, Sep 06, 2021 at 09:25:26PM -0300, Daniel Henrique Barboza wrote:
-> > > The main feature of FORM2 affinity support is the separation of NUMA
-> > > distances from ibm,associativity information. This allows for a more
-> > > flexible and straightforward NUMA distance assignment without relying=
- on
-> > > complex associations between several levels of NUMA via
-> > > ibm,associativity matches. Another feature is its extensibility. This=
- base
-> > > support contains the facilities for NUMA distance assignment, but in =
-the
-> > > future more facilities will be added for latency, performance, bandwi=
-dth
-> > > and so on.
-> > >=20
-> > > This patch implements the base FORM2 affinity support as follows:
-> > >=20
-> > > - the use of FORM2 associativity is indicated by using bit 2 of byte 5
-> > > of ibm,architecture-vec-5. A FORM2 aware guest can choose to use FORM1
-> > > or FORM2 affinity. Setting both forms will default to FORM2. We're not
-> > > advertising FORM2 for pseries-6.1 and older machine versions to preve=
-nt
-> > > guest visible changes in those;
-> > >=20
-> > > - call spapr_numa_associativity_reset() in do_client_architecture_sup=
-port()
-> > > if FORM2 is chosen. This will avoid re-initializing FORM1 artifacts t=
-hat
-> > > were already initialized in spapr_machine_reset();
-> > >=20
-> > > - ibm,associativity-reference-points has a new semantic. Instead of
-> > > being used to calculate distances via NUMA levels, it's now used to
-> > > indicate the primary domain index in the ibm,associativity domain of
-> > > each resource. In our case it's set to {0x4}, matching the position
-> > > where we already place logical_domain_id;
-> >=20
-> > Hmm... I'm a bit torn on this.  The whole reason the ibm,associativity
-> > things are arrays rather than just numbers was to enable the FORM1
-> > nonsense. So we have a choice here: keep the associativity arrays in
-> > the same form, for simplicity of the code, or reduce the associativity
-> > arrays to one entry for FORM2, to simplify the overall DT contents in
-> > the "modern" case.
->=20
-> I'm not against making it different from FORM2. I did it this way because
-> it minimizes the amount of code being changed.
->=20
-> In fact, if we're going to add separated data structures for both FORM1 a=
-nd
-> FORM2, might as well start both FORM1 and FORM2 data structures during
-> machine_init() and then just switch to the chosen affinity after CAS.
->=20
-> Something like a FORM1_assoc_array[N][MAX_DISTANCE_REF_POINTS], that cont=
-ains
-> all the initialization already done today and a FORM2_assoc_array[N][2],
-> where FORM2_assoc_array[node_id] =3D {1, node_id}, changing reference-poi=
-nts
-> accordingly of course.
->=20
-> spapr_numa_assoc_array would become a pointer that would point to either
-> FORM1_assoc_array[][] or FORM2_assoc_array[][] depending on guest choice.=
- I
-> think this might be enough to make everything we already have just works,=
- although
-> I need to check how much code is dependant on the MAX_DISTANCE_REF_POINTS
-> macro and adapt it.
->=20
-> If no one opposes I'll go for this approach.
+thank you for your reply.I understand.
 
-I think that's the way to go.  Thanks for working on this.
+Also I want to know how to make a delay in qemu.
+For example, when I send a UART data, there is a certain time interval from
+setting the register to when the data is sent. Most of this time does not
+affect the simulation effect, but some guest firmware will execute errors
+when there is no such delay. This is a comparison. Few, but it does exist.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+My question is, if I really want to add such a delay, how to do it. For
+example, in USART, can I set a callback for sending completion, or add some
+delays that will not cause qemu to freeze.
 
---Z1oW3n/u7hIxmGZS
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmE4F+EACgkQbDjKyiDZ
-s5L08w//Y7vQ4/hv9UDdddwr39NZ9LjGF2mW0MK3WlNLXgGBKj765I8oqtEdDyMC
-XHDlRZAQqCp0IgJJRV6Rjz81qSss0sW0+OKpjRXfSi/dzygWOyg2gTca7WdZl58C
-8qDXcOQOjS597Q0e6XQhHc0B4T4FWaeIbLEcFUNbSmYCWHVjwjIRkM/C1MiiG94W
-qTYRKuqrATpaoVt4c1yai+hDatdKXhVm1bVnkWuJEMmNuaQEAju1IQfcs46Iwj7x
-9Y0b3vKXNAMydsoJNTDMxp7BbGW5CSOXtYtrk1GzyX+RLrKgnDVojLInuw0lshRx
-ScyJpMZFC8DDLKRcgdn/Z2sxwPagn+MB75+i1S/WYwy8i9v585hiIAqDYl1n36g+
-jdWeLnRJDDB9WZv+lGDwXp6yRexaXYfIJcIFAMiItg7rF/khHMqhVLXXtMdOxhpL
-d4nIRGuzvNGrxLI+fz11oMqHSPQye9dIilsauOLtAcoDusq/pdnWNu1xU4wmKPuA
-OICE3huKY+ruKiqtL+kbw+23bgySp33sDIPOTYjXXo2U19EMRaN/tbtZrTzTzWMY
-6o2McS02by0xmgYsLNxomaSS3CXokqMDTOcKA4Vnst+RQOVWOuj87QWpu5zToOC8
-56uX/nndSfuMm4Zuj4jFfx8nDsPFUb7AREMRPcpELu3xDLL/sXo=
-=fQDH
------END PGP SIGNATURE-----
 
---Z1oW3n/u7hIxmGZS--
+
+Peter Maydell <peter.maydell@linaro.org> =E4=BA=8E2021=E5=B9=B49=E6=9C=887=
+=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=888:20=E5=86=99=E9=81=93=EF=BC=
+=9A
+
+> On Tue, 7 Sept 2021 at 12:28, Duo jia <jiaduo19920301@gmail.com> wrote:
+> >
+> > In the controller, QEMUTimer will be used in the implementation of time=
+r
+> simulation.
+> >
+> > I wrote an auto-loading timer with a period of 1ms and the clock source
+> used is QEMU_CLOCK_VIRTUAL. But it doesn't seem to be very accurate,
+> because the actual time after I accumulated it to 500 times took about
+> 700ms.
+>
+> It depends on how you use it. Generally the actual firing will not happen
+> exactly on the specified mark. So if your implementation is "set clock
+> for 1ms in the future; when it fires, set for 1ms in the future again"
+> that is likely to be inaccurate. If you implement it as "set clock for
+> 1ms in the future; when it fires, set for 1ms after the time when it
+> should have fired" it will probably be better.
+>
+> In particular, if the semantics of your timer fit the ptimer API
+> (which can implement oneshot and periodic timers) then I would recommend
+> using that instead of a raw QEMUTimer; it deals with a lot of these
+> fiddly details for you.
+>
+> -- PMM
+>
+
+--000000000000889d0b05cb72f28d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">thank you for your reply.I understand.<div><br><div>Also I=
+ want to know how to make a delay in qemu.<br>For example, when I send a UA=
+RT data, there is a certain time interval from setting the register to when=
+ the data is sent. Most of this time does not affect the simulation effect,=
+ but some guest firmware will execute errors when there is no such delay. T=
+his is a comparison. Few, but it does exist.<br><br>My question is, if I re=
+ally want to add such a delay, how to do it. For example, in USART, can I s=
+et a callback for sending completion, or add some delays that will not caus=
+e qemu to freeze.<br><div><br></div><div><br><div><div><br></div><div><br><=
+/div></div></div></div></div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">Peter Maydell &lt;<a href=3D"mailto:peter.may=
+dell@linaro.org">peter.maydell@linaro.org</a>&gt; =E4=BA=8E2021=E5=B9=B49=
+=E6=9C=887=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=888:20=E5=86=99=E9=81=
+=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On =
+Tue, 7 Sept 2021 at 12:28, Duo jia &lt;<a href=3D"mailto:jiaduo19920301@gma=
+il.com" target=3D"_blank">jiaduo19920301@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; In the controller, QEMUTimer will be used in the implementation of tim=
+er simulation.<br>
+&gt;<br>
+&gt; I wrote an auto-loading timer with a period of 1ms and the clock sourc=
+e used is QEMU_CLOCK_VIRTUAL. But it doesn&#39;t seem to be very accurate, =
+because the actual time after I accumulated it to 500 times took about 700m=
+s.<br>
+<br>
+It depends on how you use it. Generally the actual firing will not happen<b=
+r>
+exactly on the specified mark. So if your implementation is &quot;set clock=
+<br>
+for 1ms in the future; when it fires, set for 1ms in the future again&quot;=
+<br>
+that is likely to be inaccurate. If you implement it as &quot;set clock for=
+<br>
+1ms in the future; when it fires, set for 1ms after the time when it<br>
+should have fired&quot; it will probably be better.<br>
+<br>
+In particular, if the semantics of your timer fit the ptimer API<br>
+(which can implement oneshot and periodic timers) then I would recommend<br=
+>
+using that instead of a raw QEMUTimer; it deals with a lot of these<br>
+fiddly details for you.<br>
+<br>
+-- PMM<br>
+</blockquote></div>
+
+--000000000000889d0b05cb72f28d--
 
