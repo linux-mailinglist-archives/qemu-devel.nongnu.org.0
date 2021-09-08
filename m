@@ -2,79 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFBF1404028
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 22:22:44 +0200 (CEST)
-Received: from localhost ([::1]:44586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7709D40402D
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 22:27:08 +0200 (CEST)
+Received: from localhost ([::1]:48446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mO45k-0006Gx-2W
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 16:22:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37454)
+	id 1mO49z-0000an-IR
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 16:27:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mO44C-00059O-MP; Wed, 08 Sep 2021 16:21:08 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:41578)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mO44A-0000vY-NJ; Wed, 08 Sep 2021 16:21:08 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- u15-20020a05600c19cf00b002f6445b8f55so2472821wmq.0; 
- Wed, 08 Sep 2021 13:21:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OvU3u7iar1YsozclIJ2YcFEQUVeJZGT+4JiPZZBDbdU=;
- b=ZRh5S5MPQduPg1EhNRTok7ClmIxSjqqOL6UTmEm5YcIP9AEcYIgU2Dqys0GACNY44X
- ZNy3R44BYw6GpQBHAefH7OOheb/30F8ijsyMLh02F2OWe2TzMotzDxB8kv0FTu9MAdg3
- PBh0mXO8C0Mh/8cmyb9op5LBEebGKJIgiBSp+dEUl8h1vtJPlupwbsJRWkOaMRPhOWcM
- Y9bJUpNNzYmj/QAaeEuoBrupEttJ5dXZgGi0+hqsoh7rRXsqgbGbVXYS+U/8kaQRBqwl
- R9RtKg9LBlb/9odL+vEDGk6c5pWf6Z4/BmnF4jjhQJ1PX3oWDNeprmhUx5xejKdrMkDi
- 67Ow==
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mO48X-0007PK-Vn
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 16:25:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30849)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mO48U-0003zy-LZ
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 16:25:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631132733;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rMZlzpFYK89uj7U0ExwkYup8kLC3NBqFLn5W2+Hoito=;
+ b=AZqtrRoUVn3RJk3MT/njj99CFxNt6F2UM3H4rENWVeSNUH/A8NekyWay6GS0gmWt8I7g4a
+ DzDfiCUnCSCZosvIjGZsn5urCq3Ldc0cpEF9unrsXXPCJ55BHlCUUDXZbQqFusGF4dyl8z
+ 3lJMZqI9N40UcBgAWidTyIKihQccaSw=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-152-q2sCRuocNmOcWnxrzbjGmg-1; Wed, 08 Sep 2021 16:25:32 -0400
+X-MC-Unique: q2sCRuocNmOcWnxrzbjGmg-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ bp18-20020a056512159200b003eb84833c98so1213786lfb.14
+ for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 13:25:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OvU3u7iar1YsozclIJ2YcFEQUVeJZGT+4JiPZZBDbdU=;
- b=iUbkglCTnjkjgcRV5fJ3qH+mKmKYx85dTw8vuQoB+bV/7Uq4hzC25z66b0n0kK2ri5
- 2VLRVzsrpDQR+41IJcVGW3XHtGo85B4jULi9PxMbKMwuER72RxKduZk2lK6gFn45n23C
- bud3DJc7oOb6BXYHt5MBKp19IeUaKs0J0kltlXQsXhTVMW8XQ7tLZieVGL0/S/YCyVRy
- S9XU8LzWzGumtWXM27Rmxb2rTrVcE7xmavrWrgrivMjwzscvlpWHCKCnyPGIbmrROniY
- lkx93VKv3gMBCj7xwVwjbM+/ev3UN81g2IC3ucXV8xkxR+EtuvXvGM5d5kHJosi2v6lf
- hQBA==
-X-Gm-Message-State: AOAM531wJ9gnwXMcZ+jMZtG1mur0adU8MvQSUihdIwPFJDl/aASg9bVJ
- qIiPzru0ByatckcWrXpM1Ok=
-X-Google-Smtp-Source: ABdhPJxWIrzkJhcLtPyu6J06FqHSXLH37LY9Pvvtel4XyByLW0yCrJ4hEBwiAPeRGNQZqZCHht+UlA==
-X-Received: by 2002:a1c:3584:: with SMTP id c126mr43406wma.121.1631132464246; 
- Wed, 08 Sep 2021 13:21:04 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id j18sm137462wrd.56.2021.09.08.13.21.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Sep 2021 13:21:03 -0700 (PDT)
-Subject: Re: [PATCH] tcg/arm: Fix tcg_out_vec_op function signature
-To: "Jose R. Ziviani" <jziviani@suse.de>, qemu-devel@nongnu.org,
- Miroslav Rezanina <mrezanin@redhat.com>
-References: <20210908185338.7927-1-jziviani@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <71839203-0d36-1cac-9693-3b195c159b80@amsat.org>
-Date: Wed, 8 Sep 2021 22:21:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rMZlzpFYK89uj7U0ExwkYup8kLC3NBqFLn5W2+Hoito=;
+ b=ZMqAviFnc2kJx2jHqKGhalhlp9l0a2Py3QAl4bS7FtLB4vuw7gMhy4B9AukSaDDrD8
+ OHeOuI8V7QvkeESty25MTuY98XqUEatrgTureNla3+im/ac2JZgoKDr7QgJ2ZYeDpwE2
+ rf1/7WzeN7/hndarUdnfCqxsjYOVrEs0zjhGTPl+eQjO1oInuSiTfJVpopFFWO5jVJiq
+ i1QM2fleyrZD8WQKQIYpKlTq8++ijCLAeyit+ULqE3ywFNjK8J5Q6l1BWe0W2sWD9weC
+ SdtQVDmkoqUHyyD3fVImwxgwdtnxXHVZN7QsaiifpXqM8SqG03k23T1ml4hzJ8lIa0ji
+ UnKA==
+X-Gm-Message-State: AOAM533PhNjSNuED84S5JnB7bVbAwTA8UrsrERS9QNOp2ClTNQMKVJpw
+ DlLW/WtHQcULGQKmTrLrThwpxJ8f2svZxYSiXnWEeSa10RVAO/IdkclvaviKj9Mg7JJQ+HYBBUW
+ 6GeGdINgjYP+5HLHG6dnLQaPM/3Gaoig=
+X-Received: by 2002:a19:c209:: with SMTP id l9mr4015911lfc.370.1631132731231; 
+ Wed, 08 Sep 2021 13:25:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxfYp2IXlWuy/ug1GI6b9ofGOzBLEg9Sg5U/yBoe3LDEyqTtNUC6ZAJPIFJOBtcDzONQC2+kf1ZWdTGD9JPyfM=
+X-Received: by 2002:a19:c209:: with SMTP id l9mr4015881lfc.370.1631132730848; 
+ Wed, 08 Sep 2021 13:25:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210908185338.7927-1-jziviani@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+References: <20210831110238.299458-1-leobras@redhat.com>
+ <20210831110238.299458-3-leobras@redhat.com>
+ <YS4nPfEBCy9IC3rd@redhat.com>
+ <CAJ6HWG75NDzaRAoHvM6FkFoB+sQvTpmdR8+AdMkoY6TsP06ZhA@mail.gmail.com>
+ <YTCPngNB+l70sl06@redhat.com>
+ <CAJ6HWG6dd+timQM27-NTumvwDM2bFawRsnmrZumdzGZ8hCR3dQ@mail.gmail.com>
+ <YTCeNCEmr3NsQEPR@redhat.com>
+ <CAJ6HWG6D61K49gyvfLo2c5=cZpkYh96ciZjO5V=wiPdG+wB5zQ@mail.gmail.com>
+ <YTCnP9J/JINhg4h8@redhat.com> <YTdHpx263WNe7nuZ@work-vm>
+In-Reply-To: <YTdHpx263WNe7nuZ@work-vm>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Wed, 8 Sep 2021 17:25:50 -0300
+Message-ID: <CAJ6HWG6L1LOec6yMY1oxFjbjhAv4LK6beS5FmU=g_s4h2+7ouA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] io: Add zerocopy and errqueue
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.922,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,43 +96,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-arm@nongnu.org, richard.henderson@linaro.org
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Peter Xu <peterx@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/8/21 8:53 PM, Jose R. Ziviani wrote:
-> Commit 5e8892db93 fixed several function signatures but tcg_out_vec_op
-> for arm is missing. It causes a build error on armv6 and armv7:
-> 
-> tcg-target.c.inc:2718:42: error: argument 5 of type 'const TCGArg *'
-> {aka 'const unsigned int *'} declared as a pointer [-Werror=array-parameter=]
->    const TCGArg *args, const int *const_args)
->   ~~~~~~~~~~~~~~^~~~
-> ../tcg/tcg.c:120:41: note: previously declared as an array 'const TCGArg[16]'
-> {aka 'const unsigned int[16]'}
->    const TCGArg args[TCG_MAX_OP_ARGS],
->   ~~~~~~~~~~~~~~^~~~
-> 
-> Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
-> ---
->  tcg/arm/tcg-target.c.inc | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-> index 007ceee68e..e5b4f86841 100644
-> --- a/tcg/arm/tcg-target.c.inc
-> +++ b/tcg/arm/tcg-target.c.inc
-> @@ -2715,7 +2715,8 @@ static const ARMInsn vec_cmp0_insn[16] = {
->  
->  static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
->                             unsigned vecl, unsigned vece,
-> -                           const TCGArg *args, const int *const_args)
-> +                           const TCGArg args[TCG_MAX_OP_ARGS],
-> +                           const int const_args[TCG_MAX_OP_ARGS])
->  {
->      TCGType type = vecl + TCG_TYPE_V64;
->      unsigned q = vecl;
-> 
+On Tue, Sep 7, 2021 at 8:06 AM Dr. David Alan Gilbert
+<dgilbert@redhat.com> wrote:
+> > Possibly, yes. This really need David G's input since he understands
+> > the code in way more detail than me.
+>
+> Hmm I'm not entirely sure why we have the sync after each iteration;
+> the case I can think of is if we're doing async sending, we could have
+> two versions of the same page in flight (one from each iteration) -
+> you'd want those to get there in the right order.
+>
+> Dave
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Well, that's the thing: as we don't copy the buffer in MSG_ZEROCOPY,  we will in
+fact have the same page in flight twice, instead of two versions,
+given the buffer is
+sent as it is during transmission.
+
+For me it looks like there will be no change in the current algorithm,
+but I am still
+a beginner in migration code, and I am probably missing something.
+
+Best regards,
+Leo
+
 
