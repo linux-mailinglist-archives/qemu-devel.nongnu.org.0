@@ -2,81 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBBA403452
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 08:38:02 +0200 (CEST)
-Received: from localhost ([::1]:58994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A81F40345B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 08:44:10 +0200 (CEST)
+Received: from localhost ([::1]:34926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNrDd-0004e9-Gf
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 02:38:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53520)
+	id 1mNrJZ-0007g5-HB
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 02:44:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mNrB2-0003mI-V7
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 02:35:21 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:38456)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mNrB0-0004Ha-Tk
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 02:35:20 -0400
-Received: by mail-ed1-x529.google.com with SMTP id q3so1401839edt.5
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 23:35:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DQE9izP/YlAJPhAtANxQzwxdMTygYWlVDayqKtbcuPs=;
- b=UD7p9r3Q5ByIicJiVMtD4jcW76x7bvLv/wxwPt5RUX7Cr+N2E8Bky47MSwaaby1xwK
- OWiSrHaIn6ad/5ndQS/Pru7MJDPAMftu3Ax5TycER2dGxN64cFd2XaTqAxKppSR7nfXS
- MdpUgwlZmzh7hSvPft2Dsl8MQ+IOlQOMvEN14q4D1hejPt5bQ/tJOewzjkPESfHDGv3N
- izWq1d2pQZklbU182pRajYlHFsIAenmwyxkCUSh2xkyCkTaJTaGonoi57+xmtz7a8AlD
- QCXaJSlji5hEk3+sPeUCn6T4ApHggJEVLmH8R2jsSta0gPRBCa6FihSEPIiId059lMuk
- HHmA==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mNrIY-00070L-MS
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 02:43:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27535)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mNrIU-0002Zx-NB
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 02:43:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631083380;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k5++5x8XaP11OdY6vWh6sMKTlXknkTYIUaBhtR5gVrI=;
+ b=bIruFPLWrsiA8U9fPx6G7qYzDwKYJqQ9cucWbO6t5bfbw11BgFl5QUCI3127XZPlMnyUFH
+ TcoiQzq/xxUqEBpdHW6z3mAU8C0v55cdjkC6+myuahab9j0pfnCcaqOu7j8PLB5dxXoQKs
+ +OjMGJRfz7FKA/hioQnN1X8Tyi8+Eo4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-KCBgsHXeOVyes1tnqIf7pQ-1; Wed, 08 Sep 2021 02:42:59 -0400
+X-MC-Unique: KCBgsHXeOVyes1tnqIf7pQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ s15-20020a056402520f00b003cad788f1f6so544915edd.22
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 23:42:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=DQE9izP/YlAJPhAtANxQzwxdMTygYWlVDayqKtbcuPs=;
- b=WlBxHHfAIsrGEV//CUwFYMhAbamhWW2OGE/gnBp36pH/63iiCwhAMAxD8J0/eVDmL5
- Zc+/vCdTIs4bcVkIBdoObAS6PPatS/xuVWooIAWgK/by92F4U/hOyaUaPYqTessa5dHY
- ZtBHHcNKxiz+SQrBwU5ew5adMFhK7OT5NNtf7jVCtdTKrpKsBxwInURP0K7KFj6ZswxE
- BqxrQQ3zaUPq/l5W3rSvfXcTtZLQkuEClBp21JiOx9ek5L4xei+1knw0sNvbnZXzOHTB
- +8XYhIHbs/PNmucxA3kaUWU3rLmKLznsJtiMrLPebOXuVlSAS9SazBjtXrCQNShY+4rU
- 7tXw==
-X-Gm-Message-State: AOAM531rwfz1Yf+U7TCoZ2fSvMgc7cHD4b+dkktQxXX/wVNiASFliaVO
- /JwMeUypgCa7UGsKpGnDlRzOMg==
-X-Google-Smtp-Source: ABdhPJxKNaY++qPnIXrc3re3P3RVaUESpVMdD40QmP1Sd6Pmr32CpAejk+s0Nsxx1+cet+JE7mTZCg==
-X-Received: by 2002:a50:9e0f:: with SMTP id z15mr2287283ede.40.1631082915961; 
- Tue, 07 Sep 2021 23:35:15 -0700 (PDT)
-Received: from [192.168.127.34] ([185.81.138.20])
- by smtp.gmail.com with ESMTPSA id i9sm566536edx.38.2021.09.07.23.35.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Sep 2021 23:35:14 -0700 (PDT)
-Subject: Re: [PATCH v6 09/12] target/hexagon: import parser for idef-parser
-To: Taylor Simpson <tsimpson@quicinc.com>,
- Alessandro Di Federico <ale.qemu@rev.ng>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20210720123031.1101682-1-ale.qemu@rev.ng>
- <20210720123031.1101682-10-ale.qemu@rev.ng>
- <BYAPR02MB48868558D54556AE4C145626DED39@BYAPR02MB4886.namprd02.prod.outlook.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a32683e0-9c32-bd0a-281f-61e87670d648@linaro.org>
-Date: Wed, 8 Sep 2021 08:35:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=k5++5x8XaP11OdY6vWh6sMKTlXknkTYIUaBhtR5gVrI=;
+ b=KTK2Ci8sn3KqGSZQWMoFAoizttQ2NNGJ/bPoPG3jL4mnTzwv8pk5hDuE9+I24uiQle
+ l5Km49qCT/peBx/ndzeIYaTxRT0MTVN7Dh2a0ipXfVzOtkZoN/vYObyagKKpKQbTPVUo
+ UvxbaPIqMoGFj/jOm0l/jINw0viWSWmsucfFm1HtiULvq6QF+7CBg2PH8SZDcQwf3tBa
+ htPj0zW7HrV7czH1aiDgXD0njthuqN8/2upT2sFTidxt9CRjQVufFXxlBn2Hwu2xoE59
+ 3QhTey/kTGesQTILduMxo9tNikdTFGx+P0K+oOxRw8FoIXt+R0nDQvFy3pjYbsdwUtBW
+ zWAQ==
+X-Gm-Message-State: AOAM5327QlctShr2b0UgbnLCynLNNjMfCGbE1bksApP/d8WaXjaOoE/2
+ dOfTGyayZlTUyibnA8uSYZFIZNYIZRd4aW/gydsPLLqfodUZAKOhhA0ZHJRdNCF1iNSa2olg/i2
+ m5Xj8/CobTOUMRN0=
+X-Received: by 2002:aa7:d601:: with SMTP id c1mr2226845edr.143.1631083378224; 
+ Tue, 07 Sep 2021 23:42:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxXjcvQLwzYi4ru74lOcAcbFOSbbZDfOJugVUuFN4KHB9FRK+DkJPH8ZLvGfH8qpWQCCg52UQ==
+X-Received: by 2002:aa7:d601:: with SMTP id c1mr2226825edr.143.1631083378006; 
+ Tue, 07 Sep 2021 23:42:58 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id c2sm145235edk.50.2021.09.07.23.42.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Sep 2021 23:42:57 -0700 (PDT)
+Date: Wed, 8 Sep 2021 08:42:56 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH] hw/i386/acpi-build: adjust q35 IO addr range for acpi
+ pci hotplug
+Message-ID: <20210908084256.6077f7a3@redhat.com>
+In-Reply-To: <20210908041139.2219253-1-ani@anisinha.ca>
+References: <20210908041139.2219253-1-ani@anisinha.ca>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <BYAPR02MB48868558D54556AE4C145626DED39@BYAPR02MB4886.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.332,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,30 +96,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "babush@rev.ng" <babush@rev.ng>, Brian Cain <bcain@quicinc.com>,
- "nizzo@rev.ng" <nizzo@rev.ng>, Alessandro Di Federico <ale@rev.ng>
+Cc: jusual@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org, "Michael S.
+ Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/7/21 8:08 PM, Taylor Simpson wrote:
->> diff --git a/target/hexagon/idef-parser/parser-helpers.h
->> b/target/hexagon/idef-parser/parser-helpers.h
->> +#define OUT_IMPL(c, locp, x)                    \
->> +    _Generic(*x,                                \
->> +        char:      str_print,                   \
->> +        uint8_t:   uint8_print,                 \
->> +        uint64_t:  uint64_print,                \
->> +        int:       int_print,                   \
->> +        unsigned:  uint_print,                  \
->> +        HexValue:  rvalue_out,                  \
->> +        default:   out_assert                   \
->> +    )(c, locp, x);
+On Wed,  8 Sep 2021 09:41:39 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
+
+> Change caf108bc58790 ("hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35")
+> selects an IO address range for acpi based PCI hotplug for q35 arbitrarily. It
+> starts at address 0x0cc4 and ends at 0x0cdb. It was assumed that this address
+> range was free and available. However, upon more testing, it seems this address
+> range to be not available for some latest versions of windows. 
+
+The range is something assigned by QEMU, and guest has no say where it should be.
+but perhaps we failed to describe it properly or something similar, so one gets
+'no resource' error.
+We need a find out a reason why Windows doesn't like it. You might get more
+detailed error running Windows debug build with ACPI debugger attached.
+
+> Hence, this
+> change modifies the IO address range so that windows can allocate the address
+> range without any conflict. The new address range would start at 0x0dd4 and end
+> at address 0x0deb.
 > 
-> Unless something has changed, qemu requires building with GCC 4.8 which is old enough that it doesn't support C11 _Generic.
+> This change has been tested using a Windows Server 2019 guest VM.
+> 
+> Fixes: caf108bc58790 ("hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/561
+> 
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> ---
+>  include/hw/acpi/ich9.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
+> index a329ce43ab..b68c5a2174 100644
+> --- a/include/hw/acpi/ich9.h
+> +++ b/include/hw/acpi/ich9.h
+> @@ -29,7 +29,7 @@
+>  #include "hw/acpi/acpi_dev_interface.h"
+>  #include "hw/acpi/tco.h"
+>  
+> -#define ACPI_PCIHP_ADDR_ICH9 0x0cc4
+> +#define ACPI_PCIHP_ADDR_ICH9 0x0dd4
 
-Something has changed.  The minimum is now 7.5, and we use -std=gnu11 now.
-We also use _Generic in several other places.
+that's ABI change, it must be versioned 
 
+>  
+>  typedef struct ICH9LPCPMRegs {
+>      /*
 
-r~
 
