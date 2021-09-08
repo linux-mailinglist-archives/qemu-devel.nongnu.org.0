@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85984037D2
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 12:26:06 +0200 (CEST)
-Received: from localhost ([::1]:52108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 550154037A4
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 12:14:21 +0200 (CEST)
+Received: from localhost ([::1]:48150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNumL-00063c-Vq
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 06:26:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39110)
+	id 1mNuay-00018e-CL
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 06:14:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNuRu-0006kV-Qt
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:04:58 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:46800)
+ id 1mNuRw-0006nu-5p
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:05:00 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:45011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNuRr-00034w-DV
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:04:58 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- m25-20020a7bcb99000000b002e751bcb5dbso1071629wmi.5
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 03:04:54 -0700 (PDT)
+ id 1mNuRt-00035J-NI
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:04:59 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ l7-20020a1c2507000000b002e6be5d86b3so1072805wml.3
+ for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 03:04:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6HvVwDW0UEsMND2Epmw+EH1l2m7EcZiok6GeyK4r1PQ=;
- b=B4Q+ikA36ht5pIYGDG584KoDMDRt66i7fPbri/PbCM9LMbzXW2nhHpQWxyLXAqHToQ
- Mct0dLt7yLrFrdTnWfouDCP76bi+rlbz9L3mLd0VtOy31/JWxfiljt4CSFh2/g6BIfLx
- qF9FqFjkaAfeEhwkjnsSkkg/5nNhcWcjzi1imJsWFH/WdQME7dbWf2CGuVzuTlu7g1H6
- 6IOqqJ0VxdRG16ZBFe0LOnI7wB1wRHt61oiabBoIpLkhWsQOj4iDrz1XcNbY1kqnlSF5
- 1iWirUUYV2t9hzWLGroCvcYs79937kzffMg72/xH+H425Qs+JFMXT2CQLhly6XnK6QpW
- hOxQ==
+ bh=LrpWhKARcoTgZN4W9UXAhXElE4Wt3Yuz4O1+ggge9gI=;
+ b=MZnw4kM+syualv5NlUB1RXF2Yx8EoHbF7dyrfDjQsuBy59sc52tsNte67OW3DEDtn4
+ Nl+WqX4atlq6WZrV/DEHL7yc15cq2xD9hwiHVIMlAWCCUxnQ1NlyKh2pHGT65ZmiP8ZT
+ 2lk+ksl265ORykH3lKIN+Xh3gNh4bFs6K5ShEz+dtzxJVZ0TTA+DEj/yIxS8GyXQtBhN
+ 6zX85Sdjp6SuBcwmGlwXbpaisP//URDlZDIeUPVxI9A1CQ+FUBSp4txgeTgpz3LiiV+I
+ 8GpL2Y7hYonOz9YcKrMMbA28NFthlqu5cQo9LVXHf294q5B7NF4DSw0dBkoQm7fQ57Su
+ Jy7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=6HvVwDW0UEsMND2Epmw+EH1l2m7EcZiok6GeyK4r1PQ=;
- b=ShlsSyor/692l8lrPjrM+Y1R7i8hCUUfx6YDawyS7ZB/b9ZaVm4tEaEtihVVLC6VKv
- 2FKGC0GT872pSjI4hvKkC7y+a3yTTPxLK2mFGFRitLs0cOXe7c+yLZMqrU0JTGXXMhYe
- /GgYH7bXCDiUI3gsN/dd4qFDY+CmNGjcOYTAUSXej9B2Vwy528lhK8d83P3t5GCVtz8M
- giF5IpQvL6pneAgTfaF8NOPW1saEWTasvlXIIY9mMTSN1I+uLd8IstWK6DuzWU4i8WZs
- SJS1VfesymMa+3erhHJ7Og7i9zRpFibkBB0Tgv/FPTJlTWwA5MQzAQVPlEz4CAUd7wXR
- J0sw==
-X-Gm-Message-State: AOAM53256Sdr6zi4Mw1elJPpefMiLX1Z5XvvXQdAKntmU7BzLK8X6HWC
- 6zGwnFnN4Ge+/EjDpM/PUigRZFlSr8g=
-X-Google-Smtp-Source: ABdhPJz4f4Eb5h0Jy9fPsRxbBUKeRwSkpQuXgZ/Q4wejD0F/Y/RyrkAYVANTToUDiX6D4XQ1XUFdZA==
-X-Received: by 2002:a1c:8086:: with SMTP id b128mr2808344wmd.54.1631095494112; 
+ bh=LrpWhKARcoTgZN4W9UXAhXElE4Wt3Yuz4O1+ggge9gI=;
+ b=XD7evLr+DFz7n8XafLWjXtah1AOpx60crknwOy+EYcc+at+9k88HghT1qX47piYlNO
+ dcqTig4TL5SnIr5JqHlotMmtVG71/ghtzsgV3Sam+hBUYFgFv3pum8tvjVqcxy2bQDek
+ fUDq6ZnabUKWzZfpqOpuw7lr5qkDDBXMqcfb453Mz/IouSCZQDI1ol701jWOKZPlxD8W
+ hP3sXngHDPMAf8o2p9UbNA2VQFpYeCH/VAI6TRh725EPJM7oMcxnil/hqh6H/+ZV5XLn
+ IjcMlhZq1BKiIJdcGEM85c2sxDXI0ODy1mWDrOhsWbRwfaHn37i/khT4F8oi9Myu6EOj
+ Dg+Q==
+X-Gm-Message-State: AOAM531odQMmZrEMpqio832lgCH1pCXSp4ZOpdHVc8B+gH0W4h+GHVHO
+ Tb0xYIcaAPtA4hWBFSWlrYxIbZrIxh0=
+X-Google-Smtp-Source: ABdhPJwY9bVmWVabsz9txeGcc+cCXyXDPIaWpQsBtllgngVbyHOpHEJorj2+74h0kQ+j4SOQTC6zjA==
+X-Received: by 2002:a1c:1cc:: with SMTP id 195mr2750080wmb.188.1631095494778; 
  Wed, 08 Sep 2021 03:04:54 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u8sm1683715wmq.45.2021.09.08.03.04.53
+ by smtp.gmail.com with ESMTPSA id u8sm1683715wmq.45.2021.09.08.03.04.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Sep 2021 03:04:53 -0700 (PDT)
+ Wed, 08 Sep 2021 03:04:54 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 25/43] hw/i386/fw_cfg: Set SGX bits in feature control
- fw_cfg accordingly
-Date: Wed,  8 Sep 2021 12:04:08 +0200
-Message-Id: <20210908100426.264356-26-pbonzini@redhat.com>
+Subject: [PULL v4 26/43] hw/i386/pc: Account for SGX EPC sections when
+ calculating device memory
+Date: Wed,  8 Sep 2021 12:04:09 +0200
+Message-Id: <20210908100426.264356-27-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210908100426.264356-1-pbonzini@redhat.com>
 References: <20210908100426.264356-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,47 +92,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-Request SGX an SGX Launch Control to be enabled in FEATURE_CONTROL
-when the features are exposed to the guest. Our design is the SGX
-Launch Control bit will be unconditionally set in FEATURE_CONTROL,
-which is unlike host bios.
+Add helpers to detect if SGX EPC exists above 4g, and if so, where SGX
+EPC above 4g ends.  Use the helpers to adjust the device memory range
+if SGX EPC exists above 4g.
+
+For multiple virtual EPC sections, we just put them together physically
+contiguous for the simplicity because we don't support EPC NUMA affinity
+now. Once the SGX EPC NUMA support in the kernel SGX driver, we will
+support this in the future.
+
+Note that SGX EPC is currently hardcoded to reside above 4g.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210719112136.57018-17-yang.zhong@intel.com>
+Message-Id: <20210719112136.57018-18-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/fw_cfg.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ hw/i386/pc.c              | 11 ++++++++++-
+ include/hw/i386/sgx-epc.h |  7 +++++++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
-index 4e68d5dea4..f6d036dfbe 100644
---- a/hw/i386/fw_cfg.c
-+++ b/hw/i386/fw_cfg.c
-@@ -159,7 +159,7 @@ void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg)
- {
-     X86CPU *cpu = X86_CPU(ms->possible_cpus->cpus[0].cpu);
-     CPUX86State *env = &cpu->env;
--    uint32_t unused, ecx, edx;
-+    uint32_t unused, ebx, ecx, edx;
-     uint64_t feature_control_bits = 0;
-     uint64_t *val;
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 7e523b913c..58700af138 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -913,8 +913,15 @@ void pc_memory_init(PCMachineState *pcms,
+             exit(EXIT_FAILURE);
+         }
  
-@@ -174,6 +174,14 @@ void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg)
-         feature_control_bits |= FEATURE_CONTROL_LMCE;
-     }
- 
-+    cpu_x86_cpuid(env, 0x7, 0, &unused, &ebx, &ecx, &unused);
-+    if (ebx & CPUID_7_0_EBX_SGX) {
-+        feature_control_bits |= FEATURE_CONTROL_SGX;
-+    }
-+    if (ecx & CPUID_7_0_ECX_SGX_LC) {
-+        feature_control_bits |= FEATURE_CONTROL_SGX_LC;
-+    }
++        if (pcms->sgx_epc.size != 0) {
++            machine->device_memory->base = sgx_epc_above_4g_end(&pcms->sgx_epc);
++        } else {
++            machine->device_memory->base =
++                0x100000000ULL + x86ms->above_4g_mem_size;
++        }
 +
-     if (!feature_control_bits) {
-         return;
+         machine->device_memory->base =
+-            ROUND_UP(0x100000000ULL + x86ms->above_4g_mem_size, 1 * GiB);
++            ROUND_UP(machine->device_memory->base, 1 * GiB);
+ 
+         if (pcmc->enforce_aligned_dimm) {
+             /* size device region assuming 1G page max alignment per slot */
+@@ -999,6 +1006,8 @@ uint64_t pc_pci_hole64_start(void)
+         if (!pcmc->broken_reserved_end) {
+             hole64_start += memory_region_size(&ms->device_memory->mr);
+         }
++    } else if (pcms->sgx_epc.size != 0) {
++            hole64_start = sgx_epc_above_4g_end(&pcms->sgx_epc);
+     } else {
+         hole64_start = 0x100000000ULL + x86ms->above_4g_mem_size;
      }
+diff --git a/include/hw/i386/sgx-epc.h b/include/hw/i386/sgx-epc.h
+index f85fd2a4ca..155e8fad3e 100644
+--- a/include/hw/i386/sgx-epc.h
++++ b/include/hw/i386/sgx-epc.h
+@@ -57,4 +57,11 @@ typedef struct SGXEPCState {
+ 
+ int sgx_epc_get_section(int section_nr, uint64_t *addr, uint64_t *size);
+ 
++static inline uint64_t sgx_epc_above_4g_end(SGXEPCState *sgx_epc)
++{
++    assert(sgx_epc != NULL && sgx_epc->base >= 0x100000000ULL);
++
++    return sgx_epc->base + sgx_epc->size;
++}
++
+ #endif
 -- 
 2.31.1
 
