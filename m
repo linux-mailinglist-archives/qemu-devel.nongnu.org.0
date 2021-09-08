@@ -2,67 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17354033FB
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 07:57:44 +0200 (CEST)
-Received: from localhost ([::1]:32802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B8C4033FC
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 07:59:35 +0200 (CEST)
+Received: from localhost ([::1]:35080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNqad-0001nT-Sd
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 01:57:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47082)
+	id 1mNqcQ-0003Lj-M4
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 01:59:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mNqYs-0000Gc-V7; Wed, 08 Sep 2021 01:55:54 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:43631)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mNqYr-0004vm-9o; Wed, 08 Sep 2021 01:55:54 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id c6so1886447ybm.10;
- Tue, 07 Sep 2021 22:55:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v8q60mt5Ej3v7B7uxMr/itsLyYbnc/Att2uODKJF4gk=;
- b=LCQEYezIiyvnX7UYVlDiSC0ySctpUKPGZ4c6V9LYppGGpWZlrticoiMagwTm7lvNQE
- vYXLnuPllbL31j8gd8TnO1gCX2oKiBmL6efKoZ/RWeSCEOaGK+Qw8w/ou+/EQrIyAwW5
- YLuUoGMVfidaHKwa9YjqhZZISL4LEDvJbrU/RLbYJW2/3oLNd6wCqpQI+1SH9corxQbk
- LnJeZBr2dQ+pqC0brqf10mUUZaLi07zR0qL7RdyQd3QW0nIbynPo5mXXVY/VKZwzExgb
- flJnGaO/d0Q+l66gR4Quw41Ul3ZyxOUs1pFqe4Av9xnbQ5tiW2kkDB8BJU2TPJQrKoLX
- sSZw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mNqbd-0002hH-J7
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 01:58:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52999)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mNqbc-0007LR-3I
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 01:58:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631080723;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0M7VbO+9M0QgJBAQ4ZzMj8Brp3VqoXg2nLdj3mDzAhA=;
+ b=avV9J2Lt9gwidbtM26kEmJQgMLwd1qrOhn4tQoBNAGQswRrttIFDNbUoqnJi9GbJCvreDZ
+ JGqqhkYOaRUTHhZqo9YxyqkMIVvKi1vA6bpz02naF4awuxvURBp5wrMyD/u7y47WVbh//N
+ i6oXFEI326zCCcc3ggYwjSnvURrxc6E=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-299-701Oaq7KPzGrJqSuxkNL6g-1; Wed, 08 Sep 2021 01:58:39 -0400
+X-MC-Unique: 701Oaq7KPzGrJqSuxkNL6g-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ s23-20020a508d17000000b003cde1d7562fso43662eds.9
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 22:58:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=v8q60mt5Ej3v7B7uxMr/itsLyYbnc/Att2uODKJF4gk=;
- b=TV/acBJV74UtyhzUK/Lr9Um4ZOuxKpwy8nLYKKK10Fys6C7TelcHiFam5aopm7MgwP
- 7j6ghVuxaFHAAxTcb+gNq2CK5c20U3kGzxBCJUQPUgvzZ8KzivxOcGgVx0T2GlfH4ebj
- NncQ+HM+prCgXWEEpl/3Qd2dYTrLdpMqhEnP3o1g9wDIn9KiGKl+glKXflPFTQSjMMqN
- UrzwoY0EszcMHIL62rAipk2YsnAEbC7Q1wtFVFmlwr5hzgBX4VKGsxHw0vSvXsp0ZCZr
- 5gm8hzX6CyW/Jy1pYN3zNbqkhXKOIhMPlK/IuaIG/rpqEXLTQr9P5a6Yz5vf78DFcrb+
- mJ+g==
-X-Gm-Message-State: AOAM530/YCtPPlE6Ve6TzdaOg4CYbPB4/X6sR1SJWjn85HOnHHwYakau
- vQqYlsMXGxtJRmK4wQAw/rVv9ppZN80czs47Z7Y=
-X-Google-Smtp-Source: ABdhPJzcLWhGIcmiPgnDOPVPPyjbTMGly7Fdxp1huqClHtQK8uojav0cEso8BFcVE+bemkRAjCgMQ4R8sLRavg5yM1c=
-X-Received: by 2002:a25:76c7:: with SMTP id r190mr2899095ybc.467.1631080551989; 
- Tue, 07 Sep 2021 22:55:51 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0M7VbO+9M0QgJBAQ4ZzMj8Brp3VqoXg2nLdj3mDzAhA=;
+ b=fwFkHaDUgq5D9x1HkOMCWF1/6xOBhhpSOjhafRSS06xPOyglXPYOrQToSdf1tdVf/3
+ brrefgKTiVg7EpFUopHbeZ88jIO8zksPP0gz/gjell0bGGbHq2clajYvuLWy12tS16++
+ 1jVoPfs3MsN5LD8A6zW1xANIt9en3iFAwLwFPmgv90ARx/HXIXaF3WCKPTdIT3vThUkx
+ gUVwvMYwpvKSXPZ9KenxEEwURipXOv4VL+eG4X/cLoYjdOKjykEby5ENPByJqAqR9Huw
+ rQkNL7JiGl7pOnuM8RTvHKqhPlYL+lIkUO5RYskXjzP3GmGI7M9FO6qWj+3FkJZpstE9
+ Iygw==
+X-Gm-Message-State: AOAM533KAiiC1GaYKNYd+dUSL8yonlmf+lHA66OOrsRHCPiVUQb66cMa
+ 6iI3Cl0SYM76mmpWBmxLbNdhKy5lXBX2k5H2szO9ZaPBd+1shr+taAlKhdC+OKVXLTtljEcZ5/0
+ SSAJ9ZJTTCYVBSo3eekODIhBCHTZuZA3SBX/ECqnFJnS9rBDQp44J0t3Adal3Snp0xzs=
+X-Received: by 2002:a50:ed09:: with SMTP id j9mr2106340eds.164.1631080718447; 
+ Tue, 07 Sep 2021 22:58:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy7Bu7gNhLNnk5uDwy5DCXYlwqh2tkMae3Bw/yvr+6qmP5XYWHkmrnQ+FAAMJ8oVmkVrrCjXA==
+X-Received: by 2002:a50:ed09:: with SMTP id j9mr2106331eds.164.1631080718230; 
+ Tue, 07 Sep 2021 22:58:38 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id d22sm414568ejk.5.2021.09.07.22.58.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Sep 2021 22:58:37 -0700 (PDT)
+Subject: Re: [PATCH] qemu-thread: avoid false positive in pthread_cleanup_push
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210907125120.145068-1-pbonzini@redhat.com>
+ <477f7de5-7977-4dd5-38e8-8130149e3570@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <04eec17e-52bc-88a9-3278-7f2a97a83cd8@redhat.com>
+Date: Wed, 8 Sep 2021 07:58:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <cover.1631076834.git.alistair.francis@wdc.com>
- <be4c59ab0a3468f1962671e7cf5a947c151d31d9.1631076834.git.alistair.francis@wdc.com>
-In-Reply-To: <be4c59ab0a3468f1962671e7cf5a947c151d31d9.1631076834.git.alistair.francis@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 8 Sep 2021 13:55:42 +0800
-Message-ID: <CAEUhbmUjg_LttOLwFMgZueA7L1aRSRTAdy78-EVybJ=a-ax-8w@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] target/riscv: Set mtval and stval support
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <477f7de5-7977-4dd5-38e8-8130149e3570@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,67 +100,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 8, 2021 at 12:55 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/cpu.h | 1 +
->  target/riscv/cpu.c | 6 +++++-
->  2 files changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index d11db1f031..5b0bbf2fca 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -309,6 +309,7 @@ struct RISCVCPU {
->          bool mmu;
->          bool pmp;
->          bool epmp;
-> +        bool mtval_inst;
->          uint64_t resetvec;
->      } cfg;
->  };
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 1a2b03d579..537f2af341 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -437,6 +437,10 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->          }
->      }
->
-> +    if (cpu->cfg.mtval_inst) {
-> +        set_feature(env, RISCV_FEATURE_MTVAL_INST);
-> +    }
-> +
->      set_resetvec(env, cpu->cfg.resetvec);
->
->      /* If only XLEN is set for misa, then set misa from properties */
-> @@ -600,7 +604,7 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
->      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
->      DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
-> -
-> +    DEFINE_PROP_BOOL("tval-inst", RISCVCPU, cfg.mtval_inst, true),
+On 07/09/21 16:20, Richard Henderson wrote:
+> On 9/7/21 2:51 PM, Paolo Bonzini wrote:
+>> +#pragma GCC diagnostic push
+>> +#pragma GCC diagnostic ignored "-Wstringop-overflow"
+>>       pthread_cleanup_push(qemu_thread_atexit_notify, NULL);
+>> +#pragma GCC diagnostic pop
+> 
+> I had a patch for this that didn't quite get applied for 6.1.
+> You can't leave the pragma unprotected for clang, unfortunately.
+> 
+> https://patchew.org/QEMU/20210803211907.150525-1-richard.henderson@linaro.org/ 
 
-Should we tweak such on a per-CPU basis instead of globally enabling
-it, e.g.: update sifive_u54 per the real hardware implementation?
+Thanks!  I queued your patch instead of mine.
 
->      DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVEC),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
+Paolo
 
-Regards,
-Bin
 
