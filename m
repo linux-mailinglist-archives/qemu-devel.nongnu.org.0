@@ -2,47 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F5C240398B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:13:16 +0200 (CEST)
-Received: from localhost ([::1]:36760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B918403969
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:03:33 +0200 (CEST)
+Received: from localhost ([::1]:47196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNwS3-0006Lw-Bv
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:13:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37610)
+	id 1mNwIe-0002JV-2x
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:03:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <adam@l4re.org>) id 1mNwPA-000486-1H
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:10:16 -0400
-Received: from os.inf.tu-dresden.de ([141.76.48.99]:47950)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mNwAs-0005yU-LF
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 07:55:32 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59044
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <adam@l4re.org>) id 1mNwP6-0006pA-1D
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:10:14 -0400
-Received: from erwin.inf.tu-dresden.de ([141.76.48.80]
- helo=os.inf.tu-dresden.de)
- by os.inf.tu-dresden.de with esmtps (TLS1.3:TLS_AES_256_GCM_SHA384:256) (Exim
- 4.94.2) id 1mNvNI-0002ts-OU; Wed, 08 Sep 2021 13:04:16 +0200
-Date: Wed, 8 Sep 2021 13:04:14 +0200
-From: Adam Lackorzynski <adam@l4re.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Subject: Re: arm: Launching EFI-enabled arm32 Linux
-Message-ID: <YTiYrlwj2ZpAy4EV@os.inf.tu-dresden.de>
-References: <YTPIdbUCmwagL5/D@os.inf.tu-dresden.de>
- <20210906163403.7b091544@slackpad.fritz.box>
- <YTf00ErKBqiDz9ZG@os.inf.tu-dresden.de>
- <20210908004710.7fd6e07a@slackpad.fritz.box>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mNwAr-0005V7-6l
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 07:55:30 -0400
+Received: from host86-140-11-91.range86-140.btcentralplus.com ([86.140.11.91]
+ helo=kentang.home) by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mNwAl-0009u6-Pd; Wed, 08 Sep 2021 12:55:27 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: peter.maydell@linaro.org,
+	qemu-devel@nongnu.org
+Date: Wed,  8 Sep 2021 12:54:45 +0100
+Message-Id: <20210908115451.9821-7-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210908115451.9821-1-mark.cave-ayland@ilande.co.uk>
+References: <20210908115451.9821-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210908004710.7fd6e07a@slackpad.fritz.box>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-Received-SPF: none client-ip=141.76.48.99; envelope-from=adam@l4re.org;
- helo=os.inf.tu-dresden.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.140.11.91
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PULL 06/12] escc: introduce escc_soft_reset_chn() for software reset
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,110 +60,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Andre,
+This new software reset function is to be called when the appropriate channel
+software reset bit is written to register WR9. Its initial implementation is
+the same as the existing escc_reset_chn() function used for device reset.
 
-On Wed Sep 08, 2021 at 00:47:10 +0100, Andre Przywara wrote:
-> On Wed, 8 Sep 2021 01:25:04 +0200
-> Adam Lackorzynski <adam@l4re.org> wrote:
->=20
-> Hi Adam,
->=20
-> > On Mon Sep 06, 2021 at 16:34:03 +0100, Andre Przywara wrote:
-> > > On Sat, 4 Sep 2021 21:26:45 +0200
-> > > Adam Lackorzynski <adam@l4re.org> wrote:
-> > >=20
-> > > Hi Adam,
-> > >  =20
-> > > > while trying to launch an EFI-enabled arm32 Linux binary (zImage) I
-> > > > noticed I get an undefined instruction exception on the first
-> > > > instruction. Now this is a bit special because Linux uses a nop
-> > > > instruction there that also is a PE file signature ('MZ') such that=
- the
-> > > > CPU runs over it and the file is still recognized as a PE binary. L=
-inux
-> > > > uses 0x13105a4d (tstne r0, #0x4d000) as the instruction (see also
-> > > > arch/arm/boot/compressed/head.S and efi-header.S in Linux).
-> > > > However, QEMU's instruction decoder will only recognize TST with bi=
-ts
-> > > > 12-15 being 0, which this instruction is not fullfilling, and thus =
-the
-> > > > undef exception. I guess other CPU implementations will allow this
-> > > > encoding. So while investigating I was doing the following to make =
-Linux
-> > > > proceed. I also believe this was working in a previous version of Q=
-EMU.
-> > > >=20
-> > > > diff --git a/target/arm/a32.decode b/target/arm/a32.decode
-> > > > index fcd8cd4f7d..222553750e 100644
-> > > > --- a/target/arm/a32.decode
-> > > > +++ b/target/arm/a32.decode
-> > > > @@ -127,7 +127,7 @@ ADD_rri          .... 001 0100 . .... .... ....=
-=2E.......       @s_rri_rot
-> > > >  ADC_rri          .... 001 0101 . .... .... ............       @s_r=
-ri_rot
-> > > >  SBC_rri          .... 001 0110 . .... .... ............       @s_r=
-ri_rot
-> > > >  RSC_rri          .... 001 0111 . .... .... ............       @s_r=
-ri_rot
-> > > > -TST_xri          .... 001 1000 1 .... 0000 ............       @S_x=
-ri_rot
-> > > > +TST_xri          .... 001 1000 1 .... ---- ............       @S_x=
-ri_rot
-> > > >  TEQ_xri          .... 001 1001 1 .... 0000 ............       @S_x=
-ri_rot
-> > > >  CMP_xri          .... 001 1010 1 .... 0000 ............       @S_x=
-ri_rot
-> > > >  CMN_xri          .... 001 1011 1 .... 0000 ............       @S_x=
-ri_rot
-> > > >=20
-> > > >=20
-> > > > Any thoughts on this? =20
-> > >=20
-> > > thanks for the report, I was looking at this and have a kernel patch
-> > > to fix this properly as Peter suggested. And while I agree on the
-> > > problem, I was struggling to reproduce this in reality: both with
-> > > -kernel and when booting through U-Boot the "Z" bit is set, which lets
-> > > QEMU not even bother about the rest of the encoding - the condition
-> > > flags don't match, so it proceeds. If I change the __nop to use "tste=
-q",
-> > > I see it hanging due to the missing exception handler, but not with
-> > > "tstne".
-> > > So can you say how you spotted this issue? This would be needed as a
-> > > justification for patching the guts of the ARM Linux kernel port. =20
-> >=20
-> > Good point with the condition flags. I'm doing this with our own vmm
-> > where I'm loading the binary directly as the payload (as mandated by the
-> > header), and where psr is set to a defined value with all flags cleared.
->=20
-> Right, I was thinking something like this.
->=20
-> > If I set the Z bit than it also works (of course).
-> > Looking a bit around in QEMU as well as u-boot I it looks like this is
-> > rather by luck how flags are set.
->=20
-> Yes, the kernel boot protocol doesn't say anything about the condition
-> flags, so any combination would be valid and we were just lucky before.
-> I did also test on an Cortex-A7 and A53, both ignore bits [15:12] (so
-> execute the instruction as if they were 0), which explains why it works
-> on real hardware.
->=20
-> > Thanks for doing the Linux patch, I'll scrap mine, and also thanks to
-> > Peter for the idea!
->=20
-> Oh, didn't want to cut you off, if you want to have the commit: be my
-> guest!
-> Otherwise I will send something tomorrow, with a Reported-by: to you.
+Add a new trace event when the guest initiates a soft reset via the WR9 register
+to help diagnose guest reset issues.
 
-No, that's fine, I'm happy this is taken care of :)
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20210903113223.19551-4-mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/char/escc.c       | 40 ++++++++++++++++++++++++++++++++++++++--
+ hw/char/trace-events |  1 +
+ 2 files changed, 39 insertions(+), 2 deletions(-)
 
-> Gr=FC=DFe an die Elbe!
+diff --git a/hw/char/escc.c b/hw/char/escc.c
+index b0d3b92dc1..697f15f383 100644
+--- a/hw/char/escc.c
++++ b/hw/char/escc.c
+@@ -297,6 +297,40 @@ static void escc_reset_chn(ESCCChannelState *s)
+     clear_queue(s);
+ }
+ 
++static void escc_soft_reset_chn(ESCCChannelState *s)
++{
++    int i;
++
++    s->reg = 0;
++    for (i = 0; i < ESCC_SERIAL_REGS; i++) {
++        s->rregs[i] = 0;
++        s->wregs[i] = 0;
++    }
++    /* 1X divisor, 1 stop bit, no parity */
++    s->wregs[W_TXCTRL1] = TXCTRL1_1STOP;
++    s->wregs[W_MINTR] = MINTR_RST_ALL;
++    /* Synch mode tx clock = TRxC */
++    s->wregs[W_CLOCK] = CLOCK_TRXC;
++    /* PLL disabled */
++    s->wregs[W_MISC2] = MISC2_PLLDIS;
++    /* Enable most interrupts */
++    s->wregs[W_EXTINT] = EXTINT_DCD | EXTINT_SYNCINT | EXTINT_CTSINT |
++                         EXTINT_TXUNDRN | EXTINT_BRKINT;
++    if (s->disabled) {
++        s->rregs[R_STATUS] = STATUS_TXEMPTY | STATUS_DCD | STATUS_SYNC |
++                             STATUS_CTS | STATUS_TXUNDRN;
++    } else {
++        s->rregs[R_STATUS] = STATUS_TXEMPTY | STATUS_TXUNDRN;
++    }
++    s->rregs[R_SPEC] = SPEC_BITS8 | SPEC_ALLSENT;
++
++    s->rx = s->tx = 0;
++    s->rxint = s->txint = 0;
++    s->rxint_under_svc = s->txint_under_svc = 0;
++    s->e0_mode = s->led_mode = s->caps_lock_mode = s->num_lock_mode = 0;
++    clear_queue(s);
++}
++
+ static void escc_reset(DeviceState *d)
+ {
+     ESCCState *s = ESCC(d);
+@@ -547,10 +581,12 @@ static void escc_mem_write(void *opaque, hwaddr addr,
+             default:
+                 break;
+             case MINTR_RST_B:
+-                escc_reset_chn(&serial->chn[0]);
++                trace_escc_soft_reset_chn(CHN_C(&serial->chn[0]));
++                escc_soft_reset_chn(&serial->chn[0]);
+                 return;
+             case MINTR_RST_A:
+-                escc_reset_chn(&serial->chn[1]);
++                trace_escc_soft_reset_chn(CHN_C(&serial->chn[1]));
++                escc_soft_reset_chn(&serial->chn[1]);
+                 return;
+             case MINTR_RST_ALL:
+                 escc_reset(DEVICE(serial));
+diff --git a/hw/char/trace-events b/hw/char/trace-events
+index 1436fb462d..073f98ebe8 100644
+--- a/hw/char/trace-events
++++ b/hw/char/trace-events
+@@ -36,6 +36,7 @@ grlib_apbuart_writel_unknown(uint64_t addr, uint32_t value) "addr 0x%"PRIx64" va
+ grlib_apbuart_readl_unknown(uint64_t addr) "addr 0x%"PRIx64
+ 
+ # escc.c
++escc_soft_reset_chn(char channel) "soft reset channel %c"
+ escc_put_queue(char channel, int b) "channel %c put: 0x%02x"
+ escc_get_queue(char channel, int val) "channel %c get 0x%02x"
+ escc_update_irq(int irq) "IRQ = %d"
+-- 
+2.20.1
 
-Danke, Gr=FC=DFe zur=FCck :-)
-
-
-Adam
 
