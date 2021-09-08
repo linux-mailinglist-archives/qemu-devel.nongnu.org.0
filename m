@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA18F403D50
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 18:07:38 +0200 (CEST)
-Received: from localhost ([::1]:52588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0328403D40
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 18:04:29 +0200 (CEST)
+Received: from localhost ([::1]:43814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mO06r-0003PG-SR
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 12:07:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39930)
+	id 1mO03o-0005o2-EB
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 12:04:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mNzyj-0006rg-Kq
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:59:13 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:43688)
+ id 1mO00C-0000Ea-8S
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 12:00:44 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:50781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mNzyh-0006aP-1e
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:59:13 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- n7-20020a05600c3b8700b002f8ca941d89so1939459wms.2
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 08:59:10 -0700 (PDT)
+ id 1mO00A-0007k8-IS
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 12:00:44 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id m2so2166435wmm.0
+ for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 09:00:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gwWKZnYds/G/I2GZRUuUImjPiW4o8ceSJM6V//gprM0=;
- b=IP03jRjeP7nFc7+9JS10I6OU9imzMk3kghx/rpSR9pKX6gmQkZdwfn06pnTiHccd6F
- MUl16rd7QsSGezlMs5pPb3AKQ4lk8H7LZ1e9YjZ4d4/6ghGArT8p8wk81pW61isM2IKm
- wzeaKLcxn6h1Cde9IZETcYhSu32XNHPJcVp3CAFpRGikhPsW8cgyDFDPi1XuUoHjQ23F
- 9tRB16SNCbGb8G8flb+pSvCQTQQTU+YzU0Wv8mMGpphlA7KllbwLROuspbsM1Wqiq0ER
- 7K6W45JtYn9/Lw7mIUWu8ctEiyBqskg2uIA73Xpdn7+iH43cQpvPAJIsKTWxguet7oZs
- CmwQ==
+ bh=VUNkqenJf0vaSP402chASSTe8hiZzb6rgvUXiuUOR0U=;
+ b=W+hH2W/2h4wU3Z5E0vNZQKMyvsVGpOLOSFrhvk++uNYwadEw4DbeNFIhLMcM6Z6sic
+ rLOgJ9AZpTVpzxUjrM9QUmTx4i6FQejOgSRvaO6T4zoQIssJz1YcZrQNXrgSSfrEDXov
+ cyJKwObm6+7ZAnpzRzEr/04CFrQdD4oBBhqQX/o6r4EZBoM/RP5qD2Bpy7Q7aregv4fb
+ veo3ntKJ/OAtbOBwaeb7rfR/1PcfIpLMEfC1L5meAdtekdYJrgldDgN0m+RLSpC7eI4m
+ t7snmdVVW6zJ5mSvHxpzupwDaLiLhtB/brQCBX4p2KiB38OMgHmqiOexqCYc4mEXJb5H
+ 41vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gwWKZnYds/G/I2GZRUuUImjPiW4o8ceSJM6V//gprM0=;
- b=F3bBBi7QjIBreaK5NOztw8JRdFlKlex3hbSRvngpOPD05AYZyKDBsLnVaXx6oMto/o
- e8CNvhW4qZlIT0PvzgHLd0sO3f5KhU+QlOz5NAlsVEyK0fjh9mZHfC+SWuDwuFRTZSuc
- XdFAqNnOfFm0KPrO82UT4u6rQ3rr/nYXSW6x/lt7pT/qQ7XDaYsyyaPG5ndWRoo922Tb
- kdx6Dno0OAAY08dez9fg9vvLArzXUaCnH+KoRSY6aHKv+lMJKiECuhKZo+xN6h1v3280
- X3PBOFGNuFzt05HzbGmYZlK0LXCROdDevt4TltqFA/DHmd2KscaSqTGgx2Pb8qWFo9M0
- RDyQ==
-X-Gm-Message-State: AOAM532irmWxMFWSPGw+njYs8LXfyhdG8i+Nw8Fow1lYXLy30WBk3jEq
- ZeF+qoRjZePRl9Y1HTkc0hQ=
-X-Google-Smtp-Source: ABdhPJzG8te3N31NwT/VNao6TWHawN1pywi08g32gJIKLw0L6raXGLQmvxrVYU77TAwHMW8DOh6MQQ==
-X-Received: by 2002:a05:600c:a08:: with SMTP id
- z8mr4400734wmp.165.1631116749089; 
- Wed, 08 Sep 2021 08:59:09 -0700 (PDT)
+ bh=VUNkqenJf0vaSP402chASSTe8hiZzb6rgvUXiuUOR0U=;
+ b=hNVC4QllKBUJVs5sBOqJJGUsF5PesTF6sunaWAZvDw6/WS1ryyByWMmv+ezK/d9ZyY
+ ytwzIH0j0S07yyemtqV9sR3JL6/giKYiI0tTG1SBdgxIO71E5cqMexmUAjVDAIPZQ+CB
+ bsVHsP+IH1yLgPJW8FIIZwhhe1k+vaz76hhnfdDHhWCVtXx+w/8saThnpF3JRkFWibbF
+ WwrQ0gjPBBsuoA+Yk76XZuVX0QBdgizuMDcBP+/GS/RtxIl7WAer+d9oLMP+Vm803fQT
+ HaJAK+u81p5Y/CxGmYYP3NK8aIZf6xICLNdV7s6fwB4H5v+7OXyH9PKtLh5z2roUSkZX
+ Zq2Q==
+X-Gm-Message-State: AOAM531bAYxJJIDTQMAhWAbsKDVoG8YZ/y1JkkLdGFkTNJ65CajrcA91
+ OBWWKxUNH35R7hTNraeJG0k=
+X-Google-Smtp-Source: ABdhPJxg8MtdbVTqZUgecPP5qjfJI49nauL3AVrQ3XtmAPHl7yIjoHMv5DPBtIqNGOMLm29hAnkdyA==
+X-Received: by 2002:a1c:21c3:: with SMTP id h186mr4432089wmh.89.1631116840607; 
+ Wed, 08 Sep 2021 09:00:40 -0700 (PDT)
 Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id y15sm3026729wmi.18.2021.09.08.08.59.08
+ by smtp.gmail.com with ESMTPSA id n4sm2885999wro.81.2021.09.08.09.00.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Sep 2021 08:59:08 -0700 (PDT)
-Subject: Re: [PATCH v2 3/9] linux-user: Split signal-related prototypes into
- signal-common.h
+ Wed, 08 Sep 2021 09:00:40 -0700 (PDT)
+Subject: Re: [PATCH v2 4/9] linux-user: Split loader-related prototypes into
+ loader.h
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20210908154405.15417-1-peter.maydell@linaro.org>
- <20210908154405.15417-4-peter.maydell@linaro.org>
+ <20210908154405.15417-5-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b4ce00df-ecdb-0f9e-0c85-de0a8cce01e5@amsat.org>
-Date: Wed, 8 Sep 2021 17:59:07 +0200
+Message-ID: <986c0879-0dc5-d1da-676c-0572a5a2c45e@amsat.org>
+Date: Wed, 8 Sep 2021 18:00:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210908154405.15417-4-peter.maydell@linaro.org>
+In-Reply-To: <20210908154405.15417-5-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -96,38 +94,32 @@ Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/8/21 5:43 PM, Peter Maydell wrote:
-> Split the signal related prototypes into the existing header file
-> signal-common.h, and include it in those places that now require it.
+On 9/8/21 5:44 PM, Peter Maydell wrote:
+> Split guest-binary loader prototypes out into a new header
+> loader.h which we include only where required.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
-> v1->v2: use existing signal-common.h instead of new header
-> ---
->  linux-user/qemu.h                | 36 --------------------------------
->  linux-user/signal-common.h       | 36 ++++++++++++++++++++++++++++++++
->  linux-user/aarch64/cpu_loop.c    |  1 +
->  linux-user/alpha/cpu_loop.c      |  1 +
->  linux-user/arm/cpu_loop.c        |  1 +
->  linux-user/cris/cpu_loop.c       |  1 +
->  linux-user/fd-trans.c            |  1 +
->  linux-user/hexagon/cpu_loop.c    |  1 +
->  linux-user/hppa/cpu_loop.c       |  1 +
->  linux-user/i386/cpu_loop.c       |  1 +
->  linux-user/m68k/cpu_loop.c       |  1 +
->  linux-user/main.c                |  1 +
->  linux-user/microblaze/cpu_loop.c |  1 +
->  linux-user/mips/cpu_loop.c       |  1 +
->  linux-user/nios2/cpu_loop.c      |  1 +
->  linux-user/openrisc/cpu_loop.c   |  1 +
->  linux-user/ppc/cpu_loop.c        |  1 +
->  linux-user/riscv/cpu_loop.c      |  1 +
->  linux-user/s390x/cpu_loop.c      |  1 +
->  linux-user/sh4/cpu_loop.c        |  1 +
->  linux-user/sparc/cpu_loop.c      |  1 +
->  linux-user/syscall.c             |  1 +
->  linux-user/xtensa/cpu_loop.c     |  1 +
->  23 files changed, 57 insertions(+), 36 deletions(-)
+>  linux-user/loader.h    | 59 ++++++++++++++++++++++++++++++++++++++++++
+>  linux-user/qemu.h      | 40 ----------------------------
+>  linux-user/elfload.c   |  1 +
+>  linux-user/flatload.c  |  1 +
+>  linux-user/linuxload.c |  1 +
+>  linux-user/main.c      |  1 +
+>  linux-user/signal.c    |  1 +
+>  linux-user/syscall.c   |  1 +
+>  8 files changed, 65 insertions(+), 40 deletions(-)
+>  create mode 100644 linux-user/loader.h
+> 
+> diff --git a/linux-user/loader.h b/linux-user/loader.h
 
+> +void do_init_thread(struct target_pt_regs *regs, struct image_info *infop);
+> +abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
+> +                              abi_ulong stringp, int push_ptr);
+> +int loader_exec(int fdexec, const char *filename, char **argv, char **envp,
+> +             struct target_pt_regs *regs, struct image_info *infop,
+> +             struct linux_binprm *);
+
+Pre-existing invalid style alignment, otherwise:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
