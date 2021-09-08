@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6BF403C9B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:37:29 +0200 (CEST)
-Received: from localhost ([::1]:54122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8542D403C9C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:37:32 +0200 (CEST)
+Received: from localhost ([::1]:54248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNzdg-0006Gj-Ud
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:37:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34692)
+	id 1mNzdj-0006Lx-IW
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:37:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mNzbq-0003fR-Rc
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:35:34 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:60635)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mNzbs-0003g8-0z
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:35:36 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:33585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mNzbo-0003nF-LX
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:35:34 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mNzbp-0003nJ-0V
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:35:35 -0400
 Received: from quad ([82.142.27.6]) by mrelayeu.kundenserver.de (mreue009
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MMoXE-1mgcvG3ZaO-00Ik43; Wed, 08
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1M4Je5-1mOGiw16vZ-000OGc; Wed, 08
  Sep 2021 17:35:31 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/12] mac_via: introduce new VMStateDescription for q800 VIA1
- and VIA2
-Date: Wed,  8 Sep 2021 17:35:18 +0200
-Message-Id: <20210908153529.453843-2-laurent@vivier.eu>
+Subject: [PULL 02/12] mac_via: move last_b variable into q800 VIA1
+ VMStateDescription
+Date: Wed,  8 Sep 2021 17:35:19 +0200
+Message-Id: <20210908153529.453843-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210908153529.453843-1-laurent@vivier.eu>
 References: <20210908153529.453843-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ZjXM0ztxe7yLULyrr/qGZRWI+M6B32nvq75cKi+4f4+Ke2YFzpj
- t+RO1zfKMXvcdcQHjWL2mIWcFGYmVrqoH841Nz86j+OaymmXS0Nt6AMMQiWBSBIY41jqcTu
- JZ30WJhDzbRwN0mmOkBxoq9WuB6YMibvME0YKusxvPbVLmVrRIKng4tbe5zv+RrpcP+R13c
- RPUTc7/KLOn/yDrS9iQag==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OZHWX7aRFfE=:YAWmzt2SXNPM8Dt5+1pjjH
- QS4v8E+6R1LlEOUEn1n9yG7yuYbMyAfJoskIY69TM4v9I4eSYpvob1sFEi8PC9XTCr3dQUTHf
- l1lkJoX+ZgzcqsNB9DZpsVXbHXehFb9QsMxOtfNsPtSUiAuVpwsHL89CmipMQKqg0eWNTnc7d
- AxfBip5Wy8IIn9X1IPcR5RU1s/E/VtW2v2GK1D/V7KNF8rlFGdyQ+gmozEZyXgeCDLQTM48lx
- w0ySkA6kJ7Wpx/fl22Xwl9Eo8bAVlLJzYzuJVQ4g8lsfeaS4Rqjwri7zB5RHG45cEBlI1bYnI
- MrqyMJeYt8yVrSemF6u/lP9p56Sq2VqzySKPZSDzWRZRjYJZLICW3tOrumoF3HGg0IkYj7FLe
- VLNupSe1980LGaX6iIWxMRf/TeHyQXwWA60J0ocL2lmt7uXfzZwqIfjANTrtxhmUDLSKZbfla
- m4emqpUQUJ+YHpnokeWBfWp6nRWNN8Q1gmtogzIfi12qpTFCnrkW0mnOvEc4OYH/NPWGWYrck
- CrMkLmAa/wChtAQXeewGHP5NaHRR4/rK0J22sXY6+W9vJhDQxVcSgp6SqvnyNGl7o8wpyAroj
- fEaTM3ZsKYcwPzk9n3kybmodsRlME7ElOU4Lj6bMT5aQgN/tWKiRBQjOTCgd2Yb483spkUiv4
- NYj403RABJA/1BtAzrlcHHdF866KKpldSlLA6rahrWETRpwdsUa0TaE5WGTc+LIZIIxDjZ6Kk
- 5soVqAJSdFE4J98Rsjw1MsymjDjYi76YGosRng==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:xF590kpOC70RrIoDYCLhq6mtLt4v24IoTz3hRlqBHDI5ie6/JNL
+ SgsVecf23ykYl/tyMGeUALN8Zl+KmGxowr6r5dt8wQt6zVDYgfeOkyGdWwWV3/1HOqGHrUK
+ XXN3NiCg5szm9T29CD1pM9TihDRo2bZME4/yuSuwbHkSZpR2ESvGJtzPLIbwSm9rGuL3/UH
+ v4RAhaeXINQyQU4nlnc1g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mfpwD8it+Ks=:BF3BLLoWjgQP2fb1Ur3Zdl
+ 8S99euW31qkJxbe5GTdB706+mgKSD8DKypmLDM4CuLorfDRhBTdI/ZKmrv3IhVKtpl519S6v+
+ cW9t1EHiwPGcTZRchCv49f8Gq6OXKRTIbjy/pJaYzlBJA4mzRYHKio/HPb6XUCSsc/jwR3+QM
+ KLM6hJmFViHhB+2u6Xh1IeoekVGa721SzptIlAdF4wUY0e90ffY2VSVzwkp4WqZRLt4KyeGxg
+ 3j+OiF3LVF7CwPQPVsMYX3VQOERAXfGja9sWzsyZmsgT0DSX1yj3aSRGUMZtfWrLizAnYV7/i
+ iewAcwMqDjYJATJJgDl9VjDunfVSWtuKWzp4mmQPKQJk1B4+U3/9zbgXVR987ZiwKnjcK4kqL
+ omKmh0WeeETKiMuW2W1LhHciomtQYiE9Rq9MeDXquBGxhJGxeZQDCvch/2hoyt0pOjED/Gq9k
+ ddfFyeZJE3P74T7JLavBd0QwwF8OU4tthnmI3A1sk+HaxWFBkA8qllLjCRYqrykeg4gZnhb72
+ Kiesn56uvurUi/isYv9JVX94TefPfxK8VVFgvwWC38CDfW3CAGCOKrrSpRbVT+4PidGbSISKu
+ Kv0I1z48tLhMdhDSlEzgfda54iAYRKZWJT+wzA+6VXS+SlSjdFjXl186YzclUnrNdKR0/gbi/
+ DMP1CpRHeOWK+Vld3moGeGaIwcOWkGqPZYS1rpwhxaBulACnVIGBZw0U6Sme3oP9nvNjbZxlC
+ g4WOhC5tExUX/bRAU4Q6rH7oF3ijANO34MNZoQ==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,88 +74,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Move the parent mos6522 objects from vmstate_mac_via into the new VMStateDescription
-structures to begin the process of splitting MacVIAState into separate VIA1 and
-VIA2 devices.
+This variable is already present in MOS6522Q800VIA1State and can be moved
+immediately into the q800 VIA1 VMStateDescription.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210830102447.10806-2-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20210830102447.10806-3-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/misc/mac_via.c | 28 ++++++++++++++++++++++++----
- 1 file changed, 24 insertions(+), 4 deletions(-)
+ hw/misc/mac_via.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index ff0156db76f2..46e65058e029 100644
+index 46e65058e029..6fb0b9391d92 100644
 --- a/hw/misc/mac_via.c
 +++ b/hw/misc/mac_via.c
-@@ -1083,16 +1083,12 @@ static const VMStateDescription vmstate_mac_via = {
+@@ -1083,7 +1083,6 @@ static const VMStateDescription vmstate_mac_via = {
      .post_load = mac_via_post_load,
      .fields = (VMStateField[]) {
          /* VIAs */
--        VMSTATE_STRUCT(mos6522_via1.parent_obj, MacVIAState, 0, vmstate_mos6522,
--                       MOS6522State),
-         VMSTATE_UINT8(mos6522_via1.last_b, MacVIAState),
+-        VMSTATE_UINT8(mos6522_via1.last_b, MacVIAState),
          VMSTATE_BUFFER(mos6522_via1.PRAM, MacVIAState),
          VMSTATE_TIMER_PTR(mos6522_via1.one_second_timer, MacVIAState),
          VMSTATE_INT64(mos6522_via1.next_second, MacVIAState),
-         VMSTATE_TIMER_PTR(mos6522_via1.sixty_hz_timer, MacVIAState),
-         VMSTATE_INT64(mos6522_via1.next_sixty_hz, MacVIAState),
--        VMSTATE_STRUCT(mos6522_via2.parent_obj, MacVIAState, 0, vmstate_mos6522,
--                       MOS6522State),
-         /* RTC */
-         VMSTATE_UINT32(tick_offset, MacVIAState),
-         VMSTATE_UINT8(data_out, MacVIAState),
-@@ -1156,11 +1152,23 @@ static void mos6522_q800_via1_init(Object *obj)
-                             VIA1_IRQ_NB);
- }
- 
-+static const VMStateDescription vmstate_q800_via1 = {
-+    .name = "q800-via1",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_STRUCT(parent_obj, MOS6522Q800VIA1State, 0, vmstate_mos6522,
-+                       MOS6522State),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static void mos6522_q800_via1_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
- 
-     dc->reset = mos6522_q800_via1_reset;
-+    dc->vmsd = &vmstate_q800_via1;
- }
- 
- static const TypeInfo mos6522_q800_via1_type_info = {
-@@ -1200,12 +1208,24 @@ static void mos6522_q800_via2_init(Object *obj)
-                             VIA2_IRQ_NB);
- }
- 
-+static const VMStateDescription vmstate_q800_via2 = {
-+    .name = "q800-via2",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_STRUCT(parent_obj, MOS6522Q800VIA2State, 0, vmstate_mos6522,
-+                       MOS6522State),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static void mos6522_q800_via2_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-     MOS6522DeviceClass *mdc = MOS6522_CLASS(oc);
- 
-     dc->reset = mos6522_q800_via2_reset;
-+    dc->vmsd = &vmstate_q800_via2;
-     mdc->portB_write = mos6522_q800_via2_portB_write;
- }
- 
+@@ -1159,6 +1158,7 @@ static const VMStateDescription vmstate_q800_via1 = {
+     .fields = (VMStateField[]) {
+         VMSTATE_STRUCT(parent_obj, MOS6522Q800VIA1State, 0, vmstate_mos6522,
+                        MOS6522State),
++        VMSTATE_UINT8(last_b, MOS6522Q800VIA1State),
+         VMSTATE_END_OF_LIST()
+     }
+ };
 -- 
 2.31.1
 
