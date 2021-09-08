@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0704032C1
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 04:51:54 +0200 (CEST)
-Received: from localhost ([::1]:43996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8618F4032CA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 05:02:07 +0200 (CEST)
+Received: from localhost ([::1]:49390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNngn-0007ll-AB
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 22:51:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47580)
+	id 1mNnqg-0003Tn-25
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 23:02:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
- id 1mNnfe-0006kk-5m
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 22:50:42 -0400
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:45020)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
- id 1mNnfc-0007mN-Gu
- for qemu-devel@nongnu.org; Tue, 07 Sep 2021 22:50:41 -0400
-Received: by mail-io1-xd32.google.com with SMTP id g9so1213780ioq.11
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 19:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3qbXLdBt9HSWHHYMQLDoMk1bdYBalLH8Qnk10bQw3hI=;
- b=ZzN3IagwG23I7TEjiTv1Y9BjQNtxlJ/0JlAHvA3VVurOXOOUiRMwR8QGZ2IOH8eujU
- iMrzGip0WEpwaf5ndy0FnBBEQvVcJaLskkJ0O4uIdX9rX+V65YBd3zHe5qdDIUZ/dO8E
- SHSCSVXJm1/fj3tA4euZGtt/w0TxaL6+vJV6EYK2OzpBmI+hJi2udrcd8SFO9ekto5SJ
- kcbHKnP0rvCmY66okVh1I1D2nS6nKU4DttL3jwi/6AthOE57XMOLl6kXMce1+B2wGKEk
- LvuZSEcrArzXIJ3JoYgp50No042rnIlbE/vzFV/0e1NKU9GkPHTCzlpO0+g2auTmL4lG
- PoIA==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mNnou-0002am-4I
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 23:00:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22029)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mNnor-0007NL-Ci
+ for qemu-devel@nongnu.org; Tue, 07 Sep 2021 23:00:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631070012;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MByo7lqNgjr+I8VLjzify++5Lk1d6EEQb6kbeNlONhE=;
+ b=A1RKGSfUCrOhfymZSgfsIr8Fs/s5fNyq6WQ719y73DWATFGNgTYhjlKkxyOiWsbQdZV4Ag
+ LKZIGFgTTO+HzRsoBe9wyRoxwvarmEEmraEJ7ZsUp32v2JdRJ96LCZWvGtZsC/zaAzDtZ1
+ SXk5UjBAEu/NpCewyXmKQX3Igi7Ucgg=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-386-A0GPYbO2OhyM_frZ7je48g-1; Tue, 07 Sep 2021 23:00:09 -0400
+X-MC-Unique: A0GPYbO2OhyM_frZ7je48g-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ 131-20020a251489000000b0059bdeb10a84so759050ybu.15
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 20:00:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=3qbXLdBt9HSWHHYMQLDoMk1bdYBalLH8Qnk10bQw3hI=;
- b=ufHaZxk1JMvvdTEZA8N8BsUCHKcIYXGqbXGaJ4lWl/CTkFUvOfQPFRaBMVA0Lc31sQ
- rhAlgHfUiUlnfxDYh+Qrr0Ej2YdVj3LTp+UY9/PrqclRjdOETAfNUxmO6jxxSCxS6EOv
- +9B8Y9GAmyuzLFAMJbRVKGEJa6tRv3R4YH1v9mMu7Uwxs8A0aMkwJi5Mj+5lecpptCo2
- Y0oeA2X/swvMG1cTcC2kbcsVQvdp6WuHwMNRgc1h6oQAFCgjLY1UhlhD9daGUqBLbtiH
- N/yqCUGod5PsA7X5cRIQhpsjQjdxu8fLxGa3vOUDSWOJiM3yfWQi5yTmDizOO/+0uskg
- g+1Q==
-X-Gm-Message-State: AOAM533z9WhFB2eXnl/eprr2RFazbcdi7G/nluFToVoYDx+1O7ZAaYHX
- ReKQ6fu9SvR4RAdodfPzAN1K+BrRQQ4erXNUA+U=
-X-Google-Smtp-Source: ABdhPJxcqZNdH6wyz2kdX/uVTIVkygbqWU4NtWmhGIYm4brI5McHbP8KPUbuVdosTrNKM0ZzOxz76QwVVRFI/C4lPVU=
-X-Received: by 2002:a05:6602:d9:: with SMTP id
- z25mr1249320ioe.154.1631069439301; 
- Tue, 07 Sep 2021 19:50:39 -0700 (PDT)
+ bh=MByo7lqNgjr+I8VLjzify++5Lk1d6EEQb6kbeNlONhE=;
+ b=gwYLUQtXpLTl62vE/TyRjXXsOn5xKTS7yj2SutQwg7FT03GzWznxo2E0K6Ql6d6JVO
+ p8Wd3IqZHsFFsGaZTYaR3tYgQhJcG5ImpBOqf/ntCz3il3Fu9ZZcfei2NvaSsixhKVsd
+ SaaedhU22mjNXa2yVvnw2TevJd9VRuoDUVG/NqTwbITZ8HxNhM4FBD7CogMfYjEyq/8t
+ MN00lTErbusb6ewULZSCwwNjcjepp4hW0OUsqTUUU91Pu7tQfy4PxzH3lnKmrTtj90cq
+ nzx54s0iJ2ND5eRQ9cjHxCCeMiv1B9KkgcypjsTFiKRd1iPmqVm51OEg441lqtpjyF+9
+ Xv5Q==
+X-Gm-Message-State: AOAM532c1aLr240JqmOKwXxQ/TizccJl2CjyJWbOglUb5n6kgmF2Ffve
+ IxfQ3DRHqBR7Ig2z05MmUuKkA7A57c+i1IYc6H3DgGysGHzDQHVXB5DmciACPDxZwTMwWpLVFC4
+ MmMHUIO3b/BUkj0O9rf71ban2JAzqCJ4=
+X-Received: by 2002:a25:ac7:: with SMTP id 190mr2048948ybk.260.1631070008530; 
+ Tue, 07 Sep 2021 20:00:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyhhlFYCXmYmEyyhAKK/Uy4m4rRMPdPKL7bJ6Zo9TJvQMwvIma/KkUAARTJvlP2VODYzxTGV2hRhT8gGb5d2Vw=
+X-Received: by 2002:a25:ac7:: with SMTP id 190mr2048931ybk.260.1631070008281; 
+ Tue, 07 Sep 2021 20:00:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <CALUzjTbw0m-n0wmqYPw9C_SFVrCYvqOde6qUsB40FMM9BVPHZg@mail.gmail.com>
- <CAFEAcA-H_titydNAYO94k4i5uiJyTXXt=tNyPd7RfjFMjRYb1w@mail.gmail.com>
-In-Reply-To: <CAFEAcA-H_titydNAYO94k4i5uiJyTXXt=tNyPd7RfjFMjRYb1w@mail.gmail.com>
-From: Duo jia <jiaduo19920301@gmail.com>
-Date: Wed, 8 Sep 2021 10:50:27 +0800
-Message-ID: <CALUzjTbsSte6rzFVr+k6EyUJTJV8GW2N5yhxBYxZcjkoCJ=K7g@mail.gmail.com>
-Subject: Re: Application of QEMUTimer in short timing.
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000889d0b05cb72f28d"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
- envelope-from=jiaduo19920301@gmail.com; helo=mail-io1-xd32.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20210831110238.299458-1-leobras@redhat.com>
+ <20210831110238.299458-4-leobras@redhat.com>
+ <YS4rulGV9eueB04H@redhat.com>
+ <CAJ6HWG5cH_33GDTo_v=8zZDZMJNf4k5+Y79Pt1A_7LmxXBx9bQ@mail.gmail.com>
+ <YTewN8JZLbpL1Gcf@t490s>
+In-Reply-To: <YTewN8JZLbpL1Gcf@t490s>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 8 Sep 2021 10:59:57 +0800
+Message-ID: <CACGkMEuH+Ndh3cckaGfsit=uOLQ=gk39xptGm8bhPWWMzxEDJg@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] migration: multifd: Enable zerocopy
+To: Peter Xu <peterx@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,109 +92,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Leonardo Bras Soares Passos <leobras@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Jagannathan Raman <jag.raman@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000889d0b05cb72f28d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-thank you for your reply.I understand.
-
-Also I want to know how to make a delay in qemu.
-For example, when I send a UART data, there is a certain time interval from
-setting the register to when the data is sent. Most of this time does not
-affect the simulation effect, but some guest firmware will execute errors
-when there is no such delay. This is a comparison. Few, but it does exist.
-
-My question is, if I really want to add such a delay, how to do it. For
-example, in USART, can I set a callback for sending completion, or add some
-delays that will not cause qemu to freeze.
-
-
-
-
-
-Peter Maydell <peter.maydell@linaro.org> =E4=BA=8E2021=E5=B9=B49=E6=9C=887=
-=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=888:20=E5=86=99=E9=81=93=EF=BC=
-=9A
-
-> On Tue, 7 Sept 2021 at 12:28, Duo jia <jiaduo19920301@gmail.com> wrote:
+On Wed, Sep 8, 2021 at 2:32 AM Peter Xu <peterx@redhat.com> wrote:
+>
+> On Thu, Sep 02, 2021 at 04:22:55AM -0300, Leonardo Bras Soares Passos wrote:
+> > > I don't think it is valid to unconditionally enable this feature due to the
+> > > resource usage implications
+> > >
+> > > https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
+> > >
+> > >   "A zerocopy failure will return -1 with errno ENOBUFS. This happens
+> > >    if the socket option was not set, the socket exceeds its optmem
+> > >    limit or the user exceeds its ulimit on locked pages."
 > >
-> > In the controller, QEMUTimer will be used in the implementation of time=
-r
-> simulation.
+> > You are correct, I unfortunately missed this part in the docs :(
 > >
-> > I wrote an auto-loading timer with a period of 1ms and the clock source
-> used is QEMU_CLOCK_VIRTUAL. But it doesn't seem to be very accurate,
-> because the actual time after I accumulated it to 500 times took about
-> 700ms.
+> > > The limit on locked pages is something that looks very likely to be
+> > > exceeded unless you happen to be running a QEMU config that already
+> > > implies locked memory (eg PCI assignment)
+> >
+> > Do you mean the limit an user has on locking memory?
+> >
+> > If so, that makes sense. I remember I needed to set the upper limit of locked
+> > memory for the user before using it, or adding a capability to qemu before.
 >
-> It depends on how you use it. Generally the actual firing will not happen
-> exactly on the specified mark. So if your implementation is "set clock
-> for 1ms in the future; when it fires, set for 1ms in the future again"
-> that is likely to be inaccurate. If you implement it as "set clock for
-> 1ms in the future; when it fires, set for 1ms after the time when it
-> should have fired" it will probably be better.
+> So I'm a bit confused on why MSG_ZEROCOPY requires checking RLIMIT_MEMLOCK.
 >
-> In particular, if the semantics of your timer fit the ptimer API
-> (which can implement oneshot and periodic timers) then I would recommend
-> using that instead of a raw QEMUTimer; it deals with a lot of these
-> fiddly details for you.
+> The thing is IIUC that's accounting for pinned pages only with either mlock()
+> (FOLL_MLOCK) or vfio (FOLL_PIN).
 >
-> -- PMM
+> I don't really think MSG_ZEROCOPY is doing that at all...  I'm looking at
+> __zerocopy_sg_from_iter() -> iov_iter_get_pages().
+
+It happens probably here:
+
+E.g
+
+__ip_append_data()
+    msg_zerocopy_realloc()
+        mm_account_pinned_pages()
+
+Thanks
+
+>
+> Say, I think there're plenty of iov_iter_get_pages() callers and normal GUPs, I
+> think most of them do no need such accountings.
+>
+> --
+> Peter Xu
 >
 
---000000000000889d0b05cb72f28d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">thank you for your reply.I understand.<div><br><div>Also I=
- want to know how to make a delay in qemu.<br>For example, when I send a UA=
-RT data, there is a certain time interval from setting the register to when=
- the data is sent. Most of this time does not affect the simulation effect,=
- but some guest firmware will execute errors when there is no such delay. T=
-his is a comparison. Few, but it does exist.<br><br>My question is, if I re=
-ally want to add such a delay, how to do it. For example, in USART, can I s=
-et a callback for sending completion, or add some delays that will not caus=
-e qemu to freeze.<br><div><br></div><div><br><div><div><br></div><div><br><=
-/div></div></div></div></div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">Peter Maydell &lt;<a href=3D"mailto:peter.may=
-dell@linaro.org">peter.maydell@linaro.org</a>&gt; =E4=BA=8E2021=E5=B9=B49=
-=E6=9C=887=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=888:20=E5=86=99=E9=81=
-=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On =
-Tue, 7 Sept 2021 at 12:28, Duo jia &lt;<a href=3D"mailto:jiaduo19920301@gma=
-il.com" target=3D"_blank">jiaduo19920301@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; In the controller, QEMUTimer will be used in the implementation of tim=
-er simulation.<br>
-&gt;<br>
-&gt; I wrote an auto-loading timer with a period of 1ms and the clock sourc=
-e used is QEMU_CLOCK_VIRTUAL. But it doesn&#39;t seem to be very accurate, =
-because the actual time after I accumulated it to 500 times took about 700m=
-s.<br>
-<br>
-It depends on how you use it. Generally the actual firing will not happen<b=
-r>
-exactly on the specified mark. So if your implementation is &quot;set clock=
-<br>
-for 1ms in the future; when it fires, set for 1ms in the future again&quot;=
-<br>
-that is likely to be inaccurate. If you implement it as &quot;set clock for=
-<br>
-1ms in the future; when it fires, set for 1ms after the time when it<br>
-should have fired&quot; it will probably be better.<br>
-<br>
-In particular, if the semantics of your timer fit the ptimer API<br>
-(which can implement oneshot and periodic timers) then I would recommend<br=
->
-using that instead of a raw QEMUTimer; it deals with a lot of these<br>
-fiddly details for you.<br>
-<br>
--- PMM<br>
-</blockquote></div>
-
---000000000000889d0b05cb72f28d--
 
