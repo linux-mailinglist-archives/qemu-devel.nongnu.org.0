@@ -2,93 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE1140398E
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:14:53 +0200 (CEST)
-Received: from localhost ([::1]:42678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C471640399E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:19:16 +0200 (CEST)
+Received: from localhost ([::1]:46432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNwTc-000207-Qj
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:14:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37768)
+	id 1mNwXr-0005Qv-7r
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:19:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNwQ7-0004Tc-0F
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:11:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34936)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1mNwVC-0003Qx-2e
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:16:32 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNwQ4-0007RF-Dv
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:11:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631103071;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F3G00h6hs4udh6BPaQVMLxiyEMReca/qSlx0dc4JLes=;
- b=dEc4H3MnH9fX1Okq2ZB6QINIptKHWJKZp6eGnbhcWUN14nLMPkU5pXph1QCqKzBtn8UW7C
- MWyGr9dXRAa7BPa+Dmgvptjja2RlFz8c+Bbc/BRrpa498FpEPvBEXiPJSIFZ1mUyLdn8bG
- tiyZa4XjiqUupoSY4HlfEx10T8/Ld/I=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-q3YpoLQpOZuSL2NgzjQV6w-1; Wed, 08 Sep 2021 08:11:10 -0400
-X-MC-Unique: q3YpoLQpOZuSL2NgzjQV6w-1
-Received: by mail-ed1-f69.google.com with SMTP id
- d25-20020a056402517900b003c7225c36c2so994686ede.3
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 05:11:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=F3G00h6hs4udh6BPaQVMLxiyEMReca/qSlx0dc4JLes=;
- b=anboq05rBk1xtXXhBg5Uva+ZEQ7dzIbCJklUAnQtaUXNX81yuZ35miBuef8CnbR5dR
- Tc70b3Vaj5xWcD1AguWAj13W2vZEvkuL0rQx0+t63NLPk5PCkTN/MxWuPsWwl2u1zAFm
- imddAphzaV1dy0HlWNVSfdu7wKZTcfMcZKZqx6UFcD2gRGIciaa8nA//y6DxeFiqDw0i
- Z8ECQpT/kATj9dSLH17zb78H3QaPLIfbGqGMBqv7SzTClWAe3foooZ9/xcao0XEkyj8A
- XMgU1Re4Kco9gRX2MAf6LYVc+F1g83WfMgV/MsxkUd3WsFGjiCoWfaO9mz7gadU9wu5I
- Oo/w==
-X-Gm-Message-State: AOAM530Lc9jCh1RRZlZwogfxdTLP7wVALQ5b7CP/ndype/mqZWMDbTSE
- FPe2/P3pmS/1Yh5Yd/WMatZB/wpMQz3q0QT5qhrV2/5jFQa4uNaaF/vhIxJ4PGrs+tpDaudiMgE
- 1iOrcj818F6hx52U=
-X-Received: by 2002:a17:906:d183:: with SMTP id
- c3mr3747323ejz.283.1631103069289; 
- Wed, 08 Sep 2021 05:11:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJytzW5obToDUS3sSygg1KwxltxaswE6j78dwU9Yp8Y/ssRynLAsHWB2wyirKwihdoMh3zCulQ==
-X-Received: by 2002:a17:906:d183:: with SMTP id
- c3mr3747307ejz.283.1631103069098; 
- Wed, 08 Sep 2021 05:11:09 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id d22sm990906ejj.47.2021.09.08.05.11.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Sep 2021 05:11:06 -0700 (PDT)
-Date: Wed, 8 Sep 2021 14:11:05 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH] hw/i386/acpi-build: adjust q35 IO addr range for acpi
- pci hotplug
-Message-ID: <20210908141105.4f0d5c28@redhat.com>
-In-Reply-To: <55495984-43ba-0b93-db74-e7f8602be178@redhat.com>
-References: <20210908041139.2219253-1-ani@anisinha.ca>
- <20210908084256.6077f7a3@redhat.com>
- <alpine.DEB.2.22.394.2109081229250.2227929@anisinha-lenovo>
- <20210908104351.72d0bb19@redhat.com>
- <55495984-43ba-0b93-db74-e7f8602be178@redhat.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1mNwVA-0002xI-6O
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:16:29 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 188C3AVu029677; Wed, 8 Sep 2021 08:16:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=/Cz4s+aN3gI+nzyxzKouJWWK2nbT+wM4XqhBKr8lfeo=;
+ b=W4ogtQb0cfVsnKXewXiXNn4/+rrz6QkyaZVU/g8hl7wclId71vdA3N9gdsi+6HuE9XQp
+ KTNQqbYtqFjnllWXvblHHcYVQfU8u1wzdeKqETMi4/Vjh715OIS8G4Tj2Q+iNM7OBl9l
+ xpQ5k10HE4caRZiUt8tWAuI2jxBar87afYF6K3cj7Zl3KWPENxMbrgBIoQRl5qn4u/g9
+ f+wqZ0F8wH51M1/uiaWfRyzsV7lA77okiXgjrlFFeFkaxMT4H+aCdUlelI583CmoIzIP
+ 8zoTdVaV2MI3ezzQiwFhw/jG5sfb4EyH552fJdCcVuldzPVk3A7/mJe2Taur5ulxbjIQ RA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3axrd4fk3t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Sep 2021 08:16:20 -0400
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 188C3bwm031482;
+ Wed, 8 Sep 2021 08:16:20 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3axrd4fk37-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Sep 2021 08:16:20 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 188CDMYZ015110;
+ Wed, 8 Sep 2021 12:16:18 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma03ams.nl.ibm.com with ESMTP id 3axcnp8eae-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Sep 2021 12:16:18 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 188CGE8K40173976
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 8 Sep 2021 12:16:14 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AA19DA4065;
+ Wed,  8 Sep 2021 12:16:14 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 54BA0A4059;
+ Wed,  8 Sep 2021 12:16:14 +0000 (GMT)
+Received: from sig-9-145-45-184.uk.ibm.com (unknown [9.145.45.184])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed,  8 Sep 2021 12:16:14 +0000 (GMT)
+Message-ID: <28b6a1950de1301f51bea78ba42273e5e5062923.camel@linux.ibm.com>
+Subject: PING [PATCH v2] accel/tcg/user-exec: Fix read-modify-write of code
+ on s390 hosts
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Riku Voipio <riku.voipio@iki.fi>, Richard Henderson
+ <richard.henderson@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 08 Sep 2021 14:16:13 +0200
+In-Reply-To: <20210803221606.150103-1-iii@linux.ibm.com>
+References: <20210803221606.150103-1-iii@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Sh8Mj-nlFdOa95nmcPmZfN8XCiTaz3YS
+X-Proofpoint-ORIG-GUID: 3a11hGJGyuj40yYvnhOl1cyNVn-4OHZH
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.393, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-09-08_05:2021-09-07,
+ 2021-09-08 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ phishscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0 mlxlogscore=999
+ clxscore=1015 priorityscore=1501 bulkscore=0 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109030001 definitions=main-2109080077
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,71 +112,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, jusual@redhat.com, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
+ Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 Sep 2021 12:21:26 +0200
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+On Wed, 2021-08-04 at 00:16 +0200, Ilya Leoshkevich wrote:
+> x86_64 dotnet/runtime uses cmpxchg for code patching. When running it
+> under s390x qemu-linux user, cpu_signal_handler() does not recognize
+> this as a write and does not restore PAGE_WRITE cleared by
+> tb_page_add(), incorrectly forwarding the signal to the guest code.
+> 
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+> 
+> v1:
+> https://lists.nongnu.org/archive/html/qemu-devel/2021-08/msg00464.html
+> v1 -> v2: Fix comment style, fix CSST detection (Richard).
+> 
+>  accel/tcg/user-exec.c | 48 ++++++++++++++++++++++++++++++++++++-----
+> --
+>  1 file changed, 41 insertions(+), 7 deletions(-)
+> 
+> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+> index 90d1a2d327..8fed542622 100644
+> --- a/accel/tcg/user-exec.c
+> +++ b/accel/tcg/user-exec.c
+> @@ -680,18 +680,26 @@ int cpu_signal_handler(int host_signum, void
+> *pinfo,
+>  
+>      pc = uc->uc_mcontext.psw.addr;
+>  
+> -    /* ??? On linux, the non-rt signal handler has 4 (!) arguments
+> instead
+> -       of the normal 2 arguments.  The 3rd argument contains the
+> "int_code"
+> -       from the hardware which does in fact contain the is_write
+> value.
+> -       The rt signal handler, as far as I can tell, does not give
+> this value
+> -       at all.  Not that we could get to it from here even if it
+> were.  */
+> -    /* ??? This is not even close to complete, since it ignores all
+> -       of the read-modify-write instructions.  */
+> +    /*
+> +     * ??? On linux, the non-rt signal handler has 4 (!) arguments
+> instead
+> +     * of the normal 2 arguments.  The 4th argument contains the
+> "Translation-
+> +     * Exception Identification for DAT Exceptions" from the
+> hardware (aka
+> +     * "int_parm_long"), which does in fact contain the is_write
+> value.
+> +     * The rt signal handler, as far as I can tell, does not give
+> this value
+> +     * at all.  Not that we could get to it from here even if it
+> were.
+> +     * So fall back to parsing instructions.  Treat read-modify-
+> write ones as
+> +     * writes, which is not fully correct, but for tracking self-
+> modifying code
+> +     * this is better than treating them as reads.  Checking si_addr
+> page flags
+> +     * might be a viable improvement, albeit a racy one.
+> +     */
+> +    /* ??? This is not even close to complete.  */
+>      pinsn = (uint16_t *)pc;
+>      switch (pinsn[0] >> 8) {
+>      case 0x50: /* ST */
+>      case 0x42: /* STC */
+>      case 0x40: /* STH */
+> +    case 0xba: /* CS */
+> +    case 0xbb: /* CDS */
+>          is_write = 1;
+>          break;
+>      case 0xc4: /* RIL format insns */
+> @@ -702,6 +710,12 @@ int cpu_signal_handler(int host_signum, void
+> *pinfo,
+>              is_write = 1;
+>          }
+>          break;
+> +    case 0xc8: /* SSF format insns */
+> +        switch (pinsn[0] & 0xf) {
+> +        case 0x2: /* CSST */
+> +            is_write = 1;
+> +        }
+> +        break;
+>      case 0xe3: /* RXY format insns */
+>          switch (pinsn[2] & 0xff) {
+>          case 0x50: /* STY */
+> @@ -715,7 +729,27 @@ int cpu_signal_handler(int host_signum, void
+> *pinfo,
+>              is_write = 1;
+>          }
+>          break;
+> +    case 0xeb: /* RSY format insns */
+> +        switch (pinsn[2] & 0xff) {
+> +        case 0x14: /* CSY */
+> +        case 0x30: /* CSG */
+> +        case 0x31: /* CDSY */
+> +        case 0x3e: /* CDSG */
+> +        case 0xe4: /* LANG */
+> +        case 0xe6: /* LAOG */
+> +        case 0xe7: /* LAXG */
+> +        case 0xe8: /* LAAG */
+> +        case 0xea: /* LAALG */
+> +        case 0xf4: /* LAN */
+> +        case 0xf6: /* LAO */
+> +        case 0xf7: /* LAX */
+> +        case 0xfa: /* LAAL */
+> +        case 0xf8: /* LAA */
+> +            is_write = 1;
+> +        }
+> +        break;
+>      }
+> +
+>      return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
+>  }
+>  
 
-> On 9/8/21 10:43 AM, Igor Mammedov wrote:
-> > On Wed, 8 Sep 2021 12:51:04 +0530 (IST)
-> > Ani Sinha <ani@anisinha.ca> wrote:
-> >  =20
-> >> On Wed, 8 Sep 2021, Igor Mammedov wrote:
-> >> =20
-> >>> On Wed,  8 Sep 2021 09:41:39 +0530
-> >>> Ani Sinha <ani@anisinha.ca> wrote:
-> >>>   =20
-> >>>> Change caf108bc58790 ("hw/i386/acpi-build: Add ACPI PCI hot-plug met=
-hods to Q35")
-> >>>> selects an IO address range for acpi based PCI hotplug for q35 arbit=
-rarily. It
-> >>>> starts at address 0x0cc4 and ends at 0x0cdb. It was assumed that thi=
-s address
-> >>>> range was free and available. However, upon more testing, it seems t=
-his address
-> >>>> range to be not available for some latest versions of windows.   =20
-> >>>
-> >>> The range is something assigned by QEMU, and guest has no say where i=
-t should be.
-> >>> but perhaps we failed to describe it properly or something similar, s=
-o one gets
-> >>> 'no resource' error.   =20
-> >>
-> >> OK dug deeper. The existing range of IO address conflicts with the CPU
-> >> hotplug range.
-> >>
-> >> CPU hotplug range (ICH9_CPU_HOTPLUG_IO_BASE) is 0x0cd8 to 0x0ce3
-> >>
-> >> This intersects with range 0x0cc4 to 0x0cdb for ACPI_PCIHP_ADDR_ICH9 .=
- =20
-> >=20
-> > Looking at 'info mtree' it's indeed wrong:
-> >=20
-> >     0000000000000cc4-0000000000000cdb (prio 0, i/o): acpi-pci-hotplug
-> >     0000000000000cd8-0000000000000cf7 (prio 0, i/o): acpi-cpu-hotplug
-> >=20
-> > which of them eventually handles IO request in intersection range? =20
->=20
-> (qemu) info mtree -f
-> FlatView #0
->  AS "I/O", root: io
->  Root memory region: io
->   0000000000000cc4-0000000000000cd7 (prio 0, i/o): acpi-pci-hotplug
->   0000000000000cd8-0000000000000cf7 (prio 0, i/o): acpi-cpu-hotplug
+Hello,
 
-thanks, at least it didn't break cpu-hotplug
+Richard has reviewed this patch a while ago - is there anything else
+that needs to be done before it can be picked up?
 
-> >=20
-> > Please, add to commit message your findings, so it would point out
-> > where problem comes from and what it breaks(doesn't work as expect).
-> >=20
-> > Given it's broken to begin with (and possibly regression if it broke cp=
-u hotplug),
-> > I'm inclined to fix it without adding compat stuff.
-> > Michael, what do you think? =20
->=20
+Best regards,
+Ilya
 
 
