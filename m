@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D13B74037AD
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 12:17:24 +0200 (CEST)
-Received: from localhost ([::1]:56622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D734037F3
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 12:36:01 +0200 (CEST)
+Received: from localhost ([::1]:42712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNudv-0006vt-OT
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 06:17:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39220)
+	id 1mNuvw-0002Iu-5s
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 06:36:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNuRz-0006tJ-RQ
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:05:06 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35754)
+ id 1mNuS2-0006ue-J3
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:05:08 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNuRx-0003Ac-A8
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:05:02 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id i28so2432493wrb.2
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 03:05:00 -0700 (PDT)
+ id 1mNuRx-0003BR-Tu
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:05:05 -0400
+Received: by mail-wr1-x429.google.com with SMTP id t18so2485996wrb.0
+ for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 03:05:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=boHe/TN7iP4dCfI5Lt28Agud/RqY7EKeXZQNrY5FSWM=;
- b=PgGePefxh3kdOPswUci+IVtBKQUypG4r9vYa/iJrTwhZCtBQ38GndYskjHbe4axiR9
- jNKAJZKCzYU29ChE2lA7ZbouU6uFUzEvGAG88bSUUzqP05XVMOp0t/q3wIYlaq0Syl52
- ajM2/YIKmuRPPjt7UssFyO7feOfiPoLCGImb0SFFXfWx8XrlN2c/2g+/kWroBavUgRa1
- IYM5oUAFhAqw7m0mbV0/fGQ2U+qXzWHrD3AIrxwNAqagCkvANfCcgwNn9doEL5xZNtuz
- jtdcgpGrw+w3lOAaz78+x2wpcJdc7rxQhtB4dPQ73VZxlna8vZ8bz3S1+iY8EnBJe5aG
- Shzw==
+ bh=SlR1D4KQkZZwbyWUBGj/wMkLtBYfhmaSXWEyYmVKf6s=;
+ b=gJIkYG1xIzv3y0cZRaZSnjJyGDHu2SnPdnTjQaPTuf/ODBtgfIuVIN0RcJdUjehpeS
+ zOhTElxL0/0E5SRGLOCbZzoWDLAbBSZ8UNhtqyJ8NjJ+jdpVu3PASWv+C8+Q9nXMhQiu
+ ahGbOL1nOZyis6MSfzdBb476w4rHifu2/jkm2tRgpQ8wBBws+FI6eTe7KUld0Ghoa8IS
+ sPPZiHbxmHAvWXIObvQkQnZ41bJ4kclS6eArCFEbVOBxeaKWLcOV26fwd44YDgQyEvNB
+ YJKHGQTZAAIzXp+xGH7CogYY0umyVSKME4kg7kcAT9mU0gMC3tDTAWmskVVFf7jJm5g8
+ Ziiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=boHe/TN7iP4dCfI5Lt28Agud/RqY7EKeXZQNrY5FSWM=;
- b=QYWILHCr4Y4xL3XLtwRPELmQRn9sNccRRwWQOBvoco/Z+m99Dn43vNZrl3+/MHSx+J
- t/2DejcxXpBHzDh8lZwYywI68W/eBkfcIE8GhU2XWwXG+rbxU/jq3ymUh24tHrWQU2Sk
- foHaXTaRhhErgIGNsjQgq1q8ZhaN+UZmOFkcKnUxO9udm9N7+k7tlHvW0sczv0AEJKhy
- Wev0L4ujg4sowXgsEKyWSuB7qiXfy34WrexK+pVvWxFipxdIKZyK3wnL96Irry8Epm/r
- AJPu/vymRRndXX33NXkQUqO73CRUdmMg72VgjENefIPY2S0XqxEaJwpM6QsmdrgfgtZB
- tIWQ==
-X-Gm-Message-State: AOAM531qnWR7Zo6+kDsepih/W7xTh9s/ZE1GjW0oJg81jarGmqR38GXA
- KLHWaYpdYyHVCNLIRV8oSZiXxnJOlfY=
-X-Google-Smtp-Source: ABdhPJxEZiaOqOx/Jb98g8+iL2pN/PRuBw8nUkWfSIL+aB2EAG6rIjDOX2klh2vgkF1iAeRrfiwPbQ==
-X-Received: by 2002:a5d:58e2:: with SMTP id f2mr3040907wrd.272.1631095499920; 
- Wed, 08 Sep 2021 03:04:59 -0700 (PDT)
+ bh=SlR1D4KQkZZwbyWUBGj/wMkLtBYfhmaSXWEyYmVKf6s=;
+ b=kwSP5jJV69/AyivVVx8xVaa2SCUSYI4bkLsMYmmVbmtPn6PddgVMOzGEOhoEtQaJQt
+ DJHtfUF2jj3s+L4lf1yHC4zmT6QGx6Gm8eN/9OGWxTD50L8Ksg10PU5TVMnQjopZOGY4
+ Ner1if7euFisiPsL1OKIGRXluZaQ/72ZwRMry4u6pJdkXS87SEcken3lWfD6rnW3b9xJ
+ 9J1Hzy/3OIfImyNuQdC3iU0/HSyt5FVyJKNEJrAgoJjUkysCShEbpi5yhiU6o6PHko6k
+ p8bXiFeTiFq8VP2sPn3rT8T4d9g6YtKUxm/9EJKqxVppX+YA3dW2rpuV9umKpfBLoYD+
+ w7xw==
+X-Gm-Message-State: AOAM532UE59GwA2vj3Rewm44qjWaZxNaogt1QmjBHPcmjd0tUpfZXz5l
+ rf1V6TH7hAbQe4o1zgMwJsYC4KMUQdI=
+X-Google-Smtp-Source: ABdhPJxYIoM3x8/9pehl+nfiSAHoyQ8hXAvrrawVIAazTcR07zFW+VoeQOH7JwrQbLQ51a6QWJD8fQ==
+X-Received: by 2002:a5d:51c7:: with SMTP id n7mr2989892wrv.217.1631095500599; 
+ Wed, 08 Sep 2021 03:05:00 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id u8sm1683715wmq.45.2021.09.08.03.04.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Sep 2021 03:04:59 -0700 (PDT)
+ Wed, 08 Sep 2021 03:05:00 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 33/43] sgx-epc: Avoid bios reset during sgx epc
- initialization
-Date: Wed,  8 Sep 2021 12:04:16 +0200
-Message-Id: <20210908100426.264356-34-pbonzini@redhat.com>
+Subject: [PULL v4 34/43] hostmem-epc: Make prealloc consistent with qemu
+ cmdline during reset
+Date: Wed,  8 Sep 2021 12:04:17 +0200
+Message-Id: <20210908100426.264356-35-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210908100426.264356-1-pbonzini@redhat.com>
 References: <20210908100426.264356-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,64 +90,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yang Zhong <yang.zhong@intel.com>
 
-Since bios do the reset when qemu boot up, and sgx epc will be
-reset by the registered reset callback function. Like this, the
-sgx epc will do two times initialization. This patch will check
-protected mode from cr0 register, and will bypass reset operation
-from bios. The reset callback will only accept reset operation
-from guest.
+If qemu cmdline set the prealloc property for sgx epc and VM do the
+reset the prealloc property will be different with cmdline settings.
+This patch can make sure same prealloc property setting with cmdline.
 
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210719112136.57018-25-yang.zhong@intel.com>
+Message-Id: <20210719112136.57018-26-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/sgx-epc.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ backends/hostmem-epc.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
-index 9880d832d5..70075db37c 100644
---- a/hw/i386/sgx-epc.c
-+++ b/hw/i386/sgx-epc.c
-@@ -19,6 +19,7 @@
- #include "target/i386/cpu.h"
- #include "exec/address-spaces.h"
- #include "sysemu/reset.h"
-+#include "sysemu/hw_accel.h"
+diff --git a/backends/hostmem-epc.c b/backends/hostmem-epc.c
+index 3bd1535d82..9836358841 100644
+--- a/backends/hostmem-epc.c
++++ b/backends/hostmem-epc.c
+@@ -60,6 +60,8 @@ void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
+                               Error **errp)
+ {
+     MemoryRegion *mr = &backend->mr;
++    void *ptr;
++    uint64_t sz;
  
- uint32_t epc_num;
+     mr->enabled = false;
  
-@@ -97,6 +98,21 @@ static void sgx_epc_initialization(DeviceState *dev)
-     sgx_epc->size += memory_device_get_region_size(md, &errp);
+@@ -69,6 +71,14 @@ void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
+     }
+ 
+     sgx_epc_backend_memory_alloc(backend, errp);
++
++    ptr = memory_region_get_ram_ptr(&backend->mr);
++    sz = memory_region_size(&backend->mr);
++
++    if (backend->prealloc) {
++        os_mem_prealloc(memory_region_get_fd(&backend->mr), ptr, sz,
++                        backend->prealloc_threads, errp);
++    }
  }
  
-+static bool check_reset_from_guest(void)
-+{
-+    CPUState *cs = first_cpu;
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+
-+    cpu_synchronize_state(cs);
-+
-+    if (env->cr[0] & CR0_PE_MASK) {
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
- static void sgx_epc_reset(void *opaque)
- {
-     DeviceState *dev = opaque;
-@@ -104,6 +120,9 @@ static void sgx_epc_reset(void *opaque)
-     Error *errp = NULL;
-     int fd;
- 
-+    if (!check_reset_from_guest())
-+        return;
-+
-     if (!epc->hostmem) {
-         error_setg(&errp, "'" SGX_EPC_MEMDEV_PROP "' property is not set");
-         return;
+ static void sgx_epc_backend_instance_init(Object *obj)
 -- 
 2.31.1
 
