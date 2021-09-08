@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB1D40321B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 03:18:06 +0200 (CEST)
-Received: from localhost ([::1]:58368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 808A34032E6
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 05:30:02 +0200 (CEST)
+Received: from localhost ([::1]:33346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNmE0-0002NC-NS
-	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 21:18:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33716)
+	id 1mNoHg-0004In-Th
+	for lists+qemu-devel@lfdr.de; Tue, 07 Sep 2021 23:30:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mNmAV-0001OJ-8l; Tue, 07 Sep 2021 21:14:27 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:47771)
+ id 1mNoAk-0000Tx-FV; Tue, 07 Sep 2021 23:22:51 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:52661 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mNmAQ-0008T2-Sr; Tue, 07 Sep 2021 21:14:26 -0400
+ id 1mNoAf-0000uk-FF; Tue, 07 Sep 2021 23:22:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1631063648;
- bh=Ur2LX0imoX3sniZv1ELqMIASVSQEDwJcZS765t91Cm4=;
+ d=gibson.dropbear.id.au; s=201602; t=1631071359;
+ bh=EN9yxB85BqourxkMDq6tvMO+rXadOB5IJEFHZwdP+yQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=m2hTsmQq0+fNsPI7vfu5SGONRob1FZ9Wac/CWuXehIrmqxWXQmRm8ZZwd230eeqdi
- 9n9hq3mNMxzWAz9gtXNFZbb18rkGiHxtChF0hbYWHd55ls3g7SFRenFM/kxaM8RsDi
- Ev6Xqku2mg7W8SQ8laTcLLdKbq6EbhNPydoev10k=
+ b=BdD0EpMYs61DYGLzqTqg37Yh9piQceyM5UndMkeNDYl77hLYv2hRHLT2D6DxI4aU0
+ QvqP4Eznp0O2nI5W3pIGbI1niPJUdyFTTQ68Wy09QfrN74oPDtBzR1I7uPBkrcLhjT
+ UxQNZyDsAlyKeAlFeHPiuvQLdHjrEuJ5XQF5g+ts=
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4H440c5Qp9z9t10; Wed,  8 Sep 2021 11:14:08 +1000 (AEST)
-Date: Tue, 7 Sep 2021 19:23:43 +1000
+ id 4H46rv4Q8Jz9t9b; Wed,  8 Sep 2021 13:22:39 +1000 (AEST)
+Date: Wed, 8 Sep 2021 11:54:42 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v5 1/4] spapr: move NUMA associativity init to machine
- reset
-Message-ID: <YTcvn7qSqz7zaT1d@yekko>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v5 3/4] spapr_numa.c: base FORM2 NUMA affinity support
+Message-ID: <YTgX4iSUHsjlJQwY@yekko>
 References: <20210907002527.412013-1-danielhb413@gmail.com>
- <20210907002527.412013-2-danielhb413@gmail.com>
- <YTa0RzbdvfSQZy9+@yekko> <20210907091013.3882663b@bahia.lan>
+ <20210907002527.412013-4-danielhb413@gmail.com>
+ <YTa6DUxTo2os9EIZ@yekko>
+ <9ade69a3-bb89-a227-3966-243aedfff126@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bQqugg2HUe4G0D0H"
+ protocol="application/pgp-signature"; boundary="Z1oW3n/u7hIxmGZS"
 Content-Disposition: inline
-In-Reply-To: <20210907091013.3882663b@bahia.lan>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <9ade69a3-bb89-a227-3966-243aedfff126@gmail.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,138 +61,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---bQqugg2HUe4G0D0H
+--Z1oW3n/u7hIxmGZS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 07, 2021 at 09:10:13AM +0200, Greg Kurz wrote:
-> On Tue, 7 Sep 2021 10:37:27 +1000
-> David Gibson <david@gibson.dropbear.id.au> wrote:
+On Tue, Sep 07, 2021 at 07:07:41AM -0300, Daniel Henrique Barboza wrote:
+65;6402;1c>=20
 >=20
-> > On Mon, Sep 06, 2021 at 09:25:24PM -0300, Daniel Henrique Barboza wrote:
-> > > At this moment we only support one form of NUMA affinity, FORM1. This
-> > > allows us to init the internal structures during machine_init(), and
-> > > given that NUMA distances won't change during the guest lifetime we
-> > > don't need to bother with that again.
+> On 9/6/21 10:02 PM, David Gibson wrote:
+> > On Mon, Sep 06, 2021 at 09:25:26PM -0300, Daniel Henrique Barboza wrote:
+> > > The main feature of FORM2 affinity support is the separation of NUMA
+> > > distances from ibm,associativity information. This allows for a more
+> > > flexible and straightforward NUMA distance assignment without relying=
+ on
+> > > complex associations between several levels of NUMA via
+> > > ibm,associativity matches. Another feature is its extensibility. This=
+ base
+> > > support contains the facilities for NUMA distance assignment, but in =
+the
+> > > future more facilities will be added for latency, performance, bandwi=
+dth
+> > > and so on.
 > > >=20
-> > > We're about to introduce FORM2, a new NUMA affinity mode for pSeries
-> > > guests. This means that we'll only be certain about the affinity mode
-> > > being used after client architecture support. This also means that the
-> > > guest can switch affinity modes in machine reset.
+> > > This patch implements the base FORM2 affinity support as follows:
 > > >=20
-> > > Let's prepare the ground for the FORM2 support by moving the NUMA
-> > > internal data init from machine_init() to machine_reset(). Change the
-> > > name to spapr_numa_associativity_reset() to make it clearer that this=
- is
-> > > a function that can be called multiple times during the guest lifecyc=
-le.
-> > > We're also simplifying its current API since this method will be call=
-ed
-> > > during CAS time (do_client_architecture_support()) later on and there=
-'s no
-> > > MachineState pointer already solved there.
+> > > - the use of FORM2 associativity is indicated by using bit 2 of byte 5
+> > > of ibm,architecture-vec-5. A FORM2 aware guest can choose to use FORM1
+> > > or FORM2 affinity. Setting both forms will default to FORM2. We're not
+> > > advertising FORM2 for pseries-6.1 and older machine versions to preve=
+nt
+> > > guest visible changes in those;
 > > >=20
-> > > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> > > - call spapr_numa_associativity_reset() in do_client_architecture_sup=
+port()
+> > > if FORM2 is chosen. This will avoid re-initializing FORM1 artifacts t=
+hat
+> > > were already initialized in spapr_machine_reset();
+> > >=20
+> > > - ibm,associativity-reference-points has a new semantic. Instead of
+> > > being used to calculate distances via NUMA levels, it's now used to
+> > > indicate the primary domain index in the ibm,associativity domain of
+> > > each resource. In our case it's set to {0x4}, matching the position
+> > > where we already place logical_domain_id;
 > >=20
-> > Applied to ppc-for-6.2, thanks.
-> >=20
+> > Hmm... I'm a bit torn on this.  The whole reason the ibm,associativity
+> > things are arrays rather than just numbers was to enable the FORM1
+> > nonsense. So we have a choice here: keep the associativity arrays in
+> > the same form, for simplicity of the code, or reduce the associativity
+> > arrays to one entry for FORM2, to simplify the overall DT contents in
+> > the "modern" case.
 >=20
-> Even if already applied :
+> I'm not against making it different from FORM2. I did it this way because
+> it minimizes the amount of code being changed.
 >=20
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-
-Added, thanks.
-
-> > > ---
-> > >  hw/ppc/spapr.c              | 6 +++---
-> > >  hw/ppc/spapr_numa.c         | 4 ++--
-> > >  include/hw/ppc/spapr_numa.h | 9 +--------
-> > >  3 files changed, 6 insertions(+), 13 deletions(-)
-> > >=20
-> > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > > index d39fd4e644..8e1ff6cd10 100644
-> > > --- a/hw/ppc/spapr.c
-> > > +++ b/hw/ppc/spapr.c
-> > > @@ -1621,6 +1621,9 @@ static void spapr_machine_reset(MachineState *m=
-achine)
-> > >       */
-> > >      spapr_irq_reset(spapr, &error_fatal);
-> > > =20
-> > > +    /* Reset numa_assoc_array */
-> > > +    spapr_numa_associativity_reset(spapr);
-> > > +
-> > >      /*
-> > >       * There is no CAS under qtest. Simulate one to please the code =
-that
-> > >       * depends on spapr->ov5_cas. This is especially needed to test =
-device
-> > > @@ -2808,9 +2811,6 @@ static void spapr_machine_init(MachineState *ma=
-chine)
-> > > =20
-> > >      spapr->gpu_numa_id =3D spapr_numa_initial_nvgpu_numa_id(machine);
-> > > =20
-> > > -    /* Init numa_assoc_array */
-> > > -    spapr_numa_associativity_init(spapr, machine);
-> > > -
-> > >      if ((!kvm_enabled() || kvmppc_has_cap_mmu_radix()) &&
-> > >          ppc_type_check_compat(machine->cpu_type, CPU_POWERPC_LOGICAL=
-_3_00, 0,
-> > >                                spapr->max_compat_pvr)) {
-> > > diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> > > index 779f18b994..9ee4b479fe 100644
-> > > --- a/hw/ppc/spapr_numa.c
-> > > +++ b/hw/ppc/spapr_numa.c
-> > > @@ -155,10 +155,10 @@ static void spapr_numa_define_associativity_dom=
-ains(SpaprMachineState *spapr)
-> > > =20
-> > >  }
-> > > =20
-> > > -void spapr_numa_associativity_init(SpaprMachineState *spapr,
-> > > -                                   MachineState *machine)
-> > > +void spapr_numa_associativity_reset(SpaprMachineState *spapr)
-> > >  {
-> > >      SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-> > > +    MachineState *machine =3D MACHINE(spapr);
-> > >      int nb_numa_nodes =3D machine->numa_state->num_nodes;
-> > >      int i, j, max_nodes_with_gpus;
-> > >      bool using_legacy_numa =3D spapr_machine_using_legacy_numa(spapr=
-);
-> > > diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
-> > > index 6f9f02d3de..0e457bba57 100644
-> > > --- a/include/hw/ppc/spapr_numa.h
-> > > +++ b/include/hw/ppc/spapr_numa.h
-> > > @@ -16,14 +16,7 @@
-> > >  #include "hw/boards.h"
-> > >  #include "hw/ppc/spapr.h"
-> > > =20
-> > > -/*
-> > > - * Having both SpaprMachineState and MachineState as arguments
-> > > - * feels odd, but it will spare a MACHINE() call inside the
-> > > - * function. spapr_machine_init() is the only caller for it, and
-> > > - * it has both pointers resolved already.
-> > > - */
-> > > -void spapr_numa_associativity_init(SpaprMachineState *spapr,
-> > > -                                   MachineState *machine);
-> >=20
-> > Nice additional cleanup to the signature, thanks.
-> >=20
-> > > +void spapr_numa_associativity_reset(SpaprMachineState *spapr);
-> > >  void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, i=
-nt rtas);
-> > >  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, voi=
-d *fdt,
-> > >                                         int offset, int nodeid);
-> >=20
+> In fact, if we're going to add separated data structures for both FORM1 a=
+nd
+> FORM2, might as well start both FORM1 and FORM2 data structures during
+> machine_init() and then just switch to the chosen affinity after CAS.
 >=20
+> Something like a FORM1_assoc_array[N][MAX_DISTANCE_REF_POINTS], that cont=
+ains
+> all the initialization already done today and a FORM2_assoc_array[N][2],
+> where FORM2_assoc_array[node_id] =3D {1, node_id}, changing reference-poi=
+nts
+> accordingly of course.
+>=20
+> spapr_numa_assoc_array would become a pointer that would point to either
+> FORM1_assoc_array[][] or FORM2_assoc_array[][] depending on guest choice.=
+ I
+> think this might be enough to make everything we already have just works,=
+ although
+> I need to check how much code is dependant on the MAX_DISTANCE_REF_POINTS
+> macro and adapt it.
+>=20
+> If no one opposes I'll go for this approach.
 
-
+I think that's the way to go.  Thanks for working on this.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -200,25 +150,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---bQqugg2HUe4G0D0H
+--Z1oW3n/u7hIxmGZS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmE3L5wACgkQbDjKyiDZ
-s5L38BAAmuF8us9HRbBbA7DddkLg311K7nHoKh3KjA/EZM90yI6m6Gbuaf0HdJCI
-szkz0ZaTbMBJU7y0F8OJe7uGXTUT8DqVM2imh+5cj2Fu5CqBIQpZMeiaeWr2QH2u
-fDIOej8b+VJ4f+aYjN+uv3ediVTqMFHw8qvCOmuxLxKNhALCb+D1Wa/UHJnoUfuR
-wEg4UaovNfo3H7NH7GJKDtsVRSX2ar00l/JhkjOXACDBpSWT1XxBNul6WpwqM1LJ
-RteffUvO33dGkvYCF2ej+dIUzK3LSXG0cVI4DCgQXkLWiMfuMqGkprLrLQH6E9yA
-mNkOVuHx/r3DerufZp1s4I4t726QQs2VxvtjFlN31otGkmpJJ053GIENKjsaCsTV
-Eg+hk6Z4fASNMLSM1uyCg4uoiD2z6I4kZiEQkmI087Zn56NEGTJm/6HECaCCwUS2
-gRYEVI+SwnnwlqJYNGBN35X4aDfPhSjFQ/LsmDmHIW15cnrhfCLeC1DAlpFXgV8P
-ilKiQSATwCpZj8zZCGv1oaeaXoMmge95U1lVJvnB+qhaWqpfvANpu+DdHt0+WTJ0
-FIsNn3ARFso8Hab5eHi06iYxqnUr4g29gXb8SuVGe7ZnVlPY4ijGxLJCPXBTLrKz
-0eVl0gs7MJeKLvs2940wwtkRgPM6awxlrt4zfAFlrKRbcHMLkfE=
-=e/HT
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmE4F+EACgkQbDjKyiDZ
+s5L08w//Y7vQ4/hv9UDdddwr39NZ9LjGF2mW0MK3WlNLXgGBKj765I8oqtEdDyMC
+XHDlRZAQqCp0IgJJRV6Rjz81qSss0sW0+OKpjRXfSi/dzygWOyg2gTca7WdZl58C
+8qDXcOQOjS597Q0e6XQhHc0B4T4FWaeIbLEcFUNbSmYCWHVjwjIRkM/C1MiiG94W
+qTYRKuqrATpaoVt4c1yai+hDatdKXhVm1bVnkWuJEMmNuaQEAju1IQfcs46Iwj7x
+9Y0b3vKXNAMydsoJNTDMxp7BbGW5CSOXtYtrk1GzyX+RLrKgnDVojLInuw0lshRx
+ScyJpMZFC8DDLKRcgdn/Z2sxwPagn+MB75+i1S/WYwy8i9v585hiIAqDYl1n36g+
+jdWeLnRJDDB9WZv+lGDwXp6yRexaXYfIJcIFAMiItg7rF/khHMqhVLXXtMdOxhpL
+d4nIRGuzvNGrxLI+fz11oMqHSPQye9dIilsauOLtAcoDusq/pdnWNu1xU4wmKPuA
+OICE3huKY+ruKiqtL+kbw+23bgySp33sDIPOTYjXXo2U19EMRaN/tbtZrTzTzWMY
+6o2McS02by0xmgYsLNxomaSS3CXokqMDTOcKA4Vnst+RQOVWOuj87QWpu5zToOC8
+56uX/nndSfuMm4Zuj4jFfx8nDsPFUb7AREMRPcpELu3xDLL/sXo=
+=fQDH
 -----END PGP SIGNATURE-----
 
---bQqugg2HUe4G0D0H--
+--Z1oW3n/u7hIxmGZS--
 
