@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4762E4033AF
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 07:16:03 +0200 (CEST)
-Received: from localhost ([::1]:39554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AAD24033B0
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 07:16:46 +0200 (CEST)
+Received: from localhost ([::1]:41272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNpwH-0000Pq-EA
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 01:16:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40320)
+	id 1mNpwz-0001fg-CV
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 01:16:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mNpu3-00081u-QW
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 01:13:43 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:33646)
+ id 1mNpuy-00008j-Nn
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 01:14:40 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:41491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mNpu2-0002rY-D0
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 01:13:43 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id s16so836739ybe.0
- for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 22:13:42 -0700 (PDT)
+ id 1mNpux-0003Zw-6f
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 01:14:40 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id z18so1735315ybg.8
+ for <qemu-devel@nongnu.org>; Tue, 07 Sep 2021 22:14:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=An4DCiS/bnSwfkze8InKHXVZeUPiqBnJkxzuyor7ix0=;
- b=ZYSg9HK27rV2BFsfAKK2GVkLo9eRHAdyiQZU5MvlSdYIruqAm/bR5GHsdSPUPxC8AO
- WskNYbCyvvNT463ZRgY+DLdK96OjPf5Z2ES2ibaxvkIQlnmdxx9w9/Ql+pvD1MWs5ZdH
- ZXiloFVCVkQRBh+KrZt4AQMlNVw1tE10kmM+1DXuWsbQoe+xAf+Jjm1OGNr/SRfxYzZt
- MMZmZmi4FhHgJLEAFYNrjwGm2an7fDa9w3u1FHkU/X6MxAEluEYO108ZYyNl0sKvu58H
- H5Y6oNYoNJ/skEYqjHKwHeUbb5gV6pLlPG9tajeKHDLWOk/bNl/HIXXaGC5uaY3Qvbwl
- 75Eg==
+ :cc; bh=+EU68D20EgNjfbgAHu9oylLvj3ufJCmtItm3OBQQWuw=;
+ b=pC1CYyc1i0sGAyUXFMh46HQyRIYrUJCe0WtRwerYCHeO9jxwKp757/b07Ao62QUb9g
+ jYFlUWTB9FkIgZDcggi97RnnpE0HQwZGl/YmE7IY66ohsYVMg2q9A7Ps7pV/chH+r9NI
+ pvEV2fxJ+XJ7jHa0Uax3d6YkaaWvMSc8ECtXyzkhlUuXh6En2BuoZ1ydx13Xu5AoNWhK
+ M9eAccU9jlCd0N6yJsBZiecw4j02lkI02DNkrbRzth6KBDciFh0TxpZ/haze6PS00On9
+ COUc9qZv0BeIbsXE1gEbzeRk3HaFiAdWb3cxEtoI6d3XlxrjKn//cfZfy3KEQlksG2aA
+ XS8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=An4DCiS/bnSwfkze8InKHXVZeUPiqBnJkxzuyor7ix0=;
- b=RdjyZYAj6bXAs4UtqcYdQWiA7cpu1htUyDK2kRi7w1jb3aZvvwUQHiACspjxV23j9G
- 8XYUXQHon55PTyBFMkRwzCy7M4GlPvdwIpZJsW3ee8bRyM44AX/TuWSH2//ASIzKFuy6
- 74xrb9TxQjXIc07NUzOdW+lNqUKg1gyobRG61D1ets8ZMWfIPHwMP0AzdSWRzjvAUhdN
- 36NmK4VunxXXG75AtshsrYg96p2qz9Q+uP6eeUCWaqj3AoS0OIWotIyvr/v8DvamDwqD
- w+HSOYh3T113KfkNCmGMxI4VYh235lER3+kYr6vAUMIe0IRsO3xVEYKKml4YSrbCFU44
- Ftyg==
-X-Gm-Message-State: AOAM530hiRYrp9Tn4cODwOpa6EQNTqiEcWE8u5iNLSjsxOeauEqG6PyM
- JN+mhjuLhl1UxgReuC33pIBAuLQW2scO7KzplEM=
-X-Google-Smtp-Source: ABdhPJwrV/hmRb4ZoqaGe/EswoPPB6CpMcCFgwS4jOEEbGszbKmX5EZML1fz6yP6tRtlAmXKk5ifXBTcIiwiGdhHqrA=
-X-Received: by 2002:a25:2e42:: with SMTP id b2mr2513308ybn.313.1631078021427; 
- Tue, 07 Sep 2021 22:13:41 -0700 (PDT)
+ bh=+EU68D20EgNjfbgAHu9oylLvj3ufJCmtItm3OBQQWuw=;
+ b=WBCAw8lHrh2HPTdvf3Cz3Jy83O6QjOSvab04IkztxNqiOOrdnLrDQaL0aTkF4LOPyf
+ O4nOREPXqg1Jt68oxvi4M/pyX4dM7vHrkwejQkULD9cGNA/OIvPRysqsLPLGtE533a9/
+ JAmoJcv6UQi0gWrZeAEeeB16spnZo8891oRrznJscIMXBd52+l8E14hGKOVk9nH2T/Uu
+ gEJ4repaggLSCXlb5MhwUhjvztaqdI3j0XHT913fWR1UeWig02RgpAKO8c8lbS9iyqoH
+ mrWi+wS0YO2aqCghMQB21Z4vPSYArNy4Svt3LVxCEN0QjAk6VDu4nCYhcBmsKHuKRxIu
+ 2SNA==
+X-Gm-Message-State: AOAM530jtfe/MPQu63WJ0vgkrdBRgTJkY/t2ZcH4ApM6IcCQxjHGDuQ8
+ rmw64FAcLhqXT66CpgsPvzriBglGmvnLsKRJ3gc=
+X-Google-Smtp-Source: ABdhPJyghupd5Nm2iKAcgh2EgK9Kdk/8bsaJE5/l+MgmzG09oQqwLLDqK9eFZAC7Xl8TKWngT4iLJQokJ8XZ3hw9G/c=
+X-Received: by 2002:a25:1b89:: with SMTP id b131mr2761401ybb.40.1631078078231; 
+ Tue, 07 Sep 2021 22:14:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
- <20210904203516.2570119-2-philipp.tomsich@vrull.eu>
-In-Reply-To: <20210904203516.2570119-2-philipp.tomsich@vrull.eu>
+ <20210904203516.2570119-3-philipp.tomsich@vrull.eu>
+In-Reply-To: <20210904203516.2570119-3-philipp.tomsich@vrull.eu>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 8 Sep 2021 13:13:31 +0800
-Message-ID: <CAEUhbmXOKBxO3gTfG5r9zJf0RK0-8KhL0US2mxfbZRV0Jj-i7g@mail.gmail.com>
-Subject: Re: [PATCH v10 01/16] target/riscv: Introduce temporary in
- gen_add_uw()
+Date: Wed, 8 Sep 2021 13:14:28 +0800
+Message-ID: <CAEUhbmUrY3VkNa8qrvOaP5aY9bciQp=5zQ4=g45JkJFUzarOPA@mail.gmail.com>
+Subject: Re: [PATCH v10 02/16] target/riscv: fix clzw implementation to
+ operate on arg1
 To: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,20 +85,19 @@ Cc: Alistair Francis <alistair.francis@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 5, 2021 at 4:40 AM Philipp Tomsich <philipp.tomsich@vrull.eu> wrote:
+On Sun, Sep 5, 2021 at 4:35 AM Philipp Tomsich <philipp.tomsich@vrull.eu> wrote:
 >
-> Following the recent changes in translate.c, gen_add_uw() causes
-> failures on CF3 and SPEC2017 due to the reuse of arg1.  Fix these
-> regressions by introducing a temporary.
+> The refactored gen_clzw() uses ret as its argument, instead of arg1.
+> Fix it.
 >
 > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 > ---
 >
 > Changes in v10:
-> - new patch
+> - New patch, fixing regressions discovered with x264_r.
 >
->  target/riscv/insn_trans/trans_rvb.c.inc | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  target/riscv/insn_trans/trans_rvb.c.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
