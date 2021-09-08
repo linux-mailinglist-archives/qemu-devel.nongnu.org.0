@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 222A1403AEA
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 15:48:21 +0200 (CEST)
-Received: from localhost ([::1]:60942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39BFC403AF5
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 15:51:18 +0200 (CEST)
+Received: from localhost ([::1]:37454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNxw4-0004bh-7W
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 09:48:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35136)
+	id 1mNxyv-0007mo-42
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 09:51:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNxuc-0003pl-SV
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 09:46:50 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41916)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNxuZ-0003hq-CF
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 09:46:50 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id u9so3392401wrg.8
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 06:46:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=tHB1qqCs0p0uDxMS1SRzXEtEfY0FF95ezm/ei5vwF0s=;
- b=SVeH21414gRCX9GIE35OCJEmkYZb6l9GnaIN3WO92S6P02MXR49bSogqnqITDoRXTT
- Ios59UNAN3Ic9mGjRDvU2dPszmZsngkx5SrnqBjG8pZhSzveVMfYFYS1zNHBYve5ejOE
- 4ed9fYzQGCWJtUousY7hD/3UYuxHhhnc0LsEKASnpoWMfuPO1vn/KwnD4f29uGA2LCNU
- FpMvJAYqXDW9VfBgZxz3JBzLaV+9G5/kOA7ucdiiWiiK0rwPZejhTrNNq1Q+uXWZiMeY
- RTUkkDTq9pKchd+vb0Bejg8F4GhfGNBqP2BX6orPWipO2DGpPgQowU/mb70EfMOdCfvC
- VtIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tHB1qqCs0p0uDxMS1SRzXEtEfY0FF95ezm/ei5vwF0s=;
- b=JNLEmBdk6QaY3POwal2y4wEF9vwd+nhfL/1/raDPuDM1jnDvkxLBWvRdaOguZtWy5h
- rwJXPDpZRmf0dd7jdT6tyPG6Sr1cszrXvCcXc0iYCzECzomoP2jSf5CL/bZAODIHMbvH
- fzlpS613N06GzVDcnvhfTXjOcWVi/Wpo3bzXDhNkZV9FVCpKl0pqrLInW0P4DwSDWKE2
- +qaWuls95gJwZ4AntM8pHOUsDo07HUyfMMbjJhYOsesPhv2l31Qcw9pWXyR43UL9d5J1
- gbQL8abytC8YFWIbutItYniXZegBDgZznyi6I82w05cDGk/btIOfR4nTxU00a2/y01Fu
- QZOQ==
-X-Gm-Message-State: AOAM530b7+mI8e/hTgdjGAOA2Gx+k8hXqI0tbqVxzAZbCeTLwjN9rhbo
- 29Ryl0StqFPnNH/dPv1Seik6b+sFlsignHLiBuuM+w==
-X-Google-Smtp-Source: ABdhPJxPTjfRiP0HOcrw5gVg1H5hz54Jg6hfc9ddjLJ3yOrvOvZH44bGlBjhUmBoDrJC2WKNq71v95I+IDXyVE0nvaY=
-X-Received: by 2002:a5d:4a08:: with SMTP id m8mr4166868wrq.263.1631108805677; 
- Wed, 08 Sep 2021 06:46:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mNxx9-0006fY-8g
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 09:49:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42856)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mNxx6-0005r1-H9
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 09:49:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631108963;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RioyZBHZIZVXNvYL83wqB8ZPB6VXojQAXaT68GaSPqU=;
+ b=acmE2sqNV2vD55TcS2NlcZpo0wuipqT/pUg+ErT8UsBQ4qCpeZmKsJpSCdR6C0jnOXMC27
+ dzh41uGcFlAhejZ47jQUeOpet6ymCcb0RVrU0TQAuwjswSgZSpgUaMT+esFIHAGLgrc+7t
+ CR8KyjgpumJbT4y4e0GaMObc7pOdgF8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-478-o0ofT4qHNYGSul8bXNxHoQ-1; Wed, 08 Sep 2021 09:49:18 -0400
+X-MC-Unique: o0ofT4qHNYGSul8bXNxHoQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E478108E6EC;
+ Wed,  8 Sep 2021 13:48:52 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B1F2D1A26A;
+ Wed,  8 Sep 2021 13:48:49 +0000 (UTC)
+Date: Wed, 8 Sep 2021 14:48:47 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: [PATCH] vhost-vsock: fix migration issue when seqpacket is
+ supported
+Message-ID: <YTi/P6IKQfNzXoaf@redhat.com>
+References: <20210907124935.147164-1-sgarzare@redhat.com>
+ <YTdnkPR+LjNFXaeQ@redhat.com>
+ <20210907134756.apnxzgbvw2ztetag@steredhat>
+ <20210908134135.xvidtghamwahbdqk@steredhat>
 MIME-Version: 1.0
-References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
- <20210907121943.3498701-10-marcandre.lureau@redhat.com>
-In-Reply-To: <20210907121943.3498701-10-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 8 Sep 2021 14:45:56 +0100
-Message-ID: <CAFEAcA-2bFpskmH6XRNk_Tn6x-4g476pY5nKq9Cpn=bV_D+62w@mail.gmail.com>
-Subject: Re: [RFC v3 09/32] build-sys: add i686 cpu target
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210908134135.xvidtghamwahbdqk@steredhat>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,58 +85,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Jiang Wang <jiang.wang@bytedance.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-stable@nongnu.org,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Arseny Krasnov <arseny.krasnov@kaspersky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Sept 2021 at 13:37, <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Rust does not have i386 targets, so distinguish when target cpu is i686.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  configure | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
->
-> diff --git a/configure b/configure
-> index 8adf2127c3..48ff2837d9 100755
-> --- a/configure
-> +++ b/configure
-> @@ -617,6 +617,8 @@ esac
->  if test ! -z "$cpu" ; then
->    # command line argument
->    :
-> +elif check_define __i686__ ; then
-> +  cpu=3D"i686"
->  elif check_define __i386__ ; then
->    cpu=3D"i386"
+On Wed, Sep 08, 2021 at 03:41:35PM +0200, Stefano Garzarella wrote:
+> On Tue, Sep 07, 2021 at 03:47:56PM +0200, Stefano Garzarella wrote:
+> > On Tue, Sep 07, 2021 at 02:22:24PM +0100, Daniel P. Berrangé wrote:
+> > > On Tue, Sep 07, 2021 at 02:49:35PM +0200, Stefano Garzarella wrote:
+> > > > Commit 1e08fd0a46 ("vhost-vsock: SOCK_SEQPACKET feature bit support")
+> > > > enabled the SEQPACKET feature bit.
+> > > > This commit is released with QEMU 6.1, so if we try to migrate a VM where
+> > > > the host kernel supports SEQPACKET but machine type version is less than
+> > > > 6.1, we get the following errors:
+> > > > 
+> > > >    Features 0x130000002 unsupported. Allowed features: 0x179000000
+> > > >    Failed to load virtio-vhost_vsock:virtio
+> > > >    error while loading state for instance 0x0 of device '0000:00:05.0/virtio-vhost_vsock'
+> > > >    load of migration failed: Operation not permitted
+> > > > 
+> > > > Let's disable the feature bit for machine types < 6.1, adding a
+> > > > `features` field to VHostVSock to simplify the handling of upcoming
+> > > > features we will support.
+> > > 
+> > > IIUC, this will still leave migration broken for anyone migrating
+> > > a >= 6.1 machine type between a kernel that supports SEQPACKET and
+> > > a kernel lacking that, or vica-verca.
+> > 
+> > This should be true for migrating from kernel that supports SEQPACKET to
+> > a kernel lacking that.
+> > 
+> > For vice-versa I'm not sure, since vhost_get_features() will disable
+> > that feature if the host kernel doesn't support it, and the guest will
+> > not have acked it.
+> 
+> I did some testing and the migration is only broken in the case of
+> kernel 5.14+ (SEQPACKET supported) -> kernel 5.13 (SEQPACKET not supported).
+> 
+> Vice-versa works well because the feature is not acked.
+> 
+> > 
+> > > 
+> > > If a feature is dependant on a host kernel feature we can't turn
+> > > that on automatically as part of the machine type, as we need
+> > > ABI stability across migration indepdant of kernel version.
+> > > 
+> > 
+> > How do we typically handle this?
+> > 
+> > I wrongly thought it was an expected behavior that migrating a guest
+> > using a vhost device from a new kernel to an old one can fail if not all
+> > features are supported.
+> > 
+> > I need to take a look at the other vhost devices.
+> 
+> I took a look at vhost-net and vhost-scsi and we don't seem to handle this
+> case. Maybe I'm missing something...
 
-This isn't what the 'cpu' variable is attempting to distinguish.
-We care only about "is this the 32-bit Intel CPU family?", which
-we for convenience name "i386". We do not attempt (at least not in
-configure) to distinguish between different sub-flavours or
-versions of that 32-bit architecture. (Similarly, 'arm' just
-means "32-bit arm", and doesn't distinguish v5, v6, v7 or whatever.)
+We've never done very well at having a consistent story wrt deps
+on kernel features. So I wouldn't be surprised to see differences
+or omissions anywhere and people not notice the issue.
 
-As it happens the existing C codebase won't work on a classic
-i386 -- for instance the cpu_get_host_ticks() function
-for i386 host is implemented as the 'rdtsc' insn, which
-didn't come in until the pentium.
+> So following your advice, the best thing would be to have this feature
+> disabled by default and require the user to enable it explicitly so we are
+> sure it is needed. At this point a migration to a kernel that doesn't
+> support it is rightly broken.
+> 
+> Or is there something better we can do?
+> 
+> @Michael @Jason any thoughts?
 
-For native compilation, I guess we should just assume that
-whatever rustc targets by default is the right thing.
-For cross compilation we probably need some mechanism for
-the user to tell us what the right rust cross target is,
-the same way we currently have them pass a --cross-prefix
-(which typically looks like a target-triple, but where the
-cpu part of the triple isn't necessarily the same thing as
-the 'cpu' variable configure is using.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-thanks
--- PMM
 
