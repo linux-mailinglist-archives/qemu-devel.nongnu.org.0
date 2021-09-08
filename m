@@ -2,45 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13E3140374B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 11:52:48 +0200 (CEST)
-Received: from localhost ([::1]:51030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E403403768
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 11:57:12 +0200 (CEST)
+Received: from localhost ([::1]:38382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNuG7-0006JS-0L
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 05:52:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34510)
+	id 1mNuKN-00007j-GU
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 05:57:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <reinoud@gorilla.13thmonkey.org>)
- id 1mNuAE-00040h-Bp
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 05:46:42 -0400
-Received: from 13thmonkey.org ([80.100.255.32]:61398
- helo=gorilla.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <reinoud@gorilla.13thmonkey.org>) id 1mNuAB-0004Tz-Ua
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 05:46:42 -0400
-Received: by gorilla.13thmonkey.org (Postfix, from userid 103)
- id 279E92FF07A7; Wed,  8 Sep 2021 11:46:27 +0200 (CEST)
-Date: Wed, 8 Sep 2021 11:46:27 +0200
-From: Reinoud Zandijk <reinoud@NetBSD.org>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v1 1/2] Only check CONFIG_NVMM when NEED_CPU_H is defined
-Message-ID: <YTiGc/0K+rupGIgD@gorilla.13thmonkey.org>
-References: <20210718134650.1191-1-reinoud@NetBSD.org>
- <20210718134650.1191-2-reinoud@NetBSD.org>
- <6059b24a-a5ee-822f-8ff8-7277eb99896c@redhat.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1mNuEV-0007ht-Kn
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 05:51:10 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:49342 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1mNuES-0008Ba-QT
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 05:51:07 -0400
+Received: from localhost.localdomain (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxROZthzhhpZwBAA--.7066S3;
+ Wed, 08 Sep 2021 17:50:39 +0800 (CST)
+Subject: Re: [PATCH v4 17/21] LoongArch Linux User Emulation
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ chenhuacai@gmail.com
+References: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
+ <1630586467-22463-18-git-send-email-gaosong@loongson.cn>
+ <4e47e1a7-d946-f8ec-a9a1-aadc6eeb7941@linaro.org>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <3e7fd708-fe13-8163-2926-d1baa75e3b10@loongson.cn>
+Date: Wed, 8 Sep 2021 17:50:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <4e47e1a7-d946-f8ec-a9a1-aadc6eeb7941@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6059b24a-a5ee-822f-8ff8-7277eb99896c@redhat.com>
-Received-SPF: none client-ip=80.100.255.32;
- envelope-from=reinoud@gorilla.13thmonkey.org; helo=gorilla.13thmonkey.org
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-CM-TRANSID: AQAAf9CxROZthzhhpZwBAA--.7066S3
+X-Coremail-Antispam: 1UD129KBjvdXoW7Gr43Zw4xWF4xZr18Jr1UKFg_yoWktFgE9a
+ yfGF4xWw4UtF4UXw1jvrySvFy3GF1qkFyrurWFkr47XF1aqrn5tws3Xr93Ar97KwsxXrnx
+ JrZ3trn3CF1FgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbSAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+ wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+ vE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2
+ jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+ 8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+ Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
+ ACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS
+ 07AlzVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8V
+ W5Wr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
+ 6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0x
+ vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
+ 42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
+ IEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.332,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,100 +74,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Reinoud Zandijk <reinoud@NetBSD.org>,
- qemu-devel@nongnu.org, Claudio Fontana <cfontana@suse.de>
+Cc: peter.maydell@linaro.org, yangxiaojuan@loongson.cn, david@redhat.com,
+ bin.meng@windriver.com, mark.cave-ayland@ilande.co.uk,
+ aleksandar.rikalo@syrmia.com, jcmvbkbc@gmail.com, tsimpson@quicinc.com,
+ alistair.francis@wdc.com, edgar.iglesias@gmail.com, philmd@redhat.com,
+ atar4qemu@gmail.com, thuth@redhat.com, ehabkost@redhat.com, groug@kaod.org,
+ maobibo@loongson.cn, mrolnik@gmail.com, shorne@gmail.com,
+ alex.bennee@linaro.org, david@gibson.dropbear.id.au,
+ kbastian@mail.uni-paderborn.de, crwulff@gmail.com, laurent@vivier.eu,
+ palmer@dabbelt.com, pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 07, 2021 at 06:20:33PM +0200, Philippe Mathieu-Daud� wrote:
-> On 7/18/21 3:46 PM, Reinoud Zandijk wrote:
-> > Userland targers will otherwise use a poisoned CONFIG_NVMM
+
+Hi Richard,
+
+On 09/05/2021 06:04 PM, Richard Henderson wrote:
+>> +struct sigframe {
+>> +    uint32_t sf_ass[4];             /* argument save space for o32 */
 > 
-> Typo "targets", but do you mean bsd-user or linux-user?
-
-Since its on NetBSD, I guess its bsd-user :)
-
-> But what is the error you get here?
+> Surely there is no "o32" for loongarch?
 > 
-> cpu_report_tpr_access() is protected for !CONFIG_USER_ONLY,
-> target/i386/nvmm/ is only build on system emulation.
+
+Yes, qemu only support 64bit. but the kernel has 'o32'.  Should we have to be consistent with the kernel?
+
+>> +    uint32_t sf_code[2];            /* signal trampoline */
 > 
-> So when can this happen? Last candidate is "sysemu/hw_accel.h";
-> does it really need to include "sysemu/nvmm.h"?
-
-[5560/6718] Compiling C object libcommon.fa.p/hw_core_cpu-common.c.o
-FAILED: libcommon.fa.p/hw_core_cpu-common.c.o 
-gcc -Ilibcommon.fa.p -I../slirp -I../slirp/src -I../dtc/libfdt
--I../capstone/include/capstone -I. -Iqapi -Itrace -Iui -Iui/shader
--I/usr/pkg/include -I/usr/pkg/include/glib-2.0 -I/usr/pkg/lib/glib-2.0/include
--I/usr/pkg/include/gio-unix-2.0 -I/usr/X11R7/include
--I/usr/pkg/include/spice-1 -I/usr/pkg/include/spice-server
--I/usr/X11R7/include/pixman-1 -I/usr/pkg/include/libpng16
--I/usr/pkg/include/SDL2 -I/usr/pkg/include/ncursesw
--I/usr/X11R7/include/libdrm -I/usr/include -I/usr/pkg/include/ncurses
--I/usr/pkg/include/python3.8 -I/usr/include/krb5 -fdiagnostics-color=auto
--pipe -Wall -Winvalid-pch -std=gnu11 -O2 -iquote . -iquote
-/tmp/pkgsrc-gorilla/emulators/qemu-walking/work/qemu-9ad4c7c9b63f89c308fd988d509bed1389953c8b
--iquote
-/tmp/pkgsrc-gorilla/emulators/qemu-walking/work/qemu-9ad4c7c9b63f89c308fd988d509bed1389953c8b/include
--iquote
-/tmp/pkgsrc-gorilla/emulators/qemu-walking/work/qemu-9ad4c7c9b63f89c308fd988d509bed1389953c8b/disas/libvixl
--iquote
-/tmp/pkgsrc-gorilla/emulators/qemu-walking/work/qemu-9ad4c7c9b63f89c308fd988d509bed1389953c8b/tcg/i386
--pthread -U_FORTIFY_SOURCE -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
--D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef
--Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv
--Wold-style-declaration -Wold-style-definition -Wtype-limits -Wformat-security
--Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs
--Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=2
--Wno-missing-include-dirs -Wno-shift-negative-value -Wno-psabi
--fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -D_XOPEN_SOURCE_EXTENDED=1
--fPIC -D_NETBSD_SOURCE -D_XOPEN_SOURCE=600 -DNCURSES_WIDECHAR -D_REENTRANT
--D_THREAD_SAFE -Wno-undef -MD -MQ libcommon.fa.p/hw_core_cpu-common.c.o -MF
-libcommon.fa.p/hw_core_cpu-common.c.o.d -o
-libcommon.fa.p/hw_core_cpu-common.c.o -c ../hw/core/cpu-common.c
-In file included from
-/tmp/pkgsrc-gorilla/emulators/qemu-walking/work/qemu-9ad4c7c9b63f89c308fd988d509bed1389953c8b/include/sysemu/hw_accel.h:19:0,
-                 from ../hw/core/cpu-common.c:24:
-/tmp/pkgsrc-gorilla/emulators/qemu-walking/work/qemu-9ad4c7c9b63f89c308fd988d509bed1389953c8b/include/sysemu/nvmm.h:16:8:
-error: attempt to use poisoned "CONFIG_NVMM"
- #ifdef CONFIG_NVMM
-        ^
-[5589/6718] Compiling C object libcommon.fa.p/hw_net_e1000e_core.c.o
-ninja: build stopped: subcommand failed.
-
-With the patch it works fine.
-
-With regards,
-Reinoud
+> Note that there are patches on-list for moving the signal trampoline off of the stack.
+> 
+>> diff --git a/linux-user/loongarch64/termbits.h b/linux-user/loongarch64/termbits.h
+>> new file mode 100644
+>> index 0000000..33e74ed
+>> --- /dev/null
+>> +++ b/linux-user/loongarch64/termbits.h
+>> @@ -0,0 +1,229 @@
+>> +#ifndef LINUX_USER_LOONGARCH_TERMBITS_H
+>> +#define LINUX_USER_LOONGARCH_TERMBITS_H
+>> +
+>> +#define TARGET_NCCS 19
+> 
+> Surely you should be using generic/termbits.h?
+> OK.
+> We will prefer not to merge a linux-user port that is not upstream, because the ABI may change in between.  Can you provide a pointer to your kernel port in the meantime?
 
 
-> > Signed-off-by: Reinoud Zandijk <Reinoud@NetBSD.org>
-> > ---
-> >  include/sysemu/nvmm.h | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/include/sysemu/nvmm.h b/include/sysemu/nvmm.h
-> > index 6d216599b0..833670fccb 100644
-> > --- a/include/sysemu/nvmm.h
-> > +++ b/include/sysemu/nvmm.h
-> > @@ -10,8 +10,7 @@
-> >  #ifndef QEMU_NVMM_H
-> >  #define QEMU_NVMM_H
-> >  
-> > -#include "config-host.h"
-> > -#include "qemu-common.h"
-> > +#ifdef NEED_CPU_H
-> >  
-> >  #ifdef CONFIG_NVMM
-> >  
-> > @@ -23,4 +22,6 @@ int nvmm_enabled(void);
-> >  
-> >  #endif /* CONFIG_NVMM */
-> >  
-> > -#endif /* CONFIG_NVMM */
-> > +#endif /* NEED_CPU_H */
-> > +
-> > +#endif /* QEMU_NVMM_H */
-> > 
+Latest kernel: https://github.com/loongson/linux/tree/loongarch-next
+
+
+Song Gao
+Thanks.
+
 
