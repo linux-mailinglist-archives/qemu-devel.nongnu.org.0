@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50AE2403CC8
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:47:32 +0200 (CEST)
-Received: from localhost ([::1]:55084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C97403CCB
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:48:34 +0200 (CEST)
+Received: from localhost ([::1]:59010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNznP-0000aI-Cw
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:47:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36464)
+	id 1mNzoP-0003Kz-HS
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:48:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNzkD-00065w-0L
+ id 1mNzkE-00067g-LC
  for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:44:14 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36845)
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNzk9-0002JJ-H0
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:44:12 -0400
-Received: by mail-wr1-x434.google.com with SMTP id g16so4005948wrb.3
+ id 1mNzkB-0002Jz-AH
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:44:14 -0400
+Received: by mail-wr1-x431.google.com with SMTP id u16so3987404wrn.5
  for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 08:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FQap68RVQYE/H+/JgLzkmMM46sErHJmtCOTGRZKu4qQ=;
- b=q6s6/MVIEzdGwu0aDCKgKIWIrX0irTMuKcbWwPHP1M37sbZtWY1r6486what8NFat5
- VbhudbDrXAAamCZ3zHuRTYQO2pXhh2q5t+AfyWkLqf66DghgvjZqmwQP9WEbsV+lA82M
- vE2Jre8HwOqs7qNXJBFtsIXZmdB7jq4D08FZlXQ2gZNss1kyX+Sg03NU/yAfWQqWsN6j
- TljJL3YSY8M+qfEwT2PddwZWb378NSnM14C1F8IVL9FYLE2XUVyOB15DW6jdlY5N8yiT
- jZMSFrllRvF2Ed5itAr2rF9kWYR4y956BwypRbCW/UMfG/MFjLDNGUYCaY4XUOmryUWQ
- Kvzg==
+ bh=eCdv5gKuVsFPM/q2fppv2eQKXpziT7UQgUqUL+mqt3I=;
+ b=uFfl6Z4Xi2kBqEWUcKsJxqiKthvmxm7SlK3yT8S646divO2WR4apYpC+pm95OT3p8B
+ WqcvlSoDVcvqEBn9UAQqD61++S/7TGVYvjFqvz5DASuBo+ovvJ2wBcr6aVPIqILWtLW2
+ aujnFbh/YLRnPfifC+bSti82nsJcYIkTzB0CaMWJ75UvAYwZh9jQJHcTahSrNw0x3H+g
+ pQvwWAhV3YupRytzB9KzlNCxZVMU7m0qiBi2iBsn81ezvPojoI8MM7anL4YOO18Jwwk/
+ gpZrSA4OvOyKOC5cJ2wRv12lIv2N0ZwzJGI8RAA79z26v6uAa9gWeR7e/9BRUVSNbHvW
+ PXPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FQap68RVQYE/H+/JgLzkmMM46sErHJmtCOTGRZKu4qQ=;
- b=GQ+gk3lPy9hHwzTPTFyxgxWBMIXVcVAA8yqweTYHQLFgwA67DDWo70PIvILgQHYPXJ
- zyLQ/TTXpiVa2XAVySML7SVit8QcCBMkv2ZKC3A3l/YCteVKHtxh0hXpgMM0ozaPO+sp
- exaDjDOv8NLmf6BNRqFiTiA11jzBigYCP5Ml2KATsOUwUglAJgA9q5p36goa+8OUU8Xc
- Xv8rX6jjeFZRSBkyDO/GaZXT0nSVIDExCvyOM2GKa8UpLgeQts6ah7NO0OFC5yoPEfjl
- YrUgnZYaPrrdhzYj2oVfGsjY6oGTU4v1SgXhhlrsbvJd/OXucHEsJ22nfiyTHK1AhxH0
- nrrw==
-X-Gm-Message-State: AOAM5335ccmVTpzCteNCA9JOkKS9uE4g6t3cNw2df683YwKVeE6Pa8kd
- ZDpWcHl3/N46PlF4T+Tdoq6MHWSty+uhvA==
-X-Google-Smtp-Source: ABdhPJz+Ec4DOG/MIYFCmAjo9GHIAyeL8KKQIcklNgxgh1q8ewW1SXdCdDy8icsl6O+2XeL11o5GDA==
-X-Received: by 2002:a5d:6a49:: with SMTP id t9mr3796026wrw.35.1631115848087;
+ bh=eCdv5gKuVsFPM/q2fppv2eQKXpziT7UQgUqUL+mqt3I=;
+ b=L3jMdQZgmhjjhkj7ldLX9qYqOdiYA2JuNXmUQwHBvN44qLXXu3wnP/Fj0qr4BL+1E7
+ iQyf9JcL5UOr88BoAV6VjY4lB3HAqJGPoZ9NRGL9fS252ng18Tv4atA5e8hVDepxN+b+
+ +VH0jZ/I8rylEXEhhxu3aCYmGv29/zf/RO6nVgOtK4ZxIzfDS/ZQmctXSJRvXrZ5LbUM
+ YZZx2TgAuhe9THJmAw69FH0dkas9/QKAndW2FSPM5l/mKKNg11qwtDJhx4x1sJsp14xz
+ Vov9kpibbW/vNkKNTTmNCPZkp0FnsZVWhtOvsqflUn3CjFEL9t41fV8FwRLgKL0Kkanh
+ BPyg==
+X-Gm-Message-State: AOAM532WBwmQg2Wa4NLCNddWjYEIt86GTP5PZ+mBVMJuYsEXMQMQ/Opd
+ nJWmN/YmCX+vMgtq9wLdMjtKcE5+TK4/7Q==
+X-Google-Smtp-Source: ABdhPJzZwF1kG6ZKgrCa9dACXYFOlLAJVOtq1mfJG6U3tOWWl4RoqEvdkzLvBts1Bl5GC89A4pwklw==
+X-Received: by 2002:a05:6000:1563:: with SMTP id
+ 3mr5021777wrz.139.1631115848713; 
  Wed, 08 Sep 2021 08:44:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s10sm2587307wrg.42.2021.09.08.08.44.07
+ by smtp.gmail.com with ESMTPSA id s10sm2587307wrg.42.2021.09.08.08.44.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Sep 2021 08:44:07 -0700 (PDT)
+ Wed, 08 Sep 2021 08:44:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/9] linux-user: Fix coding style nits in qemu.h
-Date: Wed,  8 Sep 2021 16:43:57 +0100
-Message-Id: <20210908154405.15417-2-peter.maydell@linaro.org>
+Subject: [PATCH v2 2/9] linux-user: Split strace prototypes into strace.h
+Date: Wed,  8 Sep 2021 16:43:58 +0100
+Message-Id: <20210908154405.15417-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210908154405.15417-1-peter.maydell@linaro.org>
 References: <20210908154405.15417-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,160 +88,136 @@ Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're about to move a lot of the code in qemu.h out into different
-header files; fix the coding style nits first so that checkpatch
-is happy with the pure code-movement patches. This is mostly
-block-comment style but also a few whitespace issues.
+The functions implemented in strace.c are only used in a few files in
+linux-user; split them out of qemu.h and into a new strace.h header
+which we include in the places that need it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- linux-user/qemu.h | 47 ++++++++++++++++++++++++++++++-----------------
- 1 file changed, 30 insertions(+), 17 deletions(-)
+ linux-user/qemu.h    | 18 ------------------
+ linux-user/strace.h  | 38 ++++++++++++++++++++++++++++++++++++++
+ linux-user/signal.c  |  1 +
+ linux-user/strace.c  |  2 ++
+ linux-user/syscall.c |  1 +
+ 5 files changed, 42 insertions(+), 18 deletions(-)
+ create mode 100644 linux-user/strace.h
 
 diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 3b0b6b75fe8..34b975ba502 100644
+index 34b975ba502..ad2d49fed9f 100644
 --- a/linux-user/qemu.h
 +++ b/linux-user/qemu.h
-@@ -15,12 +15,14 @@
- #include "target_syscall.h"
- #include "exec/gdbstub.h"
+@@ -415,24 +415,6 @@ extern long safe_syscall_base(int *pending, long number, ...);
+ /* syscall.c */
+ int host_to_target_waitstatus(int status);
  
--/* This is the size of the host kernel's sigset_t, needed where we make
+-/* strace.c */
+-void print_syscall(void *cpu_env, int num,
+-                   abi_long arg1, abi_long arg2, abi_long arg3,
+-                   abi_long arg4, abi_long arg5, abi_long arg6);
+-void print_syscall_ret(void *cpu_env, int num, abi_long ret,
+-                       abi_long arg1, abi_long arg2, abi_long arg3,
+-                       abi_long arg4, abi_long arg5, abi_long arg6);
+-/**
+- * print_taken_signal:
+- * @target_signum: target signal being taken
+- * @tinfo: target_siginfo_t which will be passed to the guest for the signal
+- *
+- * Print strace output indicating that this signal is being taken by the guest,
+- * in a format similar to:
+- * --- SIGSEGV {si_signo=SIGSEGV, si_code=SI_KERNEL, si_addr=0} ---
+- */
+-void print_taken_signal(int target_signum, const target_siginfo_t *tinfo);
+-
+ /* signal.c */
+ void process_pending_signals(CPUArchState *cpu_env);
+ void signal_init(void);
+diff --git a/linux-user/strace.h b/linux-user/strace.h
+new file mode 100644
+index 00000000000..1e232d07fc8
+--- /dev/null
++++ b/linux-user/strace.h
+@@ -0,0 +1,38 @@
 +/*
-+ * This is the size of the host kernel's sigset_t, needed where we make
-  * direct system calls that take a sigset_t pointer and a size.
-  */
- #define SIGSET_T_SIZE (_NSIG / 8)
- 
--/* This struct is used to hold certain information about the image.
-+/*
-+ * This struct is used to hold certain information about the image.
-  * Basically, it replicates in user space what would be certain
-  * task_struct fields in the kernel
-  */
-@@ -48,13 +50,13 @@ struct image_info {
-         abi_ulong       env_strings;
-         abi_ulong       file_string;
-         uint32_t        elf_flags;
--        int		personality;
-+        int             personality;
-         abi_ulong       alignment;
- 
-         /* The fields below are used in FDPIC mode.  */
-         abi_ulong       loadmap_addr;
-         uint16_t        nsegs;
--        void           *loadsegs;
-+        void            *loadsegs;
-         abi_ulong       pt_dynamic_addr;
-         abi_ulong       interpreter_loadmap_addr;
-         abi_ulong       interpreter_pt_dynamic_addr;
-@@ -98,8 +100,10 @@ struct emulated_sigtable {
-     target_siginfo_t info;
- };
- 
--/* NOTE: we force a big alignment so that the stack stored after is
--   aligned too */
-+/*
-+ * NOTE: we force a big alignment so that the stack stored after is
-+ * aligned too
++ * strace.h: prototypes for linux-user builtin strace handling
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
- typedef struct TaskState {
-     pid_t ts_tid;     /* tid (or pid) of this task */
- #ifdef TARGET_ARM
-@@ -134,20 +138,23 @@ typedef struct TaskState {
- 
-     struct emulated_sigtable sync_signal;
-     struct emulated_sigtable sigtab[TARGET_NSIG];
--    /* This thread's signal mask, as requested by the guest program.
-+    /*
-+     * This thread's signal mask, as requested by the guest program.
-      * The actual signal mask of this thread may differ:
-      *  + we don't let SIGSEGV and SIGBUS be blocked while running guest code
-      *  + sometimes we block all signals to avoid races
-      */
-     sigset_t signal_mask;
--    /* The signal mask imposed by a guest sigsuspend syscall, if we are
-+    /*
-+     * The signal mask imposed by a guest sigsuspend syscall, if we are
-      * currently in the middle of such a syscall
-      */
-     sigset_t sigsuspend_mask;
-     /* Nonzero if we're leaving a sigsuspend and sigsuspend_mask is valid. */
-     int in_sigsuspend;
- 
--    /* Nonzero if process_pending_signals() needs to do something (either
-+    /*
-+     * Nonzero if process_pending_signals() needs to do something (either
-      * handle a pending signal or unblock signals).
-      * This flag is written from a signal handler so should be accessed via
-      * the qatomic_read() and qatomic_set() functions. (It is not accessed
-@@ -168,8 +175,10 @@ extern unsigned long mmap_min_addr;
- 
- /* ??? See if we can avoid exposing so much of the loader internals.  */
- 
--/* Read a good amount of data initially, to hopefully get all the
--   program headers loaded.  */
-+/*
-+ * Read a good amount of data initially, to hopefully get all the
-+ * program headers loaded.
++
++#ifndef LINUX_USER_STRACE_H
++#define LINUX_USER_STRACE_H
++
++void print_syscall(void *cpu_env, int num,
++                   abi_long arg1, abi_long arg2, abi_long arg3,
++                   abi_long arg4, abi_long arg5, abi_long arg6);
++void print_syscall_ret(void *cpu_env, int num, abi_long ret,
++                       abi_long arg1, abi_long arg2, abi_long arg3,
++                       abi_long arg4, abi_long arg5, abi_long arg6);
++/**
++ * print_taken_signal:
++ * @target_signum: target signal being taken
++ * @tinfo: target_siginfo_t which will be passed to the guest for the signal
++ *
++ * Print strace output indicating that this signal is being taken by the guest,
++ * in a format similar to:
++ * --- SIGSEGV {si_signo=SIGSEGV, si_code=SI_KERNEL, si_addr=0} ---
 + */
- #define BPRM_BUF_SIZE  1024
++void print_taken_signal(int target_signum, const target_siginfo_t *tinfo);
++
++#endif /* LINUX_USER_STRACE_H */
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index a8faea6f090..ee1934947ac 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -22,6 +22,7 @@
+ #include <sys/resource.h>
  
- /*
-@@ -184,7 +193,7 @@ struct linux_binprm {
-         int argc, envc;
-         char **argv;
-         char **envp;
--        char * filename;        /* Name of binary */
-+        char *filename;        /* Name of binary */
-         int (*core_dump)(int, const CPUArchState *); /* coredump routine */
- };
+ #include "qemu.h"
++#include "strace.h"
+ #include "trace.h"
+ #include "signal-common.h"
  
-@@ -212,10 +221,11 @@ void do_init_thread(struct target_pt_regs *regs, struct image_info *infop);
- abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
-                               abi_ulong stringp, int push_ptr);
- int loader_exec(int fdexec, const char *filename, char **argv, char **envp,
--             struct target_pt_regs * regs, struct image_info *infop,
-+             struct target_pt_regs *regs, struct image_info *infop,
-              struct linux_binprm *);
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index cce0a5d1e35..ee3429fae82 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -1,4 +1,5 @@
+ #include "qemu/osdep.h"
++
+ #include <sys/ipc.h>
+ #include <sys/msg.h>
+ #include <sys/sem.h>
+@@ -14,6 +15,7 @@
+ #include <linux/netlink.h>
+ #include <sched.h>
+ #include "qemu.h"
++#include "strace.h"
  
--/* Returns true if the image uses the FDPIC ABI. If this is the case,
-+/*
-+ * Returns true if the image uses the FDPIC ABI. If this is the case,
-  * we have to provide some information (loadmap, pt_dynamic_info) such
-  * that the program can be relocated adequately. This is also useful
-  * when handling signals.
-@@ -283,7 +293,8 @@ void probe_guest_base(const char *image_name,
-  * with any of the host errno values.)
-  */
+ struct syscallname {
+     int nr;
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index ccd3892b2df..4ac2801e495 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -127,6 +127,7 @@
+ #include "uname.h"
  
--/* A guide to using safe_syscall() to handle interactions between guest
-+/*
-+ * A guide to using safe_syscall() to handle interactions between guest
-  * syscalls and guest signals:
-  *
-  * Guest syscalls come in two flavours:
-@@ -392,7 +403,8 @@ extern long safe_syscall_base(int *pending, long number, ...);
- 
- #else
- 
--/* Fallback for architectures which don't yet provide a safe-syscall assembly
-+/*
-+ * Fallback for architectures which don't yet provide a safe-syscall assembly
-  * fragment; note that this is racy!
-  * This should go away when all host architectures have been updated.
-  */
-@@ -736,7 +748,8 @@ static inline int regpairs_aligned(void *cpu_env, int num) { return 0; }
-  */
- void preexit_cleanup(CPUArchState *env, int code);
- 
--/* Include target-specific struct and function definitions;
-+/*
-+ * Include target-specific struct and function definitions;
-  * they may need access to the target-independent structures
-  * above, so include them last.
-  */
+ #include "qemu.h"
++#include "strace.h"
+ #include "qemu/guest-random.h"
+ #include "qemu/selfmap.h"
+ #include "user/syscall-trace.h"
 -- 
 2.20.1
 
