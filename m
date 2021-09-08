@@ -2,75 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82301403FD5
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 21:34:18 +0200 (CEST)
-Received: from localhost ([::1]:46358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397DF40403F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 22:45:43 +0200 (CEST)
+Received: from localhost ([::1]:58926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mO3Kr-00036E-3T
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 15:34:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57298)
+	id 1mO4Rx-00006p-SS
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 16:45:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mO3Ju-0002OF-Vl
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 15:33:19 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:46034)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mO3Js-0002L6-O9
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 15:33:18 -0400
-Received: by mail-wr1-x430.google.com with SMTP id n5so4848388wro.12
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 12:33:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uY57r806Y2Wgmp/gkdWFvIqr6CrKILggoVGfZYYyHjs=;
- b=X9g7tt4JciBtM1INVlqWQOLEkuyAGwsoRH+iM98ll4pzV32pSwbWeWCCppqHn3DndK
- Vkl2VbIraJlqhmj+RsanZH2pcOBcT6UmTdj+TgmhSrIyMQFW5CaXynTcwRMVUyvBbFdM
- ZNcRxHOf9GfHTmaWw7wU88bdnIKo0c6aGGZ8EJkKztvISB5nFXEQy375KabTKWOw1HvR
- HNm/cl8S1UqVPW0ejghOntJY9en+g2uEebobi+2dzQq8EzctcUSWxIo2n/rY9U1XjufO
- yO51maP0N09APx2ZzmunkdMc/BMkjiZFoH+NuEeQQsP2wSiaCVaBN+xW5GzhtUEabS0d
- 46RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uY57r806Y2Wgmp/gkdWFvIqr6CrKILggoVGfZYYyHjs=;
- b=UCqR09BL9SW5euhECmj/SqZJEGMHfYQi2s8g+x9F2ogJXO1IPnqNCaejuzk/JHqrnk
- 0EbltuzMKmy+xX4GDeXnvjeOxGMNfCDfhl9u/K0jlNLefeu0RxZmuQYZTnMMUnrUDyAT
- KJZ88Mv0/O3NXCuU0mWJ2c7yxQKeI1yZyisYFe0/QqD9bGs/foSp2Qi5N1EhUYsbo+Cl
- fYpTzm24bODw2WRb8sz2KVq1YWmvde+A1R+gHPYu+D6zEYZxJsKzXgHDVCKAmWUtlLAS
- 6lBHIvovvYZtVGjy6FKtk7SOHdKrUgAzvQDeoYkV2zHvhqR5dcnstJN5mQmarFerv9KL
- J5sg==
-X-Gm-Message-State: AOAM533lw4f19VrkGjvUq347tKTAHIHhbqRWBu7xrmNNb6v2jqOYVjCp
- FD5MldPVyKVWw3kgft8P0oLGn7gz4EmY9Qk8AcQ=
-X-Google-Smtp-Source: ABdhPJxwvD8+jU3Y2oDwIExYAbQr/IxhMW6YB+Z4iQHuwxP5ZZcg/DUOD3Hi3MA3S16nS36anaWUlMuvlecMsZIY6x4=
-X-Received: by 2002:adf:e404:: with SMTP id g4mr5794004wrm.143.1631129594213; 
- Wed, 08 Sep 2021 12:33:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thomas.weissschuh.ext@zeiss.com>)
+ id 1mO1bV-00029z-Fg; Wed, 08 Sep 2021 13:43:22 -0400
+Received: from mail-eopbgr80132.outbound.protection.outlook.com
+ ([40.107.8.132]:1541 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thomas.weissschuh.ext@zeiss.com>)
+ id 1mO1bQ-0003s4-Gd; Wed, 08 Sep 2021 13:43:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=S9Zfv5L5ufDLnXQQUsSVjzojTQcfqjdM0ckUgPH3Njf/hVAd6z6rHqx75hs0UW27RsnxbAryYUmEM4B2Y9SUK5T6Ef/iKl051XCNYNEm4yclNUlQ8LKed7kfUHVraJiIQCo15tL9IP7vtmrO+pcBUKnT8n+Lcv4jC77j8925ps1OGcrjTPmh/+C0Jtj6xdi3abS9GEV80S826EjjAKAADNzmsqZg0LD02UeszzggBmZ+yVc6aOV6/ms/WSQvUi6euvTtE32dan2SIYBwbt5nQrzinhTdI515FymkdM1yV7MraOpgX/Q1IGTHqRs7bQhms57ND6S+uieqS0PWNpSb7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=aTfWFPAlgK1LbcQwLLCXR9jUiVRZ5x0XgItACT1+F0k=;
+ b=lmqOYwjAhqqMnf55dpbUeIRN56JDwl+DFZjNMEgFaHlPpxoY5G6zuxXYZFWUkR8QnxIhgaePZ/SyeSwFni7oPI6AVbM8u2c+X7v/nIK1Z3PDyieuqZBDmyqx0gmMrREYHM8BYy5s1I5gEPqZ4d160uB3QUh/pZPL/y7zTrwwsTQ/pp9fqOlPg+OVv9UT31IFoPP4C9UppqjAB3YZM3/cDMeB7y9m2elzN0rR6X3n/7PD/DZrbr5xwHeRbkyUUo+4aVW7rYODV/18RSu7efxA9ja5wDwlheFrxmk/4mBCZREdRc+JaHGMBrqx/G5gWDMJM9nhZmiW/8BNKCj2rbG/kQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zeiss.onmicrosoft.com; 
+ s=selector2-zeiss-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aTfWFPAlgK1LbcQwLLCXR9jUiVRZ5x0XgItACT1+F0k=;
+ b=TbI17dFPhHqxMii6fUNx5Ym91MK5mVNu64KCXwxtIcwzHIJ1K6EPGfBoJQMNRCbUCdHsSWb+dNcTMCKJtzFRkgxbFfuGKWKjjJ5d7i5+ZoR3uRCjsLybXKqZ8gpEDABalxFolV/EHjqJudmA2vkAMoTbBKksEJMSGPrV+//peOI=
+Received: from AS8PR04CA0022.eurprd04.prod.outlook.com (2603:10a6:20b:310::27)
+ by VI1P190MB0159.EURP190.PROD.OUTLOOK.COM (2603:10a6:800:a5::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.21; Wed, 8 Sep
+ 2021 17:43:08 +0000
+Received: from VE1EUR01FT036.eop-EUR01.prod.protection.outlook.com
+ (2603:10a6:20b:310:cafe::73) by AS8PR04CA0022.outlook.office365.com
+ (2603:10a6:20b:310::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14 via Frontend
+ Transport; Wed, 8 Sep 2021 17:43:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 13.93.6.20)
+ smtp.mailfrom=zeiss.com; euphon.net; dkim=none (message not signed)
+ header.d=none;euphon.net; dmarc=bestguesspass action=none
+ header.from=zeiss.com;
+Received-SPF: Pass (protection.outlook.com: domain of zeiss.com designates
+ 13.93.6.20 as permitted sender) receiver=protection.outlook.com;
+ client-ip=13.93.6.20; helo=gag02r02vm101.zeiss.org;
+Received: from gag02r02vm101.zeiss.org (13.93.6.20) by
+ VE1EUR01FT036.mail.protection.outlook.com (10.152.3.31) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4500.14 via Frontend Transport; Wed, 8 Sep 2021 17:43:08 +0000
+Received: from gag02r02vm079.cznet.zeiss.org (10.27.68.68) by
+ gag02r02vm101.zeiss.org (10.27.70.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.14; Wed, 8 Sep 2021 19:43:07 +0200
+Received: from localhost (10.190.40.145) by gag02r02vm079.cznet.zeiss.org
+ (10.27.68.68) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 8 Sep
+ 2021 19:43:06 +0200
+From: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh.ext@zeiss.com>
+To: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ <famz@redhat.com>, Hanna Reitz <hreitz@redhat.com>, Markus Armbruster
+ <armbru@redhat.com>, Eric Blake <eblake@redhat.com>, <qemu-block@nongnu.org>
+Subject: [PATCH] vmdk: allow specification of tools version
+Date: Wed, 8 Sep 2021 19:42:50 +0200
+Message-ID: <20210908174250.12946-1-thomas.weissschuh.ext@zeiss.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
- <20210907121943.3498701-14-marcandre.lureau@redhat.com>
- <24888.55565.53378.616422@mariner.uk.xensource.com>
- <CAJ+F1CJR9hAd+2MJZ1X9s2vBW=fG++mgk75M+Ww166orq3KdNg@mail.gmail.com>
- <24888.58624.549030.64132@mariner.uk.xensource.com>
- <CAJ+F1CJFdrU38BwK=V-89fYYu3ySywREAF-WuBNJLftsMP52rg@mail.gmail.com>
- <24888.59891.24033.552735@mariner.uk.xensource.com>
-In-Reply-To: <24888.59891.24033.552735@mariner.uk.xensource.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 8 Sep 2021 23:33:02 +0400
-Message-ID: <CAJ+F1C+WpJd5bg0oH=2Tt_B973QDqtSan0zM0pT00xxSBj7m8w@mail.gmail.com>
-Subject: Re: [RFC v3 13/32] rust: use vendored-sources
-To: Ian Jackson <iwj@xenproject.org>
-Content-Type: multipart/alternative; boundary="0000000000000bb99405cb80f490"
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.190.40.145]
+X-ClientProxiedBy: gag02r02vm080.cznet.zeiss.org (10.27.68.69) To
+ gag02r02vm079.cznet.zeiss.org (10.27.68.68)
+X-EOPAttributedMessage: 0
+X-MS-Exchange-SkipListedInternetSender: ip=[13.93.6.20];
+ domain=gag02r02vm101.zeiss.org
+X-MS-Exchange-ExternalOriginalInternetSender: ip=[13.93.6.20];
+ domain=gag02r02vm101.zeiss.org
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9ce2737c-f242-4645-7514-08d972f01ed6
+X-MS-TrafficTypeDiagnostic: VI1P190MB0159:
+X-Microsoft-Antispam-PRVS: <VI1P190MB01593E22712E8ACAC64913BAB8D49@VI1P190MB0159.EURP190.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jbrZazpCdUSXNs1NVyNueaxUbOjTWyiFD224vmWN11LcPzkYg3ww70mxqBd7D/WQkz+JF2QHYco7rJcTLkkAb4UC4wepBwNKGZFqIAaU6TdID5nwujEDFjcp8qvEUuhHJcbpYYIEQn4SmIH7JXZnVjRwsQqXCMwRgXLIi2G8t4h84TrYUue61cmufWGBvBjTWg3rtMbHm2aNXrZ5nKhF9RIXx2NFNh0EU112jV5reKSdLgP6UyyYCXV9MSI+YXKnt96SEMM1b9PWqU+p2OBWR4uUswiNjrxtDuyD0hAYs/Za7zShP84ZAF1qoNDCnbWux6+zP/C0VX4E3FPt7eRR7LzLhY6KgQLPELXF431un/OPtTFdqsSiC2LGq7+5wC1i5XrdhVPi8IrNnuIqT94+kqUV5H6RsXpsrixT2mKlyxfu8hAt0RcGM1GbCMOzQHBs9hsK8uKxQ0KedGYGjERhzqdG8t80zNeBgHg2EjP2fcu8ZAiGL9mNfAttuB1jfK3F5OCEQXnAhHPwzikDt+pT8J5y8xYdn2kE5uUz2zAFKNubOzqccKQTzTwxcJ1aXLQNm82ca0RMlv01ppWYPzo2GsL8w0XjG16UTEmoSiQJYbir5eLeuxVKbiWiBVaxYJqRUjbxX9JPcb9SpuUdSfehgrKxL8kOtd6xNj/hsTKSSTRyeUj27Nxmm7lfFanOjmQqif0N5CquG1DYAj+bT6o+hq8wYuHbur5+T+TmZGc5r4I+e6SvCiOK/HsdrYSEz8hmyt6darNkLtS9aW8GAgctilPflLnpplNl8Q3feNueocI=
+X-Forefront-Antispam-Report: CIP:13.93.6.20; CTRY:NL; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:gag02r02vm101.zeiss.org; PTR:InfoDomainNonexistent;
+ CAT:NONE;
+ SFS:(4636009)(136003)(39860400002)(346002)(396003)(376002)(46966006)(36840700001)(82740400003)(8676002)(47076005)(54906003)(316002)(26005)(83380400001)(103116003)(66574015)(356005)(6666004)(2616005)(86362001)(5660300002)(110136005)(2906002)(82310400003)(8936002)(81166007)(16526019)(70586007)(36756003)(336012)(186003)(1076003)(36860700001)(70206006)(478600001)(4326008)(36900700001);
+ DIR:OUT; SFP:1102; 
+X-OriginatorOrg: zeiss.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2021 17:43:08.3655 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ce2737c-f242-4645-7514-08d972f01ed6
+X-MS-Exchange-CrossTenant-Id: 28042244-bb51-4cd6-8034-7776fa3703e8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=28042244-bb51-4cd6-8034-7776fa3703e8; Ip=[13.93.6.20];
+ Helo=[gag02r02vm101.zeiss.org]
+X-MS-Exchange-CrossTenant-AuthSource: VE1EUR01FT036.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1P190MB0159
+Received-SPF: pass client-ip=40.107.8.132;
+ envelope-from=thomas.weissschuh.ext@zeiss.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: 10
+X-Spam_score: 1.0
+X-Spam_bar: +
+X-Spam_report: (1.0 / 5.0 requ) AC_FROM_MANY_DOTS=2.866, BAYES_00=-1.9,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 08 Sep 2021 16:44:14 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,200 +127,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh.ext@zeiss.com>,
+ thomas@t-8ch.de, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000bb99405cb80f490
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+VMDK files support an attribute that represents the version of the guest
+tools that are installed on the disk.
+This attribute is used by vSphere before a machine has been started to
+determine if the VM has the guest tools installed.
+This is important when configuring "Operating system customizations" in
+vSphere, as it checks for the presence of the guest tools before
+allowing those customizations.
+Thus when the VM has not yet booted normally it would be impossible to
+customize it, therefore preventing a customized first-boot.
 
-Hi
+The attribute should not hurt on disks that do not have the guest tools
+installed and indeed the VMware tools also unconditionally add this
+attribute.
+(Defaulting to the value "2147483647", as is done in this patch)
 
-On Wed, Sep 8, 2021 at 8:51 PM Ian Jackson <iwj@xenproject.org> wrote:
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh.ext@zeiss.com>
+---
+ block/vmdk.c         | 24 ++++++++++++++++++++----
+ qapi/block-core.json |  2 ++
+ 2 files changed, 22 insertions(+), 4 deletions(-)
 
-> Marc-Andr=C3=A9 Lureau writes ("Re: [RFC v3 13/32] rust: use vendored-sou=
-rces"):
-> > Yes, this is the shim to provide a C ABI QMP handler from Rust. This is
-> where
-> > all the FFI<->Rust conversion takes place.
-> >
-> > The "safe" code is qga/qmp/vcpus.rs. However, there is no
-> > documentation there, since it's not meant to be the public
-> > interface. It's documented with the QAPI schema.
->
-> Right, thanks.  That does look like a PoC of a Rust API.  I wanted the
-> rustdoc output because I find it provides a very uniform and readable
-> presentation even of an API with no doc comments.
->
-> I think maybe a thing I am missing is how you expect this to be used.
-> Which parts of the system are going to be in Rust.  etc.
-> And that would help explain what "public" means.
->
-> I think the answer is probably in this example:
->
->
-> https://patchew.org/QEMU/20210907121943.3498701-1-marcandre.lureau@redhat=
-.com/20210907121943.3498701-30-marcandre.lureau@redhat.com/
->
-> but although my C and Rust are both fine, I don't understand qemu well
-> enough to make sense of it.
->
-> ... wait, qga is "qemu guest agent" ?
->
-> I think I am sort of seeing this use case now.  But presuambly there
-> are other use cases for this QMP/QAPI type bridge stuff.
->
-> Sorry to be asking such stupid questions.
->
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 4499f136bd..93ef6426b0 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -60,6 +60,7 @@
+ #define VMDK_ZEROED  (-3)
+ 
+ #define BLOCK_OPT_ZEROED_GRAIN "zeroed_grain"
++#define BLOCK_OPT_TOOLSVERSION "toolsversion"
+ 
+ typedef struct {
+     uint32_t version;
+@@ -2344,6 +2345,7 @@ static int coroutine_fn vmdk_co_do_create(int64_t size,
+                                           BlockdevVmdkAdapterType adapter_type,
+                                           const char *backing_file,
+                                           const char *hw_version,
++                                          const char *toolsversion,
+                                           bool compat6,
+                                           bool zeroed_grain,
+                                           vmdk_create_extent_fn extent_fn,
+@@ -2384,7 +2386,8 @@ static int coroutine_fn vmdk_co_do_create(int64_t size,
+         "ddb.geometry.cylinders = \"%" PRId64 "\"\n"
+         "ddb.geometry.heads = \"%" PRIu32 "\"\n"
+         "ddb.geometry.sectors = \"63\"\n"
+-        "ddb.adapterType = \"%s\"\n";
++        "ddb.adapterType = \"%s\"\n"
++        "ddb.toolsVersion = \"%s\"\n";
+ 
+     ext_desc_lines = g_string_new(NULL);
+ 
+@@ -2401,6 +2404,9 @@ static int coroutine_fn vmdk_co_do_create(int64_t size,
+     if (!hw_version) {
+         hw_version = "4";
+     }
++    if (!toolsversion) {
++        toolsversion = "2147483647";
++    }
+ 
+     if (adapter_type != BLOCKDEV_VMDK_ADAPTER_TYPE_IDE) {
+         /* that's the number of heads with which vmware operates when
+@@ -2525,7 +2531,8 @@ static int coroutine_fn vmdk_co_do_create(int64_t size,
+                            size /
+                                (int64_t)(63 * number_heads * BDRV_SECTOR_SIZE),
+                            number_heads,
+-                           BlockdevVmdkAdapterType_str(adapter_type));
++                           BlockdevVmdkAdapterType_str(adapter_type),
++                           toolsversion);
+     desc_len = strlen(desc);
+     /* the descriptor offset = 0x200 */
+     if (!split && !flat) {
+@@ -2617,6 +2624,7 @@ static int coroutine_fn vmdk_co_create_opts(BlockDriver *drv,
+     BlockdevVmdkAdapterType adapter_type_enum;
+     char *backing_file = NULL;
+     char *hw_version = NULL;
++    char *toolsversion = NULL;
+     char *fmt = NULL;
+     BlockdevVmdkSubformat subformat;
+     int ret = 0;
+@@ -2649,6 +2657,7 @@ static int coroutine_fn vmdk_co_create_opts(BlockDriver *drv,
+     adapter_type = qemu_opt_get_del(opts, BLOCK_OPT_ADAPTER_TYPE);
+     backing_file = qemu_opt_get_del(opts, BLOCK_OPT_BACKING_FILE);
+     hw_version = qemu_opt_get_del(opts, BLOCK_OPT_HWVERSION);
++    toolsversion = qemu_opt_get_del(opts, BLOCK_OPT_TOOLSVERSION);
+     compat6 = qemu_opt_get_bool_del(opts, BLOCK_OPT_COMPAT6, false);
+     if (strcmp(hw_version, "undefined") == 0) {
+         g_free(hw_version);
+@@ -2692,14 +2701,15 @@ static int coroutine_fn vmdk_co_create_opts(BlockDriver *drv,
+         .opts = opts,
+     };
+     ret = vmdk_co_do_create(total_size, subformat, adapter_type_enum,
+-                            backing_file, hw_version, compat6, zeroed_grain,
+-                            vmdk_co_create_opts_cb, &data, errp);
++                            backing_file, hw_version, toolsversion, compat6,
++                            zeroed_grain, vmdk_co_create_opts_cb, &data, errp);
+ 
+ exit:
+     g_free(backing_fmt);
+     g_free(adapter_type);
+     g_free(backing_file);
+     g_free(hw_version);
++    g_free(toolsversion);
+     g_free(fmt);
+     g_free(desc);
+     g_free(path);
+@@ -2782,6 +2792,7 @@ static int coroutine_fn vmdk_co_create(BlockdevCreateOptions *create_options,
+                             opts->adapter_type,
+                             opts->backing_file,
+                             opts->hwversion,
++                            opts->toolsversion,
+                             false,
+                             opts->zeroed_grain,
+                             vmdk_co_create_cb,
+@@ -3031,6 +3042,11 @@ static QemuOptsList vmdk_create_opts = {
+             .help = "VMDK hardware version",
+             .def_value_str = "undefined"
+         },
++        {
++            .name = BLOCK_OPT_TOOLSVERSION,
++            .type = QEMU_OPT_STRING,
++            .help = "VMware guest tools version",
++        },
+         {
+             .name = BLOCK_OPT_SUBFMT,
+             .type = QEMU_OPT_STRING,
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index c8ce1d9d5d..b530d4a333 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -4597,6 +4597,7 @@
+ # @adapter-type: The adapter type used to fill in the descriptor. Default: ide.
+ # @hwversion: Hardware version. The meaningful options are "4" or "6".
+ #             Default: "4".
++# @toolsversion: VMware guest tools version.
+ # @zeroed-grain: Whether to enable zeroed-grain feature for sparse subformats.
+ #                Default: false.
+ #
+@@ -4610,6 +4611,7 @@
+             '*backing-file':    'str',
+             '*adapter-type':    'BlockdevVmdkAdapterType',
+             '*hwversion':       'str',
++            '*toolsversion':    'str',
+             '*zeroed-grain':    'bool' } }
+ 
+ 
+-- 
+2.17.1
 
-There is no magic wand to introduce Rust code in an existing C code base.
-You need to glue some C ABI to/from Rust. It's a lot of manual work to
-properly bind a C API to Rust (it's a project on its own I would say).
-Typically, FFI bindings can be automated from headers, and high-level Rust
-bindings are done by hand. Then you want high-level bindings to take
-advantage of Rust, for idiomatic and safe code. Various internal QEMU API
-will have to be bound by hand to start using them from Rust. An isolated
-unit (say a parser, a function) could be rewritten in Rust and a C ABI be
-provided without much hassle. But in general, code is quickly
-interdependent, or the amount of stuff to rewrite in one go is large and
-risky to do it that way.
-
-In the glib/gobject world, the ABI are annotated, and you can automate much
-of the high-level binding process (which is amazing, given the complexity
-of the APIs, with objects, async methods, signals, properties, .. various
-concepts that don't match easily in Rust). To help with this process, they
-introduced conversion traits (the ToQemu/FromQemu adapted here), common
-interfaces, to help automate and compose complex types (and their own
-binding generator).
-
-(Unfortunately) QEMU doesn't use gobject, but it relies heavily on two type
-systems of its own: QAPI and QOM. QAPI is actually more of an IDL, which
-translates C from/to JSON/QMP and has commands and signals (and is the
-protocol used to communicate with qemu or qemu-ga etc). A large part of
-QEMU are direct users of the QAPI generated types and functions. It is thus
-a good target to generate bindings automatically. As demonstrated at the
-end, it allows writing QMP handlers in idiomatic Rust. Since
-qemu-guest-agent doesn't have a complex internal state (most commands are
-really independent, they could be different programs..!), I started
-rewriting some handlers there. It feels relatively straightforward to
-rewrite in Rust, and we could imagine a complete rewrite of qemu-ga...
-However, it is less of a waste to focus on critical parts or newly added
-code instead, imho! Furthermore, the Rust doesn't cover all targets C can
-currently target, so we must have some care when deciding a language. (you
-can imagine I would encourage anyone to do it in Rust!)
-
-QOM is the QEMU object system and is spread throughout the code. If there
-is enough interest for this Rust effort, I plan to look at binding it next
-(based on my experience working on GObject bindings). I am afraid we are
-not going to have as friendly bindings as what the GNOME team achieved, but
-since QOM is a bit simpler, we may find acceptable compromises.
-
-With QOM & QAPI, and manual bindings of internal APIs, I think we could
-start writing interesting code in Rust, simple devices, external interfaces
-etc.
-
-
- Hope that helps clarify a bit the current goals
-
-
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---0000000000000bb99405cb80f490
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 8, 2021 at 8:51 PM Ian =
-Jackson &lt;<a href=3D"mailto:iwj@xenproject.org">iwj@xenproject.org</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Marc-An=
-dr=C3=A9 Lureau writes (&quot;Re: [RFC v3 13/32] rust: use vendored-sources=
-&quot;):<br>
-&gt; Yes, this is the shim to provide a C ABI QMP handler from Rust. This i=
-s where<br>
-&gt; all the FFI&lt;-&gt;Rust conversion takes place.<br>
-&gt; <br>
-&gt; The &quot;safe&quot; code is qga/qmp/<a href=3D"http://vcpus.rs" rel=
-=3D"noreferrer" target=3D"_blank">vcpus.rs</a>. However, there is no<br>
-&gt; documentation there, since it&#39;s not meant to be the public<br>
-&gt; interface. It&#39;s documented with the QAPI schema.<br>
-<br>
-Right, thanks.=C2=A0 That does look like a PoC of a Rust API.=C2=A0 I wante=
-d the<br>
-rustdoc output because I find it provides a very uniform and readable<br>
-presentation even of an API with no doc comments.<br>
-<br>
-I think maybe a thing I am missing is how you expect this to be used.<br>
-Which parts of the system are going to be in Rust.=C2=A0 etc.<br>
-And that would help explain what &quot;public&quot; means.<br>
-<br>
-I think the answer is probably in this example:<br>
-<br>
-<a href=3D"https://patchew.org/QEMU/20210907121943.3498701-1-marcandre.lure=
-au@redhat.com/20210907121943.3498701-30-marcandre.lureau@redhat.com/" rel=
-=3D"noreferrer" target=3D"_blank">https://patchew.org/QEMU/20210907121943.3=
-498701-1-marcandre.lureau@redhat.com/20210907121943.3498701-30-marcandre.lu=
-reau@redhat.com/</a><br>
-<br>
-but although my C and Rust are both fine, I don&#39;t understand qemu well<=
-br>
-enough to make sense of it.<br>
-<br>
-... wait, qga is &quot;qemu guest agent&quot; ?<br>
-<br>
-I think I am sort of seeing this use case now.=C2=A0 But presuambly there<b=
-r>
-are other use cases for this QMP/QAPI type bridge stuff.<br>
-<br>
-Sorry to be asking such stupid questions.<br></blockquote><div><br></div><d=
-iv>There is no magic wand to introduce Rust code in an existing C code base=
-. You need to glue some C ABI to/from Rust. It&#39;s a lot of manual work t=
-o properly bind a C API to Rust (it&#39;s a project on its own I would say)=
-. Typically, FFI bindings can be automated from headers, and high-level Rus=
-t bindings are done by hand. Then you want high-level bindings to take adva=
-ntage of Rust, for idiomatic and safe code. Various internal QEMU API will =
-have to be bound by hand to start using them from Rust. An isolated unit (s=
-ay a parser, a function) could be rewritten in Rust and a C ABI be provided=
- without much hassle. But in general, code is quickly interdependent, or th=
-e amount of stuff to rewrite in one go is large and risky to do it that way=
-.<br></div><div><br></div><div>In the glib/gobject world, the ABI are annot=
-ated, and you can automate much of the high-level binding process (which is=
- amazing, given the complexity of the APIs, with objects, async methods, si=
-gnals, properties, .. various concepts that don&#39;t match easily in Rust)=
-. To help with this process, they introduced conversion traits (the ToQemu/=
-FromQemu adapted here), common interfaces, to help automate and compose com=
-plex types (and their own binding generator).<br></div><div><br></div><div>=
-</div><div>(Unfortunately) QEMU doesn&#39;t use gobject, but it relies heav=
-ily on two type systems of its own: QAPI and QOM. QAPI is actually more of =
-an IDL, which translates C from/to JSON/QMP and has commands and signals (a=
-nd is the protocol used to communicate with qemu or qemu-ga etc). A large p=
-art of QEMU are direct users of the QAPI generated types and functions. It =
-is thus a good target to generate bindings automatically. As demonstrated a=
-t the end, it allows writing QMP handlers in idiomatic Rust. Since qemu-gue=
-st-agent doesn&#39;t have a complex internal state (most commands are reall=
-y independent, they could be different programs..!), I started rewriting so=
-me handlers there. It feels relatively straightforward to rewrite in Rust, =
-and we could imagine a complete rewrite of qemu-ga... However, it is less o=
-f a waste to focus on critical parts or newly added code instead, imho! Fur=
-thermore, the Rust doesn&#39;t cover all targets C can currently target, so=
- we must have some care when deciding a language. (you can imagine I would =
-encourage anyone to do it in Rust!)<br></div><div><br></div><div>QOM is the=
- QEMU object system and is spread throughout the code. If there is enough i=
-nterest for this Rust effort, I plan to look at binding it next (based on m=
-y experience working on GObject bindings). I am afraid we are not going to =
-have as friendly bindings as what the GNOME team achieved, but since QOM is=
- a bit simpler, we may find acceptable compromises.</div><div><br></div><di=
-v>With QOM &amp; QAPI, and manual bindings of internal APIs, I think we cou=
-ld start writing interesting code in Rust, simple devices, external interfa=
-ces etc.<br></div><div><br></div><div><br></div><div>=C2=A0Hope that helps =
-clarify a bit the current goals<br></div><div>=C2=A0</div></div><br clear=
-=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=
-=A9 Lureau<br></div></div>
-
---0000000000000bb99405cb80f490--
 
