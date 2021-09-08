@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E061403A0C
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:41:22 +0200 (CEST)
-Received: from localhost ([::1]:52564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC8C403A14
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:43:21 +0200 (CEST)
+Received: from localhost ([::1]:57834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNwtF-0005to-7n
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:41:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44012)
+	id 1mNwvA-00014M-KI
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:43:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNwpg-0002ez-RD
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:37:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33645)
+ id 1mNwsl-0006xV-NV
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:40:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNwpe-0001hv-TK
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:37:40 -0400
+ id 1mNwsh-0003j1-4V
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:40:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631104658;
+ s=mimecast20190719; t=1631104845;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=rMxf9uddiaN7fH56GkLAsJGC/ipr3Aw2ncYeFfGzYgk=;
- b=Yecq7wmE9kTpQGDPbR3DAAFU4lKMgSJ28lVlnJcJnh2aLmkoPLKH0/D7Kwv+7Ixd6P5EYH
- e9FQrLASm3Fl68qWuRh8AyLDWOVxyx/NAq9kZ5siQLJYt/ybgH4czzh5ZmN5JrmoqsfpVz
- v96gUXmrQRG9oTQ6l6aGHkN0K3Fl1BM=
+ bh=Y+sKGYYbiERfqtXQ6i4vHKXNut39e+4KO17fThWw+ds=;
+ b=e4d658fG+EHfESyCB/CjFTCj7z3jrtTAr4qgsYyzu6Z/eqdSBu+h0o2mm86nLpSEFaQn92
+ dDS7aKzBZnOoEO9rNXTK4Wqqb7NxjrlcM62BZwt7cs2UuS9p5hWai0eG1EZauWi3EUoD9v
+ ey58rbgUsCI54p14Xj13I0dUe/amMSY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-G_bo0UpfMIuhsh6lV2ebJg-1; Wed, 08 Sep 2021 08:37:37 -0400
-X-MC-Unique: G_bo0UpfMIuhsh6lV2ebJg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-558-FwKcoV78OCavIJStJtviDA-1; Wed, 08 Sep 2021 08:40:44 -0400
+X-MC-Unique: FwKcoV78OCavIJStJtviDA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6820C10168C0;
- Wed,  8 Sep 2021 12:37:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35CF41018720;
+ Wed,  8 Sep 2021 12:40:43 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.211])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 16F0C77F3C;
- Wed,  8 Sep 2021 12:37:30 +0000 (UTC)
-Date: Wed, 8 Sep 2021 13:37:30 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7219160C04;
+ Wed,  8 Sep 2021 12:40:39 +0000 (UTC)
+Date: Wed, 8 Sep 2021 13:40:38 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH RFC server v2 02/11] vfio-user: define vfio-user object
-Message-ID: <YTiuih20Ka5yPPF/@stefanha-x1.localdomain>
+Subject: Re: [PATCH RFC server v2 03/11] vfio-user: instantiate vfio-user
+ context
+Message-ID: <YTivRjPEi8mF+gK0@stefanha-x1.localdomain>
 References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
  <cover.1630084211.git.jag.raman@oracle.com>
- <ff8864013462e53eb0bed0aa609b55b21c0b18e0.1630084211.git.jag.raman@oracle.com>
+ <4bf892091b1c08c79907ee2460f5f7aa797139af.1630084211.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <ff8864013462e53eb0bed0aa609b55b21c0b18e0.1630084211.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <4bf892091b1c08c79907ee2460f5f7aa797139af.1630084211.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Orm5qaO4MiGa1tUv"
+ protocol="application/pgp-signature"; boundary="XSfEtKTxf/2Gb5MS"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,143 +88,121 @@ Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Orm5qaO4MiGa1tUv
-Content-Type: text/plain; charset=iso-8859-1
+--XSfEtKTxf/2Gb5MS
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 27, 2021 at 01:53:21PM -0400, Jagannathan Raman wrote:
-> Define vfio-user object which is remote process server for QEMU. Setup
-> object initialization functions and properties necessary to instantiate
-> the object
+On Fri, Aug 27, 2021 at 01:53:22PM -0400, Jagannathan Raman wrote:
+> create a context with the vfio-user library to run a PCI device
 >=20
 > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 > Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 > ---
->  qapi/qom.json             |  20 ++++++-
->  hw/remote/vfio-user-obj.c | 145 ++++++++++++++++++++++++++++++++++++++++=
-++++++
->  MAINTAINERS               |   1 +
->  hw/remote/meson.build     |   1 +
->  hw/remote/trace-events    |   3 +
->  5 files changed, 168 insertions(+), 2 deletions(-)
->  create mode 100644 hw/remote/vfio-user-obj.c
+>  hw/remote/vfio-user-obj.c | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
 >=20
-> diff --git a/qapi/qom.json b/qapi/qom.json
-> index a25616b..3e941ee 100644
-> --- a/qapi/qom.json
-> +++ b/qapi/qom.json
-> @@ -689,6 +689,20 @@
->    'data': { 'fd': 'str', 'devid': 'str' } }
-> =20
->  ##
-> +# @VfioUserProperties:
-> +#
-> +# Properties for vfio-user objects.
-> +#
-> +# @socket: path to be used as socket by the libvfiouser library
-> +#
-> +# @devid: the id of the device to be associated with the file descriptor
-> +#
-> +# Since: 6.0
-> +##
-> +{ 'struct': 'VfioUserProperties',
-> +  'data': { 'socket': 'str', 'devid': 'str' } }
-
-Please use 'SocketAddress' for socket instead of 'str'. That way file
-descriptor passing is easy to support and additional socket address
-families can be supported in the future.
-
-> +
-> +##
->  # @RngProperties:
->  #
->  # Properties for objects of classes derived from rng.
-> @@ -812,7 +826,8 @@
->      'tls-creds-psk',
->      'tls-creds-x509',
->      'tls-cipher-suites',
-> -    'x-remote-object'
-> +    'x-remote-object',
-> +    'vfio-user'
->    ] }
-> =20
->  ##
-> @@ -868,7 +883,8 @@
->        'tls-creds-psk':              'TlsCredsPskProperties',
->        'tls-creds-x509':             'TlsCredsX509Properties',
->        'tls-cipher-suites':          'TlsCredsProperties',
-> -      'x-remote-object':            'RemoteObjectProperties'
-> +      'x-remote-object':            'RemoteObjectProperties',
-> +      'vfio-user':                  'VfioUserProperties'
-
-"vfio-user" doesn't communicate whether this is a client or server. Is
-"vfio-user-server" clearer?
-
->    } }
-> =20
->  ##
 > diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
-> new file mode 100644
-> index 0000000..4a1e297
-> --- /dev/null
+> index 4a1e297..99d3dd1 100644
+> --- a/hw/remote/vfio-user-obj.c
 > +++ b/hw/remote/vfio-user-obj.c
-> @@ -0,0 +1,145 @@
-> +/**
-> + * QEMU vfio-user server object
-> + *
-> + * Copyright =A9 2021 Oracle and/or its affiliates.
-> + *
-> + * This work is licensed under the terms of the GNU GPL-v2, version 2 or=
- later.
-> + *
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
+> @@ -27,11 +27,17 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu-common.h"
+> =20
+> +#include <errno.h>
+
+qemu/osdep.h already includes <errno.h>
+
 > +
-> +/**
-> + * Usage: add options:
-> + *     -machine x-remote
-> + *     -device <PCI-device>,id=3D<pci-dev-id>
-> + *     -object vfio-user,id=3D<id>,socket=3D<socket-path>,devid=3D<pci-d=
-ev-id>
+>  #include "qom/object.h"
+>  #include "qom/object_interfaces.h"
+>  #include "qemu/error-report.h"
+>  #include "trace.h"
+>  #include "sysemu/runstate.h"
+> +#include "qemu/notify.h"
+> +#include "qapi/error.h"
+> +#include "sysemu/sysemu.h"
+> +#include "libvfio-user.h"
+> =20
+>  #define TYPE_VFU_OBJECT "vfio-user"
+>  OBJECT_DECLARE_TYPE(VfuObject, VfuObjectClass, VFU_OBJECT)
+> @@ -51,6 +57,10 @@ struct VfuObject {
+> =20
+>      char *socket;
+>      char *devid;
+> +
+> +    Notifier machine_done;
+> +
+> +    vfu_ctx_t *vfu_ctx;
+>  };
+> =20
+>  static void vfu_object_set_socket(Object *obj, const char *str, Error **=
+errp)
+> @@ -75,9 +85,23 @@ static void vfu_object_set_devid(Object *obj, const ch=
+ar *str, Error **errp)
+>      trace_vfu_prop("devid", str);
+>  }
+> =20
+> +static void vfu_object_machine_done(Notifier *notifier, void *data)
 
-I suggest renaming devid=3D to device=3D or pci-device=3D (similar to drive=
-=3D
-and netdev=3D) for consistency and to avoid confusion with PCI Device IDs.
+Please document the reason for using a machine init done notifier.
 
-> diff --git a/hw/remote/meson.build b/hw/remote/meson.build
-> index fb35fb8..cd44dfc 100644
-> --- a/hw/remote/meson.build
-> +++ b/hw/remote/meson.build
-> @@ -6,6 +6,7 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files=
-('message.c'))
->  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'=
-))
->  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy.c'))
->  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('iohub.c'))
-> +remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('vfio-user-obj=
-.c'))
+> +{
+> +    VfuObject *o =3D container_of(notifier, VfuObject, machine_done);
+> +
+> +    o->vfu_ctx =3D vfu_create_ctx(VFU_TRANS_SOCK, o->socket, 0,
+> +                                o, VFU_DEV_TYPE_PCI);
+> +    if (o->vfu_ctx =3D=3D NULL) {
+> +        error_setg(&error_abort, "vfu: Failed to create context - %s",
+> +                   strerror(errno));
+> +        return;
+> +    }
+> +}
+> +
+>  static void vfu_object_init(Object *obj)
+>  {
+>      VfuObjectClass *k =3D VFU_OBJECT_GET_CLASS(obj);
+> +    VfuObject *o =3D VFU_OBJECT(obj);
+> =20
+>      if (!object_dynamic_cast(OBJECT(current_machine), TYPE_REMOTE_MACHIN=
+E)) {
+>          error_report("vfu: %s only compatible with %s machine",
+> @@ -92,6 +116,9 @@ static void vfu_object_init(Object *obj)
+>      }
+> =20
+>      k->nr_devs++;
+> +
+> +    o->machine_done.notify =3D vfu_object_machine_done;
+> +    qemu_add_machine_init_done_notifier(&o->machine_done);
+>  }
+> =20
+>  static void vfu_object_finalize(Object *obj)
+> @@ -101,6 +128,8 @@ static void vfu_object_finalize(Object *obj)
+> =20
+>      k->nr_devs--;
+> =20
+> +    vfu_destroy_ctx(o->vfu_ctx);
 
-If you use CONFIG_VFIO_USER_SERVER then it's easier to separate mpqemu
-from vfio-user. Sharing CONFIG_MULTIPROCESS could become messy later.
+Will this function ever be called before vfu_object_machine_done() is
+called? In that case vfu_ctx isn't initialized.
 
---Orm5qaO4MiGa1tUv
+--XSfEtKTxf/2Gb5MS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE4rokACgkQnKSrs4Gr
-c8g70ggAkqEUO9VawLARJdnXbsKgbqfOkdP2mX/0qC0c6x8OsE4JNf8NZO24Vdl6
-s8cB12qKmY08fwm1EIOqGEFGpVrEc5Yidxw8m1h+bv2BwiqSxliVhsY5IvcB15tV
-ysELG8tKX/QsvoTj7BiiwAXRkkbXXp2AfCTuYggTR+sx1B0NwGWLHmDtHe3vw/AY
-PcwEeFmGMrErqlDI0M7pOP4rGtAHu1LpZDJQ32gjsmkQucmyAPGK518+0Z4JKCNb
-lbuzMImmSgQopAet2WnnQafunihp/wPf/0yjfv5ZHH6J+W+0M4X48ur/8QDGPfEd
-WvZDUWufpLZ8uAWmvyWXKVQP2rNCpA==
-=LqtX
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE4r0YACgkQnKSrs4Gr
+c8gL8gf/X9ClMk6s4PdveY7P2E56aBLtz9b/OMripcw3UiHS0I75UcKFZeLyGqdc
+I6dgI6A5hc+3IZViSv24g2XykRziuTJrnq7Irb3C2WhsxEG4AYzyrovKcRDtFIQf
+BEuboX8bmFdxFoZ8tNH5h6ahX18P3hqcV70J0PFWvYWZRKAiVDine7X2FWo9PZdG
+BB8nT5En4Z9nZ1IhHfj/YPvb6wIqwv+FhL4kKr+yfIxKJEX4DDga+6gzFFg+y4yB
+iMoxUNWFp2/JmiO804T8m0ze0bEV+pCO4jfqv45bRI3VgU7uqyHmvF8n6rmxrYJb
+Ezw52UVWZ1+iNERZiCsKut7+bJl7EA==
+=UVew
 -----END PGP SIGNATURE-----
 
---Orm5qaO4MiGa1tUv--
+--XSfEtKTxf/2Gb5MS--
 
 
