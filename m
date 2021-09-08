@@ -2,56 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D01644037E5
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 12:32:42 +0200 (CEST)
-Received: from localhost ([::1]:34288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9C540382E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 12:48:48 +0200 (CEST)
+Received: from localhost ([::1]:54748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNusj-0004ur-RS
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 06:32:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39542)
+	id 1mNv8H-0004nE-R4
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 06:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mNuTR-0001S7-JZ
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:06:33 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:58780
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mNuVa-0006G2-11
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:08:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mNuTN-0004Rr-R7
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:06:33 -0400
-Received: from host86-140-11-91.range86-140.btcentralplus.com ([86.140.11.91]
- helo=[192.168.50.176])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mNuTH-0009HG-Qm; Wed, 08 Sep 2021 11:06:27 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org, laurent@vivier.eu
-References: <20210903113223.19551-1-mark.cave-ayland@ilande.co.uk>
-Message-ID: <146da21f-e475-66c8-775b-567312855eb1@ilande.co.uk>
-Date: Wed, 8 Sep 2021 11:06:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mNuVV-000687-Gc
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:08:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631095720;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=k5F295WXLlrKd/qLig77SJqg7eePDGZTwyn14wH24fA=;
+ b=Kdbd3Uynjg1Tcdr6nVfQVmfwkBQKqB3fT3C+1LffBGNFGggruHEXUXEowcZr+yS4VP3J4l
+ WnZBNkVbLRGI0o/gx2xfvEOcXiHH8j/yHPR2WvsCe29hu8Tht5KNktS0rVYciV2krSbhTg
+ 2nyG47nbpQPGufqH3R8jW5wy88bBaZ4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-596-SPoTKrP6Nxy_pSvAec0U2Q-1; Wed, 08 Sep 2021 06:08:39 -0400
+X-MC-Unique: SPoTKrP6Nxy_pSvAec0U2Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A02D18D6A25;
+ Wed,  8 Sep 2021 10:08:38 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 20BDE1972E;
+ Wed,  8 Sep 2021 10:08:33 +0000 (UTC)
+Date: Wed, 8 Sep 2021 11:08:33 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH RFC server v2 00/11] vfio-user server in QEMU
+Message-ID: <YTiLocBXniFqW/gl@stefanha-x1.localdomain>
+References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
+ <cover.1630084211.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20210903113223.19551-1-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.140.11.91
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3 0/9] escc: fix reset and R_STATUS when SDLC mode is
- enabled
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.332,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <cover.1630084211.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="jVu+3eSNhyMQQLXY"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,71 +79,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
+ swapnil.ingle@nutanix.com, john.levon@nutanix.com, philmd@redhat.com,
+ qemu-devel@nongnu.org, alex.williamson@redhat.com, marcandre.lureau@gmail.com,
+ thanos.makatos@nutanix.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/09/2021 12:32, Mark Cave-Ayland wrote:
+--jVu+3eSNhyMQQLXY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Here are another set of ESCC fixes from my attempts to boot MacOS on the q800
-> machine.
-> 
-> Patch 1 fixes up the formatting so that the remainder of the patchset keeps
-> checkpatch happy.
-> 
-> Patches 2-8 rework the reset handling so that the QEMU device reset is separate
-> from the ESCC in-built hardware and software reset as defined in the datasheet.
-> The aim here is two-fold: allow QEMU's device reset to place the ESCC device in
-> a known state (although we assume all registers are zeroed whilst their values are
-> undefined according to the datasheet) and ensure that the reset commands sent by
-> the MacOS OpenTransport extension on boot don't re-assert the active low
-> STATUS_SYNC bit in R_STATUS.
-> 
-> Finally patch 9 is the real fix: when entering SDLC mode using an "Enter hunt"
-> command the STATUS_SYNC bit in R_STATUS must remain high until the flag byte
-> is detected. Without this fix the active low STATUS_SYNC is continually asserted
-> causing the MacOS OpenTransport extension to hang on startup as it believes it is
-> constantly receiving LocalTalk traffic during its initial negotiation phase.
-> 
-> NOTE: this patchset currently fails CI because it exposed a bug that OpenBIOS
-> doesn't send ESCC channel reset commands before attempting to configure and use
-> the serial port. Those patches have just been posted to the OpenBIOS mailing list
-> here: https://mail.coreboot.org/hyperkitty/list/openbios@openbios.org/thread/PQCW5RDIDIEUYBVAHNIY3OMHCEVYYWPU/.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> 
-> 
-> v3:
-> - Rebase onto master
-> - Rework hard reset to call soft reset first as suggested by Peter
-> - Fix a couple of bugs in escc_soft_reset_chn()
-> - Add trace events for soft reset and hard reset
-> 
-> v2:
-> - Rebase onto master
-> - Rewrite cover letter to cover new reset changes
-> - Change reset to separate out QEMU device reset, soft reset and hard reset
->    (ensuring register values are updated as specified in the datasheet)
-> - Add R-B tags from Peter
-> 
-> Mark Cave-Ayland (9):
->    escc: checkpatch fixes
->    escc: reset register values to zero in escc_reset()
->    escc: introduce escc_soft_reset_chn() for software reset
->    escc: introduce escc_hard_reset_chn() for hardware reset
->    escc: implement soft reset as described in the datasheet
->    escc: implement hard reset as described in the datasheet
->    escc: remove register changes from escc_reset_chn()
->    escc: re-use escc_reset_chn() for soft reset
->    escc: fix STATUS_SYNC bit in R_STATUS register
-> 
->   hw/char/escc.c       | 263 +++++++++++++++++++++++++++++--------------
->   hw/char/trace-events |   2 +
->   2 files changed, 181 insertions(+), 84 deletions(-)
+On Fri, Aug 27, 2021 at 01:53:19PM -0400, Jagannathan Raman wrote:
+> Hi,
+>=20
+> This series depends on the following series from
+> Elena Ufimtseva <elena.ufimtseva@oracle.com>:
+> [PATCH RFC v2 00/16] vfio-user implementation
 
-Thanks for the review, Peter. I've now applied these to my qemu-sparc branch.
+Please send future revisions as separate email threads. Tools have
+trouble separating your series from the one you replied to.
 
+You can use "Based-on" to let CI know that Elena's series needs to be
+applied first:
 
-ATB,
+Based-on: <cover.1629131628.git.elena.ufimtseva@oracle.com>
 
-Mark.
+--jVu+3eSNhyMQQLXY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE4i6AACgkQnKSrs4Gr
+c8hVCgf/RIu0VCoElcXGsE0lba5+cvcPevYlg5aWLuZOye8GHBEKvHVxiKhAGhG4
+ErR9t2CARZ2ftg04L8iiy/3b6BhuWctbAgI/XPy+Dr8ueJdNo+R+JUmAjpt+ztjL
+eOW/HgfKPfS65Ok6sDkN975MJoMKdfJ9L7MvNPAsZup79s9egtpfk+sQom2CA9qC
+BQfr3nxj0JfY1UbBWb2seoTwMl1UZO0q7JR6yDp9usEw9SXXnSsYVjRLdNIlsenJ
+kkXW5cvazvxicsXj9a0EPq0PS79NLdgxmCaWdfjU+svF31CmJBBFiGaQxK9Pe2oJ
+OI954Lr9UYwMbPeT9kBXaLTjCdSlag==
+=/9QX
+-----END PGP SIGNATURE-----
+
+--jVu+3eSNhyMQQLXY--
+
 
