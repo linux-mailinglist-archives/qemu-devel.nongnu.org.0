@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B0CF4037D5
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 12:27:51 +0200 (CEST)
-Received: from localhost ([::1]:53582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 045294037C2
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 12:22:11 +0200 (CEST)
+Received: from localhost ([::1]:43816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNuo1-00073h-KX
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 06:27:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39174)
+	id 1mNuiX-0000St-K1
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 06:22:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNuRx-0006qn-8B
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:05:01 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:35440)
+ id 1mNuRq-0006ba-LW
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:04:54 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:56212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNuRm-00031O-S8
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:05:00 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- z9-20020a7bc149000000b002e8861aff59so1148208wmi.0
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 03:04:50 -0700 (PDT)
+ id 1mNuRn-00031m-IZ
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:04:54 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id g74so1261060wmg.5
+ for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 03:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2ijvhFm3qkGCih7E+IGi13wOWIV5MP5pvlk/20m1FbI=;
- b=k2fQcQ+OxCunH4x6hU3mXP7H5jcpKIsRbfD9yzifUHeNdEaS3JchMk0H0naf7bRghN
- UNc/DTAHH1lKHwCaYY6EP3l9TMl+fWJ6zUeWwn/1rky6FmXVG594v6er9ZTbN6O/P1Gq
- QiTtWsGcoJ/NMYoPrbpCMRhV3hcm70t8LR73gQ0SDf3+AJ99PnWFJDb8iTGhcp7IgyhV
- J2jznW4hA2v1jrrrRkLZm0/XVCSTQb+YVyzmJ0AidouBkXX51nR93+DisOOPUMs0WfEG
- jBfoGdPi/Mx3SZ0Iiw9c/8zRMEvnoSAz/yeP5VLyI31e7F5Mfjwmq30Nx2O2xWiYEcLC
- 3K9w==
+ bh=5r01uT4tR8NNg495M2MrgoZZ94BYOI+Ryf0JV3pSQkM=;
+ b=c2LM3WhifWeQK8XH4IusxN0HGSfG2y4ZN/419hsiIgRCydrCMUb1FHkthu+ZteWLGa
+ pDS4OCi3XUApQCdrxJ/AbtHOZQv7FC3tVflO0JN82lviIBN/XLIa2Aw8gKFzrYjvjaE6
+ NM7S5yFdKJLWyqoOnYREZzX0V4X3h6oO9lyTJbEZrpO5Nt0J3XtjxapIfo/YBoSGsGVV
+ 6WWmomW9lysyTBnnQouUA4iyszdsbH9kRG2r8d8+Cq/zcLGkCUk54ZrA7hId+DtCBtlh
+ 8jH8xNP/f6/ab7pY6AfTbKUWCJVwo/TWkNmxtvS6KTEd2xYqCmP0szQy6sp12e4X7wf4
+ EuLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2ijvhFm3qkGCih7E+IGi13wOWIV5MP5pvlk/20m1FbI=;
- b=DMO7go8yEztkQe5fiKqiCZieFg6VmBNyGDgIHZtcvD2UUMQObeCywar40QdFUppgzB
- //H/WRcaghcxXt3PUoir0SZ9BE5RI0SAUOibYvZ4AjydWXHyuL3CzroV+EQY1oEVLk1y
- 5YyyNqle08XH1KNF9A4g1SoGDI1H7KBNmep+M+PnaEHV6khI4ci0XtTNbaQpa5BBpG32
- D9tx1QPr7sbV84eV9+nn5jTmnZkCnHKMG6vJrswE6QbwKwRjQXo3u3X6zjQiFJKND1cn
- EceL+32QykdC//O4rx6+3Q5dAc3ZfBgvpbOKGeZ/YrbE4I1atHdcdVl74qbEInU17k9T
- lRhQ==
-X-Gm-Message-State: AOAM530wRIntGvCyTtZdkd2W3xGv73+uScC9eKA9n1c5wS6bTZwTERE2
- x+wXBYQLGjStlNirmxoTwNFqhQydPS0=
-X-Google-Smtp-Source: ABdhPJwG5BWXMeptXvqr0jd7cB7ai4AnLUxy1JB1Nadn7VanfouBO5ASlmPaC/HCo+Y7sbsr+p+lxA==
-X-Received: by 2002:a7b:c408:: with SMTP id k8mr2603296wmi.184.1631095489597; 
- Wed, 08 Sep 2021 03:04:49 -0700 (PDT)
+ bh=5r01uT4tR8NNg495M2MrgoZZ94BYOI+Ryf0JV3pSQkM=;
+ b=OJF+E0Con73tqhUryP837E2SrA9lZRcJPVrn3Safya8+IWl7WHj6FZ8GRfqRSlnmoi
+ gVYG525lb3zqVLWrSRcivT9yO3awY/opZ8BpFU+fl6dmYz9RUH7VjMKHEKdP7+zdXHRy
+ 5yJ983SXUU/S6Ccc+S3tLdXv4LlRCoayqgT/sF3FmzwvGSRCPfb4zARUvwVDdGydb88g
+ 16kpzLoXpc8pPwsI/Mxiby1PVu4EAnIsaZ0NnoJzycbnjEsJveR5rRCea7twEGEY3OJL
+ T5Psr/UPnPEe9yQYTz1QdQljyr0xfmQhXPmrYN0sRVjEcmozv/pwlZxE87FVIPiVsow2
+ QdYw==
+X-Gm-Message-State: AOAM531Q0/UAmo3lvv1J/NjXn7+T+86Ms2LrCWGYnx0cES88HlRHquPz
+ +zgBRkrLDO9jmO2q1O97g2BxBLX7G6Y=
+X-Google-Smtp-Source: ABdhPJz97kwvfiKzbRIm19LtcW5rWj6/UJzu8JxukYDo35xNygrEhzvvGwwGabd+X4nOoGdpTlRC8w==
+X-Received: by 2002:a05:600c:3209:: with SMTP id
+ r9mr2713271wmp.106.1631095490267; 
+ Wed, 08 Sep 2021 03:04:50 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id u8sm1683715wmq.45.2021.09.08.03.04.49
- for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 08 Sep 2021 03:04:49 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v4 19/43] fw_cfg: add etc/msr_feature_control
-Date: Wed,  8 Sep 2021 12:04:02 +0200
-Message-Id: <20210908100426.264356-20-pbonzini@redhat.com>
+Subject: [PULL v4 20/43] i386: Add feature control MSR dependency when SGX is
+ enabled
+Date: Wed,  8 Sep 2021 12:04:03 +0200
+Message-Id: <20210908100426.264356-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210908100426.264356-1-pbonzini@redhat.com>
 References: <20210908100426.264356-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,30 +85,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Yang Zhong <yang.zhong@intel.com>,
+ Sean Christopherson <sean.j.christopherson@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The file already existed, but nobody had noticed the warning until now.
-Add it at the bottom, since that is where unknown files go in legacy mode.
+From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-Fixes: 217f1b4a721 ("target-i386: Publish advised value of MSR_IA32_FEATURE_CONTROL via fw_cfg")
+SGX adds multiple flags to FEATURE_CONTROL to enable SGX and Flexible
+Launch Control.
+
+Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+Message-Id: <20210719112136.57018-12-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/nvram/fw_cfg.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/i386/kvm/kvm.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index 9b8dcca4ea..c06b30de11 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -878,6 +878,7 @@ static struct {
-     { "etc/tpm/log", 150 },
-     { "etc/acpi/rsdp", 160 },
-     { "bootorder", 170 },
-+    { "etc/msr_feature_control", 180 },
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 11551648f9..6dc40161e0 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -1877,6 +1877,11 @@ int kvm_arch_init_vcpu(CPUState *cs)
+                                   !!(c->ecx & CPUID_EXT_SMX);
+     }
  
- #define FW_CFG_ORDER_OVERRIDE_LAST 200
- };
++    c = cpuid_find_entry(&cpuid_data.cpuid, 7, 0);
++    if (c && (c->ebx & CPUID_7_0_EBX_SGX)) {
++        has_msr_feature_control = true;
++    }
++
+     if (env->mcg_cap & MCG_LMCE_P) {
+         has_msr_mcg_ext_ctl = has_msr_feature_control = true;
+     }
 -- 
 2.31.1
 
