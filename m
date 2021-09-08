@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC8C403A14
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:43:21 +0200 (CEST)
-Received: from localhost ([::1]:57834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7BF7403A1B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:44:53 +0200 (CEST)
+Received: from localhost ([::1]:33648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNwvA-00014M-KI
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:43:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44534)
+	id 1mNwwe-0003nC-G7
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:44:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNwsl-0006xV-NV
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:40:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21648)
+ id 1mNwvJ-0002N8-DY
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:43:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNwsh-0003j1-4V
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:40:51 -0400
+ id 1mNwvH-0005RD-3J
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 08:43:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631104845;
+ s=mimecast20190719; t=1631105006;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Y+sKGYYbiERfqtXQ6i4vHKXNut39e+4KO17fThWw+ds=;
- b=e4d658fG+EHfESyCB/CjFTCj7z3jrtTAr4qgsYyzu6Z/eqdSBu+h0o2mm86nLpSEFaQn92
- dDS7aKzBZnOoEO9rNXTK4Wqqb7NxjrlcM62BZwt7cs2UuS9p5hWai0eG1EZauWi3EUoD9v
- ey58rbgUsCI54p14Xj13I0dUe/amMSY=
+ bh=HZCig9Q+1hiNeMFQSStn5dzKHW1tTZg3N2TPXr/3CRo=;
+ b=F7QRwa1mQHF2ZIonjU7ImCD4kxVZgUfquLrDz0TxyCUv05sSXbop3VktA0kglYIaPWbX40
+ GiK7dcAYK4Uo69VdrwHjB7bjLfgMb7HcPlTbglABHexg66JEERIn1z7qBR9hksvKvIqR3s
+ M7RuBInVRorpu0a1DjhZCDr5xZS7Bxs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-FwKcoV78OCavIJStJtviDA-1; Wed, 08 Sep 2021 08:40:44 -0400
-X-MC-Unique: FwKcoV78OCavIJStJtviDA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-472-XtgDVk20OqaTHFUfz5Z1jA-1; Wed, 08 Sep 2021 08:43:23 -0400
+X-MC-Unique: XtgDVk20OqaTHFUfz5Z1jA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35CF41018720;
- Wed,  8 Sep 2021 12:40:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D586E84A5E1;
+ Wed,  8 Sep 2021 12:43:21 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.211])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7219160C04;
- Wed,  8 Sep 2021 12:40:39 +0000 (UTC)
-Date: Wed, 8 Sep 2021 13:40:38 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8A96D77C16;
+ Wed,  8 Sep 2021 12:43:18 +0000 (UTC)
+Date: Wed, 8 Sep 2021 13:43:17 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH RFC server v2 03/11] vfio-user: instantiate vfio-user
- context
-Message-ID: <YTivRjPEi8mF+gK0@stefanha-x1.localdomain>
+Subject: Re: [PATCH RFC server v2 04/11] vfio-user: find and init PCI device
+Message-ID: <YTiv5W6tj6cm6UZA@stefanha-x1.localdomain>
 References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
  <cover.1630084211.git.jag.raman@oracle.com>
- <4bf892091b1c08c79907ee2460f5f7aa797139af.1630084211.git.jag.raman@oracle.com>
+ <a7c0072a7232da2f3aa76d9cd4cdf415fd1127d1.1630084211.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <4bf892091b1c08c79907ee2460f5f7aa797139af.1630084211.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <a7c0072a7232da2f3aa76d9cd4cdf415fd1127d1.1630084211.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="XSfEtKTxf/2Gb5MS"
+ protocol="application/pgp-signature"; boundary="IlstGuZ+BYkRgqMJ"
 Content-Disposition: inline
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -88,121 +87,49 @@ Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---XSfEtKTxf/2Gb5MS
+--IlstGuZ+BYkRgqMJ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 27, 2021 at 01:53:22PM -0400, Jagannathan Raman wrote:
-> create a context with the vfio-user library to run a PCI device
->=20
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->  hw/remote/vfio-user-obj.c | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
->=20
-> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
-> index 4a1e297..99d3dd1 100644
-> --- a/hw/remote/vfio-user-obj.c
-> +++ b/hw/remote/vfio-user-obj.c
-> @@ -27,11 +27,17 @@
->  #include "qemu/osdep.h"
->  #include "qemu-common.h"
-> =20
-> +#include <errno.h>
-
-qemu/osdep.h already includes <errno.h>
-
+On Fri, Aug 27, 2021 at 01:53:23PM -0400, Jagannathan Raman wrote:
+> @@ -96,6 +102,28 @@ static void vfu_object_machine_done(Notifier *notifier, void *data)
+>                     strerror(errno));
+>          return;
+>      }
 > +
->  #include "qom/object.h"
->  #include "qom/object_interfaces.h"
->  #include "qemu/error-report.h"
->  #include "trace.h"
->  #include "sysemu/runstate.h"
-> +#include "qemu/notify.h"
-> +#include "qapi/error.h"
-> +#include "sysemu/sysemu.h"
-> +#include "libvfio-user.h"
-> =20
->  #define TYPE_VFU_OBJECT "vfio-user"
->  OBJECT_DECLARE_TYPE(VfuObject, VfuObjectClass, VFU_OBJECT)
-> @@ -51,6 +57,10 @@ struct VfuObject {
-> =20
->      char *socket;
->      char *devid;
-> +
-> +    Notifier machine_done;
-> +
-> +    vfu_ctx_t *vfu_ctx;
->  };
-> =20
->  static void vfu_object_set_socket(Object *obj, const char *str, Error **=
-errp)
-> @@ -75,9 +85,23 @@ static void vfu_object_set_devid(Object *obj, const ch=
-ar *str, Error **errp)
->      trace_vfu_prop("devid", str);
->  }
-> =20
-> +static void vfu_object_machine_done(Notifier *notifier, void *data)
-
-Please document the reason for using a machine init done notifier.
-
-> +{
-> +    VfuObject *o =3D container_of(notifier, VfuObject, machine_done);
-> +
-> +    o->vfu_ctx =3D vfu_create_ctx(VFU_TRANS_SOCK, o->socket, 0,
-> +                                o, VFU_DEV_TYPE_PCI);
-> +    if (o->vfu_ctx =3D=3D NULL) {
-> +        error_setg(&error_abort, "vfu: Failed to create context - %s",
-> +                   strerror(errno));
+> +    dev = qdev_find_recursive(sysbus_get_default(), o->devid);
+> +    if (dev == NULL) {
+> +        error_setg(&error_abort, "vfu: Device %s not found", o->devid);
 > +        return;
 > +    }
-> +}
 > +
->  static void vfu_object_init(Object *obj)
->  {
->      VfuObjectClass *k =3D VFU_OBJECT_GET_CLASS(obj);
-> +    VfuObject *o =3D VFU_OBJECT(obj);
-> =20
->      if (!object_dynamic_cast(OBJECT(current_machine), TYPE_REMOTE_MACHIN=
-E)) {
->          error_report("vfu: %s only compatible with %s machine",
-> @@ -92,6 +116,9 @@ static void vfu_object_init(Object *obj)
->      }
-> =20
->      k->nr_devs++;
+> +    if (!object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
+> +        error_setg(&error_abort, "vfu: %s not a PCI devices", o->devid);
+> +        return;
+> +    }
 > +
-> +    o->machine_done.notify =3D vfu_object_machine_done;
-> +    qemu_add_machine_init_done_notifier(&o->machine_done);
->  }
-> =20
->  static void vfu_object_finalize(Object *obj)
-> @@ -101,6 +128,8 @@ static void vfu_object_finalize(Object *obj)
-> =20
->      k->nr_devs--;
-> =20
-> +    vfu_destroy_ctx(o->vfu_ctx);
+> +    o->pci_dev = PCI_DEVICE(dev);
+> +
+> +    ret = vfu_pci_init(o->vfu_ctx, VFU_PCI_TYPE_CONVENTIONAL,
+> +                       PCI_HEADER_TYPE_NORMAL, 0);
 
-Will this function ever be called before vfu_object_machine_done() is
-called? In that case vfu_ctx isn't initialized.
+What is needed to support PCI Express?
 
---XSfEtKTxf/2Gb5MS
+--IlstGuZ+BYkRgqMJ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE4r0YACgkQnKSrs4Gr
-c8gL8gf/X9ClMk6s4PdveY7P2E56aBLtz9b/OMripcw3UiHS0I75UcKFZeLyGqdc
-I6dgI6A5hc+3IZViSv24g2XykRziuTJrnq7Irb3C2WhsxEG4AYzyrovKcRDtFIQf
-BEuboX8bmFdxFoZ8tNH5h6ahX18P3hqcV70J0PFWvYWZRKAiVDine7X2FWo9PZdG
-BB8nT5En4Z9nZ1IhHfj/YPvb6wIqwv+FhL4kKr+yfIxKJEX4DDga+6gzFFg+y4yB
-iMoxUNWFp2/JmiO804T8m0ze0bEV+pCO4jfqv45bRI3VgU7uqyHmvF8n6rmxrYJb
-Ezw52UVWZ1+iNERZiCsKut7+bJl7EA==
-=UVew
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE4r+UACgkQnKSrs4Gr
+c8iGnQgAxeXoSyVH1s+lJly8YOH7tCtpOUS76c2QG96Zfl9NqCh5VK92P4lsW3gA
+PYTrAjtWyT9Gkb7h+vq+K2xDoEQ1VytWkAH9fHXCIX5IDPdmkg5t7YNtx9q3RqVT
+Ciajp1Yk5VoD1MtKOQGKBp1xRrDW9sAvy/+ld8ubGyVT4XnmLrIt/bU1Ye569JrM
+RnvIpNWWFXFuR+EMV0zNDYesxnF+RZcnqr/qsl2J6NtDNLDAkJA/VZSs3sR2Uh9u
+c4JkIb7IWvqN/9duDz+VBAw+uI3brjS6xYBMhhcoNiCljfOA0nXtudrT21ZY8m5i
+TNsZeB1DjTtXUrcZPD5ZORY0w00oHQ==
+=C+ML
 -----END PGP SIGNATURE-----
 
---XSfEtKTxf/2Gb5MS--
+--IlstGuZ+BYkRgqMJ--
 
 
