@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B757B403756
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 11:54:35 +0200 (CEST)
-Received: from localhost ([::1]:59196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C082F403749
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 11:52:18 +0200 (CEST)
+Received: from localhost ([::1]:53630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNuHq-0003UV-Rt
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 05:54:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35774)
+	id 1mNuFd-00089f-TP
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 05:52:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNuEq-0008BO-4n
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 05:51:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46157)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mNuEl-0008SI-QZ
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 05:51:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631094682;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=n4uYB2a8tg1ZtYYDB5dJIFhuyl6y7SAebtsyA9u04zU=;
- b=ibwPjsNOg26114AlUgQfTIJE5kezGGhkPXY7aAKpIhPU1/4iuQ0d2Vyl/4dgBmpom4zRIh
- FHFS7VAHOOPOd/UD+GoLCq1nrQp8oohxZ+mw7zpyPY+RjHKQr6ymLPMb/MCfo7ODUinZ3k
- qPBzk2JjQ95AYE0XYnaQ4bN9/Ck0cAc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-uVaoIVzaPJqKOgL0FQxp7g-1; Wed, 08 Sep 2021 05:51:18 -0400
-X-MC-Unique: uVaoIVzaPJqKOgL0FQxp7g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75B7F835DE1;
- Wed,  8 Sep 2021 09:51:17 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.211])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0FF421B400;
- Wed,  8 Sep 2021 09:51:12 +0000 (UTC)
-Date: Wed, 8 Sep 2021 10:51:11 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Subject: Re: [PATCH RFC v2 14/16] vfio-user: dma read/write operations
-Message-ID: <YTiHj6TGg8tYJ7zE@stefanha-x1.localdomain>
-References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
- <7b21118256af2cb3d0dfe45b1e4ef9683fabccb5.1629131628.git.elena.ufimtseva@oracle.com>
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mNuDS-0006RZ-FA
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 05:50:02 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:44921)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mNuDQ-0007En-LO
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 05:50:02 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ l7-20020a1c2507000000b002e6be5d86b3so1038359wml.3
+ for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 02:50:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=RqEVGoYp0CsB3m9INu/2TqECTBzYNXbDBTSGLpHKkSU=;
+ b=ITkCBPOlIuEulOfEsWLjuOlVSFil4sNjosGgNJMkIm4HbpAAm4A7eZqFewNfEgPjSh
+ hvs/O/0Oq1NTrdqIkJi0H398u0pT1hkSYc17SOzzBXg7xTWIi0kOkF1HseCoQ882vHLw
+ xMwqGhkh/BgQx5lLzIN5VW9rA38OI23DUmI/YjKGeQojn+oEOQDsTzmg7b2IUsybtH6b
+ YrF09Jet97WhX9x4kwddeaDCZqO56jq0Pol+o2mUqAOvVr55FVu1A7VAP5P6qWeONkFo
+ xjiwqbbO1p9ZOPcor66eanabR1yldiwPQgAE8ymYXh1reSGy52BP1MhKhrOXOJB9SuWk
+ zj4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=RqEVGoYp0CsB3m9INu/2TqECTBzYNXbDBTSGLpHKkSU=;
+ b=EL5N36QMnapCsqiZQtjLY307evSNpXe53Htt5sJS3aupiuNNlyr7FKMQ1timRIMdAY
+ JR31TL3XbKu3qE2qHL6xpU0IrGuU4k20K/3hqqCzuL/9fMpRsnV6Aav5MvjlvgT/ubJi
+ y7DUT4RSMEljeTO0ITjp+XUV7ZT1l2yArElEhi77x7w4V7RC/Z9YgKOTcWO9DQwqkbAy
+ IqpLtSfaz5ZatZqKUaxDi8R3oPQSs/p1jndXaYDEbEwFOHmdw2XZPevHu9G0ldQqpxTr
+ YfaOqw2t/MddxH109zB/ECS6HSpdcxdIxfALeXL3VJ4HXHc5b9U8FR8OInNAGHBgtyHn
+ xVyw==
+X-Gm-Message-State: AOAM531tduGNjazVY2Jy0HZBltVWu8zV5c2U7+x1JS6FKX1tWf/RHgml
+ ITtZc/CFm1j0Y4mJgssya4xQAg==
+X-Google-Smtp-Source: ABdhPJxRP5Tax4OGC98gSSIO5DHdkDGUN/FENGmXixmyc01bGJkZ+b5d0OcEOe9tgPNGtY5G5u6KkQ==
+X-Received: by 2002:a1c:9a8e:: with SMTP id c136mr1300789wme.191.1631094598928; 
+ Wed, 08 Sep 2021 02:49:58 -0700 (PDT)
+Received: from larix (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168])
+ by smtp.gmail.com with ESMTPSA id i5sm1422168wmq.17.2021.09.08.02.49.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Sep 2021 02:49:58 -0700 (PDT)
+Date: Wed, 8 Sep 2021 10:52:08 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v2 2/8] hw/acpi: Add VIOT table
+Message-ID: <YTiHyBQFzv4ZXAOZ@larix>
+References: <20210903143208.2434284-1-jean-philippe@linaro.org>
+ <20210903143208.2434284-3-jean-philippe@linaro.org>
+ <e3280e20-ca86-23a6-7ae4-6817b9a424e9@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <7b21118256af2cb3d0dfe45b1e4ef9683fabccb5.1629131628.git.elena.ufimtseva@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QFfDkVNioXy8H1fi"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <e3280e20-ca86-23a6-7ae4-6817b9a424e9@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,128 +86,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: john.g.johnson@oracle.com, jag.raman@oracle.com, swapnil.ingle@nutanix.com,
- john.levon@nutanix.com, qemu-devel@nongnu.org, alex.williamson@redhat.com,
- thanos.makatos@nutanix.com
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, pbonzini@redhat.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---QFfDkVNioXy8H1fi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Sep 06, 2021 at 02:58:55PM +0200, Eric Auger wrote:
+> Hi Jean,
+> 
+> On 9/3/21 4:32 PM, Jean-Philippe Brucker wrote:
+> > Add a function that generates a Virtual I/O Translation table (VIOT),
+> > describing the topology of paravirtual IOMMUs. The table is created when
+> > instantiating a virtio-iommu device. It contains a virtio-iommu node and
+> > PCI Range nodes for endpoints managed by the IOMMU. By default, a single
+> > node describes all PCI devices. When passing the "default_bus_bypass_iommu"
+> > machine option and "bypass_iommu" PXB option, only buses that do not
+> > bypass the IOMMU are described by PCI Range nodes.
+> 
+> You may consider to add a test for the new VIOT table (However this may
+> be added afterwards). See tests/qtest/bios-tables-test.c for the process
+> and examples.
 
-On Mon, Aug 16, 2021 at 09:42:47AM -0700, Elena Ufimtseva wrote:
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 2c9fcb2fa9..29a874c066 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -3406,11 +3406,72 @@ type_init(register_vfio_pci_dev_type)
->   * vfio-user routines.
->   */
-> =20
-> -static int vfio_user_pci_process_req(void *opaque, char *buf, VFIOUserFD=
-s *fds)
-> +static int vfio_user_dma_read(VFIOPCIDevice *vdev, VFIOUserDMARW *msg)
->  {
-> +    PCIDevice *pdev =3D &vdev->pdev;
-> +    char *buf;
-> +    int size =3D msg->count + sizeof(VFIOUserDMARW);
+Sure, it adds 5 patches to the series
 
-The caller has only checked that hdr->size is large enough for
-VFIOUserHdr, not VFIOUserDMARW. We must not access VFIOUserDMARW fields
-until this has been checked.
+> > +/*
+> > + * Generate a VIOT table with one PCI-based virtio-iommu that manages PCI
+> > + * endpoints.
+> Add a link to the doc + Table refs?
+> 
+> https://jpbrucker.net/virtio-iommu/viot/viot-v9.pdf
 
-Size should be size_t to avoid signedness issues.
+No, this document is only temporary until the next ACPI release. Although
+the titles and text should be the same, I don't know the refs in the final
+document but they will be different
 
-Even then, this can overflow on 32-bit hosts so I suggest moving this
-arithmetic expression below the msg->count > vfio_user_max_xfer() check.
-That way it's clear that overflow cannot happen.
+> 
+> > + */
+> > +void build_viot(GArray *table_data, BIOSLinker *linker,
+> > +                uint16_t virtio_iommu_bdf, const char *oem_id,
+> > +                const char *oem_table_id)
+> > +{
+> > +    /* virtio-iommu node follows the header */
+> > +    int viommu_off = sizeof(AcpiViot);
+> > +    int viot_start = table_data->len;
+> > +    struct viot_pci_ranges pci_ranges = {
+> > +        .output_node = viommu_off,
+> > +        .blob = g_array_new(false, true, 1),
+> > +    };
+> > +
+> > +    /* Build the list of PCI ranges that this viommu manages */
+> > +    object_child_foreach_recursive(object_get_root(), viot_host_bridges,
+> > +                                   &pci_ranges);
+> > +
+> > +    /* VIOT header */
+> > +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
+> Depending on the order of landing, this may be replaced by Igor's
+> 
+> acpi_init_table() and associated with acpi_table_composed().
 
-> +
-> +    if (msg->hdr.flags & VFIO_USER_NO_REPLY) {
-> +        return -EINVAL;
-> +    }
-> +    if (msg->count > vfio_user_max_xfer()) {
-> +        return -E2BIG;
-> +    }
+Ok I'll prepare that as a fixup, and send it or squash it after the ACPI
+series lands
 
-Does vfio-user allow the request to be smaller than the reply? In other
-words, is it okay that we're not checking msg->count against hdr->size?
+> <<<<<<< HEAD
+> acpi_ss.add(when: 'CONFIG_ACPI_PIIX4', if_true: files('piix4.c'))
+> acpi_ss.add(when: 'CONFIG_ACPI_PCIHP', if_true: files('pcihp.c'))
+> acpi_ss.add(when: 'CONFIG_ACPI_PCIHP', if_false:
+> files('acpi-pci-hotplug-stub.c'))
+> =======
+> acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('piix4.c', 'pcihp.c'))
+> acpi_ss.add(when: 'CONFIG_ACPI_VIOT', if_true: files('viot.c'))
+> >>>>>>> hw/acpi: Add VIOT table
 
-> +
-> +    buf =3D g_malloc0(size);
-> +    memcpy(buf, msg, sizeof(*msg));
-> +
-> +    pci_dma_read(pdev, msg->offset, buf + sizeof(*msg), msg->count);
+Indeed, fixed
 
-The vfio-user spec doesn't go into errors but pci_dma_read() can return
-errors. Hmm...
-
-> +
-> +    vfio_user_send_reply(vdev->vbasedev.proxy, buf, size);
-> +    g_free(buf);
->      return 0;
->  }
-> =20
-> +static int vfio_user_dma_write(VFIOPCIDevice *vdev,
-> +                               VFIOUserDMARW *msg)
-> +{
-> +    PCIDevice *pdev =3D &vdev->pdev;
-> +    char *buf =3D (char *)msg + sizeof(*msg);
-
-Or:
-
-  char *buf =3D msg->data;
-
-> +
-> +    /* make sure transfer count isn't larger than the message data */
-> +    if (msg->count > msg->hdr.size - sizeof(*msg)) {
-> +        return -E2BIG;
-> +    }
-
-msg->count cannot be accessed until we have checked that msg->hdr.size
-is large enough for VFIOUserDMARW. Adding the check also eliminates the
-underflow in the subtraction if msg->hdr.size was smaller than
-sizeof(VFIOUserDMARW).
-
-> +
-> +    pci_dma_write(pdev, msg->offset, buf, msg->count);
-> +
-> +    if ((msg->hdr.flags & VFIO_USER_NO_REPLY) =3D=3D 0) {
-> +        vfio_user_send_reply(vdev->vbasedev.proxy, (char *)msg,
-> +                             sizeof(msg->hdr));
-> +    }
-> +    return 0;
-> +}
-> +
-> +static int vfio_user_pci_process_req(void *opaque, char *buf, VFIOUserFD=
-s *fds)
-> +{
-> +    VFIOPCIDevice *vdev =3D opaque;
-> +    VFIOUserHdr *hdr =3D (VFIOUserHdr *)buf;
-> +    int ret;
-> +
-> +    if (fds->recv_fds !=3D 0) {
-> +        return -EINVAL;
-
-Where are the fds closed?
-
---QFfDkVNioXy8H1fi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE4h48ACgkQnKSrs4Gr
-c8g7Fgf/dpWQZrFbSYeCE8kxtGvLWcpQj4+ejzaRY0YV6Yw3KFplG3pDnFStW4bJ
-fnYIIBAn0sjiV33pMEetPVURYDniUpiFDNyVfSAaPkZzMlA/Jb3KjySVS/q57M2H
-6B6VYkWgcbIFEjiub9Xe/0iDeqLKGpJ6cEvQxi6+rAIk+oQJ0bsn41Ju7zWFqPTJ
-78LL+/n4hGIaZ39XwwYxsZ0iYsHRFAcXjuG7Hs/LWmdRwglS4qCBzBy3LaBFeYNO
-x6DJWu5v7aVgW3EiEeGOd2ItgYaJjTJF72/ctCzjMChNpsrEi6L32ZjIcGpWSFwA
-nQqlMKniTesR0J9FisaU3flrhyQM/Q==
-=e/oZ
------END PGP SIGNATURE-----
-
---QFfDkVNioXy8H1fi--
-
+Thanks,
+Jean
 
