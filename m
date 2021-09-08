@@ -2,73 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E36403C4E
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:11:04 +0200 (CEST)
-Received: from localhost ([::1]:41734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BABF6403C6A
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:20:55 +0200 (CEST)
+Received: from localhost ([::1]:51146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNzE6-0003PV-AV
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:11:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56488)
+	id 1mNzNe-0001cD-A8
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:20:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNzCc-0001yX-3M
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:09:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26039)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mNzM4-0000lx-3Z
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:19:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mNzCS-0006qA-Ht
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:09:29 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mNzM1-0006tD-6h
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:19:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631113759;
+ s=mimecast20190719; t=1631114352;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=axQyIexBJuEt90gNFeQcEt6mxYjyz75HytoOJS3tRdo=;
- b=Z75aX3Sz016HyFcfMj/YVMl3mCJR6MYNzGesDeE563RMGSqHwbMccUV9oWU48bqh9EY1cO
- OvCpKUk/8PQAyfZmfrNzn2C9H7Udr3jBKE3XDQiuKWiX+zviR6tgpz4UIr1oi6FqaPgsrT
- +1QJXN2xAkPIIc8VQmakVN8eJLUM6Yo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-IxpYlROBMnaSSw0dtxDOgQ-1; Wed, 08 Sep 2021 11:09:16 -0400
-X-MC-Unique: IxpYlROBMnaSSw0dtxDOgQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3432362F8;
- Wed,  8 Sep 2021 15:09:15 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 17F305D9C6;
- Wed,  8 Sep 2021 15:09:15 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9D5AF1138606; Wed,  8 Sep 2021 17:09:13 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH 0/5] Stop adding HMP-only commands, allow QMP for all
-References: <20210908103711.683940-1-berrange@redhat.com>
-Date: Wed, 08 Sep 2021 17:09:13 +0200
-In-Reply-To: <20210908103711.683940-1-berrange@redhat.com> ("Daniel
- P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Wed, 8 Sep 2021 11:37:06
- +0100")
-Message-ID: <875yvbrtnq.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=8IpePUycnd9T2UnmC+qGDa3NT/TDw009Sb2Rd/G4H3o=;
+ b=ONrVwK+WRtQyhB05hjq1IAJYn4Kd76/adLLv7tCjwlaJcydRbx7Y5CBttKy5a24Gru2wP2
+ XaQ3NAkV4v0+akT1iV/CKcEma41O/QM70z7Of1KxaaTBSBwHcKZRxna7nYzxLzr7iT5Cp0
+ mzUBXukzXmJhxShBGg60gOYtpuAC0Zg=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-160-1bikecVhMvaQLvkX22NBlQ-1; Wed, 08 Sep 2021 11:19:11 -0400
+X-MC-Unique: 1bikecVhMvaQLvkX22NBlQ-1
+Received: by mail-il1-f198.google.com with SMTP id
+ r5-20020a92d985000000b002246fb2807cso1839788iln.18
+ for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 08:19:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8IpePUycnd9T2UnmC+qGDa3NT/TDw009Sb2Rd/G4H3o=;
+ b=amgz+ziuop6PgrseV4PCh3n4zJ5i0hf8eUH4VCSdZH10CV0caX4zlWEuMVLACVkzET
+ QUOBBHvG8VCh96zpg3+fgt7kMdc9sBJYc641cqjVBMh2TmiHBOUYYyJ64mQcYni7VPop
+ ybcggRtwrfNHDHMpaRZAI14SxirtJcHakQ9aPi7zIcIZ+YUfCgIE11Bx4OusHv5kW8Sg
+ NPftWuDj4rmj/nGmbzmd0xqwTB8njAjNYv3gmcN8WacbhVEqXu/WrlP7CSINy2MpWsxf
+ wsLxqSC4L1s0TTu0Ws1kXWglJTZga5NhFWldwaG+aMLjq0J//G30AkxgbJqgno5/fVKn
+ Kp0A==
+X-Gm-Message-State: AOAM530wQQDJhBDct4r813ft8HHNLJcN06hggg5NxqqfMTXIhdGgqOBh
+ G+icQ1I/BBVBA2LlQRQw3p3FUaLIhF1WmBZ2MeJI07nEkH5JDUL+gIFb2OcSdF8w0j/euq1urR/
+ 0UXaXPW8QT0GLnys=
+X-Received: by 2002:a92:690d:: with SMTP id e13mr294522ilc.284.1631114350136; 
+ Wed, 08 Sep 2021 08:19:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwDwK+8XQKHdvCgyPHqfZwqLy11qknG6xsNz4k8+BnhcmTI9RY3N/aBIgHJM5n9gU9SQlXe8g==
+X-Received: by 2002:a92:690d:: with SMTP id e13mr294508ilc.284.1631114349920; 
+ Wed, 08 Sep 2021 08:19:09 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a3:500::ad7f])
+ by smtp.gmail.com with ESMTPSA id e13sm1291951iod.36.2021.09.08.08.19.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Sep 2021 08:19:09 -0700 (PDT)
+Date: Wed, 8 Sep 2021 11:19:07 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v1 3/3] migration: multifd: Enable zerocopy
+Message-ID: <YTjUa5DuqE9RU0ZF@t490s>
+References: <20210831110238.299458-1-leobras@redhat.com>
+ <20210831110238.299458-4-leobras@redhat.com>
+ <YS4rulGV9eueB04H@redhat.com>
+ <CAJ6HWG5cH_33GDTo_v=8zZDZMJNf4k5+Y79Pt1A_7LmxXBx9bQ@mail.gmail.com>
+ <YTewN8JZLbpL1Gcf@t490s>
+ <CACGkMEuH+Ndh3cckaGfsit=uOLQ=gk39xptGm8bhPWWMzxEDJg@mail.gmail.com>
+ <YThyDzq+fiBW75Q/@work-vm>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <YThyDzq+fiBW75Q/@work-vm>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.393, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,165 +97,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Leonardo Bras Soares Passos <leobras@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Jagannathan Raman <jag.raman@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+On Wed, Sep 08, 2021 at 09:19:27AM +0100, Dr. David Alan Gilbert wrote:
+> * Jason Wang (jasowang@redhat.com) wrote:
+> > On Wed, Sep 8, 2021 at 2:32 AM Peter Xu <peterx@redhat.com> wrote:
+> > >
+> > > On Thu, Sep 02, 2021 at 04:22:55AM -0300, Leonardo Bras Soares Passos wrote:
+> > > > > I don't think it is valid to unconditionally enable this feature due to the
+> > > > > resource usage implications
+> > > > >
+> > > > > https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
+> > > > >
+> > > > >   "A zerocopy failure will return -1 with errno ENOBUFS. This happens
+> > > > >    if the socket option was not set, the socket exceeds its optmem
+> > > > >    limit or the user exceeds its ulimit on locked pages."
+> > > >
+> > > > You are correct, I unfortunately missed this part in the docs :(
+> > > >
+> > > > > The limit on locked pages is something that looks very likely to be
+> > > > > exceeded unless you happen to be running a QEMU config that already
+> > > > > implies locked memory (eg PCI assignment)
+> > > >
+> > > > Do you mean the limit an user has on locking memory?
+> > > >
+> > > > If so, that makes sense. I remember I needed to set the upper limit of locked
+> > > > memory for the user before using it, or adding a capability to qemu before.
+> > >
+> > > So I'm a bit confused on why MSG_ZEROCOPY requires checking RLIMIT_MEMLOCK.
+> > >
+> > > The thing is IIUC that's accounting for pinned pages only with either mlock()
+> > > (FOLL_MLOCK) or vfio (FOLL_PIN).
+> > >
+> > > I don't really think MSG_ZEROCOPY is doing that at all...  I'm looking at
+> > > __zerocopy_sg_from_iter() -> iov_iter_get_pages().
+> > 
+> > It happens probably here:
+> > 
+> > E.g
+> > 
+> > __ip_append_data()
+> >     msg_zerocopy_realloc()
+> >         mm_account_pinned_pages()
+> 
+> When do they get uncounted?  i.e. is it just the data that's in flight
+> that's marked as pinned?
 
-> We are still adding HMP commands without any QMP counterparts. This is
-> done because there are a reasonable number of scenarios where the cost
-> of designing a QAPI data type for the command is not justified.
->
-> This has the downside, however, that we will never be able to fully
-> isolate the monitor code from the remainder of QEMU internals. It is
-> desirable to be able to get to a point where subsystems in QEMU are
-> exclusively implemented using QAPI types and never need to have any
-> knowledge of the monitor APIs.
->
-> The way to get there is to stop adding commands to HMP only. All
-> commands must be implemented using QMP, and any HMP implementation
-> be a shim around the QMP implementation.
->
-> We don't want to compromise our supportability of QMP long term though.
->
-> This series proposes that we relax our requirements around fine grained
-> QAPI data design,
+I think so - there's __msg_zerocopy_callback() -> mm_unaccount_pinned_pages()
+correspondingly.  Thanks,
 
-Specifics?  QMP command returns a string, HMP wrapper prints that
-string?
-
->                   but with the caveat that any command taking this
-> design approach is mandated to use the 'x-' name prefix.
->
-> This tradeoff should be suitable for any commands we have been adding
-> exclusively to HMP in recent times, and thus mean we have mandate QMP
-> support for all new commands going forward.
->
-> This series illustrates the concept by converting the "info registers"
-> HMP to invoke a new 'x-query-registers' QMP command. Note that only
-> the i386 CPU target is converted to work with this new approach, so
-> this series needs to be considered incomplete. If we go forward with
-> this idea, then a subsequent version of this series would need to
-> obviously convert all other CPU targets.
->
-> After doing that conversion the only use of qemu_fprintf() would be
-> the disas.c file. Remaining uses of qemu_fprintf and qemu_printf
-> could be tackled in a similar way and eventually eliminate the need
-> for any of these printf wrappers in QEMU.
->
-> NB: I added docs to devel/writing-qmp-commands.rst about the two
-> design approaches to QMP. I didn't see another good place to put
-> an explicit note that we will not add any more HMP-only commands.
-> Obviously HMP/QMP maintainers control this in their reviews of
-> patches, and maybe that's sufficient ?
-
-We could add devel/writing-hmp-commands.rst, or go with a single
-document devel/writing-monitor-commands.rst.
-
-> NB: if we take this approach we'll want to figure out how many
-> HMP-only commands we actually have left and then perhaps have
-> HMP-only commands we actually have left
-
-Yes.
-
-For many HMP commands, a QMP commands with the same name exists, and the
-former is probably a wrapper around the latter.  Same for HMP "info FOO"
-and QMP query-FOO.
-
-HMP commands without such a match:
-
-    boot_set
-    change
-    commit
-    cpu
-    delvm
-    drive_add
-    drive_del
-    exit_preconfig
-    gdbserver
-    gpa2hpa
-    gpa2hva
-    gva2gpa
-    help
-    hostfwd_add
-    hostfwd_remove
-    i
-    info
-    info capture
-    info cmma
-    info cpus
-    info history
-    info ioapic
-    info irq
-    info jit
-    info lapic
-    info mem
-    info mtree
-    info network
-    info numa
-    info opcount
-    info pic
-    info profile
-    info qdm
-    info qom-tree
-    info qtree
-    info ramblock
-    info rdma
-    info registers
-    info roms
-    info skeys
-    info snapshots
-    info sync-profile
-    info tlb
-    info trace-events
-    info usb
-    info usbhost
-    info usernet
-    loadvm
-    log
-    logfile
-    mce
-    migrate_set_capability
-    migrate_set_parameter
-    migration_mode
-    mouse_button
-    mouse_move
-    mouse_set
-    nmi
-    o
-    pcie_aer_inject_error
-    print
-    qemu-io
-    savevm
-    sendkey
-    singlestep
-    snapshot_blkdev
-    snapshot_blkdev_internal
-    snapshot_delete_blkdev_internal
-    stopcapture
-    sum
-    sync-profile
-    trace-event
-    trace-file
-    watchdog_action
-    wavcapture
-    x
-    xp
-
-This is 77 out of 170 HMP commands.  I was hoping for fewer.
-
->                                         and then perhaps have
-> a task to track their conversion to QMP. This could possibly
-> be a useful task for newbies if we make it clear that they
-> wouldn't be required to undertake complex QAPI modelling in
-> doing this conversion.
-
-Yes.
-
-Thanks for tackling this!
+-- 
+Peter Xu
 
 
