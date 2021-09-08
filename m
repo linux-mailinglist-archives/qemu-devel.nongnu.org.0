@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA86D403DAD
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 18:38:09 +0200 (CEST)
-Received: from localhost ([::1]:57668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 688F5403DF6
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 18:52:58 +0200 (CEST)
+Received: from localhost ([::1]:43052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mO0aO-0003Lf-KA
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 12:38:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50482)
+	id 1mO0oi-0004XM-Vl
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 12:52:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mO0Z3-0001wd-4Z
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 12:36:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41765)
+ (Exim 4.90_1) (envelope-from <iwj@xenproject.org>)
+ id 1mO0mz-0003qE-91
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 12:51:09 -0400
+Received: from mail.xenproject.org ([104.130.215.37]:37888)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mO0Z1-0007nj-Iu
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 12:36:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631119002;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ylUGIHvW9S/mY+tIUN4RnDq7SEZiAhBNenAXsgiNPMI=;
- b=MUrl9Og2Pi31wQOEDUN9lQCO1DEE+hI0q2PpO0JJ9uvfsVh0AvGN5rk3R5ey9M7chdJ6EN
- V+073AEYPZC2EKYW1whpZKJGHM5SsfsSyLkXC2f8WqMvYd1LCnovQXclYrJlaS9crjzt8G
- i7HzDd35IiAUmbyuK/PlY9iO0heJFEM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-Xe-WT_t-PaeKH1MCrlSX7A-1; Wed, 08 Sep 2021 12:36:37 -0400
-X-MC-Unique: Xe-WT_t-PaeKH1MCrlSX7A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0422C1006AA1
- for <qemu-devel@nongnu.org>; Wed,  8 Sep 2021 16:36:37 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.206])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FDF26060F;
- Wed,  8 Sep 2021 16:36:32 +0000 (UTC)
-Date: Wed, 8 Sep 2021 17:36:29 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: Compatibility between -device sga and -machine graphics=off
-Message-ID: <YTjmjfbjqD4dA/VM@redhat.com>
-References: <YTjf6BhpPU3aLct9@redhat.com>
- <364031a0-982d-f6bd-cbcc-9f6d9be4ba69@redhat.com>
+ (Exim 4.90_1) (envelope-from <iwj@xenproject.org>)
+ id 1mO0mx-0001fq-41
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 12:51:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=xenproject.org; s=20200302mail; h=References:In-Reply-To:Subject:Cc:To:Date
+ :Message-ID:Content-Transfer-Encoding:Content-Type:MIME-Version:From;
+ bh=p37dfBTAcVhiILFHJqKiJhySpuHQhXsAwEqNhniGVKc=; b=zT903LfnbZIogvNbqwZrKUgZEY
+ z9tQ/5u2gTkElRzeOt7Ecvah0vCnax/gGmjUIu2v+idFbgi4iY0yYumtAVR51EakLMTjmwue6GOBD
+ e4sXXKlc3u2gFbYNyZ/2DdugI5mdgUt+Y7omQxEiPfhrEd+7FkdkUxXb8nipxy5D5d8c=;
+Received: from xenbits.xenproject.org ([104.239.192.120])
+ by mail.xenproject.org with esmtp (Exim 4.92)
+ (envelope-from <iwj@xenproject.org>) id 1mO0mv-0001Ro-Iz
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 16:51:05 +0000
+Received: from iwj (helo=mariner.uk.xensource.com)
+ by xenbits.xenproject.org with local-bsmtp (Exim 4.92)
+ (envelope-from <iwj@xenproject.org>) id 1mO0mv-0006cv-I1
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 16:51:05 +0000
+Received: from iwj by mariner.uk.xensource.com with local (Exim 4.89)
+ (envelope-from <iwj@xenproject.org>)
+ id 1mO0mp-0003uK-9I; Wed, 08 Sep 2021 17:50:59 +0100
+From: Ian Jackson <iwj@xenproject.org>
 MIME-Version: 1.0
-In-Reply-To: <364031a0-982d-f6bd-cbcc-9f6d9be4ba69@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Message-ID: <24888.59891.24033.552735@mariner.uk.xensource.com>
+Date: Wed, 8 Sep 2021 17:50:59 +0100
+To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [RFC v3 13/32] rust: use vendored-sources
+In-Reply-To: <CAJ+F1CJFdrU38BwK=V-89fYYu3ySywREAF-WuBNJLftsMP52rg@mail.gmail.com>
+References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
+ <20210907121943.3498701-14-marcandre.lureau@redhat.com>
+ <24888.55565.53378.616422@mariner.uk.xensource.com>
+ <CAJ+F1CJR9hAd+2MJZ1X9s2vBW=fG++mgk75M+Ww166orq3KdNg@mail.gmail.com>
+ <24888.58624.549030.64132@mariner.uk.xensource.com>
+ <CAJ+F1CJFdrU38BwK=V-89fYYu3ySywREAF-WuBNJLftsMP52rg@mail.gmail.com>
+X-Mailer: VM 8.2.0b under 24.5.1 (i686-pc-linux-gnu)
+Received-SPF: pass client-ip=104.130.215.37; envelope-from=iwj@xenproject.org;
+ helo=mail.xenproject.org
+X-Spam_score_int: -62
+X-Spam_score: -6.3
+X-Spam_bar: ------
+X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.922,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,41 +73,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 08, 2021 at 06:28:01PM +0200, Paolo Bonzini wrote:
-> On 08/09/21 18:08, Daniel P. BerrangÃ© wrote:
-> > Despite this difference, I was able migrate from a x86 guest using SGA
-> > to a guest using graphics=off without errors being reported. So it
-> > doesn't seem to change the migration data sections sent on the wire
-> > at least.
+Marc-André Lureau writes ("Re: [RFC v3 13/32] rust: use vendored-sources"):
+> Yes, this is the shim to provide a C ABI QMP handler from Rust. This is where
+> all the FFI<->Rust conversion takes place.
 > 
-> It would probably break with Windows XP/2003 guests on AMD processors, as
-> those are the ones that use kvmvapic.  On other guests and processors, it's
-> a no-op.
+> The "safe" code is qga/qmp/vcpus.rs. However, there is no
+> documentation there, since it's not meant to be the public
+> interface. It's documented with the QAPI schema.
 
-After running an incoming migrate, the target QEMU's  'info mtree'
-changed to reflect what the src QEMU originally reported.  So whatever
-difference 'graphics=off' causes compared to -device sga initially,
-appears to have been eliminated by running the migrate. Not sure if
-that's true in the general case or not - I'm just testing with a
-minimalist CLI and no real OS running
+Right, thanks.  That does look like a PoC of a Rust API.  I wanted the
+rustdoc output because I find it provides a very uniform and readable
+presentation even of an API with no doc comments.
 
- qemu-system-x86_64 -nodefaults -display sdl -device VGA -serial stdio  -device sga
+I think maybe a thing I am missing is how you expect this to be used.
+Which parts of the system are going to be in Rust.  etc.
+And that would help explain what "public" means.
 
-vs
+I think the answer is probably in this example:
 
- qemu-system-x86_64 -nodefaults -display sdl -device VGA -serial stdio  -machine graphics=off
+https://patchew.org/QEMU/20210907121943.3498701-1-marcandre.lureau@redhat.com/20210907121943.3498701-30-marcandre.lureau@redhat.com/
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+but although my C and Rust are both fine, I don't understand qemu well
+enough to make sense of it.
 
+... wait, qga is "qemu guest agent" ?
+
+I think I am sort of seeing this use case now.  But presuambly there
+are other use cases for this QMP/QAPI type bridge stuff.
+
+Sorry to be asking such stupid questions.
+
+Thanks,
+Ian.
 
