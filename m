@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3CA403A63
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 15:14:09 +0200 (CEST)
-Received: from localhost ([::1]:35434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BBC0403A5F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 15:12:23 +0200 (CEST)
+Received: from localhost ([::1]:58108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNxOy-0008WV-UP
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 09:14:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52790)
+	id 1mNxNF-0004rl-36
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 09:12:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mNxLf-0002eW-GS
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 09:10:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42459)
+ id 1mNxLc-0002Yb-Su
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 09:10:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mNxLX-0007j4-RW
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 09:10:43 -0400
+ id 1mNxLX-0007jP-R1
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 09:10:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1631106635;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TZamHiXO8rIULwZCUJLUmlWN9ZcqMHvojlRGZLLM6OA=;
- b=IfL6HDPDgRIVrHRRnupIVZLJerkj0BUi20Q2DXwqiHneu9IBtNNyDAki+5WUvgeIxZnMTw
- ZiD1jAxTa4aqoz6+N2SgGm/zEx67Q61tWmnu5kluUjZ4qWGmQ2dm77I1IMk7qCVDPpWpaa
- YMo+gOjXQXGrwgLAsWb6XTSr0bXeFj4=
+ bh=nREa46+RqnYBEhL4NfhaBbZvTUGfMVovZS3d6ZYP1Hw=;
+ b=f8Oaroh/q6GIgouiFSx/UQh9PeRWCKd9lXQs3mI7HNZnLpQ7DXHxF1H83g5h44Ffb4RHns
+ zGfmMbUKuQJg5es56eNTLS4mhxdtGSKCxPMr9dLIPl98UogPVU/vnaP6CkshPmlUzI7hCM
+ QoCPZ1nAzWq2s9ZnqsZzi8kjRt7ueRo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-PgdqMjuZPbuhoHgmIMGv6A-1; Wed, 08 Sep 2021 09:10:32 -0400
-X-MC-Unique: PgdqMjuZPbuhoHgmIMGv6A-1
+ us-mta-149-_5RfaNINPFWPMU6zq7BnRA-1; Wed, 08 Sep 2021 09:10:34 -0400
+X-MC-Unique: _5RfaNINPFWPMU6zq7BnRA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F4021006AA2;
- Wed,  8 Sep 2021 13:10:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C91B136308;
+ Wed,  8 Sep 2021 13:10:32 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 61C006B55B;
- Wed,  8 Sep 2021 13:10:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ABD966B55D;
+ Wed,  8 Sep 2021 13:10:31 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [RFC PATCH 1/4] main-loop.h: introduce qemu_in_main_thread()
-Date: Wed,  8 Sep 2021 09:10:18 -0400
-Message-Id: <20210908131021.774533-2-eesposit@redhat.com>
+Subject: [RFC PATCH 2/4] migration: block-dirty-bitmap: add missing
+ qemu_mutex_lock_iothread
+Date: Wed,  8 Sep 2021 09:10:19 -0400
+Message-Id: <20210908131021.774533-3-eesposit@redhat.com>
 In-Reply-To: <20210908131021.774533-1-eesposit@redhat.com>
 References: <20210908131021.774533-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -66,7 +67,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,84 +92,42 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When invoked from the main loop, this function is the same
-as qemu_mutex_iothread_locked, and returns true if the BQL is held.
-When invoked from iothreads or tests, it returns true only
-if the current AioContext is the Main Loop.
+init_dirty_bitmap_migration assumes the iothread lock (BQL)
+to be held, but instead it isn't.
 
-This essentially just extends qemu_mutex_iothread_locked to work
-also in unit tests or other users like storage-daemon, that run
-in the Main Loop but end up using the implementation in
-stubs/iothread-lock.c.
-
-Using qemu_mutex_iothread_locked in unit tests defaults to false
-because they use the implementation in stubs/iothread-lock,
-making all assertions added in next patches fail despite the
-AioContext is still the main loop.
+Instead of adding the lock to qemu_savevm_state_setup(),
+follow the same pattern as the other ->save_setup callbacks
+and lock+unlock inside dirty_bitmap_save_setup().
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- include/qemu/main-loop.h | 13 +++++++++++++
- softmmu/cpus.c           |  5 +++++
- stubs/iothread-lock.c    |  5 +++++
- 3 files changed, 23 insertions(+)
+ migration/block-dirty-bitmap.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-index 8dbc6fcb89..c6547207f7 100644
---- a/include/qemu/main-loop.h
-+++ b/include/qemu/main-loop.h
-@@ -245,6 +245,19 @@ AioContext *iohandler_get_aio_context(void);
-  */
- bool qemu_mutex_iothread_locked(void);
- 
-+/**
-+ * qemu_in_main_thread: Return true if the function runs with BQL
-+ * or in the main loop AioContext.
-+ *
-+ * This function falls back to qemu_mutex_iothread_locked() if
-+ * called from the main loop, otherwise it checks if the current
-+ * AioContext is the main loop. This is useful to check that the BQL
-+ * is held, and not make it return false when invoked by unit
-+ * tests or other users like storage-daemon that end up using
-+ * stubs/iothread-lock.c implementation.
-+ */
-+bool qemu_in_main_thread(void);
-+
- /**
-  * qemu_mutex_lock_iothread: Lock the main loop mutex.
-  *
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 071085f840..3f61a3c31d 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -481,6 +481,11 @@ bool qemu_mutex_iothread_locked(void)
-     return iothread_locked;
- }
- 
-+bool qemu_in_main_thread(void)
-+{
-+    return qemu_mutex_iothread_locked();
-+}
-+
- /*
-  * The BQL is taken from so many places that it is worth profiling the
-  * callers directly, instead of funneling them all through a single function.
-diff --git a/stubs/iothread-lock.c b/stubs/iothread-lock.c
-index 5b45b7fc8b..ff7386e42c 100644
---- a/stubs/iothread-lock.c
-+++ b/stubs/iothread-lock.c
-@@ -6,6 +6,11 @@ bool qemu_mutex_iothread_locked(void)
-     return false;
- }
- 
-+bool qemu_in_main_thread(void)
-+{
-+    return qemu_get_current_aio_context() == qemu_get_aio_context();
-+}
-+
- void qemu_mutex_lock_iothread_impl(const char *file, int line)
+diff --git a/migration/block-dirty-bitmap.c b/migration/block-dirty-bitmap.c
+index 35f5ef688d..9aba7d9c22 100644
+--- a/migration/block-dirty-bitmap.c
++++ b/migration/block-dirty-bitmap.c
+@@ -1215,7 +1215,10 @@ static int dirty_bitmap_save_setup(QEMUFile *f, void *opaque)
  {
+     DBMSaveState *s = &((DBMState *)opaque)->save;
+     SaveBitmapState *dbms = NULL;
++
++    qemu_mutex_lock_iothread();
+     if (init_dirty_bitmap_migration(s) < 0) {
++        qemu_mutex_unlock_iothread();
+         return -1;
+     }
+ 
+@@ -1223,7 +1226,7 @@ static int dirty_bitmap_save_setup(QEMUFile *f, void *opaque)
+         send_bitmap_start(f, s, dbms);
+     }
+     qemu_put_bitmap_flags(f, DIRTY_BITMAP_MIG_FLAG_EOS);
+-
++    qemu_mutex_unlock_iothread();
+     return 0;
  }
+ 
 -- 
 2.27.0
 
