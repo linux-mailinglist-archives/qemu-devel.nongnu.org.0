@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BEC540396E
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:04:34 +0200 (CEST)
-Received: from localhost ([::1]:48610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B6F340397B
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 14:08:07 +0200 (CEST)
+Received: from localhost ([::1]:55260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNwJd-0003El-Cy
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:04:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33572)
+	id 1mNwN4-0007rl-EI
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 08:08:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mNwB0-0006Lu-SL
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 07:55:38 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59062
+ id 1mNwB4-0006VK-QZ
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 07:55:42 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59068
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mNwAz-0005as-9R
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 07:55:38 -0400
+ id 1mNwB3-0005dH-AM
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 07:55:42 -0400
 Received: from host86-140-11-91.range86-140.btcentralplus.com ([86.140.11.91]
  helo=kentang.home) by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mNwAu-0009u6-6l; Wed, 08 Sep 2021 12:55:35 +0100
+ id 1mNwAx-0009u6-Te; Wed, 08 Sep 2021 12:55:40 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Date: Wed,  8 Sep 2021 12:54:48 +0100
-Message-Id: <20210908115451.9821-10-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  8 Sep 2021 12:54:49 +0100
+Message-Id: <20210908115451.9821-11-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210908115451.9821-1-mark.cave-ayland@ilande.co.uk>
 References: <20210908115451.9821-1-mark.cave-ayland@ilande.co.uk>
@@ -37,7 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.140.11.91
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 09/12] escc: implement hard reset as described in the datasheet
+Subject: [PULL 10/12] escc: remove register changes from escc_reset_chn()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -63,40 +63,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The hardware reset differs from a device reset in that it only changes the contents
-of specific registers. Remove the code that resets all the registers to zero during
-hardware reset and implement the default values using the existing soft reset code
-with the additional changes listed in the table in the "Z85C30 Reset" section.
+Now that register values at reset are handled elsewhere for all of device reset,
+soft reset and hard reset, escc_reset_chn() only needs to handle initialisation
+of internal device state.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20210903113223.19551-7-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20210903113223.19551-8-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/char/escc.c | 41 +++++++++++++----------------------------
- 1 file changed, 13 insertions(+), 28 deletions(-)
+ hw/char/escc.c | 25 -------------------------
+ 1 file changed, 25 deletions(-)
 
 diff --git a/hw/char/escc.c b/hw/char/escc.c
-index d5c7136e97..80f1d1b8fc 100644
+index 80f1d1b8fc..22c97414a1 100644
 --- a/hw/char/escc.c
 +++ b/hw/char/escc.c
-@@ -118,6 +118,8 @@
- #define W_SYNC2   7
- #define W_TXBUF   8
- #define W_MINTR   9
-+#define MINTR_VIS      0x01
-+#define MINTR_NV       0x02
- #define MINTR_STATUSHI 0x10
- #define MINTR_SOFTIACK 0x20
- #define MINTR_RST_MASK 0xc0
-@@ -347,36 +349,19 @@ static void escc_soft_reset_chn(ESCCChannelState *s)
+@@ -139,7 +139,6 @@
+ #define MISC2_PLLCMD0  0x20
+ #define MISC2_PLLCMD1  0x40
+ #define MISC2_PLLCMD2  0x80
+-#define MISC2_PLLDIS   0x30
+ #define W_EXTINT 15
+ #define EXTINT_DCD     0x08
+ #define EXTINT_SYNCINT 0x10
+@@ -279,31 +278,7 @@ static void escc_update_irq(ESCCChannelState *s)
  
- static void escc_hard_reset_chn(ESCCChannelState *s)
+ static void escc_reset_chn(ESCCChannelState *s)
  {
 -    int i;
-+    escc_soft_reset_chn(s);
- 
--    s->reg = 0;
+-
+     s->reg = 0;
 -    for (i = 0; i < ESCC_SERIAL_REGS; i++) {
 -        s->rregs[i] = 0;
 -        s->wregs[i] = 0;
@@ -105,15 +102,7 @@ index d5c7136e97..80f1d1b8fc 100644
 -    s->wregs[W_TXCTRL1] = TXCTRL1_1STOP;
 -    s->wregs[W_MINTR] = MINTR_RST_ALL;
 -    /* Synch mode tx clock = TRxC */
-+    /*
-+     * Hard reset is almost identical to soft reset above, except that the
-+     * values of WR9 (W_MINTR), WR10 (W_MISC1), WR11 (W_CLOCK) and WR14
-+     * (W_MISC2) have extra bits forced to 0/1
-+     */
-+    s->wregs[W_MINTR] &= MINTR_VIS | MINTR_NV;
-+    s->wregs[W_MINTR] |= MINTR_RST_B | MINTR_RST_A;
-+    s->wregs[W_MISC1] = 0;
-     s->wregs[W_CLOCK] = CLOCK_TRXC;
+-    s->wregs[W_CLOCK] = CLOCK_TRXC;
 -    /* PLL disabled */
 -    s->wregs[W_MISC2] = MISC2_PLLDIS;
 -    /* Enable most interrupts */
@@ -127,16 +116,9 @@ index d5c7136e97..80f1d1b8fc 100644
 -    }
 -    s->rregs[R_SPEC] = SPEC_BITS8 | SPEC_ALLSENT;
 -
--    s->rx = s->tx = 0;
--    s->rxint = s->txint = 0;
--    s->rxint_under_svc = s->txint_under_svc = 0;
--    s->e0_mode = s->led_mode = s->caps_lock_mode = s->num_lock_mode = 0;
--    clear_queue(s);
-+    s->wregs[W_MISC2] &= MISC2_PLLCMD1 | MISC2_PLLCMD2;
-+    s->wregs[W_MISC2] |= MISC2_LCL_LOOP | MISC2_PLLCMD0;
- }
- 
- static void escc_reset(DeviceState *d)
+     s->rx = s->tx = 0;
+     s->rxint = s->txint = 0;
+     s->rxint_under_svc = s->txint_under_svc = 0;
 -- 
 2.20.1
 
