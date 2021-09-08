@@ -2,84 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B003403C8D
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:32:49 +0200 (CEST)
-Received: from localhost ([::1]:44552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24F4403CA4
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:39:50 +0200 (CEST)
+Received: from localhost ([::1]:34336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNzZA-00086Q-CY
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:32:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33584)
+	id 1mNzfx-0003UU-NC
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:39:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mNzXL-0006e7-Sk
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:30:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40057)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mNzbr-0003fV-1N
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:35:35 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:44007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mNzX8-0008C8-6C
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:30:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631115039;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=B3ppFM+u3u37rNDlk9b2WFw76Y+p+Srqgr1HO4M5sac=;
- b=jHINtPr441LYBWacWvciOyCHHZFzyQpToMAasujnCdnABMSLGVCaPmpjFiA/Mtcpsg7OOg
- yGzySz1lmPO+bCDlJeeu1kM/GYczcUzaw9J+BL7W7ar9A3P5I5N7NhRhqeVJa/fiR6B7Co
- T+PBr+43alaxcPYkKXFzfGyFLsF+DSc=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-OhjjHvZrOlKvPzlL399KtQ-1; Wed, 08 Sep 2021 11:30:37 -0400
-X-MC-Unique: OhjjHvZrOlKvPzlL399KtQ-1
-Received: by mail-il1-f199.google.com with SMTP id
- v9-20020a92c6c9000000b00226d10082a6so1871824ilm.23
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 08:30:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=B3ppFM+u3u37rNDlk9b2WFw76Y+p+Srqgr1HO4M5sac=;
- b=K8ycg+NwHUdQMNtluP9tSeLWuATGj/TtkvXOmHy9Ef603MchqOddDKqN0qwQEGH2oH
- EDjgiKI+w/EHW3vCCaqGwIg6wxkmYd96PU9S6vhdauQlhjxCt17yQrng70qRpxmQm5oh
- k85X2yLO4Jz8HaReyzaAeAbnZawEoAEUNR8rxHFuwxuXKrE89Gg9pgaN+nG39pyh2lC5
- UrG7l1q5G8FW5NC5N+RLU9kB4PUFX7t8Fad5nLGUdvDyj+l/SvVsN0HWDlvaZonq4o6i
- rKZBv/KA2h9jlg3dWFOm0TAoDRYCCvKXtzQ+Wkdj/hoVP8icHMUn3HdrCESRWJgsCg8n
- A5kw==
-X-Gm-Message-State: AOAM533FnSfcb8tQYbHyzsb/0U5DmNoODTEA85P+KM1FjG+f1l8+a2Xh
- M2IXCO19KafonCieH+GAbyc/C4GW2EcVrIQo/YJVo0CruKJZjWrganQq2MGx2JlvxBrh5jwgbhJ
- CD3gCmmxS//W1LLX2KswCljEi/xx+p7mPSSTrGP520H9CU3KDb2k//RbrpuZyTLWh
-X-Received: by 2002:a5e:9819:: with SMTP id s25mr369922ioj.63.1631115036750;
- Wed, 08 Sep 2021 08:30:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyqzXR63lEwNxs6SBhajzxJC4jJbFYQQ3x42DG24qek4c75SvokIqi3NnqTNKCIqlmc8BSFtg==
-X-Received: by 2002:a5e:9819:: with SMTP id s25mr369894ioj.63.1631115036396;
- Wed, 08 Sep 2021 08:30:36 -0700 (PDT)
-Received: from t490s ([2607:fea8:56a3:500::ad7f])
- by smtp.gmail.com with ESMTPSA id y27sm1293531iot.10.2021.09.08.08.30.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Sep 2021 08:30:35 -0700 (PDT)
-Date: Wed, 8 Sep 2021 11:30:33 -0400
-From: Peter Xu <peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mNzbo-0003lY-H9
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:35:34 -0400
+Received: from quad ([82.142.27.6]) by mrelayeu.kundenserver.de (mreue009
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MMGZS-1mhB9Y1lAc-00JIIL; Wed, 08
+ Sep 2021 17:35:30 +0200
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 0/8] memory: Sanity checks memory transaction when
- releasing BQL
-Message-ID: <YTjXGQYCK4fLDp8B@t490s>
-References: <20210728183151.195139-1-peterx@redhat.com>
+Subject: [PULL 00/12] Q800 patches
+Date: Wed,  8 Sep 2021 17:35:17 +0200
+Message-Id: <20210908153529.453843-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210728183151.195139-1-peterx@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:sJTZNb1IyYgqawup0oi/JT340e1Zbft4YuIhPf8qoBs17EFmqEz
+ xAOXESnk4MCIE9I6ecnNYX8qbKnCflzj2ACKUnsM384D9aQt3X2LzFnH1tBsiCLYiirzJJU
+ 362ntepo62dpVufCni6d2Uz9+kLJ9MxMki6GRsX/+HeUcvRocmBrJIdTSauO5OPvS2EX6z8
+ XjilqKpZIPBQ8K+NjCxGQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hCTCW4xge+U=:3BsOcYDlhnHWzDYmbErTyd
+ aLDOZk2ncmn+js9hBbsnzkknJD3P2PgtCsFqa+0YCB9W80Px94oHja8AoelnUViuTafmep9yJ
+ xmKgUuP1tAo3pQcUj1RMvRPBbQpt+g3JT2qCpg3r62aT6iWQb7r2rmBs6XNdbTJ5W9a14uutV
+ vrI8SFrHLJ5M8QFc8CWRM3i0KgJe40nmwFysE6PeTXQjyLe5dkxUFxsLAv7citVv2BS9ZAUBt
+ jqgBe69S+rKa40z6mOoF6BvMHf31LjvcXgOM+L5Spj0JUGKkK7QVL0020cX9doRjIZZrDHO/D
+ jexP+sshRzHpoRjJ+iD8m02TvAWeqASEK5R5on32BIO/Bzhg1Zyqq0ozBBcn/j98izn1Yo/HE
+ 5N54LO19rG6hUHqr21PSVtRmCJc/7gnaJL6H1ye0ryPvTmpQ4CNiOlPOt/AFQqIJTCNTY1qLp
+ MYzozAb0Z7XLYOBOaQQMC8nF91uRndUtDO9KVtbMt0mtgDeOgKmW0K726EAn1INSZHsk/T5mQ
+ 2DGiRQXtYoYIU4C9afcjTZuRw48D2Z4R9K0y5cd/6J7TMXdL2PRZCvltPbwsntF1dfWxo3X1E
+ 0ZSLBwaX/7mgMK9JQGEZsZG8AHGyA8tOVK24hDbwAgEDDFe1FIeHtdIgP84t7+6SRctP9Gbb9
+ V8oH5+kASfw0PxeL3sz9+DS6sbbvrjdsSbQUZ6qQP5QbABKMzP8bUymavR+/PKFZFe+2XBz6g
+ wszJRhnG7SB7z06iIUQ2XKFaHUXbvEOCq+eseA==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,18 +65,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Hildenbrand <david@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 28, 2021 at 02:31:43PM -0400, Peter Xu wrote:
-> This is v3 of the series. And, I think this is 6.2 material.
-
-Ping - just remembered this one too..
-
--- 
-Peter Xu
-
+The following changes since commit abf7aee72ea66944a62962603e4c2381f5e473e7=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/thuth-gitlab/tags/s390x-pull-reques=
+t-2021-09-07' into staging (2021-09-07 17:46:13 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu-m68k.git tags/q800-pull-request=0D
+=0D
+for you to fetch changes up to dde602ae539910c3579952834b713e2f360ec34a:=0D
+=0D
+  mac_via: add qdev gpios for nubus slot interrupts to VIA2 (2021-09-08 15:=
+37:41 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+q800 pull request 20210908=0D
+=0D
+mac_via: remove MAC_VIA device and prepare for Nubus IRQs=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Mark Cave-Ayland (12):=0D
+  mac_via: introduce new VMStateDescription for q800 VIA1 and VIA2=0D
+  mac_via: move last_b variable into q800 VIA1 VMStateDescription=0D
+  mac_via: move PRAM contents and block backend to MOS6522Q800VIA1State=0D
+  mac_via: move PRAM/RTC variables to MOS6522Q800VIA1State=0D
+  mac_via: move ADB variables to MOS6522Q800VIA1State=0D
+  mac_via: move q800 VIA1 timer variables to q800 VIA1=0D
+    VMStateDescription=0D
+  mac_via: move VIA1 reset logic from mac_via_reset() to=0D
+    mos6522_q800_via1_reset()=0D
+  mac_via: move VIA1 realize logic from mac_via_realize() to=0D
+    mos6522_q800_via1_realize()=0D
+  mac_via: remove mac_via device=0D
+  mac_via: remove explicit viaN prefix from VIA IRQ gpios=0D
+  mac_via: rename VIA2_IRQ_SLOT_BIT to VIA2_IRQ_NUBUS_BIT=0D
+  mac_via: add qdev gpios for nubus slot interrupts to VIA2=0D
+=0D
+ include/hw/misc/mac_via.h | 101 ++++---=0D
+ hw/m68k/q800.c            |  38 +--=0D
+ hw/misc/mac_via.c         | 547 ++++++++++++++++++--------------------=0D
+ 3 files changed, 328 insertions(+), 358 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
