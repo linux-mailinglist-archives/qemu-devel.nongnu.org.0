@@ -2,91 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BB62403CE3
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 17:53:23 +0200 (CEST)
-Received: from localhost ([::1]:44710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33508403D37
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 18:02:12 +0200 (CEST)
+Received: from localhost ([::1]:35644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNzt4-0004DU-KK
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 11:53:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36892)
+	id 1mO01Z-0000Ks-Uq
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 12:02:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNzmD-00014P-JH
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:46:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39227)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mNzmM-0001Fd-Vw
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:46:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNzlz-0003kl-V5
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:46:17 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mNzmK-0004Cu-Hz
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 11:46:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631115962;
+ s=mimecast20190719; t=1631115984;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rGVFhY6JhFtdJSkQ4805m6I+AyM6lpy1IEZQu2gMkzs=;
- b=MirXdaH38N+3plbN6tkOixxNsyZcwhXnUU1eVrWjJ1rbj44BohhGhv6D2oHqWFTSyjNitN
- W5TSsxCBZpH8xemFuNq4ooIlUKTqYc8XG2wSEQx+nz/E8nUsvyIxQK7EKkw0EfuvyYc97s
- pwkZbqwTtUXJDnjQvmJGjJS0iZ3nADs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330-iKOyvfsLOqWjDtcdzJapCw-1; Wed, 08 Sep 2021 11:46:00 -0400
-X-MC-Unique: iKOyvfsLOqWjDtcdzJapCw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- q14-20020a5d574e000000b00157b0978ddeso631646wrw.5
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 08:46:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rGVFhY6JhFtdJSkQ4805m6I+AyM6lpy1IEZQu2gMkzs=;
- b=FtR82V2GkZzL45GuyG34XHd7eSGyn8nioFy/8uVOPbI+kh2r50UI8sOklxB+EXCw3t
- /4yApq4BWRMazrU4BlC37NUfWrUgkn2NZm9gcrLQdrEMz9Y0885cwult3iJ2InSl2zYi
- m5lgGCZV2E+pDqwI3DzBxf9dJ+/tsT1EtJPp0cNft2gOXL76g7p0m5v/lasovtzGMhdY
- 2Y7soEBiVTk3YxsDurJXl+KEYAmriDAcHoJS5cmdrWmY9t4xrdfC8DX5RqADEVQsOi+j
- DROVgfn/hDabdA5mYXzeiL9JeoT4wSNYkkQtnb2JGameyiLCPKaSXsqCuTITG6z/dlQJ
- meVA==
-X-Gm-Message-State: AOAM530SiLcc2jPbGJCPaF7ER9J4rDsD04+hVi3nKzY7yMPvsGIDcTtF
- D1ouTCFX4cpeWm1kA4hMF5o0YNCWLH2+mimo5Od7sE4vKGGlwf1r0dNFZX8uquFmTB7j3ftqXuk
- GGn2lm58fCGbk/aw=
-X-Received: by 2002:a5d:634f:: with SMTP id b15mr4727253wrw.220.1631115959714; 
- Wed, 08 Sep 2021 08:45:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzY/gpZL7/jOjrZjbb52R+ozENvBCGnxB9G4Bo94gy+IVQdoRuT7LVTuy+WlVGqi5MFi40WvA==
-X-Received: by 2002:a5d:634f:: with SMTP id b15mr4727231wrw.220.1631115959567; 
- Wed, 08 Sep 2021 08:45:59 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id s13sm2444173wmc.47.2021.09.08.08.45.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Sep 2021 08:45:59 -0700 (PDT)
-Subject: Re: [PATCH v1 4/4] tests: rename virtio_seg_max_adjust to
- virtio_check_params
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>, qemu-devel@nongnu.org
-References: <20200129140702.5411-1-dplotnikov@virtuozzo.com>
- <20200129140702.5411-5-dplotnikov@virtuozzo.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a695ab4d-3fcd-f4ef-6a9d-b14d1df80fa3@redhat.com>
-Date: Wed, 8 Sep 2021 17:45:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=p1xhbBW41jkMPtZoXxl+kksZ9Z/jWn/AWrpnzN7X64c=;
+ b=PaI51AKMw5PpYDEoWMr8Pmac+47gGeFEekmUBcwKn95A2z/zlj3SlRKE8fDRMLADND/UEh
+ 8lyDTTAuDsJgAtNBRM1QQxwyIoxl5JUTbUvClz0eXy6YjRdimb2nTbqIMYPSNC9aNlZXIm
+ jadVJPP6UA0atedMjNwIBaEbyqNHnrw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-54-CtHBffdvObeCISA1fvQcpA-1; Wed, 08 Sep 2021 11:46:20 -0400
+X-MC-Unique: CtHBffdvObeCISA1fvQcpA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74D4C1927801;
+ Wed,  8 Sep 2021 15:46:19 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E8845C1BB;
+ Wed,  8 Sep 2021 15:46:15 +0000 (UTC)
+Date: Wed, 8 Sep 2021 16:46:15 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: John Levon <john.levon@nutanix.com>
+Subject: Re: [PATCH RFC server v2 05/11] vfio-user: run vfio-user context
+Message-ID: <YTjax0KuNpRvuM0a@stefanha-x1.localdomain>
+References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
+ <cover.1630084211.git.jag.raman@oracle.com>
+ <3c043becf2b6e820f5392e0cadb465d5d9b9e6f8.1630084211.git.jag.raman@oracle.com>
+ <YTizhs1m7EsAs9UG@stefanha-x1.localdomain>
+ <YTi8sYZkET5tffj/@movementarian.org>
+ <YTjQfvz6PmpFH/QL@stefanha-x1.localdomain>
+ <YTjU60GCLX2XQHKr@movementarian.org>
 MIME-Version: 1.0
-In-Reply-To: <20200129140702.5411-5-dplotnikov@virtuozzo.com>
+In-Reply-To: <YTjU60GCLX2XQHKr@movementarian.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KFcF8YqYiwf8fOPe"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.922, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,27 +84,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, mst@redhat.com, mreitz@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, den@virtuozzo.com
+Cc: "elena.ufimtseva@oracle.com" <elena.ufimtseva@oracle.com>,
+ "john.g.johnson@oracle.com" <john.g.johnson@oracle.com>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ "philmd@redhat.com" <philmd@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "marcandre.lureau@gmail.com" <marcandre.lureau@gmail.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/29/20 3:07 PM, Denis Plotnikov wrote:
-> Since, virtio_seg_max_adjust checks not only seg_max, but also
-> virtqueue_size parameter, let's make the test more general and
-> add new parameters to be checked there in the future.
-> 
-> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-> ---
->  .../{virtio_seg_max_adjust.py => virtio_check_params.py}          | 0
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  rename tests/acceptance/{virtio_seg_max_adjust.py => virtio_check_params.py} (100%)
+--KFcF8YqYiwf8fOPe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Old one... reminds me of
-https://lore.kernel.org/qemu-devel/20200129212345.20547-1-philmd@redhat.com/
-:~(
+On Wed, Sep 08, 2021 at 03:21:19PM +0000, John Levon wrote:
+> On Wed, Sep 08, 2021 at 04:02:22PM +0100, Stefan Hajnoczi wrote:
+>=20
+> > > We'd have to have a whole separate API to do that, so a separate thre=
+ad seems a
+> > > better approach?
+> >=20
+> > Whether to support non-blocking properly in libvfio-user is a decision
+> > for you. If libvfio-user doesn't support non-blocking, then QEMU should
+> > run a dedicated thread instead of the partially non-blocking approach i=
+n
+> > this patch.
+>=20
+> Right, sure. At this point we don't have any plans to implement a separat=
+e async
+> API due to the amount of work involved.=20
+>=20
+> > A non-blocking approach is nice when there are many devices hosted in a
+> > single process or a lot of async replies (which requires extra thread
+> > synchronization with the blocking approach).
+>=20
+> I suppose this would be more of a problem with devices where the I/O path=
+ has to
+> be handled via the socket.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Yes, exactly. I think it shouldn't be a problem when shared memory is
+used and the irqfd (eventfd) mechanism is used for IRQs. It becomes slow
+when there's no shared memory or if raising IRQs requires protocol
+messages.
+
+Stefan
+
+--KFcF8YqYiwf8fOPe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE42sYACgkQnKSrs4Gr
+c8hMOggAu45iXK+kYeSI6D6hTxexgh5JhLUYTg3k06ZTwHuh87/J1JD5jHAlTpE/
+RoSNGxvBu6AO5pgq3Tm1tQXyruV7eNKIqAqwEUvfdeMkvhuoj88eCJtjjZWVv1sC
+6S/HRSUY2g9KWFdnf2O3pj54MYstvAJUNzZm8qQysYBnGbjlqp+biForPf0OLRxE
+elbisACKgafQEHKVBH3h7BKB/RBNEE4vRUZxntJ3FIA2hf203sF1DonQAN1VaXEs
+9WeoE/oCqBlyavGNMlOjCsiJ67yAd09WCY4S8jALziuTbMIWX6xH2goYMQJG0oI6
+rNJcFldzLHBebRB2UPNux7UbX7TCrg==
+=cJ7j
+-----END PGP SIGNATURE-----
+
+--KFcF8YqYiwf8fOPe--
 
 
