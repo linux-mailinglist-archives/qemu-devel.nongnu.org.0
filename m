@@ -2,92 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6729140384B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 12:54:27 +0200 (CEST)
-Received: from localhost ([::1]:44340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA6B40380C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 Sep 2021 12:41:47 +0200 (CEST)
+Received: from localhost ([::1]:59856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNvDk-0008PX-Ve
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 06:54:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44556)
+	id 1mNv1W-0005lU-Is
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 06:41:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNur1-0004WA-Gd
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:30:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27027)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mNuxC-0008Rg-E3
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:37:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNuqs-0007Bi-RT
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:30:55 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mNuxA-0003oh-Ac
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 06:37:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631097044;
+ s=mimecast20190719; t=1631097435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LTxpgwdCToam24etbK0p0OHqdsb0V1MGRnQNbF8ZnN8=;
- b=ANzHQK6UTRJrM0K05JC6dXwrB0KBgKuT6kKmDzfidle8GNc1U/V4jHdr21vfq7WiTRhTEI
- 1JAfR/2ACIsx6TD5ZD6Kisw83epwzMERa5B7CQoAr8nhNm9dogBYvKiPUscbM0vvA8HDST
- 9mXUhDtOU2wOdzORT93VJT0rzDHmuG0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-Mp-fUlVcMtmS1HEGiu9JVA-1; Wed, 08 Sep 2021 06:30:44 -0400
-X-MC-Unique: Mp-fUlVcMtmS1HEGiu9JVA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- p10-20020adfce0a000000b001572d05c970so360160wrn.21
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 03:30:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LTxpgwdCToam24etbK0p0OHqdsb0V1MGRnQNbF8ZnN8=;
- b=ZjDy2/VAblsOUUGuo0R9npop4uCyl2MG8ntO8fYvEUEQlcjDQcKH4PQokE5CQitweN
- psjWmZkCjHpc8nbdNKmyAbtKjNa0pz2Qe1gEk4P+kFcXNtrmAmGgJu84j1fLpuW7WEPe
- ClvjrPQCd9RnjC3BbMV1FRhEzSptCtoBqNC97+EaavHoMHpF+cqJWovUKR6NCY7A4jUO
- 3ZE8XPK9cME/YHl+Ukk6KKyvTa0ILFJ0kjMFkKg8WA4AlngwMVgC8/1FCRLIQ0V8tTDt
- B6/YtBJcR8Wii/XcgrEPlInlTH3mq6+QaBFxaNskm70ossIZEPYAa58tqgeiIm0ULHCU
- i8Sg==
-X-Gm-Message-State: AOAM5329Vn5QHpIS6d8DkHeGNUybTJucq3Jt1t5Pm8ArIYuUwn7hQoqB
- VC8hRUp0OZ9mSU4EHd+ZBmDAxCvU9iMySjK5gp/AwbhTTzrwP6+oJCxhUaaZmgluRCMkmeWw+qc
- jKcHtk+E6HEW8Fh8=
-X-Received: by 2002:a7b:cd88:: with SMTP id y8mr2782074wmj.24.1631097042755;
- Wed, 08 Sep 2021 03:30:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwPGtNmqSts898fIE3Efa/mN68FxhentUWKS3naoIqeUYO3CbmIjIGVKKogTPJ+Gd3yPRUjYQ==
-X-Received: by 2002:a7b:cd88:: with SMTP id y8mr2782037wmj.24.1631097042460;
- Wed, 08 Sep 2021 03:30:42 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id a10sm1772551wrd.51.2021.09.08.03.30.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Sep 2021 03:30:42 -0700 (PDT)
-Subject: Re: [PATCH v1 1/2] Only check CONFIG_NVMM when NEED_CPU_H is defined
-To: Reinoud Zandijk <reinoud@NetBSD.org>, Thomas Huth <thuth@redhat.com>
-References: <20210718134650.1191-1-reinoud@NetBSD.org>
- <20210718134650.1191-2-reinoud@NetBSD.org>
- <6059b24a-a5ee-822f-8ff8-7277eb99896c@redhat.com>
- <YTiGc/0K+rupGIgD@gorilla.13thmonkey.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ad53ad6a-08d0-8c84-701b-8112a582a9f9@redhat.com>
-Date: Wed, 8 Sep 2021 12:30:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rj2fMzVz/eKZ1RKb5I2SakgEhXYOE0OhPAey5mleChg=;
+ b=ikTyoXe7edsf5Fwais79UCYUT+zIAalSp8NpbWNNQa52UOmdERsUmTS1Q4jamObl9B5lpH
+ cruydgtLdA0aFkk4k/IqxTbrqqZtUiI6A7HUVDCv/2Z06aH5S+PzXYAlxpQNkbu1GOnUXc
+ +ctxOB0PHqWeADI6GHwgRiIKFa4ccF0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-368-OHqMdfLIPHeEDOawNAqvxw-1; Wed, 08 Sep 2021 06:37:14 -0400
+X-MC-Unique: OHqMdfLIPHeEDOawNAqvxw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 875F919057A0;
+ Wed,  8 Sep 2021 10:37:13 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.39.192.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0630E5C25A;
+ Wed,  8 Sep 2021 10:37:11 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/5] Stop adding HMP-only commands, allow QMP for all
+Date: Wed,  8 Sep 2021 11:37:06 +0100
+Message-Id: <20210908103711.683940-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YTiGc/0K+rupGIgD@gorilla.13thmonkey.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.332, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,105 +75,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Claudio Fontana <cfontana@suse.de>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Thomas
-
-On 9/8/21 11:46 AM, Reinoud Zandijk wrote:
-> On Tue, Sep 07, 2021 at 06:20:33PM +0200, Philippe Mathieu-Daudé wrote:
->> On 7/18/21 3:46 PM, Reinoud Zandijk wrote:
->>> Userland targers will otherwise use a poisoned CONFIG_NVMM
->>
->> Typo "targets", but do you mean bsd-user or linux-user?
-> 
-> Since its on NetBSD, I guess its bsd-user :)
-> 
->> But what is the error you get here?
->>
->> cpu_report_tpr_access() is protected for !CONFIG_USER_ONLY,
->> target/i386/nvmm/ is only build on system emulation.
->>
->> So when can this happen? Last candidate is "sysemu/hw_accel.h";
->> does it really need to include "sysemu/nvmm.h"?
-> 
-> [5560/6718] Compiling C object libcommon.fa.p/hw_core_cpu-common.c.o
-> FAILED: libcommon.fa.p/hw_core_cpu-common.c.o 
-> gcc -Ilibcommon.fa.p -I../slirp -I../slirp/src -I../dtc/libfdt
-> -I../capstone/include/capstone -I. -Iqapi -Itrace -Iui -Iui/shader
-> -I/usr/pkg/include -I/usr/pkg/include/glib-2.0 -I/usr/pkg/lib/glib-2.0/include
-> -I/usr/pkg/include/gio-unix-2.0 -I/usr/X11R7/include
-> -I/usr/pkg/include/spice-1 -I/usr/pkg/include/spice-server
-> -I/usr/X11R7/include/pixman-1 -I/usr/pkg/include/libpng16
-> -I/usr/pkg/include/SDL2 -I/usr/pkg/include/ncursesw
-> -I/usr/X11R7/include/libdrm -I/usr/include -I/usr/pkg/include/ncurses
-> -I/usr/pkg/include/python3.8 -I/usr/include/krb5 -fdiagnostics-color=auto
-> -pipe -Wall -Winvalid-pch -std=gnu11 -O2 -iquote . -iquote
-> /tmp/pkgsrc-gorilla/emulators/qemu-walking/work/qemu-9ad4c7c9b63f89c308fd988d509bed1389953c8b
-> -iquote
-> /tmp/pkgsrc-gorilla/emulators/qemu-walking/work/qemu-9ad4c7c9b63f89c308fd988d509bed1389953c8b/include
-> -iquote
-> /tmp/pkgsrc-gorilla/emulators/qemu-walking/work/qemu-9ad4c7c9b63f89c308fd988d509bed1389953c8b/disas/libvixl
-> -iquote
-> /tmp/pkgsrc-gorilla/emulators/qemu-walking/work/qemu-9ad4c7c9b63f89c308fd988d509bed1389953c8b/tcg/i386
-> -pthread -U_FORTIFY_SOURCE -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64
-> -D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef
-> -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv
-> -Wold-style-declaration -Wold-style-definition -Wtype-limits -Wformat-security
-> -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs
-> -Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=2
-> -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-psabi
-> -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -D_XOPEN_SOURCE_EXTENDED=1
-> -fPIC -D_NETBSD_SOURCE -D_XOPEN_SOURCE=600 -DNCURSES_WIDECHAR -D_REENTRANT
-> -D_THREAD_SAFE -Wno-undef -MD -MQ libcommon.fa.p/hw_core_cpu-common.c.o -MF
-> libcommon.fa.p/hw_core_cpu-common.c.o.d -o
-> libcommon.fa.p/hw_core_cpu-common.c.o -c ../hw/core/cpu-common.c
-> In file included from
-> /tmp/pkgsrc-gorilla/emulators/qemu-walking/work/qemu-9ad4c7c9b63f89c308fd988d509bed1389953c8b/include/sysemu/hw_accel.h:19:0,
->                  from ../hw/core/cpu-common.c:24:
-> /tmp/pkgsrc-gorilla/emulators/qemu-walking/work/qemu-9ad4c7c9b63f89c308fd988d509bed1389953c8b/include/sysemu/nvmm.h:16:8:
-> error: attempt to use poisoned "CONFIG_NVMM"
->  #ifdef CONFIG_NVMM
->         ^
-> [5589/6718] Compiling C object libcommon.fa.p/hw_net_e1000e_core.c.o
-> ninja: build stopped: subcommand failed.
-> 
-> With the patch it works fine.
-> 
-> With regards,
-> Reinoud
-> 
-> 
->>> Signed-off-by: Reinoud Zandijk <Reinoud@NetBSD.org>
->>> ---
->>>  include/sysemu/nvmm.h | 7 ++++---
->>>  1 file changed, 4 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/include/sysemu/nvmm.h b/include/sysemu/nvmm.h
->>> index 6d216599b0..833670fccb 100644
->>> --- a/include/sysemu/nvmm.h
->>> +++ b/include/sysemu/nvmm.h
->>> @@ -10,8 +10,7 @@
->>>  #ifndef QEMU_NVMM_H
->>>  #define QEMU_NVMM_H
->>>  
->>> -#include "config-host.h"
->>> -#include "qemu-common.h"
->>> +#ifdef NEED_CPU_H
->>>  
->>>  #ifdef CONFIG_NVMM
->>>  
->>> @@ -23,4 +22,6 @@ int nvmm_enabled(void);
->>>  
->>>  #endif /* CONFIG_NVMM */
->>>  
->>> -#endif /* CONFIG_NVMM */
->>> +#endif /* NEED_CPU_H */
->>> +
->>> +#endif /* QEMU_NVMM_H */
->>>
-> 
+We are still adding HMP commands without any QMP counterparts. This is=0D
+done because there are a reasonable number of scenarios where the cost=0D
+of designing a QAPI data type for the command is not justified.=0D
+=0D
+This has the downside, however, that we will never be able to fully=0D
+isolate the monitor code from the remainder of QEMU internals. It is=0D
+desirable to be able to get to a point where subsystems in QEMU are=0D
+exclusively implemented using QAPI types and never need to have any=0D
+knowledge of the monitor APIs.=0D
+=0D
+The way to get there is to stop adding commands to HMP only. All=0D
+commands must be implemented using QMP, and any HMP implementation=0D
+be a shim around the QMP implementation.=0D
+=0D
+We don't want to compromise our supportability of QMP long term though.=0D
+=0D
+This series proposes that we relax our requirements around fine grained=0D
+QAPI data design, but with the caveat that any command taking this=0D
+design approach is mandated to use the 'x-' name prefix.=0D
+=0D
+This tradeoff should be suitable for any commands we have been adding=0D
+exclusively to HMP in recent times, and thus mean we have mandate QMP=0D
+support for all new commands going forward.=0D
+=0D
+This series illustrates the concept by converting the "info registers"=0D
+HMP to invoke a new 'x-query-registers' QMP command. Note that only=0D
+the i386 CPU target is converted to work with this new approach, so=0D
+this series needs to be considered incomplete. If we go forward with=0D
+this idea, then a subsequent version of this series would need to=0D
+obviously convert all other CPU targets.=0D
+=0D
+After doing that conversion the only use of qemu_fprintf() would be=0D
+the disas.c file. Remaining uses of qemu_fprintf and qemu_printf=0D
+could be tackled in a similar way and eventually eliminate the need=0D
+for any of these printf wrappers in QEMU.=0D
+=0D
+NB: I added docs to devel/writing-qmp-commands.rst about the two=0D
+design approaches to QMP. I didn't see another good place to put=0D
+an explicit note that we will not add any more HMP-only commands.=0D
+Obviously HMP/QMP maintainers control this in their reviews of=0D
+patches, and maybe that's sufficient ?=0D
+=0D
+NB: if we take this approach we'll want to figure out how many=0D
+HMP-only commands we actually have left and then perhaps have=0D
+a task to track their conversion to QMP. This could possibly=0D
+be a useful task for newbies if we make it clear that they=0D
+wouldn't be required to undertake complex QAPI modelling in=0D
+doing this conversion.=0D
+=0D
+Daniel P. Berrang=C3=A9 (5):=0D
+  docs/devel: document expectations for QAPI data modelling for QMP=0D
+  hw/core: introduce 'format_state' callback to replace 'dump_state'=0D
+  target/i386: convert to use format_state instead of dump_state=0D
+  qapi: introduce x-query-registers QMP command=0D
+  monitor: rewrite 'info registers' in terms of 'x-query-registers'=0D
+=0D
+ docs/devel/writing-qmp-commands.rst |  25 +++=0D
+ hw/core/cpu-common.c                |  15 ++=0D
+ hw/core/machine-qmp-cmds.c          |  28 +++=0D
+ include/hw/core/cpu.h               |  13 +-=0D
+ monitor/misc.c                      |  25 ++-=0D
+ qapi/machine.json                   |  37 ++++=0D
+ target/i386/cpu-dump.c              | 325 +++++++++++++++-------------=0D
+ target/i386/cpu.c                   |   2 +-=0D
+ target/i386/cpu.h                   |   2 +-=0D
+ 9 files changed, 307 insertions(+), 165 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
