@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4900D405E9A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 23:07:38 +0200 (CEST)
-Received: from localhost ([::1]:45262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A639F405F30
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 00:02:55 +0200 (CEST)
+Received: from localhost ([::1]:55356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mORGi-0003K3-T2
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 17:07:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52904)
+	id 1mOS8E-0004Lx-4l
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 18:02:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1mORFW-0002e7-Dy
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 17:06:22 -0400
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:38436)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mOS5n-0003Ij-WA
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 18:00:26 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:35587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1mORFV-00012t-3W
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 17:06:22 -0400
-Received: by mail-qv1-xf2f.google.com with SMTP id z12so2110055qvx.5
- for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 14:06:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:content-transfer-encoding:mime-version:subject:message-id:date
- :cc:to; bh=zWNdv1Lxu6hA4xftpOW/hOYKgR1vaBUT+XW1EYeoyrA=;
- b=ksJ/de18U9Xqw3HDglFxdQs9z81cIXLnYK1Hsq+ugb2WqiWwRB6g8tc7Hn9klNUfGS
- iF/nCy/gdrCWbs2CeIc1Nay8KCW6i927rA4WtgDs64vDGG4utBFCir2MyEs4GN/OrD7U
- Ya2V6tVGm2gUtZUBfweff8oUzgqyLiea5etgsxDGLLYJhmUtEVm5YvmLS6/TDuqxheAX
- 6M2EUMxv8L9oMVOcFqCrO8AfJxEImUWcSJRIat4JSaecZAZdHShb1jnhOvsjWihrsqQ0
- p/nziSgea6CP/+2TkvQpnai29WuRTXC+yOWheHjGwysXVMLc4MkCI0Mdyhm6Bqg1hgVs
- hsEQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mOS5e-00077z-Sm
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 18:00:16 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id i23so694075wrb.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 15:00:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6Cl2yZdNadj4Vqi5aDmByn70CbSXEvo7k1exYJL8Xmo=;
+ b=fi3SwCfZ1jU6G5QlMUKAR4c0GgpUrHY8jT4HXqaHBLnziA7m62gZ1b7nj8fVvDJJlk
+ kHtdIBFKOnB6czhBoAz16oIKunrr4J8sDy0q0CYM+PfN5Ys1PkHIbIrjQfe7i1QZ8RxJ
+ v57mRhFNofkh1XnDvjKtJX6/g3RxP77qw/+P8dk0+1rTN2NyruVO50o9Vmx9XEjUZbhX
+ iyhn1SO0Xsss1OgLaNcvWWefGDeVlPXAFsynZ78HKyKv/wRugRz5+LwFjjlbiVfvREfw
+ VCqBrEDof9VoZ7eWagqRk7hBi95xNvibI/HvCqIEii4gzUODFtYOJSfYNMtkZippk13B
+ GNcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:content-transfer-encoding:mime-version
- :subject:message-id:date:cc:to;
- bh=zWNdv1Lxu6hA4xftpOW/hOYKgR1vaBUT+XW1EYeoyrA=;
- b=Y0zRE++ebG7DivmIgJgCOpD1/S0kuRddpE09uSrM3NIL4kc4rtkYd/NSevRIMpj3i+
- MWhjH14TSWfA+C+3jkYGSuufWTMCEBd9nLbE+FVDzerM5gj6zmm1nWu2kryxxW06apgD
- eejY8OWtP3LkYXABYaEp1nB5C6t3WDbmAbQsO+sJkJfjtIvTwKDsgWED5jwzWP+NNC4U
- Gp8nGeFquETTiRD0/EROTgvXI5p84C6kA1xgAC3ZdsAwK1noOGmtz+/gvN6PgkeizXsI
- Lu8dyfS5ncQqISou7z6DEawqllR5rXw0N4/Y6D6QmkH7d+wYGcGJLpAJ8uiuLohf9hS+
- lHIw==
-X-Gm-Message-State: AOAM530NMFK2ka+kdRingwUbKHpMNMFU31UEvj3kPDCYHnt3aGo5xrPj
- 8M3CNU9r6U+3lBIqNXX87yY=
-X-Google-Smtp-Source: ABdhPJzvWASW7HACmQ0jB2k6JqWT/9V4HxsT8cu8gffACNzvs0rYs+CEai1l87jRdaixb0qRDCJWHw==
-X-Received: by 2002:a0c:f10b:: with SMTP id i11mr5082824qvl.67.1631221579139; 
- Thu, 09 Sep 2021 14:06:19 -0700 (PDT)
-Received: from [192.168.0.5] (d149-67-175-105.try.wideopenwest.com.
- [67.149.105.175])
- by smtp.gmail.com with ESMTPSA id d13sm1854406qtm.32.2021.09.09.14.06.18
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 09 Sep 2021 14:06:18 -0700 (PDT)
-From: Programmingkid <programmingkidx@gmail.com>
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Implementing isochronous transfers in hw/hcd-ohci.c
-Message-Id: <263FF66A-21D7-4D0D-BE37-2D44B484A1EE@gmail.com>
-Date: Thu, 9 Sep 2021 17:06:17 -0400
-To: Gerd Hoffmann <kraxel@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
- envelope-from=programmingkidx@gmail.com; helo=mail-qv1-xf2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6Cl2yZdNadj4Vqi5aDmByn70CbSXEvo7k1exYJL8Xmo=;
+ b=nBdDKfojLxskL322Bj5SPTQnW3AYOL+ko7iwhlJxkn8fBRxhYFhqvJqp3gWwcGpJ33
+ MeiuyPUFiC9q10EoHz3EDwHjZbgSiY94WZmNbgpPs07lguOdE0eAmrEDkmIDidZLqslH
+ 5+6NVFM33VlL933AjiRdLbo/aWri4PzObPIuKQzI6DPJRD1QSEflqOvXgnnun8fh+XgM
+ ZK6gAmHhLL/Z3Z893vDH2f5YuZlssupl8RDVYm7sJgfHlXdUcIoZg0tFpGJCFuYaZowE
+ 5H5qewE5xliLKH4ipZi8p1DTXLXRf0BOvTJoUGF/aKq59EuKe2zPSjotmln5a6sSrNXG
+ 0vcA==
+X-Gm-Message-State: AOAM533wdVnYzLXD/4B5yeichvoWhnEykTDnvOyXe5Hbt1qDEjp2qWDv
+ fuMK4YCbB8yZqhq5zHa9OckyEg==
+X-Google-Smtp-Source: ABdhPJzRv43nfeCnuFtiUoNOEoKt2Je3df9CDrtIkOtSWPoS/LQv7X9T7F1P9dthcEkkc4liuIAelw==
+X-Received: by 2002:adf:82a9:: with SMTP id 38mr6156549wrc.82.1631224806706;
+ Thu, 09 Sep 2021 15:00:06 -0700 (PDT)
+Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id k1sm2793157wrz.61.2021.09.09.15.00.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Sep 2021 15:00:06 -0700 (PDT)
+Subject: Re: [PATCH v11 5/7] [RISCV_PM] Support pointer masking for RISC-V for
+ i/c/f/d/a types of instructions
+To: Alexey Baturo <baturo.alexey@gmail.com>
+References: <20210909190033.1339448-1-space.monkey.delivers@gmail.com>
+ <20210909190033.1339448-6-space.monkey.delivers@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4098b753-76fb-2dad-4922-837061184fc1@linaro.org>
+Date: Fri, 10 Sep 2021 00:00:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+MIME-Version: 1.0
+In-Reply-To: <20210909190033.1339448-6-space.monkey.delivers@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, GAPPY_SUBJECT=0.1,
+ NICE_REPLY_A=-1.975, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,27 +89,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Howard Spoelstra <hsp.cat7@gmail.com>
+Cc: qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, Bin Meng <bin.meng@windriver.com>,
+ qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
+ Alistair.Francis@wdc.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd,
+On 9/9/21 9:00 PM, Alexey Baturo wrote:
+> +++ b/target/riscv/insn_trans/trans_rva.c.inc
+> @@ -25,6 +25,7 @@ static bool gen_lr(DisasContext *ctx, arg_atomic *a, MemOp mop)
+>       if (a->rl) {
+>           tcg_gen_mb(TCG_MO_ALL | TCG_BAR_STRL);
+>       }
+> +    gen_pm_adjust_address(ctx, src1, src1);
 
-Howard and I were talking about USB audio problems with Mac OS guests. =
-We think the issue might be with frames being sent to the USB audio card =
-too soon. My guess is only one frame is suppose to be transmitted every =
-1 millisecond. I was also reading the todo notes in the file =
-hw/hcd-ohci.c. This is what it says:
+This will not work anymore, since src1 may not be a temporary.  See the use of temp_new() 
+e.g. in gen_load().  We're currently only conditionally allocating a temporary; with this 
+extension, we'll always need one.  So it is probably worth cleaning that up at this time.
 
- * TODO:
- *  o Isochronous transfers
- *  o Allocate bandwidth in frames properly
- *  o Disable timers when nothing needs to be done, or remove timer =
-usage
- *    all together.
- *  o BIOS work to boot from USB storage
-*/
 
-Do you think implementing isochronous transfers would fix the audio =
-problems Mac OS guest are experiencing?=
+r~
 
