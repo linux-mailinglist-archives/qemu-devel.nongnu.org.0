@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA4D405E08
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 22:31:14 +0200 (CEST)
-Received: from localhost ([::1]:41754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 691D9405E07
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 22:29:44 +0200 (CEST)
+Received: from localhost ([::1]:38272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOQhV-0005tK-Fj
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 16:31:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46456)
+	id 1mOQg3-0003cI-Gr
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 16:29:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=87996f883=atish.patra@wdc.com>)
- id 1mOQdR-0007IL-0m; Thu, 09 Sep 2021 16:27:01 -0400
+ id 1mOQdW-0007NH-Uo; Thu, 09 Sep 2021 16:27:06 -0400
 Received: from esa5.hgst.iphmx.com ([216.71.153.144]:36123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=87996f883=atish.patra@wdc.com>)
- id 1mOQdM-0000RO-Pg; Thu, 09 Sep 2021 16:27:00 -0400
+ id 1mOQdR-0000RO-Ok; Thu, 09 Sep 2021 16:27:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1631219215; x=1662755215;
+ t=1631219220; x=1662755220;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=2wIHxr3AOsw6Q56/inoJeyfBYd8jqx35ETea16CXlZU=;
- b=NlqmVNDHAUMAKDRby9TOGy1PBw9wcPLCeWB1RCF+zmuqfHzco3V44ZEw
- lYQT1x5nLYk4MndUi8FfsI04q5EhO99evrLrLwc4mCPeHLGVdIbITLKZk
- 8JX6xhZyO8ac6U0X594h8VtN7bq1N+TjtLn0Nlgn+3bbmWstaIU/uFJ+M
- oeCPBA4SvYaRGY2+zgVGZ9qQWxXkc6FwfvruByAPcy5qEFGIdvoTvRLCF
- GMBCPJc8L4fdIvtM759O64B5DdYaRxb+gitRET8nBDdmBATn0lAv1LWp5
- LObwtdKSHIRjKIKGVhP/R62SaLDTDT+eLsoVa6+1dRhyRPLdkFW4Vl3CC w==;
-X-IronPort-AV: E=Sophos;i="5.85,281,1624291200"; d="scan'208";a="179620288"
+ bh=1Tq2p/Ll2dVmYe8pNo+bw4oH6NsBrSJPfOEeR4S1sJs=;
+ b=TrgYaTO8Y8JThBaT5EwUmxAHW0lQUiFLzzdVsxHobxku1+YCjGtYOZSm
+ Lxx2lW6n7lo8Y1/Y2Em7Unj2tO0WPHAQlBs4YP8gFYe25vz4H9M6IPK/y
+ 3fg5A02Y7bRfz1nfAT5SWmQetzcPBZW9q71U46RrCqSFiEdSX7Ri6VE0l
+ DpJ7xg7gzECBdXtuKVsi7QhwAkgKrmosvU9sJEegq4XfGGKOf3f4Tzmr8
+ u7I9SdavtWPMZwlPk0KNNaEj3MMNMFIE/4FgzuzFNmbxiFh7OcNKRuYrV
+ fHtAbJKdjUuSoZZ1dS+jFxxWs95G8Q7eZwLR9kcvTrEcIgArCj0okiIzY A==;
+X-IronPort-AV: E=Sophos;i="5.85,281,1624291200"; d="scan'208";a="179620290"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 10 Sep 2021 04:26:51 +0800
-IronPort-SDR: u2eWsdwEK0dBnLfXV8mz/mDKRHp+2J1hPadsT5ODjqDERHIzwq+4aot8HEfrfHb4iVbx92qeFN
- ZacSf79RVowox5rziK6PNQXcu+QlFdOskP3RQMdTCyueb+fWWyzo2VkGeBzc4G48Y5pBN9cyPE
- O7UoC3MQsSX+U96dVbUEsP6G+BTOfLXKBRGFbrvKPzwd/Wto7NHivhXoQysKRhLWUnXnbNbLgu
- bRrKu4/A88OFVcXGIMB6pEnA/Tneup2OXUw6Rv9YR2s4MMmeIG+YJhKhIupSy46lAJthtJ0s6B
- AY37L28RXIAi3mkYVuInAhCR
+ by ob1.hgst.iphmx.com with ESMTP; 10 Sep 2021 04:26:52 +0800
+IronPort-SDR: 7AC4yI81b0bRIjZcIE7O6VJi4AA9KasVYOf6YPOo0eL5Qx7qosoEmy43nAVZ4nktH/UzbHu7Ui
+ WeAxJjhYHy/76DVzIUYfBAPXOSZjRnzklHJVKam7uVGiMzJkjHQE1bqavegnWveDcWnZB90NxN
+ 3LbBa8207mSbNnJWZ9kc7xiUozEGlbHPgNJkzx0eIOEUSsfQwtWT3XBa/dJxbtXRzTL2GoWirc
+ 1wCpcJZz2oLRizss/rIuYtcAOgTNzums3/R86BI2ZgYa6aoph/SswJ6zhSnfk7NkUyiPQ2ZK7k
+ 7Imn4DmBYbHl2pW/PdH/VoPB
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  09 Sep 2021 13:03:27 -0700
-IronPort-SDR: aNBCTYGmCBIOV+h3e74ZYjbuSI7OG3yAZsSa/AKgukczhD1l9sl/Lw/hfDyGzuzLBVF8CdaRGZ
- 6Uk2GFFMF+ntBGitXIpOkzQgWmBCEhviXnvInhoBx2Oxg+8jBjIMWan8n2h8h9WLSGM2+5DrG8
- YK5H4ek8YDYMZiI4VQr7rs6jI3AKDzWJWnF77G1i42iAmKzjlUpDqzaOiUl0a3a8ZJHiXeuKCI
- 8EXgQO3Ap6ufZYxrk3VC/t8pbBmpnhbot2ce1CGHSPenv31va8QLjjcN9ktM8h4iRivuX3zIF1
- sHg=
+IronPort-SDR: lULnzqMuyJ5lGFqOliLHQdZHKcUtmuyvuEX02A0hioCRdHbLYfI14oTPRiDtvLXnRjG+lCnSQg
+ BopWk4/gkeqsSW7I2ZKszxpQJkUcISFb2MG+vIJlu5SACC/X9amyH/Boxsd78nLMqM62mmjOOZ
+ PpmUSnNyRX60BvXjM5sWxk+xxRAfgz3oMR08xhnYS5C/CvJS8DhiGWzdK+X+oq9z0uyemzA/3+
+ 0QiGuTy+Byw0qs1hh+3RZqht7h2QYMYQDuSrbBzdNVGrbKzHY24bUW7NLqunr5fJINoOuWuFMR
+ fJ0=
 WDCIronportException: Internal
 Received: from unknown (HELO hulk.wdc.com) ([10.225.167.73])
- by uls-op-cesaip02.wdc.com with ESMTP; 09 Sep 2021 13:26:52 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 09 Sep 2021 13:26:53 -0700
 From: Atish Patra <atish.patra@wdc.com>
 To: qemu-devel@nongnu.org
-Subject: [ RFC v2 8/9] target/riscv: Add few cache related PMU events
-Date: Thu,  9 Sep 2021 13:26:38 -0700
-Message-Id: <20210909202639.1230170-9-atish.patra@wdc.com>
+Subject: [ RFC v2 9/9] hw/riscv: virt: Add PMU DT node to the device tree
+Date: Thu,  9 Sep 2021 13:26:39 -0700
+Message-Id: <20210909202639.1230170-10-atish.patra@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210909202639.1230170-1-atish.patra@wdc.com>
 References: <20210909202639.1230170-1-atish.patra@wdc.com>
@@ -86,74 +86,164 @@ Cc: Atish Patra <atish.patra@wdc.com>, Bin Meng <bin.meng@windriver.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Qemu can monitor the following cache related PMU events through
-tlb_fill functions.
+Qemu virt machine can support few cache events and cycle/instret counters.
+It also supports counter overflow for these events.
 
-1. DTLB load/store miss
-3. ITLB prefetch miss
-
-Increment the PMU counter in tlb_fill function.
+Add a DT node so that OpenSBI/Linux kernel is aware of the virt machine
+capabilities.
 
 Signed-off-by: Atish Patra <atish.patra@wdc.com>
 ---
- target/riscv/cpu_helper.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ hw/riscv/virt.c    | 25 +++++++++++++++++++--
+ target/riscv/pmu.c | 55 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 78 insertions(+), 2 deletions(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 968cb8046f49..c86250e1aada 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -21,10 +21,13 @@
- #include "qemu/log.h"
- #include "qemu/main-loop.h"
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 4a3cd2599a5e..197390fe5627 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -28,6 +28,7 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/char/serial.h"
+ #include "target/riscv/cpu.h"
++#include "target/riscv/pmu.h"
+ #include "hw/riscv/riscv_hart.h"
+ #include "hw/riscv/virt.h"
+ #include "hw/riscv/boot.h"
+@@ -42,6 +43,7 @@
+ #include "hw/pci/pci.h"
+ #include "hw/pci-host/gpex.h"
+ #include "hw/display/ramfb.h"
++#include <libfdt.h>
+ 
+ static const MemMapEntry virt_memmap[] = {
+     [VIRT_DEBUG] =       {        0x0,         0x100 },
+@@ -184,14 +186,14 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
+     int i, cpu, socket;
+     MachineState *mc = MACHINE(s);
+     uint64_t addr, size;
+-    uint32_t *clint_cells, *plic_cells;
++    uint32_t *clint_cells, *plic_cells, *pmu_int_cells;
+     unsigned long clint_addr, plic_addr;
+     uint32_t plic_phandle[MAX_NODES];
+     uint32_t cpu_phandle, intc_phandle, test_phandle;
+     uint32_t phandle = 1, plic_mmio_phandle = 1;
+     uint32_t plic_pcie_phandle = 1, plic_virtio_phandle = 1;
+     char *mem_name, *cpu_name, *core_name, *intc_name;
+-    char *name, *clint_name, *plic_name, *clust_name;
++    char *name, *clint_name, *plic_name, *clust_name, *pmu_name;
+     hwaddr flashsize = virt_memmap[VIRT_FLASH].size / 2;
+     hwaddr flashbase = virt_memmap[VIRT_FLASH].base;
+     static const char * const clint_compat[2] = {
+@@ -240,6 +242,7 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
+ 
+         plic_cells = g_new0(uint32_t, s->soc[socket].num_harts * 4);
+         clint_cells = g_new0(uint32_t, s->soc[socket].num_harts * 4);
++        pmu_int_cells = g_new0(uint32_t, s->soc[socket].num_harts * 2);
+ 
+         for (cpu = s->soc[socket].num_harts - 1; cpu >= 0; cpu--) {
+             cpu_phandle = phandle++;
+@@ -282,6 +285,9 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
+             plic_cells[cpu * 4 + 2] = cpu_to_be32(intc_phandle);
+             plic_cells[cpu * 4 + 3] = cpu_to_be32(IRQ_S_EXT);
+ 
++            pmu_int_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandle);
++            pmu_int_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_PMU_OVF);
++
+             core_name = g_strdup_printf("%s/core%d", clust_name, cpu);
+             qemu_fdt_add_subnode(fdt, core_name);
+             qemu_fdt_setprop_cell(fdt, core_name, "cpu", cpu_phandle);
+@@ -291,6 +297,21 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
+             g_free(cpu_name);
+         }
+ 
++        pmu_name = g_strdup_printf("/soc/pmu");
++        qemu_fdt_add_subnode(fdt, pmu_name);
++        qemu_fdt_setprop_string(fdt, pmu_name, "compatible", "riscv,pmu");
++        RISCVCPU cpu = s->soc[0].harts[0];
++        if (cpu.cfg.ext_sscof) {
++            qemu_fdt_setprop_cell(fdt, pmu_name, "#interrupt-cells", 1);
++        qemu_fdt_setprop(fdt, pmu_name, "interrupts-extended",
++                         pmu_int_cells,
++                             s->soc[socket].num_harts * sizeof(uint32_t) * 2);
++        }
++
++        riscv_pmu_generate_fdt_node(fdt, pmu_name);
++        g_free(pmu_int_cells);
++        g_free(pmu_name);
++
+         addr = memmap[VIRT_DRAM].base + riscv_socket_mem_offset(mc, socket);
+         size = riscv_socket_mem_size(mc, socket);
+         mem_name = g_strdup_printf("/memory@%lx", (long)addr);
+diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
+index a4c0044ff822..a93b61daf00a 100644
+--- a/target/riscv/pmu.c
++++ b/target/riscv/pmu.c
+@@ -19,9 +19,64 @@
+ #include "qemu/osdep.h"
  #include "cpu.h"
-+#include "pmu.h"
- #include "exec/exec-all.h"
- #include "tcg/tcg-op.h"
- #include "trace.h"
- #include "semihosting/common-semi.h"
-+#include "cpu.h"
-+#include "cpu_bits.h"
+ #include "pmu.h"
++#include "sysemu/device_tree.h"
  
- int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
- {
-@@ -754,6 +757,28 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
- }
- #endif /* !CONFIG_USER_ONLY */
+ #define RISCV_TIMEBASE_FREQ 1000000000 /* 1Ghz */
  
-+
-+static void pmu_tlb_fill_incr_ctr(RISCVCPU *cpu, MMUAccessType access_type)
++/**
++ * To keep it simple, any event can be mapped to any programmable counters in
++ * QEMU. The generic cycle & instruction count events can also be monitored
++ * using programmable counters. In that case, mcycle & minstret must continue
++ * to provide the correct value as well.
++ */
++void riscv_pmu_generate_fdt_node(void *fdt, char *pmu_name)
 +{
-+    enum riscv_pmu_event_idx pmu_event_type;
++    uint32_t fdt_event_map[6] = {};
++    uint32_t fdt_event_ctr_map[20] = {};
++    uint32_t fdt_raw_event_ctr_map[6] = {};
 +
-+    switch (access_type) {
-+    case MMU_INST_FETCH:
-+        pmu_event_type = RISCV_PMU_EVENT_CACHE_ITLB_PREFETCH_MISS;
-+        break;
-+    case MMU_DATA_LOAD:
-+        pmu_event_type = RISCV_PMU_EVENT_CACHE_DTLB_READ_MISS;
-+        break;
-+    case MMU_DATA_STORE:
-+        pmu_event_type = RISCV_PMU_EVENT_CACHE_DTLB_WRITE_MISS;
-+        break;
-+    default:
-+        return;
-+    }
++    fdt_event_map[0] = cpu_to_be32(0x00000009);
++    fdt_event_map[1] = cpu_to_be32(0x00000000);
++    fdt_event_map[2] = cpu_to_be32(0x00000200);
++    fdt_event_map[3] = cpu_to_be32(0x00010000);
++    fdt_event_map[4] = cpu_to_be32(0x00000100);
++    fdt_event_map[5] = cpu_to_be32(0x00000002);
++    qemu_fdt_setprop(fdt, pmu_name, "pmu,event-to-mhpmevent",
++                     fdt_event_map, sizeof(fdt_event_map));
 +
-+    riscv_pmu_incr_ctr(cpu, pmu_event_type);
++   fdt_event_ctr_map[0] = cpu_to_be32(0x00000001);
++   fdt_event_ctr_map[1] = cpu_to_be32(0x00000001);
++   fdt_event_ctr_map[2] = cpu_to_be32(0x00000FF9);
++   fdt_event_ctr_map[3] = cpu_to_be32(0x00000002);
++   fdt_event_ctr_map[4] = cpu_to_be32(0x00000002);
++   fdt_event_ctr_map[5] = cpu_to_be32(0x00000FFC);
++
++   fdt_event_ctr_map[6] = cpu_to_be32(0x00010019);
++   fdt_event_ctr_map[7] = cpu_to_be32(0x00010019);
++   fdt_event_ctr_map[8] = cpu_to_be32(0x00001F0);
++
++   fdt_event_ctr_map[9] = cpu_to_be32(0x0001001B);
++   fdt_event_ctr_map[10] = cpu_to_be32(0x0001001B);
++   fdt_event_ctr_map[11] = cpu_to_be32(0x00001F0);
++
++   fdt_event_ctr_map[12] = cpu_to_be32(0x00010021);
++   fdt_event_ctr_map[13] = cpu_to_be32(0x00010021);
++   fdt_event_ctr_map[14] = cpu_to_be32(0x00001F0);
++
++   qemu_fdt_setprop(fdt, pmu_name, "pmu,event-to-mhpmcounters",
++                    fdt_event_ctr_map, sizeof(fdt_event_ctr_map));
++
++   fdt_raw_event_ctr_map[0] = cpu_to_be32(0x00000000);
++   fdt_raw_event_ctr_map[1] = cpu_to_be32(0x00020002);
++   fdt_raw_event_ctr_map[2] = cpu_to_be32(0x00000F00);
++   fdt_raw_event_ctr_map[3] = cpu_to_be32(0x00000000);
++   fdt_raw_event_ctr_map[4] = cpu_to_be32(0x00020003);
++   fdt_raw_event_ctr_map[5] = cpu_to_be32(0x000000F0);
++   qemu_fdt_setprop(fdt, pmu_name, "pmu,raw-event-to-mhpmcounters",
++                    fdt_raw_event_ctr_map,
++                    sizeof(fdt_raw_event_ctr_map));
 +}
 +
- bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         MMUAccessType access_type, int mmu_idx,
-                         bool probe, uintptr_t retaddr)
-@@ -851,6 +876,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-             }
-         }
-     } else {
-+        pmu_tlb_fill_incr_ctr(cpu, access_type);
-         /* Single stage lookup */
-         ret = get_physical_address(env, &pa, &prot, address, NULL,
-                                    access_type, mmu_idx, true, false, false);
+ static bool riscv_pmu_counter_valid(RISCVCPU *cpu, uint32_t ctr_idx)
+ {
+     if (ctr_idx < 3 || ctr_idx >= RV_MAX_MHPMCOUNTERS ||
 -- 
 2.31.1
 
