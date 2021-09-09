@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9E1405E16
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 22:38:32 +0200 (CEST)
-Received: from localhost ([::1]:57852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20173405E22
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 22:42:14 +0200 (CEST)
+Received: from localhost ([::1]:38038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOQoZ-0008Lx-5P
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 16:38:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47666)
+	id 1mOQs9-0005bo-5o
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 16:42:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mOQld-0004RC-KZ; Thu, 09 Sep 2021 16:35:29 -0400
+ id 1mOQlk-0004Xm-OZ; Thu, 09 Sep 2021 16:35:37 -0400
 Received: from [201.28.113.2] (port=9947 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mOQlZ-0005xi-MV; Thu, 09 Sep 2021 16:35:28 -0400
+ id 1mOQlj-0005xi-5N; Thu, 09 Sep 2021 16:35:36 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 9 Sep 2021 17:35:15 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 9 Sep 2021 17:35:16 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 54B3D80121D;
- Thu,  9 Sep 2021 17:35:15 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 891D680121D;
+ Thu,  9 Sep 2021 17:35:16 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH 0/2] Require hypervisor privilege for tlbie[l] when PSR=0 and
- HR=1.
-Date: Thu,  9 Sep 2021 17:34:37 -0300
-Message-Id: <20210909203439.4114179-1-matheus.ferst@eldorado.org.br>
+Subject: [PATCH 1/2] target/ppc: add LPCR[HR] to DisasContext and hflags
+Date: Thu,  9 Sep 2021 17:34:38 -0300
+Message-Id: <20210909203439.4114179-2-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210909203439.4114179-1-matheus.ferst@eldorado.org.br>
+References: <20210909203439.4114179-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 09 Sep 2021 20:35:15.0711 (UTC)
- FILETIME=[324CC0F0:01D7A5BA]
+X-OriginalArrivalTime: 09 Sep 2021 20:35:16.0930 (UTC)
+ FILETIME=[3306C220:01D7A5BA]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -62,45 +63,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-While working on FreeBSD radix support, Leandro Lupori (CC'ed) noticed
-that the latest build still fails in KVM but works in TCG[1]. This
-difference occurs because the current implementation of "tlbiel" does
-not validate the instruction parameters and always check for supervisor
-privilege.
+Add a Host Radix field (hr) in DisasContext with LPCR[HR] value to allow
+us to decide between Radix and HPT while validating instructions
+arguments. Note that PowerISA v3.1 does not require LPCR[HR] and PATE.HR
+to match if the thread is in ultravisor/hypervisor real addressing mode,
+so ctx->hr may be invalid if ctx->hv and ctx->dr are set.
 
-This patch series partially address this problem by requiring hypervisor
-privilege for radix mode when PSR=0. The validation of other parameters
-can be done when we move storage control instructions to decodetree.
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+ target/ppc/cpu.h         | 1 +
+ target/ppc/helper_regs.c | 3 +++
+ target/ppc/translate.c   | 2 ++
+ 3 files changed, 6 insertions(+)
 
-[1] To reproduce the issue, grab an ISO from [2] run qemu as
-
-qemu-system-ppc64 -cpu power9 -m 2G \
-    -machine pseries,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off \
-    -boot d -vga none -nographic -cdrom FreeBSD-14.0-CURRENT-powerpc-*.iso
-
-or
-
-qemu-system-ppc64 -cpu power9 -m 2G -enable-kvm \
-    -machine pseries,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off \
-    -boot d -vga none -nographic -cdrom FreeBSD-14.0-CURRENT-powerpc-*.iso
-
-Stop the boot at the prompt and use
-
-OK set radix_mmu=1
-OK boot
-
-[2] https://download.freebsd.org/ftp/snapshots/powerpc/powerpc64/ISO-IMAGES/14.0/
-
-Matheus Ferst (2):
-  target/ppc: add LPCR[HR] to DisasContext and hflags
-  target/ppc: Check privilege level based on PSR and LPCR[HR] in
-    tlbie[l]
-
- target/ppc/cpu.h         |  1 +
- target/ppc/helper_regs.c |  3 +++
- target/ppc/translate.c   | 23 ++++++++++++++++++-----
- 3 files changed, 22 insertions(+), 5 deletions(-)
-
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 500205229c..e1b8d343cd 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -600,6 +600,7 @@ enum {
+     HFLAGS_64 = 2,   /* computed from MSR_CE and MSR_SF */
+     HFLAGS_GTSE = 3, /* computed from SPR_LPCR[GTSE] */
+     HFLAGS_DR = 4,   /* MSR_DR */
++    HFLAGS_HR = 5,   /* computed from SPR_LPCR[HR] */
+     HFLAGS_SPE = 6,  /* from MSR_SPE if cpu has SPE; avoid overlap w/ MSR_VR */
+     HFLAGS_TM = 8,   /* computed from MSR_TM */
+     HFLAGS_BE = 9,   /* MSR_BE -- from elsewhere on embedded ppc */
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index 405450d863..1bfb480ecf 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -106,6 +106,9 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
+     if (env->spr[SPR_LPCR] & LPCR_GTSE) {
+         hflags |= 1 << HFLAGS_GTSE;
+     }
++    if (env->spr[SPR_LPCR] & LPCR_HR) {
++        hflags |= 1 << HFLAGS_HR;
++    }
+ 
+ #ifndef CONFIG_USER_ONLY
+     if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 171b216e17..909a092fde 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -175,6 +175,7 @@ struct DisasContext {
+     bool spe_enabled;
+     bool tm_enabled;
+     bool gtse;
++    bool hr;
+     ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
+     int singlestep_enabled;
+     uint32_t flags;
+@@ -8539,6 +8540,7 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->vsx_enabled = (hflags >> HFLAGS_VSX) & 1;
+     ctx->tm_enabled = (hflags >> HFLAGS_TM) & 1;
+     ctx->gtse = (hflags >> HFLAGS_GTSE) & 1;
++    ctx->hr = (hflags >> HFLAGS_HR) & 1;
+ 
+     ctx->singlestep_enabled = 0;
+     if ((hflags >> HFLAGS_SE) & 1) {
 -- 
 2.25.1
 
