@@ -2,78 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D735405A51
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 17:43:34 +0200 (CEST)
-Received: from localhost ([::1]:45516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC3B405A52
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 17:43:39 +0200 (CEST)
+Received: from localhost ([::1]:45874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOMD7-0004YD-Je
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 11:43:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47504)
+	id 1mOMDC-0004mi-Mr
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 11:43:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1mOMAZ-0002wz-VP
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 11:40:58 -0400
-Received: from mga01.intel.com ([192.55.52.88]:35621)
+ id 1mOMAk-000305-ND
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 11:41:09 -0400
+Received: from mga18.intel.com ([134.134.136.126]:32470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1mOMAJ-0002B9-WD
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 11:40:55 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="243135962"
-X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="243135962"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2021 08:40:37 -0700
+ id 1mOMAi-0002YO-PV
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 11:41:06 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="207932337"
+X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="207932337"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2021 08:41:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="479696333"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
- by orsmga008.jf.intel.com with ESMTP; 09 Sep 2021 08:40:36 -0700
-Received: from fmsmsx605.amr.corp.intel.com (10.18.126.85) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="431867776"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by orsmga003.jf.intel.com with ESMTP; 09 Sep 2021 08:41:02 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 9 Sep 2021 08:40:35 -0700
+ 15.1.2242.12; Thu, 9 Sep 2021 08:41:01 -0700
+Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Thu, 9 Sep 2021 08:41:01 -0700
 Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12 via Frontend Transport; Thu, 9 Sep 2021 08:40:35 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.176)
+ 15.1.2242.12 via Frontend Transport; Thu, 9 Sep 2021 08:41:01 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.107)
  by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.12; Thu, 9 Sep 2021 08:40:35 -0700
+ 15.1.2242.12; Thu, 9 Sep 2021 08:41:01 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cDXphM+HRdMZPVkRelKrc3eF59KR64r1ZDsbkV5EKate6xCnzJJEHgLRTzU38tCQtMtBi6zfUaD1NOFmRlEG8oAEP0n88j571w44EyLCRma0iVkVT1d5qydp9zMrK/gECBYKq6aXg4FCNKBYXK7NcOXv+ZEaubQuM1/Mk9uwnD4hViheWu+6wwfKEWjO1nd8Pim9fCQWqWTgQBaZGnYim4IuEaIQdBQq2as4iDhHBmshQ5X9oNiWJQ6qtb21jDQoHG+NyFt7PRFDNxGrP5HvyVksC8i3NnyuC7/KoUNnas2cYD9nItOV8cwEzTRoXKotO7x8xxxJGBT0HlWA9MZAew==
+ b=Xemd9bPCJ6BfGABlVwFM31wl8eKwRO4MZFI8iw1LxKuHBARroMaaBLKLwvQr9e1+bqFDHdOJ3GbtCCq2QxkFoEJqQIVQzkIejtB7SRuJWiVw9H8m8hfyXzpNGb6Cp9SHcSwkOWBmSmRrXG9jIEK2UiZKXXC+V9KYSNqK3wp5j93mq58ZErvIrWKuTPjolSROhZIU6OIF/diLYUCTxX6UEwJE3m4Ao/RqtA/cZngYPvPeUAIXzLk/nvJPFsOUQHm3x7mqbq1WUWSNGKmnPJui9vCTObrLDelFD9xrnN0dbPQwSge+TGBlLbS6MfbNYO3N8Q0yXDXERk5BMFW0GMXNNA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=Nmf8exIdKKLRbbuQj4X3N1HoB1UNevvLleKhOGucw/A=;
- b=U/YQ+kabkcLDshTQb9l3Fi8DPztckXeQfti7/70mYGBbTViYiBh6rUCvykDEWtrhMXIAUqITC9j5NYnhMQ/zzVPJj7kXuMsN4DsqynMI6/BFb4iuMz22vCaqsrcHgj4HCh9bLGa70/zq4cF96A53B7E/IASg5+5K/MH1tYSF/OyZAsx1O5myROGw2bn+clSA7/7lBcD8ZxMLCpgBKRugP62+xFjn8OWlSj786KnU4J8EgZk+EXg0/uB5UgEmLEmqRZJXxxVb+9G4tKeLh8yGItZ63iwBe2V7kKAYrPb7QSFmOkaIQ/0h8zeTMxmH4mwKH+X48/uY6WJOADLxdYI5wA==
+ bh=ldqSCC3JJGk6qoJTh7BblG14fB44zj2BYYLqOpAMxz0=;
+ b=SVIpVOMO3JqUVW6QFIrSeFOjAiyIWgo3pkwU48GN0quX7xRcqIHJx/FoSLaeSQGr3Vku3SEMOkRCmBVoMk4xFGekkTBcqRxaGbNydzXVmLLvqPPl7ZMCPiyZ03wLT66wpCGum+LjXHSFFi3Ro7CR2J2VOBHWMT4JjYXKTJAxW9EhFfKalJh2xJq38Pr/v0n9Yxk82gBl7cTuZYMUMhgljr5kCGMMh+oA1RLiC4Yfzn4qaq/oGegSb0oy8uj1IETCedL4/03P+zF2Ou1kQGb1LNsXjugGMcCVGVyGNbCiEKN65qHHuTVDA/AE6hr9jCM4/7Fm6Zv1d3ACkOGLfTKXjw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
  s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Nmf8exIdKKLRbbuQj4X3N1HoB1UNevvLleKhOGucw/A=;
- b=Xn1MMMnMu41voeIUUQ+MUlqtFMb1CbqWdXWIBBmQ7VWDpIcAjz7u1qHktKccgi8k+FffVRTADYMd0o++h7WhREq5WvxviE1jQumA5cIikSwG/q4J8suAM2wrV8eOUa4c+u/QPuaw7ms473caKErQbWe6ZqGOhYqdG/S+jOZGY/w=
+ bh=ldqSCC3JJGk6qoJTh7BblG14fB44zj2BYYLqOpAMxz0=;
+ b=beSdAKiUSzLM8kebO2p2RjclchKcC52Zih9KhryebFfjE7PxcfZ4MQCfZXvQzVjnyGSqukWMttY9bXfK2PImwKc2ztmW2OV4G34mdwQBM110rnfHAdlZJk55s3dR//85Z4elE0VHAUw98Rp382XUIhY6he5TwESlXugfp5TKgKk=
 Received: from BN0PR11MB5757.namprd11.prod.outlook.com (2603:10b6:408:165::23)
- by BN7PR11MB2563.namprd11.prod.outlook.com (2603:10b6:406:b0::33)
+ by BN9PR11MB5354.namprd11.prod.outlook.com (2603:10b6:408:11b::7)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.22; Thu, 9 Sep
- 2021 15:40:32 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14; Thu, 9 Sep
+ 2021 15:41:00 +0000
 Received: from BN0PR11MB5757.namprd11.prod.outlook.com
  ([fe80::bde7:7f0a:e0bd:9945]) by BN0PR11MB5757.namprd11.prod.outlook.com
  ([fe80::bde7:7f0a:e0bd:9945%4]) with mapi id 15.20.4500.014; Thu, 9 Sep 2021
- 15:40:32 +0000
+ 15:41:00 +0000
 From: "Zhang, Chen" <chen.zhang@intel.com>
 To: Jason Wang <jasowang@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [PATCH V3 00/10] vhost-vDPA multiqueue
-Thread-Topic: [PATCH V3 00/10] vhost-vDPA multiqueue
-Thread-Index: AQHXo8fW/AYy7p6t70S43PKHjl96Zqub1tUg
-Date: Thu, 9 Sep 2021 15:40:32 +0000
-Message-ID: <BN0PR11MB57572086C11BCCA72B8306019BD59@BN0PR11MB5757.namprd11.prod.outlook.com>
+Subject: RE: [PATCH V3 04/10] vhost-vdpa: let net_vhost_vdpa_init() returns
+ NetClientState *
+Thread-Topic: [PATCH V3 04/10] vhost-vdpa: let net_vhost_vdpa_init() returns
+ NetClientState *
+Thread-Index: AQHXo8ecy29cd7XlCkCkRAIsWcntDaub1bBA
+Date: Thu, 9 Sep 2021 15:41:00 +0000
+Message-ID: <BN0PR11MB575775A2FFB4314AC0A4E99E9BD59@BN0PR11MB5757.namprd11.prod.outlook.com>
 References: <20210907090322.1756-1-jasowang@redhat.com>
-In-Reply-To: <20210907090322.1756-1-jasowang@redhat.com>
+ <20210907090322.1756-5-jasowang@redhat.com>
+In-Reply-To: <20210907090322.1756-5-jasowang@redhat.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -84,63 +91,63 @@ dlp-reaction: no-action
 authentication-results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 030b649b-b968-400c-5553-08d973a828ed
-x-ms-traffictypediagnostic: BN7PR11MB2563:
+x-ms-office365-filtering-correlation-id: a6bd8df7-3bb6-4bc9-dbc3-08d973a8394a
+x-ms-traffictypediagnostic: BN9PR11MB5354:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BN7PR11MB2563EBD18B567EFBEEBE50169BD59@BN7PR11MB2563.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-microsoft-antispam-prvs: <BN9PR11MB53549FBF23F70EEBDDE94DD69BD59@BN9PR11MB5354.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:626;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: imd4YrZ/WaevskmyQWObvaoe6Mpbs65670KGg+ZpNvQkmglxZrTL1erDsT+0OznuozMl4fXHCuuAjKamrnHjUSae8FwwkXLSjNeS6oimDLoDIY3zdh2ISES0XUmzzvb2uzJnvc7Z5GUhR6txqfJohzdVdV7T4uKGmrUynrDPkaY04194Oo1DBn7OY1qRXra/L2dwh+Llv5ndhK4la3vJMJJ+xYrXYsHlamfDdmF1rc+52FPAlKZL7cUjL7nUSQGxbeHefHX37t955P3BLamP5jgc0ldPKFsblxvpBU/V8lOtfQ418bmLhuavhcKxkW9vU4qcXzsVv5aD7nlenSh+zrNbrEF+VAzgDqPe4JYO83NTcr6iQYvwf3wEoOPTDziHIsgjL5ctkdFUgW9kz0rD0KXuuVuAWqzmRnHZYX2y0/R7S+Q29xj1Wy4sypLnAZ51hQdCpmI5GCaxazkCIOIo49MUrvXS3w0pHZJU1aFXq9I1XZvou2D6w2XkWT0CMUleDAEAkpKOg2m9+rBYExwW2Oo816KjFoJ5coqy9UdPTJKOPG6GLD9K8RdpS8FtWjmdwXBPy24j9ZcI/V5QsYxuLMNPJXal4o+H+/OBYVC5ktM5Ivb+g1ud+zFCcuxQnLbr6vN2cULo2WXNAfzSuvqx0Oy28vp/P02Y+JNA0OigPIlxOVhcKs5S0jZUj7dwbJlCTuZTugP31sNLR1qI2BhwmQ==
+x-microsoft-antispam-message-info: KzorsL6AsJh5eIR7bwiiygG7snHvqwMvwRn/VwufRI17TKSWr1neMTGlMDOWDTJ+QWNi7MZ7E9I9RnT93I1v3VG/tDPbvWBgin8h9q1WsLZVYkuf+Ci403lPW+5n3/YON7Zd96MDegx6pXl4mExKhyAD/EniViVSO3pKjiXx52omfFjHRJmXnN7OggVU/IAHZvuHmF2dBrDFm29UBY38RYA7+Vw0pkCwKyniP7ZGTcd4Mc7X3SlJyOD9iSvEe6WEsoD56KZQdn3N6ZnwhAUFp59aclndRUvBD1iLsV+EDuhG9IZR5j3hDdvcVROwiRidRcKZatkUpPBz+o1CuVmYCWVeighTGAdXEWjsf9xycvWcBCSIry3W2YRfQb6Hkgm8X+y0Ji3Azk8d+qQ/yTOyAx1XlhpZE3db2xqoOYcjkcyKpLtD2AYCNjVxzzXTLGJsYX1jkg6H6uqo14xQ7634QeTRfilLJKP9OPcNDlzFz3Ul4yuDGc4kLBYVTjBMhOnCU5YfZGep31YBodiI5cKy60S1VZI/VlDmh2vsLaU8NwBYAEjq1kLzvITBINrRQ0wE2ENZyckAXyZ/JbdTLrXTclWryJc7YKRZfz4JNaeMk/zMiN4YY1TqD/OunrXIfos/s1s4BUkZa7OqproBk5f/xxpcfgow5fHbMn4zG9puo3gzXfEq+aXlpaoqsulRgVBzDjww7+QcbRaw8RUD/YRZew==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BN0PR11MB5757.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(39860400002)(396003)(346002)(136003)(6506007)(316002)(54906003)(7696005)(66446008)(38070700005)(26005)(122000001)(52536014)(186003)(2906002)(53546011)(71200400001)(5660300002)(110136005)(38100700002)(55016002)(33656002)(4326008)(83380400001)(8936002)(9686003)(66946007)(76116006)(66556008)(478600001)(66476007)(8676002)(86362001)(64756008);
+ SFS:(4636009)(346002)(396003)(376002)(39860400002)(136003)(366004)(66476007)(66556008)(316002)(66446008)(26005)(122000001)(64756008)(76116006)(38100700002)(38070700005)(33656002)(66946007)(52536014)(186003)(478600001)(71200400001)(2906002)(86362001)(110136005)(53546011)(6506007)(8936002)(54906003)(83380400001)(7696005)(8676002)(55016002)(4326008)(9686003)(5660300002);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?N8ts4Ld95yV4yF4utsYy70ukJRJzJGLcoN5wvLmU/K+UyiMshsLiPuqv6fWq?=
- =?us-ascii?Q?8cDQpQQr8wxqB1GxPK5FtbE2dUPSWwu6Ra+dkfQ7sg320sp6SD+tcF3blyd2?=
- =?us-ascii?Q?yRoF9oufNkBcNZF4u2WZ6yHTFq2yMw2IL/u81J2wtWaGueYVDDEojJc3h5We?=
- =?us-ascii?Q?WORJbxEpYdYbRRZbyhsBmxn7UPoASx7JpwK83zYQiDSdsJZ2sV+3YcIHrY9B?=
- =?us-ascii?Q?b2hlA2DplAFH8kJz795QoNXtxfZdEVmAzLfweQPoEtr4IrTJGM+pnoEOMtr0?=
- =?us-ascii?Q?T8Ojb1v3926YLapBeDPa1MHBEVa6ODlC6epVY7T5MXwhFcCHqZn83jYwxOuj?=
- =?us-ascii?Q?ka/FZc4PisdOlKLx6UV+sp97+lu0/9+G6jvtv4ZLVG7dS3FmWSE0IH4W6hnO?=
- =?us-ascii?Q?+8JYZJaiTGn1VaAuj4nHKHKmo2bkq56tJZiV739fvKBpVFQHzbIFfMlB4nne?=
- =?us-ascii?Q?B7D2dVi2TgVfWGy0OQcrtxrG+ld1ZQG/5KReRKnZHvsConGwAHAHw51MPWAm?=
- =?us-ascii?Q?vdqjoloBUos/XzqB8dof6SzU7fsCKm5KDvqjaICFTuWtSji+Y4EWj+ZPfwFR?=
- =?us-ascii?Q?iE6sEHwy8MCl9NThEdDbzx4VDtrHIUwLuTYxZldn+w3A22OJKqVluEm7jeLB?=
- =?us-ascii?Q?HH+IVvm1KuW8S+xdF/ndAAjaEohqn1GgiW9hNFuLkNPHAri0LXuQ2rQTkTBV?=
- =?us-ascii?Q?vGAr4dFzyrOKNcl8ZpW4TlSGWX6A+nJuPPlXEdUqE9esiOdVimP15Ucf1vyD?=
- =?us-ascii?Q?fHFUPS4uV0rRyYkyu0GuLpflBbeZJj/TCMZsz6yt63e9sC4YcE0u9DYfSCGp?=
- =?us-ascii?Q?NmopglhltekCLVHLWZryvEuvWT0MtJGHMVoukCCWRfooEaa4o5O0+1ESFFTO?=
- =?us-ascii?Q?IWl25W7XZmtPUayU5L1V5jCoLB73MgUlIISALp0cX2XynhYg2NfpfJFxYjo3?=
- =?us-ascii?Q?poaK3WaJ5i6ifYeHRAaO2zH56pjJCw6hjYfdszQSeGYm1oPOolN9YKjoE9Ia?=
- =?us-ascii?Q?ZWb88M0Qq929fie6zRig7MXRIQ8WvrHoZMp/4BDgjLzj/lHC+H409ur9qC+H?=
- =?us-ascii?Q?22JDl3q3XQrEaSlRLTcQjhCOYVR5ws02ZJN5nqh5iXEWH+j8nztnnS+++h7S?=
- =?us-ascii?Q?Q25E4zcAcDAvqSsRu29O76e2I12ZKiVcltZDl4YE19WKaNx1gBqhs5FLihAb?=
- =?us-ascii?Q?DzKb8ULJIswDJxlga9OPjVugsaJE3FbRbe5WFSzGY3H4n/LYgItdrexK2J6Q?=
- =?us-ascii?Q?M+6XRFuXXe6fSF5A6xFAvhRRS8tWjbdxCWVlAPKxogbwi5SfuD34DwxP7Klu?=
- =?us-ascii?Q?3yLUExMpqEq82aoqVco5oLvG?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?JYuC8HFo9S990lKtduqnE0e7UPb73zh6sNNDqDYcbJxoRAGEknNK1lPrl5Wp?=
+ =?us-ascii?Q?lF6AEJ8d/KhoGMxBIJj1ZcJT1i5jBGL7/WqovJ8GHfhesMhB9MHXVwErNFmm?=
+ =?us-ascii?Q?IpvExmy7oDOxDJ5btMCQn4Z669KafZ8jponQjKbzoXQ+NuVNrmKRBWWqk9XG?=
+ =?us-ascii?Q?0Xq9eXF4FqBGaJ7K6OM0vpVO2FQaxWUfPTnTFMcjejRBCdEBvXrvUosVk32D?=
+ =?us-ascii?Q?5cahSqXmknwPxQxmnFpkuY7K04ufSwe4kaKNNBBCJp2t86gvR4SnjOmzdMTe?=
+ =?us-ascii?Q?FCI1OCDRsVHtO5qg7kO0XgBGDEPNga1WTNJw1GVK7FB8nSMl5x2llOAvJ/Ou?=
+ =?us-ascii?Q?YmL9CL9nzFzp84TCl5i826s63fV2K/WVRBCwHITvz5+khugYk1JtRZXBdxlH?=
+ =?us-ascii?Q?v98V/2tZ6h+3GEBmNFa7WWy7YJCGrNC1m4bPJ/03r7HRoHW3ExPRASN0b7Uk?=
+ =?us-ascii?Q?ZAXOH2fP+5nO4vgFgvaoUhzfsycsLqBrh9jtu/mLAbNgyg9xXndXn/N4+AtC?=
+ =?us-ascii?Q?mvZk2dm2CnGVsFjQyiFvC7dmkxSJG3Hr9t+5B15d232mDWLwj+5kR5JR0pCj?=
+ =?us-ascii?Q?E1yucuaTYQVRxRxW+SaNWAUo55X5YMvAQciK4SC+2FIop6XfpgDAWimc5S2H?=
+ =?us-ascii?Q?77MASxyW0nLsclxIrW9gRC/7ND2y7wO+qk1AxwD+YSxZnGVgpKlYpvd/vgtA?=
+ =?us-ascii?Q?KjDkXpte8ex2YLFf6Q3TVHLVJ7AavKH7NpIcyM+Ol1DBVn1U0p6iLtYCtOBK?=
+ =?us-ascii?Q?3f1LLdXhZiFJeV9JBUyPDaEhKHF/soacNeZU0TVOiD3BJViDyqVt0jv7T+ug?=
+ =?us-ascii?Q?vcb0i09eOREMCJ4H4kKGcitt6GRrzpR3rVtGwOuujAIvRGbZB0LqXIT3kqVa?=
+ =?us-ascii?Q?U4QJEHJupI+aNQ2cShPzowyyo44EA26WIg6jffOChAF24O7SpzuXvmoaOJE2?=
+ =?us-ascii?Q?tojRp/eQOH743/GWkvcqsC4mnhZ5eXIbtrDH6Cb3XdFOv59yaWPC+fXdZXg0?=
+ =?us-ascii?Q?HI5LUOs35jUZaqBaAS6XxHzvg/YEf7dyYAnIU0ims/aZj/WUBUG8+oE1b0hM?=
+ =?us-ascii?Q?BeuE6IsHNu9aWF3RIawl3bFQqsLPavqriHrWYQzM0J9kXA3cwJuv92P5ge8z?=
+ =?us-ascii?Q?PT+YGzOyRH6+2Iy3Fl+31Vywazn4O8Wyu2eXSZ6OnJcVtoI/+1cCl3OjVa8B?=
+ =?us-ascii?Q?KEXIDSd2q1dU+gviQzhbVVMFMWMLijg2uxmua1b7P66CY0U0FOsHfwSLDRsC?=
+ =?us-ascii?Q?DkBQLRAuxUQT+xy/6Td++7WKGfM/7SEaVGm00OY0I88pKvAkxn+5lYm+BPND?=
+ =?us-ascii?Q?uuCw0v+TtghLWp0w2fQDIiPK?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BN0PR11MB5757.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 030b649b-b968-400c-5553-08d973a828ed
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2021 15:40:32.6455 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6bd8df7-3bb6-4bc9-dbc3-08d973a8394a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2021 15:41:00.1567 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pVqZvMOSwDRR4GdUbPUK7/Wf0j1eFGweL7qx/KDiLOOM1KApMA5jfzNfhAbt95yHVVTnqccVScnTP7X9gxVN+w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR11MB2563
+X-MS-Exchange-CrossTenant-userprincipalname: ewpq3fXITK5ZHMKI6E5EZfa1MbRsvwzDew4Sw4usIPg10Gphb72CDaDNGazawYDlo8SgPZNbeiOziGFugywnVw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5354
 X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=chen.zhang@intel.com;
- helo=mga01.intel.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=134.134.136.126;
+ envelope-from=chen.zhang@intel.com; helo=mga18.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -169,71 +176,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > To: mst@redhat.com; jasowang@redhat.com; qemu-devel@nongnu.org
 > Cc: eperezma@redhat.com; elic@nvidia.com; gdawar@xilinx.com; Zhu,
 > Lingshan <lingshan.zhu@intel.com>; lulu@redhat.com
-> Subject: [PATCH V3 00/10] vhost-vDPA multiqueue
+> Subject: [PATCH V3 04/10] vhost-vdpa: let net_vhost_vdpa_init() returns
+> NetClientState *
 >=20
-> Hi All:
+> This patch switches to let net_vhost_vdpa_init() to return NetClientState=
+ *.
+> This is used for the callers to allocate multiqueue NetClientState for
+> multiqueue support.
 >=20
-> This patch implements the multiqueue support for vhost-vDPA. The most
-> important requirement si the control virtqueue support. The virtio-net an=
-d
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>  net/vhost-vdpa.c | 19 ++++++++++++-------
+>  1 file changed, 12 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c index
+> 73d29a74ef..834dab28dd 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -155,8 +155,10 @@ static NetClientInfo net_vhost_vdpa_info =3D {
+>          .has_ufo =3D vhost_vdpa_has_ufo,
+>  };
+>=20
+> -static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
+> -                               const char *name, int vdpa_device_fd)
+> +static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+> +                                           const char *device,
+> +                                           const char *name,
+> +                                           int vdpa_device_fd)
+>  {
+>      NetClientState *nc =3D NULL;
+>      VhostVDPAState *s;
+> @@ -170,8 +172,9 @@ static int net_vhost_vdpa_init(NetClientState *peer,
+> const char *device,
+>      ret =3D vhost_vdpa_add(nc, (void *)&s->vhost_vdpa);
+>      if (ret) {
+>          qemu_del_net_client(nc);
+> +        return NULL;
+>      }
+> -    return ret;
+> +    return nc;
+>  }
+>=20
+>  static int net_vhost_check_net(void *opaque, QemuOpts *opts, Error
+> **errp) @@ -196,7 +199,8 @@ int net_init_vhost_vdpa(const Netdev
+> *netdev, const char *name,
+>                          NetClientState *peer, Error **errp)  {
+>      const NetdevVhostVDPAOptions *opts;
+> -    int vdpa_device_fd, ret;
+> +    int vdpa_device_fd;
+> +    NetClientState *nc;
+>=20
+>      assert(netdev->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
+>      opts =3D &netdev->u.vhost_vdpa;
+> @@ -211,10 +215,11 @@ int net_init_vhost_vdpa(const Netdev *netdev,
+> const char *name,
+>          return -errno;
+>      }
+>=20
+> -    ret =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+> vdpa_device_fd);
+> -    if (ret) {
+> +    nc =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
+> vdpa_device_fd);
+> +    if (!nc) {
+>          qemu_close(vdpa_device_fd);
+> +        return -1;
 
-Typo:
- S/si/is
+It looks like this patch needs to be merged with the 01/10 patch.
+Both related to the changes of " net_vhost_vdpa_init ".
+
+Thanks
+Chen
 
 
-> vhost-net core are tweak to support control virtqueue as if what data que=
-ue
-> pairs are done: a dedicated vhost_net device which is coupled with the
-> NetClientState is intrdouced so most of the existing vhost codes could be
-> reused with minor changes. This means the control virtqueue will bypass t=
-he
-> Qemu. With the control virtqueue, vhost-vDPA are extend to support
-> creating and destroying multiqueue queue pairs plus the control virtqueue=
-.
+>      }
 >=20
-> For the future, if we want to support live migration, we can either do sh=
-adow
-> cvq on top or introduce new interfaces for reporting device states.
->=20
-> Tests are done via the vp_vdpa driver in L1 guest.
->=20
-> Changes since V2:
->=20
-> - rebase to qemu master
-> - use "queue_pairs" instead of "qps"
-> - typo fixes
->=20
-> Changes since V1:
->=20
-> - start and stop vhost devices when all queues were setup
-> - fix the case when driver doesn't support MQ but device support
-> - correctly set the batching capability to avoid a map/unmap storm
-> - various other tweaks
->=20
-> Jason Wang (10):
->   vhost-vdpa: open device fd in net_init_vhost_vdpa()
->   vhost-vdpa: classify one time request
->   vhost-vdpa: prepare for the multiqueue support
->   vhost-vdpa: let net_vhost_vdpa_init() returns NetClientState *
->   net: introduce control client
->   vhost-net: control virtqueue support
->   virtio-net: use "queue_pairs" instead of "queues" when possible
->   vhost: record the last virtqueue index for the virtio device
->   virtio-net: vhost control virtqueue support
->   vhost-vdpa: multiqueue support
->=20
->  hw/net/vhost_net.c             |  55 ++++++++---
->  hw/net/virtio-net.c            | 165 ++++++++++++++++++---------------
->  hw/virtio/vhost-vdpa.c         |  56 +++++++++--
->  include/hw/virtio/vhost-vdpa.h |   1 +
->  include/hw/virtio/vhost.h      |   2 +
->  include/hw/virtio/virtio-net.h |   5 +-
->  include/net/net.h              |   5 +
->  include/net/vhost_net.h        |   6 +-
->  net/net.c                      |  24 ++++-
->  net/vhost-vdpa.c               | 127 ++++++++++++++++++++++---
->  10 files changed, 328 insertions(+), 118 deletions(-)
->=20
+> -    return ret;
+> +    return 0;
+>  }
 > --
 > 2.25.1
 >=20
