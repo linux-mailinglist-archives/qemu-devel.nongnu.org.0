@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97A73404579
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 08:12:18 +0200 (CEST)
-Received: from localhost ([::1]:60568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8184E40456C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 08:08:46 +0200 (CEST)
+Received: from localhost ([::1]:51590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mODIH-0005bJ-MQ
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 02:12:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35154)
+	id 1mODEr-0007pQ-Ij
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 02:08:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1mODCj-0004Ax-53
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 02:06:33 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2230)
+ id 1mODCh-00046c-2I
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 02:06:31 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2920)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1mODCe-000652-Qm
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 02:06:32 -0400
+ id 1mODCe-000653-Md
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 02:06:30 -0400
 Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4H4pQk1KMSz8t0m;
- Thu,  9 Sep 2021 14:05:50 +0800 (CST)
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4H4pLg3zdbzbmNx;
+ Thu,  9 Sep 2021 14:02:19 +0800 (CST)
 Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
  dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -32,10 +32,10 @@ Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
  15.1.2308.8; Thu, 9 Sep 2021 14:06:19 +0800
 From: "Longpeng(Mike)" <longpeng2@huawei.com>
 To: <alex.williamson@redhat.com>, <philmd@redhat.com>, <pbonzini@redhat.com>
-Subject: [PATCH v2 4/9] msix: simplify the conditional in
- msix_set/unset_vector_notifiers
-Date: Thu, 9 Sep 2021 14:06:08 +0800
-Message-ID: <20210909060613.2815-5-longpeng2@huawei.com>
+Subject: [PATCH v2 5/9] msix: reset poll_notifier to NULL if fail to set
+ notifiers
+Date: Thu, 9 Sep 2021 14:06:09 +0800
+Message-ID: <20210909060613.2815-6-longpeng2@huawei.com>
 X-Mailer: git-send-email 2.25.0.windows.1
 In-Reply-To: <20210909060613.2815-1-longpeng2@huawei.com>
 References: <20210909060613.2815-1-longpeng2@huawei.com>
@@ -46,8 +46,8 @@ X-Originating-IP: [10.174.148.223]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpeml100016.china.huawei.com (7.185.36.216)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189; envelope-from=longpeng2@huawei.com;
- helo=szxga03-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
+ helo=szxga01-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -71,39 +71,26 @@ Cc: chenjiashang@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'msix_function_masked' is synchronized with the device's config,
-we can use it to replace the complex conditional statementis in
-msix_set/unset_vector_notifiers.
+'msix_vector_poll_notifier' should be reset to NULL in the error
+path in msix_set_vector_notifiers().
 
 Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
 ---
- hw/pci/msix.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ hw/pci/msix.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/hw/pci/msix.c b/hw/pci/msix.c
-index ae9331c..6768228 100644
+index 6768228..8057709 100644
 --- a/hw/pci/msix.c
 +++ b/hw/pci/msix.c
-@@ -592,8 +592,7 @@ int msix_set_vector_notifiers(PCIDevice *dev,
-     dev->msix_vector_release_notifier = release_notifier;
-     dev->msix_vector_poll_notifier = poll_notifier;
+@@ -611,6 +611,7 @@ undo:
+     }
+     dev->msix_vector_use_notifier = NULL;
+     dev->msix_vector_release_notifier = NULL;
++    dev->msix_vector_poll_notifier = NULL;
+     return ret;
+ }
  
--    if ((dev->config[dev->msix_cap + MSIX_CONTROL_OFFSET] &
--        (MSIX_ENABLE_MASK | MSIX_MASKALL_MASK)) == MSIX_ENABLE_MASK) {
-+    if (!dev->msix_function_masked) {
-         for (vector = 0; vector < dev->msix_entries_nr; vector++) {
-             ret = msix_set_notifier_for_vector(dev, vector);
-             if (ret < 0) {
-@@ -622,8 +621,7 @@ void msix_unset_vector_notifiers(PCIDevice *dev)
-     assert(dev->msix_vector_use_notifier &&
-            dev->msix_vector_release_notifier);
- 
--    if ((dev->config[dev->msix_cap + MSIX_CONTROL_OFFSET] &
--        (MSIX_ENABLE_MASK | MSIX_MASKALL_MASK)) == MSIX_ENABLE_MASK) {
-+    if (!dev->msix_function_masked) {
-         for (vector = 0; vector < dev->msix_entries_nr; vector++) {
-             msix_unset_notifier_for_vector(dev, vector);
-         }
 -- 
 1.8.3.1
 
