@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A723E405FED
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 01:14:51 +0200 (CEST)
-Received: from localhost ([::1]:34336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A2E405FE5
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 01:12:23 +0200 (CEST)
+Received: from localhost ([::1]:55444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOTFq-0006WJ-OC
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 19:14:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45724)
+	id 1mOTDS-0001nL-Mg
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 19:12:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3nZM6YQgKCr40ylesxwlksskpi.gsquiqy-hiziprsrkry.svk@flex--wuhaotsh.bounces.google.com>)
- id 1mOT8V-0004Wf-Ij
+ <3n5M6YQgKCsA20nguzynmuumrk.iuswks0-jk1krtutmt0.uxm@flex--wuhaotsh.bounces.google.com>)
+ id 1mOT8V-0004WW-I6
  for qemu-devel@nongnu.org; Thu, 09 Sep 2021 19:07:15 -0400
-Received: from mail-pj1-x104a.google.com ([2607:f8b0:4864:20::104a]:47044)
+Received: from mail-qt1-x84a.google.com ([2607:f8b0:4864:20::84a]:34368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3nZM6YQgKCr40ylesxwlksskpi.gsquiqy-hiziprsrkry.svk@flex--wuhaotsh.bounces.google.com>)
- id 1mOT8S-0003VF-Lu
+ <3n5M6YQgKCsA20nguzynmuumrk.iuswks0-jk1krtutmt0.uxm@flex--wuhaotsh.bounces.google.com>)
+ id 1mOT8T-0003W0-5g
  for qemu-devel@nongnu.org; Thu, 09 Sep 2021 19:07:15 -0400
-Received: by mail-pj1-x104a.google.com with SMTP id
- u3-20020a17090abb0300b0019567f8a277so88895pjr.1
- for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 16:07:11 -0700 (PDT)
+Received: by mail-qt1-x84a.google.com with SMTP id
+ b24-20020ac86798000000b0029eaa8c35d6so11111675qtp.1
+ for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 16:07:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=rVJ1VxbyIUxfIoxlACN+EEQraZUzQ4oIXvT42LkdnR0=;
- b=taz/ymydJkOjMiVN8+iLW8G0cBbNFQ/dQ8z1tBoyufK/D8YVPFwkUGF/P+dICrV6Ft
- QtrORoewOj/o2+lVhvYVyUreffSQqebdrhzEM7T9bpJhIC7UvK1jY/Ovh2EEymdmeAHp
- yTI+yiodSnnxkhsDeyZeQpiAHWTV8HxWWpljIm1+IaBw2auaHW6i9C2sFg1RTt4VR/VO
- TDmpQvl3cOOvtGGPExjTyyaMPBHgUGZs3yG9gnvAWqmU8BZO2tu9P33jCP5cOL5VJOnJ
- tQcRzO7eGjzCogxur1/TgUM+0cqz1+KsKunNJy0nfJ/kdyC7OWl0dgAbBpaBRuJ4XkBg
- U2hw==
+ h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+ :cc; bh=d+iEWa9+N3kMf5+xiBX1AwgnTOY8ceQH+EygWvgBIa8=;
+ b=K4SOptHYbJtmTnvwp+uXiXEnsQlHmbtFYQtbUCWQbyLZqJrGAw6+O7OziMu0K/Dh9C
+ 9oCon7srTiECUzXotnVO2OlYSahQ3uMXVNq/NdT7EUnVvdxVe4kRmeYhqhRG5YBPpY4M
+ RYFK873aofx4DwF9uAU7/n7b5DOcp1CtlktGxswY7uA9B618cWeJRQ2Rw+C4jzBG7jNO
+ 3lFxTZIwvMfodMYS0A0GVcHCL/2OWHUW41XDHqIY/jFAohgPR9xk/9SoIYVZOplAC9pK
+ G+QUAVB0KbTeE3wVVId50rUUGIadGOhzSl0NXH5cUF5D3YtDgqIe8MKR2UybFbZCmy3O
+ O3WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=rVJ1VxbyIUxfIoxlACN+EEQraZUzQ4oIXvT42LkdnR0=;
- b=N3z5DwSWqf0WjBQLk+ICWYFh+6h+pxa9bdkWFyy+sD5oWdSdJtOJCNUKujaAUGgIqN
- tg30CqI2Ftn+UlOzfpJBax3SNKR5ILbMKBGzmasBHc5QDTG7dJBv+EHUuqrIm4nVIG2K
- 98ncaxmom22pSK9yaa4nIgrktsnj8fzMuFFbb45+rQ+wAcD4a/2bYE2vaD3bkq8cP21o
- nKdLJJlwbTmlVRSFeRhDbhnVplg0kK0ZL1HS6Q2h6c/duY0H0C2O6obQBwifpkIXtPRH
- AgSk3lgIPaNmDXi9FOX/gY6LiorL7bLwD1i4m6p6Ooh4TTLmsxfeudTyY1ySdf9xYdUU
- kepA==
-X-Gm-Message-State: AOAM530A7c0/zP3oRIumaUMfMua199Gr0Gqq4YyM1laViw3ZCw5Ik86H
- +HhZKe4BHZixcfSRC0OlHDRgnFhydiTonQ==
-X-Google-Smtp-Source: ABdhPJwQoLG+akPagjWMy38t1K9A6WXegp2GNvfvqSsbxeUEW36az4uw995eWfaOcee1WX9wKJ4nfHQckJIetQ==
+ h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+ :references:subject:from:to:cc;
+ bh=d+iEWa9+N3kMf5+xiBX1AwgnTOY8ceQH+EygWvgBIa8=;
+ b=CbgqM2hjMs0rm6VTufXPMDYJ8gjug/4DdwZmS1e8kb9JTP8EdpvlSzpVj3OomweCy5
+ 3SecMcAGdh+vPTUa6qm1lwpkgkK0G/pnca/Eh1Z/oCTjS243u27dTVuZf54Lk7RtfnsG
+ YMvtLU9mF0C2r+ztjpcFRjvR/C7g0oiK53Dpo8S/oXGck6vvpxk0407QNplGNg3hm2vx
+ A9rLvfDfzApuWXcHl9hZLXLEJP6FazltPmcuFus6mWT3vH8/DbM2uRGwDslN0wmnecWS
+ ADBZVlgcdM1Dpz1S9nCJPG5JU/Hy9emKD4YtDfK/K2XT7f5RajswqXvrT599d1jWd1PN
+ 4kAg==
+X-Gm-Message-State: AOAM5300fFbnBZUQxUitn3zf20d/hE3TKI/rL/hBgKdRob4ZyMCNsAKy
+ 6uperGP/cTd6GZ5wd5cSBxNBgRVJYRbrAA==
+X-Google-Smtp-Source: ABdhPJwxKv6d0ZFdAgt38/Tt9k4asHmzdqQkjkZRz+LIwXS9SQANCkg/zU3PcRcVB8ay3wizwEnXj9I9fkHKgw==
 X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a17:90a:69a4:: with SMTP id
- s33mr6022689pjj.217.1631228829502; Thu, 09 Sep 2021 16:07:09 -0700 (PDT)
-Date: Thu,  9 Sep 2021 16:06:12 -0700
-Message-Id: <20210909230620.511815-1-wuhaotsh@google.com>
+ (user=wuhaotsh job=sendgmr) by 2002:a05:6214:140a:: with SMTP id
+ n10mr5701030qvx.4.1631228831092; Thu, 09 Sep 2021 16:07:11 -0700 (PDT)
+Date: Thu,  9 Sep 2021 16:06:13 -0700
+In-Reply-To: <20210909230620.511815-1-wuhaotsh@google.com>
+Message-Id: <20210909230620.511815-2-wuhaotsh@google.com>
 Mime-Version: 1.0
+References: <20210909230620.511815-1-wuhaotsh@google.com>
 X-Mailer: git-send-email 2.33.0.309.g3052b89438-goog
-Subject: [PATCH 0/8] Handing IPMI for emulating BMC
+Subject: [PATCH 1/8] docs: enable sphinx blockdiag extension
 From: Hao Wu <wuhaotsh@google.com>
 To: minyard@acm.org
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, wuhaotsh@google.com, 
  venture@google.com, Avi.Fishman@nuvoton.com, kfting@nuvoton.com, 
  hskinnemoen@google.com, titusr@google.com, peter.maydell@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::104a;
- envelope-from=3nZM6YQgKCr40ylesxwlksskpi.gsquiqy-hiziprsrkry.svk@flex--wuhaotsh.bounces.google.com;
- helo=mail-pj1-x104a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::84a;
+ envelope-from=3n5M6YQgKCsA20nguzynmuumrk.iuswks0-jk1krtutmt0.uxm@flex--wuhaotsh.bounces.google.com;
+ helo=mail-qt1-x84a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
 X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,85 +88,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Baseboard Management Controllers (BMCs) are special
-processors that monitors state of a computer, often
-used in data center servers. They often communicate
-via IPMI. As a result, it is important to emulate
-the IPMI interface so that they can connect to host
-machines.
+From: Havard Skinnemoen <hskinnemoen@google.com>
 
-This patch set aims to refactor the existing hw/ipmi
-and make it handles both Core side and BMC side
-emulations. We also added the implementation of the
-KCS module for NPCM7XX BMC boards that work as a backend.
-We have tested this patch on various NPCM7xx based
-systems and they can communicate with a host that runs
-`ipmi-bmc-extern`.
+Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+Signed-off-by: Hao Wu <hskinnemoen@google.com>
+---
+ docs/conf.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-The structure is as follows:
-Patch 1-3 contains some documentation written by
-Havard Skinnomoen that how the emulation of existing
-host-side IPMI and the new BMC-side IPMI works.
-Patch 4-6 refactors the current IPMI code so that
-they work for both host-side and BMC-side.
-Patch 7 adds a new ipmi-host-extern which represents
-BMC-side emulation that is similar to the current
-ipmi-bmc-extern.
-Patch 8 implements the KCS device in NPCM7XX boards. It
-works as a backend to the ipmi-host-extern device. Since
-the direction is different we can't directly use ipmi-kcs.c
-for BMC emulation.
-
-Hao Wu (5):
-  hw/ipmi: Refactor IPMI interface
-  hw/ipmi: Take out common from ipmi_bmc_extern.c
-  hw/ipmi: Move handle_command to IPMICoreClass
-  hw/ipmi: Add an IPMI external host device
-  hw/ipmi: Add a KCS Module for NPCM7XX
-
-Havard Skinnemoen (3):
-  docs: enable sphinx blockdiag extension
-  docs/specs: IPMI device emulation: main processor
-  docs/specs: IPMI device emulation: BMC
-
- configs/devices/arm-softmmu/default.mak |   2 +
- docs/conf.py                            |   6 +-
- docs/specs/index.rst                    |   1 +
- docs/specs/ipmi.rst                     | 170 +++++++
- docs/system/arm/nuvoton.rst             |   1 -
- hw/arm/npcm7xx.c                        |  10 +-
- hw/ipmi/Kconfig                         |   5 +
- hw/ipmi/ipmi.c                          |  15 +-
- hw/ipmi/ipmi_bmc_extern.c               | 417 ++---------------
- hw/ipmi/ipmi_bmc_sim.c                  |  47 +-
- hw/ipmi/ipmi_bt.c                       |   6 +-
- hw/ipmi/ipmi_extern.c                   | 429 +++++++++++++++++
- hw/ipmi/ipmi_extern.h                   |  90 ++++
- hw/ipmi/ipmi_host_extern.c              | 170 +++++++
- hw/ipmi/ipmi_kcs.c                      |   8 +-
- hw/ipmi/isa_ipmi_bt.c                   |   4 +-
- hw/ipmi/isa_ipmi_kcs.c                  |   4 +-
- hw/ipmi/meson.build                     |   4 +-
- hw/ipmi/npcm7xx_kcs.c                   | 588 ++++++++++++++++++++++++
- hw/ipmi/pci_ipmi_bt.c                   |   4 +-
- hw/ipmi/pci_ipmi_kcs.c                  |   4 +-
- hw/ipmi/smbus_ipmi.c                    |  12 +-
- hw/ipmi/trace-events                    |   8 +
- hw/ipmi/trace.h                         |   1 +
- include/hw/arm/npcm7xx.h                |   2 +
- include/hw/ipmi/ipmi.h                  |  54 ++-
- include/hw/ipmi/npcm7xx_kcs.h           | 103 +++++
- meson.build                             |   1 +
- 28 files changed, 1733 insertions(+), 433 deletions(-)
- create mode 100644 docs/specs/ipmi.rst
- create mode 100644 hw/ipmi/ipmi_extern.c
- create mode 100644 hw/ipmi/ipmi_extern.h
- create mode 100644 hw/ipmi/ipmi_host_extern.c
- create mode 100644 hw/ipmi/npcm7xx_kcs.c
- create mode 100644 hw/ipmi/trace-events
- create mode 100644 hw/ipmi/trace.h
- create mode 100644 include/hw/ipmi/npcm7xx_kcs.h
-
+diff --git a/docs/conf.py b/docs/conf.py
+index ff6e92c6e2..ecd0be66a5 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -71,7 +71,11 @@
+ # Add any Sphinx extension module names here, as strings. They can be
+ # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
+ # ones.
+-extensions = ['kerneldoc', 'qmp_lexer', 'hxtool', 'depfile', 'qapidoc']
++extensions = ['kerneldoc', 'qmp_lexer', 'hxtool', 'depfile', 'qapidoc',
++        'sphinxcontrib.blockdiag']
++
++# Fontpath for blockdiag (truetype font)
++blockdiag_fontpath = '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf'
+ 
+ # Add any paths that contain templates here, relative to this directory.
+ templates_path = ['_templates']
 -- 
 2.33.0.309.g3052b89438-goog
 
