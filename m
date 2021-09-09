@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B375405D2A
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 21:08:24 +0200 (CEST)
-Received: from localhost ([::1]:39244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE2F405DF3
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 22:18:43 +0200 (CEST)
+Received: from localhost ([::1]:55962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOPPK-00040T-Ty
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 15:08:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59646)
+	id 1mOQVO-0004cA-7M
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 16:18:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mOPMa-0001Jb-4m
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 15:05:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33025)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mOPMV-00022o-6d
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 15:05:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631214325;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G51EAgedhr1FxW4ZOe/06ann1cdm4Vk3p7x/R0Gk14c=;
- b=hBjdeHJO7XxtaYty7OZkBsSibgjmiLNueQhMgWSqz8oLfnTa2XPrDMhCIMgHfQ4LRY9OmO
- k4O469p+piehf2kJTgD/MPZrNvn03pNNW/Ud+l5kImJ69F2MFCAAC/YT3bePsAF5q8SLUm
- xCG3Nv8BfA5XiR/MgH872wrshQGUPqA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-LUX5BKbeOsCm86MKlCjUSg-1; Thu, 09 Sep 2021 15:05:23 -0400
-X-MC-Unique: LUX5BKbeOsCm86MKlCjUSg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9C581084680;
- Thu,  9 Sep 2021 19:05:21 +0000 (UTC)
-Received: from redhat.com (ovpn-112-181.phx2.redhat.com [10.3.112.181])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D696A100EBBF;
- Thu,  9 Sep 2021 19:05:20 +0000 (UTC)
-Date: Thu, 9 Sep 2021 14:05:19 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH 03/10] block: Use qemu_security_policy_taint() API
-Message-ID: <20210909190519.il2urwstbivtjktc@redhat.com>
-References: <20210908232024.2399215-1-philmd@redhat.com>
- <20210908232024.2399215-4-philmd@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20210908232024.2399215-4-philmd@redhat.com>
-User-Agent: NeoMutt/20210205-739-420e15
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1mOQUT-0003xi-GY
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 16:17:45 -0400
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:34563)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1mOQUR-0002VE-RR
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 16:17:44 -0400
+Received: by mail-qt1-x833.google.com with SMTP id 2so2627737qtw.1
+ for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 13:17:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:subject:from:to:date:mime-version
+ :content-transfer-encoding;
+ bh=Z/hA6GCcoj1kJFnjRttwvB1R1xbyW+o6vO7jPJ0Hq3A=;
+ b=S90vOCX/jUYAkbEmhIAZQIf7Qdm3SeXVxGzLsDwBv7SHOtu5+3rW8wiJnKAh4j5Yl9
+ DDIl5FUaDU92CU87TbpnWkQlEfC8qflLATNclFxAEVHy4W+11U+w0Bo1ZbYqK9kUXFfX
+ MTklHOEzl8nleMDzVWIOecoWr8trrIVyoctQxotCQlQopFShLTIXlGYaXw04KFmNXbFa
+ cHZVEdo7B9Us4saZNaWWSnLaer37jJHGjIi4ZO1eG/PAovtFs2iahpR7jtlgpVr81zUd
+ zCHZN62oDCqWqY4Zavsjnd2LnF070AoqCd/SBuE3cFoT6WvoqqEieNk58eupiEngEbHX
+ 2ujA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:date:mime-version
+ :content-transfer-encoding;
+ bh=Z/hA6GCcoj1kJFnjRttwvB1R1xbyW+o6vO7jPJ0Hq3A=;
+ b=ElXwFcZw2d3QSctQ4tv6ve6aUkc4VjRYwUGsJUhflpw3JUoLyMi8j1wCyhAiQif32z
+ fRY4w56ibFVSZ6zAFDUTbf/dM8c1obMSevK84DGh8hv/Mmmc/8fnnrpDNfm02lklK+t2
+ nuuGFMs1mTMGP2cYQJ+oUqDlfJlBM+IsGky9i/P83CkYfEynNb1sFnR0M+wYAngs0iIS
+ 77HtmzJDAk7cw9Cqmy9pa7Pj9bMmAVE/d0RvrL14UVMqteJ8/kZJGNaSngZ5JFLrzK3h
+ TdDtPYkWqmNJlqxw525tn3YZhVW+Ga03cCtu/1qv9cZpMTRXyufJLxDr/Kq2WsWz/OzC
+ dKdw==
+X-Gm-Message-State: AOAM530Aim6YA9qRTtWmH900cybsrnNpyY18NCbB7pOk6RGliuinPhFb
+ PAi/XvMJgQ8ubuvm46WU754QhH4RQ/WYNw==
+X-Google-Smtp-Source: ABdhPJw+kx1XMmngF+Z0ihRDj5h9t3378XJu10vAmEV0JygZsFv1bghVMtaaFsDBF4Ql3BY/QcaEDA==
+X-Received: by 2002:ac8:4c9c:: with SMTP id j28mr4542704qtv.224.1631218662155; 
+ Thu, 09 Sep 2021 13:17:42 -0700 (PDT)
+Received: from localhost.localdomain
+ (bras-base-stsvon1503w-grc-22-142-114-143-47.dsl.bell.ca. [142.114.143.47])
+ by smtp.gmail.com with ESMTPSA id m5sm2048121qkn.33.2021.09.09.13.17.41
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Sep 2021 13:17:41 -0700 (PDT)
+Message-ID: <bac0b38fc7c5f7a5a1c91784eb7236de39b6f18a.camel@linaro.org>
+Subject: SMMU Stage 2 translation in QEMU
+From: shashi.mallela@linaro.org
+To: QEMU Developers <qemu-devel@nongnu.org>
+Date: Thu, 09 Sep 2021 16:17:40 -0400
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qt1-x833.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,53 +83,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- xen-devel@lists.xenproject.org, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 09, 2021 at 01:20:17AM +0200, Philippe Mathieu-Daudé wrote:
-> Add the BlockDriver::bdrv_taints_security_policy() handler.
-> Drivers implementing it might taint the global QEMU security
-> policy.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  include/block/block_int.h | 6 +++++-
->  block.c                   | 6 ++++++
->  2 files changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/block/block_int.h b/include/block/block_int.h
-> index f1a54db0f8c..0ec0a5c06e9 100644
-> --- a/include/block/block_int.h
-> +++ b/include/block/block_int.h
-> @@ -169,7 +169,11 @@ struct BlockDriver {
->      int (*bdrv_file_open)(BlockDriverState *bs, QDict *options, int flags,
->                            Error **errp);
->      void (*bdrv_close)(BlockDriverState *bs);
-> -
-> +    /*
-> +     * Return %true if the driver is withing QEMU security policy boundary,
+Hi All,
 
-within
+I am trying to understand the approach required for an emulated SMMU to
+convert IPAs(from each qemu guest) to PAs(respective host addresses)
+using stage 2 tables.
 
-> +     * %false otherwise. See: https://www.qemu.org/contribute/security-process/
-> +     */
-> +    bool (*bdrv_taints_security_policy)(BlockDriverState *bs);
->  
->      int coroutine_fn (*bdrv_co_create)(BlockdevCreateOptions *opts,
->                                         Error **errp);
+The questions i have are:-
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+1) Since SMMU stage 2 tables are expected to be created and managed by
+a hypervisor,if there is no kvm support,who is responsible to create
+the stage 2 tables in host memory? is it even a valid use case to
+consider smmu stage 2 support with no hypervisor present?
+
+2) with SMMU emulated by qemu:-
+a) who is responsible for hosting and programming the stage 2 table
+base address registers? 
+b) what are the APIs available in qemu to access the stage 2 tables?
+(will address_space_ API variants apply here?)
+
+3) if each qemu instance (for a guest) emulates an SMMU,will there be a
+need to protect concurrent access of stage 2 table(in host) by each of
+the SMMUs?
+
+Thanks
+Shashi
 
 
