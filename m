@@ -2,91 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC5740481E
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 11:55:27 +0200 (CEST)
-Received: from localhost ([::1]:43486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F67340481F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 11:57:13 +0200 (CEST)
+Received: from localhost ([::1]:45644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOGmE-0002Ng-Sh
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 05:55:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51082)
+	id 1mOGnw-0003wu-0Q
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 05:57:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mOGko-0001CP-W3
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 05:53:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54511)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mOGmA-0002uE-I3
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 05:55:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mOGkm-0002OQ-5j
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 05:53:58 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mOGm8-0003XA-O1
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 05:55:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631181234;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1631181319;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vwr+3pvdxH1NRlgdXk14JF+JyDx/qDTwNZRMxhXGyjE=;
- b=Kyvdfd6JPFtmbyo9bNjcveIEg8umASDrTRRJy7yU8PiIdRAnA7McDFqfofJWFzyvESpSlV
- MCXykKbBUW6uIQMHKml7OBVXbKOOeY5Mf4fQnQJkITZuEOMKG3povZs64OrFU+LmGdW7sZ
- iuC9x5iLbjUK2uym4VFs7hUCyB7C98U=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-PKQBtCnIMAO3VucuhvAiuA-1; Thu, 09 Sep 2021 05:53:52 -0400
-X-MC-Unique: PKQBtCnIMAO3VucuhvAiuA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m16-20020a7bca50000000b002ee5287d4bfso498205wml.7
- for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 02:53:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vwr+3pvdxH1NRlgdXk14JF+JyDx/qDTwNZRMxhXGyjE=;
- b=HuyC0QBjSNxiG5QZCpruxYiGw6/LQ1I4k6SKCENTkaV4E4UEvyB2izRKI8+8DykTAm
- LFIbJBbO/0J56Ht5FiGLmC5ZAdJZTxQXT4cHRqylquo1UWaUHPWZu7gS7YT2oI8eieks
- 5ZlNRE3eUP/kZsx4tZyR7xN2kzEr6KQnM4FgbOCT9LRnxNEDG72URIpTNEPynliqBdRX
- VP1CGSE8EynbFngyraaDM8p2CRVyk7nbcsaSZND29+KeGOfdC3/IiAVSud8aT+dg+wJA
- K44v9n6qsQ2utFNvQ+9Eu702f56FlX1YczCinoPgBJ851w4KpzPT9jPGqhOuWF5os8zq
- hMSw==
-X-Gm-Message-State: AOAM532iNbRzbDnI2o903lTiX++6Be7SwmKDIgazAWzIJ2cpYuywJTDT
- Q8n63RJL+I8XeHeSI+Vt/rFqeyOb7af7RsgeIDRzCGG5WOIJTSQPZ6h6Rz8D27Szz79wPCUbprt
- Hex6psMAjhadzeiE=
-X-Received: by 2002:a7b:c441:: with SMTP id l1mr1908272wmi.69.1631181231051;
- Thu, 09 Sep 2021 02:53:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyIkZfHni7JT96UiXXXKpQ6vrbvW/tTxBRZU6eZ7/YkCglB7MvuULXjbpqr0tqBjlH8EEPhiw==
-X-Received: by 2002:a7b:c441:: with SMTP id l1mr1908267wmi.69.1631181230881;
- Thu, 09 Sep 2021 02:53:50 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id a133sm1238458wme.5.2021.09.09.02.53.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Sep 2021 02:53:50 -0700 (PDT)
-Subject: Re: [RFC PATCH 03/10] block: Use qemu_security_policy_taint() API
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210908232024.2399215-1-philmd@redhat.com>
- <20210908232024.2399215-4-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <eea8a6d7-72b8-9fd6-07cf-b14ab6099833@redhat.com>
-Date: Thu, 9 Sep 2021 11:53:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=Dvg2eo5FyupTRcDpAdAW3z/jdRse5fRbUckfzSISs8Y=;
+ b=MngapUQgKnkzzKWmEtycEaJgvOem2Uol0xFivKoD8SoVqNEDxx87ZGSh3l7lKpP1O6OFvT
+ kcpw2Qss4v6rXzbg8f87iBHfDq7TLJS+NxsCKFg4XllxYL9+1htBqHh9koTuqpF7dhAVwZ
+ wdfI4xiq5EuZLTzdxKeUB+hPetnRhAQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-524-UnosHztAPBW3gq6daqpn5A-1; Thu, 09 Sep 2021 05:55:18 -0400
+X-MC-Unique: UnosHztAPBW3gq6daqpn5A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16E4F84A5E8
+ for <qemu-devel@nongnu.org>; Thu,  9 Sep 2021 09:55:18 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E1FC45453A;
+ Thu,  9 Sep 2021 09:55:16 +0000 (UTC)
+Date: Thu, 9 Sep 2021 10:55:14 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 3/5] target/i386: convert to use format_state instead of
+ dump_state
+Message-ID: <YTnaAkNFWzjuGHzs@redhat.com>
+References: <20210908103711.683940-1-berrange@redhat.com>
+ <20210908103711.683940-4-berrange@redhat.com>
+ <20210908180513.6pvaonrzmq2gchfa@redhat.com>
+ <YTkz6UpDAs4qPrUZ@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210908232024.2399215-4-philmd@redhat.com>
+In-Reply-To: <YTkz6UpDAs4qPrUZ@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.922, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,74 +87,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, xen-devel@lists.xenproject.org,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/9/21 1:20 AM, Philippe Mathieu-Daudé wrote:
-> Add the BlockDriver::bdrv_taints_security_policy() handler.
-> Drivers implementing it might taint the global QEMU security
-> policy.
+On Wed, Sep 08, 2021 at 11:06:33PM +0100, Daniel P. Berrangé wrote:
+> On Wed, Sep 08, 2021 at 01:05:13PM -0500, Eric Blake wrote:
+> > On Wed, Sep 08, 2021 at 11:37:09AM +0100, Daniel P. Berrangé wrote:
+> > > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > > ---
+> > >  target/i386/cpu-dump.c | 325 ++++++++++++++++++++++-------------------
+> > >  target/i386/cpu.c      |   2 +-
+> > >  target/i386/cpu.h      |   2 +-
+> > >  3 files changed, 174 insertions(+), 155 deletions(-)
+> > > 
+> > > diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
+> > > index 02b635a52c..8e19485a20 100644
+> > > --- a/target/i386/cpu-dump.c
+> > > +++ b/target/i386/cpu-dump.c
+> > > @@ -94,41 +94,45 @@ static const char *cc_op_str[CC_OP_NB] = {
+> > >  };
+> > >  
+> > >  static void
+> > > -cpu_x86_dump_seg_cache(CPUX86State *env, FILE *f,
+> > > +cpu_x86_dump_seg_cache(CPUX86State *env, GString *buf,
+> > >                         const char *name, struct SegmentCache *sc)
+> > >  {
+> > >  #ifdef TARGET_X86_64
+> > >      if (env->hflags & HF_CS64_MASK) {
+> > > -        qemu_fprintf(f, "%-3s=%04x %016" PRIx64 " %08x %08x", name,
+> > > -                     sc->selector, sc->base, sc->limit,
+> > > -                     sc->flags & 0x00ffff00);
+> > > +        g_string_append_printf(buf, "%-3s=%04x %016" PRIx64 " %08x %08x", name,
+> > > +                               sc->selector, sc->base, sc->limit,
+> > > +                               sc->flags & 0x00ffff00);
+> > 
+> > Did you consider using open_memstream() to get a FILE* that can then
+> > be passed into these callbacks unchanged, rather than rewriting all
+> > the callbacks to a new signature?
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  include/block/block_int.h | 6 +++++-
->  block.c                   | 6 ++++++
->  2 files changed, 11 insertions(+), 1 deletion(-)
+> That is certainly an option, but it wouldn't eliminate the need to do
+> a rewrite. I would still want to replace qemu_fprintf with fprintf in
+> that scenario. It is desirable to be able to eliminate the QEMU
+> specific printf wrappers which only exist because they need to treat
+> a NULL FILE* object as an indication to output to the HMP chardev.
+> Admittedly that would result in shorter lines than today.
 > 
-> diff --git a/include/block/block_int.h b/include/block/block_int.h
-> index f1a54db0f8c..0ec0a5c06e9 100644
-> --- a/include/block/block_int.h
-> +++ b/include/block/block_int.h
-> @@ -169,7 +169,11 @@ struct BlockDriver {
->      int (*bdrv_file_open)(BlockDriverState *bs, QDict *options, int flags,
->                            Error **errp);
->      void (*bdrv_close)(BlockDriverState *bs);
-> -
-> +    /*
-> +     * Return %true if the driver is withing QEMU security policy boundary,
-> +     * %false otherwise. See: https://www.qemu.org/contribute/security-process/
-> +     */
-> +    bool (*bdrv_taints_security_policy)(BlockDriverState *bs);
->  
->      int coroutine_fn (*bdrv_co_create)(BlockdevCreateOptions *opts,
->                                         Error **errp);
-> diff --git a/block.c b/block.c
-> index b2b66263f9a..696ba486001 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -49,6 +49,7 @@
->  #include "qemu/timer.h"
->  #include "qemu/cutils.h"
->  #include "qemu/id.h"
-> +#include "qemu-common.h"
->  #include "block/coroutines.h"
->  
->  #ifdef CONFIG_BSD
-> @@ -1587,6 +1588,11 @@ static int bdrv_open_driver(BlockDriverState *bs, BlockDriver *drv,
->          }
->      }
->  
-> +    if (drv->bdrv_taints_security_policy) {
-> +        qemu_security_policy_taint(drv->bdrv_taints_security_policy(bs),
-> +                                   "Block protocol '%s'", drv->format_name);
+> > Then again, I like the GString signature better than FILE*, even if it
+> > makes for longer lines.
+> 
+> Yes, the verbosity is not ideal. I like the GString API as a general
+> purpose API for formatting text output to a buffer overall.
+> 
+> I don't feel too strongly either way though, as long as we get to a place
+> where we eliminate the custom QEMU printf wrappers that integrate with
+> the monitor APIs.
 
-Hmm I should check for phase_check(PHASE_MACHINE_READY)
-and qemu_security_policy_is_strict() somehow, to refuse
-adding unsafe drv at runtime instead of exiting...
+I forgot that open_memstream is not portable. The portable alternative
+is fmemopen but that needs to know the buffer size upfront which is
+too unpleasant to use.  So GString is the better portable option.
 
-> +    }
-> +
->      return 0;
->  open_failed:
->      bs->drv = NULL;
-> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
