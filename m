@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE1644048BD
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 12:56:52 +0200 (CEST)
-Received: from localhost ([::1]:40084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A19E4048CA
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 12:58:28 +0200 (CEST)
+Received: from localhost ([::1]:42158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOHjf-00070G-CF
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 06:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34840)
+	id 1mOHlD-00005i-Jj
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 06:58:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mOHfj-0005s3-7B; Thu, 09 Sep 2021 06:52:47 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:46277)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mOHjf-0007fh-IC
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 06:56:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mOHfh-0001sP-NH; Thu, 09 Sep 2021 06:52:46 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id CF34C5C00AB;
- Thu,  9 Sep 2021 06:52:44 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Thu, 09 Sep 2021 06:52:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=6UNo/WDJerRFiEhIbit2GCeSvc4
- FL7Tx0N/WI/w4EL4=; b=a4ff1UIMG7jTBKM6PfbCoi4hELm56m+TDUgnhnLyCfu
- cnm5l8O23aRyq5LEXZki+5Hmo/ZdnJCHZ4PGttos71Gvur2BgRmICouEBQTHHcYZ
- Fs1FADrG6u4GOU40LQPbNkpBEkpqNlZVWqAhbOp44hzRcBZ1ozUZXURSi8+MTbmv
- /6llZH9MsFQDQHDHbcwnGqP+3Q9nI0frPco95W/YUYD6lE/jWF6y/6poTfhAzdQa
- Fl5gHbhAb0UKnPQiY5sGBwgJjiPyjvOYH7EathxFaL7Lypi+jkQr741UAUT+hp4h
- fDdhSPUsDv56ff4Elpl4UoMXOadiX9cafZ8kpRtXxVg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=6UNo/W
- DJerRFiEhIbit2GCeSvc4FL7Tx0N/WI/w4EL4=; b=eqD07IuGCQ91JgH26nNlBs
- gtuVBTds8F4sxrHE573hTr9nDcv9kOrRFkeHsFWZL4JQkiaCpS1Du4YxSH44HKA0
- hE0XkD8cnh5vzpYwOmoox47eSDwN2OG2a0B+L28E0mTbfsjw8q1sIz6+OLNRu5UK
- nF3NhEvG7pgnF2rY08jZgk6IFLo0axOj5SeCOKvY7VB/7WJQkA1zBvmgW/OkzC2Q
- BD1yNc/0L5SG2MzRWIvoEEfJitsBwNROJM6ukPNl67QPHYdhic/YZarTkB4VKSEW
- ARSBFaAoea08QykSwPtcXziqnd102DGsirax2BKg0qsWnz0cAnEJ/iWqwrGn9SyQ
- ==
-X-ME-Sender: <xms:e-c5YaeCX6y5Ia635-nyIyHHn9Z2Lc1Gw_PQks1dEvKvxtCLipSlmg>
- <xme:e-c5YUPH9r9egk_EPlnSK2pbGhLGtMWAsilmJTw-JtOEVHhyW3W7BMQvhgtDJN9Ac
- _xL-XPjIrSHKZSkkpM>
-X-ME-Received: <xmr:e-c5YbhhPTZoPKSH9q_qEBH0wiGPcv5uQ3AxmToe_x3MTkau3-zUdtWibBesrP2wIH-NoJucoKIcbv9Szz0fnke94_pZJDaFwtNpIEwjxNiZBRjaEw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefledgfeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:e-c5YX9XcShB6yaSUDPFWHnJK_QPT5a-Crv7JrxmJPp8cBk6b94sEw>
- <xmx:e-c5YWsfNhROxg7XFuQDXgAN6oKb1x3ngD2brwkxcmDzKEtep3GhnA>
- <xmx:e-c5YeEe0HxppIloRu_p2wttNjzDrQVPjMlYLR327QrF6XTLmzGSZg>
- <xmx:fOc5YaIfL3U3m2uIwTkSArWMEacf51omUCWcBHcyhGc1SIcMKkZbXA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 9 Sep 2021 06:52:42 -0400 (EDT)
-Date: Thu, 9 Sep 2021 12:52:39 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH] hw/nvme: select first free NSID for legacy drive
- configuration
-Message-ID: <YTnnd/ThFAb7OMlf@apples.localdomain>
-References: <20210909095159.122174-1-hare@suse.de>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mOHjc-0005NH-5B
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 06:56:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631185007;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=m8VaXxkl6U6Rqdk0TTHun1PGjCpzFTVuNs2kej6qU7w=;
+ b=aK9qH6QqgEz9bldU+5IIaOXsDYbKAUaNDm51mVLuX8BzvC1/6N7Kb8yDuLRRg22cuaElTm
+ 1innCy44sHLRJcuHGHv79g7z+vh9/Pt5xkUSDLT0pi4DwRnpbMO/rtGjwAT7VcJSXv31jh
+ 55xsYByu6FoI3a2IJulqY4f9IQUieAM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-473-4Wz7aK0gNlazTywP9efKtw-1; Thu, 09 Sep 2021 06:56:46 -0400
+X-MC-Unique: 4Wz7aK0gNlazTywP9efKtw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 688E01093943;
+ Thu,  9 Sep 2021 10:55:14 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A963A6A255;
+ Thu,  9 Sep 2021 10:55:11 +0000 (UTC)
+Date: Thu, 9 Sep 2021 11:55:09 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ xen-devel@lists.xenproject.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [RFC PATCH 03/10] block: Use qemu_security_policy_taint() API
+Message-ID: <YTnoDYpDaj055PnS@redhat.com>
+References: <20210908232024.2399215-1-philmd@redhat.com>
+ <20210908232024.2399215-4-philmd@redhat.com>
+ <YTnkhxWbm3NvGo/T@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UFU8u3d2QqidBmgN"
+In-Reply-To: <YTnkhxWbm3NvGo/T@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210909095159.122174-1-hare@suse.de>
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,81 +91,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Sep 09, 2021 at 11:40:07AM +0100, Daniel P. Berrangé wrote:
+> On Thu, Sep 09, 2021 at 01:20:17AM +0200, Philippe Mathieu-Daudé wrote:
+> > Add the BlockDriver::bdrv_taints_security_policy() handler.
+> > Drivers implementing it might taint the global QEMU security
+> > policy.
+> > 
+> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> > ---
+> >  include/block/block_int.h | 6 +++++-
+> >  block.c                   | 6 ++++++
+> >  2 files changed, 11 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/include/block/block_int.h b/include/block/block_int.h
+> > index f1a54db0f8c..0ec0a5c06e9 100644
+> > --- a/include/block/block_int.h
+> > +++ b/include/block/block_int.h
+> > @@ -169,7 +169,11 @@ struct BlockDriver {
+> >      int (*bdrv_file_open)(BlockDriverState *bs, QDict *options, int flags,
+> >                            Error **errp);
+> >      void (*bdrv_close)(BlockDriverState *bs);
+> > -
+> > +    /*
+> > +     * Return %true if the driver is withing QEMU security policy boundary,
+> > +     * %false otherwise. See: https://www.qemu.org/contribute/security-process/
+> > +     */
+> > +    bool (*bdrv_taints_security_policy)(BlockDriverState *bs);
 
---UFU8u3d2QqidBmgN
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Also as with previous comments, I think we should not refer
+to tainting or the security policy here, but instead simply
+document whether we consider the bdrv to be secure or not.
 
-On Sep  9 11:51, Hannes Reinecke wrote:
-> If a legacy 'drive' argument is passed to the controller we cannot
-> assume that '1' will be a free NSID, as the subsys might already
-> have attached a namespace to this NSID. So select the first free
-> one.
->=20
-> Signed-off-by: Hannes Reinecke <hare@suse.de>
-> ---
->  hw/nvme/ctrl.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 757cdff038..2c69031ca9 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -6546,8 +6546,15 @@ static void nvme_realize(PCIDevice *pci_dev, Error=
- **errp)
-> =20
->      /* setup a namespace if the controller drive property was given */
->      if (n->namespace.blkconf.blk) {
-> +        int i;
->          ns =3D &n->namespace;
-> -        ns->params.nsid =3D 1;
-> +        for (i =3D 1; i <=3D NVME_MAX_NAMESPACES; i++) {
-> +            if (nvme_ns(n, i) || nvme_subsys_ns(n->subsys, i)) {
-> +                continue;
-> +            }
-> +            ns->params.nsid =3D i;
-> +            break;
-> +        }
-> =20
->          if (nvme_ns_setup(ns, errp)) {
->              return;
-> --=20
-> 2.26.2
->=20
+Tainting is merely one action that is taken in accordance with
+the security policy, as a result of the information presented.
 
-Did you actually hit this?
+> >      int coroutine_fn (*bdrv_co_create)(BlockdevCreateOptions *opts,
+> >                                         Error **errp);
+> > diff --git a/block.c b/block.c
+> > index b2b66263f9a..696ba486001 100644
+> > --- a/block.c
+> > +++ b/block.c
+> > @@ -49,6 +49,7 @@
+> >  #include "qemu/timer.h"
+> >  #include "qemu/cutils.h"
+> >  #include "qemu/id.h"
+> > +#include "qemu-common.h"
+> >  #include "block/coroutines.h"
+> >  
+> >  #ifdef CONFIG_BSD
+> > @@ -1587,6 +1588,11 @@ static int bdrv_open_driver(BlockDriverState *bs, BlockDriver *drv,
+> >          }
+> >      }
+> >  
+> > +    if (drv->bdrv_taints_security_policy) {
+> > +        qemu_security_policy_taint(drv->bdrv_taints_security_policy(bs),
+> > +                                   "Block protocol '%s'", drv->format_name);
+> > +    }
+> > +
+> >      return 0;
+> >  open_failed:
+> >      bs->drv = NULL;
+> 
+> Again we need a way to report this via QAPI, but we don't have a natural
+> place is hang this off for introspection before starting a guest.
+> 
+> The best we can do is report the information after a block backend has
+> been instantiated. eg  Modify "BlockInfo" struct to gain
+> 
+>    '*secure': 'bool'
+> 
+> Note I made this an optional field, since unless we mark every single
+> block driver impl straight away, we'll need to cope with the absence
+> of information.
 
-Because then then property checking logic is bad... The device is not
-supposed to allow nvme,drive=3D combined with a subsystem property. In
-nvme_check_constraints():
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-  if (n->namespace.blkconf.blk && n->subsys) {
-    /* error out */
-    return;
-  }
-
-
-
---UFU8u3d2QqidBmgN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmE553YACgkQTeGvMW1P
-DemozQf+OGFyViwNy7Sn0xR8OTxRdCx4UsKNpazWzyPjTHNYE5X2WtoTJn0d/RNQ
-mF8WluJNZ150Dn1Xw6Bq8px9hv9Oo9sCyWvp3aR5NccNPw7XANvJfLT87kKsmQIq
-hacGhzZBeMv6WP+4PGvVL7/mApaYyeChhu4cguOAg7rE4mbFeZEbJlpA5eKe6HNu
-GJOI/WNnUi/fZXVtny1LEswZy1FxikU8qviFXIlYNaaRv29uHlk8rqd4bHAEeh6D
-7zU00NmxDgYia52+nKwfg/barL3bo/fVi+POlqH+zofnzF14iDsoqurq5CF4bsTx
-UDDX1ggOGqI5EEb2+3DkggaF0V254w==
-=Ye85
------END PGP SIGNATURE-----
-
---UFU8u3d2QqidBmgN--
 
