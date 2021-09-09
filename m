@@ -2,75 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9E2405B90
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 18:54:52 +0200 (CEST)
-Received: from localhost ([::1]:55638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7586B405BBC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 19:05:43 +0200 (CEST)
+Received: from localhost ([::1]:59366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mONK7-0001ng-KF
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 12:54:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60612)
+	id 1mONUc-0004lk-5X
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 13:05:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mONJI-000182-PA
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 12:54:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46167)
+ (Exim 4.90_1) (envelope-from <iwj@xenproject.org>)
+ id 1mONRg-00042F-4o
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 13:02:40 -0400
+Received: from mail.xenproject.org ([104.130.215.37]:42326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mONJE-0005iA-4j
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 12:54:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631206435;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hgzvLZ+bps/IMxHY/+cYbgGfrS9AUPdVQ7RxM8iRCZ0=;
- b=IboYGf1IcvGWijfrOpiUKtAK9vJPprk/TYex0CCLLCWiYC2bpLRN7k6KLPO3/rEvxynnhC
- dWvAbHLMUqSSzRmwlv3OUGJjx30gPLo6DnU5QmjNt8nSXpWnf4rNT6UUBGYyG0jOPUMb34
- CWS3bxj88e9MeRqeWlEvdFwcBmBbIe0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-AFFlzRH2MrOdUKzvi8FPRw-1; Thu, 09 Sep 2021 12:53:52 -0400
-X-MC-Unique: AFFlzRH2MrOdUKzvi8FPRw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4617284A5E1;
- Thu,  9 Sep 2021 16:53:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B2431B46B;
- Thu,  9 Sep 2021 16:53:46 +0000 (UTC)
-Date: Thu, 9 Sep 2021 17:53:44 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+ (Exim 4.90_1) (envelope-from <iwj@xenproject.org>)
+ id 1mONRe-000533-6L
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 13:02:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=xenproject.org; s=20200302mail; h=References:In-Reply-To:Subject:Cc:To:Date
+ :Message-ID:Content-Transfer-Encoding:Content-Type:MIME-Version:From;
+ bh=W+eL+NjEJ/HA6q2sb1NNE1A3+f7cB91NgzelvR9305A=; b=U3B44G+nDi42iOKO5PAfU2x6GK
+ yAtJr+bHPR4DupBmqu3dFRM0ntuIN1WQHWeM3Cb3ke6LzNo901RrSRvHiq1YzDUPvtPsdITQTiPn1
+ dSo9V0qWvNidg12WrU/pL1ZinyY12rMoSTYvajq3IS1vX6n09hMxjSHMKM+8rqSHDqyo=;
+Received: from xenbits.xenproject.org ([104.239.192.120])
+ by mail.xenproject.org with esmtp (Exim 4.92)
+ (envelope-from <iwj@xenproject.org>) id 1mONRb-0002f4-Or
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 17:02:35 +0000
+Received: from iwj (helo=mariner.uk.xensource.com)
+ by xenbits.xenproject.org with local-bsmtp (Exim 4.92)
+ (envelope-from <iwj@xenproject.org>) id 1mONRb-00070S-Nk
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 17:02:35 +0000
+Received: from iwj by mariner.uk.xensource.com with local (Exim 4.89)
+ (envelope-from <iwj@xenproject.org>)
+ id 1mONRV-0006y3-8t; Thu, 09 Sep 2021 18:02:29 +0100
+From: Ian Jackson <iwj@xenproject.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
+Message-ID: <24890.15908.689806.862379@mariner.uk.xensource.com>
+Date: Thu, 9 Sep 2021 18:02:28 +0100
+To: Daniel P. =?iso-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
 Subject: Re: [RFC v3 13/32] rust: use vendored-sources
-Message-ID: <YTo8GPGphaD4Xx3b@redhat.com>
+In-Reply-To: <YTo7C9h6DxZDYdL9@redhat.com>
 References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
  <20210907121943.3498701-14-marcandre.lureau@redhat.com>
  <CAFEAcA-=P+p7etUiLUzDxDzfe8N6TQyLC5=ExTSzgG4iOh0-dQ@mail.gmail.com>
- <CAJ+F1C+xL5_2c+7pSequokT-0yJ=pUT2V81iX_A_WLyVsWywEQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJ+F1C+xL5_2c+7pSequokT-0yJ=pUT2V81iX_A_WLyVsWywEQ@mail.gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ <YTo7C9h6DxZDYdL9@redhat.com>
+X-Mailer: VM 8.2.0b under 24.5.1 (i686-pc-linux-gnu)
+Received-SPF: pass client-ip=104.130.215.37; envelope-from=iwj@xenproject.org;
+ helo=mail.xenproject.org
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.975,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,86 +71,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Ian Jackson <iwj@xenproject.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 09, 2021 at 08:29:58PM +0400, Marc-Andr√© Lureau wrote:
-> Hi
-> 
-> On Thu, Sep 9, 2021 at 8:04 PM Peter Maydell <peter.maydell@linaro.org>
-> wrote:
-> 
-> > On Tue, 7 Sept 2021 at 13:32, <marcandre.lureau@redhat.com> wrote:
-> > >
-> > > From: Marc-Andr√© Lureau <marcandre.lureau@redhat.com>
-> > >
-> > > Most likely, QEMU will want tighter control over the sources, rather
-> > > than relying on crates.io downloading, use a git submodule with all the
-> > > dependencies. However, cargo --offline was added in 1.36.
-> > >
-> > > "cargo vendor" helps gathering and updating the dependencies.
-> > >
-> > > Signed-off-by: Marc-Andr√© Lureau <marcandre.lureau@redhat.com>
-> > > ---
-> > >  configure                 | 8 ++++++++
-> > >  meson.build               | 7 ++++++-
-> > >  .cargo/config.toml.in     | 5 +++++
-> > >  .cargo/meson.build        | 5 +++++
-> > >  .gitmodules               | 4 ++++
-> > >  rust/vendored             | 1 +
-> > >  scripts/archive-source.sh | 2 +-
-> > >  scripts/cargo_wrapper.py  | 1 +
-> > >  8 files changed, 31 insertions(+), 2 deletions(-)
-> > >  create mode 100644 .cargo/config.toml.in
-> > >  create mode 100644 .cargo/meson.build
-> > >  create mode 160000 rust/vendored
+Daniel P. BerrangÈ writes ("Re: [RFC v3 13/32] rust: use vendored-sources"):
+> Yes, distros do have machinery for this, although it is often
+> hard to fit in with it when you have a mixed language project.
+> Their machinery typically assumes pure single language project,
+> so would work nicer if any QEMU rust pieces were separately
+> released from the rest of QEMU. Obviously this is easier said
+> than done since QEMU tends towards a monolothic repo approach
+> historically.
 
-> > Overall, I think that to the extent that we can look like a "normal"
-> > user of Rust, that's a good plan. Distros may well want to be able
-> > to do "build against our packaged rust stuff rather than downloading
-> > from crates.io" but I imagine they have machinery for that already;
-> > if we act like most other Rust programs we have better chances of
-> > not breaking that machinery.
-> >
-> 
-> True, at least on Fedora, there is machinery to package "regular" Rust
-> programs/crates in an automated way.  Vendoring dependencies should work
-> equally, but may not conform with distro policies, so they have extra work
-> eventually (it seems vendoring is more and more common though, with go
-> projects for example)
+Right.
 
-I wouldn't assume that we're going to be able to use that RPM support
-for rust, if we bundle our rust code inside the QEMU tarball and hidden
-behind meson. It generally only works well in single language projects
-using the preferred build tool exclusively (Cargo in this case).
+However, for a project that has Rust dependencies, the distros will
+(or will soon need) machinery to divert the
+langage-specific-package-manager downloads to their own repo.  For
+example, the Debian Rust team provide a .cargo/config.toml to replace
+crates.io with the local Debian Rust packages, which the Debian
+package management system has provided via the (translated)
+build-dependencies.
+
+Debian certainly wouldn't want to use any vendored crates bundled with
+Qemu.  Indeed Debian people hate vendoring more than they hate
+language specific package managers.  At least with the LSPM you can
+usually nobble it in one place - ie many of the problems can be solved
+automatically.  Vendoring typically involves playing whack-a-mole with
+compatibility problems, actually-modified versions, etc. - much human
+work (and quite annoying work too!)  (Of course this is less of an
+issue if you don't actually modify the vendored code, but anyone who
+knows Rust and sees a vendored Rust crate will think it's been
+modified.)
 
 > > (I'm not personally a fan of the "download everything from crates.io"
 > > Rust ecosystem, but it is what it is, and wishing the Rust world
 > > worked more like a trad Linux-distro-provides-all-your-dependencies
 > > isn't, alas, going to make it so :-))
-> >
-> >
-> A nice alternative to vendoring that could work well for QEMU is to mirror
-> the Rust crate we use, so we have similar control and guarantee over them
-> as submodules, and use `[patch.crates-io]` to point at qemu-project
-> locations.
+> 
+> Yes, I'm inclined to agree here. For better or worse the battle is
+> over and "download everything from <repo> on the fly" is the accepted
+> approach for pretty much all modern languages. The language specific
+> repo essentially is the OS distro from their POV.
 
-The Cargo metadata specifies the versions we'll get so we have full
-control over what deps are pulled in. All the mirroring our do is to
-cope with occassions where the main crate download website is
-inaccessible for some reason. I'm not convinced that's enough to
-justify creating extra work for ourselves through mirroring. 
+To be honest, I am of the same mind as you about cargo and crates.io
+(and things like it) But I think the ship has sailed.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+At least, committing the Cargo.lock file will ensure that the same
+versions of the dependencies are used - at least by people who don't
+know anything much about Rust.
 
+Marc-AndrÈ Lureau writes ("Re: [RFC v3 13/32] rust: use vendored-sources"):
+> A nice alternative to vendoring that could work well for QEMU is to
+> mirror the Rust crate we use, so we have similar control and
+> guarantee over them as submodules, and use `[patch.crates-io]` to
+> point at qemu-project locations.
+
+This is a very reasonable suggestion.  In my experience crates.io is
+very reliable - but (as a test system onwer myself) I know how much
+you want to reduce the number of different sites whose upness your CI
+depends on, no matter how good their communities think they are :-).
+
+I think there should be a documented config option to disable this.
+People who know enough Rust to run `cargo update` etc. will need it,
+and having them hand-hack the config files is not really desirable.
+
+Ian.
 
