@@ -2,53 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C804F40460D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 09:20:39 +0200 (CEST)
-Received: from localhost ([::1]:57110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27BA540460B
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 09:20:02 +0200 (CEST)
+Received: from localhost ([::1]:56098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOEMQ-000259-T3
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 03:20:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47688)
+	id 1mOELo-0001Q8-Lj
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 03:20:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mOEKz-0000lo-F5
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 03:19:09 -0400
-Received: from mga05.intel.com ([192.55.52.43]:61112)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mOEKY-0000OT-3L
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 03:18:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mOEKs-0008NZ-RA
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 03:19:09 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="306272982"
-X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; d="scan'208";a="306272982"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2021 00:18:59 -0700
-X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; d="scan'208";a="504101419"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.144.101])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 09 Sep 2021 00:18:57 -0700
-Date: Thu, 9 Sep 2021 15:05:03 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 3/7] i386: Add sgx_get_info() interface
-Message-ID: <20210909070503.GF21362@yangzhon-Virtual>
-References: <20210908081937.77254-1-yang.zhong@intel.com>
- <20210908081937.77254-4-yang.zhong@intel.com>
- <b8008d89-1b18-de17-59b9-557e59f499b8@redhat.com>
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mOEKU-00084N-Pn
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 03:18:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631171917;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=UBHjiwpUuh97Dvg4zs7RAeG+PIXhLzmqqlO36TF65tg=;
+ b=SBdtj2XffH9sTyzQATHAo9Os/wS3EdvsCjPLUas2uXdit//lJI8+xGxtNPjw0W8XYduInE
+ LAGuoRoR7ThmRd1PZ0lcDZTaoGFFahQ1YM7JguqR+vY4hQzUUTbT8Q31LTB72mPPOOyCWr
+ DFrIKYkjGiuHWwplx4+uCotLMqRprgg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-490-7i3FUI9tPbac_OxvcIQcxw-1; Thu, 09 Sep 2021 03:18:36 -0400
+X-MC-Unique: 7i3FUI9tPbac_OxvcIQcxw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r4-20020a1c4404000000b002e728beb9fbso471521wma.9
+ for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 00:18:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=UBHjiwpUuh97Dvg4zs7RAeG+PIXhLzmqqlO36TF65tg=;
+ b=YxFN4WnMkFYjyQhMMtrTPANP6dix5HfyLlCAR4kbPm9BmpGLtNq8w/0msLayjvlpsQ
+ kIkB1/QFslj+DgTyQpOeH6ZQmSpMldpKelHY0+ICuQoi2stB44HyjRLXLra7wUXVutMQ
+ KFyLcShxKunK3qVYnyGzar7ZggaEf1icMdrOqcrnbBns7WLBrVnCIFBwudR4nl9AerIG
+ uYbULSYzO4II/c5CPUL0ebDL8EZQ/O7tw5Xwr9f2pBAtFc1HfBnx/YAFtaY2P1qo18C8
+ 6yT1HZHYL+++a0UvVTMi8fcCPROPBbbyniRfPrcr9wd+NG1A9amwGc9bd6VKgv5uO8Gn
+ S1hA==
+X-Gm-Message-State: AOAM530w73Gjd+s5FOKzziPbtUCoSZvE7Mi+R7BwEojPHtN8CqPQPwWI
+ xIn7yJ1/3A3ZUZJ2xXQXjSqEl8vLcoGqDy8arqr5NEr/uCVCjItsfN4FCo61korqaVj/iWyeh7h
+ LzRGKrCY1iEGazis=
+X-Received: by 2002:adf:e101:: with SMTP id t1mr1711850wrz.215.1631171914946; 
+ Thu, 09 Sep 2021 00:18:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy8facpyxmutBW9wm4tau8aM5q5Z2ODLEIL/jVI62tA4tUufdv05wuQLs3nPa5wxdPKZ4bGhA==
+X-Received: by 2002:adf:e101:: with SMTP id t1mr1711830wrz.215.1631171914779; 
+ Thu, 09 Sep 2021 00:18:34 -0700 (PDT)
+Received: from localhost (static-41-120-85-188.ipcom.comunitel.net.
+ [188.85.120.41])
+ by smtp.gmail.com with ESMTPSA id z1sm781941wmi.34.2021.09.09.00.18.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Sep 2021 00:18:34 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Lukas Straub <lukasstraub2@web.de>
+Subject: Re: [PATCH] multifd: Implement yank for multifd send side
+In-Reply-To: <20210901175857.0858efe1@gecko.fritz.box> (Lukas Straub's message
+ of "Wed, 1 Sep 2021 17:58:57 +0200")
+References: <20210901175857.0858efe1@gecko.fritz.box>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Thu, 09 Sep 2021 09:18:33 +0200
+Message-ID: <8735qecj3q.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b8008d89-1b18-de17-59b9-557e59f499b8@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=yang.zhong@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,34 +95,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, pbonzini@redhat.com, eblake@redhat.com,
- qemu-devel@nongnu.org, seanjc@google.com
+Reply-To: quintela@redhat.com
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 08, 2021 at 10:55:13AM +0200, Paolo Bonzini wrote:
-> On 08/09/21 10:19, Yang Zhong wrote:
-> >+    if (x86ms->sgx_epc_list) {
-> >+        PCMachineState *pcms = PC_MACHINE(ms);
-> >+        SGXEPCState *sgx_epc = &pcms->sgx_epc;
-> >+        info = g_new0(SGXInfo, 1);
-> >+
-> >+        info->sgx = true;
-> >+        info->sgx1 = true;
-> >+        info->sgx2 = true;
-> >+        info->flc = true;
-> 
-> Since this is querying the actual machine, it should check the CPUID
-> bits of the first CPU, instead of just returning true.
-> 
+Lukas Straub <lukasstraub2@web.de> wrote:
+> When introducing yank functionality in the migration code I forgot
+> to cover the multifd send side.
+>
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> Tested-by: Leonardo Bras <leobras@redhat.com>
+> Reviewed-by: Leonardo Bras <leobras@redhat.com>
 
-  Paolo, this interface is only for checking SGX info from VM side by
-  motinor or QMP tools, the SGXInfo *sgx_get_capabilities(Error **errp)
-  in the patch5 check the host cpuid info to get the SGX related CPU bit
-  info, like sgx,flc,sgx1,and sgx2 bit info. so here, if x86ms->sgx_epc_list
-  is setting, those bits info in the VM side are all ture. thanks!
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-  Yang
- 
-> Paolo
 
