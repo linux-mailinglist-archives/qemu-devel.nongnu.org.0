@@ -2,72 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8414A404649
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 09:36:00 +0200 (CEST)
-Received: from localhost ([::1]:41240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB2140463F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 09:35:00 +0200 (CEST)
+Received: from localhost ([::1]:38298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOEbJ-0002we-DL
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 03:36:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49144)
+	id 1mOEaK-0000ln-T5
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 03:35:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mOEVO-00071x-Pp
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 03:29:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46639)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mOEWY-0007cl-Ez
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 03:31:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mOEV8-0007xK-0a
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 03:29:51 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mOEW7-00088V-Hx
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 03:31:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631172576;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Tdst716VyPJCdE2QCvxTV9ujbkBD84olipipZD/dQ00=;
- b=QA0E6ChH8nwJk6i3mayzMWLC3W+rNlUHlO+6uKNBZGNHKfUuoW1tL1J/7URL0SMUekyqHn
- rSiZRzhyhI1VitBvMY+p3CRo0oqzKkfjR0h8/jYRr9xH6yL8Oq/5Y9GLS+//7bnlfU043K
- eO190iqWTF3xTq3/qT+6ALU0jzqbNDY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-u-3_SN7mMXyulEtO0sbPEw-1; Thu, 09 Sep 2021 03:29:35 -0400
-X-MC-Unique: u-3_SN7mMXyulEtO0sbPEw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B2C519057A1;
- Thu,  9 Sep 2021 07:29:34 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.148])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CBA161346F;
- Thu,  9 Sep 2021 07:29:30 +0000 (UTC)
-Date: Thu, 9 Sep 2021 08:29:29 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH RFC server v2 07/11] vfio-user: handle DMA mappings
-Message-ID: <YTm32dLTFn48M2Xj@stefanha-x1.localdomain>
-References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
- <cover.1630084211.git.jag.raman@oracle.com>
- <9fe8660c83c290e8985add3bd7e6a1e57631891f.1630084211.git.jag.raman@oracle.com>
+ s=mimecast20190719; t=1631172638;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=m+0hXAjDuVXRjidJWy9+wWwbUvpcSMIRDzNu+TWxBUE=;
+ b=fyKlBJid2IhdkCdrfzQsVFBVxokRXMBOZUDlc0Eqgx0BwoxvkduDKRXE4h/Lc3EbUhwzcA
+ e5LC8/qscaKmDgMp9CYgP+2h36cWY63RY9MBo+u7luNqXCdqp+XLmShFmYwHllvnLCilBh
+ lp4bF3ZoVsIDh0KqcjDEVflcy6reXvM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-544-tX_lxzttNjiLmYaKdNaSTQ-1; Thu, 09 Sep 2021 03:30:37 -0400
+X-MC-Unique: tX_lxzttNjiLmYaKdNaSTQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ p29-20020a1c545d000000b002f88d28e1f1so413911wmi.7
+ for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 00:30:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=m+0hXAjDuVXRjidJWy9+wWwbUvpcSMIRDzNu+TWxBUE=;
+ b=OxUQtVBzoGaCZq0eKDsRJhdivndsKl4rsn2g9wXysDKHwkuIFB0xCFTn21EqbDS7bv
+ XCZk/Xkx9izn9F5kl7Ayi7QtAhWxtcM46+m4e50GXecXMfy0JS5tqpWoZcnzf4fMcIV3
+ tVOTNOkOIi6WIEyyC21yiApQ6wIxFWP0XwrG+PIzPUnZThP6hCK705hUNXnkrm+UioUy
+ OQPxjwm6jGyzOhf1a9dzehStE+jOxQV9Gw5P+N7A9rucIdLIpHTqJdOHvUdtUojsGl7K
+ hWjBef8DoJu0PHlMAOc2sZklocpFwKL1Nz9PS28nnGAThYZwp8m/vo3c1smBVarryRI5
+ gYUg==
+X-Gm-Message-State: AOAM531LcFnzkTTWKbQhOcTP23pIRYUyYWd1ueETbfLlvAiDIuqeYhFK
+ zZLBo1L4weumrYRDmIyNLj7+LAhsmkgSSfgNU19H6jPu/fYnT2N4YPA6ktDcM1K5M2/6K3juM4A
+ 6oK6JnIRpfTIv/VE=
+X-Received: by 2002:a05:600c:215a:: with SMTP id
+ v26mr1363920wml.152.1631172635870; 
+ Thu, 09 Sep 2021 00:30:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwnZlu26fsiD/PlWSA+bf+NTRoMJJzJKH2/PN3c9ksmEiQEoScEpAJb6GwG1CM+PvkUI+UsPg==
+X-Received: by 2002:a05:600c:215a:: with SMTP id
+ v26mr1363907wml.152.1631172635741; 
+ Thu, 09 Sep 2021 00:30:35 -0700 (PDT)
+Received: from localhost (static-41-120-85-188.ipcom.comunitel.net.
+ [188.85.120.41])
+ by smtp.gmail.com with ESMTPSA id c9sm915166wrf.77.2021.09.09.00.30.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Sep 2021 00:30:35 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Li Zhijian <lizhijian@cn.fujitsu.com>
+Subject: Re: [PATCH v2 2/2] migration: allow enabling mutilfd for specific
+ protocol only
+In-Reply-To: <20210731140552.8818-2-lizhijian@cn.fujitsu.com> (Li Zhijian's
+ message of "Sat, 31 Jul 2021 22:05:52 +0800")
+References: <20210731140552.8818-1-lizhijian@cn.fujitsu.com>
+ <20210731140552.8818-2-lizhijian@cn.fujitsu.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Thu, 09 Sep 2021 09:30:34 +0200
+Message-ID: <87pmtib3z9.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <9fe8660c83c290e8985add3bd7e6a1e57631891f.1630084211.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cUm9We+jwzcbOAW7"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,48 +99,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
- swapnil.ingle@nutanix.com, john.levon@nutanix.com, philmd@redhat.com,
- qemu-devel@nongnu.org, alex.williamson@redhat.com, marcandre.lureau@gmail.com,
- thanos.makatos@nutanix.com, alex.bennee@linaro.org
+Reply-To: quintela@redhat.com
+Cc: dgilbert@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---cUm9We+jwzcbOAW7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Li Zhijian <lizhijian@cn.fujitsu.com> wrote:
+> And change the default to true so that in '-incoming defer' case, user is able
+> to change multifd capability.
+>
+> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 
-On Fri, Aug 27, 2021 at 01:53:26PM -0400, Jagannathan Raman wrote:
-> Define and register callbacks to manage the RAM regions used for
-> device DMA
->=20
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->  hw/remote/vfio-user-obj.c | 50 +++++++++++++++++++++++++++++++++++++++++=
-++++++
->  hw/remote/trace-events    |  2 ++
->  2 files changed, 52 insertions(+)
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---cUm9We+jwzcbOAW7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE5t9kACgkQnKSrs4Gr
-c8jI7Af/a9+YnXY+Oah2144qZH47Naxlq4MDyEwmXwfQ8L734xoh8PBGM8Kl3MCH
-O48rPpA87ZwelVurwdB+tp2XidDQ2I8BAeNNK8rmFFJe70XV379ZA6GiamR1Jbii
-hOZskVkf00RsNxlFMKghwUywkmwDs418Bev5djo58xvHWCxvDM7Zi1wa+WhLI7g5
-wHYD0AQm/sUt7rr6x9QNBlKjlDJiyrU1x59XtGYHYUmXyxkRif8jmWSdI8d+WEKY
-BwDkJMAdbw+7dCmcNYfzDhF2Tzn6jHN5w3KvJ62hYaYyAY5AILoWT3VZgvhWQdgR
-XxTVpjaaP2d+/gHV+Qe0uyH3yrKVAQ==
-=iqJs
------END PGP SIGNATURE-----
-
---cUm9We+jwzcbOAW7--
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 
