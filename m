@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCBF3405A87
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 18:12:10 +0200 (CEST)
-Received: from localhost ([::1]:49188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F80D405A86
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 18:12:02 +0200 (CEST)
+Received: from localhost ([::1]:48822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOMem-0001zC-QP
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 12:12:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52696)
+	id 1mOMef-0001jH-JF
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 12:12:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mOMdd-0000Xd-IN
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 12:10:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44263)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mOMdW-0000Tm-KH
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 12:10:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57920)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mOMdb-0002FV-F2
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 12:10:57 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mOMdT-000298-Cr
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 12:10:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631203853;
+ s=mimecast20190719; t=1631203845;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5oE0YJt76t+Jdxm+0KYNqIJ6lfw57FFM8kg0xYa4d9o=;
- b=DEwYyCBz1RysZl64llwJQJyJn4dca+mgrW5S7Taulw+3y0qRCpMW855mXS5ialCqbovIv8
- H0kuBMG1hWj4xtQnDyh5HH8Gf5PGv911WjDJdRE+TOPYBmN+30JcrdZD9fflI26ziU5w7/
- f1SdrN8Xa0Vl02+fVIFjvJzDqnhDT8c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-1cdlraMRPmmg_6H6Nvxptw-1; Thu, 09 Sep 2021 12:10:52 -0400
-X-MC-Unique: 1cdlraMRPmmg_6H6Nvxptw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A5B71097909;
- Thu,  9 Sep 2021 16:08:13 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0724769FAE;
- Thu,  9 Sep 2021 16:08:10 +0000 (UTC)
-Date: Thu, 9 Sep 2021 17:08:08 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] coroutine: resize pool periodically instead of limiting
- size
-Message-ID: <YToxaOCMsLTLp4+M@redhat.com>
-References: <20210901160923.525651-1-stefanha@redhat.com>
- <YTnHwJ/0O4rk7M7g@redhat.com>
- <YTotkCiuqTeDgJJ0@stefanha-x1.localdomain>
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=q7PFWHEC2YCRHRP0DTBDbDO8ypuKDIGBWZ6rKPLn29E=;
+ b=I6msOpB8MG2vP8DPybZXVdZ6aLgZsBS5N72NNJNLdhIGqggcpiCRVEyXwyCl90hsOYZTb0
+ Yhu/yNRAyj9DUNLYvVwbLdgbrGUnLMBrsJ+pXb4h+MaDnWkY6kzx0GsgBNvJzKidsxawIk
+ PnPoR6Sjflmloq4WOdZL06pnrlaS+M8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-73-sHdpfMAXPr6KvoUfW_TnZg-1; Thu, 09 Sep 2021 12:10:42 -0400
+X-MC-Unique: sHdpfMAXPr6KvoUfW_TnZg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ i16-20020adfded0000000b001572ebd528eso675895wrn.19
+ for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 09:10:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=q7PFWHEC2YCRHRP0DTBDbDO8ypuKDIGBWZ6rKPLn29E=;
+ b=5KIs0ePOI5HvjbJPehOX3BNSW6lCOYzL2Dr4kC/lcTRhmqQO0JYQXd47dm4ROrfRPI
+ OgLJ8gfpJ+mArKclj61dN9nlVZ5yXa1LPkdqixBTcsjfRLbVJIarazZlKUF9oXkyF1tZ
+ tqMt1VKep3BwJRlttgGF60NZWqrPoseYE+QW44Kb6CjNNPwwVs5AaAMAoIjxQ3aw0kHQ
+ +bhspxqlxEho8yDc975jLDQpBWOA/EdQJ5DJshgM/9DbLi180tQM4Bfc317GG80L3rnK
+ JG0kCcWTHAC65gle0KLB5+QrPIT8m6aJAXLIsXBayAwqDZW1UlaBgbDT9tUto5kYXiQn
+ TtKQ==
+X-Gm-Message-State: AOAM531a/7KKnhxtFM9Q9P7gC9+rtOmiLwsh0IAoC84goI9bGXtTp1L2
+ wMzt91NsBFfkiSTaiPgVKYbORk6EHV2y4yzED0Yg/h3EJ/Omopbj3IA7C3qrZeSvdzjH1k1Rtap
+ gxStmJOaFM/ojv2E=
+X-Received: by 2002:a5d:58cf:: with SMTP id o15mr4522036wrf.312.1631203840829; 
+ Thu, 09 Sep 2021 09:10:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxkhMJlAYaVxwvWI/PQDlmiMziGoCGd1NFpK+9gZ39qcgb0WlBUicISdgDlv1oTEziE/E0IHQ==
+X-Received: by 2002:a5d:58cf:: with SMTP id o15mr4522011wrf.312.1631203840565; 
+ Thu, 09 Sep 2021 09:10:40 -0700 (PDT)
+Received: from localhost (static-201-64-63-95.ipcom.comunitel.net.
+ [95.63.64.201])
+ by smtp.gmail.com with ESMTPSA id c14sm2184174wrr.58.2021.09.09.09.10.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Sep 2021 09:10:40 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: "Li, Zhijian" <lizhijian@cn.fujitsu.com>
+Subject: Re: [PULL 0/7] Migration.next patches
+In-Reply-To: <f02237fb-852d-8449-e90d-97a59bcf51e8@cn.fujitsu.com> (Zhijian
+ Li's message of "Thu, 9 Sep 2021 22:48:22 +0800")
+References: <20210909103346.1990-1-quintela@redhat.com>
+ <CAFEAcA-LSVj3B-xgPFMTz49D=KoRx1W7_HKjFf1bHEYdBGVgPA@mail.gmail.com>
+ <f02237fb-852d-8449-e90d-97a59bcf51e8@cn.fujitsu.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Thu, 09 Sep 2021 18:10:39 +0200
+Message-ID: <87fsudn30g.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <YTotkCiuqTeDgJJ0@stefanha-x1.localdomain>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -84,62 +97,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Tingting Mao <timao@redhat.com>,
- qemu-devel@nongnu.org, Honghao Wang <wanghonghao@bytedance.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Daniele Buono <dbuono@linux.vnet.ibm.com>, Serge Guelton <sguelton@redhat.com>
+Reply-To: quintela@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 09, 2021 at 04:51:44PM +0100, Stefan Hajnoczi wrote:
-> On Thu, Sep 09, 2021 at 09:37:20AM +0100, Daniel P. Berrangé wrote:
-> > On Wed, Sep 01, 2021 at 05:09:23PM +0100, Stefan Hajnoczi wrote:
-> > > It was reported that enabling SafeStack reduces IOPS significantly
-> > > (>25%) with the following fio benchmark on virtio-blk using a NVMe host
-> > > block device:
-> > > 
-> > >   # fio --rw=randrw --bs=4k --iodepth=64 --runtime=1m --direct=1 \
-> > > 	--filename=/dev/vdb --name=job1 --ioengine=libaio --thread \
-> > > 	--group_reporting --numjobs=16 --time_based \
-> > >         --output=/tmp/fio_result
-> > > 
-> > > Serge Guelton and I found that SafeStack is not really at fault, it just
-> > > increases the cost of coroutine creation. This fio workload exhausts the
-> > > coroutine pool and coroutine creation becomes a bottleneck. Previous
-> > > work by Honghao Wang also pointed to excessive coroutine creation.
-> > > 
-> > > Creating new coroutines is expensive due to allocating new stacks with
-> > > mmap(2) and mprotect(2). Currently there are thread-local and global
-> > > pools that recycle old Coroutine objects and their stacks but the
-> > > hardcoded size limit of 64 for thread-local pools and 128 for the global
-> > > pool is insufficient for the fio benchmark shown above.
-> > 
-> > Rather than keeping around a thread local pool of coroutine
-> > instances, did you ever consider keeping around a pool of
-> > allocated stacks ? Essentially it seems like you're syaing
-> > the stack allocation is the problem due to it using mmap()
-> > instead of malloc() and thus not benefiting from any of the
-> > performance tricks malloc() impls use to avoid repeated
-> > syscalls on every allocation.  If 'qemu_alloc_stack' and
-> > qemu_free_stack could be made more intelligent by caching
-> > stacks, then perhaps the coroutine side can be left "dumb" ?
-> 
-> What is the advantage of doing that? Then the Coroutine struct needs to
-> be malloced each time. Coroutines are the only users of
-> qemu_alloc_stack(), so I think pooling the Coroutines is optimal.
+"Li, Zhijian" <lizhijian@cn.fujitsu.com> wrote:
+> on 2021/9/9 21:42, Peter Maydell wrote:
+>> On Thu, 9 Sept 2021 at 11:36, Juan Quintela <quintela@redhat.com> wrote:
+>> Fails to build, FreeBSD:
+>>
+>> ../src/migration/rdma.c:1146:23: error: use of undeclared identifier
+>> 'IBV_ADVISE_MR_ADVICE_PREFETCH_WRITE'
+>>      int advice = wr ? IBV_ADVISE_MR_ADVICE_PREFETCH_WRITE :
+>>                        ^
+>> ../src/migration/rdma.c:1147:18: error: use of undeclared identifier
+>> 'IBV_ADVISE_MR_ADVICE_PREFETCH'
+>>                   IBV_ADVISE_MR_ADVICE_PREFETCH;
+>>                   ^
+>> ../src/migration/rdma.c:1150:11: warning: implicit declaration of
+>> function 'ibv_advise_mr' is invalid in C99
+>> [-Wimplicit-function-declaration]
+>>      ret = ibv_advise_mr(pd, advice,
+>>            ^
+>> ../src/migration/rdma.c:1151:25: error: use of undeclared identifier
+>> 'IBV_ADVISE_MR_FLAG_FLUSH'
+>>                          IBV_ADVISE_MR_FLAG_FLUSH, &sg_list, 1);
+>>                          ^
+>>
+> it's introduced by [PULL 4/7] migration/rdma: advise prefetch write for ODP region
+> where it calls a ibv_advise_mr(). i have checked the latest FreeBSD, it didn't ship with this API
+> May i know if just FressBSD reports this failure? if so, i just need filtering out FreeBSD only
 
-I mostly thought it might lead itself to cleaner implementation if the
-pooling logic is separate from the main coroutine logic. It could be
-easier to experiment with different allocation strategies if the code
-related to pooling is well isolated.
+Second try.  I can't see an example where they search for:
+a symbol on the header file
+  and
+a function in a library
 
-Regards,
-Daniel
+so I assume that if you have the symbols, you have the function.
+
+How do you see it?
+
+Trying to compile it on vm-build-freebsd, but not being very sucessfull
+so far.
+
+Later, Juan.
+
+From e954c1e0afc785a98d472201dafe75a7e7126b1d Mon Sep 17 00:00:00 2001
+From: Juan Quintela <quintela@redhat.com>
+Date: Thu, 9 Sep 2021 17:07:17 +0200
+Subject: [PATCH] rdma: test for ibv_advise_mr API
+
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ meson.build      | 3 +++
+ migration/rdma.c | 2 ++
+ 2 files changed, 5 insertions(+)
+
+diff --git a/meson.build b/meson.build
+index 7e58e6279b..c2eb437df4 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1375,6 +1375,9 @@ config_host_data.set('HAVE_SIGEV_NOTIFY_THREAD_ID',
+ config_host_data.set('HAVE_STRUCT_STAT_ST_ATIM',
+                      cc.has_member('struct stat', 'st_atim',
+                                    prefix: '#include <sys/stat.h>'))
++config_host_data.set('CONFIG_RDMA_IBV_ADVISE_MR',
++                     cc.has_header_symbol('infiniband/verbs.h', 'IBV_ADVISE_MR_ADVICE_PREFETCH') and
++                     cc.has_header_symbol('infiniband/verbs.h', 'IBV_ADVISE_MR_ADVICE_PREFETCH_WRITE'))
+ 
+ config_host_data.set('CONFIG_EVENTFD', cc.links('''
+   #include <sys/eventfd.h>
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 6c2cc3f617..f0d78597fb 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -1142,6 +1142,7 @@ static void qemu_rdma_advise_prefetch_mr(struct ibv_pd *pd, uint64_t addr,
+                                          uint32_t len,  uint32_t lkey,
+                                          const char *name, bool wr)
+ {
++#ifdef CONFIG_RDMA_IBV_ADVISE_MR
+     int ret;
+     int advice = wr ? IBV_ADVISE_MR_ADVICE_PREFETCH_WRITE :
+                  IBV_ADVISE_MR_ADVICE_PREFETCH;
+@@ -1155,6 +1156,7 @@ static void qemu_rdma_advise_prefetch_mr(struct ibv_pd *pd, uint64_t addr,
+     } else {
+         trace_qemu_rdma_advise_mr(name, len, addr, "successed");
+     }
++#endif
+ }
+ 
+ static int qemu_rdma_reg_whole_ram_blocks(RDMAContext *rdma)
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.31.1
 
 
