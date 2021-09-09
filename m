@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 336C0405A78
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 17:56:05 +0200 (CEST)
-Received: from localhost ([::1]:33016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8943405A80
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 18:06:16 +0200 (CEST)
+Received: from localhost ([::1]:44426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOMPE-00073q-9L
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 11:56:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49622)
+	id 1mOMZ4-0006tZ-Mt
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 12:06:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mOMMU-0005m4-56
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 11:53:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54522)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mOMMQ-0004Kc-97
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 11:53:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631202788;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ho4fGLzWKv9i5ni42SoOi8bAMj5QcYavlDRdxfG21UE=;
- b=RUYC/Gu3AlqBRaHRytueyI//IBZod8Bqtgrt+z6HjHIH6IimribiMXt8ai2tPlZB7/zBsJ
- 6SCA44XbTlzUJWcVtQdvYCtuIHVPKsa+7VQIS6O1kG1irVD2wBMOAwhOQMOo9qm3KyXc3u
- 7s0g334UpEgBdknc7PF1jJnqBQVjuPc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-NZG9bm5iOTyitadk-zX-qw-1; Thu, 09 Sep 2021 11:53:05 -0400
-X-MC-Unique: NZG9bm5iOTyitadk-zX-qw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 703C984A5E5;
- Thu,  9 Sep 2021 15:53:04 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0FA0C5D9F4;
- Thu,  9 Sep 2021 15:53:03 +0000 (UTC)
-Date: Thu, 9 Sep 2021 16:53:03 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Subject: Re: [PATCH] coroutine: resize pool periodically instead of limiting
- size
-Message-ID: <YTot306rqLhNO4wA@stefanha-x1.localdomain>
-References: <20210901160923.525651-1-stefanha@redhat.com>
- <YTCG/pLmM4d0TTeH@stefanha-x1.localdomain>
- <677df3db-fb9d-f64d-62f5-98857db5e6e6@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mOMVt-0003Y8-78
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 12:02:57 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:54024)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mOMVp-00041N-8J
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 12:02:56 -0400
+Received: by mail-wm1-x330.google.com with SMTP id i3so1721534wmq.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 09:02:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=QkjNKNvINq4/buCSUf35IGRkJyrt5zOGbKj5nu+IXMs=;
+ b=Ft0X5S1yWbT/xK7VJxSYvCzQT3N1cSlVZUFRU12wf7Bb66jjiidzt073PwiO64iE26
+ eYj3UUpP8TxSs3anVkTWuANIsh5xHlva7AuKn3w3LjUNJE4MyQybX6PoR4gzB1+BABIC
+ J1EebG99GdXbiJtl8lLHjB3Ral2ETH0TDsMW5DNanRT+GgAUIONiycDfVXXg9FOuQZXz
+ K5T84mMcpXT0gAYNZ9s3AIypqF8KHSc4722q+RJyLExajTNcQ1ZTiK5ogcWhTipyyT8e
+ OjZbHkrFnjaTh/JGfPN/yZaGEW6yAuNE8Pe3yLluKZHViJjOxEXhydwWVWjdkFpTq+Vn
+ A4rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=QkjNKNvINq4/buCSUf35IGRkJyrt5zOGbKj5nu+IXMs=;
+ b=x2FRJ/kp9O5euFwx+sz/KR5Xh9v63CRIiTfkG1SR9ewgWhbWPOwWZSRnsMXGM2RLC2
+ PQbOd5E/XBjD2fqqX74zyYRunCd3ipwmHlAZPXAM+WFRLN3u/fOngGtP8Lp26y3OWs3N
+ pfjLdODncBaqVolP8WO0VG4Wrmb/JHd6O2gdLHp1vetTRY7AeFGKvF38poei4V/MiuGR
+ 6GcK1h0zg5ShmC66O55tW6NeMWwTMNUxOK4/1qCoHxEWa5IVON33VBf+rwIPSYt5qQPC
+ aRMhvh+ZEm7aiSyWf9Wy+ib94hi3XWtB1qS4hb8S+AliKVXj67tRprrQ9CfAykm+Hxp6
+ jzsA==
+X-Gm-Message-State: AOAM531CmsNopCHorv3AJMfydek2oM/fpGQIdW960Jemhvre3Nn5qzPw
+ Vh4Ccdx7hou6YPWmYsZX9ADAaIrlO7TEQ3FkVASXww==
+X-Google-Smtp-Source: ABdhPJzGnYBAEoT3prm+Y0u4JSVtzYfJ0VbdQtAxCyIqHZjc5NRfKUDpEKlSZsSNOq5LC4k9JjLbETV32AWyIGASUMg=
+X-Received: by 2002:a05:600c:4f46:: with SMTP id
+ m6mr3796027wmq.133.1631203371021; 
+ Thu, 09 Sep 2021 09:02:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <677df3db-fb9d-f64d-62f5-98857db5e6e6@linux.vnet.ibm.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="iesmLzelmYBl8amX"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
+ <20210907121943.3498701-14-marcandre.lureau@redhat.com>
+In-Reply-To: <20210907121943.3498701-14-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Sep 2021 17:02:01 +0100
+Message-ID: <CAFEAcA-=P+p7etUiLUzDxDzfe8N6TQyLC5=ExTSzgG4iOh0-dQ@mail.gmail.com>
+Subject: Re: [RFC v3 13/32] rust: use vendored-sources
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,99 +80,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, atheurer@redhat.com, jhopper@redhat.com,
- Tingting Mao <timao@redhat.com>, qemu-devel@nongnu.org,
- Honghao Wang <wanghonghao@bytedance.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Serge Guelton <sguelton@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Ian Jackson <iwj@xenproject.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---iesmLzelmYBl8amX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 7 Sept 2021 at 13:32, <marcandre.lureau@redhat.com> wrote:
+>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Most likely, QEMU will want tighter control over the sources, rather
+> than relying on crates.io downloading, use a git submodule with all the
+> dependencies. However, cargo --offline was added in 1.36.
+>
+> "cargo vendor" helps gathering and updating the dependencies.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  configure                 | 8 ++++++++
+>  meson.build               | 7 ++++++-
+>  .cargo/config.toml.in     | 5 +++++
+>  .cargo/meson.build        | 5 +++++
+>  .gitmodules               | 4 ++++
+>  rust/vendored             | 1 +
+>  scripts/archive-source.sh | 2 +-
+>  scripts/cargo_wrapper.py  | 1 +
+>  8 files changed, 31 insertions(+), 2 deletions(-)
+>  create mode 100644 .cargo/config.toml.in
+>  create mode 100644 .cargo/meson.build
+>  create mode 160000 rust/vendored
 
-On Wed, Sep 08, 2021 at 10:30:09PM -0400, Daniele Buono wrote:
-> Stefan, the patch looks great.
-> Thank you for debugging the performance issue that was happening with
-> SafeStack.
->=20
-> On 9/2/2021 4:10 AM, Stefan Hajnoczi wrote:
-> > On Wed, Sep 01, 2021 at 05:09:23PM +0100, Stefan Hajnoczi wrote:
-> > > It was reported that enabling SafeStack reduces IOPS significantly
-> > > (>25%) with the following fio benchmark on virtio-blk using a NVMe ho=
-st
-> > > block device:
-> > >=20
-> > >    # fio --rw=3Drandrw --bs=3D4k --iodepth=3D64 --runtime=3D1m --dire=
-ct=3D1 \
-> > > =09--filename=3D/dev/vdb --name=3Djob1 --ioengine=3Dlibaio --thread \
-> > > =09--group_reporting --numjobs=3D16 --time_based \
-> > >          --output=3D/tmp/fio_result
-> > >=20
-> > > Serge Guelton and I found that SafeStack is not really at fault, it j=
-ust
-> > > increases the cost of coroutine creation. This fio workload exhausts =
-the
-> > > coroutine pool and coroutine creation becomes a bottleneck. Previous
-> > > work by Honghao Wang also pointed to excessive coroutine creation.
-> > >=20
-> > > Creating new coroutines is expensive due to allocating new stacks wit=
-h
-> > > mmap(2) and mprotect(2). Currently there are thread-local and global
-> > > pools that recycle old Coroutine objects and their stacks but the
-> > > hardcoded size limit of 64 for thread-local pools and 128 for the glo=
-bal
-> > > pool is insufficient for the fio benchmark shown above.
-> > >=20
-> > > This patch changes the coroutine pool algorithm to a simple thread-lo=
-cal
-> > > pool without a size limit. Threads periodically shrink the pool down =
-to
-> > > a size sufficient for the maximum observed number of coroutines.
-> > >=20
-> > > This is a very simple algorithm. Fancier things could be done like
-> > > keeping a minimum number of coroutines around to avoid latency when a
-> > > new coroutine is created after a long period of inactivity. Another
-> > > thought is to stop the timer when the pool size is zero for power sav=
-ing
-> > > on threads that aren't using coroutines. However, I'd rather not add
-> > > bells and whistles unless they are really necessary.
->=20
-> I agree we should aim at something that is as simple as possible.
->=20
-> However keeping a minumum number of coroutines could be useful to avoid
-> performance regressions from the previous version.
->=20
-> I wouldn't say restore the global pool - that's way too much trouble -
-> but keeping the old "pool size" configuration parameter as the miniumum
-> pool size could be a good idea to maintain the previous performance in
-> cases where the dynamic pool shrinks too much.
+So, this is a lot of extra code in a submodule. Historically we've
+found that submodules are a colossal pain, and so I think we should
+think about whether we really want to have all our rust dependencies
+in a submodule forever.
 
-Good point. We're taking a risk by freeing all coroutines when the timer
-expires. It's safer to stick to the old pool size limit to avoid
-regressions.
+I am definitely only at the beginner stage with Rust, but I think
+we should have a discussion about what the different alternative
+options are here, and what we want to achieve, so that we know
+why we're doing this and what we're gaining from the pain...
 
-I'll send another revision.
+For instance, could we instead commit Cargo.lock in git and
+use that to nail down specific versions of the dependencies ?
 
-Stefan
+FWIW, the "why submodules" for the C dependencies we ship
+like that is basically
+ * C doesn't have a package manager, so if we need a dependency that
+   distros don't ship then we need to wrap it up and provide it ourselves
+ * where we ship binary blobs (guest BIOS etc) we want to also ship
+   the source code for those blobs
+I think for Rust dependencies those don't really apply.
 
---iesmLzelmYBl8amX
-Content-Type: application/pgp-signature; name="signature.asc"
+Overall, I think that to the extent that we can look like a "normal"
+user of Rust, that's a good plan. Distros may well want to be able
+to do "build against our packaged rust stuff rather than downloading
+from crates.io" but I imagine they have machinery for that already;
+if we act like most other Rust programs we have better chances of
+not breaking that machinery.
 
------BEGIN PGP SIGNATURE-----
+We do already effectively do "download code when QEMU is built" --
+the makefile invokes scripts/git-submodule-update which pulls
+down submodule code. (Thanks to Ian for pointing out this framing
+of the question.)
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE6Ld4ACgkQnKSrs4Gr
-c8jmoAf8CClFCEFVKx+XpBJtsyPHTDVSxdbUjEYJNqm8izxK/4a+yiHAPRQSADG+
-Ya0pmCmsIthhgXjZj9hp03ch12PJe+NJN7A0xah9g0/DR3TLMDRfX+T72wv1DBa3
-L1tRhJubbwrq/ntEegRMp0h/Yu4ZvCHfpgqnPpRdp0Tkn017cgu+nr+dkp6L/1MC
-hfy6OKiXPWaBWRx/qI9oUx2puWgPuXGOFJ98amDqmxmY6JBmh1StJsQWa/rw4kko
-uiV42WasrfK2ubEMZyRSXfDEY4pOE0eQsZ4LKORdB14cxVXZ4vxwebaGtORaKaQl
-oIDuV6TwaFDs60yIw2XWV0nEzq8CWg==
-=iE+0
------END PGP SIGNATURE-----
+(I'm not personally a fan of the "download everything from crates.io"
+Rust ecosystem, but it is what it is, and wishing the Rust world
+worked more like a trad Linux-distro-provides-all-your-dependencies
+isn't, alas, going to make it so :-))
 
---iesmLzelmYBl8amX--
-
+thanks
+-- PMM
 
