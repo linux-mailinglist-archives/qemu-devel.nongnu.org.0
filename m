@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E666E404890
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 12:37:57 +0200 (CEST)
-Received: from localhost ([::1]:49938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E31404894
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 12:38:25 +0200 (CEST)
+Received: from localhost ([::1]:51870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOHRM-0002Wy-RY
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 06:37:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59854)
+	id 1mOHRn-0003oL-Tu
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 06:38:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mOHNc-000397-5F
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 06:34:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29406)
+ id 1mOHNe-0003Ed-9D
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 06:34:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mOHNU-0002vW-Vp
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 06:34:03 -0400
+ id 1mOHNb-00030s-Dv
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 06:34:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631183636;
+ s=mimecast20190719; t=1631183642;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xiin61qQHRQJuFfJtZIvj/8PDAv1mtm9Lzc4rxWOruY=;
- b=MWYfXL/E5lT6gNEvt+I+1Hb2jD8Vd4KvcHKSOlhtvQ4xojjQdCozZjhArSZHRU3QGcuv0d
- 7m/yn3Cr9bnvLEjTyZgjmqkNNQnvUTSa/khBKXX1lfdldXk93vPxvfe61cHWspw45jZhhv
- UVuiYb6sf1NOmaMkuxN3ltYFcGHbjUo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-ZLbDSfPFNxacrlNsrPMQhw-1; Thu, 09 Sep 2021 06:33:55 -0400
-X-MC-Unique: ZLbDSfPFNxacrlNsrPMQhw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- u2-20020adfdd42000000b001579f5d6779so364393wrm.8
- for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 03:33:55 -0700 (PDT)
+ bh=V0IiYJgceGFKra1MpkcY1f/vJ1kfm2MN13eOCaGsi14=;
+ b=PxnVq243lHJFZvWDaqFQGRsW/bQCxk8GiLEnmndVvq1H4GzseDAs3qrxmNMg2JGkZYwliu
+ qi01qDSaOX/qeToRLtcWwbeMWRs7p2bYqQ/XeVvvynPU1nV3kXqloNI8+5wFMiEClJpGck
+ ejPJPL49LZXJLyie2T9Lg9EYNHeAkO8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-m-5b0dtcO5y1c5LO3scyLg-1; Thu, 09 Sep 2021 06:33:56 -0400
+X-MC-Unique: m-5b0dtcO5y1c5LO3scyLg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m22-20020a7bcb96000000b002f7b840d9dcso545810wmi.1
+ for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 03:33:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xiin61qQHRQJuFfJtZIvj/8PDAv1mtm9Lzc4rxWOruY=;
- b=mJeYxq7HXY09oLxmQ7x2Xdkrf7AdYCXqhYk0pcFW9/1cx/IPQRejBGNm2bOjFXDL8S
- rGhY9fjagMfZ/YUj/JkK+P6GFT5grMVFbWvWqGz2XkYt1tLC9SaWjDcdklLpeptwmrZS
- ahNcX3/PFQSVMe+35DHi5hWhgNigQ5WR9xl6Zaq6uJSlFGQedEjwWg9L+Bf614jw1hIY
- Sg6pXiZcQSZ/B5YlWY8LgC2MME3D0i93VB/nQ19gA5dZNGgSjrHMLp/ih++GngvKsWHQ
- 7YlxWXLKEhEJ998ZXJEBdinMtG6VOk81ZiOkEXbzySY4GbTvTWMGg9ELUpidVp0ogGQP
- rDCA==
-X-Gm-Message-State: AOAM532jNMa0qGR3ymkH3wOp32C4RvpOmTe39aCw8NVhSF8d1b2p30CJ
- 8FX6oOESOOu3lBAZNaZ6MaQPA6LsRZ1iEC20iUVOy+AcIAdi9IDuGJm134+aWuVNm3Uyiz+VuPY
- ws32I9YSKVLwFz9+7GehfgckFldqdZreAe16ADNJBtIacLSexmZEdGpIiY3shbHIcT4w=
-X-Received: by 2002:adf:e40b:: with SMTP id g11mr1041071wrm.313.1631183634025; 
+ bh=V0IiYJgceGFKra1MpkcY1f/vJ1kfm2MN13eOCaGsi14=;
+ b=QtRZBUCOfeknhOCLgHJpev4GYsYZ0ic7PH4h2Jv0i+mVIaIXQUrnZMhYc+s1gHjcSc
+ Yk+/c/2UR0/OCl9kLuPTvLanjjAJw3Uk3ZYuboOkWYuOusOA2HoMrXVkgqHG1SeUbGl4
+ yjr7LhdX0TTB68r6i7quYF31sHuNKCzujPMb68pQxOTKcpwvJ8kytAMie+iCvuI7eoYV
+ hyYq7ucuHIJ+nUIv80F8tjWz9BwEvcHdtOGT+mzquRzPdrpg80t+NdWosPYKtOlKZbKD
+ q8XsqjtT66x02IJEJ6Qthunu6MUapshSOKp2fxyKzJvzSc4d9Ko828kCyWK2Hok+eVwg
+ 7GSg==
+X-Gm-Message-State: AOAM532PdASWklLlp+TSiNFy5FJJia8Sw1QuHCt9CwO2jf/DDhQAyHdx
+ A0lw6XXT8knxXJS4FJ6MZMxdj9sbaQK4+ScyXaC77SPGsEYXDT/IX8QHMAuqTAnaXML4TDRd/FT
+ Lsk3GoiaiWRdbg+wnyheyIIcA+6yq6lLpwN9S31hrSjZUKMIAM+3HBteC143qYhahTWY=
+X-Received: by 2002:adf:80e2:: with SMTP id 89mr2690085wrl.43.1631183635226;
+ Thu, 09 Sep 2021 03:33:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwfD6mPeewXMMmYQjstEU2inzL0CR5yuvHq7Qm6kBICM2Dgmge6pWRHRKCQlD/DuKqdVOYwAA==
+X-Received: by 2002:adf:80e2:: with SMTP id 89mr2690063wrl.43.1631183634930;
  Thu, 09 Sep 2021 03:33:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxD/X/bIM2THfPYJFbhDVOR3Wo3k23zLVsZ00dQz2tG9BNnglYqzmZofyjdxgkwGJZ5yHFFJw==
-X-Received: by 2002:adf:e40b:: with SMTP id g11mr1041040wrm.313.1631183633704; 
- Thu, 09 Sep 2021 03:33:53 -0700 (PDT)
 Received: from localhost (static-201-64-63-95.ipcom.comunitel.net.
  [95.63.64.201])
- by smtp.gmail.com with ESMTPSA id d9sm1714852wrb.36.2021.09.09.03.33.53
+ by smtp.gmail.com with ESMTPSA id u16sm1244491wmc.41.2021.09.09.03.33.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Sep 2021 03:33:53 -0700 (PDT)
+ Thu, 09 Sep 2021 03:33:54 -0700 (PDT)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/7] migration/ram: Don't passs RAMState to
- migration_clear_memory_region_dirty_bitmap_*()
-Date: Thu,  9 Sep 2021 12:33:44 +0200
-Message-Id: <20210909103346.1990-6-quintela@redhat.com>
+Subject: [PULL 6/7] migration: allow multifd for socket protocol only
+Date: Thu,  9 Sep 2021 12:33:45 +0200
+Message-Id: <20210909103346.1990-7-quintela@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210909103346.1990-1-quintela@redhat.com>
 References: <20210909103346.1990-1-quintela@redhat.com>
@@ -74,17 +73,17 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,78 +96,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Li Zhijian <lizhijian@cn.fujitsu.com>
 
-The parameter is unused, let's drop it.
+To: <quintela@redhat.com>, <dgilbert@redhat.com>, <qemu-devel@nongnu.org>
+CC: Li Zhijian <lizhijian@cn.fujitsu.com>
+Date: Sat, 31 Jul 2021 22:05:51 +0800 (5 weeks, 4 days, 17 hours ago)
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+multifd with unsupported protocol will cause a segment fault.
+(gdb) bt
+ #0  0x0000563b4a93faf8 in socket_connect (addr=0x0, errp=0x7f7f02675410) at ../util/qemu-sockets.c:1190
+ #1 0x0000563b4a797a03 in qio_channel_socket_connect_sync
+(ioc=0x563b4d16e8c0, addr=0x0, errp=0x7f7f02675410) at
+../io/channel-socket.c:145
+ #2  0x0000563b4a797abf in qio_channel_socket_connect_worker (task=0x563b4cd86c30, opaque=0x0) at ../io/channel-socket.c:168
+ #3  0x0000563b4a792631 in qio_task_thread_worker (opaque=0x563b4cd86c30) at ../io/task.c:124
+ #4  0x0000563b4a91da69 in qemu_thread_start (args=0x563b4c44bb80) at ../util/qemu-thread-posix.c:541
+ #5  0x00007f7fe9b5b3f9 in ?? ()
+ #6  0x0000000000000000 in ?? ()
+
+It's enough to check migrate_multifd_is_allowed() in multifd cleanup() and
+multifd setup() though there are so many other places using migrate_use_multifd().
+
+Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ migration/multifd.h   |  2 ++
+ migration/migration.c |  4 ++++
+ migration/multifd.c   | 24 ++++++++++++++++++++++--
+ 3 files changed, 28 insertions(+), 2 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 7a43bfd7af..bb908822d5 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -789,8 +789,7 @@ unsigned long migration_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
-     return find_next_bit(bitmap, size, start);
- }
+diff --git a/migration/multifd.h b/migration/multifd.h
+index 16c4d112d1..15c50ca0b2 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -13,6 +13,8 @@
+ #ifndef QEMU_MIGRATION_MULTIFD_H
+ #define QEMU_MIGRATION_MULTIFD_H
  
--static void migration_clear_memory_region_dirty_bitmap(RAMState *rs,
--                                                       RAMBlock *rb,
-+static void migration_clear_memory_region_dirty_bitmap(RAMBlock *rb,
-                                                        unsigned long page)
++bool migrate_multifd_is_allowed(void);
++void migrate_protocol_allow_multifd(bool allow);
+ int multifd_save_setup(Error **errp);
+ void multifd_save_cleanup(void);
+ int multifd_load_setup(Error **errp);
+diff --git a/migration/migration.c b/migration/migration.c
+index bb909781b7..10e7616a48 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -453,10 +453,12 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
  {
-     uint8_t shift;
-@@ -818,8 +817,7 @@ static void migration_clear_memory_region_dirty_bitmap(RAMState *rs,
- }
+     const char *p = NULL;
  
- static void
--migration_clear_memory_region_dirty_bitmap_range(RAMState *rs,
--                                                 RAMBlock *rb,
-+migration_clear_memory_region_dirty_bitmap_range(RAMBlock *rb,
-                                                  unsigned long start,
-                                                  unsigned long npages)
- {
-@@ -832,7 +830,7 @@ migration_clear_memory_region_dirty_bitmap_range(RAMState *rs,
-      * exclusive.
-      */
-     for (i = chunk_start; i < chunk_end; i += chunk_pages) {
--        migration_clear_memory_region_dirty_bitmap(rs, rb, i);
-+        migration_clear_memory_region_dirty_bitmap(rb, i);
++    migrate_protocol_allow_multifd(false); /* reset it anyway */
+     qapi_event_send_migration(MIGRATION_STATUS_SETUP);
+     if (strstart(uri, "tcp:", &p) ||
+         strstart(uri, "unix:", NULL) ||
+         strstart(uri, "vsock:", NULL)) {
++        migrate_protocol_allow_multifd(true);
+         socket_start_incoming_migration(p ? p : uri, errp);
+ #ifdef CONFIG_RDMA
+     } else if (strstart(uri, "rdma:", &p)) {
+@@ -2280,9 +2282,11 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+         }
      }
+ 
++    migrate_protocol_allow_multifd(false);
+     if (strstart(uri, "tcp:", &p) ||
+         strstart(uri, "unix:", NULL) ||
+         strstart(uri, "vsock:", NULL)) {
++        migrate_protocol_allow_multifd(true);
+         socket_start_outgoing_migration(s, p ? p : uri, &local_err);
+ #ifdef CONFIG_RDMA
+     } else if (strstart(uri, "rdma:", &p)) {
+diff --git a/migration/multifd.c b/migration/multifd.c
+index efd424bc97..283f672bf0 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -531,7 +531,7 @@ void multifd_save_cleanup(void)
+ {
+     int i;
+ 
+-    if (!migrate_use_multifd()) {
++    if (!migrate_use_multifd() || !migrate_multifd_is_allowed()) {
+         return;
+     }
+     multifd_send_terminate_threads(NULL);
+@@ -868,6 +868,17 @@ cleanup:
+     multifd_new_send_channel_cleanup(p, sioc, local_err);
  }
  
-@@ -850,7 +848,7 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
-      * the page in the chunk we clear the remote dirty bitmap for all.
-      * Clearing it earlier won't be a problem, but too late will.
-      */
--    migration_clear_memory_region_dirty_bitmap(rs, rb, page);
-+    migration_clear_memory_region_dirty_bitmap(rb, page);
++static bool migrate_allow_multifd;
++void migrate_protocol_allow_multifd(bool allow)
++{
++    migrate_allow_multifd = allow;
++}
++
++bool migrate_multifd_is_allowed(void)
++{
++    return migrate_allow_multifd;
++}
++
+ int multifd_save_setup(Error **errp)
+ {
+     int thread_count;
+@@ -878,6 +889,11 @@ int multifd_save_setup(Error **errp)
+     if (!migrate_use_multifd()) {
+         return 0;
+     }
++    if (!migrate_multifd_is_allowed()) {
++        error_setg(errp, "multifd is not supported by current protocol");
++        return -1;
++    }
++
+     s = migrate_get_current();
+     thread_count = migrate_multifd_channels();
+     multifd_send_state = g_malloc0(sizeof(*multifd_send_state));
+@@ -971,7 +987,7 @@ int multifd_load_cleanup(Error **errp)
+ {
+     int i;
  
-     ret = test_and_clear_bit(page, rb->bmap);
-     if (ret) {
-@@ -2777,8 +2775,7 @@ void qemu_guest_free_page_hint(void *addr, size_t len)
-          * are initially set. Otherwise those skipped pages will be sent in
-          * the next round after syncing from the memory region bitmap.
-          */
--        migration_clear_memory_region_dirty_bitmap_range(ram_state, block,
--                                                         start, npages);
-+        migration_clear_memory_region_dirty_bitmap_range(block, start, npages);
-         ram_state->migration_dirty_pages -=
-                       bitmap_count_one_with_offset(block->bmap, start, npages);
-         bitmap_clear(block->bmap, start, npages);
+-    if (!migrate_use_multifd()) {
++    if (!migrate_use_multifd() || !migrate_multifd_is_allowed()) {
+         return 0;
+     }
+     multifd_recv_terminate_threads(NULL);
+@@ -1120,6 +1136,10 @@ int multifd_load_setup(Error **errp)
+     if (!migrate_use_multifd()) {
+         return 0;
+     }
++    if (!migrate_multifd_is_allowed()) {
++        error_setg(errp, "multifd is not supported by current protocol");
++        return -1;
++    }
+     thread_count = migrate_multifd_channels();
+     multifd_recv_state = g_malloc0(sizeof(*multifd_recv_state));
+     multifd_recv_state->params = g_new0(MultiFDRecvParams, thread_count);
 -- 
 2.31.1
 
