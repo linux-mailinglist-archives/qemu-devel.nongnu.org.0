@@ -2,59 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ECC04047E8
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 11:40:45 +0200 (CEST)
-Received: from localhost ([::1]:50666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6438C4047F1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 11:43:55 +0200 (CEST)
+Received: from localhost ([::1]:52954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOGY0-0004LG-Db
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 05:40:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47500)
+	id 1mOGb4-00063y-AR
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 05:43:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1mOGWh-0003Ay-Oh; Thu, 09 Sep 2021 05:39:23 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:41814)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1mOGWf-0006Id-6m; Thu, 09 Sep 2021 05:39:23 -0400
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id 4A51922322;
- Thu,  9 Sep 2021 09:39:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1631180359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=lcVS1bYtum7n0wWFZtQaap94bm7XcrdkvpMEeUHSEr0=;
- b=mJtuVBYmjDyivF2NAu/a6NkWFnDq+AOU4o7pv5124ZwqxAZzHNk217JXlVGGVUXjHVd1oa
- eBSF/DLrZlynSE0JWTMKT9rmGjb77OdEOnKRXDy8wBusykYxEEA9BDkYvCdzOZ78aLKbGX
- 1icTL0XR4FzDfPL4u8dVKdAwdJn6uEM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1631180359;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=lcVS1bYtum7n0wWFZtQaap94bm7XcrdkvpMEeUHSEr0=;
- b=qxG9Wz3orqNy7W+SuElqmllK3676KftJQJObcaG4ekmR2xtwcHoecoGfcot+9igLGPBjhb
- ohYvHLAW8i6DJqCQ==
-Received: from pentland.suse.de (pentland.suse.de [10.160.4.48])
- by relay2.suse.de (Postfix) with ESMTP id 00B22A3BB8;
- Thu,  9 Sep 2021 09:39:19 +0000 (UTC)
-Received: by pentland.suse.de (Postfix, from userid 16045)
- id ECBCDBC59; Thu,  9 Sep 2021 11:39:18 +0200 (CEST)
-From: Hannes Reinecke <hare@suse.de>
-To: Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH] hw/nvme: reattach subsystem namespaces on hotplug
-Date: Thu,  9 Sep 2021 11:39:14 +0200
-Message-Id: <20210909093914.30560-1-hare@suse.de>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mOGZs-0005Nw-Gl
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 05:42:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27044)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mOGZp-0000lL-Ul
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 05:42:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631180556;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GF29DXo6GY0fWkghoeZS8cJE9gSrGX08i0Ph5y3it1s=;
+ b=YRWXeY4Yg8WIGLNtm+JyV0Jd9mXS1VC91VoWlBTqQx/PGp+X2cF/eFEcRUecFOR3RZ0kWx
+ 5ucC63aP555TRuyGG3K+kjgEj+kzUe9rBIjEvX1I4l3yRxgnCR7J7TYaGUyHuzVbGuXfZv
+ zCXtencB9ww3+849BByk1GNH8y4Ru0Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-62-dfa-p3miN2uip-VeS8P90A-1; Thu, 09 Sep 2021 05:42:35 -0400
+X-MC-Unique: dfa-p3miN2uip-VeS8P90A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3BE51018720
+ for <qemu-devel@nongnu.org>; Thu,  9 Sep 2021 09:42:34 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 30BDD5FC13;
+ Thu,  9 Sep 2021 09:42:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BB1EE1138606; Thu,  9 Sep 2021 11:42:28 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH] qemu-options.hx: remove -spice options from --help
+References: <20210909084551.3957984-1-marcandre.lureau@redhat.com>
+Date: Thu, 09 Sep 2021 11:42:28 +0200
+In-Reply-To: <20210909084551.3957984-1-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Thu, 9 Sep 2021 12:45:51 +0400")
+Message-ID: <874kaum6ez.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=hare@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,58 +81,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Hannes Reinecke <hare@suse.de>
+Cc: berrange@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With commit 5ffbaeed16 ("hw/nvme: fix controller hot unplugging")
-namespaces get moved from the controller to the subsystem if one
-is specified.
-That keeps the namespaces alive after a controller hot-unplug, but
-after a controller hotplug we have to reconnect the namespaces
-from the subsystem to the controller.
+marcandre.lureau@redhat.com writes:
 
-Fixes: 5ffbaeed16 ("hw/nvme: fix controller hot unplugging")
-Cc: Klaus Jensen <k.jensen@samsung.com>
-Signed-off-by: Hannes Reinecke <hare@suse.de>
----
- hw/nvme/subsys.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Fixes:
+> https://bugzilla.redhat.com/show_bug.cgi?id=3D1982600
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  softmmu/vl.c    | 4 +++-
+>  qemu-options.hx | 2 ++
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 55ab70eb97..1e60d286b9 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -1931,7 +1931,7 @@ static void qemu_create_early_backends(void)
+>      object_option_foreach_add(object_create_early);
+> =20
+>      /* spice needs the timers to be initialized by this point */
+> -    /* spice must initialize before audio as it changes the default auio=
+dev */
+> +    /* spice must initialize before audio as it changes the default audi=
+odev */
+>      /* spice must initialize before chardevs (for spicevmc and spiceport=
+) */
+>      qemu_spice.init();
+> =20
+> @@ -3488,6 +3488,7 @@ void qemu_init(int argc, char **argv, char **envp)
+>              case QEMU_OPTION_readconfig:
+>                  qemu_read_config_file(optarg, qemu_parse_config_group, &=
+error_fatal);
+>                  break;
+> +#ifdef CONFIG_SPICE
+>              case QEMU_OPTION_spice:
+>                  olist =3D qemu_find_opts_err("spice", NULL);
+>                  if (!olist) {
+> @@ -3500,6 +3501,7 @@ void qemu_init(int argc, char **argv, char **envp)
+>                  }
+>                  display_remote++;
+>                  break;
+> +#endif
+>              case QEMU_OPTION_writeconfig:
+>                  {
+>                      FILE *fp;
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 8f603cc7e6..204028408c 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -2003,6 +2003,7 @@ SRST
+>      Enable SDL.
+>  ERST
+> =20
+> +#ifdef CONFIG_SPICE
+>  DEF("spice", HAS_ARG, QEMU_OPTION_spice,
+>      "-spice [port=3Dport][,tls-port=3Dsecured-port][,x509-dir=3D<dir>]\n=
+"
+>      "       [,x509-key-file=3D<file>][,x509-key-password=3D<file>]\n"
+> @@ -2024,6 +2025,7 @@ DEF("spice", HAS_ARG, QEMU_OPTION_spice,
+>      "   enable spice\n"
+>      "   at least one of {port, tls-port} is mandatory\n",
+>      QEMU_ARCH_ALL)
+> +#endif
+>  SRST
+>  ``-spice option[,option[,...]]``
+>      Enable the spice remote desktop protocol. Valid options are
 
-diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
-index 93c35950d6..a9404f2b5e 100644
---- a/hw/nvme/subsys.c
-+++ b/hw/nvme/subsys.c
-@@ -14,7 +14,7 @@
- int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
- {
-     NvmeSubsystem *subsys = n->subsys;
--    int cntlid;
-+    int cntlid, nsid;
- 
-     for (cntlid = 0; cntlid < ARRAY_SIZE(subsys->ctrls); cntlid++) {
-         if (!subsys->ctrls[cntlid]) {
-@@ -29,12 +29,18 @@ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
- 
-     subsys->ctrls[cntlid] = n;
- 
-+    for (nsid = 0; nsid < ARRAY_SIZE(subsys->namespaces); nsid++) {
-+        if (subsys->namespaces[nsid]) {
-+            nvme_attach_ns(n, subsys->namespaces[nsid]);
-+        }
-+    }
-     return cntlid;
- }
- 
- void nvme_subsys_unregister_ctrl(NvmeSubsystem *subsys, NvmeCtrl *n)
- {
-     subsys->ctrls[n->cntlid] = NULL;
-+    n->cntlid = -1;
- }
- 
- static void nvme_subsys_setup(NvmeSubsystem *subsys)
--- 
-2.26.2
+The scary-looking subject lies: you're removing only when CONFIG_SPICE
+is off.  Suggest "qemu-options: Define -spice only #ifdef CONFIG_SPICE".
 
 
