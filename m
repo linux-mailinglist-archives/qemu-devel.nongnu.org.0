@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C13E404570
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 08:10:33 +0200 (CEST)
-Received: from localhost ([::1]:57480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E31F40458B
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 08:18:08 +0200 (CEST)
+Received: from localhost ([::1]:43038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mODGa-0003QQ-3x
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 02:10:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35102)
+	id 1mODNv-0004Sn-3h
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 02:18:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1mODCh-00048F-P1
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 02:06:31 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2918)
+ id 1mODCl-0004F6-5z
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 02:06:35 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1mODCe-000651-Mu
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 02:06:31 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4H4pLg4l1nzbmNh;
- Thu,  9 Sep 2021 14:02:19 +0800 (CST)
+ id 1mODCe-000657-OT
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 02:06:34 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4H4pQJ4qQKz1DGsD;
+ Thu,  9 Sep 2021 14:05:28 +0800 (CST)
 Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
  dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -32,10 +32,10 @@ Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
  15.1.2308.8; Thu, 9 Sep 2021 14:06:20 +0800
 From: "Longpeng(Mike)" <longpeng2@huawei.com>
 To: <alex.williamson@redhat.com>, <philmd@redhat.com>, <pbonzini@redhat.com>
-Subject: [PATCH v2 6/9] kvm: irqchip: extract
- kvm_irqchip_add_deferred_msi_route
-Date: Thu, 9 Sep 2021 14:06:10 +0800
-Message-ID: <20210909060613.2815-7-longpeng2@huawei.com>
+Subject: [PATCH v2 7/9] vfio: add infrastructure to commit the deferred kvm
+ routing
+Date: Thu, 9 Sep 2021 14:06:11 +0800
+Message-ID: <20210909060613.2815-8-longpeng2@huawei.com>
 X-Mailer: git-send-email 2.25.0.windows.1
 In-Reply-To: <20210909060613.2815-1-longpeng2@huawei.com>
 References: <20210909060613.2815-1-longpeng2@huawei.com>
@@ -46,13 +46,13 @@ X-Originating-IP: [10.174.148.223]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpeml100016.china.huawei.com (7.185.36.216)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
- helo=szxga01-in.huawei.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=45.249.212.255; envelope-from=longpeng2@huawei.com;
+ helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,65 +71,92 @@ Cc: chenjiashang@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract a common helper that add MSI route for specific vector
-but does not commit immediately.
+'defer_kvm_irq_routing' indicates whether we should defer to commit
+the kvm routing.
 
 Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
 ---
- accel/kvm/kvm-all.c  | 15 +++++++++++++--
- include/sysemu/kvm.h |  6 ++++++
- 2 files changed, 19 insertions(+), 2 deletions(-)
+ hw/vfio/pci.c | 42 +++++++++++++++++++++++++++++++++++++++++-
+ hw/vfio/pci.h |  1 +
+ 2 files changed, 42 insertions(+), 1 deletion(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 0125c17..13cdd01 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -1950,7 +1950,7 @@ int kvm_irqchip_send_msi(KVMState *s, MSIMessage msg)
-     return kvm_set_irq(s, route->kroute.gsi, 1);
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 8236cd7..dda60a5 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -422,12 +422,24 @@ static void vfio_add_kvm_msi_virq(VFIOPCIDevice *vdev, VFIOMSIVector *vector,
+         return;
+     }
+ 
+-    virq = kvm_irqchip_add_msi_route(kvm_state, vector_n, &vdev->pdev);
++    virq = kvm_irqchip_add_deferred_msi_route(kvm_state, vector_n, &vdev->pdev);
+     if (virq < 0) {
+         event_notifier_cleanup(&vector->kvm_interrupt);
+         return;
+     }
+ 
++    if (vdev->defer_kvm_irq_routing) {
++        /*
++         * Hold the allocated virq in vector->virq temporarily, will
++         * reset it to -1 when we fail to add the corresponding irqfd
++         * in vfio_commit_kvm_msi_virq().
++         */
++        vector->virq = virq;
++        return;
++    }
++
++    kvm_irqchip_commit_routes();
++
+     if (kvm_irqchip_add_irqfd_notifier_gsi(kvm_state, &vector->kvm_interrupt,
+                                        NULL, virq) < 0) {
+         kvm_irqchip_release_virq(kvm_state, virq);
+@@ -566,6 +578,34 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
+     }
  }
  
--int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
-+int kvm_irqchip_add_deferred_msi_route(KVMState *s, int vector, PCIDevice *dev)
- {
-     struct kvm_irq_routing_entry kroute = {};
-     int virq;
-@@ -1993,7 +1993,18 @@ int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
- 
-     kvm_add_routing_entry(s, &kroute);
-     kvm_arch_add_msi_route_post(&kroute, vector, dev);
--    kvm_irqchip_commit_routes(s);
++static void vfio_commit_kvm_msi_virq(VFIOPCIDevice *vdev)
++{
++    int i;
++    VFIOMSIVector *vector;
 +
-+    return virq;
++    if (!vdev->defer_kvm_irq_routing || !vdev->nr_vectors) {
++        return;
++    }
++
++    kvm_irqchip_commit_routes(kvm_state);
++
++    for (i = 0; i < vdev->nr_vectors; i++) {
++        vector = &vdev->msi_vectors[i];
++
++        if (!vector->use || vector->virq < 0) {
++            continue;
++        }
++
++        if (kvm_irqchip_add_irqfd_notifier_gsi(kvm_state,
++                                               &vector->kvm_interrupt,
++                                               NULL, vector->virq) < 0) {
++            kvm_irqchip_release_virq(kvm_state, vector->virq);
++            event_notifier_cleanup(&vector->kvm_interrupt);
++            vector->virq = -1;
++        }
++    }
 +}
 +
-+int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
-+{
-+    int virq;
-+
-+    virq = kvm_irqchip_add_deferred_msi_route(s, vector, dev);
-+    if (virq >= 0) {
-+        kvm_irqchip_commit_routes(s);
-+    }
- 
-     return virq;
- }
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index a1ab1ee..8de0d9a 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -476,6 +476,12 @@ void kvm_init_cpu_signals(CPUState *cpu);
-  * @return: virq (>=0) when success, errno (<0) when failed.
-  */
- int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev);
-+/**
-+ * Add MSI route for specific vector but does not commit to KVM
-+ * immediately
-+ */
-+int kvm_irqchip_add_deferred_msi_route(KVMState *s, int vector,
-+                                       PCIDevice *dev);
- int kvm_irqchip_update_msi_route(KVMState *s, int virq, MSIMessage msg,
-                                  PCIDevice *dev);
- void kvm_irqchip_commit_routes(KVMState *s);
+ static void vfio_msix_enable(VFIOPCIDevice *vdev)
+ {
+     PCIDevice *pdev = &vdev->pdev;
+diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+index 6477751..d3c5177 100644
+--- a/hw/vfio/pci.h
++++ b/hw/vfio/pci.h
+@@ -171,6 +171,7 @@ struct VFIOPCIDevice {
+     bool no_kvm_ioeventfd;
+     bool no_vfio_ioeventfd;
+     bool enable_ramfb;
++    bool defer_kvm_irq_routing;
+     VFIODisplay *dpy;
+     Notifier irqchip_change_notifier;
+ };
 -- 
 1.8.3.1
 
