@@ -2,94 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 253C24053E1
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 15:27:12 +0200 (CEST)
-Received: from localhost ([::1]:40878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86F3740541F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 15:28:10 +0200 (CEST)
+Received: from localhost ([::1]:43868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOK58-00034P-PU
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 09:27:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42692)
+	id 1mOK65-00057R-LL
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 09:28:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mOK3k-0001bF-I1
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 09:25:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23323)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mOK3f-0002wI-Gz
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 09:25:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631193937;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=07JmK5oJ+AriCu4N3Y0KTNBhq43TMdEe0ojOxkM9Sms=;
- b=i1VLvEqc0bMIFEPYt1qEnHFBjuxBsUwjGd8XbiLZj7juTjTzwp7HB0bo9M6XaSwXE1Xsk8
- QUj1pzLtrbjFzOtMch2Y8aCfU5Ong5FsgW3ciALKS/Zi6KYS3FJpCBTfneRzjK6vX7ML9k
- UYHC95uUJ6jpILXfBoN2jo11/15ydzE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-555-xdfjTZYnMPScIoAtZlLfIw-1; Thu, 09 Sep 2021 09:25:36 -0400
-X-MC-Unique: xdfjTZYnMPScIoAtZlLfIw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r125-20020a1c2b830000b0290197a4be97b7so713094wmr.9
- for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 06:25:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mOK4m-0003nv-Uh
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 09:26:48 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:43626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mOK4l-0003tc-A9
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 09:26:48 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ n7-20020a05600c3b8700b002f8ca941d89so1401140wms.2
+ for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 06:26:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ng8/SB8N3FvOfTxYqnkzKHp9I59IsBdybMXFXdT7laA=;
+ b=odFQnzILMLVY9jdBoc6nXnBOlU+6KGSICZ+pFZHwi/s/KsZFXubjc1B2eAWWp55lHq
+ 34YAh6qtAgQcXdr5Vv+eIrp3J5eSbK5IcmTkQqk20c9eVP904PTBH+bPtuYsOHJjibYA
+ JwaO1x2qVqf4OeYnOOS1JoxPiHNatBJMnba2ft5q2nLDWugDaBUSMOEjuEuy+vhAu0d2
+ 1he92jT1BBMZVHEOLXk3vM9NNKZYAmVFW4D/Vu773eu2+DKJ7ZquslhUoC45KGbiIuyi
+ vYPLq74Panh0W5I1ucfwUzNEqkYIlJDA20SyWswC91YFEF5jMCWcMmHHpl85Gf51m4RX
+ 8cag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=07JmK5oJ+AriCu4N3Y0KTNBhq43TMdEe0ojOxkM9Sms=;
- b=feBuJHAl8Iq8uvLMM2UTXt9aKtmEshI/2BQwWtnKtwqEGgdFrTSCu4vf465X3q4jKv
- XbrwOSuduERxpqkHTBxOBrmablo6/jpOU1pIryezG3aWHNQyIzIGNagU3QHo7rdgV3Up
- 7Fw0YDFh5wvAORq5Xw8ZzuFDwKXJFyyH5IssjPVLapSZySTv9eRjBMjGZst6TOALpMvh
- 4kLn7NXvW4PYHfQkBANEBhWUOzWO7apvBDE521vcZEBd8d05NyzJVTGTwhfiObPsHg7V
- Sze0ab5rZHFI6hrAXlIEiaBGajPb2BwJSYX4UIiwdG0KThjqtOfIp2nktuUDimqUKNEQ
- k+3A==
-X-Gm-Message-State: AOAM530nKHOvVIlrLXgef2Bj8OtjQV9Qb6yZ5Yn1eekVcnxwnv6W47AZ
- BujZUSFfI6A9MP9RF1CxDTowEezc3WuUMXBssyxmP0gh8qbXW2S4QJ7pEwTtDUAKw6ql7nUAbls
- fqP2HmFs5oKn73WQ=
-X-Received: by 2002:adf:f88d:: with SMTP id u13mr3621705wrp.297.1631193935769; 
- Thu, 09 Sep 2021 06:25:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwZpnnJWwMOl+kNLB6HlHnQ6sqb5rjQqLsRvWYJKbxL3ly/uiqs8eS8qtTdfVozYzp2/GuJTA==
-X-Received: by 2002:adf:f88d:: with SMTP id u13mr3621675wrp.297.1631193935490; 
- Thu, 09 Sep 2021 06:25:35 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id a6sm1608810wmb.7.2021.09.09.06.25.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Sep 2021 06:25:34 -0700 (PDT)
-Subject: Re: [PATCH 5/7] qmp: Add the qmp_query_sgx_capabilities()
-To: Yang Zhong <yang.zhong@intel.com>
-References: <20210908081937.77254-1-yang.zhong@intel.com>
- <20210908081937.77254-6-yang.zhong@intel.com>
- <fe8b02c8-d7f8-c733-9577-311251a5f66d@redhat.com>
- <20210909025105.GC21362@yangzhon-Virtual>
- <a36ebd16-3cef-7287-9bd3-9a08b99ba1e9@redhat.com>
- <20210909120646.GG21362@yangzhon-Virtual>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bfd2fea1-e804-e3e7-0634-f6e3037c6a62@redhat.com>
-Date: Thu, 9 Sep 2021 15:25:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ng8/SB8N3FvOfTxYqnkzKHp9I59IsBdybMXFXdT7laA=;
+ b=2nc6WAb92IEzxQ7L/sfq5AHTB1fOSQtT63WnKdmyl6OcfwymRS+JHuT3X4k8bJwB1K
+ V3LhbN7CwMvZVEcPWbmcisi3s8Exe0OOtc2qgKbvllv0Wz1g+rOn0uloHJ57lKsLTYEi
+ hVchYaQH8V8QoqyJ6LLagZ1ZVONLFiKYipK6GlFgAwQWJxtqFmh56sXryD6hIURa8+xd
+ Hch5uwiscoR6jYdOIcWYH4J57O0S+09xmRe0VNwIJm4PY1++Xyls7fO9T8pe3Lj8xTNB
+ vJvn7GDxLJUoC9IqvmJ7F8s45w9H9+Hk5CchdOiZR8AmPzYa644vPav3fRv+06Ta0JQG
+ iH3A==
+X-Gm-Message-State: AOAM533TZoNgD+HFi6zNVHdnTs6YjkPor5z5okyodm1WPsKuBdJ133Xv
+ Om9wBLg+tlrDM27w8PtMYANrrIxQphOCc/9vZjYQbg==
+X-Google-Smtp-Source: ABdhPJwOCicOxR3nxR3s/sK6ElQtmF6KbevO5XgpiyBrhOJ6pbTln0JhapnHWI3N6fQ7BmX/EvKv9DFB2kuyguxGSAE=
+X-Received: by 2002:a7b:ce87:: with SMTP id q7mr3113493wmj.126.1631194005582; 
+ Thu, 09 Sep 2021 06:26:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210909120646.GG21362@yangzhon-Virtual>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.975, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210908100426.264356-1-pbonzini@redhat.com>
+In-Reply-To: <20210908100426.264356-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Sep 2021 14:25:55 +0100
+Message-ID: <CAFEAcA-3GX07Ub9cEOFyC36Yj9N+G2Awq2pKg-wVJvv1Oif8Jg@mail.gmail.com>
+Subject: Re: [PULL v4 00/43] (Mostly) x86 changes for 2021-09-06
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,54 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, eblake@redhat.com, qemu-devel@nongnu.org,
- seanjc@google.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/9/21 2:06 PM, Yang Zhong wrote:
-> On Thu, Sep 09, 2021 at 11:36:58AM +0200, Philippe Mathieu-Daudé wrote:
->> On 9/9/21 4:51 AM, Yang Zhong wrote:
->>> On Wed, Sep 08, 2021 at 10:38:59AM +0200, Philippe Mathieu-Daudé wrote:
->>>> On 9/8/21 10:19 AM, Yang Zhong wrote:
->>>>> Libvirt can use qmp_query_sgx_capabilities() to get the host
->>>>> sgx capabilities.
->>>>>
->>>>> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
->>>>> ---
->>>>>  hw/i386/sgx.c              | 66 ++++++++++++++++++++++++++++++++++++++
->>>>>  include/hw/i386/sgx.h      |  1 +
->>>>>  qapi/misc-target.json      | 18 +++++++++++
->>>>>  target/i386/monitor.c      |  5 +++
->>>>>  tests/qtest/qmp-cmd-test.c |  1 +
->>>>>  5 files changed, 91 insertions(+)
->>>>
->>>>> +SGXInfo *sgx_get_capabilities(Error **errp)
->>>>> +{
->>>>> +    SGXInfo *info = NULL;
->>>>> +    uint32_t eax, ebx, ecx, edx;
->>>>> +
->>>>> +    int fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
->>>>> +    if (fd < 0) {
->>>>> +        error_setg(errp, "SGX is not enabled in KVM");
->>>>> +        return NULL;
->>>>> +    }
->>>>
->>>> Is this Linux specific?
->>>
->>>   Philippe, The /dev/sgx_vepc node is used for KVM side to expose the SGX
->>>   EPC section to guest. Libvirt then use the '-machine none' qemu command 
->>>   to query host SGX capabilities(especially for host SGX EPC section size)
->>>   to decide how many SGX VMs will be started in server. If this node doesn't
->>>   exist, the reason is host can't support SGX or SGX KVM module is not compiled
->>>   in the kernel. thanks!
->>
->> Sorry but you didn't answer my question in an obvious way... Yes or no?
-> 
->   Yes, this is Linux specific. thanks!
+On Wed, 8 Sept 2021 at 11:07, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit f9128631fbeb40a55f7bc145397981c963d40909:
+>
+>   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2021-09-07 13:24:43 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 3b942628231462c56c883a6273cf137d2a382f8f:
+>
+>   ebpf: only include in system emulators (2021-09-08 08:07:04 +0200)
+>
+> ----------------------------------------------------------------
+> * SGX support (Sean, Yang)
+> * vGIF and vVMLOAD/VMSAVE support (Lara)
+> * Fix LA57 support in TCG (Daniel)
+> * Avoid pointless warnings for static user-only compilation (Thomas)
+> * Fix --disable-system compilation if libbpf is found
+> * target-i386.rst restructuring
+>
 
-You made me have a deeper look at the code. So SGX (Kconfig) requires
-KVM, which is only supported on Linux host. Thus this Linux specific
-code is only built on Linux host. Thanks.
+Philippe seems to have some review remarks on the SGX patches,
+and also I found that on my local machine this was pretty
+consistently hanging in the migration test. David G says there's
+a maybe fix for that in another pullreq, so I'll see if that helps...
 
+-- PMM
 
