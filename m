@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90BE24047FC
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 11:45:47 +0200 (CEST)
-Received: from localhost ([::1]:56758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FA8640480F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 11:51:49 +0200 (CEST)
+Received: from localhost ([::1]:35318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOGcs-0000CU-5y
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 05:45:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48442)
+	id 1mOGih-0005CT-M8
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 05:51:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1mOGak-0006bB-FG; Thu, 09 Sep 2021 05:43:34 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:42388)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mOGh5-0004C8-N5
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 05:50:08 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:36458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1mOGai-0001UP-Fl; Thu, 09 Sep 2021 05:43:34 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BE31522322;
- Thu,  9 Sep 2021 09:43:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1631180610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0l7sL6ar7A5ApmxfWZKJpSCDz/QZQX+9Da/NQ4/FsPU=;
- b=K7c2Gs2vKFqrSBmzaarx3t2hZs/602Ox/5H7o1gyXSgX37eAQHMn1en8GV58iMvL1LlcJd
- aStjrmLDY0yWkvsvmnPPd62uVtsWuR4cYwWsPyLkybhpuzCFCcoIfoPPGX82C/CQAT0VNJ
- h/7UVK06AhdysPe5kHApPz6dZ4MSdqY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1631180610;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0l7sL6ar7A5ApmxfWZKJpSCDz/QZQX+9Da/NQ4/FsPU=;
- b=UPPqw45CnatYwx4SWWqRTjikvP8IYn5C4ry8dL+mqRdUYPKDhhNDkFeMEDnvLfRHSEq4/O
- OTUT7Cdli/PB0UAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9634313342;
- Thu,  9 Sep 2021 09:43:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id XtlcJELXOWHPJAAAMHmgww
- (envelope-from <hare@suse.de>); Thu, 09 Sep 2021 09:43:30 +0000
-Subject: Re: [PULL for-6.1 06/11] hw/nvme: fix controller hot unplugging
-To: Klaus Jensen <its@irrelevant.dk>
-References: <20210726191901.4680-1-its@irrelevant.dk>
- <20210726191901.4680-7-its@irrelevant.dk>
- <699ace8a-4d92-c9ee-d844-0e5d80edc4d6@suse.de>
- <YTm+yvB3shItJ1Cn@apples.localdomain>
-From: Hannes Reinecke <hare@suse.de>
-Message-ID: <911674de-89a4-3a2b-e10b-4e7801abfb02@suse.de>
-Date: Thu, 9 Sep 2021 11:43:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mOGh4-00075q-3b
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 05:50:07 -0400
+Received: by mail-wr1-x435.google.com with SMTP id g16so1652424wrb.3
+ for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 02:50:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=shJ/1jxO26HVsIf340HhR4gKXt2SNs3yqIMKUM84vOo=;
+ b=ltgk56FQmo9DY0kU2kQnNEyWHhi+wG1KX9erL/2S4DJl70vxc0Z5fe7TuiBKOakVsV
+ flvdBnlW0ww2Izu2chE8t9EGzO2VDWmBN/dPPVPserApHoQGLIztN8yYKiGsz8IYZnuE
+ qDpdunNXwLUuDpAWbNRXi86hs0WFp1tnmFUilOMERTya33xrap6Ws+q3koR+5uI3W3jK
+ 1tLHcSsg2nbDB42svMvCP3ufEpx2jjG5dEn8jcHXnpZGsy5u04o6ysqNwT00Sv6kUQPb
+ fYH5YDjIpSz/4smTiyHSw2E5DQFITu0kxC8tR4rvaRZwwzfFCIy2OJyBZrDlrAN7c3vw
+ y9wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=shJ/1jxO26HVsIf340HhR4gKXt2SNs3yqIMKUM84vOo=;
+ b=EiWKdg0sD5/Lew85bd65AAeqoqBHZ1r+mtnQAzqXmCkMI7+7ARPYfVwJj6aqI4dxC/
+ TPOuFGjlx2dSRQc52oDpLmOAVVQXbUlPBdYi3gtlEwrfxfREGcdsP+k4Joqg1sBwuvlI
+ feJmShaXM4Iol7ilyR6wDGVUHofVGjQZ2VFfjevXKYIkV+xccnK06dYKByUu52bwvjD4
+ bvtvA7Bo8dGzzsVRKZjNmK7t1xxrECm8n+cxjkqOxh9wJ30mM0MnLiYQLY/M8Ico0q0K
+ egQcQLAPI0r81Qbrkn9cmOzZezpSpsddL2xJt7f+A1ANEGcjETS9mvwGGWXDhO1TfYIQ
+ 4JyA==
+X-Gm-Message-State: AOAM531V73+pQKUbs1TolRuzNl4XX0ejtC6bp9WccDO9SJBkgp6A3Ov0
+ pyFLuPO+w4V4ypeKF7F5prEwbxUNygbCe2XGBbGC+Q==
+X-Google-Smtp-Source: ABdhPJzRtq/umZm6qs6C6H/gETc0YfyZNB6PcpV7MXbJVNE+jln2qaRBtEWkVj/7IB8nMd1vadE6fY6UH26HBprTH4I=
+X-Received: by 2002:adf:fb91:: with SMTP id a17mr2367349wrr.376.1631181004293; 
+ Thu, 09 Sep 2021 02:50:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YTm+yvB3shItJ1Cn@apples.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=hare@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -62
-X-Spam_score: -6.3
-X-Spam_bar: ------
-X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.922,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20210907104512.129103-1-pbonzini@redhat.com>
+ <8b500aeb-b4e2-dcee-24f8-825ae6327acf@redhat.com>
+ <e6790a9c-f2a3-75f8-623f-51726f4b656d@redhat.com>
+ <CACGkMEuSNRmKX2ukdDkmhS91-o4Z0mi_TdASCm6aKNkFHum0gQ@mail.gmail.com>
+In-Reply-To: <CACGkMEuSNRmKX2ukdDkmhS91-o4Z0mi_TdASCm6aKNkFHum0gQ@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 Sep 2021 10:49:14 +0100
+Message-ID: <CAFEAcA940jNBwBV1BwxmC9h-YMSQijNTtsfGYAsuHdAY0ruADw@mail.gmail.com>
+Subject: Re: [PATCH] ebpf: only include in system emulators
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,116 +81,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Laurent Vivier <lvivier@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Andrew Melnychenko <andrew@daynix.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/9/21 9:59 AM, Klaus Jensen wrote:
-> On Sep  9 09:02, Hannes Reinecke wrote:
->> On 7/26/21 9:18 PM, Klaus Jensen wrote:
->>> From: Klaus Jensen <k.jensen@samsung.com>
->>>
->>> Prior to this patch the nvme-ns devices are always children of the
->>> NvmeBus owned by the NvmeCtrl. This causes the namespaces to be
->>> unrealized when the parent device is removed. However, when subsystems
->>> are involved, this is not what we want since the namespaces may be
->>> attached to other controllers as well.
->>>
->>> This patch adds an additional NvmeBus on the subsystem device. When
->>> nvme-ns devices are realized, if the parent controller device is linked
->>> to a subsystem, the parent bus is set to the subsystem one instead. This
->>> makes sure that namespaces are kept alive and not unrealized.
->>>
->>> Reviewed-by: Hannes Reinecke <hare@suse.de>
->>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->>> ---
->>>   hw/nvme/nvme.h   | 15 ++++++++-------
->>>   hw/nvme/ctrl.c   | 14 ++++++--------
->>>   hw/nvme/ns.c     | 18 ++++++++++++++++++
->>>   hw/nvme/subsys.c |  3 +++
->>>   4 files changed, 35 insertions(+), 15 deletions(-)
->>>
->> Finally got around to test this; sadly, with mixed results.
->> On the good side: controller hotplug works.
->> Within qemu monitor I can do:
->>
->> device_del <devname>
->> device_add <device description>
->>
->> and OS reports:
->> [   56.564447] pcieport 0000:00:09.0: pciehp: Slot(0-2): Attention button
->> pressed
->> [   56.564460] pcieport 0000:00:09.0: pciehp: Slot(0-2): Powering off due to
->> button press
->> [  104.293335] pcieport 0000:00:09.0: pciehp: Slot(0-2): Attention button
->> pressed
->> [  104.293347] pcieport 0000:00:09.0: pciehp: Slot(0-2) Powering on due to
->> button press
->> [  104.293540] pcieport 0000:00:09.0: pciehp: Slot(0-2): Card present
->> [  104.293544] pcieport 0000:00:09.0: pciehp: Slot(0-2): Link Up
->> [  104.428961] pci 0000:03:00.0: [1b36:0010] type 00 class 0x010802
->> [  104.429298] pci 0000:03:00.0: reg 0x10: [mem 0x00000000-0x00003fff 64bit]
->> [  104.431442] pci 0000:03:00.0: BAR 0: assigned [mem 0xc1200000-0xc1203fff
->> 64bit]
->> [  104.431580] pcieport 0000:00:09.0: PCI bridge to [bus 03]
->> [  104.431604] pcieport 0000:00:09.0:   bridge window [io  0x7000-0x7fff]
->> [  104.434815] pcieport 0000:00:09.0:   bridge window [mem
->> 0xc1200000-0xc13fffff]
->> [  104.436685] pcieport 0000:00:09.0:   bridge window [mem
->> 0x804000000-0x805ffffff 64bit pref]
->> [  104.441896] nvme nvme2: pci function 0000:03:00.0
->> [  104.442151] nvme 0000:03:00.0: enabling device (0000 -> 0002)
->> [  104.455821] nvme nvme2: 1/0/0 default/read/poll queues
->>
->> So that works.
->> But: the namespace is not reconnected.
->>
->> # nvme list-ns /dev/nvme2
->>
->> draws a blank. So guess some fixup patch is in order...
->>
-> 
-> Hi Hannes,
-> 
-> I see. Ater the device_del/device_add dance, the namespace is there, but it is
-> not automatically attached.
-> 
->     # nvme list-ns -a /dev/nvme0
->     [   0]:0x2
-> 
->     # nvme attach-ns /dev/nvme0 -n 2 -c 0
->     attach-ns: Success, nsid:2
-> 
->     # nvme list-ns /dev/nvme0
->     [   0]:0x2
-> 
-> 
-> I don't *think* the spec says that namespaces *must* be re-attached
-> automatically? But I would have to check... If it does say that, then this is a
-> bug of course.
-> 
-Errm. Yes, the namespaces must be present after a 'reset' (which a
-hotunplug/hotplug cycle amounts to here).
+On Thu, 9 Sept 2021 at 04:14, Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Wed, Sep 8, 2021 at 1:46 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >
+> > On 08/09/21 05:08, Jason Wang wrote:
+> > >
+> > > =E5=9C=A8 2021/9/7 =E4=B8=8B=E5=8D=886:45, Paolo Bonzini =E5=86=99=E9=
+=81=93:
+> > >> eBPF files are being included in system emulators, which is useless
+> > >
+> > >
+> > > I think it should work since it's an independent feature. The current
+> > > use case is to offload the RSS from Qemu to kernel TAP.
+> >
+> > Sorry, I meant "user emulators".  That should make more sense, they
+> > don't have TAP at all.
 
-As per spec the namespaces are a property of the _subsystem_, not the
-controller. And the controller attaches to a subsystem, so it'll see any
-namespaces which are present in the subsystem.
-(whether it needs to see _all_ namespaces from that subsystem is another
-story, but doesn't need to bother us here :-).
+> I see so I've queued this.
 
-Just send a patch for it; is actually quite trivial.
+Did you fix the mistake in the commit message ?
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+thanks
+-- PMM
 
