@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8943405A80
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 18:06:16 +0200 (CEST)
-Received: from localhost ([::1]:44426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCBF3405A87
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 18:12:10 +0200 (CEST)
+Received: from localhost ([::1]:49188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOMZ4-0006tZ-Mt
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 12:06:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51128)
+	id 1mOMem-0001zC-QP
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 12:12:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mOMVt-0003Y8-78
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 12:02:57 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:54024)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mOMVp-00041N-8J
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 12:02:56 -0400
-Received: by mail-wm1-x330.google.com with SMTP id i3so1721534wmq.3
- for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 09:02:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=QkjNKNvINq4/buCSUf35IGRkJyrt5zOGbKj5nu+IXMs=;
- b=Ft0X5S1yWbT/xK7VJxSYvCzQT3N1cSlVZUFRU12wf7Bb66jjiidzt073PwiO64iE26
- eYj3UUpP8TxSs3anVkTWuANIsh5xHlva7AuKn3w3LjUNJE4MyQybX6PoR4gzB1+BABIC
- J1EebG99GdXbiJtl8lLHjB3Ral2ETH0TDsMW5DNanRT+GgAUIONiycDfVXXg9FOuQZXz
- K5T84mMcpXT0gAYNZ9s3AIypqF8KHSc4722q+RJyLExajTNcQ1ZTiK5ogcWhTipyyT8e
- OjZbHkrFnjaTh/JGfPN/yZaGEW6yAuNE8Pe3yLluKZHViJjOxEXhydwWVWjdkFpTq+Vn
- A4rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QkjNKNvINq4/buCSUf35IGRkJyrt5zOGbKj5nu+IXMs=;
- b=x2FRJ/kp9O5euFwx+sz/KR5Xh9v63CRIiTfkG1SR9ewgWhbWPOwWZSRnsMXGM2RLC2
- PQbOd5E/XBjD2fqqX74zyYRunCd3ipwmHlAZPXAM+WFRLN3u/fOngGtP8Lp26y3OWs3N
- pfjLdODncBaqVolP8WO0VG4Wrmb/JHd6O2gdLHp1vetTRY7AeFGKvF38poei4V/MiuGR
- 6GcK1h0zg5ShmC66O55tW6NeMWwTMNUxOK4/1qCoHxEWa5IVON33VBf+rwIPSYt5qQPC
- aRMhvh+ZEm7aiSyWf9Wy+ib94hi3XWtB1qS4hb8S+AliKVXj67tRprrQ9CfAykm+Hxp6
- jzsA==
-X-Gm-Message-State: AOAM531CmsNopCHorv3AJMfydek2oM/fpGQIdW960Jemhvre3Nn5qzPw
- Vh4Ccdx7hou6YPWmYsZX9ADAaIrlO7TEQ3FkVASXww==
-X-Google-Smtp-Source: ABdhPJzGnYBAEoT3prm+Y0u4JSVtzYfJ0VbdQtAxCyIqHZjc5NRfKUDpEKlSZsSNOq5LC4k9JjLbETV32AWyIGASUMg=
-X-Received: by 2002:a05:600c:4f46:: with SMTP id
- m6mr3796027wmq.133.1631203371021; 
- Thu, 09 Sep 2021 09:02:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mOMdd-0000Xd-IN
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 12:10:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44263)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mOMdb-0002FV-F2
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 12:10:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631203853;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5oE0YJt76t+Jdxm+0KYNqIJ6lfw57FFM8kg0xYa4d9o=;
+ b=DEwYyCBz1RysZl64llwJQJyJn4dca+mgrW5S7Taulw+3y0qRCpMW855mXS5ialCqbovIv8
+ H0kuBMG1hWj4xtQnDyh5HH8Gf5PGv911WjDJdRE+TOPYBmN+30JcrdZD9fflI26ziU5w7/
+ f1SdrN8Xa0Vl02+fVIFjvJzDqnhDT8c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-1cdlraMRPmmg_6H6Nvxptw-1; Thu, 09 Sep 2021 12:10:52 -0400
+X-MC-Unique: 1cdlraMRPmmg_6H6Nvxptw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A5B71097909;
+ Thu,  9 Sep 2021 16:08:13 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0724769FAE;
+ Thu,  9 Sep 2021 16:08:10 +0000 (UTC)
+Date: Thu, 9 Sep 2021 17:08:08 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] coroutine: resize pool periodically instead of limiting
+ size
+Message-ID: <YToxaOCMsLTLp4+M@redhat.com>
+References: <20210901160923.525651-1-stefanha@redhat.com>
+ <YTnHwJ/0O4rk7M7g@redhat.com>
+ <YTotkCiuqTeDgJJ0@stefanha-x1.localdomain>
 MIME-Version: 1.0
-References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
- <20210907121943.3498701-14-marcandre.lureau@redhat.com>
-In-Reply-To: <20210907121943.3498701-14-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 Sep 2021 17:02:01 +0100
-Message-ID: <CAFEAcA-=P+p7etUiLUzDxDzfe8N6TQyLC5=ExTSzgG4iOh0-dQ@mail.gmail.com>
-Subject: Re: [RFC v3 13/32] rust: use vendored-sources
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YTotkCiuqTeDgJJ0@stefanha-x1.localdomain>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,76 +84,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Ian Jackson <iwj@xenproject.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Tingting Mao <timao@redhat.com>,
+ qemu-devel@nongnu.org, Honghao Wang <wanghonghao@bytedance.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Daniele Buono <dbuono@linux.vnet.ibm.com>, Serge Guelton <sguelton@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 Sept 2021 at 13:32, <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Most likely, QEMU will want tighter control over the sources, rather
-> than relying on crates.io downloading, use a git submodule with all the
-> dependencies. However, cargo --offline was added in 1.36.
->
-> "cargo vendor" helps gathering and updating the dependencies.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  configure                 | 8 ++++++++
->  meson.build               | 7 ++++++-
->  .cargo/config.toml.in     | 5 +++++
->  .cargo/meson.build        | 5 +++++
->  .gitmodules               | 4 ++++
->  rust/vendored             | 1 +
->  scripts/archive-source.sh | 2 +-
->  scripts/cargo_wrapper.py  | 1 +
->  8 files changed, 31 insertions(+), 2 deletions(-)
->  create mode 100644 .cargo/config.toml.in
->  create mode 100644 .cargo/meson.build
->  create mode 160000 rust/vendored
+On Thu, Sep 09, 2021 at 04:51:44PM +0100, Stefan Hajnoczi wrote:
+> On Thu, Sep 09, 2021 at 09:37:20AM +0100, Daniel P. Berrangé wrote:
+> > On Wed, Sep 01, 2021 at 05:09:23PM +0100, Stefan Hajnoczi wrote:
+> > > It was reported that enabling SafeStack reduces IOPS significantly
+> > > (>25%) with the following fio benchmark on virtio-blk using a NVMe host
+> > > block device:
+> > > 
+> > >   # fio --rw=randrw --bs=4k --iodepth=64 --runtime=1m --direct=1 \
+> > > 	--filename=/dev/vdb --name=job1 --ioengine=libaio --thread \
+> > > 	--group_reporting --numjobs=16 --time_based \
+> > >         --output=/tmp/fio_result
+> > > 
+> > > Serge Guelton and I found that SafeStack is not really at fault, it just
+> > > increases the cost of coroutine creation. This fio workload exhausts the
+> > > coroutine pool and coroutine creation becomes a bottleneck. Previous
+> > > work by Honghao Wang also pointed to excessive coroutine creation.
+> > > 
+> > > Creating new coroutines is expensive due to allocating new stacks with
+> > > mmap(2) and mprotect(2). Currently there are thread-local and global
+> > > pools that recycle old Coroutine objects and their stacks but the
+> > > hardcoded size limit of 64 for thread-local pools and 128 for the global
+> > > pool is insufficient for the fio benchmark shown above.
+> > 
+> > Rather than keeping around a thread local pool of coroutine
+> > instances, did you ever consider keeping around a pool of
+> > allocated stacks ? Essentially it seems like you're syaing
+> > the stack allocation is the problem due to it using mmap()
+> > instead of malloc() and thus not benefiting from any of the
+> > performance tricks malloc() impls use to avoid repeated
+> > syscalls on every allocation.  If 'qemu_alloc_stack' and
+> > qemu_free_stack could be made more intelligent by caching
+> > stacks, then perhaps the coroutine side can be left "dumb" ?
+> 
+> What is the advantage of doing that? Then the Coroutine struct needs to
+> be malloced each time. Coroutines are the only users of
+> qemu_alloc_stack(), so I think pooling the Coroutines is optimal.
 
-So, this is a lot of extra code in a submodule. Historically we've
-found that submodules are a colossal pain, and so I think we should
-think about whether we really want to have all our rust dependencies
-in a submodule forever.
+I mostly thought it might lead itself to cleaner implementation if the
+pooling logic is separate from the main coroutine logic. It could be
+easier to experiment with different allocation strategies if the code
+related to pooling is well isolated.
 
-I am definitely only at the beginner stage with Rust, but I think
-we should have a discussion about what the different alternative
-options are here, and what we want to achieve, so that we know
-why we're doing this and what we're gaining from the pain...
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-For instance, could we instead commit Cargo.lock in git and
-use that to nail down specific versions of the dependencies ?
-
-FWIW, the "why submodules" for the C dependencies we ship
-like that is basically
- * C doesn't have a package manager, so if we need a dependency that
-   distros don't ship then we need to wrap it up and provide it ourselves
- * where we ship binary blobs (guest BIOS etc) we want to also ship
-   the source code for those blobs
-I think for Rust dependencies those don't really apply.
-
-Overall, I think that to the extent that we can look like a "normal"
-user of Rust, that's a good plan. Distros may well want to be able
-to do "build against our packaged rust stuff rather than downloading
-from crates.io" but I imagine they have machinery for that already;
-if we act like most other Rust programs we have better chances of
-not breaking that machinery.
-
-We do already effectively do "download code when QEMU is built" --
-the makefile invokes scripts/git-submodule-update which pulls
-down submodule code. (Thanks to Ian for pointing out this framing
-of the question.)
-
-(I'm not personally a fan of the "download everything from crates.io"
-Rust ecosystem, but it is what it is, and wishing the Rust world
-worked more like a trad Linux-distro-provides-all-your-dependencies
-isn't, alas, going to make it so :-))
-
-thanks
--- PMM
 
