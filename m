@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160234043D6
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 05:06:30 +0200 (CEST)
-Received: from localhost ([::1]:42286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F374043E3
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 05:17:32 +0200 (CEST)
+Received: from localhost ([::1]:41842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOAOS-0003aT-KL
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 23:06:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38698)
+	id 1mOAZ8-0005YP-6n
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 23:17:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mOANB-0002o9-Bc
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 23:05:09 -0400
-Received: from mga06.intel.com ([134.134.136.31]:40318)
+ id 1mOAXc-0004A7-A0
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 23:15:56 -0400
+Received: from mga17.intel.com ([192.55.52.151]:56394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mOAN8-0005l9-5y
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 23:05:09 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="281675543"
-X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; d="scan'208";a="281675543"
+ id 1mOAXa-0007SW-4r
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 23:15:55 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="200861916"
+X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; d="scan'208";a="200861916"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2021 20:05:01 -0700
-X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; d="scan'208";a="539225178"
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2021 20:15:47 -0700
+X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; d="scan'208";a="539228617"
 Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
  ([10.238.144.101])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 08 Sep 2021 20:04:58 -0700
-Date: Thu, 9 Sep 2021 10:51:05 +0800
+ 08 Sep 2021 20:15:46 -0700
+Date: Thu, 9 Sep 2021 11:01:52 +0800
 From: Yang Zhong <yang.zhong@intel.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 5/7] qmp: Add the qmp_query_sgx_capabilities()
-Message-ID: <20210909025105.GC21362@yangzhon-Virtual>
-References: <20210908081937.77254-1-yang.zhong@intel.com>
- <20210908081937.77254-6-yang.zhong@intel.com>
- <fe8b02c8-d7f8-c733-9577-311251a5f66d@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PULL v4 13/43] vl: Add sgx compound properties to expose SGX
+ EPC sections to guest
+Message-ID: <20210909030152.GD21362@yangzhon-Virtual>
+References: <20210908100426.264356-1-pbonzini@redhat.com>
+ <20210908100426.264356-14-pbonzini@redhat.com>
+ <20210908145240.baqge5v2kovmoq5m@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fe8b02c8-d7f8-c733-9577-311251a5f66d@redhat.com>
+In-Reply-To: <20210908145240.baqge5v2kovmoq5m@redhat.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=yang.zhong@intel.com;
- helo=mga06.intel.com
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=yang.zhong@intel.com;
+ helo=mga17.intel.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,44 +62,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, pbonzini@redhat.com, eblake@redhat.com,
- qemu-devel@nongnu.org, seanjc@google.com
+Cc: yang.zhong@intel.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
+ seanjc@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 08, 2021 at 10:38:59AM +0200, Philippe Mathieu-Daudé wrote:
-> On 9/8/21 10:19 AM, Yang Zhong wrote:
-> > Libvirt can use qmp_query_sgx_capabilities() to get the host
-> > sgx capabilities.
+On Wed, Sep 08, 2021 at 09:52:40AM -0500, Eric Blake wrote:
+> On Wed, Sep 08, 2021 at 12:03:56PM +0200, Paolo Bonzini wrote:
+> > From: Sean Christopherson <sean.j.christopherson@intel.com>
 > > 
-> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> > ---
-> >  hw/i386/sgx.c              | 66 ++++++++++++++++++++++++++++++++++++++
-> >  include/hw/i386/sgx.h      |  1 +
-> >  qapi/misc-target.json      | 18 +++++++++++
-> >  target/i386/monitor.c      |  5 +++
-> >  tests/qtest/qmp-cmd-test.c |  1 +
-> >  5 files changed, 91 insertions(+)
+> > Because SGX EPC is enumerated through CPUID, EPC "devices" need to be
+> > realized prior to realizing the vCPUs themselves, i.e. long before
+> > generic devices are parsed and realized.  From a virtualization
+> > perspective, the CPUID aspect also means that EPC sections cannot be
+> > hotplugged without paravirtualizing the guest kernel (hardware does
+> > not support hotplugging as EPC sections must be locked down during
+> > pre-boot to provide EPC's security properties).
+> > 
 > 
-> > +SGXInfo *sgx_get_capabilities(Error **errp)
-> > +{
-> > +    SGXInfo *info = NULL;
-> > +    uint32_t eax, ebx, ecx, edx;
-> > +
-> > +    int fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
-> > +    if (fd < 0) {
-> > +        error_setg(errp, "SGX is not enabled in KVM");
-> > +        return NULL;
-> > +    }
+> >  qapi/machine.json         | 26 +++++++++++++++
+> >  qemu-options.hx           | 10 ++++--
+> >  9 files changed, 166 insertions(+), 8 deletions(-)
+> >  create mode 100644 hw/i386/sgx.c
+> ...
+> > +++ b/qapi/machine.json
+> > @@ -1194,6 +1194,32 @@
+> >            }
+> >  }
+> >  
+> > +##
+> > +# @SgxEPC:
+> > +#
+> > +# Sgx EPC cmdline information
+> > +#
+> > +# @memdev: memory backend linked with device
+> > +#
+> > +# Since: 6.1
 > 
-> Is this Linux specific?
-
-  Philippe, The /dev/sgx_vepc node is used for KVM side to expose the SGX
-  EPC section to guest. Libvirt then use the '-machine none' qemu command 
-  to query host SGX capabilities(especially for host SGX EPC section size)
-  to decide how many SGX VMs will be started in server. If this node doesn't
-  exist, the reason is host can't support SGX or SGX KVM module is not compiled
-  in the kernel. thanks!
+> Another instance where we'll want the followup patch to correct things
+> to 6.2.
+> 
+  
+  Eric, i will cleanup this in the next version of https://patchew.org/QEMU/20210908081937.77254-1-yang.zhong@intel.com/.
+  There is one special patch to do pure cleanup based on this PULL. thanks!
 
   Yang
 
