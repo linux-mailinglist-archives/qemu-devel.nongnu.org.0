@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFB464042A7
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 03:11:50 +0200 (CEST)
-Received: from localhost ([::1]:38382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC804042B5
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 03:17:51 +0200 (CEST)
+Received: from localhost ([::1]:40594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mO8bV-0001Zy-Gs
-	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 21:11:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51732)
+	id 1mO8hK-0003IH-E0
+	for lists+qemu-devel@lfdr.de; Wed, 08 Sep 2021 21:17:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mO8a9-0000fq-Kt
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 21:10:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50724)
+ id 1mO8gN-0002ca-E9
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 21:16:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mO8a6-0000FL-H3
- for qemu-devel@nongnu.org; Wed, 08 Sep 2021 21:10:24 -0400
+ id 1mO8gL-0004g1-29
+ for qemu-devel@nongnu.org; Wed, 08 Sep 2021 21:16:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631149819;
+ s=mimecast20190719; t=1631150208;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mnR6UdWlFsDP7bR1QEVT6MnJGQr/L1FtpzGt9BcPNYA=;
- b=BzQOrvv8VvYAUPfiGfpq5kiaajQLtaLwWFtf2bxD6X0nQw+olNpYv/KJ/huBbcVaJugpFk
- yPCokUixRdLam5Ao2OELHQlENFGB+gTTdLCRX/agTDXDXrINcMQ8ujEv+b52pe2vC7oS10
- Et5BXSkjz2UJyy7r1Kv5Y9tFIvZkjzY=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-BMRD9EznO1CYDjxGmftAbA-1; Wed, 08 Sep 2021 21:10:16 -0400
-X-MC-Unique: BMRD9EznO1CYDjxGmftAbA-1
-Received: by mail-lj1-f198.google.com with SMTP id
- d19-20020a2e8913000000b001c2cf57d9b7so59778lji.16
- for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 18:10:16 -0700 (PDT)
+ bh=fv4EHKXGiqfokvcCnmpq93AuUOXnWFZLy6ehM1EqT5M=;
+ b=eK1boHyUO+EMjAd07B1NmtyNb68u3X2Tadxy0guKcVthXnpOhVQGWA2hUs2OhxT7xIT837
+ hLwI+qtB0TzhJ2YhTqSU9paR1OQ6fnhSeBOEuD1MQa9hvmV0OkRsQOas+io9dwiZPYuR8N
+ 6hAmXrXPoFzYx/3cH6dxqVGJ0E1klXA=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-123-zqrhvF8tN2WYqF0u8RZ3ng-1; Wed, 08 Sep 2021 21:16:44 -0400
+X-MC-Unique: zqrhvF8tN2WYqF0u8RZ3ng-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ b15-20020a056512024f00b003e776206456so27184lfo.16
+ for <qemu-devel@nongnu.org>; Wed, 08 Sep 2021 18:16:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mnR6UdWlFsDP7bR1QEVT6MnJGQr/L1FtpzGt9BcPNYA=;
- b=mntn7zxJeGs/oi//4wF5czJ44DnAX5ObEFfnFWHYo5OyDYBUeHQQ4peGJWKa/+Hx8Y
- 0ozyI+N2ED+8U9OYPSMpiak4fP4YKt3o6fO1H3FyZFh+OE4hFuKPgHpRAQylp7aip5Zj
- n1Y6KdSTYE7W5Dtw32MVqJenEo4X4UQIDtiF/Dd3fha/9GpeBtga++e8PHJMZ83B6Brz
- 8rZDU8EPQT/gk6o5kS3w8uJlW+n8P1KsGEU1cQGWtvpVcDTGhAoB17pjuXML92AMv02o
- UR61KIX2uW7H4A5O0Rj2nzr0r1vDoq+lSKxFhZxyEVrwGH/w2h73PE7FmzKUNOXZeplD
- 5fcA==
-X-Gm-Message-State: AOAM531nmvbcFJHsg+t1owxT0qYeMYR8Fx4Tcafvf+pTA0slZgXz0q8h
- wMbfcj2EnnxbkgWBSnsouubOexCOpP9OBrbaIZyvfhfok40eAbI3XUX+/q9NT8sUgIlextiJgkz
- uyVZGKg3RmLjlZVHsUJOff3LrXEJEKAI=
-X-Received: by 2002:a2e:a804:: with SMTP id l4mr200172ljq.420.1631149815188;
- Wed, 08 Sep 2021 18:10:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztFO3HB/a3FoxromalMoPMTQllowjEVjA5ZSyt9v5Gcn6r+DytE2pHALBT7Fut9RPa+aUrFEEWYRvcfXt2eI0=
-X-Received: by 2002:a2e:a804:: with SMTP id l4mr200150ljq.420.1631149814784;
- Wed, 08 Sep 2021 18:10:14 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=fv4EHKXGiqfokvcCnmpq93AuUOXnWFZLy6ehM1EqT5M=;
+ b=fAKD1IfwRpgXFHJdiAZW6jWJLW+0TVrbhsPoliOKg6zSH4u/m7YmtnFF/NcFIxR42q
+ AfQg9RUtk72LpNvNiJbgPUgCgCoDqz+9FAcPsl1JzkqdNp9vEXHP12yK863EazEuHnRx
+ 0+RXAR/E9XcBRatWJWbd/Q5iKW0whqg+GNXR/Z4vL+ZGOcD33K3I25wnEyJzKkcBzS5i
+ O0QiWNTwkJFSB4hkj2ABhUHxgW3N3kqCCtA4gZHDVM582gOXDDKd9SPktAYc6KtCB0jU
+ YMsg5XeECB8Wv18qvoHuVxtWwERI0ob7sP0giX7QjNHnMP5RQfpVWjGwj71+wHuNDm69
+ RAxg==
+X-Gm-Message-State: AOAM532LvaBC6cCuC4hNZ2FLuuOATe4bIvsXO6Yqn83yiUtpwTzeLE8h
+ Pj7jyoBptyYjOrdGezjnrjlTj2V/agndiuEr33VE6KYlgF4DT0NBKmFGPdX/eAyhqgC5IFq2VZj
+ 5GyAkZJ1hNeAZzYqXYEGDl31frj0Q0zA=
+X-Received: by 2002:a05:651c:54c:: with SMTP id
+ q12mr210077ljp.369.1631150203086; 
+ Wed, 08 Sep 2021 18:16:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxGoXjJNVwxVVK8VsSYCQm28roK9wETGxBRWKYSynK6zEEc7C/kBc3wfY96lLB2RG/1GugLw2Km1AeFXv6GsKg=
+X-Received: by 2002:a05:651c:54c:: with SMTP id
+ q12mr210061ljp.369.1631150202701; 
+ Wed, 08 Sep 2021 18:16:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210831110238.299458-1-leobras@redhat.com>
- <20210831110238.299458-4-leobras@redhat.com>
- <YS4rulGV9eueB04H@redhat.com>
- <CAJ6HWG5cH_33GDTo_v=8zZDZMJNf4k5+Y79Pt1A_7LmxXBx9bQ@mail.gmail.com>
- <YTewN8JZLbpL1Gcf@t490s>
- <CACGkMEuH+Ndh3cckaGfsit=uOLQ=gk39xptGm8bhPWWMzxEDJg@mail.gmail.com>
- <YThyDzq+fiBW75Q/@work-vm> <YTjUa5DuqE9RU0ZF@t490s>
-In-Reply-To: <YTjUa5DuqE9RU0ZF@t490s>
+References: <20210713153758.323614-1-andrew@daynix.com>
+ <20210713153758.323614-5-andrew@daynix.com>
+ <e73ce649-a04e-5200-8258-487a565c7e20@redhat.com>
+ <CAOEp5OekBjFfwPEJ3JU-x0_wrwO9szApOk=kR3e7AKhiLqa9-w@mail.gmail.com>
+ <38ea6b36-b968-02bf-b3a8-3d6393df31a5@redhat.com>
+ <CAOEp5OcrwBJh=89wQ-eA0Z1MZpprYtLVvJSF1YrNPhu2kzqzCA@mail.gmail.com>
+ <CACGkMEua49tvtz8xv63umSbjS1nSZy6dFhrfu13ytps4socVPw@mail.gmail.com>
+ <CAOEp5Ocxuroqb2Ku74z+iBHEjGbot9wvrMSwxP7wAKOPWnPSJg@mail.gmail.com>
+In-Reply-To: <CAOEp5Ocxuroqb2Ku74z+iBHEjGbot9wvrMSwxP7wAKOPWnPSJg@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 9 Sep 2021 09:10:03 +0800
-Message-ID: <CACGkMEtvPH0+_d903+x50FcfRVHzLsCuJqkEV63ybR+3iKzJ1g@mail.gmail.com>
-Subject: Re: [PATCH v1 3/3] migration: multifd: Enable zerocopy
-To: Peter Xu <peterx@redhat.com>
+Date: Thu, 9 Sep 2021 09:16:31 +0800
+Message-ID: <CACGkMEtK-XzC-jfPtV-fffRGeSFD9AbEhUu9VSdF+J+Ne_yhew@mail.gmail.com>
+Subject: Re: [PATCH 4/5] ebpf_rss_helper: Added helper for eBPF RSS.
+To: Yuri Benditovich <yuri.benditovich@daynix.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -94,77 +99,397 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
+Cc: Andrew Melnychenko <andrew@daynix.com>,
  =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Leonardo Bras Soares Passos <leobras@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>, Jagannathan Raman <jag.raman@oracle.com>
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Yan Vugenfirer <yan@daynix.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 8, 2021 at 11:19 PM Peter Xu <peterx@redhat.com> wrote:
+On Thu, Sep 9, 2021 at 8:00 AM Yuri Benditovich
+<yuri.benditovich@daynix.com> wrote:
 >
-> On Wed, Sep 08, 2021 at 09:19:27AM +0100, Dr. David Alan Gilbert wrote:
-> > * Jason Wang (jasowang@redhat.com) wrote:
-> > > On Wed, Sep 8, 2021 at 2:32 AM Peter Xu <peterx@redhat.com> wrote:
-> > > >
-> > > > On Thu, Sep 02, 2021 at 04:22:55AM -0300, Leonardo Bras Soares Passos wrote:
-> > > > > > I don't think it is valid to unconditionally enable this feature due to the
-> > > > > > resource usage implications
-> > > > > >
-> > > > > > https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
-> > > > > >
-> > > > > >   "A zerocopy failure will return -1 with errno ENOBUFS. This happens
-> > > > > >    if the socket option was not set, the socket exceeds its optmem
-> > > > > >    limit or the user exceeds its ulimit on locked pages."
-> > > > >
-> > > > > You are correct, I unfortunately missed this part in the docs :(
-> > > > >
-> > > > > > The limit on locked pages is something that looks very likely to be
-> > > > > > exceeded unless you happen to be running a QEMU config that already
-> > > > > > implies locked memory (eg PCI assignment)
-> > > > >
-> > > > > Do you mean the limit an user has on locking memory?
-> > > > >
-> > > > > If so, that makes sense. I remember I needed to set the upper limit of locked
-> > > > > memory for the user before using it, or adding a capability to qemu before.
-> > > >
-> > > > So I'm a bit confused on why MSG_ZEROCOPY requires checking RLIMIT_MEMLOCK.
-> > > >
-> > > > The thing is IIUC that's accounting for pinned pages only with either mlock()
-> > > > (FOLL_MLOCK) or vfio (FOLL_PIN).
-> > > >
-> > > > I don't really think MSG_ZEROCOPY is doing that at all...  I'm looking at
-> > > > __zerocopy_sg_from_iter() -> iov_iter_get_pages().
-> > >
-> > > It happens probably here:
-> > >
-> > > E.g
-> > >
-> > > __ip_append_data()
-> > >     msg_zerocopy_realloc()
-> > >         mm_account_pinned_pages()
+> On Wed, Sep 8, 2021 at 6:45 AM Jason Wang <jasowang@redhat.com> wrote:
 > >
-> > When do they get uncounted?  i.e. is it just the data that's in flight
-> > that's marked as pinned?
+> > On Tue, Sep 7, 2021 at 6:40 PM Yuri Benditovich
+> > <yuri.benditovich@daynix.com> wrote:
+> > >
+> > > On Wed, Sep 1, 2021 at 9:42 AM Jason Wang <jasowang@redhat.com> wrote=
+:
+> > > >
+> > > >
+> > > > =E5=9C=A8 2021/8/31 =E4=B8=8A=E5=8D=881:07, Yuri Benditovich =E5=86=
+=99=E9=81=93:
+> > > > > On Fri, Aug 20, 2021 at 6:41 AM Jason Wang <jasowang@redhat.com> =
+wrote:
+> > > > >>
+> > > > >> =E5=9C=A8 2021/7/13 =E4=B8=8B=E5=8D=8811:37, Andrew Melnychenko =
+=E5=86=99=E9=81=93:
+> > > > >>> Helper program. Loads eBPF RSS program and maps and passes them=
+ through unix socket.
+> > > > >>> Libvirt may launch this helper and pass eBPF fds to qemu virtio=
+-net.
+> > > > >>
+> > > > >> I wonder if this can be done as helper for TAP/bridge.
+> > > > >>
+> > > > >> E.g it's the qemu to launch those helper with set-uid.
+> > > > >>
+> > > > >> Then libvirt won't even need to care about that?
+> > > > >>
+> > > > > There are pros and cons for such a solution with set-uid.
+> > > > >  From my point of view one of the cons is that set-uid is efficie=
+nt
+> > > > > only at install time so the coexistence of different qemu builds =
+(and
+> > > > > different helpers for each one) is kind of problematic.
+> > > > > With the current solution this does not present any problem: the
+> > > > > developer can have several different builds, each one automatical=
+ly
+> > > > > has its own helper and there is no conflict between these builds =
+and
+> > > > > between these builds and installed qemu package. Changing the
+> > > > > 'emulator' in the libvirt profile automatically brings the proper
+> > > > > helper to work.
+> > > >
+> > > >
+> > > > I'm not sure I get you here. We can still have default/sample helpe=
+r to
+> > > > make sure it works for different builds.
+> > > >
+> > > > If we can avoid the involvement of libvirt, that would be better.
+> > >
+> > > Hi Jason,
+> > >
+> > > Indeed I did not get the idea, can you please explain it in more
+> > > details (as detailed as possible to avoid future misunderstanding),
+> > > especially how exactly we can use the set-uid and what is the 'defaul=
+t' helper.
+> > > We also would prefer to do everything from qemu but we do not see how
+> > > we can do that.
+> >
+> >
+> Some more questions to understand the idea better:
+> > Something like:
+> >
+> > 1) -netdev tap,rss_helper=3D/path/to/name
 >
-> I think so - there's __msg_zerocopy_callback() -> mm_unaccount_pinned_pages()
-> correspondingly.  Thanks,
+> So, on each editing of 'emulator' in the xml  the helper path should
+> be set manually or be default?
 
-Yes, and actually the memory that could be pinned is limited by the
-sndbuf of TCP socket. So we are fine with rlimit (e.g we don't need to
-pin all guest pages).
+It could done manually, or we can have a default path.
+
+>
+> > 2) having a sample/default helper implemented in Qemu
+>
+> Does it mean the default helper is the code in the qemu (without
+> running additional executable, like it does today)
+
+Yes.
+
+ or this is qemu
+> itself with dedicated command line?
+> As far as I remember Daniel had strong objections of ever running qemu
+> with capabilities
+
+Qemu won't run with capabilities but the helper.
+
+>
+> > 3) we can introduce something special path like "default", then if
+> > -netdev tap,rss_helper=3D"default" is specified, qemu will use the
+> > sample helper
+>
+> Probably this is not so important but the rss helper and rss in
+> general has no relation to netdev, much more they are related to
+> virtio-net
+
+So I think the reason for this is that we currently only support
+eBPF/RSS for tap.
+
+>
+> >
+> > So we have:
+> > 1) set set-uid for the helper
+> Who and when does set-uid to the helper binary? Only installer or
+> libvirt can do that, correct?
+
+Yes, it could be done the installer, or other system provision tools.
+
+>
+> > 2) libvirt may just choose to launch the default helper
+> All this discussion is to avoid launching the helper from libvirt, correc=
+t?
+
+Sorry, it's a typo. I meant, libvirt launch qemu, and then qemu will
+launch the helper.
 
 Thanks
 
 >
-> --
-> Peter Xu
+> >
+> > >
+> > > Our main points (what should be addressed):
+> > > - qemu should be able to load ebpf and use the maps when it runs from
+> > > libvirt (without special caps) and standalone (with caps)
+> >
+> > This is solved by leaving the privileged operations to the helper with =
+set-uid.
+> >
+> > > - it is possible that there are different qemu builds on the machine,
+> > > one of them might be installed, their ebpf's might be different and
+> > > the interface between qemu and ebpf (exact content of maps and number
+> > > of maps)
+> >
+> > We can use different helpers in this way.
+> >
+> > > - qemu configures the RSS dynamically according to the commands
+> > > provided by the guest
+> >
+> > Consider we decided to use mmap() based maps, this is not an issue.
+> >
+> > Or am I missing something?
+> >
+> > Thanks
+> >
+> > >
+> > > Thanks in advance
+> > > Yuri
+> > >
+> > > >
+> > > > Thanks
+> > > >
+> > > >
+> > > > >
+> > > > >>> Also, libbpf dependency now exclusively for Linux.
+> > > > >>> Libbpf is used for eBPF RSS steering, which is supported only b=
+y Linux TAP.
+> > > > >>> There is no reason yet to build eBPF loader and helper for non =
+Linux systems,
+> > > > >>> even if libbpf is present.
+> > > > >>>
+> > > > >>> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+> > > > >>> ---
+> > > > >>>    ebpf/qemu-ebpf-rss-helper.c | 130 ++++++++++++++++++++++++++=
+++++++++++
+> > > > >>>    meson.build                 |  37 ++++++----
+> > > > >>>    2 files changed, 154 insertions(+), 13 deletions(-)
+> > > > >>>    create mode 100644 ebpf/qemu-ebpf-rss-helper.c
+> > > > >>>
+> > > > >>> diff --git a/ebpf/qemu-ebpf-rss-helper.c b/ebpf/qemu-ebpf-rss-h=
+elper.c
+> > > > >>> new file mode 100644
+> > > > >>> index 0000000000..fe68758f57
+> > > > >>> --- /dev/null
+> > > > >>> +++ b/ebpf/qemu-ebpf-rss-helper.c
+> > > > >>> @@ -0,0 +1,130 @@
+> > > > >>> +/*
+> > > > >>> + * eBPF RSS Helper
+> > > > >>> + *
+> > > > >>> + * Developed by Daynix Computing LTD (http://www.daynix.com)
+> > > > >>> + *
+> > > > >>> + * Authors:
+> > > > >>> + *  Andrew Melnychenko <andrew@daynix.com>
+> > > > >>> + *
+> > > > >>> + * This work is licensed under the terms of the GNU GPL, versi=
+on 2.  See
+> > > > >>> + * the COPYING file in the top-level directory.
+> > > > >>> + *
+> > > > >>> + * Description: This is helper program for libvirtd.
+> > > > >>> + *              It loads eBPF RSS program and passes fds throu=
+gh unix socket.
+> > > > >>> + *              Built by meson, target - 'qemu-ebpf-rss-helper=
+'.
+> > > > >>> + */
+> > > > >>> +
+> > > > >>> +#include <stdio.h>
+> > > > >>> +#include <stdint.h>
+> > > > >>> +#include <stdlib.h>
+> > > > >>> +#include <stdbool.h>
+> > > > >>> +#include <getopt.h>
+> > > > >>> +#include <memory.h>
+> > > > >>> +#include <errno.h>
+> > > > >>> +#include <sys/socket.h>
+> > > > >>> +
+> > > > >>> +#include "ebpf_rss.h"
+> > > > >>> +
+> > > > >>> +#include "qemu-helper-stamp.h"
+> > > > >>> +
+> > > > >>> +void QEMU_HELPER_STAMP(void) {}
+> > > > >>> +
+> > > > >>> +static int send_fds(int socket, int *fds, int n)
+> > > > >>> +{
+> > > > >>> +    struct msghdr msg =3D {};
+> > > > >>> +    struct cmsghdr *cmsg =3D NULL;
+> > > > >>> +    char buf[CMSG_SPACE(n * sizeof(int))];
+> > > > >>> +    char dummy_buffer =3D 0;
+> > > > >>> +    struct iovec io =3D { .iov_base =3D &dummy_buffer,
+> > > > >>> +                        .iov_len =3D sizeof(dummy_buffer) };
+> > > > >>> +
+> > > > >>> +    memset(buf, 0, sizeof(buf));
+> > > > >>> +
+> > > > >>> +    msg.msg_iov =3D &io;
+> > > > >>> +    msg.msg_iovlen =3D 1;
+> > > > >>> +    msg.msg_control =3D buf;
+> > > > >>> +    msg.msg_controllen =3D sizeof(buf);
+> > > > >>> +
+> > > > >>> +    cmsg =3D CMSG_FIRSTHDR(&msg);
+> > > > >>> +    cmsg->cmsg_level =3D SOL_SOCKET;
+> > > > >>> +    cmsg->cmsg_type =3D SCM_RIGHTS;
+> > > > >>> +    cmsg->cmsg_len =3D CMSG_LEN(n * sizeof(int));
+> > > > >>> +
+> > > > >>> +    memcpy(CMSG_DATA(cmsg), fds, n * sizeof(int));
+> > > > >>> +
+> > > > >>> +    return sendmsg(socket, &msg, 0);
+> > > > >>> +}
+> > > > >>> +
+> > > > >>> +static void print_help_and_exit(const char *prog, int exitcode=
+)
+> > > > >>> +{
+> > > > >>> +    fprintf(stderr, "%s - load eBPF RSS program for qemu and p=
+ass eBPF fds"
+> > > > >>> +            " through unix socket.\n", prog);
+> > > > >>> +    fprintf(stderr, "\t--fd <num>, -f <num> - unix socket file=
+ descriptor"
+> > > > >>> +            " used to pass eBPF fds.\n");
+> > > > >>> +    fprintf(stderr, "\t--help, -h - this help.\n");
+> > > > >>> +    exit(exitcode);
+> > > > >>> +}
+> > > > >>> +
+> > > > >>> +int main(int argc, char **argv)
+> > > > >>> +{
+> > > > >>> +    char *fd_string =3D NULL;
+> > > > >>> +    int unix_fd =3D 0;
+> > > > >>> +    struct EBPFRSSContext ctx =3D {};
+> > > > >>> +    int fds[EBPF_RSS_MAX_FDS] =3D {};
+> > > > >>> +    int ret =3D -1;
+> > > > >>> +
+> > > > >>> +    for (;;) {
+> > > > >>> +        int c;
+> > > > >>> +        static struct option long_options[] =3D {
+> > > > >>> +                {"help",  no_argument, 0, 'h'},
+> > > > >>> +                {"fd",  required_argument, 0, 'f'},
+> > > > >>> +                {0, 0, 0, 0}
+> > > > >>> +        };
+> > > > >>> +        c =3D getopt_long(argc, argv, "hf:",
+> > > > >>> +                long_options, NULL);
+> > > > >>> +
+> > > > >>> +        if (c =3D=3D -1) {
+> > > > >>> +            break;
+> > > > >>> +        }
+> > > > >>> +
+> > > > >>> +        switch (c) {
+> > > > >>> +        case 'f':
+> > > > >>> +            fd_string =3D optarg;
+> > > > >>> +            break;
+> > > > >>> +        case 'h':
+> > > > >>> +        default:
+> > > > >>> +            print_help_and_exit(argv[0],
+> > > > >>> +                    c =3D=3D 'h' ? EXIT_SUCCESS : EXIT_FAILURE=
+);
+> > > > >>> +        }
+> > > > >>> +    }
+> > > > >>> +
+> > > > >>> +    if (!fd_string) {
+> > > > >>> +        fprintf(stderr, "Unix file descriptor not present.\n")=
+;
+> > > > >>> +        print_help_and_exit(argv[0], EXIT_FAILURE);
+> > > > >>> +    }
+> > > > >>> +
+> > > > >>> +    unix_fd =3D atoi(fd_string);
+> > > > >>> +
+> > > > >>> +    if (!unix_fd) {
+> > > > >>> +        fprintf(stderr, "Unix file descriptor is invalid.\n");
+> > > > >>> +        return EXIT_FAILURE;
+> > > > >>> +    }
+> > > > >>> +
+> > > > >>> +    ebpf_rss_init(&ctx);
+> > > > >>> +    if (!ebpf_rss_load(&ctx)) {
+> > > > >>> +        fprintf(stderr, "Can't load ebpf.\n");
+> > > > >>> +        return EXIT_FAILURE;
+> > > > >>> +    }
+> > > > >>> +    fds[0] =3D ctx.program_fd;
+> > > > >>> +    fds[1] =3D ctx.map_configuration;
+> > > > >>> +
+> > > > >>> +    ret =3D send_fds(unix_fd, fds, EBPF_RSS_MAX_FDS);
+> > > > >>> +    if (ret < 0) {
+> > > > >>> +        fprintf(stderr, "Issue while sending fds: %s.\n", stre=
+rror(errno));
+> > > > >>> +    }
+> > > > >>> +
+> > > > >>> +    ebpf_rss_unload(&ctx);
+> > > > >>> +
+> > > > >>> +    return ret < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
+> > > > >>> +}
+> > > > >>> +
+> > > > >>> diff --git a/meson.build b/meson.build
+> > > > >>> index 257e51d91b..913aa1fee5 100644
+> > > > >>> --- a/meson.build
+> > > > >>> +++ b/meson.build
+> > > > >>> @@ -1033,19 +1033,22 @@ if not get_option('fuse_lseek').disable=
+d()
+> > > > >>>    endif
+> > > > >>>
+> > > > >>>    # libbpf
+> > > > >>> -libbpf =3D dependency('libbpf', required: get_option('bpf'), m=
+ethod: 'pkg-config')
+> > > > >>> -if libbpf.found() and not cc.links('''
+> > > > >>> -   #include <bpf/libbpf.h>
+> > > > >>> -   int main(void)
+> > > > >>> -   {
+> > > > >>> -     bpf_object__destroy_skeleton(NULL);
+> > > > >>> -     return 0;
+> > > > >>> -   }''', dependencies: libbpf)
+> > > > >>> -  libbpf =3D not_found
+> > > > >>> -  if get_option('bpf').enabled()
+> > > > >>> -    error('libbpf skeleton test failed')
+> > > > >>> -  else
+> > > > >>> -    warning('libbpf skeleton test failed, disabling')
+> > > > >>> +libbpf =3D not_found
+> > > > >>> +if targetos =3D=3D 'linux'
+> > > > >>> +  libbpf =3D dependency('libbpf', required: get_option('bpf'),=
+ method: 'pkg-config')
+> > > > >>> +  if libbpf.found() and not cc.links('''
+> > > > >>> +    #include <bpf/libbpf.h>
+> > > > >>> +    int main(void)
+> > > > >>> +    {
+> > > > >>> +      bpf_object__destroy_skeleton(NULL);
+> > > > >>
+> > > > >> Do we need to test whether the bpf can do mmap() here?
+> > > > >>
+> > > > >> Thanks
+> > > > >>
+> > > > >>
+> > > > >>> +      return 0;
+> > > > >>> +    }''', dependencies: libbpf)
+> > > > >>> +    libbpf =3D not_found
+> > > > >>> +    if get_option('bpf').enabled()
+> > > > >>> +      error('libbpf skeleton test failed')
+> > > > >>> +    else
+> > > > >>> +      warning('libbpf skeleton test failed, disabling')
+> > > > >>> +    endif
+> > > > >>>      endif
+> > > > >>>    endif
+> > > > >>>
+> > > > >>> @@ -2423,6 +2426,14 @@ if have_tools
+> > > > >>>                   dependencies: [authz, crypto, io, qom, qemuut=
+il,
+> > > > >>>                                  libcap_ng, mpathpersist],
+> > > > >>>                   install: true)
+> > > > >>> +
+> > > > >>> +    if libbpf.found()
+> > > > >>> +        executable('qemu-ebpf-rss-helper', files(
+> > > > >>> +                   'ebpf/qemu-ebpf-rss-helper.c', 'ebpf/ebpf_r=
+ss.c'),
+> > > > >>> +                   dependencies: [qemuutil, libbpf, glib],
+> > > > >>> +                   install: true,
+> > > > >>> +                   install_dir: get_option('libexecdir'))
+> > > > >>> +    endif
+> > > > >>>      endif
+> > > > >>>
+> > > > >>>      if 'CONFIG_IVSHMEM' in config_host
+> > > >
+> > >
+> >
 >
 
 
