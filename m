@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926D640496C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 13:41:13 +0200 (CEST)
-Received: from localhost ([::1]:43892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E46A34049F8
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 13:43:46 +0200 (CEST)
+Received: from localhost ([::1]:46078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOIQa-0006eJ-52
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 07:41:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43768)
+	id 1mOIT3-0008IC-Rb
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 07:43:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1mOINY-00053n-Ap; Thu, 09 Sep 2021 07:38:04 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:35644)
+ id 1mOIO5-0005rp-1P; Thu, 09 Sep 2021 07:38:37 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:35694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <hare@suse.de>)
- id 1mOINU-0007sT-Jk; Thu, 09 Sep 2021 07:38:04 -0400
+ id 1mOIO2-0008OG-ML; Thu, 09 Sep 2021 07:38:36 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 90D57201D1;
- Thu,  9 Sep 2021 11:37:57 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 99AF0201D1;
+ Thu,  9 Sep 2021 11:38:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1631187477; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1631187512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=84q5MEcSvXzgV53BfDFkOTx5UScR7p8E5kM+pb32gs4=;
- b=E4GEnEJ/Uy5ZPUiHF7GbhN8wkv7kKB/k7xA5r6vvVJBMccQlVJDnFUChPpm8/QqpgWIq4e
- 0bl33JKMCTJO6ydVoQd/rBZb1r6795r2jlqmnbL5VwDm0tpTXX4lciurOtw8exr/ZzOtze
- vhhqpmYW31hl/fMGvl56XxulMZM/fqc=
+ bh=kUQC+ti/ZKvHEtIl+EkXDYGwkerFAXtk5w/AcfGEWLk=;
+ b=2Pzi3TTlK5D3J7NKMi36KFu+vQ3DkjUa+Pit3+fB1W0ZIwm3iyGVBg8VNwliIg8Wb1yjjE
+ LZFd8aWaDLlmFRdcCwfYdv7ODZe+oVbDzpq6PjhfPejpoeZJFdz8bOF1SMv4MF23AxopVr
+ Y42wDCSK7kUI0GXpJ0005G2NIYKk5Js=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1631187477;
+ s=susede2_ed25519; t=1631187512;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=84q5MEcSvXzgV53BfDFkOTx5UScR7p8E5kM+pb32gs4=;
- b=p7X95qw2rXc8r9moj0Zm/DmZ3VOW8MO8y9JxWVP+8kS1MOWZXANiVGYBCS3poxmb6xvdgs
- KbV5lq1jb8pGpiBQ==
+ bh=kUQC+ti/ZKvHEtIl+EkXDYGwkerFAXtk5w/AcfGEWLk=;
+ b=p4dS/y9zC6tnix7//dmwpC/wHmU/nhag13z+7vdsv5vOi7+0WzTnWmAh6o+cp2xbZO7Q75
+ uyxq1L+qbWjagNCQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8444A13A5D;
- Thu,  9 Sep 2021 11:37:57 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8DD3713A5D;
+ Thu,  9 Sep 2021 11:38:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id TFsYIBXyOWE4XAAAMHmgww
- (envelope-from <hare@suse.de>); Thu, 09 Sep 2021 11:37:57 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id Z+k8IjjyOWGRXAAAMHmgww
+ (envelope-from <hare@suse.de>); Thu, 09 Sep 2021 11:38:32 +0000
+Subject: Re: [PATCH] hw/nvme: select first free NSID for legacy drive
+ configuration
 To: Klaus Jensen <its@irrelevant.dk>
-References: <20210909094308.122038-1-hare@suse.de>
- <YTnmWUKhtlR2j3yI@apples.localdomain>
+References: <20210909095159.122174-1-hare@suse.de>
+ <YTnnd/ThFAb7OMlf@apples.localdomain>
 From: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH] hw/nvme: reattach subsystem namespaces on hotplug
-Message-ID: <39666601-8d22-b051-2939-e2ccb96fb010@suse.de>
-Date: Thu, 9 Sep 2021 13:37:57 +0200
+Message-ID: <03e281e1-7dff-539e-1370-f05dd9a1c625@suse.de>
+Date: Thu, 9 Sep 2021 13:38:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <YTnmWUKhtlR2j3yI@apples.localdomain>
+In-Reply-To: <YTnnd/ThFAb7OMlf@apples.localdomain>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -90,113 +91,57 @@ Cc: Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/9/21 12:47 PM, Klaus Jensen wrote:
-> On Sep  9 11:43, Hannes Reinecke wrote:
->> With commit 5ffbaeed16 ("hw/nvme: fix controller hot unplugging")
->> namespaces get moved from the controller to the subsystem if one
->> is specified.
->> That keeps the namespaces alive after a controller hot-unplug, but
->> after a controller hotplug we have to reconnect the namespaces
->> from the subsystem to the controller.
+On 9/9/21 12:52 PM, Klaus Jensen wrote:
+> On Sep  9 11:51, Hannes Reinecke wrote:
+>> If a legacy 'drive' argument is passed to the controller we cannot
+>> assume that '1' will be a free NSID, as the subsys might already
+>> have attached a namespace to this NSID. So select the first free
+>> one.
 >>
->> Fixes: 5ffbaeed16 ("hw/nvme: fix controller hot unplugging")
->> Cc: Klaus Jensen <k.jensen@samsung.com>
 >> Signed-off-by: Hannes Reinecke <hare@suse.de>
 >> ---
->>  hw/nvme/subsys.c | 8 +++++++-
->>  1 file changed, 7 insertions(+), 1 deletion(-)
+>>  hw/nvme/ctrl.c | 9 ++++++++-
+>>  1 file changed, 8 insertions(+), 1 deletion(-)
 >>
->> diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
->> index 93c35950d6..a9404f2b5e 100644
->> --- a/hw/nvme/subsys.c
->> +++ b/hw/nvme/subsys.c
->> @@ -14,7 +14,7 @@
->>  int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
->>  {
->>      NvmeSubsystem *subsys = n->subsys;
->> -    int cntlid;
->> +    int cntlid, nsid;
+>> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+>> index 757cdff038..2c69031ca9 100644
+>> --- a/hw/nvme/ctrl.c
+>> +++ b/hw/nvme/ctrl.c
+>> @@ -6546,8 +6546,15 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
 >>  
->>      for (cntlid = 0; cntlid < ARRAY_SIZE(subsys->ctrls); cntlid++) {
->>          if (!subsys->ctrls[cntlid]) {
->> @@ -29,12 +29,18 @@ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
->>  
->>      subsys->ctrls[cntlid] = n;
->>  
->> +    for (nsid = 0; nsid < ARRAY_SIZE(subsys->namespaces); nsid++) {
->> +        if (subsys->namespaces[nsid]) {
->> +            nvme_attach_ns(n, subsys->namespaces[nsid]);
+>>      /* setup a namespace if the controller drive property was given */
+>>      if (n->namespace.blkconf.blk) {
+>> +        int i;
+>>          ns = &n->namespace;
+>> -        ns->params.nsid = 1;
+>> +        for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
+>> +            if (nvme_ns(n, i) || nvme_subsys_ns(n->subsys, i)) {
+>> +                continue;
+>> +            }
+>> +            ns->params.nsid = i;
+>> +            break;
 >> +        }
+>>  
+>>          if (nvme_ns_setup(ns, errp)) {
+>>              return;
+>> -- 
+>> 2.26.2
+>>
 > 
-> Thanks Hannes! I like it, keeping things simple.
+> Did you actually hit this?
 > 
-> But we should only attach namespaces that have the shared property or
-> have ns->attached == 0. Non-shared namespaces may already be attached to
-> another controller in the subsystem.
+> Because then then property checking logic is bad... The device is not
+> supposed to allow nvme,drive= combined with a subsystem property. In
+> nvme_check_constraints():
 > 
-
-Well ... I tried to avoid that subject, but as you brought it up:
-There is a slightly tricky issue in fabrics, in that the 'controller' is
-independent from the 'connection'.
-The 'shared' bit in the CMIC setting indicates that the subsystem may
-have more than one _controller_. It doesn't talk about how many
-_connections_ a controller may support; that then is the realm of
-dynamic or static controllers, which we don't talk about :-).
-Sufficient to say, linux only implements the dynamic controller model,
-so every connection will be to a different controller.
-But you have been warned :-)
-
-However, the 'CMIC' setting is independent on the 'NMIC' setting (ie the
-'shared' bit in the namespace).
-Which leads to the interesting question on how exactly should one handle
-non-shared namespaces in subsystems for which there are multiple
-controllers. Especially as the NSID space is per subsystem, so each
-controller will be able to figure out if there are blanked-out namespaces.
-So to make this a sane setup I would propose to set the 'shared' option
-automatically whenever the controller has the 'subsys' option set.
-And actually, I would ditch the 'shared' option completely, and make it
-dependent on the 'subsys' setting for the controller.
-Much like we treat the 'CMIC' setting nowadays.
-That avoids lots of confusions, and also make the implementation _way_
-easier.
-
-> However...
+>   if (n->namespace.blkconf.blk && n->subsys) {
+>     /* error out */
+>     return;
+>   }
 > 
-> The spec says that "The attach and detach operations are persistent
-> across all reset events.". This means that we should track those events
-> in the subsystem and only reattach namespaces that were attached at the
-> time of the "reset" event. Currently, we don't have anything mapping
-> that state. But the device already has to take some liberties with
-> regard to stuff that is considered persistent by the spec (SMART log
-> etc.) since we do not have any way to store stuff persistently across
-> qemu invocations, so I think the above is an acceptable compromise.
 > 
-Careful. 'attach' and 'detach' are MI (management interface) operations.
-If and how many namespaces are visible to any given controllers is
-actually independent on that; and, in fact, controllers might not even
-implement 'attach' or 'detach'.
-But I do agree that we don't handle the 'reset' state properly.
-
-> A potential (as good as it gets) fix would be to keep a map/list of
-> "persistently" attached controllers on the namespaces and re-attach
-> according to that when we see that controller joining the subsystem
-> again. CNTLID would be the obvious choice for the key here, but problem
-> is that we cant really use it since we assign it sequentially from the
-> subsystem, which now looks like a pretty bad choice. CNTLID should have
-> been a required property of the nvme device when subsystems are
-> involved. Maybe we can fix up the CNTLID assignment to take the serial
-> into account (we know that is defined and *should* be unique) and not
-> reuse CNTLIDs. This limits the subsystem to NVME_MAX_CONTROLLERS unique
-> controllers, but I think that is fair enough.
-> 
-> Sigh. Need to think this through.
-> 
-Well, actually there is an easy way out. I do agree that we need to make
-the 'cntlid' a property of the controller. And once it's set we can
-track it properly, eg by having per-cntlid nsid lists in the subsystem.
-But if it's not set we can claim that we'll be allocating a new
-controller across reboots (which is actually what we're doing), making
-us spec compliant again :-)
+Ah. Missed that.
+Do ignore my patch then.
 
 Cheers,
 
