@@ -2,51 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02426404B44
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 13:50:41 +0200 (CEST)
-Received: from localhost ([::1]:49076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC76404DBF
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 14:08:04 +0200 (CEST)
+Received: from localhost ([::1]:59240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOIZi-0002KA-0O
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 07:50:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45656)
+	id 1mOIqW-00021B-FK
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 08:08:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mOIXF-0001T2-I3; Thu, 09 Sep 2021 07:48:05 -0400
-Received: from [201.28.113.2] (port=60788 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mOIXD-0008Gu-6C; Thu, 09 Sep 2021 07:48:05 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 9 Sep 2021 08:47:58 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 02A1A80121D;
- Thu,  9 Sep 2021 08:47:57 -0300 (-03)
-Subject: Re: [PATCH v3 08/15] PPC64/TCG: Implement 'rfebb' instruction
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-References: <20210903203116.80628-1-danielhb413@gmail.com>
- <20210903203116.80628-9-danielhb413@gmail.com>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Message-ID: <7baa1efb-f8e2-fdfb-8ade-9794bff914a0@eldorado.org.br>
-Date: Thu, 9 Sep 2021 08:47:57 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1mOIn1-0000F3-7q; Thu, 09 Sep 2021 08:04:23 -0400
+Received: from relay64.bu.edu ([128.197.228.104]:37614)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1mOImm-0005iv-Hh; Thu, 09 Sep 2021 08:04:22 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 189C32MN016396
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 9 Sep 2021 08:03:05 -0400
+Date: Thu, 9 Sep 2021 08:03:02 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [RFC PATCH 00/10] security: Introduce
+ qemu_security_policy_taint() API
+Message-ID: <20210909120302.nuq5churn6kjsfqs@mozz.bu.edu>
+References: <20210908232024.2399215-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210903203116.80628-9-danielhb413@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 09 Sep 2021 11:47:58.0587 (UTC)
- FILETIME=[891ABCB0:01D7A570]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.975,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210908232024.2399215-1-philmd@redhat.com>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=1,
+ HK_RANDOM_FROM=0.999, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,209 +56,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, clg@kaod.org, qemu-ppc@nongnu.org,
- groug@kaod.org, david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, xen-devel@lists.xenproject.org,
+ Eric Blake <eblake@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/09/2021 17:31, Daniel Henrique Barboza wrote:
-> An Event-Based Branch (EBB) allows applications to change the NIA when a
-> event-based exception occurs. Event-based exceptions are enabled by
-> setting the Branch Event Status and Control Register (BESCR). If the
-> event-based exception is enabled when the exception occurs, an EBB
-> happens.
+On 210909 0120, Philippe Mathieu-Daudé wrote:
+> Hi,
 > 
-> The following operations happens during an EBB:
+> This series is experimental! The goal is to better limit the
+> boundary of what code is considerated security critical, and
+> what is less critical (but still important!).
 > 
-> - Global Enable (GE) bit of BESCR is set to 0;
-> - bits 0-61 of the Event-Based Branch Return Register (EBBRR) are set
-> to the the effective address of the NIA that would have executed if the EBB
-> didn't happen;
-> - Instruction fetch and execution will continue in the effective address
-> contained in the Event-Based Branch Handler Register (EBBHR).
+> This approach was quickly discussed few months ago with Markus
+> then Daniel. Instead of classifying the code on a file path
+> basis (see [1]), we insert (runtime) hints into the code
+> (which survive code movement). Offending unsafe code can
+> taint the global security policy. By default this policy
+> is 'none': the current behavior. It can be changed on the
+> command line to 'warn' to display warnings, and to 'strict'
+> to prohibit QEMU running with a tainted policy.
 > 
-> The EBB Handler will process the event and then execute the Return From
-> Event-Based Branch (rfebb) instruction. rfebb sets BESCR_GE and then
-> redirects execution to the address pointed in EBBRR. This process is
-> described in the PowerISA v3.1, Book II, Chapter 6 [1].
-> 
-> This patch implements the rfebb instruction. Descriptions of all
-> relevant BESCR bits are also added - this patch is only using BESCR_GE,
-> but the next patches will use the remaining bits.
-> 
-> [1] https://wiki.raptorcs.com/w/images/f/f5/PowerISA_public.v3.1.pdf
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->   target/ppc/cpu.h                       | 13 ++++++++++
->   target/ppc/excp_helper.c               | 31 ++++++++++++++++++++++++
->   target/ppc/helper.h                    |  1 +
->   target/ppc/insn32.decode               |  5 ++++
->   target/ppc/translate.c                 |  2 ++
->   target/ppc/translate/branch-impl.c.inc | 33 ++++++++++++++++++++++++++
->   6 files changed, 85 insertions(+)
->   create mode 100644 target/ppc/translate/branch-impl.c.inc
-> 
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 93f4a46827..26624508fa 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -368,6 +368,19 @@ typedef struct ppc_v3_pate_t {
->   /* PMU uses CTRL_RUN to sample PM_RUN_INST_CMPL */
->   #define CTRL_RUN PPC_BIT(63)
-> 
-> +/* EBB/BESCR bits */
-> +/* Global Enable */
-> +#define BESCR_GE PPC_BIT(0)
-> +/* External Event-based Exception Enable */
-> +#define BESCR_EE PPC_BIT(30)
-> +/* Performance Monitor Event-based Exception Enable */
-> +#define BESCR_PME PPC_BIT(31)
-> +/* External Event-based Exception Occurred */
-> +#define BESCR_EEO PPC_BIT(62)
-> +/* Performance Monitor Event-based Exception Occurred */
-> +#define BESCR_PMEO PPC_BIT(63)
-> +#define BESCR_INVALID PPC_BITMASK(32, 33)
-> +
->   /* LPCR bits */
->   #define LPCR_VPM0         PPC_BIT(0)
->   #define LPCR_VPM1         PPC_BIT(1)
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 7b6ac16eef..22f9835383 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -1281,6 +1281,37 @@ void helper_hrfid(CPUPPCState *env)
->   }
->   #endif
-> 
-> +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
-> +void helper_rfebb(CPUPPCState *env, target_ulong s)
-> +{
-> +    target_ulong msr = env->msr;
-> +
-> +    /*
-> +     * Handling of BESCR bits 32:33 according to PowerISA v3.1:
-> +     *
-> +     * "If BESCR 32:33 != 0b00 the instruction is treated as if
-> +     *  the instruction form were invalid."
-> +     */
-> +    if (env->spr[SPR_BESCR] & BESCR_INVALID) {
-> +        raise_exception_err(env, POWERPC_EXCP_PROGRAM,
-> +                            POWERPC_EXCP_INVAL | POWERPC_EXCP_INVAL_INVAL);
-> +    }
-> +
-> +    env->nip = env->spr[SPR_EBBRR];
-> +
-> +    /* Switching to 32-bit ? Crop the nip */
-> +    if (!msr_is_64bit(env, msr)) {
-> +        env->nip = (uint32_t)env->spr[SPR_EBBRR];
-> +    }
-> +
-> +    if (s) {
-> +        env->spr[SPR_BESCR] |= BESCR_GE;
-> +    } else {
-> +        env->spr[SPR_BESCR] &= ~BESCR_GE;
-> +    }
-> +}
-> +#endif
-> +
->   /*****************************************************************************/
->   /* Embedded PowerPC specific helpers */
->   void helper_40x_rfci(CPUPPCState *env)
-> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> index 47dbbe6da1..91a86992a5 100644
-> --- a/target/ppc/helper.h
-> +++ b/target/ppc/helper.h
-> @@ -18,6 +18,7 @@ DEF_HELPER_2(pminsn, void, env, i32)
->   DEF_HELPER_1(rfid, void, env)
->   DEF_HELPER_1(rfscv, void, env)
->   DEF_HELPER_1(hrfid, void, env)
-> +DEF_HELPER_2(rfebb, void, env, tl)
->   DEF_HELPER_2(store_lpcr, void, env, tl)
->   DEF_HELPER_2(store_pcr, void, env, tl)
->   DEF_HELPER_2(store_mmcr0, void, env, tl)
-> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-> index 9fd8d6b817..deb7374ea4 100644
-> --- a/target/ppc/insn32.decode
-> +++ b/target/ppc/insn32.decode
-> @@ -124,3 +124,8 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
->   ## Vector Bit Manipulation Instruction
-> 
->   VCFUGED         000100 ..... ..... ..... 10101001101    @VX
-> +
-> +### rfebb
-> +&XL_s           s:uint8_t
-> +@XL_s           ......-------------- s:1 .......... -   &XL_s
-> +RFEBB           010011-------------- .   0010010010 -   @XL_s
+> As examples I started implementing unsafe code taint from
+> 3 different pieces of code:
+> - accelerators (KVM and Xen in allow-list)
+> - block drivers (vvfat and parcial null-co in deny-list)
+> - qdev (hobbyist devices regularly hit by fuzzer)
 
-nit: Since the arg_fmt is now XL_s...
+Just looking through the list of hci, storage, network and graphics
+devices available on i386 to see which others are potential good
+candidates for this tag. Obviously a lot of guesswork here:
 
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 866b1d2b34..7a3104ecf9 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -7636,6 +7636,8 @@ static int times_4(DisasContext *ctx, int x)
-> 
->   #include "translate/spe-impl.c.inc"
-> 
-> +#include "translate/branch-impl.c.inc"
-> +
->   /* Handles lfdp, lxsd, lxssp */
->   static void gen_dform39(DisasContext *ctx)
->   {
-> diff --git a/target/ppc/translate/branch-impl.c.inc b/target/ppc/translate/branch-impl.c.inc
-> new file mode 100644
-> index 0000000000..9c991d9abb
-> --- /dev/null
-> +++ b/target/ppc/translate/branch-impl.c.inc
-> @@ -0,0 +1,33 @@
-> +/*
-> + * Power ISA decode for branch instructions
-> + *
-> + *  Copyright IBM Corp. 2021
-> + *
-> + * Authors:
-> + *  Daniel Henrique Barboza      <danielhb413@gmail.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
-> +
-> +static bool trans_RFEBB(DisasContext *ctx, arg_RFEBB *arg)
+USB devices:
+name "ich9-usb-ehci1", bus PCI
+name "ich9-usb-ehci2", bus PCI
+name "ich9-usb-uhci1", bus PCI
+name "ich9-usb-uhci2", bus PCI
+name "ich9-usb-uhci3", bus PCI
+name "ich9-usb-uhci4", bus PCI
+name "ich9-usb-uhci5", bus PCI
+name "ich9-usb-uhci6", bus PCI
+name "nec-usb-xhci", bus PCI
+name "pci-ohci", bus PCI, desc "Apple USB Controller"
+name "piix3-usb-uhci", bus PCI
+name "piix4-usb-uhci", bus PCI
+name "qemu-xhci", bus PCI
+name "usb-ehci", bus PCI
 
-I think it's a bit more readable to use arg_XL_s instead of arg_RFEBB. 
-Anyway,
+Not sure about these. Maybe ohci isn't sensitive?
 
-Reviewed-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Storage devices:
+=== Sensitive ===
+name "floppy", bus floppy-bus, desc "virtual floppy drive"
+name "ide-cd", bus IDE, desc "virtual IDE CD-ROM"
+name "ide-hd", bus IDE, desc "virtual IDE disk"
+name "isa-fdc", bus ISA, desc "virtual floppy controller"
+name "isa-ide", bus ISA
+name "piix3-ide", bus PCI
+name "piix3-ide-xen", bus PCI
+name "piix4-ide", bus PCI
+name "scsi-block", bus SCSI, desc "SCSI block device passthrough"
+name "scsi-cd", bus SCSI, desc "virtual SCSI CD-ROM"
+name "scsi-generic", bus SCSI, desc "pass through generic scsi device (/dev/sg*)"
+name "scsi-hd", bus SCSI, desc "virtual SCSI disk"
+name "vhost-scsi", bus virtio-bus
+name "vhost-scsi-pci", bus PCI
+name "vhost-scsi-pci-non-transitional", bus PCI
+name "vhost-scsi-pci-transitional", bus PCI
+name "vhost-user-blk", bus virtio-bus
+name "vhost-user-blk-pci", bus PCI
+name "vhost-user-blk-pci-non-transitional", bus PCI
+name "vhost-user-blk-pci-transitional", bus PCI
+name "vhost-user-fs-device", bus virtio-bus
+name "vhost-user-fs-pci", bus PCI
+name "vhost-user-scsi", bus virtio-bus
+name "vhost-user-scsi-pci", bus PCI
+name "vhost-user-scsi-pci-non-transitional", bus PCI
+name "vhost-user-scsi-pci-transitional", bus PCI
+name "virtio-9p-device", bus virtio-bus
+name "virtio-9p-pci", bus PCI, alias "virtio-9p"
+name "virtio-9p-pci-non-transitional", bus PCI
+name "virtio-9p-pci-transitional", bus PCI
+name "virtio-blk-device", bus virtio-bus
+name "virtio-blk-pci", bus PCI, alias "virtio-blk"
+name "virtio-blk-pci-non-transitional", bus PCI
+name "virtio-blk-pci-transitional", bus PCI
+name "virtio-pmem", bus virtio-bus
+name "virtio-scsi-device", bus virtio-bus
+name "virtio-scsi-pci", bus PCI, alias "virtio-scsi"
+name "virtio-scsi-pci-non-transitional", bus PCI
+name "virtio-scsi-pci-transitional", bus PCI
 
-> +{
-> +    REQUIRE_INSNS_FLAGS2(ctx, ISA207S);
-> +
-> +    gen_icount_io_start(ctx);
-> +    gen_update_cfar(ctx, ctx->cia);
-> +    gen_helper_rfebb(cpu_env, cpu_gpr[arg->s]);
-> +
-> +    ctx->base.is_jmp = DISAS_CHAIN;
-> +
-> +    return true;
-> +}
-> +#else
-> +static bool trans_RFEBB(DisasContext *ctx, arg_RFEBB *arg)
-> +{
-> +    gen_invalid(ctx);
-> +    return true;
-> +}
-> +#endif
-> --
-> 2.31.1
-> 
+=== Tainting/Not Sensitive ===
+name "am53c974", bus PCI, desc "AMD Am53c974 PCscsi-PCI SCSI adapter"
+name "dc390", bus PCI, desc "Tekram DC-390 SCSI adapter"
+name "ich9-ahci", bus PCI, alias "ahci"
+name "lsi53c810", bus PCI
+name "lsi53c895a", bus PCI, alias "lsi"
+name "megasas", bus PCI, desc "LSI MegaRAID SAS 1078"
+name "megasas-gen2", bus PCI, desc "LSI MegaRAID SAS 2108"
+name "mptsas1068", bus PCI, desc "LSI SAS 1068"
+name "nvdimm", desc "DIMM memory module"
+name "nvme", bus PCI, desc "Non-Volatile Memory Express"
+name "nvme-ns", bus nvme-bus, desc "Virtual NVMe namespace"
+name "nvme-subsys", desc "Virtual NVMe subsystem"
+name "pvscsi", bus PCI
+name "sd-card", bus sd-bus
+name "sdhci-pci", bus PCI
+name "usb-bot", bus usb-bus
+name "usb-mtp", bus usb-bus, desc "USB Media Transfer Protocol device"
+name "usb-storage", bus usb-bus
+name "usb-uas", bus usb-bus
 
+Network devices:
+=== Sensitive ===
+name "e1000", bus PCI, alias "e1000-82540em", desc "Intel Gigabit Ethernet"
+name "e1000e", bus PCI, desc "Intel 82574L GbE Controller"
+name "virtio-net-device", bus virtio-bus
+name "virtio-net-pci", bus PCI, alias "virtio-net"
+name "virtio-net-pci-non-transitional", bus PCI
+name "virtio-net-pci-transitional", bus PCI
 
--- 
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software Júnior
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+=== Tainting/Not Sensitive ===
+name "e1000-82544gc", bus PCI, desc "Intel Gigabit Ethernet"
+name "e1000-82545em", bus PCI, desc "Intel Gigabit Ethernet"
+name "i82550", bus PCI, desc "Intel i82550 Ethernet"
+name "i82551", bus PCI, desc "Intel i82551 Ethernet"
+name "i82557a", bus PCI, desc "Intel i82557A Ethernet"
+name "i82557b", bus PCI, desc "Intel i82557B Ethernet"
+name "i82557c", bus PCI, desc "Intel i82557C Ethernet"
+name "i82558a", bus PCI, desc "Intel i82558A Ethernet"
+name "i82558b", bus PCI, desc "Intel i82558B Ethernet"
+name "i82559a", bus PCI, desc "Intel i82559A Ethernet"
+name "i82559b", bus PCI, desc "Intel i82559B Ethernet"
+name "i82559c", bus PCI, desc "Intel i82559C Ethernet"
+name "i82559er", bus PCI, desc "Intel i82559ER Ethernet"
+name "i82562", bus PCI, desc "Intel i82562 Ethernet"
+name "i82801", bus PCI, desc "Intel i82801 Ethernet"
+name "ne2k_isa", bus ISA
+name "ne2k_pci", bus PCI
+name "pcnet", bus PCI
+name "rocker", bus PCI, desc "Rocker Switch"
+name "rtl8139", bus PCI
+name "tulip", bus PCI
+name "usb-net", bus usb-bus
+name "vmxnet3", bus PCI, desc "VMWare Paravirtualized Ethernet v3"
+
+Display devices:
+=== Sensitive ===
+name "isa-vga", bus ISA
+name "qxl", bus PCI, desc "Spice QXL GPU (secondary)"
+name "qxl-vga", bus PCI, desc "Spice QXL GPU (primary, vga compatible)"
+name "vhost-user-gpu", bus virtio-bus
+name "vhost-user-gpu-pci", bus PCI
+name "vhost-user-vga", bus PCI
+name "virtio-gpu-device", bus virtio-bus
+name "virtio-gpu-pci", bus PCI, alias "virtio-gpu"
+name "virtio-vga", bus PCI
+name "VGA", bus PCI
+
+=== Tainting/Not Sensitive ===
+name "ati-vga", bus PCI
+name "bochs-display", bus PCI
+name "cirrus-vga", bus PCI, desc "Cirrus CLGD 54xx VGA"
+name "isa-cirrus-vga", bus ISA
+name "ramfb", bus System, desc "ram framebuffer standalone device"
+name "secondary-vga", bus PCI
+name "sga", bus ISA, desc "Serial Graphics Adapter"
+name "vmware-svga", bus PCI
+
+Sound devices:
+=== Sensitive ===
+name "hda-duplex", bus HDA, desc "HDA Audio Codec, duplex (line-out, line-in)"
+name "hda-micro", bus HDA, desc "HDA Audio Codec, duplex (speaker, microphone)"
+name "hda-output", bus HDA, desc "HDA Audio Codec, output-only (line-out)"
+name "ich9-intel-hda", bus PCI, desc "Intel HD Audio Controller (ich9)"
+
+=== Tainting/Not Sensitive ===
+name "AC97", bus PCI, alias "ac97", desc "Intel 82801AA AC97 Audio"
+name "adlib", bus ISA, desc "Yamaha YM3812 (OPL2)"
+name "cs4231a", bus ISA, desc "Crystal Semiconductor CS4231A"
+name "ES1370", bus PCI, alias "es1370", desc "ENSONIQ AudioPCI ES1370"
+name "gus", bus ISA, desc "Gravis Ultrasound GF1"
+name "intel-hda", bus PCI, desc "Intel HD Audio Controller (ich6)"
+name "sb16", bus ISA, desc "Creative Sound Blaster 16"
+name "usb-audio", bus usb-bus
 
