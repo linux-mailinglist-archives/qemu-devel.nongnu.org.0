@@ -2,73 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45A37405012
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 14:24:40 +0200 (CEST)
-Received: from localhost ([::1]:46374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D9C7405013
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 14:28:18 +0200 (CEST)
+Received: from localhost ([::1]:50796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOJ6d-0006Dl-Dz
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 08:24:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53690)
+	id 1mOJA9-0000z4-2f
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 08:28:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
- id 1mOJ5I-0005Vd-NZ
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 08:23:16 -0400
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:46011)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
- id 1mOJ49-0004bd-OQ
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 08:23:16 -0400
-Received: by mail-io1-xd29.google.com with SMTP id a22so1971134iok.12
- for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 05:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vPWCOCN7I5fMhIzlXNnmaovINysouduTAuXbCRL2MLQ=;
- b=C4u3i0CMEN8mNfz2Eq9Z9xuyW6J1PhST/6Zs2PzTWt4qU5iBOpDiqxbvT7PTv15Qrq
- IoJza4UN680vWT+O1F1WmwdR1zRfYhacx1kpPKCIYRbhy/+gFvt+ZfhiUsJre17Kf+lr
- sqdARCqm7eqWqcgMxWFM74dQnambYB5g/waMzjggIZweROkFIPk7yedZcMxPOVUqwxtZ
- 5K/PUtpAHtWT+IlAUL/5c4Unj4aKVF3p7Ao6WFaOVfYx50tbLiRPvrGJ0LnfE/QRdb/B
- /mZnF5ZXKERjapz4W3I83OGMp0veWtbOwS1PVFeBk9sLEg4dhSdGZQ+9d8WhWIAeUE1m
- SjiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vPWCOCN7I5fMhIzlXNnmaovINysouduTAuXbCRL2MLQ=;
- b=JHJIW9844j36XSgOnQXyHi4MIJpk72/TMCc6wqXAVMqtglkobvJY7xle09sB21QqYw
- wnEAkApILmwd3OPOMA9b4Ad19F8BXmwo4SKptvPbs1FRhQTGHmYL9o9o0un0ppDcTUPx
- 5gmNudAR6yQOsPROV6h269OgQ3EfjlU3XFKI35eXbB2joD25yshdE1ePj7znf4e4jh1V
- wrfHrAjpFr/j22Y1fcO9W51y6x7LI+pX/5kCtW7/FetxX8MkJ1YnDHapwJ+hIjHm9Kh+
- YgGAjJgw14OD6TUCQkrXoq9QVpCS8mvT2Qm1V2HQH0AeP1klhowI06XiWsfWbxhTw139
- tvlQ==
-X-Gm-Message-State: AOAM5301RFjaE6dUwuCJgZfe5AAw2KizKZJGSV6svlsy7MHVwcdURmV7
- QmE7D/U6T3vvQlItOH19BB+tQVUN1TyiXzbM7K4=
-X-Google-Smtp-Source: ABdhPJyYXH55NDNt40ty0Bfec8Yf/cQ5j+fkkUEKzWUhk1bVXQ/5TgNianEXO1ozDa0iSdkfzJVsb4xOEi89iFjuWtE=
-X-Received: by 2002:a5e:8711:: with SMTP id y17mr2405584ioj.16.1631190123917; 
- Thu, 09 Sep 2021 05:22:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mOJ8E-0007nI-DI
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 08:26:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29383)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mOJ6H-0004mt-8g
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 08:26:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631190255;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=d7G9afcLSqJHPuwOeSlGmfa2uhgVZM6GeGdaZfkrsi8=;
+ b=ITViDX6VqSAuvtZg5BlNkn/1KhHwdXDnMJNz7EkfsEo3iR71Dme9JB2reAXDF6JnU2I3pc
+ mAXSu5F3GZDEXxu04fiSkn8iNEQHXy3T2JovJXr8JrfrO/7Ww5x4/0Uo/22t1TuJXUeiVX
+ KsYAUFRYQsAgUhDRaAHhAAi7l3GTFKM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-C1W3HS2oPyqR4D143pdNWQ-1; Thu, 09 Sep 2021 08:24:14 -0400
+X-MC-Unique: C1W3HS2oPyqR4D143pdNWQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4576B5074B;
+ Thu,  9 Sep 2021 12:24:13 +0000 (UTC)
+Received: from laptop.redhat.com (unknown [10.39.194.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 891685C261;
+ Thu,  9 Sep 2021 12:24:08 +0000 (UTC)
+From: Eric Auger <eric.auger@redhat.com>
+To: eric.auger.pro@gmail.com, eric.auger@redhat.com, peter.maydell@linaro.org,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH] hw/rtc/pl031: Send RTC_CHANGE QMP event
+Date: Thu,  9 Sep 2021 14:24:02 +0200
+Message-Id: <20210909122402.127977-1-eric.auger@redhat.com>
 MIME-Version: 1.0
-References: <CALUzjTbw0m-n0wmqYPw9C_SFVrCYvqOde6qUsB40FMM9BVPHZg@mail.gmail.com>
- <CAFEAcA-H_titydNAYO94k4i5uiJyTXXt=tNyPd7RfjFMjRYb1w@mail.gmail.com>
- <CALUzjTbsSte6rzFVr+k6EyUJTJV8GW2N5yhxBYxZcjkoCJ=K7g@mail.gmail.com>
- <CAFEAcA-LOUvZu4g1gK3WjrmZpH+B8aj5wrEY77isihetQmPUpA@mail.gmail.com>
-In-Reply-To: <CAFEAcA-LOUvZu4g1gK3WjrmZpH+B8aj5wrEY77isihetQmPUpA@mail.gmail.com>
-From: Duo jia <jiaduo19920301@gmail.com>
-Date: Thu, 9 Sep 2021 20:21:53 +0800
-Message-ID: <CALUzjTY3AP6AQKU4kAT0NT4CAwJpy9dsgXHT8YHq7PdWEokfDg@mail.gmail.com>
-Subject: Re: Application of QEMUTimer in short timing.
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000e5b63605cb8f0b65"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
- envelope-from=jiaduo19920301@gmail.com; helo=mail-io1-xd29.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
-X-Spam_action: no action
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,85 +68,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: drjones@redhat.com, gshan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e5b63605cb8f0b65
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The PL031 currently is not able to report guest RTC change to the QMP
+monitor as opposed to mc146818 or spapr RTCs. This patch adds the call
+to qapi_event_send_rtc_change() when the Load Register is written. The
+value that is reported corresponds to the difference between the new
+RTC value and the RTC value elapsed since the base.
 
-Got it.
+For instance adding 20s to the guest RTC value will report 20:
+{'timestamp': {'seconds': 1631189494, 'microseconds': 16932},
+'event': 'RTC_CHANGE', 'data': {'offset': 20}}
 
-Peter Maydell <peter.maydell@linaro.org> =E4=BA=8E2021=E5=B9=B49=E6=9C=888=
-=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=885:47=E5=86=99=E9=81=93=EF=BC=
-=9A
+Adding another extra 20s to the guest RTC value will report 40:
+{'timestamp': {'seconds': 1631189498, 'microseconds': 9708},
+'event': 'RTC_CHANGE', 'data': {'offset': 40}}
 
-> On Wed, 8 Sept 2021 at 03:50, Duo jia <jiaduo19920301@gmail.com> wrote:
-> > Also I want to know how to make a delay in qemu.
-> > For example, when I send a UART data, there is a certain time interval
-> from setting the register to when the data is sent. Most of this time doe=
-s
-> not affect the simulation effect, but some guest firmware will execute
-> errors when there is no such delay. This is a comparison. Few, but it doe=
-s
-> exist.
-> >
-> > My question is, if I really want to add such a delay, how to do it. For
-> example, in USART, can I set a callback for sending completion, or add so=
-me
-> delays that will not cause qemu to freeze.
->
-> You can do this kind of thing with an additional timer.
-> Look at hw/char/cadenc_uart.c and its handling of char_tx_time
-> for an example. In that case it is (despite the name)
-> modelling slow data receive, not slow data transmit, but
-> the basic idea is the same.
->
-> As you say, though, very little guest code really cares about
-> UART character timings (and the guest code that does is probably
-> buggy strictly speaking). So if I were you I would put "model
-> delays in UART timings" very low on your priority list...
->
-> -- PMM
->
+To compute the offset we need to track the origin tick_offset (the one
+computed at init time). So we need to migrate that field, which is done
+in a dedicated subsection. The migration of this subsection is disabled
+for machine types less or equal than 6.1.
 
---000000000000e5b63605cb8f0b65
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+After migration, adding an extra 20s on the destination returns 60:
+{'timestamp': {'seconds': 1631189522, 'microseconds': 13081},
+'event': 'RTC_CHANGE', 'data': {'offset': 60}}
 
-<div dir=3D"ltr">Got it.=C2=A0<br></div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">Peter Maydell &lt;<a href=3D"mailto:peter=
-.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; =E4=BA=8E2021=E5=B9=
-=B49=E6=9C=888=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=885:47=E5=86=99=
-=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">On Wed, 8 Sept 2021 at 03:50, Duo jia &lt;<a href=3D"mailto:jiaduo199203=
-01@gmail.com" target=3D"_blank">jiaduo19920301@gmail.com</a>&gt; wrote:<br>
-&gt; Also I want to know how to make a delay in qemu.<br>
-&gt; For example, when I send a UART data, there is a certain time interval=
- from setting the register to when the data is sent. Most of this time does=
- not affect the simulation effect, but some guest firmware will execute err=
-ors when there is no such delay. This is a comparison. Few, but it does exi=
-st.<br>
-&gt;<br>
-&gt; My question is, if I really want to add such a delay, how to do it. Fo=
-r example, in USART, can I set a callback for sending completion, or add so=
-me delays that will not cause qemu to freeze.<br>
-<br>
-You can do this kind of thing with an additional timer.<br>
-Look at hw/char/cadenc_uart.c and its handling of char_tx_time<br>
-for an example. In that case it is (despite the name)<br>
-modelling slow data receive, not slow data transmit, but<br>
-the basic idea is the same.<br>
-<br>
-As you say, though, very little guest code really cares about<br>
-UART character timings (and the guest code that does is probably<br>
-buggy strictly speaking). So if I were you I would put &quot;model<br>
-delays in UART timings&quot; very low on your priority list...<br>
-<br>
--- PMM<br>
-</blockquote></div>
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
---000000000000e5b63605cb8f0b65--
+---
+
+Tested with the following script run on guest:
+
+  #!/bin/sh
+  old=$(hwclock --show | cut -f1-7 -d' ')
+  oldabs=$(date +%s -d "$old")
+  newabs=$(expr $oldabs + $1)
+  new=$(date -d @"$newabs")
+  echo Old: $oldabs $old
+  echo New: $newabs $new
+  hwclock --set --date "$new"
+
+This was tested with both -rtc base=2010-12-03T01:02:00 and base=utc
+qemu options. As far as I can see the reported value match what
+is observed on x86 (except on x86 the values are not exactly the one
+used on guest, ie. 18 for instance instead of 20).
+
+Without migrating the original tick_offset (ie. original_tick_offset
+taking the destination init tick_offset value), a delta is observed. I
+don't know whether it is a bug. At firt glance I had the
+impression it worked without the migration scheme but this delta
+urged me to migrate the original_offset too.
+---
+ hw/core/machine.c      |  4 +++-
+ hw/rtc/meson.build     |  2 +-
+ hw/rtc/pl031.c         | 25 +++++++++++++++++++++++++
+ include/hw/rtc/pl031.h |  2 ++
+ 4 files changed, 31 insertions(+), 2 deletions(-)
+
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 067f42b528f..e93cc4ab39d 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -37,7 +37,9 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-pci.h"
+ 
+-GlobalProperty hw_compat_6_1[] = {};
++GlobalProperty hw_compat_6_1[] = {
++    { "pl031", "migrate-original-tick-offset", "false" },
++};
+ const size_t hw_compat_6_1_len = G_N_ELEMENTS(hw_compat_6_1);
+ 
+ GlobalProperty hw_compat_6_0[] = {
+diff --git a/hw/rtc/meson.build b/hw/rtc/meson.build
+index 7cecdee5ddb..8fd8d8f9a71 100644
+--- a/hw/rtc/meson.build
++++ b/hw/rtc/meson.build
+@@ -2,7 +2,7 @@
+ softmmu_ss.add(when: 'CONFIG_DS1338', if_true: files('ds1338.c'))
+ softmmu_ss.add(when: 'CONFIG_M41T80', if_true: files('m41t80.c'))
+ softmmu_ss.add(when: 'CONFIG_M48T59', if_true: files('m48t59.c'))
+-softmmu_ss.add(when: 'CONFIG_PL031', if_true: files('pl031.c'))
++specific_ss.add(when: 'CONFIG_PL031', if_true: files('pl031.c'))
+ softmmu_ss.add(when: 'CONFIG_TWL92230', if_true: files('twl92230.c'))
+ softmmu_ss.add(when: ['CONFIG_ISA_BUS', 'CONFIG_M48T59'], if_true: files('m48t59-isa.c'))
+ softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP', if_true: files('xlnx-zynqmp-rtc.c'))
+diff --git a/hw/rtc/pl031.c b/hw/rtc/pl031.c
+index 2bbb2062ac8..51dc14559c5 100644
+--- a/hw/rtc/pl031.c
++++ b/hw/rtc/pl031.c
+@@ -24,6 +24,8 @@
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "trace.h"
++#include "qemu/timer.h"
++#include "qapi/qapi-events-misc-target.h"
+ 
+ #define RTC_DR      0x00    /* Data read register */
+ #define RTC_MR      0x04    /* Match register */
+@@ -138,6 +140,7 @@ static void pl031_write(void * opaque, hwaddr offset,
+     switch (offset) {
+     case RTC_LR:
+         s->tick_offset += value - pl031_get_count(s);
++        qapi_event_send_rtc_change(s->tick_offset - s->original_tick_offset);
+         pl031_set_alarm(s);
+         break;
+     case RTC_MR:
+@@ -190,6 +193,7 @@ static void pl031_init(Object *obj)
+     qemu_get_timedate(&tm, 0);
+     s->tick_offset = mktimegm(&tm) -
+         qemu_clock_get_ns(rtc_clock) / NANOSECONDS_PER_SECOND;
++    s->original_tick_offset = s->tick_offset;
+ 
+     s->timer = timer_new_ns(rtc_clock, pl031_interrupt, s);
+ }
+@@ -287,6 +291,24 @@ static const VMStateDescription vmstate_pl031_tick_offset = {
+     }
+ };
+ 
++static bool pl031_original_tick_offset_needed(void *opaque)
++{
++    PL031State *s = opaque;
++
++    return s->migrate_original_tick_offset;
++}
++
++static const VMStateDescription vmstate_pl031_original_tick_offset = {
++    .name = "pl031/original-tick-offset",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = pl031_original_tick_offset_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(original_tick_offset, PL031State),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static const VMStateDescription vmstate_pl031 = {
+     .name = "pl031",
+     .version_id = 1,
+@@ -305,6 +327,7 @@ static const VMStateDescription vmstate_pl031 = {
+     },
+     .subsections = (const VMStateDescription*[]) {
+         &vmstate_pl031_tick_offset,
++        &vmstate_pl031_original_tick_offset,
+         NULL
+     }
+ };
+@@ -320,6 +343,8 @@ static Property pl031_properties[] = {
+      */
+     DEFINE_PROP_BOOL("migrate-tick-offset",
+                      PL031State, migrate_tick_offset, true),
++    DEFINE_PROP_BOOL("migrate-original-tick-offset",
++                     PL031State, migrate_original_tick_offset, true),
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
+diff --git a/include/hw/rtc/pl031.h b/include/hw/rtc/pl031.h
+index 9fd4be1abba..e1a12753d7d 100644
+--- a/include/hw/rtc/pl031.h
++++ b/include/hw/rtc/pl031.h
+@@ -37,6 +37,8 @@ struct PL031State {
+     uint32_t tick_offset;
+     bool tick_offset_migrated;
+     bool migrate_tick_offset;
++    uint32_t original_tick_offset;
++    bool migrate_original_tick_offset;
+ 
+     uint32_t mr;
+     uint32_t lr;
+-- 
+2.26.3
+
 
