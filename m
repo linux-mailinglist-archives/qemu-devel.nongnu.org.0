@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06FE4048AA
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 12:43:25 +0200 (CEST)
-Received: from localhost ([::1]:34232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 096B54048B7
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 12:52:56 +0200 (CEST)
+Received: from localhost ([::1]:37730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOHWe-0002b7-J5
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 06:43:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33138)
+	id 1mOHfq-0005Fu-Rk
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 06:52:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mOHTm-00080F-AZ
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 06:40:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41108)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mOHb9-0004Ff-O1; Thu, 09 Sep 2021 06:48:03 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:58317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mOHTg-0008MZ-6P
- for qemu-devel@nongnu.org; Thu, 09 Sep 2021 06:40:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631184018;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oL33Aa6CtkK/7ZX9sUngGFwqhn1cvVQ/PE0/Nntta0Q=;
- b=CBBpD3RPJbz64EG4V2nqxguOM82RQYoUfSpmWVhJHkt7Ix7tFzcsd8zj9KUyEp2Lreuun5
- iERGQunj15NpwKQsUsoH6oL4YbFhccp/wK9zp7y1+QAZCa3PVbVcZnmp8FUZG7LzqEo1nC
- 2A6AbWLly2/W9JPwAA0JF7IExBWCjpE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-P32uXViMPg6xrcmBrVASwA-1; Thu, 09 Sep 2021 06:40:17 -0400
-X-MC-Unique: P32uXViMPg6xrcmBrVASwA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F11D802929;
- Thu,  9 Sep 2021 10:40:16 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C0DC61156;
- Thu,  9 Sep 2021 10:40:09 +0000 (UTC)
-Date: Thu, 9 Sep 2021 11:40:07 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH 03/10] block: Use qemu_security_policy_taint() API
-Message-ID: <YTnkhxWbm3NvGo/T@redhat.com>
-References: <20210908232024.2399215-1-philmd@redhat.com>
- <20210908232024.2399215-4-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mOHb6-0006IA-T4; Thu, 09 Sep 2021 06:48:03 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 413E05C00E0;
+ Thu,  9 Sep 2021 06:47:58 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Thu, 09 Sep 2021 06:47:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=ljmTmj8DRTCyxsNnIAII70NT8Rc
+ nVvbHHvNdVSyQxZo=; b=V5vCRxVSrscZUNCyq5kYjeEdFCk+aVx8SYOP+8vr1yZ
+ 5xMENdWKnspIcVMHk1+2RSrh0SVfpCWJNNeuC0S+dhzKEp1zwU5qRX5NPZCc4wc5
+ nnsj7HzNxmMHYhT7FYf+4pW1mFnTQM5ZUF/BQnBelukxHj4HXv09NkPnFG4MFmEw
+ 4pk3CtjqhCGnUoJKl/dfLamNVNh+zYClhEPbcJxM19E5tLc9m5Bluvg60mcJ088F
+ dC5Ejn6l5fNgkR/eSlqF+J+wvPXqf2QVuhWbsXk6VJSBIR/uaXJhIMpIrG+vASgF
+ qA86W5NFw0R1USkPmSdNznuulioOUFUJwrtAlZ7DEiw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ljmTmj
+ 8DRTCyxsNnIAII70NT8RcnVvbHHvNdVSyQxZo=; b=to8nYM7GTj7IYWyWFXnZBa
+ GLsmGWmhBAzJ1Nldlm+HztKfstaBNEqa5STJjRPg7scqIaMMKQmY40vqv5XDJULC
+ CWtvXuAURqR1LQqfC+2Izb6bTYt7JzRD9MTzObfG9KIBYyCGnbA01OI9BzZl2gQ/
+ xddZpjjIL7YV9WyKtK/1wVZffC03UoYlsqmd934mESGAIUbspq+0ARBGa5X3Axze
+ lW60C/LtMVQkXfU1Ef58DtUuyhHHjsE3zYR2K/YDgif1H6ii6fSwPSCcRBNvhobi
+ KwTSymz9RgfYOgr34Fe/SXOiDqXtxveD0nyJDrxI3aWmDLlXkwvAdtM+VVXWlNtA
+ ==
+X-ME-Sender: <xms:XOY5YZVeiVW8kRBx_QgBd_NJhvcXSxggqNw8jP8N2nacpYWt7pFFdQ>
+ <xme:XOY5YZk_yYVRzOGQT2nD6KyRlbgJauyOFI5xY6XmdOL2-Ke3tzaks_H0OpivdnBxw
+ bdfbK_7s3AgJUH5k74>
+X-ME-Received: <xmr:XOY5YVbiPwxFyqn2ZbJHiAbjE4PmMKzE4MkBDS_onktkocmXsH6qMPu67gaIshY6242zfktSmOdwHxWdRJQ-Zf0Gpz7joUkEUEyYcE3bjOTVYFp0Cw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefledgfeefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:XeY5YcUOuBxJcHEyHyHgxZtwrEgFkH9wcoRTcNTjLHdjcipPhj4yDw>
+ <xmx:XeY5YTkMg0fOkcFbvBGzKRwIdUJJ_BCtx0MdChjWBs44sm2jj8GKVw>
+ <xmx:XeY5YZcGOmODeJ7EHCkVCcc_MrT1DZCWfzRBChGk-jCKVtNrGhWmdQ>
+ <xmx:XuY5YRgIDndw_L33HwvmCheXwnESl7IWRB_XLPd1QirJpZynzQsXlA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 9 Sep 2021 06:47:56 -0400 (EDT)
+Date: Thu, 9 Sep 2021 12:47:53 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH] hw/nvme: reattach subsystem namespaces on hotplug
+Message-ID: <YTnmWUKhtlR2j3yI@apples.localdomain>
+References: <20210909094308.122038-1-hare@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20210908232024.2399215-4-philmd@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ElSVLhtUfD5FLMsU"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210909094308.122038-1-hare@suse.de>
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,88 +92,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Prasad J Pandit <pjp@fedoraproject.org>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- xen-devel@lists.xenproject.org, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 09, 2021 at 01:20:17AM +0200, Philippe Mathieu-Daudé wrote:
-> Add the BlockDriver::bdrv_taints_security_policy() handler.
-> Drivers implementing it might taint the global QEMU security
-> policy.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+--ElSVLhtUfD5FLMsU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sep  9 11:43, Hannes Reinecke wrote:
+> With commit 5ffbaeed16 ("hw/nvme: fix controller hot unplugging")
+> namespaces get moved from the controller to the subsystem if one
+> is specified.
+> That keeps the namespaces alive after a controller hot-unplug, but
+> after a controller hotplug we have to reconnect the namespaces
+> from the subsystem to the controller.
+>=20
+> Fixes: 5ffbaeed16 ("hw/nvme: fix controller hot unplugging")
+> Cc: Klaus Jensen <k.jensen@samsung.com>
+> Signed-off-by: Hannes Reinecke <hare@suse.de>
 > ---
->  include/block/block_int.h | 6 +++++-
->  block.c                   | 6 ++++++
->  2 files changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/block/block_int.h b/include/block/block_int.h
-> index f1a54db0f8c..0ec0a5c06e9 100644
-> --- a/include/block/block_int.h
-> +++ b/include/block/block_int.h
-> @@ -169,7 +169,11 @@ struct BlockDriver {
->      int (*bdrv_file_open)(BlockDriverState *bs, QDict *options, int flags,
->                            Error **errp);
->      void (*bdrv_close)(BlockDriverState *bs);
-> -
-> +    /*
-> +     * Return %true if the driver is withing QEMU security policy boundary,
-> +     * %false otherwise. See: https://www.qemu.org/contribute/security-process/
-> +     */
-> +    bool (*bdrv_taints_security_policy)(BlockDriverState *bs);
->  
->      int coroutine_fn (*bdrv_co_create)(BlockdevCreateOptions *opts,
->                                         Error **errp);
-> diff --git a/block.c b/block.c
-> index b2b66263f9a..696ba486001 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -49,6 +49,7 @@
->  #include "qemu/timer.h"
->  #include "qemu/cutils.h"
->  #include "qemu/id.h"
-> +#include "qemu-common.h"
->  #include "block/coroutines.h"
->  
->  #ifdef CONFIG_BSD
-> @@ -1587,6 +1588,11 @@ static int bdrv_open_driver(BlockDriverState *bs, BlockDriver *drv,
->          }
->      }
->  
-> +    if (drv->bdrv_taints_security_policy) {
-> +        qemu_security_policy_taint(drv->bdrv_taints_security_policy(bs),
-> +                                   "Block protocol '%s'", drv->format_name);
-> +    }
-> +
->      return 0;
->  open_failed:
->      bs->drv = NULL;
+>  hw/nvme/subsys.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
+> index 93c35950d6..a9404f2b5e 100644
+> --- a/hw/nvme/subsys.c
+> +++ b/hw/nvme/subsys.c
+> @@ -14,7 +14,7 @@
+>  int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
+>  {
+>      NvmeSubsystem *subsys =3D n->subsys;
+> -    int cntlid;
+> +    int cntlid, nsid;
+> =20
+>      for (cntlid =3D 0; cntlid < ARRAY_SIZE(subsys->ctrls); cntlid++) {
+>          if (!subsys->ctrls[cntlid]) {
+> @@ -29,12 +29,18 @@ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **er=
+rp)
+> =20
+>      subsys->ctrls[cntlid] =3D n;
+> =20
+> +    for (nsid =3D 0; nsid < ARRAY_SIZE(subsys->namespaces); nsid++) {
+> +        if (subsys->namespaces[nsid]) {
+> +            nvme_attach_ns(n, subsys->namespaces[nsid]);
+> +        }
 
-Again we need a way to report this via QAPI, but we don't have a natural
-place is hang this off for introspection before starting a guest.
+Thanks Hannes! I like it, keeping things simple.
 
-The best we can do is report the information after a block backend has
-been instantiated. eg  Modify "BlockInfo" struct to gain
+But we should only attach namespaces that have the shared property or
+have ns->attached =3D=3D 0. Non-shared namespaces may already be attached to
+another controller in the subsystem.
 
-   '*secure': 'bool'
+However...
 
-Note I made this an optional field, since unless we mark every single
-block driver impl straight away, we'll need to cope with the absence
-of information.
+The spec says that "The attach and detach operations are persistent
+across all reset events.". This means that we should track those events
+in the subsystem and only reattach namespaces that were attached at the
+time of the "reset" event. Currently, we don't have anything mapping
+that state. But the device already has to take some liberties with
+regard to stuff that is considered persistent by the spec (SMART log
+etc.) since we do not have any way to store stuff persistently across
+qemu invocations, so I think the above is an acceptable compromise.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+A potential (as good as it gets) fix would be to keep a map/list of
+"persistently" attached controllers on the namespaces and re-attach
+according to that when we see that controller joining the subsystem
+again. CNTLID would be the obvious choice for the key here, but problem
+is that we cant really use it since we assign it sequentially from the
+subsystem, which now looks like a pretty bad choice. CNTLID should have
+been a required property of the nvme device when subsystems are
+involved. Maybe we can fix up the CNTLID assignment to take the serial
+into account (we know that is defined and *should* be unique) and not
+reuse CNTLIDs. This limits the subsystem to NVME_MAX_CONTROLLERS unique
+controllers, but I think that is fair enough.
 
+Sigh. Need to think this through.
+
+Bottomline I think I'm partial to just accepting your patch (with the
+addition of taking the shared property into account) and documenting the
+limitation wrt. persistency of attach/detach events. No matter how
+spec-compliant we do it on a live system, we still break compliance
+across QEMU invocations.
+
+--ElSVLhtUfD5FLMsU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmE55lcACgkQTeGvMW1P
+DelqawgAlQ6BTHfklnimlFvVJsb9lK/t0TG4Yqm5kiFQzMlr1cgGdtwHtfSvZUL3
+E8pr+KEvGL4OgU8QdCEclZpMreS/MUG0mbmpH+s0ugrPHpMbkr0gJxwijS6WK1eO
+3zo4YSkFhNGryZEr/ni49bz/79UGzURfODN4fcMpbhuG2sDwvIDnznP7qBOO0ljI
+Yb3x4Mo+5tH/MFZ6FnfQM8WfoQXWEQ/rz0WQUU4N1JumVU/GGjgnBYnd2JcJjVu3
+1VaPX4WDzoZu70881Dft+TmdszZK3Zwm/dXOINoDdQl8kZPZ1/rW0CFMZGecjmmM
+uM/LRj7GSXLCgFgvhzs7f94+MkJXMQ==
+=BPQB
+-----END PGP SIGNATURE-----
+
+--ElSVLhtUfD5FLMsU--
 
