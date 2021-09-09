@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7196D4045CF
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 08:52:49 +0200 (CEST)
-Received: from localhost ([::1]:39426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B56A94045EE
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 Sep 2021 09:05:40 +0200 (CEST)
+Received: from localhost ([::1]:46938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mODvU-0005rq-FK
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 02:52:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42680)
+	id 1mOE7v-0002wh-OI
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 03:05:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mODuV-000550-AH; Thu, 09 Sep 2021 02:51:47 -0400
-Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129]:34691)
+ (Exim 4.90_1) (envelope-from <hare@suse.de>)
+ id 1mOE5T-0000hI-FL; Thu, 09 Sep 2021 03:03:07 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:54118)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mODuT-00026F-NY; Thu, 09 Sep 2021 02:51:47 -0400
-Received: by mail-il1-x129.google.com with SMTP id w1so98591ilv.1;
- Wed, 08 Sep 2021 23:51:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UKDf9uhx1V+FWB0zvmTv/1NTwsnUc+O3q8M0eRgzIc4=;
- b=EDAF+H14N6hmOosAmdEz/cbIHG4i+RfWU4y1I3rv0tNbewmZHfPYNM6j3BcduboxFf
- fUP5HaHs9Q8KlJ5Wv5Mzcyp4n2NYSllJoEBg/AO/Mi/IkulJUyJqaopVjFSE7iptKAxx
- E6bdZ2cfDyf/wnFToI0DTlbG8e3b3oSIhNz1RoCNoEsFNELk1FMEd3ZS5AV/CnL6RCA1
- hBoSDId7oF9Ha/DpWHgJQQ/zCrOuQSh2iYnVa7L8K9P7hafHfjCDIpch2Bwk1+rL8hbF
- zPai/lmD1gS8/jqdYpSq4r17d38gTBSKD/NniWJYcDyfgrfMZY90c/G9CYFUWcxMIEMU
- ua5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UKDf9uhx1V+FWB0zvmTv/1NTwsnUc+O3q8M0eRgzIc4=;
- b=hsKj5Ium7kgMPop8i4waZ3vTmGOf0DRFYDoD04OjLyENdVf7604WbriYf2F7jA7zv6
- xkvkxcJpGlcqrF6en1EQ82h8ipaps0wJ6jj3T81v5yyz1hJ7VKXoRfFYb0OqnKbIpm02
- y4wezrIwXmMVkJyh+nvvrk2uav1nv5boIw6Bfvm/nADLDQf2+J1P+FtoUr/PGBQsKpOH
- 0ssfPffMFah71XGD0VMq0M76LZH7eVv0QPUYaaEBooGc41BAFGfzIVXBIpQ4+11LwzwP
- VfL+5+Ea6ZbYnru4ms6YA3BZ6DKw54A9jf70gBCSb/ZlQpesXi//RVq0WTWNEB9CqHl2
- DeSQ==
-X-Gm-Message-State: AOAM53013bjfiEDSvcAtT0BvibCdewEd7sEjIFYRmtxvtEtNlWh1L3Qj
- S9HrIxo2bIYyYfVRPzkyVzsmU7UYIOOVpSicMYw=
-X-Google-Smtp-Source: ABdhPJyzgnq738mQ5hBr58F8yIkVPw896Ctgi5EWFsZT+GulpTqMMLFltAVukr8Zgc54Vkg7IrxXhcMSdU7YntCab5o=
-X-Received: by 2002:a92:730c:: with SMTP id o12mr1245600ilc.208.1631170303338; 
- Wed, 08 Sep 2021 23:51:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <hare@suse.de>)
+ id 1mOE5P-0002xa-CT; Thu, 09 Sep 2021 03:03:07 -0400
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3C2191FDD5;
+ Thu,  9 Sep 2021 07:03:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1631170980; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JiDLNTmOPJW1NKzieJqO7dJLa4BxN9E9mqOfKBlPpR8=;
+ b=WO/rpFOmT4o6A7/OhY5rpuLKWFD1Vdco4GNygfnxLlan3Kx+DAg964Mka/mAtzi0lfzWBf
+ LYElVORlDUUN5zXmKUc29dTk9qQlV88DQeeSwgeYZ4RQrM70k8CXqvsFDNCroegcSk03vx
+ MzZGN1yvv+2nUFqyrPyNDmve7TVdGqg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1631170980;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JiDLNTmOPJW1NKzieJqO7dJLa4BxN9E9mqOfKBlPpR8=;
+ b=wpzSk8uoW1+HgjCZ019SFxy1yhqYgqmPysM2Sf+vQcgu5qleZKXuwJ7sPvHJQcB7t0exND
+ WwVvqIhr9UfV5UCQ==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 0DFEE13A61;
+ Thu,  9 Sep 2021 07:03:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id rK7HAqSxOWHZYgAAGKfGzw
+ (envelope-from <hare@suse.de>); Thu, 09 Sep 2021 07:03:00 +0000
+Subject: Re: [PULL for-6.1 06/11] hw/nvme: fix controller hot unplugging
+To: Klaus Jensen <its@irrelevant.dk>, Peter Maydell
+ <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20210726191901.4680-1-its@irrelevant.dk>
+ <20210726191901.4680-7-its@irrelevant.dk>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <699ace8a-4d92-c9ee-d844-0e5d80edc4d6@suse.de>
+Date: Thu, 9 Sep 2021 09:02:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <20210902112520.475901-1-anup.patel@wdc.com>
- <20210902112520.475901-23-anup.patel@wdc.com>
-In-Reply-To: <20210902112520.475901-23-anup.patel@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 9 Sep 2021 16:51:17 +1000
-Message-ID: <CAKmqyKO_AuY1UgE6-qKzajTYQY_dN7LXpSz6hRSbd4J9=9UxaA@mail.gmail.com>
-Subject: Re: [PATCH v2 22/22] docs/system: riscv: Document AIA options for
- virt machine
-To: Anup Patel <anup.patel@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::129;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x129.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210726191901.4680-7-its@irrelevant.dk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=hare@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -62
+X-Spam_score: -6.3
+X-Spam_bar: ------
+X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.922,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,59 +86,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 2, 2021 at 10:07 PM Anup Patel <anup.patel@wdc.com> wrote:
->
-> We have two new machine options "aia" and "aia-guests" available
-> for the RISC-V virt machine so let's document these options.
->
-> Signed-off-by: Anup Patel <anup.patel@wdc.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 7/26/21 9:18 PM, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Prior to this patch the nvme-ns devices are always children of the
+> NvmeBus owned by the NvmeCtrl. This causes the namespaces to be
+> unrealized when the parent device is removed. However, when subsystems
+> are involved, this is not what we want since the namespaces may be
+> attached to other controllers as well.
+> 
+> This patch adds an additional NvmeBus on the subsystem device. When
+> nvme-ns devices are realized, if the parent controller device is linked
+> to a subsystem, the parent bus is set to the subsystem one instead. This
+> makes sure that namespaces are kept alive and not unrealized.
+> 
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 > ---
->  docs/system/riscv/virt.rst | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->
-> diff --git a/docs/system/riscv/virt.rst b/docs/system/riscv/virt.rst
-> index fa016584bf..373645513a 100644
-> --- a/docs/system/riscv/virt.rst
-> +++ b/docs/system/riscv/virt.rst
-> @@ -63,6 +63,22 @@ The following machine-specific options are supported:
->    When this option is "on", ACLINT devices will be emulated instead of
->    SiFive CLINT. When not specified, this option is assumed to be "off".
->
-> +- aia=[none|aplic|aplic-imsic]
-> +
-> +  This option allows selecting interrupt controller defined by the AIA
-> +  (advanced interrupt architecture) specification. The "aia=aplic" selects
-> +  APLIC (advanced platform level interrupt controller) to handle wired
-> +  interrupts whereas the "aia=aplic-imsic" selects APLIC and IMSIC (incoming
-> +  message signaled interrupt controller) to handle both wired interrupts and
-> +  MSIs. When not specified, this option is assumed to be "none" which selects
-> +  SiFive PLIC to handle wired interrupts.
-> +
-> +- aia-guests=nnn
-> +
-> +  The number of per-HART VS-level AIA IMSIC pages to be emulated for a guest
-> +  having AIA IMSIC (i.e. "aia=aplic-imsic" selected). When not specified,
-> +  the default number of per-HART VS-level AIA IMSIC pages is 0.
-> +
->  Running Linux kernel
->  --------------------
->
-> --
-> 2.25.1
->
->
+>   hw/nvme/nvme.h   | 15 ++++++++-------
+>   hw/nvme/ctrl.c   | 14 ++++++--------
+>   hw/nvme/ns.c     | 18 ++++++++++++++++++
+>   hw/nvme/subsys.c |  3 +++
+>   4 files changed, 35 insertions(+), 15 deletions(-)
+> 
+Finally got around to test this; sadly, with mixed results.
+On the good side: controller hotplug works.
+Within qemu monitor I can do:
+
+device_del <devname>
+device_add <device description>
+
+and OS reports:
+[   56.564447] pcieport 0000:00:09.0: pciehp: Slot(0-2): Attention 
+button pressed
+[   56.564460] pcieport 0000:00:09.0: pciehp: Slot(0-2): Powering off 
+due to button press
+[  104.293335] pcieport 0000:00:09.0: pciehp: Slot(0-2): Attention 
+button pressed
+[  104.293347] pcieport 0000:00:09.0: pciehp: Slot(0-2) Powering on due 
+to button press
+[  104.293540] pcieport 0000:00:09.0: pciehp: Slot(0-2): Card present
+[  104.293544] pcieport 0000:00:09.0: pciehp: Slot(0-2): Link Up
+[  104.428961] pci 0000:03:00.0: [1b36:0010] type 00 class 0x010802
+[  104.429298] pci 0000:03:00.0: reg 0x10: [mem 0x00000000-0x00003fff 64bit]
+[  104.431442] pci 0000:03:00.0: BAR 0: assigned [mem 
+0xc1200000-0xc1203fff 64bit]
+[  104.431580] pcieport 0000:00:09.0: PCI bridge to [bus 03]
+[  104.431604] pcieport 0000:00:09.0:   bridge window [io  0x7000-0x7fff]
+[  104.434815] pcieport 0000:00:09.0:   bridge window [mem 
+0xc1200000-0xc13fffff]
+[  104.436685] pcieport 0000:00:09.0:   bridge window [mem 
+0x804000000-0x805ffffff 64bit pref]
+[  104.441896] nvme nvme2: pci function 0000:03:00.0
+[  104.442151] nvme 0000:03:00.0: enabling device (0000 -> 0002)
+[  104.455821] nvme nvme2: 1/0/0 default/read/poll queues
+
+So that works.
+But: the namespace is not reconnected.
+
+# nvme list-ns /dev/nvme2
+
+draws a blank. So guess some fixup patch is in order...
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
 
