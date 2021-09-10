@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8B5406806
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 09:53:25 +0200 (CEST)
-Received: from localhost ([::1]:36666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDB3B40680C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 09:56:09 +0200 (CEST)
+Received: from localhost ([::1]:39560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mObLg-0000GV-Ex
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 03:53:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37550)
+	id 1mObOL-0002HT-0x
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 03:56:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mObKn-0007wp-P9
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 03:52:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46127)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1mObMb-00015D-QJ
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 03:54:23 -0400
+Received: from mga17.intel.com ([192.55.52.151]:54099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mObKm-0002Xh-Cl
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 03:52:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631260347;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=B8rSGd3ORTLwlzuIY4r/sviUr6oVdgbaEg+WpIPbC0E=;
- b=hqWUb6OLBagcWaNG8gFJXI/S4anJz6unABt3cHE2ks4hRY0NAFUEeLwsd1UFrzlURTWEHD
- USdtCeCFONovk00JIs90VrU5sFj+7oySWV0+fDACuR8eYUcgBPH1XdsW0+yAan7eMo7SQr
- rf8QgyvXRqvKwnFE6KNOkz6ilUjKG+8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-rzJvQHNLNKeaUCDQG0VXww-1; Fri, 10 Sep 2021 03:52:26 -0400
-X-MC-Unique: rzJvQHNLNKeaUCDQG0VXww-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6927115962B;
- Fri, 10 Sep 2021 07:51:27 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FAE36A902;
- Fri, 10 Sep 2021 07:51:27 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 03C8918000AA; Fri, 10 Sep 2021 09:51:26 +0200 (CEST)
-Date: Fri, 10 Sep 2021 09:51:25 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-Subject: Re: Implementing isochronous transfers in hw/hcd-ohci.c
-Message-ID: <20210910075125.myuh7swdwd2mpgv4@sirius.home.kraxel.org>
-References: <263FF66A-21D7-4D0D-BE37-2D44B484A1EE@gmail.com>
- <20210910050740.pgdcwhe5scohepps@sirius.home.kraxel.org>
- <CABLmASHenOBj-15oOYvsai8YJuJHbnpVCXW3vAwF3kA=eoPiyQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1mObMY-0003zB-CW
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 03:54:21 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="201214534"
+X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; d="scan'208";a="201214534"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Sep 2021 00:54:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; d="scan'208";a="480069272"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by orsmga008.jf.intel.com with ESMTP; 10 Sep 2021 00:54:13 -0700
+Received: from shsmsx602.ccr.corp.intel.com (10.109.6.142) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 10 Sep 2021 00:54:12 -0700
+Received: from shsmsx601.ccr.corp.intel.com (10.109.6.141) by
+ SHSMSX602.ccr.corp.intel.com (10.109.6.142) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 10 Sep 2021 15:54:11 +0800
+Received: from shsmsx601.ccr.corp.intel.com ([10.109.6.141]) by
+ SHSMSX601.ccr.corp.intel.com ([10.109.6.141]) with mapi id 15.01.2242.012;
+ Fri, 10 Sep 2021 15:54:11 +0800
+From: "Wang, Wei W" <wei.w.wang@intel.com>
+To: Ashish Kalra <Ashish.Kalra@amd.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v4 10/14] migration: add support to migrate shared regions
+ list
+Thread-Topic: [PATCH v4 10/14] migration: add support to migrate shared
+ regions list
+Thread-Index: AQHXiSixYzJlWQ0zGE+pIA+UAsFsgKt42gHA
+Date: Fri, 10 Sep 2021 07:54:10 +0000
+Message-ID: <6a48e7c8b6e14933aa0085d12e2c5ff7@intel.com>
+References: <cover.1628076205.git.ashish.kalra@amd.com>
+ <9236f522e48b67fe7136de7620276f7dc193be37.1628076205.git.ashish.kalra@amd.com>
+In-Reply-To: <9236f522e48b67fe7136de7620276f7dc193be37.1628076205.git.ashish.kalra@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <CABLmASHenOBj-15oOYvsai8YJuJHbnpVCXW3vAwF3kA=eoPiyQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=wei.w.wang@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,24 +82,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Programmingkid <programmingkidx@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Thomas.Lendacky@amd.com" <Thomas.Lendacky@amd.com>,
+ "brijesh.singh@amd.com" <brijesh.singh@amd.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "jejb@linux.ibm.com" <jejb@linux.ibm.com>, "tobin@ibm.com" <tobin@ibm.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "dovmurik@linux.vnet.ibm.com" <dovmurik@linux.vnet.ibm.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+> From: Brijesh Singh <brijesh.singh@amd.com>
+>=20
+> When memory encryption is enabled, the hypervisor maintains a shared
+> regions list which is referred by hypervisor during migration to check if=
+ page is
+> private or shared. This list is built during the VM bootup and must be mi=
+grated
+> to the target host so that hypervisor on target host can use it for futur=
+e
+> migration.
+>=20
+> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> Co-developed-by: Ashish Kalra <ashish.kalra@amd.com>
+> Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
+> ---
+>  include/sysemu/sev.h |  2 ++
+>  target/i386/sev.c    | 43
+> +++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 45 insertions(+)
+>=20
+> diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h index
+> 3b913518c0..118ee66406 100644
+> --- a/include/sysemu/sev.h
+> +++ b/include/sysemu/sev.h
+> @@ -32,5 +32,7 @@ void sev_es_set_reset_vector(CPUState *cpu);  int
+> sev_remove_shared_regions_list(unsigned long gfn_start,
+>                                     unsigned long gfn_end);  int
+> sev_add_shared_regions_list(unsigned long gfn_start, unsigned long gfn_en=
+d);
+> +int sev_save_outgoing_shared_regions_list(QEMUFile *f); int
+> +sev_load_incoming_shared_regions_list(QEMUFile *f);
+>=20
+>  #endif
+> diff --git a/target/i386/sev.c b/target/i386/sev.c index
+> 6d44b7ad21..789051f7b4 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -135,10 +135,15 @@ static const char *const sev_fw_errlist[] =3D {
+>=20
+>  #define SEV_FW_BLOB_MAX_SIZE            0x4000          /* 16KB
+> */
+>=20
+> +#define SHARED_REGION_LIST_CONT     0x1
+> +#define SHARED_REGION_LIST_END      0x2
+> +
+>  static struct ConfidentialGuestMemoryEncryptionOps
+> sev_memory_encryption_ops =3D {
+>      .save_setup =3D sev_save_setup,
+>      .save_outgoing_page =3D sev_save_outgoing_page,
+>      .load_incoming_page =3D sev_load_incoming_page,
+> +    .save_outgoing_shared_regions_list =3D
+> sev_save_outgoing_shared_regions_list,
+> +    .load_incoming_shared_regions_list =3D
+> + sev_load_incoming_shared_regions_list,
 
-> > >  * TODO:
-> > >  *  o Isochronous transfers
+Hi Ashish,
+I have some questions about the callbacks:
 
-> > Most likely yes, audio devices typically use iso endpints.
+1) why using a list of shared regions, instead of bitmaps to record private=
+/shared state?
+I saw that the KVM side implementation used bitmaps in the first place and =
+changed to
+shared regions since v10, but don't find the reason.
 
-> The usb-audio device works for the fedora guest, so would this not indicate
-> that the iso endpoints are already working?
+2) why is the save/load of shared region list (or bitmap) made vendor speci=
+fic?
+I think it can be a common interface and data structure, e.g. KVM maintains=
+ a per memory slot
+bitmap to be obtained by QEMU.
 
-Indeed, so probably the comment is just outdated.
-
-take care,
-  Gerd
-
+Best,
+Wei
 
