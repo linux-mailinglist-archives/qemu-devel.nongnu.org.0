@@ -2,71 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9CEE406E7F
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 17:43:35 +0200 (CEST)
-Received: from localhost ([::1]:51912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74968406E84
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 17:47:49 +0200 (CEST)
+Received: from localhost ([::1]:55276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOigg-0007qa-S4
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 11:43:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56824)
+	id 1mOikm-0001pb-D9
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 11:47:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mOifp-000776-Hu
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 11:42:41 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40712)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mOifn-00068M-Ss
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 11:42:41 -0400
-Received: by mail-wr1-x429.google.com with SMTP id q26so3236788wrc.7
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 08:42:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CsB/de4+tPGOLF/IH1low9iPfv4g4if0eRlFYHlB9cE=;
- b=OrSlFR3Ix7NfjAlfD67VlI3GNxmv0bbO8On0AMYErUZkqJJnj4jXyBkdeYbIH3B+HI
- dgUPtb1myMWU7fTBGn74FW41gyH2F5dA+TKWoVlxBTG1RqW3NNyzwq8/RErQC7YZuDE8
- zMWYgqitILWTFUHiSusTaUQum3pcvaulzc390ak64Rzm97YX5oYqcoXZ6zKQXQhQogqF
- Exhq0A9ptpD4FSsmV4gHHbGZhAjQaDVnk9EQMHSriAnbAIYxU6uiBxjz8b7lRTADpbu4
- nszV0P3xJn0m4u1tbANn/WW2GAS1n5pWwaQurRUQQSuGTyhikw/BtYrX7Us3fCXg3xQI
- QJ6A==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mOiiV-0000J6-K7
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 11:45:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54042)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mOiiR-0000Bd-Pz
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 11:45:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631288722;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LXw020pSt1yagaBLlByGUcRpaeIG3SahWWCoZ7EnWH0=;
+ b=RLmgZVWsoh2z3V7HmiMwCiu9XKe356ZyRDyx04Xf8Sa8Lh3n36LJmXvGJrVBYExnRsRAAM
+ 3fs8/vHwVi/sgfEniHXaFJfKw+JyTJRfsbF+sZgEfP169mjQkAAAzvZ5rPs6heGwkECKYu
+ VsMIvKml18afCsVIcZSiTUBF0ZKtNQQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-kfUj0S12OdKbRTG8Z4wloA-1; Fri, 10 Sep 2021 11:45:21 -0400
+X-MC-Unique: kfUj0S12OdKbRTG8Z4wloA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ u1-20020a05600c210100b002e74fc5af71so1006688wml.1
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 08:45:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CsB/de4+tPGOLF/IH1low9iPfv4g4if0eRlFYHlB9cE=;
- b=gnEU7ke98g4r9qExHhDIjA905rhZzFM41TZ0OXHVO0ZJkqF2URtA+pXRbz2GFFpDAQ
- QufLjzsnoE7CFXm9XlUngzV625TXZJpTlXM6Zspaq4bgui6FgUXXaJ9bXORsze0vuGGK
- DQ5BHcOekR0fBIWr6gPX4lsHTtnRmcA0gEn/xWLJtdAWFBGqX+xX1Xea71CLUU9z9iFy
- aH8s4B1my6tAEeKxH/Zx8CFVCwlymKy7H+I/lV9AZHNRT2OElKJ2m22RDB8T+CRgdFZg
- lNTBi3FbFiEROjvnP3I7vZilntNha1y54apEkLcmdDw9hvi5fX+OsJU52N9ZsGTPWoPo
- L54w==
-X-Gm-Message-State: AOAM532HHE8LGD7zHCD0LXJo9OeOjNKN4thdLYpPiIzm8QoH8kSbLKQt
- qh8YiHkii6R34ZvmldDYdswGICWITTaR2wawGIECOQ==
-X-Google-Smtp-Source: ABdhPJx2fzHw/83tOfm8N9aPQ67K9wQYbAzy3nqZ3ma9RWWa+4FHuSo3LJQA4CDNTjklgMgrE81mIOE5VAKzhUWr/94=
-X-Received: by 2002:adf:f185:: with SMTP id h5mr1753479wro.302.1631288558406; 
- Fri, 10 Sep 2021 08:42:38 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LXw020pSt1yagaBLlByGUcRpaeIG3SahWWCoZ7EnWH0=;
+ b=r5pYFj9EVGEtRGXXcaETJGFFhuNRDLSXgiklmLE1/RiJbZwtDikP60lEuS587/NG89
+ vl5MLNS5P4KokjLQVs2/VyMKCC9BLAq524Vnp21Zf553Lm22hy8iS/gd3tL5Ydc0rr77
+ ecTiuvO+D08fITOO7eW9i28AQEYlkjMhZ5zedAh4UTrB0K6x2tZ87T8YSFB2Gi2iv7tG
+ 4inIGFAVBhbJEZuKaaBy5KpgA7Q5NSr2gj4TmYfBV8rLCnswjNJMdiz1a1b6inka3Y9f
+ qUgagjmhr4L1Y6lXufFApf7lrbZj5OgaELEA1EdhoGyQkXPYbRUUC205nlZ/FBYxHKzE
+ 5U8w==
+X-Gm-Message-State: AOAM531kcVqioBgspf7KYk9UoGK89kVuj1u0bgoNOZNZp/lfw3LRJC7U
+ 4pEdgrrZhZdDSp3qbatFIHRcXnGMTGZNNDqR46bkXL2Sp3YPjx84XGp78O+FbYHwuNiD/faenjx
+ MCKovpWIOCrCQcyUpDGeLX4QT/OLh/MCLWlO40ZvU0EDXOa2Ij6QlA7IZsvHpOKgiB18=
+X-Received: by 2002:a7b:c843:: with SMTP id c3mr8962192wml.76.1631288720277;
+ Fri, 10 Sep 2021 08:45:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzrLMT4URL96JFK6BFnyqXOeFf0CWXlxaorZKYjWlTY9RQ1DNWFJkI7vZarpcabJYot6Wci5A==
+X-Received: by 2002:a7b:c843:: with SMTP id c3mr8962172wml.76.1631288719967;
+ Fri, 10 Sep 2021 08:45:19 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id g1sm5424463wrc.65.2021.09.10.08.45.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Sep 2021 08:45:12 -0700 (PDT)
+Subject: Re: [qemu-web PATCH] Fix link to Windows page in Wiki
+To: Helge Konetzka <hk@zapateado.de>, qemu-devel@nongnu.org
+References: <6755edb6-f953-4ca2-a4b6-31e4566e9842@zapateado.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <af33f36e-e319-e95c-36bc-9c77f4ad81b8@redhat.com>
+Date: Fri, 10 Sep 2021 17:44:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210910152933.468368-1-pbonzini@redhat.com>
- <YTt6vM2FtoOpi+JP@redhat.com>
-In-Reply-To: <YTt6vM2FtoOpi+JP@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Sep 2021 16:41:48 +0100
-Message-ID: <CAFEAcA_Mw8FS+sgiBnEkCRrwHF2R==092_imzaNr7P+=ksHUxQ@mail.gmail.com>
-Subject: Re: [qemu-web PATCH] contribute: ask not to submit merge requests
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <6755edb6-f953-4ca2-a4b6-31e4566e9842@zapateado.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,28 +99,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 Sept 2021 at 16:34, Daniel P. Berrang=C3=A9 <berrange@redhat.com=
-> wrote:
-> I think it might be worth leaving a warning here despite adding it
-> to the main contribute index page, as people might land directly on
-> this page and not see the other page's warning.
->
-> >  Do NOT report security issues (or other bugs, too) as "private" bugs i=
-n the
-> >  bug tracker.  QEMU has a [security process](../security-process) for i=
-ssues
-> >  that should be reported in a non-public way instead.
+On 25/08/21 18:43, Helge Konetzka wrote:
+> Furthermore I would like to propose to change the instructions for 
+> Native builds with MSYS2 on Wiki Windows page.
+> 
+> Please remove the section which copies system binaries to match the 
+> expected file names!
+> 
+> Instead define variables for configure (gcc-ar and gcc-ranlib are 
+> existing copies of x86_64-w64-mingw32-gcc-ar and 
+> x86_64-w64-mingw32-gcc-ranlib) and add strip to enable make install:
+> 
+> AR=gcc-ar NM=nm OBJCOPY=objcopy RANLIB=gcc-ranlib WINDRES=windres 
+> STRIP=strip \
+> ./configure --cross-prefix=x86_64-w64-mingw32- --enable-gtk --enable-sdl
 
-Isn't that text for the old launchpad bug tracker? The gitlab UI equivalent
-to launchpad "private" bugs is that there's a tickybox for "This issue is
-confidential". (At least accidental confidential gitlab bugs won't have
-the same "vanishes into a black hole that nobody looks at" property that
-LP private bugs did.)
+Do you even need anything but "./configure"? (possibly AR=gcc-ar NM=nm 
+at the beginning)?
 
--- PMM
+I applied the webpage fix in the meanwhile, thanks!
+
+Paolo
+
 
