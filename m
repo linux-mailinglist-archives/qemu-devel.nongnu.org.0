@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018E2407003
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 18:54:37 +0200 (CEST)
-Received: from localhost ([::1]:55842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A2D407042
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 19:08:42 +0200 (CEST)
+Received: from localhost ([::1]:41318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOjnP-00013D-IW
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 12:54:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53034)
+	id 1mOk12-0002Qy-UQ
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 13:08:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mOjme-0000MA-OB
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 12:53:48 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33286)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mOjmd-0001Ew-2P
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 12:53:48 -0400
-Received: by mail-wr1-x435.google.com with SMTP id t18so3602575wrb.0
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 09:53:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JdSonDgYOt9Rv2znvcWod4dSXnqEeaoocG3SDnzReq0=;
- b=Msm+c5gnXhgePbmmLh/yx8mTJluz27vDnYZwcljNAMz8htTuxLDRqupurvCqFJGodd
- RUfsiahGSDlRi8pXAklb9+rWw9M38KMYaILIo1oXmENZkyZUz/qnaf8g6ExU9n8wYV+B
- 4/QGetZ1DMNazanmWZaE3DgbQWkwAXkdJacgAcf00tNj3xg0KgcycxalgXuuU3kO1VZa
- 4BdEwMXJRbmn56qW+PC+4t8En6+f8l/b3XZCe/TfePbAMMC4MRTuj0pD33JloN/kS3QC
- BiupBoV5cXrFp4vyaPVp2HiayTmAeA9z/ihZ9PfNs2VEduYEIhH7n2Iy/m3fpmQ/PDtq
- 9ngA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mOjzV-0000Zq-O9
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 13:07:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41416)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mOjzS-0004WJ-Ho
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 13:07:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631293621;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MzmoE4tzkjYiyCMtwMN0IZgrK0AVcFhDw5olOcMHa1s=;
+ b=H5aEDWj2yT+g5XzrtMGBBvaozpdeCw7gPzYwrbhDaaTgvvi1bZrGTxcCqiKY2gBpdGz4ut
+ V76aVcJXSd4XffYzjHK+UlRI+vRx/m0GNVYA4yvCtjCGj8cRiS0dmIVxjjejCKhHsd8Uiv
+ 08LRDg/5owRweH7kDIfZ+/WjzG0P0wI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-HvzWIQIKPPuExOFqvadtzw-1; Fri, 10 Sep 2021 13:07:00 -0400
+X-MC-Unique: HvzWIQIKPPuExOFqvadtzw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ p18-20020a5d4e12000000b0015940dc586aso756225wrt.6
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 10:07:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JdSonDgYOt9Rv2znvcWod4dSXnqEeaoocG3SDnzReq0=;
- b=Gkb9qRo2JRMFR0ne74ofi7Bl1Xu5GyE5LKXX6vNbkJ8Hv+OSmA+fECcx+ttDA/BnZ6
- qzAAboQnB2fZaeQcXCRt9HfzsYWwy7uQEE3DDjklEOq2NduaUOe/G5vzmo6W5isADPZ5
- bJD6tVvzmZ3HS3/uroFDull0M6Fs5l4W/bKkmZx5KVpx7Lr0GaOa0rkr3oq6kC2PO+Ns
- 03G1YABk7swqNzEV6087DxZLSlyvP2/AsQ7ezIGKeGLV59r8YKSLHzuT/nej1OPReh4b
- L5J9oRf+Qf1jhrBXs6d/7sv2dlkWpAq54BU7zYFFbq45p0xgMkxdD6JnZhUCxX+EBq6m
- TdWA==
-X-Gm-Message-State: AOAM532dBhweWswyFRSf8bHE+7LTsct8a8E8CN0+Kro48zbk4t+d5FUO
- 3v4h051KfQG9ocSUzPL02BeCP0//OssV0kQpAxzn/Q==
-X-Google-Smtp-Source: ABdhPJxyLen1Ewvn3vXF8lUjlzTZR3C8Mf3cfs2nCu8q+RQitjI3PKCkexMUWpQQAHc0QcGnlAJhlVK8BSveNudjYT8=
-X-Received: by 2002:adf:fb91:: with SMTP id a17mr10499413wrr.376.1631292825381; 
- Fri, 10 Sep 2021 09:53:45 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+s6MgbOEfICWD6/7636UW+jANfJaIA74BetWIRypg30=;
+ b=teYkBIpIZfJzb7qMojSvDDle1VjYEweb5qVHZggBxLdekiohpaf9brthe80e2Vas56
+ uV9hAAZy7c21hBDyN9qob/g9X2aEl9XUs/9VPaNFYwCznF5zGOeuwuaKMLVEDcnM7j9X
+ 0jhUVdiYXepA8ranvyBlonzWxJEOripeNgyCKbTfAlR379/Z2MoPu6Wdvap+KlKxI4r1
+ KOHTXVDlAZf3sQP4EV9XWPyOyflYPxebO0h6HiT2tiYcMvV4ZAqxKdZN8qkJRfpQAYvk
+ 7ARfzmqjO5FvsZVr7pZzAsltf/8F8B7Hm23gOyQ2Mk8HizhCAxYhai1XfV23WHyhhwcS
+ wGmg==
+X-Gm-Message-State: AOAM530Q0C06sbkFqCPt/em3aTrbqaDYjjKbBYuP41xura8nWEhJE3fE
+ xaCSUD64edbL6re4BhdexIGIa8bpjELQz5n/U0UB4Urd0LehOVh9jqC7n28XikX18RADfgkzcls
+ 4pipmiICTeaX518iqKkIYS6OVvxJ0px8iRIPtW4NjYymn2iO2VgayJQ8xx6OG6UqT
+X-Received: by 2002:a5d:6381:: with SMTP id p1mr11052434wru.310.1631293618465; 
+ Fri, 10 Sep 2021 10:06:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxZXWN8m9ZanqxAXxlgQ0dx54eWStEPIVvnGE0TE5yeZV4y82Z3BPjJctKc/FRO66Okbr7jEw==
+X-Received: by 2002:a5d:6381:: with SMTP id p1mr11052399wru.310.1631293618209; 
+ Fri, 10 Sep 2021 10:06:58 -0700 (PDT)
+Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id n4sm5415866wra.37.2021.09.10.10.06.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Sep 2021 10:06:57 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] elf2dmp: Fix minor Coverity nits
+Date: Fri, 10 Sep 2021 19:06:54 +0200
+Message-Id: <20210910170656.366592-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210910131709.3681492-1-kraxel@redhat.com>
-In-Reply-To: <20210910131709.3681492-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Sep 2021 17:52:55 +0100
-Message-ID: <CAFEAcA_1SdGuiEgquVE2T5p-x6YkJXwAou==wdVoZvRqcZzJDg@mail.gmail.com>
-Subject: Re: [PULL 0/6] Vga 20210910 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,80 +90,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 Sept 2021 at 14:19, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit bd662023e683850c085e98c8ff8297142c2dd9f2:
->
->   Merge remote-tracking branch 'remotes/mcayland/tags/qemu-openbios-20210908' into staging (2021-09-08 11:06:17 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/vga-20210910-pull-request
->
-> for you to fetch changes up to 6335c0b56819a5d1219ea84a11a732d0861542db:
->
->   qxl: fix pre-save logic (2021-09-10 12:23:12 +0200)
->
-> ----------------------------------------------------------------
-> virtio-gpu + ui: fence syncronization.
-> qxl: unbreak live migration.
->
-> ----------------------------------------------------------------
+This is a respin of Peter Maydell series, with slightly different=0D
+logic on the first patch. Quoting v1 cover [*]:=0D
+=0D
+  Coverity complains about a couple of minor issues in elf2dmp:=0D
+   * we weren't checking the return value from curl_easy_setopt()=0D
+   * we might divide by zero if presented with a corrupt PDB file=0D
+=0D
+  This patchseries fixes those.=0D
+=0D
+Viktor Prutyanov tested the patch but didn't provided a formal=0D
+Tested-by tag, so I haven't included it in the patches.=0D
+=0D
+[*] https://lore.kernel.org/qemu-devel/20210901143910.17112-1-peter.maydell=
+@linaro.org/=0D
+=0D
+Peter Maydell (2):=0D
+  elf2dmp: Check curl_easy_setopt() return value=0D
+  elf2dmp: Fail cleanly if PDB file specifies zero block_size=0D
+=0D
+ contrib/elf2dmp/download.c | 22 ++++++++++------------=0D
+ contrib/elf2dmp/pdb.c      |  4 ++++=0D
+ 2 files changed, 14 insertions(+), 12 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-Hi; this fails to build on the ppc64 system:
-
-../../ui/egl-helpers.c:79:6: error: no previous prototype for
-'egl_dmabuf_create_sync' [-Werror=missing-prototypes]
-   79 | void egl_dmabuf_create_sync(QemuDmaBuf *dmabuf)
-      |      ^~~~~~~~~~~~~~~~~~~~~~
-../../ui/egl-helpers.c:95:6: error: no previous prototype for
-'egl_dmabuf_create_fence' [-Werror=missing-prototypes]
-   95 | void egl_dmabuf_create_fence(QemuDmaBuf *dmabuf)
-      |      ^~~~~~~~~~~~~~~~~~~~~~~
-
-
-The prototype is hidden behind CONFIG_GBM, but the definition is not.
-
-Then the callsites fail:
-
-../../ui/gtk-gl-area.c: In function 'gd_gl_area_draw':
-../../ui/gtk-gl-area.c:77:9: error: implicit declaration of function
-'egl_dmabuf_create_sync' [-Werror=implicit-function-declaration]
-   77 |         egl_dmabuf_create_sync(dmabuf);
-      |         ^~~~~~~~~~~~~~~~~~~~~~
-../../ui/gtk-gl-area.c:77:9: error: nested extern declaration of
-'egl_dmabuf_create_sync' [-Werror=nested-externs]
-../../ui/gtk-gl-area.c:81:9: error: implicit declaration of function
-'egl_dmabuf_create_fence' [-Werror=implicit-function-declaration]
-   81 |         egl_dmabuf_create_fence(dmabuf);
-      |         ^~~~~~~~~~~~~~~~~~~~~~~
-../../ui/gtk-gl-area.c:81:9: error: nested extern declaration of
-'egl_dmabuf_create_fence' [-Werror=nested-externs]
-
-
-../../ui/gtk-egl.c: In function 'gd_egl_draw':
-../../ui/gtk-egl.c:100:9: error: implicit declaration of function
-'egl_dmabuf_create_fence' [-Werror=implicit-function-declaration]
-  100 |         egl_dmabuf_create_fence(dmabuf);
-      |         ^~~~~~~~~~~~~~~~~~~~~~~
-../../ui/gtk-egl.c:100:9: error: nested extern declaration of
-'egl_dmabuf_create_fence' [-Werror=nested-externs]
-../../ui/gtk-egl.c: In function 'gd_egl_scanout_flush':
-../../ui/gtk-egl.c:301:9: error: implicit declaration of function
-'egl_dmabuf_create_sync' [-Werror=implicit-function-declaration]
-  301 |         egl_dmabuf_create_sync(vc->gfx.guest_fb.dmabuf);
-      |         ^~~~~~~~~~~~~~~~~~~~~~
-../../ui/gtk-egl.c:301:9: error: nested extern declaration of
-'egl_dmabuf_create_sync' [-Werror=nested-externs]
-
-
-You can probably repro this on any system which has the opengl
-libraries installed but not libgbm.
-
--- PMM
 
