@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3404D40681F
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 10:04:31 +0200 (CEST)
-Received: from localhost ([::1]:50964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A8FB40683C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 10:19:01 +0200 (CEST)
+Received: from localhost ([::1]:60056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mObWQ-0001m1-If
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 04:04:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39606)
+	id 1mObkR-0008Q5-Q5
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 04:18:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mObV1-0000tB-8d
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 04:03:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49024)
+ id 1mObic-0006IY-WF
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 04:17:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36566)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mObUw-00035V-IV
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 04:03:02 -0400
+ id 1mObia-0006ia-JZ
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 04:17:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631260975;
+ s=mimecast20190719; t=1631261822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BfsN8PszjvzudcWJwAGDXzGLOjxwaz6TX4zyt+YQdYw=;
- b=LD9Z6AvXk8a1MAO5K53f5yXzBUA7zi+OfbOzHB/wBAJZx7za3slNz4H7MedkVdfoB0xuWK
- HvvPTPA/dzvlAywU1YOVvO7oky+KJ2s9z0dmsktNj8H4hxOkqpHxoQbNmPkHFmXvXZuyhn
- AQ5X0wmiKTJZHjIJgGQR2OGPLNyfBu0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-4BQ8PaluMSehdMT8_wKjKw-1; Fri, 10 Sep 2021 04:02:52 -0400
-X-MC-Unique: 4BQ8PaluMSehdMT8_wKjKw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- a27-20020a5d457b000000b0015b11fccc5eso208891wrc.10
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 01:02:52 -0700 (PDT)
+ bh=RdDI9AlEhfxcHRz6GN8W0hhrroxvN2k4O9RC/r0Ttiw=;
+ b=Y9yJ/PKaG+cpm8QxZzdDayw02QJoAyuEAqLMkAumeiB8qGPAqhF/kBdA+SMxvGLY0hAdI/
+ uVfRwXP0MR49U3CoAAU7DoC31xByBbN64IPsx8yCeHTiOehGQHCJG/cWNYM0rJGqiSRKjO
+ 3ftl+wciG4HWrhCV4xOkh8o5vlp0Jrk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-228-nE28Ya-eMF2k04spJ6Fmow-1; Fri, 10 Sep 2021 04:17:01 -0400
+X-MC-Unique: nE28Ya-eMF2k04spJ6Fmow-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m12-20020a05600c3b0c00b002ff62df2774so602929wms.9
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 01:17:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=BfsN8PszjvzudcWJwAGDXzGLOjxwaz6TX4zyt+YQdYw=;
- b=14y4EYL1DoS3QAZwC2+2Csni/3GoNiKvXLuiR9uNOpHUc/Eq47V6Zw8qh3/QKXbPrb
- FhH5p+nfiE+zHlLPGDpIs8lav/6CnZS8un67JQofVjgIFRZi8eEArIA3EF9vKK9SMPUc
- CX2lBecZCarA5iZb4f58L9G9TGjbBt6lUmZs8GOiAmrrnK4WB6orEFDWwKbjibW1k00H
- ZBJyzIM/3YuFSd935GmSG+Z+qe0a48b6XN/MV2rnAWCeqlyIMTJohHbJ+5Ju7NYTNaam
- 0N8Nbw/Hq39bcLSz5DXcbeu37VmF71ArXan9pjiEPVXhC/xhtp1bz9TpK95U79wy4g9H
- THeA==
-X-Gm-Message-State: AOAM530FZ25iRPBJLP4SQJgBQYh3uwJ3jUp1ja2npUau2KRDnBS+pnsJ
- tJMsd59ZMviDbxJ/gbBd8Q00Q7cM5NYXa+Ud7eLPP3OAjmUrVh0H22kxNVADiB5t+296c89Jl9Q
- vroE/rYEyaD2NUio=
-X-Received: by 2002:a05:600c:3b26:: with SMTP id
- m38mr6877221wms.155.1631260971321; 
- Fri, 10 Sep 2021 01:02:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzV3scoeP9TUbV290T/T0GB/wleq+hsvKVNb00Y0AhEPRUg1xkC9+DHc28P2sdbqvf4S2fihQ==
-X-Received: by 2002:a05:600c:3b26:: with SMTP id
- m38mr6877183wms.155.1631260970946; 
- Fri, 10 Sep 2021 01:02:50 -0700 (PDT)
+ bh=RdDI9AlEhfxcHRz6GN8W0hhrroxvN2k4O9RC/r0Ttiw=;
+ b=OWoEpLqPWxVjlmUB0O7O8W2+p6daDLNWkrxtyTngUyQb2Yvq5VnrI9nuh0dKgiZnXV
+ 9AWTIqWKWWMj67BUOHz4ZgJkFmrBN+2rNGl8ppaKJSi5W3pC3kvVo/AOF9xDs7jHJUxC
+ NPH1lpSdhFH3itKArXCPC9sIo0C/OUeJiVPGciUUTimXiZw6GIJJG+XHZaMxjbJmdOub
+ 4tyI7E+MmSXZG61bggYd/HuOfB/qWu2pJekALMKGdQfscWGdla/kOAvgFpbPwiZJxGnM
+ hGAKXX1RQiIhj4AvHkBTMDfUO80dWvqFVp3MpnQiCFDfb9fYc/Z35dzZM6cIogQfygOk
+ Abng==
+X-Gm-Message-State: AOAM53155/DQx8ZNblf9Cv/f/AzZs38+40QOg4vWvWtJsqmGe3czdOjf
+ SXYcCeT4XyKDooNhPCGulje+Q1jNZ1equTlH27RvNiTU13QWBDpSqIKL9qlqbQFHTRzTqcswkew
+ cL/0jmC2w8++S6SI=
+X-Received: by 2002:a5d:6902:: with SMTP id t2mr6079357wru.23.1631261820446;
+ Fri, 10 Sep 2021 01:17:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyVLEhk9/dXXlfklgM8axJ+/fUvnyrxQLkvpQNVUb6UZdGX9XLo7xs7MJsUluXmnVxgCe186A==
+X-Received: by 2002:a5d:6902:: with SMTP id t2mr6079325wru.23.1631261820273;
+ Fri, 10 Sep 2021 01:17:00 -0700 (PDT)
 Received: from gator (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id r2sm4264249wrg.31.2021.09.10.01.02.50
+ by smtp.gmail.com with ESMTPSA id c9sm4079551wrf.77.2021.09.10.01.16.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Sep 2021 01:02:50 -0700 (PDT)
-Date: Fri, 10 Sep 2021 10:02:43 +0200
+ Fri, 10 Sep 2021 01:16:59 -0700 (PDT)
+Date: Fri, 10 Sep 2021 10:16:57 +0200
 From: Andrew Jones <drjones@redhat.com>
-To: Jingyi Wang <wangjingyi11@huawei.com>
-Subject: Re: Questions on setting guest CPU models with ARM kvm enabled
-Message-ID: <20210910080243.p73z46oengdykeae@gator>
-References: <440b72ca-01f2-337a-ad00-fd2d73ae4ea7@huawei.com>
+To: Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH v9 06/16] qtest/numa-test: Use detailed -smp CLIs in
+ pc_dynamic_cpu_cfg
+Message-ID: <20210910081657.3622zphyadnso4nj@gator>
+References: <20210910073025.16480-1-wangyanan55@huawei.com>
+ <20210910073025.16480-7-wangyanan55@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <440b72ca-01f2-337a-ad00-fd2d73ae4ea7@huawei.com>
+In-Reply-To: <20210910073025.16480-7-wangyanan55@huawei.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URI_DOTEDU=1.999 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,70 +95,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, maz@kernel.org, qemu-devel@nongnu.org,
- eric.auger@redhat.com, qemu-arm@nongnu.org, pbonzini@redhat.com,
- "wanghaibin.wang@huawei.com" <wanghaibin.wang@huawei.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org, wanghaibin.wang@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 10, 2021 at 10:40:30AM +0800, Jingyi Wang wrote:
-> Hi all,
->     On ARM hardware, as qemu docs describes, "Named CPU models generally
-> do not work with KVM." May I ask what is the main obstacle to setting a
-> guest CPU model on later host hardware?
-
-Currently KVM does not give the user (QEMU) control over ID registers.
-You cannot migrate a model using KVM to another host because you cannot
-write the model's ID registers to KVM if they do not exactly match the
-destination host's ID registers. Changing that behavior is just a matter
-of coding, but at least one register, MIDR, will still cause problems
-with guests that use it to modify their behavior, e.g. to enable
-workarounds for errata. A general solution to that problem is not
-really possible. See [1] for where I wrote more about that.
-
+On Fri, Sep 10, 2021 at 03:30:15PM +0800, Yanan Wang wrote:
+> Since commit 80d7835749 (qemu-options: rewrite help for -smp options),
+> the preference of sockets/cores in -smp parsing is considered liable
+> to change, and actually we are going to change it in a coming commit.
+> So it'll be more stable to use detailed -smp CLIs in testing if we
+> have strong dependency on the parsing results.
 > 
->     For example, if I want to start Cortex-A57 guest on Cortex-A72 host,
-> I noticed that there is not much big difference between these two CPU
-> models(Please correct me if I'm wrong), what work should I do?
+> pc_dynamic_cpu_cfg currently assumes/needs that there will be 2 CPU
+> sockets with "-smp 2". To avoid breaking the test because of parsing
+> logic change, now explicitly use "-smp 2,sockets=2".
+> 
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: Laurent Vivier <lvivier@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> ---
+>  tests/qtest/numa-test.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
+> index c677cd63c4..fd7a2e80a0 100644
+> --- a/tests/qtest/numa-test.c
+> +++ b/tests/qtest/numa-test.c
+> @@ -265,7 +265,8 @@ static void pc_dynamic_cpu_cfg(const void *data)
+>      QTestState *qs;
+>      g_autofree char *cli = NULL;
+>  
+> -    cli = make_cli(data, "-nodefaults --preconfig -machine smp.cpus=2");
+> +    cli = make_cli(data, "-nodefaults --preconfig "
+> +                         "-machine smp.cpus=2,smp.sockets=2");
+>      qs = qtest_init(cli);
+>  
+>      /* create 2 numa nodes */
+> -- 
+> 2.23.0
+>
 
-You may be able to find two systems that you deem "close enough" to
-attempt to migrate. [1] has some proposals for attempting to support
-"close enough" migrations.
-
-Also, Peng Liang was working on attempting to make ID registers user
-controlled [2],[3]. However, I think the approach was trying to do too
-much too fast. We need to take baby steps towards CPU models. Also,
-I heard somebody from Google might be trying to give users control
-over ID registers, but I haven't seen patches.
-
-IMO, a first baby step towards CPU models would be changing the
-reject list we currently have in KVM for what features we expose
-to the guest (see arch/arm64/kvm/sys_regs.c:read_id_reg) to an allow
-list. The second step would be to give user control to ID registers,
-which would mean each ID register set_user function would need to
-learn how to sanity check its register value, which would probably
-need to be done in a some vcpu finalize function, since there can be
-inter-register dependencies. KVM will also have to give up control
-over registers like MIDR, because the fields are implementation
-defined, so there's no way to sanity check them.
-
-Once KVM has these changes, then we'd need to build models in QEMU,
-advertise the model capabilities to upper layers, etc. in order for
-them to be used. But, we'd still leave a big burden on the users to
-determine what safe migrations are, due to the errata problem I
-mentioned above.
-
-The last sentence of the last paragraph is why we've never really
-considered all the work to be worth it. However, I would welcome
-some baby steps, particularly the KVM reject-list to allow-list
-change, which would ensure safer execution of guests in general,
-not just for migration.
-
-Thanks,
-drew
-
-[1] https://yhbt.net/lore/all/CABgNM92-PHWg3X41tCVfErmV9-Hnu5GYpz_pa9-iXfbScFUCZg@mail.gmail.com/T/#ma3475a71f6ad34853470c8b38cd4ff43815b79d9
-[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg756323.html
-[3] https://lists.cs.columbia.edu/pipermail/kvmarm/2020-November/043011.html
+ 
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
