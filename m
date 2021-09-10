@@ -2,69 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1F84072A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 22:36:56 +0200 (CEST)
-Received: from localhost ([::1]:44534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E531C4072C3
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 22:58:52 +0200 (CEST)
+Received: from localhost ([::1]:51288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOnGZ-00050P-CV
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 16:36:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39346)
+	id 1mOnbn-0002A1-G1
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 16:58:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mOnFI-0004JO-2C
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 16:35:36 -0400
-Received: from mail-ua1-x92a.google.com ([2607:f8b0:4864:20::92a]:41813)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mOnFG-0008Ex-Bp
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 16:35:35 -0400
-Received: by mail-ua1-x92a.google.com with SMTP id f24so1961318uav.8
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 13:35:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=75I3uS+rDbiffmpWIWQmCAOqR89eVG3MKBVrc5JYY5I=;
- b=1aug0ufTtyLEoPtvyiCCqq4PeCS8CrB9E1ZmhAFwRcJ4tvlCikBvkWstiJP27Tom0j
- 3UOvCRELrF5L2eDNfLNN5YNzAX9hOn7M52zpoD/cOas0zcq/W5y7oqoCw4Fm3nPDDxTM
- 9Jc8Mk4rZhgb6ec7TsL4pPF5vZLpHj/nkW2J48BQK9/nBED5azG0R3tYEn6VCymLAuL2
- 8jz+lf4nCUU+gAS+s8a3km2Bf+WAlr9O/2uRZaDuxwoUXgTeKJ71naqcsUzES9eXWE0m
- hqAKFiKOBxAt19Xa53ben1xkkQpIn2VPX2DEDTN+GFv748/OJXFaXCLJGUUdIYtp/hje
- 1M0g==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mOnak-0001OO-E7
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 16:57:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51214)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mOnah-0001zA-Es
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 16:57:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631307461;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=d+AaOreZL+xD1qLEh6cGdiTmqxvzkfZCY2+mHij6e80=;
+ b=gOb0O6+zGZbEeOsfCpHkcNTtGBqPhmFFfv8NvQTEtmtqz0+F60ZZv+ltRgtzBo4ADWDI26
+ 7j5imErLAxPY7wo2BLB42PrvV8VvysT6ZKy1VGeUJLfyx6SEdehilk2mFe2xyHNYasWxCK
+ Jzim2RcQkzttL6EBIpMURi/DNLRENx8=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-kbJdHPH6NDW0qB9L043y8g-1; Fri, 10 Sep 2021 16:57:39 -0400
+X-MC-Unique: kbJdHPH6NDW0qB9L043y8g-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ c2-20020a17090a558200b001873dcb7f09so2753992pji.7
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 13:57:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=75I3uS+rDbiffmpWIWQmCAOqR89eVG3MKBVrc5JYY5I=;
- b=OYt5Q48+MtbIuQCCHdMV9M/9GtDhWN176/LqXCjmdrkkhdgjSwRQFmBDn1pkmD5SzS
- VgaYNpGyHGZnhVxNs8xTuuSc/7qFnkK2Rob34cjmXnRUA+VSN1gdYSOOpDE8+SvZu68u
- vzvZI358yGiu0I4MQvtgeh1ZCOowvciIHR6HHMkQiRKgvMPc6KMq2fHq80kv6/UoClxd
- 3AVoI0mjRGNvoh8LHjILtWUPefMCspaV6PmmuwkjTZH/6dOJFsa1JopgUM2LGwhiVg48
- GwwKhlOnj4UP40sQZXjzOGoCY11/JWWx3pdKojqqheusv9EzuE1k0oJoZk1dVZcFpnG+
- nwuw==
-X-Gm-Message-State: AOAM5320+EX2cC+8ia1gNdXuBl1jzxBkT54Eg+IRzNwjsZERDsGTJCjx
- t5Sd1QWzoNSLGPbrh8hMYPQXrSBUdhSVzo8ABqhyCw==
-X-Google-Smtp-Source: ABdhPJy4YmjQwpW8YiaWxfW4sLk2pOe9PYJ8OhzDzpj5qU0bkuSDTh7LJSwvKqqzDXm9u2idUdYYMVKfJLMHdQjTKXY=
-X-Received: by 2002:a9f:31c8:: with SMTP id w8mr7671947uad.77.1631306133164;
- Fri, 10 Sep 2021 13:35:33 -0700 (PDT)
+ bh=d+AaOreZL+xD1qLEh6cGdiTmqxvzkfZCY2+mHij6e80=;
+ b=X24enkHW7bAXpfodtsImCs9HGZ/zd7ngiHC0teYiOsqU7IStPnU5ubxllKckAaDuVT
+ aDGV6LknsyNdE9Pex3lQ7zdS3o0YlekhrKcJd74FPYedUTvNV9oaTwrDhd4qvfmLWDnR
+ jx4Zi9wNFITP4mPFt6lyGgtR9aEQPhJ01T6Io4Tx5DcQKSzQn5yo+aPRsK3Rx+fiD9yk
+ 7vyDHIW0bBzEfk+n880RmVyUuq45uSmXB6vyUhZA3FZ+55q3Znc6MSwN3/3V/YPnwOUS
+ x9JuadRgXhl/eqKnNVNzCeoDWRowV4h0UfpVT0HrD7lcuJxalgWOuGlS2P5v0vy1sXON
+ 9MqA==
+X-Gm-Message-State: AOAM533LX88M5CNsh+QRQyXDRr2junvQMBLNNwXo4TUG3naUoieKXWFa
+ dW+sJDKocVMdrPNWnxcqBL1JcaKJarWVM4RVsIbgrj4/jdIQHQhyMxABhv1iv909quR1CFIaU2N
+ vvntPF5q+UFXxm6YOCYy/H/J3yaSjs/I=
+X-Received: by 2002:a05:6a00:189b:b0:410:2a10:17dc with SMTP id
+ x27-20020a056a00189b00b004102a1017dcmr9989101pfh.4.1631307458843; 
+ Fri, 10 Sep 2021 13:57:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyqFPUFqJeZlcpNQEgTOHpEmO/yKHl2F4q8S7JmpDGnLBEIq9TsSbcgMRQWb05nJL88tOPHJ52/TN5rRtus/Ig=
+X-Received: by 2002:a05:6a00:189b:b0:410:2a10:17dc with SMTP id
+ x27-20020a056a00189b00b004102a1017dcmr9989068pfh.4.1631307458351; Fri, 10 Sep
+ 2021 13:57:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210907215332.30737-1-imp@bsdimp.com>
- <CAFEAcA9kF08A1PyPmBXfWykWZwP4+MoPOvTn4diu13Dkq04SVg@mail.gmail.com>
- <CANCZdfqpoqgyqWoX=y_GFfjhphGbZjWk2yS=ZTcrAiZa9Q3BJw@mail.gmail.com>
- <344864f6-38f5-1478-5945-20c82f21d426@amsat.org>
-In-Reply-To: <344864f6-38f5-1478-5945-20c82f21d426@amsat.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Fri, 10 Sep 2021 14:35:22 -0600
-Message-ID: <CANCZdfr5tqM0s4+2OxYS7X+76itQfR4E0+Fw=+Nd2AoUR3uPsQ@mail.gmail.com>
-Subject: Re: [PULL 00/42] bsd-user updates to run hello world
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="00000000000096663405cbaa0e0d"
-Received-SPF: none client-ip=2607:f8b0:4864:20::92a;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210719112136.57018-1-yang.zhong@intel.com>
+ <20210719112136.57018-23-yang.zhong@intel.com>
+ <dc8394c5-52a1-573f-36d3-de8bc43973d3@redhat.com>
+ <YTt7H9ifqjeOQztl@google.com>
+ <b940de84-7eac-59de-7b15-15060c31de52@redhat.com>
+ <YTuXJUjR8noe34h6@google.com>
+ <cfcf6570-79c2-f351-d651-2cb25f691165@redhat.com>
+ <YTu+LG8v6eOhQBzi@google.com>
+In-Reply-To: <YTu+LG8v6eOhQBzi@google.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Fri, 10 Sep 2021 22:57:25 +0200
+Message-ID: <CABgObfZh3pzktRbZf0+kvz=Vf0kbHTCGH=HK=DwyFsTQMbzfQA@mail.gmail.com>
+Subject: Re: [PATCH v4 22/33] hostmem-epc: Add the reset interface for EPC
+ backend reset
+To: Sean Christopherson <seanjc@google.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000932cfd05cbaa5db2"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,133 +98,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Kyle Evans <kevans@freebsd.org>
+Cc: Yang Zhong <yang.zhong@intel.com>, Jarkko Sakkinen <jarkko@kernel.org>,
+ "Blake, Eric" <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, "Huang,
+ Kai" <kai.huang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000096663405cbaa0e0d
+--000000000000932cfd05cbaa5db2
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 9, 2021 at 10:31 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g>
-wrote:
+Il ven 10 set 2021, 22:21 Sean Christopherson <seanjc@google.com> ha
+scritto:
 
-> On 9/9/21 5:12 PM, Warner Losh wrote:
+> > It's also possible that QEMU handles failure, but the kernel does two
+> > passes; then QEMU can just do two passes.  The kernel will overall do
+> four
+> > passes, but:
 > >
-> >
-> > On Thu, Sep 9, 2021, 9:01 AM Peter Maydell <peter.maydell@linaro.org
-> > <mailto:peter.maydell@linaro.org>> wrote:
-> >
-> >     On Tue, 7 Sept 2021 at 22:56, <imp@bsdimp.com
-> >     <mailto:imp@bsdimp.com>> wrote:
-> >     >
-> >     > From: Warner Losh <imp@bsdimp.com <mailto:imp@bsdimp.com>>
-> >     >
-> >     > The following changes since commit
-> >     f214d8e0150766c31172e16ef4b17674f549d852:
-> >     >
-> >     >   Merge remote-tracking branch
-> >     'remotes/pmaydell/tags/pull-target-arm-20210826' into staging
-> >     (2021-08-26 18:03:57 +0100)
-> >     >
-> >     > are available in the Git repository at:
-> >     >
-> >     >   https://gitlab.com/bsdimp/qemu.git
-> >     <https://gitlab.com/bsdimp/qemu.git> tags/bsd-user-pull-20210907-ta=
-g
-> >     >
-> >     > for you to fetch changes up to
-> >     dc96376e46a52ac63a27ea185c3f0a6fd54e3c82:
-> >     >
-> >     >   bsd-user: Update mapping to handle reserved and starting
-> >     conditions (2021-09-07 08:26:53 -0600)
-> >
-> >     >  slirp                                         |    2 +-
-> >
-> >     A bogus submodule update seems to have crept in here...
-> >
-> >
-> > So I need to fix this and resubmit?
+> > 1) the second (SECS pinned by children in the same vEPC) would be cheaper
+> > than a full second pass
 >
-> Yes, but since there is no change in most of the commits, you don't
-> need to repost the whole, once pushed the new tag, you can just
-> post the the cover letter (which triggers Peter's scripts) and the
-> fixed "[PULL 07/42] bsd-user: move arch specific defines out of
-> elfload.c" which updated the submodule.
+> The problem is that this would require a list_head (or temp allocations)
+> to track
+> the SECS pages that failed the first time 'round.  For vEPC destruction,
+> the kernel
+> can use sgx_epc_page.list because it can take the pages off the
+> active/allocated
+> list, but that's not an option in this case because the
+> presumably-upcoming EPC
+> cgroup needs to keep pages on the list to handle OOM.
 >
 
-Done. Thanks!
+Good point, so yeah: let's go for a ioctl that does full removal, returning
+the number of failures. I will try and cobble up a patch unless Kai beats
+me to it.
 
-Warner
+Thanks for the quick discussion!
 
---00000000000096663405cbaa0e0d
+Paolo
+
+
+> The kernel's ioctl/syscall/whatever could return the number of pages that
+> were
+> not freed, or maybe just -EAGAIN, and userspace could use that to know it
+> needs
+> to do another reset to free everything.
+>
+> My thought for QEMU was to do (bad pseudocode):
+>
+>         /* Retry to EREMOVE pinned SECS pages if necessary. */
+>         ret = ioctl(SGX_VEPC_RESET, ...);
+>         if (ret)
+>                 ret = ioctl(SGX_VEPC_RESET, ...);
+>
+>         /*
+>          * Tag the VM as needed yet another round of resets to ERMOVE SECS
+> pages
+>          * that were pinned across vEPC sections.
+>          */
+>         vm->sgx_epc_final_reset_needed = !!ret;
+>
+> > 2) the fourth would actually do nothing, because there would be no pages
+> > failing the EREMOV'al.
+> >
+> > A hypothetical other SGX client that only uses one vEPC will do the right
+> > thing with a single pass.
+>
+>
+
+--000000000000932cfd05cbaa5db2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 9, 2021 at 10:31 AM Phili=
-ppe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.o=
-rg</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">On 9/9/21 5:12 PM, Warner Losh wrote:<br>
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il ven 10 set 2021, 22:21 Sean Christopherson &lt;<a h=
+ref=3D"mailto:seanjc@google.com" target=3D"_blank" rel=3D"noreferrer">seanj=
+c@google.com</a>&gt; ha scritto:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">&g=
+t; It&#39;s also possible that QEMU handles failure, but the kernel does tw=
+o<br>
+&gt; passes; then QEMU can just do two passes.=C2=A0 The kernel will overal=
+l do four<br>
+&gt; passes, but:<br>
 &gt; <br>
-&gt; <br>
-&gt; On Thu, Sep 9, 2021, 9:01 AM Peter Maydell &lt;<a href=3D"mailto:peter=
-.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a><br>
-&gt; &lt;mailto:<a href=3D"mailto:peter.maydell@linaro.org" target=3D"_blan=
-k">peter.maydell@linaro.org</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0On Tue, 7 Sept 2021 at 22:56, &lt;<a href=3D"mailto=
-:imp@bsdimp.com" target=3D"_blank">imp@bsdimp.com</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:imp@bsdimp.com" target=
-=3D"_blank">imp@bsdimp.com</a>&gt;&gt; wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; From: Warner Losh &lt;<a href=3D"mailto:imp@bs=
-dimp.com" target=3D"_blank">imp@bsdimp.com</a> &lt;mailto:<a href=3D"mailto=
-:imp@bsdimp.com" target=3D"_blank">imp@bsdimp.com</a>&gt;&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; The following changes since commit<br>
-&gt;=C2=A0 =C2=A0 =C2=A0f214d8e0150766c31172e16ef4b17674f549d852:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0Merge remote-tracking branch<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&#39;remotes/pmaydell/tags/pull-target-arm-20210826=
-&#39; into staging<br>
-&gt;=C2=A0 =C2=A0 =C2=A0(2021-08-26 18:03:57 +0100)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; are available in the Git repository at:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0<a href=3D"https://gitlab.com/bsdi=
-mp/qemu.git" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/bsdimp=
-/qemu.git</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://gitlab.com/bsdimp/qemu.git" =
-rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/bsdimp/qemu.git</a>=
-&gt; tags/bsd-user-pull-20210907-tag<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; for you to fetch changes up to<br>
-&gt;=C2=A0 =C2=A0 =C2=A0dc96376e46a52ac63a27ea185c3f0a6fd54e3c82:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0bsd-user: Update mapping to handle=
- reserved and starting<br>
-&gt;=C2=A0 =C2=A0 =C2=A0conditions (2021-09-07 08:26:53 -0600)<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 slirp=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 2 +-<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0A bogus submodule update seems to have crept in her=
-e...<br>
-&gt; <br>
-&gt; <br>
-&gt; So I need to fix this and resubmit?<br>
+&gt; 1) the second (SECS pinned by children in the same vEPC) would be chea=
+per<br>
+&gt; than a full second pass<br>
 <br>
-Yes, but since there is no change in most of the commits, you don&#39;t<br>
-need to repost the whole, once pushed the new tag, you can just<br>
-post the the cover letter (which triggers Peter&#39;s scripts) and the<br>
-fixed &quot;[PULL 07/42] bsd-user: move arch specific defines out of<br>
-elfload.c&quot; which updated the submodule.<br></blockquote><div><br></div=
-><div>Done. Thanks!</div><div><br></div><div>Warner</div></div></div>
+The problem is that this would require a list_head (or temp allocations) to=
+ track<br>
+the SECS pages that failed the first time &#39;round.=C2=A0 For vEPC destru=
+ction, the kernel<br>
+can use sgx_epc_page.list because it can take the pages off the active/allo=
+cated<br>
+list, but that&#39;s not an option in this case because the presumably-upco=
+ming EPC<br>
+cgroup needs to keep pages on the list to handle OOM.<br></blockquote></div=
+></div><div dir=3D"auto"><br></div><div dir=3D"auto">Good point, so yeah: l=
+et&#39;s go for a ioctl that does full removal, returning the number of fai=
+lures. I will try and cobble up a patch unless Kai beats me to it.</div><di=
+v dir=3D"auto"><br></div><div dir=3D"auto">Thanks for the quick discussion!=
+</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"=
+auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
+adding-left:1ex">
+<br>
+The kernel&#39;s ioctl/syscall/whatever could return the number of pages th=
+at were<br>
+not freed, or maybe just -EAGAIN, and userspace could use that to know it n=
+eeds<br>
+to do another reset to free everything.<br>
+<br>
+My thought for QEMU was to do (bad pseudocode):<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Retry to EREMOVE pinned SECS pages if necess=
+ary. */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ioctl(SGX_VEPC_RESET, ...);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ret)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ioctl(SGX_V=
+EPC_RESET, ...);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Tag the VM as needed yet another round =
+of resets to ERMOVE SECS pages<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* that were pinned across vEPC sections.<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vm-&gt;sgx_epc_final_reset_needed =3D !!ret;<br=
+>
+<br>
+&gt; 2) the fourth would actually do nothing, because there would be no pag=
+es<br>
+&gt; failing the EREMOV&#39;al.<br>
+&gt; <br>
+&gt; A hypothetical other SGX client that only uses one vEPC will do the ri=
+ght<br>
+&gt; thing with a single pass.<br>
+<br>
+</blockquote></div></div></div>
 
---00000000000096663405cbaa0e0d--
+--000000000000932cfd05cbaa5db2--
+
 
