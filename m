@@ -2,90 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D650040720D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 21:36:21 +0200 (CEST)
-Received: from localhost ([::1]:55528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1889407210
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 21:38:08 +0200 (CEST)
+Received: from localhost ([::1]:58032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOmJw-0005nS-V6
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 15:36:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52826)
+	id 1mOmLg-0007aT-3M
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 15:38:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mOmHe-0004tM-J0
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 15:33:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54305)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mOmHZ-0003b6-Vs
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 15:33:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631302432;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=slSXKJ7U9ML2UV7faA2E399tebxw1QwPjko8fh9996U=;
- b=A2HL/hQawJ2aqxhwDF2iufkhlFiJuLkzDDeTfU0SDmsf+YTyu2c2bUcaeYcOLgFXo9WibF
- 1+gbq8xzgQmysVnhOwh8DobNKRgPHwkbrLJv2J6QgFkRBsuj8N9/hhFQ0SGzYm6+/eJ0qU
- 7LwIQrHIlF/b1qKo/yfAyqa9Y7gEJW8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-RYke7dIMMEOrf7csFEJA0g-1; Fri, 10 Sep 2021 15:33:51 -0400
-X-MC-Unique: RYke7dIMMEOrf7csFEJA0g-1
-Received: by mail-wr1-f69.google.com with SMTP id
- b8-20020a5d5508000000b001574e8e9237so866389wrv.16
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 12:33:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <hinkocevar@gmail.com>)
+ id 1mOmJR-0005xp-UV
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 15:35:50 -0400
+Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:38652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hinkocevar@gmail.com>)
+ id 1mOmJQ-00058M-E7
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 15:35:49 -0400
+Received: by mail-qt1-x82e.google.com with SMTP id g11so2494364qtk.5
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 12:35:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=9YbChwUaOVzluaKAJxo0HfiTf48+crAzPA74v/Y6qGM=;
+ b=TGNnXozuaJuKkMhsIkaGaW62wTuECRD98MuK5zBGCSRj0tJdXuZhmrwszGVSBk1i2+
+ ZpuMdbZOuhVxP/23QXKD0uvgMyAxsucLOb/KBpcGMHy3tz0l8JAoLfOIeFNZPMKnqJg2
+ /hLuqoANyFshi0gHHYkbzTajs0lFjTnk/3owSkykbhnn7YtiwTwuA9YZZ0T+Bwp8SRx4
+ Cl9hw1nTD7jUqaNm9n8TOLuzJncZxWAVXBZfKRtuFvUgHDojYA8YVFpFe9JA4MktxBBs
+ 7rclqNN7ZXqdNZdLW+NsBtUFKkCz7zl3SUHTMh/A/NosWyxuQb7rK5T0uT7nsEehIYBv
+ 0IzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=slSXKJ7U9ML2UV7faA2E399tebxw1QwPjko8fh9996U=;
- b=a4zn/rE7XPz1JsN+Gbo7ISVABo1zzF/8gK1aV58Ncw27P1MT/fmb6QLrQTaObswg8R
- alkbzSsuhR7pS3jklVNnEVdg3z46viT5CqgT8UW6OwYyqtMqCTnns0HpaDmJd1uHrbl1
- ExZLIMMyNJdSaN7A604pxmomBtOVg3Vyz+d94w2XB+LmUckiJCZIG9lJ4b9EKfdghh8J
- uByHyBAeMq5QKFEcy1OU2XoZQARTBoZ6/vXX5QrLanLFHGusNGq2c6MsaeZr21IL/UhD
- +zwQyYzQMBtwr16KN1cIlrRcg15Q2bQDpisrHpjhlHX4ch8UrHIp1wCVLXjGV0XvjfaI
- AK4w==
-X-Gm-Message-State: AOAM530vV8dEPiKhSI0RvgbWeeXx0EQuIDNIHA166VsHFh7OAq/ZMTwV
- RPyVLFk0K76ESvSsQoj7BK+GCjgY2IUGuq/i+bt+tD49kADRFgJb9ioUMtmDpEpqUFenYft9to5
- 1U2DQzK7Mh1655FY=
-X-Received: by 2002:adf:e108:: with SMTP id t8mr11427769wrz.84.1631302430514; 
- Fri, 10 Sep 2021 12:33:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzVldgQBme9X21NxOGC1240PEg0zs5viveDHkqA5TyZQSG8ecAt3FBgU29HG++AM5Av+Zyi3w==
-X-Received: by 2002:adf:e108:: with SMTP id t8mr11427751wrz.84.1631302430301; 
- Fri, 10 Sep 2021 12:33:50 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id n4sm6393342wro.81.2021.09.10.12.33.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Sep 2021 12:33:49 -0700 (PDT)
-Subject: Re: [PATCH] hw/i386/acpi-build: Fix a typo
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-References: <20210908222157.2377282-1-philmd@redhat.com>
- <d11a3da6-c26c-1f78-ff52-e965f214cba7@t-online.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a1988342-7304-ccc9-8a5a-7da0172569ff@redhat.com>
-Date: Fri, 10 Sep 2021 21:33:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=9YbChwUaOVzluaKAJxo0HfiTf48+crAzPA74v/Y6qGM=;
+ b=FxbcaC1XlZLuay22JRzJtJbq5Lls1AWQDhCL9wCN9/uSW0MaTafpyuGisIXDkb4z+0
+ bjixrhUjEjCALyFrih7CUiVj+hwfPDtlPXOEdMxoyCmgO2MfxAJeZyu4AkMadhc90B2z
+ i0DYRtoPBksQWy7YeSpKhuQH7oHko2iDq0J9cSScik/YbZJkq5X//LC4uRpJBe0xrz5t
+ j4ageREPHpCPMvl3GQbLsvoohzJahengSLLSP3PnMecyuK/sArXF2ogQmwYLvOe4SCjt
+ kT3kO/TQuqo7b0FDQQKugBayIHz7sBz1DrcuSAn1dZp6IvhEeebqNeLR+HUsGbB6pvSD
+ ZkVg==
+X-Gm-Message-State: AOAM531j5t352GHbH7Ph3LDpDBHw8PaFB4fwWZ8QrD2EvhEFvLn6BcjL
+ sT9ypw/qIX+zXKy4P96nxDJXx0qpLDKp7/LaLsAe/EFzYdEBrw==
+X-Google-Smtp-Source: ABdhPJxHi8xe8tKL9ZujNG1r191KcT5VuWUZ054tPvCMXX+ePuQRjfTaWp2JXRTVJUfsjGRFQsJTfNhe6KKTOY0H9SA=
+X-Received: by 2002:ac8:489a:: with SMTP id i26mr10019268qtq.372.1631302545729; 
+ Fri, 10 Sep 2021 12:35:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d11a3da6-c26c-1f78-ff52-e965f214cba7@t-online.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Hinko Kocevar <hinkocevar@gmail.com>
+Date: Fri, 10 Sep 2021 21:35:35 +0200
+Message-ID: <CACOP0z-muPwpLjimweiACOoSiAeULS_aP16+_9goOZv12gTxug@mail.gmail.com>
+Subject: simple serial device emulation
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000c26c5605cba9388f"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
+ envelope-from=hinkocevar@gmail.com; helo=mail-qt1-x82e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,20 +73,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/10/21 8:54 PM, Volker Rümelin wrote:
->> Fix 'hotplugabble' -> 'hotpluggabble' typo.
-> 
-> I'm convinced that the correct spelling is hotpluggable. Only the
-> consonant g is doubled.
+--000000000000c26c5605cba9388f
+Content-Type: text/plain; charset="UTF-8"
 
-Lol I missed this part, thanks :>
+I have an emulated MMIO area holding couple of registers that deal with
+serial UART. Very simple access to the Tx and Rx registers from the
+userspace point of view involves polling for a bit in one register and then
+writing another; when there is room for another character. When the guest
+app does write to a MMIO Tx register, as expected, io_writex() is invoked
+and my handler is invoked. At the moment it does not do much. I'm thinking
+now that the character needs to be fed to the serial device instance or
+something.
 
+Where should I look for suitable examples in the qemu code? I reckon that
+other machines exist that do the similar. I found lots of serial_mm_init()
+and sysbus_mmio_map() uses around serial port instances but I'm not sure
+how to couple my "serial ops" to the "bus" or SerialMM (if that is the way
+to go).
+
+Thanks!
+//hinko
+
+-- 
+.. the more I see the less I believe.., AE AoR
+
+--000000000000c26c5605cba9388f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I have an emulated MMIO area holding couple of registers t=
+hat deal with serial UART. Very simple access to the Tx and Rx registers fr=
+om the userspace point of view involves polling for a bit in one register a=
+nd then writing another; when there is room for another character. When the=
+ guest app does write to a MMIO Tx register, as expected, io_writex() is in=
+voked and my handler is invoked. At the moment it does not do much. I&#39;m=
+ thinking now that the character needs to be fed to the serial device insta=
+nce or something.<div><br></div><div>Where should I look for suitable examp=
+les in the qemu code? I reckon that other machines exist that do the simila=
+r. I found lots of serial_mm_init() and=C2=A0sysbus_mmio_map() uses around =
+serial port instances but I&#39;m not sure how to couple my &quot;serial op=
+s&quot; to the &quot;bus&quot; or SerialMM (if that is the way to go).</div=
+><div><br></div><div>Thanks!</div><div>//hinko<br clear=3D"all"><div><br></=
+div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gma=
+il_signature">.. the more I see the less I believe.., AE AoR</div></div></d=
+iv>
+
+--000000000000c26c5605cba9388f--
 
