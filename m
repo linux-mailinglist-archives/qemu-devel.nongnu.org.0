@@ -2,97 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D4C9407225
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 21:53:47 +0200 (CEST)
-Received: from localhost ([::1]:35034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E61407233
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 21:58:20 +0200 (CEST)
+Received: from localhost ([::1]:41380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOman-0003RT-WA
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 15:53:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55918)
+	id 1mOmfC-0007uh-Ln
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 15:58:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mOmYy-0002h9-Cf
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 15:51:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24275)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mOmYu-000221-5V
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 15:51:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631303506;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xKu7yupIc3SJR/EYbXiqnXMO8rMLJd2qHieNeyGPvag=;
- b=Tb+aZhPWnggKqOPVbd4Wn9Dx9E87wnjmpsH/Ugq2izyVBhwMOh4aZxT/lPql0xLlz3wH4L
- AkEpKgJJlG6OZ+v9B09w0GyP7vZJPPQgDn3y5SM3Rvcw18kwcOsJ9h09EQbF5tKo3rXruq
- 3GERHewAaNT5eIFeW2sdHjPc62+sorU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-0NOuExJoN4Sl9SZD3j6snw-1; Fri, 10 Sep 2021 15:51:44 -0400
-X-MC-Unique: 0NOuExJoN4Sl9SZD3j6snw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m10-20020a7bcf2a000000b00301f07cdca5so601831wmg.9
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 12:51:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mOmcy-0005K6-IS; Fri, 10 Sep 2021 15:56:00 -0400
+Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:40902)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mOmcx-00064z-2w; Fri, 10 Sep 2021 15:56:00 -0400
+Received: by mail-qk1-x730.google.com with SMTP id t190so3314305qke.7;
+ Fri, 10 Sep 2021 12:55:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=v7x3yIU2XPxdzxIhB6rQ/zeto9dRlHQXK30m/Vv0AK0=;
+ b=SSVUW6c0h93qo3kLaPdLpA4a9Gwiroz0YTxLB/xR1ZqEPIAbvmjUt1j5P24DV33+sV
+ azXCjKprGyxyqxrvW+Fm9kcG7JyNsV2EEpXCjv0yMromHM9Z/rSroTCxnUcbbHWfOg0/
+ E2Ss9BYwMjeVstLzsEJ853xG2DZKreONbeIgGGeyog/uNnkgbJqGMcSZOHDK1Xb5E4nM
+ 2CpcF1Jn81yXBw+KkseyDiFUvQb9s/ZpQ3EpZHEogK/gllotJGVujRIxMKiRmATSF1BQ
+ wbXlo0h7L1shI6AeDel8ZOLWhZcbNbgWom50sp4P9aT8WaGJzAIyBdvsL+4xriUXWB9X
+ x5fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=xKu7yupIc3SJR/EYbXiqnXMO8rMLJd2qHieNeyGPvag=;
- b=rALVwsSUWZOGrfO//XEHZ5nYkBlh7Y/gN5Uw1i1IqOwhgXhkqXMV1ssar9D4l19zMU
- C4wH88dCTTxu9WOQ6NxGI4PrQLZRfUcBw3jnEP/JdEXpyVG4ZizktyAeku3eDj2BQlcy
- kkKDyQJA1EvEEgPi3o3am1T6Qy0YtiBeZ4moB6DSvzwD0JSvtXJ8kJaF3hTUzKtbs235
- G7251Eq85XYN6okUdBZ5ce5BWCYcybWunz1OxI7a7JbR/xHBWDAaG+6Wu28uYkTnCXr8
- 2g5NtmUamoQ0IzHnvguzg6mQvv84jcp0XLabP3E95+AUKLz5XXJliVpoYZ9CuDbpuHpz
- vf5g==
-X-Gm-Message-State: AOAM530GnfbSIFuYqtvjPc6ULJ0ZHeuB78Jsw2w+hVtg7l4p9Wo9sQH8
- tvQZQLFcWTfn4/1OiIeJUfeUkTZIhl3PJ27b2zi3jmUw3MFmzqTmeod+NX8fpQA0DC30CK4Ddto
- gMSpOmRPyDrbp0bw=
-X-Received: by 2002:a7b:c316:: with SMTP id k22mr10097598wmj.56.1631303503731; 
- Fri, 10 Sep 2021 12:51:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyVPLwCwRP1Dkhd3EOZ8fLPVif95n6MjzWAImoIe0xgu16Pj+W5oHu0Hf3QVg+D5VHwl1japg==
-X-Received: by 2002:a7b:c316:: with SMTP id k22mr10097586wmj.56.1631303503474; 
- Fri, 10 Sep 2021 12:51:43 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id t18sm5342281wrp.97.2021.09.10.12.51.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Sep 2021 12:51:42 -0700 (PDT)
-Subject: Re: [PATCH v4 22/33] hostmem-epc: Add the reset interface for EPC
- backend reset
-To: Sean Christopherson <seanjc@google.com>
-References: <20210719112136.57018-1-yang.zhong@intel.com>
- <20210719112136.57018-23-yang.zhong@intel.com>
- <dc8394c5-52a1-573f-36d3-de8bc43973d3@redhat.com>
- <YTt7H9ifqjeOQztl@google.com>
- <b940de84-7eac-59de-7b15-15060c31de52@redhat.com>
- <YTuXJUjR8noe34h6@google.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <cfcf6570-79c2-f351-d651-2cb25f691165@redhat.com>
-Date: Fri, 10 Sep 2021 21:51:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=v7x3yIU2XPxdzxIhB6rQ/zeto9dRlHQXK30m/Vv0AK0=;
+ b=2Y+PxArD17WG+7OxjQcRPR7eD3Hnw9khaDy2KGKtZSfKQyVmuTkqS1+4xEyP9MJzlQ
+ EtSoNYo4GcIIlXnsMr6IU0SSmVsCO2x6WMjUmhRSMTsnvYtLlC3YQY7E91c6w/v0BnM9
+ CE+F89mFCBsNw8orv6IXUgFm7ThcfUusFd/P/dw8Y6+SLHDinANE/pEolHLMLsUViFf4
+ tdPyx88HJg/1UYG3OJQqHgYJNxilJuFJeC52jgCEUjgfNKebkrvyPnIUhJ/yg/Xzw0Vo
+ E7ySip7DtEvqSQ207fY1mapui24LOAXMrDBBPGh8h2xaq5Gn2Af1EAQUmczZt504hTYF
+ xz3A==
+X-Gm-Message-State: AOAM531JIFD9qS5+Uv+/Rx7QQTapCfz/+bdvWo9mTPf/BVYRBSID99pn
+ EumsaAJQcslXVRXoSijg7/sSQuhZDbQ=
+X-Google-Smtp-Source: ABdhPJxXvGiieI6Q6y0Q88dACCGM0Hx+4AxwgYPTg49WQ/XdC2CyFYSfHcgHINSy6F6UB0TIjIls4Q==
+X-Received: by 2002:ae9:ef48:: with SMTP id d69mr9107433qkg.232.1631303756880; 
+ Fri, 10 Sep 2021 12:55:56 -0700 (PDT)
+Received: from rekt.COMFAST ([191.193.98.206])
+ by smtp.gmail.com with ESMTPSA id k10sm3873356qth.44.2021.09.10.12.55.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Sep 2021 12:55:56 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 0/6] pSeries FORM2 affinity support
+Date: Fri, 10 Sep 2021 16:55:33 -0300
+Message-Id: <20210910195539.797170-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <YTuXJUjR8noe34h6@google.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x730.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,51 +79,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, jarkko@kernel.org, eblake@redhat.com,
- qemu-devel@nongnu.org, kai.huang@intel.com
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/09/21 19:34, Sean Christopherson wrote:
-> On Fri, Sep 10, 2021, Paolo Bonzini wrote:
->> On 10/09/21 17:34, Sean Christopherson wrote:
->>> The only other option that comes to mind is a dedicated ioctl().
->>
->> If it is not too restrictive to do it for the whole mapping at once,
->> that would be fine.
-> 
-> Oooh, rats.  That reminds me of a complication.  If QEMU creates multiple EPC
-> sections, e.g. for a vNUMA setup, resetting each section individually will fail
-> if the guest did an unclean RESET and a given enclaves has EPC pages from multiple
-> sections.  E.g. an SECS in vEPC[X] can have children in vEPC[0..N-1], and all
-> those children need to be removed before the SECS can be removed.  Yay SGX!
-> 
-> There are two options: 1) QEMU has to handle "failure", or 2) the kernel provides
-> an ioctl() that takes multiple vEPC fds and handles the SECS dependencies.  #1 is
-> probably the least awful option.  For #2, in addition to the kernel having to deal
-> with multiple fds, it would also need a second list_head object in each page so
-> that it could track which pages failed to be removed.  Using the existing list_head
-> would work for now, but it won't work if/when an EPC cgroup is added.
-> 
-> Note, for #1, QEMU would have to potentially do three passes.
-> 
->    1. Remove child pages for a given vEPC.
->    2. Remove SECS for a given vEPC that were pinned by children in the same vEPC.
->    3. Remove SECS for all vEPC that were pinned by children in different vEPC.
+Hi,
 
-It's also possible that QEMU handles failure, but the kernel does two 
-passes; then QEMU can just do two passes.  The kernel will overall do 
-four passes, but:
+In this version there was significant design changes after the
+v5 review. Only patches 1 and 5 were present in the last version.
 
-1) the second (SECS pinned by children in the same vEPC) would be 
-cheaper than a full second pass
+changes from v5:
+- patch order was changed to make all the preliminary work without
+adding FORM2 code;
+- FORM1 and FORM2 data now co-exists. Both are being initialized in
+spapr_numa_associativity_init() in two static arrays called
+'FORM1_assoc_array' and 'FORM2_assoc_array'. 'numa_assoc_array' is now a
+pointer that toggles between those 2;
+- spapr_numa_associativity_reset() switches the NUMA affinity data to be
+used. It is not a replace for associativity_init() as it was in v5;
+- 'legacy_numa' concept was removed;
+- FORM2 affinity init() is now completely separated from FORM1;
+- FORM2 ibm,associativity array only contains size and numa_id for non-CPU
+resources, and an extra vcpu_id for CPUs;
+- FORM2 reference-points is { 1 };
+- FORM2 maxdomain has size = 2;
+- several other changes to accomodate the new design of having to deal with
+2 different data structures, while minimizing changes in the write_dt()
+functions 
 
-2) the fourth would actually do nothing, because there would be no pages 
-failing the EREMOV'al.
 
-A hypothetical other SGX client that only uses one vEPC will do the 
-right thing with a single pass.
+Daniel Henrique Barboza (6):
+  spapr_numa.c: split FORM1 code into helpers
+  spapr_numa.c: scrap 'legacy_numa' concept
+  spapr: introduce spapr_numa_associativity_reset()
+  spapr_numa.c: parametrize FORM1 macros
+  spapr: move FORM1 verifications to post CAS
+  spapr_numa.c: FORM2 NUMA affinity support
 
-Paolo
+ hw/ppc/spapr.c              |  55 +++---
+ hw/ppc/spapr_hcall.c        |   7 +
+ hw/ppc/spapr_numa.c         | 382 ++++++++++++++++++++++++++++++------
+ include/hw/ppc/spapr.h      |  25 +--
+ include/hw/ppc/spapr_numa.h |   2 +
+ include/hw/ppc/spapr_ovec.h |   1 +
+ 6 files changed, 362 insertions(+), 110 deletions(-)
+
+-- 
+2.31.1
 
 
