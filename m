@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E93F0407060
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 19:15:17 +0200 (CEST)
-Received: from localhost ([::1]:53192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71CCC40706B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 19:18:19 +0200 (CEST)
+Received: from localhost ([::1]:57472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOk7R-000217-01
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 13:15:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58006)
+	id 1mOkAM-00051x-J7
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 13:18:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
- id 1mOk5Y-0000vX-7A
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 13:13:20 -0400
-Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a]:46662)
+ id 1mOk9G-0004MI-Me
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 13:17:10 -0400
+Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229]:35681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
- id 1mOk5U-0001Xj-H2
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 13:13:18 -0400
-Received: by mail-lj1-x22a.google.com with SMTP id w4so4277926ljh.13
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 10:13:14 -0700 (PDT)
+ id 1mOk9D-0004sj-On
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 13:17:10 -0400
+Received: by mail-lj1-x229.google.com with SMTP id y6so4348170lje.2
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 10:17:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=phystech-edu.20150623.gappssmtp.com; s=20150623;
  h=date:from:to:cc:subject:message-id:in-reply-to:references
  :organization:mime-version:content-transfer-encoding;
- bh=fu+XkOs/s6GHsvCf63ljjIE1wiWwjPgd4Hlk1LiQqRU=;
- b=KftBMAwSIU0EDW7bHFztAJT72AzGAbfs7WAg9U5TlfUzL+2E380b0qTUhlUHoHTr9e
- JNAaSaJR9bXp5HyjY1R2AkaXFeIIv5iKijxHjoS8yLHt9mOJhtGyoLuqP2lLUU0hAFF2
- Ns43VmONWMlJbUVfe4oD7i1VcVyitwnOZO9sMn8fxzgyFHznvVeL45j66v8AgRtpMW3i
- BNbD5Bj5ZxiW1CSBSIGbK/5vNl7UcAteXtDLZoazsvjBk7i0eB6lcCLl4MSmQ0sxZOr1
- YDfEXOs1/SAVMrqpcvyCfZmDqwmyaCLJvmta/dbYRZar7416J6Zz2W2RTrZUg5ALeBEE
- SX2g==
+ bh=DjXkWx+hlExdUxL6GWrmLOLkgcLq4gT4hUesH3FXH0U=;
+ b=ouZqQP1vfTJk3p+Pd3YRldEcbuiTSIhu4kduzSpsrFmaWOKmXgkXQx+cpIKlbCiZWC
+ HAEivib+PPC9jqnGTnpEXaTRoawlVyQlZZak52KZZDmsZkzQI4UP36QXHprunEw7mS+3
+ 2Qvq5BrNwhvp2/cJJv0zmBlD/pkT3Y81wgZQTOUInl6BhcrJRj4aKJutN7TcVyfrEvhv
+ 1+q65PjRx4+dbdGotHkK34aQcs1AkwCxamcrKgPhAEjaQGDquDXTi26Bh3YHByKG6KUx
+ DVW44RM3e6jGsa0vuylDar9wb17iYFtXeUU4eZHN+aUmxW4FcPZBPY23jcK4dChFfsOZ
+ rncA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:organization:mime-version:content-transfer-encoding;
- bh=fu+XkOs/s6GHsvCf63ljjIE1wiWwjPgd4Hlk1LiQqRU=;
- b=4Fjly7z5OqdVUvVyDcj7yn8NgR5Jc3mjivitoNjLhG3b9Ctu6xulXIT/+mG9rZ5Ape
- YO98Wc8B5ginBHTfCevYa2JKl/F5Ff9/CmozsCTdrttIjZvkh6pNs2r45vx77hWQynuC
- SZHIBq8Giqt25OhMT9AWpnMjVgQ7E3nDIm+vDKuHlRVZZFvH9K3HnPeJyUoyX6VrGkUI
- CI9jQAhZ/i9gR8tatgkq78YAE/rhp2nsqj8Mqeunr1oqPY5I2OiD9wg12e0iWt+Lqj8o
- DwP+FyyT5m/WlcJcGjl2GL7t0SfxBuYsIuTUf81YFGVNNhGVI1LjUHLrkN4JwyEqMqak
- f4dQ==
-X-Gm-Message-State: AOAM532Z4R0JPWR9/50GWLWauFTl1aYdRGw/GgNKbd9lkavvlN+PqJ2X
- +LrcBVKlwhhsZwqzN6MzHwozNA==
-X-Google-Smtp-Source: ABdhPJwavX6dP5TVSeBbdkf2Gk1zr8zB7/GO+Sf3ScSagnmPcKQAynJI+FfuQPqR2hnugRljnpTqzw==
-X-Received: by 2002:a2e:2414:: with SMTP id k20mr5042046ljk.482.1631293993312; 
- Fri, 10 Sep 2021 10:13:13 -0700 (PDT)
+ bh=DjXkWx+hlExdUxL6GWrmLOLkgcLq4gT4hUesH3FXH0U=;
+ b=RTAEHidPhw51QngMZ+TbPCdt1k8DZXddqBQFD9mIsh37PKvEgusg9CU8yvAaGMfRuZ
+ hX5+G+WaFkxu3GCGYUgc0DGYlNH//bdH+QRqkGhx0dHmzseAO7FLzbkcDWVJ9i/u/0c3
+ FQETS16VZXEKJ7UgqylkvJ63PVDGTz91jXOcU5Sz/nmCBKlkldnqA5xDLUDQaGM7Umrh
+ 4o5mz2TRTGEEFhOU7OHIgpvUN+6Mcx8YxWzTrz8lJ3AG85CqZeT5QrxvOU4GCcOyIQUa
+ LghKx4SkdMJW9aQFgFAKtDx4hus1z59FtF0bvnyQIfFuWyRbF0ywC8Tc/pKrzwDCsBty
+ Qhsw==
+X-Gm-Message-State: AOAM533RUwvHdchmcD7sDFHrDNfs12USWeQoyfhO9dRKTExMHPmfvN6Z
+ bqADX911IrRLKISzFz0K8ekyBw==
+X-Google-Smtp-Source: ABdhPJxB6Vvzy/LMpQuYkI+K+e/4yLy70zRo9pL+n4TAI92F3GAiEQuy7UjYmzAMF5DnwWyA3W0CGw==
+X-Received: by 2002:a2e:9942:: with SMTP id r2mr5121735ljj.92.1631294225956;
+ Fri, 10 Sep 2021 10:17:05 -0700 (PDT)
 Received: from 192.168.1.7 ([2a00:1370:810e:18d4:6011:88a9:c1bb:af5f])
- by smtp.gmail.com with ESMTPSA id p3sm609068lfa.228.2021.09.10.10.13.12
+ by smtp.gmail.com with ESMTPSA id j1sm609511lfg.24.2021.09.10.10.17.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Sep 2021 10:13:13 -0700 (PDT)
-Date: Fri, 10 Sep 2021 20:13:09 +0300
+ Fri, 10 Sep 2021 10:17:05 -0700 (PDT)
+Date: Fri, 10 Sep 2021 20:17:03 +0300
 From: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 2/2] elf2dmp: Fail cleanly if PDB file specifies zero
- block_size
-Message-ID: <20210910201309.5caec4c6@192.168.1.7>
-In-Reply-To: <20210910170656.366592-3-philmd@redhat.com>
+Subject: Re: [PATCH v2 1/2] elf2dmp: Check curl_easy_setopt() return value
+Message-ID: <20210910201703.28bd8174@192.168.1.7>
+In-Reply-To: <20210910170656.366592-2-philmd@redhat.com>
 References: <20210910170656.366592-1-philmd@redhat.com>
- <20210910170656.366592-3-philmd@redhat.com>
+ <20210910170656.366592-2-philmd@redhat.com>
 Organization: MIPT
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
- envelope-from=viktor.prutyanov@phystech.edu; helo=mail-lj1-x22a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::229;
+ envelope-from=viktor.prutyanov@phystech.edu; helo=mail-lj1-x229.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,45 +91,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi,
 
-On Fri, 10 Sep 2021 19:06:56 +0200
+On Fri, 10 Sep 2021 19:06:55 +0200
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
 > From: Peter Maydell <peter.maydell@linaro.org>
 >=20
-> Coverity points out that if the PDB file we're trying to read
-> has a header specifying a block_size of zero then we will
-> end up trying to divide by zero in pdb_ds_read_file().
-> Check for this and fail cleanly instead.
+> Coverity points out that we aren't checking the return value
+> from curl_easy_setopt().
 >=20
-> Fixes: Coverity CID 1458869
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-> Message-Id: <20210901143910.17112-3-peter.maydell@linaro.org>
+> Fixes: Coverity CID 1458895
+> Inspired-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
 > Informal T-b tag on
 > https://lore.kernel.org/qemu-devel/20210909004313.1dadb24e@192.168.1.7/
 > Tested-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-> ---
->  contrib/elf2dmp/pdb.c | 4 ++++
->  1 file changed, 4 insertions(+)
 >=20
-> diff --git a/contrib/elf2dmp/pdb.c b/contrib/elf2dmp/pdb.c
-> index b3a65470680..adcfa7e154c 100644
-> --- a/contrib/elf2dmp/pdb.c
-> +++ b/contrib/elf2dmp/pdb.c
-> @@ -215,6 +215,10 @@ out_symbols:
+> v1 from Peter:
+> https://lore.kernel.org/qemu-devel/20210901143910.17112-2-peter.maydell@l=
+inaro.org/
+> ---
+>  contrib/elf2dmp/download.c | 22 ++++++++++------------
+>  1 file changed, 10 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/contrib/elf2dmp/download.c b/contrib/elf2dmp/download.c
+> index d09e607431f..bd7650a7a27 100644
+> --- a/contrib/elf2dmp/download.c
+> +++ b/contrib/elf2dmp/download.c
+> @@ -25,21 +25,19 @@ int download_url(const char *name, const char
+> *url) goto out_curl;
+>      }
 > =20
->  static int pdb_reader_ds_init(struct pdb_reader *r, PDB_DS_HEADER
-> *hdr) {
-> +    if (hdr->block_size =3D=3D 0) {
-> +        return 1;
-> +    }
-> +
->      memset(r->file_used, 0, sizeof(r->file_used));
->      r->ds.header =3D hdr;
->      r->ds.toc =3D pdb_ds_read(hdr, (uint32_t *)((uint8_t *)hdr +
+> -    curl_easy_setopt(curl, CURLOPT_URL, url);
+> -    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
+> -    curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+> -    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
+> -    curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0);
+> -
+> -    if (curl_easy_perform(curl) !=3D CURLE_OK) {
+> -        err =3D 1;
+> -        fclose(file);
+> +    if (curl_easy_setopt(curl, CURLOPT_URL, url) !=3D CURLE_OK
+> +            || curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL)
+> !=3D CURLE_OK
+> +            || curl_easy_setopt(curl, CURLOPT_WRITEDATA, file) !=3D
+> CURLE_OK
+> +            || curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1) !=3D
+> CURLE_OK
+> +            || curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0) !=3D
+> CURLE_OK
+> +            || curl_easy_perform(curl) !=3D CURLE_OK) {
+>          unlink(name);
+> -        goto out_curl;
+> +        fclose(file);
+> +        err =3D 1;
+> +    } else {
+> +        err =3D fclose(file);
+>      }
+> =20
+> -    err =3D fclose(file);
+> -
+>  out_curl:
+>      curl_easy_cleanup(curl);
+> =20
 
+Reviewed-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 Tested-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 
 --=20
