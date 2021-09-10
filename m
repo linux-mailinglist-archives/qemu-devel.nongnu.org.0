@@ -2,86 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0115740683D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 10:19:23 +0200 (CEST)
-Received: from localhost ([::1]:33478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F6440688B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 10:35:08 +0200 (CEST)
+Received: from localhost ([::1]:38138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mObko-00016N-37
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 04:19:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42496)
+	id 1mOc02-0004sQ-K2
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 04:35:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mObjW-0007bH-MM
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 04:18:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36283)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1mObyS-0003Y8-SN
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 04:33:28 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mObjT-0007Sz-SR
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 04:18:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631261878;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=X7MUuk/lmbQBjiOz5XQ5oZ0/keF6sjNrAgAK+fRRA8A=;
- b=HbSfU29i2qcbVoGIWQtWodoMAHG9B6rIyM6XLPH9OWBm8xFMPVz6JDoM+b2BLjAlyptJtz
- 0okWp1cMcJpqZYYIYZkW9D7rI3t05qAVwpJDiJOlMtnPuaTUcryA4y7JVCZb812C/3tab0
- MS+//9GDFxDxjLEH1Zhyb1MGpuSlrQU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-yz7kLxtjPQ2ZpRxEc7pPtA-1; Fri, 10 Sep 2021 04:17:55 -0400
-X-MC-Unique: yz7kLxtjPQ2ZpRxEc7pPtA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m16-20020a7bca50000000b002ee5287d4bfso424284wml.7
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 01:17:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=X7MUuk/lmbQBjiOz5XQ5oZ0/keF6sjNrAgAK+fRRA8A=;
- b=KcRSBpulaERrE+FxuaWpSMXbq2jYbtHJCac+2BH4KI67Ak4RnyZDGiNaRpv+eVayhx
- +Ily4USg67xi6O8+M8sHYtp9uAGHRYCg3Zi4BlMC3HfVq4RfJnk+HooFmBUUHcJB8lDH
- U2P+oN4vJlvkmsa06sn761HPcWdMIVacDYyqso+tST1omYRQ/4QTpqLK8ZK4upziAiA/
- DReC8I7dWN8JaJEFMdd/DaXVuhqHfz6bQUyJGQT+3EFdBKXTWYRRmIEsvub7v9NPUPOa
- 3DICYYDY6Ro0bV2VxJkPMo4PC4NItC5xL25WlNDB80FfBVLSfq9hXI9e+Vyz7QXu39O8
- DBEw==
-X-Gm-Message-State: AOAM533/5e4M4BRFO0hd4BkVAr6Qm2UJ3RQFlYQhjCvJalN/Gi9k7jjD
- PwB9HmqTcK8CclMBOkFty/DriF7pwJu4YFSHMct7qrK+GcJBTAC4W8CzKBxU8D1/IPBvbsVJGf2
- fhqX4hEgn6BH0Y9o=
-X-Received: by 2002:a1c:4e14:: with SMTP id g20mr7028885wmh.64.1631261873880; 
- Fri, 10 Sep 2021 01:17:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxagXIhTBt5xMt5vfSD1AqTL0m5rqdmENpOKhSeq2DmQZ6kbg0pQ2I6UtM2VllulxyRmmX85Q==
-X-Received: by 2002:a1c:4e14:: with SMTP id g20mr7028861wmh.64.1631261873754; 
- Fri, 10 Sep 2021 01:17:53 -0700 (PDT)
-Received: from gator (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id k18sm3622047wmi.25.2021.09.10.01.17.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Sep 2021 01:17:53 -0700 (PDT)
-Date: Fri, 10 Sep 2021 10:17:51 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH v9 07/16] qtest/numa-test: Use detailed -smp CLI in
- test_def_cpu_split
-Message-ID: <20210910081751.jptjdea3qhuu6jsa@gator>
-References: <20210910073025.16480-1-wangyanan55@huawei.com>
- <20210910073025.16480-8-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1mObyP-0003jT-Lf
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 04:33:28 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4H5TYf4zxdzbjLn;
+ Fri, 10 Sep 2021 16:29:10 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.8; Fri, 10 Sep 2021 16:33:12 +0800
+Received: from [10.174.185.210] (10.174.185.210) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.8; Fri, 10 Sep 2021 16:33:12 +0800
+Subject: Re: [PATCH 1/2] vfio/pci: Fix vfio-pci sub-page MMIO BAR mmaping in
+ live migration
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20210903093611.1159-1-jiangkunkun@huawei.com>
+ <20210903093611.1159-2-jiangkunkun@huawei.com>
+ <20210908144535.66463b6c.alex.williamson@redhat.com>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+Message-ID: <10e2296d-5bf4-7b83-c2a6-42f3e37ceb95@huawei.com>
+Date: Fri, 10 Sep 2021 16:33:12 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210910073025.16480-8-wangyanan55@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210908144535.66463b6c.alex.williamson@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.185.210]
+X-ClientProxiedBy: dggeme710-chm.china.huawei.com (10.1.199.106) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.975,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,63 +70,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, wanghaibin.wang@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Eric Auger <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ tangnianyao@huawei.com, ganqixin@huawei.com, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 10, 2021 at 03:30:16PM +0800, Yanan Wang wrote:
-> Since commit 80d7835749 (qemu-options: rewrite help for -smp options),
-> the preference of sockets/cores in -smp parsing is considered liable
-> to change, and actually we are going to change it in a coming commit.
-> So it'll be more stable to use detailed -smp CLIs in the testcases
-> that have strong dependency on the parsing results.
-> 
-> Currently, test_def_cpu_split use "-smp 8" and will get 8 CPU sockets
-> based on current parsing rule. But if we change to prefer cores over
-> sockets we will get one CPU socket will 8 cores, and this testcase
-> will not get expected numa set by default on x86_64 (Ok on aarch64).
-> 
-> So now explicitly use "-smp 8,sockets=8" to avoid affect from parsing
-> logic change.
-> 
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Laurent Vivier <lvivier@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> ---
->  tests/qtest/numa-test.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/numa-test.c b/tests/qtest/numa-test.c
-> index fd7a2e80a0..90bf68a5b3 100644
-> --- a/tests/qtest/numa-test.c
-> +++ b/tests/qtest/numa-test.c
-> @@ -42,7 +42,8 @@ static void test_def_cpu_split(const void *data)
->      g_autofree char *s = NULL;
->      g_autofree char *cli = NULL;
->  
-> -    cli = make_cli(data, "-machine smp.cpus=8 -numa node,memdev=ram -numa node");
-> +    cli = make_cli(data, "-machine smp.cpus=8,smp.sockets=8 "
-> +                         "-numa node,memdev=ram -numa node");
->      qts = qtest_init(cli);
->  
->      s = qtest_hmp(qts, "info numa");
-> -- 
-> 2.23.0
->
+Hi Alex,
 
- 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+On 2021/9/9 4:45, Alex Williamson wrote:
+> On Fri, 3 Sep 2021 17:36:10 +0800
+> Kunkun Jiang <jiangkunkun@huawei.com> wrote:
+>
+>> We expand MemoryRegions of vfio-pci sub-page MMIO BARs to
+>> vfio_pci_write_config to improve IO performance.
+>> The MemoryRegions of destination VM will not be expanded
+>> successful in live migration, because their addresses have
+>> been updated in vmstate_load_state (vfio_pci_load_config).
+> What's the call path through vfio_pci_write_config() that you're
+> relying on to get triggered to enable this and why wouldn't we just
+> walk all sub-page BARs in vfio_pci_load_config() to resolve the issue
+> then?  It's my understanding that we do this update in write-config
+> because it's required that the VM sizes the BAR before using it, which
+> is not the case when we resume from migration.  Thanks,
+Let's take an example:
+
+AArch64
+host page granularity: 64KB
+PCI device: *Bar2 size 32KB* [mem 0x8000200000-0x800020ffff 64bit pref]
+
+When enable Command register bit 1(Memory Space), the code flow is
+as follows:
+
+vfio_pci_write_config (addr: 4 val: 2 len: 2)
+     // record the old address of each bar, 0xffffffffffffffff
+     old_addr[bar] = pdev->io_regions[bar].addr;
+     pci_default_write_config
+         pci_update_mappings
+             new_addr = pci_bar_address    // 0x8000200000
+             r->addr = new_addr;
+             memory_region_addr_subregion_overlap
+                 ...
+*vfio_listener_region_add*
+                     alignment check of the ram section address and size 
+fail, return
+*kvm_region_add*
+                     kvm_set_phys_mem
+                         alignment check of the ram section address and 
+size fail, return
+
+     // old_addr[bar] != pdev->io_regions[bar].addr &&
+     // 0 < vdev->bars[bar].region.size < qemu_real_host_page_size
+     vfio_sub_page_bar_update_mapping
+*bar size = qemu_real_host_page_size*
+             ...
+             vfio_listener_region_add
+                 map success
+             kvm_region_add
+                 kvm_set_phys_mem
+                     map success
+
+In live migration, only pci config data is sent to the destination VM.
+Therefore, we need to update the bar's size before destination VM
+using it.
+
+In vfio_pci_load_config, the code flow is as follows:
+
+vfio_pci_load_config
+     vmstate_load_state
+         *get_pci_config_device*
+             pci_update_mappings
+                 ...
+                 // bar's addr is updated(0x8000200000), but bar's size 
+is still 32KB, so map failed
+     vfio_pci_write_config
+         // bar's addr will not be changed, so 
+vfio_sub_page_bar_update_mapping won't be called
+
+My idea is that removing the check 'old_addr[bar] != 
+pdev->io_regions[bar].addr' doesn't
+affect the previous process. There's also a bar size check. In 
+vfio_sub_page_bar_update_mapping,
+it will check if bar is mapped and page aligned.
+1) If bar's addr is 0xffffffffffffffff, it will not pass the 
+vfio_sub_page_bar_update_mapping check.
+2) If bar's size has been updated, it will not pass the bar size check 
+in vfio_pci_write_config.
+
+Thanks,
+Kunkun Jiang
+
+> Alex
+>   
+>> Remove the restriction on base address change in
+>> vfio_pci_write_config for correct mmapping sub-page MMIO
+>> BARs. Accroding to my analysis, the remaining parameter
+>> verification is enough.
+>>
+>> Fixes: c5e2fb3ce4d (vfio: Add save and load functions for VFIO PCI devices)
+>> Reported-by: Nianyao Tang <tangnianyao@huawei.com>
+>> Reported-by: Qixin Gan <ganqixin@huawei.com>
+>> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+>> ---
+>>   hw/vfio/pci.c | 8 +-------
+>>   1 file changed, 1 insertion(+), 7 deletions(-)
+>>
+>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+>> index e1ea1d8a23..891b211ddf 100644
+>> --- a/hw/vfio/pci.c
+>> +++ b/hw/vfio/pci.c
+>> @@ -1189,18 +1189,12 @@ void vfio_pci_write_config(PCIDevice *pdev,
+>>           }
+>>       } else if (ranges_overlap(addr, len, PCI_BASE_ADDRESS_0, 24) ||
+>>           range_covers_byte(addr, len, PCI_COMMAND)) {
+>> -        pcibus_t old_addr[PCI_NUM_REGIONS - 1];
+>>           int bar;
+>>   
+>> -        for (bar = 0; bar < PCI_ROM_SLOT; bar++) {
+>> -            old_addr[bar] = pdev->io_regions[bar].addr;
+>> -        }
+>> -
+>>           pci_default_write_config(pdev, addr, val, len);
+>>   
+>>           for (bar = 0; bar < PCI_ROM_SLOT; bar++) {
+>> -            if (old_addr[bar] != pdev->io_regions[bar].addr &&
+>> -                vdev->bars[bar].region.size > 0 &&
+>> +            if (vdev->bars[bar].region.size > 0 &&
+>>                   vdev->bars[bar].region.size < qemu_real_host_page_size) {
+>>                   vfio_sub_page_bar_update_mapping(pdev, bar);
+>>               }
+> .
+
 
 
