@@ -2,69 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFADE4071D9
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 21:26:45 +0200 (CEST)
-Received: from localhost ([::1]:52428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D650040720D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 21:36:21 +0200 (CEST)
+Received: from localhost ([::1]:55528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOmAf-00039W-0t
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 15:26:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51088)
+	id 1mOmJw-0005nS-V6
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 15:36:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hinkocevar@gmail.com>)
- id 1mOm9H-0002TV-Ou
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 15:25:19 -0400
-Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:41854)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hinkocevar@gmail.com>)
- id 1mOm9F-0004qb-Jx
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 15:25:19 -0400
-Received: by mail-qk1-x736.google.com with SMTP id bk29so3193906qkb.8
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 12:25:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hVX+EWP0pYU70ldQO4QZpzaC+MDy2Y91ZSEOVUjh5ww=;
- b=ZQYIsXRabPvanjrGoglYgTThM7uo5oe9nkWU0W4I1iBMOFP93Y5KjWImiULgJvAo/G
- U73uqS8+qXx08vpBQcFV6XtoP/dPBoftplxnmEEverM9O34LFRs0t9IjtKX/OOb26gh6
- gnD8eT7lCUSO7lvABrKYV/vYCBo6lOE1w9mGpH8Gtkc0R4yk9iZHA1MdAltbqEYbPKrW
- rWJa67+B2XZLpX3X+5dmqhfjzi4tdFkYKMXS4LJE4m5ZL81riDacj4Gy2awj+N29A6d5
- /nQQruDJta+bkrnv2T3Om4uul7VUOl97MDEgK1YtL0PEQhNn1SFwEd18Ze22RznCgupa
- KSKg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mOmHe-0004tM-J0
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 15:33:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54305)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mOmHZ-0003b6-Vs
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 15:33:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631302432;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=slSXKJ7U9ML2UV7faA2E399tebxw1QwPjko8fh9996U=;
+ b=A2HL/hQawJ2aqxhwDF2iufkhlFiJuLkzDDeTfU0SDmsf+YTyu2c2bUcaeYcOLgFXo9WibF
+ 1+gbq8xzgQmysVnhOwh8DobNKRgPHwkbrLJv2J6QgFkRBsuj8N9/hhFQ0SGzYm6+/eJ0qU
+ 7LwIQrHIlF/b1qKo/yfAyqa9Y7gEJW8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-192-RYke7dIMMEOrf7csFEJA0g-1; Fri, 10 Sep 2021 15:33:51 -0400
+X-MC-Unique: RYke7dIMMEOrf7csFEJA0g-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ b8-20020a5d5508000000b001574e8e9237so866389wrv.16
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 12:33:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hVX+EWP0pYU70ldQO4QZpzaC+MDy2Y91ZSEOVUjh5ww=;
- b=bkGlJTbO3qch4YlHxA37PmquS4nBPTDT+mr5/Vm/r3YLmvQKtuKArp1KJgflP8isgr
- 3hQaMwxdJoEBrBujQKjxHL+IwOG7rams2yek3ONyKxFx8yW/RZytOJZMgS+CG5wLVDFB
- j9tMJUM+9fN/oSZ8dtOsj1U4j8um3FzPMd9SwZKp0gY7icU9F24CxILQ1QoU8lmoy2Gb
- qS6G0KLZ4llPUxJC5qdJFi4GVsGt6Om4OibunJd3j82Ax0x8FeReMoXiyYMbQT6zUEKy
- J5eEUTYaj2H+Kkajmqd90eEFSvsvApz+YMb/+Ve9XJlKnjkN+pOOYWwHm5X53E3mnxJe
- YvmQ==
-X-Gm-Message-State: AOAM5336nPv2csM2l7iGdbmW1wOHhamQOseNjJp5PHaSoKc6MqhmmL91
- NsGxGo+UgnnGGSW9YPilfd9mi5oo9ewUJx0VEXM=
-X-Google-Smtp-Source: ABdhPJwtHCRwcJ/1nyA8nyOy+0SYaVieXYOpgwEehUUDD0z0O88DtAmDjN2PGOl8j7co7TB1tSMs8dKgNAOajWBqvRo=
-X-Received: by 2002:a37:9e55:: with SMTP id h82mr9008756qke.42.1631301916570; 
- Fri, 10 Sep 2021 12:25:16 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=slSXKJ7U9ML2UV7faA2E399tebxw1QwPjko8fh9996U=;
+ b=a4zn/rE7XPz1JsN+Gbo7ISVABo1zzF/8gK1aV58Ncw27P1MT/fmb6QLrQTaObswg8R
+ alkbzSsuhR7pS3jklVNnEVdg3z46viT5CqgT8UW6OwYyqtMqCTnns0HpaDmJd1uHrbl1
+ ExZLIMMyNJdSaN7A604pxmomBtOVg3Vyz+d94w2XB+LmUckiJCZIG9lJ4b9EKfdghh8J
+ uByHyBAeMq5QKFEcy1OU2XoZQARTBoZ6/vXX5QrLanLFHGusNGq2c6MsaeZr21IL/UhD
+ +zwQyYzQMBtwr16KN1cIlrRcg15Q2bQDpisrHpjhlHX4ch8UrHIp1wCVLXjGV0XvjfaI
+ AK4w==
+X-Gm-Message-State: AOAM530vV8dEPiKhSI0RvgbWeeXx0EQuIDNIHA166VsHFh7OAq/ZMTwV
+ RPyVLFk0K76ESvSsQoj7BK+GCjgY2IUGuq/i+bt+tD49kADRFgJb9ioUMtmDpEpqUFenYft9to5
+ 1U2DQzK7Mh1655FY=
+X-Received: by 2002:adf:e108:: with SMTP id t8mr11427769wrz.84.1631302430514; 
+ Fri, 10 Sep 2021 12:33:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzVldgQBme9X21NxOGC1240PEg0zs5viveDHkqA5TyZQSG8ecAt3FBgU29HG++AM5Av+Zyi3w==
+X-Received: by 2002:adf:e108:: with SMTP id t8mr11427751wrz.84.1631302430301; 
+ Fri, 10 Sep 2021 12:33:50 -0700 (PDT)
+Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id n4sm6393342wro.81.2021.09.10.12.33.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Sep 2021 12:33:49 -0700 (PDT)
+Subject: Re: [PATCH] hw/i386/acpi-build: Fix a typo
+To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+References: <20210908222157.2377282-1-philmd@redhat.com>
+ <d11a3da6-c26c-1f78-ff52-e965f214cba7@t-online.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a1988342-7304-ccc9-8a5a-7da0172569ff@redhat.com>
+Date: Fri, 10 Sep 2021 21:33:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <CACOP0z-956f0eBdv5wdfqWKT140_mSTW3GwJ1fQ5WEDATB=2Aw@mail.gmail.com>
- <535a03c4-1350-ade3-4596-6ea5498504e0@amsat.org>
-In-Reply-To: <535a03c4-1350-ade3-4596-6ea5498504e0@amsat.org>
-From: Hinko Kocevar <hinkocevar@gmail.com>
-Date: Fri, 10 Sep 2021 21:25:05 +0200
-Message-ID: <CACOP0z-qVTH7zqZz3utSmaWYkNiQ5MoPjy2gOJbXw_6DzBdr-Q@mail.gmail.com>
-Subject: Re: Adding IO memory region to mipssim
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="0000000000004238ee05cba913a2"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
- envelope-from=hinkocevar@gmail.com; helo=mail-qk1-x736.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <d11a3da6-c26c-1f78-ff52-e965f214cba7@t-online.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,161 +98,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004238ee05cba913a2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 9/10/21 8:54 PM, Volker Rümelin wrote:
+>> Fix 'hotplugabble' -> 'hotpluggabble' typo.
+> 
+> I'm convinced that the correct spelling is hotpluggable. Only the
+> consonant g is doubled.
 
-Got it Phil, thank you very much! I need to educate myself on the subject
-of TLB and MMU for mips.
-//hinko
+Lol I missed this part, thanks :>
 
-On Fri, Sep 10, 2021 at 5:30 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g>
-wrote:
-
-> On 9/10/21 3:21 PM, Hinko Kocevar wrote:
-> > I'm trying to add an I/O memory region to mipssim machine to emulate a
-> > MMIO region used by the u-boot loaded as BIOS image. I can confirm that
-> > the machine starts and loads the BIOS, starts execution but hangs due t=
-o
-> > unhandled IO access as described below.
-> >
-> > The region should be at 0xB8810000, of size 0x10000.
-> >
-> > I've added these lines of code to mispsim.c mips_mipssim_init():
-> >
-> >     my_state *s =3D g_malloc0(sizeof(my_state));
-> >     memory_region_init_io(&s->mmio, NULL, &my_ops, s,
-> >                          "mips_mipssim.foo", 0x10000);
-> >     memory_region_add_subregion(address_space_mem, 0xB8810000LL,
-> &s->mmio);
->
-> You need to map your device at its physical address, not the virtual
-> one.
->
-> > All goes well, the machine starts, and I can see the newly added region
-> > in qemu monitor info mtree output like so:
-> >
-> >     00000000b8810000-00000000b881ffff (prio 0, i/o): mips_mipssim.foo
-> >
-> > With some tracing enabled I see this error:
-> >
-> >  Invalid access at addr 0x18810104, size 4, region '(null)', reason:
-> > rejected
-> >
-> > I know the u-boot is making request to 0xB8810104 and not 0x18810104. I
->
-> U-boot accessed the virtual address which is resolved into the physical
-> one (where your device should be mapped).
->
-> > also can see 0xB8810104 address being handed to io_writex(), but
-> > mr_offset becomes 0x18810104 here:
-> >
-> >   mr_offset =3D (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
-> >
-> > What is going on?
-> >
-> > FWIW, I can place my emulated memory region at 0x18810104, but would
-> > like to understand the behavior above.
->
-> Yes, this is the correct address to map it.
->
-> Maybe this helps:
-> https://training.mips.com/basic_mips/PDF/Memory_Map.pdf
->
-> Regards,
->
-> Phil.
->
-
-
---=20
-.. the more I see the less I believe.., AE AoR
-
---0000000000004238ee05cba913a2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Got it Phil, thank you very much! I need to educate myself=
- on the subject of TLB and MMU for mips.<div>//hinko</div></div><br><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 10, 2=
-021 at 5:30 PM Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
-t.org">f4bug@amsat.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">On 9/10/21 3:21 PM, Hinko Kocevar wrote:<br>
-&gt; I&#39;m trying to add an I/O memory region to mipssim machine to emula=
-te a<br>
-&gt; MMIO region used by the u-boot loaded as BIOS image. I can confirm tha=
-t<br>
-&gt; the machine starts and loads the BIOS, starts execution but hangs due =
-to<br>
-&gt; unhandled IO access as described below.<br>
-&gt; <br>
-&gt; The region should be at=C2=A00xB8810000, of size 0x10000.<br>
-&gt; <br>
-&gt; I&#39;ve added these lines of code to mispsim.c=C2=A0mips_mipssim_init=
-():<br>
-&gt; <br>
-&gt; =C2=A0 =C2=A0 my_state *s =3D g_malloc0(sizeof(my_state));<br>
-&gt; =C2=A0 =C2=A0 memory_region_init_io(&amp;s-&gt;mmio, NULL, &amp;my_ops=
-, s,<br>
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0&quot;mips_mipssim.foo&quot;, 0x10000);<br>
-&gt; =C2=A0 =C2=A0 memory_region_add_subregion(address_space_mem, 0xB881000=
-0LL, &amp;s-&gt;mmio);<br>
-<br>
-You need to map your device at its physical address, not the virtual<br>
-one.<br>
-<br>
-&gt; All goes well, the machine starts, and I can see the newly added regio=
-n<br>
-&gt; in qemu monitor info mtree output like so:<br>
-&gt; <br>
-&gt; =C2=A0 =C2=A0 00000000b8810000-00000000b881ffff (prio 0, i/o): mips_mi=
-pssim.foo<br>
-&gt; <br>
-&gt; With some tracing enabled I see this error:<br>
-&gt; <br>
-&gt; =C2=A0Invalid access at addr 0x18810104, size 4, region &#39;(null)&#3=
-9;, reason:<br>
-&gt; rejected<br>
-&gt; <br>
-&gt; I know the u-boot is making request to 0xB8810104 and not 0x18810104. =
-I<br>
-<br>
-U-boot accessed the virtual address which is resolved into the physical<br>
-one (where your device should be mapped).<br>
-<br>
-&gt; also can see 0xB8810104 address being handed to=C2=A0io_writex(), but<=
-br>
-&gt; mr_offset becomes 0x18810104 here:<br>
-&gt; <br>
-&gt; =C2=A0=C2=A0mr_offset =3D (iotlbentry-&gt;addr &amp; TARGET_PAGE_MASK)=
- + addr;<br>
-&gt; <br>
-&gt; What is going on?<br>
-&gt; <br>
-&gt; FWIW, I can place my emulated memory region at 0x18810104, but would<b=
-r>
-&gt; like to understand the behavior above.<br>
-<br>
-Yes, this is the correct address to map it.<br>
-<br>
-Maybe this helps:<br>
-<a href=3D"https://training.mips.com/basic_mips/PDF/Memory_Map.pdf" rel=3D"=
-noreferrer" target=3D"_blank">https://training.mips.com/basic_mips/PDF/Memo=
-ry_Map.pdf</a><br>
-<br>
-Regards,<br>
-<br>
-Phil.<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">.. the more I see the less I believe.., AE AoR</=
-div>
-
---0000000000004238ee05cba913a2--
 
