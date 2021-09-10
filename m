@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B91406D77
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 16:18:02 +0200 (CEST)
-Received: from localhost ([::1]:34774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1E95406D80
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 16:19:34 +0200 (CEST)
+Received: from localhost ([::1]:38130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOhLu-0003yC-1g
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 10:18:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36192)
+	id 1mOhNN-0006Hm-Qx
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 10:19:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mOhJv-0002O6-IF
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:15:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21897)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mOhMK-0005UV-BY
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:18:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52818)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mOhJs-0006CK-6Z
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:15:59 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mOhMG-0008Ff-AZ
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:18:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631283354;
+ s=mimecast20190719; t=1631283502;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C1TYLeqwSZlGsALX69rrMqPKYkLAIy3oMHlsMpZJxL4=;
- b=b546ORiQsweftsmiIn/qa8ifM9i1OeKUwUl/o/QJxr6erQgpS9hoZufGRnn2E1HhINnL/C
- /2X40sjFTpg/bUC8Mv6skXsJuAuOzVWSlS4PpxN7eisPJx36FlJ78J7KHWgmeNh47qOjjJ
- oCwepw2Vvvi6cYepnNAsNq2mPzqy8Ic=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-kvZ3lTEVNDC3HF9kUg3G5g-1; Fri, 10 Sep 2021 10:15:53 -0400
-X-MC-Unique: kvZ3lTEVNDC3HF9kUg3G5g-1
-Received: by mail-wr1-f69.google.com with SMTP id
- b8-20020a5d5508000000b001574e8e9237so560727wrv.16
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 07:15:53 -0700 (PDT)
+ bh=3HBMZLXfqmkjqIcd1i/o7FO+xjo/ecmKoC/UG60gUxU=;
+ b=chxIsJfv5DlaPr/UU4TaGZq3J49I1LJly/7qbZcmhIecokxkD8DAJ5E0RmtMj/qPWwPgAO
+ Ikd6biAN4Dte4ij3WYErh/FxL7irOMKQfD5qY8jKsKHurQfBI8viJM9F8x4LVHjD6cirTK
+ mtLNv4rTHOTXNeLCo1zNUemlsPF56/A=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-580-E-YYJUSvNMSeEYkTebb0Ng-1; Fri, 10 Sep 2021 10:18:21 -0400
+X-MC-Unique: E-YYJUSvNMSeEYkTebb0Ng-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ b8-20020a5d5508000000b001574e8e9237so563507wrv.16
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 07:18:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=C1TYLeqwSZlGsALX69rrMqPKYkLAIy3oMHlsMpZJxL4=;
- b=BDHDg+NFfjql3toUjh6ycTCTzKusI2JRTEHfqBPyf2GomLMRyV/tzJPZK/tWaZSbTq
- 01bp4hNV0mBnE27aoxgCcdjj87AD0/Bm79vZZjCg1kWkRiwq1EB2GzpJuAKREzjsua56
- 1Ok0cy6KyQfvlU6KgeohiPXL/7ndJK1Jtgrt2D65nFolE5Aggv3PO6MtppGiEW+6+0BG
- WINrupuo8om+LtakV3L59Uwndhi/YmCoSm1L6i3JvtfStvZZTiqGCtBP4XUUtJDHPmlI
- Niz0LK9jyfOgLRsZpQeClz4vIohdANH/ok8woz+vVbKPeih8COWZg6TGXlR9a9VZOVsG
- O+6w==
-X-Gm-Message-State: AOAM533ryN+WyKOEW2WpGYsGabNoMFjtHwGZez1tWKBhyplrFHAm69rm
- 0ba1UAYBNCfTlwfVg4kHGs6WfWMZMUADdbQpUJ7yTVWIbhlPBeUvrcLubPROOcqictj1ZXdSO56
- E4+7rlvY9o4c+/3g=
-X-Received: by 2002:adf:fd03:: with SMTP id e3mr10075780wrr.46.1631283352074; 
- Fri, 10 Sep 2021 07:15:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyyG5RQAuzv4oWy1+JcLvDvK2pTPx444MAwxz2MhQExbIu2zRdu8BwmaWyCLxezyLLCKHrOig==
-X-Received: by 2002:adf:fd03:: with SMTP id e3mr10075747wrr.46.1631283351851; 
- Fri, 10 Sep 2021 07:15:51 -0700 (PDT)
+ bh=3HBMZLXfqmkjqIcd1i/o7FO+xjo/ecmKoC/UG60gUxU=;
+ b=masxEt8sgoYJIgAleGBu0LciQjf/c+M8uZNNVoaGtqkU7U02Zze4Rtttbw/ga6+hPp
+ GzbC7gPTVP4FJBJDrR8XcONSQDzlK7BomBSJhpCvM30aB+bXBTPRFPDWBs1oW9VmaDHw
+ klOzaFnER11RnDC4qry+H+apQiCsmNzK4urV5I7BMeHGD0gwIg7QlFrAmQD6LI3ACoFG
+ bBRdd7iCZIc5CnWTStgC5rVS2mQH0Ovsd8yikvDZZFt0Efx+XWRrLImzwNk9pDmrTvgu
+ kr5cqkpG3Fct27WnHlYKKwce5jPoLCqjcEGWFCuV2eoBWMZhQ4Udf2WM1g7Olmb47yTh
+ PCrA==
+X-Gm-Message-State: AOAM532677ADa5vbhTm+U2GpA09gt+HpdtUWttckCM7NgCBFqAlLk28Y
+ +TcKWIIhTzgP2V9ZL6Hwslt6/Ln+V3iZYggnkRiqcks+iMZLo95w3dw6zRW1AizCbLF5heLxdLY
+ 2eHTwBCQLvcZ5jzE=
+X-Received: by 2002:a5d:64e3:: with SMTP id g3mr10303983wri.396.1631283499945; 
+ Fri, 10 Sep 2021 07:18:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy4ByVq1iRqtPgnm0Et7CZmnT++82TDGbb297WutITar2cFQ/nJ0cyDAmAB+UdB4wICPhT49w==
+X-Received: by 2002:a5d:64e3:: with SMTP id g3mr10303944wri.396.1631283499640; 
+ Fri, 10 Sep 2021 07:18:19 -0700 (PDT)
 Received: from dresden.str.redhat.com
  ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
- by smtp.gmail.com with ESMTPSA id g9sm1550580wmg.21.2021.09.10.07.15.50
+ by smtp.gmail.com with ESMTPSA id z7sm5745339wre.72.2021.09.10.07.18.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Sep 2021 07:15:51 -0700 (PDT)
-Subject: Re: [PATCH 2/2] block: bdrv_inactivate_recurse(): check for
- permissions and fix crash
+ Fri, 10 Sep 2021 07:18:19 -0700 (PDT)
+Subject: Re: [PATCH 1/2] tests: add migrate-during-backup
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20210910110100.31976-1-vsementsov@virtuozzo.com>
- <20210910110100.31976-3-vsementsov@virtuozzo.com>
+ <20210910110100.31976-2-vsementsov@virtuozzo.com>
 From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <2aafb525-8656-5cad-face-70af76813630@redhat.com>
-Date: Fri, 10 Sep 2021 16:15:50 +0200
+Message-ID: <8c7f8685-13f0-521c-8de1-97e47141bfe6@redhat.com>
+Date: Fri, 10 Sep 2021 16:18:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210910110100.31976-3-vsementsov@virtuozzo.com>
+In-Reply-To: <20210910110100.31976-2-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,7 +86,7 @@ X-Spam_bar: -----
 X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-2.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,40 +103,138 @@ Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10.09.21 13:01, Vladimir Sementsov-Ogievskiy wrote:
-> We must not inactivate child when parent has write permissions on
-> it.
->
-> Calling .bdrv_inactivate() doesn't help: actually only qcow2 has this
-> handler and it is used to flush caches, not for permission
-> manipulations.
-
-I guess we could ask whether block jobs should implement 
-.bdrv_inactivate() to cancel themselves, but I believe it’s indeed 
-better to have the migration fail and thus force the user to manually 
-cancel the job (should that be what they want).
-
-> So, let's simply check cumulative parent permissions before
-> inactivating the node.
->
-> This commit fixes a crash when we do migration during backup: prior to
-> the commit nothing prevents all nodes inactivation at migration finish
-> and following backup write to the target crashes on assertion
-> "assert(!(bs->open_flags & BDRV_O_INACTIVE));" in
+On 10.09.21 13:00, Vladimir Sementsov-Ogievskiy wrote:
+> Add a simple test which tries to run migration during backup.
+> bdrv_inactivate_all() should fail. But due to bug (see next commit with
+> fix) it doesn't, nodes are inactivated and continued backup crashes
+> on assertion "assert(!(bs->open_flags & BDRV_O_INACTIVE));" in
 > bdrv_co_write_req_prepare().
->
-> After the commit, we rely on the fact that copy-before-write filter
-> keeps write permission on target node to be able to write to it. So
-> inactivation fails and migration fails as expected.
->
-> Corresponding test now passes, so, enable it.
 >
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->   block.c                                        | 8 ++++++++
->   tests/qemu-iotests/tests/migrate-during-backup | 2 +-
->   2 files changed, 9 insertions(+), 1 deletion(-)
+>   .../qemu-iotests/tests/migrate-during-backup  | 87 +++++++++++++++++++
+>   .../tests/migrate-during-backup.out           |  5 ++
+>   2 files changed, 92 insertions(+)
+>   create mode 100755 tests/qemu-iotests/tests/migrate-during-backup
+>   create mode 100644 tests/qemu-iotests/tests/migrate-during-backup.out
+>
+> diff --git a/tests/qemu-iotests/tests/migrate-during-backup b/tests/qemu-iotests/tests/migrate-during-backup
+> new file mode 100755
+> index 0000000000..c3b7f1983d
+> --- /dev/null
+> +++ b/tests/qemu-iotests/tests/migrate-during-backup
+> @@ -0,0 +1,87 @@
+> +#!/usr/bin/env python3
+> +# group: migration disabled
+> +#
+> +# Copyright (c) 2021 Virtuozzo International GmbH
+> +#
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License as published by
+> +# the Free Software Foundation; either version 2 of the License, or
+> +# (at your option) any later version.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License
+> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> +#
+> +
+> +import os
+> +import iotests
+> +from iotests import qemu_img_create, qemu_io
+> +
+> +
+> +disk_a = os.path.join(iotests.test_dir, 'disk_a')
+> +disk_b = os.path.join(iotests.test_dir, 'disk_b')
+> +size = '1M'
+> +mig_file = os.path.join(iotests.test_dir, 'mig_file')
+> +mig_cmd = 'exec: cat > ' + mig_file
+> +
+> +
+> +class TestMigrateDuringBackup(iotests.QMPTestCase):
+> +    def tearDown(self):
+> +        self.vm.shutdown()
+> +        os.remove(disk_a)
+> +        os.remove(disk_b)
+> +        os.remove(mig_file)
+> +
+> +    def setUp(self):
+> +        qemu_img_create('-f', iotests.imgfmt, disk_a, size)
+> +        qemu_img_create('-f', iotests.imgfmt, disk_b, size)
+> +        qemu_io('-c', f'write 0 {size}', disk_a)
+> +
+> +        self.vm = iotests.VM().add_drive(disk_a)
+> +        self.vm.launch()
+> +        result = self.vm.qmp('blockdev-add', {
+> +            'node-name': 'target',
+> +            'driver': iotests.imgfmt,
+> +            'file': {
+> +                'driver': 'file',
+> +                'filename': disk_b
+> +            }
+> +        })
+> +        self.assert_qmp(result, 'return', {})
+> +
+> +    def test_migrate(self):
+> +        result = self.vm.qmp('blockdev-backup', device='drive0',
+> +                             target='target', sync='full',
+> +                             speed=1, x_perf={
+> +                                 'max-workers': 1,
+> +                                 'max-chunk': 64 * 1024
+> +                             })
+> +        self.assert_qmp(result, 'return', {})
+> +
+> +        result = self.vm.qmp('job-pause', id='drive0')
+> +        self.assert_qmp(result, 'return', {})
+> +
+> +        result = self.vm.qmp('migrate-set-capabilities',
+> +                             capabilities=[{'capability': 'events',
+> +                                            'state': True}])
+> +        self.assert_qmp(result, 'return', {})
+> +        result = self.vm.qmp('migrate', uri=mig_cmd)
+> +        self.assert_qmp(result, 'return', {})
+> +
+> +        self.vm.events_wait((('MIGRATION', {'data': {'status': 'completed'}}),
+> +                             ('MIGRATION', {'data': {'status': 'failed'}})))
+
+So the migration failing is the result we expect here, right? Perhaps we 
+should then have a loop that waits for MIGRATION events, and breaks on 
+both status=completed and status=failed, but logs an error if the 
+migration completes unexpectedly.
+
+While I’ll give a
 
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+
+either way, I’d like to know your opinion on this still.
+
+Hanna
+
+> +
+> +        result = self.vm.qmp('block-job-set-speed', device='drive0',
+> +                             speed=0)
+> +        self.assert_qmp(result, 'return', {})
+> +        result = self.vm.qmp('job-resume', id='drive0')
+> +        self.assert_qmp(result, 'return', {})
+> +
+> +
+> +if __name__ == '__main__':
+> +    iotests.main(supported_fmts=['qcow2'],
+> +                 supported_protocols=['file'])
+> diff --git a/tests/qemu-iotests/tests/migrate-during-backup.out b/tests/qemu-iotests/tests/migrate-during-backup.out
+> new file mode 100644
+> index 0000000000..ae1213e6f8
+> --- /dev/null
+> +++ b/tests/qemu-iotests/tests/migrate-during-backup.out
+> @@ -0,0 +1,5 @@
+> +.
+> +----------------------------------------------------------------------
+> +Ran 1 tests
+> +
+> +OK
 
 
