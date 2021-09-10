@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E35D4406DC5
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 16:51:29 +0200 (CEST)
-Received: from localhost ([::1]:52390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C16406DCC
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 16:53:17 +0200 (CEST)
+Received: from localhost ([::1]:55020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOhsH-00022v-1D
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 10:51:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44682)
+	id 1mOhu0-0003tK-7h
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 10:53:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1mOhhI-0002Up-DK
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:40:08 -0400
-Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:35335)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mOhix-0005ry-5a
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:41:51 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:35583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1mOhhC-00030c-LP
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:40:08 -0400
-Received: by mail-qk1-x729.google.com with SMTP id 22so2173652qkg.2
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 07:40:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mOhiv-0004k9-F0
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:41:50 -0400
+Received: by mail-wr1-x436.google.com with SMTP id i23so2991388wrb.2
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 07:41:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=nS8mesEcmZKgzshoWZwF/7J6f8xQK7vihPWc8F8kwjI=;
- b=g+DRF5MKiB9UyLo4httOHAdxMfA8E/g6mzXyHeYibGAke7eurwIaNJGRos+2xTxMzT
- nC3mxF9oMecS3tovshCFV2SlFSObeJAHn6hjV0xSy95vfDTP1tKsYKhd5UhTJPCpdN3h
- DUn2fhMA84WgqErg6LFAprxOXj3acUs9L2TL18Vd36bgDyeGM16K9oqI+PpL1Hi9ChSo
- Rkf12ocP3UfSVLBRdqDhdUyRGN8oG1nvwK5mAeraoP8274B5yAD2cRj7wFZ0F+nR2WI1
- nixmZgL6kH9u/1lkxS0GAzUapN7j2a4IW8Oo4FhsxDDjXMI8EKPGxsBAgBQ++xmuUEAl
- Vesw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=V4UteMGDv/6mFMhz2Q6VQGcmiUKpEIcYvHIfDng/yi4=;
+ b=UgFShiqKPEkcnfv+uzQaH2NAvSKTNHk6voxKRRAzRVteUklD4SDpfeXOTuuEEqd1C6
+ kE7ShgiVjbLGqxhw/LObXiWWCUm4j62pSsP7yoo/d2W8/7GpEisU0UQE7XCL7x3iUc73
+ fjiKXNKHapH942hsW/YVP5uuMVu05J+H0uxRJV81g9MXFliYDnt0YPNQeDAcmgRfxg9N
+ tnpQal2hz0NohyDWM8GzexuJ8G7Suc+z5nMtLchFoPxBusHVtprCmSzy81Q0WvUjjbGI
+ Q43e3dfeoaIkenBGGE4433pBiUsvnknKwFtSEuSU+CkZOAs3OQPcv5S3RfL5YUWjr+06
+ bV7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nS8mesEcmZKgzshoWZwF/7J6f8xQK7vihPWc8F8kwjI=;
- b=TLwx1KKpHdP0sM0e2FdNqTy0BP68WuQhH0hj5Sv9C9VU4ytQvATPp/wbUSX0y1b3SH
- BUux/vi3zog3+EzwxF7b+bNdRy5xJdH1H3WWLIZXq++11Rg5NV+YcCZhvX9/U/BZ60cy
- EzIllfNUtqO0EqsrK3DoVWc/RbdHHTGhCGQ7N86BEDmDD4YS5r3EqaBdY1GW0tc2QldB
- CNoI35rh3p60yogpMjMOcvesGp9GjBGb7vYDTUYUfzDFfcKEOpnLp7BZ1DsjVvD0YH03
- hLPxFvy3COZnGFxhwJpbWa0RIHjWI8vCrldC33RiQ2mrqUtluD6sG+P/1rIBrEnaNOI+
- x/jg==
-X-Gm-Message-State: AOAM5338o4Z55zbATO6OujotnRL8PmykLJ4crsC9cTbOUSf1BZ2Hdhub
- 4Js+M/MbHI3Ahhk9UtdGv9mAAQ==
-X-Google-Smtp-Source: ABdhPJw4lpLGoS4ee1E3HCaYYAhRjdINXkDzeV4zm74ht9/MBOpT3C02okQz2xToODuVNpIHzqZaSg==
-X-Received: by 2002:a37:634d:: with SMTP id x74mr8014024qkb.453.1631284801088; 
- Fri, 10 Sep 2021 07:40:01 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-stsvon1503w-grc-22-142-114-143-47.dsl.bell.ca. [142.114.143.47])
- by smtp.googlemail.com with ESMTPSA id a9sm3827042qkk.82.2021.09.10.07.40.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Sep 2021 07:40:00 -0700 (PDT)
-From: Shashi Mallela <shashi.mallela@linaro.org>
-To: peter.maydell@linaro.org, leif@nuviainc.com, rad@semihalf.com,
- mst@redhat.com, imammedo@redhat.com
-Subject: [PATCH v9 9/9] tests/data/acpi/virt: Update IORT files for ITS
-Date: Fri, 10 Sep 2021 10:39:51 -0400
-Message-Id: <20210910143951.92242-10-shashi.mallela@linaro.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210910143951.92242-1-shashi.mallela@linaro.org>
-References: <20210910143951.92242-1-shashi.mallela@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=V4UteMGDv/6mFMhz2Q6VQGcmiUKpEIcYvHIfDng/yi4=;
+ b=Sd8S1RMmgYjDd029oPodWaNd4Ym371VU+n8gNqt8R1XBvx5KUPkqILeBOKVbN7KJLt
+ R52l141QVL/bYm5UcWx+NLQKdgUrQw0Bk8e5ybGk1Vc6d5bRN075llBEE0fs21KpzIvB
+ WQve639fvnzrO56HAu8SBmz6oi/Su2U9sfrOpM3F6C4dWh8xx/T9helBdvrBmjtr1V/H
+ wJWNAcOIc/788aqcyhdseXbRqe73nXmKXxuznOyVdt3GYYaZss7O2+wKn1U0ftf+/9+A
+ TFs+VlfEPhmdC6mlB6N1Kx/qAQW7+Fv+fpnPWmRXZNCAqUZxxvcFP7V4BbkeQACngfLq
+ ba5A==
+X-Gm-Message-State: AOAM531WmGRmlwTy+othrZAQQHyIN3kqynwHtbjzsvj/eLbfMDKfbJPN
+ uN0iUdvdhNUCc5fMvQSfXQ5ZwA==
+X-Google-Smtp-Source: ABdhPJwN09QYwBAVILrcSk+cJ4JUZ/9vwmFjFhOqYLEqhxjU8F2v9DumrZs2U/hj813pO1zXP8j/9w==
+X-Received: by 2002:a5d:44ca:: with SMTP id z10mr9995014wrr.298.1631284906843; 
+ Fri, 10 Sep 2021 07:41:46 -0700 (PDT)
+Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id o2sm5255629wrh.13.2021.09.10.07.41.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Sep 2021 07:41:46 -0700 (PDT)
+Subject: Re: [PATCH] softmmu: fix watchpoint processing in icount mode
+To: David Hildenbrand <david@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+References: <163101424137.678744.18360776310711795413.stgit@pasha-ThinkPad-X280>
+ <f103375f-9c3b-9b5b-6ef1-5437b4990c23@redhat.com>
+ <9bbee49c-f175-fa6e-3bda-7d117f1459b1@linaro.org>
+ <31e9ded8-6187-bced-51b8-45e35d2e9f06@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8096c13b-f87c-c8ae-70c7-499ee397850c@linaro.org>
+Date: Fri, 10 Sep 2021 16:41:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <31e9ded8-6187-bced-51b8-45e35d2e9f06@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x729.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.349,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,155 +91,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eric.auger@redhat.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- narmstrong@baylibre.com
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Updated expected IORT files applicable with latest GICv3
-ITS changes.
+On 9/10/21 3:46 PM, David Hildenbrand wrote:
+> On 10.09.21 15:34, Richard Henderson wrote:
+>> On 9/10/21 1:15 PM, David Hildenbrand wrote:
+>>> On 07.09.21 13:30, Pavel Dovgalyuk wrote:
+>>>> Watchpoint processing code restores vCPU state twice:
+>>>> in tb_check_watchpoint and in cpu_loop_exit_restore/cpu_restore_state.
+>>>> Normally it does not affect anything, but in icount mode instruction
+>>>> counter is incremented twice and becomes incorrect.
+>>>> This patch eliminates unneeded CPU state restore.
+>>>>
+>>>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>>>> ---
+>>>>    softmmu/physmem.c |    5 +----
+>>>>    1 file changed, 1 insertion(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+>>>> index 23e77cb771..4025dfab11 100644
+>>>> --- a/softmmu/physmem.c
+>>>> +++ b/softmmu/physmem.c
+>>>> @@ -941,14 +941,11 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+>>>>                    if (wp->flags & BP_STOP_BEFORE_ACCESS) {
+>>>>                        cpu->exception_index = EXCP_DEBUG;
+>>>>                        mmap_unlock();
+>>>> -                    cpu_loop_exit_restore(cpu, ra);
+>>>> +                    cpu_loop_exit(cpu);
+>>>>                    } else {
+>>>>                        /* Force execution of one insn next time.  */
+>>>>                        cpu->cflags_next_tb = 1 | curr_cflags(cpu);
+>>>>                        mmap_unlock();
+>>>> -                    if (ra) {
+>>>> -                        cpu_restore_state(cpu, ra, true);
+>>>> -                    }
+>>>>                        cpu_loop_exit_noexc(cpu);
+>>>>                    }
+>>>>                }
+>>>>
+>>>>
+>>>
+>>> I'm not an expert on that code, but it looks good to me.
+>>>
+>>> Maybe we could have added a comment above the tb_check_watchpoint() call to highlight that
+>>> the restore will happen in there.
+>>
+>> Hmm.  Curious.
+>>
+>> Looking at tb_check_watchpoint, I have trouble seeing how it could be correct.
+>> Watchpoints can happen at any memory reference within the TB.  We should be rolling back
+>> to the cpu state at the memory reference (cpu_retore_state) and not the cpu state at the
+>> start of the TB (cpu_restore_state_from_tb).
+> 
+> cpu_restore_state() ends up calling cpu_restore_state_from_tb() with essentially
+> the same parameters or what am I missing?
 
-Full diff of new file disassembly:
+Whoops, yes.  I must have been thinking of a different function.
 
-/*
- * Intel ACPI Component Architecture
- * AML/ASL+ Disassembler version 20180629 (64-bit version)
- * Copyright (c) 2000 - 2018 Intel Corporation
- *
- * Disassembly of tests/data/acpi/virt/IORT.pxb, Tue Jun 29 17:35:38 2021
- *
- * ACPI Data Table [IORT]
- *
- * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue
- */
+>> I'm also not sure why we're invalidating tb's.  Why does watchpoint hit imply that we
+>> should want to ditch the TB?  If we want different behaviour from the next execution, we
+>> should be adjusting cflags.
+> 
+> It goes back to
+> 
+> commit 06d55cc19ac84e799d2df8c750049e51798b00a4
+> Author: aliguori <aliguori@c046a42c-6fe2-441c-8c8c-71466251a162>
+> Date:   Tue Nov 18 20:24:06 2008 +0000
+> 
+>      Restore pc on watchpoint hits (Jan Kiszka)
+>      In order to provide accurate information about the triggering
+>      instruction, this patch adds the required bits to restore the pc if the
+>      access happened inside a TB. With the BP_STOP_BEFORE_ACCESS flag, the
+>      watchpoint user can control if the debug trap should be issued on or
+>      after the accessing instruction.
+>      Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+>      Signed-off-by: Anthony Liguori <aliguori@us.ibm.com>
+> 
+> 
+> *trying to rememebr what we do on watchpoints* I think we want to
+> make sure that we end up with a single-instruction TB, right? So we
+> want to make sure to remove the old one.
 
-[000h 0000   4]                    Signature : "IORT"    [IO Remapping Table]
-[004h 0004   4]                 Table Length : 0000007C
-[008h 0008   1]                     Revision : 00
-[009h 0009   1]                     Checksum : 07
-[00Ah 0010   6]                       Oem ID : "BOCHS "
-[010h 0016   8]                 Oem Table ID : "BXPC    "
-[018h 0024   4]                 Oem Revision : 00000001
-[01Ch 0028   4]              Asl Compiler ID : "BXPC"
-[020h 0032   4]        Asl Compiler Revision : 00000001
+When the watchpoint needs to trigger after the insn, we do indeed want to execute a single 
+insn, which we do with the cflags there in the patch context.  But when we want to stop 
+before the insn, we're already done -- so what was the invalidate supposed to achieve?
 
-[024h 0036   4]                   Node Count : 00000002
-[028h 0040   4]                  Node Offset : 00000030
-[02Ch 0044   4]                     Reserved : 00000000
+(Then of course there's the problem that Phillipe filed (#245) in which we set cflags as 
+per above, then take an interrupt before using it, then wind up with garbage.  Ho hum.)
 
-[030h 0048   1]                         Type : 00
-[031h 0049   2]                       Length : 0018
-[033h 0051   1]                     Revision : 00
-[034h 0052   4]                     Reserved : 00000000
-[038h 0056   4]                Mapping Count : 00000000
-[03Ch 0060   4]               Mapping Offset : 00000000
 
-[040h 0064   4]                     ItsCount : 00000001
-[044h 0068   4]                  Identifiers : 00000000
+r~
 
-[048h 0072   1]                         Type : 02
-[049h 0073   2]                       Length : 0034
-[04Bh 0075   1]                     Revision : 00
-[04Ch 0076   4]                     Reserved : 00000000
-[050h 0080   4]                Mapping Count : 00000001
-[054h 0084   4]               Mapping Offset : 00000020
-
-[058h 0088   8]            Memory Properties : [IORT Memory Access Properties]
-[058h 0088   4]              Cache Coherency : 00000001
-[05Ch 0092   1]        Hints (decoded below) : 00
-                                   Transient : 0
-                              Write Allocate : 0
-                               Read Allocate : 0
-                                    Override : 0
-[05Dh 0093   2]                     Reserved : 0000
-[05Fh 0095   1] Memory Flags (decoded below) : 03
-                                   Coherency : 1
-                            Device Attribute : 1
-[060h 0096   4]                ATS Attribute : 00000000
-[064h 0100   4]           PCI Segment Number : 00000000
-[068h 0104   1]            Memory Size Limit : 00
-[069h 0105   3]                     Reserved : 000000
-
-[068h 0104   4]                   Input base : 00000000
-[06Ch 0108   4]                     ID Count : 0000FFFF
-[070h 0112   4]                  Output Base : 00000000
-[074h 0116   4]             Output Reference : 00000030
-[078h 0120   4]        Flags (decoded below) : 00000000
-                              Single Mapping : 0
-
-Raw Table Data: Length 124 (0x7C)
-
-    0000: 49 4F 52 54 7C 00 00 00 00 07 42 4F 43 48 53 20  // IORT|.....BOCHS
-    0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
-    0020: 01 00 00 00 02 00 00 00 30 00 00 00 00 00 00 00  // ........0.......
-    0030: 00 18 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
-    0040: 01 00 00 00 00 00 00 00 02 34 00 00 00 00 00 00  // .........4......
-    0050: 01 00 00 00 20 00 00 00 01 00 00 00 00 00 00 03  // .... ...........
-    0060: 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00  // ................
-    0070: 00 00 00 00 30 00 00 00 00 00 00 00              // ....0.......
-
-Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
----
- tests/data/acpi/virt/IORT                   | Bin 0 -> 124 bytes
- tests/data/acpi/virt/IORT.memhp             | Bin 0 -> 124 bytes
- tests/data/acpi/virt/IORT.numamem           | Bin 0 -> 124 bytes
- tests/data/acpi/virt/IORT.pxb               | Bin 0 -> 124 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
- 5 files changed, 4 deletions(-)
-
-diff --git a/tests/data/acpi/virt/IORT b/tests/data/acpi/virt/IORT
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..521acefe9ba66706c5607321a82d330586f3f280 100644
-GIT binary patch
-literal 124
-zcmebD4+^Pa00MR=e`k+i1*eDrX9XZ&1PX!JAesq?4S*O7Bw!2(4Uz`|CKCt^;wu0#
-QRGb+i3L*dhhtM#y0PN=p0RR91
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/virt/IORT.memhp b/tests/data/acpi/virt/IORT.memhp
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..521acefe9ba66706c5607321a82d330586f3f280 100644
-GIT binary patch
-literal 124
-zcmebD4+^Pa00MR=e`k+i1*eDrX9XZ&1PX!JAesq?4S*O7Bw!2(4Uz`|CKCt^;wu0#
-QRGb+i3L*dhhtM#y0PN=p0RR91
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/virt/IORT.numamem b/tests/data/acpi/virt/IORT.numamem
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..521acefe9ba66706c5607321a82d330586f3f280 100644
-GIT binary patch
-literal 124
-zcmebD4+^Pa00MR=e`k+i1*eDrX9XZ&1PX!JAesq?4S*O7Bw!2(4Uz`|CKCt^;wu0#
-QRGb+i3L*dhhtM#y0PN=p0RR91
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/virt/IORT.pxb b/tests/data/acpi/virt/IORT.pxb
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..521acefe9ba66706c5607321a82d330586f3f280 100644
-GIT binary patch
-literal 124
-zcmebD4+^Pa00MR=e`k+i1*eDrX9XZ&1PX!JAesq?4S*O7Bw!2(4Uz`|CKCt^;wu0#
-QRGb+i3L*dhhtM#y0PN=p0RR91
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 2ef211df59..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,5 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/IORT",
--"tests/data/acpi/virt/IORT.memhp",
--"tests/data/acpi/virt/IORT.numamem",
--"tests/data/acpi/virt/IORT.pxb",
--- 
-2.27.0
-
+r~
 
