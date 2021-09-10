@@ -2,79 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75E2C406415
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 02:55:00 +0200 (CEST)
-Received: from localhost ([::1]:35572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E694A406503
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 03:20:35 +0200 (CEST)
+Received: from localhost ([::1]:48732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOUok-0007MD-Vb
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 20:54:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59540)
+	id 1mOVDW-0000QB-HA
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 21:20:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1mOUn8-0005oM-QM; Thu, 09 Sep 2021 20:53:18 -0400
-Received: from mail-oo1-xc33.google.com ([2607:f8b0:4864:20::c33]:45023)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mOVCU-0008At-F1
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 21:19:30 -0400
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:39783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1mOUn6-0008LJ-NY; Thu, 09 Sep 2021 20:53:18 -0400
-Received: by mail-oo1-xc33.google.com with SMTP id
- k18-20020a4abd92000000b002915ed21fb8so44767oop.11; 
- Thu, 09 Sep 2021 17:53:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mOVCO-0001Bv-Vl
+ for qemu-devel@nongnu.org; Thu, 09 Sep 2021 21:19:30 -0400
+Received: by mail-io1-xd2f.google.com with SMTP id m11so311862ioo.6
+ for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 18:19:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=tshU4XDo3hmiXQCLLozH0C6gk17IYKv00GQH6NCDqsg=;
- b=dhQdCm1Z1KF5ZvPsn7Ykv7r3oRtbgQh0rshuCx3r3frQkLfhs9K3EzQuRPB5AI+Rl7
- tcteyRxup/b/mzCuym0bnhkFEZEiszaPhkj7Oe6ShqDi2ryxan8XNFectjnGFYqlVjhm
- xlrftrSnlNkyIIiGWtSndpcPv1sFAIAN3+8i9h87iQlPnm+oSDENuYCEJx6DTsZ9T0+k
- GQ1JaDYLuiHCuzj/dtFQKqEJsAY43Q2OL0U2e8ewtIHS0qTLdfsmdqQ6oYu75m/ycVjv
- NNHAUcPJE/HH/0HPvBViHGBOsXlEBJRmd9oSxjL4K0mImOBX1zO/vxQ084hZsQXorNzl
- skpg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=dAATg6bvCYWY7VDbWBkFRPcQsfvjgUp5UlGW7A/K4ow=;
+ b=hasvLchrOx0ODoHjWX7IEbpyeJvYNiH1z80kd6nLe12wzrC3dQp//S35NNw82J2DkR
+ IaRXR7TEjvbxnoGWpRJXCVg9yXbOWmmFdtSpEa0bJqlWsKEIaBfogzr2JCa7ptv4YFRV
+ tIBFv2YSBSlGDM6tJKtNVMaZMcdlogar2PfHdq548WrWmeUSwT6CUBLcV4V7ZtXikDg1
+ ps5F/PrDn0dQLv+eAkDCH0PomC258VOSKwFgsiM16VIErZexYHjsV7WVdmeBufIIE/LF
+ VJBcqTTvZkG0C0mjskFZ4WuaW6a8xisZVs0m3MMR2vNSrfP1LvUZMH9voM13LnOE+lwD
+ 1Xng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to;
- bh=tshU4XDo3hmiXQCLLozH0C6gk17IYKv00GQH6NCDqsg=;
- b=qufxsHu6spN1et8m7yLsbDp+c7aMTDa3UnCI4g0ve4QBsoK/njuzwL/XYJXEb0tQ6n
- JzinvK3TIU1/x1F2ZZ3ho0XqoZRnD2KoGYxFzFZzNHLelnix3Vqz9U4J3g3eQurTA9U5
- LgxjeR+1CpeWkqhTeHgpd5wUX5igecV9X5QdKP4xI8NKGv9ybcmkR+ggCPwoqW+1Pe2g
- 3pwYGjTG0FMNF1B7NWnkXGr+EievqzxnLzjS0Hu0Pg9NjJoFvOXvyIM4OCPki7T9BKjQ
- yNzH7g9GPbhSridyUc671IXBNDDTRxDDx4QISR+hTxcMX5Ar48eRRdj+mJEB9RXLjjAs
- lX1A==
-X-Gm-Message-State: AOAM530oc0KVK4/Y1I12d+gaqBDr68fS9LgB9WFUxPJZC+T7szTEFDJV
- yFjkHmYYXCWKG6n+LP/g6g==
-X-Google-Smtp-Source: ABdhPJwlE/beYo67nat3VTGq4eaHsVUQ3KviyZKnE25i36/yBDx7cQZRcGolT9CczJsrU5htmKHMAw==
-X-Received: by 2002:a4a:245c:: with SMTP id v28mr2168739oov.3.1631235194838;
- Thu, 09 Sep 2021 17:53:14 -0700 (PDT)
-Received: from serve.minyard.net ([47.184.156.158])
- by smtp.gmail.com with ESMTPSA id t30sm854719oiw.42.2021.09.09.17.53.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Sep 2021 17:53:13 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:c5ab:34b3:4e95:9c80])
- by serve.minyard.net (Postfix) with ESMTPSA id D8DF81800ED;
- Fri, 10 Sep 2021 00:53:12 +0000 (UTC)
-Date: Thu, 9 Sep 2021 19:53:11 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Hao Wu <wuhaotsh@google.com>
-Subject: Re: [PATCH 7/8] hw/ipmi: Add an IPMI external host device
-Message-ID: <20210910005311.GR545073@minyard.net>
-References: <20210909230620.511815-1-wuhaotsh@google.com>
- <20210909230620.511815-8-wuhaotsh@google.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=dAATg6bvCYWY7VDbWBkFRPcQsfvjgUp5UlGW7A/K4ow=;
+ b=tIu1R96C5hAG3WAbq460Lj4dfWVBgfbRjpzR1Tm9n3Y7dMJPnip5Wrvj1dp38wrzrP
+ ohaOhkYQXiQuRPPuaM3xH9xBTLDjqvq5b3gUwL54AATHPyPar66WyPhh8EStgAQyLF5h
+ csQR/cpQPCp9KK2rbmP9deoXo3cKv6ZAIL1VW8UBkr7UDZBhLC46nXRgGnC/DSt2EJSJ
+ rm8GGOWVK2pz93YT2DOmjIJZcD1tcwOe306WPbuwi68PlY9Zk1AGYOFtiBn5N18BtvnN
+ J+RNuZQHRK6Qt2LriFxcCniZiHudOIsqqroTF3Q5LWkkzFqFxUoBGn1p9E4cVLX7B+bg
+ qPhg==
+X-Gm-Message-State: AOAM531W2SQAk3Jnv2zaiwraN1SIKn04HvxknI+jKDzqF1NWoGSajmI9
+ e/V14yc5vBjGCdDlGj62yJkwfFJ6UnY8FHstgzg46mNOp5cE8w==
+X-Google-Smtp-Source: ABdhPJzBIrMbDOPq6oTD4UwX8ThqSg07FBnf4d9cVBrXoswH+Tc/qoTg7pW9CGve+MfAgsHmo9ay5MwKva1mhgevqZE=
+X-Received: by 2002:a6b:2b43:: with SMTP id r64mr4850733ior.187.1631236763046; 
+ Thu, 09 Sep 2021 18:19:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210909230620.511815-8-wuhaotsh@google.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c33;
- envelope-from=tcminyard@gmail.com; helo=mail-oo1-xc33.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
+ <20210907121943.3498701-13-marcandre.lureau@redhat.com>
+In-Reply-To: <20210907121943.3498701-13-marcandre.lureau@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 10 Sep 2021 11:18:55 +1000
+Message-ID: <CAKmqyKP3+rh+vxq=Ci1xiZx7N0Pzyx2Dy8zgp4EsM0UUHizrkw@mail.gmail.com>
+Subject: Re: [RFC v3 12/32] rust: provide a common crate for QEMU
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,320 +80,1085 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: peter.maydell@linaro.org, titusr@google.com, venture@google.com,
- hskinnemoen@google.com, qemu-devel@nongnu.org, kfting@nuvoton.com,
- qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 09, 2021 at 04:06:19PM -0700, Hao Wu wrote:
-> The IPMI external host device works for Baseband Management Controller
-> (BMC) emulations. It works as a representation of a host class that
-> connects to a given BMC.  It can connect to a real host hardware or a
-> emulated or simulated host device. In particular it can connect to a
-> host QEMU instance with device ipmi-bmc-extern.
-
-This is reasonable, I think.
-
-The terminology here is confusing, though.  I'm not sure exactly what to
-do about it.  So we have right now:
-
-  host interfaces - KCS, BT, SSIF
-  bmc - either an emulated or extern BMC the host talks to
-
-And what you are proposing is:
-
-  core - anything that supplies IPMI message for processing by
-    the code in the VM.  So this is the internal/external BMC
-    and the bmc-side of things.
-  bmc - either an emulated or extern BMC the host talks to
-  bmc-side - Receives messages from a host running ipmi_bmc_extern
-  interfaces - KCS, BT, SSIF, and the interface to the bmc-side
-    VM.
-
-What I would propose is something like:
-
-  core - anything that supplies IPMI message for processing by
-    the code in the VM.  So this is the internal/external BMC
-    and the bmc-side of things.
-  bmc-host - either an emulated or extern BMC the host talks to
-  bmc-client - Receives messages from a host running ipmi_bmc_extern
-  interfaces - All IPMI interfaces
-  interfaces-host - KCS, BT, SSIF
-  interfaces-client - the interface to the bmc-side VM.
-
-I'm not too excited about the name "client", though.  But I think a
-class hierarchy like above would be more clear about what things are,
-and it's not that different than what you are proposing.
-
-I'm really just thinking out loud, though.
-
--corey
-
-> 
-> For more details of IPMI host device in BMC emulation, see
-> docs/specs/ipmi.rst.
-> 
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
+On Tue, Sep 7, 2021 at 10:41 PM <marcandre.lureau@redhat.com> wrote:
+>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> This crates provides common bindings and facilities for QEMU C API
+> shared by various projects.
+>
+> Most importantly, it defines the conversion traits used to convert from
+> C to Rust types. Those traits are largely adapted from glib-rs, since
+> those have proved to be very flexible, and should guide us to bind
+> further QEMU types such as QOM. If glib-rs becomes a dependency, we
+> should consider adopting glib translate traits. For QAPI, we need a
+> smaller subset.
+>
+> Cargo.lock is checked-in, as QEMU produces end-of-chain binaries, and it
+> is desirable to track the exact set of packages that are involved in
+> managed builds.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
->  configs/devices/arm-softmmu/default.mak |   2 +
->  hw/ipmi/Kconfig                         |   5 +
->  hw/ipmi/ipmi_extern.c                   |  18 ++-
->  hw/ipmi/ipmi_host_extern.c              | 170 ++++++++++++++++++++++++
->  hw/ipmi/meson.build                     |   1 +
->  5 files changed, 194 insertions(+), 2 deletions(-)
->  create mode 100644 hw/ipmi/ipmi_host_extern.c
-> 
-> diff --git a/configs/devices/arm-softmmu/default.mak b/configs/devices/arm-softmmu/default.mak
-> index 6985a25377..82f0c6f8c3 100644
-> --- a/configs/devices/arm-softmmu/default.mak
-> +++ b/configs/devices/arm-softmmu/default.mak
-> @@ -25,6 +25,8 @@ CONFIG_GUMSTIX=y
->  CONFIG_SPITZ=y
->  CONFIG_TOSA=y
->  CONFIG_Z2=y
-> +CONFIG_IPMI=y
-> +CONFIG_IPMI_HOST=y
->  CONFIG_NPCM7XX=y
->  CONFIG_COLLIE=y
->  CONFIG_ASPEED_SOC=y
-> diff --git a/hw/ipmi/Kconfig b/hw/ipmi/Kconfig
-> index 9befd4f422..6722b1fbb0 100644
-> --- a/hw/ipmi/Kconfig
-> +++ b/hw/ipmi/Kconfig
-> @@ -11,6 +11,11 @@ config IPMI_EXTERN
->      default y
->      depends on IPMI
->  
-> +config IPMI_HOST
-> +    bool
-> +    default y
-> +    depends on IPMI
-> +
->  config ISA_IPMI_KCS
->      bool
->      depends on ISA_BUS
-> diff --git a/hw/ipmi/ipmi_extern.c b/hw/ipmi/ipmi_extern.c
-> index 97dfed085f..0952dc5992 100644
-> --- a/hw/ipmi/ipmi_extern.c
-> +++ b/hw/ipmi/ipmi_extern.c
-> @@ -145,11 +145,25 @@ void ipmi_extern_handle_command(IPMIExtern *ibe,
->      if (err) {
->          IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->          unsigned char rsp[3];
-> +
->          rsp[0] = cmd[0] | 0x04;
->          rsp[1] = cmd[1];
->          rsp[2] = err;
-> -        ibe->waiting_rsp = false;
-> -        k->handle_msg(s, msg_id, rsp, 3);
-> +
-> +        if (ibe->bmc_side) {
-> +            /* For BMC Side, send out an error message. */
-> +            addchar(ibe, msg_id);
-> +            for (i = 0; i < 3; ++i) {
-> +                addchar(ibe, rsp[i]);
-> +            }
-> +            csum = ipmb_checksum(&msg_id, 1, 0);
-> +            addchar(ibe, -ipmb_checksum(rsp, 3, csum));
-> +            continue_send(ibe);
-> +        } else {
-> +            /* For Core side, handle an error message. */
-> +            ibe->waiting_rsp = false;
-> +            k->handle_msg(s, msg_id, rsp, 3);
-> +        }
->          goto out;
->      }
->  
-> diff --git a/hw/ipmi/ipmi_host_extern.c b/hw/ipmi/ipmi_host_extern.c
+>  Cargo.lock                   |  63 +++++
+>  Cargo.toml                   |   4 +-
+>  rust/common/Cargo.toml       |  11 +
+>  rust/common/src/error.rs     | 113 ++++++++
+>  rust/common/src/ffi.rs       |  93 +++++++
+>  rust/common/src/lib.rs       |  21 ++
+>  rust/common/src/qemu.rs      | 101 ++++++++
+>  rust/common/src/qmp.rs       |   0
+>  rust/common/src/translate.rs | 482 +++++++++++++++++++++++++++++++++++
+>  9 files changed, 887 insertions(+), 1 deletion(-)
+>  create mode 100644 Cargo.lock
+>  create mode 100644 rust/common/Cargo.toml
+>  create mode 100644 rust/common/src/error.rs
+>  create mode 100644 rust/common/src/ffi.rs
+>  create mode 100644 rust/common/src/lib.rs
+>  create mode 100644 rust/common/src/qemu.rs
+>  create mode 100644 rust/common/src/qmp.rs
+>  create mode 100644 rust/common/src/translate.rs
+>
+> diff --git a/Cargo.lock b/Cargo.lock
 > new file mode 100644
-> index 0000000000..4530631901
+> index 0000000000..8dc2dd9da7
 > --- /dev/null
-> +++ b/hw/ipmi/ipmi_host_extern.c
-> @@ -0,0 +1,170 @@
-> +/*
-> + * IPMI Host external connection
-> + *
-> + * Copyright 2021 Google LLC
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms of the GNU General Public License as published by the
-> + * Free Software Foundation; either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-> + * for more details.
-> + */
+> +++ b/Cargo.lock
+> @@ -0,0 +1,63 @@
+> +# This file is automatically @generated by Cargo.
+> +# It is not intended for manual editing.
+> +version =3D 3
 > +
-> +/*
-> + * This is designed to connect to a host QEMU VM that runs ipmi_bmc_extern.
-> + */
+> +[[package]]
+> +name =3D "autocfg"
+> +version =3D "1.0.1"
+> +source =3D "registry+https://github.com/rust-lang/crates.io-index"
+> +checksum =3D "cdb031dd78e28731d87d56cc8ffef4a8f36ca26c38fe2de700543e627f=
+8a464a"
 > +
-> +#include "qemu/osdep.h"
-> +#include "qemu/error-report.h"
-> +#include "qemu/module.h"
-> +#include "qapi/error.h"
-> +#include "chardev/char-fe.h"
-> +#include "hw/ipmi/ipmi.h"
-> +#include "hw/ipmi/ipmi_extern.h"
-> +#include "hw/qdev-properties.h"
-> +#include "hw/qdev-properties-system.h"
-> +#include "migration/vmstate.h"
-> +#include "qom/object.h"
+> +[[package]]
+> +name =3D "bitflags"
+> +version =3D "1.2.1"
+> +source =3D "registry+https://github.com/rust-lang/crates.io-index"
+> +checksum =3D "cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d=
+691693"
 > +
-> +#define TYPE_IPMI_HOST_EXTERN "ipmi-host-extern"
-> +OBJECT_DECLARE_SIMPLE_TYPE(IPMIHostExtern, IPMI_HOST_EXTERN)
+> +[[package]]
+> +name =3D "cc"
+> +version =3D "1.0.70"
+> +source =3D "registry+https://github.com/rust-lang/crates.io-index"
+> +checksum =3D "d26a6ce4b6a484fa3edb70f7efa6fc430fd2b87285fe8b84304fd0936f=
+aa0dc0"
 > +
-> +typedef struct IPMIHostExtern {
-> +    IPMICore parent;
+> +[[package]]
+> +name =3D "cfg-if"
+> +version =3D "1.0.0"
+> +source =3D "registry+https://github.com/rust-lang/crates.io-index"
+> +checksum =3D "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2=
+da40fd"
 > +
-> +    IPMIExtern conn;
+> +[[package]]
+> +name =3D "common"
+> +version =3D "0.1.0"
+> +dependencies =3D [
+> + "libc",
+> + "nix",
+> +]
 > +
-> +    IPMIInterface *responder;
+> +[[package]]
+> +name =3D "libc"
+> +version =3D "0.2.101"
+> +source =3D "registry+https://github.com/rust-lang/crates.io-index"
+> +checksum =3D "3cb00336871be5ed2c8ed44b60ae9959dc5b9f08539422ed43f09e34ec=
+aeba21"
 > +
-> +    uint8_t capability;
-> +} IPMIHostExtern;
+> +[[package]]
+> +name =3D "memoffset"
+> +version =3D "0.6.4"
+> +source =3D "registry+https://github.com/rust-lang/crates.io-index"
+> +checksum =3D "59accc507f1338036a0477ef61afdae33cde60840f4dfe481319ce3ad1=
+16ddf9"
+> +dependencies =3D [
+> + "autocfg",
+> +]
 > +
-> +/*
-> + * Handle a command (typically IPMI response) from IPMI interface
-> + * and send it out to the external host.
-> + */
-> +static void ipmi_host_extern_handle_command(IPMICore *h, uint8_t *cmd,
-> +        unsigned cmd_len, unsigned max_cmd_len, uint8_t msg_id)
-> +{
-> +    IPMIHostExtern *ihe = IPMI_HOST_EXTERN(h);
+> +[[package]]
+> +name =3D "nix"
+> +version =3D "0.20.1"
+> +source =3D "registry+https://github.com/rust-lang/crates.io-index"
+> +checksum =3D "df8e5e343312e7fbeb2a52139114e9e702991ef9c2aea6817ff2440b35=
+647d56"
+> +dependencies =3D [
+> + "bitflags",
+> + "cc",
+> + "cfg-if",
+> + "libc",
+> + "memoffset",
+> +]
+> diff --git a/Cargo.toml b/Cargo.toml
+> index c4b464ff15..14131eed3c 100644
+> --- a/Cargo.toml
+> +++ b/Cargo.toml
+> @@ -1,2 +1,4 @@
+>  [workspace]
+> -members =3D []
+> +members =3D [
+> +  "rust/common",
+> +]
+> diff --git a/rust/common/Cargo.toml b/rust/common/Cargo.toml
+> new file mode 100644
+> index 0000000000..6c240447f3
+> --- /dev/null
+> +++ b/rust/common/Cargo.toml
+> @@ -0,0 +1,11 @@
+> +[package]
+> +name =3D "common"
+> +version =3D "0.1.0"
+> +edition =3D "2018"
+> +publish =3D false
 > +
-> +    ipmi_extern_handle_command(&ihe->conn, cmd, cmd_len, max_cmd_len, msg_id);
+> +[dependencies]
+> +libc =3D "0.2.92"
+> +
+> +[target."cfg(unix)".dependencies]
+> +nix =3D "0.20.0"
+> diff --git a/rust/common/src/error.rs b/rust/common/src/error.rs
+> new file mode 100644
+> index 0000000000..f166ac42ea
+> --- /dev/null
+> +++ b/rust/common/src/error.rs
+> @@ -0,0 +1,113 @@
+> +use std::{self, ffi::CString, fmt, io, ptr};
+> +
+> +use crate::translate::*;
+
+It's not uncommon to ban wildcard imports that aren't preludes as it
+can make it confusing to read. Does QEMU have a stance on that type of
+thing?
+
+> +use crate::{ffi, qemu};
+> +
+> +/// Common error type for QEMU and related projects.
+> +#[derive(Debug)]
+> +pub enum Error {
+> +    /// A generic error with file and line location.
+> +    FailedAt(String, &'static str, u32),
+> +    /// An IO error.
+> +    Io(io::Error),
+> +    #[cfg(unix)]
+> +    /// A nix error.
+> +    Nix(nix::Error),
 > +}
 > +
-> +/* This function handles a control command from the host. */
-> +static void ipmi_host_extern_handle_hw_op(IPMICore *ic, uint8_t cmd,
-> +                                          uint8_t operand)
-> +{
-> +    IPMIHostExtern *ihe = IPMI_HOST_EXTERN(ic);
+> +/// Alias for a `Result` with the error type for QEMU.
+> +pub type Result<T> =3D std::result::Result<T, Error>;
+
+I think this is very confusing. Rust developers expect `Result` to be
+the one from `std::result`, it would be better to call this
+`QEMUResult`
+
 > +
-> +    switch (cmd) {
-> +    case VM_CMD_VERSION:
-> +        /* The host informs us the protocol version. */
-> +        if (unlikely(operand != VM_PROTOCOL_VERSION)) {
-> +            ipmi_debug("Host protocol version %u is different from our version"
-> +                    " %u\n", operand, VM_PROTOCOL_VERSION);
+> +impl Error {
+> +    fn message(&self) -> String {
+> +        use Error::*;
+
+Do we need this here? Why not put it at the top of the file?
+
+> +        match self {
+> +            FailedAt(msg, _, _) =3D> msg.into(),
+> +            Io(io) =3D> format!("IO error: {}", io),
+> +            #[cfg(unix)]
+> +            Nix(nix) =3D> format!("Nix error: {}", nix),
 > +        }
-> +        break;
+> +    }
 > +
-> +    case VM_CMD_RESET:
-> +        /* The host tells us a reset has happened. */
-> +        break;
-> +
-> +    case VM_CMD_CAPABILITIES:
-> +        /* The host tells us its capability. */
-> +        ihe->capability = operand;
-> +        break;
-> +
-> +    default:
-> +        /* The host shouldn't send us this command. Just ignore if they do. */
-> +        ipmi_debug("Host cmd type %02x is invalid.\n", cmd);
-> +        break;
+> +    fn location(&self) -> Option<(&'static str, u32)> {
+> +        use Error::*;
+> +        match self {
+> +            FailedAt(_, file, line) =3D> Some((file, *line)),
+> +            Io(_) =3D> None,
+> +            #[cfg(unix)]
+> +            Nix(_) =3D> None,
+> +        }
 > +    }
 > +}
 > +
-> +static void ipmi_host_extern_realize(DeviceState *dev, Error **errp)
-> +{
-> +    IPMIHostExtern *ihe = IPMI_HOST_EXTERN(dev);
-> +    IPMIInterfaceClass *rk;
-> +
-> +    if (ihe->responder == NULL) {
-> +        error_setg(errp, "IPMI host extern requires responder attribute");
-> +        return;
-> +    }
-> +    rk = IPMI_INTERFACE_GET_CLASS(ihe->responder);
-> +    rk->set_ipmi_handler(ihe->responder, IPMI_CORE(ihe));
-> +    ihe->conn.core->intf = ihe->responder;
-> +
-> +    if (!qdev_realize(DEVICE(&ihe->conn), NULL, errp)) {
-> +        return;
+> +impl fmt::Display for Error {
+> +    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+> +        use Error::*;
+> +        match self {
+> +            FailedAt(msg, file, line) =3D> write!(f, "{} ({}:{})", msg, =
+file, line),
+> +            _ =3D> write!(f, "{}", self.message()),
+> +        }
 > +    }
 > +}
 > +
-> +static int ipmi_host_extern_post_migrate(void *opaque, int version_id)
-> +{
-> +    IPMIHostExtern *ihe = IPMI_HOST_EXTERN(opaque);
-> +
-> +    return ipmi_extern_post_migrate(&ihe->conn, version_id);
-> +}
-> +
-> +static const VMStateDescription vmstate_ipmi_host_extern = {
-> +    .name = TYPE_IPMI_HOST_EXTERN,
-> +    .version_id = 0,
-> +    .minimum_version_id = 0,
-> +    .post_load = ipmi_host_extern_post_migrate,
-> +    .fields      = (VMStateField[]) {
-> +        VMSTATE_UINT8(capability, IPMIHostExtern),
-> +        VMSTATE_END_OF_LIST()
+> +impl From<io::Error> for Error {
+> +    fn from(val: io::Error) -> Self {
+> +        Error::Io(val)
 > +    }
-> +};
-> +
-> +static void ipmi_host_extern_init(Object *obj)
-> +{
-> +    IPMICore *ic = IPMI_CORE(obj);
-> +    IPMIHostExtern *ihe = IPMI_HOST_EXTERN(obj);
-> +
-> +    object_initialize_child(obj, "extern", &ihe->conn,
-> +                            TYPE_IPMI_EXTERN);
-> +    ihe->conn.core = ic;
-> +    ihe->conn.bmc_side = true;
-> +    vmstate_register(NULL, 0, &vmstate_ipmi_host_extern, ihe);
 > +}
 > +
-> +static Property ipmi_host_extern_properties[] = {
-> +    DEFINE_PROP_CHR("chardev", IPMIHostExtern, conn.chr),
-> +    DEFINE_PROP_LINK("responder", IPMIHostExtern, responder,
-> +                     TYPE_IPMI_INTERFACE, IPMIInterface *),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void ipmi_host_extern_class_init(ObjectClass *oc, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(oc);
-> +    IPMICoreClass *ck = IPMI_CORE_CLASS(oc);
-> +
-> +    device_class_set_props(dc, ipmi_host_extern_properties);
-> +
-> +    ck->handle_command = ipmi_host_extern_handle_command;
-> +    ck->handle_hw_op = ipmi_host_extern_handle_hw_op;
-> +    dc->hotpluggable = false;
-> +    dc->realize = ipmi_host_extern_realize;
+> +#[cfg(unix)]
+> +impl From<nix::Error> for Error {
+> +    fn from(val: nix::Error) -> Self {
+> +        Error::Nix(val)
+> +    }
 > +}
 > +
-> +static const TypeInfo ipmi_host_extern_type = {
-> +    .name          = TYPE_IPMI_HOST_EXTERN,
-> +    .parent        = TYPE_IPMI_CORE,
-> +    .instance_size = sizeof(IPMIHostExtern),
-> +    .instance_init = ipmi_host_extern_init,
-> +    .class_init    = ipmi_host_extern_class_init,
-> +};
-> +
-> +static void ipmi_host_extern_register_types(void)
-> +{
-> +    type_register_static(&ipmi_host_extern_type);
+> +impl QemuPtrDefault for Error {
+> +    type QemuType =3D *mut ffi::Error;
 > +}
 > +
-> +type_init(ipmi_host_extern_register_types)
-> diff --git a/hw/ipmi/meson.build b/hw/ipmi/meson.build
-> index edd0bf9af9..b1dd4710dc 100644
-> --- a/hw/ipmi/meson.build
-> +++ b/hw/ipmi/meson.build
-> @@ -7,5 +7,6 @@ ipmi_ss.add(when: 'CONFIG_PCI_IPMI_KCS', if_true: files('pci_ipmi_kcs.c'))
->  ipmi_ss.add(when: 'CONFIG_ISA_IPMI_BT', if_true: files('isa_ipmi_bt.c'))
->  ipmi_ss.add(when: 'CONFIG_PCI_IPMI_BT', if_true: files('pci_ipmi_bt.c'))
->  ipmi_ss.add(when: 'CONFIG_IPMI_SSIF', if_true: files('smbus_ipmi.c'))
-> +ipmi_ss.add(when: 'CONFIG_IPMI_HOST', if_true: files('ipmi_host_extern.c'))
->  
->  softmmu_ss.add_all(when: 'CONFIG_IPMI', if_true: ipmi_ss)
-> -- 
-> 2.33.0.309.g3052b89438-goog
-> 
+> +impl<'a> ToQemuPtr<'a, *mut ffi::Error> for Error {
+> +    type Storage =3D qemu::CError;
+> +
+> +    fn to_qemu_none(&'a self) -> Stash<'a, *mut ffi::Error, Self> {
+> +        let err =3D self.to_qemu_full();
+> +
+> +        Stash(err, unsafe { from_qemu_full(err) })
+> +    }
+> +
+> +    fn to_qemu_full(&self) -> *mut ffi::Error {
+> +        let cmsg =3D
+> +            CString::new(self.message()).expect("ToQemuPtr<Error>: unexp=
+ected '\0' character");
+> +        let mut csrc =3D CString::new("").unwrap();
+> +        let (src, line) =3D self.location().map_or((ptr::null(), 0_i32),=
+ |loc| {
+> +            csrc =3D CString::new(loc.0).expect("ToQemuPtr<Error>:: unex=
+pected '\0' character");
+> +            (csrc.as_ptr() as *const libc::c_char, loc.1 as i32)
+> +        });
+> +        let func =3D ptr::null();
+> +
+> +        let mut err: *mut ffi::Error =3D ptr::null_mut();
+> +        unsafe {
+> +            ffi::error_setg_internal(
+> +                &mut err as *mut *mut _,
+> +                src,
+> +                line,
+> +                func,
+> +                cmsg.as_ptr() as *const libc::c_char,
+> +            );
+> +            err
+> +        }
+> +    }
+> +}
+> +
+> +/// Convenience macro to build a [`Error::FailedAt`] error.
+> +///
+> +/// Returns a `Result::Err` with the file:line location.
+> +/// (the error can then be converted to a QEMU `ffi::Error`)
+> +#[allow(unused_macros)]
+> +#[macro_export]
+> +macro_rules! err {
+> +    ($msg:expr) =3D> {
+> +        Err(Error::FailedAt($msg.into(), file!(), line!()))
+> +    };
+> +}
+> diff --git a/rust/common/src/ffi.rs b/rust/common/src/ffi.rs
+> new file mode 100644
+> index 0000000000..82818d503a
+> --- /dev/null
+> +++ b/rust/common/src/ffi.rs
+> @@ -0,0 +1,93 @@
+> +//! Bindings to the raw low-level C API commonly provided by QEMU projec=
+ts.
+> +//!
+> +//! Manual bindings to C API availabe when linking QEMU projects.
+
+s/availabe/available/g
+
+> +//! It includes minimal glib allocation functions too, since it's the de=
+fault
+> +//! allocator used by QEMU, and we don't depend on glib-rs crate yet).
+> +//!
+> +//! Higher-level Rust-friendly bindings are provided by different module=
+s.
+> +
+> +use libc::{c_char, c_void, size_t};
+> +
+> +extern "C" {
+> +    pub fn g_malloc0(n_bytes: size_t) -> *mut c_void;
+> +    pub fn g_free(ptr: *mut c_void);
+> +    pub fn g_strndup(str: *const c_char, n: size_t) -> *mut c_char;
+> +}
+
+We can get there from the glib/glib_sys crate:
+https://gtk-rs.org/gtk-rs-core/stable/latest/docs/glib_sys/fn.g_malloc0.htm=
+l
+
+If we only plan on using these 3 I think this approach is fine, but
+something to keep in mind if we use more glib functions.
+
+> +
+> +#[repr(C)]
+> +pub struct QObject(c_void);
+> +
+> +impl ::std::fmt::Debug for QObject {
+> +    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+> +        f.debug_struct(&format!("QObject @ {:?}", self as *const _))
+> +            .finish()
+> +    }
+> +}
+> +
+> +#[repr(C)]
+> +pub struct QNull(c_void);
+> +
+> +impl ::std::fmt::Debug for QNull {
+> +    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+> +        f.debug_struct(&format!("QNull @ {:?}", self as *const _))
+> +            .finish()
+> +    }
+> +}
+> +
+> +#[repr(C)]
+> +pub struct Error(c_void);
+> +
+> +impl ::std::fmt::Debug for Error {
+> +    fn fmt(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+> +        f.debug_struct(&format!("Error @ {:?}", self as *const _))
+> +            .finish()
+> +    }
+> +}
+> +
+> +extern "C" {
+> +    pub fn error_setg_internal(
+> +        errp: *mut *mut Error,
+> +        src: *const c_char,
+> +        line: i32,
+> +        func: *const c_char,
+> +        fmt: *const c_char,
+> +        ...
+> +    );
+> +    pub fn error_get_pretty(err: *const Error) -> *const c_char;
+> +    pub fn error_free(err: *mut Error);
+> +}
+> +
+> +/// Wrap a QMP hanlder.
+
+handler
+
+> +#[macro_export]
+> +macro_rules! qmp {
+> +    // the basic return value variant
+> +    ($e:expr, $errp:ident, $errval:expr) =3D> {{
+> +        assert!(!$errp.is_null());
+> +        unsafe {
+> +            *$errp =3D std::ptr::null_mut();
+> +        }
+> +
+> +        match $e {
+> +            Ok(val) =3D> val,
+> +            Err(err) =3D> unsafe {
+> +                *$errp =3D err.to_qemu_full();
+> +                $errval
+> +            },
+> +        }
+> +    }};
+> +    // the ptr return value variant
+> +    ($e:expr, $errp:ident) =3D> {{
+> +        assert!(!$errp.is_null());
+> +        unsafe {
+> +            *$errp =3D std::ptr::null_mut();
+> +        }
+> +
+> +        match $e {
+> +            Ok(val) =3D> val.to_qemu_full().into(),
+> +            Err(err) =3D> unsafe {
+> +                *$errp =3D err.to_qemu_full();
+> +                std::ptr::null_mut()
+> +            },
+> +        }
+> +    }};
+> +}
+
+It would be a good idea to document why this code is safe
+
+Alistair
+
+> diff --git a/rust/common/src/lib.rs b/rust/common/src/lib.rs
+> new file mode 100644
+> index 0000000000..4de826bc2e
+> --- /dev/null
+> +++ b/rust/common/src/lib.rs
+> @@ -0,0 +1,21 @@
+> +//! Common code for QEMU
+> +//!
+> +//! This crates provides common bindings and facilities for QEMU C API s=
+hared by
+> +//! various projects. Most importantly, it defines the conversion traits=
+ used to
+> +//! convert from C to Rust types. Those traits are largely adapted from =
+glib-rs,
+> +//! since those have prooven to be very flexible, and should guide us to=
+ bind
+> +//! further QEMU types such as QOM. If glib-rs becomes a dependency, we =
+should
+> +//! consider adopting glib translate traits. For QAPI, we need a smaller=
+ subset.
+> +
+> +pub use libc;
+> +
+> +mod error;
+> +pub use error::*;
+> +
+> +mod qemu;
+> +pub use qemu::*;
+> +
+> +mod translate;
+> +pub use translate::*;
+> +
+> +pub mod ffi;
+> diff --git a/rust/common/src/qemu.rs b/rust/common/src/qemu.rs
+> new file mode 100644
+> index 0000000000..dd01c6d92d
+> --- /dev/null
+> +++ b/rust/common/src/qemu.rs
+> @@ -0,0 +1,101 @@
+> +use std::{ffi::CStr, ptr, str};
+> +
+> +use crate::{ffi, translate};
+> +use translate::{FromQemuPtrFull, FromQemuPtrNone, QemuPtrDefault, Stash,=
+ ToQemuPtr};
+> +
+> +/// A type representing an owned C QEMU Error.
+> +pub struct CError(ptr::NonNull<ffi::Error>);
+> +
+> +impl translate::FromQemuPtrFull<*mut ffi::Error> for CError {
+> +    unsafe fn from_qemu_full(ptr: *mut ffi::Error) -> Self {
+> +        assert!(!ptr.is_null());
+> +        Self(ptr::NonNull::new_unchecked(ptr))
+> +    }
+> +}
+> +
+> +impl CError {
+> +    pub fn pretty(&self) -> &str {
+> +        unsafe {
+> +            let pretty =3D ffi::error_get_pretty(self.0.as_ptr());
+> +            let bytes =3D CStr::from_ptr(pretty).to_bytes();
+> +            str::from_utf8(bytes)
+> +                .unwrap_or_else(|err| str::from_utf8(&bytes[..err.valid_=
+up_to()]).unwrap())
+> +        }
+> +    }
+> +}
+> +
+> +impl Drop for CError {
+> +    fn drop(&mut self) {
+> +        unsafe { ffi::error_free(self.0.as_ptr()) }
+> +    }
+> +}
+> +
+> +/// QObject (JSON object)
+> +#[derive(Clone, Debug)]
+> +pub struct QObject;
+> +
+> +impl QemuPtrDefault for QObject {
+> +    type QemuType =3D *mut ffi::QObject;
+> +}
+> +
+> +impl FromQemuPtrFull<*mut ffi::QObject> for QObject {
+> +    #[inline]
+> +    unsafe fn from_qemu_full(_ffi: *mut ffi::QObject) -> Self {
+> +        unimplemented!()
+> +    }
+> +}
+> +
+> +impl FromQemuPtrNone<*const ffi::QObject> for QObject {
+> +    #[inline]
+> +    unsafe fn from_qemu_none(_ffi: *const ffi::QObject) -> Self {
+> +        unimplemented!()
+> +    }
+> +}
+> +
+> +impl<'a> ToQemuPtr<'a, *mut ffi::QObject> for QObject {
+> +    type Storage =3D ();
+> +
+> +    #[inline]
+> +    fn to_qemu_none(&self) -> Stash<'a, *mut ffi::QObject, QObject> {
+> +        unimplemented!()
+> +    }
+> +    #[inline]
+> +    fn to_qemu_full(&self) -> *mut ffi::QObject {
+> +        unimplemented!()
+> +    }
+> +}
+> +
+> +/// QNull (JSON null)
+> +#[derive(Clone, Debug)]
+> +pub struct QNull;
+> +
+> +impl QemuPtrDefault for QNull {
+> +    type QemuType =3D *mut ffi::QNull;
+> +}
+> +
+> +impl FromQemuPtrFull<*mut ffi::QObject> for QNull {
+> +    #[inline]
+> +    unsafe fn from_qemu_full(_ffi: *mut ffi::QObject) -> Self {
+> +        unimplemented!()
+> +    }
+> +}
+> +
+> +impl FromQemuPtrNone<*const ffi::QObject> for QNull {
+> +    #[inline]
+> +    unsafe fn from_qemu_none(_ffi: *const ffi::QObject) -> Self {
+> +        unimplemented!()
+> +    }
+> +}
+> +
+> +impl<'a> ToQemuPtr<'a, *mut ffi::QNull> for QNull {
+> +    type Storage =3D ();
+> +
+> +    #[inline]
+> +    fn to_qemu_none(&self) -> Stash<'a, *mut ffi::QNull, QNull> {
+> +        unimplemented!()
+> +    }
+> +    #[inline]
+> +    fn to_qemu_full(&self) -> *mut ffi::QNull {
+> +        unimplemented!()
+> +    }
+> +}
+> diff --git a/rust/common/src/qmp.rs b/rust/common/src/qmp.rs
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/rust/common/src/translate.rs b/rust/common/src/translate.rs
+> new file mode 100644
+> index 0000000000..315e14fa25
+> --- /dev/null
+> +++ b/rust/common/src/translate.rs
+> @@ -0,0 +1,482 @@
+> +// largely adapted from glib-rs
+> +// we don't depend on glib-rs as this brings a lot more code that we may=
+ not need
+> +// and also because there are issues with the conversion traits for our =
+ffi::*mut.
+> +use libc::{c_char, size_t};
+> +use std::ffi::{CStr, CString};
+> +use std::ptr;
+> +
+> +use crate::ffi;
+> +
+> +/// A pointer.
+> +pub trait Ptr: Copy + 'static {
+> +    fn is_null(&self) -> bool;
+> +    fn from<X>(ptr: *mut X) -> Self;
+> +    fn to<X>(self) -> *mut X;
+> +}
+> +
+> +impl<T: 'static> Ptr for *const T {
+> +    #[inline]
+> +    fn is_null(&self) -> bool {
+> +        (*self).is_null()
+> +    }
+> +
+> +    #[inline]
+> +    fn from<X>(ptr: *mut X) -> *const T {
+> +        ptr as *const T
+> +    }
+> +
+> +    #[inline]
+> +    fn to<X>(self) -> *mut X {
+> +        self as *mut X
+> +    }
+> +}
+> +
+> +impl<T: 'static> Ptr for *mut T {
+> +    #[inline]
+> +    fn is_null(&self) -> bool {
+> +        (*self).is_null()
+> +    }
+> +
+> +    #[inline]
+> +    fn from<X>(ptr: *mut X) -> *mut T {
+> +        ptr as *mut T
+> +    }
+> +
+> +    #[inline]
+> +    fn to<X>(self) -> *mut X {
+> +        self as *mut X
+> +    }
+> +}
+> +
+> +/// Macro to declare a `NewPtr` struct.
+> +///
+> +/// A macro to declare a newtype for pointers, to workaround that *T are=
+ not
+> +/// defined in our binding crates, and allow foreign traits implementati=
+ons.
+> +/// (this is used by qapi-gen bindings)
+> +#[allow(unused_macros)]
+> +#[macro_export]
+> +#[doc(hidden)]
+> +macro_rules! new_ptr {
+> +    () =3D> {
+> +        #[derive(Copy, Clone)]
+> +        pub struct NewPtr<P: Ptr>(pub P);
+> +
+> +        impl<P: Ptr> Ptr for NewPtr<P> {
+> +            #[inline]
+> +            fn is_null(&self) -> bool {
+> +                self.0.is_null()
+> +            }
+> +
+> +            #[inline]
+> +            fn from<X>(ptr: *mut X) -> Self {
+> +                NewPtr(P::from(ptr))
+> +            }
+> +
+> +            #[inline]
+> +            fn to<X>(self) -> *mut X {
+> +                self.0.to()
+> +            }
+> +        }
+> +    };
+> +}
+> +
+> +/// Provides the default pointer type to be used in some container conve=
+rsions.
+> +///
+> +/// It's `*mut c_char` for `String`, `*mut ffi::GuestInfo` for `GuestInf=
+o`...
+> +pub trait QemuPtrDefault {
+> +    type QemuType: Ptr;
+> +}
+> +
+> +impl QemuPtrDefault for String {
+> +    type QemuType =3D *mut c_char;
+> +}
+> +
+> +/// A Stash contains the temporary storage and a pointer into it.
+> +///
+> +/// The pointer is valid for the lifetime of the `Stash`. As the lifetim=
+e of the
+> +/// `Stash` returned from `to_qemu_none` is at least the enclosing state=
+ment,
+> +/// you can avoid explicitly binding the stash in most cases and just ta=
+ke the
+> +/// pointer out of it:
+> +///
+> +/// ```ignore
+> +///     pub fn set_device_name(&self, name: &str) {
+> +///         unsafe {
+> +///             ffi::qemu_device_set_name(self.pointer, name.to_qemu_non=
+e().0)
+> +///         }
+> +///     }
+> +/// ```
+> +pub struct Stash<'a, P: Copy, T: ?Sized + ToQemuPtr<'a, P>>(
+> +    pub P,
+> +    pub <T as ToQemuPtr<'a, P>>::Storage,
+> +);
+> +
+> +/// Translate to a pointer.
+> +pub trait ToQemuPtr<'a, P: Copy> {
+> +    type Storage;
+> +
+> +    /// The pointer in the `Stash` is only valid for the lifetime of the=
+ `Stash`.
+> +    fn to_qemu_none(&'a self) -> Stash<'a, P, Self>;
+> +
+> +    /// Transfer the ownership to the ffi.
+> +    fn to_qemu_full(&self) -> P {
+> +        unimplemented!();
+> +    }
+> +}
+> +
+> +impl<'a, P: Ptr, T: ToQemuPtr<'a, P>> ToQemuPtr<'a, P> for Option<T> {
+> +    type Storage =3D Option<<T as ToQemuPtr<'a, P>>::Storage>;
+> +
+> +    #[inline]
+> +    fn to_qemu_none(&'a self) -> Stash<'a, P, Option<T>> {
+> +        self.as_ref()
+> +            .map_or(Stash(Ptr::from::<()>(ptr::null_mut()), None), |s| {
+> +                let s =3D s.to_qemu_none();
+> +                Stash(s.0, Some(s.1))
+> +            })
+> +    }
+> +
+> +    #[inline]
+> +    fn to_qemu_full(&self) -> P {
+> +        self.as_ref()
+> +            .map_or(Ptr::from::<()>(ptr::null_mut()), ToQemuPtr::to_qemu=
+_full)
+> +    }
+> +}
+> +
+> +impl<'a, P: Ptr, T: ToQemuPtr<'a, P>> ToQemuPtr<'a, P> for Box<T> {
+> +    type Storage =3D <T as ToQemuPtr<'a, P>>::Storage;
+> +
+> +    #[inline]
+> +    fn to_qemu_none(&'a self) -> Stash<'a, P, Box<T>> {
+> +        let s =3D self.as_ref().to_qemu_none();
+> +        Stash(s.0, s.1)
+> +    }
+> +
+> +    #[inline]
+> +    fn to_qemu_full(&self) -> P {
+> +        ToQemuPtr::to_qemu_full(self.as_ref())
+> +    }
+> +}
+> +
+> +impl<'a> ToQemuPtr<'a, *mut c_char> for String {
+> +    type Storage =3D CString;
+> +
+> +    #[inline]
+> +    fn to_qemu_none(&self) -> Stash<'a, *mut c_char, String> {
+> +        let tmp =3D CString::new(&self[..])
+> +            .expect("String::ToQemuPtr<*mut c_char>: unexpected '\0' cha=
+racter");
+> +        Stash(tmp.as_ptr() as *mut c_char, tmp)
+> +    }
+> +
+> +    #[inline]
+> +    fn to_qemu_full(&self) -> *mut c_char {
+> +        unsafe { ffi::g_strndup(self.as_ptr() as *const c_char, self.len=
+() as size_t) }
+> +    }
+> +}
+> +
+> +/// Translate from a pointer type, without taking ownership.
+> +pub trait FromQemuPtrNone<P: Ptr>: Sized {
+> +    /// # Safety
+> +    ///
+> +    /// `ptr` must be a valid pointer. It is not referenced after the ca=
+ll.
+> +    unsafe fn from_qemu_none(ptr: P) -> Self;
+> +}
+> +
+> +/// Translate from a pointer type, taking ownership.
+> +pub trait FromQemuPtrFull<P: Ptr>: Sized {
+> +    /// # Safety
+> +    ///
+> +    /// `ptr` must be a valid pointer. Ownership is transferred.
+> +    unsafe fn from_qemu_full(ptr: P) -> Self;
+> +}
+> +
+> +/// See [`FromQemuPtrNone`](trait.FromQemuPtrNone.html).
+> +#[inline]
+> +#[allow(clippy::missing_safety_doc)]
+> +pub unsafe fn from_qemu_none<P: Ptr, T: FromQemuPtrNone<P>>(ptr: P) -> T=
+ {
+> +    FromQemuPtrNone::from_qemu_none(ptr)
+> +}
+> +
+> +/// See [`FromQemuPtrFull`](trait.FromQemuPtrFull.html).
+> +#[inline]
+> +#[allow(clippy::missing_safety_doc)]
+> +pub unsafe fn from_qemu_full<P: Ptr, T: FromQemuPtrFull<P>>(ptr: P) -> T=
+ {
+> +    FromQemuPtrFull::from_qemu_full(ptr)
+> +}
+> +
+> +impl<P: Ptr, T: FromQemuPtrNone<P>> FromQemuPtrNone<P> for Option<T> {
+> +    #[inline]
+> +    unsafe fn from_qemu_none(ptr: P) -> Option<T> {
+> +        if ptr.is_null() {
+> +            None
+> +        } else {
+> +            Some(from_qemu_none(ptr))
+> +        }
+> +    }
+> +}
+> +
+> +impl<P: Ptr, T: FromQemuPtrFull<P>> FromQemuPtrFull<P> for Option<T> {
+> +    #[inline]
+> +    unsafe fn from_qemu_full(ptr: P) -> Option<T> {
+> +        if ptr.is_null() {
+> +            None
+> +        } else {
+> +            Some(from_qemu_full(ptr))
+> +        }
+> +    }
+> +}
+> +
+> +impl FromQemuPtrNone<*const c_char> for String {
+> +    #[inline]
+> +    unsafe fn from_qemu_none(ptr: *const c_char) -> Self {
+> +        assert!(!ptr.is_null());
+> +        String::from_utf8_lossy(CStr::from_ptr(ptr).to_bytes()).into_own=
+ed()
+> +    }
+> +}
+> +
+> +impl FromQemuPtrFull<*mut c_char> for String {
+> +    #[inline]
+> +    unsafe fn from_qemu_full(ptr: *mut c_char) -> Self {
+> +        let res =3D from_qemu_none(ptr as *const _);
+> +        ffi::g_free(ptr as *mut _);
+> +        res
+> +    }
+> +}
+> +
+> +#[doc(hidden)]
+> +#[allow(unused_macros)]
+> +#[macro_export]
+> +macro_rules! vec_ffi_wrapper {
+> +    ($ffi:ident) =3D> {
+> +        #[allow(non_camel_case_types)]
+> +        pub struct $ffi(*mut qapi_ffi::$ffi);
+> +
+> +        impl Drop for $ffi {
+> +            fn drop(&mut self) {
+> +                let mut list =3D self.0;
+> +                unsafe {
+> +                    while !list.is_null() {
+> +                        let next =3D (*list).next;
+> +                        Box::from_raw(list);
+> +                        list =3D next;
+> +                    }
+> +                }
+> +            }
+> +        }
+> +
+> +        impl From<NewPtr<*mut qapi_ffi::$ffi>> for *mut qapi_ffi::$ffi {
+> +            fn from(p: NewPtr<*mut qapi_ffi::$ffi>) -> Self {
+> +                p.0
+> +            }
+> +        }
+> +    };
+> +}
+> +
+> +#[doc(hidden)]
+> +#[allow(unused_macros)]
+> +#[macro_export]
+> +macro_rules! impl_vec_scalars_to_qemu {
+> +    ($rs:ty, $ffi:ident) =3D> {
+> +        impl<'a> ToQemuPtr<'a, NewPtr<*mut qapi_ffi::$ffi>> for Vec<$rs>=
+ {
+> +            type Storage =3D $ffi;
+> +
+> +            #[inline]
+> +            fn to_qemu_none(&self) -> Stash<NewPtr<*mut qapi_ffi::$ffi>,=
+ Self> {
+> +                let mut list: *mut qapi_ffi::$ffi =3D std::ptr::null_mut=
+();
+> +                for value in self.iter().rev() {
+> +                    let b =3D Box::new(qapi_ffi::$ffi {
+> +                        next: list,
+> +                        value: *value,
+> +                    });
+> +                    list =3D Box::into_raw(b);
+> +                }
+> +                Stash(NewPtr(list), $ffi(list))
+> +            }
+> +
+> +            #[inline]
+> +            fn to_qemu_full(&self) -> NewPtr<*mut qapi_ffi::$ffi> {
+> +                let mut list: *mut qapi_ffi::$ffi =3D std::ptr::null_mut=
+();
+> +                unsafe {
+> +                    for value in self.iter().rev() {
+> +                        let l =3D ffi::g_malloc0(std::mem::size_of::<qap=
+i_ffi::$ffi>())
+> +                            as *mut qapi_ffi::$ffi;
+> +                        (*l).next =3D list;
+> +                        (*l).value =3D *value;
+> +                        list =3D l;
+> +                    }
+> +                }
+> +                NewPtr(list)
+> +            }
+> +        }
+> +    };
+> +}
+> +
+> +#[doc(hidden)]
+> +#[allow(unused_macros)]
+> +#[macro_export]
+> +macro_rules! impl_vec_scalars_from_qemu {
+> +    ($rs:ty, $ffi:ident, $free_ffi:ident) =3D> {
+> +        impl FromQemuPtrFull<NewPtr<*mut qapi_ffi::$ffi>> for Vec<$rs> {
+> +            #[inline]
+> +            unsafe fn from_qemu_full(ffi: NewPtr<*mut qapi_ffi::$ffi>) -=
+> Self {
+> +                let ret =3D from_qemu_none(NewPtr(ffi.0 as *const _));
+> +                qapi_ffi::$free_ffi(ffi.0);
+> +                ret
+> +            }
+> +        }
+> +
+> +        impl FromQemuPtrNone<NewPtr<*const qapi_ffi::$ffi>> for Vec<$rs>=
+ {
+> +            #[inline]
+> +            unsafe fn from_qemu_none(ffi: NewPtr<*const qapi_ffi::$ffi>)=
+ -> Self {
+> +                let mut ret =3D vec![];
+> +                let mut it =3D ffi.0;
+> +                while !it.is_null() {
+> +                    let e =3D &*it;
+> +                    ret.push(e.value);
+> +                    it =3D e.next;
+> +                }
+> +                ret
+> +            }
+> +        }
+> +    };
+> +}
+> +
+> +#[doc(hidden)]
+> +#[allow(unused_macros)]
+> +#[macro_export]
+> +macro_rules! impl_vec_to_qemu {
+> +    ($rs:ty, $ffi:ident) =3D> {
+> +        // impl doesn't use only types from inside the current crate
+> +        // impl QemuPtrDefault for Vec<$rs> {
+> +        //     type QemuType =3D NewPtr<*mut qapi_ffi::$ffi>;
+> +        // }
+> +
+> +        impl<'a> ToQemuPtr<'a, NewPtr<*mut qapi_ffi::$ffi>> for Vec<$rs>=
+ {
+> +            type Storage =3D ($ffi, Vec<Stash<'a, <$rs as QemuPtrDefault=
+>::QemuType, $rs>>);
+> +
+> +            #[inline]
+> +            fn to_qemu_none(&self) -> Stash<NewPtr<*mut qapi_ffi::$ffi>,=
+ Self> {
+> +                let stash_vec: Vec<_> =3D self.iter().rev().map(ToQemuPt=
+r::to_qemu_none).collect();
+> +                let mut list: *mut qapi_ffi::$ffi =3D std::ptr::null_mut=
+();
+> +                for stash in &stash_vec {
+> +                    let b =3D Box::new(qapi_ffi::$ffi {
+> +                        next: list,
+> +                        value: Ptr::to(stash.0),
+> +                    });
+> +                    list =3D Box::into_raw(b);
+> +                }
+> +                Stash(NewPtr(list), ($ffi(list), stash_vec))
+> +            }
+> +
+> +            #[inline]
+> +            fn to_qemu_full(&self) -> NewPtr<*mut qapi_ffi::$ffi> {
+> +                let v: Vec<_> =3D self.iter().rev().map(ToQemuPtr::to_qe=
+mu_full).collect();
+> +                let mut list: *mut qapi_ffi::$ffi =3D std::ptr::null_mut=
+();
+> +                unsafe {
+> +                    for val in v {
+> +                        let l =3D ffi::g_malloc0(std::mem::size_of::<qap=
+i_ffi::$ffi>())
+> +                            as *mut qapi_ffi::$ffi;
+> +                        (*l).next =3D list;
+> +                        (*l).value =3D val;
+> +                        list =3D l;
+> +                    }
+> +                }
+> +                NewPtr(list)
+> +            }
+> +        }
+> +    };
+> +}
+> +
+> +#[doc(hidden)]
+> +#[allow(unused_macros)]
+> +#[macro_export]
+> +macro_rules! impl_vec_from_qemu {
+> +    ($rs:ty, $ffi:ident, $free_ffi:ident) =3D> {
+> +        impl FromQemuPtrFull<NewPtr<*mut qapi_ffi::$ffi>> for Vec<$rs> {
+> +            #[inline]
+> +            unsafe fn from_qemu_full(ffi: NewPtr<*mut qapi_ffi::$ffi>) -=
+> Self {
+> +                let ret =3D from_qemu_none(NewPtr(ffi.0 as *const _));
+> +                qapi_ffi::$free_ffi(ffi.0);
+> +                ret
+> +            }
+> +        }
+> +
+> +        impl FromQemuPtrNone<NewPtr<*const qapi_ffi::$ffi>> for Vec<$rs>=
+ {
+> +            #[inline]
+> +            unsafe fn from_qemu_none(ffi: NewPtr<*const qapi_ffi::$ffi>)=
+ -> Self {
+> +                let mut ret =3D vec![];
+> +                let mut it =3D ffi.0;
+> +                while !it.is_null() {
+> +                    let e =3D &*it;
+> +                    ret.push(from_qemu_none(e.value as *const _));
+> +                    it =3D e.next;
+> +                }
+> +                ret
+> +            }
+> +        }
+> +    };
+> +}
+> +
+> +/// A macro to help the implementation of `Vec<T>` translations.
+> +#[allow(unused_macros)]
+> +#[macro_export]
+> +macro_rules! vec_type {
+> +    (Vec<$rs:ty>, $ffi:ident, $free_ffi:ident, 0) =3D> {
+> +        vec_ffi_wrapper!($ffi);
+> +        impl_vec_from_qemu!($rs, $ffi, $free_ffi);
+> +        impl_vec_to_qemu!($rs, $ffi);
+> +    };
+> +    (Vec<$rs:ty>, $ffi:ident, $free_ffi:ident, 1) =3D> {
+> +        vec_ffi_wrapper!($ffi);
+> +        impl_vec_scalars_from_qemu!($rs, $ffi, $free_ffi);
+> +        impl_vec_scalars_to_qemu!($rs, $ffi);
+> +    };
+> +}
+> +
+> +/// A macro to implement [`ToQemuPtr`] as boxed scalars
+> +#[allow(unused_macros)]
+> +#[macro_export]
+> +macro_rules! impl_to_qemu_scalar_boxed {
+> +    ($ty:ty) =3D> {
+> +        impl<'a> ToQemuPtr<'a, *mut $ty> for $ty {
+> +            type Storage =3D Box<$ty>;
+> +
+> +            fn to_qemu_none(&'a self) -> Stash<'a, *mut $ty, Self> {
+> +                let mut box_ =3D Box::new(*self);
+> +                Stash(&mut *box_, box_)
+> +            }
+> +
+> +            fn to_qemu_full(&self) -> *mut $ty {
+> +                unsafe {
+> +                    let ptr =3D ffi::g_malloc0(std::mem::size_of::<$ty>(=
+)) as *mut _;
+> +                    *ptr =3D *self;
+> +                    ptr
+> +                }
+> +            }
+> +        }
+> +    };
+> +}
+> +
+> +/// A macro to implement [`FromQemuPtrNone`] for scalar pointers.
+> +#[allow(unused_macros)]
+> +#[macro_export]
+> +macro_rules! impl_from_qemu_none_scalar {
+> +    ($ty:ty) =3D> {
+> +        impl FromQemuPtrNone<*const $ty> for $ty {
+> +            unsafe fn from_qemu_none(ptr: *const $ty) -> Self {
+> +                *ptr
+> +            }
+> +        }
+> +    };
+> +}
+> +
+> +macro_rules! impl_scalar_boxed {
+> +    ($($t:ident)*) =3D> (
+> +        $(
+> +            impl_to_qemu_scalar_boxed!($t);
+> +            impl_from_qemu_none_scalar!($t);
+> +        )*
+> +    )
+> +}
+> +
+> +// the only built-in used so far, feel free to add more as needed
+> +impl_scalar_boxed!(bool i64 f64);
+> --
+> 2.33.0.113.g6c40894d24
+>
+>
 
