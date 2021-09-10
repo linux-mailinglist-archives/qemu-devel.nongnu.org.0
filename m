@@ -2,90 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98334406C79
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 14:50:42 +0200 (CEST)
-Received: from localhost ([::1]:49134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6BF4406C81
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 14:52:29 +0200 (CEST)
+Received: from localhost ([::1]:52878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOfzN-0000by-M4
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 08:50:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36894)
+	id 1mOg16-0003CA-Pl
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 08:52:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mOfqE-00086h-Nb
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 08:41:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42312)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mOfud-0005ZE-I4
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 08:45:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mOfqD-00030G-4B
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 08:41:14 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mOfuV-0005uo-1q
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 08:45:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631277672;
+ s=mimecast20190719; t=1631277938;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9JkwruSYspwJ9bIGEGe2AvtEenoGDxZOAlo838cS2xY=;
- b=XCSATKY+5I0w2nAwBSqIrq2/sy9gtD13aWWM21RwBbA0fjE0ttVpYwAizo6y5fi+OC7Yt0
- T8NEsg4r9bFcaN2K6R+De57khvq6/k9n+QFsBEyapp3NlWVM75rzYuHDXR3B8BFoZCUyTU
- 1a/Gfx7JDuiT/WVY8KKWVN1jQIr9mTY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-LXwYw5C8P4ywbRyg2Qquyw-1; Fri, 10 Sep 2021 08:41:11 -0400
-X-MC-Unique: LXwYw5C8P4ywbRyg2Qquyw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- g18-20020a1c4e12000000b002fa970d2d8dso590891wmh.0
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 05:41:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9JkwruSYspwJ9bIGEGe2AvtEenoGDxZOAlo838cS2xY=;
- b=t8XuWkZbfFAKZvZWw/63qLHpc4RIetsDySu9RyRr/I8sSGw1QVUR3DrayJn4XiDH8y
- ySDVNOgXt7tID/oIVwRyemBCGTYlhWvrpx/S8q9HgX+kvVCK8cQzUWZGTZBswkw9JpQ3
- O9/Ff2Hhn76IUteTlQJVhYgCmM10ggngyDxu/TENkVEKGZiFd8Amu0PqR7J7VUS4SFP8
- Amn4mRimkVo4N5S+tkbQZYMBLCCiQiOarsaVoqkCV4g6iajGhd+XorIyD+9ZS8ZCvidS
- lIICNoXIqfcxN6HT+Sn0IdOhjE5ZIC21puK/j5zM3tqe4ShK1KQ02ceubBQA6JAWQmch
- g9IA==
-X-Gm-Message-State: AOAM530KoaIXSbdg/KTUSdePKeB/CStM1SJiL/dXWKFVk37o/pOdDlNt
- vhQdC23OYgzuQQ1yYiFkx6HZaWcp0x4dM69WPzbYaXBAhIDF820UtykMDyPqJLm0JLoR9zbd6iu
- nekIpkMm0ik/ZnGk=
-X-Received: by 2002:a5d:404e:: with SMTP id w14mr9243566wrp.391.1631277670007; 
- Fri, 10 Sep 2021 05:41:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyeVqTh2Ep8+PoIKh+yrHd/5HeDCi6rBY+LXCS7eRw85RLwKzHXhSNZO0MBNBhdseJ8+QcEmw==
-X-Received: by 2002:a5d:404e:: with SMTP id w14mr9243542wrp.391.1631277669805; 
- Fri, 10 Sep 2021 05:41:09 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id k16sm4550816wrx.87.2021.09.10.05.41.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Sep 2021 05:41:09 -0700 (PDT)
-Subject: Re: [PATCH v2 2/3] qmp: Add the qmp_query_sgx_capabilities()
-To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
-References: <20210910102258.46648-1-yang.zhong@intel.com>
- <20210910102258.46648-3-yang.zhong@intel.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <fc329a6b-117c-2f83-986b-e94312af7dce@redhat.com>
-Date: Fri, 10 Sep 2021 14:41:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=q0t4y1kjGvTzUJk83OAGHrbqrh4KcuCDe1EnxxomxPk=;
+ b=G4AuzBneHLFeD00cJZjOmZ9iX+7BmjCLJihUpuGcPN4XZE/W2UN1PzuGMDDGcKpzBLQSNA
+ YoR9qG9Yl+5jS4yhzR4oeg8GRuqeU7hInx1T4F7s5PugouXgSXwAB9PRAbw901+Teka3G4
+ oY0r+FU/tGhXpL9hfUHzied3mQ6XuFE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14-P17O3UXoOu-iRtaFt1s7Wg-1; Fri, 10 Sep 2021 08:45:37 -0400
+X-MC-Unique: P17O3UXoOu-iRtaFt1s7Wg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E00A9126B;
+ Fri, 10 Sep 2021 12:45:36 +0000 (UTC)
+Received: from steredhat.redhat.com (unknown [10.39.193.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8EC3E60C82;
+ Fri, 10 Sep 2021 12:45:34 +0000 (UTC)
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] block/mirror: fix NULL pointer dereference in
+ mirror_wait_on_conflicts()
+Date: Fri, 10 Sep 2021 14:45:33 +0200
+Message-Id: <20210910124533.288318-1-sgarzare@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210910102258.46648-3-yang.zhong@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,101 +76,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, eblake@redhat.com, seanjc@google.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/10/21 12:22 PM, Yang Zhong wrote:
-> Libvirt can use qmp_query_sgx_capabilities() to get the host
-> sgx capabilities to decide how to allocate SGX EPC size to VM.
-> 
-> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> ---
->  hw/i386/sgx.c              | 66 ++++++++++++++++++++++++++++++++++++++
->  include/hw/i386/sgx.h      |  1 +
->  qapi/misc-target.json      | 18 +++++++++++
->  target/i386/monitor.c      |  5 +++
->  tests/qtest/qmp-cmd-test.c |  1 +
->  5 files changed, 91 insertions(+)
-> 
-> diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
-> index 8a32d62d7e..1be2670c84 100644
-> --- a/hw/i386/sgx.c
-> +++ b/hw/i386/sgx.c
-> @@ -18,6 +18,72 @@
->  #include "qapi/error.h"
->  #include "exec/address-spaces.h"
->  #include "hw/i386/sgx.h"
-> +#include "sysemu/hw_accel.h"
-> +
-> +#define SGX_MAX_EPC_SECTIONS            8
-> +#define SGX_CPUID_EPC_INVALID           0x0
-> +
-> +/* A valid EPC section. */
-> +#define SGX_CPUID_EPC_SECTION           0x1
-> +#define SGX_CPUID_EPC_MASK              0xF
-> +
-> +static uint64_t sgx_calc_section_metric(uint64_t low, uint64_t high)
-> +{
-> +    return (low & MAKE_64BIT_MASK(12, 31 - 12 + 1)) +
-> +           ((high & MAKE_64BIT_MASK(0, 19 - 0 + 1)) << 32);
+In mirror_iteration() we call mirror_wait_on_conflicts() with
+`self` parameter set to NULL.
 
-Thanks for using MAKE_64BIT_MASK.
+Starting from commit d44dae1a7c we dereference `self` pointer in
+mirror_wait_on_conflicts() without checks if it is not NULL.
 
-Can we have #definitions instead of these magic values please?
+Backtrace:
+  Program terminated with signal SIGSEGV, Segmentation fault.
+  #0  mirror_wait_on_conflicts (self=0x0, s=<optimized out>, offset=<optimized out>, bytes=<optimized out>)
+      at ../block/mirror.c:172
+  172	                self->waiting_for_op = op;
+  [Current thread is 1 (Thread 0x7f0908931ec0 (LWP 380249))]
+  (gdb) bt
+  #0  mirror_wait_on_conflicts (self=0x0, s=<optimized out>, offset=<optimized out>, bytes=<optimized out>)
+      at ../block/mirror.c:172
+  #1  0x00005610c5d9d631 in mirror_run (job=0x5610c76a2c00, errp=<optimized out>) at ../block/mirror.c:491
+  #2  0x00005610c5d58726 in job_co_entry (opaque=0x5610c76a2c00) at ../job.c:917
+  #3  0x00005610c5f046c6 in coroutine_trampoline (i0=<optimized out>, i1=<optimized out>)
+      at ../util/coroutine-ucontext.c:173
+  #4  0x00007f0909975820 in ?? () at ../sysdeps/unix/sysv/linux/x86_64/__start_context.S:91
+      from /usr/lib64/libc.so.6
 
-> +}
-> +
-> +static uint64_t sgx_calc_host_epc_section_size(void)
-> +{
-> +    uint32_t i, type;
-> +    uint32_t eax, ebx, ecx, edx;
-> +    uint64_t size = 0;
-> +
-> +    for (i = 0; i < SGX_MAX_EPC_SECTIONS; i++) {
-> +        host_cpuid(0x12, i + 2, &eax, &ebx, &ecx, &edx);
-> +
-> +        type = eax & SGX_CPUID_EPC_MASK;
-> +        if (type == SGX_CPUID_EPC_INVALID) {
-> +            break;
-> +        }
-> +
-> +        if (type != SGX_CPUID_EPC_SECTION) {
-> +            break;
-> +        }
-> +
-> +        size += sgx_calc_section_metric(ecx, edx);
-> +    }
-> +
-> +    return size;
-> +}
-> +
-> +SGXInfo *sgx_get_capabilities(Error **errp)
-> +{
-> +    SGXInfo *info = NULL;
-> +    uint32_t eax, ebx, ecx, edx;
-> +
-> +    int fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
-> +    if (fd < 0) {
-> +        error_setg(errp, "SGX is not enabled in KVM");
-> +        return NULL;
-> +    }
-> +
-> +    info = g_new0(SGXInfo, 1);
-> +    host_cpuid(0x7, 0, &eax, &ebx, &ecx, &edx);
-> +
-> +    info->sgx = ebx & (1U << 2) ? true : false;
-> +    info->flc = ecx & (1U << 30) ? true : false;
-> +
-> +    host_cpuid(0x12, 0, &eax, &ebx, &ecx, &edx);
-> +    info->sgx1 = eax & (1U << 0) ? true : false;
-> +    info->sgx2 = eax & (1U << 1) ? true : false;
-> +
-> +    info->section_size = sgx_calc_host_epc_section_size();
-> +
-> +    close(fd);
-> +
-> +    return info;
-> +}
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2001404
+Fixes: d44dae1a7c ("block/mirror: fix active mirror dead-lock in mirror_wait_on_conflicts")
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+---
+v2:
+- moved "if (op->waiting_for_op) {continue;}" code into "if (self)" too.
+  [Vladimir]
+---
+ block/mirror.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
+
+diff --git a/block/mirror.c b/block/mirror.c
+index 98fc66eabf..85b781bc21 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -160,18 +160,25 @@ static void coroutine_fn mirror_wait_on_conflicts(MirrorOp *self,
+             if (ranges_overlap(self_start_chunk, self_nb_chunks,
+                                op_start_chunk, op_nb_chunks))
+             {
+-                /*
+-                 * If the operation is already (indirectly) waiting for us, or
+-                 * will wait for us as soon as it wakes up, then just go on
+-                 * (instead of producing a deadlock in the former case).
+-                 */
+-                if (op->waiting_for_op) {
+-                    continue;
++                if (self) {
++                    /*
++                     * If the operation is already (indirectly) waiting for us,
++                     * or will wait for us as soon as it wakes up, then just go
++                     * on (instead of producing a deadlock in the former case).
++                     */
++                    if (op->waiting_for_op) {
++                        continue;
++                    }
++
++                    self->waiting_for_op = op;
+                 }
+ 
+-                self->waiting_for_op = op;
+                 qemu_co_queue_wait(&op->waiting_requests, NULL);
+-                self->waiting_for_op = NULL;
++
++                if (self) {
++                    self->waiting_for_op = NULL;
++                }
++
+                 break;
+             }
+         }
+-- 
+2.31.1
 
 
