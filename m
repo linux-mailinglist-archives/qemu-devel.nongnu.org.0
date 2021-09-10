@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC12406DC2
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 16:49:35 +0200 (CEST)
-Received: from localhost ([::1]:48086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B829D406DC3
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 16:50:50 +0200 (CEST)
+Received: from localhost ([::1]:50868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOhqQ-0007YF-4M
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 10:49:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44614)
+	id 1mOhrd-0000zN-P2
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 10:50:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1mOhhF-0002JD-5P
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:40:05 -0400
-Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:43701)
+ id 1mOhhH-0002Sm-SU
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:40:07 -0400
+Received: from mail-qv1-xf31.google.com ([2607:f8b0:4864:20::f31]:36829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1mOhh9-0002xs-Vy
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:40:04 -0400
-Received: by mail-qk1-x729.google.com with SMTP id ay33so2138879qkb.10
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 07:39:59 -0700 (PDT)
+ id 1mOhhB-0002yz-5N
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:40:07 -0400
+Received: by mail-qv1-xf31.google.com with SMTP id 4so1380384qvp.3
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 07:40:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kCylM2PJxf6V961yTwfP1rpV65wzYK9sB+B03vYoel8=;
- b=kSpjbkC31bkfre1vCjVYBRbqF13eumlTHhjS056hWRPpxjTE0fIdqBaRWkdvOpZLh7
- LHQrgCZd37q0lLERJZA5ah50qMqT/WcdRYHdIEqqBuZK9P2s74vl+f6808ZZmqxqDTdu
- b5Z++7yQWSc3Jpw4uY0m9h0v17L7GJoRoFNELpF7WoPKBmF5UrCq1GMQ2bRR8ezbDP9d
- t3cOE8wUjHknkyNrFAETBNNiUs44beWYgFj0jHjEt+DIwrq8IxRjx51m2zKvVELKx1bY
- xNdVdgHi3szCaelglT2qHs+QAXAqaKF9rc7LADo4oobzsJjxW27a5xSIqXUYugA+G3gT
- yCNg==
+ bh=Zlb0HsQWoS5ea9vumF8XRLzz0YZw6JIfSm47fIH9pT0=;
+ b=PqH1L7kmhN+vYlpaWydP0BCZapqUY5JUCoBo2w1V0YAxBGUOoyISoS8cGjYwTROmwg
+ xm40aMxnjpTMXh+P2h8Qbe96qTtRA+vyaIfx8O73FNV/m4Mj19XDYw31rit5+hD1aaHo
+ eBzKmwjJI+dAr5vBz4CZZXgYjq5svlAXBFQqqqV8zjBtGTAIGVw4pq79odDOx4VzUz5I
+ u8wDbwxmqwGu2X9BtPw05Jgv4t165AXdBYLDj61vuJyg7uvMJR4fXw8peWLYiZdhzMvX
+ 9DyxU2l+KTnO+Fv41x63iWhx5hC8Jz7OjuwuSua/e6doUzN8eSCAAwHWoa1mg/K+AnB9
+ QZMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kCylM2PJxf6V961yTwfP1rpV65wzYK9sB+B03vYoel8=;
- b=EWO7Q21KT+GZEvJFVs+Ex+0bFiy8Gn4AuGY19IgtT0nr5CB0ImQGerJ9KmNE6dZ5Mk
- YSst4c1gMHR235nyyR/RbSc5i8bZ0gyBQZTLadhL8mSdgfGlnVIuWTdSpm7MSQdEeFm4
- nCTt6FBo34LiAl7LX6RK/wVCSejHeq3nhADk9nXEtFcSPcYChXLrKTwEHr6Vcgxo7VH4
- dNYVCQ2r0p/Kx9RYG9/ZgelItmV5AlN4pWkrPDfnZ1fYy5y/x712EwB51FyuiwFTB7do
- pbHZ2qUSoWD6jE7ZIM1ZBIkGcQsR0QAMYHdMR4DzuMRRzCKK0grYi56OdR//1WtP2VgI
- PbyA==
-X-Gm-Message-State: AOAM531GTtIlob8LxGQGuIdtIldaa9v3i5Ag2t9c34ujerUMCvXPMgBJ
- YFmGBnkKX5OctggE2xSQh/V3Xg==
-X-Google-Smtp-Source: ABdhPJzsD5EkctnAIkjvmzuJi6g4JkSKWm56ilnPdY5JTfJPBXCTq1Fxbij14yoyPdi+Wc9Z7bsA9w==
-X-Received: by 2002:a05:620a:b0f:: with SMTP id
- t15mr8094687qkg.352.1631284799143; 
- Fri, 10 Sep 2021 07:39:59 -0700 (PDT)
+ bh=Zlb0HsQWoS5ea9vumF8XRLzz0YZw6JIfSm47fIH9pT0=;
+ b=v8L2PIGk/8bL35cnK9wFlnkBAPkVDD9KU1VkhQgTDZUlGeH3ArN4tTfwRfD6rfqQVP
+ hpxHXyOL/1L5IKEk152qYPWDtGaCZ3Vgp1PniFDMz8ThMvL7nAqrqLfpFd/83QT4Jy1W
+ biA28Yjk9ZebcgszDwNdleI4pe5zm5BI0Be97JX+hdzh6AwWVoFZEssXa++b61HUEy6T
+ 4/3MRqOMHyIDK8z/dInsg59uA/MUm3i2+ibwIc3HXBD+nb9HosAXOfy265UQcQ/oTxwM
+ Em9YovzBr9lzB3zrBUHkpF6/J/YpiMjqIWnDAZvcHhX/9kW/TovfX++AbQ8205LAC9VO
+ nBCg==
+X-Gm-Message-State: AOAM531K3JTsgNoVPIg02BpdCRMWctg7NASbqzGYyXMcp6Mo6Svqhq1O
+ ornNjhE57Aq31txNLuwMdwk7AQ==
+X-Google-Smtp-Source: ABdhPJyV+T9Q+/PxeqywencibOFc5WwEL3kccb7lkNnm59riFg/pqiO10F3h8HVkePUJITiAqUzkcQ==
+X-Received: by 2002:a0c:ef4b:: with SMTP id t11mr8593446qvs.57.1631284800250; 
+ Fri, 10 Sep 2021 07:40:00 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-stsvon1503w-grc-22-142-114-143-47.dsl.bell.ca. [142.114.143.47])
- by smtp.googlemail.com with ESMTPSA id a9sm3827042qkk.82.2021.09.10.07.39.58
+ by smtp.googlemail.com with ESMTPSA id a9sm3827042qkk.82.2021.09.10.07.39.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Sep 2021 07:39:58 -0700 (PDT)
+ Fri, 10 Sep 2021 07:39:59 -0700 (PDT)
 From: Shashi Mallela <shashi.mallela@linaro.org>
 To: peter.maydell@linaro.org, leif@nuviainc.com, rad@semihalf.com,
  mst@redhat.com, imammedo@redhat.com
-Subject: [PATCH v9 7/9] tests/data/acpi/virt: Add IORT files for ITS
-Date: Fri, 10 Sep 2021 10:39:49 -0400
-Message-Id: <20210910143951.92242-8-shashi.mallela@linaro.org>
+Subject: [PATCH v9 8/9] hw/arm/virt: add ITS support in virt GIC
+Date: Fri, 10 Sep 2021 10:39:50 -0400
+Message-Id: <20210910143951.92242-9-shashi.mallela@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210910143951.92242-1-shashi.mallela@linaro.org>
 References: <20210910143951.92242-1-shashi.mallela@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x729.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qv1-xf31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,47 +89,131 @@ Cc: eric.auger@redhat.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added expected IORT files applicable with latest GICv3
-ITS changes.Temporarily differences in these files are
-okay.
+Included creation of ITS as part of virt platform GIC
+initialization. This Emulated ITS model now co-exists with kvm
+ITS and is enabled in absence of kvm irq kernel support in a
+platform.
 
 Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/data/acpi/virt/IORT                   | 0
- tests/data/acpi/virt/IORT.memhp             | 0
- tests/data/acpi/virt/IORT.numamem           | 0
- tests/data/acpi/virt/IORT.pxb               | 0
- tests/qtest/bios-tables-test-allowed-diff.h | 4 ++++
- 5 files changed, 4 insertions(+)
- create mode 100644 tests/data/acpi/virt/IORT
- create mode 100644 tests/data/acpi/virt/IORT.memhp
- create mode 100644 tests/data/acpi/virt/IORT.numamem
- create mode 100644 tests/data/acpi/virt/IORT.pxb
+ hw/arm/virt.c         | 29 +++++++++++++++++++++++++++--
+ include/hw/arm/virt.h |  2 ++
+ target/arm/kvm_arm.h  |  4 ++--
+ 3 files changed, 31 insertions(+), 4 deletions(-)
 
-diff --git a/tests/data/acpi/virt/IORT b/tests/data/acpi/virt/IORT
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/IORT.memhp b/tests/data/acpi/virt/IORT.memhp
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/IORT.numamem b/tests/data/acpi/virt/IORT.numamem
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/IORT.pxb b/tests/data/acpi/virt/IORT.pxb
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..2ef211df59 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,5 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/IORT",
-+"tests/data/acpi/virt/IORT.memhp",
-+"tests/data/acpi/virt/IORT.numamem",
-+"tests/data/acpi/virt/IORT.pxb",
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 73e9c6bb7c..1d59f0e59f 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -584,6 +584,12 @@ static void create_its(VirtMachineState *vms)
+     const char *itsclass = its_class_name();
+     DeviceState *dev;
+ 
++    if (!strcmp(itsclass, "arm-gicv3-its")) {
++        if (!vms->tcg_its) {
++            itsclass = NULL;
++        }
++    }
++
+     if (!itsclass) {
+         /* Do nothing if not supported */
+         return;
+@@ -621,7 +627,7 @@ static void create_v2m(VirtMachineState *vms)
+     vms->msi_controller = VIRT_MSI_CTRL_GICV2M;
+ }
+ 
+-static void create_gic(VirtMachineState *vms)
++static void create_gic(VirtMachineState *vms, MemoryRegion *mem)
+ {
+     MachineState *ms = MACHINE(vms);
+     /* We create a standalone GIC */
+@@ -655,6 +661,14 @@ static void create_gic(VirtMachineState *vms)
+                              nb_redist_regions);
+         qdev_prop_set_uint32(vms->gic, "redist-region-count[0]", redist0_count);
+ 
++        if (!kvm_irqchip_in_kernel()) {
++            if (vms->tcg_its) {
++                object_property_set_link(OBJECT(vms->gic), "sysmem",
++                                         OBJECT(mem), &error_fatal);
++                qdev_prop_set_bit(vms->gic, "has-lpi", true);
++            }
++        }
++
+         if (nb_redist_regions == 2) {
+             uint32_t redist1_capacity =
+                     vms->memmap[VIRT_HIGH_GIC_REDIST2].size / GICV3_REDIST_SIZE;
+@@ -2039,7 +2053,7 @@ static void machvirt_init(MachineState *machine)
+ 
+     virt_flash_fdt(vms, sysmem, secure_sysmem ?: sysmem);
+ 
+-    create_gic(vms);
++    create_gic(vms, sysmem);
+ 
+     virt_cpu_post_init(vms, sysmem);
+ 
+@@ -2742,6 +2756,12 @@ static void virt_instance_init(Object *obj)
+     } else {
+         /* Default allows ITS instantiation */
+         vms->its = true;
++
++        if (vmc->no_tcg_its) {
++            vms->tcg_its = false;
++        } else {
++            vms->tcg_its = true;
++        }
+     }
+ 
+     /* Default disallows iommu instantiation */
+@@ -2791,8 +2811,13 @@ DEFINE_VIRT_MACHINE_AS_LATEST(6, 2)
+ 
+ static void virt_machine_6_1_options(MachineClass *mc)
+ {
++    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
++
+     virt_machine_6_2_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
++
++    /* qemu ITS was introduced with 6.2 */
++    vmc->no_tcg_its = true;
+ }
+ DEFINE_VIRT_MACHINE(6, 1)
+ 
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index 9661c46699..b461b8d261 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -120,6 +120,7 @@ struct VirtMachineClass {
+     MachineClass parent;
+     bool disallow_affinity_adjustment;
+     bool no_its;
++    bool no_tcg_its;
+     bool no_pmu;
+     bool claim_edge_triggered_timers;
+     bool smbios_old_sys_ver;
+@@ -141,6 +142,7 @@ struct VirtMachineState {
+     bool highmem;
+     bool highmem_ecam;
+     bool its;
++    bool tcg_its;
+     bool virt;
+     bool ras;
+     bool mte;
+diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+index 34f8daa377..0613454975 100644
+--- a/target/arm/kvm_arm.h
++++ b/target/arm/kvm_arm.h
+@@ -525,8 +525,8 @@ static inline const char *its_class_name(void)
+         /* KVM implementation requires this capability */
+         return kvm_direct_msi_enabled() ? "arm-its-kvm" : NULL;
+     } else {
+-        /* Software emulation is not implemented yet */
+-        return NULL;
++        /* Software emulation based model */
++        return "arm-gicv3-its";
+     }
+ }
+ 
 -- 
 2.27.0
 
