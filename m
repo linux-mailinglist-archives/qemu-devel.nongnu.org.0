@@ -2,84 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C16406DCC
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 16:53:17 +0200 (CEST)
-Received: from localhost ([::1]:55020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7C9406DDA
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 17:01:31 +0200 (CEST)
+Received: from localhost ([::1]:59960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOhu0-0003tK-7h
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 10:53:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45252)
+	id 1mOi1y-0007Rg-Q2
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 11:01:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mOhix-0005ry-5a
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:41:51 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:35583)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mOhiv-0004k9-F0
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:41:50 -0400
-Received: by mail-wr1-x436.google.com with SMTP id i23so2991388wrb.2
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 07:41:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=V4UteMGDv/6mFMhz2Q6VQGcmiUKpEIcYvHIfDng/yi4=;
- b=UgFShiqKPEkcnfv+uzQaH2NAvSKTNHk6voxKRRAzRVteUklD4SDpfeXOTuuEEqd1C6
- kE7ShgiVjbLGqxhw/LObXiWWCUm4j62pSsP7yoo/d2W8/7GpEisU0UQE7XCL7x3iUc73
- fjiKXNKHapH942hsW/YVP5uuMVu05J+H0uxRJV81g9MXFliYDnt0YPNQeDAcmgRfxg9N
- tnpQal2hz0NohyDWM8GzexuJ8G7Suc+z5nMtLchFoPxBusHVtprCmSzy81Q0WvUjjbGI
- Q43e3dfeoaIkenBGGE4433pBiUsvnknKwFtSEuSU+CkZOAs3OQPcv5S3RfL5YUWjr+06
- bV7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=V4UteMGDv/6mFMhz2Q6VQGcmiUKpEIcYvHIfDng/yi4=;
- b=Sd8S1RMmgYjDd029oPodWaNd4Ym371VU+n8gNqt8R1XBvx5KUPkqILeBOKVbN7KJLt
- R52l141QVL/bYm5UcWx+NLQKdgUrQw0Bk8e5ybGk1Vc6d5bRN075llBEE0fs21KpzIvB
- WQve639fvnzrO56HAu8SBmz6oi/Su2U9sfrOpM3F6C4dWh8xx/T9helBdvrBmjtr1V/H
- wJWNAcOIc/788aqcyhdseXbRqe73nXmKXxuznOyVdt3GYYaZss7O2+wKn1U0ftf+/9+A
- TFs+VlfEPhmdC6mlB6N1Kx/qAQW7+Fv+fpnPWmRXZNCAqUZxxvcFP7V4BbkeQACngfLq
- ba5A==
-X-Gm-Message-State: AOAM531WmGRmlwTy+othrZAQQHyIN3kqynwHtbjzsvj/eLbfMDKfbJPN
- uN0iUdvdhNUCc5fMvQSfXQ5ZwA==
-X-Google-Smtp-Source: ABdhPJwN09QYwBAVILrcSk+cJ4JUZ/9vwmFjFhOqYLEqhxjU8F2v9DumrZs2U/hj813pO1zXP8j/9w==
-X-Received: by 2002:a5d:44ca:: with SMTP id z10mr9995014wrr.298.1631284906843; 
- Fri, 10 Sep 2021 07:41:46 -0700 (PDT)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id o2sm5255629wrh.13.2021.09.10.07.41.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Sep 2021 07:41:46 -0700 (PDT)
-Subject: Re: [PATCH] softmmu: fix watchpoint processing in icount mode
-To: David Hildenbrand <david@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-References: <163101424137.678744.18360776310711795413.stgit@pasha-ThinkPad-X280>
- <f103375f-9c3b-9b5b-6ef1-5437b4990c23@redhat.com>
- <9bbee49c-f175-fa6e-3bda-7d117f1459b1@linaro.org>
- <31e9ded8-6187-bced-51b8-45e35d2e9f06@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8096c13b-f87c-c8ae-70c7-499ee397850c@linaro.org>
-Date: Fri, 10 Sep 2021 16:41:43 +0200
+ (Exim 4.90_1) (envelope-from <p.raghav@samsung.com>)
+ id 1mOhrO-0001oJ-Lt
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:50:36 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:44337)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <p.raghav@samsung.com>)
+ id 1mOhrM-0003cU-AE
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 10:50:34 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20210910145022euoutp0273a6a3d57a1bea2d9c9ccf8dd46db2d9~jfXLSswwM1815718157euoutp02a
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 14:50:22 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20210910145022euoutp0273a6a3d57a1bea2d9c9ccf8dd46db2d9~jfXLSswwM1815718157euoutp02a
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1631285422;
+ bh=1YBNOeJLtG2ARgixR4HrKOmLNCJ7foyRTbwJvNqs2lc=;
+ h=To:CC:From:Subject:Date:References:From;
+ b=h9uJVJ9yIUAcFSdmU1O6aLs6gPEkawjVo5lkomg4xXw+dj6ChB06AAEkM9Gcy+E9+
+ K2FkmyAZoWLXu50T2YIAFW02AtX+meeiIeGDsefBeV3Z17jp+yEpAUeCOwCnqaTyBC
+ 3K9C352qdZtD71w0dgV8igPNRX/65h2OLuQO2qjU=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20210910145021eucas1p2b6f90cb585b0bae76049439cea033a53~jfXK6ZjT91676116761eucas1p2Z;
+ Fri, 10 Sep 2021 14:50:21 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id C8.2E.45756.DA07B316; Fri, 10
+ Sep 2021 15:50:21 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210910145020eucas1p223f51e73b525fc3c592f994416b57167~jfXJ70tW71670916709eucas1p2Q;
+ Fri, 10 Sep 2021 14:50:20 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20210910145020eusmtrp19f9afb617dbfe584e39542e86fa766b8~jfXJ7NAWB2254822548eusmtrp1H;
+ Fri, 10 Sep 2021 14:50:20 +0000 (GMT)
+X-AuditID: cbfec7f2-7d5ff7000002b2bc-36-613b70adbd8f
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 17.DA.31287.CA07B316; Fri, 10
+ Sep 2021 15:50:20 +0100 (BST)
+Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210910145020eusmtip23e610cacd17ff25755385185263e1267~jfXJyPY6c2127621276eusmtip2n;
+ Fri, 10 Sep 2021 14:50:20 +0000 (GMT)
+Received: from [192.168.8.130] (106.210.248.112) by CAMSVWEXC02.scsc.local
+ (2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Fri, 10 Sep 2021 15:50:19 +0100
+To: <kbusch@kernel.org>, <its@irrelevant.dk>
+From: Pankaj Raghav <p.raghav@samsung.com>
+Subject: [PATCH] hw/nvme: Return error for fused operations
+Message-ID: <c9186dd4-01bd-b143-8708-41b03caadde7@samsung.com>
+Date: Fri, 10 Sep 2021 16:50:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <31e9ded8-6187-bced-51b8-45e35d2e9f06@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.349,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [106.210.248.112]
+X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
+ CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Se0hTcRjlt3s3r4uN21T8yDBYWSg20zRW1tAyWBTkHz5IVnprl2nqtE2z
+ giTLbK4H5dJoVlsUpFPzkTRb9HCFr9UcUstWKMuJIBpZZhk+ct4e/nfO953zcc6PH4EJTrNX
+ EFnKAlqlpHKEHC7+sGO6d31Dfiy1wTG8VvysfYotrrA6kVj/+RxH3HmxDY/Dpfa2Xh9pi6mc
+ I/U4H7ASsTTuVjmdk3WUVkVIMriZjp+DKH+cfaxO8wKdQl24FvkSQEaDqcnoo0VcQkDWIKht
+ HsEZMomg+vUXjCHfENSdq2X/tVhqRznM4h4Cl8PM+qca1VUjhjxGUDrStXCZIPzJcJi7sd4L
+ sQX31K0dXsghw6Ck3Md704+MBcNHI8uLeaQE3l67uBgPJ0Ng5uoF5MUB5D6Y7bawGc1y6L7u
+ wZmLodBoifCOMTIQXB4Di8GrwDx+A2Mir4aX5ps+DD4JPa2uxcRAPifgQ9/nxZBAJoCxbxej
+ 8YPRztY/+pVg013481o6BB0mivE2LhQ8b2Qz3li49CqH0cSDpXEGZ8Z86B9fzsThQ8XDaxgz
+ 5oGmTHAZrdEv6aL/30W/pIt+SRcjwk0okC5U5ypodaSSLhKpqVx1oVIhOpSX24IWvoltrvNr
+ G7o5OiGyIhaBrAgITOjP62raTAl4cur4CVqVl64qzKHVVhRE4MJAnqm6Pl1AKqgCOpum82nV
+ 3y2L8F1xiiVxQ32Du0PB02R4yn4dH5k3/kjgytoG7OZmvbJ/b/p02nAr641j6MrX4Hlbijwg
+ qkTo3JT3/uSZWDlw9mhwc7PWXvK9Klo05Owzd2+brXo6Yb2TNNbi7+EfHCTP2rJbdWOOZ0RU
+ sLHDKY+/Kw934I6EvUUppfHaebYUtDt/hshSpVkpvLqaCLc1NIt/NUqEy5M3HZMZY/qKKXGG
+ +6jrSHrMo0NWdniqQLv/8RbHwG5/YWnidgMvOkxcEbAtLkgyIVkH9k9Dy4LEhg11PZWRY+8q
+ Ew8n8a1PysnJxiSTIjXZYqZdt9vHPEWmrQc0G9urK++vWSubLs7MFuLqTCoyDFOpqd9PB6y+
+ lQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrAIsWRmVeSWpSXmKPExsVy+t/xe7prCqwTDZ7tULXYf/Abq8WkQ9cY
+ LWa9a2ezON67g8WBxePcjvPsHptWdbJ5PLm2mSmAOUrPpii/tCRVISO/uMRWKdrQwkjP0NJC
+ z8jEUs/Q2DzWyshUSd/OJiU1J7MstUjfLkEv48KP+4wFb1krVnccZmxgPMHSxcjJISFgIrFr
+ 5Su2LkYuDiGBpYwSncdOMUMkZCQ+XfnIDmELS/y51gVV9JFR4tbpS8wQzm5Gib0Nv1i7GDk4
+ RAR0JP7N0QUxmYGmfpvnDGKyCWhJNHaCjREWsJaYf2cBE4jNK2AncXV6L9gNLAKqEn+m9DCC
+ 2KICkRJNJ7ayQdQISpyc+YQFYqKmxPpd+iBhZgFxiVtP5jNB2PIS29/OgbpYWeLI9rlQF9dK
+ fP77jHECo/AsJJNmIUyahWTSLCSTFjCyrGIUSS0tzk3PLTbUK07MLS7NS9dLzs/dxAiMqm3H
+ fm7ewTjv1Ue9Q4xMHIyHGCU4mJVEeE9ssEwU4k1JrKxKLcqPLyrNSS0+xGgK9NlEZinR5Hxg
+ XOeVxBuaGZgamphZGphamhkrifNunbsmXkggPbEkNTs1tSC1CKaPiYNTqoGJ0WyO+ivv2fsC
+ dXPiVxvPjE6Z7PqLaXlE0837P8SfXF2vV/Fg+9u3mcUXo82+CdQzfAq1tk70zHxeoc0qd+eA
+ YMP1RwGWqzKY8oNPX1tZseBTxv7ImxN+1pye5GZyw5yLizVsiWZQvkrknUiffbefucXo6d+/
+ 8MzLT/e0abDiQtXYpU//3Mw0cDOyrzuZnmi9eZbh6knz1q/lrxRPevpq2Y4cwVqR6m/bk6T2
+ mx3X7/p+ZML6TsMyvbZcmy89F0/3t1wv8uNg0OuuU5hcVCrYfND6UE5P+hV9pg9KSRvt5kj6
+ 7fD7YfviQlvX4znTbAxTv+vur+ewVHm8kjfLPlw6tHDrqQ0m0wpe7XsdZqLEUpyRaKjFXFSc
+ CAA1QQLVMwMAAA==
+X-CMS-MailID: 20210910145020eucas1p223f51e73b525fc3c592f994416b57167
+X-Msg-Generator: CA
+X-RootMTR: 20210910145020eucas1p223f51e73b525fc3c592f994416b57167
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210910145020eucas1p223f51e73b525fc3c592f994416b57167
+References: <CGME20210910145020eucas1p223f51e73b525fc3c592f994416b57167@eucas1p2.samsung.com>
+Received-SPF: pass client-ip=210.118.77.12; envelope-from=p.raghav@samsung.com;
+ helo=mailout2.w1.samsung.com
+X-Spam_score_int: -74
+X-Spam_score: -7.5
+X-Spam_bar: -------
+X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 10 Sep 2021 10:59:29 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,98 +132,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org, peterx@redhat.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/10/21 3:46 PM, David Hildenbrand wrote:
-> On 10.09.21 15:34, Richard Henderson wrote:
->> On 9/10/21 1:15 PM, David Hildenbrand wrote:
->>> On 07.09.21 13:30, Pavel Dovgalyuk wrote:
->>>> Watchpoint processing code restores vCPU state twice:
->>>> in tb_check_watchpoint and in cpu_loop_exit_restore/cpu_restore_state.
->>>> Normally it does not affect anything, but in icount mode instruction
->>>> counter is incremented twice and becomes incorrect.
->>>> This patch eliminates unneeded CPU state restore.
->>>>
->>>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
->>>> ---
->>>>    softmmu/physmem.c |    5 +----
->>>>    1 file changed, 1 insertion(+), 4 deletions(-)
->>>>
->>>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
->>>> index 23e77cb771..4025dfab11 100644
->>>> --- a/softmmu/physmem.c
->>>> +++ b/softmmu/physmem.c
->>>> @@ -941,14 +941,11 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
->>>>                    if (wp->flags & BP_STOP_BEFORE_ACCESS) {
->>>>                        cpu->exception_index = EXCP_DEBUG;
->>>>                        mmap_unlock();
->>>> -                    cpu_loop_exit_restore(cpu, ra);
->>>> +                    cpu_loop_exit(cpu);
->>>>                    } else {
->>>>                        /* Force execution of one insn next time.  */
->>>>                        cpu->cflags_next_tb = 1 | curr_cflags(cpu);
->>>>                        mmap_unlock();
->>>> -                    if (ra) {
->>>> -                        cpu_restore_state(cpu, ra, true);
->>>> -                    }
->>>>                        cpu_loop_exit_noexc(cpu);
->>>>                    }
->>>>                }
->>>>
->>>>
->>>
->>> I'm not an expert on that code, but it looks good to me.
->>>
->>> Maybe we could have added a comment above the tb_check_watchpoint() call to highlight that
->>> the restore will happen in there.
->>
->> Hmm.  Curious.
->>
->> Looking at tb_check_watchpoint, I have trouble seeing how it could be correct.
->> Watchpoints can happen at any memory reference within the TB.  We should be rolling back
->> to the cpu state at the memory reference (cpu_retore_state) and not the cpu state at the
->> start of the TB (cpu_restore_state_from_tb).
-> 
-> cpu_restore_state() ends up calling cpu_restore_state_from_tb() with essentially
-> the same parameters or what am I missing?
-
-Whoops, yes.  I must have been thinking of a different function.
-
->> I'm also not sure why we're invalidating tb's.  Why does watchpoint hit imply that we
->> should want to ditch the TB?  If we want different behaviour from the next execution, we
->> should be adjusting cflags.
-> 
-> It goes back to
-> 
-> commit 06d55cc19ac84e799d2df8c750049e51798b00a4
-> Author: aliguori <aliguori@c046a42c-6fe2-441c-8c8c-71466251a162>
-> Date:   Tue Nov 18 20:24:06 2008 +0000
-> 
->      Restore pc on watchpoint hits (Jan Kiszka)
->      In order to provide accurate information about the triggering
->      instruction, this patch adds the required bits to restore the pc if the
->      access happened inside a TB. With the BP_STOP_BEFORE_ACCESS flag, the
->      watchpoint user can control if the debug trap should be issued on or
->      after the accessing instruction.
->      Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
->      Signed-off-by: Anthony Liguori <aliguori@us.ibm.com>
-> 
-> 
-> *trying to rememebr what we do on watchpoints* I think we want to
-> make sure that we end up with a single-instruction TB, right? So we
-> want to make sure to remove the old one.
-
-When the watchpoint needs to trigger after the insn, we do indeed want to execute a single 
-insn, which we do with the cflags there in the patch context.  But when we want to stop 
-before the insn, we're already done -- so what was the invalidate supposed to achieve?
-
-(Then of course there's the problem that Phillipe filed (#245) in which we set cflags as 
-per above, then take an interrupt before using it, then wind up with garbage.  Ho hum.)
+Currently, FUSED operations are not supported by QEMU. As per the 1.4 SPEC,
+controller should abort the command that requested a fused operation with 
+an INVALID FIELD error code if they are not supported.
 
 
-r~
+Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+---
+ hw/nvme/ctrl.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-r~
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index dc0e7b0030..d15a80a054 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -3893,6 +3893,10 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+         return ns->status;
+     }
+ 
++    if (NVME_CMD_FLAGS_FUSE(req->cmd.flags)) {
++        return NVME_INVALID_FIELD;
++    }
++
+     req->ns = ns;
+ 
+     switch (req->cmd.opcode) {
+-- 
+2.25.1
 
