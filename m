@@ -2,71 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0588406D16
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 15:47:43 +0200 (CEST)
-Received: from localhost ([::1]:43624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF95406D1B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 15:48:40 +0200 (CEST)
+Received: from localhost ([::1]:44818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOgsY-0006LE-TG
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 09:47:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56168)
+	id 1mOgtP-00078T-O7
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 09:48:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mOgr5-0004m8-2S
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 09:46:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26238)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mOgrU-0005Xl-OV
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 09:46:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26117)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mOgr3-0001Mt-8r
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 09:46:10 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mOgrS-0001bt-3I
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 09:46:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631281568;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=q4/gb+qVUAomME3TjVIdhuX90g7r+OwtBqpGKOAdhhw=;
- b=RsT+6TAkDCH2vsPvMkwyX4+AJ/S6vnVvt8arQ1Z1nQNWaZ+65ZGqoM+6dChh3zOu9DUIsF
- LrYyctJNtjLon9vgEAY+ScLq/gWPohhWA3gDm+UVxoV5cnUZzFCD3fvsmrBF0GdCs+GtnT
- uVXC+ytU1xrEUvHZvRAd/shYV0W6ZWo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-472B_ZBXPom5HVQwXuXPgg-1; Fri, 10 Sep 2021 09:46:05 -0400
-X-MC-Unique: 472B_ZBXPom5HVQwXuXPgg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37D9610247A6;
- Fri, 10 Sep 2021 13:46:04 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.181])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B410719D9F;
- Fri, 10 Sep 2021 13:46:02 +0000 (UTC)
-Date: Fri, 10 Sep 2021 14:46:00 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Yang Zhong <yang.zhong@intel.com>
-Subject: Re: [PATCH v2 1/3] monitor: Add HMP and QMP interfaces
-Message-ID: <YTthmPn2KGcfNX21@redhat.com>
-References: <20210910102258.46648-1-yang.zhong@intel.com>
- <20210910102258.46648-2-yang.zhong@intel.com>
+ s=mimecast20190719; t=1631281593;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0mZQUvLiWYq/9JPFmg2cSBr64+OrOmoAfLHO/orCtsg=;
+ b=NYR4trPPb9r//mzDcfn2roipIbbFwbUlDBMQ5ah9hVFNzIxnRfqG2n1EurCqxrd2MDinvr
+ 36XjE4tt3DseY/uUYpCtTHym4ub7fXyZ4wzLJ5jGeItCtROSpNE/bcg/P2R0ljfyLSgroJ
+ VGETcZu5y9tRBZaAMKHVEBLj0FOO9Fc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-fr4MUVPrMoqcdVoS-Yd_3w-1; Fri, 10 Sep 2021 09:46:31 -0400
+X-MC-Unique: fr4MUVPrMoqcdVoS-Yd_3w-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ p18-20020a5d4e12000000b0015940dc586aso536369wrt.6
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 06:46:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:to:cc:references:from:organization:subject
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=0mZQUvLiWYq/9JPFmg2cSBr64+OrOmoAfLHO/orCtsg=;
+ b=07bzqo8pgnk2RB50BKy8jWAAOL6g5g3DDYgzog7dyKuq8YTe7WyHiyeo9TvSMXiHbi
+ fDPInU8+qd6q97mKVsfZ05/SGRvKODG7NWYFSGS/ik70vYgKHuZ90Yf+an9mppkCR1XM
+ CAjmHyBkSBNa3PMM4CjnIg+i2nbYJ/Ddm7WZTuAha90kTqq+f6IO+JIWk4qnlcdcguzR
+ bJEwv88qf4zu/PcVAeUBLIdZZOERAd3LhZnLOF3DA50fAipLpCQ79d67/sF+JCQx9Vxc
+ yXXv0vXG8cxk3rLijEWr5IId1voDyy8YQsSAsvPCkHNJKPLrAhiCH2FKpE7isiEmDMPV
+ sqkg==
+X-Gm-Message-State: AOAM53320PtPfmfvUvc7W8HTwEa6C6JhhfKSY1/n4l8kUA8ANo+HVb2M
+ 7ebYGYSULGSv8wUEEI7zlOCotbvp4Ti/VxIT9DBfTFf8z50zIkIXGc2MrKu0h0wt1O41fougdgv
+ wuutKCIKSa4yKjmE=
+X-Received: by 2002:a05:6000:18c2:: with SMTP id
+ w2mr9788366wrq.282.1631281590419; 
+ Fri, 10 Sep 2021 06:46:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwQfodu9AW64NX8rvngPMkl5d8shP91GZVK+dAsPF1JKFW3rTueGROFXnIrxWD2YZV2S6DyEw==
+X-Received: by 2002:a05:6000:18c2:: with SMTP id
+ w2mr9788347wrq.282.1631281590203; 
+ Fri, 10 Sep 2021 06:46:30 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c600c.dip0.t-ipconnect.de. [91.12.96.12])
+ by smtp.gmail.com with ESMTPSA id
+ 129sm4294258wmz.26.2021.09.10.06.46.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Sep 2021 06:46:29 -0700 (PDT)
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+References: <163101424137.678744.18360776310711795413.stgit@pasha-ThinkPad-X280>
+ <f103375f-9c3b-9b5b-6ef1-5437b4990c23@redhat.com>
+ <9bbee49c-f175-fa6e-3bda-7d117f1459b1@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH] softmmu: fix watchpoint processing in icount mode
+Message-ID: <31e9ded8-6187-bced-51b8-45e35d2e9f06@redhat.com>
+Date: Fri, 10 Sep 2021 15:46:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210910102258.46648-2-yang.zhong@intel.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <9bbee49c-f175-fa6e-3bda-7d117f1459b1@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,160 +103,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pbonzini@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org,
- eblake@redhat.com, seanjc@google.com
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 10, 2021 at 06:22:56PM +0800, Yang Zhong wrote:
-> The QMP and HMP interfaces can be used by monitor or QMP tools to retrieve
-> the SGX information from VM side when SGX is enabled on Intel platform.
+On 10.09.21 15:34, Richard Henderson wrote:
+> On 9/10/21 1:15 PM, David Hildenbrand wrote:
+>> On 07.09.21 13:30, Pavel Dovgalyuk wrote:
+>>> Watchpoint processing code restores vCPU state twice:
+>>> in tb_check_watchpoint and in cpu_loop_exit_restore/cpu_restore_state.
+>>> Normally it does not affect anything, but in icount mode instruction
+>>> counter is incremented twice and becomes incorrect.
+>>> This patch eliminates unneeded CPU state restore.
+>>>
+>>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>>> ---
+>>>    softmmu/physmem.c |    5 +----
+>>>    1 file changed, 1 insertion(+), 4 deletions(-)
+>>>
+>>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+>>> index 23e77cb771..4025dfab11 100644
+>>> --- a/softmmu/physmem.c
+>>> +++ b/softmmu/physmem.c
+>>> @@ -941,14 +941,11 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+>>>                    if (wp->flags & BP_STOP_BEFORE_ACCESS) {
+>>>                        cpu->exception_index = EXCP_DEBUG;
+>>>                        mmap_unlock();
+>>> -                    cpu_loop_exit_restore(cpu, ra);
+>>> +                    cpu_loop_exit(cpu);
+>>>                    } else {
+>>>                        /* Force execution of one insn next time.  */
+>>>                        cpu->cflags_next_tb = 1 | curr_cflags(cpu);
+>>>                        mmap_unlock();
+>>> -                    if (ra) {
+>>> -                        cpu_restore_state(cpu, ra, true);
+>>> -                    }
+>>>                        cpu_loop_exit_noexc(cpu);
+>>>                    }
+>>>                }
+>>>
+>>>
+>>
+>> I'm not an expert on that code, but it looks good to me.
+>>
+>> Maybe we could have added a comment above the tb_check_watchpoint() call to highlight that
+>> the restore will happen in there.
 > 
-> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> ---
->  hmp-commands-info.hx         | 15 +++++++++++++
->  hw/i386/sgx.c                | 29 ++++++++++++++++++++++++
->  include/hw/i386/sgx.h        | 11 +++++++++
->  include/monitor/hmp-target.h |  1 +
->  qapi/misc-target.json        | 43 ++++++++++++++++++++++++++++++++++++
->  target/i386/monitor.c        | 36 ++++++++++++++++++++++++++++++
->  tests/qtest/qmp-cmd-test.c   |  1 +
->  7 files changed, 136 insertions(+)
->  create mode 100644 include/hw/i386/sgx.h
+> Hmm.  Curious.
+> 
+> Looking at tb_check_watchpoint, I have trouble seeing how it could be correct.
+> Watchpoints can happen at any memory reference within the TB.  We should be rolling back
+> to the cpu state at the memory reference (cpu_retore_state) and not the cpu state at the
+> start of the TB (cpu_restore_state_from_tb).
 
-> diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
-> index 02fa6487c3..8a32d62d7e 100644
-> --- a/hw/i386/sgx.c
-> +++ b/hw/i386/sgx.c
-> @@ -17,6 +17,35 @@
->  #include "monitor/qdev.h"
->  #include "qapi/error.h"
->  #include "exec/address-spaces.h"
-> +#include "hw/i386/sgx.h"
-> +
-> +SGXInfo *sgx_get_info(void)
+cpu_restore_state() ends up calling cpu_restore_state_from_tb() with essentially
+the same parameters or what am I missing?
 
-I'd suggest this should have an 'Error **errp'
+So AFAIU this patch shouldn't change the situation -- but valid point that the
+current behavior might be bogus.
 
-> +{
-> +    SGXInfo *info = NULL;
-> +    X86MachineState *x86ms;
-> +    PCMachineState *pcms =
-> +        (PCMachineState *)object_dynamic_cast(qdev_get_machine(),
-> +                                              TYPE_PC_MACHINE);
-> +    if (!pcms) {
+> 
+> I'm also not sure why we're invalidating tb's.  Why does watchpoint hit imply that we
+> should want to ditch the TB?  If we want different behaviour from the next execution, we
+> should be adjusting cflags.
 
-  error_setg(errp, "SGX is only available for x86 PC machines");
+It goes back to
 
-> +        return NULL;
-> +    }
-> +
-> +    x86ms = X86_MACHINE(pcms);
-> +    if (!x86ms->sgx_epc_list) {
+commit 06d55cc19ac84e799d2df8c750049e51798b00a4
+Author: aliguori <aliguori@c046a42c-6fe2-441c-8c8c-71466251a162>
+Date:   Tue Nov 18 20:24:06 2008 +0000
 
-  error_setg(errp "SGX is not enabled on this machine");
-
-> +        return NULL;
-> +    }
-> +
-> +    SGXEPCState *sgx_epc = &pcms->sgx_epc;
-> +    info = g_new0(SGXInfo, 1);
-> +
-> +    info->sgx = true;
-> +    info->sgx1 = true;
-> +    info->sgx2 = true;
-> +    info->flc = true;
-> +    info->section_size = sgx_epc->size;
-> +
-> +    return info;
-> +}
+     Restore pc on watchpoint hits (Jan Kiszka)
+     
+     In order to provide accurate information about the triggering
+     instruction, this patch adds the required bits to restore the pc if the
+     access happened inside a TB. With the BP_STOP_BEFORE_ACCESS flag, the
+     watchpoint user can control if the debug trap should be issued on or
+     after the accessing instruction.
+     
+     Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+     Signed-off-by: Anthony Liguori <aliguori@us.ibm.com>
 
 
-
-> diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-> index 119211f0b0..0f1b48b4f8 100644
-> --- a/target/i386/monitor.c
-> +++ b/target/i386/monitor.c
-> @@ -35,6 +35,7 @@
->  #include "qapi/qapi-commands-misc-target.h"
->  #include "qapi/qapi-commands-misc.h"
->  #include "hw/i386/pc.h"
-> +#include "hw/i386/sgx.h"
->  
->  /* Perform linear address sign extension */
->  static hwaddr addr_canonical(CPUArchState *env, hwaddr addr)
-> @@ -763,3 +764,38 @@ qmp_query_sev_attestation_report(const char *mnonce, Error **errp)
->  {
->      return sev_get_attestation_report(mnonce, errp);
->  }
-> +
-> +SGXInfo *qmp_query_sgx(Error **errp)
-> +{
-> +    SGXInfo *info;
-> +
-> +    info = sgx_get_info();
-
-Pass errp into this
-
-> +    if (!info) {
-> +        error_setg(errp, "SGX features are not available");
-
-And get rid of this.
-
-> +        return NULL;
-> +    }
-> +
-> +    return info;
-> +}
-> +
-> +void hmp_info_sgx(Monitor *mon, const QDict *qdict)
-> +{
-
-  g_autoptr(Error) err = NULL
-
-> +    SGXInfo *info = qmp_query_sgx(NULL);
-
-Pass in &err not NULL;
-
-Also  declare it with  'g_autoptr(SGXInfo) info = ...'
-
-And then
-
-   if (err) {
-      monitor_printf(mon, "%s\n", error_get_pretty(err);
-      return;
-   }
-
-> +
-> +    if (info && info->sgx) {
-> +        monitor_printf(mon, "SGX support: %s\n",
-> +                       info->sgx ? "enabled" : "disabled");
-> +        monitor_printf(mon, "SGX1 support: %s\n",
-> +                       info->sgx1 ? "enabled" : "disabled");
-> +        monitor_printf(mon, "SGX2 support: %s\n",
-> +                       info->sgx2 ? "enabled" : "disabled");
-> +        monitor_printf(mon, "FLC support: %s\n",
-> +                       info->flc ? "enabled" : "disabled");
-> +        monitor_printf(mon, "size: %" PRIu64 "\n",
-> +                       info->section_size);
-> +    } else {
-> +        monitor_printf(mon, "SGX is not enabled\n");
-> +    }
-
-Now you can remove the if/else and just print the result
-
-> +
-> +    qapi_free_SGXInfo(info);
-
-This can be dropped with the g_autoptr usage
+*trying to rememebr what we do on watchpoints* I think we want to
+make sure that we end up with a single-instruction TB, right? So we
+want to make sure to remove the old one.
 
 
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Thanks,
+
+David / dhildenb
 
 
