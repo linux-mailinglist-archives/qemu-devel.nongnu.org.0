@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B443A406AB7
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 13:30:59 +0200 (CEST)
-Received: from localhost ([::1]:51376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8FD4406AC2
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 13:34:59 +0200 (CEST)
+Received: from localhost ([::1]:59200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOekE-0005kd-Og
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 07:30:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48880)
+	id 1mOeo6-0002gR-Q3
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 07:34:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1mOegF-00023W-Tf; Fri, 10 Sep 2021 07:26:51 -0400
+ id 1mOegJ-0002A5-Bi; Fri, 10 Sep 2021 07:26:55 -0400
 Received: from [201.28.113.2] (port=13634 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <luis.pires@eldorado.org.br>)
- id 1mOegE-0001ua-IS; Fri, 10 Sep 2021 07:26:51 -0400
+ id 1mOegH-0001ua-VN; Fri, 10 Sep 2021 07:26:55 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 10 Sep 2021 08:26:48 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 10 Sep 2021 08:26:49 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id A3465800C19;
- Fri, 10 Sep 2021 08:26:48 -0300 (-03)
+ by power9a (Postfix) with ESMTP id BCA37800C19;
+ Fri, 10 Sep 2021 08:26:49 -0300 (-03)
 From: Luis Pires <luis.pires@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 03/22] host-utils: introduce uabs64()
-Date: Fri, 10 Sep 2021 08:26:05 -0300
-Message-Id: <20210910112624.72748-4-luis.pires@eldorado.org.br>
+Subject: [PATCH v3 04/22] i386/kvm: Replace abs64() with uabs64() from
+ host-utils
+Date: Fri, 10 Sep 2021 08:26:06 -0300
+Message-Id: <20210910112624.72748-5-luis.pires@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210910112624.72748-1-luis.pires@eldorado.org.br>
 References: <20210910112624.72748-1-luis.pires@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 10 Sep 2021 11:26:48.0853 (UTC)
- FILETIME=[BEB27450:01D7A636]
+X-OriginalArrivalTime: 10 Sep 2021 11:26:50.0010 (UTC)
+ FILETIME=[BF62FFA0:01D7A636]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -61,37 +62,41 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce uabs64(), a function that returns the absolute value of
-a 64-bit int as an unsigned value. This avoids the undefined behavior
-for common abs implementations, where abs of the most negative value is
-undefined.
+Drop abs64() and use uabs64() from host-utils, which avoids
+an undefined behavior when taking abs of the most negative value.
 
 Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/qemu/host-utils.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/i386/kvm/i8254.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
-index 753b9fb89f..ca9f3f021b 100644
---- a/include/qemu/host-utils.h
-+++ b/include/qemu/host-utils.h
-@@ -357,6 +357,14 @@ static inline uint64_t revbit64(uint64_t x)
- #endif
- }
+diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
+index fa68669e8a..191a26fa57 100644
+--- a/hw/i386/kvm/i8254.c
++++ b/hw/i386/kvm/i8254.c
+@@ -59,11 +59,6 @@ struct KVMPITClass {
+     DeviceRealize parent_realize;
+ };
  
-+/**
-+ * Return the absolute value of a 64-bit integer as an unsigned 64-bit value
-+ */
-+static inline uint64_t uabs64(int64_t v)
-+{
-+    return v < 0 ? -v : v;
-+}
-+
- /**
-  * sadd32_overflow - addition with overflow indication
-  * @x, @y: addends
+-static int64_t abs64(int64_t v)
+-{
+-    return v < 0 ? -v : v;
+-}
+-
+ static void kvm_pit_update_clock_offset(KVMPITState *s)
+ {
+     int64_t offset, clock_offset;
+@@ -81,7 +76,7 @@ static void kvm_pit_update_clock_offset(KVMPITState *s)
+         clock_gettime(CLOCK_MONOTONIC, &ts);
+         offset -= ts.tv_nsec;
+         offset -= (int64_t)ts.tv_sec * 1000000000;
+-        if (abs64(offset) < abs64(clock_offset)) {
++        if (uabs64(offset) < uabs64(clock_offset)) {
+             clock_offset = offset;
+         }
+     }
 -- 
 2.25.1
 
