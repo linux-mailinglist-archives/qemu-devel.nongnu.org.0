@@ -2,80 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F49406E4D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 17:37:17 +0200 (CEST)
-Received: from localhost ([::1]:42620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC3F406E7B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 17:41:08 +0200 (CEST)
+Received: from localhost ([::1]:49556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOiaa-0001KV-VZ
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 11:37:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55186)
+	id 1mOieI-00060g-JP
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 11:41:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1mOiYS-0000Ql-PT
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 11:35:05 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:38723)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1mOiYQ-0007ma-O1
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 11:35:04 -0400
-Received: by mail-pl1-x632.google.com with SMTP id 5so1381293plo.5
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 08:35:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=vK7qo7+CpM+4gkKUlQAEMenFpqaDCkj+JdfDfV7upio=;
- b=drOElpaSBw5bL7lAqqMhmgYOQRBFoiPZbeXy0tZGda2rRGpaQKoD6soFrLZf2DcBbg
- R40rIVGvrpRHkj7cPZqzt10iqWgQueHNnQ4M9w/6pHD+XKtJt3O6qbFvCeZ6Lb7B7FkJ
- PqJfzkTh2XxGCQQxPjcKI2hnHE5XhfUlEGeG1REqiV635jZAwyTBHBQMaUwFquGQj267
- s8iVqXrX7pXV942Ce2gdwuP2LgbxNmH6Lbmwzl1QEGV/vFcBJkPqQ5KrsMcsWamz6sSI
- VnBQ2fMmlPlFI7k9i9mRxixOYHCK6hsssRtwfXw/OodNbr2ZOoc3b4GcYcUH4kstCEi3
- O7KQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mOicx-0005KZ-IW
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 11:39:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51924)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mOicu-0003OW-4N
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 11:39:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631288378;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2iR5Uy5CY35slV8aLu9OJED6WBsAe4SQMKUUxqztxbQ=;
+ b=Oul/p/g/8u1vkrH4TY50gjnVjIG9LqufhnMsLDEKl90Ln3CcFgIYvS6EiZtzoI0fuRdP6l
+ 666SOGXzq9GGvtFkSUS5obfF+/ElV+VkrR7XPInW/GeUuWmSQUReoSEoGEG3Fdw0qLJIAW
+ ULfaHHYLdxgPO9A+i/axTBxlm+AUBk4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-158-2LOA29MMN5mUEY_6mLAoPg-1; Fri, 10 Sep 2021 11:39:36 -0400
+X-MC-Unique: 2LOA29MMN5mUEY_6mLAoPg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5-20020a1c00050000b02902e67111d9f0so995874wma.4
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 08:39:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=vK7qo7+CpM+4gkKUlQAEMenFpqaDCkj+JdfDfV7upio=;
- b=PJQ//I7Ra8YAhcbXrciWuYLeEZ9lXFLu+8etjAIaiFniikMnc3fP2cW/XeRfA845K4
- dKQrYMP8EkPNaCoLIshSVbRZHTmCrun7EAw5Oe/LaAkvmIdT9gCq5wRxYZwZSAr4KRI/
- tCDSb9RtyvVn4UPSi5T86xoLXZIvxgbUxu8WV7qF4dpP3gfave0pixXpN6djHjztyTrh
- V0NKbM31P3NusQ8ysDBRpHQdJCamb6cE6d06GHj6JtA8Fj/upcutxpVvQwBza/daTWLG
- wr7mcbZxBujEsxBqwabjzm0Co4G4nioeTsuLcXOY5B1LzG9ocZ5OLOGdw3/DlRzHQNdk
- TXGg==
-X-Gm-Message-State: AOAM533UNOK+2BzaDEvzIXEcfChodmIrOdUMpF1vSmL5UmHUMLPhT3lo
- iyS8hs70cswb1Z2PMfhLH40R7w==
-X-Google-Smtp-Source: ABdhPJzo92E9wzx8kbRIBZ0FZApTutZuYrF98w4REwmrFr+PdvxZLa+OTdyo7l6R02h0wabAOxEurA==
-X-Received: by 2002:a17:90b:1e4a:: with SMTP id
- pi10mr10189525pjb.135.1631288099242; 
- Fri, 10 Sep 2021 08:34:59 -0700 (PDT)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com.
- [35.185.214.157])
- by smtp.gmail.com with ESMTPSA id m2sm5804488pgd.70.2021.09.10.08.34.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Sep 2021 08:34:58 -0700 (PDT)
-Date: Fri, 10 Sep 2021 15:34:55 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, jarkko@kernel.org, kai.huang@intel.com,
- eblake@redhat.com, Yang Zhong <yang.zhong@intel.com>
-Subject: Re: [PATCH v4 22/33] hostmem-epc: Add the reset interface for EPC
- backend reset
-Message-ID: <YTt7H9ifqjeOQztl@google.com>
-References: <20210719112136.57018-1-yang.zhong@intel.com>
- <20210719112136.57018-23-yang.zhong@intel.com>
- <dc8394c5-52a1-573f-36d3-de8bc43973d3@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2iR5Uy5CY35slV8aLu9OJED6WBsAe4SQMKUUxqztxbQ=;
+ b=IDScWN71xOPFeaH3K9waWVi3+krz47YZP0VoYMUG5wfz/Edr708T/tlcJWgTF5ESI1
+ /paf/VJDE/EwuWoUQgRgdlaHANpE1yXs4O+B/iSKUPt6l4zwKB5TiwUhj4v4AqwSjh7l
+ 9TN/6hN8cdcA6sBlQSGtOY0aMmXZS6nbnsPKOjIiVCOBtdGe3svmlgUSt9SMkwvFYxdX
+ uIAtowUmIXoybBVYO4FVUlBD38hJ7fdW85WqMZL62WGKFqmi7HcggINqayy/CX4Hx7v/
+ YdmSqIrLCth148L8kYYbfLIgVheqLNTwTbbj+uXaixdPniaOVP5Fon6AxINH8MCYt7De
+ HWIg==
+X-Gm-Message-State: AOAM533QaXjIEH6jZZn4fpRCWRYKCW5j0ZEr4vrgwphMgVHWgNj428NT
+ She+2irqYu5MVWFYIs+k8R8jYvCPxITnKZxA4DYEMS730ba77/T+jGLKJc2DD4mDLeT04uI7gyG
+ gpOkbGGKWIZHia3M=
+X-Received: by 2002:adf:ea4d:: with SMTP id j13mr10416777wrn.86.1631288375561; 
+ Fri, 10 Sep 2021 08:39:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwfM7KHvArXLYKtZ08KsM2TspOGuxowXFb7UAkGUAGpF5I5GIG257gV5QiV0Ximj2ADOFWgzQ==
+X-Received: by 2002:adf:ea4d:: with SMTP id j13mr10416760wrn.86.1631288375299; 
+ Fri, 10 Sep 2021 08:39:35 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id y24sm5084976wma.9.2021.09.10.08.39.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Sep 2021 08:39:34 -0700 (PDT)
+Subject: Re: [qemu-web PATCH 0/6] Small header/footer layout changes
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210908122814.707744-1-berrange@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <c13cfa65-6062-64ea-91d7-854d0095b81f@redhat.com>
+Date: Fri, 10 Sep 2021 17:39:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dc8394c5-52a1-573f-36d3-de8bc43973d3@redhat.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=seanjc@google.com; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+In-Reply-To: <20210908122814.707744-1-berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,45 +100,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 10, 2021, Paolo Bonzini wrote:
-> On 19/07/21 13:21, Yang Zhong wrote:
-> > +void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
-> > +                              Error **errp)
-> > +{
-> > +    MemoryRegion *mr = &backend->mr;
-> > +
-> > +    mr->enabled = false;
-> > +
-> > +    /* destroy the old memory region if it exist */
-> > +    if (fd > 0 && mr->destructor) {
-> > +        mr->destructor(mr);
-> > +    }
-> > +
-> > +    sgx_epc_backend_memory_alloc(backend, errp);
-> > +}
-> > +
+On 08/09/21 14:28, Daniel P. Berrangé wrote:
+> I previously sent a large series to more fully re-design the
+> website, especially the front page
 > 
-> Jarkko, Sean, Kai,
+>    https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg08205.html
 > 
-> this I think is problematic because it has a race window while /dev/sgx_vepc
-> is closed and then reopened.  First, the vEPC space could be exhausted by
-> somebody doing another mmap in the meanwhile.  Second, somebody might (for
-> whatever reason) remove /dev/sgx_vepc while QEMU runs.
-
-Yep, both error cases are possible.
-
-> Yang explained to me (offlist) that this is needed because Windows fails to
-> reboot without it.  We would need a way to ask Linux to reinitialize the
-> vEPC, that doesn't involve munmap/mmap; this could be for example
-> fallocate(FALLOC_FL_ZERO_RANGE).
+> Paolo had some feedback on that which I want to take into account
+> but playing with CSS / layout always takes me way too long. I
+> figured it could still be beneficial to take some of the simpler
+> patches in that series.
 > 
-> What do you all think?
+> So essentially this small series is the part of that large series
+> that changes the header and footer. The changes to the front page
+> body content are cut out until I can get them working better.
+> 
+> In a slight change from the previous posting for the "edit page"
+> link at the bottom, I've now used an icon to represent it and
+> moved its position, such that the layout is more visually
+> pleasant.
+> 
+> The slight downside with only taking the header/footer changes
+> is that some of the links I removed from the footer, would have
+> been added in the page body of the front page instead. I think
+> that's probably ok not to have them regardless though, as they
+> are just a single jump away in an obvious place from the navbar
+> header.
 
-Mechanically, FALLOC_FL_ZERO_RANGE could work, but it's definitely a stretch of
-the semantics as the underlying memory would not actually be zeroed.
+Yeah, some of them may be useful for easier access to contribution 
+information and documentation, but it's okay to remove them for now.
 
-The only other option that comes to mind is a dedicated ioctl().
+I merged this part, thanks!
+
+Paolo
+
 
