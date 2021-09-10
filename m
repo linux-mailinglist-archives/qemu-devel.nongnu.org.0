@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B9484068C8
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 10:57:27 +0200 (CEST)
-Received: from localhost ([::1]:57308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A39524068EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 11:13:14 +0200 (CEST)
+Received: from localhost ([::1]:36172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOcLe-0001j7-BI
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 04:57:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48560)
+	id 1mOcav-000790-9j
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 05:13:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mOcKN-0000ay-SH
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 04:56:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25033)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1mOcZH-0006T0-0B
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 05:11:31 -0400
+Received: from mga01.intel.com ([192.55.52.88]:31567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mOcKM-0006iT-1P
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 04:56:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631264164;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=P3l1VGBadgcaykJ9DACAzL4G3TzETxqvYTCGkvfwrW0=;
- b=EbMpqRFMIPHAL6FU0MbYMIgoYcHftQ8o6CA5mMXPHUoO6PNZd3fMxn8oosgotl/khuJppd
- zh49jbndgUhux0MQcW4S08dfrad+QzF5pi2I3lylBrirwciMlUodDEqOlCtMRovW/nwYDv
- 3WRo2ZVNVQ7TIB5V/dU5c76yu/lUScI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-y3yHrDqPMke5-4T6sKzQKw-1; Fri, 10 Sep 2021 04:56:03 -0400
-X-MC-Unique: y3yHrDqPMke5-4T6sKzQKw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3891101AFC0;
- Fri, 10 Sep 2021 08:56:02 +0000 (UTC)
-Received: from steredhat.redhat.com (unknown [10.39.193.209])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 70C6F19C79;
- Fri, 10 Sep 2021 08:56:01 +0000 (UTC)
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] block/mirror: fix NULL pointer dereference in
- mirror_wait_on_conflicts()
-Date: Fri, 10 Sep 2021 10:56:00 +0200
-Message-Id: <20210910085600.137772-1-sgarzare@redhat.com>
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1mOcZD-00032J-P5
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 05:11:30 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="243355134"
+X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; d="scan'208";a="243355134"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Sep 2021 02:11:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; d="scan'208";a="480099031"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga008.jf.intel.com with ESMTP; 10 Sep 2021 02:11:19 -0700
+Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 10 Sep 2021 02:11:14 -0700
+Received: from shsmsx601.ccr.corp.intel.com (10.109.6.141) by
+ SHSMSX605.ccr.corp.intel.com (10.109.6.215) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 10 Sep 2021 17:11:10 +0800
+Received: from shsmsx601.ccr.corp.intel.com ([10.109.6.141]) by
+ SHSMSX601.ccr.corp.intel.com ([10.109.6.141]) with mapi id 15.01.2242.012;
+ Fri, 10 Sep 2021 17:11:09 +0800
+From: "Wang, Wei W" <wei.w.wang@intel.com>
+To: Ashish Kalra <ashish.kalra@amd.com>
+Subject: RE: [PATCH v4 10/14] migration: add support to migrate shared regions
+ list
+Thread-Topic: [PATCH v4 10/14] migration: add support to migrate shared
+ regions list
+Thread-Index: AQHXiSixYzJlWQ0zGE+pIA+UAsFsgKt42gHAgCPOlwCAAIhTgA==
+Date: Fri, 10 Sep 2021 09:11:09 +0000
+Message-ID: <be7540ec24274ea0bc2c933281d0a5a9@intel.com>
+References: <cover.1628076205.git.ashish.kalra@amd.com>
+ <9236f522e48b67fe7136de7620276f7dc193be37.1628076205.git.ashish.kalra@amd.com>
+ <6a48e7c8b6e14933aa0085d12e2c5ff7@intel.com>
+ <20210910084740.GA2686@ashkalra_ubuntu_server>
+In-Reply-To: <20210910084740.GA2686@ashkalra_ubuntu_server>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=192.55.52.88; envelope-from=wei.w.wang@intel.com;
+ helo=mga01.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,72 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
+Cc: "Thomas.Lendacky@amd.com" <Thomas.Lendacky@amd.com>,
+ "brijesh.singh@amd.com" <brijesh.singh@amd.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "jejb@linux.ibm.com" <jejb@linux.ibm.com>, "tobin@ibm.com" <tobin@ibm.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "dovmurik@linux.vnet.ibm.com" <dovmurik@linux.vnet.ibm.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In mirror_iteration() we call mirror_wait_on_conflicts() with
-`self` parameter set to NULL.
+On Friday, September 10, 2021 4:48 PM, Ashish Kalra wrote:
+> On Fri, Sep 10, 2021 at 07:54:10AM +0000, Wang, Wei W wrote:
+> There has been a long discussion on this implementation on KVM mailing li=
+st.
+> Tracking shared memory via a list of ranges instead of using bitmap is mo=
+re
+> optimal. Most of the guest memory will be private and the unencrypted/sha=
+red
+> regions are basically ranges/intervals, so easy to implement and maintain=
+ using
+> lists.
 
-Starting from commit d44dae1a7c we dereference `self` pointer in
-mirror_wait_on_conflicts() without checks if it is not NULL.
+OK. At which version did you discuss this or do you have a link? (I didn't =
+find it in v9 KVM patches)
 
-Backtrace:
-  Program terminated with signal SIGSEGV, Segmentation fault.
-  #0  mirror_wait_on_conflicts (self=0x0, s=<optimized out>, offset=<optimized out>, bytes=<optimized out>)
-      at ../block/mirror.c:172
-  172	                self->waiting_for_op = op;
-  [Current thread is 1 (Thread 0x7f0908931ec0 (LWP 380249))]
-  (gdb) bt
-  #0  mirror_wait_on_conflicts (self=0x0, s=<optimized out>, offset=<optimized out>, bytes=<optimized out>)
-      at ../block/mirror.c:172
-  #1  0x00005610c5d9d631 in mirror_run (job=0x5610c76a2c00, errp=<optimized out>) at ../block/mirror.c:491
-  #2  0x00005610c5d58726 in job_co_entry (opaque=0x5610c76a2c00) at ../job.c:917
-  #3  0x00005610c5f046c6 in coroutine_trampoline (i0=<optimized out>, i1=<optimized out>)
-      at ../util/coroutine-ucontext.c:173
-  #4  0x00007f0909975820 in ?? () at ../sysdeps/unix/sysv/linux/x86_64/__start_context.S:91
-      from /usr/lib64/libc.so.6
+> A list will consume much less memory than a bitmap.
+>=20
+> The bitmap will consume more memory as it will need to be sized as per gu=
+est
+> RAM size and will remain sparsely populated due to limited amount of
+> shared/unencrypted guest memory regions.
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2001404
-Fixes: d44dae1a7c ("block/mirror: fix active mirror dead-lock in mirror_wait_on_conflicts")
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
----
-I'm not familiar with this code so maybe we can fix the bug differently.
+I also thought about this. It depends on the guest.
+I think "A list will consume much less memory" is true when we assume most =
+of guest pages are private pages.
+From design perspective, what if guest chooses to have most of its pages be=
+ing shared?
+Lists might consume much more memory than bitmaps in some cases, I think.
+(Probably I can check your previous discussions first)
 
-Running iotests and the test in bugzilla, everything seems okay.
-
-Thanks,
-Stefano
----
- block/mirror.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/block/mirror.c b/block/mirror.c
-index 98fc66eabf..6c834d6a7b 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -169,9 +169,16 @@ static void coroutine_fn mirror_wait_on_conflicts(MirrorOp *self,
-                     continue;
-                 }
- 
--                self->waiting_for_op = op;
-+                if (self) {
-+                    self->waiting_for_op = op;
-+                }
-+
-                 qemu_co_queue_wait(&op->waiting_requests, NULL);
--                self->waiting_for_op = NULL;
-+
-+                if (self) {
-+                    self->waiting_for_op = NULL;
-+                }
-+
-                 break;
-             }
-         }
--- 
-2.31.1
-
+Best,
+Wei
 
