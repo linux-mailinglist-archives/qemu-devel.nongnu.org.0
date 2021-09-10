@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0B6406E3E
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 17:34:45 +0200 (CEST)
-Received: from localhost ([::1]:40382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F49406E4D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 17:37:17 +0200 (CEST)
+Received: from localhost ([::1]:42620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOiY8-00087f-56
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 11:34:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54878)
+	id 1mOiaa-0001KV-VZ
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 11:37:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mOiWz-0007Jv-Cw
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 11:33:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50733)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mOiWw-0006Ve-38
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 11:33:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631288008;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=8Fpo4I3A/FS978oafft2JtMWz8X8aiROKAsbvjpm6KI=;
- b=eHKyA5c+NElJHPethAZ/3EXbKMxb0TJaBc0G9h9DSL5Q0luDFxc+IaTf/UgXOL4G7Fnpcx
- KxMbkGvI7xmquUcq50Q+KG/u5bqdCjA7manmPWQ+VDAsMjwWMUChEKOYlp45oBrOeJEvDd
- WyvAOjwvSiwq/f8oKTA+28Su7wguOIk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-83T4gWPCNDWdF2JErMNHOg-1; Fri, 10 Sep 2021 11:33:24 -0400
-X-MC-Unique: 83T4gWPCNDWdF2JErMNHOg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B97C84A5E1
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 15:33:23 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.181])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4084460C04;
- Fri, 10 Sep 2021 15:33:19 +0000 (UTC)
-Date: Fri, 10 Sep 2021 16:33:16 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1mOiYS-0000Ql-PT
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 11:35:05 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:38723)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1mOiYQ-0007ma-O1
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 11:35:04 -0400
+Received: by mail-pl1-x632.google.com with SMTP id 5so1381293plo.5
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 08:35:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=vK7qo7+CpM+4gkKUlQAEMenFpqaDCkj+JdfDfV7upio=;
+ b=drOElpaSBw5bL7lAqqMhmgYOQRBFoiPZbeXy0tZGda2rRGpaQKoD6soFrLZf2DcBbg
+ R40rIVGvrpRHkj7cPZqzt10iqWgQueHNnQ4M9w/6pHD+XKtJt3O6qbFvCeZ6Lb7B7FkJ
+ PqJfzkTh2XxGCQQxPjcKI2hnHE5XhfUlEGeG1REqiV635jZAwyTBHBQMaUwFquGQj267
+ s8iVqXrX7pXV942Ce2gdwuP2LgbxNmH6Lbmwzl1QEGV/vFcBJkPqQ5KrsMcsWamz6sSI
+ VnBQ2fMmlPlFI7k9i9mRxixOYHCK6hsssRtwfXw/OodNbr2ZOoc3b4GcYcUH4kstCEi3
+ O7KQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=vK7qo7+CpM+4gkKUlQAEMenFpqaDCkj+JdfDfV7upio=;
+ b=PJQ//I7Ra8YAhcbXrciWuYLeEZ9lXFLu+8etjAIaiFniikMnc3fP2cW/XeRfA845K4
+ dKQrYMP8EkPNaCoLIshSVbRZHTmCrun7EAw5Oe/LaAkvmIdT9gCq5wRxYZwZSAr4KRI/
+ tCDSb9RtyvVn4UPSi5T86xoLXZIvxgbUxu8WV7qF4dpP3gfave0pixXpN6djHjztyTrh
+ V0NKbM31P3NusQ8ysDBRpHQdJCamb6cE6d06GHj6JtA8Fj/upcutxpVvQwBza/daTWLG
+ wr7mcbZxBujEsxBqwabjzm0Co4G4nioeTsuLcXOY5B1LzG9ocZ5OLOGdw3/DlRzHQNdk
+ TXGg==
+X-Gm-Message-State: AOAM533UNOK+2BzaDEvzIXEcfChodmIrOdUMpF1vSmL5UmHUMLPhT3lo
+ iyS8hs70cswb1Z2PMfhLH40R7w==
+X-Google-Smtp-Source: ABdhPJzo92E9wzx8kbRIBZ0FZApTutZuYrF98w4REwmrFr+PdvxZLa+OTdyo7l6R02h0wabAOxEurA==
+X-Received: by 2002:a17:90b:1e4a:: with SMTP id
+ pi10mr10189525pjb.135.1631288099242; 
+ Fri, 10 Sep 2021 08:34:59 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157])
+ by smtp.gmail.com with ESMTPSA id m2sm5804488pgd.70.2021.09.10.08.34.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Sep 2021 08:34:58 -0700 (PDT)
+Date: Fri, 10 Sep 2021 15:34:55 +0000
+From: Sean Christopherson <seanjc@google.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [qemu-web PATCH] contribute: ask not to submit merge requests
-Message-ID: <YTt6vM2FtoOpi+JP@redhat.com>
-References: <20210910152933.468368-1-pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, jarkko@kernel.org, kai.huang@intel.com,
+ eblake@redhat.com, Yang Zhong <yang.zhong@intel.com>
+Subject: Re: [PATCH v4 22/33] hostmem-epc: Add the reset interface for EPC
+ backend reset
+Message-ID: <YTt7H9ifqjeOQztl@google.com>
+References: <20210719112136.57018-1-yang.zhong@intel.com>
+ <20210719112136.57018-23-yang.zhong@intel.com>
+ <dc8394c5-52a1-573f-36d3-de8bc43973d3@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210910152933.468368-1-pbonzini@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+In-Reply-To: <dc8394c5-52a1-573f-36d3-de8bc43973d3@redhat.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=seanjc@google.com; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,65 +88,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: thuth@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 10, 2021 at 05:29:33PM +0200, Paolo Bonzini wrote:
-> Currently, the bug reporting page has a paragraph about not sending patches
-> on the bug tracker, with a link to the patch submission guidelines.
+On Fri, Sep 10, 2021, Paolo Bonzini wrote:
+> On 19/07/21 13:21, Yang Zhong wrote:
+> > +void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
+> > +                              Error **errp)
+> > +{
+> > +    MemoryRegion *mr = &backend->mr;
+> > +
+> > +    mr->enabled = false;
+> > +
+> > +    /* destroy the old memory region if it exist */
+> > +    if (fd > 0 && mr->destructor) {
+> > +        mr->destructor(mr);
+> > +    }
+> > +
+> > +    sgx_epc_backend_memory_alloc(backend, errp);
+> > +}
+> > +
 > 
-> However, now that the tracker is hosted on Gitlab it is more likely that
-> prospective contributors will submit a merge request linked to an issue,
-> rather than attaching a patch to the issue.  Update the language and,
-> since it is not limited to bug reports, move it to the main contribute
-> page.
+> Jarkko, Sean, Kai,
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  contribute.md              | 3 ++-
->  contribute/report-a-bug.md | 2 --
->  2 files changed, 2 insertions(+), 3 deletions(-)
+> this I think is problematic because it has a race window while /dev/sgx_vepc
+> is closed and then reopened.  First, the vEPC space could be exhausted by
+> somebody doing another mmap in the meanwhile.  Second, somebody might (for
+> whatever reason) remove /dev/sgx_vepc while QEMU runs.
+
+Yep, both error cases are possible.
+
+> Yang explained to me (offlist) that this is needed because Windows fails to
+> reboot without it.  We would need a way to ask Linux to reinitialize the
+> vEPC, that doesn't involve munmap/mmap; this could be for example
+> fallocate(FALLOC_FL_ZERO_RANGE).
 > 
-> diff --git a/contribute.md b/contribute.md
-> index cbb476d..4802452 100644
-> --- a/contribute.md
-> +++ b/contribute.md
-> @@ -15,7 +15,8 @@ permalink: /contribute/
->  
->  * Read developer documentation: &ldquo;[Getting started for developers](https://wiki.qemu.org/Documentation/GettingStartedDevelopers)&rdquo;,
->    &ldquo;[Contributor FAQ](https://wiki.qemu.org/Contribute/FAQ)&rdquo;,
-> -  &ldquo;[How to submit a patch](https://wiki.qemu.org/Contribute/SubmitAPatch)&rdquo;,
->    &ldquo;[Improve the website](https://www.qemu.org/2017/02/04/the-new-qemu-website-is-up/)&rdquo;
->  
-> +Please do not submit merge requests on GitLab; patches are sent to the mailing list according to QEMU's [patch submissions guidelines](https://wiki.qemu.org/Contribute/SubmitAPatch).
-> +
->  Contributing to QEMU is subject to the [QEMU Code of Conduct](https://qemu.org/docs/master/devel/code-of-conduct.html).
-> diff --git a/contribute/report-a-bug.md b/contribute/report-a-bug.md
-> index 922f699..807daf8 100644
-> --- a/contribute/report-a-bug.md
-> +++ b/contribute/report-a-bug.md
-> @@ -18,8 +18,6 @@ When submitting a bug report, please try to do the following:
->  
->  * Include information about the host and guest (operating system, version, 32/64-bit).
->  
-> -* Do not contribute patches on the bug tracker; send patches to the mailing list. Follow QEMU's [guidelines about submitting patches](https://wiki.qemu.org/Contribute/SubmitAPatch).
-> -
+> What do you all think?
 
-I think it might be worth leaving a warning here despite adding it
-to the main contribute index page, as people might land directly on
-this page and not see the other page's warning.
+Mechanically, FALLOC_FL_ZERO_RANGE could work, but it's definitely a stretch of
+the semantics as the underlying memory would not actually be zeroed.
 
->  Do NOT report security issues (or other bugs, too) as "private" bugs in the
->  bug tracker.  QEMU has a [security process](../security-process) for issues
->  that should be reported in a non-public way instead.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+The only other option that comes to mind is a dedicated ioctl().
 
