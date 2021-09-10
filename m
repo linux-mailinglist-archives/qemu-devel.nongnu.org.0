@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B684406CD8
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 15:23:35 +0200 (CEST)
-Received: from localhost ([::1]:38272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D480F406CD9
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 15:23:48 +0200 (CEST)
+Received: from localhost ([::1]:39432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOgVC-0007gj-BE
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 09:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47290)
+	id 1mOgVP-0008SY-US
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 09:23:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mOgPf-0007rl-A5
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 09:17:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33796)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mOgPd-0004ui-AX
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 09:17:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631279867;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yA8RBI8jMXEWIF9/ev4jT3tPVNoGcGdTl7ZIWWLVpyY=;
- b=hX6l8DafPQY6TBMmySCeFaTyqMgVfd4lZHt/USIjqVTIfucZJCjVpcMKQJqLHHv/W//IKP
- 2fLJL5x6rhDmrwjejP1brvIKVTBp2SmrMTOcBh4VYz1czndA2cdoxWne/Gb5W8qy+0oaGj
- yWSTm3lpMtwlISfAJJPygr5Kig03q14=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-583-T4_heG82Opa9cEZ0LLh5cg-1; Fri, 10 Sep 2021 09:17:46 -0400
-X-MC-Unique: T4_heG82Opa9cEZ0LLh5cg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B37721006AA2
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 13:17:45 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DAA1A5D9F4;
- Fri, 10 Sep 2021 13:17:31 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3A7051800934; Fri, 10 Sep 2021 15:17:10 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 6/6] qxl: fix pre-save logic
-Date: Fri, 10 Sep 2021 15:17:09 +0200
-Message-Id: <20210910131709.3681492-7-kraxel@redhat.com>
-In-Reply-To: <20210910131709.3681492-1-kraxel@redhat.com>
-References: <20210910131709.3681492-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <hinkocevar@gmail.com>)
+ id 1mOgTX-0005j3-Ku
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 09:21:51 -0400
+Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:39591)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hinkocevar@gmail.com>)
+ id 1mOgTV-0007vn-Q6
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 09:21:51 -0400
+Received: by mail-qk1-x72d.google.com with SMTP id y144so1869049qkb.6
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 06:21:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=lH9PA6PRW7H6tMvhGEY2MuydTGodjOlWAKHaJkoqv2g=;
+ b=g2moUGczaFZJTrSHLf4gvi1Qnv7j3jdmgxx1OBwarHRhnDISowLoEVUoHvCpqtt2zP
+ gGB9/nt/KVaiPqvF9BFZ/F8WbSvjEczL8UQ/2jGRl3i9GJqAHxpIWHUT+gfvIRzGOZR6
+ D2pmYbKrkEw5+KLA0ezm3KlYtd8GQ2Rz54nuv1bNIvqvsv0Vptxuiz9dbAftAC6Wtaf6
+ L6VPkq3merKwKv7V+bZXSZhno1JJGR6K9w43RO7jmZCEyakrkIeXs17wbKUzdGOgJ4R3
+ huwpTYmbtnvVcFLUEDhp0WRjHH3sohSwb3r23HewQVRx1MB9ysQtb4WseDAqZ0LEJU6G
+ qNKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=lH9PA6PRW7H6tMvhGEY2MuydTGodjOlWAKHaJkoqv2g=;
+ b=vwHr9b0yItHbWWLUXQF/OxYD6G82WK94uTONWXkbl72dsN7cb8BSdNLd4EpccORi+z
+ bJ9Y8DaofEk1vDmWL54kyUSV+5nRs7c/5kU9NRojCgyH+Ixv1bTRg6GD7UvkWQtMzFNa
+ a9YGcWhgt7rEqOFYg5dO66/WW35LVrEz2pYCjYtj/W2zDODRXU5SpKyqtpUKNQZoTPwh
+ d9dSYN7WgziAyyRQ7D7VXpw6PkTbfVumRwtbd75rFCzJw2fa4ZyZiCOMSvmzh+oYv1m5
+ LZArDTZ45LWF7DYgIvY6omJ82tRKYGf7oMtJ9wGntN3qlaqzXKMAOXn8qxulSK4FypEC
+ 1UCw==
+X-Gm-Message-State: AOAM5314d2IykewTGR6wYUSLvh+wDu5dKNuQjtWV6+rfUmLx9uebpJlK
+ 5uxBfzTMAQA0I6VTonN4mDbg0vZS1IPEIinxhah25XzkywsQ6Q==
+X-Google-Smtp-Source: ABdhPJyvTcSLnC3DAViEut58VHAj6hSS6Fo+vigd7xHtsZvwTE8zZaVVlyhTd1CVCgjpFwtof8nd1QF+/9TPy3fNPjg=
+X-Received: by 2002:a37:9e55:: with SMTP id h82mr7444784qke.42.1631280108625; 
+ Fri, 10 Sep 2021 06:21:48 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+From: Hinko Kocevar <hinkocevar@gmail.com>
+Date: Fri, 10 Sep 2021 15:21:37 +0200
+Message-ID: <CACOP0z-956f0eBdv5wdfqWKT140_mSTW3GwJ1fQ5WEDATB=2Aw@mail.gmail.com>
+Subject: Adding IO memory region to mipssim
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000067612805cba3ff17"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
+ envelope-from=hinkocevar@gmail.com; helo=mail-qk1-x72d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,39 +73,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Oops.  Logic is backwards.
+--00000000000067612805cba3ff17
+Content-Type: text/plain; charset="UTF-8"
 
-Fixes: 39b8a183e2f3 ("qxl: remove assert in qxl_pre_save.")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/610
-Resolves: https://bugzilla.redhat.com//show_bug.cgi?id=2002907
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20210910094203.3582378-1-kraxel@redhat.com>
----
- hw/display/qxl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm trying to add an I/O memory region to mipssim machine to emulate a MMIO
+region used by the u-boot loaded as BIOS image. I can confirm that the
+machine starts and loads the BIOS, starts execution but hangs due to
+unhandled IO access as described below.
 
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 43482d4364ba..29c80b4289b7 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -2252,7 +2252,7 @@ static int qxl_pre_save(void *opaque)
-     } else {
-         d->last_release_offset = (uint8_t *)d->last_release - ram_start;
-     }
--    if (d->last_release_offset < d->vga.vram_size) {
-+    if (d->last_release_offset >= d->vga.vram_size) {
-         return 1;
-     }
- 
--- 
-2.31.1
+The region should be at 0xB8810000, of size 0x10000.
 
+I've added these lines of code to mispsim.c mips_mipssim_init():
+
+    my_state *s = g_malloc0(sizeof(my_state));
+    memory_region_init_io(&s->mmio, NULL, &my_ops, s,
+                         "mips_mipssim.foo", 0x10000);
+    memory_region_add_subregion(address_space_mem, 0xB8810000LL, &s->mmio);
+
+All goes well, the machine starts, and I can see the newly added region in
+qemu monitor info mtree output like so:
+
+    00000000b8810000-00000000b881ffff (prio 0, i/o): mips_mipssim.foo
+
+With some tracing enabled I see this error:
+
+ Invalid access at addr 0x18810104, size 4, region '(null)', reason:
+rejected
+
+I know the u-boot is making request to 0xB8810104 and not 0x18810104. I
+also can see 0xB8810104 address being handed to io_writex(), but mr_offset
+becomes 0x18810104 here:
+
+  mr_offset = (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
+
+What is going on?
+
+FWIW, I can place my emulated memory region at 0x18810104, but would like
+to understand the behavior above.
+
+Thanks!
+//hinko
+
+--00000000000067612805cba3ff17
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I&#39;m trying to add an I/O memory region to mipssim mach=
+ine to emulate a MMIO region used by the u-boot loaded as BIOS image. I can=
+ confirm that the machine starts and loads the BIOS, starts execution but h=
+angs due to unhandled IO access as described below.<div><br><div>The region=
+ should be at=C2=A00xB8810000, of size 0x10000.</div><div><br></div><div>I&=
+#39;ve added these lines of code to mispsim.c=C2=A0mips_mipssim_init():</di=
+v><div><br></div><div>=C2=A0 =C2=A0 my_state *s =3D g_malloc0(sizeof(my_sta=
+te));<br>=C2=A0 =C2=A0 memory_region_init_io(&amp;s-&gt;mmio, NULL, &amp;my=
+_ops, s,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;mips_mipssim.foo&quot;, 0x10000);<br>=C2=
+=A0 =C2=A0 memory_region_add_subregion(address_space_mem, 0xB8810000LL, &am=
+p;s-&gt;mmio);<br><div><br></div><div>All goes well, the machine starts, an=
+d I can see the newly added region in qemu monitor info mtree output like s=
+o:</div><div><br></div><div>=C2=A0 =C2=A0 00000000b8810000-00000000b881ffff=
+ (prio 0, i/o): mips_mipssim.foo<br></div><div><br></div><div>With some tra=
+cing enabled I see this error:</div></div></div><div><br></div><div>=C2=A0I=
+nvalid access at addr 0x18810104, size 4, region &#39;(null)&#39;, reason: =
+rejected<br></div><div><br></div><div>I know the u-boot is making request t=
+o 0xB8810104 and not 0x18810104. I also can see 0xB8810104 address being ha=
+nded to=C2=A0io_writex(), but mr_offset becomes 0x18810104 here:</div><div>=
+<br></div><div>=C2=A0=C2=A0mr_offset =3D (iotlbentry-&gt;addr &amp; TARGET_=
+PAGE_MASK) + addr;</div><div><br></div><div>What is going on?</div><div><br=
+></div><div>FWIW, I can place my emulated memory region at 0x18810104, but =
+would like to understand the behavior above.</div><div><br></div><div>Thank=
+s!</div><div>//hinko</div><div><br></div></div>
+
+--00000000000067612805cba3ff17--
 
