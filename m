@@ -2,81 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBFCC40731D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 23:53:06 +0200 (CEST)
-Received: from localhost ([::1]:46602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B20A7407356
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 00:26:22 +0200 (CEST)
+Received: from localhost ([::1]:50834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOoSI-0003cJ-2Z
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 17:53:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51012)
+	id 1mOoyT-0008Rt-8i
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 18:26:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mOoR3-0002bT-5T
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 17:51:49 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:34601)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mOoR1-0004xB-2O
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 17:51:48 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- v20-20020a1cf714000000b002e71f4d2026so1765212wmh.1
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 14:51:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TwJV9G/CfCLd1Qgaohwlb5dCcp0v9mFQ9D9d9HHmq7E=;
- b=a1TsEnEU/5KoP6lrqlRZ97pqb+BcegZE1y0YwRrsqtgdfRnt76XUK28mP4BJPFGlw6
- GQn5ObFjr03FnatuDr5geIMoQfueYrbPJ3Ol372Ojossx4l1RkC3m7gwW2eHMnv4jipG
- /ElrvjYoNiLuQf8f9zHF+CJ33T9aKxUlyTbo0dTMnHB4VZoai7rtDCduwKXmHf0gyR6D
- NsxIsSd45fS7MU/EBpqQ+NM0cvoEWB+cRPhy20iIfn32OiqBALID7ULVn+/sjSDMxv2j
- JOll3EG9Y9XYosYSzj9H3Oi/4n3WyR5ZDrM5q26cv1bkmB/SXAHlPSFsUZ9eNrEfnveD
- 4oaw==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1mOoww-0007fP-Ec
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 18:24:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23047)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1mOows-0002U7-Nt
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 18:24:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631312680;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HfeoIy2n2aawgNdQlmeOS/MF8eJE0e5Ge4thWOvS1kI=;
+ b=DVTXkA5u7pvjLcqeTowun5RsSgYN/yTHfO1/WAzGNHFPED6gMsVrCLIIp/spaSOMTVnVBl
+ rAzuaSpCnyTGtCZ8H/sPW8qB8On7LFt900QKoCtMLR5KjWOvLVKTVJ4Cj+0XqCdGNUfLR6
+ 6MR924GrM6peYOXIb/ht7Daqd1utGGQ=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-289-qcMWnDefNzCrIwOOQmrpFg-1; Fri, 10 Sep 2021 18:24:39 -0400
+X-MC-Unique: qcMWnDefNzCrIwOOQmrpFg-1
+Received: by mail-oo1-f70.google.com with SMTP id
+ w20-20020a4a7654000000b002917fdff67fso2117071ooe.2
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 15:24:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TwJV9G/CfCLd1Qgaohwlb5dCcp0v9mFQ9D9d9HHmq7E=;
- b=D18FSWzX7TIKV9Bh9e1+cm94+Qde7CWgO88h97eVgM4PzaPE/SKe2Yyg/TZGpbx7J7
- YChMFDlVP8YQ7xaib+4H7mRbgjMDh3xbwtN+7sBSCGivOLokApz88N17odQVvTobAmq+
- sM3UqhSJBCX2ROCNMVSAhLDUUX4g0RMBv0ktsSJHJPw1iiNzMLzZfa6bvziS1cR6VpOV
- 2aL73GasQ0IYWas7QfmL54wQUlVHK4Zere+P9KwHToZFGJ23mKECv/GIjLqeX29fZilJ
- HdI+OhEPnUtbaindBIG82gGC/gpxMfQ1uYAIqQWRrR+/5iw19F9EoyVIn3Izx8mLyIfS
- nKfA==
-X-Gm-Message-State: AOAM530EOCKBpUYupDMpCFdap1hc1bZ3SdferqIfyupp1DmhmYMIMJUc
- j6o7w7oWRVaLmCZ+IUTi8Ik=
-X-Google-Smtp-Source: ABdhPJwJvc/EVceHf++qRrYeYPqBYetIz/hluy/FLnMKe6XK21SFGJPbfpRuOYvIhHth8VljTMbh8g==
-X-Received: by 2002:a05:600c:b56:: with SMTP id
- k22mr9829452wmr.92.1631310704884; 
- Fri, 10 Sep 2021 14:51:44 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id t17sm5721065wra.95.2021.09.10.14.51.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Sep 2021 14:51:44 -0700 (PDT)
-Subject: Re: [PULL 00/42] bsd-user updates to run hello world
-To: imp@bsdimp.com, qemu-devel@nongnu.org
-References: <20210910203011.63003-1-imp@bsdimp.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <60d25fe3-60d5-b8d9-471b-e4adaa0c2205@amsat.org>
-Date: Fri, 10 Sep 2021 23:51:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=AYv94WU58Pm070/l+zhT6QfIf2GOWLbWoNN/feYQnhU=;
+ b=AVtgDZ/LY7bHDG66hDEKz3WoL0h2QXaF2MHYf9Ag4O8X4ykI4+ynZRQXcnq3f71Xaf
+ 5kVgiofecbP4nOwvNHhNupnSrXuxPIW9si+9McmWsdWHSYWq5Oko6dXEUoB9zbSuMaGT
+ OCKhxMB7mFpj1HGj5LVIlb9zOKw4Jpli6IKrkbKF1jlIaxwXeEIE9lRV6wjuh95FgGgO
+ XEMtt9Re7XikuzM47F+jCwioyd64GwjEbYCTZ2u6hJSRC1YQggpxXNC4JCJITuaMvzjn
+ wAx7cFG3fV2q3W3Xjg4VhtR9SBm9yLVlHQia7fqDhD57VWT4eESXUrwAIL4EYiPX2iIA
+ Rrjg==
+X-Gm-Message-State: AOAM533Ih7FZGVN2Y/xq8Tus1/ROVyCXL1W6Hvv2N+YqmsuSBHAQqOPl
+ Hc3YDxp2s9AlXfegnryoT1shnB929sDGCPpW3pvzxnRTVItN/wz+eAHlo7UrVouUEK0GgzXRm/t
+ Xz+gmg/FZ18x+lFE=
+X-Received: by 2002:a05:6808:56:: with SMTP id v22mr10619oic.49.1631312677729; 
+ Fri, 10 Sep 2021 15:24:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz5fkbKkcFLLMiPeHRit9o6cD8iRQl29rmnzeP4csmm5RuFKCXZ7NyRfLbEMLUM/jJ5QfuqBw==
+X-Received: by 2002:a05:6808:56:: with SMTP id v22mr10604oic.49.1631312677498; 
+ Fri, 10 Sep 2021 15:24:37 -0700 (PDT)
+Received: from redhat.com ([198.99.80.109])
+ by smtp.gmail.com with ESMTPSA id z25sm3583oic.24.2021.09.10.15.24.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Sep 2021 15:24:37 -0700 (PDT)
+Date: Fri, 10 Sep 2021 16:24:35 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Kunkun Jiang <jiangkunkun@huawei.com>
+Subject: Re: [PATCH 1/2] vfio/pci: Fix vfio-pci sub-page MMIO BAR mmaping in
+ live migration
+Message-ID: <20210910162435.7dfadf96.alex.williamson@redhat.com>
+In-Reply-To: <10e2296d-5bf4-7b83-c2a6-42f3e37ceb95@huawei.com>
+References: <20210903093611.1159-1-jiangkunkun@huawei.com>
+ <20210903093611.1159-2-jiangkunkun@huawei.com>
+ <20210908144535.66463b6c.alex.williamson@redhat.com>
+ <10e2296d-5bf4-7b83-c2a6-42f3e37ceb95@huawei.com>
+Organization: Red Hat
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210910203011.63003-1-imp@bsdimp.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.349,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,96 +101,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Eric Auger <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ tangnianyao@huawei.com, ganqixin@huawei.com, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/10/21 10:30 PM, imp@bsdimp.com wrote:
-> From: Warner Losh <imp@bsdimp.com>
-> 
-> The following changes since commit a61c30b8c8c3c8619847cfaa289233cc696f5689:
-> 
->   Merge remote-tracking branch 'remotes/mjt/tags/patch-fetch' into staging (2021-09-07 10:15:48 +0100)
-> 
-> are available in the Git repository at:
-> 
->   https://gitlab.com/bsdimp/qemu.git tags/pull-bsd-user-20210910
+On Fri, 10 Sep 2021 16:33:12 +0800
+Kunkun Jiang <jiangkunkun@huawei.com> wrote:
 
-Well done, chapeau!
+> Hi Alex,
+>=20
+> On 2021/9/9 4:45, Alex Williamson wrote:
+> > On Fri, 3 Sep 2021 17:36:10 +0800
+> > Kunkun Jiang <jiangkunkun@huawei.com> wrote:
+> > =20
+> >> We expand MemoryRegions of vfio-pci sub-page MMIO BARs to
+> >> vfio_pci_write_config to improve IO performance.
+> >> The MemoryRegions of destination VM will not be expanded
+> >> successful in live migration, because their addresses have
+> >> been updated in vmstate_load_state (vfio_pci_load_config). =20
+> > What's the call path through vfio_pci_write_config() that you're
+> > relying on to get triggered to enable this and why wouldn't we just
+> > walk all sub-page BARs in vfio_pci_load_config() to resolve the issue
+> > then?  It's my understanding that we do this update in write-config
+> > because it's required that the VM sizes the BAR before using it, which
+> > is not the case when we resume from migration.  Thanks, =20
+> Let's take an example:
+>=20
+> AArch64
+> host page granularity: 64KB
+> PCI device: *Bar2 size 32KB* [mem 0x8000200000-0x800020ffff 64bit pref]
+>=20
+> When enable Command register bit 1(Memory Space), the code flow is
+> as follows:
+>=20
+> vfio_pci_write_config (addr: 4 val: 2 len: 2)
+>  =C2=A0=C2=A0=C2=A0 // record the old address of each bar, 0xffffffffffff=
+ffff
+>  =C2=A0=C2=A0=C2=A0 old_addr[bar] =3D pdev->io_regions[bar].addr;
+>  =C2=A0=C2=A0=C2=A0 pci_default_write_config
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pci_update_mappings
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 new_a=
+ddr =3D pci_bar_address=C2=A0=C2=A0=C2=A0 // 0x8000200000
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r->ad=
+dr =3D new_addr;
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memor=
+y_region_addr_subregion_overlap
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 ...
+> *vfio_listener_region_add*
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 alignment check of the ram secti=
+on address and size=20
+> fail, return
+> *kvm_region_add*
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kvm_set_phys_mem
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 alignmen=
+t check of the ram section address and=20
+> size fail, return
+>=20
+>  =C2=A0=C2=A0=C2=A0 // old_addr[bar] !=3D pdev->io_regions[bar].addr &&
+>  =C2=A0=C2=A0=C2=A0 // 0 < vdev->bars[bar].region.size < qemu_real_host_p=
+age_size
+>  =C2=A0=C2=A0=C2=A0 vfio_sub_page_bar_update_mapping
+> *bar size =3D qemu_real_host_page_size*
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ...
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vfio_=
+listener_region_add
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 map success
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kvm_r=
+egion_add
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 kvm_set_phys_mem
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 map success
+>=20
+> In live migration, only pci config data is sent to the destination VM.
+> Therefore, we need to update the bar's size before destination VM
+> using it.
+>=20
+> In vfio_pci_load_config, the code flow is as follows:
+>=20
+> vfio_pci_load_config
+>  =C2=A0=C2=A0=C2=A0 vmstate_load_state
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *get_pci_config_device*
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pci_u=
+pdate_mappings
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 ...
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 // bar's addr is updated(0x8000200000), but bar's size=
+=20
+> is still 32KB, so map failed
+>  =C2=A0=C2=A0=C2=A0 vfio_pci_write_config
+>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // bar's addr will not be cha=
+nged, so=20
+> vfio_sub_page_bar_update_mapping won't be called
+>=20
+> My idea is that removing the check 'old_addr[bar] !=3D=20
+> pdev->io_regions[bar].addr' doesn't
+> affect the previous process. There's also a bar size check. In=20
+> vfio_sub_page_bar_update_mapping,
+> it will check if bar is mapped and page aligned.
+> 1) If bar's addr is 0xffffffffffffffff, it will not pass the=20
+> vfio_sub_page_bar_update_mapping check.
+> 2) If bar's size has been updated, it will not pass the bar size check=20
+> in vfio_pci_write_config.
 
-> for you to fetch changes up to be04f210f954bed8663943a94ece50c2ca410231:
-> 
->   bsd-user: Update mapping to handle reserved and starting conditions (2021-09-10 14:13:06 -0600)
-> 
-> ----------------------------------------------------------------
-> This series of patches gets me to the point that I can run "Hello World" on i386
-> and x86_64. This is for static binaries only, that are relatively small, but
-> it's better than the 100% instant mmap failre that is the current state of all
-> things bsd-user in upstream qemu. Future patch sets will refine this, add
-> the missing system calls, fix bugs preventing more sophisticated programms
-> from running and add a bunch of new architecture support.
-> 
-> There's three large themes in these patches, though the changes that
-> represent them are interrelated making it hard to separate out further.
-> 1. Reorganization to support multiple OS and architectures (though I've only
->    tested FreeBSD, other BSDs might not even compile yet).
-> 2. Diff reduction with the bsd-user fork for several files. These diffs include
->    changes that borrowed from linux-user as well as changes to make things work
->    on FreeBSD. The records keeping when this was done, however, was poor at
->    best, so many of the specific borrowings are going unacknowledged here, apart
->    from this general ack. These diffs also include some minor code shuffling.
->    Some of the changes are done specifically to make it easier to rebase
->    the bsd-user fork's changes when these land in the tree (a number of changes
->    have been pushed there to make this more possible).
-> 3. Filling in the missing pieces to make things work. There's many changes to
->    elfload to make it load things in the right places, to find the interpreter
->    better, etc. There's changes to mmap.c to make the mappings work better and
->    there's changes to main.c that were inspired, at least, by now-ancient changes
->    to linux-user's main.c.
-> 
-> I ran checkpatch.pl on this, and there's 350-odd errors it identifies (the vast
-> majoirty come from BSD's fetish for tabs), so there will need to be a V2 to fix
-> this at the very least. In addition, the change set is big (about +~4.5k/-~2.5k
-> lines), so I anticipate some iteration as well just based on its sheer
-> size. I've tried to keep each set small to make it easy to review in isolation,
-> but I've also allowed some interrelated ones to get a little bigger than I'd
-> normally like. I've not done the customary documentation of the expected
-> checkpatch.pl output because it is large, and because I wanted to get review
-> of the other parts rolling to get this project unstuck. Future versions of the
-> patch will document the expected output.
-> 
-> In addition, I noticed a number of places where I could modernize to make the
-> code match things like linux-user better. I've resisted the urge to do these at
-> this time, since it would complicate merging the other ~30k lines of diff that
-> remains after this batch. Future batches should generally be smaller once this
-> one has landed since they are, by and large, either a bunch of new files to
-> support armv7, aarch64, riscv64, mips, mipsel, mips64, ppc, ppc64 and ppc64le,
-> or are adding system calls, which can be done individually or small groups. I've
-> removed sparc and sparc64 support as they've been removed from FreeBSD and
-> have been near totally busted for years.
-> 
-> Stacey Son did the bulk of this work originally, but since I had to move things
-> around so much and/or retool that work in non-trivial ways, I've kept myself as
-> author, and added his signed-off-by line. I'm unsure of the qemu standard
-> practice for this, but am happy to learn if this is too far outside its current
-> mainstream. For a while Sean Bruno did the merges from upstream, and he's
-> credited using his signed-off-by in appropriate places, though for this patch
-> set there's only a few. I've tried to ensure that others who have work in
-> individual patches that I've aggregated together also are reflected in their
-> signed-off-by. Given the chaotic stat of the upstream repo for its early
-> history, this may be the best that can be reconstructed at this late date. Most
-> of these files are 'foundational' so have existed from the earliest days when
-> record keeping wasn't quite what I'd wish for in hindsight. There was only
-> really one change that I could easily cherry-pick (Colin's), so I did that.
-> 
-> ----------------------------------------------------------------
-> Colin Percival (1):
->   bsd-user: Add '-0 argv0' option to bsd-user/main.c
-> 
-> Warner Losh (41):
->   bsd-user: remove sparc and sparc64
->   bsd-user: add copyright header to elfload.c
->   bsd-user: Add Stacey's copyright to main.c
->   bsd-user: add license to bsdload.c
-...
+The bar size check in vfio_pci_write_config() only tests if the vfio
+region is >0 and <qemu_real_host_page_size, afaict our sub-page support
+affects the size of the MemoryRegions mapping the vfio region, but we
+never change the vfio region size itself.  So if you're expecting
+(vdev->bars[bar].region.size =3D=3D qemu_real_host_page_size) once we setup
+the sub-page support, I'm not convinced that's true.
+
+So yes, sub-page-update can reject invalid addresses and we already
+rely on it to do so, but the code being removed avoids that redundant
+writes to the BAR won't trigger redundant MemoryRegion manipulation.
+Maybe those are harmless, but that's not your argument for allowing it.
+
+OTOH, why wouldn't vfio_pci_load_config() iterate sub-page BARs and try
+to update them at that time?  Thanks,
+
+Alex
+
+
+> >    =20
+> >> Remove the restriction on base address change in
+> >> vfio_pci_write_config for correct mmapping sub-page MMIO
+> >> BARs. Accroding to my analysis, the remaining parameter
+> >> verification is enough.
+> >>
+> >> Fixes: c5e2fb3ce4d (vfio: Add save and load functions for VFIO PCI dev=
+ices)
+> >> Reported-by: Nianyao Tang <tangnianyao@huawei.com>
+> >> Reported-by: Qixin Gan <ganqixin@huawei.com>
+> >> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+> >> ---
+> >>   hw/vfio/pci.c | 8 +-------
+> >>   1 file changed, 1 insertion(+), 7 deletions(-)
+> >>
+> >> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> >> index e1ea1d8a23..891b211ddf 100644
+> >> --- a/hw/vfio/pci.c
+> >> +++ b/hw/vfio/pci.c
+> >> @@ -1189,18 +1189,12 @@ void vfio_pci_write_config(PCIDevice *pdev,
+> >>           }
+> >>       } else if (ranges_overlap(addr, len, PCI_BASE_ADDRESS_0, 24) ||
+> >>           range_covers_byte(addr, len, PCI_COMMAND)) {
+> >> -        pcibus_t old_addr[PCI_NUM_REGIONS - 1];
+> >>           int bar;
+> >>  =20
+> >> -        for (bar =3D 0; bar < PCI_ROM_SLOT; bar++) {
+> >> -            old_addr[bar] =3D pdev->io_regions[bar].addr;
+> >> -        }
+> >> -
+> >>           pci_default_write_config(pdev, addr, val, len);
+> >>  =20
+> >>           for (bar =3D 0; bar < PCI_ROM_SLOT; bar++) {
+> >> -            if (old_addr[bar] !=3D pdev->io_regions[bar].addr &&
+> >> -                vdev->bars[bar].region.size > 0 &&
+> >> +            if (vdev->bars[bar].region.size > 0 &&
+> >>                   vdev->bars[bar].region.size < qemu_real_host_page_si=
+ze) {
+> >>                   vfio_sub_page_bar_update_mapping(pdev, bar);
+> >>               } =20
+> > . =20
+>=20
+>=20
+
 
