@@ -2,82 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38A4D406765
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 08:50:05 +0200 (CEST)
-Received: from localhost ([::1]:55368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E509406773
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 09:03:20 +0200 (CEST)
+Received: from localhost ([::1]:41206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOaMN-0002TD-Tc
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 02:50:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53018)
+	id 1mOaZD-00046a-LK
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 03:03:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mOaJE-0007QN-1F
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 02:46:48 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:39604)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mOaJB-0003qH-2g
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 02:46:47 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- 196-20020a1c04cd000000b002fa489ffe1fso636215wme.4
- for <qemu-devel@nongnu.org>; Thu, 09 Sep 2021 23:46:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JZwVYff2olTKH4aZVpxOQc2TZr/YmofPRDMpeuN43uQ=;
- b=oL9xe0b8sEeHGs8Ygo4HpTeWlqJ1Z97hRRVOwUPAR6jCLEQi9dU04h4qxcfxYd6g0b
- RCf5Ah7Z4YImJad5zso/uz36uSipMHtNZlULvDh0v+G6MRjozDlYSMmHHVX+NcYio2q9
- CrG5zqn1nBEwO8Ynm5XtS6uq/wVOPaabiZmJr1orgE4UgYUF9RFPfuI1nZaLsmTVYCGR
- CvfGx1M0usQN2s/tgXjMlilqEGtJoG00vHVO2WobmgbLJlBSFbsth458NOTqld8QdtbV
- Gn1ZlPt2EcuG79Hh1Izw3CVbBTVmxs1TpPOXtA32etj1et9SKcuTcENVRC6XKv0y8Jnt
- 9FUg==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mOaX9-0001bN-RF
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 03:01:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37617)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mOaX5-0008La-3W
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 03:01:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631257264;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lgCeAwgDEPSxOY8YAPmzrwb60hIAPjl3MCHwCa0fdrY=;
+ b=Y+uj8KYtpRFehkpANa4lkpxVKHirehm1TWyWu2Spx9kfWC+dmxhrTnHx0H86h6DGSbVmZo
+ DRiHHsIdREchRYP6CHjfCW+cH8AbgfY1CYeOef9hHut9XywzcxlozunRePRrWGnV+tciSu
+ Bx0j0wf2v7LMAg0xCOhJiMBdNqBgbiw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-261-l_DEmXqkNcCnfkezDF4kAg-1; Fri, 10 Sep 2021 03:01:02 -0400
+X-MC-Unique: l_DEmXqkNcCnfkezDF4kAg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ c4-20020a1c9a04000000b002e864b7edd1so398741wme.6
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 00:01:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version
  :content-transfer-encoding;
- bh=JZwVYff2olTKH4aZVpxOQc2TZr/YmofPRDMpeuN43uQ=;
- b=lHokz/XDRR2yno3+25dizXqNpTpTF7stHuqcbl4hiAiD20pUbNkbE8rXVvNku/Vmmo
- wMiFVDllrPk7++gczUgfkJ10qam5IGqHDInfwCM2vKggvsTbOeDAESvEqutW72wQebqF
- bze200zOdLoVqlWm4amb1hNARmonnMF96CXlWGnnVytYWUMMZusVcy9ZzSQcaONExivp
- RScN4A4ZlJ7SdOJJVWNRTfu0h3Yiu/ZYlGwW+t9dppGV/TAg2NzBidwm8r15+B2bgP0x
- o9we1c2UJ4q/CnyK/6cm3RVjKVWwL6BSif2PfBu/0U41yS4p5hZRp3cX/dwCuCtmAwpv
- WB8g==
-X-Gm-Message-State: AOAM531rv7ecjlcE5ZW1bZir/iOkrchQxcj5BWjHJ90qwCeHM2T+TGGE
- FdL8EnFiN3EDUNgiCjpzoRJ33OSWP+J5XGX3
-X-Google-Smtp-Source: ABdhPJxgGRr+COa8W3R6/LadqJdDSbxD9Ev9BcGr1MT32ptAGKsSfNxIDMuIdh/1gAsCBZ8/OLXPvg==
-X-Received: by 2002:a1c:35c1:: with SMTP id c184mr6645132wma.68.1631256402954; 
- Thu, 09 Sep 2021 23:46:42 -0700 (PDT)
-Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
- [37.14.164.149])
- by smtp.gmail.com with ESMTPSA id d8sm3994363wrv.20.2021.09.09.23.46.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Sep 2021 23:46:42 -0700 (PDT)
-Subject: Re: [PATCH 1/4] target/arm: Add TB flag for "MVE insns not predicated"
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210902150910.15748-1-peter.maydell@linaro.org>
- <20210902150910.15748-2-peter.maydell@linaro.org>
- <76cd3594-f864-232c-8687-19a1d44ff07e@linaro.org>
- <CAFEAcA_xUSMEoT34fkwiGef8D5Rwfkvre8o03YqgEw-qD86o=Q@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d2263937-aa85-c51c-9a2b-bc50043e10c7@linaro.org>
-Date: Fri, 10 Sep 2021 08:46:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ bh=dH2GExrBEf5NKVdF7XN7LVSIiYib1M7a44oqp68Ux+g=;
+ b=yoqZRgll8BumlQvJlq0BLRVzkAhl5T6QYt/GSqdpd029TJWlo2aE+00PoF6K/4Lh7I
+ G8GsUI/IE7k2RaQ/zKAFBtfQM67a46E/BxHuPnNWLUTbORiV15GpqD+5vmrcyPSesrtD
+ H9JmN3xPaNahWN/364XzcXSVCwpEqLhnNiqzcOQiIMYNrvPbIte7kQZrtvkUG0iz9D0Z
+ NwSAtyOtYrRfobCYkoZkgzsxSLU7wtR9i1NkonWkFpnwi1mfIzilGX6IFh55kSLCmEFk
+ Gc+oTUCqE1D5mKuVCsXcWrCK2k+OGPxkPUadoP2WPHOq92MYtXboijTDRe5MJL+YncdH
+ zw6A==
+X-Gm-Message-State: AOAM530t+hXQqEOx58q3jDytDdvuyJoJP69euqlxEVrguzonQfd1W1KY
+ pKSGQI1Giu81takEmS4q/qklgjhLFcVvroQbuJkW8z1NdFRSA+bNnR6z+/JIdDIxCBy4VVLm3sl
+ AgjjA4Sflt5d60hI=
+X-Received: by 2002:a1c:98d5:: with SMTP id a204mr6950275wme.52.1631257261095; 
+ Fri, 10 Sep 2021 00:01:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzTOKE/yKCTAIcgoa07td89OyEYwFLhK9qzAHP2qaLF8eq2/4lCd1tW3mNrO4GEUJD6J1KgYQ==
+X-Received: by 2002:a1c:98d5:: with SMTP id a204mr6950249wme.52.1631257260774; 
+ Fri, 10 Sep 2021 00:01:00 -0700 (PDT)
+Received: from localhost (static-201-64-63-95.ipcom.comunitel.net.
+ [95.63.64.201])
+ by smtp.gmail.com with ESMTPSA id t11sm3674350wmi.23.2021.09.10.00.00.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Sep 2021 00:01:00 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: lizhijian@fujitsu.com
+Subject: Re: [PULL 0/7] Migration.next patches
+In-Reply-To: <dc771570-e47d-9926-6a10-11ad3bfa69ae@fujitsu.com>
+ (lizhijian@fujitsu.com's message of "Fri, 10 Sep 2021 05:27:41 +0000")
+References: <20210909103346.1990-1-quintela@redhat.com>
+ <CAFEAcA-LSVj3B-xgPFMTz49D=KoRx1W7_HKjFf1bHEYdBGVgPA@mail.gmail.com>
+ <f02237fb-852d-8449-e90d-97a59bcf51e8@cn.fujitsu.com>
+ <87fsudn30g.fsf@secure.mitica>
+ <14fbe8b5-0212-c0fd-e0fd-4198ab5d217b@fujitsu.com>
+ <dc771570-e47d-9926-6a10-11ad3bfa69ae@fujitsu.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Fri, 10 Sep 2021 09:00:59 +0200
+Message-ID: <87bl50ncd0.fsf@secure.mitica>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_xUSMEoT34fkwiGef8D5Rwfkvre8o03YqgEw-qD86o=Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.975,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,25 +104,270 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: quintela@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/9/21 3:46 PM, Peter Maydell wrote:
-> On Fri, 3 Sept 2021 at 14:58, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->> I think you need to go ahead and end the TB and resync immediately.
->> Just set dc->base.is_jmp = DISAS_UPDATE_NOCHAIN instead.
-> 
-> Is there a rule for when we should set is_jmp to DISAS_UPDATE_NOCHAIN,
-> when we should set it to DISAS_UPDATE_EXIT, and when we should call
-> gen_lookup_tb() ? We seem to use all three methods at various points
-> for "I changed some CPU state and want to end the TB"...
+"lizhijian@fujitsu.com" <lizhijian@fujitsu.com> wrote:
+> On 10/09/2021 13:20, Li Zhijian wrote:
+>>
+>>
+>> On 10/09/2021 00:10, Juan Quintela wrote:
+>>> "Li, Zhijian" <lizhijian@cn.fujitsu.com> wrote:
+>>>> on 2021/9/9 21:42, Peter Maydell wrote:
+>>>>> On Thu, 9 Sept 2021 at 11:36, Juan Quintela <quintela@redhat.com> wro=
+te:
+>>>>> Fails to build, FreeBSD:
+>>>>>
+>>>>> ../src/migration/rdma.c:1146:23: error: use of undeclared identifier
+>>>>> 'IBV_ADVISE_MR_ADVICE_PREFETCH_WRITE'
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int advice =3D wr ? IBV_ADVISE_MR_ADVI=
+CE_PREFETCH_WRITE :
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+>>>>> ../src/migration/rdma.c:1147:18: error: use of undeclared identifier
+>>>>> 'IBV_ADVISE_MR_ADVICE_PREFETCH'
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 IBV_ADVISE_MR_ADVICE_PREFETCH;
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+>>>>> ../src/migration/rdma.c:1150:11: warning: implicit declaration of
+>>>>> function 'ibv_advise_mr' is invalid in C99
+>>>>> [-Wimplicit-function-declaration]
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D ibv_advise_mr(pd, advice,
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+>>>>> ../src/migration/rdma.c:1151:25: error: use of undeclared identifier
+>>>>> 'IBV_ADVISE_MR_FLAG_FLUSH'
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 IBV_ADVISE_MR_FLAG_FLUSH, &sg_list, 1);
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 ^
+>>>>>
+>>>> it's introduced by [PULL 4/7] migration/rdma: advise prefetch write fo=
+r ODP region
+>>>> where it calls a ibv_advise_mr(). i have checked the latest FreeBSD, i=
+t didn't ship with this API
+>>>> May i know if just FressBSD reports this failure? if so, i just need f=
+iltering out FreeBSD only
+>>> Second try.=C2=A0 I can't see an example where they search for:
+>>> a symbol on the header file
+>>> =C2=A0=C2=A0 and
+>>> a function in a library
+>>>
+>>> so I assume that if you have the symbols, you have the function.
+>>>
+>>> How do you see it?
+>>>
+>>> Trying to compile it on vm-build-freebsd, but not being very sucessfull
+>>> so far.
+>
+> BTW: Does QEMU provide any mean to set http(s)_proxy to building vm ? Cur=
+rently, i have to
+> hack the code like:
+>
+> -        self.ssh_root_check("pkg install -y %s\n" % " ".join(self.pkgs))
+> + self.ssh_root_check("setenv HTTP_PROXY http://myproxy; setenv
+> HTTPS_PROXY http://myproxy; pkg install -y %s\n" % "
+> ".join(self.pkgs))
 
-UPDATE_EXIT is for when you need to return to the main loop; UPDATE_NOCHAIN merely avoids 
-goto_tb.  Direct use of gen_goto_ptr should be reserved for branches (which I think is 
-already the case).
+Dunno.  I don't need http proxy, for me what fails is the "tar" stage.
+
+(master)$ make HOME=3D/scratch/tmp/ vm-build-fedora
+    VM-BUILD fedora=20
+tar: Skipping to next header
+tar: Exiting with failure status due to previous errors
+failed append submodule slirp to /mnt/code/qemu/full/vm-test-eqebvy5r.tmp/d=
+ata-3a52c.tar
+Failed to prepare guest environment
+Traceback (most recent call last):
+  File "/mnt/code/qemu/full/tests/vm/basevm.py", line 636, in main
+    vm.add_source_dir(args.build_qemu)
+  File "/mnt/code/qemu/full/tests/vm/basevm.py", line 270, in add_source_di=
+r
+    subprocess.check_call(["./scripts/archive-source.sh", tarfile],
+  File "/usr/lib64/python3.9/subprocess.py", line 373, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['./scripts/archive-source.sh', '/m=
+nt/code/qemu/full/vm-test-eqebvy5r.tmp/data-3a52c.tar']' returned non-zero =
+exit status 1.
+make: *** [tests/vm/Makefile.include:96: vm-build-fedora] Error 2
+
+forget about the HOME=3D change, it also fails if I don't use it.  And the
+problem is the archive bits.
 
 
-r~
+>>>> on 2021/9/9 21:42, Peter Maydell wrote:
+>>>>> On Thu, 9 Sept 2021 at 11:36, Juan Quintela <quintela@redhat.com> wro=
+te:
+>>>>> Fails to build, FreeBSD:
+>>>>>
+>>>>> ../src/migration/rdma.c:1146:23: error: use of undeclared identifier
+>>>>> 'IBV_ADVISE_MR_ADVICE_PREFETCH_WRITE'
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int advice =3D wr ? IBV_ADVISE_MR_ADVI=
+CE_PREFETCH_WRITE :
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+>>>>> ../src/migration/rdma.c:1147:18: error: use of undeclared identifier
+>>>>> 'IBV_ADVISE_MR_ADVICE_PREFETCH'
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 IBV_ADVISE_MR_ADVICE_PREFETCH;
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+>>>>> ../src/migration/rdma.c:1150:11: warning: implicit declaration of
+>>>>> function 'ibv_advise_mr' is invalid in C99
+>>>>> [-Wimplicit-function-declaration]
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D ibv_advise_mr(pd, advice,
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+>>>>> ../src/migration/rdma.c:1151:25: error: use of undeclared identifier
+>>>>> 'IBV_ADVISE_MR_FLAG_FLUSH'
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 IBV_ADVISE_MR_FLAG_FLUSH, &sg_list, 1);
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 ^
+>>>>>
+>>>> it's introduced by [PULL 4/7] migration/rdma: advise prefetch write fo=
+r ODP region
+>>>> where it calls a ibv_advise_mr(). i have checked the latest FreeBSD, i=
+t didn't ship with this API
+>>>> May i know if just FressBSD reports this failure? if so, i just need f=
+iltering out FreeBSD only
+>>> Second try.=C2=A0 I can't see an example where they search for:
+>>> a symbol on the header file
+>>> =C2=A0=C2=A0 and
+>>> a function in a library
+>>>
+>>> so I assume that if you have the symbols, you have the function.
+>>>
+>>> How do you see it?
+>>>
+>>> Trying to compile it on vm-build-freebsd, but not being very sucessfull
+>>> so far.
+>
+> BTW: Does QEMU provide any mean to set http(s)_proxy to building vm ? Cur=
+rently, i have to
+> hack the code like:
+>
+> -        self.ssh_root_check("pkg install -y %s\n" % " ".join(self.pkgs))
+> + self.ssh_root_check("setenv HTTP_PROXY http://myproxy; setenv
+> HTTPS_PROXY http://myproxy; pkg install -y %s\n" % "
+> ".join(self.pkgs))
+
+Dunno.  I don't need http proxy, for me what fails is the "tar" stage.
+
+(master)$ make HOME=3D/scratch/tmp/ vm-build-fedora
+    VM-BUILD fedora=20
+tar: Skipping to next header
+tar: Exiting with failure status due to previous errors
+failed append submodule slirp to /mnt/code/qemu/full/vm-test-eqebvy5r.tmp/d=
+ata-3a52c.tar
+Failed to prepare guest environment
+Traceback (most recent call last):
+  File "/mnt/code/qemu/full/tests/vm/basevm.py", line 636, in main
+    vm.add_source_dir(args.build_qemu)
+  File "/mnt/code/qemu/full/tests/vm/basevm.py", line 270, in add_source_di=
+r
+    subprocess.check_call(["./scripts/archive-source.sh", tarfile],
+  File "/usr/lib64/python3.9/subprocess.py", line 373, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['./scripts/archive-source.sh', '/m=
+nt/code/qemu/full/vm-test-eqebvy5r.tmp/data-3a52c.tar']' returned non-zero =
+exit status 1.
+make: *** [tests/vm/Makefile.include:96: vm-build-fedora] Error 2
+
+forget about the HOME=3D change, it also fails if I don't use it.  And the
+problem is the archive bits.
+
+master)$  ./scripts/archive-source.sh /tmp/kk.tar
+tar: Skipping to next header
+tar: Exiting with failure status due to previous errors
+failed append submodule slirp to /tmp/kk.tar
+
+See that the problem is the slirp submodule, but it has the "right"
+version, i.e. not a case of updating the module.  the dtc works without pro=
+blem.
+
+(master)$ sh -x ./scripts/archive-source.sh /tmp/kk.tar
++ test 1 -lt 1
+++ realpath /tmp/kk.tar
++ tar_file=3D/tmp/kk.tar
+++ mktemp -d /tmp/kk.sub.XXXXXXXX
++ sub_tdir=3D/tmp/kk.sub.WKj1o6oP
++ sub_file=3D/tmp/kk.sub.WKj1o6oP/submodule.tar
++ submodules=3D'dtc slirp meson ui/keycodemapdb'
++ submodules=3D'dtc slirp meson ui/keycodemapdb tests/fp/berkeley-softfloat=
+-3 tests/fp/berkeley-testfloat-3'
++ sub_deinit=3D
++ trap cleanup 0 1 2 3 15
+++ tree_ish
+++ local retval=3DHEAD
+++ git diff-index --quiet --ignore-submodules=3Dall HEAD --
+++ echo HEAD
++ git archive --format tar HEAD
++ test 0 -ne 0
++ for sm in $submodules
+++ git submodule status dtc
++ status=3D' 85e5d839847af54efab170f2b1331b2a6421e647 dtc (v1.6.0-4-g85e5d8=
+3)'
++ smhash=3D'85e5d839847af54efab170f2b1331b2a6421e647 dtc (v1.6.0-4-g85e5d83=
+)'
++ smhash=3D85e5d839847af54efab170f2b1331b2a6421e647
++ case "$status" in
++ cd dtc
+++ tree_ish
+++ local retval=3DHEAD
+++ git diff-index --quiet --ignore-submodules=3Dall HEAD --
+++ echo HEAD
++ git archive --format tar --prefix dtc/ HEAD
++ test 0 -ne 0
++ tar --concatenate --file /tmp/kk.tar /tmp/kk.sub.WKj1o6oP/submodule.tar
++ test 0 -ne 0
++ for sm in $submodules
+++ git submodule status slirp
++ status=3D' a88d9ace234a24ce1c17189642ef9104799425e0 slirp (v4.6.1-7-ga88d=
+9ac)'
++ smhash=3D'a88d9ace234a24ce1c17189642ef9104799425e0 slirp (v4.6.1-7-ga88d9=
+ac)'
++ smhash=3Da88d9ace234a24ce1c17189642ef9104799425e0
++ case "$status" in
++ cd slirp
+++ tree_ish
+++ local retval=3DHEAD
+++ git diff-index --quiet --ignore-submodules=3Dall HEAD --
+++ echo HEAD
++ git archive --format tar --prefix slirp/ HEAD
++ test 0 -ne 0
++ tar --concatenate --file /tmp/kk.tar /tmp/kk.sub.WKj1o6oP/submodule.tar
+tar: Skipping to next header
+tar: Exiting with failure status due to previous errors
++ test 2 -ne 0
++ error 'failed append submodule slirp to /tmp/kk.tar'
++ printf '%s\n' 'failed append submodule slirp to /tmp/kk.tar'
+failed append submodule slirp to /tmp/kk.tar
++ exit 1
++ cleanup
++ local status=3D1
++ rm -rf /tmp/kk.sub.WKj1o6oP
++ test '' '!=3D' ''
++ exit 1
+(master)$=20
+
+Doing the things on the command line, the=20
+
+  git archive --format tar --prefix slirp/ HEAD
+
+Creates a tar archive, so I get completely lost.
+
+I showed here fedora, but it fails exactly the same for freebsd,
+openbsd, ... and everything that I decided to build.  It fails in the
+smae stage.
+
+Later, Juan.
+
 
