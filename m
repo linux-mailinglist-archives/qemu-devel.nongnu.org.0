@@ -2,90 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD642406AA5
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 13:18:48 +0200 (CEST)
-Received: from localhost ([::1]:42814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CBDE406AB4
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 13:30:08 +0200 (CEST)
+Received: from localhost ([::1]:50348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOeYR-0007I1-7K
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 07:18:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46942)
+	id 1mOejO-0004zJ-GM
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 07:30:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mOeVI-0005ad-62
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 07:15:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29447)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mOeVE-00005J-H9
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 07:15:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631272527;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GnoGpfQwZNVpQsNNrOOVIDVl69nf11azaqPEse3DPNE=;
- b=TH7iLn8RLa/JN2+wODE60iklAGpFyk/9T4mptCMFbK4q1pTbR+Lx8hjEmysdA+m+T8oWDC
- /a1l8SLhuzu21+tM0fh/2oX3TuxQF8QU/I8jXUOVzPz5QnLT0kw1r/Dyn0Go8kdILqtE5r
- dCT3gJr32yrh6fDx8SGGtpPidq6GcHs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-H1TicTiCMNO82RQDYlj7Dg-1; Fri, 10 Sep 2021 07:15:26 -0400
-X-MC-Unique: H1TicTiCMNO82RQDYlj7Dg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- z18-20020a1c7e120000b02902e69f6fa2e0so662838wmc.9
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 04:15:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=GnoGpfQwZNVpQsNNrOOVIDVl69nf11azaqPEse3DPNE=;
- b=IFuA5cDFcL13yEnkhdLeYwdJQ0nnCJudXt1U90UGkvPYnVjUew4QJtQNtTHnbKkT21
- Wno6IWNk2Tz70J8JF2HwSbT0wqs1wiujXLXrk7zFShR0wuUxB+vPEMLYROPD6u+Bkv5l
- mUiFKN9BtqdCOCfKbeESTUpQ1tSWPIfK/NlUqVevxtaikMUNXPu3d0A9JK/9eJDAyt0c
- pNqmYqYszhPGzuqxwiUSKAy+QmAcQspPR+O9XP8+oHl7lUhr2UasrwfDAx9gKLBIzNtV
- NOMF2zYI9HaXP/9tgJpWw9XQKHPb3lvnN5JC4BUdIG3lvHZ114NuxG9+nDg5kKpczA+a
- gbVw==
-X-Gm-Message-State: AOAM531qXjephhmX4vrjK5HKkJEsiNAjOyxKApAT6lwY6LsdztmADRf/
- tUiYOMMHER+7MXd4fVFpMi7qyiklrrwthE9OV4yyEjdFjac5LaOIwlkj4prw6dT/19eejbd086k
- lnSVsAL2c/c0fhEU=
-X-Received: by 2002:a5d:58e7:: with SMTP id f7mr9057534wrd.51.1631272525070;
- Fri, 10 Sep 2021 04:15:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxKKeR7lfOk+7T4CZ3dZ6Kv5/CtQB+GhbiIIMRmFLcacb03Aiza3bXRfa7G9i6/MHpKg4lpmg==
-X-Received: by 2002:a5d:58e7:: with SMTP id f7mr9057513wrd.51.1631272524839;
- Fri, 10 Sep 2021 04:15:24 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c600c.dip0.t-ipconnect.de. [91.12.96.12])
- by smtp.gmail.com with ESMTPSA id
- c2sm4433078wrs.60.2021.09.10.04.15.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Sep 2021 04:15:24 -0700 (PDT)
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-References: <163101424137.678744.18360776310711795413.stgit@pasha-ThinkPad-X280>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH] softmmu: fix watchpoint processing in icount mode
-Message-ID: <f103375f-9c3b-9b5b-6ef1-5437b4990c23@redhat.com>
-Date: Fri, 10 Sep 2021 13:15:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
+ id 1mOeg4-0001yr-E5; Fri, 10 Sep 2021 07:26:41 -0400
+Received: from [201.28.113.2] (port=62238 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <luis.pires@eldorado.org.br>)
+ id 1mOeg2-0001e6-B2; Fri, 10 Sep 2021 07:26:40 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 10 Sep 2021 08:26:31 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 3FB7B800C19;
+ Fri, 10 Sep 2021 08:26:31 -0300 (-03)
+From: Luis Pires <luis.pires@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v3 00/22] target/ppc: DFP instructions using decodetree
+Date: Fri, 10 Sep 2021 08:26:02 -0300
+Message-Id: <20210910112624.72748-1-luis.pires@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <163101424137.678744.18360776310711795413.stgit@pasha-ThinkPad-X280>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 10 Sep 2021 11:26:31.0450 (UTC)
+ FILETIME=[B452F7A0:01D7A636]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,56 +54,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, pbonzini@redhat.com, richard.henderson@linaro.org,
- peterx@redhat.com
+Cc: Luis Pires <luis.pires@eldorado.org.br>, richard.henderson@linaro.org,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07.09.21 13:30, Pavel Dovgalyuk wrote:
-> Watchpoint processing code restores vCPU state twice:
-> in tb_check_watchpoint and in cpu_loop_exit_restore/cpu_restore_state.
-> Normally it does not affect anything, but in icount mode instruction
-> counter is incremented twice and becomes incorrect.
-> This patch eliminates unneeded CPU state restore.
-> 
-> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-> ---
->   softmmu/physmem.c |    5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 23e77cb771..4025dfab11 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -941,14 +941,11 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
->                   if (wp->flags & BP_STOP_BEFORE_ACCESS) {
->                       cpu->exception_index = EXCP_DEBUG;
->                       mmap_unlock();
-> -                    cpu_loop_exit_restore(cpu, ra);
-> +                    cpu_loop_exit(cpu);
->                   } else {
->                       /* Force execution of one insn next time.  */
->                       cpu->cflags_next_tb = 1 | curr_cflags(cpu);
->                       mmap_unlock();
-> -                    if (ra) {
-> -                        cpu_restore_state(cpu, ra, true);
-> -                    }
->                       cpu_loop_exit_noexc(cpu);
->                   }
->               }
-> 
-> 
+This series moves all existing DFP instructions to decodetree and
+implements the 2 new instructions (dcffixqq and dctfixqq) from
+Power ISA 3.1.
 
-I'm not an expert on that code, but it looks good to me.
+In order to implement dcffixqq, divu128/divs128 were modified to
+support 128-bit quotients (previously, they were limited to 64-bit
+quotients), along with adjustments being made to their existing callers.
+libdecnumber was also expanded to allow creating decimal numbers from
+128-bit integers.
 
-Maybe we could have added a comment above the tb_check_watchpoint() call 
-to highlight that the restore will happen in there.
+Similarly, for dctfixqq, mulu128 (host-utils) and decNumberIntegralToInt128
+(libdecnumber) were introduced to support 128-bit integers.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+The remaining patches of this series move all of the already existing
+DFP instructions to decodetree, and end up removing dfp-ops.c.inc, which
+is no longer needed.
+
+NOTE 1: The previous, non-decodetree code, was updating ctx->nip for all the
+DFP instructions. I've removed that, but it would be great if someone could
+confirm that updating nip really wasn't necessary.
+
+NOTE 2: Some arithmetic function support for 128-bit integers was added,
+for now, still using 64-bit pairs. In the near future, I think we should
+modify all of them to use Int128 (and introduce UInt128). But I'll send
+out an RFC to discuss how to do that in another patch series.
+
+NOTE 3: The helper names are in uppercase, to match the instruction
+names and to simplify the macros that define trans* functions.
+Previously, this wasn't the case, as we were using lowercase instruction
+names in the pre-decodetree code. Another standalone patch will be sent
+later on, changing to uppercase the other new (decodetree) helpers whose
+names are directly related to instruction names, eventually making PPC
+helper names consistent.
+
+Based-on: 20210823150235.35759-1-luis.pires@eldorado.org.br
+(target/ppc: fix setting of CR flags in bcdcfsq)
+This series assumes bcdcfsq's fix is already in.
+
+Changes in v3:
+- Split the uabs64 patch in 2
+- Included patch to fix missing zero-extension in divs128
+- Folded divisor == 0 into the dhi == 0 case in divu128
+- Moved udiv_qrnnd from softfloat-macros.h to host-utils.h
+- Used udiv_qrnnd in divu128
+- Replaced int with bool in divs128
+- Added unit test to check the divisor normalization in divu128
+- Removed 'inline' from times_* functions in ppc/translate.c
+- Used uadd64_overflow in mulu128
+- Removed unnecessary 'else' from decNumberIntegralToInt128
+
+Changes in v2:
+- Renamed abs64() to uabs64()
+
+Patches missing review:
+  host-utils: fix missing zero-extension in divs128
+  host-utils: move checks out of divu128/divs128
+  host-utils: move udiv_qrnnd() to host-utils
+  host-utils: add 128-bit quotient support to divu128/divs128
+  host-utils: add unit tests for divu128/divs128
+  target/ppc: Implement DCFFIXQQ
+  target/ppc: Implement DCTFIXQQ
+  target/ppc: Move dcmp{u,o}[q],dts{tex,tsf,tsfi}[q] to decodetree
+
+--
+Luis Pires
+Instituto de Pesquisas ELDORADO
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+
+Bruno Larsen (1):
+  target/ppc: Move REQUIRE_ALTIVEC/VECTOR to translate.c
+
+Fernando Valle (1):
+  target/ppc: Introduce REQUIRE_FPU
+
+Luis Pires (20):
+  host-utils: Fix overflow detection in divu128()
+  host-utils: fix missing zero-extension in divs128
+  host-utils: introduce uabs64()
+  i386/kvm: Replace abs64() with uabs64() from host-utils
+  host-utils: move checks out of divu128/divs128
+  host-utils: move udiv_qrnnd() to host-utils
+  host-utils: add 128-bit quotient support to divu128/divs128
+  host-utils: add unit tests for divu128/divs128
+  libdecnumber: introduce decNumberFrom[U]Int128
+  target/ppc: Implement DCFFIXQQ
+  host-utils: Introduce mulu128
+  libdecnumber: Introduce decNumberIntegralToInt128
+  target/ppc: Implement DCTFIXQQ
+  target/ppc: Move dtstdc[q]/dtstdg[q] to decodetree
+  target/ppc: Move d{add,sub,mul,div,iex}[q] to decodetree
+  target/ppc: Move dcmp{u,o}[q],dts{tex,tsf,tsfi}[q] to decodetree
+  target/ppc: Move dquai[q], drint{x,n}[q] to decodetree
+  target/ppc: Move dqua[q], drrnd[q] to decodetree
+  target/ppc: Move dct{dp,qpq},dr{sp,dpq},dc{f,t}fix[q],dxex[q] to
+    decodetree
+  target/ppc: Move ddedpd[q],denbcd[q],dscli[q],dscri[q] to decodetree
+
+ hw/i386/kvm/i8254.c                    |   7 +-
+ include/fpu/softfloat-macros.h         |  82 -----
+ include/hw/clock.h                     |   7 +-
+ include/libdecnumber/decNumber.h       |   4 +
+ include/libdecnumber/decNumberLocal.h  |   2 +-
+ include/qemu/host-utils.h              | 163 ++++++++--
+ libdecnumber/decContext.c              |   7 +-
+ libdecnumber/decNumber.c               | 131 ++++++++
+ target/ppc/dfp_helper.c                | 168 +++++++---
+ target/ppc/helper.h                    | 106 ++++---
+ target/ppc/insn32.decode               | 171 ++++++++++
+ target/ppc/int_helper.c                |  23 +-
+ target/ppc/translate.c                 |  23 +-
+ target/ppc/translate/dfp-impl.c.inc    | 419 ++++++++++++-------------
+ target/ppc/translate/dfp-ops.c.inc     | 165 ----------
+ target/ppc/translate/vector-impl.c.inc |  10 +-
+ tests/unit/meson.build                 |   1 +
+ tests/unit/test-div128.c               | 197 ++++++++++++
+ util/host-utils.c                      | 142 ++++++---
+ 19 files changed, 1163 insertions(+), 665 deletions(-)
+ delete mode 100644 target/ppc/translate/dfp-ops.c.inc
+ create mode 100644 tests/unit/test-div128.c
 
 -- 
-Thanks,
-
-David / dhildenb
+2.25.1
 
 
