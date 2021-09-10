@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFA1406105
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 02:29:45 +0200 (CEST)
-Received: from localhost ([::1]:44492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BC7840610B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 02:33:15 +0200 (CEST)
+Received: from localhost ([::1]:47170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOUQI-0001em-QQ
-	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 20:29:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55892)
+	id 1mOUTi-0003fR-LH
+	for lists+qemu-devel@lfdr.de; Thu, 09 Sep 2021 20:33:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1mOUNd-0000Fw-5T; Thu, 09 Sep 2021 20:26:57 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:37866)
+ id 1mOUOH-0000sg-Oc; Thu, 09 Sep 2021 20:27:37 -0400
+Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:43624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1mOUNZ-0006qG-Ji; Thu, 09 Sep 2021 20:26:56 -0400
-Received: by mail-ot1-x331.google.com with SMTP id
- i3-20020a056830210300b0051af5666070so11933otc.4; 
- Thu, 09 Sep 2021 17:26:52 -0700 (PDT)
+ id 1mOUOD-0007Mc-TN; Thu, 09 Sep 2021 20:27:37 -0400
+Received: by mail-oi1-x230.google.com with SMTP id w19so503751oik.10;
+ Thu, 09 Sep 2021 17:27:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:date:from:to:cc:subject:message-id:reply-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=VkIEr3Njmcz4EbRtLtUxlzuXjygP3WYbEHnfNYubhGI=;
- b=GgUEaMLYa3ISXYMJ2xc4bJMhyj1c7Vy2Fq29ieg/iQC6sRLZ8Zfe+hRsAApWvZH2Ad
- xJf3VlSOyCLSH8tN7sWzKSbHuj+BrCYpnzjPxxgzB7sVFgNlyumkumc6ijCEysUVzFuc
- OaEQNEY4r2jvclFrGxOnL7AF5p4KiCDnlmW4mMhwODCFfu9eez+/aX1IpfIEeZwASOi6
- NmitZAwSXj5e2L8D+k+U9bSSGwvNA3BfI1/t111DEmB+m7uyWN8zu2LevEyf6hbLryJX
- ymttqoFBBHSLE003sBG/cufP6czTWM3F7bCk1to2B6aZRy5CdaQBr1+ybOK/9GMb/U9q
- V1fw==
+ bh=41fEY+UUjexOYAOYrew34p5hfU07lwVHqXGoqOoZXNs=;
+ b=nzVBKV2j0KSS41eu2Vl5QL+HM8mHssy7IB7jxFI70Y+3kRqaG5tftR+rQVgyMEqtG3
+ 55jf3FDhRHg136bnDk4T76cY6N+VlOLLGl51vXD09GQRQy2CzCSL1CuT06stSQpCjoUn
+ E6u0PdNlzyUOzwYXTQDy/eRj++VKcsthdTsvaqfX9whaRiWaAAtM0LIBym1/upZ44Myr
+ 8JfJHHUiJ+lYrifskQkna3N0UPrVJD2z5jeyjV5m6oNpEN/zO2djsz+A1n/dMrtgyNOF
+ WhvFwe3+o0JqiCZeEqpTvJewnscZbxTi/XRRBpfaZOofB4zZg4MLUxRUOeyBSnjnP9An
+ 6elg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
  :reply-to:references:mime-version:content-disposition:in-reply-to;
- bh=VkIEr3Njmcz4EbRtLtUxlzuXjygP3WYbEHnfNYubhGI=;
- b=ZEEh8CwdkGxAveXGWzvHMjsCzwIJQzrSy06BhOqFyEYv0ruzEPuhOasU9uvxPpI0BZ
- QEdHUK9ey+DYwEx8fGZ/Yj+6Nyw4f+1R6kGvJaiwG+MPN4eMZnb9/CwBcRi5W/SWBsqw
- qu3WXxFL932Uqg92blukhzHCoKY13V5Ms7PWMFSbTCLZ1hTs95B3ZSW0okEZSZfmA6fc
- ME0b4avQgZmVFZHQeM5fc1qhDfV1F+VEuporFVOIk4MrYQpXS6cctKvhwhK/Y4mQ58Co
- isVA0SSFqyWQDb/tUIeRjIomsHmGaRYJKNspVa4YawKMHW+qQFo3yGo+9vQ/W9D57N3l
- qudQ==
-X-Gm-Message-State: AOAM532TSk9R3vH5ASpiAwsJSMTfF8DZyjERYns44R8WnaBn86T9mxm5
- za3tCS4LTyAKTlMPpKnavw==
-X-Google-Smtp-Source: ABdhPJwKn/ZwSEjovzfyD64EOX3FdBchLDMh29wNLoCkVHjFkV2pNxiYxnMQ+1h/6ldMt+If3i1ZLg==
-X-Received: by 2002:a05:6830:4191:: with SMTP id
- r17mr2266999otu.146.1631233611590; 
- Thu, 09 Sep 2021 17:26:51 -0700 (PDT)
+ bh=41fEY+UUjexOYAOYrew34p5hfU07lwVHqXGoqOoZXNs=;
+ b=r0R9J0ynooUzJflVinUQMWZNxYGmQMuf79e0ryS9rrojAvjlCBs4IKUN5yJTk7PJxI
+ TGO4BvO+E1v83reCE/xGy3Q/78bIWuqosrC0TqXYeK9jsvnzj4vKnmobyOG6qykiRFEr
+ zs8qbAfXebOORtWUUUi0hslW5GHyHcsh3FV0J/VNtM4Ne73CgIq/G/3fYjrHgARb8LrT
+ IVCijZezMDp3KashrhphmII9pbJR201CvOAB82zioiIlGj3vSQxkHvBgBimLvWqtRHOw
+ xrQYMU7Bv6P90auEdaas6qzAbb6bN+1eAprsdlOvxZAPGQR91kne8VP9BNlQNnroVufe
+ tGsQ==
+X-Gm-Message-State: AOAM531+FsmOiuULk/sI/dfOKQ2MpjyTBdQT5uRR5rK1r70nQhLi4H2o
+ v0XGHGqnR2Az0f+UUDbBDA==
+X-Google-Smtp-Source: ABdhPJx/Mg8Q4GC3KBHpuunhgMqPvT9Wu5w/y/HWzpUbrcnbdSvVqt7Iitl8r0TeDUgKAAO99QmFBA==
+X-Received: by 2002:a05:6808:f0b:: with SMTP id
+ m11mr2136063oiw.46.1631233651023; 
+ Thu, 09 Sep 2021 17:27:31 -0700 (PDT)
 Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id a13sm795791oos.4.2021.09.09.17.26.50
+ by smtp.gmail.com with ESMTPSA id s22sm803078ooh.27.2021.09.09.17.27.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Sep 2021 17:26:50 -0700 (PDT)
+ Thu, 09 Sep 2021 17:27:30 -0700 (PDT)
 Received: from minyard.net (unknown
  [IPv6:2001:470:b8f6:1b:c5ab:34b3:4e95:9c80])
- by serve.minyard.net (Postfix) with ESMTPSA id 9FD611800ED;
- Fri, 10 Sep 2021 00:26:49 +0000 (UTC)
-Date: Thu, 9 Sep 2021 19:26:48 -0500
+ by serve.minyard.net (Postfix) with ESMTPSA id 97DB41800ED;
+ Fri, 10 Sep 2021 00:27:29 +0000 (UTC)
+Date: Thu, 9 Sep 2021 19:27:28 -0500
 From: Corey Minyard <minyard@acm.org>
 To: Hao Wu <wuhaotsh@google.com>
-Subject: Re: [PATCH 4/8] hw/ipmi: Refactor IPMI interface
-Message-ID: <20210910002648.GP545073@minyard.net>
+Subject: Re: [PATCH 5/8] hw/ipmi: Take out common from ipmi_bmc_extern.c
+Message-ID: <20210910002728.GQ545073@minyard.net>
 References: <20210909230620.511815-1-wuhaotsh@google.com>
- <20210909230620.511815-5-wuhaotsh@google.com>
+ <20210909230620.511815-6-wuhaotsh@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210909230620.511815-5-wuhaotsh@google.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=tcminyard@gmail.com; helo=mail-ot1-x331.google.com
+In-Reply-To: <20210909230620.511815-6-wuhaotsh@google.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
+ envelope-from=tcminyard@gmail.com; helo=mail-oi1-x230.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,620 +94,1077 @@ Cc: peter.maydell@linaro.org, titusr@google.com, venture@google.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 09, 2021 at 04:06:16PM -0700, Hao Wu wrote:
-> This patch refactors the IPMI interface so that it can be used by both
-> the BMC side and core-side simulation.
+On Thu, Sep 09, 2021 at 04:06:17PM -0700, Hao Wu wrote:
+> This patch refactors ipmi_bmc_extern.c and takes out the parts that can
+> be used both ipmi_bmc_extern.c and bmc_host_extern.c to a common file
+> ipmi_extern.c.
 > 
-> Detail changes:
-> (1) rename handle_rsp -> handle_msg so the name fits both BMC side and
->     Core side.
-> (2) Add a new class IPMICore. This class represents a simulator/external
->     connection for both BMC and Core side emulation. The old IPMIBmc is
->     a sub-class of IPMICore.
-> (3) Change all ibe->parent.intf in hw/ipmi/ipmi_bmc_*.c to use type
->     cast to IPMICore. Directly accessing parent QOM is against QEMU
->     guide and by using type casting the code can fit both core side and
->     BMC side emulation.
+> Now we have a connection called IPMIExtern which handles the connection,
+> and IPMIBmcExtern that handles core-side emulation specific stuff.
+> 
+> Basically most of the message transaction are moved. The stuff remained
+> are basically hardware operations like handle_reset and handle_hw_op.
+> These stuff have different behaviors in core-side and BMC-side
+> emulation.
 
-I think I'm ok with this.  It fixes some fundamental issues (maybe that
-should be separate patches, but I think it's ok here).
-
-I was kind of against this at first, I was thinking a completely
-separate code for the BMC-side hardware emulation.  But I can see that
-so much code would be duplicated that it would be silly.
-
-It would be better if there was an ipmi_bmc.[ch] that had the
-BMC-specific things, split out from the ipmi.[ch] code.  I'm not 100%
-sure how important that is, but it would be less confusing.  Do you
-agree?
-
-A couple of comments inline...
+Yeah, you are going to need this.
 
 -corey
 
 > 
 > Signed-off-by: Hao Wu <wuhaotsh@google.com>
 > ---
->  hw/ipmi/ipmi.c            | 15 +++++++++++---
->  hw/ipmi/ipmi_bmc_extern.c | 37 +++++++++++++++++++++--------------
->  hw/ipmi/ipmi_bmc_sim.c    | 41 ++++++++++++++++++++++++++-------------
->  hw/ipmi/ipmi_bt.c         |  2 +-
->  hw/ipmi/ipmi_kcs.c        |  2 +-
->  hw/ipmi/isa_ipmi_bt.c     |  4 +++-
->  hw/ipmi/isa_ipmi_kcs.c    |  4 +++-
->  hw/ipmi/pci_ipmi_bt.c     |  4 +++-
->  hw/ipmi/pci_ipmi_kcs.c    |  4 +++-
->  hw/ipmi/smbus_ipmi.c      |  6 ++++--
->  include/hw/ipmi/ipmi.h    | 40 ++++++++++++++++++++++++++++++--------
->  11 files changed, 111 insertions(+), 48 deletions(-)
+>  hw/ipmi/ipmi_bmc_extern.c | 420 ++++----------------------------------
+>  hw/ipmi/ipmi_extern.c     | 415 +++++++++++++++++++++++++++++++++++++
+>  hw/ipmi/ipmi_extern.h     |  90 ++++++++
+>  hw/ipmi/meson.build       |   2 +-
+>  4 files changed, 543 insertions(+), 384 deletions(-)
+>  create mode 100644 hw/ipmi/ipmi_extern.c
+>  create mode 100644 hw/ipmi/ipmi_extern.h
 > 
-> diff --git a/hw/ipmi/ipmi.c b/hw/ipmi/ipmi.c
-> index 8d35c9fdd6..7da1b36fab 100644
-> --- a/hw/ipmi/ipmi.c
-> +++ b/hw/ipmi/ipmi.c
-> @@ -92,13 +92,21 @@ static TypeInfo ipmi_interface_type_info = {
->      .class_init = ipmi_interface_class_init,
->  };
->  
-> +static TypeInfo ipmi_core_type_info = {
-> +    .name = TYPE_IPMI_CORE,
-> +    .parent = TYPE_DEVICE,
-> +    .instance_size = sizeof(IPMICore),
-> +    .abstract = true,
-> +};
-> +
->  static void isa_ipmi_bmc_check(const Object *obj, const char *name,
->                                 Object *val, Error **errp)
->  {
-> -    IPMIBmc *bmc = IPMI_BMC(val);
-> +    IPMICore *ic = IPMI_CORE(val);
->  
-> -    if (bmc->intf)
-> +    if (ic->intf) {
->          error_setg(errp, "BMC object is already in use");
-> +    }
->  }
->  
->  void ipmi_bmc_find_and_link(Object *obj, Object **bmc)
-> @@ -122,7 +130,7 @@ static void bmc_class_init(ObjectClass *oc, void *data)
->  
->  static TypeInfo ipmi_bmc_type_info = {
->      .name = TYPE_IPMI_BMC,
-> -    .parent = TYPE_DEVICE,
-> +    .parent = TYPE_IPMI_CORE,
->      .instance_size = sizeof(IPMIBmc),
->      .abstract = true,
->      .class_size = sizeof(IPMIBmcClass),
-> @@ -132,6 +140,7 @@ static TypeInfo ipmi_bmc_type_info = {
->  static void ipmi_register_types(void)
->  {
->      type_register_static(&ipmi_interface_type_info);
-> +    type_register_static(&ipmi_core_type_info);
->      type_register_static(&ipmi_bmc_type_info);
->  }
->  
 > diff --git a/hw/ipmi/ipmi_bmc_extern.c b/hw/ipmi/ipmi_bmc_extern.c
-> index acf2bab35f..a0c3a40e7c 100644
+> index a0c3a40e7c..24979ecfd5 100644
 > --- a/hw/ipmi/ipmi_bmc_extern.c
 > +++ b/hw/ipmi/ipmi_bmc_extern.c
-> @@ -147,8 +147,9 @@ static void continue_send(IPMIBmcExtern *ibe)
+> @@ -34,211 +34,43 @@
+>  #include "qemu/timer.h"
+>  #include "chardev/char-fe.h"
+>  #include "hw/ipmi/ipmi.h"
+> +#include "hw/ipmi/ipmi_extern.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/qdev-properties-system.h"
+>  #include "migration/vmstate.h"
+>  #include "qom/object.h"
 >  
->  static void extern_timeout(void *opaque)
->  {
-> +    IPMICore *ic = opaque;
->      IPMIBmcExtern *ibe = opaque;
-
-Shouldn't the above be a cast from ic?
-
-> -    IPMIInterface *s = ibe->parent.intf;
-> +    IPMIInterface *s = ic->intf;
->  
->      if (ibe->connected) {
->          if (ibe->waiting_rsp && (ibe->outlen == 0)) {
-> @@ -158,7 +159,7 @@ static void extern_timeout(void *opaque)
->              ibe->inbuf[1] = ibe->outbuf[1] | 0x04;
->              ibe->inbuf[2] = ibe->outbuf[2];
->              ibe->inbuf[3] = IPMI_CC_TIMEOUT;
-> -            k->handle_rsp(s, ibe->outbuf[0], ibe->inbuf + 1, 3);
-> +            k->handle_msg(s, ibe->outbuf[0], ibe->inbuf + 1, 3);
->          } else {
->              continue_send(ibe);
->          }
-> @@ -186,8 +187,9 @@ static void ipmi_bmc_extern_handle_command(IPMIBmc *b,
->                                         unsigned int max_cmd_len,
->                                         uint8_t msg_id)
->  {
-> +    IPMICore *ic = IPMI_CORE(b);
->      IPMIBmcExtern *ibe = IPMI_BMC_EXTERN(b);
-> -    IPMIInterface *s = ibe->parent.intf;
-> +    IPMIInterface *s = ic->intf;
->      uint8_t err = 0, csum;
->      unsigned int i;
->  
-> @@ -213,7 +215,7 @@ static void ipmi_bmc_extern_handle_command(IPMIBmc *b,
->          rsp[1] = cmd[1];
->          rsp[2] = err;
->          ibe->waiting_rsp = false;
-> -        k->handle_rsp(s, msg_id, rsp, 3);
-> +        k->handle_msg(s, msg_id, rsp, 3);
->          goto out;
->      }
->  
-> @@ -236,7 +238,8 @@ static void ipmi_bmc_extern_handle_command(IPMIBmc *b,
->  
->  static void handle_hw_op(IPMIBmcExtern *ibe, unsigned char hw_op)
->  {
-> -    IPMIInterface *s = ibe->parent.intf;
-> +    IPMICore *ic = IPMI_CORE(ibe);
-> +    IPMIInterface *s = ic->intf;
->      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->  
->      switch (hw_op) {
-> @@ -284,7 +287,9 @@ static void handle_hw_op(IPMIBmcExtern *ibe, unsigned char hw_op)
->  
->  static void handle_msg(IPMIBmcExtern *ibe)
->  {
-> -    IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(ibe->parent.intf);
-> +    IPMICore *ic = IPMI_CORE(ibe);
-> +    IPMIInterface *s = ic->intf;
-> +    IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->  
->      if (ibe->in_escape) {
->          ipmi_debug("msg escape not ended\n");
-> @@ -306,7 +311,7 @@ static void handle_msg(IPMIBmcExtern *ibe)
->  
->      timer_del(ibe->extern_timer);
->      ibe->waiting_rsp = false;
-> -    k->handle_rsp(ibe->parent.intf, ibe->inbuf[0], ibe->inbuf + 1, ibe->inpos - 1);
-> +    k->handle_msg(s, ibe->inbuf[0], ibe->inbuf + 1, ibe->inpos - 1);
->  }
->  
->  static int can_receive(void *opaque)
-> @@ -382,8 +387,9 @@ static void receive(void *opaque, const uint8_t *buf, int size)
->  
->  static void chr_event(void *opaque, QEMUChrEvent event)
->  {
-> +    IPMICore *ic = opaque;
->      IPMIBmcExtern *ibe = opaque;
-
-Shouldn't the above be a cast from ic?
-
-> -    IPMIInterface *s = ibe->parent.intf;
-> +    IPMIInterface *s = ic->intf;
->      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->      unsigned char v;
->  
-> @@ -398,17 +404,17 @@ static void chr_event(void *opaque, QEMUChrEvent event)
->          ibe->outlen++;
->          addchar(ibe, VM_CMD_CAPABILITIES);
->          v = VM_CAPABILITIES_IRQ | VM_CAPABILITIES_ATTN;
-> -        if (k->do_hw_op(ibe->parent.intf, IPMI_POWEROFF_CHASSIS, 1) == 0) {
-> +        if (k->do_hw_op(s, IPMI_POWEROFF_CHASSIS, 1) == 0) {
->              v |= VM_CAPABILITIES_POWER;
->          }
-> -        if (k->do_hw_op(ibe->parent.intf, IPMI_SHUTDOWN_VIA_ACPI_OVERTEMP, 1)
-> +        if (k->do_hw_op(s, IPMI_SHUTDOWN_VIA_ACPI_OVERTEMP, 1)
->              == 0) {
->              v |= VM_CAPABILITIES_GRACEFUL_SHUTDOWN;
->          }
-> -        if (k->do_hw_op(ibe->parent.intf, IPMI_RESET_CHASSIS, 1) == 0) {
-> +        if (k->do_hw_op(s, IPMI_RESET_CHASSIS, 1) == 0) {
->              v |= VM_CAPABILITIES_RESET;
->          }
-> -        if (k->do_hw_op(ibe->parent.intf, IPMI_SEND_NMI, 1) == 0) {
-> +        if (k->do_hw_op(s, IPMI_SEND_NMI, 1) == 0) {
->              v |= VM_CAPABILITIES_NMI;
->          }
->          addchar(ibe, v);
-> @@ -433,7 +439,7 @@ static void chr_event(void *opaque, QEMUChrEvent event)
->              ibe->inbuf[1] = ibe->outbuf[1] | 0x04;
->              ibe->inbuf[2] = ibe->outbuf[2];
->              ibe->inbuf[3] = IPMI_CC_BMC_INIT_IN_PROGRESS;
-> -            k->handle_rsp(s, ibe->outbuf[0], ibe->inbuf + 1, 3);
-> +            k->handle_msg(s, ibe->outbuf[0], ibe->inbuf + 1, 3);
->          }
->          break;
->  
-> @@ -475,14 +481,15 @@ static int ipmi_bmc_extern_post_migrate(void *opaque, int version_id)
->       * error on the interface if a response was being waited for.
->       */
->      if (ibe->waiting_rsp) {
-> -        IPMIInterface *ii = ibe->parent.intf;
-> +        IPMICore *ic = opaque;
-> +        IPMIInterface *ii = ic->intf;
->          IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
->  
->          ibe->waiting_rsp = false;
->          ibe->inbuf[1] = ibe->outbuf[1] | 0x04;
->          ibe->inbuf[2] = ibe->outbuf[2];
->          ibe->inbuf[3] = IPMI_CC_BMC_INIT_IN_PROGRESS;
-> -        iic->handle_rsp(ii, ibe->outbuf[0], ibe->inbuf + 1, 3);
-> +        iic->handle_msg(ii, ibe->outbuf[0], ibe->inbuf + 1, 3);
->      }
->      return 0;
->  }
-> diff --git a/hw/ipmi/ipmi_bmc_sim.c b/hw/ipmi/ipmi_bmc_sim.c
-> index 905e091094..7cc4a22456 100644
-> --- a/hw/ipmi/ipmi_bmc_sim.c
-> +++ b/hw/ipmi/ipmi_bmc_sim.c
-> @@ -451,7 +451,8 @@ static int attn_irq_enabled(IPMIBmcSim *ibs)
->  void ipmi_bmc_gen_event(IPMIBmc *b, uint8_t *evt, bool log)
->  {
->      IPMIBmcSim *ibs = IPMI_BMC_SIMULATOR(b);
-> -    IPMIInterface *s = ibs->parent.intf;
-> +    IPMICore *ic = IPMI_CORE(ibs);
-> +    IPMIInterface *s = ic->intf;
->      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->  
->      if (!IPMI_BMC_EVENT_MSG_BUF_ENABLED(ibs)) {
-> @@ -475,7 +476,8 @@ void ipmi_bmc_gen_event(IPMIBmc *b, uint8_t *evt, bool log)
->  static void gen_event(IPMIBmcSim *ibs, unsigned int sens_num, uint8_t deassert,
->                        uint8_t evd1, uint8_t evd2, uint8_t evd3)
->  {
-> -    IPMIInterface *s = ibs->parent.intf;
-> +    IPMICore *ic = IPMI_CORE(ibs);
-> +    IPMIInterface *s = ic->intf;
->      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->      uint8_t evt[16];
->      IPMISensor *sens = ibs->sensors + sens_num;
-> @@ -644,7 +646,8 @@ static void ipmi_sim_handle_command(IPMIBmc *b,
->                                      uint8_t msg_id)
->  {
->      IPMIBmcSim *ibs = IPMI_BMC_SIMULATOR(b);
-> -    IPMIInterface *s = ibs->parent.intf;
-> +    IPMICore *ic = IPMI_CORE(ibs);
-> +    IPMIInterface *s = ic->intf;
->      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->      const IPMICmdHandler *hdl;
->      RspBuffer rsp = RSP_BUFFER_INITIALIZER;
-> @@ -690,14 +693,15 @@ static void ipmi_sim_handle_command(IPMIBmc *b,
->      hdl->cmd_handler(ibs, cmd, cmd_len, &rsp);
->  
->   out:
-> -    k->handle_rsp(s, msg_id, rsp.buffer, rsp.len);
-> +    k->handle_msg(s, msg_id, rsp.buffer, rsp.len);
->  
->      next_timeout(ibs);
->  }
->  
->  static void ipmi_sim_handle_timeout(IPMIBmcSim *ibs)
->  {
-> -    IPMIInterface *s = ibs->parent.intf;
-> +    IPMICore *ic = IPMI_CORE(ibs);
-> +    IPMIInterface *s = ic->intf;
->      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->  
->      if (!ibs->watchdog_running) {
-> @@ -788,7 +792,8 @@ static void chassis_control(IPMIBmcSim *ibs,
->                              uint8_t *cmd, unsigned int cmd_len,
->                              RspBuffer *rsp)
->  {
-> -    IPMIInterface *s = ibs->parent.intf;
-> +    IPMICore *ic = IPMI_CORE(ibs);
-> +    IPMIInterface *s = ic->intf;
->      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->  
->      switch (cmd[2] & 0xf) {
-> @@ -845,7 +850,8 @@ static void get_device_id(IPMIBmcSim *ibs,
->  
->  static void set_global_enables(IPMIBmcSim *ibs, uint8_t val)
->  {
-> -    IPMIInterface *s = ibs->parent.intf;
-> +    IPMICore *ic = IPMI_CORE(ibs);
-> +    IPMIInterface *s = ic->intf;
->      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->      bool irqs_on;
->  
-> @@ -861,7 +867,8 @@ static void cold_reset(IPMIBmcSim *ibs,
->                         uint8_t *cmd, unsigned int cmd_len,
->                         RspBuffer *rsp)
->  {
-> -    IPMIInterface *s = ibs->parent.intf;
-> +    IPMICore *ic = IPMI_CORE(ibs);
-> +    IPMIInterface *s = ic->intf;
->      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->  
->      /* Disable all interrupts */
-> @@ -876,7 +883,8 @@ static void warm_reset(IPMIBmcSim *ibs,
->                         uint8_t *cmd, unsigned int cmd_len,
->                         RspBuffer *rsp)
->  {
-> -    IPMIInterface *s = ibs->parent.intf;
-> +    IPMICore *ic = IPMI_CORE(ibs);
-> +    IPMIInterface *s = ic->intf;
->      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->  
->      if (k->reset) {
-> @@ -939,7 +947,8 @@ static void clr_msg_flags(IPMIBmcSim *ibs,
->                            uint8_t *cmd, unsigned int cmd_len,
->                            RspBuffer *rsp)
->  {
-> -    IPMIInterface *s = ibs->parent.intf;
-> +    IPMICore *ic = IPMI_CORE(ibs);
-> +    IPMIInterface *s = ic->intf;
->      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->  
->      ibs->msg_flags &= ~cmd[2];
-> @@ -957,7 +966,8 @@ static void read_evt_msg_buf(IPMIBmcSim *ibs,
->                               uint8_t *cmd, unsigned int cmd_len,
->                               RspBuffer *rsp)
->  {
-> -    IPMIInterface *s = ibs->parent.intf;
-> +    IPMICore *ic = IPMI_CORE(ibs);
-> +    IPMIInterface *s = ic->intf;
->      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->      unsigned int i;
->  
-> @@ -989,7 +999,8 @@ static void get_msg(IPMIBmcSim *ibs,
->      g_free(msg);
->  
->      if (QTAILQ_EMPTY(&ibs->rcvbufs)) {
-> -        IPMIInterface *s = ibs->parent.intf;
-> +        IPMICore *ic = IPMI_CORE(ibs);
-> +        IPMIInterface *s = ic->intf;
->          IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->  
->          ibs->msg_flags &= ~IPMI_BMC_MSG_FLAG_RCV_MSG_QUEUE;
-> @@ -1014,7 +1025,8 @@ static void send_msg(IPMIBmcSim *ibs,
->                       uint8_t *cmd, unsigned int cmd_len,
->                       RspBuffer *rsp)
->  {
-> -    IPMIInterface *s = ibs->parent.intf;
-> +    IPMICore *ic = IPMI_CORE(ibs);
-> +    IPMIInterface *s = ic->intf;
->      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->      IPMIRcvBufEntry *msg;
->      uint8_t *buf;
-> @@ -1130,7 +1142,8 @@ static void set_watchdog_timer(IPMIBmcSim *ibs,
->                                 uint8_t *cmd, unsigned int cmd_len,
->                                 RspBuffer *rsp)
->  {
-> -    IPMIInterface *s = ibs->parent.intf;
-> +    IPMICore *ic = IPMI_CORE(ibs);
-> +    IPMIInterface *s = ic->intf;
->      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
->      unsigned int val;
->  
-> diff --git a/hw/ipmi/ipmi_bt.c b/hw/ipmi/ipmi_bt.c
-> index 22f94fb98d..f76c369e4a 100644
-> --- a/hw/ipmi/ipmi_bt.c
-> +++ b/hw/ipmi/ipmi_bt.c
-> @@ -430,7 +430,7 @@ void ipmi_bt_class_init(IPMIInterfaceClass *iic)
->  {
->      iic->init = ipmi_bt_init;
->      iic->set_atn = ipmi_bt_set_atn;
-> -    iic->handle_rsp = ipmi_bt_handle_rsp;
-> +    iic->handle_msg = ipmi_bt_handle_rsp;
->      iic->handle_if_event = ipmi_bt_handle_event;
->      iic->set_irq_enable = ipmi_bt_set_irq_enable;
->      iic->reset = ipmi_bt_handle_reset;
-> diff --git a/hw/ipmi/ipmi_kcs.c b/hw/ipmi/ipmi_kcs.c
-> index a77612946a..e0f870e13a 100644
-> --- a/hw/ipmi/ipmi_kcs.c
-> +++ b/hw/ipmi/ipmi_kcs.c
-> @@ -417,7 +417,7 @@ void ipmi_kcs_class_init(IPMIInterfaceClass *iic)
->  {
->      iic->init = ipmi_kcs_init;
->      iic->set_atn = ipmi_kcs_set_atn;
-> -    iic->handle_rsp = ipmi_kcs_handle_rsp;
-> +    iic->handle_msg = ipmi_kcs_handle_rsp;
->      iic->handle_if_event = ipmi_kcs_handle_event;
->      iic->set_irq_enable = ipmi_kcs_set_irq_enable;
->  }
-> diff --git a/hw/ipmi/isa_ipmi_bt.c b/hw/ipmi/isa_ipmi_bt.c
-> index 02625eb94e..0f52fc4262 100644
-> --- a/hw/ipmi/isa_ipmi_bt.c
-> +++ b/hw/ipmi/isa_ipmi_bt.c
-> @@ -74,6 +74,7 @@ static void isa_ipmi_bt_realize(DeviceState *dev, Error **errp)
->      ISAIPMIBTDevice *iib = ISA_IPMI_BT(dev);
->      IPMIInterface *ii = IPMI_INTERFACE(dev);
->      IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
-> +    IPMICore *ic;
->  
->      if (!iib->bt.bmc) {
->          error_setg(errp, "IPMI device requires a bmc attribute to be set");
-> @@ -82,7 +83,8 @@ static void isa_ipmi_bt_realize(DeviceState *dev, Error **errp)
->  
->      iib->uuid = ipmi_next_uuid();
->  
-> -    iib->bt.bmc->intf = ii;
-> +    ic = IPMI_CORE(iib->bt.bmc);
-> +    ic->intf = ii;
->      iib->bt.opaque = iib;
->  
->      iic->init(ii, 0, &err);
-> diff --git a/hw/ipmi/isa_ipmi_kcs.c b/hw/ipmi/isa_ipmi_kcs.c
-> index 3b23ad08b3..60cab90a21 100644
-> --- a/hw/ipmi/isa_ipmi_kcs.c
-> +++ b/hw/ipmi/isa_ipmi_kcs.c
-> @@ -73,6 +73,7 @@ static void ipmi_isa_realize(DeviceState *dev, Error **errp)
->      ISAIPMIKCSDevice *iik = ISA_IPMI_KCS(dev);
->      IPMIInterface *ii = IPMI_INTERFACE(dev);
->      IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
-> +    IPMICore *ic;
->  
->      if (!iik->kcs.bmc) {
->          error_setg(errp, "IPMI device requires a bmc attribute to be set");
-> @@ -81,7 +82,8 @@ static void ipmi_isa_realize(DeviceState *dev, Error **errp)
->  
->      iik->uuid = ipmi_next_uuid();
->  
-> -    iik->kcs.bmc->intf = ii;
-> +    ic = IPMI_CORE(iik->kcs.bmc);
-> +    ic->intf = ii;
->      iik->kcs.opaque = iik;
->  
->      iic->init(ii, 0, &err);
-> diff --git a/hw/ipmi/pci_ipmi_bt.c b/hw/ipmi/pci_ipmi_bt.c
-> index b6e52730d3..751c15a31f 100644
-> --- a/hw/ipmi/pci_ipmi_bt.c
-> +++ b/hw/ipmi/pci_ipmi_bt.c
-> @@ -58,6 +58,7 @@ static void pci_ipmi_bt_realize(PCIDevice *pd, Error **errp)
->      PCIIPMIBTDevice *pik = PCI_IPMI_BT(pd);
->      IPMIInterface *ii = IPMI_INTERFACE(pd);
->      IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
-> +    IPMICore *ic;
->  
->      if (!pik->bt.bmc) {
->          error_setg(errp, "IPMI device requires a bmc attribute to be set");
-> @@ -66,7 +67,8 @@ static void pci_ipmi_bt_realize(PCIDevice *pd, Error **errp)
->  
->      pik->uuid = ipmi_next_uuid();
->  
-> -    pik->bt.bmc->intf = ii;
-> +    ic = IPMI_CORE(pik->bt.bmc);
-> +    ic->intf = ii;
->      pik->bt.opaque = pik;
->  
->      pci_config_set_prog_interface(pd->config, 0x02); /* BT */
-> diff --git a/hw/ipmi/pci_ipmi_kcs.c b/hw/ipmi/pci_ipmi_kcs.c
-> index de13418862..44a645723c 100644
-> --- a/hw/ipmi/pci_ipmi_kcs.c
-> +++ b/hw/ipmi/pci_ipmi_kcs.c
-> @@ -58,6 +58,7 @@ static void pci_ipmi_kcs_realize(PCIDevice *pd, Error **errp)
->      PCIIPMIKCSDevice *pik = PCI_IPMI_KCS(pd);
->      IPMIInterface *ii = IPMI_INTERFACE(pd);
->      IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
-> +    IPMICore *ic;
->  
->      if (!pik->kcs.bmc) {
->          error_setg(errp, "IPMI device requires a bmc attribute to be set");
-> @@ -66,7 +67,8 @@ static void pci_ipmi_kcs_realize(PCIDevice *pd, Error **errp)
->  
->      pik->uuid = ipmi_next_uuid();
->  
-> -    pik->kcs.bmc->intf = ii;
-> +    ic = IPMI_CORE(pik->kcs.bmc);
-> +    ic->intf = ii;
->      pik->kcs.opaque = pik;
->  
->      pci_config_set_prog_interface(pd->config, 0x01); /* KCS */
-> diff --git a/hw/ipmi/smbus_ipmi.c b/hw/ipmi/smbus_ipmi.c
-> index 1fdf0a66b6..a2383f1212 100644
-> --- a/hw/ipmi/smbus_ipmi.c
-> +++ b/hw/ipmi/smbus_ipmi.c
-> @@ -315,6 +315,7 @@ static void smbus_ipmi_realize(DeviceState *dev, Error **errp)
->  {
->      SMBusIPMIDevice *sid = SMBUS_IPMI(dev);
->      IPMIInterface *ii = IPMI_INTERFACE(dev);
-> +    IPMICore *ic;
->  
->      if (!sid->bmc) {
->          error_setg(errp, "IPMI device requires a bmc attribute to be set");
-> @@ -323,7 +324,8 @@ static void smbus_ipmi_realize(DeviceState *dev, Error **errp)
->  
->      sid->uuid = ipmi_next_uuid();
->  
-> -    sid->bmc->intf = ii;
-> +    ic = IPMI_CORE(sid->bmc);
-> +    ic->intf = ii;
->  }
->  
->  static void smbus_ipmi_init(Object *obj)
-> @@ -359,7 +361,7 @@ static void smbus_ipmi_class_init(ObjectClass *oc, void *data)
->      dc->vmsd = &vmstate_smbus_ipmi;
->      dc->realize = smbus_ipmi_realize;
->      iic->set_atn = smbus_ipmi_set_atn;
-> -    iic->handle_rsp = smbus_ipmi_handle_rsp;
-> +    iic->handle_msg = smbus_ipmi_handle_rsp;
->      iic->handle_if_event = smbus_ipmi_handle_event;
->      iic->set_irq_enable = smbus_ipmi_set_irq_enable;
->      iic->get_fwinfo = smbus_ipmi_get_fwinfo;
-> diff --git a/include/hw/ipmi/ipmi.h b/include/hw/ipmi/ipmi.h
-> index 77a7213ed9..1fa8cd12e5 100644
-> --- a/include/hw/ipmi/ipmi.h
-> +++ b/include/hw/ipmi/ipmi.h
-> @@ -111,11 +111,11 @@ uint32_t ipmi_next_uuid(void);
->  #define TYPE_IPMI_INTERFACE "ipmi-interface"
->  #define IPMI_INTERFACE(obj) \
->       INTERFACE_CHECK(IPMIInterface, (obj), TYPE_IPMI_INTERFACE)
-> +typedef struct IPMIInterface IPMIInterface;
->  typedef struct IPMIInterfaceClass IPMIInterfaceClass;
->  DECLARE_CLASS_CHECKERS(IPMIInterfaceClass, IPMI_INTERFACE,
->                         TYPE_IPMI_INTERFACE)
+> -#define VM_MSG_CHAR        0xA0 /* Marks end of message */
+> -#define VM_CMD_CHAR        0xA1 /* Marks end of a command */
+> -#define VM_ESCAPE_CHAR     0xAA /* Set bit 4 from the next byte to 0 */
 > -
-> -typedef struct IPMIInterface IPMIInterface;
-> +struct IPMICore;
->  
->  struct IPMIInterfaceClass {
->      InterfaceClass parent;
-> @@ -156,9 +156,9 @@ struct IPMIInterfaceClass {
->      void (*reset)(struct IPMIInterface *s, bool is_cold);
->  
->      /*
-> -     * Handle a response from the bmc.
-> +     * Handle an IPMI message.
-
-Could you add a little more explaination here.  Like:
-
-Handle an IPMI message from the remote side.  This is either a message
-from the BMC being handled by an IPMI interface on the host side, or a
-message from the host side being handled by a BMC emulator running in
-this VM.
-
->       */
-> -    void (*handle_rsp)(struct IPMIInterface *s, uint8_t msg_id,
-> +    void (*handle_msg)(struct IPMIInterface *s, uint8_t msg_id,
->                         unsigned char *rsp, unsigned int rsp_len);
->  
->      /*
-> @@ -166,12 +166,38 @@ struct IPMIInterfaceClass {
->       */
->      void *(*get_backend_data)(struct IPMIInterface *s);
->  
-> +    /*
-> +     * Set the IPMI core.
-> +     */
-> +    void (*set_ipmi_handler)(struct IPMIInterface *s, struct IPMICore *ic);
+> -#define VM_PROTOCOL_VERSION        1
+> -#define VM_CMD_VERSION             0xff /* A version number byte follows */
+> -#define VM_CMD_NOATTN              0x00
+> -#define VM_CMD_ATTN                0x01
+> -#define VM_CMD_ATTN_IRQ            0x02
+> -#define VM_CMD_POWEROFF            0x03
+> -#define VM_CMD_RESET               0x04
+> -#define VM_CMD_ENABLE_IRQ          0x05 /* Enable/disable the messaging irq */
+> -#define VM_CMD_DISABLE_IRQ         0x06
+> -#define VM_CMD_SEND_NMI            0x07
+> -#define VM_CMD_CAPABILITIES        0x08
+> -#define   VM_CAPABILITIES_POWER    0x01
+> -#define   VM_CAPABILITIES_RESET    0x02
+> -#define   VM_CAPABILITIES_IRQ      0x04
+> -#define   VM_CAPABILITIES_NMI      0x08
+> -#define   VM_CAPABILITIES_ATTN     0x10
+> -#define   VM_CAPABILITIES_GRACEFUL_SHUTDOWN 0x20
+> -#define VM_CMD_GRACEFUL_SHUTDOWN   0x09
+> -
+>  #define TYPE_IPMI_BMC_EXTERN "ipmi-bmc-extern"
+>  OBJECT_DECLARE_SIMPLE_TYPE(IPMIBmcExtern, IPMI_BMC_EXTERN)
 > +
->      /*
->       * Return the firmware info for a device.
->       */
->      void (*get_fwinfo)(struct IPMIInterface *s, IPMIFwInfo *info);
+>  struct IPMIBmcExtern {
+>      IPMIBmc parent;
+>  
+> -    CharBackend chr;
+> -
+> -    bool connected;
+> -
+> -    unsigned char inbuf[MAX_IPMI_MSG_SIZE + 2];
+> -    unsigned int inpos;
+> -    bool in_escape;
+> -    bool in_too_many;
+> -    bool waiting_rsp;
+> -    bool sending_cmd;
+> -
+> -    unsigned char outbuf[(MAX_IPMI_MSG_SIZE + 2) * 2 + 1];
+> -    unsigned int outpos;
+> -    unsigned int outlen;
+> -
+> -    struct QEMUTimer *extern_timer;
+> +    IPMIExtern conn;
+>  
+>      /* A reset event is pending to be sent upstream. */
+>      bool send_reset;
 >  };
 >  
-> +/*
-> + * Define an IPMI core (Either BMC or Host simulator.)
-> + */
-> +#define TYPE_IPMI_CORE "ipmi-core"
-> +OBJECT_DECLARE_TYPE(IPMICore, IPMICoreClass, IPMI_CORE)
+> -static unsigned char
+> -ipmb_checksum(const unsigned char *data, int size, unsigned char start)
+> +static void continue_send_bmc(IPMIBmcExtern *ibe)
+>  {
+> -        unsigned char csum = start;
+> -
+> -        for (; size > 0; size--, data++) {
+> -                csum += *data;
+> -        }
+> -        return csum;
+> -}
+> -
+> -static void continue_send(IPMIBmcExtern *ibe)
+> -{
+> -    int ret;
+> -    if (ibe->outlen == 0) {
+> -        goto check_reset;
+> -    }
+> - send:
+> -    ret = qemu_chr_fe_write(&ibe->chr, ibe->outbuf + ibe->outpos,
+> -                            ibe->outlen - ibe->outpos);
+> -    if (ret > 0) {
+> -        ibe->outpos += ret;
+> -    }
+> -    if (ibe->outpos < ibe->outlen) {
+> -        /* Not fully transmitted, try again in a 10ms */
+> -        timer_mod_ns(ibe->extern_timer,
+> -                     qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 10000000);
+> -    } else {
+> -        /* Sent */
+> -        ibe->outlen = 0;
+> -        ibe->outpos = 0;
+> -        if (!ibe->sending_cmd) {
+> -            ibe->waiting_rsp = true;
+> -        } else {
+> -            ibe->sending_cmd = false;
+> -        }
+> -    check_reset:
+> -        if (ibe->connected && ibe->send_reset) {
+> +    if (continue_send(&ibe->conn)) {
+> +        if (ibe->conn.connected && ibe->send_reset) {
+>              /* Send the reset */
+> -            ibe->outbuf[0] = VM_CMD_RESET;
+> -            ibe->outbuf[1] = VM_CMD_CHAR;
+> -            ibe->outlen = 2;
+> -            ibe->outpos = 0;
+> +            ibe->conn.outbuf[0] = VM_CMD_RESET;
+> +            ibe->conn.outbuf[1] = VM_CMD_CHAR;
+> +            ibe->conn.outlen = 2;
+> +            ibe->conn.outpos = 0;
+>              ibe->send_reset = false;
+> -            ibe->sending_cmd = true;
+> -            goto send;
+> -        }
+> -
+> -        if (ibe->waiting_rsp) {
+> -            /* Make sure we get a response within 4 seconds. */
+> -            timer_mod_ns(ibe->extern_timer,
+> -                         qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 4000000000ULL);
+> +            ibe->conn.sending_cmd = true;
+> +            continue_send(&ibe->conn);
+>          }
+>      }
+> -    return;
+>  }
+>  
+> -static void extern_timeout(void *opaque)
+> +static void ipmi_bmc_handle_hw_op(IPMICore *ic, unsigned char hw_op,
+> +                                  uint8_t operand)
+>  {
+> -    IPMICore *ic = opaque;
+> -    IPMIBmcExtern *ibe = opaque;
+> -    IPMIInterface *s = ic->intf;
+> -
+> -    if (ibe->connected) {
+> -        if (ibe->waiting_rsp && (ibe->outlen == 0)) {
+> -            IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+> -            /* The message response timed out, return an error. */
+> -            ibe->waiting_rsp = false;
+> -            ibe->inbuf[1] = ibe->outbuf[1] | 0x04;
+> -            ibe->inbuf[2] = ibe->outbuf[2];
+> -            ibe->inbuf[3] = IPMI_CC_TIMEOUT;
+> -            k->handle_msg(s, ibe->outbuf[0], ibe->inbuf + 1, 3);
+> -        } else {
+> -            continue_send(ibe);
+> -        }
+> -    }
+> -}
+> -
+> -static void addchar(IPMIBmcExtern *ibe, unsigned char ch)
+> -{
+> -    switch (ch) {
+> -    case VM_MSG_CHAR:
+> -    case VM_CMD_CHAR:
+> -    case VM_ESCAPE_CHAR:
+> -        ibe->outbuf[ibe->outlen] = VM_ESCAPE_CHAR;
+> -        ibe->outlen++;
+> -        ch |= 0x10;
+> -        /* fall through */
+> -    default:
+> -        ibe->outbuf[ibe->outlen] = ch;
+> -        ibe->outlen++;
+> -    }
+> -}
+> -
+> -static void ipmi_bmc_extern_handle_command(IPMIBmc *b,
+> -                                       uint8_t *cmd, unsigned int cmd_len,
+> -                                       unsigned int max_cmd_len,
+> -                                       uint8_t msg_id)
+> -{
+> -    IPMICore *ic = IPMI_CORE(b);
+> -    IPMIBmcExtern *ibe = IPMI_BMC_EXTERN(b);
+> -    IPMIInterface *s = ic->intf;
+> -    uint8_t err = 0, csum;
+> -    unsigned int i;
+> -
+> -    if (ibe->outlen) {
+> -        /* We already have a command queued.  Shouldn't ever happen. */
+> -        error_report("IPMI KCS: Got command when not finished with the"
+> -                     " previous command");
+> -        abort();
+> -    }
+> -
+> -    /* If it's too short or it was truncated, return an error. */
+> -    if (cmd_len < 2) {
+> -        err = IPMI_CC_REQUEST_DATA_LENGTH_INVALID;
+> -    } else if ((cmd_len > max_cmd_len) || (cmd_len > MAX_IPMI_MSG_SIZE)) {
+> -        err = IPMI_CC_REQUEST_DATA_TRUNCATED;
+> -    } else if (!ibe->connected) {
+> -        err = IPMI_CC_BMC_INIT_IN_PROGRESS;
+> -    }
+> -    if (err) {
+> -        IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+> -        unsigned char rsp[3];
+> -        rsp[0] = cmd[0] | 0x04;
+> -        rsp[1] = cmd[1];
+> -        rsp[2] = err;
+> -        ibe->waiting_rsp = false;
+> -        k->handle_msg(s, msg_id, rsp, 3);
+> -        goto out;
+> -    }
+> -
+> -    addchar(ibe, msg_id);
+> -    for (i = 0; i < cmd_len; i++) {
+> -        addchar(ibe, cmd[i]);
+> -    }
+> -    csum = ipmb_checksum(&msg_id, 1, 0);
+> -    addchar(ibe, -ipmb_checksum(cmd, cmd_len, csum));
+> -
+> -    ibe->outbuf[ibe->outlen] = VM_MSG_CHAR;
+> -    ibe->outlen++;
+> -
+> -    /* Start the transmit */
+> -    continue_send(ibe);
+> -
+> - out:
+> -    return;
+> -}
+> -
+> -static void handle_hw_op(IPMIBmcExtern *ibe, unsigned char hw_op)
+> -{
+> -    IPMICore *ic = IPMI_CORE(ibe);
+>      IPMIInterface *s = ic->intf;
+>      IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+>  
+> @@ -285,169 +117,22 @@ static void handle_hw_op(IPMIBmcExtern *ibe, unsigned char hw_op)
+>      }
+>  }
+>  
+> -static void handle_msg(IPMIBmcExtern *ibe)
+> -{
+> -    IPMICore *ic = IPMI_CORE(ibe);
+> -    IPMIInterface *s = ic->intf;
+> -    IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+> -
+> -    if (ibe->in_escape) {
+> -        ipmi_debug("msg escape not ended\n");
+> -        return;
+> -    }
+> -    if (ibe->inpos < 5) {
+> -        ipmi_debug("msg too short\n");
+> -        return;
+> -    }
+> -    if (ibe->in_too_many) {
+> -        ibe->inbuf[3] = IPMI_CC_REQUEST_DATA_TRUNCATED;
+> -        ibe->inpos = 4;
+> -    } else if (ipmb_checksum(ibe->inbuf, ibe->inpos, 0) != 0) {
+> -        ipmi_debug("msg checksum failure\n");
+> -        return;
+> -    } else {
+> -        ibe->inpos--; /* Remove checkum */
+> -    }
+> -
+> -    timer_del(ibe->extern_timer);
+> -    ibe->waiting_rsp = false;
+> -    k->handle_msg(s, ibe->inbuf[0], ibe->inbuf + 1, ibe->inpos - 1);
+> -}
+> -
+> -static int can_receive(void *opaque)
+> -{
+> -    return 1;
+> -}
+> -
+> -static void receive(void *opaque, const uint8_t *buf, int size)
+> +static void ipmi_bmc_extern_handle_command(IPMIBmc *b,
+> +                                       uint8_t *cmd, unsigned int cmd_len,
+> +                                       unsigned int max_cmd_len,
+> +                                       uint8_t msg_id)
+>  {
+> -    IPMIBmcExtern *ibe = opaque;
+> -    int i;
+> -    unsigned char hw_op;
+> -
+> -    for (i = 0; i < size; i++) {
+> -        unsigned char ch = buf[i];
+> -
+> -        switch (ch) {
+> -        case VM_MSG_CHAR:
+> -            handle_msg(ibe);
+> -            ibe->in_too_many = false;
+> -            ibe->inpos = 0;
+> -            break;
+> -
+> -        case VM_CMD_CHAR:
+> -            if (ibe->in_too_many) {
+> -                ipmi_debug("cmd in too many\n");
+> -                ibe->in_too_many = false;
+> -                ibe->inpos = 0;
+> -                break;
+> -            }
+> -            if (ibe->in_escape) {
+> -                ipmi_debug("cmd in escape\n");
+> -                ibe->in_too_many = false;
+> -                ibe->inpos = 0;
+> -                ibe->in_escape = false;
+> -                break;
+> -            }
+> -            ibe->in_too_many = false;
+> -            if (ibe->inpos < 1) {
+> -                break;
+> -            }
+> -            hw_op = ibe->inbuf[0];
+> -            ibe->inpos = 0;
+> -            goto out_hw_op;
+> -            break;
+> -
+> -        case VM_ESCAPE_CHAR:
+> -            ibe->in_escape = true;
+> -            break;
+> -
+> -        default:
+> -            if (ibe->in_escape) {
+> -                ch &= ~0x10;
+> -                ibe->in_escape = false;
+> -            }
+> -            if (ibe->in_too_many) {
+> -                break;
+> -            }
+> -            if (ibe->inpos >= sizeof(ibe->inbuf)) {
+> -                ibe->in_too_many = true;
+> -                break;
+> -            }
+> -            ibe->inbuf[ibe->inpos] = ch;
+> -            ibe->inpos++;
+> -            break;
+> -        }
+> -    }
+> -    return;
+> +    IPMIBmcExtern *ibe = IPMI_BMC_EXTERN(b);
+>  
+> - out_hw_op:
+> -    handle_hw_op(ibe, hw_op);
+> +    ipmi_extern_handle_command(&ibe->conn, cmd, cmd_len, max_cmd_len, msg_id);
+>  }
+>  
+> -static void chr_event(void *opaque, QEMUChrEvent event)
+> +static void ipmi_bmc_extern_realize(DeviceState *dev, Error **errp)
+>  {
+> -    IPMICore *ic = opaque;
+> -    IPMIBmcExtern *ibe = opaque;
+> -    IPMIInterface *s = ic->intf;
+> -    IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+> -    unsigned char v;
+> -
+> -    switch (event) {
+> -    case CHR_EVENT_OPENED:
+> -        ibe->connected = true;
+> -        ibe->outpos = 0;
+> -        ibe->outlen = 0;
+> -        addchar(ibe, VM_CMD_VERSION);
+> -        addchar(ibe, VM_PROTOCOL_VERSION);
+> -        ibe->outbuf[ibe->outlen] = VM_CMD_CHAR;
+> -        ibe->outlen++;
+> -        addchar(ibe, VM_CMD_CAPABILITIES);
+> -        v = VM_CAPABILITIES_IRQ | VM_CAPABILITIES_ATTN;
+> -        if (k->do_hw_op(s, IPMI_POWEROFF_CHASSIS, 1) == 0) {
+> -            v |= VM_CAPABILITIES_POWER;
+> -        }
+> -        if (k->do_hw_op(s, IPMI_SHUTDOWN_VIA_ACPI_OVERTEMP, 1)
+> -            == 0) {
+> -            v |= VM_CAPABILITIES_GRACEFUL_SHUTDOWN;
+> -        }
+> -        if (k->do_hw_op(s, IPMI_RESET_CHASSIS, 1) == 0) {
+> -            v |= VM_CAPABILITIES_RESET;
+> -        }
+> -        if (k->do_hw_op(s, IPMI_SEND_NMI, 1) == 0) {
+> -            v |= VM_CAPABILITIES_NMI;
+> -        }
+> -        addchar(ibe, v);
+> -        ibe->outbuf[ibe->outlen] = VM_CMD_CHAR;
+> -        ibe->outlen++;
+> -        ibe->sending_cmd = false;
+> -        continue_send(ibe);
+> -        break;
+> -
+> -    case CHR_EVENT_CLOSED:
+> -        if (!ibe->connected) {
+> -            return;
+> -        }
+> -        ibe->connected = false;
+> -        /*
+> -         * Don't hang the OS trying to handle the ATN bit, other end will
+> -         * resend on a reconnect.
+> -         */
+> -        k->set_atn(s, 0, 0);
+> -        if (ibe->waiting_rsp) {
+> -            ibe->waiting_rsp = false;
+> -            ibe->inbuf[1] = ibe->outbuf[1] | 0x04;
+> -            ibe->inbuf[2] = ibe->outbuf[2];
+> -            ibe->inbuf[3] = IPMI_CC_BMC_INIT_IN_PROGRESS;
+> -            k->handle_msg(s, ibe->outbuf[0], ibe->inbuf + 1, 3);
+> -        }
+> -        break;
+> +    IPMIBmcExtern *ibe = IPMI_BMC_EXTERN(dev);
+>  
+> -    case CHR_EVENT_BREAK:
+> -    case CHR_EVENT_MUX_IN:
+> -    case CHR_EVENT_MUX_OUT:
+> -        /* Ignore */
+> -        break;
+> +    if (!qdev_realize(DEVICE(&ibe->conn), NULL, errp)) {
+> +        return;
+>      }
+>  }
+>  
+> @@ -456,42 +141,14 @@ static void ipmi_bmc_extern_handle_reset(IPMIBmc *b)
+>      IPMIBmcExtern *ibe = IPMI_BMC_EXTERN(b);
+>  
+>      ibe->send_reset = true;
+> -    continue_send(ibe);
+> -}
+> -
+> -static void ipmi_bmc_extern_realize(DeviceState *dev, Error **errp)
+> -{
+> -    IPMIBmcExtern *ibe = IPMI_BMC_EXTERN(dev);
+> -
+> -    if (!qemu_chr_fe_backend_connected(&ibe->chr)) {
+> -        error_setg(errp, "IPMI external bmc requires chardev attribute");
+> -        return;
+> -    }
+> -
+> -    qemu_chr_fe_set_handlers(&ibe->chr, can_receive, receive,
+> -                             chr_event, NULL, ibe, NULL, true);
+> +    continue_send_bmc(ibe);
+>  }
+>  
+>  static int ipmi_bmc_extern_post_migrate(void *opaque, int version_id)
+>  {
+> -    IPMIBmcExtern *ibe = opaque;
+> -
+> -    /*
+> -     * We don't directly restore waiting_rsp, Instead, we return an
+> -     * error on the interface if a response was being waited for.
+> -     */
+> -    if (ibe->waiting_rsp) {
+> -        IPMICore *ic = opaque;
+> -        IPMIInterface *ii = ic->intf;
+> -        IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+> -
+> -        ibe->waiting_rsp = false;
+> -        ibe->inbuf[1] = ibe->outbuf[1] | 0x04;
+> -        ibe->inbuf[2] = ibe->outbuf[2];
+> -        ibe->inbuf[3] = IPMI_CC_BMC_INIT_IN_PROGRESS;
+> -        iic->handle_msg(ii, ibe->outbuf[0], ibe->inbuf + 1, 3);
+> -    }
+> -    return 0;
+> +    IPMIBmcExtern *ibe = IPMI_BMC_EXTERN(opaque);
 > +
-> +struct IPMICore {
+> +    return ipmi_extern_post_migrate(&ibe->conn, version_id);
+>  }
+>  
+>  static const VMStateDescription vmstate_ipmi_bmc_extern = {
+> @@ -501,28 +158,24 @@ static const VMStateDescription vmstate_ipmi_bmc_extern = {
+>      .post_load = ipmi_bmc_extern_post_migrate,
+>      .fields      = (VMStateField[]) {
+>          VMSTATE_BOOL(send_reset, IPMIBmcExtern),
+> -        VMSTATE_BOOL(waiting_rsp, IPMIBmcExtern),
+> +        VMSTATE_BOOL(conn.waiting_rsp, IPMIBmcExtern),
+>          VMSTATE_END_OF_LIST()
+>      }
+>  };
+>  
+>  static void ipmi_bmc_extern_init(Object *obj)
+>  {
+> +    IPMICore *ic = IPMI_CORE(obj);
+>      IPMIBmcExtern *ibe = IPMI_BMC_EXTERN(obj);
+>  
+> -    ibe->extern_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, extern_timeout, ibe);
+> +    object_initialize_child(obj, "extern", &ibe->conn,
+> +                            TYPE_IPMI_EXTERN);
+> +    ibe->conn.core = ic;
+>      vmstate_register(NULL, 0, &vmstate_ipmi_bmc_extern, ibe);
+>  }
+>  
+> -static void ipmi_bmc_extern_finalize(Object *obj)
+> -{
+> -    IPMIBmcExtern *ibe = IPMI_BMC_EXTERN(obj);
+> -
+> -    timer_free(ibe->extern_timer);
+> -}
+> -
+>  static Property ipmi_bmc_extern_properties[] = {
+> -    DEFINE_PROP_CHR("chardev", IPMIBmcExtern, chr),
+> +    DEFINE_PROP_CHR("chardev", IPMIBmcExtern, conn.chr),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> @@ -530,9 +183,11 @@ static void ipmi_bmc_extern_class_init(ObjectClass *oc, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(oc);
+>      IPMIBmcClass *bk = IPMI_BMC_CLASS(oc);
+> +    IPMICoreClass *ck = IPMI_CORE_CLASS(oc);
+>  
+>      bk->handle_command = ipmi_bmc_extern_handle_command;
+>      bk->handle_reset = ipmi_bmc_extern_handle_reset;
+> +    ck->handle_hw_op = ipmi_bmc_handle_hw_op;
+>      dc->hotpluggable = false;
+>      dc->realize = ipmi_bmc_extern_realize;
+>      device_class_set_props(dc, ipmi_bmc_extern_properties);
+> @@ -543,9 +198,8 @@ static const TypeInfo ipmi_bmc_extern_type = {
+>      .parent        = TYPE_IPMI_BMC,
+>      .instance_size = sizeof(IPMIBmcExtern),
+>      .instance_init = ipmi_bmc_extern_init,
+> -    .instance_finalize = ipmi_bmc_extern_finalize,
+>      .class_init    = ipmi_bmc_extern_class_init,
+> - };
+> +};
+>  
+>  static void ipmi_bmc_extern_register_types(void)
+>  {
+> diff --git a/hw/ipmi/ipmi_extern.c b/hw/ipmi/ipmi_extern.c
+> new file mode 100644
+> index 0000000000..f139eaef24
+> --- /dev/null
+> +++ b/hw/ipmi/ipmi_extern.c
+> @@ -0,0 +1,415 @@
+> +/*
+> + * IPMI external connection
+> + *
+> + * Copyright (c) 2015 Corey Minyard, MontaVista Software, LLC
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a copy
+> + * of this software and associated documentation files (the "Software"), to deal
+> + * in the Software without restriction, including without limitation the rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/error-report.h"
+> +#include "qemu/module.h"
+> +#include "qapi/error.h"
+> +#include "qemu/timer.h"
+> +#include "chardev/char-fe.h"
+> +#include "hw/ipmi/ipmi.h"
+> +#include "hw/ipmi/ipmi_extern.h"
+> +#include "hw/qdev-properties.h"
+> +#include "migration/vmstate.h"
+> +#include "qom/object.h"
+> +
+> +static unsigned char
+> +ipmb_checksum(const unsigned char *data, int size, unsigned char start)
+> +{
+> +        unsigned char csum = start;
+> +
+> +        for (; size > 0; size--, data++) {
+> +                csum += *data;
+> +        }
+> +        return csum;
+> +}
+> +
+> +/* Returns whether check_reset is required for IPMI_BMC_EXTERN. */
+> +bool continue_send(IPMIExtern *ibe)
+> +{
+> +    int ret;
+> +    if (ibe->outlen == 0) {
+> +        return true;
+> +    }
+> +    ret = qemu_chr_fe_write(&ibe->chr, ibe->outbuf + ibe->outpos,
+> +                            ibe->outlen - ibe->outpos);
+> +    if (ret > 0) {
+> +        ibe->outpos += ret;
+> +    }
+> +    if (ibe->outpos < ibe->outlen) {
+> +        /* Not fully transmitted, try again in a 10ms */
+> +        timer_mod_ns(ibe->extern_timer,
+> +                     qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 10000000);
+> +        return false;
+> +    } else {
+> +        /* Sent */
+> +        ibe->outlen = 0;
+> +        ibe->outpos = 0;
+> +        if (!ibe->bmc_side && !ibe->sending_cmd) {
+> +            ibe->waiting_rsp = true;
+> +        } else {
+> +            ibe->sending_cmd = false;
+> +        }
+> +
+> +        if (ibe->waiting_rsp) {
+> +            /* Make sure we get a response within 4 seconds. */
+> +            timer_mod_ns(ibe->extern_timer,
+> +                         qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 4000000000ULL);
+> +        }
+> +        return true;
+> +    }
+> +}
+> +
+> +static void extern_timeout(void *opaque)
+> +{
+> +    IPMIExtern *ibe = opaque;
+> +    IPMIInterface *s = ibe->core->intf;
+> +
+> +    if (ibe->connected) {
+> +        /*TODO: only core-side */
+> +        if (ibe->waiting_rsp && (ibe->outlen == 0)) {
+> +            IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+> +            /* The message response timed out, return an error. */
+> +            ibe->waiting_rsp = false;
+> +            ibe->inbuf[1] = ibe->outbuf[1] | 0x04;
+> +            ibe->inbuf[2] = ibe->outbuf[2];
+> +            ibe->inbuf[3] = IPMI_CC_TIMEOUT;
+> +            k->handle_msg(s, ibe->outbuf[0], ibe->inbuf + 1, 3);
+> +        } else {
+> +            continue_send(ibe);
+> +        }
+> +    }
+> +}
+> +
+> +static void addchar(IPMIExtern *ibe, unsigned char ch)
+> +{
+> +    switch (ch) {
+> +    case VM_MSG_CHAR:
+> +    case VM_CMD_CHAR:
+> +    case VM_ESCAPE_CHAR:
+> +        ibe->outbuf[ibe->outlen] = VM_ESCAPE_CHAR;
+> +        ibe->outlen++;
+> +        ch |= 0x10;
+> +        /* fall through */
+> +    default:
+> +        ibe->outbuf[ibe->outlen] = ch;
+> +        ibe->outlen++;
+> +    }
+> +}
+> +
+> +void ipmi_extern_handle_command(IPMIExtern *ibe,
+> +                                       uint8_t *cmd, unsigned int cmd_len,
+> +                                       unsigned int max_cmd_len,
+> +                                       uint8_t msg_id)
+> +{
+> +    IPMIInterface *s = ibe->core->intf;
+> +    uint8_t err = 0, csum;
+> +    unsigned int i;
+> +
+> +    if (ibe->outlen) {
+> +        /* We already have a command queued.  Shouldn't ever happen. */
+> +        error_report("IPMI KCS: Got command when not finished with the"
+> +                     " previous command");
+> +        abort();
+> +    }
+> +
+> +    /* If it's too short or it was truncated, return an error. */
+> +    if (cmd_len < 2) {
+> +        err = IPMI_CC_REQUEST_DATA_LENGTH_INVALID;
+> +    } else if ((cmd_len > max_cmd_len) || (cmd_len > MAX_IPMI_MSG_SIZE)) {
+> +        err = IPMI_CC_REQUEST_DATA_TRUNCATED;
+> +    } else if (!ibe->connected) {
+> +        err = IPMI_CC_BMC_INIT_IN_PROGRESS;
+> +    }
+> +    if (err) {
+> +        IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+> +        unsigned char rsp[3];
+> +        rsp[0] = cmd[0] | 0x04;
+> +        rsp[1] = cmd[1];
+> +        rsp[2] = err;
+> +        ibe->waiting_rsp = false;
+> +        k->handle_msg(s, msg_id, rsp, 3);
+> +        goto out;
+> +    }
+> +
+> +    addchar(ibe, msg_id);
+> +    for (i = 0; i < cmd_len; i++) {
+> +        addchar(ibe, cmd[i]);
+> +    }
+> +    csum = ipmb_checksum(&msg_id, 1, 0);
+> +    addchar(ibe, -ipmb_checksum(cmd, cmd_len, csum));
+> +
+> +    ibe->outbuf[ibe->outlen] = VM_MSG_CHAR;
+> +    ibe->outlen++;
+> +
+> +    /* Start the transmit */
+> +    continue_send(ibe);
+> +
+> + out:
+> +    return;
+> +}
+> +
+> +static void handle_msg(IPMIExtern *ibe)
+> +{
+> +    IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(ibe->core->intf);
+> +
+> +    if (ibe->in_escape) {
+> +        ipmi_debug("msg escape not ended\n");
+> +        return;
+> +    }
+> +    if (ibe->inpos < (ibe->bmc_side ? 4 : 5)) {
+> +        ipmi_debug("msg too short\n");
+> +        return;
+> +    }
+> +    if (ibe->in_too_many) {
+> +        ibe->inbuf[3] = IPMI_CC_REQUEST_DATA_TRUNCATED;
+> +        ibe->inpos = 4;
+> +    } else if (ipmb_checksum(ibe->inbuf, ibe->inpos, 0) != 0) {
+> +        ipmi_debug("msg checksum failure\n");
+> +        return;
+> +    } else {
+> +        ibe->inpos--; /* Remove checkum */
+> +    }
+> +
+> +    timer_del(ibe->extern_timer);
+> +    ibe->waiting_rsp = false;
+> +    k->handle_msg(ibe->core->intf, ibe->inbuf[0],
+> +                  ibe->inbuf + 1, ibe->inpos - 1);
+> +}
+> +
+> +static int can_receive(void *opaque)
+> +{
+> +    return 1;
+> +}
+> +
+> +static void receive(void *opaque, const uint8_t *buf, int size)
+> +{
+> +    IPMIExtern *ibe = opaque;
+> +    IPMICoreClass *ck = IPMI_CORE_GET_CLASS(ibe->core);
+> +    int i;
+> +    unsigned char hw_op;
+> +    unsigned char hw_operand = 0;
+> +
+> +    for (i = 0; i < size; i++) {
+> +        unsigned char ch = buf[i];
+> +
+> +        switch (ch) {
+> +        case VM_MSG_CHAR:
+> +            handle_msg(ibe);
+> +            ibe->in_too_many = false;
+> +            ibe->inpos = 0;
+> +            break;
+> +
+> +        case VM_CMD_CHAR:
+> +            if (ibe->in_too_many) {
+> +                ipmi_debug("cmd in too many\n");
+> +                ibe->in_too_many = false;
+> +                ibe->inpos = 0;
+> +                break;
+> +            }
+> +            if (ibe->in_escape) {
+> +                ipmi_debug("cmd in escape\n");
+> +                ibe->in_too_many = false;
+> +                ibe->inpos = 0;
+> +                ibe->in_escape = false;
+> +                break;
+> +            }
+> +            ibe->in_too_many = false;
+> +            if (ibe->inpos < 1) {
+> +                break;
+> +            }
+> +            hw_op = ibe->inbuf[0];
+> +            if (ibe->inpos > 1) {
+> +                hw_operand = ibe->inbuf[1];
+> +            }
+> +            ibe->inpos = 0;
+> +            goto out_hw_op;
+> +            break;
+> +
+> +        case VM_ESCAPE_CHAR:
+> +            ibe->in_escape = true;
+> +            break;
+> +
+> +        default:
+> +            if (ibe->in_escape) {
+> +                ch &= ~0x10;
+> +                ibe->in_escape = false;
+> +            }
+> +            if (ibe->in_too_many) {
+> +                break;
+> +            }
+> +            if (ibe->inpos >= sizeof(ibe->inbuf)) {
+> +                ibe->in_too_many = true;
+> +                break;
+> +            }
+> +            ibe->inbuf[ibe->inpos] = ch;
+> +            ibe->inpos++;
+> +            break;
+> +        }
+> +    }
+> +    return;
+> +
+> + out_hw_op:
+> +    ck->handle_hw_op(ibe->core, hw_op, hw_operand);
+> +}
+> +
+> +static void chr_event(void *opaque, QEMUChrEvent event)
+> +{
+> +    IPMIExtern *ibe = opaque;
+> +    IPMIInterface *s = ibe->core->intf;
+> +    IPMIInterfaceClass *k = IPMI_INTERFACE_GET_CLASS(s);
+> +    unsigned char v;
+> +
+> +    switch (event) {
+> +    case CHR_EVENT_OPENED:
+> +        ibe->connected = true;
+> +        ibe->outpos = 0;
+> +        ibe->outlen = 0;
+> +        addchar(ibe, VM_CMD_VERSION);
+> +        addchar(ibe, VM_PROTOCOL_VERSION);
+> +        ibe->outbuf[ibe->outlen] = VM_CMD_CHAR;
+> +        ibe->outlen++;
+> +        /* Only send capability for core side. */
+> +        if (!ibe->bmc_side) {
+> +            addchar(ibe, VM_CMD_CAPABILITIES);
+> +            v = VM_CAPABILITIES_IRQ | VM_CAPABILITIES_ATTN;
+> +            if (k->do_hw_op(ibe->core->intf, IPMI_POWEROFF_CHASSIS, 1) == 0) {
+> +                v |= VM_CAPABILITIES_POWER;
+> +            }
+> +            if (k->do_hw_op(ibe->core->intf, IPMI_SHUTDOWN_VIA_ACPI_OVERTEMP, 1)
+> +                == 0) {
+> +                v |= VM_CAPABILITIES_GRACEFUL_SHUTDOWN;
+> +            }
+> +            if (k->do_hw_op(ibe->core->intf, IPMI_RESET_CHASSIS, 1) == 0) {
+> +                v |= VM_CAPABILITIES_RESET;
+> +            }
+> +            if (k->do_hw_op(ibe->core->intf, IPMI_SEND_NMI, 1) == 0) {
+> +                v |= VM_CAPABILITIES_NMI;
+> +            }
+> +            addchar(ibe, v);
+> +            ibe->outbuf[ibe->outlen] = VM_CMD_CHAR;
+> +            ibe->outlen++;
+> +        }
+> +        ibe->sending_cmd = false;
+> +        continue_send(ibe);
+> +        break;
+> +
+> +    case CHR_EVENT_CLOSED:
+> +        if (!ibe->connected) {
+> +            return;
+> +        }
+> +        ibe->connected = false;
+> +        /*
+> +         * Don't hang the OS trying to handle the ATN bit, other end will
+> +         * resend on a reconnect.
+> +         */
+> +        k->set_atn(s, 0, 0);
+> +        if (ibe->waiting_rsp) {
+> +            ibe->waiting_rsp = false;
+> +            ibe->inbuf[1] = ibe->outbuf[1] | 0x04;
+> +            ibe->inbuf[2] = ibe->outbuf[2];
+> +            ibe->inbuf[3] = IPMI_CC_BMC_INIT_IN_PROGRESS;
+> +            k->handle_msg(s, ibe->outbuf[0], ibe->inbuf + 1, 3);
+> +        }
+> +        break;
+> +
+> +    case CHR_EVENT_BREAK:
+> +    case CHR_EVENT_MUX_IN:
+> +    case CHR_EVENT_MUX_OUT:
+> +        /* Ignore */
+> +        break;
+> +    }
+> +}
+> +
+> +static void ipmi_extern_realize(DeviceState *dev, Error **errp)
+> +{
+> +    IPMIExtern *ibe = IPMI_EXTERN(dev);
+> +
+> +    if (!qemu_chr_fe_backend_connected(&ibe->chr)) {
+> +        error_setg(errp, "IPMI external bmc requires chardev attribute");
+> +        return;
+> +    }
+> +
+> +    qemu_chr_fe_set_handlers(&ibe->chr, can_receive, receive,
+> +                             chr_event, NULL, ibe, NULL, true);
+> +}
+> +
+> +int ipmi_extern_post_migrate(IPMIExtern *ibe, int version_id)
+> +{
+> +    /*
+> +     * We don't directly restore waiting_rsp, Instead, we return an
+> +     * error on the interface if a response was being waited for.
+> +     */
+> +    if (ibe->waiting_rsp) {
+> +        IPMIInterface *ii = ibe->core->intf;
+> +        IPMIInterfaceClass *iic = IPMI_INTERFACE_GET_CLASS(ii);
+> +
+> +        ibe->waiting_rsp = false;
+> +        ibe->inbuf[1] = ibe->outbuf[1] | 0x04;
+> +        ibe->inbuf[2] = ibe->outbuf[2];
+> +        ibe->inbuf[3] = IPMI_CC_BMC_INIT_IN_PROGRESS;
+> +        iic->handle_msg(ii, ibe->outbuf[0], ibe->inbuf + 1, 3);
+> +    }
+> +    return 0;
+> +}
+> +
+> +static void ipmi_extern_init(Object *obj)
+> +{
+> +    IPMIExtern *ibe = IPMI_EXTERN(obj);
+> +
+> +    ibe->extern_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, extern_timeout, ibe);
+> +}
+> +
+> +static void ipmi_extern_finalize(Object *obj)
+> +{
+> +    IPMIExtern *ibe = IPMI_EXTERN(obj);
+> +
+> +    timer_del(ibe->extern_timer);
+> +    timer_free(ibe->extern_timer);
+> +}
+> +
+> +
+> +static void ipmi_extern_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(oc);
+> +
+> +    dc->hotpluggable = false;
+> +    dc->realize = ipmi_extern_realize;
+> +}
+> +
+> +static const TypeInfo ipmi_extern_type = {
+> +    .name          = TYPE_IPMI_EXTERN,
+> +    .parent        = TYPE_DEVICE,
+> +    .instance_size = sizeof(IPMIExtern),
+> +    .instance_init = ipmi_extern_init,
+> +    .instance_finalize = ipmi_extern_finalize,
+> +    .class_init    = ipmi_extern_class_init,
+> + };
+> +
+> +static void ipmi_extern_register_types(void)
+> +{
+> +    type_register_static(&ipmi_extern_type);
+> +}
+> +
+> +type_init(ipmi_extern_register_types)
+> diff --git a/hw/ipmi/ipmi_extern.h b/hw/ipmi/ipmi_extern.h
+> new file mode 100644
+> index 0000000000..e4aa80a0f6
+> --- /dev/null
+> +++ b/hw/ipmi/ipmi_extern.h
+> @@ -0,0 +1,90 @@
+> +/*
+> + * IPMI external connection
+> + *
+> + * Copyright (c) 2015 Corey Minyard, MontaVista Software, LLC
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a copy
+> + * of this software and associated documentation files (the "Software"), to deal
+> + * in the Software without restriction, including without limitation the rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#ifndef HW_IPMI_EXTERN_H
+> +#define HW_IPMI_EXTERN_H
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/ipmi/ipmi.h"
+> +
+> +#define VM_MSG_CHAR        0xA0 /* Marks end of message */
+> +#define VM_CMD_CHAR        0xA1 /* Marks end of a command */
+> +#define VM_ESCAPE_CHAR     0xAA /* Set bit 4 from the next byte to 0 */
+> +
+> +#define VM_PROTOCOL_VERSION        1
+> +#define VM_CMD_VERSION             0xff /* A version number byte follows */
+> +#define VM_CMD_NOATTN              0x00
+> +#define VM_CMD_ATTN                0x01
+> +#define VM_CMD_ATTN_IRQ            0x02
+> +#define VM_CMD_POWEROFF            0x03
+> +#define VM_CMD_RESET               0x04
+> +#define VM_CMD_ENABLE_IRQ          0x05 /* Enable/disable the messaging irq */
+> +#define VM_CMD_DISABLE_IRQ         0x06
+> +#define VM_CMD_SEND_NMI            0x07
+> +#define VM_CMD_CAPABILITIES        0x08
+> +#define   VM_CAPABILITIES_POWER    0x01
+> +#define   VM_CAPABILITIES_RESET    0x02
+> +#define   VM_CAPABILITIES_IRQ      0x04
+> +#define   VM_CAPABILITIES_NMI      0x08
+> +#define   VM_CAPABILITIES_ATTN     0x10
+> +#define   VM_CAPABILITIES_GRACEFUL_SHUTDOWN 0x20
+> +#define VM_CMD_GRACEFUL_SHUTDOWN   0x09
+> +
+> +typedef struct IPMIExtern {
 > +    DeviceState parent;
 > +
-> +    IPMIInterface *intf;
-> +};
+> +    CharBackend chr;
 > +
-> +struct IPMICoreClass {
-> +    DeviceClass parent;
+> +    IPMICore *core;
 > +
-> +    /*
-> +     * Handle a hardware command.
-> +     */
-> +    void (*handle_hw_op)(struct IPMICore *s, uint8_t hw_op, uint8_t operand);
-> +};
+> +    bool bmc_side;
+> +    bool connected;
 > +
->  /*
->   * Define a BMC simulator (or perhaps a connection to a real BMC)
->   */
-> @@ -180,15 +206,13 @@ OBJECT_DECLARE_TYPE(IPMIBmc, IPMIBmcClass,
->                      IPMI_BMC)
->  
->  struct IPMIBmc {
-> -    DeviceState parent;
-> +    IPMICore parent;
->  
->      uint8_t slave_addr;
-> -
-> -    IPMIInterface *intf;
->  };
->  
->  struct IPMIBmcClass {
-> -    DeviceClass parent;
-> +    IPMICoreClass parent;
->  
->      /* Called when the system resets to report to the bmc. */
->      void (*handle_reset)(struct IPMIBmc *s);
+> +    unsigned char inbuf[MAX_IPMI_MSG_SIZE + 2];
+> +    unsigned int inpos;
+> +    bool in_escape;
+> +    bool in_too_many;
+> +    bool waiting_rsp;
+> +    bool sending_cmd;
+> +
+> +    unsigned char outbuf[(MAX_IPMI_MSG_SIZE + 2) * 2 + 1];
+> +    unsigned int outpos;
+> +    unsigned int outlen;
+> +
+> +    struct QEMUTimer *extern_timer;
+> +} IPMIExtern;
+> +
+> +#define TYPE_IPMI_EXTERN "ipmi-extern"
+> +#define IPMI_EXTERN(obj) \
+> +    OBJECT_CHECK(IPMIExtern, (obj), TYPE_IPMI_EXTERN)
+> +
+> +void ipmi_extern_handle_command(IPMIExtern *ibe,
+> +                                uint8_t *cmd, unsigned int cmd_len,
+> +                                unsigned int max_cmd_len,
+> +                                uint8_t msg_id);
+> +
+> +bool continue_send(IPMIExtern *ibe);
+> +int ipmi_extern_post_migrate(IPMIExtern *ibe, int version_id);
+> +
+> +#endif /* HW_IPMI_EXTERN_H */
+> diff --git a/hw/ipmi/meson.build b/hw/ipmi/meson.build
+> index 9622ea2a2c..edd0bf9af9 100644
+> --- a/hw/ipmi/meson.build
+> +++ b/hw/ipmi/meson.build
+> @@ -1,5 +1,5 @@
+>  ipmi_ss = ss.source_set()
+> -ipmi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c', 'ipmi_kcs.c', 'ipmi_bt.c'))
+> +ipmi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c', 'ipmi_kcs.c', 'ipmi_bt.c', 'ipmi_extern.c'))
+>  ipmi_ss.add(when: 'CONFIG_IPMI_LOCAL', if_true: files('ipmi_bmc_sim.c'))
+>  ipmi_ss.add(when: 'CONFIG_IPMI_EXTERN', if_true: files('ipmi_bmc_extern.c'))
+>  ipmi_ss.add(when: 'CONFIG_ISA_IPMI_KCS', if_true: files('isa_ipmi_kcs.c'))
 > -- 
 > 2.33.0.309.g3052b89438-goog
 > 
