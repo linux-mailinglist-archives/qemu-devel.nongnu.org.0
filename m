@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE90406C67
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 14:42:58 +0200 (CEST)
-Received: from localhost ([::1]:37976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5CA406B80
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 14:33:46 +0200 (CEST)
+Received: from localhost ([::1]:50444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOfrt-0001Fd-V6
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 08:42:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60654)
+	id 1mOfiy-0006u1-PD
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 08:33:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mOfWm-00072z-OW
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 08:21:08 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:37829)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mOfeF-0004iB-1k
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 08:28:51 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mOfWg-0007Q6-5A
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 08:21:08 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- c8-20020a7bc008000000b002e6e462e95fso1314470wmb.2
- for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 05:21:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mOfcQ-00040D-Jc
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 08:28:49 -0400
+Received: by mail-wr1-x432.google.com with SMTP id d6so2358422wrc.11
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 05:26:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5EbyyGnLmhrlQSlWQpukmKJ7fS4PXC75I0aNaGf5goE=;
- b=ZEUdgN+/otd0qWvCIvzji09j3LoTr8CdBzlsNKgBkz9V9aMfwxNfNPx5X51JrPtdtO
- qaU7rOqLvRGfCUpr+MxYgfNd15RFKdSnd0W/TcrCPcgA4TEOgJMq+ghdXA4brQJicnwB
- 7QN4R2vi4534ki5XdyxAtqtU9yW+JC8W5ja+79SfaZCQOR+BaRJuidQTDwI3Dnwqo4R/
- iSLiEoxUBpx30kl+QLfH6TLsmqqa23a2NBscc5CxLJ8t2S0eWL5UF4fXT1XyYApHMevt
- iZI4lFEkhSNflMEkFZ+MYseHd9RHOfyqlxUVRQsk4jgGNr8JIVDu9TA0e2CtaKYcbFZ6
- 4nsg==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=QHZNMUbqaI7z38U63M9bCLV3uukNmXmqkLmOEuX7MWc=;
+ b=VZuQcJYFH72s/ldTjifr8x5mWavzBgjMFw5px8WR+XsC7c9tTrgEITiDT8eTbxSqYK
+ ZYT3mskw1PZGmGJD9fIwYqjbcX8cGmQa5UQ/inHI+eO3q1duudstLtr/7ARYOlju+Hv6
+ iuo9VmxPGBfUnnFFInULTy60m+Wfnm0KeiiLZqXJLPV55f7Hicg+pRREmfK1t4Xq64DR
+ prOVXSKvyeh71m2JTZTj4tqYiFWJA38+uc+/f13rTtQIzr4j21ht/RYJWHOYDD5lVIWm
+ JH3BRCt/D1NvjkdZntsBxzALEif9xftNlKwBUU5YxTbJHCqpuKBfdRSvQAztQvKIyuIY
+ RKRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5EbyyGnLmhrlQSlWQpukmKJ7fS4PXC75I0aNaGf5goE=;
- b=mKh8nb7MNAL55tTWUiz6QoXzSCSLxQvMBt1wceH3Ycm75H2ub77nfpkUWrQP0GsdiX
- ImLuDzusmmg9lzhXtnkUq4LlmAIoW0ZkmcZ1kabtGoxRS3rdJwa4u1GDfze0qXVActwM
- uyHo5nGwMJo8Ky8t3ZosYVv83+zAe158+JsaWjzxFRQaCmHkxfY2x0ZQJrSjz84V6LSX
- Iksow+o9QWqK0L1DgsxVPRmXUTMlrwGxbfKIud6n5z9Xn/gwFll6nor7R63zmAdSHzPV
- Ug0w9/pEJRJYFe2hISeOmfKJaOdGL7oqnz1+VH1Z84eT2sGVH6arsz3k5RKpYL79dr2J
- Nm5w==
-X-Gm-Message-State: AOAM533YCgDtr6ukCwqgbu0msKX1bh3sVROkvzCWuDIX4dso+oJl1wmR
- N942dRayJkEzzU0ZxADA8Ow0QT38hDv3SGw0CQgYTQ==
-X-Google-Smtp-Source: ABdhPJx92tD9WsBGK56Ju9zFWkIz5n65xviQD1GXRcZVaMjkSZ3olyakmh1E9bS76TynHv9JfHBeyfYWZtQYLVntuQU=
-X-Received: by 2002:a7b:c0c5:: with SMTP id s5mr2616923wmh.126.1631276460031; 
- Fri, 10 Sep 2021 05:21:00 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QHZNMUbqaI7z38U63M9bCLV3uukNmXmqkLmOEuX7MWc=;
+ b=MNfSmn8+wp5RCqYasMrBzkoFFWekj/tfFApUSdpQBjdsPOHey0yntvd6/USfAms9G/
+ 9jp6Ty7Xpq+k4876e4MzIhWOOpSEcHyzRAHqWEPpJYa0I7+H+hayX9Xr6ftHvKZiBpMz
+ JQrtB5qwrqiAQVTmq4rRJmqngHD8B5WooQ+nejKjZypindRQGQG5dSd0uxr/c0SKuulS
+ fqP4Bbutk6QKs8zRK7zD7uJR8ZgOYi5fU505haUJaxLabYyfpcHA7uaj24JanPASS+OQ
+ 9g5PRgrXwn5tLTPvFedZhngUPFWfoy7eU83HFN4QOSk+qssHctsGkOqqu3UgTCCESYNM
+ a5wg==
+X-Gm-Message-State: AOAM530uAPDM1l4G0oPW6+Y4YLOAxo+IL+eU1sJntBns6CyGOMXQKEad
+ Rc1xIynPZT0seYjLP7w28+FAhA==
+X-Google-Smtp-Source: ABdhPJwoMq7pDy46OvHOSJF1sd8bpi8ppOtqA8rKHObRtotHy/O7flrUziSJ/F1uJEuYJ42skq+fPg==
+X-Received: by 2002:adf:9d4b:: with SMTP id o11mr9448560wre.29.1631276816462; 
+ Fri, 10 Sep 2021 05:26:56 -0700 (PDT)
+Received: from [192.168.1.147] (149.164.14.37.dynamic.jazztel.es.
+ [37.14.164.149])
+ by smtp.gmail.com with ESMTPSA id o7sm4012716wmc.46.2021.09.10.05.26.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 10 Sep 2021 05:26:56 -0700 (PDT)
+Subject: Re: [PATCH] tcg/arm: Fix tcg_out_vec_op function signature
+To: "Jose R. Ziviani" <jziviani@suse.de>, qemu-devel@nongnu.org
+References: <20210908185338.7927-1-jziviani@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <244b78cb-10dc-330c-467d-bea655deb727@linaro.org>
+Date: Fri, 10 Sep 2021 14:26:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210908153529.453843-1-laurent@vivier.eu>
-In-Reply-To: <20210908153529.453843-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 Sep 2021 13:20:09 +0100
-Message-ID: <CAFEAcA8QrAiAEziNRtG3XFJ7uZ8mEM7oQi0-+99G+JeS=ob4hg@mail.gmail.com>
-Subject: Re: [PULL 00/12] Q800 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20210908185338.7927-1-jziviani@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.349,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,35 +87,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 Sept 2021 at 16:40, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit abf7aee72ea66944a62962603e4c2381f5e473e7:
->
->   Merge remote-tracking branch 'remotes/thuth-gitlab/tags/s390x-pull-request-2021-09-07' into staging (2021-09-07 17:46:13 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu-m68k.git tags/q800-pull-request
->
-> for you to fetch changes up to dde602ae539910c3579952834b713e2f360ec34a:
->
->   mac_via: add qdev gpios for nubus slot interrupts to VIA2 (2021-09-08 15:37:41 +0200)
->
-> ----------------------------------------------------------------
-> q800 pull request 20210908
->
-> mac_via: remove MAC_VIA device and prepare for Nubus IRQs
->
+On 9/8/21 8:53 PM, Jose R. Ziviani wrote:
+> Commit 5e8892db93 fixed several function signatures but tcg_out_vec_op
+> for arm is missing. It causes a build error on armv6 and armv7:
+> 
+> tcg-target.c.inc:2718:42: error: argument 5 of type 'const TCGArg *'
+> {aka 'const unsigned int *'} declared as a pointer [-Werror=array-parameter=]
+>     const TCGArg *args, const int *const_args)
+>    ~~~~~~~~~~~~~~^~~~
+> ../tcg/tcg.c:120:41: note: previously declared as an array 'const TCGArg[16]'
+> {aka 'const unsigned int[16]'}
+>     const TCGArg args[TCG_MAX_OP_ARGS],
+>    ~~~~~~~~~~~~~~^~~~
+> 
+> Signed-off-by: Jose R. Ziviani<jziviani@suse.de>
+> ---
+>   tcg/arm/tcg-target.c.inc | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+
+Queued, thanks.
 
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
-for any user-visible changes.
-
--- PMM
+r~
 
