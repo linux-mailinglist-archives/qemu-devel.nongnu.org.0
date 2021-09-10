@@ -2,49 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14063406A29
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 12:32:20 +0200 (CEST)
-Received: from localhost ([::1]:56046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D9B406A25
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 12:28:57 +0200 (CEST)
+Received: from localhost ([::1]:50422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOdpT-0000TU-51
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 06:32:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36658)
+	id 1mOdmC-00058h-PE
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 06:28:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mOdmN-0005zl-Gn
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 06:29:07 -0400
-Received: from mga17.intel.com ([192.55.52.151]:47080)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mOdgh-0007lk-Rt
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 06:23:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mOdmK-0002IY-NU
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 06:29:07 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="201241630"
-X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; d="scan'208";a="201241630"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2021 03:28:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; d="scan'208";a="540545523"
-Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by FMSMGA003.fm.intel.com with ESMTP; 10 Sep 2021 03:28:52 -0700
-From: Yang Zhong <yang.zhong@intel.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mOdge-0005xF-TQ
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 06:23:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631269392;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/Z8y1TjvdEG2Wx21WRgDWgLRpXfPBMrRQpf0FnstdbU=;
+ b=W/ocz5lZG0x2p1t5LgQmxgMrEAAa9QNXuGE4hUXlB35Gd3CnaFQlUBSwiaxplGoMW5ix7O
+ b3OOvllrIzCwiCQOqW8PBDEzrAnWZ1AQUIKAjyKvXLl1nzPTjkCwYeEQ1w9TSZyVmMbq1S
+ K3qqfjXPuMbVAMgUWr5SA/htpKDWRJc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-387-98CL85L9MQ2uYQX22FUPAQ-1; Fri, 10 Sep 2021 06:23:08 -0400
+X-MC-Unique: 98CL85L9MQ2uYQX22FUPAQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2FFF80006E;
+ Fri, 10 Sep 2021 10:23:07 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C9EB118FD2;
+ Fri, 10 Sep 2021 10:23:03 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id DADBA180038E; Fri, 10 Sep 2021 12:23:00 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/3] qmp: Add the qmp_query_sgx_capabilities()
-Date: Fri, 10 Sep 2021 18:22:57 +0800
-Message-Id: <20210910102258.46648-3-yang.zhong@intel.com>
-X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
-In-Reply-To: <20210910102258.46648-1-yang.zhong@intel.com>
-References: <20210910102258.46648-1-yang.zhong@intel.com>
+Subject: [PULL 1/3] ps2: use the whole ps2 buffer but keep queue size
+Date: Fri, 10 Sep 2021 12:22:58 +0200
+Message-Id: <20210910102300.3589982-2-kraxel@redhat.com>
+In-Reply-To: <20210910102300.3589982-1-kraxel@redhat.com>
+References: <20210910102300.3589982-1-kraxel@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=yang.zhong@intel.com;
- helo=mga17.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,160 +78,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, pbonzini@redhat.com, philmd@redhat.com,
- eblake@redhat.com, seanjc@google.com
+Cc: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Libvirt can use qmp_query_sgx_capabilities() to get the host
-sgx capabilities to decide how to allocate SGX EPC size to VM.
+From: Volker Rümelin <vr_qemu@t-online.de>
 
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+Extend the used ps2 buffer size to the available buffer size but
+keep the maximum ps2 queue size.
+
+The next patch needs a few bytes of the larger buffer size.
+
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+Message-Id: <20210810133258.8231-1-vr_qemu@t-online.de>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/i386/sgx.c              | 66 ++++++++++++++++++++++++++++++++++++++
- include/hw/i386/sgx.h      |  1 +
- qapi/misc-target.json      | 18 +++++++++++
- target/i386/monitor.c      |  5 +++
- tests/qtest/qmp-cmd-test.c |  1 +
- 5 files changed, 91 insertions(+)
+ hw/input/ps2.c | 69 +++++++++++++++-----------------------------------
+ 1 file changed, 20 insertions(+), 49 deletions(-)
 
-diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
-index 8a32d62d7e..1be2670c84 100644
---- a/hw/i386/sgx.c
-+++ b/hw/i386/sgx.c
-@@ -18,6 +18,72 @@
- #include "qapi/error.h"
- #include "exec/address-spaces.h"
- #include "hw/i386/sgx.h"
-+#include "sysemu/hw_accel.h"
-+
-+#define SGX_MAX_EPC_SECTIONS            8
-+#define SGX_CPUID_EPC_INVALID           0x0
-+
-+/* A valid EPC section. */
-+#define SGX_CPUID_EPC_SECTION           0x1
-+#define SGX_CPUID_EPC_MASK              0xF
-+
-+static uint64_t sgx_calc_section_metric(uint64_t low, uint64_t high)
-+{
-+    return (low & MAKE_64BIT_MASK(12, 31 - 12 + 1)) +
-+           ((high & MAKE_64BIT_MASK(0, 19 - 0 + 1)) << 32);
-+}
-+
-+static uint64_t sgx_calc_host_epc_section_size(void)
-+{
-+    uint32_t i, type;
-+    uint32_t eax, ebx, ecx, edx;
-+    uint64_t size = 0;
-+
-+    for (i = 0; i < SGX_MAX_EPC_SECTIONS; i++) {
-+        host_cpuid(0x12, i + 2, &eax, &ebx, &ecx, &edx);
-+
-+        type = eax & SGX_CPUID_EPC_MASK;
-+        if (type == SGX_CPUID_EPC_INVALID) {
-+            break;
-+        }
-+
-+        if (type != SGX_CPUID_EPC_SECTION) {
-+            break;
-+        }
-+
-+        size += sgx_calc_section_metric(ecx, edx);
+diff --git a/hw/input/ps2.c b/hw/input/ps2.c
+index 8dd482c1f65b..23e7befee5bb 100644
+--- a/hw/input/ps2.c
++++ b/hw/input/ps2.c
+@@ -74,7 +74,12 @@
+ #define MOUSE_STATUS_ENABLED    0x20
+ #define MOUSE_STATUS_SCALE21    0x10
+ 
+-#define PS2_QUEUE_SIZE 16  /* Buffer size required by PS/2 protocol */
++/*
++ * PS/2 buffer size. Keep 256 bytes for compatibility with
++ * older QEMU versions.
++ */
++#define PS2_BUFFER_SIZE     256
++#define PS2_QUEUE_SIZE      16  /* Queue size required by PS/2 protocol */
+ 
+ /* Bits for 'modifiers' field in PS2KbdState */
+ #define MOD_CTRL_L  (1 << 0)
+@@ -85,9 +90,7 @@
+ #define MOD_ALT_R   (1 << 5)
+ 
+ typedef struct {
+-    /* Keep the data array 256 bytes long, which compatibility
+-     with older qemu versions. */
+-    uint8_t data[256];
++    uint8_t data[PS2_BUFFER_SIZE];
+     int rptr, wptr, count;
+ } PS2Queue;
+ 
+@@ -200,8 +203,9 @@ void ps2_queue_noirq(PS2State *s, int b)
+     }
+ 
+     q->data[q->wptr] = b;
+-    if (++q->wptr == PS2_QUEUE_SIZE)
++    if (++q->wptr == PS2_BUFFER_SIZE) {
+         q->wptr = 0;
 +    }
-+
-+    return size;
-+}
-+
-+SGXInfo *sgx_get_capabilities(Error **errp)
-+{
-+    SGXInfo *info = NULL;
-+    uint32_t eax, ebx, ecx, edx;
-+
-+    int fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
-+    if (fd < 0) {
-+        error_setg(errp, "SGX is not enabled in KVM");
-+        return NULL;
-+    }
-+
-+    info = g_new0(SGXInfo, 1);
-+    host_cpuid(0x7, 0, &eax, &ebx, &ecx, &edx);
-+
-+    info->sgx = ebx & (1U << 2) ? true : false;
-+    info->flc = ecx & (1U << 30) ? true : false;
-+
-+    host_cpuid(0x12, 0, &eax, &ebx, &ecx, &edx);
-+    info->sgx1 = eax & (1U << 0) ? true : false;
-+    info->sgx2 = eax & (1U << 1) ? true : false;
-+
-+    info->section_size = sgx_calc_host_epc_section_size();
-+
-+    close(fd);
-+
-+    return info;
-+}
- 
- SGXInfo *sgx_get_info(void)
- {
-diff --git a/include/hw/i386/sgx.h b/include/hw/i386/sgx.h
-index ea8672f8eb..28437cffc6 100644
---- a/include/hw/i386/sgx.h
-+++ b/include/hw/i386/sgx.h
-@@ -7,5 +7,6 @@
- #include "qapi/qapi-types-misc-target.h"
- 
- SGXInfo *sgx_get_info(void);
-+SGXInfo *sgx_get_capabilities(Error **errp);
- 
- #endif
-diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-index e2a347cc23..594fbd1577 100644
---- a/qapi/misc-target.json
-+++ b/qapi/misc-target.json
-@@ -376,3 +376,21 @@
- #
- ##
- { 'command': 'query-sgx', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
-+
-+##
-+# @query-sgx-capabilities:
-+#
-+# Returns information from host SGX capabilities
-+#
-+# Returns: @SGXInfo
-+#
-+# Since: 6.2
-+#
-+# Example:
-+#
-+# -> { "execute": "query-sgx-capabilities" }
-+# <- { "return": { "sgx": true, "sgx1" : true, "sgx2" : true,
-+#                  "flc": true, "section-size" : 0 } }
-+#
-+##
-+{ 'command': 'query-sgx-capabilities', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
-diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-index 0f1b48b4f8..23a6dc3b7d 100644
---- a/target/i386/monitor.c
-+++ b/target/i386/monitor.c
-@@ -799,3 +799,8 @@ void hmp_info_sgx(Monitor *mon, const QDict *qdict)
- 
-     qapi_free_SGXInfo(info);
+     q->count++;
  }
-+
-+SGXInfo *qmp_query_sgx_capabilities(Error **errp)
-+{
-+    return sgx_get_capabilities(errp);
-+}
-diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index b75f3364f3..1af2f74c28 100644
---- a/tests/qtest/qmp-cmd-test.c
-+++ b/tests/qtest/qmp-cmd-test.c
-@@ -101,6 +101,7 @@ static bool query_is_ignored(const char *cmd)
-         "query-sev",
-         "query-sev-capabilities",
-         "query-sgx",
-+        "query-sgx-capabilities",
-         NULL
-     };
-     int i;
+ 
+@@ -509,13 +513,15 @@ uint32_t ps2_read_data(PS2State *s)
+            (needed for EMM386) */
+         /* XXX: need a timer to do things correctly */
+         index = q->rptr - 1;
+-        if (index < 0)
+-            index = PS2_QUEUE_SIZE - 1;
++        if (index < 0) {
++            index = PS2_BUFFER_SIZE - 1;
++        }
+         val = q->data[index];
+     } else {
+         val = q->data[q->rptr];
+-        if (++q->rptr == PS2_QUEUE_SIZE)
++        if (++q->rptr == PS2_BUFFER_SIZE) {
+             q->rptr = 0;
++        }
+         q->count--;
+         /* reading deasserts IRQ */
+         s->update_irq(s->update_arg, 0);
+@@ -926,30 +932,17 @@ static void ps2_common_reset(PS2State *s)
+ static void ps2_common_post_load(PS2State *s)
+ {
+     PS2Queue *q = &s->queue;
+-    uint8_t i, size;
+-    uint8_t tmp_data[PS2_QUEUE_SIZE];
+ 
+-    /* set the useful data buffer queue size, < PS2_QUEUE_SIZE */
+-    size = q->count;
++    /* set the useful data buffer queue size <= PS2_QUEUE_SIZE */
+     if (q->count < 0) {
+-        size = 0;
++        q->count = 0;
+     } else if (q->count > PS2_QUEUE_SIZE) {
+-        size = PS2_QUEUE_SIZE;
++        q->count = PS2_QUEUE_SIZE;
+     }
+ 
+-    /* move the queue elements to the start of data array */
+-    for (i = 0; i < size; i++) {
+-        if (q->rptr < 0 || q->rptr >= sizeof(q->data)) {
+-            q->rptr = 0;
+-        }
+-        tmp_data[i] = q->data[q->rptr++];
+-    }
+-    memcpy(q->data, tmp_data, size);
+-
+-    /* reset rptr/wptr/count */
+-    q->rptr = 0;
+-    q->wptr = (size == PS2_QUEUE_SIZE) ? 0 : size;
+-    q->count = size;
++    /* sanitize rptr and recalculate wptr */
++    q->rptr = q->rptr & (PS2_BUFFER_SIZE - 1);
++    q->wptr = (q->rptr + q->count) & (PS2_BUFFER_SIZE - 1);
+ }
+ 
+ static void ps2_kbd_reset(void *opaque)
+@@ -1053,22 +1046,11 @@ static int ps2_kbd_post_load(void* opaque, int version_id)
+     return 0;
+ }
+ 
+-static int ps2_kbd_pre_save(void *opaque)
+-{
+-    PS2KbdState *s = (PS2KbdState *)opaque;
+-    PS2State *ps2 = &s->common;
+-
+-    ps2_common_post_load(ps2);
+-
+-    return 0;
+-}
+-
+ static const VMStateDescription vmstate_ps2_keyboard = {
+     .name = "ps2kbd",
+     .version_id = 3,
+     .minimum_version_id = 2,
+     .post_load = ps2_kbd_post_load,
+-    .pre_save = ps2_kbd_pre_save,
+     .fields = (VMStateField[]) {
+         VMSTATE_STRUCT(common, PS2KbdState, 0, vmstate_ps2_common, PS2State),
+         VMSTATE_INT32(scan_enabled, PS2KbdState),
+@@ -1093,22 +1075,11 @@ static int ps2_mouse_post_load(void *opaque, int version_id)
+     return 0;
+ }
+ 
+-static int ps2_mouse_pre_save(void *opaque)
+-{
+-    PS2MouseState *s = (PS2MouseState *)opaque;
+-    PS2State *ps2 = &s->common;
+-
+-    ps2_common_post_load(ps2);
+-
+-    return 0;
+-}
+-
+ static const VMStateDescription vmstate_ps2_mouse = {
+     .name = "ps2mouse",
+     .version_id = 2,
+     .minimum_version_id = 2,
+     .post_load = ps2_mouse_post_load,
+-    .pre_save = ps2_mouse_pre_save,
+     .fields = (VMStateField[]) {
+         VMSTATE_STRUCT(common, PS2MouseState, 0, vmstate_ps2_common, PS2State),
+         VMSTATE_UINT8(mouse_status, PS2MouseState),
+-- 
+2.31.1
+
 
