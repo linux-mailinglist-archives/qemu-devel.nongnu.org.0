@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C16406CBD
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 15:12:33 +0200 (CEST)
-Received: from localhost ([::1]:49186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34B73406CC9
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 Sep 2021 15:19:32 +0200 (CEST)
+Received: from localhost ([::1]:57084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOgKV-0003ig-TL
-	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 09:12:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45084)
+	id 1mOgRG-0001AX-QQ
+	for lists+qemu-devel@lfdr.de; Fri, 10 Sep 2021 09:19:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
- id 1mOgIx-0002Ok-Ks
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 09:10:55 -0400
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:31467
- helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lizhijian@fujitsu.com>) id 1mOgIu-0007wL-4l
- for qemu-devel@nongnu.org; Fri, 10 Sep 2021 09:10:54 -0400
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AAVBURqOkE3absMBcTiejsMiBIKoaSvp037Eq?=
- =?us-ascii?q?v3oRdfUzSL3hqynOpoVj6faaskd1ZJhNo6HiBEDEewK7yXcX2/h3AV7BZniFhI?=
- =?us-ascii?q?LAFugLhuGOrwEIWRefygc378hdmsZFZuEYQWIK6foS/jPIb+oI8Z2W9ryyn+fC?=
- =?us-ascii?q?wzNIRQFuUatp6AB0EW+gYzdLbTgDFZwkD4Cd+8YCgzKhfE4cZsO9CmJAcPPEo7?=
- =?us-ascii?q?Tw5e/bSC9DFxg68xOPkD/tzLb7FiKT1hAYXygK4ZpKyxm/rzDE?=
-X-IronPort-AV: E=Sophos;i="5.85,282,1624291200"; d="scan'208";a="114289319"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
- by heian.cn.fujitsu.com with ESMTP; 10 Sep 2021 21:10:36 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
- by cn.fujitsu.com (Postfix) with ESMTP id 728024D0D9DE;
- Fri, 10 Sep 2021 21:10:34 +0800 (CST)
-Received: from G08CNEXJMPEKD02.g08.fujitsu.local (10.167.33.202) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.23; Fri, 10 Sep 2021 21:10:36 +0800
-Received: from G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) by
- G08CNEXJMPEKD02.g08.fujitsu.local (10.167.33.202) with Microsoft SMTP Server
- (TLS) id 15.0.1497.23; Fri, 10 Sep 2021 21:10:34 +0800
-Received: from [192.168.122.212] (10.167.225.141) by
- G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
- id 15.0.1497.23 via Frontend Transport; Fri, 10 Sep 2021 21:10:32 +0800
-Subject: Re: [PULL 0/7] Migration.next patches
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>, "quintela@redhat.com"
- <quintela@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20210909103346.1990-1-quintela@redhat.com>
- <CAFEAcA-LSVj3B-xgPFMTz49D=KoRx1W7_HKjFf1bHEYdBGVgPA@mail.gmail.com>
- <f02237fb-852d-8449-e90d-97a59bcf51e8@cn.fujitsu.com>
- <87fsudn30g.fsf@secure.mitica>
- <14fbe8b5-0212-c0fd-e0fd-4198ab5d217b@fujitsu.com>
- <dc771570-e47d-9926-6a10-11ad3bfa69ae@fujitsu.com>
- <b5b57f82-4dba-53ca-ba18-51f0f6386c44@redhat.com>
-From: "Li, Zhijian" <lizhijian@cn.fujitsu.com>
-Message-ID: <67d6411e-341b-b3d6-c395-1e69b0a6a3d0@cn.fujitsu.com>
-Date: Fri, 10 Sep 2021 21:10:32 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mOgPH-0006pv-FX
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 09:17:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mOgPD-0004aE-Nr
+ for qemu-devel@nongnu.org; Fri, 10 Sep 2021 09:17:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631279841;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vU9prRHixb2rdw14zSz9mHt65CrCnTyQBK5WuJfMKus=;
+ b=HgTcX/To/daZM3uqNA+jVY9FuWPK8scQX5qIVJiw4q2ULwzjIQnPA3CvwTGSQnCmYVMmPo
+ NWv3U8xFoI5DtaOxISjJuugkUClcjd3MXmpRm39/GQ7lRKnH8nWnHN5NnZ7l1NNjbumTOq
+ /vWYKzX+Uxvn8xUtNyvStnAAiTTmHq4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-547-t1olCFfWNkSmhmCntqnLOA-1; Fri, 10 Sep 2021 09:17:20 -0400
+X-MC-Unique: t1olCFfWNkSmhmCntqnLOA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 825F8824FAB
+ for <qemu-devel@nongnu.org>; Fri, 10 Sep 2021 13:17:19 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C8875D9F4;
+ Fri, 10 Sep 2021 13:17:11 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D6A4018000AA; Fri, 10 Sep 2021 15:17:09 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/6] Vga 20210910 patches
+Date: Fri, 10 Sep 2021 15:17:03 +0200
+Message-Id: <20210910131709.3681492-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <b5b57f82-4dba-53ca-ba18-51f0f6386c44@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-yoursite-MailScanner-ID: 728024D0D9DE.AEAA1
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: lizhijian@fujitsu.com
-Received-SPF: neutral client-ip=183.91.158.132;
- envelope-from=lizhijian@fujitsu.com; helo=heian.cn.fujitsu.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.349,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NEUTRAL=0.779 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,30 +75,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-on 2021/9/10 20:55, Philippe Mathieu-Daudé wrote:
->> BTW: Does QEMU provide any mean to set http(s)_proxy to building vm ? Currently, i have to
->> hack the code like:
->>
->> -        self.ssh_root_check("pkg install -y %s\n" % " ".join(self.pkgs))
->> +        self.ssh_root_check("setenv HTTP_PROXY http://myproxy; setenv HTTPS_PROXY http://myproxy; pkg install -y %s\n" % " ".join(self.pkgs))
-> This is supported since commit b08ba163aaa ("tests/vm: send proxy
-> environment variables over ssh"). Maybe we only pass lower case
-> variables and should consider upper case too?
-
-Great, I'm glad to know this. Thank you.
-Lower case variables also work well on FreeBSD, so it's sufficient i think.
-
-
-Thanks
-Zhijian
-
-
+The following changes since commit bd662023e683850c085e98c8ff8297142c2dd9f2=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/mcayland/tags/qemu-openbios-2021090=
+8' into staging (2021-09-08 11:06:17 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/vga-20210910-pull-request=0D
+=0D
+for you to fetch changes up to 6335c0b56819a5d1219ea84a11a732d0861542db:=0D
+=0D
+  qxl: fix pre-save logic (2021-09-10 12:23:12 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+virtio-gpu + ui: fence syncronization.=0D
+qxl: unbreak live migration.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Gerd Hoffmann (1):=0D
+  qxl: fix pre-save logic=0D
+=0D
+Vivek Kasireddy (5):=0D
+  ui/gtk: Create a common release_dmabuf helper=0D
+  ui/egl: Add egl helpers to help with synchronization=0D
+  ui: Create sync objects and fences only for blobs=0D
+  ui/gtk-egl: Wait for the draw signal for dmabuf blobs=0D
+  virtio-gpu: Add gl_flushed callback=0D
+=0D
+ include/ui/console.h            |  3 +++=0D
+ include/ui/egl-helpers.h        |  3 +++=0D
+ include/ui/gtk.h                |  5 ++--=0D
+ hw/display/qxl.c                |  2 +-=0D
+ hw/display/virtio-gpu-udmabuf.c |  1 +=0D
+ hw/display/virtio-gpu.c         | 32 ++++++++++++++++++++++--=0D
+ ui/egl-helpers.c                | 26 ++++++++++++++++++++=0D
+ ui/gtk-egl.c                    | 43 +++++++++++++++++++++++++++------=0D
+ ui/gtk-gl-area.c                | 20 +++++++++++++++=0D
+ ui/gtk.c                        | 26 ++++++++++++++++++--=0D
+ 10 files changed, 146 insertions(+), 15 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
