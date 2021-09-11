@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE7294079AA
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 18:56:51 +0200 (CEST)
-Received: from localhost ([::1]:56668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFC04079AE
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 18:59:08 +0200 (CEST)
+Received: from localhost ([::1]:36988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mP6J8-0007zY-Rl
-	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 12:56:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60320)
+	id 1mP6LL-0005Iz-Fz
+	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 12:59:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mP6H6-0005np-O1
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 12:54:44 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:55988)
+ id 1mP6HB-0005yA-Ak
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 12:54:49 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mP6H5-00026q-Bk
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 12:54:44 -0400
-Received: by mail-wm1-x330.google.com with SMTP id g74so3416186wmg.5
- for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 09:54:43 -0700 (PDT)
+ id 1mP6H9-00029m-UZ
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 12:54:49 -0400
+Received: by mail-wr1-x432.google.com with SMTP id q11so7474347wrr.9
+ for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 09:54:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A0j1B77tfGu0Cdv5/wUrGVom9bksudE56Q7hy0Jn3v0=;
- b=NKCgKkRIi7mGDr6gVgKLxPRKYGk8LhBuMjNCyzlBva9Qc+lHnNwR53gfdPQcOX4SQP
- YWbaChoTum2QRjR4Figvpp0CzoWYLF7QxHB314bn3xBId6roqPwhbfvf9wkLodm2HGDl
- kOsnXa8Gw+NcTgRZ2FzPxXcLEa+kPU3dC0UDVOmCWTU2HBsBlN3apJfOniX/PFnW4apM
- Clnw3Li1TymT3ugLKt0ERdKIb1qJLfkuDK+0GBllAWz/mMAYpHBt2Oliwe/085SeH+h3
- VPDFfjqmD55gPicIFahn/APe7bnJd7PX6LdwsJGt1QiUdlvBbFR61mO5GilBHaRq8KIf
- qRgg==
+ bh=l8Jx1m6Bv2t518ZIG2TWOXwbWEoTAme9VK7NQaY4YX8=;
+ b=Ijui4pwwSDnWn+fQzU5fqPxEPYikDpA7UqEtyu8LS57PXvEANIeHJyzhuIV/FBE5qS
+ XH8lMhveBNWTsCBtmJO8wHOWGzCTnS5UDI14LBWe/0poaW+b9zmXExuF4A8TiFon6Gai
+ /9y+ykbfWFJqbSxPx086kfyBnNG0Z6ARejVEaXb+NxEno82i2UuQhY9op/lrUDW1zGxj
+ XK9wi0Be8+h8YiWc6nFW7SIGzCtRHX9qUYlGL1EGH5WvDBFDKi7ajaQhY05Xz2pUvEFl
+ fbRb5zsiSXSTXm87HIRcNyDKVoD6Iv4BhS3W2Ovcgg5rzmPFYimWyAG3ZzqprjTS3QB/
+ sR1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=A0j1B77tfGu0Cdv5/wUrGVom9bksudE56Q7hy0Jn3v0=;
- b=f7gLZxdVnUcuyqInog2XCH0SSBUu+7ej2lHJYefGOuJaIy13C3347GurmzKzl4ZYtD
- Wj7jaJ9JbUenVAcLFUNIEl+MiT2u3Hr6EG2ptxw/y3DF4fiha22qGYcjVVfjI+RkAM2U
- srEvCpXmvezKPve8QsOUFXQPo5+nU5C4IEoLSjIQVfyXX9P8wuB9A9yT6eWFyAnntIeK
- GLkWVVjkCM3M/jnE75YGK20KUAZqAKMnAUN+L4lMruuH+MJc+Gum9UGY+OgijvRH6V5G
- KQgorVHusEd8p/nSgAncJVd052W7nAd+Lo7sjbHfw6PpAxS/i3XHjhi2ipqeJ9HkTF6Z
- t08Q==
-X-Gm-Message-State: AOAM531phY2XkJrNmpdfnMTMGYjlsmH3SPSAwVd23+Q8ModMXKfWPnjS
- GY8uZE1lwmGPBD9PBD8yv6gG583RVfA=
-X-Google-Smtp-Source: ABdhPJy90Zb22MfWTczZpMBVCmAjIsqMbVmFaujvtv7oIVOGY31iQ0ixYZ6Dacmw+3O9lyr/ups0jA==
-X-Received: by 2002:a05:600c:8a9:: with SMTP id
- l41mr3358748wmp.29.1631379281484; 
- Sat, 11 Sep 2021 09:54:41 -0700 (PDT)
+ bh=l8Jx1m6Bv2t518ZIG2TWOXwbWEoTAme9VK7NQaY4YX8=;
+ b=ToU9NNHoADFRUAlHyusOcBfCfxwN2jcXQs/VUwOFUU613Y/cQHiqAGodaoS76EQB4Q
+ J+e4UG7hT5LPy8nTI3Q12yYW/rWabgzIOPUeYTeNFJ87o4/EiIaYONiiQeta80VGGEbN
+ j3lhfh3ehH76DiULu8e3GyD1N7nVK4tGRwFW84Zttd/5C1VfsVOHcrk+w9Mq0pjUWIVx
+ v4hXZyuxpL3NUZIPAMPl7yLD3pc0oEVznrh1NOJcBYLQXiJhVpRA/F1R/9ylkW1oGZM3
+ GgC3/UX2qLdanrzbV1b1akg6gza8Dj5scztSLXRBI6JnTw5gcmLi6F559YU8kiHiXkRZ
+ wzvg==
+X-Gm-Message-State: AOAM5300UEmr5wLLeJ+k9XHfMJWMN6mrLhKoWgSRSfMdQyia9e/Wi6yo
+ ekw/NVgz9tEVo98D1+RdFG9O0ecFcZU=
+X-Google-Smtp-Source: ABdhPJxjG4Vw9A2AmqqadETnFDudHg2njHPeXmysELlJHmGr6U4eKEE+CnpufoS909QiU7V8dXvwmQ==
+X-Received: by 2002:a05:6000:1186:: with SMTP id
+ g6mr3921013wrx.126.1631379286405; 
+ Sat, 11 Sep 2021 09:54:46 -0700 (PDT)
 Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id v28sm2140457wrv.93.2021.09.11.09.54.40
+ by smtp.gmail.com with ESMTPSA id t64sm1932224wma.48.2021.09.11.09.54.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Sep 2021 09:54:41 -0700 (PDT)
+ Sat, 11 Sep 2021 09:54:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/24] target/avr: Remove pointless use of CONFIG_USER_ONLY
- definition
-Date: Sat, 11 Sep 2021 18:54:11 +0200
-Message-Id: <20210911165434.531552-2-f4bug@amsat.org>
+Subject: [PATCH v3 02/24] target/i386: Restrict sysemu-only fpu_helper helpers
+Date: Sat, 11 Sep 2021 18:54:12 +0200
+Message-Id: <20210911165434.531552-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210911165434.531552-1-f4bug@amsat.org>
 References: <20210911165434.531552-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,40 +92,35 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit f1c671f96cb ("target/avr: Introduce basic CPU class object")
-added to target/avr/cpu.h:
+Restrict some sysemu-only fpu_helper helpers (see commit
+83a3d9c7402: "i386: separate fpu_helper sysemu-only parts").
 
-  #ifdef CONFIG_USER_ONLY
-  #error "AVR 8-bit does not support user mode"
-  #endif
-
-Remove the CONFIG_USER_ONLY definition introduced by mistake in
-commit 78271684719 ("cpu: tcg_ops: move to tcg-cpu-ops.h, keep a
-pointer in CPUClass").
-
-Reported-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-By: Warner Losh <imp@bsdimp.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/avr/cpu.c | 3 ---
- 1 file changed, 3 deletions(-)
+ target/i386/cpu.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index ea14175ca55..5d70e34dd54 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -197,10 +197,7 @@ static const struct TCGCPUOps avr_tcg_ops = {
-     .synchronize_from_tb = avr_cpu_synchronize_from_tb,
-     .cpu_exec_interrupt = avr_cpu_exec_interrupt,
-     .tlb_fill = avr_cpu_tlb_fill,
--
--#ifndef CONFIG_USER_ONLY
-     .do_interrupt = avr_cpu_do_interrupt,
--#endif /* !CONFIG_USER_ONLY */
- };
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 6c50d3ab4f1..c241bc183d2 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1833,11 +1833,14 @@ void x86_cpu_list(void);
+ int cpu_x86_support_mca_broadcast(CPUX86State *env);
  
- static void avr_cpu_class_init(ObjectClass *oc, void *data)
+ int cpu_get_pic_interrupt(CPUX86State *s);
++
++#ifndef CONFIG_USER_ONLY
+ /* MSDOS compatibility mode FPU exception support */
+ void x86_register_ferr_irq(qemu_irq irq);
+ void fpu_check_raise_ferr_irq(CPUX86State *s);
+ void cpu_set_ignne(void);
+ void cpu_clear_ignne(void);
++#endif
+ 
+ /* mpx_helper.c */
+ void cpu_sync_bndcs_hflags(CPUX86State *env);
 -- 
 2.31.1
 
