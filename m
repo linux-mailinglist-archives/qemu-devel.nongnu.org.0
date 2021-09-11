@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F52B4079B7
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 19:05:25 +0200 (CEST)
-Received: from localhost ([::1]:53174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F8F4079C0
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 19:08:21 +0200 (CEST)
+Received: from localhost ([::1]:34280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mP6RQ-0007vQ-Di
-	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 13:05:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60530)
+	id 1mP6UG-0005k6-Kh
+	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 13:08:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mP6I2-0007gV-9V
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 12:55:42 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40517)
+ id 1mP6I6-0007kX-N1
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 12:55:46 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:35512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mP6Hx-0002fm-Os
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 12:55:40 -0400
-Received: by mail-wr1-x434.google.com with SMTP id q26so7483442wrc.7
- for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 09:55:37 -0700 (PDT)
+ id 1mP6I3-0002kP-Hm
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 12:55:45 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id i23so7497278wrb.2
+ for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 09:55:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=H6+WFk4l4QrgCDS0Vj4M4XW6RAkhPWPQKWOhbJqzIFQ=;
- b=TddMrYdsJ4aK5Fdwtk+FIKntcogL8nYPD0sQNfBpW3NeMztqinocBKXMRKTrBhsR8B
- POxTaqSkbD1yRSa5DWMepvMWCehjUwaq2mjAnBDSeMOSBCJxDlkFMLwnn2VSljqeqlmu
- NlUBTKKYt+bxj+qanBTUFWz+YKuOe4QrQ9HZhnYcRx9C1HrcQluRo/fy/zqMEUyMUk5s
- N/4Wn0P0XxiPS9TDcOeMp1pOskXoWPDb96HDVbHCIuABVbeawNrnPlFITxtSA40sil9J
- er59Oyvxr83LebvS0ZksJGbZhE6N26vj/yss+GHHkxRF+A3jqRg41P031vMbecF+FgnC
- KXdA==
+ bh=rO0D2OFkHiHdtobaxK4sUMpGxbIKEwY3AB/t5R4+r5g=;
+ b=JZh9gkHQ9ffSsEMmhCGZ3142LCjapcN7nNVcr8wm9xUKM4vapI4/b4IxdK0FENL8nf
+ JRT8oehyIJm3NVXoM/V3ueRuAGLkuC2wIX9GDnfDNEdckUc7tKfEft97hu22EsQggXRf
+ gQ92n0XiHaO4pN44s3MZPpXIPsTokFbe4o2A6sRC3lxKNRF55S4cDSbIpn9OwUtMQ5s6
+ O3lxemetgKiuYc+tLJixuRpziMcGv9tE8O9JGQOKkUMDvbHP4VvePyvDtMNM4VLorhp3
+ iEuqo2MK8+cL94Zy/9pvb+h0vrveQbLX0TohI6U4FVWVaxgS3nFSQG/E4TiYSGh/LkHI
+ XWEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=H6+WFk4l4QrgCDS0Vj4M4XW6RAkhPWPQKWOhbJqzIFQ=;
- b=ylDgwnQhn4ODurcatpe4yOgPS3HhGO29m6dTIW+RLowggTim/CJv62Hd0V1pKfi2dH
- RaxL/mQySqbrdEQIBk+rW2FRXe0w3KuA0g806XMhNd3QJiwqnEaGo4PiQq7tnaEz12sk
- 7HGFiYEAvUAC8MRQzfwxehsuSHzdVWnj8N6aQ/rxI6CUzwRvBjfsZ9XKq/P8Cb3cE3qk
- npIEknwYbvZnZyMwuJrABgEYWfxfQCWaXb3KS19tBvop+WS2jEVRhnPVHdvdNMhJqIcn
- +45IYi84hYfzrhjXVzf1cCxvIdIYm8JADg5HvChYpnJ90au6Ifsn7I1e0Th74ozyxIXG
- 9Sng==
-X-Gm-Message-State: AOAM532RqiXWweLUJonpUWkPRA+dL5sXKHlDqhFlHUaxMCBTagnkF958
- zC4NCNO0rzfS4wFGo9azYqebpd6U0RQ=
-X-Google-Smtp-Source: ABdhPJyz5Cfwa5nD5csSd4nuwBAJu4I12qxl8nnZ6hSA/3WC08yKAbP5FPF5JCcKW7l/++k2OXVRFA==
-X-Received: by 2002:adf:d1c3:: with SMTP id b3mr3891872wrd.286.1631379336419; 
- Sat, 11 Sep 2021 09:55:36 -0700 (PDT)
+ bh=rO0D2OFkHiHdtobaxK4sUMpGxbIKEwY3AB/t5R4+r5g=;
+ b=R6doWyWyWBYGeXwWjCUkGIS7022+N/YJyp0mEW7E6nVETTgTDdJZjsI8k+QDXQFIku
+ qo9VS82GBBlPEYHns3H6/c+XYgvjW/B129vHsrNXiLqkvhpEefivAgPmUS+F/rvum6ZN
+ wx9Sw4OiXo3OuIixP1/iSq5uNlYMce5ekBEGII6ghpsXJI6wCIuvem8ygQVE3/ombZN/
+ fN/d9EMdntUX0RRteA475E41McF+xjVKFMYAxTd/za8a9VJzSRNlO4iTxXNiD4ni11Dl
+ 0O4KUmHQH4NA3dsjiEI4xhxAdlhqvFKjTuHsQhiucb85pCtog2wVt4OtFu9Fbd8O0eiS
+ 3Ekg==
+X-Gm-Message-State: AOAM533GUR7WVn6xzcWqg2LLDpp4zxUwpEkk1bREViy89376Yy11QFH8
+ BRajtwU8bLNZoOlCWiN9CVg4Hkn3cls=
+X-Google-Smtp-Source: ABdhPJxYvehly841dVGlabTxEblZ7tm+GfKKYjSEnqhj3ul816Sc/FcJnkKYGy+dkzrOcZDgtAbCMw==
+X-Received: by 2002:a5d:6e09:: with SMTP id h9mr3886973wrz.82.1631379341600;
+ Sat, 11 Sep 2021 09:55:41 -0700 (PDT)
 Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id s15sm2142292wrb.22.2021.09.11.09.55.35
+ by smtp.gmail.com with ESMTPSA id t6sm1964798wmj.12.2021.09.11.09.55.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Sep 2021 09:55:35 -0700 (PDT)
+ Sat, 11 Sep 2021 09:55:41 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/24] target/m68k: Restrict cpu_exec_interrupt() handler
- to sysemu
-Date: Sat, 11 Sep 2021 18:54:22 +0200
-Message-Id: <20210911165434.531552-13-f4bug@amsat.org>
+Subject: [PATCH v3 13/24] target/microblaze: Restrict cpu_exec_interrupt()
+ handler to sysemu
+Date: Sat, 11 Sep 2021 18:54:23 +0200
+Message-Id: <20210911165434.531552-14-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210911165434.531552-1-f4bug@amsat.org>
 References: <20210911165434.531552-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,83 +98,80 @@ Reviewed-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/m68k/cpu.h       |  2 ++
- target/m68k/cpu.c       |  2 +-
- target/m68k/op_helper.c | 16 +++-------------
- 3 files changed, 6 insertions(+), 14 deletions(-)
+ target/microblaze/cpu.h    |  2 ++
+ target/microblaze/cpu.c    |  2 +-
+ target/microblaze/helper.c | 13 ++-----------
+ 3 files changed, 5 insertions(+), 12 deletions(-)
 
-diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index 997d588911c..550eb028b6e 100644
---- a/target/m68k/cpu.h
-+++ b/target/m68k/cpu.h
-@@ -166,8 +166,10 @@ struct M68kCPU {
+diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+index e4bba8a7551..40401c33b72 100644
+--- a/target/microblaze/cpu.h
++++ b/target/microblaze/cpu.h
+@@ -355,8 +355,10 @@ struct MicroBlazeCPU {
  };
  
  
 +#ifndef CONFIG_USER_ONLY
- void m68k_cpu_do_interrupt(CPUState *cpu);
- bool m68k_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ void mb_cpu_do_interrupt(CPUState *cs);
+ bool mb_cpu_exec_interrupt(CPUState *cs, int int_req);
 +#endif /* !CONFIG_USER_ONLY */
- void m68k_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
- hwaddr m68k_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- int m68k_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index 72de6e97262..66d22d11895 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -515,10 +515,10 @@ static const struct SysemuCPUOps m68k_sysemu_ops = {
- 
- static const struct TCGCPUOps m68k_tcg_ops = {
-     .initialize = m68k_tcg_init,
--    .cpu_exec_interrupt = m68k_cpu_exec_interrupt,
-     .tlb_fill = m68k_cpu_tlb_fill,
+ void mb_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+                                 MMUAccessType access_type,
+                                 int mmu_idx, uintptr_t retaddr);
+diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+index 72d8f2a0daa..15db277925f 100644
+--- a/target/microblaze/cpu.c
++++ b/target/microblaze/cpu.c
+@@ -365,10 +365,10 @@ static const struct SysemuCPUOps mb_sysemu_ops = {
+ static const struct TCGCPUOps mb_tcg_ops = {
+     .initialize = mb_tcg_init,
+     .synchronize_from_tb = mb_cpu_synchronize_from_tb,
+-    .cpu_exec_interrupt = mb_cpu_exec_interrupt,
+     .tlb_fill = mb_cpu_tlb_fill,
  
  #ifndef CONFIG_USER_ONLY
-+    .cpu_exec_interrupt = m68k_cpu_exec_interrupt,
-     .do_interrupt = m68k_cpu_do_interrupt,
-     .do_transaction_failed = m68k_cpu_transaction_failed,
- #endif /* !CONFIG_USER_ONLY */
-diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
-index d006d1cb3ea..5d624838ae6 100644
---- a/target/m68k/op_helper.c
-+++ b/target/m68k/op_helper.c
-@@ -24,18 +24,7 @@
- #include "semihosting/semihost.h"
- #include "tcg/tcg.h"
++    .cpu_exec_interrupt = mb_cpu_exec_interrupt,
+     .do_interrupt = mb_cpu_do_interrupt,
+     .do_transaction_failed = mb_cpu_transaction_failed,
+     .do_unaligned_access = mb_cpu_do_unaligned_access,
+diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
+index 20dbd673136..dd2aecd1d58 100644
+--- a/target/microblaze/helper.c
++++ b/target/microblaze/helper.c
+@@ -26,16 +26,6 @@
  
--#if defined(CONFIG_USER_ONLY)
--
--void m68k_cpu_do_interrupt(CPUState *cs)
+ #if defined(CONFIG_USER_ONLY)
+ 
+-void mb_cpu_do_interrupt(CPUState *cs)
 -{
+-    MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
+-    CPUMBState *env = &cpu->env;
+-
 -    cs->exception_index = -1;
+-    env->res_addr = RES_ADDR_NONE;
+-    env->regs[14] = env->pc;
 -}
 -
--static inline void do_interrupt_m68k_hardirq(CPUM68KState *env)
--{
--}
--
--#else
-+#if !defined(CONFIG_USER_ONLY)
+ bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                      MMUAccessType access_type, int mmu_idx,
+                      bool probe, uintptr_t retaddr)
+@@ -271,7 +261,6 @@ hwaddr mb_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
  
- static void cf_rte(CPUM68KState *env)
- {
-@@ -516,7 +505,6 @@ void m68k_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
-         cpu_loop_exit(cs);
-     }
+     return paddr;
  }
 -#endif
  
- bool m68k_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ bool mb_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
  {
-@@ -538,6 +526,8 @@ bool m68k_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+@@ -289,6 +278,8 @@ bool mb_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
      return false;
  }
  
 +#endif /* !CONFIG_USER_ONLY */
 +
- static void raise_exception_ra(CPUM68KState *env, int tt, uintptr_t raddr)
- {
-     CPUState *cs = env_cpu(env);
+ void mb_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+                                 MMUAccessType access_type,
+                                 int mmu_idx, uintptr_t retaddr)
 -- 
 2.31.1
 
