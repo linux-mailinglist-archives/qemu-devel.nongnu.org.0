@@ -2,68 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E392407545
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 08:02:02 +0200 (CEST)
-Received: from localhost ([::1]:45296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F89407555
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 08:31:34 +0200 (CEST)
+Received: from localhost ([::1]:49016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOw5Q-0006AA-Vb
-	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 02:02:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59536)
+	id 1mOwY1-0001dK-BY
+	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 02:31:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mOw3J-0005KF-Oz
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 01:59:49 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:43088 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mOw3G-0004T5-PV
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 01:59:49 -0400
-Received: from localhost.localdomain (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr2ujRTxhgTMEAA--.8140S3;
- Sat, 11 Sep 2021 13:59:02 +0800 (CST)
-Subject: Re: [PATCH v4 17/21] LoongArch Linux User Emulation
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- chenhuacai@gmail.com
-References: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
- <1630586467-22463-18-git-send-email-gaosong@loongson.cn>
- <4e47e1a7-d946-f8ec-a9a1-aadc6eeb7941@linaro.org>
- <3e7fd708-fe13-8163-2926-d1baa75e3b10@loongson.cn>
- <d6349ca9-2483-2f83-f5cb-f9e1f740a404@linaro.org>
-From: Song Gao <gaosong@loongson.cn>
-Message-ID: <3146e487-9b35-d9b8-668e-06c9e6744cb2@loongson.cn>
-Date: Sat, 11 Sep 2021 13:58:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1mOwVl-0000Ts-I5
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 02:29:13 -0400
+Received: from relay.yourmailgateway.de ([188.68.61.102]:33925)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1mOwVd-0003qv-BZ
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 02:29:12 -0400
+Received: from mors-relay-8403.netcup.net (localhost [127.0.0.1])
+ by mors-relay-8403.netcup.net (Postfix) with ESMTPS id 4H62rW5ymbz80LC;
+ Sat, 11 Sep 2021 08:28:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zapateado.de; s=key2;
+ t=1631341739; bh=LCyzdaJL2z8QPvDByxXTZUa42tBCqIUwETmu5tciwcQ=;
+ h=From:Subject:To:References:Date:In-Reply-To:From;
+ b=jf94h7H4jVePpClx++0m0/ZgB32KRyOJyVqutGQVMzcIsw/YuhV9Jk7qKa8hpbjNs
+ I2kPslpUuI0ENXM5dmEw7GUPLeo8lc8zrVt69M2w6VyAvdFqNeF1Qmr9LriNuRDlRz
+ 1B8sMu4ToxdTyX/zjZVEPMLUCckPLv6Tj7wlUfDoziPeoeUCCalXZ/+d0IX+8Zz6B0
+ 68lwyK0kGX+2JQMfsxKevNQ248ydWUU/NqEU/wpB19mWrncaux6f4ZTOEkXXtmnHn1
+ +Ff8HKj49/OC1tZpN+tSQXCXAiEuQByb9EtyKI4XR6q1orQAsv4f3NXB1JAZVMsWlw
+ rFxrw96S2UdmA==
+Received: from policy01-mors.netcup.net (unknown [46.38.225.35])
+ by mors-relay-8403.netcup.net (Postfix) with ESMTPS id 4H62rW5b3hz80L7;
+ Sat, 11 Sep 2021 08:28:59 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at policy01-mors.netcup.net
+X-Spam-Score: -1.5
+Received: from mx2f6e.netcup.net (unknown [10.243.12.53])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by policy01-mors.netcup.net (Postfix) with ESMTPS id 4H62rW0s32z8tL5;
+ Sat, 11 Sep 2021 08:28:58 +0200 (CEST)
+Received: from [192.168.54.9] (ip-95-223-69-41.hsi16.unitymediagroup.de
+ [95.223.69.41])
+ by mx2f6e.netcup.net (Postfix) with ESMTPSA id 1A012650C3;
+ Sat, 11 Sep 2021 08:28:58 +0200 (CEST)
+Authentication-Results: mx2f6e;
+ spf=pass (sender IP is 95.223.69.41) smtp.mailfrom=hk@zapateado.de
+ smtp.helo=[192.168.54.9]
+Received-SPF: pass (mx2f6e: connection is authenticated)
+From: Helge Konetzka <hk@zapateado.de>
+Subject: Re: [qemu-web PATCH] Fix link to Windows page in Wiki
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <6755edb6-f953-4ca2-a4b6-31e4566e9842@zapateado.de>
+ <af33f36e-e319-e95c-36bc-9c77f4ad81b8@redhat.com>
+Message-ID: <e7df1647-439a-9bda-5c7b-30ab0290d587@zapateado.de>
+Date: Sat, 11 Sep 2021 08:28:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <d6349ca9-2483-2f83-f5cb-f9e1f740a404@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <af33f36e-e319-e95c-36bc-9c77f4ad81b8@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxr2ujRTxhgTMEAA--.8140S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7ArW5uw1rtw4ktw4kXrWUurg_yoW8Wr4kpr
- y3XFs8JFWkt3W8Jw4qqw10g34vyw13J343W398XFWDC3yYqF1a9r1xXr4j9FnrKws3WFy2
- qF4F934DuF15A37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBv1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
- jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
- CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_
- Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwI
- xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY
- 0VAS07AlzVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaV
- Av8VW5Wr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
- 0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMI
- IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF
- 0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
- A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -42
-X-Spam_score: -4.3
+Content-Transfer-Encoding: 7bit
+X-PPP-Message-ID: <163134173836.9265.9702818521698303542@mx2f6e.netcup.net>
+X-PPP-Vhost: konetzka.de
+X-NC-CID: fvV0hSxmCr3ulVUBzbBiiyVFlbE4i8bpcZjX29zZWh8+
+Received-SPF: pass client-ip=188.68.61.102; envelope-from=hk@zapateado.de;
+ helo=relay.yourmailgateway.de
+X-Spam_score_int: -44
+X-Spam_score: -4.5
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.349,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.349,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,52 +85,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, yangxiaojuan@loongson.cn, david@redhat.com,
- bin.meng@windriver.com, mark.cave-ayland@ilande.co.uk,
- aleksandar.rikalo@syrmia.com, jcmvbkbc@gmail.com, tsimpson@quicinc.com,
- alistair.francis@wdc.com, edgar.iglesias@gmail.com, philmd@redhat.com,
- atar4qemu@gmail.com, thuth@redhat.com, ehabkost@redhat.com, groug@kaod.org,
- maobibo@loongson.cn, mrolnik@gmail.com, shorne@gmail.com,
- alex.bennee@linaro.org, david@gibson.dropbear.id.au,
- kbastian@mail.uni-paderborn.de, crwulff@gmail.com, laurent@vivier.eu,
- palmer@dabbelt.com, pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Richard.
-
-On 09/10/2021 08:52 PM, Richard Henderson wrote:
-> On 9/8/21 11:50 AM, Song Gao wrote:
+Am 10.09.21 um 17:44 schrieb Paolo Bonzini:
+> On 25/08/21 18:43, Helge Konetzka wrote:
+>> Furthermore I would like to propose to change the instructions for 
+>> Native builds with MSYS2 on Wiki Windows page.
 >>
->> Hi Richard,
+>> Please remove the section which copies system binaries to match the 
+>> expected file names!
 >>
->> On 09/05/2021 06:04 PM, Richard Henderson wrote:
->>>> +struct sigframe {
->>>> +    uint32_t sf_ass[4];             /* argument save space for o32 */
->>>
->>> Surely there is no "o32" for loongarch?
->>>
+>> Instead define variables for configure (gcc-ar and gcc-ranlib are 
+>> existing copies of x86_64-w64-mingw32-gcc-ar and 
+>> x86_64-w64-mingw32-gcc-ranlib) and add strip to enable make install:
 >>
->> Yes, qemu only support 64bit. but the kernel has 'o32'.  Should we have to be consistent with the kernel?
+>> AR=gcc-ar NM=nm OBJCOPY=objcopy RANLIB=gcc-ranlib WINDRES=windres 
+>> STRIP=strip \
+>> ./configure --cross-prefix=x86_64-w64-mingw32- --enable-gtk --enable-sdl
 > 
-> Yes, you need to be consistent with the kernel.  However... the kernel is not yet upstream, and therefore the ABI is (officially) still malleable.
-> 
-> Anyway, this padding was copied from mips o32, and should not have been.  Looking at the loongarch gcc sources, REG_PARM_STACK_SPACE is always 0, and thus the 4 words reserved here are never used.
-> 
-> I see that gcc/libgcc/config/loongarch/linux-unwind.h builds in knowledge of these unused words.  I also see that linux/arch/loongarch/vdso/sigreturn.S does not provide correct unwind info.  Certainly the kernel vdso should be fixed, so that code within gcc should not be needed.  At which point the ABI for the signal frame is entirely private to the kernel.
-> 
+> Do you even need anything but "./configure"? (possibly AR=gcc-ar NM=nm 
+> at the beginning)?
 
-We are cleanning up 'o32' code for gcc and kernel.   
+Sorry for being indistinct!
 
-By the way, We have already prepared V5 patches. but I see that patches [1] and [2] have not push into master. How can I use these patches? 
+My intention was to put "AR=gcc-ar NM=nm OBJCOPY=objcopy 
+RANLIB=gcc-ranlib WINDRES=windres STRIP=strip" in front of "./configure" 
+(see the '\' after STRIP=strip) instead of copying binaries:
 
-[1]: https://patchew.org/QEMU/20210618192951.125651-1-richard.henderson@linaro.org/
-[2]: https://patchew.org/QEMU/20210822035537.283193-1-richard.henderson@linaro.org/
+diff -Naur qemu.org.orig/Hosts/W32 qemu.org/Hosts/W32
+--- qemu.org.orig/Hosts/W32	2021-09-11 08:27:01.198715675 +0200
++++ qemu.org/Hosts/W32	2021-09-11 08:28:15.853605118 +0200
+@@ -232,14 +232,6 @@
+      Close the MSYS2 console.
+      Start mingw64.exe.
 
+-cd /mingw64/bin
+-cp x86_64-w64-mingw32-gcc-ar.exe x86_64-w64-mingw32-ar.exe
+-cp x86_64-w64-mingw32-gcc-ranlib.exe x86_64-w64-mingw32-ranlib.exe
+-cp windres.exe x86_64-w64-mingw32-windres.exe
+-cp nm.exe x86_64-w64-mingw32-nm.exe
+-cp objcopy.exe x86_64-w64-mingw32-objcopy.exe
+-cd ~
+-
+      Download the QEMU source code:
 
-Song Gao
-thanks
-> 
-> r~
+  git clone https://www.github.com/qemu/qemu
+@@ -247,6 +239,7 @@
+      Finally build QEMU with:
+
+  cd qemu
++AR=gcc-ar NM=nm OBJCOPY=objcopy RANLIB=gcc-ranlib WINDRES=windres 
+STRIP=strip \
+  ./configure --cross-prefix=x86_64-w64-mingw32- --enable-gtk --enable-sdl
+  make
 
 
