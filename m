@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62465407862
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 15:36:54 +0200 (CEST)
-Received: from localhost ([::1]:50792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31534078A3
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 16:10:05 +0200 (CEST)
+Received: from localhost ([::1]:52280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mP3Bd-0003AL-2b
-	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 09:36:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59584)
+	id 1mP3hk-0007ZO-Fm
+	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 10:10:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mP3AO-0002OX-FZ
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 09:35:36 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:35722)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mP3AL-0005vn-IL
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 09:35:36 -0400
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id A90B23F59C
- for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 13:35:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1631367327;
- bh=ouNEhSUBrfgZFBsJV7OhxX+uqbmYAlQ6aHEbdyMN0fA=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=ZrhcsP+nBvFRz7WLNQYvmKcBKlepifyxqlKARXuFArHG/MSi3zC/261OO521SPWY4
- A5z88hQ6OXpoSH1pSo12cuBSmBXarbp3hG4RO5n3p+dp25qy9UMYl0w83LGd+81cFv
- xfW0lfWtVdKJZrRSzPfJjzKxQcEZUkqzy2nRvMMp8MFJLKWFK+UEGCr2njxTJv3X7s
- lTMSaALzvEMi1wThyPu2qHbnP9ZQ0vyBQMtBjL5c5mSXknibxg6JH5fMZ/jntJYc73
- YUb9VNaOs7giXeG1D4gUqZnyJhvBlFF6L3SsxGsZuZ3tYaEksV2sQbI9FuO2GXQ339
- LE9oulID+cqJQ==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5CEF82E813C
- for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 13:35:27 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 11 Sep 2021 13:30:10 -0000
-From: Chris Pinnock <1914117@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1mP3YT-0002Qt-Qd
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:30 -0400
+Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:44984)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1mP3YO-0005ZO-1p
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:29 -0400
+Received: by mail-lj1-x22e.google.com with SMTP id s3so8172688ljp.11
+ for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 07:00:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vrull-eu.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dKvduzJgehXkAODPrN9r/R56BDLycMZkNN/ybiz9Q1A=;
+ b=ShXtDPF5S7fx2b8Y1oJUW5htHIBRDU9Ll8s2l1ydudIBn3aqF4+IVPSloA0tmDTrSH
+ 4rfJVHtovXqO+TOVfkveKHb0bvfxvmQcJwbPhwJtS0FvmPmv8KK46hanSIlW2KvvK6an
+ Ytg1VKXO2mWdsGWb74py9y7NZzO78sZ/UNpS2rf2ocM1jBXsKvQceXSqXNHt8iG4J2Be
+ 6xh6AH2iy6LclixJoh+Zey6lrjQrIYojIgVc/oEcDePebqRaAIhTN8xx99AZIH4ZlLFJ
+ UduNZ29PQpCxxVSz4DJwy+y0UCFsMWjDunWyxmnWxJZMP3sMtL0kV2XFqPdf1ThEA3kX
+ wwJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dKvduzJgehXkAODPrN9r/R56BDLycMZkNN/ybiz9Q1A=;
+ b=x4POh63QPIb+wjhDu2rKNgvDS7xTim94pYNQNksq5Qz215yH6IMnUBggV3bwsGOf2a
+ da1D9pAOxbs2qAPgrByLXqXwzfL2pBoCB+6ma/xkttBb5io9Usonx1Wz4n+lAEo2KqqI
+ 4gpekGxfm4a2uEoKEq8CsttZdRUDMAt3YesAMpTrhr+tq60hsuqhW3a21Aza+R+ODGCH
+ fDwv3EZU1CZiuBeW7jgfHw28/5Dd65Jwh1qryhCg4z9N84Ji//Z1CqTGpcbAX7j5ZkBa
+ /+sqbqMBBh2u8K62HvhNkgru6+a5TCoav4q+X87lIEW/7A9dw8TEU8z6tOqJRESRGwpi
+ HyzQ==
+X-Gm-Message-State: AOAM531QQA3iSxOrYtDxa6ik5iIxQem8cx2b81rKB0dBxtzZArn1bfp4
+ lrKWozJJ1hac07THKaa5iZsboDiVTVz5Lw==
+X-Google-Smtp-Source: ABdhPJwXDzx6D3nNED+tPaLGhnEgmj6QdNHeS+WphaHb5TKRRoYafxnLZneiRf3VG4wqIsEBBeCHDA==
+X-Received: by 2002:a2e:a4db:: with SMTP id p27mr2312250ljm.161.1631368820104; 
+ Sat, 11 Sep 2021 07:00:20 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
+ by smtp.gmail.com with ESMTPSA id u15sm213052lfk.26.2021.09.11.07.00.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 11 Sep 2021 07:00:19 -0700 (PDT)
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: chrispinnock th-huth
-X-Launchpad-Bug-Reporter: Chris Pinnock (chrispinnock)
-X-Launchpad-Bug-Modifier: Chris Pinnock (chrispinnock)
-References: <161221293549.4659.2173832767419505412.malonedeb@chaenomeles.canonical.com>
- <162987588882.30796.5359758770282043674.launchpad@wampee.canonical.com>
-Message-Id: <871E2304-D368-4C5B-A3EA-0CAD3DD72CAD@mac.com>
-Subject: Re: [Bug 1914117] Short files returned via FTP on Qemu with various
- architectures and OSes
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="aca2013fd8cd2fea408d75f89f9bc012fbab307d"; Instance="production"
-X-Launchpad-Hash: 0bd7829ba9f81272ea28759f9041024fb6d90065
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Subject: [PATCH v11 00/16] target/riscv: Update QEmu for Zb[abcs] 1.0.0
+Date: Sat, 11 Sep 2021 16:00:00 +0200
+Message-Id: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x22e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,103 +80,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914117 <1914117@bugs.launchpad.net>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Kito Cheng <kito.cheng@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I tested Qemu 6.1 (MacOS using brew to install) with guest OS NetBSD/i386. =
-The bind distribution file downloaded fine by FTP.
-Libslurp has a workaround for MacOS and it looks like its gone in.
-I think this one can be closed.
-Sorry for the delay
-Kind regards
-Chris
+
+The Zb[abcs] extensions have complete public review and are nearing
+ratifications. These individual extensions are one part of what was
+previously though of as the "BitManip" (B) extension, leaving the
+final details of future Zb* extensions open as they will undergo
+further public discourse.
+
+This series updates the earlier support for the B extension by
+ - removing those instructions that are not included in Zb[abcs]
+ - splitting this into 4 separate extensions that can be independently
+   enabled: Zba (addressing), Zbb (basic bit-manip), Zbc (carryless
+   multiplication), Zbs (single-bit operations)
+ - update the to the 1.0.0 version (e.g. w-forms of rev8 and Zbs
+   instructions are not included in Zb[abcs])
+
+For the latest version of the public review speicifcaiton
+(incorporating some editorial fixes and corrections from the review
+period), refer to:
+  https://github.com/riscv/riscv-bitmanip/releases/download/1.0.0/bitmanip-1.0.0-31-g2af7256.pdf
 
 
-> On 25 Aug 2021, at 08:18, Thomas Huth <1914117@bugs.launchpad.net> wrote:
->=20
-> ** Changed in: qemu
->       Status: Fix Committed =3D> Fix Released
->=20
-> --=20
-> You received this bug notification because you are subscribed to the bug
-> report.
-> https://bugs.launchpad.net/bugs/1914117
->=20
-> Title:
->  Short files returned via FTP on Qemu with various architectures and
->  OSes
->=20
-> Status in QEMU:
->  Fix Released
->=20
-> Bug description:
->=20
->  Qemu 5.2 on Mac OS X Big Sur.
->=20
->  I originally thought that it might be caused by the home-brew version of=
- Qemu, but this evening I have removed the brew edition and compiled from s=
-cratch (using Ninja & Xcode compiler).=20
->  Still getting the same problem,.
->=20
->  On the following architectures:=20
->  arm64, amd64 and sometimes i386 running NetBSD host OS;=20
->  i386 running OpenBSD host OS:
->=20
->  I have seen a consistent problem with FTP returning short files. The
->  file will be a couple of bytes too short. I do not believe this is a
->  problem with the OS. Downloading the perl source code from CPAN does
->  not work properly, nor does downloading bind from isc. I've tried this
->  on different architectures as above.
->=20
->  (Qemu 4.2 on Ubuntu/x86_64 with NetBSD/i386 seems to function fine. My
->  gut feel is there is something not right on the Mac OS version of Qemu
->  or a bug in 5.2 - obviously in the network layer somewhere. If you
->  have anything you want me to try, please let me know - happy to help
->  get a resolution.)
->=20
-> To manage notifications about this bug go to:
-> https://bugs.launchpad.net/qemu/+bug/1914117/+subscriptions
->
+Changes in v11:
+- Swaps out the EXT_ZERO to EXT_NONE, as no extension is to be performed.
+- Fix typos in commit message.
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914117
+Changes in v10:
+- New patch
+- New patch, fixing regressions discovered with x264_r.
+- New patch, fixing correctnes for clzw called on a register with undefined
+  (as in: not properly sign-extended) upper bits.
+- Retested with CF3 and SPEC2017 (size=test, size=ref); addressing new
+  regressions (due to bugs in gen_clzw) from testing with SPEC2017 using
+  different optimization levels
+- Split off gen_add_uw() fix into a separate patch, as requested.
 
-Title:
-  Short files returned via FTP on Qemu with various architectures and
-  OSes
+Changes in v9:
+- Retested with CF3 and SPEC2017 (size=test only).
+- Rebased to 8880cc4362.
+- Update gen_add_uw() to use a temporary instead of messing with
+  arg1 (fixes a regression after rebase on CF3 and SPEC2017).
+- Rebased to 8880cc4362.
+- Picked up Alistair's Reviewed-by, after patman had failed to catch
+  it for v8.
+- Rebased to 8880cc4362.
+- Fixes a whitespace-at-the-end-of-line warning for the rev8 comment
+  in insn32.decode
+- Rebased to 8880cc4362.
 
-Status in QEMU:
-  Fix Released
+Changes in v8:
+- Optimize orc.b further by reordering the shift/and, updating the
+  comment to reflect that we put the truth-value into the LSB, and
+  putting the (now only) constant in a temporary
+- Fold the final bitwise-not into the second and, using and andc.
 
-Bug description:
- =20
-  Qemu 5.2 on Mac OS X Big Sur.
+Changes in v7:
+- Free TCG temporary in gen_orc_b().
 
-  I originally thought that it might be caused by the home-brew version of =
-Qemu, but this evening I have removed the brew edition and compiled from sc=
-ratch (using Ninja & Xcode compiler).=20
-  Still getting the same problem,.
+Changes in v6:
+- Move gen_clmulh to trans_rvb.c.inc, as per Richard H's request.
+- Fixed orc.b (now passes SPEC w/ optimized string functions) by
+  adding the missing final negation.
 
-  On the following architectures:=20
-  arm64, amd64 and sometimes i386 running NetBSD host OS;=20
-  i386 running OpenBSD host OS:
+Changes in v5:
+- Introduce gen_clmulh (as suggested by Richard H) and use to simplify
+  trans_clmulh().
 
-  I have seen a consistent problem with FTP returning short files. The
-  file will be a couple of bytes too short. I do not believe this is a
-  problem with the OS. Downloading the perl source code from CPAN does
-  not work properly, nor does downloading bind from isc. I've tried this
-  on different architectures as above.
+Changes in v4:
+- Drop rewrite of slli.uw (to match formal specification), as it would
+  remove an optimization.
+- Change orc.b to implementation suggested by Richard Henderson
+- reorder trans_rev8* functions to be sequential
+- rename rev8 to rev8_32 in decoder
+- Renamed RV32 variant to zext_h_32.
+- Reordered trans_zext_h_{32,64} to be next to each other.
 
-  (Qemu 4.2 on Ubuntu/x86_64 with NetBSD/i386 seems to function fine. My
-  gut feel is there is something not right on the Mac OS version of Qemu
-  or a bug in 5.2 - obviously in the network layer somewhere. If you
-  have anything you want me to try, please let me know - happy to help
-  get a resolution.)
+Changes in v3:
+- Split off removal of 'x-b' property and 'ext_b' field into a separate
+  patch to ensure bisectability.
+- The changes to the Zba instructions (i.e. the REQUIRE_ZBA macro
+  and its use for qualifying the Zba instructions) are moved into
+  a separate commit.
+- Remove the W-form instructions from Zbs in a separate commit.
+- Remove shift-one instructions in a separate commit.
+- The changes to the Zbs instructions (i.e. the REQUIRE_ZBS macro) and
+  its use for qualifying the Zba instructions) are moved into a
+  separate commit.
+- This adds the Zbc instructions as a spearate commit.
+- Uses a helper for clmul/clmulr instead of inlining the calculation of
+  the result (addressing a comment from Richard Henderson).
+- The changes to the Zbb instructions (i.e. use the REQUIRE_ZBB macro)
+  are now in a separate commit.
+- Moved orc.b and gorc/gorci changes into separate commit.
+- Using the simpler orc.b implementation suggested by Richard Henderson
+- Moved the REQUIRE_32BIT macro into a separate commit.
+- rev8-addition & grevi*-removal moved to a separate commit
+- Moved zext.h-addition & pack*-removal to a separate commit.
+- Removing RVB moved into a separate commit at the tail-end of the series.
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914117/+subscriptions
+Changes in v2:
+- Fix missing ';' from last-minute whitespace cleanups.
+
+Philipp Tomsich (16):
+  target/riscv: Introduce temporary in gen_add_uw()
+  target/riscv: fix clzw implementation to operate on arg1
+  target/riscv: clwz must ignore high bits (use shift-left & changed
+    logic)
+  target/riscv: Add x-zba, x-zbb, x-zbc and x-zbs properties
+  target/riscv: Reassign instructions to the Zba-extension
+  target/riscv: Remove the W-form instructions from Zbs
+  target/riscv: Remove shift-one instructions (proposed Zbo in pre-0.93
+    draft-B)
+  target/riscv: Reassign instructions to the Zbs-extension
+  target/riscv: Add instructions of the Zbc-extension
+  target/riscv: Reassign instructions to the Zbb-extension
+  target/riscv: Add orc.b instruction for Zbb, removing gorc/gorci
+  target/riscv: Add a REQUIRE_32BIT macro
+  target/riscv: Add rev8 instruction, removing grev/grevi
+  target/riscv: Add zext.h instructions to Zbb, removing
+    pack/packu/packh
+  target/riscv: Remove RVB (replaced by Zb[abcs])
+  disas/riscv: Add Zb[abcs] instructions
+
+ disas/riscv.c                           | 157 ++++++++-
+ target/riscv/bitmanip_helper.c          |  65 +---
+ target/riscv/cpu.c                      |  30 +-
+ target/riscv/cpu.h                      |   7 +-
+ target/riscv/helper.h                   |   6 +-
+ target/riscv/insn32.decode              | 115 +++----
+ target/riscv/insn_trans/trans_rvb.c.inc | 419 ++++++++----------------
+ target/riscv/translate.c                |   6 +
+ 8 files changed, 366 insertions(+), 439 deletions(-)
+
+-- 
+2.25.1
 
 
