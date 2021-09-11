@@ -2,55 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D284074FD
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 06:19:34 +0200 (CEST)
-Received: from localhost ([::1]:36098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E392407545
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 08:02:02 +0200 (CEST)
+Received: from localhost ([::1]:45296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mOuUG-0003a0-OX
-	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 00:19:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49886)
+	id 1mOw5Q-0006AA-Vb
+	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 02:02:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mOuRb-0002hi-On; Sat, 11 Sep 2021 00:16:47 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:39807 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mOuRW-0001CO-Sv; Sat, 11 Sep 2021 00:16:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1631333790;
- bh=Dgtt3xsuFux1y55yEWc7aYmFrEUcxzilxpTsq9C1DSs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qCj7v92I+dTGYP+IfMkd2rwygRKS4Z2L2JY1NU1YKaujoUYUi/7Dp+aqxoBk5O3vp
- LEQvyaQxSf3LEQoXwMz+1LDCuu72mXm3fJ05YaeVrO4eaLE2DJv9BA6GiFmGeTIgd4
- D+tQlWkqrwnDtiF6khOpTWRpJ4OVIr5f9skdfKMQ=
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4H5zvf5rpKz9sf8; Sat, 11 Sep 2021 14:16:30 +1000 (AEST)
-Date: Sat, 11 Sep 2021 13:53:32 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v5 1/4] spapr: move NUMA associativity init to machine
- reset
-Message-ID: <YTwoPAczTtqRH5y5@yekko>
-References: <20210907002527.412013-1-danielhb413@gmail.com>
- <20210907002527.412013-2-danielhb413@gmail.com>
- <YTa0RzbdvfSQZy9+@yekko> <20210907091013.3882663b@bahia.lan>
- <YTcvn7qSqz7zaT1d@yekko>
- <29af2df8-99d1-e5ac-1290-21fe35613c6f@gmail.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1mOw3J-0005KF-Oz
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 01:59:49 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:43088 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1mOw3G-0004T5-PV
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 01:59:49 -0400
+Received: from localhost.localdomain (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr2ujRTxhgTMEAA--.8140S3;
+ Sat, 11 Sep 2021 13:59:02 +0800 (CST)
+Subject: Re: [PATCH v4 17/21] LoongArch Linux User Emulation
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ chenhuacai@gmail.com
+References: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
+ <1630586467-22463-18-git-send-email-gaosong@loongson.cn>
+ <4e47e1a7-d946-f8ec-a9a1-aadc6eeb7941@linaro.org>
+ <3e7fd708-fe13-8163-2926-d1baa75e3b10@loongson.cn>
+ <d6349ca9-2483-2f83-f5cb-f9e1f740a404@linaro.org>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <3146e487-9b35-d9b8-668e-06c9e6744cb2@loongson.cn>
+Date: Sat, 11 Sep 2021 13:58:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="B1JKmj77kJqgzZ5f"
-Content-Disposition: inline
-In-Reply-To: <29af2df8-99d1-e5ac-1290-21fe35613c6f@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: 1
-X-Spam_score: 0.1
-X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <d6349ca9-2483-2f83-f5cb-f9e1f740a404@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxr2ujRTxhgTMEAA--.8140S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7ArW5uw1rtw4ktw4kXrWUurg_yoW8Wr4kpr
+ y3XFs8JFWkt3W8Jw4qqw10g34vyw13J343W398XFWDC3yYqF1a9r1xXr4j9FnrKws3WFy2
+ qF4F934DuF15A37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBv1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+ w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+ IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
+ jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
+ CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_
+ Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwI
+ xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY
+ 0VAS07AlzVAYIcxG8wCY02Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaV
+ Av8VW5Wr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
+ 0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMI
+ IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF
+ 0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
+ A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.349,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,187 +76,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, yangxiaojuan@loongson.cn, david@redhat.com,
+ bin.meng@windriver.com, mark.cave-ayland@ilande.co.uk,
+ aleksandar.rikalo@syrmia.com, jcmvbkbc@gmail.com, tsimpson@quicinc.com,
+ alistair.francis@wdc.com, edgar.iglesias@gmail.com, philmd@redhat.com,
+ atar4qemu@gmail.com, thuth@redhat.com, ehabkost@redhat.com, groug@kaod.org,
+ maobibo@loongson.cn, mrolnik@gmail.com, shorne@gmail.com,
+ alex.bennee@linaro.org, david@gibson.dropbear.id.au,
+ kbastian@mail.uni-paderborn.de, crwulff@gmail.com, laurent@vivier.eu,
+ palmer@dabbelt.com, pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi, Richard.
 
---B1JKmj77kJqgzZ5f
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 09/10/2021 08:52 PM, Richard Henderson wrote:
+> On 9/8/21 11:50 AM, Song Gao wrote:
+>>
+>> Hi Richard,
+>>
+>> On 09/05/2021 06:04 PM, Richard Henderson wrote:
+>>>> +struct sigframe {
+>>>> +    uint32_t sf_ass[4];             /* argument save space for o32 */
+>>>
+>>> Surely there is no "o32" for loongarch?
+>>>
+>>
+>> Yes, qemu only support 64bit. but the kernel has 'o32'.  Should we have to be consistent with the kernel?
+> 
+> Yes, you need to be consistent with the kernel.  However... the kernel is not yet upstream, and therefore the ABI is (officially) still malleable.
+> 
+> Anyway, this padding was copied from mips o32, and should not have been.  Looking at the loongarch gcc sources, REG_PARM_STACK_SPACE is always 0, and thus the 4 words reserved here are never used.
+> 
+> I see that gcc/libgcc/config/loongarch/linux-unwind.h builds in knowledge of these unused words.  I also see that linux/arch/loongarch/vdso/sigreturn.S does not provide correct unwind info.  Certainly the kernel vdso should be fixed, so that code within gcc should not be needed.  At which point the ABI for the signal frame is entirely private to the kernel.
+> 
 
-On Fri, Sep 10, 2021 at 04:57:14PM -0300, Daniel Henrique Barboza wrote:
-65;6402;1c>=20
->=20
-> On 9/7/21 6:23 AM, David Gibson wrote:
-> > On Tue, Sep 07, 2021 at 09:10:13AM +0200, Greg Kurz wrote:
-> > > On Tue, 7 Sep 2021 10:37:27 +1000
-> > > David Gibson <david@gibson.dropbear.id.au> wrote:
-> > >=20
-> > > > On Mon, Sep 06, 2021 at 09:25:24PM -0300, Daniel Henrique Barboza w=
-rote:
-> > > > > At this moment we only support one form of NUMA affinity, FORM1. =
-This
-> > > > > allows us to init the internal structures during machine_init(), =
-and
-> > > > > given that NUMA distances won't change during the guest lifetime =
-we
-> > > > > don't need to bother with that again.
-> > > > >=20
-> > > > > We're about to introduce FORM2, a new NUMA affinity mode for pSer=
-ies
-> > > > > guests. This means that we'll only be certain about the affinity =
-mode
-> > > > > being used after client architecture support. This also means tha=
-t the
-> > > > > guest can switch affinity modes in machine reset.
-> > > > >=20
-> > > > > Let's prepare the ground for the FORM2 support by moving the NUMA
-> > > > > internal data init from machine_init() to machine_reset(). Change=
- the
-> > > > > name to spapr_numa_associativity_reset() to make it clearer that =
-this is
-> > > > > a function that can be called multiple times during the guest lif=
-ecycle.
-> > > > > We're also simplifying its current API since this method will be =
-called
-> > > > > during CAS time (do_client_architecture_support()) later on and t=
-here's no
-> > > > > MachineState pointer already solved there.
-> > > > >=20
-> > > > > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > > >=20
-> > > > Applied to ppc-for-6.2, thanks.
-> > > >=20
-> > >=20
-> > > Even if already applied :
-> > >=20
-> > > Reviewed-by: Greg Kurz <groug@kaod.org>
-> >=20
-> > Added, thanks.
->=20
->=20
-> I'm afraid this patch was deprecated by the new patch series I just
-> posted.
+We are cleanning up 'o32' code for gcc and kernel.   
 
-Ok, I've removed the old patch from ppc-for-6.2.
+By the way, We have already prepared V5 patches. but I see that patches [1] and [2] have not push into master. How can I use these patches? 
 
->=20
->=20
-> Thanks,
->=20
->=20
-> Daniel
->=20
-> >=20
-> > > > > ---
-> > > > >   hw/ppc/spapr.c              | 6 +++---
-> > > > >   hw/ppc/spapr_numa.c         | 4 ++--
-> > > > >   include/hw/ppc/spapr_numa.h | 9 +--------
-> > > > >   3 files changed, 6 insertions(+), 13 deletions(-)
-> > > > >=20
-> > > > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > > > > index d39fd4e644..8e1ff6cd10 100644
-> > > > > --- a/hw/ppc/spapr.c
-> > > > > +++ b/hw/ppc/spapr.c
-> > > > > @@ -1621,6 +1621,9 @@ static void spapr_machine_reset(MachineStat=
-e *machine)
-> > > > >        */
-> > > > >       spapr_irq_reset(spapr, &error_fatal);
-> > > > > +    /* Reset numa_assoc_array */
-> > > > > +    spapr_numa_associativity_reset(spapr);
-> > > > > +
-> > > > >       /*
-> > > > >        * There is no CAS under qtest. Simulate one to please the =
-code that
-> > > > >        * depends on spapr->ov5_cas. This is especially needed to =
-test device
-> > > > > @@ -2808,9 +2811,6 @@ static void spapr_machine_init(MachineState=
- *machine)
-> > > > >       spapr->gpu_numa_id =3D spapr_numa_initial_nvgpu_numa_id(mac=
-hine);
-> > > > > -    /* Init numa_assoc_array */
-> > > > > -    spapr_numa_associativity_init(spapr, machine);
-> > > > > -
-> > > > >       if ((!kvm_enabled() || kvmppc_has_cap_mmu_radix()) &&
-> > > > >           ppc_type_check_compat(machine->cpu_type, CPU_POWERPC_LO=
-GICAL_3_00, 0,
-> > > > >                                 spapr->max_compat_pvr)) {
-> > > > > diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> > > > > index 779f18b994..9ee4b479fe 100644
-> > > > > --- a/hw/ppc/spapr_numa.c
-> > > > > +++ b/hw/ppc/spapr_numa.c
-> > > > > @@ -155,10 +155,10 @@ static void spapr_numa_define_associativity=
-_domains(SpaprMachineState *spapr)
-> > > > >   }
-> > > > > -void spapr_numa_associativity_init(SpaprMachineState *spapr,
-> > > > > -                                   MachineState *machine)
-> > > > > +void spapr_numa_associativity_reset(SpaprMachineState *spapr)
-> > > > >   {
-> > > > >       SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-> > > > > +    MachineState *machine =3D MACHINE(spapr);
-> > > > >       int nb_numa_nodes =3D machine->numa_state->num_nodes;
-> > > > >       int i, j, max_nodes_with_gpus;
-> > > > >       bool using_legacy_numa =3D spapr_machine_using_legacy_numa(=
-spapr);
-> > > > > diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_n=
-uma.h
-> > > > > index 6f9f02d3de..0e457bba57 100644
-> > > > > --- a/include/hw/ppc/spapr_numa.h
-> > > > > +++ b/include/hw/ppc/spapr_numa.h
-> > > > > @@ -16,14 +16,7 @@
-> > > > >   #include "hw/boards.h"
-> > > > >   #include "hw/ppc/spapr.h"
-> > > > > -/*
-> > > > > - * Having both SpaprMachineState and MachineState as arguments
-> > > > > - * feels odd, but it will spare a MACHINE() call inside the
-> > > > > - * function. spapr_machine_init() is the only caller for it, and
-> > > > > - * it has both pointers resolved already.
-> > > > > - */
-> > > > > -void spapr_numa_associativity_init(SpaprMachineState *spapr,
-> > > > > -                                   MachineState *machine);
-> > > >=20
-> > > > Nice additional cleanup to the signature, thanks.
-> > > >=20
-> > > > > +void spapr_numa_associativity_reset(SpaprMachineState *spapr);
-> > > > >   void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *f=
-dt, int rtas);
-> > > > >   void spapr_numa_write_associativity_dt(SpaprMachineState *spapr=
-, void *fdt,
-> > > > >                                          int offset, int nodeid);
-> > > >=20
-> > >=20
-> >=20
-> >=20
-> >=20
->=20
+[1]: https://patchew.org/QEMU/20210618192951.125651-1-richard.henderson@linaro.org/
+[2]: https://patchew.org/QEMU/20210822035537.283193-1-richard.henderson@linaro.org/
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
 
---B1JKmj77kJqgzZ5f
-Content-Type: application/pgp-signature; name="signature.asc"
+Song Gao
+thanks
+> 
+> r~
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmE8KDkACgkQbDjKyiDZ
-s5KvZA//Ret2MN3EVHiLWjf/O0+bbEQllBpQegyXeV7JRo/vtBnCYjAoTjbJK9NT
-JtffTXeB9PkHl/P/bHRukzBY9f8WAffBbSYtST/SCwH7TTY4Jm/tlqmj3kjJD7qk
-savJnQfaypShl02cdK8WaiO2XYg4V1KS2LGiJcN5BjBcBm47V3PCNzy6952n1o06
-sl8/ShKZU280JKvfDLGli4mnyzw9x+E3HXvO67zs4GCUbjDxbVFw+ezzG79fTqgd
-kSaIBwQp0QOcFh2DkmEBS8qqlkpZOqziMzX6PnN0Amo7YRm4rjgbNgLs+aC6FJXY
-23d6kM0wJnULY+Z6XYYYBshzwK6t9tM6HSfw4VU3MUkEybvLTMVp7yAgSrjQekm3
-Y/VOyLM17s5Qe1iUqkoa3PkgZ+cKoeqNjy1wXV0ccC+FJAWX3+PmwjiBWDSiowQQ
-klOhpN9mqrzS9Q3O1V09QJ3Itoj65SWw81AWRLGp7YUGhJXDxaAZjIc1fivPntqq
-W+Y5QP6mmYGbwWYWThhRpNnjwq1W3x1OZwBbEGO49DlUM4SyuKuBEX1V18Uy9/fB
-rDaG2UxPV0yS0PFCSiEfz7WmYbckSvZC1JQMy8XdAPNDW5KrFbe9xVIsvG9YgTOM
-us6Eo37xlvyrxzAjGnuZoV1P3aSd7zIS9c4hoO5rqmFiUtS9Fw0=
-=JqqO
------END PGP SIGNATURE-----
-
---B1JKmj77kJqgzZ5f--
 
