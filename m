@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8BA407919
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 17:36:23 +0200 (CEST)
-Received: from localhost ([::1]:46164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E949E407920
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 17:40:14 +0200 (CEST)
+Received: from localhost ([::1]:49292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mP53G-0003Aj-KF
-	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 11:36:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46812)
+	id 1mP56z-0005WS-Vj
+	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 11:40:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mP51e-00029g-Ep; Sat, 11 Sep 2021 11:34:42 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:37747)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mP55t-0004n4-Gb
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 11:39:05 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:51725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mP51c-0005iA-OP; Sat, 11 Sep 2021 11:34:42 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id f21so813246plb.4;
- Sat, 11 Sep 2021 08:34:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eAFVni2yUlOJONWFhPyU1OiFQ3sEB2MqnLEKknFi9Yk=;
- b=l/+kB7KjbDhk9j1XmPu8EU5KQF85Nvr5K1awFInLELjcazlAOStkIKrX7369jH1lxK
- IFl5kgNnXhizP1/QZZb0iZjjbLOQyM2Ey/xkpp/u3gLzMjZie0nPG0U1G1XfNfck0jcj
- RZuENnQI5TJvzXWTQORd217OuukbcLZcyZKsQalnOMBnye1T6SRZvSIUFdoM4D+JonDa
- glafm5cy/amjQCX3oPZgFcbS6wjGSw2mZGIY2AbYLADYPQXMzuvczX6umvMGIr25U1bO
- QB8kKThMxqaPM5YT7cmw2GrYkMUDxVP4IPmRAXSwE9YNmncUPHo+3IOBd6oZpka6ta9B
- r/Nw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mP55r-0000vZ-Pp
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 11:39:05 -0400
+Received: by mail-wm1-x333.google.com with SMTP id y132so3344881wmc.1
+ for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 08:39:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fTJ6x9Yjfz+LUsHZ06kWykvAAog/meLy97eJ3kHsHjM=;
+ b=aWh6gW1nwX1kpiNpRXioSH8EPA7lgSO15QiaITOvE3Yi327lExzEHb0Ik5vmzdegie
+ wEDLXnLxZp5OmUUVMexdAmiW1P3PM3EgTajqjii6fDELaOmS+S/rnWpl/0wLLY3sqaN0
+ Ev+IagPk8WWMhUca4h3SJ5eOztt8SwtjKcwaZBc+H+9MsLPoP/f8hD5XOwK3gTsjZ0pS
+ mDTiSSbiT3a4cbIBh4pRngdtIA2z2cs7zj1MozQ9/Y5T3/YmFTMh1mnuOn1vx1AJhbBe
+ 6un9Wh0v8ShAG4524yYoPBtYlAKTvW+Xdw2VpXnPzZV8ItrJOjpVL+Eihc25Zne2e04t
+ t8xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eAFVni2yUlOJONWFhPyU1OiFQ3sEB2MqnLEKknFi9Yk=;
- b=LoS9ysqsFQz8OZ19e57DI5iy3wwmsIFCHn988/iv7Ld6GvlQM0EasKFvKgJPn3AY6d
- 8RYAM/a9G9/GnRDi8g5IN7RKdVSp/9afGa6+eXdXxtXmeduj1LQgkvSTHEcZEee9dnUy
- IfFW0UyYnYKGXyll1BKE0ln6PkmxtJxOp3X+Ixsn63ZZfPV+lzeglZEDfYh7Jzfo2LTp
- 9k33PvRWFcEo9REQXhV3dzktcCg2a6f9J8oizwkzxMWoRvJhu0fUIJUPsa6koToGAsUD
- sli766tVLlA1J/atztUHZPMhkyrt6+6PrqJ1M0jiksWeazcHOsgFrLPnAdJebW4Chicn
- PJhQ==
-X-Gm-Message-State: AOAM533SN+LAR3jQlXxQjOxqb4jLY2olVuxHbV9dTfQ/f9mbJdmdpEj6
- YVpC1RYukD9L09oPlPzSNgo=
-X-Google-Smtp-Source: ABdhPJxt/fgIyWFzbAlbM7CYiZu8IQcpKq2P1nrkJpRL2RG35SGMHBXN3iFgR3GyfT+3b2VWBv4sng==
-X-Received: by 2002:a17:90b:380c:: with SMTP id
- mq12mr3506033pjb.73.1631374478863; 
- Sat, 11 Sep 2021 08:34:38 -0700 (PDT)
-Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
- [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id 19sm2291461pfh.12.2021.09.11.08.34.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Sep 2021 08:34:38 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH] docs/system/riscv: sifive_u: Update U-Boot instructions
-Date: Sat, 11 Sep 2021 23:34:31 +0800
-Message-Id: <20210911153431.10362-1-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fTJ6x9Yjfz+LUsHZ06kWykvAAog/meLy97eJ3kHsHjM=;
+ b=R+zm1k+JBSSRQKYSRxdX7e5lKAnU2qp1cDjxs/igeX33YbMAnxkXBHGvzjPU48ND2O
+ 39Xqc3AtJKpYhErLGd98lclrgo+xEgVXLA4fAQxHSTouTiIA43FWfb5+tYXPVsxeDgZ6
+ YxVHfJEfUPTp2G0dRwGBEbGoaXZTX/1uXPvXEXu5uCUtZUi+Hkjmn6/03mG7L7YGbmqQ
+ CGhrDiQNzULbEckmlx0R9o3kjnpf9aWgkHmxrCvSxig7zdM5dpFreWX6MxBLGqzMluQ5
+ TRjAcak1q2PMiFmK8FFjSENjeDSETsy956yEuDcROCfcDNQu3utVNZLzAXk2aQSYhgKy
+ 4VVw==
+X-Gm-Message-State: AOAM530KPbv3D8rdbEDwF8XtxkYM3oK+dIKJNIYGj/fVWEM9IlDBj5lP
+ kg27SWwOdMDXxHEepkHEpRp5eM7fNVah9RNSxKYYhQ==
+X-Google-Smtp-Source: ABdhPJwkO1mfgsRb7+4yD2V/TsfeLZXLMQI14iv78enziu6UR1d8R6xlHzyKIGPr5FTAN4yf2ktlxlMMUi7znUMHzhk=
+X-Received: by 2002:a7b:c246:: with SMTP id b6mr3161515wmj.37.1631374742077;
+ Sat, 11 Sep 2021 08:39:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62d.google.com
+References: <20210910203011.63003-1-imp@bsdimp.com>
+In-Reply-To: <20210910203011.63003-1-imp@bsdimp.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 11 Sep 2021 16:38:12 +0100
+Message-ID: <CAFEAcA9eeaBQ5CPyd824xnFGdhkicUbtJByajdTe_Hd1d=H7tg@mail.gmail.com>
+Subject: Re: [PULL 00/42] bsd-user updates to run hello world
+To: Warner Losh <imp@bsdimp.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,121 +76,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kyle Evans <kevans@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In U-Boot v2021.07 release, there were 2 major changes for the
-SiFive Unleashed board support:
+On Fri, 10 Sept 2021 at 21:32, <imp@bsdimp.com> wrote:
+>
+> From: Warner Losh <imp@bsdimp.com>
+>
+> The following changes since commit a61c30b8c8c3c8619847cfaa289233cc696f5689:
+>
+>   Merge remote-tracking branch 'remotes/mjt/tags/patch-fetch' into staging (2021-09-07 10:15:48 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bsdimp/qemu.git tags/pull-bsd-user-20210910
+>
+> for you to fetch changes up to be04f210f954bed8663943a94ece50c2ca410231:
+>
+>   bsd-user: Update mapping to handle reserved and starting conditions (2021-09-10 14:13:06 -0600)
+>
 
-- Board config name was changed from sifive_fu540_defconfig to
-  sifive_unleashed_defconfig
-- The generic binman tool was used to generate the FIT image
-  (combination of U-Boot proper, DTB and OpenSBI firmware)
 
-which make the existing U-Boot instructions out of date.
 
-Update the doc with latest instructions.
+Applied, thanks.
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
----
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
+for any user-visible changes.
 
- docs/system/riscv/sifive_u.rst | 49 ++++++++++++++++++----------------
- 1 file changed, 26 insertions(+), 23 deletions(-)
-
-diff --git a/docs/system/riscv/sifive_u.rst b/docs/system/riscv/sifive_u.rst
-index 01108b5ecc..8ac93d0153 100644
---- a/docs/system/riscv/sifive_u.rst
-+++ b/docs/system/riscv/sifive_u.rst
-@@ -209,15 +209,16 @@ command line options with ``qemu-system-riscv32``.
- Running U-Boot
- --------------
- 
--U-Boot mainline v2021.01 release is tested at the time of writing. To build a
-+U-Boot mainline v2021.07 release is tested at the time of writing. To build a
- U-Boot mainline bootloader that can be booted by the ``sifive_u`` machine, use
--the sifive_fu540_defconfig with similar commands as described above for Linux:
-+the sifive_unleashed_defconfig with similar commands as described above for
-+Linux:
- 
- .. code-block:: bash
- 
-   $ export CROSS_COMPILE=riscv64-linux-
-   $ export OPENSBI=/path/to/opensbi-riscv64-generic-fw_dynamic.bin
--  $ make sifive_fu540_defconfig
-+  $ make sifive_unleashed_defconfig
- 
- You will get spl/u-boot-spl.bin and u-boot.itb file in the build tree.
- 
-@@ -312,31 +313,29 @@ board on QEMU ``sifive_u`` machine out of the box. This allows users to
- develop and test the recommended RISC-V boot flow with a real world use
- case: ZSBL (in QEMU) loads U-Boot SPL from SD card or SPI flash to L2LIM,
- then U-Boot SPL loads the combined payload image of OpenSBI fw_dynamic
--firmware and U-Boot proper. However sometimes we want to have a quick test
--of booting U-Boot on QEMU without the needs of preparing the SPI flash or
--SD card images, an alternate way can be used, which is to create a U-Boot
--S-mode image by modifying the configuration of U-Boot:
-+firmware and U-Boot proper.
-+
-+However sometimes we want to have a quick test of booting U-Boot on QEMU
-+without the needs of preparing the SPI flash or SD card images, an alternate
-+way can be used, which is to create a U-Boot S-mode image by modifying the
-+configuration of U-Boot:
- 
- .. code-block:: bash
- 
-+  $ export CROSS_COMPILE=riscv64-linux-
-+  $ make sifive_unleashed_defconfig
-   $ make menuconfig
- 
--then manually select the following configuration in U-Boot:
--
--  Device Tree Control > Provider of DTB for DT Control > Prior Stage bootloader DTB
-+then manually select the following configuration:
- 
--This lets U-Boot to use the QEMU generated device tree blob. During the build,
--a build error will be seen below:
-+  * Device Tree Control ---> Provider of DTB for DT Control ---> Prior Stage bootloader DTB
- 
--.. code-block:: none
-+and unselect the following configuration:
- 
--  MKIMAGE u-boot.img
--  ./tools/mkimage: Can't open arch/riscv/dts/hifive-unleashed-a00.dtb: No such file or directory
--  ./tools/mkimage: failed to build FIT
--  make: *** [Makefile:1440: u-boot.img] Error 1
-+  * Library routines ---> Allow access to binman information in the device tree
- 
--The above errors can be safely ignored as we don't run U-Boot SPL under QEMU
--in this alternate configuration.
-+This changes U-Boot to use the QEMU generated device tree blob, and bypass
-+running the U-Boot SPL stage.
- 
- Boot the 64-bit U-Boot S-mode image directly:
- 
-@@ -351,14 +350,18 @@ It's possible to create a 32-bit U-Boot S-mode image as well.
- .. code-block:: bash
- 
-   $ export CROSS_COMPILE=riscv64-linux-
--  $ make sifive_fu540_defconfig
-+  $ make sifive_unleashed_defconfig
-   $ make menuconfig
- 
- then manually update the following configuration in U-Boot:
- 
--  Device Tree Control > Provider of DTB for DT Control > Prior Stage bootloader DTB
--  RISC-V architecture > Base ISA > RV32I
--  Boot images > Text Base > 0x80400000
-+  * Device Tree Control ---> Provider of DTB for DT Control ---> Prior Stage bootloader DTB
-+  * RISC-V architecture ---> Base ISA ---> RV32I
-+  * Boot options ---> Boot images ---> Text Base ---> 0x80400000
-+
-+and unselect the following configuration:
-+
-+  * Library routines ---> Allow access to binman information in the device tree
- 
- Use the same command line options to boot the 32-bit U-Boot S-mode image:
- 
--- 
-2.25.1
-
+-- PMM
 
