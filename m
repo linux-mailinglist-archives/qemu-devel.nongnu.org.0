@@ -2,72 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE37407631
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 13:04:47 +0200 (CEST)
-Received: from localhost ([::1]:53824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DA3940765F
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 14:04:22 +0200 (CEST)
+Received: from localhost ([::1]:34920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mP0oQ-0006Pb-70
-	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 07:04:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37094)
+	id 1mP1k3-0008Hy-PC
+	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 08:04:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mP0mf-0005Bd-5x
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 07:02:57 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:41890)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mP0ma-00017q-U9
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 07:02:56 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id t19so9669867ejr.8
- for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 04:02:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vMY5MhdXnNtRvMssFkjK0i1wunhLwq3GINuwlMn5d2A=;
- b=JJQLToGji3h2EgVOxAO6LvrgFk6FMHX+2gb+WZY77/PD/vuDUjpOlB14SuOM2yRooo
- WmKstZmnl56hMpNCuxyICbu5xV2A2+QO4m8zObnlAqrYqI0bKmsHkzjcyuLV2DA0r4Js
- HM/p3rJ05VYWnnyr1HvmchoqcKd1l+0fhKSNXe5dlPl3Qr6NCTnpGCKZrlZPTxGigZN5
- 0y03DOBkiirqRiuP73FK/AjOXioPJh8huB6EBNgCmpFPU6mTk/dFIkSiosKRquoCHqyt
- fY+ecNJb0/eDtIqlIAP1CzWhYbothORh+yC6tyIAU6NwP/qN91Q8ka3W2CIEujwH5bY9
- 1gDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vMY5MhdXnNtRvMssFkjK0i1wunhLwq3GINuwlMn5d2A=;
- b=1XACSzX3IJCDcMTQRdTR8vnkwv7bEelUsjIF4vH4VWTYu4j4vgW9tLp8H+Zpjt6PuU
- xlOlaE8UY6jVwlbmxov2r7Tqo5m0hkEcy55rOIzf96d7iuuxJSiQE3rXbnthFWfx5ZJ5
- J2tAGh7pW76Lwm4FebkH2UHScSdKDeewtYumw51NqT36YiUEeGASFKoQbKbBct954FDs
- jmuxFYcchNIqn9s+KYSSYs4aTpT9XisF/cwtk54xn3mWgfokvoAcNoXDBi0hFS9GNdBK
- jYe+8yhyLYpQIzjlCXcvK7f1HS5TiGNE8+VChOfE5WtQ0FASOqRdeoXNN0btFBqN0LJq
- xRiA==
-X-Gm-Message-State: AOAM533dLdl/3bdQLOp4j0WJ1bCGb4VmnkK6ZMIIDaALJVHjHsooW7ty
- ReCKfIS0aFhRKEiJmjgTSIe7GdcLGedMqLiFZy2sXw==
-X-Google-Smtp-Source: ABdhPJzx7JoALTOZ/6pEIMslB+/cf0iCwVtWfgWaH3Jo9oqtgUZ4xxizn9+MYK7sMqCxFx6MMvNwc7p6oAzQUHTWqoI=
-X-Received: by 2002:a17:906:d045:: with SMTP id
- bo5mr2295257ejb.461.1631358171270; 
- Sat, 11 Sep 2021 04:02:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mP1gf-0006We-9G; Sat, 11 Sep 2021 08:00:49 -0400
+Received: from mail-eopbgr80135.outbound.protection.outlook.com
+ ([40.107.8.135]:45662 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mP1gc-0000VH-Ju; Sat, 11 Sep 2021 08:00:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k4hX9nIZUWMtjFBmghnI8A6JVJy53NmSXWewpEEf/A8l1vlkprg3AFN4NIJaz9VW3iSojdUvzuULoWrqSP1bmgRBPu1ARRHweAIvL2DWhNRJ8ranxXZ1NsZOESxl7o5UfxCMNLEIFfaCUtY/RJ2wd47phznJqOOoued2Hh2JcYXNXTqs//erzIvA12UMFgGcJ8h4/YK4RyTmdIcX5iEzqJPg1YxGpREcsVrDhnljBK7nZPJoRggCvyhz5mDpR9EdCDKrArStA/HWLCwHHKL4q034Da3+D+ORRECG/GmKD4pBxZ3GTOjOtzHBWoqyqfIAXqSgQvfnVC9m77DMk0B1hA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i7J+PLuX8sBKTLVFPtXsGNknhoBbx4bEV1NkRVwQjwc=;
+ b=Wr0j0p1YS2G617DQiB/EKPX/MbP9kcIe/3knfCE5MGWZxgRKyWgBW7DUnYllNcClUwUrkEZqWfD6lACivcmKemu0flSCM07/l4aS5ii57uKGjA3iC2hqMfKL13MVBjvletRuX6J4tdY9KI3FlXsGVsPU/yg1yupJayaU2nCFSZy/VMaJ5fUUBRw2nkxm0ygQJ4yCODyBBbpLSkwQh6/BssQsFezTQE3CazidG0b50azcB0SqetChvQjQPMwmX9rx5F2KLqSzGwWVZhmuXV4ImPxEMOlmJV/w+BnLqMaqgYuiLGU+aDpTrO2SuRM5ydTA2UqO7PoODxoAZcewKQt89w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i7J+PLuX8sBKTLVFPtXsGNknhoBbx4bEV1NkRVwQjwc=;
+ b=FNn7HDcxYeue1aHMy4RH9optcSH/0vJ7qM3KVRYDcQWFx2wmTxdRjrI633f1VvlteCdlLbWcz8EQKTDrh/fBjUBJFZgiOrxM01uToxx1UC7kPdH0CCyvuBNvoH471nHpNdHKdB+BBlKWpND6NW0jyBFwPTiHsPoxuuTJi6YohgU=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB5080.eurprd08.prod.outlook.com (2603:10a6:20b:e2::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Sat, 11 Sep
+ 2021 12:00:40 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4500.018; Sat, 11 Sep 2021
+ 12:00:40 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
+ vsementsov@virtuozzo.com
+Subject: [PATCH v2 0/2] fix crash if try to migrate during backup
+Date: Sat, 11 Sep 2021 15:00:25 +0300
+Message-Id: <20210911120027.8063-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: FR3P281CA0054.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4a::18) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20210908222157.2377282-1-philmd@redhat.com>
- <d11a3da6-c26c-1f78-ff52-e965f214cba7@t-online.de>
- <a1988342-7304-ccc9-8a5a-7da0172569ff@redhat.com>
- <CAARzgwzr=mKp6nxsy6STs5Sy9NKCkA53pCLY7CoxhbdN4=4U3g@mail.gmail.com>
- <cc0cebd1-43a3-17c7-f52a-db4db0161855@redhat.com>
- <CAARzgwxLf0hfxLaOs6mEWm05zGkXJWJLT6qETAgkYyPuWP7JEQ@mail.gmail.com>
-In-Reply-To: <CAARzgwxLf0hfxLaOs6mEWm05zGkXJWJLT6qETAgkYyPuWP7JEQ@mail.gmail.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Sat, 11 Sep 2021 16:32:40 +0530
-Message-ID: <CAARzgwxHFBMP6Qyb-QRWHE1qdhLeoCK4RkQN1yqJrpju1Q021Q@mail.gmail.com>
-Subject: Re: [PATCH] hw/i386/acpi-build: Fix a typo
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000004ce62205cbb62c75"
-Received-SPF: none client-ip=2a00:1450:4864:20::62a;
- envelope-from=ani@anisinha.ca; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.196) by
+ FR3P281CA0054.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:4a::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4523.8 via Frontend Transport; Sat, 11 Sep 2021 12:00:40 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0f58f837-06fe-4b05-377a-08d9751bc68e
+X-MS-TrafficTypeDiagnostic: AM6PR08MB5080:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB5080D47F6D592F446BE27884C1D79@AM6PR08MB5080.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2043;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Po2/r3tI/6mqUoMPCwmTOKFdgWodwtYHYi1zzhiNepXwQ9Jq/17ul5MJHaeFMICNb4BlPlIV4BzSz7/Et5efDJTDyjvgtLv3mDuPkM/14rlAP6J9kgdIjfG/IlI8p2/wGVDAmCv4vW7IPOq3Si4U/8PST4K08xIJF9P25HbnJnF/efRRPjxP1E/6m1C7K6RW0UlLHq9X6Dgqf6493+wMrLZWkac6v7y4Mdl6mhxWJPRnoDScd4XCELsq5lTw8yohvC+K3PqdMtPCicWkQamJsUypQdr6g/oOLkx+BdZRgDZByQSKFgp+jXaECYCR5BjzHC5qjsKjB32KHA8lZX/czKUqHnBEhJl29S8Efs7AJuYwNdbr0mRB/yo7UJBi4my1khPxqR4yK0bfFq/ThdYkVkG+xY03D6vHtWS3E0FYJuAP2kv9bj7Rhvteplh2ZhNFi7LZ8GbcPDjtoNBmAfDEc7qr/qAnymaRT8bY+qeyspE8SvNcVBKmEZfNeW1QXAEZqYQdns5s3Ifn5RQKSLkXnpCEERfSTpdVrQgFRhHaoPA3IknsDW+aqFpsea7RAc6CnMFNE3Oglqk5ynXai+6uajfZbdw7MIaPZ996S9m8FGILdYpUhHXPBnZ1oSASDf+93KJRwGEjJItVKpTo8I66GReuBbg3npLhWwMvN4Gtj+rc/thB+qaS84BSOHbsO0fM
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39840400004)(346002)(366004)(376002)(396003)(136003)(6506007)(38350700002)(4326008)(6666004)(478600001)(6512007)(1076003)(83380400001)(2906002)(6916009)(66556008)(38100700002)(8676002)(316002)(107886003)(66946007)(4744005)(2616005)(6486002)(36756003)(86362001)(52116002)(66476007)(8936002)(186003)(5660300002)(956004)(26005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HN7iGSetNbKuKtqrRESuuxynPoqjadtQoFRJaYdhgGq9RrIbFU9PmVCRabi6?=
+ =?us-ascii?Q?BJ2ghSqMtuS1P2d1u4RNEqTq4m+dm0hUi4dm7DaEI8mpitm5TZyNgHTOn0zY?=
+ =?us-ascii?Q?+Xpb4VYG+b5EQx0m68+lbdoqa+L0XAgDlamnmda9yD+HNRILmZw2Uz9SmYj/?=
+ =?us-ascii?Q?z+VfHxw2iLMqoH08VxEAMItqkWVInYEnJzsYFOj71WNgDN8iOdDLEVrVmXsE?=
+ =?us-ascii?Q?PbUJGIQr89yrZLQPKY7npHdndD0r958GAYNuwnGKg74GkJ69vAWGk9+C/QGR?=
+ =?us-ascii?Q?i9ziY5os1t0A8a1b8XihwL7ZMqNybelesUKMo301VHtzogsK0wY9AIsQLIkM?=
+ =?us-ascii?Q?7e8X49CK7KEgudHI/jBM3ZnNA34QYMlDTo1q5S439g30+rhxSFSSTnxwMT1Z?=
+ =?us-ascii?Q?TYxJ1Z2/GRBp93o/L3eFAnC/HbnEn5G7u8BKSIbhK6oXJeIuZp03vZOAdzQW?=
+ =?us-ascii?Q?F27oXJQPfyPE+vkdkaibSBfQAnPv4K4WQ/kNP0TPTwRQCIryXYAMqi+dsyau?=
+ =?us-ascii?Q?6MttPDDovqfjY8rTcyr65koL3NsIjtMl6weLCR3zlTDMV7jvdrND9QNCLRHp?=
+ =?us-ascii?Q?WhXDBvKGSNmlPMnZt2TxIvuOdXkBcZZTWZBkmR6NGdUd4pM2B9ifv/USWs7W?=
+ =?us-ascii?Q?0d3QExPtOL/HM5fMv8XaCzNKmZxULmeQiX3eZSS/l/2FYI0RIeHMroECHD5p?=
+ =?us-ascii?Q?RGPNQYiPnbqJjOmOl/49ucT0p9gucBM+HxpOxc4ya2KIS2MHqUpo5u9yVrD4?=
+ =?us-ascii?Q?axwbXiR8+0VuDGcm3vOrrkplfSJQ4tLzuD25A73BhyIcs+h00/AucYGJX0Bb?=
+ =?us-ascii?Q?38MY6P2XdgFyfgg8V+hJ/TUa4ndGhnUMt5+mwXaeMdOh2SXNfsfT+VBjYQg8?=
+ =?us-ascii?Q?kNF0AqK8qytlXcEWUVcM9EgmB3iOUseKdHzHlC0LO7q6X3SYipBfF6OnpEpx?=
+ =?us-ascii?Q?TqjmXg/3PGqrEdBZqZQD3yVMt7rbQt0Cu5ZyhRLdg72IMFmdpJMLu/1h+Kfg?=
+ =?us-ascii?Q?mnzqZG/BkQlFIKI4ak4UIf2ii//dMa15RGF1Ct6K1jCdbBfoLy43UhNjcMqY?=
+ =?us-ascii?Q?fY+PxfjZVb8YeJtHOnDKUctUvgOb90EzjNcrq7zPcO7nowWjuz79qyDzqUW+?=
+ =?us-ascii?Q?oxCMgn9x7l1wwlyFWpM789yA/HJOPi2RWNcS98vsa0k3LEZ5un33cxJOO0cp?=
+ =?us-ascii?Q?qJkSxdPHq487OQ4ZP3LauY80BWJ321iJbRgjQhNamc250vvvtidEhAv2lkms?=
+ =?us-ascii?Q?NYsooQ7FXk+0tzSjwnmbdiJUoVbK0bxmr92Z1MOXXmVWmo1GXcqk1akrCk7F?=
+ =?us-ascii?Q?O+TI0bkXbNzFasgfO1vSRyl0?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f58f837-06fe-4b05-377a-08d9751bc68e
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2021 12:00:40.8099 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DVm1FgHZB0ugYifLCs7onaB0asq0iX0E8li9KukqnpVz+zpjWuYrGHQ9GFEAfzABNc+03osaI1yAQUMAMc6xc2QPIbKDSrBDNsds51uRDyw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5080
+Received-SPF: pass client-ip=40.107.8.135;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,101 +134,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004ce62205cbb62c75
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v2:
+01: check that migration fails
+02: Add Hanna's r-b
 
-On Sat, Sep 11, 2021 at 15:24 Ani Sinha <ani@anisinha.ca> wrote:
+Vladimir Sementsov-Ogievskiy (2):
+  tests: add migrate-during-backup
+  block: bdrv_inactivate_recurse(): check for permissions and fix crash
 
->
->
-> On Sat, Sep 11, 2021 at 13:56 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com>
-> wrote:
->
->> On 9/11/21 3:33 AM, Ani Sinha wrote:
->> > On Sat, Sep 11, 2021 at 1:03 AM Philippe Mathieu-Daud=C3=A9
->> > <philmd@redhat.com <mailto:philmd@redhat.com>> wrote:
->> >
->> >     On 9/10/21 8:54 PM, Volker R=C3=BCmelin wrote:
->> >     >> Fix 'hotplugabble' -> 'hotpluggabble' typo.
->> >     >
->> >     > I'm convinced that the correct spelling is hotpluggable. Only th=
-e
->> >     > consonant g is doubled.
->> >
->> >     Lol I missed this part, thanks :>
->> >
->> >
->> > Oops my apologies. I also did not notice the double b.
->>
->> Typoglycemia++
->
->
-> Will have to experiment with this
->
-> https://www.tenderisthebyte.
-> <https://www.tenderisthebyte.com/blog/2019/06/09/spell-checking-emacs/>
->
-com/blog/2019/06/09/spell-checking-emacs/
-> <https://www.tenderisthebyte.com/blog/2019/06/09/spell-checking-emacs/>
->
+ block.c                                       |  8 ++
+ .../qemu-iotests/tests/migrate-during-backup  | 97 +++++++++++++++++++
+ .../tests/migrate-during-backup.out           |  5 +
+ 3 files changed, 110 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/migrate-during-backup
+ create mode 100644 tests/qemu-iotests/tests/migrate-during-backup.out
 
-Maybe we could also add a spellchecker to checkpatch?
+-- 
+2.29.2
 
---0000000000004ce62205cbb62c75
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sat, Sep 11, 2021 at 15:24 Ani Sinha &lt;<a href=3D"mail=
-to:ani@anisinha.ca">ani@anisinha.ca</a>&gt; wrote:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
-dding-left:1ex"><div><br></div><div><br><div class=3D"gmail_quote"></div></=
-div><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">O=
-n Sat, Sep 11, 2021 at 13:56 Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mai=
-lto:philmd@redhat.com" target=3D"_blank">philmd@redhat.com</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">On 9/11/21 3:33 AM, Ani Sinha wrote:=
-<br>
-&gt; On Sat, Sep 11, 2021 at 1:03 AM Philippe Mathieu-Daud=C3=A9<br>
-&gt; &lt;<a href=3D"mailto:philmd@redhat.com" target=3D"_blank">philmd@redh=
-at.com</a> &lt;mailto:<a href=3D"mailto:philmd@redhat.com" target=3D"_blank=
-">philmd@redhat.com</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0On 9/10/21 8:54 PM, Volker R=C3=BCmelin wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;&gt; Fix &#39;hotplugabble&#39; -&gt; &#39;hotp=
-luggabble&#39; typo.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; I&#39;m convinced that the correct spelling is=
- hotpluggable. Only the<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&gt; consonant g is doubled.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Lol I missed this part, thanks :&gt;<br>
-&gt; <br>
-&gt; <br>
-&gt; Oops my apologies. I also did not notice the double b.<br>
-<br>
-Typoglycemia++</blockquote><div dir=3D"auto"><br></div></div></div><div><di=
-v class=3D"gmail_quote"><div dir=3D"auto">Will have to experiment with this=
-=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div><a href=3D"h=
-ttps://www.tenderisthebyte.com/blog/2019/06/09/spell-checking-emacs/" targe=
-t=3D"_blank">https://www.tenderisthebyte.</a></div></div></div></div></bloc=
-kquote><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><div><div class=3D"gmail_quote"><div =
-dir=3D"auto"><div dir=3D"auto"><a href=3D"https://www.tenderisthebyte.com/b=
-log/2019/06/09/spell-checking-emacs/" target=3D"_blank">com/blog/2019/06/09=
-/spell-checking-emacs/</a></div></div></div></div></blockquote><div dir=3D"=
-auto"><br></div><div dir=3D"auto">Maybe we could also add a spellchecker to=
- checkpatch?=C2=A0</div><div dir=3D"auto"><br></div></div></div>
-
---0000000000004ce62205cbb62c75--
 
