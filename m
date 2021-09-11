@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31534078A3
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 16:10:05 +0200 (CEST)
-Received: from localhost ([::1]:52280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 569CD407898
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 16:03:25 +0200 (CEST)
+Received: from localhost ([::1]:36254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mP3hk-0007ZO-Fm
-	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 10:10:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34024)
+	id 1mP3bH-00056L-OX
+	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 10:03:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mP3YT-0002Qt-Qd
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:30 -0400
-Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:44984)
+ id 1mP3YP-0002Px-Ql
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:26 -0400
+Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230]:39831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mP3YO-0005ZO-1p
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:29 -0400
-Received: by mail-lj1-x22e.google.com with SMTP id s3so8172688ljp.11
- for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 07:00:21 -0700 (PDT)
+ id 1mP3YO-0005ap-1j
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:25 -0400
+Received: by mail-lj1-x230.google.com with SMTP id q21so8213784ljj.6
+ for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 07:00:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=vrull-eu.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dKvduzJgehXkAODPrN9r/R56BDLycMZkNN/ybiz9Q1A=;
- b=ShXtDPF5S7fx2b8Y1oJUW5htHIBRDU9Ll8s2l1ydudIBn3aqF4+IVPSloA0tmDTrSH
- 4rfJVHtovXqO+TOVfkveKHb0bvfxvmQcJwbPhwJtS0FvmPmv8KK46hanSIlW2KvvK6an
- Ytg1VKXO2mWdsGWb74py9y7NZzO78sZ/UNpS2rf2ocM1jBXsKvQceXSqXNHt8iG4J2Be
- 6xh6AH2iy6LclixJoh+Zey6lrjQrIYojIgVc/oEcDePebqRaAIhTN8xx99AZIH4ZlLFJ
- UduNZ29PQpCxxVSz4DJwy+y0UCFsMWjDunWyxmnWxJZMP3sMtL0kV2XFqPdf1ThEA3kX
- wwJA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=znJIcbDvykhlPiOkywG7CiGuep1TxUorlr4tUumTAF4=;
+ b=ZBHdNisEPcTrXEEp41wd3nDlH1nhjjPH28jVRB5p5t1nGtVs8kCCu8JzH9Et2LDdTB
+ sNo+T9bDiSK1J1csnSA+WMb0IE2iQPVO+3AWgRBoirEUu9wLWmC0swjd4DKyAy+QIsmM
+ gvt1FD0p1lrM1XyDBtqI1VwmtqrV6GNl6Tsqkt+75MN7cNJbw2hmCB98V3CJjsq/goEg
+ JZNFqvHFSlwOs7qdQdkxmaisGGl1vvHVuLsxb9Ky+E4224nxz/Xi/oX3lrQmVjGJH5Up
+ BQdqWGCOoao1EhFqXmjr0Ep/lwSQNkAd1VMs1wWVZyvHMoXnMhPpbjKAJUl4KRkg9EN3
+ JRPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dKvduzJgehXkAODPrN9r/R56BDLycMZkNN/ybiz9Q1A=;
- b=x4POh63QPIb+wjhDu2rKNgvDS7xTim94pYNQNksq5Qz215yH6IMnUBggV3bwsGOf2a
- da1D9pAOxbs2qAPgrByLXqXwzfL2pBoCB+6ma/xkttBb5io9Usonx1Wz4n+lAEo2KqqI
- 4gpekGxfm4a2uEoKEq8CsttZdRUDMAt3YesAMpTrhr+tq60hsuqhW3a21Aza+R+ODGCH
- fDwv3EZU1CZiuBeW7jgfHw28/5Dd65Jwh1qryhCg4z9N84Ji//Z1CqTGpcbAX7j5ZkBa
- /+sqbqMBBh2u8K62HvhNkgru6+a5TCoav4q+X87lIEW/7A9dw8TEU8z6tOqJRESRGwpi
- HyzQ==
-X-Gm-Message-State: AOAM531QQA3iSxOrYtDxa6ik5iIxQem8cx2b81rKB0dBxtzZArn1bfp4
- lrKWozJJ1hac07THKaa5iZsboDiVTVz5Lw==
-X-Google-Smtp-Source: ABdhPJwXDzx6D3nNED+tPaLGhnEgmj6QdNHeS+WphaHb5TKRRoYafxnLZneiRf3VG4wqIsEBBeCHDA==
-X-Received: by 2002:a2e:a4db:: with SMTP id p27mr2312250ljm.161.1631368820104; 
- Sat, 11 Sep 2021 07:00:20 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=znJIcbDvykhlPiOkywG7CiGuep1TxUorlr4tUumTAF4=;
+ b=Y1jRVwqktm3jdPSh5Ocz2fu6Xre9jmCQLhDRABBBG7sfDj7wjDp4Kw/2ObzzEuK+4m
+ m8tgSwBRPEP0yyr+Q52qnnJLv1FKR/2XcT2xngKCnsv+vC9/vTCrlLmN6G2ym3LkckXi
+ vh9lCLd1unqkDlicTD+EzNdQEoxf70o1Awp8w+K4+cD9qPvadN0fSbgBEc/BiDRYpiCk
+ y/jheaFiwbW4RusrjGaBV7lPX3kZKJnaDqWDZ3Nj1p8ixS9z6og9818tjtTX3jZ8xpqr
+ 5RWCUHeFNskqmn4MrN9hvw5V/xAmd0iV1ZfbtH4GmRSwik/C0AqznZ3vBWT4ARDZydE7
+ Fbqg==
+X-Gm-Message-State: AOAM531xnQnUB9ysssMEQxBGFI0a+oeGjXDfoKBncoeqVwtwmtyVm/5k
+ BXz9T46g7xQhQxk1D8WmwuvQoYJ8Ap4Wf9jU
+X-Google-Smtp-Source: ABdhPJw48LVNd0xSp3Zpdm6qtlAOKjH4FJFdDrp5ArGbzYJrD4X9esV9nWgs1ijOqr6gfGCD1e4+Rg==
+X-Received: by 2002:a2e:a7cf:: with SMTP id x15mr2347912ljp.227.1631368821003; 
+ Sat, 11 Sep 2021 07:00:21 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id u15sm213052lfk.26.2021.09.11.07.00.19
+ by smtp.gmail.com with ESMTPSA id u15sm213052lfk.26.2021.09.11.07.00.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Sep 2021 07:00:19 -0700 (PDT)
+ Sat, 11 Sep 2021 07:00:20 -0700 (PDT)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 00/16] target/riscv: Update QEmu for Zb[abcs] 1.0.0
-Date: Sat, 11 Sep 2021 16:00:00 +0200
-Message-Id: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
+Subject: [PATCH v11 01/16] target/riscv: Introduce temporary in gen_add_uw()
+Date: Sat, 11 Sep 2021 16:00:01 +0200
+Message-Id: <20210911140016.834071-2-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
+References: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x22e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::230;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x230.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -81,144 +83,48 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- Kito Cheng <kito.cheng@sifive.com>,
+ Kito Cheng <kito.cheng@sifive.com>, Bin Meng <bmeng.cn@gmail.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Philipp Tomsich <philipp.tomsich@vrull.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Following the recent changes in translate.c, gen_add_uw() causes
+failures on CF3 and SPEC2017 due to the reuse of arg1.  Fix these
+regressions by introducing a temporary.
 
-The Zb[abcs] extensions have complete public review and are nearing
-ratifications. These individual extensions are one part of what was
-previously though of as the "BitManip" (B) extension, leaving the
-final details of future Zb* extensions open as they will undergo
-further public discourse.
+Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Fixes: 191d1dafae9c ("target/riscv: Add DisasExtend to gen_arith*")
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
 
-This series updates the earlier support for the B extension by
- - removing those instructions that are not included in Zb[abcs]
- - splitting this into 4 separate extensions that can be independently
-   enabled: Zba (addressing), Zbb (basic bit-manip), Zbc (carryless
-   multiplication), Zbs (single-bit operations)
- - update the to the 1.0.0 version (e.g. w-forms of rev8 and Zbs
-   instructions are not included in Zb[abcs])
-
-For the latest version of the public review speicifcaiton
-(incorporating some editorial fixes and corrections from the review
-period), refer to:
-  https://github.com/riscv/riscv-bitmanip/releases/download/1.0.0/bitmanip-1.0.0-31-g2af7256.pdf
-
-
-Changes in v11:
-- Swaps out the EXT_ZERO to EXT_NONE, as no extension is to be performed.
-- Fix typos in commit message.
+(no changes since v10)
 
 Changes in v10:
-- New patch
-- New patch, fixing regressions discovered with x264_r.
-- New patch, fixing correctnes for clzw called on a register with undefined
-  (as in: not properly sign-extended) upper bits.
-- Retested with CF3 and SPEC2017 (size=test, size=ref); addressing new
-  regressions (due to bugs in gen_clzw) from testing with SPEC2017 using
-  different optimization levels
-- Split off gen_add_uw() fix into a separate patch, as requested.
+- new patch
 
-Changes in v9:
-- Retested with CF3 and SPEC2017 (size=test only).
-- Rebased to 8880cc4362.
-- Update gen_add_uw() to use a temporary instead of messing with
-  arg1 (fixes a regression after rebase on CF3 and SPEC2017).
-- Rebased to 8880cc4362.
-- Picked up Alistair's Reviewed-by, after patman had failed to catch
-  it for v8.
-- Rebased to 8880cc4362.
-- Fixes a whitespace-at-the-end-of-line warning for the rev8 comment
-  in insn32.decode
-- Rebased to 8880cc4362.
+ target/riscv/insn_trans/trans_rvb.c.inc | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Changes in v8:
-- Optimize orc.b further by reordering the shift/and, updating the
-  comment to reflect that we put the truth-value into the LSB, and
-  putting the (now only) constant in a temporary
-- Fold the final bitwise-not into the second and, using and andc.
-
-Changes in v7:
-- Free TCG temporary in gen_orc_b().
-
-Changes in v6:
-- Move gen_clmulh to trans_rvb.c.inc, as per Richard H's request.
-- Fixed orc.b (now passes SPEC w/ optimized string functions) by
-  adding the missing final negation.
-
-Changes in v5:
-- Introduce gen_clmulh (as suggested by Richard H) and use to simplify
-  trans_clmulh().
-
-Changes in v4:
-- Drop rewrite of slli.uw (to match formal specification), as it would
-  remove an optimization.
-- Change orc.b to implementation suggested by Richard Henderson
-- reorder trans_rev8* functions to be sequential
-- rename rev8 to rev8_32 in decoder
-- Renamed RV32 variant to zext_h_32.
-- Reordered trans_zext_h_{32,64} to be next to each other.
-
-Changes in v3:
-- Split off removal of 'x-b' property and 'ext_b' field into a separate
-  patch to ensure bisectability.
-- The changes to the Zba instructions (i.e. the REQUIRE_ZBA macro
-  and its use for qualifying the Zba instructions) are moved into
-  a separate commit.
-- Remove the W-form instructions from Zbs in a separate commit.
-- Remove shift-one instructions in a separate commit.
-- The changes to the Zbs instructions (i.e. the REQUIRE_ZBS macro) and
-  its use for qualifying the Zba instructions) are moved into a
-  separate commit.
-- This adds the Zbc instructions as a spearate commit.
-- Uses a helper for clmul/clmulr instead of inlining the calculation of
-  the result (addressing a comment from Richard Henderson).
-- The changes to the Zbb instructions (i.e. use the REQUIRE_ZBB macro)
-  are now in a separate commit.
-- Moved orc.b and gorc/gorci changes into separate commit.
-- Using the simpler orc.b implementation suggested by Richard Henderson
-- Moved the REQUIRE_32BIT macro into a separate commit.
-- rev8-addition & grevi*-removal moved to a separate commit
-- Moved zext.h-addition & pack*-removal to a separate commit.
-- Removing RVB moved into a separate commit at the tail-end of the series.
-
-Changes in v2:
-- Fix missing ';' from last-minute whitespace cleanups.
-
-Philipp Tomsich (16):
-  target/riscv: Introduce temporary in gen_add_uw()
-  target/riscv: fix clzw implementation to operate on arg1
-  target/riscv: clwz must ignore high bits (use shift-left & changed
-    logic)
-  target/riscv: Add x-zba, x-zbb, x-zbc and x-zbs properties
-  target/riscv: Reassign instructions to the Zba-extension
-  target/riscv: Remove the W-form instructions from Zbs
-  target/riscv: Remove shift-one instructions (proposed Zbo in pre-0.93
-    draft-B)
-  target/riscv: Reassign instructions to the Zbs-extension
-  target/riscv: Add instructions of the Zbc-extension
-  target/riscv: Reassign instructions to the Zbb-extension
-  target/riscv: Add orc.b instruction for Zbb, removing gorc/gorci
-  target/riscv: Add a REQUIRE_32BIT macro
-  target/riscv: Add rev8 instruction, removing grev/grevi
-  target/riscv: Add zext.h instructions to Zbb, removing
-    pack/packu/packh
-  target/riscv: Remove RVB (replaced by Zb[abcs])
-  disas/riscv: Add Zb[abcs] instructions
-
- disas/riscv.c                           | 157 ++++++++-
- target/riscv/bitmanip_helper.c          |  65 +---
- target/riscv/cpu.c                      |  30 +-
- target/riscv/cpu.h                      |   7 +-
- target/riscv/helper.h                   |   6 +-
- target/riscv/insn32.decode              | 115 +++----
- target/riscv/insn_trans/trans_rvb.c.inc | 419 ++++++++----------------
- target/riscv/translate.c                |   6 +
- 8 files changed, 366 insertions(+), 439 deletions(-)
-
+diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
+index b72e76255c..c0a6e25826 100644
+--- a/target/riscv/insn_trans/trans_rvb.c.inc
++++ b/target/riscv/insn_trans/trans_rvb.c.inc
+@@ -624,8 +624,10 @@ GEN_TRANS_SHADD_UW(3)
+ 
+ static void gen_add_uw(TCGv ret, TCGv arg1, TCGv arg2)
+ {
+-    tcg_gen_ext32u_tl(arg1, arg1);
+-    tcg_gen_add_tl(ret, arg1, arg2);
++    TCGv t = tcg_temp_new();
++    tcg_gen_ext32u_tl(t, arg1);
++    tcg_gen_add_tl(ret, t, arg2);
++    tcg_temp_free(t);
+ }
+ 
+ static bool trans_add_uw(DisasContext *ctx, arg_add_uw *a)
 -- 
 2.25.1
 
