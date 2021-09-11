@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569CD407898
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D99407899
 	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 16:03:25 +0200 (CEST)
-Received: from localhost ([::1]:36254 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:36306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mP3bH-00056L-OX
+	id 1mP3bH-00058X-Tq
 	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 10:03:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33948)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mP3YP-0002Px-Ql
+ id 1mP3YP-0002Py-SD
  for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:26 -0400
-Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230]:39831)
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:34572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mP3YO-0005ap-1j
+ id 1mP3YO-0005bf-20
  for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:25 -0400
-Received: by mail-lj1-x230.google.com with SMTP id q21so8213784ljj.6
- for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 07:00:22 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id f2so8229119ljn.1
+ for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 07:00:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=vrull-eu.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=znJIcbDvykhlPiOkywG7CiGuep1TxUorlr4tUumTAF4=;
- b=ZBHdNisEPcTrXEEp41wd3nDlH1nhjjPH28jVRB5p5t1nGtVs8kCCu8JzH9Et2LDdTB
- sNo+T9bDiSK1J1csnSA+WMb0IE2iQPVO+3AWgRBoirEUu9wLWmC0swjd4DKyAy+QIsmM
- gvt1FD0p1lrM1XyDBtqI1VwmtqrV6GNl6Tsqkt+75MN7cNJbw2hmCB98V3CJjsq/goEg
- JZNFqvHFSlwOs7qdQdkxmaisGGl1vvHVuLsxb9Ky+E4224nxz/Xi/oX3lrQmVjGJH5Up
- BQdqWGCOoao1EhFqXmjr0Ep/lwSQNkAd1VMs1wWVZyvHMoXnMhPpbjKAJUl4KRkg9EN3
- JRPQ==
+ bh=DmfeRaFVIi1NS9S3i9WiPFG7A336man2wcVNd43HhY4=;
+ b=0NqKkMBkKmY6AhODYgFTsFtRI9v5mhchDYkjYDS/4fmwD6vTt1AMgrQs54j+x3asSo
+ MYJss5S1+EDrbIDF7GojBbd8kJlGx+Tvbu7pQ3/Ry7WPMRg5EdV0syALIbVWPb/BcglH
+ 8KPemQIb82fMDA33MN1pDv/6s90PKSKHNKRNI5sfjm2dMLdQxlxDX/j1zESFj8oPkxSl
+ P2aJW/Bs+8TmB8pdpOlYe4RdNbiAAU0gvwV4D0ZsAWafTC71joO+j3/Aw3nPgsqWXeKF
+ qyx3bvNmsit0mGaf3bVOCQEiMy7Foh29LMH3gji5ow2TAThhTrzL7OYUMgnZ4UFkWb5Z
+ cnzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=znJIcbDvykhlPiOkywG7CiGuep1TxUorlr4tUumTAF4=;
- b=Y1jRVwqktm3jdPSh5Ocz2fu6Xre9jmCQLhDRABBBG7sfDj7wjDp4Kw/2ObzzEuK+4m
- m8tgSwBRPEP0yyr+Q52qnnJLv1FKR/2XcT2xngKCnsv+vC9/vTCrlLmN6G2ym3LkckXi
- vh9lCLd1unqkDlicTD+EzNdQEoxf70o1Awp8w+K4+cD9qPvadN0fSbgBEc/BiDRYpiCk
- y/jheaFiwbW4RusrjGaBV7lPX3kZKJnaDqWDZ3Nj1p8ixS9z6og9818tjtTX3jZ8xpqr
- 5RWCUHeFNskqmn4MrN9hvw5V/xAmd0iV1ZfbtH4GmRSwik/C0AqznZ3vBWT4ARDZydE7
- Fbqg==
-X-Gm-Message-State: AOAM531xnQnUB9ysssMEQxBGFI0a+oeGjXDfoKBncoeqVwtwmtyVm/5k
- BXz9T46g7xQhQxk1D8WmwuvQoYJ8Ap4Wf9jU
-X-Google-Smtp-Source: ABdhPJw48LVNd0xSp3Zpdm6qtlAOKjH4FJFdDrp5ArGbzYJrD4X9esV9nWgs1ijOqr6gfGCD1e4+Rg==
-X-Received: by 2002:a2e:a7cf:: with SMTP id x15mr2347912ljp.227.1631368821003; 
+ bh=DmfeRaFVIi1NS9S3i9WiPFG7A336man2wcVNd43HhY4=;
+ b=v8dJlPH9XtyeIaKEnv/gAdblVkvDhNF9eeDsz/DcGFUwoiZMYggo16pXiBoahl1qfD
+ hgsTs4XG6ePP9Hr8ZnQ8D24ZMv3+IS1Kgbi1DskpEgas1HWxkfa9lKh7zshdbR3zEERT
+ Pd52HqD531I3K+B/19zv1h+od2THDS+VD8HCgimQ+dRIfLhMRAd0pq9lMWN6zgwuxCvW
+ L2SG3KVfzaSwJuL+hQyLvhphOmJnwhrNSSo3s8spYI034p4vky+uux6vZjDg4dq7L/QX
+ 1nkW+M3J6aRPBY9Kdpb9/KiThrSkg0ah4LDkJbuLv87HyLDL1K+n3GhsCceU8XGSkrXO
+ SjgA==
+X-Gm-Message-State: AOAM533Bmta/QkhCZ6rTolCwtGrnVMjL7kzWURiDi1TPAV45HBqRpvrY
+ 1neldA5LIhfivmb9oeroXJTFN6PMgAaTLljh
+X-Google-Smtp-Source: ABdhPJzJWZvhQgNJj1dqkZ/avpvo48MGZnSowzFISnpwUbfxi3xCrpSCT8OX0WwpELlIcx1fhV9eqA==
+X-Received: by 2002:a2e:5345:: with SMTP id t5mr2290506ljd.20.1631368821804;
  Sat, 11 Sep 2021 07:00:21 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id u15sm213052lfk.26.2021.09.11.07.00.20
+ by smtp.gmail.com with ESMTPSA id u15sm213052lfk.26.2021.09.11.07.00.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Sep 2021 07:00:20 -0700 (PDT)
+ Sat, 11 Sep 2021 07:00:21 -0700 (PDT)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 01/16] target/riscv: Introduce temporary in gen_add_uw()
-Date: Sat, 11 Sep 2021 16:00:01 +0200
-Message-Id: <20210911140016.834071-2-philipp.tomsich@vrull.eu>
+Subject: [PATCH v11 02/16] target/riscv: fix clzw implementation to operate on
+ arg1
+Date: Sat, 11 Sep 2021 16:00:02 +0200
+Message-Id: <20210911140016.834071-3-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
 References: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::230;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x230.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::233;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x233.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,12 +90,11 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Following the recent changes in translate.c, gen_add_uw() causes
-failures on CF3 and SPEC2017 due to the reuse of arg1.  Fix these
-regressions by introducing a temporary.
+The refactored gen_clzw() uses ret as its argument, instead of arg1.
+Fix it.
 
 Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Fixes: 191d1dafae9c ("target/riscv: Add DisasExtend to gen_arith*")
+Fixes: 60903915050 ("target/riscv: Add DisasExtend to gen_unary")
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
@@ -103,28 +103,24 @@ Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 (no changes since v10)
 
 Changes in v10:
-- new patch
+- New patch, fixing regressions discovered with x264_r.
 
- target/riscv/insn_trans/trans_rvb.c.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ target/riscv/insn_trans/trans_rvb.c.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index b72e76255c..c0a6e25826 100644
+index c0a6e25826..6c85c89f6d 100644
 --- a/target/riscv/insn_trans/trans_rvb.c.inc
 +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -624,8 +624,10 @@ GEN_TRANS_SHADD_UW(3)
+@@ -349,7 +349,7 @@ GEN_TRANS_SHADD(3)
  
- static void gen_add_uw(TCGv ret, TCGv arg1, TCGv arg2)
+ static void gen_clzw(TCGv ret, TCGv arg1)
  {
--    tcg_gen_ext32u_tl(arg1, arg1);
--    tcg_gen_add_tl(ret, arg1, arg2);
-+    TCGv t = tcg_temp_new();
-+    tcg_gen_ext32u_tl(t, arg1);
-+    tcg_gen_add_tl(ret, t, arg2);
-+    tcg_temp_free(t);
+-    tcg_gen_clzi_tl(ret, ret, 64);
++    tcg_gen_clzi_tl(ret, arg1, 64);
+     tcg_gen_subi_tl(ret, ret, 32);
  }
  
- static bool trans_add_uw(DisasContext *ctx, arg_add_uw *a)
 -- 
 2.25.1
 
