@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F002B4078F0
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 16:51:44 +0200 (CEST)
-Received: from localhost ([::1]:57632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86EE9407900
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 17:12:15 +0200 (CEST)
+Received: from localhost ([::1]:40320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mP4M4-0006m4-2s
-	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 10:51:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40176)
+	id 1mP4ft-0006dZ-8J
+	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 11:12:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mP4J1-0001q3-Iq; Sat, 11 Sep 2021 10:48:35 -0400
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:44910)
+ (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
+ id 1mP4en-0005xf-35
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 11:11:05 -0400
+Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a]:42876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mP4Iy-0008Ip-Vs; Sat, 11 Sep 2021 10:48:35 -0400
-Received: by mail-yb1-xb36.google.com with SMTP id s11so10240032yba.11;
- Sat, 11 Sep 2021 07:48:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
+ id 1mP4el-0002co-9B
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 11:11:04 -0400
+Received: by mail-qv1-xf2a.google.com with SMTP id gf5so3234605qvb.9
+ for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 08:11:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=R6ouG/eF/hOoH0/AxyqqNdPLjtWPoOB3g2qH0Qe+sR0=;
- b=oXdjkqZVZqJdmR5Etlarho/H/MmJVao11JjvsfKY3jUdmmVuluKLlMzSJuXVFW2WOP
- R6Hf6Po+RjFuefVpIv5xoYvXdk8rsK+768uniWW9t+lJjjBy4wddgxUF+acHDXmQRmGE
- iHya1c4I4wA4I43c0AnPN2HmNk9p84oMEef8vEM9eAfm8vrVnH7rrCbYs2aTZW84ErJY
- HkTSxe2yg+DD0I04fpb5Qvmala+/kW8vsTm00wcILcvTXEV6sEd834A6nuQbkPhDUcmz
- mF06yO5Dzoc/AmL1FuCvoM1VoNPhomXS/KqUFrhLfMPzh/6Q9WJZw8TWLo1E4GBbRhiB
- 09YQ==
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=rGMJtiZpRWAlIo2fQ6JTsqtY6IChkW8yGCeCULfdpaA=;
+ b=NTdRjl9xQjVz4PtJAGER5p40OPWg382XO1skcB+I72ejk5rUNZDwo03LfR9q3k0lLQ
+ D+E/3Wj4dKM+nomDAjPA7OaduDxiZ1Uglo9YiJpUnBYrH7jT84Y1ibkKk59/zerAUUWQ
+ g+kvk/vTcKYMlPLvvBqXJfTKUXbGt9KZj3JgXcxE4i9rMw+wIE/BY3exDTKAAk2PkTMM
+ 7lIopb3z7L72RsHOse8aQ9ZuUl7FZ0ULiwpE4jKY8FK3p8CLbiQnwL+CgZbVF08b1Wy8
+ 55nE5mq/5y6Mj79DonBziXUD+tytCjGqdZfvoYcDA0YAtBJJPfobSlLkGybSLeirr34+
+ 4pIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=R6ouG/eF/hOoH0/AxyqqNdPLjtWPoOB3g2qH0Qe+sR0=;
- b=yRfjvgPjizFdVDVlGz4AazAkAaTPlJfHkSBEgLPrMiEf0TW6cgkpRydIB1wwLgcuYu
- ZZOpdzIJ8KWb1dGKj6t1opJYsR7j4pzJ56u9CJrRIX/5r6+eRDzufT3VyTV8taVFX20T
- eksQmsqGuT6leATWPXJcp1dYaEM9KRTvYjSxgIJ27448hGYNSxKRwwHB4mo3oWkodlnd
- eP6uTCxNTuHnArO579gL4gReHCVNpPSYCz9qGgoAkRqxyrIrGd1X1v4v193XMBVUImqN
- mjlccmr9Ar6H/IKEMa7QWRUBm9qydnw3azHcHMogQaQ4tS3I5jZ2nx9nm/IFlIjRDXc0
- vUlg==
-X-Gm-Message-State: AOAM531xzR9XYRahvpsfpGacbGoUcsh4igRx6fxx7Qgr5xeBEiUGCX3H
- yJfziKr+2ZUWSfVmqwW3nhriW3uSn8NMI9/REqyqeY4c
-X-Google-Smtp-Source: ABdhPJw6pCgqZmoO5tDvWparjRqUn66QFC7vxbQVLalSVhkgS7rpEoCx4cZmwgwcyE8SjWca/aGFr05FDYGOX7M/cew=
-X-Received: by 2002:a25:cfcd:: with SMTP id f196mr4190643ybg.332.1631371711740; 
- Sat, 11 Sep 2021 07:48:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210910055620.946625-1-frank.chang@sifive.com>
- <20210910055620.946625-5-frank.chang@sifive.com>
-In-Reply-To: <20210910055620.946625-5-frank.chang@sifive.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 11 Sep 2021 22:48:20 +0800
-Message-ID: <CAEUhbmX=zjKHi_t3w-pxVuRTfOsqV_dN+NWGWVbuwON6W5Be-w@mail.gmail.com>
-Subject: Re: [PATCH 4/4] hw/dma: sifive_pdma: don't set Control.error if 0
- bytes to transfer
-To: frank.chang@sifive.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb36.google.com
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=rGMJtiZpRWAlIo2fQ6JTsqtY6IChkW8yGCeCULfdpaA=;
+ b=uCpLaDQMkdvulxsraISgmCH9dOBi4FFJbAJ6T3uz+wLVHJP3/uStD4KOlGBaPJiBiI
+ cVdzzdx4CNqy7NnXzCcTxIkDO/vaJmBYXst2iPmFfs0x/3JrXgdF/zOP0KY4JTDs9v27
+ op4una4NpobrLEAWV5A52Il6nSEU5ff88Wn47G+YYYXlMWP03sl7+SkL0bLBQ/mu9BQZ
+ 7kUfXuIiSIGEPBQ9JofYPJwc1opHshc1Z72mqMKdXD7JAuHi3Eh0gQRY1BDI+yBg73LX
+ 3WmLlPMgtvKVKRvYFsJJzoPA+EWbkzKSdVISMSY40tRKOwSSbv59HNJE1+KJD6Vkja7q
+ MCVA==
+X-Gm-Message-State: AOAM5333Mbmu4kpGJxksZsBBBDERFobaeMTgIREEGNsJpp65a1ZjOotk
+ dTKpsEMKvtQuw8HQc+B5aGw=
+X-Google-Smtp-Source: ABdhPJxWa3hPdAXt5T7nWIBS5UGQgQhFXHOcOrqnRyBOR5qVNVN3ZiRYN+iv4Sd4ZgGEoffMvSNIdg==
+X-Received: by 2002:a05:6214:10c4:: with SMTP id
+ r4mr2738816qvs.58.1631373061525; 
+ Sat, 11 Sep 2021 08:11:01 -0700 (PDT)
+Received: from [192.168.0.5] (d149-67-175-105.try.wideopenwest.com.
+ [67.149.105.175])
+ by smtp.gmail.com with ESMTPSA id 191sm1382562qkh.81.2021.09.11.08.11.00
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 11 Sep 2021 08:11:00 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
+Subject: Re: Implementing isochronous transfers in hw/hcd-ohci.c
+From: Programmingkid <programmingkidx@gmail.com>
+In-Reply-To: <CABLmASEN5DVvpHxUSTb=iY3t2ArMGUxru6ShnAtDf2HhHaNBzg@mail.gmail.com>
+Date: Sat, 11 Sep 2021 11:10:59 -0400
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <51A7F6D6-8A34-4E65-9264-DB91DE06387B@gmail.com>
+References: <263FF66A-21D7-4D0D-BE37-2D44B484A1EE@gmail.com>
+ <20210910050740.pgdcwhe5scohepps@sirius.home.kraxel.org>
+ <CABLmASHenOBj-15oOYvsai8YJuJHbnpVCXW3vAwF3kA=eoPiyQ@mail.gmail.com>
+ <aa588212-b557-223c-cf85-4c97b7d71cfa@eik.bme.hu>
+ <FA5C1048-9BE4-460B-B5C6-F8AEAB0FD2E1@gmail.com>
+ <CABLmASEN5DVvpHxUSTb=iY3t2ArMGUxru6ShnAtDf2HhHaNBzg@mail.gmail.com>
+To: Howard Spoelstra <hsp.cat7@gmail.com>
+X-Mailer: Apple Mail (2.3654.40.0.2.32)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
+ envelope-from=programmingkidx@gmail.com; helo=mail-qv1-xf2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,60 +91,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Max Hsu <max.hsu@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 10, 2021 at 1:59 PM <frank.chang@sifive.com> wrote:
->
-> From: Frank Chang <frank.chang@sifive.com>
->
-> Real PDMA doesn't set Control.error if there are 0 bytes to be
 
-nits: 0 byte
-Please fix the commit title as well
 
-> transferred. The DMA transfer is still success.
->
-> The following result is PDMA tested in U-boot on Unmatched board:
+> On Sep 11, 2021, at 5:46 AM, Howard Spoelstra <hsp.cat7@gmail.com> =
+wrote:
+>=20
+>=20
+>=20
+> On Fri, Sep 10, 2021 at 9:23 PM Programmingkid =
+<programmingkidx@gmail.com> wrote:
+>=20
+>=20
+> > On Sep 10, 2021, at 7:51 AM, BALATON Zoltan <balaton@eik.bme.hu> =
+wrote:
+> >=20
+> > On Fri, 10 Sep 2021, Howard Spoelstra wrote:
+> >> On Fri, Sep 10, 2021 at 7:07 AM Gerd Hoffmann <kraxel@redhat.com> =
+wrote:
+> >>=20
+> >>> On Thu, Sep 09, 2021 at 05:06:17PM -0400, Programmingkid wrote:
+> >>>> Hi Gerd,
+> >>>>=20
+> >>>> Howard and I were talking about USB audio problems with Mac OS =
+guests.
+> >>> We think the issue might be with frames being sent to the USB =
+audio card
+> >>> too soon. My guess is only one frame is suppose to be transmitted =
+every 1
+> >>> millisecond. I was also reading the todo notes in the file =
+hw/hcd-ohci.c.
+> >>> This is what it says:
+> >>>>=20
+> >>>> * TODO:
+> >>>> *  o Isochronous transfers
+> >>>> *  o Allocate bandwidth in frames properly
+> >>>> *  o Disable timers when nothing needs to be done, or remove =
+timer usage
+> >>>> *    all together.
+> >>>> *  o BIOS work to boot from USB storage
+> >>>> */
+> >>>>=20
+> >>>> Do you think implementing isochronous transfers would fix the =
+audio
+> >>> problems Mac OS guest are experiencing?
+> >>>=20
+> >>> Most likely yes, audio devices typically use iso endpints.
+> >>>=20
+> >>> take care,
+> >>>  Gerd
+> >>>=20
+> >>=20
+> >> Hi,
+> >>=20
+> >> Below I pasted the first lines mentioning isochronous traffic from =
+a pcap
+> >> file when running fedora12 with the usb-audio device and the first =
+lines
+> >> from a pcap file running Mac OS 9.2 with the usb-audio device
+> >>=20
+> >> Fedora:
+> >> 91 56.715001 host 0.5.1 USB 256 URB_ISOCHRONOUS out
+> >> 92 56.715018 0.5.1 host USB 64 URB_ISOCHRONOUS out
+> >>=20
+> >> MacOS:
+> >> 143 56.031989 host 0.16.1 USB 256 URB_ISOCHRONOUS out
+> >> 144 56.032026 0.16.1 host USB 64 URB_ISOCHRONOUS out
+> >>=20
+> >> The usb-audio device works for the fedora guest, so would this not =
+indicate
+> >> that the iso endpoints are already working?
+> >>=20
+> >> The usb-audio device also work (for a limited amount of time) when =
+running
+> >> MacOS. Looking at USB logging in the Mac OS guest, to me it seems =
+the MacOS
+> >> side runs into timing issues when packages drift too far apart. It =
+then
+> >> finally gives up trying to keep the stream open.
+> >=20
+> > I was also trying to find why the usb-audio device does not work =
+with MorphOS but I could not figure it out. Now I have two machines =
+(mac99 and pegasos2) that can boot MorphOS but usb-audio does not work =
+with either so maybe it's not because of the USB controller. I've found =
+there is a debug property that enables some logging: -device =
+usb-audio,debug=3D1 but that did not reveal much more. It looks like =
+MorphOS tries to query the device but replies come very slow (not sure =
+if that's normal or a problem) then just gives up after a while. Maybe =
+you can try comparing what Fedora and other OSes query as it may be =
+we're missing some info in USB descriptors that other drivers than =
+Linux's rely on but that's just a guess I haven't tested with Linux =
+guest on pegasos2 or mac99 yet.
+> >=20
+> > Regards,
+> > BALATON Zoltan
+>=20
+> Thank for the info everyone. When I try to use the USB-Audio device in =
+Mac OS 10.4.11, the operating system doesn't use it. It does show up in =
+the System Profiler application. In Mac OS 9.2 the sound from it is =
+perfect sounding, but the operating system crashes after less than a =
+minute. In Mac OS 10.2.3 the operating system does set it as its output =
+device but it does not work.
+>=20
+> To find out what is wrong we would probably have to build the USB =
+audio drivers in Mac OS X and enable debug output to see what is wrong. =
+They are open source and I have done this in the past. As for Mac OS 9, =
+I'm not sure how to debug its driver.
+>=20
+> See the screen shot attached for the warnings about timing in MacOS =
+9.2 before the stream collapses.This was after some system sounds were =
+played successfully.
+> <usb-audiolog.png>
+> Best,
+> Howard
 
-%s/U-boot/U-Boot
-
->
-> => mw.l 0x3000000 0x0                      <= Disclaim channel 0
-> => mw.l 0x3000000 0x1                      <= Claim channel 0
-> => mw.l 0x3000004 0x55000000               <= wsize = rsize = 5 (2^5 = 32 bytes)
-> => mw.q 0x3000008 0x0                      <= NextBytes = 0
-> => mw.q 0x3000010 0x84000000               <= NextDestination = 0x84000000
-> => mw.q 0x3000018 0x84001000               <= NextSource = 0x84001000
-> => mw.l 0x84000000 0x87654321              <= Fill test data to dst
-> => mw.l 0x84001000 0x12345678              <= Fill test data to src
-> => md.l 0x84000000 1; md.l 0x84001000 1    <= Dump src/dst memory contents
-> 84000000: 87654321                               !Ce.
-> 84001000: 12345678                               xV4.
-> => md.l 0x3000000 8                        <= Dump PDMA status
-> 03000000: 00000001 55000000 00000000 00000000    .......U........
-> 03000010: 84000000 00000000 84001000 00000000    ................
-> => mw.l 0x3000000 0x3                      <= Set channel 0 run and claim bits
-> => md.l 0x3000000 8                        <= Dump PDMA status
-> 03000000: 40000001 55000000 00000000 00000000    ...@...U........
-> 03000010: 84000000 00000000 84001000 00000000    ................
-> => md.l 0x84000000 1; md.l 0x84001000 1    <= Dump src/dst memory contents
-> 84000000: 87654321                               !Ce.
-> 84001000: 12345678                               xV4.
->
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> Tested-by: Max Hsu <max.hsu@sifive.com>
-> ---
->  hw/dma/sifive_pdma.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-
-Otherwise,
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
+So the question to answer is what is the wr gap?=
 
