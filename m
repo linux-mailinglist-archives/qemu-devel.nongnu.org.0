@@ -2,81 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C0F9407A8F
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 23:48:04 +0200 (CEST)
-Received: from localhost ([::1]:49276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A5A407A92
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 23:59:01 +0200 (CEST)
+Received: from localhost ([::1]:51850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPAqx-0002iM-3b
-	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 17:48:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38360)
+	id 1mPB1Y-0004ql-DW
+	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 17:59:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPApx-00022p-80
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 17:47:01 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:39581)
+ id 1mPB0e-00048W-Qx; Sat, 11 Sep 2021 17:58:04 -0400
+Received: from mail-oi1-f174.google.com ([209.85.167.174]:44769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPApv-00047z-G0
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 17:47:00 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- 196-20020a1c04cd000000b002fa489ffe1fso4029697wme.4
- for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 14:46:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zR/ofvtWqZ5KRp8Y7p1/fNG83vHBbUcBv7O9noAvBRA=;
- b=VtLM0HUkriNmpKskVb1G/CM1r9fOeltGnu7mqO1RaYsXbXvLpegY9dhBEATTA71RyW
- m7irx3644WR6cUixJxu3CYlme5aXFPLgUPELp4EaT8kE0Jqa5kaw6Vv2bE4hi7Sarm3J
- TueWjTqqrw4LevxPqWDCBfK25pHBZ8g368234h5rTnGYUQh789YSuY7Gg1qhXQnGd3oH
- cFeEy7ST0GKrxemKLcMWOWzZshhF/YfAUFowMLL/Pi5wBqA6HrjhRXqguThenircjqvO
- UOzZaqjuNGEftVUILM7CVQa07wAUQRfjrNmI9lFlKeQR84RsR52L5pjjMtxq6Qs8bFzL
- NpvA==
+ id 1mPB0d-00036M-38; Sat, 11 Sep 2021 17:58:04 -0400
+Received: by mail-oi1-f174.google.com with SMTP id c79so8493852oib.11;
+ Sat, 11 Sep 2021 14:58:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zR/ofvtWqZ5KRp8Y7p1/fNG83vHBbUcBv7O9noAvBRA=;
- b=MfHlo2c4i+D6CIibVf/UYlZm/lgV1YNCDmjq0h/W61Kc0VDqctkAPmnN9ShcVX3aOb
- KvL6T0xKpMuFd8J8X9UiqjfBqlVZo9aqlE641gOlNR4S1q3bNv/pHPmuS6HTy3zWpMJS
- 9U1J7zRC6W/MWsXE3mWrGNPw0aMVj5k61ePh5N9sUgGblM34vPhY/Nh5d8pB1FDVnOKM
- pTxSBVPvVBFmLOEZsv8XGE4fP7BcddnBUeUJjLdljhgGUQlDoQU0qw4v1rlNyQIgWoIR
- 2Wdgm4SVRM04hwJYyE7gmWbptLIh+iE+Kii0G1Jelr5whWEABYRHF9Afcj8iskQPcX25
- s93A==
-X-Gm-Message-State: AOAM533+kTGL+qEPaCGnTM6vJnhk/xsddJyJwHkd9iyU5XrWlJVeyPLc
- QXzF07L+A+x/ODAxkRvp28o=
-X-Google-Smtp-Source: ABdhPJxxfRAgimyVPsRavvcW5dukFp5qHSJlBHY9Z2gNzXBiAwzT0M6sUmDBGj2Jj1N9ey4syZekYg==
-X-Received: by 2002:a7b:c20f:: with SMTP id x15mr4114622wmi.143.1631396817395; 
- Sat, 11 Sep 2021 14:46:57 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id g3sm2914337wrh.94.2021.09.11.14.46.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 11 Sep 2021 14:46:56 -0700 (PDT)
-Subject: Re: tcg: pointer size warning on x32 arch
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org
-References: <f5bd1db5-1bf1-e32f-3eff-aa8f0c7e8a1e@msgid.tls.msk.ru>
- <6b1c1c7f-0e0b-fd49-2ef8-1ab7c8b7a3e5@amsat.org>
-Message-ID: <fd38f80c-bd36-8399-33b0-bbd3ec566813@amsat.org>
-Date: Sat, 11 Sep 2021 23:46:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uBp6b9I3LtR+DdOQ0GQJzAlWFjt0f1ZGtu1oLKfwOis=;
+ b=QDW8ib8pXMx/PkSKbAubIrY3P06Kr+rUPlj9Wd6iraRoGfIc/7GAL1VL8vNethr8Ly
+ mFyMEAy7KYYA9mp/ncfV9X9bVQZzb2ly/rHr5Wls+qBFWhodqA92kGP6NYLVZyj0OfEX
+ tP3b1tMRpHvXP5PUKlJvpFHzq15WMRoq6zFS6KAQ8lTKrSFx44HtFpbcOnuvZ+fAlTZX
+ ccy7zLZ4XsaLLRiT61fO+h3SGedpNKgeyJgZ31RcCAHrgS8HOweCzVXgA5bca1uUbOXa
+ ZoETlK5HMS/iPuHK2NdRb8IxKQT2JFtFn7vqOp2z+Dcpy9wy4N20hbL/coagn50yuz6u
+ Krtw==
+X-Gm-Message-State: AOAM532liyrnRT295vZFlYqTzRTMGfMVwm7iQRBxF+tLBsQyCG9gunlO
+ 2GgYjNP3cMDnz9RY3fDn1dyMT4621rAjQcvK5ZU=
+X-Google-Smtp-Source: ABdhPJxR9mInOGnDRTRHOvC4/F5jLEOtWBJFyO+NhL9NX8FGrfCfGDQ9VZInhEgsWXdjxMTz6+Yc+PVUg76tKL6r4Es=
+X-Received: by 2002:a05:6808:f0b:: with SMTP id
+ m11mr3011433oiw.46.1631397480168; 
+ Sat, 11 Sep 2021 14:58:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <6b1c1c7f-0e0b-fd49-2ef8-1ab7c8b7a3e5@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+References: <20210625091355.25673-1-alex.bennee@linaro.org>
+ <20210625091355.25673-7-alex.bennee@linaro.org>
+In-Reply-To: <20210625091355.25673-7-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Sat, 11 Sep 2021 23:57:49 +0200
+Message-ID: <CAAdtpL5WpqJbTSs7SUxHXNsYGhAg5v1hAjH6vX6twTj7_sxG4A@mail.gmail.com>
+Subject: Re: [PULL 6/7] tests/tcg: skip the signals test for hppa/s390x for now
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.167.174;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-oi1-f174.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,63 +69,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/11/21 11:06 PM, Philippe Mathieu-Daudé wrote:
-> On 9/11/21 7:50 PM, Michael Tokarev wrote:
->> Hi.
->>
->> The following warning is reported by the C compiler when compiling
->> tcg code on x32 architecture:
->>
->> In file included from ../../tcg/tcg.c:429:
->> tcg/i386/tcg-target.c.inc: In function ‘tcg_out_movi_int’:
->> tcg/i386/tcg-target.c.inc:959:30: warning: cast to pointer from integer
->> of different size [-Wint-to-pointer-cast]
->>   959 |     diff = tcg_pcrel_diff(s, (const void *)arg) - 7;
-> 
-> Likely fixed by:
-> 
-> ---
-> diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-> index 98d924b91a8..0895f5670a1 100644
-> --- a/tcg/i386/tcg-target.c.inc
-> +++ b/tcg/i386/tcg-target.c.inc
-> @@ -956,7 +956,7 @@ static void tcg_out_movi_int(TCGContext *s, TCGType
-> type,
->      }
-> 
->      /* Try a 7 byte pc-relative lea before the 10 byte movq.  */
-> -    diff = tcg_pcrel_diff(s, (const void *)arg) - 7;
-> +    diff = tcg_pcrel_diff(s, (const void *)(uintptr_t)arg) - 7;
+On Fri, Jun 25, 2021 at 11:21 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+>
+> There are fixes currently in flight but as this is getting in the way
+> of a green CI we might as well skip for now. For reference the fix
+> series are:
+>
+>   linux-user: Move signal trampolines to new page
+>   20210616011209.1446045-1-richard.henderson@linaro.org
+>
+> and
+>
+>   linux-user: Load a vdso for x86_64 and hppa
+>   20210619034329.532318-1-richard.henderson@linaro.org
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Acked-by: Cornelia Huck <cohuck@redhat.com>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20210623102749.25686-7-alex.bennee@linaro.org>
+>
+> diff --git a/tests/tcg/hppa/Makefile.target b/tests/tcg/hppa/Makefile.tar=
+get
+> index 8bf01966bd..71791235f6 100644
+> --- a/tests/tcg/hppa/Makefile.target
+> +++ b/tests/tcg/hppa/Makefile.target
+> @@ -4,3 +4,7 @@
+>
+>  # On parisc Linux supports 4K/16K/64K (but currently only 4k works)
+>  EXTRA_RUNS+=3Drun-test-mmap-4096 # run-test-mmap-16384 run-test-mmap-655=
+36
+> +
+> +# There is a race that causes this to fail about 1% of the time
+> +run-signals: signals
+> +       $(call skip-test, $<, "BROKEN awaiting vdso support")
+> diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.t=
+arget
+> index 241ef28f61..0036b8a505 100644
+> --- a/tests/tcg/s390x/Makefile.target
+> +++ b/tests/tcg/s390x/Makefile.target
+> @@ -8,3 +8,7 @@ TESTS+=3Dexrl-trtr
+>  TESTS+=3Dpack
+>  TESTS+=3Dmvo
+>  TESTS+=3Dmvc
+> +
+> +# This triggers failures on s390x hosts about 4% of the time
+> +run-signals: signals
+> +       $(call skip-test, $<, "BROKEN awaiting sigframe clean-ups")
 
-Hmm not quite. At this point tcg_out_movi_int() already checked 'arg'
-does not fit into a 32-bit value... And on x32 we have sizeof(void*) = 4
-so we can't cast a >32-bit value that way.
-
-But tcg_out_movi_int() is called by tcg_out_movi(), and all 'arg' values
-are either 0, 1 or a host address (often casted as uintptr_t). So on x32
-this value is already truncated (safe enough?). Thus this code seems
-unlikely reached there (with a >32-bit value).
-
-So maybe this is sufficient to silent the warning?
-
----
-diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 98d924b91a8..2e6304f26b1 100644
---- a/tcg/i386/tcg-target.c.inc
-+++ b/tcg/i386/tcg-target.c.inc
-@@ -955,6 +955,8 @@ static void tcg_out_movi_int(TCGContext *s, TCGType
-type,
-         return;
-     }
-
-+    assert(sizeof(uintptr_t) > sizeof(uint32_t));
-+
-     /* Try a 7 byte pc-relative lea before the 10 byte movq.  */
-     diff = tcg_pcrel_diff(s, (const void *)arg) - 7;
-     if (diff == (int32_t)diff) {
----
+Odd, still failing?
+https://app.travis-ci.com/gitlab/qemu-project/qemu/jobs/536639512#L12456
 
