@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208C84079B9
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 19:06:13 +0200 (CEST)
-Received: from localhost ([::1]:55206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F52B4079B7
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 19:05:25 +0200 (CEST)
+Received: from localhost ([::1]:53174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mP6SB-0000qc-SV
-	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 13:06:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60512)
+	id 1mP6RQ-0007vQ-Di
+	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 13:05:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mP6Hv-0007YC-FQ
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 12:55:35 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40509)
+ id 1mP6I2-0007gV-9V
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 12:55:42 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mP6Hs-0002c6-LW
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 12:55:35 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id q26so7483190wrc.7
- for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 09:55:32 -0700 (PDT)
+ id 1mP6Hx-0002fm-Os
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 12:55:40 -0400
+Received: by mail-wr1-x434.google.com with SMTP id q26so7483442wrc.7
+ for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 09:55:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KmrmQJKuuxtvSWhjZHiSYnfiuVq11gAlW4sC8tAjXUk=;
- b=NAxzEVkDy77sPBxEMuLmND+N75WXUMp66ryBeqNrWMnnPhMOFSD7noSrN+cUwgdQMb
- wC+VMcgru4KhuIm3IfzuZ1ACwyoi2aF7m4ZqM9d3oWSSaypwBgM8b+u69F6lal0oA0+w
- AWqZ8A3QUof+B2613/IRqlghg12h5ybXoCQ3y0EMre/cLBnc8wuwrqDHGf29iWmhbgNW
- O4LJaoSvUYyXu5oKKjmXcfrHVjkWoyJ5sdLIDVtrKfUTNS96XvWF1x5C0tf/jXzp56/g
- q8yohhrt9fs7KIYY7n+8486BsFFP3WNfrweENNiH9SJ20tRLtBWFRelnn316xqbYN2Ds
- x8kw==
+ bh=H6+WFk4l4QrgCDS0Vj4M4XW6RAkhPWPQKWOhbJqzIFQ=;
+ b=TddMrYdsJ4aK5Fdwtk+FIKntcogL8nYPD0sQNfBpW3NeMztqinocBKXMRKTrBhsR8B
+ POxTaqSkbD1yRSa5DWMepvMWCehjUwaq2mjAnBDSeMOSBCJxDlkFMLwnn2VSljqeqlmu
+ NlUBTKKYt+bxj+qanBTUFWz+YKuOe4QrQ9HZhnYcRx9C1HrcQluRo/fy/zqMEUyMUk5s
+ N/4Wn0P0XxiPS9TDcOeMp1pOskXoWPDb96HDVbHCIuABVbeawNrnPlFITxtSA40sil9J
+ er59Oyvxr83LebvS0ZksJGbZhE6N26vj/yss+GHHkxRF+A3jqRg41P031vMbecF+FgnC
+ KXdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KmrmQJKuuxtvSWhjZHiSYnfiuVq11gAlW4sC8tAjXUk=;
- b=5/mRqSQkJWxGjEaPRXw04AoSP8/Lmjjr2l/uYB50I40iVFSmXlaXezm22+A1VXyxmQ
- bARw/I1pQ18mC6poMtDK0jkTSZkPbHHtz1dZzYTHYd5A6v5xYJ55ktxIR7wyYgPWFf3x
- 9gKrE5OAHB5SqgTvvhvaQGADiIl3OJ2wR2oJzt1HCrik7cLZ1OwJqnZJUw2RoPRu22hb
- dLiR+Zm5AS5Mw32MCflDtsXJ8f0cQOZidwNzhHCGxFvt7hN08FXNVWxsfkR6xiTK7Zvr
- 1DK2Sb8Gy0KvFuD9E4oiegzQYFOP3FOkXfYrXsItnBBn1bS8gyAA6CI4QI1fnnOu1NjU
- Oijw==
-X-Gm-Message-State: AOAM530ko2h6dGdQ7f/uytENY5ruSUT+Gtf5yS4JfsldUOAbK9tR8b2B
- BY0b2RUrmdc3QuTyssS0o8FUxOhcw9Y=
-X-Google-Smtp-Source: ABdhPJz+JC5O2lLLbpJobtASucneZLg/TgPVXZlhkb7xv67RcBYks6QuSh82sPN89d7R84Gx3gRoUw==
-X-Received: by 2002:adf:c501:: with SMTP id q1mr3846189wrf.150.1631379331059; 
- Sat, 11 Sep 2021 09:55:31 -0700 (PDT)
+ bh=H6+WFk4l4QrgCDS0Vj4M4XW6RAkhPWPQKWOhbJqzIFQ=;
+ b=ylDgwnQhn4ODurcatpe4yOgPS3HhGO29m6dTIW+RLowggTim/CJv62Hd0V1pKfi2dH
+ RaxL/mQySqbrdEQIBk+rW2FRXe0w3KuA0g806XMhNd3QJiwqnEaGo4PiQq7tnaEz12sk
+ 7HGFiYEAvUAC8MRQzfwxehsuSHzdVWnj8N6aQ/rxI6CUzwRvBjfsZ9XKq/P8Cb3cE3qk
+ npIEknwYbvZnZyMwuJrABgEYWfxfQCWaXb3KS19tBvop+WS2jEVRhnPVHdvdNMhJqIcn
+ +45IYi84hYfzrhjXVzf1cCxvIdIYm8JADg5HvChYpnJ90au6Ifsn7I1e0Th74ozyxIXG
+ 9Sng==
+X-Gm-Message-State: AOAM532RqiXWweLUJonpUWkPRA+dL5sXKHlDqhFlHUaxMCBTagnkF958
+ zC4NCNO0rzfS4wFGo9azYqebpd6U0RQ=
+X-Google-Smtp-Source: ABdhPJyz5Cfwa5nD5csSd4nuwBAJu4I12qxl8nnZ6hSA/3WC08yKAbP5FPF5JCcKW7l/++k2OXVRFA==
+X-Received: by 2002:adf:d1c3:: with SMTP id b3mr3891872wrd.286.1631379336419; 
+ Sat, 11 Sep 2021 09:55:36 -0700 (PDT)
 Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id s14sm1912541wmc.25.2021.09.11.09.55.29
+ by smtp.gmail.com with ESMTPSA id s15sm2142292wrb.22.2021.09.11.09.55.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Sep 2021 09:55:30 -0700 (PDT)
+ Sat, 11 Sep 2021 09:55:35 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/24] target/i386: Move x86_cpu_exec_interrupt() under
- sysemu/ folder
-Date: Sat, 11 Sep 2021 18:54:21 +0200
-Message-Id: <20210911165434.531552-12-f4bug@amsat.org>
+Subject: [PATCH v3 12/24] target/m68k: Restrict cpu_exec_interrupt() handler
+ to sysemu
+Date: Sat, 11 Sep 2021 18:54:22 +0200
+Message-Id: <20210911165434.531552-13-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210911165434.531552-1-f4bug@amsat.org>
 References: <20210911165434.531552-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,169 +92,89 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Following the logic of commit 30493a030ff ("i386: split seg_helper
-into user-only and sysemu parts"), move x86_cpu_exec_interrupt()
-under sysemu/seg_helper.c.
+Restrict cpu_exec_interrupt() and its callees to sysemu.
 
+Reviewed-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-By: Warner Losh <imp@bsdimp.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/i386/tcg/seg_helper.c        | 64 ----------------------------
- target/i386/tcg/sysemu/seg_helper.c | 65 +++++++++++++++++++++++++++++
- 2 files changed, 65 insertions(+), 64 deletions(-)
+ target/m68k/cpu.h       |  2 ++
+ target/m68k/cpu.c       |  2 +-
+ target/m68k/op_helper.c | 16 +++-------------
+ 3 files changed, 6 insertions(+), 14 deletions(-)
 
-diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
-index 13c6e6ee62e..baa905a0cd6 100644
---- a/target/i386/tcg/seg_helper.c
-+++ b/target/i386/tcg/seg_helper.c
-@@ -1110,70 +1110,6 @@ void do_interrupt_x86_hardirq(CPUX86State *env, int intno, int is_hw)
-     do_interrupt_all(env_archcpu(env), intno, 0, 0, 0, is_hw);
- }
+diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+index 997d588911c..550eb028b6e 100644
+--- a/target/m68k/cpu.h
++++ b/target/m68k/cpu.h
+@@ -166,8 +166,10 @@ struct M68kCPU {
+ };
  
--#ifndef CONFIG_USER_ONLY
--bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ 
++#ifndef CONFIG_USER_ONLY
+ void m68k_cpu_do_interrupt(CPUState *cpu);
+ bool m68k_cpu_exec_interrupt(CPUState *cpu, int int_req);
++#endif /* !CONFIG_USER_ONLY */
+ void m68k_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+ hwaddr m68k_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ int m68k_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+index 72de6e97262..66d22d11895 100644
+--- a/target/m68k/cpu.c
++++ b/target/m68k/cpu.c
+@@ -515,10 +515,10 @@ static const struct SysemuCPUOps m68k_sysemu_ops = {
+ 
+ static const struct TCGCPUOps m68k_tcg_ops = {
+     .initialize = m68k_tcg_init,
+-    .cpu_exec_interrupt = m68k_cpu_exec_interrupt,
+     .tlb_fill = m68k_cpu_tlb_fill,
+ 
+ #ifndef CONFIG_USER_ONLY
++    .cpu_exec_interrupt = m68k_cpu_exec_interrupt,
+     .do_interrupt = m68k_cpu_do_interrupt,
+     .do_transaction_failed = m68k_cpu_transaction_failed,
+ #endif /* !CONFIG_USER_ONLY */
+diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
+index d006d1cb3ea..5d624838ae6 100644
+--- a/target/m68k/op_helper.c
++++ b/target/m68k/op_helper.c
+@@ -24,18 +24,7 @@
+ #include "semihosting/semihost.h"
+ #include "tcg/tcg.h"
+ 
+-#if defined(CONFIG_USER_ONLY)
+-
+-void m68k_cpu_do_interrupt(CPUState *cs)
 -{
--    X86CPU *cpu = X86_CPU(cs);
--    CPUX86State *env = &cpu->env;
--    int intno;
--
--    interrupt_request = x86_cpu_pending_interrupt(cs, interrupt_request);
--    if (!interrupt_request) {
--        return false;
--    }
--
--    /* Don't process multiple interrupt requests in a single call.
--     * This is required to make icount-driven execution deterministic.
--     */
--    switch (interrupt_request) {
--    case CPU_INTERRUPT_POLL:
--        cs->interrupt_request &= ~CPU_INTERRUPT_POLL;
--        apic_poll_irq(cpu->apic_state);
--        break;
--    case CPU_INTERRUPT_SIPI:
--        do_cpu_sipi(cpu);
--        break;
--    case CPU_INTERRUPT_SMI:
--        cpu_svm_check_intercept_param(env, SVM_EXIT_SMI, 0, 0);
--        cs->interrupt_request &= ~CPU_INTERRUPT_SMI;
--        do_smm_enter(cpu);
--        break;
--    case CPU_INTERRUPT_NMI:
--        cpu_svm_check_intercept_param(env, SVM_EXIT_NMI, 0, 0);
--        cs->interrupt_request &= ~CPU_INTERRUPT_NMI;
--        env->hflags2 |= HF2_NMI_MASK;
--        do_interrupt_x86_hardirq(env, EXCP02_NMI, 1);
--        break;
--    case CPU_INTERRUPT_MCE:
--        cs->interrupt_request &= ~CPU_INTERRUPT_MCE;
--        do_interrupt_x86_hardirq(env, EXCP12_MCHK, 0);
--        break;
--    case CPU_INTERRUPT_HARD:
--        cpu_svm_check_intercept_param(env, SVM_EXIT_INTR, 0, 0);
--        cs->interrupt_request &= ~(CPU_INTERRUPT_HARD |
--                                   CPU_INTERRUPT_VIRQ);
--        intno = cpu_get_pic_interrupt(env);
--        qemu_log_mask(CPU_LOG_TB_IN_ASM,
--                      "Servicing hardware INT=0x%02x\n", intno);
--        do_interrupt_x86_hardirq(env, intno, 1);
--        break;
--    case CPU_INTERRUPT_VIRQ:
--        /* FIXME: this should respect TPR */
--        cpu_svm_check_intercept_param(env, SVM_EXIT_VINTR, 0, 0);
--        intno = x86_ldl_phys(cs, env->vm_vmcb
--                             + offsetof(struct vmcb, control.int_vector));
--        qemu_log_mask(CPU_LOG_TB_IN_ASM,
--                      "Servicing virtual hardware INT=0x%02x\n", intno);
--        do_interrupt_x86_hardirq(env, intno, 1);
--        cs->interrupt_request &= ~CPU_INTERRUPT_VIRQ;
--        break;
--    }
--
--    /* Ensure that no TB jump will be modified as the program flow was changed.  */
--    return true;
+-    cs->exception_index = -1;
 -}
--#endif /* CONFIG_USER_ONLY */
 -
- void helper_lldt(CPUX86State *env, int selector)
+-static inline void do_interrupt_m68k_hardirq(CPUM68KState *env)
+-{
+-}
+-
+-#else
++#if !defined(CONFIG_USER_ONLY)
+ 
+ static void cf_rte(CPUM68KState *env)
  {
-     SegmentCache *dt;
-diff --git a/target/i386/tcg/sysemu/seg_helper.c b/target/i386/tcg/sysemu/seg_helper.c
-index 82c0856c417..b425b930f9d 100644
---- a/target/i386/tcg/sysemu/seg_helper.c
-+++ b/target/i386/tcg/sysemu/seg_helper.c
-@@ -125,6 +125,71 @@ void x86_cpu_do_interrupt(CPUState *cs)
+@@ -516,7 +505,6 @@ void m68k_cpu_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
+         cpu_loop_exit(cs);
      }
  }
+-#endif
  
-+bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+    int intno;
-+
-+    interrupt_request = x86_cpu_pending_interrupt(cs, interrupt_request);
-+    if (!interrupt_request) {
-+        return false;
-+    }
-+
-+    /*
-+     * Don't process multiple interrupt requests in a single call.
-+     * This is required to make icount-driven execution deterministic.
-+     */
-+    switch (interrupt_request) {
-+    case CPU_INTERRUPT_POLL:
-+        cs->interrupt_request &= ~CPU_INTERRUPT_POLL;
-+        apic_poll_irq(cpu->apic_state);
-+        break;
-+    case CPU_INTERRUPT_SIPI:
-+        do_cpu_sipi(cpu);
-+        break;
-+    case CPU_INTERRUPT_SMI:
-+        cpu_svm_check_intercept_param(env, SVM_EXIT_SMI, 0, 0);
-+        cs->interrupt_request &= ~CPU_INTERRUPT_SMI;
-+        do_smm_enter(cpu);
-+        break;
-+    case CPU_INTERRUPT_NMI:
-+        cpu_svm_check_intercept_param(env, SVM_EXIT_NMI, 0, 0);
-+        cs->interrupt_request &= ~CPU_INTERRUPT_NMI;
-+        env->hflags2 |= HF2_NMI_MASK;
-+        do_interrupt_x86_hardirq(env, EXCP02_NMI, 1);
-+        break;
-+    case CPU_INTERRUPT_MCE:
-+        cs->interrupt_request &= ~CPU_INTERRUPT_MCE;
-+        do_interrupt_x86_hardirq(env, EXCP12_MCHK, 0);
-+        break;
-+    case CPU_INTERRUPT_HARD:
-+        cpu_svm_check_intercept_param(env, SVM_EXIT_INTR, 0, 0);
-+        cs->interrupt_request &= ~(CPU_INTERRUPT_HARD |
-+                                   CPU_INTERRUPT_VIRQ);
-+        intno = cpu_get_pic_interrupt(env);
-+        qemu_log_mask(CPU_LOG_TB_IN_ASM,
-+                      "Servicing hardware INT=0x%02x\n", intno);
-+        do_interrupt_x86_hardirq(env, intno, 1);
-+        break;
-+    case CPU_INTERRUPT_VIRQ:
-+        /* FIXME: this should respect TPR */
-+        cpu_svm_check_intercept_param(env, SVM_EXIT_VINTR, 0, 0);
-+        intno = x86_ldl_phys(cs, env->vm_vmcb
-+                             + offsetof(struct vmcb, control.int_vector));
-+        qemu_log_mask(CPU_LOG_TB_IN_ASM,
-+                      "Servicing virtual hardware INT=0x%02x\n", intno);
-+        do_interrupt_x86_hardirq(env, intno, 1);
-+        cs->interrupt_request &= ~CPU_INTERRUPT_VIRQ;
-+        break;
-+    }
-+
-+    /*
-+     * Ensure that no TB jump will be modified as the program flow was changed.
-+     */
-+    return true;
-+}
-+
- /* check if Port I/O is allowed in TSS */
- void helper_check_io(CPUX86State *env, uint32_t addr, uint32_t size)
+ bool m68k_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
  {
+@@ -538,6 +526,8 @@ bool m68k_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     return false;
+ }
+ 
++#endif /* !CONFIG_USER_ONLY */
++
+ static void raise_exception_ra(CPUM68KState *env, int tt, uintptr_t raddr)
+ {
+     CPUState *cs = env_cpu(env);
 -- 
 2.31.1
 
