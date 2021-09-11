@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DA3940765F
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 14:04:22 +0200 (CEST)
-Received: from localhost ([::1]:34920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F679407664
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 14:07:50 +0200 (CEST)
+Received: from localhost ([::1]:41618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mP1k3-0008Hy-PC
-	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 08:04:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45204)
+	id 1mP1nR-0004fn-8l
+	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 08:07:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mP1gf-0006We-9G; Sat, 11 Sep 2021 08:00:49 -0400
+ id 1mP1gh-0006a1-DE; Sat, 11 Sep 2021 08:00:51 -0400
 Received: from mail-eopbgr80135.outbound.protection.outlook.com
  ([40.107.8.135]:45662 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mP1gc-0000VH-Ju; Sat, 11 Sep 2021 08:00:48 -0400
+ id 1mP1gf-0000VH-Hd; Sat, 11 Sep 2021 08:00:51 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k4hX9nIZUWMtjFBmghnI8A6JVJy53NmSXWewpEEf/A8l1vlkprg3AFN4NIJaz9VW3iSojdUvzuULoWrqSP1bmgRBPu1ARRHweAIvL2DWhNRJ8ranxXZ1NsZOESxl7o5UfxCMNLEIFfaCUtY/RJ2wd47phznJqOOoued2Hh2JcYXNXTqs//erzIvA12UMFgGcJ8h4/YK4RyTmdIcX5iEzqJPg1YxGpREcsVrDhnljBK7nZPJoRggCvyhz5mDpR9EdCDKrArStA/HWLCwHHKL4q034Da3+D+ORRECG/GmKD4pBxZ3GTOjOtzHBWoqyqfIAXqSgQvfnVC9m77DMk0B1hA==
+ b=PnXfgbwRG44pbs06v1c5kNbMnCFtQXAEp+P7bf4ElbBDPSOJOYMpCPPxqF2ToC8THR0Fwt88NNdHy8nypjOCyd3Enz0zCkflrvDi2ImE6C7IDNABdNEMUCutlMYrsL7xAU3gwbNvBiKmNCOBsYtKEQO7B4HinbKNRCsZMyu1FeDPZshVTkudBhpRAjqK9AmNiFzfcLpr3D6FBqCtlcxhggpQGjNn7gX5RmdFaZoo+QiBlMRagTxjQQbMH4cIankwpJwXUzzX60M9xG3/qg120beqCpU6sbp1exUCBpDsfNJy0DjaGsRDx+K2EQl5GmB9+PqXjfIlSvTc81A+wEjr0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i7J+PLuX8sBKTLVFPtXsGNknhoBbx4bEV1NkRVwQjwc=;
- b=Wr0j0p1YS2G617DQiB/EKPX/MbP9kcIe/3knfCE5MGWZxgRKyWgBW7DUnYllNcClUwUrkEZqWfD6lACivcmKemu0flSCM07/l4aS5ii57uKGjA3iC2hqMfKL13MVBjvletRuX6J4tdY9KI3FlXsGVsPU/yg1yupJayaU2nCFSZy/VMaJ5fUUBRw2nkxm0ygQJ4yCODyBBbpLSkwQh6/BssQsFezTQE3CazidG0b50azcB0SqetChvQjQPMwmX9rx5F2KLqSzGwWVZhmuXV4ImPxEMOlmJV/w+BnLqMaqgYuiLGU+aDpTrO2SuRM5ydTA2UqO7PoODxoAZcewKQt89w==
+ bh=1DxqPhr9w4tWbIrB+wmh0cSPL+nDFz+LoVrf1NP2j/E=;
+ b=cQ0taxdmVJLu1WbyIwrnU3C2XtTgKTF1r3oaYYBNei5fg+5+FreZgts4Re1UhnoQr5s43PIY1LAXgpJenOyY0BYZvkoR16/IITM0ZtCvNDzsiNeWmd0W6FpJvmPAHlZgTzpUTLWJ7eeQoRec4a+HoalPXCL2efnneT3U499bFB61iB7spsn1FPhqHik7JaCkKhmrL/QxcJO3UWh9zfeRZ9jZDs3M4UcVLtKNZAv5itC94gWC0rBcxocJT4yXupAyduOebc9T5MqbtzejK9OmeWo2KRGiXgOnTpQPp2e/cmaGzSRQbc0y9uUdCmOPyNaiFugrllhfwWgjkmCgnn6ULA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i7J+PLuX8sBKTLVFPtXsGNknhoBbx4bEV1NkRVwQjwc=;
- b=FNn7HDcxYeue1aHMy4RH9optcSH/0vJ7qM3KVRYDcQWFx2wmTxdRjrI633f1VvlteCdlLbWcz8EQKTDrh/fBjUBJFZgiOrxM01uToxx1UC7kPdH0CCyvuBNvoH471nHpNdHKdB+BBlKWpND6NW0jyBFwPTiHsPoxuuTJi6YohgU=
+ bh=1DxqPhr9w4tWbIrB+wmh0cSPL+nDFz+LoVrf1NP2j/E=;
+ b=VzbqroSi46l80ercJqaMcCWVYMFoH1BhuimPpjdavJZEAMYuz/P6yl1Xw4SL6qa5dcOf2fUJDB6p5eZI23GNrFaxmFQZaHhwoQ4+CB5iMPMehVxdR7Gm5ZnhxAF5zD2Q57AY85fQLK0WijqaFVfyQr8rJlM0ZdDuJoWHoDk2NCY=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB5080.eurprd08.prod.outlook.com (2603:10a6:20b:e2::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Sat, 11 Sep
- 2021 12:00:40 +0000
+ 2021 12:00:41 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4500.018; Sat, 11 Sep 2021
- 12:00:40 +0000
+ 12:00:41 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
  vsementsov@virtuozzo.com
-Subject: [PATCH v2 0/2] fix crash if try to migrate during backup
-Date: Sat, 11 Sep 2021 15:00:25 +0300
-Message-Id: <20210911120027.8063-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 1/2] tests: add migrate-during-backup
+Date: Sat, 11 Sep 2021 15:00:26 +0300
+Message-Id: <20210911120027.8063-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210911120027.8063-1-vsementsov@virtuozzo.com>
+References: <20210911120027.8063-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: FR3P281CA0054.DEUP281.PROD.OUTLOOK.COM
@@ -62,54 +64,54 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.196) by
  FR3P281CA0054.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:4a::18) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4523.8 via Frontend Transport; Sat, 11 Sep 2021 12:00:40 +0000
+ 15.20.4523.8 via Frontend Transport; Sat, 11 Sep 2021 12:00:41 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0f58f837-06fe-4b05-377a-08d9751bc68e
+X-MS-Office365-Filtering-Correlation-Id: bbea637d-2295-45b0-ff5d-08d9751bc71e
 X-MS-TrafficTypeDiagnostic: AM6PR08MB5080:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB5080D47F6D592F446BE27884C1D79@AM6PR08MB5080.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2043;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB5080CD088160BECE5C315DAEC1D79@AM6PR08MB5080.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Po2/r3tI/6mqUoMPCwmTOKFdgWodwtYHYi1zzhiNepXwQ9Jq/17ul5MJHaeFMICNb4BlPlIV4BzSz7/Et5efDJTDyjvgtLv3mDuPkM/14rlAP6J9kgdIjfG/IlI8p2/wGVDAmCv4vW7IPOq3Si4U/8PST4K08xIJF9P25HbnJnF/efRRPjxP1E/6m1C7K6RW0UlLHq9X6Dgqf6493+wMrLZWkac6v7y4Mdl6mhxWJPRnoDScd4XCELsq5lTw8yohvC+K3PqdMtPCicWkQamJsUypQdr6g/oOLkx+BdZRgDZByQSKFgp+jXaECYCR5BjzHC5qjsKjB32KHA8lZX/czKUqHnBEhJl29S8Efs7AJuYwNdbr0mRB/yo7UJBi4my1khPxqR4yK0bfFq/ThdYkVkG+xY03D6vHtWS3E0FYJuAP2kv9bj7Rhvteplh2ZhNFi7LZ8GbcPDjtoNBmAfDEc7qr/qAnymaRT8bY+qeyspE8SvNcVBKmEZfNeW1QXAEZqYQdns5s3Ifn5RQKSLkXnpCEERfSTpdVrQgFRhHaoPA3IknsDW+aqFpsea7RAc6CnMFNE3Oglqk5ynXai+6uajfZbdw7MIaPZ996S9m8FGILdYpUhHXPBnZ1oSASDf+93KJRwGEjJItVKpTo8I66GReuBbg3npLhWwMvN4Gtj+rc/thB+qaS84BSOHbsO0fM
+X-Microsoft-Antispam-Message-Info: NuKSJB4T3Nh+wbZVKePoPrmE7e1kCUpshax88XWCUYuCaO0Ge8vJpWQ1xsru7FVjLG467MWJ7Oj8bROu4bXem7qncxoiQtSEuuWbAvN70jb59DuuaLgsAtY36t0PWPpq0pGkiyiBRHNRuFR5MHX89/cYMMBeAm6kEo/oZNwBJGnle/S+IZjxIBgEkZ3SP2rZS7trsFVKd0Y+vAPQHVWrlcnC+21DYdzwu5n4ntWOqoMjzi4NLR1irVy2h2XPFN2m8+EA2f5pnzqn/TA8ZxcL9+AlBhy5hHj5xzCrzBmdPmW3C7UVTPcIp/2N0HyAO5aDC2FxxItgk3dArmHrUCNgDT5yRi4NEUJiIR9tX9KToG6UPdg28TYeV1BQuqABkjHTH3WI5PeZo1nO+jiRPGZpYjlesGQty832+NPI4O1NdBMiU6QmUMsRcGfMlYDCLSmeTU+Jaf+9QNkbuc9Ol3V65yq7aNxCcmKPgTHV5Srl1xm3z3Z48JPyeaKbvkLLAgpwH0okReEp6mjsV/sZndW/gZtwIBRBaV2+BQtRMFUyAiafRH5Dqz8mHbxURfMlHqJDUCDr6vIbGFW+tr8fbPmIj0XUH4AWv4DMvgHLFMAkjPyL9evpV+VRoZHIOMatlX82kOijM1laJz8ey/i4QWzEm9hrK4osvTvQs9n77wQxH+r+WF45iIIh/haY7uKULHkwJscNb70elLUM77X9sGt7qmVKz7KSMfK79qTLHr37KsNDsgjKLDckLlQ4hPQM1Mq3DSfx5EAKViyplFvdbtqbN4UNsT2+vYNjGIGvNVVMMDwzIUAIoa8ifNtjQR05j57+
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(346002)(366004)(376002)(396003)(136003)(6506007)(38350700002)(4326008)(6666004)(478600001)(6512007)(1076003)(83380400001)(2906002)(6916009)(66556008)(38100700002)(8676002)(316002)(107886003)(66946007)(4744005)(2616005)(6486002)(36756003)(86362001)(52116002)(66476007)(8936002)(186003)(5660300002)(956004)(26005);
+ SFS:(4636009)(39840400004)(346002)(366004)(376002)(396003)(136003)(6506007)(38350700002)(4326008)(6666004)(478600001)(6512007)(1076003)(83380400001)(2906002)(6916009)(66556008)(38100700002)(8676002)(316002)(107886003)(66946007)(2616005)(6486002)(36756003)(86362001)(52116002)(66476007)(8936002)(186003)(5660300002)(956004)(26005)(2004002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HN7iGSetNbKuKtqrRESuuxynPoqjadtQoFRJaYdhgGq9RrIbFU9PmVCRabi6?=
- =?us-ascii?Q?BJ2ghSqMtuS1P2d1u4RNEqTq4m+dm0hUi4dm7DaEI8mpitm5TZyNgHTOn0zY?=
- =?us-ascii?Q?+Xpb4VYG+b5EQx0m68+lbdoqa+L0XAgDlamnmda9yD+HNRILmZw2Uz9SmYj/?=
- =?us-ascii?Q?z+VfHxw2iLMqoH08VxEAMItqkWVInYEnJzsYFOj71WNgDN8iOdDLEVrVmXsE?=
- =?us-ascii?Q?PbUJGIQr89yrZLQPKY7npHdndD0r958GAYNuwnGKg74GkJ69vAWGk9+C/QGR?=
- =?us-ascii?Q?i9ziY5os1t0A8a1b8XihwL7ZMqNybelesUKMo301VHtzogsK0wY9AIsQLIkM?=
- =?us-ascii?Q?7e8X49CK7KEgudHI/jBM3ZnNA34QYMlDTo1q5S439g30+rhxSFSSTnxwMT1Z?=
- =?us-ascii?Q?TYxJ1Z2/GRBp93o/L3eFAnC/HbnEn5G7u8BKSIbhK6oXJeIuZp03vZOAdzQW?=
- =?us-ascii?Q?F27oXJQPfyPE+vkdkaibSBfQAnPv4K4WQ/kNP0TPTwRQCIryXYAMqi+dsyau?=
- =?us-ascii?Q?6MttPDDovqfjY8rTcyr65koL3NsIjtMl6weLCR3zlTDMV7jvdrND9QNCLRHp?=
- =?us-ascii?Q?WhXDBvKGSNmlPMnZt2TxIvuOdXkBcZZTWZBkmR6NGdUd4pM2B9ifv/USWs7W?=
- =?us-ascii?Q?0d3QExPtOL/HM5fMv8XaCzNKmZxULmeQiX3eZSS/l/2FYI0RIeHMroECHD5p?=
- =?us-ascii?Q?RGPNQYiPnbqJjOmOl/49ucT0p9gucBM+HxpOxc4ya2KIS2MHqUpo5u9yVrD4?=
- =?us-ascii?Q?axwbXiR8+0VuDGcm3vOrrkplfSJQ4tLzuD25A73BhyIcs+h00/AucYGJX0Bb?=
- =?us-ascii?Q?38MY6P2XdgFyfgg8V+hJ/TUa4ndGhnUMt5+mwXaeMdOh2SXNfsfT+VBjYQg8?=
- =?us-ascii?Q?kNF0AqK8qytlXcEWUVcM9EgmB3iOUseKdHzHlC0LO7q6X3SYipBfF6OnpEpx?=
- =?us-ascii?Q?TqjmXg/3PGqrEdBZqZQD3yVMt7rbQt0Cu5ZyhRLdg72IMFmdpJMLu/1h+Kfg?=
- =?us-ascii?Q?mnzqZG/BkQlFIKI4ak4UIf2ii//dMa15RGF1Ct6K1jCdbBfoLy43UhNjcMqY?=
- =?us-ascii?Q?fY+PxfjZVb8YeJtHOnDKUctUvgOb90EzjNcrq7zPcO7nowWjuz79qyDzqUW+?=
- =?us-ascii?Q?oxCMgn9x7l1wwlyFWpM789yA/HJOPi2RWNcS98vsa0k3LEZ5un33cxJOO0cp?=
- =?us-ascii?Q?qJkSxdPHq487OQ4ZP3LauY80BWJ321iJbRgjQhNamc250vvvtidEhAv2lkms?=
- =?us-ascii?Q?NYsooQ7FXk+0tzSjwnmbdiJUoVbK0bxmr92Z1MOXXmVWmo1GXcqk1akrCk7F?=
- =?us-ascii?Q?O+TI0bkXbNzFasgfO1vSRyl0?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zmiSZ6VnUYVDG5QkMzL+M/mIHz8eNfW1A68Hb3PE0h1SX2ME0XYjIhoGFpq0?=
+ =?us-ascii?Q?gQBo0JTDbZXxsRNwQZHqqSolo1UbdChrgdCaEybOjZlP32Q/+b8S7xOXYdY+?=
+ =?us-ascii?Q?1AbYhrqckn+kuqIAt3SBSunCPKgatN7p1kn+JIS4yQ7N438fT41zJ4HhnKnX?=
+ =?us-ascii?Q?J+m+6UFsw3lFjrsgrJPKw6HLNF6jZSS1blDZXYfw7x0ak0FCS6IYeAc/Fnwh?=
+ =?us-ascii?Q?x5xzQ8FFb5zGKLKGPbj+W8EQb1m1Sg1gJl3zlsEAlPZ4Z0jf0zAGBG/WDwMB?=
+ =?us-ascii?Q?mO9jIoo7yrrbIeenJosxenZTV9bWjxe59cKplmypcV1ttw4lbexGf9R541Cl?=
+ =?us-ascii?Q?zc1+ro0FUbEtFm9pQkh6Jz5WDvdYae+BESq2BKxMtK5WpFaaE8KT0LzcTIjM?=
+ =?us-ascii?Q?gaw14To0ki5VnJRk0l1Kr8lD2z8b5jnzgXen7Eb62o0kQRaQJAnH5Xq/R/eZ?=
+ =?us-ascii?Q?1A2AC9/uL1cb9oCTh2Lf5dC6LCBjAPfmOOaBhLFo3Bv622X72kyDiBaimLWE?=
+ =?us-ascii?Q?7QlVuiVBJpuURNh6HHKfJ5l7XL4JH8MDlpe3e6adkus35+kUP6IrYSlAaBPL?=
+ =?us-ascii?Q?Mt1gLitRebgZoj8DGO4+RlqqAkewF78u6QB13XwJWTCwcoIAjaDT0dCboTX/?=
+ =?us-ascii?Q?heNeBejOgl4wcmJn2oj//+KjrwvtdKI7OWcqAxvWyS0reVzl7XiwVsAfleFe?=
+ =?us-ascii?Q?6yunukT1NylEPQV2iyl9hoqOro57Mylkg+DoMOsu6TJk3Xb/qg/mgeCXNgO4?=
+ =?us-ascii?Q?ST9VbdTcIPXL/r8Y71jC5DLtNS5nfN+5Fi3FUQMqTqSmpndZovUaolvJtTJf?=
+ =?us-ascii?Q?kSLLl6oSzhU2L1NKRWx1zOLDYPrNWy6nxi9Jo6QH4/89ijiS4g5D1UcxbJtI?=
+ =?us-ascii?Q?fer6c6yhgM44xOtRUEH1/dvmCkTcfkDvqeyu4FnczigINohHUmOXyXuWCpO+?=
+ =?us-ascii?Q?z3rz+DQylMAL1V6a3tBHzEX2rJBnay24QeRJW/rTnFzAZKVjFzfOXWOoM6kv?=
+ =?us-ascii?Q?z+rxqIrf3OYYBny1dHSnG+oOHMcZ9HD5lYxEfoZySN1yaPyWX4OWPxBwJBkV?=
+ =?us-ascii?Q?sZcQ7vW4W1Uh066/zYcXGuv6DsJarFiO3P0AmgcpmCTmZ7sdYPhYsXpE5tHy?=
+ =?us-ascii?Q?2hFxOlWyAu2KzgDSiazpwqaLf1rFXwqlQf4louq7VN+BH9ekGJ7iiLb2Xo2O?=
+ =?us-ascii?Q?FVDLhysn/fkpzB1AVB0UNGUGG/GQc65Hf+g8ZPos/jw8qYkaS/ej9/U/uYO8?=
+ =?us-ascii?Q?FKK/BaZBSPActz4ozqmH+e0lzmkH3QBdlT3rnSEddH63vK/U92aj8w2ZSJEg?=
+ =?us-ascii?Q?Nmg/Gd6TB3TFOneRAwiWxGxY?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f58f837-06fe-4b05-377a-08d9751bc68e
+X-MS-Exchange-CrossTenant-Network-Message-Id: bbea637d-2295-45b0-ff5d-08d9751bc71e
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2021 12:00:40.8099 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2021 12:00:41.7040 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DVm1FgHZB0ugYifLCs7onaB0asq0iX0E8li9KukqnpVz+zpjWuYrGHQ9GFEAfzABNc+03osaI1yAQUMAMc6xc2QPIbKDSrBDNsds51uRDyw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: izmbCLHTqr5vBz07hsg7Mk3ILfXxd8mD4NcfbESysPG6l1QhsxiNQRlwOlmDWoR7ELHW4BYeSepmsj6G/OjTuyvsGtmZflMSAsWSe7cGrGQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5080
 Received-SPF: pass client-ip=40.107.8.135;
  envelope-from=vsementsov@virtuozzo.com;
@@ -137,21 +139,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:
-01: check that migration fails
-02: Add Hanna's r-b
+Add a simple test which tries to run migration during backup.
+bdrv_inactivate_all() should fail. But due to bug (see next commit with
+fix) it doesn't, nodes are inactivated and continued backup crashes
+on assertion "assert(!(bs->open_flags & BDRV_O_INACTIVE));" in
+bdrv_co_write_req_prepare().
 
-Vladimir Sementsov-Ogievskiy (2):
-  tests: add migrate-during-backup
-  block: bdrv_inactivate_recurse(): check for permissions and fix crash
-
- block.c                                       |  8 ++
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
  .../qemu-iotests/tests/migrate-during-backup  | 97 +++++++++++++++++++
  .../tests/migrate-during-backup.out           |  5 +
- 3 files changed, 110 insertions(+)
+ 2 files changed, 102 insertions(+)
  create mode 100755 tests/qemu-iotests/tests/migrate-during-backup
  create mode 100644 tests/qemu-iotests/tests/migrate-during-backup.out
 
+diff --git a/tests/qemu-iotests/tests/migrate-during-backup b/tests/qemu-iotests/tests/migrate-during-backup
+new file mode 100755
+index 0000000000..1046904c5a
+--- /dev/null
++++ b/tests/qemu-iotests/tests/migrate-during-backup
+@@ -0,0 +1,97 @@
++#!/usr/bin/env python3
++# group: migration disabled
++#
++# Copyright (c) 2021 Virtuozzo International GmbH
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++import os
++import iotests
++from iotests import qemu_img_create, qemu_io
++
++
++disk_a = os.path.join(iotests.test_dir, 'disk_a')
++disk_b = os.path.join(iotests.test_dir, 'disk_b')
++size = '1M'
++mig_file = os.path.join(iotests.test_dir, 'mig_file')
++mig_cmd = 'exec: cat > ' + mig_file
++
++
++class TestMigrateDuringBackup(iotests.QMPTestCase):
++    def tearDown(self):
++        self.vm.shutdown()
++        os.remove(disk_a)
++        os.remove(disk_b)
++        os.remove(mig_file)
++
++    def setUp(self):
++        qemu_img_create('-f', iotests.imgfmt, disk_a, size)
++        qemu_img_create('-f', iotests.imgfmt, disk_b, size)
++        qemu_io('-c', f'write 0 {size}', disk_a)
++
++        self.vm = iotests.VM().add_drive(disk_a)
++        self.vm.launch()
++        result = self.vm.qmp('blockdev-add', {
++            'node-name': 'target',
++            'driver': iotests.imgfmt,
++            'file': {
++                'driver': 'file',
++                'filename': disk_b
++            }
++        })
++        self.assert_qmp(result, 'return', {})
++
++    def test_migrate(self):
++        result = self.vm.qmp('blockdev-backup', device='drive0',
++                             target='target', sync='full',
++                             speed=1, x_perf={
++                                 'max-workers': 1,
++                                 'max-chunk': 64 * 1024
++                             })
++        self.assert_qmp(result, 'return', {})
++
++        result = self.vm.qmp('job-pause', id='drive0')
++        self.assert_qmp(result, 'return', {})
++
++        result = self.vm.qmp('migrate-set-capabilities',
++                             capabilities=[{'capability': 'events',
++                                            'state': True}])
++        self.assert_qmp(result, 'return', {})
++        result = self.vm.qmp('migrate', uri=mig_cmd)
++        self.assert_qmp(result, 'return', {})
++
++        e = self.vm.events_wait((('MIGRATION',
++                                  {'data': {'status': 'completed'}}),
++                                 ('MIGRATION',
++                                  {'data': {'status': 'failed'}})))
++
++        # Don't assert that e is 'failed' now: this way we'll miss
++        # possible crash when backup continues :)
++
++        result = self.vm.qmp('block-job-set-speed', device='drive0',
++                             speed=0)
++        self.assert_qmp(result, 'return', {})
++        result = self.vm.qmp('job-resume', id='drive0')
++        self.assert_qmp(result, 'return', {})
++
++        # For future: if something changes so that both migration
++        # and backup pass, let's not miss that moment, as it may
++        # be a bug as well as improvement.
++        self.assert_qmp(e, 'data/status', 'failed')
++
++
++if __name__ == '__main__':
++    iotests.main(supported_fmts=['qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/tests/migrate-during-backup.out b/tests/qemu-iotests/tests/migrate-during-backup.out
+new file mode 100644
+index 0000000000..ae1213e6f8
+--- /dev/null
++++ b/tests/qemu-iotests/tests/migrate-during-backup.out
+@@ -0,0 +1,5 @@
++.
++----------------------------------------------------------------------
++Ran 1 tests
++
++OK
 -- 
 2.29.2
 
