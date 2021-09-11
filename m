@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE3B4078BA
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 16:16:32 +0200 (CEST)
-Received: from localhost ([::1]:36768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B4C4078ED
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 16:49:40 +0200 (CEST)
+Received: from localhost ([::1]:52694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mP3nz-0007wn-QG
-	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 10:16:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34134)
+	id 1mP4K3-0003OO-99
+	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 10:49:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mP3Yc-0002Ti-Ox
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:38 -0400
-Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:38483)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mP4Im-00016m-4F; Sat, 11 Sep 2021 10:48:20 -0400
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:37584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mP3YY-0005is-SD
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:38 -0400
-Received: by mail-lj1-x232.google.com with SMTP id g14so8193181ljk.5
- for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 07:00:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vrull-eu.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xjHbcU4jd4/FFyGkcPZC0fU+deSURo/V2puvaJZ+g/s=;
- b=ACyfFYKiSytfVYXtbg/tdPk6So409x8reX4wFoWjKWG60bQZlLsNCC6eJHAh4m2uJ2
- uZPP1AoqjiGNFZqqGpxJezI3JaW9bRmvByWH+fmSxrSjwpIHT6IozPGvBQ0OtXrgV3AA
- eBGKTTnuhkqK/zR2kr1imf2vZi0av5rGgc44Xtva2eSuh75kQq6bRJ+pEA+ppoAzOsvi
- NTbXRs0IZg1W2ydUroRD5g7tid7emabIlIKJubgqFHhcHkIKC/eiouO46Kpt3QBOb6k5
- N/D0Jtt0Q7aYgE+rA9fHrTjuaJzaDz2eaFtF1rpPN0QbGpK4vnWLUHX67juls10MElnu
- qoKA==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mP4Ik-00086V-Na; Sat, 11 Sep 2021 10:48:19 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id r4so10390696ybp.4;
+ Sat, 11 Sep 2021 07:48:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2IaYu/OwNdcxqVbO9GBZrnsAnWUU9nWUfTH1FYh1fYM=;
+ b=fCToC2YBWcyMkPaaycUwpvqbZTm1QeydpIoUOyzU/VvALxAtv0CNjCpAhgHKiDskFL
+ J5Urdn46jGzeFd5IpxTdU4hnHyrJBmFSyhtV1bNaoFKXaEKVZGCAYWx5GSnCgCvuVC96
+ 6/Wd+qyNkANNFd2QHOeflIItjBbvPJmS/CWZgdJEI9m4kDcN4w4TaNsty/s9rvJ5vaIN
+ UyaJswy9NZ0u3e8vCSYRIkJo1uycppWW9KrDiddk9+U7AEWcVVwG47w41EE2PJzy+zGH
+ +j2byiHcm1iXiNm0G2cHitvK1b9pO2g4eDsy3fYuvsU8F/t7fh8EXmJSg3xJhwoOyVCa
+ qfpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xjHbcU4jd4/FFyGkcPZC0fU+deSURo/V2puvaJZ+g/s=;
- b=XA5EFR0jEYvgSV8cOmP8pZFkzaI36MhwbwXnwr9cVrlyvx3TfJ1FBKadSbZM15jclq
- 0j25rLoYouHaPkkdnWhPHPdc+zWzpyqn9dJbumlCkDcT7fruKfxs4H/YiUq+WPB+RtYy
- AzXMiB1ex11QaTZV9OkFeNXGqJUcss0myseODt8o0s53J3h5R3yj6UzDFgVqUbtQBSKf
- gKHdCJYZ05EY/yudkvxvt8AzVji4TOdpUchhxaQ5jtmjFlAUwgYCRPpLdhYq3nGYPb1F
- Cze0vOGNIYVQLGdpAaUQN08B0ALcfY6keCKbd6IZ1V/VhiVF5LEnSlAyGTalNPSQVLTP
- WlrQ==
-X-Gm-Message-State: AOAM530paN6L21XI7w95vwaff+TI0yxxVhilyw2pXHwvpGssBOHbsHyJ
- GBbf5deDMKRRHsHMnNPw1ku0C2DJ7KDIgGol
-X-Google-Smtp-Source: ABdhPJwkdiJC6c8dGSTupPAs4WqAc3g7pibsiSmGxsxrU7ogOx4sXN01L/gwLbFJGs7UL8F57t5H9Q==
-X-Received: by 2002:a2e:a230:: with SMTP id i16mr2292803ljm.333.1631368832971; 
- Sat, 11 Sep 2021 07:00:32 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id u15sm213052lfk.26.2021.09.11.07.00.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Sep 2021 07:00:32 -0700 (PDT)
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v11 16/16] disas/riscv: Add Zb[abcs] instructions
-Date: Sat, 11 Sep 2021 16:00:16 +0200
-Message-Id: <20210911140016.834071-17-philipp.tomsich@vrull.eu>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
-References: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2IaYu/OwNdcxqVbO9GBZrnsAnWUU9nWUfTH1FYh1fYM=;
+ b=f1aj56qDBPX4qJn5RwNw4DssXoA21ifGLADqnzc171FzGExYgs16uIbEqWwSTsiL5F
+ wuoPDjdylDUFYfCIZ4qOFt0KT0LHjOLeYvWaEGqXvUH+eHs6nsyFzDqeDhOSFOPHSTuB
+ zBVCOevL/o7+l3Tmt3tDXumCnWc+0Je442XlBjJv9ppvosyYuEbcuiM8fR3vxZNrG0NH
+ 6RXIlrPVJB1x+C2ZcF2T2kgroWkY2aOFOgIJvErgIZdzKR+jeMnzcQTevpkJuvPuPecM
+ XJIRs/rE185NMdxr9kMpo7hfWqfnICvCG4vPJWr2RBSp4Ou/PnUpDTOqbTeklEXa6w5P
+ Khtg==
+X-Gm-Message-State: AOAM531qhiRhbqRqFbjgvopelcZ/KMKzAZepij+qJLi5152MxJbe/0eR
+ TajD9bYpi2g/zn0wzcJbl0hIXAcvS8PNqVUvCyk=
+X-Google-Smtp-Source: ABdhPJx4OPKZrUEsByXBQQE4hQUdy/XQ7LImKrAZdsbbTGBGmm/acH2QU8pOLgWbCKhaGMaI/pniO0gm5vkvW9GGhec=
+X-Received: by 2002:a25:905:: with SMTP id 5mr1977271ybj.293.1631371697381;
+ Sat, 11 Sep 2021 07:48:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::232;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x232.google.com
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+References: <20210910055620.946625-1-frank.chang@sifive.com>
+ <20210910055620.946625-2-frank.chang@sifive.com>
+ <CAEUhbmUgceFXLF21L1U+bo0Rz-5Cwiig=Bmh0feo0ZVwXExeQg@mail.gmail.com>
+ <CAEUhbmWzYnhM5Mc__SfmaNeimKuts93Mmq6481K3h-5jUsBLzA@mail.gmail.com>
+In-Reply-To: <CAEUhbmWzYnhM5Mc__SfmaNeimKuts93Mmq6481K3h-5jUsBLzA@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sat, 11 Sep 2021 22:48:06 +0800
+Message-ID: <CAEUhbmUTihTqGz8MDwJNQTVFs0gbGJxMptrd3L-_5urvZ_Onmg@mail.gmail.com>
+Subject: Re: [PATCH 1/4] hw/dma: sifive_pdma: reset Next* registers when
+ Control.claim is set
+To: frank.chang@sifive.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,250 +78,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Kito Cheng <kito.cheng@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Max Hsu <max.hsu@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the addition of Zb[abcs], we also need to add disassembler
-support for these new instructions.
+On Sat, Sep 11, 2021 at 9:12 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Sat, Sep 11, 2021 at 8:37 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > On Fri, Sep 10, 2021 at 1:56 PM <frank.chang@sifive.com> wrote:
+> > >
+> > > From: Frank Chang <frank.chang@sifive.com>
+> > >
+> > > Setting Control.claim clears all of the chanel's Next registers.
+> > > This is effective only when Control.claim is set from 0 to 1.
+> > >
+> > > Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> > > Tested-by: Max Hsu <max.hsu@sifive.com>
+> > > ---
+> > >  hw/dma/sifive_pdma.c | 15 +++++++++++++++
+> > >  1 file changed, 15 insertions(+)
+> > >
+> > > diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
+> > > index 9b2ac2017d9..e723db9d700 100644
+> > > --- a/hw/dma/sifive_pdma.c
+> > > +++ b/hw/dma/sifive_pdma.c
+> > > @@ -54,6 +54,9 @@
+> > >  #define DMA_EXEC_DST        0x110
+> > >  #define DMA_EXEC_SRC        0x118
+> > >
+> > > +#define CONFIG_WRSZ_DEFAULT 6
+> > > +#define CONFIG_RDSZ_DEFAULT 6
+> >
+> > The FU540 manual says the next config reset value is 0, not 6.
+> >
+>
+> From patch#2 's log on Unmatched, I see where the number 6 is coming.
+> I also validated on Unleashed and observed the same. So there is a
+> documentation error.
+>
+> Please add a comment to explain that.
+>
+> Otherwise,
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
-Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-
----
-
-(no changes since v2)
-
-Changes in v2:
-- Fix missing ';' from last-minute whitespace cleanups.
-
- disas/riscv.c | 157 +++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 154 insertions(+), 3 deletions(-)
-
-diff --git a/disas/riscv.c b/disas/riscv.c
-index 278d9be924..793ad14c27 100644
---- a/disas/riscv.c
-+++ b/disas/riscv.c
-@@ -478,6 +478,49 @@ typedef enum {
-     rv_op_fsflags = 316,
-     rv_op_fsrmi = 317,
-     rv_op_fsflagsi = 318,
-+    rv_op_bseti = 319,
-+    rv_op_bclri = 320,
-+    rv_op_binvi = 321,
-+    rv_op_bexti = 322,
-+    rv_op_rori = 323,
-+    rv_op_clz = 324,
-+    rv_op_ctz = 325,
-+    rv_op_cpop = 326,
-+    rv_op_sext_h = 327,
-+    rv_op_sext_b = 328,
-+    rv_op_xnor = 329,
-+    rv_op_orn = 330,
-+    rv_op_andn = 331,
-+    rv_op_rol = 332,
-+    rv_op_ror = 333,
-+    rv_op_sh1add = 334,
-+    rv_op_sh2add = 335,
-+    rv_op_sh3add = 336,
-+    rv_op_sh1add_uw = 337,
-+    rv_op_sh2add_uw = 338,
-+    rv_op_sh3add_uw = 339,
-+    rv_op_clmul = 340,
-+    rv_op_clmulr = 341,
-+    rv_op_clmulh = 342,
-+    rv_op_min = 343,
-+    rv_op_minu = 344,
-+    rv_op_max = 345,
-+    rv_op_maxu = 346,
-+    rv_op_clzw = 347,
-+    rv_op_ctzw = 348,
-+    rv_op_cpopw = 349,
-+    rv_op_slli_uw = 350,
-+    rv_op_add_uw = 351,
-+    rv_op_rolw = 352,
-+    rv_op_rorw = 353,
-+    rv_op_rev8 = 354,
-+    rv_op_zext_h = 355,
-+    rv_op_roriw = 356,
-+    rv_op_orc_b = 357,
-+    rv_op_bset = 358,
-+    rv_op_bclr = 359,
-+    rv_op_binv = 360,
-+    rv_op_bext = 361,
- } rv_op;
- 
- /* structures */
-@@ -1117,6 +1160,49 @@ const rv_opcode_data opcode_data[] = {
-     { "fsflags", rv_codec_i_csr, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-     { "fsrmi", rv_codec_i_csr, rv_fmt_rd_zimm, NULL, 0, 0, 0 },
-     { "fsflagsi", rv_codec_i_csr, rv_fmt_rd_zimm, NULL, 0, 0, 0 },
-+    { "bseti", rv_codec_i_sh7, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-+    { "bclri", rv_codec_i_sh7, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-+    { "binvi", rv_codec_i_sh7, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-+    { "bexti", rv_codec_i_sh7, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-+    { "rori", rv_codec_i_sh7, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-+    { "clz", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "ctz", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "cpop", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "sext.h", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "sext.b", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "xnor", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "orn", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "andn", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "rol", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "ror", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "sh1add", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "sh2add", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "sh3add", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "sh1add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "sh2add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "sh3add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "clmul", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "clmulr", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "clmulh", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "min", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "minu", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "max", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "maxu", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "cpopw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "slli.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "rolw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "rorw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "rev8", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "zext.h", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "roriw", rv_codec_i_sh5, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-+    { "orc.b", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "bset", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "bclr", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "binv", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "bext", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
- };
- 
- /* CSR names */
-@@ -1507,7 +1593,20 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-             case 0: op = rv_op_addi; break;
-             case 1:
-                 switch (((inst >> 27) & 0b11111)) {
--                case 0: op = rv_op_slli; break;
-+                case 0b00000: op = rv_op_slli; break;
-+                case 0b00101: op = rv_op_bseti; break;
-+                case 0b01001: op = rv_op_bclri; break;
-+                case 0b01101: op = rv_op_binvi; break;
-+                case 0b01100:
-+                    switch (((inst >> 20) & 0b1111111)) {
-+                    case 0b0000000: op = rv_op_clz; break;
-+                    case 0b0000001: op = rv_op_ctz; break;
-+                    case 0b0000010: op = rv_op_cpop; break;
-+                      /* 0b0000011 */
-+                    case 0b0000100: op = rv_op_sext_b; break;
-+                    case 0b0000101: op = rv_op_sext_h; break;
-+                    }
-+                    break;
-                 }
-                 break;
-             case 2: op = rv_op_slti; break;
-@@ -1515,8 +1614,16 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-             case 4: op = rv_op_xori; break;
-             case 5:
-                 switch (((inst >> 27) & 0b11111)) {
--                case 0: op = rv_op_srli; break;
--                case 8: op = rv_op_srai; break;
-+                case 0b00000: op = rv_op_srli; break;
-+                case 0b00101: op = rv_op_orc_b; break;
-+                case 0b01000: op = rv_op_srai; break;
-+                case 0b01001: op = rv_op_bexti; break;
-+                case 0b01100: op = rv_op_rori; break;
-+                case 0b01101:
-+                    switch ((inst >> 20) & 0b1111111) {
-+                    case 0b0111000: op = rv_op_rev8; break;
-+                    }
-+                    break;
-                 }
-                 break;
-             case 6: op = rv_op_ori; break;
-@@ -1530,12 +1637,21 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-             case 1:
-                 switch (((inst >> 25) & 0b1111111)) {
-                 case 0: op = rv_op_slliw; break;
-+                case 4: op = rv_op_slli_uw; break;
-+                case 48:
-+                    switch ((inst >> 20) & 0b11111) {
-+                    case 0b00000: op = rv_op_clzw; break;
-+                    case 0b00001: op = rv_op_ctzw; break;
-+                    case 0b00010: op = rv_op_cpopw; break;
-+                    }
-+                    break;
-                 }
-                 break;
-             case 5:
-                 switch (((inst >> 25) & 0b1111111)) {
-                 case 0: op = rv_op_srliw; break;
-                 case 32: op = rv_op_sraiw; break;
-+                case 48: op = rv_op_roriw; break;
-                 }
-                 break;
-             }
-@@ -1623,8 +1739,32 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-             case 13: op = rv_op_divu; break;
-             case 14: op = rv_op_rem; break;
-             case 15: op = rv_op_remu; break;
-+            case 36:
-+                switch ((inst >> 20) & 0b11111) {
-+                case 0: op = rv_op_zext_h; break;
-+                }
-+                break;
-+            case 41: op = rv_op_clmul; break;
-+            case 42: op = rv_op_clmulr; break;
-+            case 43: op = rv_op_clmulh; break;
-+            case 44: op = rv_op_min; break;
-+            case 45: op = rv_op_minu; break;
-+            case 46: op = rv_op_max; break;
-+            case 47: op = rv_op_maxu; break;
-+            case 130: op = rv_op_sh1add; break;
-+            case 132: op = rv_op_sh2add; break;
-+            case 134: op = rv_op_sh3add; break;
-+            case 161: op = rv_op_bset; break;
-             case 256: op = rv_op_sub; break;
-+            case 260: op = rv_op_xnor; break;
-             case 261: op = rv_op_sra; break;
-+            case 262: op = rv_op_orn; break;
-+            case 263: op = rv_op_andn; break;
-+            case 289: op = rv_op_bclr; break;
-+            case 293: op = rv_op_bext; break;
-+            case 385: op = rv_op_rol; break;
-+            case 386: op = rv_op_ror; break;
-+            case 417: op = rv_op_binv; break;
-             }
-             break;
-         case 13: op = rv_op_lui; break;
-@@ -1638,8 +1778,19 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-             case 13: op = rv_op_divuw; break;
-             case 14: op = rv_op_remw; break;
-             case 15: op = rv_op_remuw; break;
-+            case 32: op = rv_op_add_uw; break;
-+            case 36:
-+                switch ((inst >> 20) & 0b11111) {
-+                case 0: op = rv_op_zext_h; break;
-+                }
-+                break;
-+            case 130: op = rv_op_sh1add_uw; break;
-+            case 132: op = rv_op_sh2add_uw; break;
-+            case 134: op = rv_op_sh3add_uw; break;
-             case 256: op = rv_op_subw; break;
-             case 261: op = rv_op_sraw; break;
-+            case 385: op = rv_op_rolw; break;
-+            case 389: op = rv_op_rorw; break;
-             }
-             break;
-         case 16:
--- 
-2.25.1
-
+Tested-by: Bin Meng <bmeng.cn@gmail.com>
 
