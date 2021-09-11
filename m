@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C84407698
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 14:39:41 +0200 (CEST)
-Received: from localhost ([::1]:50170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C863F4076A2
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 15:03:33 +0200 (CEST)
+Received: from localhost ([::1]:33376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mP2IF-0005Dx-Kz
-	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 08:39:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52272)
+	id 1mP2fM-0005zN-Bz
+	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 09:03:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mP2GB-0004EY-Jt; Sat, 11 Sep 2021 08:37:31 -0400
-Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:37458)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mP2cM-0004LE-T6
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 09:00:27 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mP2G9-0007kr-0Z; Sat, 11 Sep 2021 08:37:31 -0400
-Received: by mail-yb1-xb33.google.com with SMTP id r4so9860334ybp.4;
- Sat, 11 Sep 2021 05:37:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mP2cK-0002EX-Tg
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 09:00:26 -0400
+Received: by mail-wr1-x435.google.com with SMTP id n5so6744624wro.12
+ for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 06:00:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/grCHrZJrov0Cvkg0DiFe/AWlQFZBIZb9PlH9CppuF4=;
- b=NyHl5HFXwe+t20VZ9kMOz4gssfO21qUPsAzv6Nu+eXjB8uiaTVlpZ8yLeZBLUmjV0N
- ROMeqrpvagEJTYONYjPJHRk2iZxzFnuqzh8RXIHcHifTLFBYtS1CWm9M2j159jCHbP+a
- if7WhDDkivK7Dzt6OXq2hZQ7joT9ApA4QWmLDAut13umE0oODbkRZF7LCzVfMOv9SepO
- FyA/oCuZFfo5w0KtFLEqD4x1p6bWRKu8+hMkBdponChiK4V80PrwRUNf/JiDdQa365A+
- LpG1RKYgwkcrnxPDGSpdrie/MLrOALU1IhGn2oUDZY6TwGYwNmDoaonZvg+GS91SuA3H
- 1z4Q==
+ :cc:content-transfer-encoding;
+ bh=8D67mGMzFNyLUENuPdZkqq3ebiaLGP+/oLYXUv8UVho=;
+ b=dp+Zfx+nlFQYtz3vGlOO4RbLDQewg4aocbpJO5U7fiJWfhs2rtcjUnS1qIuJE2jd1Z
+ HEv3JFWLF90QQBrSgd6mnKzLGKoZkRszS6uNK4kCJ8ykscZA7Z3bYKab7eBbg57wXewl
+ alQA0HaEJnljsnhuThcqe8ceBnhpoXsjNtirTvyY1jKvexnKX6xEqK0SErNymiYM9nc+
+ fLmMWb11WgYdLEZupOMkPJQfY9nAZOSDdq4iQcCyq6lZOgm8SxO1HlcqQWQpKY043yPE
+ hK32JyG71EV0/iJ+M/KcejjIzvPIvhm9wGLYKDqvM2n7s5KhLG2tO3wjtkNT8EQUKB+f
+ 7Xww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/grCHrZJrov0Cvkg0DiFe/AWlQFZBIZb9PlH9CppuF4=;
- b=FFnyKlnMHAZ+zG0TxIDKfEPYqfs3Z9QVaOfy7hCblsOScVtsDMfoCjW21k1rQdCL0y
- suYWE8FXBoHzBiwQMbKu4OULxb6tL9ru6m723rPMpSdxf+UlEKNdYYMDv4BpnlEWuz1X
- KoUXLsqZYCZrV4RpAskNWnHj7upkJLIT/3tAbTZDz4suu22uslt4CdKsDFxtiZQ872IW
- OGCf9LUVzpdpp1Ty24zTCd1xuiBLYPDBcKxwYu/gwxo7MSL1pgwh25V9hko9ma4iiCQC
- DBBMaAih27RMlPbAOPTuGuFbBdnn1t0EFL582/VQSXtLGn75HhS6ErDO/m1nTKnUnxMJ
- QqJw==
-X-Gm-Message-State: AOAM532WCKkw3Ou4X6ezoce2ERy+yqQe/Vmyz5n+9gEph/b58Eid4j3r
- jwQivDpcSSvI1JxJPsJ8+Gvs+r7dI7HWx0wejKY=
-X-Google-Smtp-Source: ABdhPJwPAt/y0kgJ7dUWjSIhFbJkRY34uOzdCs3d+r4t99CMeVdEH2RT7FcSnep0BoxXLEOgLmN8BDtP1Iw5YaP3rH0=
-X-Received: by 2002:a25:cfcd:: with SMTP id f196mr3606215ybg.332.1631363844134; 
- Sat, 11 Sep 2021 05:37:24 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8D67mGMzFNyLUENuPdZkqq3ebiaLGP+/oLYXUv8UVho=;
+ b=Y3sBKVACSQmVsxXPqq8NhrU9NhIBoemyBabuW4wPMDzttm2igd4arBdXfT30mpmBPj
+ k3KVbR2zKD4zea+FRk9X0ALnsLowH/X6qN8eEOWiMJ6JAXti00MomHLL7rFyJhckG0Kb
+ csHupr+LiL4lauYJ5ghfNCiTa+YEZbX5rgbL8fNUoxgBnjhY8vZsSPOBR2eqL3MiCTC4
+ +rlgbYIBzLjDP8ZRHJl+NV+vvb6A2XXo6XeT8JaovsPGHXvqwjTJYsc69LmcFdP6tPNf
+ yGhWtmScms6qnVm32WyJyb0y0hBvzHF/oiFzVXWzzJ0jt/z17sncL2U1KY8Q76LSNs54
+ Q41Q==
+X-Gm-Message-State: AOAM532kuec+UmUuQDOLR85BjHQirCPQ3Rqa4/Q39MklvOVbXw45Txdf
+ uLAhGXmysz4IBE130JcbxTYeUWKpdJjjrvDfWgfvXA==
+X-Google-Smtp-Source: ABdhPJwbJonIniAaMklg8Jd05e/adBJhTcEaQZqApP9Bi4Nia8BOXvANgCr5qYujtI8m9JQag3rJuTtQFtvGPziz0AM=
+X-Received: by 2002:adf:f185:: with SMTP id h5mr3088436wro.302.1631365221737; 
+ Sat, 11 Sep 2021 06:00:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210910055620.946625-1-frank.chang@sifive.com>
- <20210910055620.946625-2-frank.chang@sifive.com>
-In-Reply-To: <20210910055620.946625-2-frank.chang@sifive.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 11 Sep 2021 20:37:13 +0800
-Message-ID: <CAEUhbmUgceFXLF21L1U+bo0Rz-5Cwiig=Bmh0feo0ZVwXExeQg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] hw/dma: sifive_pdma: reset Next* registers when
- Control.claim is set
-To: frank.chang@sifive.com
+References: <20210908100426.264356-1-pbonzini@redhat.com>
+In-Reply-To: <20210908100426.264356-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 11 Sep 2021 13:59:31 +0100
+Message-ID: <CAFEAcA_qgYHaheTsLDsHSicRJQ3Pv8Y_7mS8jhLy7NgPpPNyQw@mail.gmail.com>
+Subject: Re: [PULL v4 00/43] (Mostly) x86 changes for 2021-09-06
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb33.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,71 +78,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Max Hsu <max.hsu@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 10, 2021 at 1:56 PM <frank.chang@sifive.com> wrote:
+On Wed, 8 Sept 2021 at 11:07, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> From: Frank Chang <frank.chang@sifive.com>
+> The following changes since commit f9128631fbeb40a55f7bc145397981c963d409=
+09:
 >
-> Setting Control.claim clears all of the chanel's Next registers.
-> This is effective only when Control.claim is set from 0 to 1.
+>   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-r=
+equest' into staging (2021-09-07 13:24:43 +0100)
 >
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> Tested-by: Max Hsu <max.hsu@sifive.com>
-> ---
->  hw/dma/sifive_pdma.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+> are available in the Git repository at:
 >
-> diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
-> index 9b2ac2017d9..e723db9d700 100644
-> --- a/hw/dma/sifive_pdma.c
-> +++ b/hw/dma/sifive_pdma.c
-> @@ -54,6 +54,9 @@
->  #define DMA_EXEC_DST        0x110
->  #define DMA_EXEC_SRC        0x118
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
 >
-> +#define CONFIG_WRSZ_DEFAULT 6
-> +#define CONFIG_RDSZ_DEFAULT 6
+> for you to fetch changes up to 3b942628231462c56c883a6273cf137d2a382f8f:
+>
+>   ebpf: only include in system emulators (2021-09-08 08:07:04 +0200)
+>
+> ----------------------------------------------------------------
+> * SGX support (Sean, Yang)
+> * vGIF and vVMLOAD/VMSAVE support (Lara)
+> * Fix LA57 support in TCG (Daniel)
+> * Avoid pointless warnings for static user-only compilation (Thomas)
+> * Fix --disable-system compilation if libbpf is found
+> * target-i386.rst restructuring
+>
+> ----------------------------------------------------------------
 
-The FU540 manual says the next config reset value is 0, not 6.
+I gave this a retry and it now fails to compile (all hosts):
 
-> +
->  enum dma_chan_state {
->      DMA_CHAN_STATE_IDLE,
->      DMA_CHAN_STATE_STARTED,
-> @@ -221,6 +224,7 @@ static void sifive_pdma_write(void *opaque, hwaddr offset,
->  {
->      SiFivePDMAState *s = opaque;
->      int ch = SIFIVE_PDMA_CHAN_NO(offset);
-> +    bool claimed;
->
->      if (ch >= SIFIVE_PDMA_CHANS) {
->          qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid channel no %d\n",
-> @@ -231,6 +235,17 @@ static void sifive_pdma_write(void *opaque, hwaddr offset,
->      offset &= 0xfff;
->      switch (offset) {
->      case DMA_CONTROL:
-> +        claimed = !!s->chan[ch].control & CONTROL_CLAIM;
-> +
-> +        if (!claimed && (value & CONTROL_CLAIM)) {
-> +            /* reset Next* registers */
-> +            s->chan[ch].next_config = (CONFIG_RDSZ_DEFAULT << CONFIG_RDSZ_SHIFT) |
-> +                                      (CONFIG_WRSZ_DEFAULT << CONFIG_WRSZ_SHIFT);
-> +            s->chan[ch].next_bytes = 0;
-> +            s->chan[ch].next_dst = 0;
-> +            s->chan[ch].next_src = 0;
-> +        }
-> +
->          s->chan[ch].control = value;
->
->          if (value & CONTROL_RUN) {
+../../hw/i386/sgx-stub.c: In function =E2=80=98pc_machine_init_sgx_epc=E2=
+=80=99:
+../../hw/i386/sgx-stub.c:7:12: error: =E2=80=98sgx_epc=E2=80=99 undeclared =
+(first use
+in this function)
+    7 |     memset(sgx_epc, 0, sizeof(SGXEPCState));
+      |            ^~~~~~~
+../../hw/i386/sgx-stub.c:7:12: note: each undeclared identifier is
+reported only once for each function it appears in
 
-Regards,
-Bin
+
+-- PMM
 
