@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80B4B4078C2
-	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 16:18:01 +0200 (CEST)
-Received: from localhost ([::1]:40108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 578A54078A5
+	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 16:10:11 +0200 (CEST)
+Received: from localhost ([::1]:52376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mP3pQ-0001rK-JB
-	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 10:18:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34068)
+	id 1mP3hq-0007d4-DZ
+	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 10:10:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mP3YW-0002S8-PZ
+ id 1mP3YY-0002SC-VD
  for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:36 -0400
-Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:41976)
+Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:46975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mP3YU-0005fb-2r
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:32 -0400
-Received: by mail-lf1-x134.google.com with SMTP id a4so10348467lfg.8
- for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 07:00:29 -0700 (PDT)
+ id 1mP3YV-0005gz-El
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:34 -0400
+Received: by mail-lj1-x234.google.com with SMTP id w4so8178364ljh.13
+ for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 07:00:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=vrull-eu.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U6Go4RU9a3R9v90EyBU/YVlixGGOK2Gj2qa2fmS2f4Q=;
- b=xl0gxWu5kTsKACCKyF12Cf06C+G80yOCPNjsTC4JQv1UlvmkEfn/FoCMXvV8EXYGeF
- /QprtF5NzRSnp2wo/ipffO2ZMCGskHTzHwVFlnYifH5DCfgUBW+iO8UAwLxAWRyIarHD
- JtQMPo++eIr14+XPyHbGQzTqvWdwMoSiky5dzASbSZbEMsGdeYB1i2xpY9hZC8dvwi2I
- 9LUDUVayr2KJuYhzFOUgFbAYwY9Q8hkSIbbgn0niJvMvuF2Ez6KRyJSIPdvwTK7Thu3+
- N/hUxtshxhfZE7yd3Cv0jhWNRZLklMxQOBe6Ou00mu1VZzffBEiArXS7xqBeS4ncJmTh
- JwIA==
+ bh=BL7W2g6lMa1q7YMkBRz3Qo9dzB4qq3vyBgPK/X0YXjo=;
+ b=K+tBRCbH2ybjz6qbDekB2kKqPGuG4C7ifdZ2L7ewID52T3nzb4uVlIjVfiiVMjyYUn
+ qe5rgAKl1Sti4JrAHQhVK99/Fs6nrdDsRO0IBMT1UwtwkYP2hWDlx/ZXzHEc51UZXnCE
+ qli4JlpkGWIBfA1X3Sev78n/BtqysWB1u/FNrUgdzQfif6/QlQu87nZIWQWZtzsN/khC
+ X1pU3hL685aj2yzAzI7VaLHVDBttyVk7r/EgBfmwwLB+kTE/nihRMrP90LrLvWJHthO5
+ GkFrRacNnzJLsN3xWmGmRbI6pKiJaoU25QgJxkVXwFngoEx3hwpUR1T/wBSkxoYPOITB
+ ekYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=U6Go4RU9a3R9v90EyBU/YVlixGGOK2Gj2qa2fmS2f4Q=;
- b=RSMO6Z47e4APFO74bEVxK3+5EzEb9vh2LfwBOOua4ND4AgGhQramGoTWhFtg7Mm5kw
- oG4cq595NHvmYxevw3OYO1dZ+J51zsWSDyERv+maX58DYs4vdW1yu+bWMq4y8bA92X+l
- 2cqmkTshxAA5U7T/bQYb6Io7J1TGp5GKidemq7QGqCy8qd9tauLTDvYgbgHxK1EWVSRl
- 36KcKT4MDyfS4MuppSJOLmD6SIXw70HdheWr4psOYEM2HnNDEIFh5BYmanoCp836uAzz
- xOyrdrHGu9c3/4k3gRmpy5W6mfi89bonVCup0Naag7x99+wEi+7W7dAcurTR4xSjtI73
- wj0w==
-X-Gm-Message-State: AOAM533Q4NhajGQ79s37G1SY/GPsw1YvUqy0v3ciCrzTlH620ffaGTlw
- 8VQZatEOR63TTcL3qhruAAsZCxyChFPr2DLs
-X-Google-Smtp-Source: ABdhPJzUUYKj3Q0VHqpNpDRKzpbrah/9qwsd7wIR+81Qo4UQ7LfQALQAoHZRDhELXv8MmyT1KQLe0w==
-X-Received: by 2002:a05:6512:23a5:: with SMTP id
- c37mr2191276lfv.321.1631368828072; 
- Sat, 11 Sep 2021 07:00:28 -0700 (PDT)
+ bh=BL7W2g6lMa1q7YMkBRz3Qo9dzB4qq3vyBgPK/X0YXjo=;
+ b=fZ7fjcOfeiC1vIhQG+WrTwS0WRTWVM7wzV2wKVuLSaPJsGtwBR2ZA73spg+V81gsDh
+ Bzc0y5Y9a0uDpScccvGqXokdVk7l/ltfX8qNnoN27A7K1k81nr+ywWA3aZUMo+ebN9LQ
+ s4UObfj9V4eDQ40aVC1833Y2R+VFDWOrkIQxsZlXd/UKzFok6S0GRqdos2hR/7QWrgO6
+ 7VXbB2pXNSPOLyTKvR+IMfdYOfvPyoDuDp4sleZseseMudNaF4wRzBkcRP9h6mbKMmxK
+ oTGbb08p3whr2Yj0f71XxnqghNUMJ/dPY6PHZsLSptQBl6OYMFZS/uldrfJCznxj0rBR
+ c4Ow==
+X-Gm-Message-State: AOAM531w8O8aws/Ww5BeGsu9l+KYYNNnHi3PoF5+MnSKMBITjHm37HBB
+ 6uOOUbDxtdS+MZkmaNFDyHRBAXv2trATj+SI
+X-Google-Smtp-Source: ABdhPJwGlE85f8EKtR4Y5xSwElywxYi9/VevQ2l7ZJ9vp8Ox01BeStbnxvS+tLywBNYwdRLre5GWzA==
+X-Received: by 2002:a2e:a225:: with SMTP id i5mr2369066ljm.64.1631368829176;
+ Sat, 11 Sep 2021 07:00:29 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id u15sm213052lfk.26.2021.09.11.07.00.27
+ by smtp.gmail.com with ESMTPSA id u15sm213052lfk.26.2021.09.11.07.00.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Sep 2021 07:00:27 -0700 (PDT)
+ Sat, 11 Sep 2021 07:00:28 -0700 (PDT)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 10/16] target/riscv: Reassign instructions to the
- Zbb-extension
-Date: Sat, 11 Sep 2021 16:00:10 +0200
-Message-Id: <20210911140016.834071-11-philipp.tomsich@vrull.eu>
+Subject: [PATCH v11 11/16] target/riscv: Add orc.b instruction for Zbb,
+ removing gorc/gorci
+Date: Sat, 11 Sep 2021 16:00:11 +0200
+Message-Id: <20210911140016.834071-12-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
 References: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::134;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x134.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::234;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x234.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -85,296 +84,200 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- Kito Cheng <kito.cheng@sifive.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Kito Cheng <kito.cheng@sifive.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Philipp Tomsich <philipp.tomsich@vrull.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reassigns the instructions that are part of Zbb into it, with the
-notable exceptions of the instructions (rev8, zext.w and orc.b) that
-changed due to gorci, grevi and pack not being part of Zb[abcs].
+The 1.0.0 version of Zbb does not contain gorc/gorci.  Instead, a
+orc.b instruction (equivalent to the orc.b pseudo-instruction built on
+gorci from pre-0.93 draft-B) is available, mainly targeting
+string-processing workloads.
+
+This commit adds the new orc.b instruction and removed gorc/gorci.
 
 Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Acked-by: Bin Meng <bmeng.cn@gmail.com>
+
 ---
 
-(no changes since v3)
+(no changes since v9)
+
+Changes in v9:
+- Picked up Alistair's Reviewed-by, after patman had failed to catch
+  it for v8.
+
+Changes in v8:
+- Optimize orc.b further by reordering the shift/and, updating the
+  comment to reflect that we put the truth-value into the LSB, and
+  putting the (now only) constant in a temporary
+- Fold the final bitwise-not into the second and, using and andc.
+
+Changes in v7:
+- Free TCG temporary in gen_orc_b().
+
+Changes in v6:
+- Fixed orc.b (now passes SPEC w/ optimized string functions) by
+  adding the missing final negation.
+
+Changes in v4:
+- Change orc.b to implementation suggested by Richard Henderson
 
 Changes in v3:
-- The changes to the Zbb instructions (i.e. use the REQUIRE_ZBB macro)
-  are now in a separate commit.
+- Moved orc.b and gorc/gorci changes into separate commit.
+- Using the simpler orc.b implementation suggested by Richard Henderson
 
- target/riscv/insn32.decode              | 40 ++++++++++---------
- target/riscv/insn_trans/trans_rvb.c.inc | 51 ++++++++++++++-----------
- 2 files changed, 50 insertions(+), 41 deletions(-)
+ target/riscv/bitmanip_helper.c          | 26 -----------------
+ target/riscv/helper.h                   |  2 --
+ target/riscv/insn32.decode              |  6 +---
+ target/riscv/insn_trans/trans_rvb.c.inc | 39 +++++++++++--------------
+ 4 files changed, 18 insertions(+), 55 deletions(-)
 
+diff --git a/target/riscv/bitmanip_helper.c b/target/riscv/bitmanip_helper.c
+index 73be5a81c7..bb48388fcd 100644
+--- a/target/riscv/bitmanip_helper.c
++++ b/target/riscv/bitmanip_helper.c
+@@ -64,32 +64,6 @@ target_ulong HELPER(grevw)(target_ulong rs1, target_ulong rs2)
+     return do_grev(rs1, rs2, 32);
+ }
+ 
+-static target_ulong do_gorc(target_ulong rs1,
+-                            target_ulong rs2,
+-                            int bits)
+-{
+-    target_ulong x = rs1;
+-    int i, shift;
+-
+-    for (i = 0, shift = 1; shift < bits; i++, shift <<= 1) {
+-        if (rs2 & shift) {
+-            x |= do_swap(x, adjacent_masks[i], shift);
+-        }
+-    }
+-
+-    return x;
+-}
+-
+-target_ulong HELPER(gorc)(target_ulong rs1, target_ulong rs2)
+-{
+-    return do_gorc(rs1, rs2, TARGET_LONG_BITS);
+-}
+-
+-target_ulong HELPER(gorcw)(target_ulong rs1, target_ulong rs2)
+-{
+-    return do_gorc(rs1, rs2, 32);
+-}
+-
+ target_ulong HELPER(clmul)(target_ulong rs1, target_ulong rs2)
+ {
+     target_ulong result = 0;
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 8a318a2dbc..a9bda2c8ac 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -61,8 +61,6 @@ DEF_HELPER_FLAGS_1(fclass_d, TCG_CALL_NO_RWG_SE, tl, i64)
+ /* Bitmanip */
+ DEF_HELPER_FLAGS_2(grev, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_FLAGS_2(grevw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(gorc, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(gorcw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_FLAGS_2(clmul, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_FLAGS_2(clmulr, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 1658bb4217..a509cfee11 100644
+index a509cfee11..59202196dc 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -672,45 +672,47 @@ sh2add_uw  0010000 .......... 100 ..... 0111011 @r
- sh3add_uw  0010000 .......... 110 ..... 0111011 @r
- slli_uw    00001 ............ 001 ..... 0011011 @sh
- 
--# *** RV32B Standard Extension ***
-+# *** RV32 Zbb Standard Extension ***
-+andn       0100000 .......... 111 ..... 0110011 @r
- clz        011000 000000 ..... 001 ..... 0010011 @r2
--ctz        011000 000001 ..... 001 ..... 0010011 @r2
- cpop       011000 000010 ..... 001 ..... 0010011 @r2
-+ctz        011000 000001 ..... 001 ..... 0010011 @r2
-+max        0000101 .......... 110 ..... 0110011 @r
-+maxu       0000101 .......... 111 ..... 0110011 @r
-+min        0000101 .......... 100 ..... 0110011 @r
-+minu       0000101 .......... 101 ..... 0110011 @r
-+orn        0100000 .......... 110 ..... 0110011 @r
-+rol        0110000 .......... 001 ..... 0110011 @r
-+ror        0110000 .......... 101 ..... 0110011 @r
-+rori       01100 ............ 101 ..... 0010011 @sh
- sext_b     011000 000100 ..... 001 ..... 0010011 @r2
- sext_h     011000 000101 ..... 001 ..... 0010011 @r2
--
--andn       0100000 .......... 111 ..... 0110011 @r
--orn        0100000 .......... 110 ..... 0110011 @r
- xnor       0100000 .......... 100 ..... 0110011 @r
-+
-+# *** RV64 Zbb Standard Extension (in addition to RV32 Zbb) ***
-+clzw       0110000 00000 ..... 001 ..... 0011011 @r2
-+ctzw       0110000 00001 ..... 001 ..... 0011011 @r2
-+cpopw      0110000 00010 ..... 001 ..... 0011011 @r2
-+rolw       0110000 .......... 001 ..... 0111011 @r
-+roriw      0110000 .......... 101 ..... 0011011 @sh5
-+rorw       0110000 .......... 101 ..... 0111011 @r
-+
-+# *** RV32B Standard Extension ***
- pack       0000100 .......... 100 ..... 0110011 @r
+@@ -681,6 +681,7 @@ max        0000101 .......... 110 ..... 0110011 @r
+ maxu       0000101 .......... 111 ..... 0110011 @r
+ min        0000101 .......... 100 ..... 0110011 @r
+ minu       0000101 .......... 101 ..... 0110011 @r
++orc_b      001010 000111 ..... 101 ..... 0010011 @r2
+ orn        0100000 .......... 110 ..... 0110011 @r
+ rol        0110000 .......... 001 ..... 0110011 @r
+ ror        0110000 .......... 101 ..... 0110011 @r
+@@ -702,19 +703,14 @@ pack       0000100 .......... 100 ..... 0110011 @r
  packu      0100100 .......... 100 ..... 0110011 @r
  packh      0000100 .......... 111 ..... 0110011 @r
--min        0000101 .......... 100 ..... 0110011 @r
--minu       0000101 .......... 101 ..... 0110011 @r
--max        0000101 .......... 110 ..... 0110011 @r
--maxu       0000101 .......... 111 ..... 0110011 @r
--ror        0110000 .......... 101 ..... 0110011 @r
--rol        0110000 .......... 001 ..... 0110011 @r
  grev       0110100 .......... 101 ..... 0110011 @r
- gorc       0010100 .......... 101 ..... 0110011 @r
- 
--rori       01100. ........... 101 ..... 0010011 @sh
+-gorc       0010100 .......... 101 ..... 0110011 @r
+-
  grevi      01101. ........... 101 ..... 0010011 @sh
- gorci      00101. ........... 101 ..... 0010011 @sh
+-gorci      00101. ........... 101 ..... 0010011 @sh
  
  # *** RV64B Standard Extension (in addition to RV32B) ***
--clzw       0110000 00000 ..... 001 ..... 0011011 @r2
--ctzw       0110000 00001 ..... 001 ..... 0011011 @r2
--cpopw      0110000 00010 ..... 001 ..... 0011011 @r2
--
  packw      0000100 .......... 100 ..... 0111011 @r
  packuw     0100100 .......... 100 ..... 0111011 @r
--rorw       0110000 .......... 101 ..... 0111011 @r
--rolw       0110000 .......... 001 ..... 0111011 @r
  grevw      0110100 .......... 101 ..... 0111011 @r
- gorcw      0010100 .......... 101 ..... 0111011 @r
+-gorcw      0010100 .......... 101 ..... 0111011 @r
  
--roriw      0110000 .......... 101 ..... 0011011 @sh5
  greviw     0110100 .......... 101 ..... 0011011 @sh5
- gorciw     0010100 .......... 101 ..... 0011011 @sh5
+-gorciw     0010100 .......... 101 ..... 0011011 @sh5
  
+ # *** RV32 Zbc Standard Extension ***
+ clmul      0000101 .......... 001 ..... 0110011 @r
 diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 2eb5fa3640..bdfb495f24 100644
+index bdfb495f24..951b3d7073 100644
 --- a/target/riscv/insn_trans/trans_rvb.c.inc
 +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -1,5 +1,5 @@
- /*
-- * RISC-V translation routines for the Zb[acs] Standard Extension.
-+ * RISC-V translation routines for the Zb[abcs] Standard Extension.
-  *
-  * Copyright (c) 2020 Kito Cheng, kito.cheng@sifive.com
-  * Copyright (c) 2020 Frank Chang, frank.chang@sifive.com
-@@ -24,6 +24,12 @@
-     }                                            \
- } while (0)
+@@ -295,16 +295,27 @@ static bool trans_grevi(DisasContext *ctx, arg_grevi *a)
+     return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_grevi);
+ }
  
-+#define REQUIRE_ZBB(ctx) do {                    \
-+    if (!RISCV_CPU(ctx->cs)->cfg.ext_zbb) {      \
-+        return false;                            \
-+    }                                            \
-+} while (0)
+-static bool trans_gorc(DisasContext *ctx, arg_gorc *a)
++static void gen_orc_b(TCGv ret, TCGv source1)
+ {
+-    REQUIRE_EXT(ctx, RVB);
+-    return gen_shift(ctx, a, EXT_ZERO, gen_helper_gorc);
++    TCGv  tmp = tcg_temp_new();
++    TCGv  ones = tcg_constant_tl(dup_const(MO_8, 0x01));
 +
- #define REQUIRE_ZBC(ctx) do {                    \
-     if (!RISCV_CPU(ctx->cs)->cfg.ext_zbc) {      \
-         return false;                            \
-@@ -40,9 +46,10 @@ static void gen_clz(TCGv ret, TCGv arg1)
- {
-     tcg_gen_clzi_tl(ret, arg1, TARGET_LONG_BITS);
- }
++    /* Set lsb in each byte if the byte was zero. */
++    tcg_gen_sub_tl(tmp, source1, ones);
++    tcg_gen_andc_tl(tmp, tmp, source1);
++    tcg_gen_shri_tl(tmp, tmp, 7);
++    tcg_gen_andc_tl(tmp, ones, tmp);
 +
- static bool trans_clz(DisasContext *ctx, arg_clz *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_unary(ctx, a, EXT_ZERO, gen_clz);
++    /* Replicate the lsb of each byte across the byte. */
++    tcg_gen_muli_tl(ret, tmp, 0xff);
++
++    tcg_temp_free(tmp);
  }
  
-@@ -53,31 +60,31 @@ static void gen_ctz(TCGv ret, TCGv arg1)
- 
- static bool trans_ctz(DisasContext *ctx, arg_ctz *a)
+-static bool trans_gorci(DisasContext *ctx, arg_gorci *a)
++static bool trans_orc_b(DisasContext *ctx, arg_orc_b *a)
  {
 -    REQUIRE_EXT(ctx, RVB);
+-    return gen_shift_imm_tl(ctx, a, EXT_ZERO, gen_helper_gorc);
 +    REQUIRE_ZBB(ctx);
-     return gen_unary(ctx, a, EXT_ZERO, gen_ctz);
++    return gen_unary(ctx, a, EXT_ZERO, gen_orc_b);
  }
  
- static bool trans_cpop(DisasContext *ctx, arg_cpop *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_unary(ctx, a, EXT_ZERO, tcg_gen_ctpop_tl);
+ #define GEN_SHADD(SHAMT)                                       \
+@@ -476,22 +487,6 @@ static bool trans_greviw(DisasContext *ctx, arg_greviw *a)
+     return gen_shift_imm_tl(ctx, a, EXT_ZERO, gen_helper_grev);
  }
  
- static bool trans_andn(DisasContext *ctx, arg_andn *a)
- {
+-static bool trans_gorcw(DisasContext *ctx, arg_gorcw *a)
+-{
+-    REQUIRE_64BIT(ctx);
 -    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_arith(ctx, a, EXT_NONE, tcg_gen_andc_tl);
- }
- 
- static bool trans_orn(DisasContext *ctx, arg_orn *a)
- {
+-    ctx->w = true;
+-    return gen_shift(ctx, a, EXT_ZERO, gen_helper_gorc);
+-}
+-
+-static bool trans_gorciw(DisasContext *ctx, arg_gorciw *a)
+-{
+-    REQUIRE_64BIT(ctx);
 -    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_arith(ctx, a, EXT_NONE, tcg_gen_orc_tl);
- }
- 
- static bool trans_xnor(DisasContext *ctx, arg_xnor *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_arith(ctx, a, EXT_NONE, tcg_gen_eqv_tl);
- }
- 
-@@ -124,37 +131,37 @@ static bool trans_packh(DisasContext *ctx, arg_packh *a)
- 
- static bool trans_min(DisasContext *ctx, arg_min *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_arith(ctx, a, EXT_SIGN, tcg_gen_smin_tl);
- }
- 
- static bool trans_max(DisasContext *ctx, arg_max *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_arith(ctx, a, EXT_SIGN, tcg_gen_smax_tl);
- }
- 
- static bool trans_minu(DisasContext *ctx, arg_minu *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_arith(ctx, a, EXT_SIGN, tcg_gen_umin_tl);
- }
- 
- static bool trans_maxu(DisasContext *ctx, arg_maxu *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_arith(ctx, a, EXT_SIGN, tcg_gen_umax_tl);
- }
- 
- static bool trans_sext_b(DisasContext *ctx, arg_sext_b *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_unary(ctx, a, EXT_NONE, tcg_gen_ext8s_tl);
- }
- 
- static bool trans_sext_h(DisasContext *ctx, arg_sext_h *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_unary(ctx, a, EXT_NONE, tcg_gen_ext16s_tl);
- }
- 
-@@ -250,19 +257,19 @@ static bool trans_bexti(DisasContext *ctx, arg_bexti *a)
- 
- static bool trans_ror(DisasContext *ctx, arg_ror *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_shift(ctx, a, EXT_NONE, tcg_gen_rotr_tl);
- }
- 
- static bool trans_rori(DisasContext *ctx, arg_rori *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_shift_imm_fn(ctx, a, EXT_NONE, tcg_gen_rotri_tl);
- }
- 
- static bool trans_rol(DisasContext *ctx, arg_rol *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_shift(ctx, a, EXT_NONE, tcg_gen_rotl_tl);
- }
- 
-@@ -337,7 +344,7 @@ static void gen_clzw(TCGv ret, TCGv arg1)
- static bool trans_clzw(DisasContext *ctx, arg_clzw *a)
- {
-     REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_unary(ctx, a, EXT_NONE, gen_clzw);
- }
- 
-@@ -350,14 +357,14 @@ static void gen_ctzw(TCGv ret, TCGv arg1)
- static bool trans_ctzw(DisasContext *ctx, arg_ctzw *a)
- {
-     REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     return gen_unary(ctx, a, EXT_NONE, gen_ctzw);
- }
- 
- static bool trans_cpopw(DisasContext *ctx, arg_cpopw *a)
- {
-     REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     ctx->w = true;
-     return gen_unary(ctx, a, EXT_ZERO, tcg_gen_ctpop_tl);
- }
-@@ -414,7 +421,7 @@ static void gen_rorw(TCGv ret, TCGv arg1, TCGv arg2)
- static bool trans_rorw(DisasContext *ctx, arg_rorw *a)
- {
-     REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     ctx->w = true;
-     return gen_shift(ctx, a, EXT_NONE, gen_rorw);
- }
-@@ -422,7 +429,7 @@ static bool trans_rorw(DisasContext *ctx, arg_rorw *a)
- static bool trans_roriw(DisasContext *ctx, arg_roriw *a)
- {
-     REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     ctx->w = true;
-     return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_rorw);
- }
-@@ -448,7 +455,7 @@ static void gen_rolw(TCGv ret, TCGv arg1, TCGv arg2)
- static bool trans_rolw(DisasContext *ctx, arg_rolw *a)
- {
-     REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBB(ctx);
-     ctx->w = true;
-     return gen_shift(ctx, a, EXT_NONE, gen_rolw);
- }
+-    ctx->w = true;
+-    return gen_shift_imm_tl(ctx, a, EXT_ZERO, gen_helper_gorc);
+-}
+-
+ #define GEN_SHADD_UW(SHAMT)                                       \
+ static void gen_sh##SHAMT##add_uw(TCGv ret, TCGv arg1, TCGv arg2) \
+ {                                                                 \
 -- 
 2.25.1
 
