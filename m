@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0037240789F
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB124078A0
 	for <lists+qemu-devel@lfdr.de>; Sat, 11 Sep 2021 16:06:50 +0200 (CEST)
-Received: from localhost ([::1]:44958 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:44928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mP3eb-0002Vp-1S
+	id 1mP3eb-0002Ub-1Y
 	for lists+qemu-devel@lfdr.de; Sat, 11 Sep 2021 10:06:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33998)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mP3YS-0002QL-8J
- for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:28 -0400
-Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229]:45978)
+ id 1mP3YS-0002Qn-IT
+ for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:30 -0400
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:41867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mP3YO-0005bq-Dp
+ id 1mP3YO-0005ce-TV
  for qemu-devel@nongnu.org; Sat, 11 Sep 2021 10:00:28 -0400
-Received: by mail-lj1-x229.google.com with SMTP id l18so8179002lji.12
+Received: by mail-lj1-x233.google.com with SMTP id o11so706052ljp.8
  for <qemu-devel@nongnu.org>; Sat, 11 Sep 2021 07:00:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=vrull-eu.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FknMPYOgK+/+tCJkyRWpYg+Sv0qspb3//ySmMWIz1cg=;
- b=dhEFz7V+aOD5DDcQgA3TInTqFZ/5BJCpczPkkTWGYs11bbwhm09GLdVJj+BPnMlhme
- 4LxoC8gFqdkF4ORbnHtxhcXiXk2yEBCWvEaRnEpAyyrKEdA6l9n0lK0jsxhwE+83VYIg
- HRjes3GFwJgd9Iwl/RkeSMC4R95iauvFnbKt2TkbhHLkyS1dgKWgoH2F9qVup1f2+cb+
- NnCcJQpfGNHCG+nH7MOPAKcVYX2c4j0zPzL3a/PkSHH8YHiP4t9bipCkDKFGbj8a1BtB
- Ue7NgwMHZl+ojffgQ7zw3lEzPTQqexi8DylFMXuGmSee92bG20WS2WXWicjiPzQM1F6C
- nnJQ==
+ bh=qMycYKQP4HcNWkpkCW+qjMMp3vvgW5hq/1ItbJrV4ng=;
+ b=lP0T/gRT+Qa5zuLq6qTqcbt8cSyGFyckwFwa46h3jLw2ISKYxWiEomi9Sx33XNk28w
+ kEgWD6HEKEi1jmqHGuCQhuQGUeLxlVvXT1rF2bfEL9jdKP5Fufs1N+l/6z2mvabqT8Kh
+ zZvgya8zqDhUdW+VvMzwVLYnVnYC4oM5eAQNIB0HhUG/bAiVCnqu/BIByQHUGmZ46mMQ
+ ukH7Sw/QCDVPq0MNK0JRL9zjsqj+vWWMnc/X8d3PoKCJh8H2cMoJcF+ALsDe8v3T/U0U
+ hpAhM7BivEqqEi6kiHqqYVHkFq75NoAGnp1oWeW98mcONu6qURaKAIgSKTVjrcKcKy5f
+ 4bVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FknMPYOgK+/+tCJkyRWpYg+Sv0qspb3//ySmMWIz1cg=;
- b=KC8lSZESKZZN5BPnAPG1RyHECw2QSl5YXwpH/nLfgH+ZsCPs5XKz6j+Nd28IMEybID
- lOY3fJAbIVFcxhDjfXYZNU0RzRn+RHkisFLRB4JSuCyi7IL/H7ViR2wU4iOrH8DtbLL/
- oxA3+Z+fxbJuO0jGLwJSkCAOr2svvHOBC/QZv2wTprcMaQcj8kDQ+0FPLtQgnWG4k58I
- vVaqHnWkzkDa/NV3En4YDqHCD5uPTwn1dESs86H4FOahh0cqx9hG5xlfzL+5PQMPKHMc
- B/wLay021JkfP+gJ3aZeLEf8KnJsfGioBIHVSI9ZaGCEQbADq4EfgJQ8NA1XuTydY/ni
- KVeA==
-X-Gm-Message-State: AOAM532KIBE3Z14Nz11kZsL+GgthnLCU0QmPdMZb+gCL0RBv1PMvinFW
- AD+btVu7iPlwsb4oh1MtCdz+7+QeRJV3LGuJ
-X-Google-Smtp-Source: ABdhPJzE+vk9HVNo2sTo3vBdGuQz+Q9rA5FputuqOMn+pvjocmSnu4uxJ5cq1kRfLs+j79pJ0OMTbA==
-X-Received: by 2002:a2e:a546:: with SMTP id e6mr2348920ljn.517.1631368822552; 
- Sat, 11 Sep 2021 07:00:22 -0700 (PDT)
+ bh=qMycYKQP4HcNWkpkCW+qjMMp3vvgW5hq/1ItbJrV4ng=;
+ b=sP1I7m3S4ppzmnWTdiVTKbjfXSlNxzpugJ3FEszXoDQTU7NE4HOegFyc8l95eAx3Nh
+ EAaxLFF0PJo/ulUAr2gpjumPYDN88gfwt2/QTitbPtaoJg0qzPrZtafDSPxPDnv067tH
+ 7SZpgOPvPVKPcNS1sEyIe6r4InArHn/KEfw5QT1vY6QYjVFZFSpzjxVbIklNe3iCfgM/
+ 2nYh+4kw2fui5MwvFiB7DOsLjItLLzvvpiI+U06Del+C4jJJhrl/ERAhJs2oeAr5G3Qu
+ RzkDqUGb+qjNIeZ/lhKF5x35YyOwqqGx8WG4JRV42Nd4oJdrwJmmuOOctWWc6aVEamXe
+ JBqQ==
+X-Gm-Message-State: AOAM530BQrnehwQvAEjH1mxGfFqL0H0yUgNYI6T1nfdhlouUUQZ/Wyfv
+ ZuH/wHk47b+phsUoLjtzSiLwFESLed1a0Wxs
+X-Google-Smtp-Source: ABdhPJyzf8EF5udI7Bq4cpPo3phu6uz5jpsEngHpzrQLizF2n4NmKxg3LY8Uvk4PuujsB5TyIAi54g==
+X-Received: by 2002:a05:651c:1b3:: with SMTP id
+ c19mr2393404ljn.16.1631368823341; 
+ Sat, 11 Sep 2021 07:00:23 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id u15sm213052lfk.26.2021.09.11.07.00.21
+ by smtp.gmail.com with ESMTPSA id u15sm213052lfk.26.2021.09.11.07.00.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 11 Sep 2021 07:00:22 -0700 (PDT)
+ Sat, 11 Sep 2021 07:00:23 -0700 (PDT)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 03/16] target/riscv: clwz must ignore high bits (use
- shift-left & changed logic)
-Date: Sat, 11 Sep 2021 16:00:03 +0200
-Message-Id: <20210911140016.834071-4-philipp.tomsich@vrull.eu>
+Subject: [PATCH v11 04/16] target/riscv: Add x-zba, x-zbb,
+ x-zbc and x-zbs properties
+Date: Sat, 11 Sep 2021 16:00:04 +0200
+Message-Id: <20210911140016.834071-5-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
 References: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::229;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x229.google.com
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::233;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x233.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,72 +85,66 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- Kito Cheng <kito.cheng@sifive.com>,
+ Kito Cheng <kito.cheng@sifive.com>, Bin Meng <bmeng.cn@gmail.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Philipp Tomsich <philipp.tomsich@vrull.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Assume clzw being executed on a register that is not sign-extended, such
-as for the following sequence that uses (1ULL << 63) | 392 as the operand
-to clzw:
-	bseti	a2, zero, 63
-	addi	a2, a2, 392
-	clzw    a3, a2
-The correct result of clzw would be 23, but the current implementation
-returns -32 (as it performs a 64bit clz, which results in 0 leading zero
-bits, and then subtracts 32).
+The bitmanipulation ISA extensions will be ratified as individual
+small extension packages instead of a large B-extension.  The first
+new instructions through the door (these have completed public review)
+are Zb[abcs].
 
-Fix this by changing the implementation to:
- 1. shift the original register up by 32
- 2. performs a target-length (64bit) clz
- 3. return 32 if no bits are set
-
-Marking this instruction as 'w-form' (i.e., setting ctx->w) would not
-correctly model the behaviour, as the instruction should not perform
-a zero-extensions on the input (after all, it is not a .uw instruction)
-and the result is always in the range 0..32 (so neither a sign-extension
-nor a zero-extension on the result will ever be needed).  Consequently,
-we do not set ctx->w and mark the instruction as EXT_NONE.
+This adds new 'x-zba', 'x-zbb', 'x-zbc' and 'x-zbs' properties for
+these in target/riscv/cpu.[ch].
 
 Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 ---
 
-Changes in v11:
-- Swaps out the EXT_ZERO to EXT_NONE, as no extension is to be performed.
+(no changes since v3)
 
-Changes in v10:
-- New patch, fixing correctnes for clzw called on a register with undefined
-  (as in: not properly sign-extended) upper bits.
+Changes in v3:
+- Split off removal of 'x-b' property and 'ext_b' field into a separate
+  patch to ensure bisectability.
 
- target/riscv/insn_trans/trans_rvb.c.inc | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ target/riscv/cpu.c | 4 ++++
+ target/riscv/cpu.h | 4 ++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 6c85c89f6d..73d1e45026 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -349,15 +349,17 @@ GEN_TRANS_SHADD(3)
- 
- static void gen_clzw(TCGv ret, TCGv arg1)
- {
--    tcg_gen_clzi_tl(ret, arg1, 64);
--    tcg_gen_subi_tl(ret, ret, 32);
-+    TCGv t = tcg_temp_new();
-+    tcg_gen_shli_tl(t, arg1, 32);
-+    tcg_gen_clzi_tl(ret, t, 32);
-+    tcg_temp_free(t);
- }
- 
- static bool trans_clzw(DisasContext *ctx, arg_clzw *a)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVB);
--    return gen_unary(ctx, a, EXT_ZERO, gen_clzw);
-+    return gen_unary(ctx, a, EXT_NONE, gen_clzw);
- }
- 
- static void gen_ctzw(TCGv ret, TCGv arg1)
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 1a2b03d579..ceb7e01810 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -587,6 +587,10 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
+     /* This is experimental so mark with 'x-' */
+     DEFINE_PROP_BOOL("x-b", RISCVCPU, cfg.ext_b, false),
++    DEFINE_PROP_BOOL("x-zba", RISCVCPU, cfg.ext_zba, false),
++    DEFINE_PROP_BOOL("x-zbb", RISCVCPU, cfg.ext_zbb, false),
++    DEFINE_PROP_BOOL("x-zbc", RISCVCPU, cfg.ext_zbc, false),
++    DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
+     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
+     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
+     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index bf1c899c00..7c4cd8ea89 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -293,6 +293,10 @@ struct RISCVCPU {
+         bool ext_u;
+         bool ext_h;
+         bool ext_v;
++        bool ext_zba;
++        bool ext_zbb;
++        bool ext_zbc;
++        bool ext_zbs;
+         bool ext_counters;
+         bool ext_ifencei;
+         bool ext_icsr;
 -- 
 2.25.1
 
