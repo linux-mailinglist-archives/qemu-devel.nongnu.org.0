@@ -2,80 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F011B407FCD
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 21:51:32 +0200 (CEST)
-Received: from localhost ([::1]:55972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF14C40816A
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 22:25:08 +0200 (CEST)
+Received: from localhost ([::1]:33744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPVVj-0006ZA-HK
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 15:51:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41488)
+	id 1mPW2F-00040N-8t
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 16:25:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPVUa-0005aW-LT
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 15:50:20 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:45697)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPVUY-0006kN-Sf
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 15:50:20 -0400
-Received: by mail-pf1-x434.google.com with SMTP id w19so2468742pfn.12
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 12:50:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HfPZJmOm13m2Pl9H1Tlv70whteR6HdTlV2KxxVUS91w=;
- b=usGofVoKV8Sqn7JJiCSgwG3j90qEaN5CMRueaQQDHngkvY8F8pEeyifQAj9uP0NcKF
- eXbBMQhKLHfGAjS7ItGN5TSsTHQCblCsFLl7x8V6UtH2zwSbf97orOLZqZgmwNKzygXI
- SDI6sM5Obf+PaAEjpqNT5Dvaizoq41CFRD5AN+WrEf+dY332VtHpQRM1mTf8xu82rF7m
- 1L9MLrjVcvkyi79qDsJTtQWfJ2EHaIht3G6eQHhuywYM8IgiX5K3ALSa9HeV9X2GirSd
- Cp92RtSNRuHHE4OA8pSeupQR1f/OmRuRPmxMvPR08GhMCoHZqnGVIMDaxbjUadTjIEGk
- l6tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HfPZJmOm13m2Pl9H1Tlv70whteR6HdTlV2KxxVUS91w=;
- b=qCu6W20gcA1tAi/y01kk5agFLcvcOWB+itF0EgXKJDHFqcGidu+LRwt013Tk9p3Kdd
- wkvuVOlpDL8TZZCAj+8PFssj3wVEj2CEaSohrofg/EMb1BPXnPgIDtsF4WIGEAYNCSeW
- oXsnpIv7RRP/mw+j4QMhnvU6Ghyu5epODqDtepvxgYuvrOT63bmxOcLJIJntid7QCq4A
- ld8uirtVc0gBAnKmz6YoCx6nmzBeerFQb/NU+tMsfTIBxNb//4gEOHjj2H5fzM+KOw+E
- rWIebQAS9Lhpo2tIaWwxs69JSlBpltc01Hc3cExN3j5GSFtCoy3OKLcC10XSdrlvRs8q
- xX+Q==
-X-Gm-Message-State: AOAM530yQFDb/G90IPuaOcJ9Kki14LNuyUtDvJbuyg7bquvSE4B27lHp
- egFHKYBKXNhnVuCfuN0bv+uGiw==
-X-Google-Smtp-Source: ABdhPJwItOYnowHAu6Sp+Q95b6JvoDHmqQAEBa9cAMICddW2nfKl6h10HuHq3c1o3ITLpIDvkRnPtQ==
-X-Received: by 2002:a63:4917:: with SMTP id w23mr7748965pga.344.1631476216761; 
- Sun, 12 Sep 2021 12:50:16 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id l23sm4390542pji.45.2021.09.12.12.50.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Sep 2021 12:50:16 -0700 (PDT)
-Subject: Re: [PATCH v3 00/24] accel/tcg: Restrict
- TCGCPUOps::cpu_exec_interrupt() to sysemu
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210911165434.531552-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <fc7758c0-ca31-8913-47fe-8daa805e9145@linaro.org>
-Date: Sun, 12 Sep 2021 12:50:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1mPW1I-0003A9-Rf; Sun, 12 Sep 2021 16:24:08 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:43392 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1mPW1G-0003Xl-M5; Sun, 12 Sep 2021 16:24:08 -0400
+Received: from MacBook-Air.alex.local
+ (dynamic-095-117-028-179.95.117.pool.telefonica.de [95.117.28.179])
+ by csgraf.de (Postfix) with ESMTPSA id 6F362608037D;
+ Sun, 12 Sep 2021 22:23:56 +0200 (CEST)
+Subject: Re: [PATCH v8 15/19] hvf: arm: Implement -cpu host
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210519202253.76782-1-agraf@csgraf.de>
+ <20210519202253.76782-16-agraf@csgraf.de>
+ <CAFEAcA9S619pfhfEXUxGQkjBBKahOYm14jpxEam2CQTtC1dRTQ@mail.gmail.com>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <45519c63-06b1-1e06-032d-87d2e1338fd8@csgraf.de>
+Date: Sun, 12 Sep 2021 22:23:55 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20210911165434.531552-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAFEAcA9S619pfhfEXUxGQkjBBKahOYm14jpxEam2CQTtC1dRTQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -56
-X-Spam_score: -5.7
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -54
+X-Spam_score: -5.5
 X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.584,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.584,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,38 +55,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/11/21 9:54 AM, Philippe Mathieu-Daudé wrote:
-> Philippe Mathieu-Daudé (24):
->    target/avr: Remove pointless use of CONFIG_USER_ONLY definition
->    target/i386: Restrict sysemu-only fpu_helper helpers
->    target/i386: Simplify TARGET_X86_64 #ifdef'ry
->    target/xtensa: Restrict do_transaction_failed() to sysemu
->    accel/tcg: Rename user-mode do_interrupt hack as fake_user_interrupt
->    target/alpha: Restrict cpu_exec_interrupt() handler to sysemu
->    target/arm: Restrict cpu_exec_interrupt() handler to sysemu
->    target/cris: Restrict cpu_exec_interrupt() handler to sysemu
->    target/hppa: Restrict cpu_exec_interrupt() handler to sysemu
->    target/i386: Restrict cpu_exec_interrupt() handler to sysemu
->    target/i386: Move x86_cpu_exec_interrupt() under sysemu/ folder
->    target/m68k: Restrict cpu_exec_interrupt() handler to sysemu
->    target/microblaze: Restrict cpu_exec_interrupt() handler to sysemu
->    target/mips: Restrict cpu_exec_interrupt() handler to sysemu
->    target/nios2: Restrict cpu_exec_interrupt() handler to sysemu
->    target/openrisc: Restrict cpu_exec_interrupt() handler to sysemu
->    target/ppc: Restrict cpu_exec_interrupt() handler to sysemu
->    target/riscv: Restrict cpu_exec_interrupt() handler to sysemu
->    target/sh4: Restrict cpu_exec_interrupt() handler to sysemu
->    target/sparc: Restrict cpu_exec_interrupt() handler to sysemu
->    target/rx: Restrict cpu_exec_interrupt() handler to sysemu
->    target/xtensa: Restrict cpu_exec_interrupt() handler to sysemu
->    accel/tcg: Restrict TCGCPUOps::cpu_exec_interrupt() to sysemu
->    user: Remove cpu_get_pic_interrupt() stubs
 
-Queued, thanks.
+On 15.06.21 12:56, Peter Maydell wrote:
+> On Wed, 19 May 2021 at 21:23, Alexander Graf <agraf@csgraf.de> wrote:
+>> Now that we have working system register sync, we push more target CPU
+>> properties into the virtual machine. That might be useful in some
+>> situations, but is not the typical case that users want.
+>>
+>> So let's add a -cpu host option that allows them to explicitly pass all
+>> CPU capabilities of their host CPU into the guest.
+>>
+>> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+>> Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
+>>
+>> ---
+>>
+>> v6 -> v7:
+>>
+>>   - Move function define to own header
+>>   - Do not propagate SVE features for HVF
+>>   - Remove stray whitespace change
+>>   - Verify that EL0 and EL1 do not allow AArch32 mode
+>>   - Only probe host CPU features once
+>> +static void hvf_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+>> +{
+>> +    ARMISARegisters host_isar;
+> Can you zero-initialize this (with "= { }"), please? That way we
+> know we have zeroes in the aarch32 ID fields rather than random junk later...
+>
+>> +    const struct isar_regs {
+>> +        int reg;
+>> +        uint64_t *val;
+>> +    } regs[] = {
+>> +        { HV_SYS_REG_ID_AA64PFR0_EL1, &host_isar.id_aa64pfr0 },
+>> +        { HV_SYS_REG_ID_AA64PFR1_EL1, &host_isar.id_aa64pfr1 },
+>> +        { HV_SYS_REG_ID_AA64DFR0_EL1, &host_isar.id_aa64dfr0 },
+>> +        { HV_SYS_REG_ID_AA64DFR1_EL1, &host_isar.id_aa64dfr1 },
+>> +        { HV_SYS_REG_ID_AA64ISAR0_EL1, &host_isar.id_aa64isar0 },
+>> +        { HV_SYS_REG_ID_AA64ISAR1_EL1, &host_isar.id_aa64isar1 },
+>> +        { HV_SYS_REG_ID_AA64MMFR0_EL1, &host_isar.id_aa64mmfr0 },
+>> +        { HV_SYS_REG_ID_AA64MMFR1_EL1, &host_isar.id_aa64mmfr1 },
+>> +        { HV_SYS_REG_ID_AA64MMFR2_EL1, &host_isar.id_aa64mmfr2 },
+>> +    };
+>> +    hv_vcpu_t fd;
+>> +    hv_vcpu_exit_t *exit;
+>> +    int i;
+>> +
+>> +    ahcf->dtb_compatible = "arm,arm-v8";
+>> +    ahcf->features = (1ULL << ARM_FEATURE_V8) |
+>> +                     (1ULL << ARM_FEATURE_NEON) |
+>> +                     (1ULL << ARM_FEATURE_AARCH64) |
+>> +                     (1ULL << ARM_FEATURE_PMU) |
+>> +                     (1ULL << ARM_FEATURE_GENERIC_TIMER);
+>> +
+>> +    /* We set up a small vcpu to extract host registers */
+>> +
+>> +    assert_hvf_ok(hv_vcpu_create(&fd, &exit, NULL));
+>> +    for (i = 0; i < ARRAY_SIZE(regs); i++) {
+>> +        assert_hvf_ok(hv_vcpu_get_sys_reg(fd, regs[i].reg, regs[i].val));
+>> +    }
+>> +    assert_hvf_ok(hv_vcpu_get_sys_reg(fd, HV_SYS_REG_MIDR_EL1, &ahcf->midr));
+>> +    assert_hvf_ok(hv_vcpu_destroy(fd));
+>> +
+>> +    ahcf->isar = host_isar;
+>> +    ahcf->reset_sctlr = 0x00c50078;
+> Why this value in particular? Could we just ask the scratch HVF CPU
+> for the value of SCTLR_EL1 rather than hardcoding something?
 
-r~
+
+The fresh scratch hvf CPU has 0 as SCTLR. But I'm happy to put an actual
+M1 copy of it here.
+
+
+>
+>> +
+>> +    /* Make sure we don't advertise AArch32 support for EL0/EL1 */
+>> +    g_assert((host_isar.id_aa64pfr0 & 0xff) == 0x11);
+> This shouldn't really be an assert, I think. error_report() something
+> and return false, and then arm_cpu_realizefn() will fail, which should
+> cause us to exit.
+
+
+I don't follow. We're filling in the -cpu host CPU template here. There
+is no error path anywhere we could take. Or are you suggesting we only
+error on realize? I don't see any obvious way how we could tell the
+realize function that we don't want to expose AArch32 support for -cpu host.
+
+This is a case that on today's systems can't happen - M1 does not
+support AArch32 anywhere. So that assert could only ever hit if you run
+macOS on non-Apple hardware (in which case I doubt hvf works as
+intended) or if a new Apple CPU starts supporting AArch32 (again, very
+unlikely).
+
+So overall, I think the assert here is not too bad :)
+
+
+Alex
+
+
 
