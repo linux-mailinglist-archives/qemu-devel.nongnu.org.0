@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478C9407D7D
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 15:12:13 +0200 (CEST)
-Received: from localhost ([::1]:34190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A83A407D80
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 15:12:48 +0200 (CEST)
+Received: from localhost ([::1]:35114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPPHI-0002xV-AO
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 09:12:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47362)
+	id 1mPPHq-0003cV-1I
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 09:12:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mPPBd-0003J3-If
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 09:06:21 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:53992)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mPPFT-0001Yl-Ae
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 09:10:19 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:44584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mPPBb-0005TI-Uv
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 09:06:21 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id j1so4425020pjv.3
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 06:06:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=5ng6bxLr/CEDfg4qWZ+9iIXZdvuZu2KqsMTpKiIZfBw=;
- b=WXuMXxssniiviagfWbxof8pU/TftIMBEUEFjgqd6gTRWwhgkNzVCkuLLPL45gEZiRo
- mi6tGDH86uS86farpunedI8nXq/pt6KMtrG3zBa+aAsypJvZTv0maPDcrrdpyE4PMjDX
- axjTuF4LQ9xaajg4CRjXqmPDyIzt3mHb43xPq+uwfrLfkZta77B3SY04i8LUYCMhmkXL
- hqXZu4yxUZAhGyNHrhtrxREbKx/nKwEgZbc5BlUFXsWPIrXUheQH0ehgi0TPTKPkd4FO
- +5hDs3pOdSAVxzOc7t9ffpgoK/Y7BBXQU9FJZJOjOr7rhJWfXZCP2Ne1/ImgoEg5Adkk
- gdVw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mPPFQ-0007Mh-Rs
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 09:10:19 -0400
+Received: by mail-pf1-x433.google.com with SMTP id v123so6300340pfb.11
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 06:10:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=UFVQsQUQavJni4qWF0A8CyNBgE1+gq8GL1avN2S07FA=;
+ b=mbSmNrxmkwuczLUXh7fNJZS3D8Zm1rbk18y9jyDy1rSdwi2BZQknSeKo0MtiRGhhxO
+ rnAN0Y1Hel41cHmd9KYHkx0x20lSsXknncnhhZeND1TBH2eLWnYJ3o66DtRIq/NuOLpz
+ DQw0GuBsjEvOLoSHQQp0+/f4uHB0vaA8LfHs+4OSks7Gyk9BPzGBc80mbEKRjCMjZBLI
+ ebG94KlwFJmnu+z7tHlQD8GWQgYjS3ver9AN4Yk71KOIUk4AhFz6b68ZTQwj4KQ9HZBS
+ /xXfn//qSPms4RMu+NCrdU5GHqjzE8ddz7K/ly2qbfgrs5tNMQm4yB9KtsyDDD/TTQKK
+ Il2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5ng6bxLr/CEDfg4qWZ+9iIXZdvuZu2KqsMTpKiIZfBw=;
- b=H3HeVQc9ixcXXV5h0IKfban8vsJdYqV6cKDT5YYX/uqZW9QCQSkUstqupGhTRCNRYg
- mYs/XN+FWK3kulKBPAQ0k2MvwcnOzr0KQsRtxKSPz7YULa1AZQrRNb2mk5n7jvtb75qN
- lMCdTwuPi04XoJEsTyrklTMFf3kbZW9UiEDRF2NVmk6G9EE66nllaw3AsY2i8i9PtU7m
- jnlsW+J+rol2WjLXhNeqCHTNQvhz6aOeczz/vnISOrKniF3y+DSQ4+7tk64Wg3wer2b6
- TcBxoC2OPtXMc0Vf8A8FTyPscfI7gZ6zBe/+DfhvIIKW1CfdKQTHHwoNoWditYMVsgjo
- eR9w==
-X-Gm-Message-State: AOAM532rZ5njLwPqFqPmK2vAAC7vTNhrNWu+vOOKKe0GeW7ujt7OVsem
- 5lZW+A8rOT2p9r9762wzxSZP7IzJBM6DCOwx
-X-Google-Smtp-Source: ABdhPJxyZEHUyCjB2amPdBkwIdfJWUslJoPsuf0+n3OUSjHtcuQVBIZFd/cp/fbiG6ZVriUHr2hC+g==
-X-Received: by 2002:a17:90a:294f:: with SMTP id
- x15mr6804915pjf.36.1631451978398; 
- Sun, 12 Sep 2021 06:06:18 -0700 (PDT)
-Received: from localhost.localdomain (123-193-74-252.dynamic.kbronet.com.tw.
- [123.193.74.252])
- by smtp.gmail.com with ESMTPSA id qe17sm3849565pjb.39.2021.09.12.06.06.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Sep 2021 06:06:17 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH RESEND v2 4/4] hw/dma: sifive_pdma: don't set Control.error if
- 0 bytes to transfer
-Date: Sun, 12 Sep 2021 21:05:48 +0800
-Message-Id: <20210912130553.179501-5-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210912130553.179501-1-frank.chang@sifive.com>
-References: <20210912130553.179501-1-frank.chang@sifive.com>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UFVQsQUQavJni4qWF0A8CyNBgE1+gq8GL1avN2S07FA=;
+ b=xl3Dxe5XAbQ6rSkJgSsstAV3EucZhk8+xMom1OQnenrmJpjhYkdMLLo8H6D39KsWVG
+ DN86nASN33/nOcBtCIFMTcpDjEHyy/8hJMAor5SVJ8if2EVFRI8kMB87pVUG4tg97nsN
+ BnENEZaPWhzhu7Lugph3xYMOAP8sAGdW8kocdl3Kfdjyb2Z9rWA4hX8lKLgZ7g5Jrp6Q
+ CfdjuB/YcljiNanz46q8xke1qGhVmxYvJ5uikvUYAErMGrOrCx6w48SvexeoRmCSV+BB
+ NyVlLiAbwF3NePtEpLYhGs4gekNvBw6lOHDaAs7LpqADwJnhEdNjEaGKpxiXYVt0nOaF
+ oocA==
+X-Gm-Message-State: AOAM532b1KzAbYqTqlHCzdbotiT5t3n6s0YeFqMg59Aq6p0llU2/gGvB
+ MhnyAe4jklRiFFSv/lIiS2b9hptoPdP5AA==
+X-Google-Smtp-Source: ABdhPJz02b2oUQjoq7y0IWddKaN/eOkbCF4FYvt4mu5MOo6t58NhLwbn/vfMDBYr9/i7PnyHuKi2Zg==
+X-Received: by 2002:a62:5297:0:b0:3f4:263a:b078 with SMTP id
+ g145-20020a625297000000b003f4263ab078mr6507614pfb.20.1631452215210; 
+ Sun, 12 Sep 2021 06:10:15 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id a12sm3890304pjq.16.2021.09.12.06.10.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 12 Sep 2021 06:10:14 -0700 (PDT)
+Subject: Re: tcg: pointer size warning on x32 arch
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org
+References: <f5bd1db5-1bf1-e32f-3eff-aa8f0c7e8a1e@msgid.tls.msk.ru>
+ <6b1c1c7f-0e0b-fd49-2ef8-1ab7c8b7a3e5@amsat.org>
+ <fd38f80c-bd36-8399-33b0-bbd3ec566813@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c8258e0d-5c87-3953-6355-16d3c1604d43@linaro.org>
+Date: Sun, 12 Sep 2021 06:10:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <fd38f80c-bd36-8399-33b0-bbd3ec566813@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.584,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,87 +90,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>, Bin Meng <bin.meng@windriver.com>,
- Max Hsu <max.hsu@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+On 9/11/21 2:46 PM, Philippe Mathieu-Daudé wrote:
+> On 9/11/21 11:06 PM, Philippe Mathieu-Daudé wrote:
+>> On 9/11/21 7:50 PM, Michael Tokarev wrote:
+>>> Hi.
+>>>
+>>> The following warning is reported by the C compiler when compiling
+>>> tcg code on x32 architecture:
+>>>
+>>> In file included from ../../tcg/tcg.c:429:
+>>> tcg/i386/tcg-target.c.inc: In function ‘tcg_out_movi_int’:
+>>> tcg/i386/tcg-target.c.inc:959:30: warning: cast to pointer from integer
+>>> of different size [-Wint-to-pointer-cast]
+>>>    959 |     diff = tcg_pcrel_diff(s, (const void *)arg) - 7;
+>>
+>> Likely fixed by:
+>>
+>> ---
+>> diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+>> index 98d924b91a8..0895f5670a1 100644
+>> --- a/tcg/i386/tcg-target.c.inc
+>> +++ b/tcg/i386/tcg-target.c.inc
+>> @@ -956,7 +956,7 @@ static void tcg_out_movi_int(TCGContext *s, TCGType
+>> type,
+>>       }
+>>
+>>       /* Try a 7 byte pc-relative lea before the 10 byte movq.  */
+>> -    diff = tcg_pcrel_diff(s, (const void *)arg) - 7;
+>> +    diff = tcg_pcrel_diff(s, (const void *)(uintptr_t)arg) - 7;
+> 
+> Hmm not quite. At this point tcg_out_movi_int() already checked 'arg'
+> does not fit into a 32-bit value... And on x32 we have sizeof(void*) = 4
+> so we can't cast a >32-bit value that way.
+> 
+> But tcg_out_movi_int() is called by tcg_out_movi(), and all 'arg' values
+> are either 0, 1 or a host address (often casted as uintptr_t).
 
-Real PDMA doesn't set Control.error if there are 0 bytes to be
-transferred. The DMA transfer is still success.
+That's false -- 'arg' is an arbitrary 64-bit constant here, for x32. But you're right that 
+no x32 pointers will arrive here, because TCG_TYPE_PTR == TCG_TYPE_I32 for that case and 
+we'll use the 5-byte mov immediate insn.
 
-The following result is PDMA tested in U-Boot on Unmatched board:
+> +    assert(sizeof(uintptr_t) > sizeof(uint32_t));
+> +
+>       /* Try a 7 byte pc-relative lea before the 10 byte movq.  */
+>       diff = tcg_pcrel_diff(s, (const void *)arg) - 7;
+>       if (diff == (int32_t)diff) {
 
-=> mw.l 0x3000000 0x0                      <= Disclaim channel 0
-=> mw.l 0x3000000 0x1                      <= Claim channel 0
-=> mw.l 0x3000004 0x55000000               <= wsize = rsize = 5 (2^5 = 32 bytes)
-=> mw.q 0x3000008 0x0                      <= NextBytes = 0
-=> mw.q 0x3000010 0x84000000               <= NextDestination = 0x84000000
-=> mw.q 0x3000018 0x84001000               <= NextSource = 0x84001000
-=> mw.l 0x84000000 0x87654321              <= Fill test data to dst
-=> mw.l 0x84001000 0x12345678              <= Fill test data to src
-=> md.l 0x84000000 1; md.l 0x84001000 1    <= Dump src/dst memory contents
-84000000: 87654321                               !Ce.
-84001000: 12345678                               xV4.
-=> md.l 0x3000000 8                        <= Dump PDMA status
-03000000: 00000001 55000000 00000000 00000000    .......U........
-03000010: 84000000 00000000 84001000 00000000    ................
-=> mw.l 0x3000000 0x3                      <= Set channel 0 run and claim bits
-=> md.l 0x3000000 8                        <= Dump PDMA status
-03000000: 40000001 55000000 00000000 00000000    ...@...U........
-03000010: 84000000 00000000 84001000 00000000    ................
-=> md.l 0x84000000 1; md.l 0x84001000 1    <= Dump src/dst memory contents
-84000000: 87654321                               !Ce.
-84001000: 12345678                               xV4.
+We may need something like
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Tested-by: Max Hsu <max.hsu@sifive.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
----
- hw/dma/sifive_pdma.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
-index d7d2c53e97e..b4fd40573a5 100644
---- a/hw/dma/sifive_pdma.c
-+++ b/hw/dma/sifive_pdma.c
-@@ -80,7 +80,7 @@ static void sifive_pdma_run(SiFivePDMAState *s, int ch)
- 
-     /* do nothing if bytes to transfer is zero */
-     if (!bytes) {
--        goto error;
-+        goto done;
+     if (sizeof(void *) == 8) {
+         diff = tcg_pcrel_diff(s, (const void *)(uintptr_t)arg) - 7;
+         ...
      }
- 
-     /*
-@@ -135,11 +135,6 @@ static void sifive_pdma_run(SiFivePDMAState *s, int ch)
-         s->chan[ch].exec_bytes -= remainder;
-     }
- 
--    /* indicate a DMA transfer is done */
--    s->chan[ch].state = DMA_CHAN_STATE_DONE;
--    s->chan[ch].control &= ~CONTROL_RUN;
--    s->chan[ch].control |= CONTROL_DONE;
--
-     /* reload exec_ registers if repeat is required */
-     if (s->chan[ch].next_config & CONFIG_REPEAT) {
-         s->chan[ch].exec_bytes = bytes;
-@@ -147,6 +142,11 @@ static void sifive_pdma_run(SiFivePDMAState *s, int ch)
-         s->chan[ch].exec_src = src;
-     }
- 
-+done:
-+    /* indicate a DMA transfer is done */
-+    s->chan[ch].state = DMA_CHAN_STATE_DONE;
-+    s->chan[ch].control &= ~CONTROL_RUN;
-+    s->chan[ch].control |= CONTROL_DONE;
-     return;
- 
- error:
--- 
-2.25.1
 
+I wonder if I still have an x32 vmm hanging about.
+
+
+r~
 
