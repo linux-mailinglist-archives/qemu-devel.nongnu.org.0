@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4E5B407D4B
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 14:39:09 +0200 (CEST)
-Received: from localhost ([::1]:39818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 011E7407D5D
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 14:47:35 +0200 (CEST)
+Received: from localhost ([::1]:44592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPOlI-0001K1-Ux
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 08:39:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40500)
+	id 1mPOtS-00052y-Od
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 08:47:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPOkS-0000di-8V
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 08:38:16 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:43696)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mPOp7-0002f3-DB
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 08:43:06 -0400
+Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:36724)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPOkP-0002ZO-RZ
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 08:38:15 -0400
-Received: by mail-pl1-x636.google.com with SMTP id v1so4066379plo.10
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 05:38:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gnuDD8UL3DCLL8SBAJ1vlmlU7gQI6wapsETDsXh0G1g=;
- b=sYtiZYhTtXJfWmm0wez5euRUjnrIQvME4UYsdMREQGg3q2LjjEgPX3aOB6AByqK4b/
- ssXPnoAnkwhk2skK0WGnIWjLE9hx1T34+iHsRToVl4LKx/ggD9/fJoJaFdviZ6YkV+fb
- EiNO55cLvpszjfP5chigPyJVs2zVVJ6jj3o9CpyAKWu4M9spjftFEBvvwi0wGx8FhRU+
- UtZIRRQDNB/M4AoriPdw7+wTem9KONrZBSKW5ETsA66MR4DRRID2m1ozmq7MY4om7L2v
- v5iqMwBg9/SUnYB4Hufl/GepGwi6Jj9u5f3ISC0i4diIQOELqpCV4DLyZ0bWqFMDqz7D
- ZUwg==
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mPOp2-0004QX-R2
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 08:43:03 -0400
+Received: by mail-il1-x135.google.com with SMTP id v16so2364247ilg.3
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 05:42:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JgfF2R2nxcEZ9qiZD3NE5EnKkKTI5m74b88nFb1EnOo=;
+ b=GfCVWrki3C5ijhKEYKRziMBMHKjEEUGCC5fdAwhfjEhrgxsLTmKIifAPWBH9rsziZF
+ NKaVmUkns4X50m7Duwfc8Fu+aX5fAZ32Y2u7mun+Bv0XHv+sQkvMUboeSOtYmKiYzwz6
+ nsaoQODrZEGKV7Jc5DzEu1tXKQQK4wCwlsSYIEkJSxLMq8bAFhFA28uYbPipca16xgpi
+ ZlaZVjVa9z+9vhWYHfDhnD+iqaZsydyO/ghfBWODFcvWTfXa5RetIrIYfWp6A96n0zWP
+ kgfp1o7pgeJhYyaG3+RCvqDa+bGWORWhhosWjYFyWmml6QqBvaioO7Jjc7l/KApVWAdr
+ RVDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gnuDD8UL3DCLL8SBAJ1vlmlU7gQI6wapsETDsXh0G1g=;
- b=elsVHDkxOclWaIGP4Bs3M5EoYwEN1FrKnnRJ9HkCFcCjDbl/BcyGX0xHTeJlAD/0D+
- UKpPjUrLgqDBzYqLMkTp+rRXdkHi3BAmarbz5RIf+E9hecasMV/L6bReWM4eLGCPrxyT
- b/MSOdSoKXNtKNGetaiXDbIfjEsMrWgxYTTlKX1yzszuUiB4BjVYzmQ/ejSxqwcYJY5M
- TGyHqsniJvZ41WFs454QR7LzbttXtyqUuLl/Ncd4UCZnv73pR9fetVn9yyLWyddDYvZx
- QEIwE2aZvEWhz1P325bxB5FEqJnHBRvSXjYKMqfruKa5cRBOeRtJOGPygyqJ5n9G0XKc
- N80w==
-X-Gm-Message-State: AOAM532lWtLh3TbO+mP23CaIVifX3eRYnms19mZUb+CcgOh5lqm6SFFP
- 5HtluOY44B98uY3WkV06CFhzGw==
-X-Google-Smtp-Source: ABdhPJzEHlPVN5Whe4bkBK2O9V/UyzGRr0Ro1mnOLerUf4Bo2b3IBWxZGtXd1pS9gP4t9S3I4QjlgQ==
-X-Received: by 2002:a17:90b:1210:: with SMTP id
- gl16mr7451772pjb.16.1631450292152; 
- Sun, 12 Sep 2021 05:38:12 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id u10sm3918928pfh.105.2021.09.12.05.38.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Sep 2021 05:38:11 -0700 (PDT)
-Subject: Re: [PATCH v4 17/21] LoongArch Linux User Emulation
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org, chenhuacai@gmail.com
-References: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
- <1630586467-22463-18-git-send-email-gaosong@loongson.cn>
- <4e47e1a7-d946-f8ec-a9a1-aadc6eeb7941@linaro.org>
- <3e7fd708-fe13-8163-2926-d1baa75e3b10@loongson.cn>
- <d6349ca9-2483-2f83-f5cb-f9e1f740a404@linaro.org>
- <3146e487-9b35-d9b8-668e-06c9e6744cb2@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <410b09b6-dbf5-b8c4-a097-eb2b6ebc752e@linaro.org>
-Date: Sun, 12 Sep 2021 05:38:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JgfF2R2nxcEZ9qiZD3NE5EnKkKTI5m74b88nFb1EnOo=;
+ b=y+VQJuGoxit1I67kEHnLxqhYxLksjk/zWPJksSoOISktNsTv6UxbSfVgs/eZIsQgzy
+ 4Bpx4wG1YJo+HyAa8sKjDTf3AWOfAX/ZCOMECb1XpO9H7bk8H2q5PQIqF36pOyXJfm0+
+ erWU9JibURVKhUY8zW2dM1mMh0AAGatnbBgp7We+HeAGb8MzKuNHDrUyeMeI2rSNxS/9
+ xnM8XaS11uGBtcKY5kO3G04P9R79mcKeX6PcQjbaWBFx7CMzAJ4llNny17MJnGk1s9WU
+ 7NkwEIvf6Ie2b190FKYQDw+nyfJJt2K6eKX6OipmYMUtVJXOhulcVZBsoB+BWAxDAUw/
+ N4Bw==
+X-Gm-Message-State: AOAM5328XiTNdS0UqQfhYy6DD2hyaao8sumqlGCwj7Zx6+LjOmIbsOGx
+ bFfhqgoQtvakH9y53QcDdmoupt7d+wqZhtrkTGq49g==
+X-Google-Smtp-Source: ABdhPJylEus5/fpmLorDK9lTNK3Hdokha06nESCxSy5SerL18Z88fDPOILTEECm1ZJfJQ+TXV6bstJ85vTvu/UzIr3Q=
+X-Received: by 2002:a92:c7d4:: with SMTP id g20mr4541028ilk.244.1631450577895; 
+ Sun, 12 Sep 2021 05:42:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <3146e487-9b35-d9b8-668e-06c9e6744cb2@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.584,
+References: <20210910055620.946625-1-frank.chang@sifive.com>
+ <20210910055620.946625-2-frank.chang@sifive.com>
+ <CAEUhbmUgceFXLF21L1U+bo0Rz-5Cwiig=Bmh0feo0ZVwXExeQg@mail.gmail.com>
+ <CAEUhbmWzYnhM5Mc__SfmaNeimKuts93Mmq6481K3h-5jUsBLzA@mail.gmail.com>
+In-Reply-To: <CAEUhbmWzYnhM5Mc__SfmaNeimKuts93Mmq6481K3h-5jUsBLzA@mail.gmail.com>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Sun, 12 Sep 2021 20:42:46 +0800
+Message-ID: <CAE_xrPj3x9m83gfDba1m05s_XVzJ7WNe7enwAG7rhN-w82pODg@mail.gmail.com>
+Subject: Re: [PATCH 1/4] hw/dma: sifive_pdma: reset Next* registers when
+ Control.claim is set
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000002a2a0605cbcbb018"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::135;
+ envelope-from=frank.chang@sifive.com; helo=mail-il1-x135.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,34 +80,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, yangxiaojuan@loongson.cn, david@redhat.com,
- bin.meng@windriver.com, mark.cave-ayland@ilande.co.uk,
- aleksandar.rikalo@syrmia.com, jcmvbkbc@gmail.com, tsimpson@quicinc.com,
- alistair.francis@wdc.com, edgar.iglesias@gmail.com, philmd@redhat.com,
- atar4qemu@gmail.com, thuth@redhat.com, ehabkost@redhat.com, groug@kaod.org,
- maobibo@loongson.cn, mrolnik@gmail.com, shorne@gmail.com,
- alex.bennee@linaro.org, david@gibson.dropbear.id.au,
- kbastian@mail.uni-paderborn.de, crwulff@gmail.com, laurent@vivier.eu,
- palmer@dabbelt.com, pbonzini@redhat.com, aurelien@aurel32.net
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Max Hsu <max.hsu@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/10/21 10:58 PM, Song Gao wrote:
-> By the way, We have already prepared V5 patches. but I see that patches [1] and [2] have not push into master. How can I use these patches?
-> 
-> [1]: https://patchew.org/QEMU/20210618192951.125651-1-richard.henderson@linaro.org/
-> [2]: https://patchew.org/QEMU/20210822035537.283193-1-richard.henderson@linaro.org/
+--0000000000002a2a0605cbcbb018
+Content-Type: text/plain; charset="UTF-8"
 
-Now that development is open for 6.2, and I'm back from holiday, I'll work on getting this 
-upstream.
+On Sat, Sep 11, 2021 at 9:12 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
-In the short term, you can add
+> On Sat, Sep 11, 2021 at 8:37 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > On Fri, Sep 10, 2021 at 1:56 PM <frank.chang@sifive.com> wrote:
+> > >
+> > > From: Frank Chang <frank.chang@sifive.com>
+> > >
+> > > Setting Control.claim clears all of the chanel's Next registers.
+> > > This is effective only when Control.claim is set from 0 to 1.
+> > >
+> > > Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> > > Tested-by: Max Hsu <max.hsu@sifive.com>
+> > > ---
+> > >  hw/dma/sifive_pdma.c | 15 +++++++++++++++
+> > >  1 file changed, 15 insertions(+)
+> > >
+> > > diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
+> > > index 9b2ac2017d9..e723db9d700 100644
+> > > --- a/hw/dma/sifive_pdma.c
+> > > +++ b/hw/dma/sifive_pdma.c
+> > > @@ -54,6 +54,9 @@
+> > >  #define DMA_EXEC_DST        0x110
+> > >  #define DMA_EXEC_SRC        0x118
+> > >
+> > > +#define CONFIG_WRSZ_DEFAULT 6
+> > > +#define CONFIG_RDSZ_DEFAULT 6
+> >
+> > The FU540 manual says the next config reset value is 0, not 6.
+> >
+>
+> From patch#2 's log on Unmatched, I see where the number 6 is coming.
+> I also validated on Unleashed and observed the same. So there is a
+> documentation error.
+>
+> Please add a comment to explain that.
+>
 
-Based-on: <message-id>
+Thanks for the review.
+Will update it.
 
-in the cover-letter, to indicate what the dependencies are.  It can also be helpful to 
-provide a git tag for the complete patch set in the cover-letter.
+Regards,
+Frank Chang
 
 
-r~
+>
+> Otherwise,
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+>
+
+--0000000000002a2a0605cbcbb018
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Sat, Sep 11, 2021 at 9:12 PM Bin Meng =
+&lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; wrote:=
+<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">On Sat, Sep 11, 2021 at 8:37 PM Bin Meng &lt;<a href=3D"mailto:=
+bmeng.cn@gmail.com" target=3D"_blank">bmeng.cn@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Fri, Sep 10, 2021 at 1:56 PM &lt;<a href=3D"mailto:frank.chang@sifi=
+ve.com" target=3D"_blank">frank.chang@sifive.com</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; From: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.com" t=
+arget=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Setting Control.claim clears all of the chanel&#39;s Next registe=
+rs.<br>
+&gt; &gt; This is effective only when Control.claim is set from 0 to 1.<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifi=
+ve.com" target=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
+&gt; &gt; Tested-by: Max Hsu &lt;<a href=3D"mailto:max.hsu@sifive.com" targ=
+et=3D"_blank">max.hsu@sifive.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 hw/dma/sifive_pdma.c | 15 +++++++++++++++<br>
+&gt; &gt;=C2=A0 1 file changed, 15 insertions(+)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c<br>
+&gt; &gt; index 9b2ac2017d9..e723db9d700 100644<br>
+&gt; &gt; --- a/hw/dma/sifive_pdma.c<br>
+&gt; &gt; +++ b/hw/dma/sifive_pdma.c<br>
+&gt; &gt; @@ -54,6 +54,9 @@<br>
+&gt; &gt;=C2=A0 #define DMA_EXEC_DST=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x110<br>
+&gt; &gt;=C2=A0 #define DMA_EXEC_SRC=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x118<br>
+&gt; &gt;<br>
+&gt; &gt; +#define CONFIG_WRSZ_DEFAULT 6<br>
+&gt; &gt; +#define CONFIG_RDSZ_DEFAULT 6<br>
+&gt;<br>
+&gt; The FU540 manual says the next config reset value is 0, not 6.<br>
+&gt;<br>
+<br>
+From patch#2 &#39;s log on Unmatched, I see where the number 6 is coming.<b=
+r>
+I also validated on Unleashed and observed the same. So there is a<br>
+documentation error.<br>
+<br>
+Please add a comment to explain that.<br></blockquote><div><br></div><div>T=
+hanks for the review.</div><div>Will update it.</div><div><br></div><div>Re=
+gards,</div><div>Frank Chang</div><div>=C2=A0</div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">
+<br>
+Otherwise,<br>
+Reviewed-by: Bin Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com" target=3D"_=
+blank">bmeng.cn@gmail.com</a>&gt;<br>
+</blockquote></div></div>
+
+--0000000000002a2a0605cbcbb018--
 
