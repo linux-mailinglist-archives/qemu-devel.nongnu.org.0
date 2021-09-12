@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15ABF407F12
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 19:51:49 +0200 (CEST)
-Received: from localhost ([::1]:58850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 430C1407F1C
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 20:02:56 +0200 (CEST)
+Received: from localhost ([::1]:51706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPTds-0004Qm-1v
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 13:51:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53386)
+	id 1mPTod-0002Pf-C1
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 14:02:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPTbd-0001m9-QI
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:49:29 -0400
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:36361)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mPTK8-0004Ie-Cb
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:31:24 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:35757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPTbc-0001Sx-3B
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:49:29 -0400
-Received: by mail-pf1-x434.google.com with SMTP id m26so6728378pff.3
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 10:49:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fQtXqBogTZDk4DiQ/mOGvcO79rgfTxsq6JIILCX5hOw=;
- b=XcJVWvdhp2s0V2dNdorusBqOPxLWqBeIk9vgXnAPKhaQQOje+dO6SBIAkXwp/abPYH
- Zo0pSXuyisj35NlIAH6ZCBATPMMUSiYJLLCUX3O/eYl+MTfJ+Xu9H76LqxgJxIXZV9e1
- m+CeNtMg5eQXWk/B/yxAoxw3htCzK7W3n9K7DAZnLZDZKhk789QYVzxZAfb30Cuo51Uw
- NsWaaV8TMFJS+HmXSMvHc0/wSljvNXl6Y05XwuILrmajdmFaaNQHQl3PjZ3v3N2K7FMd
- JDKpu9YOGvRrr9qx31wIVTYvJFKanAQJXhx4PC4o1XyWJnUUrnSq9MUyd9QWODGhvq3U
- CPmQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mPTK6-0006ZD-DG
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:31:23 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ r128-20020a1c4486000000b003065f0bc631so586847wma.0
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 10:31:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=fRR+WTJwmJ89CeuK2LElXPeIVqMe2SOmPTsqZRuOwNo=;
+ b=i67RBcqVHatvVw84HM9ZVcgVBiTKyhF+j/UY8u/KON8VlyKrD8qMrU8iR0GXJZgaEM
+ Ps0OT6vPFbcpbS9X8d76CmmUA5BokVFJaLWCTkTTUq64ZO9jKidcfr4n3IiQCtY3GaKA
+ bHgeeIIkqhs/8mKtgCgga9g2CcXB5//w/1e5cytFi85Rq47wGzIkjZYbLPL94RcOX7hO
+ tY7kGOplLVpwX3jh6YDOMRr3IzftDM2/kFVdWC/03odhdYv2UC8a699usTpG+3zK7u2L
+ Mc40sVXpd55HVANBvL4YPydndjjpef/l34J9hNSefPF1LjeZKaw6RSbw4L7iQlFmblQf
+ RK+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=fQtXqBogTZDk4DiQ/mOGvcO79rgfTxsq6JIILCX5hOw=;
- b=hqwyKVDDZcC4Dg5j6WsJpkz/o4k1ViDcT1rE9sJtka2Ld/BpkbvX4hjd+y3IlYvcHP
- KYMhtT3mdVGxIWZVi3N8LO2ACqa1z9T38EI1lzeeGqAbB+Qy2CEVb/5noYWw51WJtyVt
- oPCKHPxKflsdN8ilK2Q5MGQTjFjGfpHHAtkqVRVpdhoJTWluRNE5ibquLozTujUSY6MK
- GyRMqsHmrbUbV2JJyFaxed75OJ2ZKCl71xx1utGpsD16bfQP3mPU3JHSq29+0NIYljCV
- YO6TNDLPbwqiLPEzYDr0kqOZX4B6Nu63uU7EmiQXlsko/b5Nn9Jx7vXPpYo2XHl9m/Ho
- T8TQ==
-X-Gm-Message-State: AOAM5300HoTTuVNCl+uaGCq82KMbwIycQfNwAM085FynFNI32rx0ttIm
- e6GZl3uJXGO8g6NO2L8nEdOaSCIXlR+UnA==
-X-Google-Smtp-Source: ABdhPJxEttW12jRrbw8IrX4ahXPeg1NpT9ayIzWavwOQYU+cGCCwfvudTwsjRba4OtTI4acLr04RLw==
-X-Received: by 2002:a63:374b:: with SMTP id g11mr7435279pgn.459.1631468966202; 
- Sun, 12 Sep 2021 10:49:26 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id o14sm5206378pgl.85.2021.09.12.10.49.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Sep 2021 10:49:25 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg/arm: Reduce vector alignment requirement for NEON
-Date: Sun, 12 Sep 2021 10:49:25 -0700
-Message-Id: <20210912174925.200132-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ bh=fRR+WTJwmJ89CeuK2LElXPeIVqMe2SOmPTsqZRuOwNo=;
+ b=6vWAA5rvAZsliks5e5XUJkAB9lNtDb6aPgaZddZeYAAJgJz6uxM18j4C1Op4zb9Wga
+ ClunZzdI88bcvRt/nqTCrJEz9OOeYzxe5hQBJrMC7EgjQFlWmSHDkaMQ3+AOaFxdqSs3
+ RMbbG29XkHgND1WOeDwmexvJYcjpuXUxPq1auYazyUc2/WjKZmnaxFi3M022GbkAqbk1
+ 02uqkXYx13H67CET0Q1Yla3bvwRpmADxPYZ417P9YDt2BKaJwmWWp6M5YzSbIQO1f8Ov
+ YP0FNwjgsBiLNjoWC7g5oZj6YPzLequnW5s407/8GGCA4vq6aeOKr9ykrvO9zbzVi4Oy
+ F6LQ==
+X-Gm-Message-State: AOAM532uQt75uCdLTHcaAmtI8oLTZi6roTvFoCvq/wOqxb4Ier6E/U+n
+ SLDyFS9DIpKCXHAKFW+JqdFsnKGAXXY=
+X-Google-Smtp-Source: ABdhPJwNnsMbM6NAomJ+ruv+ay2tnW/w0uytcC/WEYyoqBXtON083dK7uox/9JkrEafpx+wR9iK0bQ==
+X-Received: by 2002:a05:600c:4109:: with SMTP id
+ j9mr7591591wmi.88.1631467881095; 
+ Sun, 12 Sep 2021 10:31:21 -0700 (PDT)
+Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id q128sm5526637wma.27.2021.09.12.10.31.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 12 Sep 2021 10:31:20 -0700 (PDT)
+Subject: Re: [PATCH 02/20] nubus-device: expose separate super slot memory
+ region
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ laurent@vivier.eu
+References: <20210912074914.22048-1-mark.cave-ayland@ilande.co.uk>
+ <20210912074914.22048-3-mark.cave-ayland@ilande.co.uk>
+ <68bd423d-caf6-53eb-f68b-68c14a1e82a9@amsat.org>
+ <7fef53a0-b003-ed11-470d-441b3edfeb22@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <363bdb30-860c-9a5a-e1e1-37491ab13a52@amsat.org>
+Date: Sun, 12 Sep 2021 19:31:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <7fef53a0-b003-ed11-470d-441b3edfeb22@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-3.584,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,91 +95,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, "Richard W . M . Jones" <rjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With arm32, the ABI gives us 8-byte alignment for the stack.
-While it's possible to realign the stack to provide 16-byte alignment,
-it's far easier to simply not encode 16-byte alignment in the
-VLD1 and VST1 instructions that we emit.
+On 9/12/21 7:20 PM, Mark Cave-Ayland wrote:
+> On 12/09/2021 16:50, Philippe Mathieu-Daudé wrote:
+> 
+>> On 9/12/21 9:48 AM, Mark Cave-Ayland wrote:
+>>> According to "Designing Cards and Drivers for the Macintosh Family"
+>>> each physical
+>>> nubus slot can access 2 separate address ranges: a super slot memory
+>>> region which
+>>> is 256MB and a standard slot memory region which is 16MB.
+>>>
+>>> Currently a Nubus device uses the physical slot number to determine
+>>> whether it is
+>>> using a standard slot memory region or a super slot memory region
+>>> rather than
+>>> exposing both memory regions for use as required.
+>>>
+>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>> ---
+>>>   hw/nubus/nubus-device.c  | 36 ++++++++++++++++++------------------
+>>>   include/hw/nubus/nubus.h |  1 +
+>>>   2 files changed, 19 insertions(+), 18 deletions(-)
+>>>
+>>> diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
+>>> index be01269563..36203848e5 100644
+>>> --- a/hw/nubus/nubus-device.c
+>>> +++ b/hw/nubus/nubus-device.c
+>>> @@ -168,26 +168,26 @@ static void nubus_device_realize(DeviceState
+>>> *dev, Error **errp)
+>>>       }
+>>>         nd->slot = nubus->current_slot++;
+>>> -    name = g_strdup_printf("nubus-slot-%d", nd->slot);
+>>> -
+>>> -    if (nd->slot < NUBUS_FIRST_SLOT) {
+>>> -        /* Super */
+>>> -        slot_offset = (nd->slot - 6) * NUBUS_SUPER_SLOT_SIZE;
+>>> -
+>>> -        memory_region_init(&nd->slot_mem, OBJECT(dev), name,
+>>> -                           NUBUS_SUPER_SLOT_SIZE);
+>>> -        memory_region_add_subregion(&nubus->super_slot_io, slot_offset,
+>>> -                                    &nd->slot_mem);
+>>> -    } else {
+>>> -        /* Normal */
+>>> -        slot_offset = nd->slot * NUBUS_SLOT_SIZE;
+>>> -
+>>> -        memory_region_init(&nd->slot_mem, OBJECT(dev), name,
+>>> NUBUS_SLOT_SIZE);
+>>> -        memory_region_add_subregion(&nubus->slot_io, slot_offset,
+>>> -                                    &nd->slot_mem);
+>>> -    }
+>>>   +    /* Super */
+>>> +    slot_offset = (nd->slot - 6) * NUBUS_SUPER_SLOT_SIZE;
+>>> +
+>>> +    name = g_strdup_printf("nubus-super-slot-%x", nd->slot);
+>>> +    memory_region_init(&nd->super_slot_mem, OBJECT(dev), name,
+>>> +                        NUBUS_SUPER_SLOT_SIZE);
+>>> +    memory_region_add_subregion(&nubus->super_slot_io, slot_offset,
+>>> +                                &nd->super_slot_mem);
+>>> +    g_free(name);
+>>> +
+>>> +    /* Normal */
+>>> +    slot_offset = nd->slot * NUBUS_SLOT_SIZE;
+>>> +
+>>> +    name = g_strdup_printf("nubus-slot-%x", nd->slot);
+>>
+>> I'd rather use "nubus-standard-slot-%x" or "nubus-normal-slot-%x"
+>> to differentiate from super-bus. (This also applies to variable
+>> names and trace events in this series).
+> 
+> I can see how this may seem ambiguous, however in "Designing Cards and
+> Drivers for the Macintosh Family" the documentation always refers to
+> "slot" as a standard slot so there shouldn't be any confusion for
+> developers here.
 
-Remove the assertion in temp_allocate_frame, limit natural alignment
-to the provided stack alignment, and add a comment.
+OK, fine then.
 
-Reported-by: Richard W.M. Jones <rjones@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
-
-I haven't seen the assertion with the various arm kernels that I happen
-to have laying about.  I have not taken the time to build the combo
-from the bug report:
-
-[    0.000000] Linux version 5.14.0-60.fc36.armv7hl (mockbuild@buildvm-a32-12.iad2.fedoraproject.org) (gcc (GCC) 11.2.1 20210728 (Red Hat 11.2.1-1), GNU ld version 2.37-9.fc36) #1 SMP Mon Aug 30 14:08:34 UTC 2021
-
-I thought about parameterizing this patch further, but I can't think of
-another ISA that would be affected.  (i686 clumsily changed its abi 20
-years ago to avoid faulting on vector spills; other isas so far have
-allowed vectors to be unaligned.)
-
-
-r~
----
- tcg/tcg.c                |  8 +++++++-
- tcg/arm/tcg-target.c.inc | 13 +++++++++----
- 2 files changed, 16 insertions(+), 5 deletions(-)
-
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 4142d42d77..ca5bcc4635 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -3060,7 +3060,13 @@ static void temp_allocate_frame(TCGContext *s, TCGTemp *ts)
-         g_assert_not_reached();
-     }
- 
--    assert(align <= TCG_TARGET_STACK_ALIGN);
-+    /*
-+     * Assume the stack is sufficiently aligned.
-+     * This affects e.g. ARM NEON, where we have 8 byte stack alignment
-+     * and do not require 16 byte vector alignment.  This seems slightly
-+     * easier than fully parameterizing the above switch statement.
-+     */
-+    align = MIN(TCG_TARGET_STACK_ALIGN, align);
-     off = ROUND_UP(s->current_frame_offset, align);
- 
-     /* If we've exhausted the stack frame, restart with a smaller TB. */
-diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index e5b4f86841..8515717435 100644
---- a/tcg/arm/tcg-target.c.inc
-+++ b/tcg/arm/tcg-target.c.inc
-@@ -2477,8 +2477,13 @@ static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg arg,
-         tcg_out_vldst(s, INSN_VLD1 | 0x7d0, arg, arg1, arg2);
-         return;
-     case TCG_TYPE_V128:
--        /* regs 2; size 8; align 16 */
--        tcg_out_vldst(s, INSN_VLD1 | 0xae0, arg, arg1, arg2);
-+        /*
-+         * We have only 8-byte alignment for the stack per the ABI.
-+         * Rather than dynamically re-align the stack, it's easier
-+         * to simply not request alignment beyond that.  So:
-+         * regs 2; size 8; align 8
-+         */
-+        tcg_out_vldst(s, INSN_VLD1 | 0xad0, arg, arg1, arg2);
-         return;
-     default:
-         g_assert_not_reached();
-@@ -2497,8 +2502,8 @@ static void tcg_out_st(TCGContext *s, TCGType type, TCGReg arg,
-         tcg_out_vldst(s, INSN_VST1 | 0x7d0, arg, arg1, arg2);
-         return;
-     case TCG_TYPE_V128:
--        /* regs 2; size 8; align 16 */
--        tcg_out_vldst(s, INSN_VST1 | 0xae0, arg, arg1, arg2);
-+        /* See tcg_out_ld re alignment: regs 2; size 8; align 8 */
-+        tcg_out_vldst(s, INSN_VST1 | 0xad0, arg, arg1, arg2);
-         return;
-     default:
-         g_assert_not_reached();
--- 
-2.25.1
-
+>> Anyway,
+>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
