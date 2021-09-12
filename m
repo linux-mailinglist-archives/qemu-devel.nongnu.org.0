@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310D6407DE4
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 17:19:46 +0200 (CEST)
-Received: from localhost ([::1]:34814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B30407DE5
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 17:21:10 +0200 (CEST)
+Received: from localhost ([::1]:36938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPRGj-00041U-8M
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 11:19:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35872)
+	id 1mPRI6-0005Rs-1R
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 11:21:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPRFK-0002ul-W7
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:18:19 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39681)
+ id 1mPRGc-0004UX-E6
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:19:38 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPRFJ-0004VL-Il
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:18:18 -0400
-Received: by mail-wr1-x436.google.com with SMTP id u15so4528917wru.6
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 08:18:16 -0700 (PDT)
+ id 1mPRGb-0005cd-2p
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:19:38 -0400
+Received: by mail-wm1-x332.google.com with SMTP id 140so1372401wma.0
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 08:19:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dTu57Md0meovvtAvj3ZgR33IzyjBN7hq39rd7KOP54w=;
- b=JgWzFwKWm29RUl1whJQXBWv6JyEF/jIZIY9JGzMBrLUfzZ2bCKSsro6Jcmm9GcOCio
- +XRuy10ova65VSDSMF0/aeW1meQUPk4X5ONTVAotC130Io3TzVxWqzZLIHXsDOEGshGc
- RO/KTgVbtDTWeXYAZrsCy1pDbMS8JDPCS+ZyZzvnL4OSYBjoczumyKF0o17olU2nVSyU
- 1UteoK5FV3isfk4D1yDSw55gMYIYBt9yGbyxi0i+UxKQzad4X2CQk+XresdLZvBAwm7B
- FM6JMaL0BNdAgk99iW7EUiQXFkYMEQkD1XuB/Bl721maNi4NgqomaS/naJdmt+Zx5v0o
- OVTw==
+ bh=ELrfWeweqoxVjJNKAIFvzl2fFfOUOjJUaPbMiP4RxmY=;
+ b=MBCght8yrq9wCEOLEi1HYmjKXsRuMp5JPYRD9O1WdYbUOwTfwPY48cKx6SrzDfWN51
+ sfYZAceHmMSq0XC9XSsFrDfAIJ6m+DgA+H5rW9jC3QEgRrJKqIHFnUhK/uAqdf6VStx0
+ fWF7BR+1qIx07b2w13yvHdA3d9eQSY9u1+m+WkZ5kOywRLbjQzeF09EsL5bVCp0SkVka
+ IYO+zDJHSw1WMPOURILAy+nS4bkKQ7QfV6Uw3EEVwrQTmTQQojfBSvmLzfYcM8YFkwgw
+ +cvO5ajqnaM70U4L07WyWnQP7J9pt1x+HkI2ThSDH1Geo0VJAHO2EIy03gMUz/3wR3N5
+ ChZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=dTu57Md0meovvtAvj3ZgR33IzyjBN7hq39rd7KOP54w=;
- b=d8nMtqDphvnKYBvQj3jeOGO5Jl29vWLPgvFAgnTPAephZhUC9tuxe4kuiS9kmkdZHB
- 5azDE3FjLg3SoZ6KQnxINlpA+iNBAZNCk5V66/1ec1CoYk0W+Yk6+XQnvvqLuNtZodg+
- SwcRCBBbAmGx7BI17B/SgGKFkc/8eGckZq0KyESgEW7B830StQFfApa0j75cz+38+Yjq
- moIhK35WRnS5VCDmdr+MFaoqb/IjJ2tbfq40Wv0zB7symIJv4LWLpYnRGKnzwJ6FupQB
- loYh9VvFZP+xxqMz8JtPYEySJMBOMpUXXveeKvgwU6mUFsDVrcwLfLukXcTqHkFtIKDW
- Oz6Q==
-X-Gm-Message-State: AOAM532TJb3wj+iE/Cv3JCz0WyMjN2AWU/2b0dAm22drUhqo6oM44+96
- cwYsezddzSmpZpegP2/K5yw=
-X-Google-Smtp-Source: ABdhPJzOGQ3qqFhHOoSgWezmtNl+9CKSyPPFEgE9a2J+DPJ0T/XbphPeiUtMk8Csi0gU+G1GrPXP6Q==
-X-Received: by 2002:adf:e643:: with SMTP id b3mr8116851wrn.67.1631459895825;
- Sun, 12 Sep 2021 08:18:15 -0700 (PDT)
+ bh=ELrfWeweqoxVjJNKAIFvzl2fFfOUOjJUaPbMiP4RxmY=;
+ b=LV+k6MlLEhtICSQxkU/favDIyBX8tP84AKKCrYwNGLo175kxBFU7druPT/2Y00RMid
+ 2BZVkc9S5vIpoDmYRWQmDlN18WPAZKwlH48hHcRJUl7NEeeU+qNJBTSH2UYfGT7mXF0D
+ nt4KAyTyGSpBIRHDiG7cwJVdEUchw7zK0HiXqwWj5FgseAcUTILrXPE8VxtV0GDHyoaT
+ gV99s74SMJ4VlNaw7w6wTHgjGvRMvAGSm5EkoJwMAivqAwWyIK9JUoRzi8mnSmCFTM7G
+ kCBV9zFwDYquST2KnUzP4etStpC4NS8J19WzVVNDuVVLBJBD5ipbcsLkZ/UaDdxdLbV4
+ SdBg==
+X-Gm-Message-State: AOAM531AquyRLQl6tduR3bS8+OpN0enWbqjmGYFgrK/MxegNM1eSVZo9
+ wgk2kt79vzViUfkfAsrGCwE=
+X-Google-Smtp-Source: ABdhPJzv4r97w8HyD6FVogVd2QwXxTEtEOmuGZkTykcw0+Cfwv8LlH32HVWa6XhSLs2Uce1KIe+Xpw==
+X-Received: by 2002:a7b:cf02:: with SMTP id l2mr1290142wmg.47.1631459975713;
+ Sun, 12 Sep 2021 08:19:35 -0700 (PDT)
 Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id y4sm4380361wmi.22.2021.09.12.08.18.14
+ by smtp.gmail.com with ESMTPSA id o12sm4036444wms.15.2021.09.12.08.19.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Sep 2021 08:18:15 -0700 (PDT)
-Subject: Re: [PATCH 07/20] nubus: add trace-events for unassigned slot accesses
+ Sun, 12 Sep 2021 08:19:35 -0700 (PDT)
+Subject: Re: [PATCH 08/20] nubus: generate bus error when attempting to access
+ empty slots
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  laurent@vivier.eu
 References: <20210912074914.22048-1-mark.cave-ayland@ilande.co.uk>
- <20210912074914.22048-8-mark.cave-ayland@ilande.co.uk>
+ <20210912074914.22048-9-mark.cave-ayland@ilande.co.uk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <439e516b-baac-0334-ba61-87c21e666506@amsat.org>
-Date: Sun, 12 Sep 2021 17:18:14 +0200
+Message-ID: <cf2594e6-d0e0-fddc-d143-9049888b574a@amsat.org>
+Date: Sun, 12 Sep 2021 17:19:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210912074914.22048-8-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210912074914.22048-9-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
@@ -94,35 +95,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/21 9:49 AM, Mark Cave-Ayland wrote:
-> These allow tracing of the Nubus enumeration process by the guest OS.
+> According to "Designing Cards and Drivers for the Macintosh Family" any attempt
+> to access an unimplemented address location on Nubus generates a bus error. MacOS
+> uses a custom bus error handler to detect empty Nubus slots, and with the current
+> implementation assumes that all slots are occupied as the Nubus transactions
+> never fail.
+> 
+> Switch nubus_slot_ops and nubus_super_slot_ops over to use {read,write}_with_attrs
+> and hard-code them to return MEMTX_DECODE_ERROR so that unoccupied Nubus slots
+> will generate the expected bus error.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/nubus/nubus-bus.c  | 10 +++++++---
->  hw/nubus/trace-events |  7 +++++++
->  hw/nubus/trace.h      |  1 +
->  meson.build           |  1 +
->  4 files changed, 16 insertions(+), 3 deletions(-)
->  create mode 100644 hw/nubus/trace-events
->  create mode 100644 hw/nubus/trace.h
+>  hw/nubus/nubus-bus.c | 34 ++++++++++++++++++----------------
+>  1 file changed, 18 insertions(+), 16 deletions(-)
 
-> @@ -38,7 +40,7 @@ static const MemoryRegionOps nubus_slot_ops = {
->      .endianness = DEVICE_BIG_ENDIAN,
->      .valid = {
->          .min_access_size = 1,
-> -        .max_access_size = 1,
-> +        .max_access_size = 4,
->      },
->  };
-
-This patch does a bit more that what is described.
-
-> @@ -60,7 +64,7 @@ static const MemoryRegionOps nubus_super_slot_ops = {
->      .endianness = DEVICE_BIG_ENDIAN,
->      .valid = {
->          .min_access_size = 1,
-> -        .max_access_size = 1,
-> +        .max_access_size = 4,
->      },
->  };
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
