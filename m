@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDAB8407E6C
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 18:09:25 +0200 (CEST)
-Received: from localhost ([::1]:36786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDBF1407E79
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 18:14:30 +0200 (CEST)
+Received: from localhost ([::1]:48194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPS2m-0002sc-T7
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 12:09:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40224)
+	id 1mPS7h-00027C-MC
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 12:14:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mPRsx-0003Ok-N3
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:59:15 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:51199)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mPRu9-0005cn-5P
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 12:00:29 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mPRsv-0004V8-Fv
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:59:15 -0400
-Received: by mail-wm1-x334.google.com with SMTP id 140so1420330wma.0
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 08:59:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mPRu7-0005Ff-4e
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 12:00:28 -0400
+Received: by mail-wr1-x432.google.com with SMTP id w29so9934681wra.8
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 09:00:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BrVz6A+eMto/teio3G1ySns+rRKJDOhP2Xeg9UYvBR8=;
- b=UFz+iUmGg4cNyTXioEXWN5qmNEa1W9KxZiTxhHTk0FsrZqeDoIPBwSNYsVBXDVSEvq
- 9BLak6er9qdnOu3odg11OUCaz5kc/Zty63S0CzkZm6/KILei9bOfUM5g2M5pF/ibTT5t
- rsTiIGKjtxrAhlyl2kDPc0QCJQNeGpZWwqxSjQs9kDAubwb35JlHVRYpQbDurKxtynOH
- Gvxf4mMDNuhOzAJCLt7RBd7Udpwtp5iAz8kNmIA2bpTeo3BLnvvKqZKrJ5BuJUUcje5S
- HtBaucNLEhwDo9Yk22njhWddc3iKmZy3Mmx2KVMK0q7OJW4aB7Mq3sf26EzJPgzItaUk
- JcFA==
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=cncsqUitNd51iTO0S1qIessY0AKPB5D5CFxZCQ8jNag=;
+ b=lNamG9T5wXBrNEo9DJNsTKwGk4hdT9uANqkfY74OntTwuGBfzEMu/IWBJ+n8UTFL6y
+ BJRe+Mgmlb5uONV7SlflXhAMbrCIFvgU5O/x+BxZb/mfHNqGUW1IHqw9Lfz/waxD0boD
+ 8gfKKcaDNgY4B7ficdDtaf9RXHSxGcJvQrk2VQ4K9KTOx18e0CSNCgRWtv+VgahseF3W
+ lF+3dfi74dIEnHpjL9lWwQvPgxPcD1OXo3CqkQbTbAxN1sKn+Cn2J/5ShuvNZN0zOC9R
+ KqHpIFi1OIBIEGfK9KWy42pSLvnjUdhhfY9abYko2NJcEysnkf8tdNmhRsRt2cOBEPvl
+ uGRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BrVz6A+eMto/teio3G1ySns+rRKJDOhP2Xeg9UYvBR8=;
- b=45m9I9NgkVL5sUAt+4+Abrk9gHPoqW/ba81xk2sqUsUwk8CgOhQVffinN5Wpr1Mi3E
- P9G1IGCZGT1MntpyKUqjW9s4Mr+nuVo0X6ufRIFAuK7w+xyElIc/W/cc/URN7EyFvtm+
- I00RlHeAnruB9RU7IeGhug6GpRSGfqM6oQKYgwgi37Jm6KbMR5DbxGPKHuSrIq+nI0WZ
- AQevT0vifAk9Oiwtw0lJszxGAa+j7Mjzy0NkkjFStopMtQHp6maQF80Ewk41kL66bJDs
- 8CcFb/L6piLqcMOII1dGX/boPI6twoB2nvFKfGpEkrLp4mY9iRuL7TdYt1AxtJYd+PjY
- g0Gw==
-X-Gm-Message-State: AOAM531CN2vAA3BV0rd1XIdQt7GVVdHyewMZdVqQHM+0XZRtZ1hDdQdX
- +FUpb+jo/vo/V2MRtbNhCqUa0ULjx+beoEtzT1sBniA6c+k=
-X-Google-Smtp-Source: ABdhPJzs5jgBuzfgA221pTljNHVscnd9VfCnMOHXNkKsvnhUlD7Q1k+f2qkhCIpJ678JbIFaUip8nGWPAV/lPe0fqio=
-X-Received: by 2002:a1c:ed0a:: with SMTP id l10mr7330584wmh.140.1631462351270; 
- Sun, 12 Sep 2021 08:59:11 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cncsqUitNd51iTO0S1qIessY0AKPB5D5CFxZCQ8jNag=;
+ b=5rprVMAjSxZGJNYdclXMlsY2WYUYhg+QwY9zxbieJdore54k4VRSUMD+e5k9QN1FTx
+ +eWyMUfhWPNPNUv2T0l1JDaLfVFs0bsmi6dFFX8UPAeVchiSVhrkpzRuVC4ZJPWxTgYb
+ XdoK2A6dqhwCNrUS1cb9WU7LIDwuep+HBDk+/lCSmqh71+OWRO36mUlWa11SF1Vi88k8
+ hfv1viZjASRfPgbHcT45EU7FBU37bo5ccXtVI4vTJGdIkLZGBuhTPPQlqMwSKDhpDcLw
+ vjm70T5OaoaFsp/5/nUjNi53C6p/Hv4+W16RL20hP2wiPYnu9FLF3wfIIFZMmcpPnh0l
+ poxQ==
+X-Gm-Message-State: AOAM530A9QQqMNVVvoflCAF/989w+mM9kNKWs6+N6b8cgC9z6AbnrvBr
+ e9uoXA6r+a4WQyLW7QcgFtA=
+X-Google-Smtp-Source: ABdhPJwh+6FuwVa+JUp0I5i96O7tLOECUq2Xt7k9w506eWDShFzXayZusEkWQQ+r0r1zTQ0A72D09w==
+X-Received: by 2002:a5d:4411:: with SMTP id z17mr5250071wrq.146.1631462425370; 
+ Sun, 12 Sep 2021 09:00:25 -0700 (PDT)
+Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id n1sm4751601wrp.49.2021.09.12.09.00.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 12 Sep 2021 09:00:24 -0700 (PDT)
+Subject: Re: [PATCH 18/20] nubus: add support for slot IRQs
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ laurent@vivier.eu
+References: <20210912074914.22048-1-mark.cave-ayland@ilande.co.uk>
+ <20210912074914.22048-19-mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <1720db0e-5c49-09fa-b749-e7a7f69cbe6c@amsat.org>
+Date: Sun, 12 Sep 2021 18:00:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <23041f12-b405-7dbc-b098-e9c48802e29c@t-online.de>
- <20210912125203.7114-2-vr_qemu@t-online.de>
-In-Reply-To: <20210912125203.7114-2-vr_qemu@t-online.de>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Sun, 12 Sep 2021 19:59:00 +0400
-Message-ID: <CAJ+F1C+C7UKcK392agAYpSP4xBsWkoC0FavkFQv+tYTZ5vo88A@mail.gmail.com>
-Subject: Re: [PATCH 2/3] ui/console: replace kbd_timer with chr_accept_input
- callback
-To: =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>
-Content-Type: multipart/alternative; boundary="000000000000e9765205cbce6d3f"
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210912074914.22048-19-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-3.584,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,240 +90,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e9765205cbce6d3f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, Sep 12, 2021 at 5:03 PM Volker R=C3=BCmelin <vr_qemu@t-online.de> w=
-rote:
-
-> There's a ChardevClass chr_accept_input() callback function that
-> can replace the write retry timer.
->
-> Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
->
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
----
->  ui/console.c | 28 +++++++++++++---------------
->  1 file changed, 13 insertions(+), 15 deletions(-)
->
-> diff --git a/ui/console.c b/ui/console.c
-> index e6ce29024c..7b276bfc6c 100644
-> --- a/ui/console.c
-> +++ b/ui/console.c
-> @@ -116,7 +116,6 @@ struct QemuConsole {
->      Chardev *chr;
->      /* fifo for key pressed */
->      Fifo8 out_fifo;
-> -    QEMUTimer *kbd_timer;
->      CoQueue dump_queue;
->
->      QTAILQ_ENTRY(QemuConsole) next;
-> @@ -1106,30 +1105,21 @@ static int vc_chr_write(Chardev *chr, const
-> uint8_t *buf, int len)
->      return len;
->  }
->
-> -static void kbd_send_chars(void *opaque)
-> +static void kbd_send_chars(QemuConsole *s)
->  {
-> -    QemuConsole *s =3D opaque;
->      uint32_t len, avail;
->
->      len =3D qemu_chr_be_can_write(s->chr);
->      avail =3D fifo8_num_used(&s->out_fifo);
-> -    if (len > avail) {
-> -        len =3D avail;
-> -    }
-> -    while (len > 0) {
-> +    while (len > 0 && avail > 0) {
->          const uint8_t *buf;
->          uint32_t size;
->
-> -        buf =3D fifo8_pop_buf(&s->out_fifo, len, &size);
-> +        buf =3D fifo8_pop_buf(&s->out_fifo, MIN(len, avail), &size);
->          qemu_chr_be_write(s->chr, (uint8_t *)buf, size);
-> -        len -=3D size;
-> +        len =3D qemu_chr_be_can_write(s->chr);
->          avail -=3D size;
->      }
-> -    /* characters are pending: we send them a bit later (XXX:
-> -       horrible, should change char device API) */
-> -    if (avail > 0) {
-> -        timer_mod(s->kbd_timer, qemu_clock_get_ms(QEMU_CLOCK_REALTIME) +
-> 1);
-> -    }
->  }
->
->  /* called when an ascii key is pressed */
-> @@ -2141,6 +2131,14 @@ int qemu_console_get_height(QemuConsole *con, int
-> fallback)
->      return con ? surface_height(con->surface) : fallback;
->  }
->
-> +static void vc_chr_accept_input(Chardev *chr)
-> +{
-> +    VCChardev *drv =3D VC_CHARDEV(chr);
-> +    QemuConsole *s =3D drv->console;
+On 9/12/21 9:49 AM, Mark Cave-Ayland wrote:
+> Each Nubus slot has an IRQ line that can be used to request service from the
+> CPU. Connect the IRQs to the Nubus bridge so that they can be wired up using qdev
+> gpios accordingly, and introduce a new nubus_set_irq() function that can be used
+> by Nubus devices to control the slot IRQ.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  hw/nubus/nubus-bridge.c  | 2 ++
+>  hw/nubus/nubus-device.c  | 8 ++++++++
+>  include/hw/nubus/nubus.h | 6 ++++++
+>  3 files changed, 16 insertions(+)
+> 
+> diff --git a/hw/nubus/nubus-bridge.c b/hw/nubus/nubus-bridge.c
+> index 2c7c4ee121..0366d925a9 100644
+> --- a/hw/nubus/nubus-bridge.c
+> +++ b/hw/nubus/nubus-bridge.c
+> @@ -19,6 +19,8 @@ static void nubus_bridge_init(Object *obj)
+>      NubusBus *bus = &s->bus;
+>  
+>      qbus_create_inplace(bus, sizeof(s->bus), TYPE_NUBUS_BUS, DEVICE(s), NULL);
 > +
-> +    kbd_send_chars(s);
+> +    qdev_init_gpio_out(DEVICE(s), bus->irqs, NUBUS_IRQS);
+>  }
+
+I'm confused, the IRQs belong to the bus, but you create them
+on the bridge device (I know, the bus is not a qdev)...
+
+>  static Property nubus_bridge_properties[] = {
+> diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
+> index f316eb7789..67ab281943 100644
+> --- a/hw/nubus/nubus-device.c
+> +++ b/hw/nubus/nubus-device.c
+> @@ -10,12 +10,20 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include "qemu/datadir.h"
+> +#include "hw/irq.h"
+>  #include "hw/loader.h"
+>  #include "hw/nubus/nubus.h"
+>  #include "qapi/error.h"
+>  #include "qemu/error-report.h"
+>  
+>  
+> +void nubus_set_irq(NubusDevice *nd, int level)
+> +{
+> +    NubusBus *nubus = NUBUS_BUS(qdev_get_parent_bus(DEVICE(nd)));
+> +
+> +    qemu_set_irq(nubus->irqs[nd->slot], level);
 > +}
 > +
->  static void vc_chr_set_echo(Chardev *chr, bool echo)
+>  static void nubus_device_realize(DeviceState *dev, Error **errp)
 >  {
->      VCChardev *drv =3D VC_CHARDEV(chr);
-> @@ -2189,7 +2187,6 @@ static void text_console_do_init(Chardev *chr,
-> DisplayState *ds)
->      int g_height =3D 24 * FONT_HEIGHT;
->
->      fifo8_create(&s->out_fifo, 16);
-> -    s->kbd_timer =3D timer_new_ms(QEMU_CLOCK_REALTIME, kbd_send_chars, s=
-);
->      s->ds =3D ds;
->
->      s->y_displayed =3D 0;
-> @@ -2439,6 +2436,7 @@ static void char_vc_class_init(ObjectClass *oc, voi=
-d
-> *data)
->      cc->parse =3D qemu_chr_parse_vc;
->      cc->open =3D vc_chr_open;
->      cc->chr_write =3D vc_chr_write;
-> +    cc->chr_accept_input =3D vc_chr_accept_input;
->      cc->chr_set_echo =3D vc_chr_set_echo;
->  }
->
-> --
-> 2.31.1
->
->
->
+>      NubusBus *nubus = NUBUS_BUS(qdev_get_parent_bus(dev));
+> diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
+> index 503ebf0c1c..2b9c4c77ac 100644
+> --- a/include/hw/nubus/nubus.h
+> +++ b/include/hw/nubus/nubus.h
+> @@ -24,6 +24,8 @@
+>  #define NUBUS_FIRST_SLOT      0x0
+>  #define NUBUS_LAST_SLOT       0xf
+>  
+> +#define NUBUS_IRQS            16
+> +
+>  #define TYPE_NUBUS_DEVICE "nubus-device"
+>  OBJECT_DECLARE_SIMPLE_TYPE(NubusDevice, NUBUS_DEVICE)
+>  
+> @@ -43,6 +45,8 @@ struct NubusBus {
+>      MemoryRegion slot_io;
+>  
+>      uint32_t slot_available_mask;
+> +
+> +    qemu_irq irqs[NUBUS_IRQS];
+>  };
+>  
+>  #define NUBUS_DECL_ROM_MAX_SIZE    0xffff
+> @@ -58,6 +62,8 @@ struct NubusDevice {
+>      MemoryRegion decl_rom;
+>  };
+>  
+> +void nubus_set_irq(NubusDevice *nd, int level);
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000e9765205cbce6d3f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Sep 12, 2021 at 5:03 PM Volke=
-r R=C3=BCmelin &lt;<a href=3D"mailto:vr_qemu@t-online.de">vr_qemu@t-online.=
-de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">There&#39;s a ChardevClass chr_accept_input() callback function that<br>
-can replace the write retry timer.<br>
-<br>
-Signed-off-by: Volker R=C3=BCmelin &lt;<a href=3D"mailto:vr_qemu@t-online.d=
-e" target=3D"_blank">vr_qemu@t-online.de</a>&gt;<br></blockquote><div><br><=
-/div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcand=
-re.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0ui/console.c | 28 +++++++++++++---------------<br>
-=C2=A01 file changed, 13 insertions(+), 15 deletions(-)<br>
-<br>
-diff --git a/ui/console.c b/ui/console.c<br>
-index e6ce29024c..7b276bfc6c 100644<br>
---- a/ui/console.c<br>
-+++ b/ui/console.c<br>
-@@ -116,7 +116,6 @@ struct QemuConsole {<br>
-=C2=A0 =C2=A0 =C2=A0Chardev *chr;<br>
-=C2=A0 =C2=A0 =C2=A0/* fifo for key pressed */<br>
-=C2=A0 =C2=A0 =C2=A0Fifo8 out_fifo;<br>
--=C2=A0 =C2=A0 QEMUTimer *kbd_timer;<br>
-=C2=A0 =C2=A0 =C2=A0CoQueue dump_queue;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0QTAILQ_ENTRY(QemuConsole) next;<br>
-@@ -1106,30 +1105,21 @@ static int vc_chr_write(Chardev *chr, const uint8_t=
- *buf, int len)<br>
-=C2=A0 =C2=A0 =C2=A0return len;<br>
-=C2=A0}<br>
-<br>
--static void kbd_send_chars(void *opaque)<br>
-+static void kbd_send_chars(QemuConsole *s)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 QemuConsole *s =3D opaque;<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t len, avail;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0len =3D qemu_chr_be_can_write(s-&gt;chr);<br>
-=C2=A0 =C2=A0 =C2=A0avail =3D fifo8_num_used(&amp;s-&gt;out_fifo);<br>
--=C2=A0 =C2=A0 if (len &gt; avail) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D avail;<br>
--=C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 while (len &gt; 0) {<br>
-+=C2=A0 =C2=A0 while (len &gt; 0 &amp;&amp; avail &gt; 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const uint8_t *buf;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t size;<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =3D fifo8_pop_buf(&amp;s-&gt;out_fifo, len=
-, &amp;size);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =3D fifo8_pop_buf(&amp;s-&gt;out_fifo, MIN=
-(len, avail), &amp;size);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_chr_be_write(s-&gt;chr, (uint8_t *)b=
-uf, size);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 len -=3D size;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D qemu_chr_be_can_write(s-&gt;chr);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0avail -=3D size;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 /* characters are pending: we send them a bit later (XXX:<br=
->
--=C2=A0 =C2=A0 =C2=A0 =C2=A0horrible, should change char device API) */<br>
--=C2=A0 =C2=A0 if (avail &gt; 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 timer_mod(s-&gt;kbd_timer, qemu_clock_get_ms(Q=
-EMU_CLOCK_REALTIME) + 1);<br>
--=C2=A0 =C2=A0 }<br>
-=C2=A0}<br>
-<br>
-=C2=A0/* called when an ascii key is pressed */<br>
-@@ -2141,6 +2131,14 @@ int qemu_console_get_height(QemuConsole *con, int fa=
-llback)<br>
-=C2=A0 =C2=A0 =C2=A0return con ? surface_height(con-&gt;surface) : fallback=
-;<br>
-=C2=A0}<br>
-<br>
-+static void vc_chr_accept_input(Chardev *chr)<br>
-+{<br>
-+=C2=A0 =C2=A0 VCChardev *drv =3D VC_CHARDEV(chr);<br>
-+=C2=A0 =C2=A0 QemuConsole *s =3D drv-&gt;console;<br>
-+<br>
-+=C2=A0 =C2=A0 kbd_send_chars(s);<br>
-+}<br>
-+<br>
-=C2=A0static void vc_chr_set_echo(Chardev *chr, bool echo)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0VCChardev *drv =3D VC_CHARDEV(chr);<br>
-@@ -2189,7 +2187,6 @@ static void text_console_do_init(Chardev *chr, Displa=
-yState *ds)<br>
-=C2=A0 =C2=A0 =C2=A0int g_height =3D 24 * FONT_HEIGHT;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0fifo8_create(&amp;s-&gt;out_fifo, 16);<br>
--=C2=A0 =C2=A0 s-&gt;kbd_timer =3D timer_new_ms(QEMU_CLOCK_REALTIME, kbd_se=
-nd_chars, s);<br>
-=C2=A0 =C2=A0 =C2=A0s-&gt;ds =3D ds;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0s-&gt;y_displayed =3D 0;<br>
-@@ -2439,6 +2436,7 @@ static void char_vc_class_init(ObjectClass *oc, void =
-*data)<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;parse =3D qemu_chr_parse_vc;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;open =3D vc_chr_open;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;chr_write =3D vc_chr_write;<br>
-+=C2=A0 =C2=A0 cc-&gt;chr_accept_input =3D vc_chr_accept_input;<br>
-=C2=A0 =C2=A0 =C2=A0cc-&gt;chr_set_echo =3D vc_chr_set_echo;<br>
-=C2=A0}<br>
-<br>
--- <br>
-2.31.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000e9765205cbce6d3f--
+... then the API only involves a device and a bus, the
+bridge is hidden.
 
