@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70DAF40824B
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 01:16:39 +0200 (CEST)
-Received: from localhost ([::1]:49280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE65C40824A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 01:16:38 +0200 (CEST)
+Received: from localhost ([::1]:49278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPYiE-0001q4-Fr
+	id 1mPYiE-0001q3-3L
 	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 19:16:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34248)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1mPYaL-0003Sv-4V; Sun, 12 Sep 2021 19:08:29 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:43582 helo=zulu616.server4you.de)
+ id 1mPYa2-0002P6-ER; Sun, 12 Sep 2021 19:08:10 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:43580 helo=zulu616.server4you.de)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1mPYaJ-0003II-9M; Sun, 12 Sep 2021 19:08:28 -0400
+ id 1mPYZz-0003IH-6S; Sun, 12 Sep 2021 19:08:10 -0400
 Received: from localhost.localdomain
  (dynamic-095-117-028-179.95.117.pool.telefonica.de [95.117.28.179])
- by csgraf.de (Postfix) with ESMTPSA id 9F18A60807FB;
- Mon, 13 Sep 2021 01:08:02 +0200 (CEST)
+ by csgraf.de (Postfix) with ESMTPSA id 46F876080849;
+ Mon, 13 Sep 2021 01:08:03 +0200 (CEST)
 From: Alexander Graf <agraf@csgraf.de>
 To: QEMU Developers <qemu-devel@nongnu.org>
-Subject: [PATCH v9 07/11] hvf: arm: Implement PSCI handling
-Date: Mon, 13 Sep 2021 01:07:53 +0200
-Message-Id: <20210912230757.41096-8-agraf@csgraf.de>
+Subject: [PATCH v9 08/11] arm: Add Hypervisor.framework build target
+Date: Mon, 13 Sep 2021 01:07:54 +0200
+Message-Id: <20210912230757.41096-9-agraf@csgraf.de>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20210912230757.41096-1-agraf@csgraf.de>
 References: <20210912230757.41096-1-agraf@csgraf.de>
@@ -33,10 +33,10 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
  helo=zulu616.server4you.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,227 +61,75 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need to handle PSCI calls. Most of the TCG code works for us,
-but we can simplify it to only handle aa64 mode and we need to
-handle SUSPEND differently.
-
-This patch takes the TCG code as template and duplicates it in HVF.
-
-To tell the guest that we support PSCI 0.2 now, update the check in
-arm_cpu_initfn() as well.
+Now that we have all logic in place that we need to handle Hypervisor.framework
+on Apple Silicon systems, let's add CONFIG_HVF for aarch64 as well so that we
+can build it.
 
 Signed-off-by: Alexander Graf <agraf@csgraf.de>
+Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+Tested-by: Roman Bolshakov <r.bolshakov@yadro.com> (x86 only)
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Sergio Lopez <slp@redhat.com>
 
 ---
 
+v1 -> v2:
+
+  - Fix build on 32bit arm
+
+v3 -> v4:
+
+  - Remove i386-softmmu target
+
 v6 -> v7:
 
-  - This patch integrates "arm: Set PSCI to 0.2 for HVF"
-
-v7 -> v8:
-
-  - Do not advance for HVC, PC is already updated by hvf
-  - Fix checkpatch error
-
-v8 -> v9:
-
-  - Use new hvf_raise_exception() prototype
-  - Make cpu_off function void
-  - Add comment about return value, use -1 for "not found"
-  - Remove cpu_synchronize_state() when halted
+  - Simplify HVF matching logic in meson build file
 ---
- target/arm/cpu.c            |   4 +-
- target/arm/hvf/hvf.c        | 127 ++++++++++++++++++++++++++++++++++--
- target/arm/hvf/trace-events |   1 +
- 3 files changed, 126 insertions(+), 6 deletions(-)
+ meson.build                | 7 +++++++
+ target/arm/hvf/meson.build | 3 +++
+ target/arm/meson.build     | 2 ++
+ 3 files changed, 12 insertions(+)
+ create mode 100644 target/arm/hvf/meson.build
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 551b15243d..c111b2ee32 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1093,8 +1093,8 @@ static void arm_cpu_initfn(Object *obj)
-     cpu->psci_version = 1; /* By default assume PSCI v0.1 */
-     cpu->kvm_target = QEMU_KVM_ARM_TARGET_NONE;
+diff --git a/meson.build b/meson.build
+index a3e9b95846..cf91256c9a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -77,6 +77,13 @@ else
+ endif
  
--    if (tcg_enabled()) {
--        cpu->psci_version = 2; /* TCG implements PSCI 0.2 */
-+    if (tcg_enabled() || hvf_enabled()) {
-+        cpu->psci_version = 2; /* TCG and HVF implement PSCI 0.2 */
-     }
- }
+ accelerator_targets = { 'CONFIG_KVM': kvm_targets }
++
++if cpu in ['aarch64']
++  accelerator_targets += {
++    'CONFIG_HVF': ['aarch64-softmmu']
++  }
++endif
++
+ if cpu in ['x86', 'x86_64', 'arm', 'aarch64']
+   # i368 emulator provides xenpv machine type for multiple architectures
+   accelerator_targets += {
+diff --git a/target/arm/hvf/meson.build b/target/arm/hvf/meson.build
+new file mode 100644
+index 0000000000..855e6cce5a
+--- /dev/null
++++ b/target/arm/hvf/meson.build
+@@ -0,0 +1,3 @@
++arm_softmmu_ss.add(when: [hvf, 'CONFIG_HVF'], if_true: files(
++  'hvf.c',
++))
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index 25a02bf276..50f152214a 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -60,5 +60,7 @@ arm_softmmu_ss.add(files(
+   'psci.c',
+ ))
  
-diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-index 04da0dd4db..20d795366a 100644
---- a/target/arm/hvf/hvf.c
-+++ b/target/arm/hvf/hvf.c
-@@ -25,6 +25,7 @@
- #include "hw/irq.h"
- #include "qemu/main-loop.h"
- #include "sysemu/cpus.h"
-+#include "arm-powerctl.h"
- #include "target/arm/cpu.h"
- #include "target/arm/internals.h"
- #include "trace/trace-target_arm_hvf.h"
-@@ -48,6 +49,8 @@
- #define TMR_CTL_IMASK   (1 << 1)
- #define TMR_CTL_ISTATUS (1 << 2)
- 
-+static void hvf_wfi(CPUState *cpu);
++subdir('hvf')
 +
- typedef struct HVFVTimer {
-     /* Vtimer value during migration and paused state */
-     uint64_t vtimer_val;
-@@ -584,6 +587,116 @@ static void hvf_raise_exception(CPUState *cpu, uint32_t excp,
-     arm_cpu_do_interrupt(cpu);
- }
- 
-+static void hvf_psci_cpu_off(ARMCPU *arm_cpu)
-+{
-+    int32_t ret = arm_set_cpu_off(arm_cpu->mp_affinity);
-+    assert(ret == QEMU_ARM_POWERCTL_RET_SUCCESS);
-+}
-+
-+/*
-+ * Handle a PSCI call.
-+ *
-+ * Returns 0 on success
-+ *         -1 when the PSCI call is unknown,
-+ */
-+static int hvf_handle_psci_call(CPUState *cpu)
-+{
-+    ARMCPU *arm_cpu = ARM_CPU(cpu);
-+    CPUARMState *env = &arm_cpu->env;
-+    uint64_t param[4] = {
-+        env->xregs[0],
-+        env->xregs[1],
-+        env->xregs[2],
-+        env->xregs[3]
-+    };
-+    uint64_t context_id, mpidr;
-+    bool target_aarch64 = true;
-+    CPUState *target_cpu_state;
-+    ARMCPU *target_cpu;
-+    target_ulong entry;
-+    int target_el = 1;
-+    int32_t ret = 0;
-+
-+    trace_hvf_psci_call(param[0], param[1], param[2], param[3],
-+                        arm_cpu->mp_affinity);
-+
-+    switch (param[0]) {
-+    case QEMU_PSCI_0_2_FN_PSCI_VERSION:
-+        ret = QEMU_PSCI_0_2_RET_VERSION_0_2;
-+        break;
-+    case QEMU_PSCI_0_2_FN_MIGRATE_INFO_TYPE:
-+        ret = QEMU_PSCI_0_2_RET_TOS_MIGRATION_NOT_REQUIRED; /* No trusted OS */
-+        break;
-+    case QEMU_PSCI_0_2_FN_AFFINITY_INFO:
-+    case QEMU_PSCI_0_2_FN64_AFFINITY_INFO:
-+        mpidr = param[1];
-+
-+        switch (param[2]) {
-+        case 0:
-+            target_cpu_state = arm_get_cpu_by_id(mpidr);
-+            if (!target_cpu_state) {
-+                ret = QEMU_PSCI_RET_INVALID_PARAMS;
-+                break;
-+            }
-+            target_cpu = ARM_CPU(target_cpu_state);
-+
-+            ret = target_cpu->power_state;
-+            break;
-+        default:
-+            /* Everything above affinity level 0 is always on. */
-+            ret = 0;
-+        }
-+        break;
-+    case QEMU_PSCI_0_2_FN_SYSTEM_RESET:
-+        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-+        /* QEMU reset and shutdown are async requests, but PSCI
-+         * mandates that we never return from the reset/shutdown
-+         * call, so power the CPU off now so it doesn't execute
-+         * anything further.
-+         */
-+        hvf_psci_cpu_off(arm_cpu);
-+        break;
-+    case QEMU_PSCI_0_2_FN_SYSTEM_OFF:
-+        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-+        hvf_psci_cpu_off(arm_cpu);
-+        break;
-+    case QEMU_PSCI_0_1_FN_CPU_ON:
-+    case QEMU_PSCI_0_2_FN_CPU_ON:
-+    case QEMU_PSCI_0_2_FN64_CPU_ON:
-+        mpidr = param[1];
-+        entry = param[2];
-+        context_id = param[3];
-+        ret = arm_set_cpu_on(mpidr, entry, context_id,
-+                             target_el, target_aarch64);
-+        break;
-+    case QEMU_PSCI_0_1_FN_CPU_OFF:
-+    case QEMU_PSCI_0_2_FN_CPU_OFF:
-+        hvf_psci_cpu_off(arm_cpu);
-+        break;
-+    case QEMU_PSCI_0_1_FN_CPU_SUSPEND:
-+    case QEMU_PSCI_0_2_FN_CPU_SUSPEND:
-+    case QEMU_PSCI_0_2_FN64_CPU_SUSPEND:
-+        /* Affinity levels are not supported in QEMU */
-+        if (param[1] & 0xfffe0000) {
-+            ret = QEMU_PSCI_RET_INVALID_PARAMS;
-+            break;
-+        }
-+        /* Powerdown is not supported, we always go into WFI */
-+        env->xregs[0] = 0;
-+        hvf_wfi(cpu);
-+        break;
-+    case QEMU_PSCI_0_1_FN_MIGRATE:
-+    case QEMU_PSCI_0_2_FN_MIGRATE:
-+        ret = QEMU_PSCI_RET_NOT_SUPPORTED;
-+        break;
-+    default:
-+        return -1;
-+    }
-+
-+    env->xregs[0] = ret;
-+    return 0;
-+}
-+
- static int hvf_sysreg_read(CPUState *cpu, uint32_t reg, uint32_t rt)
- {
-     ARMCPU *arm_cpu = ARM_CPU(cpu);
-@@ -883,13 +996,19 @@ int hvf_vcpu_exec(CPUState *cpu)
-         break;
-     case EC_AA64_HVC:
-         cpu_synchronize_state(cpu);
--        trace_hvf_unknown_hvf(env->xregs[0]);
--        hvf_raise_exception(env, EXCP_UDEF, syn_uncategorized());
-+        if (hvf_handle_psci_call(cpu)) {
-+            trace_hvf_unknown_hvf(env->xregs[0]);
-+            hvf_raise_exception(cpu, EXCP_UDEF, syn_uncategorized());
-+        }
-         break;
-     case EC_AA64_SMC:
-         cpu_synchronize_state(cpu);
--        trace_hvf_unknown_smc(env->xregs[0]);
--        hvf_raise_exception(env, EXCP_UDEF, syn_uncategorized());
-+        if (!hvf_handle_psci_call(cpu)) {
-+            advance_pc = true;
-+        } else {
-+            trace_hvf_unknown_smc(env->xregs[0]);
-+            hvf_raise_exception(cpu, EXCP_UDEF, syn_uncategorized());
-+        }
-         break;
-     default:
-         cpu_synchronize_state(cpu);
-diff --git a/target/arm/hvf/trace-events b/target/arm/hvf/trace-events
-index e972bdd9ce..cf4fb68f79 100644
---- a/target/arm/hvf/trace-events
-+++ b/target/arm/hvf/trace-events
-@@ -8,3 +8,4 @@ hvf_sysreg_write(uint32_t reg, uint32_t op0, uint32_t op1, uint32_t crn, uint32_
- hvf_unknown_hvf(uint64_t x0) "unknown HVC! 0x%016"PRIx64
- hvf_unknown_smc(uint64_t x0) "unknown SMC! 0x%016"PRIx64
- hvf_exit(uint64_t syndrome, uint32_t ec, uint64_t pc) "exit: 0x%"PRIx64" [ec=0x%x pc=0x%"PRIx64"]"
-+hvf_psci_call(uint64_t x0, uint64_t x1, uint64_t x2, uint64_t x3, uint32_t cpuid) "PSCI Call x0=0x%016"PRIx64" x1=0x%016"PRIx64" x2=0x%016"PRIx64" x3=0x%016"PRIx64" cpu=0x%x"
+ target_arch += {'arm': arm_ss}
+ target_softmmu_arch += {'arm': arm_softmmu_ss}
 -- 
 2.30.1 (Apple Git-130)
 
