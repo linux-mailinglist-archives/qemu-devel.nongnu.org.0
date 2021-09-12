@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83192407C47
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 09:52:42 +0200 (CEST)
-Received: from localhost ([::1]:32840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB01407C4C
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 09:55:35 +0200 (CEST)
+Received: from localhost ([::1]:43496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPKI5-0005aT-JW
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 03:52:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34378)
+	id 1mPKKs-00049p-DH
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 03:55:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mPKFE-0002fA-DS
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 03:49:44 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35024
+ id 1mPKFG-0002mL-4C
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 03:49:46 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35040
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mPKFC-0002YP-Q9
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 03:49:44 -0400
+ id 1mPKFE-0002Zx-2I
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 03:49:45 -0400
 Received: from host109-153-76-56.range109-153.btcentralplus.com
  ([109.153.76.56] helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mPKF6-00034U-1V; Sun, 12 Sep 2021 08:49:40 +0100
+ id 1mPKFB-00034U-63; Sun, 12 Sep 2021 08:49:41 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Sun, 12 Sep 2021 08:49:01 +0100
-Message-Id: <20210912074914.22048-8-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 12 Sep 2021 08:49:04 +0100
+Message-Id: <20210912074914.22048-11-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210912074914.22048-1-mark.cave-ayland@ilande.co.uk>
 References: <20210912074914.22048-1-mark.cave-ayland@ilande.co.uk>
@@ -38,16 +38,17 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.76.56
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 07/20] nubus: add trace-events for unassigned slot accesses
+Subject: [PATCH 10/20] nubus-device: remove nubus_register_rom() and
+ nubus_register_format_block()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
  envelope-from=mark.cave-ayland@ilande.co.uk;
  helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,109 +65,208 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These allow tracing of the Nubus enumeration process by the guest OS.
+Since there is no need to generate a dummy declaration ROM, remove both
+nubus_register_rom() and nubus_register_format_block(). These will shortly be
+replaced with a mechanism to optionally load a declaration ROM from disk to
+allow real images to be used within QEMU.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/nubus/nubus-bus.c  | 10 +++++++---
- hw/nubus/trace-events |  7 +++++++
- hw/nubus/trace.h      |  1 +
- meson.build           |  1 +
- 4 files changed, 16 insertions(+), 3 deletions(-)
- create mode 100644 hw/nubus/trace-events
- create mode 100644 hw/nubus/trace.h
+ hw/nubus/nubus-device.c  | 143 ---------------------------------------
+ include/hw/nubus/nubus.h |  19 ------
+ 2 files changed, 162 deletions(-)
 
-diff --git a/hw/nubus/nubus-bus.c b/hw/nubus/nubus-bus.c
-index f5ce899933..e250abfda0 100644
---- a/hw/nubus/nubus-bus.c
-+++ b/hw/nubus/nubus-bus.c
-@@ -11,6 +11,7 @@
- #include "qemu/osdep.h"
- #include "hw/nubus/nubus.h"
+diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
+index 7a32c8c95b..9c1992ceb0 100644
+--- a/hw/nubus/nubus-device.c
++++ b/hw/nubus/nubus-device.c
+@@ -13,147 +13,6 @@
  #include "qapi/error.h"
-+#include "trace.h"
  
  
- static NubusBus *nubus_find(void)
-@@ -23,12 +24,13 @@ static void nubus_slot_write(void *opaque, hwaddr addr, uint64_t val,
-                              unsigned int size)
- {
-     /* read only */
-+    trace_nubus_slot_write(addr, val, size);
- }
- 
+-/* The Format Block Structure */
 -
- static uint64_t nubus_slot_read(void *opaque, hwaddr addr,
-                                 unsigned int size)
+-#define FBLOCK_DIRECTORY_OFFSET 0
+-#define FBLOCK_LENGTH           4
+-#define FBLOCK_CRC              8
+-#define FBLOCK_REVISION_LEVEL   12
+-#define FBLOCK_FORMAT           13
+-#define FBLOCK_TEST_PATTERN     14
+-#define FBLOCK_RESERVED         18
+-#define FBLOCK_BYTE_LANES       19
+-
+-#define FBLOCK_SIZE             20
+-#define FBLOCK_PATTERN_VAL      0x5a932bc7
+-
+-static uint64_t nubus_fblock_read(void *opaque, hwaddr addr, unsigned int size)
+-{
+-    NubusDevice *dev = opaque;
+-    uint64_t val;
+-
+-#define BYTE(v, b) (((v) >> (24 - 8 * (b))) & 0xff)
+-    switch (addr) {
+-    case FBLOCK_BYTE_LANES:
+-        val = dev->byte_lanes;
+-        val |= (val ^ 0xf) << 4;
+-        break;
+-    case FBLOCK_RESERVED:
+-        val = 0x00;
+-        break;
+-    case FBLOCK_TEST_PATTERN...FBLOCK_TEST_PATTERN + 3:
+-        val = BYTE(FBLOCK_PATTERN_VAL, addr - FBLOCK_TEST_PATTERN);
+-        break;
+-    case FBLOCK_FORMAT:
+-        val = dev->rom_format;
+-        break;
+-    case FBLOCK_REVISION_LEVEL:
+-        val = dev->rom_rev;
+-        break;
+-    case FBLOCK_CRC...FBLOCK_CRC + 3:
+-        val = BYTE(dev->rom_crc, addr - FBLOCK_CRC);
+-        break;
+-    case FBLOCK_LENGTH...FBLOCK_LENGTH + 3:
+-        val = BYTE(dev->rom_length, addr - FBLOCK_LENGTH);
+-        break;
+-    case FBLOCK_DIRECTORY_OFFSET...FBLOCK_DIRECTORY_OFFSET + 3:
+-        val = BYTE(dev->directory_offset, addr - FBLOCK_DIRECTORY_OFFSET);
+-        break;
+-    default:
+-        val = 0;
+-        break;
+-    }
+-    return val;
+-}
+-
+-static void nubus_fblock_write(void *opaque, hwaddr addr, uint64_t val,
+-                               unsigned int size)
+-{
+-    /* read only */
+-}
+-
+-static const MemoryRegionOps nubus_format_block_ops = {
+-    .read = nubus_fblock_read,
+-    .write = nubus_fblock_write,
+-    .endianness = DEVICE_BIG_ENDIAN,
+-    .valid = {
+-        .min_access_size = 1,
+-        .max_access_size = 1,
+-    }
+-};
+-
+-static void nubus_register_format_block(NubusDevice *dev)
+-{
+-    char *fblock_name;
+-
+-    fblock_name = g_strdup_printf("nubus-slot-%d-format-block",
+-                                  dev->slot);
+-
+-    hwaddr fblock_offset = memory_region_size(&dev->slot_mem) - FBLOCK_SIZE;
+-    memory_region_init_io(&dev->fblock_io, NULL, &nubus_format_block_ops,
+-                          dev, fblock_name, FBLOCK_SIZE);
+-    memory_region_add_subregion(&dev->slot_mem, fblock_offset,
+-                                &dev->fblock_io);
+-
+-    g_free(fblock_name);
+-}
+-
+-static void mac_nubus_rom_write(void *opaque, hwaddr addr, uint64_t val,
+-                                       unsigned int size)
+-{
+-    /* read only */
+-}
+-
+-static uint64_t mac_nubus_rom_read(void *opaque, hwaddr addr,
+-                                    unsigned int size)
+-{
+-    NubusDevice *dev = opaque;
+-
+-    return dev->rom[addr];
+-}
+-
+-static const MemoryRegionOps mac_nubus_rom_ops = {
+-    .read  = mac_nubus_rom_read,
+-    .write = mac_nubus_rom_write,
+-    .endianness = DEVICE_BIG_ENDIAN,
+-    .valid = {
+-        .min_access_size = 1,
+-        .max_access_size = 1,
+-    },
+-};
+-
+-
+-void nubus_register_rom(NubusDevice *dev, const uint8_t *rom, uint32_t size,
+-                        int revision, int format, uint8_t byte_lanes)
+-{
+-    hwaddr rom_offset;
+-    char *rom_name;
+-
+-    /* FIXME : really compute CRC */
+-    dev->rom_length = 0;
+-    dev->rom_crc = 0;
+-
+-    dev->rom_rev = revision;
+-    dev->rom_format = format;
+-
+-    dev->byte_lanes = byte_lanes;
+-    dev->directory_offset = -size;
+-
+-    /* ROM */
+-
+-    dev->rom = rom;
+-    rom_name = g_strdup_printf("nubus-slot-%d-rom", dev->slot);
+-    memory_region_init_io(&dev->rom_io, NULL, &mac_nubus_rom_ops,
+-                          dev, rom_name, size);
+-    memory_region_set_readonly(&dev->rom_io, true);
+-
+-    rom_offset = memory_region_size(&dev->slot_mem) - FBLOCK_SIZE +
+-                 dev->directory_offset;
+-    memory_region_add_subregion(&dev->slot_mem, rom_offset, &dev->rom_io);
+-
+-    g_free(rom_name);
+-}
+-
+ static void nubus_device_realize(DeviceState *dev, Error **errp)
  {
-+    trace_nubus_slot_read(addr, size);
-     return 0;
+     NubusBus *nubus = NUBUS_BUS(qdev_get_parent_bus(dev));
+@@ -179,8 +38,6 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
+     memory_region_add_subregion(&nubus->slot_io, slot_offset,
+                                 &nd->slot_mem);
+     g_free(name);
+-
+-    nubus_register_format_block(nd);
  }
  
-@@ -38,7 +40,7 @@ static const MemoryRegionOps nubus_slot_ops = {
-     .endianness = DEVICE_BIG_ENDIAN,
-     .valid = {
-         .min_access_size = 1,
--        .max_access_size = 1,
-+        .max_access_size = 4,
-     },
+ static Property nubus_device_properties[] = {
+diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
+index 8ff4736259..87a97516c7 100644
+--- a/include/hw/nubus/nubus.h
++++ b/include/hw/nubus/nubus.h
+@@ -45,25 +45,6 @@ struct NubusDevice {
+     int32_t slot;
+     MemoryRegion super_slot_mem;
+     MemoryRegion slot_mem;
+-
+-    /* Format Block */
+-
+-    MemoryRegion fblock_io;
+-
+-    uint32_t rom_length;
+-    uint32_t rom_crc;
+-    uint8_t rom_rev;
+-    uint8_t rom_format;
+-    uint8_t byte_lanes;
+-    int32_t directory_offset;
+-
+-    /* ROM */
+-
+-    MemoryRegion rom_io;
+-    const uint8_t *rom;
  };
  
-@@ -46,11 +48,13 @@ static void nubus_super_slot_write(void *opaque, hwaddr addr, uint64_t val,
-                                    unsigned int size)
- {
-     /* read only */
-+    trace_nubus_super_slot_write(addr, val, size);
- }
- 
- static uint64_t nubus_super_slot_read(void *opaque, hwaddr addr,
-                                       unsigned int size)
- {
-+    trace_nubus_super_slot_read(addr, size);
-     return 0;
- }
- 
-@@ -60,7 +64,7 @@ static const MemoryRegionOps nubus_super_slot_ops = {
-     .endianness = DEVICE_BIG_ENDIAN,
-     .valid = {
-         .min_access_size = 1,
--        .max_access_size = 1,
-+        .max_access_size = 4,
-     },
- };
- 
-diff --git a/hw/nubus/trace-events b/hw/nubus/trace-events
-new file mode 100644
-index 0000000000..e31833d694
---- /dev/null
-+++ b/hw/nubus/trace-events
-@@ -0,0 +1,7 @@
-+# See docs/devel/tracing.txt for syntax documentation.
-+
-+# nubus-bus.c
-+nubus_slot_read(uint64_t addr, int size) "reading unassigned addr 0x%"PRIx64 " size %d"
-+nubus_slot_write(uint64_t addr, uint64_t val, int size) "writing unassigned addr 0x%"PRIx64 " value 0x%"PRIx64 " size %d"
-+nubus_super_slot_read(uint64_t addr, int size) "reading unassigned addr 0x%"PRIx64 " size %d"
-+nubus_super_slot_write(uint64_t addr, uint64_t val, int size) "writing unassigned addr 0x%"PRIx64 " value 0x%"PRIx64 " size %d"
-diff --git a/hw/nubus/trace.h b/hw/nubus/trace.h
-new file mode 100644
-index 0000000000..3749420da1
---- /dev/null
-+++ b/hw/nubus/trace.h
-@@ -0,0 +1 @@
-+#include "trace/trace-hw_nubus.h"
-diff --git a/meson.build b/meson.build
-index 7e58e6279b..727ac5a19d 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2135,6 +2135,7 @@ if have_system
-     'hw/misc/macio',
-     'hw/net',
-     'hw/net/can',
-+    'hw/nubus',
-     'hw/nvme',
-     'hw/nvram',
-     'hw/pci',
+-void nubus_register_rom(NubusDevice *dev, const uint8_t *rom, uint32_t size,
+-                        int revision, int format, uint8_t byte_lanes);
+-
+ #endif
 -- 
 2.20.1
 
