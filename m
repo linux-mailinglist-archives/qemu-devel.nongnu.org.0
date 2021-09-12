@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61A6407E87
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 18:18:33 +0200 (CEST)
-Received: from localhost ([::1]:58338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD0C407E89
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 18:19:26 +0200 (CEST)
+Received: from localhost ([::1]:60872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPSBb-0000SF-3d
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 12:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42604)
+	id 1mPSCT-00029s-G0
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 12:19:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPS9y-0006oY-Vk
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 12:16:50 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:47008)
+ id 1mPSAq-0000bJ-Ok
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 12:17:45 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:40671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPS9x-0007hM-5e
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 12:16:50 -0400
-Received: by mail-pf1-x431.google.com with SMTP id y17so6558820pfl.13
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 09:16:48 -0700 (PDT)
+ id 1mPSAm-0008Ec-Mr
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 12:17:42 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ n13-20020a17090a4e0d00b0017946980d8dso4876654pjh.5
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 09:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cpIuaAgcar2AGJqis2W1zmNsAGoah+p3u0UFkJH6iu8=;
- b=SYWoAKZjgz+ge1xJQjB9RZy2TOZD+l0V1fdVaA4Hj+NmNM/8KBeRKVosixWEmHz8/t
- YUH/bwxVqoVnSd84Yj3CBCaOSR/5DYX/y9cf0aqPJZx4nTO+ztwKnH0IaFcPA0AzCWYO
- YTjvnEHg1pX34LqNTva4rQAnQNf+MXnTIArWcx8OuIQAcJHaQVD9jaVJZz29fRUmJNCp
- KvF6TMJt16TdN7jvsHmdrshpIh2X7lmD6So+5RKA2CcZ8WSuIj+qKq9OjMjVCXqPhAKR
- 3h4+S269+cr5iot044jl/BZaCgaN7xWzIXgmKgP/Jt8fOIgn29a5T4+wzBgbiiXrATxn
- 5KWg==
+ bh=FDwdKSztzvw/mJ8+cfh141ZmqmdeC+LdcUu1PpiqVcI=;
+ b=IJ2ihAS26j9XEvUoJMMnLOloKNHoy3d9X7WSzHwCX+IBXTIHsN0XCIVW1bl3bgmeVX
+ FD3NaQzoR3bwps82a29LVkbxT0DeZHzp/TnHMuDyB/dw2SIatqlNIAqtcUdI97PFmKw1
+ eIw/LVWRPhw/qmMrA57BPd4wd/xZ9wmuKBsWxpr4xUr+fmaqaUBSohjAu7IR0iuqrs5e
+ wITweySkvQ9XlaDkV7Pjl0hHCgEXCJ+TOS8f2oBZUHsWhSlDnxANG5ByvzNn7ZPDzuR+
+ Be7mhYppd4oYs2YDYvWMHKRgFU7f8fKt84R+HDU3CJ0dDStZU7+E5C20izyKIEVq8OPU
+ n4wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=cpIuaAgcar2AGJqis2W1zmNsAGoah+p3u0UFkJH6iu8=;
- b=rT8Ji7SGf2R7KHsvBayyJXtf7Arl0cFhr+VcIimQ9Vu1SdGOA+mIhBpdGTeS3QQ1TL
- ff/XOhhuN4akd0KY3LeSx9OW0ZfYm8cDTcny/F5T2So17KIoVJ7FJRnUjxsf/xoW3mYi
- +69xzb5uYdTbH/J9Iqa4OYzX2Qk+MV83leUIzwGYsBIoR4IG6MO31VVQ5w84QvCdGx1X
- mgqWxxzMtNQ+Ou3x2NNgDcDWPkujIYVkLyaRIcilHS9S9gXK6Tum81BG+T3Re+8a51zp
- 174t8Vy2oXwJAoqkxdNiYmIsj6FI9azKJOaeaiTTgQqaBbsNzcp3trbAZbSy2bRYvGKu
- FksA==
-X-Gm-Message-State: AOAM532R5qpeOVOJ0E0S84Qd5EUFxIHdZi5a5XBp/+/y0fVMrUYCnG/x
- +OU4QFGvUj/yQVhODF009Y112j2d3eXDaQ==
-X-Google-Smtp-Source: ABdhPJwxxO+n6cKM4ezIOeBfLDkZq8X3Heff3K0hcIgtP+M6YRYGqsJX5JHm9IVbphDM4xxR9vjOOg==
-X-Received: by 2002:a62:cec1:0:b0:3f2:6877:238f with SMTP id
- y184-20020a62cec1000000b003f26877238fmr6957419pfg.1.1631463407754; 
- Sun, 12 Sep 2021 09:16:47 -0700 (PDT)
+ bh=FDwdKSztzvw/mJ8+cfh141ZmqmdeC+LdcUu1PpiqVcI=;
+ b=KvYFDq+LxxvAC5MemM34uMtnrA6Opt3JOiBJOncCoYThd0ypnBhNvCMg7JXytyhUB3
+ P0prKGB6RdOvhRk/amlWToy0317TZYuOx+q/qAEenz3E7VfhAI612TWOjKHARjJOddc/
+ VWnP7Dkvr7luh/6aaSsOR09BfIa8LLsV5W5eUGsBvrWrTZUh74WR+HcatalMuyZQML4Q
+ v6JwgzgAEIjX/16stYtf5Y51jKHTDOLt+4yza90Ctad4A8rj5BtpxOynwAqArDhz9F9y
+ v3L5uZhtagw/pkZ0vsRgds7Wkp9JteBcHbZHUwBfuBsJC8qVQPZwreF0j86BoM1Fab5m
+ vMVw==
+X-Gm-Message-State: AOAM532jPtEj3FM0y7kQO0pRquVq/RxP97EhJeThwVeinw2ii4w+IOCN
+ Wy6kI2ze7PHF85E59+kyXMf8Xw==
+X-Google-Smtp-Source: ABdhPJxqMZpIFIBwxudPIL4OwaV05N6T6uWs+3I1Le4EWxZ6nvDV/kDc4vpU2OlH55eQfgN2SBqRfA==
+X-Received: by 2002:a17:90a:3e08:: with SMTP id
+ j8mr8219888pjc.208.1631463459059; 
+ Sun, 12 Sep 2021 09:17:39 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id x124sm4370803pfb.59.2021.09.12.09.16.47
+ by smtp.gmail.com with ESMTPSA id y1sm5094657pga.50.2021.09.12.09.17.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Sep 2021 09:16:47 -0700 (PDT)
-Subject: Re: [PATCH v2 3/9] linux-user: Split signal-related prototypes into
- signal-common.h
+ Sun, 12 Sep 2021 09:17:38 -0700 (PDT)
+Subject: Re: [PATCH v2 4/9] linux-user: Split loader-related prototypes into
+ loader.h
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20210908154405.15417-1-peter.maydell@linaro.org>
- <20210908154405.15417-4-peter.maydell@linaro.org>
+ <20210908154405.15417-5-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f1514c00-4070-bc63-ee2f-ce82fd40ce49@linaro.org>
-Date: Sun, 12 Sep 2021 09:16:45 -0700
+Message-ID: <48a2bf95-3ed6-daef-c0cb-bdc7b90ccacb@linaro.org>
+Date: Sun, 12 Sep 2021 09:17:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210908154405.15417-4-peter.maydell@linaro.org>
+In-Reply-To: <20210908154405.15417-5-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -56
 X-Spam_score: -5.7
 X-Spam_bar: -----
@@ -93,38 +94,22 @@ Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/8/21 8:43 AM, Peter Maydell wrote:
-> Split the signal related prototypes into the existing header file
-> signal-common.h, and include it in those places that now require it.
+On 9/8/21 8:44 AM, Peter Maydell wrote:
+> Split guest-binary loader prototypes out into a new header
+> loader.h which we include only where required.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
-> v1->v2: use existing signal-common.h instead of new header
-> ---
->   linux-user/qemu.h                | 36 --------------------------------
->   linux-user/signal-common.h       | 36 ++++++++++++++++++++++++++++++++
->   linux-user/aarch64/cpu_loop.c    |  1 +
->   linux-user/alpha/cpu_loop.c      |  1 +
->   linux-user/arm/cpu_loop.c        |  1 +
->   linux-user/cris/cpu_loop.c       |  1 +
->   linux-user/fd-trans.c            |  1 +
->   linux-user/hexagon/cpu_loop.c    |  1 +
->   linux-user/hppa/cpu_loop.c       |  1 +
->   linux-user/i386/cpu_loop.c       |  1 +
->   linux-user/m68k/cpu_loop.c       |  1 +
->   linux-user/main.c                |  1 +
->   linux-user/microblaze/cpu_loop.c |  1 +
->   linux-user/mips/cpu_loop.c       |  1 +
->   linux-user/nios2/cpu_loop.c      |  1 +
->   linux-user/openrisc/cpu_loop.c   |  1 +
->   linux-user/ppc/cpu_loop.c        |  1 +
->   linux-user/riscv/cpu_loop.c      |  1 +
->   linux-user/s390x/cpu_loop.c      |  1 +
->   linux-user/sh4/cpu_loop.c        |  1 +
->   linux-user/sparc/cpu_loop.c      |  1 +
->   linux-user/syscall.c             |  1 +
->   linux-user/xtensa/cpu_loop.c     |  1 +
->   23 files changed, 57 insertions(+), 36 deletions(-)
+>   linux-user/loader.h    | 59 ++++++++++++++++++++++++++++++++++++++++++
+>   linux-user/qemu.h      | 40 ----------------------------
+>   linux-user/elfload.c   |  1 +
+>   linux-user/flatload.c  |  1 +
+>   linux-user/linuxload.c |  1 +
+>   linux-user/main.c      |  1 +
+>   linux-user/signal.c    |  1 +
+>   linux-user/syscall.c   |  1 +
+>   8 files changed, 65 insertions(+), 40 deletions(-)
+>   create mode 100644 linux-user/loader.h
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
