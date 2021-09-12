@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B4C6407EFD
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 19:34:46 +0200 (CEST)
-Received: from localhost ([::1]:47022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48463407EFC
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 19:34:35 +0200 (CEST)
+Received: from localhost ([::1]:45974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPTNN-0002Vy-IM
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 13:34:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50954)
+	id 1mPTNC-0001mZ-BO
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 13:34:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPTGr-0005dQ-Ua
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:28:01 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35746)
+ id 1mPTH0-0005sT-Rw
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:28:10 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPTGp-0004Si-Q8
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:28:00 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- r128-20020a1c4486000000b003065f0bc631so582826wma.0
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 10:27:58 -0700 (PDT)
+ id 1mPTGv-0004Vj-Cg
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:28:10 -0400
+Received: by mail-wr1-x431.google.com with SMTP id b6so10894054wrh.10
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 10:28:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TDL/s5qp2PZchCaLgZDHqquPt+pAQfMwmIRobGZzfuA=;
- b=XFs74/EaPkrJZju9ypeG4+JmS4NDvULBYQfp/czFrtDW1nGjV3dWbktI/OV7gEWT3y
- MFYWJMb08la+fUfOC6YyazfG2kj3Q2DVUAEYzvN8d4hs72s2ED939Si7bHZ0dA3eQi2u
- DT1LrA68uQnBfXd3bmqecbCuMmwRl4AsoHXDSh8JsEWg4QrKE1Z+Ypi2xxqzpXBUIb4/
- sWqj7qVmDFgQ3+kPDWm6yOkZdfqZnbXJYP3OoDHMNWmhIlQZGcf83wj/16Fg3aVPUoGq
- 12B3la3pPS/MMv3D4RrIrWQZcXYM2Gyi+FL3lNiWWBTdUPimdJYfaPyuD/2aA/L4+XJ/
- MZOQ==
+ bh=WTlRxPmHW1MMBzxLKQbK3V9oXhvEdGh1iTdPd/VuorU=;
+ b=DhYgYpEAEWJcnaaKKWlUEGAGFTdtbCfP9xsTmf9HzAfGe5hEtahL57cWM6F8YCBt1f
+ Lu7jrYAL5ZMRxevRYG71IYREH3fzlMDtaZvj42jZZxmqbECY/V2ePRuDRoGUaAK56nFT
+ UW+ecqqg3OV8WoWAPhVJT11Rx8G+TnRAfQGdsUxdOFMpfkImlx8WUM+Lgg+wdg7VraC2
+ KOkY3FJcfztorlRTkWLqqFO4mFcliVn/W4oVrowA7vz5P5LwQFq6ZIgYgH+nE9S0l1RF
+ fkeNp37IzfvOIPcwM4TwcyRHyYVUPIhFPw+W9/6TpSr1nynwbNVfBbG7Tnp1dFgzOtmB
+ h0fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TDL/s5qp2PZchCaLgZDHqquPt+pAQfMwmIRobGZzfuA=;
- b=dU5pWZ1EcMjB+i0ArlEKZyxK4pnrUv3DTIs5nVIBj/QLK5oDWb0fmXtVd+fLbEAZeL
- MRLCKMhhg5dLK7B3+WGjh9pXLlJM8pztLfPuSBqI7CuYxze52afztUR26ehJZaC6+6/U
- fjYlB8IRTjWToC3KtjKYWVaglg7Dz6winLEm03IOTLqGjbX1HaO4jt0AvDK15coHVMgQ
- XU1W9NZNC4wOED3q3WNRhiRegG4Apwythd0M54Sf5WoFGCTVEM+9X8tWBFXYZYA1hHNu
- 2SqoFkKotmNDS0pgSXLMU6IxPTvWuelr8iUwZ06DQGxr2PlaF47bOV5FY2eycRs6fUhX
- hJWA==
-X-Gm-Message-State: AOAM53272bHneu7R2XFmCmaJ6MqWGa1RNUbyVcioJbVQ8khIuIixmXF0
- hXMXAZ//DYLZfWslZjeY4hbjnyv24Vc=
-X-Google-Smtp-Source: ABdhPJxpZhfsNSiPeixZlQX7ap3xwv5gY78wg3wxwdMplzd1e+jhv9xiLwqik9gnZf3UeEEXPlY5EA==
-X-Received: by 2002:a1c:4d7:: with SMTP id 206mr6137563wme.158.1631467677873; 
- Sun, 12 Sep 2021 10:27:57 -0700 (PDT)
+ bh=WTlRxPmHW1MMBzxLKQbK3V9oXhvEdGh1iTdPd/VuorU=;
+ b=aK4gu8k5Hiago+Vap+NOVUVW5Bdhh1/wxy1FH9LLwA6KUuhquMr1Fndvn2MlAmYtwR
+ XRstnS2kMkGh0Skhow5PNm/qtXyy3pTqDYBzGHoRm0Z9RNLwaGKvTVZvTKvXkiDpfkKX
+ ZWy/Uk26otgIh7/WTSr8f0FR9JeCqion85Rj9PdvAJcmR0NqmQElqJsiNJnl/c8Qx+QD
+ zxn4fLaoNsMo9V++PzORf0eHhwROe2+GRmzokcghuCN8YOgyjOc29j0sGnQf224HjT5M
+ JX3dPK4D+5bu8Xc3oTB7JJumFEippU1bhz6vr+XtpFVKdGV+KZHRlOjVxiWS5DsyJA5m
+ TIAA==
+X-Gm-Message-State: AOAM533i3mm/HU1ecOePu331RiLo9EQsDKYE1ppbzwHYki+ImapBQvx7
+ kJzs/jg+EctPQWIvKqwVXAB5V9cvYus=
+X-Google-Smtp-Source: ABdhPJzV4478kF6HL6N3eMFNnVx/0ZGwoc+WwakP9h3V+WNiSG+Jpd9ENWLBwzg9c1dpGPhqRXFVDw==
+X-Received: by 2002:adf:fd12:: with SMTP id e18mr4291840wrr.275.1631467682937; 
+ Sun, 12 Sep 2021 10:28:02 -0700 (PDT)
 Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id i20sm4678954wml.37.2021.09.12.10.27.57
+ by smtp.gmail.com with ESMTPSA id n26sm2872141wmi.43.2021.09.12.10.28.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Sep 2021 10:27:57 -0700 (PDT)
+ Sun, 12 Sep 2021 10:28:02 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 05/30] accel/kvm: Implement AccelOpsClass::has_work()
-Date: Sun, 12 Sep 2021 19:27:06 +0200
-Message-Id: <20210912172731.789788-6-f4bug@amsat.org>
+Subject: [PATCH v4 06/30] accel/whpx: Implement AccelOpsClass::has_work()
+Date: Sun, 12 Sep 2021 19:27:07 +0200
+Message-Id: <20210912172731.789788-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210912172731.789788-1-f4bug@amsat.org>
 References: <20210912172731.789788-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,54 +90,63 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement KVM has_work() handler in AccelOpsClass and
+Implement WHPX has_work() handler in AccelOpsClass and
 remove it from cpu_thread_is_idle() since cpu_has_work()
 is already called.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- accel/kvm/kvm-accel-ops.c | 6 ++++++
- softmmu/cpus.c            | 2 +-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ softmmu/cpus.c                    | 4 +---
+ target/i386/whpx/whpx-accel-ops.c | 6 ++++++
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/accel/kvm/kvm-accel-ops.c b/accel/kvm/kvm-accel-ops.c
-index 7516c67a3f5..6f4d5df3a0d 100644
---- a/accel/kvm/kvm-accel-ops.c
-+++ b/accel/kvm/kvm-accel-ops.c
-@@ -74,6 +74,11 @@ static void kvm_start_vcpu_thread(CPUState *cpu)
-                        cpu, QEMU_THREAD_JOINABLE);
- }
- 
-+static bool kvm_cpu_has_work(CPUState *cpu)
-+{
-+    return kvm_halt_in_kernel();
-+}
-+
- static void kvm_accel_ops_class_init(ObjectClass *oc, void *data)
- {
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
-@@ -83,6 +88,7 @@ static void kvm_accel_ops_class_init(ObjectClass *oc, void *data)
-     ops->synchronize_post_init = kvm_cpu_synchronize_post_init;
-     ops->synchronize_state = kvm_cpu_synchronize_state;
-     ops->synchronize_pre_loadvm = kvm_cpu_synchronize_pre_loadvm;
-+    ops->has_work = kvm_cpu_has_work;
- }
- 
- static const TypeInfo kvm_accel_ops_type = {
 diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 2a61dfd6287..3db7bd4eb4d 100644
+index 3db7bd4eb4d..6bce52ce561 100644
 --- a/softmmu/cpus.c
 +++ b/softmmu/cpus.c
-@@ -90,7 +90,7 @@ bool cpu_thread_is_idle(CPUState *cpu)
+@@ -41,7 +41,6 @@
+ #include "sysemu/replay.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/cpu-timers.h"
+-#include "sysemu/whpx.h"
+ #include "hw/boards.h"
+ #include "hw/hw.h"
+ #include "trace.h"
+@@ -89,8 +88,7 @@ bool cpu_thread_is_idle(CPUState *cpu)
+     if (cpu_is_stopped(cpu)) {
          return true;
      }
-     if (!cpu->halted || cpu_has_work(cpu) ||
--        kvm_halt_in_kernel() || whpx_apic_in_platform()) {
-+        whpx_apic_in_platform()) {
+-    if (!cpu->halted || cpu_has_work(cpu) ||
+-        whpx_apic_in_platform()) {
++    if (!cpu->halted || cpu_has_work(cpu)) {
          return false;
      }
      return true;
+diff --git a/target/i386/whpx/whpx-accel-ops.c b/target/i386/whpx/whpx-accel-ops.c
+index 6bc47c53098..1f9c6d52c27 100644
+--- a/target/i386/whpx/whpx-accel-ops.c
++++ b/target/i386/whpx/whpx-accel-ops.c
+@@ -83,6 +83,11 @@ static void whpx_kick_vcpu_thread(CPUState *cpu)
+     }
+ }
+ 
++static bool whpx_cpu_has_work(CPUState *cpu)
++{
++    return whpx_apic_in_platform();
++}
++
+ static void whpx_accel_ops_class_init(ObjectClass *oc, void *data)
+ {
+     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
+@@ -94,6 +99,7 @@ static void whpx_accel_ops_class_init(ObjectClass *oc, void *data)
+     ops->synchronize_post_init = whpx_cpu_synchronize_post_init;
+     ops->synchronize_state = whpx_cpu_synchronize_state;
+     ops->synchronize_pre_loadvm = whpx_cpu_synchronize_pre_loadvm;
++    ops->has_work = whpx_cpu_has_work;
+ }
+ 
+ static const TypeInfo whpx_accel_ops_type = {
 -- 
 2.31.1
 
