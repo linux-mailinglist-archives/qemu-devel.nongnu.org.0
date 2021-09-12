@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A27407C4A
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 09:54:38 +0200 (CEST)
-Received: from localhost ([::1]:40862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5861F407C46
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 09:52:38 +0200 (CEST)
+Received: from localhost ([::1]:60680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPKJy-0002RB-11
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 03:54:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34312)
+	id 1mPKI1-0005Kt-EZ
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 03:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mPKF8-0002T1-CF
+ id 1mPKF9-0002T2-03
  for qemu-devel@nongnu.org; Sun, 12 Sep 2021 03:49:40 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:34998
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35006
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mPKF7-0002SG-2F
+ id 1mPKF7-0002TA-It
  for qemu-devel@nongnu.org; Sun, 12 Sep 2021 03:49:38 -0400
 Received: from host109-153-76-56.range109-153.btcentralplus.com
  ([109.153.76.56] helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mPKF0-00034U-49; Sun, 12 Sep 2021 08:49:34 +0100
+ id 1mPKF4-00034U-BT; Sun, 12 Sep 2021 08:49:34 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Sun, 12 Sep 2021 08:48:57 +0100
-Message-Id: <20210912074914.22048-4-mark.cave-ayland@ilande.co.uk>
+Date: Sun, 12 Sep 2021 08:48:58 +0100
+Message-Id: <20210912074914.22048-5-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210912074914.22048-1-mark.cave-ayland@ilande.co.uk>
 References: <20210912074914.22048-1-mark.cave-ayland@ilande.co.uk>
@@ -38,7 +38,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.76.56
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 03/20] nubus-device: add device slot parameter
+Subject: [PATCH 04/20] nubus: use bitmap to manage available slots
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,51 +64,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This prepares for allowing Nubus devices to be placed in a specific slot instead
-of always being auto-allocated by the bus itself.
+Convert nubus_device_realize() to use a bitmap to manage available slots to allow
+for future Nubus devices to be plugged into arbitrary slots from the command line.
+
+Update mac_nubus_bridge_init() to only allow slots 0x9 to 0xe on a Macintosh
+machines as documented in "Desigining Cards and Drivers for the Macintosh Family".
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/nubus/nubus-device.c  | 6 ++++++
- include/hw/nubus/nubus.h | 2 +-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ hw/nubus/mac-nubus-bridge.c |  3 +++
+ hw/nubus/nubus-bus.c        |  2 +-
+ hw/nubus/nubus-device.c     | 33 +++++++++++++++++++++++++++------
+ include/hw/nubus/nubus.h    |  4 ++--
+ 4 files changed, 33 insertions(+), 9 deletions(-)
 
+diff --git a/hw/nubus/mac-nubus-bridge.c b/hw/nubus/mac-nubus-bridge.c
+index 7c329300b8..6e78f4c0b3 100644
+--- a/hw/nubus/mac-nubus-bridge.c
++++ b/hw/nubus/mac-nubus-bridge.c
+@@ -18,6 +18,9 @@ static void mac_nubus_bridge_init(Object *obj)
+ 
+     s->bus = NUBUS_BUS(qbus_create(TYPE_NUBUS_BUS, DEVICE(s), NULL));
+ 
++    /* Macintosh only has slots 0x9 to 0xe available */
++    s->bus->slot_available_mask = 0x7e00;
++
+     sysbus_init_mmio(sbd, &s->bus->super_slot_io);
+     sysbus_init_mmio(sbd, &s->bus->slot_io);
+ }
+diff --git a/hw/nubus/nubus-bus.c b/hw/nubus/nubus-bus.c
+index 5c13452308..f6d3655f51 100644
+--- a/hw/nubus/nubus-bus.c
++++ b/hw/nubus/nubus-bus.c
+@@ -84,7 +84,7 @@ static void nubus_init(Object *obj)
+                           nubus, "nubus-slots",
+                           NUBUS_SLOT_NB * NUBUS_SLOT_SIZE);
+ 
+-    nubus->current_slot = NUBUS_FIRST_SLOT;
++    nubus->slot_available_mask = 0xffff;
+ }
+ 
+ static void nubus_class_init(ObjectClass *oc, void *data)
 diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
-index 36203848e5..c1832f73da 100644
+index c1832f73da..f9f614cc01 100644
 --- a/hw/nubus/nubus-device.c
 +++ b/hw/nubus/nubus-device.c
-@@ -191,12 +191,18 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
-     nubus_register_format_block(nd);
- }
- 
-+static Property nubus_device_properties[] = {
-+    DEFINE_PROP_INT32("slot", NubusDevice, slot, -1),
-+    DEFINE_PROP_END_OF_LIST()
-+};
+@@ -160,14 +160,35 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
+     NubusDevice *nd = NUBUS_DEVICE(dev);
+     char *name;
+     hwaddr slot_offset;
+-
+-    if (nubus->current_slot < NUBUS_FIRST_SLOT ||
+-            nubus->current_slot > NUBUS_LAST_SLOT) {
+-        error_setg(errp, "Cannot register nubus card, not enough slots");
+-        return;
++    uint16_t s;
 +
- static void nubus_device_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
++    if (nd->slot == -1) {
++        /* No slot specified, find first available free slot */
++        s = ctz32(nubus->slot_available_mask);
++        if (s != 32) {
++            nd->slot = s;
++        } else {
++            error_setg(errp, "Cannot register nubus card, no free slot "
++                             "available");
++            return;
++        }
++    } else {
++        /* Slot specified, make sure the slot is available */
++        if (nd->slot < NUBUS_FIRST_SLOT || nd->slot > NUBUS_LAST_SLOT) {
++            error_setg(errp, "Cannot register nubus card, slot must be "
++                             "between %d and %d", NUBUS_FIRST_SLOT,
++                             NUBUS_LAST_SLOT);
++            return;
++        }
++
++        if (!(nubus->slot_available_mask & (1UL << nd->slot))) {
++            error_setg(errp, "Cannot register nubus card, slot %d is "
++                             "unavailable or already occupied", nd->slot);
++            return;
++        }
+     }
  
-     dc->realize = nubus_device_realize;
-     dc->bus_type = TYPE_NUBUS_BUS;
-+    device_class_set_props(dc, nubus_device_properties);
- }
+-    nd->slot = nubus->current_slot++;
++    nubus->slot_available_mask &= ~(1UL << nd->slot);
  
- static const TypeInfo nubus_device_type_info = {
+     /* Super */
+     slot_offset = (nd->slot - 6) * NUBUS_SUPER_SLOT_SIZE;
 diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
-index 89b0976aaa..357f621d15 100644
+index 357f621d15..8ff4736259 100644
 --- a/include/hw/nubus/nubus.h
 +++ b/include/hw/nubus/nubus.h
-@@ -42,7 +42,7 @@ struct NubusBus {
+@@ -19,7 +19,7 @@
+ #define NUBUS_SLOT_SIZE       0x01000000
+ #define NUBUS_SLOT_NB         0xF
+ 
+-#define NUBUS_FIRST_SLOT      0x9
++#define NUBUS_FIRST_SLOT      0x0
+ #define NUBUS_LAST_SLOT       0xF
+ 
+ #define TYPE_NUBUS_DEVICE "nubus-device"
+@@ -36,7 +36,7 @@ struct NubusBus {
+     MemoryRegion super_slot_io;
+     MemoryRegion slot_io;
+ 
+-    int current_slot;
++    uint32_t slot_available_mask;
+ };
+ 
  struct NubusDevice {
-     DeviceState qdev;
- 
--    int slot;
-+    int32_t slot;
-     MemoryRegion super_slot_mem;
-     MemoryRegion slot_mem;
- 
 -- 
 2.20.1
 
