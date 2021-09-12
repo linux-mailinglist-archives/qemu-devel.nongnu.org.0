@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F2C407E6B
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 18:07:24 +0200 (CEST)
-Received: from localhost ([::1]:60288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35639407E45
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 18:01:57 +0200 (CEST)
+Received: from localhost ([::1]:43290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPS0p-0008AM-84
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 12:07:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40156)
+	id 1mPRvW-0005CA-PG
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 12:01:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPRs4-0002QE-Gm
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:58:21 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:36831)
+ id 1mPRs4-0002Pn-9o
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:58:20 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:44544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPRrz-0003wJ-T8
+ id 1mPRs1-0003wo-C1
  for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:58:20 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id t1so7037044pgv.3
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 08:58:15 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ gp20-20020a17090adf1400b00196b761920aso4760145pjb.3
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 08:58:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mo8bAa/Ep14lrVyCCKLWc2/qVNIgW8fWICNcTlyJnEo=;
- b=yHyodcA8fcQjjJC1ke3hNEXdLnjKF7cvxhUXPAnlushiIKz2AKMdOluu4G6gRRae3P
- +aFTYaaK/MM9emNCy5ronvq/43H8RI5NEeMW6sM+gdtijCVXhXrdknFI1H6m1jokh4Yh
- 7/nbReNmXqLwfIl4VI2rIHDcX0KoLSe4scVeHPdg3L5Q7zBbCczHFC2jjsk5RTIJCJVK
- Ffp4aGrhGhyZ5hoxl5SqNwG0v+EESNa5l0q+QxAan3TayEWp1W92+ACOXKCvJVqmLIkl
- 0cKnreb3UcUuyxVth65jrK31/7/cn85vlWdrSyUwUb8aM6v2v4mM3pNVBv8aUL/KvdEC
- owAg==
+ bh=WQDuqbSrDr+qw7KrlgTnp7QFi56WX9RoG9PJ3coNJeg=;
+ b=GlXybQsWe+pPyo3VjOdYKrJ932JM7RquMO0mH4xIUVMqZMdN04C8Dhzv8t/pn6PYMB
+ VrIfBPdpcNLdLtgcyOPtgYZ/XRbURu2xBhlrX6aEwZeiNKRil4omWQyQ4uMjT+wFObx3
+ fd2C3P/ZYKT4o+KNqL1SOnQyJC1WOkTvK1lkMeaWMriw3+8Vn2HfnpXYWPwIYUhjts7u
+ JtI9NFiSeQjej/C7bTl1rIywVue8pHGxEogO7/1wc2vZOJjygOQnmp91Iol+sRgPF7qr
+ teQBVozIi4GB3weGBOmSzBJWmjXeMb6ctHAUmPvcEWNrJTvrfsnARqaw43VOvKhmF2z9
+ lNUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mo8bAa/Ep14lrVyCCKLWc2/qVNIgW8fWICNcTlyJnEo=;
- b=16NoIC0OtTTW+sSbtDlaI4hKnuycjkhzPOHg9gl/+IYLo5yNcLXzMwrBKvDwNKtcyI
- wOlOqhloh3AMyqrwMh2ODGtmJZsgWff/B2voNGZ5ik9wu4/BxB9II6wSW7IrnKBnFa35
- PewGQeuESbEVdTz3ZzICds5sJMjUZzUEXdjBpvYGbfl9eZyfbMvpK4kjNLUiPb6PpkLD
- wKcohqpE43DksrIITvyW00QAQ/y3qG0F9aIKFb+KhZ/p4BdhxiY/NcU1lD5VBJeG+Ag0
- BDFf45wC/VDWQoV99+oI2+EgCCFladpFpXKAZ+ngmCh11WteP4/3MRvQIphLrBcisQ5d
- oIdA==
-X-Gm-Message-State: AOAM5330YYUwi8ZO56/Dj6NBdE2wHAjKelvvUVYFAqMjEmE1jGvAt8zs
- yhE+uuwfbMyOpo3Etegw8dKFK/AYUIR+4g==
-X-Google-Smtp-Source: ABdhPJyYzAbGWC+1XCInNDL4tbEBkLFEK0/lqBxH5QZaO2GYUOIbCL4Ya05HHkHa0QEiXYMVF7l1kg==
-X-Received: by 2002:a63:e510:: with SMTP id r16mr7232349pgh.34.1631462294650; 
- Sun, 12 Sep 2021 08:58:14 -0700 (PDT)
+ bh=WQDuqbSrDr+qw7KrlgTnp7QFi56WX9RoG9PJ3coNJeg=;
+ b=hBlx18+Z87oviCWyEwjKzONjr8nXnAiv0LcRYtEUDvwMs1OSIbB6Sc3o8eh2LHnG+J
+ mpCF087bil6jexRprfqTyxJALGngqwTAbuEVTXTgu1Ntpk8IYGXf3pJi6T08Qjj0ZAsy
+ IP0JrtiCgdy8CzoiJvHHgPyHt7BKC64fXTJBZUV5sRqsHmkcdm6NPT//FFt7e1l+EoQI
+ Kg0WbYK1r6ngiHlv8neazr+oSWvKe5PBjpYflraWI6hKnqr+T5HFRAN2QqFrYbnCrlrf
+ tHxm4tZdJNCFYkdpk/ae+XAa8ZP6s0PnXmEMgdPxLj51X9czWjQp54mj84zd3FIJqiU0
+ oPJg==
+X-Gm-Message-State: AOAM532qObi9BODcEFBDrTVyIk+tpJ/4TsCjNVD6+XiP7bd/RShKOaUK
+ cI1OzZ0wR73zdOxsgi8jY6wCQI2TDH3pow==
+X-Google-Smtp-Source: ABdhPJyo/33YDup46veK6AL8CVDKj+QNgntfzDK9kzJuR9WBkXhO5jXa2RctH1eMgGcuVjKjkw0/ZQ==
+X-Received: by 2002:a17:902:7d8f:b0:13a:79e7:5bf0 with SMTP id
+ a15-20020a1709027d8f00b0013a79e75bf0mr6666987plm.27.1631462295407; 
+ Sun, 12 Sep 2021 08:58:15 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
  by smtp.gmail.com with ESMTPSA id v13sm4439415pfm.16.2021.09.12.08.58.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Sep 2021 08:58:14 -0700 (PDT)
+ Sun, 12 Sep 2021 08:58:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/9] tcg: Remove tcg_global_reg_new defines
-Date: Sun, 12 Sep 2021 08:58:05 -0700
-Message-Id: <20210912155809.196236-6-richard.henderson@linaro.org>
+Subject: [PULL 6/9] include/qemu: Use builtins for bswap
+Date: Sun, 12 Sep 2021 08:58:06 -0700
+Message-Id: <20210912155809.196236-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210912155809.196236-1-richard.henderson@linaro.org>
 References: <20210912155809.196236-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,73 +85,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Bin Meng <bmeng.cn@gmail.com>,
+Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bmeng.cn@gmail.com>
+All supported compilers have builtins for this.
+Drop all of the complicated system detection stuff.
 
-Since commit 1c2adb958fc0 ("tcg: Initialize cpu_env generically"),
-these tcg_global_reg_new_ macros are not used anywhere.
-
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210816143507.11200-1-bmeng.cn@gmail.com>
+Message-Id: <20210708181743.750220-1-richard.henderson@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg-op.h    | 2 --
- target/hppa/translate.c | 3 ---
- 2 files changed, 5 deletions(-)
+ meson.build          |  6 -----
+ include/qemu/bswap.h | 53 +++-----------------------------------------
+ 2 files changed, 3 insertions(+), 56 deletions(-)
 
-diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
-index 2a654f350c..0545a6224c 100644
---- a/include/tcg/tcg-op.h
-+++ b/include/tcg/tcg-op.h
-@@ -843,7 +843,6 @@ static inline void tcg_gen_plugin_cb_end(void)
+diff --git a/meson.build b/meson.build
+index 9a64d16943..306797c604 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1332,8 +1332,6 @@ config_host_data.set('HAVE_STRCHRNUL', cc.has_function('strchrnul'))
+ config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
  
- #if TARGET_LONG_BITS == 32
- #define tcg_temp_new() tcg_temp_new_i32()
--#define tcg_global_reg_new tcg_global_reg_new_i32
- #define tcg_global_mem_new tcg_global_mem_new_i32
- #define tcg_temp_local_new() tcg_temp_local_new_i32()
- #define tcg_temp_free tcg_temp_free_i32
-@@ -851,7 +850,6 @@ static inline void tcg_gen_plugin_cb_end(void)
- #define tcg_gen_qemu_st_tl tcg_gen_qemu_st_i32
- #else
- #define tcg_temp_new() tcg_temp_new_i64()
--#define tcg_global_reg_new tcg_global_reg_new_i64
- #define tcg_global_mem_new tcg_global_mem_new_i64
- #define tcg_temp_local_new() tcg_temp_local_new_i64()
- #define tcg_temp_free tcg_temp_free_i64
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index 3ce22cdd09..c3698cf067 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -34,7 +34,6 @@
+ # has_header_symbol
+-config_host_data.set('CONFIG_BYTESWAP_H',
+-                     cc.has_header_symbol('byteswap.h', 'bswap_32'))
+ config_host_data.set('CONFIG_EPOLL_CREATE1',
+                      cc.has_header_symbol('sys/epoll.h', 'epoll_create1'))
+ config_host_data.set('CONFIG_HAS_ENVIRON',
+@@ -1353,10 +1351,6 @@ config_host_data.set('CONFIG_INOTIFY',
+                      cc.has_header_symbol('sys/inotify.h', 'inotify_init'))
+ config_host_data.set('CONFIG_INOTIFY1',
+                      cc.has_header_symbol('sys/inotify.h', 'inotify_init1'))
+-config_host_data.set('CONFIG_MACHINE_BSWAP_H',
+-                     cc.has_header_symbol('machine/bswap.h', 'bswap32',
+-                                          prefix: '''#include <sys/endian.h>
+-                                                     #include <sys/types.h>'''))
+ config_host_data.set('CONFIG_PRCTL_PR_SET_TIMERSLACK',
+                      cc.has_header_symbol('sys/prctl.h', 'PR_SET_TIMERSLACK'))
+ config_host_data.set('CONFIG_RTNETLINK',
+diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
+index 2d3bb8bbed..9e12bd8073 100644
+--- a/include/qemu/bswap.h
++++ b/include/qemu/bswap.h
+@@ -1,73 +1,26 @@
+ #ifndef BSWAP_H
+ #define BSWAP_H
  
- #undef TCGv
- #undef tcg_temp_new
--#undef tcg_global_reg_new
- #undef tcg_global_mem_new
- #undef tcg_temp_local_new
- #undef tcg_temp_free
-@@ -59,7 +58,6 @@
- #define TCGv_reg             TCGv_i64
+-#ifdef CONFIG_MACHINE_BSWAP_H
+-# include <sys/endian.h>
+-# include <machine/bswap.h>
+-#elif defined(__FreeBSD__)
+-# include <sys/endian.h>
+-#elif defined(__HAIKU__)
+-# include <endian.h>
+-#elif defined(CONFIG_BYTESWAP_H)
+-# include <byteswap.h>
+-#define BSWAP_FROM_BYTESWAP
+-# else
+-#define BSWAP_FROM_FALLBACKS
+-#endif /* ! CONFIG_MACHINE_BSWAP_H */
+-
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
  
- #define tcg_temp_new         tcg_temp_new_i64
--#define tcg_global_reg_new   tcg_global_reg_new_i64
- #define tcg_global_mem_new   tcg_global_mem_new_i64
- #define tcg_temp_local_new   tcg_temp_local_new_i64
- #define tcg_temp_free        tcg_temp_free_i64
-@@ -155,7 +153,6 @@
- #else
- #define TCGv_reg             TCGv_i32
- #define tcg_temp_new         tcg_temp_new_i32
--#define tcg_global_reg_new   tcg_global_reg_new_i32
- #define tcg_global_mem_new   tcg_global_mem_new_i32
- #define tcg_temp_local_new   tcg_temp_local_new_i32
- #define tcg_temp_free        tcg_temp_free_i32
+ #include "fpu/softfloat-types.h"
+ 
+-#ifdef BSWAP_FROM_BYTESWAP
+ static inline uint16_t bswap16(uint16_t x)
+ {
+-    return bswap_16(x);
++    return __builtin_bswap16(x);
+ }
+ 
+ static inline uint32_t bswap32(uint32_t x)
+ {
+-    return bswap_32(x);
++    return __builtin_bswap32(x);
+ }
+ 
+ static inline uint64_t bswap64(uint64_t x)
+ {
+-    return bswap_64(x);
++    return __builtin_bswap64(x);
+ }
+-#endif
+-
+-#ifdef BSWAP_FROM_FALLBACKS
+-static inline uint16_t bswap16(uint16_t x)
+-{
+-    return (((x & 0x00ff) << 8) |
+-            ((x & 0xff00) >> 8));
+-}
+-
+-static inline uint32_t bswap32(uint32_t x)
+-{
+-    return (((x & 0x000000ffU) << 24) |
+-            ((x & 0x0000ff00U) <<  8) |
+-            ((x & 0x00ff0000U) >>  8) |
+-            ((x & 0xff000000U) >> 24));
+-}
+-
+-static inline uint64_t bswap64(uint64_t x)
+-{
+-    return (((x & 0x00000000000000ffULL) << 56) |
+-            ((x & 0x000000000000ff00ULL) << 40) |
+-            ((x & 0x0000000000ff0000ULL) << 24) |
+-            ((x & 0x00000000ff000000ULL) <<  8) |
+-            ((x & 0x000000ff00000000ULL) >>  8) |
+-            ((x & 0x0000ff0000000000ULL) >> 24) |
+-            ((x & 0x00ff000000000000ULL) >> 40) |
+-            ((x & 0xff00000000000000ULL) >> 56));
+-}
+-#endif
+-
+-#undef BSWAP_FROM_BYTESWAP
+-#undef BSWAP_FROM_FALLBACKS
+ 
+ static inline void bswap16s(uint16_t *s)
+ {
 -- 
 2.25.1
 
