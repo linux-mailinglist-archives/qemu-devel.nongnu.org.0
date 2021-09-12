@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63265407E6D
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 18:10:20 +0200 (CEST)
-Received: from localhost ([::1]:38750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E2B407E62
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 18:04:13 +0200 (CEST)
+Received: from localhost ([::1]:51916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPS3f-0004Av-AL
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 12:10:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40170)
+	id 1mPRxk-0002Xq-Gs
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 12:04:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPRs8-0002ST-2r
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:58:25 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:33286)
+ id 1mPRs5-0002QO-0Y
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:58:21 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:37720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPRs1-0003xc-TD
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:58:23 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- mi6-20020a17090b4b4600b00199280a31cbso3735332pjb.0
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 08:58:17 -0700 (PDT)
+ id 1mPRs2-0003xu-KW
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:58:20 -0400
+Received: by mail-pl1-x631.google.com with SMTP id f21so2021880plb.4
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 08:58:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0lgwAN4JLa+eJyUWPeSpGCyCJ0/V+S2YWU/Kqpi1gBQ=;
- b=yP51pHcwrmx2oxBxaPl9XGJ8pj+i76hA6At+8sZWguIVn2hF/x9/PWxkAh6URyuZCt
- fb9Q9Wh1FNC58ihi8vnShAPgORQQz6uCbelqTLte4IasOFpI9fi8d5V33ieVUOQCkXdP
- 1iSIXq8t3f3augEBnz9q1YAavXG/jzn1Cb2bZKgZu1qPEWEJYLUAOOM10KC8Ht0YiERB
- 84QmhCA89vOLUVZvE6arskHQjhH9E7nxr90a6ijDYer6vackcZw60k8j7OmHn9LBxSwu
- 18hFt9+yqUKB2PI1JeBsG8BoWsOu84eDifX0gXHnXxIhn6GZYpv8XFGzff5HTrpTDeE+
- 7elg==
+ bh=Zk1Xc7v798/v3MVPLkwWlC7sy9W9XT/J+dwHkhEwhvw=;
+ b=nKS8ugSATycLyeQxIyMfhf4kc+XW54il7LyNeNU4jzkDnC6Bl1XlH/nJif/Q6caolD
+ PXj82aFQ1eCUYvk+5m22OkOnF6M0U6bCW+HPuBkO4psXUu8/MQyX22r/RNmBCryGWibY
+ av3D6bV195o0JajS42wppNn28z9uQpXA/l8o50w8tVZtYKlJhZFsflmYq5BD4bj2tv5/
+ D5UVuNs0eogkB5sotsh4m/dfjM0WZjqjKk4+G0FExCFcKfdmGi5n+YYglFMdcINkkSWf
+ /k49+C60IcuKBKpqecpLefyRnmrnbut8sLW+aUKxp8DYlFhWA3htdEt5AUClTpIX1Xdh
+ S89w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0lgwAN4JLa+eJyUWPeSpGCyCJ0/V+S2YWU/Kqpi1gBQ=;
- b=JeU+DNz+MK+Lqf7WYW9HDzD3uoN0Hh/iPTWB+M73I1FldY9rK/lO0zYsf/vKYu2MHg
- 3ww4aYFt7wd7GxWLMD+JHNI0A37tVpe5/Ft7fGgacr5c9vjTQ2SHZlMNZ+pz2ltjpm9J
- SHi/AU1YA4tumjwQwlerFSToaHaSh75m6HoEpELzohITwIRL3D1lK/BrZyyGKkZMzGZh
- o7mOFAC3b6MOnmaOaI6aEVxq1iyTqsGMmZZOXSRSxl3ilPm9wBBPR3Otg32QavKHu/rW
- /tO55nmOd2oB3Z8t/QhTWltteqUngbPkniZDOd1OX2TD2ltyJgzzvB9kOpKWNt6KuVsP
- 4+Gw==
-X-Gm-Message-State: AOAM533K6DWSBASvXoXPNreTIbgrXlrMW7OIPeZw8W3eHPq+lha1g2Fk
- J1Fr4UMip1GMmqlC5KIirI7UpqIrW9xw1w==
-X-Google-Smtp-Source: ABdhPJyrfxdOvHjt6OuXbdgl0Yrm0CGbf7+2WYBuCWZ4nN6jep3OKP8JFOOc4lMGIFR3s/w6xni5Eg==
-X-Received: by 2002:a17:90b:1102:: with SMTP id
- gi2mr8195486pjb.43.1631462296624; 
- Sun, 12 Sep 2021 08:58:16 -0700 (PDT)
+ bh=Zk1Xc7v798/v3MVPLkwWlC7sy9W9XT/J+dwHkhEwhvw=;
+ b=YQZu7Wo7o64E1jRzzh9vBlfec2ynFl9OsZ86/G22ycogbO+p/RRQ4lz7wcFKraqGz2
+ lMTpEgu6r0ZJvhKRImFTZrs+ZGuf67YITJBrGrYIZlr1LWBVtNIGitlLtXUUIlZvOPNJ
+ NfnhsuafoqJ/UV5qxyHU/Axb4dN3ZSj+tdfgR5RLQUn2wchyzjzQi7HygyjVCdmasSh+
+ L5T6u4FMNDsLdzLq7cnPHg+sRGe6aY7TFnkV32dFBYc81ED83fQbTKzkkoOrcUcvxqik
+ l+Y1yIZyiKEpq2Ysrb+42VSexSlJiZsDgGNgQw1NQzdB/Dp+EIQx1p//CZdHTciU+Coa
+ /YYA==
+X-Gm-Message-State: AOAM5307U4Crlf0fHfQvggl2sGh1TTFf3X8E5SY1zGUolMnsuXoEwP4v
+ Hs1VpRWBVaeG3ZF+E1b73NkRTnHlERmv9g==
+X-Google-Smtp-Source: ABdhPJzvNWjuvi32Lhiv6FgSWHKvDooBAScvi5lCBsiwx7EpR9s7oRnDw09CkWS1c4k7zKN5qxXiXQ==
+X-Received: by 2002:a17:902:7e89:b0:13a:6adf:176 with SMTP id
+ z9-20020a1709027e8900b0013a6adf0176mr6644218pla.48.1631462297275; 
+ Sun, 12 Sep 2021 08:58:17 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
  by smtp.gmail.com with ESMTPSA id v13sm4439415pfm.16.2021.09.12.08.58.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 12 Sep 2021 08:58:16 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 8/9] tcg/ppc: Ensure _CALL_SYSV is set for 32-bit ELF
-Date: Sun, 12 Sep 2021 08:58:08 -0700
-Message-Id: <20210912155809.196236-9-richard.henderson@linaro.org>
+Subject: [PULL 9/9] tcg/arm: Fix tcg_out_vec_op function signature
+Date: Sun, 12 Sep 2021 08:58:09 -0700
+Message-Id: <20210912155809.196236-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210912155809.196236-1-richard.henderson@linaro.org>
 References: <20210912155809.196236-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,51 +84,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Brad Smith <brad@comstyle.com>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ "Jose R. Ziviani" <jziviani@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clang only sets _CALL_ELF for ppc64, and nothing at all to specify
-the ABI for ppc32.  Make a good guess based on other symbols.
+From: "Jose R. Ziviani" <jziviani@suse.de>
 
-Reported-by: Brad Smith <brad@comstyle.com>
+Commit 5e8892db93 fixed several function signatures but tcg_out_vec_op
+for arm is missing. It causes a build error on armv6 and armv7:
+
+tcg-target.c.inc:2718:42: error: argument 5 of type 'const TCGArg *'
+{aka 'const unsigned int *'} declared as a pointer [-Werror=array-parameter=]
+   const TCGArg *args, const int *const_args)
+  ~~~~~~~~~~~~~~^~~~
+../tcg/tcg.c:120:41: note: previously declared as an array 'const TCGArg[16]'
+{aka 'const unsigned int[16]'}
+   const TCGArg args[TCG_MAX_OP_ARGS],
+  ~~~~~~~~~~~~~~^~~~
+
+Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210908185338.7927-1-jziviani@suse.de>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/ppc/tcg-target.c.inc | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+ tcg/arm/tcg-target.c.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 2202ce017e..5e1fac914a 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -25,9 +25,24 @@
- #include "elf.h"
- #include "../tcg-pool.c.inc"
+diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+index 007ceee68e..e5b4f86841 100644
+--- a/tcg/arm/tcg-target.c.inc
++++ b/tcg/arm/tcg-target.c.inc
+@@ -2715,7 +2715,8 @@ static const ARMInsn vec_cmp0_insn[16] = {
  
--#if !defined _CALL_DARWIN && defined __APPLE__
--#define _CALL_DARWIN 1
--#endif
-+/*
-+ * Standardize on the _CALL_FOO symbols used by GCC:
-+ * Apple XCode does not define _CALL_DARWIN.
-+ * Clang defines _CALL_ELF (64-bit) but not _CALL_SYSV (32-bit).
-+ */
-+#if !defined(_CALL_SYSV) && \
-+    !defined(_CALL_DARWIN) && \
-+    !defined(_CALL_AIX) && \
-+    !defined(_CALL_ELF)
-+# if defined(__APPLE__)
-+#  define _CALL_DARWIN
-+# elif defined(__ELF__) && TCG_TARGET_REG_BITS == 32
-+#  define _CALL_SYSV
-+# else
-+#  error "Unknown ABI"
-+# endif
-+#endif 
-+
- #ifdef _CALL_SYSV
- # define TCG_TARGET_CALL_ALIGN_ARGS   1
- #endif
+ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+                            unsigned vecl, unsigned vece,
+-                           const TCGArg *args, const int *const_args)
++                           const TCGArg args[TCG_MAX_OP_ARGS],
++                           const int const_args[TCG_MAX_OP_ARGS])
+ {
+     TCGType type = vecl + TCG_TYPE_V64;
+     unsigned q = vecl;
 -- 
 2.25.1
 
