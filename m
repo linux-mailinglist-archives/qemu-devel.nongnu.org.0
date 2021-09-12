@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8503F407C62
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 10:17:18 +0200 (CEST)
-Received: from localhost ([::1]:50586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D17E407D47
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 14:34:32 +0200 (CEST)
+Received: from localhost ([::1]:35380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPKft-0003BY-KX
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 04:17:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37232)
+	id 1mPOgo-0006Vi-OZ
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 08:34:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1mPKeK-0002Qf-AZ
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 04:15:40 -0400
-Received: from relay.yourmailgateway.de ([188.68.63.165]:59657)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1mPKeH-0006lr-7D
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 04:15:39 -0400
-Received: from mors-relay-8202.netcup.net (localhost [127.0.0.1])
- by mors-relay-8202.netcup.net (Postfix) with ESMTPS id 4H6j9024Hqz3rxM;
- Sun, 12 Sep 2021 10:15:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zapateado.de; s=key2;
- t=1631434532; bh=0DSOMxU3FJyhUu2hKm6P1CgLBQAymMJ9ANnHlP1/QPs=;
- h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
- b=heCAwH45fs9ySL54hZzWaC7k48i1/0qx2gq9pILIPQbtQkAiNCEOEecUW8IdnnZDp
- tmQ6adg5yc6NFdoqal7UsgjV+nbUGzVr/mL3eTCqzQyvhHm3zZNY+PM27fXc+Ri5dP
- x9iS2IGKn1fSqkcJHxvT2OvPlS24cZIdARzce97ignA4NDzVoMLY531nRti0pymmee
- O/rJJ2NCLTp+we6O6qw80db6nz68B1og1KgPtUuHbP/6ZqK1UWY7aUY6Edn6qzg7Az
- SdrUSQwf100YCOjO+PYrNYQIctN6FM8qMi/EjkedvEtiMN0fb6T7eFE8RF+YVA9dE+
- yYuJtuPmm/b1Q==
-Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
- by mors-relay-8202.netcup.net (Postfix) with ESMTPS id 4H6j901g2Qz3rrd;
- Sun, 12 Sep 2021 10:15:32 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at policy02-mors.netcup.net
-X-Spam-Score: -2.9
-Received: from mx2f6e.netcup.net (unknown [10.243.12.53])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by policy02-mors.netcup.net (Postfix) with ESMTPS id 4H6j8z274Jz8sgx;
- Sun, 12 Sep 2021 10:15:31 +0200 (CEST)
-Received: from [192.168.54.9] (ip-95-223-69-41.hsi16.unitymediagroup.de
- [95.223.69.41])
- by mx2f6e.netcup.net (Postfix) with ESMTPSA id 922CA6516C;
- Sun, 12 Sep 2021 10:15:30 +0200 (CEST)
-Authentication-Results: mx2f6e;
- spf=pass (sender IP is 95.223.69.41) smtp.mailfrom=hk@zapateado.de
- smtp.helo=[192.168.54.9]
-Received-SPF: pass (mx2f6e: connection is authenticated)
-From: Helge Konetzka <hk@zapateado.de>
-Subject: Re: [qemu-web PATCH] Fix link to Windows page in Wiki
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Howard Spoelstra <hsp.cat7@gmail.com>
-References: <6755edb6-f953-4ca2-a4b6-31e4566e9842@zapateado.de>
- <af33f36e-e319-e95c-36bc-9c77f4ad81b8@redhat.com>
- <e7df1647-439a-9bda-5c7b-30ab0290d587@zapateado.de>
- <CABLmASEuNT2WVocMwakuhhYDvVBB0YdFueP24ULRFQ1Z35eKPg@mail.gmail.com>
- <6ae0c8d0-4601-4c2c-c0cd-590f2a86a104@ilande.co.uk>
- <43043204-cb7a-5726-ecfc-9dad504f6aa3@zapateado.de>
- <3e6ea8d1-b275-206c-1888-eb3cfc2c7ebe@ilande.co.uk>
-Message-ID: <aeb93f88-f2ec-9124-539c-5b0e393f0305@zapateado.de>
-Date: Sun, 12 Sep 2021 10:15:30 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mPOeB-0004SP-B4
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 08:31:47 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:46019)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mPOe7-0008Rf-Cl
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 08:31:46 -0400
+Received: by mail-pf1-x432.google.com with SMTP id w19so1849531pfn.12
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 05:31:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=l2bSjNJqTwhQZphEwMAU513EeIhPI7Thg1lJpA7i8fs=;
+ b=R66inDcAWt9GQlblcZebPLMwPlHlAnt0L3kyGlH8r3X6FsDI/N/vYwneGzy6f53yoC
+ aJSbeJ2HVLZ5IETneJLglbqjOoAzPmPkvYhRyqU7w9yu4eGlZVUBvR4cBjWxsVNMWyQs
+ qiLol3oXEuJFHpxM5XDG2HifDgtIlXc6Y+gNn2EVYS2UFBYwOF9tNaPzUqjb6c9xEMKD
+ EpbKtmy5jQyQ9JwjSHSZdDyKcuXW75ONjIPM4WmszEr/HJrFRo+qRBybdHwe5FUddKSp
+ VhyKUscbCxv1rziWUD7Bm32+mC15T8UjtL/0R3OkiO3/Lb77FRexMdrsOVYoCJhihCLc
+ vdAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=l2bSjNJqTwhQZphEwMAU513EeIhPI7Thg1lJpA7i8fs=;
+ b=zpT3HvSERIGnHWODRs9UQPkYk8Aeyuwpn457qB83e0fc22M+TPDhcGIm8Kzl3vee2y
+ n2mwejCcCzclFeTMnM+cDvA7aD+sR6p0nWc2MgnSwQ4A7qD5ZJQ6HL6K0Fq0zfb26uLr
+ OMSAo87Cb+pgOtxbq+Bk5jNvd1xvbJFzZ7uitKYqacVqREJDMNLNXmYuuWYOEcozZJk2
+ UT5VX4twsYK7JmyIMPxXjTAJPnuHduZS5xXqr+lUTS2/HwzLv6ozz0KS5bky+dE80q/l
+ /5icOMIXLr674faZ50HFkIw7xMZbTiEmdKXk9ZKttTquoQWW59AiMCcimhuB/uyawRKX
+ BgDQ==
+X-Gm-Message-State: AOAM5323FeI2T6Zdf/AHFbq3WXljKA++lbPH4Yyg6Xfl9KkBCKC8Zjqs
+ Hx069PWPmu3DuL8KgwuB+GChjA==
+X-Google-Smtp-Source: ABdhPJxYx4l/5Z0anqBV+G7Bghe5EKN+RrvdQIUDU4YrpZdFpP+VKFzDEwt6BtZ6HBag6jIPDdKEog==
+X-Received: by 2002:a63:5413:: with SMTP id i19mr6469698pgb.297.1631449898733; 
+ Sun, 12 Sep 2021 05:31:38 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id z9sm3970376pfn.22.2021.09.12.05.31.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 12 Sep 2021 05:31:38 -0700 (PDT)
+Subject: Re: [PATCH v3 21/30] target/ppc: Introduce PowerPCCPUClass::has_work()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ David Gibson <david@gibson.dropbear.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, Greg Kurz <groug@kaod.org>
+References: <20210902161543.417092-1-f4bug@amsat.org>
+ <20210902161543.417092-22-f4bug@amsat.org> <YTFxZb1Vg5pWVW9p@yekko>
+ <fd383a02-fb9f-8641-937f-ebe1d8bb065f@linaro.org>
+ <fc98e293-f2ba-8ca0-99c8-f07758b79d73@amsat.org>
+ <a49e0100-74d1-2974-990f-a05f9f796cc5@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <82c9e627-016a-e834-6ed0-4c5d49b554e6@linaro.org>
+Date: Sun, 12 Sep 2021 05:31:33 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <3e6ea8d1-b275-206c-1888-eb3cfc2c7ebe@ilande.co.uk>
+In-Reply-To: <a49e0100-74d1-2974-990f-a05f9f796cc5@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <163143453090.19476.11146210290545859654@mx2f6e.netcup.net>
-X-PPP-Vhost: konetzka.de
-X-NC-CID: EuVC3b80SOmnwu870gxNW5huK8sjY4D50gEiJhmygAB7
-Received-SPF: pass client-ip=188.68.63.165; envelope-from=hk@zapateado.de;
- helo=relay.yourmailgateway.de
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- RCVD_IN_VALIDITY_RPBL=1.31, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.584,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,64 +92,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+ kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
+ Taylor Simpson <tsimpson@quicinc.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Stafford Horne <shorne@gmail.com>,
+ Marek Vasut <marex@denx.de>, Stefano Stabellini <sstabellini@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Paul Durrant <paul@xen.org>,
+ Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Claudio Fontana <cfontana@suse.de>, Anthony Perard <anthony.perard@citrix.com>,
+ xen-devel@lists.xenproject.org, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cameron Esfahani <dirty@apple.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ qemu-ppc@nongnu.org, Wenchao Wang <wenchao.wang@intel.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 11.09.21 um 11:30 schrieb Mark Cave-Ayland:
-> On 11/09/2021 10:17, Helge Konetzka wrote:
-> 
->> Am 11.09.21 um 11:03 schrieb Mark Cave-Ayland:
->>
->>> So the question is: what has changed? I find it hard to believe that 
->>> MSYS2/MingW64 is configured out-of-the-box to break a standard 
->>> "./configure && make" build incantation.
+On 9/11/21 3:31 PM, Philippe Mathieu-Daudé wrote:
+> On 9/3/21 11:11 PM, Philippe Mathieu-Daudé wrote:
+>> On 9/3/21 10:42 PM, Richard Henderson wrote:
+>>> On 9/3/21 2:50 AM, David Gibson wrote:
+>>>> On Thu, Sep 02, 2021 at 06:15:34PM +0200, Philippe Mathieu-Daudé wrote:
+>>>>> Each POWER cpu has its own has_work() implementation. Instead of
+>>>>> overloading CPUClass on each PowerPCCPUClass init, register the
+>>>>> generic ppc_cpu_has_work() handler, and have it call the POWER
+>>>>> specific has_work().
+>>>>
+>>>> I don't quite see the rationale for introducing a second layer of
+>>>> indirection here.  What's wrong with switching the base has_work for
+>>>> each cpu variant?
 >>>
+>>> We're moving the hook from CPUState to TCGCPUOps.
+>>> Phil was trying to avoid creating N versions of
+>>>
+>>> static const struct TCGCPUOps ppc_tcg_ops = {
+>>>      ...
+>>> };
 >>
->> On my last attempt to build qemu without 
->> --cross-prefix=x86_64-w64-mingw32- (qemu-6.1.0.tar.xz) for building 
->> target soft-mmu-x86_64 I received
+>> Ah yes this is the reason! Too many context switching so
+>> I forgot about it.
 >>
->> make[1]: *** No rule to make target 'multiboot.bin', needed by 'all'.  
->> Stop.
->> make: *** [Makefile:189: pc-bios/optionrom/all] Error 2
->> make: *** Waiting for unfinished jobs....
->> ...
->> [1599/1599] Generating QAPI rST doc reference newline-sanitized with a 
->> custom command (wrapped by meson to capture output)
->> ==> ERROR: A failure occurred in build().
->>      Aborting...
+>>> A plausible alternative is to remove the const from this struct and
+>>> modify it, just as we do for CPUState, on the assumption that we cannot
+>>> mix and match ppc cpu types in any one machine.
+>>
+>> I thought about this case and remembered how it works on the ARM arch,
+>> i.e. ZynqMP machine uses both Cortex-R5F and Cortex-A53. Even if no
+>> similar PPC machine exists, IMHO we should try to generally allow to
+>> possibility to experiment machine with different CPUs. Restricting it
+>> on PPC goes the other way around. Thoughts?
 > 
-> Ah the multiboot.bin failure is a known issue with symlinks - see 
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg750968.html and 
-> unfortunately the wiki didn't get updated accordingly :(
-> 
-> Helge, can you test and see if this fixes your build issue?
+> I'm running out of ideas to do avoid the indirection and multiple
+> copies of TCGCPUOps. I'm not giving up, I suppose I'm simply not
+> seeing it... David, any suggestions?
 
-Thanks for pointing to this thread. But I wasn't able to go exactly the 
-described way.
+I think multiple copies of TCGCPUOps is the solution.  Macro-ized, perhaps, so that the 
+amount of typing is minimal across the versions.
 
-I've finally succeeded in building Qemu natively from tarball using 
-symlinks configuring winsymlinks:native instead of described 
-winsymlinks:nativestrict. I haven't been able to build Qemu from git 
-sources with symlinks active because of configure failures.
 
-Comparing the native build with the cross build shows that 
-pc-bios/optionrom/Makefile is only executed for native builds.
-
-To build Qemu natively on default Msys2, I've found an alternative way 
-WITHOUT creating symlinks by adjusting the copied (instead of linked) 
-Makefile in build tree:
-
-cd qemu
-./configure
-SMF="../../../pc-bios/optionrom/Makefile"
-BMF="build/pc-bios/optionrom/Makefile"
-[ -L $BMF ] || sed -i "s%^\(CURRENT_MAKEFILE\) := .*$%\1 = $SMF%" $BMF
-make
-
-The unit tests pass. Build succeeds on git sources and on tarball.
-
-Regards, Helge.
+r~
 
