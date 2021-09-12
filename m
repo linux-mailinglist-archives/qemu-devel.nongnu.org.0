@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C58407F8B
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 20:48:07 +0200 (CEST)
-Received: from localhost ([::1]:34448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF968407F8D
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 20:50:27 +0200 (CEST)
+Received: from localhost ([::1]:38334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPUWM-0005WE-55
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 14:48:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33152)
+	id 1mPUYc-00086r-UD
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 14:50:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPUUs-0004A1-II
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 14:46:34 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:39862)
+ id 1mPUXZ-0007RH-9d
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 14:49:21 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:52060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPUUq-00062J-SR
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 14:46:34 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id e16so6795234pfc.6
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 11:46:32 -0700 (PDT)
+ id 1mPUXX-0007lv-P0
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 14:49:20 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id dw14so3858729pjb.1
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 11:49:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=I8xFaMcbSOLpfI7f3468dXDJbgxhKvf+2cUAlaptaM4=;
- b=lL8KZ907Qe/UqX5MVYEP3Yj5BKKG/nA+PctFERdl/JYLA8YAyCNWTB6aSmeu1cTeVJ
- +REP/XyTl2Mt4qoETM/nopPNdlCUhKadSpq/Dt7Q7ErHZ8X18ogK8Ffsc3FWtxUrwgqt
- onmbUHdmd9qevwM1RgxdqvX/QiqGlQ/qIxuB31QnUYiKB9NFKU37GMf8QqjSooVJp9XX
- guaKEZSf++SmovpBtQ7RrbpIEpFyNqXicESe01EK7hly+NGCIaRFa8sm35L3kv77WLkK
- +0/ygydSSEw0XSNvIwOxYyrMJdbmToyXXg3dBfdneOigvBF4f3RKYBioYnXW7iuVvEGY
- Cm7Q==
+ bh=CoAAhkGROdlZMvWzvmxdxnxK65/00Fo0EkZ4uG/0HEw=;
+ b=fFWqANdP26vXIIId3ms26WMhtd8xy4xYSk2mxZYp3rGs7Nuz7Ch84Dvx8p9cYH+n/+
+ JrpS92V2OMJ/g+IKe11ZXaW4C2HCejYN6t2MnmegGNaqPdGDJZD2o0B+j/MJey2IOvUa
+ nUVcLTBmuAguBLfHWdjs1MEFX4WOmFGNsDt06iMcpiZr9G5JQUrDG5m0ckByR2LbwKgX
+ keHHlBjJyuRCpQAgMGT30VuTZZ59D2M/qvcbSwxJkFgyUFS0L8hPIK5L8IVkNpRdnP62
+ mGWMmoV17BM0lCEnQCU6T53AAPcwlBpy17+tvSL024aA0uydqb3mWUXDz7kJMOFqu1XH
+ OTxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=I8xFaMcbSOLpfI7f3468dXDJbgxhKvf+2cUAlaptaM4=;
- b=0IesuiVM18ieORMZYwymDnp4Clte7e5z+RIXpi0G03VY9BtwrCL1QQOx5uCNkZGuax
- PoByOHfIW6i67zouPACRak9MiPEcKTWXuyeQ+bnzpk6BlD12QtDlbHpRwfQpZQmOt/r+
- DA7UgP/cP/Cgs3ppdTYQOvijxrdvypWXBwqFAnNyVMD5kBe0UpzJfa+VlW+9WNGwEXgc
- 7wnJmOlQi7TNu1qI3ik0yBWbPNh5tkRG55ZPdoth1Dnrf0lFl2XuI8qqK6HNfeGvbHNf
- xAgXmyY0cWfIFbIjwl9Wy5r0yTwOQJ39g24W+Jy5IfBkFr6Vxrtc5kjqyzoneySPcs/y
- 59EA==
-X-Gm-Message-State: AOAM533VryFn1/eEoPo5TENwl7YcuVt0v5DiMJxx/FClNYmGJDXWj1B5
- B0pgagh31PCvnhQ44QYfYOCF7nJEykRRug==
-X-Google-Smtp-Source: ABdhPJyjbObJeAFU+37n8W5v9p7bPDC/KyWHBSwERyMOdst3BRGj1NRrueG69IjFe09pjyP6VTqO9A==
-X-Received: by 2002:a63:1351:: with SMTP id 17mr7690993pgt.173.1631472391053; 
- Sun, 12 Sep 2021 11:46:31 -0700 (PDT)
+ bh=CoAAhkGROdlZMvWzvmxdxnxK65/00Fo0EkZ4uG/0HEw=;
+ b=0Bi2P9y+5k22ZDSM2Ts0BuoBAgCEhHWvui6hu3Qycob6yIjItrNGlIrqZhtCNTAxVO
+ i+7cmDyLThtBjD9PO899cuj2zIwfObjXpgObiZur8LgvTALLAXXOabYEbBVa9mlKmG7U
+ KsnPKIjXyYrsHjT6mR8WET6cMK1fViSlLTt5gG+TScQ2/PrvMZF/pWW1x5SKm6ta0qgl
+ GjZafvqGRSED6dFEFRCtmtdsli+l6FaRTr8hwk18hlzGE4TJAyOjI3I7pzXhWJmSnmLp
+ WeN2hubqRAGn5GI45PHSGDY99akEmC+f9REiAN/6tnWI+U9Y9sXscm17mmIXwQiKAo6a
+ pk+A==
+X-Gm-Message-State: AOAM531z4sH3Chb1pWLNw8Bhn7q5B2viJfJhRvKGtO7aS5lBOmZ9loDx
+ 2K/fZfIzsTCcO2Gvb0cj1ZNvwA==
+X-Google-Smtp-Source: ABdhPJy5K0gFEKO52PgYItZwZYGddeReQbSDRxY2TeagjJw+o3oiZkB8d5WJgmVeo3exGjiZRCD83Q==
+X-Received: by 2002:a17:90b:1b44:: with SMTP id
+ nv4mr8683623pjb.192.1631472558555; 
+ Sun, 12 Sep 2021 11:49:18 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id p68sm1731602pfb.106.2021.09.12.11.46.30
+ by smtp.gmail.com with ESMTPSA id ch19sm4530010pjb.33.2021.09.12.11.49.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Sep 2021 11:46:30 -0700 (PDT)
-Subject: Re: [PATCH v4 20/30] target/ppc: Introduce PowerPCCPUClass::has_work()
+ Sun, 12 Sep 2021 11:49:17 -0700 (PDT)
+Subject: Re: [PATCH v4 21/30] target/ppc: Restrict has_work() handlers to
+ sysemu and TCG
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210912172731.789788-1-f4bug@amsat.org>
- <20210912172731.789788-21-f4bug@amsat.org>
+ <20210912172731.789788-22-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <61ffee53-71e0-0c69-ed54-623e026cf4e9@linaro.org>
-Date: Sun, 12 Sep 2021 11:46:29 -0700
+Message-ID: <0b651e28-16f5-6b6a-6069-90d1a2545feb@linaro.org>
+Date: Sun, 12 Sep 2021 11:49:16 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210912172731.789788-21-f4bug@amsat.org>
+In-Reply-To: <20210912172731.789788-22-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -56
 X-Spam_score: -5.7
 X-Spam_bar: -----
@@ -93,18 +95,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/21 10:27 AM, Philippe Mathieu-Daudé wrote:
-> We're moving the hook from CPUState to TCGCPUOps. TCGCPUOps is
-> a const structure, so to avoid creating multiple versions of
-> the same structure, simply changing the has_work() handler,
-> introduce yet another indirection with a has_work() handler in
-> PowerPCCPUClass, and ppc_cpu_has_work() method which dispatch
-> to it.
+> Restrict PowerPCCPUClass::has_work() and ppc_cpu_has_work()
+> - SysemuCPUOps::has_work() implementation - to TCG sysemu.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   target/ppc/cpu-qom.h  |  1 +
->   target/ppc/cpu_init.c | 23 ++++++++++++++---------
->   2 files changed, 15 insertions(+), 9 deletions(-)
+>   target/ppc/cpu-qom.h  |  4 +++-
+>   target/ppc/cpu_init.c | 24 ++++++++++++++++++------
+>   2 files changed, 21 insertions(+), 7 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
