@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6936E407DEB
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 17:25:59 +0200 (CEST)
-Received: from localhost ([::1]:42624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77990407DEC
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 17:26:04 +0200 (CEST)
+Received: from localhost ([::1]:43056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPRMk-00010S-GE
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 11:25:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36492)
+	id 1mPRMp-0001IO-FK
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 11:26:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPRKO-0007QV-K4
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:23:32 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41477)
+ id 1mPRKt-0007g9-AV
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:24:04 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPRKM-0000UB-WF
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:23:32 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id w29so9834639wra.8
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 08:23:27 -0700 (PDT)
+ id 1mPRKr-0000wA-HK
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:24:02 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id d6so10575465wrc.11
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 08:24:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FJ0v5X1ko5yppX3I6QAFT83OHhxW3UVmG8y+sWl1S7g=;
- b=Hv8RLplyd4N7Tc7Zy35ZSlcBsPTTyZqpSMsG5/MKO7mIeIQHoOzsOPZS7tfe/c1xDQ
- DQsC9leiktp9wbP9+kcIagor//FiehOeD5cjAwVXU3wFSjgmQSZ5axawDvMaNsjgZfx6
- UJzK8RlLOiNi74iVIw0dWH3A6DVL5bC7i6wZjQLMO6oU2KCDUovVvfGLvJVzHLl/YRL0
- g7qa74VYBE4fnv5aIxof26i951E1HXZk3Q40HcH2fkaHpav83CfWcLYEm5qrVuC45xxy
- IEvs9XjfYlBnAZy+yIP04THWutn65q7v8tN8YNenxtlPtY4gFsSiPXY8acaLb8f350qC
- 8j8A==
+ bh=xa4QC9NSxCsiclFqttn6l9qLDQSGmE0z0sPmCZO4gr8=;
+ b=GjKt8nxGrpLWYkiX6uhPgiEKTewFiaY2Jqby5SMotQsuezlHy16Nx/kABN69CVd9Be
+ 2UuM1rJJJA/zXSvpJZypLKQXvWKusuCwQrAICVxHW1IOeaSjP20IzF35Nsw0q2LnXrQH
+ 7ckdtS50JDqaOcTs6Nvqo3Ul8TguPUS+ZQXNjjKza8ZfM9vmTErHMPV7l9ldjbggk+/k
+ JlbN8ssNad5vJhbyAx99AHPtmQvSJlndIY8gaTziYzoWceFb+dS7hOr3PB5JCKp6W+D6
+ 7D0bdbdgj3gxJzIvhBv+XggV42snsOLO6EdE9CAb42MwMLIq/ue4q3LGp2jZIKB0DlHL
+ 5PCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FJ0v5X1ko5yppX3I6QAFT83OHhxW3UVmG8y+sWl1S7g=;
- b=7L8SMU0sU3IC2OWs+cmbGj7zpc6MzbQ4a+mj52gvoKaeqeHIGaW135xFTLtXkRbC0V
- BqM37eou3TRnnGuLEEsoZWvOJd0nokj9AZV1GFW8iaULP6aP3CCvZK3fNNfLLLOfTvm/
- IsNORHd1Aa/3UEYHQ7oqMUtQqg8Sdr7l1BkVf6hiFbxR7hk+Gg2RXNSz2OgjgSwkpPQh
- tQRZ2vOJSdD2iuNw3IKgtQ2IEGzV7DfhDIqjdp3jqm96AZwzBB/R/RXalenSWGfF+kUg
- fqEfEB0QWlXtH4QrdDCcnPbA/MN794XP5e+nGbH5vD6CY6qcny4oseaOGsvv9vdBbAdO
- KevQ==
-X-Gm-Message-State: AOAM5339AI4fg/8ln8ajVeUHADyYIOSrXGupOOlh5dp5TZdCizj77P7y
- s3STH1WQDb8aB5QteWN01Ls=
-X-Google-Smtp-Source: ABdhPJzY8h3HBztQonrdNVjG92rEisA0gFUL7dSg1Fjr7jjeXNCMnLQaeMMkK4JX1D2vMLl/H2mwnA==
-X-Received: by 2002:adf:f183:: with SMTP id h3mr2767352wro.32.1631460205935;
- Sun, 12 Sep 2021 08:23:25 -0700 (PDT)
+ bh=xa4QC9NSxCsiclFqttn6l9qLDQSGmE0z0sPmCZO4gr8=;
+ b=u79hAHKUFYW0BIxkAGD6wyGOQsDwi397UsLU6ZvmkASnAOgPpNOQSqYBku4MijbHSH
+ xuU/M4gubrwYaeh4upLybDOHWspsfZmRD1FgCSDsgtO22CBPp/8USo3b/BZwX01vg9R6
+ aSlJ6MS0rGRxUCBgSNHSHOM19Rkb3lk36DLKoz9ZxGYQlM7yGWNmLbm+IJ9Ui3CANQ1+
+ TKkWs3NhZ58lieNGuBqN61hsG4W4cmwuv4GILeahrXlesSNK7fn0LYODJqLjzTsNl3yH
+ HOIPje6eP1v/7TTsoZ7nljJztbGBFvC1qOGoASaHLPZ88cRN2YxM6JIx6gHtSYSRa7RG
+ TlQw==
+X-Gm-Message-State: AOAM533RC7ceTrPdYVRTQCVsaQLk+teK0SB7Mk7y826mYbiYksVM8Smk
+ 7VR8lywnVbCVl+axiH6AEZ9n5EvhgeE=
+X-Google-Smtp-Source: ABdhPJwCTq+Kbqx3GZHHv4mZ/nk2MULsFTtsoL5Fr74gqMShfmXveVPJj9hcTAeexD+ilBuLMv1OWQ==
+X-Received: by 2002:a5d:47a4:: with SMTP id 4mr8083799wrb.329.1631460240318;
+ Sun, 12 Sep 2021 08:24:00 -0700 (PDT)
 Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id s14sm4207620wmc.25.2021.09.12.08.23.25
+ by smtp.gmail.com with ESMTPSA id u2sm4485396wmj.29.2021.09.12.08.23.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Sep 2021 08:23:25 -0700 (PDT)
-Subject: Re: [PATCH 13/20] nubus-bridge: introduce separate NubusBridge
- structure
+ Sun, 12 Sep 2021 08:23:59 -0700 (PDT)
+Subject: Re: [PATCH 14/20] mac-nubus-bridge: rename MacNubusState to
+ MacNubusBridge
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  laurent@vivier.eu
 References: <20210912074914.22048-1-mark.cave-ayland@ilande.co.uk>
- <20210912074914.22048-14-mark.cave-ayland@ilande.co.uk>
+ <20210912074914.22048-15-mark.cave-ayland@ilande.co.uk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d93fbaf7-1ec0-231d-5a5a-0a4f2eb847f2@amsat.org>
-Date: Sun, 12 Sep 2021 17:23:24 +0200
+Message-ID: <76bc5a9a-d927-a715-9d1f-03fa0f0d13a9@amsat.org>
+Date: Sun, 12 Sep 2021 17:23:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210912074914.22048-14-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210912074914.22048-15-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
@@ -95,16 +95,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/21 9:49 AM, Mark Cave-Ayland wrote:
-> This is to allow the Nubus bridge to store its own additional state. Also update
-> the comment in the file header to reflect that nubus-bridge is not specific to
-> the Macintosh.
+> This better reflects that the mac-nubus-bridge device is derived from the
+> nubus-bridge device, and that the structure represents the state of the bridge
+> device and not the Nubus itself. Also update the comment in the file header to
+> reflect that mac-nubus-bridge is specific to the Macintosh.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/nubus/nubus-bridge.c             | 4 ++--
->  include/hw/nubus/mac-nubus-bridge.h | 2 +-
->  include/hw/nubus/nubus.h            | 6 ++++++
->  3 files changed, 9 insertions(+), 3 deletions(-)
+>  hw/nubus/mac-nubus-bridge.c         | 8 +++++---
+>  include/hw/nubus/mac-nubus-bridge.h | 4 ++--
+>  2 files changed, 7 insertions(+), 5 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
