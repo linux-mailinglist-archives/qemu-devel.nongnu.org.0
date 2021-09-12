@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C347D407F16
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 19:56:00 +0200 (CEST)
-Received: from localhost ([::1]:40280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 522BD407F17
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 19:57:20 +0200 (CEST)
+Received: from localhost ([::1]:44084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPThv-0002eV-Sg
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 13:55:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51354)
+	id 1mPTjD-0005Nh-Dd
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 13:57:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPTIa-0001jF-NY
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:29:48 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36507)
+ id 1mPTIf-0001nr-FC
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:29:54 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:45688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPTIX-0005WW-Is
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:29:47 -0400
-Received: by mail-wr1-x433.google.com with SMTP id g16so10967130wrb.3
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 10:29:45 -0700 (PDT)
+ id 1mPTIc-0005ZT-4g
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:29:52 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ j17-20020a05600c1c1100b002e754875260so4966170wms.4
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 10:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sD6WSo2YHvghifkbZDHrEPR9Egwbzuw6eNNdtPTmG0c=;
- b=BsBTxQcU/49pj9VTjjCAkLGlBgg2zSeoa+hy7wZ2XehsqlHD9qThuik1ib/zDpjPqd
- Wm8GKQPetX0UPvUvK0M57LdAD+d2gZVGiy4QldY++oRcKyKVfq3S1DrdWUH7/CFF3Q0n
- s7Oyd1l/FFPWabOj6WskFhaQJh7YfUxlcuqGbh+ph2QLjzPsU7CZloIp7lEGw7odJCYe
- MQUIhl5TwRgQ95cqrVat5soLKA6OkEfCk8T9oK+HKIulVf9h46WZOMHXKQjoukTR2d7H
- eiBy41DmUMLM5JoXGKnBJ0q52vTc15iJHYw/1yPWNjK9OWydkGRJu4kNK3izE+LC24lQ
- uJvA==
+ bh=zo8kftudnPOZgXxxzKZCu6JZDCUogG66dPAYCxpYeH4=;
+ b=nDkBx0SE2JWOWic80sIZo+UWrCW+cSKt1Ly1bAzgQtgunxnbZEbKKIBiURMdUiuM/k
+ OZ7Yn1K+Ii6BG7dP1kh0WC5CDmZu+t3NrerEFmbfuO03wDwNPsalCpQuqjzrs4HrpmU/
+ 0DeAdJWU19kH/zSANj/WEtsG+IQrruIPwj9pPYC9CO52nEuSGAMrh3U4Js8NFNTESluP
+ OaHklBCu71pro5Pwlk+LCE0e9e93vh5HUQLnkpqZFhwxr+RL7YPOovkFhYzxIll3LEyx
+ lXKbVduI4T/Bl2Uz5+yC6lUE0s4l31Jv6t8vvBcQKmpDRc6/uDEgcfiU2kO8wwD4pMeC
+ b78w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=sD6WSo2YHvghifkbZDHrEPR9Egwbzuw6eNNdtPTmG0c=;
- b=JgvzKH0bakRUOBSb9q5CcPO1zWbBlCBgfYv6DLtujFpr1d0669HBMcn+VQ8tQBZwA/
- mtdW9BPCp87EaafO31+qZLjTuK4awQUDwOaJ62BZ0lb6XQ9onVzDCrU99UGQ6rcqigXd
- 7jtNXma1GWtIB1qE0LbT0q95nx/iqjuSa/M4l7IAqrgfyyB3NdKo4197/JYXHoOseufz
- ZwbQGQREyCDht7ZCC/Dz+hhZ5NofTQD4IPUUoI5mxVaVYV9dXIxV9bMfQWwLSGSki7qN
- 4kRzSTAkxlV2xH0sjPrL5i9x/hR0pMPOwYBk3YJcvu3bim+LhX5YE9o6kM5NVJptVdYz
- aNoA==
-X-Gm-Message-State: AOAM531+Bd1aGz7sGtEsfXEqIxRLDPpaF5yJZ6jsq4sJKWVj+2POwiqf
- ZyaKoF65QFZ6fGr4Qc3II9MX+wcGyYQ=
-X-Google-Smtp-Source: ABdhPJzD7EF/pbpnTmFuc6lAJyG8ZqCRj17AnyCQ7pN/0o80IpCruOiHN4Ayyia5/Um2+qgxi6ML6Q==
-X-Received: by 2002:a05:6000:18c8:: with SMTP id
- w8mr8360770wrq.90.1631467784056; 
- Sun, 12 Sep 2021 10:29:44 -0700 (PDT)
+ bh=zo8kftudnPOZgXxxzKZCu6JZDCUogG66dPAYCxpYeH4=;
+ b=p2nWmOa7+cumi37DEq5TzCi6lCCb2lFuKAhR6gOZ4+kjyB/Za4ZAwGKEndyXt4mvz6
+ QnlEnI5vbuGvuMQ369YncMHaVcKUiAMXyeBtunl4IRfTubVqipfjBF5oNYY76dVllqyJ
+ mc4/0DMZQay6llQSWQOZ4pvhnv1iiXqyvgSjydgAVE7A6iTX6bdQpEalQwKJPFUdhlMw
+ 6NlXKdJVcsFGWeKP/lHbbpnByLcQfJEsMuuBmdKRIntmqKVUFcus1S8bl71UL9ekDhxP
+ S/CzUtVFZ+vHfEKoNvdp5ZHCOYrwm5Y2TtTlHzFPO//W9QU0qUV+g4r36NV5y2HRzhuS
+ JbuQ==
+X-Gm-Message-State: AOAM531j0Xmo4cs50yt8XlmvTeTLLMbiZ7eoAmMkiNftlzAnv3Lkxpcw
+ aCAn9v32pwMOvIG0qIAATJkv0y2oN/0=
+X-Google-Smtp-Source: ABdhPJwkUbT+jZV9DIoyS1BD13V7X7qv3lQ4N0BUO3k02DmuP5doAX5ZijLrTwTlOELZ8Z9MPLN5QA==
+X-Received: by 2002:a05:600c:1d0e:: with SMTP id
+ l14mr3618329wms.16.1631467788676; 
+ Sun, 12 Sep 2021 10:29:48 -0700 (PDT)
 Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id o17sm4983461wrj.96.2021.09.12.10.29.43
+ by smtp.gmail.com with ESMTPSA id o2sm5301135wrh.13.2021.09.12.10.29.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Sep 2021 10:29:43 -0700 (PDT)
+ Sun, 12 Sep 2021 10:29:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 27/30] target/sparc: Restrict has_work() handler to sysemu
-Date: Sun, 12 Sep 2021 19:27:28 +0200
-Message-Id: <20210912172731.789788-28-f4bug@amsat.org>
+Subject: [PATCH v4 28/30] target/tricore: Restrict has_work() handler to sysemu
+Date: Sun, 12 Sep 2021 19:27:29 +0200
+Message-Id: <20210912172731.789788-29-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210912172731.789788-1-f4bug@amsat.org>
 References: <20210912172731.789788-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,45 +97,44 @@ Restrict has_work() to sysemu.
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/sparc/cpu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ target/tricore/cpu.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index e83e305aa9d..4a63ed12644 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -702,6 +702,7 @@ static void sparc_cpu_synchronize_from_tb(CPUState *cs,
-     cpu->env.npc = tb->cs_base;
+diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
+index b95682b7f04..419fa624bd5 100644
+--- a/target/tricore/cpu.c
++++ b/target/tricore/cpu.c
+@@ -62,10 +62,12 @@ static void tricore_cpu_reset(DeviceState *dev)
+     cpu_state_reset(env);
  }
  
 +#if !defined(CONFIG_USER_ONLY)
- static bool sparc_cpu_has_work(CPUState *cs)
+ static bool tricore_cpu_has_work(CPUState *cs)
  {
-     SPARCCPU *cpu = SPARC_CPU(cs);
-@@ -710,6 +711,7 @@ static bool sparc_cpu_has_work(CPUState *cs)
-     return (cs->interrupt_request & CPU_INTERRUPT_HARD) &&
-            cpu_interrupts_enabled(env);
+     return true;
  }
 +#endif /* !CONFIG_USER_ONLY */
  
- static char *sparc_cpu_type_name(const char *cpu_model)
+ static void tricore_cpu_realizefn(DeviceState *dev, Error **errp)
  {
-@@ -867,6 +869,7 @@ static const struct TCGCPUOps sparc_tcg_ops = {
-     .tlb_fill = sparc_cpu_tlb_fill,
+@@ -154,6 +156,9 @@ static const struct TCGCPUOps tricore_tcg_ops = {
+     .initialize = tricore_tcg_init,
+     .synchronize_from_tb = tricore_cpu_synchronize_from_tb,
+     .tlb_fill = tricore_cpu_tlb_fill,
++#if !defined(CONFIG_USER_ONLY)
++    .has_work = tricore_cpu_has_work,
++#endif
+ };
  
- #ifndef CONFIG_USER_ONLY
-+    .has_work = sparc_cpu_has_work,
-     .cpu_exec_interrupt = sparc_cpu_exec_interrupt,
-     .do_interrupt = sparc_cpu_do_interrupt,
-     .do_transaction_failed = sparc_cpu_do_transaction_failed,
-@@ -888,7 +891,6 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
+ static void tricore_cpu_class_init(ObjectClass *c, void *data)
+@@ -167,7 +172,6 @@ static void tricore_cpu_class_init(ObjectClass *c, void *data)
  
-     cc->class_by_name = sparc_cpu_class_by_name;
-     cc->parse_features = sparc_cpu_parse_features;
--    cc->has_work = sparc_cpu_has_work;
-     cc->dump_state = sparc_cpu_dump_state;
- #if !defined(TARGET_SPARC64) && !defined(CONFIG_USER_ONLY)
-     cc->memory_rw_debug = sparc_cpu_memory_rw_debug;
+     device_class_set_parent_reset(dc, tricore_cpu_reset, &mcc->parent_reset);
+     cc->class_by_name = tricore_cpu_class_by_name;
+-    cc->has_work = tricore_cpu_has_work;
+ 
+     cc->gdb_read_register = tricore_cpu_gdb_read_register;
+     cc->gdb_write_register = tricore_cpu_gdb_write_register;
 -- 
 2.31.1
 
