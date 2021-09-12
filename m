@@ -2,55 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79FAD407F6F
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 20:37:39 +0200 (CEST)
-Received: from localhost ([::1]:52444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB77407F70
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 20:38:50 +0200 (CEST)
+Received: from localhost ([::1]:55794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPUME-0006kb-JJ
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 14:37:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59532)
+	id 1mPUNN-0000Yw-Fi
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 14:38:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1mPUK3-00058F-WD
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 14:35:24 -0400
-Received: from mailout11.t-online.de ([194.25.134.85]:55522)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1mPUK0-0006hk-I9
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 14:35:23 -0400
-Received: from fwd81.dcpf.telekom.de (fwd81.aul.t-online.de [10.223.144.107])
- by mailout11.t-online.de (Postfix) with SMTP id C8BC41734C;
- Sun, 12 Sep 2021 20:34:27 +0200 (CEST)
-Received: from [192.168.211.200] ([79.208.16.31]) by fwd81.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1mPUJ9-1mfdNx0; Sun, 12 Sep 2021 20:34:27 +0200
-Subject: Re: [PATCH 1/3] ui/console: replace QEMUFIFO with Fifo8
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-References: <23041f12-b405-7dbc-b098-e9c48802e29c@t-online.de>
- <20210912125203.7114-1-vr_qemu@t-online.de>
- <CAJ+F1CKn+vRiUwrRF9ngSRZH865u5MCRK8jLSu0gpQQkaDDkag@mail.gmail.com>
- <bbf7ed4e-6664-90f9-36bf-63517b2b4583@t-online.de>
-Message-ID: <535c344e-6899-0acb-3693-bff241c995c1@t-online.de>
-Date: Sun, 12 Sep 2021 20:34:26 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mPUKk-00065U-Sj
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 14:36:06 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:44984)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mPUKj-0007Kh-C2
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 14:36:06 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id s11so7240536pgr.11
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 11:36:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0Mc8dqu3cJr5IlZVKu6NlG245zd0YF4wv2kqwXM3698=;
+ b=HHjKS/t472l8PVioMwL2DeKsjsA/J1AJh1ej4obyEI9aJ1YRhvj4DN2qZj9eMMFe3G
+ fJcNcuwCPtQnAW/8LBCFgEzRbLTgGoC57LRo1iUIjUl3ZRRgK5++RILTDIVwsKugAtvJ
+ REeARG8d6WcbljSvYrqQOL7T2Ujc77EWv07U2pbwp20/tlrg0xhtSYdpZ3/C7t4eppyH
+ ap9et6BFPAIF2BcujMUd2bqXMLMnY49BG0R/7RV7PDkXx2kWRYsypV/LFIKEsTg+z59E
+ hwCdaZARQB9Tc8FhlZYTHeDaW5KymcdFQB7AaGi0fyRtsOMbs3wR7o1zUcLJAA2U5W7X
+ l0Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0Mc8dqu3cJr5IlZVKu6NlG245zd0YF4wv2kqwXM3698=;
+ b=zzf85fNylFRzg1fHq5CoeGBrAaCUAEnJgrDbbxXf0lWPSsut9aK3aRjcRy+S0qaYMQ
+ Rj2CcYLw271NrFD7zi3bZJGSSLcDvvMJTCZ0hxlIYKH1DpufFwrAgF2ALwiz51w/CLVb
+ pPBcfB6ed9q/rhUxY7t5N1ZaTp86OLhCZtqNkLLzry1oOCPbk94n65QJbzDavZEn5VjU
+ nZ9vocEOdz1ZAtvwwB8UUWEqmIFPefmVZOcnMxK5k/8hnI7GUc4vFwqptepFYy5zXOom
+ A23bi/6GUcw877F4gL/6ZMPowQaJ7W6AccLeHK2SAnWM1tPdycbr91+wpL0ItwFHcN0V
+ b2UQ==
+X-Gm-Message-State: AOAM5317zPqVoqzIl3sy49rVsTIdBlGEyHlz1X/JMDhX8uoInDM1BC30
+ X99QTK3cNKg44vuHTwdPIoLkug==
+X-Google-Smtp-Source: ABdhPJzFXcNdHP0vcu+7TlWP0a3rcQDAY3atRfbyS5fVdisYZbZO6XbF3tbWqT6+UJSxTSspxDw1Zg==
+X-Received: by 2002:a63:f306:: with SMTP id l6mr7584275pgh.72.1631471763519;
+ Sun, 12 Sep 2021 11:36:03 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id d10sm4608966pfq.205.2021.09.12.11.36.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 12 Sep 2021 11:36:03 -0700 (PDT)
+Subject: Re: [PATCH v4 26/30] target/sparc: Remove pointless use of CONFIG_TCG
+ definition
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210912172731.789788-1-f4bug@amsat.org>
+ <20210912172731.789788-27-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <2600f4b6-a912-c516-d9c0-32d69684ba8c@linaro.org>
+Date: Sun, 12 Sep 2021 11:36:01 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <bbf7ed4e-6664-90f9-36bf-63517b2b4583@t-online.de>
+In-Reply-To: <20210912172731.789788-27-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-TOI-EXPURGATEID: 150726::1631471667-00013856-3F56AB2B/0/0 CLEAN NORMAL
-X-TOI-MSGID: b0819319-f7ec-482e-b826-969e96d586ef
-Received-SPF: none client-ip=194.25.134.85; envelope-from=vr_qemu@t-online.de;
- helo=mailout11.t-online.de
-X-Spam_score_int: -54
-X-Spam_score: -5.5
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -56
+X-Spam_score: -5.7
 X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-3.584, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.584,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,62 +89,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, QEMU <qemu-devel@nongnu.org>
+Cc: David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 12.09.21 um 19:58 schrieb Volker Rümelin:
->>
->>     @@ -1185,6 +1138,7 @@ void kbd_put_keysym_console(QemuConsole *s,
->>     int keysym)
->>          uint8_t buf[16], *q;
->>          CharBackend *be;
->>          int c;
->>     +    uint32_t free;
->>
->>
->> Better call it num_free, to avoid symbol clash (even if we don't use 
->> free() directly), it helps reading and can prevent mistakes.
->>
->
-> Hi,
->
-> OK, I'll send a version 2 patch.
->
->>
->>          if (!s || (s->console_type == GRAPHIC_CONSOLE))
->>              return;
->>
->
->>     @@ -2233,8 +2188,7 @@ static void text_console_do_init(Chardev
->>     *chr, DisplayState *ds)
->>          int g_width = 80 * FONT_WIDTH;
->>          int g_height = 24 * FONT_HEIGHT;
->>
->>     -    s->out_fifo.buf = s->out_fifo_buf;
->>     -    s->out_fifo.buf_size = sizeof(s->out_fifo_buf);
->>     +    fifo8_create(&s->out_fifo, 16);
->>
->>
->> Missing a fif8_destroy() somewhere
->>
->
-> An opened text console stays open until QEMU exits. There's no 
-> text_console_close() function. Just like there's a ChardevClass open 
-> call but no close call. I think this is one of the many cases in QEMU 
-> where resources get allocated for the lifetime of QEMU.
+On 9/12/21 10:27 AM, Philippe Mathieu-Daudé wrote:
+> The SPARC target only support TCG acceleration. Remove the CONFIG_TCG
 
-Sorry, I think my last four sentences are simply wrong. Please ignore this.
+supports
 
->
->
-> With best regards,
-> Volker
->
->>          s->kbd_timer = timer_new_ms(QEMU_CLOCK_REALTIME,
->>     kbd_send_chars, s);
->>          s->ds = ds;
->>
->
+> definition introduced by mistake in commit 78271684719 ("cpu: tcg_ops:
+> move to tcg-cpu-ops.h, keep a pointer in CPUClass").
+> 
+> Reported-by: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+>   target/sparc/cpu.c | 2 --
+>   1 file changed, 2 deletions(-)
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
