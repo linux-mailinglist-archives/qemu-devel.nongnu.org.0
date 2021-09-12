@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5D964081FC
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 23:58:58 +0200 (CEST)
-Received: from localhost ([::1]:39882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13633408207
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 00:18:13 +0200 (CEST)
+Received: from localhost ([::1]:43836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPXV3-0006rW-Pc
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 17:58:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54656)
+	id 1mPXnf-0001uU-OB
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 18:18:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPXU7-0006Cb-Qc
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 17:57:59 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:40604)
+ id 1mPXmd-0001G9-21
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 18:17:07 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:36825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPXU4-00070F-Mt
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 17:57:59 -0400
-Received: by mail-pf1-x435.google.com with SMTP id y8so1642739pfa.7
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 14:57:56 -0700 (PDT)
+ id 1mPXmb-0002e2-Ey
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 18:17:06 -0400
+Received: by mail-pf1-x436.google.com with SMTP id m26so7066597pff.3
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 15:17:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=RTu1F3lRHCffxoD3ds7LKCx1SHmXRxVF8CBJesQe4Qo=;
- b=xtHbEkCbbqa6qlUSjV6j3zJpwRLGCAs97ISIrPDNSDY14Mjb3+fCOm56YmYSIFYEh3
- R7Ig8UH0bgxElLcCGOKtZSMVTnJkSAI7qAQR5WCmhzPud8M3U2iFadwVkIFL6cmvFAwx
- wuYhccUsvoxCs/WkyKfs2gtoiwD6kLc4TCM4pODue733LqxYS1q6Mle6N+91MRRFxOuC
- s/aMPDqVAMw3MbiznmisLYrVS7a5mmry1X7MILEmW+82TaTZyk51m6M4WU9+5Z95Ob2i
- OHyqKvXcp4UfoXNvSvTauXVes88KIobas4IuXdGqgQYbuE1skTmOYxR+JpRhZV8bIZC9
- Giiw==
+ bh=XhCmaQMkmisXWKGWNs9jfRMRQSyGUb6gFOzy0UNRmMA=;
+ b=o4ds6JoC6Iy0jUj5GkecLPKxtdwBDDbf9PpjNMwKcPe1MrWqtE+DhdmE1g4/SaSfic
+ 7EZwwWwfUMNFoUbHS/bgl/xyKV5BRAFJAkVlqKWW38kvbufFke5TEkzH8JWb2yi2fKFb
+ gFtnngeLMKkVSdYt6e085JYSf9VxNznOmgQFEVTNLCIO47TZHCSYMLeEPrtvF/TVad4+
+ SxeDElDu082OP2hUKgER7UddwFuexX5LtYIH856uBnYaGaEOGRZvlpqIbD4+3H4ElVoR
+ suu3VAvssw2fqkd6SM/1OB2Z20cfq+x02hy4Ql9jZG6mEYaJSU8UTjetOvSVtCNGU7Yt
+ IkgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=RTu1F3lRHCffxoD3ds7LKCx1SHmXRxVF8CBJesQe4Qo=;
- b=S2gxBGMkZAgJxw1VyrQmYIQ9uof33zKlLMgr3vCte3IHVcCQM9ES/vhJmnPrDo6KCa
- xfFFZl8HUSVGptkuxAvIVuQyBv/hDPOMoq6UPPcbZ/Wot+iJxx7Qo6t7EgroVdGIUcoG
- 1MIbfjcOojH3JpsRf6v9HYlnekvnIdliYueuP+KmLy2lFTzd1FAefF36DWbhxIggNU5C
- ZgsNEMLKVYWKjKpwyU5HPXkMSj0vUZnsuqDCwH0m3L4J7+1KJzEF5oCs5RgmNLOq3232
- L8OVw8vVmbBAoCUpGqIw/du3k86AyCrJuM1RD6cuuLtmV1gQCmiMNm0WCIXk6cbcDxBR
- w0rg==
-X-Gm-Message-State: AOAM530npaHa8M25owIDkv5uFpzzawX6UfxEw0f/SZ0LxCJ/swUqYTgC
- jYDSdzvh1z7ePsJFq4er6NKjaw==
-X-Google-Smtp-Source: ABdhPJz2khPRRNofNgEaSs75GUzUivTkHIoL1JoGqgDZWZQbuLqPCT9ud0R3Rroq8+pE3HOlfiqmPA==
-X-Received: by 2002:a05:6a00:1750:b0:40c:f3b8:dc76 with SMTP id
- j16-20020a056a00175000b0040cf3b8dc76mr8069702pfc.22.1631483875157; 
- Sun, 12 Sep 2021 14:57:55 -0700 (PDT)
+ bh=XhCmaQMkmisXWKGWNs9jfRMRQSyGUb6gFOzy0UNRmMA=;
+ b=0POdHTB2K9qRrOAYTvxNrchgthAQuVmqKwrFJSkX6dJ+l9VLxbyslQw44Pafpsw4ES
+ ot563Ig+GmpC4Ly07sR4IR1urLbVV5HjEEdvfutpbeDRPHNG892LxeoGkxqSSeS5XAcP
+ CpcQskOPUbEfpjNxUgfTZIwSxAYxcbAkfKiuKYK1pB8HgSGg+Br8zq+dzZ/SJYoCHRaC
+ OGIDaEEC7AyaCPtrPEBJzoIuXktdocQtjS0Dbr9HLlIFkA6LIKfSb0IbViE5ImmC8GU8
+ R1bS0Mf7QkQ8Q767xzhpKgKEBTeEmxGomqghEK93mtP2KqmpudXOFdUitl8IDlrRyU1h
+ U8NQ==
+X-Gm-Message-State: AOAM530PumX+kIu16QCKw5aca76rnE6PKn7gwPvsLSNZNeaXPUZ+Y2vD
+ 9QL/CCpNabzS+8N97AVRbXOCtg==
+X-Google-Smtp-Source: ABdhPJzDNYaj4c7GVig+MNyB8C5VK1tKJu7jeQ7iUt3gOHQxzeVrzEdXiFJTWpG0d35t13kdTmlpiQ==
+X-Received: by 2002:a63:af18:: with SMTP id w24mr8368521pge.471.1631485023111; 
+ Sun, 12 Sep 2021 15:17:03 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id 31sm5374588pgy.26.2021.09.12.14.57.54
+ by smtp.gmail.com with ESMTPSA id z9sm4686681pfn.22.2021.09.12.15.17.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Sep 2021 14:57:54 -0700 (PDT)
-Subject: Re: [PATCH v4 00/16] tcg/s390x: host vector support
+ Sun, 12 Sep 2021 15:17:02 -0700 (PDT)
+Subject: Re: [PATCH v2] accel/tcg/user-exec: Fix read-modify-write of code on
+ s390 hosts
+To: Ilya Leoshkevich <iii@linux.ibm.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210803221606.150103-1-iii@linux.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20210626050307.2408505-1-richard.henderson@linaro.org>
-Message-ID: <fc42f428-7c7c-4a68-5b53-b328eaebb6b2@linaro.org>
-Date: Sun, 12 Sep 2021 14:57:53 -0700
+Message-ID: <a881247c-a612-3015-7225-b6516dd741e5@linaro.org>
+Date: Sun, 12 Sep 2021 15:17:00 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210626050307.2408505-1-richard.henderson@linaro.org>
+In-Reply-To: <20210803221606.150103-1-iii@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -56
 X-Spam_score: -5.7
 X-Spam_bar: -----
@@ -87,51 +88,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org,
+ Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping.  The branch rebases to master without complaint.
+On 8/3/21 3:16 PM, Ilya Leoshkevich wrote:
+> x86_64 dotnet/runtime uses cmpxchg for code patching. When running it
+> under s390x qemu-linux user, cpu_signal_handler() does not recognize
+> this as a write and does not restore PAGE_WRITE cleared by
+> tb_page_add(), incorrectly forwarding the signal to the guest code.
+> 
+> Signed-off-by: Ilya Leoshkevich<iii@linux.ibm.com>
+> ---
+> 
+> v1:https://lists.nongnu.org/archive/html/qemu-devel/2021-08/msg00464.html
+> v1 -> v2: Fix comment style, fix CSST detection (Richard).
+> 
+>   accel/tcg/user-exec.c | 48 ++++++++++++++++++++++++++++++++++++-------
+>   1 file changed, 41 insertions(+), 7 deletions(-)
+
+Queued, thanks.
 
 r~
-
-On 6/25/21 10:02 PM, Richard Henderson wrote:
-> Changes for v4:
->    * Fix bug in RXB (david).
-> 
-> r~
-> 
-> Richard Henderson (16):
->    tcg/s390x: Rename from tcg/s390
->    tcg/s390x: Change FACILITY representation
->    tcg/s390x: Merge TCG_AREG0 and TCG_REG_CALL_STACK into TCGReg
->    tcg/s390x: Add host vector framework
->    tcg/s390x: Implement tcg_out_ld/st for vector types
->    tcg/s390x: Implement tcg_out_mov for vector types
->    tcg/s390x: Implement tcg_out_dup*_vec
->    tcg/s390x: Implement minimal vector operations
->    tcg/s390x: Implement andc, orc, abs, neg, not vector operations
->    tcg/s390x: Implement TCG_TARGET_HAS_mul_vec
->    tcg/s390x: Implement vector shift operations
->    tcg/s390x: Implement TCG_TARGET_HAS_minmax_vec
->    tcg: Expand usadd/ussub with umin/umax
->    tcg/s390x: Implement TCG_TARGET_HAS_sat_vec
->    tcg/s390x: Implement TCG_TARGET_HAS_bitsel_vec
->    tcg/s390x: Implement TCG_TARGET_HAS_cmpsel_vec
-> 
->   meson.build                              |   2 -
->   tcg/{s390 => s390x}/tcg-target-con-set.h |   7 +
->   tcg/{s390 => s390x}/tcg-target-con-str.h |   1 +
->   tcg/{s390 => s390x}/tcg-target.h         |  90 ++-
->   tcg/s390x/tcg-target.opc.h               |  15 +
->   tcg/tcg-op-vec.c                         |  37 +-
->   tcg/{s390 => s390x}/tcg-target.c.inc     | 925 +++++++++++++++++++++--
->   7 files changed, 982 insertions(+), 95 deletions(-)
->   rename tcg/{s390 => s390x}/tcg-target-con-set.h (86%)
->   rename tcg/{s390 => s390x}/tcg-target-con-str.h (96%)
->   rename tcg/{s390 => s390x}/tcg-target.h (67%)
->   create mode 100644 tcg/s390x/tcg-target.opc.h
->   rename tcg/{s390 => s390x}/tcg-target.c.inc (73%)
-> 
-
 
