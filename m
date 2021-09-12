@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55DC407EFA
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 19:33:19 +0200 (CEST)
-Received: from localhost ([::1]:41276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0442F407F01
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 19:37:05 +0200 (CEST)
+Received: from localhost ([::1]:55598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPTLy-00076W-Pk
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 13:33:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50988)
+	id 1mPTPc-0008Ks-2Z
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 13:37:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPTH0-0005sm-SK
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:28:10 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:39429)
+ id 1mPTH5-00068q-LJ
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:28:15 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPTGz-0004Z2-B7
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:28:10 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- 196-20020a1c04cd000000b002fa489ffe1fso5237644wme.4
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 10:28:08 -0700 (PDT)
+ id 1mPTH4-0004bg-6r
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 13:28:15 -0400
+Received: by mail-wr1-x434.google.com with SMTP id d6so10901344wrc.11
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 10:28:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=a7Y84GjBIOXaobwPAnyM5v47r6rmRAo5JoQfnDKuPME=;
- b=Hcq3YF+xgLui5Pkp95g4yK1q3VK+LJzsZ5yQ33zO0qAEURBeruHeXbkiza2MH9b3+Y
- oy5iFfRMuo6a9gl8gMQUrS/BECNwvYIfejNgPleuOUH7CbGNcjtuhlp0S/bL1OYQDc4Y
- Js2A3GNAMx7qRpC2XLvJh3ncg//tB4eyRIJvVcxthMYsJg07rJUVYxPRmW1zFUWHqR8x
- Xa1pyYaALHXwykI9Xn48o4Jpkh5g8CJMDf9Sb5nb4HMgAyIPEocEH89J2Qn29nmBX5bE
- IMTgC+eVlyp7/ZNdo0p4JV0ayzyP+6o3aQX6vizcsaqDsRLPVidhurX5Y8aUv1WqsQwc
- RJeA==
+ bh=oPh/K3P8lnOCu8w0iWaCapa14gPkR6lDKFebYBGUl3I=;
+ b=dXJ4QYAvPZQbdHB4twjNThmx7FnJYGb3ffCVR7wYiISSF8+ue2qj3fRkWyM9ZXSEcQ
+ WAfVNRF6DLFKdDJFJCctnySwM4Pe6QZe4H3nosbypAK+uiU8FxJoZ8qYzHTF/ZLWgMYy
+ wMbEc7wvJZchCB6UDkFFl3t6dTz/newsCar0O6eCWZdAfE+LJPuZ4UMHWAziG/JRJu7E
+ lvduJf5yIlPBtuRen4rgWFSj64Wm75QSaZcEhSEmr9By7CUoT24XrKvMLANN2wwNEAuq
+ FS/GX47ipf++ijIxmfW8mUW5SPXlfFhm6gRxuPLz/XdpwBFc3nRRd+Oqf12byzRnF0q5
+ FWPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=a7Y84GjBIOXaobwPAnyM5v47r6rmRAo5JoQfnDKuPME=;
- b=LG/WODY7gs0TMh/AsJ9bLR9IufjkDxSUJUy//INxOnr1RuVoWDK+sr3DAieUyRNTI1
- 0H5mVhxG+H6UlVl4E4B45vsNYCxCFIXEF/Jyn95aeCVy3yo9K9JO1hA1qPpBC/QPaZkn
- WbI5RfF3uUwDTGVRFhNwxVSxZR4BQ6DRcQp5m/G65YCepeI48Nlb5tACshO6L45CfvSP
- clz7mMFWG9rWzOTHgxvebWoLO2zlLpo3xmiCx89hOBtgZCABUUh+moNfoQCXsOHQ+tEB
- XAySm9uVERM95z51cF2S7Car0tojOatBWUmnm7RZkwNVEvn4y7icw39f6XW/tdXs9GbV
- D/Mg==
-X-Gm-Message-State: AOAM530N67dGyrPjHv/dVysLmUPvH1e46+un3FnZg5C7O7sm13adpyv5
- Uol4izLlmK2ugX9WhJwinrSTnr6edgo=
-X-Google-Smtp-Source: ABdhPJwemlKqBYaENbh0o+98v3BT0/SKOGAk8a9iN70go86uaMSlpV7ldgOztaipbBAEyVueFzFDAg==
-X-Received: by 2002:a1c:a505:: with SMTP id o5mr7448404wme.32.1631467687839;
- Sun, 12 Sep 2021 10:28:07 -0700 (PDT)
+ bh=oPh/K3P8lnOCu8w0iWaCapa14gPkR6lDKFebYBGUl3I=;
+ b=trZ1t5nueE8CfEB7ubyX1pN/hOvoQpLTuY6Fb7nRxSCZXcavRSpg0dblMOaddttl6W
+ btndusd9nQWwLbOhhqtzTozeABC43lN32V4RT3XJiRo8GP64fglrZh8+JQghfUL04cMO
+ tOGvW193GrqgmK0Xle2yqw/Yqgv/+DshxUj4UblgWk621Y5CmmPDovOgNOaeqdrAmQIA
+ En2qmfj1JUmjiwFroFHpsMla6xkaImzcDhrgZvwOJ93F3Q2oMN65MPs1Zv69BNgvb+h4
+ x+BRR/ZaDEDZX3LEmxNgsTeugRbgaSzgB9UE6NoZD/X/gE+GhJAfQLSYfii7PW81jdCs
+ XMwQ==
+X-Gm-Message-State: AOAM533VdmfwqNrgSEQU5Sq0PtLqJi7Kxk1J1hMyNbxUouSSwnVXxSu6
+ BQW+suQg87kmXeB3dZlLTlVGo3r3TIA=
+X-Google-Smtp-Source: ABdhPJxNRbH90H0I3CBE9cwVoCPxnsiiq/r935CJfxgwk82/8UcByK7xhi5NGN5U5Jeylo5eFXnzdA==
+X-Received: by 2002:adf:e408:: with SMTP id g8mr8433095wrm.138.1631467692734; 
+ Sun, 12 Sep 2021 10:28:12 -0700 (PDT)
 Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id e2sm5101013wra.40.2021.09.12.10.28.06
+ by smtp.gmail.com with ESMTPSA id o17sm4980427wrj.96.2021.09.12.10.28.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Sep 2021 10:28:07 -0700 (PDT)
+ Sun, 12 Sep 2021 10:28:12 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 07/30] accel/tcg: Implement AccelOpsClass::has_work() as
- stub
-Date: Sun, 12 Sep 2021 19:27:08 +0200
-Message-Id: <20210912172731.789788-8-f4bug@amsat.org>
+Subject: [PATCH v4 08/30] target/alpha: Restrict has_work() handler to sysemu
+Date: Sun, 12 Sep 2021 19:27:09 +0200
+Message-Id: <20210912172731.789788-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210912172731.789788-1-f4bug@amsat.org>
 References: <20210912172731.789788-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,69 +90,50 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add TCG target-specific has_work() handler in TCGCPUOps,
-and add tcg_cpu_has_work() as AccelOpsClass has_work()
-implementation.
+Restrict has_work() to sysemu.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/core/tcg-cpu-ops.h |  4 ++++
- accel/tcg/tcg-accel-ops.c     | 12 ++++++++++++
- 2 files changed, 16 insertions(+)
+ target/alpha/cpu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-index 55123cb4d22..4a4c4053e3b 100644
---- a/include/hw/core/tcg-cpu-ops.h
-+++ b/include/hw/core/tcg-cpu-ops.h
-@@ -66,6 +66,10 @@ struct TCGCPUOps {
-     void (*do_interrupt)(CPUState *cpu);
- #endif /* !CONFIG_USER_ONLY || !TARGET_I386 */
- #ifdef CONFIG_SOFTMMU
-+    /**
-+     * @has_work: Callback for checking if there is work to do.
-+     */
-+    bool (*has_work)(CPUState *cpu);
-     /** @cpu_exec_interrupt: Callback for processing interrupts in cpu_exec */
-     bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
-     /**
-diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
-index 1a8e8390bd6..ed4ebe735fe 100644
---- a/accel/tcg/tcg-accel-ops.c
-+++ b/accel/tcg/tcg-accel-ops.c
-@@ -32,6 +32,7 @@
- #include "qemu/main-loop.h"
- #include "qemu/guest-random.h"
- #include "exec/exec-all.h"
-+#include "hw/core/tcg-cpu-ops.h"
- 
- #include "tcg-accel-ops.h"
- #include "tcg-accel-ops-mttcg.h"
-@@ -73,6 +74,16 @@ int tcg_cpus_exec(CPUState *cpu)
-     return ret;
+diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
+index 93e16a2ffb4..1ca601cac5b 100644
+--- a/target/alpha/cpu.c
++++ b/target/alpha/cpu.c
+@@ -33,6 +33,7 @@ static void alpha_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.pc = value;
  }
  
-+static bool tcg_cpu_has_work(CPUState *cpu)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (!cc->tcg_ops->has_work) {
-+        return false;
-+    }
-+    return cc->tcg_ops->has_work(cpu);
-+}
-+
- /* mask must never be zero, except for A20 change call */
- void tcg_handle_interrupt(CPUState *cpu, int mask)
++#if !defined(CONFIG_USER_ONLY)
+ static bool alpha_cpu_has_work(CPUState *cs)
  {
-@@ -108,6 +119,7 @@ static void tcg_accel_ops_init(AccelOpsClass *ops)
-         ops->kick_vcpu_thread = rr_kick_vcpu_thread;
-         ops->handle_interrupt = tcg_handle_interrupt;
-     }
-+    ops->has_work = tcg_cpu_has_work;
+     /* Here we are checking to see if the CPU should wake up from HALT.
+@@ -47,6 +48,7 @@ static bool alpha_cpu_has_work(CPUState *cs)
+                                     | CPU_INTERRUPT_SMP
+                                     | CPU_INTERRUPT_MCHK);
  }
++#endif /* !CONFIG_USER_ONLY */
  
- static void tcg_accel_ops_class_init(ObjectClass *oc, void *data)
+ static void alpha_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
+ {
+@@ -221,6 +223,7 @@ static const struct TCGCPUOps alpha_tcg_ops = {
+     .tlb_fill = alpha_cpu_tlb_fill,
+ 
+ #ifndef CONFIG_USER_ONLY
++    .has_work = alpha_cpu_has_work,
+     .cpu_exec_interrupt = alpha_cpu_exec_interrupt,
+     .do_interrupt = alpha_cpu_do_interrupt,
+     .do_transaction_failed = alpha_cpu_do_transaction_failed,
+@@ -238,7 +241,6 @@ static void alpha_cpu_class_init(ObjectClass *oc, void *data)
+                                     &acc->parent_realize);
+ 
+     cc->class_by_name = alpha_cpu_class_by_name;
+-    cc->has_work = alpha_cpu_has_work;
+     cc->dump_state = alpha_cpu_dump_state;
+     cc->set_pc = alpha_cpu_set_pc;
+     cc->gdb_read_register = alpha_cpu_gdb_read_register;
 -- 
 2.31.1
 
