@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B30407DE5
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 17:21:10 +0200 (CEST)
-Received: from localhost ([::1]:36938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A0F407DE7
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 Sep 2021 17:24:36 +0200 (CEST)
+Received: from localhost ([::1]:39850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPRI6-0005Rs-1R
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 11:21:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36010)
+	id 1mPRLP-0007YW-K9
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 11:24:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPRGc-0004UX-E6
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:19:38 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51045)
+ id 1mPRJb-0006N8-86
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:22:43 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPRGb-0005cd-2p
- for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:19:38 -0400
-Received: by mail-wm1-x332.google.com with SMTP id 140so1372401wma.0
- for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 08:19:36 -0700 (PDT)
+ id 1mPRJX-0008HD-FE
+ for qemu-devel@nongnu.org; Sun, 12 Sep 2021 11:22:42 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ r128-20020a1c4486000000b003065f0bc631so429104wma.0
+ for <qemu-devel@nongnu.org>; Sun, 12 Sep 2021 08:22:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ELrfWeweqoxVjJNKAIFvzl2fFfOUOjJUaPbMiP4RxmY=;
- b=MBCght8yrq9wCEOLEi1HYmjKXsRuMp5JPYRD9O1WdYbUOwTfwPY48cKx6SrzDfWN51
- sfYZAceHmMSq0XC9XSsFrDfAIJ6m+DgA+H5rW9jC3QEgRrJKqIHFnUhK/uAqdf6VStx0
- fWF7BR+1qIx07b2w13yvHdA3d9eQSY9u1+m+WkZ5kOywRLbjQzeF09EsL5bVCp0SkVka
- IYO+zDJHSw1WMPOURILAy+nS4bkKQ7QfV6Uw3EEVwrQTmTQQojfBSvmLzfYcM8YFkwgw
- +cvO5ajqnaM70U4L07WyWnQP7J9pt1x+HkI2ThSDH1Geo0VJAHO2EIy03gMUz/3wR3N5
- ChZw==
+ bh=yzxTtxTOEsIE4NgUbjgOv7bSQxD4Ya4UoPGhlBgUB8g=;
+ b=PKtlV8KIJQx//cESt+a9tEpaMdiSVSxwPI/E+5F1Y/0mm3dZN55pPRv9gVhoUij+gs
+ dUmj5IZ+r+0j1y3z8MXC5FuE8zEFGrowxFfBp9aNT3au+rU+mFHWjuZF2vnWlXpCgY8a
+ GT1ycYV95Co+PqSYxnC3nnn9nihIxEjNS/Tkqkd8/k9Qa8LqWW16/aZwwhEt5dnNs3/Y
+ keuwTheAcj0DgbkI0jkGPoD8WcvNZ2iOJTdgI6FpxKWZikTUwpoNrDLeVvBDuQJUzByv
+ gC+R79xkYB/Br1+Lr4pqg/pj9uPVglZH9I4yoCuWw6GhH9Cr/oQ9jWlY+1DukpBw2M3u
+ fo5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ELrfWeweqoxVjJNKAIFvzl2fFfOUOjJUaPbMiP4RxmY=;
- b=LV+k6MlLEhtICSQxkU/favDIyBX8tP84AKKCrYwNGLo175kxBFU7druPT/2Y00RMid
- 2BZVkc9S5vIpoDmYRWQmDlN18WPAZKwlH48hHcRJUl7NEeeU+qNJBTSH2UYfGT7mXF0D
- nt4KAyTyGSpBIRHDiG7cwJVdEUchw7zK0HiXqwWj5FgseAcUTILrXPE8VxtV0GDHyoaT
- gV99s74SMJ4VlNaw7w6wTHgjGvRMvAGSm5EkoJwMAivqAwWyIK9JUoRzi8mnSmCFTM7G
- kCBV9zFwDYquST2KnUzP4etStpC4NS8J19WzVVNDuVVLBJBD5ipbcsLkZ/UaDdxdLbV4
- SdBg==
-X-Gm-Message-State: AOAM531AquyRLQl6tduR3bS8+OpN0enWbqjmGYFgrK/MxegNM1eSVZo9
- wgk2kt79vzViUfkfAsrGCwE=
-X-Google-Smtp-Source: ABdhPJzv4r97w8HyD6FVogVd2QwXxTEtEOmuGZkTykcw0+Cfwv8LlH32HVWa6XhSLs2Uce1KIe+Xpw==
-X-Received: by 2002:a7b:cf02:: with SMTP id l2mr1290142wmg.47.1631459975713;
- Sun, 12 Sep 2021 08:19:35 -0700 (PDT)
+ bh=yzxTtxTOEsIE4NgUbjgOv7bSQxD4Ya4UoPGhlBgUB8g=;
+ b=ak8ZvMVftnlo9gTYtS45dxfFeB9TAeQ4RUTvdu2W2Uqza48ojVpKnpKQug2xzJmxUW
+ cQBSctvTZUXV4k+EStaibFEq+NJfdpu9i61+5UBkF0SDDwM7R230BmD/rG+qc2vzn4wB
+ 8vLVFNt5t1iADCe/8wQbssFk/nOvooIS+/3UgVxnbG43zitL4wp7a/ftTNzdFu6P5/z+
+ +ZZgvD8jHVHVzsAI7erPn3TPMbhQUaVd45rsGnUD71X2Q5mYiz5BzjhvK9ZtuzQpNoA6
+ +4IeaXxAOsLBMWSZhwZCExGUSaBe1dS5Xr4sHrCIWQzxlhri+UYYZUzgcLlKPvOaXS9P
+ uq4g==
+X-Gm-Message-State: AOAM531hUD2KdnxXjGUMVMkT4tAtO6N/epfxfRmvxJNQklug3nJLdcLd
+ qcZsahaI+B9SWdo0+6uM8+w=
+X-Google-Smtp-Source: ABdhPJxzg5wg++CDRC77cbllwj026KpiMOwHNzOR22eI+1F/pi4msniENp87NrygOe4CYJLHkMllWA==
+X-Received: by 2002:a7b:c843:: with SMTP id c3mr7026385wml.76.1631460157935;
+ Sun, 12 Sep 2021 08:22:37 -0700 (PDT)
 Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id o12sm4036444wms.15.2021.09.12.08.19.34
+ by smtp.gmail.com with ESMTPSA id l2sm4465212wmi.1.2021.09.12.08.22.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 12 Sep 2021 08:19:35 -0700 (PDT)
-Subject: Re: [PATCH 08/20] nubus: generate bus error when attempting to access
- empty slots
+ Sun, 12 Sep 2021 08:22:37 -0700 (PDT)
+Subject: Re: [PATCH 12/20] nubus: move nubus to its own 32-bit address space
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  laurent@vivier.eu
 References: <20210912074914.22048-1-mark.cave-ayland@ilande.co.uk>
- <20210912074914.22048-9-mark.cave-ayland@ilande.co.uk>
+ <20210912074914.22048-13-mark.cave-ayland@ilande.co.uk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <cf2594e6-d0e0-fddc-d143-9049888b574a@amsat.org>
-Date: Sun, 12 Sep 2021 17:19:34 +0200
+Message-ID: <679f4f66-bbb5-52b7-a616-0463ea719d0d@amsat.org>
+Date: Sun, 12 Sep 2021 17:22:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210912074914.22048-9-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210912074914.22048-13-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -50
 X-Spam_score: -5.1
 X-Spam_bar: -----
@@ -95,20 +95,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/12/21 9:49 AM, Mark Cave-Ayland wrote:
-> According to "Designing Cards and Drivers for the Macintosh Family" any attempt
-> to access an unimplemented address location on Nubus generates a bus error. MacOS
-> uses a custom bus error handler to detect empty Nubus slots, and with the current
-> implementation assumes that all slots are occupied as the Nubus transactions
-> never fail.
+> According to "Designing Cards and Drivers for the Macintosh Family" the Nubus
+> has its own 32-bit address space based upon physical slot addressing.
 > 
-> Switch nubus_slot_ops and nubus_super_slot_ops over to use {read,write}_with_attrs
-> and hard-code them to return MEMTX_DECODE_ERROR so that unoccupied Nubus slots
-> will generate the expected bus error.
+> Move Nubus to its own 32-bit address space and then use memory region aliases
+> to map available slot and super slot ranges into the q800 system address
+> space via the Macintosh Nubus bridge.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/nubus/nubus-bus.c | 34 ++++++++++++++++++----------------
->  1 file changed, 18 insertions(+), 16 deletions(-)
+>  hw/m68k/q800.c                      |  8 +++-----
+>  hw/nubus/mac-nubus-bridge.c         | 15 +++++++++++++--
+>  hw/nubus/nubus-bus.c                | 18 ++++++++++++++++++
+>  hw/nubus/nubus-device.c             |  2 +-
+>  include/hw/nubus/mac-nubus-bridge.h |  2 ++
+>  include/hw/nubus/nubus.h            | 10 +++++++---
+>  6 files changed, 44 insertions(+), 11 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
