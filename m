@@ -2,31 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E93C40823F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 01:13:13 +0200 (CEST)
-Received: from localhost ([::1]:37128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38BED40823B
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 01:09:57 +0200 (CEST)
+Received: from localhost ([::1]:58006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPYeu-00027q-72
-	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 19:13:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34116)
+	id 1mPYbk-0005cm-9E
+	for lists+qemu-devel@lfdr.de; Sun, 12 Sep 2021 19:09:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1mPYZx-0002C3-DL; Sun, 12 Sep 2021 19:08:05 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:43476 helo=zulu616.server4you.de)
+ id 1mPYZw-0002Bl-3c; Sun, 12 Sep 2021 19:08:04 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:43488 helo=zulu616.server4you.de)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1mPYZt-0003DG-VU; Sun, 12 Sep 2021 19:08:05 -0400
+ id 1mPYZt-0003Dz-V2; Sun, 12 Sep 2021 19:08:03 -0400
 Received: from localhost.localdomain
  (dynamic-095-117-028-179.95.117.pool.telefonica.de [95.117.28.179])
- by csgraf.de (Postfix) with ESMTPSA id 42C9E6080146;
+ by csgraf.de (Postfix) with ESMTPSA id 044D560805E7;
  Mon, 13 Sep 2021 01:07:58 +0200 (CEST)
 From: Alexander Graf <agraf@csgraf.de>
 To: QEMU Developers <qemu-devel@nongnu.org>
-Subject: [PATCH v9 00/11] hvf: Implement Apple Silicon Support
-Date: Mon, 13 Sep 2021 01:07:46 +0200
-Message-Id: <20210912230757.41096-1-agraf@csgraf.de>
+Subject: [PATCH v9 01/11] arm: Move PMC register definitions to cpu.h
+Date: Mon, 13 Sep 2021 01:07:47 +0200
+Message-Id: <20210912230757.41096-2-agraf@csgraf.de>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+In-Reply-To: <20210912230757.41096-1-agraf@csgraf.de>
+References: <20210912230757.41096-1-agraf@csgraf.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
@@ -59,201 +61,126 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that Apple Silicon is widely available, people are obviously excited
-to try and run virtualized workloads on them, such as Linux and Windows.
+We will need PMC register definitions in accel specific code later.
+Move all constant definitions to common arm headers so we can reuse
+them.
 
-This patch set implements a fully functional version to get the ball
-going on that. With this applied, I can successfully run both Linux and
-Windows as guests. I am not aware of any limitations specific to
-Hypervisor.framework apart from:
+Signed-off-by: Alexander Graf <agraf@csgraf.de>
+---
+ target/arm/cpu.h    | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ target/arm/helper.c | 44 --------------------------------------------
+ 2 files changed, 44 insertions(+), 44 deletions(-)
 
-  - gdbstub debugging (breakpoints)
-  - missing GICv3 support
-
-To use hvf support, please make sure to run -M virt,highmem=off to fit
-in M1's physical address space limits and use -cpu host.
-
-
-Enjoy!
-
-Alex
-
-v1 -> v2:
-
-  - New patch: hvf: Actually set SIG_IPI mask
-  - New patch: hvf: Introduce hvf vcpu struct
-  - New patch: hvf: arm: Mark CPU as dirty on reset
-  - Removed patch: hw/arm/virt: Disable highmem when on hypervisor.framework
-  - Removed patch: arm: Synchronize CPU on PSCI on
-  - Fix build on 32bit arm
-  - Merge vcpu kick function patch into ARM enablement
-  - Implement WFI handling (allows vCPUs to sleep)
-  - Synchronize system registers (fixes OVMF crashes and reboot)
-  - Don't always call cpu_synchronize_state()
-  - Use more fine grained iothread locking
-  - Populate aa64mmfr0 from hardware
-  - Make safe to ctrl-C entitlement application
-
-v2 -> v3:
-
-  - Removed patch: hvf: Actually set SIG_IPI mask
-  - New patch: hvf: arm: Add support for GICv3
-  - New patch: hvf: arm: Implement -cpu host
-  - Advance PC on SMC
-  - Use cp list interface for sysreg syncs
-  - Do not set current_cpu
-  - Fix sysreg isread mask
-  - Move sysreg handling to functions
-  - Remove WFI logic again
-  - Revert to global iothread locking
-
-v3 -> v4:
-
-  - Removed patch: hvf: arm: Mark CPU as dirty on reset
-  - New patch: hvf: Simplify post reset/init/loadvm hooks
-  - Remove i386-softmmu target (meson.build for hvf target)
-  - Combine both if statements (PSCI)
-  - Use hv.h instead of Hypervisor.h for 10.15 compat
-  - Remove manual inclusion of Hypervisor.h in common .c files
-  - No longer include Hypervisor.h in arm hvf .c files
-  - Remove unused exe_full variable
-  - Reuse exe_name variable
-
-v4 -> v5:
-
-  - Use g_free() on destroy
-
-v5 -> v6:
-
-  - Switch SYSREG() macro order to the same as asm intrinsics
-
-v6 -> v7:
-
-  - Already merged: hvf: Add hypervisor entitlement to output binaries
-  - Already merged: hvf: x86: Remove unused definitions
-  - Patch split: hvf: Move common code out
-    -> hvf: Move assert_hvf_ok() into common directory
-    -> hvf: Move vcpu thread functions into common directory
-    -> hvf: Move cpu functions into common directory
-    -> hvf: Move hvf internal definitions into common header
-    -> hvf: Make hvf_set_phys_mem() static
-    -> hvf: Remove use of hv_uvaddr_t and hv_gpaddr_t
-    -> hvf: Split out common code on vcpu init and destroy
-    -> hvf: Use cpu_synchronize_state()
-    -> hvf: Make synchronize functions static
-    -> hvf: Remove hvf-accel-ops.h
-  - New patch: hvf: arm: Implement PSCI handling
-  - New patch: arm: Enable Windows 10 trusted SMCCC boot call
-  - New patch: hvf: arm: Handle Windows 10 SMC call
-  - Removed patch: "arm: Set PSCI to 0.2 for HVF" (included above)
-  - Removed patch: "hvf: arm: Add support for GICv3" (deferred to later)
-  - Remove osdep.h include from hvf_int.h
-  - Synchronize SIMD registers as well
-  - Prepend 0x for hex values
-  - Convert DPRINTF to trace points
-  - Use main event loop (fixes gdbstub issues)
-  - Remove PSCI support, inject UDEF on HVC/SMC
-  - Change vtimer logic to look at ctl.istatus for vtimer mask sync
-  - Add kick callback again (fixes remote CPU notification)
-  - Move function define to own header
-  - Do not propagate SVE features for HVF
-  - Remove stray whitespace change
-  - Verify that EL0 and EL1 do not allow AArch32 mode
-  - Only probe host CPU features once
-  - Move WFI into function
-  - Improve comment wording
-  - Simplify HVF matching logic in meson build file
-
-v7 -> v8:
-
-  - checkpatch fixes
-  - Do not advance for HVC, PC is already updated by hvf
-    (fixes Linux boot)
-
-v8 -> v9:
-
-  - [Merged] hvf: Move assert_hvf_ok() into common directory
-  - [Merged] hvf: Move vcpu thread functions into common directory
-  - [Merged] hvf: Move cpu functions into common directory
-  - [Merged] hvf: Move hvf internal definitions into common header
-  - [Merged] hvf: Make hvf_set_phys_mem() static
-  - [Merged] hvf: Remove use of hv_uvaddr_t and hv_gpaddr_t
-  - [Merged] hvf: Split out common code on vcpu init and destroy
-  - [Merged] hvf: Use cpu_synchronize_state()
-  - [Merged] hvf: Make synchronize functions static
-  - [Merged] hvf: Remove hvf-accel-ops.h
-  - [Merged] hvf: Introduce hvf vcpu struct
-  - [Merged] hvf: Simplify post reset/init/loadvm hooks
-  - [Dropped] arm: Enable Windows 10 trusted SMCCC boot call
-  - [Dropped] hvf: arm: Handle Windows 10 SMC call
-  - [New] arm: Move PMC register definitions to cpu.h
-  - [New] hvf: Add execute to dirty log permission bitmap
-  - [New] hvf: Introduce hvf_arch_init() callback
-  - [New] hvf: arm: Implement PSCI handling
-  - [New] hvf: arm: Add rudimentary PMC support
-  - [New] arm: tcg: Adhere to SMCCC 1.3 section 5.2
-  - [New] hvf: arm: Adhere to SMCCC 1.3 section 5.2
-  - Make kick function non-weak
-  - Use arm_cpu_do_interrupt()
-  - Remove CNTPCT_EL0 write case
-  - Inject UDEF on invalid sysreg access
-  - Add support for OS locking sysregs
-  - Remove PMCCNTR_EL0 handling
-  - Print PC on unhandled sysreg trace
-  - Sync SP (x31) based on SP_EL0/SP_EL1
-  - Fix SPSR_EL1 mapping
-  - Only sync known sysregs, assert when syncing fails
-  - Improve error message on unhandled ec
-  - Move vtimer sync to post-exit (fixes disable corner case from
-    kvm-unit-tests)
-  - Add vtimer offset, migration and pause logic
-  - Flush registers only after EXCP checkers (fixes PSCI on race)
-  - Remove Windows specifics and just comply with SMCCC spec
-  - Zero-initialize host_isar
-  - Use M1 SCTLR reset value
-  - Add support for cntv offsets
-  - Improve code readability
-  - Use new hvf_raise_exception() prototype
-  - Make cpu_off function void
-  - Add comment about return value, use -1 for "not found"
-  - Remove cpu_synchronize_state() when halted
-
-Alexander Graf (10):
-  arm: Move PMC register definitions to cpu.h
-  hvf: Add execute to dirty log permission bitmap
-  hvf: Introduce hvf_arch_init() callback
-  hvf: Add Apple Silicon support
-  hvf: arm: Implement -cpu host
-  hvf: arm: Implement PSCI handling
-  arm: Add Hypervisor.framework build target
-  hvf: arm: Add rudimentary PMC support
-  arm: tcg: Adhere to SMCCC 1.3 section 5.2
-  hvf: arm: Adhere to SMCCC 1.3 section 5.2
-
-Peter Collingbourne (1):
-  arm/hvf: Add a WFI handler
-
- MAINTAINERS                 |    5 +
- accel/hvf/hvf-accel-ops.c   |   21 +-
- include/sysemu/hvf_int.h    |   12 +-
- meson.build                 |    8 +
- target/arm/cpu.c            |   13 +-
- target/arm/cpu.h            |   46 ++
- target/arm/helper.c         |   44 --
- target/arm/hvf/hvf.c        | 1246 +++++++++++++++++++++++++++++++++++
- target/arm/hvf/meson.build  |    3 +
- target/arm/hvf/trace-events |   11 +
- target/arm/hvf_arm.h        |   19 +
- target/arm/kvm_arm.h        |    2 -
- target/arm/meson.build      |    2 +
- target/arm/psci.c           |   26 +-
- target/i386/hvf/hvf.c       |   10 +
- 15 files changed, 1387 insertions(+), 81 deletions(-)
- create mode 100644 target/arm/hvf/hvf.c
- create mode 100644 target/arm/hvf/meson.build
- create mode 100644 target/arm/hvf/trace-events
- create mode 100644 target/arm/hvf_arm.h
-
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 6a987f65e4..6d60b64c15 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1550,6 +1550,50 @@ static inline void xpsr_write(CPUARMState *env, uint32_t val, uint32_t mask)
+ #define HSTR_TTEE (1 << 16)
+ #define HSTR_TJDBX (1 << 17)
+ 
++/* Definitions for the PMU registers */
++#define PMCRN_MASK  0xf800
++#define PMCRN_SHIFT 11
++#define PMCRLC  0x40
++#define PMCRDP  0x20
++#define PMCRX   0x10
++#define PMCRD   0x8
++#define PMCRC   0x4
++#define PMCRP   0x2
++#define PMCRE   0x1
++/*
++ * Mask of PMCR bits writeable by guest (not including WO bits like C, P,
++ * which can be written as 1 to trigger behaviour but which stay RAZ).
++ */
++#define PMCR_WRITEABLE_MASK (PMCRLC | PMCRDP | PMCRX | PMCRD | PMCRE)
++
++#define PMXEVTYPER_P          0x80000000
++#define PMXEVTYPER_U          0x40000000
++#define PMXEVTYPER_NSK        0x20000000
++#define PMXEVTYPER_NSU        0x10000000
++#define PMXEVTYPER_NSH        0x08000000
++#define PMXEVTYPER_M          0x04000000
++#define PMXEVTYPER_MT         0x02000000
++#define PMXEVTYPER_EVTCOUNT   0x0000ffff
++#define PMXEVTYPER_MASK       (PMXEVTYPER_P | PMXEVTYPER_U | PMXEVTYPER_NSK | \
++                               PMXEVTYPER_NSU | PMXEVTYPER_NSH | \
++                               PMXEVTYPER_M | PMXEVTYPER_MT | \
++                               PMXEVTYPER_EVTCOUNT)
++
++#define PMCCFILTR             0xf8000000
++#define PMCCFILTR_M           PMXEVTYPER_M
++#define PMCCFILTR_EL0         (PMCCFILTR | PMCCFILTR_M)
++
++static inline uint32_t pmu_num_counters(CPUARMState *env)
++{
++  return (env->cp15.c9_pmcr & PMCRN_MASK) >> PMCRN_SHIFT;
++}
++
++/* Bits allowed to be set/cleared for PMCNTEN* and PMINTEN* */
++static inline uint64_t pmu_counter_mask(CPUARMState *env)
++{
++  return (1 << 31) | ((1 << pmu_num_counters(env)) - 1);
++}
++
+ /* Return the current FPSCR value.  */
+ uint32_t vfp_get_fpscr(CPUARMState *env);
+ void vfp_set_fpscr(CPUARMState *env, uint32_t val);
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index a7ae78146d..17f1b05622 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -1114,50 +1114,6 @@ static const ARMCPRegInfo v6_cp_reginfo[] = {
+     REGINFO_SENTINEL
+ };
+ 
+-/* Definitions for the PMU registers */
+-#define PMCRN_MASK  0xf800
+-#define PMCRN_SHIFT 11
+-#define PMCRLC  0x40
+-#define PMCRDP  0x20
+-#define PMCRX   0x10
+-#define PMCRD   0x8
+-#define PMCRC   0x4
+-#define PMCRP   0x2
+-#define PMCRE   0x1
+-/*
+- * Mask of PMCR bits writeable by guest (not including WO bits like C, P,
+- * which can be written as 1 to trigger behaviour but which stay RAZ).
+- */
+-#define PMCR_WRITEABLE_MASK (PMCRLC | PMCRDP | PMCRX | PMCRD | PMCRE)
+-
+-#define PMXEVTYPER_P          0x80000000
+-#define PMXEVTYPER_U          0x40000000
+-#define PMXEVTYPER_NSK        0x20000000
+-#define PMXEVTYPER_NSU        0x10000000
+-#define PMXEVTYPER_NSH        0x08000000
+-#define PMXEVTYPER_M          0x04000000
+-#define PMXEVTYPER_MT         0x02000000
+-#define PMXEVTYPER_EVTCOUNT   0x0000ffff
+-#define PMXEVTYPER_MASK       (PMXEVTYPER_P | PMXEVTYPER_U | PMXEVTYPER_NSK | \
+-                               PMXEVTYPER_NSU | PMXEVTYPER_NSH | \
+-                               PMXEVTYPER_M | PMXEVTYPER_MT | \
+-                               PMXEVTYPER_EVTCOUNT)
+-
+-#define PMCCFILTR             0xf8000000
+-#define PMCCFILTR_M           PMXEVTYPER_M
+-#define PMCCFILTR_EL0         (PMCCFILTR | PMCCFILTR_M)
+-
+-static inline uint32_t pmu_num_counters(CPUARMState *env)
+-{
+-  return (env->cp15.c9_pmcr & PMCRN_MASK) >> PMCRN_SHIFT;
+-}
+-
+-/* Bits allowed to be set/cleared for PMCNTEN* and PMINTEN* */
+-static inline uint64_t pmu_counter_mask(CPUARMState *env)
+-{
+-  return (1 << 31) | ((1 << pmu_num_counters(env)) - 1);
+-}
+-
+ typedef struct pm_event {
+     uint16_t number; /* PMEVTYPER.evtCount is 16 bits wide */
+     /* If the event is supported on this CPU (used to generate PMCEID[01]) */
 -- 
 2.30.1 (Apple Git-130)
 
