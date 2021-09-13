@@ -2,54 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD62540896A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 12:52:51 +0200 (CEST)
-Received: from localhost ([::1]:48942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2562408942
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 12:42:35 +0200 (CEST)
+Received: from localhost ([::1]:38032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPjZz-0007xl-0y
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 06:52:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56790)
+	id 1mPjQ2-0000N6-UI
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 06:42:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mPjYS-0006T7-Hc
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 06:51:16 -0400
-Received: from mga04.intel.com ([192.55.52.120]:49829)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mPjO7-0007Dt-8S
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 06:40:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mPjYP-0007DE-K0
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 06:51:16 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10105"; a="219763309"
-X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="219763309"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2021 03:51:11 -0700
-X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="543117521"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.144.101])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 13 Sep 2021 03:51:09 -0700
-Date: Mon, 13 Sep 2021 18:37:13 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 1/3] monitor: Add HMP and QMP interfaces
-Message-ID: <20210913103713.GB27331@yangzhon-Virtual>
-References: <20210910102258.46648-1-yang.zhong@intel.com>
- <20210910102258.46648-2-yang.zhong@intel.com>
- <fb7d360d-80b5-9bc2-0f6f-f48e04dc08f9@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mPjO4-0006dM-He
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 06:40:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631529630;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nfNC+c69lEuX+U47DGCWJ+lCD91x/b3yAjs3qoHOiLo=;
+ b=crXi1kmBlU07RFZUNnjaa4ZoKbAKslA9W+nIH74yieZmJhpo29BDTIs5nwmtzZv5ljSYfK
+ vdtlKCpMVccFgopiPHy42OucnwsRtDkT2iJNsbB1aubEsgIcRFPTErrlQOaGps9DgZewmM
+ y0PXf8okT0S0NSzMiH7Sn2f8KwtExbw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-457-wHje9LWpPo-LpLMyNnNq0Q-1; Mon, 13 Sep 2021 06:40:29 -0400
+X-MC-Unique: wHje9LWpPo-LpLMyNnNq0Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 419F119067E5;
+ Mon, 13 Sep 2021 10:40:28 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DEC845F706;
+ Mon, 13 Sep 2021 10:40:26 +0000 (UTC)
+Date: Mon, 13 Sep 2021 11:40:24 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] gitlab-ci: Make more custom runner jobs manual, and
+ don't allow failure
+Message-ID: <YT8qmAkVo/r4es/K@redhat.com>
+References: <20210913101948.12600-1-peter.maydell@linaro.org>
+ <YT8n3HKfbheSjuzn@redhat.com>
+ <CAFEAcA8-xkmZuBQRUjSxuJPbxaOyJGYpqTKCnz9D=cZTP8wa3Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+In-Reply-To: <CAFEAcA8-xkmZuBQRUjSxuJPbxaOyJGYpqTKCnz9D=cZTP8wa3Q@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <fb7d360d-80b5-9bc2-0f6f-f48e04dc08f9@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=yang.zhong@intel.com;
- helo=mga04.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,71 +84,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, berrange@redhat.com, eblake@redhat.com,
- qemu-devel@nongnu.org, seanjc@google.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 10, 2021 at 02:39:04PM +0200, Philippe Mathieu-Daud� wrote:
-> On 9/10/21 12:22 PM, Yang Zhong wrote:
-> > The QMP and HMP interfaces can be used by monitor or QMP tools to retrieve
-> > the SGX information from VM side when SGX is enabled on Intel platform.
-> > 
-> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> > ---
-> >  hmp-commands-info.hx         | 15 +++++++++++++
-> >  hw/i386/sgx.c                | 29 ++++++++++++++++++++++++
-> >  include/hw/i386/sgx.h        | 11 +++++++++
-> >  include/monitor/hmp-target.h |  1 +
-> >  qapi/misc-target.json        | 43 ++++++++++++++++++++++++++++++++++++
-> >  target/i386/monitor.c        | 36 ++++++++++++++++++++++++++++++
-> >  tests/qtest/qmp-cmd-test.c   |  1 +
-> >  7 files changed, 136 insertions(+)
-> >  create mode 100644 include/hw/i386/sgx.h
+On Mon, Sep 13, 2021 at 11:35:29AM +0100, Peter Maydell wrote:
+> On Mon, 13 Sept 2021 at 11:32, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > On Mon, Sep 13, 2021 at 11:19:48AM +0100, Peter Maydell wrote:
+> > > Currently we define a lot of jobs for our custom runners:
+> > > for both aarch64 and s390x we have
+> > >  - all-linux-static
+> > >  - all
+> > >  - alldbg
+> > >  - clang (manual)
+> > >  - tci
+> > >  - notcg (manual)
+> > >
+> > > This is overkill.  The main reason to run on these hosts is to get
+> > > coverage for the host architecture; we can leave the handling of
+> > > differences like debug vs non-debug to the x86 CI jobs.
+> > >
+> > > The jobs are also generally running OK; they occasionally fail due to
+> > > timeouts, which is likely because we're overloading the machine by
+> > > asking it to run 4 CI jobs at once plus the ad-hoc CI.
+> > >
+> > > Remove the 'allow_failure' tag from all these jobs, and switch the
+> > > s390x-alldbg, aarch64-all, s390x-tci and aarch64-tci jobs to manual.
+> >
+> > Why the difference in skipping  'alldbg' vs 'all'  ? Was that just
+> > to get diverse coverage of debug vs non-debug ?
 > 
-> > diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-> > index 3b05ad3dbf..e2a347cc23 100644
-> > --- a/qapi/misc-target.json
-> > +++ b/qapi/misc-target.json
-> > @@ -333,3 +333,46 @@
-> >  { 'command': 'query-sev-attestation-report', 'data': { 'mnonce': 'str' },
-> >    'returns': 'SevAttestationReport',
-> >    'if': 'TARGET_I386' }
-> > +
-> > +##
-> > +# @SGXInfo:
-> > +#
-> > +# Information about intel Safe Guard eXtension (SGX) support
-> > +#
-> > +# @sgx: true if SGX is supported
-> > +#
-> > +# @sgx1: true if SGX1 is supported
-> > +#
-> > +# @sgx2: true if SGX2 is supported
-> > +#
-> > +# @flc: true if FLC is supported
-> > +#
-> > +# @section-size: The EPC section size for guest
-> > +#
-> > +# Since: 6.2
-> > +##
-> > +{ 'struct': 'SGXInfo',
-> > +  'data': { 'sgx': 'bool',
-> > +            'sgx1': 'bool',
-> > +            'sgx2': 'bool',
-> > +            'flc': 'bool',
-> > +            'section-size': 'uint64'},
-> > +   'if': 'TARGET_I386' }
-> 
-> Is it possible to restrict it to KVM? Maybe:
-> 
->      'if': { 'all': ['TARGET_I386', 'CONFIG_KVM'] } },
-> 
-> ? (I'm not sure).
+> Yeah, I figured we might as well run one on each.
 
-  Philippe, i tried this definition, which is feasible.
-  This seems more accurate for sgx in the kvm of i386 platform. thanks!
+Makes sense, in that case
 
-  Yang
-  
+  Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
