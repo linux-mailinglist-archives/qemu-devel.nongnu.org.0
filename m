@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217E84098CC
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 18:19:47 +0200 (CEST)
-Received: from localhost ([::1]:39200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3EF4098D1
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 18:21:05 +0200 (CEST)
+Received: from localhost ([::1]:41820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPogM-0001fq-2v
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 12:19:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60660)
+	id 1mPohc-0003Ud-2u
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 12:21:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPoYi-0000gW-Bk
+ id 1mPoYi-0000gx-GS
  for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:11:52 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44647)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPoYf-00081S-9m
+ id 1mPoYg-00082Z-9T
  for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:11:52 -0400
-Received: by mail-wr1-x429.google.com with SMTP id d6so15533926wrc.11
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 09:11:48 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id q11so15531797wrr.9
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 09:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=J7sx/pfcVZeyLsLv5/mylb1QdFq8uLf4QtPs01EY7aA=;
- b=YaYXQFrABiy6zeVWo1y+evDuasE+crRswwRUg8e0PnfQYxzImmbCC+YzG4x9WFnTwG
- rmuYXhulYa5Syo/bMK7anLsJF2Vjf01AU4p4P3gjXg5Jd4RgoSxjQDNAzGcLR1Oo5VvX
- zFMIVB521TuqIItRUUPjsShFCEhG4M/KA3S8efqVIK1YObCZfHDu+yu/7i+4+x/DHb8/
- 2kNHRVRsN02ardVTbe86XhktbVu04Zt5hi+MqFj349U/7OoWa/8Gu+gGwnfSCPiO5p31
- CT7uqEZsgE2d5eRcWYYJ1prbtI9iJ7u1mWGgykyASMD4cwx9xpCgcWU2RxFyfnrTdseM
- 9W0g==
+ bh=YmREMpGPfp1G5BBnMvJXaL2XEXTZtFxef2p5lhooP3s=;
+ b=HkW0NiF1qFqllRLMTR+h1F7HNIepj3UKAuqt2fi55jPGEt2QLDzBr8oS8JfJfsVAO1
+ vYIaWT2hrmd0vm58jQGE9LUr6N1aVZgNUGocUunbhtpPAcDl5PWF3YFPOLgcmp68c1K4
+ NfLbAWLCQmyKEsiXJ0kg/dwBk7c4v7S0KvTE753PCT7OGLHPC8VK4ru3nSLeYSmGfGy1
+ bzZr5vwi8bH8ZxwzH4K9M7EQV8TwhC/IKFkHc/lg93QJaZ/3/LQpMp/BZvZ/zf0GwPv4
+ 9s1nPhEK8KWp1UqbRf7fu/TZEkfuCyh8T3gILkqhMWyCL4zhftrBH1Z8ZW2Wdau1oCaU
+ vgOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=J7sx/pfcVZeyLsLv5/mylb1QdFq8uLf4QtPs01EY7aA=;
- b=FCtQ/q5rB3LnH47uft83baDAU8l4/Ta6Twus9mCfiRNX/7LSKEYmYA6cie6LDzSjsq
- 9EF69rQI5uEPfEjRskn5zRG7frNC+Vt29gNFcFdR5sryFzSPvw9VRAQ8b0KrPz88+u7p
- PhkQpr7mj8mO5ZVjHoIxT02aFhu/VRqFxpQLFV86K/BC5L+vLvxPpoE4EknOGPnV2Kih
- 0Es2HKtFzbXFzqkKctwPIN14VQglupdq2pTxj3ro6yzV0jjVmkNRsRK+QGS7erdNbtZx
- yz2AmtGaEQaBrxc/zgPf2aHNWTEbLTmJj3SWkEH//o/H13I6RSGoE0dmlwWWnP8i4uuT
- TrrQ==
-X-Gm-Message-State: AOAM53248W0Nu/S0AImLe6uT1jOoWhOfEPujOZqT8CZOItVcQrCMdTO7
- 3rnWAlEIX/aWDdq4ns2Mxuef/QdqUhjSlA==
-X-Google-Smtp-Source: ABdhPJxN14G0ilRsqKpGLdOOrO/w3esfwUwOylU5wJgvwbb3zPcsemhybXf759RB7IpS9qa9Ispqkg==
-X-Received: by 2002:adf:ed82:: with SMTP id c2mr5798063wro.203.1631549507970; 
- Mon, 13 Sep 2021 09:11:47 -0700 (PDT)
+ bh=YmREMpGPfp1G5BBnMvJXaL2XEXTZtFxef2p5lhooP3s=;
+ b=NqcMYOLORgwWZ8mvzUO2PVBNc6pV2ttc2TACOAwIz3LNqVJzGzc+dakSTzIiA1sSVh
+ gxsrhtHegDK2JsRyTYaaN/a618B86CkcFGkJHeem23nC0a5FILn7hunFBJHyQ6OYPUEn
+ W/Wqs8G+m7TupSDZ4hWx9uCJrnAVNOTlFH8cekT56XZ0/nKfAiEfBL6dokyXtSLDlWg5
+ +f1RG+cg7TBo/87R1CAs5ZHiRc4ZnyJJu5QAbaO5SN3OyMkDzy+VLvPCp1SpXc/u90Iy
+ 3/BciducpJKTc3I+Q0f2qn4oXfTHo2iINNdnbc95a+Kd4ohNg3FJzykoGBiCKOz32HYZ
+ 5ReQ==
+X-Gm-Message-State: AOAM533siC7Y2TRPev+YQn6XhnaflMeOhOJHXFhROtFcGhTStVkAx4Gw
+ YUiM2tLQ1oq0nmYDK8j6TReh18WRHRlphA==
+X-Google-Smtp-Source: ABdhPJw5dJc8Q4Z1trl9RZh5sbRwcxupQ7u9XNTkViuRbyTKJwTAy2klrGVCuycVLR9pe21Hip+Tyg==
+X-Received: by 2002:a5d:404b:: with SMTP id w11mr13595704wrp.437.1631549508893; 
+ Mon, 13 Sep 2021 09:11:48 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y1sm7629265wmq.43.2021.09.13.09.11.47
+ by smtp.gmail.com with ESMTPSA id y1sm7629265wmq.43.2021.09.13.09.11.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 09:11:47 -0700 (PDT)
+ Mon, 13 Sep 2021 09:11:48 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/23] hw/char: cadence_uart: Disable transmit when input clock
- is disabled
-Date: Mon, 13 Sep 2021 17:11:23 +0100
-Message-Id: <20210913161144.12347-3-peter.maydell@linaro.org>
+Subject: [PULL 03/23] hw/char: cadence_uart: Move clock/reset check to
+ uart_can_receive()
+Date: Mon, 13 Sep 2021 17:11:24 +0100
+Message-Id: <20210913161144.12347-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210913161144.12347-1-peter.maydell@linaro.org>
 References: <20210913161144.12347-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,34 +89,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bmeng.cn@gmail.com>
 
-At present when input clock is disabled, any character transmitted
-to tx fifo can still show on the serial line, which is wrong.
+Currently the clock/reset check is done in uart_receive(), but we
+can move the check to uart_can_receive() which is earlier.
 
-Fixes: b636db306e06 ("hw/char/cadence_uart: add clock support")
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Message-id: 20210901124521.30599-3-bmeng.cn@gmail.com
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20210901124521.30599-4-bmeng.cn@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/char/cadence_uart.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/char/cadence_uart.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
 diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-index b4b5e8a3ee0..154be34992b 100644
+index 154be34992b..fff8be36191 100644
 --- a/hw/char/cadence_uart.c
 +++ b/hw/char/cadence_uart.c
-@@ -327,6 +327,11 @@ static gboolean cadence_uart_xmit(void *do_not_use, GIOCondition cond,
- static void uart_write_tx_fifo(CadenceUARTState *s, const uint8_t *buf,
-                                int size)
+@@ -235,8 +235,16 @@ static void uart_parameters_setup(CadenceUARTState *s)
+ static int uart_can_receive(void *opaque)
  {
+     CadenceUARTState *s = opaque;
+-    int ret = MAX(CADENCE_UART_RX_FIFO_SIZE, CADENCE_UART_TX_FIFO_SIZE);
+-    uint32_t ch_mode = s->r[R_MR] & UART_MR_CHMODE;
++    int ret;
++    uint32_t ch_mode;
++
 +    /* ignore characters when unclocked or in reset */
 +    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
-+        return;
++        return 0;
 +    }
 +
-     if ((s->r[R_CR] & UART_CR_TX_DIS) || !(s->r[R_CR] & UART_CR_TX_EN)) {
-         return;
++    ret = MAX(CADENCE_UART_RX_FIFO_SIZE, CADENCE_UART_TX_FIFO_SIZE);
++    ch_mode = s->r[R_MR] & UART_MR_CHMODE;
+ 
+     if (ch_mode == NORMAL_MODE || ch_mode == ECHO_MODE) {
+         ret = MIN(ret, CADENCE_UART_RX_FIFO_SIZE - s->rx_count);
+@@ -358,11 +366,6 @@ static void uart_receive(void *opaque, const uint8_t *buf, int size)
+     CadenceUARTState *s = opaque;
+     uint32_t ch_mode = s->r[R_MR] & UART_MR_CHMODE;
+ 
+-    /* ignore characters when unclocked or in reset */
+-    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
+-        return;
+-    }
+-
+     if (ch_mode == NORMAL_MODE || ch_mode == ECHO_MODE) {
+         uart_write_rx_fifo(opaque, buf, size);
      }
 -- 
 2.20.1
