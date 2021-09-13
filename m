@@ -2,91 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B4E408944
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 12:42:39 +0200 (CEST)
-Received: from localhost ([::1]:38088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D4BF408957
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 12:48:34 +0200 (CEST)
+Received: from localhost ([::1]:43966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPjQ6-0000PT-7t
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 06:42:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54884)
+	id 1mPjVp-0004UX-6F
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 06:48:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mPjO8-0007E1-40
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 06:40:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29810)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mPjO6-0006g7-Hi
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 06:40:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631529633;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hHe257iJ5+fR1q8l3Ohg1DPA7ASfQHlRDw8cq8+KLj4=;
- b=fi60hzOnrMpBBQbpCv5+WnLOy2PqsAwBfgyViZ+scaNAHUiv+Gh0J4L/E9dRz6rT0aOt4k
- c1REqSndIPGdZHBis4Eb6V+VtVsKgJ0hz6JYCCqozuNI0s4bhABTG1KhJK00kpneQa1Vm2
- Q0HjSvjfLNx8uaoDooKbi+m1fRN57jM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-BTdelidDO1CaHg8dTBTtHw-1; Mon, 13 Sep 2021 06:40:31 -0400
-X-MC-Unique: BTdelidDO1CaHg8dTBTtHw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- c15-20020a5d4ccf000000b0015dff622f39so780605wrt.21
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 03:40:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=hHe257iJ5+fR1q8l3Ohg1DPA7ASfQHlRDw8cq8+KLj4=;
- b=6o5YmcyS3UOed48e1jD3DhDL1H7cXXCPlUG6bgDtcj9VVuY4kfhJT/FBSQNO3n8V/u
- N4Nio3CHidDnkWTl6gyIMqEOsD0KSio1av2uMa1ht2DoJMEYSZu0o/0gwlNTFkDAaZU+
- oj3V0wiIZnmRakg0gqHjOZ2dADIshjWuXB9OzKZqN74ELKzs9hC0ATAy3cIPvoraUXKu
- ZE3AwKCHcI/be1HNqgzVjnpJBFMigFwgYh0wKx2OMmZtPq6rnB6sVpSdsqukzDshs2fI
- 3yC746zRvKuMM1lBpMzRk/AaztD8u8oBaEn97ka3HQG2vXbwWA4SJ5smfSX03rRqDgx1
- Z1Jg==
-X-Gm-Message-State: AOAM531T6M2k6uQToAupbBl2tfd6FDXUihIU4gl4N67mWxxTBHBnkAaD
- MLMbsxyAk5OLMN65Z+v5WYFmlwliCvdcMYmvpa5mtYKftb/P2pviJpGsqiQzmxKr/j+1XaTIAV1
- aYCVGUQoTHdLuVnc=
-X-Received: by 2002:adf:ce03:: with SMTP id p3mr11869485wrn.261.1631529630650; 
- Mon, 13 Sep 2021 03:40:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxlNA6Ed0nJBdbgBxsWLlMF8GGhJI3k9bK3vf/AxjO15GMJUoUjgn8s3W1x/sxcJBjIDgiSgQ==
-X-Received: by 2002:adf:ce03:: with SMTP id p3mr11869467wrn.261.1631529630505; 
- Mon, 13 Sep 2021 03:40:30 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
- by smtp.gmail.com with ESMTPSA id c17sm1483856wrn.54.2021.09.13.03.40.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 03:40:30 -0700 (PDT)
-Subject: Re: [PATCH v2 02/17] iotests.py: qemu_img*("create"): support
- IMGOPTS='compression_type=zstd'
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210720113832.586428-1-vsementsov@virtuozzo.com>
- <20210720113832.586428-3-vsementsov@virtuozzo.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <7492a84f-4ce2-9145-81d8-cbfa53305aa3@redhat.com>
-Date: Mon, 13 Sep 2021 12:40:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1mPjTm-0003SA-I4; Mon, 13 Sep 2021 06:46:27 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:43878 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1mPjTi-00036K-4Q; Mon, 13 Sep 2021 06:46:26 -0400
+Received: from MacBook-Air.alex.local
+ (dynamic-095-118-088-150.95.118.pool.telefonica.de [95.118.88.150])
+ by csgraf.de (Postfix) with ESMTPSA id 6A0B4608037D;
+ Mon, 13 Sep 2021 12:46:18 +0200 (CEST)
+Subject: Re: [PATCH v8 15/19] hvf: arm: Implement -cpu host
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210519202253.76782-1-agraf@csgraf.de>
+ <20210519202253.76782-16-agraf@csgraf.de>
+ <CAFEAcA9S619pfhfEXUxGQkjBBKahOYm14jpxEam2CQTtC1dRTQ@mail.gmail.com>
+ <45519c63-06b1-1e06-032d-87d2e1338fd8@csgraf.de>
+ <CAFEAcA_vC0beH4NMRP4hHK0drc6PZt073ZVZM=Majnfngkn_xQ@mail.gmail.com>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <1c992028-633d-5f5e-f433-59492876eb73@csgraf.de>
+Date: Mon, 13 Sep 2021 12:46:17 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20210720113832.586428-3-vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAFEAcA_vC0beH4NMRP4hHK0drc6PZt073ZVZM=Majnfngkn_xQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.969,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,43 +57,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Peter Collingbourne <pcc@google.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.07.21 13:38, Vladimir Sementsov-Ogievskiy wrote:
-> Adding support of IMGOPTS (like in bash tests) allows user to pass a
-> lot of different options. Still, some may require additional logic.
->
-> Now we want compression_type option, so add some smart logic around it:
-> ignore compression_type=zstd in IMGOPTS, if test want qcow2 in
-> compatibility mode. As well, ignore compression_type for non-qcow2
-> formats.
->
-> Note that we may instead add support only to qemu_img_create(), but
-> that works bad:
->
-> 1. We'll have to update a lot of tests to use qemu_img_create instead
->     of qemu_img('create'). (still, we may want do it anyway, but no
->     reason to create a dependancy between task of supporting IMGOPTS and
->     updating a lot of tests)
->
-> 2. Some tests use qemu_img_pipe('create', ..) - even more work on
->     updating
->
-> 3. Even if we update all tests to go through qemu_img_create, we'll
->     need a way to avoid creating new tests using qemu_img*('create') -
->     add assertions.. That doesn't seem good.
->
-> So, let's add support of IMGOPTS to most generic
-> qemu_img_pipe_and_status().
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   tests/qemu-iotests/iotests.py | 27 ++++++++++++++++++++++++++-
->   1 file changed, 26 insertions(+), 1 deletion(-)
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+On 13.09.21 10:28, Peter Maydell wrote:
+> On Sun, 12 Sept 2021 at 21:23, Alexander Graf <agraf@csgraf.de> wrote:
+>>
+>> On 15.06.21 12:56, Peter Maydell wrote:
+>>> On Wed, 19 May 2021 at 21:23, Alexander Graf <agraf@csgraf.de> wrote:
+>>>> Now that we have working system register sync, we push more target CPU
+>>>> properties into the virtual machine. That might be useful in some
+>>>> situations, but is not the typical case that users want.
+>>>>
+>>>> So let's add a -cpu host option that allows them to explicitly pass all
+>>>> CPU capabilities of their host CPU into the guest.
+>>>>
+>>>> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+>>>> Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
+>>>>
+>>>> ---
+>>>>
+>>>> v6 -> v7:
+>>>>
+>>>>   - Move function define to own header
+>>>>   - Do not propagate SVE features for HVF
+>>>>   - Remove stray whitespace change
+>>>>   - Verify that EL0 and EL1 do not allow AArch32 mode
+>>>>   - Only probe host CPU features once
+>>>> +static void hvf_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+>>>> +{
+>>>> +    ARMISARegisters host_isar;
+>>> Can you zero-initialize this (with "= { }"), please? That way we
+>>> know we have zeroes in the aarch32 ID fields rather than random junk later...
+>>>
+>>>> +    const struct isar_regs {
+>>>> +        int reg;
+>>>> +        uint64_t *val;
+>>>> +    } regs[] = {
+>>>> +        { HV_SYS_REG_ID_AA64PFR0_EL1, &host_isar.id_aa64pfr0 },
+>>>> +        { HV_SYS_REG_ID_AA64PFR1_EL1, &host_isar.id_aa64pfr1 },
+>>>> +        { HV_SYS_REG_ID_AA64DFR0_EL1, &host_isar.id_aa64dfr0 },
+>>>> +        { HV_SYS_REG_ID_AA64DFR1_EL1, &host_isar.id_aa64dfr1 },
+>>>> +        { HV_SYS_REG_ID_AA64ISAR0_EL1, &host_isar.id_aa64isar0 },
+>>>> +        { HV_SYS_REG_ID_AA64ISAR1_EL1, &host_isar.id_aa64isar1 },
+>>>> +        { HV_SYS_REG_ID_AA64MMFR0_EL1, &host_isar.id_aa64mmfr0 },
+>>>> +        { HV_SYS_REG_ID_AA64MMFR1_EL1, &host_isar.id_aa64mmfr1 },
+>>>> +        { HV_SYS_REG_ID_AA64MMFR2_EL1, &host_isar.id_aa64mmfr2 },
+>>>> +    };
+>>>> +    hv_vcpu_t fd;
+>>>> +    hv_vcpu_exit_t *exit;
+>>>> +    int i;
+>>>> +
+>>>> +    ahcf->dtb_compatible = "arm,arm-v8";
+>>>> +    ahcf->features = (1ULL << ARM_FEATURE_V8) |
+>>>> +                     (1ULL << ARM_FEATURE_NEON) |
+>>>> +                     (1ULL << ARM_FEATURE_AARCH64) |
+>>>> +                     (1ULL << ARM_FEATURE_PMU) |
+>>>> +                     (1ULL << ARM_FEATURE_GENERIC_TIMER);
+>>>> +
+>>>> +    /* We set up a small vcpu to extract host registers */
+>>>> +
+>>>> +    assert_hvf_ok(hv_vcpu_create(&fd, &exit, NULL));
+>>>> +    for (i = 0; i < ARRAY_SIZE(regs); i++) {
+>>>> +        assert_hvf_ok(hv_vcpu_get_sys_reg(fd, regs[i].reg, regs[i].val));
+>>>> +    }
+>>>> +    assert_hvf_ok(hv_vcpu_get_sys_reg(fd, HV_SYS_REG_MIDR_EL1, &ahcf->midr));
+>>>> +    assert_hvf_ok(hv_vcpu_destroy(fd));
+>>>> +
+>>>> +    ahcf->isar = host_isar;
+>>>> +    ahcf->reset_sctlr = 0x00c50078;
+>>> Why this value in particular? Could we just ask the scratch HVF CPU
+>>> for the value of SCTLR_EL1 rather than hardcoding something?
+>>
+>> The fresh scratch hvf CPU has 0 as SCTLR.
+> Yuck. That's pretty unhelpful of hvf, since it's not an
+> architecturally valid thing for a freshly reset EL1-only
+> CPU to have as its SCTLR (some bits are supposed to be RES1
+> or reset-to-1). In that case we do need to set this to a known
+> value here, I guess -- but we should have a comment explaining
+> why we do it and what bits we're setting.
+
+
+Ok :)
+
+
+>
+>>>> +    /* Make sure we don't advertise AArch32 support for EL0/EL1 */
+>>>> +    g_assert((host_isar.id_aa64pfr0 & 0xff) == 0x11);
+>>> This shouldn't really be an assert, I think. error_report() something
+>>> and return false, and then arm_cpu_realizefn() will fail, which should
+>>> cause us to exit.
+>>
+>> I don't follow. We're filling in the -cpu host CPU template here. There
+>> is no error path anywhere we could take.
+> Look at how the kvm_arm_get_host_cpu_features() error handling works:
+> it returns a bool. The caller (kvm_arm_set_cpu_features_from_host())
+> checks the return value, and if the function failed it sets
+> the cpu->host_cpu_probe_failed flag, which then results in realize
+> failing. (You'll want to update the arm_cpu_realizefn to allow hvf
+> as well as kvm for that error message.)
+
+
+Sure, happy to adjust accordingly :)
+
+
+>
+>> This is a case that on today's systems can't happen - M1 does not
+>> support AArch32 anywhere. So that assert could only ever hit if you run
+>> macOS on non-Apple hardware (in which case I doubt hvf works as
+>> intended) or if a new Apple CPU starts supporting AArch32 (again, very
+>> unlikely).
+>>
+>> So overall, I think the assert here is not too bad :)
+> Well, probably not, but you need the error handling path
+> anyway for the boring case of "oops, this syscall failed".
+
+
+Why? You only get to this code path if you already selected -accel hvf.
+If even a simple "create scratch vcpu" syscall failed then, pretty
+failure when you define -cpu host is the last thing you care about. Any
+CPU creation would fail.
+
+Alex
+
 
 
