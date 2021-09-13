@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72268409C5C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 20:35:51 +0200 (CEST)
-Received: from localhost ([::1]:57372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73173409C6E
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 20:41:39 +0200 (CEST)
+Received: from localhost ([::1]:36306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPqo2-0007Sh-Hd
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 14:35:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44676)
+	id 1mPqtd-0003xp-RG
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 14:41:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mPqhz-0004Bq-VD
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 14:29:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56423)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mPqhy-0003vF-Cu
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 14:29:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631557773;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gtPtorAwS3Kxmm82GzbgIFPCN3OkXmZAiGq2PdO/2ag=;
- b=LNzAdOL9ZJ06yoljmRmeSMv12Qdx9de+dMAflPYFZMPCkSiUDzTfdwwtduVng9o20O56zr
- rgHG5awRBI6H20adhEK5IaqPHUXfsvJlWJn11J7Vh32JIdJ/zy9oTCi731MvHQ+rU6Pehl
- rXe407nQz4IGr7Q1sbF1qXxzNdIC2/c=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-VHKKDuj4PROflMODJigDbA-1; Mon, 13 Sep 2021 14:29:30 -0400
-X-MC-Unique: VHKKDuj4PROflMODJigDbA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 5-20020a1c00050000b02902e67111d9f0so5278402wma.4
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 11:29:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mPqqg-00022Z-Sv
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 14:38:38 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:33650)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mPqqd-0001kU-Ub
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 14:38:34 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ 192-20020a1c04c9000000b002f7a4ab0a49so509356wme.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 11:38:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=p/DjViW7Kd1yGJ9qEyGn0jJG8WFPeAlto8f64Yeu5bY=;
+ b=GpqHzolAkTFpo+EgG9vD4xAXEkH8rvA+yTJGCJ4H64KruY5jo4hPOdCheUTpaNGuWM
+ bimO/E/9R83Um4V/ybFsjoAMnhBXdf77OqSRvo0L0Bqx+1AE1Rh6+ssyQITIv+KoSM0j
+ B1M4L8I0A/I+D9updu3brgY4dtgQ4AX3MRgiZZUy0LQDNnEeoUgcTr1yKCaM+ugf3ISS
+ E+e6YcALbkkJyRrZljHX2nZCaEaLmbPxmcslB3QMA1Hc6E4dc8nr8wHbw20UAeIr2aLp
+ DIhu3lZmEtli7mcJ1ugtCpFPM3y7C2gXELysVtmtKJeoaIJQ9FU6QNyblckJjVdbcez0
+ rxUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=gtPtorAwS3Kxmm82GzbgIFPCN3OkXmZAiGq2PdO/2ag=;
- b=fE1+h50O0dESPF8tVwpd90iezdxZrraRMdtjfNcJb/IwPDlJ6Y5Dsm6kcBsrEoOixt
- MpjRkqZTOnp0QD64gFFVYRb/n61cbatD9MiKssmcQPqGp0PqJyaWztTYSBONZGKG8kMh
- KpMUBsMdkFzucrv6XicQfiTPi90NWFFhzHtNn6+T/X8+izZpDCWj10SMIGqMOY73VJD6
- UwscKSI92hUgtaQVMPrWcjr8oiElwBWGluqhjMj+jkWy61FL6Vvx+uXKzJPCBrlrxsbX
- tZjledCYhCsZ/VPuNUCe8s0E7k7YrFh/n8vb6Rp6hbSFRkIp7vHNJUylKtdDDYoOtiyY
- 5Ycw==
-X-Gm-Message-State: AOAM532/0ug1nY6L5PTpsr4skuQlN4dhYV5dx8Yyqm6U1oe1zVskkTWv
- y0mYYUxLcFfkcgTBy7j74J2dhy0fU1VcO4PMgcupypyxxNMKlWHf/4g0b75CppnF8iYdqWJyR7V
- E28TNPnNOYf9OS4wHOx96ecuK4dNUKw6RPE7JFD/Fgwqb8l5hm8cq+eYpX4LnYk5s
-X-Received: by 2002:a1c:80cd:: with SMTP id b196mr12583262wmd.36.1631557768791; 
- Mon, 13 Sep 2021 11:29:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx557TNu6jwn9TnWY9VlNuFFfS708S8s1h26hizzIbtMFfDddBjMxG6Emlm3cwz02pqN5VB+g==
-X-Received: by 2002:a1c:80cd:: with SMTP id b196mr12583237wmd.36.1631557768440; 
- Mon, 13 Sep 2021 11:29:28 -0700 (PDT)
-Received: from x1w.redhat.com (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id y15sm8634320wmi.18.2021.09.13.11.29.27
+ bh=p/DjViW7Kd1yGJ9qEyGn0jJG8WFPeAlto8f64Yeu5bY=;
+ b=KqNlTo90NFvHtqLBKuLo3dvoV6VzvGNcNNdtPGt1Dh0olmanp3Ay8HZVSvMbAdZj3d
+ UQTODrN0ReHqD15mwLnqvQdO1vUs2JVLe7lKtLtZLXoFn4LULNKkZe5Z7O8rJNq2cZ8L
+ /DUMRWkzt8Yeq4h/LTHd5dDUmHIQnhUx7V4PCqdJ6uLzbnX2mgMXQvOGT+uGtoSyTFTF
+ Q9yN+EHx6iOhFZTmLwJ7saAMlXwW6/AOnU6zsHYRucdtEKV1ZfbbacrP44HhzKV6Yc90
+ aeFriVbwD+awn8m1qJ3G8+3uYzuOv/QWooJqc0QV2buTDz85wm5TCki3YoKNd/oU619m
+ EUAw==
+X-Gm-Message-State: AOAM533XdP8Zz5oxQUJhhSwbBZHPoDMZBb1qVB969Q3X3Nk5DsxyMtZ1
+ 8rmDFl01HkjixyggLeL/r8Z6/6S6mYQ96A==
+X-Google-Smtp-Source: ABdhPJw6QyxN7NZY6lcK3S0r2Oo0NO/OL+ZTStN06WVttH26Oj+4gKy+nBSRqVdLHxfGm417xDFsrA==
+X-Received: by 2002:a7b:c052:: with SMTP id u18mr12732496wmc.105.1631558310146; 
+ Mon, 13 Sep 2021 11:38:30 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id h18sm4262703wmq.23.2021.09.13.11.38.29
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 11:29:28 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Mon, 13 Sep 2021 11:38:29 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [qemu-web PATCH] Gemfile: Add webrick bundle dependency
-Date: Mon, 13 Sep 2021 20:29:27 +0200
-Message-Id: <20210913182927.1022862-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
+Subject: [PULL v2 00/23] target-arm queue
+Date: Mon, 13 Sep 2021 19:38:28 +0100
+Message-Id: <20210913183828.7754-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,60 +82,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Without the webrick bundle, jekyll fails to start:
+v1->v2: fix format string nit in ITS patches (%lu used when PRIu64 needed)
 
-  $ bundle exec jekyll serve
-  Ignoring ffi-1.11.1 because its extensions are not built. Try: gem pristine ffi --version 1.11.1
-  Configuration file: qemu-web/_config.yml
-              Source: qemu-web
-         Destination: qemu-web/_site
-   Incremental build: disabled. Enable with --incremental
-        Generating...
-         Jekyll Feed: Generating feed for posts
-                      done in 0.686 seconds.
-   Auto-regeneration: enabled for 'qemu-web'
-                      ------------------------------------------------
-        Jekyll 4.0.1   Please append `--trace` to the `serve` command
-                       for any additional information or backtrace.
-                      ------------------------------------------------
-  qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve/servlet.rb:3:in `require': cannot load such file -- webrick (LoadError)
-          from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve/servlet.rb:3:in `<top (required)>'
-          from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve.rb:179:in `require_relative'
-          from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve.rb:179:in `setup'
-          from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve.rb:100:in `process'
-          from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/command.rb:89:in `block in process_with_graceful_fail'
-          from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/command.rb:89:in `each'
-          from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/command.rb:89:in `process_with_graceful_fail'
-          from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve.rb:86:in `block (2 levels) in init_with_program'
-          from qemu-web/vendor/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/command.rb:220:in `block in execute'
-          from qemu-web/vendor/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/command.rb:220:in `each'
-          from qemu-web/vendor/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/command.rb:220:in `execute'
-          from qemu-web/vendor/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/program.rb:42:in `go'
-          from qemu-web/vendor/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary.rb:19:in `program'
-          from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/exe/jekyll:15:in `<top (required)>'
+The following changes since commit eae587e8e3694b1aceab23239493fb4c7e1a80f5:
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- Gemfile | 2 ++
- 1 file changed, 2 insertions(+)
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-09-13' into staging (2021-09-13 11:00:30 +0100)
 
-diff --git a/Gemfile b/Gemfile
-index 6a7852e..dc35cb7 100644
---- a/Gemfile
-+++ b/Gemfile
-@@ -25,3 +25,5 @@ end
- 
- # for https://github.com/sass/sassc-ruby/issues/146
- gem "sassc", ">= 2.2.1"
-+
-+gem "webrick", "~> 1.7"
--- 
-2.31.1
+are available in the Git repository at:
 
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210913-1
+
+for you to fetch changes up to 925e3b205bb17af52ac06c7bdd9d84b27345a4e9:
+
+  hw/arm/mps2.c: Mark internal-only I2C buses as 'full' (2021-09-13 19:36:50 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * mark MPS2/MPS3 board-internal i2c buses as 'full' so that command
+   line user-created devices are not plugged into them
+ * Take an exception if PSTATE.IL is set
+ * Support an emulated ITS in the virt board
+ * Add support for kudo-bmc board
+ * Probe for KVM_CAP_ARM_VM_IPA_SIZE when creating scratch VM
+ * cadence_uart: Fix clock handling issues that prevented
+   u-boot from running
+
+----------------------------------------------------------------
+Bin Meng (6):
+      hw/misc: zynq_slcr: Correctly compute output clocks in the reset exit phase
+      hw/char: cadence_uart: Disable transmit when input clock is disabled
+      hw/char: cadence_uart: Move clock/reset check to uart_can_receive()
+      hw/char: cadence_uart: Convert to memop_with_attrs() ops
+      hw/char: cadence_uart: Ignore access when unclocked or in reset for uart_{read, write}()
+      hw/char: cadence_uart: Log a guest error when device is unclocked or in reset
+
+Chris Rauer (1):
+      hw/arm: Add support for kudo-bmc board.
+
+Marc Zyngier (1):
+      hw/arm/virt: KVM: Probe for KVM_CAP_ARM_VM_IPA_SIZE when creating scratch VM
+
+Peter Maydell (5):
+      target/arm: Take an exception if PSTATE.IL is set
+      qdev: Support marking individual buses as 'full'
+      hw/arm/mps2-tz.c: Add extra data parameter to MakeDevFn
+      hw/arm/mps2-tz.c: Mark internal-only I2C buses as 'full'
+      hw/arm/mps2.c: Mark internal-only I2C buses as 'full'
+
+Richard Henderson (1):
+      target/arm: Merge disas_a64_insn into aarch64_tr_translate_insn
+
+Shashi Mallela (9):
+      hw/intc: GICv3 ITS initial framework
+      hw/intc: GICv3 ITS register definitions added
+      hw/intc: GICv3 ITS command queue framework
+      hw/intc: GICv3 ITS Command processing
+      hw/intc: GICv3 ITS Feature enablement
+      hw/intc: GICv3 redistributor ITS processing
+      tests/data/acpi/virt: Add IORT files for ITS
+      hw/arm/virt: add ITS support in virt GIC
+      tests/data/acpi/virt: Update IORT files for ITS
+
+ docs/system/arm/nuvoton.rst            |    1 +
+ hw/intc/gicv3_internal.h               |  188 ++++-
+ include/hw/arm/virt.h                  |    2 +
+ include/hw/intc/arm_gicv3_common.h     |   13 +
+ include/hw/intc/arm_gicv3_its_common.h |   32 +-
+ include/hw/qdev-core.h                 |   24 +
+ target/arm/cpu.h                       |    1 +
+ target/arm/kvm_arm.h                   |    4 +-
+ target/arm/syndrome.h                  |    5 +
+ target/arm/translate.h                 |    2 +
+ hw/arm/mps2-tz.c                       |   92 ++-
+ hw/arm/mps2.c                          |   12 +-
+ hw/arm/npcm7xx_boards.c                |   34 +
+ hw/arm/virt.c                          |   29 +-
+ hw/char/cadence_uart.c                 |   61 +-
+ hw/intc/arm_gicv3.c                    |   14 +
+ hw/intc/arm_gicv3_common.c             |   13 +
+ hw/intc/arm_gicv3_cpuif.c              |    7 +-
+ hw/intc/arm_gicv3_dist.c               |    5 +-
+ hw/intc/arm_gicv3_its.c                | 1322 ++++++++++++++++++++++++++++++++
+ hw/intc/arm_gicv3_its_common.c         |    7 +-
+ hw/intc/arm_gicv3_its_kvm.c            |    2 +-
+ hw/intc/arm_gicv3_redist.c             |  153 +++-
+ hw/misc/zynq_slcr.c                    |   31 +-
+ softmmu/qdev-monitor.c                 |    7 +-
+ target/arm/helper-a64.c                |    1 +
+ target/arm/helper.c                    |    8 +
+ target/arm/kvm.c                       |    7 +-
+ target/arm/translate-a64.c             |  255 +++---
+ target/arm/translate.c                 |   21 +
+ hw/intc/meson.build                    |    1 +
+ tests/data/acpi/virt/IORT              |  Bin 0 -> 124 bytes
+ tests/data/acpi/virt/IORT.memhp        |  Bin 0 -> 124 bytes
+ tests/data/acpi/virt/IORT.numamem      |  Bin 0 -> 124 bytes
+ tests/data/acpi/virt/IORT.pxb          |  Bin 0 -> 124 bytes
+ 35 files changed, 2144 insertions(+), 210 deletions(-)
+ create mode 100644 hw/intc/arm_gicv3_its.c
+ create mode 100644 tests/data/acpi/virt/IORT
+ create mode 100644 tests/data/acpi/virt/IORT.memhp
+ create mode 100644 tests/data/acpi/virt/IORT.numamem
+ create mode 100644 tests/data/acpi/virt/IORT.pxb
 
