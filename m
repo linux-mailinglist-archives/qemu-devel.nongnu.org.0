@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE93408AA4
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:01:43 +0200 (CEST)
-Received: from localhost ([::1]:58670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20149408AA1
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:00:53 +0200 (CEST)
+Received: from localhost ([::1]:58080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPkea-00068K-5f
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:01:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42792)
+	id 1mPkdo-0005kN-1K
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:00:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mPkau-0002lu-IT
+ id 1mPkav-0002m4-Qg
  for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:57:53 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39563)
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:34760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mPkar-0005lL-1t
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:57:52 -0400
-Received: by mail-wr1-x436.google.com with SMTP id u15so8206957wru.6
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 04:57:48 -0700 (PDT)
+ id 1mPkas-0005m6-DZ
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:57:53 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id m9so14288423wrb.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 04:57:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/7nrEReoQoR7zRCQbazGzZCmxeeaU0xNt1erxfpNR44=;
- b=MLJywj489R6zX6kU0hKeVjBdhFwAfmFSmdwVIpIVSCmKJvN61hDPPWUCn1yPp9aW0Q
- c9FqnPGk7CGqNK4Ek668MjdAHTWUDxS+f3RMybdIDuxhVpFYUOqSR6EaoG5NJT2bgz8n
- Q687N6Cipp0D7GKSXqpekWG6bJpW+IrB62EOZfLnESfCpFHBzuk6W1ztW4HJjJa4a4nM
- aW6ajGTapSdXTea2XiusC3qQw2rNwxUa+Ho+mymiAuv0RkfFSKWGOKcbTvuRxjCfYviA
- GAXHLtROurGAoFgDpybFFcOFmQumUr2K+OInHRCRHVK31bSjCzgaU/PwqYzfhWefd8dG
- bEiA==
+ bh=XWN6TWfYGXaOKzPRhA5oC6s5wzK7ZkowpHJRh9f6v9w=;
+ b=CrzJdxJ8uINdu8AIFfCBAU2CG3Wyxm2PIjUF12XcbyP3v0SKM+fJ/kXUTzPAlqVs69
+ jvNAi8ie2LOIWpTaPTAa/vfsfVMSUbHQYdkM5kVU/02dZGJ5/pC3UgZOlOEYA//M97B/
+ fm78RAmPR/mE69XptBeusiZNiITHxDcDavXCosiS1z/YfLFvLh28XhOU8djJ56qBC7pV
+ Wo21PVsIVOkJW6scp6IDgTthBxiw9xB7cRDdfLqe4ekfvLTKRWBq5If5y8RVjfXdAIjH
+ PbHFu5KRlONiFVGGyZooVHhdIMfLIdQVBz44QF3Svc+dLT8mddYC7ghF4OK+gzotu5Wz
+ roFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/7nrEReoQoR7zRCQbazGzZCmxeeaU0xNt1erxfpNR44=;
- b=5bsohNBM3O5osIDvS4C/vUy8IFQY6s3wj+tlgqdZLqMNuL/icqIMm1Y9o5z8CGah+T
- 3ejwFGcDchGFdADk4wKECVbSbqnACIR/aBGuLexFFtd0ZnxwD60hN9Z2px4j0ZSi/Sqd
- Q1a2kadFE9hqhxP5/RywvjCjIMaamxG4Ce2EhO8DU2mkMRE9LFt0bejX5/TMbv3Ei0RM
- EDE2fIxqlBbJ72C6ZCTHq1nQekW4+kTdZUyVsYvKLxNdpx8mmI+nYYeJH7u0RfuGcKRW
- a/bNePZpJGeAQlGWhqyuLLckNSGZ3ZrVaGRBRxFl/Z8rIvcyO9XVvdkLdnspqS2EK5BK
- +zpw==
-X-Gm-Message-State: AOAM532yn8aUgfCvYdbM5+FVgdAcsZsawEb9kiwUfkBa1PE6H/Cyitpy
- C3pASv3vUP2/g8NEINbFmCh3xce1Dvg=
-X-Google-Smtp-Source: ABdhPJxd6tGSyL8XGh61vt7niCCEaI/bb/Z2EsSvqg2E5W6WM0woEy5VjOL9nyQY7CmmfI45DdgBRw==
-X-Received: by 2002:a5d:504f:: with SMTP id h15mr12347812wrt.69.1631534267547; 
- Mon, 13 Sep 2021 04:57:47 -0700 (PDT)
+ bh=XWN6TWfYGXaOKzPRhA5oC6s5wzK7ZkowpHJRh9f6v9w=;
+ b=ZwYeF/7SrMTwcufetVXdjTAIal+lw5e62hMgo+OybdLHWTMbOZi0gU+vpkpm8aNtdY
+ GUT8gsf3geE1BLmfqodoMNR1DBfVJAE3NeTMTP8wPEHeCdjG2tMRgv4WG6uT84odNCcZ
+ ZFkf/n3QvD1kZaFh1GXXTJRYUXxylBdQgvvG6trzQwlQYfUbMESEcQCYlyVvhcGI8RDn
+ B4H/dzo4GZBKwqmr0biVP4+l98YrJ2+MScpSlv/xxxqx5z4OQap0j4rCC+3VTcfwx/vd
+ AdX2G/VjhvJM8mdDJibSj0iF4ZQVuHJ9lGDF/p4nCDoWjcJRLlIvzClxvk0aQHP6FxGc
+ GP8Q==
+X-Gm-Message-State: AOAM530g0L7LalV3oyFnLQadl/zsW0I6ZORZ5kOW/33uEZnvIJoLivQa
+ vCqf+3KPkQJp1bSYlXfu3nbIykfpOJo=
+X-Google-Smtp-Source: ABdhPJyTVi17cjzFeopHw/KYWLm4NKBqXrB31TT9iqQb3+TgevXu7DOCpCSWl6/enCOG/Z1L4GlHZA==
+X-Received: by 2002:adf:f185:: with SMTP id h5mr12224103wro.302.1631534268876; 
+ Mon, 13 Sep 2021 04:57:48 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n186sm6011037wme.31.2021.09.13.04.57.46
+ by smtp.gmail.com with ESMTPSA id n186sm6011037wme.31.2021.09.13.04.57.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 04:57:47 -0700 (PDT)
+ Mon, 13 Sep 2021 04:57:48 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/21] target/i386: add missing bits to CR4_RESERVED_MASK
-Date: Mon, 13 Sep 2021 13:57:22 +0200
-Message-Id: <20210913115742.533197-2-pbonzini@redhat.com>
+Subject: [PULL 02/21] target/i386: VMRUN and VMLOAD canonicalizations
+Date: Mon, 13 Sep 2021 13:57:23 +0200
+Message-Id: <20210913115742.533197-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210913115742.533197-1-pbonzini@redhat.com>
 References: <20210913115742.533197-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,55 +82,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Richard W . M . Jones" <rjones@redhat.com>
+Cc: Lara Lazier <laramglazier@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Lara Lazier <laramglazier@gmail.com>
 
-Booting Fedora kernels with -cpu max hangs very early in boot. Disabling
-the la57 CPUID bit fixes the problem. git bisect traced the regression to
+APM2 requires that VMRUN and VMLOAD canonicalize (sign extend to 63
+from 48/57) all base addresses in the segment registers that have been
+respectively loaded.
 
-  commit 213ff024a2f92020290296cb9dc29c2af3d4a221 (HEAD, refs/bisect/bad)
-  Author: Lara Lazier <laramglazier@gmail.com>
-  Date:   Wed Jul 21 17:26:50 2021 +0200
-
-    target/i386: Added consistency checks for CR4
-
-    All MBZ bits in CR4 must be zero. (APM2 15.5)
-    Added reserved bitmask and added checks in both
-    helper_vmrun and helper_write_crN.
-
-    Signed-off-by: Lara Lazier <laramglazier@gmail.com>
-    Message-Id: <20210721152651.14683-2-laramglazier@gmail.com>
-    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-In this commit CR4_RESERVED_MASK is missing CR4_LA57_MASK and
-two others. Adding this lets Fedora kernels boot once again.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Tested-by: Richard W.M. Jones <rjones@redhat.com>
-Message-Id: <20210831175033.175584-1-berrange@redhat.com>
-[Removed VMXE/SMXE, matching the commit message. - Paolo]
-Fixes: 213ff024a2 ("target/i386: Added consistency checks for CR4", 2021-07-22)
+Signed-off-by: Lara Lazier <laramglazier@gmail.com>
+Message-Id: <20210804113058.45186-1-laramglazier@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.h | 1 +
- 1 file changed, 1 insertion(+)
+ target/i386/cpu.c                   | 19 +++++++++++--------
+ target/i386/cpu.h                   |  2 ++
+ target/i386/tcg/sysemu/svm_helper.c | 27 +++++++++++++++++----------
+ 3 files changed, 30 insertions(+), 18 deletions(-)
 
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 97e250e876..fbca4e5860 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5115,6 +5115,15 @@ static void x86_register_cpudef_types(const X86CPUDefinition *def)
+ 
+ }
+ 
++uint32_t cpu_x86_virtual_addr_width(CPUX86State *env)
++{
++    if  (env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_LA57) {
++        return 57; /* 57 bits virtual */
++    } else {
++        return 48; /* 48 bits virtual */
++    }
++}
++
+ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+                    uint32_t *eax, uint32_t *ebx,
+                    uint32_t *ecx, uint32_t *edx)
+@@ -5517,16 +5526,10 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+         break;
+     case 0x80000008:
+         /* virtual & phys address size in low 2 bytes. */
++        *eax = cpu->phys_bits;
+         if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
+             /* 64 bit processor */
+-            *eax = cpu->phys_bits; /* configurable physical bits */
+-            if  (env->features[FEAT_7_0_ECX] & CPUID_7_0_ECX_LA57) {
+-                *eax |= 0x00003900; /* 57 bits virtual */
+-            } else {
+-                *eax |= 0x00003000; /* 48 bits virtual */
+-            }
+-        } else {
+-            *eax = cpu->phys_bits;
++             *eax |= (cpu_x86_virtual_addr_width(env) << 8);
+         }
+         *ebx = env->features[FEAT_8000_0008_EBX];
+         if (cs->nr_cores * cs->nr_threads > 1) {
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 6c50d3ab4f..21b33fbe2e 100644
+index 21b33fbe2e..aafc2eb696 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -257,6 +257,7 @@ typedef enum X86Seg {
-                 | CR4_DE_MASK | CR4_PSE_MASK | CR4_PAE_MASK \
-                 | CR4_MCE_MASK | CR4_PGE_MASK | CR4_PCE_MASK \
-                 | CR4_OSFXSR_MASK | CR4_OSXMMEXCPT_MASK |CR4_UMIP_MASK \
-+                | CR4_LA57_MASK \
-                 | CR4_FSGSBASE_MASK | CR4_PCIDE_MASK | CR4_OSXSAVE_MASK \
-                 | CR4_SMEP_MASK | CR4_SMAP_MASK | CR4_PKE_MASK | CR4_PKS_MASK))
+@@ -1955,6 +1955,8 @@ typedef struct PropValue {
+ } PropValue;
+ void x86_cpu_apply_props(X86CPU *cpu, PropValue *props);
  
++uint32_t cpu_x86_virtual_addr_width(CPUX86State *env);
++
+ /* cpu.c other functions (cpuid) */
+ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+                    uint32_t *eax, uint32_t *ebx,
+diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
+index 0d549b3d6c..0e7de4e054 100644
+--- a/target/i386/tcg/sysemu/svm_helper.c
++++ b/target/i386/tcg/sysemu/svm_helper.c
+@@ -41,6 +41,16 @@ static inline void svm_save_seg(CPUX86State *env, hwaddr addr,
+              ((sc->flags >> 8) & 0xff) | ((sc->flags >> 12) & 0x0f00));
+ }
+ 
++/*
++ * VMRUN and VMLOAD canonicalizes (i.e., sign-extend to bit 63) all base
++ * addresses in the segment registers that have been loaded.
++ */
++static inline void svm_canonicalization(CPUX86State *env, target_ulong *seg_base)
++{
++    uint16_t shift_amt = 64 - cpu_x86_virtual_addr_width(env);
++    *seg_base = ((((long) *seg_base) << shift_amt) >> shift_amt);
++}
++
+ static inline void svm_load_seg(CPUX86State *env, hwaddr addr,
+                                 SegmentCache *sc)
+ {
+@@ -53,6 +63,7 @@ static inline void svm_load_seg(CPUX86State *env, hwaddr addr,
+     sc->limit = x86_ldl_phys(cs, addr + offsetof(struct vmcb_seg, limit));
+     flags = x86_lduw_phys(cs, addr + offsetof(struct vmcb_seg, attrib));
+     sc->flags = ((flags & 0xff) << 8) | ((flags & 0x0f00) << 12);
++    svm_canonicalization(env, &sc->base);
+ }
+ 
+ static inline void svm_load_seg_cache(CPUX86State *env, hwaddr addr,
+@@ -245,16 +256,6 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+     env->tsc_offset = x86_ldq_phys(cs, env->vm_vmcb +
+                                offsetof(struct vmcb, control.tsc_offset));
+ 
+-    env->gdt.base  = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
+-                                                      save.gdtr.base));
+-    env->gdt.limit = x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
+-                                                      save.gdtr.limit));
+-
+-    env->idt.base  = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
+-                                                      save.idtr.base));
+-    env->idt.limit = x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
+-                                                      save.idtr.limit));
+-
+     new_cr0 = x86_ldq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.cr0));
+     if (new_cr0 & SVM_CR0_RESERVED_MASK) {
+         cpu_vmexit(env, SVM_EXIT_ERR, 0, GETPC());
+@@ -308,6 +309,10 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
+                        R_SS);
+     svm_load_seg_cache(env, env->vm_vmcb + offsetof(struct vmcb, save.ds),
+                        R_DS);
++    svm_load_seg(env, env->vm_vmcb + offsetof(struct vmcb, save.idtr),
++                       &env->idt);
++    svm_load_seg(env, env->vm_vmcb + offsetof(struct vmcb, save.gdtr),
++                       &env->gdt);
+ 
+     env->eip = x86_ldq_phys(cs,
+                         env->vm_vmcb + offsetof(struct vmcb, save.rip));
+@@ -446,6 +451,7 @@ void helper_vmload(CPUX86State *env, int aflag)
+     env->lstar = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.lstar));
+     env->cstar = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.cstar));
+     env->fmask = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.sfmask));
++    svm_canonicalization(env, &env->kernelgsbase);
+ #endif
+     env->star = x86_ldq_phys(cs, addr + offsetof(struct vmcb, save.star));
+     env->sysenter_cs = x86_ldq_phys(cs,
+@@ -454,6 +460,7 @@ void helper_vmload(CPUX86State *env, int aflag)
+                                                  save.sysenter_esp));
+     env->sysenter_eip = x86_ldq_phys(cs, addr + offsetof(struct vmcb,
+                                                  save.sysenter_eip));
++
+ }
+ 
+ void helper_vmsave(CPUX86State *env, int aflag)
 -- 
 2.31.1
 
