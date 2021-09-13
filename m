@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA838408ED7
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 15:37:52 +0200 (CEST)
-Received: from localhost ([::1]:57252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4605E408ED9
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 15:38:22 +0200 (CEST)
+Received: from localhost ([::1]:59730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPm9f-0000kj-UP
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 09:37:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51668)
+	id 1mPmA8-0002Rb-2D
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 09:38:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPlFf-0000Vu-Vu
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:40:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58908)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPlFa-0000SD-Jd
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:39:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPlFe-0000r8-DM
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:39:59 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPlFU-0000jN-VU
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:39:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631536797;
+ s=mimecast20190719; t=1631536786;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gdPR75eYbQXxD0iOTPV5eI2d97+ye2PZP2RByIGD8WM=;
- b=AN71KT70z4Q5Z3TP5JT3hcZKFUK6DQQQ6XdSYJc0C+oyBIFX8nTlpJK4akJD5LBAgSzDyc
- J10mC+5sT6i2FvRznieUpsO9k6wDu37TEA6Vor6OqA4RQ/kYXHWJxQgimvlONY6zjV6tBo
- CkavuSsvZ83XrXU3OicHUSEhZDa38ew=
+ bh=WkMIz7ZCVk0gOO4Dq3HTK1PkcZrxSntb56NFVQs/vig=;
+ b=T266c9s4rd9s3aDYwk/FZd0+SMEhPVFtt47ejESEHEMJVd9ZhfHib/2KAgtUiCKXzNY8i2
+ +m1SdRuI7b8GoAV5vQh7dNlP78yGwEtFWQW2y0hIHg5gcTClkHPV7gtg/yjHDHj5m+oY9s
+ Ep8nsjrpGXAQUrxbMXkK8Aa/9GoX8IY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-lSI1SwCCOj6FUxJzuMSSEg-1; Mon, 13 Sep 2021 08:39:56 -0400
-X-MC-Unique: lSI1SwCCOj6FUxJzuMSSEg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-584-RIU3bS2VPqi7zjmjCXbv1g-1; Mon, 13 Sep 2021 08:39:44 -0400
+X-MC-Unique: RIU3bS2VPqi7zjmjCXbv1g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A552319200C3
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 12:39:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28D7D1084684
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 12:39:44 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A21941037E99;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C95075F706;
  Mon, 13 Sep 2021 12:39:43 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 48DE111380BC; Mon, 13 Sep 2021 14:39:32 +0200 (CEST)
+ id 4C3FD11380CC; Mon, 13 Sep 2021 14:39:32 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 18/22] test-clone-visitor: Wean off __org.qemu_x-Union1
-Date: Mon, 13 Sep 2021 14:39:28 +0200
-Message-Id: <20210913123932.3306639-19-armbru@redhat.com>
+Subject: [PATCH 19/22] tests/qapi-schema: Drop simple union __org.qemu_x-Union1
+Date: Mon, 13 Sep 2021 14:39:29 +0200
+Message-Id: <20210913123932.3306639-20-armbru@redhat.com>
 In-Reply-To: <20210913123932.3306639-1-armbru@redhat.com>
 References: <20210913123932.3306639-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,100 +83,112 @@ Cc: jsnow@redhat.com, eblake@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-test_clone_complex3() uses simple union __org.qemu_x-Union1 to cover
-arrays.  Use UserDefOneList instead.  Unions are still covered by
-test_clone_complex1().
+Replace simple union __org.qemu_x-Union1 flat union
+__org.qemu_x-Union2, except drop it from __org.qemu_x-command, because
+there it's only used to pull it into QMP.  Now drop the unused simple
+union.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/unit/test-clone-visitor.c | 70 ++++++++++++++++++---------------
- 1 file changed, 38 insertions(+), 32 deletions(-)
+ tests/unit/test-qmp-cmds.c              | 16 +++++-----------
+ tests/qapi-schema/qapi-schema-test.json |  6 ++----
+ tests/qapi-schema/qapi-schema-test.out  | 14 +++-----------
+ 3 files changed, 10 insertions(+), 26 deletions(-)
 
-diff --git a/tests/unit/test-clone-visitor.c b/tests/unit/test-clone-visitor.c
-index 8357a90e60..4048018607 100644
---- a/tests/unit/test-clone-visitor.c
-+++ b/tests/unit/test-clone-visitor.c
-@@ -153,42 +153,48 @@ static void test_clone_complex2(void)
- 
- static void test_clone_complex3(void)
+diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
+index 83c9ef5b7c..a43b97d6c5 100644
+--- a/tests/unit/test-qmp-cmds.c
++++ b/tests/unit/test-qmp-cmds.c
+@@ -127,22 +127,16 @@ void qmp_boxed_empty(Empty1 *arg, Error **errp)
  {
--    __org_qemu_x_Struct2 *src, *dst;
--    __org_qemu_x_Union1List *tmp;
-+    UserDefOneList *src, *dst, *tail;
-+    UserDefOne *elt;
- 
--    src = g_new0(__org_qemu_x_Struct2, 1);
--    tmp = src->array = g_new0(__org_qemu_x_Union1List, 1);
--    tmp->value = g_new0(__org_qemu_x_Union1, 1);
--    tmp->value->type = ORG_QEMU_X_UNION1_KIND___ORG_QEMU_X_BRANCH;
--    tmp->value->u.__org_qemu_x_branch.data = g_strdup("one");
--    tmp = tmp->next = g_new0(__org_qemu_x_Union1List, 1);
--    tmp->value = g_new0(__org_qemu_x_Union1, 1);
--    tmp->value->type = ORG_QEMU_X_UNION1_KIND___ORG_QEMU_X_BRANCH;
--    tmp->value->u.__org_qemu_x_branch.data = g_strdup("two");
--    tmp = tmp->next = g_new0(__org_qemu_x_Union1List, 1);
--    tmp->value = g_new0(__org_qemu_x_Union1, 1);
--    tmp->value->type = ORG_QEMU_X_UNION1_KIND___ORG_QEMU_X_BRANCH;
--    tmp->value->u.__org_qemu_x_branch.data = g_strdup("three");
-+    src = NULL;
-+    elt = g_new0(UserDefOne, 1);
-+    elt->integer = 3;
-+    elt->string = g_strdup("three");
-+    elt->has_enum1 = true;
-+    elt->enum1 = ENUM_ONE_VALUE3;
-+    QAPI_LIST_PREPEND(src, elt);
-+    elt = g_new0(UserDefOne, 1);
-+    elt->integer = 2;
-+    elt->string = g_strdup("two");
-+    QAPI_LIST_PREPEND(src, elt);
-+    elt = g_new0(UserDefOne, 1);
-+    elt->integer = 1;
-+    elt->string = g_strdup("one");
-+    QAPI_LIST_PREPEND(src, elt);
-+
-+    dst = QAPI_CLONE(UserDefOneList, src);
- 
--    dst = QAPI_CLONE(__org_qemu_x_Struct2, src);
-     g_assert(dst);
--    tmp = dst->array;
--    g_assert(tmp);
--    g_assert(tmp->value);
--    g_assert_cmpstr(tmp->value->u.__org_qemu_x_branch.data, ==, "one");
--    tmp = tmp->next;
--    g_assert(tmp);
--    g_assert(tmp->value);
--    g_assert_cmpstr(tmp->value->u.__org_qemu_x_branch.data, ==, "two");
--    tmp = tmp->next;
--    g_assert(tmp);
--    g_assert(tmp->value);
--    g_assert_cmpstr(tmp->value->u.__org_qemu_x_branch.data, ==, "three");
--    tmp = tmp->next;
--    g_assert(!tmp);
-+    tail = dst;
-+    elt = tail->value;
-+    g_assert_cmpint(elt->integer, ==, 1);
-+    g_assert_cmpstr(elt->string, ==, "one");
-+    g_assert(!elt->has_enum1);
-+    tail = tail->next;
-+    elt = tail->value;
-+    g_assert_cmpint(elt->integer, ==, 2);
-+    g_assert_cmpstr(elt->string, ==, "two");
-+    g_assert(!elt->has_enum1);
-+    tail = tail->next;
-+    elt = tail->value;
-+    g_assert_cmpint(elt->integer, ==, 3);
-+    g_assert_cmpstr(elt->string, ==, "three");
-+    g_assert(elt->has_enum1);
-+    g_assert_cmpint(elt->enum1, ==, ENUM_ONE_VALUE3);
-+    g_assert(!tail->next);
- 
--    qapi_free___org_qemu_x_Struct2(src);
--    qapi_free___org_qemu_x_Struct2(dst);
-+    qapi_free_UserDefOneList(src);
-+    qapi_free_UserDefOneList(dst);
  }
  
- int main(int argc, char **argv)
+-__org_qemu_x_Union1 *qmp___org_qemu_x_command(__org_qemu_x_EnumList *a,
+-                                              __org_qemu_x_StructList *b,
+-                                              __org_qemu_x_Union2 *c,
+-                                              __org_qemu_x_Alt *d,
+-                                              Error **errp)
++void qmp___org_qemu_x_command(__org_qemu_x_EnumList *a,
++                              __org_qemu_x_StructList *b,
++                              __org_qemu_x_Union2 *c,
++                              __org_qemu_x_Alt *d,
++                              Error **errp)
+ {
+-    __org_qemu_x_Union1 *ret = g_new0(__org_qemu_x_Union1, 1);
+-
+-    ret->type = ORG_QEMU_X_UNION1_KIND___ORG_QEMU_X_BRANCH;
+-    ret->u.__org_qemu_x_branch.data = strdup("blah1");
+-
+     /* Also test that 'wchar-t' was munged to 'q_wchar_t' */
+     if (b && b->value && !b->value->has_q_wchar_t) {
+         b->value->q_wchar_t = 1;
+     }
+-    return ret;
+ }
+ 
+ 
+diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
+index ef17ab1aae..0c19d4820e 100644
+--- a/tests/qapi-schema/qapi-schema-test.json
++++ b/tests/qapi-schema/qapi-schema-test.json
+@@ -202,10 +202,9 @@
+   'data': { '__org.qemu_x-member1': '__org.qemu_x-Enum' } }
+ { 'struct': '__org.qemu_x-Struct', 'base': '__org.qemu_x-Base',
+   'data': { '__org.qemu_x-member2': 'str', '*wchar-t': 'int' } }
+-{ 'union': '__org.qemu_x-Union1', 'data': { '__org.qemu_x-branch': 'str' } }
+ { 'alternate': '__org.qemu_x-Alt1', 'data': { '__org.qemu_x-branch': 'str' } }
+ { 'struct': '__org.qemu_x-Struct2',
+-  'data': { 'array': ['__org.qemu_x-Union1'] } }
++  'data': { 'array': ['__org.qemu_x-Union2'] } }
+ { 'union': '__org.qemu_x-Union2', 'base': '__org.qemu_x-Base',
+   'discriminator': '__org.qemu_x-member1',
+   'data': { '__org.qemu_x-value': '__org.qemu_x-Struct2' } }
+@@ -214,8 +213,7 @@
+ { 'event': '__ORG.QEMU_X-EVENT', 'data': '__org.qemu_x-Struct' }
+ { 'command': '__org.qemu_x-command',
+   'data': { 'a': ['__org.qemu_x-Enum'], 'b': ['__org.qemu_x-Struct'],
+-            'c': '__org.qemu_x-Union2', 'd': '__org.qemu_x-Alt' },
+-  'returns': '__org.qemu_x-Union1' }
++            'c': '__org.qemu_x-Union2', 'd': '__org.qemu_x-Alt' } }
+ 
+ # test 'if' condition handling
+ 
+diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
+index 07e4161331..0b49dc3044 100644
+--- a/tests/qapi-schema/qapi-schema-test.out
++++ b/tests/qapi-schema/qapi-schema-test.out
+@@ -215,20 +215,12 @@ object __org.qemu_x-Struct
+     base __org.qemu_x-Base
+     member __org.qemu_x-member2: str optional=False
+     member wchar-t: int optional=True
+-object q_obj_str-wrapper
+-    member data: str optional=False
+-enum __org.qemu_x-Union1Kind
+-    member __org.qemu_x-branch
+-object __org.qemu_x-Union1
+-    member type: __org.qemu_x-Union1Kind optional=False
+-    tag type
+-    case __org.qemu_x-branch: q_obj_str-wrapper
+ alternate __org.qemu_x-Alt1
+     tag type
+     case __org.qemu_x-branch: str
+-array __org.qemu_x-Union1List __org.qemu_x-Union1
++array __org.qemu_x-Union2List __org.qemu_x-Union2
+ object __org.qemu_x-Struct2
+-    member array: __org.qemu_x-Union1List optional=False
++    member array: __org.qemu_x-Union2List optional=False
+ object __org.qemu_x-Union2
+     base __org.qemu_x-Base
+     tag __org.qemu_x-member1
+@@ -245,7 +237,7 @@ object q_obj___org.qemu_x-command-arg
+     member b: __org.qemu_x-StructList optional=False
+     member c: __org.qemu_x-Union2 optional=False
+     member d: __org.qemu_x-Alt optional=False
+-command __org.qemu_x-command q_obj___org.qemu_x-command-arg -> __org.qemu_x-Union1
++command __org.qemu_x-command q_obj___org.qemu_x-command-arg -> None
+     gen=True success_response=True boxed=False oob=False preconfig=False
+ object TestIfStruct
+     member foo: int optional=False
 -- 
 2.31.1
 
