@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472604098DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 18:22:42 +0200 (CEST)
-Received: from localhost ([::1]:47678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48481409886
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 18:15:14 +0200 (CEST)
+Received: from localhost ([::1]:59984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPojB-0007YV-AH
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 12:22:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60702)
+	id 1mPobv-0004e2-51
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 12:15:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPoYj-0000l5-SO
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:11:53 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:41962)
+ id 1mPoYl-0000oU-JN
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:11:55 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:36787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPoYi-00084d-5m
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:11:53 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id w29so14783089wra.8
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 09:11:51 -0700 (PDT)
+ id 1mPoYi-00085W-Ru
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:11:54 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ l18-20020a05600c4f1200b002f8cf606262so7432931wmq.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 09:11:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=8Qm2M6BsrBGMW4YGB9hfcLdqesFtIB+T41YhjY71TkM=;
- b=CUR3D0GGzatDLAWTLVswUS7Q7Gy7SYfAeyCdSLwYUNFaR0fggQOv/jlO9FI+gzoZ38
- w6h3qRdoAXM540eSLqqMB03g/qUwh/+jyYelHWozkt02DgWRjHxqIq7U8wKNQZn+huXb
- +ckaNQneUNWxjV/vSPNxJrarBqKxW0dk9uLBm9e7nGReAPIMT2xKSXFzi/1hSgJ3uONm
- xw3HYa8v0UYHaYlWSzyaD50PJvncP86OXvqKFR4N2kqFI7Qz41UUauJzsF3uEe2rs/Us
- c8K4zRLLTn//Nf1CISd1K35UW/SDJDOxCeyJbQ2ksNL3wiE0OsZXAnL/2WPVMdV8Efzh
- 5YHg==
+ bh=yR6/d1fmgWVmWz0dJq82TlR2uLKkG1hd+bNE4R+MmmQ=;
+ b=oI5PrN3uWUJVlANxGXDWpTr4352CauISQNkMA2HHMzr/FlV3ggnTHmvNrmKu59zNfp
+ VYv6NpV2S5QQgDDcRhdEGiaRXCkqbTCLvMMIBaD7LcyYnP8Z93URUayEv7DyP44SsKO1
+ 3gZjAp8DU9FkF6U1mEfvHbTXAIhmn6I/uvaLR6JkOm4vFfukN5+PTvKkl/+6svX80ckz
+ sCro+Gnfq9JfPf0F+O/I8PQbqEPZim4eRJmYeTsZBWnlHssT0wXXih0IkKw1giUShLWx
+ vxw5W/SgbRGCZXaWx3I/9UGj9ZzORADt4Cp2qNXe29EjqWXLu6vw7+GvwrW3Zl2a65LA
+ 4LYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8Qm2M6BsrBGMW4YGB9hfcLdqesFtIB+T41YhjY71TkM=;
- b=0sAY2sg1Twy29DKc0r9K5MA4XV/WcpgV9TIRyFVcgjZfzsO0XdZLhAJA92GPspeRrp
- YRFM2knArJAvI3PfnRcI/qRDqUMFdVlGxOzpHvWXZHGsTDEGqYJl0jqB3wcbTvByTyMP
- HBtajPzDNIN4WjxD19I3RAQ4AhUVCyQ4wMn8L0pLa0gqZiVr1OnLqHk5INaZiXSW4o+R
- e7Gou5+rSQuQhPSG6VbiHMMu9sXl5tzC9Bl2wp1aTnUtvSF7dLQaBTYC5+OA1WyYpmp8
- zQbETmvJrg8btwVrtbCGAxYPW1v8lUoKfQiHN2vEswLswXzn1otGEWfh3kvAt6YrK1nm
- fELQ==
-X-Gm-Message-State: AOAM532eiRI3SVdPIn22U9PmSXeV6paZNbnI+SxIF5oSpDXJlf357pxX
- F2K8giAj3B54LRrLG8CNG5pBRCu6LA//Pw==
-X-Google-Smtp-Source: ABdhPJw0sjiNK7Z/Lr4sZ3//UJt5urOvceQNVHXD8Z0FQOQ7ChpP3dgmYV4HxJw+dtK37EJ1yvWH7g==
-X-Received: by 2002:adf:ce85:: with SMTP id r5mr13560399wrn.323.1631549510737; 
- Mon, 13 Sep 2021 09:11:50 -0700 (PDT)
+ bh=yR6/d1fmgWVmWz0dJq82TlR2uLKkG1hd+bNE4R+MmmQ=;
+ b=7apYANrNSSmec+LmbDM8ZZ3iZM58bA5cUyHh5ebhgNyQEwLAhj1Tw5JCyhSAUxZAKg
+ sxcJUUTgHGaxJvCyL2H7ib4penUd6+KMlijQ6EqAhIToCHuSGfH3wGkwAwXQAtxho1Wo
+ YgbCU1uuBa6N1cwxstKj0uSavSwg/hbHlTNTA4ozypuwZ4CZ4EhcRhQ3ES2VOjHVoUM1
+ 4cmy1MOVGZv7vlUN4HkpMVg8CJoWGSUeO4m3aEVtHzzr1mpJ29TKVLWISE8r3PZVmz8L
+ pdw3RmupABRnwVtBvDtEjAs8Bfpnzlr0/dU88k9kCBmEIG1gQ8KKS3oy+sKGO8K3i/Io
+ SJ3w==
+X-Gm-Message-State: AOAM531X+bm5i9fIibslrEt2AvbBTNn1KactqmNYAQjCK9kUb/jN1p/X
+ 2MoCslfayUjuZLhSLrWf7AjLbk9Sm5Y7Bg==
+X-Google-Smtp-Source: ABdhPJz46CLbd8cNYejElKD6wQwNukeOWYiY2Lg9ddU6Q6voZNaYXffTBrFmraUbhM8pOuRGZ7+djg==
+X-Received: by 2002:a7b:c405:: with SMTP id k5mr10822954wmi.24.1631549511444; 
+ Mon, 13 Sep 2021 09:11:51 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id y1sm7629265wmq.43.2021.09.13.09.11.50
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 09:11:50 -0700 (PDT)
+ Mon, 13 Sep 2021 09:11:51 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/23] hw/char: cadence_uart: Log a guest error when device is
- unclocked or in reset
-Date: Mon, 13 Sep 2021 17:11:27 +0100
-Message-Id: <20210913161144.12347-7-peter.maydell@linaro.org>
+Subject: [PULL 07/23] hw/arm/virt: KVM: Probe for KVM_CAP_ARM_VM_IPA_SIZE when
+ creating scratch VM
+Date: Mon, 13 Sep 2021 17:11:28 +0100
+Message-Id: <20210913161144.12347-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210913161144.12347-1-peter.maydell@linaro.org>
 References: <20210913161144.12347-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,67 +88,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bmeng.cn@gmail.com>
+From: Marc Zyngier <maz@kernel.org>
 
-We've got SW that expects FSBL (Bootlooader) to setup clocks and
-resets. It's quite common that users run that SW on QEMU without
-FSBL (FSBL typically requires the Xilinx tools installed). That's
-fine, since users can stil use -device loader to enable clocks etc.
+Although we probe for the IPA limits imposed by KVM (and the hardware)
+when computing the memory map, we still use the old style '0' when
+creating a scratch VM in kvm_arm_create_scratch_host_vcpu().
 
-To help folks understand what's going, a log (guest-error) message
-would be helpful here. In particular with the serial port since
-things will go very quiet if they get things wrong.
+On systems that are severely IPA challenged (such as the Apple M1),
+this results in a failure as KVM cannot use the default 40bit that
+'0' represents.
 
-Suggested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210901124521.30599-7-bmeng.cn@gmail.com
+Instead, probe for the extension and use the reported IPA limit
+if available.
+
+Cc: Andrew Jones <drjones@redhat.com>
+Cc: Eric Auger <eric.auger@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Marc Zyngier <maz@kernel.org>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Message-id: 20210822144441.1290891-2-maz@kernel.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/char/cadence_uart.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/arm/kvm.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-index 5f5a4645ac0..c069a30842e 100644
---- a/hw/char/cadence_uart.c
-+++ b/hw/char/cadence_uart.c
-@@ -240,6 +240,8 @@ static int uart_can_receive(void *opaque)
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index 5d55de1a493..94b970bbf9b 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -70,12 +70,17 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
+                                       struct kvm_vcpu_init *init)
+ {
+     int ret = 0, kvmfd = -1, vmfd = -1, cpufd = -1;
++    int max_vm_pa_size;
  
-     /* ignore characters when unclocked or in reset */
-     if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: uart is unclocked or in reset\n",
-+                      __func__);
-         return 0;
+     kvmfd = qemu_open_old("/dev/kvm", O_RDWR);
+     if (kvmfd < 0) {
+         goto err;
      }
- 
-@@ -376,6 +378,8 @@ static void uart_event(void *opaque, QEMUChrEvent event)
- 
-     /* ignore characters when unclocked or in reset */
-     if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: uart is unclocked or in reset\n",
-+                      __func__);
-         return;
+-    vmfd = ioctl(kvmfd, KVM_CREATE_VM, 0);
++    max_vm_pa_size = ioctl(kvmfd, KVM_CHECK_EXTENSION, KVM_CAP_ARM_VM_IPA_SIZE);
++    if (max_vm_pa_size < 0) {
++        max_vm_pa_size = 0;
++    }
++    vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
+     if (vmfd < 0) {
+         goto err;
      }
- 
-@@ -413,6 +417,8 @@ static MemTxResult uart_write(void *opaque, hwaddr offset,
- 
-     /* ignore access when unclocked or in reset */
-     if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: uart is unclocked or in reset\n",
-+                      __func__);
-         return MEMTX_ERROR;
-     }
- 
-@@ -478,6 +484,8 @@ static MemTxResult uart_read(void *opaque, hwaddr offset,
- 
-     /* ignore access when unclocked or in reset */
-     if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: uart is unclocked or in reset\n",
-+                      __func__);
-         return MEMTX_ERROR;
-     }
- 
 -- 
 2.20.1
 
