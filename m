@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F5D408FD9
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 15:46:42 +0200 (CEST)
-Received: from localhost ([::1]:51978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60ED0409036
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 15:51:19 +0200 (CEST)
+Received: from localhost ([::1]:34448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPmID-0007gB-VK
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 09:46:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38884)
+	id 1mPmMg-0006Uo-F7
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 09:51:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mPmCz-00010n-I5
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:41:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29591)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mPmCx-0003Mu-Ht
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:41:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631540474;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+W/sfkSJT4/FBH7F5PMTPz6/ak8ZaaKa7FSOGM4PN4g=;
- b=F83EK9ntuQawwYBUoL8qFLz6JkrgaUXoVJVs1f0cMRTafwRizdMJy05BxfPqSIs8OwETbE
- XL/4+9MHMU8rWfgN0d9msU2GF3fo7TAN6ZfH+Eo0VI1Q81EjjdvSXZbSJZqThbnZdWyCK2
- D+rYZdCvfpOBfej6Q/2WX6NC6nKWJWw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-110-obaDRZTtMPmSPlOd7oCxtw-1; Mon, 13 Sep 2021 09:41:12 -0400
-X-MC-Unique: obaDRZTtMPmSPlOd7oCxtw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A5116119B;
- Mon, 13 Sep 2021 13:41:11 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A508717258;
- Mon, 13 Sep 2021 13:41:10 +0000 (UTC)
-Date: Mon, 13 Sep 2021 14:41:09 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH 3/4] include/sysemu/block-backend: split header into
- I/O and graph API
-Message-ID: <YT9U9cD+KrbDP30B@stefanha-x1.localdomain>
-References: <20210908131021.774533-1-eesposit@redhat.com>
- <20210908131021.774533-4-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mPmGH-0006Rb-F0
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:44:41 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:35497)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mPmGF-0005YT-Ls
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:44:41 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ f3-20020a17090a638300b00199097ddf1aso6621240pjj.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 06:44:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sECki1mK5KcjvuM4w28nfED3WkStKJ9mnYzHHMB4vXE=;
+ b=ySmvycN9Ypm6oNVG22wzKLLZVCKDz1cZDPgDHng2P4e7mduyMkUMEJ2/arJ2xJQKnV
+ l/NIfPg2chwXlgw3IfuFhtY1vMX4qDzhIQMogY49znakKYXR+VKbc8kW8GjXVsZBZG8c
+ dbYe9fCm/Ru6HGPRk+AvVkG5nzgZ8jJv1T6oDFffiQyogqoFnRZvtHnl/yWLs7pef/rF
+ w0x9cUmijzqiavNwUkRHtlFZnwukX7flVELIo74biG4/otZKewL8qE/CSG7305MI6tVF
+ ZEH4ymWinF1amd6r97GGo68PmuAspNGSzaBgMVZu7tNC/gMrvnFZqxkE5ZTUZAynlEIO
+ h39A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sECki1mK5KcjvuM4w28nfED3WkStKJ9mnYzHHMB4vXE=;
+ b=ocNNTfrjKNQelgZd4Z2cOvTSPSrQYO8G8wJv++axCXrZ7ogToeYL03jfsV3Ua/8hCl
+ 5E8YL1kjyHW/ZRR8rUAqCmN4HheofEBgeMDXvDOSvIf5R0fKW0UrCkisgZ6gtK00iMKT
+ Kcs8d13OIqlgpAV4fBB8BNjhoVHg2FQcnkh/E41Y2aJErsofPjRjhYR/+6UhSitLXhVS
+ PgALLdxOojkuR0m6vRn7skUvZl4Dg/XTrd8lNTI98hLbIPfMH0smzwVeU5QOhtRmejY8
+ ed/x9DOKaZGRIYGos3bIMdu35Gm1mWZ4JdgrPKygCw+vdbg6d08NpbMNFlsdxMR5H2to
+ Au2A==
+X-Gm-Message-State: AOAM531ynPf50MALuTKOHjPo+vwN6zxCCeK0CvvX3f+yaJ8qHr9SLldp
+ mA+BaOZED7cwm3qTcXUvRc2b1g==
+X-Google-Smtp-Source: ABdhPJwxNLVwkO5rqY61jzNDUqDRyQmLMVGODhrqoR1+TPoy9rHLnVx0XbL6a/Zhj7Y0M5++JYn7rw==
+X-Received: by 2002:a17:90a:5b0d:: with SMTP id
+ o13mr13140928pji.117.1631540677361; 
+ Mon, 13 Sep 2021 06:44:37 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id m18sm7102809pjq.32.2021.09.13.06.44.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Sep 2021 06:44:37 -0700 (PDT)
+Subject: Re: [PATCH v2 03/12] target/arm: Add TB flag for "MVE insns not
+ predicated"
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210913095440.13462-1-peter.maydell@linaro.org>
+ <20210913095440.13462-4-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a4943a18-288d-33cc-5f36-1229de73189a@linaro.org>
+Date: Mon, 13 Sep 2021 06:44:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210908131021.774533-4-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="AnP0cbwSEyEQ6Lbu"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210913095440.13462-4-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.969,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,58 +91,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---AnP0cbwSEyEQ6Lbu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 9/13/21 2:54 AM, Peter Maydell wrote:
+> Our current codegen for MVE always calls out to helper functions,
+> because some byte lanes might be predicated.  The common case is that
+> in fact there is no predication active and all lanes should be
+> updated together, so we can produce better code by detecting that and
+> using the TCG generic vector infrastructure.
+> 
+> Add a TB flag that is set when we can guarantee that there is no
+> active MVE predication, and a bool in the DisasContext.  Subsequent
+> patches will use this flag to generate improved code for some
+> instructions.
+> 
+> In most cases when the predication state changes we simply end the TB
+> after that instruction.  For the code called from vfp_access_check()
+> that handles lazy state preservation and creating a new FP context,
+> we can usually avoid having to try to end the TB because luckily the
+> new value of the flag following the register changes in those
+> sequences doesn't depend on any runtime decisions.  We do have to end
+> the TB if the guest has enabled lazy FP state preservation but not
+> automatic state preservation, but this is an odd corner case that is
+> not going to be common in real-world code.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+> I renamed the mve_no_predication() function to mve_no_pred() because
+> I want to use the former name in patch 2 for the translate-time "no
+> predication of any kind including ECI", and wanted to distinguish it
+> from this function that is just determining the value of the TB flag
+> bit.  Better naming suggestions welcome.
+> ---
+>   target/arm/cpu.h              |  4 +++-
+>   target/arm/translate.h        |  2 ++
+>   target/arm/helper.c           | 33 +++++++++++++++++++++++++++++++++
+>   target/arm/translate-m-nocp.c |  8 +++++++-
+>   target/arm/translate-mve.c    | 13 ++++++++++++-
+>   target/arm/translate-vfp.c    | 33 +++++++++++++++++++++++++++------
+>   target/arm/translate.c        |  8 ++++++++
+>   7 files changed, 92 insertions(+), 9 deletions(-)
 
-On Wed, Sep 08, 2021 at 09:10:20AM -0400, Emanuele Giuseppe Esposito wrote:
-> +/*
-> + * Graph API. These functions run under the BQL lock.
-> + *
-> + * If a function modifies the graph, it uses drain and/or
-> + * aio_context_acquire/release to be sure it has unique access.
-> + *
-> + * All functions in this header must use this assertion:
-> + * g_assert(qemu_in_main_thread());
-> + * to be sure they belong here.
-> + */
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-It's important to note that not all of these functions are necessarily
-limited to running under the BQL, but they would require additional
-auditing and may small thread-safety changes to move them into the I/O
-API. Often it's not worth doing that work since the APIs are only used
-with the BQL held at the moment, so they have been placed in the graph
-API (for now).
-
-Stefan
-
---AnP0cbwSEyEQ6Lbu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE/VPUACgkQnKSrs4Gr
-c8hCnggAjiPUtiS9TXBpohZ77tLzt4wuc3Alzj3/bPnVfBlf61QO13QzEJcvDkh4
-4t96c0Tv4iek7mM5UFuiS6dXNOa/2L7OtmR5IghA3u30hDqgMVMRQI9Q+xC0Ktnr
-hbvdDPd9iAFe+bbRNfZs5p1aQ3/TpPmjHbw3zhjN3mjCf6i5vzC894IQEd8pycRq
-fdze5DhmzKtT/ah+ICHSpM4vkQC5BTZDYL6MP6pihICpJRHKRtqjvTO1NP5+ihgn
-emiK2i3lnGIoXvRAdb3Wa02OAg6coiw7qTuqTgoMokm8ehmEtMjqIkj11t3TWjr+
-/QdJJ4fzmzR5delaIE4ZoqDHOZKGWg==
-=puPF
------END PGP SIGNATURE-----
-
---AnP0cbwSEyEQ6Lbu--
-
+r~
 
