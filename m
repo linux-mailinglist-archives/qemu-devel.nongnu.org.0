@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E54A408AA0
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:00:47 +0200 (CEST)
-Received: from localhost ([::1]:57890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE93408AA4
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:01:43 +0200 (CEST)
+Received: from localhost ([::1]:58670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPkdg-0005cL-Ov
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:00:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42760)
+	id 1mPkea-00068K-5f
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:01:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mPkat-0002lP-PQ
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:57:52 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40596)
+ id 1mPkau-0002lu-IT
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:57:53 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mPkaq-0005kd-HO
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:57:51 -0400
-Received: by mail-wr1-x435.google.com with SMTP id q26so14260768wrc.7
+ id 1mPkar-0005lL-1t
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:57:52 -0400
+Received: by mail-wr1-x436.google.com with SMTP id u15so8206957wru.6
  for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 04:57:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cHYPlPyLmBcJBp60pMHYRGeaaqP3us2RVbwBJrcnjmc=;
- b=iSCS6ow12c89Uy/a6dhKLjnxKNO+tAEEvN9q2BL/T0aNX+tif10rIgEruGu2Jq/dHl
- eOx0aY+PWgFV5e8tokBx3uCh5Q2BnwK9SMBfpKyOib3RsnZbbeakXQ31icsc6E5GiG2K
- w51QDvRi6qrGouq5JPY7MFzXix5NFedfeGx2b8NFQtphWvfshM9Cv94xHTqvPmdTAaLb
- GHO4wJCKloiILQMkUaMFkuUZez9/U3Z0j0qbsuwPvvvbvMMwwJYRJRV9QFqWTT4uSwqp
- tnRlBkBm1GNscu3W3wkDnqYH8f7EVBRMEnltewRjF7cOiJ+lfhIvrX8ooKBdaOG4uKt1
- TzaA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=/7nrEReoQoR7zRCQbazGzZCmxeeaU0xNt1erxfpNR44=;
+ b=MLJywj489R6zX6kU0hKeVjBdhFwAfmFSmdwVIpIVSCmKJvN61hDPPWUCn1yPp9aW0Q
+ c9FqnPGk7CGqNK4Ek668MjdAHTWUDxS+f3RMybdIDuxhVpFYUOqSR6EaoG5NJT2bgz8n
+ Q687N6Cipp0D7GKSXqpekWG6bJpW+IrB62EOZfLnESfCpFHBzuk6W1ztW4HJjJa4a4nM
+ aW6ajGTapSdXTea2XiusC3qQw2rNwxUa+Ho+mymiAuv0RkfFSKWGOKcbTvuRxjCfYviA
+ GAXHLtROurGAoFgDpybFFcOFmQumUr2K+OInHRCRHVK31bSjCzgaU/PwqYzfhWefd8dG
+ bEiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=cHYPlPyLmBcJBp60pMHYRGeaaqP3us2RVbwBJrcnjmc=;
- b=G1/KAyY708yynPoTxiZ0wcJIOr4X7BU9y9QFUW6lRTVJ2GO6NZYX6emqUuioiGiBbe
- detxgrPRNUcBgLJgjyRJaJXMpwioyYoYxjELd5VbZjFqCrimI0qXY9w5YgKml7qtKVnz
- 6PdZ6ueq3Bn/3jyEVECz6rV8eP80YxRPl2C65lFugUXsV3qKeMR1975/7HoYzjUA68Q/
- BZ1FTsKVT296RxbQSYis/HK0ltKd7psPk5I9+XRrsoVUxVRdE1DU6ZPD/KOhpkICyxZI
- AZohj3IcH6xJgblLEmHXxuLK0LFbBzc0mc5GCEq41jUaPdBI4b66QBK7Z4fs6ch/Nm0j
- RGyA==
-X-Gm-Message-State: AOAM532Rd3gcaK/A0de4SLWXL08KI6WQXkwZu48kgwJMv+RY7PzfM/uB
- hJeGVTP+h9mC0utVwBNRgcuxokuK/OI=
-X-Google-Smtp-Source: ABdhPJwIu0p8ncuCJMxSZ6bsdgX8Ge/+cIXX+ZMSi96Rf+/BujZzUbm7q5UZUz0qs2mqxkuLIn4moA==
-X-Received: by 2002:a5d:4a46:: with SMTP id v6mr1591705wrs.262.1631534266682; 
- Mon, 13 Sep 2021 04:57:46 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=/7nrEReoQoR7zRCQbazGzZCmxeeaU0xNt1erxfpNR44=;
+ b=5bsohNBM3O5osIDvS4C/vUy8IFQY6s3wj+tlgqdZLqMNuL/icqIMm1Y9o5z8CGah+T
+ 3ejwFGcDchGFdADk4wKECVbSbqnACIR/aBGuLexFFtd0ZnxwD60hN9Z2px4j0ZSi/Sqd
+ Q1a2kadFE9hqhxP5/RywvjCjIMaamxG4Ce2EhO8DU2mkMRE9LFt0bejX5/TMbv3Ei0RM
+ EDE2fIxqlBbJ72C6ZCTHq1nQekW4+kTdZUyVsYvKLxNdpx8mmI+nYYeJH7u0RfuGcKRW
+ a/bNePZpJGeAQlGWhqyuLLckNSGZ3ZrVaGRBRxFl/Z8rIvcyO9XVvdkLdnspqS2EK5BK
+ +zpw==
+X-Gm-Message-State: AOAM532yn8aUgfCvYdbM5+FVgdAcsZsawEb9kiwUfkBa1PE6H/Cyitpy
+ C3pASv3vUP2/g8NEINbFmCh3xce1Dvg=
+X-Google-Smtp-Source: ABdhPJxd6tGSyL8XGh61vt7niCCEaI/bb/Z2EsSvqg2E5W6WM0woEy5VjOL9nyQY7CmmfI45DdgBRw==
+X-Received: by 2002:a5d:504f:: with SMTP id h15mr12347812wrt.69.1631534267547; 
+ Mon, 13 Sep 2021 04:57:47 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n186sm6011037wme.31.2021.09.13.04.57.44
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id n186sm6011037wme.31.2021.09.13.04.57.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 04:57:46 -0700 (PDT)
+ Mon, 13 Sep 2021 04:57:47 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/21] x86, docs, meson changes for 2021-09-13
-Date: Mon, 13 Sep 2021 13:57:21 +0200
-Message-Id: <20210913115742.533197-1-pbonzini@redhat.com>
+Subject: [PULL 01/21] target/i386: add missing bits to CR4_RESERVED_MASK
+Date: Mon, 13 Sep 2021 13:57:22 +0200
+Message-Id: <20210913115742.533197-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210913115742.533197-1-pbonzini@redhat.com>
+References: <20210913115742.533197-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,106 +84,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Richard W . M . Jones" <rjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit bd662023e683850c085e98c8ff8297142c2dd9f2:
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-  Merge remote-tracking branch 'remotes/mcayland/tags/qemu-openbios-20210908' into staging (2021-09-08 11:06:17 +0100)
+Booting Fedora kernels with -cpu max hangs very early in boot. Disabling
+the la57 CPUID bit fixes the problem. git bisect traced the regression to
 
-are available in the Git repository at:
+  commit 213ff024a2f92020290296cb9dc29c2af3d4a221 (HEAD, refs/bisect/bad)
+  Author: Lara Lazier <laramglazier@gmail.com>
+  Date:   Wed Jul 21 17:26:50 2021 +0200
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+    target/i386: Added consistency checks for CR4
 
-for you to fetch changes up to 8d97327342ea8b32ede19fadaf8290dc29fcfa048:
+    All MBZ bits in CR4 must be zero. (APM2 15.5)
+    Added reserved bitmask and added checks in both
+    helper_vmrun and helper_write_crN.
 
-  docs: link to archived Fedora code of conduct (2021-09-13 09:33:27 +0200)
+    Signed-off-by: Lara Lazier <laramglazier@gmail.com>
+    Message-Id: <20210721152651.14683-2-laramglazier@gmail.com>
+    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-----------------------------------------------------------------
-* Fixes for "-cpu max" on i386 TCG (Daniel)
-* vVMLOAD/VMSAVE and vGIF implementation (Lara)
-* Reorganize i386 targets documentation in preparation for SGX (myself)
-* Meson cleanups (myself, Thomas)
-* NVMM fixes (Reinoud)
-* Suppress bogus -Wstringop-overflow (Richard)
-----------------------------------------------------------------
+In this commit CR4_RESERVED_MASK is missing CR4_LA57_MASK and
+two others. Adding this lets Fedora kernels boot once again.
 
-I dropped the SGX patches for now.
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Tested-by: Richard W.M. Jones <rjones@redhat.com>
+Message-Id: <20210831175033.175584-1-berrange@redhat.com>
+[Removed VMXE/SMXE, matching the commit message. - Paolo]
+Fixes: 213ff024a2 ("target/i386: Added consistency checks for CR4", 2021-07-22)
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/cpu.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Paolo
-
-Daniel P. Berrangé (1):
-      target/i386: add missing bits to CR4_RESERVED_MASK
-
-Lara Lazier (7):
-      target/i386: VMRUN and VMLOAD canonicalizations
-      target/i386: Added VGIF feature
-      target/i386: Moved int_ctl into CPUX86State structure
-      target/i386: Added VGIF V_IRQ masking capability
-      target/i386: Added ignore TPR check in ctl_has_irq
-      target/i386: Added changed priority check for VIRQ
-      target/i386: Added vVMLOAD and vVMSAVE feature
-
-Paolo Bonzini (9):
-      docs: standardize book titles to === with overline
-      docs: standardize directory index to --- with overline
-      docs/system: standardize man page sections to --- with overline
-      docs/system: move x86 CPU configuration to a separate document
-      meson: look up cp and dtrace with find_program()
-      meson: do not use python.full_path() unnecessarily
-      meson: remove dead variable
-      fw_cfg: add etc/msr_feature_control
-      docs: link to archived Fedora code of conduct
-
-Reinoud Zandijk (2):
-      Only check CONFIG_NVMM when NEED_CPU_H is defined
-      Fix nvmm_ram_block_added() function arguments
-
-Richard Henderson (1):
-      util: Suppress -Wstringop-overflow in qemu_thread_start
-
-Thomas Huth (1):
-      meson.build: Do not look for VNC-related libraries if have_system is not set
-
- docs/about/index.rst                 |   3 +-
- docs/devel/code-of-conduct.rst       |   4 +-
- docs/devel/index.rst                 |   3 +-
- docs/index.rst                       |   1 +
- docs/interop/index.rst               |   3 +-
- docs/specs/index.rst                 |   3 +-
- docs/system/cpu-models-x86.rst.inc   |   4 +-
- docs/system/i386/cpu.rst             |   1 +
- docs/system/index.rst                |   3 +-
- docs/system/qemu-block-drivers.rst   |   4 ++
- docs/system/qemu-cpu-models.rst      |  10 ++-
- docs/system/qemu-manpage.rst         |  10 ++-
- docs/system/target-i386.rst          |   8 ++-
- docs/tools/index.rst                 |   3 +-
- docs/tools/qemu-img.rst              |   1 +
- docs/tools/qemu-nbd.rst              |   1 +
- docs/tools/qemu-pr-helper.rst        |   1 +
- docs/tools/qemu-storage-daemon.rst   |   1 +
- docs/tools/qemu-trace-stap.rst       |   1 +
- docs/user/index.rst                  |   3 +-
- hw/nvram/fw_cfg.c                    |   1 +
- include/sysemu/nvmm.h                |   7 +-
- meson.build                          |   2 +-
- pc-bios/keymaps/meson.build          |   3 +-
- target/i386/cpu.c                    |  31 +++++----
- target/i386/cpu.h                    |  23 +++++++
- target/i386/machine.c                |  22 ++++++-
- target/i386/nvmm/nvmm-all.c          |   5 +-
- target/i386/svm.h                    |   8 +++
- target/i386/tcg/seg_helper.c         |   2 +-
- target/i386/tcg/sysemu/excp_helper.c |   2 +-
- target/i386/tcg/sysemu/misc_helper.c |  11 +++-
- target/i386/tcg/sysemu/svm_helper.c  | 121 ++++++++++++++++++++++++-----------
- trace/meson.build                    |   5 +-
- ui/meson.build                       |   4 +-
- util/qemu-thread-posix.c             |  19 ++++++
- 36 files changed, 251 insertions(+), 83 deletions(-)
- create mode 100644 docs/system/i386/cpu.rst
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 6c50d3ab4f..21b33fbe2e 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -257,6 +257,7 @@ typedef enum X86Seg {
+                 | CR4_DE_MASK | CR4_PSE_MASK | CR4_PAE_MASK \
+                 | CR4_MCE_MASK | CR4_PGE_MASK | CR4_PCE_MASK \
+                 | CR4_OSFXSR_MASK | CR4_OSXMMEXCPT_MASK |CR4_UMIP_MASK \
++                | CR4_LA57_MASK \
+                 | CR4_FSGSBASE_MASK | CR4_PCIDE_MASK | CR4_OSXSAVE_MASK \
+                 | CR4_SMEP_MASK | CR4_SMAP_MASK | CR4_PKE_MASK | CR4_PKS_MASK))
+ 
 -- 
 2.31.1
+
 
 
