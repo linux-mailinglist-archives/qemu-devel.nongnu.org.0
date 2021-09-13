@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 064AC408ADC
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:16:30 +0200 (CEST)
-Received: from localhost ([::1]:36742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D67B408AD5
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:15:34 +0200 (CEST)
+Received: from localhost ([::1]:35824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPksv-000505-3U
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:16:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42970)
+	id 1mPks1-0004Ns-2f
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:15:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mPkb8-0002ux-5j
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:58:07 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39566)
+ id 1mPkbA-0002vA-0Y
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:58:09 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:54019)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mPkb6-000610-M3
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:58:05 -0400
-Received: by mail-wr1-x436.google.com with SMTP id u15so8208068wru.6
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 04:58:03 -0700 (PDT)
+ id 1mPkb7-00062O-R3
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:58:07 -0400
+Received: by mail-wm1-x330.google.com with SMTP id i3so6454427wmq.3
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 04:58:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WwPR13OXi9fX3IyCvHJSOgO2fs5MlAYtMNrY89yA+cU=;
- b=XRBux6Ru+mp9RGicIEYP9nLA2aKwQnxlOty19ym5uM/wLkO2s3lFC9T2tZ82qTIgzm
- JfosQv13mQk4EFHKqcqADfP1dRiaj2PekXyd9tMvSb0PAItRePZKYGhsnZDksjzVQ3sv
- 0/qld8iAGF2LHuQ5PbBKKNqgx22zHTQwgjGMaeb9CHc55bGtn7NFcgoKzKqh8wVn10NR
- bzcf9aZ4Sf4ubHvP7r5ZeeG8hG3VxlsZHm0ANrD9WaqWurlyv4I5xw1qF6rMLZW9FoGp
- o1V8znol7aH3TQPBOTptZAl4gZTENJzMiJjmkaCqGjofxtQiFlxlu/qIdt6vNcPn2TTR
- VBSQ==
+ bh=14SEeU0UMLkgFlaB4KV5IS119VHrF2FPl2DRudjmlkA=;
+ b=H9gYRaBzpLNfFX7aXI6ZKYgap/UnQprXEPTrOleE+Gr/YbkRtPyE2B4wL4YsgBD+nN
+ yZMdZY64nWxJVPZB0SCAOlUTH5twmTTiBED5UE5hPbENWW9DcZw36bq6wqgBpdq0jz8t
+ uqKpBwdHL9RB2KOAsRr3OUvQFtcsynqaFCS381uXjrRB8hnvFdL6HDoOzgxzp3jPvW1t
+ RMaD2xNA0wU4TLbDP9peu5iwOJLwHvNBrYUnqNocwRjXrH5b03BWGS/VqG/oddUGBKOi
+ dDHwXNSmFLfr9AE2bz//vNo66RkAR8EPjmIloJxYyGtzS9Sbg2LpOOYUeAbLeHVyF+3F
+ Soxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=WwPR13OXi9fX3IyCvHJSOgO2fs5MlAYtMNrY89yA+cU=;
- b=JTaNw31BHyyuyNAQMbLaI9/2I0leQc2/9d9zLqHbxG9YHgxmSqocDVY2Z4XKFkYuzd
- xUc5kmUY4qUmGtXjYHi/kDR1TG7ehvFx43JgJzho41QlglrCN+Tcm7zkYFmpaMwcQhNd
- 555k9u9qMuoLFoPB3jVh+4ok+QJsxPZYl5c7Ouc8JsAkMm6/B4LQ8bdibWoWOIjDE5y9
- 2zEOLa91YTdccLTJduHrQBO7dMpyFKfkD7HOiXEgLuV0XaXwhofgUkeQxGdOzrP8slSC
- UXhq5StA0S65JlLp1+Bfab4tfK92LplKglqIz2Nk5AvG6YhbFRI8W0JASU+xCsknLhCb
- uJYA==
-X-Gm-Message-State: AOAM531S/NfpeZS6WmTr85SW85eQqnXHbfm/fQ8dzXr7LDR8kQa17394
- 4nILo9ZeyEs+qcOoO886W0cg2tn5Ru0=
-X-Google-Smtp-Source: ABdhPJy+QT1d1o78nTOlkHtJnrpEAeSPrM2pfZntOUTHBgQktU77hQy5t0vtsBw5qQAotsJUec6Abw==
-X-Received: by 2002:a5d:4488:: with SMTP id j8mr12245441wrq.260.1631534282789; 
- Mon, 13 Sep 2021 04:58:02 -0700 (PDT)
+ bh=14SEeU0UMLkgFlaB4KV5IS119VHrF2FPl2DRudjmlkA=;
+ b=E51LkUkkJGjq9i9xBuRP3BahEu/kLjfq4UgOZJ0zjZICHfCeSYAOpho6+8xs7XZpPn
+ iKJJFdd1yEF19ZnbtaPyKs3ca1U9/52vKWYSX/9mfqHGvSvgs/3pbGAd7iDX1by2AAs1
+ NCF8jN5JE2hD7im5l0m0LEtz4jhgUB1spDYfoANS3dAY4I20AcvC72CrdPCTaXfDqr0Z
+ W9hXpAWIY/FHEYODXv+KHUq0+NmV6Yc3AMg3Iq7uBSyj/rBbU8rEBsph2GvaWFfOW9k9
+ 6mYne77ShzNUstJic1c3bfLndd8OLoWjc6IPyf8SMC080G65W7TSm/fd9rXE7j8r7eUU
+ juow==
+X-Gm-Message-State: AOAM533gnzS4PCvJO9j+DuF7yPmY5MxTiuteMWqNPn7zoZUq5Phgylq2
+ dnz0oOU8CRyFhcrPj6Phvx6yaPcQ1L8=
+X-Google-Smtp-Source: ABdhPJzL4H2ED59Oy+no/zEyfvwGTPavmeNzbbM5+Ax1J8/DgQi2YKJPr5q9HGlcZ+pKukPEN3aKNg==
+X-Received: by 2002:a7b:c947:: with SMTP id i7mr702373wml.179.1631534284490;
+ Mon, 13 Sep 2021 04:58:04 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n186sm6011037wme.31.2021.09.13.04.58.01
+ by smtp.gmail.com with ESMTPSA id n186sm6011037wme.31.2021.09.13.04.58.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 04:58:02 -0700 (PDT)
+ Mon, 13 Sep 2021 04:58:04 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/21] docs/system: move x86 CPU configuration to a separate
- document
-Date: Mon, 13 Sep 2021 13:57:33 +0200
-Message-Id: <20210913115742.533197-13-pbonzini@redhat.com>
+Subject: [PULL 13/21] meson.build: Do not look for VNC-related libraries if
+ have_system is not set
+Date: Mon, 13 Sep 2021 13:57:34 +0200
+Message-Id: <20210913115742.533197-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210913115742.533197-1-pbonzini@redhat.com>
 References: <20210913115742.533197-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,73 +85,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, cpu-models-x86.rst.inc is included in target-i386.rst directly.
-To make the toctree more homogeneous when adding more documentation,
-include it through a first-class .rst file.
+From: Thomas Huth <thuth@redhat.com>
 
-Together with the previous changes to the man page skeletons, this also
-frees "===" for the headings, so that cpu-models-x86.rst.inc need not
-assume anything about the headings used by target-i386.rst.
+When running "./configure --static --disable-system" there is currently
+a warning if the static version of libpng is missing:
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+ WARNING: Static library 'png16' not found for dependency 'libpng', may not
+ be statically linked
+
+Since it does not make sense to look for the VNC-related libraries at all
+when we're building without system emulator binaries, let's add a check
+for have_system here to silence this warning.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210906153939.165567-1-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/system/cpu-models-x86.rst.inc | 4 ++--
- docs/system/i386/cpu.rst           | 1 +
- docs/system/target-i386.rst        | 8 +++++++-
- 3 files changed, 10 insertions(+), 3 deletions(-)
- create mode 100644 docs/system/i386/cpu.rst
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/system/cpu-models-x86.rst.inc b/docs/system/cpu-models-x86.rst.inc
-index 9119f5dff5..6e8be7d79b 100644
---- a/docs/system/cpu-models-x86.rst.inc
-+++ b/docs/system/cpu-models-x86.rst.inc
-@@ -1,5 +1,5 @@
- Recommendations for KVM CPU model configuration on x86 hosts
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+============================================================
- 
- The information that follows provides recommendations for configuring
- CPU models on x86 hosts. The goals are to maximise performance, while
-@@ -368,7 +368,7 @@ featureset, which prevents guests having optimal performance.
- 
- 
- Syntax for configuring CPU models
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+=================================
- 
- The examples below illustrate the approach to configuring the various
- CPU models / features in QEMU and libvirt.
-diff --git a/docs/system/i386/cpu.rst b/docs/system/i386/cpu.rst
-new file mode 100644
-index 0000000000..738719da9a
---- /dev/null
-+++ b/docs/system/i386/cpu.rst
-@@ -0,0 +1 @@
-+.. include:: ../cpu-models-x86.rst.inc
-diff --git a/docs/system/target-i386.rst b/docs/system/target-i386.rst
-index 22ba5ce2c0..c9720a8cd1 100644
---- a/docs/system/target-i386.rst
-+++ b/docs/system/target-i386.rst
-@@ -19,7 +19,13 @@ Board-specific documentation
-    i386/microvm
-    i386/pc
- 
--.. include:: cpu-models-x86.rst.inc
-+Architectural features
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   i386/cpu
- 
- .. _pcsys_005freq:
- 
+diff --git a/meson.build b/meson.build
+index 7e58e6279b..f07236d947 100644
+--- a/meson.build
++++ b/meson.build
+@@ -931,7 +931,7 @@ vnc = not_found
+ png = not_found
+ jpeg = not_found
+ sasl = not_found
+-if not get_option('vnc').disabled()
++if have_system and not get_option('vnc').disabled()
+   vnc = declare_dependency() # dummy dependency
+   png = dependency('libpng', required: get_option('vnc_png'),
+                    method: 'pkg-config', kwargs: static_kwargs)
 -- 
 2.31.1
 
