@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9501A4096B4
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 17:04:29 +0200 (CEST)
-Received: from localhost ([::1]:44772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7373B4096C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 17:08:15 +0200 (CEST)
+Received: from localhost ([::1]:48704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPnVU-00088h-0r
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 11:04:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33944)
+	id 1mPnZ8-0002jl-Gt
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 11:08:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mPnT2-0006Yk-Va
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 11:01:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52904)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mPnXI-0001k0-7P
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 11:06:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mPnT0-00088f-8m
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 11:01:55 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mPnXG-00036d-MZ
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 11:06:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631545312;
+ s=mimecast20190719; t=1631545577;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=AywoRnR4HUIiz1vey0WmyeIMVu3V/yq3JbFnGvW1RuY=;
- b=XvswWX1AEt0L7aSpsDT9sIY5LENTZZBcIZUs7NSeC15Df8HyMg/5b6LGYupdkpMYRCUtzB
- w8B495/R0p8XhG+6BldV/yCUV0SfS38gvev61ulzcgfmM6UGv6UL8Mhb69xjTakBCsWIVn
- NZW1y95vcRdIijcBWMpR9jw6a5EuPLY=
+ bh=m5FMm2OEXgS3pt/NGIhjo5gnyehc8tguYaR9eAVBCxc=;
+ b=esQfEXsj3/HrWB8DNs+//8Sh8UxSckAax1A/bFWTJiOvXuUdAyRm+OFPBnJOR8IQNiGIGH
+ 0T1fDFUCB+1pHG9xF8mInh+MEH4f1WecTasU0L4LBwpAlWa1HEQkHgubVI92h4MYYxuKXJ
+ Og2NCxiLOe8lgbsVpwYMG6hYL/B72Xk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-mDAoAOFgNxyn3ECeXiB-Mg-1; Mon, 13 Sep 2021 11:01:49 -0400
-X-MC-Unique: mDAoAOFgNxyn3ECeXiB-Mg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-444-V403ulxaOEqcdVbsJ08XOg-1; Mon, 13 Sep 2021 11:06:16 -0400
+X-MC-Unique: V403ulxaOEqcdVbsJ08XOg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EA49804324
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 15:01:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F6198010F4
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 15:06:15 +0000 (UTC)
 Received: from redhat.com (ovpn-113-222.phx2.redhat.com [10.3.113.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 026E060871;
- Mon, 13 Sep 2021 15:01:14 +0000 (UTC)
-Date: Mon, 13 Sep 2021 10:01:13 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C43C369A;
+ Mon, 13 Sep 2021 15:06:11 +0000 (UTC)
+Date: Mon, 13 Sep 2021 10:06:09 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 11/22] tests/qapi-schema: Prepare for simple union
- UserDefListUnion removal
-Message-ID: <20210913150113.cd6nsqfx5zsustfz@redhat.com>
+Subject: Re: [PATCH 12/22] test-qobject-input-visitor: Wean off
+ UserDefListUnion
+Message-ID: <20210913150609.hr4fm3uqyqd4vlz5@redhat.com>
 References: <20210913123932.3306639-1-armbru@redhat.com>
- <20210913123932.3306639-12-armbru@redhat.com>
+ <20210913123932.3306639-13-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210913123932.3306639-12-armbru@redhat.com>
+In-Reply-To: <20210913123932.3306639-13-armbru@redhat.com>
 User-Agent: NeoMutt/20210205-772-2b4c52
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,23 +82,33 @@ Cc: marcandre.lureau@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 13, 2021 at 02:39:21PM +0200, Markus Armbruster wrote:
-> Simple unions predate flat unions.  Having both complicates the QAPI
-> schema language and the QAPI generator.  We haven't been using simple
-> unions in new code for a long time, because they are less flexible and
-> somewhat awkward on the wire.
+On Mon, Sep 13, 2021 at 02:39:22PM +0200, Markus Armbruster wrote:
+> The test_visitor_in_list_union_FOO() use simple union UserDefListUnion
+> to cover lists of builtin types.  Rewrite as
+> test_visitor_in_list_struct(), using struct ArrayStruct and a lot less
+> code.
 > 
-> To prepare for their removal, simple union UserDefListUnion has to go.
-> It is used to cover arrays.  The next few commits will eliminate its
-> uses, and then it gets deleted.  As a first step, provide struct
-> ArrayStruct for the tests to be rewritten.
+> test_visitor_in_fail_union_list() uses UserDefListUnion to cover
+> "variant members don't match the discriminator value".  Cover that in
+> test_visitor_in_fail_union_flat() instead, and drop
+> test_visitor_in_fail_union_list().  Appropriating the former for this
+> purpose is okay, because it actually failed due to missing
+> discriminator, which is still covered by
+> test_visitor_in_fail_union_flat_no_discrim().
 > 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  tests/qapi-schema/qapi-schema-test.json | 16 ++++++++++++++++
->  tests/qapi-schema/qapi-schema-test.out  | 16 ++++++++++++++++
->  2 files changed, 32 insertions(+)
->
+>  tests/unit/test-qobject-input-visitor.c | 460 ++++++++----------------
+>  1 file changed, 148 insertions(+), 312 deletions(-)
+> 
+> @@ -1206,7 +1066,7 @@ static void test_visitor_in_fail_union_flat(TestInputVisitorData *data,
+>      Error *err = NULL;
+>      Visitor *v;
+>  
+> -    v = visitor_input_test_init(data, "{ 'string': 'c', 'integer': 41, 'boolean': true }");
+> +    v = visitor_input_test_init(data, "{ 'enum1': 'value2', 'string': 'c', 'integer': 41, 'boolean': true }");
+
+Long line; do we care?
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
