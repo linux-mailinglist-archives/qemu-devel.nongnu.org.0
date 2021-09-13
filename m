@@ -2,49 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69E71408ACD
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:13:37 +0200 (CEST)
-Received: from localhost ([::1]:58870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E533C408B4C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:48:21 +0200 (CEST)
+Received: from localhost ([::1]:37440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPkq6-0000YM-IF
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:13:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43990)
+	id 1mPlNk-0003jf-Pn
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:48:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1mPkfX-0000dM-Ka; Mon, 13 Sep 2021 08:02:39 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:43988 helo=zulu616.server4you.de)
+ id 1mPklU-0002In-Pb; Mon, 13 Sep 2021 08:08:48 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:44008 helo=zulu616.server4you.de)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1mPkfU-0000an-TS; Mon, 13 Sep 2021 08:02:39 -0400
-Received: from MacBook-Air.alex.local
+ id 1mPklR-0004hL-Pt; Mon, 13 Sep 2021 08:08:48 -0400
+Received: from localhost.localdomain
  (dynamic-095-118-088-150.95.118.pool.telefonica.de [95.118.88.150])
- by csgraf.de (Postfix) with ESMTPSA id 80AAB608037D;
- Mon, 13 Sep 2021 14:02:33 +0200 (CEST)
-Subject: Re: [PATCH v9 07/11] hvf: arm: Implement PSCI handling
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210912230757.41096-1-agraf@csgraf.de>
- <20210912230757.41096-8-agraf@csgraf.de>
- <CAFEAcA8BybrfxNxkWbEjxji4DvDumr6Otb_RK_f84Dt_TWXfpA@mail.gmail.com>
- <ad707e0d-8d4a-0248-80f4-a02a7226ce0a@csgraf.de>
- <CAFEAcA_OBK1hbqC1Nc7J+VEwkO54WvqBrNa=bR5T3tZW+nfEkQ@mail.gmail.com>
+ by csgraf.de (Postfix) with ESMTPSA id 3F330608037D;
+ Mon, 13 Sep 2021 14:08:43 +0200 (CEST)
 From: Alexander Graf <agraf@csgraf.de>
-Message-ID: <3132e2f5-41a6-6011-808b-7ea12abec1c0@csgraf.de>
-Date: Mon, 13 Sep 2021 14:02:33 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+To: QEMU Developers <qemu-devel@nongnu.org>
+Subject: [PATCH v10 00/10] hvf: Implement Apple Silicon Support
+Date: Mon, 13 Sep 2021 14:08:32 +0200
+Message-Id: <20210913120842.62116-1-agraf@csgraf.de>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_OBK1hbqC1Nc7J+VEwkO54WvqBrNa=bR5T3tZW+nfEkQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
  helo=zulu616.server4you.de
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.969,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,78 +48,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Peter Collingbourne <pcc@google.com>, Marc Zyngier <maz@kernel.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Peter Collingbourne <pcc@google.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Frank Yang <lfy@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Now that Apple Silicon is widely available, people are obviously excited
+to try and run virtualized workloads on them, such as Linux and Windows.
 
-On 13.09.21 13:44, Peter Maydell wrote:
-> On Mon, 13 Sept 2021 at 12:07, Alexander Graf <agraf@csgraf.de> wrote:
->>
->> On 13.09.21 10:54, Peter Maydell wrote:
->>> Something in here should be checking whether the insn the guest
->>> used matches the PSCI conduit configured for the VM, ie
->>> what arm_is_psci_call() does after your patch 10.
->>
->> It's yet another case where I believe we are both reading the spec
->> differently :)
->>
->>   https://documentation-service.arm.com/static/6013e5faeee5236980d08619
->>
->> Section 2.5.3 speaks about the conduits. It says
->>
->>     Service calls are expected to be invoked through SMC instructions,
->> except
->>     for Standard Hypervisor Calls and Vendor Specific Hypervisor Calls. On
->>     some platforms, however, SMC instructions are not available, and the
->>     services can be accessed through HVC instructions. The method that
->>     is used to invoke the service is referred to as the conduit.
->>
->> To me, that reads like "Use SMC whenever you can. If your hardware does
->> not give you a way to handle SMC calls, falling back to HVC is ok. In
->> that case, indicate that mandate to the OS".
-> QEMU here is being the platform, so we define what the conduit is
-> (or if one even exists). For the virt board this is "if the
-> guest has EL3 firmware, then the guest firmware is providing PSCI,
-> and QEMU should not; otherwise if the guest has EL2 then QEMU's
-> emulated firmware should be at EL3 using SMC, otherwise use HVC".
->
-> (So in practice for hvf at the moment this will mean the conduit
-> is always HVC, since hvf doesn't allow EL3 or EL2 in the guest.)
->
->> In hvf, we can very easily trap for SMC calls and handle them. Why are
->> we making OSs implement HVC call paths when SMC would work just as well
->> for everyone?
-> OSes have to handle both anyway, because on real hardware if
-> there is no EL3 then it is IMPDEF whether SMC is trappable
-> to the hypervisor or whether it just UNDEFs to EL1.
->
->> To keep your train of thought though, what would you do if we encounter
->> a conduit that is different from the chosen one? Today, I am aware of 2
->> different implementations: TCG injects #UD [1] while KVM sets x0 to -1 [2].
-> If the SMC or HVC insn isn't being used for PSCI then it should
-> have its standard architectural behaviour.
+This patch set implements a fully functional version to get the ball
+going on that. With this applied, I can successfully run both Linux and
+Windows as guests. I am not aware of any limitations specific to
+Hypervisor.framework apart from:
+
+  - gdbstub debugging (breakpoints)
+  - missing GICv3 support
+
+To use hvf support, please make sure to run -M virt,highmem=off to fit
+in M1's physical address space limits and use -cpu host.
 
 
-Why? Also, why does KVM behave differently? And why does Windows rely on
-SMC availability on boot?
-
-If you really insist that you don't care about users running Windows
-with TCG and EL2=0, so be it. At least you can enable EL2 and it works
-then. But I can't on hvf. It's one of the most useful use cases for hvf
-on QEMU and I won't break it just because you insist that "SMC behavior
-is IMPDEF, so it must be UNDEF". If it's IMPDEF, it may as well be "set
-x0 to -1 and add 4 to pc".
-
-And yes, this is a hill I will die on :)
-
+Enjoy!
 
 Alex
+
+v1 -> v2:
+
+  - New patch: hvf: Actually set SIG_IPI mask
+  - New patch: hvf: Introduce hvf vcpu struct
+  - New patch: hvf: arm: Mark CPU as dirty on reset
+  - Removed patch: hw/arm/virt: Disable highmem when on hypervisor.framework
+  - Removed patch: arm: Synchronize CPU on PSCI on
+  - Fix build on 32bit arm
+  - Merge vcpu kick function patch into ARM enablement
+  - Implement WFI handling (allows vCPUs to sleep)
+  - Synchronize system registers (fixes OVMF crashes and reboot)
+  - Don't always call cpu_synchronize_state()
+  - Use more fine grained iothread locking
+  - Populate aa64mmfr0 from hardware
+  - Make safe to ctrl-C entitlement application
+
+v2 -> v3:
+
+  - Removed patch: hvf: Actually set SIG_IPI mask
+  - New patch: hvf: arm: Add support for GICv3
+  - New patch: hvf: arm: Implement -cpu host
+  - Advance PC on SMC
+  - Use cp list interface for sysreg syncs
+  - Do not set current_cpu
+  - Fix sysreg isread mask
+  - Move sysreg handling to functions
+  - Remove WFI logic again
+  - Revert to global iothread locking
+
+v3 -> v4:
+
+  - Removed patch: hvf: arm: Mark CPU as dirty on reset
+  - New patch: hvf: Simplify post reset/init/loadvm hooks
+  - Remove i386-softmmu target (meson.build for hvf target)
+  - Combine both if statements (PSCI)
+  - Use hv.h instead of Hypervisor.h for 10.15 compat
+  - Remove manual inclusion of Hypervisor.h in common .c files
+  - No longer include Hypervisor.h in arm hvf .c files
+  - Remove unused exe_full variable
+  - Reuse exe_name variable
+
+v4 -> v5:
+
+  - Use g_free() on destroy
+
+v5 -> v6:
+
+  - Switch SYSREG() macro order to the same as asm intrinsics
+
+v6 -> v7:
+
+  - Already merged: hvf: Add hypervisor entitlement to output binaries
+  - Already merged: hvf: x86: Remove unused definitions
+  - Patch split: hvf: Move common code out
+    -> hvf: Move assert_hvf_ok() into common directory
+    -> hvf: Move vcpu thread functions into common directory
+    -> hvf: Move cpu functions into common directory
+    -> hvf: Move hvf internal definitions into common header
+    -> hvf: Make hvf_set_phys_mem() static
+    -> hvf: Remove use of hv_uvaddr_t and hv_gpaddr_t
+    -> hvf: Split out common code on vcpu init and destroy
+    -> hvf: Use cpu_synchronize_state()
+    -> hvf: Make synchronize functions static
+    -> hvf: Remove hvf-accel-ops.h
+  - New patch: hvf: arm: Implement PSCI handling
+  - New patch: arm: Enable Windows 10 trusted SMCCC boot call
+  - New patch: hvf: arm: Handle Windows 10 SMC call
+  - Removed patch: "arm: Set PSCI to 0.2 for HVF" (included above)
+  - Removed patch: "hvf: arm: Add support for GICv3" (deferred to later)
+  - Remove osdep.h include from hvf_int.h
+  - Synchronize SIMD registers as well
+  - Prepend 0x for hex values
+  - Convert DPRINTF to trace points
+  - Use main event loop (fixes gdbstub issues)
+  - Remove PSCI support, inject UDEF on HVC/SMC
+  - Change vtimer logic to look at ctl.istatus for vtimer mask sync
+  - Add kick callback again (fixes remote CPU notification)
+  - Move function define to own header
+  - Do not propagate SVE features for HVF
+  - Remove stray whitespace change
+  - Verify that EL0 and EL1 do not allow AArch32 mode
+  - Only probe host CPU features once
+  - Move WFI into function
+  - Improve comment wording
+  - Simplify HVF matching logic in meson build file
+
+v7 -> v8:
+
+  - checkpatch fixes
+  - Do not advance for HVC, PC is already updated by hvf
+    (fixes Linux boot)
+
+v8 -> v9:
+
+  - [Merged] hvf: Move assert_hvf_ok() into common directory
+  - [Merged] hvf: Move vcpu thread functions into common directory
+  - [Merged] hvf: Move cpu functions into common directory
+  - [Merged] hvf: Move hvf internal definitions into common header
+  - [Merged] hvf: Make hvf_set_phys_mem() static
+  - [Merged] hvf: Remove use of hv_uvaddr_t and hv_gpaddr_t
+  - [Merged] hvf: Split out common code on vcpu init and destroy
+  - [Merged] hvf: Use cpu_synchronize_state()
+  - [Merged] hvf: Make synchronize functions static
+  - [Merged] hvf: Remove hvf-accel-ops.h
+  - [Merged] hvf: Introduce hvf vcpu struct
+  - [Merged] hvf: Simplify post reset/init/loadvm hooks
+  - [Dropped] arm: Enable Windows 10 trusted SMCCC boot call
+  - [Dropped] hvf: arm: Handle Windows 10 SMC call
+  - [New] arm: Move PMC register definitions to cpu.h
+  - [New] hvf: Add execute to dirty log permission bitmap
+  - [New] hvf: Introduce hvf_arch_init() callback
+  - [New] hvf: arm: Implement PSCI handling
+  - [New] hvf: arm: Add rudimentary PMC support
+  - [New] arm: tcg: Adhere to SMCCC 1.3 section 5.2
+  - [New] hvf: arm: Adhere to SMCCC 1.3 section 5.2
+  - Make kick function non-weak
+  - Use arm_cpu_do_interrupt()
+  - Remove CNTPCT_EL0 write case
+  - Inject UDEF on invalid sysreg access
+  - Add support for OS locking sysregs
+  - Remove PMCCNTR_EL0 handling
+  - Print PC on unhandled sysreg trace
+  - Sync SP (x31) based on SP_EL0/SP_EL1
+  - Fix SPSR_EL1 mapping
+  - Only sync known sysregs, assert when syncing fails
+  - Improve error message on unhandled ec
+  - Move vtimer sync to post-exit (fixes disable corner case from
+    kvm-unit-tests)
+  - Add vtimer offset, migration and pause logic
+  - Flush registers only after EXCP checkers (fixes PSCI on race)
+  - Remove Windows specifics and just comply with SMCCC spec
+  - Zero-initialize host_isar
+  - Use M1 SCTLR reset value
+  - Add support for cntv offsets
+  - Improve code readability
+  - Use new hvf_raise_exception() prototype
+  - Make cpu_off function void
+  - Add comment about return value, use -1 for "not found"
+  - Remove cpu_synchronize_state() when halted
+
+v9 -> v10:
+
+  - [Dropped] hvf: arm: Adhere to SMCCC 1.3 section 5.2
+  - Only handle PSCI calls for the current conduit
+  - Return true/false
+  - Return -1 in x0 on unknown SMC/HVC calls
+  - Move to target/arm/internals.h
+  - Fail -cpu host class creation gracefully
+  - Adjust error message on -cpu host realize failure
+  - Extend SCTLR comment that hvf returns 0 as default value
+  - Return true/false
+  - Report errors lazily
+  - Fix comment
+
+Alexander Graf (9):
+  arm: Move PMC register definitions to cpu.h
+  hvf: Add execute to dirty log permission bitmap
+  hvf: Introduce hvf_arch_init() callback
+  hvf: Add Apple Silicon support
+  hvf: arm: Implement -cpu host
+  hvf: arm: Implement PSCI handling
+  arm: Add Hypervisor.framework build target
+  hvf: arm: Add rudimentary PMC support
+  arm: tcg: Adhere to SMCCC 1.3 section 5.2
+
+Peter Collingbourne (1):
+  arm/hvf: Add a WFI handler
+
+ MAINTAINERS                 |    5 +
+ accel/hvf/hvf-accel-ops.c   |   21 +-
+ include/sysemu/hvf_int.h    |   12 +-
+ meson.build                 |    8 +
+ target/arm/cpu.c            |   17 +-
+ target/arm/cpu.h            |    2 +
+ target/arm/helper.c         |   44 --
+ target/arm/hvf/hvf.c        | 1261 +++++++++++++++++++++++++++++++++++
+ target/arm/hvf/meson.build  |    3 +
+ target/arm/hvf/trace-events |   11 +
+ target/arm/hvf_arm.h        |   19 +
+ target/arm/internals.h      |   44 ++
+ target/arm/kvm_arm.h        |    2 -
+ target/arm/meson.build      |    2 +
+ target/arm/psci.c           |   35 +-
+ target/i386/hvf/hvf.c       |   10 +
+ 16 files changed, 1408 insertions(+), 88 deletions(-)
+ create mode 100644 target/arm/hvf/hvf.c
+ create mode 100644 target/arm/hvf/meson.build
+ create mode 100644 target/arm/hvf/trace-events
+ create mode 100644 target/arm/hvf_arm.h
+
+-- 
+2.30.1 (Apple Git-130)
 
 
