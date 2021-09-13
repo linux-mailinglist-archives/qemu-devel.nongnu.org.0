@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10607409415
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 16:30:17 +0200 (CEST)
-Received: from localhost ([::1]:45874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BED7409227
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 16:08:57 +0200 (CEST)
+Received: from localhost ([::1]:53382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPmyO-0003vK-3H
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 10:30:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41588)
+	id 1mPmdk-0004a5-FT
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 10:08:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPmN2-0000oX-Gz
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:51:40 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:36486)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPmN0-0001o9-3m
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:51:40 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id g16so14862017wrb.3
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 06:51:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=WhQ9rWRN2WvfMXULaMC1cIHfEHmJnm5f+oONuJMueCE=;
- b=tLlsWT8tr7IYa51iJUBmzwLTOc4WjePIvX6lhmYdY8VaGxrwphxVlcoIspIEeVeanr
- 1b9cD+XEUT506RdlRU5bZFkxt0QzssPdEgByRL+/zq2WARa5DErjFQeD18Vp9lG9CbzF
- 4JYhcPyRhE07WfW3SiDVysfWj3Wfvd+UMqkcRJkpNEMwznPKiXEreNIxQZ4k95ToGX/p
- WndmaCleXFdx1Emw1qAtWWyCgQK+m6/DA1XB6O+541dFnopyiMdJEWCMYTOIbcU6jByP
- WAWBWXF3zHmFsOOHXpOUo/fn7nYO+O1pRlU/7hTSAcEyL9PrDnbQV9Y0moD9OImoGBDZ
- 1/ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=WhQ9rWRN2WvfMXULaMC1cIHfEHmJnm5f+oONuJMueCE=;
- b=DJjW3Id7HK6zJZ3GgUvNt9VNaCZB7uE+6veQ0ZpGYW7rfOJdE3CgjjYK6dTvEdjyd4
- uaDa7toAFWXozqdGq90ZXr9WTo0gnXVEOzAt9fGc4cHXfi7z3dhDQRVWS83fO1J/Dyon
- WyAJpheudkveOU+C/WTJRFEkFeQu8mJhD7br92efsy2tt7DbdWchPdYFetECX9HaRx4I
- AyIWSW7daGIBcI9ZY39cvD/v7UqJGUwKsJ0rVaG5X6D8K5auOV9DJ6asGYi1jdeTvrA9
- zUDY1kDpbgRg5Z/NPEZbBtqNXq4bXDdIs8yWkBcpRrdFlW97uiLteD6vhPnyTEL8qm4S
- qSHg==
-X-Gm-Message-State: AOAM531lKVSh+MtgeOvudwkiercaJ0rU3mPHbmowoZS0aDUu8ZPuPyhO
- hFSBJMpN38YJ68x/fSqDseJvlxs0IsTOqVsFtUflvQ==
-X-Google-Smtp-Source: ABdhPJxHQAKr1TJbrEFuIkfGIawDoUFbDGl61a4Mnz6KX2Fejo6TgHO/vf6lv+0bS97ZwAaa5If1IQ3GYJpMk7hj8lY=
-X-Received: by 2002:a5d:4647:: with SMTP id j7mr12878442wrs.149.1631541095352; 
- Mon, 13 Sep 2021 06:51:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPmQN-0007fV-MJ
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:55:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25123)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPmQJ-00044r-Kw
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:55:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631541301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8BdFb5BSnrnnS+m8pbjkXqoREUU8V9z1M8dv3rB99aw=;
+ b=BMKy8+JruKONJRV31XAWD3Ul7tim1prvBm9aLHiHNTNvqWtdTBSj+Qv45JTLbUMwah7QnC
+ kLwQhx0cqJkx7QKm5jGq5qLIaaxvt1i8zREX+CRMmia5wUqxxQB2hEVyRZMwa5O6nL/S09
+ 36VeJHV2+QIaRWWb1+ucuRfGVocgvuk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-223--6dK9R6ZMF2mGnlSKN-18g-1; Mon, 13 Sep 2021 09:54:58 -0400
+X-MC-Unique: -6dK9R6ZMF2mGnlSKN-18g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14BE81018732
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 13:54:58 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1263E6A8EE;
+ Mon, 13 Sep 2021 13:54:55 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9C450113865F; Mon, 13 Sep 2021 15:54:53 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH 01/22] qapi: Tidy up unusual line breaks
+References: <20210913123932.3306639-1-armbru@redhat.com>
+ <20210913123932.3306639-2-armbru@redhat.com>
+ <CAMxuvaxE4fbkK-nX-K7ni9C4tUdXTTbCe=S1eAPvHCb2RUpFOQ@mail.gmail.com>
+Date: Mon, 13 Sep 2021 15:54:53 +0200
+In-Reply-To: <CAMxuvaxE4fbkK-nX-K7ni9C4tUdXTTbCe=S1eAPvHCb2RUpFOQ@mail.gmail.com>
+ (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Mon, 13 Sep 2021
+ 17:29:36 +0400")
+Message-ID: <87mtogk2c2.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20210913130950.214756-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20210913130950.214756-1-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Sep 2021 14:50:44 +0100
-Message-ID: <CAFEAcA97pX7qHLXkGL23_ygFk2hcJEw2J7CSKDJukdbxpvgKpg@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: add supported host CPU architectures section
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,90 +84,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: John Snow <jsnow@redhat.com>, "Blake, Eric" <eblake@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 Sept 2021 at 14:10, <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> I was looking for such documentation, but couldn't find it. Add it to
-> the build-platform.rst document.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  docs/about/build-platforms.rst | 28 ++++++++++++++++++++++++++++
->  meson.build                    |  2 +-
->  2 files changed, 29 insertions(+), 1 deletion(-)
->
-> diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.=
-rst
-> index 692323609e..518a19aff7 100644
-> --- a/docs/about/build-platforms.rst
-> +++ b/docs/about/build-platforms.rst
-> @@ -29,6 +29,34 @@ The `Repology`_ site is a useful resource to identify
->  currently shipped versions of software in various operating systems,
->  though it does not cover all distros listed below.
->
-> +Supported host architectures
-> +----------------------------
-> +
-> +Those hosts have a native TCG backend and are regularly tested:
-> +
-> +  .. list-table::
-> +   :header-rows: 1
-> +
-> +   * - CPU Architecture
-> +     - Accelerators
-> +   * - Arm
-> +     - kvm (64 bit only), xen
-> +   * - MIPS
-> +     - kvm
-> +   * - PPC
-> +     - kvm
-> +   * - RISC-V
-> +     -
-> +   * - s390x
-> +     - kvm
-> +   * - SPARC
-> +     -
-> +   * - x86
-> +     - kvm, xen, hax, hvf (64 bit only), nvmm, whpx (64 bit only)
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
 
-I still wonder if this would be clearer if we listed 'tcg' as
-an accelerator like all the others, rather than describing it as
-a kind of special case in the text above the table. After all, you
-can select it with '-accel tcg' the same as any other.
-
-I think the information in the table is correct now.
-
-Sort the list of accelerators alphabetically ?
-
-> +
-> +Other architectures are not actively maintained. They may be removed in =
-future
-> +releases.
-> +
->  Linux OS, macOS, FreeBSD, NetBSD, OpenBSD
->  -----------------------------------------
+> Hi
 >
-> diff --git a/meson.build b/meson.build
-> index 9a64d16943..27593c9b90 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -78,7 +78,7 @@ endif
+> On Mon, Sep 13, 2021 at 4:39 PM Markus Armbruster <armbru@redhat.com> wro=
+te:
 >
->  accelerator_targets =3D { 'CONFIG_KVM': kvm_targets }
->  if cpu in ['x86', 'x86_64', 'arm', 'aarch64']
-> -  # i368 emulator provides xenpv machine type for multiple architectures
-> +  # i386 emulator provides xenpv machine type for multiple architectures
->    accelerator_targets +=3D {
->      'CONFIG_XEN': ['i386-softmmu', 'x86_64-softmmu'],
->    }
+>> Break lines between members instead of within members.
+>>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>
+>
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> I wish we would just automated tools to format files. With that git 2.23
+> feature, no more excuses :):
+> https://www.moxio.com/blog/43/ignoring-bulk-change-commits-with-git-blame
 
-This change appears to be unrelated ?
+Interesting.
 
-thanks
--- PMM
+> Sadly, our mixed json/py format doesn't get parsed after "blake" reformat=
+s
+> it (strings or trailing commas).
+
+Naming QAPI schema files .json even though their contents isn't was a
+mistake.
+
+We discussed possible improvements in the thread below
+
+    Message-ID: <87ime52wxd.fsf@dusky.pond.sub.org>
+    https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg08325.html
+
+Too much to read, but there's a summary:
+
+    Message-ID: <877dt5ofoi.fsf@dusky.pond.sub.org>
+    https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg02553.html
+
+The least invasive way to achieve formatting automation could be
+switching from bastardized JSON to proper subset of Python.
+
+What's "blake"?
+
 
