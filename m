@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24EF408ABB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:09:08 +0200 (CEST)
-Received: from localhost ([::1]:46848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00371408ABD
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:09:22 +0200 (CEST)
+Received: from localhost ([::1]:47696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPkln-0000gP-DR
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:09:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42898)
+	id 1mPkm2-0001G7-1p
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:09:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mPkb0-0002ps-R7
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:57:59 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:37844)
+ id 1mPkb2-0002rj-Cv
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:58:00 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mPkaz-0005td-99
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:57:58 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id t8so9227074wrq.4
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 04:57:56 -0700 (PDT)
+ id 1mPkb0-0005wI-Tc
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:58:00 -0400
+Received: by mail-wr1-x431.google.com with SMTP id t18so14312064wrb.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 04:57:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IBf010dxB3czTGLExguHE9lNbcC2xzM9osq4hO9COOE=;
- b=FOP5pDtY+mcqqlO1T2TKO0GHd+k+0QFej6cyimmsuEYb1ayLTzkCB6+Heca7PakpPA
- Jtln/+eAKmx/AQzsPhQBwDSn8kXbCtJ+eV4WraaP9yl6UBiK7Vw7LeRTCUl9JKx8YSgZ
- 5KORt0wWH5alafMtrp9FnDCxGjK+o3SLMVYslHeFkSN44Y7hiRSLOKyZKovn1eXIjCoH
- Qr3wA+WxFoFa8lmEg3Ht7m0IDoyFcasBdviddnwIvYHtiX1CCaGmU3AQ3j1CTsYFvKJf
- AymCuJw8vEzN7Mz3uIQBv6YQktEy2i4+k/1YUuf0O8SBWX9xMwTEkbVVUZKBqwGxktcn
- 5Lhw==
+ bh=QDW0/wH2iY9wyTNx+C9A/U5ln75ztBlF6G4LQIygGKU=;
+ b=KIcKTmSvqSIr+7uXbcMGpFZ9vh00LzE2pO4rSdhzw27VvIdhK2dPwLfgvgpV1ymj8m
+ sVHhKzfz5X4tnUWracbGSbwcV3/MVsqIf0P/7NSNNzS4GK+c3yh5aQKpqpMWa/eqaYID
+ 1VvLD0rTenK2uWoHkmZqikuo/SWGvSQDVSkIg1ol1OT7EoMo5u5dTWbHFLCfFAu8zIkt
+ f/HNgM6o/ypvtG53RZ4P/6rf3N4L+xaRTgQJMm9N/QN+Qln2XN1ODTjfF5aMqz/epWDr
+ 0pFtGSy0CvzZnI1h/6JD3TQbdO3B9krEBKXlmFH0olFkVGeZHkZrXDmxEuZ+DlCPHZlV
+ Q/yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IBf010dxB3czTGLExguHE9lNbcC2xzM9osq4hO9COOE=;
- b=g3S3LRnmh91TecjuXpBrMffjq77qrSaGa22Lhx7wbzMwUWWZpTbgETzoZwbHvaGSTh
- 5gihFaUYLPsjpRdLNFyZDjpfPPT2HiYbnX5WcNmMCJAIYqzpJPnbGPife1vHKVBbN+Ou
- bAM/4OReixGkyIGgxwGM2syT80PUkFv5KpJ/ObhAS982WRc91Sz7eegATBk09QY0IA49
- orA0KMoxGdFwkcPr786s8DBemibnOMw9/lrKWrBo75RVowFzK6zeWHA02P/VtelNp4LA
- BEd6CSeSWfpuDndGvjBG+VmzUV5GWW4ykO/E6r19SgjswqNchfC52WUisc0sZvwRg7x0
- +B9w==
-X-Gm-Message-State: AOAM530qTnvr0y+AAXQ9yZpQRU9Kt/PJLzuaxGNQHikxHDHiejrBrTzB
- 0xMkfie5F8hFxuSElPw/0rpd48r+SXw=
-X-Google-Smtp-Source: ABdhPJzRJLM7j3MWyjaRoEoKFzViq8xu7MGfll/7DnSi6LHgA2QoXJxhmXgYYqVedZnZ/PaF9FEIrQ==
-X-Received: by 2002:a5d:6750:: with SMTP id l16mr12004956wrw.174.1631534275996; 
- Mon, 13 Sep 2021 04:57:55 -0700 (PDT)
+ bh=QDW0/wH2iY9wyTNx+C9A/U5ln75ztBlF6G4LQIygGKU=;
+ b=0X6bBtXS+pZTYe97uXlu/d1tHXbuhDKws47vK1lhR5R9J2Z5VCJHNv54mVoAqguphi
+ qNi9lfiKo0NamrEhjl5GZ3TFJUjsE91XTcXqtE/zqhB0dKN5WTs6ETFRdIRXKaMReNWH
+ 8fKsobEq2eRTcL84xBp73Zcj/cyCj/Rt7bNophwdpMqnL948fW4KLL1b30datU3Kx4Hq
+ ZXMs6PW9j/tH6JnZriTZKANntw+AxdHL6MNs9zyNg+XNoaLEjLAgz0r6I7HkFOVlA27F
+ e2jvFrYCRtmdTnUJ8v6UbmhcxZauICiIugwwQU1i5bpEmdPLilXIYgOjI1hsbpdwr2y/
+ ULpQ==
+X-Gm-Message-State: AOAM531Tc1sc5v5r6H6UF7l6OWWZ5+fWLwXCG0OP0SSpMvzwab5RRzqA
+ pGXthefn7U/oIMFwo3TEoIPNmZW3hpQ=
+X-Google-Smtp-Source: ABdhPJwwBwFY0EwOTsEO8JwHjaWJ8o3pIAupA6O91vfwnYQv8xPqjosB6VOceFj/OlH4U6lwnCJV5w==
+X-Received: by 2002:adf:e806:: with SMTP id o6mr11790254wrm.239.1631534277618; 
+ Mon, 13 Sep 2021 04:57:57 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n186sm6011037wme.31.2021.09.13.04.57.54
+ by smtp.gmail.com with ESMTPSA id n186sm6011037wme.31.2021.09.13.04.57.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 04:57:55 -0700 (PDT)
+ Mon, 13 Sep 2021 04:57:57 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/21] target/i386: Added vVMLOAD and vVMSAVE feature
-Date: Mon, 13 Sep 2021 13:57:29 +0200
-Message-Id: <20210913115742.533197-9-pbonzini@redhat.com>
+Subject: [PULL 09/21] docs: standardize book titles to === with overline
+Date: Mon, 13 Sep 2021 13:57:30 +0200
+Message-Id: <20210913115742.533197-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210913115742.533197-1-pbonzini@redhat.com>
 References: <20210913115742.533197-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,131 +83,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lara Lazier <laramglazier@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lara Lazier <laramglazier@gmail.com>
+Documents within a Sphinx manual are separate files and therefore can use
+different conventions for headings.  However, keeping some consistency is
+useful so that included files are easy to get right.
 
-The feature allows the VMSAVE and VMLOAD instructions to execute in guest mode without
-causing a VMEXIT. (APM2 15.33.1)
+This patch uses a standard heading format for book titles, so that it is
+obvious when a file sits at the top level toctree of a book or man page.
+The heading is irrelevant for man pages, but keep it consistent as well.
 
-Signed-off-by: Lara Lazier <laramglazier@gmail.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.h                    |  2 ++
- target/i386/svm.h                    |  2 ++
- target/i386/tcg/sysemu/excp_helper.c |  2 +-
- target/i386/tcg/sysemu/svm_helper.c  | 29 ++++++++++++++++++++++++++++
- 4 files changed, 34 insertions(+), 1 deletion(-)
+ docs/index.rst                     | 1 +
+ docs/system/qemu-block-drivers.rst | 1 +
+ docs/system/qemu-cpu-models.rst    | 1 +
+ docs/system/qemu-manpage.rst       | 5 +++--
+ docs/tools/qemu-img.rst            | 1 +
+ docs/tools/qemu-nbd.rst            | 1 +
+ docs/tools/qemu-pr-helper.rst      | 1 +
+ docs/tools/qemu-storage-daemon.rst | 1 +
+ docs/tools/qemu-trace-stap.rst     | 1 +
+ 9 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 6b09b8b62f..71ae3141c3 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -2261,6 +2261,8 @@ static inline bool ctl_has_irq(CPUX86State *env)
-     return (env->int_ctl & V_IRQ_MASK) && (int_prio >= tpr);
- }
+diff --git a/docs/index.rst b/docs/index.rst
+index 5f7eaaa632..0b9ee9901d 100644
+--- a/docs/index.rst
++++ b/docs/index.rst
+@@ -3,6 +3,7 @@
+    You can adapt this file completely to your liking, but it should at least
+    contain the root `toctree` directive.
  
-+hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
-+                        int *prot);
- #if defined(TARGET_X86_64) && \
-     defined(CONFIG_USER_ONLY) && \
-     defined(CONFIG_LINUX)
-diff --git a/target/i386/svm.h b/target/i386/svm.h
-index 036597a2ff..f9a785489d 100644
---- a/target/i386/svm.h
-+++ b/target/i386/svm.h
-@@ -24,6 +24,8 @@
- #define V_INTR_MASKING_SHIFT 24
- #define V_INTR_MASKING_MASK (1 << V_INTR_MASKING_SHIFT)
++================================
+ Welcome to QEMU's documentation!
+ ================================
  
-+#define V_VMLOAD_VMSAVE_ENABLED_MASK (1 << 1)
-+
- #define SVM_INTERRUPT_SHADOW_MASK 1
+diff --git a/docs/system/qemu-block-drivers.rst b/docs/system/qemu-block-drivers.rst
+index bd99d4fa8e..eb276481d6 100644
+--- a/docs/system/qemu-block-drivers.rst
++++ b/docs/system/qemu-block-drivers.rst
+@@ -1,5 +1,6 @@
+ :orphan:
  
- #define SVM_IOIO_STR_SHIFT 2
-diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/excp_helper.c
-index b6d940e04e..7af887be4d 100644
---- a/target/i386/tcg/sysemu/excp_helper.c
-+++ b/target/i386/tcg/sysemu/excp_helper.c
-@@ -358,7 +358,7 @@ do_check_protect_pse36:
-     return error_code;
- }
++============================
+ QEMU block drivers reference
+ ============================
  
--static hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
-+hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
-                         int *prot)
- {
-     CPUX86State *env = &X86_CPU(cs)->env;
-diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-index 7bbd3a18c9..6d39611eb6 100644
---- a/target/i386/tcg/sysemu/svm_helper.c
-+++ b/target/i386/tcg/sysemu/svm_helper.c
-@@ -120,6 +120,25 @@ static inline bool virtual_gif_enabled(CPUX86State *env)
-     return false;
- }
+diff --git a/docs/system/qemu-cpu-models.rst b/docs/system/qemu-cpu-models.rst
+index 53d7538c47..8c51e2bf49 100644
+--- a/docs/system/qemu-cpu-models.rst
++++ b/docs/system/qemu-cpu-models.rst
+@@ -1,5 +1,6 @@
+ :orphan:
  
-+static inline bool virtual_vm_load_save_enabled(CPUX86State *env, uint32_t exit_code, uintptr_t retaddr)
-+{
-+    uint64_t lbr_ctl;
-+
-+    if (likely(env->hflags & HF_GUEST_MASK)) {
-+        if (likely(!(env->hflags2 & HF2_NPT_MASK)) || !(env->efer & MSR_EFER_LMA)) {
-+            cpu_vmexit(env, exit_code, 0, retaddr);
-+        }
-+
-+        lbr_ctl = x86_ldl_phys(env_cpu(env), env->vm_vmcb + offsetof(struct vmcb,
-+                                                  control.lbr_ctl));
-+        return (env->features[FEAT_SVM] & CPUID_SVM_V_VMSAVE_VMLOAD)
-+                && (lbr_ctl & V_VMLOAD_VMSAVE_ENABLED_MASK);
-+
-+    }
-+
-+    return false;
-+}
-+
- static inline bool virtual_gif_set(CPUX86State *env)
- {
-     return !virtual_gif_enabled(env) || (env->int_ctl & V_GIF_MASK);
-@@ -431,6 +450,7 @@ void helper_vmload(CPUX86State *env, int aflag)
- {
-     CPUState *cs = env_cpu(env);
-     target_ulong addr;
-+    int prot;
++==================================
+ QEMU / KVM CPU model configuration
+ ==================================
  
-     cpu_svm_check_intercept_param(env, SVM_EXIT_VMLOAD, 0, GETPC());
+diff --git a/docs/system/qemu-manpage.rst b/docs/system/qemu-manpage.rst
+index e9a25d0680..d6f44e265b 100644
+--- a/docs/system/qemu-manpage.rst
++++ b/docs/system/qemu-manpage.rst
+@@ -6,8 +6,9 @@
+    parts of the documentation that go in the manpage as well as the
+    HTML manual.
  
-@@ -440,6 +460,10 @@ void helper_vmload(CPUX86State *env, int aflag)
-         addr = (uint32_t)env->regs[R_EAX];
-     }
+-Title
+-=====
++=======================
++QEMU User Documentation
++=======================
  
-+    if (virtual_vm_load_save_enabled(env, SVM_EXIT_VMLOAD, GETPC())) {
-+        addr = get_hphys(cs, addr, MMU_DATA_LOAD, &prot);
-+    }
-+
-     qemu_log_mask(CPU_LOG_TB_IN_ASM, "vmload! " TARGET_FMT_lx
-                   "\nFS: %016" PRIx64 " | " TARGET_FMT_lx "\n",
-                   addr, x86_ldq_phys(cs, addr + offsetof(struct vmcb,
-@@ -473,6 +497,7 @@ void helper_vmsave(CPUX86State *env, int aflag)
- {
-     CPUState *cs = env_cpu(env);
-     target_ulong addr;
-+    int prot;
+ Synopsis
+ --------
+diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+index b7d602a288..fe6c30d509 100644
+--- a/docs/tools/qemu-img.rst
++++ b/docs/tools/qemu-img.rst
+@@ -1,3 +1,4 @@
++=======================
+ QEMU disk image utility
+ =======================
  
-     cpu_svm_check_intercept_param(env, SVM_EXIT_VMSAVE, 0, GETPC());
+diff --git a/docs/tools/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
+index ee862fa0bc..e39a9f4b1a 100644
+--- a/docs/tools/qemu-nbd.rst
++++ b/docs/tools/qemu-nbd.rst
+@@ -1,3 +1,4 @@
++=====================================
+ QEMU Disk Network Block Device Server
+ =====================================
  
-@@ -482,6 +507,10 @@ void helper_vmsave(CPUX86State *env, int aflag)
-         addr = (uint32_t)env->regs[R_EAX];
-     }
+diff --git a/docs/tools/qemu-pr-helper.rst b/docs/tools/qemu-pr-helper.rst
+index ac036180ac..eaebe40da0 100644
+--- a/docs/tools/qemu-pr-helper.rst
++++ b/docs/tools/qemu-pr-helper.rst
+@@ -1,3 +1,4 @@
++==================================
+ QEMU persistent reservation helper
+ ==================================
  
-+    if (virtual_vm_load_save_enabled(env, SVM_EXIT_VMSAVE, GETPC())) {
-+        addr = get_hphys(cs, addr, MMU_DATA_STORE, &prot);
-+    }
-+
-     qemu_log_mask(CPU_LOG_TB_IN_ASM, "vmsave! " TARGET_FMT_lx
-                   "\nFS: %016" PRIx64 " | " TARGET_FMT_lx "\n",
-                   addr, x86_ldq_phys(cs,
+diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
+index 3ec4bdd914..b8ef4486f1 100644
+--- a/docs/tools/qemu-storage-daemon.rst
++++ b/docs/tools/qemu-storage-daemon.rst
+@@ -1,3 +1,4 @@
++===================
+ QEMU Storage Daemon
+ ===================
+ 
+diff --git a/docs/tools/qemu-trace-stap.rst b/docs/tools/qemu-trace-stap.rst
+index fb70445c75..d53073b52b 100644
+--- a/docs/tools/qemu-trace-stap.rst
++++ b/docs/tools/qemu-trace-stap.rst
+@@ -1,3 +1,4 @@
++=========================
+ QEMU SystemTap trace tool
+ =========================
+ 
 -- 
 2.31.1
 
