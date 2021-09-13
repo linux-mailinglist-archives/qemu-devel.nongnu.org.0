@@ -2,74 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D9F408A91
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 13:55:15 +0200 (CEST)
-Received: from localhost ([::1]:46138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D21408A89
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 13:52:17 +0200 (CEST)
+Received: from localhost ([::1]:40144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPkYM-0005l3-V5
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 07:55:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40296)
+	id 1mPkVU-0001go-P0
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 07:52:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPkQv-0006iB-2p
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:47:33 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:46009)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPkQq-0006iH-7A
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:47:32 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- j17-20020a05600c1c1100b002e754875260so6384100wms.4
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 04:47:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=QqX7zi2/fiYEhYtHFRtK49p3CC8zKh3HGtBL9QroxxI=;
- b=lyxB5e8UPUEBnMHVnsixelQwxuMJUQm6fDbDiy+UwwXOC4t1+YtnGDRfFqe7n+RbU1
- N9PtqIM2UWhc9yDzh/gq2Q3ScFFuvlv0cAyrCF5PMUpGPvb0I6NJetgCcjJg9F7n0ogK
- Nju0A5nF7Ijxezg1E8yki/PHB6WnvQ22h9OGSMt0OdR1iJF4v2Mh74wnOxwVrI/e5y+w
- YL4dwrPse3G7tMphcUvO40eFllKSo+sbvrwXMgSqc3NtB9JAjwsNhz5y0RC/UIHBQNmW
- KAD4tcHlaHB3NeZ/wAaSg/kbhN5kfrJQAAzOujVxgTsT9pxKVi/JccgE2+0+6xWcKD/p
- 3QNg==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mPkQF-00068Z-5b
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:46:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60222)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mPkQA-00069e-MV
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:46:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631533604;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pcJwNQ60RT9EYND6cn/HcUcc90mDzl4XnuJOndlPH0M=;
+ b=fagonKlu6DC9IoldzFBhHEwC4fEsK/i2EHJqNBzAQLSehRvL7F1J2Tze0OCzhjM1YJSuBb
+ 4gtnhh7aysHqVWe3r9fdn+3i+fIgBIYPc2varvolAdS8S4sC6ORxr+YOc5igXdmeyfoL+u
+ XGvrTLg/Y/Ijbb51ZGpmHO4gOPSvI5w=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-zU67vADUOmmbQRsDfH7VNg-1; Mon, 13 Sep 2021 07:46:43 -0400
+X-MC-Unique: zU67vADUOmmbQRsDfH7VNg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ y12-20020a1c7d0c000000b003077f64d75fso597088wmc.7
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 04:46:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QqX7zi2/fiYEhYtHFRtK49p3CC8zKh3HGtBL9QroxxI=;
- b=BRsw2jce0RKHPevoGPmuXObBagfZNdWU9s9Zd5Rgr94P4UMZzfhtLLl5u07JfEM6R6
- uMA7GZ/MN6we+a+jjVL4KX4sEoNMtaGAYgvw8zBJfFGowIBGtODGTDCz/pMEavydwN/a
- NWAj1ADl4SjOc0h5S5JUplUROfc0CIGw5aN7QqIqCfwNKnOXD8uRLghAOh0pR5qRRToX
- ip39J2OgHJ6MIuccriBnKqifbJVwbOMPmLAJMofjkwSR11K0Vw7NIWgfkhb7enpfuD7a
- /oOLyFHX0IXkbqguSylEFtHaisLJeEh6GprfGhhqdWRrmvUBvP+ZgnxySYANFlcc5/wv
- n8cw==
-X-Gm-Message-State: AOAM530ycV3+R3N5p/ddEwT3PwDsRi9/PwDYu+yY7+UkMc89D7Fs8+vq
- 5fH8t3S/FCu4fR6H01Hl93QhKctYPMSfdEgo56fa9w==
-X-Google-Smtp-Source: ABdhPJwhhpnzIsHjit+jRnawU5sZY22PoJuhGXqEler4YgnvuoLQKlxXTH4zH4Z/LEsZK07D5j4fUbS3oVfGi9WIQi4=
-X-Received: by 2002:a7b:c246:: with SMTP id b6mr10763922wmj.37.1631533646726; 
- Mon, 13 Sep 2021 04:47:26 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=pcJwNQ60RT9EYND6cn/HcUcc90mDzl4XnuJOndlPH0M=;
+ b=0YLwaaG47+DQp5UnLMqLAP/+28x1wCU7Qd71Uhl3HTaB2wsCDlID2P7GEsvQSbViV8
+ QioQE+v7t0BtSge3lzGmkOI7BEs5S9Y7tUZYHW7YOT0wr5xR/gfxo+sln567gLUXwPre
+ vGbCQyd9fx8WVmsTllzJsihuusG6B5Gp9IXZQpLRFN8f7Ld1QISNJyaNtZ1aGoM6AFOI
+ LfZm0FganxKYffGiPz+Ekk7dGMNr1AxejdMlRnWiWjgWb9n7oPly9FU5/jweTN93Uont
+ Y/lqyA5Uv9rNeBjYP8scr3jjcbzIAcrAPhiBoNXFFd2cRKFs7pYdlfgFztqrVUHc3Hs5
+ 5/iw==
+X-Gm-Message-State: AOAM530C/iYziYSbydW74r6sQQy/FycPwT68MFvWU+sXpgYX6Cn87i14
+ R3OTH4P7zkFYktTDT7tmdgRnK3yLL4Qfzi3sY33OXwRJ2M89xBIrCkPTr8m3x0WaeGqXQn1JKg2
+ MqU2v75Lm5Sin8Ss=
+X-Received: by 2002:a5d:608e:: with SMTP id w14mr12107843wrt.18.1631533602464; 
+ Mon, 13 Sep 2021 04:46:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxxpmHUswUzZZIR3Uu0cPjyeAC6wQ8t97dlb7P0XZbAdRIa465jNfTn6xD+1bZG2K79Ktfgew==
+X-Received: by 2002:a5d:608e:: with SMTP id w14mr12107833wrt.18.1631533602338; 
+ Mon, 13 Sep 2021 04:46:42 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
+ by smtp.gmail.com with ESMTPSA id a6sm6605145wmb.7.2021.09.13.04.46.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Sep 2021 04:46:42 -0700 (PDT)
+Subject: Re: [PATCH v2 07/17] iotests.py: filter out successful output of
+ qemu-img crate
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210720113832.586428-1-vsementsov@virtuozzo.com>
+ <20210720113832.586428-8-vsementsov@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <6202691d-c0e6-069f-5e7a-2c984de4ba98@redhat.com>
+Date: Mon, 13 Sep 2021 13:46:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
- <20210907121943.3498701-2-marcandre.lureau@redhat.com>
- <CAFEAcA9BzYj5N3P-Cykm7tzbu9xJAnBO8rF=vBZ87DJnk=kKzQ@mail.gmail.com>
- <CAMxuvaymO7KUWaQ19r1uL-4bNDnXYP57FHeZfSBTpeh-f0rZbg@mail.gmail.com>
-In-Reply-To: <CAMxuvaymO7KUWaQ19r1uL-4bNDnXYP57FHeZfSBTpeh-f0rZbg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Sep 2021 12:46:36 +0100
-Message-ID: <CAFEAcA-J+g+iV8v_8E4-yzSuSyuMCVTAL-rm3p3aVdJDzjctWw@mail.gmail.com>
-Subject: Re: [RFC v3 01/32] RFC: docs: add supported host CPUs section
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210720113832.586428-8-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,72 +100,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 Sept 2021 at 12:32, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
->
-> Hi
->
-> On Tue, Sep 7, 2021 at 4:34 PM Peter Maydell <peter.maydell@linaro.org> w=
-rote:
->>
->> On Tue, 7 Sept 2021 at 13:23, <marcandre.lureau@redhat.com> wrote:
->> >
->> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> >
->> > I was looking for such documentation, but couldn't find it.
->>
->> Yes; this is definitely something we should document, and in
->> the build-platforms doc is as good a place as any.
->>
->> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> > ---
->> >  docs/about/build-platforms.rst | 28 ++++++++++++++++++++++++++++
->> >  meson.build                    |  2 +-
->> >  2 files changed, 29 insertions(+), 1 deletion(-)
->> >
->> > diff --git a/docs/about/build-platforms.rst b/docs/about/build-platfor=
-ms.rst
->> > index 692323609e..bfe90e574e 100644
->> > --- a/docs/about/build-platforms.rst
->> > +++ b/docs/about/build-platforms.rst
->> > @@ -29,6 +29,34 @@ The `Repology`_ site is a useful resource to identi=
-fy
->> >  currently shipped versions of software in various operating systems,
->> >  though it does not cover all distros listed below.
->> >
->> > +Supported host CPUs
->> > +-------------------
->> > +
->> > +Those host CPUs have a native TCG backend and are regularly tested:
->>
->> This is a list of host architectures, not CPUs.
->
->
-> Isn't it CPU architecture we are talking about? (CPU for short in the tit=
-le)
+Subject: s/crate/create/
 
-My point is that "CPU" !=3D "CPU architecture". "CPU" is something
-like "Skylake" or "Cortex-A15". "CPU architecture" is "x86-64",
-"arm", etc.
+On 20.07.21 13:38, Vladimir Sementsov-Ogievskiy wrote:
+> The only "feature" of this "Formatting ..." line is that we have to
+> update it every time we add new option. Let's drop it.
 
->> The table also seems to me to be a bit confusing, because
->> the introductory text suggests it's a list of the TCG
->> support for each architecture, but the table itself lists
->> only the non-TCG accelerators. I think we should just list
->> all the accelerators supported for each host architecture.
->
->
-> All the architectures we support (in the list) have proper TCG, right?
+Sounds good to me.
 
-Yes.
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/255.out    |  4 ----
+>   tests/qemu-iotests/274.out    | 29 -----------------------------
+>   tests/qemu-iotests/280.out    |  1 -
+>   tests/qemu-iotests/iotests.py | 10 ++++++++--
+>   4 files changed, 8 insertions(+), 36 deletions(-)
 
-thanks
--- PMM
+Grepping like so:
+
+$ (for f in $(ag -l 'Formatting' | grep '\.out' | sed -e 's/\.out.*//'); 
+do \
+     echo -n "$f "; \
+     head -n 1 $f; \
+done) | grep python
+
+yields also 149, 237, and 296 as tests whose reference output needs to 
+be adjusted.
+
+(Although 149 just fails for me altogether, seemingly for the same 
+reason that makes 210 fail.)
+
+Hanna
+
 
