@@ -2,107 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB261409A2D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 18:57:30 +0200 (CEST)
-Received: from localhost ([::1]:40706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55AD5409A65
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 19:10:31 +0200 (CEST)
+Received: from localhost ([::1]:33374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPpGq-0002r9-Ro
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 12:57:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39042)
+	id 1mPpTS-0001Qk-Dl
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 13:10:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1mPosW-0001N8-PB
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:32:20 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26726)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1mPosU-00059f-Mp
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:32:20 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 18DFI8rj000310
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 12:32:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=vGsNBCVnxl4lif2+i2VytkNl1OiFBLSsNaVYbb+DI/A=;
- b=dZSDpMxMEd1vP8Gzf68l4aHZcQh6Xo/CZmTPf/nTfu2mJ7MvSYi8aAY6kyzrf/wOe9sA
- LTKROi0StNwq8G0d3+wDxHYQVyBtdF6E/+tt+75uaPCJ0Ty1uKjhw9nFWFdQJTePdTUk
- apEIZbRDChJ/nXOcIHIb+tjPj5tHzcsz9TQzLcmpyqcwTRt69O8fqlRpWuyD2ak0lRZf
- kSaH14T5jzXr5qTf6NhxkNVfUeAjnofpJTcJ2SU8Y8JsqHGEJBXgSX+YTF2sp+E0DSPK
- Iy79HS6ry6ofk+8kTT41ACknWXFKEc2vVjRweeZBVmgF0ZcYqcFIqgu7af+VEVYIQJlc 0g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3b23hw3pgk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 12:32:15 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18DF8Atq007103
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 12:32:15 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3b23hw3pg4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Sep 2021 12:32:15 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18DGJjWt007109;
- Mon, 13 Sep 2021 16:32:14 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma01dal.us.ibm.com with ESMTP id 3b0m3bwvkt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 13 Sep 2021 16:32:14 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 18DGWDtA14156498
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 13 Sep 2021 16:32:13 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EAA5D78068;
- Mon, 13 Sep 2021 16:32:12 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 98E887805F;
- Mon, 13 Sep 2021 16:32:12 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 13 Sep 2021 16:32:12 +0000 (GMT)
-Subject: Re: [PATCH 05/22] qapi: Convert simple union TpmTypeOptions to flat
- one
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20210913123932.3306639-1-armbru@redhat.com>
- <20210913123932.3306639-6-armbru@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <438e44f9-ef24-d459-b4a4-5a9ac04c9f5f@linux.ibm.com>
-Date: Mon, 13 Sep 2021 12:32:12 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mPou2-0003hu-Sb
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:33:55 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:37758)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mPou0-0006Kf-DX
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:33:54 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ c8-20020a7bc008000000b002e6e462e95fso7480706wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 09:33:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=//XUTQSh1vSC0iKp+W/uxw6zSi5fBYh3GxNmXJh/nVw=;
+ b=ZXko8VYhw51QHEjFZUr/pB3/QHn+b4jYjU1mJO0GW/RZrFi+8PAeHokfKxysn2bmKV
+ clfUHRbzMlTvR9OrUjDWT4BneYnK6RnPaaiKHb9xTuNIhX4XmCjgk3Dtwc3Q3UakX9wq
+ I1RC8gZ6Rf5FZpzk/UgVGUUnRGA0X7lu+ABkCdOcYpIXiPcfjoKtaqiLXA+DFHXUsF11
+ BnelL34unv46zYvNxtShUe8QPPgB5gC6IywFZklkk5Mbjno3+R35u5dWKLwqPwC/hQ5Q
+ mHfFwctL77ah0J8CEeEfr3082bgzyuhHwZ3p/8ck7Yxdnuz2DhBQUco+msQIIT/0Q1WU
+ imvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=//XUTQSh1vSC0iKp+W/uxw6zSi5fBYh3GxNmXJh/nVw=;
+ b=4ZwoUe42f3vR/dYv2W+XLBuC9bK6O7DHxbmacxNIKNQGepiVBL79h3MOEMiMe3Pf0f
+ gc2bO5i6RfflgiymCRtYzC+tZBrm74CXyBOqoms2rHw7D16YiHXE3S2leG6FFDOATfct
+ houDQQcmPHRJ1sqYCt4HZGOa5mw4V30nb8l9EbXxdo3tXj3QOYPAiovsllX4OILNPili
+ E/ak7Z/oFlPL+7w2QZQVZYR0tZMcGRY0kXnapak5sAHL68DEDBdDoLjsFHk1p98Ov3Nt
+ nAnaffdMtzGvXyaYkKqfpoSFUYVpXLLRBgZhVmFDRIdpnZHBxnn107ApQislu4jZi3D+
+ 0olg==
+X-Gm-Message-State: AOAM530AULl6cq7QT9BDqFIGSucc+ZPkvqUhqUUYmDR8Pgp1VHUoiZff
+ SlKPWL1+6S5qWOKN2xoToYxgXBZalzkuXqbehQbc1A==
+X-Google-Smtp-Source: ABdhPJy5l2JR1AySUrShMFWAjACSZ4DY0f6/Wx0UFdImb+pj3Wl4xHKaoOLtGYgrvAk9l+JP73MM8+rmtXazxwLOfxE=
+X-Received: by 2002:a1c:2705:: with SMTP id n5mr11941116wmn.176.1631550829976; 
+ Mon, 13 Sep 2021 09:33:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210913123932.3306639-6-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: KziXlghxxNBWGf2w4No7rbmvVrE_hBgD
-X-Proofpoint-GUID: zUQygK6XHjGGgi7wsMWf9YgAnST701mP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.687,Hydra:6.0.235,FMLib:17.0.607.475
- definitions=2020-10-13_15,2020-10-13_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- spamscore=0 mlxscore=0 priorityscore=1501 phishscore=0 clxscore=1015
- lowpriorityscore=0 mlxlogscore=999 impostorscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109030001 definitions=main-2109130048
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.969, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210902112520.475901-1-anup.patel@wdc.com>
+ <20210902112520.475901-5-anup.patel@wdc.com>
+ <CAKmqyKPK9zrtM=g6hruL+eRLVPdz76jLR+P0xZ8qPfWXvnSTzg@mail.gmail.com>
+In-Reply-To: <CAKmqyKPK9zrtM=g6hruL+eRLVPdz76jLR+P0xZ8qPfWXvnSTzg@mail.gmail.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Mon, 13 Sep 2021 22:03:38 +0530
+Message-ID: <CAAhSdy2jihzXxxMJkrb7vydjETbpiGDA6b9OmWnUaJv8-jF6OQ@mail.gmail.com>
+Subject: Re: [PATCH v2 04/22] target/riscv: Improve fidelity of guest external
+ interrupts
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::334;
+ envelope-from=anup@brainfault.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,134 +80,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, Stefan Berger <stefanb@linux.vnet.ibm.com>,
- eblake@redhat.com, marcandre.lureau@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Sep 9, 2021 at 12:14 PM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Thu, Sep 2, 2021 at 9:26 PM Anup Patel <anup.patel@wdc.com> wrote:
+> >
+> > The guest external interrupts for external interrupt controller are
+> > not delivered to the guest running under hypervisor on time. This
+> > results in a guest having sluggish response to serial console input
+> > and other I/O events. To improve timely delivery of guest external
+> > interrupts, we check and inject interrupt upon every sret instruction.
+> >
+> > Signed-off-by: Anup Patel <anup.patel@wdc.com>
+> > ---
+> >  target/riscv/op_helper.c | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> >
+> > diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+> > index ee7c24efe7..4c995c239e 100644
+> > --- a/target/riscv/op_helper.c
+> > +++ b/target/riscv/op_helper.c
+> > @@ -129,6 +129,15 @@ target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
+> >
+> >      riscv_cpu_set_mode(env, prev_priv);
+> >
+> > +    /*
+> > +     * QEMU does not promptly deliver guest external interrupts
+> > +     * to a guest running on a hypervisor which in-turn is running
+> > +     * on QEMU. We make dummy call to riscv_cpu_update_mip() upon
+> > +     * every sret instruction so that QEMU pickup guest external
+> > +     * interrupts sooner.
+> > +     */
+> > +     riscv_cpu_update_mip(env_archcpu(env), 0, 0);
+>
+> This doesn't seem right. I don't understand why we need this?
+>
+> riscv_cpu_update_mip() is called when an interrupt is delivered to the
+> CPU, if we are missing interrupts then that is a bug somewhere else.
 
-On 9/13/21 8:39 AM, Markus Armbruster wrote:
-> Simple unions predate flat unions.  Having both complicates the QAPI
-> schema language and the QAPI generator.  We haven't been using simple
-> unions in new code for a long time, because they are less flexible and
-> somewhat awkward on the wire.
->
-> To prepare for their removal, convert simple union TpmTypeOptions to
-> an equivalent flat one, with existing enum TpmType replacing implicit
-> enum TpmTypeOptionsKind.  Adds some boilerplate to the schema, which
-> is a bit ugly, but a lot easier to maintain than the simple union
-> feature.
->
-> Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+I have finally figured out the cause of guest external interrupts being
+missed by Guest/VM.
 
-Acked-by: Stefan Berger <stefanb@linux.ibm.com>
+The riscv_cpu_set_irq() which handles guest external interrupt lines
+of each CPU is called asynchronously. This function in-turn calls
+riscv_cpu_update_mip() but the CPU might be in host mode (V=0)
+or in Guest/VM mode (V=1). If the CPU is in host mode (V=0) when
+the riscv_cpu_set_irq() is called, then the CPU interrupt requested by
+riscv_cpu_update_mip() has no effect because the CPU can't take
+the interrupt until it enters Guest/VM mode.
 
+This patch does the right thing by doing a dummy call to
+riscv_cpu_update_mip() upon SRET instruction so that if the CPU
+had missed a guest interrupt previously then the CPU can take it now.
 
-> ---
->   qapi/tpm.json                  | 24 ++++++++++++++++++++++--
->   backends/tpm/tpm_emulator.c    |  2 +-
->   backends/tpm/tpm_passthrough.c |  2 +-
->   monitor/hmp-cmds.c             |  8 ++++----
->   4 files changed, 28 insertions(+), 8 deletions(-)
->
-> diff --git a/qapi/tpm.json b/qapi/tpm.json
-> index f4dde2f646..b3ade008bf 100644
-> --- a/qapi/tpm.json
-> +++ b/qapi/tpm.json
-> @@ -99,6 +99,24 @@
->   { 'struct': 'TPMEmulatorOptions', 'data': { 'chardev' : 'str' },
->     'if': 'CONFIG_TPM' }
->
-> +##
-> +# @TPMPassthroughOptionsWrapper:
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'struct': 'TPMPassthroughOptionsWrapper',
-> +  'data': { 'data': 'TPMPassthroughOptions' },
-> +  'if': 'CONFIG_TPM' }
-> +
-> +##
-> +# @TPMEmulatorOptionsWrapper:
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'struct': 'TPMEmulatorOptionsWrapper',
-> +  'data': { 'data': 'TPMEmulatorOptions' },
-> +  'if': 'CONFIG_TPM' }
-> +
->   ##
->   # @TpmTypeOptions:
->   #
-> @@ -110,8 +128,10 @@
->   # Since: 1.5
->   ##
->   { 'union': 'TpmTypeOptions',
-> -   'data': { 'passthrough' : 'TPMPassthroughOptions',
-> -             'emulator': 'TPMEmulatorOptions' },
-> +  'base': { 'type': 'TpmType' },
-> +  'discriminator': 'type',
-> +   'data': { 'passthrough' : 'TPMPassthroughOptionsWrapper',
-> +             'emulator': 'TPMEmulatorOptionsWrapper' },
->     'if': 'CONFIG_TPM' }
->
->   ##
-> diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
-> index f8095d23d5..87d061e9bb 100644
-> --- a/backends/tpm/tpm_emulator.c
-> +++ b/backends/tpm/tpm_emulator.c
-> @@ -623,7 +623,7 @@ static TpmTypeOptions *tpm_emulator_get_tpm_options(TPMBackend *tb)
->       TPMEmulator *tpm_emu = TPM_EMULATOR(tb);
->       TpmTypeOptions *options = g_new0(TpmTypeOptions, 1);
->
-> -    options->type = TPM_TYPE_OPTIONS_KIND_EMULATOR;
-> +    options->type = TPM_TYPE_EMULATOR;
->       options->u.emulator.data = QAPI_CLONE(TPMEmulatorOptions, tpm_emu->options);
->
->       return options;
-> diff --git a/backends/tpm/tpm_passthrough.c b/backends/tpm/tpm_passthrough.c
-> index 21b7459183..d5558fae6c 100644
-> --- a/backends/tpm/tpm_passthrough.c
-> +++ b/backends/tpm/tpm_passthrough.c
-> @@ -321,7 +321,7 @@ static TpmTypeOptions *tpm_passthrough_get_tpm_options(TPMBackend *tb)
->   {
->       TpmTypeOptions *options = g_new0(TpmTypeOptions, 1);
->
-> -    options->type = TPM_TYPE_OPTIONS_KIND_PASSTHROUGH;
-> +    options->type = TPM_TYPE_PASSTHROUGH;
->       options->u.passthrough.data = QAPI_CLONE(TPMPassthroughOptions,
->                                                TPM_PASSTHROUGH(tb)->options);
->
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index e00255f7ee..d6858407ad 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -925,10 +925,10 @@ void hmp_info_tpm(Monitor *mon, const QDict *qdict)
->                          c, TpmModel_str(ti->model));
->
->           monitor_printf(mon, "  \\ %s: type=%s",
-> -                       ti->id, TpmTypeOptionsKind_str(ti->options->type));
-> +                       ti->id, TpmType_str(ti->options->type));
->
->           switch (ti->options->type) {
-> -        case TPM_TYPE_OPTIONS_KIND_PASSTHROUGH:
-> +        case TPM_TYPE_PASSTHROUGH:
->               tpo = ti->options->u.passthrough.data;
->               monitor_printf(mon, "%s%s%s%s",
->                              tpo->has_path ? ",path=" : "",
-> @@ -936,11 +936,11 @@ void hmp_info_tpm(Monitor *mon, const QDict *qdict)
->                              tpo->has_cancel_path ? ",cancel-path=" : "",
->                              tpo->has_cancel_path ? tpo->cancel_path : "");
->               break;
-> -        case TPM_TYPE_OPTIONS_KIND_EMULATOR:
-> +        case TPM_TYPE_EMULATOR:
->               teo = ti->options->u.emulator.data;
->               monitor_printf(mon, ",chardev=%s", teo->chardev);
->               break;
-> -        case TPM_TYPE_OPTIONS_KIND__MAX:
-> +        case TPM_TYPE__MAX:
->               break;
->           }
->           monitor_printf(mon, "\n");
+Regards,
+Anup
 
