@@ -2,58 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC7D409F12
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 23:24:19 +0200 (CEST)
-Received: from localhost ([::1]:36580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 768A6409F1F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 23:31:06 +0200 (CEST)
+Received: from localhost ([::1]:39320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPtR4-0000DG-Gt
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 17:24:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54138)
+	id 1mPtXd-0002Lq-Ir
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 17:31:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1mPtQC-0007yu-Dn
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 17:23:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43570)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1mPtQA-0005fp-7P
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 17:23:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0C4B360EE5;
- Mon, 13 Sep 2021 21:23:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631568200;
- bh=GsaLsgmeOo9TWSJ18tE35t5q8xR4NI61onpIGLV+Kpc=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=QtaTQU75ni3u0gacV2vYkQyNtTku+RCX53Jdld3gmXDpy3jjNmytsps4wIkuXnj9l
- VJi0rO6OSE2OpBFMdpCp9yIluuAN2egzd/ZFbNSdph1ok8PoZ/MgBfm6U6EhML3JGJ
- XKkyxA/G4Zs0AlrDo/0Y1/b0h/E864k9T0Tkktg9BgFTJHVj+JC1o/uhfoReulEbuj
- 1uJDXeXKTLovslCKFlQ0/xGmk5SxlypLw8xk/GyUMhMIdm6b9kjIjOCaeCsYmyaHsp
- CreQbiFDxP0xD/jOZIAds17hq7SGw7rtslK7hy/VLorZ0a+U9/QQfabYio+REQ5ivK
- ETAV/GiAp5sKw==
-Message-ID: <f286ec034464bf032be2c174b6415bc9d3665b88.camel@kernel.org>
-Subject: Re: [PATCH v4 22/33] hostmem-epc: Add the reset interface for EPC
- backend reset
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Sean Christopherson <seanjc@google.com>
-Date: Tue, 14 Sep 2021 00:23:18 +0300
-In-Reply-To: <YT+2ddfdb+6u83Jq@google.com>
-References: <20210719112136.57018-1-yang.zhong@intel.com>
- <20210719112136.57018-23-yang.zhong@intel.com>
- <dc8394c5-52a1-573f-36d3-de8bc43973d3@redhat.com>
- <0ec706b694f8e9451452b23c76c8a39155baf357.camel@kernel.org>
- <YT+2ddfdb+6u83Jq@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.36.5-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1mPtWZ-0001JO-Ma; Mon, 13 Sep 2021 17:30:00 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:49514 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1mPtWX-00019e-JT; Mon, 13 Sep 2021 17:29:59 -0400
+Received: from MacBook-Air.alex.local
+ (dynamic-095-118-088-150.95.118.pool.telefonica.de [95.118.88.150])
+ by csgraf.de (Postfix) with ESMTPSA id 3E11060800D8;
+ Mon, 13 Sep 2021 23:29:49 +0200 (CEST)
+Subject: Re: [PATCH v9 07/11] hvf: arm: Implement PSCI handling
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210912230757.41096-1-agraf@csgraf.de>
+ <20210912230757.41096-8-agraf@csgraf.de>
+ <CAFEAcA8BybrfxNxkWbEjxji4DvDumr6Otb_RK_f84Dt_TWXfpA@mail.gmail.com>
+ <ad707e0d-8d4a-0248-80f4-a02a7226ce0a@csgraf.de>
+ <CAFEAcA_OBK1hbqC1Nc7J+VEwkO54WvqBrNa=bR5T3tZW+nfEkQ@mail.gmail.com>
+ <3132e2f5-41a6-6011-808b-7ea12abec1c0@csgraf.de>
+ <CAFEAcA9k0-przZxAXpdwZKju9GW4gFpTcqAxTD4z_QoueHg=NQ@mail.gmail.com>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <b5226bd4-f71d-b1bc-8b27-72a440d18dc9@csgraf.de>
+Date: Mon, 13 Sep 2021 23:29:47 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=jarkko@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -74
-X-Spam_score: -7.5
-X-Spam_bar: -------
-X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA9k0-przZxAXpdwZKju9GW4gFpTcqAxTD4z_QoueHg=NQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.969,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,60 +59,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- kai.huang@intel.com, eblake@redhat.com, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Marc Zyngier <maz@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2021-09-13 at 20:37 +0000, Sean Christopherson wrote:
-> On Mon, Sep 13, 2021, Jarkko Sakkinen wrote:
-> > On Fri, 2021-09-10 at 17:10 +0200, Paolo Bonzini wrote:
-> > > On 19/07/21 13:21, Yang Zhong wrote:
-> > > > +void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
-> > > > +                              Error **errp)
-> > > > +{
-> > > > +    MemoryRegion *mr =3D &backend->mr;
-> > > > +
-> > > > +    mr->enabled =3D false;
-> > > > +
-> > > > +    /* destroy the old memory region if it exist */
-> > > > +    if (fd > 0 && mr->destructor) {
-> > > > +        mr->destructor(mr);
-> > > > +    }
-> > > > +
-> > > > +    sgx_epc_backend_memory_alloc(backend, errp);
-> > > > +}
-> > > > +
-> > >=20
-> > > Jarkko, Sean, Kai,
-> > >=20
-> > > this I think is problematic because it has a race window while=20
-> > > /dev/sgx_vepc is closed and then reopened.  First, the vEPC space cou=
-ld=20
-> > > be exhausted by somebody doing another mmap in the meanwhile.  Second=
-,=20
-> > > somebody might (for whatever reason) remove /dev/sgx_vepc while QEMU =
-runs.
-> >=20
-> > 1: Why is it a problem that mmap() could fail?
->=20
-> The flow in question is QEMU's emulation of a guest RESET.  If mmap() fai=
-ls, QEMU
-> either has to kill the VM or disable SGX.  In either case, it's fatal to =
-a running
-> workload/VM.
 
-Thanks for the explanations.
+On 13.09.21 14:30, Peter Maydell wrote:
+> On Mon, 13 Sept 2021 at 13:02, Alexander Graf <agraf@csgraf.de> wrote:
+>>
+>> On 13.09.21 13:44, Peter Maydell wrote:
+>>> On Mon, 13 Sept 2021 at 12:07, Alexander Graf <agraf@csgraf.de> wrote:
+>>>> To keep your train of thought though, what would you do if we encounter
+>>>> a conduit that is different from the chosen one? Today, I am aware of 2
+>>>> different implementations: TCG injects #UD [1] while KVM sets x0 to -1 [2].
+>>> If the SMC or HVC insn isn't being used for PSCI then it should
+>>> have its standard architectural behaviour.
+>> Why?
+> QEMU's assumption here is that there are basically two scenarios
+> for these instructions:
+>  (1) we're providing an emulation of firmware that uses this
+>      instruction (and only this insn, not the other one) to
+>      provide PSCI services
+>  (2) we're not emulating any firmware at all, we're running it
+>      in the guest, and that guest firmware is providing PSCI
+>
+> In case (1) we provide a PSCI ABI on the end of the insn.
+> In case (2) we provide the architectural behaviour for the insn
+> so that the guest firmware can use it.
+>
+> We don't currently have
+>  (3) we're providing an emulation of firmware that does something
+>      other than providing PSCI services on this instruction
+>
+> which is what I think you're asking for. (Alternatively, you might
+> be after "provide PSCI via SMC, not HVC", ie use a different conduit.
+> If hvf documents that SMC is guaranteed to trap that would be
+> possible, I guess.)
 
-Isn't this more about badly configured system/workloads? That's
-at least for me the existential question.
 
-I'm interested of legit workloads where this behaviour could still
-cause any issues.
+Hvf doesn't document anything. The only documentation it has are its C
+headers.
 
-I'd guess than in e.g. data center environment, you'd have firly
-strict orchestration for this type of resource so that you know
-that workloads have an appropriate bandwidth.
+However, M1 does not implement EL3, but traps SMC calls. It's the only
+chip Apple has out for hvf on ARM today. I would be very surprised if
+they started to regress on that functionality.
 
-/Jarkko
+So, would you be open to changing the default conduit to SMC for
+hvf_enabled()? Is that really a better experience than just modeling
+behavior after KVM?
+
+
+>
+>> Also, why does KVM behave differently?
+> Looks like Marc made KVM set x0 to -1 for SMC calls in kernel commit
+> c0938c72f8070aa; conveniently he's on the cc list here so we can
+> ask him :-)
+>
+>> And why does Windows rely on
+>> SMC availability on boot?
+> Ask Microsoft, but probably either they don't realize that
+> SMC might not exist and be trappable, or they only have a limited
+> set of hosts they care about. CPUs with no EL3 are not that common.
+
+
+I'm pretty sure it's the latter :).
+
+
+>
+>> If you really insist that you don't care about users running Windows
+>> with TCG and EL2=0, so be it. At least you can enable EL2 and it works
+>> then. But I can't on hvf. It's one of the most useful use cases for hvf
+>> on QEMU and I won't break it just because you insist that "SMC behavior
+>> is IMPDEF, so it must be UNDEF". If it's IMPDEF, it may as well be "set
+>> x0 to -1 and add 4 to pc".
+> I am not putting in random hacks for the benefit of specific guest OSes.
+> If there's a good reason why QEMU's behaviour is wrong then we can change
+> it, but "I want Windows to boot" doesn't count.
+
+
+Ok, so today we have 2 implementations for SMC traps in an EL0/1 only VM:
+
+  * TCG injects #UD
+  * KVM sets x0 = -1 and pc += 4.
+
+With v10 of the HVF patch set, I'm following what KVM is doing. Can we
+leave it at that for now and sort out with Marc (and maybe ARM spec
+writers) what we want to do consistently across all implementations as a
+follow-up?
+
+
+Thanks,
+
+Alex
+
 
