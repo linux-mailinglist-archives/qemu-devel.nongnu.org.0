@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02554408E3C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 15:31:54 +0200 (CEST)
-Received: from localhost ([::1]:42492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8941408D5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 15:24:10 +0200 (CEST)
+Received: from localhost ([::1]:53322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPm3s-0007ZL-Ux
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 09:31:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51580)
+	id 1mPlwN-0003mN-SR
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 09:24:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPlFY-0000N9-S4
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:39:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59869)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPlFX-0000JJ-FI
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:39:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPlFU-0000ig-Tg
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:39:52 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPlFT-0000ih-7L
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:39:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1631536784;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dmWPPAxcTcRJV93Ldwrxc3SDg9FSNOWP1YqtKzWXohc=;
- b=IYpy+NtkAKcJtXEMxyVCZlOy7ujFmm5we3BoZyGQn1iN9fi7z0Vzk81LkWEjeaRAjoPUF8
- FMRtxp67MaWUeAv6PCT2Z8zEzm302GFQh9YJK5YrEpv3Jmp5DLR2IKSgjyKZu5VxgcDVDg
- Nx5WZlWIl/vPyGtEmyt7JL9CvjSRt1Q=
+ bh=sOGm3nE7+0jj4zR5BlF4kcWQp7nINQMN8ak8dOR82r8=;
+ b=MBr1+xQRm5QYmW9uc2W5tKUrKb28r8AXGN6gs5XsPRFvpr6sV69WYe64XFfzK29FcpB1OB
+ ZADCLjtjCjkXkscLz2aSxfqATl6iE+uz9tg9WaJaGAH4ktRM3ncRDMy4xoKFi2M0Xr6bB5
+ hH0BFl0xj/flAlD04v2DTshrkTd4bbI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-604-0FCJo2gsOkqnsibfdhODYw-1; Mon, 13 Sep 2021 08:39:43 -0400
-X-MC-Unique: 0FCJo2gsOkqnsibfdhODYw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-604-Z2XnWB9AM1Wdc6qvecOVpQ-1; Mon, 13 Sep 2021 08:39:43 -0400
+X-MC-Unique: Z2XnWB9AM1Wdc6qvecOVpQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 266A6802C80
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 12:39:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDF073FAB
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 12:39:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B793C78433;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C0B745B826;
  Mon, 13 Sep 2021 12:39:42 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3E55911380B0; Mon, 13 Sep 2021 14:39:32 +0200 (CEST)
+ id 41B9D11380B7; Mon, 13 Sep 2021 14:39:32 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/22] tests/qapi-schema: Wean off UserDefListUnion
-Date: Mon, 13 Sep 2021 14:39:25 +0200
-Message-Id: <20210913123932.3306639-16-armbru@redhat.com>
+Subject: [PATCH 16/22] tests/qapi-schema: Simple union UserDefListUnion is now
+ unused, drop
+Date: Mon, 13 Sep 2021 14:39:26 +0200
+Message-Id: <20210913123932.3306639-17-armbru@redhat.com>
 In-Reply-To: <20210913123932.3306639-1-armbru@redhat.com>
 References: <20210913123932.3306639-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,55 +84,115 @@ Cc: jsnow@redhat.com, eblake@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Command boxed-union uses simple union UserDefListUnion to cover
-unions.  Use UserDefFlatUnion instead.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/unit/test-qmp-cmds.c              | 2 +-
- tests/qapi-schema/qapi-schema-test.json | 2 +-
- tests/qapi-schema/qapi-schema-test.out  | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ tests/qapi-schema/qapi-schema-test.json | 17 -------
+ tests/qapi-schema/qapi-schema-test.out  | 64 -------------------------
+ 2 files changed, 81 deletions(-)
 
-diff --git a/tests/unit/test-qmp-cmds.c b/tests/unit/test-qmp-cmds.c
-index 83efa39720..83c9ef5b7c 100644
---- a/tests/unit/test-qmp-cmds.c
-+++ b/tests/unit/test-qmp-cmds.c
-@@ -119,7 +119,7 @@ void qmp_boxed_struct(UserDefZero *arg, Error **errp)
- {
- }
- 
--void qmp_boxed_union(UserDefListUnion *arg, Error **errp)
-+void qmp_boxed_union(UserDefFlatUnion *arg, Error **errp)
- {
- }
- 
 diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
-index b2d795cb19..a4b4405f94 100644
+index a4b4405f94..eae43f41c4 100644
 --- a/tests/qapi-schema/qapi-schema-test.json
 +++ b/tests/qapi-schema/qapi-schema-test.json
-@@ -175,7 +175,7 @@
-   'returns': 'int' }
- { 'command': 'guest-sync', 'data': { 'arg': 'any' }, 'returns': 'any' }
- { 'command': 'boxed-struct', 'boxed': true, 'data': 'UserDefZero' }
--{ 'command': 'boxed-union', 'data': 'UserDefListUnion', 'boxed': true }
-+{ 'command': 'boxed-union', 'data': 'UserDefFlatUnion', 'boxed': true }
- { 'command': 'boxed-empty', 'boxed': true, 'data': 'Empty1' }
+@@ -123,23 +123,6 @@
+ # for testing use of 'str' within alternates
+ { 'alternate': 'AltStrObj', 'data': { 's': 'str', 'o': 'TestStruct' } }
  
- # Smoke test on out-of-band and allow-preconfig-test
+-# for testing lists
+-{ 'union': 'UserDefListUnion',
+-  'data': { 'integer': ['int'],
+-            's8': ['int8'],
+-            's16': ['int16'],
+-            's32': ['int32'],
+-            's64': ['int64'],
+-            'u8': ['uint8'],
+-            'u16': ['uint16'],
+-            'u32': ['uint32'],
+-            'u64': ['uint64'],
+-            'number': ['number'],
+-            'boolean': ['bool'],
+-            'string': ['str'],
+-            'sizes': ['size'],
+-            'any': ['any'],
+-            'user': ['Status'] } } # intentional forward ref. to sub-module
+ { 'struct': 'ArrayStruct',
+   'data': { 'integer': ['int'],
+             's8': ['int8'],
 diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/qapi-schema-test.out
-index 7a488c1d06..f120f10616 100644
+index f120f10616..e43073d795 100644
 --- a/tests/qapi-schema/qapi-schema-test.out
 +++ b/tests/qapi-schema/qapi-schema-test.out
-@@ -232,7 +232,7 @@ command guest-sync q_obj_guest-sync-arg -> any
-     gen=True success_response=True boxed=False oob=False preconfig=False
- command boxed-struct UserDefZero -> None
-     gen=True success_response=True boxed=True oob=False preconfig=False
--command boxed-union UserDefListUnion -> None
-+command boxed-union UserDefFlatUnion -> None
-     gen=True success_response=True boxed=True oob=False preconfig=False
- command boxed-empty Empty1 -> None
-     gen=True success_response=True boxed=True oob=False preconfig=False
+@@ -125,70 +125,6 @@ alternate AltStrObj
+     tag type
+     case s: str
+     case o: TestStruct
+-object q_obj_intList-wrapper
+-    member data: intList optional=False
+-object q_obj_int8List-wrapper
+-    member data: int8List optional=False
+-object q_obj_int16List-wrapper
+-    member data: int16List optional=False
+-object q_obj_int32List-wrapper
+-    member data: int32List optional=False
+-object q_obj_int64List-wrapper
+-    member data: int64List optional=False
+-object q_obj_uint8List-wrapper
+-    member data: uint8List optional=False
+-object q_obj_uint16List-wrapper
+-    member data: uint16List optional=False
+-object q_obj_uint32List-wrapper
+-    member data: uint32List optional=False
+-object q_obj_uint64List-wrapper
+-    member data: uint64List optional=False
+-object q_obj_numberList-wrapper
+-    member data: numberList optional=False
+-object q_obj_boolList-wrapper
+-    member data: boolList optional=False
+-object q_obj_strList-wrapper
+-    member data: strList optional=False
+-object q_obj_sizeList-wrapper
+-    member data: sizeList optional=False
+-object q_obj_anyList-wrapper
+-    member data: anyList optional=False
+-object q_obj_StatusList-wrapper
+-    member data: StatusList optional=False
+-enum UserDefListUnionKind
+-    member integer
+-    member s8
+-    member s16
+-    member s32
+-    member s64
+-    member u8
+-    member u16
+-    member u32
+-    member u64
+-    member number
+-    member boolean
+-    member string
+-    member sizes
+-    member any
+-    member user
+-object UserDefListUnion
+-    member type: UserDefListUnionKind optional=False
+-    tag type
+-    case integer: q_obj_intList-wrapper
+-    case s8: q_obj_int8List-wrapper
+-    case s16: q_obj_int16List-wrapper
+-    case s32: q_obj_int32List-wrapper
+-    case s64: q_obj_int64List-wrapper
+-    case u8: q_obj_uint8List-wrapper
+-    case u16: q_obj_uint16List-wrapper
+-    case u32: q_obj_uint32List-wrapper
+-    case u64: q_obj_uint64List-wrapper
+-    case number: q_obj_numberList-wrapper
+-    case boolean: q_obj_boolList-wrapper
+-    case string: q_obj_strList-wrapper
+-    case sizes: q_obj_sizeList-wrapper
+-    case any: q_obj_anyList-wrapper
+-    case user: q_obj_StatusList-wrapper
+ object ArrayStruct
+     member integer: intList optional=False
+     member s8: int8List optional=False
 -- 
 2.31.1
 
