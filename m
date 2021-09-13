@@ -2,93 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B530540896C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 12:53:39 +0200 (CEST)
-Received: from localhost ([::1]:50894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F8040898A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 12:55:29 +0200 (CEST)
+Received: from localhost ([::1]:53604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPjak-0000qO-Pj
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 06:53:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56616)
+	id 1mPjcT-0002fd-Oc
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 06:55:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mPjWu-0005Vu-8H
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 06:49:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37150)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mPjWr-0005u5-Gf
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 06:49:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631530176;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I1AhIPlN7WObGHPi6a9hgo1HyBDCBGAv4fjr2k9jCY8=;
- b=PuoVDvVdA/EL8GaRqOvZVDLjnhSXJ2KzIZwnoIVQrjaxR5CJwiMhIaNQIOI4S4nFpkA69M
- QrXC0NxB1RtBhq5FK/M1yTl8VLCUbLQTNpKN1hWBR/5Do0lqtWMsBf2itgixcgeEdRHiUo
- H5HFUkC5Dg0nXyzGf8/7G/P3QrwgB/E=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-W37t58yfMdqdnxSCBAeung-1; Mon, 13 Sep 2021 06:49:35 -0400
-X-MC-Unique: W37t58yfMdqdnxSCBAeung-1
-Received: by mail-wm1-f70.google.com with SMTP id
- y23-20020a05600c365700b003015b277f98so1200899wmq.2
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 03:49:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mPjaS-0001Ae-Oh
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 06:53:20 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:44788)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mPjaQ-0000XN-7e
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 06:53:20 -0400
+Received: by mail-wr1-x435.google.com with SMTP id d6so13931116wrc.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 03:53:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=23CQT8JHOlj1uTBsgIsUVOu8S+bFha+sGbNUIz59m4c=;
+ b=CXV4x9cmXFUJnxnzWTPd1r1YiQ5NLHH0YD3C2tYjthDp9Ure2a1sQHinHBpVMIPAcB
+ mkh+gInDJgwHbJFWl8ZYY5NRR5VfWPNxQe8Rd8hkERTAI3BBf+gco0Zo3ckZLYUBD0+9
+ bw2QkfS2B4aAKc+rWnZ+Rm8myL8DVxDswz61jqCR0ekpInPL8g8Am8PHZMnk3YlDpz+Z
+ m7L5n9qgf7QbVpwH2j7irRhwh4KSqqERr1fRoviA3qPTdybsaCRAHVaWapqZMZQ3O9wb
+ HeKFHILIE2KmYbzgllsZtQH5w+AGM+sgC8QS+kgjvqDDHceVT+06sQ9xKkfjPjg1D8qc
+ azag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=I1AhIPlN7WObGHPi6a9hgo1HyBDCBGAv4fjr2k9jCY8=;
- b=EQno7ox7Ioe97hIb8tIR0S/KmUHVIueFmBTZxCO80FLWvN8r3ccjdvl2U3VxfKCB+9
- 4UGdDnMpbRKkv/hPxcpFEei3drLX9bdk/qT54Khiu02hxH5QO0ZjIRdb3p4jN3H/WCpV
- E6BKtfjevIke2ypicIGDNWlWsNqY3Ms+qskccDd/etuXWW+zuK5Jq32kMmeDpIm3P2T5
- 9KuyTD+tcklPEeeS5E+4vfjpySAC+16iIxofaf3pkwpIML384yP3cDR+9iTyKNSq+Q+9
- +GNbL4HdmpL+5E/OSjzTH1ZADd/fF6boHp/GvUo0Tce8jH5c2TVthZfuzK6f/sBa5Kgn
- LiSw==
-X-Gm-Message-State: AOAM533kKEgl6Thga8J45ANEzwU/9SENUs0guIUBEcucNtBloXc/0NEc
- ps7T2ZgnhTGhHCDcJs3yZ/8g9TdRKJ+t1JZpy+iAZs9plFm1FWVc9VFP2L8Wioep3E7zvz7JRiG
- JvSRns9kvkwkVHpw=
-X-Received: by 2002:a05:600c:1c9a:: with SMTP id
- k26mr1447172wms.106.1631530174284; 
- Mon, 13 Sep 2021 03:49:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxAgbOMMm6Lb/qvfRP1QYo8SitdNpzB4HjXq5wRXjr8GWQYf0+dFg4JFihjwy9+u8h6LzmmcA==
-X-Received: by 2002:a05:600c:1c9a:: with SMTP id
- k26mr1447155wms.106.1631530174114; 
- Mon, 13 Sep 2021 03:49:34 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
- by smtp.gmail.com with ESMTPSA id q7sm1398313wru.56.2021.09.13.03.49.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 03:49:33 -0700 (PDT)
-Subject: Re: [PATCH v2 03/17] iotests: drop qemu_img_verbose() helper
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210720113832.586428-1-vsementsov@virtuozzo.com>
- <20210720113832.586428-4-vsementsov@virtuozzo.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <d8d28e9c-64c1-ddfe-d732-b111e69a675e@redhat.com>
-Date: Mon, 13 Sep 2021 12:49:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=23CQT8JHOlj1uTBsgIsUVOu8S+bFha+sGbNUIz59m4c=;
+ b=dLXnyKOJYE5TQWBeKYBsfjRnKPyqSFAE+N0vLacsSYtbcu4YeLLk1z3A9DPELX7hyb
+ T8ys/GqXaa5tv6evt5L5wYnuY7NAxRD7+ePRqBTcTXD8SdDPtA0515e5F7eLEG/mP716
+ DhObODe5CkIs4f0dEuAsC++odBmRGINGB8J/4PBLmLX2D4+49gqHh5HR/eFQ4qmLiXpH
+ t7VYrvMFuSbU4J1yeDUJtr3vsgkiB72DrBXV8urwVeVSP6+z8cZ6nJxojjNrfyqHIYAi
+ hlVqVI8ksIx0xGSs/4rQhe5x2dP6jCKfaljirBnvBh1Owycchl9/ybO0QJW7pEV+hSTe
+ zJeA==
+X-Gm-Message-State: AOAM532cqsalW+hYDJGeLREXGXwhWKcVJncudFcPK2sPuLKIxOq/KERp
+ PYlcR5/3PoqsSVVG/HM4m5tAFcVuMeMAytcMkLPGVw==
+X-Google-Smtp-Source: ABdhPJxcy23iiNtmwprkTe735895MZoa9QgvLKDwpLv/FYoqI7WwYl8J4jgdsiW6EHZqnG184mGDyGQl52sQTimy8hA=
+X-Received: by 2002:adf:fd12:: with SMTP id e18mr7730796wrr.275.1631530396691; 
+ Mon, 13 Sep 2021 03:53:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210720113832.586428-4-vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210519202253.76782-1-agraf@csgraf.de>
+ <20210519202253.76782-16-agraf@csgraf.de>
+ <CAFEAcA9S619pfhfEXUxGQkjBBKahOYm14jpxEam2CQTtC1dRTQ@mail.gmail.com>
+ <45519c63-06b1-1e06-032d-87d2e1338fd8@csgraf.de>
+ <CAFEAcA_vC0beH4NMRP4hHK0drc6PZt073ZVZM=Majnfngkn_xQ@mail.gmail.com>
+ <1c992028-633d-5f5e-f433-59492876eb73@csgraf.de>
+In-Reply-To: <1c992028-633d-5f5e-f433-59492876eb73@csgraf.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 Sep 2021 11:52:26 +0100
+Message-ID: <CAFEAcA9b0TLs1mF5LWThE7007WuFb0rXUGqpbCpG5zsHj4UUyw@mail.gmail.com>
+Subject: Re: [PATCH v8 15/19] hvf: arm: Implement -cpu host
+To: Alexander Graf <agraf@csgraf.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,26 +81,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Peter Collingbourne <pcc@google.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.07.21 13:38, Vladimir Sementsov-Ogievskiy wrote:
-> qemu_img_verbose() has a drawback of not going through generic
-> qemu_img_pipe_and_status(). qemu_img_verbose() is not very popular, so
-> update the only two users to qemu_img_log() and drop qemu_img_verbose()
-> at all.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   tests/qemu-iotests/044        | 5 +++--
->   tests/qemu-iotests/044.out    | 1 +
->   tests/qemu-iotests/209        | 7 ++++---
->   tests/qemu-iotests/209.out    | 2 ++
->   tests/qemu-iotests/iotests.py | 8 --------
->   5 files changed, 10 insertions(+), 13 deletions(-)
+On Mon, 13 Sept 2021 at 11:46, Alexander Graf <agraf@csgraf.de> wrote:
+> Why? You only get to this code path if you already selected -accel hvf.
+> If even a simple "create scratch vcpu" syscall failed then, pretty
+> failure when you define -cpu host is the last thing you care about. Any
+> CPU creation would fail.
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+General design principle -- low level functions should report
+errors upwards, not barf and exit.
 
+-- PMM
 
