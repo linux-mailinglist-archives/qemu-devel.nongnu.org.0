@@ -2,63 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9805408FDA
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 15:47:01 +0200 (CEST)
-Received: from localhost ([::1]:53302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37187409035
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 15:51:07 +0200 (CEST)
+Received: from localhost ([::1]:33698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPmIW-0000Bx-MR
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 09:47:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54256)
+	id 1mPmMT-0005yy-VD
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 09:51:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPlP4-0008GF-SA
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:49:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45588)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mPlR9-0002P3-Bo
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:51:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40083)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPlOx-0007MO-Oz
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:49:41 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mPlR6-0000Tq-3z
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:51:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631537375;
+ s=mimecast20190719; t=1631537507;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UGjQUNv4V2P/zgDx+YbpwccifxOMcmHM5i7PVqg7ioo=;
- b=XodpXP2eQC5qZwGqNYK3IILZlifeISyiHShd8oYi0nJgDWUUWBN2h3e1FqlnBdeHw53y3t
- tGSM99sKwuoaGDOR0OX2pY2JyNjZVrzj8ooTTYZ/LIgh96sGqGK2vd1XIin6d19HdXcuZF
- 9UiHm1y+Jd3yJB5emNaeB0gwjt+vF6U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-D-4v8rb5Po-s99nQ80-cXw-1; Mon, 13 Sep 2021 08:49:32 -0400
-X-MC-Unique: D-4v8rb5Po-s99nQ80-cXw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20CBD824FAA;
- Mon, 13 Sep 2021 12:49:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 23C8219724;
- Mon, 13 Sep 2021 12:49:23 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AD7DF113865F; Mon, 13 Sep 2021 14:49:21 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 00/22] qapi: Remove simple unions from the schema language
-References: <20210913123932.3306639-1-armbru@redhat.com>
-Date: Mon, 13 Sep 2021 14:49:21 +0200
-In-Reply-To: <20210913123932.3306639-1-armbru@redhat.com> (Markus Armbruster's
- message of "Mon, 13 Sep 2021 14:39:10 +0200")
-Message-ID: <87o88w1vzi.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=fg/wZJETi5otndoBk/UgAfPLkCj8MsEaIsCcL1jF7kI=;
+ b=PRfx2xKTfG0FsqOkqobu3CAVaHbEDaLy/gSpr42HN3cBmwDHtV9ZFxAW3RC91kVetQTrHC
+ M+C3tVNoyByaMGzlydXGJMy6m7jLzMuw/1GHhhLhDHnHq87GVGT1pIZkEvgjW/nd3Yaxsi
+ klJevOC1uT4RqGgIQbNTWYoAxq02n1E=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-551-H3UyydfIP8q_UlUVln9-aw-1; Mon, 13 Sep 2021 08:51:46 -0400
+X-MC-Unique: H3UyydfIP8q_UlUVln9-aw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ i8-20020a50fc08000000b003d1cb7bebe5so1698882edr.7
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 05:51:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=fg/wZJETi5otndoBk/UgAfPLkCj8MsEaIsCcL1jF7kI=;
+ b=K1ukmUrT1LVXXyAUu724nYsNral7qGZ5uxmDun0Mo0jJCoCgaWjPkU6JChTUWjMCtm
+ 5g/fHQ+ci9+bIRtCJIxsBzQDuDtqghDiXW4+ebiQG0DcSrFnhOR3Fs+inGscKYSD/kcY
+ l8V1NWMRQxNUJ3+Rz24gJgEuOV/PW+wol4DyYyht/anp6MCDiQY10KH6Hso1sAgTWhai
+ 7ucqCboKaRxyjR4UGrfxtwhR0ONYdDLZrlWPutPlUppi+OlNf8xKCZLMOWuG8YmkEiJT
+ WetsaOgI0Nn5VOGWqhG367QtWJenIP5t8cCGl5QCm6f8rQ8lwEmwSzrYZy/xmHPOW0ks
+ KmLA==
+X-Gm-Message-State: AOAM533i0LXJndysAWndkbEuABygUWQ7f141OTTVAM35PHdIJH9mQo7L
+ DB2rePsn5Z7FdbrOEF4+V7zvVxqIZNYTnavCnQGiBbe1jzeF6La3ydDgYKENkZPG+yBpWW08CoM
+ SoswP9ccLmoLO9GQ=
+X-Received: by 2002:a50:d6d8:: with SMTP id l24mr13204823edj.297.1631537505097; 
+ Mon, 13 Sep 2021 05:51:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwrwyY/xe/D14ghLQoRkkM1Ipe/oHckn1+u1QyN/5mAXS4gqflxTLwsCzxOOzfGpGeQsEoc/Q==
+X-Received: by 2002:a50:d6d8:: with SMTP id l24mr13204802edj.297.1631537504911; 
+ Mon, 13 Sep 2021 05:51:44 -0700 (PDT)
+Received: from steredhat (host-79-51-2-59.retail.telecomitalia.it.
+ [79.51.2.59])
+ by smtp.gmail.com with ESMTPSA id d10sm3921862edx.57.2021.09.13.05.51.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Sep 2021 05:51:44 -0700 (PDT)
+Date: Mon, 13 Sep 2021 14:51:42 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] vhost-vsock: fix migration issue when seqpacket is
+ supported
+Message-ID: <20210913125142.t34brj4qfvngkfgh@steredhat>
+References: <20210907124935.147164-1-sgarzare@redhat.com>
+ <YTdnkPR+LjNFXaeQ@redhat.com>
+ <20210909044603-mutt-send-email-mst@kernel.org>
+ <YTnNlEz+0LohJHRG@redhat.com>
+ <20210909063623-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210909063623-mutt-send-email-mst@kernel.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -66,7 +89,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,48 +102,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, eblake@redhat.com,
- Hanna Reitz <hreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, marcandre.lureau@redhat.com,
- jsnow@redhat.com
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Jiang Wang <jiang.wang@bytedance.com>,
+ qemu-stable@nongnu.org, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Arseny Krasnov <arseny.krasnov@kaspersky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+On Fri, Sep 10, 2021 at 02:35:53AM -0400, Michael S. Tsirkin wrote:
+>On Thu, Sep 09, 2021 at 10:02:12AM +0100, Daniel P. Berrangé wrote:
+>> On Thu, Sep 09, 2021 at 04:47:42AM -0400, Michael S. Tsirkin wrote:
+>> > On Tue, Sep 07, 2021 at 02:22:24PM +0100, Daniel P. Berrangé wrote:
+>> > > On Tue, Sep 07, 2021 at 02:49:35PM +0200, Stefano Garzarella wrote:
+>> > > > Commit 1e08fd0a46 ("vhost-vsock: SOCK_SEQPACKET feature bit support")
+>> > > > enabled the SEQPACKET feature bit.
+>> > > > This commit is released with QEMU 6.1, so if we try to migrate a VM where
+>> > > > the host kernel supports SEQPACKET but machine type version is less than
+>> > > > 6.1, we get the following errors:
+>> > > >
+>> > > >     Features 0x130000002 unsupported. Allowed features: 0x179000000
+>> > > >     Failed to load virtio-vhost_vsock:virtio
+>> > > >     error while loading state for instance 0x0 of device '0000:00:05.0/virtio-vhost_vsock'
+>> > > >     load of migration failed: Operation not permitted
+>> > > >
+>> > > > Let's disable the feature bit for machine types < 6.1, adding a
+>> > > > `features` field to VHostVSock to simplify the handling of upcoming
+>> > > > features we will support.
+>> > >
+>> > > IIUC, this will still leave migration broken for anyone migrating
+>> > > a >= 6.1 machine type between a kernel that supports SEQPACKET and
+>> > > a kernel lacking that, or vica-verca.
+>> > >
+>> > > If a feature is dependant on a host kernel feature we can't turn
+>> > > that on automatically as part of the machine type, as we need
+>> > > ABI stability across migration indepdant of kernel version.
+>> > >
+>> > >
+>> > > Regards,
+>> > > Daniel
+>> >
+>> > This is a fundamental problem we have with kernel accelerators.
+>> > A higher level solution at management level is needed.
+>> > For now yes, we do turn features on by default,
+>> > consistent kernels on source and destination are assumed.
+>> > For downstreams not a problem at all as they update
+>> > userspace and kernel in concert.
+>>
+>> Even downstream in RHEL that is not actually valid anymore. Container
+>> based deployment has killed any assumptions that can be made in this
+>> respect. Even if the userspace and kernel are updated in lockstep in
+>> a particular RHEL release, you cannot assume the running environment
+>> will have a matched pair.
+>>
+>> Users can be running QEMU userspace from RHEL-8.5 inside a container
+>> that has been deployed on a host using a 8.3 kernel. We've even had
+>> cases of running QEMU from RHEL-8, on a RHEL-7 host.
+>>
+>> Regards,
+>> Daniel
+>
+>Is there finally an interest in addressing this then?  This would
+>involve collecting host features across a cluster and for each host
+>figuring out a configuration that works for migration. IIRC a tool was
+>proposed for the task (to live alongside e.g. qemu-img).
 
-> Simple unions predate flat unions.  Having both complicates the QAPI
-> schema language and the QAPI generator.  We haven't been using simple
-> unions in new code for a long time, because they are less flexible and
-> somewhat awkward on the wire.
->
-> Get rid of them.  We should've done this long ago.
->
-> This adds some boilerplate to the schema:
->
->     $ git-diff --shortstat master qapi
->      7 files changed, 461 insertions(+), 59 deletions(-)
->
-> Well worth the language simplification, in my opinion:
->
->     $ git-diff --stat master scripts/ docs/
->      docs/devel/qapi-code-gen.rst | 137 ++++++++++---------------------------------
->      scripts/qapi/common.py       |  19 ++----
->      scripts/qapi/expr.py         |  48 +++++++--------
->      scripts/qapi/schema.py       | 101 +++++++------------------------
->      4 files changed, 80 insertions(+), 225 deletions(-)
->
-> The complete diffstat looks even better, but is somewhat misleading,
-> because it's dominated by two tests rewritten in a much more compact
-> way.
->
-> This series is based on my "[PULL 0/5] QAPI patches patches for
-> 2021-09-13".
->
-> Based-on: <20210913095038.3040776-1-armbru@redhat.com>
+Apart from the tool, what if we provide a mechanism for adding/removing 
+device features at run-time?
+After migration we could tell the guest that a feature is no longer 
+available.
 
-In master now.
+Maybe it's too complicated, but it would allow us to solve the problem 
+of migrating between different kernels or, with vDPA, between different 
+devices that don't support all features.
+
+>
+>As long as we just stick to the machine type the best we can do is
+>probably to keep doing what we do now (hope that the two host kernels
+>are more or less consistent) as otherwise we'd have to never enable any
+>new features in vsock.
+
+Should we at least merge this patch to allow to migrate a VM between a 
+new and an old qemu even if the kernel is the same?
+
+Thanks,
+Stefano
 
 
