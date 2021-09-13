@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075CA40963C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 16:49:41 +0200 (CEST)
-Received: from localhost ([::1]:46208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A363C409655
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 16:50:14 +0200 (CEST)
+Received: from localhost ([::1]:49160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPnHA-0006rY-2B
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 10:49:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57982)
+	id 1mPnHg-0000P8-JX
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 10:50:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mPnEN-0004Td-FA
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 10:46:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45870)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mPnEM-0005oa-0O
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 10:46:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631544405;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vwfAlqPQyKQnO8EHterF+LgKoesIc5F6q7FsoyT+AAk=;
- b=FFMTQYSRZ50scNp0QYhBp3UQNsOn350J1R/xI7mj7yfazaxzhizo2s/nS1/3FRYhETQ8M+
- ZwYRBkw7m4OCEsqnztmJBRc/Eq0EpWM3Ob6MQM6gVXA+SgB/0WAV8+aBWqG3Rh9Mykj3f3
- xS/cV+PxRVdW14CEUpjd9DDymZt+EvY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-R7_aLtNIOIqV2vqNvBpt-A-1; Mon, 13 Sep 2021 10:46:44 -0400
-X-MC-Unique: R7_aLtNIOIqV2vqNvBpt-A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BF36814270
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 14:46:39 +0000 (UTC)
-Received: from redhat.com (ovpn-113-222.phx2.redhat.com [10.3.113.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 06B895C1D1;
- Mon, 13 Sep 2021 14:46:38 +0000 (UTC)
-Date: Mon, 13 Sep 2021 09:46:37 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 04/22] qapi: Convert simple union InputEvent to flat one
-Message-ID: <20210913144637.t3mw3o65cfpmgyjh@redhat.com>
-References: <20210913123932.3306639-1-armbru@redhat.com>
- <20210913123932.3306639-5-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mPnFe-00064a-98
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 10:48:10 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:35617)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mPnFc-0006mL-FB
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 10:48:05 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ r128-20020a1c4486000000b003065f0bc631so2533226wma.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 07:48:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HsyH6CU7tFVLgWvOW7NzSKMYYlRCmNH/QAS/SjsYyzo=;
+ b=c6XZEs+qNs1i/scLTE10BAkKhENoLSq/pSJyeok5z4UODU/USpxv5UZOe1/LJMtL7a
+ g/VPJWGZp4YwKtDEtq2IlBFSH0RRKckijELKfjNZwszvp4d6pf8WXleNecYnS7l2j/Ky
+ E4a4OALoVb3z9kuAMxucEZ/2v2Gd08afqZdK8khydm4kbNtFaehSJ5x6DdTWi59uxUNQ
+ KNBT2/cGKnXi2koBQy79PcXUZcX8oZg7WMOP5iZg/LLKprqytGlvOgpasewqWWdM9Yrd
+ hhg11r1AnyV7ARUM+dQFCl1SJS+zcs7izluXklDg/hFRSZafoAyW0nIvCwVLCD7wlyPY
+ swwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HsyH6CU7tFVLgWvOW7NzSKMYYlRCmNH/QAS/SjsYyzo=;
+ b=UZFXOZaNHA9aHgeOE3qQBhsjEcK1fMyKc+bUgjUeN+PkrCqlu+joOdc5fKxlNfAUes
+ 9v6I3IRrldfzy3vPbhXY83JBaAGfZMbfLnSc8MieZm5rDC7eg8Vm2W+O+PqpWYlqhb/A
+ 8lV5lHc949W/aobdzpjCQYYpQkCw495XGJ7LG60qmxwrxMm/Cs0glUKZGYbjlOS8Ci1f
+ 78arEVkHEvw6v74MZvhinqh5rYu01tm8hhmjx0tvLPUJO36CnfE+l9DTSsisCadXlU5q
+ 3oV6Pyxir3uzIdTzV6t0ReOX68MpxKtvCriTHZFPZ0DBC7jTazGzeSxY8qu7qpCaaX0w
+ iOZw==
+X-Gm-Message-State: AOAM530YH8apPLrDadC0uCuzZWo9kiR2NzCtH0f5Oh4yD+ZmBsGlFyHf
+ y2aFvozZnnxPS2hQY9B07L32RA3BG2lgpX437LJ0RQ==
+X-Google-Smtp-Source: ABdhPJyFBtuQdejJtT5xpn4pZprlK4bNIIXiItL/nTdHEpFmtZA5EC46Ka30tteP+CPkiRbDii2PsY8fITYE3q0AIAk=
+X-Received: by 2002:a05:600c:2259:: with SMTP id
+ a25mr5010887wmm.133.1631544482728; 
+ Mon, 13 Sep 2021 07:48:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210913123932.3306639-5-armbru@redhat.com>
-User-Agent: NeoMutt/20210205-772-2b4c52
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210907232555.3268967-1-wuhaotsh@google.com>
+ <20210907232555.3268967-5-wuhaotsh@google.com>
+In-Reply-To: <20210907232555.3268967-5-wuhaotsh@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 Sep 2021 15:47:11 +0100
+Message-ID: <CAFEAcA-GmHdCMXU=UAg8_TAnco1TMZgtfo_3kYgqwpJKRALaTQ@mail.gmail.com>
+Subject: Re: [PATCH 4/4] tests/qtest: add qtests for npcm7xx sdhci
+To: Hao Wu <wuhaotsh@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,74 +78,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Qemu-block <qemu-block@nongnu.org>, Patrick Venture <venture@google.com>,
+ Bin Meng <bin.meng@windriver.com>, Havard Skinnemoen <hskinnemoen@google.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
+ qemu-arm <qemu-arm@nongnu.org>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
+ Chris Rauer <crauer@google.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 13, 2021 at 02:39:14PM +0200, Markus Armbruster wrote:
-> Simple unions predate flat unions.  Having both complicates the QAPI
-> schema language and the QAPI generator.  We haven't been using simple
-> unions in new code for a long time, because they are less flexible and
-> somewhat awkward on the wire.
-> 
-> To prepare for their removal, convert simple union InputEvent to an
-> equivalent flat one.  Adds some boilerplate to the schema, which is a
-> bit ugly, but a lot easier to maintain than the simple union feature.
-> 
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On Wed, 8 Sept 2021 at 00:26, Hao Wu <wuhaotsh@google.com> wrote:
+>
+> From: Shengtan Mao <stmao@google.com>
+>
+> Signed-off-by: Shengtan Mao <stmao@google.com>
+> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> Reviewed-by: Chris Rauer <crauer@google.com>
+> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
 > ---
->  qapi/ui.json | 42 ++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 38 insertions(+), 4 deletions(-)
+>  tests/qtest/meson.build          |   1 +
+>  tests/qtest/npcm7xx_sdhci-test.c | 201 +++++++++++++++++++++++++++++++
+>  2 files changed, 202 insertions(+)
+>  create mode 100644 tests/qtest/npcm7xx_sdhci-test.c
+>
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index 757bb8499a..ef9c904779 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -157,6 +157,7 @@ qtests_npcm7xx = \
+>     'npcm7xx_gpio-test',
+>     'npcm7xx_pwm-test',
+>     'npcm7xx_rng-test',
+> +   'npcm7xx_sdhci-test',
+>     'npcm7xx_smbus-test',
+>     'npcm7xx_timer-test',
+>     'npcm7xx_watchdog_timer-test'] + \
+> diff --git a/tests/qtest/npcm7xx_sdhci-test.c b/tests/qtest/npcm7xx_sdhci-test.c
+> new file mode 100644
+> index 0000000000..5c4e78fda4
+> --- /dev/null
+> +++ b/tests/qtest/npcm7xx_sdhci-test.c
+> @@ -0,0 +1,201 @@
+> +/*
+> + * QTests for NPCM7xx SD-3.0 / MMC-4.51 Host Controller
+> + *
+> + * Copyright (c) 2021 Google LLC
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms of the GNU General Public License as published by the
+> + * Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+> + * for more details.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/sd/npcm7xx_sdhci.h"
+> +
+> +#include "libqos/libqtest.h"
+> +#include "libqtest-single.h"
+> +#include "libqos/sdhci-cmd.h"
+> +
+> +#define NPCM7XX_MMC_BA 0xF0842000
+> +#define NPCM7XX_BLK_SIZE 512
+> +#define NPCM7XX_TEST_IMAGE_SIZE (1 << 30)
+> +
+> +char *sd_path;
 
-Same question as in 3/22:
+should be "static".
 
-> 
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index a6b0dce876..fe10d69431 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -960,6 +960,38 @@
->    'data'  : { 'axis'    : 'InputAxis',
->                'value'   : 'int' } }
->  
-> +##
-> +# @InputEventKind:
-> +#
-> +# Since: 6.1
+> +
+> +static QTestState *setup_sd_card(void)
+> +{
+> +    QTestState *qts = qtest_initf(
+> +        "-machine quanta-gbs-bmc "
+> +        "-device sd-card,drive=drive0 "
+> +        "-drive id=drive0,if=none,file=%s,format=raw,auto-read-only=off",
+> +        sd_path);
+> +
+> +    qtest_writew(qts, NPCM7XX_MMC_BA + SDHC_SWRST, SDHC_RESET_ALL);
+> +    qtest_writew(qts, NPCM7XX_MMC_BA + SDHC_CLKCON,
+> +                 SDHC_CLOCK_SDCLK_EN | SDHC_CLOCK_INT_STABLE |
+> +                     SDHC_CLOCK_INT_EN);
 
-This should either be 6.2, or...
+inconsistent indent
 
->  ##
->  # @InputEvent:
->  #
-> @@ -975,10 +1007,12 @@
->  # Since: 2.0
 
-...2.0.
+> +    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0, 0, SDHC_APP_CMD);
+> +    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0x41200000, 0, (41 << 8));
+> +    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0, 0, SDHC_ALL_SEND_CID);
+> +    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0, 0, SDHC_SEND_RELATIVE_ADDR);
+> +    sdhci_cmd_regs(qts, NPCM7XX_MMC_BA, 0, 0, 0x45670000, 0,
+> +                   SDHC_SELECT_DESELECT_CARD);
+> +
+> +    return qts;
+> +}
+> +
+> +static void write_sdread(QTestState *qts, const char *msg)
+> +{
+> +    size_t len = strlen(msg);
+> +    char *rmsg = g_malloc(len);
+> +
+> +    /* write message to sd */
+> +    int fd = open(sd_path, O_WRONLY);
+> +    int ret = write(fd, msg, len);
+> +    close(fd);
 
->  ##
->  { 'union' : 'InputEvent',
-> -  'data'  : { 'key'     : 'InputKeyEvent',
-> -              'btn'     : 'InputBtnEvent',
-> -              'rel'     : 'InputMoveEvent',
-> -              'abs'     : 'InputMoveEvent' } }
-> +  'base': { 'type': 'InputEventKind' },
-> +  'discriminator': 'type',
-> +  'data'  : { 'key'     : 'InputKeyEventWrapper',
-> +              'btn'     : 'InputBtnEventWrapper',
-> +              'rel'     : 'InputMoveEventWrapper',
-> +              'abs'     : 'InputMoveEventWrapper' } }
+You should check the return value from open() and close()
+(same again in code below)
 
-But as with that patch, I trust your decision on docs, and the
-conversion itself is sane.
+> +    g_assert(ret == len);
+> +
+> +    /* read message using sdhci */
+> +    ret = sdhci_read_cmd(qts, NPCM7XX_MMC_BA, rmsg, len);
+> +    g_assert(ret == len);
+> +    g_assert(!strcmp(rmsg, msg));
+> +
+> +    free(rmsg);
+> +}
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+> +static void drive_create(void)
+> +{
+> +    int fd, ret;
+> +    sd_path = g_strdup("/tmp/qtest.XXXXXX");
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Please use a template string that gives an indication of
+which test created the file. This helps subsequent debugging
+of "where did this junk in my tmp directory come from?".
 
+> +
+> +    /* Create a temporary raw image */
+> +    fd = mkstemp(sd_path);
+> +    g_assert_cmpint(fd, >=, 0);
+> +    ret = ftruncate(fd, NPCM7XX_TEST_IMAGE_SIZE);
+> +    g_assert_cmpint(ret, ==, 0);
+> +    g_message("%s", sd_path);
+> +    close(fd);
+> +}
+> +
+> +int main(int argc, char **argv)
+> +{
+> +    drive_create();
+> +
+> +    g_test_init(&argc, &argv, NULL);
+> +
+> +    qtest_add_func("npcm7xx_sdhci/reset", test_reset);
+> +    qtest_add_func("npcm7xx_sdhci/write_sd", test_write_sd);
+> +    qtest_add_func("npcm7xx_sdhci/read_sd", test_read_sd);
+> +
+> +    int ret = g_test_run();
+> +    drive_destroy();
+> +    return ret;
+> +}
+
+thanks
+-- PMM
 
