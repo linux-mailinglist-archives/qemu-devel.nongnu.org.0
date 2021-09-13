@@ -2,91 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05263408614
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 10:06:49 +0200 (CEST)
-Received: from localhost ([::1]:37610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39AB0408622
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 10:11:48 +0200 (CEST)
+Received: from localhost ([::1]:44544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPgzH-0005Xs-Qn
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 04:06:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49954)
+	id 1mPh47-0001sy-1S
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 04:11:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mPgxA-0003Zo-U3
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:04:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39105)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mPh0F-0006qO-Dp
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:07:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53931)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mPgx7-0000x4-UZ
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:04:36 -0400
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mPh0C-0003gL-Ns
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:07:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631520272;
+ s=mimecast20190719; t=1631520462;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E0Gg/37sB7LNf6SRHmI027L7FQmT0q2Zw18sQgSIe7o=;
- b=ih+dHLhgGlZrMCJl6tqpWsZA6GUUjfx66h12J+6vxLvpiU3PW2iU+6rdA9Uk07KbKI8F65
- ctDchoIf9u+lj/4811oL8UC4euegLLJQQs72M02efQcLArbdJe1XAyaOMADghHv3rsOnfU
- zh6AewtduZLOtaShxQ7/1c9iJGoKguk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-Eb1vQ2xnNEeUuzIb7kPviQ-1; Mon, 13 Sep 2021 04:04:29 -0400
-X-MC-Unique: Eb1vQ2xnNEeUuzIb7kPviQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d10-20020adffbca000000b00157bc86d94eso2347102wrs.20
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 01:04:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=E0Gg/37sB7LNf6SRHmI027L7FQmT0q2Zw18sQgSIe7o=;
- b=gPovLs18OfU9DavU2fhsPkSk7YW3UkdJkYU9RNepoelOS0NyKpVQKVHZLjRXPUAJ9i
- As5SLI0oLkxhkh4qFXTv8EG7mm5B1DnL0zK0neu3rK31EcC+e8XJE8wuZn1yAeEOUmAy
- qhUKAujgbdYkO9QC7gWBgeBdW/+0NIk4wAw6aBHlzyb7QUeQ6hVSp+zze4XrD8VFAlnn
- TAhoNgzr7ZmlEupEOb6Q6AVSiaEBw6dMqWwCUK4czsyhihskt9p+cLU/q1pO2xPwhI/L
- VOxvtImbxa1T69Vl0eMd78e0mPqwNjMmVUwLfKCUmIsDmMRGjqXQ8YCxEKmoHmVXeT1A
- yi8w==
-X-Gm-Message-State: AOAM532QY3eosb9oXD1RfbBxGWNj9dLnh7BGQQFCXi/55w7uI8F9Y2nE
- qdfl1Y6i+bY08jCOJ+jsq4CQMsMx5W7nnEFY9SKXSz3TH5zQcBXPe2XZHhxafq7jPccLCEBf2ko
- S0Hkd4twdKxPjYxo=
-X-Received: by 2002:adf:c144:: with SMTP id w4mr11241961wre.398.1631520268039; 
- Mon, 13 Sep 2021 01:04:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwYE2D6M2DzD91/fJLlFSEEjnvcIAoDkzL1J6vJjMxJasybdcCmQRHLTle87/m3I46IyVm2fA==
-X-Received: by 2002:adf:c144:: with SMTP id w4mr11241937wre.398.1631520267826; 
- Mon, 13 Sep 2021 01:04:27 -0700 (PDT)
-Received: from thuth.remote.csb
- (dynamic-046-114-149-033.46.114.pool.telefonica.de. [46.114.149.33])
- by smtp.gmail.com with ESMTPSA id l15sm5313542wme.42.2021.09.13.01.04.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 01:04:27 -0700 (PDT)
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-References: <20210913062126.16946-1-thuth@redhat.com>
- <CABLmASGBZs_pxFBx8cW3uVF_gaUuaLE7hMhAy71hN+OZZPqw2A@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [qemu-web v2 PATCH] Update the information about the required
- version of macOS
-Message-ID: <7548727b-222a-34ac-6fb1-1bc01837b9b2@redhat.com>
-Date: Mon, 13 Sep 2021 10:04:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ bh=7MYKYU6cb3Ucab7ZbAB7f6G2EaWRAq5LuR2qkEqDaNs=;
+ b=F7csKTvng/nbhfrt3DNk2hTloKF1GLOIbB1qAOT2n216Wdj4XMed7PgdC4OfnzAvtGnAwe
+ Mez2YoKBwBSdbprF0ZrFMe5bj+xTTWr9D8WU8KdZ/k7aDkWkMo+nwnG9jY7emhTfHfXJ3d
+ L2hH6z5Q5rPdQar4GEr8/9aGo2OtBhg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-580-6BBnIG8yPjWXh1W7yWAZpQ-1; Mon, 13 Sep 2021 04:07:40 -0400
+X-MC-Unique: 6BBnIG8yPjWXh1W7yWAZpQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC87B1006AA1;
+ Mon, 13 Sep 2021 08:07:39 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7AA8619724;
+ Mon, 13 Sep 2021 08:07:39 +0000 (UTC)
+Date: Mon, 13 Sep 2021 09:07:38 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH] tcg/arm: Reduce vector alignment requirement for NEON
+Message-ID: <20210913080738.GC26415@redhat.com>
+References: <20210912174925.200132-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CABLmASGBZs_pxFBx8cW3uVF_gaUuaLE7hMhAy71hN+OZZPqw2A@mail.gmail.com>
+In-Reply-To: <20210912174925.200132-1-richard.henderson@linaro.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.584, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,74 +76,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/09/2021 09.35, Howard Spoelstra wrote:
+On Sun, Sep 12, 2021 at 10:49:25AM -0700, Richard Henderson wrote:
+> With arm32, the ABI gives us 8-byte alignment for the stack.
+> While it's possible to realign the stack to provide 16-byte alignment,
+> it's far easier to simply not encode 16-byte alignment in the
+> VLD1 and VST1 instructions that we emit.
 > 
+> Remove the assertion in temp_allocate_frame, limit natural alignment
+> to the provided stack alignment, and add a comment.
 > 
-> On Mon, Sep 13, 2021 at 8:21 AM Thomas Huth <thuth@redhat.com 
-> <mailto:thuth@redhat.com>> wrote:
+> Reported-by: Richard W.M. Jones <rjones@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 > 
->     The versions that we specify for macOS are way too old already. Let's
->     rephrase this without specific version numbers, pointing the users
->     to the latest version instead.
+> I haven't seen the assertion with the various arm kernels that I happen
+> to have laying about.  I have not taken the time to build the combo
+> from the bug report:
 > 
->     Signed-off-by: Thomas Huth <thuth@redhat.com <mailto:thuth@redhat.com>>
->     ---
->       v2: Rephrased to be more in sync with docs/about/build-platforms.rst
+> [    0.000000] Linux version 5.14.0-60.fc36.armv7hl (mockbuild@buildvm-a32-12.iad2.fedoraproject.org) (gcc (GCC) 11.2.1 20210728 (Red Hat 11.2.1-1), GNU ld version 2.37-9.fc36) #1 SMP Mon Aug 30 14:08:34 UTC 2021
 > 
->       _download/macos.md | 6 ++++--
->       1 file changed, 4 insertions(+), 2 deletions(-)
-> 
->     diff --git a/_download/macos.md b/_download/macos.md
->     index 06aa811..c55438a 100644
->     --- a/_download/macos.md
->     +++ b/_download/macos.md
->     @@ -6,5 +6,7 @@ QEMU can be installed from <strong>MacPorts</strong>:
-> 
->       <pre>sudo port install qemu</pre>
-> 
->     -QEMU requires Mac OS X 10.5 or later, but it is recommended
->     -to use Mac OS X 10.7 or later.
->     +QEMU requires the the most recent macOS version that is currently
->     available.
->     +Support for the previous version will be dropped two years after the
->     current
->     +version has been released or when Apple drops support for it, whatever
->     comes
->     +first.
->     -- 
->     2.27.0
-> 
-> 
-> Hi,
-> 
-> Nice to see this clarified.
-> I guess a small typo crept in: "QEMU requires the the most recent macOS 
-> version that is currently available."
+> I thought about parameterizing this patch further, but I can't think of
+> another ISA that would be affected.  (i686 clumsily changed its abi 20
+> years ago to avoid faulting on vector spills; other isas so far have
+> allowed vectors to be unaligned.)
 
-Thanks, I'll drop one of the "the"s.
+You should be able to download the Fedora kernel that I am using from
+https://koji.fedoraproject.org/koji/packageinfo?packageID=8
 
-> Also, is this statement correct when the 2 year previous version(s) are also 
-> supported?
+I added the patch to Fedora qemu and will do a test build once it
+becomes available to build against - currently there's some problem
+with new builds not propagating to the new buildroot.
 
-https://qemu-project.gitlab.io/qemu/about/build-platforms.html only talks 
-about "the previous major version" ... so that's a good question, what 
-happens if a vendor releases multiple major versions within two years?
+Rich.
 
-I guess the intention was that all previous versions are supported as long 
-as the two years haven't expired yet. We might need to update the 
-build-platforms text in that respect, too.
-
-> Might I also suggest "version(s)" instead of "version"?
-
-Unlike I've got the intention wrong, that seems to be a good, idea, yes.
-
-  Thomas
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+Fedora Windows cross-compiler. Compile Windows programs, test, and
+build Windows installers. Over 100 libraries supported.
+http://fedoraproject.org/wiki/MinGW
 
 
