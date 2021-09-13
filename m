@@ -2,78 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4826409A60
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 19:09:06 +0200 (CEST)
-Received: from localhost ([::1]:60950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 182C4409A89
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 19:19:17 +0200 (CEST)
+Received: from localhost ([::1]:45308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPpS5-0000yv-UH
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 13:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49614)
+	id 1mPpbw-00020X-6A
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 13:19:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPpQi-0007uR-JY; Mon, 13 Sep 2021 13:07:40 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:36809)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPpQf-0005Dc-Dh; Mon, 13 Sep 2021 13:07:40 -0400
-Received: by mail-wr1-x435.google.com with SMTP id g16so15827132wrb.3;
- Mon, 13 Sep 2021 10:07:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZGjQnCyc1u73B+FqcwGlcd5nhEX47RQTRxdVxdjhe/A=;
- b=fu5IU5nfu4+kfJ/5thItbDVsadJmoOCiDP3tWncE+TwJCnjbJSJZ7Z4ltLJ5OS4VI6
- 0MvrAYwVbIPd4WZbiH1PyOSQrh0dYBQDWRUHLvBa61/pRpY+aKu9dKahrwagg63udfaP
- PLAN25LMJfJNqnBuEtQtc+dB4zwKJioB6r/Ctq9ayV7Jyaaq7kaxbPcABSpDy71O7v5A
- LwPab9uq9Gx+JkVVFbYj0OAbeJNlugTHBMi3jfMn/1MriWcEnIz0DCRB5WnaRWfW8J8U
- V4Wi1RL8bpsbYMcRZSibDyS9RcRDcFY9n1Nne91LblBapmCCB23ywcPz0crHjr88BzPe
- Ajtw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mPpUQ-0003W8-Lw
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 13:11:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40064)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mPpUM-000816-Ot
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 13:11:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631553084;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lGoyPTmtkLVyzcmMD1uqp6g8Yxb+dPTy97y+dnJ8wIg=;
+ b=fl0+yX45N1D9tJX/F4EZGe9rbzqOPI/UdlCDo/LzlIv6cV0Mv3+Tj5+FJN1qeciJf0KtEH
+ O6MfiRLFHUFXl1EzZGRcRepGplaNc1gTHmf/XkgxKjEOY8eOomzQP6NrCCsVZzQj5E4Zxc
+ kETjZjkeD+8rSOTyLFOVYLPZ9i3MDxo=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-9-gXLz0MSGNSyXiNrA2D7xrQ-1; Mon, 13 Sep 2021 13:11:21 -0400
+X-MC-Unique: gXLz0MSGNSyXiNrA2D7xrQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ bo11-20020a170906d04b00b005d477e1e41fso3974595ejb.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 10:11:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ZGjQnCyc1u73B+FqcwGlcd5nhEX47RQTRxdVxdjhe/A=;
- b=hYjlMdLFSLK3nk+AJY8oi8pjk6yRRU2RD42POdRCpu3Las9Ar7OeQlty5KNgR+Nv8a
- Xgz0WgCL+352jylAYMRn6Rg+cw3ovwWwIh54dHl9/7N6n1a0NiXDu3nv+Z41l8zF0lec
- Z7lLpehs0YvIoOkWuvjN6mS670wlfSakw9VkRtXxl9t9aOZLO9HTCoGjyjtHb2awZ7ki
- b/V+9bb9jSa5t70fXhMyiApIC2tRr1BZ2LjoncCRXXx+g0T5Au7rjIPixHPKwkmQkYP1
- Idf6ygDKbOEQGri/3eN6KyP92rQW6i7Awrx/Jm3HQ7TFXIDyco9NUK9zMySCJLWFsCjz
- nloQ==
-X-Gm-Message-State: AOAM530PP0Wis5W0SxetP/EUB8Gl3RK5qjc4JxL7SS8XDcH0DIshwMyW
- XrJLg+wbfvRVGMUYrUwIP4aOqmug/zM=
-X-Google-Smtp-Source: ABdhPJwRimjL8wGjMlUWu8rl7qqi284c45ssa627VHXIK1bGXt9BvYGJviGgrqRKIdtMJjo3kj3NlA==
-X-Received: by 2002:a5d:4a46:: with SMTP id v6mr3347148wrs.262.1631552855203; 
- Mon, 13 Sep 2021 10:07:35 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id j98sm8178283wrj.88.2021.09.13.10.07.34
+ bh=lGoyPTmtkLVyzcmMD1uqp6g8Yxb+dPTy97y+dnJ8wIg=;
+ b=IFSROOdXT/jHHp427l4/1DjxNEoKYvpuQX9RFLJIWRSu//adQEzSDqoTaLRQQ8E7/i
+ 82JUqAqZmccin7sEwVuAQhSXIsJpX2vWAK0JKLO0C9rxdMx7U/4n7oOeqUho71B7HPZ7
+ z+FcA8W5H8HGIVWcbEN0/zeBUvZ6Aw6SQ+aOL+gZeB1Eb56l1uIGMP8QIGiMeltGMCTo
+ FaJepnu65Nh2UG3dYxV1NS3nV2u/A114RczhB8uI7mPno47fWkdYZrY4PhMD2dqYtJfu
+ H063Xu1O1AQ1fUAL2TP7k03V2v1weJRzF1ARNYwLXyS/9C65VCgeVfCixrJBInU27DGN
+ nrpQ==
+X-Gm-Message-State: AOAM533I0Duodsgg773pR+X9lAbWClKUK0fcupCWGsQylYy2/rwdVbve
+ 5R4TXIGyXdToajne1s40xy7ZvcCmXSIeZ/Kp8lcMdCYCRSneX0cxOVAg09kGOutoUPULAwcJkqv
+ sLJn0F6eAdzZQiQ8=
+X-Received: by 2002:aa7:c38c:: with SMTP id k12mr12181814edq.45.1631553080204; 
+ Mon, 13 Sep 2021 10:11:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJys9zhUoCedK2chX9JP/fEOavy8nbFXhQBtQwcyDHGlkvl2dlF6ID2OcJkVCCZ61Bvo9H0SFA==
+X-Received: by 2002:aa7:c38c:: with SMTP id k12mr12181791edq.45.1631553079967; 
+ Mon, 13 Sep 2021 10:11:19 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id t16sm3682590ejj.54.2021.09.13.10.11.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 10:07:34 -0700 (PDT)
-Subject: Re: [PATCH] target/ppc: Fix 64-bit decrementer
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-References: <20210913162758.3806730-1-clg@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <1a8d9768-7763-91b6-5faa-8e984370adef@amsat.org>
-Date: Mon, 13 Sep 2021 19:07:33 +0200
+ Mon, 13 Sep 2021 10:11:19 -0700 (PDT)
+Subject: Re: [RFC v3 12/32] rust: provide a common crate for QEMU
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20210907121943.3498701-1-marcandre.lureau@redhat.com>
+ <20210907121943.3498701-13-marcandre.lureau@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d84f2827-3dbf-abc1-0ce3-596f0c568cf3@redhat.com>
+Date: Mon, 13 Sep 2021 19:11:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210913162758.3806730-1-clg@kaod.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210907121943.3498701-13-marcandre.lureau@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.969,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,45 +100,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: berrange@redhat.com, armbru@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/13/21 6:27 PM, Cédric Le Goater wrote:
-> The current way the mask is built can overflow with a 64-bit decrementer.
-> Use MAKE_64BIT_MASK instead.
+On 07/09/21 14:19, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau<marcandre.lureau@redhat.com>
 > 
-> Fixes: a8dafa525181 ("target/ppc: Implement large decrementer support for TCG")
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
+> This crates provides common bindings and facilities for QEMU C API
+> shared by various projects.
 > 
->  This was found with the QEMU Microwatt machine which uses a 64bit
->  decrementer. Here is an experimental tree:
+> Most importantly, it defines the conversion traits used to convert from
+> C to Rust types. Those traits are largely adapted from glib-rs, since
+> those have proved to be very flexible, and should guide us to bind
+> further QEMU types such as QOM. If glib-rs becomes a dependency, we
+> should consider adopting glib translate traits. For QAPI, we need a
+> smaller subset.
 > 
->    https://github.com/legoater/qemu/tree/microwatt
+> Cargo.lock is checked-in, as QEMU produces end-of-chain binaries, and it
+> is desirable to track the exact set of packages that are involved in
+> managed builds.
 > 
->  hw/ppc/ppc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-> index 7375bf4fa910..a86125c50ff9 100644
-> --- a/hw/ppc/ppc.c
-> +++ b/hw/ppc/ppc.c
-> @@ -876,7 +876,7 @@ static void __cpu_ppc_store_decr(PowerPCCPU *cpu, uint64_t *nextp,
->      bool negative;
->  
->      /* Truncate value to decr_width and sign extend for simplicity */
-> -    value &= ((1ULL << nr_bits) - 1);
-> +    value &= MAKE_64BIT_MASK(0, nr_bits);
+> Signed-off-by: Marc-André Lureau<marcandre.lureau@redhat.com>
 
-What about:
+As in my previous review, the main issue I have here is with the 
+complexity of this code.
 
-       value = extract64(value, 0, nr_bits);
-       if (value != sextract64(value, 0, nr_bits)) { ...
+I understand that this has to be manually written, but right now I find 
+it really hard to understand what is going on here.  The patch needs to 
+be expanded in several parts:
 
->      negative = !!(value & (1ULL << (nr_bits - 1)));
->      if (negative) {
->          value |= (0xFFFFFFFFULL << nr_bits);
-> 
+1) generic traits (including implementations for Option/Box)
+
+2) implementation of the generic traits
+
+3) io/nix errors
+
+and these parts should be moved around to the place where they become 
+necessary.
+
+
+Also regarding the code itself:
+
+1) Stash should not be a tuple.  Accesses to it should use standard Rust 
+methods, such as borrow()/borrow_mut(), and it should also support 
+standard Rust idioms such as map():
+
+pub struct BorrowedMutPointer<'a, P, T: 'a> {
+     native: *mut P,
+     storage: T,
+     _marker: PhantomData<&'a P>,
+}
+
+#[allow(dead_code)]
+impl<'a, P: Copy, T: 'a> BorrowedMutPointer<'a, P, T> {
+     fn as_ptr(&self) -> *const P {
+         self.native
+     }
+
+     fn as_mut_ptr(&mut self) -> *mut P {
+         self.native
+     }
+
+     fn map<U: 'a, F: FnOnce(T) -> U>(self, f: F) -> 
+BorrowedMutPointer<'a, P, U> {
+         BorrowedMutPointer {
+             native: self.native,
+             storage: f(self.storage),
+             _marker: PhantomData,
+         }
+     }
+}
+
+impl<'a, P, T> Borrow<T> for BorrowedMutPointer<'a, P, T> {
+     fn borrow(&self) -> &T {
+         &self.storage
+     }
+}
+
+impl<'a, P, T> BorrowMut<T> for BorrowedMutPointer<'a, P, T> {
+     fn borrow_mut(&mut self) -> &mut T {
+         &mut self.storage
+     }
+}
+
+2) Does ToQemuPtr need to allow multiple implementations?  Can the type 
+parameter in ToQemuPtr<'a, P> be an associated type (for example 
+"Native")?  Type parameters really add a lot of complexity.
+
+3) I would rather not have "qemu" in the names.  The Rust parts *are* 
+QEMU.  So "foreign" or "c" would be better.
+
+4) full/none is still really confusing to me.  I have finally understood 
+that it's because the pair that borrows is from_qemu_full/to_qemu_none, 
+and the pair that copies is from_qemu_none/to_qemu_full.  I'd really 
+like to use names following the Rust naming conventions.  A possible 
+improvement of my proposal from the previous review:
+
+- from_qemu_full -> from_foreign (or from_c, same below)
+                     + possibly a dual method into_native or into_rust
+
+- from_qemu_none -> cloned_from_foreign
+
+- to_qemu_none -> as_foreign or as_foreign_mut
+
+- to_qemu_full -> clone_to_foreign
+
+I will see if I have some time to do some of this work.
+
+Paolo
 
 
