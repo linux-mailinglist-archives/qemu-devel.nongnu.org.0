@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEAD4090AB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 15:55:26 +0200 (CEST)
-Received: from localhost ([::1]:46600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C9B408C92
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 15:19:23 +0200 (CEST)
+Received: from localhost ([::1]:43400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPmQf-0006Dv-Fb
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 09:55:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55548)
+	id 1mPlrk-0005LB-Vg
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 09:19:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPlUc-0000oj-0D
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:55:26 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:45864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPlUZ-0002to-Ev
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:55:24 -0400
-Received: by mail-pg1-x533.google.com with SMTP id n18so9337624pgm.12
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 05:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZYjjxt4VZfr46jwX7N9gQvTuc48NIbD6+TT7vCgYoss=;
- b=WU/cSf0+Ulq6ic5DMYFSDzIkcCP9urGdxpF8arQggqZx2IM3E5A51IQpvBu/2RODW2
- PIsxicZuZwxsRL90NFYxSEbA8temlSyRhYcKaGfUWb2AGlp6ydHMmpEk7r9UHZkKPwxC
- PusNs4yQ/5aizjDhkM8NTBJqMPATULMl8h3CHv0aISGSOhG114EdWSICtdDq88Ex7ekj
- TK9pARMOF8zOS2FN7gXzSv+Ie1ExzL7qxWOaNHhBgw0QaGsmPvQTpTGkaQnGbsox0kF4
- Z4EWFd4FQmhYPY9ymwlQ4a6LkOP3mUut2y+8s0/F+J3L8P0GzSX3vjvbVprHBzS348bv
- 40fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZYjjxt4VZfr46jwX7N9gQvTuc48NIbD6+TT7vCgYoss=;
- b=gqatZFGtHRpRWA59tQ8DdAkzPcdM+1k7DeZCLfpmbvCtgQ6FVNvN7kGveP2qVUvocS
- DEeWSJWFSPgnG7chkTU+2Ze1/nzbOeek8jfyU+gNlpIPrPnsj/W1VMemzc49FbmiLZqI
- HSB9JyNGINrOTrwuZWLY/eFKmy+/sweckWCUrxwUzQ4t/k9H8OZTC05PNhuh4Zkt5+qv
- sRbxu1jsLYY4XTz+te5Ofwt32KV3XAIefGGzhd7AOuR/Qhyl6B+Wc8fuzQlCZiNPrOad
- 9CZc+4W2YFf89q7yNbjOeLhe+BWz19upVfYRQJFOxkK4poFBxl78RX/u2tR7KIzmjpw7
- gayQ==
-X-Gm-Message-State: AOAM531jdJ+KVKVmHFk6goWJmMRtjyqTaLpz8UfPlYs2VdTPjKGrPEfM
- HST6baSxQMiUmX5b3ouKIPepjg==
-X-Google-Smtp-Source: ABdhPJwjx8B57YGU5Kc3DBS0NB4vANh3YxK5XvOe6+8wGvHPSDVny2kqEsNKFYxQ+F0ermD57wOEtA==
-X-Received: by 2002:a05:6a00:1a03:b0:414:5c97:777a with SMTP id
- g3-20020a056a001a0300b004145c97777amr11276437pfv.58.1631537719467; 
- Mon, 13 Sep 2021 05:55:19 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id z33sm7743547pga.20.2021.09.13.05.55.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 05:55:19 -0700 (PDT)
-Subject: Re: [PATCH] accel/tcg: assert insn_idx will always be valid before
- plugin_inject_cb
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210903145938.1321571-1-alex.bennee@linaro.org>
- <36bc7691-c0d9-9e18-dade-4d95405dcd62@linaro.org> <871r5swztj.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a925ce89-7134-c26a-c967-942f98b71a29@linaro.org>
-Date: Mon, 13 Sep 2021 05:55:17 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mPlVf-0002fv-04
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:56:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49235)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mPlVb-0003fP-SF
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:56:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631537787;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gUjrYsgshaeLNWxxv1RB2/LDmUVh887Ozp87rteH8Xs=;
+ b=gYrDlvvaMomSGKdmIAORggxjPWGtX0RgfptGcyiScsxFwMvtkRfRJ0IF29NHjFGPudYJfr
+ ZnvsJgaa36R1VYJHCAH9wsua5ubRbzdEP81DJHsqL9MUoi2S12kCY78qCIX0rqKrtGuolo
+ juNzCEnp6hZuP3EjY5+mxZbEsR5pHTo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-TabiqcP_Pja-NaEFAaoVeQ-1; Mon, 13 Sep 2021 08:56:22 -0400
+X-MC-Unique: TabiqcP_Pja-NaEFAaoVeQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27D2480196C;
+ Mon, 13 Sep 2021 12:56:21 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AEB9B60241;
+ Mon, 13 Sep 2021 12:56:15 +0000 (UTC)
+Date: Mon, 13 Sep 2021 13:56:13 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 1/3] monitor: Add HMP and QMP interfaces
+Message-ID: <YT9KbTrZv7XpvNbN@redhat.com>
+References: <20210910102258.46648-1-yang.zhong@intel.com>
+ <20210910102258.46648-2-yang.zhong@intel.com>
+ <YTthmPn2KGcfNX21@redhat.com> <YT8bboSgYfWJP9kh@redhat.com>
+ <4ae8c563-9b44-d234-eb01-a61000d01439@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <871r5swztj.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <4ae8c563-9b44-d234-eb01-a61000d01439@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.969,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,29 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Yang Zhong <yang.zhong@intel.com>, eblake@redhat.com, philmd@redhat.com,
+ qemu-devel@nongnu.org, seanjc@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/13/21 3:06 AM, Alex Bennée wrote:
->> Also, existing strageness in insn_idx being incremented for non-insns?
+On Mon, Sep 13, 2021 at 02:48:37PM +0200, Paolo Bonzini wrote:
+> On 13/09/21 11:35, Daniel P. Berrangé wrote:
+> > >    g_autoptr(Error) err = NULL
+> > I was mistaken here - Error shouldn't use g_autoptr, just
+> > 
+> >     Error err = NULL;
+> > 
+> > > > +    SGXInfo *info = qmp_query_sgx(NULL);
+> > > Pass in &err not NULL;
+> > > 
+> > > Also  declare it with  'g_autoptr(SGXInfo) info = ...'
+> > > 
+> > > And then
+> > > 
+> > >     if (err) {
+> > >        monitor_printf(mon, "%s\n", error_get_pretty(err);
+> > Then use the simpler:
+> > 
+> >      error_report_err(err);
 > 
-> It shouldn't be - it's just using the presence of the memory
-> instrumentation as a proxy for the start of a instruction and dealing
-> with the slightly different start of block boundary.
+> Indeed.
 > 
->> Should it be named something else?  I haven't looked at how it's
->> really used in the end.
-> 
-> We need the insn idx to find the registered callbacks for a given
-> instruction later. We could maybe embed a metadata TCGOp that could
-> track this for us but that might make TCG a bit more confusing as it
-> doesn't really need that information?
+> That said, more long term (but this is something Coccinelle could help with)
+> perhaps error_report_err should not free the error, and instead we should
+> use g_autoptr(Error) in the callers.  I don't like functions that do not
+> have free in their name and yet free a pointer...
 
-We have a metadata op for marking instruction boundaries already: INDEX_op_insn_start.
+Yes, this error_report_err surprises me every 6 months when I
+come to deal with it. So I think using g_autoptr would be a
+nice replacement, with no additional burden in terms of lines
+of code in callers too.
 
-
-r~
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
