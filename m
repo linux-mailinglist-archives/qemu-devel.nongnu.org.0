@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C7484094B5
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 16:33:54 +0200 (CEST)
-Received: from localhost ([::1]:50412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0943B4094F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 16:38:34 +0200 (CEST)
+Received: from localhost ([::1]:58162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPn1t-0007CZ-KH
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 10:33:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43284)
+	id 1mPn6O-0004Bo-7j
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 10:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPmRb-0001RK-Dn
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:56:23 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:38885)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPmRY-0004yz-6Y
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:56:22 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- g13-20020a17090a3c8d00b00196286963b9so6613568pjc.3
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 06:56:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=M1cFjKHx/TzYQaXC24w6/ALuksE5RIkE0mIiGgfGRdE=;
- b=E07hpBZ/mNsePnObUOxRNGphjdPlndadeHfzFuehsjRrG5UVIIVZRJprQYaW8qZs2K
- h+eotoztF38mhM057UVxlIV7Hu29GROfNFxSZYXylVwdk2Lqk/Ng5IJ2R6dn2LHDmOSO
- PW8YDeW1oef7o1Eht3X6+Jk8UxxJpcCMHyO0V3T4EXp7imECO5+qBe417voHzjLswN3H
- fVEuIf0ZZd+lCna6CMofZTEQH2BW70Lglnl7YgWEd0tHONGI+olUUshZ0c7Y9a1c907W
- mQPmt61s7AMAma3D0vfQnXg+rZy3UPpcRREJx6dS1zUSrTpZNBRV25rqThGjofBCSmLW
- /yvA==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1mPmUb-0007TF-Ve
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:59:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48924)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1mPmUZ-00076J-Mu
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:59:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631541566;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tOmLEjzBgelDw7HFajgOHwiVKVNsEpztJKqR94om1GU=;
+ b=R5M1br3FR+5wLS11nLrhmUUcnHOk0hIVTPtZWJBHaFFC+gN9erJpBYxexHCM6LiSls2FUC
+ /FxjA1SdS86sERK5JTcYRLW6rlEqks18HosJeWAcp8TQ7ZYbnVUQkuNjQ668xpnDslu80k
+ d0jJmq1W9m7uWBY/4Kx7h8CbhJGLj6s=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-139-SgkRHaJYNl6eHAAJ9yoVkQ-1; Mon, 13 Sep 2021 09:59:24 -0400
+X-MC-Unique: SgkRHaJYNl6eHAAJ9yoVkQ-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ e7-20020a056a0000c700b004391956f161so3430218pfj.18
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 06:59:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=M1cFjKHx/TzYQaXC24w6/ALuksE5RIkE0mIiGgfGRdE=;
- b=rYeNNoM9Y1P83u9pE0QwqgY1JjL7GWHtQTs2TYGfMgM1uhFplIgd1Sn4sN9T7x2wlL
- VZ/hRxnlWDaSm3hjCFhuxoQc69SRDRd5VKwGF5D9aGen5059uJRyl7I46NrHh4dfFtBz
- M7ZmcTU2MCGnNaXVAyIX/LAUMrdpG9idsKayqhE4g35s0XtwVm1GrcWhgrbh3I6wYKvb
- jBblYedbqVi1d3YGV2vnVcE83nA/iobSoa7o+6QX3UlIqRRhyRxVReK8Tlk3057NQkM2
- VKdAMFh4eTHqu33Cld66b/Jf20ouzmsNTtSrzk92tcXQQjrW9zwfiOxbi6jslTzytPhc
- XE6Q==
-X-Gm-Message-State: AOAM531RtC+XHthc2QoDBM+YLGQs9ARwNEjFdcTyzmJP3Y7LxVFHbxFA
- nq4z3UDgHIan6jRpI+5U1xGuZg==
-X-Google-Smtp-Source: ABdhPJzwMJQW70h6Ca22du2JsfxW04aoRG+W7GV/nm8fzVi3xq50ulIJONbpv424delnT9/f8rskiA==
-X-Received: by 2002:a17:902:654c:b0:13a:505d:6a04 with SMTP id
- d12-20020a170902654c00b0013a505d6a04mr10778191pln.82.1631541378556; 
- Mon, 13 Sep 2021 06:56:18 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id v190sm7330025pfv.166.2021.09.13.06.56.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 06:56:18 -0700 (PDT)
-Subject: Re: [PATCH v2 09/12] target/arm: Optimize MVE VSHL, VSHR immediate
- forms
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210913095440.13462-1-peter.maydell@linaro.org>
- <20210913095440.13462-10-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1a0247d3-f472-546d-b838-dcacb640d282@linaro.org>
-Date: Mon, 13 Sep 2021 06:56:16 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tOmLEjzBgelDw7HFajgOHwiVKVNsEpztJKqR94om1GU=;
+ b=FsrCgu9Rioez4SrFolWUNFvbhhHu+/GLRgOzWZkFbP0fqNzGKXsSQwzqYbxF7Rehe7
+ whU8d5WpR8h4eJsaZtajjhd9evZwLqNzq/sn/AouQqcFS3PqbfnNomdiDQlYEbAX1K1D
+ gmeZ/M15BI52tsnscPojUx+HOftjTnvV5GzatLupU3OXciEFYM0ml+AoaxBWIPV8sGe/
+ dvHnGpVXgl1eXHz8FCvzTeDeFoaeVJLOe7FYq+qb343vFJNioTSoBZzLd/uIdRRjg1x0
+ bAsgCFLFJOtCsrHGwx6xA1hi6U0OHK1+jk/Pni815wPXxDcyyr1KVVKkSam6vGCFbviW
+ 6diA==
+X-Gm-Message-State: AOAM531jNx3e9CWfIuWqJMCGOQVo89H4Q+egwolcceCGxEA7J6qMrxRV
+ C494VP3sUOYwy78rw5+nd2kpYPv3ezNmYaoQ3qnylxJIe7vquWB7d6qmrrQPaPL4Th7RQUTyrHm
+ 2nJZQ5HAOGMM9esASbCW9gP9DyxrSa6s=
+X-Received: by 2002:a63:30d:: with SMTP id 13mr11460755pgd.289.1631541563435; 
+ Mon, 13 Sep 2021 06:59:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLGWPHliLmExklYN8vwDWSSlhpmQjn/e168SmK38f4uioMaDSjcAvpcbD3Ea91kTgCVTv0VNSRI3x9Q9nHqtU=
+X-Received: by 2002:a63:30d:: with SMTP id 13mr11460733pgd.289.1631541563121; 
+ Mon, 13 Sep 2021 06:59:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210913095440.13462-10-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.969,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210913123932.3306639-1-armbru@redhat.com>
+ <20210913123932.3306639-2-armbru@redhat.com>
+ <CAMxuvaxE4fbkK-nX-K7ni9C4tUdXTTbCe=S1eAPvHCb2RUpFOQ@mail.gmail.com>
+ <87mtogk2c2.fsf@dusky.pond.sub.org>
+In-Reply-To: <87mtogk2c2.fsf@dusky.pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Mon, 13 Sep 2021 17:59:12 +0400
+Message-ID: <CAMxuvay2yNs4LxoVu8OCKV0AnkdqDvuR9rySAEX=PYkX4pk3KA@mail.gmail.com>
+Subject: Re: [PATCH 01/22] qapi: Tidy up unusual line breaks
+To: Markus Armbruster <armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000004e73d105cbe0df20"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,36 +91,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: John Snow <jsnow@redhat.com>, "Blake, Eric" <eblake@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/13/21 2:54 AM, Peter Maydell wrote:
-> +static void do_gvec_shri_s(unsigned vece, uint32_t dofs, uint32_t aofs,
-> +                           int64_t shift, uint32_t oprsz, uint32_t maxsz)
-> +{
-> +    /*
-> +     * We get here with a negated shift count, and we must handle
-> +     * shifts by the element size, which tcg_gen_gvec_sari() does not do.
-> +     */
-> +    shift = -shift;
+--0000000000004e73d105cbe0df20
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-You've already performed the negation in do_2shift_vec.
+Hi
 
-> +    if (shift == (8 << vece)) {
-> +        shift--;
-> +    }
-> +    tcg_gen_gvec_sari(vece, dofs, aofs, shift, oprsz, maxsz);
-...
-> +    if (shift == (8 << vece)) {
-> +        tcg_gen_gvec_dup_imm(vece, dofs, oprsz, maxsz, 0);
-> +    } else {
-> +        tcg_gen_gvec_shri(vece, dofs, aofs, shift, oprsz, maxsz);
-> +    }
+On Mon, Sep 13, 2021 at 5:55 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
+
+> Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
+>
+> > Hi
+> >
+> > On Mon, Sep 13, 2021 at 4:39 PM Markus Armbruster <armbru@redhat.com>
+> wrote:
+> >
+> >> Break lines between members instead of within members.
+> >>
+> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> >>
+> >
+> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > I wish we would just automated tools to format files. With that git 2.2=
+3
+> > feature, no more excuses :):
+> >
+> https://www.moxio.com/blog/43/ignoring-bulk-change-commits-with-git-blame
+>
+> Interesting.
+>
+
+Yeah, unfortunately you would have to add the commit rev after it's merged.
 
 
-Perhaps worth placing these functions somewhere we can share code with NEON?  Tactical 
-error, perhaps, open-coding these tests in trans_VSHR_S_2sh and trans_VSHR_U_2sh.
+> > Sadly, our mixed json/py format doesn't get parsed after "blake"
+> reformats
+> > it (strings or trailing commas).
+>
+> Naming QAPI schema files .json even though their contents isn't was a
+> mistake.
+>
+> We discussed possible improvements in the thread below
+>
+>     Message-ID: <87ime52wxd.fsf@dusky.pond.sub.org>
+>     https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg08325.html
+>
+> Too much to read, but there's a summary:
+>
+>     Message-ID: <877dt5ofoi.fsf@dusky.pond.sub.org>
+>     https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg02553.html
+>
+> The least invasive way to achieve formatting automation could be
+> switching from bastardized JSON to proper subset of Python.
+>
 
-r~
+ok
+
+
+> What's "blake"?
+>
+
+Sorry, don't know why I always remember "blake" when it is simply  "black" =
+(
+https://github.com/psf/black)
+
+--0000000000004e73d105cbe0df20
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 13, 2021 at 5:55 PM Mar=
+kus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Ma=
+rc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com" tar=
+get=3D"_blank">marcandre.lureau@redhat.com</a>&gt; writes:<br>
+<br>
+&gt; Hi<br>
+&gt;<br>
+&gt; On Mon, Sep 13, 2021 at 4:39 PM Markus Armbruster &lt;<a href=3D"mailt=
+o:armbru@redhat.com" target=3D"_blank">armbru@redhat.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;&gt; Break lines between members instead of within members.<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redh=
+at.com" target=3D"_blank">armbru@redhat.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;<br>
+&gt; Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lu=
+reau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; I wish we would just automated tools to format files. With that git 2.=
+23<br>
+&gt; feature, no more excuses :):<br>
+&gt; <a href=3D"https://www.moxio.com/blog/43/ignoring-bulk-change-commits-=
+with-git-blame" rel=3D"noreferrer" target=3D"_blank">https://www.moxio.com/=
+blog/43/ignoring-bulk-change-commits-with-git-blame</a><br>
+<br>
+Interesting.<br></blockquote><div><br></div><div>Yeah, unfortunately you wo=
+uld have to add the commit rev after it&#39;s merged.</div><div><br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; Sadly, our mixed json/py format doesn&#39;t get parsed after &quot;bla=
+ke&quot; reformats<br>
+&gt; it (strings or trailing commas).<br>
+<br>
+Naming QAPI schema files .json even though their contents isn&#39;t was a<b=
+r>
+mistake.<br>
+<br>
+We discussed possible improvements in the thread below<br>
+<br>
+=C2=A0 =C2=A0 Message-ID: &lt;<a href=3D"mailto:87ime52wxd.fsf@dusky.pond.s=
+ub.org" target=3D"_blank">87ime52wxd.fsf@dusky.pond.sub.org</a>&gt;<br>
+=C2=A0 =C2=A0 <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2020=
+-07/msg08325.html" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.o=
+rg/archive/html/qemu-devel/2020-07/msg08325.html</a><br>
+<br>
+Too much to read, but there&#39;s a summary:<br>
+<br>
+=C2=A0 =C2=A0 Message-ID: &lt;<a href=3D"mailto:877dt5ofoi.fsf@dusky.pond.s=
+ub.org" target=3D"_blank">877dt5ofoi.fsf@dusky.pond.sub.org</a>&gt;<br>
+=C2=A0 =C2=A0 <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2020=
+-09/msg02553.html" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.o=
+rg/archive/html/qemu-devel/2020-09/msg02553.html</a><br>
+<br>
+The least invasive way to achieve formatting automation could be<br>
+switching from bastardized JSON to proper subset of Python.<br></blockquote=
+><div><br></div><div>ok<br></div><div>=C2=A0</div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">
+What&#39;s &quot;blake&quot;?<br></blockquote><div><br></div><div>Sorry, do=
+n&#39;t know why I always remember &quot;blake&quot; when it is simply=C2=
+=A0 &quot;black&quot; (<a href=3D"https://github.com/psf/black">https://git=
+hub.com/psf/black</a>)</div></div></div>
+
+--0000000000004e73d105cbe0df20--
+
 
