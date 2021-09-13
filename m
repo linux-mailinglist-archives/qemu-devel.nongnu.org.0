@@ -2,90 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6979D408B37
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:42:00 +0200 (CEST)
-Received: from localhost ([::1]:50492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E71408ACD
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:13:37 +0200 (CEST)
+Received: from localhost ([::1]:58870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPlHb-0001lb-CK
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:41:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43510)
+	id 1mPkq6-0000YM-IF
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:13:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mPkdC-0007V5-Kx
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:00:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34312)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mPkd8-0007Qz-Nl
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:00:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631534409;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aB+gRdh8pq0s258i1su1ru8qCrSfm9wn3WLbLIPDC8s=;
- b=WTK3nI5TIyKoFGUYEjIQJCVh/+4MBpQF+YLCsVYvdASkJaJM5QCeSCWIPtHmmvk9o9DcGT
- wPcM3U6hsGU+filVXLpWqq7rGVrVndVfLLk2oj3hWETmK49Ssz1rmB3WqptRQ5RXNMXLuo
- SorXmZDvfC0MM5iKJWBESy5p/gnQaRc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-eUaT-1kYNdK7q4b3428hag-1; Mon, 13 Sep 2021 08:00:08 -0400
-X-MC-Unique: eUaT-1kYNdK7q4b3428hag-1
-Received: by mail-wr1-f71.google.com with SMTP id
- i4-20020a5d5224000000b0015b14db14deso2576039wra.23
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 05:00:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=aB+gRdh8pq0s258i1su1ru8qCrSfm9wn3WLbLIPDC8s=;
- b=SuadDxPt9hgV/Q7r+R4cofoVAPm3ca+h392zC82vuJEkKvd84M/dgmbYOXAltMJ38O
- g0idXsS9KY40DHaY0MN620u05RF18KMJmb4Yg+0naMgQVJUjhH9UdlZnr5hi7RmdGo9I
- scA8QYAe+i7WoZTOOSjGCu1mhf+sP5qNzInIxEHAWtsHcq7x00dKAtG4LNFjftqvTcPG
- 7WDAHLOl1Yaex/U9N/JWr1tMDXCNAPZTW0DvtSwoqoQbEEk4SGxTW3x5VSrJQxDHc4S+
- SXn7N4XiC4IOv+YWrXji+0RELtTCOHCpUoNH88Vg4lnPNQ6ryMxTkmV7zR3opgrnztoX
- /bFg==
-X-Gm-Message-State: AOAM533Q7Uzk6cRerCCXzrGziJtj5HnRQeyKuAzEUTPcWbA5wS9leDau
- qZ0k0cI/rsVze6zqctbxy/OAk6lh/etsMX6LgODHsY3Upsfc82lQoP8NMfE0xZcqN/vJMzg0oSQ
- tX7NcCfRNSY7PA9k=
-X-Received: by 2002:a5d:5903:: with SMTP id v3mr9177088wrd.232.1631534406722; 
- Mon, 13 Sep 2021 05:00:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw6IcZPfl0M4BEg5sPP0Wd5XY/RFcxUzki6uMgpkFLH1IHYdk1KZiqjMcqLI5MNuDuNXHfdqA==
-X-Received: by 2002:a5d:5903:: with SMTP id v3mr9176862wrd.232.1631534404417; 
- Mon, 13 Sep 2021 05:00:04 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
- by smtp.gmail.com with ESMTPSA id y4sm6684882wmi.22.2021.09.13.05.00.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 05:00:04 -0700 (PDT)
-Subject: Re: [PATCH v2 08/17] iotests.py: filter compression type out
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210720113832.586428-1-vsementsov@virtuozzo.com>
- <20210720113832.586428-9-vsementsov@virtuozzo.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <8aedae6e-ad7c-1bf5-d24c-36f20a47cfd8@redhat.com>
-Date: Mon, 13 Sep 2021 14:00:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1mPkfX-0000dM-Ka; Mon, 13 Sep 2021 08:02:39 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:43988 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1mPkfU-0000an-TS; Mon, 13 Sep 2021 08:02:39 -0400
+Received: from MacBook-Air.alex.local
+ (dynamic-095-118-088-150.95.118.pool.telefonica.de [95.118.88.150])
+ by csgraf.de (Postfix) with ESMTPSA id 80AAB608037D;
+ Mon, 13 Sep 2021 14:02:33 +0200 (CEST)
+Subject: Re: [PATCH v9 07/11] hvf: arm: Implement PSCI handling
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210912230757.41096-1-agraf@csgraf.de>
+ <20210912230757.41096-8-agraf@csgraf.de>
+ <CAFEAcA8BybrfxNxkWbEjxji4DvDumr6Otb_RK_f84Dt_TWXfpA@mail.gmail.com>
+ <ad707e0d-8d4a-0248-80f4-a02a7226ce0a@csgraf.de>
+ <CAFEAcA_OBK1hbqC1Nc7J+VEwkO54WvqBrNa=bR5T3tZW+nfEkQ@mail.gmail.com>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <3132e2f5-41a6-6011-808b-7ea12abec1c0@csgraf.de>
+Date: Mon, 13 Sep 2021 14:02:33 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20210720113832.586428-9-vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAFEAcA_OBK1hbqC1Nc7J+VEwkO54WvqBrNa=bR5T3tZW+nfEkQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.969,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,28 +57,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Peter Collingbourne <pcc@google.com>, Marc Zyngier <maz@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.07.21 13:38, Vladimir Sementsov-Ogievskiy wrote:
-> We want iotests pass with both the default zlib compression and with
-> IMGOPTS='compression_type=zstd'.
->
-> Actually the only test that is interested in real compression type in
-> test output is 287 (test for qcow2 compression type) and it's in bash.
-> So for now we can safely filter out compression type in all qcow2
-> tests.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   tests/qemu-iotests/206.out    | 10 +++++-----
->   tests/qemu-iotests/242.out    | 10 +++++-----
->   tests/qemu-iotests/274.out    | 10 +++++-----
->   tests/qemu-iotests/iotests.py |  2 ++
->   4 files changed, 17 insertions(+), 15 deletions(-)
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+On 13.09.21 13:44, Peter Maydell wrote:
+> On Mon, 13 Sept 2021 at 12:07, Alexander Graf <agraf@csgraf.de> wrote:
+>>
+>> On 13.09.21 10:54, Peter Maydell wrote:
+>>> Something in here should be checking whether the insn the guest
+>>> used matches the PSCI conduit configured for the VM, ie
+>>> what arm_is_psci_call() does after your patch 10.
+>>
+>> It's yet another case where I believe we are both reading the spec
+>> differently :)
+>>
+>>   https://documentation-service.arm.com/static/6013e5faeee5236980d08619
+>>
+>> Section 2.5.3 speaks about the conduits. It says
+>>
+>>     Service calls are expected to be invoked through SMC instructions,
+>> except
+>>     for Standard Hypervisor Calls and Vendor Specific Hypervisor Calls. On
+>>     some platforms, however, SMC instructions are not available, and the
+>>     services can be accessed through HVC instructions. The method that
+>>     is used to invoke the service is referred to as the conduit.
+>>
+>> To me, that reads like "Use SMC whenever you can. If your hardware does
+>> not give you a way to handle SMC calls, falling back to HVC is ok. In
+>> that case, indicate that mandate to the OS".
+> QEMU here is being the platform, so we define what the conduit is
+> (or if one even exists). For the virt board this is "if the
+> guest has EL3 firmware, then the guest firmware is providing PSCI,
+> and QEMU should not; otherwise if the guest has EL2 then QEMU's
+> emulated firmware should be at EL3 using SMC, otherwise use HVC".
+>
+> (So in practice for hvf at the moment this will mean the conduit
+> is always HVC, since hvf doesn't allow EL3 or EL2 in the guest.)
+>
+>> In hvf, we can very easily trap for SMC calls and handle them. Why are
+>> we making OSs implement HVC call paths when SMC would work just as well
+>> for everyone?
+> OSes have to handle both anyway, because on real hardware if
+> there is no EL3 then it is IMPDEF whether SMC is trappable
+> to the hypervisor or whether it just UNDEFs to EL1.
+>
+>> To keep your train of thought though, what would you do if we encounter
+>> a conduit that is different from the chosen one? Today, I am aware of 2
+>> different implementations: TCG injects #UD [1] while KVM sets x0 to -1 [2].
+> If the SMC or HVC insn isn't being used for PSCI then it should
+> have its standard architectural behaviour.
+
+
+Why? Also, why does KVM behave differently? And why does Windows rely on
+SMC availability on boot?
+
+If you really insist that you don't care about users running Windows
+with TCG and EL2=0, so be it. At least you can enable EL2 and it works
+then. But I can't on hvf. It's one of the most useful use cases for hvf
+on QEMU and I won't break it just because you insist that "SMC behavior
+is IMPDEF, so it must be UNDEF". If it's IMPDEF, it may as well be "set
+x0 to -1 and add 4 to pc".
+
+And yes, this is a hill I will die on :)
+
+
+Alex
 
 
