@@ -2,47 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DA4B4089DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 13:09:51 +0200 (CEST)
-Received: from localhost ([::1]:60780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787284089DD
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 13:09:54 +0200 (CEST)
+Received: from localhost ([::1]:60898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPjqQ-0000lr-7n
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 07:09:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59838)
+	id 1mPjqT-0000qe-I2
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 07:09:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1mPjoG-0007EY-BJ; Mon, 13 Sep 2021 07:07:36 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:43904 helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1mPjoB-0004Wk-U7; Mon, 13 Sep 2021 07:07:35 -0400
-Received: from MacBook-Air.alex.local
- (dynamic-095-118-088-150.95.118.pool.telefonica.de [95.118.88.150])
- by csgraf.de (Postfix) with ESMTPSA id 5E8ED608037D;
- Mon, 13 Sep 2021 13:07:28 +0200 (CEST)
-Subject: Re: [PATCH v9 07/11] hvf: arm: Implement PSCI handling
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210912230757.41096-1-agraf@csgraf.de>
- <20210912230757.41096-8-agraf@csgraf.de>
- <CAFEAcA8BybrfxNxkWbEjxji4DvDumr6Otb_RK_f84Dt_TWXfpA@mail.gmail.com>
-From: Alexander Graf <agraf@csgraf.de>
-Message-ID: <ad707e0d-8d4a-0248-80f4-a02a7226ce0a@csgraf.de>
-Date: Mon, 13 Sep 2021 13:07:17 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mPjoJ-0007Fx-3C
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:07:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49141)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mPjoF-0004ZU-E1
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:07:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631531252;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=p8h75J7lg41KqCpWj5qoGkGrzSFdQPM0puDLfsmsMss=;
+ b=Cc8iX+//jVZs7BIqqAylKSJLDv1bDNWShvwq0zogub2k4hy4loqxDNPfyH376W7ardcuuB
+ nAHt/5IYKus+f9sSJV8VOZytLXDIChbH5UyUjNJZbClUD8BRwIB/CioIWNIk5R2iiQDPJj
+ YWcRIpUC93f0U8vDUpMR8/xH3P8F2Xw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-547--OHxJmaFPCK2vce5JdzLoA-1; Mon, 13 Sep 2021 07:07:29 -0400
+X-MC-Unique: -OHxJmaFPCK2vce5JdzLoA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CEAE018D6A2C;
+ Mon, 13 Sep 2021 11:07:28 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5D1C519E7E;
+ Mon, 13 Sep 2021 11:07:28 +0000 (UTC)
+Date: Mon, 13 Sep 2021 12:07:27 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH] tcg/arm: Reduce vector alignment requirement for NEON
+Message-ID: <20210913110727.GF26415@redhat.com>
+References: <20210912174925.200132-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8BybrfxNxkWbEjxji4DvDumr6Otb_RK_f84Dt_TWXfpA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -38
-X-Spam_score: -3.9
+In-Reply-To: <20210912174925.200132-1-richard.henderson@linaro.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.969,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,96 +76,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marc Zyngier <maz@kernel.org>, Eduardo Habkost <ehabkost@redhat.com>,
- Sergio Lopez <slp@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: peter.maydell@linaro.org, berrange@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sun, Sep 12, 2021 at 10:49:25AM -0700, Richard Henderson wrote:
+> With arm32, the ABI gives us 8-byte alignment for the stack.
+> While it's possible to realign the stack to provide 16-byte alignment,
+> it's far easier to simply not encode 16-byte alignment in the
+> VLD1 and VST1 instructions that we emit.
+> 
+> Remove the assertion in temp_allocate_frame, limit natural alignment
+> to the provided stack alignment, and add a comment.
+> 
+> Reported-by: Richard W.M. Jones <rjones@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> 
+> I haven't seen the assertion with the various arm kernels that I happen
+> to have laying about.  I have not taken the time to build the combo
+> from the bug report:
+> 
+> [    0.000000] Linux version 5.14.0-60.fc36.armv7hl (mockbuild@buildvm-a32-12.iad2.fedoraproject.org) (gcc (GCC) 11.2.1 20210728 (Red Hat 11.2.1-1), GNU ld version 2.37-9.fc36) #1 SMP Mon Aug 30 14:08:34 UTC 2021
+> 
+> I thought about parameterizing this patch further, but I can't think of
+> another ISA that would be affected.  (i686 clumsily changed its abi 20
+> years ago to avoid faulting on vector spills; other isas so far have
+> allowed vectors to be unaligned.)
 
-On 13.09.21 10:54, Peter Maydell wrote:
-> On Mon, 13 Sept 2021 at 00:08, Alexander Graf <agraf@csgraf.de> wrote:
->> We need to handle PSCI calls. Most of the TCG code works for us,
->> but we can simplify it to only handle aa64 mode and we need to
->> handle SUSPEND differently.
->>
->> This patch takes the TCG code as template and duplicates it in HVF.
->>
->> To tell the guest that we support PSCI 0.2 now, update the check in
->> arm_cpu_initfn() as well.
->>
->> Signed-off-by: Alexander Graf <agraf@csgraf.de>
->> Reviewed-by: Sergio Lopez <slp@redhat.com>
->>
->> ---
->>
->> v6 -> v7:
->>
->>   - This patch integrates "arm: Set PSCI to 0.2 for HVF"
->>
->> v7 -> v8:
->>
->>   - Do not advance for HVC, PC is already updated by hvf
->>   - Fix checkpatch error
->>
->> v8 -> v9:
->>
->>   - Use new hvf_raise_exception() prototype
->>   - Make cpu_off function void
->>   - Add comment about return value, use -1 for "not found"
->>   - Remove cpu_synchronize_state() when halted
->> ---
->>  target/arm/cpu.c            |   4 +-
->>  target/arm/hvf/hvf.c        | 127 ++++++++++++++++++++++++++++++++++--
->>  target/arm/hvf/trace-events |   1 +
->>  3 files changed, 126 insertions(+), 6 deletions(-)
-> Something in here should be checking whether the insn the guest
-> used matches the PSCI conduit configured for the VM, ie
-> what arm_is_psci_call() does after your patch 10.
+Is it possible this change could have caused a more serious
+regression?  Now when I try to boot the Fedora kernel using TCG on
+armv7hl I can't even get to the point where it detects virtio-scsi
+devices.
 
+Full log is here (go down to the bottom and work backwards):
 
-It's yet another case where I believe we are both reading the spec
-differently :)
+  https://kojipkgs.fedoraproject.org//work/tasks/7337/75597337/build.log
 
-  https://documentation-service.arm.com/static/6013e5faeee5236980d08619
+This might have been caused by a coincidental change to the kernel.
+The test environment I have makes it extremely difficult to test this
+change in isolation.
 
-Section 2.5.3 speaks about the conduits. It says
+However I do know that the same error does _not_ occur on x86-64
+guest/host with this patch applied.
 
-    Service calls are expected to be invoked through SMC instructions,
-except
-    for Standard Hypervisor Calls and Vendor Specific Hypervisor Calls. On
-    some platforms, however, SMC instructions are not available, and the
-    services can be accessed through HVC instructions. The method that
-    is used to invoke the service is referred to as the conduit.
+Rich.
 
-To me, that reads like "Use SMC whenever you can. If your hardware does
-not give you a way to handle SMC calls, falling back to HVC is ok. In
-that case, indicate that mandate to the OS".
+> 
+> r~
+> ---
+>  tcg/tcg.c                |  8 +++++++-
+>  tcg/arm/tcg-target.c.inc | 13 +++++++++----
+>  2 files changed, 16 insertions(+), 5 deletions(-)
+> 
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index 4142d42d77..ca5bcc4635 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -3060,7 +3060,13 @@ static void temp_allocate_frame(TCGContext *s, TCGTemp *ts)
+>          g_assert_not_reached();
+>      }
+>  
+> -    assert(align <= TCG_TARGET_STACK_ALIGN);
+> +    /*
+> +     * Assume the stack is sufficiently aligned.
+> +     * This affects e.g. ARM NEON, where we have 8 byte stack alignment
+> +     * and do not require 16 byte vector alignment.  This seems slightly
+> +     * easier than fully parameterizing the above switch statement.
+> +     */
+> +    align = MIN(TCG_TARGET_STACK_ALIGN, align);
+>      off = ROUND_UP(s->current_frame_offset, align);
+>  
+>      /* If we've exhausted the stack frame, restart with a smaller TB. */
+> diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+> index e5b4f86841..8515717435 100644
+> --- a/tcg/arm/tcg-target.c.inc
+> +++ b/tcg/arm/tcg-target.c.inc
+> @@ -2477,8 +2477,13 @@ static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg arg,
+>          tcg_out_vldst(s, INSN_VLD1 | 0x7d0, arg, arg1, arg2);
+>          return;
+>      case TCG_TYPE_V128:
+> -        /* regs 2; size 8; align 16 */
+> -        tcg_out_vldst(s, INSN_VLD1 | 0xae0, arg, arg1, arg2);
+> +        /*
+> +         * We have only 8-byte alignment for the stack per the ABI.
+> +         * Rather than dynamically re-align the stack, it's easier
+> +         * to simply not request alignment beyond that.  So:
+> +         * regs 2; size 8; align 8
+> +         */
+> +        tcg_out_vldst(s, INSN_VLD1 | 0xad0, arg, arg1, arg2);
+>          return;
+>      default:
+>          g_assert_not_reached();
+> @@ -2497,8 +2502,8 @@ static void tcg_out_st(TCGContext *s, TCGType type, TCGReg arg,
+>          tcg_out_vldst(s, INSN_VST1 | 0x7d0, arg, arg1, arg2);
+>          return;
+>      case TCG_TYPE_V128:
+> -        /* regs 2; size 8; align 16 */
+> -        tcg_out_vldst(s, INSN_VST1 | 0xae0, arg, arg1, arg2);
+> +        /* See tcg_out_ld re alignment: regs 2; size 8; align 8 */
+> +        tcg_out_vldst(s, INSN_VST1 | 0xad0, arg, arg1, arg2);
+>          return;
+>      default:
+>          g_assert_not_reached();
+> -- 
+> 2.25.1
 
-In hvf, we can very easily trap for SMC calls and handle them. Why are
-we making OSs implement HVC call paths when SMC would work just as well
-for everyone?
-
-To keep your train of thought though, what would you do if we encounter
-a conduit that is different from the chosen one? Today, I am aware of 2
-different implementations: TCG injects #UD [1] while KVM sets x0 to -1 [2].
-
-IMHO the best way to resolve all of this mess is to consolidate to SMC
-as default PSCI handler and for now treat HVC as if it was an SMC call
-as well for virtual environments. Once we get nested virtualization, we
-will need to move to SMC as default anyway.
-
-
-Alex
-
-[1]
-https://git.qemu.org/?p=qemu.git;a=blob;f=target/arm/op_helper.c;hb=HEAD#l813
-[2]
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/kvm/handle_exit.c#n52
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+Fedora Windows cross-compiler. Compile Windows programs, test, and
+build Windows installers. Over 100 libraries supported.
+http://fedoraproject.org/wiki/MinGW
 
 
