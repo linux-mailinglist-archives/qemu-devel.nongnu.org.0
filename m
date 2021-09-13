@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD204094FA
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 16:40:12 +0200 (CEST)
-Received: from localhost ([::1]:60452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BF0C409580
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 16:42:07 +0200 (CEST)
+Received: from localhost ([::1]:34474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPn7z-0005im-CN
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 10:40:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45424)
+	id 1mPn9q-0007Ku-Ba
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 10:42:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPmZt-0006qA-FV
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 10:04:57 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:39813)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mPmdS-0005mM-Jh
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 10:08:38 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:36392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPmZo-0002W1-NY
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 10:04:57 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id g184so9542116pgc.6
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 07:04:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mPmdP-00054b-OM
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 10:08:38 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ l18-20020a05600c4f1200b002f8cf606262so7105510wmq.1
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 07:08:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=C3U2iNltkBAtK+iMGgBQB0y6DFLI8AXbAnTmRf35R3g=;
- b=V4Z87v8vOTacUsCZ/1O8DKPBLdJMcGth98wQoUTpf93xMwmYnGB+LuaVOhyKaOGXNf
- wFDX/wD7wIvn0f4NTXf+18yfqVcSAMF/1TUoOPm9nrFmwtUHEogx8oxBmEUOUJDnCNcg
- p1JSrMH0Ik2En0ZuX9U4LxBe3idKlTM6w3RLhJD3x4L1pRbd3GAGOXlAziTrUGGITi9b
- wIp7tvmThZzzaNCpqiEKkFeyzbDexZwjQu5+kfSxeEmXBjOEgg4IMsfRcE1BwgWMVkq0
- UAuGC2lmgAiIZuLnUIiOXRm3Z2MLSrAoFOdJNBxvKvtVG7LfsL9gFQ0zK5wKqSuJdrgN
- qNVQ==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=sPTyeh14OAqiCnCZ0H4i0wkCcCmCzNwCQ1t43dAxVZE=;
+ b=Wo4ay9FwfnvXwVwgK1pUcTclZHAtKBwAtSCKHy7ZJaDwWdTz5qljsPFlDvXz4Hq6SI
+ nOsJi+5gsMfK9fvDl2+HRT63G2JnGgPwDgywidFyObHambp7I73oIB+cQ6lzUntz1Bm8
+ 04WIFczQhU6RrxUjHvQbxz8g0BwAYOwjPj4NL8f699W92xr63ydjy48ZmOZ5JLxj7ez+
+ TZzyX/Nx6Al1Cg7M4F62pCMCkMW5kJgAFfRYl7b9M22A0W8cHlIcZbLYcUJnO8eREYI1
+ R+Aq2WCdCmhb47SftR3z83V4wvt14rbW6V+4pWexhjcXRGracPo7mXpf6Q4VQBeUEanP
+ K69Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=C3U2iNltkBAtK+iMGgBQB0y6DFLI8AXbAnTmRf35R3g=;
- b=Lhua8iWhd2n2d/AnH15EmcoMGnRpV6/OD5UiZrymLX8BlE19wBMGUxbyJdA8T/Wj+Q
- LN/torfBFP4EzGs9jmPL2eX1Rc0j6bvMqsq2aF8aJYMGeLKMLPs3mYC17WRnkdlM4AO+
- yTBFx8CHb10yv2JINO3zzGrbDivFPn28r6SDVFVUtBTuWLWzG1ldpdCBP9N37eqjK6nR
- EjoIDJxaS8rZsD6qLXZZ1GUuOQ6y9JSSEGKAmr+RGu0+VUMhgXV+/sI71toEWA1MkT4m
- hDRWpsC6rky5EPcCEeUC+GN1+T8t0IiRkn+2iz4ZVxty0b9h5+2NqODUwVfhpGBI84tR
- GzrQ==
-X-Gm-Message-State: AOAM531UacVHnZtSTBQ2SD99ny/pa6QwxuqttNgiRmgbWblrhrtYR4Sr
- Qp1viptcITWoVH557hLQ4YwoiQ==
-X-Google-Smtp-Source: ABdhPJzB8hHGFob30eWMJIzKVSi6hIcsRGm16n4fIFrBh4emqw6wtg8WtNuu7tp6wMAVNCII+DCJtQ==
-X-Received: by 2002:a63:5f8f:: with SMTP id
- t137mr11160288pgb.420.1631541890068; 
- Mon, 13 Sep 2021 07:04:50 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id d5sm7477157pfd.142.2021.09.13.07.04.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 07:04:49 -0700 (PDT)
-Subject: Re: [PATCH v2 11/12] target/arm: Optimize MVE VSLI and VSRI
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210913095440.13462-1-peter.maydell@linaro.org>
- <20210913095440.13462-12-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <11157474-24e7-093e-bf8e-43dee299a333@linaro.org>
-Date: Mon, 13 Sep 2021 07:04:48 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=sPTyeh14OAqiCnCZ0H4i0wkCcCmCzNwCQ1t43dAxVZE=;
+ b=w2rzBILzRxj2PTUlhSZWEdgzv7Xy0aLd1AYQWXyDI+jbQGM570mf3nNvKCOfoUKxZ0
+ nwAShU3AlAqQO29Cg1PzVfar3laREnpP8N7m1BZiH4JKci/29PmvvfBccleueOErNhmm
+ 8fHcZI8y9Cim6s3V5uCjguYOerJccmCsL0SkeszAl02JfNuXPoffx2UoaJp1MometGGN
+ /2AV7i6ZOo30NRCud03a3nad/9JGAa14/SkF8yzfbrQaAmWRUo+XPG50Y68fV/HndNca
+ LRjrL+IuOasKG1oqWTujjZFiKkuygMfJhpBBEyM86bBMFMbXoeRqzAwuZ8A23QnXUVaN
+ c6wQ==
+X-Gm-Message-State: AOAM530II+FQMyqmRBGPhdAi/tQ6knI4AF9fubkNgjb2LqRJxnxDeXz6
+ f7Wf1lxXWwTEMb132PWHlO+NiQ==
+X-Google-Smtp-Source: ABdhPJyvruI++h2n+zThnn+XZeQY7xg42GZn6prUimosdJBy4kSzjcHX8EetRBxnqE2cWshMOTdizw==
+X-Received: by 2002:a7b:cb89:: with SMTP id m9mr11496954wmi.123.1631542112811; 
+ Mon, 13 Sep 2021 07:08:32 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f5sm6906898wmb.47.2021.09.13.07.08.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Sep 2021 07:08:32 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5F01E1FF96;
+ Mon, 13 Sep 2021 15:08:31 +0100 (BST)
+References: <20210903145938.1321571-1-alex.bennee@linaro.org>
+ <36bc7691-c0d9-9e18-dade-4d95405dcd62@linaro.org>
+ <871r5swztj.fsf@linaro.org>
+ <a925ce89-7134-c26a-c967-942f98b71a29@linaro.org>
+User-agent: mu4e 1.7.0; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH] accel/tcg: assert insn_idx will always be valid before
+ plugin_inject_cb
+Date: Mon, 13 Sep 2021 15:06:03 +0100
+In-reply-to: <a925ce89-7134-c26a-c967-942f98b71a29@linaro.org>
+Message-ID: <87h7eova8w.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210913095440.13462-12-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.969,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,20 +91,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/13/21 2:54 AM, Peter Maydell wrote:
-> Optimize the MVE shift-and-insert insns by using TCG
-> vector ops when possible.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   target/arm/translate-mve.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-r~
+> On 9/13/21 3:06 AM, Alex Benn=C3=A9e wrote:
+>>> Also, existing strageness in insn_idx being incremented for non-insns?
+>> It shouldn't be - it's just using the presence of the memory
+>> instrumentation as a proxy for the start of a instruction and dealing
+>> with the slightly different start of block boundary.
+>>=20
+>>> Should it be named something else?  I haven't looked at how it's
+>>> really used in the end.
+>> We need the insn idx to find the registered callbacks for a given
+>> instruction later. We could maybe embed a metadata TCGOp that could
+>> track this for us but that might make TCG a bit more confusing as it
+>> doesn't really need that information?
+>
+> We have a metadata op for marking instruction boundaries already:
+> INDEX_op_insn_start.
+
+Hmm so we have a separate list for speedy access:
+
+    /* list to quickly access the injected ops */
+    QSIMPLEQ_HEAD(, TCGOp) plugin_ops;
+
+I wonder if we should drop that and just scan QTAILQ_HEAD(, TCGOp) ops
+so we can be properly aligned with the current instruction.
+Alternatively we could just emit INDEX_op_insn_start to the plugin list
+as well?
+
+>
+>
+> r~
+
+
+--=20
+Alex Benn=C3=A9e
 
