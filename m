@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AC3040889D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 11:57:44 +0200 (CEST)
-Received: from localhost ([::1]:51782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 906144088CA
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 12:09:11 +0200 (CEST)
+Received: from localhost ([::1]:48136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPiic-00021a-GA
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 05:57:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45328)
+	id 1mPiti-0001t2-Km
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 06:09:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPifu-0007OZ-FI
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 05:54:54 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:40545)
+ id 1mPifq-00078Z-BT
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 05:54:50 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:41813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPifp-0001ua-KO
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 05:54:54 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- b21-20020a1c8015000000b003049690d882so3629758wmd.5
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 02:54:48 -0700 (PDT)
+ id 1mPifl-0001r3-7F
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 05:54:48 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ g19-20020a1c9d13000000b003075062d4daso991257wme.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 02:54:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yVP8w884M7PsuH2MFKMpdcPSHj37im3UZvS2k+7d9X0=;
- b=zQZplLa2SUhwBPaKoUqDdKUDr51+HQ394FcWsUkX18x0wlqAhb3i2BNRnrgeguyDpz
- u95nGqtzcF2zLcc+7Mi3/4R0fHPtzx02llrASivRkSLpZVF8sXH4j7bghPBq2YOiGWWF
- X65dzKu4noU+IxAgsElc/vIzlBoHOFx0OfiKIJ6Pp/6lHuigXFvaZ4DiA3SUZ2Z2wogO
- SjPpyf4k4VgrpDZvj29JtUL0F1Mrq8o6dqZC77Oeys4wkZgjnfArA9hJS7MUUDT6S14A
- OLngv91iRPeRrNUmF9Y5L9VDHvPQjsiWsrrZhAhDXu8gDExUEGKOD3qtetb1NZO44mZZ
- lKHA==
+ bh=jxk3ue8j1WrvxC+M7fUY505W445uGju5w3RgNRmMwPM=;
+ b=iZjrwq8iq+1dDlWPQUUp4J1hTSQyUB+PPBj9QQEW5nMA9yxScNQIPr7dMbDL64T9Br
+ DKEQ97ScI5sMxxVPRlRryIWXroHgDqkDXKL7RvpgRQrBibtNjiJO9fE/QNx/x9vYfb6r
+ STtJZZUDfgg6v1BGAXX1vsXHfMeJbt4CYynQd8ec56gDBPZF3Iz6WwpKCrDWOJtRjmrR
+ jZI00O/n8gGWYs8hHC5zY/VA+WPNcRvK+i6YObvzgwwbow7UfhOgikvsSrrOJDxMdQom
+ 9nOOb59E++qaMDm9Fce04SZ3ODOf1P2hXB+4eSjPLS8L9kTTN1CtBDZcqVIOBdC4Gyih
+ uX2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yVP8w884M7PsuH2MFKMpdcPSHj37im3UZvS2k+7d9X0=;
- b=eDtVBa1+9qatTek5sm53k/d7GcGifKnhrfYjO1MY38PIwHZ6rLN3wjlozN/p1rgzyA
- SyC2+E6jWDkbaAtSqoaWGxAS2GkiOgdfDKNGxV+Sc/fc/2bNxfDitQ5UZhdFJkw72wjY
- DbfOWfdPkt4hLmUy8fZAa+g03KQbG7MxU818wtzc0ag5ryfD4+lkjRSRlIriNX2EAN0L
- rEOLBW/xjpnP1P5pCoH8bBF4xAPAHvlMqNcsfif+6q70HYJS6i/M9fqvBfpsmH5VRAtI
- 2CMdZsSsjmLtqYy88J7VRxeVrkm532kJtr5iP0rWwIJcuEbpeOxx4yQ2+sEU9srwSeHv
- 4bSQ==
-X-Gm-Message-State: AOAM530vUazCLlJdKQZ67kU4vLPOhZkYjYXrWgNA8ntcg27r7OatrUgR
- ScvFRxfpgdN/45Tuwgg+6WvQPYBJ7e7sHw==
-X-Google-Smtp-Source: ABdhPJz367Mz7t0RAk0T/4HxilO1EDRqX2WwFsr6BrI+wCErdDNNgXNcoQYLn/5u7VAfkUKmP/jMlw==
-X-Received: by 2002:a05:600c:1c9a:: with SMTP id
- k26mr1230272wms.106.1631526888081; 
- Mon, 13 Sep 2021 02:54:48 -0700 (PDT)
+ bh=jxk3ue8j1WrvxC+M7fUY505W445uGju5w3RgNRmMwPM=;
+ b=VhOVM7fGa4ZtJyUxojhnUQbhDE0OTcfaDLLq5LGTAKxMfAPPTggu3OJqSQl0C9nMOd
+ Vt2CYpesU68kIDeE3mCckt1eNr3XULA3wokS26TY7z/NK9+2oN+Za3CmGQKSTMQqqaJj
+ cYTVjk3prDCghEOHeRpM+NpJNQKmIirxl8Cll31Wv/kOGCrfc/GmFQvLUnRrPD6rx+h/
+ frXApFQzq60gYkdwBl7jNEXRh4snfZfzDJe6F4PwryfkzhrP1tWsApstLhzXo+2vooQm
+ ktHkifu/6zopiGWdSlpOufeY/ivmyPVUFBf62CLOQaqZEXbCk7xXQPeBqVzSXqMphvIE
+ AxfQ==
+X-Gm-Message-State: AOAM533qs3XD6A5H1CGgtYjHoVjXbcRjG/6zClBLnpxsiGRvkuE6BEi6
+ giQepu2MG9R1mKBGWNPXeWaWlThqmP4Y9A==
+X-Google-Smtp-Source: ABdhPJwwkJdWBI/fH8AnuSmcYqvFGSxBH0AdM/XZuPYN/AumPttdnLS1jDjQ36T/DI1EfO4cniRJmw==
+X-Received: by 2002:a05:600c:281:: with SMTP id
+ 1mr10111903wmk.151.1631526883871; 
+ Mon, 13 Sep 2021 02:54:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m184sm6475338wmm.3.2021.09.13.02.54.47
+ by smtp.gmail.com with ESMTPSA id m184sm6475338wmm.3.2021.09.13.02.54.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 02:54:47 -0700 (PDT)
+ Mon, 13 Sep 2021 02:54:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 08/12] target/arm: Optimize MVE VMVN
-Date: Mon, 13 Sep 2021 10:54:36 +0100
-Message-Id: <20210913095440.13462-9-peter.maydell@linaro.org>
+Subject: [PATCH v2 02/12] target/arm: Enforce that FPDSCR.LTPSIZE is 4 on
+ inbound migration
+Date: Mon, 13 Sep 2021 10:54:30 +0100
+Message-Id: <20210913095440.13462-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210913095440.13462-1-peter.maydell@linaro.org>
 References: <20210913095440.13462-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,26 +91,48 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Optimize the MVE VMVN insn by using TCG vector ops when possible.
+Architecturally, for an M-profile CPU with the LOB feature the
+LTPSIZE field in FPDSCR is always constant 4.  QEMU's implementation
+enforces this everywhere, except that we don't check that it is true
+in incoming migration data.
+
+We're going to add come in gen_update_fp_context() which relies on
+the "always 4" property.  Since this is TCG-only, we don't actually
+need to be robust to bogus incoming migration data, and the effect of
+it being wrong would be wrong code generation rather than a QEMU
+crash; but if it did ever happen somehow it would be very difficult
+to track down the cause.  Add a check so that we fail the inbound
+migration if the FPDSCR.LTPSIZE value is incorrect.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-mve.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/machine.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index 13de55242e2..4583e22f21c 100644
---- a/target/arm/translate-mve.c
-+++ b/target/arm/translate-mve.c
-@@ -769,7 +769,7 @@ static bool trans_VREV64(DisasContext *s, arg_1op *a)
+diff --git a/target/arm/machine.c b/target/arm/machine.c
+index 81e30de8243..c74d8c3f4b3 100644
+--- a/target/arm/machine.c
++++ b/target/arm/machine.c
+@@ -781,6 +781,19 @@ static int cpu_post_load(void *opaque, int version_id)
+     hw_breakpoint_update_all(cpu);
+     hw_watchpoint_update_all(cpu);
  
- static bool trans_VMVN(DisasContext *s, arg_1op *a)
- {
--    return do_1op(s, a, gen_helper_mve_vmvn);
-+    return do_1op_vec(s, a, gen_helper_mve_vmvn, tcg_gen_gvec_not);
- }
- 
- static bool trans_VABS_fp(DisasContext *s, arg_1op *a)
++    /*
++     * TCG gen_update_fp_context() relies on the invariant that
++     * FPDSCR.LTPSIZE is constant 4 for M-profile with the LOB extension;
++     * forbid bogus incoming data with some other value.
++     */
++    if (arm_feature(env, ARM_FEATURE_M) && cpu_isar_feature(aa32_lob, cpu)) {
++        if (extract32(env->v7m.fpdscr[M_REG_NS],
++                      FPCR_LTPSIZE_SHIFT, FPCR_LTPSIZE_LENGTH) != 4 ||
++            extract32(env->v7m.fpdscr[M_REG_S],
++                      FPCR_LTPSIZE_SHIFT, FPCR_LTPSIZE_LENGTH) != 4) {
++            return -1;
++        }
++    }
+     if (!kvm_enabled()) {
+         pmu_op_finish(&cpu->env);
+     }
 -- 
 2.20.1
 
