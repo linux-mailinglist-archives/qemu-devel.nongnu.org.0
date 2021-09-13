@@ -2,49 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4BF408957
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 12:48:34 +0200 (CEST)
-Received: from localhost ([::1]:43966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E714089D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 13:03:40 +0200 (CEST)
+Received: from localhost ([::1]:56858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPjVp-0004UX-6F
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 06:48:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56140)
+	id 1mPjkR-0005NC-60
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 07:03:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1mPjTm-0003SA-I4; Mon, 13 Sep 2021 06:46:27 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:43878 helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1mPjTi-00036K-4Q; Mon, 13 Sep 2021 06:46:26 -0400
-Received: from MacBook-Air.alex.local
- (dynamic-095-118-088-150.95.118.pool.telefonica.de [95.118.88.150])
- by csgraf.de (Postfix) with ESMTPSA id 6A0B4608037D;
- Mon, 13 Sep 2021 12:46:18 +0200 (CEST)
-Subject: Re: [PATCH v8 15/19] hvf: arm: Implement -cpu host
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210519202253.76782-1-agraf@csgraf.de>
- <20210519202253.76782-16-agraf@csgraf.de>
- <CAFEAcA9S619pfhfEXUxGQkjBBKahOYm14jpxEam2CQTtC1dRTQ@mail.gmail.com>
- <45519c63-06b1-1e06-032d-87d2e1338fd8@csgraf.de>
- <CAFEAcA_vC0beH4NMRP4hHK0drc6PZt073ZVZM=Majnfngkn_xQ@mail.gmail.com>
-From: Alexander Graf <agraf@csgraf.de>
-Message-ID: <1c992028-633d-5f5e-f433-59492876eb73@csgraf.de>
-Date: Mon, 13 Sep 2021 12:46:17 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1mPjhI-0004IT-AL
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:00:24 -0400
+Received: from mga09.intel.com ([134.134.136.24]:7292)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1mPjhF-0006Pe-TP
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:00:23 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10105"; a="221679986"
+X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="221679986"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2021 04:00:18 -0700
+X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="551564223"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.144.101])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 13 Sep 2021 04:00:15 -0700
+Date: Mon, 13 Sep 2021 18:46:19 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 1/3] monitor: Add HMP and QMP interfaces
+Message-ID: <20210913104619.GC27331@yangzhon-Virtual>
+References: <20210910102258.46648-1-yang.zhong@intel.com>
+ <20210910102258.46648-2-yang.zhong@intel.com>
+ <YTthmPn2KGcfNX21@redhat.com> <YT8bboSgYfWJP9kh@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_vC0beH4NMRP4hHK0drc6PZt073ZVZM=Majnfngkn_xQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.969,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YT8bboSgYfWJP9kh@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=yang.zhong@intel.com;
+ helo=mga09.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,135 +63,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Peter Collingbourne <pcc@google.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: yang.zhong@intel.com, eblake@redhat.com, qemu-devel@nongnu.org,
+ seanjc@google.com, pbonzini@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Sep 13, 2021 at 10:35:42AM +0100, Daniel P. Berrangé wrote:
+> On Fri, Sep 10, 2021 at 02:46:00PM +0100, Daniel P. Berrangé wrote:
+> > On Fri, Sep 10, 2021 at 06:22:56PM +0800, Yang Zhong wrote:
+> > > The QMP and HMP interfaces can be used by monitor or QMP tools to retrieve
+> > > the SGX information from VM side when SGX is enabled on Intel platform.
+> > > 
+> > > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> > > ---
+> > >  hmp-commands-info.hx         | 15 +++++++++++++
+> > >  hw/i386/sgx.c                | 29 ++++++++++++++++++++++++
+> > >  include/hw/i386/sgx.h        | 11 +++++++++
+> > >  include/monitor/hmp-target.h |  1 +
+> > >  qapi/misc-target.json        | 43 ++++++++++++++++++++++++++++++++++++
+> > >  target/i386/monitor.c        | 36 ++++++++++++++++++++++++++++++
+> > >  tests/qtest/qmp-cmd-test.c   |  1 +
+> > >  7 files changed, 136 insertions(+)
+> > >  create mode 100644 include/hw/i386/sgx.h
+> > 
+> > > diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+> > > index 02fa6487c3..8a32d62d7e 100644
+> > > --- a/hw/i386/sgx.c
+> > > +++ b/hw/i386/sgx.c
+> > > @@ -17,6 +17,35 @@
+> > >  #include "monitor/qdev.h"
+> > >  #include "qapi/error.h"
+> > >  #include "exec/address-spaces.h"
+> > > +#include "hw/i386/sgx.h"
+> > > +
+> > > +SGXInfo *sgx_get_info(void)
+> > 
+> > I'd suggest this should have an 'Error **errp'
 
-On 13.09.21 10:28, Peter Maydell wrote:
-> On Sun, 12 Sept 2021 at 21:23, Alexander Graf <agraf@csgraf.de> wrote:
->>
->> On 15.06.21 12:56, Peter Maydell wrote:
->>> On Wed, 19 May 2021 at 21:23, Alexander Graf <agraf@csgraf.de> wrote:
->>>> Now that we have working system register sync, we push more target CPU
->>>> properties into the virtual machine. That might be useful in some
->>>> situations, but is not the typical case that users want.
->>>>
->>>> So let's add a -cpu host option that allows them to explicitly pass all
->>>> CPU capabilities of their host CPU into the guest.
->>>>
->>>> Signed-off-by: Alexander Graf <agraf@csgraf.de>
->>>> Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
->>>>
->>>> ---
->>>>
->>>> v6 -> v7:
->>>>
->>>>   - Move function define to own header
->>>>   - Do not propagate SVE features for HVF
->>>>   - Remove stray whitespace change
->>>>   - Verify that EL0 and EL1 do not allow AArch32 mode
->>>>   - Only probe host CPU features once
->>>> +static void hvf_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
->>>> +{
->>>> +    ARMISARegisters host_isar;
->>> Can you zero-initialize this (with "= { }"), please? That way we
->>> know we have zeroes in the aarch32 ID fields rather than random junk later...
->>>
->>>> +    const struct isar_regs {
->>>> +        int reg;
->>>> +        uint64_t *val;
->>>> +    } regs[] = {
->>>> +        { HV_SYS_REG_ID_AA64PFR0_EL1, &host_isar.id_aa64pfr0 },
->>>> +        { HV_SYS_REG_ID_AA64PFR1_EL1, &host_isar.id_aa64pfr1 },
->>>> +        { HV_SYS_REG_ID_AA64DFR0_EL1, &host_isar.id_aa64dfr0 },
->>>> +        { HV_SYS_REG_ID_AA64DFR1_EL1, &host_isar.id_aa64dfr1 },
->>>> +        { HV_SYS_REG_ID_AA64ISAR0_EL1, &host_isar.id_aa64isar0 },
->>>> +        { HV_SYS_REG_ID_AA64ISAR1_EL1, &host_isar.id_aa64isar1 },
->>>> +        { HV_SYS_REG_ID_AA64MMFR0_EL1, &host_isar.id_aa64mmfr0 },
->>>> +        { HV_SYS_REG_ID_AA64MMFR1_EL1, &host_isar.id_aa64mmfr1 },
->>>> +        { HV_SYS_REG_ID_AA64MMFR2_EL1, &host_isar.id_aa64mmfr2 },
->>>> +    };
->>>> +    hv_vcpu_t fd;
->>>> +    hv_vcpu_exit_t *exit;
->>>> +    int i;
->>>> +
->>>> +    ahcf->dtb_compatible = "arm,arm-v8";
->>>> +    ahcf->features = (1ULL << ARM_FEATURE_V8) |
->>>> +                     (1ULL << ARM_FEATURE_NEON) |
->>>> +                     (1ULL << ARM_FEATURE_AARCH64) |
->>>> +                     (1ULL << ARM_FEATURE_PMU) |
->>>> +                     (1ULL << ARM_FEATURE_GENERIC_TIMER);
->>>> +
->>>> +    /* We set up a small vcpu to extract host registers */
->>>> +
->>>> +    assert_hvf_ok(hv_vcpu_create(&fd, &exit, NULL));
->>>> +    for (i = 0; i < ARRAY_SIZE(regs); i++) {
->>>> +        assert_hvf_ok(hv_vcpu_get_sys_reg(fd, regs[i].reg, regs[i].val));
->>>> +    }
->>>> +    assert_hvf_ok(hv_vcpu_get_sys_reg(fd, HV_SYS_REG_MIDR_EL1, &ahcf->midr));
->>>> +    assert_hvf_ok(hv_vcpu_destroy(fd));
->>>> +
->>>> +    ahcf->isar = host_isar;
->>>> +    ahcf->reset_sctlr = 0x00c50078;
->>> Why this value in particular? Could we just ask the scratch HVF CPU
->>> for the value of SCTLR_EL1 rather than hardcoding something?
->>
->> The fresh scratch hvf CPU has 0 as SCTLR.
-> Yuck. That's pretty unhelpful of hvf, since it's not an
-> architecturally valid thing for a freshly reset EL1-only
-> CPU to have as its SCTLR (some bits are supposed to be RES1
-> or reset-to-1). In that case we do need to set this to a known
-> value here, I guess -- but we should have a comment explaining
-> why we do it and what bits we're setting.
+    Thanks, the new version will add this variable. thanks!
 
 
-Ok :)
+> > 
+> > > +{
+> > > +    SGXInfo *info = NULL;
+> > > +    X86MachineState *x86ms;
+> > > +    PCMachineState *pcms =
+> > > +        (PCMachineState *)object_dynamic_cast(qdev_get_machine(),
+> > > +                                              TYPE_PC_MACHINE);
+> > > +    if (!pcms) {
+> > 
+> >   error_setg(errp, "SGX is only available for x86 PC machines");
+> > 
+
+      Yes, i will add this, thanks!
 
 
->
->>>> +    /* Make sure we don't advertise AArch32 support for EL0/EL1 */
->>>> +    g_assert((host_isar.id_aa64pfr0 & 0xff) == 0x11);
->>> This shouldn't really be an assert, I think. error_report() something
->>> and return false, and then arm_cpu_realizefn() will fail, which should
->>> cause us to exit.
->>
->> I don't follow. We're filling in the -cpu host CPU template here. There
->> is no error path anywhere we could take.
-> Look at how the kvm_arm_get_host_cpu_features() error handling works:
-> it returns a bool. The caller (kvm_arm_set_cpu_features_from_host())
-> checks the return value, and if the function failed it sets
-> the cpu->host_cpu_probe_failed flag, which then results in realize
-> failing. (You'll want to update the arm_cpu_realizefn to allow hvf
-> as well as kvm for that error message.)
+> > > +        return NULL;
+> > > +    }
+> > > +
+> > > +    x86ms = X86_MACHINE(pcms);
+> > > +    if (!x86ms->sgx_epc_list) {
+> > 
+> >   error_setg(errp "SGX is not enabled on this machine");
+> > 
+ 
+      Ditto, thanks!
 
 
-Sure, happy to adjust accordingly :)
+> > > +        return NULL;
+> > > +    }
+> > > +
+> > > +    SGXEPCState *sgx_epc = &pcms->sgx_epc;
+> > > +    info = g_new0(SGXInfo, 1);
+> > > +
+> > > +    info->sgx = true;
+> > > +    info->sgx1 = true;
+> > > +    info->sgx2 = true;
+> > > +    info->flc = true;
+> > > +    info->section_size = sgx_epc->size;
+> > > +
+> > > +    return info;
+> > > +}
+> > 
+> > 
+> > 
+> > > diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+> > > index 119211f0b0..0f1b48b4f8 100644
+> > > --- a/target/i386/monitor.c
+> > > +++ b/target/i386/monitor.c
+> > > @@ -35,6 +35,7 @@
+> > >  #include "qapi/qapi-commands-misc-target.h"
+> > >  #include "qapi/qapi-commands-misc.h"
+> > >  #include "hw/i386/pc.h"
+> > > +#include "hw/i386/sgx.h"
+> > >  
+> > >  /* Perform linear address sign extension */
+> > >  static hwaddr addr_canonical(CPUArchState *env, hwaddr addr)
+> > > @@ -763,3 +764,38 @@ qmp_query_sev_attestation_report(const char *mnonce, Error **errp)
+> > >  {
+> > >      return sev_get_attestation_report(mnonce, errp);
+> > >  }
+> > > +
+> > > +SGXInfo *qmp_query_sgx(Error **errp)
+> > > +{
+> > > +    SGXInfo *info;
+> > > +
+> > > +    info = sgx_get_info();
+> > 
+> > Pass errp into this
+
+    Thanks, i will add this.
 
 
->
->> This is a case that on today's systems can't happen - M1 does not
->> support AArch32 anywhere. So that assert could only ever hit if you run
->> macOS on non-Apple hardware (in which case I doubt hvf works as
->> intended) or if a new Apple CPU starts supporting AArch32 (again, very
->> unlikely).
->>
->> So overall, I think the assert here is not too bad :)
-> Well, probably not, but you need the error handling path
-> anyway for the boring case of "oops, this syscall failed".
+> > 
+> > > +    if (!info) {
+> > > +        error_setg(errp, "SGX features are not available");
+> > 
+> > And get rid of this.
+
+    Yes, i will remove this, thanks!
 
 
-Why? You only get to this code path if you already selected -accel hvf.
-If even a simple "create scratch vcpu" syscall failed then, pretty
-failure when you define -cpu host is the last thing you care about. Any
-CPU creation would fail.
+> > 
+> > > +        return NULL;
+> > > +    }
+> > > +
+> > > +    return info;
+> > > +}
+> > > +
+> > > +void hmp_info_sgx(Monitor *mon, const QDict *qdict)
+> > > +{
+> > 
+> >   g_autoptr(Error) err = NULL
+> 
+> I was mistaken here - Error shouldn't use g_autoptr, just
+> 
+>    Error err = NULL;
 
-Alex
+
+    Yes, i will use this new defintion to handle it. thanks!
 
 
+> 
+> > 
+> > > +    SGXInfo *info = qmp_query_sgx(NULL);
+> > 
+> > Pass in &err not NULL;
+> > 
+> > Also  declare it with  'g_autoptr(SGXInfo) info = ...'
+> > 
+> > And then
+> > 
+> >    if (err) {
+> >       monitor_printf(mon, "%s\n", error_get_pretty(err);
+> 
+> Then use the simpler:
+> 
+>     error_report_err(err);
+> 
+> which prints + frees 'err'
+> 
+
+  Thanks, the new code like below:
+  
+  Error *err = NULL;
+
+  SGXInfo *info = qmp_query_sgx(&err);
+  if (err) {
+      error_report_err(err);
+      return;
+  }
+
+  ......
+
+  I will send V3, please help review again, thanks!
+
+
+  Yang
+
+
+
+> >       return;
+> >    }
+> > 
+> 
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
