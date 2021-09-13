@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32EEC408C2F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 15:14:09 +0200 (CEST)
-Received: from localhost ([::1]:34042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C2C408D9E
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 15:26:44 +0200 (CEST)
+Received: from localhost ([::1]:60316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPlmi-00075S-67
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 09:14:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51604)
+	id 1mPlyt-00009S-L9
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 09:26:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPlFa-0000QF-27
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:39:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54610)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mPlG7-0000tl-Dz
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:40:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPlFU-0000jU-TT
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:39:53 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mPlG5-0001Bd-Ij
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:40:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631536786;
+ s=mimecast20190719; t=1631536824;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zHgsNGjNah71OnQgLH+Bv40egKqf65QC38I5m9vVxtM=;
- b=N5jMnkV0EEeAAmIaRRZP9TV0Gg2Sisn1KslZKZOzDhg/3fE2sFHgao72eEGL45fZccJv5V
- N1IY/9lTmnKBOwzzsapc7pnDftNtACKJOhVhmwEz33qcVxToQL/J4/xGldbGpyuiDf/U36
- SCH92jZxrBVqtav1yJl7pn5gigjxRGY=
+ bh=L3c0yB0UM4jxehQaeIyZW3uxBAWU5b/NZ1bPA4wWlkI=;
+ b=GHm/mzupX7I4HywyVpWeckOL1BG5FeXcTqWzUYQzMop62Uv2sV3BWrFNBAS8BX8QA0VA1T
+ xSJ9oQ5uT+fj1fiYxgaNlAvJ8wo/VenmZHsM0Lpoi8+d59Hd/PYsIo0JZlESTMwYJBUsaw
+ DE2F9zrsEQwB6Sf6fVMuDR+zNTqFf5Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-hkdUQyAzMBOk3PgQXFEsaQ-1; Mon, 13 Sep 2021 08:39:45 -0400
-X-MC-Unique: hkdUQyAzMBOk3PgQXFEsaQ-1
+ us-mta-561-UXULydYBMm-1QqpvI4lE1g-1; Mon, 13 Sep 2021 08:40:23 -0400
+X-MC-Unique: UXULydYBMm-1QqpvI4lE1g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1AAE0835DE1
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 12:39:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DEAF35D9DD;
- Mon, 13 Sep 2021 12:39:43 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 570761136421; Mon, 13 Sep 2021 14:39:32 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 22/22] test-clone-visitor: Correct an accidental rename
-Date: Mon, 13 Sep 2021 14:39:32 +0200
-Message-Id: <20210913123932.3306639-23-armbru@redhat.com>
-In-Reply-To: <20210913123932.3306639-1-armbru@redhat.com>
-References: <20210913123932.3306639-1-armbru@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D00319200C0;
+ Mon, 13 Sep 2021 12:40:22 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 22DE15D9CA;
+ Mon, 13 Sep 2021 12:40:21 +0000 (UTC)
+Date: Mon, 13 Sep 2021 13:40:21 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH] coroutine: resize pool periodically instead of limiting
+ size
+Message-ID: <YT9Gtdnb3HVLyt0k@stefanha-x1.localdomain>
+References: <20210901160923.525651-1-stefanha@redhat.com>
+ <YTnHwJ/0O4rk7M7g@redhat.com>
+ <YTotkCiuqTeDgJJ0@stefanha-x1.localdomain>
+ <YToxaOCMsLTLp4+M@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <YToxaOCMsLTLp4+M@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="GjdHS8kdhy3Wny20"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -79,43 +82,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, eblake@redhat.com, marcandre.lureau@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Tingting Mao <timao@redhat.com>,
+ qemu-devel@nongnu.org, Honghao Wang <wanghonghao@bytedance.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Daniele Buono <dbuono@linux.vnet.ibm.com>, Serge Guelton <sguelton@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit b359f4b203 "tests: Rename UserDefNativeListUnion to
-UserDefListUnion" renamed test_clone_native_list() to
-test_clone_list_union().  The function has nothing to do with unions.
-Rename it to test_clone_list().
+--GjdHS8kdhy3Wny20
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- tests/unit/test-clone-visitor.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Thu, Sep 09, 2021 at 05:08:08PM +0100, Daniel P. Berrang=E9 wrote:
+> On Thu, Sep 09, 2021 at 04:51:44PM +0100, Stefan Hajnoczi wrote:
+> > On Thu, Sep 09, 2021 at 09:37:20AM +0100, Daniel P. Berrang=E9 wrote:
+> > > On Wed, Sep 01, 2021 at 05:09:23PM +0100, Stefan Hajnoczi wrote:
+> > > > It was reported that enabling SafeStack reduces IOPS significantly
+> > > > (>25%) with the following fio benchmark on virtio-blk using a NVMe =
+host
+> > > > block device:
+> > > >=20
+> > > >   # fio --rw=3Drandrw --bs=3D4k --iodepth=3D64 --runtime=3D1m --dir=
+ect=3D1 \
+> > > > =09--filename=3D/dev/vdb --name=3Djob1 --ioengine=3Dlibaio --thread=
+ \
+> > > > =09--group_reporting --numjobs=3D16 --time_based \
+> > > >         --output=3D/tmp/fio_result
+> > > >=20
+> > > > Serge Guelton and I found that SafeStack is not really at fault, it=
+ just
+> > > > increases the cost of coroutine creation. This fio workload exhaust=
+s the
+> > > > coroutine pool and coroutine creation becomes a bottleneck. Previou=
+s
+> > > > work by Honghao Wang also pointed to excessive coroutine creation.
+> > > >=20
+> > > > Creating new coroutines is expensive due to allocating new stacks w=
+ith
+> > > > mmap(2) and mprotect(2). Currently there are thread-local and globa=
+l
+> > > > pools that recycle old Coroutine objects and their stacks but the
+> > > > hardcoded size limit of 64 for thread-local pools and 128 for the g=
+lobal
+> > > > pool is insufficient for the fio benchmark shown above.
+> > >=20
+> > > Rather than keeping around a thread local pool of coroutine
+> > > instances, did you ever consider keeping around a pool of
+> > > allocated stacks ? Essentially it seems like you're syaing
+> > > the stack allocation is the problem due to it using mmap()
+> > > instead of malloc() and thus not benefiting from any of the
+> > > performance tricks malloc() impls use to avoid repeated
+> > > syscalls on every allocation.  If 'qemu_alloc_stack' and
+> > > qemu_free_stack could be made more intelligent by caching
+> > > stacks, then perhaps the coroutine side can be left "dumb" ?
+> >=20
+> > What is the advantage of doing that? Then the Coroutine struct needs to
+> > be malloced each time. Coroutines are the only users of
+> > qemu_alloc_stack(), so I think pooling the Coroutines is optimal.
+>=20
+> I mostly thought it might lead itself to cleaner implementation if the
+> pooling logic is separate from the main coroutine logic. It could be
+> easier to experiment with different allocation strategies if the code
+> related to pooling is well isolated.
 
-diff --git a/tests/unit/test-clone-visitor.c b/tests/unit/test-clone-visitor.c
-index 4048018607..5d48e125b8 100644
---- a/tests/unit/test-clone-visitor.c
-+++ b/tests/unit/test-clone-visitor.c
-@@ -63,7 +63,7 @@ static void test_clone_alternate(void)
-     qapi_free_AltEnumBool(s_dst);
- }
- 
--static void test_clone_list_union(void)
-+static void test_clone_list(void)
- {
-     uint8List *src = NULL, *dst;
-     uint8List *tmp = NULL;
-@@ -203,7 +203,7 @@ int main(int argc, char **argv)
- 
-     g_test_add_func("/visitor/clone/struct", test_clone_struct);
-     g_test_add_func("/visitor/clone/alternate", test_clone_alternate);
--    g_test_add_func("/visitor/clone/list_union", test_clone_list_union);
-+    g_test_add_func("/visitor/clone/list", test_clone_list);
-     g_test_add_func("/visitor/clone/empty", test_clone_empty);
-     g_test_add_func("/visitor/clone/complex1", test_clone_complex1);
-     g_test_add_func("/visitor/clone/complex2", test_clone_complex2);
--- 
-2.31.1
+There is an advantage to pooling the Coroutine struct in addition to the
+stack, so I'm not sure if it's worth reducing the scope of the pool.
+
+Stefan
+
+--GjdHS8kdhy3Wny20
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE/RrQACgkQnKSrs4Gr
+c8jenwf/fRW2n1qn8AueRtQOfARep9YzXHLDBl8DvyegMeEDEAxHeqob1KXXn0wo
+xee2PA+OVUVi3h6K8Zqdv3ieW1LYraUkbAz2oOXrb5y/k52dtkvdkpEzRPFRjzup
+KoohtzYe7R6IvlqbGOgAwbqo82Yn6kGhA7KR4O8LKP+DQkYpX8py/jEyRIBPNsQd
+T9eaw76UeAXjF5oKBsqCSjnyJYTKWPhtBJHCNnQIlXTtQu5xSDi4FFqEdXRfi4GB
+Bbm/0mmJ99gIBbX75vxy0A++VHQlnTy3xpJRxgFrl1eDw4Y9Ht0Q+gxxIOzlr7SN
+6cE2blIX2HeIDLnk07zg/0xDur1uGw==
+=LXlI
+-----END PGP SIGNATURE-----
+
+--GjdHS8kdhy3Wny20--
 
 
