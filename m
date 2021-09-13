@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73173409C6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 20:41:39 +0200 (CEST)
-Received: from localhost ([::1]:36306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD3D4409C78
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 20:44:45 +0200 (CEST)
+Received: from localhost ([::1]:41686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPqtd-0003xp-RG
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 14:41:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46648)
+	id 1mPqwe-0007gL-SW
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 14:44:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPqqg-00022Z-Sv
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 14:38:38 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:33650)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPqqd-0001kU-Ub
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 14:38:34 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- 192-20020a1c04c9000000b002f7a4ab0a49so509356wme.0
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 11:38:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p/DjViW7Kd1yGJ9qEyGn0jJG8WFPeAlto8f64Yeu5bY=;
- b=GpqHzolAkTFpo+EgG9vD4xAXEkH8rvA+yTJGCJ4H64KruY5jo4hPOdCheUTpaNGuWM
- bimO/E/9R83Um4V/ybFsjoAMnhBXdf77OqSRvo0L0Bqx+1AE1Rh6+ssyQITIv+KoSM0j
- B1M4L8I0A/I+D9updu3brgY4dtgQ4AX3MRgiZZUy0LQDNnEeoUgcTr1yKCaM+ugf3ISS
- E+e6YcALbkkJyRrZljHX2nZCaEaLmbPxmcslB3QMA1Hc6E4dc8nr8wHbw20UAeIr2aLp
- DIhu3lZmEtli7mcJ1ugtCpFPM3y7C2gXELysVtmtKJeoaIJQ9FU6QNyblckJjVdbcez0
- rxUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p/DjViW7Kd1yGJ9qEyGn0jJG8WFPeAlto8f64Yeu5bY=;
- b=KqNlTo90NFvHtqLBKuLo3dvoV6VzvGNcNNdtPGt1Dh0olmanp3Ay8HZVSvMbAdZj3d
- UQTODrN0ReHqD15mwLnqvQdO1vUs2JVLe7lKtLtZLXoFn4LULNKkZe5Z7O8rJNq2cZ8L
- /DUMRWkzt8Yeq4h/LTHd5dDUmHIQnhUx7V4PCqdJ6uLzbnX2mgMXQvOGT+uGtoSyTFTF
- Q9yN+EHx6iOhFZTmLwJ7saAMlXwW6/AOnU6zsHYRucdtEKV1ZfbbacrP44HhzKV6Yc90
- aeFriVbwD+awn8m1qJ3G8+3uYzuOv/QWooJqc0QV2buTDz85wm5TCki3YoKNd/oU619m
- EUAw==
-X-Gm-Message-State: AOAM533XdP8Zz5oxQUJhhSwbBZHPoDMZBb1qVB969Q3X3Nk5DsxyMtZ1
- 8rmDFl01HkjixyggLeL/r8Z6/6S6mYQ96A==
-X-Google-Smtp-Source: ABdhPJw6QyxN7NZY6lcK3S0r2Oo0NO/OL+ZTStN06WVttH26Oj+4gKy+nBSRqVdLHxfGm417xDFsrA==
-X-Received: by 2002:a7b:c052:: with SMTP id u18mr12732496wmc.105.1631558310146; 
- Mon, 13 Sep 2021 11:38:30 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id h18sm4262703wmq.23.2021.09.13.11.38.29
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 11:38:29 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/23] target-arm queue
-Date: Mon, 13 Sep 2021 19:38:28 +0100
-Message-Id: <20210913183828.7754-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mPqrA-0002Jw-It
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 14:39:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58226)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mPqr7-00021W-72
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 14:39:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631558339;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QfkwP/ehtJMZxpIu0k74y7/IQAqo3eEoEpKU/g+9Chc=;
+ b=E7yHHg8i1dPj2qsoBQSkn8unRClv5PfKqzF2/tdZJ0kLdIjBh3FeXovq/hJCCNGESWiCXf
+ JzAV/4CIeszEPVqS0GhTpkaD1Ck1LOBNeK3oxfK+SIhMSwy+JYiJ6QikojXlKYVkzb1SR4
+ EHUmFwOso5TsLZRy8zmHoyiFiwatBEc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-qVN0jeQTNOqjbH4r9xl6bQ-1; Mon, 13 Sep 2021 14:38:57 -0400
+X-MC-Unique: qVN0jeQTNOqjbH4r9xl6bQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DE3D362FB
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 18:38:57 +0000 (UTC)
+Received: from redhat.com (ovpn-113-222.phx2.redhat.com [10.3.113.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EC35C5D9D3;
+ Mon, 13 Sep 2021 18:38:51 +0000 (UTC)
+Date: Mon, 13 Sep 2021 13:38:50 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 21/22] qapi: Drop simple unions
+Message-ID: <20210913183850.6sfxrf7cvqrgvqm5@redhat.com>
+References: <20210913123932.3306639-1-armbru@redhat.com>
+ <20210913123932.3306639-22-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210913123932.3306639-22-armbru@redhat.com>
+User-Agent: NeoMutt/20210205-772-2b4c52
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,109 +77,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: marcandre.lureau@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v1->v2: fix format string nit in ITS patches (%lu used when PRIu64 needed)
+On Mon, Sep 13, 2021 at 02:39:31PM +0200, Markus Armbruster wrote:
+> Simple unions predate flat unions.  Having both complicates the QAPI
+> schema language and the QAPI generator.  We haven't been using simple
+> unions in new code for a long time, because they are less flexible and
+> somewhat awkward on the wire.
+> 
+> The previous commits eliminated simple union from the tree.  Now drop
+> them from the QAPI schema language entirely, and update mentions of
+> "flat union" to just "union".
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  docs/devel/qapi-code-gen.rst                  | 125 ++++--------------
+>  scripts/qapi/expr.py                          |  21 +--
+>  scripts/qapi/schema.py                        | 101 +++-----------
+>  .../qapi-schema/flat-union-array-branch.json  |   2 +-
+>  tests/qapi-schema/flat-union-empty.json       |   2 +-
+>  tests/qapi-schema/flat-union-int-branch.json  |   2 +-
+>  tests/qapi-schema/flat-union-no-base.err      |   2 +-
+>  tests/qapi-schema/flat-union-no-base.json     |   2 +-
+>  tests/qapi-schema/qapi-schema-test.json       |   2 +-
+>  tests/qapi-schema/reserved-member-u.json      |   2 +-
+>  tests/qapi-schema/union-base-empty.json       |   2 +-
+>  .../union-base-no-discriminator.err           |   2 +-
+>  .../union-base-no-discriminator.json          |   2 +-
+>  13 files changed, 62 insertions(+), 205 deletions(-)
 
-The following changes since commit eae587e8e3694b1aceab23239493fb4c7e1a80f5:
+Whee!  What a fun ride!
 
-  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-09-13' into staging (2021-09-13 11:00:30 +0100)
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-are available in the Git repository at:
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210913-1
-
-for you to fetch changes up to 925e3b205bb17af52ac06c7bdd9d84b27345a4e9:
-
-  hw/arm/mps2.c: Mark internal-only I2C buses as 'full' (2021-09-13 19:36:50 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * mark MPS2/MPS3 board-internal i2c buses as 'full' so that command
-   line user-created devices are not plugged into them
- * Take an exception if PSTATE.IL is set
- * Support an emulated ITS in the virt board
- * Add support for kudo-bmc board
- * Probe for KVM_CAP_ARM_VM_IPA_SIZE when creating scratch VM
- * cadence_uart: Fix clock handling issues that prevented
-   u-boot from running
-
-----------------------------------------------------------------
-Bin Meng (6):
-      hw/misc: zynq_slcr: Correctly compute output clocks in the reset exit phase
-      hw/char: cadence_uart: Disable transmit when input clock is disabled
-      hw/char: cadence_uart: Move clock/reset check to uart_can_receive()
-      hw/char: cadence_uart: Convert to memop_with_attrs() ops
-      hw/char: cadence_uart: Ignore access when unclocked or in reset for uart_{read, write}()
-      hw/char: cadence_uart: Log a guest error when device is unclocked or in reset
-
-Chris Rauer (1):
-      hw/arm: Add support for kudo-bmc board.
-
-Marc Zyngier (1):
-      hw/arm/virt: KVM: Probe for KVM_CAP_ARM_VM_IPA_SIZE when creating scratch VM
-
-Peter Maydell (5):
-      target/arm: Take an exception if PSTATE.IL is set
-      qdev: Support marking individual buses as 'full'
-      hw/arm/mps2-tz.c: Add extra data parameter to MakeDevFn
-      hw/arm/mps2-tz.c: Mark internal-only I2C buses as 'full'
-      hw/arm/mps2.c: Mark internal-only I2C buses as 'full'
-
-Richard Henderson (1):
-      target/arm: Merge disas_a64_insn into aarch64_tr_translate_insn
-
-Shashi Mallela (9):
-      hw/intc: GICv3 ITS initial framework
-      hw/intc: GICv3 ITS register definitions added
-      hw/intc: GICv3 ITS command queue framework
-      hw/intc: GICv3 ITS Command processing
-      hw/intc: GICv3 ITS Feature enablement
-      hw/intc: GICv3 redistributor ITS processing
-      tests/data/acpi/virt: Add IORT files for ITS
-      hw/arm/virt: add ITS support in virt GIC
-      tests/data/acpi/virt: Update IORT files for ITS
-
- docs/system/arm/nuvoton.rst            |    1 +
- hw/intc/gicv3_internal.h               |  188 ++++-
- include/hw/arm/virt.h                  |    2 +
- include/hw/intc/arm_gicv3_common.h     |   13 +
- include/hw/intc/arm_gicv3_its_common.h |   32 +-
- include/hw/qdev-core.h                 |   24 +
- target/arm/cpu.h                       |    1 +
- target/arm/kvm_arm.h                   |    4 +-
- target/arm/syndrome.h                  |    5 +
- target/arm/translate.h                 |    2 +
- hw/arm/mps2-tz.c                       |   92 ++-
- hw/arm/mps2.c                          |   12 +-
- hw/arm/npcm7xx_boards.c                |   34 +
- hw/arm/virt.c                          |   29 +-
- hw/char/cadence_uart.c                 |   61 +-
- hw/intc/arm_gicv3.c                    |   14 +
- hw/intc/arm_gicv3_common.c             |   13 +
- hw/intc/arm_gicv3_cpuif.c              |    7 +-
- hw/intc/arm_gicv3_dist.c               |    5 +-
- hw/intc/arm_gicv3_its.c                | 1322 ++++++++++++++++++++++++++++++++
- hw/intc/arm_gicv3_its_common.c         |    7 +-
- hw/intc/arm_gicv3_its_kvm.c            |    2 +-
- hw/intc/arm_gicv3_redist.c             |  153 +++-
- hw/misc/zynq_slcr.c                    |   31 +-
- softmmu/qdev-monitor.c                 |    7 +-
- target/arm/helper-a64.c                |    1 +
- target/arm/helper.c                    |    8 +
- target/arm/kvm.c                       |    7 +-
- target/arm/translate-a64.c             |  255 +++---
- target/arm/translate.c                 |   21 +
- hw/intc/meson.build                    |    1 +
- tests/data/acpi/virt/IORT              |  Bin 0 -> 124 bytes
- tests/data/acpi/virt/IORT.memhp        |  Bin 0 -> 124 bytes
- tests/data/acpi/virt/IORT.numamem      |  Bin 0 -> 124 bytes
- tests/data/acpi/virt/IORT.pxb          |  Bin 0 -> 124 bytes
- 35 files changed, 2144 insertions(+), 210 deletions(-)
- create mode 100644 hw/intc/arm_gicv3_its.c
- create mode 100644 tests/data/acpi/virt/IORT
- create mode 100644 tests/data/acpi/virt/IORT.memhp
- create mode 100644 tests/data/acpi/virt/IORT.numamem
- create mode 100644 tests/data/acpi/virt/IORT.pxb
 
