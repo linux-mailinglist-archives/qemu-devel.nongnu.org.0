@@ -2,68 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39AB0408622
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 10:11:48 +0200 (CEST)
-Received: from localhost ([::1]:44544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 312F940864C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 10:17:50 +0200 (CEST)
+Received: from localhost ([::1]:49856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPh47-0001sy-1S
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 04:11:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50662)
+	id 1mPh9w-0005id-W7
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 04:17:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mPh0F-0006qO-Dp
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:07:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53931)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mPh86-0004Ci-Fx
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:15:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mPh0C-0003gL-Ns
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:07:47 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mPh82-000249-D0
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:15:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631520462;
+ s=mimecast20190719; t=1631520947;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7MYKYU6cb3Ucab7ZbAB7f6G2EaWRAq5LuR2qkEqDaNs=;
- b=F7csKTvng/nbhfrt3DNk2hTloKF1GLOIbB1qAOT2n216Wdj4XMed7PgdC4OfnzAvtGnAwe
- Mez2YoKBwBSdbprF0ZrFMe5bj+xTTWr9D8WU8KdZ/k7aDkWkMo+nwnG9jY7emhTfHfXJ3d
- L2hH6z5Q5rPdQar4GEr8/9aGo2OtBhg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-580-6BBnIG8yPjWXh1W7yWAZpQ-1; Mon, 13 Sep 2021 04:07:40 -0400
-X-MC-Unique: 6BBnIG8yPjWXh1W7yWAZpQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC87B1006AA1;
- Mon, 13 Sep 2021 08:07:39 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7AA8619724;
- Mon, 13 Sep 2021 08:07:39 +0000 (UTC)
-Date: Mon, 13 Sep 2021 09:07:38 +0100
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] tcg/arm: Reduce vector alignment requirement for NEON
-Message-ID: <20210913080738.GC26415@redhat.com>
-References: <20210912174925.200132-1-richard.henderson@linaro.org>
+ bh=1mQRF1D327LgYWJ9iQtDP/DkXi3LYlsBlAHx0/wpzeU=;
+ b=UQ3zxMVvyAYndExyC8D4jdaeAccLKfdYQUfCZk61Bl01wMjyw8XaeDzqluHTnWXNgFLI1K
+ aH0paqY/gJMF0fx079ao6B3SG99MRfRWGDNSc9R8qdy1ftteyURg1LMdJ+jWuobMGoney7
+ BZ6030AaIN6IMx7v0wlHegBNOHXcCio=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-30-AgMVUTcONZCpd32JAQ-c3g-1; Mon, 13 Sep 2021 04:15:45 -0400
+X-MC-Unique: AgMVUTcONZCpd32JAQ-c3g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n30-20020a05600c3b9e00b002fbbaada5d7so3678284wms.7
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 01:15:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=1mQRF1D327LgYWJ9iQtDP/DkXi3LYlsBlAHx0/wpzeU=;
+ b=td/AlQ8tbvcvNsigrf54Xg/2MYrl11BPFzuJgllFBYzjwMF/1QRgUtZAsJPnacRvrV
+ dD7G1/TAtQOmlMgvUgeB3wc4NLdFoJKkyK875EjkUHW6op2wEXFFKo/PRulXEFxSEm1r
+ a+UiMusZ6MRtFQcG63gDFxUADcvu73rEwDbdJ81UQu3KDWHFvxmIRQwrZO2DXXj/St73
+ YDDHoUk/ULRSzfoaIg2+Ykb3Lf1ivYba5HxNVYMoaqz3dTpRm8Nz0RXoK5H6SmT3scHU
+ H8PYCBEssI1ASC6O0HjkzMfzURjEkyRuOi1as3uuyphEdUUUyHDMdg4EpTgOhvLsvpuU
+ +pEQ==
+X-Gm-Message-State: AOAM532Q21kuM+zLmwlwZn9zHpJfN85WnwJ3EoXOfxPAwyw7b2Z/AXFK
+ sHC+2rb2grPDRLRZINl/rr5hri4dY/g0jJhgljSadvgQfZ6a6okQa3wgjKNLEWi8ZH1yOpuIS8W
+ J3BCmO1jid1z2qpM=
+X-Received: by 2002:a1c:7ec9:: with SMTP id z192mr9923745wmc.152.1631520944014; 
+ Mon, 13 Sep 2021 01:15:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyMdN0HdIhgiX75cIMIsP+UJHPKLqSMaHR3MALwAjmj/byUm3EXjJaz6gfdgewBDAFG7PDHIQ==
+X-Received: by 2002:a1c:7ec9:: with SMTP id z192mr9923730wmc.152.1631520943780; 
+ Mon, 13 Sep 2021 01:15:43 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
+ by smtp.gmail.com with ESMTPSA id z13sm7653902wrs.90.2021.09.13.01.15.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Sep 2021 01:15:43 -0700 (PDT)
+Subject: Re: [PATCH v2 0/2] fix crash if try to migrate during backup
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210911120027.8063-1-vsementsov@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <714e93c1-6456-3c7c-e0a1-01deb0fa6a95@redhat.com>
+Date: Mon, 13 Sep 2021 10:15:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210912174925.200132-1-richard.henderson@linaro.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210911120027.8063-1-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-3.584, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,48 +98,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 12, 2021 at 10:49:25AM -0700, Richard Henderson wrote:
-> With arm32, the ABI gives us 8-byte alignment for the stack.
-> While it's possible to realign the stack to provide 16-byte alignment,
-> it's far easier to simply not encode 16-byte alignment in the
-> VLD1 and VST1 instructions that we emit.
-> 
-> Remove the assertion in temp_allocate_frame, limit natural alignment
-> to the provided stack alignment, and add a comment.
-> 
-> Reported-by: Richard W.M. Jones <rjones@redhat.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> 
-> I haven't seen the assertion with the various arm kernels that I happen
-> to have laying about.  I have not taken the time to build the combo
-> from the bug report:
-> 
-> [    0.000000] Linux version 5.14.0-60.fc36.armv7hl (mockbuild@buildvm-a32-12.iad2.fedoraproject.org) (gcc (GCC) 11.2.1 20210728 (Red Hat 11.2.1-1), GNU ld version 2.37-9.fc36) #1 SMP Mon Aug 30 14:08:34 UTC 2021
-> 
-> I thought about parameterizing this patch further, but I can't think of
-> another ISA that would be affected.  (i686 clumsily changed its abi 20
-> years ago to avoid faulting on vector spills; other isas so far have
-> allowed vectors to be unaligned.)
+On 11.09.21 14:00, Vladimir Sementsov-Ogievskiy wrote:
+> v2:
+> 01: check that migration fails
+> 02: Add Hanna's r-b
+>
+> Vladimir Sementsov-Ogievskiy (2):
+>    tests: add migrate-during-backup
+>    block: bdrv_inactivate_recurse(): check for permissions and fix crash
+>
+>   block.c                                       |  8 ++
+>   .../qemu-iotests/tests/migrate-during-backup  | 97 +++++++++++++++++++
+>   .../tests/migrate-during-backup.out           |  5 +
+>   3 files changed, 110 insertions(+)
+>   create mode 100755 tests/qemu-iotests/tests/migrate-during-backup
+>   create mode 100644 tests/qemu-iotests/tests/migrate-during-backup.out
 
-You should be able to download the Fedora kernel that I am using from
-https://koji.fedoraproject.org/koji/packageinfo?packageID=8
+Thanks, applied to my block branch:
 
-I added the patch to Fedora qemu and will do a test build once it
-becomes available to build against - currently there's some problem
-with new builds not propagating to the new buildroot.
+https://github.com/XanClic/qemu/commits/block
 
-Rich.
-
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-Fedora Windows cross-compiler. Compile Windows programs, test, and
-build Windows installers. Over 100 libraries supported.
-http://fedoraproject.org/wiki/MinGW
+Hanna
 
 
