@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58513408661
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 10:23:39 +0200 (CEST)
-Received: from localhost ([::1]:54396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C10F40867A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 10:27:40 +0200 (CEST)
+Received: from localhost ([::1]:59372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPhFa-0000VB-EQ
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 04:23:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53674)
+	id 1mPhJT-00042a-2J
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 04:27:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPhD2-0007IZ-GZ
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:21:01 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:34740)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPhD1-0006KB-0P
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:21:00 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- v20-20020a1cf714000000b002e71f4d2026so4718296wmh.1
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 01:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=0Ck5E/rdRPu6fWEZJe1wM6qmLpFjHQreTU0cpUgtjn4=;
- b=bbPoFdgiLxWsBQ+6GM+16VUlK8/6jelwYHFy9kAxYke++MP8N5ZabF48fiAJT2hjHb
- papHW/vm4dATlkeCp+l95ffaawJNF52BteeaWUABcjvm9BJujAvEOFiz7vBkL6faXAM+
- f3CfRaM4aWOeboDshL2zJsbkvCDW2NvCa/xFQWg21bkErMey6DC74cRMjoYC/e4y819f
- fpiRdm8bltsFJ+Hx4GoPz7KNaH2A2D8nUDYIJ15aESsS0c0MVtULLWqvzmHmeSIPFyJR
- BfsQ4jfvMKfmaxjAjSKASE/Lu1v+yem6/mMn+EJSgCN6vMwb3GlyET3gafl9hfhIw6Ut
- rISg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0Ck5E/rdRPu6fWEZJe1wM6qmLpFjHQreTU0cpUgtjn4=;
- b=UBBg3fx94WnGd9lXEWk2yPmVlbp6thxpijjdUXUdwxQPHqlUkchEVN6L2BgYEt/UvF
- jie5IaCkXcdMbVNlYP24M5R70AJn9L0gBw6c9PYy0oDdT8gYGSwJ3OEVbn4WddogwrjF
- cAYfDmd+Pvt2n/gVsesitrnru8zU9VmrwpZROeBDhx/o086jYUDeTJG3IcO9qBl1zKSn
- DHRn2cr9Eg6FnLTC5qJuckJ/xPw0GSfrzwWFeg45KGC6l9Cl+n1rDuN2yCiXFWWwOA+9
- QH5V4g+B3ppN4YkuSNTfaxxZuj3ayI4Fgh5D/kbAHgM+FWqEtjl1XVX5RJhiZEVhCB6Q
- wX7Q==
-X-Gm-Message-State: AOAM530/GI7jis8MqdRtGBCoWxVzalXTPsSfsciS3OD270DVrLqTgLnk
- PFAhuPwRVT7W1hYuk6Ff3rF0RKJQGmru/RsrkkLjYw==
-X-Google-Smtp-Source: ABdhPJwHjah58TtHRYvMNQ87lhcc0csRPmeS/8czqoVjDk70rW+ZCN333mQQ3IC7J2CEiO2j71+X5AHufa4//rRfslQ=
-X-Received: by 2002:a05:600c:19d0:: with SMTP id
- u16mr9869655wmq.21.1631521254328; 
- Mon, 13 Sep 2021 01:20:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mPhHd-0002f7-JW
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:25:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57434)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mPhHa-0001xE-0m
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:25:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631521535;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=9YcbepJxBegvuDnY7oS5kJ2xJu9C8Krnq0rgKiniiQs=;
+ b=S1F5m4t4jwlxgUCjxSt8xTjHCkRm/9MJJO7SOc+AH+Drq9logRX7Fj+fopzjaqt941Vbvx
+ uP814U9iTijsoeOGiKj5IRdn/bpafU3GfjBzEDpDCOMPbTcinAq56Lox4Ph1K0VHrWmmii
+ +//z3UzCV56jD+hlZd/g9obSxapg1b0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-120-sRgqM_wmOhOlmxmTC7iT0g-1; Mon, 13 Sep 2021 04:25:31 -0400
+X-MC-Unique: sRgqM_wmOhOlmxmTC7iT0g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3408491273
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 08:25:30 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E49A5F706;
+ Mon, 13 Sep 2021 08:25:29 +0000 (UTC)
+Date: Mon, 13 Sep 2021 09:25:26 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] qapi: define cleanup function for g_autoptr(Error)
+Message-ID: <YT8K5CIZ9NPz/730@redhat.com>
+References: <20210912124834.503032-1-pbonzini@redhat.com>
+ <87fsu959rr.fsf@dusky.pond.sub.org>
+ <7337ee08-cc7d-4ef1-dcc4-3b0facc8b7b1@redhat.com>
 MIME-Version: 1.0
-References: <20210908154405.15417-1-peter.maydell@linaro.org>
- <20210908154405.15417-7-peter.maydell@linaro.org>
- <b38d4f0b-4adb-ae02-c90a-83cf4b4a21d8@linaro.org>
-In-Reply-To: <b38d4f0b-4adb-ae02-c90a-83cf4b4a21d8@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Sep 2021 09:20:03 +0100
-Message-ID: <CAFEAcA9CKg7-LfpiqLY4EsaPo3Vnu8gV-7buDoiyv7c+xB8R_w@mail.gmail.com>
-Subject: Re: [PATCH v2 6/9] linux-user: Split safe-syscall macro into its own
- header
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <7337ee08-cc7d-4ef1-dcc4-3b0facc8b7b1@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,47 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 12 Sept 2021 at 17:23, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 9/8/21 8:44 AM, Peter Maydell wrote:
-> > Split the safe-syscall macro from qemu.h into a new safe-syscall.h.
-> >
-> > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> > Reviewed-by: Philippe Mathieu-Daud=C3=A9<f4bug@amsat.org>
-> > ---
-> >   linux-user/qemu.h         | 135 ---------------------------------
-> >   linux-user/safe-syscall.h | 154 +++++++++++++++++++++++++++++++++++++=
-+
-> >   linux-user/syscall.c      |   1 +
-> >   3 files changed, 155 insertions(+), 135 deletions(-)
-> >   create mode 100644 linux-user/safe-syscall.h
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
->
-> > +#else
-> > +
-> > +/*
-> > + * Fallback for architectures which don't yet provide a safe-syscall a=
-ssembly
-> > + * fragment; note that this is racy!
-> > + * This should go away when all host architectures have been updated.
-> > + */
-> > +#define safe_syscall syscall
->
-> All native tcg hosts have been updated.  All that is left are those for w=
-hich we fall back
-> to tci.  At what point do we drop the fallback and simply make this a bui=
-ld error?
+On Mon, Sep 13, 2021 at 09:30:07AM +0200, Paolo Bonzini wrote:
+> On 13/09/21 07:23, Markus Armbruster wrote:
+> > Paolo Bonzini <pbonzini@redhat.com> writes:
+> > 
+> > > Allow replacing calls to error_free() with g_autoptr(Error)
+> > > declarations.
+> > > 
+> > > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> > > ---
+> > >   include/qapi/error.h | 2 ++
+> > >   1 file changed, 2 insertions(+)
+> > > 
+> > > diff --git a/include/qapi/error.h b/include/qapi/error.h
+> > > index 4a9260b0cc..8564657baf 100644
+> > > --- a/include/qapi/error.h
+> > > +++ b/include/qapi/error.h
+> > > @@ -437,6 +437,8 @@ Error *error_copy(const Error *err);
+> > >    */
+> > >   void error_free(Error *err);
+> > > +G_DEFINE_AUTOPTR_CLEANUP_FUNC(Error, error_free);
+> > > +
+> > >   /*
+> > >    * Convenience function to assert that *@errp is set, then silently free it.
+> > >    */
+> > 
+> > I'd like to see at least one actual use.
+> 
+> I'll have one soon, I'll Cc you on that one.  (I wrote this because Dan
+> suggested using g_autoptr(Error) in a review, but it doesn't work yet).
 
-We should probably do that now, or at least once this cleanup has got into
-master...
+Actually on reflection we probably don't need that because I forgot
+that error_report_err free's the error object.
 
--- PMM
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
