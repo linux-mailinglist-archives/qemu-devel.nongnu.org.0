@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48481409886
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 18:15:14 +0200 (CEST)
-Received: from localhost ([::1]:59984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF83409907
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 18:26:28 +0200 (CEST)
+Received: from localhost ([::1]:58694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPobv-0004e2-51
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 12:15:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60722)
+	id 1mPomp-0006UL-As
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 12:26:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPoYl-0000oU-JN
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:11:55 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:36787)
+ id 1mPoYm-0000qa-5w
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:11:56 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPoYi-00085W-Ru
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:11:54 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- l18-20020a05600c4f1200b002f8cf606262so7432931wmq.1
+ id 1mPoYj-000866-B2
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:11:55 -0400
+Received: by mail-wr1-x436.google.com with SMTP id d21so7850662wra.12
  for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 09:11:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=yR6/d1fmgWVmWz0dJq82TlR2uLKkG1hd+bNE4R+MmmQ=;
- b=oI5PrN3uWUJVlANxGXDWpTr4352CauISQNkMA2HHMzr/FlV3ggnTHmvNrmKu59zNfp
- VYv6NpV2S5QQgDDcRhdEGiaRXCkqbTCLvMMIBaD7LcyYnP8Z93URUayEv7DyP44SsKO1
- 3gZjAp8DU9FkF6U1mEfvHbTXAIhmn6I/uvaLR6JkOm4vFfukN5+PTvKkl/+6svX80ckz
- sCro+Gnfq9JfPf0F+O/I8PQbqEPZim4eRJmYeTsZBWnlHssT0wXXih0IkKw1giUShLWx
- vxw5W/SgbRGCZXaWx3I/9UGj9ZzORADt4Cp2qNXe29EjqWXLu6vw7+GvwrW3Zl2a65LA
- 4LYA==
+ bh=W1m+efY/6GMnWBMpz/5KqQHrR+9ltxKm9JEf0bLzWQw=;
+ b=u89gkGbgKzotz3NkexmuJAuazz386yB5aD0/trTLs4tKJnrVFO8DkDDtugAk3p6Ast
+ WYCz+rlEbssLvt0dLbNA8IS0FcQbUvY6t7PJEdtFkLPZK5fWYeYjRBP5ZCQLOiELjBDT
+ D1KNg6dQO6Mr0nR9meRhcWlcTnS1mzdOI9pjtPJRWyyNFFkSNPlRuJwAVmFmTfotm9WR
+ tytUKCwTz31UMsYfwZGt+rZXGW6Y+OAbTLB4bgyJ00gh2zTAtmuB0pUIJGrVNhwWdSWK
+ tNIyGceKl/QAO4zb9SGEorvEsERy8pUMWcFpgNhGbYrtKEqnzqdsuXaiYsjRDStJ11Ro
+ PZ2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yR6/d1fmgWVmWz0dJq82TlR2uLKkG1hd+bNE4R+MmmQ=;
- b=7apYANrNSSmec+LmbDM8ZZ3iZM58bA5cUyHh5ebhgNyQEwLAhj1Tw5JCyhSAUxZAKg
- sxcJUUTgHGaxJvCyL2H7ib4penUd6+KMlijQ6EqAhIToCHuSGfH3wGkwAwXQAtxho1Wo
- YgbCU1uuBa6N1cwxstKj0uSavSwg/hbHlTNTA4ozypuwZ4CZ4EhcRhQ3ES2VOjHVoUM1
- 4cmy1MOVGZv7vlUN4HkpMVg8CJoWGSUeO4m3aEVtHzzr1mpJ29TKVLWISE8r3PZVmz8L
- pdw3RmupABRnwVtBvDtEjAs8Bfpnzlr0/dU88k9kCBmEIG1gQ8KKS3oy+sKGO8K3i/Io
- SJ3w==
-X-Gm-Message-State: AOAM531X+bm5i9fIibslrEt2AvbBTNn1KactqmNYAQjCK9kUb/jN1p/X
- 2MoCslfayUjuZLhSLrWf7AjLbk9Sm5Y7Bg==
-X-Google-Smtp-Source: ABdhPJz46CLbd8cNYejElKD6wQwNukeOWYiY2Lg9ddU6Q6voZNaYXffTBrFmraUbhM8pOuRGZ7+djg==
-X-Received: by 2002:a7b:c405:: with SMTP id k5mr10822954wmi.24.1631549511444; 
- Mon, 13 Sep 2021 09:11:51 -0700 (PDT)
+ bh=W1m+efY/6GMnWBMpz/5KqQHrR+9ltxKm9JEf0bLzWQw=;
+ b=5lYuoSnlb94L0yh6qhJdp6ZMnjxNS/5fspKgSYe3FJ56um6Hqun2rqZoZtOmIpaiiI
+ nZcqxNpyrySmVCDiBf5QctCcKh1lZl4BD7+3r/BPeu2vqHmJPaK1vmeqE/uKxWG49GKr
+ 8bR941p5A2MyfmV50/vj+Hkw5qOWZq7BlXdv0c48OAS+OivrrYS9dpXnSVoVxbJgF8oP
+ Utt+VM+/lWBVA6xJnJ+s6mTynufk6XKqPi9QhJk5O+g+UgWrnye5AUCnQxHOgxT4p+Om
+ 6t1C0f+eWV3v2iEVtUCQ7Kro41RpaQ1wnmXx5u7fxH05whC9OBPjyGIVtfaldrgRRoXT
+ vsWg==
+X-Gm-Message-State: AOAM531tgbR/UagZ3p+Vm4k98mQVUwbZqSaNhKMyenh4cjQg+HhB2bEJ
+ S10iqjm7x7A4JBPdyL1gyofVn8r/G5UbBQ==
+X-Google-Smtp-Source: ABdhPJzUDCsxWvw46LynKK1ZjXXJEUXrm+hcL7gPENMA5QwxzMk328RkpmkzhWAp5C4WgCW7nKzWnw==
+X-Received: by 2002:adf:e643:: with SMTP id b3mr13837198wrn.67.1631549512041; 
+ Mon, 13 Sep 2021 09:11:52 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y1sm7629265wmq.43.2021.09.13.09.11.50
+ by smtp.gmail.com with ESMTPSA id y1sm7629265wmq.43.2021.09.13.09.11.51
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 13 Sep 2021 09:11:51 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/23] hw/arm/virt: KVM: Probe for KVM_CAP_ARM_VM_IPA_SIZE when
- creating scratch VM
-Date: Mon, 13 Sep 2021 17:11:28 +0100
-Message-Id: <20210913161144.12347-8-peter.maydell@linaro.org>
+Subject: [PULL 08/23] hw/arm: Add support for kudo-bmc board.
+Date: Mon, 13 Sep 2021 17:11:29 +0100
+Message-Id: <20210913161144.12347-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210913161144.12347-1-peter.maydell@linaro.org>
 References: <20210913161144.12347-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,53 +86,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc Zyngier <maz@kernel.org>
+From: Chris Rauer <crauer@google.com>
 
-Although we probe for the IPA limits imposed by KVM (and the hardware)
-when computing the memory map, we still use the old style '0' when
-creating a scratch VM in kvm_arm_create_scratch_host_vcpu().
+kudo-bmc is a board supported by OpenBMC.
+https://github.com/openbmc/openbmc/tree/master/meta-fii/meta-kudo
 
-On systems that are severely IPA challenged (such as the Apple M1),
-this results in a failure as KVM cannot use the default 40bit that
-'0' represents.
+Since v1:
+- hyphenated Cortex-A9
 
-Instead, probe for the extension and use the reported IPA limit
-if available.
-
-Cc: Andrew Jones <drjones@redhat.com>
-Cc: Eric Auger <eric.auger@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Marc Zyngier <maz@kernel.org>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Message-id: 20210822144441.1290891-2-maz@kernel.org
+Tested: Booted kudo firmware.
+Signed-off-by: Chris Rauer <crauer@google.com>
+Reviewed-by: Patrick Venture <venture@google.com>
+Message-id: 20210907223234.1165705-1-crauer@google.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/kvm.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ docs/system/arm/nuvoton.rst |  1 +
+ hw/arm/npcm7xx_boards.c     | 34 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 35 insertions(+)
 
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index 5d55de1a493..94b970bbf9b 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -70,12 +70,17 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
-                                       struct kvm_vcpu_init *init)
- {
-     int ret = 0, kvmfd = -1, vmfd = -1, cpufd = -1;
-+    int max_vm_pa_size;
+diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
+index 69f57c2886f..adf497e6791 100644
+--- a/docs/system/arm/nuvoton.rst
++++ b/docs/system/arm/nuvoton.rst
+@@ -20,6 +20,7 @@ Hyperscale applications. The following machines are based on this chip :
  
-     kvmfd = qemu_open_old("/dev/kvm", O_RDWR);
-     if (kvmfd < 0) {
-         goto err;
-     }
--    vmfd = ioctl(kvmfd, KVM_CREATE_VM, 0);
-+    max_vm_pa_size = ioctl(kvmfd, KVM_CHECK_EXTENSION, KVM_CAP_ARM_VM_IPA_SIZE);
-+    if (max_vm_pa_size < 0) {
-+        max_vm_pa_size = 0;
-+    }
-+    vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
-     if (vmfd < 0) {
-         goto err;
-     }
+ - ``quanta-gbs-bmc``    Quanta GBS server BMC
+ - ``quanta-gsj``        Quanta GSJ server BMC
++- ``kudo-bmc``          Fii USA Kudo server BMC
+ 
+ There are also two more SoCs, NPCM710 and NPCM705, which are single-core
+ variants of NPCM750 and NPCM730, respectively. These are currently not
+diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
+index e5a32439954..a656169f61e 100644
+--- a/hw/arm/npcm7xx_boards.c
++++ b/hw/arm/npcm7xx_boards.c
+@@ -31,6 +31,7 @@
+ #define NPCM750_EVB_POWER_ON_STRAPS 0x00001ff7
+ #define QUANTA_GSJ_POWER_ON_STRAPS 0x00001fff
+ #define QUANTA_GBS_POWER_ON_STRAPS 0x000017ff
++#define KUDO_BMC_POWER_ON_STRAPS 0x00001fff
+ 
+ static const char npcm7xx_default_bootrom[] = "npcm7xx_bootrom.bin";
+ 
+@@ -357,6 +358,23 @@ static void quanta_gbs_init(MachineState *machine)
+     npcm7xx_load_kernel(machine, soc);
+ }
+ 
++static void kudo_bmc_init(MachineState *machine)
++{
++    NPCM7xxState *soc;
++
++    soc = npcm7xx_create_soc(machine, KUDO_BMC_POWER_ON_STRAPS);
++    npcm7xx_connect_dram(soc, machine->ram);
++    qdev_realize(DEVICE(soc), NULL, &error_fatal);
++
++    npcm7xx_load_bootrom(machine, soc);
++    npcm7xx_connect_flash(&soc->fiu[0], 0, "mx66u51235f",
++                          drive_get(IF_MTD, 0, 0));
++    npcm7xx_connect_flash(&soc->fiu[1], 0, "mx66u51235f",
++                          drive_get(IF_MTD, 3, 0));
++
++    npcm7xx_load_kernel(machine, soc);
++}
++
+ static void npcm7xx_set_soc_type(NPCM7xxMachineClass *nmc, const char *type)
+ {
+     NPCM7xxClass *sc = NPCM7XX_CLASS(object_class_by_name(type));
+@@ -417,6 +435,18 @@ static void gbs_bmc_machine_class_init(ObjectClass *oc, void *data)
+     mc->default_ram_size = 1 * GiB;
+ }
+ 
++static void kudo_bmc_machine_class_init(ObjectClass *oc, void *data)
++{
++    NPCM7xxMachineClass *nmc = NPCM7XX_MACHINE_CLASS(oc);
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    npcm7xx_set_soc_type(nmc, TYPE_NPCM730);
++
++    mc->desc = "Kudo BMC (Cortex-A9)";
++    mc->init = kudo_bmc_init;
++    mc->default_ram_size = 1 * GiB;
++};
++
+ static const TypeInfo npcm7xx_machine_types[] = {
+     {
+         .name           = TYPE_NPCM7XX_MACHINE,
+@@ -437,6 +467,10 @@ static const TypeInfo npcm7xx_machine_types[] = {
+         .name           = MACHINE_TYPE_NAME("quanta-gbs-bmc"),
+         .parent         = TYPE_NPCM7XX_MACHINE,
+         .class_init     = gbs_bmc_machine_class_init,
++    }, {
++        .name           = MACHINE_TYPE_NAME("kudo-bmc"),
++        .parent         = TYPE_NPCM7XX_MACHINE,
++        .class_init     = kudo_bmc_machine_class_init,
+     },
+ };
+ 
 -- 
 2.20.1
 
