@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF59409F83
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 00:12:34 +0200 (CEST)
-Received: from localhost ([::1]:36196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C443409F77
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 00:09:02 +0200 (CEST)
+Received: from localhost ([::1]:53122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPuBl-0003yQ-Sg
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 18:12:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34392)
+	id 1mPu8H-0004oC-ES
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 18:08:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPu5Q-0001oq-GG
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 18:06:01 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:41782)
+ id 1mPu5T-0001tF-0j
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 18:06:04 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:33619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPu5O-0007N7-8X
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 18:05:59 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- m21-20020a17090a859500b00197688449c4so1182502pjn.0
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 15:05:57 -0700 (PDT)
+ id 1mPu5P-0007O1-Gm
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 18:06:02 -0400
+Received: by mail-pf1-x431.google.com with SMTP id q22so10216041pfu.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 15:05:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BSr8CpzMFsO2CignfsD0RiKPN4BnIAAHYciYbFsOhR4=;
- b=OLyHwgIS+D2qb8pv8ZfNrVtS7FJVPpae9zPZNIG7KPLgQyVeCSJuJiRjJ8ZrPgL77Q
- eV2PDH4/CvlSBZ2rLFUyAHsmfjr104fIeisnNuC1QUAzqKk35wOdE6G46RXDAZ8aKw2y
- v4VpZ8s4segcQ7O65w1t05dlcqffIsvUHFcKM9R+1uqFA4sxys+R4yKG0IQSXqqPhZrk
- tVC2PfQl8eI6Ufcrp8DmcBcH4K/buT7p91pF79mFSttGZZTgVpYQcPyte4r8kqNGyv9x
- 0bjbe6mQ4hqlwyp1Q6MdBDrIWz8ecPs3kQmj/VeGvU7fXWeTsyfbnmbPWTNGQW6kL7pd
- cOEw==
+ bh=umKm8x6alVt7RG9Jn6P6NNWTmAl/oVeCyIb/D+Q+Mok=;
+ b=U1mLbPyUisTneV51DA5y5ejNESCCW+py0H0deZKzMfZRWIyuUqgbrWhiJ7gWUlTw/4
+ HQPM++BiahAqvOnwSwa7sjgE8dWmHYfBi7+QXtnEBc0RNCsCXipGR/4rMCaHIHmct6ML
+ dA5Ejw3m6dmIcQqNuaf+hZXb/qg/6206y6OD/MQdBXEKp2OPZY6P3bgtcd4fsgTBDxGo
+ f0aiDyH0IlAi4hco3QoWPG+VNh3c43AEQh1FfiZf5HzYE3XM2VNbmuygC4yy2JmUzgMi
+ 5xWiBLVVk85sdEWkZ/E0/emmSpYyhnWNtbVqEsvrN8JA08c0LcD0eSxIegwPKdQHXiZg
+ WFCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BSr8CpzMFsO2CignfsD0RiKPN4BnIAAHYciYbFsOhR4=;
- b=cyhIKfXKyZ+tHwMAyTR3cfmfgZll0UMPsN+/M7hLf9PdgnrBBH4xhvphQ/xFGz7hlA
- gTyxQKank5dEvQIVbk6kt5KJOwddF1+bjbDrXbvDHUbaN62HDR32HWbpL/2+OlghGLYd
- ngJMLlkV96xZ1XBwpQZZ42Ua9sd1rTiD2qJkfHn0GBxGe6QwLKIdalaMFnE4BUm4okop
- IG3QhaONkN+BWEqaYvcqLGF63kTLKFeHydnsrSEDZFljw53F6nGdezXpEvzbvEZDG2Oy
- NGgsPjH89GZnCeTuoVBHBntkCwnXy2s0jif7yVh5Wohl+y9Waf/4MkM0fuJ+GJWwKKaV
- 7QkA==
-X-Gm-Message-State: AOAM5334Kr+uyJ3A7UVHCAGghrwkLjOi8S3HsEFEm/Dgl5XLokteW5p1
- NgPu6VhN14SORdA1FTvrY1l4KFoC0+4d2w==
-X-Google-Smtp-Source: ABdhPJwQoanx4+sMRxYa7hQqGu2isZTBjtH6bh3mWabbXhu0wYjlS8SjuxRqLthNaBA5JWfeacY6sA==
-X-Received: by 2002:a17:902:ba98:b0:139:93:7e26 with SMTP id
- k24-20020a170902ba9800b0013900937e26mr12290790pls.55.1631570756904; 
- Mon, 13 Sep 2021 15:05:56 -0700 (PDT)
+ bh=umKm8x6alVt7RG9Jn6P6NNWTmAl/oVeCyIb/D+Q+Mok=;
+ b=IpknZVAvaMTYibpRUBawy1OyZ7vCcbE2fvjUDMj5BYrDc9rnE26V0Qz7TE6YhG6Xul
+ rsZ7jlrv0CtV0K7vZN4CJX8pxV6vh/3Kwf/I28BPYvsHkVR1qV5RieeyHLw4sHb1YBiP
+ 4J92b8rDPY5l8rSJmnpghr50Gg5K9HK+8vEu8MMLIvWBdE+N281KjHLZHNfQ7gBzJZhR
+ xadz8u9WhRSdY6zwqHw/co/BGWVZOGek4a0WLckavcdve7QZEOfmIwkpe8YEKew1qk8M
+ nZuJ0SqWN2Yez2qTmFzwKYY2zXaGDfRHjcSYwW4NbqZOdLT+gZdyrz+AM3FlgjD1twE4
+ JixQ==
+X-Gm-Message-State: AOAM530Hutxus+CP6JwXwYzNqroV1X/iA1V9KX+F+F/5g6ZHu0wNVrIY
+ gFQDCFZdAv7B6NJ6Wxs3QdqSx4nQoyi1Yg==
+X-Google-Smtp-Source: ABdhPJzuO6ABf5pw3M82TQmOZhhydfXIpILRsB1fY6kQNpBE3SLT7LteHD7rperq5PeI7yRTb47Zyg==
+X-Received: by 2002:a62:2703:0:b0:42b:5319:cbbc with SMTP id
+ n3-20020a622703000000b0042b5319cbbcmr1480093pfn.66.1631570757676; 
+ Mon, 13 Sep 2021 15:05:57 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id 17sm7721404pfx.167.2021.09.13.15.05.56
+ by smtp.gmail.com with ESMTPSA id 17sm7721404pfx.167.2021.09.13.15.05.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 15:05:56 -0700 (PDT)
+ Mon, 13 Sep 2021 15:05:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 3/7] accel/tcg: Split out handle_sigsegv_accerr_write
-Date: Mon, 13 Sep 2021 15:05:48 -0700
-Message-Id: <20210913220552.604064-4-richard.henderson@linaro.org>
+Subject: [RFC PATCH 4/7] accel/tcg: Move clear_helper_retaddr to cpu loop
+Date: Mon, 13 Sep 2021 15:05:49 -0700
+Message-Id: <20210913220552.604064-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210913220552.604064-1-richard.henderson@linaro.org>
 References: <20210913220552.604064-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,154 +87,63 @@ Cc: peter.maydell@linaro.org, laurent@vivier.eu, imp@bsdimp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the major portion of handle_cpu_signal which is specific
-to tcg, handling the page protections for the translations.
-Most of the rest will migrate to linux-user/ shortly.
+Currently there are only two places that require we reset this
+value before exiting to the main loop, but that will change.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/exec-all.h | 12 ++++++
- accel/tcg/user-exec.c   | 96 +++++++++++++++++++++++++----------------
- 2 files changed, 72 insertions(+), 36 deletions(-)
+ accel/tcg/cpu-exec.c  | 3 ++-
+ accel/tcg/user-exec.c | 2 --
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 7207912306..f582d3e688 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -671,6 +671,18 @@ static inline tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env,
-  */
- uintptr_t adjust_signal_pc(uintptr_t pc);
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 75dbc1e4e3..13c4436e5d 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -451,6 +451,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
+          * memory.
+          */
+ #ifndef CONFIG_SOFTMMU
++        clear_helper_retaddr();
+         tcg_debug_assert(!have_mmap_lock());
+ #endif
+         if (qemu_mutex_iothread_locked()) {
+@@ -460,7 +461,6 @@ void cpu_exec_step_atomic(CPUState *cpu)
+         qemu_plugin_disable_mem_helpers(cpu);
+     }
  
-+/**
-+ * handle_sigsegv_accerr_write:
-+ * @cpu: the cpu context
-+ * @old_set: the sigset_t from the signal ucontext_t
-+ * @host_pc: the host pc, adjusted for the signal
-+ * @host_addr: the host address of the fault
-+ *
-+ * Return true if the write fault has been handled, and should be re-tried.
-+ */
-+bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
-+                                 uintptr_t host_pc, uintptr_t host_addr);
-+
- /**
-  * cpu_signal_handler
-  * @signum: host signal number
+-
+     /*
+      * As we start the exclusive region before codegen we must still
+      * be in the region if we longjump out of either the codegen or
+@@ -903,6 +903,7 @@ int cpu_exec(CPUState *cpu)
+ #endif
+ 
+ #ifndef CONFIG_SOFTMMU
++        clear_helper_retaddr();
+         tcg_debug_assert(!have_mmap_lock());
+ #endif
+         if (qemu_mutex_iothread_locked()) {
 diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 1f7b7a3692..daef34a426 100644
+index daef34a426..83351db719 100644
 --- a/accel/tcg/user-exec.c
 +++ b/accel/tcg/user-exec.c
-@@ -112,6 +112,60 @@ uintptr_t adjust_signal_pc(uintptr_t pc)
-     }
- }
+@@ -157,7 +157,6 @@ bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
+          * currently executing TB was modified and must be exited
+          * immediately.  Clear helper_retaddr for next execution.
+          */
+-        clear_helper_retaddr();
+         cpu_exit_tb_from_sighandler(cpu, old_set);
+         /* NORETURN */
  
-+/**
-+ * handle_sigsegv_accerr_write:
-+ * @cpu: the cpu context
-+ * @old_set: the sigset_t from the signal ucontext_t
-+ * @host_pc: the host pc, adjusted for the signal
-+ * @host_addr: the host address of the fault
-+ *
-+ * Return true if the write fault has been handled, and should be re-tried.
-+ *
-+ * Note that it is important that we don't call page_unprotect() unless
-+ * this is really a "write to nonwriteable page" fault, because
-+ * page_unprotect() assumes that if it is called for an access to
-+ * a page that's writeable this means we had two threads racing and
-+ * another thread got there first and already made the page writeable;
-+ * so we will retry the access. If we were to call page_unprotect()
-+ * for some other kind of fault that should really be passed to the
-+ * guest, we'd end up in an infinite loop of retrying the faulting access.
-+ */
-+bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
-+                                 uintptr_t host_pc, uintptr_t host_addr)
-+{
-+    if (!h2g_valid(host_addr)) {
-+        return false;
-+    }
-+
-+    switch (page_unprotect(h2g(host_addr), host_pc)) {
-+    case 0:
-+        /*
-+         * Fault not caused by a page marked unwritable to protect
-+         * cached translations, must be the guest binary's problem.
-+         */
-+        return false;
-+    case 1:
-+        /*
-+         * Fault caused by protection of cached translation; TBs
-+         * invalidated, so resume execution.  Retain helper_retaddr
-+         * for a possible second fault.
-+         */
-+        return true;
-+    case 2:
-+        /*
-+         * Fault caused by protection of cached translation, and the
-+         * currently executing TB was modified and must be exited
-+         * immediately.  Clear helper_retaddr for next execution.
-+         */
-+        clear_helper_retaddr();
-+        cpu_exit_tb_from_sighandler(cpu, old_set);
-+        /* NORETURN */
-+
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
- /* 'pc' is the host PC at which the exception was raised. 'address' is
-    the effective address of the memory exception. 'is_write' is 1 if a
-    write caused the exception and otherwise 0'. 'old_set' is the
-@@ -150,43 +204,13 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
-     printf("qemu: SIGSEGV pc=0x%08lx address=%08lx w=%d oldset=0x%08lx\n",
-            pc, address, is_write, *(unsigned long *)old_set);
- #endif
--    /* XXX: locking issue */
--    /* Note that it is important that we don't call page_unprotect() unless
--     * this is really a "write to nonwriteable page" fault, because
--     * page_unprotect() assumes that if it is called for an access to
--     * a page that's writeable this means we had two threads racing and
--     * another thread got there first and already made the page writeable;
--     * so we will retry the access. If we were to call page_unprotect()
--     * for some other kind of fault that should really be passed to the
--     * guest, we'd end up in an infinite loop of retrying the faulting
--     * access.
--     */
--    if (is_write && info->si_signo == SIGSEGV && info->si_code == SEGV_ACCERR &&
--        h2g_valid(address)) {
--        switch (page_unprotect(h2g(address), pc)) {
--        case 0:
--            /* Fault not caused by a page marked unwritable to protect
--             * cached translations, must be the guest binary's problem.
--             */
--            break;
--        case 1:
--            /* Fault caused by protection of cached translation; TBs
--             * invalidated, so resume execution.  Retain helper_retaddr
--             * for a possible second fault.
--             */
--            return 1;
--        case 2:
--            /* Fault caused by protection of cached translation, and the
--             * currently executing TB was modified and must be exited
--             * immediately.  Clear helper_retaddr for next execution.
--             */
--            clear_helper_retaddr();
--            cpu_exit_tb_from_sighandler(cpu, old_set);
--            /* NORETURN */
+@@ -222,7 +221,6 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+      * an exception.  Undo signal and retaddr state prior to longjmp.
+      */
+     sigprocmask(SIG_SETMASK, old_set, NULL);
+-    clear_helper_retaddr();
  
--        default:
--            g_assert_not_reached();
--        }
-+    /* XXX: locking issue */
-+    if (is_write &&
-+        info->si_signo == SIGSEGV &&
-+        info->si_code == SEGV_ACCERR &&
-+        handle_sigsegv_accerr_write(cpu, old_set, pc, address)) {
-+        return 1;
-     }
- 
-     /* Convert forcefully to guest address space, invalid addresses
+     cc = CPU_GET_CLASS(cpu);
+     cc->tcg_ops->tlb_fill(cpu, address, 0, access_type,
 -- 
 2.25.1
 
