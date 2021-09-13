@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C66AA4096D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 17:13:23 +0200 (CEST)
-Received: from localhost ([::1]:56826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7494096E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 17:15:45 +0200 (CEST)
+Received: from localhost ([::1]:32962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPne6-0008UM-S8
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 11:13:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37954)
+	id 1mPngO-0003It-GC
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 11:15:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mPnb7-0006IQ-P7
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 11:10:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23061)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mPnch-0000HF-Lp
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 11:11:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mPnb5-0005iS-Qw
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 11:10:17 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mPncD-0006jG-KA
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 11:11:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631545815;
+ s=mimecast20190719; t=1631545881;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=buwPGJPV0gzmP73khNG7XSBoDlnm8fZdIw9H+p7pBqo=;
- b=ROdXzr1aUQTm5i6bCD6/zyrcgSOKmLEfrYgGYIVgPuQnVoZI5q5j+KkuIjYuxcBhC/I3PK
- JNOR+Ny/nru4yPoLpz4yi9XIfJUv9r1qrR1lXrjCgFzdDmHkqyZOSrjqXNyw3y0dKteyi7
- d7pPorQ/dQwFTFzMrlIGOwfJoOouSCA=
+ bh=9TYSgg2MoaLblTzgPny2bHzF2LB4GRoDdBD+y6y8KC8=;
+ b=MgG9GVIWJiVXt0Lo8Ot/8WblGWhJp2XEn01wjvAbC+J8IYpqYOhHqU5sHXterH3fH11Psk
+ p04dfh46VI84qlxs4JmROEEhbN7xIRIbFUzWeSdLgXxFTtAQGSrjsd/KJ5Y7m0CG7gygxw
+ pwRMRiFCVsaTej2Gtl1RmHoHsC/LqS8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-A_nMhptUP7ewyWG7imM5Tw-1; Mon, 13 Sep 2021 11:10:11 -0400
-X-MC-Unique: A_nMhptUP7ewyWG7imM5Tw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-189-FJI1QoYzPfScN-tHdUb5JA-1; Mon, 13 Sep 2021 11:11:20 -0400
+X-MC-Unique: FJI1QoYzPfScN-tHdUb5JA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1720F100CCCF
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 15:10:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8857D10B02BE
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 15:10:51 +0000 (UTC)
 Received: from redhat.com (ovpn-113-222.phx2.redhat.com [10.3.113.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C9A6765D4F;
- Mon, 13 Sep 2021 15:09:59 +0000 (UTC)
-Date: Mon, 13 Sep 2021 10:09:58 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 247F319741;
+ Mon, 13 Sep 2021 15:10:51 +0000 (UTC)
+Date: Mon, 13 Sep 2021 10:10:49 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 13/22] test-qobject-output-visitor: Wean off
- UserDefListUnion
-Message-ID: <20210913150958.lenpeolrsztd54jq@redhat.com>
+Subject: Re: [PATCH 14/22] test-clone-visitor: Wean off UserDefListUnion
+Message-ID: <20210913151049.h36pb432cjzd2luo@redhat.com>
 References: <20210913123932.3306639-1-armbru@redhat.com>
- <20210913123932.3306639-14-armbru@redhat.com>
+ <20210913123932.3306639-15-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210913123932.3306639-14-armbru@redhat.com>
+In-Reply-To: <20210913123932.3306639-15-armbru@redhat.com>
 User-Agent: NeoMutt/20210205-772-2b4c52
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,19 +81,16 @@ Cc: marcandre.lureau@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 13, 2021 at 02:39:23PM +0200, Markus Armbruster wrote:
-> The test_visitor_out_list_union_FOO() use simple union
-> UserDefListUnion to cover lists of builtin types.  Rewrite as
-> test_visitor_out_list_struct(), using struct ArrayStruct and a lot
-> less code.
+On Mon, Sep 13, 2021 at 02:39:24PM +0200, Markus Armbruster wrote:
+> test_clone_complex1() uses simple union UserDefListUnion to cover
+> unions.  Use UserDefFlatUnion instead.  Arrays are still covered by
+> test_clone_complex3().
 > 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  tests/unit/test-qobject-output-visitor.c | 391 ++++++-----------------
->  1 file changed, 93 insertions(+), 298 deletions(-)
+>  tests/unit/test-clone-visitor.c | 24 ++++++++++++++++--------
+>  1 file changed, 16 insertions(+), 8 deletions(-)
 >
-
-Nice simplification.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
