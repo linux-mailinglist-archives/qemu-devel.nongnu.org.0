@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A1F4087A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 10:55:02 +0200 (CEST)
-Received: from localhost ([::1]:59558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4449D4087B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 11:03:36 +0200 (CEST)
+Received: from localhost ([::1]:43308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPhjx-0007S4-W3
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 04:55:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60208)
+	id 1mPhsF-00081H-Cz
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 05:03:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPhfe-00054f-ML
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:50:36 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44863)
+ id 1mPhiE-0006lN-0N
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:53:14 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33675)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPhfb-0006ZG-54
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:50:34 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id d6so13376932wrc.11
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 01:50:30 -0700 (PDT)
+ id 1mPhiC-0000Ju-8y
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 04:53:13 -0400
+Received: by mail-wr1-x436.google.com with SMTP id t18so13463140wrb.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 01:53:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=08eP+0Wy8C9Y+icNfsIYmS8byb2MUuvsGf1B8iV7bY4=;
- b=Ho2WrG7ybyiqDfTEsZp6zIeD0BieVFY/5J/lSfoV/4YUXDevlLzf0GQTLwayNUt3tw
- RQJD/9mit8Aa3bj+mpLzXINzy9i/1IyFA6H0rSt+wvqXCNskW2QQBQ9JwyTmCp/kmNEx
- 6FFtrJqsyU/8FPuMLFvwqfmWR4ipCJIwPw+VQk8sZPTMkEiUaPJHeMufXXcueWQF6IH9
- d5LWsAI+1xkIdsJGJnOQBmxQfg3CDxBGwWlvW36zV3NPpz5HfHhD8vmt+lVi5v3Ud4WE
- Bve2HIDQuXks4cD+edvslbx+tY7ZT78k8D5yLDRSQp7ErEscnCoSeXxQS0V8mWbB+WHY
- mTGQ==
+ :cc; bh=ylyqcIhnATU/ADXsXq0Rtx2pBsN6zhCJ3Lrghm5Xi6Q=;
+ b=EOOtverxAWkKFlvT5ju2PT+PdTqW3rYZSsZZg/VzazJ2f7LMWsi7SdO1g5rvKIZn+s
+ K2jvBCC1YkCni9okY5sgRmWOC5EXqwSv0GzAjuqKpJDWwLRtcy+oOTqc35Z5loMSPLC2
+ uUc1k+QG0BtLtQX9Oi1rrJiX6g4zjQuOOZHQk7evxAECHJDnfPPYvodKVBH415AKP7qh
+ 2nMhW0J5pZ928SVqwD66J+lHaX0P6S/TBFx/TnZyDpELX/45aWUbil39oZUs9RYFs63R
+ j48PCTevPbG4IOE0iMe+FfK7uA5h2HKDIoQNCZrT088X0grm9g/p6D/5PFEAgJhLgjWC
+ ckrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=08eP+0Wy8C9Y+icNfsIYmS8byb2MUuvsGf1B8iV7bY4=;
- b=wT/1UNVDP86Gl/00l1zLGGD9KnIBEUwfXa0E34NBDVq8oa6SuNy3n3IfHVrKHDdAsc
- MNJq23toVz90tU37IWz0ZNuJFNy5yv5rfpMRiDvYR0IFFNpKIvkdGv615J/fEdRrBboL
- Gx3dKJL2uRhuDbL5yvyajw0kNw97BjED9TlImrAwj92+W3se2yfslug6aqWI5Hexd0LU
- XJKu+zkK95lyXGgK9zmC7NvH+ghqYCvXP4yf6a14HdEG4CIVh7d/BleSMihkSJSaELmJ
- rAyF9Mhwskuxa6SL/ZhO7p+pEIGVhYPVGmdJ2uJBxGTjTET//NabJp7Vqqw4Zn8RQ0Ts
- 4IeA==
-X-Gm-Message-State: AOAM530Xq+d9KSeUoZn+FfxjpjrcbIzCWKqvncczhwqysSOboJ0f8KX9
- 0Ah3WlXFHSaFN8VjF/FeCn8LnsgJAU+9eqIREUBZ3Q==
-X-Google-Smtp-Source: ABdhPJxcAWNjLiDG/t64nXFnEalO1Fhb1FEnvMLjfgZxJzNLYY21KboBfSj59YURiQNirBbiOelCn6UYSjEVzFwFRJE=
-X-Received: by 2002:a5d:4a08:: with SMTP id m8mr10993767wrq.263.1631523029493; 
- Mon, 13 Sep 2021 01:50:29 -0700 (PDT)
+ bh=ylyqcIhnATU/ADXsXq0Rtx2pBsN6zhCJ3Lrghm5Xi6Q=;
+ b=Pgk2KchZ54a73r3HNoBEIfQRZUTvB1zrYqajrsc4Dio5GHO2Za1AXQko13UkbBjcJl
+ A26Uwlgkeeh8DBsyYW835SK7MS7bDSXeaNzpkOM90V/CtYhdGvoX1UDlcHJ/JOywd93e
+ r+CMCS1gaCyQHBEbpxNU1Per0XSgqc92AnrwMQJR6hJnEZHt643vULHpl5BN0o0eE4Up
+ xCTp7jbRn7R3d7ebp2CzlCzIVDfGZVC4RFkvqkDWXVhraS+Z4NxFpElO5lAycIYrnN+g
+ FU4RRwQcLNB6WB9R6IrRPD8lDB1QQ0JXW6m+K7/2p9FZcccIPGuVhbCtFXDTC9wpZRaN
+ VTsg==
+X-Gm-Message-State: AOAM532N/TItCamaSuapP0VP2BeLeo8p7Zqu+YuGbPzLxbOYIPXxci+U
+ rVyTQajyDoCndMECcT3TWpA2d8Qke3E7kVyBnQGV5A==
+X-Google-Smtp-Source: ABdhPJwYvX/S989T7wsuZGWuSxSLpzeCDva5oj7M4O1Si+YaFSAKEwPeHBjVx0nWKxvk6mO6spDS65JM2x5zkbR3s44=
+X-Received: by 2002:adf:fd12:: with SMTP id e18mr7184482wrr.275.1631523190752; 
+ Mon, 13 Sep 2021 01:53:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210912230757.41096-1-agraf@csgraf.de>
- <20210912230757.41096-2-agraf@csgraf.de>
-In-Reply-To: <20210912230757.41096-2-agraf@csgraf.de>
+ <20210912230757.41096-12-agraf@csgraf.de>
+In-Reply-To: <20210912230757.41096-12-agraf@csgraf.de>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Sep 2021 09:49:39 +0100
-Message-ID: <CAFEAcA_fVeTv9Hj6cuf9KMVf3x76rnMVXqTt9hGT7wcW_iKQfg@mail.gmail.com>
-Subject: Re: [PATCH v9 01/11] arm: Move PMC register definitions to cpu.h
+Date: Mon, 13 Sep 2021 09:52:20 +0100
+Message-ID: <CAFEAcA8x78jKD0EQ0rz_A8YwF4UkBTt8J3khNJ1TMefEP3ejfg@mail.gmail.com>
+Subject: Re: [PATCH v9 11/11] hvf: arm: Adhere to SMCCC 1.3 section 5.2
 To: Alexander Graf <agraf@csgraf.de>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,22 +87,64 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 Sept 2021 at 00:07, Alexander Graf <agraf@csgraf.de> wrote:
+On Mon, 13 Sept 2021 at 00:08, Alexander Graf <agraf@csgraf.de> wrote:
 >
-> We will need PMC register definitions in accel specific code later.
-> Move all constant definitions to common arm headers so we can reuse
-> them.
+> The SMCCC 1.3 spec section 5.2 says
+>
+>   The Unknown SMC Function Identifier is a sign-extended value of (-1)
+>   that is returned in the R0, W0 or X0 registers. An implementation must
+>   return this error code when it receives:
+>
+>     * An SMC or HVC call with an unknown Function Identifier
+>     * An SMC or HVC call for a removed Function Identifier
+>     * An SMC64/HVC64 call from AArch32 state
+>
+> To comply with these statements, let's always return -1 when we encounter
+> an unknown HVC or SMC call.
 >
 > Signed-off-by: Alexander Graf <agraf@csgraf.de>
+>
 > ---
->  target/arm/cpu.h    | 44 ++++++++++++++++++++++++++++++++++++++++++++
->  target/arm/helper.c | 44 --------------------------------------------
->  2 files changed, 44 insertions(+), 44 deletions(-)
+>
+> v7 -> v8:
+>
+>   - fix checkpatch
+>
+> v8 -> v9:
+>
+>   - Remove Windows specifics and just comply with SMCCC spec
+> ---
+>  target/arm/hvf/hvf.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+> index b62cfa3976..6a7ccfa91e 100644
+> --- a/target/arm/hvf/hvf.c
+> +++ b/target/arm/hvf/hvf.c
+> @@ -1177,7 +1177,8 @@ int hvf_vcpu_exec(CPUState *cpu)
+>          cpu_synchronize_state(cpu);
+>          if (hvf_handle_psci_call(cpu)) {
+>              trace_hvf_unknown_hvf(env->xregs[0]);
+> -            hvf_raise_exception(cpu, EXCP_UDEF, syn_uncategorized());
+> +            /* SMCCC 1.3 section 5.2 says every unknown HVC call returns -1 */
+> +            env->xregs[0] = -1;
+>          }
+>          break;
+>      case EC_AA64_SMC:
+> @@ -1186,7 +1187,9 @@ int hvf_vcpu_exec(CPUState *cpu)
+>              advance_pc = true;
+>          } else {
+>              trace_hvf_unknown_smc(env->xregs[0]);
+> -            hvf_raise_exception(cpu, EXCP_UDEF, syn_uncategorized());
+> +            /* SMCCC 1.3 section 5.2 says every unknown SMC call returns -1 */
+> +            env->xregs[0] = -1;
+> +            advance_pc = true;
+>          }
+>          break;
+>      default:
 
-Do these need to be in cpu.h, or would target/arm/internals.h
-be good enough? (Lots of files all over the codebase include
-cpu.h, so if the only users of these defines and functions are
-in target/arm, internals.h is better.)
+This should be squashed into whatever earlier patch added this code.
 
+thanks
 -- PMM
 
