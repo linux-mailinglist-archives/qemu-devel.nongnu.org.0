@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C443409F77
+	by mail.lfdr.de (Postfix) with ESMTPS id 9492C409F76
 	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 00:09:02 +0200 (CEST)
-Received: from localhost ([::1]:53122 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:53112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPu8H-0004oC-ES
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 18:08:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34468)
+	id 1mPu8L-0004o1-Ao
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 18:09:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPu5T-0001tF-0j
+ id 1mPu5S-0001t2-Td
  for qemu-devel@nongnu.org; Mon, 13 Sep 2021 18:06:04 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:33619)
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:35355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPu5P-0007O1-Gm
+ id 1mPu5Q-0007OR-64
  for qemu-devel@nongnu.org; Mon, 13 Sep 2021 18:06:02 -0400
-Received: by mail-pf1-x431.google.com with SMTP id q22so10216041pfu.0
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 15:05:58 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ f3-20020a17090a638300b00199097ddf1aso589787pjj.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 15:05:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=umKm8x6alVt7RG9Jn6P6NNWTmAl/oVeCyIb/D+Q+Mok=;
- b=U1mLbPyUisTneV51DA5y5ejNESCCW+py0H0deZKzMfZRWIyuUqgbrWhiJ7gWUlTw/4
- HQPM++BiahAqvOnwSwa7sjgE8dWmHYfBi7+QXtnEBc0RNCsCXipGR/4rMCaHIHmct6ML
- dA5Ejw3m6dmIcQqNuaf+hZXb/qg/6206y6OD/MQdBXEKp2OPZY6P3bgtcd4fsgTBDxGo
- f0aiDyH0IlAi4hco3QoWPG+VNh3c43AEQh1FfiZf5HzYE3XM2VNbmuygC4yy2JmUzgMi
- 5xWiBLVVk85sdEWkZ/E0/emmSpYyhnWNtbVqEsvrN8JA08c0LcD0eSxIegwPKdQHXiZg
- WFCg==
+ bh=UEwGCVckIB8KvhnLN1rP6M7bfEXyZ0UAya2D2H0VVIs=;
+ b=J8LDeKa3EDA8SSu5356+HpTlXWKwj50nhwERzzWrwr5A9AdfbKlmDsRJCULm3tFc10
+ pW/USukh5GQ/dlcCRz6XzWZuTtKOy5NjWjzhJFEfFO2mG9JI5ZEcHVky0C5bOtoHaz5l
+ OMEGtDhqK62CDpahobQ+ZihQnT4ROWfqMc5xewBds3KAWKp4ijM/QwMtk7co/KxIai6G
+ VcMPpJXhQhOBrRYrLAZ3CUtg5X5O3GQvNTyq5+oCuZquIyL+sd8vMdrI1eHyOZy1RvBz
+ QmBrKNVrdsHwbI1yTXhQKFh24RmbElHupSDHrRAc47BWTKqhu3yxJzcTI61IhMbqcETa
+ mURQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=umKm8x6alVt7RG9Jn6P6NNWTmAl/oVeCyIb/D+Q+Mok=;
- b=IpknZVAvaMTYibpRUBawy1OyZ7vCcbE2fvjUDMj5BYrDc9rnE26V0Qz7TE6YhG6Xul
- rsZ7jlrv0CtV0K7vZN4CJX8pxV6vh/3Kwf/I28BPYvsHkVR1qV5RieeyHLw4sHb1YBiP
- 4J92b8rDPY5l8rSJmnpghr50Gg5K9HK+8vEu8MMLIvWBdE+N281KjHLZHNfQ7gBzJZhR
- xadz8u9WhRSdY6zwqHw/co/BGWVZOGek4a0WLckavcdve7QZEOfmIwkpe8YEKew1qk8M
- nZuJ0SqWN2Yez2qTmFzwKYY2zXaGDfRHjcSYwW4NbqZOdLT+gZdyrz+AM3FlgjD1twE4
- JixQ==
-X-Gm-Message-State: AOAM530Hutxus+CP6JwXwYzNqroV1X/iA1V9KX+F+F/5g6ZHu0wNVrIY
- gFQDCFZdAv7B6NJ6Wxs3QdqSx4nQoyi1Yg==
-X-Google-Smtp-Source: ABdhPJzuO6ABf5pw3M82TQmOZhhydfXIpILRsB1fY6kQNpBE3SLT7LteHD7rperq5PeI7yRTb47Zyg==
-X-Received: by 2002:a62:2703:0:b0:42b:5319:cbbc with SMTP id
- n3-20020a622703000000b0042b5319cbbcmr1480093pfn.66.1631570757676; 
- Mon, 13 Sep 2021 15:05:57 -0700 (PDT)
+ bh=UEwGCVckIB8KvhnLN1rP6M7bfEXyZ0UAya2D2H0VVIs=;
+ b=5cZfyNSdf4cfbbW5zURmIbVD6snkiehNi6CsFUtQiRjhXLufrt3rsNwq8BBEsXXavr
+ WUMmymfowYRvEn3Ss3xTzChH6xaQbZRE3b7/HrEGjsGWbIUz7x+7zT2r7R1mbfFOO1GB
+ o1KBu264htJ7XhGiSVwudquZrg67M0bHKUdOpJnPU140kAsvu2C5Bt/EWgRKaQUsbtzn
+ 2LDocK8U1XjYAj51pEPAw4tpQ/gX4CR2fQYQaVp3lKWsQlf+KkKCEJawKcWuRJlXl+JK
+ r2V0cy2GO6XkPL83k8YFkFH14dx3EU7Y61iD4Sv/Me6/CMBH/jgopMYOazdQEpUcI/ZB
+ ovSA==
+X-Gm-Message-State: AOAM533U3WiuQ9rFdaPHksoPHDjKUl2V0IDIAienylCuoZaB3cMks/Sv
+ XUTRX1Bk7RRbDQFXymyIh8o9Or8DTc5G4g==
+X-Google-Smtp-Source: ABdhPJy3JAbqWQJVzATpkb1pIIgzSS18fQdjVmJ+SS6h1BA0B7LnJvzvOYoSXWTHC3u02W0s8IxmQw==
+X-Received: by 2002:a17:90a:5511:: with SMTP id
+ b17mr1797527pji.222.1631570758512; 
+ Mon, 13 Sep 2021 15:05:58 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id 17sm7721404pfx.167.2021.09.13.15.05.57
+ by smtp.gmail.com with ESMTPSA id 17sm7721404pfx.167.2021.09.13.15.05.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 15:05:57 -0700 (PDT)
+ Mon, 13 Sep 2021 15:05:58 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 4/7] accel/tcg: Move clear_helper_retaddr to cpu loop
-Date: Mon, 13 Sep 2021 15:05:49 -0700
-Message-Id: <20210913220552.604064-5-richard.henderson@linaro.org>
+Subject: [RFC PATCH 5/7] accel/tcg: Fold cpu_exit_tb_from_sighandler into
+ caller
+Date: Mon, 13 Sep 2021 15:05:50 -0700
+Message-Id: <20210913220552.604064-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210913220552.604064-1-richard.henderson@linaro.org>
 References: <20210913220552.604064-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,63 +89,49 @@ Cc: peter.maydell@linaro.org, laurent@vivier.eu, imp@bsdimp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently there are only two places that require we reset this
-value before exiting to the main loop, but that will change.
+Remove the comment about siglongjmp.  We do use sigsetjmp
+in the main cpu loop, but we do not save the signal mask
+as most exits from the cpu loop do not require them.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cpu-exec.c  | 3 ++-
- accel/tcg/user-exec.c | 2 --
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ accel/tcg/user-exec.c | 15 ++-------------
+ 1 file changed, 2 insertions(+), 13 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 75dbc1e4e3..13c4436e5d 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -451,6 +451,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
-          * memory.
-          */
- #ifndef CONFIG_SOFTMMU
-+        clear_helper_retaddr();
-         tcg_debug_assert(!have_mmap_lock());
- #endif
-         if (qemu_mutex_iothread_locked()) {
-@@ -460,7 +461,6 @@ void cpu_exec_step_atomic(CPUState *cpu)
-         qemu_plugin_disable_mem_helpers(cpu);
-     }
- 
--
-     /*
-      * As we start the exclusive region before codegen we must still
-      * be in the region if we longjump out of either the codegen or
-@@ -903,6 +903,7 @@ int cpu_exec(CPUState *cpu)
- #endif
- 
- #ifndef CONFIG_SOFTMMU
-+        clear_helper_retaddr();
-         tcg_debug_assert(!have_mmap_lock());
- #endif
-         if (qemu_mutex_iothread_locked()) {
 diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index daef34a426..83351db719 100644
+index 83351db719..ad6b4f6abf 100644
 --- a/accel/tcg/user-exec.c
 +++ b/accel/tcg/user-exec.c
-@@ -157,7 +157,6 @@ bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
+@@ -46,17 +46,6 @@ __thread uintptr_t helper_retaddr;
+ 
+ //#define DEBUG_SIGNAL
+ 
+-/* exit the current TB from a signal handler. The host registers are
+-   restored in a state compatible with the CPU emulator
+- */
+-static void QEMU_NORETURN cpu_exit_tb_from_sighandler(CPUState *cpu,
+-                                                      sigset_t *old_set)
+-{
+-    /* XXX: use siglongjmp ? */
+-    sigprocmask(SIG_SETMASK, old_set, NULL);
+-    cpu_loop_exit_noexc(cpu);
+-}
+-
+ /**
+  * adjust_signal_pc:
+  * @pc: raw pc from the host signal ucontext_t.
+@@ -157,9 +146,9 @@ bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
           * currently executing TB was modified and must be exited
           * immediately.  Clear helper_retaddr for next execution.
           */
--        clear_helper_retaddr();
-         cpu_exit_tb_from_sighandler(cpu, old_set);
+-        cpu_exit_tb_from_sighandler(cpu, old_set);
++        sigprocmask(SIG_SETMASK, old_set, NULL);
++        cpu_loop_exit_noexc(cpu);
          /* NORETURN */
- 
-@@ -222,7 +221,6 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
-      * an exception.  Undo signal and retaddr state prior to longjmp.
-      */
-     sigprocmask(SIG_SETMASK, old_set, NULL);
--    clear_helper_retaddr();
- 
-     cc = CPU_GET_CLASS(cpu);
-     cc->tcg_ops->tlb_fill(cpu, address, 0, access_type,
+-
+     default:
+         g_assert_not_reached();
+     }
 -- 
 2.25.1
 
