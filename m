@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E6B140976C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 17:35:08 +0200 (CEST)
-Received: from localhost ([::1]:60042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD23A409790
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 17:37:55 +0200 (CEST)
+Received: from localhost ([::1]:38538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPnz9-0005c9-FV
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 11:35:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49398)
+	id 1mPo1q-0001vm-V8
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 11:37:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mPnwZ-00044R-1K
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 11:32:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26463)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mPnzX-0007jU-DZ
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 11:35:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mPnwW-0005FN-7e
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 11:32:26 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mPnzV-0007O1-53
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 11:35:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631547143;
+ s=mimecast20190719; t=1631547328;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mG4Bfyddno/YwkHbEDnV7jN/gpJ3Doc0TlMKgHgEWxg=;
- b=Reui2KbNHn3E/tPuCdMRt1Pa/P18Tvot9+axMTS6q7moTZQMssTsTzI8dFnowH9MBWlaCX
- oo2oRBET0mFq2eI/zNcjrhiylDlTB+nnxc81brxDzw5fbMqikpXwzjOU7ARXFNw3ELhInN
- qgU8s9Ac75C8med2yl7p5J1eihOVV7A=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=G7s7jcOKx35E2YB7lQme0BNf8y8VZ4z8DMlknUTMtZo=;
+ b=NuK3wQFhFam9oD7WD3ne4zRcds0fRvTPxcBG2kgEIjCNQbAGUH+gR8TSXYWLWb7Rk+HkBH
+ 7xj1qDcc3RbniXKH2fZ94TuuGXC5yLKEJwBohem3yXY6UHgDdyly9Px145O7hq/f13sf1r
+ 1xHfbw9aBZXpGRRSnNclyIU5k3bptYY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-6tkPOUIFPd2LETAKYBBV9A-1; Mon, 13 Sep 2021 11:32:22 -0400
-X-MC-Unique: 6tkPOUIFPd2LETAKYBBV9A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-277-0BRIEdcfOe2dBqPr33XxqA-1; Mon, 13 Sep 2021 11:35:26 -0400
+X-MC-Unique: 0BRIEdcfOe2dBqPr33XxqA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 526011882FA4
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 15:32:14 +0000 (UTC)
-Received: from redhat.com (ovpn-113-222.phx2.redhat.com [10.3.113.222])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5EF256D98F;
- Mon, 13 Sep 2021 15:32:09 +0000 (UTC)
-Date: Mon, 13 Sep 2021 10:32:07 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 18/22] test-clone-visitor: Wean off __org.qemu_x-Union1
-Message-ID: <20210913153207.qrvpmdwkykie4mby@redhat.com>
-References: <20210913123932.3306639-1-armbru@redhat.com>
- <20210913123932.3306639-19-armbru@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA91A80006E;
+ Mon, 13 Sep 2021 15:35:25 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3186A1972D;
+ Mon, 13 Sep 2021 15:35:25 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] coroutine: resize pool periodically instead of limiting
+ size
+Date: Mon, 13 Sep 2021 16:35:24 +0100
+Message-Id: <20210913153524.1190696-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210913123932.3306639-19-armbru@redhat.com>
-User-Agent: NeoMutt/20210205-772-2b4c52
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -77,44 +76,370 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Honghao Wang <wanghonghao@bytedance.com>, Tingting Mao <timao@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Daniele Buono <dbuono@linux.vnet.ibm.com>, Serge Guelton <sguelton@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 13, 2021 at 02:39:28PM +0200, Markus Armbruster wrote:
-> test_clone_complex3() uses simple union __org.qemu_x-Union1 to cover
-> arrays.  Use UserDefOneList instead.  Unions are still covered by
-> test_clone_complex1().
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  tests/unit/test-clone-visitor.c | 70 ++++++++++++++++++---------------
->  1 file changed, 38 insertions(+), 32 deletions(-)
-> 
-> diff --git a/tests/unit/test-clone-visitor.c b/tests/unit/test-clone-visitor.c
-> index 8357a90e60..4048018607 100644
-> --- a/tests/unit/test-clone-visitor.c
-> +++ b/tests/unit/test-clone-visitor.c
-> @@ -153,42 +153,48 @@ static void test_clone_complex2(void)
->  
->  static void test_clone_complex3(void)
->  {
-> -    __org_qemu_x_Struct2 *src, *dst;
-> -    __org_qemu_x_Union1List *tmp;
-> +    UserDefOneList *src, *dst, *tail;
-> +    UserDefOne *elt;
+It was reported that enabling SafeStack reduces IOPS significantly
+(>25%) with the following fio benchmark on virtio-blk using a NVMe host
+block device:
 
-This unit test loses coverge of RFQDN downstream extensions, but I
-think we still adequately cover that elsewhere in the testsuite, and
-that it was not the primary focus of this test.  Meanwhile, what this
-test is really focused on (an accurate clone of a union) is still
-preserved.
+  # fio --rw=randrw --bs=4k --iodepth=64 --runtime=1m --direct=1 \
+	--filename=/dev/vdb --name=job1 --ioengine=libaio --thread \
+	--group_reporting --numjobs=16 --time_based \
+        --output=/tmp/fio_result
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Serge Guelton and I found that SafeStack is not really at fault, it just
+increases the cost of coroutine creation. This fio workload exhausts the
+coroutine pool and coroutine creation becomes a bottleneck. Previous
+work by Honghao Wang also pointed to excessive coroutine creation.
 
+Creating new coroutines is expensive due to allocating new stacks with
+mmap(2) and mprotect(2). Currently there are thread-local and global
+pools that recycle old Coroutine objects and their stacks but the
+hardcoded size limit of 64 for thread-local pools and 128 for the global
+pool is insufficient for the fio benchmark shown above.
+
+This patch changes the coroutine pool algorithm to a simple thread-local
+pool without a maximum size limit. Threads periodically shrink the pool
+down to a size sufficient for the maximum observed number of coroutines.
+
+The global pool is removed by this patch. It can help to hide the fact
+that local pools are easily exhausted, but it's doesn't fix the root
+cause. I don't think there is a need for a global pool because QEMU's
+threads are long-lived, so let's keep things simple.
+
+Performance of the above fio benchmark is as follows:
+
+      Before   After
+IOPS     60k     97k
+
+Memory usage varies over time as needed by the workload:
+
+            VSZ (KB)             RSS (KB)
+Before fio  4705248              843128
+During fio  5747668 (+ ~100 MB)  849280
+After fio   4694996 (- ~100 MB)  845184
+
+This confirms that coroutines are indeed being freed when no longer
+needed.
+
+Thanks to Serge Guelton for working on identifying the bottleneck with
+me!
+
+Reported-by: Tingting Mao <timao@redhat.com>
+Cc: Serge Guelton <sguelton@redhat.com>
+Cc: Honghao Wang <wanghonghao@bytedance.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+v2:
+ * Retained minimum pool size of 64 to keep latency low for threads that
+   perform I/O infrequently and to prevent possible regressions [Daniele]
+---
+ include/qemu/coroutine-pool-timer.h | 36 ++++++++++++++++
+ include/qemu/coroutine.h            |  7 +++
+ iothread.c                          |  6 +++
+ util/coroutine-pool-timer.c         | 35 +++++++++++++++
+ util/main-loop.c                    |  5 +++
+ util/qemu-coroutine.c               | 66 ++++++++++++++++-------------
+ util/meson.build                    |  1 +
+ 7 files changed, 126 insertions(+), 30 deletions(-)
+ create mode 100644 include/qemu/coroutine-pool-timer.h
+ create mode 100644 util/coroutine-pool-timer.c
+
+diff --git a/include/qemu/coroutine-pool-timer.h b/include/qemu/coroutine-pool-timer.h
+new file mode 100644
+index 0000000000..c0b520ce99
+--- /dev/null
++++ b/include/qemu/coroutine-pool-timer.h
+@@ -0,0 +1,36 @@
++/*
++ * QEMU coroutine pool timer
++ *
++ * Copyright (c) 2021 Red Hat, Inc.
++ *
++ * SPDX-License-Identifier: LGPL-2.1-or-later
++ *
++ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
++ * See the COPYING.LIB file in the top-level directory.
++ *
++ */
++#ifndef COROUTINE_POOL_TIMER_H
++#define COROUTINE_POOL_TIMER_H
++
++#include "qemu/osdep.h"
++#include "block/aio.h"
++
++/**
++ * A timer that periodically resizes this thread's coroutine pool, freeing
++ * memory if there are too many unused coroutines.
++ *
++ * Threads that make heavy use of coroutines should use this. Failure to resize
++ * the coroutine pool can lead to large amounts of memory sitting idle and
++ * never being used after the first time.
++ */
++typedef struct {
++    QEMUTimer *timer;
++} CoroutinePoolTimer;
++
++/* Call this before the thread runs the AioContext */
++void coroutine_pool_timer_init(CoroutinePoolTimer *pt, AioContext *ctx);
++
++/* Call this before the AioContext from the init function is destroyed */
++void coroutine_pool_timer_cleanup(CoroutinePoolTimer *pt);
++
++#endif /* COROUTINE_POOL_TIMER_H */
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index 4829ff373d..fdb2955ff9 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -122,6 +122,13 @@ bool qemu_in_coroutine(void);
+  */
+ bool qemu_coroutine_entered(Coroutine *co);
+ 
++/**
++ * Optionally call this function periodically to shrink the thread-local pool
++ * down. Spiky workloads can create many coroutines and then never reach that
++ * level again. Shrinking the pool reclaims memory in this case.
++ */
++void qemu_coroutine_pool_periodic_resize(void);
++
+ /**
+  * Provides a mutex that can be used to synchronise coroutines
+  */
+diff --git a/iothread.c b/iothread.c
+index ddbbde61f7..39a24f1a55 100644
+--- a/iothread.c
++++ b/iothread.c
+@@ -23,6 +23,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/rcu.h"
+ #include "qemu/main-loop.h"
++#include "qemu/coroutine-pool-timer.h"
+ 
+ typedef ObjectClass IOThreadClass;
+ 
+@@ -42,6 +43,7 @@ DECLARE_CLASS_CHECKERS(IOThreadClass, IOTHREAD,
+ static void *iothread_run(void *opaque)
+ {
+     IOThread *iothread = opaque;
++    CoroutinePoolTimer co_pool_timer;
+ 
+     rcu_register_thread();
+     /*
+@@ -53,6 +55,8 @@ static void *iothread_run(void *opaque)
+     iothread->thread_id = qemu_get_thread_id();
+     qemu_sem_post(&iothread->init_done_sem);
+ 
++    coroutine_pool_timer_init(&co_pool_timer, iothread->ctx);
++
+     while (iothread->running) {
+         /*
+          * Note: from functional-wise the g_main_loop_run() below can
+@@ -74,6 +78,8 @@ static void *iothread_run(void *opaque)
+         }
+     }
+ 
++    coroutine_pool_timer_cleanup(&co_pool_timer);
++
+     g_main_context_pop_thread_default(iothread->worker_context);
+     rcu_unregister_thread();
+     return NULL;
+diff --git a/util/coroutine-pool-timer.c b/util/coroutine-pool-timer.c
+new file mode 100644
+index 0000000000..36d3216718
+--- /dev/null
++++ b/util/coroutine-pool-timer.c
+@@ -0,0 +1,35 @@
++/*
++ * QEMU coroutine pool timer
++ *
++ * Copyright (c) 2021 Red Hat, Inc.
++ *
++ * SPDX-License-Identifier: LGPL-2.1-or-later
++ *
++ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
++ * See the COPYING.LIB file in the top-level directory.
++ *
++ */
++#include "qemu/coroutine-pool-timer.h"
++
++static void coroutine_pool_timer_cb(void *opaque)
++{
++    CoroutinePoolTimer *pt = opaque;
++    int64_t expiry_time_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) +
++                             15 * NANOSECONDS_PER_SECOND;
++
++    qemu_coroutine_pool_periodic_resize();
++    timer_mod(pt->timer, expiry_time_ns);
++}
++
++void coroutine_pool_timer_init(CoroutinePoolTimer *pt, AioContext *ctx)
++{
++    pt->timer = aio_timer_new(ctx, QEMU_CLOCK_REALTIME, SCALE_NS,
++                              coroutine_pool_timer_cb, pt);
++    coroutine_pool_timer_cb(pt);
++}
++
++void coroutine_pool_timer_cleanup(CoroutinePoolTimer *pt)
++{
++    timer_free(pt->timer);
++    pt->timer = NULL;
++}
+diff --git a/util/main-loop.c b/util/main-loop.c
+index 06b18b195c..23342e2215 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -33,6 +33,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/queue.h"
+ #include "qemu/compiler.h"
++#include "qemu/coroutine-pool-timer.h"
+ 
+ #ifndef _WIN32
+ #include <sys/wait.h>
+@@ -131,6 +132,7 @@ static int qemu_signal_init(Error **errp)
+ 
+ static AioContext *qemu_aio_context;
+ static QEMUBH *qemu_notify_bh;
++static CoroutinePoolTimer main_loop_co_pool_timer;
+ 
+ static void notify_event_cb(void *opaque)
+ {
+@@ -181,6 +183,9 @@ int qemu_init_main_loop(Error **errp)
+     g_source_set_name(src, "io-handler");
+     g_source_attach(src, NULL);
+     g_source_unref(src);
++
++    coroutine_pool_timer_init(&main_loop_co_pool_timer, qemu_aio_context);
++
+     return 0;
+ }
+ 
+diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c
+index 38fb6d3084..94d6e1ddfe 100644
+--- a/util/qemu-coroutine.c
++++ b/util/qemu-coroutine.c
+@@ -21,14 +21,19 @@
+ #include "block/aio.h"
+ 
+ enum {
+-    POOL_BATCH_SIZE = 64,
++    /*
++     * qemu_coroutine_pool_periodic_resize() keeps at least this many
++     * coroutines around.
++     */
++    ALLOC_POOL_MIN = 64,
+ };
+ 
++
+ /** Free list to speed up creation */
+-static QSLIST_HEAD(, Coroutine) release_pool = QSLIST_HEAD_INITIALIZER(pool);
+-static unsigned int release_pool_size;
+ static __thread QSLIST_HEAD(, Coroutine) alloc_pool = QSLIST_HEAD_INITIALIZER(pool);
+ static __thread unsigned int alloc_pool_size;
++static __thread unsigned int num_coroutines;
++static __thread unsigned int max_coroutines_this_slice;
+ static __thread Notifier coroutine_pool_cleanup_notifier;
+ 
+ static void coroutine_pool_cleanup(Notifier *n, void *value)
+@@ -48,26 +53,19 @@ Coroutine *qemu_coroutine_create(CoroutineEntry *entry, void *opaque)
+ 
+     if (CONFIG_COROUTINE_POOL) {
+         co = QSLIST_FIRST(&alloc_pool);
+-        if (!co) {
+-            if (release_pool_size > POOL_BATCH_SIZE) {
+-                /* Slow path; a good place to register the destructor, too.  */
+-                if (!coroutine_pool_cleanup_notifier.notify) {
+-                    coroutine_pool_cleanup_notifier.notify = coroutine_pool_cleanup;
+-                    qemu_thread_atexit_add(&coroutine_pool_cleanup_notifier);
+-                }
+-
+-                /* This is not exact; there could be a little skew between
+-                 * release_pool_size and the actual size of release_pool.  But
+-                 * it is just a heuristic, it does not need to be perfect.
+-                 */
+-                alloc_pool_size = qatomic_xchg(&release_pool_size, 0);
+-                QSLIST_MOVE_ATOMIC(&alloc_pool, &release_pool);
+-                co = QSLIST_FIRST(&alloc_pool);
+-            }
+-        }
+         if (co) {
+             QSLIST_REMOVE_HEAD(&alloc_pool, pool_next);
+             alloc_pool_size--;
++        } else {
++            if (!coroutine_pool_cleanup_notifier.notify) {
++                coroutine_pool_cleanup_notifier.notify = coroutine_pool_cleanup;
++                qemu_thread_atexit_add(&coroutine_pool_cleanup_notifier);
++            }
++        }
++
++        num_coroutines++;
++        if (num_coroutines > max_coroutines_this_slice) {
++            max_coroutines_this_slice = num_coroutines;
+         }
+     }
+ 
+@@ -86,21 +84,29 @@ static void coroutine_delete(Coroutine *co)
+     co->caller = NULL;
+ 
+     if (CONFIG_COROUTINE_POOL) {
+-        if (release_pool_size < POOL_BATCH_SIZE * 2) {
+-            QSLIST_INSERT_HEAD_ATOMIC(&release_pool, co, pool_next);
+-            qatomic_inc(&release_pool_size);
+-            return;
+-        }
+-        if (alloc_pool_size < POOL_BATCH_SIZE) {
+-            QSLIST_INSERT_HEAD(&alloc_pool, co, pool_next);
+-            alloc_pool_size++;
+-            return;
+-        }
++        num_coroutines--;
++        QSLIST_INSERT_HEAD(&alloc_pool, co, pool_next);
++        alloc_pool_size++;
++        return;
+     }
+ 
+     qemu_coroutine_delete(co);
+ }
+ 
++void qemu_coroutine_pool_periodic_resize(void)
++{
++    unsigned pool_size_target =
++        MAX(ALLOC_POOL_MIN, max_coroutines_this_slice) - num_coroutines;
++    max_coroutines_this_slice = num_coroutines;
++
++    while (alloc_pool_size > pool_size_target) {
++        Coroutine *co = QSLIST_FIRST(&alloc_pool);
++        QSLIST_REMOVE_HEAD(&alloc_pool, pool_next);
++        qemu_coroutine_delete(co);
++        alloc_pool_size--;
++    }
++}
++
+ void qemu_aio_coroutine_enter(AioContext *ctx, Coroutine *co)
+ {
+     QSIMPLEQ_HEAD(, Coroutine) pending = QSIMPLEQ_HEAD_INITIALIZER(pending);
+diff --git a/util/meson.build b/util/meson.build
+index 779f413c86..06241097d2 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -63,6 +63,7 @@ if have_block
+   util_ss.add(files('buffer.c'))
+   util_ss.add(files('bufferiszero.c'))
+   util_ss.add(files('coroutine-@0@.c'.format(config_host['CONFIG_COROUTINE_BACKEND'])))
++  util_ss.add(files('coroutine-pool-timer.c'))
+   util_ss.add(files('hbitmap.c'))
+   util_ss.add(files('hexdump.c'))
+   util_ss.add(files('iova-tree.c'))
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.31.1
 
 
