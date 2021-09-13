@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B7AB408B1B
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:35:19 +0200 (CEST)
-Received: from localhost ([::1]:36832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68355408AAD
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:05:06 +0200 (CEST)
+Received: from localhost ([::1]:38486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPlB7-0000eo-PJ
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:35:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43052)
+	id 1mPkht-0003Ms-En
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:05:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mPkbF-0002x9-Bm
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:58:13 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55846)
+ id 1mPkbH-0002z3-21
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:58:16 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:55120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mPkbE-00066I-05
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:58:13 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id g128so2011174wma.5
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 04:58:11 -0700 (PDT)
+ id 1mPkbF-00067v-JG
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:58:14 -0400
+Received: by mail-wm1-x329.google.com with SMTP id s24so6441080wmh.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 04:58:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ybwvFhhB8BrLO2rZlPd30rviyTAUGPZU5FsjXoQhJS4=;
- b=cRXAaKID0KEkmZrPkRFbg7PDKnwjTyPqJatyyV6bscuEshYDBdNROLtWnFr3XHDqdr
- ZCysVA3vpLX6ln57y24aMeN3DGdoVDDkuRfAYyKlwv9upmOHqaHVGPENuMdaYaOkgO9O
- EapdtinU8a9GY/a16I9CHGHSlpocnixMll1h64WqxASPzeAWSp9/oeHyxEyS6bSWVkt2
- 0D8zMfM3jJIgsFnDQLhW7urY8Fnn2d+gUbMEr2zmFDoxj/zcVAR2O5XzDx+9uenuWe6b
- kp72fPiB0kwQsucNBj49CpSkEeBRBvNaUBDH33REDGdJUyr52HPehkeAqNZ1lURga/04
- cGfg==
+ bh=Dx21SJFtGQHR502uhGJAgjLcaXSroCju6rio9v9gGTE=;
+ b=fYcEjWYR7zD8gM6ve4p53GMeHUKICkOsH7FlqoZ0rwgXp/4n20sEGMf0BIEtFlZVwC
+ z7Ri2c20YP+BY7VMaelrSOd12UewaeNvd6FNMxs1pWsANlHVC0/GDfMjaazt+X7gjmiS
+ WUyBU0fJCF+5HOkl0NE+tJAruFx0eD4KWGoUs1ZtHvBJVywWxQ22ySPzU+c+9eKVn55D
+ 19StPHmSWxvapuE5b2IpyImX8J8l3llFsauJ+nzU6XhCqA1QzTJKW8YSp66Fd0wojUOL
+ jLLclbkDprWDBMHPDhGp9WgR0syjtreMvO5b57BU/SUGMtqEnsQ2YSnnjIUwvpJyEhQI
+ XRjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ybwvFhhB8BrLO2rZlPd30rviyTAUGPZU5FsjXoQhJS4=;
- b=bmc2vKle92blNaHnFVJ4ySEOpJ/9WP/v74F2eFe5cS5gsjz3eTHBgY7SUPbW8spgXI
- Pj98BGKHL3RQrrAWjxqviZUVO6rU5bRAvI1o9aBntzwcB6Rryvte/3rX3PH9asN+/fF3
- uREvHPjbbXifOQNBR0nEL4Afcijhi7N56nBTFhLdKzpNFBzz9oetJLLD8ZYme+W1Del1
- 6R7HcUeftyVu5az+GMN/+2kmgndUuEzn6Io5FOCxzK2UU5JV243QJx/NbW9KkbF4iwTa
- cviUDTMCa9999j7NuMZYOE4SIs4vyTJYxmVdWdZKYIlb8WLW8hBquxS3NaFg6bNSZ9jJ
- hHJQ==
-X-Gm-Message-State: AOAM532tR4rq2wU/ZccTRF7icfc6qLbxews3NzaEbhO/ivUtQ5pw+TY5
- e2LKRd7h7qzaTcFF3cL1X/A+iL6W8+Q=
-X-Google-Smtp-Source: ABdhPJzRdKBfxH3FHm2CqlQUJCGK6637/7EdjYuDkiU3mH42tvsZvNsNvcoJhwz4zeok80CXoSHWmQ==
-X-Received: by 2002:a05:600c:3790:: with SMTP id
- o16mr10730703wmr.157.1631534290711; 
- Mon, 13 Sep 2021 04:58:10 -0700 (PDT)
+ bh=Dx21SJFtGQHR502uhGJAgjLcaXSroCju6rio9v9gGTE=;
+ b=11EiN7akiq0hH/ZKf+5mIjEcx6036e+Oe+r+QXm8UINBHmVHYyDFBZi/v8mayQzoyz
+ rsjdfIZ6Kvf131oA/WlwGNNK0iiMGHNasn4YDUfPZXj+WAAC1J0Q6nkbx4N+jpJDw6HI
+ /Bmy6+yDiFgLZFYElhKchwpebmV1FtbMicyiK2yL4jLk/y5Cy8EOEEZGNw2JlmmWgqOc
+ LkTxYFE2Olg9UpDfDXuwUCZCPZA7gSAYp+VRNWpSIIFEcSGLQBiaYOCh5lyYIyDhTCAE
+ pN9OW+qas3QONT3sSN7jd2fIvdeH4/wPG1ywpyzEAN5CVg9JZ1xRoORN6Vmyt7dGydFr
+ CE7Q==
+X-Gm-Message-State: AOAM532rIeuccke+BaTMaaXIRQuK6r53u5CQDhN+Cwahh+BmiUuxoBbK
+ O5pC4IOTKIMGMHkpaGOKyis/djOz8+s=
+X-Google-Smtp-Source: ABdhPJzewCyV9DiHXkOVUZzlSn8RVZ6xTjANLQDs/XV98IUosAv4SuxluUHCa3uv/RkQamXyMCtD1Q==
+X-Received: by 2002:a7b:c048:: with SMTP id u8mr10735309wmc.113.1631534292383; 
+ Mon, 13 Sep 2021 04:58:12 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id n186sm6011037wme.31.2021.09.13.04.58.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 04:58:10 -0700 (PDT)
+ Mon, 13 Sep 2021 04:58:11 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/21] Only check CONFIG_NVMM when NEED_CPU_H is defined
-Date: Mon, 13 Sep 2021 13:57:40 +0200
-Message-Id: <20210913115742.533197-20-pbonzini@redhat.com>
+Subject: [PULL 20/21] Fix nvmm_ram_block_added() function arguments
+Date: Mon, 13 Sep 2021 13:57:41 +0200
+Message-Id: <20210913115742.533197-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210913115742.533197-1-pbonzini@redhat.com>
 References: <20210913115742.533197-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,37 +89,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Reinoud Zandijk <reinoud@NetBSD.org>
 
-Userland targers will otherwise use a poisoned CONFIG_NVMM
+A parameter max_size was added to the RAMBlockNotifier
+ram_block_added function. Use the max_size for pre allocation
+of hva space.
 
 Signed-off-by: Reinoud Zandijk <Reinoud@NetBSD.org>
-Message-Id: <20210718134650.1191-2-reinoud@NetBSD.org>
+Message-Id: <20210718134650.1191-3-reinoud@NetBSD.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/sysemu/nvmm.h | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ target/i386/nvmm/nvmm-all.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/sysemu/nvmm.h b/include/sysemu/nvmm.h
-index 6d216599b0..833670fccb 100644
---- a/include/sysemu/nvmm.h
-+++ b/include/sysemu/nvmm.h
-@@ -10,8 +10,7 @@
- #ifndef QEMU_NVMM_H
- #define QEMU_NVMM_H
+diff --git a/target/i386/nvmm/nvmm-all.c b/target/i386/nvmm/nvmm-all.c
+index 28dee4c5ee..a488b00e90 100644
+--- a/target/i386/nvmm/nvmm-all.c
++++ b/target/i386/nvmm/nvmm-all.c
+@@ -1132,13 +1132,14 @@ static MemoryListener nvmm_memory_listener = {
+ };
  
--#include "config-host.h"
--#include "qemu-common.h"
-+#ifdef NEED_CPU_H
+ static void
+-nvmm_ram_block_added(RAMBlockNotifier *n, void *host, size_t size)
++nvmm_ram_block_added(RAMBlockNotifier *n, void *host, size_t size,
++                     size_t max_size)
+ {
+     struct nvmm_machine *mach = get_nvmm_mach();
+     uintptr_t hva = (uintptr_t)host;
+     int ret;
  
- #ifdef CONFIG_NVMM
+-    ret = nvmm_hva_map(mach, hva, size);
++    ret = nvmm_hva_map(mach, hva, max_size);
  
-@@ -23,4 +22,6 @@ int nvmm_enabled(void);
- 
- #endif /* CONFIG_NVMM */
- 
--#endif /* CONFIG_NVMM */
-+#endif /* NEED_CPU_H */
-+
-+#endif /* QEMU_NVMM_H */
+     if (ret == -1) {
+         error_report("NVMM: Failed to map HVA, HostVA:%p "
 -- 
 2.31.1
 
