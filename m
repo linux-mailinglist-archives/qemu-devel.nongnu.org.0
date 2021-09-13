@@ -2,60 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1D64092DA
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 16:15:34 +0200 (CEST)
-Received: from localhost ([::1]:38506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A69D4091FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 16:05:57 +0200 (CEST)
+Received: from localhost ([::1]:43230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPmk9-0005EF-9c
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 10:15:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55320)
+	id 1mPmaq-00068A-Dt
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 10:05:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <l.majewski@majess.pl>)
- id 1mPhLW-0006U4-Nw; Mon, 13 Sep 2021 04:29:46 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:34193)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mPljB-0003Fh-Gu
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:10:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <l.majewski@majess.pl>)
- id 1mPhLU-000582-E0; Mon, 13 Sep 2021 04:29:46 -0400
-Received: from mxplan6.mail.ovh.net (unknown [10.109.138.194])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 80267BDA7DC7;
- Mon, 13 Sep 2021 10:29:31 +0200 (CEST)
-Received: from majess.pl (37.59.142.102) by DAG9EX1.mxp6.local (172.16.2.81)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 13 Sep
- 2021 10:29:30 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R00483ddef17-2a78-4f99-9796-5498d3444bd5,
- 70F5B69DB83BC5B6752B92651E346C8869157B2B) smtp.auth=l.majewski@majess.pl
-X-OVh-ClientIp: 85.222.111.42
-Date: Mon, 13 Sep 2021 10:29:17 +0200
-From: Lukasz Majewski <l.majewski@majess.pl>
-To: <qemu-arm@nongnu.org>
-Subject: Problem with init debugging under QEMU ARM
-Message-ID: <20210913102917.0bf933d8@ktm>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mPljA-000559-0p
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:10:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631538627;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FONpaO5uVOxoiL9s/9CYVQbyvUBEj3uvP2wgs9zBszc=;
+ b=XNPFORxCSseP4MxGQLngpEWMaEw1tTld3zgFPry7Ldo6W+SCKO1rfKa9zbasxA3k3Kaolg
+ RPYVsAAeS7ZXy+Jd8ROT62K09aEVNq3o8sDe3j+TvHzNHzvobTVfNGcpqkVcqPQ9zg4s0V
+ FNx5gYcmnfcObpMeIKz6RjVNIMe57ao=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-37-bMnbOibxNZqmibls9mM51Q-1; Mon, 13 Sep 2021 09:10:24 -0400
+X-MC-Unique: bMnbOibxNZqmibls9mM51Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4D891966320;
+ Mon, 13 Sep 2021 13:10:22 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6768960C13;
+ Mon, 13 Sep 2021 13:10:17 +0000 (UTC)
+Date: Mon, 13 Sep 2021 14:10:16 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [RFC PATCH 0/4] block layer: split block APIs in graph and I/O
+Message-ID: <YT9NuK84J2hvMXs2@stefanha-x1.localdomain>
+References: <20210908131021.774533-1-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- boundary="Sig_/nC_O1q382hnDRRJACgtJLM1";
- protocol="application/pgp-signature"
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG4EX2.mxp6.local (172.16.2.32) To DAG9EX1.mxp6.local
- (172.16.2.81)
-X-Ovh-Tracer-GUID: d8c829f6-a30c-4735-981d-a77b5dd1bb7f
-X-Ovh-Tracer-Id: 858780155621262045
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudegjedgtdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeffhffvuffkofggtghisehgtderreertdejnecuhfhrohhmpefnuhhkrghsiicuofgrjhgvfihskhhiuceolhdrmhgrjhgvfihskhhisehmrghjvghsshdrphhlqeenucggtffrrghtthgvrhhnpeejvdevkeehleegheeijeekieeuvdeikedvgffggeejvdefhfffheeigeekteffleenucffohhmrghinhepshhouhhrtggvfigrrhgvrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghniedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehlrdhmrghjvgifshhkihesmhgrjhgvshhsrdhplhdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=l.majewski@majess.pl;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210908131021.774533-1-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="it3eX4gh/UkPpZr7"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 13 Sep 2021 10:08:53 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,141 +78,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-discuss@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/nC_O1q382hnDRRJACgtJLM1
-Content-Type: text/plain; charset=UTF-8
+--it3eX4gh/UkPpZr7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Dear QEMU community,
+On Wed, Sep 08, 2021 at 09:10:17AM -0400, Emanuele Giuseppe Esposito wrote:
+> Currently, block layer APIs like block-backend.h contain a mix of
+> functions that are either running in the main loop and under the
+> BQL, or are thread-safe functions and run in iothreads performing I/O.
+> The functions running under BQL also take care of modifying the
+> block graph, by using drain and/or aio_context_acquire/release.
+> This makes it very confusing to understand where each function
+> runs, and what assumptions it provided with regards to thread
+> safety.
+>=20
+> We call the functions running under BQL "graph API", and=20
+> distinguish them from the thread-safe "I/O API".
 
-I'm now trying to fix bug in glibc which became apparent on qemu 6.0.0.
+Maybe "BQL" is clearer than "graph" because not all functions classified
+as "graph" need to traverse/modify the graph.
 
-The error is caused by glibc commit:
-bca0f5cbc9257c13322b99e55235c4f21ba0bd82
-https://sourceware.org/git/?p=3Dglibc.git;a=3Dblobdiff;f=3Dsysdeps/arm/dl-m=
-achine.h;h=3Deb13cb8b57496a0ec175c54a495f7e78db978fb7;hp=3Dff5e09e207f7986b=
-1506b8895ae6c2aff032a380;hb=3Dbca0f5cbc9257c13322b99e55235c4f21ba0bd82;hpb=
-=3D34b4624b04fc8f038b2c329ca7560197320615b4
+Stefan
 
-(reverting it causes the board to boot again)
-
-Other components:
-binutils_2.37
-gcc_11.2
-Yocto poky: SHA1: 1e2e9a84d6dd81d7f6dd69c0d119d0149d10ade1
-
-Qemu start line (the problem is visible on 5.2.0 and 6.0.0):
-qemu-system-arm -device
-virtio-net-device,netdev=3Dnet0,mac=3D52:54:00:12:34:02 -netdev
-tap,id=3Dnet0,ifnam e=3Dtap0,script=3Dno,downscript=3Dno -object
-rng-random,filename=3D/dev/urandom,id=3Drng0 -device
-virtio-rng-pci,rng=3Drng0 -drive
-id=3Ddisk0,file=3Dy2038-image-devel-qemuarm.ext4,if=3Dnone,format
-=3Draw -device virtio-blk-device,drive=3Ddisk0 -device qemu-xhci -device
-usb-tablet -device usb-kbd  -machine virt,highmem=3Doff -cpu cortex-a15
--smp 4 -m 256 -serial mon:stdio -serial null -nographic -device
-VGA,edid=3Don -kernel
-zImage--5.10.62+git0+bce2813b16_machine-r0-qemuarm-20210910095636.bin
--append 'root=3D/dev/vda rw  mem=3D256M
-ip=3D192.168.7.2::192.168.7.1:255.255.255.0 console=3DttyAMA0 console=3Dhvc0
-vmalloc=3D256
-
-
-It has been tested with Cortex-A9 (Vexpress A9 2 core board) and
-Cortex-A15. I've also tested the v5.1, v5.10 and v5.14 kernels. The
-error is persistent.
-
-I do add -s and -S when starting qemu-system-arm. I can use gdb to
-debug the kernel without issues. Unfortunately, I'm not able to debug
-/sbin/init after switching contex to user space.
-
-Moreover, gdbserver cannot be used as the error (and kernel OOPs) is
-caused when early code from ld-linux.so.3 (the _dl_start function) is
-executed.
-
-
-Any hints on how to debug it?
-
-Inspecting assembler is one (awkward) option (some results presented
-below). I can also inspect the VMA of the code just before starting the
-/sbin/init process.
-
-Unfortunately, when I try to break on user space code it is not very
-helpful (as -S -s are supposed to be used with kernel).
-
-
-Some info with the eligible code (_dl_start function):
-------------------------------------------------------
-
-I think that the problem may be with having the negative value
-calculated.
-
-The relevant snipet:
-
-    116c:       bf00            nop
-    116e:       bf00            nop
-    1170:       bf00            nop
-    1172:       f8df 3508       ldr.w   r3, [pc, #1288] ; 167c
-    <_dl_start+0x520>
-
-    1176:       f8df 1508       ldr.w   r1, [pc, #1288] ; 1680
-    <_dl_start+0x524>
-
-    117a:       447b            add     r3, pc
-    117c:       4479            add     r1, pc
-    117e:       f8c3 1598       str.w   r1, [r3, #1432] ; 0x598
-    1182:       bf00            nop
-    1184:       bf00            nop
-    1186:       bf00            nop
-    1188:       bf00            nop
-    118a:       bf00            nop
-    118c:       bf00            nop
-    118e:       f8df 24f4       ldr.w   r2, [pc, #1268] ; 1684
-    <_dl_start+0x528> 1192:       f8d3 5598       ldr.w   r5, [r3,
-    #1432] ; 0x598 1196:       447a            add     r2, pc
-    1198:       442a            add     r2, r5
-    119a:       1a52            subs    r2, r2, r1
-    119c:       f8c3 25a0       str.w   r2, [r3, #1440] ; 0x5a0
-    11a0:       6813            ldr     r3, [r2, #0]
-
-
-    167c:       0002be92        .word   0x0002be92
-    1680:       ffffee80        .word   0xffffee80
-
-The r1 gets the 0xffffee80 (negative offset) value. It is then added to
-pc and used to calculate r2.
-
-For working code (aforementioned patch reverted) - there are NO such
-large values (like aforementioned 0xffffee80). The arithmetic is done
-on=20
-
-   1690:       00000020        .word   0x00000020
-   1694:       0002be7e        .word   0x0002be7e
-
-which seems to work.
-
-Maybe I'm missing some flag when I do start qemu-system-arm?
-
-Thanks in advance for help and hints.
-
---=20
-Best regards,
-
-=C5=81ukasz Majewski
-
---Sig_/nC_O1q382hnDRRJACgtJLM1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--it3eX4gh/UkPpZr7
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQS3sH/m++pp8gSfJvB/3+EbZjCCMQUCYT8L3QAKCRB/3+EbZjCC
-MTLsAJ9hKlztid/Zj6aeInIZPmaDvga5ggCguELuMQDdGnTd3I2hywFC4cI46ro=
-=csxY
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE/TbgACgkQnKSrs4Gr
+c8hgYwf+KtpmBh0BvDh+uJAZpbBl4KZz+3oQbBA84PaNMwW6T+T0DYJLol/2pOXv
+5T0QcJf5Tz8F7MJGkx/hVhJlaGfYo5ypBeop7SbQ2kYSOljb6h+CQlYJGS1jthbX
+FvEscAJ3Lpkgj166zXfnHHMSEkV9X0Ob/bzQpr7az7XX8qB3ohJOLiN6DrVls/VO
+nIKhvF0q3fPsvEgPpyjX7+g2zOKlWoOX+R9VqGA1f0Es1zesTs9+MA94Yfb56k47
++H6YvNiwGEPed+eeM5qKFL2XG4Y4OBeE0kP//wP3TRsvSqI/ZTGpaTDEjez8WdBh
+Twt0gxrSraKk+YZ9CnO5+JiKJUj4Yw==
+=qIv4
 -----END PGP SIGNATURE-----
 
---Sig_/nC_O1q382hnDRRJACgtJLM1--
+--it3eX4gh/UkPpZr7--
+
 
