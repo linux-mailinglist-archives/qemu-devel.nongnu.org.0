@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A69D4091FE
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 16:05:57 +0200 (CEST)
-Received: from localhost ([::1]:43230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4E94091FC
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 16:05:47 +0200 (CEST)
+Received: from localhost ([::1]:42640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPmaq-00068A-Dt
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 10:05:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58934)
+	id 1mPmag-0005k4-9O
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 10:05:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mPljB-0003Fh-Gu
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:10:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40503)
+ id 1mPloL-0003LJ-52
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:15:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mPljA-000559-0p
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:10:29 -0400
+ id 1mPloI-0001Fn-Oj
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:15:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631538627;
+ s=mimecast20190719; t=1631538946;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=FONpaO5uVOxoiL9s/9CYVQbyvUBEj3uvP2wgs9zBszc=;
- b=XNPFORxCSseP4MxGQLngpEWMaEw1tTld3zgFPry7Ldo6W+SCKO1rfKa9zbasxA3k3Kaolg
- RPYVsAAeS7ZXy+Jd8ROT62K09aEVNq3o8sDe3j+TvHzNHzvobTVfNGcpqkVcqPQ9zg4s0V
- FNx5gYcmnfcObpMeIKz6RjVNIMe57ao=
+ bh=AExYyLcnXaCmttxtVgyqcHNT9iO5VpPHP68RIVQ05Hg=;
+ b=A1EHfijV0/D7of1+YYqVkZv1CDWRGK7VxWgePIcgZSGgV18yTvjl58OTaFCuvnmNknSx2O
+ oE2EOeueDxC9sXX+1+WEHC9iCBieAt+RLxnFfkVP3sDhsl9IhjjShai6zNpmTrSXCe91wg
+ FiMqn+PqcY1Q+srgVeedA1gKiufX31M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-37-bMnbOibxNZqmibls9mM51Q-1; Mon, 13 Sep 2021 09:10:24 -0400
-X-MC-Unique: bMnbOibxNZqmibls9mM51Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-115-07uS9uAHP92dk3kKhmAw2A-1; Mon, 13 Sep 2021 09:15:42 -0400
+X-MC-Unique: 07uS9uAHP92dk3kKhmAw2A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4D891966320;
- Mon, 13 Sep 2021 13:10:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72446911AD;
+ Mon, 13 Sep 2021 13:15:41 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6768960C13;
- Mon, 13 Sep 2021 13:10:17 +0000 (UTC)
-Date: Mon, 13 Sep 2021 14:10:16 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 11B5B10013C1;
+ Mon, 13 Sep 2021 13:15:40 +0000 (UTC)
+Date: Mon, 13 Sep 2021 14:15:40 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH 0/4] block layer: split block APIs in graph and I/O
-Message-ID: <YT9NuK84J2hvMXs2@stefanha-x1.localdomain>
+Subject: Re: [RFC PATCH 1/4] main-loop.h: introduce qemu_in_main_thread()
+Message-ID: <YT9O/F4FY9ye/sk8@stefanha-x1.localdomain>
 References: <20210908131021.774533-1-eesposit@redhat.com>
+ <20210908131021.774533-2-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210908131021.774533-1-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210908131021.774533-2-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="it3eX4gh/UkPpZr7"
+ protocol="application/pgp-signature"; boundary="f5wXm2TpQkXc00GE"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,44 +91,78 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---it3eX4gh/UkPpZr7
+--f5wXm2TpQkXc00GE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 08, 2021 at 09:10:17AM -0400, Emanuele Giuseppe Esposito wrote:
-> Currently, block layer APIs like block-backend.h contain a mix of
-> functions that are either running in the main loop and under the
-> BQL, or are thread-safe functions and run in iothreads performing I/O.
-> The functions running under BQL also take care of modifying the
-> block graph, by using drain and/or aio_context_acquire/release.
-> This makes it very confusing to understand where each function
-> runs, and what assumptions it provided with regards to thread
-> safety.
+On Wed, Sep 08, 2021 at 09:10:18AM -0400, Emanuele Giuseppe Esposito wrote:
+> When invoked from the main loop, this function is the same
+> as qemu_mutex_iothread_locked, and returns true if the BQL is held.
+> When invoked from iothreads or tests, it returns true only
+> if the current AioContext is the Main Loop.
 >=20
-> We call the functions running under BQL "graph API", and=20
-> distinguish them from the thread-safe "I/O API".
+> This essentially just extends qemu_mutex_iothread_locked to work
+> also in unit tests or other users like storage-daemon, that run
+> in the Main Loop but end up using the implementation in
+> stubs/iothread-lock.c.
+>=20
+> Using qemu_mutex_iothread_locked in unit tests defaults to false
+> because they use the implementation in stubs/iothread-lock,
+> making all assertions added in next patches fail despite the
+> AioContext is still the main loop.
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  include/qemu/main-loop.h | 13 +++++++++++++
+>  softmmu/cpus.c           |  5 +++++
+>  stubs/iothread-lock.c    |  5 +++++
+>  3 files changed, 23 insertions(+)
+>=20
+> diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+> index 8dbc6fcb89..c6547207f7 100644
+> --- a/include/qemu/main-loop.h
+> +++ b/include/qemu/main-loop.h
+> @@ -245,6 +245,19 @@ AioContext *iohandler_get_aio_context(void);
+>   */
+>  bool qemu_mutex_iothread_locked(void);
+> =20
+> +/**
+> + * qemu_in_main_thread: Return true if the function runs with BQL
+> + * or in the main loop AioContext.
+> + *
+> + * This function falls back to qemu_mutex_iothread_locked() if
+> + * called from the main loop, otherwise it checks if the current
+> + * AioContext is the main loop. This is useful to check that the BQL
+> + * is held, and not make it return false when invoked by unit
+> + * tests or other users like storage-daemon that end up using
+> + * stubs/iothread-lock.c implementation.
+> + */
+> +bool qemu_in_main_thread(void);
 
-Maybe "BQL" is clearer than "graph" because not all functions classified
-as "graph" need to traverse/modify the graph.
+This description doesn't match the behavior because the "or in the main
+loop AioContext" part only applies to non softmmu builds (e.g. tests).
 
-Stefan
+Please phrase it so it's clear that this function is the same as
+qemu_mutex_iothread_locked() when softmmu/cpus.c is linked into the
+program. Otherwise it checks that the current AioContext is the global
+AioContext.
 
---it3eX4gh/UkPpZr7
+--f5wXm2TpQkXc00GE
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE/TbgACgkQnKSrs4Gr
-c8hgYwf+KtpmBh0BvDh+uJAZpbBl4KZz+3oQbBA84PaNMwW6T+T0DYJLol/2pOXv
-5T0QcJf5Tz8F7MJGkx/hVhJlaGfYo5ypBeop7SbQ2kYSOljb6h+CQlYJGS1jthbX
-FvEscAJ3Lpkgj166zXfnHHMSEkV9X0Ob/bzQpr7az7XX8qB3ohJOLiN6DrVls/VO
-nIKhvF0q3fPsvEgPpyjX7+g2zOKlWoOX+R9VqGA1f0Es1zesTs9+MA94Yfb56k47
-+H6YvNiwGEPed+eeM5qKFL2XG4Y4OBeE0kP//wP3TRsvSqI/ZTGpaTDEjez8WdBh
-Twt0gxrSraKk+YZ9CnO5+JiKJUj4Yw==
-=qIv4
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE/TvsACgkQnKSrs4Gr
+c8jacQf/YIr/dv5oH7uT9Te+NJrJmWy/GmOTvRSMvLYjsYeHKu/Ne9VPTub8bkAs
+dLDoeE3RfXOVhOtKWUoJkUyWZtxxpATsqQtWWpTWkjDAbO6cLfuFXzvoeYWdX8A5
+ScAhOR3I3TPkSVZQB3Sp933RdgNKIRXhU/vpvxgHgOf1znP+ocd88YovVEOqswr+
+5TRadncyfSeCHi+sY5rGTpA+jdIdzDqcoteouSR5p60ZkMWQMBsy7eKB4yQMRGdW
+0Axdmxuq9KNb9myl7VnbsdVS3S3FMjecFNVVHVp3wNfCEMYUMluqouygagMsrcxg
+cuXupyzu7mY3qWz2swM3erlxriz9Ng==
+=N1k2
 -----END PGP SIGNATURE-----
 
---it3eX4gh/UkPpZr7--
+--f5wXm2TpQkXc00GE--
 
 
