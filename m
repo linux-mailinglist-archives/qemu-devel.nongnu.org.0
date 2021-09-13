@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7952140990B
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 18:27:27 +0200 (CEST)
-Received: from localhost ([::1]:60616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2ED14099EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 18:49:44 +0200 (CEST)
+Received: from localhost ([::1]:52854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPonm-0007lP-6y
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 12:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33380)
+	id 1mPp9L-0008I6-PU
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 12:49:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mPoaB-0003wR-La
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:13:23 -0400
-Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:51979)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mPoaC-0003yX-US
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:13:25 -0400
+Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:46537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mPoa6-0000kL-8R
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:13:23 -0400
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mPoa6-0000lV-IA
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:13:24 -0400
 Received: from mxplan5.mail.ovh.net (unknown [10.109.143.201])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id ACF2B20911;
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id D4CCD2092E;
  Mon, 13 Sep 2021 16:13:15 +0000 (UTC)
 Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 13 Sep
  2021 18:13:14 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001bfff7c54-cb18-4466-990b-245c83c26d65,
+ (GARM-96R00195fa7412-28ad-43fb-b229-c3ca1cc6eafa,
  7CA125ACC991A0BE3D2311CBE60F5A293341D68C) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 12/14] hw/arm/aspeed: Initialize AST2600 UART clock selection
- registers
-Date: Mon, 13 Sep 2021 18:13:02 +0200
-Message-ID: <20210913161304.3805652-13-clg@kaod.org>
+Subject: [PULL 13/14] hw/arm/aspeed: Allow machine to set UART default
+Date: Mon, 13 Sep 2021 18:13:03 +0200
+Message-ID: <20210913161304.3805652-14-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210913161304.3805652-1-clg@kaod.org>
 References: <20210913161304.3805652-1-clg@kaod.org>
@@ -43,11 +42,11 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.96]
 X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: b415d0cc-a6c9-4219-baf4-2d1782cdc57d
-X-Ovh-Tracer-Id: 8690258433915587433
+X-Ovh-Tracer-GUID: dc977883-d510-4e59-bd7d-c62fe05c12f1
+X-Ovh-Tracer-Id: 8690539907994848105
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudegjedgleehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepiefgvddvffffveelfeeghfehgeetuddtgfeuveefffelgeelvdeuhfetteeukeejnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudegjedgleehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
 Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
  helo=10.mo548.mail-out.ovh.net
 X-Spam_score_int: -18
@@ -76,90 +75,130 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Delevoryas <pdel@fb.com>
 
-UART5 is typically used as the default debug UART on the AST2600, but
-UART1 is also designed to be a debug UART. All the AST2600 UART's have
-semi-configurable clock rates through registers in the System Control
-Unit (SCU), but only UART5 works out of the box with zero-initialized
-values. The rest of the UART's expect a few of the registers to be
-initialized to non-zero values, or else the clock rate calculation will
-yield zero or undefined (due to a divide-by-zero).
+When you run QEMU with an Aspeed machine and a single serial device
+using stdio like this:
 
-For reference, the U-Boot clock rate driver here shows the calculation:
+    qemu -machine ast2600-evb -drive ... -serial stdio
 
-    https://github.com/facebook/openbmc-uboot/blob/15f7e0dc01d8/drivers/clk/aspeed/clk_ast2600.c#L357
+The guest OS can read and write to the UART5 registers at 0x1E784000 and
+it will receive from stdin and write to stdout. The Aspeed SoC's have a
+lot more UART's though (AST2500 has 5, AST2600 has 13) and depending on
+the board design, may be using any of them as the serial console. (See
+"stdout-path" in a DTS to check which one is chosen).
 
-To summarize, UART5 allows selection from 4 rates: 24 MHz, 192 MHz, 24 /
-13 MHz, and 192 / 13 MHz. The other UART's allow selecting either the
-"low" rate (UARTCLK) or the "high" rate (HUARTCLK). UARTCLK and HUARTCLK
-are configurable themselves:
+Most boards, including all of those currently defined in
+hw/arm/aspeed.c, just use UART5, but some use UART1. This change adds
+some flexibility for different boards without requiring users to change
+their command-line invocation of QEMU.
 
-    UARTCLK = UXCLK * R / (N * 2)
-    HUARTCLK = HUXCLK * HR / (HN * 2)
+I tested this doesn't break existing code by booting an AST2500 OpenBMC
+image and an AST2600 OpenBMC image, each using UART5 as the console.
 
-UXCLK and HUXCLK are also configurable, and depend on the APLL and/or
-HPLL clock rates, which also derive from complicated calculations. Long
-story short, there's lots of multiplication and division from
-configurable registers, and most of these registers are zero-initialized
-in QEMU, which at best is unexpected and at worst causes this clock rate
-driver to hang from divide-by-zero's. This can also be difficult to
-diagnose, because it may cause U-Boot to hang before serial console
-initialization completes, requiring intervention from gdb.
-
-This change just initializes all of these registers with default values
-from the datasheet.
-
-To test this, I used Facebook's AST2600 OpenBMC image for "fuji", with
-the following diff applied (because fuji uses UART1 for console output,
-not UART5).
-
-  @@ -323,8 +323,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-       }
-
-      /* UART - attach an 8250 to the IO space as our UART5 */
-  -    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
-  -                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
-  +    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART1], 2,
-  +                   aspeed_soc_get_irq(s, ASPEED_DEV_UART1),
-                    38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
-
-       /* I2C */
-
-Without these clock rate registers being initialized, U-Boot hangs in
-the clock rate driver from a divide-by-zero, because the UART1 clock
-rate register reads return zero, and there's no console output. After
-initializing them with default values, fuji boots successfully.
+Then I tested switching the default to UART1 and booting an AST2600
+OpenBMC image that uses UART1, and that worked too.
 
 Signed-off-by: Peter Delevoryas <pdel@fb.com>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-[ clg: Removed _PARAM suffix ]
-Message-Id: <20210906134023.3711031-2-pdel@fb.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20210901153615.2746885-2-pdel@fb.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/misc/aspeed_scu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/hw/arm/aspeed.h     | 1 +
+ include/hw/arm/aspeed_soc.h | 1 +
+ hw/arm/aspeed.c             | 3 +++
+ hw/arm/aspeed_ast2600.c     | 8 ++++----
+ hw/arm/aspeed_soc.c         | 8 +++++---
+ 5 files changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/hw/misc/aspeed_scu.c b/hw/misc/aspeed_scu.c
-index 05edebedeb46..d06e179a6e65 100644
---- a/hw/misc/aspeed_scu.c
-+++ b/hw/misc/aspeed_scu.c
-@@ -119,6 +119,8 @@
- #define AST2600_CLK_SEL3          TO_REG(0x308)
- #define AST2600_CLK_SEL4          TO_REG(0x310)
- #define AST2600_CLK_SEL5          TO_REG(0x314)
-+#define AST2600_UARTCLK           TO_REG(0x338)
-+#define AST2600_HUARTCLK          TO_REG(0x33C)
- #define AST2600_HW_STRAP1         TO_REG(0x500)
- #define AST2600_HW_STRAP1_CLR     TO_REG(0x504)
- #define AST2600_HW_STRAP1_PROT    TO_REG(0x508)
-@@ -681,6 +683,8 @@ static const uint32_t ast2600_a3_resets[ASPEED_AST2600_SCU_NR_REGS] = {
-     [AST2600_CLK_SEL3]          = 0x00000000,
-     [AST2600_CLK_SEL4]          = 0xF3F40000,
-     [AST2600_CLK_SEL5]          = 0x30000000,
-+    [AST2600_UARTCLK]           = 0x00014506,
-+    [AST2600_HUARTCLK]          = 0x000145C0,
-     [AST2600_CHIP_ID0]          = 0x1234ABCD,
-     [AST2600_CHIP_ID1]          = 0x88884444,
+diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
+index c9747b15fc5f..cbeacb214ca4 100644
+--- a/include/hw/arm/aspeed.h
++++ b/include/hw/arm/aspeed.h
+@@ -38,6 +38,7 @@ struct AspeedMachineClass {
+     uint32_t num_cs;
+     uint32_t macs_mask;
+     void (*i2c_init)(AspeedMachineState *bmc);
++    uint32_t uart_default;
  };
+ 
+ 
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index d9161d26d645..87d76c92598b 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -65,6 +65,7 @@ struct AspeedSoCState {
+     AspeedSDHCIState sdhci;
+     AspeedSDHCIState emmc;
+     AspeedLPCState lpc;
++    uint32_t uart_default;
+ };
+ 
+ #define TYPE_ASPEED_SOC "aspeed-soc"
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 886e5992cdf3..7a9459340cf4 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -350,6 +350,8 @@ static void aspeed_machine_init(MachineState *machine)
+         object_property_set_int(OBJECT(&bmc->soc), "hw-prot-key",
+                                 ASPEED_SCU_PROT_KEY, &error_abort);
+     }
++    qdev_prop_set_uint32(DEVICE(&bmc->soc), "uart-default",
++                         amc->uart_default);
+     qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
+ 
+     memory_region_add_subregion(get_system_memory(),
+@@ -848,6 +850,7 @@ static void aspeed_machine_class_init(ObjectClass *oc, void *data)
+     mc->no_parallel = 1;
+     mc->default_ram_id = "ram";
+     amc->macs_mask = ASPEED_MAC0_ON;
++    amc->uart_default = ASPEED_DEV_UART5;
+ 
+     aspeed_machine_class_props_init(oc);
+ }
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index 8e1993790e6f..9d70e8e060c6 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -322,10 +322,10 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
+     }
+ 
+-    /* UART - attach an 8250 to the IO space as our UART5 */
+-    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+-                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
+-                   38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
++    /* UART - attach an 8250 to the IO space as our UART */
++    serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
++                   aspeed_soc_get_irq(s, s->uart_default), 38400,
++                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
+ 
+     /* I2C */
+     object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr),
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index 3ad6c56fa9a9..ed84502e238a 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -287,9 +287,9 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
+     }
+ 
+-    /* UART - attach an 8250 to the IO space as our UART5 */
+-    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+-                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5), 38400,
++    /* UART - attach an 8250 to the IO space as our UART */
++    serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
++                   aspeed_soc_get_irq(s, s->uart_default), 38400,
+                    serial_hd(0), DEVICE_LITTLE_ENDIAN);
+ 
+     /* I2C */
+@@ -439,6 +439,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+ static Property aspeed_soc_properties[] = {
+     DEFINE_PROP_LINK("dram", AspeedSoCState, dram_mr, TYPE_MEMORY_REGION,
+                      MemoryRegion *),
++    DEFINE_PROP_UINT32("uart-default", AspeedSoCState, uart_default,
++                       ASPEED_DEV_UART5),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.31.1
 
