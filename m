@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B09408AFB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:22:17 +0200 (CEST)
-Received: from localhost ([::1]:43508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11EF1408B00
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:24:32 +0200 (CEST)
+Received: from localhost ([::1]:49098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPkyW-0001lI-QM
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:22:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43026)
+	id 1mPl0h-0006Be-3c
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:24:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mPkbC-0002wo-Gj
+ id 1mPkbD-0002wp-0N
  for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:58:11 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:42945)
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mPkbB-000640-3O
+ id 1mPkbB-00064v-Mj
  for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:58:10 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- u19-20020a7bc053000000b002f8d045b2caso6410139wmc.1
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 04:58:08 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id 140so3027836wma.0
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 04:58:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PeFhdW3ldj9N2neDhskeRk7Vv8dHVOjd4x2dNblRlbI=;
- b=HQLbnm0DUqp8wnLsI9H45ds/dsHO1stJPa+kAspz3ldH1pYVp24wZsqWfJg/fN/iPz
- vM4uSxFTRfoQF1HSBGkFQ+OTbsP1BdY4jtdnmJkScTY0UcK48Bm4pw/LRGx4yClxB4ow
- xrBd08qRT+uCbuk1cswggF6SI6oKNRGkhFlE8g7bjqsjul8C4kYV/bLOFoiM0ffuVcoE
- 1sz9l4MftjhMXeNi+D1gpVIbJNHYiV8E1bELhfUgo2XHC5bpZV9718DDnBSZnuAAZZE3
- 6Z9aj6y0w/JpvjHRPFAnVlAV+eFuTaacRjgD6XVmTWUuND5Csg92HLQ0ZiE6twOfmoP2
- ZtvQ==
+ bh=2ijvhFm3qkGCih7E+IGi13wOWIV5MP5pvlk/20m1FbI=;
+ b=O3ZVioHs5df8JNEOrOFmmOvYjB1rVn0wqp4mW6kju7dQoCtJ+nJSju+Ei2wzHBWmrA
+ tLVSGuQ62HKjxAlpEr7KScTe0XpH7XfNJtYhPYFDzlJyIrkY1Z5y7r2PAVASq1Yxmdl6
+ UYbuIIhdjgFYd9+Jq1qoC1N+hKwAsKnucIu/zD9Zk3SMWC7E7XwM6LjXj1sT8LcLtGnE
+ 3jJIl9tg3TeCyX94qoshrqvDoDlG0Q63mS2uTdKVWND4cAY7s2DntTPmRBxi0b0g0X3w
+ 9rqIfIx3L2FoSPWm7m+KUj6m9BL9DI6E4HCRTK08oeRvxRmD953K/asg5jIU68FBJMSG
+ 1f0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PeFhdW3ldj9N2neDhskeRk7Vv8dHVOjd4x2dNblRlbI=;
- b=nN7ohmx4RuIxJWGmBmqmYpf4WFMl+I4XDRRf3kVCDO/On7WsDqdMRyS2bFJC8nsLYb
- XoTPYiPWSQUaKm8qi3YYQYZao3Hh6qJDE6YLeYs9S2Voqyng/spP1jMq9csRRNrXWYBN
- rH7jLHNzz23lr6epW4DOODugdU6wnc0DXnRB77KmARXBLSLUp8WwukG/Moj+Ki1G/tkY
- jgJDl6RruutjJdK+krTumH6eOm0y+3D0nCLgI+QhHb7iukKEjJznSD98vrOEGsSmB/Dm
- 2EbET47LV+uwkMbpvdaBOOkLct3O0ex4twxYoyNUzGOZ7LFeTi0FrF0TtyYxVQZwZXYM
- 3CmA==
-X-Gm-Message-State: AOAM533JNfwNFVoFVTXtFpiobSihgGH8JHvYRq0Z2tAfuTwOkERQEwvI
- zq7bCPsiplX6EqeAeZepv5Lqyggisos=
-X-Google-Smtp-Source: ABdhPJw5IS4S9i/GQ0TKzvWKdtpBYWsv+nYLv7igr9SuZUHJwJbDOwJFKQRe6jjDpGlqgFaUbgcrIw==
-X-Received: by 2002:a1c:3b41:: with SMTP id i62mr10856058wma.38.1631534287837; 
- Mon, 13 Sep 2021 04:58:07 -0700 (PDT)
+ bh=2ijvhFm3qkGCih7E+IGi13wOWIV5MP5pvlk/20m1FbI=;
+ b=NrR5nQhIXODveOV+lS+ua9CK+C60Dmz6FrrSrwvVTJMAMP1rUpErS+xblqnwY2t8Fq
+ ylrjFn1n+Gh67OITBpxT5lq+CqNX3mVMpoQlq82OnNWmsF/nQbeLw0QS7SgjwYhOeXTc
+ C86Yxb3ccVyUzMXyLYOi6CkBmv8BJvbHX3zIRjBQZE1ID5QL5t6k1GsKCK8a0CJMjC6B
+ eif1Fsyvr+d/OgCcOorzHXTNFvIqxgstKxFp4DqZwq8j+J58L6KelGolIumjNV+ehLDL
+ 2MtWTLeYDxRLWzOjG8TFWeLdHfVoEoBa2tDZJcQ0AXsEwzvxNJl7XxVcXXavEYPhfB9O
+ unHA==
+X-Gm-Message-State: AOAM532cgb3pbLalnWgc8z9eZsqU3OFGp3FlZzFqjhXy9iXygmCSdneW
+ 14AULcDwJaEWF5/BWFSc6X1NremABCo=
+X-Google-Smtp-Source: ABdhPJzOCqclkgTsckDf1Hq0Mm0NwPxif8uihfRABzNTc5uwljTRni3kn4A/XIsLDBKMtf1+eeRtpA==
+X-Received: by 2002:a7b:c5d2:: with SMTP id n18mr10704681wmk.97.1631534288417; 
+ Mon, 13 Sep 2021 04:58:08 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id n186sm6011037wme.31.2021.09.13.04.58.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 04:58:07 -0700 (PDT)
+ Mon, 13 Sep 2021 04:58:08 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/21] meson: remove dead variable
-Date: Mon, 13 Sep 2021 13:57:37 +0200
-Message-Id: <20210913115742.533197-17-pbonzini@redhat.com>
+Subject: [PULL 17/21] fw_cfg: add etc/msr_feature_control
+Date: Mon, 13 Sep 2021 13:57:38 +0200
+Message-Id: <20210913115742.533197-18-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210913115742.533197-1-pbonzini@redhat.com>
 References: <20210913115742.533197-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,24 +87,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The file already existed, but nobody had noticed the warning until now.
+Add it at the bottom, since that is where unknown files go in legacy mode.
+
+Fixes: 217f1b4a721 ("target-i386: Publish advised value of MSR_IA32_FEATURE_CONTROL via fw_cfg")
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- ui/meson.build | 2 --
- 1 file changed, 2 deletions(-)
+ hw/nvram/fw_cfg.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/ui/meson.build b/ui/meson.build
-index 7faa42eb3f..a73beb0e54 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -105,8 +105,6 @@ if config_host.has_key('CONFIG_SPICE') and config_host.has_key('CONFIG_GIO')
-   ui_modules += {'spice-app': spice_ss}
- endif
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index 9b8dcca4ea..c06b30de11 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -878,6 +878,7 @@ static struct {
+     { "etc/tpm/log", 150 },
+     { "etc/acpi/rsdp", 160 },
+     { "bootorder", 170 },
++    { "etc/msr_feature_control", 180 },
  
--keymap_gen = find_program('keycodemapdb/tools/keymap-gen')
--
- keymaps = [
-   ['atset1', 'qcode'],
-   ['linux', 'qcode'],
+ #define FW_CFG_ORDER_OVERRIDE_LAST 200
+ };
 -- 
 2.31.1
 
