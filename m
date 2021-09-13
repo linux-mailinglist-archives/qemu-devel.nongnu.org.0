@@ -2,72 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 768A2408939
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 12:38:34 +0200 (CEST)
-Received: from localhost ([::1]:34204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD62540896A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 12:52:51 +0200 (CEST)
+Received: from localhost ([::1]:48942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPjM9-000635-9E
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 06:38:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54112)
+	id 1mPjZz-0007xl-0y
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 06:52:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPjK5-0004Wp-F8
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 06:36:25 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34313)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPjK1-00034m-U3
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 06:36:25 -0400
-Received: by mail-wr1-x431.google.com with SMTP id m9so13903070wrb.1
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 03:36:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3IviRsTZgd10x9TESjwkctBQlvIbTzyJui+QZOSoWpk=;
- b=jeeuTB/9A/NC6SeBwMgnC+dbrX6LDtyc6ISFarYIV9V5Eq5TQGlfaHkJ/+DS7SV4Sb
- BTpjL0VIgeCNhxPXY7I4+Uuo3vFWImsGd0hjSf3N87e7Uk6endD5qSnOWUDxG5DYZfML
- ALJMoqR8bYPs/lmjOjNDWD77++KULULy4hBriHOtNoqYoc2ZGaqUZ+7Nzw0hNHp8Oj9C
- LN7ty9mUiBGqRgpXpQFDDAEtwchSwuBrnPtOCjWickF17of3z7NwEi5qx31ICu8DpD/V
- VWmmJLVl26r5grGd70lmmJCCEM240o6FcmFCPQr3AgIHSGspzwVwRHGiHnIASE/38+Kj
- grqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3IviRsTZgd10x9TESjwkctBQlvIbTzyJui+QZOSoWpk=;
- b=z6xLmKr0fpgl/scXuO5MwN8t+U2Y+cZnyOyc13RHMf3bqxW2DoNGiQF4BOfJ84PHYe
- /MLSCtFuyZ2c7USIHaKmT7fTirPXywMD7Zdq6KRZjLI9aUx5j95xptGzvm369B5PfCpl
- P9bBdwTx+zlyaTEh/lX/LpmLcrntp3kr2NQLHu79ZUGTF+Ct/TNKV+SGFB4WIo+45Jyn
- kRGgm9zwCoIEWsA5KMhCskAZrSsA6Zr1rgfNnTQHuuz4Tyax36zvUxIE1O/qRkBY+B6m
- xKAF/YNZsm9ylPfTFt4cla/fGgZAXBENrFYBSAfx46QTcRkT4wR8GKTtUCBkztkw+wL5
- AuuQ==
-X-Gm-Message-State: AOAM531koqvQ6ZrjA4UGAJ87uXdJfifac4QNMsVpjqi+1KXSjwkczgtL
- NEseK/X/4e8Eq8i5jt3T7iO6yPlIV3JTZbwfgdPz7A==
-X-Google-Smtp-Source: ABdhPJzpP4AK9LWhVd10/kDTRhonVemH90+Qfg6wQV3oGaJLTtyGHhDNiW6afsHRcTnKPJvDhIDPiE3eblYVefJtsPo=
-X-Received: by 2002:adf:f185:: with SMTP id h5mr11846807wro.302.1631529379406; 
- Mon, 13 Sep 2021 03:36:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1mPjYS-0006T7-Hc
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 06:51:16 -0400
+Received: from mga04.intel.com ([192.55.52.120]:49829)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1mPjYP-0007DE-K0
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 06:51:16 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10105"; a="219763309"
+X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="219763309"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2021 03:51:11 -0700
+X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="543117521"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.144.101])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 13 Sep 2021 03:51:09 -0700
+Date: Mon, 13 Sep 2021 18:37:13 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 1/3] monitor: Add HMP and QMP interfaces
+Message-ID: <20210913103713.GB27331@yangzhon-Virtual>
+References: <20210910102258.46648-1-yang.zhong@intel.com>
+ <20210910102258.46648-2-yang.zhong@intel.com>
+ <fb7d360d-80b5-9bc2-0f6f-f48e04dc08f9@redhat.com>
 MIME-Version: 1.0
-References: <20210913101948.12600-1-peter.maydell@linaro.org>
- <YT8n3HKfbheSjuzn@redhat.com>
-In-Reply-To: <YT8n3HKfbheSjuzn@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 Sep 2021 11:35:29 +0100
-Message-ID: <CAFEAcA8-xkmZuBQRUjSxuJPbxaOyJGYpqTKCnz9D=cZTP8wa3Q@mail.gmail.com>
-Subject: Re: [PATCH] gitlab-ci: Make more custom runner jobs manual, and don't
- allow failure
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fb7d360d-80b5-9bc2-0f6f-f48e04dc08f9@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=yang.zhong@intel.com;
+ helo=mga04.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,42 +62,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: pbonzini@redhat.com, berrange@redhat.com, eblake@redhat.com,
+ qemu-devel@nongnu.org, seanjc@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 Sept 2021 at 11:32, Daniel P. Berrang=C3=A9 <berrange@redhat.com=
-> wrote:
->
-> On Mon, Sep 13, 2021 at 11:19:48AM +0100, Peter Maydell wrote:
-> > Currently we define a lot of jobs for our custom runners:
-> > for both aarch64 and s390x we have
-> >  - all-linux-static
-> >  - all
-> >  - alldbg
-> >  - clang (manual)
-> >  - tci
-> >  - notcg (manual)
-> >
-> > This is overkill.  The main reason to run on these hosts is to get
-> > coverage for the host architecture; we can leave the handling of
-> > differences like debug vs non-debug to the x86 CI jobs.
-> >
-> > The jobs are also generally running OK; they occasionally fail due to
-> > timeouts, which is likely because we're overloading the machine by
-> > asking it to run 4 CI jobs at once plus the ad-hoc CI.
-> >
-> > Remove the 'allow_failure' tag from all these jobs, and switch the
-> > s390x-alldbg, aarch64-all, s390x-tci and aarch64-tci jobs to manual.
->
-> Why the difference in skipping  'alldbg' vs 'all'  ? Was that just
-> to get diverse coverage of debug vs non-debug ?
+On Fri, Sep 10, 2021 at 02:39:04PM +0200, Philippe Mathieu-Daudé wrote:
+> On 9/10/21 12:22 PM, Yang Zhong wrote:
+> > The QMP and HMP interfaces can be used by monitor or QMP tools to retrieve
+> > the SGX information from VM side when SGX is enabled on Intel platform.
+> > 
+> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> > ---
+> >  hmp-commands-info.hx         | 15 +++++++++++++
+> >  hw/i386/sgx.c                | 29 ++++++++++++++++++++++++
+> >  include/hw/i386/sgx.h        | 11 +++++++++
+> >  include/monitor/hmp-target.h |  1 +
+> >  qapi/misc-target.json        | 43 ++++++++++++++++++++++++++++++++++++
+> >  target/i386/monitor.c        | 36 ++++++++++++++++++++++++++++++
+> >  tests/qtest/qmp-cmd-test.c   |  1 +
+> >  7 files changed, 136 insertions(+)
+> >  create mode 100644 include/hw/i386/sgx.h
+> 
+> > diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+> > index 3b05ad3dbf..e2a347cc23 100644
+> > --- a/qapi/misc-target.json
+> > +++ b/qapi/misc-target.json
+> > @@ -333,3 +333,46 @@
+> >  { 'command': 'query-sev-attestation-report', 'data': { 'mnonce': 'str' },
+> >    'returns': 'SevAttestationReport',
+> >    'if': 'TARGET_I386' }
+> > +
+> > +##
+> > +# @SGXInfo:
+> > +#
+> > +# Information about intel Safe Guard eXtension (SGX) support
+> > +#
+> > +# @sgx: true if SGX is supported
+> > +#
+> > +# @sgx1: true if SGX1 is supported
+> > +#
+> > +# @sgx2: true if SGX2 is supported
+> > +#
+> > +# @flc: true if FLC is supported
+> > +#
+> > +# @section-size: The EPC section size for guest
+> > +#
+> > +# Since: 6.2
+> > +##
+> > +{ 'struct': 'SGXInfo',
+> > +  'data': { 'sgx': 'bool',
+> > +            'sgx1': 'bool',
+> > +            'sgx2': 'bool',
+> > +            'flc': 'bool',
+> > +            'section-size': 'uint64'},
+> > +   'if': 'TARGET_I386' }
+> 
+> Is it possible to restrict it to KVM? Maybe:
+> 
+>      'if': { 'all': ['TARGET_I386', 'CONFIG_KVM'] } },
+> 
+> ? (I'm not sure).
 
-Yeah, I figured we might as well run one on each.
+  Philippe, i tried this definition, which is feasible.
+  This seems more accurate for sgx in the kvm of i386 platform. thanks!
 
-thanks
--- PMM
+  Yang
+  
 
