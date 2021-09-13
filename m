@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55AD5409A65
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 19:10:31 +0200 (CEST)
-Received: from localhost ([::1]:33374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C25F8409A67
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 19:12:50 +0200 (CEST)
+Received: from localhost ([::1]:37800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPpTS-0001Qk-Dl
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 13:10:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39326)
+	id 1mPpVh-0004oC-T7
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 13:12:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mPou2-0003hu-Sb
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:33:55 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:37758)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mPouo-0004ez-K2
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:34:44 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:44895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mPou0-0006Kf-DX
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:33:54 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- c8-20020a7bc008000000b002e6e462e95fso7480706wmb.2
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 09:33:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=//XUTQSh1vSC0iKp+W/uxw6zSi5fBYh3GxNmXJh/nVw=;
- b=ZXko8VYhw51QHEjFZUr/pB3/QHn+b4jYjU1mJO0GW/RZrFi+8PAeHokfKxysn2bmKV
- clfUHRbzMlTvR9OrUjDWT4BneYnK6RnPaaiKHb9xTuNIhX4XmCjgk3Dtwc3Q3UakX9wq
- I1RC8gZ6Rf5FZpzk/UgVGUUnRGA0X7lu+ABkCdOcYpIXiPcfjoKtaqiLXA+DFHXUsF11
- BnelL34unv46zYvNxtShUe8QPPgB5gC6IywFZklkk5Mbjno3+R35u5dWKLwqPwC/hQ5Q
- mHfFwctL77ah0J8CEeEfr3082bgzyuhHwZ3p/8ck7Yxdnuz2DhBQUco+msQIIT/0Q1WU
- imvA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mPoum-0006s2-QC
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:34:42 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ l7-20020a1c2507000000b002e6be5d86b3so408992wml.3
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 09:34:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5SasLEd2CvqinZmpFv3MW+DS2c9Y6CkFUI00Z8/fe/g=;
+ b=jGpBIE1RDEStvn46Fcwq06kLfmA9riasEPZV0O2fUzCoC8PIKZCN9wLP4Y7uXAlGYa
+ qLBViKVNTeB552O3y7MsmZDxffTO1WbVCxAyMa3+Zk2NCFjHdFpROKckLzf0JI9fxr3z
+ obWCcUeN/Sh+HxEixRXFzDD1iwB7E30/RYkM0nvmc3RSo6z1sHbSopeih/xr3gDLBye5
+ 6HKE2n6cJvZkwxinNFklx50r0S+qQ+0b1JtbX+e5MeAXIEAJU+9AyLDphHkinBbwjCyg
+ m6/frQVNtbvoUAkXMOsINeccGNNwtPFZGfQbKHC3xm5knQHf8Tp4Wcv4ZhNqLMKwMwYb
+ PyQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=//XUTQSh1vSC0iKp+W/uxw6zSi5fBYh3GxNmXJh/nVw=;
- b=4ZwoUe42f3vR/dYv2W+XLBuC9bK6O7DHxbmacxNIKNQGepiVBL79h3MOEMiMe3Pf0f
- gc2bO5i6RfflgiymCRtYzC+tZBrm74CXyBOqoms2rHw7D16YiHXE3S2leG6FFDOATfct
- houDQQcmPHRJ1sqYCt4HZGOa5mw4V30nb8l9EbXxdo3tXj3QOYPAiovsllX4OILNPili
- E/ak7Z/oFlPL+7w2QZQVZYR0tZMcGRY0kXnapak5sAHL68DEDBdDoLjsFHk1p98Ov3Nt
- nAnaffdMtzGvXyaYkKqfpoSFUYVpXLLRBgZhVmFDRIdpnZHBxnn107ApQislu4jZi3D+
- 0olg==
-X-Gm-Message-State: AOAM530AULl6cq7QT9BDqFIGSucc+ZPkvqUhqUUYmDR8Pgp1VHUoiZff
- SlKPWL1+6S5qWOKN2xoToYxgXBZalzkuXqbehQbc1A==
-X-Google-Smtp-Source: ABdhPJy5l2JR1AySUrShMFWAjACSZ4DY0f6/Wx0UFdImb+pj3Wl4xHKaoOLtGYgrvAk9l+JP73MM8+rmtXazxwLOfxE=
-X-Received: by 2002:a1c:2705:: with SMTP id n5mr11941116wmn.176.1631550829976; 
- Mon, 13 Sep 2021 09:33:49 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5SasLEd2CvqinZmpFv3MW+DS2c9Y6CkFUI00Z8/fe/g=;
+ b=E1CSZ4ZM6YlVMyWKAI0CXey0zs+DOK5qgH6FknRZZoKKKeZpe6Cuu6VYulEv6wksGQ
+ A78tsRGETW1bu1H1lhBEfJfsvjv7/4CXvTu2RExpSfwp1ZiHqsnoHbL+IdtWhTPG/NbF
+ lFqkaGqELD3OThQaFUPxSpbJYl+2u+O5WbTlYcoYbhOknPxTZ8Nnv0AreTuZL9npafOu
+ 9Brbt2K+Fk2CZjk7WZZsBibMerbNX7F6JdG6+XUIcMplbO3je0NsIcQ4y+PSKz4WioUR
+ 7l+MizKXF2uWhgStYDNfSzAz87EjCBr/kNiHZo/Rmre4CAxBEXZbtuRTaYkWltbzyaXV
+ y9UA==
+X-Gm-Message-State: AOAM531/5h5wTSMI87RBuWxCTHBuTwIRnzClkV7IUcIG1HdHMbyt4r5D
+ v93OdUnp34YTgDy8bhMp81w=
+X-Google-Smtp-Source: ABdhPJz5AhGKFY43/A4bC4OO5LIIR7f9BvMlueNmbL6Qaa+WVUVNO/DmInZDURkvcb27NHFmC368ZQ==
+X-Received: by 2002:a7b:cb0c:: with SMTP id u12mr11929839wmj.70.1631550879332; 
+ Mon, 13 Sep 2021 09:34:39 -0700 (PDT)
+Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id u8sm7809763wmq.45.2021.09.13.09.34.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Sep 2021 09:34:38 -0700 (PDT)
+Subject: Re: [PATCH v2] docs: add supported host CPU architectures section
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210913130950.214756-1-marcandre.lureau@redhat.com>
+ <CAFEAcA97pX7qHLXkGL23_ygFk2hcJEw2J7CSKDJukdbxpvgKpg@mail.gmail.com>
+ <f2a05978-430e-1964-7d1e-c32b4babd0bc@amsat.org>
+ <CAFEAcA_DwJJU=He9ZMCxOYC001Z+cBxsR1njChnzd1eZCtdO3Q@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <110706e4-8208-3906-a4b7-9d6f1252496f@amsat.org>
+Date: Mon, 13 Sep 2021 18:34:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210902112520.475901-1-anup.patel@wdc.com>
- <20210902112520.475901-5-anup.patel@wdc.com>
- <CAKmqyKPK9zrtM=g6hruL+eRLVPdz76jLR+P0xZ8qPfWXvnSTzg@mail.gmail.com>
-In-Reply-To: <CAKmqyKPK9zrtM=g6hruL+eRLVPdz76jLR+P0xZ8qPfWXvnSTzg@mail.gmail.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Mon, 13 Sep 2021 22:03:38 +0530
-Message-ID: <CAAhSdy2jihzXxxMJkrb7vydjETbpiGDA6b9OmWnUaJv8-jF6OQ@mail.gmail.com>
-Subject: Re: [PATCH v2 04/22] target/riscv: Improve fidelity of guest external
- interrupts
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::334;
- envelope-from=anup@brainfault.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA_DwJJU=He9ZMCxOYC001Z+cBxsR1njChnzd1eZCtdO3Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.969,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,67 +92,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 9, 2021 at 12:14 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Thu, Sep 2, 2021 at 9:26 PM Anup Patel <anup.patel@wdc.com> wrote:
-> >
-> > The guest external interrupts for external interrupt controller are
-> > not delivered to the guest running under hypervisor on time. This
-> > results in a guest having sluggish response to serial console input
-> > and other I/O events. To improve timely delivery of guest external
-> > interrupts, we check and inject interrupt upon every sret instruction.
-> >
-> > Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> > ---
-> >  target/riscv/op_helper.c | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> >
-> > diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> > index ee7c24efe7..4c995c239e 100644
-> > --- a/target/riscv/op_helper.c
-> > +++ b/target/riscv/op_helper.c
-> > @@ -129,6 +129,15 @@ target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
-> >
-> >      riscv_cpu_set_mode(env, prev_priv);
-> >
-> > +    /*
-> > +     * QEMU does not promptly deliver guest external interrupts
-> > +     * to a guest running on a hypervisor which in-turn is running
-> > +     * on QEMU. We make dummy call to riscv_cpu_update_mip() upon
-> > +     * every sret instruction so that QEMU pickup guest external
-> > +     * interrupts sooner.
-> > +     */
-> > +     riscv_cpu_update_mip(env_archcpu(env), 0, 0);
->
-> This doesn't seem right. I don't understand why we need this?
->
-> riscv_cpu_update_mip() is called when an interrupt is delivered to the
-> CPU, if we are missing interrupts then that is a bug somewhere else.
+On 9/13/21 5:56 PM, Peter Maydell wrote:
+> On Mon, 13 Sept 2021 at 16:22, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>> On 9/13/21 3:50 PM, Peter Maydell wrote:
+>>> On Mon, 13 Sept 2021 at 14:10, <marcandre.lureau@redhat.com> wrote:
+>>> I still wonder if this would be clearer if we listed 'tcg' as
+>>> an accelerator like all the others, rather than describing it as
+>>> a kind of special case in the text above the table. After all, you
+>>> can select it with '-accel tcg' the same as any other.
+>>>
+>>> I think the information in the table is correct now.
+>>
+>> What is TCI at this point?
+> 
+> It's a different backend to TCG. (Almost always you do not want it.)
 
-I have finally figured out the cause of guest external interrupts being
-missed by Guest/VM.
+It might become a TCG sub-type.
 
-The riscv_cpu_set_irq() which handles guest external interrupt lines
-of each CPU is called asynchronously. This function in-turn calls
-riscv_cpu_update_mip() but the CPU might be in host mode (V=0)
-or in Guest/VM mode (V=1). If the CPU is in host mode (V=0) when
-the riscv_cpu_set_irq() is called, then the CPU interrupt requested by
-riscv_cpu_update_mip() has no effect because the CPU can't take
-the interrupt until it enters Guest/VM mode.
+> It's not a separate accelerator type.
 
-This patch does the right thing by doing a dummy call to
-riscv_cpu_update_mip() upon SRET instruction so that if the CPU
-had missed a guest interrupt previously then the CPU can take it now.
+Indeed.
+
+>>>> +Other architectures are not actively maintained. They may be removed in future
+>>>> +releases.
+>>
+>> What are the other archs which could be removed?
+> 
+> It's not so much that we have explicit code to handle any other host
+> architectures which we might remove. It's more that we do not specifically
+> say "we don't know what this host arch is and we don't have a TCG backend
+> for it, sorry" for unknown host architectures; instead we suggest that
+> the user might try using TCI.
+> 
+> In future in theory we might:
+>  * just say "unsupported" there instead (making unknown
+>    host CPU arch a fatal error, in the same way unknown host OS
+>    is a fatal error)
+>  * drop TCI entirely
+> 
+> I think both of those would be controversial (but I'm not against
+> them myself ;-)).
+
+So we had this discussion 5/6 months ago, and 2 users said they use
+it for research, so Richard did a tremendous work to update it to
+remove any limitation on TCG, which mostly ended in a rewrite:
+
+$ for i in tcg/tci*;do git blame $i;done|cut -c25-47|sort|uniq -c|sort -nr
+   1106 Richard Henderson
+    274 Stefan Weil
+      6 Daniele Buono
+      4 Pranith Kumar
+      4 Emilio G. Cota
+      2 Paolo Bonzini
+      2 Aurelien Jarno
+      1 Philippe Mathieu-Daudé
+      1 Peter Maydell
+
+Then it took me various week-ends to review/test it. At this point
+I consider it stable and removing it isn't justified anymore.
+
+> We could perhaps rephrase the sentence to something like:
+> 
+>   Other host architectures are not supported. It is possible to
+>   build QEMU on an unsupported host architecture using the configure
+>   ``--enable-tcg-interpreter`` option to enable the experimental
+>   TCI support, but note that this is very slow and is not recommended.
+
+Sounds good.
+
+> If we want to actually deprecate building on non-supported host
+> architectures we should say that via the usual deprecation process.
+
+Agreed.
 
 Regards,
-Anup
+
+Phil.
 
