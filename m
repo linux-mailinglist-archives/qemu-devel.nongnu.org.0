@@ -2,75 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA62409931
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 18:31:13 +0200 (CEST)
-Received: from localhost ([::1]:40942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7527F409A56
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 19:06:47 +0200 (CEST)
+Received: from localhost ([::1]:56252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPorQ-0005Am-LJ
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 12:31:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32796)
+	id 1mPpPq-0005vx-II
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 13:06:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPoYz-0001EH-K0
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:12:10 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44659)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPoYw-0008IH-34
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:12:09 -0400
-Received: by mail-wr1-x432.google.com with SMTP id d6so15535314wrc.11
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 09:12:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=Bw7COqvNSGbBSupnPfzjqa5dbyyy8rYOvFDBxednX+Y=;
- b=Ya8XIwim4NTvdPBa0WO5OWAWRiOWa7W2rDIhTIYfPfl6j5dEc3pjy+l9idbhtmVLH9
- AoV4CupILeYFqezOGl5FG3ZkV4dtEtpN2iirZedq1DgJ8QdF2LnlePcnzjynwwel35zW
- sW09gbgEErCYiXKR6A+JurFuU/tH67bimmvDcYiFM4kj5J+QznxrOPLf9f52GX7a1KwV
- Rt5H/+NfLPwWvXilgwKqnTYwa7P00Z6Hq+x3ZImtgL5HovvjxQNizdQUN0U3mX+TtdzH
- Yl7xymOFk+R4PiwZI1Sghe7p+twg7wSi4Biy57XGCcpU3DT5F9oHPCz9ddeLY2QOdbxy
- QGpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Bw7COqvNSGbBSupnPfzjqa5dbyyy8rYOvFDBxednX+Y=;
- b=klWlvyig1psw037IiUv3UVRTQ0TAGonpH1/ZF+Aa8czq3plG75/RjCTu3b0wCge3Gz
- +N+X05vG5a247Vyi88QuN/Jzj3knDAVfb3ehamrFUlsYUvN05siClxpjWNMmEwdEx+GX
- KdrRNW97gSlmKC0+57mEh+22GOWYbeRN2fqijD2MOmvbjX9b+v4y+2bCL8DCWmMTe90A
- 48l8lP6M22BE/IXOFUS2EzYQWGOyGNIrDm64NNYLUNICDrswPgoAbW2wlOwwoPghfhjZ
- Yo/Ts7MCaszCb5HbqRf0ZHGYg2CJ99QkkuFJuBNlSYuOGRsYL7YP/c75FpTSffZUh7AF
- K49Q==
-X-Gm-Message-State: AOAM531BY0XngLu32lMm+5gEiu4eJQpU1qGjPYTh0G7EVq07RCSzY6pX
- DNvPNdbSCmr4cdUSbZURMNCUetmSLCXFmw==
-X-Google-Smtp-Source: ABdhPJzldh+/sRGKXp/M6PrkO+2sXL5RUQJhEGA5G5knSOaN7H4C4gKYlVrcoQdOQJk1j0WgnY/o6w==
-X-Received: by 2002:adf:e643:: with SMTP id b3mr13838460wrn.67.1631549524858; 
- Mon, 13 Sep 2021 09:12:04 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y1sm7629265wmq.43.2021.09.13.09.12.04
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 09:12:04 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 23/23] hw/arm/mps2.c: Mark internal-only I2C buses as 'full'
-Date: Mon, 13 Sep 2021 17:11:44 +0100
-Message-Id: <20210913161144.12347-24-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210913161144.12347-1-peter.maydell@linaro.org>
-References: <20210913161144.12347-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mPoaF-00040X-Of
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:13:29 -0400
+Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192]:54901)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mPoa9-0000gj-Jh
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 12:13:27 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.128])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 6CE2620F7B;
+ Mon, 13 Sep 2021 16:13:10 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 13 Sep
+ 2021 18:13:09 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R0016d31dd0a-b22b-4840-b1b4-e2c8fdbe2d8b,
+ 7CA125ACC991A0BE3D2311CBE60F5A293341D68C) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/14] aspeed queue
+Date: Mon, 13 Sep 2021 18:12:50 +0200
+Message-ID: <20210913161304.3805652-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 13ad9dbf-961a-4d81-a320-14c1e476f21e
+X-Ovh-Tracer-Id: 8689132531712035622
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudegjedgleehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffogggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedtieekkeelgfduvdeijeeujefhheefjedtleegtdehteejteduuddtjeefjeeknecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
+ helo=3.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,49 +64,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Andrew Jeffery <andrew@aj.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The various MPS2 boards implemented in mps2.c have multiple I2C
-buses: a bus dedicated to the audio configuration, one for the LCD
-touchscreen controller, and two which are connected to the external
-Shield expansion connector.  Mark the buses which are used only for
-board-internal devices as 'full' so that if the user creates i2c
-devices on the commandline without specifying a bus name then they
-will be connected to the I2C controller used for the Shield
-connector, where guest software will expect them.
+The following changes since commit eae587e8e3694b1aceab23239493fb4c7e1a80f5:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210903151435.22379-5-peter.maydell@linaro.org
----
- hw/arm/mps2.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-09-13' into staging (2021-09-13 11:00:30 +0100)
 
-diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index 4634aa1a1ca..bb76fa68890 100644
---- a/hw/arm/mps2.c
-+++ b/hw/arm/mps2.c
-@@ -428,7 +428,17 @@ static void mps2_common_init(MachineState *machine)
-                                          0x40023000,    /* Audio */
-                                          0x40029000,    /* Shield0 */
-                                          0x4002a000};   /* Shield1 */
--        sysbus_create_simple(TYPE_ARM_SBCON_I2C, i2cbase[i], NULL);
-+        DeviceState *dev;
-+
-+        dev = sysbus_create_simple(TYPE_ARM_SBCON_I2C, i2cbase[i], NULL);
-+        if (i < 2) {
-+            /*
-+             * internal-only bus: mark it full to avoid user-created
-+             * i2c devices being plugged into it.
-+             */
-+            BusState *qbus = qdev_get_child_bus(dev, "i2c");
-+            qbus_mark_full(qbus);
-+        }
-     }
-     create_unimplemented_device("i2s", 0x40024000, 0x400);
- 
--- 
-2.20.1
+are available in the Git repository at:
 
+  https://github.com/legoater/qemu/ tags/pull-aspeed-20210913
+
+for you to fetch changes up to d7add12e20fa8982f5932ff4dca317c5d2dfe7d9:
+
+  hw/arm/aspeed: Add Fuji machine type (2021-09-13 15:19:20 +0200)
+
+----------------------------------------------------------------
+Aspeed patches :
+
+* MAC enablement fixes (Guenter)
+* Watchdog  and pca9552 fixes (Andrew)
+* GPIO fixes (Joel)
+* AST2600A3 SoC and DPS310 models (Joel)
+* New Fuji BMC machine (Peter)
+
+----------------------------------------------------------------
+Andrew Jeffery (3):
+      watchdog: aspeed: Sanitize control register values
+      watchdog: aspeed: Fix sequential control writes
+      misc/pca9552: Fix LED status register indexing in pca955x_get_led()
+
+Guenter Roeck (2):
+      hw: arm: aspeed: Enable eth0 interface for aspeed-ast2600-evb
+      hw: arm: aspeed: Enable mac0/1 instead of mac1/2 for g220a
+
+Joel Stanley (6):
+      hw: aspeed_gpio: Simplify 1.8V defines
+      hw: aspeed_gpio: Clarify GPIO controller name
+      arm/aspeed: rainier: Add i2c eeproms and muxes
+      aspeed: Emulate the AST2600A3
+      hw/misc: Add Infineon DPS310 sensor model
+      arm/aspeed: Add DPS310 to Witherspoon and Rainier
+
+Peter Delevoryas (3):
+      hw/arm/aspeed: Initialize AST2600 UART clock selection registers
+      hw/arm/aspeed: Allow machine to set UART default
+      hw/arm/aspeed: Add Fuji machine type
+
+ include/hw/arm/aspeed.h          |   1 +
+ include/hw/arm/aspeed_soc.h      |   1 +
+ include/hw/misc/aspeed_scu.h     |   2 +
+ include/hw/watchdog/wdt_aspeed.h |   1 +
+ hw/arm/aspeed.c                  | 175 ++++++++++++++++++++++++++++--
+ hw/arm/aspeed_ast2600.c          |  14 +--
+ hw/arm/aspeed_soc.c              |   8 +-
+ hw/gpio/aspeed_gpio.c            |  97 +++++++++--------
+ hw/misc/aspeed_scu.c             |  40 +++++--
+ hw/misc/pca9552.c                |   2 +-
+ hw/sensor/dps310.c               | 225 +++++++++++++++++++++++++++++++++++++++
+ hw/watchdog/wdt_aspeed.c         |  26 ++++-
+ hw/arm/Kconfig                   |   1 +
+ hw/sensor/Kconfig                |   4 +
+ hw/sensor/meson.build            |   1 +
+ 15 files changed, 522 insertions(+), 76 deletions(-)
+ create mode 100644 hw/sensor/dps310.c
 
