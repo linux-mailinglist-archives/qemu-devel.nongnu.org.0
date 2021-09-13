@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63FC7408B07
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:25:39 +0200 (CEST)
-Received: from localhost ([::1]:50058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B09408AFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:22:17 +0200 (CEST)
+Received: from localhost ([::1]:43508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPl1m-0006pK-G1
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:25:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43010)
+	id 1mPkyW-0001lI-QM
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:22:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mPkbB-0002wh-O9
+ id 1mPkbC-0002wo-Gj
  for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:58:11 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:43923)
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:42945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mPkbA-00063r-Ea
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:58:09 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- n7-20020a05600c3b8700b002f8ca941d89so6407839wms.2
+ id 1mPkbB-000640-3O
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 07:58:10 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ u19-20020a7bc053000000b002f8d045b2caso6410139wmc.1
  for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 04:58:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NeR77cPP8dHJ6y/NZzKUpgxfmomQXUZFqq15ts9MaO4=;
- b=Ec8OiY8ESgW7b9+5MACDq7hcDpo515QD4MPoFQWX3FbZwHrQ4RNEXT5c9bZeGqSGEZ
- SBaaenRm8kUU2i2CErAQiLCcVxZ15awr/sJG82tkOoxChb7DlXFlxdGv4nkvnXNtA5WV
- 7ME4ijeGShiDKyKdLIwspXwxGx1u7+TYndklvKH1maoB+Zy29YfwOoLKQixtkKuUxkJt
- 41cqrJgYjeEHf9kIa7dL/jRHjyt5cq5mQo/DSJCgeuSo7QWX5KMzlJ3Wnth4tTAIUGb6
- EAPcrxLf7eskQqwmCREHxZ1yVSWtmF0EBSIL0x7WM2BCVgMcDTMVhSYKNPcICRn7ShRW
- T2hQ==
+ bh=PeFhdW3ldj9N2neDhskeRk7Vv8dHVOjd4x2dNblRlbI=;
+ b=HQLbnm0DUqp8wnLsI9H45ds/dsHO1stJPa+kAspz3ldH1pYVp24wZsqWfJg/fN/iPz
+ vM4uSxFTRfoQF1HSBGkFQ+OTbsP1BdY4jtdnmJkScTY0UcK48Bm4pw/LRGx4yClxB4ow
+ xrBd08qRT+uCbuk1cswggF6SI6oKNRGkhFlE8g7bjqsjul8C4kYV/bLOFoiM0ffuVcoE
+ 1sz9l4MftjhMXeNi+D1gpVIbJNHYiV8E1bELhfUgo2XHC5bpZV9718DDnBSZnuAAZZE3
+ 6Z9aj6y0w/JpvjHRPFAnVlAV+eFuTaacRjgD6XVmTWUuND5Csg92HLQ0ZiE6twOfmoP2
+ ZtvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=NeR77cPP8dHJ6y/NZzKUpgxfmomQXUZFqq15ts9MaO4=;
- b=2iyDz3Uruv/DA6JA5VY+dcYs3r20q/KHeo4qiQFR7Yf1nEPM22b3F4az0FUnAjldvE
- ysZLvWS1zPUVJkSHWVDJQxD6F7mYOLfVzzWsZckccGVBwm2bcaHbqT4i5zMWVy+lz97W
- //iKkq6YbawlGjltqbeEKKqRsLRr7cAIOmtiDsQymcZVMY4kgXyVVIbM5H2aOeURYKUn
- BwhNuEeScQLUsKz+Z1a/Flc0/sPesx0GcPUWVKGSplm1Wfz3SBVhrtNufrmWn4L2Dbxc
- WKRDLm7ktyjloGPHXDV37yeDWUSrsxNQLFWhz3l4YfBT+aYNJqKbY+0AOuqe/p+BMCsv
- CtVw==
-X-Gm-Message-State: AOAM533eX0zQS6Mqcnr4yFoAAZbwxFdQ8GKPdrfi6lG9d9ZYPvevIbaC
- PfMrGbLzhWPPB6B6KNzejirJ4Zb906c=
-X-Google-Smtp-Source: ABdhPJxUUMNSSQE/Rc79JwlAVc2DX1B8tEhEz7W5v8xG3LQUJKjfof2zDnYcuh9HFWXyxmLb1gyh8Q==
-X-Received: by 2002:a1c:3102:: with SMTP id x2mr10957838wmx.122.1631534287222; 
+ bh=PeFhdW3ldj9N2neDhskeRk7Vv8dHVOjd4x2dNblRlbI=;
+ b=nN7ohmx4RuIxJWGmBmqmYpf4WFMl+I4XDRRf3kVCDO/On7WsDqdMRyS2bFJC8nsLYb
+ XoTPYiPWSQUaKm8qi3YYQYZao3Hh6qJDE6YLeYs9S2Voqyng/spP1jMq9csRRNrXWYBN
+ rH7jLHNzz23lr6epW4DOODugdU6wnc0DXnRB77KmARXBLSLUp8WwukG/Moj+Ki1G/tkY
+ jgJDl6RruutjJdK+krTumH6eOm0y+3D0nCLgI+QhHb7iukKEjJznSD98vrOEGsSmB/Dm
+ 2EbET47LV+uwkMbpvdaBOOkLct3O0ex4twxYoyNUzGOZ7LFeTi0FrF0TtyYxVQZwZXYM
+ 3CmA==
+X-Gm-Message-State: AOAM533JNfwNFVoFVTXtFpiobSihgGH8JHvYRq0Z2tAfuTwOkERQEwvI
+ zq7bCPsiplX6EqeAeZepv5Lqyggisos=
+X-Google-Smtp-Source: ABdhPJw5IS4S9i/GQ0TKzvWKdtpBYWsv+nYLv7igr9SuZUHJwJbDOwJFKQRe6jjDpGlqgFaUbgcrIw==
+X-Received: by 2002:a1c:3b41:: with SMTP id i62mr10856058wma.38.1631534287837; 
  Mon, 13 Sep 2021 04:58:07 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n186sm6011037wme.31.2021.09.13.04.58.05
+ by smtp.gmail.com with ESMTPSA id n186sm6011037wme.31.2021.09.13.04.58.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 04:58:06 -0700 (PDT)
+ Mon, 13 Sep 2021 04:58:07 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/21] meson: do not use python.full_path() unnecessarily
-Date: Mon, 13 Sep 2021 13:57:36 +0200
-Message-Id: <20210913115742.533197-16-pbonzini@redhat.com>
+Subject: [PULL 16/21] meson: remove dead variable
+Date: Mon, 13 Sep 2021 13:57:37 +0200
+Message-Id: <20210913115742.533197-17-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210913115742.533197-1-pbonzini@redhat.com>
 References: <20210913115742.533197-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,29 +88,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "python" variable is an external program and can be passed
-directly to custom_target.  This avoids the need to look it up
-multiple times, which was previously silent but is now explicit
-in recent Meson versions.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- ui/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ui/meson.build | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/ui/meson.build b/ui/meson.build
-index 7d25c1b95b..7faa42eb3f 100644
+index 7faa42eb3f..a73beb0e54 100644
 --- a/ui/meson.build
 +++ b/ui/meson.build
-@@ -134,7 +134,7 @@ if have_system or xkbcommon.found()
-                   output: output,
-                   capture: true,
-                   input: files('keycodemapdb/data/keymaps.csv'),
--                  command: [python.full_path(), files('keycodemapdb/tools/keymap-gen'),
-+                  command: [python, files('keycodemapdb/tools/keymap-gen'),
-                             'code-map',
-                             '--lang', 'glib2',
-                             '--varname', 'qemu_input_map_@0@_to_@1@'.format(e[0], e[1]),
+@@ -105,8 +105,6 @@ if config_host.has_key('CONFIG_SPICE') and config_host.has_key('CONFIG_GIO')
+   ui_modules += {'spice-app': spice_ss}
+ endif
+ 
+-keymap_gen = find_program('keycodemapdb/tools/keymap-gen')
+-
+ keymaps = [
+   ['atset1', 'qcode'],
+   ['linux', 'qcode'],
 -- 
 2.31.1
 
