@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 591314088D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 12:12:43 +0200 (CEST)
-Received: from localhost ([::1]:54996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E10084088CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 12:12:15 +0200 (CEST)
+Received: from localhost ([::1]:54442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPix8-0006VY-Cs
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 06:12:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45294)
+	id 1mPiwg-00063o-VL
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 06:12:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPifs-0007Io-KL
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 05:54:52 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:56044)
+ id 1mPifx-0007Vv-6b
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 05:54:57 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mPifo-0001uQ-OA
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 05:54:52 -0400
-Received: by mail-wm1-x331.google.com with SMTP id g128so1737018wma.5
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 02:54:48 -0700 (PDT)
+ id 1mPifq-0001vN-77
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 05:54:55 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id g16so13725670wrb.3
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 02:54:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PsqyvwVa655omQdFIHqiDmLC7YzT5aRUDOlK0c8rs+c=;
- b=cEEkTQd2laaceVcbDBsnMVz7KuOGiVK1Z+EN0pjb6S4xob5tUd36jqka/iwdlyGqRa
- jUmvMG72mcLBGdlRwwFcOuHTUZCmnj3oCrLYhZ5Yihm9zpj/c3fMDOAWreV9GBMz87wP
- k1w5Hp4wqkczGpBRnjDvesErT0GNOr1Unmdc8dyYK5TVpCHwJ38PCerNRz/hESIu6a4n
- dnINQztDhO96iK63wDXeR8f1xcoiiW1klqSS/LzEbMzmJADgEfz7yU1q0Xwu2UrXVFL0
- N9r5/1SF76LvnSAya4INQcLzTmpxP0UEm/nRJ8CC8pmPsHPjjQnNm6mQH9lgPr2gfH8R
- Owhw==
+ bh=U3CtlRUa2Pflsx0SilrWyUarKoRlgAOB6ic9qq7mvCY=;
+ b=tTShjKmCAJ3kxiBWpWRxGckXKlXC8lu0libaEs+REwWKMpNYnWaePVKsI3HpRx2QOE
+ ibjzan6iX2FvoSwMZg8OqTqanNfozUSDLeaVfRYakmw5tudQmQLk2voSP5a7oKhuEqTZ
+ LGGa0sEbtRzFa9Xw57CETuKLQbNvICLhb79AmxCxLRrsgPhMps/v06WhTSmb6Roflbsf
+ cXwCzydX7AypCuohY2m8PtlzDzaoSWoYo50IZ4UdjVNzIFgLYC65L6SsFSEINr88TobA
+ PIbQK5d82XDu/UpyPE86WdsPpgrg2YFZ/mA/Rn0IRdRD4AFZimUYQ+jncTd70E/ln1D0
+ 6DDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PsqyvwVa655omQdFIHqiDmLC7YzT5aRUDOlK0c8rs+c=;
- b=Ixqt4t3+qpWi+IsCaIx47fJIeE6y2oe6haxYLFpTUCgna8szBp0ltuIjG2J/SX/nYV
- OxBq8htod7SdDoPccQ0UL8vCeKhdFK/uKH+/jmnAsGYR358/GMH2bXSJ9bVITggneh4y
- Gac9Y8OBSKCb/4g8tZ9P22RktmTlvTBQi+qFgHjtRy8JzO9j7dAX/EcksYcnzAH6gYQq
- 5NRbSuWsLzoiVQtwlJYZwGtx55Pity7GiNqnaN9AmWsflzYMgtGUp0jQxojrOB/Fk17y
- DIp4hw/lkeYj+nRn32swWaBaMoDZ6/2Oyd1uYWU5E5F+oy2PL8ffdt6V0R1ymvnDm8Qd
- NCvQ==
-X-Gm-Message-State: AOAM5317anI0LrvFvrEe4CzIR1Qnu4VdsehoZTunr1wA0MjdxKUAgUF4
- ie+4cteytXOJOg7a0Cen5ReNZGUYRxP5Yw==
-X-Google-Smtp-Source: ABdhPJywCsgHx6HAofFC0+1X0qjgwQmgB+o/2+IOCbVIFHhvuK6XEVkR+tCnBIvX4HMfykyK3zJfFw==
-X-Received: by 2002:a05:600c:3392:: with SMTP id
- o18mr9259153wmp.92.1631526887472; 
- Mon, 13 Sep 2021 02:54:47 -0700 (PDT)
+ bh=U3CtlRUa2Pflsx0SilrWyUarKoRlgAOB6ic9qq7mvCY=;
+ b=4/EQ/fYALAO25CsdISk5qGx0HqQn+qda5dZuctaF0FWassf+zU2D8z9Zv2uCVbst8u
+ NXe1Pz6y9HcZMujZ1KyIkJRM6535yUFbwTrtV2jKbVK478FKXyIcMJO9XgYjdhSVlT8A
+ ebtK5cn2nGbj8nLBMkyVM28eIYl+wkTYq4u8fS1hdW90BQ8OMMlY+N2OnbeA4hcf9HXi
+ IZtKa+0cpkjSAdIpM8fietYxqNPBfH84hGkRJj0dISU3EjBtlsZo+pnmGd7S7i1ahIxf
+ ORL+fhsm/nFSfKwjVwYpxjQrX41HeJLZI3UTeU2l6FDEYWsPJ0AM8M8iLawCH8JCXDcs
+ eEXg==
+X-Gm-Message-State: AOAM531007TmnIzcXSyYW1SGxc8ph7hlQ3Vz17LjxakIQ3Zhrm1FnM4j
+ aaOe91utcV0834/Jcu/Dnt4Zsw==
+X-Google-Smtp-Source: ABdhPJymGhuL1a7Jps2kaRiEDklsBUdTUJgT0HKdKGLtLzJYtKVGkkEhzFgnZ411ovEwINFKwAB7+Q==
+X-Received: by 2002:a5d:44d1:: with SMTP id z17mr2563253wrr.187.1631526888781; 
+ Mon, 13 Sep 2021 02:54:48 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m184sm6475338wmm.3.2021.09.13.02.54.46
+ by smtp.gmail.com with ESMTPSA id m184sm6475338wmm.3.2021.09.13.02.54.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 02:54:47 -0700 (PDT)
+ Mon, 13 Sep 2021 02:54:48 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 07/12] target/arm: Optimize MVE VDUP
-Date: Mon, 13 Sep 2021 10:54:35 +0100
-Message-Id: <20210913095440.13462-8-peter.maydell@linaro.org>
+Subject: [PATCH v2 09/12] target/arm: Optimize MVE VSHL, VSHR immediate forms
+Date: Mon, 13 Sep 2021 10:54:37 +0100
+Message-Id: <20210913095440.13462-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210913095440.13462-1-peter.maydell@linaro.org>
 References: <20210913095440.13462-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,37 +88,125 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Optimize the MVE VDUP insns by using TCG vector ops when possible.
+Optimize the MVE VSHL and VSHR immediate forms by using TCG vector
+ops when possible.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate-mve.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ target/arm/translate-mve.c | 83 +++++++++++++++++++++++++++++---------
+ 1 file changed, 63 insertions(+), 20 deletions(-)
 
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index d30c7e57ea3..13de55242e2 100644
+index 4583e22f21c..00fa4379a74 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -500,11 +500,15 @@ static bool trans_VDUP(DisasContext *s, arg_VDUP *a)
-         return true;
+@@ -1570,8 +1570,8 @@ static bool trans_Vimm_1r(DisasContext *s, arg_1imm *a)
+     return do_1imm(s, a, fn);
+ }
+ 
+-static bool do_2shift(DisasContext *s, arg_2shift *a, MVEGenTwoOpShiftFn fn,
+-                      bool negateshift)
++static bool do_2shift_vec(DisasContext *s, arg_2shift *a, MVEGenTwoOpShiftFn fn,
++                          bool negateshift, GVecGen2iFn vecfn)
+ {
+     TCGv_ptr qd, qm;
+     int shift = a->shift;
+@@ -1594,34 +1594,77 @@ static bool do_2shift(DisasContext *s, arg_2shift *a, MVEGenTwoOpShiftFn fn,
+         shift = -shift;
      }
  
 -    qd = mve_qreg_ptr(a->qd);
-     rt = load_reg(s, a->rt);
--    tcg_gen_dup_i32(a->size, rt, rt);
--    gen_helper_mve_vdup(cpu_env, qd, rt);
+-    qm = mve_qreg_ptr(a->qm);
+-    fn(cpu_env, qd, qm, tcg_constant_i32(shift));
 -    tcg_temp_free_ptr(qd);
-+    if (mve_no_predication(s)) {
-+        tcg_gen_gvec_dup_i32(a->size, mve_qreg_offset(a->qd), 16, 16, rt);
+-    tcg_temp_free_ptr(qm);
++    if (vecfn && mve_no_predication(s)) {
++        vecfn(a->size, mve_qreg_offset(a->qd), mve_qreg_offset(a->qm),
++              shift, 16, 16);
 +    } else {
 +        qd = mve_qreg_ptr(a->qd);
-+        tcg_gen_dup_i32(a->size, rt, rt);
-+        gen_helper_mve_vdup(cpu_env, qd, rt);
++        qm = mve_qreg_ptr(a->qm);
++        fn(cpu_env, qd, qm, tcg_constant_i32(shift));
 +        tcg_temp_free_ptr(qd);
++        tcg_temp_free_ptr(qm);
 +    }
-     tcg_temp_free_i32(rt);
      mve_update_eci(s);
      return true;
+ }
+ 
+-#define DO_2SHIFT(INSN, FN, NEGATESHIFT)                         \
+-    static bool trans_##INSN(DisasContext *s, arg_2shift *a)    \
+-    {                                                           \
+-        static MVEGenTwoOpShiftFn * const fns[] = {             \
+-            gen_helper_mve_##FN##b,                             \
+-            gen_helper_mve_##FN##h,                             \
+-            gen_helper_mve_##FN##w,                             \
+-            NULL,                                               \
+-        };                                                      \
+-        return do_2shift(s, a, fns[a->size], NEGATESHIFT);      \
++static bool do_2shift(DisasContext *s, arg_2shift *a, MVEGenTwoOpShiftFn fn,
++                      bool negateshift)
++{
++    return do_2shift_vec(s, a, fn, negateshift, NULL);
++}
++
++#define DO_2SHIFT_VEC(INSN, FN, NEGATESHIFT, VECFN)                     \
++    static bool trans_##INSN(DisasContext *s, arg_2shift *a)            \
++    {                                                                   \
++        static MVEGenTwoOpShiftFn * const fns[] = {                     \
++            gen_helper_mve_##FN##b,                                     \
++            gen_helper_mve_##FN##h,                                     \
++            gen_helper_mve_##FN##w,                                     \
++            NULL,                                                       \
++        };                                                              \
++        return do_2shift_vec(s, a, fns[a->size], NEGATESHIFT, VECFN);   \
+     }
+ 
+-DO_2SHIFT(VSHLI, vshli_u, false)
++#define DO_2SHIFT(INSN, FN, NEGATESHIFT)        \
++    DO_2SHIFT_VEC(INSN, FN, NEGATESHIFT, NULL)
++
++static void do_gvec_shri_s(unsigned vece, uint32_t dofs, uint32_t aofs,
++                           int64_t shift, uint32_t oprsz, uint32_t maxsz)
++{
++    /*
++     * We get here with a negated shift count, and we must handle
++     * shifts by the element size, which tcg_gen_gvec_sari() does not do.
++     */
++    shift = -shift;
++    if (shift == (8 << vece)) {
++        shift--;
++    }
++    tcg_gen_gvec_sari(vece, dofs, aofs, shift, oprsz, maxsz);
++}
++
++static void do_gvec_shri_u(unsigned vece, uint32_t dofs, uint32_t aofs,
++                           int64_t shift, uint32_t oprsz, uint32_t maxsz)
++{
++    /*
++     * We get here with a negated shift count, and we must handle
++     * shifts by the element size, which tcg_gen_gvec_shri() does not do.
++     */
++    shift = -shift;
++    if (shift == (8 << vece)) {
++        tcg_gen_gvec_dup_imm(vece, dofs, oprsz, maxsz, 0);
++    } else {
++        tcg_gen_gvec_shri(vece, dofs, aofs, shift, oprsz, maxsz);
++    }
++}
++
++DO_2SHIFT_VEC(VSHLI, vshli_u, false, tcg_gen_gvec_shli)
+ DO_2SHIFT(VQSHLI_S, vqshli_s, false)
+ DO_2SHIFT(VQSHLI_U, vqshli_u, false)
+ DO_2SHIFT(VQSHLUI, vqshlui_s, false)
+ /* These right shifts use a left-shift helper with negated shift count */
+-DO_2SHIFT(VSHRI_S, vshli_s, true)
+-DO_2SHIFT(VSHRI_U, vshli_u, true)
++DO_2SHIFT_VEC(VSHRI_S, vshli_s, true, do_gvec_shri_s)
++DO_2SHIFT_VEC(VSHRI_U, vshli_u, true, do_gvec_shri_u)
+ DO_2SHIFT(VRSHRI_S, vrshli_s, true)
+ DO_2SHIFT(VRSHRI_U, vrshli_u, true)
+ 
 -- 
 2.20.1
 
