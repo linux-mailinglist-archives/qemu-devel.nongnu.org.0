@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A403408EDA
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 15:38:35 +0200 (CEST)
-Received: from localhost ([::1]:60754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D874090A9
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 15:55:07 +0200 (CEST)
+Received: from localhost ([::1]:45676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPmAM-00036K-34
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 09:38:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34996)
+	id 1mPmQM-0005bX-74
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 09:55:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mPlzy-0004YC-Jn
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:27:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57933)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mPlzw-0001wo-Sq
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:27:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631539668;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NG2XzIV1lSUs+ND3IXfoBRNO1Qsi1q4hO4R8pCvoi4U=;
- b=EHnaVlmyfufUjnZcqhTOKT+OKtP673gsSQNAKn194v8+9TV5+IT7Ewf6wnzqKr66QxT+Ex
- 3K+qWc6434V6v6Eyyvq2VtCP/TL0eA0h3sAXlRtQprmzISzIkYBJgVJSjNya7RmDFax+0X
- ml3g1VZbiQ1UucXUgJznpelO6RvhO9E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-585-_5Mees5CNOyw8NfIFz06_A-1; Mon, 13 Sep 2021 09:27:45 -0400
-X-MC-Unique: _5Mees5CNOyw8NfIFz06_A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E237419200CB;
- Mon, 13 Sep 2021 13:27:43 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 63B7D77F30;
- Mon, 13 Sep 2021 13:27:43 +0000 (UTC)
-Date: Mon, 13 Sep 2021 14:27:42 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH 3/4] include/sysemu/block-backend: split header into
- I/O and graph API
-Message-ID: <YT9RzrThGlWp4E5Q@stefanha-x1.localdomain>
-References: <20210908131021.774533-1-eesposit@redhat.com>
- <20210908131021.774533-4-eesposit@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mPm2W-0008JL-Tk
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:30:28 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:45695)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mPm2Q-0003cg-2V
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 09:30:28 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ j17-20020a05600c1c1100b002e754875260so6627916wms.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 06:30:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=o/fPEhv/7ieZL4ufgl3V41xfzGd3JnW6xF0RVYUQjv0=;
+ b=ACKxQcBl4dpEVjkOfM/w+2TUI3Ghvbe+4CZmQQ1s+C35vAJwWEDKh+D9ztM2tNLQsh
+ +zU/8GHQDd+Po4kEGVeposRF4+P0RsxzWccuwRV324dwPAjU4pTmXiZTZ4w1VgOLBNki
+ VTz6MukFA1uiJpiZxArF5X86iradcnOqv6288VLJm0BUn+eq1or3r6zps9dPvS3lORPx
+ o63Wss0KYXJnn/FFBND+bhBAm1DlQwB6EYQ4F//6S0ii1RMir5YifNmqNwA7HzTxaiDH
+ XUYNuasbUV/2jvdoEuqC//NrT+gfgZMQzb8LFhZR2suvVA/WVT3fbWBc11tT6exf3eki
+ c6lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=o/fPEhv/7ieZL4ufgl3V41xfzGd3JnW6xF0RVYUQjv0=;
+ b=nN4tvyVpp+YR0slIax4L8AA4Y20MsMlMnOP9iN4E5H/qswLAR1Zsgc8w1kClMM2OKY
+ BZ4LMamf5JxqGuemcKjph3bPE2zYN1+6qpS4ed1t9gC4QBB47gJGNGN5D04p2sjjgs4/
+ mU0fEXqeYy8qli5hDRAdHO4AgLsnIkGAo3NP4QaMmxa9afXr2QxOCUgT/aA48cZeVoPl
+ DVoro3gBOWcpFc9g/nMMtTQzEktHSdzlnCgkB4LM3F+f9V6KiYGYyK6sbu6U562Ypsno
+ xiMOkypfsuvY+RQ0Ph/Mm7mmVoYp5jUEBvf2ESd2nUiIasCn7A5N7ZLo28oWTdW8nPEv
+ pjXw==
+X-Gm-Message-State: AOAM532fXk8Yd4WWZ6KmwapDz/UxXMFOgHk+ARmtX7DnMbXYOTn4oDd3
+ +buOWEZDR+JKa4twNfAqqYvqFstwpwuMS8xsybN66w==
+X-Google-Smtp-Source: ABdhPJwgaUHiotBqq2rPNV4V9lpGjoF+Vc++6W2HtXKN+KZljbh+khyGorU5LKYyQMuBPDZ592nH1N7y1dfiqh2LoAY=
+X-Received: by 2002:a7b:c246:: with SMTP id b6mr11266364wmj.37.1631539820282; 
+ Mon, 13 Sep 2021 06:30:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210908131021.774533-4-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BG5cbxCgeU9gqGKG"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210821195958.41312-1-richard.henderson@linaro.org>
+In-Reply-To: <20210821195958.41312-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 Sep 2021 14:29:29 +0100
+Message-ID: <CAFEAcA8S+JUoyiOmYePSZm=2KURDOKeT0Ppm4bEDihssx7owUQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] target/arm: Fix insn exception priorities
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,112 +77,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---BG5cbxCgeU9gqGKG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Sat, 21 Aug 2021 at 21:02, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Raise pc alignment faults.
+> Fix single-step and pc-align priority over breakpoints.
+> Not yet fixing insn abort priority over breakpoints.
+>
+> Based-on: 20210813131809.28655-1-peter.maydell@linaro.org
+> ("linux-user: Clean up siginfo_t handling for arm, aarch64")
+>
+> Changes for v2:
+>   * Handle the exceptions in cpu_loop.
+>   * Fix how the instruction is raised for aa32 el1.
+>   * Add pc alignment test cases.
 
-On Wed, Sep 08, 2021 at 09:10:20AM -0400, Emanuele Giuseppe Esposito wrote:
-> diff --git a/include/sysemu/block-backend-graph.h b/include/sysemu/block-backend-graph.h
-> new file mode 100644
-> index 0000000000..3310987b16
-> --- /dev/null
-> +++ b/include/sysemu/block-backend-graph.h
-> @@ -0,0 +1,132 @@
-> +/*
-> + * QEMU Block backends
-> + *
-> + * Copyright (C) 2014-2016 Red Hat, Inc.
-> + *
-> + * Authors:
-> + *  Markus Armbruster <armbru@redhat.com>,
-> + *
-> + * This work is licensed under the terms of the GNU LGPL, version 2.1
-> + * or later.  See the COPYING.LIB file in the top-level directory.
-> + */
-> +
-> +#ifndef BLOCK_BACKEND_GRAPH_H
-> +#define BLOCK_BACKEND_GRAPH_H
-> +
-> +#include "block-backend-common.h"
-> +
-> +/*
-> + * Graph API. These functions run under the BQL lock.
-> + *
-> + * If a function modifies the graph, it uses drain and/or
-> + * aio_context_acquire/release to be sure it has unique access.
+I'm going to take patches 1 and 2 from this series into
+target-arm.next.
 
-It's not obvious why additional locking is needed if the BQL is already
-held. Please refer to the thread-safe I/O API functions that can be
-running concurrently without the BQL.
-
-> + *
-> + * All functions in this header must use this assertion:
-> + * g_assert(qemu_in_main_thread());
-> + * to be sure they belong here.
-
-I suggest "to catch when they are accidentally called without the BQL".
-It explains the rationale whereas "to be sure they belong here" doesn't
-explain anything.
-
-> diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
-> new file mode 100644
-> index 0000000000..66a7bed9f0
-> --- /dev/null
-> +++ b/include/sysemu/block-backend-io.h
-> @@ -0,0 +1,123 @@
-> +/*
-> + * QEMU Block backends
-> + *
-> + * Copyright (C) 2014-2016 Red Hat, Inc.
-> + *
-> + * Authors:
-> + *  Markus Armbruster <armbru@redhat.com>,
-> + *
-> + * This work is licensed under the terms of the GNU LGPL, version 2.1
-> + * or later.  See the COPYING.LIB file in the top-level directory.
-> + */
-> +
-> +#ifndef BLOCK_BACKEND_IO_H
-> +#define BLOCK_BACKEND_IO_H
-> +
-> +#include "block-backend-common.h"
-> +
-> +/*
-> + * I/O API functions. These functions are thread-safe, and therefore
-> + * can run in any AioContext.
-
-"can run in any AioContext" makes me wonder what the exact requirements
-are. Can they run in any *thread* (regardless of whether an AioContext
-even exists for that thread) or do they need to run in a thread that has
-called qemu_set_current_aio_context()?
-
---BG5cbxCgeU9gqGKG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE/Uc4ACgkQnKSrs4Gr
-c8hz4Af/d13NW23rbN8FPMKGvt0WuHY1rWeh+915yKeh30bwGGjViOeQsgPxcLSf
-Jr/ShMNbA8cH1AyboY68Kuuk6mTd1eZGkIQUIR65gdvZ0njK1neQcMzjeyOifiNf
-Crx/HUqz0gaSc/LvJATPbK49ofJ9snsp2sxWLlF02Mx7xLpO2XhLMyA7CmTAehIQ
-A1LX6tPmgtD3WC1oZk2qwpRREWbVWEhWpIZCHUxNUc5gTCdKLJkvN/+wULeX/CgZ
-b0yilKCM6rePFgoBVMSUUb5jvVHfgcTIVdrDDX3hzFTTQ1nk/WP3bzRDy37hjG8n
-YurJu2Cf4YUOaIsBX0PYNu7iwGQGXA==
-=SL4B
------END PGP SIGNATURE-----
-
---BG5cbxCgeU9gqGKG--
-
+thanks
+-- PMM
 
