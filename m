@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D12409E12
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 22:21:16 +0200 (CEST)
-Received: from localhost ([::1]:38508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C81409E45
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 22:38:53 +0200 (CEST)
+Received: from localhost ([::1]:51040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPsS3-0005Qf-Rw
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 16:21:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40166)
+	id 1mPsj5-00061v-Qp
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 16:38:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPsQK-00041j-UG
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 16:19:28 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51951)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1mPshZ-0005LT-OX
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 16:37:17 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:38728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mPsQI-0007CS-UK
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 16:19:28 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id y132so7526904wmc.1
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 13:19:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GnZI76rL+4ttaCCO6nfyf2tgY2DsJ++ywsUDkfln4CY=;
- b=l1CcCvk+kPWcTzT3u0S0pjOE8iMWlvA5ZqTgLnXPf5FzVOBuQTOv4naOa0r74tFd62
- KTcp/PJB+UN0xOYFmSBoVm7CKi32gUAnindvNT3Ce5cBIgP7c3WPXoAgTh7kWev8DJ+a
- lG/L7ZjMs/pn3fQTCd1cP3pwcfBGUNJCR8XDvVtmmyLS+09uOn3nXO0WGxFwXi18rYCr
- iuzkOX6LsWME747/WGbuj/hBkGMimstgEaxUFi141C0Z83I5IbsAWpmzBmG82Y0JGKDW
- 6cgd2u2RTeHG6M/n09b1dE72TTsGWVvzFon8dKoF2G019rEa58Gh6ON1hmi+aH/aatYQ
- NglQ==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1mPshY-0001rt-7e
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 16:37:17 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id
+ g13-20020a17090a3c8d00b00196286963b9so371763pjc.3
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 13:37:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ui9GYn4av0dABISNGLzIoAzEBPKnYr2TlgTEY6KHMFw=;
+ b=LeU5jXXyIfrcOVz0wRQxr+hAeTyUM8y/GuFPyHR9f8RfjjzSepzVX+Ozu93VnuNuOE
+ apauioVVQunnf6k+tIep/qn7zzjPHzO0nu0wwQP7aF1Csm6dwuE4MJ88YGQ97+b5KccB
+ HSik5FirZqjyJApjfjwnvGYmA1ClAI4Er1tHqppbO8rwx/EMX6Hcem9Az4i/+r7L8GOo
+ X4hdQ1xbtmhUskwtOSGXQd3kL1MrL9SS0qzZcQEAQi4Bpxed5MHUjuBJgxih3T2BiKDe
+ AkCWVcJlyizV/7WCml1yCWolMGKcJMSfDRmizn9MZmZJC9ZtR3PlQE2UMuevar0tVjDy
+ reew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:references:cc:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GnZI76rL+4ttaCCO6nfyf2tgY2DsJ++ywsUDkfln4CY=;
- b=vdQW0zVkGr6Cp6AKM3kT3BeJucbFCRcEMIiqdlJtZS3X5woenooXK7cT3Pt9axSXWI
- kpNAT4ujscviBSKx7CyXpJenVQqbERPPt6dmrDW6IcYh5nDLyF1sauD/XVacpFRucuPg
- Jyb6KqZFxk6Mkk/eOmeZSV48LeFQnPA7q7jIlv1hnHgBBENgLF+XsPAVpNtlrf1GteHP
- KkhHYlNdXr97NbZ2vQXtkhmKzWLYIWiCfWn1fwCGtN4RWwmcPMUvLpLusYO0gYZaHCJR
- NeMm7+1RuqCe/FM9I7Tf+3r/lKwH6pvPsDpv4v5UROZ4R0eUigti3GldfVJ9Q9ZPZ0pi
- +GOw==
-X-Gm-Message-State: AOAM530CqVFIlZs68XdJFYymET4vOcgCPKj4tvDVCYpAK9wYVf81WH+i
- mmeVmUWqlh0T/ByOvylL4Do=
-X-Google-Smtp-Source: ABdhPJynN+RfKQfGxPrWMEvm4ii+OAiXrHUymdmMuc7Uws06FWN1G/yqal1lgcYsC+HvbsqtivEQnA==
-X-Received: by 2002:a1c:149:: with SMTP id 70mr12973342wmb.187.1631564365275; 
- Mon, 13 Sep 2021 13:19:25 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id p21sm4464040wmi.30.2021.09.13.13.19.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 13:19:24 -0700 (PDT)
-Subject: Re: [qemu-hexagon] Error mapping file: Invalid argument
-To: "Waksmanski, Lukasz" <Lukasz.Waksmanski@dolby.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <BY3PR06MB7922F6CE4B3A9CE21294B359E0D99@BY3PR06MB7922.namprd06.prod.outlook.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2a203934-a688-f879-17ca-2c59ec40fab0@amsat.org>
-Date: Mon, 13 Sep 2021 22:19:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ui9GYn4av0dABISNGLzIoAzEBPKnYr2TlgTEY6KHMFw=;
+ b=bmWP3uPhBwXzhVQQvhCEf0rS14RWCXZ83H9IfGCRyzwGtvIJlckOD0rllYs/l/GCmr
+ cMisL/1owrsYJcPc7bPkFHF/3uYkYbFW9OlK1JPGP0w4a5/MY888A7rM4re+PIOdWkAD
+ RV2O9RKc7SqAzVuCSWMKzs1Z32DJ8qUaFHQUPiVg+ARMicusAtZK8TrCOU5QNnEIFtYx
+ gnh02FSx9tX6RmGaWAX2B51BuIIg9FC9OMePM9BRa/4pMy/sMiLpvyvZze6K+0vTwd8/
+ s5zl/gWn/RBapxX0Xt5K+oWNB82NAp3gMzuzFRiS/AKCL/byFpxHl5ohAmkMm7wbjPTu
+ 1DOQ==
+X-Gm-Message-State: AOAM532REJnvAZqEvWtExIudiRceUZYAdH+GYBr/2T32wwI68jQhy1xi
+ Xmhtg8i8YnEHSDRfVGXspj9WZg==
+X-Google-Smtp-Source: ABdhPJxoAucJ7uRM0Ui+7eiDDeaOAPjNIyqTC972deLZN9nYjPSEmNrqn8Q+tE/golzyAeMfPCklJA==
+X-Received: by 2002:a17:90a:6c97:: with SMTP id
+ y23mr1431951pjj.117.1631565433574; 
+ Mon, 13 Sep 2021 13:37:13 -0700 (PDT)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157])
+ by smtp.gmail.com with ESMTPSA id r8sm9166625pgp.30.2021.09.13.13.37.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Sep 2021 13:37:12 -0700 (PDT)
+Date: Mon, 13 Sep 2021 20:37:09 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ kai.huang@intel.com, eblake@redhat.com, Yang Zhong <yang.zhong@intel.com>
+Subject: Re: [PATCH v4 22/33] hostmem-epc: Add the reset interface for EPC
+ backend reset
+Message-ID: <YT+2ddfdb+6u83Jq@google.com>
+References: <20210719112136.57018-1-yang.zhong@intel.com>
+ <20210719112136.57018-23-yang.zhong@intel.com>
+ <dc8394c5-52a1-573f-36d3-de8bc43973d3@redhat.com>
+ <0ec706b694f8e9451452b23c76c8a39155baf357.camel@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <BY3PR06MB7922F6CE4B3A9CE21294B359E0D99@BY3PR06MB7922.namprd06.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.969,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0ec706b694f8e9451452b23c76c8a39155baf357.camel@kernel.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,174 +90,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brian Cain <bcain@quicinc.com>, Taylor Simpson <tsimpson@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Hexagon team.
+On Mon, Sep 13, 2021, Jarkko Sakkinen wrote:
+> On Fri, 2021-09-10 at 17:10 +0200, Paolo Bonzini wrote:
+> > On 19/07/21 13:21, Yang Zhong wrote:
+> > > +void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
+> > > +                              Error **errp)
+> > > +{
+> > > +    MemoryRegion *mr = &backend->mr;
+> > > +
+> > > +    mr->enabled = false;
+> > > +
+> > > +    /* destroy the old memory region if it exist */
+> > > +    if (fd > 0 && mr->destructor) {
+> > > +        mr->destructor(mr);
+> > > +    }
+> > > +
+> > > +    sgx_epc_backend_memory_alloc(backend, errp);
+> > > +}
+> > > +
+> > 
+> > Jarkko, Sean, Kai,
+> > 
+> > this I think is problematic because it has a race window while 
+> > /dev/sgx_vepc is closed and then reopened.  First, the vEPC space could 
+> > be exhausted by somebody doing another mmap in the meanwhile.  Second, 
+> > somebody might (for whatever reason) remove /dev/sgx_vepc while QEMU runs.
+> 
+> 1: Why is it a problem that mmap() could fail?
 
-On 9/13/21 8:38 PM, Waksmanski, Lukasz wrote:
-> Hello,
-> 
->  
-> 
-> I’m trying to run Hexagon executables in qemu-hexagon. I’m using
-> official stable version v6.1. Here’s my rather simple program:
-> 
-> ➜  ~ cat test.c
-> 
-> #include<stdio.h>
-> 
-> int main()
-> 
-> {  printf("Hello Hexagon!");
-> 
->   return 0;
-> 
-> }
-> 
->  
-> 
-> I’m using  Hexagon SDK 4.0.2 toolchain:
-> 
-> ➜  ~ ~/tools/Hexagon4/tools/HEXAGON_Tools/8.4.09/Tools/bin/hexagon-clang
-> -mv67 -o test test.c
-> 
->  
-> 
-> Running in qemu produces error somewhere in mmap
-> 
-> ➜  ~ qemu-hexagon
-> ./test                                                                    
-> 
-> qemu-hexagon: ./test: Error mapping file: Invalid argument
-> 
->  
-> 
-> Am I doing something naively wrong here?
-> 
->  
-> 
-> Here’s  are the some details about the executable
-> 
-> ➜  ~
-> ~/tools/Hexagon4/tools/HEXAGON_Tools/8.4.09/Tools/bin/hexagon-llvm-readelf
-> -h ./test   
-> 
-> ELF Header:
-> 
->   Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
-> 
->   Class:                             ELF32
-> 
->   Data:                              2's complement, little endian
-> 
->   Version:                           1 (current)
-> 
->   OS/ABI:                            UNIX - System V
-> 
->   ABI Version:                       0x0
-> 
->   Type:                              EXEC (Executable file)
-> 
->   Machine:                           Qualcomm Hexagon
-> 
->   Version:                           0x1
-> 
->   Entry point address:               0x0
-> 
->   Start of program headers:          52 (bytes into file)
-> 
->   Start of section headers:          78848 (bytes into file)
-> 
->   Flags:                             0x67, V67
-> 
->   Size of this header:               52 (bytes)
-> 
->   Size of program headers:           32 (bytes)
-> 
->   Number of program headers:         3
-> 
->   Size of section headers:           40 (bytes)
-> 
->   Number of section headers:         16
-> 
->   Section header string table index: 13
-> 
->  
-> 
-> Section Headers:
-> 
->   [Nr] Name              Type            Address  Off    Size   ES Flg
-> Lk Inf Al
-> 
->   [ 0]                   NULL            00000000 000000 000000 00     
-> 0   0  0
-> 
->   [ 1] .start            PROGBITS        00000000 001000 004680 00 WAX 
-> 0   0 64
-> 
->   [ 2] .init             PROGBITS        00005000 006000 000064 00  AX 
-> 0   0 32
-> 
->   [ 3] .text             PROGBITS        00006000 007000 005a88 00  AX 
-> 0   0 4096
-> 
->   [ 4] .fini             PROGBITS        0000baa0 00caa0 000030 00  AX 
-> 0   0 32
-> 
->   [ 5] .rodata           PROGBITS        0000bad0 00cad0 000678 00   A 
-> 0   0  8
-> 
->   [ 6] .eh_frame         PROGBITS        0000c160 00d160 000004 00   A 
-> 0   0 32
-> 
->   [ 7] .data             PROGBITS        0000d000 00e000 000708 00  WA 
-> 0   0  8
-> 
->   [ 8] .ctors            PROGBITS        0000d708 00e708 000010 00  WA 
-> 0   0  4
-> 
->   [ 9] .dtors            PROGBITS        0000d718 00e718 000014 00  WA 
-> 0   0  4
-> 
->   [10] .sdata            PROGBITS        0000e000 00f000 0000a8 00 WAp 
-> 0   0 4096
-> 
->   [11] .bss              NOBITS          0000e0a8 00f0a8 000e5c 00  WA 
-> 0   0  8
-> 
->   [12] .comment          PROGBITS        00000000 00f0a8 0000d4 00  MS 
-> 0   0  1
-> 
->   [13] .shstrtab         STRTAB          00000000 00f17c 00006f 00     
-> 0   0  1
-> 
->   [14] .symtab           SYMTAB          00000000 00f1ec 0024e0 10    
-> 15 248  4
-> 
->   [15] .strtab           STRTAB          00000000 0116cc 001d19 00     
-> 0   0  1
-> 
->  
-> 
->  
-> 
-> Could you tell me where the problem is? Is it because I’m compiling for
-> QuRT, and qemu uses is linux-user? Or is something else?
-> 
->  
-> 
-> Best regards,
-> 
-> *Łukasz Waksmański***
-> 
-> M +48 668 282 017
-> 
-> www.dolby.com <http://www.dolby.com/>__ |  Lukasz.Waksmanski@dolby.com
-> <mailto:Lukasz.Waksmanski@dolby.com>__
-> 
->  
-> 
+The flow in question is QEMU's emulation of a guest RESET.  If mmap() fails, QEMU
+either has to kill the VM or disable SGX.  In either case, it's fatal to a running
+workload/VM.
 
+> 2: Are you speaking about removing device node? If you have succesfully
+>    mapped /dev/sgx_vepc, that should not have much effect (file refcount).
+
+Paolo was calling out that doing munmap() before mmap() would allow /dev/sgx_vepc
+to be removed because QEMU would no longer hold a reference to /dev/sgx_vepc.  That
+would again be fatal to the VM as QEMU would not be able to re-mmap() guest EPC.
 
