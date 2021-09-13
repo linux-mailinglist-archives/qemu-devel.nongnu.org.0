@@ -2,74 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10FE6408B2C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:40:25 +0200 (CEST)
-Received: from localhost ([::1]:45858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E3F6408B11
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:29:07 +0200 (CEST)
+Received: from localhost ([::1]:56534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPlG3-0006vC-VV
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:40:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46594)
+	id 1mPl58-0002xE-Fy
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:29:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mPkrf-0005o6-Nf
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:15:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57452)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mPl1e-00005H-1N
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:25:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mPkre-0000KJ-0I
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:15:11 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mPl1b-0007vd-9y
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:25:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631535309;
+ s=mimecast20190719; t=1631535926;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sNvjwZFKn9oBhtfNl19zY5Idrs5tmTDPBDc9HHShpMI=;
- b=h+Xj2hRQB6jYWah3M7nGG9FxTRF3kj7nmJZgqIcRXLB/nbkGC2aC9rQYiPXPcFeov64ty5
- YXQnx8Ej3ZC8Phz3anP+2QzMb8hZ0vrBeFriuy+lr5wWhgzvb8WzX4wLv0jmB/JxCmgBmA
- Fwnw+n51g9cDZLNbcsnItk/Yt+6rE9c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-YFCuIvksOZeGSX0ov_CWmg-1; Mon, 13 Sep 2021 08:15:06 -0400
-X-MC-Unique: YFCuIvksOZeGSX0ov_CWmg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B1B2362FA;
- Mon, 13 Sep 2021 12:15:05 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D2463189BB;
- Mon, 13 Sep 2021 12:15:04 +0000 (UTC)
-Date: Mon, 13 Sep 2021 13:15:03 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH RFC server v2 01/11] vfio-user: build library
-Message-ID: <YT9Ax2ESoCuwtjCn@stefanha-x1.localdomain>
-References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
- <cover.1630084211.git.jag.raman@oracle.com>
- <b556fb2bb8e364657a867dc5a83df937ffbf5880.1630084211.git.jag.raman@oracle.com>
- <YTirnLv70qtYZPkg@stefanha-x1.localdomain>
- <20df9a4e-cd9e-0524-1681-a84cf52cc513@redhat.com>
+ bh=09NK0GfTLISB9Ey47QACVdz580PoyZh6uiObghsNr88=;
+ b=ClSvMsth6SjT7iZIUevm4VnjoFyR8DTfzgcijgWoT9KMpysJr0vLgNhvauf+JCCt06M3y5
+ gKhkPaQ9DT9CbowR9WO/GPWNklhKnh12Vjvq7U09C7ngzvuO9eoqKzHm5tqxzXOI9zoy0l
+ tWZaJmhRia4NHHeRlZ6eBfHpv6Bx6T0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-197-_Od9q86GM_6GHTLe5dKfAA-1; Mon, 13 Sep 2021 08:25:24 -0400
+X-MC-Unique: _Od9q86GM_6GHTLe5dKfAA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ x2-20020a5d54c2000000b0015dfd2b4e34so926655wrv.6
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 05:25:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=09NK0GfTLISB9Ey47QACVdz580PoyZh6uiObghsNr88=;
+ b=A5mCdHeSanPWriZ/WKgC7mMQ7aOV9+7zslE3G/uXmUBkUhJpXUsvZ6lBx/uXPD7/Cl
+ lHVXhkir+HWdYmhOL8bpdhRjW0uAwrq8m9CRlNul7FpCY2Wd+GjLEndOKnANjfPEAr1T
+ 12Hm+BkYEdxSUW9Iz7TpVrlQrQGrhuNNQV1q5DIoCitGurrHf3BFoPsz5CIg96Sx/259
+ rYTrOBO8wQZXoS3cF/RxZCKjbkZljQWHCLQjqgUoFR/H14MowIG+2f9imWlztCJrdRpC
+ ielQA96QJMyBDyGDMLeEJo0vFM7AW+0DtzsN2p+G6L3mifDF3xW/AZSH8kUezK6nd4eo
+ iKLQ==
+X-Gm-Message-State: AOAM531bKhIte9hMxJChTwY2eOA1DdoCxogW6vTJgMlJb1xzNudhRkRp
+ +IFLwr8HaSOmH9kwsUzHhHsycmIBjnwbrYxCpmpX5YnArqDJzjfBF3wESghVumLmog+vA1ggmD2
+ SnlHozBpdST2kNWY=
+X-Received: by 2002:adf:eb83:: with SMTP id t3mr11976004wrn.365.1631535923865; 
+ Mon, 13 Sep 2021 05:25:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwWeF/ZC/wRYCP8vu8EZ9GSdnxNE90mRbvyshgFM6sH1kk9kkgkf7YV+POniO24BXYwQaLTjQ==
+X-Received: by 2002:adf:eb83:: with SMTP id t3mr11975976wrn.365.1631535923653; 
+ Mon, 13 Sep 2021 05:25:23 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
+ by smtp.gmail.com with ESMTPSA id i9sm6842242wmi.44.2021.09.13.05.25.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Sep 2021 05:25:23 -0700 (PDT)
+Subject: Re: [PATCH v2 14/17] iotests: bash tests: filter compression type
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210720113832.586428-1-vsementsov@virtuozzo.com>
+ <20210720113832.586428-15-vsementsov@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <b8b544df-0178-bf60-006e-76cd2cf14f05@redhat.com>
+Date: Mon, 13 Sep 2021 14:25:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20df9a4e-cd9e-0524-1681-a84cf52cc513@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210720113832.586428-15-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="TWtg4trizk2DByjt"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,63 +99,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
- Jagannathan Raman <jag.raman@oracle.com>, swapnil.ingle@nutanix.com,
- john.levon@nutanix.com, qemu-devel@nongnu.org, alex.williamson@redhat.com,
- marcandre.lureau@gmail.com, thanos.makatos@nutanix.com, alex.bennee@linaro.org
+Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---TWtg4trizk2DByjt
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 20.07.21 13:38, Vladimir Sementsov-Ogievskiy wrote:
+> We want iotests pass with both the default zlib compression and with
+> IMGOPTS='compression_type=zstd'.
+>
+> Actually the only test that is interested in real compression type in
+> test output is 287 (test for qcow2 compression type), so implement
+> specific option for it.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/060.out       |  2 +-
+>   tests/qemu-iotests/061.out       | 12 ++++++------
+>   tests/qemu-iotests/082.out       | 14 +++++++-------
+>   tests/qemu-iotests/198.out       |  4 ++--
+>   tests/qemu-iotests/287           |  8 ++++----
+>   tests/qemu-iotests/common.filter |  8 ++++++++
+>   tests/qemu-iotests/common.rc     | 14 +++++++++++++-
+>   7 files changed, 41 insertions(+), 21 deletions(-)
 
-On Fri, Sep 10, 2021 at 05:21:33PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> On 9/8/21 2:25 PM, Stefan Hajnoczi wrote:
-> > On Fri, Aug 27, 2021 at 01:53:20PM -0400, Jagannathan Raman wrote:
->=20
-> >> diff --git a/.gitmodules b/.gitmodules
-> >> index 08b1b48..cfeea7c 100644
-> >> --- a/.gitmodules
-> >> +++ b/.gitmodules
-> >> @@ -64,3 +64,6 @@
-> >>  [submodule "roms/vbootrom"]
-> >>  =09path =3D roms/vbootrom
-> >>  =09url =3D https://gitlab.com/qemu-project/vbootrom.git
-> >> +[submodule "subprojects/libvfio-user"]
-> >> +=09path =3D subprojects/libvfio-user
-> >> +=09url =3D https://github.com/nutanix/libvfio-user.git
-> >=20
-> > Once this is merged I'll set up a
-> > gitlab.com/qemu-project/libvfio-user.git mirror. This ensures that no
-> > matter what happens with upstream libvfio-user.git, the source code tha=
-t
-> > QEMU builds against will remain archived/available.
->=20
-> Can we do it the other way around? When the series is OK to be merged,
-> setup the https://gitlab.com/qemu-project/libvfio-user.git mirror and
-> have the submodule point to it?
-
-Yes, good idea.
-
-Stefan
-
---TWtg4trizk2DByjt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE/QMcACgkQnKSrs4Gr
-c8hetgf/ZrEw3x6P06qfaZolHM9EMWh/EQHISmtw/Af8n0lefpCTyMPc4e5fF15v
-sLb0fupDypnTwRV39B0SOU0FBxtzA76oE+XwOkhvIypPmIa+8wz78Tu7jcCTJ1l+
-UmsIullLSfnx3oEGu1gaxomTfEqmxFzZT0J+nRpenACsyYohGjRbkYcNnzUSzY0B
-lDhDWIHhRRLH7fyuxYrvkDZuDPdZnfwhluhVWMcxGGaZLZGKmTjGjqVvj1f7Z5F5
-zzt1YgCY025GeNc6dXnRk/u2exsl3yxho9PrUWtBT0+JSHdld22KwAsW00gJ6arO
-V2N6NZeNQythQsg6KvygxJlncCuYvg==
-=Jsud
------END PGP SIGNATURE-----
-
---TWtg4trizk2DByjt--
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
