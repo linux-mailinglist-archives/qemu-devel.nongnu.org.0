@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F7C408B3A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 14:42:55 +0200 (CEST)
-Received: from localhost ([::1]:53066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98700408B78
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 15:00:54 +0200 (CEST)
+Received: from localhost ([::1]:36422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPlIU-0003Ug-Pv
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 08:42:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50448)
+	id 1mPlZt-00065P-D6
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 09:00:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mPlBr-0003Jm-SI
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:36:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23001)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPlFT-0000Ek-DS
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:39:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22273)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mPlBn-0006Px-DX
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:36:02 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mPlFP-0000gH-MN
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 08:39:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631536557;
+ s=mimecast20190719; t=1631536783;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=j4wk6oTRdaTMpnJ1KQmxYj+PhEmuj/KyBemEY058vlA=;
- b=A6HoN3Qk/BS5BdhjzCyAeUbEXUVCRxZv76EezNPf//v/gzAllemU5qD/o5yZnsQ3Hpcxyt
- M1csONGRaaiSn2amfOoMhQcxGresEiFckSm/yvU2OH8ttrBWK+2J5eUDK0qfT1di8aeQWz
- bWAsW20njFJV/UsfW8+xEeFWgsG/JNw=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=J4zq45m6gXcUr0csh6HoseEiEAJm902EtX3G3a+nxnQ=;
+ b=WsHsX48grKQ4Jd/X9H90F6Qkiq33gVsQYCQo4M3KH8bMxYHCfcDIzPR+rhCmBYoUcTaFiv
+ +ODT5jyg3A7uXZeOVHx/tqQO5yOWrgVTTwD8REwfUY8A1Q84m6EBCNvNF/4aW9lw3hCd+3
+ ynnjhXisASlhi2v38UV8Nfz5/2HMHNw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-6ESxpX6nMy6AP7Z_rWE30A-1; Mon, 13 Sep 2021 08:35:55 -0400
-X-MC-Unique: 6ESxpX6nMy6AP7Z_rWE30A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-236-kaC4XZHVOlSQbbyBWhS9rA-1; Mon, 13 Sep 2021 08:39:41 -0400
+X-MC-Unique: kaC4XZHVOlSQbbyBWhS9rA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55CBC1084681;
- Mon, 13 Sep 2021 12:35:54 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 045C55C1D1;
- Mon, 13 Sep 2021 12:35:49 +0000 (UTC)
-Date: Mon, 13 Sep 2021 13:35:48 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: John Johnson <john.g.johnson@oracle.com>
-Subject: Re: [PATCH RFC v2 04/16] vfio-user: connect vfio proxy to remote
- server
-Message-ID: <YT9FpNYNoT/HWNdF@stefanha-x1.localdomain>
-References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
- <e9fa92081e0faf49089f4afb9a45187e49ea4bad.1629131628.git.elena.ufimtseva@oracle.com>
- <YST++FLqV02TlusW@stefanha-x1.localdomain>
- <924FF1F2-E7AF-4044-B5A4-94A2F1504110@oracle.com>
- <YTdnT27fLn4nwp2n@stefanha-x1.localdomain>
- <22CBE2AD-14EB-4162-9E97-FB7D279480AA@oracle.com>
- <YTmpu6BQ8NNrl8gk@stefanha-x1.localdomain>
- <9F0B3728-7F6C-4FBB-BF4C-49F29324F1F5@oracle.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D24B980196C;
+ Mon, 13 Sep 2021 12:39:40 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 835BF19724;
+ Mon, 13 Sep 2021 12:39:33 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0C21F113865F; Mon, 13 Sep 2021 14:39:32 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/22] qapi: Remove simple unions from the schema language
+Date: Mon, 13 Sep 2021 14:39:10 +0200
+Message-Id: <20210913123932.3306639-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <9F0B3728-7F6C-4FBB-BF4C-49F29324F1F5@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="K7qwGiUDaxzDJm9i"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -86,121 +76,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Jag Raman <jag.raman@oracle.com>, Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John Levon <john.levon@nutanix.com>,
- QEMU Devel Mailing List <qemu-devel@nongnu.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>, eblake@redhat.com,
+ Hanna Reitz <hreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, marcandre.lureau@redhat.com,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---K7qwGiUDaxzDJm9i
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Simple unions predate flat unions.  Having both complicates the QAPI
+schema language and the QAPI generator.  We haven't been using simple
+unions in new code for a long time, because they are less flexible and
+somewhat awkward on the wire.
 
-On Fri, Sep 10, 2021 at 05:25:13AM +0000, John Johnson wrote:
->=20
->=20
-> > On Sep 8, 2021, at 11:29 PM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
-e:
-> >=20
-> > On Thu, Sep 09, 2021 at 05:11:49AM +0000, John Johnson wrote:
-> >>=20
-> >>=20
-> >> =09I did look at coroutines, but they seemed to work when the sender
-> >> is triggering the coroutine on send, not when request packets are arri=
-ving
-> >> asynchronously to the sends.
-> >=20
-> > This can be done with a receiver coroutine. Its job is to be the only
-> > thing that reads vfio-user messages from the socket. A receiver
-> > coroutine reads messages from the socket and wakes up the waiting
-> > coroutine that yielded from vfio_user_send_recv() or
-> > vfio_user_pci_process_req().
-> >=20
-> > (Although vfio_user_pci_process_req() could be called directly from the
-> > receiver coroutine, it seems safer to have a separate coroutine that
-> > processes requests so that the receiver isn't blocked in case
-> > vfio_user_pci_process_req() yields while processing a request.)
-> >=20
-> > Going back to what you mentioned above, the receiver coroutine does
-> > something like this:
-> >=20
-> >  if it's a reply
-> >      reply =3D find_reply(...)
-> >      qemu_coroutine_enter(reply->co) // instead of signalling reply->cv
-> >  else
-> >      QSIMPLEQ_INSERT_TAIL(&pending_reqs, request, next);
-> >      if (pending_reqs_was_empty) {
-> >          qemu_coroutine_enter(process_request_co);
-> >      }
-> >=20
-> > The pending_reqs queue holds incoming requests that the
-> > process_request_co coroutine processes.
-> >=20
->=20
->=20
-> =09How do coroutines work across threads?  There can be multiple vCPU
-> threads waiting for replies, and I think the receiver coroutine will be
-> running in the main loop thread.  Where would a vCPU block waiting for
-> a reply?  I think coroutine_yield() returns to its coroutine_enter() call=
-er.
+Get rid of them.  We should've done this long ago.
 
-A vCPU thread holding the BQL can iterate the event loop if it has
-reached a synchronous point that needs to wait for a reply before
-returning. I think we have this situation when a MemoryRegion is
-accessed on the proxy device.
+This adds some boilerplate to the schema:
 
-For example, block/block-backend.c:blk_prw() kicks off a coroutine and
-then runs the event loop until the coroutine finishes:
+    $ git-diff --shortstat master qapi
+     7 files changed, 461 insertions(+), 59 deletions(-)
 
-  Coroutine *co =3D qemu_coroutine_create(co_entry, &rwco);
-  bdrv_coroutine_enter(blk_bs(blk), co);
-  BDRV_POLL_WHILE(blk_bs(blk), rwco.ret =3D=3D NOT_DONE);
+Well worth the language simplification, in my opinion:
 
-BDRV_POLL_WHILE() boils down to a loop like this:
+    $ git-diff --stat master scripts/ docs/
+     docs/devel/qapi-code-gen.rst | 137 ++++++++++---------------------------------
+     scripts/qapi/common.py       |  19 ++----
+     scripts/qapi/expr.py         |  48 +++++++--------
+     scripts/qapi/schema.py       | 101 +++++++------------------------
+     4 files changed, 80 insertions(+), 225 deletions(-)
 
-  while ((cond)) {
-    aio_poll(ctx, true);
-  }
+The complete diffstat looks even better, but is somewhat misleading,
+because it's dominated by two tests rewritten in a much more compact
+way.
 
-I also want to check that I understand the scenarios in which the
-vfio-user communication code is used:
+This series is based on my "[PULL 0/5] QAPI patches patches for
+2021-09-13".
 
-1. vhost-user-server
+Based-on: <20210913095038.3040776-1-armbru@redhat.com>
 
-The vfio-user communication code should run in a given AioContext (it
-will be the main loop by default but maybe the user will be able to
-configure a specific IOThread in the future).
+Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Hanna Reitz <hreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
 
-2. vCPU thread vfio-user clients
+Markus Armbruster (22):
+  qapi: Tidy up unusual line breaks
+  qapi: Stop enforcing "type name should not end in 'Kind'
+  qapi: Convert simple union KeyValue to flat one
+  qapi: Convert simple union InputEvent to flat one
+  qapi: Convert simple union TpmTypeOptions to flat one
+  qapi: Convert simple union MemoryDeviceInfo to flat one
+  qapi: Convert simple union ChardevBackend to flat one
+  qapi: Convert simple union SocketAddressLegacy to flat one
+  qapi: Convert simple union ImageInfoSpecific to flat one
+  qapi: Convert simple union TransactionAction to flat one
+  tests/qapi-schema: Prepare for simple union UserDefListUnion removal
+  test-qobject-input-visitor: Wean off UserDefListUnion
+  test-qobject-output-visitor: Wean off UserDefListUnion
+  test-clone-visitor: Wean off UserDefListUnion
+  tests/qapi-schema: Wean off UserDefListUnion
+  tests/qapi-schema: Simple union UserDefListUnion is now unused, drop
+  tests/qapi-schema: Rewrite simple union TestIfUnion to be flat
+  test-clone-visitor: Wean off __org.qemu_x-Union1
+  tests/qapi-schema: Drop simple union __org.qemu_x-Union1
+  tests/qapi-schema: Purge simple unions from tests
+  qapi: Drop simple unions
+  test-clone-visitor: Correct an accidental rename
 
-The vfio-user communication code is called from the vCPU thread where
-the proxy device executes. The MemoryRegion->read()/write() callbacks
-are synchronous, so the thread needs to wait for a vfio-user reply
-before it can return.
+ docs/devel/qapi-code-gen.rst                  | 137 ++----
+ qapi/block-core.json                          |  56 ++-
+ qapi/char.json                                | 169 ++++++-
+ qapi/machine.json                             |  42 +-
+ qapi/sockets.json                             |  46 +-
+ qapi/tpm.json                                 |  24 +-
+ qapi/transaction.json                         | 111 ++++-
+ qapi/ui.json                                  |  72 ++-
+ backends/tpm/tpm_emulator.c                   |   2 +-
+ backends/tpm/tpm_passthrough.c                |   2 +-
+ chardev/char-socket.c                         |   6 +-
+ chardev/char-udp.c                            |   4 +-
+ monitor/hmp-cmds.c                            |   8 +-
+ tests/unit/test-clone-visitor.c               |  98 ++--
+ tests/unit/test-qmp-cmds.c                    |  18 +-
+ tests/unit/test-qobject-input-visitor.c       | 460 ++++++------------
+ tests/unit/test-qobject-output-visitor.c      | 391 ++++-----------
+ tests/unit/test-yank.c                        |   6 +-
+ util/qemu-sockets.c                           |   8 +-
+ scripts/qapi/expr.py                          |  27 +-
+ scripts/qapi/schema.py                        | 101 +---
+ tests/qapi-schema/args-union.err              |   2 +-
+ tests/qapi-schema/args-union.json             |   8 +-
+ tests/qapi-schema/bad-base.err                |   2 +-
+ tests/qapi-schema/bad-base.json               |   8 +-
+ tests/qapi-schema/doc-good.json               |  13 +-
+ tests/qapi-schema/doc-good.out                |  22 -
+ tests/qapi-schema/doc-good.txt                |  20 -
+ tests/qapi-schema/enum-if-invalid.json        |   4 +-
+ .../qapi-schema/flat-union-array-branch.json  |   2 +-
+ tests/qapi-schema/flat-union-base-union.err   |   2 +-
+ tests/qapi-schema/flat-union-base-union.json  |   3 +
+ tests/qapi-schema/flat-union-empty.json       |   2 +-
+ tests/qapi-schema/flat-union-int-branch.json  |   2 +-
+ tests/qapi-schema/flat-union-no-base.err      |   2 +-
+ tests/qapi-schema/flat-union-no-base.json     |   2 +-
+ tests/qapi-schema/meson.build                 |   5 -
+ tests/qapi-schema/qapi-schema-test.json       |  49 +-
+ tests/qapi-schema/qapi-schema-test.out        | 112 +----
+ tests/qapi-schema/reserved-member-u.json      |   2 +-
+ tests/qapi-schema/reserved-type-kind.err      |   2 -
+ tests/qapi-schema/reserved-type-kind.json     |   2 -
+ tests/qapi-schema/reserved-type-kind.out      |   0
+ tests/qapi-schema/union-base-empty.json       |   2 +-
+ .../union-base-no-discriminator.err           |   2 +-
+ .../union-base-no-discriminator.json          |   2 +-
+ tests/qapi-schema/union-branch-case.err       |   2 -
+ tests/qapi-schema/union-branch-case.json      |   2 -
+ tests/qapi-schema/union-branch-case.out       |   0
+ .../qapi-schema/union-branch-invalid-dict.err |   2 +-
+ .../union-branch-invalid-dict.json            |   4 +
+ tests/qapi-schema/union-clash-branches.err    |   2 -
+ tests/qapi-schema/union-clash-branches.json   |   7 -
+ tests/qapi-schema/union-clash-branches.out    |   0
+ tests/qapi-schema/union-empty.err             |   2 -
+ tests/qapi-schema/union-empty.json            |   2 -
+ tests/qapi-schema/union-empty.out             |   0
+ tests/qapi-schema/union-optional-branch.err   |   2 -
+ tests/qapi-schema/union-optional-branch.json  |   2 -
+ tests/qapi-schema/union-optional-branch.out   |   0
+ tests/qapi-schema/union-unknown.err           |   2 +-
+ tests/qapi-schema/union-unknown.json          |   5 +-
+ 62 files changed, 936 insertions(+), 1158 deletions(-)
+ delete mode 100644 tests/qapi-schema/reserved-type-kind.err
+ delete mode 100644 tests/qapi-schema/reserved-type-kind.json
+ delete mode 100644 tests/qapi-schema/reserved-type-kind.out
+ delete mode 100644 tests/qapi-schema/union-branch-case.err
+ delete mode 100644 tests/qapi-schema/union-branch-case.json
+ delete mode 100644 tests/qapi-schema/union-branch-case.out
+ delete mode 100644 tests/qapi-schema/union-clash-branches.err
+ delete mode 100644 tests/qapi-schema/union-clash-branches.json
+ delete mode 100644 tests/qapi-schema/union-clash-branches.out
+ delete mode 100644 tests/qapi-schema/union-empty.err
+ delete mode 100644 tests/qapi-schema/union-empty.json
+ delete mode 100644 tests/qapi-schema/union-empty.out
+ delete mode 100644 tests/qapi-schema/union-optional-branch.err
+ delete mode 100644 tests/qapi-schema/union-optional-branch.json
+ delete mode 100644 tests/qapi-schema/union-optional-branch.out
 
-Is this what you had in mind?
-
-Stefan
-
---K7qwGiUDaxzDJm9i
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmE/RaQACgkQnKSrs4Gr
-c8jcCAf/SJ3udKtt8/oFj7mmXRHofYWZpEnby06Q5LULQerI5luEdrT1/+R6snw4
-wtVDy06LWpN3pZ+I2LqtzoCtAW2suE0Qc3ZZaWlyIs1YOnfGN1WBWgPtp71FT0Li
-peAXkZbyq/zOKqwPFpPur7xqohtj30hosvmdF/WEfcnBgRGJjTovWO3xQYZK1NRf
-7ZFSNnNaGhS4vxYtC4bCiHHiYhjt81OsO0S8B9VyiqVgpA/c3UVcRvErzRmMJLQP
-Gn0ujOedIVynunbXjutUah143+5wDDUj8Ak17IMKdNdjMaUfEcQMs2SNG7slWwPO
-hkuAtYfFnEOYlnIPq7Mzl6/el9CEPQ==
-=Vw/5
------END PGP SIGNATURE-----
-
---K7qwGiUDaxzDJm9i--
+-- 
+2.31.1
 
 
