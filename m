@@ -2,88 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF35409CDD
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 21:23:55 +0200 (CEST)
-Received: from localhost ([::1]:33712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA1F409CF8
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 Sep 2021 21:28:21 +0200 (CEST)
+Received: from localhost ([::1]:41328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPrYX-00068k-Su
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 15:23:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55994)
+	id 1mPrcq-0002xy-2N
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 15:28:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mPrWL-0005E0-JI
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 15:21:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37772)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mPrWH-0004UJ-Qp
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 15:21:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631560891;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tkf2vUTfeAdZ74tXA2MvoTghdZh7EQ9kWTMxswOScIE=;
- b=KPHxq28wUW2c17nj6ASVbG+LO2+pTvbJKE44BviRKKj/LiUuW4C4yhQbgKevT8uDrRZDLP
- TgBdjxpoDI/IqIrXjUKvLsK0sYfvpMEpJHB+QyI3log0bx+3w2udW1SmGCKIuvh+8ygvPl
- 1GCbJuS6Z7jA7tzQAPAFpFuvl6+mpiY=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-mQT28XHoMyOlxBs6XjgIPQ-1; Mon, 13 Sep 2021 15:21:31 -0400
-X-MC-Unique: mQT28XHoMyOlxBs6XjgIPQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- g18-20020a17090670d200b005f0df5ce29bso1404125ejk.1
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 12:21:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mPrZg-0000F5-TN; Mon, 13 Sep 2021 15:25:04 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:39467)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mPrZe-0006XC-OJ; Mon, 13 Sep 2021 15:25:04 -0400
+Received: by mail-qk1-x731.google.com with SMTP id y144so11875494qkb.6;
+ Mon, 13 Sep 2021 12:25:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=46guwNeUQWjJCaiBh9vJl+iK6heRY55Gz0ijmG7c0y4=;
+ b=RzOEDuDAXRHiv6ltgEN5c6ua6P3OYM5KbqlpcrBJi03RsEdWxuA3jZDtamhzlElS0w
+ lHy0e0rR9dHPWQU3+QlEmJ2L8Y8aem/inHZDt2phEEMloJtmHdJEMO3kDhAYj2SbBFXn
+ 2mMeMnmoBL6ZJFRT9mkar7usnWCIv/yrL1oiVMIXN86eNpbJYdSJkq1zp88hGyCCsqqb
+ avTWeOlW9BC59d4E2gFM/twSvpGefvTcdUaTc5XLCwg8D4pqSjq+9QiSYgE4uwE7tYBk
+ VfWSsQCNzslwGB4q7Est6aKTCOHz2TDM/RmO7oBwqD6s01eMZBA7VxqQt1ZE84UjdiOU
+ Vu0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=tkf2vUTfeAdZ74tXA2MvoTghdZh7EQ9kWTMxswOScIE=;
- b=GpZ9L+vQelOA4FoGInem1QvZTvS4b9kyPL1MZcyRkpEdFnQVepooTddn4X3kweNOC8
- 98+L4kYJI08tSYdLJVXBtt4SLCcixC9rSybVSRIZAuEcsT2L+4sz/SaQNEHSY9Im1rp+
- TVX4E9iyoAOahRCq6vyw83f6BtF6iXyAIcBR6N5Vgp6xBVPZcsSnZbtF/T4rGJsx6nEH
- pYbFjt3QxKt64RoGSct/hcNDvtqScDdPFmCEVluYckGQLJAflRWCUg0eV4t+8YyPjuqk
- Hv7wmqKbkpZhIR76rtffkmWM0nBzPAioB09RXEfjF0ag8phlD8B2QrNXOU1b9kXC2S5P
- 6MZQ==
-X-Gm-Message-State: AOAM531t2iviv68VFEtAAQLfXM+W8lvSXW/1fdDYDRUtEr6LPpBBwyZW
- 20fKMP3d4oarwqONvWYa0iGcLSeLhFXFfLPLJaLN6rnjEQJouROwBaR/8a3zOReX8HsLJ6aU+I/
- RdnsctR8xmc4W8Vs=
-X-Received: by 2002:a17:906:7802:: with SMTP id
- u2mr14590878ejm.325.1631560889680; 
- Mon, 13 Sep 2021 12:21:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwBeNadEAOeot9FZDtB7XRdY+2AYvPsgwRgalDOE4m3b7ct0O6jzE6lyh7VuAjXWhJtk2yKuA==
-X-Received: by 2002:a17:906:7802:: with SMTP id
- u2mr14590852ejm.325.1631560889410; 
- Mon, 13 Sep 2021 12:21:29 -0700 (PDT)
-Received: from redhat.com ([2.55.151.134])
- by smtp.gmail.com with ESMTPSA id n13sm3810971ejk.97.2021.09.13.12.21.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 12:21:26 -0700 (PDT)
-Date: Mon, 13 Sep 2021 15:21:23 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH] hw/i386/acpi-build: adjust q35 IO addr range for acpi
- pci hotplug
-Message-ID: <20210913152107-mutt-send-email-mst@kernel.org>
-References: <20210908041139.2219253-1-ani@anisinha.ca>
- <20210908084256.6077f7a3@redhat.com>
- <alpine.DEB.2.22.394.2109081229250.2227929@anisinha-lenovo>
- <20210908104351.72d0bb19@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=46guwNeUQWjJCaiBh9vJl+iK6heRY55Gz0ijmG7c0y4=;
+ b=vVkKToZR6DqS8LArQfbafc5ZYprH3ItbdnkCMIh9f/Xtc6lnrXNrqf9gQEzrAVLMly
+ FoTWNIvyiAi6GvXqmfBxAOaQIdYudrDwVgSaEFTEt0PufzLMbkpTSiRTBD/VncdzYZNU
+ Wfb7WWEhZ41MMxUmRyHSAAJqfpLN7SjvG/W6sI1q91RE2uG64ukudNDvGE/wubGMw5rI
+ 3IabqVD63jIc84mW7S1AIiFkGWQdOCxzjuxkcY7tVZFwXzfGaMwJ2lXo+Hm5DSwBYVMg
+ CXM1MJtgkern8EjRaBuEFYwzrAhpPX2j2vcXj6Np50c5z8jsPS1LoQOKqPkmurRAugAu
+ tpLw==
+X-Gm-Message-State: AOAM532F5Xd+zqVDzjd2SZECH5bKaXvif5WShjy/sWJkr1oM8Ybm38JA
+ OJVnHfqaN0SVSHn5c8HHSj8=
+X-Google-Smtp-Source: ABdhPJwoRy2l0LthRGfcLm1vC19yey9Mfr1f/h0fj2YLgMV+XjOomBE37WcdTv1zlIPZku5sTiG6Bw==
+X-Received: by 2002:a05:620a:4514:: with SMTP id
+ t20mr1282260qkp.114.1631561100694; 
+ Mon, 13 Sep 2021 12:25:00 -0700 (PDT)
+Received: from [192.168.10.222] ([191.193.98.206])
+ by smtp.gmail.com with ESMTPSA id l7sm5934452qki.99.2021.09.13.12.24.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Sep 2021 12:25:00 -0700 (PDT)
+Subject: Re: [PATCH 1/2] target/ppc: add LPCR[HR] to DisasContext and hflags
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20210909203439.4114179-1-matheus.ferst@eldorado.org.br>
+ <20210909203439.4114179-2-matheus.ferst@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <1822d290-9ff7-9239-bc6a-351949861f41@gmail.com>
+Date: Mon, 13 Sep 2021 16:24:56 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210908104351.72d0bb19@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+In-Reply-To: <20210909203439.4114179-2-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x731.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.969,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,101 +87,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, jusual@redhat.com, philmd@redhat.com,
- qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, leandro.lupori@eldorado.org.br,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 08, 2021 at 10:43:51AM +0200, Igor Mammedov wrote:
-> On Wed, 8 Sep 2021 12:51:04 +0530 (IST)
-> Ani Sinha <ani@anisinha.ca> wrote:
-> 
-> > On Wed, 8 Sep 2021, Igor Mammedov wrote:
-> > 
-> > > On Wed,  8 Sep 2021 09:41:39 +0530
-> > > Ani Sinha <ani@anisinha.ca> wrote:
-> > >  
-> > > > Change caf108bc58790 ("hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35")
-> > > > selects an IO address range for acpi based PCI hotplug for q35 arbitrarily. It
-> > > > starts at address 0x0cc4 and ends at 0x0cdb. It was assumed that this address
-> > > > range was free and available. However, upon more testing, it seems this address
-> > > > range to be not available for some latest versions of windows.  
-> > >
-> > > The range is something assigned by QEMU, and guest has no say where it should be.
-> > > but perhaps we failed to describe it properly or something similar, so one gets
-> > > 'no resource' error.  
-> > 
-> > OK dug deeper. The existing range of IO address conflicts with the CPU
-> > hotplug range.
-> > 
-> > CPU hotplug range (ICH9_CPU_HOTPLUG_IO_BASE) is 0x0cd8 to 0x0ce3
-> > 
-> > This intersects with range 0x0cc4 to 0x0cdb for ACPI_PCIHP_ADDR_ICH9 .
-> 
-> Looking at 'info mtree' it's indeed wrong:
-> 
->     0000000000000cc4-0000000000000cdb (prio 0, i/o): acpi-pci-hotplug
->     0000000000000cd8-0000000000000cf7 (prio 0, i/o): acpi-cpu-hotplug
-> 
-> which of them eventually handles IO request in intersection range?
-> 
-> Please, add to commit message your findings, so it would point out
-> where problem comes from and what it breaks(doesn't work as expect).
-> 
-> Given it's broken to begin with (and possibly regression if it broke cpu hotplug),
-> I'm inclined to fix it without adding compat stuff.
-> Michael, what do you think?
 
-Agreed.
 
-> > We need to change one or the other.
-> > 
-> > From the windows device manager, I see that the other IO address range is
-> > 0x0620 to 0x062F which is reserved for GPE0.
-> > 
-> > .
-> > > We need a find out a reason why Windows doesn't like it. You might get more
-> > > detailed error running Windows debug build with ACPI debugger attached.  
-> > 
-> > bummer. This is beyond my expertize and I do not have a windows debug
-> > build.
-> never mind, you already found the issue.
+On 9/9/21 5:34 PM, matheus.ferst@eldorado.org.br wrote:
+> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> 
+> Add a Host Radix field (hr) in DisasContext with LPCR[HR] value to allow
+> us to decide between Radix and HPT while validating instructions
+> arguments. Note that PowerISA v3.1 does not require LPCR[HR] and PATE.HR
+> to match if the thread is in ultravisor/hypervisor real addressing mode,
+> so ctx->hr may be invalid if ctx->hv and ctx->dr are set.
+> 
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> ---
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   target/ppc/cpu.h         | 1 +
+>   target/ppc/helper_regs.c | 3 +++
+>   target/ppc/translate.c   | 2 ++
+>   3 files changed, 6 insertions(+)
+> 
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 500205229c..e1b8d343cd 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -600,6 +600,7 @@ enum {
+>       HFLAGS_64 = 2,   /* computed from MSR_CE and MSR_SF */
+>       HFLAGS_GTSE = 3, /* computed from SPR_LPCR[GTSE] */
+>       HFLAGS_DR = 4,   /* MSR_DR */
+> +    HFLAGS_HR = 5,   /* computed from SPR_LPCR[HR] */
+>       HFLAGS_SPE = 6,  /* from MSR_SPE if cpu has SPE; avoid overlap w/ MSR_VR */
+>       HFLAGS_TM = 8,   /* computed from MSR_TM */
+>       HFLAGS_BE = 9,   /* MSR_BE -- from elsewhere on embedded ppc */
+> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+> index 405450d863..1bfb480ecf 100644
+> --- a/target/ppc/helper_regs.c
+> +++ b/target/ppc/helper_regs.c
+> @@ -106,6 +106,9 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
+>       if (env->spr[SPR_LPCR] & LPCR_GTSE) {
+>           hflags |= 1 << HFLAGS_GTSE;
+>       }
+> +    if (env->spr[SPR_LPCR] & LPCR_HR) {
+> +        hflags |= 1 << HFLAGS_HR;
+> +    }
 >   
-> > > > Hence, this
-> > > > change modifies the IO address range so that windows can allocate the address
-> > > > range without any conflict. The new address range would start at 0x0dd4 and end
-> > > > at address 0x0deb.
-> > > >
-> > > > This change has been tested using a Windows Server 2019 guest VM.
-> > > >
-> > > > Fixes: caf108bc58790 ("hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35")
-> > > > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/561
-> > > >
-> > > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > > > ---
-> > > >  include/hw/acpi/ich9.h | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
-> > > > index a329ce43ab..b68c5a2174 100644
-> > > > --- a/include/hw/acpi/ich9.h
-> > > > +++ b/include/hw/acpi/ich9.h
-> > > > @@ -29,7 +29,7 @@
-> > > >  #include "hw/acpi/acpi_dev_interface.h"
-> > > >  #include "hw/acpi/tco.h"
-> > > >
-> > > > -#define ACPI_PCIHP_ADDR_ICH9 0x0cc4
-> > > > +#define ACPI_PCIHP_ADDR_ICH9 0x0dd4
-> maybe 0xcc0 to fit right under acpi-cpu-hotplug as it was intended?
+>   #ifndef CONFIG_USER_ONLY
+>       if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 171b216e17..909a092fde 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -175,6 +175,7 @@ struct DisasContext {
+>       bool spe_enabled;
+>       bool tm_enabled;
+>       bool gtse;
+> +    bool hr;
+>       ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
+>       int singlestep_enabled;
+>       uint32_t flags;
+> @@ -8539,6 +8540,7 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>       ctx->vsx_enabled = (hflags >> HFLAGS_VSX) & 1;
+>       ctx->tm_enabled = (hflags >> HFLAGS_TM) & 1;
+>       ctx->gtse = (hflags >> HFLAGS_GTSE) & 1;
+> +    ctx->hr = (hflags >> HFLAGS_HR) & 1;
+>   
+>       ctx->singlestep_enabled = 0;
+>       if ((hflags >> HFLAGS_SE) & 1) {
 > 
-> > >
-> > > that's ABI change, it must be versioned
-> > >  
-> > > >
-> > > >  typedef struct ICH9LPCPMRegs {
-> > > >      /*  
-> > >
-> > >  
-> > 
-
 
