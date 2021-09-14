@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D1940A1CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 02:18:29 +0200 (CEST)
-Received: from localhost ([::1]:50992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DFF540A1CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 02:18:30 +0200 (CEST)
+Received: from localhost ([::1]:51030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPw9c-0004Xf-54
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 20:18:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53348)
+	id 1mPw9d-0004ZD-An
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 20:18:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPw6K-0001eN-A2
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:04 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:42619)
+ id 1mPw6M-0001ep-6G
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:06 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:45688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPw6H-0007YZ-90
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:03 -0400
-Received: by mail-pg1-x532.google.com with SMTP id q68so10998519pga.9
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 17:14:59 -0700 (PDT)
+ id 1mPw6I-0007Yf-13
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:05 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ f11-20020a17090aa78b00b0018e98a7cddaso1355716pjq.4
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 17:15:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2/aRV94oyF6HEuHjJmnfTp1vElXNF/Wl/VWcdqDW0pY=;
- b=zHzul7VrPAsn1+XH8D1QfwwFIxekL813rkemt8hcLTQRuZ9xIA2hjAHjx5CTXLnDj3
- BOeU7n5fitz1CPBUS4U9XcmR86bs0RjONO5D5P0KKG+QvvsF0TZ63TE46RO5bAwizVj6
- gvT4B19qqV9ovyGrdB9UsXhwAha7KMnFgN1ytGHSV1hHwuhfrKWrBbFFmXNDQHPuzfWC
- h5AeWyUAh/wV+Y8jaq2rlkuH21DiSjkqjtDSSdYvPALUldF7qhygYOpRP7IQvymIkM8O
- haZBOVzAtCIhg3vFicb+FUYhID6rf9qqdDULUHpYB1R4bnRBhGMp4cQpCpV5/3lzEHqb
- r4ag==
+ bh=eLHG44jCWPrfG7hZcGkKiwrmgjxf0GnrOvDF2kTb5Z0=;
+ b=kjY8dn4l+Mi0JuHVOJ2i5TXwalnVw/800nYo6pvrE2tBS6/ueV8LW4SJm11uRwCZMW
+ CLOenTrXLTZLyWclDhOXJvqQX9k79Tll1O3l06NUFt2sdEAI9j8WE/LxBF0pGvirP7Q6
+ tlqp0yfl/sY7Galxztjlhp9TXcEBaFW2mpvYWLrdnXRQnOJEnkqSwjt2H1mHc+Symg75
+ JrtwiBcbWskJ2HCVBf6EEilj8sosBUMMgyjxTiC2hQFILRGNSB6c8xopT3sl95+2bz5g
+ Uxo5P6cl56SfVrwui4apWd7SeA3Kg/tLJYfTh5AUAY7cm25ZpyXM9IaIys43Jpfc1JPW
+ OXRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2/aRV94oyF6HEuHjJmnfTp1vElXNF/Wl/VWcdqDW0pY=;
- b=xkpCPaXVCUWs+7P3XDz1W5LOKRwqhLfZfsIswFt8/FWPhzYJyXEvyVvDyrrAw0DGlD
- kqD833xHadtn1Cxzn9Ijic88bp5R8irKN6iDPGqpBuiK4oz7N+U86SqsFqJzjGDlEvk+
- zku59KDO6nG3pe0v4jk51f7SxCVY9rR6jaethHBStx13FnmwDrhbwnEUiQWHTKHqRdkC
- 6xgit6MWCPhNJ6dpz/rQO7VY69bAgOjd4UJ4F/2cHIg+5dImqbt9vgMQKH0WDdGQgMf/
- QlYkFOjzGYh3z1MrN+4DLDBiKdbYtvVVYOTNZTNTYaj5UAHEMDqfEHWnIkFCEZXPl/FE
- K87Q==
-X-Gm-Message-State: AOAM5337r31t/2FuKz03/lC1s0D86BDXjyTcBx2ktc2V+4jloelexiNa
- 9olQNmarYH9rEH2Uh6E097wxLf6KwBsdmQ==
-X-Google-Smtp-Source: ABdhPJyByzgSURYRN/oxwTJQPuH+ytN4qyi/WErPA+ePqu6d46U99TQZHe8Ka0SzbfzdeYU3sh5n1w==
-X-Received: by 2002:aa7:9542:0:b0:434:5a64:bc8 with SMTP id
- w2-20020aa79542000000b004345a640bc8mr2038819pfq.30.1631578498813; 
- Mon, 13 Sep 2021 17:14:58 -0700 (PDT)
+ bh=eLHG44jCWPrfG7hZcGkKiwrmgjxf0GnrOvDF2kTb5Z0=;
+ b=bk5n/xLzkBMIxFmvAe4eeInTplMc11K+GOOgfgtX1eUbPDgPyLK0oxglk5PKZ0QSdU
+ xO0XhpZZftzieD8kLQolyIji3bGWBMZky4BbSdSbzFDwkA/e/NJ2zPfpWRNb7yibS4Rw
+ qWiuWJWKvon0FH7A4PgyOXPPIp1VkPutkl43gF754Azh5foK+NgEnoMkUFTweRuTZURe
+ ScVr7p1+19YTajMkFU6ZuyR7pBOutQKXYHNHkzq7RIP1+3pwhsTuqiGwJBhuoEaBJqQ0
+ i+og7jdhR3nh7WnBpYsGy/GHVqO1sTqBIPKiwW+HENCanOxcohf2sAx2HY8yGbTkmZ+Q
+ fX8Q==
+X-Gm-Message-State: AOAM530p4esdus+Dblm+jWy1LbdQMeJTO3r0/gL7N8zuRvEdE23RK7DV
+ /cEj7gKcMROBZPUFtEw3/JvH2tCFiMqIGQ==
+X-Google-Smtp-Source: ABdhPJx2kXvcsyiO9yn1N0UMRpRjHBo/JnlzUwAc1nrMP7K5Fz2WQtgODD2uEdaruznUlHKcpJeWyQ==
+X-Received: by 2002:a17:90a:f18f:: with SMTP id
+ bv15mr1544493pjb.93.1631578499631; 
+ Mon, 13 Sep 2021 17:14:59 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id m7sm9334179pgn.32.2021.09.13.17.14.58
+ by smtp.gmail.com with ESMTPSA id m7sm9334179pgn.32.2021.09.13.17.14.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 17:14:58 -0700 (PDT)
+ Mon, 13 Sep 2021 17:14:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/44] accel/tcg: Add DisasContextBase argument to
- translator_ld*
-Date: Mon, 13 Sep 2021 17:14:13 -0700
-Message-Id: <20210914001456.793490-2-richard.henderson@linaro.org>
+Subject: [PULL 02/44] accel/tcg: Clear PAGE_WRITE before translation
+Date: Mon, 13 Sep 2021 17:14:14 -0700
+Message-Id: <20210914001456.793490-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210914001456.793490-1-richard.henderson@linaro.org>
 References: <20210914001456.793490-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,482 +90,245 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 
+translate_insn() implementations fetch instruction bytes piecemeal,
+which can cause qemu-user to generate inconsistent translations if
+another thread modifies them concurrently [1].
+
+Fix by making pages containing translated instruction non-writable
+right before loading instruction bytes from them.
+
+[1] https://lists.nongnu.org/archive/html/qemu-devel/2021-08/msg00644.html
+
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-[rth: Split out of a larger patch.]
+Message-Id: <20210805204835.158918-1-iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/translator.h                 |  9 +++++----
- target/arm/arm_ldst.h                     | 12 ++++++------
- target/alpha/translate.c                  |  2 +-
- target/arm/translate-a64.c                |  2 +-
- target/arm/translate.c                    |  9 +++++----
- target/hexagon/translate.c                |  3 ++-
- target/hppa/translate.c                   |  2 +-
- target/i386/tcg/translate.c               | 10 +++++-----
- target/m68k/translate.c                   |  2 +-
- target/mips/tcg/translate.c               |  8 ++++----
- target/openrisc/translate.c               |  2 +-
- target/ppc/translate.c                    |  5 +++--
- target/riscv/translate.c                  |  5 +++--
- target/s390x/tcg/translate.c              | 16 +++++++++-------
- target/sh4/translate.c                    |  4 ++--
- target/sparc/translate.c                  |  2 +-
- target/xtensa/translate.c                 |  5 +++--
- target/mips/tcg/micromips_translate.c.inc |  2 +-
- target/mips/tcg/mips16e_translate.c.inc   |  4 ++--
- target/mips/tcg/nanomips_translate.c.inc  |  4 ++--
- 20 files changed, 58 insertions(+), 50 deletions(-)
+ include/exec/translate-all.h |  1 +
+ include/exec/translator.h    | 39 ++++++++++++++----------
+ accel/tcg/translate-all.c    | 59 +++++++++++++++++++++---------------
+ accel/tcg/translator.c       | 39 ++++++++++++++++++++++++
+ 4 files changed, 97 insertions(+), 41 deletions(-)
 
+diff --git a/include/exec/translate-all.h b/include/exec/translate-all.h
+index a557b4e2bb..9f646389af 100644
+--- a/include/exec/translate-all.h
++++ b/include/exec/translate-all.h
+@@ -33,6 +33,7 @@ void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end);
+ void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr);
+ 
+ #ifdef CONFIG_USER_ONLY
++void page_protect(tb_page_addr_t page_addr);
+ int page_unprotect(target_ulong address, uintptr_t pc);
+ #endif
+ 
 diff --git a/include/exec/translator.h b/include/exec/translator.h
-index d318803267..6c054e8d05 100644
+index 6c054e8d05..9bc46eda59 100644
 --- a/include/exec/translator.h
 +++ b/include/exec/translator.h
-@@ -157,7 +157,8 @@ bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest);
+@@ -23,6 +23,7 @@
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
+ #include "exec/plugin-gen.h"
++#include "exec/translate-all.h"
+ #include "tcg/tcg.h"
+ 
+ 
+@@ -74,6 +75,17 @@ typedef struct DisasContextBase {
+     int num_insns;
+     int max_insns;
+     bool singlestep_enabled;
++#ifdef CONFIG_USER_ONLY
++    /*
++     * Guest address of the last byte of the last protected page.
++     *
++     * Pages containing the translated instructions are made non-writable in
++     * order to achieve consistency in case another thread is modifying the
++     * code while translate_insn() fetches the instruction bytes piecemeal.
++     * Such writer threads are blocked on mmap_lock() in page_unprotect().
++     */
++    target_ulong page_protect_end;
++#endif
+ } DisasContextBase;
+ 
+ /**
+@@ -156,28 +168,23 @@ bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest);
+  */
  
  #define GEN_TRANSLATOR_LD(fullname, type, load_fn, swap_fn)             \
-     static inline type                                                  \
--    fullname ## _swap(CPUArchState *env, abi_ptr pc, bool do_swap)      \
-+    fullname ## _swap(CPUArchState *env, DisasContextBase *dcbase,      \
-+                      abi_ptr pc, bool do_swap)                         \
+-    static inline type                                                  \
+-    fullname ## _swap(CPUArchState *env, DisasContextBase *dcbase,      \
+-                      abi_ptr pc, bool do_swap)                         \
+-    {                                                                   \
+-        type ret = load_fn(env, pc);                                    \
+-        if (do_swap) {                                                  \
+-            ret = swap_fn(ret);                                         \
+-        }                                                               \
+-        plugin_insn_append(&ret, sizeof(ret));                          \
+-        return ret;                                                     \
+-    }                                                                   \
++    type fullname ## _swap(CPUArchState *env, DisasContextBase *dcbase, \
++                           abi_ptr pc, bool do_swap);                   \
+     static inline type fullname(CPUArchState *env,                      \
+                                 DisasContextBase *dcbase, abi_ptr pc)   \
      {                                                                   \
-         type ret = load_fn(env, pc);                                    \
-         if (do_swap) {                                                  \
-@@ -166,10 +167,10 @@ bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest);
-         plugin_insn_append(&ret, sizeof(ret));                          \
-         return ret;                                                     \
-     }                                                                   \
--                                                                        \
--    static inline type fullname(CPUArchState *env, abi_ptr pc)          \
-+    static inline type fullname(CPUArchState *env,                      \
-+                                DisasContextBase *dcbase, abi_ptr pc)   \
-     {                                                                   \
--        return fullname ## _swap(env, pc, false);                       \
-+        return fullname ## _swap(env, dcbase, pc, false);               \
+         return fullname ## _swap(env, dcbase, pc, false);               \
      }
  
- GEN_TRANSLATOR_LD(translator_ldub, uint8_t, cpu_ldub_code, /* no swap */)
-diff --git a/target/arm/arm_ldst.h b/target/arm/arm_ldst.h
-index 057160e8da..cee0548a1c 100644
---- a/target/arm/arm_ldst.h
-+++ b/target/arm/arm_ldst.h
-@@ -24,15 +24,15 @@
- #include "qemu/bswap.h"
+-GEN_TRANSLATOR_LD(translator_ldub, uint8_t, cpu_ldub_code, /* no swap */)
+-GEN_TRANSLATOR_LD(translator_ldsw, int16_t, cpu_ldsw_code, bswap16)
+-GEN_TRANSLATOR_LD(translator_lduw, uint16_t, cpu_lduw_code, bswap16)
+-GEN_TRANSLATOR_LD(translator_ldl, uint32_t, cpu_ldl_code, bswap32)
+-GEN_TRANSLATOR_LD(translator_ldq, uint64_t, cpu_ldq_code, bswap64)
++#define FOR_EACH_TRANSLATOR_LD(F)                                       \
++    F(translator_ldub, uint8_t, cpu_ldub_code, /* no swap */)           \
++    F(translator_ldsw, int16_t, cpu_ldsw_code, bswap16)                 \
++    F(translator_lduw, uint16_t, cpu_lduw_code, bswap16)                \
++    F(translator_ldl, uint32_t, cpu_ldl_code, bswap32)                  \
++    F(translator_ldq, uint64_t, cpu_ldq_code, bswap64)
++
++FOR_EACH_TRANSLATOR_LD(GEN_TRANSLATOR_LD)
++
+ #undef GEN_TRANSLATOR_LD
  
- /* Load an instruction and return it in the standard little-endian order */
--static inline uint32_t arm_ldl_code(CPUARMState *env, target_ulong addr,
--                                    bool sctlr_b)
-+static inline uint32_t arm_ldl_code(CPUARMState *env, DisasContextBase *s,
-+                                    target_ulong addr, bool sctlr_b)
- {
--    return translator_ldl_swap(env, addr, bswap_code(sctlr_b));
-+    return translator_ldl_swap(env, s, addr, bswap_code(sctlr_b));
+ #endif  /* EXEC__TRANSLATOR_H */
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index bbfcfb698c..fb9ebfad9e 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1297,31 +1297,8 @@ static inline void tb_page_add(PageDesc *p, TranslationBlock *tb,
+     invalidate_page_bitmap(p);
+ 
+ #if defined(CONFIG_USER_ONLY)
+-    if (p->flags & PAGE_WRITE) {
+-        target_ulong addr;
+-        PageDesc *p2;
+-        int prot;
+-
+-        /* force the host page as non writable (writes will have a
+-           page fault + mprotect overhead) */
+-        page_addr &= qemu_host_page_mask;
+-        prot = 0;
+-        for (addr = page_addr; addr < page_addr + qemu_host_page_size;
+-            addr += TARGET_PAGE_SIZE) {
+-
+-            p2 = page_find(addr >> TARGET_PAGE_BITS);
+-            if (!p2) {
+-                continue;
+-            }
+-            prot |= p2->flags;
+-            p2->flags &= ~PAGE_WRITE;
+-          }
+-        mprotect(g2h_untagged(page_addr), qemu_host_page_size,
+-                 (prot & PAGE_BITS) & ~PAGE_WRITE);
+-        if (DEBUG_TB_INVALIDATE_GATE) {
+-            printf("protecting code page: 0x" TB_PAGE_ADDR_FMT "\n", page_addr);
+-        }
+-    }
++    /* translator_loop() must have made all TB pages non-writable */
++    assert(!(p->flags & PAGE_WRITE));
+ #else
+     /* if some code is already present, then the pages are already
+        protected. So we handle the case where only the first TB is
+@@ -2394,6 +2371,38 @@ int page_check_range(target_ulong start, target_ulong len, int flags)
+     return 0;
  }
  
- /* Ditto, for a halfword (Thumb) instruction */
--static inline uint16_t arm_lduw_code(CPUARMState *env, target_ulong addr,
--                                     bool sctlr_b)
-+static inline uint16_t arm_lduw_code(CPUARMState *env, DisasContextBase* s,
-+                                     target_ulong addr, bool sctlr_b)
- {
- #ifndef CONFIG_USER_ONLY
-     /* In big-endian (BE32) mode, adjacent Thumb instructions have been swapped
-@@ -41,7 +41,7 @@ static inline uint16_t arm_lduw_code(CPUARMState *env, target_ulong addr,
-         addr ^= 2;
-     }
- #endif
--    return translator_lduw_swap(env, addr, bswap_code(sctlr_b));
-+    return translator_lduw_swap(env, s, addr, bswap_code(sctlr_b));
++void page_protect(tb_page_addr_t page_addr)
++{
++    target_ulong addr;
++    PageDesc *p;
++    int prot;
++
++    p = page_find(page_addr >> TARGET_PAGE_BITS);
++    if (p && (p->flags & PAGE_WRITE)) {
++        /*
++         * Force the host page as non writable (writes will have a page fault +
++         * mprotect overhead).
++         */
++        page_addr &= qemu_host_page_mask;
++        prot = 0;
++        for (addr = page_addr; addr < page_addr + qemu_host_page_size;
++             addr += TARGET_PAGE_SIZE) {
++
++            p = page_find(addr >> TARGET_PAGE_BITS);
++            if (!p) {
++                continue;
++            }
++            prot |= p->flags;
++            p->flags &= ~PAGE_WRITE;
++        }
++        mprotect(g2h_untagged(page_addr), qemu_host_page_size,
++                 (prot & PAGE_BITS) & ~PAGE_WRITE);
++        if (DEBUG_TB_INVALIDATE_GATE) {
++            printf("protecting code page: 0x" TB_PAGE_ADDR_FMT "\n", page_addr);
++        }
++    }
++}
++
+ /* called from signal handler: invalidate the code and unprotect the
+  * page. Return 0 if the fault was not handled, 1 if it was handled,
+  * and 2 if it was handled but the caller must cause the TB to be
+diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+index c53a7f8e44..390bd9db0a 100644
+--- a/accel/tcg/translator.c
++++ b/accel/tcg/translator.c
+@@ -42,6 +42,15 @@ bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest)
+     return ((db->pc_first ^ dest) & TARGET_PAGE_MASK) == 0;
  }
  
- #endif
-diff --git a/target/alpha/translate.c b/target/alpha/translate.c
-index de6c0a8439..b034206688 100644
---- a/target/alpha/translate.c
-+++ b/target/alpha/translate.c
-@@ -2971,7 +2971,7 @@ static void alpha_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
++static inline void translator_page_protect(DisasContextBase *dcbase,
++                                           target_ulong pc)
++{
++#ifdef CONFIG_USER_ONLY
++    dcbase->page_protect_end = pc | ~TARGET_PAGE_MASK;
++    page_protect(pc);
++#endif
++}
++
+ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+                      CPUState *cpu, TranslationBlock *tb, int max_insns)
  {
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     CPUAlphaState *env = cpu->env_ptr;
--    uint32_t insn = translator_ldl(env, ctx->base.pc_next);
-+    uint32_t insn = translator_ldl(env, &ctx->base, ctx->base.pc_next);
+@@ -56,6 +65,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+     db->num_insns = 0;
+     db->max_insns = max_insns;
+     db->singlestep_enabled = cflags & CF_SINGLE_STEP;
++    translator_page_protect(db, db->pc_next);
  
-     ctx->base.pc_next += 4;
-     ctx->base.is_jmp = translate_one(ctx, insn);
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 422e2ac0c9..a52949b1f3 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -14655,7 +14655,7 @@ static void disas_a64_insn(CPUARMState *env, DisasContext *s)
-     uint32_t insn;
- 
-     s->pc_curr = s->base.pc_next;
--    insn = arm_ldl_code(env, s->base.pc_next, s->sctlr_b);
-+    insn = arm_ldl_code(env, &s->base, s->base.pc_next, s->sctlr_b);
-     s->insn = insn;
-     s->base.pc_next += 4;
- 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 24b7f49d76..422fca353d 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -9302,7 +9302,7 @@ static bool insn_crosses_page(CPUARMState *env, DisasContext *s)
-      * boundary, so we cross the page if the first 16 bits indicate
-      * that this is a 32 bit insn.
-      */
--    uint16_t insn = arm_lduw_code(env, s->base.pc_next, s->sctlr_b);
-+    uint16_t insn = arm_lduw_code(env, &s->base, s->base.pc_next, s->sctlr_b);
- 
-     return !thumb_insn_is_16bit(s, s->base.pc_next, insn);
- }
-@@ -9540,7 +9540,7 @@ static void arm_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-     }
- 
-     dc->pc_curr = dc->base.pc_next;
--    insn = arm_ldl_code(env, dc->base.pc_next, dc->sctlr_b);
-+    insn = arm_ldl_code(env, &dc->base, dc->base.pc_next, dc->sctlr_b);
-     dc->insn = insn;
-     dc->base.pc_next += 4;
-     disas_arm_insn(dc, insn);
-@@ -9610,11 +9610,12 @@ static void thumb_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-     }
- 
-     dc->pc_curr = dc->base.pc_next;
--    insn = arm_lduw_code(env, dc->base.pc_next, dc->sctlr_b);
-+    insn = arm_lduw_code(env, &dc->base, dc->base.pc_next, dc->sctlr_b);
-     is_16bit = thumb_insn_is_16bit(dc, dc->base.pc_next, insn);
-     dc->base.pc_next += 2;
-     if (!is_16bit) {
--        uint32_t insn2 = arm_lduw_code(env, dc->base.pc_next, dc->sctlr_b);
-+        uint32_t insn2 = arm_lduw_code(env, &dc->base, dc->base.pc_next,
-+                                       dc->sctlr_b);
- 
-         insn = insn << 16 | insn2;
-         dc->base.pc_next += 2;
-diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
-index 54fdcaa5e8..6fb4e6853c 100644
---- a/target/hexagon/translate.c
-+++ b/target/hexagon/translate.c
-@@ -112,7 +112,8 @@ static int read_packet_words(CPUHexagonState *env, DisasContext *ctx,
-     memset(words, 0, PACKET_WORDS_MAX * sizeof(uint32_t));
-     for (nwords = 0; !found_end && nwords < PACKET_WORDS_MAX; nwords++) {
-         words[nwords] =
--            translator_ldl(env, ctx->base.pc_next + nwords * sizeof(uint32_t));
-+            translator_ldl(env, &ctx->base,
-+                           ctx->base.pc_next + nwords * sizeof(uint32_t));
-         found_end = is_packet_end(words[nwords]);
-     }
-     if (!found_end) {
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index b18150ef8d..3ce22cdd09 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -4177,7 +4177,7 @@ static void hppa_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     {
-         /* Always fetch the insn, even if nullified, so that we check
-            the page permissions for execute.  */
--        uint32_t insn = translator_ldl(env, ctx->base.pc_next);
-+        uint32_t insn = translator_ldl(env, &ctx->base, ctx->base.pc_next);
- 
-         /* Set up the IA queue for the next insn.
-            This will be overwritten by a branch.  */
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index aacb605eee..a46be75b00 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -2028,28 +2028,28 @@ static uint64_t advance_pc(CPUX86State *env, DisasContext *s, int num_bytes)
- 
- static inline uint8_t x86_ldub_code(CPUX86State *env, DisasContext *s)
- {
--    return translator_ldub(env, advance_pc(env, s, 1));
-+    return translator_ldub(env, &s->base, advance_pc(env, s, 1));
- }
- 
- static inline int16_t x86_ldsw_code(CPUX86State *env, DisasContext *s)
- {
--    return translator_ldsw(env, advance_pc(env, s, 2));
-+    return translator_ldsw(env, &s->base, advance_pc(env, s, 2));
- }
- 
- static inline uint16_t x86_lduw_code(CPUX86State *env, DisasContext *s)
- {
--    return translator_lduw(env, advance_pc(env, s, 2));
-+    return translator_lduw(env, &s->base, advance_pc(env, s, 2));
- }
- 
- static inline uint32_t x86_ldl_code(CPUX86State *env, DisasContext *s)
- {
--    return translator_ldl(env, advance_pc(env, s, 4));
-+    return translator_ldl(env, &s->base, advance_pc(env, s, 4));
- }
- 
- #ifdef TARGET_X86_64
- static inline uint64_t x86_ldq_code(CPUX86State *env, DisasContext *s)
- {
--    return translator_ldq(env, advance_pc(env, s, 8));
-+    return translator_ldq(env, &s->base, advance_pc(env, s, 8));
- }
- #endif
- 
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index c34d9aed61..50a55f949c 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -415,7 +415,7 @@ static TCGv gen_ldst(DisasContext *s, int opsize, TCGv addr, TCGv val,
- static inline uint16_t read_im16(CPUM68KState *env, DisasContext *s)
- {
-     uint16_t im;
--    im = translator_lduw(env, s->pc);
-+    im = translator_lduw(env, &s->base, s->pc);
-     s->pc += 2;
-     return im;
- }
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 6f4a9a839c..148afec9dc 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -16041,17 +16041,17 @@ static void mips_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
- 
-     is_slot = ctx->hflags & MIPS_HFLAG_BMASK;
-     if (ctx->insn_flags & ISA_NANOMIPS32) {
--        ctx->opcode = translator_lduw(env, ctx->base.pc_next);
-+        ctx->opcode = translator_lduw(env, &ctx->base, ctx->base.pc_next);
-         insn_bytes = decode_isa_nanomips(env, ctx);
-     } else if (!(ctx->hflags & MIPS_HFLAG_M16)) {
--        ctx->opcode = translator_ldl(env, ctx->base.pc_next);
-+        ctx->opcode = translator_ldl(env, &ctx->base, ctx->base.pc_next);
-         insn_bytes = 4;
-         decode_opc(env, ctx);
-     } else if (ctx->insn_flags & ASE_MICROMIPS) {
--        ctx->opcode = translator_lduw(env, ctx->base.pc_next);
-+        ctx->opcode = translator_lduw(env, &ctx->base, ctx->base.pc_next);
-         insn_bytes = decode_isa_micromips(env, ctx);
-     } else if (ctx->insn_flags & ASE_MIPS16) {
--        ctx->opcode = translator_lduw(env, ctx->base.pc_next);
-+        ctx->opcode = translator_lduw(env, &ctx->base, ctx->base.pc_next);
-         insn_bytes = decode_ase_mips16e(env, ctx);
-     } else {
-         gen_reserved_instruction(ctx);
-diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
-index d6ea536744..5f3d430245 100644
---- a/target/openrisc/translate.c
-+++ b/target/openrisc/translate.c
-@@ -1613,7 +1613,7 @@ static void openrisc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
- {
-     DisasContext *dc = container_of(dcbase, DisasContext, base);
-     OpenRISCCPU *cpu = OPENRISC_CPU(cs);
--    uint32_t insn = translator_ldl(&cpu->env, dc->base.pc_next);
-+    uint32_t insn = translator_ldl(&cpu->env, &dc->base, dc->base.pc_next);
- 
-     if (!decode(dc, insn)) {
-         gen_illegal_exception(dc);
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 171b216e17..5d8b06bd80 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -8585,7 +8585,7 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-               ctx->base.pc_next, ctx->mem_idx, (int)msr_ir);
- 
-     ctx->cia = pc = ctx->base.pc_next;
--    insn = translator_ldl_swap(env, pc, need_byteswap(ctx));
-+    insn = translator_ldl_swap(env, dcbase, pc, need_byteswap(ctx));
-     ctx->base.pc_next = pc += 4;
- 
-     if (!is_prefix_insn(ctx, insn)) {
-@@ -8600,7 +8600,8 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-         gen_exception_err(ctx, POWERPC_EXCP_ALIGN, POWERPC_EXCP_ALIGN_INSN);
-         ok = true;
-     } else {
--        uint32_t insn2 = translator_ldl_swap(env, pc, need_byteswap(ctx));
-+        uint32_t insn2 = translator_ldl_swap(env, dcbase, pc,
-+                                             need_byteswap(ctx));
-         ctx->base.pc_next = pc += 4;
-         ok = decode_insn64(ctx, deposit64(insn2, 32, 32, insn));
-     }
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index e356fc6c46..74b33fa3c9 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -500,7 +500,8 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
-     } else {
-         uint32_t opcode32 = opcode;
-         opcode32 = deposit32(opcode32, 16, 16,
--                             translator_lduw(env, ctx->base.pc_next + 2));
-+                             translator_lduw(env, &ctx->base,
-+                                             ctx->base.pc_next + 2));
-         ctx->pc_succ_insn = ctx->base.pc_next + 4;
-         if (!decode_insn32(ctx, opcode32)) {
-             gen_exception_illegal(ctx);
-@@ -561,7 +562,7 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
- {
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     CPURISCVState *env = cpu->env_ptr;
--    uint16_t opcode16 = translator_lduw(env, ctx->base.pc_next);
-+    uint16_t opcode16 = translator_lduw(env, &ctx->base, ctx->base.pc_next);
- 
-     decode_opc(env, ctx, opcode16);
-     ctx->base.pc_next = ctx->pc_succ_insn;
-diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 0632b0374b..f284870cd2 100644
---- a/target/s390x/tcg/translate.c
-+++ b/target/s390x/tcg/translate.c
-@@ -388,14 +388,16 @@ static void update_cc_op(DisasContext *s)
-     }
- }
- 
--static inline uint64_t ld_code2(CPUS390XState *env, uint64_t pc)
-+static inline uint64_t ld_code2(CPUS390XState *env, DisasContext *s,
-+                                uint64_t pc)
- {
--    return (uint64_t)cpu_lduw_code(env, pc);
-+    return (uint64_t)translator_lduw(env, &s->base, pc);
- }
- 
--static inline uint64_t ld_code4(CPUS390XState *env, uint64_t pc)
-+static inline uint64_t ld_code4(CPUS390XState *env, DisasContext *s,
-+                                uint64_t pc)
- {
--    return (uint64_t)(uint32_t)cpu_ldl_code(env, pc);
-+    return (uint64_t)(uint32_t)translator_ldl(env, &s->base, pc);
- }
- 
- static int get_mem_index(DisasContext *s)
-@@ -6273,7 +6275,7 @@ static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s)
-         ilen = s->ex_value & 0xf;
-         op = insn >> 56;
-     } else {
--        insn = ld_code2(env, pc);
-+        insn = ld_code2(env, s, pc);
-         op = (insn >> 8) & 0xff;
-         ilen = get_ilen(op);
-         switch (ilen) {
-@@ -6281,10 +6283,10 @@ static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s)
-             insn = insn << 48;
-             break;
-         case 4:
--            insn = ld_code4(env, pc) << 32;
-+            insn = ld_code4(env, s, pc) << 32;
-             break;
-         case 6:
--            insn = (insn << 48) | (ld_code4(env, pc + 2) << 16);
-+            insn = (insn << 48) | (ld_code4(env, s, pc + 2) << 16);
-             break;
-         default:
-             g_assert_not_reached();
-diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-index 8704fea1ca..cf5fe9243d 100644
---- a/target/sh4/translate.c
-+++ b/target/sh4/translate.c
-@@ -1907,7 +1907,7 @@ static void decode_gusa(DisasContext *ctx, CPUSH4State *env)
- 
-     /* Read all of the insns for the region.  */
-     for (i = 0; i < max_insns; ++i) {
--        insns[i] = translator_lduw(env, pc + i * 2);
-+        insns[i] = translator_lduw(env, &ctx->base, pc + i * 2);
-     }
- 
-     ld_adr = ld_dst = ld_mop = -1;
-@@ -2307,7 +2307,7 @@ static void sh4_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     ops->init_disas_context(db, cpu);
+     tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
+@@ -137,3 +147,32 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
      }
  #endif
- 
--    ctx->opcode = translator_lduw(env, ctx->base.pc_next);
-+    ctx->opcode = translator_lduw(env, &ctx->base, ctx->base.pc_next);
-     decode_opc(ctx);
-     ctx->base.pc_next += 2;
  }
-diff --git a/target/sparc/translate.c b/target/sparc/translate.c
-index bb70ba17de..fdb8bbe5dc 100644
---- a/target/sparc/translate.c
-+++ b/target/sparc/translate.c
-@@ -5855,7 +5855,7 @@ static void sparc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
-     CPUSPARCState *env = cs->env_ptr;
-     unsigned int insn;
- 
--    insn = translator_ldl(env, dc->pc);
-+    insn = translator_ldl(env, &dc->base, dc->pc);
-     dc->base.pc_next += 4;
-     disas_sparc_insn(dc, insn);
- 
-diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index 20399d6a04..dcf6b500ef 100644
---- a/target/xtensa/translate.c
-+++ b/target/xtensa/translate.c
-@@ -882,7 +882,8 @@ static int arg_copy_compare(const void *a, const void *b)
- static void disas_xtensa_insn(CPUXtensaState *env, DisasContext *dc)
- {
-     xtensa_isa isa = dc->config->isa;
--    unsigned char b[MAX_INSN_LENGTH] = {translator_ldub(env, dc->pc)};
-+    unsigned char b[MAX_INSN_LENGTH] = {translator_ldub(env, &dc->base,
-+                                                        dc->pc)};
-     unsigned len = xtensa_op0_insn_len(dc, b[0]);
-     xtensa_format fmt;
-     int slot, slots;
-@@ -907,7 +908,7 @@ static void disas_xtensa_insn(CPUXtensaState *env, DisasContext *dc)
- 
-     dc->base.pc_next = dc->pc + len;
-     for (i = 1; i < len; ++i) {
--        b[i] = translator_ldub(env, dc->pc + i);
-+        b[i] = translator_ldub(env, &dc->base, dc->pc + i);
-     }
-     xtensa_insnbuf_from_chars(isa, dc->insnbuf, b, len);
-     fmt = xtensa_format_decode(isa, dc->insnbuf);
-diff --git a/target/mips/tcg/micromips_translate.c.inc b/target/mips/tcg/micromips_translate.c.inc
-index 5e95f47854..0da4c802a3 100644
---- a/target/mips/tcg/micromips_translate.c.inc
-+++ b/target/mips/tcg/micromips_translate.c.inc
-@@ -1627,7 +1627,7 @@ static void decode_micromips32_opc(CPUMIPSState *env, DisasContext *ctx)
-     uint32_t op, minor, minor2, mips32_op;
-     uint32_t cond, fmt, cc;
- 
--    insn = translator_lduw(env, ctx->base.pc_next + 2);
-+    insn = translator_lduw(env, &ctx->base, ctx->base.pc_next + 2);
-     ctx->opcode = (ctx->opcode << 16) | insn;
- 
-     rt = (ctx->opcode >> 21) & 0x1f;
-diff --git a/target/mips/tcg/mips16e_translate.c.inc b/target/mips/tcg/mips16e_translate.c.inc
-index 54071813f1..84d816603a 100644
---- a/target/mips/tcg/mips16e_translate.c.inc
-+++ b/target/mips/tcg/mips16e_translate.c.inc
-@@ -455,7 +455,7 @@ static void decode_i64_mips16(DisasContext *ctx,
- 
- static int decode_extended_mips16_opc(CPUMIPSState *env, DisasContext *ctx)
- {
--    int extend = translator_lduw(env, ctx->base.pc_next + 2);
-+    int extend = translator_lduw(env, &ctx->base, ctx->base.pc_next + 2);
-     int op, rx, ry, funct, sa;
-     int16_t imm, offset;
- 
-@@ -688,7 +688,7 @@ static int decode_ase_mips16e(CPUMIPSState *env, DisasContext *ctx)
-         /* No delay slot, so just process as a normal instruction */
-         break;
-     case M16_OPC_JAL:
--        offset = translator_lduw(env, ctx->base.pc_next + 2);
-+        offset = translator_lduw(env, &ctx->base, ctx->base.pc_next + 2);
-         offset = (((ctx->opcode & 0x1f) << 21)
-                   | ((ctx->opcode >> 5) & 0x1f) << 16
-                   | offset) << 2;
-diff --git a/target/mips/tcg/nanomips_translate.c.inc b/target/mips/tcg/nanomips_translate.c.inc
-index a66ae26796..ccbcecad09 100644
---- a/target/mips/tcg/nanomips_translate.c.inc
-+++ b/target/mips/tcg/nanomips_translate.c.inc
-@@ -3656,7 +3656,7 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
-     int offset;
-     int imm;
- 
--    insn = translator_lduw(env, ctx->base.pc_next + 2);
-+    insn = translator_lduw(env, &ctx->base, ctx->base.pc_next + 2);
-     ctx->opcode = (ctx->opcode << 16) | insn;
- 
-     rt = extract32(ctx->opcode, 21, 5);
-@@ -3775,7 +3775,7 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
-         break;
-     case NM_P48I:
-         {
--            insn = translator_lduw(env, ctx->base.pc_next + 4);
-+            insn = translator_lduw(env, &ctx->base, ctx->base.pc_next + 4);
-             target_long addr_off = extract32(ctx->opcode, 0, 16) | insn << 16;
-             switch (extract32(ctx->opcode, 16, 5)) {
-             case NM_LI48:
++
++static inline void translator_maybe_page_protect(DisasContextBase *dcbase,
++                                                 target_ulong pc, size_t len)
++{
++#ifdef CONFIG_USER_ONLY
++    target_ulong end = pc + len - 1;
++
++    if (end > dcbase->page_protect_end) {
++        translator_page_protect(dcbase, end);
++    }
++#endif
++}
++
++#define GEN_TRANSLATOR_LD(fullname, type, load_fn, swap_fn)             \
++    type fullname ## _swap(CPUArchState *env, DisasContextBase *dcbase, \
++                           abi_ptr pc, bool do_swap)                    \
++    {                                                                   \
++        translator_maybe_page_protect(dcbase, pc, sizeof(type));        \
++        type ret = load_fn(env, pc);                                    \
++        if (do_swap) {                                                  \
++            ret = swap_fn(ret);                                         \
++        }                                                               \
++        plugin_insn_append(&ret, sizeof(ret));                          \
++        return ret;                                                     \
++    }
++
++FOR_EACH_TRANSLATOR_LD(GEN_TRANSLATOR_LD)
++
++#undef GEN_TRANSLATOR_LD
 -- 
 2.25.1
 
