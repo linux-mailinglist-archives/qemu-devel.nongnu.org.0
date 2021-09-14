@@ -2,94 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3763D40B5BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 19:14:22 +0200 (CEST)
-Received: from localhost ([::1]:41814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE11340B5C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 19:19:09 +0200 (CEST)
+Received: from localhost ([::1]:50618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQC0j-0006n5-Az
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 13:14:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42652)
+	id 1mQC5M-0004U3-Lh
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 13:19:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQBz3-0005bS-N5
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:12:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20457)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQBzn-0006NT-DT
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:13:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQBz2-0006Sb-6f
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:12:37 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQBzf-0006xw-Jv
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:13:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631639555;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1631639594;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=275ipv2RS0/IFAZ1UrS5A7NARKPA0MpPMCH4Ek///0k=;
- b=Tkl9uUnxWj5YhZDjYrlEzdedf4aKX8y6vJCykWSBhZUPPTzC+uUJOMUw5XwEf+t1RB0aRS
- Ejw8vRjkBRrYmyahyU/s2KjFwgDYF9V5rc80iyw81jiEA/vip2XnAt3LgF8sVfd5MB2vUd
- 4G1SSujZkWdd3EOBIHF7RcvC6clFRyA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-R_Ke63YhMn2Sdprc-OATUg-1; Tue, 14 Sep 2021 13:12:34 -0400
-X-MC-Unique: R_Ke63YhMn2Sdprc-OATUg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- f7-20020a5d50c7000000b0015e288741a4so349000wrt.9
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 10:12:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=275ipv2RS0/IFAZ1UrS5A7NARKPA0MpPMCH4Ek///0k=;
- b=gTyWGhMiByTmiCtbzHl7Vmb4TMhb4hXPYxbivQaT/7jVEw9s10Nbpr8QPM8zeYDeui
- C7GN1N4GroVPyqLYr6KTV9AUcYZ2Rah9g+PyUQgfktWJAZ8DSEl1WaNN2JvT1KrcGIuJ
- KlkXtwwefANz0vT+lBcC254CFCu1MmVLak8DIu+Hp83UkFPqgPZciacT9VcS4bXeyrSV
- sWbY/lc0NQKPJii2ZRPDl/M0Pp4CbtQuaiyqxnixKZEwT/E+IQ8aBSO2mfry9hsKkpU+
- 8zpm5spLLBbvfv/+XpYBZZPqud+haDsgVDUludOSvmFzkonAU1q7wulJhE3gew6RdPmK
- sVDw==
-X-Gm-Message-State: AOAM533CnflQ6n0Pd6PN+JU1fIHuRGjZAqCOoybiLWmSjf2kBPstxCwU
- 5O6TwcvV2Zlh9iPxIGpExA9Hs61w6nQ8QnL0HMzZ7qDH4DJPQkzbT7Ga1ssfkASUCvFL+1hiZbn
- rITpaebwNgR8k7CY=
-X-Received: by 2002:a05:6000:1207:: with SMTP id
- e7mr275923wrx.170.1631639553358; 
- Tue, 14 Sep 2021 10:12:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyH2Nu/d+o24emJyYoeWi+BO/qXs2XD3Zym0fXvio9vQcSvJdY1jZ3FvVB7qJKDJ8BbQkmqoQ==
-X-Received: by 2002:a05:6000:1207:: with SMTP id
- e7mr275892wrx.170.1631639553089; 
- Tue, 14 Sep 2021 10:12:33 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
- by smtp.gmail.com with ESMTPSA id r25sm11919515wrc.26.2021.09.14.10.12.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 10:12:32 -0700 (PDT)
-Subject: Re: [PATCH v4 06/10] qcow2-refcount: check_refcounts_l2(): check
- l2_bitmap
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210914122454.141075-1-vsementsov@virtuozzo.com>
- <20210914122454.141075-7-vsementsov@virtuozzo.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <d600c9a5-7060-5a42-1909-bb58cf9848c9@redhat.com>
-Date: Tue, 14 Sep 2021 19:12:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=Jggs6OfC+tSYzr8Gie1Phu+g74Lb1MFLOQ1xr+RGMWQ=;
+ b=Nu1fDIAR7erAIf12627oHCaWcx934U/KmH3Fa76Vtzocpj5bwpj87ZTfULvfnk9FQrtMLo
+ WznTqIOqlrhnkZkQkKDo7dkRrnI/6JVnrgWuu0lr/wDI+d1Jt/zsMtpPcCLCU/X3jYUVFN
+ 8QDqlwlfHuoTLQCPdb0dFB6zh5YKiQQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-126-rCZCWg9wOVKM3t53wAX4_w-1; Tue, 14 Sep 2021 13:13:01 -0400
+X-MC-Unique: rCZCWg9wOVKM3t53wAX4_w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B034180830E;
+ Tue, 14 Sep 2021 17:12:57 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A2CF6D981;
+ Tue, 14 Sep 2021 17:12:37 +0000 (UTC)
+Date: Tue, 14 Sep 2021 18:12:34 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 42/53] hw/core: introduce a 'format_tlb' callback
+Message-ID: <YUDYArsgmyBxFveW@redhat.com>
+References: <20210914142042.1655100-1-berrange@redhat.com>
+ <20210914142042.1655100-43-berrange@redhat.com>
+ <818d439f-337e-a73c-9e22-fbf8a119435f@redhat.com>
+ <YUDPECQJraD3thwi@redhat.com>
+ <a127efbf-8953-2ec5-9ba0-badbce949264@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210914122454.141075-7-vsementsov@virtuozzo.com>
+In-Reply-To: <a127efbf-8953-2ec5-9ba0-badbce949264@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.398, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,26 +85,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berto@igalia.com, qemu-devel@nongnu.org,
- ktkhai@virtuozzo.com, den@openvz.org, eblake@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Marek Vasut <marex@denx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-ppc@nongnu.org,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Peter Xu <peterx@redhat.com>, Stafford Horne <shorne@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14.09.21 14:24, Vladimir Sementsov-Ogievskiy wrote:
-> Check subcluster bitmap of the l2 entry for different types of
-> clusters:
->
->   - for compressed it must be zero
->   - for allocated check consistency of two parts of the bitmap
->   - for unallocated all subclusters should be unallocated
->     (or zero-plain)
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Tested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
-> ---
->   block/qcow2-refcount.c | 28 ++++++++++++++++++++++++++--
->   1 file changed, 26 insertions(+), 2 deletions(-)
+On Tue, Sep 14, 2021 at 07:02:19PM +0200, Philippe Mathieu-Daudé wrote:
+> On 9/14/21 6:34 PM, Daniel P. Berrangé wrote:
+> > On Tue, Sep 14, 2021 at 05:56:09PM +0200, Philippe Mathieu-Daudé wrote:
+> >> On 9/14/21 4:20 PM, Daniel P. Berrangé wrote:
+> >>> This will allow us to reduce duplication between the different targets
+> >>> implementing the 'info tlb' command.
+> >>>
+> >>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> >>> ---
+> >>>  hw/core/cpu-common.c  |  9 +++++++++
+> >>>  include/hw/core/cpu.h | 11 +++++++++++
+> >>>  2 files changed, 20 insertions(+)
+> >>
+> >>> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> >>> index 4c47e1df18..64fc57c8d9 100644
+> >>> --- a/include/hw/core/cpu.h
+> >>> +++ b/include/hw/core/cpu.h
+> >>>   * @has_work: Callback for checking if there is work to do.
+> >>>   * @memory_rw_debug: Callback for GDB memory access.
+> >>>   * @format_state: Callback for formatting state.
+> >>> + * @format_tlb: Callback for formatting memory mappings
+> 
+> "... for formatting translations of virtual to physical memory mappings"
+> 
+> >>>   * @get_arch_id: Callback for getting architecture-dependent CPU ID.
+> >>>   * @set_pc: Callback for setting the Program Counter register. This
+> >>>   *       should have the semantics used by the target architecture when
+> >>> @@ -136,6 +137,7 @@ struct CPUClass {
+> >>>      int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
+> >>>                             uint8_t *buf, int len, bool is_write);
+> >>>      void (*format_state)(CPUState *cpu, GString *buf, int flags);
+> >>> +    void (*format_tlb)(CPUState *cpu, GString *buf);
+> >>
+> >> Doesn't this belong to SysemuCPUOps?
+> > 
+> > I can't really answer, since my knowledge of this area of QEMU code is
+> > fairly mimimal. I put it here because it is basically serving the same
+> > purpose as the "format_state" callback immediately above it, which was
+> > a rename of the existing "dump_state" callback. I assumed whatever was
+> > there already was a good practice to follow[1]...
+> 
+> Since it involves physical memory, I'm pretty sure this is sysemu
+> specific. Beside in the following patches you guard the handlers
+> with '#ifndef CONFIG_USER_ONLY'.
+> 
+> Good news, there is very few changes needed in your patches, for
+> example the next patch:
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+.snip..
+
+yes I see what you mean now, and agree this looks like a better
+approach
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
