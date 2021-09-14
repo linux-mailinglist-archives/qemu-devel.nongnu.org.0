@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C71A40AEE9
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:30:08 +0200 (CEST)
-Received: from localhost ([::1]:45692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5778240AFA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:53:02 +0200 (CEST)
+Received: from localhost ([::1]:50828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ8Vj-0003IZ-Ky
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:30:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44232)
+	id 1mQ8rt-0001xK-A1
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:53:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQ8Nd-0003eL-6z
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:21:45 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:47084)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQ8Nb-0004DG-LK
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:21:44 -0400
-Received: by mail-pl1-x630.google.com with SMTP id bg1so8157058plb.13
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 06:21:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=G5NUpSAYht/GKU7RRg9sehG7UQyG+gEz5V054c4TTss=;
- b=ENl1j0iee9mIQNY/BWCK4aoDX3rwUQhXwMc+Ae3yZ0LD6ORv+ppOyg7N9RAiCE0jFu
- 6gDBOyWhMKzPVM7WA5LS5ZaEZAnEnt+GhCsxWWSfA4W/BCK7GL1Cn8fNGwae/WCJ2gXm
- 1+oqCwv7J7uXM2VPwPVkk7yCtGDvSy5Xtc+MjQ+hSLoLhjhv1hyGLEUXtZGFk0nq3lcw
- PCPetOn9jy6oOGM4DNwQUIvLHmX8TnNtbZGTzb9fd86QziRhOZJaqbhLfBbWcKCTAup7
- uYQRJaV8A8XILebESIu8JSwFxFmVow0BCSmEhElKoFmd7euOWEVhkyVe4TcLLlBTpHOe
- Uc7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=G5NUpSAYht/GKU7RRg9sehG7UQyG+gEz5V054c4TTss=;
- b=D0hO6AjXw+/8g4t04GE76LWvkNxPLyr01vmpmRYlCqS0jDxtkCR7ay6DFk8XzmPS4s
- bo1c/5uqi/sZRvIaUtHpwfEFNZxnM/GgPoCwllMtpu9yEvn1u5WoWoAYF7qUd9EYwR+K
- SjyfSxdsPmtjHWFgI2RCJdKiXtbxD6MRIFQlooIAg7UnvqlYuN2FK+EpGh8WLPOQaXCN
- XWJKgSFo10FGzJ2CWqESH72goPStWp+lOWUu2GgU4lMrXnG+xI1OSPYwelZptDRH4zKs
- thy0lFOXnbEF9T/RMKjnZfYTgCMxw8dHdmNJlSO3Jx/ryVmKZ4c9leXaqvIU5PM3Gc6w
- MnUQ==
-X-Gm-Message-State: AOAM531Qzh/V0pUqwLBwbZwNpqngmtT8ZcJPWPCghQa0Uw3Wm+vWPKEg
- qLUiz2cCmcW0saAwFdpayxjf7A==
-X-Google-Smtp-Source: ABdhPJwneOYnUzHqiwE8mltESTnxCsFKFvl1oUudSIKD5lXIRsecSOM1Kk6AqIHz3F0ZbtWuB1GVYw==
-X-Received: by 2002:a17:90b:23d1:: with SMTP id
- md17mr2078622pjb.105.1631625701983; 
- Tue, 14 Sep 2021 06:21:41 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id d3sm11824579pga.7.2021.09.14.06.21.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 06:21:41 -0700 (PDT)
-Subject: Re: [PATCH v2] target/ppc: Fix 64-bit decrementer
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210914085404.3889441-1-clg@kaod.org>
- <CAFEAcA9epGAoHPNV=N+x2TWbFoRPgQSUML-RCDkMhvtYK5SEFQ@mail.gmail.com>
- <45fca4ca-55ed-b75c-e1d6-f0903562c1e6@kaod.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <516bb260-3837-5692-b31b-5990f5c5106e@linaro.org>
-Date: Tue, 14 Sep 2021 06:21:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQ8j3-0007Af-TI
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:43:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47046)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQ8V4-0000z0-4e
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:29:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631626164;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4Pqq3FfZnNe1rhg4kkhLxEdFiH2q+6aQewFtfhPiZmI=;
+ b=JYimd8mpC/dg3QYp7cBXUuNv3bumMDl+H/2pkAfqJZERd2CIGn6xJ3LpMHs9vL0r2KujU6
+ oALLLSV7Py8vHhMJ/9S7lHwWbOemJydY7NvIIIWISg+Di3wrWiWZERU3FMvWuYP/ROjefA
+ s82FMpMlPrndDBgMmO59tK4X1uqBrvo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-509-yfBRE7TVM7Cq1HajyrDrvw-1; Tue, 14 Sep 2021 09:29:22 -0400
+X-MC-Unique: yfBRE7TVM7Cq1HajyrDrvw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 865B318D6A35
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 13:29:21 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 318196A908;
+ Tue, 14 Sep 2021 13:29:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id AD6AE113865F; Tue, 14 Sep 2021 15:29:19 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v3 6/6] tests/qapi-schema: Test cases for aliases
+References: <20210812161131.92017-1-kwolf@redhat.com>
+ <20210812161131.92017-7-kwolf@redhat.com>
+ <878s09d8pe.fsf@dusky.pond.sub.org> <YTt0G1cs+BweXOMD@redhat.com>
+ <87bl4vedma.fsf@dusky.pond.sub.org> <YUB0BcZUwwwecrFl@redhat.com>
+Date: Tue, 14 Sep 2021 15:29:19 +0200
+In-Reply-To: <YUB0BcZUwwwecrFl@redhat.com> (Kevin Wolf's message of "Tue, 14
+ Sep 2021 12:05:57 +0200")
+Message-ID: <87k0jj8evk.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <45fca4ca-55ed-b75c-e1d6-f0903562c1e6@kaod.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.969,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,44 +84,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
- qemu-ppc <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/21 2:47 AM, Cédric Le Goater wrote:
-> On 9/14/21 11:19 AM, Peter Maydell wrote:
->>>       /* Truncate value to decr_width and sign extend for simplicity */
->>> -    value &= ((1ULL << nr_bits) - 1);
->>> +    value = sextract64(value, 0, nr_bits);
->>>       negative = !!(value & (1ULL << (nr_bits - 1)));
->>>       if (negative) {
->>>           value |= (0xFFFFFFFFULL << nr_bits);
->>
->> I think these lines that say "if negative then force all the
->> high bits to one" are also no longer required. That is, this
->> entire section of code:
->>      value &= ((1ULL << nr_bits) - 1);
->>      negative = !!(value & (1ULL << (nr_bits - 1)));
->>      if (negative) {
->>          value |= (0xFFFFFFFFULL << nr_bits);
->>      }
->>
->> is an open-coded sign-extension, which can all be replaced with
->> the single line
->>      value = sextract64(value, 0, nr_bits);
-> 
-> 'negative' is used for more tests afterwards but you are right. I will respin
-> with more changes.
+Kevin Wolf <kwolf@redhat.com> writes:
 
-After the sign-extension, negative needs no complicated expression.
+> Am 14.09.2021 um 10:59 hat Markus Armbruster geschrieben:
+>> >> > +    /* You can't use more than one option at the same time */
+>> >> > +    v =3D visitor_input_test_init(data, "{ 'foo': 42, 'nested': { =
+'foo': 42 } }");
+>> >> > +    visit_type_AliasStruct3(v, NULL, &tmp, &err);
+>> >> > +    error_free_or_abort(&err);
+>> >>=20
+>> >> "Parameter 'foo' is unexpected".  Say what?  It *is* expected, it jus=
+t
+>> >> clashes with 'nested.foo'.
+>> >>=20
+>> >> I figure this is what happens:
+>> >>=20
+>> >> * visit_type_AliasStruct3()
+>> >>=20
+>> >>   - visit_start_struct()
+>> >>=20
+>> >>   - visit_type_AliasStruct3_members()
+>> >>=20
+>> >>     =E2=80=A2 visit_type_AliasStruct1() for member @nested.
+>> >>=20
+>> >>       This consumes consumes input nested.foo.
+>> >>=20
+>> >>   - visit_check_struct()
+>> >>=20
+>> >>     Error: input foo has not been consumed.
+>> >>=20
+>> >> Any ideas on how to report this error more clearly?
+>> >
+>> > It's a result of the logic that wildcard aliases are silently ignored
+>> > when they aren't needed. The reason why I included this is that it wou=
+ld
+>> > allow you to have two members with the same name in the object
+>> > containing the alias and in the aliased object without conflicting as
+>> > long as both are given.
+>>=20
+>> *brain cramp*
+>>=20
+>> Example?
+>
+> Let's use the real-world example I mentioned below:
+>
+> { 'union': 'ChardevBackend',
+>   'data': { ...,
+>             'socket': 'ChardevSocket',
+>             ... },
+>   'aliases': [ { 'source': ['data'] } ] }
 
-   value = sextract64(value, 0, nr_bits);
-   negative = (target_long)value < 0;
+To pretend the simple union was flat, i.e. peel off its 'data', because
+that nesting doesn't exist in the CLI you want to QAPIfy.
 
+>
+> { 'struct': 'ChardevSocket',
+>   'data': { 'addr': 'SocketAddressLegacy',
+>             ... },
+>   'base': 'ChardevCommon',
+>   'aliases': [ { 'source': ['addr'] } ] }
 
-r~
+To unbox struct SocketAddressLegacy, i.e. peel off its 'addr', for the
+same reason.
+
+>
+> { 'union': 'SocketAddressLegacy',
+>   'data': {
+>     'inet': 'InetSocketAddress',
+>     'unix': 'UnixSocketAddress',
+>     'vsock': 'VsockSocketAddress',
+>     'fd': 'String' },
+>   'aliases': [
+>     { 'source': ['data'] },
+
+To pretend the simple union was flat, i.e. peel off its 'data',
+
+>     { 'name': 'fd', 'source': ['data', 'str'] }
+
+To unbox struct String, i.e. peel off its 'data'.
+
+>   ] }
+
+Okay, I understand what you're trying to do.  However:
+
+> We have two simple unions there, and wildcard aliases all the way
+> through, so that you can have things like "hostname" on the top level.
+> However, two simple unions mean that "type" could refer to either
+> ChardevBackend.type or to SocketAddressLegacy.type.
+
+Yup.  In ChardevBackend, we have both a (common) member @type, and a
+chain of aliases that resolves @type to data.addr.data.type.
+
+> Even though strictly speaking 'type=3Dsocket' is ambiguous, you don't wan=
+t
+> to error out, but interpret it as a value for the outer one.
+
+I'm not sure.
+
+When exactly are collisions an error?  How exactly are non-erroneous
+collisions resolved?  qapi-code-gen.rst needs to answer this.
+
+Back to the example.  If 'type' resolves to ChardevBackend's member, how
+should I specify SocketAddressLegacy's member?  'addr.type'?
+
+Aside: existing -chardev infers SocketAddressLegacy's tag addr.type from
+the presence of variant members, but that's a separate QAPIfication
+problem.
+
+I figure aliases let me refer to these guys at any level I like:
+'data.addr.data.FOO', 'data.addr.FOO', 'addr.data.FOO', 'addr.FOO', or
+just 'FOO'.  Except for 'type', where just 'type' means something else.
+Bizarre...
+
+We actually require much less: for QMP chardev-add, we need
+'data.addr.data.FOO' and nothing else, and for CLI -chardev, we need
+'FOO' and nothing else (I think).  The unneeded ones become accidental
+parts of the external interface.  If experience is any guide, we'll have
+plenty of opportunity to regret such accidents :)
+
+Can we somehow restrict external interfaces to what we actually need?
+
+>> > Never skipping wildcard aliases makes the code simpler and results in
+>> > the expected error message here. So I'll do that for v4.
+>>=20
+>> Trusting your judgement.
+>>=20
+>> > Note that parsing something like '--chardev type=3Dsocket,addr.type=3D=
+unix,
+>> > path=3D/tmp/sock,id=3Dc' now depends on the order in the generated cod=
+e. If
+>> > the top level 'type' weren't parsed and removed from the input first,
+>> > visiting 'addr.type' would now detect a conflict. For union types, we
+>> > know that 'type' is always parsed first, so it's not a problem, but in
+>> > the general case you need to be careful with the order.
+>>=20
+>> Uff!  I think I'd like to understand this better.  No need to delay v4
+>> for that.
+>>=20
+>> Can't yet say whether we need to spell out the limitation in commit
+>> message and/or documentation.
+>
+> The point where we could error out is when parsing SocketAddressLegacy,
+> because there can be two possible providers for "type".
+>
+> The idea in the current code of this series was that we'll just ignore
+> wildcard aliases if we already have a value, because then the value must
+> be meant for somewhere else. So it doesn't error out and leaves the
+> value in the QDict for someone else to pick it up. If nobody picks it
+> up, it's an error "'foo' is unexpected".
+>
+> If we change it and do error out when there are multiple possible values
+> through wildcard aliases, then the only thing that makes it work is that
+> ChardevBackend.type is parsed first and is therefore not a possible
+> value for SocketAddressLegacy.type any more.
+
+You wrote you're picking the alternative with the simpler code for v4.
+Fine with me, as long as it's reasonably easy to explain, in
+qapi-code-gen.rst.
+
 
