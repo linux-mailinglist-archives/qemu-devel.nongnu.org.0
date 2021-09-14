@@ -2,91 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DB5440B674
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 20:01:32 +0200 (CEST)
-Received: from localhost ([::1]:57118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFBE240B72C
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 20:49:56 +0200 (CEST)
+Received: from localhost ([::1]:50254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQCkM-000526-5Q
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 14:01:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51590)
+	id 1mQDVD-00068G-As
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 14:49:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mQCif-0004F9-O9
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:59:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31571)
+ (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
+ id 1mQDUD-0005Sg-JE
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 14:48:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mQCic-0004GI-5N
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:59:43 -0400
+ (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
+ id 1mQDU5-00044k-UT
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 14:48:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631642380;
+ s=mimecast20190719; t=1631645323;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O/6evVj9kpNilv4Tp2CR/lMFXbkz3kRCEJi8xYL71qw=;
- b=N2yQRO1we6VEXu9CjlAsnut2xLtpf0Q5H1RT0yfZ9f6H9Uz38gd+YiIMKQ9MNUByfBTW6q
- XFTJDvivTTNF1sg22J4nLNn0ukkQiLygdaREDbowQUSRxpF/64QBH/oPtHsabYgVDjvVgJ
- mYxhrbsWPX4ByDobX4Kq52XpBoHK2ZE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-136-NwdxsQ7YMnKWa0Z8zO7QGg-1; Tue, 14 Sep 2021 13:59:39 -0400
-X-MC-Unique: NwdxsQ7YMnKWa0Z8zO7QGg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- h5-20020a5d6885000000b0015e21e37523so825982wru.10
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 10:59:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=O/6evVj9kpNilv4Tp2CR/lMFXbkz3kRCEJi8xYL71qw=;
- b=gQrPd9lUHNvFNqQA6JYoNrTLyteU+/VLV3ue5X2CIgJ8SOJ2a7uWlvYVYHt/Wxll1c
- IyxuCcwqE9AxOmCtuX+N1BxBHW3FGMHuy6jgl97ICewkzQq2Dn1iivhCrE6HLcsjM0ow
- aaiEZA+sZ+KoRj9vQkg7EBh1glz4ozsK6WVgWyBZNjCg/0matKPPqFXtLJEzivZuINsW
- 1JpOChTkUINfX3IXaqlLtBqxCn4WEXPczRZL0eEh7zbinXaGwoayjsXQQiNOLtlz8KWX
- z65b2aAVNDmI+CgDW6KmbuGDau6DI57IFKUUii+oDbrDJSGjMkx4CvdULcKQldGO4LNj
- Mp1g==
-X-Gm-Message-State: AOAM531FpuLfVMkhcD8Qt+piuAiibIlHlTTpvogvyb2txGAHD50N+YJr
- nUi0HB8BTHh4nEnYapZeVJEzy6l062A4Fh4OGawbUYhRHP0YaZILuWs1D6S8vw9ytdmlVUgBiow
- 5L6sFf9y37eI3R00fRJA/9IAEOF6OWvwK9LUL3CBk3Xi/Cz76dAx+0tRbwUd2vXc=
-X-Received: by 2002:adf:fe82:: with SMTP id l2mr498141wrr.268.1631642378278;
- Tue, 14 Sep 2021 10:59:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwVs1KcS8ZwYp01fPiYWUhOj+nspp2vi3EQuueTqBvUDmQ7APjDhyQbcx1O2k8Y+PVHINm50Q==
-X-Received: by 2002:adf:fe82:: with SMTP id l2mr498128wrr.268.1631642378050;
- Tue, 14 Sep 2021 10:59:38 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6041.dip0.t-ipconnect.de. [91.12.96.65])
- by smtp.gmail.com with ESMTPSA id
- o7sm1629963wmq.36.2021.09.14.10.59.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 10:59:37 -0700 (PDT)
-Subject: Re: [PATCH v4 08/16] tcg/s390x: Implement minimal vector operations
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210626050307.2408505-1-richard.henderson@linaro.org>
- <20210626050307.2408505-9-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <96259732-658d-9cf6-bfb6-db13ed931233@redhat.com>
-Date: Tue, 14 Sep 2021 19:59:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RKO9cLJCaeXPVazhHLczGrmr2SLFxc8uraLxx8yA0Ns=;
+ b=Y9sWaYl8j25B1gFk8XJlVz+/mHP5T1usr62VESPG72dvNUBCvQ2lGrX8aQid+2IWMEh3/r
+ baZmRdHn6O+w3jvoFBWFMeYpSu5+/pdn5i9H2ILXnuVCyffu4YnEwh6EJ3YE5EUmeZPgP7
+ ZEGIn3jDoukOxzM23zhH4tpLZb5lNsQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-G9u15v6cMdyvoDWC3k4NIg-1; Tue, 14 Sep 2021 14:48:42 -0400
+X-MC-Unique: G9u15v6cMdyvoDWC3k4NIg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51F6E1B18BC6;
+ Tue, 14 Sep 2021 18:48:41 +0000 (UTC)
+Received: from wrampazz.redhat.com (unknown [10.22.17.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04ACE81F65;
+ Tue, 14 Sep 2021 18:48:31 +0000 (UTC)
+From: Willian Rampazzo <willianr@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC 0/1] docs/deve/ci-plan: define a high-level plan for the QEMU
+ GitLab CI
+Date: Tue, 14 Sep 2021 15:48:29 -0300
+Message-Id: <20210914184830.84454-1-willianr@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210626050307.2408505-9-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=willianr@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=willianr@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,27 +76,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26.06.21 07:02, Richard Henderson wrote:
-> Implementing add, sub, and, or, xor as the minimal set.
-> This allows us to actually enable vectors in query_s390_facilities.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   tcg/s390x/tcg-target.c.inc | 154 ++++++++++++++++++++++++++++++++++++-
->   1 file changed, 150 insertions(+), 4 deletions(-)
-
-
-[...]
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
-
-
--- 
-Thanks,
-
-David / dhildenb
+This adds a high-level plan for the QEMU GitLab CI based on use cases.=0D
+The idea is to have a base for evolving the QEMU CI. It sets high-level=0D
+characteristics for the QEMU CI use cases, which helps guide its=0D
+development.=0D
+=0D
+There is an opportunity to discuss the high-level QEMU CI plan and some of=
+=0D
+the implementation details during the KVM Forum.=0D
+=0D
+Willian Rampazzo (1):=0D
+  docs/deve/ci-plan: define a high-level plan for the QEMU GitLab CI=0D
+=0D
+ docs/devel/ci-plan.rst | 77 ++++++++++++++++++++++++++++++++++++++++++=0D
+ docs/devel/ci.rst      |  1 +=0D
+ 2 files changed, 78 insertions(+)=0D
+ create mode 100644 docs/devel/ci-plan.rst=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
