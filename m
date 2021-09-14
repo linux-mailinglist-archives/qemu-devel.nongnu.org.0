@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F6240A58C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 06:47:24 +0200 (CEST)
-Received: from localhost ([::1]:45826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19FF840A5A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 06:56:37 +0200 (CEST)
+Received: from localhost ([::1]:49234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ0Lr-0007cF-1r
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 00:47:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36390)
+	id 1mQ0Um-0001rZ-5D
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 00:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQ0Kp-0006qe-6b
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 00:46:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27297)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQ0Km-0007gz-3G
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 00:46:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631594774;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KVJMesSpRSdH1NjrS+Vl/mju568sXQNgsemTdPBmaOc=;
- b=X7ESZwURw6K/i5DP7BDDe/ZAgQ76FbJu6LKJQCyqmaDPGeVVvEcHYLD/WNRpMs4fqZN2VT
- B9gWVgDGTRzIuBw89pnJTnew7IGkVUfN/r/zp3jE/mOKVYWkGbTWIIIxeDoWCaofGGMGNl
- 8evpEz+qJCbeYMpbePz8ldEnqFwqzx4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-ke1B7q55NauYTRCmrZtbrA-1; Tue, 14 Sep 2021 00:46:13 -0400
-X-MC-Unique: ke1B7q55NauYTRCmrZtbrA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 674511808304
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 04:46:12 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 08D395C1D1;
- Tue, 14 Sep 2021 04:46:08 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7C15C113865F; Tue, 14 Sep 2021 06:46:07 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] qapi: define cleanup function for g_autoptr(Error)
-References: <20210912124834.503032-1-pbonzini@redhat.com>
- <87fsu959rr.fsf@dusky.pond.sub.org>
- <7337ee08-cc7d-4ef1-dcc4-3b0facc8b7b1@redhat.com>
- <87tuio3jq8.fsf@dusky.pond.sub.org>
- <87tuiomxlj.fsf@dusky.pond.sub.org>
- <5b8f6bc5-c331-45ac-01c4-96cf9a87ebbb@redhat.com>
-Date: Tue, 14 Sep 2021 06:46:07 +0200
-In-Reply-To: <5b8f6bc5-c331-45ac-01c4-96cf9a87ebbb@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 13 Sep 2021 17:09:54
- +0200")
-Message-ID: <87a6kfhii8.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mQ0Sl-0000Xr-C0
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 00:54:31 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:44977)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mQ0Sj-0006Y7-IK
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 00:54:31 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id s11so11561509pgr.11
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 21:54:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Lu7KEyZ0MKWw6pIip9dQogJnp+6amWln0gN0/mPiqyU=;
+ b=tTZnEODMsnpMyoZftOHT8mY4dusAeSB+g+BhFLQR2w1m+Zvz30k2DjTwknmpsSb9AK
+ fbbtqgHX68N1fbmQxNq8v4E4FQfxs9l4eaVY4Ycu+525xWZpDOOIzGmLNceND+LJGTxC
+ NliqHmR9MH7/HIBPyjw5PI2/2kUCTfohH7k7YGBMrUSYZyqThgqHx0MDxv+yMRU2Obel
+ ZGyDuveXlN1ybDKLpf0b59WJyJMX/TWLs14suHqrSN7M+CB08qfC9S1eLTEev6cfv+aj
+ MOSgn0hiFiQB8ci7YI1rVZzX6MeiOyLYM57nizTy7NTNGWOAYoRx/Fd6mJ89+c/aHRJo
+ eDdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Lu7KEyZ0MKWw6pIip9dQogJnp+6amWln0gN0/mPiqyU=;
+ b=G0KFVkvmxhlLwSIMUGLf8TilliT+PR3aP8B2Z3C7wSaJFLJaJrcidPq706GLfrGHOb
+ e2F8x6eVNHeFKaH+oe+JdyuCDZDRzdCJItWTspb7uBtkxItn8SEa8AgMxMFukPohtGXb
+ c3EpKNtLdcu/9s+rNpTlowe8X2L+X9XCUSwzffyWinG6LPRlO7x30ItIYQGBtyxK2xDB
+ TH/Jc1jTNGU9SzA6lj4j4X5w1sCyITb36PcVp2pcz6aLpCjb6BkPc7BcvRDXfKf3XsG+
+ pQFpVgqwrXr7LqkyfHABpBqGIXKFrK5ABHVepokeTi8Z7BTq/bLWG+PYkxKyYllLSlXZ
+ /3Ng==
+X-Gm-Message-State: AOAM533P805mIr5o7wCmee4PX+NAo1NfhE7PIeH5u0bxwPu0InG23Zeh
+ ZvLyRls02Jc4Rc1V/c85hvM+TF36uNoTHA==
+X-Google-Smtp-Source: ABdhPJz+jgvUN/5C3RydXfwKDgubNLhU8CiVdUFNTFeXUZi9TNyP63Ze36O4wCX6BS8haMCaztzlQw==
+X-Received: by 2002:a63:a517:: with SMTP id n23mr13992400pgf.412.1631595267676; 
+ Mon, 13 Sep 2021 21:54:27 -0700 (PDT)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.163.239.215])
+ by smtp.googlemail.com with ESMTPSA id u24sm9262522pfm.27.2021.09.13.21.54.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Sep 2021 21:54:27 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org
+Subject: hw/i386/acpi: fix conflicting IO address range for acpi pci hotplug
+ in q35 
+Date: Tue, 14 Sep 2021 10:24:07 +0530
+Message-Id: <20210914045410.3380946-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,36 +79,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, berrange@redhat.com,
- qemu-devel@nongnu.org
+Cc: jusual@redhat.com, Igor Mammedov <imammedo@redhat.com>, philmd@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Hi Igor/Michael :
 
-> On 9/13/21 3:08 PM, Markus Armbruster wrote:
->> Markus Armbruster <armbru@redhat.com> writes:
+This patchset fixes the acpi pci hotplug IO address range conflict issue with cpu hotplug.
+This issue has been reported here:
+https://gitlab.com/qemu-project/qemu/-/issues/561
 
-[...]
+We have disucssed this issue at length here:
+https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02146.html
 
->> As is, reporting errors doesn't play well with g_autoptr().  Example:
->>=20
->>     Error *err =3D NULL;
->>=20
->>     ... code that may set @err ...
->>=20
->>     if (error is serious) {
->>         error_report_err(err);
->>     } else {
->>         error_free(err);
->>     }
->
-> error_report_err() seems always called within an if()
-> statement, so an alternative is to refactor this pattern as:
->
->   void error_report_err_cond(bool condition, Error *err);
+This issue affects Qemu version 6.1.
 
-It's rarely the only thing done when the condition is true, so it needs
-to return it.
+Patch 1 : allows q35 DSDT table changes.
+Patch 2 : actual fix.
+Patch 3: updates DSDT table blobs.
+
+Thanks
+ani
+
 
 
