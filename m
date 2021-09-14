@@ -2,90 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1426B40AACF
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 11:26:22 +0200 (CEST)
-Received: from localhost ([::1]:41406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42C4940AAE9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 11:33:31 +0200 (CEST)
+Received: from localhost ([::1]:47174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ4ho-0004B6-TX
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 05:26:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38976)
+	id 1mQ4oj-0008VC-C7
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 05:33:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQ4fu-0002jp-SK
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 05:24:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32080)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQ4fj-0000rI-TV
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 05:24:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631611450;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LPIuy3F8o2+eSxuYlqAIsCsLKqfAz+ZJN58BOZS8sK8=;
- b=HkC4yr6m68YSoek1FWNqmsiU06yz4PnoeWAyz6vVgXxcHV8BurLxxVY6r8U4xLN3GAKBs4
- UBqT8MP6pLXsOCsQzxFnkPwBYsbVHIHSFpBn9+nxWCn+sKgvYXLAK5CrfmgL14C6nVJzol
- Ypk53qzoYyebu7E634y/ChfJ5gq/1/c=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-L_movuyhO4eCYHaUyYD_iw-1; Tue, 14 Sep 2021 05:24:07 -0400
-X-MC-Unique: L_movuyhO4eCYHaUyYD_iw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- x2-20020a5d54c2000000b0015dfd2b4e34so2022326wrv.6
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 02:24:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mQ4mo-0007i1-Sv
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 05:31:30 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:39533)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mQ4mn-00071R-6W
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 05:31:30 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 196-20020a1c04cd000000b002fa489ffe1fso1500921wme.4
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 02:31:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=S6nH3QvRmIVZDKBpnpX4h9RgVBR7OCNn4jsKuoPq2Ek=;
+ b=VIHROh2xzdPjRMDlMy2uP4AZpKIDqmRbC6PJ+HyWfpenT1J4Es/cMMoI5H+IvEzBpC
+ Rz0HTHJuZonDL+cLu8hZRiZNm+T6yL6BzL3622KcfpRu/XhiBV8Yi8ObhnSbgwP0tr6Y
+ 1cl+9mUALEUCPbwTbJlJjCaAtJJoBfdRhvmDXeRWbsHsv+MeYCMvHAma1Vcm1xdhfMwh
+ K+A/Dfj1C//MHTkohSVIcDZOqi+91pSYHScO7FH18bzRlcBPCixrJPabkk5Ghbc3THKF
+ 90/MW6BElzpS8YMfeZsAw9g4RVNsPYKF+3haltcjhoOgNaBc8moN5h+WyPx6iorFOTuJ
+ O3AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=LPIuy3F8o2+eSxuYlqAIsCsLKqfAz+ZJN58BOZS8sK8=;
- b=bZiV1GCEAuGUNqkrjXUWVoXg6qSW1K8tc7RKTVejzacHPWwyS7w3PHuK+i8ou2xYLv
- Ns7T8Ml6DD3TIXjehwz7+P5WxKvqRPxtlnKx9Wkx7rPmmwKqASUdqx6KcZtvUEUT0YeS
- f0c52fOtIyDayrx06a+KI2QSjshkqEhhDqOjL1V45fWCJYCh4E8WIVBFbOkIMcfsBYyM
- /u6fp830k8349HivujbDRXzp3y8d25KhlGMrP60dDW+OgxrE+m5cPPvhm3ZgoAvjRn2Z
- ++EPKY0YL74vkCWmmSxugTTQbfRRXbRJXU4mZWcYCmRqtUVZ+yRodv1H7vSfQnyb03r+
- VgNQ==
-X-Gm-Message-State: AOAM531dnVvWxdkkKX+FRvPe6YJ1+OWwcI3r5GTxw7HVrXzUMRErNOoV
- pYM+/B85xhF0qxvozn5nXFdhiaPJGOcaDysaPM2RE+Hy9xMK71jZvWAzl6STRyYgktxFmtFzrbZ
- sL2fE+Dqy4S4ELtg=
-X-Received: by 2002:a05:600c:4ed1:: with SMTP id
- g17mr1003084wmq.193.1631611446600; 
- Tue, 14 Sep 2021 02:24:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxIWxXtDU4pW8lPQHZ0WcwhxUfZtSj5A7H1qovSbnoCHN4anP1FCqnZGH53seVGvVJx9gcgkQ==
-X-Received: by 2002:a05:600c:4ed1:: with SMTP id
- g17mr1003063wmq.193.1631611446301; 
- Tue, 14 Sep 2021 02:24:06 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
- by smtp.gmail.com with ESMTPSA id f3sm549736wmj.28.2021.09.14.02.24.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 02:24:05 -0700 (PDT)
-Subject: Re: [PATCH] qemu-img: Allow target be aligned to sector size
-To: qemu-block@nongnu.org
-References: <20210819101200.64235-1-hreitz@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <2f38ecae-e940-343f-88e9-5f36419bda27@redhat.com>
-Date: Tue, 14 Sep 2021 11:24:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=S6nH3QvRmIVZDKBpnpX4h9RgVBR7OCNn4jsKuoPq2Ek=;
+ b=gMGAXA8K7/1cOqSHHfaO+JAXugK3zVbRao06Jg5dVVDzMAEmNFmQ11rbJoPJk0599s
+ XhP3GVGDYeYwgPfCviCGunDJ5pY6mkdawaqXLvkTjaAC+QHIEVIOguZCetEAll5JQgfh
+ P5RjeEYsKrE0hThURF853/tzJ3nsrtto2ORS5rXaSJQXJxO3MqqaZojrnq8v3/6Z7kr8
+ OBNScGa2TSNcUJ9NMZ3kqgtQvq2yiBJ/EY82uDFDE5R9dPV1crRpOA0ZIjhy7GmrDK9a
+ 1USqNjcpd9tZOOV5Fd7rFkUyTnA+YylwiAX4g3kqynXAwPZAdRoyuANfmI5JP8wNC1hn
+ ZbIw==
+X-Gm-Message-State: AOAM530+zefSwr1kwb1GGV9wonwNCNzhFcQvw76megBVFqIiWhLJVsy3
+ 7TyYB9J5kCQwFxZbefxTSxBThteeOdZH1pIymvobIG4LDY0=
+X-Google-Smtp-Source: ABdhPJzM/i3Sd8CTMiNe2V6O+UXycxBq4k+n9d7N0au+1dnyUNhIAZmBti/GctPCYQ+Thl8o+Qwpwe+Dedm/L7F7/IU=
+X-Received: by 2002:a1c:a505:: with SMTP id o5mr1079983wme.32.1631611887377;
+ Tue, 14 Sep 2021 02:31:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210819101200.64235-1-hreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.969, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210913200546.9338-1-peter.maydell@linaro.org>
+In-Reply-To: <20210913200546.9338-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 14 Sep 2021 10:30:36 +0100
+Message-ID: <CAFEAcA8aiHo1NmOQs1K+TZg8A_wtKkLPbb3Oaw8eBy2USZyrvQ@mail.gmail.com>
+Subject: Re: [PULL v4 00/23] target-arm queue
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,50 +77,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19.08.21 12:12, Hanna Reitz wrote:
-> We cannot write to images opened with O_DIRECT unless we allow them to
-> be resized so they are aligned to the sector size: Since 9c60a5d1978,
-> bdrv_node_refresh_perm() ensures that for nodes whose length is not
-> aligned to the request alignment and where someone has taken a WRITE
-> permission, the RESIZE permission is taken, too).
+On Mon, 13 Sept 2021 at 21:05, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> Let qemu-img convert pass the BDRV_O_RESIZE flag (which causes
-> blk_new_open() to take the RESIZE permission) when using cache=none for
-> the target, so that when writing to it, it can be aligned to the target
-> sector size.
+> v3->v4: Windows headers define an INT type which clashed
+> with an enum value name in arm_gicv3_its.c...
 >
-> Without this patch, an error is returned:
+> The following changes since commit eae587e8e3694b1aceab23239493fb4c7e1a80f5:
 >
-> $ qemu-img convert -f raw -O raw -t none foo.img /mnt/tmp/foo.img
-> qemu-img: Could not open '/mnt/tmp/foo.img': Cannot get 'write'
-> permission without 'resize': Image size is not a multiple of request
-> alignment
+>   Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-09-13' into staging (2021-09-13 11:00:30 +0100)
 >
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1994266
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> ---
-> As I have written in the BZ linked above, I am not sure what behavior we
-> want.  It can be argued that the current behavior is perfectly OK
-> because we want the target to have the same size as the source, so if
-> this cannot be done, we should just print the above error (which I think
-> explains the problem well enough that users can figure out they need to
-> resize the source image).
+> are available in the Git repository at:
 >
-> OTOH, it is difficult for me to imagine a case where the user would
-> prefer the above error to just having qemu-img align the target image's
-> length.
-> ---
->   qemu-img.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210913-3
+>
+> for you to fetch changes up to 28e987a7e7edaa3ca7feeac65edca26145df8814:
+>
+>   hw/arm/mps2.c: Mark internal-only I2C buses as 'full' (2021-09-13 21:01:08 +0100)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * mark MPS2/MPS3 board-internal i2c buses as 'full' so that command
+>    line user-created devices are not plugged into them
+>  * Take an exception if PSTATE.IL is set
+>  * Support an emulated ITS in the virt board
+>  * Add support for kudo-bmc board
+>  * Probe for KVM_CAP_ARM_VM_IPA_SIZE when creating scratch VM
+>  * cadence_uart: Fix clock handling issues that prevented
+>    u-boot from running
+>
 
-Thanks for the review, applied to my block branch:
 
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+Applied, thanks.
 
-Hanna
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
+for any user-visible changes.
 
+-- PMM
 
