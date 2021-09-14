@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFE7840A66B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 08:05:05 +0200 (CEST)
-Received: from localhost ([::1]:58834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 727BB40A67C
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 08:09:57 +0200 (CEST)
+Received: from localhost ([::1]:32926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ1Z2-0004yz-Ug
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 02:05:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50142)
+	id 1mQ1dk-0006kM-IN
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 02:09:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQ1Xl-0004H3-9Y
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 02:03:45 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:35484)
+ id 1mQ1bx-0005yy-BL
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 02:08:06 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQ1Xi-0006Xc-Uv
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 02:03:44 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id i23so18262785wrb.2
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 23:03:42 -0700 (PDT)
+ id 1mQ1bu-0001sa-HJ
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 02:08:04 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id g16so18287224wrb.3
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 23:08:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=a4r8MM9tsNKMrpKrci5sqwSx48J+Y3QfnnloA6vVKbo=;
- b=PAKxtOl2czm1jaL6wZIeOXO8LS07l5a+Ky5+sc33rxCeDFzs9dBYWg4xjLWvJHNEuB
- RQ8NecwpuZytLFnFrhG+7LjRPnkANM0ZXNqG06Q2F+SHiK4t+MP4IZTUOrn00QfxdBnj
- qpBt0KZVzqDtMfWm0pnLcG4nVhEO8YBxzg7oTYLvDrNTmuDac/5doZzcZZlqNySv2et3
- WmxjJhIIGpajBYUX1ygQqZg6U3c7J0N6O3jWMmTjdRsm+wt2fT+8AvcVkkmTyJaGwPUF
- LkF5Ui/idDnoirGW6KmbZ5B4gzWgUTUqT4PfbwdDK4WOdfWs+xWWaI3oi/Mp4Ni4sUC0
- boUA==
+ bh=eUpjq+/ex2RsWrzpCc4TECKXlgWF2HueCkTEycZhPW8=;
+ b=DVOcfwHMZaCSXnHtIOe06E94KDYnSPdI+Z9rAyYhyvjV2ErBryDdn7AN2cS/F6Jsfz
+ llzmSwy7iFFnhbimO9bYKt0UhrR7oHO//wqKHmhed4T6V+HEnl+dixsGKzTHaLor14hC
+ rZG2QUMM21AQKh4ZRVcIoKPgH5gizrkxakJx8jcb6ZKqv3S08r0H8zsMyEAOSydDfliw
+ JmL5QhSnD2/iJcM6tjcmNQR7AnOLdOcsiF6Ae9LS8WXZzFdQKsBi+Lo01o0oFWCW1iJe
+ zGXSXqKvndlF0kcPb2+TgwhYSmfUfBeH6TGvy2SXzNEGdb3D1E1VnCbvTSQBfS12Nkra
+ xz6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=a4r8MM9tsNKMrpKrci5sqwSx48J+Y3QfnnloA6vVKbo=;
- b=MM/WS/XAIYPFooyb9yd6pj8BHJWua24A3DUNmCFC6l0VK5JYoI7PMFdxREP4/TORE/
- q67wh88QPcJGSpvPi96dkJDfrYMShqKTwC5y/sLncAvlqms7IjdJM8oHIVZ3eJ5GnvXG
- egN+s2L8dBJ4TRP+XRkN5Jbor4lYmXCN9VCwgfLLgrdmwbcJm6nHsveM/FjmVwLEC7Q8
- 8cgPRUAt9yEnl/UAW1oIoHcxbIMeioJb1kF1ihfBKFFZA504uohqTYH3xKWD1AzW0cSt
- JiejlvgRJf5AEFVA0LNaZK392n63XgN/iZXK5SM/8kLT4Z0ECmHBmEwkUniWIJ+rRgzz
- kKBA==
-X-Gm-Message-State: AOAM5303Mnx7Ix0SgjUe328T5HzCm4ZBzy4blIZuc+Kqsyt1AvOKJExi
- izS1Na3dSlpiPQvjkVgNmZU=
-X-Google-Smtp-Source: ABdhPJzjRUl67gKarUbNDfusLp7TmO6kzROeJl7/S/zkulrk7PibnWOPZz5cSMdJONbJF8WfOpGzVg==
-X-Received: by 2002:a5d:5229:: with SMTP id i9mr16727722wra.373.1631599421101; 
- Mon, 13 Sep 2021 23:03:41 -0700 (PDT)
+ bh=eUpjq+/ex2RsWrzpCc4TECKXlgWF2HueCkTEycZhPW8=;
+ b=FErd0KkFbxj+8/0RDeGnt+UgdHMPdUp8P9WP9pWnMoK9Zw54XOwpTSSgNk2O7k0z0g
+ YTRZ90dzwTtC0y+ZtB14yi9bxD+ZF2yzV+MP1BQ9OwjJ1HJ9n5gS7KynkgyTa0bXw4BP
+ f9T4nVawpzWHjfmU+F1YnO+Nm/sjziXoD1iAA+0o4XRY1VOFCc3/CB8o5VabUvYLsu5K
+ EZZTNdsKZo7Kp/t4pVmtQ7U+ogx/r38iSgkx5F6mZbONBMwvO2VI32+BJc5pbhdRpJjL
+ e9/pVt/8Gi7TGcvyZVypqcIKc86oFf9RyZei+vE3+VRbcoBwj2BcgqMdVT597X5/S0iR
+ u5bw==
+X-Gm-Message-State: AOAM5309qmxTwwzlo/9RtQk/D2qaLRJJJ8rXMx1ex3kc8YjTAwNaBust
+ TFMt/GP/OLZwM1+0TMEq+6osP1Q/vFk=
+X-Google-Smtp-Source: ABdhPJwDZ+6R2pNzf4KEZlF2u5hWQlX10b7VcNdcpE4EkR9lIAsgxRlQFaD7aDBuNsH4naCwHG+C3Q==
+X-Received: by 2002:a5d:6307:: with SMTP id i7mr16937817wru.395.1631599680047; 
+ Mon, 13 Sep 2021 23:08:00 -0700 (PDT)
 Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id n7sm92251wms.18.2021.09.13.23.03.40
+ by smtp.gmail.com with ESMTPSA id z17sm3930448wrr.49.2021.09.13.23.07.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 23:03:40 -0700 (PDT)
-Subject: Re: [RFC PATCH 1/7] include/exec: Move cpu_signal_handler declaration
+ Mon, 13 Sep 2021 23:07:59 -0700 (PDT)
+Subject: Re: [RFC PATCH 2/7] accel/tcg: Split out adjust_signal_pc
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210913220552.604064-1-richard.henderson@linaro.org>
- <20210913220552.604064-2-richard.henderson@linaro.org>
+ <20210913220552.604064-3-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <43104491-8ee3-d708-c861-0d5b33e3e37e@amsat.org>
-Date: Tue, 14 Sep 2021 08:03:39 +0200
+Message-ID: <b1ae7a07-343a-191d-e047-e36e56dd7419@amsat.org>
+Date: Tue, 14 Sep 2021 08:07:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210913220552.604064-2-richard.henderson@linaro.org>
+In-Reply-To: <20210913220552.604064-3-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -89,44 +89,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Alistair Francis <alistair.francis@wdc.com>,
- laurent@vivier.eu, imp@bsdimp.com
+Cc: peter.maydell@linaro.org, laurent@vivier.eu, imp@bsdimp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/14/21 12:05 AM, Richard Henderson wrote:
-> There is nothing target specific about this.  The implementation
-> is host specific, but the declaration is 100% common.
-
-Same as v3 ;)
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg830412.html
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Split out a function to adjust the raw signal pc into a
+> value that could be passed to cpu_restore_state.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  include/exec/exec-all.h | 13 +++++++++++++
->  target/alpha/cpu.h      |  6 ------
->  target/arm/cpu.h        |  7 -------
->  target/avr/cpu.h        |  2 --
->  target/cris/cpu.h       |  8 --------
->  target/hexagon/cpu.h    |  3 ---
->  target/hppa/cpu.h       |  3 ---
->  target/i386/cpu.h       |  7 -------
->  target/m68k/cpu.h       |  8 --------
->  target/microblaze/cpu.h |  7 -------
->  target/mips/cpu.h       |  3 ---
->  target/mips/internal.h  |  2 --
->  target/nios2/cpu.h      |  2 --
->  target/openrisc/cpu.h   |  2 --
->  target/ppc/cpu.h        |  7 -------
->  target/riscv/cpu.h      |  2 --
->  target/rx/cpu.h         |  4 ----
->  target/s390x/cpu.h      |  7 -------
->  target/sh4/cpu.h        |  3 ---
->  target/sparc/cpu.h      |  2 --
->  target/tricore/cpu.h    |  2 --
->  target/xtensa/cpu.h     |  2 --
->  22 files changed, 13 insertions(+), 89 deletions(-)
+>  include/exec/exec-all.h |  8 +++++++
+>  accel/tcg/user-exec.c   | 50 ++++++++++++++++++++++++++---------------
+>  2 files changed, 40 insertions(+), 18 deletions(-)
+
+> -/* 'pc' is the host PC at which the exception was raised. 'address' is
+> -   the effective address of the memory exception. 'is_write' is 1 if a
+> -   write caused the exception and otherwise 0'. 'old_set' is the
+> -   signal set which should be restored */
+> -static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+> -                                    int is_write, sigset_t *old_set)
+
+> +/* 'pc' is the host PC at which the exception was raised. 'address' is
+> +   the effective address of the memory exception. 'is_write' is 1 if a
+> +   write caused the exception and otherwise 0'. 'old_set' is the
+> +   signal set which should be restored */
+Pre-existing extra "'" in "otherwise 0."
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
