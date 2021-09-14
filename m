@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91C8440A634
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 07:51:54 +0200 (CEST)
-Received: from localhost ([::1]:46386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A687540A657
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 07:56:50 +0200 (CEST)
+Received: from localhost ([::1]:48560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ1MH-0004UK-MX
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 01:51:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46478)
+	id 1mQ1R3-00068D-OF
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 01:56:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQ1Kl-0003j2-QM
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 01:50:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30883)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQ1Q1-0005RH-91
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 01:55:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26454)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQ1Kk-0003Jo-61
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 01:50:19 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQ1Pz-0007no-Qh
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 01:55:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631598617;
+ s=mimecast20190719; t=1631598942;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=n3xt2U/mf1TV0ivlW1YU85QayL6/GsS0/xbD4PCXqKI=;
- b=AiXqblbhhkDJRtQfLWRA8u7Gq5/uBK7O934UcdgbIB+beoVwIe9V5WnATBkNJyJSFBV1gy
- V18jb0+5vs/wnIx56MFGpwcKWRv3cR+Iqebr3gtO14peVgvulGqwNT8C5wL10JhYLhfvFF
- PdDOEcc6dWgLZBllWYG1ndXoUvjd294=
+ bh=1TlkaqWk8QCrgrRZX6GImm/WZwhhL5Wcqyj2ECIglOE=;
+ b=f64gCAl117B3UJeQCKNTk8gxCrWxAQ1U2SQncwXUm3qsNKdJwkHPtlofEqGKbBjVfGgOXb
+ dDdl2pW9I6osMAW4oFUA2aXOlkuTtIY9WBdeixtbbIfjWbE+W7YI9Uo15T+Kj7LGcl8h3X
+ LuTK/YQcinUrUKY//DC+d3M9Z0R8FZ4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-583-tKDfVl3lNryUhSLu7Smfag-1; Tue, 14 Sep 2021 01:50:16 -0400
-X-MC-Unique: tKDfVl3lNryUhSLu7Smfag-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-510-7KffY4g2McCRK8adM9r0Kw-1; Tue, 14 Sep 2021 01:55:41 -0400
+X-MC-Unique: 7KffY4g2McCRK8adM9r0Kw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E58C362F8
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 05:50:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9949E1006AA0
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 05:55:40 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B0C0E19724;
- Tue, 14 Sep 2021 05:50:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BA82210027C4;
+ Tue, 14 Sep 2021 05:55:36 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2A16A113865F; Tue, 14 Sep 2021 07:50:10 +0200 (CEST)
+ id 4FAE6113865F; Tue, 14 Sep 2021 07:55:35 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 12/22] test-qobject-input-visitor: Wean off
- UserDefListUnion
+Subject: Re: [PATCH 19/22] tests/qapi-schema: Drop simple union
+ __org.qemu_x-Union1
 References: <20210913123932.3306639-1-armbru@redhat.com>
- <20210913123932.3306639-13-armbru@redhat.com>
- <20210913150609.hr4fm3uqyqd4vlz5@redhat.com>
-Date: Tue, 14 Sep 2021 07:50:10 +0200
-In-Reply-To: <20210913150609.hr4fm3uqyqd4vlz5@redhat.com> (Eric Blake's
- message of "Mon, 13 Sep 2021 10:06:09 -0500")
-Message-ID: <87sfy7g0z1.fsf@dusky.pond.sub.org>
+ <20210913123932.3306639-20-armbru@redhat.com>
+ <20210913153527.dy5kdr7uot7ciww4@redhat.com>
+Date: Tue, 14 Sep 2021 07:55:35 +0200
+In-Reply-To: <20210913153527.dy5kdr7uot7ciww4@redhat.com> (Eric Blake's
+ message of "Mon, 13 Sep 2021 10:35:27 -0500")
+Message-ID: <87lf3zg0q0.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -88,36 +88,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Eric Blake <eblake@redhat.com> writes:
 
-> On Mon, Sep 13, 2021 at 02:39:22PM +0200, Markus Armbruster wrote:
->> The test_visitor_in_list_union_FOO() use simple union UserDefListUnion
->> to cover lists of builtin types.  Rewrite as
->> test_visitor_in_list_struct(), using struct ArrayStruct and a lot less
->> code.
->> 
->> test_visitor_in_fail_union_list() uses UserDefListUnion to cover
->> "variant members don't match the discriminator value".  Cover that in
->> test_visitor_in_fail_union_flat() instead, and drop
->> test_visitor_in_fail_union_list().  Appropriating the former for this
->> purpose is okay, because it actually failed due to missing
->> discriminator, which is still covered by
->> test_visitor_in_fail_union_flat_no_discrim().
+> On Mon, Sep 13, 2021 at 02:39:29PM +0200, Markus Armbruster wrote:
+>> Replace simple union __org.qemu_x-Union1 flat union
+>
+> missing 'with'
+
+Will fix.
+
+>> __org.qemu_x-Union2, except drop it from __org.qemu_x-command, because
+>> there it's only used to pull it into QMP.  Now drop the unused simple
+>> union.
 >> 
 >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 >> ---
->>  tests/unit/test-qobject-input-visitor.c | 460 ++++++++----------------
->>  1 file changed, 148 insertions(+), 312 deletions(-)
->> 
->> @@ -1206,7 +1066,7 @@ static void test_visitor_in_fail_union_flat(TestInputVisitorData *data,
->>      Error *err = NULL;
->>      Visitor *v;
->>  
->> -    v = visitor_input_test_init(data, "{ 'string': 'c', 'integer': 41, 'boolean': true }");
->> +    v = visitor_input_test_init(data, "{ 'enum1': 'value2', 'string': 'c', 'integer': 41, 'boolean': true }");
+>>  tests/unit/test-qmp-cmds.c              | 16 +++++-----------
+>>  tests/qapi-schema/qapi-schema-test.json |  6 ++----
+>>  tests/qapi-schema/qapi-schema-test.out  | 14 +++-----------
+>>  3 files changed, 10 insertions(+), 26 deletions(-)
+>>
 >
-> Long line; do we care?
+> Looks a bit odd to leave things with Union2 but not Union1; up to you
+> if it is worth a further cleanup to rename what remains to get rid of
+> the odd gap.  I don't think it's a show-stopper for your series to
+> keep the naming as-is, though.
 
-We have loads of similar lines in unit tests, and I've given up on
-them.
+Can do.
+
+Another cleanup I forgot: rename tests/qapi-schema/flat-union* after
+PATCH 21.
 
 > Reviewed-by: Eric Blake <eblake@redhat.com>
 
