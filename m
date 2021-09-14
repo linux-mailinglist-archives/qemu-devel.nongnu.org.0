@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA59140AEEE
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:30:41 +0200 (CEST)
-Received: from localhost ([::1]:46430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BC4140AED1
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:23:00 +0200 (CEST)
+Received: from localhost ([::1]:49242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ8WG-0003nV-OT
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:30:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40808)
+	id 1mQ8Op-0003GM-Ev
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mQ8Cv-00075T-M5
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:10:41 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:39784)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mQ8Cs-00050r-9r
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:10:41 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id h17so9692390edj.6
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 06:10:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8vhbDWVA/zMk9rlEIhg64wLrmspuaofVEndka93rHR8=;
- b=wGzAS4Yr7i5zWkdmzI27LYdds5n6DbKMuqv/52pzJZiVi8dgSejDp9G2aC0Bq2O0kn
- MbyLQMuPYR/8uBa0Jb8/VOq7DB0rMxp1sP/rmco+IuO5P5N4jeAFJw8Pd7XGYu6islvV
- QfBovIKGEGP/097KyCIvoxoCwu15Pe6I9obOgh+hZi4F8eSS7tKo4wtHUeVuxdhwjga3
- iEtsSONJmco/Es86hHo3OvupOj+q6CzD7rtTO5AnDYVtfcSMgx4Q7j/akG1Hn1lk/Xnn
- VXEEOdIGfySZVOF83lEFranx4vMmMN/4kxr/EctzLe08umxQ9b2sUgPRq4HrwUN0Wqnx
- brjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8vhbDWVA/zMk9rlEIhg64wLrmspuaofVEndka93rHR8=;
- b=4Jx+KGGyo3AB7me/d8h3On7bc+bxe3mr/98Nm0s0F59dbVEDXySfmxRCukOUjGz5LY
- P87tKypmnyNRgS9YK4kau7KBdU8YYo3+qrbgP0WEW+MKOroFWvO5ppF8kqzsSDOPpbdJ
- sADR76Jum30AA0enh7vWv4Hh6hqSjHErY1VOiBzhexNCpUtm5OF/ps9RNXMSrr8EjdjM
- +ngAEhbzdyEZfd4b97yJ/GJUWivVNPrPyij6jRdmJXcBwxwcboGCm+5FCH/0wH0SikUs
- MbAh/AGRHbN6Y8jbZJe7MD65yyuXwrREutIQ+2Jrhr9I325ioGP1xDPxo0SDKheCTkYz
- aHHw==
-X-Gm-Message-State: AOAM531TRys0lHXFJK+EJK7dZKINhn1rkcyJeJHr6Y7kLQZL94R/NQO/
- Y11PKjzqnlijK0BnHzxVyYJk3bcjp+YxYyGMFIelXCQERo0=
-X-Google-Smtp-Source: ABdhPJyxKYBXJyo1xwHT4a1QCMy/g67f16X9amsY0zY4XzV/Yu5VAmtp6Z9HHI8+FkOokkNZsvfJy4Id54kOLdqpIYg=
-X-Received: by 2002:a05:6402:2810:: with SMTP id
- h16mr18525713ede.293.1631625036081; 
- Tue, 14 Sep 2021 06:10:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mQ8Jd-0004I1-JY
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:17:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20015)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mQ8Jb-0001EJ-Gz
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:17:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631625453;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SLvKeav5abcu16BZHpLmZ+FG0S8Fq8C31clQ43GdR0U=;
+ b=gG9l+r1TSN9V1Rg7DFO0RlsHSIYaljGkQhaCafxux9JiufzyRmlxoRURXyqw77vCbz+Ip/
+ XjktPgB56ykUEeLSWUsK6gOndBM8mx0MWyTsubYhDGvg7ZtfJhO/MBEpS/cD92r2LrCUam
+ ODDWuQ+I73WaVrjqTOOI4hTM6bY0IQY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-_eAxuLIYNLWcgMXHM9MhHA-1; Tue, 14 Sep 2021 09:17:32 -0400
+X-MC-Unique: _eAxuLIYNLWcgMXHM9MhHA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 588469017C1
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 13:17:31 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.39.195.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9C9EB102AE4B;
+ Tue, 14 Sep 2021 13:17:21 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org,
+	mst@redhat.com,
+	david@redhat.com
+Subject: [PATCH] virtio-balloon: Fix page-poison subsection name
+Date: Tue, 14 Sep 2021 14:17:16 +0100
+Message-Id: <20210914131716.102851-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20210906093911.2069140-1-ani@anisinha.ca>
-In-Reply-To: <20210906093911.2069140-1-ani@anisinha.ca>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Tue, 14 Sep 2021 18:40:25 +0530
-Message-ID: <CAARzgwxQyeCEAY1tqX1Pik7N6nnJvfMD+fgetkfHJ2vL7rFs_Q@mail.gmail.com>
-Subject: Re: Add a unit test to exercize support for ACPI hotplug on
- multifunction bridges in q35
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000aecb4b05cbf44e16"
-Received-SPF: none client-ip=2a00:1450:4864:20::52c;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,58 +77,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000aecb4b05cbf44e16
-Content-Type: text/plain; charset="UTF-8"
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Ping
+The subsection name for page-poison was typo'd as:
 
-On Mon, Sep 6, 2021 at 15:09 Ani Sinha <ani@anisinha.ca> wrote:
+  vitio-balloon-device/page-poison
 
-> Hi Igor/Michael :
->
-> Added a unit test to exercize the following commit :
->
-> d7346e614f4ec353 ("acpi: x86: pcihp: add support hotplug on multifunction
-> bridges")
->
-> I had sent just the unit test earlier but since the review is getting
-> delayed, I thought of sending
-> the whole patch set which can be now reviewed in totality.
->
-> Thanks
-> ani
->
->
->
+Note the missing 'r' in virtio.
 
---000000000000aecb4b05cbf44e16
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+When we have a machine type that enables page poison, and the guest
+enables it (which needs a new kernel), things fail rather unpredictably.
 
-<div dir=3D"auto">Ping=C2=A0</div><div><br><div class=3D"gmail_quote"><div =
-dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 6, 2021 at 15:09 Ani Sinha &lt=
-;<a href=3D"mailto:ani@anisinha.ca">ani@anisinha.ca</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex">Hi Igor/Michael :<br>
-<br>
-Added a unit test to exercize the following commit :<br>
-<br>
-d7346e614f4ec353 (&quot;acpi: x86: pcihp: add support hotplug on multifunct=
-ion bridges&quot;)<br>
-<br>
-I had sent just the unit test earlier but since the review is getting delay=
-ed, I thought of sending<br>
-the whole patch set which can be now reviewed in totality.<br>
-<br>
-Thanks<br>
-ani<br>
-<br>
-<br>
-</blockquote></div></div>
+The fallout from this is that most of the other subsections fail to
+load, including things like the feature bits in the device, one
+possible fallout is that the physical addresses of the queues
+then get aligned differently and we fail with an error about
+last_avail_idx being wrong.
+It's not obvious to me why this doesn't produce a more obvious failure,
+but virtio's vmstate loading is a bit open-coded.
 
---000000000000aecb4b05cbf44e16--
+Fixes: 7483cbbaf82 ("virtio-balloon: Implement support for page poison reporting feature")
+bz: https://bugzilla.redhat.com/show_bug.cgi?id=1984401
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ hw/virtio/virtio-balloon.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index 5a69dce35d..c6962fcbfe 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -852,7 +852,7 @@ static const VMStateDescription vmstate_virtio_balloon_free_page_hint = {
+ };
+ 
+ static const VMStateDescription vmstate_virtio_balloon_page_poison = {
+-    .name = "vitio-balloon-device/page-poison",
++    .name = "virtio-balloon-device/page-poison",
+     .version_id = 1,
+     .minimum_version_id = 1,
+     .needed = virtio_balloon_page_poison_support,
+-- 
+2.31.1
+
 
