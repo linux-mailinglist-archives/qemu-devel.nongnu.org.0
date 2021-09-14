@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D352840B278
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 17:04:27 +0200 (CEST)
-Received: from localhost ([::1]:39424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 821C740B1C1
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 16:43:59 +0200 (CEST)
+Received: from localhost ([::1]:37778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ9z0-0002if-TA
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 11:04:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37356)
+	id 1mQ9fC-00059h-8o
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 10:43:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQ9Og-0000Qh-Bs
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:26:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53456)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQ9Oc-00077s-Jl
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:26:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631629603;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zc4GAGNd7U60rlRgQ3mzXw+JBUbl9ED6Yoj+89RgeRw=;
- b=KttHpxUWDTLzKzHVBFPcZXfifryqBZC58BjaE3ukxpMapRDrZ0kECKn4wXxkjHLTKjaf37
- 7XnWoa6kyWs046h/gDRRffWV2DhA6Vtc0jbVIuY6RyBtwhoW2y9skgrQMqnVYxpZcijNlw
- tkdiQLzJtiRKJy8XwaKcqU/sKS8lSnU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-626DxAEzNgqnxv_q-JvIMg-1; Tue, 14 Sep 2021 10:26:42 -0400
-X-MC-Unique: 626DxAEzNgqnxv_q-JvIMg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F350B835BFE;
- Tue, 14 Sep 2021 14:26:21 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.39.193.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 36DE15D9CA;
- Tue, 14 Sep 2021 14:25:08 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/53] target/microblaze: convert to use format_state
- instead of dump_state
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mQ9Mb-0006He-Ko
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:24:45 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:41954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mQ9MQ-0005T2-3m
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:24:45 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ g19-20020a1c9d13000000b003075062d4daso2734161wme.0
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 07:24:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=f5XrvFDDkZUqLBW2jEoK6VwyJ0imWYKMpETpzgPB57g=;
+ b=lNTA91agW+sX0Fk9Gfzir23NsmKvSnYl2JyYVcbA8pK+OhlBqlFKlG0igQLr8DIh2Z
+ vi92CD8xg8rWHc9yUETTZow84894F/ol26wPsq8nKjWLnWeg+a6mYJH0S0xT0oLQQhyG
+ 7kugnDNpuy4LpMf6XLd/zG5adCexR7ZCAfRsDq+20MarPHLjMJvf8ZB3ViR5kvTCLZPZ
+ eUaYGJxZ4t/EjWsxUYqWz8sH8o/TASR2tVi+4Lq89Dx3d6CXq6PmQwZeyJ9ZtLlZ8eNS
+ DHrjgGFVKqBI0qnMEsqg1XDPa9+S0/heGBs65HVkX6qt7HSAjwqw9ZfkUJywXCDtAsC/
+ flVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=f5XrvFDDkZUqLBW2jEoK6VwyJ0imWYKMpETpzgPB57g=;
+ b=OUPlFmcrBQM0kUQHjVpGFQjN/jBWesYyp1akH9aLKfZVh5MGZDmWMSJ3AMgTXZ4SIs
+ 3WbqFJdSf4IYKqI93udcvvprUFaWE4A54I3tDxPapntjPC2N/LUV82+kyfZrvq/LTxpM
+ yBgaC39jyoybCqZaBUfk69biGAPiMeRZhW0FIpy+Q0Xm1aRhI1WBxR1n3tSTFrPDfwQ/
+ 3kY6RVfqRoLlf9sxYe20nTfrdPUVTE50MkwtSyherVpjfMb5JNdGgPPUkhZLa163BuLj
+ ItDM6T5JzHUJ7mhHL3QnDZmEWlejUKyXbeoyVqC5gRU7Et4/Kg5GwFmD2iOaV9zABqTS
+ H25A==
+X-Gm-Message-State: AOAM533wMBbtqmNe4lMeGce/b/baa9XFc+Ak82vmgIv+ybjcjTTjoQoP
+ +VZRSuMv2HPhneYHcjdNCCpjvg==
+X-Google-Smtp-Source: ABdhPJwlBBkPLdk99KypeO6Zf6He5n2D/lTs/Y8a0rHUC1b8Nw06UV8Vhuv9uKpD7cs8VSpHBajsNg==
+X-Received: by 2002:a1c:a78d:: with SMTP id q135mr2571767wme.36.1631629471748; 
+ Tue, 14 Sep 2021 07:24:31 -0700 (PDT)
+Received: from localhost.localdomain
+ (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
+ by smtp.gmail.com with ESMTPSA id k6sm184252wmo.37.2021.09.14.07.24.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Sep 2021 07:24:31 -0700 (PDT)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: eric.auger@redhat.com
+Subject: [PATCH v3 10/10] tests/acpi: add expected VIOT blob for q35 machine
 Date: Tue, 14 Sep 2021 15:20:05 +0100
-Message-Id: <20210914142042.1655100-17-berrange@redhat.com>
-In-Reply-To: <20210914142042.1655100-1-berrange@redhat.com>
-References: <20210914142042.1655100-1-berrange@redhat.com>
+Message-Id: <20210914142004.2433568-11-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210914142004.2433568-1-jean-philippe@linaro.org>
+References: <20210914142004.2433568-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.398, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,150 +84,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
- Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Peter Xu <peterx@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-arm@nongnu.org,
+ pbonzini@redhat.com, ani@anisinha.ca, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- target/microblaze/cpu.c       |  2 +-
- target/microblaze/cpu.h       |  2 +-
- target/microblaze/translate.c | 45 ++++++++++++++++++-----------------
- 3 files changed, 25 insertions(+), 24 deletions(-)
+The VIOT table generated for the q35 test is:
 
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 72d8f2a0da..539b8964bd 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -388,7 +388,7 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
-     cc->class_by_name = mb_cpu_class_by_name;
-     cc->has_work = mb_cpu_has_work;
- 
--    cc->dump_state = mb_cpu_dump_state;
-+    cc->format_state = mb_cpu_format_state;
-     cc->set_pc = mb_cpu_set_pc;
-     cc->gdb_read_register = mb_cpu_gdb_read_register;
-     cc->gdb_write_register = mb_cpu_gdb_write_register;
-diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index e4bba8a755..3e90970068 100644
---- a/target/microblaze/cpu.h
-+++ b/target/microblaze/cpu.h
-@@ -360,7 +360,7 @@ bool mb_cpu_exec_interrupt(CPUState *cs, int int_req);
- void mb_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
-                                 MMUAccessType access_type,
-                                 int mmu_idx, uintptr_t retaddr);
--void mb_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
-+void mb_cpu_format_state(CPUState *cpu, GString *buf, int flags);
- hwaddr mb_cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
-                                         MemTxAttrs *attrs);
- int mb_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index a14ffed784..c229ba8789 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -1848,54 +1848,55 @@ void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int max_insns)
-     translator_loop(&mb_tr_ops, &dc.base, cpu, tb, max_insns);
- }
- 
--void mb_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-+void mb_cpu_format_state(CPUState *cs, GString *buf, int flags)
- {
-     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
-     CPUMBState *env = &cpu->env;
-     uint32_t iflags;
-     int i;
- 
--    qemu_fprintf(f, "pc=0x%08x msr=0x%05x mode=%s(saved=%s) eip=%d ie=%d\n",
--                 env->pc, env->msr,
--                 (env->msr & MSR_UM) ? "user" : "kernel",
--                 (env->msr & MSR_UMS) ? "user" : "kernel",
--                 (bool)(env->msr & MSR_EIP),
--                 (bool)(env->msr & MSR_IE));
-+    g_string_append_printf(buf, "pc=0x%08x msr=0x%05x mode=%s(saved=%s) "
-+                           "eip=%d ie=%d\n",
-+                           env->pc, env->msr,
-+                           (env->msr & MSR_UM) ? "user" : "kernel",
-+                           (env->msr & MSR_UMS) ? "user" : "kernel",
-+                           (bool)(env->msr & MSR_EIP),
-+                           (bool)(env->msr & MSR_IE));
- 
-     iflags = env->iflags;
--    qemu_fprintf(f, "iflags: 0x%08x", iflags);
-+    g_string_append_printf(buf, "iflags: 0x%08x", iflags);
-     if (iflags & IMM_FLAG) {
--        qemu_fprintf(f, " IMM(0x%08x)", env->imm);
-+        g_string_append_printf(buf, " IMM(0x%08x)", env->imm);
-     }
-     if (iflags & BIMM_FLAG) {
--        qemu_fprintf(f, " BIMM");
-+        g_string_append_printf(buf, " BIMM");
-     }
-     if (iflags & D_FLAG) {
--        qemu_fprintf(f, " D(btarget=0x%08x)", env->btarget);
-+        g_string_append_printf(buf, " D(btarget=0x%08x)", env->btarget);
-     }
-     if (iflags & DRTI_FLAG) {
--        qemu_fprintf(f, " DRTI");
-+        g_string_append_printf(buf, " DRTI");
-     }
-     if (iflags & DRTE_FLAG) {
--        qemu_fprintf(f, " DRTE");
-+        g_string_append_printf(buf, " DRTE");
-     }
-     if (iflags & DRTB_FLAG) {
--        qemu_fprintf(f, " DRTB");
-+        g_string_append_printf(buf, " DRTB");
-     }
-     if (iflags & ESR_ESS_FLAG) {
--        qemu_fprintf(f, " ESR_ESS(0x%04x)", iflags & ESR_ESS_MASK);
-+        g_string_append_printf(buf, " ESR_ESS(0x%04x)", iflags & ESR_ESS_MASK);
-     }
- 
--    qemu_fprintf(f, "\nesr=0x%04x fsr=0x%02x btr=0x%08x edr=0x%x\n"
--                 "ear=0x" TARGET_FMT_lx " slr=0x%x shr=0x%x\n",
--                 env->esr, env->fsr, env->btr, env->edr,
--                 env->ear, env->slr, env->shr);
-+    g_string_append_printf(buf, "\nesr=0x%04x fsr=0x%02x btr=0x%08x edr=0x%x\n"
-+                           "ear=0x" TARGET_FMT_lx " slr=0x%x shr=0x%x\n",
-+                           env->esr, env->fsr, env->btr, env->edr,
-+                           env->ear, env->slr, env->shr);
- 
-     for (i = 0; i < 32; i++) {
--        qemu_fprintf(f, "r%2.2d=%08x%c",
--                     i, env->regs[i], i % 4 == 3 ? '\n' : ' ');
-+        g_string_append_printf(buf, "r%2.2d=%08x%c",
-+                               i, env->regs[i], i % 4 == 3 ? '\n' : ' ');
-     }
--    qemu_fprintf(f, "\n");
-+    g_string_append_printf(buf, "\n");
- }
- 
- void mb_tcg_init(void)
+[000h 0000   4]                    Signature : "VIOT"    [Virtual I/O Translation Table]
+[004h 0004   4]                 Table Length : 00000070
+[008h 0008   1]                     Revision : 00
+[009h 0009   1]                     Checksum : 3D
+[00Ah 0010   6]                       Oem ID : "BOCHS "
+[010h 0016   8]                 Oem Table ID : "BXPC    "
+[018h 0024   4]                 Oem Revision : 00000001
+[01Ch 0028   4]              Asl Compiler ID : "BXPC"
+[020h 0032   4]        Asl Compiler Revision : 00000001
+
+[024h 0036   2]                   Node count : 0003
+[026h 0038   2]                  Node offset : 0030
+[028h 0040   8]                     Reserved : 0000000000000000
+
+[030h 0048   1]                         Type : 03 [VirtIO-PCI IOMMU]
+[031h 0049   1]                     Reserved : 00
+[032h 0050   2]                       Length : 0010
+
+[034h 0052   2]                  PCI Segment : 0000
+[036h 0054   2]               PCI BDF number : 0010
+[038h 0056   8]                     Reserved : 0000000000000000
+
+[040h 0064   1]                         Type : 01 [PCI Range]
+[041h 0065   1]                     Reserved : 00
+[042h 0066   2]                       Length : 0018
+
+[044h 0068   4]               Endpoint start : 00001000
+[048h 0072   2]            PCI Segment start : 0000
+[04Ah 0074   2]              PCI Segment end : 0000
+[04Ch 0076   2]                PCI BDF start : 1000
+[04Eh 0078   2]                  PCI BDF end : 10FF
+[050h 0080   2]                  Output node : 0030
+[052h 0082   6]                     Reserved : 000000000000
+
+[058h 0088   1]                         Type : 01 [PCI Range]
+[059h 0089   1]                     Reserved : 00
+[05Ah 0090   2]                       Length : 0018
+
+[05Ch 0092   4]               Endpoint start : 00003000
+[060h 0096   2]            PCI Segment start : 0000
+[062h 0098   2]              PCI Segment end : 0000
+[064h 0100   2]                PCI BDF start : 3000
+[066h 0102   2]                  PCI BDF end : 30FF
+[068h 0104   2]                  Output node : 0030
+[06Ah 0106   6]                     Reserved : 000000000000
+
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h |   1 -
+ tests/data/acpi/q35/VIOT.viot               | Bin 0 -> 112 bytes
+ 2 files changed, 1 deletion(-)
+
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 27ab8d3ba8..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,2 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/q35/VIOT.viot",
+diff --git a/tests/data/acpi/q35/VIOT.viot b/tests/data/acpi/q35/VIOT.viot
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..275c78fbe8e93190321d957c91c3f17551f865d4 100644
+GIT binary patch
+literal 112
+zcmWIZ^baXu00LVle`k+i1*eDrX9XZ&1PX!JAex!M0Hgv8m>C3sGzdcgBZCBjEAU?c
+OrV=a;;~4xmfH48g0SW;C
+
+literal 0
+HcmV?d00001
+
 -- 
-2.31.1
+2.33.0
 
 
