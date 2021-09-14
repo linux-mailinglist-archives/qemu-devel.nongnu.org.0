@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE11340B5C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 19:19:09 +0200 (CEST)
-Received: from localhost ([::1]:50618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9F940B5C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 19:18:06 +0200 (CEST)
+Received: from localhost ([::1]:46400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQC5M-0004U3-Lh
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 13:19:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42828)
+	id 1mQC4L-0001fg-6j
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 13:18:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQBzn-0006NT-DT
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:13:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43533)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQBzf-0006xw-Jv
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:13:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631639594;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Jggs6OfC+tSYzr8Gie1Phu+g74Lb1MFLOQ1xr+RGMWQ=;
- b=Nu1fDIAR7erAIf12627oHCaWcx934U/KmH3Fa76Vtzocpj5bwpj87ZTfULvfnk9FQrtMLo
- WznTqIOqlrhnkZkQkKDo7dkRrnI/6JVnrgWuu0lr/wDI+d1Jt/zsMtpPcCLCU/X3jYUVFN
- 8QDqlwlfHuoTLQCPdb0dFB6zh5YKiQQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-126-rCZCWg9wOVKM3t53wAX4_w-1; Tue, 14 Sep 2021 13:13:01 -0400
-X-MC-Unique: rCZCWg9wOVKM3t53wAX4_w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B034180830E;
- Tue, 14 Sep 2021 17:12:57 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A2CF6D981;
- Tue, 14 Sep 2021 17:12:37 +0000 (UTC)
-Date: Tue, 14 Sep 2021 18:12:34 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 42/53] hw/core: introduce a 'format_tlb' callback
-Message-ID: <YUDYArsgmyBxFveW@redhat.com>
-References: <20210914142042.1655100-1-berrange@redhat.com>
- <20210914142042.1655100-43-berrange@redhat.com>
- <818d439f-337e-a73c-9e22-fbf8a119435f@redhat.com>
- <YUDPECQJraD3thwi@redhat.com>
- <a127efbf-8953-2ec5-9ba0-badbce949264@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mQC1A-0007Zl-QV
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:14:50 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:44612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mQC18-0008Cb-Sb
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:14:48 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ l7-20020a1c2507000000b002e6be5d86b3so71735wml.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 10:14:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hyaSOIbReSL6tUsH+Skzy33KPfP0HGHCZLyG/jrv3FY=;
+ b=BKwnVpwRqgVpx/XhjbW3e6Pj5B9oEnd7i+vvJm+6uBG3Yomc1OCzx2r3n4JxZYQGi5
+ mo9T6zDqcMF64iHHLR/6JK3OhEsl6ad96+ymiRjAglD5S1ZcqOPuUvUBJ83nYl9t+n1L
+ zWX76F0gG1kePVkfuFMflvJYqSg38bUBeS9CA455uUqo6xJku4Yi+jHmiTL+Mgc2WeQ8
+ hvPDspbCZ8+b9jYfq0HBODIitTZjgKQg76IOYBkk56k1x7dt6+7l6XunlZXuB3DpOxBq
+ jKtj8qN+99PkVEMWZ8viC5EcAgNYU+hgOlOAAsdXrL114pqTzJNXeJE4o1T3+5NNUJK8
+ aBHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hyaSOIbReSL6tUsH+Skzy33KPfP0HGHCZLyG/jrv3FY=;
+ b=Y/mIubioQF26/V42PaLKn0MsZmupbG+T35M8NqPjc0kbyfYUP/D98ueZm5NsZkMbNn
+ iZCDDLNFOdBr7mrXPY+9jvlX2IjxOydFKWoSnmCfg+pfKrTooRwPMMeEF6YKu9ueSh11
+ puf1bc2pnGap7rPbL1GXMdJcfCG3Se1z/Z/CVJPIRzTJ/aexWKSafvOqEZKFjF6+AmOc
+ FpcpRGdJX3ztGyY41F7WhRAzoBveSlTQ4iuVlL1kDPToipm/Rqr+drPRF4EXnx1+OIsb
+ xFVnRoA823uPPzhiHe9IjeBzJ1wKl43O6iTU8Kwq8gzaWdAgKbVJ6nqJ7fJw9qmMK/ph
+ vYhg==
+X-Gm-Message-State: AOAM531WiMSandi0MU8MN0It5PgvCs6ru45Xu9dBxYWwAYy+7Dl8NqG8
+ 43Hpi61JSGpjGzArmwXvnUCi4sYc92aTrHZ7iII8Bw==
+X-Google-Smtp-Source: ABdhPJz1yhDsrjxt5iuUJSYxaKW7TUYTFXji5+EQlJTuYxpwOcJOBpSvgqPIa2hCJQeH5AJ23YPp1XdJB/XTrAg6C9Y=
+X-Received: by 2002:a05:600c:2259:: with SMTP id
+ a25mr120560wmm.133.1631639685000; 
+ Tue, 14 Sep 2021 10:14:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a127efbf-8953-2ec5-9ba0-badbce949264@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.398, DKIM_SIGNED=0.1,
+References: <20210914155342.1296339-1-richard.henderson@linaro.org>
+In-Reply-To: <20210914155342.1296339-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 14 Sep 2021 18:13:54 +0100
+Message-ID: <CAFEAcA-f=n6XHp5Cj7=tH8NWO1GLA50i34=5GyaHrZELyr0bjw@mail.gmail.com>
+Subject: Re: [PULL v3 00/44] tcg patch queue
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,90 +78,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Eric Blake <eblake@redhat.com>, Marek Vasut <marex@denx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-ppc@nongnu.org,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Peter Xu <peterx@redhat.com>, Stafford Horne <shorne@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Palmer Dabbelt <palmer@dabbelt.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 14, 2021 at 07:02:19PM +0200, Philippe Mathieu-Daudé wrote:
-> On 9/14/21 6:34 PM, Daniel P. Berrangé wrote:
-> > On Tue, Sep 14, 2021 at 05:56:09PM +0200, Philippe Mathieu-Daudé wrote:
-> >> On 9/14/21 4:20 PM, Daniel P. Berrangé wrote:
-> >>> This will allow us to reduce duplication between the different targets
-> >>> implementing the 'info tlb' command.
-> >>>
-> >>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> >>> ---
-> >>>  hw/core/cpu-common.c  |  9 +++++++++
-> >>>  include/hw/core/cpu.h | 11 +++++++++++
-> >>>  2 files changed, 20 insertions(+)
-> >>
-> >>> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> >>> index 4c47e1df18..64fc57c8d9 100644
-> >>> --- a/include/hw/core/cpu.h
-> >>> +++ b/include/hw/core/cpu.h
-> >>>   * @has_work: Callback for checking if there is work to do.
-> >>>   * @memory_rw_debug: Callback for GDB memory access.
-> >>>   * @format_state: Callback for formatting state.
-> >>> + * @format_tlb: Callback for formatting memory mappings
-> 
-> "... for formatting translations of virtual to physical memory mappings"
-> 
-> >>>   * @get_arch_id: Callback for getting architecture-dependent CPU ID.
-> >>>   * @set_pc: Callback for setting the Program Counter register. This
-> >>>   *       should have the semantics used by the target architecture when
-> >>> @@ -136,6 +137,7 @@ struct CPUClass {
-> >>>      int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
-> >>>                             uint8_t *buf, int len, bool is_write);
-> >>>      void (*format_state)(CPUState *cpu, GString *buf, int flags);
-> >>> +    void (*format_tlb)(CPUState *cpu, GString *buf);
-> >>
-> >> Doesn't this belong to SysemuCPUOps?
-> > 
-> > I can't really answer, since my knowledge of this area of QEMU code is
-> > fairly mimimal. I put it here because it is basically serving the same
-> > purpose as the "format_state" callback immediately above it, which was
-> > a rename of the existing "dump_state" callback. I assumed whatever was
-> > there already was a good practice to follow[1]...
-> 
-> Since it involves physical memory, I'm pretty sure this is sysemu
-> specific. Beside in the following patches you guard the handlers
-> with '#ifndef CONFIG_USER_ONLY'.
-> 
-> Good news, there is very few changes needed in your patches, for
-> example the next patch:
+On Tue, 14 Sept 2021 at 16:53, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Version 3: Rebase and fix a minor patch conflict.
+>
+>
+> r~
+>
+>
+> The following changes since commit c6f5e042d89e79206cd1ce5525d3df219f13c3cc:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210913-3' into staging (2021-09-13 21:06:15 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210914
+>
+> for you to fetch changes up to a5b759b6dca7daf87fa5007a7f5784bf22f3830f:
+>
+>   tcg/arm: More use of the TCGReg enum (2021-09-14 07:59:43 -0700)
+>
+> ----------------------------------------------------------------
+> Fix translation race condition for user-only.
+> Fix tcg/i386 encoding for VPSLLVQ, VPSRLVQ.
+> Fix tcg/arm tcg_out_vec_op signature.
+> Fix tcg/ppc (32bit) build with clang.
+> Remove dupluate TCG_KICK_PERIOD definition.
+> Remove unused tcg_global_reg_new.
+> Restrict cpu_exec_interrupt and its callees to sysemu.
+> Cleanups for tcg/arm.
 
-.snip..
+This throws up new warnings on FreeBSD:
 
-yes I see what you mean now, and agree this looks like a better
-approach
+../src/bsd-user/main.c:148:1: warning: function declared 'noreturn'
+should not return [-Winvalid-noreturn]
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Unlike linux-user, where cpu_loop() is the direct implementation
+of the target-specific main loop, on bsd-user cpu_loop() seems
+to just call target_cpu_loop(). Since target_cpu_loop() isn't
+marked noreturn, the compiler complains about cpu_loop() being
+marked noreturn.
 
+Easy fix would be to just drop the bsd-user part of
+"user: Mark cpu_loop() with noreturn attribute" I guess.
+Otherwise you could try marking all the target_cpu_loop()
+functions noreturn as well.
+
+-- PMM
 
