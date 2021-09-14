@@ -2,91 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5CF40AF88
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:49:05 +0200 (CEST)
-Received: from localhost ([::1]:43118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C809540AF82
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:48:02 +0200 (CEST)
+Received: from localhost ([::1]:40086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ8o3-0004ye-RL
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:49:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50424)
+	id 1mQ8n2-0002ro-VQ
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:48:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pjp@fedoraproject.org>)
- id 1mQ8j2-0007Af-U1
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:43:53 -0400
-Received: from sonic314-19.consmr.mail.sg3.yahoo.com ([106.10.240.143]:46114)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mQ8j2-0007JJ-Ii
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:43:52 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:40638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pjp@fedoraproject.org>)
- id 1mQ8WI-0001lA-SC
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:30:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1631626237; bh=0Nh/Y6xPV4CIgLPlomK2v31ad896Cuh8tuUla8gXYJA=;
- h=Date:From:Reply-To:To:Cc:In-Reply-To:References:Subject:From:Subject:Reply-To;
- b=WBgabCv7VqlSscHaoyJAnNULqsBKn/hLYKbCkeq7f7M0Ro2NVT6j6bU3WY3ygqB06Ve9Uku7tsiXpbWAc3xY1d1qcY4yF3kPIInABh2G8+pHJU9yBkjVr2MbYqTczkDsen2ScfTnBZrdRS37XgINASlCWjFsUdG407WF5yndA0DAP2gBnyBs2+fBSt4AYj53F6rHNTOUmPb+ZskDBfRrGHM4ma6r3sgeP/GUie+zxHhEbVmSp+vqklCUlz8q0o8VcjwXi34O+RYPRzjfuW+HfxY+dDNMKOgrlqveZe+W5Q/LYe28YuojVOlQZ7kZx3ZJbS+mBoLclo0V1D9WKmnCdw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1631626237; bh=SporCpWUHBPKtAiDhTZuOydwhJPEm0S5V10VKjyr79z=;
- h=X-Sonic-MF:Date:From:To:Subject:From:Subject;
- b=Lz/5jw/cd45EIRsRswLO/KZqCbn/IuavDVPIIGcItSAkXBxdu8Pn3DaohlECSAsZzOo+d1YH5NWdOe5c9Hnz35ZIFEaBWbbZGp1mvOV7Vz8u0zm0AXtNfit8pUH6z5eHhVF14C7FHz9RS2+Oq8eJmhORGEywo/GTCBqd9q9trl20pEp4iU/ZmEFDeVomG5yaGA0CqdzSrzztVCHaDs96dTgzEZDHDfzN5gnuq+YojIBMsT1IJ799Hqk2m3aog+5uRKT8W89pyQWMgKLuPSMdqkXPFotIv4deWoKbVfI5UxDlnyj3QAVVyzB3HYt2bbkkTlZ84o3E4LM9DM7UK4kQRw==
-X-YMail-OSG: mLlyaboVM1mrhSXnTyTjnjQoxs4Qgg55vR6LHFZ5jDzt0tKCU1qo9a7OSSpJT11
- E1sWGG.iFXwp3Hqx86Tctpm0zpMK_I6APui2eXcNQ91gzCiye0xw85TVtAMqGADTDAxsivZqS6aR
- TCZftZs2SYB7M5zXd8YBj.7gh.kuiSPD.mVgB4.zODc7fSswwsEVTuqwyEMkG.bnKFkdzhzvSeZG
- HjGbmupCeAHoDCe4ByHQkE1jrn8xoaHVGOiivWp_7y.tHPkE56rpc8_y9spE10XrbMyF8WhrjpXO
- JaIfcZzgUyFlort1Lla_canu2n1Sgw5xT6MgWWwa_ZWb6J0NWM3oX.GJllIyxW9Mw4zo8_3GZV0S
- AUQ_i8tGaJXN6gnm6Qo4pP0ZWBXt9dbDvI0M7u5gQWRQ4XKSqu7TKPNPuL8l71ZFGhvb2flpWSTx
- pUuZ5r1oJtfH979NOMGk9FCSkjPi8NaHiTqGaF6uaIGN7ob4f8gm9maBTOi95VpFZGjaxzWmtxdJ
- McfGhFH5.yGbNtcDueQ8FVZfnmzgKyq2Vn549KZNzBS7YQNajAsiFj6acA1qDMSHDhpsf7MpbGIJ
- h.tNENxZtUIvpSyL6nAVu6AZZRPUQ5ull64ZJx.xPHBSFcCUoY_OxCfYNC85vWMgjGTBUJo.SKpF
- v7ZM70Z6O73AcoTH6jmqKQlbJa5SWPpeBjsS8whGyPJwssm0Tkn9hcs_sOhzHZYPPm_Sft0SgLpi
- 0Bhl.csJDwu9uO6NbyGOM3TicHmEvrIjeg3ASEjGJFpEfv2M2wakU87Wan0XNJSsppNh4FirhvEO
- hUKxR4Bu2eveVBRI3a4qXF2QysBAWThaKdTLUkvaR4wtnoI9MUSU.EfUV2DFFK4USeOjrJYqJJz_
- MnvVTxPaU.qWlk0XHJrVa6pjEJCCP.gHpWerZUGGZfD5z_oRjg_vOgw7PeLDPm.8YElY_fysH5Lq
- NzYpA4ZW0FIYu1q617oWatc_cBhyZo4wJAR.YrcvlQfK00HT21ZSk.Kh1Y6tqa_w2TL4JVUkXweQ
- rPAbxIgS3QrhnoOdvYTswx.JmlibaMMPsBoXLYfA.wKr7JTdBXVQVA2Ep03Wq2OmxOT6aiW71WVm
- G72HL_3xIiNSRLhI7Z0jLvn0.eSuJrpcFC_NoJ8BExTHg4tOwn2E64CdW9EhFLg6M6mmUPPkzV2E
- yOsp8gJ.4wMXxC.dSTa8m4NzLgknCMSrtn0T4bTb897riI.mUX7ZdKzn.LrRTGGR0G2CYdTvnFxt
- 3yAZsT0ObwJhhWfA_6guW28QLQ00CmSrj8mOtewkXTHHjmEfUeFUGsfzN2DsA91biSLUNMrr2Vwb
- kJkBctRUhkdUQzl1h31i3.Q1zIMdK8R4IdJICpxZpTsAEZBP6PEzYCTGO7RleDo7uUfYwLGYZdBD
- Ue2tTnmH2kA2pdPwx6LlEqpthATG2FMZFSB.Y5tI_yNQ8FxL4tYrvcyglMmSJSyVERx8znF58tUb
- 510s67KW3yODK4aZKMqtrl4fpo.MxQQKiTrR_KW5W4gjuS2bM.W5w0u5BTxHanyCkZAU6DkKtyks
- QjF7y6X4YtD_uDBHD1mM3f.N9kZUInSlPlFnVZKSowSQtFpLkklzf4SthWjDXtTkOpY9OyIX_Rui
- 5XrNHhuNTQlHWTuit2H7ZbJwQxC_2PeLFFbVhEmuSPMczjHZjkiPuy2NKlJ7oun6oWS7cXxOcB8Z
- OzHQF5GdRSLSsinzsZi3Oel2Ox7xYnJN1goI82Bz_jKoeBMjTD1yFgU1RyRbkn.zEd2ezm8zv5Bk
- fMhk6OyFyqWMmcN51m5tKHdrAn56UiOnpYoM2garlCkv9NSNhMgw_Lh58gkHk4WMBvupBmGItvP0
- BJLXmnwbcjHe5TqovDVP_eFzDCG31EvpKUBywg1WoMAOuJEO_JBjcuhsjj0DaHwsTLM4a39Fb8gg
- 2q.5PEDUsDU_anowV42IQ6KhqtZ0N8VNbqw7xqwWFF01tcxN5Psy356obfXp7ghIl2KQpPZWf8MV
- KJBWSHE_n2Eqop.HfxCzzj7NSwVPag6bWcLMcuSyR3j8AjTEte2iseamCZCKnG41DSveXpC7XkSH
- kITanbdJBIITXhVNWLKTERKJS9WSPAjHtytE2kfQCIULoRWaY79KV0EQ7F2Mo0jC9tRifR3RJgi6
- b3qZwHAUKaDG1ryKDlPlMQmLG4GBPwBnpBrIItklixg0lFr1WjhtU5UInVL2piBEr2aB_k8xYlEQ
- mSWnZK11AOB9bkXojOwxF3AyVOaoRl60DWzmAQLNewn6STqDFa.PsugMJXuQyKRwyMKHGuTngFFG
- H9pOC5eGHZN0fBedKgh37FQoLRWya4OQPBTw7t2L4qk7lTzBi4lAYJomQGW1tZ0blrftW1D8trEM
- 14Fo-
-X-Sonic-MF: <pjp@fedoraproject.org>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic314.consmr.mail.sg3.yahoo.com with HTTP; Tue, 14 Sep 2021 13:30:37 +0000
-Date: Tue, 14 Sep 2021 13:30:27 +0000 (UTC)
-From: P J P <pjp@fedoraproject.org>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Message-ID: <798304472.4432617.1631626227208@mail.yahoo.com>
-In-Reply-To: <YTnhy/Wo5M1qVs1k@redhat.com>
-References: <20210908232024.2399215-1-philmd@redhat.com>
- <YTnhy/Wo5M1qVs1k@redhat.com>
-Subject: Re: [RFC PATCH 00/10] security: Introduce
- qemu_security_policy_taint() API
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mQ8WR-0001ti-L4
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:30:52 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id y8so6841131pfa.7
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 06:30:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=q97mLxvRKkZCchy79NqrbXGUA15yi/wG1jclLaH25bM=;
+ b=G6pgnwT4gbJWUnYMsCszp/y9fnKOgD/Cbrf5VBGbA9d0ByYpf7NJF94xmbyR/Qw0Wv
+ AoOw8Vb12v3Y/WvqxsZ4B4lMxS3Z1ISyXQYTLUmwqOojjWg93QXEimakbOXSbwKtWbLC
+ diIDXOhbITe1SzCuIpkJiuGQoHRj/nvcgYeEDc23onp4CzUIuwZa4Cay00CKiC+STidH
+ HpOHEQ4qxTh7kmo7am17oOUt8QXDbX18cizmSOx8VGKyqppOKd5TPnC5z6AOUzwj8XGp
+ XbJXY4QfswmHHARFvuaAW8mpPFZhIItXNWbRIEfoOtNj4e0sGX6dn/5CDwVPcjCdeWFW
+ lU0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=q97mLxvRKkZCchy79NqrbXGUA15yi/wG1jclLaH25bM=;
+ b=tPm3GyTR5tbEWfSI4pPnbX75Xju1pdWE3Q1BVSjXH/HdFGaOkf7qHyz2b2fkfMgEg4
+ DoUGRpL1TjFKjklKLsA9U7wcGUd7VDUmFZq368tiI2bhhGZk32wn7AX5769/biOZ+1E4
+ 7x/07PU4Rez1lviU5Ni9YO5fux+Qe5lYQyXSKAVcPd/W+0lmVBVPFDbN797L8KrBmEev
+ btRb6Ik24Ezg38MHgPx2j71z3Wt0FP3nf11ArOOOtfxKwWtbKNZWyVKJb2tjo6j0Z/RD
+ C9xDFerHLDWusBbmqLRDVu/JcLxJPEbp/ii/6j+oGsUSANK2jG6DUHfIVuryZATJ4LKO
+ R1Sg==
+X-Gm-Message-State: AOAM5314CiOZXTQlbKW31us7TnBe7nsTn9Y+ygietZCV1OnUGMO7S6Kz
+ pVfLTMZjYB1Vm1XqzZvxo+0RyQ==
+X-Google-Smtp-Source: ABdhPJzZ4D7+TFK2zLf/RAlrdlG9rmUyTcFW9OezyHVcIe2Ud7viIbZUMmG1hoXyoLtyqgLJLVgtUA==
+X-Received: by 2002:a05:6a00:ac8:b029:320:a6bb:880d with SMTP id
+ c8-20020a056a000ac8b0290320a6bb880dmr4755912pfl.41.1631626250009; 
+ Tue, 14 Sep 2021 06:30:50 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id m7sm11728268pgn.32.2021.09.14.06.30.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Sep 2021 06:30:49 -0700 (PDT)
+Subject: Re: [PATCH v5 04/21] target/loongarch: Add fixed point arithmetic
+ instruction translation
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <1631624431-30658-1-git-send-email-gaosong@loongson.cn>
+ <1631624431-30658-5-git-send-email-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f1260a8c-9ca7-d3e6-5dd3-b9582648f963@linaro.org>
+Date: Tue, 14 Sep 2021 06:30:47 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: WebService/1.1.18924 YMailNorrin
-Received-SPF: neutral client-ip=106.10.240.143;
- envelope-from=pjp@fedoraproject.org;
- helo=sonic314-19.consmr.mail.sg3.yahoo.com
-X-Spam_score_int: 10
-X-Spam_score: 1.0
-X-Spam_bar: +
-X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- FREEMAIL_FORGED_REPLYTO=2.095, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NEUTRAL=0.779 autolearn=no autolearn_force=no
+In-Reply-To: <1631624431-30658-5-git-send-email-gaosong@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.969,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,168 +89,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: P J P <pj.pandit@yahoo.co.in>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
+ yangxiaojuan@loongson.cn, laurent@vivier.eu, peterx@redhat.com,
+ alistair.francis@wdc.com, maobibo@loongson.cn, pbonzini@redhat.com,
+ bmeng.cn@gmail.com, alex.bennee@linaro.org, chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Philippe, all
+On 9/14/21 6:00 AM, Song Gao wrote:
+> This patch implement fixed point arithemtic instruction translation.
+> 
+> This includes:
+> - ADD.{W/D}, SUB.{W/D}
+> - ADDI.{W/D}, ADDU16ID
+> - ALSL.{W[U]/D}
+> - LU12I.W, LU32I.D LU52I.D
+> - SLT[U], SLT[U]I
+> - PCADDI, PCADDU12I, PCADDU18I, PCALAU12I
+> - AND, OR, NOR, XOR, ANDN, ORN
+> - MUL.{W/D}, MULH.{W[U]/D[U]}
+> - MULW.D.W[U]
+> - DIV.{W[U]/D[U]}, MOD.{W[U]/D[U]}
+> - ANDI, ORI, XORI
+> 
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
+> Signed-off-by: XiaoJuan Yang<yangxiaojuan@loongson.cn>
+> ---
+>   target/loongarch/insn_trans/trans_arith.c | 322 ++++++++++++++++++++++++++++++
+>   target/loongarch/insns.decode             |  89 +++++++++
+>   target/loongarch/translate.c              |  78 ++++++++
+>   target/loongarch/translate.h              |  19 ++
+>   4 files changed, 508 insertions(+)
+>   create mode 100644 target/loongarch/insn_trans/trans_arith.c
+>   create mode 100644 target/loongarch/insns.decode
 
->On Thursday, 9 September, 2021, 03:58:40 pm IST, Daniel P. Berrang=C3=A9 <=
-berrange@redhat.com> wrote:
->On Thu, Sep 09, 2021 at 01:20:14AM +0200, Philippe Mathieu-Daud=C3=A9 wrot=
-e:
->> This series is experimental! The goal is to better limit the
->> boundary of what code is considerated security critical, and
->> what is less critical (but still important!).
->>
->> This approach was quickly discussed few months ago with Markus
->> then Daniel. Instead of classifying the code on a file path
->> basis (see [1]), we insert (runtime) hints into the code
->> (which survive code movement). Offending unsafe code can
->> taint the global security policy. By default this policy
->> is 'none': the current behavior. It can be changed on the
->> command line to 'warn' to display warnings, and to 'strict'
->> to prohibit QEMU running with a tainted policy.
->
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-* Thanks so much for restarting this thread. I've been at it intermittently=
- last few
-=C2=A0 months, thinking about how could we annotate the source/module objec=
-ts.
-
-=C2=A0 =C2=A0-> [*] https://lists.gnu.org/archive/html/qemu-devel/2020-07/m=
-sg04642.html
-
-* Last time we discussed about having both compile and run time options for=
- users
-=C2=A0 to be able to select the qualified objects/backends/devices as desir=
-ed.
-
-* To confirm: How/Where is the security policy defined? Is it device/module=
- specific OR QEMU project wide?
-
-> IOW, the reporting via QAPI introspetion is much more important
-> for libvirt and mgmt apps, than any custom cli arg / printfs
-> at the QEMU level.
->
-
-* True, while it makes sense to have a solution that is conversant with
-=C2=A0 the management/libvirt layers, It'll be great if we could address qe=
-mu/cli
-=C2=A0 other use cases too.
-
->it feels like we need
->=C2=A0 'secure': 'bool'
-
-* Though we started the (above [*]) discussion with '--security' option in =
-mind,
-=C2=A0 I wonder if 'secure' annotation is much specific. And if we could wi=
-den its scope.
---- x ---
-
-
-Source annotations: I've been thinking over following approaches
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-1) Segregate the QEMU sources under
-
-=C2=A0 =C2=A0 =C2=A0 ../staging/ =C2=A0 =C2=A0 =C2=A0<=3D devel/experimenta=
-l, not for production usage
-=C2=A0 =C2=A0 =C2=A0 ../src/ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<=3D good fo=
-r production usage, hence security relevant
-=C2=A0 =C2=A0 =C2=A0 ../deprecated/ =C2=A0 <=3D Bad for production usage, n=
-ot security relevant=C2=A0
-
-=C2=A0 =C2=A0- This is similar to Linux staging drivers' tree.
-=C2=A0 =C2=A0- Staging drivers are not considered for production usage and =
-hence CVE allocation.
-=C2=A0 =C2=A0- At build time by default we only build sources under ../src/=
- tree.
-=C2=A0 =C2=A0- But we can still have options to build /staging/ and /deprec=
-ated/ trees. =C2=A0
-=C2=A0 =C2=A0- It's readily understandable to end users.
-
-2) pkgconfig(1) way:
-=C2=A0 =C2=A0- If we could define per device/backend a configuration (.pc) =
-file which is then used
-=C2=A0 =C2=A0 =C2=A0at build/run time to decide which sources are suitable =
-for the build or usage.
-
-=C2=A0 =C2=A0- I'm trying to experiment with this.
-
-3) We annotate QEMU devices/backends/modules with macros which define its s=
-tatus.
-=C2=A0 =C2=A0It can then be used at build/run times to decide if it's suita=
-ble for usage.
-=C2=A0 =C2=A0For ex:
-
-=C2=A0 =C2=A0 $ cat annotsrc.h
-
-=C2=A0 =C2=A0 #include <inttypes.h>
-
-=C2=A0 =C2=A0 enum SRCSTATUS {
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 DEVEL =3D 0,
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 STAGING,
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 PRODUCTION,
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 DEPRECATED
-=C2=A0 =C2=A0 };
-
-=C2=A0 =C2=A0 uint8_t get_src_status(void);
-=C2=A0 =C2=A0 =3D=3D=3D
-
-=C2=A0 =C2=A0 $ cat libx.c
-
-=C2=A0 =C2=A0 #include <annotsrc.h>
-
-=C2=A0 =C2=A0 #define SRC_STATUS DEPRECATED
-
-=C2=A0 =C2=A0 uint8_t
-=C2=A0 =C2=A0 get_src_status(void)
-=C2=A0 =C2=A0 {
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return SRC_STATUS;
-=C2=A0 =C2=A0 }
-=C2=A0 =C2=A0 =3D=3D=3D
-
-=C2=A0 =C2=A0 $ cat testlibx.c
-
-=C2=A0 =C2=A0 #include <stdio.h>
-=C2=A0 =C2=A0 #include <annotsrc.h>
-
-=C2=A0 =C2=A0 int
-=C2=A0 =C2=A0 main (int argc, char *argv[])
-=C2=A0 =C2=A0 {
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 printf("LibX status: %d\n", get_src_status());
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;
-=C2=A0 =C2=A0 }
---- x ---
-
-
-
-* Approach 3) above is similar to the _security_policy_taint() API,
-=C2=A0 but works at the source/object file level, rather than specific 'str=
-uct type' field.
-=C2=A0=C2=A0
-
-* Does adding a field to struct type (ex. DeviceClass) scale to all objects=
-/modules/backends etc?
-=C2=A0 Does it have any limitations to include/cover other sources/objects?
-
-
-* I'd really appreciate any feedback/inputs/suggestions you may have.
-
-
-Thank you.
----
-=C2=A0 -P J P
-http://feedmug.com
+r~
 
