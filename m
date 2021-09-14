@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEEF340BA50
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 23:34:13 +0200 (CEST)
-Received: from localhost ([::1]:57108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89EF840BA68
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 23:37:33 +0200 (CEST)
+Received: from localhost ([::1]:37128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQG4C-0005dZ-W9
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 17:34:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36026)
+	id 1mQG7Q-0002mJ-JG
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 17:37:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1mQG1y-0002ft-Qv
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 17:31:54 -0400
-Received: from mga09.intel.com ([134.134.136.24]:34224)
+ id 1mQG21-0002mT-6f
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 17:31:57 -0400
+Received: from mga09.intel.com ([134.134.136.24]:34239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1mQG1w-0007T3-Tm
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 17:31:54 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10107"; a="222179021"
-X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="222179021"
+ id 1mQG1y-0007cS-2n
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 17:31:56 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10107"; a="222179023"
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="222179023"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Sep 2021 14:31:44 -0700
-X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="609843285"
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="609843288"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Sep 2021 14:31:43 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 1/5] ui/gtk: Create a common release_dmabuf helper
-Date: Tue, 14 Sep 2021 14:18:33 -0700
-Message-Id: <20210914211837.3229977-2-vivek.kasireddy@intel.com>
+Subject: [PATCH v6 2/5] ui/egl: Add egl helpers to help with synchronization
+Date: Tue, 14 Sep 2021 14:18:34 -0700
+Message-Id: <20210914211837.3229977-3-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210914211837.3229977-1-vivek.kasireddy@intel.com>
 References: <20210914211837.3229977-1-vivek.kasireddy@intel.com>
@@ -63,88 +63,81 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the texture release mechanism is same for both gtk-egl
-and gtk-glarea, move the helper from gtk-egl to common gtk
-code so that it can be shared by both gtk backends.
+These egl helpers would be used for creating and waiting on
+a sync object.
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- include/ui/gtk.h |  2 --
- ui/gtk-egl.c     |  8 --------
- ui/gtk.c         | 11 ++++++++++-
- 3 files changed, 10 insertions(+), 11 deletions(-)
+ include/ui/console.h     |  2 ++
+ include/ui/egl-helpers.h |  2 ++
+ ui/egl-helpers.c         | 26 ++++++++++++++++++++++++++
+ 3 files changed, 30 insertions(+)
 
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-index 7835ef1a71..8e98a79ac8 100644
---- a/include/ui/gtk.h
-+++ b/include/ui/gtk.h
-@@ -181,8 +181,6 @@ void gd_egl_cursor_dmabuf(DisplayChangeListener *dcl,
-                           uint32_t hot_x, uint32_t hot_y);
- void gd_egl_cursor_position(DisplayChangeListener *dcl,
-                             uint32_t pos_x, uint32_t pos_y);
--void gd_egl_release_dmabuf(DisplayChangeListener *dcl,
--                           QemuDmaBuf *dmabuf);
- void gd_egl_scanout_flush(DisplayChangeListener *dcl,
-                           uint32_t x, uint32_t y, uint32_t w, uint32_t h);
- void gtk_egl_init(DisplayGLMode mode);
-diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
-index 2a2e6d3a17..b671181272 100644
---- a/ui/gtk-egl.c
-+++ b/ui/gtk-egl.c
-@@ -249,14 +249,6 @@ void gd_egl_cursor_position(DisplayChangeListener *dcl,
-     vc->gfx.cursor_y = pos_y * vc->gfx.scale_y;
+diff --git a/include/ui/console.h b/include/ui/console.h
+index 3be21497a2..45ec129174 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -168,6 +168,8 @@ typedef struct QemuDmaBuf {
+     uint64_t  modifier;
+     uint32_t  texture;
+     bool      y0_top;
++    void      *sync;
++    int       fence_fd;
+ } QemuDmaBuf;
+ 
+ typedef struct DisplayState DisplayState;
+diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
+index f1bf8f97fc..2c3ba92b53 100644
+--- a/include/ui/egl-helpers.h
++++ b/include/ui/egl-helpers.h
+@@ -45,6 +45,8 @@ int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc,
+ 
+ void egl_dmabuf_import_texture(QemuDmaBuf *dmabuf);
+ void egl_dmabuf_release_texture(QemuDmaBuf *dmabuf);
++void egl_dmabuf_create_sync(QemuDmaBuf *dmabuf);
++void egl_dmabuf_create_fence(QemuDmaBuf *dmabuf);
+ 
+ #endif
+ 
+diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
+index 6d0cb2b5cb..385a3fa752 100644
+--- a/ui/egl-helpers.c
++++ b/ui/egl-helpers.c
+@@ -287,6 +287,32 @@ void egl_dmabuf_release_texture(QemuDmaBuf *dmabuf)
+     dmabuf->texture = 0;
  }
  
--void gd_egl_release_dmabuf(DisplayChangeListener *dcl,
--                           QemuDmaBuf *dmabuf)
--{
--#ifdef CONFIG_GBM
--    egl_dmabuf_release_texture(dmabuf);
--#endif
--}
--
- void gd_egl_scanout_flush(DisplayChangeListener *dcl,
-                           uint32_t x, uint32_t y, uint32_t w, uint32_t h)
- {
-diff --git a/ui/gtk.c b/ui/gtk.c
-index cfb0728d1f..784a2f6c74 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -575,6 +575,14 @@ static bool gd_has_dmabuf(DisplayChangeListener *dcl)
-     return vc->gfx.has_dmabuf;
- }
- 
-+static void gd_gl_release_dmabuf(DisplayChangeListener *dcl,
-+                                 QemuDmaBuf *dmabuf)
++void egl_dmabuf_create_sync(QemuDmaBuf *dmabuf)
 +{
-+#ifdef CONFIG_GBM
-+    egl_dmabuf_release_texture(dmabuf);
-+#endif
++    EGLSyncKHR sync;
++
++    if (epoxy_has_egl_extension(qemu_egl_display,
++                                "EGL_KHR_fence_sync") &&
++        epoxy_has_egl_extension(qemu_egl_display,
++                                "EGL_ANDROID_native_fence_sync")) {
++        sync = eglCreateSyncKHR(qemu_egl_display,
++                                EGL_SYNC_NATIVE_FENCE_ANDROID, NULL);
++        if (sync != EGL_NO_SYNC_KHR) {
++            dmabuf->sync = sync;
++        }
++    }
 +}
 +
- /** DisplayState Callbacks (opengl version) **/
++void egl_dmabuf_create_fence(QemuDmaBuf *dmabuf)
++{
++    if (dmabuf->sync) {
++        dmabuf->fence_fd = eglDupNativeFenceFDANDROID(qemu_egl_display,
++                                                      dmabuf->sync);
++        eglDestroySyncKHR(qemu_egl_display, dmabuf->sync);
++        dmabuf->sync = NULL;
++    }
++}
++
+ #endif /* CONFIG_GBM */
  
- static const DisplayChangeListenerOps dcl_gl_area_ops = {
-@@ -593,6 +601,7 @@ static const DisplayChangeListenerOps dcl_gl_area_ops = {
-     .dpy_gl_scanout_disable  = gd_gl_area_scanout_disable,
-     .dpy_gl_update           = gd_gl_area_scanout_flush,
-     .dpy_gl_scanout_dmabuf   = gd_gl_area_scanout_dmabuf,
-+    .dpy_gl_release_dmabuf   = gd_gl_release_dmabuf,
-     .dpy_has_dmabuf          = gd_has_dmabuf,
- };
- 
-@@ -615,8 +624,8 @@ static const DisplayChangeListenerOps dcl_egl_ops = {
-     .dpy_gl_scanout_dmabuf   = gd_egl_scanout_dmabuf,
-     .dpy_gl_cursor_dmabuf    = gd_egl_cursor_dmabuf,
-     .dpy_gl_cursor_position  = gd_egl_cursor_position,
--    .dpy_gl_release_dmabuf   = gd_egl_release_dmabuf,
-     .dpy_gl_update           = gd_egl_scanout_flush,
-+    .dpy_gl_release_dmabuf   = gd_gl_release_dmabuf,
-     .dpy_has_dmabuf          = gd_has_dmabuf,
- };
- 
+ /* ---------------------------------------------------------------------- */
 -- 
 2.30.2
 
