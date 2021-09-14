@@ -2,74 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22CE240A917
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 10:23:39 +0200 (CEST)
-Received: from localhost ([::1]:37454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C7940A91D
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 10:25:21 +0200 (CEST)
+Received: from localhost ([::1]:39816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ3j8-0003KP-8L
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 04:23:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51014)
+	id 1mQ3km-0004vK-8e
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 04:25:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQ3hN-0001Rc-TO
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 04:21:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20338)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQ3jE-0003yh-0K
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 04:23:44 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:39368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQ3hL-0006rb-TZ
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 04:21:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631607706;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9N7D69fSKTJxQi5XuFhWpDyIEjXn9LT9qPAky9dPqF4=;
- b=iI8x5CHBAr1g+eh8NAWdJyI3keDOwdrVKdAXozKJvl2wd31RJcwpGg7fwC4wx0+Y3EaLX6
- YrE5TdromWMoFpoCnYbKzx/wj1+6uKqktu259Oltlbg9qr2FGlYnBdSgNvd2g55HNiwHv4
- 0F35NV5FQHvVLWcJeM8tp9YBNaGJZ+s=
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQ3jC-0008GE-FA
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 04:23:43 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-Ez4HK6LNN1maRwrMLnPg6g-1; Tue, 14 Sep 2021 04:21:38 -0400
-X-MC-Unique: Ez4HK6LNN1maRwrMLnPg6g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-508-C6v-yxhzPne1I5t2r7SfwQ-1; Tue, 14 Sep 2021 04:23:30 -0400
+X-MC-Unique: C6v-yxhzPne1I5t2r7SfwQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8599B1084683
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 08:21:37 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52B1F5D9CA;
- Tue, 14 Sep 2021 08:21:36 +0000 (UTC)
-Date: Tue, 14 Sep 2021 09:21:33 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [qemu-web PATCH] Gemfile: Add webrick bundle dependency
-Message-ID: <YUBbjbJwpcpxjDmt@redhat.com>
-References: <20210913182927.1022862-1-philmd@redhat.com>
- <9f52b00e-0189-8f44-96d4-cbb398c4514f@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74843100C661;
+ Tue, 14 Sep 2021 08:23:29 +0000 (UTC)
+Received: from bahia.huguette (unknown [10.39.192.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FAD160C82;
+ Tue, 14 Sep 2021 08:23:26 +0000 (UTC)
+Date: Tue, 14 Sep 2021 10:23:25 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v6 1/6] spapr_numa.c: split FORM1 code into helpers
+Message-ID: <20210914102325.0fffb31f@bahia.huguette>
+In-Reply-To: <20210910195539.797170-2-danielhb413@gmail.com>
+References: <20210910195539.797170-1-danielhb413@gmail.com>
+ <20210910195539.797170-2-danielhb413@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <9f52b00e-0189-8f44-96d4-cbb398c4514f@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,78 +63,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: John Snow <jsnow@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 14, 2021 at 07:17:11AM +0200, Thomas Huth wrote:
-> On 13/09/2021 20.29, Philippe Mathieu-Daudé wrote:
-> > Without the webrick bundle, jekyll fails to start:
-> > 
-> >    $ bundle exec jekyll serve
-> >    Ignoring ffi-1.11.1 because its extensions are not built. Try: gem pristine ffi --version 1.11.1
-> >    Configuration file: qemu-web/_config.yml
-> >                Source: qemu-web
-> >           Destination: qemu-web/_site
-> >     Incremental build: disabled. Enable with --incremental
-> >          Generating...
-> >           Jekyll Feed: Generating feed for posts
-> >                        done in 0.686 seconds.
-> >     Auto-regeneration: enabled for 'qemu-web'
-> >                        ------------------------------------------------
-> >          Jekyll 4.0.1   Please append `--trace` to the `serve` command
-> >                         for any additional information or backtrace.
-> >                        ------------------------------------------------
-> >    qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve/servlet.rb:3:in `require': cannot load such file -- webrick (LoadError)
-> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve/servlet.rb:3:in `<top (required)>'
-> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve.rb:179:in `require_relative'
-> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve.rb:179:in `setup'
-> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve.rb:100:in `process'
-> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/command.rb:89:in `block in process_with_graceful_fail'
-> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/command.rb:89:in `each'
-> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/command.rb:89:in `process_with_graceful_fail'
-> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve.rb:86:in `block (2 levels) in init_with_program'
-> >            from qemu-web/vendor/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/command.rb:220:in `block in execute'
-> >            from qemu-web/vendor/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/command.rb:220:in `each'
-> >            from qemu-web/vendor/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/command.rb:220:in `execute'
-> >            from qemu-web/vendor/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/program.rb:42:in `go'
-> >            from qemu-web/vendor/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary.rb:19:in `program'
-> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/exe/jekyll:15:in `<top (required)>'
-> > 
-> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > ---
-> >   Gemfile | 2 ++
-> >   1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/Gemfile b/Gemfile
-> > index 6a7852e..dc35cb7 100644
-> > --- a/Gemfile
-> > +++ b/Gemfile
-> > @@ -25,3 +25,5 @@ end
-> >   # for https://github.com/sass/sassc-ruby/issues/146
-> >   gem "sassc", ">= 2.2.1"
-> > +
-> > +gem "webrick", "~> 1.7"
-> 
-> Daniel, is this fixing the jekyll problem for you, too?
-> 
-> I'm still on ruby 2.5.9 where this does not occur yet... might be good to
-> mention that this is a new problem with ruby 3.0 in the cover letter.
+On Fri, 10 Sep 2021 16:55:34 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-Yes, this is needed to fix Ruby 3.
+> The upcoming FORM2 NUMA affinity will support asymmetric NUMA topologies
+> and doesn't need be concerned with all the legacy support for older
+> pseries FORM1 guests.
+>=20
+> We're also not going to calculate associativity domains based on numa
+> distance (via spapr_numa_define_associativity_domains) since the
+> distances will be written directly into new DT properties.
+>=20
+> Let's split FORM1 code into its own functions to allow for easier
+> insertion of FORM2 logic later on.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>  hw/ppc/spapr_numa.c | 35 +++++++++++++++++++++++++----------
+>  1 file changed, 25 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+> index 779f18b994..786def7c73 100644
+> --- a/hw/ppc/spapr_numa.c
+> +++ b/hw/ppc/spapr_numa.c
+> @@ -92,7 +92,7 @@ static uint8_t spapr_numa_get_numa_level(uint8_t distan=
+ce)
+>      return 0;
+>  }
+> =20
+> -static void spapr_numa_define_associativity_domains(SpaprMachineState *s=
+papr)
+> +static void spapr_numa_define_FORM1_domains(SpaprMachineState *spapr)
 
-I didn't propose it myself as I'm not sure if it in turn breaks people
-with Ruby 2.x ?
+Another option would have been to open-code this function in its
+unique caller but your patch is definitely easier to review so :
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>  {
+>      MachineState *ms =3D MACHINE(spapr);
+>      NodeInfo *numa_info =3D ms->numa_state->nodes;
+> @@ -155,8 +155,11 @@ static void spapr_numa_define_associativity_domains(=
+SpaprMachineState *spapr)
+> =20
+>  }
+> =20
+> -void spapr_numa_associativity_init(SpaprMachineState *spapr,
+> -                                   MachineState *machine)
+> +/*
+> + * Set NUMA machine state data based on FORM1 affinity semantics.
+> + */
+> +static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
+> +                                           MachineState *machine)
+>  {
+>      SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
+>      int nb_numa_nodes =3D machine->numa_state->num_nodes;
+> @@ -225,7 +228,13 @@ void spapr_numa_associativity_init(SpaprMachineState=
+ *spapr,
+>          exit(EXIT_FAILURE);
+>      }
+> =20
+> -    spapr_numa_define_associativity_domains(spapr);
+> +    spapr_numa_define_FORM1_domains(spapr);
+> +}
+> +
+> +void spapr_numa_associativity_init(SpaprMachineState *spapr,
+> +                                   MachineState *machine)
+> +{
+> +    spapr_numa_FORM1_affinity_init(spapr, machine);
+>  }
+> =20
+>  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *f=
+dt,
+> @@ -302,12 +311,8 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachin=
+eState *spapr, void *fdt,
+>      return ret;
+>  }
+> =20
+> -/*
+> - * Helper that writes ibm,associativity-reference-points and
+> - * max-associativity-domains in the RTAS pointed by @rtas
+> - * in the DT @fdt.
+> - */
+> -void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int r=
+tas)
+> +static void spapr_numa_FORM1_write_rtas_dt(SpaprMachineState *spapr,
+> +                                           void *fdt, int rtas)
+>  {
+>      MachineState *ms =3D MACHINE(spapr);
+>      SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
+> @@ -365,6 +370,16 @@ void spapr_numa_write_rtas_dt(SpaprMachineState *spa=
+pr, void *fdt, int rtas)
+>                       maxdomains, sizeof(maxdomains)));
+>  }
+> =20
+> +/*
+> + * Helper that writes ibm,associativity-reference-points and
+> + * max-associativity-domains in the RTAS pointed by @rtas
+> + * in the DT @fdt.
+> + */
+> +void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int r=
+tas)
+> +{
+> +    spapr_numa_FORM1_write_rtas_dt(spapr, fdt, rtas);
+> +}
+> +
+>  static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
+>                                                SpaprMachineState *spapr,
+>                                                target_ulong opcode,
 
 
