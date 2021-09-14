@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACA540B455
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 18:17:05 +0200 (CEST)
-Received: from localhost ([::1]:55604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A2240B418
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 18:04:16 +0200 (CEST)
+Received: from localhost ([::1]:51516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQB7I-0005bZ-MM
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 12:17:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43960)
+	id 1mQAut-0008Gs-FX
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 12:04:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1mQAl6-00031b-MX
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:54:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21891)
+ id 1mQAkf-0002RO-Km
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:53:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1mQAl1-00048Y-9w
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:54:08 -0400
+ id 1mQAka-0003iQ-Pk
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:53:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631634842;
+ s=mimecast20190719; t=1631634811;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EVzGgOi462BggNsvkxUFt1krENMLCAYntkyOmgKfes4=;
- b=PazaJBSeDY7PvwDOCJiQiy2FLGA9s2IOSzdqM+61IuYl0kKZyiaS4kfqQzpHra8MfQZyJT
- FJ9S2kUSA3lVbYJNUZ0QPiK9mBBZ3cJC2qhHoiVsx98zVDq5Mrc3KdnPOvpl7AEiPG+8mW
- +zmC1Pm8z/AHic0bXnii+Q+7PuXQNDw=
+ bh=y17xwD7gh8Gphu0rWKx/gyFu05AIn99CsfbWQxLhpNI=;
+ b=T4k1PjvESllxsQ4ezICllqp46KXMtV5zFnBY4oqVKsByQRZT33GOkdZ9Wydh8e3HT69VTH
+ c+w226oX7EiRGe20V+rVsSpgjrj5zT4boYWW2dV+hq8Mz32Cjpwda/xeTVwWYcL7gCU8qH
+ gm50LPcXcDR5WG/gQxJs178OZHtYKRQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-FrOzdBsKOb-NLFZLDBpqXA-1; Tue, 14 Sep 2021 11:52:23 -0400
-X-MC-Unique: FrOzdBsKOb-NLFZLDBpqXA-1
+ us-mta-400-X96rCYLYPiylqr_pjJBQWQ-1; Tue, 14 Sep 2021 11:52:26 -0400
+X-MC-Unique: X96rCYLYPiylqr_pjJBQWQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE4F719253C0;
- Tue, 14 Sep 2021 15:52:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D7BD835DE3;
+ Tue, 14 Sep 2021 15:52:25 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.35.206.50])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE4F05D9D3;
- Tue, 14 Sep 2021 15:52:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2AFF95D9D3;
+ Tue, 14 Sep 2021 15:52:22 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] gdbstub: implement NOIRQ support for single step on KVM
-Date: Tue, 14 Sep 2021 18:52:13 +0300
-Message-Id: <20210914155214.105415-3-mlevitsk@redhat.com>
+Subject: [PATCH 3/3] KVM: SVM: add migration support for nested TSC scaling
+Date: Tue, 14 Sep 2021 18:52:14 +0300
+Message-Id: <20210914155214.105415-4-mlevitsk@redhat.com>
 In-Reply-To: <20210914155214.105415-1-mlevitsk@redhat.com>
 References: <20210914155214.105415-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -59,8 +59,8 @@ X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,210 +83,145 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- accel/kvm/kvm-all.c  | 25 ++++++++++++++++++
- gdbstub.c            | 60 ++++++++++++++++++++++++++++++++++++--------
- include/sysemu/kvm.h | 13 ++++++++++
- 3 files changed, 88 insertions(+), 10 deletions(-)
+ target/i386/cpu.c     |  5 +++++
+ target/i386/cpu.h     |  4 ++++
+ target/i386/kvm/kvm.c | 15 +++++++++++++++
+ target/i386/machine.c | 23 +++++++++++++++++++++++
+ 4 files changed, 47 insertions(+)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 6b187e9c96..e141260796 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -169,6 +169,8 @@ bool kvm_vm_attributes_allowed;
- bool kvm_direct_msi_allowed;
- bool kvm_ioeventfd_any_length_allowed;
- bool kvm_msi_use_devid;
-+bool kvm_has_guest_debug;
-+int kvm_sstep_flags;
- static bool kvm_immediate_exit;
- static hwaddr kvm_max_slot_size = ~0;
- 
-@@ -2559,6 +2561,25 @@ static int kvm_init(MachineState *ms)
-     kvm_sregs2 =
-         (kvm_check_extension(s, KVM_CAP_SREGS2) > 0);
- 
-+    kvm_has_guest_debug =
-+        (kvm_check_extension(s, KVM_CAP_SET_GUEST_DEBUG) > 0);
-+
-+    kvm_sstep_flags = 0;
-+
-+    if (kvm_has_guest_debug) {
-+        /* Assume that single stepping is supported */
-+        kvm_sstep_flags = SSTEP_ENABLE;
-+
-+        int guest_debug_flags =
-+            kvm_check_extension(s, KVM_CAP_SET_GUEST_DEBUG2);
-+
-+        if (guest_debug_flags > 0) {
-+            if (guest_debug_flags & KVM_GUESTDBG_BLOCKIRQ) {
-+                kvm_sstep_flags |= SSTEP_NOIRQ;
-+            }
-+        }
-+    }
-+
-     kvm_state = s;
- 
-     ret = kvm_arch_init(ms, s);
-@@ -3188,6 +3209,10 @@ int kvm_update_guest_debug(CPUState *cpu, unsigned long reinject_trap)
- 
-     if (cpu->singlestep_enabled) {
-         data.dbg.control |= KVM_GUESTDBG_ENABLE | KVM_GUESTDBG_SINGLESTEP;
-+
-+        if (cpu->singlestep_enabled & SSTEP_NOIRQ) {
-+            data.dbg.control |= KVM_GUESTDBG_BLOCKIRQ;
-+        }
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 6b029f1bdf..0870b53509 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5770,6 +5770,11 @@ static void x86_cpu_reset(DeviceState *dev)
+     if (kvm_enabled()) {
+         kvm_arch_reset_vcpu(cpu);
      }
-     kvm_arch_update_guest_debug(cpu, &data.dbg);
++
++    if (env->features[FEAT_SVM] & CPUID_SVM_TSCSCALE) {
++        env->amd_tsc_scale_msr =  MSR_AMD64_TSC_RATIO_DEFAULT;
++    }
++
+ #endif
+ }
  
-diff --git a/gdbstub.c b/gdbstub.c
-index 5d8e6ae3cd..48bb803bae 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -368,12 +368,11 @@ typedef struct GDBState {
-     gdb_syscall_complete_cb current_syscall_cb;
-     GString *str_buf;
-     GByteArray *mem_buf;
-+    int sstep_flags;
-+    int supported_sstep_flags;
- } GDBState;
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 9adae12426..b9e1a3b7db 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -491,6 +491,9 @@ typedef enum X86Seg {
+ #define MSR_GSBASE                      0xc0000101
+ #define MSR_KERNELGSBASE                0xc0000102
+ #define MSR_TSC_AUX                     0xc0000103
++#define MSR_AMD64_TSC_RATIO             0xc0000104
++
++#define MSR_AMD64_TSC_RATIO_DEFAULT     0x100000000ULL
  
--/* By default use no IRQs and no timers while single stepping so as to
-- * make single stepping like an ICE HW step.
-- */
--static int sstep_flags = SSTEP_ENABLE|SSTEP_NOIRQ|SSTEP_NOTIMER;
-+static GDBState gdbserver_state;
+ #define MSR_VM_HSAVE_PA                 0xc0010117
  
- /* Retrieves flags for single step mode. */
- static int get_sstep_flags(void)
-@@ -385,11 +384,10 @@ static int get_sstep_flags(void)
-     if (replay_mode != REPLAY_MODE_NONE) {
-         return SSTEP_ENABLE;
-     } else {
--        return sstep_flags;
-+        return gdbserver_state.sstep_flags;
+@@ -1522,6 +1525,7 @@ typedef struct CPUX86State {
+     uint32_t tsx_ctrl;
+ 
+     uint64_t spec_ctrl;
++    uint64_t amd_tsc_scale_msr;
+     uint64_t virt_ssbd;
+ 
+     /* End of state preserved by INIT (dummy marker).  */
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 841b3b98f7..bd53a55148 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -106,6 +106,7 @@ static bool has_msr_hv_reenlightenment;
+ static bool has_msr_xss;
+ static bool has_msr_umwait;
+ static bool has_msr_spec_ctrl;
++static bool has_tsc_scale_msr;
+ static bool has_msr_tsx_ctrl;
+ static bool has_msr_virt_ssbd;
+ static bool has_msr_smi_count;
+@@ -2157,6 +2158,9 @@ static int kvm_get_supported_msrs(KVMState *s)
+             case MSR_IA32_SPEC_CTRL:
+                 has_msr_spec_ctrl = true;
+                 break;
++            case MSR_AMD64_TSC_RATIO:
++                has_tsc_scale_msr = true;
++                break;
+             case MSR_IA32_TSX_CTRL:
+                 has_msr_tsx_ctrl = true;
+                 break;
+@@ -2968,6 +2972,10 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
+     if (has_msr_spec_ctrl) {
+         kvm_msr_entry_add(cpu, MSR_IA32_SPEC_CTRL, env->spec_ctrl);
      }
- }
- 
--static GDBState gdbserver_state;
- 
- static void init_gdbserver_state(void)
- {
-@@ -399,6 +397,23 @@ static void init_gdbserver_state(void)
-     gdbserver_state.str_buf = g_string_new(NULL);
-     gdbserver_state.mem_buf = g_byte_array_sized_new(MAX_PACKET_LENGTH);
-     gdbserver_state.last_packet = g_byte_array_sized_new(MAX_PACKET_LENGTH + 4);
-+
-+
-+    if (kvm_enabled()) {
-+        gdbserver_state.supported_sstep_flags = kvm_get_supported_sstep_flags();
-+    } else {
-+        gdbserver_state.supported_sstep_flags =
-+            SSTEP_ENABLE | SSTEP_NOIRQ | SSTEP_NOTIMER;
++    if (has_tsc_scale_msr) {
++        kvm_msr_entry_add(cpu, MSR_AMD64_TSC_RATIO, env->amd_tsc_scale_msr);
 +    }
 +
-+    /*
-+     * By default use no IRQs and no timers while single stepping so as to
-+     * make single stepping like an ICE HW step.
-+     */
-+
-+    gdbserver_state.sstep_flags = SSTEP_ENABLE | SSTEP_NOIRQ | SSTEP_NOTIMER;
-+    gdbserver_state.sstep_flags &= gdbserver_state.supported_sstep_flags;
-+
- }
- 
- #ifndef CONFIG_USER_ONLY
-@@ -2017,24 +2032,44 @@ static void handle_v_commands(GArray *params, void *user_ctx)
- 
- static void handle_query_qemu_sstepbits(GArray *params, void *user_ctx)
- {
--    g_string_printf(gdbserver_state.str_buf, "ENABLE=%x,NOIRQ=%x,NOTIMER=%x",
--                    SSTEP_ENABLE, SSTEP_NOIRQ, SSTEP_NOTIMER);
-+    g_string_printf(gdbserver_state.str_buf, "ENABLE=%x", SSTEP_ENABLE);
-+
-+    if (gdbserver_state.supported_sstep_flags & SSTEP_NOIRQ) {
-+        g_string_append_printf(gdbserver_state.str_buf, ",NOIRQ=%x",
-+                               SSTEP_NOIRQ);
-+    }
-+
-+    if (gdbserver_state.supported_sstep_flags & SSTEP_NOTIMER) {
-+        g_string_append_printf(gdbserver_state.str_buf, ",NOTIMER=%x",
-+                               SSTEP_NOTIMER);
-+    }
-+
-     put_strbuf();
- }
- 
- static void handle_set_qemu_sstep(GArray *params, void *user_ctx)
- {
-+    int new_sstep_flags;
-+
-     if (!params->len) {
-         return;
+     if (has_msr_tsx_ctrl) {
+         kvm_msr_entry_add(cpu, MSR_IA32_TSX_CTRL, env->tsx_ctrl);
      }
- 
--    sstep_flags = get_param(params, 0)->val_ul;
-+    new_sstep_flags = get_param(params, 0)->val_ul;
-+
-+    if (new_sstep_flags  & ~gdbserver_state.supported_sstep_flags) {
-+        put_packet("E22");
-+        return;
-+    }
-+
-+    gdbserver_state.sstep_flags = new_sstep_flags;
-     put_packet("OK");
- }
- 
- static void handle_query_qemu_sstep(GArray *params, void *user_ctx)
- {
--    g_string_printf(gdbserver_state.str_buf, "0x%x", sstep_flags);
-+    g_string_printf(gdbserver_state.str_buf, "0x%x",
-+                    gdbserver_state.sstep_flags);
-     put_strbuf();
- }
- 
-@@ -3493,6 +3528,11 @@ int gdbserver_start(const char *device)
-         return -1;
+@@ -3409,6 +3417,10 @@ static int kvm_get_msrs(X86CPU *cpu)
+     if (has_msr_spec_ctrl) {
+         kvm_msr_entry_add(cpu, MSR_IA32_SPEC_CTRL, 0);
      }
- 
-+    if (kvm_enabled() && !kvm_supports_guest_debug()) {
-+        error_report("gdbstub: KVM doesn't support guest debugging");
-+        return -1;
++    if (has_tsc_scale_msr) {
++        kvm_msr_entry_add(cpu, MSR_AMD64_TSC_RATIO, 0);
 +    }
 +
-     if (!device)
-         return -1;
-     if (strcmp(device, "none") != 0) {
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index b3d4538c55..9c0665363d 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -47,6 +47,8 @@ extern bool kvm_readonly_mem_allowed;
- extern bool kvm_direct_msi_allowed;
- extern bool kvm_ioeventfd_any_length_allowed;
- extern bool kvm_msi_use_devid;
-+extern bool kvm_has_guest_debug;
-+extern int kvm_sstep_flags;
+     if (has_msr_tsx_ctrl) {
+         kvm_msr_entry_add(cpu, MSR_IA32_TSX_CTRL, 0);
+     }
+@@ -3813,6 +3825,9 @@ static int kvm_get_msrs(X86CPU *cpu)
+         case MSR_IA32_SPEC_CTRL:
+             env->spec_ctrl = msrs[i].data;
+             break;
++        case MSR_AMD64_TSC_RATIO:
++            env->amd_tsc_scale_msr = msrs[i].data;
++            break;
+         case MSR_IA32_TSX_CTRL:
+             env->tsx_ctrl = msrs[i].data;
+             break;
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index 154666e7c0..39c8faf0ce 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -1280,6 +1280,28 @@ static const VMStateDescription vmstate_spec_ctrl = {
+     }
+ };
  
- #define kvm_enabled()           (kvm_allowed)
- /**
-@@ -171,6 +173,17 @@ extern bool kvm_msi_use_devid;
-  */
- #define kvm_msi_devid_required() (kvm_msi_use_devid)
- 
-+/*
-+ * Does KVM support guest debugging
-+ */
-+#define kvm_supports_guest_debug() (kvm_has_guest_debug)
 +
-+/*
-+ * kvm_supported_sstep_flags
-+ * Returns: SSTEP_* flags that KVM supports for guest debug
-+ */
-+#define kvm_get_supported_sstep_flags() (kvm_sstep_flags)
++static bool amd_tsc_scale_msr_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
 +
- #else
- 
- #define kvm_enabled()           (0)
++    return env->amd_tsc_scale_msr &&
++           env->amd_tsc_scale_msr != MSR_AMD64_TSC_RATIO_DEFAULT;
++}
++
++static const VMStateDescription amd_tsc_scale_msr_ctrl = {
++    .name = "cpu/amd_tsc_scale_msr",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = amd_tsc_scale_msr_needed,
++    .fields = (VMStateField[]){
++        VMSTATE_UINT64(env.amd_tsc_scale_msr, X86CPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++
+ static bool intel_pt_enable_needed(void *opaque)
+ {
+     X86CPU *cpu = opaque;
+@@ -1568,6 +1590,7 @@ const VMStateDescription vmstate_x86_cpu = {
+         &vmstate_pkru,
+         &vmstate_pkrs,
+         &vmstate_spec_ctrl,
++        &amd_tsc_scale_msr_ctrl,
+         &vmstate_mcg_ext_ctl,
+         &vmstate_msr_intel_pt,
+         &vmstate_msr_virt_ssbd,
 -- 
 2.26.3
 
