@@ -2,57 +2,159 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C88340ACF0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 13:59:57 +0200 (CEST)
-Received: from localhost ([::1]:59574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 897FA40ACFF
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 14:05:02 +0200 (CEST)
+Received: from localhost ([::1]:35548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ76S-0000b9-7q
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 07:59:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46518)
+	id 1mQ7BN-0003dI-Jb
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 08:05:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQ728-0002yr-Vr
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 07:55:29 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:59355)
+ (Exim 4.90_1) (envelope-from <prvs=8891b7d124=pdel@fb.com>)
+ id 1mQ76h-0001Ge-J8; Tue, 14 Sep 2021 08:00:11 -0400
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:42402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQ725-00019X-GK
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 07:55:28 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-126-KAOwMUAhPga957n5GT9Skg-1; Tue, 14 Sep 2021 07:55:18 -0400
-X-MC-Unique: KAOwMUAhPga957n5GT9Skg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 098981006AA2;
- Tue, 14 Sep 2021 11:55:17 +0000 (UTC)
-Received: from bahia.huguette (unknown [10.39.192.206])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A2F4060C4A;
- Tue, 14 Sep 2021 11:55:15 +0000 (UTC)
-Date: Tue, 14 Sep 2021 13:55:14 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v6 3/6] spapr: introduce spapr_numa_associativity_reset()
-Message-ID: <20210914135514.1896ea3e@bahia.huguette>
-In-Reply-To: <20210910195539.797170-4-danielhb413@gmail.com>
-References: <20210910195539.797170-1-danielhb413@gmail.com>
- <20210910195539.797170-4-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <prvs=8891b7d124=pdel@fb.com>)
+ id 1mQ76e-0004RU-HV; Tue, 14 Sep 2021 08:00:11 -0400
+Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 18E1Jufq002599;
+ Tue, 14 Sep 2021 04:59:52 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=facebook;
+ bh=XNjBQdl7IFW4NxJCVKLvsde73njD2OhQUN8g2aYJnUw=;
+ b=SE+gW51+2UjWoFnnmkyCEyZ0+5TBxr9eVDA9BI97HpnrI50qRcSbIXQXfDjSUS6WdMQb
+ XFkN3S1pkOoJY+/XZ6w0UIAVOBUDbNADmpCvxqalwYQ3uBz6nrkhu/LLyumgRVX7h0yf
+ IrkeMOIu8/ejdDsP4o3XoWSVfFPxaPwfkpc= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+ by mx0a-00082601.pphosted.com with ESMTP id 3b2hyqjqj5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Tue, 14 Sep 2021 04:59:52 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (100.104.98.9) by
+ o365-in.thefacebook.com (100.104.94.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.14; Tue, 14 Sep 2021 04:59:52 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=g10Cr3q5UKmyRmrPhhcq58lNsXFFYBRYGfUzOjzJJ5Z5kfLqOeZ8Jse/W/wKVZb/3KBsS63vj04M39Bctqx+uX99jGS6a9hq/veL8ehPv9YXzdZNi61w85EQN7fk10BJMQFkTTxsCIUaxaj9s5JnUhg3A8qvrMuW+w5QnGRLryBa3JHdvwUiRzhr2qkmwYTzXpbIaXk8+ft5dV1776+qfdOdGLEdg4dWLzza6FAmD6pBEfCW1TqWtuZSGRqbPYyUYpstDAKnz6zSCmcA7aS+FfjnobUB06G5hmi1ZCcoFolNKkfdTYkgCbmkEKrc1d9vWj+SrZ1nnhX55xm6GXnwKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=XNjBQdl7IFW4NxJCVKLvsde73njD2OhQUN8g2aYJnUw=;
+ b=An2x/prSbR21yBgsaTYDhGGQ4wafw/yP6VKW+tTFQCFjM+wdWFvWCZm/l2x6LtdyPEHa+DhWsY++OGgURgli2AZyXTnE5B/rvTEddbIPlpfBgGRDlDPbs12zLDlTPGNVcUCTL7563FvS/BIMfjKfsdAkxhfmZX53TwtzDGXsXFGN+3V/0mP4I3oHgUruoBxobRfYEu0OQVkkuBOfdP3jFeZ5p/tx8YfA+gHnEcbuO7ZPtPhBPMpJ4R0WrPTr24AqtRY6lRg3eroNDIa+QbWP64o5HDsxurwVHjAuUTTw18MsxoMo5TkRb4M16dfXCN3QpHviOMeDKYNp5Pc/4uioFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+Received: from BYAPR15MB3032.namprd15.prod.outlook.com (2603:10b6:a03:ff::11)
+ by BYAPR15MB2390.namprd15.prod.outlook.com (2603:10b6:a02:8f::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.16; Tue, 14 Sep
+ 2021 11:59:50 +0000
+Received: from BYAPR15MB3032.namprd15.prod.outlook.com
+ ([fe80::38da:f6f6:bb5c:dd5f]) by BYAPR15MB3032.namprd15.prod.outlook.com
+ ([fe80::38da:f6f6:bb5c:dd5f%7]) with mapi id 15.20.4523.014; Tue, 14 Sep 2021
+ 11:59:50 +0000
+From: Peter Delevoryas <pdel@fb.com>
+To: =?utf-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?= <clg@kaod.org>
+CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
+ <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, "qemu-arm@nongnu.org"
+ <qemu-arm@nongnu.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Re: [PULL 14/14] hw/arm/aspeed: Add Fuji machine type
+Thread-Topic: [PULL 14/14] hw/arm/aspeed: Add Fuji machine type
+Thread-Index: AQHXqLpG+wOZRQHbMEGcuynqDTRtJaujXPqAgAARnF0=
+Date: Tue, 14 Sep 2021 11:59:50 +0000
+Message-ID: <BBC4A4E0-651C-41DB-81DE-1F6D86AABAB1@fb.com>
+References: <20210913161304.3805652-1-clg@kaod.org>
+ <20210913161304.3805652-15-clg@kaod.org>
+ <88c26520-6b87-e7a2-ac78-c1c92477c814@kaod.org>
+In-Reply-To: <88c26520-6b87-e7a2-ac78-c1c92477c814@kaod.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=fb.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6d8ae864-de78-4ac4-6e48-08d977772835
+x-ms-traffictypediagnostic: BYAPR15MB2390:
+x-microsoft-antispam-prvs: <BYAPR15MB2390BA2991F347D619C1C107ACDA9@BYAPR15MB2390.namprd15.prod.outlook.com>
+x-fb-source: Internal
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 6Zi0PtXvBZl6nifn7rLrCJmtwuu4AjspI9uCRxvRzff5JXDkvmzSuhT3apFg5JeWe3RT6VoyidV1bR4wUC1PMDob4QDRoa/cFu7TfqSwRXJj57/qPCzkkkpqELivnNzGEIfgMp+V7Os6BreB1iSNbpYOqn4WFHIJL+9qeajRBXA5+TV6DknCqcv9GiioKUT7JF5+kXeHZBQMAz6wAhbRcxaVDQNP6FdeTt0YjNwulH8+lxfyLHCqpnKFxmd1dCa2b+27rXWKAtXQm7WTcnPPyO28FoLSBP5q2C+SB05IcdlleNjRsuPzthssVqWjeePQe31xL7PaAVWN4+7yLkpYA6sqYIJf6yOIODcN4W6CXXfwTGZd7zIEW59jGm2MPK2iJLokVHqaNcf/bTgRV0PmqaGHmRlOb4cit0mfpVRwWG3goQVExujOmWRFwc1hBJnT5xiTr2p187S+hEWldAoLs4ulfELrClBy7mAAJO3GpBo6mPltZ/HDIQPkBSFWRjq7oA5EU8v16jHlHvNDGnR0iB3JaAb0Sh1XuRPLxEEp7nMxjH7y6xgczQixAhN/f5zl528sfrSPAy2dAxtTQNTCOXDEBl/7EMMtsgd4h3pevNCVcd6KJ5Ms+SjKvhV4Irogl8CLkCufKzcaBSQEBAwdQdhWltWaR+pwJov1sf2K92b9o7mVeKdL8FLEj/4n8ulLbA2YrAcUADJhfdQrECvfuPyI8G/Bh6pJeLYvwTxSrBg=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR15MB3032.namprd15.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(66946007)(6512007)(122000001)(66476007)(66556008)(66446008)(64756008)(38100700002)(86362001)(5660300002)(2906002)(36756003)(8676002)(4326008)(66574015)(71200400001)(2616005)(6506007)(53546011)(8936002)(508600001)(6486002)(54906003)(316002)(186003)(38070700005)(6916009)(33656002)(26005)(76116006)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MCs2YU1GVHhJMzJydnB0QmYvdXQ5UTJHS005blBNMS95UVN0NjR2U3dla2dx?=
+ =?utf-8?B?d2RxMitzMllZR3AyMCtPdVY0ZFVGemZJLzVTYWMrMjJwb20vNytXVVRIZ1o2?=
+ =?utf-8?B?VDZpbUt6SjJJT3U4dlRwa2FWTGtQNGxwWmdrWGpvTjROSGE3c2lIOEtoN3ZV?=
+ =?utf-8?B?cEJyc2ZaNHphNjkxQjdHd0FXUHV2U21lMTJEMkhGelQ2a0MwdUJEZDRFNDNI?=
+ =?utf-8?B?LzRyc3BMbW9VUjNHcHloemNpSHcvTUhBWTBVRGVPUkpqQkhKNUU0YXphaWp3?=
+ =?utf-8?B?cmtZMGw1K2I3Z0FpRy9pcWJLbDVSVUlGdkE3ay81SHNVQ3l4VkhrM1NDUkJQ?=
+ =?utf-8?B?ZG1xbzBCQjQ2UnRxcUFUN1c4OTcrZmhxNGk4dWUwUjJJazZBMlNnelZYc0FD?=
+ =?utf-8?B?ZmFSS2wwWVhHMGFIMEJIcENZVHJHMG9VeUw4YkplaHdCMVdOcWY0S0JrcDYz?=
+ =?utf-8?B?MG4xYXRvb3dWS29tZzh6NktnWWEwYXJ0a0xnSmd5eHB5a0RITmxBMjhVamQ4?=
+ =?utf-8?B?ckRaRXo3VHVjb3dLWDhPZ0w2WFpDaGtGZS9CeVlxUXIwaUJMMFFyaTQzSHNT?=
+ =?utf-8?B?NkwzOUxtS0xNUDl2a2g4MGxITVo0aFNwUVpkMWpObVhCeTlFNlI5V2VrR2FX?=
+ =?utf-8?B?UEt3NnU0R3M4Y0h5RmlPVnA4YXhOTDRiRXBFbU1FWGdUWWdPQVNLalBacDVv?=
+ =?utf-8?B?TDJnK0NNdHJTK3RXR1dzeHJPdGhqRXJXVmZSRkZZbjhZMldGS24vQmFxZDZK?=
+ =?utf-8?B?YmVXc1VjRytGbEtZUzh2VE96QS9XQ1BGQmRXM1ZtTjZYcEFUOGViZmFaRDlv?=
+ =?utf-8?B?dDUxZWFKWGExT2tuNVR2cEg4REN2UnpmelkwWHdlM0lKNjFIZFdNV0VCRUV3?=
+ =?utf-8?B?bkZVVHlKb2VrTVhYQUJvdTg3RDAxeWhjYzNXYU9HQ0ZCRXY4YXZSK01NczdF?=
+ =?utf-8?B?RysyWElFVXdZa05KOEFaSEw5TjI1Zk1Kak5aeVZENE1IYS9GOGxKdGVHdndK?=
+ =?utf-8?B?VEtwaytXMTlCZXpmZFJWODlMMWMzRUFlN3FlaUx3aHJ3clN1dHVIZllOdFkr?=
+ =?utf-8?B?TFJXaFFhT1diYlVHK3BzNnlqajl4OERQUG9IYTVsL1V5VFNNa2dZSDdiaVRo?=
+ =?utf-8?B?WlFMcDFEU0ttNndBdkZBMVdpcytmc29Od04vb2JQNXFENGttdWJjM1ppa2xi?=
+ =?utf-8?B?d2ZvWVJkcUc0RjRxR2J3elJib1o4SnhIOHVMb1NYTllJdTRwZnFQNXpBeThK?=
+ =?utf-8?B?UzN4OHV3Mkd4WlZPc29wN1RyM0F3L3RhbWZrNGJxNFQxaVhoeGdjcElwQmtn?=
+ =?utf-8?B?eVFjVEdDZVBuT09sU1VIN1pWUHJmaDMyTjdiNXpENHdJMkY0Wmx1RUdINllm?=
+ =?utf-8?B?Z1FpcVgydXBkN3R3R0djVElyTzlBOEpVTjRBcDJ4SUt4RWZpNGpORDlrT2J2?=
+ =?utf-8?B?V0t6Wm40QzlCNVpjNFY1bkxTZmk0ODZ5MXRSa1lsOWFrbi9rSkpGVmZvZFp6?=
+ =?utf-8?B?L202dXptVlZ1OEtaUm42RjZKaU1CVFE4S3loak1mdFlHZFNlRk5CMTNEeHow?=
+ =?utf-8?B?cE1LQ2RJOW0rUzFIb0ZIbWdBaG12b0pmTS9TSUYySUcvNEMxaUEwcnJnejhp?=
+ =?utf-8?B?WWNFRUhTODZuek8wcW5qa09ubjZES1pudDJxeFI3NnRlZlE3YXBEOStTUVg0?=
+ =?utf-8?B?Sk4rM2VpMUVtUGdtdVNETFMyaW9WTklRU3A3dEpMSWE0cWIyYUlabkhReDVx?=
+ =?utf-8?Q?tFNNMDCpXKViHtd9HNX3EKzwWhizDKMdzGjubIQ?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR15MB3032.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d8ae864-de78-4ac4-6e48-08d977772835
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Sep 2021 11:59:50.7420 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GLBoliZ5w1ALQRcChdWwQXE26gp33GC5aLHgodKpg6q00iAuUJxMjhzy3yrGXLZq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB2390
+X-OriginatorOrg: fb.com
+X-Proofpoint-GUID: 6PAsDw3sEnmlBOqzJlEhmqyDtfJWA8GW
+X-Proofpoint-ORIG-GUID: 6PAsDw3sEnmlBOqzJlEhmqyDtfJWA8GW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-14_03,2021-09-14_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ clxscore=1015
+ lowpriorityscore=0 bulkscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0
+ phishscore=0 impostorscore=0 adultscore=0 priorityscore=1501 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109030001 definitions=main-2109140075
+X-FB-Internal: deliver
+Received-SPF: pass client-ip=67.231.145.42;
+ envelope-from=prvs=8891b7d124=pdel@fb.com; helo=mx0a-00082601.pphosted.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,284 +167,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 Sep 2021 16:55:36 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
-
-> Introducing a new NUMA affinity, FORM2, requires a new mechanism to
-> switch between affinity modes after CAS. Also, we want FORM2 data
-> structures and functions to be completely separated from the existing
-> FORM1 code, allowing us to avoid adding new code that inherits the
-> existing complexity of FORM1.
->=20
-> At the same time, it's also desirable to minimize the amount of changes
-> made in write_dt() functions that are used to write ibm,associativity of
-> the resources, RTAS artifacts and h_home_node_associativity. These
-> functions can work in the same way in both NUMA affinity modes, as long
-> as we use a similar data structure and parametrize it properly depending
-> on the affinity mode selected.
->=20
-> This patch introduces spapr_numa_associativity_reset() to start this
-> process. This function will be used to switch to the chosen NUMA
-> affinity after CAS and after migrating the guest. To do that, the
-> existing 'numa_assoc_array' is renamed to 'FORM1_assoc_array' and will
-> hold FORM1 data that is populated at associativity_init().
-> 'numa_assoc_array' is now a pointer that can be switched between the
-> existing affinity arrays. We don't have FORM2 data structures yet, so
-> 'numa_assoc_array' will always point to 'FORM1_assoc_array'.
->=20
-> We also take the precaution of pointing 'numa_assoc_array' to
-> 'FORM1_assoc_array' in associativity_init() time, before CAS, to not
-> change FORM1 availability for existing guests.
->=20
-> A small change in spapr_numa_write_associativity_dt() is made to reflect
-> the fact that 'numa_assoc_array' is now a pointer and we must be
-> explicit with the size being written in the DT.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  hw/ppc/spapr.c              | 14 +++++++++++++
->  hw/ppc/spapr_hcall.c        |  7 +++++++
->  hw/ppc/spapr_numa.c         | 42 +++++++++++++++++++++++++++++--------
->  include/hw/ppc/spapr.h      |  3 ++-
->  include/hw/ppc/spapr_numa.h |  1 +
->  5 files changed, 57 insertions(+), 10 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index d39fd4e644..5afbb76cab 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1786,6 +1786,20 @@ static int spapr_post_load(void *opaque, int versi=
-on_id)
->          return err;
->      }
-> =20
-> +    /*
-> +     * NUMA affinity selection is made in CAS time. There is no reliable
-> +     * way of telling whether the guest already went through CAS before
-> +     * migration due to how spapr_ov5_cas_needed works: a FORM1 guest ca=
-n
-> +     * be migrated with ov5_cas empty regardless of going through CAS
-> +     * first.
-> +     *
-> +     * One solution is to call numa_associativity_reset(). The downside
-> +     * is that a guest migrated before CAS will reset it again when goin=
-g
-> +     * through it, but since it's a lightweight operation it's worth bei=
-ng
-> +     * a little redundant to be safe.
-
-Also this isn't a hot path.
-
-> +     */
-> +     spapr_numa_associativity_reset(spapr);
-> +
->      return err;
->  }
-> =20
-> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index 0e9a5b2e40..82ab92ddba 100644
-> --- a/hw/ppc/spapr_hcall.c
-> +++ b/hw/ppc/spapr_hcall.c
-> @@ -17,6 +17,7 @@
->  #include "kvm_ppc.h"
->  #include "hw/ppc/fdt.h"
->  #include "hw/ppc/spapr_ovec.h"
-> +#include "hw/ppc/spapr_numa.h"
->  #include "mmu-book3s-v3.h"
->  #include "hw/mem/memory-device.h"
-> =20
-> @@ -1197,6 +1198,12 @@ target_ulong do_client_architecture_support(PowerP=
-CCPU *cpu,
->      spapr->cas_pre_isa3_guest =3D !spapr_ovec_test(ov1_guest, OV1_PPC_3_=
-00);
->      spapr_ovec_cleanup(ov1_guest);
-> =20
-> +    /*
-> +     * Reset numa_assoc_array now that we know which NUMA affinity
-> +     * the guest will use.
-> +     */
-> +    spapr_numa_associativity_reset(spapr);
-> +
->      /*
->       * Ensure the guest asks for an interrupt mode we support;
->       * otherwise terminate the boot.
-> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index fb6059550f..327952ba9e 100644
-> --- a/hw/ppc/spapr_numa.c
-> +++ b/hw/ppc/spapr_numa.c
-> @@ -97,7 +97,7 @@ static void spapr_numa_define_FORM1_domains(SpaprMachin=
-eState *spapr)
->       */
->      for (i =3D 1; i < nb_numa_nodes; i++) {
->          for (j =3D 1; j < MAX_DISTANCE_REF_POINTS; j++) {
-> -            spapr->numa_assoc_array[i][j] =3D cpu_to_be32(i);
-> +            spapr->FORM1_assoc_array[i][j] =3D cpu_to_be32(i);
->          }
->      }
-> =20
-> @@ -149,8 +149,8 @@ static void spapr_numa_define_FORM1_domains(SpaprMach=
-ineState *spapr)
->               * and going up to 0x1.
->               */
->              for (i =3D n_level; i > 0; i--) {
-> -                assoc_src =3D spapr->numa_assoc_array[src][i];
-> -                spapr->numa_assoc_array[dst][i] =3D assoc_src;
-> +                assoc_src =3D spapr->FORM1_assoc_array[src][i];
-> +                spapr->FORM1_assoc_array[dst][i] =3D assoc_src;
->              }
->          }
->      }
-> @@ -167,6 +167,11 @@ static void spapr_numa_FORM1_affinity_init(SpaprMach=
-ineState *spapr,
->      int nb_numa_nodes =3D machine->numa_state->num_nodes;
->      int i, j, max_nodes_with_gpus;
-> =20
-> +    /* init FORM1_assoc_array */
-> +    for (i =3D 0; i < MAX_NODES + NVGPU_MAX_NUM; i++) {
-> +        spapr->FORM1_assoc_array[i] =3D g_new0(uint32_t, NUMA_ASSOC_SIZE=
-);
-
-Why dynamic allocation since you have fixed size ?
-
-> +    }
-> +
->      /*
->       * For all associativity arrays: first position is the size,
->       * position MAX_DISTANCE_REF_POINTS is always the numa_id,
-> @@ -177,8 +182,8 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachi=
-neState *spapr,
->       * 'i' will be a valid node_id set by the user.
->       */
->      for (i =3D 0; i < nb_numa_nodes; i++) {
-> -        spapr->numa_assoc_array[i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_P=
-OINTS);
-> -        spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_b=
-e32(i);
-> +        spapr->FORM1_assoc_array[i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_=
-POINTS);
-> +        spapr->FORM1_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_=
-be32(i);
->      }
-> =20
->      /*
-> @@ -192,15 +197,15 @@ static void spapr_numa_FORM1_affinity_init(SpaprMac=
-hineState *spapr,
->      max_nodes_with_gpus =3D nb_numa_nodes + NVGPU_MAX_NUM;
-> =20
->      for (i =3D nb_numa_nodes; i < max_nodes_with_gpus; i++) {
-> -        spapr->numa_assoc_array[i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_P=
-OINTS);
-> +        spapr->FORM1_assoc_array[i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_=
-POINTS);
-> =20
->          for (j =3D 1; j < MAX_DISTANCE_REF_POINTS; j++) {
->              uint32_t gpu_assoc =3D smc->pre_5_1_assoc_refpoints ?
->                                   SPAPR_GPU_NUMA_ID : cpu_to_be32(i);
-> -            spapr->numa_assoc_array[i][j] =3D gpu_assoc;
-> +            spapr->FORM1_assoc_array[i][j] =3D gpu_assoc;
->          }
-> =20
-> -        spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_b=
-e32(i);
-> +        spapr->FORM1_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_=
-be32(i);
->      }
-> =20
->      /*
-> @@ -227,14 +232,33 @@ void spapr_numa_associativity_init(SpaprMachineStat=
-e *spapr,
->                                     MachineState *machine)
->  {
->      spapr_numa_FORM1_affinity_init(spapr, machine);
-> +
-> +    /*
-> +     * Default to FORM1 affinity until CAS. We'll call affinity_reset()
-> +     * during CAS when we're sure about which NUMA affinity the guest
-> +     * is going to use.
-> +     *
-> +     * This step is a failsafe - guests in the wild were able to read
-> +     * FORM1 affinity info before CAS for a long time. Since affinity_re=
-set()
-> +     * is just a pointer switch between data that was already populated
-> +     * here, this is an acceptable overhead to be on the safer side.
-> +     */
-> +    spapr->numa_assoc_array =3D spapr->FORM1_assoc_array;
-
-The right way to do that is to call spapr_numa_associativity_reset() from
-spapr_machine_reset() because we want to revert to FORM1 each time the
-guest is rebooted.
-
-> +}
-> +
-> +void spapr_numa_associativity_reset(SpaprMachineState *spapr)
-> +{
-> +    /* No FORM2 affinity implemented yet */
-
-This seems quite obvious at this point, not sure the comment helps.
-
-> +    spapr->numa_assoc_array =3D spapr->FORM1_assoc_array;
->  }
-> =20
->  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *f=
-dt,
->                                         int offset, int nodeid)
->  {
-> +    /* Hardcode the size of FORM1 associativity array for now */
->      _FDT((fdt_setprop(fdt, offset, "ibm,associativity",
->                        spapr->numa_assoc_array[nodeid],
-> -                      sizeof(spapr->numa_assoc_array[nodeid]))));
-> +                      NUMA_ASSOC_SIZE * sizeof(uint32_t))));
-
-Rather than doing this temporary change that gets undone in
-a later patch, I suggest you introduce get_numa_assoc_size()
-in a preliminary patch and use it here already :
-
--                      NUMA_ASSOC_SIZE * sizeof(uint32_t))));
-+                      get_numa_assoc_size(spapr) * sizeof(uint32_t))));
-
-This will simplify the reviewing.
-
->  }
-> =20
->  static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *spapr,
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 637652ad16..8a9490f0bf 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -249,7 +249,8 @@ struct SpaprMachineState {
->      unsigned gpu_numa_id;
->      SpaprTpmProxy *tpm_proxy;
-> =20
-> -    uint32_t numa_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE=
-];
-> +    uint32_t *FORM1_assoc_array[MAX_NODES + NVGPU_MAX_NUM];
-
-As said above, I really don't see the point in not having :
-
-    uint32_t *FORM1_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE]=
-;
-
-> +    uint32_t **numa_assoc_array;
-> =20
->      Error *fwnmi_migration_blocker;
->  };
-> diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
-> index 6f9f02d3de..ccf3e4eae8 100644
-> --- a/include/hw/ppc/spapr_numa.h
-> +++ b/include/hw/ppc/spapr_numa.h
-> @@ -24,6 +24,7 @@
->   */
->  void spapr_numa_associativity_init(SpaprMachineState *spapr,
->                                     MachineState *machine);
-> +void spapr_numa_associativity_reset(SpaprMachineState *spapr);
->  void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int r=
-tas);
->  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *f=
-dt,
->                                         int offset, int nodeid);
-
+DQo+IE9uIFNlcCAxNCwgMjAyMSwgYXQgMzo1NiBBTSwgQ8OpZHJpYyBMZSBHb2F0ZXIgPGNsZ0Br
+YW9kLm9yZz4gd3JvdGU6DQo+IA0KPiDvu78NCj4gSGVsbG8gUGV0ZXIgRCwNCj4gDQo+PiArc3Rh
+dGljIHZvaWQgYXNwZWVkX21hY2hpbmVfZnVqaV9jbGFzc19pbml0KE9iamVjdENsYXNzICpvYywg
+dm9pZCAqZGF0YSkNCj4+ICt7DQo+PiArICAgIE1hY2hpbmVDbGFzcyAqbWMgPSBNQUNISU5FX0NM
+QVNTKG9jKTsNCj4+ICsgICAgQXNwZWVkTWFjaGluZUNsYXNzICphbWMgPSBBU1BFRURfTUFDSElO
+RV9DTEFTUyhvYyk7DQo+PiArDQo+PiArICAgIG1jLT5kZXNjID0gIkZhY2Vib29rIEZ1amkgQk1D
+IChDb3J0ZXgtQTcpIjsNCj4+ICsgICAgYW1jLT5zb2NfbmFtZSA9ICJhc3QyNjAwLWEzIjsNCj4+
+ICsgICAgYW1jLT5od19zdHJhcDEgPSBGVUpJX0JNQ19IV19TVFJBUDE7DQo+PiArICAgIGFtYy0+
+aHdfc3RyYXAyID0gRlVKSV9CTUNfSFdfU1RSQVAyOw0KPj4gKyAgICBhbWMtPmZtY19tb2RlbCA9
+ICJteDY2bDFnNDVnIjsNCj4+ICsgICAgYW1jLT5zcGlfbW9kZWwgPSAibXg2NmwxZzQ1ZyI7DQo+
+PiArICAgIGFtYy0+bnVtX2NzID0gMjsNCj4+ICsgICAgYW1jLT5tYWNzX21hc2sgPSBBU1BFRURf
+TUFDM19PTjsNCj4+ICsgICAgYW1jLT5pMmNfaW5pdCA9IGZ1amlfYm1jX2kyY19pbml0Ow0KPj4g
+KyAgICBhbWMtPnVhcnRfZGVmYXVsdCA9IEFTUEVFRF9ERVZfVUFSVDE7DQo+PiArICAgIG1jLT5k
+ZWZhdWx0X3JhbV9zaXplID0gMiAqIEdpQjsNCj4gDQo+IElzIHRoYXQgdGhlIGRlZmF1bHQgb2Yg
+dGhlIEZ1amkgYm9hcmQgPyBUaGlzIGlzIGNhdXNpbmcgYW4gaXNzdWUgaW4gb3VyIHRlc3RzIDoN
+Cj4gDQo+ICAgcWVtdS1zeXN0ZW0tYWFyY2g2NDogYXQgbW9zdCAyMDQ3IE1CIFJBTSBjYW4gYmUg
+c2ltdWxhdGVkDQo+IA0KPiBDb3VsZCB3ZSBsb3dlciBpdCBkb3duIHRvIDFHID8NCg0KWWlrZXMs
+IHNvcnJ5IGFib3V0IHRoYXQuIEkgdGhvdWdodCBpdCB3YXMgMkcsIGJ1dCB5ZWFoIGxldOKAmXMg
+anVzdCBsb3dlciBpdCB0byAxRy4gSSBtaWdodCBiZSBjb21wbGV0ZWx5IHdyb25nIGFueXdheXMu
+DQoNCj4gDQo+IFRoYW5rcywNCj4gDQo+IEMuDQo+IA0KPj4gKyAgICBtYy0+ZGVmYXVsdF9jcHVz
+ID0gbWMtPm1pbl9jcHVzID0gbWMtPm1heF9jcHVzID0NCj4+ICsgICAgICAgIGFzcGVlZF9zb2Nf
+bnVtX2NwdXMoYW1jLT5zb2NfbmFtZSk7DQo+PiArfTsNCj4+ICsNCj4+IHN0YXRpYyBjb25zdCBU
+eXBlSW5mbyBhc3BlZWRfbWFjaGluZV90eXBlc1tdID0gew0KPj4gICAgIHsNCj4+ICAgICAgICAg
+Lm5hbWUgICAgICAgICAgPSBNQUNISU5FX1RZUEVfTkFNRSgicGFsbWV0dG8tYm1jIiksDQo+PiBA
+QCAtMTExOSw2ICsxMjI4LDEwIEBAIHN0YXRpYyBjb25zdCBUeXBlSW5mbyBhc3BlZWRfbWFjaGlu
+ZV90eXBlc1tdID0gew0KPj4gICAgICAgICAubmFtZSAgICAgICAgICA9IE1BQ0hJTkVfVFlQRV9O
+QU1FKCJyYWluaWVyLWJtYyIpLA0KPj4gICAgICAgICAucGFyZW50ICAgICAgICA9IFRZUEVfQVNQ
+RUVEX01BQ0hJTkUsDQo+PiAgICAgICAgIC5jbGFzc19pbml0ICAgID0gYXNwZWVkX21hY2hpbmVf
+cmFpbmllcl9jbGFzc19pbml0LA0KPj4gKyAgICB9LCB7DQo+PiArICAgICAgICAubmFtZSAgICAg
+ICAgICA9IE1BQ0hJTkVfVFlQRV9OQU1FKCJmdWppLWJtYyIpLA0KPj4gKyAgICAgICAgLnBhcmVu
+dCAgICAgICAgPSBUWVBFX0FTUEVFRF9NQUNISU5FLA0KPj4gKyAgICAgICAgLmNsYXNzX2luaXQg
+ICAgPSBhc3BlZWRfbWFjaGluZV9mdWppX2NsYXNzX2luaXQsDQo+PiAgICAgfSwgew0KPj4gICAg
+ICAgICAubmFtZSAgICAgICAgICA9IFRZUEVfQVNQRUVEX01BQ0hJTkUsDQo+PiAgICAgICAgIC5w
+YXJlbnQgICAgICAgID0gVFlQRV9NQUNISU5FLA0KPj4gDQo+IA0K
 
