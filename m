@@ -2,87 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B95740AE8D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:06:25 +0200 (CEST)
-Received: from localhost ([::1]:59228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF0F540AEA4
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:10:14 +0200 (CEST)
+Received: from localhost ([::1]:42946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ88m-0004go-40
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:06:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37242)
+	id 1mQ8CT-0004VV-Cn
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:10:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mQ837-0004sQ-Tc
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:00:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20421)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mQ82y-0007Zg-1m
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:00:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631624422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dLbvbWGitHxMIdP9qdAqUbf1kgHN6EUx48sLs7z7zBE=;
- b=gd9d3+W0r5HhxH+OF2c+SI3yBBqCHjgzANXhPL7x5p32A3lNUOoYcYHtcyNBStkWulhepb
- 1776A12l1Y4rG0vhngLAgFW8LGBo94qgS+GqgSYkOVFjhB4Zjnb7Sz7QWX8cpJrB8VkNmu
- qP2m+FRGEO8rZagD7ays/5ku9OW0wmg=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-vNvICC6eMu-sd1oY8QYT3w-1; Tue, 14 Sep 2021 09:00:21 -0400
-X-MC-Unique: vNvICC6eMu-sd1oY8QYT3w-1
-Received: by mail-ed1-f69.google.com with SMTP id
- y17-20020a50e611000000b003d051004603so6061915edm.8
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 06:00:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dLbvbWGitHxMIdP9qdAqUbf1kgHN6EUx48sLs7z7zBE=;
- b=u92AD6cVEXv9NsKHjUnHxBLijwt+xYt+wnWcviPu1yKihq5CHd7graFtmRsnZwl2IX
- lpHgpz/tkHdslnMOMuyleEtXV1VoasPtDwhs8N8lcDPn4q0rOOlCZKklCorOcQAU4Rnd
- 0hiPWk8lswU0Li+4CA1Yo6IKZO9EEdFCVvdPrTMA7HrmCPSkKsaBN0xS2RYISXWFjO8a
- UXMhIelPkwQtQA2E95U/zlAQRVzOoj8t6ooiiy+Lrtp28hzNgHo2ddysIOExuUEkH4dp
- o7tmx5DrtZQyLkibBCyrQlV2FrzyE9oNDwLyyJkDWTjrwVvlNEoUedZEWDwztu7CJoR3
- ld/g==
-X-Gm-Message-State: AOAM531SvtqEdq7HmOhaBPpXuoBUiGENF1AqECpi4QNEbmm+A6AvZEuP
- vswmzlZ+br4jlZljsw0529v2OS8n0P0PCly+6bNglzhB3K/f7ulJS9RlyIyMSdVRkoLw98kvXm5
- gE5UNBtFgPro73Xw=
-X-Received: by 2002:aa7:c905:: with SMTP id b5mr15118162edt.380.1631624419895; 
- Tue, 14 Sep 2021 06:00:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJypfWOYgRqaEN3fTIJFIiUbOrv4RXF+qKuog1rg2AoNkeZ4+GkDZdDcZF7DOpRxP4PojcuTxw==
-X-Received: by 2002:aa7:c905:: with SMTP id b5mr15118123edt.380.1631624419599; 
- Tue, 14 Sep 2021 06:00:19 -0700 (PDT)
-Received: from localhost ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id bj10sm4856610ejb.17.2021.09.14.06.00.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Sep 2021 06:00:19 -0700 (PDT)
-Date: Tue, 14 Sep 2021 15:00:18 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: hw/i386/acpi: fix conflicting IO address range for acpi pci
- hotplug in q35
-Message-ID: <20210914150018.609b39bd@redhat.com>
-In-Reply-To: <20210914045410.3380946-1-ani@anisinha.ca>
-References: <20210914045410.3380946-1-ani@anisinha.ca>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1mQ83y-0005eg-8x
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:01:26 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:57662 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1mQ83h-0007sg-2p
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:01:24 -0400
+Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxheXvnEBhNJ0GAA--.21668S10; 
+ Tue, 14 Sep 2021 21:01:02 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 08/21] target/loongarch: Add fixed point atomic instruction
+ translation
+Date: Tue, 14 Sep 2021 21:00:18 +0800
+Message-Id: <1631624431-30658-9-git-send-email-gaosong@loongson.cn>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1631624431-30658-1-git-send-email-gaosong@loongson.cn>
+References: <1631624431-30658-1-git-send-email-gaosong@loongson.cn>
+X-CM-TRANSID: AQAAf9DxheXvnEBhNJ0GAA--.21668S10
+X-Coremail-Antispam: 1UD129KBjvJXoW3Jw4xKw43XFWxWFy8Gr4rZrb_yoWDGw1kpr
+ 42kryxXr4Fqry5Jr95tws0g343GFnIv347Wry3tr1kZF1UGF15JF18J39IkFWUXws5ZFW8
+ KFWay34jkFy5JaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: 0
+X-Spam_score: -0.0
+X-Spam_bar: /
+X-Spam_report: (-0.0 / 5.0 requ) SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,25 +55,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
+ richard.henderson@linaro.org, laurent@vivier.eu, peterx@redhat.com,
+ gaosong@loongson.cn, yangxiaojuan@loongson.cn, alistair.francis@wdc.com,
+ maobibo@loongson.cn, pbonzini@redhat.com, bmeng.cn@gmail.com,
+ alex.bennee@linaro.org, chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Sep 2021 10:24:07 +0530
-Ani Sinha <ani@anisinha.ca> wrote:
+This patch implement fixed point atomic instruction translation.
 
-> Hi Igor/Michael :
-> 
-> This patchset fixes the acpi pci hotplug IO address range conflict issue with cpu hotplug.
-> This issue has been reported here:
-> https://gitlab.com/qemu-project/qemu/-/issues/561
-> 
-> We have disucssed this issue at length here:
-> https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02146.html
-> 
-> This issue affects Qemu version 6.1.
+This includes:
+- LL.{W/D}, SC.{W/D}
+- AM{SWAP/ADD/AND/OR/XOR/MAX/MIN}[_DB].{W/D}
+- AM{MAX/MIN}[_DB].{WU/DU}
 
-CCing stable
+Signed-off-by: Song Gao <gaosong@loongson.cn>
+Signed-off-by: XiaoJuan Yang <yangxiaojuan@loongson.cn>
+---
+ target/loongarch/insn_trans/trans_atomic.c | 133 +++++++++++++++++++++++++++++
+ target/loongarch/insns.decode              |  44 ++++++++++
+ target/loongarch/translate.c               |   1 +
+ 3 files changed, 178 insertions(+)
+ create mode 100644 target/loongarch/insn_trans/trans_atomic.c
+
+diff --git a/target/loongarch/insn_trans/trans_atomic.c b/target/loongarch/insn_trans/trans_atomic.c
+new file mode 100644
+index 0000000..7613f21
+--- /dev/null
++++ b/target/loongarch/insn_trans/trans_atomic.c
+@@ -0,0 +1,133 @@
++/*
++ * LoongArch translate functions
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ *
++ * SPDX-License-Identifier: LGPL-2.1+
++ */
++
++static bool gen_ll(DisasContext *ctx, arg_fmt_rdrjsi14 *a,
++                   void (*func)(TCGv, TCGv, int))
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv t0 = tcg_temp_new();
++
++    tcg_gen_addi_tl(t0, src1, a->si14 << 2);
++    func(dest, t0, ctx->mem_idx);
++    tcg_gen_st_tl(t0, cpu_env, offsetof(CPULoongArchState, lladdr));
++    tcg_gen_st_tl(dest, cpu_env, offsetof(CPULoongArchState, llval));
++    tcg_temp_free(t0);
++    return true;
++}
++
++static bool gen_sc(DisasContext *ctx, arg_fmt_rdrjsi14 *a, MemOp mop)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv src2 = gpr_src(ctx, a->rd, EXT_NONE);
++    TCGv t0 = tcg_temp_new();
++    TCGv val = tcg_temp_new();
++
++    TCGLabel *l1 = gen_new_label();
++    TCGLabel *done = gen_new_label();
++
++    tcg_gen_addi_tl(t0, src1, a->si14 << 2);
++    tcg_gen_brcond_tl(TCG_COND_EQ, t0, cpu_lladdr, l1);
++    tcg_gen_movi_tl(dest, 0);
++    tcg_gen_br(done);
++
++    gen_set_label(l1);
++    tcg_gen_mov_tl(val, src2);
++    /* generate cmpxchg */
++    tcg_gen_atomic_cmpxchg_tl(t0, cpu_lladdr, cpu_llval,
++                              val, ctx->mem_idx, mop);
++    tcg_gen_setcond_tl(TCG_COND_EQ, dest, t0, cpu_llval);
++    gen_set_label(done);
++    tcg_temp_free(t0);
++    tcg_temp_free(val);
++    return true;
++}
++
++static bool gen_am(DisasContext *ctx, arg_fmt_rdrjrk *a,
++                   void (*func)(TCGv, TCGv, TCGv, TCGArg, MemOp),
++                   MemOp mop)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv val = gpr_src(ctx, a->rk, EXT_NONE);
++
++    if ((a->rd != 0) && ((a->rj == a->rd) || (a->rk == a->rd))) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "Warning: source register overlaps destination register"
++                      "in atomic insn at pc=0x" TARGET_FMT_lx "\n",
++                      ctx->base.pc_next - 4);
++        return false;
++    }
++
++    func(dest, addr, val, ctx->mem_idx, mop);
++    return true;
++}
++
++static bool gen_am_db(DisasContext *ctx, arg_fmt_rdrjrk *a,
++                      void (*func)(TCGv, TCGv, TCGv, TCGArg, MemOp),
++                      MemOp mop)
++{
++    TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
++    TCGv addr = gpr_src(ctx, a->rj, EXT_NONE);
++    TCGv val = gpr_src(ctx, a->rk, EXT_NONE);
++
++    if ((a->rd != 0) && ((a->rj == a->rd) || (a->rk == a->rd))) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "Warning: source register overlaps destination register"
++                      "in atomic insn at pc=0x" TARGET_FMT_lx "\n",
++                      ctx->base.pc_next - 4);
++        return false;
++    }
++
++    gen_loongarch_sync(0x10);
++    func(dest, addr, val, ctx->mem_idx, mop);
++
++    return true;
++}
++
++TRANS(ll_w, gen_ll, tcg_gen_qemu_ld32s)
++TRANS(sc_w, gen_sc, MO_TESL)
++TRANS(ll_d, gen_ll, tcg_gen_qemu_ld64)
++TRANS(sc_d, gen_sc, MO_TEQ)
++TRANS(amswap_w, gen_am, tcg_gen_atomic_xchg_tl, MO_TESL)
++TRANS(amswap_d, gen_am, tcg_gen_atomic_xchg_tl, MO_TEQ)
++TRANS(amadd_w, gen_am, tcg_gen_atomic_fetch_add_tl, MO_TESL)
++TRANS(amadd_d, gen_am, tcg_gen_atomic_fetch_add_tl, MO_TEQ)
++TRANS(amand_w, gen_am, tcg_gen_atomic_fetch_and_tl, MO_TESL)
++TRANS(amand_d, gen_am, tcg_gen_atomic_fetch_and_tl, MO_TEQ)
++TRANS(amor_w, gen_am, tcg_gen_atomic_fetch_or_tl, MO_TESL)
++TRANS(amor_d, gen_am, tcg_gen_atomic_fetch_or_tl, MO_TEQ)
++TRANS(amxor_w, gen_am, tcg_gen_atomic_fetch_xor_tl, MO_TESL)
++TRANS(amxor_d, gen_am, tcg_gen_atomic_fetch_xor_tl, MO_TEQ)
++TRANS(ammax_w, gen_am, tcg_gen_atomic_fetch_smax_tl, MO_TESL)
++TRANS(ammax_d, gen_am, tcg_gen_atomic_fetch_smax_tl, MO_TEQ)
++TRANS(ammin_w, gen_am, tcg_gen_atomic_fetch_smin_tl, MO_TESL)
++TRANS(ammin_d, gen_am, tcg_gen_atomic_fetch_smin_tl, MO_TEQ)
++TRANS(ammax_wu, gen_am, tcg_gen_atomic_fetch_umax_tl, MO_TESL)
++TRANS(ammax_du, gen_am, tcg_gen_atomic_fetch_umax_tl, MO_TEQ)
++TRANS(ammin_wu, gen_am, tcg_gen_atomic_fetch_umin_tl, MO_TESL)
++TRANS(ammin_du, gen_am, tcg_gen_atomic_fetch_umin_tl, MO_TEQ)
++TRANS(amswap_db_w, gen_am_db, tcg_gen_atomic_xchg_tl, MO_TESL)
++TRANS(amswap_db_d, gen_am_db, tcg_gen_atomic_xchg_tl, MO_TEQ)
++TRANS(amadd_db_w, gen_am_db, tcg_gen_atomic_fetch_add_tl, MO_TESL)
++TRANS(amadd_db_d, gen_am_db, tcg_gen_atomic_fetch_add_tl, MO_TEQ)
++TRANS(amand_db_w, gen_am_db, tcg_gen_atomic_fetch_and_tl, MO_TESL)
++TRANS(amand_db_d, gen_am_db, tcg_gen_atomic_fetch_and_tl, MO_TEQ)
++TRANS(amor_db_w, gen_am_db, tcg_gen_atomic_fetch_or_tl, MO_TESL)
++TRANS(amor_db_d, gen_am_db, tcg_gen_atomic_fetch_or_tl, MO_TEQ)
++TRANS(amxor_db_w, gen_am_db, tcg_gen_atomic_fetch_xor_tl, MO_TESL)
++TRANS(amxor_db_d, gen_am_db, tcg_gen_atomic_fetch_xor_tl, MO_TEQ)
++TRANS(ammax_db_w, gen_am_db, tcg_gen_atomic_fetch_smax_tl, MO_TESL)
++TRANS(ammax_db_d, gen_am_db, tcg_gen_atomic_fetch_smax_tl, MO_TEQ)
++TRANS(ammin_db_w, gen_am_db, tcg_gen_atomic_fetch_smin_tl, MO_TESL)
++TRANS(ammin_db_d, gen_am_db, tcg_gen_atomic_fetch_smin_tl, MO_TEQ)
++TRANS(ammax_db_wu, gen_am_db, tcg_gen_atomic_fetch_umax_tl, MO_TESL)
++TRANS(ammax_db_du, gen_am_db, tcg_gen_atomic_fetch_umax_tl, MO_TEQ)
++TRANS(ammin_db_wu, gen_am_db, tcg_gen_atomic_fetch_umin_tl, MO_TESL)
++TRANS(ammin_db_du, gen_am_db, tcg_gen_atomic_fetch_umin_tl, MO_TEQ)
+diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
+index 08fd232..574c055 100644
+--- a/target/loongarch/insns.decode
++++ b/target/loongarch/insns.decode
+@@ -216,3 +216,47 @@ stle_b           0011 10000111 11100 ..... ..... .....    @fmt_rdrjrk
+ stle_h           0011 10000111 11101 ..... ..... .....    @fmt_rdrjrk
+ stle_w           0011 10000111 11110 ..... ..... .....    @fmt_rdrjrk
+ stle_d           0011 10000111 11111 ..... ..... .....    @fmt_rdrjrk
++
++#
++# Fixed point atomic instruction
++#
++ll_w             0010 0000 .............. ..... .....     @fmt_rdrjsi14
++sc_w             0010 0001 .............. ..... .....     @fmt_rdrjsi14
++ll_d             0010 0010 .............. ..... .....     @fmt_rdrjsi14
++sc_d             0010 0011 .............. ..... .....     @fmt_rdrjsi14
++amswap_w         0011 10000110 00000 ..... ..... .....    @fmt_rdrjrk
++amswap_d         0011 10000110 00001 ..... ..... .....    @fmt_rdrjrk
++amadd_w          0011 10000110 00010 ..... ..... .....    @fmt_rdrjrk
++amadd_d          0011 10000110 00011 ..... ..... .....    @fmt_rdrjrk
++amand_w          0011 10000110 00100 ..... ..... .....    @fmt_rdrjrk
++amand_d          0011 10000110 00101 ..... ..... .....    @fmt_rdrjrk
++amor_w           0011 10000110 00110 ..... ..... .....    @fmt_rdrjrk
++amor_d           0011 10000110 00111 ..... ..... .....    @fmt_rdrjrk
++amxor_w          0011 10000110 01000 ..... ..... .....    @fmt_rdrjrk
++amxor_d          0011 10000110 01001 ..... ..... .....    @fmt_rdrjrk
++ammax_w          0011 10000110 01010 ..... ..... .....    @fmt_rdrjrk
++ammax_d          0011 10000110 01011 ..... ..... .....    @fmt_rdrjrk
++ammin_w          0011 10000110 01100 ..... ..... .....    @fmt_rdrjrk
++ammin_d          0011 10000110 01101 ..... ..... .....    @fmt_rdrjrk
++ammax_wu         0011 10000110 01110 ..... ..... .....    @fmt_rdrjrk
++ammax_du         0011 10000110 01111 ..... ..... .....    @fmt_rdrjrk
++ammin_wu         0011 10000110 10000 ..... ..... .....    @fmt_rdrjrk
++ammin_du         0011 10000110 10001 ..... ..... .....    @fmt_rdrjrk
++amswap_db_w      0011 10000110 10010 ..... ..... .....    @fmt_rdrjrk
++amswap_db_d      0011 10000110 10011 ..... ..... .....    @fmt_rdrjrk
++amadd_db_w       0011 10000110 10100 ..... ..... .....    @fmt_rdrjrk
++amadd_db_d       0011 10000110 10101 ..... ..... .....    @fmt_rdrjrk
++amand_db_w       0011 10000110 10110 ..... ..... .....    @fmt_rdrjrk
++amand_db_d       0011 10000110 10111 ..... ..... .....    @fmt_rdrjrk
++amor_db_w        0011 10000110 11000 ..... ..... .....    @fmt_rdrjrk
++amor_db_d        0011 10000110 11001 ..... ..... .....    @fmt_rdrjrk
++amxor_db_w       0011 10000110 11010 ..... ..... .....    @fmt_rdrjrk
++amxor_db_d       0011 10000110 11011 ..... ..... .....    @fmt_rdrjrk
++ammax_db_w       0011 10000110 11100 ..... ..... .....    @fmt_rdrjrk
++ammax_db_d       0011 10000110 11101 ..... ..... .....    @fmt_rdrjrk
++ammin_db_w       0011 10000110 11110 ..... ..... .....    @fmt_rdrjrk
++ammin_db_d       0011 10000110 11111 ..... ..... .....    @fmt_rdrjrk
++ammax_db_wu      0011 10000111 00000 ..... ..... .....    @fmt_rdrjrk
++ammax_db_du      0011 10000111 00001 ..... ..... .....    @fmt_rdrjrk
++ammin_db_wu      0011 10000111 00010 ..... ..... .....    @fmt_rdrjrk
++ammin_db_du      0011 10000111 00011 ..... ..... .....    @fmt_rdrjrk
+diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
+index 807cb54..1ec3be6 100644
+--- a/target/loongarch/translate.c
++++ b/target/loongarch/translate.c
+@@ -174,6 +174,7 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
+ #include "insn_trans/trans_shift.c"
+ #include "insn_trans/trans_bit.c"
+ #include "insn_trans/trans_memory.c"
++#include "insn_trans/trans_atomic.c"
+ 
+ static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+ {
+-- 
+1.8.3.1
 
 
