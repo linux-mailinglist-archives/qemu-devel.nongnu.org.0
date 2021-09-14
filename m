@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E41D40AFA9
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:53:04 +0200 (CEST)
-Received: from localhost ([::1]:51036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6876E40AF8B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:49:07 +0200 (CEST)
+Received: from localhost ([::1]:43228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ8rv-00025n-K5
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:53:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50314)
+	id 1mQ8o6-000535-2I
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:49:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1mQ8j2-0006ub-Ab
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:43:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27982)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1mQ8Xr-0002qg-UP
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:32:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631626338;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=X5erqOm03G9NHKJ9YABxsEDOBfDLnRXOdIJxTjLjrZo=;
- b=TukunLFLwMyNsJIlbMpdqcaXc2ZZp/jh9XByUkJOcM9dPwr55hefzvcJe4c75j9441PecM
- 2CXUBtjXO06GWNeM1eo9ngTPaJ4H8fThj4oRqSDGsse/H7GAr4YDdePBTjOEUs3UJYBL3+
- zTGM4CDlrKTabazaV0lHEjZl23gpWg8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-ZivxND_dNBCXgEnKqt02PA-1; Tue, 14 Sep 2021 09:32:17 -0400
-X-MC-Unique: ZivxND_dNBCXgEnKqt02PA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E8A9100CCC7;
- Tue, 14 Sep 2021 13:32:16 +0000 (UTC)
-Received: from localhost (unknown [10.33.36.244])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1929F6A907;
- Tue, 14 Sep 2021 13:32:09 +0000 (UTC)
-Date: Tue, 14 Sep 2021 15:32:09 +0200
-From: Sergio Lopez <slp@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH] tools/virtiofsd: Add fstatfs64 syscall to
- the seccomp allowlist
-Message-ID: <20210914133106.jfbulec3pd23cfvv@mhamilton>
-References: <20210914123214.181885-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mQ8iz-0006vA-By
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:43:49 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:53206)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mQ8Ym-0003Vn-Ff
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:33:17 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id v19so6209989pjh.2
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 06:33:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=eb22XOSOdJqdvikbbk+l420pIwVA9VF62/Z13qOVSMo=;
+ b=T3ILWHzE6N3syhMCE+b1GbC/CDOK3iiCzjRicU/5jSsXAFeAzDpSFnbZvWquqTjT3V
+ XOdnWY8U1sFEwRWxmMvIUQRsqEOw1b0pNRzymTqmYzgNpIT3cjBrr6r2aQLHkQrUrW8N
+ sY98fj+4oTL7A60lYklQr8uVdCS673u3uFXh54DRAIAFELch4s6SDaXuMsj/JJ3Po9y0
+ BmEz51YX06KQhbDrg7sawleG9fCx8zEBz3C11FX3kVXvleTR8LiPIltSbHW/mfpX2ar0
+ kqB0u1BlTUrgiHjM7SPzevielDR1vUGm3Uptk/8Xwle4ozmfIhy79LkD7xZqhQmO1zYy
+ 9snA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eb22XOSOdJqdvikbbk+l420pIwVA9VF62/Z13qOVSMo=;
+ b=KbePVWxYGbUYIMKUiKyNicFDWghoigBsrcupqaONSu65tYhLtywGZa1BFj+VMO/kDz
+ 2nuLMUCsqAuFlSWSWya7Bjt+0jRxZWd3UarT9xXPGL/NiQKwL2kxOhtDiPPv6zkwHIyj
+ w+3CUJuFDY2JW1xLfvEKfFrCVbosfgd8zBIQVROFeIb0EmLB84JjHRmGejFv2FqKUU1a
+ P1Ywcs/PzEm3rSKlKC1BjJs6/QUGBiDPmuV+APzZficBro/5lSe+z+wW/hjU4sDl8IFi
+ q2ZwqHR7hpSSD0iXAhaUjm156qlTHBeLTTaxQd4+mcuDMFgJtktEihTAVAfXZ5Agehk3
+ 3oBA==
+X-Gm-Message-State: AOAM531BNODx2e3SZnD8JDwwRXpuFcQQRQxyR+UKllIuIbWHfF5DE1li
+ rL0lxkvl2Qyms+jZoy95mcEMtw==
+X-Google-Smtp-Source: ABdhPJz/hIe4DBaXqdgAL+sWs/7UZCtXTg1/VRMJ5oefwur5tzCE1zWy/y5pL6vGie2++XsSfdGjsQ==
+X-Received: by 2002:a17:90a:aa85:: with SMTP id
+ l5mr2158846pjq.107.1631626394939; 
+ Tue, 14 Sep 2021 06:33:14 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id g3sm12360721pgf.1.2021.09.14.06.33.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Sep 2021 06:33:14 -0700 (PDT)
+Subject: Re: [PATCH v5 05/21] target/loongarch: Add fixed point shift
+ instruction translation
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <1631624431-30658-1-git-send-email-gaosong@loongson.cn>
+ <1631624431-30658-6-git-send-email-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ddb298ea-f198-8836-b6c2-fee1f7eec0da@linaro.org>
+Date: Tue, 14 Sep 2021 06:33:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210914123214.181885-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6mcs2kfyiq275vhm"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=slp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <1631624431-30658-6-git-send-email-gaosong@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.969,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,81 +89,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- virtio-fs@redhat.com, qemu-s390x@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
+ yangxiaojuan@loongson.cn, laurent@vivier.eu, peterx@redhat.com,
+ alistair.francis@wdc.com, maobibo@loongson.cn, pbonzini@redhat.com,
+ bmeng.cn@gmail.com, alex.bennee@linaro.org, chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---6mcs2kfyiq275vhm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9/14/21 6:00 AM, Song Gao wrote:
+> This patch implement fixed point shift instruction translation.
+> 
+> This includes:
+> - SLL.W, SRL.W, SRA.W, ROTR.W
+> - SLLI.W, SRLI.W, SRAI.W, ROTRI.W
+> - SLL.D, SRL.D, SRA.D, ROTR.D
+> - SLLI.D, SRLI.D, SRAI.D, ROTRI.D
+> 
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
+> Signed-off-by: XiaoJuan Yang<yangxiaojuan@loongson.cn>
 
-On Tue, Sep 14, 2021 at 02:32:14PM +0200, Thomas Huth wrote:
-> The virtiofsd currently crashes on s390x when doing something like
-> this in the guest:
->=20
->  mkdir -p /mnt/myfs
->  mount -t virtiofs myfs /mnt/myfs
->  touch /mnt/myfs/foo.txt
->  stat -f /mnt/myfs/foo.txt
->=20
-> The problem is that the fstatfs64 syscall is called in this case
-> from the virtiofsd. We have to put it on the seccomp allowlist to
-> avoid that the daemon gets killed in this case.
->=20
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D2001728
-> Suggested-by: Vivek Goyal <vgoyal@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  tools/virtiofsd/passthrough_seccomp.c | 1 +
->  1 file changed, 1 insertion(+)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Sergio Lopez <slp@redhat.com>
-
-> diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/pass=
-through_seccomp.c
-> index f49ed94b5e..a3ce9f898d 100644
-> --- a/tools/virtiofsd/passthrough_seccomp.c
-> +++ b/tools/virtiofsd/passthrough_seccomp.c
-> @@ -51,6 +51,7 @@ static const int syscall_allowlist[] =3D {
->      SCMP_SYS(fsetxattr),
->      SCMP_SYS(fstat),
->      SCMP_SYS(fstatfs),
-> +    SCMP_SYS(fstatfs64),
->      SCMP_SYS(fsync),
->      SCMP_SYS(ftruncate),
->      SCMP_SYS(futex),
-> --=20
-> 2.27.0
->=20
-> _______________________________________________
-> Virtio-fs mailing list
-> Virtio-fs@redhat.com
-> https://listman.redhat.com/mailman/listinfo/virtio-fs
->=20
-
---6mcs2kfyiq275vhm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAmFApFgACgkQ9GknjS8M
-AjXT6g//cEMLHGOs3/OAieTxXi8mdIl8rDfO8mS4f+VrhnXDpiIgwtejQXDFyXdt
-iUEsMmm6DNq43gNhLVo52mSxaAfDjipaoO/2tc6ANF/K8QulvQnoabI2+lPS0ilt
-KmcVhzDSSoIxv8xyIKIHbcKiEgX2ZtsI9DIg1sHInZwkNp2CKv71Qe6xIIaSDgkr
-BbZ+aeqMf7jZqulNxob/uvchg11K2Aq8gwS6PEQsaCGsf/cQX3xNgaf8gPIblr7X
-SZnNxu/oCQlOwdxNDNN2HagEqeGfl10XzN05m4QasizcwpC9Xbsr8jOKwmfxkTT5
-cQAidjTfBCZChpkLLyqG7Bv2MVPTTpRylEpQIe2wT9vDNK8aHh7qOEk5rwxQO0/P
-cnUk4MBR0zfe9k/4jQZcVTzsPClKhqlZJh7kzB/m31Mo8Iun4Pf1HfXXBoXMmVXX
-DbBn+uau3ZyNfMWFIapCZbLS2ZReHuILt1fNomsGmhCBmb/+5NawUYNaubGYZVBw
-2UZCsdlPr74C+jxUZOgfwgxNVEhIQqiTZsFVvmE/j0F//uTM41k4d5GVq154Yviy
-+Sm8POceEHDh6AEfdedUg2H3CV8hcxlTQfSxijguOs+AP4q0lB4vORRu1GI0D919
-TDSvcNIJYRHw8VjGClIygE/6ubEzE4Ven9+ADfQMC+asaNHs/gI=
-=OFEB
------END PGP SIGNATURE-----
-
---6mcs2kfyiq275vhm--
-
+r~
 
