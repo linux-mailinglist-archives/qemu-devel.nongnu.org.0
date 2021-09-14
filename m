@@ -2,81 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A3F40AE8C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:05:54 +0200 (CEST)
-Received: from localhost ([::1]:58086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC8540AE8F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:06:59 +0200 (CEST)
+Received: from localhost ([::1]:60730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ88H-0003va-NB
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:05:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36970)
+	id 1mQ89K-0005hz-CQ
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:06:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQ822-00047L-SZ
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:59:26 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:39545)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQ821-00071o-A4
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:59:26 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- c13-20020a17090a558d00b00198e6497a4fso2057121pji.4
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 05:59:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5TkJM/etKLuwfHIz5sgSNfFkaWIpOA6qjbEjCSnRGPM=;
- b=H+K4CqnkJnOODhXVF8lm23upvBsNhvyxlYyu22/6F2unTDVhSjHFFLhujlkJh4Wowh
- +RWoUpKGFwpECZmp555pmnFMARtmxSgMbUCrNFxZwyIq5F0TgKk+Ym+hVNhoB/x5f1/q
- wmmn7+olC31hSdNRnqXT4E3iWHpVknBOGMpY8b87+bsUOtnudVYiuuDsRyEUnq9RvHNZ
- ueDiLZ+FNciWMuqy2rotUDyc+yn+fYL9fLmEW2tLiCc6TS/KoorxurRtFiDYPMswblMF
- +ArM7Kgb1qtduV9cfAJH0FZ1mvq+iba8Ljv5orxbTTwswhCtvsFohYr7fIdJSG7W0bWq
- cvvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5TkJM/etKLuwfHIz5sgSNfFkaWIpOA6qjbEjCSnRGPM=;
- b=jCEDSQ5ayY4RXEANi5IGUfpENpb55WQtScEMjFwPUX+LS2E6EUOI3EzrIa5RRaK1g7
- 82OadOivlr+H9dXkFEmrzazEdvYqU5fG97B0raXXLcJlpvrCo145rDgq8/6/GVy/FZGZ
- XdAzhkKGGWyaxL7gyFniCJwRnwdS4Ur5ysE88W3g0k5ebpdn3WWGSs7HhzVtQiVZ6LW6
- BvHZjvQJYxSzgvkn0LN8x1h6vigl4JHKWzFqZd69wCXy/jvrxsr39h6sn9R89W3mhrRL
- xsR7JVTmeqVZ5sJCa/pyyALlZAXYqWenfqb1JdGPf3ltpaRo9wPGnxhBoWa47OpULsTJ
- dUMA==
-X-Gm-Message-State: AOAM5306fpcdUFCRV3UND7Q8Z+YPVvUt7vXC1C6j0nvfIXRqC7u/gALS
- cCeeDsYwmVkBaZExkOfC9Fwwnw==
-X-Google-Smtp-Source: ABdhPJw4892b2BEaUpn6buyFilFWkMXf08YqZgw3hwYEdwgfamqeiK/tq33SOva1MWAMkD1BbOhnBA==
-X-Received: by 2002:a17:90b:4ad0:: with SMTP id
- mh16mr1966794pjb.29.1631624361739; 
- Tue, 14 Sep 2021 05:59:21 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id s192sm11929424pgc.23.2021.09.14.05.59.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 05:59:21 -0700 (PDT)
-Subject: Re: [RFC PATCH v2] accel/tcg: re-factor plugin_inject_cb so we can
- assert insn_idx is valid
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210914120418.1388698-1-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <13d54353-6223-cfca-908a-6c17d13294cc@linaro.org>
-Date: Tue, 14 Sep 2021 05:59:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1mQ83S-0004yE-E4
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:00:56 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:57400 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1mQ83J-0007dU-PC
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:00:50 -0400
+Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxheXvnEBhNJ0GAA--.21668S2; 
+ Tue, 14 Sep 2021 21:00:32 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/21] Add LoongArch linux-user emulation support
+Date: Tue, 14 Sep 2021 21:00:10 +0800
+Message-Id: <1631624431-30658-1-git-send-email-gaosong@loongson.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <20210914120418.1388698-1-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.969,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-CM-TRANSID: AQAAf9DxheXvnEBhNJ0GAA--.21668S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Ww45uFykCFWkAr1kWFWktFb_yoW3AF45pr
+ W3ur15Kw48GrZ7Jr4vga45Xrn5Xa17Gr4293WSq3s5CrWIvryfZFn5K3sxKFy3X3W0gry0
+ qFnYkw1UWF4UX3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,69 +55,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
+ richard.henderson@linaro.org, laurent@vivier.eu, peterx@redhat.com,
+ gaosong@loongson.cn, yangxiaojuan@loongson.cn, alistair.francis@wdc.com,
+ maobibo@loongson.cn, pbonzini@redhat.com, bmeng.cn@gmail.com,
+ alex.bennee@linaro.org, chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/21 5:04 AM, Alex Bennée wrote:
-> Coverity doesn't know enough about how we have arranged our plugin TCG
-> ops to know we will always have incremented insn_idx before injecting
-> the callback. Let us assert it for the benefit of Coverity and protect
-> ourselves from accidentally breaking the assumption and triggering
-> harder to grok errors deeper in the code if we attempt a negative
-> indexed array lookup.
-> 
-> However to get to this point we re-factor the code and remove the
-> second hand instruction boundary detection in favour of scanning the
-> full set of ops and using the existing INDEX_op_insn_start to cleanly
-> detect when the instruction has started. As we no longer need the
-> plugin specific list of ops we delete that.
-> 
-> My initial benchmarks shows no discernible impact of dropping the
-> plugin specific ops list.
-> 
-> Fixes: Coverity 1459509
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   include/tcg/tcg.h      |   3 -
->   accel/tcg/plugin-gen.c | 157 ++++++++++++++++++++++-------------------
->   2 files changed, 85 insertions(+), 75 deletions(-)
-> 
-> diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-> index 44ccd86f3e..49a02db7e6 100644
-> --- a/include/tcg/tcg.h
-> +++ b/include/tcg/tcg.h
-> @@ -604,9 +604,6 @@ struct TCGContext {
->   
->       /* descriptor of the instruction being translated */
->       struct qemu_plugin_insn *plugin_insn;
-> -
-> -    /* list to quickly access the injected ops */
-> -    QSIMPLEQ_HEAD(, TCGOp) plugin_ops;
->   #endif
->   
->       GHashTable *const_table[TCG_TYPE_COUNT];
-> diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
-> index 88e25c6df9..f145b815c0 100644
-> --- a/accel/tcg/plugin-gen.c
-> +++ b/accel/tcg/plugin-gen.c
-> @@ -163,11 +163,7 @@ static void gen_empty_mem_helper(void)
->   static void gen_plugin_cb_start(enum plugin_gen_from from,
->                                   enum plugin_gen_cb type, unsigned wr)
->   {
-> -    TCGOp *op;
-> -
->       tcg_gen_plugin_cb_start(from, type, wr);
-> -    op = tcg_last_op();
-> -    QSIMPLEQ_INSERT_TAIL(&tcg_ctx->plugin_ops, op, plugin_link);
+Hi, 
 
-The plugin_link field of TCGOp is now dead too.  Otherwise,
+We are cleanning up 'o32' code for gcc and kernel. This series only support linux-user emulation.  
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+More about LoongArch at: https://github.com/loongson/
+
+Latest kernel: https://github.com/loongson/linux/tree/loongarch-next
 
 
-r~
+Changes for v5:
+  * Follow Richard's code review comments [1].
+  * Use force_sig_fault().
+    Based-on: <20210822035537.283193-6-richard.henderson@linaro.org>
+  * Implement setup_sigtramp.
+    Based-on: <20210618192951.125651-2-richard.henderson@linaro.org>
+
+    [1]: https://patchew.org/QEMU/1630586467-22463-1-git-send-email-gaosong@loongson.cn/ 
+
+
+Changes for v4:
+  * Update README，add LoongArch linux-user emulation Introduction.
+  * Add 'make check-tcg' support(patch 20).
+  * Add binfmt config(patch 21).
+  * Fix bugs when running loongarch basic commands.
+
+
+Changes for v3:
+  * Split trans.inc.c.
+  * Remove csr registers.
+  * Delete patchs 2, 4, 5.
+  * Follow Richard's code review comments [1].
+  * Follow Richard's riscv patches [2].
+
+    [1]: https://patchew.org/QEMU/1626861198-6133-1-git-send-email-gaosong@loongson.cn/
+    [2]: https://patchew.org/QEMU/20210823195529.560295-1-richard.henderson@linaro.org/
+
+
+Changes for v2:
+  * Patch 1, remove unnecessary introduction;
+  * Patch 3, follow the ARM/AVR pattern to add new CPU features;
+  * Patch 6, remove decode_lsx();
+  * Patches 7-18, delete opcode definition, modify translation function;
+  * Patches 20-22, split V1 patch20 to V2 patch20-22.
+
+V4: https://patchew.org/QEMU/1630586467-22463-1-git-send-email-gaosong@loongson.cn/
+V3: https://patchew.org/QEMU/1630048494-2143-1-git-send-email-gaosong@loongson.cn/
+V2: https://patchew.org/QEMU/1626861198-6133-1-git-send-email-gaosong@loongson.cn/
+V1: https://patchew.org/QEMU/1624881885-31692-1-git-send-email-gaosong@loongson.cn/
+
+Please review!
+
+Thanks.
+
+Song Gao (21):
+  target/loongarch: Add README
+  target/loongarch: Add core definition
+  target/loongarch: Add main translation routines
+  target/loongarch: Add fixed point arithmetic instruction translation
+  target/loongarch: Add fixed point shift instruction translation
+  target/loongarch: Add fixed point bit instruction translation
+  target/loongarch: Add fixed point load/store instruction translation
+  target/loongarch: Add fixed point atomic instruction translation
+  target/loongarch: Add fixed point extra instruction translation
+  target/loongarch: Add floating point arithmetic instruction
+    translation
+  target/loongarch: Add floating point comparison instruction
+    translation
+  target/loongarch: Add floating point conversion instruction
+    translation
+  target/loongarch: Add floating point move instruction translation
+  target/loongarch: Add floating point load/store instruction
+    translation
+  target/loongarch: Add branch instruction translation
+  target/loongarch: Add disassembler
+  LoongArch Linux User Emulation
+  default-configs: Add loongarch linux-user support
+  target/loongarch: Add target build suport
+  target/loongarch: 'make check-tcg' support
+  scripts: add loongarch64 binfmt config
+
+ MAINTAINERS                                 |    6 +
+ accel/tcg/user-exec.c                       |   15 +
+ configs/targets/loongarch64-linux-user.mak  |    3 +
+ configure                                   |    5 +
+ disas/loongarch.c                           | 2511 +++++++++++++++++++++++++++
+ disas/meson.build                           |    1 +
+ include/disas/dis-asm.h                     |    2 +
+ include/elf.h                               |    2 +
+ linux-user/elfload.c                        |   58 +
+ linux-user/host/loongarch/hostdep.h         |   11 +
+ linux-user/loongarch64/cpu_loop.c           |   97 ++
+ linux-user/loongarch64/signal.c             |  162 ++
+ linux-user/loongarch64/sockbits.h           |    1 +
+ linux-user/loongarch64/syscall_nr.h         |  312 ++++
+ linux-user/loongarch64/target_cpu.h         |   35 +
+ linux-user/loongarch64/target_elf.h         |   14 +
+ linux-user/loongarch64/target_errno_defs.h  |    7 +
+ linux-user/loongarch64/target_fcntl.h       |   12 +
+ linux-user/loongarch64/target_signal.h      |   30 +
+ linux-user/loongarch64/target_structs.h     |   49 +
+ linux-user/loongarch64/target_syscall.h     |   46 +
+ linux-user/loongarch64/termbits.h           |    1 +
+ linux-user/syscall_defs.h                   |   10 +-
+ meson.build                                 |    3 +-
+ scripts/qemu-binfmt-conf.sh                 |    6 +-
+ target/loongarch/README                     |   76 +
+ target/loongarch/cpu-param.h                |   19 +
+ target/loongarch/cpu.c                      |  286 +++
+ target/loongarch/cpu.h                      |  151 ++
+ target/loongarch/fpu_helper.c               |  824 +++++++++
+ target/loongarch/helper.h                   |   93 +
+ target/loongarch/insn_trans/trans_arith.c   |  322 ++++
+ target/loongarch/insn_trans/trans_atomic.c  |  133 ++
+ target/loongarch/insn_trans/trans_bit.c     |  255 +++
+ target/loongarch/insn_trans/trans_branch.c  |   85 +
+ target/loongarch/insn_trans/trans_extra.c   |   87 +
+ target/loongarch/insn_trans/trans_farith.c  |  131 ++
+ target/loongarch/insn_trans/trans_fcmp.c    |   59 +
+ target/loongarch/insn_trans/trans_fcnv.c    |   36 +
+ target/loongarch/insn_trans/trans_fmemory.c |  187 ++
+ target/loongarch/insn_trans/trans_fmov.c    |  153 ++
+ target/loongarch/insn_trans/trans_memory.c  |  235 +++
+ target/loongarch/insn_trans/trans_shift.c   |  131 ++
+ target/loongarch/insns.decode               |  480 +++++
+ target/loongarch/internals.h                |   29 +
+ target/loongarch/meson.build                |   18 +
+ target/loongarch/op_helper.c                |   85 +
+ target/loongarch/translate.c                |  288 +++
+ target/loongarch/translate.h                |   46 +
+ target/meson.build                          |    1 +
+ tests/tcg/configure.sh                      |    1 +
+ 51 files changed, 7604 insertions(+), 6 deletions(-)
+ create mode 100644 configs/targets/loongarch64-linux-user.mak
+ create mode 100644 disas/loongarch.c
+ create mode 100644 linux-user/host/loongarch/hostdep.h
+ create mode 100644 linux-user/loongarch64/cpu_loop.c
+ create mode 100644 linux-user/loongarch64/signal.c
+ create mode 100644 linux-user/loongarch64/sockbits.h
+ create mode 100644 linux-user/loongarch64/syscall_nr.h
+ create mode 100644 linux-user/loongarch64/target_cpu.h
+ create mode 100644 linux-user/loongarch64/target_elf.h
+ create mode 100644 linux-user/loongarch64/target_errno_defs.h
+ create mode 100644 linux-user/loongarch64/target_fcntl.h
+ create mode 100644 linux-user/loongarch64/target_signal.h
+ create mode 100644 linux-user/loongarch64/target_structs.h
+ create mode 100644 linux-user/loongarch64/target_syscall.h
+ create mode 100644 linux-user/loongarch64/termbits.h
+ create mode 100644 target/loongarch/README
+ create mode 100644 target/loongarch/cpu-param.h
+ create mode 100644 target/loongarch/cpu.c
+ create mode 100644 target/loongarch/cpu.h
+ create mode 100644 target/loongarch/fpu_helper.c
+ create mode 100644 target/loongarch/helper.h
+ create mode 100644 target/loongarch/insn_trans/trans_arith.c
+ create mode 100644 target/loongarch/insn_trans/trans_atomic.c
+ create mode 100644 target/loongarch/insn_trans/trans_bit.c
+ create mode 100644 target/loongarch/insn_trans/trans_branch.c
+ create mode 100644 target/loongarch/insn_trans/trans_extra.c
+ create mode 100644 target/loongarch/insn_trans/trans_farith.c
+ create mode 100644 target/loongarch/insn_trans/trans_fcmp.c
+ create mode 100644 target/loongarch/insn_trans/trans_fcnv.c
+ create mode 100644 target/loongarch/insn_trans/trans_fmemory.c
+ create mode 100644 target/loongarch/insn_trans/trans_fmov.c
+ create mode 100644 target/loongarch/insn_trans/trans_memory.c
+ create mode 100644 target/loongarch/insn_trans/trans_shift.c
+ create mode 100644 target/loongarch/insns.decode
+ create mode 100644 target/loongarch/internals.h
+ create mode 100644 target/loongarch/meson.build
+ create mode 100644 target/loongarch/op_helper.c
+ create mode 100644 target/loongarch/translate.c
+ create mode 100644 target/loongarch/translate.h
+
+-- 
+1.8.3.1
+
 
