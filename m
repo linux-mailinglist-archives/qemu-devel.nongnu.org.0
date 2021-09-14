@@ -2,72 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A93F40ABA5
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 12:28:04 +0200 (CEST)
-Received: from localhost ([::1]:49066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA95D40ABA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 12:28:36 +0200 (CEST)
+Received: from localhost ([::1]:51604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ5fW-0005t2-RE
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 06:28:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50464)
+	id 1mQ5g4-0007bM-1Q
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 06:28:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mQ5cI-0003IK-3S
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 06:24:42 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:44778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mQ5cF-0001rN-Li
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 06:24:41 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- l7-20020a1c2507000000b002e6be5d86b3so2086329wml.3
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 03:24:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vrull-eu.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rhbKjs8WuAIbEe7aVlZSPHJFrApN/btjUpSjS9I1D8A=;
- b=RzzoTfrqNwXmGjjfpku1QOsk6asDzvDkkiQLrLybp5w+Hn1oqbrLfHNKUvt5gh8AG0
- xMhOggYV79pE2EVfUdN+CIM0KTxOR3zAf/MOtsU9jF/23eE4GMcyL096yNyvVFCePZui
- EIrHcJ0V/S7yuGNaYEjsrUdjqE1JQ9tK9uIxIK4uSktHLqkON+HrZhNUp9P+qeoEY0lj
- frSCWWjTcgqR0ZNAV0WmerCUClI/6ClbUMdk+rNpqRdJwoxRfPNwEQ41GDeKLS4PPCXo
- Uttnd5hcsh2y07e+ucilRU7BS7c6yWPwvJdspbfUFg8vYBWT64fJwBSWY5vZFtwRbIQB
- SEGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rhbKjs8WuAIbEe7aVlZSPHJFrApN/btjUpSjS9I1D8A=;
- b=caUQvmnbLlRuEvxWbt4TB8F2g7xmRZ/86z21GHsEQ4w2eiun+5VRUCdKDb8Pyn2AwB
- nnLoIuQzIt6ncgzjbd7EbGUU3zxgJlA4VACecHBWHe/G/rERDDWG5oQmtEAGPI9aJIGV
- z9ZgIhsOkw39DramRzdQy1TSZr1nDr2ov0j/XJDLPi8pojbRC25c/RjJ571zMjL2XZsb
- KGoHAkkaXC8KZDZmWqyDeY2WhT027hGM6RE2lrSq6d7bLPNp9YQnULtC+GJb9mv+xxR9
- o+GKrMxeaFazH61knNJIhHk77RwN7PZNYH7YJ9ikHEtOoGf8wwlXLKjJDg7YaO9j35zx
- fiGA==
-X-Gm-Message-State: AOAM530g2tamXvmQKxqrnuIzgXg7LHWvEFNY0PjbCWxLm8BSyertEzk0
- zzQ5aAtHYmUkvtk07eK5iC6X49KDyAp46PKB4X1Y/g==
-X-Google-Smtp-Source: ABdhPJxnaPwuyakKaPXGLg3Q6bPgRi1rHTyGc54LO9DZi8+4ezcatsLSpLAsahylexJz+42n+furk2UFs7iGj0gSi/o=
-X-Received: by 2002:a7b:cb45:: with SMTP id v5mr1276831wmj.184.1631615076391; 
- Tue, 14 Sep 2021 03:24:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mQ5dm-00044k-Sl; Tue, 14 Sep 2021 06:26:14 -0400
+Received: from mail-eopbgr70123.outbound.protection.outlook.com
+ ([40.107.7.123]:7651 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mQ5dj-0003M0-Ql; Tue, 14 Sep 2021 06:26:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fC6cJlrAlPQXp4xGy4VYA4+QH9AXau0qT6YGdK0TUmUyyT2kzc4zRFrew+QqLt5QKXzHdUgLgo9uVfUB/QhEcbonX3hOBbXhLdhgJUNTS0NH8IoZ8QlAiyH0o8lgLxB6xjBtaP3n8kcdTDgO6jovMVusKbepLpQt2ylUB/ERsRiIfbx/Ce4YBwjXg4k1O/aOAj6DFkDjhotbit6Msmlm3evyy7CLzVr5DTNqJLbIKJpfFYHV046QegzYa9p9A6+Z4lNGlzuFxNGVi/UbuGxIzTVHWbq8p20SJmyKnkoCPk4J8E8q3YXzd8pYyQuRUhpGFRn3JvrS1LW98ttX/vQukQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=GO/w5VIAU2ohG/2Z5mjhVI8ocQn0sah8/39dVvXYQkE=;
+ b=oEc7Oj7ZUXFNYKANtGdCnoq0iQpRkH69RJi0VruFkwDxLyTZCdrbTMdhbxnxfHK/qz8h7Pt0DpOhzkaxq8WHbOBU2tO9eKSC3bu6kGsmB/te8BIIeH8LPsqbpAsvR7euX/DljmMhHIhI8bTXZnxFUcDtybAlUxR41cEpyNSvg8rZ6I7FycmVSmx3sckiYm46XHmFMtRRux8bcXiQOOXCXdF4/LA8tE8HpGlMrPiVTTV5Yucu+dmqcjVIm3iGA51at3JlTERxrBP+shhtbe72PwpLIS5Q9IFqK3Sy5k/NnAJQBpPFkNhy7VYptUFJj5kx9pxQs8xBIDN5AHKw1+SpxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GO/w5VIAU2ohG/2Z5mjhVI8ocQn0sah8/39dVvXYQkE=;
+ b=EqVVxRSGsZ+FTSTRi4hD3xAWjv8COXpZ6CyKAt71Nh7MfCGmvZASKIt2x5pOLPfuChJbIqjA33m8k9lg/Wvxf13SO0sEGtV7TcBLXZE38VafoKw1HMGbT2iWaYpf1YcBU4JPMToZEfv8/g7saMvNwl9Kr2KGjeybc7h2BNyoT6k=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1716.eurprd08.prod.outlook.com (2603:10a6:203:39::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.18; Tue, 14 Sep
+ 2021 10:26:06 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4500.019; Tue, 14 Sep 2021
+ 10:26:06 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
+ vsementsov@virtuozzo.com, jsnow@redhat.com
+Subject: [PATCH v3 00/17] iotests: support zstd
+Date: Tue, 14 Sep 2021 13:25:30 +0300
+Message-Id: <20210914102547.83963-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: HE1P191CA0004.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::14)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
- <20210911140016.834071-4-philipp.tomsich@vrull.eu>
- <913941ad-2a84-f4a8-0a5a-c64bef026a6f@c-sky.com>
-In-Reply-To: <913941ad-2a84-f4a8-0a5a-c64bef026a6f@c-sky.com>
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Date: Tue, 14 Sep 2021 12:24:25 +0200
-Message-ID: <CAAeLtUBJB3-X9nXeyFcsHNgS+peZ+T_ZbAu0hwyaRDT9x69dzA@mail.gmail.com>
-Subject: Re: [PATCH v11 03/16] target/riscv: clwz must ignore high bits (use
- shift-left & changed logic)
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: multipart/alternative; boundary="00000000000009f11205cbf1fdc8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (185.215.60.196) by
+ HE1P191CA0004.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4523.14 via Frontend Transport; Tue, 14 Sep 2021 10:26:05 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 15ef1ee9-8ea2-4e13-869e-08d9776a0fd0
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1716:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB1716B19A0D0AE00B2739E302C1DA9@AM5PR0801MB1716.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:236;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mujb0KmgdMQWk+WAEWkFzaMOWAqz1eBb6yEg1rwDlt9rUGkVJOb+SgOCOcCZGcm39XhemaxCLHc5LxYmRzpbhHSyE+b44vlSwJhe8jX4JQgFek7mLWwoeGVtdmGHB7K9+pKob6CbN7dapzscYIfBhQMk7fQItgwMjFPC6pwcMembxEcM7RcxOOBK9L0TCHqhb/9bCa1VhvgLh11Sgi8m57XTOveomi+/5k5W8Lnp1/8G3DAdu3bWtDS+Zxr911s9Dbz0PVsooa0gi7BqYC9Yrn7tyVEzka+3t4qSo8y3MLV/RcoGpSWqva054xOZzSS6pxZar30BFEe6+bcO/mBjJzYVlUiWojhWMC9c1T84F6xzHaPNk+0LbkiO07D/m4Rm3jqk2XMwU9NQ65H9NwSKR5xoU5JuemJWCj0QeZG5wqvnOAix/40rFT9L+saRjxiiq87t6dWTD6zNtnNcM42onsqDbcorbE+Sot7ZWYmNpKVY5qjlDh5PG5kYooPvqBSEdBNba/umCdiL2Y8odkLMJqqEyAaMHYL1uKFngk5jmojJf0swlTmINULlEnBOCEc+MAH8v6NwJD+bonUeyXCrdTc3xlKZEJSScKJgZ/SHy5DHsTfcjObY7H/8M2wopkId8pFvhalppJqoMfFrV2QtB8hk9pYZ2naN0bjoEmTj5hypkx9xTOQdhcuZ33TTlw8QcEnNfipSw9CxQ7slJIQ1Zw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(346002)(376002)(39850400004)(136003)(478600001)(66946007)(66476007)(66556008)(36756003)(6512007)(52116002)(186003)(4326008)(6916009)(5660300002)(2906002)(83380400001)(86362001)(2616005)(8676002)(38100700002)(38350700002)(956004)(6666004)(26005)(316002)(6486002)(8936002)(6506007)(1076003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tYZSl8ZH6qtMH/hBuVGK65jt8IdPwHGt1wQbCm69IZRtmrOdaEaR+H9a5Vbb?=
+ =?us-ascii?Q?3roQrDFYseY8k5MB6k9Bsn0cL70e9tkuCz1mNPPPfhqLO4LpSBrC9ny5gsfi?=
+ =?us-ascii?Q?kGMknYLPIxTSI+3mgIPbTWbaDA41fH3+GXIQU1ahkFWceEKd4EXA01Z9kewz?=
+ =?us-ascii?Q?pW/F7kJOI6Gfrp0MMVsPBX6XitYvPdOU6FFNxtGYWVrNkHMWOl2WVdWoGSjN?=
+ =?us-ascii?Q?1SRKDKZAwgk+fcQjPzwH9XAlIOSW8Pwp7ED4FcwEz482KgeBaS5a1xMO+cgo?=
+ =?us-ascii?Q?Wnn4nIun6MqUxMtHsH8YJsHyizRr6ZVeobiswrlvGlnl0Nb6dvhl5A1IOsCv?=
+ =?us-ascii?Q?DACxi4JX92bYeynfWSJ86RFbPrJ68p+lPmu6u2PDB7ZbrlhAOy2+ujb5d7Qq?=
+ =?us-ascii?Q?PK2DxuMdTzlEAquByvpULV36IqjOQAmyfmnc9mcUn4g3OFN7x5nr0uyjGqrK?=
+ =?us-ascii?Q?mFT7uiQeq0BVK6tRCOvvz+FKl+JhtB+hi4q6NY6asN7eq9XZwLJoA3k97a9M?=
+ =?us-ascii?Q?AZziLUkmlVbNA2hUPMhHe51RTlcjm9fgqMv+2hjH9dwczfw4JKodokr7bnF4?=
+ =?us-ascii?Q?fAFGet1zoGPGD/B0awlp6QEiFQJldYS3LxWlTBiXegUR9Ehy0lV0GOBYVi/n?=
+ =?us-ascii?Q?Begm8XFwe7aX79hcFHKaz9L+3k8kskGOpBV5CdAosyJJlyrZNx1qyt/zById?=
+ =?us-ascii?Q?N610JTQYwJCv1cVZLYYzDKhH5Cvbo/q1z9zipFyT7agzS2JlF8ssaaJKrmKx?=
+ =?us-ascii?Q?zpeiDUWjJ2hblz9JJRY5NvIfUNMnnqilr8ql6QZRvKPe9aOLLeFJMguUooUr?=
+ =?us-ascii?Q?p0nj5naTc4d1NQgQXo+4FT37oSwbTN5pWpDJC5Sp8wrZY/o0rXwleOkJe1BH?=
+ =?us-ascii?Q?yD34C7xpc6dlMYXWJaE+WPVv2akh9oD33fGXMtoY2EKyYlWThUYlV2M8D/Qr?=
+ =?us-ascii?Q?iU613lv1uAvYP8He8hFMUtBolIy6tP3Zjp+/KNkK0s+zGo2LoVB7iiB74LDQ?=
+ =?us-ascii?Q?3rPeOXBht30KfJ8gET+ZeTDZLzCawhQrnuwscPilCJ0To/M7A+s9Lyess+TN?=
+ =?us-ascii?Q?NAiSCAos10opbJZjqtw616xZaDlrazjzNhEaxs1/KrAeYX71PYLbp04rx3pH?=
+ =?us-ascii?Q?OnhanZG31ZCSL20cm9fMyQ67+SQOKvS1flb12mW20WvTMGRr01UDkN4lJ+tL?=
+ =?us-ascii?Q?FMarzeUbTjxkKlkx4uYD/ZjdGGfc0UkW3rwQUKr/41FWeWBpcj5p/ifufmug?=
+ =?us-ascii?Q?/aBDXuz0Pr/cJcwVPyI79C1SBsocb/GFNbD9by3yfZV2cs3Tg6Lv/kUTKw5w?=
+ =?us-ascii?Q?xOK1wtB6L2BJ1j9EsCexRLVe?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 15ef1ee9-8ea2-4e13-869e-08d9776a0fd0
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2021 10:26:06.7080 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QkITtRDR8FhHZn0Kn2KNH/yoMsUkxMpG9+K1Glq91cmqMQzdx+mSrmZzF2lGhCV+zEQC7THB4X0Ew2SSl4br0aneoqWScos0G7HFPrzOnkY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1716
+Received-SPF: pass client-ip=40.107.7.123;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,207 +134,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Kito Cheng <kito.cheng@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000009f11205cbf1fdc8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+These series makes tests pass with
 
-On Tue 14. Sep 2021 at 11:15, LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+   IMGOPTS='compression_type=zstd'
 
->
-> On 2021/9/11 =E4=B8=8B=E5=8D=8810:00, Philipp Tomsich wrote:
-> > Assume clzw being executed on a register that is not sign-extended, suc=
-h
-> > as for the following sequence that uses (1ULL << 63) | 392 as the opera=
-nd
-> > to clzw:
-> >       bseti   a2, zero, 63
-> >       addi    a2, a2, 392
-> >       clzw    a3, a2
-> > The correct result of clzw would be 23, but the current implementation
-> > returns -32 (as it performs a 64bit clz, which results in 0 leading zer=
-o
-> > bits, and then subtracts 32).
->
-> As the MSB word of  a3 has been cleaned,  the result of current
-> implementation will be 23. So there is no
-> error here.
+Also, python iotests start to support IMGOPTS (they didn't before).
 
+v3:
+02-04,06,08,14,17: add Hanna's r-b
+07  iotests.py: filter out successful output of qemu-img create
+      fix subject
+      handle 149, 237 and 296 iotests
+         (note, 149 is handled intuitively, as it fails :(
 
-Zhiwei,
+Vladimir Sementsov-Ogievskiy (17):
+  iotests.py: img_info_log(): rename imgopts argument
+  iotests.py: qemu_img*("create"): support
+    IMGOPTS='compression_type=zstd'
+  iotests: drop qemu_img_verbose() helper
+  iotests.py: rewrite default luks support in qemu_img
+  iotest 303: explicit compression type
+  iotest 065: explicit compression type
+  iotests.py: filter out successful output of qemu-img create
+  iotests.py: filter compression type out
+  iotest 302: use img_info_log() helper
+  qcow2: simple case support for downgrading of qcow2 images with zstd
+  iotests/common.rc: introduce _qcow2_dump_header helper
+  iotests: massive use _qcow2_dump_header
+  iotest 39: use _qcow2_dump_header
+  iotests: bash tests: filter compression type
+  iotests 60: more accurate set dirty bit in qcow2 header
+  iotest 214: explicit compression type
+  iotests: declare lack of support for compresion_type in IMGOPTS
 
-bits [63:32] on rs (arg1) are not zero-extended, as ctx->w is not being set
-(the EXT_ZERO doesn=E2=80=99t have any effect, unless ctx->w is true).  Ple=
-ase see
-the earlier discussion on this topic in v9 and v10.
+ block/qcow2.c                    | 58 +++++++++++++++++++++-
+ tests/qemu-iotests/031           | 11 +++--
+ tests/qemu-iotests/036           |  6 +--
+ tests/qemu-iotests/039           | 22 ++++-----
+ tests/qemu-iotests/044           |  5 +-
+ tests/qemu-iotests/044.out       |  1 +
+ tests/qemu-iotests/051           |  5 +-
+ tests/qemu-iotests/060           | 22 ++++-----
+ tests/qemu-iotests/060.out       |  2 +-
+ tests/qemu-iotests/061           | 42 ++++++++--------
+ tests/qemu-iotests/061.out       | 12 ++---
+ tests/qemu-iotests/065           | 16 +++---
+ tests/qemu-iotests/082.out       | 14 +++---
+ tests/qemu-iotests/112           |  3 +-
+ tests/qemu-iotests/137           |  2 +-
+ tests/qemu-iotests/149.out       | 21 --------
+ tests/qemu-iotests/198.out       |  4 +-
+ tests/qemu-iotests/206.out       | 10 ++--
+ tests/qemu-iotests/209           |  7 +--
+ tests/qemu-iotests/209.out       |  2 +
+ tests/qemu-iotests/210           |  8 +--
+ tests/qemu-iotests/214           |  2 +-
+ tests/qemu-iotests/237.out       |  3 --
+ tests/qemu-iotests/242.out       | 10 ++--
+ tests/qemu-iotests/255.out       |  4 --
+ tests/qemu-iotests/274.out       | 39 ++-------------
+ tests/qemu-iotests/280.out       |  1 -
+ tests/qemu-iotests/287           |  8 +--
+ tests/qemu-iotests/290           |  2 +-
+ tests/qemu-iotests/296.out       | 10 ++--
+ tests/qemu-iotests/302           |  4 +-
+ tests/qemu-iotests/302.out       |  7 ++-
+ tests/qemu-iotests/303           | 25 ++++++----
+ tests/qemu-iotests/303.out       | 30 +++++++++++-
+ tests/qemu-iotests/common.filter |  8 +++
+ tests/qemu-iotests/common.rc     | 22 +++++++++
+ tests/qemu-iotests/iotests.py    | 84 ++++++++++++++++++++------------
+ 37 files changed, 313 insertions(+), 219 deletions(-)
 
-Thanks,
-Philipp.
+-- 
+2.29.2
 
-Thanks,
-> Zhiwei
->
-> > Fix this by changing the implementation to:
-> >   1. shift the original register up by 32
-> >   2. performs a target-length (64bit) clz
-> >   3. return 32 if no bits are set
-> >
-> > Marking this instruction as 'w-form' (i.e., setting ctx->w) would not
-> > correctly model the behaviour, as the instruction should not perform
-> > a zero-extensions on the input (after all, it is not a .uw instruction)
-> > and the result is always in the range 0..32 (so neither a sign-extensio=
-n
-> > nor a zero-extension on the result will ever be needed).  Consequently,
-> > we do not set ctx->w and mark the instruction as EXT_NONE.
-> >
-> > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> > ---
-> >
-> > Changes in v11:
-> > - Swaps out the EXT_ZERO to EXT_NONE, as no extension is to be performe=
-d.
-> >
-> > Changes in v10:
-> > - New patch, fixing correctnes for clzw called on a register with
-> undefined
-> >    (as in: not properly sign-extended) upper bits.
-> >
-> >   target/riscv/insn_trans/trans_rvb.c.inc | 8 +++++---
-> >   1 file changed, 5 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/target/riscv/insn_trans/trans_rvb.c.inc
-> b/target/riscv/insn_trans/trans_rvb.c.inc
-> > index 6c85c89f6d..73d1e45026 100644
-> > --- a/target/riscv/insn_trans/trans_rvb.c.inc
-> > +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-> > @@ -349,15 +349,17 @@ GEN_TRANS_SHADD(3)
-> >
-> >   static void gen_clzw(TCGv ret, TCGv arg1)
-> >   {
-> > -    tcg_gen_clzi_tl(ret, arg1, 64);
-> > -    tcg_gen_subi_tl(ret, ret, 32);
-> > +    TCGv t =3D tcg_temp_new();
-> > +    tcg_gen_shli_tl(t, arg1, 32);
-> > +    tcg_gen_clzi_tl(ret, t, 32);
-> > +    tcg_temp_free(t);
-> >   }
-> >
-> >   static bool trans_clzw(DisasContext *ctx, arg_clzw *a)
-> >   {
-> >       REQUIRE_64BIT(ctx);
-> >       REQUIRE_EXT(ctx, RVB);
-> > -    return gen_unary(ctx, a, EXT_ZERO, gen_clzw);
-> > +    return gen_unary(ctx, a, EXT_NONE, gen_clzw);
-> >   }
-> >
-> >   static void gen_ctzw(TCGv ret, TCGv arg1)
->
-
---00000000000009f11205cbf1fdc8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue 14. Sep 2021 at 11:15, LIU Zhiwei &lt;<a href=3D"mai=
-lto:zhiwei_liu@c-sky.com">zhiwei_liu@c-sky.com</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
-cc solid;padding-left:1ex"><br>
-On 2021/9/11 =E4=B8=8B=E5=8D=8810:00, Philipp Tomsich wrote:<br>
-&gt; Assume clzw being executed on a register that is not sign-extended, su=
-ch<br>
-&gt; as for the following sequence that uses (1ULL &lt;&lt; 63) | 392 as th=
-e operand<br>
-&gt; to clzw:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bseti=C2=A0 =C2=A0a2, zero, 63<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0addi=C2=A0 =C2=A0 a2, a2, 392<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0clzw=C2=A0 =C2=A0 a3, a2<br>
-&gt; The correct result of clzw would be 23, but the current implementation=
-<br>
-&gt; returns -32 (as it performs a 64bit clz, which results in 0 leading ze=
-ro<br>
-&gt; bits, and then subtracts 32).<br>
-<br>
-As the MSB word of=C2=A0 a3 has been cleaned,=C2=A0 the result of current <=
-br>
-implementation will be 23. So there is no<br>
-error here.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Zhiwe=
-i,</div><div dir=3D"auto"><br></div><div dir=3D"auto">bits [63:32] on rs (a=
-rg1) are not zero-extended, as ctx-&gt;w is not being set (the EXT_ZERO doe=
-sn=E2=80=99t have any effect, unless ctx-&gt;w is true).=C2=A0 Please see t=
-he earlier discussion on this topic in v9 and v10.</div><div dir=3D"auto"><=
-br></div><div dir=3D"auto">Thanks,</div><div dir=3D"auto">Philipp.</div><di=
-v dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"></bloc=
-kquote><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex" dir=3D"auto">
-Thanks,<br>
-Zhiwei<br>
-<br>
-&gt; Fix this by changing the implementation to:<br>
-&gt;=C2=A0 =C2=A01. shift the original register up by 32<br>
-&gt;=C2=A0 =C2=A02. performs a target-length (64bit) clz<br>
-&gt;=C2=A0 =C2=A03. return 32 if no bits are set<br>
-&gt;<br>
-&gt; Marking this instruction as &#39;w-form&#39; (i.e., setting ctx-&gt;w)=
- would not<br>
-&gt; correctly model the behaviour, as the instruction should not perform<b=
-r>
-&gt; a zero-extensions on the input (after all, it is not a .uw instruction=
-)<br>
-&gt; and the result is always in the range 0..32 (so neither a sign-extensi=
-on<br>
-&gt; nor a zero-extension on the result will ever be needed).=C2=A0 Consequ=
-ently,<br>
-&gt; we do not set ctx-&gt;w and mark the instruction as EXT_NONE.<br>
-&gt;<br>
-&gt; Signed-off-by: Philipp Tomsich &lt;<a href=3D"mailto:philipp.tomsich@v=
-rull.eu" target=3D"_blank">philipp.tomsich@vrull.eu</a>&gt;<br>
-&gt; ---<br>
-&gt;<br>
-&gt; Changes in v11:<br>
-&gt; - Swaps out the EXT_ZERO to EXT_NONE, as no extension is to be perform=
-ed.<br>
-&gt;<br>
-&gt; Changes in v10:<br>
-&gt; - New patch, fixing correctnes for clzw called on a register with unde=
-fined<br>
-&gt;=C2=A0 =C2=A0 (as in: not properly sign-extended) upper bits.<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0target/riscv/insn_trans/trans_rvb.c.inc | 8 +++++---<br>
-&gt;=C2=A0 =C2=A01 file changed, 5 insertions(+), 3 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/in=
-sn_trans/trans_rvb.c.inc<br>
-&gt; index 6c85c89f6d..73d1e45026 100644<br>
-&gt; --- a/target/riscv/insn_trans/trans_rvb.c.inc<br>
-&gt; +++ b/target/riscv/insn_trans/trans_rvb.c.inc<br>
-&gt; @@ -349,15 +349,17 @@ GEN_TRANS_SHADD(3)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0static void gen_clzw(TCGv ret, TCGv arg1)<br>
-&gt;=C2=A0 =C2=A0{<br>
-&gt; -=C2=A0 =C2=A0 tcg_gen_clzi_tl(ret, arg1, 64);<br>
-&gt; -=C2=A0 =C2=A0 tcg_gen_subi_tl(ret, ret, 32);<br>
-&gt; +=C2=A0 =C2=A0 TCGv t =3D tcg_temp_new();<br>
-&gt; +=C2=A0 =C2=A0 tcg_gen_shli_tl(t, arg1, 32);<br>
-&gt; +=C2=A0 =C2=A0 tcg_gen_clzi_tl(ret, t, 32);<br>
-&gt; +=C2=A0 =C2=A0 tcg_temp_free(t);<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0static bool trans_clzw(DisasContext *ctx, arg_clzw *a)<br>
-&gt;=C2=A0 =C2=A0{<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0REQUIRE_64BIT(ctx);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0REQUIRE_EXT(ctx, RVB);<br>
-&gt; -=C2=A0 =C2=A0 return gen_unary(ctx, a, EXT_ZERO, gen_clzw);<br>
-&gt; +=C2=A0 =C2=A0 return gen_unary(ctx, a, EXT_NONE, gen_clzw);<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0static void gen_ctzw(TCGv ret, TCGv arg1)<br>
-</blockquote></div></div>
-
---00000000000009f11205cbf1fdc8--
 
