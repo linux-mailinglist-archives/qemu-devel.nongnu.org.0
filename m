@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 487AD40AE13
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 14:42:34 +0200 (CEST)
-Received: from localhost ([::1]:46814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F281640AE02
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 14:41:01 +0200 (CEST)
+Received: from localhost ([::1]:42552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ7lh-0001YF-Bh
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 08:42:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55890)
+	id 1mQ7kD-0006yh-2x
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 08:41:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mQ7Va-0002gf-HW
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:25:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43087)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mQ7VW-0006OT-Dz
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:25:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631622348;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=JOmmca9sbs4pnBGaQFlpXhMi9vOekxyEcENTQxaM3AY=;
- b=GbeV+rDiCYTGSbbKl7LTmrahjIvStFRdA1mj36hgXUP4G+2cldNQs1ARcxo43EoboyG1U9
- /Hnjwd7gpzh2bB/5P8ivxCjv2OeHXyzR3hlnwnyfMVXn7eIQBNm41/vbgoUIV6Gz1tCVk8
- SeknLqLoLsSNuGVKHGiXr9Oiko5lfRQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-534-pyxdQNMOO7aRzKemngYAEQ-1; Tue, 14 Sep 2021 08:25:45 -0400
-X-MC-Unique: pyxdQNMOO7aRzKemngYAEQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7586A1084681;
- Tue, 14 Sep 2021 12:25:44 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD2465C1D1;
- Tue, 14 Sep 2021 12:25:39 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] docs: add supported host CPU architectures section
-Date: Tue, 14 Sep 2021 16:25:36 +0400
-Message-Id: <20210914122536.280978-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mQ7Wo-0003qe-6b
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:27:10 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:33634)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mQ7WY-0006wc-Hb
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:27:09 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 192-20020a1c04c9000000b002f7a4ab0a49so1888744wme.0
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 05:26:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nOq6/fLOy2/rJ6jV6gp3cbWwu8hJHxUIYvqTONQ2Dkc=;
+ b=qXdR6VJ2ydSiu/GMpszhtPThGs+e9dtCEtBFQM+0bseO8SDx/rCBsyZeQXK1maMwGN
+ //ROJzapghkKeZoQkQJCZmnIZ7gUkhTtrWeSx9h1GOWa4Q/5I48kiR1HMQZjKp+jPFaT
+ sFWIv2bW5xkVR5iqLiLwsVAF8HXcDDL9u21rwWlRlp6IwgGk+A23PC3fR46Pn6RSUq4H
+ GZ36KcG4TujFtqWlAL1Vm3Yld8dfsyVXeCRFERDliXPJT1K/jJ9x+2ACxrpNKmJXigjS
+ Y49kYW4PRuxE2sVeVRJ67PmXjRJ4iV2BMaOwh4vV2QDdQ6n44WcqTkuTcYcXiRKYIvW9
+ FcSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nOq6/fLOy2/rJ6jV6gp3cbWwu8hJHxUIYvqTONQ2Dkc=;
+ b=kKMRGBb5lXiXMOsclB3RP1kLa5d0e3iSr+yl4pnE9tr7seIuzVuBYoM+6XkvgY8y+F
+ GcTd6kAhEUmMIuWrGV4qjIj/9I6FwCaHLV0fr+2jA4pWJ+SHzxiAzFI316cy1Lpeo2VK
+ 9/t8TnBMz2tVJr3tyBVp4abdoQVPb2IzNkRAE/U3nFMwVL1RKaDA7Uw91lJubY7khKVC
+ hPC5ZrXNtGBcx+LYpxPYGZaeCd9hH7u6b+t2dXzBgt1fG1XChJuovFGGTQxvLQVhKBo3
+ 5mGGrWWumt/3T7hevDk/B3u2MX45t6LBCQWDKy9j50L7eh/hooRJKdANGkYFLfVqVKuK
+ exJQ==
+X-Gm-Message-State: AOAM533sXw2HQMEECqf7Os8jgd+5i6wwLK0oQ1P6n6K9KFRWlhon+alv
+ 0zGDtk0chftAWWYQQRRZHmUiyIdeLTrzCZZKKetxog==
+X-Google-Smtp-Source: ABdhPJwuVmzFlcsAQQqEli0x97hetBMARUwBmmWbChYKptCJtC294NwGVb172tG7/g62CCoxAhP1X+0CdSsINMMKj8o=
+X-Received: by 2002:a7b:c0c5:: with SMTP id s5mr1965958wmh.126.1631622412870; 
+ Tue, 14 Sep 2021 05:26:52 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210913161304.3805652-1-clg@kaod.org>
+ <20210913161304.3805652-15-clg@kaod.org>
+ <88c26520-6b87-e7a2-ac78-c1c92477c814@kaod.org>
+ <BBC4A4E0-651C-41DB-81DE-1F6D86AABAB1@fb.com>
+ <CACPK8Xdey9_x-ZN1JbgFyTrW59EapH4xcqYbyNQxyQ5t0uWPvw@mail.gmail.com>
+In-Reply-To: <CACPK8Xdey9_x-ZN1JbgFyTrW59EapH4xcqYbyNQxyQ5t0uWPvw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 14 Sep 2021 13:26:01 +0100
+Message-ID: <CAFEAcA8ntPE3GkTNU8bSBhCWzk_jdH4QR1kDgwo6deQ+T1iOKw@mail.gmail.com>
+Subject: Re: [PULL 14/14] hw/arm/aspeed: Add Fuji machine type
+To: Joel Stanley <joel@jms.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,91 +80,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Peter Delevoryas <pdel@fb.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Tue, 14 Sept 2021 at 13:14, Joel Stanley <joel@jms.id.au> wrote:
+> The upstream device tree uses 2G:
+>
+> https://elixir.bootlin.com/linux/v5.15-rc1/source/arch/arm/boot/dts/ast2600-facebook-netbmc-common.dtsi#L20
+>
+> It's unfortunate we limit the defaults given very few (no one?) is
+> using this model on a machine that is 32 bit.
 
-I was looking for such documentation, but couldn't find it. Add it to
-the build-platform.rst document.
+This runs into a set of desires which are all reasonable
+but unfortunately sometimes in conflict:
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- docs/about/build-platforms.rst | 33 +++++++++++++++++++++++++++++++++
- docs/about/deprecated.rst      |  2 ++
- meson.build                    |  2 +-
- 3 files changed, 36 insertions(+), 1 deletion(-)
+(1) boards should behave the same on all hosts (whether those
+    hosts are 64 bit or 32 bit)
+(2) RAM blocks should have a length that fits inside a
+    signed 32-bit type on 32-bit hosts (at least I assume this
+    is where the 2047MB limit is coming from; in theory this ought
+    to be improveable but auditing the code for mishandling of
+    RAMblock sizes to ensure we weren't accidentally stuffing
+    their size into a signed 'long' somewhere would be kind
+    of painful)
+(3) default behaviour of a board should match the real
+    hardware
+(4) every board should start cleanly with no non-default
+    arguments, so we can have a machine-model agnostic test
+    of "does every machine we support at least init cleanly"
 
-diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
-index 692323609e..bcb1549721 100644
---- a/docs/about/build-platforms.rst
-+++ b/docs/about/build-platforms.rst
-@@ -29,6 +29,39 @@ The `Repology`_ site is a useful resource to identify
- currently shipped versions of software in various operating systems,
- though it does not cover all distros listed below.
- 
-+Supported host architectures
-+----------------------------
-+
-+Those hosts are officially supported, with various accelerators:
-+
-+  .. list-table::
-+   :header-rows: 1
-+
-+   * - CPU Architecture
-+     - Accelerators
-+   * - Arm
-+     - kvm (64 bit only), tcg, xen
-+   * - MIPS
-+     - kvm, tcg
-+   * - PPC
-+     - kvm, tcg
-+   * - RISC-V
-+     - tcg
-+   * - s390x
-+     - kvm, tcg
-+   * - SPARC
-+     - tcg
-+   * - x86
-+     - hax, hvf (64 bit only), kvm, nvmm, tcg, whpx (64 bit only), xen
-+
-+Other host architectures are not supported. It is possible to build QEMU on an
-+unsupported host architecture using the configure ``--enable-tcg-interpreter``
-+option to enable the experimental TCI support, but note that this is very slow
-+and is not recommended.
-+
-+Non-supported architectures may be removed in the future following the
-+:ref:`deprecation process<Deprecated features>`.
-+
- Linux OS, macOS, FreeBSD, NetBSD, OpenBSD
- -----------------------------------------
- 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 9ee355ec0b..3c2be84d80 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -1,3 +1,5 @@
-+.. _Deprecated features:
-+
- Deprecated features
- ===================
- 
-diff --git a/meson.build b/meson.build
-index 7d7d14a4bc..2711cbb789 100644
---- a/meson.build
-+++ b/meson.build
-@@ -78,7 +78,7 @@ endif
- 
- accelerator_targets = { 'CONFIG_KVM': kvm_targets }
- if cpu in ['x86', 'x86_64', 'arm', 'aarch64']
--  # i368 emulator provides xenpv machine type for multiple architectures
-+  # i386 emulator provides xenpv machine type for multiple architectures
-   accelerator_targets += {
-     'CONFIG_XEN': ['i386-softmmu', 'x86_64-softmmu'],
-   }
--- 
-2.33.0.113.g6c40894d24
+So far when we have run into this problem with other machine
+types, the one that we have ended up discarding is (3).
 
+There's a good argument to be made that what we should deal
+with is (2) -- this probably involves making ram_addr_t
+be 64-bits always, rather than "64 bits unless we're on
+a 32-bit host and Xen is not compiled in", and a certain
+amount of testing or audit that we don't have any places
+where we stuff ram sizes into 'long' variables. But it's a lot
+more work than compromising on (3) :-)
+
+Even if we did fix (2) we'd need to compromise on (3)
+sometimes still -- if a board has 4GB of RAM that's
+not going to fit in 32 bits regardless. But we would be
+able to let boards with 2GB have 2GB.
+
+thanks
+-- PMM
 
