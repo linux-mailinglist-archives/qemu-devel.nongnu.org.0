@@ -2,79 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D8D40B069
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 16:18:29 +0200 (CEST)
-Received: from localhost ([::1]:59840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F3740B071
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 16:18:50 +0200 (CEST)
+Received: from localhost ([::1]:60570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ9GV-0002io-MR
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 10:18:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60500)
+	id 1mQ9Gr-0003EH-4u
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 10:18:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQ9Dz-0001WY-VZ
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:15:52 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:43725)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQ9Dw-0007kP-4P
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:15:50 -0400
-Received: by mail-pg1-x530.google.com with SMTP id r2so12826487pgl.10
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 07:15:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=k/dh/SzV7zi8g/B/lsniz6NXOi3k+7v4vHS09D/xcE4=;
- b=mBCPz4NjHxz/7oZ4H+PK/OLVWzj5qtx576UShLl8fDeDUNKrL1MlcxZzOzo9D914Gu
- BvUfzor/oZa2PTcltRZK31Bw8og4rmjmt0UljZG//C6j1JvDtDaXDW/Nyig44VIGGHRO
- wCmoo7vyZOMs8qhIuKan+sYDRZOnncEfaiWk7gWjvC7J6mwRnZ4kv9ho2yXqymKZdgv+
- q3Nobty/kOiT6Zs75pv1httidIrj/KzoYRjDMqSfAe57oBC6YYt1zEBk7LCo/UR60Tf2
- TKa5kGSjs47c9at2EecGMoTfTNEN90Y66/tdZDE24zs8MEDijXv9Ai5cmUGbXVRh0FYS
- ozsg==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mQ9EP-0001eV-AW
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:16:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24720)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mQ9EL-0007xV-98
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:16:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631628968;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O3E9hV/fdOLebq1xQ5F99k1enU3axJGsYsqSWFXKSLI=;
+ b=FdxmrKwkviNj0BOd9UfEJ0iS3SD+4lBwNkYXnEWbz73vVzW1+V9RDZBiNzntmfiA57SVDK
+ bkWBmgBcfUGwjrcYVO0zN0UnUwAFiojIwFcel5XjABPHuPAvl+8t9J7BC8eRcHabm5cHWt
+ YZ64Kfr5v37qhMRddHjn5CuOh2cuk5k=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-127-IcbKuWCWNGa9qKEWW7bJyA-1; Tue, 14 Sep 2021 10:16:05 -0400
+X-MC-Unique: IcbKuWCWNGa9qKEWW7bJyA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r9-20020a5d4989000000b0015d0fbb8823so3818078wrq.18
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 07:16:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=k/dh/SzV7zi8g/B/lsniz6NXOi3k+7v4vHS09D/xcE4=;
- b=Px9faScMtG8TQTjFAk//11TLi6db445QOC1ldCyifp6vuI6gM9fIHlE1WbdQSpIqmw
- js49rKzxODyA5UFLH1ASPCHy0AwxqvzGWj5keSD2T7SwvY6QEVemcUS5Y/XRgyKRPY7F
- wyPjmkCYhTLvdSYGlNGWvIRgTMQGq/T/cQ1h1CL+biIXsvMrEe7qWqHhOj4a/ceFlJU8
- ayISxcA9Yas6yVzEjf1AbCEqxEOaGKNEGc9hyQMF+2Mn8kIKQX3/BT5DOUcFQAXUD+vw
- G1oYgM3JrNZ6BrfkRGOD9akA68meA5BEHjrNynzl5ZXCQfq/Wc6UfW+74TwfeKYPWLxR
- oBzA==
-X-Gm-Message-State: AOAM531OtTIHA1OapRhFMWymZZlo4WswmwLAAZqK7oGrc2vRmAaQjjE6
- Lk8InQQoE5ayn1dT5XaKWod8NQ==
-X-Google-Smtp-Source: ABdhPJwJ+MeM+GGs7NrwVxW4KhVYt2nCtV4UxgEO8TOj7Ck/wBXfvZUVeaRZdim1qs9dtoMMyGQ8Vg==
-X-Received: by 2002:a63:350:: with SMTP id 77mr15699671pgd.441.1631628943583; 
- Tue, 14 Sep 2021 07:15:43 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id w26sm2797927pfj.178.2021.09.14.07.15.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 07:15:43 -0700 (PDT)
-Subject: Re: [PATCH v5 10/21] target/loongarch: Add floating point arithmetic
- instruction translation
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1631624431-30658-1-git-send-email-gaosong@loongson.cn>
- <1631624431-30658-11-git-send-email-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f9c65cce-5235-d8cd-ee2e-0a47d51548d8@linaro.org>
-Date: Tue, 14 Sep 2021 07:15:41 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=O3E9hV/fdOLebq1xQ5F99k1enU3axJGsYsqSWFXKSLI=;
+ b=WWjQa135qzU06lVHfTMJb1vpPJFnkjN1sPicJ55GboMGwK+hD3XeU6+uEl+lbZEL0w
+ YRjHparp5edHKsHf1vk3K2JAGHtoT+39Ptjuj4njKsjGRir8yx4KVhsWQEFdXBS9tpZO
+ gp8dE3sUB42GgpQnDgrBKsXYywqjFnhTUumkACcKYCp7DTRryfmtWVOLl5vLSStA69/C
+ cT2Koixzedtd6VFbr2DEqGAGMF9xvixYSkrWzV/nc8kREHI7D606XxsgpUt/MFlOYaIx
+ MpL/1B1OMAAI787VX2EKcNW5b047Q2zmbeOBGXspH3oXDU0M4qjeU39BH+cQYjs1G2aX
+ lJPQ==
+X-Gm-Message-State: AOAM5319fpmuOMoSKvPnRu4Qb9nUPJSSduyGJVmv8MNUgTp1bdlg4p/u
+ CfV7Wr40g8JyKM810/Cx6G40W+Zjqzuhs46gGB9tTkkm4RQxfSeKSK6ofmdLWS6EKempqK/mIgF
+ q+kaKqSDDwQbYHmU=
+X-Received: by 2002:a5d:650b:: with SMTP id x11mr18979492wru.350.1631628964730; 
+ Tue, 14 Sep 2021 07:16:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwv5U12U3sOll2urufDUEkFO/UFA2yqTmbiH9YFWwA6lBSRE8gQNA2vKOANb/hchoAAL/BkAA==
+X-Received: by 2002:a5d:650b:: with SMTP id x11mr18979455wru.350.1631628964444; 
+ Tue, 14 Sep 2021 07:16:04 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id l15sm1154997wms.38.2021.09.14.07.16.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Sep 2021 07:16:03 -0700 (PDT)
+Date: Tue, 14 Sep 2021 15:16:01 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH] virtio-balloon: Fix page-poison subsection name
+Message-ID: <YUCuoRxfy03eBHd8@work-vm>
+References: <20210914131716.102851-1-dgilbert@redhat.com>
+ <535891c6-237b-6d37-7492-ef8c1e19e6ca@redhat.com>
+ <YUCj3i2BK1HzuztT@work-vm> <YUCqoJzt8VjkcNin@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1631624431-30658-11-git-send-email-gaosong@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.969,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YUCqoJzt8VjkcNin@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,69 +100,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
- yangxiaojuan@loongson.cn, laurent@vivier.eu, peterx@redhat.com,
- alistair.francis@wdc.com, maobibo@loongson.cn, pbonzini@redhat.com,
- bmeng.cn@gmail.com, alex.bennee@linaro.org, chenhuacai@loongson.cn
+Cc: Alexander Duyck <alexander.duyck@gmail.com>, mst@redhat.com,
+ qemu-devel@nongnu.org, stefanha@redhat.com,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/21 6:00 AM, Song Gao wrote:
-> +static void update_fcsr0_mask(CPULoongArchState *env, uintptr_t pc, int mask)
-> +{
-> +    int flags = get_float_exception_flags(&env->fp_status) & (~mask);
-> +
-> +    if (!flags) {
-> +        SET_FP_CAUSE(env->fcsr0, flags);
-> +        return;
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> On Tue, Sep 14, 2021 at 02:30:06PM +0100, Dr. David Alan Gilbert wrote:
+> > * David Hildenbrand (david@redhat.com) wrote:
+> > > On 14.09.21 15:17, Dr. David Alan Gilbert (git) wrote:
+> > > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > > > 
+> > > > The subsection name for page-poison was typo'd as:
+> > > > 
+> > > >    vitio-balloon-device/page-poison
+> > > > 
+> > > > Note the missing 'r' in virtio.
+> > > > 
+> > > > When we have a machine type that enables page poison, and the guest
+> > > > enables it (which needs a new kernel), things fail rather unpredictably.
+> > > > 
+> > > > The fallout from this is that most of the other subsections fail to
+> > > > load, including things like the feature bits in the device, one
+> > > > possible fallout is that the physical addresses of the queues
+> > > > then get aligned differently and we fail with an error about
+> > > > last_avail_idx being wrong.
+> > > > It's not obvious to me why this doesn't produce a more obvious failure,
+> > > > but virtio's vmstate loading is a bit open-coded.
+> > > > 
+> > > > Fixes: 7483cbbaf82 ("virtio-balloon: Implement support for page poison reporting feature")
+> > > > bz: https://bugzilla.redhat.com/show_bug.cgi?id=1984401
+> > > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > > > ---
+> > > >   hw/virtio/virtio-balloon.c | 2 +-
+> > > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> > > > index 5a69dce35d..c6962fcbfe 100644
+> > > > --- a/hw/virtio/virtio-balloon.c
+> > > > +++ b/hw/virtio/virtio-balloon.c
+> > > > @@ -852,7 +852,7 @@ static const VMStateDescription vmstate_virtio_balloon_free_page_hint = {
+> > > >   };
+> > > >   static const VMStateDescription vmstate_virtio_balloon_page_poison = {
+> > > > -    .name = "vitio-balloon-device/page-poison",
+> > > > +    .name = "virtio-balloon-device/page-poison",
+> > > >       .version_id = 1,
+> > > >       .minimum_version_id = 1,
+> > > >       .needed = virtio_balloon_page_poison_support,
+> > > > 
+> > > 
+> > > Oh, that's very subtle. I wasn't even aware that the prefix really has to
+> > > match the actual device ... I thought the whole idea of the prefix here was
+> > > just to make the string unique ...
+> > 
+> > Subsection naming is *very* critical; the logic is something like:
+> >   'we're loading the X device'
+> > a subsection arrives for 'N/P'
+> > if 'X==N' then it looks in X for subsection P.
+> > If 'X!=N' then it assumes we've finished loading X
+> > and P is really for an outer device that X is part of.
+> > This is horrible.
+> 
+> Is there value in making this more explicit via a code convention
+> for .name field initializers. eg instead of
+> 
+>    .name = "virtio-balloon-device/page-poison",
+> 
+> Prefer
+> 
+>    .name = TYPE_VIRTIO_BALLOON "/page-poison"
+> 
+> ?
 
-If mask != 0, we may unintentionally leave fp_status.flags != 0, which will then be 
-incorporated into the next fp operation.
+I think it might be better to see if the vmstate code can check it and
+error during saving; certainly this case feels detectable, but I need
+to keep an eye open for all the other weird cases.
 
-> +    }
-> +
-> +    flags = ieee_ex_to_loongarch(flags);
-> +    set_float_exception_flags(0, &env->fp_status);
+Dave
 
-I think this set should move above the if.
+> 
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-> +static bool trans_fmax_s(DisasContext *ctx, arg_fmt_fdfjfk *a)
-> +{
-> +    tcg_gen_umax_i64(cpu_fpr[a->fd], cpu_fpr[a->fj], cpu_fpr[a->fk]);
-
-Um, this is an integer operation.  You want float32_maxnum.
-Likewise for the other min/max operations.
-
-> +static bool trans_fabs_s(DisasContext *ctx, arg_fmt_fdfj *a)
-> +{
-> +    tcg_gen_ext32u_tl(cpu_fpr[a->fj], cpu_fpr[a->fj]);
-
-You shouldn't be modifying fj.
-
-> +    tcg_gen_abs_i64(cpu_fpr[a->fd], cpu_fpr[a->fj]);
-
-This is an integer operation.  You want
-
-     tcg_gen_andi_i64(cpu_fpr[a->fd], cpu_fpr[a->fj],
-                      MAKE_64BIT_MASK(0, 31));
-
-> +static bool trans_fabs_d(DisasContext *ctx, arg_fmt_fdfj *a)
-> +{
-> +    tcg_gen_abs_i64(cpu_fpr[a->fd], cpu_fpr[a->fj]);
-
-Similarly.
-
-> +/*
-> + * LoongArch requires NaN-boxing of narrower width floating point values.
-> + * This applies when a 32-bit value is assigned to a 64-bit FP register.
-> + */
-
-Um, this comment does not reflect the language in the v1.00 manual.
-
-The actual language says that the upper 32 bits are undefined ("can be any value").  We 
-should state that here, and then that QEMU chooses to nanbox, because it is most likely to 
-show guest bugs early.
-
-
-r~
 
