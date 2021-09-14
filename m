@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6246040AE73
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 14:58:47 +0200 (CEST)
-Received: from localhost ([::1]:43240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED92B40AE86
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:04:21 +0200 (CEST)
+Received: from localhost ([::1]:52158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ81O-0001wc-CX
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 08:58:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35874)
+	id 1mQ86m-0008Rj-UW
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:04:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mQ7xx-0008Q8-TL
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:55:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54484)
+ id 1mQ80o-00033p-TE
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:58:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mQ7xw-0004n5-65
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:55:13 -0400
+ id 1mQ80n-0006QD-0I
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:58:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631624110;
+ s=mimecast20190719; t=1631624288;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Uk0m/lh9jm6u5zBqWwIxddoq1ZetEM74UxE71qeouxY=;
- b=DtvLHW2M7CcD+zkT62tcwxcVrq+xtgD2+XObKsagLBUFeKnQFCWBh2JJsMzLu9gWjTD9pT
- VKCU0JSeEL17JkGdo8opaCXm6IsX5+0SALpK6S5YdugYJD/T+EfFFUiISSqbW14r8BNJWp
- 0ym/JPsu3KdyzN/p50uZ70nB6/oCPuo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-QzSpiT78PKmpjDMvKMgYxg-1; Tue, 14 Sep 2021 08:55:09 -0400
-X-MC-Unique: QzSpiT78PKmpjDMvKMgYxg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j193-20020a1c23ca000000b00306cd53b671so2914956wmj.1
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 05:55:08 -0700 (PDT)
+ bh=IZgWG8QcPX9Cx0l/uzAhbRZaH28eow+SSjomUH2MgBE=;
+ b=fKaPLOpXJiRd0jOQ9OFdfo90bnIQXFVUoVzKuVRGG7AaFI/DhA//BYK1oghXi5vgaxLpwH
+ jYhF4i5fPvG7l5iD8PN/F9mRM5X24qtCINW5fy3lzJjBlD5gbofImkYv+L8H5Ll7FeG39e
+ DklanHPWG42dyJfVi60rqhWl1WGYLFk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-CQ_0dF2yNnKUN9Pxpofnkw-1; Tue, 14 Sep 2021 08:58:06 -0400
+X-MC-Unique: CQ_0dF2yNnKUN9Pxpofnkw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ s13-20020a5d69cd000000b00159d49442cbso3917218wrw.13
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 05:58:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Uk0m/lh9jm6u5zBqWwIxddoq1ZetEM74UxE71qeouxY=;
- b=v6RbxeSc68KlGmyW8mWB6NMNmNT7z44jJ0qSuwWBgurhQ5ZIsQUISWvD+S6UPchj0c
- VX0PmNbIHTxS4HlMd6IvsjPKn2ns87XGengPxKEjl0+XI3nHgq3Bf5Z1gm2/fUKLhYMt
- hPvhan3kfrPscUThD0QFrIqnGqzrSEJ6yqg3AWM2uTq6dSqZ3D5Gk+kYjEI/4oD87Jvq
- P7fOeA3Rg6umKEQR247N0vjAUapyRqUAsOYtv+XwyIoeC98PM1IpGU4hw+9sjG1sUb2r
- tMvi3FxiKDdZeSwzY4wX4fqj6k/FU5IoF0Xms2cvHQ1XezPTeYn2VDXINOOltAS77mmE
- J03g==
-X-Gm-Message-State: AOAM530xjPRCpaLni6Euo0bOjpmB2QUTRRoyvfdJ5cbfnqm0bs9+OSbK
- AQTfCbAwc2J0wsjRswfq9R7k9MWexto0e5HHUhe/MWzIxMSStKbOHgr04D10AIvIG7onlg/Z/UI
- Z196uhCrjS2Jm8AQ=
-X-Received: by 2002:adf:c550:: with SMTP id s16mr18773151wrf.25.1631624107851; 
- Tue, 14 Sep 2021 05:55:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy62wLr73k0M+Fh7m32jN5mxAXVYPTY5kJrQIJjorVY4Zj5TWlDwZpfy8dNPiCq7MPdugREAw==
-X-Received: by 2002:adf:c550:: with SMTP id s16mr18773133wrf.25.1631624107652; 
- Tue, 14 Sep 2021 05:55:07 -0700 (PDT)
+ bh=IZgWG8QcPX9Cx0l/uzAhbRZaH28eow+SSjomUH2MgBE=;
+ b=JGQQbKEumqJrH266OBkIhpMV+yLH5QSerYd+hMJjwMEwHrq7DHcWE1F1Z9jiTPW2cl
+ sLuB4C8RW6J3gpA4EhR1ULyEau92usq22kvgKhAxcfH4E+imznbctCKBEdBEPFxjTNE+
+ 92rr5pMF1GiqluWFBeyY3lT5WWOUVZCblObk+slZa45OgVwGKOIZkXY5kbgG89nbhk59
+ OGo0dXpTd6S02N17JfctXsDs5czaoAiPKMnWtBUBhnFAAjXmAO+xZUjAmYggX67+Gns7
+ m7Sax3iVWm/coDFv6kug+xy8dW7HNTUr1V7+fcFBY2/EgxXgU0IRXJ5KJM3aWV/shVtv
+ K4Xg==
+X-Gm-Message-State: AOAM5320D1eQhIjfqy0JgShahjdSOS4cG4ccXtCho8ZUCvIS6+4JUGWo
+ xDhnq+q3FqzvDN6/naQt0JyVNOyYlxu5jdl+1GvgBfIAc4z69IlNwQNFS+ZR9EhFeJ2TqoObG5i
+ AS+7eyCIuc/uEc54=
+X-Received: by 2002:adf:d1b2:: with SMTP id w18mr19303417wrc.6.1631624285622; 
+ Tue, 14 Sep 2021 05:58:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxyvpMzMbBg+S+ghf4doi29ouf0iZglmGP0MrPKe53SbnD08AzhytmJZGi/akiv1INWmCDgKg==
+X-Received: by 2002:adf:d1b2:: with SMTP id w18mr19303398wrc.6.1631624285435; 
+ Tue, 14 Sep 2021 05:58:05 -0700 (PDT)
 Received: from localhost ([185.140.112.229])
- by smtp.gmail.com with ESMTPSA id m29sm11039694wrb.89.2021.09.14.05.55.06
+ by smtp.gmail.com with ESMTPSA id o10sm11610016wrc.16.2021.09.14.05.58.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Sep 2021 05:55:07 -0700 (PDT)
-Date: Tue, 14 Sep 2021 14:55:05 +0200
+ Tue, 14 Sep 2021 05:58:04 -0700 (PDT)
+Date: Tue, 14 Sep 2021 14:58:03 +0200
 From: Igor Mammedov <imammedo@redhat.com>
 To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH 1/3] bios-tables-test: allow changes in DSDT ACPI tables
- for q35
-Message-ID: <20210914145505.4c19645d@redhat.com>
-In-Reply-To: <20210914045410.3380946-2-ani@anisinha.ca>
+Subject: Re: [PATCH 2/3] hw/i386/acpi: fix conflicting IO address range for
+ acpi pci hotplug in q35
+Message-ID: <20210914145803.087d1a41@redhat.com>
+In-Reply-To: <20210914045410.3380946-3-ani@anisinha.ca>
 References: <20210914045410.3380946-1-ani@anisinha.ca>
- <20210914045410.3380946-2-ani@anisinha.ca>
+ <20210914045410.3380946-3-ani@anisinha.ca>
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
@@ -76,7 +76,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -102,36 +102,92 @@ Cc: jusual@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org, "Michael S.
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Sep 2021 10:24:08 +0530
+On Tue, 14 Sep 2021 10:24:09 +0530
 Ani Sinha <ani@anisinha.ca> wrote:
 
-> We are going to commit a change to fix IO address range allocated for acpi pci
-> hotplug in q35. This affects DSDT tables. This change allows DSDT table
-> modification so that unit tests are not broken.
+> Change caf108bc58790 ("hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35")
+> selects an IO address range for acpi based PCI hotplug for q35 arbitrarily. It
+> starts at address 0x0cc4 and ends at 0x0cdb. At the time when the patch was
+> written but the final version of the patch was not yet pushed upstream, this
+> address range was free and did not conflict with any other IO address ranges.
+> However, with the following change, this address range was no
+> longer conflict free as in this change, the IO address range
+> (value of ACPI_PCIHP_SIZE) was incremented by four bytes:
+> 
+> b32bd763a1ca92 ("pci: introduce acpi-index property for PCI device")
+> 
+> This can be seen from the output of QMP command 'info mtree' :
+> 
+> 0000000000000600-0000000000000603 (prio 0, i/o): acpi-evt
+> 0000000000000604-0000000000000605 (prio 0, i/o): acpi-cnt
+> 0000000000000608-000000000000060b (prio 0, i/o): acpi-tmr
+> 0000000000000620-000000000000062f (prio 0, i/o): acpi-gpe0
+> 0000000000000630-0000000000000637 (prio 0, i/o): acpi-smi
+> 0000000000000cc4-0000000000000cdb (prio 0, i/o): acpi-pci-hotplug
+> 0000000000000cd8-0000000000000ce3 (prio 0, i/o): acpi-cpu-hotplug
+> 
+> It shows that there is a region of conflict between IO regions of acpi
+> pci hotplug and acpi cpu hotplug.
+> 
+> Unfortunately, the change caf108bc58790 did not update the IO address range
+> appropriately before it was pushed upstream to accomodate the increased
+> length of the IO address space introduced in change b32bd763a1ca92.
+> 
+> Due to this bug, windows guests complain 'This device cannot find
+> enough free resources it can use' in the device manager panel for extended
+> IO buses. This issue also breaks the correct functioning of pci hotplug as the
+> following shows that the IO space for pci hotplug has been truncated:
+> 
+> (qemu) info mtree -f
+> FlatView #0
+>  AS "I/O", root: io
+>  Root memory region: io
+>   0000000000000cc4-0000000000000cd7 (prio 0, i/o): acpi-pci-hotplug
+>   0000000000000cd8-0000000000000cf7 (prio 0, i/o): acpi-cpu-hotplug
+> 
+> Therefore, in this fix, we adjust the IO address range for the acpi pci
+> hotplug so that it does not conflict with cpu hotplug and there is no
+> truncation of IO spaces. The starting IO address of PCI hotplug region
+> has been decremented by four bytes in order to accomodate four byte
+> increment in the IO address space introduced by change
+> b32bd763a1ca92 ("pci: introduce acpi-index property for PCI device")
+> 
+> After fixing, the following are the corrected IO ranges:
+> 
+> 0000000000000600-0000000000000603 (prio 0, i/o): acpi-evt
+> 0000000000000604-0000000000000605 (prio 0, i/o): acpi-cnt
+> 0000000000000608-000000000000060b (prio 0, i/o): acpi-tmr
+> 0000000000000620-000000000000062f (prio 0, i/o): acpi-gpe0
+> 0000000000000630-0000000000000637 (prio 0, i/o): acpi-smi
+> 0000000000000cc0-0000000000000cd7 (prio 0, i/o): acpi-pci-hotplug
+> 0000000000000cd8-0000000000000ce3 (prio 0, i/o): acpi-cpu-hotplug
+> 
+> This change has been tested using a Windows Server 2019 guest VM. Windows
+> no longer complains after this change.
+> 
+> Fixes: caf108bc58790 ("hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/561
 > 
 > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
 > ---
->  tests/qtest/bios-tables-test-allowed-diff.h | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  include/hw/acpi/ich9.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index dfb8523c8b..a02b88305c 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1 +1,12 @@
->  /* List of comma-separated changed AML files to ignore */
-> +"tests/data/acpi/q35/DSDT",
-> +"tests/data/acpi/q35/DSDT.tis",
-> +"tests/data/acpi/q35/DSDT.bridge",
-> +"tests/data/acpi/q35/DSDT.mmio64",
-> +"tests/data/acpi/q35/DSDT.ipmibt",
-> +"tests/data/acpi/q35/DSDT.cphp",
-> +"tests/data/acpi/q35/DSDT.memhp",
-> +"tests/data/acpi/q35/DSDT.numamem",
-> +"tests/data/acpi/q35/DSDT.nohpet",
-> +"tests/data/acpi/q35/DSDT.dimmpxm",
-> +"tests/data/acpi/q35/DSDT.acpihmat",
+> diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
+> index a329ce43ab..f04f1791bd 100644
+> --- a/include/hw/acpi/ich9.h
+> +++ b/include/hw/acpi/ich9.h
+> @@ -29,7 +29,7 @@
+>  #include "hw/acpi/acpi_dev_interface.h"
+>  #include "hw/acpi/tco.h"
+>  
+> -#define ACPI_PCIHP_ADDR_ICH9 0x0cc4
+> +#define ACPI_PCIHP_ADDR_ICH9 0x0cc0
+>  
+>  typedef struct ICH9LPCPMRegs {
+>      /*
 
 
