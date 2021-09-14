@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BFF340B4A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 18:29:13 +0200 (CEST)
-Received: from localhost ([::1]:58878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6843040B4B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 18:32:38 +0200 (CEST)
+Received: from localhost ([::1]:33276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQBJ2-0001dE-DV
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 12:29:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56820)
+	id 1mQBML-0003VC-HI
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 12:32:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mQBHo-0000HO-0K
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 12:27:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42092)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQBK5-0002hL-2Z
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 12:30:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mQBHj-0000wj-Au
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 12:27:54 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQBK3-000314-95
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 12:30:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631636869;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m2tU0oBkVi78UIYEGXD7sW+CwgMDQ49DZDGQ3ikvKPI=;
- b=Di60kEjDfFc5F4V5hLb2C5iZkMX87SkXUz050CamaoQAKYZ5BJBdY0tS7kIwT0jzKAkM29
- dt1AU+ApFAFLUyloZ452ARirSFc486o4BC/un3TPQvaEkXmijrbpbUdMDWA1++D7oiy02n
- l0OoVjhKGwx8IuEbhJjGcubYoAJhYnQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-585-fiKXQPWbOWqLxDTgx9gtrA-1; Tue, 14 Sep 2021 12:27:48 -0400
-X-MC-Unique: fiKXQPWbOWqLxDTgx9gtrA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- g13-20020a1c200d000000b00308ecd761e8so497542wmg.2
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 09:27:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=m2tU0oBkVi78UIYEGXD7sW+CwgMDQ49DZDGQ3ikvKPI=;
- b=q937ggXfwqp74/FT7ks9/jk0Y93gbKS99hy59oTjZw0RTlMe0v+JO2BWCboGSAoRmh
- yQAe35gb4wI4OCcVlz7hEV/S4JxK3A8TGwD27gurRSXtJLHJZVQh28ikfmEtfZoNJVkt
- BrhI6G60MJMS63SYkdax7EqToxx6CabIFoMMh9KCnYeEngo39u8P2A8cxGQCu+XoWIrK
- f0OksxB0xEiKvOz6sLN71cEY6OGVLvqPFH0CunqZVAWtLuiqJCiukGrb6QPA1uplIY0S
- S8P9LrpTNBH4k8Wtc9Ac0ONDn1OC1ArgfySNjxoV3TpEIyyZKodWyDENquQDETKQde3M
- +/CQ==
-X-Gm-Message-State: AOAM532KpFbY4T50J070PtxzXK/XBY8+5zWnL52rOSJWLv3xoBoasiKj
- XuwJbiZdoGv20Ctb+qXARZWAZTbFLWy/8xiCWjeLZIcri0LoMafDwF4qErafQTBpvWir8vBElvk
- SPDyP08n8EIOUTSxSEbqdc/P4aL+jVg6cKCChrgeqn4SIRmMeHBZeiGIcBfOE57g=
-X-Received: by 2002:a1c:2b04:: with SMTP id r4mr7024wmr.168.1631636866917;
- Tue, 14 Sep 2021 09:27:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJywbhEIhESRBJJBFqMq7/mrpDlYZk7aywk7HyinHQl8UJynNG1ZaCAsOUmxfHVwC8XCyK/Nqw==
-X-Received: by 2002:a1c:2b04:: with SMTP id r4mr7004wmr.168.1631636866655;
- Tue, 14 Sep 2021 09:27:46 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6041.dip0.t-ipconnect.de. [91.12.96.65])
- by smtp.gmail.com with ESMTPSA id
- q7sm10801857wrc.55.2021.09.14.09.27.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 09:27:45 -0700 (PDT)
-Subject: Re: [PATCH v4 04/16] tcg/s390x: Add host vector framework
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210626050307.2408505-1-richard.henderson@linaro.org>
- <20210626050307.2408505-5-richard.henderson@linaro.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <90a54ef4-e0ba-8807-6cee-907cc1eab30d@redhat.com>
-Date: Tue, 14 Sep 2021 18:27:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ s=mimecast20190719; t=1631637014;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=ZZimBFLD8xWTPbyQJZXxHC37zGGExRnF8iXkkypJR0Q=;
+ b=SISm4kCcj0P5JBiavHaApemhLyQR8UtuZudXBQnFs22r1QAYLkUF53dgfOfxUAqAahdxNv
+ Zqi9Vkv2zrOtL1U7q2sCBUUE0IfuYDIQE8NMb4kBk9YHYNgWcnrdzRmfTg6eVD4UTqe1v8
+ hXQ+V2NyhK157eQVH8mGfCriMYvSvjA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-UrCP0VGhNamJTDfkqrkciQ-1; Tue, 14 Sep 2021 12:30:01 -0400
+X-MC-Unique: UrCP0VGhNamJTDfkqrkciQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AC605074C;
+ Tue, 14 Sep 2021 16:30:00 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 68E221001281;
+ Tue, 14 Sep 2021 16:29:52 +0000 (UTC)
+Date: Tue, 14 Sep 2021 17:29:49 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [RFC v2 0/2] ui: Add a Wayland backend for Qemu UI (v2)
+Message-ID: <YUDN/Sb7rcaCnXXY@redhat.com>
+References: <20210913222036.3193732-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210626050307.2408505-5-richard.henderson@linaro.org>
+In-Reply-To: <20210913222036.3193732-1-vivek.kasireddy@intel.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,24 +78,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>,
+ Satyeshwar Singh <satyeshwar.singh@intel.com>, qemu-devel@nongnu.org,
+ Tina Zhang <tina.zhang@intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26.06.21 07:02, Richard Henderson wrote:
-> Add registers and function stubs.  The functionality
-> is disabled via squashing s390_facilities[2] to 0.
-> 
-> We must still include results for the mandatory opcodes in
-> tcg_target_op_def, as all opcodes are checked during tcg init.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Mon, Sep 13, 2021 at 03:20:34PM -0700, Vivek Kasireddy wrote:
+> Why does Qemu need a new Wayland UI backend?
+> The main reason why there needs to be a plain and simple Wayland backend
+> for Qemu UI is to eliminate the Blit (aka GPU copy) that happens if using
+> a toolkit like GTK or SDL (because they use EGL). The Blit can be eliminated
+> by sharing the dmabuf fd -- associated with the Guest scanout buffer --
+> directly with the Host compositor via the linux-dmabuf (unstable) protocol.
+> Once properly integrated, it would be potentially possible to have the
+> scanout buffer created by the Guest compositor be placed directly on a
+> hardware plane on the Host thereby improving performance. Only Guest 
+> compositors that use multiple back buffers (at-least 1 front and 1 back)
+> and virtio-gpu would benefit from this work.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+IME, QEMU already suffers from having too many barely maintained UI
+implementations and iti s confusing to users. Using a toolkit like GTK
+is generally a good thing, even if they don't enable the maximum
+theoretical performance, because they reduce the long term maint burden.
 
+I'm far from convinced that we should take on the maint of yet another
+UI in QEMU, even if it does have some performance benefit, especially
+if implemented using a very low level API like Wayland, that won't let
+us easily add rich UI features.
 
+Regards,
+Daniel
 -- 
-Thanks,
-
-David / dhildenb
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
