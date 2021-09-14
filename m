@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DCD40B370
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 17:48:15 +0200 (CEST)
-Received: from localhost ([::1]:43096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F99440B084
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 16:23:52 +0200 (CEST)
+Received: from localhost ([::1]:42272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQAfN-0008Us-PE
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 11:48:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43634)
+	id 1mQ9Lj-0001m4-4k
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 10:23:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQ9Yi-00008c-Ve
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:37:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43572)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQ9Yb-0006Dz-EZ
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:37:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631630228;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jVKry3AGQ0J47lN7ksTFJCPydgWIThxCI8/FSxTWsjQ=;
- b=X9A1V56F6xxmCLKEbTtoO5gArqgAr+pvwoGCPKDyO77LjwhoyPW8KQzfH2M5DlzlxttlTq
- /n4rMTGZ2+ZuX4pF3QR7029kOtgxlL0vVxJCEQWqrBmD/E1olso/ShbrOw4o51u8EUz+U1
- rmqsxHbMszrl+MntWO4Xklk52hChEBg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-Nf-CDhdOPX61ObTmtVUhrw-1; Tue, 14 Sep 2021 10:37:05 -0400
-X-MC-Unique: Nf-CDhdOPX61ObTmtVUhrw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDE91835DE1;
- Tue, 14 Sep 2021 14:36:59 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.39.193.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BADA55D9CA;
- Tue, 14 Sep 2021 14:36:37 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 53/53] qapi: introduce x-query-opcount QMP command
-Date: Tue, 14 Sep 2021 15:20:42 +0100
-Message-Id: <20210914142042.1655100-54-berrange@redhat.com>
-In-Reply-To: <20210914142042.1655100-1-berrange@redhat.com>
-References: <20210914142042.1655100-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mQ9JV-0008Ap-Pi
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:21:33 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:46790)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mQ9JU-0003Fn-0T
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:21:33 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id y17so12353122pfl.13
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 07:21:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nn0Znnm8PSVh8MUfruVQpR/Q0pVfxq7cKzZfJuKwdmQ=;
+ b=k+yeeGuCy0SibwUtpJHTh/ajxltf4rvJJsBFSTmXlEOswvfqGx0ayfq6ZEp1r4Az9Y
+ e4UWMLoVL3hDe+vv5JvWBbomuh9bJSRPNVEceFL5MIdOBNpgKCRZ72urTwmJUE8idAnE
+ JZID0Jb0AuRwIGIPZuQrV9Yr/awkZ8TYm+kP5m+uxa66lkSIsxuuNPIfwqV4ktnOSz8e
+ lpCTkTSA6jsrmgYLavlyOZER6wOuKih57q2/FTn6K8RVuQ/6hxIYq3gk+6pGwUuZyqxI
+ zyMd7alKT6ncUca04GtZhZTIJUEIV1nqxvdrTl5Q+pdhZudYNXKSNxow5z9nZDPbH7q+
+ qEqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nn0Znnm8PSVh8MUfruVQpR/Q0pVfxq7cKzZfJuKwdmQ=;
+ b=oCIS0/nQilWxF0LCiEed8+R5A4f0IompNSVRlnX2xapoF17Q+4AHE9tJ2oVzc5Yzuh
+ 5ebjMtLpZ9zcIeMv8MKKFwtrgKMIH7rJmDyJIzbYs4E1PH47yRxjS1x3uR8EpjRc9Snu
+ 9qAV4pZ9zwMmRfj3YE6cyqSJ9NEnx9LucXg6E3cgAujuOvsMHYu3PAiOsztuxcXO/uU6
+ HTcw3IFIN6VR7Sn3DE3+nQEIZjGdUCok9IhVyBFqjyVE7lO76CiL5VOz7NCDfq5fK8N6
+ Is8I7ziDemJnXFnqg6a/D5YjURsLCxXT3iLnO2d/mL1bVlsH6K5bhuV0Z803aGyldyRW
+ R8Hg==
+X-Gm-Message-State: AOAM5308Sft9UoJOY8rDRW3uEsqbhRFrk6cC8v3JW2KAhUiYsyKDahn6
+ 8HbBv4pW/PjMmXO3rmoY07tShA==
+X-Google-Smtp-Source: ABdhPJyeM7pneNuEddlNRxo+ORNyCv1cz2Jb6UD57ppPHAor7eQAB1/vGX4YweYedI9lH5tF6cer0w==
+X-Received: by 2002:a62:f90d:0:b0:3e3:5739:d075 with SMTP id
+ o13-20020a62f90d000000b003e35739d075mr5060223pfh.19.1631629289367; 
+ Tue, 14 Sep 2021 07:21:29 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id s15sm9966700pfu.67.2021.09.14.07.21.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Sep 2021 07:21:28 -0700 (PDT)
+Subject: Re: [PATCH v5 11/21] target/loongarch: Add floating point comparison
+ instruction translation
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <1631624431-30658-1-git-send-email-gaosong@loongson.cn>
+ <1631624431-30658-12-git-send-email-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ff9275c9-d795-b9f3-e52c-c662208dbd49@linaro.org>
+Date: Tue, 14 Sep 2021 07:21:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <1631624431-30658-12-git-send-email-gaosong@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.969,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,214 +89,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
- Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Peter Xu <peterx@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
+ yangxiaojuan@loongson.cn, laurent@vivier.eu, peterx@redhat.com,
+ alistair.francis@wdc.com, maobibo@loongson.cn, pbonzini@redhat.com,
+ bmeng.cn@gmail.com, alex.bennee@linaro.org, chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a counterpart to the HMP "info opcount" command. It is being
-added with an "x-" prefix because this QMP command is intended as an
-ad hoc debugging tool and will thus not be modelled in QAPI as fully
-structured data, nor will it have long term guaranteed stability.
-The existing HMP command is rewritten to call the QMP command.
+On 9/14/21 6:00 AM, Song Gao wrote:
+> This patch implement floating point comparison instruction translation.
+> 
+> This includes:
+> - FCMP.cond.{S/D}
+> 
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
+> Signed-off-by: XiaoJuan Yang<yangxiaojuan@loongson.cn>
+> ---
+>   target/loongarch/fpu_helper.c            | 60 ++++++++++++++++++++++++++++++++
+>   target/loongarch/helper.h                |  9 +++++
+>   target/loongarch/insn_trans/trans_fcmp.c | 59 +++++++++++++++++++++++++++++++
+>   target/loongarch/insns.decode            | 10 ++++++
+>   target/loongarch/internals.h             |  5 +++
+>   target/loongarch/translate.c             |  1 +
+>   6 files changed, 144 insertions(+)
+>   create mode 100644 target/loongarch/insn_trans/trans_fcmp.c
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- accel/tcg/cpu-exec.c       | 17 +++++++++++++++++
- accel/tcg/hmp.c            | 11 ++++++++++-
- accel/tcg/translate-all.c  |  4 ++--
- include/exec/cpu-all.h     |  2 +-
- include/tcg/tcg.h          |  2 +-
- qapi/machine.json          | 13 +++++++++++++
- tcg/tcg.c                  | 10 +++++-----
- tests/qtest/qmp-cmd-test.c |  1 +
- 8 files changed, 50 insertions(+), 10 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 6d27fb62f9..613f6fa5be 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -1051,4 +1051,21 @@ HumanReadableText *qmp_x_query_jit(Error **errp)
-     return ret;
- }
- 
-+HumanReadableText *qmp_x_query_opcount(Error **errp)
-+{
-+    HumanReadableText *ret;
-+    g_autoptr(GString) buf = g_string_new("");
-+
-+    if (!tcg_enabled()) {
-+        error_setg(errp, "JIT information is only available with accel=tcg");
-+        return NULL;
-+    }
-+
-+    dump_opcount_info(buf);
-+
-+    ret = g_new0(HumanReadableText, 1);
-+    ret->human_readable_text = g_steal_pointer(&buf->str);
-+    return ret;
-+}
-+
- #endif /* !CONFIG_USER_ONLY */
-diff --git a/accel/tcg/hmp.c b/accel/tcg/hmp.c
-index 9d7bcd9185..9b049d1e76 100644
---- a/accel/tcg/hmp.c
-+++ b/accel/tcg/hmp.c
-@@ -22,7 +22,16 @@ static void hmp_info_jit(Monitor *mon, const QDict *qdict)
- 
- static void hmp_info_opcount(Monitor *mon, const QDict *qdict)
- {
--    dump_opcount_info();
-+    Error *err = NULL;
-+    g_autoptr(HumanReadableText) info = NULL;
-+
-+    info = qmp_x_query_opcount(&err);
-+    if (err) {
-+        error_report_err(err);
-+        return;
-+    }
-+
-+    monitor_printf(mon, "%s", info->human_readable_text);
- }
- 
- static void hmp_tcg_register(void)
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 9c3dbe4409..7a8121e70a 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2141,9 +2141,9 @@ void dump_exec_info(GString *buf)
-     tcg_dump_info(buf);
- }
- 
--void dump_opcount_info(void)
-+void dump_opcount_info(GString *buf)
- {
--    tcg_dump_op_count();
-+    tcg_dump_op_count(buf);
- }
- 
- #else /* CONFIG_USER_ONLY */
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index d92f6fa7a9..3c8e24292b 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -432,7 +432,7 @@ static inline bool tlb_hit(target_ulong tlb_addr, target_ulong addr)
- void dump_drift_info(GString *buf);
- /* accel/tcg/translate-all.c */
- void dump_exec_info(GString *buf);
--void dump_opcount_info(void);
-+void dump_opcount_info(GString *buf);
- #endif /* CONFIG_TCG */
- 
- #endif /* !CONFIG_USER_ONLY */
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 1b56e382b7..cc7f59070b 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -944,7 +944,7 @@ int tcg_check_temp_count(void);
- 
- int64_t tcg_cpu_exec_time(void);
- void tcg_dump_info(GString *buf);
--void tcg_dump_op_count(void);
-+void tcg_dump_op_count(GString *buf);
- 
- #define TCG_CT_CONST  1 /* any constant of register size */
- 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index e88aba1199..bb24146a40 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1350,6 +1350,19 @@
- { 'command': 'x-query-numa',
-   'returns': 'HumanReadableText' }
- 
-+##
-+# @x-query-opcount:
-+#
-+# Query TCG opcode counters
-+#
-+# Returns: TCG opcode counters
-+#
-+# Since: 6.2
-+##
-+{ 'command': 'x-query-opcount',
-+  'returns': 'HumanReadableText',
-+  'if': 'CONFIG_TCG' }
-+
- ##
- # @x-query-profile:
- #
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 7fcdfd9c0f..d9653990af 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -4115,15 +4115,15 @@ static void tcg_profile_snapshot_table(TCGProfile *prof)
-     tcg_profile_snapshot(prof, false, true);
- }
- 
--void tcg_dump_op_count(void)
-+void tcg_dump_op_count(GString *buf)
- {
-     TCGProfile prof = {};
-     int i;
- 
-     tcg_profile_snapshot_table(&prof);
-     for (i = 0; i < NB_OPS; i++) {
--        qemu_printf("%s %" PRId64 "\n", tcg_op_defs[i].name,
--                    prof.table_op_count[i]);
-+        g_string_append_printf(buf, "%s %" PRId64 "\n", tcg_op_defs[i].name,
-+                               prof.table_op_count[i]);
-     }
- }
- 
-@@ -4142,9 +4142,9 @@ int64_t tcg_cpu_exec_time(void)
-     return ret;
- }
- #else
--void tcg_dump_op_count(void)
-+void tcg_dump_op_count(GString *buf)
- {
--    qemu_printf("[TCG profiler not compiled]\n");
-+    g_string_append_printf(buf, "[TCG profiler not compiled]\n");
- }
- 
- int64_t tcg_cpu_exec_time(void)
-diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-index 6aa628691a..251a14ddf7 100644
---- a/tests/qtest/qmp-cmd-test.c
-+++ b/tests/qtest/qmp-cmd-test.c
-@@ -53,6 +53,7 @@ static int query_error_class(const char *cmd)
-         { "x-query-usb", ERROR_CLASS_GENERIC_ERROR },
-         /* Only valid with accel=tcg */
-         { "x-query-jit", ERROR_CLASS_GENERIC_ERROR },
-+        { "x-query-opcount", ERROR_CLASS_GENERIC_ERROR },
-         { NULL, -1 }
-     };
-     int i;
--- 
-2.31.1
-
+r~
 
