@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84E3B40AF01
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:35:48 +0200 (CEST)
-Received: from localhost ([::1]:58098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 098A840AEA9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:12:03 +0200 (CEST)
+Received: from localhost ([::1]:47882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ8bD-0003OG-JO
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:35:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39784)
+	id 1mQ8EE-0007xU-3L
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:12:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mQ8AB-0000mb-LP
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:07:51 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:59620 helo=loongson.cn)
+ id 1mQ841-0005pC-4h
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:01:29 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:57764 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mQ8A8-0003IQ-Jl
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:07:51 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1mQ83w-0007v3-UN
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:01:28 -0400
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxheXvnEBhNJ0GAA--.21668S13; 
- Tue, 14 Sep 2021 21:01:07 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxheXvnEBhNJ0GAA--.21668S14; 
+ Tue, 14 Sep 2021 21:01:09 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 11/21] target/loongarch: Add floating point comparison
+Subject: [PATCH v5 12/21] target/loongarch: Add floating point conversion
  instruction translation
-Date: Tue, 14 Sep 2021 21:00:21 +0800
-Message-Id: <1631624431-30658-12-git-send-email-gaosong@loongson.cn>
+Date: Tue, 14 Sep 2021 21:00:22 +0800
+Message-Id: <1631624431-30658-13-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1631624431-30658-1-git-send-email-gaosong@loongson.cn>
 References: <1631624431-30658-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9DxheXvnEBhNJ0GAA--.21668S13
-X-Coremail-Antispam: 1UD129KBjvJXoW3Xr4DJF17KFyfurW8XryrJFb_yoW3Jr43pF
- W7Zry3GF48WFWfJas2qay5GF15Jr48Ka17uFy3t34vyF45XFn7ZFy8ta429FWUG3s5ury8
- X3WSyryUWFy7XaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9DxheXvnEBhNJ0GAA--.21668S14
+X-Coremail-Antispam: 1UD129KBjvAXoW3Zr47Ww17Kr4UtrWxGrWUtwb_yoW8Zr1UCo
+ Z8uF4rZr4rG3yfuFZIkwnYqF1xXry8ArnxCF4rZryaga4xA34xKFWrCwn5AFyrKrWYqry5
+ Xrn3Z3W5Aw4aqr93n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
@@ -63,114 +63,470 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implement floating point comparison instruction translation.
+This patch implement floating point conversion instruction translation.
 
 This includes:
-- FCMP.cond.{S/D}
+- FCVT.S.D, FCVT.D.S
+- FFINT.{S/D}.{W/L}, FTINT.{W/L}.{S/D}
+- FTINT{RM/RP/RZ/RNE}.{W/L}.{S/D}
+- FRINT.{S/D}
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: XiaoJuan Yang <yangxiaojuan@loongson.cn>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/fpu_helper.c            | 60 ++++++++++++++++++++++++++++++++
- target/loongarch/helper.h                |  9 +++++
- target/loongarch/insn_trans/trans_fcmp.c | 59 +++++++++++++++++++++++++++++++
- target/loongarch/insns.decode            | 10 ++++++
- target/loongarch/internals.h             |  5 +++
- target/loongarch/translate.c             |  1 +
- 6 files changed, 144 insertions(+)
- create mode 100644 target/loongarch/insn_trans/trans_fcmp.c
+ target/loongarch/fpu_helper.c            | 393 +++++++++++++++++++++++++++++++
+ target/loongarch/helper.h                |  29 +++
+ target/loongarch/insn_trans/trans_fcnv.c |  36 +++
+ target/loongarch/insns.decode            |  32 +++
+ target/loongarch/translate.c             |   1 +
+ 5 files changed, 491 insertions(+)
+ create mode 100644 target/loongarch/insn_trans/trans_fcnv.c
 
 diff --git a/target/loongarch/fpu_helper.c b/target/loongarch/fpu_helper.c
-index e7d3454..390bf5c 100644
+index 390bf5c..7944ced 100644
 --- a/target/loongarch/fpu_helper.c
 +++ b/target/loongarch/fpu_helper.c
-@@ -363,3 +363,63 @@ uint64_t helper_fmuladd_d(CPULoongArchState *env, uint64_t fj,
-     update_fcsr0(env, GETPC());
-     return fd;
+@@ -423,3 +423,396 @@ uint64_t helper_fcmp_s_d(CPULoongArchState *env, uint64_t fj,
+     FloatRelation cmp = float64_compare(fj, fk, &env->fp_status);
+     return fcmp_common(env, cmp, flags);
  }
 +
-+static uint64_t fcmp_common(CPULoongArchState *env, FloatRelation cmp,
-+                            uint32_t flags)
++/* floating point conversion */
++uint64_t helper_fcvt_s_d(CPULoongArchState *env, uint64_t fj)
 +{
-+    bool ret;
++    uint64_t fd;
 +
-+    switch (cmp) {
-+    case float_relation_less:
-+        ret = (flags & FCMP_LT);
-+        break;
-+    case float_relation_equal:
-+        ret = (flags & FCMP_EQ);
-+        break;
-+    case float_relation_greater:
-+        ret = (flags & FCMP_GT);
-+        break;
-+    case float_relation_unordered:
-+        ret = (flags & FCMP_UN);
-+        break;
-+    default:
-+        g_assert_not_reached();
++    fd = nanbox_s(float64_to_float32(fj, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_fcvt_d_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = float32_to_float64((uint32_t)fj, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ffint_s_w(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = nanbox_s(int32_to_float32((int32_t)fj, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ffint_s_l(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = nanbox_s(int64_to_float32(fj, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ffint_d_w(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = int32_to_float64((int32_t)fj, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ffint_d_l(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = int64_to_float64(fj, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_frint_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = (uint64_t)(float32_round_to_int((uint32_t)fj, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_frint_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = float64_round_to_int(fj, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrm_l_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_down, &env->fp_status);
++    fd = float64_to_int64(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
 +    }
 +    update_fcsr0(env, GETPC());
-+
-+    return ret;
++    return fd;
 +}
 +
-+/* fcmp_cXXX_s */
-+uint64_t helper_fcmp_c_s(CPULoongArchState *env, uint64_t fj,
-+                         uint64_t fk, uint32_t flags)
++uint64_t helper_ftintrm_l_s(CPULoongArchState *env, uint64_t fj)
 +{
-+    FloatRelation cmp = float32_compare_quiet((uint32_t)fj,
-+                                              (uint32_t)fk, &env->fp_status);
-+    return fcmp_common(env, cmp, flags);
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_down, &env->fp_status);
++    fd = float32_to_int64((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
 +}
 +
-+/* fcmp_sXXX_s */
-+uint64_t helper_fcmp_s_s(CPULoongArchState *env, uint64_t fj,
-+                         uint64_t fk, uint32_t flags)
++uint64_t helper_ftintrm_w_d(CPULoongArchState *env, uint64_t fj)
 +{
-+    FloatRelation cmp = float32_compare((uint32_t)fj,
-+                                        (uint32_t)fk, &env->fp_status);
-+    return fcmp_common(env, cmp, flags);
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_down, &env->fp_status);
++    fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
 +}
 +
-+/* fcmp_cXXX_d */
-+uint64_t helper_fcmp_c_d(CPULoongArchState *env, uint64_t fj,
-+                         uint64_t fk, uint32_t flags)
++uint64_t helper_ftintrm_w_s(CPULoongArchState *env, uint64_t fj)
 +{
-+    FloatRelation cmp = float64_compare_quiet(fj, fk, &env->fp_status);
-+    return fcmp_common(env, cmp, flags);
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_down, &env->fp_status);
++    fd = (uint64_t)float32_to_int32((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
 +}
 +
-+/* fcmp_sXXX_d */
-+uint64_t helper_fcmp_s_d(CPULoongArchState *env, uint64_t fj,
-+                         uint64_t fk, uint32_t flags)
++uint64_t helper_ftintrp_l_d(CPULoongArchState *env, uint64_t fj)
 +{
-+    FloatRelation cmp = float64_compare(fj, fk, &env->fp_status);
-+    return fcmp_common(env, cmp, flags);
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_up, &env->fp_status);
++    fd = float64_to_int64(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrp_l_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_up, &env->fp_status);
++    fd = float32_to_int64((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrp_w_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_up, &env->fp_status);
++    fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrp_w_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_up, &env->fp_status);
++    fd = (uint64_t)float32_to_int32((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrz_l_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    fd = float64_to_int64_round_to_zero(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrz_l_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    fd = float32_to_int64_round_to_zero((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrz_w_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    fd = (uint64_t)float64_to_int32_round_to_zero(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrz_w_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint32_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    fd = float32_to_int32_round_to_zero((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return (uint64_t)fd;
++}
++
++uint64_t helper_ftintrne_l_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_nearest_even, &env->fp_status);
++    fd = float64_to_int64(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrne_l_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_nearest_even, &env->fp_status);
++    fd = float32_to_int64((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrne_w_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_nearest_even, &env->fp_status);
++    fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrne_w_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint32_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_nearest_even, &env->fp_status);
++    fd = float32_to_int32((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return (uint64_t)fd;
++}
++
++uint64_t helper_ftint_l_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = float64_to_int64(fj, &env->fp_status);
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftint_l_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = float32_to_int64((uint32_t)fj, &env->fp_status);
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftint_w_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = (uint64_t)float32_to_int32((uint32_t)fj, &env->fp_status);
++    if (get_float_exception_flags(&env->fp_status)
++        & (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftint_w_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
++    if (get_float_exception_flags(&env->fp_status)
++        & (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
 +}
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index 25a67fd..91140aa 100644
+index 91140aa..84c02d8 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -51,3 +51,12 @@ DEF_HELPER_2(frecip_d, i64, env, i64)
- 
- DEF_HELPER_FLAGS_2(fclass_s, TCG_CALL_NO_RWG_SE, i64, env, i64)
- DEF_HELPER_FLAGS_2(fclass_d, TCG_CALL_NO_RWG_SE, i64, env, i64)
+@@ -60,3 +60,32 @@ DEF_HELPER_4(fcmp_s_s, i64, env, i64, i64, i32)
+ DEF_HELPER_4(fcmp_c_d, i64, env, i64, i64, i32)
+ /* fcmp.sXXX.d */
+ DEF_HELPER_4(fcmp_s_d, i64, env, i64, i64, i32)
 +
-+/* fcmp.cXXX.s */
-+DEF_HELPER_4(fcmp_c_s, i64, env, i64, i64, i32)
-+/* fcmp.sXXX.s */
-+DEF_HELPER_4(fcmp_s_s, i64, env, i64, i64, i32)
-+/* fcmp.cXXX.d */
-+DEF_HELPER_4(fcmp_c_d, i64, env, i64, i64, i32)
-+/* fcmp.sXXX.d */
-+DEF_HELPER_4(fcmp_s_d, i64, env, i64, i64, i32)
-diff --git a/target/loongarch/insn_trans/trans_fcmp.c b/target/loongarch/insn_trans/trans_fcmp.c
++DEF_HELPER_2(fcvt_d_s, i64, env, i64)
++DEF_HELPER_2(fcvt_s_d, i64, env, i64)
++DEF_HELPER_2(ffint_d_w, i64, env, i64)
++DEF_HELPER_2(ffint_d_l, i64, env, i64)
++DEF_HELPER_2(ffint_s_w, i64, env, i64)
++DEF_HELPER_2(ffint_s_l, i64, env, i64)
++DEF_HELPER_2(ftintrm_l_s, i64, env, i64)
++DEF_HELPER_2(ftintrm_l_d, i64, env, i64)
++DEF_HELPER_2(ftintrm_w_s, i64, env, i64)
++DEF_HELPER_2(ftintrm_w_d, i64, env, i64)
++DEF_HELPER_2(ftintrp_l_s, i64, env, i64)
++DEF_HELPER_2(ftintrp_l_d, i64, env, i64)
++DEF_HELPER_2(ftintrp_w_s, i64, env, i64)
++DEF_HELPER_2(ftintrp_w_d, i64, env, i64)
++DEF_HELPER_2(ftintrz_l_s, i64, env, i64)
++DEF_HELPER_2(ftintrz_l_d, i64, env, i64)
++DEF_HELPER_2(ftintrz_w_s, i64, env, i64)
++DEF_HELPER_2(ftintrz_w_d, i64, env, i64)
++DEF_HELPER_2(ftintrne_l_s, i64, env, i64)
++DEF_HELPER_2(ftintrne_l_d, i64, env, i64)
++DEF_HELPER_2(ftintrne_w_s, i64, env, i64)
++DEF_HELPER_2(ftintrne_w_d, i64, env, i64)
++DEF_HELPER_2(ftint_l_s, i64, env, i64)
++DEF_HELPER_2(ftint_l_d, i64, env, i64)
++DEF_HELPER_2(ftint_w_s, i64, env, i64)
++DEF_HELPER_2(ftint_w_d, i64, env, i64)
++DEF_HELPER_2(frint_s, i64, env, i64)
++DEF_HELPER_2(frint_d, i64, env, i64)
+diff --git a/target/loongarch/insn_trans/trans_fcnv.c b/target/loongarch/insn_trans/trans_fcnv.c
 new file mode 100644
-index 0000000..1c5945b
+index 0000000..6788859
 --- /dev/null
-+++ b/target/loongarch/insn_trans/trans_fcmp.c
-@@ -0,0 +1,59 @@
++++ b/target/loongarch/insn_trans/trans_fcnv.c
+@@ -0,0 +1,36 @@
 +/*
 + * LoongArch translate functions
 + *
@@ -179,121 +535,83 @@ index 0000000..1c5945b
 + * SPDX-License-Identifier: LGPL-2.1+
 + */
 +
-+/* bit0(signaling/quiet) bit1(lt) bit2(eq) bit3(un) bit4(neq) */
-+static uint32_t get_fcmp_flags(int cond)
-+{
-+    uint32_t flags = 0;
-+
-+    if (cond & 0x1) {
-+        flags |= FCMP_LT;
-+    }
-+    if (cond & 0x2) {
-+        flags |= FCMP_EQ;
-+    }
-+    if (cond & 0x4) {
-+        flags |= FCMP_UN;
-+    }
-+    if (cond & 0x8) {
-+        flags |= FCMP_GT | FCMP_LT;
-+    }
-+    return flags;
-+}
-+
-+static bool trans_fcmp_cond_s(DisasContext *ctx, arg_fcmp_cond_s *a)
-+{
-+    TCGv var = tcg_temp_new();
-+    uint32_t flags;
-+    void (*fn)(TCGv, TCGv_env, TCGv, TCGv, TCGv_i32);
-+
-+    fn = (a->fcond & 1 ? gen_helper_fcmp_s_s : gen_helper_fcmp_c_s);
-+    flags = get_fcmp_flags(a->fcond >> 1);
-+
-+    fn(var, cpu_env, cpu_fpr[a->fj], cpu_fpr[a->fk], tcg_constant_i32(flags));
-+
-+    tcg_gen_st8_tl(var, cpu_env, offsetof(CPULoongArchState, cf[a->cd & 0x7]));
-+    tcg_temp_free(var);
-+    return true;
-+}
-+
-+static bool trans_fcmp_cond_d(DisasContext *ctx, arg_fcmp_cond_d *a)
-+{
-+    TCGv var = tcg_temp_new();
-+    uint32_t flags;
-+    void (*fn)(TCGv, TCGv_env, TCGv, TCGv, TCGv_i32);
-+    fn = (a->fcond & 1 ? gen_helper_fcmp_s_d : gen_helper_fcmp_c_d);
-+    flags = get_fcmp_flags(a->fcond >> 1);
-+
-+    fn(var, cpu_env, cpu_fpr[a->fj], cpu_fpr[a->fk], tcg_constant_i32(flags));
-+
-+    tcg_gen_st8_tl(var, cpu_env, offsetof(CPULoongArchState, cf[a->cd & 0x7]));
-+
-+    tcg_temp_free(var);
-+    return true;
-+}
++TRANS(fcvt_s_d, gen_f2, gen_helper_fcvt_s_d)
++TRANS(fcvt_d_s, gen_f2, gen_helper_fcvt_d_s)
++TRANS(ftintrm_w_s, gen_f2, gen_helper_ftintrm_w_s)
++TRANS(ftintrm_w_d, gen_f2, gen_helper_ftintrm_w_d)
++TRANS(ftintrm_l_s, gen_f2, gen_helper_ftintrm_l_s)
++TRANS(ftintrm_l_d, gen_f2, gen_helper_ftintrm_l_d)
++TRANS(ftintrp_w_s, gen_f2, gen_helper_ftintrp_w_s)
++TRANS(ftintrp_w_d, gen_f2, gen_helper_ftintrp_w_d)
++TRANS(ftintrp_l_s, gen_f2, gen_helper_ftintrp_l_s)
++TRANS(ftintrp_l_d, gen_f2, gen_helper_ftintrp_l_d)
++TRANS(ftintrz_w_s, gen_f2, gen_helper_ftintrz_w_s)
++TRANS(ftintrz_w_d, gen_f2, gen_helper_ftintrz_w_d)
++TRANS(ftintrz_l_s, gen_f2, gen_helper_ftintrz_l_s)
++TRANS(ftintrz_l_d, gen_f2, gen_helper_ftintrz_l_d)
++TRANS(ftintrne_w_s, gen_f2, gen_helper_ftintrne_w_s)
++TRANS(ftintrne_w_d, gen_f2, gen_helper_ftintrne_w_d)
++TRANS(ftintrne_l_s, gen_f2, gen_helper_ftintrne_l_s)
++TRANS(ftintrne_l_d, gen_f2, gen_helper_ftintrne_l_d)
++TRANS(ftint_w_s, gen_f2, gen_helper_ftint_w_s)
++TRANS(ftint_w_d, gen_f2, gen_helper_ftint_w_d)
++TRANS(ftint_l_s, gen_f2, gen_helper_ftint_l_s)
++TRANS(ftint_l_d, gen_f2, gen_helper_ftint_l_d)
++TRANS(ffint_s_w, gen_f2, gen_helper_ffint_s_w)
++TRANS(ffint_s_l, gen_f2, gen_helper_ffint_s_l)
++TRANS(ffint_d_w, gen_f2, gen_helper_ffint_d_w)
++TRANS(ffint_d_l, gen_f2, gen_helper_ffint_d_l)
++TRANS(frint_s, gen_f2, gen_helper_frint_s)
++TRANS(frint_d, gen_f2, gen_helper_frint_d)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 9e6a727..8aadcfd 100644
+index 8aadcfd..c6fd762 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -32,6 +32,8 @@
- %fj      5:5
- %fk      10:5
- %fa      15:5
-+%cd      0:3
-+%fcond   15:5
- 
+@@ -351,3 +351,35 @@ fclass_d         0000 00010001 01000 01110 ..... .....    @fmt_fdfj
  #
- # Argument sets
-@@ -56,6 +58,7 @@
- &fmt_fdfjfk         fd fj fk
- &fmt_fdfjfkfa       fd fj fk fa
- &fmt_fdfj           fd fj
-+&fmt_cdfjfkfcond    cd fj fk fcond
- 
- #
- # Formats
-@@ -80,6 +83,7 @@
- @fmt_fdfjfk          .... ........ ..... ..... ..... .....    &fmt_fdfjfk         %fd %fj %fk
- @fmt_fdfjfkfa        .... ........ ..... ..... ..... .....    &fmt_fdfjfkfa       %fd %fj %fk %fa
- @fmt_fdfj            .... ........ ..... ..... ..... .....    &fmt_fdfj           %fd %fj
-+@fmt_cdfjfkfcond     .... ........ ..... ..... ..... .. ...   &fmt_cdfjfkfcond    %cd %fj %fk %fcond
- 
- #
- # Fixed point arithmetic operation instruction
-@@ -341,3 +345,9 @@ fcopysign_s      0000 00010001 00101 ..... ..... .....    @fmt_fdfjfk
- fcopysign_d      0000 00010001 00110 ..... ..... .....    @fmt_fdfjfk
- fclass_s         0000 00010001 01000 01101 ..... .....    @fmt_fdfj
- fclass_d         0000 00010001 01000 01110 ..... .....    @fmt_fdfj
+ fcmp_cond_s      0000 11000001 ..... ..... ..... 00 ...   @fmt_cdfjfkfcond
+ fcmp_cond_d      0000 11000010 ..... ..... ..... 00 ...   @fmt_cdfjfkfcond
 +
 +#
-+# Floating point compare instruction
++# Floating point conversion instruction
 +#
-+fcmp_cond_s      0000 11000001 ..... ..... ..... 00 ...   @fmt_cdfjfkfcond
-+fcmp_cond_d      0000 11000010 ..... ..... ..... 00 ...   @fmt_cdfjfkfcond
-diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
-index 096a4a7..b408aed 100644
---- a/target/loongarch/internals.h
-+++ b/target/loongarch/internals.h
-@@ -9,6 +9,11 @@
- #ifndef LOONGARCH_INTERNALS_H
- #define LOONGARCH_INTERNALS_H
- 
-+#define FCMP_LT   0x0001  /* fp0 < fp1 */
-+#define FCMP_EQ   0x0010  /* fp0 = fp1 */
-+#define FCMP_UN   0x0100  /* unordered */
-+#define FCMP_GT   0x1000  /* fp0 > fp1 */
-+
- void loongarch_translate_init(void);
- 
- void loongarch_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
++fcvt_s_d         0000 00010001 10010 00110 ..... .....    @fmt_fdfj
++fcvt_d_s         0000 00010001 10010 01001 ..... .....    @fmt_fdfj
++ftintrm_w_s      0000 00010001 10100 00001 ..... .....    @fmt_fdfj
++ftintrm_w_d      0000 00010001 10100 00010 ..... .....    @fmt_fdfj
++ftintrm_l_s      0000 00010001 10100 01001 ..... .....    @fmt_fdfj
++ftintrm_l_d      0000 00010001 10100 01010 ..... .....    @fmt_fdfj
++ftintrp_w_s      0000 00010001 10100 10001 ..... .....    @fmt_fdfj
++ftintrp_w_d      0000 00010001 10100 10010 ..... .....    @fmt_fdfj
++ftintrp_l_s      0000 00010001 10100 11001 ..... .....    @fmt_fdfj
++ftintrp_l_d      0000 00010001 10100 11010 ..... .....    @fmt_fdfj
++ftintrz_w_s      0000 00010001 10101 00001 ..... .....    @fmt_fdfj
++ftintrz_w_d      0000 00010001 10101 00010 ..... .....    @fmt_fdfj
++ftintrz_l_s      0000 00010001 10101 01001 ..... .....    @fmt_fdfj
++ftintrz_l_d      0000 00010001 10101 01010 ..... .....    @fmt_fdfj
++ftintrne_w_s     0000 00010001 10101 10001 ..... .....    @fmt_fdfj
++ftintrne_w_d     0000 00010001 10101 10010 ..... .....    @fmt_fdfj
++ftintrne_l_s     0000 00010001 10101 11001 ..... .....    @fmt_fdfj
++ftintrne_l_d     0000 00010001 10101 11010 ..... .....    @fmt_fdfj
++ftint_w_s        0000 00010001 10110 00001 ..... .....    @fmt_fdfj
++ftint_w_d        0000 00010001 10110 00010 ..... .....    @fmt_fdfj
++ftint_l_s        0000 00010001 10110 01001 ..... .....    @fmt_fdfj
++ftint_l_d        0000 00010001 10110 01010 ..... .....    @fmt_fdfj
++ffint_s_w        0000 00010001 11010 00100 ..... .....    @fmt_fdfj
++ffint_s_l        0000 00010001 11010 00110 ..... .....    @fmt_fdfj
++ffint_d_w        0000 00010001 11010 01000 ..... .....    @fmt_fdfj
++ffint_d_l        0000 00010001 11010 01010 ..... .....    @fmt_fdfj
++frint_s          0000 00010001 11100 10001 ..... .....    @fmt_fdfj
++frint_d          0000 00010001 11100 10010 ..... .....    @fmt_fdfj
 diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index 9befe8e..e7abc53 100644
+index e7abc53..16275fb 100644
 --- a/target/loongarch/translate.c
 +++ b/target/loongarch/translate.c
-@@ -187,6 +187,7 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
- #include "insn_trans/trans_atomic.c"
+@@ -188,6 +188,7 @@ static void gen_set_gpr(int reg_num, TCGv t, DisasExtend dst_ext)
  #include "insn_trans/trans_extra.c"
  #include "insn_trans/trans_farith.c"
-+#include "insn_trans/trans_fcmp.c"
+ #include "insn_trans/trans_fcmp.c"
++#include "insn_trans/trans_fcnv.c"
  
  static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
  {
