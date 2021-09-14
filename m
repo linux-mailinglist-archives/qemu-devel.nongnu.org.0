@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA2840A216
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 02:38:23 +0200 (CEST)
-Received: from localhost ([::1]:40732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC6540A224
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 02:42:07 +0200 (CEST)
+Received: from localhost ([::1]:47152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPwSs-0002Au-P4
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 20:38:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53484)
+	id 1mPwWU-0006Tw-TK
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 20:42:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPw6O-0001hZ-P1
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:08 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:38698)
+ id 1mPw6S-0001k9-1s
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:12 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:39849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPw6N-0007eQ-4S
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:08 -0400
-Received: by mail-pl1-x630.google.com with SMTP id 5so6976694plo.5
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 17:15:06 -0700 (PDT)
+ id 1mPw6N-0007ev-SU
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:10 -0400
+Received: by mail-pg1-x531.google.com with SMTP id g184so11003558pgc.6
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 17:15:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qzdUbBvonI52eRjNBpOJVN+UXc3ukVmZEPGl23UhGwE=;
- b=HjgdIBwh9ygRgr+8uBSN2AUiUlcAfg1MJ8QzKEyARecJmKrXxIj2xp6FcfwN29zH7x
- wwbzRBVr2ZCKEY25vLnGoSgeUCXD3+razErErN+2Biiq879JIF8+rbIEhMb8qnMTJ/mm
- CcR17NJ/JZPi29SjUSt5VLwk65oA5Mxcm6gYa8VWSf9n+AB3w1n86ylTo5YdsSBMownJ
- id0330B7QV0ucoQUf8LEaQo++86LiCRvwfwuwVpGxl5flKxoklhHW2etpVahRiPToL/r
- SB71j5wIxS1SANMjrIbZBJwxVYlMx/wZrPSgUemHVql7jXFa2Xg02h13+bX8V3OQiJFn
- RHJQ==
+ bh=DOATSVlMI8v93icbZz2oPU0yhH1ot3hFTS6J+8BagtA=;
+ b=xbtkVz3aj++4uZAJ3LjbqbNqpVBa+WrmedqMk3LeLwh4NwntYewCQ8HW1IVd5fo1iZ
+ 02f8b/V7xWEHhxgiP5krFvFO+OP51X9+xJQc2EV5aF0nsWK6WjLGGaBMxd6lwTOO7nlj
+ muPwRZne3Rv/f4NvN/sjSEdA3hnjxAQ0iV7jD8j5P75z1T6aVpO6sZn0iFzd+Fkn9RoN
+ z0KmjDtQWAGR7a9URzOyUDgIskIuYqcu70wDKOHtwN395aaPef4y+8kGruYKErn3PfMq
+ t63C9tCFNDQjB0BFzSmDdtTcTf+mLMRP7z+HRsm71ZWCfycm7DuG6Q4ukGk1EXe+dmR3
+ TcyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qzdUbBvonI52eRjNBpOJVN+UXc3ukVmZEPGl23UhGwE=;
- b=QFTifSosoDYGSkVdkb7zhi/MocBVXAO5BinBycJ5CuMEP4s7cNpkPfskg1dAjXAvGX
- X921cCy+cjldnShPDkjoYB2+Vpl3h58AZHE/UPhXv7lFDFYBfZb2JK48Yk0EnCkGeUlK
- Ihcj9L8oolE3rdC9zbFDVH1wa3nAl5s/TZhfs/wzz0cnEdKz325V3W7axI2BJ+qTrkuH
- sUecQ1vAzAbR7JSp4yA8ckS/xUp1oAUJc7D/KafZmr9FpgMPIuTfLk1vj3WODBTizmmQ
- vDepVqDGcgq1TH/gClC7XyBONiX+myPKqEaN/4P/elJz4BlskEMu6w/thXqsbLs/okQV
- Wg6Q==
-X-Gm-Message-State: AOAM5331FRntlnilogINum1YwjHW9P9MWEcq0yuX7dszo4uk5lR9oOGb
- AIGyOVDUtKNEONME5inhtra0NzebKwT77A==
-X-Google-Smtp-Source: ABdhPJx+C7n+mIHH48xMaKJETYyO6aOfeWZsi4jihQtYciXPguwYS703dOYl2eyt3l3fsdKn6h25ZA==
-X-Received: by 2002:a17:902:e846:b0:13a:479:33e5 with SMTP id
- t6-20020a170902e84600b0013a047933e5mr12650132plg.25.1631578505790; 
- Mon, 13 Sep 2021 17:15:05 -0700 (PDT)
+ bh=DOATSVlMI8v93icbZz2oPU0yhH1ot3hFTS6J+8BagtA=;
+ b=GdS/r95OsxD1qurzGbMtmgkTVmgUTFLobXMFmuwV1Q8vZuDIvzxTUzy6ghuX/jvANv
+ QsYTHKiMSW3Puvpa4usSW7vfN+gQpdrodXoxwy8IUZrWERAnrQRFqYCnAbjEFecKvTus
+ LeBySySNhJwBuSUtzJLffxN3fho/5QH+vhtU2ga+u0QOYKv7r5K3lOuY3wQLAId/MIRG
+ hESpKHwVaE+HnofN6huO4QmBylJoQLVa8lrL4sJe923CDrJ5vbAhKUOsdxhMI9Xrc5+T
+ hqBDyJLDDhbj2fG7D/093IbSOferhhnq4qje+z1yr1f7CzeA4FgBNrvOE7Q2wNug0WOs
+ Pwmw==
+X-Gm-Message-State: AOAM533NBbOwT4UAhLnc5mQ4Dt0hmX9R0qsWYh+05s6xYWjTCEoIjPRS
+ 6nzh+VohiWdaYOfCuCwEOjKpsgl6Bcm0zw==
+X-Google-Smtp-Source: ABdhPJzs4wcudyXyWjBo+edfTHlxFXLUfE8HNbTafZFYnd8m1QRE7jIUcq6Wyp4dxaTJjtnSnjgYtw==
+X-Received: by 2002:a63:b40a:: with SMTP id s10mr13170156pgf.454.1631578506525; 
+ Mon, 13 Sep 2021 17:15:06 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
  by smtp.gmail.com with ESMTPSA id m7sm9334179pgn.32.2021.09.13.17.15.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 17:15:05 -0700 (PDT)
+ Mon, 13 Sep 2021 17:15:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/44] target/i386: Restrict sysemu-only fpu_helper helpers
-Date: Mon, 13 Sep 2021 17:14:22 -0700
-Message-Id: <20210914001456.793490-11-richard.henderson@linaro.org>
+Subject: [PULL 11/44] target/i386: Simplify TARGET_X86_64 #ifdef'ry
+Date: Mon, 13 Sep 2021 17:14:23 -0700
+Message-Id: <20210914001456.793490-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210914001456.793490-1-richard.henderson@linaro.org>
 References: <20210914001456.793490-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,37 +91,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Restrict some sysemu-only fpu_helper helpers (see commit
-83a3d9c7402: "i386: separate fpu_helper sysemu-only parts").
+Merge two TARGET_X86_64 consecutive blocks.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210911165434.531552-3-f4bug@amsat.org>
+Message-Id: <20210911165434.531552-4-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/cpu.h | 3 +++
- 1 file changed, 3 insertions(+)
+ target/i386/tcg/seg_helper.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 71ae3141c3..1a36c53c18 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1837,11 +1837,14 @@ void x86_cpu_list(void);
- int cpu_x86_support_mca_broadcast(CPUX86State *env);
+diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
+index cef68b610a..56263e358d 100644
+--- a/target/i386/tcg/seg_helper.c
++++ b/target/i386/tcg/seg_helper.c
+@@ -929,9 +929,7 @@ static void do_interrupt64(CPUX86State *env, int intno, int is_int,
+                    e2);
+     env->eip = offset;
+ }
+-#endif
  
- int cpu_get_pic_interrupt(CPUX86State *s);
-+
-+#ifndef CONFIG_USER_ONLY
- /* MSDOS compatibility mode FPU exception support */
- void x86_register_ferr_irq(qemu_irq irq);
- void fpu_check_raise_ferr_irq(CPUX86State *s);
- void cpu_set_ignne(void);
- void cpu_clear_ignne(void);
-+#endif
+-#ifdef TARGET_X86_64
+ void helper_sysret(CPUX86State *env, int dflag)
+ {
+     int cpl, selector;
+@@ -984,7 +982,7 @@ void helper_sysret(CPUX86State *env, int dflag)
+                                DESC_W_MASK | DESC_A_MASK);
+     }
+ }
+-#endif
++#endif /* TARGET_X86_64 */
  
- /* mpx_helper.c */
- void cpu_sync_bndcs_hflags(CPUX86State *env);
+ /* real mode interrupt */
+ static void do_interrupt_real(CPUX86State *env, int intno, int is_int,
 -- 
 2.25.1
 
