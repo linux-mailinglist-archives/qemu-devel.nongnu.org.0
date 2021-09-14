@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B08D40B2FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 17:26:32 +0200 (CEST)
-Received: from localhost ([::1]:44232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BCAD40B338
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 17:34:42 +0200 (CEST)
+Received: from localhost ([::1]:36562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQAKN-0003Wi-GO
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 11:26:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41132)
+	id 1mQASH-0000cL-8H
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 11:34:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQ9Uz-0001sY-8W
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:33:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23558)
+ id 1mQ9V8-00022Q-Jq
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:33:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQ9Uu-0003RB-Gv
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:33:21 -0400
+ id 1mQ9V5-0003YI-Nn
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:33:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631629999;
+ s=mimecast20190719; t=1631630011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iWqi5YvXZxhgluXSBWOP1B0vyK3sX9iLf6wGJw7ZgFs=;
- b=R+4f5hykpfHKzhUUaiqG+Mc6/Ob5d3knQ3PbN8L7g1zWm7KVYGfOx9drXKk9mIrkrElzIz
- gqDJzOlq8oIbqIKBlkflgCA1L6BdW2jh8mRap5bt9geKdbg5nwzPAD49VMpeNS5WRF1HhV
- xdfr21IU8+vcG4ewKWO2nVv/qpekP7E=
+ bh=dbdQBxcj/2kjvXDfwwDA21f1GavKLlGLEK8BAYkabCY=;
+ b=I/CFE4+D7hfZV3TBIzQf4qdLttpROoR/WKyz4lIrN76O/vuRnlOD+7BsqEO0pt0eVxwbA4
+ 4zQITMW5nqhJJuNhMpbP0KSGKIUDzTI4yq9fvCdYic7ao5/j2Rr3GMwGzcQ+38xj+I16D+
+ OxTIMFuXHbTuxAQgR++hoyczyAfUmv4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-EFErQYmbNxqE2_ohQcmwiw-1; Tue, 14 Sep 2021 10:33:18 -0400
-X-MC-Unique: EFErQYmbNxqE2_ohQcmwiw-1
+ us-mta-244-3-DXuh2MNlq3uRrfn-ga0A-1; Tue, 14 Sep 2021 10:33:29 -0400
+X-MC-Unique: 3-DXuh2MNlq3uRrfn-ga0A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 975991808306;
- Tue, 14 Sep 2021 14:33:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEF251060DB2;
+ Tue, 14 Sep 2021 14:33:25 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.39.193.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EDE2F5D9CA;
- Tue, 14 Sep 2021 14:32:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE7BC5D9CA;
+ Tue, 14 Sep 2021 14:33:14 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 41/53] hw/core: drop support for NULL pointer for FILE * in
- cpu_dump_state
-Date: Tue, 14 Sep 2021 15:20:30 +0100
-Message-Id: <20210914142042.1655100-42-berrange@redhat.com>
+Subject: [PATCH v2 42/53] hw/core: introduce a 'format_tlb' callback
+Date: Tue, 14 Sep 2021 15:20:31 +0100
+Message-Id: <20210914142042.1655100-43-berrange@redhat.com>
 In-Reply-To: <20210914142042.1655100-1-berrange@redhat.com>
 References: <20210914142042.1655100-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -66,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,42 +106,71 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The monitor is converted to use cpu_format_state, so the only remaining
-users of cpu_dump_state all pass a non-NULL pointer for the FILE *
-parameter.
+This will allow us to reduce duplication between the different targets
+implementing the 'info tlb' command.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- hw/core/cpu-common.c  | 2 +-
- include/hw/core/cpu.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/core/cpu-common.c  |  9 +++++++++
+ include/hw/core/cpu.h | 11 +++++++++++
+ 2 files changed, 20 insertions(+)
 
 diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
-index 494f4f41eb..ffd9b9e07e 100644
+index ffd9b9e07e..9b11ec3c8d 100644
 --- a/hw/core/cpu-common.c
 +++ b/hw/core/cpu-common.c
-@@ -110,7 +110,7 @@ void cpu_dump_state(CPUState *cpu, FILE *f, int flags)
- {
-     g_autoptr(GString) buf = g_string_new("");
-     cpu_format_state(cpu, buf, flags);
--    qemu_fprintf(f, "%s", buf->str);
-+    fprintf(f, "%s", buf->str);
+@@ -123,6 +123,15 @@ void cpu_format_state(CPUState *cpu, GString *buf, int flags)
+     }
  }
  
- void cpu_format_state(CPUState *cpu, GString *buf, int flags)
++void cpu_format_tlb(CPUState *cpu, GString *buf)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++
++    if (cc->format_tlb) {
++        cc->format_tlb(cpu, buf);
++    }
++}
++
+ void cpu_reset(CPUState *cpu)
+ {
+     device_cold_reset(DEVICE(cpu));
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 9cfc7d7479..4c47e1df18 100644
+index 4c47e1df18..64fc57c8d9 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -531,7 +531,7 @@ enum CPUDumpFlags {
- /**
-  * cpu_dump_state:
-  * @cpu: The CPU whose state is to be dumped.
-- * @f: If non-null, dump to this stream, else to current print sink.
-+ * @f: dump to this stream
-  *
-  * Dumps CPU state.
+@@ -92,6 +92,7 @@ struct SysemuCPUOps;
+  * @has_work: Callback for checking if there is work to do.
+  * @memory_rw_debug: Callback for GDB memory access.
+  * @format_state: Callback for formatting state.
++ * @format_tlb: Callback for formatting memory mappings
+  * @get_arch_id: Callback for getting architecture-dependent CPU ID.
+  * @set_pc: Callback for setting the Program Counter register. This
+  *       should have the semantics used by the target architecture when
+@@ -136,6 +137,7 @@ struct CPUClass {
+     int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
+                            uint8_t *buf, int len, bool is_write);
+     void (*format_state)(CPUState *cpu, GString *buf, int flags);
++    void (*format_tlb)(CPUState *cpu, GString *buf);
+     int64_t (*get_arch_id)(CPUState *cpu);
+     void (*set_pc)(CPUState *cpu, vaddr value);
+     int (*gdb_read_register)(CPUState *cpu, GByteArray *buf, int reg);
+@@ -546,6 +548,15 @@ void cpu_dump_state(CPUState *cpu, FILE *f, int flags);
   */
+ void cpu_format_state(CPUState *cpu, GString *buf, int flags);
+ 
++/**
++ * cpu_format_tlb:
++ * @cpu: The CPU whose memory mappings are to be formatted.
++ * @buf: buffer to format state into
++ *
++ * Formats the memory mappings
++ */
++void cpu_format_tlb(CPUState *cpu, GString *buf);
++
+ #ifndef CONFIG_USER_ONLY
+ /**
+  * cpu_get_phys_page_attrs_debug:
 -- 
 2.31.1
 
