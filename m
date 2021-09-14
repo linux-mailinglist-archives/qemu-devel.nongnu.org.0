@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47DA240B81F
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 21:34:05 +0200 (CEST)
-Received: from localhost ([::1]:54746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB29F40B82B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 21:34:45 +0200 (CEST)
+Received: from localhost ([::1]:56838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQEBw-0005VJ-Ce
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 15:34:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42002)
+	id 1mQECa-0006wg-OI
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 15:34:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQE8q-0003Hw-W1
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 15:30:53 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:35467)
+ id 1mQE9a-0004By-94
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 15:31:38 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:44582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQE8o-0001LI-L2
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 15:30:52 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- f3-20020a17090a638300b00199097ddf1aso3106920pjj.0
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 12:30:50 -0700 (PDT)
+ id 1mQE9Y-0001mz-E5
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 15:31:38 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id b7so284455pfo.11
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 12:31:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=yLjkJDld/NkduZAOMzve/po3wnfh8pYm6OF1IYAcAbg=;
- b=W4028S8DcODghpOyKcaSjHqEwOThZuDK8Ekjk0sXrE4BiyJz6GyIF5D6ZEI4qF5caB
- njvuT5AHw0BWK9qgny5aI3vbBOVBh6u33lZGt6iouMZ+JR/8NOItFkIQKeXlZ4G23EA+
- /F9iIhpumEuqf7Q/8GVCwtvBiQs6P7C+/0h8OUsp+AerdCufXuJ8eE2XyaS32QUYUCAA
- 09z+sEjhDw1VXzOFfJ9s60V2hFwuxoqV9KZbWh2G05cetkXJCa13uGG+1ia40LCgC8jJ
- 61tsIJeygdz+Y/n9KDPL1t4+5c/228raVzc1yzAKmONmQr5mf9vC1mOIiwdfkJBc8Joz
- GLmQ==
+ b=r+gQAgOEPJVdxvEBbUU4vWZCoNlUfZDLmzM5B2QyPhgWbbSUuKNTn8lXw1OusWW1TN
+ v1YA379lIowQ75J/GtjoGkuprZWwaKR1x8+cTZI9dQ9YKvURRfgxHljbQoXxiy7JMFHh
+ YmY3wgfmgxAH2qp8ENgdyEbxH04pBH3+pbUYp6r6QfHB1Zuy1h2DnpykooC4b8/97UZX
+ cGe1wXGmmO+SwqB/Fkdvv0BFFL0DRBuDTkPLz2PxZo7npTFmB9FjGCLRE4b8wGFaFZOW
+ ATnc5aRZuq/20AXEjuy22moVgTZGN6NpEZIFJMzQU0M6cgZuKdy2ZpieI5AMPa3CP3BU
+ HHZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=yLjkJDld/NkduZAOMzve/po3wnfh8pYm6OF1IYAcAbg=;
- b=umFH9+nL4m61Kk+h2qhjnquiWfy7qQ5jqD2tKUfHH2CTBKstTZFYMVPqxTOJ2SI3N3
- KyMgifvzvOAr2SvN2MBdIiLl9BinE72hgavIiqqS/IBl84OE7vohEO0b52s4Lrrtv3LI
- JS91iKa4NuCXut0EDWi/BuKB0gT0f8TOC+e2BVfQ5aZe/TIBvdW8tgGPG8DJY9xtLFAl
- pGyNgQBdsR72y+eh4ZkZgZeuS1ayiXSIV6u6VZ2s9p5DqqzU+BLDIA2Bo7HwNUfe6u0Q
- V+S8XuB6gIVbEAaTXDIn8mCbusU/8dlR9V3IiuRbWzP997dYpw/4+ie7Xp0mHtJNuYXV
- dnTQ==
-X-Gm-Message-State: AOAM530uwRQBmHETO5ObyeGGSoO9AvTZ/4zPaFSmL2Exqk9+q1xVxSdj
- fXLyoXYDoaED9L/uARrK+9PYJW0pHCURDw==
-X-Google-Smtp-Source: ABdhPJx9npm4TN7PEtqgQTz0igyhNLu3/rd031GNnbhpj2wGz/QSG9bf+FusS/oSqdf+eQKk9LouTg==
-X-Received: by 2002:a17:90a:ae06:: with SMTP id
- t6mr3943894pjq.37.1631647843628; 
- Tue, 14 Sep 2021 12:30:43 -0700 (PDT)
+ b=B1XaoFLM2PqspcvwEgx3NBm0mad8ebgr6nFr+RfjjIpLSMtJprPKvWbk51PltkouUD
+ xOX8syacy/8XpdxD+ee2ZeOgNrmXEKh5rJkVPTo8ELRdDPC5150v3Bcb8lMQuYElhed0
+ 4KIML6Knd5K0ea73Df8jTfWkkmxqA/x/xu30RMnq1NMXTuLbiathFPBX/s2k6tuvORMK
+ J4dWykzrKRIZYNEFGwpWpIOMSenqtOqbFU27kJvcCyvAwaUzvEaDm2yXBbMtzwJOI5y5
+ MtPEV/57Q3TpQ8J9Kps3MQuMpYDRyPbiWf7uRi5yR3CjaDRaD+bcTyNDD9JSvov9FYyb
+ vqYQ==
+X-Gm-Message-State: AOAM530WdC3Z4lSSRYp4dvJsf1bJHBo/R7Uwb2FEcCD+lEbvvy5vjGiZ
+ xdKxsvTcFo5cZaFkHJFZ8NmDEFmlKZnmsA==
+X-Google-Smtp-Source: ABdhPJwhKj+Qx0w5kZaniA+O1q6B89P8VAcKULp8t+GDLBJdsQhl+l0+95TxpXQkikcVNefBCz1L4w==
+X-Received: by 2002:a63:e057:: with SMTP id n23mr17124661pgj.183.1631647895002; 
+ Tue, 14 Sep 2021 12:31:35 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id 203sm11085718pfx.119.2021.09.14.12.30.42
+ by smtp.gmail.com with ESMTPSA id j5sm2398163pjv.56.2021.09.14.12.31.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Sep 2021 12:30:43 -0700 (PDT)
+ Tue, 14 Sep 2021 12:31:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 00/43] tcg patch queue
-Date: Tue, 14 Sep 2021 12:30:42 -0700
-Message-Id: <20210914193042.1388497-1-richard.henderson@linaro.org>
+Subject: [PULL v4 00/43] tcg patch queue
+Date: Tue, 14 Sep 2021 12:31:33 -0700
+Message-Id: <20210914193133.1388599-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
