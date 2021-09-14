@@ -2,82 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA33140B89D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 22:01:44 +0200 (CEST)
-Received: from localhost ([::1]:43312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1185240B8EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 22:21:14 +0200 (CEST)
+Received: from localhost ([::1]:37064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQEch-0001jE-Bf
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 16:01:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47318)
+	id 1mQEvY-0001JS-KO
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 16:21:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mQEZq-0000U2-BG; Tue, 14 Sep 2021 15:58:46 -0400
-Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b]:38594)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mQEZn-0003Nt-IO; Tue, 14 Sep 2021 15:58:46 -0400
-Received: by mail-qk1-x72b.google.com with SMTP id f22so804137qkm.5;
- Tue, 14 Sep 2021 12:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=c0DQsqke/ZAQtkrcN37lXth2ILyrTPOmyilpDr0IsKE=;
- b=isIGFr9JiKlyzd9JYU2h1dDUxXJo9zLA/Vj439jtL2PNVRhId+lMqnIJ4Ox79CzDZg
- kGsOvCT+DPXa5sMQpedtKzReaSdeJ0Nz4BCnWi5MA/A3mOQRUVaA/mJaPkGgneqaShZd
- 20jZ0yXY55TDWOpsoU6+LkZyO+5nrn/4navFu8wfxm9kS+E4mnqM1iVKeDhglT5dW0GW
- eFNrPywa3NEjgBIrzhHufwdMZ6XW//FvhSp90+QeScGioHvMNHZJ0hkR20+QYSNXjSbc
- xjgB1RrJjnjUbYKXHqsrpnf4MMNcC+Gj6mYwOmZ0w3DxLIWuuPEA9cmj9VhN4EL+GplP
- PjHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=c0DQsqke/ZAQtkrcN37lXth2ILyrTPOmyilpDr0IsKE=;
- b=zVkOe0jMyS0COsrHbAAaovPdbOB50LnHKcC5+78eKz6KuOADxHVIy0m3S6/6fQ26j+
- le62tnXyekKu6j74mZ0mdrsbruwBcRyy4Qw0P+llCoT+VubICFKn+T7Sp1zgyOjYzblv
- TdcaTB/hfNrNMAuDbT5fyUYNplE0FHbuc+LsihsGw+a1ejddgKfMqdbxQY0Dsalxsff9
- aXKjIlMLVS6QEs3MJPBG4xMZMN6Fi+3dGFmPFNGBi1e0TNTNrqY9p2kPio55gcCMLkNY
- YPXAV9yMU2zhUjNdGB5IRFdyvHbwTnLlRMWqm50GP3//RtDQEkJpaY5xFH+w5LEnMCb9
- xx9Q==
-X-Gm-Message-State: AOAM533Z6tki5rEQL21jglkN0A3iZ8hhq7WVsf6V2HhtDqt0pKAoZTMk
- +zCz+3VRqOauXXhHPv+8RTxGFXuIrE0=
-X-Google-Smtp-Source: ABdhPJxUKsmZAhSVampTmSU1PeGW1U71X84fBHX3Zg9gtLdbIY41YLgonPcerBo9Cv3zQBtYAfQ81w==
-X-Received: by 2002:a05:620a:4404:: with SMTP id
- v4mr6872961qkp.344.1631649521499; 
- Tue, 14 Sep 2021 12:58:41 -0700 (PDT)
-Received: from ?IPV6:2804:18:c9:d5fb:c4f1:6f26:5434:d63e?
- ([2804:18:c9:d5fb:c4f1:6f26:5434:d63e])
- by smtp.gmail.com with ESMTPSA id j23sm8390907qkl.65.2021.09.14.12.58.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 12:58:41 -0700 (PDT)
-Message-ID: <3bd59a2f-5c3b-f062-4a6c-abf34340000d@gmail.com>
-Date: Tue, 14 Sep 2021 16:58:37 -0300
+ (Exim 4.90_1)
+ (envelope-from <SRS0=M2pG=OE=ubuntu.com=christian.brauner@kernel.org>)
+ id 1mQAux-0002Df-NB
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 12:04:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43734)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=M2pG=OE=ubuntu.com=christian.brauner@kernel.org>)
+ id 1mQAut-0004JX-A2
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 12:04:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 39CAC6044F;
+ Tue, 14 Sep 2021 16:04:10 +0000 (UTC)
+Date: Tue, 14 Sep 2021 18:04:07 +0200
+From: Christian Brauner <christian.brauner@ubuntu.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: question on vhost, limiting kernel threads and NPROC
+Message-ID: <20210914160407.aedq4c56ep5vrpvt@wittgenstein>
+References: <b6d181c2-ec7b-913b-3eea-142fcce7c104@oracle.com>
+ <YOwwGbOhkDEy/KvQ@stefanha-x1.localdomain>
+ <cb6824cb-e730-e842-dbbb-95de49a72cd7@oracle.com>
+ <20210913173020-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v6 3/6] spapr: introduce spapr_numa_associativity_reset()
-Content-Language: en-US
-To: Greg Kurz <groug@kaod.org>
-References: <20210910195539.797170-1-danielhb413@gmail.com>
- <20210910195539.797170-4-danielhb413@gmail.com>
- <20210914135514.1896ea3e@bahia.huguette>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20210914135514.1896ea3e@bahia.huguette>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72b.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.969,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210913173020-mutt-send-email-mst@kernel.org>
+Received-SPF: pass client-ip=198.145.29.99;
+ envelope-from=SRS0=M2pG=OE=ubuntu.com=christian.brauner@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 14 Sep 2021 16:19:31 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,289 +58,380 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: libvir-list@redhat.com, "jasowang@redhat.com" <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Mike Christie <michael.christie@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Sep 13, 2021 at 05:32:32PM -0400, Michael S. Tsirkin wrote:
+> On Mon, Sep 13, 2021 at 12:04:04PM -0500, Mike Christie wrote:
+> > I just realized I forgot to cc the virt list so adding now.
+> > 
+> > Christian see the very bottom for a different fork patch.
+> > 
+> > On 7/12/21 7:05 AM, Stefan Hajnoczi wrote:
+> > > On Fri, Jul 09, 2021 at 11:25:37AM -0500, Mike Christie wrote:
+> > >> Hi,
+> > >>
+> > >> The goal of this email is to try and figure how we want to track/limit the
+> > >> number of kernel threads created by vhost devices.
+> > >>
+> > >> Background:
+> > >> -----------
+> > >> For vhost-scsi, we've hit a issue where the single vhost worker thread can't
+> > >> handle all IO the being sent from multiple queues. IOPs is stuck at around
+> > >> 500K. To fix this, we did this patchset:
+> > >>
+> > >> https://lore.kernel.org/linux-scsi/20210525180600.6349-1-michael.christie@oracle.com/
+> > >>
+> > >> which allows userspace to create N threads and map them to a dev's virtqueues.
+> > >> With this we can get around 1.4M IOPs.
+> > >>
+> > >> Problem:
+> > >> --------
+> > >> While those patches were being reviewed, a concern about tracking all these
+> > >> new possible threads was raised here:
+> > >>
+> > >> https://lore.kernel.org/linux-scsi/YL45CfpHyzSEcAJv@stefanha-x1.localdomain/
+> > >>
+> > >> To save you some time, the question is what does other kernel code using the
+> > >> kthread API do to track the number of kernel threads created on behalf of
+> > >> a userspace thread. The answer is they don't do anything so we will have to
+> > >> add that code.
+> > >>
+> > >> I started to do that here:
+> > >>
+> > >> https://lkml.org/lkml/2021/6/23/1233
+> > >>
+> > >> where those patches would charge/check the vhost device owner's RLIMIT_NPROC
+> > >> value. But, the question of if we really want to do this has come up which is
+> > >> why I'm bugging lists like libvirt now.
+> > >>
+> > >> Question/Solution:
+> > >> ------------------
+> > >> I'm bugging everyone so we can figure out:
+> > >>
+> > >> If we need to specifically track the number of kernel threads being made
+> > >> for the vhost kernel use case by the RLIMIT_NPROC limit?
+> > >>
+> > >> Or, is it ok to limit the number of devices with the RLIMIT_NOFILE limit.
+> > >> Then each device has a limit on the number of threads it can create.
+> > > 
+> > > Do we want to add an interface where an unprivileged userspace process
+> > > can create large numbers of kthreads? The number is indirectly bounded
+> > > by RLIMIT_NOFILE * num_virtqueues, but there is no practical way to
+> > > use that rlimit since num_virtqueues various across vhost devices and
+> > > RLIMIT_NOFILE might need to have a specific value to control file
+> > > descriptors.
+> > > 
+> > > io_uring worker threads are limited by RLIMIT_NPROC. I think it makes
+> > > sense in vhost too where the device instance is owned by a specific
+> > > userspace process and can be accounted against that process' rlimit.
+> > > 
+> > > I don't have a specific use case other than that I think vhost should be
+> > > safe and well-behaved.
+> > > 
+> > 
+> > Sorry for the late reply. I finally got to go on PTO and used like 2
+> > years worth in one super long vacation :)
+> > 
+> > I still don't have a RLIMIT_NPROC use case and it wasn't not clear to
+> > me if that has to be handled before merging. However, I might have got
+> > lucky and found a bug where the fix will handle your request too.
+> > 
+> > It looks like cgroup v2 is supposed to work, but for vhost threads
+> > it doesn't because the kernel functions we use just support v1. If
+> > we change the vhost layer to create threads like how io_uring does
+> > then we get the RLIMIT_NPROC checks and also cgroup v2 support.
+> > 
+> > Christian, If you didn't like this patch
+> > 
+> > https://lkml.org/lkml/2021/6/23/1233
+> > 
+> > then I'm not sure how much you will like what is needed to support the
+> > above. Here is a patch which includes what we would need from the fork
+> > related code. On one hand, it's nicer because it fits into the PF FLAG
+> > code like you requested. But, I have to add a no_files arg. See below:
+> > 
+> > 
+> > ----------------------------------------------
+> > 
+> > 
+> > >From 351d476e8db0a78b9bdf22d77dd1abe66c0eac40 Mon Sep 17 00:00:00 2001
+> > From: Mike Christie <michael.christie@oracle.com>
+> > Date: Mon, 13 Sep 2021 11:20:20 -0500
+> > Subject: [PATCH] fork: allow cloning of userspace procs from kernel
+> > 
+> > Userspace apps/processes like Qemu call into the vhost layer to create
+> > worker threads which execute IO on behalf of VMs. If users set RIMIT
+> > or cgroup limits or setup v2 cgroups or namespaces, the worker thread
+> > is not accounted for or even setup correctly. The reason is that vhost
+> > uses the kthread api which inherits those attributes/values from the
+> > kthreadd thread. This patch allows kernel modules to work like the
+> > io_uring code which can call kernel_clone from the userspace thread's
+> > context and directly inherit its attributes like cgroups from and will
+> > check limits like RLIMIT_NPROC against that userspace thread.
+> > 
+> > Note: this patch combines 2 changes that should be separate patches. I'm
+> > including both in one patch to just make it easier to get an idea of what
+> > needs to be done. If we are ok with this then I'll break it up into a
+> > proper patchset.
+> > 
+> > This patch does the following:
+> > 
+> > 1. Separates the PF_IO_WORKER flag behavior that controls signals and exit
+> > cleanup into a new flag PF_USER_WORKER, so the vhost layer can use it
+> > without the PF_IO_WORKER scheduling/IO behavior.
+> > 
+> > 2. It adds a new no_files kernel_clone_args field. This is needed by vhost
+> > because tools like qemu/libvirt do not always do a close() on the vhost
+> > device. For some devices they just rely on the process exit reaping/cleanup
+> > code to do a close() on all open FDs. However, if the vhost worker threads
+> > have the device open (CLONE_FILES not set) or have a refcount on the
+> > files_struct (CLONE_FILES set) then we can leak or possibly crash.
+> > 
+> > leak - qemu just exits and expects the put done by the process exit
+> > code will be the last put on the fd. But becuase the worker thread has a
+> > ref to the fd or to the process's files_struct then it will never get the
+> > last put and so the vhost device's release function will never be called.
+> > 
+> > crash - if we add signal handling to the worker threads then it can
+> > happen where the worker thread might get the signal and exit before
+> > qemu has called the vhost cleanup releated ioctls and we can end up
+> > crashing referencing what should be a valid device still.
+> > ---
+> >  arch/x86/kernel/process.c  |  4 ++--
+> >  include/linux/sched.h      |  1 +
+> >  include/linux/sched/task.h |  5 ++++-
+> >  init/main.c                |  4 ++--
+> >  kernel/fork.c              | 24 +++++++++++++++++++-----
+> >  kernel/kthread.c           |  3 ++-
+> >  kernel/signal.c            |  4 ++--
+> >  kernel/umh.c               |  5 +++--
+> >  8 files changed, 35 insertions(+), 15 deletions(-)
+> > 
+> > diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+> > index 1d9463e3096b..1c5d516fb508 100644
+> > --- a/arch/x86/kernel/process.c
+> > +++ b/arch/x86/kernel/process.c
+> > @@ -178,9 +178,9 @@ int copy_thread(unsigned long clone_flags, unsigned long sp, unsigned long arg,
+> >  	task_user_gs(p) = get_user_gs(current_pt_regs());
+> >  #endif
+> >  
+> > -	if (unlikely(p->flags & PF_IO_WORKER)) {
+> > +	if (unlikely(p->flags & PF_USER_WORKER)) {
+> >  		/*
+> > -		 * An IO thread is a user space thread, but it doesn't
+> > +		 * A user worker thread is a user space thread, but it doesn't
+> >  		 * return to ret_after_fork().
+> >  		 *
+> >  		 * In order to indicate that to tools like gdb,
+> > diff --git a/include/linux/sched.h b/include/linux/sched.h
+> > index ec8d07d88641..0c9b3f62d85f 100644
+> > --- a/include/linux/sched.h
+> > +++ b/include/linux/sched.h
+> > @@ -1577,6 +1577,7 @@ extern struct pid *cad_pid;
+> >  #define PF_VCPU			0x00000001	/* I'm a virtual CPU */
+> >  #define PF_IDLE			0x00000002	/* I am an IDLE thread */
+> >  #define PF_EXITING		0x00000004	/* Getting shut down */
+> > +#define PF_USER_WORKER		0x00000008	/* Userspace kernel thread  */
+> >  #define PF_IO_WORKER		0x00000010	/* Task is an IO worker */
+> >  #define PF_WQ_WORKER		0x00000020	/* I'm a workqueue worker */
+> >  #define PF_FORKNOEXEC		0x00000040	/* Forked but didn't exec */
+> > diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
+> > index ef02be869cf2..2a8f9b8c3868 100644
+> > --- a/include/linux/sched/task.h
+> > +++ b/include/linux/sched/task.h
+> > @@ -32,6 +32,8 @@ struct kernel_clone_args {
+> >  	size_t set_tid_size;
+> >  	int cgroup;
+> >  	int io_thread;
+> > +	int no_files;
+> > +	int user_worker;
+> >  	struct cgroup *cgrp;
+> >  	struct css_set *cset;
+> >  };
+> > @@ -86,7 +88,8 @@ extern pid_t kernel_clone(struct kernel_clone_args *kargs);
+> >  struct task_struct *create_io_thread(int (*fn)(void *), void *arg, int node);
+> >  struct task_struct *fork_idle(int);
+> >  struct mm_struct *copy_init_mm(void);
+> > -extern pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags);
+> > +extern pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags,
+> > +			   int no_files, int user_worker);
+> >  extern long kernel_wait4(pid_t, int __user *, int, struct rusage *);
+> >  int kernel_wait(pid_t pid, int *stat);
+> >  
+> > diff --git a/init/main.c b/init/main.c
+> > index f5b8246e8aa1..18f3b126df93 100644
+> > --- a/init/main.c
+> > +++ b/init/main.c
+> > @@ -676,7 +676,7 @@ noinline void __ref rest_init(void)
+> >  	 * the init task will end up wanting to create kthreads, which, if
+> >  	 * we schedule it before we create kthreadd, will OOPS.
+> >  	 */
+> > -	pid = kernel_thread(kernel_init, NULL, CLONE_FS);
+> > +	pid = kernel_thread(kernel_init, NULL, CLONE_FS, 0, 0);
+> >  	/*
+> >  	 * Pin init on the boot CPU. Task migration is not properly working
+> >  	 * until sched_init_smp() has been run. It will set the allowed
+> > @@ -689,7 +689,7 @@ noinline void __ref rest_init(void)
+> >  	rcu_read_unlock();
+> >  
+> >  	numa_default_policy();
+> > -	pid = kernel_thread(kthreadd, NULL, CLONE_FS | CLONE_FILES);
+> > +	pid = kernel_thread(kthreadd, NULL, CLONE_FS | CLONE_FILES, 0, 0);
+> >  	rcu_read_lock();
+> >  	kthreadd_task = find_task_by_pid_ns(pid, &init_pid_ns);
+> >  	rcu_read_unlock();
+> > diff --git a/kernel/fork.c b/kernel/fork.c
+> > index bc94b2cc5995..9528940d83d7 100644
+> > --- a/kernel/fork.c
+> > +++ b/kernel/fork.c
+> > @@ -1458,7 +1458,8 @@ static int copy_fs(unsigned long clone_flags, struct task_struct *tsk)
+> >  	return 0;
+> >  }
+> >  
+> > -static int copy_files(unsigned long clone_flags, struct task_struct *tsk)
+> > +static int copy_files(unsigned long clone_flags, struct task_struct *tsk,
+> > +		      int no_files)
+> >  {
+> >  	struct files_struct *oldf, *newf;
+> >  	int error = 0;
+> > @@ -1470,6 +1471,11 @@ static int copy_files(unsigned long clone_flags, struct task_struct *tsk)
+> >  	if (!oldf)
+> >  		goto out;
+> >  
+> > +	if (no_files) {
+> > +		tsk->files = NULL;
+> > +		goto out;
+> > +	}
+> > +
+> >  	if (clone_flags & CLONE_FILES) {
+> >  		atomic_inc(&oldf->count);
+> >  		goto out;
+> > @@ -1954,11 +1960,14 @@ static __latent_entropy struct task_struct *copy_process(
+> >  		goto fork_out;
+> >  	if (args->io_thread) {
+> >  		/*
+> > -		 * Mark us an IO worker, and block any signal that isn't
+> > -		 * fatal or STOP
+> > +		 * Mark us an IO worker.
+> >  		 */
+> >  		p->flags |= PF_IO_WORKER;
+> > +	}
+> > +
+> > +	if (args->user_worker) {
+> >  		siginitsetinv(&p->blocked, sigmask(SIGKILL)|sigmask(SIGSTOP));
+> > +		p->flags |= PF_USER_WORKER;
+> >  	}
+> >  
+> >  	/*
+> > @@ -2104,7 +2113,7 @@ static __latent_entropy struct task_struct *copy_process(
+> >  	retval = copy_semundo(clone_flags, p);
+> >  	if (retval)
+> >  		goto bad_fork_cleanup_security;
+> > -	retval = copy_files(clone_flags, p);
+> > +	retval = copy_files(clone_flags, p, args->no_files);
+> >  	if (retval)
+> >  		goto bad_fork_cleanup_semundo;
+> >  	retval = copy_fs(clone_flags, p);
+> > @@ -2452,6 +2461,7 @@ struct task_struct *create_io_thread(int (*fn)(void *), void *arg, int node)
+> >  		.stack		= (unsigned long)fn,
+> >  		.stack_size	= (unsigned long)arg,
+> >  		.io_thread	= 1,
+> > +		.user_worker	= 1,
+> >  	};
+> >  
+> >  	return copy_process(NULL, 0, node, &args);
+> > @@ -2548,7 +2558,8 @@ pid_t kernel_clone(struct kernel_clone_args *args)
+> >  /*
+> >   * Create a kernel thread.
+> >   */
+> > -pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags)
+> > +pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags,
+> > +		    int no_files, int user_worker)
+> >  {
+> >  	struct kernel_clone_args args = {
+> >  		.flags		= ((lower_32_bits(flags) | CLONE_VM |
+> > @@ -2556,10 +2567,13 @@ pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags)
+> >  		.exit_signal	= (lower_32_bits(flags) & CSIGNAL),
+> >  		.stack		= (unsigned long)fn,
+> >  		.stack_size	= (unsigned long)arg,
+> > +		.no_files	= no_files,
+> > +		.user_worker	= user_worker,
+> >  	};
+> >  
+> >  	return kernel_clone(&args);
+> >  }
+> > +EXPORT_SYMBOL_GPL(kernel_thread);
+> >  
+> >  #ifdef __ARCH_WANT_SYS_FORK
+> >  SYSCALL_DEFINE0(fork)
+> > diff --git a/kernel/kthread.c b/kernel/kthread.c
+> > index 5b37a8567168..724c7ec63307 100644
+> > --- a/kernel/kthread.c
+> > +++ b/kernel/kthread.c
+> > @@ -339,7 +339,8 @@ static void create_kthread(struct kthread_create_info *create)
+> >  	current->pref_node_fork = create->node;
+> >  #endif
+> >  	/* We want our own signal handler (we take no signals by default). */
+> > -	pid = kernel_thread(kthread, create, CLONE_FS | CLONE_FILES | SIGCHLD);
+> > +	pid = kernel_thread(kthread, create, CLONE_FS | CLONE_FILES | SIGCHLD,
+> > +			    0, 0);
+> >  	if (pid < 0) {
+> >  		/* If user was SIGKILLed, I release the structure. */
+> >  		struct completion *done = xchg(&create->done, NULL);
+> > diff --git a/kernel/signal.c b/kernel/signal.c
+> > index a3229add4455..3f901067b266 100644
+> > --- a/kernel/signal.c
+> > +++ b/kernel/signal.c
+> > @@ -2795,11 +2795,11 @@ bool get_signal(struct ksignal *ksig)
+> >  		}
+> >  
+> >  		/*
+> > -		 * PF_IO_WORKER threads will catch and exit on fatal signals
+> > +		 * PF_USER_WORKER threads will catch and exit on fatal signals
+> >  		 * themselves. They have cleanup that must be performed, so
+> >  		 * we cannot call do_exit() on their behalf.
+> >  		 */
+> > -		if (current->flags & PF_IO_WORKER)
+> > +		if (current->flags & PF_USER_WORKER)
+> >  			goto out;
+> >  
+> >  		/*
+> > diff --git a/kernel/umh.c b/kernel/umh.c
+> > index 36c123360ab8..a6b7b733bd99 100644
+> > --- a/kernel/umh.c
+> > +++ b/kernel/umh.c
+> > @@ -132,7 +132,8 @@ static void call_usermodehelper_exec_sync(struct subprocess_info *sub_info)
+> >  
+> >  	/* If SIGCLD is ignored do_wait won't populate the status. */
+> >  	kernel_sigaction(SIGCHLD, SIG_DFL);
+> > -	pid = kernel_thread(call_usermodehelper_exec_async, sub_info, SIGCHLD);
+> > +	pid = kernel_thread(call_usermodehelper_exec_async, sub_info, SIGCHLD,
+> > +			    0, 0);
+> >  	if (pid < 0)
+> >  		sub_info->retval = pid;
+> >  	else
+> > @@ -172,7 +173,7 @@ static void call_usermodehelper_exec_work(struct work_struct *work)
+> >  		 * that always ignores SIGCHLD to ensure auto-reaping.
+> >  		 */
+> >  		pid = kernel_thread(call_usermodehelper_exec_async, sub_info,
+> > -				    CLONE_PARENT | SIGCHLD);
+> > +				    CLONE_PARENT | SIGCHLD, 0, 0);
+> >  		if (pid < 0) {
+> >  			sub_info->retval = pid;
+> >  			umh_complete(sub_info);
+> 
+> 
+> Looks quite reasonable to me. You do of course want to post
+> it and CC the proper people so it gets review. And add the
+> vhost changes of course.
 
+Looks reasonable to me. Cc Jens Axboe too on this please.
 
-On 9/14/21 08:55, Greg Kurz wrote:
-> On Fri, 10 Sep 2021 16:55:36 -0300
-> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
-> 
->> Introducing a new NUMA affinity, FORM2, requires a new mechanism to
->> switch between affinity modes after CAS. Also, we want FORM2 data
->> structures and functions to be completely separated from the existing
->> FORM1 code, allowing us to avoid adding new code that inherits the
->> existing complexity of FORM1.
->>
->> At the same time, it's also desirable to minimize the amount of changes
->> made in write_dt() functions that are used to write ibm,associativity of
->> the resources, RTAS artifacts and h_home_node_associativity. These
->> functions can work in the same way in both NUMA affinity modes, as long
->> as we use a similar data structure and parametrize it properly depending
->> on the affinity mode selected.
->>
->> This patch introduces spapr_numa_associativity_reset() to start this
->> process. This function will be used to switch to the chosen NUMA
->> affinity after CAS and after migrating the guest. To do that, the
->> existing 'numa_assoc_array' is renamed to 'FORM1_assoc_array' and will
->> hold FORM1 data that is populated at associativity_init().
->> 'numa_assoc_array' is now a pointer that can be switched between the
->> existing affinity arrays. We don't have FORM2 data structures yet, so
->> 'numa_assoc_array' will always point to 'FORM1_assoc_array'.
->>
->> We also take the precaution of pointing 'numa_assoc_array' to
->> 'FORM1_assoc_array' in associativity_init() time, before CAS, to not
->> change FORM1 availability for existing guests.
->>
->> A small change in spapr_numa_write_associativity_dt() is made to reflect
->> the fact that 'numa_assoc_array' is now a pointer and we must be
->> explicit with the size being written in the DT.
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/ppc/spapr.c              | 14 +++++++++++++
->>   hw/ppc/spapr_hcall.c        |  7 +++++++
->>   hw/ppc/spapr_numa.c         | 42 +++++++++++++++++++++++++++++--------
->>   include/hw/ppc/spapr.h      |  3 ++-
->>   include/hw/ppc/spapr_numa.h |  1 +
->>   5 files changed, 57 insertions(+), 10 deletions(-)
->>
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index d39fd4e644..5afbb76cab 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -1786,6 +1786,20 @@ static int spapr_post_load(void *opaque, int version_id)
->>           return err;
->>       }
->>   
->> +    /*
->> +     * NUMA affinity selection is made in CAS time. There is no reliable
->> +     * way of telling whether the guest already went through CAS before
->> +     * migration due to how spapr_ov5_cas_needed works: a FORM1 guest can
->> +     * be migrated with ov5_cas empty regardless of going through CAS
->> +     * first.
->> +     *
->> +     * One solution is to call numa_associativity_reset(). The downside
->> +     * is that a guest migrated before CAS will reset it again when going
->> +     * through it, but since it's a lightweight operation it's worth being
->> +     * a little redundant to be safe.
-> 
-> Also this isn't a hot path.
-> 
->> +     */
->> +     spapr_numa_associativity_reset(spapr);
->> +
->>       return err;
->>   }
->>   
->> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
->> index 0e9a5b2e40..82ab92ddba 100644
->> --- a/hw/ppc/spapr_hcall.c
->> +++ b/hw/ppc/spapr_hcall.c
->> @@ -17,6 +17,7 @@
->>   #include "kvm_ppc.h"
->>   #include "hw/ppc/fdt.h"
->>   #include "hw/ppc/spapr_ovec.h"
->> +#include "hw/ppc/spapr_numa.h"
->>   #include "mmu-book3s-v3.h"
->>   #include "hw/mem/memory-device.h"
->>   
->> @@ -1197,6 +1198,12 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
->>       spapr->cas_pre_isa3_guest = !spapr_ovec_test(ov1_guest, OV1_PPC_3_00);
->>       spapr_ovec_cleanup(ov1_guest);
->>   
->> +    /*
->> +     * Reset numa_assoc_array now that we know which NUMA affinity
->> +     * the guest will use.
->> +     */
->> +    spapr_numa_associativity_reset(spapr);
->> +
->>       /*
->>        * Ensure the guest asks for an interrupt mode we support;
->>        * otherwise terminate the boot.
->> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
->> index fb6059550f..327952ba9e 100644
->> --- a/hw/ppc/spapr_numa.c
->> +++ b/hw/ppc/spapr_numa.c
->> @@ -97,7 +97,7 @@ static void spapr_numa_define_FORM1_domains(SpaprMachineState *spapr)
->>        */
->>       for (i = 1; i < nb_numa_nodes; i++) {
->>           for (j = 1; j < MAX_DISTANCE_REF_POINTS; j++) {
->> -            spapr->numa_assoc_array[i][j] = cpu_to_be32(i);
->> +            spapr->FORM1_assoc_array[i][j] = cpu_to_be32(i);
->>           }
->>       }
->>   
->> @@ -149,8 +149,8 @@ static void spapr_numa_define_FORM1_domains(SpaprMachineState *spapr)
->>                * and going up to 0x1.
->>                */
->>               for (i = n_level; i > 0; i--) {
->> -                assoc_src = spapr->numa_assoc_array[src][i];
->> -                spapr->numa_assoc_array[dst][i] = assoc_src;
->> +                assoc_src = spapr->FORM1_assoc_array[src][i];
->> +                spapr->FORM1_assoc_array[dst][i] = assoc_src;
->>               }
->>           }
->>       }
->> @@ -167,6 +167,11 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
->>       int nb_numa_nodes = machine->numa_state->num_nodes;
->>       int i, j, max_nodes_with_gpus;
->>   
->> +    /* init FORM1_assoc_array */
->> +    for (i = 0; i < MAX_NODES + NVGPU_MAX_NUM; i++) {
->> +        spapr->FORM1_assoc_array[i] = g_new0(uint32_t, NUMA_ASSOC_SIZE);
-> 
-> Why dynamic allocation since you have fixed size ?
-
-If I use static allocation the C compiler complains that I can't assign a
-uint32_t** pointer to a uint32_t[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE]
-array type.
-
-And given that the FORM2 array is a [MAX_NODES + NVGPU_MAX_NUM][2] array, the
-way I worked around that here is to use dynamic allocation. Then C considers valid
-to use numa_assoc_array as an uint32_t** pointer for both FORM1 and FORM2
-2D arrays. I'm fairly certain that there might be a way of doing static allocation
-and keeping the uint32_t** pointer as is, but didn't find any. Tips welcome :D
-
-An alternative that I considered, without the need for this dynamic allocation hack,
-is to make both FORM1 and FORM2 data structures the same size (i.e.
-an [MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE] uint32_t array) and then numa_assoc_array
-can be a pointer of the same array type for both. Since we're controlling FORM1 and
-FORM2 sizes separately inside the functions this would work. The downside is that
-FORM2 2D array would be bigger than necessary.
-
-
-I don't have strong opinions about which way to do it, so I'm all ears.
-
-
-Thanks,
-
-
-Daniel
-
-
-
-> 
->> +    }
->> +
->>       /*
->>        * For all associativity arrays: first position is the size,
->>        * position MAX_DISTANCE_REF_POINTS is always the numa_id,
->> @@ -177,8 +182,8 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
->>        * 'i' will be a valid node_id set by the user.
->>        */
->>       for (i = 0; i < nb_numa_nodes; i++) {
->> -        spapr->numa_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
->> -        spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
->> +        spapr->FORM1_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
->> +        spapr->FORM1_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
->>       }
->>   
->>       /*
->> @@ -192,15 +197,15 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
->>       max_nodes_with_gpus = nb_numa_nodes + NVGPU_MAX_NUM;
->>   
->>       for (i = nb_numa_nodes; i < max_nodes_with_gpus; i++) {
->> -        spapr->numa_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
->> +        spapr->FORM1_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
->>   
->>           for (j = 1; j < MAX_DISTANCE_REF_POINTS; j++) {
->>               uint32_t gpu_assoc = smc->pre_5_1_assoc_refpoints ?
->>                                    SPAPR_GPU_NUMA_ID : cpu_to_be32(i);
->> -            spapr->numa_assoc_array[i][j] = gpu_assoc;
->> +            spapr->FORM1_assoc_array[i][j] = gpu_assoc;
->>           }
->>   
->> -        spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
->> +        spapr->FORM1_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
->>       }
->>   
->>       /*
->> @@ -227,14 +232,33 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
->>                                      MachineState *machine)
->>   {
->>       spapr_numa_FORM1_affinity_init(spapr, machine);
->> +
->> +    /*
->> +     * Default to FORM1 affinity until CAS. We'll call affinity_reset()
->> +     * during CAS when we're sure about which NUMA affinity the guest
->> +     * is going to use.
->> +     *
->> +     * This step is a failsafe - guests in the wild were able to read
->> +     * FORM1 affinity info before CAS for a long time. Since affinity_reset()
->> +     * is just a pointer switch between data that was already populated
->> +     * here, this is an acceptable overhead to be on the safer side.
->> +     */
->> +    spapr->numa_assoc_array = spapr->FORM1_assoc_array;
-> 
-> The right way to do that is to call spapr_numa_associativity_reset() from
-> spapr_machine_reset() because we want to revert to FORM1 each time the
-> guest is rebooted.
-> 
->> +}
->> +
->> +void spapr_numa_associativity_reset(SpaprMachineState *spapr)
->> +{
->> +    /* No FORM2 affinity implemented yet */
-> 
-> This seems quite obvious at this point, not sure the comment helps.
-> 
->> +    spapr->numa_assoc_array = spapr->FORM1_assoc_array;
->>   }
->>   
->>   void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
->>                                          int offset, int nodeid)
->>   {
->> +    /* Hardcode the size of FORM1 associativity array for now */
->>       _FDT((fdt_setprop(fdt, offset, "ibm,associativity",
->>                         spapr->numa_assoc_array[nodeid],
->> -                      sizeof(spapr->numa_assoc_array[nodeid]))));
->> +                      NUMA_ASSOC_SIZE * sizeof(uint32_t))));
-> 
-> Rather than doing this temporary change that gets undone in
-> a later patch, I suggest you introduce get_numa_assoc_size()
-> in a preliminary patch and use it here already :
-> 
-> -                      NUMA_ASSOC_SIZE * sizeof(uint32_t))));
-> +                      get_numa_assoc_size(spapr) * sizeof(uint32_t))));
-> 
-> This will simplify the reviewing.
-> 
->>   }
->>   
->>   static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *spapr,
->> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
->> index 637652ad16..8a9490f0bf 100644
->> --- a/include/hw/ppc/spapr.h
->> +++ b/include/hw/ppc/spapr.h
->> @@ -249,7 +249,8 @@ struct SpaprMachineState {
->>       unsigned gpu_numa_id;
->>       SpaprTpmProxy *tpm_proxy;
->>   
->> -    uint32_t numa_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE];
->> +    uint32_t *FORM1_assoc_array[MAX_NODES + NVGPU_MAX_NUM];
-> 
-> As said above, I really don't see the point in not having :
-> 
->      uint32_t *FORM1_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE];
-> 
->> +    uint32_t **numa_assoc_array;
->>   
->>       Error *fwnmi_migration_blocker;
->>   };
->> diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
->> index 6f9f02d3de..ccf3e4eae8 100644
->> --- a/include/hw/ppc/spapr_numa.h
->> +++ b/include/hw/ppc/spapr_numa.h
->> @@ -24,6 +24,7 @@
->>    */
->>   void spapr_numa_associativity_init(SpaprMachineState *spapr,
->>                                      MachineState *machine);
->> +void spapr_numa_associativity_reset(SpaprMachineState *spapr);
->>   void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas);
->>   void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
->>                                          int offset, int nodeid);
-> 
+Christian
 
