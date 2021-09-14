@@ -2,69 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 076F540A747
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 09:23:29 +0200 (CEST)
-Received: from localhost ([::1]:40674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A5F40A864
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 09:45:23 +0200 (CEST)
+Received: from localhost ([::1]:45072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ2mu-0000co-34
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 03:23:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39532)
+	id 1mQ384-0004bY-BW
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 03:45:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mQ2fT-0005cR-Ep
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 03:15:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37359)
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1mQ36h-0003lZ-2P; Tue, 14 Sep 2021 03:43:55 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mQ2fS-0001AP-1t
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 03:15:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631603745;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZPPYTllzwk6z+3Wi4iQLayl+MiWJFCrwma2oGIsJ1ps=;
- b=aKXBbYZE2hi5I9FONXOOU1I0W+dPgnW9ZYLcMLsYDM5kHB1lgsnutJDnyhtlb4Zl2cfETR
- fZzhy2QUNacLbEUbtkN+/JGrIIUoXxbiFDRCFdIAqL3uCYwgdyh5LtdtOIUIZ1tvnbeH2V
- 5U0enE8zl2hpHVeGTKtVe7vrfa047pE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-5h3OiB2YPgWJrwZ7T7r3dQ-1; Tue, 14 Sep 2021 03:15:43 -0400
-X-MC-Unique: 5h3OiB2YPgWJrwZ7T7r3dQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF2B1802928
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 07:15:42 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AF09C19724;
- Tue, 14 Sep 2021 07:15:39 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9AC6C180091C; Tue, 14 Sep 2021 09:15:36 +0200 (CEST)
-Date: Tue, 14 Sep 2021 09:15:36 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 04/22] qapi: Convert simple union InputEvent to flat one
-Message-ID: <20210914071536.xcq5weyshp3djdoh@sirius.home.kraxel.org>
-References: <20210913123932.3306639-1-armbru@redhat.com>
- <20210913123932.3306639-5-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1mQ36e-00083w-Bl; Tue, 14 Sep 2021 03:43:54 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4H7wGb1ZsqzbmWd;
+ Tue, 14 Sep 2021 15:39:35 +0800 (CST)
+Received: from kwepeml500004.china.huawei.com (7.221.188.141) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Tue, 14 Sep 2021 15:43:38 +0800
+Received: from [10.174.187.138] (10.174.187.138) by
+ kwepeml500004.china.huawei.com (7.221.188.141) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Tue, 14 Sep 2021 15:43:37 +0800
+Message-ID: <614052A9.4060107@huawei.com>
+Date: Tue, 14 Sep 2021 15:43:37 +0800
+From: Alex Chen <alex.chen@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
+ rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-In-Reply-To: <20210913123932.3306639-5-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+To: Peter Maydell <peter.maydell@linaro.org>, Michael Tokarev <mjt@tls.msk.ru>
+Subject: Re: [PATCH V2] util: Remove redundant checks in the openpty()
+References: <5F9FE5B8.1030803@huawei.com>
+In-Reply-To: <5F9FE5B8.1030803@huawei.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.187.138]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepeml500004.china.huawei.com (7.221.188.141)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=alex.chen@huawei.com;
+ helo=szxga01-in.huawei.com
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.969,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,24 +64,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, eblake@redhat.com, qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, yebiaoxiang@huawei.com,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 13, 2021 at 02:39:14PM +0200, Markus Armbruster wrote:
-> Simple unions predate flat unions.  Having both complicates the QAPI
-> schema language and the QAPI generator.  We haven't been using simple
-> unions in new code for a long time, because they are less flexible and
-> somewhat awkward on the wire.
-> 
-> To prepare for their removal, convert simple union InputEvent to an
-> equivalent flat one.  Adds some boilerplate to the schema, which is a
-> bit ugly, but a lot easier to maintain than the simple union feature.
-> 
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Hi all,
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+This patch has been reviewed by Peter. who can help merge it?
+
+Thanks,
+Alex
+
+On 2020/11/2 18:55, AlexChen wrote:
+> As we can see from the following function call stack, amaster and aslave
+> can not be NULL: char_pty_open() -> qemu_openpty_raw() -> openpty().
+> In addition, according to the API specification for openpty():
+> https://www.gnu.org/software/libc/manual/html_node/Pseudo_002dTerminal-Pairs.html,
+> the arguments name, termp and winp can all be NULL, but arguments amaster or aslave
+> can not be NULL.
+> Finally, amaster and aslave has been dereferenced at the beginning of the openpty().
+> So the checks on amaster and aslave in the openpty() are redundant. Remove them.
+> 
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Alex Chen <alex.chen@huawei.com>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  util/qemu-openpty.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/util/qemu-openpty.c b/util/qemu-openpty.c
+> index eb17f5b0bc..427f43a769 100644
+> --- a/util/qemu-openpty.c
+> +++ b/util/qemu-openpty.c
+> @@ -80,10 +80,9 @@ static int openpty(int *amaster, int *aslave, char *name,
+>              (termp != NULL && tcgetattr(sfd, termp) < 0))
+>                  goto err;
+> 
+> -        if (amaster)
+> -                *amaster = mfd;
+> -        if (aslave)
+> -                *aslave = sfd;
+> +        *amaster = mfd;
+> +        *aslave = sfd;
+> +
+>          if (winp)
+>                  ioctl(sfd, TIOCSWINSZ, winp);
+> 
 
 
