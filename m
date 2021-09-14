@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB29F40B82B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 21:34:45 +0200 (CEST)
-Received: from localhost ([::1]:56838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA33140B89D
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 22:01:44 +0200 (CEST)
+Received: from localhost ([::1]:43312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQECa-0006wg-OI
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 15:34:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42264)
+	id 1mQEch-0001jE-Bf
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 16:01:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQE9a-0004By-94
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 15:31:38 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:44582)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mQEZq-0000U2-BG; Tue, 14 Sep 2021 15:58:46 -0400
+Received: from mail-qk1-x72b.google.com ([2607:f8b0:4864:20::72b]:38594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQE9Y-0001mz-E5
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 15:31:38 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id b7so284455pfo.11
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 12:31:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yLjkJDld/NkduZAOMzve/po3wnfh8pYm6OF1IYAcAbg=;
- b=r+gQAgOEPJVdxvEBbUU4vWZCoNlUfZDLmzM5B2QyPhgWbbSUuKNTn8lXw1OusWW1TN
- v1YA379lIowQ75J/GtjoGkuprZWwaKR1x8+cTZI9dQ9YKvURRfgxHljbQoXxiy7JMFHh
- YmY3wgfmgxAH2qp8ENgdyEbxH04pBH3+pbUYp6r6QfHB1Zuy1h2DnpykooC4b8/97UZX
- cGe1wXGmmO+SwqB/Fkdvv0BFFL0DRBuDTkPLz2PxZo7npTFmB9FjGCLRE4b8wGFaFZOW
- ATnc5aRZuq/20AXEjuy22moVgTZGN6NpEZIFJMzQU0M6cgZuKdy2ZpieI5AMPa3CP3BU
- HHZg==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mQEZn-0003Nt-IO; Tue, 14 Sep 2021 15:58:46 -0400
+Received: by mail-qk1-x72b.google.com with SMTP id f22so804137qkm.5;
+ Tue, 14 Sep 2021 12:58:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=c0DQsqke/ZAQtkrcN37lXth2ILyrTPOmyilpDr0IsKE=;
+ b=isIGFr9JiKlyzd9JYU2h1dDUxXJo9zLA/Vj439jtL2PNVRhId+lMqnIJ4Ox79CzDZg
+ kGsOvCT+DPXa5sMQpedtKzReaSdeJ0Nz4BCnWi5MA/A3mOQRUVaA/mJaPkGgneqaShZd
+ 20jZ0yXY55TDWOpsoU6+LkZyO+5nrn/4navFu8wfxm9kS+E4mnqM1iVKeDhglT5dW0GW
+ eFNrPywa3NEjgBIrzhHufwdMZ6XW//FvhSp90+QeScGioHvMNHZJ0hkR20+QYSNXjSbc
+ xjgB1RrJjnjUbYKXHqsrpnf4MMNcC+Gj6mYwOmZ0w3DxLIWuuPEA9cmj9VhN4EL+GplP
+ PjHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=yLjkJDld/NkduZAOMzve/po3wnfh8pYm6OF1IYAcAbg=;
- b=B1XaoFLM2PqspcvwEgx3NBm0mad8ebgr6nFr+RfjjIpLSMtJprPKvWbk51PltkouUD
- xOX8syacy/8XpdxD+ee2ZeOgNrmXEKh5rJkVPTo8ELRdDPC5150v3Bcb8lMQuYElhed0
- 4KIML6Knd5K0ea73Df8jTfWkkmxqA/x/xu30RMnq1NMXTuLbiathFPBX/s2k6tuvORMK
- J4dWykzrKRIZYNEFGwpWpIOMSenqtOqbFU27kJvcCyvAwaUzvEaDm2yXBbMtzwJOI5y5
- MtPEV/57Q3TpQ8J9Kps3MQuMpYDRyPbiWf7uRi5yR3CjaDRaD+bcTyNDD9JSvov9FYyb
- vqYQ==
-X-Gm-Message-State: AOAM530WdC3Z4lSSRYp4dvJsf1bJHBo/R7Uwb2FEcCD+lEbvvy5vjGiZ
- xdKxsvTcFo5cZaFkHJFZ8NmDEFmlKZnmsA==
-X-Google-Smtp-Source: ABdhPJwhKj+Qx0w5kZaniA+O1q6B89P8VAcKULp8t+GDLBJdsQhl+l0+95TxpXQkikcVNefBCz1L4w==
-X-Received: by 2002:a63:e057:: with SMTP id n23mr17124661pgj.183.1631647895002; 
- Tue, 14 Sep 2021 12:31:35 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id j5sm2398163pjv.56.2021.09.14.12.31.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Sep 2021 12:31:34 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL v4 00/43] tcg patch queue
-Date: Tue, 14 Sep 2021 12:31:33 -0700
-Message-Id: <20210914193133.1388599-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ bh=c0DQsqke/ZAQtkrcN37lXth2ILyrTPOmyilpDr0IsKE=;
+ b=zVkOe0jMyS0COsrHbAAaovPdbOB50LnHKcC5+78eKz6KuOADxHVIy0m3S6/6fQ26j+
+ le62tnXyekKu6j74mZ0mdrsbruwBcRyy4Qw0P+llCoT+VubICFKn+T7Sp1zgyOjYzblv
+ TdcaTB/hfNrNMAuDbT5fyUYNplE0FHbuc+LsihsGw+a1ejddgKfMqdbxQY0Dsalxsff9
+ aXKjIlMLVS6QEs3MJPBG4xMZMN6Fi+3dGFmPFNGBi1e0TNTNrqY9p2kPio55gcCMLkNY
+ YPXAV9yMU2zhUjNdGB5IRFdyvHbwTnLlRMWqm50GP3//RtDQEkJpaY5xFH+w5LEnMCb9
+ xx9Q==
+X-Gm-Message-State: AOAM533Z6tki5rEQL21jglkN0A3iZ8hhq7WVsf6V2HhtDqt0pKAoZTMk
+ +zCz+3VRqOauXXhHPv+8RTxGFXuIrE0=
+X-Google-Smtp-Source: ABdhPJxUKsmZAhSVampTmSU1PeGW1U71X84fBHX3Zg9gtLdbIY41YLgonPcerBo9Cv3zQBtYAfQ81w==
+X-Received: by 2002:a05:620a:4404:: with SMTP id
+ v4mr6872961qkp.344.1631649521499; 
+ Tue, 14 Sep 2021 12:58:41 -0700 (PDT)
+Received: from ?IPV6:2804:18:c9:d5fb:c4f1:6f26:5434:d63e?
+ ([2804:18:c9:d5fb:c4f1:6f26:5434:d63e])
+ by smtp.gmail.com with ESMTPSA id j23sm8390907qkl.65.2021.09.14.12.58.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Sep 2021 12:58:41 -0700 (PDT)
+Message-ID: <3bd59a2f-5c3b-f062-4a6c-abf34340000d@gmail.com>
+Date: Tue, 14 Sep 2021 16:58:37 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v6 3/6] spapr: introduce spapr_numa_associativity_reset()
+Content-Language: en-US
+To: Greg Kurz <groug@kaod.org>
+References: <20210910195539.797170-1-danielhb413@gmail.com>
+ <20210910195539.797170-4-danielhb413@gmail.com>
+ <20210914135514.1896ea3e@bahia.huguette>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20210914135514.1896ea3e@bahia.huguette>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72b.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.969,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,178 +89,289 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Version 4: Drop the cpu_loop noreturn patch.
 
 
-r~
+On 9/14/21 08:55, Greg Kurz wrote:
+> On Fri, 10 Sep 2021 16:55:36 -0300
+> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+> 
+>> Introducing a new NUMA affinity, FORM2, requires a new mechanism to
+>> switch between affinity modes after CAS. Also, we want FORM2 data
+>> structures and functions to be completely separated from the existing
+>> FORM1 code, allowing us to avoid adding new code that inherits the
+>> existing complexity of FORM1.
+>>
+>> At the same time, it's also desirable to minimize the amount of changes
+>> made in write_dt() functions that are used to write ibm,associativity of
+>> the resources, RTAS artifacts and h_home_node_associativity. These
+>> functions can work in the same way in both NUMA affinity modes, as long
+>> as we use a similar data structure and parametrize it properly depending
+>> on the affinity mode selected.
+>>
+>> This patch introduces spapr_numa_associativity_reset() to start this
+>> process. This function will be used to switch to the chosen NUMA
+>> affinity after CAS and after migrating the guest. To do that, the
+>> existing 'numa_assoc_array' is renamed to 'FORM1_assoc_array' and will
+>> hold FORM1 data that is populated at associativity_init().
+>> 'numa_assoc_array' is now a pointer that can be switched between the
+>> existing affinity arrays. We don't have FORM2 data structures yet, so
+>> 'numa_assoc_array' will always point to 'FORM1_assoc_array'.
+>>
+>> We also take the precaution of pointing 'numa_assoc_array' to
+>> 'FORM1_assoc_array' in associativity_init() time, before CAS, to not
+>> change FORM1 availability for existing guests.
+>>
+>> A small change in spapr_numa_write_associativity_dt() is made to reflect
+>> the fact that 'numa_assoc_array' is now a pointer and we must be
+>> explicit with the size being written in the DT.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>   hw/ppc/spapr.c              | 14 +++++++++++++
+>>   hw/ppc/spapr_hcall.c        |  7 +++++++
+>>   hw/ppc/spapr_numa.c         | 42 +++++++++++++++++++++++++++++--------
+>>   include/hw/ppc/spapr.h      |  3 ++-
+>>   include/hw/ppc/spapr_numa.h |  1 +
+>>   5 files changed, 57 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+>> index d39fd4e644..5afbb76cab 100644
+>> --- a/hw/ppc/spapr.c
+>> +++ b/hw/ppc/spapr.c
+>> @@ -1786,6 +1786,20 @@ static int spapr_post_load(void *opaque, int version_id)
+>>           return err;
+>>       }
+>>   
+>> +    /*
+>> +     * NUMA affinity selection is made in CAS time. There is no reliable
+>> +     * way of telling whether the guest already went through CAS before
+>> +     * migration due to how spapr_ov5_cas_needed works: a FORM1 guest can
+>> +     * be migrated with ov5_cas empty regardless of going through CAS
+>> +     * first.
+>> +     *
+>> +     * One solution is to call numa_associativity_reset(). The downside
+>> +     * is that a guest migrated before CAS will reset it again when going
+>> +     * through it, but since it's a lightweight operation it's worth being
+>> +     * a little redundant to be safe.
+> 
+> Also this isn't a hot path.
+> 
+>> +     */
+>> +     spapr_numa_associativity_reset(spapr);
+>> +
+>>       return err;
+>>   }
+>>   
+>> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+>> index 0e9a5b2e40..82ab92ddba 100644
+>> --- a/hw/ppc/spapr_hcall.c
+>> +++ b/hw/ppc/spapr_hcall.c
+>> @@ -17,6 +17,7 @@
+>>   #include "kvm_ppc.h"
+>>   #include "hw/ppc/fdt.h"
+>>   #include "hw/ppc/spapr_ovec.h"
+>> +#include "hw/ppc/spapr_numa.h"
+>>   #include "mmu-book3s-v3.h"
+>>   #include "hw/mem/memory-device.h"
+>>   
+>> @@ -1197,6 +1198,12 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+>>       spapr->cas_pre_isa3_guest = !spapr_ovec_test(ov1_guest, OV1_PPC_3_00);
+>>       spapr_ovec_cleanup(ov1_guest);
+>>   
+>> +    /*
+>> +     * Reset numa_assoc_array now that we know which NUMA affinity
+>> +     * the guest will use.
+>> +     */
+>> +    spapr_numa_associativity_reset(spapr);
+>> +
+>>       /*
+>>        * Ensure the guest asks for an interrupt mode we support;
+>>        * otherwise terminate the boot.
+>> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+>> index fb6059550f..327952ba9e 100644
+>> --- a/hw/ppc/spapr_numa.c
+>> +++ b/hw/ppc/spapr_numa.c
+>> @@ -97,7 +97,7 @@ static void spapr_numa_define_FORM1_domains(SpaprMachineState *spapr)
+>>        */
+>>       for (i = 1; i < nb_numa_nodes; i++) {
+>>           for (j = 1; j < MAX_DISTANCE_REF_POINTS; j++) {
+>> -            spapr->numa_assoc_array[i][j] = cpu_to_be32(i);
+>> +            spapr->FORM1_assoc_array[i][j] = cpu_to_be32(i);
+>>           }
+>>       }
+>>   
+>> @@ -149,8 +149,8 @@ static void spapr_numa_define_FORM1_domains(SpaprMachineState *spapr)
+>>                * and going up to 0x1.
+>>                */
+>>               for (i = n_level; i > 0; i--) {
+>> -                assoc_src = spapr->numa_assoc_array[src][i];
+>> -                spapr->numa_assoc_array[dst][i] = assoc_src;
+>> +                assoc_src = spapr->FORM1_assoc_array[src][i];
+>> +                spapr->FORM1_assoc_array[dst][i] = assoc_src;
+>>               }
+>>           }
+>>       }
+>> @@ -167,6 +167,11 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
+>>       int nb_numa_nodes = machine->numa_state->num_nodes;
+>>       int i, j, max_nodes_with_gpus;
+>>   
+>> +    /* init FORM1_assoc_array */
+>> +    for (i = 0; i < MAX_NODES + NVGPU_MAX_NUM; i++) {
+>> +        spapr->FORM1_assoc_array[i] = g_new0(uint32_t, NUMA_ASSOC_SIZE);
+> 
+> Why dynamic allocation since you have fixed size ?
+
+If I use static allocation the C compiler complains that I can't assign a
+uint32_t** pointer to a uint32_t[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE]
+array type.
+
+And given that the FORM2 array is a [MAX_NODES + NVGPU_MAX_NUM][2] array, the
+way I worked around that here is to use dynamic allocation. Then C considers valid
+to use numa_assoc_array as an uint32_t** pointer for both FORM1 and FORM2
+2D arrays. I'm fairly certain that there might be a way of doing static allocation
+and keeping the uint32_t** pointer as is, but didn't find any. Tips welcome :D
+
+An alternative that I considered, without the need for this dynamic allocation hack,
+is to make both FORM1 and FORM2 data structures the same size (i.e.
+an [MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE] uint32_t array) and then numa_assoc_array
+can be a pointer of the same array type for both. Since we're controlling FORM1 and
+FORM2 sizes separately inside the functions this would work. The downside is that
+FORM2 2D array would be bigger than necessary.
 
 
-The following changes since commit 4c9af1ea1457782cf0adb293179335ef6de942aa:
+I don't have strong opinions about which way to do it, so I'm all ears.
 
-  gitlab-ci: Make more custom runner jobs manual, and don't allow failure (2021-09-14 17:03:03 +0100)
 
-are available in the Git repository at:
+Thanks,
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210914-4
 
-for you to fetch changes up to e028eada62dbfcba134ac5afdefc3aa343ae202f:
+Daniel
 
-  tcg/arm: More use of the TCGReg enum (2021-09-14 12:00:21 -0700)
 
-----------------------------------------------------------------
-Fix translation race condition for user-only.
-Fix tcg/i386 encoding for VPSLLVQ, VPSRLVQ.
-Fix tcg/arm tcg_out_vec_op signature.
-Fix tcg/ppc (32bit) build with clang.
-Remove dupluate TCG_KICK_PERIOD definition.
-Remove unused tcg_global_reg_new.
-Restrict cpu_exec_interrupt and its callees to sysemu.
-Cleanups for tcg/arm.
 
-----------------------------------------------------------------
-Bin Meng (1):
-      tcg: Remove tcg_global_reg_new defines
-
-Ilya Leoshkevich (3):
-      accel/tcg: Add DisasContextBase argument to translator_ld*
-      accel/tcg: Clear PAGE_WRITE before translation
-      accel/tcg/user-exec: Fix read-modify-write of code on s390 hosts
-
-Jose R. Ziviani (1):
-      tcg/arm: Fix tcg_out_vec_op function signature
-
-Luc Michel (1):
-      accel/tcg: remove redundant TCG_KICK_PERIOD define
-
-Philippe Mathieu-Daudé (24):
-      target/avr: Remove pointless use of CONFIG_USER_ONLY definition
-      target/i386: Restrict sysemu-only fpu_helper helpers
-      target/i386: Simplify TARGET_X86_64 #ifdef'ry
-      target/xtensa: Restrict do_transaction_failed() to sysemu
-      accel/tcg: Rename user-mode do_interrupt hack as fake_user_interrupt
-      target/alpha: Restrict cpu_exec_interrupt() handler to sysemu
-      target/arm: Restrict cpu_exec_interrupt() handler to sysemu
-      target/cris: Restrict cpu_exec_interrupt() handler to sysemu
-      target/hppa: Restrict cpu_exec_interrupt() handler to sysemu
-      target/i386: Restrict cpu_exec_interrupt() handler to sysemu
-      target/i386: Move x86_cpu_exec_interrupt() under sysemu/ folder
-      target/m68k: Restrict cpu_exec_interrupt() handler to sysemu
-      target/microblaze: Restrict cpu_exec_interrupt() handler to sysemu
-      target/mips: Restrict cpu_exec_interrupt() handler to sysemu
-      target/nios2: Restrict cpu_exec_interrupt() handler to sysemu
-      target/openrisc: Restrict cpu_exec_interrupt() handler to sysemu
-      target/ppc: Restrict cpu_exec_interrupt() handler to sysemu
-      target/riscv: Restrict cpu_exec_interrupt() handler to sysemu
-      target/sh4: Restrict cpu_exec_interrupt() handler to sysemu
-      target/sparc: Restrict cpu_exec_interrupt() handler to sysemu
-      target/rx: Restrict cpu_exec_interrupt() handler to sysemu
-      target/xtensa: Restrict cpu_exec_interrupt() handler to sysemu
-      accel/tcg: Restrict TCGCPUOps::cpu_exec_interrupt() to sysemu
-      user: Remove cpu_get_pic_interrupt() stubs
-
-Richard Henderson (13):
-      tcg/i386: Split P_VEXW from P_REXW
-      tcg/ppc: Replace TCG_TARGET_CALL_DARWIN with _CALL_DARWIN
-      tcg/ppc: Ensure _CALL_SYSV is set for 32-bit ELF
-      tcg/arm: Remove fallback definition of __ARM_ARCH
-      tcg/arm: Standardize on tcg_out_<branch>_{reg,imm}
-      tcg/arm: Simplify use_armv5t_instructions
-      tcg/arm: Support armv4t in tcg_out_goto and tcg_out_call
-      tcg/arm: Split out tcg_out_ldstm
-      tcg/arm: Simplify usage of encode_imm
-      tcg/arm: Drop inline markers
-      tcg/arm: Give enum arm_cond_code_e a typedef and use it
-      tcg/arm: More use of the ARMInsn enum
-      tcg/arm: More use of the TCGReg enum
-
- include/exec/translate-all.h              |   1 +
- include/exec/translator.h                 |  44 +--
- include/hw/core/tcg-cpu-ops.h             |  26 +-
- include/tcg/tcg-op.h                      |   2 -
- target/alpha/cpu.h                        |   2 +-
- target/arm/arm_ldst.h                     |  12 +-
- target/arm/cpu.h                          |   3 +-
- target/cris/cpu.h                         |   2 +-
- target/hppa/cpu.h                         |   4 +-
- target/i386/cpu.h                         |   3 +
- target/i386/tcg/helper-tcg.h              |   2 +
- target/m68k/cpu.h                         |   2 +
- target/microblaze/cpu.h                   |   2 +
- target/mips/tcg/tcg-internal.h            |   5 +-
- target/openrisc/cpu.h                     |   5 +-
- target/ppc/cpu.h                          |   4 +-
- target/riscv/cpu.h                        |   2 +-
- target/rx/cpu.h                           |   2 +
- target/sh4/cpu.h                          |   4 +-
- target/xtensa/cpu.h                       |   2 +
- tcg/arm/tcg-target.h                      |  27 +-
- accel/tcg/cpu-exec.c                      |  14 +-
- accel/tcg/tcg-accel-ops-rr.c              |   2 -
- accel/tcg/translate-all.c                 |  59 ++--
- accel/tcg/translator.c                    |  39 +++
- accel/tcg/user-exec.c                     |  48 ++-
- bsd-user/i386/target_arch_cpu.c           |   5 -
- bsd-user/x86_64/target_arch_cpu.c         |   5 -
- linux-user/main.c                         |   7 -
- target/alpha/cpu.c                        |   2 +-
- target/alpha/helper.c                     |   5 +-
- target/alpha/translate.c                  |   2 +-
- target/arm/cpu.c                          |   7 +-
- target/arm/cpu_tcg.c                      |   6 +-
- target/arm/translate-a64.c                |   2 +-
- target/arm/translate.c                    |   9 +-
- target/avr/cpu.c                          |   3 -
- target/cris/cpu.c                         |   4 +-
- target/cris/helper.c                      |  17 +-
- target/hexagon/translate.c                |   3 +-
- target/hppa/cpu.c                         |   2 +-
- target/hppa/int_helper.c                  |   7 +-
- target/hppa/translate.c                   |   5 +-
- target/i386/tcg/seg_helper.c              |  74 +----
- target/i386/tcg/sysemu/seg_helper.c       |  62 ++++
- target/i386/tcg/tcg-cpu.c                 |   8 +-
- target/i386/tcg/translate.c               |  10 +-
- target/m68k/cpu.c                         |   2 +-
- target/m68k/op_helper.c                   |  16 +-
- target/m68k/translate.c                   |   2 +-
- target/microblaze/cpu.c                   |   2 +-
- target/microblaze/helper.c                |  13 +-
- target/mips/cpu.c                         |   2 +-
- target/mips/tcg/exception.c               |  18 --
- target/mips/tcg/sysemu/tlb_helper.c       |  18 ++
- target/mips/tcg/translate.c               |   8 +-
- target/mips/tcg/user/tlb_helper.c         |   5 -
- target/nios2/cpu.c                        |   5 +-
- target/openrisc/cpu.c                     |   2 +-
- target/openrisc/interrupt.c               |   2 -
- target/openrisc/translate.c               |   2 +-
- target/ppc/cpu_init.c                     |   2 +-
- target/ppc/excp_helper.c                  |  21 +-
- target/ppc/translate.c                    |   5 +-
- target/riscv/cpu.c                        |   2 +-
- target/riscv/cpu_helper.c                 |   5 -
- target/riscv/translate.c                  |   5 +-
- target/rx/cpu.c                           |   2 +-
- target/rx/helper.c                        |   4 +
- target/s390x/tcg/translate.c              |  16 +-
- target/sh4/cpu.c                          |   2 +-
- target/sh4/helper.c                       |   9 +-
- target/sh4/translate.c                    |   4 +-
- target/sparc/cpu.c                        |   4 +-
- target/sparc/translate.c                  |   2 +-
- target/xtensa/cpu.c                       |   2 +-
- target/xtensa/exc_helper.c                |   7 +-
- target/xtensa/translate.c                 |   5 +-
- target/mips/tcg/micromips_translate.c.inc |   2 +-
- target/mips/tcg/mips16e_translate.c.inc   |   4 +-
- target/mips/tcg/nanomips_translate.c.inc  |   4 +-
- tcg/arm/tcg-target.c.inc                  | 517 ++++++++++++++++--------------
- tcg/i386/tcg-target.c.inc                 |  13 +-
- tcg/ppc/tcg-target.c.inc                  |  25 +-
- target/openrisc/meson.build               |   6 +-
- 85 files changed, 700 insertions(+), 628 deletions(-)
+> 
+>> +    }
+>> +
+>>       /*
+>>        * For all associativity arrays: first position is the size,
+>>        * position MAX_DISTANCE_REF_POINTS is always the numa_id,
+>> @@ -177,8 +182,8 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
+>>        * 'i' will be a valid node_id set by the user.
+>>        */
+>>       for (i = 0; i < nb_numa_nodes; i++) {
+>> -        spapr->numa_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+>> -        spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
+>> +        spapr->FORM1_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+>> +        spapr->FORM1_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
+>>       }
+>>   
+>>       /*
+>> @@ -192,15 +197,15 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
+>>       max_nodes_with_gpus = nb_numa_nodes + NVGPU_MAX_NUM;
+>>   
+>>       for (i = nb_numa_nodes; i < max_nodes_with_gpus; i++) {
+>> -        spapr->numa_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+>> +        spapr->FORM1_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+>>   
+>>           for (j = 1; j < MAX_DISTANCE_REF_POINTS; j++) {
+>>               uint32_t gpu_assoc = smc->pre_5_1_assoc_refpoints ?
+>>                                    SPAPR_GPU_NUMA_ID : cpu_to_be32(i);
+>> -            spapr->numa_assoc_array[i][j] = gpu_assoc;
+>> +            spapr->FORM1_assoc_array[i][j] = gpu_assoc;
+>>           }
+>>   
+>> -        spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
+>> +        spapr->FORM1_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
+>>       }
+>>   
+>>       /*
+>> @@ -227,14 +232,33 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
+>>                                      MachineState *machine)
+>>   {
+>>       spapr_numa_FORM1_affinity_init(spapr, machine);
+>> +
+>> +    /*
+>> +     * Default to FORM1 affinity until CAS. We'll call affinity_reset()
+>> +     * during CAS when we're sure about which NUMA affinity the guest
+>> +     * is going to use.
+>> +     *
+>> +     * This step is a failsafe - guests in the wild were able to read
+>> +     * FORM1 affinity info before CAS for a long time. Since affinity_reset()
+>> +     * is just a pointer switch between data that was already populated
+>> +     * here, this is an acceptable overhead to be on the safer side.
+>> +     */
+>> +    spapr->numa_assoc_array = spapr->FORM1_assoc_array;
+> 
+> The right way to do that is to call spapr_numa_associativity_reset() from
+> spapr_machine_reset() because we want to revert to FORM1 each time the
+> guest is rebooted.
+> 
+>> +}
+>> +
+>> +void spapr_numa_associativity_reset(SpaprMachineState *spapr)
+>> +{
+>> +    /* No FORM2 affinity implemented yet */
+> 
+> This seems quite obvious at this point, not sure the comment helps.
+> 
+>> +    spapr->numa_assoc_array = spapr->FORM1_assoc_array;
+>>   }
+>>   
+>>   void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
+>>                                          int offset, int nodeid)
+>>   {
+>> +    /* Hardcode the size of FORM1 associativity array for now */
+>>       _FDT((fdt_setprop(fdt, offset, "ibm,associativity",
+>>                         spapr->numa_assoc_array[nodeid],
+>> -                      sizeof(spapr->numa_assoc_array[nodeid]))));
+>> +                      NUMA_ASSOC_SIZE * sizeof(uint32_t))));
+> 
+> Rather than doing this temporary change that gets undone in
+> a later patch, I suggest you introduce get_numa_assoc_size()
+> in a preliminary patch and use it here already :
+> 
+> -                      NUMA_ASSOC_SIZE * sizeof(uint32_t))));
+> +                      get_numa_assoc_size(spapr) * sizeof(uint32_t))));
+> 
+> This will simplify the reviewing.
+> 
+>>   }
+>>   
+>>   static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *spapr,
+>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+>> index 637652ad16..8a9490f0bf 100644
+>> --- a/include/hw/ppc/spapr.h
+>> +++ b/include/hw/ppc/spapr.h
+>> @@ -249,7 +249,8 @@ struct SpaprMachineState {
+>>       unsigned gpu_numa_id;
+>>       SpaprTpmProxy *tpm_proxy;
+>>   
+>> -    uint32_t numa_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE];
+>> +    uint32_t *FORM1_assoc_array[MAX_NODES + NVGPU_MAX_NUM];
+> 
+> As said above, I really don't see the point in not having :
+> 
+>      uint32_t *FORM1_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE];
+> 
+>> +    uint32_t **numa_assoc_array;
+>>   
+>>       Error *fwnmi_migration_blocker;
+>>   };
+>> diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
+>> index 6f9f02d3de..ccf3e4eae8 100644
+>> --- a/include/hw/ppc/spapr_numa.h
+>> +++ b/include/hw/ppc/spapr_numa.h
+>> @@ -24,6 +24,7 @@
+>>    */
+>>   void spapr_numa_associativity_init(SpaprMachineState *spapr,
+>>                                      MachineState *machine);
+>> +void spapr_numa_associativity_reset(SpaprMachineState *spapr);
+>>   void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas);
+>>   void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
+>>                                          int offset, int nodeid);
+> 
 
