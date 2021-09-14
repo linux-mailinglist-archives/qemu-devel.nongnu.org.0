@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B406940B2D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 17:18:10 +0200 (CEST)
-Received: from localhost ([::1]:48074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25B840B2C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 17:14:49 +0200 (CEST)
+Received: from localhost ([::1]:40596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQACH-0003yR-NV
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 11:18:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39746)
+	id 1mQA92-0006ww-K9
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 11:14:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQ9Sm-0007SC-HY
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:31:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24452)
+ id 1mQ9Ss-0007Xt-Rx
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:31:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQ9Sj-0001p6-Mm
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:31:08 -0400
+ id 1mQ9So-0001xL-Ta
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:31:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631629861;
+ s=mimecast20190719; t=1631629869;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iGP7dXbjGWq7ILIEw/l3CktBYMqdeJCapqhh4XsPuqw=;
- b=SEN3yHt0U1Zxum1VPp7JqBunBjC1XAz6YAo0/GaXOmMDpjSlTJ8/PkI3Sw60Tc5DS1AMn/
- KdbZHH9sM88OxmqsV01zSAxuvVHaXgyAe2sXPgYnGtT/q5DmWkBaCdIAyoWWZPl6avkeII
- 4mNPMyd5lKE1N0MeQ25qBeuEjQcFU5U=
+ bh=cNOaNgDzolO+0it+J7fzAXgDUa5QpcR8ph6GT7968cA=;
+ b=FYF4kXneVqcU0o4E2uvvgT1lRM5wwwsyg+R1FybFPBbfK+qbC9GXaJBnD0CJVFd6P4XS/p
+ nFrwn2YtM8dB4k4FydQtbH5rGdwWPBcailpME/knPWYRq7i1gxe8cTxKiYnHQgoSeRENeB
+ qykrHOnxMH0g8A/gHygE38zPhUNYRYw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-A6dIhPXlOQuOSDTffEcoBQ-1; Tue, 14 Sep 2021 10:30:59 -0400
-X-MC-Unique: A6dIhPXlOQuOSDTffEcoBQ-1
+ us-mta-505-F8zNCVkEPpKPd_8ReUkXYQ-1; Tue, 14 Sep 2021 10:31:08 -0400
+X-MC-Unique: F8zNCVkEPpKPd_8ReUkXYQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D409610144E2;
- Tue, 14 Sep 2021 14:30:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D240BAF81;
+ Tue, 14 Sep 2021 14:31:04 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.39.193.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D9CF65D9DC;
- Tue, 14 Sep 2021 14:30:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 386465D9CA;
+ Tue, 14 Sep 2021 14:30:56 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 29/53] qapi: introduce x-query-registers QMP command
-Date: Tue, 14 Sep 2021 15:20:18 +0100
-Message-Id: <20210914142042.1655100-30-berrange@redhat.com>
+Subject: [PATCH v2 30/53] qapi: introduce x-query-roms QMP command
+Date: Tue, 14 Sep 2021 15:20:19 +0100
+Message-Id: <20210914142042.1655100-31-berrange@redhat.com>
 In-Reply-To: <20210914142042.1655100-1-berrange@redhat.com>
 References: <20210914142042.1655100-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -65,7 +65,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,100 +106,91 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a counterpart to the HMP "info registers" command. It is being
+This is a counterpart to the HMP "info roms" command. It is being
 added with an "x-" prefix because this QMP command is intended as an
-ad hoc debugging tool and will thus not be modelled in QAPI as fully
+adhoc debugging tool and will thus not be modelled in QAPI as fully
 structured data, nor will it have long term guaranteed stability.
 The existing HMP command is rewritten to call the QMP command.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- hw/core/machine-qmp-cmds.c | 30 ++++++++++++++++++++++++++++++
- monitor/misc.c             | 25 ++++++++++++++++---------
- qapi/common.json           | 11 +++++++++++
- qapi/machine.json          | 15 +++++++++++++++
- 4 files changed, 72 insertions(+), 9 deletions(-)
+ hw/core/loader.c  | 55 ++++++++++++++++++++++++++++++++---------------
+ qapi/machine.json | 12 +++++++++++
+ 2 files changed, 50 insertions(+), 17 deletions(-)
 
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index 216fdfaf3a..c4e384f7d5 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -204,3 +204,33 @@ MemdevList *qmp_query_memdev(Error **errp)
-     object_child_foreach(obj, query_memdev, &list);
-     return list;
+diff --git a/hw/core/loader.c b/hw/core/loader.c
+index c623318b73..014d131847 100644
+--- a/hw/core/loader.c
++++ b/hw/core/loader.c
+@@ -46,6 +46,7 @@
+ #include "qemu-common.h"
+ #include "qemu/datadir.h"
+ #include "qapi/error.h"
++#include "qapi/qapi-commands-machine.h"
+ #include "trace.h"
+ #include "hw/hw.h"
+ #include "disas/disas.h"
+@@ -1472,32 +1473,52 @@ void *rom_ptr_for_as(AddressSpace *as, hwaddr addr, size_t size)
+     return cbdata.rom;
  }
-+
-+HumanReadableText *qmp_x_query_registers(bool has_cpu, int64_t cpu,
-+                                         Error **errp)
-+{
-+    HumanReadableText *ret;
+ 
+-void hmp_info_roms(Monitor *mon, const QDict *qdict)
++HumanReadableText *qmp_x_query_roms(Error **errp)
+ {
+     Rom *rom;
 +    g_autoptr(GString) buf = g_string_new("");
-+    CPUState *cs = NULL, *tmp;
-+
-+    if (has_cpu) {
-+        CPU_FOREACH(tmp) {
-+            if (cpu == tmp->cpu_index) {
-+                cs = tmp;
-+            }
-+        }
-+        if (!cs) {
-+            error_setg(errp, "CPU %"PRId64" not available", cpu);
-+            return NULL;
-+        }
-+        cpu_format_state(cs, buf, CPU_DUMP_FPU);
-+    } else {
-+        CPU_FOREACH(cs) {
-+            g_string_append_printf(buf, "\nCPU#%d\n", cs->cpu_index);
-+            cpu_format_state(cs, buf, CPU_DUMP_FPU);
-+        }
-+    }
++    HumanReadableText *ret;
+ 
+     QTAILQ_FOREACH(rom, &roms, next) {
+         if (rom->mr) {
+-            monitor_printf(mon, "%s"
+-                           " size=0x%06zx name=\"%s\"\n",
+-                           memory_region_name(rom->mr),
+-                           rom->romsize,
+-                           rom->name);
++            g_string_append_printf(buf, "%s"
++                                   " size=0x%06zx name=\"%s\"\n",
++                                   memory_region_name(rom->mr),
++                                   rom->romsize,
++                                   rom->name);
+         } else if (!rom->fw_file) {
+-            monitor_printf(mon, "addr=" TARGET_FMT_plx
+-                           " size=0x%06zx mem=%s name=\"%s\"\n",
+-                           rom->addr, rom->romsize,
+-                           rom->isrom ? "rom" : "ram",
+-                           rom->name);
++            g_string_append_printf(buf, "addr=" TARGET_FMT_plx
++                                   " size=0x%06zx mem=%s name=\"%s\"\n",
++                                   rom->addr, rom->romsize,
++                                   rom->isrom ? "rom" : "ram",
++                                   rom->name);
+         } else {
+-            monitor_printf(mon, "fw=%s/%s"
+-                           " size=0x%06zx name=\"%s\"\n",
+-                           rom->fw_dir,
+-                           rom->fw_file,
+-                           rom->romsize,
+-                           rom->name);
++            g_string_append_printf(buf, "fw=%s/%s"
++                                   " size=0x%06zx name=\"%s\"\n",
++                                   rom->fw_dir,
++                                   rom->fw_file,
++                                   rom->romsize,
++                                   rom->name);
+         }
+     }
 +
 +    ret = g_new0(HumanReadableText, 1);
 +    ret->human_readable_text = g_steal_pointer(&buf->str);
 +    return ret;
 +}
-diff --git a/monitor/misc.c b/monitor/misc.c
-index ffe7966870..f25801a1a3 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -67,6 +67,7 @@
- #include "block/block-hmp-cmds.h"
- #include "qapi/qapi-commands-char.h"
- #include "qapi/qapi-commands-control.h"
-+#include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-qom.h"
-@@ -301,23 +302,29 @@ int monitor_get_cpu_index(Monitor *mon)
- static void hmp_info_registers(Monitor *mon, const QDict *qdict)
- {
-     bool all_cpus = qdict_get_try_bool(qdict, "cpustate_all", false);
--    CPUState *cs;
-+    bool has_cpu = !all_cpus;
-+    int64_t cpu = 0;
-+    Error *err = NULL;
-+    g_autoptr(HumanReadableText) info = NULL;
- 
--    if (all_cpus) {
--        CPU_FOREACH(cs) {
--            monitor_printf(mon, "\nCPU#%d\n", cs->cpu_index);
--            cpu_dump_state(cs, NULL, CPU_DUMP_FPU);
--        }
--    } else {
--        cs = mon_get_cpu(mon);
-+    if (has_cpu) {
-+        CPUState *cs = mon_get_cpu(mon);
- 
-         if (!cs) {
-             monitor_printf(mon, "No CPU available\n");
-             return;
-         }
- 
--        cpu_dump_state(cs, NULL, CPU_DUMP_FPU);
-+        cpu = cs->cpu_index;
-     }
 +
-+    info = qmp_x_query_registers(has_cpu, cpu, &err);
++
++void hmp_info_roms(Monitor *mon, const QDict *qdict)
++{
++    Error *err = NULL;
++    g_autoptr(HumanReadableText) info = qmp_x_query_roms(&err);
++
 +    if (err) {
 +        error_report_err(err);
 +        return;
@@ -208,48 +199,26 @@ index ffe7966870..f25801a1a3 100644
 +    monitor_printf(mon, "%s", info->human_readable_text);
  }
  
- static void hmp_info_sync_profile(Monitor *mon, const QDict *qdict)
-diff --git a/qapi/common.json b/qapi/common.json
-index 7c976296f0..de7614ca99 100644
---- a/qapi/common.json
-+++ b/qapi/common.json
-@@ -197,3 +197,14 @@
- { 'enum': 'GrabToggleKeys',
-   'data': [ 'ctrl-ctrl', 'alt-alt', 'shift-shift','meta-meta', 'scrolllock',
-             'ctrl-scrolllock' ] }
-+
-+##
-+# @HumanReadableText:
-+#
-+# @human-readable-text: Formatted output intended for humans.
-+#
-+# Since: 6.2.0
-+#
-+##
-+{ 'struct': 'HumanReadableText',
-+  'data': { 'human-readable-text': 'str' } }
+ typedef enum HexRecord HexRecord;
 diff --git a/qapi/machine.json b/qapi/machine.json
-index 157712f006..8737efa865 100644
+index 8737efa865..a4a1727589 100644
 --- a/qapi/machine.json
 +++ b/qapi/machine.json
-@@ -1312,3 +1312,18 @@
-      '*cores': 'int',
-      '*threads': 'int',
-      '*maxcpus': 'int' } }
+@@ -1327,3 +1327,15 @@
+ { 'command': 'x-query-registers',
+   'data': {'*cpu': 'int' },
+   'returns': 'HumanReadableText' }
 +
 +##
-+# @x-query-registers:
++# @x-query-roms:
 +#
-+# @cpu: the CPU number to query. If omitted, queries all CPUs
++# Query information on the registered ROMS
 +#
-+# Query information on the CPU registers
-+#
-+# Returns: CPU state in an architecture-specific format
++# Returns: registered ROMs
 +#
 +# Since: 6.2
 +##
-+{ 'command': 'x-query-registers',
-+  'data': {'*cpu': 'int' },
++{ 'command': 'x-query-roms',
 +  'returns': 'HumanReadableText' }
 -- 
 2.31.1
