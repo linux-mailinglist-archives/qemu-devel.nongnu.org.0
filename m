@@ -2,136 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC8940B07A
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 16:21:33 +0200 (CEST)
-Received: from localhost ([::1]:37856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4956340B085
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 16:24:07 +0200 (CEST)
+Received: from localhost ([::1]:43508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ9JV-00076w-1e
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 10:21:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33408)
+	id 1mQ9Ly-0002gB-7d
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 10:24:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mQ9Hs-0006C6-HU; Tue, 14 Sep 2021 10:19:52 -0400
-Received: from mail-eopbgr80121.outbound.protection.outlook.com
- ([40.107.8.121]:33861 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQ9JG-0007QU-55
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:21:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mQ9Hp-00026F-Bv; Tue, 14 Sep 2021 10:19:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SNgcZ/MLa9gb5uVFg5Nzl0bgumwf/rblJpSH4cBxdTwo3fJLoCqyg36Tq4JP56j3R4Nbs4AdJ+nOVtkg5vdnxlx4Nv7/4OYptogVA0HvPiYquDHe+A92YPzcJcdVOEZBwy4MgZt5l4UTAX2DWH6BXYbic4ng7pojao2M3vNRk5tKaX6cpm9DCCsCj3pt6cRGiqdS6Xm+/Iawmfb8e9zTiofbh4tZNsrzBtxMtvpDF8ZsnesYeIhB9Wwddah2GMkK25mgxHpcgyk0DAM2p/PwdRTPXoprfQH12kTKg242LbAT6uXQS9sLpZPnXMNXg8ezSbRx65D7HvjYm/Q9nbMBUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=CNIrQQawHUfnqZXOPihMNHKayJZpQDwH32YYr54xGkc=;
- b=SLWxC2Min3E346gNwaGKAUd4+oRsCkR66nU3Vy4SM+hk+9g7u4LmS8yFmMLs2QU9Yo7GfAymomYFq0lwKFvJ+Z+jOpQikfjWwWNR2uYcSurvdNTTvfXqb5ifi154XHhcb5BNy2gkB21yDL81tbZpVHDakUk3e/61P32uPO7p+x/CYb3JYl6TjwNYCUUh3GHglCDKtns/H2IhxA86YHeyT0P2ByZjjnzcKb+oO9iUdCKCFmk4RrKmjH4xucaTwbLSjUlje1L8KjSffhhva6rFBghd4pAp+73O8fHVAhcC2WM/P2YgCV5CuvmBhk5fvP+oQuBauixCkdZ8dv82F9R6gQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CNIrQQawHUfnqZXOPihMNHKayJZpQDwH32YYr54xGkc=;
- b=WvShlasP5Z8s/6j7xsqMPBgqK3gIPr59yuAgHPXwMdogtlEBmvIRHpRfYCw2jxUPVURr1DQ0e7g6cXepK7XTFMzdrdGB2gwNoTTNrX7x4qEotYipyXcHL8dXgZxUwaV5YF+ZqvcUWOwPszE8abVdSibexwDR7d8SnNZSihEvRP8=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3960.eurprd08.prod.outlook.com (2603:10a6:20b:ad::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.16; Tue, 14 Sep
- 2021 14:19:44 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4500.019; Tue, 14 Sep 2021
- 14:19:44 +0000
-Subject: Re: [PATCH] nbd/server: Allow LIST_META_CONTEXT without
- STRUCTURED_REPLY
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org
-References: <20210907173505.1499709-1-eblake@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <9f559b6c-36ce-5078-4169-c61f2a21124b@virtuozzo.com>
-Date: Tue, 14 Sep 2021 17:19:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <20210907173505.1499709-1-eblake@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR02CA0022.eurprd02.prod.outlook.com
- (2603:10a6:208:3e::35) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQ9JC-000335-Pw
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:21:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631629274;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4ulHhpKDegj6iAYcvY7KZF8pg/KtdcW4oTK1Usa8Kg4=;
+ b=gzz/4aQwLykxlvtTlNRBquVWTYflWxGk0P1ZbI6M/DJeKmayVAzOSFgchIVXicyaesD1xw
+ eCKStJqo0zsbZMqV4DymjFHulaazQ/SZxNAk4fSJ3wc5jm9s0spSAhMFnRFOXqIF16CCl+
+ ox8OASbJbW6Dew+1Z8524pbgJWHNoic=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-37-811swv3jMJy1esG27-Wdkw-1; Tue, 14 Sep 2021 10:21:11 -0400
+X-MC-Unique: 811swv3jMJy1esG27-Wdkw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 526AC1084684;
+ Tue, 14 Sep 2021 14:21:07 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.39.193.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C23645D9DC;
+ Tue, 14 Sep 2021 14:20:43 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/53] monitor: explicitly permit QMP commands to be added
+ for all use cases
+Date: Tue, 14 Sep 2021 15:19:49 +0100
+Message-Id: <20210914142042.1655100-1-berrange@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.196) by
- AM0PR02CA0022.eurprd02.prod.outlook.com (2603:10a6:208:3e::35) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4523.14 via Frontend Transport; Tue, 14 Sep 2021 14:19:43 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 75ef978d-3f3c-478c-f075-08d9778ab2c5
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3960:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB396002E4DAC07347A5A78DB3C1DA9@AM6PR08MB3960.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1417;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4j3nKONr5bhKuZv3IGL/JU6EA1gtNDDCFktqNSSnbSjUl2G6RWoyqnvUoZLphQNOw5xB4TgNdG2cxBe9VVDz1ShFnAS/I9AQE+P8XhKNHIpDZ/E4Q2htNGXY4fISkhT4m48m7qdSBhK6SoMLVOny1nzdSaayaF3+x+LqDbmeWCEUT+P+wqd2LYuEbltKofqqsgAPa8yDirIFqkn1UXjOrVo3rq5KSSp1TyIrFc6KFa+l44uuOJpXVeSyO5SiKtoXx5iVzOfwWNci9AEtmL99b6/QB6qNYjYD6sGG4KLQchKIE14Dc1RcjJhGua5nYwl0i7/N0ktxXtIOI/jy/eSi1O1dqzaAUEvXO9VPPk+TFRt6aH7BHb6bzZFqo7It1A5i9mYeyxrKrMJ6pzyNvxRxQo7YqO+z2fY263m/0BGCM2KRU1HQ7P9RcI1zC4aQwtaucuTk1M7ydhQgBf2f+KcO9xKZ013p4w0kKeM7dJWAjw4RQyenIZ+HXpuWKFpli2Js70aNxMeraELTkVermWRCmnuta3rVtlqiy/IFH4RKfSkKQ/4KlXcEVC5LGM8qAbUoYBXBi8AIqZy3BislkmI86QU8ClepHpE8Jvnm1wzS7F3ZyMRwmQGeoPkssu2sNHXaS+wssWnp2bATmUzgrJFjq2uajGWw6TksZHAOH9+DskHc+zZYUoQ+/P5sBg4Zs0SdI52Wwwzk3DoIagI6J+EgRAW0b/MRnvH90cukU86NibEtSrCa2nAJOTSrRg4rAbTFJae5kgduiKvgn8tPpaP8oFlJ2WF0b99L+xZlV70wKNFMk9BmFXspTgbRrBn4oN06pS95qFVlITID8yaIyCFZ7kb5LuK1piMT4FMpuxOOVGQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(83380400001)(956004)(2616005)(31696002)(38100700002)(66946007)(66476007)(66556008)(2906002)(966005)(86362001)(31686004)(36756003)(316002)(16576012)(4326008)(6486002)(5660300002)(186003)(26005)(8936002)(52116002)(8676002)(4744005)(38350700002)(508600001)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QnlBcTVyZXowbjJXdDN3Zy9leHlLRTQ5eTdwWFpOU1N3b1V2VFE0SjlrNEpi?=
- =?utf-8?B?Y1lVTnVDZ1BvTDUrT2cxdXZPSGFIREYrWVVQQzAwWDQ2RWJLalM5M1JuKy9B?=
- =?utf-8?B?c25nbG1OdWdZd0ZsMGVRU0NZT1ppdVllb3Y3L0JKbTIvT3lHc0JLa2pDRk9w?=
- =?utf-8?B?MUQvTmVNeUpEdEJDU2g5WUU5TkRhblc3QnZQM1BmbzNvaUFMZnJNKzUrNHRn?=
- =?utf-8?B?ek9TMkJncWtEVjJtNzBwUyt6MUZ1ZUdFUGcyQUIyV0VsRGNoLytVSFdQOFoz?=
- =?utf-8?B?L0dtczJKa3dnNmUzSi84cVgzc085SVJydE95QzY5dDJRTGZnY1VYOGpJelpZ?=
- =?utf-8?B?R0loZjhCZ0xxTmRqS28vZDNCRkEvTXhHUUtob2l4S1BEVjQvTjN5ZUFUWmk3?=
- =?utf-8?B?NFpuRGg0d1cvOE53UTFKSVpuQjFWek5nOGNxSzdGZUlWc2JMRTRQN2JWdTkr?=
- =?utf-8?B?eXZ4YkNqZzZyOEtMdkZSK2Y5M3pSRXozUHBNQW00Ujh2cDU3aXVQMHlSZ01I?=
- =?utf-8?B?WDN4YnRSVWZNeWxJakR0UVRpZ3RFaSt5REUreDRqemFYNFBmeFc1amc4ejNs?=
- =?utf-8?B?ZDVIWERtdStVUzFXdXk4RzBiZExDT2VUWUR0eWNmTVhtNVFHSFhMeWVLOFFW?=
- =?utf-8?B?aWtCYTdCdVpsa3MwemtRdTZySnhoUUVBMlZURm5kelAzZENxMWtqRENaWUth?=
- =?utf-8?B?Q1ZiQ3FaS3JGRWdXZTVqNitNd29ycUJtclRUWmZWUFc4Uk15ajdLSkZIZHBl?=
- =?utf-8?B?WWVLRFBvTGQ4SEJNOGR0QnIvOUVFRTlPZE1CcEdsbDNpY2NUNjhNaWtvbmhk?=
- =?utf-8?B?emtGNmRCOTJMRXBWQzVVZ0tBb3c1RDVzVVIwL0dPTGVIMVR2QkZadEJpSmZh?=
- =?utf-8?B?QmJhWUl0d3orSFowUHIxcVI1emkySFB1amtKVHBwZzhHa1BTTUNXUG83ZlBB?=
- =?utf-8?B?OHA5SkVUMCtLREJnV0ZRRXhSOGozeUZJelBLc3lRTW9MMlFsc2RTUGo4Rm54?=
- =?utf-8?B?MmllMTJLN3hadVJEQU1mU1VxNEdZdGlXd0ZrNStCNEZOZU81ZWhjK0JYS1Ns?=
- =?utf-8?B?ZEJXQzhTZlVwK3NwbDdEWlpHTVllTEFJWk1HQWZsREJtQnkvcDc1WmxmMGNa?=
- =?utf-8?B?SFBYeGFXSjVUUXY3Qnozd0RQa1VVRHNRbGxGdkUwT2lRUHRmSDR3RlZUUEha?=
- =?utf-8?B?Rnp0L0RLaWxzV3VqVElHOEFZc2J2MmIyLzFBZkFFYkt4SlNOT09GYmhPbnkv?=
- =?utf-8?B?VFNhVXBpWTV2MTIzcyt1YXlOZWl0emt0MWVCNUhRbTNMVlVrMWIyR3M3bVR4?=
- =?utf-8?B?WWhBRTEzdnNaOEt2R1hlK2M0b3JRWHF4SC8yeVBQUTIrTERwRDM3WTZpZW82?=
- =?utf-8?B?elBuTUd6SThnYzBBMVpEZ2RBUUY1Q0Z4TTlnbXc2TG5QUFpOZGNEbEMvRXNj?=
- =?utf-8?B?WmllbFpPYzYrL0hyL0RTK21RcDhJWjFIdzFkQlc0TU5SR1FvMUkvLzUxbHds?=
- =?utf-8?B?N3JDT0t3ckttNWFMYnNOM215dWcvRGxJMXlpVnEvZC92ZDk2dFVDRFNUUzJv?=
- =?utf-8?B?SHZaYkg1NE1hMThSampJdm00cGFlSFhhQ3g4T3lPQ0NFLzA3TGFUTldQUmRB?=
- =?utf-8?B?cklIL1V1dG1EMGJoQVNTWDZldTJESm9hMlAvZlBib2NIMHU4Qm84UDl4QzVu?=
- =?utf-8?B?SW1sTEdWaUNOdHhDNVZGM2UvVG4zTWJtL3BETnJWR1E5VU16L0dYbUxhKzZB?=
- =?utf-8?Q?xJNOF1iRISPbN4Qq4HoJRWQ4bmKEOyTdx424B+9?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75ef978d-3f3c-478c-f075-08d9778ab2c5
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2021 14:19:43.9767 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FnSLoDATKSGYGq3qdH4hkDtQWOb0rXT8F+092IdCvwD+eCplqTQVq8wYJZue098eVb9zuz6Bk2UqiUCtP3JxTv4Sc73Asu1hR4ItZ9fbCCk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3960
-Received-SPF: pass client-ip=40.107.8.121;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -144,26 +76,270 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
+ David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
+ Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Peter Xu <peterx@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-07.09.2021 20:35, Eric Blake wrote:
-> The NBD protocol just relaxed the requirements on
-> NBD_OPT_LIST_META_CONTEXT:
-> 
-> https://github.com/NetworkBlockDevice/nbd/commit/13a4e33a87
-> 
-> Since listing is not stateful (unlike SET_META_CONTEXT), we don't care
-> if a client asks for meta contexts without first requesting structured
-> replies.  Well-behaved clients will still ask for structured reply
-> first (if for no other reason than for back-compat to older servers),
-> but that's no reason to avoid this change.
-> 
-> Signed-off-by: Eric Blake<eblake@redhat.com>
+Previous postings:=0D
+=0D
+  v1: https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02295.html=
+=0D
+=0D
+We are still adding HMP commands without any QMP counterparts. This is=0D
+done because there are a reasonable number of scenarios where the cost=0D
+of designing a QAPI data type for the command is not justified.=0D
+=0D
+This has the downside, however, that we will never be able to fully=0D
+isolate the monitor code from the remainder of QEMU internals. It is=0D
+desirable to be able to get to a point where subsystems in QEMU are=0D
+exclusively implemented using QAPI types and never need to have any=0D
+knowledge of the monitor.=0D
+=0D
+The way to get there is to stop adding commands to HMP only. All=0D
+commands must be implemented using QMP and any HMP equivalent be=0D
+a shim around the QMP implemetation. We don't want to compromise=0D
+our supportability of QMP long term though.=0D
+=0D
+This series proposes that we relax our requirements around fine grained=0D
+QAPI data design, but with the caveat that any command taking this=0D
+design approach is mandated to use the 'x-' name prefix. This tradeoff=0D
+should be suitable for any commands we have been adding exclusively to=0D
+HMP in recent times, and thus mean we have mandate QMP support for all=0D
+new commands going forward.=0D
+=0D
+The series then converts the following HMP commands to be QMP shims.=0D
+=0D
+    info opcount=0D
+    info jit=0D
+    info tlb=0D
+    info irq=0D
+    info lapic=0D
+    info cmma=0D
+    info skeys=0D
+    info ramblock=0D
+    info rdma=0D
+    info usb=0D
+    info numa=0D
+    info profile=0D
+    info roms=0D
+    info registers=0D
+=0D
+After doing this conversion=0D
+=0D
+ - All except 1 usage of qemu_fprintf is eliminated=0D
+ - 50% of calls to qemu_printf are eliminated=0D
+ - 75 calls to monitor_printf are eliminated=0D
+=0D
+Ultimately it should be possible to entirely eliminate qemu_fprintf=0D
+and qemu_printf, and confine monitor_printf calls exclusively to=0D
+the top level HMP command handlers.=0D
+=0D
+A full conversion would also enable HMP to be emulated entirely=0D
+outside QEMU. This could be interesting if we introduce a new QEMU=0D
+system emulator binary which is legacy free and 100% controlled=0D
+via QMP, as it would let us provide HMP backcompat around it=0D
+without the burden of HMP being integrated directly.=0D
+=0D
+There are still 48 HMP commands with no QMP counterpart after=0D
+this series.=0D
+=0D
+ - A few are not relevant to port as they directly=0D
+   reflect HMP functionality (help, info history).=0D
+ - A few are sort of available in QMP but look quite=0D
+   different (drive_add vs blockdev_add)=0D
+ - A few are complicated. "info usbhost" is a dynamically=0D
+   loaded HMP command inside a loadable module and we=0D
+   don't have a way to dynamically register QMP handlers=0D
+   at runtime.=0D
+ - Most are just tedious gruntwork.=0D
+=0D
+Changed in v2:=0D
+=0D
+ - Improved documentation in response to feedback=0D
+ - Finished "info registers" conversion on all targets=0D
+ - Got a bit carried away and converted many many more=0D
+   commands=0D
+=0D
+Daniel P. Berrang=C3=A9 (53):=0D
+  docs/devel: rename file for writing monitor commands=0D
+  docs/devel: tweak headings in monitor command docs=0D
+  docs/devel: document expectations for QAPI data modelling for QMP=0D
+  docs/devel: add example of command returning unstructured text=0D
+  docs/devel: document expectations for HMP commands in the future=0D
+  hw/core: introduce 'format_state' callback to replace 'dump_state'=0D
+  target/alpha: convert to use format_state instead of dump_state=0D
+  target/arm: convert to use format_state instead of dump_state=0D
+  target/avr: convert to use format_state instead of dump_state=0D
+  target/cris: convert to use format_state instead of dump_state=0D
+  target/hexagon: delete unused hexagon_debug() method=0D
+  target/hexagon: convert to use format_state instead of dump_state=0D
+  target/hppa: convert to use format_state instead of dump_state=0D
+  target/i386: convert to use format_state instead of dump_state=0D
+  target/m68k: convert to use format_state instead of dump_state=0D
+  target/microblaze: convert to use format_state instead of dump_state=0D
+  target/mips: convert to use format_state instead of dump_state=0D
+  target/nios2: convert to use format_state instead of dump_state=0D
+  target/openrisc: convert to use format_state instead of dump_state=0D
+  target/ppc: convert to use format_state instead of dump_state=0D
+  target/riscv: convert to use format_state instead of dump_state=0D
+  target/rx: convert to use format_state instead of dump_state=0D
+  target/s390x: convert to use format_state instead of dump_state=0D
+  target/sh: convert to use format_state instead of dump_state=0D
+  target/sparc: convert to use format_state instead of dump_state=0D
+  target/tricore: convert to use format_state instead of dump_state=0D
+  target/xtensa: convert to use format_state instead of dump_state=0D
+  monitor: remove 'info ioapic' HMP command=0D
+  qapi: introduce x-query-registers QMP command=0D
+  qapi: introduce x-query-roms QMP command=0D
+  qapi: introduce x-query-profile QMP command=0D
+  qapi: introduce x-query-numa QMP command=0D
+  qapi: introduce x-query-usb QMP command=0D
+  qapi: introduce x-query-rdma QMP command=0D
+  qapi: introduce x-query-ramblock QMP command=0D
+  qapi: introduce x-query-skeys QMP command=0D
+  qapi: introduce x-query-cmma QMP command=0D
+  qapi: introduce x-query-lapic QMP command=0D
+  qapi: introduce x-query-irq QMP command=0D
+  hw/core: drop "dump_state" callback from CPU targets=0D
+  hw/core: drop support for NULL pointer for FILE * in cpu_dump_state=0D
+  hw/core: introduce a 'format_tlb' callback=0D
+  target/i386: convert to use format_tlb callback=0D
+  target/m68k: convert to use format_tlb callback=0D
+  target/nios2: convert to use format_tlb callback=0D
+  target/ppc: convert to use format_tlb callback=0D
+  target/sh4: convert to use format_tlb callback=0D
+  target/sparc: convert to use format_tlb callback=0D
+  target/xtensa: convert to use format_tlb callback=0D
+  monitor: merge duplicate "info tlb" handlers=0D
+  qapi: introduce x-query-tlb QMP command=0D
+  qapi: introduce x-query-jit QMP command=0D
+  qapi: introduce x-query-opcount QMP command=0D
+=0D
+ accel/tcg/cpu-exec.c                          |  56 +-=0D
+ accel/tcg/hmp.c                               |  24 +-=0D
+ accel/tcg/translate-all.c                     |  84 +--=0D
+ docs/devel/index.rst                          |   2 +-=0D
+ ...mands.rst =3D> writing-monitor-commands.rst} | 136 ++++-=0D
+ hmp-commands-info.hx                          |  18 -=0D
+ hw/core/cpu-common.c                          |  27 +-=0D
+ hw/core/loader.c                              |  55 +-=0D
+ hw/core/machine-hmp-cmds.c                    |  33 +-=0D
+ hw/core/machine-qmp-cmds.c                    |  94 ++++=0D
+ hw/rdma/rdma_rm.c                             | 104 ++--=0D
+ hw/rdma/rdma_rm.h                             |   2 +-=0D
+ hw/rdma/vmw/pvrdma_main.c                     |  31 +-=0D
+ hw/s390x/s390-skeys.c                         |  37 +-=0D
+ hw/s390x/s390-stattrib.c                      |  58 ++-=0D
+ hw/usb/bus.c                                  |  38 +-=0D
+ include/exec/cpu-all.h                        |   6 +-=0D
+ include/exec/ramlist.h                        |   2 +-=0D
+ include/hw/core/cpu.h                         |  36 +-=0D
+ include/hw/rdma/rdma.h                        |   2 +-=0D
+ include/monitor/hmp-target.h                  |   2 -=0D
+ include/tcg/tcg.h                             |   4 +-=0D
+ monitor/hmp-cmds.c                            |  81 +--=0D
+ monitor/misc.c                                |  68 ++-=0D
+ monitor/qmp-cmds.c                            | 127 +++++=0D
+ qapi/common.json                              |  11 +=0D
+ qapi/machine-target.json                      |  58 +++=0D
+ qapi/machine.json                             | 140 +++++=0D
+ softmmu/physmem.c                             |  19 +-=0D
+ stubs/usb-dev-stub.c                          |   8 +=0D
+ target/alpha/cpu.c                            |   2 +-=0D
+ target/alpha/cpu.h                            |   2 +-=0D
+ target/alpha/helper.c                         |  28 +-=0D
+ target/arm/cpu.c                              | 152 +++---=0D
+ target/avr/cpu.c                              |  57 +-=0D
+ target/cris/cpu.c                             |   2 +-=0D
+ target/cris/cpu.h                             |   2 +-=0D
+ target/cris/translate.c                       |  33 +-=0D
+ target/hexagon/cpu.c                          |  70 ++-=0D
+ target/hexagon/internal.h                     |   1 -=0D
+ target/hppa/cpu.c                             |   2 +-=0D
+ target/hppa/cpu.h                             |   2 +-=0D
+ target/hppa/helper.c                          |  25 +-=0D
+ target/i386/cpu-dump.c                        | 489 ++++++++++--------=0D
+ target/i386/cpu.c                             |   5 +-=0D
+ target/i386/cpu.h                             |   7 +-=0D
+ target/i386/monitor.c                         | 142 ++---=0D
+ target/m68k/cpu.c                             |   5 +-=0D
+ target/m68k/cpu.h                             |   5 +-=0D
+ target/m68k/helper.c                          | 132 ++---=0D
+ target/m68k/monitor.c                         |  14 +-=0D
+ target/m68k/translate.c                       |  92 ++--=0D
+ target/microblaze/cpu.c                       |   2 +-=0D
+ target/microblaze/cpu.h                       |   2 +-=0D
+ target/microblaze/translate.c                 |  45 +-=0D
+ target/mips/cpu.c                             |  85 +--=0D
+ target/nios2/cpu.c                            |   5 +-=0D
+ target/nios2/cpu.h                            |   4 +-=0D
+ target/nios2/mmu.c                            |  37 +-=0D
+ target/nios2/monitor.c                        |   7 -=0D
+ target/nios2/translate.c                      |  20 +-=0D
+ target/openrisc/cpu.c                         |   2 +-=0D
+ target/openrisc/cpu.h                         |   2 +-=0D
+ target/openrisc/translate.c                   |   8 +-=0D
+ target/ppc/cpu.h                              |   5 +-=0D
+ target/ppc/cpu_init.c                         | 215 ++++----=0D
+ target/ppc/mmu-hash64.c                       |   8 +-=0D
+ target/ppc/mmu-hash64.h                       |   2 +-=0D
+ target/ppc/mmu_common.c                       | 167 +++---=0D
+ target/ppc/monitor.c                          |  11 -=0D
+ target/riscv/cpu.c                            | 105 ++--=0D
+ target/rx/cpu.c                               |   2 +-=0D
+ target/rx/cpu.h                               |   2 +-=0D
+ target/rx/translate.c                         |  14 +-=0D
+ target/s390x/cpu-dump.c                       |  43 +-=0D
+ target/s390x/cpu.c                            |   2 +-=0D
+ target/s390x/s390x-internal.h                 |   2 +-=0D
+ target/sh4/cpu.c                              |   5 +-=0D
+ target/sh4/cpu.h                              |   3 +-=0D
+ target/sh4/monitor.c                          |  41 +-=0D
+ target/sh4/translate.c                        |  36 +-=0D
+ target/sparc/cpu.c                            |  86 +--=0D
+ target/sparc/cpu.h                            |   3 +-=0D
+ target/sparc/mmu_helper.c                     |  43 +-=0D
+ target/sparc/monitor.c                        |  12 -=0D
+ target/tricore/cpu.c                          |   2 +-=0D
+ target/tricore/cpu.h                          |   2 +-=0D
+ target/tricore/translate.c                    |  24 +-=0D
+ target/xtensa/cpu.c                           |   2 +-=0D
+ target/xtensa/cpu.h                           |   4 +-=0D
+ target/xtensa/mmu_helper.c                    | 126 +++--=0D
+ target/xtensa/monitor.c                       |  11 -=0D
+ target/xtensa/translate.c                     |  45 +-=0D
+ tcg/tcg.c                                     |  98 ++--=0D
+ tests/qtest/qmp-cmd-test.c                    |   8 +=0D
+ 95 files changed, 2429 insertions(+), 1551 deletions(-)=0D
+ rename docs/devel/{writing-qmp-commands.rst =3D> writing-monitor-commands.=
+rst} (78%)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
--- 
-Best regards,
-Vladimir
 
