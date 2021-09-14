@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2417840B356
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 17:42:30 +0200 (CEST)
-Received: from localhost ([::1]:56318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C69CF40B2F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 17:21:57 +0200 (CEST)
+Received: from localhost ([::1]:57400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQAZo-0006MY-NB
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 11:42:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42882)
+	id 1mQAFw-0001qk-QT
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 11:21:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQ9Xb-0006X7-Gp
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:36:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49756)
+ id 1mQ9Xv-0007cV-Na
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:36:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQ9XX-0005IQ-Jk
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:36:07 -0400
+ id 1mQ9Xs-0005Xb-9V
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:36:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631630162;
+ s=mimecast20190719; t=1631630183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N1wcruW+g3FbhxuBTmshlgas1GP2gbIYSddshDcwvVw=;
- b=exv4JG3huLeEF/ZNBsJQ//WTnAYxMX/kuh3tBe/sfWoNvD+7Ww87VSMJJtkoi53/o+99u5
- 2bab/P8DsFWYXloDmkZn0Oz+UMuACJqW2UhFAs/rakomTPU1txQJeYsH4DpyRZF43GA92s
- HCojHd1IT+YGdiNie/Ci5UDmPrMm6BU=
+ bh=qjXz354OerT/IdyTAoj8iLAD8TsJq7H30dJHW+kTcBo=;
+ b=erE1Wwjl1hup4T/3lNXtnI2aXq5KnSVk8u/bHN28YuCIhFPgzuyUMxcPQXfSY4TPgUiCdu
+ c+nbXgQwMED3m/tbC7EDaEqe2Gqlp2OEf0ueeOoPpuh77y2+iYVhY2AIKOdCtJIC70mn0+
+ nrmX0iEr6gjrf3UwA7x/L7YDark3iS0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-0IulxTMMNcWSB60ECpszPA-1; Tue, 14 Sep 2021 10:36:01 -0400
-X-MC-Unique: 0IulxTMMNcWSB60ECpszPA-1
+ us-mta-239-VHsRiiH_O1K_BujAIMDWSA-1; Tue, 14 Sep 2021 10:36:22 -0400
+X-MC-Unique: VHsRiiH_O1K_BujAIMDWSA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F3D1180830C;
- Tue, 14 Sep 2021 14:35:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E17C51808304;
+ Tue, 14 Sep 2021 14:36:17 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.39.193.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5970C5D9CA;
- Tue, 14 Sep 2021 14:35:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 680F15D9CA;
+ Tue, 14 Sep 2021 14:35:57 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 50/53] monitor: merge duplicate "info tlb" handlers
-Date: Tue, 14 Sep 2021 15:20:39 +0100
-Message-Id: <20210914142042.1655100-51-berrange@redhat.com>
+Subject: [PATCH v2 51/53] qapi: introduce x-query-tlb QMP command
+Date: Tue, 14 Sep 2021 15:20:40 +0100
+Message-Id: <20210914142042.1655100-52-berrange@redhat.com>
 In-Reply-To: <20210914142042.1655100-1-berrange@redhat.com>
 References: <20210914142042.1655100-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -106,257 +106,110 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that all target architectures are converted to use the "format_tlb"
-callback, we can merge all the duplicate "info tlb" handlers into one
-and remove the architecture condition on the command.
+This is a counterpart to the HMP "info tlb" command. It is being
+added with an "x-" prefix because this QMP command is intended as an
+ad hoc debugging tool and will thus not be modelled in QAPI as fully
+structured data, nor will it have long term guaranteed stability.
+The existing HMP command is rewritten to call the QMP command.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- hmp-commands-info.hx         |  3 ---
- include/monitor/hmp-target.h |  1 -
- monitor/misc.c               | 15 +++++++++++++++
- target/i386/monitor.c        | 15 ---------------
- target/m68k/monitor.c        | 15 ---------------
- target/nios2/monitor.c       | 15 ---------------
- target/ppc/monitor.c         | 15 ---------------
- target/sh4/monitor.c         | 15 ---------------
- target/sparc/monitor.c       | 16 ----------------
- target/xtensa/monitor.c      | 15 ---------------
- 10 files changed, 15 insertions(+), 110 deletions(-)
+ hw/core/machine-qmp-cmds.c | 22 ++++++++++++++++++++++
+ monitor/misc.c             | 15 ++++++++++-----
+ qapi/machine.json          | 15 +++++++++++++++
+ 3 files changed, 47 insertions(+), 5 deletions(-)
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index f8312342cd..7bd1e04d46 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -206,8 +206,6 @@ SRST
-     Show PCI information.
- ERST
- 
--#if defined(TARGET_I386) || defined(TARGET_SH4) || defined(TARGET_SPARC) || \
--    defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K)
-     {
-         .name       = "tlb",
-         .args_type  = "",
-@@ -215,7 +213,6 @@ ERST
-         .help       = "show virtual to physical memory mappings",
-         .cmd        = hmp_info_tlb,
-     },
--#endif
- 
- SRST
-   ``info tlb``
-diff --git a/include/monitor/hmp-target.h b/include/monitor/hmp-target.h
-index df79ad3355..04e02e8895 100644
---- a/include/monitor/hmp-target.h
-+++ b/include/monitor/hmp-target.h
-@@ -45,7 +45,6 @@ CPUArchState *mon_get_cpu_env(Monitor *mon);
- CPUState *mon_get_cpu(Monitor *mon);
- 
- void hmp_info_mem(Monitor *mon, const QDict *qdict);
--void hmp_info_tlb(Monitor *mon, const QDict *qdict);
- void hmp_mce(Monitor *mon, const QDict *qdict);
- void hmp_info_local_apic(Monitor *mon, const QDict *qdict);
- 
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 6b07efdddd..c7d138914d 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -936,6 +936,21 @@ static void hmp_info_mtree(Monitor *mon, const QDict *qdict)
-     mtree_info(flatview, dispatch_tree, owner, disabled);
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index 4407e967da..c84cef8667 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -235,6 +235,28 @@ HumanReadableText *qmp_x_query_registers(bool has_cpu, int64_t cpu,
+     return ret;
  }
  
-+static void hmp_info_tlb(Monitor *mon, const QDict *qdict)
++HumanReadableText *qmp_x_query_tlb(int64_t cpu, Error **errp)
 +{
++    HumanReadableText *ret;
 +    g_autoptr(GString) buf = g_string_new("");
-+    CPUState *cpu = mon_get_cpu(mon);
++    CPUState *cs = NULL, *tmp;
 +
-+    if (!cpu) {
-+        monitor_printf(mon, "No CPU available\n");
-+        return;
++    CPU_FOREACH(tmp) {
++        if (cpu == tmp->cpu_index) {
++            cs = tmp;
++        }
 +    }
++    if (!cs) {
++        error_setg(errp, "CPU %"PRId64" not available", cpu);
++        return NULL;
++    }
++    cpu_format_tlb(cs, buf);
 +
-+    cpu_format_tlb(cpu, buf);
-+
-+    monitor_printf(mon, "%s", buf->str);
++    ret = g_new0(HumanReadableText, 1);
++    ret->human_readable_text = g_steal_pointer(&buf->str);
++    return ret;
 +}
 +
- static void hmp_info_profile(Monitor *mon, const QDict *qdict)
+ HumanReadableText *qmp_x_query_numa(Error **errp)
  {
-     Error *err = NULL;
-diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-index 698fbbc80b..a7eb4205c7 100644
---- a/target/i386/monitor.c
-+++ b/target/i386/monitor.c
-@@ -248,21 +248,6 @@ void x86_cpu_format_tlb(CPUState *cpu, GString *buf)
+     HumanReadableText *ret;
+diff --git a/monitor/misc.c b/monitor/misc.c
+index c7d138914d..7ca529002d 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -938,17 +938,22 @@ static void hmp_info_mtree(Monitor *mon, const QDict *qdict)
+ 
+ static void hmp_info_tlb(Monitor *mon, const QDict *qdict)
+ {
+-    g_autoptr(GString) buf = g_string_new("");
+-    CPUState *cpu = mon_get_cpu(mon);
++    CPUState *cs = mon_get_cpu(mon);
++    Error *err = NULL;
++    g_autoptr(HumanReadableText) info = NULL;
+ 
+-    if (!cpu) {
++    if (!cs) {
+         monitor_printf(mon, "No CPU available\n");
+         return;
      }
+ 
+-    cpu_format_tlb(cpu, buf);
++    info = qmp_x_query_tlb(cs->cpu_index, &err);
++    if (err) {
++        error_report_err(err);
++        return;
++    }
+ 
+-    monitor_printf(mon, "%s", buf->str);
++    monitor_printf(mon, "%s", info->human_readable_text);
  }
  
--void hmp_info_tlb(Monitor *mon, const QDict *qdict)
--{
--    g_autoptr(GString) buf = g_string_new("");
--    CPUState *cpu = mon_get_cpu(mon);
--
--    if (!cpu) {
--        monitor_printf(mon, "No CPU available\n");
--        return;
--    }
--
--    cpu_format_tlb(cpu, buf);
--
--    monitor_printf(mon, "%s", buf->str);
--}
--
- static void mem_print(Monitor *mon, CPUArchState *env,
-                       hwaddr *pstart, int *plast_prot,
-                       hwaddr end, int prot)
-diff --git a/target/m68k/monitor.c b/target/m68k/monitor.c
-index 003a665246..0dc729692b 100644
---- a/target/m68k/monitor.c
-+++ b/target/m68k/monitor.c
-@@ -12,21 +12,6 @@
- #include "qapi/error.h"
- #include "qapi/qapi-commands-machine-target.h"
+ static void hmp_info_profile(Monitor *mon, const QDict *qdict)
+diff --git a/qapi/machine.json b/qapi/machine.json
+index e72b47ea7d..0f537a58e0 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1400,6 +1400,21 @@
+ { 'command': 'x-query-roms',
+   'returns': 'HumanReadableText' }
  
--void hmp_info_tlb(Monitor *mon, const QDict *qdict)
--{
--    g_autoptr(GString) buf = g_string_new("");
--    CPUState *cpu = mon_get_cpu(mon);
--
--    if (!cpu) {
--        monitor_printf(mon, "No CPU available\n");
--        return;
--    }
--
--    cpu_format_tlb(cpu, buf);
--
--    monitor_printf(mon, "%s", buf->str);
--}
--
- static const MonitorDef monitor_defs[] = {
-     { "d0", offsetof(CPUM68KState, dregs[0]) },
-     { "d1", offsetof(CPUM68KState, dregs[1]) },
-diff --git a/target/nios2/monitor.c b/target/nios2/monitor.c
-index 99d35e8ef1..1180a32f80 100644
---- a/target/nios2/monitor.c
-+++ b/target/nios2/monitor.c
-@@ -26,18 +26,3 @@
- #include "monitor/monitor.h"
- #include "monitor/hmp-target.h"
- #include "monitor/hmp.h"
--
--void hmp_info_tlb(Monitor *mon, const QDict *qdict)
--{
--    g_autoptr(GString) buf = g_string_new("");
--    CPUState *cpu = mon_get_cpu(mon);
--
--    if (!cpu) {
--        monitor_printf(mon, "No CPU available\n");
--        return;
--    }
--
--    cpu_format_tlb(cpu, buf);
--
--    monitor_printf(mon, "%s", buf->str);
--}
-diff --git a/target/ppc/monitor.c b/target/ppc/monitor.c
-index 401a36c2eb..3564fd5f45 100644
---- a/target/ppc/monitor.c
-+++ b/target/ppc/monitor.c
-@@ -65,21 +65,6 @@ static target_long monitor_get_tbl(Monitor *mon, const struct MonitorDef *md,
-     return cpu_ppc_load_tbl(env);
- }
- 
--void hmp_info_tlb(Monitor *mon, const QDict *qdict)
--{
--    g_autoptr(GString) buf = g_string_new("");
--    CPUState *cpu = mon_get_cpu(mon);
--
--    if (!cpu) {
--        monitor_printf(mon, "No CPU available\n");
--        return;
--    }
--
--    cpu_format_tlb(cpu, buf);
--
--    monitor_printf(mon, "%s", buf->str);
--}
--
- const MonitorDef monitor_defs[] = {
-     { "fpscr", offsetof(CPUPPCState, fpscr) },
-     /* Next instruction pointer */
-diff --git a/target/sh4/monitor.c b/target/sh4/monitor.c
-index 5ccb95af93..d641d95316 100644
---- a/target/sh4/monitor.c
-+++ b/target/sh4/monitor.c
-@@ -53,18 +53,3 @@ void superh_cpu_format_tlb(CPUState *cpu, GString *buf)
-         print_tlb(buf, i, &env->utlb[i]);
-     }
- }
--
--void hmp_info_tlb(Monitor *mon, const QDict *qdict)
--{
--    g_autoptr(GString) buf = g_string_new("");
--    CPUState *cpu = mon_get_cpu(mon);
--
--    if (!cpu) {
--        monitor_printf(mon, "No CPU available\n");
--        return;
--    }
--
--    cpu_format_tlb(cpu, buf);
--
--    monitor_printf(mon, "%s", buf->str);
--}
-diff --git a/target/sparc/monitor.c b/target/sparc/monitor.c
-index cc7fe74e3e..0c51669c08 100644
---- a/target/sparc/monitor.c
-+++ b/target/sparc/monitor.c
-@@ -27,22 +27,6 @@
- #include "monitor/hmp-target.h"
- #include "monitor/hmp.h"
- 
--
--void hmp_info_tlb(Monitor *mon, const QDict *qdict)
--{
--    g_autoptr(GString) buf = g_string_new("");
--    CPUState *cpu = mon_get_cpu(mon);
--
--    if (!cpu) {
--        monitor_printf(mon, "No CPU available\n");
--        return;
--    }
--
--    cpu_format_tlb(cpu, buf);
--
--    monitor_printf(mon, "%s", buf->str);
--}
--
- #ifndef TARGET_SPARC64
- static target_long monitor_get_psr(Monitor *mon, const struct MonitorDef *md,
-                                    int val)
-diff --git a/target/xtensa/monitor.c b/target/xtensa/monitor.c
-index 99d35e8ef1..1180a32f80 100644
---- a/target/xtensa/monitor.c
-+++ b/target/xtensa/monitor.c
-@@ -26,18 +26,3 @@
- #include "monitor/monitor.h"
- #include "monitor/hmp-target.h"
- #include "monitor/hmp.h"
--
--void hmp_info_tlb(Monitor *mon, const QDict *qdict)
--{
--    g_autoptr(GString) buf = g_string_new("");
--    CPUState *cpu = mon_get_cpu(mon);
--
--    if (!cpu) {
--        monitor_printf(mon, "No CPU available\n");
--        return;
--    }
--
--    cpu_format_tlb(cpu, buf);
--
--    monitor_printf(mon, "%s", buf->str);
--}
++##
++# @x-query-tlb:
++#
++# @cpu: the CPU number to query
++#
++# Return information on the CPU memory mappings
++#
++# Returns: memory mappings in an architecture-specific format
++#
++# Since: 6.2
++##
++{ 'command': 'x-query-tlb',
++  'data': {'cpu': 'int' },
++  'returns': 'HumanReadableText' }
++
+ ##
+ # @x-query-usb:
+ #
 -- 
 2.31.1
 
