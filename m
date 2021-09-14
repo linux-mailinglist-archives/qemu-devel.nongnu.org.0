@@ -2,93 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6333240B02A
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 16:02:39 +0200 (CEST)
-Received: from localhost ([::1]:40980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5376C40B034
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 16:04:23 +0200 (CEST)
+Received: from localhost ([::1]:46162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ91C-00066P-5C
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 10:02:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52732)
+	id 1mQ92s-0001H1-Ei
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 10:04:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mQ8q6-0000kr-2i
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:51:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50800)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQ8y1-0004XS-0R
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:59:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mQ8q4-0007E4-BI
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:51:09 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQ8xx-0004DM-PS
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:59:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631627467;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0csEx54J6IsMen8hTFETgEUM+kGSqRP1TOxNo/07yK8=;
- b=caBe0uXURKD896e5nhFXDYRspyYsHGWFm/opjW2BTqKxnXy27dZUA2VK8C7ueR2EMmwfMG
- TFxpTyu46OCpQCT6Z0Qk627ofGkQzyH13xkXb9t9uHgPulwVrB8s+FmpVe+U4/Ud3PSBxU
- lmcdL4c2iRCf3+jCMBmqUz8hij6wVeA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-kfEd7K9yNaWs-MiTnnZOWg-1; Tue, 14 Sep 2021 09:51:06 -0400
-X-MC-Unique: kfEd7K9yNaWs-MiTnnZOWg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n30-20020a05600c3b9e00b002fbbaada5d7so725462wms.7
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 06:51:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=0csEx54J6IsMen8hTFETgEUM+kGSqRP1TOxNo/07yK8=;
- b=CmtTIgWNC2YmRsvWyW9UD12H59I8sUL0D3hBjvK6Yih7GDO5dMPsEgquAeW/g7KK0l
- FTObrGufRlAL7Z7b7PQr8/4oqGOHl8kdvBEf/FB0aw4AZYVUC+xrwev8D1m31dM1pkqk
- vM65DKutlcu2sg+Ld9v2PR1U5EHHQQorSKgh5HD4/p+r+5lOZK/ouCKN1bAC3zsHVG81
- XxCdJQKfptAxBHY3I+sbhlrKrDjsLu9wTFm42sUhnVzrEoDJ4rgf9ySKxvpibuLa7W2J
- UzZU91LA+EczduN/pWhb76gbYYc/BPr8wp8y7E3IDimXQLdxz2kUfRT+JHkn3ahaE1oC
- qzDA==
-X-Gm-Message-State: AOAM530k7hU2qy4fj/zhhs1De/tj7myO8q8HmpVsR2bT/XzylNlYmp17
- E1sAxvYNzwStT5ZHkHRTN/049nVlo7M6Kckc2O5YLdSYRmiFF3NVfpV5UYzGPQL/MZaX+Qipta5
- kDDqNjgkh2mRkXzs=
-X-Received: by 2002:a5d:45ce:: with SMTP id b14mr7550442wrs.283.1631627465564; 
- Tue, 14 Sep 2021 06:51:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzwnqpjkWyQUjFuyR0K8Tfvn5BZJ5Tii+81yqfzEW0uAT1BXa/25hL9TB3qSiAHLDZRiVFSVg==
-X-Received: by 2002:a5d:45ce:: with SMTP id b14mr7550425wrs.283.1631627465394; 
- Tue, 14 Sep 2021 06:51:05 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6041.dip0.t-ipconnect.de. [91.12.96.65])
- by smtp.gmail.com with ESMTPSA id
- l124sm1214550wml.8.2021.09.14.06.51.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 06:51:04 -0700 (PDT)
+ s=mimecast20190719; t=1631627956;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=ndIpCjw3VtAflO7tnCFxFmPwsz9ZKUgjHj5H1mD57NY=;
+ b=L0df7gnFPczUvfCChaiH7mKSCN7vB5mzJg9L/AapiGLiTI/oXl4ytIu7gSd5f+k1Nq5ZxD
+ U/4mX0VvYAJ/KsP5XvtDAwfmOGyzcrIOvm6WlpVXTqeuLuri4ORwkwcliZktj2ycRaUq47
+ Vkaj5tUNSsb2gR0HiqJ7TgyjTzqstJQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-19-k2q3j07PMXG07rXL0jt2gw-1; Tue, 14 Sep 2021 09:59:15 -0400
+X-MC-Unique: k2q3j07PMXG07rXL0jt2gw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 150D3801E72;
+ Tue, 14 Sep 2021 13:59:14 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5436F19736;
+ Tue, 14 Sep 2021 13:58:59 +0000 (UTC)
+Date: Tue, 14 Sep 2021 14:58:56 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Subject: Re: [PATCH] virtio-balloon: Fix page-poison subsection name
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- mst@redhat.com
+Message-ID: <YUCqoJzt8VjkcNin@redhat.com>
 References: <20210914131716.102851-1-dgilbert@redhat.com>
- <32aacbf5-4693-9765-4d4d-410332669294@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <a156ff43-a26e-3165-be6f-6d786fa8e773@redhat.com>
-Date: Tue, 14 Sep 2021 15:51:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <535891c6-237b-6d37-7492-ef8c1e19e6ca@redhat.com>
+ <YUCj3i2BK1HzuztT@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <32aacbf5-4693-9765-4d4d-410332669294@redhat.com>
+In-Reply-To: <YUCj3i2BK1HzuztT@work-vm>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,35 +80,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com, Juan Quintela <quintela@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Alexander Duyck <alexander.duyck@gmail.com>, mst@redhat.com,
+ qemu-devel@nongnu.org, stefanha@redhat.com,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14.09.21 15:47, Philippe Mathieu-Daudé wrote:
-> On 9/14/21 3:17 PM, Dr. David Alan Gilbert (git) wrote:
->> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->>
->> The subsection name for page-poison was typo'd as:
->>
->>    vitio-balloon-device/page-poison
->>
->> Note the missing 'r' in virtio.
->>
->> When we have a machine type that enables page poison, and the guest
->> enables it (which needs a new kernel), things fail rather unpredictably.
+On Tue, Sep 14, 2021 at 02:30:06PM +0100, Dr. David Alan Gilbert wrote:
+> * David Hildenbrand (david@redhat.com) wrote:
+> > On 14.09.21 15:17, Dr. David Alan Gilbert (git) wrote:
+> > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > > 
+> > > The subsection name for page-poison was typo'd as:
+> > > 
+> > >    vitio-balloon-device/page-poison
+> > > 
+> > > Note the missing 'r' in virtio.
+> > > 
+> > > When we have a machine type that enables page poison, and the guest
+> > > enables it (which needs a new kernel), things fail rather unpredictably.
+> > > 
+> > > The fallout from this is that most of the other subsections fail to
+> > > load, including things like the feature bits in the device, one
+> > > possible fallout is that the physical addresses of the queues
+> > > then get aligned differently and we fail with an error about
+> > > last_avail_idx being wrong.
+> > > It's not obvious to me why this doesn't produce a more obvious failure,
+> > > but virtio's vmstate loading is a bit open-coded.
+> > > 
+> > > Fixes: 7483cbbaf82 ("virtio-balloon: Implement support for page poison reporting feature")
+> > > bz: https://bugzilla.redhat.com/show_bug.cgi?id=1984401
+> > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > > ---
+> > >   hw/virtio/virtio-balloon.c | 2 +-
+> > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+> > > index 5a69dce35d..c6962fcbfe 100644
+> > > --- a/hw/virtio/virtio-balloon.c
+> > > +++ b/hw/virtio/virtio-balloon.c
+> > > @@ -852,7 +852,7 @@ static const VMStateDescription vmstate_virtio_balloon_free_page_hint = {
+> > >   };
+> > >   static const VMStateDescription vmstate_virtio_balloon_page_poison = {
+> > > -    .name = "vitio-balloon-device/page-poison",
+> > > +    .name = "virtio-balloon-device/page-poison",
+> > >       .version_id = 1,
+> > >       .minimum_version_id = 1,
+> > >       .needed = virtio_balloon_page_poison_support,
+> > > 
+> > 
+> > Oh, that's very subtle. I wasn't even aware that the prefix really has to
+> > match the actual device ... I thought the whole idea of the prefix here was
+> > just to make the string unique ...
 > 
-> IIUC since v5.1 guests have 'page-poison'=true but once migrated
-> they become 'page-poison'=unset=false?
+> Subsection naming is *very* critical; the logic is something like:
+>   'we're loading the X device'
+> a subsection arrives for 'N/P'
+> if 'X==N' then it looks in X for subsection P.
+> If 'X!=N' then it assumes we've finished loading X
+> and P is really for an outer device that X is part of.
+> This is horrible.
 
-We only migrate the subsection if the guest supports the feature (-> 
-newer guest kernel).
+Is there value in making this more explicit via a code convention
+for .name field initializers. eg instead of
 
-If we migrate, it's a broken migration stream. If we don't migrate, 
-everything is fine.
+   .name = "virtio-balloon-device/page-poison",
 
+Prefer
+
+   .name = TYPE_VIRTIO_BALLOON "/page-poison"
+
+?
+
+Regards,
+Daniel
 -- 
-Thanks,
-
-David / dhildenb
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
