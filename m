@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F24140AEA1
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:09:27 +0200 (CEST)
-Received: from localhost ([::1]:39392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A111840AE8E
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:06:25 +0200 (CEST)
+Received: from localhost ([::1]:59452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ8Bi-00023v-9L
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:09:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37424)
+	id 1mQ88m-0004px-M7
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:06:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mQ83k-0005J4-15
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:01:12 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:57502 helo=loongson.cn)
+ id 1mQ83h-0005CF-6G
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:01:09 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:57516 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mQ83Y-0007oh-Ea
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:01:11 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1mQ83Y-0007p1-Ec
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:01:08 -0400
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxheXvnEBhNJ0GAA--.21668S3; 
- Tue, 14 Sep 2021 21:00:55 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxheXvnEBhNJ0GAA--.21668S4; 
+ Tue, 14 Sep 2021 21:00:56 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 01/21] target/loongarch: Add README
-Date: Tue, 14 Sep 2021 21:00:11 +0800
-Message-Id: <1631624431-30658-2-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH v5 02/21] target/loongarch: Add core definition
+Date: Tue, 14 Sep 2021 21:00:12 +0800
+Message-Id: <1631624431-30658-3-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1631624431-30658-1-git-send-email-gaosong@loongson.cn>
 References: <1631624431-30658-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9DxheXvnEBhNJ0GAA--.21668S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxXrWUuF18ZrW7Kw18Kw4xCrg_yoW5tr13pF
- 1fuFyfKrWUX3sxKrnag343WF1Fyws3Gr1xWanIkw1rC3sxtryqkw1fta4jqF17Jwn5trWv
- vrykCr1UW3WUCa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9DxheXvnEBhNJ0GAA--.21668S4
+X-Coremail-Antispam: 1UD129KBjvAXoWfXr17Cr4Dtry7JrWUuFWruFg_yoW8Gr1kCo
+ WrZFy3X3ykGr4Sva9Y9rnaqay2qFy8CFW5Aa4xZw4Uua18trW5Gr98Kw1FvFy7Xrs5GrW7
+ uasagFnxJ3y7Jr1fn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+ AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, FORGED_SPF_HELO=1,
- KHOP_HELO_FCRDNS=0.399, SPF_HELO_PASS=-0.001,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,114 +62,524 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch give an introduction to the LoongArch target.
+This patch add target state header, target definitions
+and initialization routines.
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: XiaoJuan Yang <yangxiaojuan@loongson.cn>
 ---
- MAINTAINERS             |  5 ++++
- target/loongarch/README | 76 +++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 81 insertions(+)
- create mode 100644 target/loongarch/README
+ target/loongarch/cpu-param.h |  19 +++
+ target/loongarch/cpu.c       | 285 +++++++++++++++++++++++++++++++++++++++++++
+ target/loongarch/cpu.h       | 151 +++++++++++++++++++++++
+ target/loongarch/internals.h |  23 ++++
+ 4 files changed, 478 insertions(+)
+ create mode 100644 target/loongarch/cpu-param.h
+ create mode 100644 target/loongarch/cpu.c
+ create mode 100644 target/loongarch/cpu.h
+ create mode 100644 target/loongarch/internals.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6c20634..ad372a2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -210,6 +210,11 @@ F: disas/hppa.c
- F: hw/net/*i82596*
- F: include/hw/net/lasi_82596.h
- 
-+LoongArch TCG CPUS
-+M: Song Gao <gaosong@loongson.cn>
-+S: Maintained
-+F: target/loongarch/
-+
- M68K TCG CPUs
- M: Laurent Vivier <laurent@vivier.eu>
- S: Maintained
-diff --git a/target/loongarch/README b/target/loongarch/README
+diff --git a/target/loongarch/cpu-param.h b/target/loongarch/cpu-param.h
 new file mode 100644
-index 0000000..09f809c
+index 0000000..83f9624
 --- /dev/null
-+++ b/target/loongarch/README
-@@ -0,0 +1,76 @@
-+- Introduction
++++ b/target/loongarch/cpu-param.h
+@@ -0,0 +1,19 @@
++/*
++ * LoongArch cpu parameters for qemu.
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ *
++ * SPDX-License-Identifier: LGPL-2.1+
++ */
 +
-+  LoongArch is the general processor architecture of Loongson.
++#ifndef LOONGARCH_CPU_PARAM_H
++#define LOONGARCH_CPU_PARAM_H 1
 +
-+  The following versions of the LoongArch core are supported
-+    core: 3A5000
-+    https://github.com/loongson/LoongArch-Documentation/releases/download/2021.08.17/LoongArch-Vol1-v1.00-EN.pdf
++#define TARGET_LONG_BITS 64
++#define TARGET_PHYS_ADDR_SPACE_BITS 48
++#define TARGET_VIRT_ADDR_SPACE_BITS 48
 +
-+  We can get the latest loongarch documents at https://github.com/loongson/LoongArch-Documentation/tags.
++#define TARGET_PAGE_BITS 14
++#define NB_MMU_MODES 4
++
++#endif
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+new file mode 100644
+index 0000000..b89bf51
+--- /dev/null
++++ b/target/loongarch/cpu.c
+@@ -0,0 +1,285 @@
++/*
++ * QEMU LoongArch CPU
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ *
++ * SPDX-License-Identifier: LGPL-2.1+
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/qemu-print.h"
++#include "qapi/error.h"
++#include "qemu/module.h"
++#include "sysemu/qtest.h"
++#include "exec/exec-all.h"
++#include "qapi/qapi-commands-machine-target.h"
++#include "cpu.h"
++#include "internals.h"
++#include "fpu/softfloat-helpers.h"
++
++const char * const regnames[] = {
++    "r0", "ra", "tp", "sp", "a0", "a1", "a2", "a3",
++    "a4", "a5", "a6", "a7", "t0", "t1", "t2", "t3",
++    "t4", "t5", "t6", "t7", "t8", "x0", "fp", "s0",
++    "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8",
++};
++
++const char * const fregnames[] = {
++    "f0",  "f1",  "f2",  "f3",  "f4",  "f5",  "f6",  "f7",
++    "f8",  "f9",  "f10", "f11", "f12", "f13", "f14", "f15",
++    "f16", "f17", "f18", "f19", "f20", "f21", "f22", "f23",
++    "f24", "f25", "f26", "f27", "f28", "f29", "f30", "f31",
++};
++
++static const char * const excp_names[EXCP_LAST + 1] = {
++    [EXCP_ADE] = "Address error",
++    [EXCP_SYSCALL] = "Syscall",
++    [EXCP_BREAK] = "Break",
++    [EXCP_INE] = "Inst. Not Exist",
++    [EXCP_FPE] = "Floating Point Exception",
++};
++
++const char *loongarch_exception_name(int32_t exception)
++{
++    if (exception < 0 || exception > EXCP_LAST) {
++        return "unknown";
++    }
++    return excp_names[exception];
++}
++
++void QEMU_NORETURN do_raise_exception(CPULoongArchState *env,
++                                      uint32_t exception,
++                                      uintptr_t pc)
++{
++    CPUState *cs = env_cpu(env);
++
++    qemu_log_mask(CPU_LOG_INT, "%s: %d (%s)\n",
++                  __func__,
++                  exception,
++                  loongarch_exception_name(exception));
++    cs->exception_index = exception;
++
++    cpu_loop_exit_restore(cs, pc);
++}
++
++static void loongarch_cpu_set_pc(CPUState *cs, vaddr value)
++{
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++
++    env->pc = value;
++}
++
++#ifdef CONFIG_TCG
++static void loongarch_cpu_synchronize_from_tb(CPUState *cs,
++                                              const TranslationBlock *tb)
++{
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++
++    env->pc = tb->pc;
++}
++#endif /* CONFIG_TCG */
++
++static bool loongarch_cpu_has_work(CPUState *cs)
++{
++    return true;
++}
++
++static void set_loongarch_cpucfg(CPULoongArchState *env)
++{
++    int i;
++
++    for (i = 0; i < 15; i++) {
++        env->cpucfg[i] = 0x0;
++    }
++    env->cpucfg[0] = 0x14c010;
++    env->cpucfg[1] = 0x3f2f2fe;
++    env->cpucfg[2] = 0x60c3cf;
++    env->cpucfg[3] = 0xcff;
++    env->cpucfg[4] = 0x5f5e100;
++    env->cpucfg[5] = 0x10001;
++    env->cpucfg[10] = 0x2c3d;
++    env->cpucfg[11] = 0x6080003;
++    env->cpucfg[12] = 0x6080003;
++    env->cpucfg[13] = 0x60800f;
++    env->cpucfg[14] = 0x60f000f;
++}
++
++/* LoongArch CPU definitions */
++static void loongarch_3a5000_initfn(Object *obj)
++{
++    LoongArchCPU *cpu = LOONGARCH_CPU(obj);
++    CPULoongArchState *env = &cpu->env;
++
++    set_loongarch_cpucfg(env);
++}
++
++static void loongarch_cpu_list_entry(gpointer data, gpointer user_data)
++{
++    const char *typename = object_class_get_name(OBJECT_CLASS(data));
++
++    qemu_printf("%s\n", typename);
++}
++
++void loongarch_cpu_list(void)
++{
++    GSList *list;
++    list = object_class_get_list_sorted(TYPE_LOONGARCH_CPU, false);
++    g_slist_foreach(list, loongarch_cpu_list_entry, NULL);
++    g_slist_free(list);
++}
++
++static void loongarch_cpu_reset(DeviceState *dev)
++{
++    CPUState *cs = CPU(dev);
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    LoongArchCPUClass *lacc = LOONGARCH_CPU_GET_CLASS(cpu);
++    CPULoongArchState *env = &cpu->env;
++
++    lacc->parent_reset(dev);
++
++    set_loongarch_cpucfg(env);
++    env->fcsr0_mask = 0x1f1f031f;
++    env->fcsr0 = 0x0;
++
++    cs->exception_index = EXCP_NONE;
++}
++
++static void loongarch_cpu_disas_set_info(CPUState *s, disassemble_info *info)
++{
++    info->print_insn = print_insn_loongarch;
++}
++
++static void loongarch_cpu_realizefn(DeviceState *dev, Error **errp)
++{
++    CPUState *cs = CPU(dev);
++    LoongArchCPUClass *lacc = LOONGARCH_CPU_GET_CLASS(dev);
++    Error *local_err = NULL;
++
++    cpu_exec_realizefn(cs, &local_err);
++    if (local_err != NULL) {
++        error_propagate(errp, local_err);
++        return;
++    }
++
++    cpu_reset(cs);
++    qemu_init_vcpu(cs);
++
++    lacc->parent_realize(dev, errp);
++}
++
++static void loongarch_cpu_initfn(Object *obj)
++{
++    LoongArchCPU *cpu = LOONGARCH_CPU(obj);
++
++    cpu_set_cpustate_pointers(cpu);
++}
++
++static ObjectClass *loongarch_cpu_class_by_name(const char *cpu_model)
++{
++    ObjectClass *oc;
++    char *typename;
++
++    typename = g_strdup_printf(LOONGARCH_CPU_TYPE_NAME("%s"), cpu_model);
++    oc = object_class_by_name(typename);
++    g_free(typename);
++    return oc;
++}
++
++void loongarch_cpu_dump_state(CPUState *cs, FILE *f, int flags)
++{
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++    int i;
++
++    qemu_fprintf(f, " PC=%016" PRIx64 " ", env->pc);
++    qemu_fprintf(f, " FCSR0 0x%08x  fp_status 0x%02x\n", env->fcsr0,
++                 get_float_exception_flags(&env->fp_status));
++
++    /* gpr */
++    for (i = 0; i < 32; i++) {
++        if ((i & 3) == 0) {
++            qemu_fprintf(f, " GPR%02d:", i);
++        }
++        qemu_fprintf(f, " %s %016" PRIx64, regnames[i], env->gpr[i]);
++        if ((i & 3) == 3) {
++            qemu_fprintf(f, "\n");
++        }
++    }
++
++    /* fpr */
++    if (flags & CPU_DUMP_FPU) {
++        for (i = 0; i < 32; i++) {
++            qemu_fprintf(f, " %s %016" PRIx64, fregnames[i], env->fpr[i]);
++            if ((i & 3) == 3) {
++                qemu_fprintf(f, "\n");
++            }
++        }
++    }
++}
++
++#ifdef CONFIG_TCG
++#include "hw/core/tcg-cpu-ops.h"
++
++static bool loongarch_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                       MMUAccessType access_type, int mmu_idx,
++                       bool probe, uintptr_t retaddr)
++{
++    LoongArchCPU *cpu = LOONGARCH_CPU(cs);
++    CPULoongArchState *env = &cpu->env;
++
++    env->badaddr = address;
++    cs->exception_index = EXCP_ADE;
++    do_raise_exception(env, cs->exception_index, retaddr);
++}
++
++static struct TCGCPUOps loongarch_tcg_ops = {
++    .initialize = loongarch_translate_init,
++    .synchronize_from_tb = loongarch_cpu_synchronize_from_tb,
++    .tlb_fill = loongarch_cpu_tlb_fill,
++};
++#endif /* CONFIG_TCG */
++
++static void loongarch_cpu_class_init(ObjectClass *c, void *data)
++{
++    LoongArchCPUClass *lacc = LOONGARCH_CPU_CLASS(c);
++    CPUClass *cc = CPU_CLASS(c);
++    DeviceClass *dc = DEVICE_CLASS(c);
++
++    device_class_set_parent_realize(dc, loongarch_cpu_realizefn,
++                                    &lacc->parent_realize);
++    device_class_set_parent_reset(dc, loongarch_cpu_reset, &lacc->parent_reset);
++
++    cc->class_by_name = loongarch_cpu_class_by_name;
++    cc->has_work = loongarch_cpu_has_work;
++    cc->dump_state = loongarch_cpu_dump_state;
++    cc->set_pc = loongarch_cpu_set_pc;
++    cc->disas_set_info = loongarch_cpu_disas_set_info;
++#ifdef CONFIG_TCG
++    cc->tcg_ops = &loongarch_tcg_ops;
++#endif
++}
++
++#define DEFINE_LOONGARCH_CPU_TYPE(model, initfn) \
++    { \
++        .parent = TYPE_LOONGARCH_CPU, \
++        .instance_init = initfn, \
++        .name = LOONGARCH_CPU_TYPE_NAME(model), \
++    }
++
++static const TypeInfo loongarch_cpu_type_infos[] = {
++    {
++        .name = TYPE_LOONGARCH_CPU,
++        .parent = TYPE_CPU,
++        .instance_size = sizeof(LoongArchCPU),
++        .instance_init = loongarch_cpu_initfn,
++
++        .abstract = true,
++        .class_size = sizeof(LoongArchCPUClass),
++        .class_init = loongarch_cpu_class_init,
++    },
++    DEFINE_LOONGARCH_CPU_TYPE("Loongson-3A5000", loongarch_3a5000_initfn),
++};
++
++DEFINE_TYPES(loongarch_cpu_type_infos)
+diff --git a/target/loongarch/cpu.h b/target/loongarch/cpu.h
+new file mode 100644
+index 0000000..02cb4af
+--- /dev/null
++++ b/target/loongarch/cpu.h
+@@ -0,0 +1,151 @@
++/*
++ * QEMU LoongArch CPU
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ *
++ * SPDX-License-Identifier: LGPL-2.1+
++ */
++
++#ifndef LOONGARCH_CPU_H
++#define LOONGARCH_CPU_H
++
++#include "exec/cpu-defs.h"
++#include "fpu/softfloat-types.h"
++#include "hw/registerfields.h"
++
++#define TCG_GUEST_DEFAULT_MO (0)
++
++#define FCSR0_M1    0x1f         /* FCSR1 mask, Enables */
++#define FCSR0_M2    0x1f1f0000   /* FCSR2 mask, Cause and Flags */
++#define FCSR0_M3    0x300        /* FCSR3 mask, Round Mode */
++#define FCSR0_RM    8            /* Round Mode bit num on fcsr0 */
++
++FIELD(FCSR0, ENABLES, 0, 5)
++FIELD(FCSR0, RM, 8, 2)
++FIELD(FCSR0, FLAGS, 16, 5)
++FIELD(FCSR0, CAUSE, 24, 5)
++
++#define GET_FP_CAUSE(REG)      FIELD_EX32(REG, FCSR0, CAUSE)
++#define SET_FP_CAUSE(REG, V)   FIELD_DP32(REG, FCSR0, CAUSE, V)
++#define GET_FP_ENABLES(REG)    FIELD_EX32(REG, FCSR0, ENABLES)
++#define SET_FP_ENABLES(REG, V) FIELD_DP32(REG, FCSR0, ENABLES, V)
++#define GET_FP_FLAGS(REG)      FIELD_EX32(REG, FCSR0, FLAGS)
++#define SET_FP_FLAGS(REG, V)   FIELD_DP32(REG, FCSR0, FLAGS, V)
++#define UPDATE_FP_FLAGS(REG, V) \
++    do { \
++        (REG) |= FIELD_DP32(0, FCSR0, FLAGS, V); \
++    } while (0)
++
++#define FP_INEXACT        1
++#define FP_UNDERFLOW      2
++#define FP_OVERFLOW       4
++#define FP_DIV0           8
++#define FP_INVALID        16
++
++extern const char * const regnames[];
++extern const char * const fregnames[];
++
++typedef struct CPULoongArchState CPULoongArchState;
++struct CPULoongArchState {
++    uint64_t gpr[32];
++    uint64_t pc;
++
++    uint64_t fpr[32];
++    float_status fp_status;
++    bool cf[8];
++
++    /*
++     * fcsr0
++     * 31:29 |28:24 |23:21 |20:16 |15:10 |9:8 |7:5 |4:0
++     *        Cause         Flags         RM        Enables
++     */
++    uint32_t fcsr0;
++    uint32_t fcsr0_mask;
++
++    uint32_t cpucfg[15];
++
++    uint64_t lladdr; /* LL virtual address compared against SC */
++    uint64_t llval;
++
++    uint64_t badaddr;
++};
++
++/**
++ * LoongArchCPU:
++ * @env: #CPULoongArchState
++ * @clock: this CPU input clock (may be connected
++ *         to an output clock from another device).
++ *
++ * A LoongArch CPU.
++ */
++struct LoongArchCPU {
++    /*< private >*/
++    CPUState parent_obj;
++    /*< public >*/
++
++    CPUNegativeOffsetState neg;
++    CPULoongArchState env;
++};
++
++#define TYPE_LOONGARCH_CPU "loongarch64-cpu"
++
++OBJECT_DECLARE_TYPE(LoongArchCPU, LoongArchCPUClass,
++                    LOONGARCH_CPU)
++
++/**
++ * LoongArchCPUClass:
++ * @parent_realize: The parent class' realize handler.
++ * @parent_reset: The parent class' reset handler.
++ *
++ * A LoongArch CPU model.
++ */
++struct LoongArchCPUClass {
++    /*< private >*/
++    CPUClass parent_class;
++    /*< public >*/
++
++    DeviceRealize parent_realize;
++    DeviceReset parent_reset;
++};
++
++static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
++                                        target_ulong *pc,
++                                        target_ulong *cs_base,
++                                        uint32_t *flags)
++{
++    *pc = env->pc;
++    *cs_base = 0;
++    *flags = 0;
++}
++
++void loongarch_cpu_list(void);
++
++#define cpu_signal_handler cpu_loongarch_signal_handler
++#define cpu_list loongarch_cpu_list
++
++#define MMU_USER_IDX 3
++
++typedef CPULoongArchState CPUArchState;
++typedef LoongArchCPU ArchCPU;
++
++#include "exec/cpu-all.h"
++
++/* Exceptions */
++enum {
++    EXCP_NONE          = -1,
++    EXCP_ADE           = 0,
++    EXCP_SYSCALL,
++    EXCP_BREAK,
++    EXCP_INE,
++    EXCP_FPE,
++
++    EXCP_LAST = EXCP_FPE,
++};
++
++int cpu_loongarch_signal_handler(int host_signum, void *pinfo, void *puc);
++
++#define LOONGARCH_CPU_TYPE_SUFFIX "-" TYPE_LOONGARCH_CPU
++#define LOONGARCH_CPU_TYPE_NAME(model) model LOONGARCH_CPU_TYPE_SUFFIX
++#define CPU_RESOLVING_TYPE TYPE_LOONGARCH_CPU
++
++#endif /* LOONGARCH_CPU_H */
+diff --git a/target/loongarch/internals.h b/target/loongarch/internals.h
+new file mode 100644
+index 0000000..cfb08df
+--- /dev/null
++++ b/target/loongarch/internals.h
+@@ -0,0 +1,23 @@
++/*
++ * QEMU LoongArch CPU -- internal functions and types
++ *
++ * Copyright (c) 2021 Loongson Technology Corporation Limited
++ *
++ * SPDX-License-Identifier: LGPL-2.1+
++ */
++
++#ifndef LOONGARCH_INTERNALS_H
++#define LOONGARCH_INTERNALS_H
 +
 +
-+- Linux-user emulation
++void loongarch_translate_init(void);
 +
-+  We already support Linux user emulation. We can use LoongArch cross-tools to build LoongArch executables on X86 machines,
-+  and We can also use qemu-loongarch64 to run LoongArch executables.
++void loongarch_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
 +
-+  1. Install LoongArch cross-tools on X86 machines.
++void QEMU_NORETURN do_raise_exception(CPULoongArchState *env,
++                                      uint32_t exception,
++                                      uintptr_t pc);
 +
-+    Download cross-tools.
++const char *loongarch_exception_name(int32_t exception);
 +
-+      wget https://github.com/loongson/build-tools/releases/latest/download/loongarch64-clfs-20210831-cross-tools.tar.xz
-+
-+      tar -vxf loongarch64-clfs-20210831-cross-tools.tar.xz -C /opt
-+
-+    Config cross-tools env.
-+
-+      . setenv.sh
-+
-+      setenv.sh:
-+
-+          #!/bin/sh
-+          set -x
-+          CC_PREFIX=/opt/cross-tools
-+
-+          export PATH=$CC_PREFIX/bin:$PATH
-+          export LD_LIBRARY_PATH=$CC_PREFIX/lib:$LD_LIBRARY_PATH
-+          export LD_LIBRARY_PATH=$CC_PREFIX/loongarch64-unknown-linux-gnu/lib/:$LD_LIBRARY_PATH
-+          set +x
-+
-+  2. Test tests/tcg/multiarch.
-+
-+    ./configure --disable-rdma --disable-pvrdma --prefix=/usr  \
-+            --target-list="loongarch64-linux-user"  \
-+            --disable-libiscsi --disable-libnfs --disable-libpmem \
-+            --disable-glusterfs --enable-libusb --enable-usb-redir \
-+            --disable-opengl --disable-xen --enable-spice --disable-werror \
-+            --enable-debug --disable-capstone --disable-kvm --enable-profiler
-+
-+    cd  build/
-+
-+    make && make check-tcg
-+
-+  3. Run LoongArch system basic command with loongarch-clfs-system.
-+
-+    Download clfs-system.
-+
-+      wget https://github.com/loongson/build-tools/releases/latest/download/loongarch64-clfs-system-2021-08-31.tar.bz2
-+
-+      tar -vxf loongarch64-clfs-system-2021-08-31.tar.bz2 -C /opt/clfs
-+
-+    Config env.
-+
-+      cp /opt/clfs/lib64/ld-linux-loongarch64.so.1   /lib64
-+
-+      export LD_LIBRARY_PATH="/opt/clfs/lib64"
-+
-+    Run LoongArch system basic command.
-+
-+      ./qemu-loongarch64  /opt/clfs/usr/bin/bash
-+      ./qemu-loongarch64  /opt/clfs/usr/bin/ls
-+      ./qemu-loongarch64  /opt/clfs/usr/bin/pwd
-+      ...
-+
-+
-+- Note.
-+  We can get the latest LoongArch documents or LoongArch tools at https://github.com/loongson/
++#endif
 -- 
 1.8.3.1
 
