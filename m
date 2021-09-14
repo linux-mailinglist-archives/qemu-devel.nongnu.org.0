@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A7940AC0C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 12:53:58 +0200 (CEST)
-Received: from localhost ([::1]:48672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA7A40AC1D
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 12:58:17 +0200 (CEST)
+Received: from localhost ([::1]:52948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ64b-0001qr-B3
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 06:53:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56950)
+	id 1mQ68m-0004th-FR
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 06:58:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQ63N-0000lT-Ud
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 06:52:41 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43815)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQ63L-0000Yo-LC
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 06:52:41 -0400
-Received: by mail-wr1-x433.google.com with SMTP id b6so19440995wrh.10
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 03:52:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=laagcRJAJo+1gquNVmYG6q6KvnEr9cDlR6J0BVYkuNY=;
- b=gUu6YvoEkCe1+39amstjHpgG/0UdcHs0loGuPJ7Id+UoFM1xNB+dfWDzclzWeM+Dqr
- 9nqDOFzW73nCg/w1Bnev4X/IUv0wYDRaSKmhwt+SA3KRsW4Nw8cdq/oglsrdKDVdfyBN
- 22fehNpwp1TYb655TAc6nQjSP75Ad8OCvA1yxuOfwBZ+w8TlmJIX8TEV/C/BXf1xnH+h
- RM437l0szEmjK14Cl5TeT9TAqeePArHyGSNJES7gWfT8bCMQm6wtuDEDFqKQ2WPPm90J
- u+tYLROARR4qFvQUmV5dxBjeg3nopDOFgNL+WDQ1V44bGFAxoSTG1lZcfiQ0GIgbQ5L+
- OCOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=laagcRJAJo+1gquNVmYG6q6KvnEr9cDlR6J0BVYkuNY=;
- b=TPymBXPiAwk0TpRVF4ibntek8aUvW5Sfv9obZ9DudIJTlTW6PWUEjyfsVKRbO/YgmV
- HTr5zxAJHhz1c0HB5Dh8e6frbdYkU3a1FRdWh+v9jmXyEtgWY2cuX9LhbA8q32mh2thz
- gHMJolI77167rrMbyolgKkVQvS60UPF5wNe+MAxCwef6SYEDi45fuK6Vh027eEdCO6eu
- PbgIYA9TQybfqm3cl8TaDZFwM5/HN4Bv/sf5bBFLNryB/5JOtBlDwS8zLzSb9eBPN7Y8
- F14uHSfo9sTEIq4eBdUHROsROuFvDs5b0TMCHa+NvUiNF303J4unUj8Vwzzgd/M195+G
- FepQ==
-X-Gm-Message-State: AOAM531rxW92ia7wW8ExY0BUB6Qj9MwDI4jR+q31D709jT+W8SksNnL0
- bTIt27RUeWbaUyRix3pG0Xg/+2OVIpR6ZNSqyEzBzA==
-X-Google-Smtp-Source: ABdhPJy2QTOtapTTe6rmaEYZ54iVLpUriXoeNpyEFjYWMr7IvrjlPoovoFpCO847a+3KT2yjnxg+r5Hjfv4EhayUfLI=
-X-Received: by 2002:adf:fd12:: with SMTP id e18mr14091092wrr.275.1631616757831; 
- Tue, 14 Sep 2021 03:52:37 -0700 (PDT)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mQ67T-00040q-Lr
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 06:56:55 -0400
+Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229]:57955)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mQ67R-0004C3-U0
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 06:56:55 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.136])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id EB08020058;
+ Tue, 14 Sep 2021 10:56:49 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 14 Sep
+ 2021 12:56:49 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R0069a609b8a-7d05-4373-bb59-9734b4670c60,
+ 2B4DCE8296B83A4DEFDF4253AFCCF2A4AB0DDD95) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PULL 14/14] hw/arm/aspeed: Add Fuji machine type
+To: Peter Maydell <peter.maydell@linaro.org>
 References: <20210913161304.3805652-1-clg@kaod.org>
-In-Reply-To: <20210913161304.3805652-1-clg@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 14 Sep 2021 11:51:47 +0100
-Message-ID: <CAFEAcA9CJekxghvjOpoweVNX6ebKz9yP27tP8OVsiR49T4XSHw@mail.gmail.com>
-Subject: Re: [PULL 00/14] aspeed queue
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ <20210913161304.3805652-15-clg@kaod.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <88c26520-6b87-e7a2-ac78-c1c92477c814@kaod.org>
+Date: Tue, 14 Sep 2021 12:56:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <20210913161304.3805652-15-clg@kaod.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 355f6587-0a43-40ab-8c29-4b864fc43796
+X-Ovh-Tracer-Id: 9219149912872094502
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudegledgfeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgedvieejfedvhfduhfffueevheeludffhfdvkeehleegtddttdfhieegveeghfffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrgh
+Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
+ helo=4.mo548.mail-out.ovh.net
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.969,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,44 +70,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
- Joel Stanley <joel@jms.id.au>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, Peter Delevoryas <pdel@fb.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 Sept 2021 at 17:13, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> The following changes since commit eae587e8e3694b1aceab23239493fb4c7e1a80=
-f5:
->
->   Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-09-13'=
- into staging (2021-09-13 11:00:30 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/legoater/qemu/ tags/pull-aspeed-20210913
->
-> for you to fetch changes up to d7add12e20fa8982f5932ff4dca317c5d2dfe7d9:
->
->   hw/arm/aspeed: Add Fuji machine type (2021-09-13 15:19:20 +0200)
->
-> ----------------------------------------------------------------
-> Aspeed patches :
->
-> * MAC enablement fixes (Guenter)
-> * Watchdog  and pca9552 fixes (Andrew)
-> * GPIO fixes (Joel)
-> * AST2600A3 SoC and DPS310 models (Joel)
-> * New Fuji BMC machine (Peter)
 
-Hi; this fails 'make check' on 32-bit hosts:
+Hello Peter D,
 
-qemu-system-aarch64: at most 2047 MB RAM can be simulated
-Broken pipe
-ERROR qtest-aarch64/qom-test - too few tests run (expected 83, got 31)
+> +static void aspeed_machine_fuji_class_init(ObjectClass *oc, void *data)
+> +{
+> +    MachineClass *mc = MACHINE_CLASS(oc);
+> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
+> +
+> +    mc->desc = "Facebook Fuji BMC (Cortex-A7)";
+> +    amc->soc_name = "ast2600-a3";
+> +    amc->hw_strap1 = FUJI_BMC_HW_STRAP1;
+> +    amc->hw_strap2 = FUJI_BMC_HW_STRAP2;
+> +    amc->fmc_model = "mx66l1g45g";
+> +    amc->spi_model = "mx66l1g45g";
+> +    amc->num_cs = 2;
+> +    amc->macs_mask = ASPEED_MAC3_ON;
+> +    amc->i2c_init = fuji_bmc_i2c_init;
+> +    amc->uart_default = ASPEED_DEV_UART1;
+> +    mc->default_ram_size = 2 * GiB;
 
-I suspect the new machine type has a default of more than 2GB
-of RAM, which won't work on 32 bit systems.
+Is that the default of the Fuji board ? This is causing an issue in our tests :
 
--- PMM
+   qemu-system-aarch64: at most 2047 MB RAM can be simulated
+
+Could we lower it down to 1G ?
+
+Thanks,
+
+C.
+
+> +    mc->default_cpus = mc->min_cpus = mc->max_cpus =
+> +        aspeed_soc_num_cpus(amc->soc_name);
+> +};
+> +
+>  static const TypeInfo aspeed_machine_types[] = {
+>      {
+>          .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
+> @@ -1119,6 +1228,10 @@ static const TypeInfo aspeed_machine_types[] = {
+>          .name          = MACHINE_TYPE_NAME("rainier-bmc"),
+>          .parent        = TYPE_ASPEED_MACHINE,
+>          .class_init    = aspeed_machine_rainier_class_init,
+> +    }, {
+> +        .name          = MACHINE_TYPE_NAME("fuji-bmc"),
+> +        .parent        = TYPE_ASPEED_MACHINE,
+> +        .class_init    = aspeed_machine_fuji_class_init,
+>      }, {
+>          .name          = TYPE_ASPEED_MACHINE,
+>          .parent        = TYPE_MACHINE,
+> 
+
 
