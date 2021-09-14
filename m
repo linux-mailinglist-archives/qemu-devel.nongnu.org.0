@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821EA40AEBE
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:17:31 +0200 (CEST)
-Received: from localhost ([::1]:34904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD2340AEDF
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:26:57 +0200 (CEST)
+Received: from localhost ([::1]:35870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ8JW-0001sA-HJ
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:17:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37758)
+	id 1mQ8Se-0004o1-Bv
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:26:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mQ84A-0006Es-TL
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:01:42 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:57972 helo=loongson.cn)
+ id 1mQ8AB-0000ma-Fu
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:07:51 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:59622 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mQ848-000867-7U
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:01:38 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1mQ8A8-0003IP-JS
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 09:07:51 -0400
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxheXvnEBhNJ0GAA--.21668S21; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxheXvnEBhNJ0GAA--.21668S22; 
  Tue, 14 Sep 2021 21:01:22 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 19/21] target/loongarch: Add target build suport
-Date: Tue, 14 Sep 2021 21:00:29 +0800
-Message-Id: <1631624431-30658-20-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH v5 20/21] target/loongarch: 'make check-tcg' support
+Date: Tue, 14 Sep 2021 21:00:30 +0800
+Message-Id: <1631624431-30658-21-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1631624431-30658-1-git-send-email-gaosong@loongson.cn>
 References: <1631624431-30658-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9DxheXvnEBhNJ0GAA--.21668S21
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4xXr4fZw1rury5trWkJFb_yoW8ZFyDpr
- 47Aw15KFW8ZF93J3s3Ja4FqFZ5Jw1DGw47XanxKrWfCrZxJayUXwn5KFZ8GF17X3W0kFyS
- gFn3C34rGF4UJa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-TRANSID: AQAAf9DxheXvnEBhNJ0GAA--.21668S22
+X-Coremail-Antispam: 1UD129KBjvdXoWrZry3XryrKw4DWryxJrWUArb_yoWfWrg_A3
+ WSkr1kCF4Yyr1xGF18WFn5Gr4Fg3y7Zw1SgF1DXF1fX3y2van8ta1xAanxWF15Zw13urnI
+ qaykAw4Ikw1UAjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) SPF_HELO_PASS=-0.001,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,67 +62,27 @@ Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch add build loongarch-linux-user target support.
+This patch support 'make check-tcg' after install cross-tools.
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: XiaoJuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- meson.build                  |  2 +-
- target/loongarch/meson.build | 18 ++++++++++++++++++
- target/meson.build           |  1 +
- 3 files changed, 20 insertions(+), 1 deletion(-)
- create mode 100644 target/loongarch/meson.build
+ tests/tcg/configure.sh | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meson.build b/meson.build
-index 45bd486..5c80fed 100644
---- a/meson.build
-+++ b/meson.build
-@@ -57,7 +57,7 @@ python = import('python').find_installation()
- 
- supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
- supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv32', 'riscv64', 'x86', 'x86_64',
--  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
-+  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64', 'loongarch64']
- 
- cpu = host_machine.cpu_family()
- targetos = host_machine.system()
-diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
-new file mode 100644
-index 0000000..31f9e9f
---- /dev/null
-+++ b/target/loongarch/meson.build
-@@ -0,0 +1,18 @@
-+gen = decodetree.process('insns.decode')
-+
-+loongarch_ss = ss.source_set()
-+loongarch_ss.add(files(
-+  'cpu.c',
-+))
-+loongarch_tcg_ss = ss.source_set()
-+loongarch_tcg_ss.add(gen)
-+loongarch_tcg_ss.add(files(
-+  'fpu_helper.c',
-+  'op_helper.c',
-+  'translate.c',
-+))
-+loongarch_tcg_ss.add(zlib)
-+
-+loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
-+
-+target_arch += {'loongarch': loongarch_ss}
-diff --git a/target/meson.build b/target/meson.build
-index 2f69402..a53a604 100644
---- a/target/meson.build
-+++ b/target/meson.build
-@@ -5,6 +5,7 @@ subdir('cris')
- subdir('hexagon')
- subdir('hppa')
- subdir('i386')
-+subdir('loongarch')
- subdir('m68k')
- subdir('microblaze')
- subdir('mips')
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index 1f985cc..d8f677d 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -51,6 +51,7 @@ fi
+ : ${cross_cc_cflags_armeb="-mbig-endian"}
+ : ${cross_cc_hexagon="hexagon-unknown-linux-musl-clang"}
+ : ${cross_cc_cflags_hexagon="-mv67 -O2 -static"}
++: ${cross_cc_loongarch64="loongarch64-unknown-linux-gnu-gcc"}
+ : ${cross_cc_hppa="hppa-linux-gnu-gcc"}
+ : ${cross_cc_i386="i686-linux-gnu-gcc"}
+ : ${cross_cc_cflags_i386="-m32"}
 -- 
 1.8.3.1
 
