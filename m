@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E5E40A1D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 02:21:39 +0200 (CEST)
-Received: from localhost ([::1]:59796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 752D540A20F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 02:31:52 +0200 (CEST)
+Received: from localhost ([::1]:56344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPwCg-000217-HM
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 20:21:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53660)
+	id 1mPwMZ-0001t5-Fn
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 20:31:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPw6X-0001mn-7I
+ id 1mPw6Z-0001n1-Qe
  for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:22 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:34550)
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:37824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPw6V-0007kQ-9g
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:16 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- on12-20020a17090b1d0c00b001997c60aa29so943487pjb.1
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 17:15:14 -0700 (PDT)
+ id 1mPw6V-0007l9-Kv
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:18 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ me5-20020a17090b17c500b0019af76b7bb4so81647pjb.2
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 17:15:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JRbtZ+CDX2+nXrEBnFYxf52cfF6x2rj7k+e/RTOAXu4=;
- b=T0nJiHXU9Vx9IPXfsUZ3QY++PjPPLYKSl8yXwYfn6YZn1Jn6GwXwiS+vaTcYU2Tp2K
- VASUOvYY0hirRgvNMfiT7H/RUmEhZ5l6SBikNn5UVlxRGBTRYuQB66maV/2sZVlC5HIp
- R3SW/cmlknpzPIvfYHGqNurdr1wU5xshgKI2KIyGrpuCKSCqunUB+M1LgqFhGO1UMLcx
- tzLOLOJ0Nx46mQaakPPjvgSZsJgVPtZxFY6ns7eGW+wX25vyByknnKivDnG0udqtWoj9
- TVKG+yLlH03a+YUppSURTV2162dFfwV/nMnms+IR/vzYUZF0ORUQ+Yu7yVPDVw+8Wom2
- IePQ==
+ bh=kMgMf4tltj945+b+cBz+KgDOZ1D9R65U6Vn4IysmVyc=;
+ b=GAXPp55AKS6E5Win1sgWo9m4cWFqmIad26MwUKdRatRaNFJYlwfppWnIboXaKN5UnI
+ fSKPW39oP8dd+XpQ12MfrjSYbkXusRw+r+aOHMDh6KmLGWwoNlyES+hgOOu4S5LrXLDM
+ qn2BZhhqIQxTxYOQ0OLeDRXHoXh53bG2DwCYamk/oPeaQr3ATXAMbz45mZonAYMHKDyI
+ Qf9N7Tj5zQPyKKLQ/eF/OMnoy7DOdC34d/hScToanhdQjRu0B/av55RrnIVfrSlywqQJ
+ 3gsUjXx+ARuMIup2xdaUyf304Xq1rjcOtfJK/vZit36o1iEbilm7jf85NPMkXbIC3rKk
+ mqLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JRbtZ+CDX2+nXrEBnFYxf52cfF6x2rj7k+e/RTOAXu4=;
- b=tncFAcYbxIeaWDj+Xytt1gyG0Y3oVcbah6/XLOax1WbMKskaK5nzJOc6qKF4s4+2Mb
- FlJAdzOsjSP/+EJHr4Md3YSDDYhi4FVXshmc7wSrFPhaK8sNNpXRglmbDObr0XEkuxUR
- K9z6MR7I7drYrCtADwoj0vVQDPMMtylrx0pa8djOT4WdyDDAC60MaLuoY0FxRmO6nW80
- fYZvpc2QVuqpTslkcqWalBXJVSHwY+7xem0CrAvxLTFjXwT/5waOH1gn8qrDIsO1hK6Q
- qq1u6jNKKPQikqOFyt+Cv5V1hwHCs8ke9Sdvlghxr5VF+7s6x7szv0p4S3PsBzvB9bRp
- p/OQ==
-X-Gm-Message-State: AOAM533uCKeS6TfSQds+BfCsjPNy8OG8jTFaow1b/pkiXbRc4zAgFe6/
- ElnbgWovm3Un8UuUhthyPNp5YYmvbb7LxA==
-X-Google-Smtp-Source: ABdhPJz5KugDi8HXymW9WdrqvpUQJbEYWckTYRp8RwiX4SpnKIQLSeqFQYZme5Js2GYALBhNgTpNwg==
-X-Received: by 2002:a17:90a:77c2:: with SMTP id
- e2mr2310033pjs.96.1631578513515; 
- Mon, 13 Sep 2021 17:15:13 -0700 (PDT)
+ bh=kMgMf4tltj945+b+cBz+KgDOZ1D9R65U6Vn4IysmVyc=;
+ b=CjzHrBVIJOGqEXr2KF+hXy4RbwoeIN4I9KnhButENdMv/nQzmO8r99SoybNFzADJVH
+ PacogxB+PUCiixVwmcCnnnKjX/QhmQhXRxdJTZYuWi7fKwO8M7rvirnUZUQea9IoGP5Y
+ ePVrM8t2j1b7Hy2cQHd9uRFQgdBAnNxsah8vLMtlI2a6h+a+VZVB9100luauXmj1oqvu
+ OHkOhqkYxvM613Ls/qufugs6yLyit+UbAKVgVcnyZxyt5VOk6wqU5bqnOyH1FR8zdOV2
+ ydyjtbPCepnNueUx3zwsnqhrTzIPTEZSWq1aiW59xpgcvMFg9+2iXv5ehcf9NPajmAJm
+ eMuw==
+X-Gm-Message-State: AOAM531Q56EIOxlFOfE40PnkBpwEv0eKRQhB1AIvSAAcuIqwLKHsr3OF
+ //0RA8c9hzlvtpty3g5HqYoxhuaTa9+hdg==
+X-Google-Smtp-Source: ABdhPJz9tqRXmc9fnr3ZseLGZ3N641m8J7qyf0NzmNhL+NdlPfDUOOCRxY49S6XaSqjGCH2xnVZdEA==
+X-Received: by 2002:a17:90a:bd06:: with SMTP id y6mr2386117pjr.6.1631578514346; 
+ Mon, 13 Sep 2021 17:15:14 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
  by smtp.gmail.com with ESMTPSA id m7sm9334179pgn.32.2021.09.13.17.15.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 17:15:13 -0700 (PDT)
+ Mon, 13 Sep 2021 17:15:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/44] target/microblaze: Restrict cpu_exec_interrupt() handler
- to sysemu
-Date: Mon, 13 Sep 2021 17:14:33 -0700
-Message-Id: <20210914001456.793490-22-richard.henderson@linaro.org>
+Subject: [PULL 22/44] target/mips: Restrict cpu_exec_interrupt() handler to
+ sysemu
+Date: Mon, 13 Sep 2021 17:14:34 -0700
+Message-Id: <20210914001456.793490-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210914001456.793490-1-richard.henderson@linaro.org>
 References: <20210914001456.793490-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,83 +98,126 @@ Restrict cpu_exec_interrupt() and its callees to sysemu.
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210911165434.531552-14-f4bug@amsat.org>
+Message-Id: <20210911165434.531552-15-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/microblaze/cpu.h    |  2 ++
- target/microblaze/cpu.c    |  2 +-
- target/microblaze/helper.c | 13 ++-----------
- 3 files changed, 5 insertions(+), 12 deletions(-)
+ target/mips/tcg/tcg-internal.h      |  5 +++--
+ target/mips/cpu.c                   |  2 +-
+ target/mips/tcg/exception.c         | 18 ------------------
+ target/mips/tcg/sysemu/tlb_helper.c | 18 ++++++++++++++++++
+ target/mips/tcg/user/tlb_helper.c   |  5 -----
+ 5 files changed, 22 insertions(+), 26 deletions(-)
 
-diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index e4bba8a755..40401c33b7 100644
---- a/target/microblaze/cpu.h
-+++ b/target/microblaze/cpu.h
-@@ -355,8 +355,10 @@ struct MicroBlazeCPU {
- };
+diff --git a/target/mips/tcg/tcg-internal.h b/target/mips/tcg/tcg-internal.h
+index 81b14eb219..c7a77ddccd 100644
+--- a/target/mips/tcg/tcg-internal.h
++++ b/target/mips/tcg/tcg-internal.h
+@@ -18,8 +18,6 @@
+ void mips_tcg_init(void);
  
+ void mips_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb);
+-void mips_cpu_do_interrupt(CPUState *cpu);
+-bool mips_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                        MMUAccessType access_type, int mmu_idx,
+                        bool probe, uintptr_t retaddr);
+@@ -41,6 +39,9 @@ static inline void QEMU_NORETURN do_raise_exception(CPUMIPSState *env,
  
-+#ifndef CONFIG_USER_ONLY
- void mb_cpu_do_interrupt(CPUState *cs);
- bool mb_cpu_exec_interrupt(CPUState *cs, int int_req);
-+#endif /* !CONFIG_USER_ONLY */
- void mb_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
-                                 MMUAccessType access_type,
-                                 int mmu_idx, uintptr_t retaddr);
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 72d8f2a0da..15db277925 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -365,10 +365,10 @@ static const struct SysemuCPUOps mb_sysemu_ops = {
- static const struct TCGCPUOps mb_tcg_ops = {
-     .initialize = mb_tcg_init,
-     .synchronize_from_tb = mb_cpu_synchronize_from_tb,
--    .cpu_exec_interrupt = mb_cpu_exec_interrupt,
-     .tlb_fill = mb_cpu_tlb_fill,
+ #if !defined(CONFIG_USER_ONLY)
  
- #ifndef CONFIG_USER_ONLY
-+    .cpu_exec_interrupt = mb_cpu_exec_interrupt,
-     .do_interrupt = mb_cpu_do_interrupt,
-     .do_transaction_failed = mb_cpu_transaction_failed,
-     .do_unaligned_access = mb_cpu_do_unaligned_access,
-diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
-index 20dbd67313..dd2aecd1d5 100644
---- a/target/microblaze/helper.c
-+++ b/target/microblaze/helper.c
-@@ -26,16 +26,6 @@
++void mips_cpu_do_interrupt(CPUState *cpu);
++bool mips_cpu_exec_interrupt(CPUState *cpu, int int_req);
++
+ void mmu_init(CPUMIPSState *env, const mips_def_t *def);
  
- #if defined(CONFIG_USER_ONLY)
+ void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index d426918291..00e0c55d0e 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -539,10 +539,10 @@ static const struct SysemuCPUOps mips_sysemu_ops = {
+ static const struct TCGCPUOps mips_tcg_ops = {
+     .initialize = mips_tcg_init,
+     .synchronize_from_tb = mips_cpu_synchronize_from_tb,
+-    .cpu_exec_interrupt = mips_cpu_exec_interrupt,
+     .tlb_fill = mips_cpu_tlb_fill,
  
--void mb_cpu_do_interrupt(CPUState *cs)
+ #if !defined(CONFIG_USER_ONLY)
++    .cpu_exec_interrupt = mips_cpu_exec_interrupt,
+     .do_interrupt = mips_cpu_do_interrupt,
+     .do_transaction_failed = mips_cpu_do_transaction_failed,
+     .do_unaligned_access = mips_cpu_do_unaligned_access,
+diff --git a/target/mips/tcg/exception.c b/target/mips/tcg/exception.c
+index 4fb8b00711..7b3026b105 100644
+--- a/target/mips/tcg/exception.c
++++ b/target/mips/tcg/exception.c
+@@ -86,24 +86,6 @@ void mips_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb)
+     env->hflags |= tb->flags & MIPS_HFLAG_BMASK;
+ }
+ 
+-bool mips_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
 -{
--    MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
--    CPUMBState *env = &cpu->env;
+-    if (interrupt_request & CPU_INTERRUPT_HARD) {
+-        MIPSCPU *cpu = MIPS_CPU(cs);
+-        CPUMIPSState *env = &cpu->env;
 -
--    cs->exception_index = -1;
--    env->res_addr = RES_ADDR_NONE;
--    env->regs[14] = env->pc;
+-        if (cpu_mips_hw_interrupts_enabled(env) &&
+-            cpu_mips_hw_interrupts_pending(env)) {
+-            /* Raise it */
+-            cs->exception_index = EXCP_EXT_INTERRUPT;
+-            env->error_code = 0;
+-            mips_cpu_do_interrupt(cs);
+-            return true;
+-        }
+-    }
+-    return false;
 -}
 -
- bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                      MMUAccessType access_type, int mmu_idx,
-                      bool probe, uintptr_t retaddr)
-@@ -271,7 +261,6 @@ hwaddr mb_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
- 
-     return paddr;
- }
--#endif
- 
- bool mb_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
- {
-@@ -289,6 +278,8 @@ bool mb_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     return false;
+ static const char * const excp_names[EXCP_LAST + 1] = {
+     [EXCP_RESET] = "reset",
+     [EXCP_SRESET] = "soft reset",
+diff --git a/target/mips/tcg/sysemu/tlb_helper.c b/target/mips/tcg/sysemu/tlb_helper.c
+index a150a014ec..73254d1929 100644
+--- a/target/mips/tcg/sysemu/tlb_helper.c
++++ b/target/mips/tcg/sysemu/tlb_helper.c
+@@ -1339,6 +1339,24 @@ void mips_cpu_do_interrupt(CPUState *cs)
+     cs->exception_index = EXCP_NONE;
  }
  
-+#endif /* !CONFIG_USER_ONLY */
++bool mips_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
++{
++    if (interrupt_request & CPU_INTERRUPT_HARD) {
++        MIPSCPU *cpu = MIPS_CPU(cs);
++        CPUMIPSState *env = &cpu->env;
 +
- void mb_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-                                 MMUAccessType access_type,
-                                 int mmu_idx, uintptr_t retaddr)
++        if (cpu_mips_hw_interrupts_enabled(env) &&
++            cpu_mips_hw_interrupts_pending(env)) {
++            /* Raise it */
++            cs->exception_index = EXCP_EXT_INTERRUPT;
++            env->error_code = 0;
++            mips_cpu_do_interrupt(cs);
++            return true;
++        }
++    }
++    return false;
++}
++
+ void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra)
+ {
+     CPUState *cs = env_cpu(env);
+diff --git a/target/mips/tcg/user/tlb_helper.c b/target/mips/tcg/user/tlb_helper.c
+index b835144b82..210c6d529e 100644
+--- a/target/mips/tcg/user/tlb_helper.c
++++ b/target/mips/tcg/user/tlb_helper.c
+@@ -57,8 +57,3 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     raise_mmu_exception(env, address, access_type);
+     do_raise_exception_err(env, cs->exception_index, env->error_code, retaddr);
+ }
+-
+-void mips_cpu_do_interrupt(CPUState *cs)
+-{
+-    cs->exception_index = EXCP_NONE;
+-}
 -- 
 2.25.1
 
