@@ -2,70 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63AD40B7CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 21:19:49 +0200 (CEST)
-Received: from localhost ([::1]:45136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D38040B800
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 21:31:09 +0200 (CEST)
+Received: from localhost ([::1]:51006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQDy8-0006wI-9f
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 15:19:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39756)
+	id 1mQE96-0002sE-61
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 15:31:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQDwb-0005dj-H4
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 15:18:13 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54896)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQDwZ-00016W-MC
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 15:18:13 -0400
-Received: by mail-wm1-x334.google.com with SMTP id s24so344051wmh.4
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 12:18:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6rUhAeX1MJtvs0qVHEobpFsdm3MQHDFQ7VT02h4tsPs=;
- b=cTOof267lH+mRcx8jYnpmDUEg3HUmYsBzRLx0mXsGORmKl8bZoUd0hfPqGf/6/qA7u
- v2dYhSIz3L5idGq+zyLSg1PEc+lYKiqaxAk1hbptblo8zEDCLl0fqzNgwBoyb7H/enIG
- xtvttyDd2edfcHiRXAXa6w0V45i1NvCADdjANJ8Y9lVW6Iy2trvnvOqECDbsCVNYsqUm
- QwUovXOETbEKQTgm9MpVhqVX9t8ldrYb/rPEtxPgToc8wCkd8Bd6IiWVgFD4um45GoP5
- xZHhD0bCEmvkSuYGCChugRj/sMyxh3d3mH4GipreO8sCwTduZlUgHBbF4qAR3zpEFPzi
- p9vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6rUhAeX1MJtvs0qVHEobpFsdm3MQHDFQ7VT02h4tsPs=;
- b=DMgR/fyG/KldBYsrn2eelmRlHzLWT8lUPVQh9h9XEPhVLJwKSVBEWg20X/zy50SaxE
- XhH7Ftou+LAxIOVLDJsG6VIUZSsa7bqEx2KYU8ABKHHlmWJOmfec0FhJtg5K2cNgNjR3
- P2mroir1D9GcUCHfb4kWX7TlZxf7M0Cs+/xKGzJtJ3wympt14o8ZI4ogNrScpZGH/ob5
- 1738g9U2K6137m/6PDSi7cn5HbVWRFMygcTBlgK249dasAW2sg77SiTSxGXbxkJCopXy
- lFjgDgROaANhNBJ/oEjVJ+0x0G6YpyYdgDwv/VmooO+OClgtHEJ6FVN+njaDWhqmXDmt
- U9UQ==
-X-Gm-Message-State: AOAM53094dizoQu6kfFvN4EOhLC1Ys7aMuP9tXWvydtm3OSRKF8bKOWc
- 9AQB3qHycPfym19K3Z+81dyv1SpR1iiTLWC9wQxrEoJhmS8w8A==
-X-Google-Smtp-Source: ABdhPJztoriBW/gqycugw3qBEIVXBlLZcsY8TM6+on1pbWFu3OTkmf6Vl2DjitGYpnKZP8rqnIbZ70guLD4NLM3ux6I=
-X-Received: by 2002:a05:600c:4848:: with SMTP id
- j8mr693604wmo.21.1631647090133; 
- Tue, 14 Sep 2021 12:18:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQE73-0001UG-MN
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 15:29:01 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:28907)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQE71-0008TV-3W
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 15:29:01 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-548-1I6aUjcDNc6A8MGHErAHNA-1; Tue, 14 Sep 2021 15:28:53 -0400
+X-MC-Unique: 1I6aUjcDNc6A8MGHErAHNA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27BFF18A072C;
+ Tue, 14 Sep 2021 19:28:49 +0000 (UTC)
+Received: from bahia.huguette (unknown [10.39.192.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E67B11001281;
+ Tue, 14 Sep 2021 19:28:28 +0000 (UTC)
+Date: Tue, 14 Sep 2021 21:28:27 +0200
+From: Greg Kurz <groug@kaod.org>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Subject: Re: [PATCH v2 06/53] hw/core: introduce 'format_state' callback to
+ replace 'dump_state'
+Message-ID: <20210914212827.65559b21@bahia.huguette>
+In-Reply-To: <20210914142042.1655100-7-berrange@redhat.com>
+References: <20210914142042.1655100-1-berrange@redhat.com>
+ <20210914142042.1655100-7-berrange@redhat.com>
 MIME-Version: 1.0
-References: <20210913101948.12600-1-peter.maydell@linaro.org>
-In-Reply-To: <20210913101948.12600-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 14 Sep 2021 20:17:19 +0100
-Message-ID: <CAFEAcA86yjW8oeif4tY7WWzGfXYYV0VuqY+4RV9f_NqAApeeeg@mail.gmail.com>
-Subject: Re: [PATCH] gitlab-ci: Make more custom runner jobs manual, and don't
- allow failure
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,48 +66,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
+ David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
+ Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E.
+ Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
+ Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Peter Xu <peterx@redhat.com>, Stafford Horne <shorne@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 Sept 2021 at 11:19, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> Currently we define a lot of jobs for our custom runners:
-> for both aarch64 and s390x we have
->  - all-linux-static
->  - all
->  - alldbg
->  - clang (manual)
->  - tci
->  - notcg (manual)
->
-> This is overkill.  The main reason to run on these hosts is to get
-> coverage for the host architecture; we can leave the handling of
-> differences like debug vs non-debug to the x86 CI jobs.
->
-> The jobs are also generally running OK; they occasionally fail due to
-> timeouts, which is likely because we're overloading the machine by
-> asking it to run 4 CI jobs at once plus the ad-hoc CI.
->
-> Remove the 'allow_failure' tag from all these jobs, and switch the
-> s390x-alldbg, aarch64-all, s390x-tci and aarch64-tci jobs to manual.
-> This will let us make the switch for s390x and aarch64 hosts from
-> the ad-hoc CI to gitlab.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On Tue, 14 Sep 2021 15:19:55 +0100
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-It looks like this change has resulted in pipelines ending
-up in a "blocked" state:
+> The 'dump_state' callback assumes it will be outputting to a FILE
+> object. This is fine for HMP, but not so useful for QMP. Introduce
+> a new 'format_state' callback that returns a formatted GString
+> instead.
+>=20
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
 
-https://gitlab.com/qemu-project/qemu/-/pipelines
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-I'm not sure why this is -- is it perhaps because there were
-other jobs that depended on the now-manual-only jobs ?
-Can somebody suggest a fix ?
+>  hw/core/cpu-common.c  | 15 +++++++++++++++
+>  include/hw/core/cpu.h | 13 ++++++++++++-
+>  2 files changed, 27 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
+> index e2f5a64604..c2cd33a817 100644
+> --- a/hw/core/cpu-common.c
+> +++ b/hw/core/cpu-common.c
+> @@ -106,6 +106,21 @@ void cpu_dump_state(CPUState *cpu, FILE *f, int flag=
+s)
+>      if (cc->dump_state) {
+>          cpu_synchronize_state(cpu);
+>          cc->dump_state(cpu, f, flags);
+> +    } else if (cc->format_state) {
+> +        g_autoptr(GString) buf =3D g_string_new("");
+> +        cpu_synchronize_state(cpu);
+> +        cc->format_state(cpu, buf, flags);
+> +        qemu_fprintf(f, "%s", buf->str);
+> +    }
+> +}
+> +
+> +void cpu_format_state(CPUState *cpu, GString *buf, int flags)
+> +{
+> +    CPUClass *cc =3D CPU_GET_CLASS(cpu);
+> +
+> +    if (cc->format_state) {
+> +        cpu_synchronize_state(cpu);
+> +        cc->format_state(cpu, buf, flags);
+>      }
+>  }
+> =20
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index bc864564ce..1599ef9df3 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -91,7 +91,8 @@ struct SysemuCPUOps;
+>   * @reset_dump_flags: #CPUDumpFlags to use for reset logging.
+>   * @has_work: Callback for checking if there is work to do.
+>   * @memory_rw_debug: Callback for GDB memory access.
+> - * @dump_state: Callback for dumping state.
+> + * @dump_state: Callback for dumping state. Deprecated, use @format_stat=
+e.
+> + * @format_state: Callback for formatting state.
+>   * @get_arch_id: Callback for getting architecture-dependent CPU ID.
+>   * @set_pc: Callback for setting the Program Counter register. This
+>   *       should have the semantics used by the target architecture when
+> @@ -136,6 +137,7 @@ struct CPUClass {
+>      int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
+>                             uint8_t *buf, int len, bool is_write);
+>      void (*dump_state)(CPUState *cpu, FILE *, int flags);
+> +    void (*format_state)(CPUState *cpu, GString *buf, int flags);
+>      int64_t (*get_arch_id)(CPUState *cpu);
+>      void (*set_pc)(CPUState *cpu, vaddr value);
+>      int (*gdb_read_register)(CPUState *cpu, GByteArray *buf, int reg);
+> @@ -537,6 +539,15 @@ enum CPUDumpFlags {
+>   */
+>  void cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+> =20
+> +/**
+> + * cpu_format_state:
+> + * @cpu: The CPU whose state is to be formatted.
+> + * @buf: buffer to format state into
+> + *
+> + * Formats the CPU state.
+> + */
+> +void cpu_format_state(CPUState *cpu, GString *buf, int flags);
+> +
+>  #ifndef CONFIG_USER_ONLY
+>  /**
+>   * cpu_get_phys_page_attrs_debug:
 
-thanks
--- PMM
 
