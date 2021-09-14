@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5DD40A911
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 10:22:29 +0200 (CEST)
-Received: from localhost ([::1]:35140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22CE240A917
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 10:23:39 +0200 (CEST)
+Received: from localhost ([::1]:37454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ3i0-0001m3-Ui
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 04:22:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50782)
+	id 1mQ3j8-0003KP-8L
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 04:23:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQ3gh-0008MD-7F
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 04:21:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37374)
+ id 1mQ3hN-0001Rc-TO
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 04:21:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQ3gb-0006As-LE
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 04:21:06 -0400
+ id 1mQ3hL-0006rb-TZ
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 04:21:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631607660;
+ s=mimecast20190719; t=1631607706;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CDT35quz9nszWkfZm4wxsDBm32uD2+Llx7qdHYfvl+o=;
- b=hnwE4Mu83cIG3zNdTWLyCKfROd+Mp9+fCLxyc6nkazKTE2Tp2RC5pYd/DB9Tr4ozaXmxPj
- Nz8hy8bdiBMtKzaqzj2o57QOURMMV17qaAkaTBJiHmeMLTHPAFPZoro4/IRAua/mNx6rBc
- 9BTONyEWf5WbvGP9uso6xxjPFwGeWc8=
+ bh=9N7D69fSKTJxQi5XuFhWpDyIEjXn9LT9qPAky9dPqF4=;
+ b=iI8x5CHBAr1g+eh8NAWdJyI3keDOwdrVKdAXozKJvl2wd31RJcwpGg7fwC4wx0+Y3EaLX6
+ YrE5TdromWMoFpoCnYbKzx/wj1+6uKqktu259Oltlbg9qr2FGlYnBdSgNvd2g55HNiwHv4
+ 0F35NV5FQHvVLWcJeM8tp9YBNaGJZ+s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-459SCjRTOZC2_9Tx86zsOg-1; Tue, 14 Sep 2021 04:20:54 -0400
-X-MC-Unique: 459SCjRTOZC2_9Tx86zsOg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-140-Ez4HK6LNN1maRwrMLnPg6g-1; Tue, 14 Sep 2021 04:21:38 -0400
+X-MC-Unique: Ez4HK6LNN1maRwrMLnPg6g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC6F1802929;
- Tue, 14 Sep 2021 08:20:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8599B1084683
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 08:21:37 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.195.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C13D860C4A;
- Tue, 14 Sep 2021 08:20:48 +0000 (UTC)
-Date: Tue, 14 Sep 2021 09:20:46 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 52B1F5D9CA;
+ Tue, 14 Sep 2021 08:21:36 +0000 (UTC)
+Date: Tue, 14 Sep 2021 09:21:33 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [qemu-web RFC PATCH] Add Sponsors page
-Message-ID: <YUBbXjND2sZlXY7Z@redhat.com>
-References: <20210913182512.1021618-1-philmd@redhat.com>
- <d57973da-49ac-f231-1652-cf78769e884a@redhat.com>
+Subject: Re: [qemu-web PATCH] Gemfile: Add webrick bundle dependency
+Message-ID: <YUBbjbJwpcpxjDmt@redhat.com>
+References: <20210913182927.1022862-1-philmd@redhat.com>
+ <9f52b00e-0189-8f44-96d4-cbb398c4514f@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <d57973da-49ac-f231-1652-cf78769e884a@redhat.com>
+In-Reply-To: <9f52b00e-0189-8f44-96d4-cbb398c4514f@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -63,11 +63,11 @@ Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,113 +83,71 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org,
+Cc: John Snow <jsnow@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 14, 2021 at 07:41:47AM +0200, Thomas Huth wrote:
-> On 13/09/2021 20.25, Philippe Mathieu-Daudé wrote:
-> > Add a page listing QEMU sponsors and displaying their logos.
+On Tue, Sep 14, 2021 at 07:17:11AM +0200, Thomas Huth wrote:
+> On 13/09/2021 20.29, Philippe Mathieu-Daudé wrote:
+> > Without the webrick bundle, jekyll fails to start:
 > > 
-> > Logo sources:
-> > - https://www.rackspace.com/es/newsroom/media-kit
-> > - https://developer.arm.com/solutions/infrastructure/works-on-arm
-> > - https://gitlab.com/fosshost/assets/logo
-> > - https://www.linkedin.com/company/cip-united
+> >    $ bundle exec jekyll serve
+> >    Ignoring ffi-1.11.1 because its extensions are not built. Try: gem pristine ffi --version 1.11.1
+> >    Configuration file: qemu-web/_config.yml
+> >                Source: qemu-web
+> >           Destination: qemu-web/_site
+> >     Incremental build: disabled. Enable with --incremental
+> >          Generating...
+> >           Jekyll Feed: Generating feed for posts
+> >                        done in 0.686 seconds.
+> >     Auto-regeneration: enabled for 'qemu-web'
+> >                        ------------------------------------------------
+> >          Jekyll 4.0.1   Please append `--trace` to the `serve` command
+> >                         for any additional information or backtrace.
+> >                        ------------------------------------------------
+> >    qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve/servlet.rb:3:in `require': cannot load such file -- webrick (LoadError)
+> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve/servlet.rb:3:in `<top (required)>'
+> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve.rb:179:in `require_relative'
+> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve.rb:179:in `setup'
+> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve.rb:100:in `process'
+> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/command.rb:89:in `block in process_with_graceful_fail'
+> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/command.rb:89:in `each'
+> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/command.rb:89:in `process_with_graceful_fail'
+> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/lib/jekyll/commands/serve.rb:86:in `block (2 levels) in init_with_program'
+> >            from qemu-web/vendor/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/command.rb:220:in `block in execute'
+> >            from qemu-web/vendor/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/command.rb:220:in `each'
+> >            from qemu-web/vendor/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/command.rb:220:in `execute'
+> >            from qemu-web/vendor/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary/program.rb:42:in `go'
+> >            from qemu-web/vendor/ruby/3.0.0/gems/mercenary-0.3.6/lib/mercenary.rb:19:in `program'
+> >            from qemu-web/vendor/ruby/3.0.0/gems/jekyll-4.0.1/exe/jekyll:15:in `<top (required)>'
 > > 
-> > Resolves: https://gitlab.com/qemu-project/qemu-web/-/issues/2
 > > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > > ---
-> > There are probably more, but I'm not aware of them.
+> >   Gemfile | 2 ++
+> >   1 file changed, 2 insertions(+)
 > > 
-> > Maybe we should list past sponsors, precising a year range?
+> > diff --git a/Gemfile b/Gemfile
+> > index 6a7852e..dc35cb7 100644
+> > --- a/Gemfile
+> > +++ b/Gemfile
+> > @@ -25,3 +25,5 @@ end
+> >   # for https://github.com/sass/sassc-ruby/issues/146
+> >   gem "sassc", ">= 2.2.1"
+> > +
+> > +gem "webrick", "~> 1.7"
 > 
-> I think we might have a hard time to compile a complete list, so I'd rather
-> not start that job.
+> Daniel, is this fixing the jekyll problem for you, too?
 > 
-> > ---
-> >   _includes/nav.html      |   1 +
-> >   sponsors.md             |  22 ++++++++++++++++++++++
-> >   sponsors/cipunited.jpg  | Bin 0 -> 10607 bytes
-> >   sponsors/fosshost.png   | Bin 0 -> 18251 bytes
-> >   sponsors/rackspace.png  | Bin 0 -> 7363 bytes
-> >   sponsors/worksonarm.png | Bin 0 -> 9965 bytes
-> >   6 files changed, 23 insertions(+)
-> >   create mode 100644 sponsors.md
-> >   create mode 100644 sponsors/cipunited.jpg
-> >   create mode 100644 sponsors/fosshost.png
-> >   create mode 100644 sponsors/rackspace.png
-> >   create mode 100644 sponsors/worksonarm.png
-> > 
-> > diff --git a/_includes/nav.html b/_includes/nav.html
-> > index 73b39b3..49ad4cd 100644
-> > --- a/_includes/nav.html
-> > +++ b/_includes/nav.html
-> > @@ -8,6 +8,7 @@
-> >   			</li><li {% if current[1] == 'contribute' %}class='current'{% endif %}><a href="{{ relative_root }}/contribute">Contribute</a>
-> >   			</li><li {% if current[1] == 'documentation' %}class='current'{% endif %}><a href="{{ relative_root }}/documentation">Docs</a>
-> >   			</li><li><a href="https://wiki.qemu.org">Wiki</a>
-> > +			</li><li {% if current[1] == 'sponsors' %}class='current'{% endif %}><a href="{{ relative_root }}/sponsors">Sponsors</a>
-> 
-> Not sure whether we need that link on every page (i.e. in the navigation
-> menu)? Maybe it's enough to put the link somewhere on the home page?
+> I'm still on ruby 2.5.9 where this does not occur yet... might be good to
+> mention that this is a new problem with ruby 3.0 in the cover letter.
 
-Yes, we definitely don't want this in the top navbar as it is irrelevant
-information to essentially every single visitor. We're only adding this
-because one of the sponsors asked for it.
+Yes, this is needed to fix Ruby 3.
 
-I'd say it can be linked in the footer, adjacent to the link to
-the SFC.
+I didn't propose it myself as I'm not sure if it in turn breaks people
+with Ruby 2.x ?
 
-Or maybe we just replace the SFC link with a link "About QEMU" and
-on that page document that we're a member of the SFC and also
-document official sponsors, and any other companies whose services
-we rely on unofficially (eg the gitlab point below).
-
-> >   			</li><li {% if current[1] == 'blog' %}class='current'{% endif %}><a href="{{ relative_root }}/blog">Blog</a></li>
-> >   		</ul>
-> >   	</nav>
-> > diff --git a/sponsors.md b/sponsors.md
-> > new file mode 100644
-> > index 0000000..da1bf19
-> > --- /dev/null
-> > +++ b/sponsors.md
-> > @@ -0,0 +1,22 @@
-> > +---
-> > +title: QEMU sponsors
-> > +permalink: /sponsors/
-> > +---
-> > +
-> > +QEMU has sponsors!
-> > +
-> > +The website is hosted by [Rackspace Technology](https://www.rackspace.com/).
-> > +
-> > +For continuous integration and testing, hardware is provided by:
-> > +- Arm and Equinix Metal via the [Works on Arm program](https://www.worksonarm.com/)
-> > +- [Fosshost](https://fosshost.org/)
-> > +- [CIP United](https://www.cipunited.com/)
-> > +
-> > +
-> > +![Rackspace Technology](rackspace.png)
-> > +
-> > +![Works on Arm](worksonarm.png)
-> > +
-> > +![Fosshost](fosshost.png)
-> > +
-> > +![CIP United](cipunited.jpg)
-> 
-> Some remarks:
-> 
-> 1) Could you please use the original URLs as source for the pictures instead
-> of copying them over into our website? Some folks don't like it when their
-> images are copied...
-
-More importantly than that, do the trademark terms for each company
-here permit us to actually use their logo on our website ?
 
 Regards,
 Daniel
