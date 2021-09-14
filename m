@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D7940B577
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 18:57:25 +0200 (CEST)
-Received: from localhost ([::1]:56062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9972740B58C
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 19:03:42 +0200 (CEST)
+Received: from localhost ([::1]:59530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQBkK-0004HU-8l
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 12:57:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36476)
+	id 1mQBqP-0006qE-O0
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 13:03:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mQBjE-0003Ze-8h
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 12:56:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24680)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQBpF-0005eM-4Z
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:02:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mQBjB-0000Lo-8P
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 12:56:15 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQBpC-000602-TS
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:02:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631638572;
+ s=mimecast20190719; t=1631638945;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WHQlRS0Zu2sgW41L9O86IdM6XicY5Bjt/AOj1eWd3s4=;
- b=V4McZnt/AviU81WEmf/8eJWZpxNOwYkmIu3nl4gvVV09K4Wchqfm1Q9j++MS1K2Fz9BsPx
- E9MX7zkSlRUKm7eRKysxZhh8BKqgAWvyEQh645Ly0AvJnGEA7T/fBtNkogTx3r+XcU4igy
- C45uX7hBQdJCka0ooyD/+h2Xyasltr4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-124-a7ZyJgc1N-yAYA7aPOnE2w-1; Tue, 14 Sep 2021 12:56:11 -0400
-X-MC-Unique: a7ZyJgc1N-yAYA7aPOnE2w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c2-20020a7bc8420000b0290238db573ab7so925447wml.5
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 09:56:11 -0700 (PDT)
+ bh=kkIDLD9CAOhbVHN5WBQLyfGlMRaq0nuzR36iSZPAuPQ=;
+ b=A0vAvufc//zqTKx72ys4Z57cdMwvhG6+/sN95vVuk1UrP37nRw7+HIPfxsIvm0qRHDHnyk
+ r/12ExvdXdocJprYna9AYfiBP21vwgRRECpIbMhz6lYZzqX7wgtJ9pMwj7AC0VwYLMWj5l
+ gTS6OimCQfDXNb3rOTwmD6+XWGMsz78=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-fqf9vfvUM92hJSIYU2H3NA-1; Tue, 14 Sep 2021 13:02:24 -0400
+X-MC-Unique: fqf9vfvUM92hJSIYU2H3NA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ z2-20020a5d4c82000000b0015b140e0562so4230875wrs.7
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 10:02:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:references:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=WHQlRS0Zu2sgW41L9O86IdM6XicY5Bjt/AOj1eWd3s4=;
- b=zhHhXJsFO/aInlzD6GXFc0zGsaIAEPwMb+uI853NC9kFe6kTTWKKNQDCRLJAlDzkP5
- xzfVlnPbaOBYCK33nGCJa51PNPgNmLcbelETdzxMTgbDtGW/GQAqxtvoJj816xkwA8dZ
- fYug3DZQnJYmYjiShC3s4ZUOTRWIjI1ye8wopFxM0NwdM3j7rBuFp0r/buPL4vGJlETT
- eF6E9ERKXJW/ceREpp7S6Pi5i8j04N6qsvK8ApsITZC0HQ5ofifA3Brdxf35y3aAeNFz
- dXz1TYdvaOx3C0ZXoToqd8Ojm4aAdEyaom6oJwOt0mrn0XQUJQzZRiqoMTTaqODNjzvF
- 4yew==
-X-Gm-Message-State: AOAM5329DUatDN+4T9IPgyOsLtx4yfBDa/LmYQ1EpEU0spiac+olVt4u
- wAsaIacwwfeUBXclfX6P5+sqwFRUJd2H6P4VplsKyyyiSrLjFgBBa5Sk06wRuPyXa9haqRQSE2q
- fJBBfQN9k3BNjb0/sc8el6tZBoNIT/ORdx67IHl2OZm8Yu592KyM7SUEje3SYGT0=
-X-Received: by 2002:a1c:2056:: with SMTP id g83mr130589wmg.27.1631638570280;
- Tue, 14 Sep 2021 09:56:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzghadGQNSE2TBU/QfNaL+5Y2x6eWEJBNAcId8rMu6x0B29QmMdXCPLdICabJ1PBB3WHhxEpQ==
-X-Received: by 2002:a1c:2056:: with SMTP id g83mr130561wmg.27.1631638569981;
- Tue, 14 Sep 2021 09:56:09 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6041.dip0.t-ipconnect.de. [91.12.96.65])
- by smtp.gmail.com with ESMTPSA id
- 48sm11347608wrc.14.2021.09.14.09.56.09
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kkIDLD9CAOhbVHN5WBQLyfGlMRaq0nuzR36iSZPAuPQ=;
+ b=7PjvkpruLaKmU8zYQAOCe1x14AWVIyuRHAbcuh1uIxQolgxOTDUQ5/0WbEHdTiEduV
+ CBV+RAR0c52DSX67K6YEr9mDT0XwwZ3aZ/M9SINtuQ9qs6EAxDw/yhUUt2pUJfpuDbxM
+ 9ymjoCbBrUVpYTPN9UmZzmEMPSuhyn16R2mtfF/4y41JxcS5czsZ3coeMiu9D4RNkM9j
+ RR4acqoIP0JanWs6G6cX38/8s14Qr1aoJ4aDrk88mLB0ClAieixI7eQZ5pFER1nNXF+7
+ sm6luWamG/fk+VZ3Ux++N54AcxmA8mGJIMgT4jMFvreQLwh/UAyOkVj+0N9ZZn82lJjQ
+ QvCw==
+X-Gm-Message-State: AOAM530Dtm6dHQmmUtOlsoD88diT8LiicD6nBeMFMAMnr1JbPOi4qAyc
+ j60SZaSWOTNJHyPPs7pYc9xWq0m92X2FDlZTTo84gufNGxf3hPlL2c3n3lw9UIMKBreBlGTuIWW
+ ndJH6PcqcfvJBLf4=
+X-Received: by 2002:a1c:7d0f:: with SMTP id y15mr67706wmc.41.1631638943494;
+ Tue, 14 Sep 2021 10:02:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJywCeUOwKb0Nwf7Bc9T1bwAw8IWks6SDEptqg79RpK/8s0eZGsx2c6ss5LiNu5s92qEApsLbw==
+X-Received: by 2002:a1c:7d0f:: with SMTP id y15mr67619wmc.41.1631638943057;
+ Tue, 14 Sep 2021 10:02:23 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
+ [83.35.25.14])
+ by smtp.gmail.com with ESMTPSA id k1sm10860003wrz.61.2021.09.14.10.02.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 09:56:09 -0700 (PDT)
-Subject: Re: [PATCH v4 06/16] tcg/s390x: Implement tcg_out_mov for vector types
-From: David Hildenbrand <david@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210626050307.2408505-1-richard.henderson@linaro.org>
- <20210626050307.2408505-7-richard.henderson@linaro.org>
- <045600e5-a3bf-18f3-b8a8-9e593c97a3ed@redhat.com>
-Organization: Red Hat
-Message-ID: <2808db81-0743-e10d-d28e-5b9d25e13ec6@redhat.com>
-Date: Tue, 14 Sep 2021 18:56:09 +0200
+ Tue, 14 Sep 2021 10:02:22 -0700 (PDT)
+Subject: Re: [PATCH v2 42/53] hw/core: introduce a 'format_tlb' callback
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210914142042.1655100-1-berrange@redhat.com>
+ <20210914142042.1655100-43-berrange@redhat.com>
+ <818d439f-337e-a73c-9e22-fbf8a119435f@redhat.com>
+ <YUDPECQJraD3thwi@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a127efbf-8953-2ec5-9ba0-badbce949264@redhat.com>
+Date: Tue, 14 Sep 2021 19:02:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <045600e5-a3bf-18f3-b8a8-9e593c97a3ed@redhat.com>
+In-Reply-To: <YUDPECQJraD3thwi@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -51
 X-Spam_score: -5.2
@@ -87,7 +89,7 @@ X-Spam_bar: -----
 X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,103 +102,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Marek Vasut <marex@denx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-ppc@nongnu.org,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Peter Xu <peterx@redhat.com>, Stafford Horne <shorne@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14.09.21 18:53, David Hildenbrand wrote:
-> On 26.06.21 07:02, Richard Henderson wrote:
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>    tcg/s390x/tcg-target.c.inc | 72 +++++++++++++++++++++++++++++++++++---
->>    1 file changed, 68 insertions(+), 4 deletions(-)
+On 9/14/21 6:34 PM, Daniel P. Berrangé wrote:
+> On Tue, Sep 14, 2021 at 05:56:09PM +0200, Philippe Mathieu-Daudé wrote:
+>> On 9/14/21 4:20 PM, Daniel P. Berrangé wrote:
+>>> This will allow us to reduce duplication between the different targets
+>>> implementing the 'info tlb' command.
+>>>
+>>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+>>> ---
+>>>  hw/core/cpu-common.c  |  9 +++++++++
+>>>  include/hw/core/cpu.h | 11 +++++++++++
+>>>  2 files changed, 20 insertions(+)
 >>
->> diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
->> index b6ea129e14..c4e12a57f3 100644
->> --- a/tcg/s390x/tcg-target.c.inc
->> +++ b/tcg/s390x/tcg-target.c.inc
->> @@ -265,6 +265,11 @@ typedef enum S390Opcode {
->>        RX_STC      = 0x42,
->>        RX_STH      = 0x40,
->>    
->> +    VRRa_VLR    = 0xe756,
->> +
->> +    VRSb_VLVG   = 0xe722,
->> +    VRSc_VLGV   = 0xe721,
->> +
->>        VRX_VL      = 0xe706,
->>        VRX_VLLEZ   = 0xe704,
->>        VRX_VST     = 0xe70e,
->> @@ -548,6 +553,39 @@ static int RXB(TCGReg v1, TCGReg v2, TCGReg v3, TCGReg v4)
->>             | ((v4 & 0x10) << (4 + 0));
->>    }
->>    
->> +static void tcg_out_insn_VRRa(TCGContext *s, S390Opcode op,
->> +                              TCGReg v1, TCGReg v2, int m3)
->> +{
->> +    tcg_debug_assert(v1 >= TCG_REG_V0 && v1 <= TCG_REG_V31);
->> +    tcg_debug_assert(v2 >= TCG_REG_V0 && v2 <= TCG_REG_V31);
->> +    tcg_out16(s, (op & 0xff00) | ((v1 & 15) << 4) | (v2 & 15));
->> +    tcg_out32(s, (op & 0x00ff) | RXB(v1, v2, 0, 0) | (m3 << 12));
->> +}
->> +
->> +static void tcg_out_insn_VRSb(TCGContext *s, S390Opcode op, TCGReg v1,
->> +                              intptr_t d2, TCGReg b2, TCGReg r3, int m4)
->> +{
->> +    tcg_debug_assert(v1 >= TCG_REG_V0 && v1 <= TCG_REG_V31);
->> +    tcg_debug_assert(d2 >= 0 && d2 <= 0xfff);
->> +    tcg_debug_assert(b2 <= TCG_REG_R15);
->> +    tcg_debug_assert(r3 <= TCG_REG_R15);
->> +    tcg_out16(s, (op & 0xff00) | ((v1 & 15) << 4) | r3);
->> +    tcg_out16(s, b2 << 12 | d2);
->> +    tcg_out16(s, (op & 0x00ff) | RXB(v1, 0, 0, 0) | (m4 << 12));
->> +}
->> +
->> +static void tcg_out_insn_VRSc(TCGContext *s, S390Opcode op, TCGReg r1,
->> +                              intptr_t d2, TCGReg b2, TCGReg v3, int m4)
->> +{
->> +    tcg_debug_assert(r1 <= TCG_REG_R15);
->> +    tcg_debug_assert(d2 >= 0 && d2 <= 0xfff);
->> +    tcg_debug_assert(b2 <= TCG_REG_R15);
->> +    tcg_debug_assert(v3 >= TCG_REG_V0 && v3 <= TCG_REG_V31);
->> +    tcg_out16(s, (op & 0xff00) | (r1 << 4) | (v3 & 15));
->> +    tcg_out16(s, b2 << 12 | d2);
->> +    tcg_out16(s, (op & 0x00ff) | RXB(0, 0, v3, 0) | (m4 << 12));
->> +}
->> +
->>    static void tcg_out_insn_VRX(TCGContext *s, S390Opcode op, TCGReg v1,
->>                                 TCGReg b2, TCGReg x2, intptr_t d2, int m3)
->>    {
->> @@ -581,12 +619,38 @@ static void tcg_out_sh32(TCGContext* s, S390Opcode op, TCGReg dest,
->>    
->>    static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg dst, TCGReg src)
->>    {
->> -    if (src != dst) {
->> -        if (type == TCG_TYPE_I32) {
->> +    if (src == dst) {
->> +        return true;
->> +    }
->> +    switch (type) {
->> +    case TCG_TYPE_I32:
->> +        if (likely(dst < 16 && src < 16)) {
->>                tcg_out_insn(s, RR, LR, dst, src);
->> -        } else {
->> -            tcg_out_insn(s, RRE, LGR, dst, src);
->> +            break;
->>            }
->> +        /* fallthru */
->> +
+>>> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+>>> index 4c47e1df18..64fc57c8d9 100644
+>>> --- a/include/hw/core/cpu.h
+>>> +++ b/include/hw/core/cpu.h
+>>>   * @has_work: Callback for checking if there is work to do.
+>>>   * @memory_rw_debug: Callback for GDB memory access.
+>>>   * @format_state: Callback for formatting state.
+>>> + * @format_tlb: Callback for formatting memory mappings
+
+"... for formatting translations of virtual to physical memory mappings"
+
+>>>   * @get_arch_id: Callback for getting architecture-dependent CPU ID.
+>>>   * @set_pc: Callback for setting the Program Counter register. This
+>>>   *       should have the semantics used by the target architecture when
+>>> @@ -136,6 +137,7 @@ struct CPUClass {
+>>>      int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
+>>>                             uint8_t *buf, int len, bool is_write);
+>>>      void (*format_state)(CPUState *cpu, GString *buf, int flags);
+>>> +    void (*format_tlb)(CPUState *cpu, GString *buf);
+>>
+>> Doesn't this belong to SysemuCPUOps?
 > 
-> Does that fall-through work as expected? I would have thought we would
-> want to pass "2" as m4 for VLGV and VLVG below?
+> I can't really answer, since my knowledge of this area of QEMU code is
+> fairly mimimal. I put it here because it is basically serving the same
+> purpose as the "format_state" callback immediately above it, which was
+> a rename of the existing "dump_state" callback. I assumed whatever was
+> there already was a good practice to follow[1]...
+
+Since it involves physical memory, I'm pretty sure this is sysemu
+specific. Beside in the following patches you guard the handlers
+with '#ifndef CONFIG_USER_ONLY'.
+
+Good news, there is very few changes needed in your patches, for
+example the next patch:
+
+-- >8 --
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index ab86224ee23..9d2bd2e2ef4 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6732,6 +6732,7 @@ static Property x86_cpu_properties[] = {
+ #include "hw/core/sysemu-cpu-ops.h"
+
+ static const struct SysemuCPUOps i386_sysemu_ops = {
++    .format_tlb = x86_cpu_format_tlb,
+     .get_memory_mapping = x86_cpu_get_memory_mapping,
+     .get_paging_enabled = x86_cpu_get_paging_enabled,
+     .get_phys_page_attrs_debug = x86_cpu_get_phys_page_attrs_debug,
+@@ -6765,9 +6766,6 @@ static void x86_cpu_common_class_init(ObjectClass
+*oc, void *data)
+     cc->parse_features = x86_cpu_parse_featurestr;
+     cc->has_work = x86_cpu_has_work;
+     cc->format_state = x86_cpu_format_state;
+-#ifndef CONFIG_USER_ONLY
+-    cc->format_tlb = x86_cpu_format_tlb;
+-#endif
+     cc->set_pc = x86_cpu_set_pc;
+     cc->gdb_read_register = x86_cpu_gdb_read_register;
+     cc->gdb_write_register = x86_cpu_gdb_write_register;
+---
+
 > 
-
-Forget my question, we're not doing memory access :)
-
-Reviewed-by: David Hildenbrand <david@redhat.com>
-
--- 
-Thanks,
-
-David / dhildenb
+> Regards,
+> Daniel
+> 
+> [1] yes assuming these things is often foolish in QEMU :-)
+> 
 
 
