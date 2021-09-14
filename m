@@ -2,62 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEDAD40AE4B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 14:54:55 +0200 (CEST)
-Received: from localhost ([::1]:38914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6246040AE73
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 14:58:47 +0200 (CEST)
+Received: from localhost ([::1]:43240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ7xe-0007Fx-HH
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 08:54:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35458)
+	id 1mQ81O-0001wc-CX
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 08:58:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mQ7wM-0006UJ-Jk
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:53:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20720)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mQ7xx-0008Q8-TL
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:55:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mQ7wJ-0003zM-Mk
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:53:33 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mQ7xw-0004n5-65
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:55:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631624009;
+ s=mimecast20190719; t=1631624110;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z+uvkbrYUwgDKWFKoz/gywtLnkeJVL0PnKEUuaY1B60=;
- b=gyWKEqTXE/kTn2XcGd4rU8OVzX8zz1+SJSxAXx99Q2Ef5VPHAS0OCMqN2tBEZyntyDNgLt
- EAM+aLYQ+1EhMpAMOTPcpqthyWIL+zCccyisetMVkq4Bgkzvc5JZ5NP1joFtewq3V4x7qv
- es3HrgfMzK4PALnXx60e5ExxJSd+kNY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-PsxrgMJ-O6m8GRVDfpWHpw-1; Tue, 14 Sep 2021 08:53:28 -0400
-X-MC-Unique: PsxrgMJ-O6m8GRVDfpWHpw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3FA050752;
- Tue, 14 Sep 2021 12:53:27 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.9.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2493E1001281;
- Tue, 14 Sep 2021 12:53:20 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id BDBBA220779; Tue, 14 Sep 2021 08:53:19 -0400 (EDT)
-Date: Tue, 14 Sep 2021 08:53:19 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] tools/virtiofsd: Add fstatfs64 syscall to the seccomp
- allowlist
-Message-ID: <YUCbP3lF4cgPkadR@redhat.com>
-References: <20210914123214.181885-1-thuth@redhat.com>
+ bh=Uk0m/lh9jm6u5zBqWwIxddoq1ZetEM74UxE71qeouxY=;
+ b=DtvLHW2M7CcD+zkT62tcwxcVrq+xtgD2+XObKsagLBUFeKnQFCWBh2JJsMzLu9gWjTD9pT
+ VKCU0JSeEL17JkGdo8opaCXm6IsX5+0SALpK6S5YdugYJD/T+EfFFUiISSqbW14r8BNJWp
+ 0ym/JPsu3KdyzN/p50uZ70nB6/oCPuo=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-QzSpiT78PKmpjDMvKMgYxg-1; Tue, 14 Sep 2021 08:55:09 -0400
+X-MC-Unique: QzSpiT78PKmpjDMvKMgYxg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j193-20020a1c23ca000000b00306cd53b671so2914956wmj.1
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 05:55:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Uk0m/lh9jm6u5zBqWwIxddoq1ZetEM74UxE71qeouxY=;
+ b=v6RbxeSc68KlGmyW8mWB6NMNmNT7z44jJ0qSuwWBgurhQ5ZIsQUISWvD+S6UPchj0c
+ VX0PmNbIHTxS4HlMd6IvsjPKn2ns87XGengPxKEjl0+XI3nHgq3Bf5Z1gm2/fUKLhYMt
+ hPvhan3kfrPscUThD0QFrIqnGqzrSEJ6yqg3AWM2uTq6dSqZ3D5Gk+kYjEI/4oD87Jvq
+ P7fOeA3Rg6umKEQR247N0vjAUapyRqUAsOYtv+XwyIoeC98PM1IpGU4hw+9sjG1sUb2r
+ tMvi3FxiKDdZeSwzY4wX4fqj6k/FU5IoF0Xms2cvHQ1XezPTeYn2VDXINOOltAS77mmE
+ J03g==
+X-Gm-Message-State: AOAM530xjPRCpaLni6Euo0bOjpmB2QUTRRoyvfdJ5cbfnqm0bs9+OSbK
+ AQTfCbAwc2J0wsjRswfq9R7k9MWexto0e5HHUhe/MWzIxMSStKbOHgr04D10AIvIG7onlg/Z/UI
+ Z196uhCrjS2Jm8AQ=
+X-Received: by 2002:adf:c550:: with SMTP id s16mr18773151wrf.25.1631624107851; 
+ Tue, 14 Sep 2021 05:55:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy62wLr73k0M+Fh7m32jN5mxAXVYPTY5kJrQIJjorVY4Zj5TWlDwZpfy8dNPiCq7MPdugREAw==
+X-Received: by 2002:adf:c550:: with SMTP id s16mr18773133wrf.25.1631624107652; 
+ Tue, 14 Sep 2021 05:55:07 -0700 (PDT)
+Received: from localhost ([185.140.112.229])
+ by smtp.gmail.com with ESMTPSA id m29sm11039694wrb.89.2021.09.14.05.55.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Sep 2021 05:55:07 -0700 (PDT)
+Date: Tue, 14 Sep 2021 14:55:05 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH 1/3] bios-tables-test: allow changes in DSDT ACPI tables
+ for q35
+Message-ID: <20210914145505.4c19645d@redhat.com>
+In-Reply-To: <20210914045410.3380946-2-ani@anisinha.ca>
+References: <20210914045410.3380946-1-ani@anisinha.ca>
+ <20210914045410.3380946-2-ani@anisinha.ca>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210914123214.181885-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -78,52 +97,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: jusual@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org, "Michael S.
+ Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 14, 2021 at 02:32:14PM +0200, Thomas Huth wrote:
-> The virtiofsd currently crashes on s390x when doing something like
-> this in the guest:
-> 
->  mkdir -p /mnt/myfs
->  mount -t virtiofs myfs /mnt/myfs
->  touch /mnt/myfs/foo.txt
->  stat -f /mnt/myfs/foo.txt
-> 
-> The problem is that the fstatfs64 syscall is called in this case
-> from the virtiofsd. We have to put it on the seccomp allowlist to
-> avoid that the daemon gets killed in this case.
-> 
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2001728
-> Suggested-by: Vivek Goyal <vgoyal@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On Tue, 14 Sep 2021 10:24:08 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
 
-Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
+> We are going to commit a change to fix IO address range allocated for acpi pci
+> hotplug in q35. This affects DSDT tables. This change allows DSDT table
+> modification so that unit tests are not broken.
+> 
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 
-Thanks Thomas for the patch.
-
-Vivek
 > ---
->  tools/virtiofsd/passthrough_seccomp.c | 1 +
->  1 file changed, 1 insertion(+)
+>  tests/qtest/bios-tables-test-allowed-diff.h | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
-> index f49ed94b5e..a3ce9f898d 100644
-> --- a/tools/virtiofsd/passthrough_seccomp.c
-> +++ b/tools/virtiofsd/passthrough_seccomp.c
-> @@ -51,6 +51,7 @@ static const int syscall_allowlist[] = {
->      SCMP_SYS(fsetxattr),
->      SCMP_SYS(fstat),
->      SCMP_SYS(fstatfs),
-> +    SCMP_SYS(fstatfs64),
->      SCMP_SYS(fsync),
->      SCMP_SYS(ftruncate),
->      SCMP_SYS(futex),
-> -- 
-> 2.27.0
-> 
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> index dfb8523c8b..a02b88305c 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1 +1,12 @@
+>  /* List of comma-separated changed AML files to ignore */
+> +"tests/data/acpi/q35/DSDT",
+> +"tests/data/acpi/q35/DSDT.tis",
+> +"tests/data/acpi/q35/DSDT.bridge",
+> +"tests/data/acpi/q35/DSDT.mmio64",
+> +"tests/data/acpi/q35/DSDT.ipmibt",
+> +"tests/data/acpi/q35/DSDT.cphp",
+> +"tests/data/acpi/q35/DSDT.memhp",
+> +"tests/data/acpi/q35/DSDT.numamem",
+> +"tests/data/acpi/q35/DSDT.nohpet",
+> +"tests/data/acpi/q35/DSDT.dimmpxm",
+> +"tests/data/acpi/q35/DSDT.acpihmat",
 
 
