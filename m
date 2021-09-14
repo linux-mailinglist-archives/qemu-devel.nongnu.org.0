@@ -2,70 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9F940B5C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 19:18:06 +0200 (CEST)
-Received: from localhost ([::1]:46400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C4740B5C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 19:18:16 +0200 (CEST)
+Received: from localhost ([::1]:47314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQC4L-0001fg-6j
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 13:18:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43196)
+	id 1mQC4V-0002Ib-Vz
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 13:18:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQC1A-0007Zl-QV
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:14:50 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:44612)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQC18-0008Cb-Sb
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:14:48 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- l7-20020a1c2507000000b002e6be5d86b3so71735wml.3
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 10:14:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hyaSOIbReSL6tUsH+Skzy33KPfP0HGHCZLyG/jrv3FY=;
- b=BKwnVpwRqgVpx/XhjbW3e6Pj5B9oEnd7i+vvJm+6uBG3Yomc1OCzx2r3n4JxZYQGi5
- mo9T6zDqcMF64iHHLR/6JK3OhEsl6ad96+ymiRjAglD5S1ZcqOPuUvUBJ83nYl9t+n1L
- zWX76F0gG1kePVkfuFMflvJYqSg38bUBeS9CA455uUqo6xJku4Yi+jHmiTL+Mgc2WeQ8
- hvPDspbCZ8+b9jYfq0HBODIitTZjgKQg76IOYBkk56k1x7dt6+7l6XunlZXuB3DpOxBq
- jKtj8qN+99PkVEMWZ8viC5EcAgNYU+hgOlOAAsdXrL114pqTzJNXeJE4o1T3+5NNUJK8
- aBHA==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQC1m-0007up-Vd
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:15:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23669)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQC1k-0000KI-JA
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:15:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631639723;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q5ITpsX44rItoAT8pzyIK6fqDFUsM7UngBBaWX6hI9k=;
+ b=UnS4L92P91xBRnBz4Lcr7WnTgjhxrEBf8iIdP6Sr72I0kPuyuzKP5QWZFW/s4IrkBnsqaS
+ xDU5TurbkUNgCQnJ0f+0vuApDHZCc+3+X+/qCFE5Rsnnejmm2DMn/QpODDv3DLrUgo1sqh
+ NWL9JfLbBw8HYtnTZfzi0xWpnEYb5eM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-142-NcjS9VnbMTGMeBCSAq0Lsg-1; Tue, 14 Sep 2021 13:15:22 -0400
+X-MC-Unique: NcjS9VnbMTGMeBCSAq0Lsg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ n17-20020a7bc5d1000000b002f8ca8bacdeso30329wmk.3
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 10:15:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hyaSOIbReSL6tUsH+Skzy33KPfP0HGHCZLyG/jrv3FY=;
- b=Y/mIubioQF26/V42PaLKn0MsZmupbG+T35M8NqPjc0kbyfYUP/D98ueZm5NsZkMbNn
- iZCDDLNFOdBr7mrXPY+9jvlX2IjxOydFKWoSnmCfg+pfKrTooRwPMMeEF6YKu9ueSh11
- puf1bc2pnGap7rPbL1GXMdJcfCG3Se1z/Z/CVJPIRzTJ/aexWKSafvOqEZKFjF6+AmOc
- FpcpRGdJX3ztGyY41F7WhRAzoBveSlTQ4iuVlL1kDPToipm/Rqr+drPRF4EXnx1+OIsb
- xFVnRoA823uPPzhiHe9IjeBzJ1wKl43O6iTU8Kwq8gzaWdAgKbVJ6nqJ7fJw9qmMK/ph
- vYhg==
-X-Gm-Message-State: AOAM531WiMSandi0MU8MN0It5PgvCs6ru45Xu9dBxYWwAYy+7Dl8NqG8
- 43Hpi61JSGpjGzArmwXvnUCi4sYc92aTrHZ7iII8Bw==
-X-Google-Smtp-Source: ABdhPJz1yhDsrjxt5iuUJSYxaKW7TUYTFXji5+EQlJTuYxpwOcJOBpSvgqPIa2hCJQeH5AJ23YPp1XdJB/XTrAg6C9Y=
-X-Received: by 2002:a05:600c:2259:: with SMTP id
- a25mr120560wmm.133.1631639685000; 
- Tue, 14 Sep 2021 10:14:45 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=q5ITpsX44rItoAT8pzyIK6fqDFUsM7UngBBaWX6hI9k=;
+ b=dCc0kH2FkqVUUzSbKnnojhwA6ZwRPuvb9VTyMC/tCiydH0SBKhvYjxlSI/RZlis8EJ
+ D32PzrxMxRfUDugIDLpmOADNeGKIrR+knTjw/3+py0ZUTnE+pi76yh5DR9NKRAKZuCeU
+ KkpEJrOYP9P39SjeJHx3SdhsQ5RvH9aA8Z6WtsJrUsGFcWomlZjz3HDixW4rwXs66eSg
+ qGI4BEcz9x5tigiMeotcFRPpchGzRLaEnzOwR0XNYcDc6IO12Gb3vc/EQmTWdC3BkUox
+ XGl63hS8u015t7a02TBCdXp5WP+Cd5UZACYq9fvTEepH/dZB/YB33+LLhTj7039I7bdW
+ OOgQ==
+X-Gm-Message-State: AOAM530ZjnjHL2P6lROk9MdlxLjxpDt1/hTs4w5tthoraYAs2MHHbXDc
+ 91dPcXdAn1oxE6jlyeMxRV3RbAn1vXkRiiMMDmdH+wt0l5vxtWRNypoMXRG2jlaQ3aOpQtXdN7P
+ wifVccVKif/a1tPg=
+X-Received: by 2002:a5d:6288:: with SMTP id k8mr249792wru.137.1631639721446;
+ Tue, 14 Sep 2021 10:15:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy1iyTZdIT39A7rPiAVN1AywkvahYdLQgGgWTmMZzY9+miEzXnkJFUG4r8WqJiAUoJEHCiz7w==
+X-Received: by 2002:a5d:6288:: with SMTP id k8mr249761wru.137.1631639721168;
+ Tue, 14 Sep 2021 10:15:21 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
+ by smtp.gmail.com with ESMTPSA id o7sm1538636wmq.36.2021.09.14.10.15.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Sep 2021 10:15:20 -0700 (PDT)
+Subject: Re: [PATCH v4 07/10] qcow2-refcount: check_refcounts_l2(): check
+ reserved bits
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210914122454.141075-1-vsementsov@virtuozzo.com>
+ <20210914122454.141075-8-vsementsov@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <34618a0a-db34-9d84-a7fa-57f6ab6f88b5@redhat.com>
+Date: Tue, 14 Sep 2021 19:15:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210914155342.1296339-1-richard.henderson@linaro.org>
-In-Reply-To: <20210914155342.1296339-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 14 Sep 2021 18:13:54 +0100
-Message-ID: <CAFEAcA-f=n6XHp5Cj7=tH8NWO1GLA50i34=5GyaHrZELyr0bjw@mail.gmail.com>
-Subject: Re: [PULL v3 00/44] tcg patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210914122454.141075-8-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,56 +100,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, berto@igalia.com, qemu-devel@nongnu.org,
+ ktkhai@virtuozzo.com, den@openvz.org, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Sept 2021 at 16:53, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On 14.09.21 14:24, Vladimir Sementsov-Ogievskiy wrote:
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Tested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
+> Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+>   block/qcow2.h          |  1 +
+>   block/qcow2-refcount.c | 12 +++++++++++-
+>   2 files changed, 12 insertions(+), 1 deletion(-)
 >
-> Version 3: Rebase and fix a minor patch conflict.
->
->
-> r~
->
->
-> The following changes since commit c6f5e042d89e79206cd1ce5525d3df219f13c3cc:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210913-3' into staging (2021-09-13 21:06:15 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210914
->
-> for you to fetch changes up to a5b759b6dca7daf87fa5007a7f5784bf22f3830f:
->
->   tcg/arm: More use of the TCGReg enum (2021-09-14 07:59:43 -0700)
->
-> ----------------------------------------------------------------
-> Fix translation race condition for user-only.
-> Fix tcg/i386 encoding for VPSLLVQ, VPSRLVQ.
-> Fix tcg/arm tcg_out_vec_op signature.
-> Fix tcg/ppc (32bit) build with clang.
-> Remove dupluate TCG_KICK_PERIOD definition.
-> Remove unused tcg_global_reg_new.
-> Restrict cpu_exec_interrupt and its callees to sysemu.
-> Cleanups for tcg/arm.
+> diff --git a/block/qcow2.h b/block/qcow2.h
+> index c0e1e83796..b8b1093b61 100644
+> --- a/block/qcow2.h
+> +++ b/block/qcow2.h
+> @@ -587,6 +587,7 @@ typedef enum QCow2MetadataOverlap {
+>   
+>   #define L1E_OFFSET_MASK 0x00fffffffffffe00ULL
+>   #define L2E_OFFSET_MASK 0x00fffffffffffe00ULL
+> +#define L2E_STD_RESERVED_MASK 0x3f000000000001feULL
+>   
+>   #define REFT_OFFSET_MASK 0xfffffffffffffe00ULL
+>   
+> diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+> index 9a5ae3cac4..5d57e677bc 100644
+> --- a/block/qcow2-refcount.c
+> +++ b/block/qcow2-refcount.c
+> @@ -1682,8 +1682,18 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+>           int csize;
+>           l2_entry = get_l2_entry(s, l2_table, i);
+>           l2_bitmap = get_l2_bitmap(s, l2_table, i);
+> +        QCow2ClusterType type = qcow2_get_cluster_type(bs, l2_entry);
 
-This throws up new warnings on FreeBSD:
+Hm, with l2_bitmap being declared next to l2_entry, this is now the 
+patch that adds a declaration after a statement here.
 
-../src/bsd-user/main.c:148:1: warning: function declared 'noreturn'
-should not return [-Winvalid-noreturn]
+(The possible resolutions seem to be the same, either move the 
+declaration up to the function’s root block, or move l2_entry and 
+l2_bitmap’s declarations here...)
 
-Unlike linux-user, where cpu_loop() is the direct implementation
-of the target-specific main loop, on bsd-user cpu_loop() seems
-to just call target_cpu_loop(). Since target_cpu_loop() isn't
-marked noreturn, the compiler complains about cpu_loop() being
-marked noreturn.
+(I don’t think we need a v5 for this, it should be fine if you tell me 
+which way you prefer.)
 
-Easy fix would be to just drop the bsd-user part of
-"user: Mark cpu_loop() with noreturn attribute" I guess.
-Otherwise you could try marking all the target_cpu_loop()
-functions noreturn as well.
+Hanna
 
--- PMM
 
