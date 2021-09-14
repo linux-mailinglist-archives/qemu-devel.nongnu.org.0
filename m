@@ -2,142 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1283140AD07
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 14:06:57 +0200 (CEST)
-Received: from localhost ([::1]:40196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B91240AD0B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 14:07:51 +0200 (CEST)
+Received: from localhost ([::1]:42880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ7DE-0006zl-2s
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 08:06:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49456)
+	id 1mQ7E6-0000NY-8M
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 08:07:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mQ7AU-0004hV-3c; Tue, 14 Sep 2021 08:04:06 -0400
-Received: from mail-eopbgr70099.outbound.protection.outlook.com
- ([40.107.7.99]:45429 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mQ7AN-00077k-Ii; Tue, 14 Sep 2021 08:04:04 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z8bDhcXG/lmuuVbNehHr5TRJmreFGx7huWv5qtyGWIxHqOZ0ExIODkjOoYCXKF8DkRKyAxr+XHDcPP/d9fqSF4fj/uOZUTdMAouqBsq8ufaFU3JnNGZO/sPQFs6nrlfybdLa40zUEYYEimpUZgiq2KFGiViT4PO7wMWFNRifCGVrZLfzpZeGCyADg6CpsaQgEuGfFf2n866ChczVXaJMpgSnw3zhvaoKcD12Yp8MsM6XkI9fGJIwC3mkUlCHtOKPC2z87cXqfCxPaX65BWPm8FRdHp5g8vWjJ+dEm71yXkSGOlyP4xG1YxiLpK8JdBXKQqQZslX4XoqyxnthNosCmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=fgJ3mQ/+HwgGZHiemvq+9oWXKfMTYDJoUGZQRol3OJ4=;
- b=Ntec/8I+qoHaFI3oxNzQLfE9GB9sQYdQLfOb7UwQD2UZ27uCFkEQ/zpBMLUT965Ims3VjUjUkp8vYW05LDYWfq6uZVFkEUmxdPSDtCzL0c1PVzCq1xZDntmsvkeY0gWsUFV1j21m2lhJJdwy3/Su8ADWSXpblf/PzbvGuME5mTAn6xgE4EfC92jklnrrleNEkmx2/Mdd2/Rvzk36BWPOGoAItWJuL2tXDAtdJFz+Pl08N9RRg0QsLkVHPoawAyEAVItvDqUEvNQHdXPH8UkADR/j/SH6Mf4oP1gBhQcClA+HX/edvP/yiyuJyS2n1D/uw5w2bmQtj2Mw5Qkz/yhD9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fgJ3mQ/+HwgGZHiemvq+9oWXKfMTYDJoUGZQRol3OJ4=;
- b=QIprenXGvkKqX5WrUl/EZaZZIy9ICLvZEo7a4DA1b5Dk4oKg9XrRSclXrG/P7KWzs6jJSSF1HJfkhWVTy2dwvW4ZlDeOTB4tORqSGI7QHdPC2YXDgFKJwflPEX9vx8b3iGVLLMXB2QzaUH5U3uAjCMM07M2zS6HGNrh9F2UDfig=
-Authentication-Results: igalia.com; dkim=none (message not signed)
- header.d=none;igalia.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6726.eurprd08.prod.outlook.com (2603:10a6:20b:39a::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14; Tue, 14 Sep
- 2021 12:03:52 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4500.019; Tue, 14 Sep 2021
- 12:03:52 +0000
-Subject: Re: [PATCH v3 06/10] qcow2-refcount: check_refcounts_l2(): check
- l2_bitmap
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
- den@openvz.org, ktkhai@virtuozzo.com, eblake@redhat.com, berto@igalia.com
-References: <20210524142031.142109-1-vsementsov@virtuozzo.com>
- <20210524142031.142109-7-vsementsov@virtuozzo.com>
- <704ed8a0-387a-d2e7-827f-39957f67b892@redhat.com>
- <f3bbb14f-bafe-b299-334f-70bc626a9454@virtuozzo.com>
- <e7a56e2f-a556-a8f2-b888-8c66b506b16e@redhat.com>
- <ffa8b494-442f-91d3-7c50-3c993837ec1d@virtuozzo.com>
-Message-ID: <ec2692f1-4487-5bb9-8724-01abb47f5098@virtuozzo.com>
-Date: Tue, 14 Sep 2021 15:03:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <ffa8b494-442f-91d3-7c50-3c993837ec1d@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PR3P251CA0020.EURP251.PROD.OUTLOOK.COM
- (2603:10a6:102:b5::32) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mQ7BB-0004yv-0S
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:04:49 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40894)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mQ7B7-0007YE-0g
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:04:48 -0400
+Received: by mail-wr1-x435.google.com with SMTP id q26so19778831wrc.7
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 05:04:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=i2l9xkw4cqDm04ZfkyZQN8LfDElFHQL8NpQeEcnTHpM=;
+ b=qJx97JrOT0PFprAYhsJ/yZz9GiSPnzEqaUkFvPDBGtvo+5bZoJ929mb9y91/ls6ZYw
+ 031pYz+TLRD/paX+8XoaMRB2zXIgjKySlKom4MrcJfPM67Y0fVo4GJkbXcsygfkqVQpf
+ zdXimGqOCmOgYWyv9SOtDJMsjXS/KRVsOT06C3k+2JDS359+kOWxeKWWcorNY/D4cJ2I
+ Oepxb7zRD6NHwCk7jHk8RL6tZzsISezsZU31n/gqe5bkOmwuL3MG6GYVPM8PUN0RLuIG
+ VfBXM+BDk9Ff91hPuLp2BBJU5sxYeDPBDzd2NbO3Zb+gfZ+nawTd1plsJXc7E/Q/WymP
+ o8CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=i2l9xkw4cqDm04ZfkyZQN8LfDElFHQL8NpQeEcnTHpM=;
+ b=xXAazzihcdsLLZsMgZo4FNnU0EbjyPmKtMdnb3SPNSttUO02lBVGGxQv35lNzxuIlK
+ dNTaVoD2yarSxOziOas3w4E0DJoqsOBeYdc+v+A366mTLNnvtJQ9q9afzfgMmZFjsvJh
+ UkNj3/dxxikh89YMud0P/wiORU8M28s5wCLjcjTtzZQpFlWgkKBC/tYwWlKDFvzm3t3u
+ 9WGHMVRQPpdXdMGB7ZzRaWFJ1OHh/6WEwX5iHGV8aOiIyfj4KiqQkVLuIf0NoO5IhNV/
+ eDBQU62M/SVJ6XQex9Pu8SiEM1+AgaE/rroEwO2tUotg9UjvAo8Vt5kHwXoUfMdE1H3T
+ m0GQ==
+X-Gm-Message-State: AOAM531Fwyo/iGE5i7eSqUtNHjhQ8sV2Yl5EzhcGMPJS+LkxgqOi+lmx
+ 8dQ3OjGIWN0ZUjjQM3RTeA/Kzw==
+X-Google-Smtp-Source: ABdhPJwv3p9GfG1FnQ8QmCPAPaC2lQ3Rsy/uoyX1Xtkw2eBoMetM+l0ZOfq7Y+43+jmtvJke8N0sAA==
+X-Received: by 2002:a05:6000:363:: with SMTP id
+ f3mr18448075wrf.142.1631621073880; 
+ Tue, 14 Sep 2021 05:04:33 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g1sm1742277wmk.2.2021.09.14.05.04.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Sep 2021 05:04:32 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 951E71FF96;
+ Tue, 14 Sep 2021 13:04:31 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH v2] accel/tcg: re-factor plugin_inject_cb so we can assert
+ insn_idx is valid
+Date: Tue, 14 Sep 2021 13:04:18 +0100
+Message-Id: <20210914120418.1388698-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.196) by
- PR3P251CA0020.EURP251.PROD.OUTLOOK.COM (2603:10a6:102:b5::32) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4523.14 via Frontend Transport; Tue, 14 Sep 2021 12:03:51 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 99b06e60-d546-4510-05b9-08d97777b830
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6726:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6726D2083907623D3018537BC1DA9@AS8PR08MB6726.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jonQFtPcR/Ue0HnX9EviGZ3u4dW9zrn3hnLsXT594L1wTainc+ReqX+gVqe8bbEyAEFl03wUf5mwH1Rp9OPvsRj+lbQ251cRt/QPvHpkdRDsNIYah2wIn+9aHShIBHZN2JlR7ki96tRMvK6WLcAOy8uwa/dmfkoRmvFJ3bbF6FU7OH7c1uhFnSIuooSn661LTvsoK3XXLLD/49UdUpwf5KoLgNLdDh68nZpyY6tZpW6FeelY4Eml86jXA8ZBGqj5Y234jgPGCaA6StJER9rsI5XgLn7m4yLk89ApgJw/c9ZUWz37MMPivx59b8E0YBL3h4xQZMZeCw8sR0wk5ALV4I70oFZ+eRlsCh6GQM47KG9/m863IJ10kBWx1W1oEvZ18UCQNsb2VBigcZo8BWJz7ryMJsGwGvO+Wk0/8UZXD6z3HuqbVzBQI/ap/YBosqpYWACWPEtAgOvtN87H0apjWNXMKXU+CfXRooa6reGF0XRBl0NTn42KA5wzqmVomBJzxIm4RjhpcZl4VCX78TgRA0z+n9cgISCbqacpcvkzVVYQlSrbW37/+qR0GZ3G9kCoQmUqjGWwMp2Q0KqoNlk8LHajoxBR8pqrSDRYNKGMnqQXl5Px4HNPw5mwm0bV2QyN5DY30trCbIOeRn68wIk+JckF1r99CKMjf+A9eTVZbz+QIM+J2Wkrrh+/dtewRj9ENWncH36bCiWuK0DZ42glYrq0v+TfLZHeDvaZSU54M+92bhjp1Xmp34jEgKPfiy7fEvhd1ernSqPA3K3suihr9Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(136003)(396003)(346002)(39850400004)(31696002)(4326008)(6486002)(36756003)(66556008)(2616005)(52116002)(2906002)(956004)(66946007)(8936002)(31686004)(186003)(86362001)(38100700002)(16576012)(38350700002)(478600001)(26005)(83380400001)(8676002)(66476007)(316002)(5660300002)(53546011)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ajQxdklRSmxkeWhFclAzTUFwL2ZPNFpFeXNBV2MzYmRiRk9BNUdkUzUvZXFZ?=
- =?utf-8?B?UmZ0TCtneElUdzQxMUlNMjVoQ2JkdzY1Zk52M3B6Y2lJY3pwWkV0QTlsZGNY?=
- =?utf-8?B?QTVVTGh3ZkRjMC9qZ3VBL3VYVGZkeTVRcTl4YU1EaHRJZ2l5TVBBdlRpbVVU?=
- =?utf-8?B?VFRsejE0aDZIQlBsNUxTSVJQSUJmVTdwUmJCbDU0MFhNK0hBQThrWEprb2F6?=
- =?utf-8?B?b3k4Nkozd2pTc25Cc1g1Rk5iRjlzNC9XWWZsRTBxeEV3aXpWUmF0NGhPUWZI?=
- =?utf-8?B?V0w1TUdQenZ1TlB3ZEY3dEZ1WjMzSzg4WUxqVE5RQlZHK1I2dSt1L1BBYlZi?=
- =?utf-8?B?aVpYcUhVbnJibWlrZUxndEVmaFRQSlhmU2FUcWR1K2RpYWFkM1ZxSEVzcHYy?=
- =?utf-8?B?UzVDTXRUczBTTUZRWlZOcTZEMnRLL05nbTlrR29YMDRya1dJeEJFa1FoOXZD?=
- =?utf-8?B?d0VyNVlFNmRrbGVqYlR2eGZORldXRDlVTnJLWHZnYlM4bk9yRklpUmtXeU4r?=
- =?utf-8?B?UXU0bXkvVjFnbFE2UURiUnhud1hBR1czeEpjQ1c3MVRwSUJ5VG1kMzdsd0xn?=
- =?utf-8?B?SWo4MEczNTMrbytobmhjcjJiYmV2WkZTNndtNXdaUkRUZjRxeGNaRjJkcnh5?=
- =?utf-8?B?Q0ZMdE1kRnJ1SUNUSE0yRUlMaGxQbmhWS3RvTTRTaWhSWkwzb3JwS1RHY0dD?=
- =?utf-8?B?MnlUR3BvOEtTd2t3R1ZTK3JhRVdsRzl2VHJLall6a2g0UlFOZ1VKWUdlRDl2?=
- =?utf-8?B?YVBIZ1B5bkVrY0FvOXY5QkgrcFRLRjhBanYzQkpXTy93ZWNQUkppdXRqM2Fs?=
- =?utf-8?B?eEZoZkJqRFA4THgraVRjMnh4NnVJN3p2cUtiTXJ3ekprdE1mczVFWEc4b1ZT?=
- =?utf-8?B?QjJOMXpTNVQ3YktFb1o4S1FBQVlZUzVIYkxZamd0eHU1alFjcVB0aWYzY2R5?=
- =?utf-8?B?SjdUaXFNelB5cTJkRHFOaTJnNGtIenhad2xWbCsvTllyb1pWOEJlOHFkaUVI?=
- =?utf-8?B?SnVOL1hyUFRONGVhdVRLMHpzUG8vWVFLU21Ld3pyVUNKZGZnbzNoK3dHWTZG?=
- =?utf-8?B?MTlhWkJyMWp5RHhvbUxOa0F6OUpoWlhHVkFESzB6UVUxMlNUbWJSTjJCemdB?=
- =?utf-8?B?RnVWbTlQbXd3a3NHUjIvd2FJY05CaU02ZDFzdklQNFV3WElSbGZQMGlnbU9E?=
- =?utf-8?B?SXBzTEZmbm9FMVNEQkVXR05pVzRPRVBYZFhpczcyODVyS3pRdFhCbGtBY3lz?=
- =?utf-8?B?NHZCK3pvS043UEE3RkxaeHozdnovRS9GVU5OM3kwamhhQWZXVVluOVFNRTBi?=
- =?utf-8?B?NlRGRkdxVmhpNTdkRWg3R3diUHpxVUF3T0J4OVpnMUtRZXdtaFBZWXBPREc2?=
- =?utf-8?B?TWZsZjJ0cU16ekJHN3MxQVNVWXA1WnZjdys4bjYyb1BhT1c1QW5pUncwMjRw?=
- =?utf-8?B?bG13ZDR2Z3ZXLys5OGU5TFZpTVg5Z2hpNFJsSG16MTZRaFQ3VWJZQkc4SGtD?=
- =?utf-8?B?OEM4WDNvenBpYXJjTTMrVXhiVnRPeFpPcmg3VkRhTUhlcVY2cUYwWVlmbU5y?=
- =?utf-8?B?Y2FUVjFEQlpaQWp1SHVEUy9ENWUvblBKNDFQdTd3eDB4WFZsZVcrRW1mUVB3?=
- =?utf-8?B?a2VJdC9TRklUVXFEZUp4VFJYbHd4dVd4Um9NNFNDMVBwMTBWRUNYSFFPREhE?=
- =?utf-8?B?MDBtcFlhM3E5WDY4U1B1S2I3cU1TUXZSYnZrcUpJQnpocE9aNG53WjdtMUNW?=
- =?utf-8?Q?vkFRLA/R7DwlEkFVnk6A/HB+2dzGBaldoLRV5Al?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99b06e60-d546-4510-05b9-08d97777b830
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2021 12:03:52.5679 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w8x7tycVbbnMynUU3ojsdvVL0+ftSDZw3MqxYshlAyxJvMb48CFkkDqaOg4wfdj0vM8OBlS9FaEQX48kLsAlCXjbUWlSSVBZYdAA8DW7k74=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6726
-Received-SPF: pass client-ip=40.107.7.99;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -150,112 +86,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-14.09.2021 15:00, Vladimir Sementsov-Ogievskiy wrote:
-> 14.09.2021 14:46, Hanna Reitz wrote:
->> On 14.09.21 13:22, Vladimir Sementsov-Ogievskiy wrote:
->>> 14.09.2021 11:54, Hanna Reitz wrote:
->>>> On 24.05.21 16:20, Vladimir Sementsov-Ogievskiy wrote:
->>>>> Check subcluster bitmap of the l2 entry for different types of
->>>>> clusters:
->>>>>
->>>>>   - for compressed it must be zero
->>>>>   - for allocated check consistency of two parts of the bitmap
->>>>>   - for unallocated all subclusters should be unallocated
->>>>>     (or zero-plain)
->>>>>
->>>>> For unallocated clusters we can safely fix the entry by making it
->>>>> zero-plain.
->>>>>
->>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>>>> Reviewed-by: Eric Blake <eblake@redhat.com>
->>>>> Tested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
->>>>> ---
->>>>>   block/qcow2-refcount.c | 30 +++++++++++++++++++++++++++++-
->>>>>   1 file changed, 29 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
->>>>> index f48c5e1b5d..062ec48a15 100644
->>>>> --- a/block/qcow2-refcount.c
->>>>> +++ b/block/qcow2-refcount.c
->>>>> @@ -1681,6 +1681,7 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
->>>>>           uint64_t coffset;
->>>>>           int csize;
->>>>>           l2_entry = get_l2_entry(s, l2_table, i);
->>>>> +        uint64_t l2_bitmap = get_l2_bitmap(s, l2_table, i);
->>>>
->>>> This is a declaration after a statement.  (Easily fixable by moving the l2_entry declaration here, though.  Or by putting the l2_bitmap declaration where l2_entry is declared.)
->>>
->>> The latter seems nicer.
->>>
->>>>
->>>> [...]
->>>>
->>>>> @@ -1800,6 +1815,19 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
->>>>>           case QCOW2_CLUSTER_ZERO_PLAIN:
->>>>>           case QCOW2_CLUSTER_UNALLOCATED:
->>>>> +            if (l2_bitmap & QCOW_L2_BITMAP_ALL_ALLOC) {
->>>>> +                res->corruptions++;
->>>>> +                fprintf(stderr, "%s: Unallocated "
->>>>> +                        "cluster has non-zero subcluster allocation map\n",
->>>>> +                        fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR");
->>>>> +                if (fix & BDRV_FIX_ERRORS) {
->>>>> +                    ret = fix_l2_entry_by_zero(bs, res, l2_offset, l2_table, i,
->>>>> +                                               active, &metadata_overlap);
->>>>
->>>> I believe this is indeed the correct repair method for QCOW2_CLUSTER_ZERO_PLAIN, but I’m not so sure for QCOW2_CLUSTER_UNALLOCATED.  As far as I can tell, qcow2_get_subcluster_type() will return QCOW2_SUBCLUSTER_INVALID for this case, and so trying to read from this clusters will produce I/O errors.  But still, shouldn’t we rather make such a cluster unallocated rather than zero then?
->>>>
->>>> And as for QCOW2_CLUSTER_ZERO_PLAIN, I believe qcow2_get_cluster_type() will never return it when subclusters are enabled.  So this repair path will never happen with a cluster type of ZERO_PLAIN, but only for UNALLOCATED.
->>>>
->>>
->>>
->>> Agree about ZERO_PLAIN, that it's impossible here.
->>>
->>> But for UNALLOCATED, I'm not sure. If we make all wrongly "allocated" subclusters to be unallocted, underlying backing layer will become available. Could it be considered as security violation?
->>
->> I don’t think so, because the image has to be corrupted first, which I hope guests cannot trigger.
->>
->>> On the other hand, when user have to fix format corruptions, nothing is guaranteed and the aim is to make data available as far as it's possible. So, may be making wrong subclusters "unallocated" is correct thing..
->>
->> We could also consider refusing to repair this case for images that have backing files.
->>
->> In any case, I don’t think we should force ourselves to make some cluster zero just because there’s no better choice.  For example, we also don’t make unallocated data clusters zero, because it would just be wrong.
->>
->> (Though technically there is no right or wrong here, because we just refuse to read from such clusters.  Doing anything to the cluster would kind of be an improvement, whether it is making it zero or making it really unallocated...  If there was any important data here, it’s lost anyway.)
->>
->> Perhaps we should have a truly destructive repair mode where all unreadable data is made 0.  But OTOH, if users have an image that’s so broken, then it’s probably not wrong to tell them it’s unrepairable and they need to convert it to a fresh image (with --salvage).
->>
->> Hanna
->>
-> 
-> Agree. For simplicity, let's just drop thin last hunk for now. I'll resend now.
-> 
-> 
+Coverity doesn't know enough about how we have arranged our plugin TCG
+ops to know we will always have incremented insn_idx before injecting
+the callback. Let us assert it for the benefit of Coverity and protect
+ourselves from accidentally breaking the assumption and triggering
+harder to grok errors deeper in the code if we attempt a negative
+indexed array lookup.
 
-Not the whole hunk, only fixing part of course. To look like this:
+However to get to this point we re-factor the code and remove the
+second hand instruction boundary detection in favour of scanning the
+full set of ops and using the existing INDEX_op_insn_start to cleanly
+detect when the instruction has started. As we no longer need the
+plugin specific list of ops we delete that.
 
-@@ -1799,7 +1819,16 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
-          }
-  
-          case QCOW2_CLUSTER_ZERO_PLAIN:
-+            /* Impossible when image has subclusters */
-+            assert(!l2_bitmap);
-+            break;
+My initial benchmarks shows no discernible impact of dropping the
+plugin specific ops list.
+
+Fixes: Coverity 1459509
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+---
+ include/tcg/tcg.h      |   3 -
+ accel/tcg/plugin-gen.c | 157 ++++++++++++++++++++++-------------------
+ 2 files changed, 85 insertions(+), 75 deletions(-)
+
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 44ccd86f3e..49a02db7e6 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -604,9 +604,6 @@ struct TCGContext {
+ 
+     /* descriptor of the instruction being translated */
+     struct qemu_plugin_insn *plugin_insn;
+-
+-    /* list to quickly access the injected ops */
+-    QSIMPLEQ_HEAD(, TCGOp) plugin_ops;
+ #endif
+ 
+     GHashTable *const_table[TCG_TYPE_COUNT];
+diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
+index 88e25c6df9..f145b815c0 100644
+--- a/accel/tcg/plugin-gen.c
++++ b/accel/tcg/plugin-gen.c
+@@ -163,11 +163,7 @@ static void gen_empty_mem_helper(void)
+ static void gen_plugin_cb_start(enum plugin_gen_from from,
+                                 enum plugin_gen_cb type, unsigned wr)
+ {
+-    TCGOp *op;
+-
+     tcg_gen_plugin_cb_start(from, type, wr);
+-    op = tcg_last_op();
+-    QSIMPLEQ_INSERT_TAIL(&tcg_ctx->plugin_ops, op, plugin_link);
+ }
+ 
+ static void gen_wrapped(enum plugin_gen_from from,
+@@ -707,62 +703,6 @@ static void plugin_gen_disable_mem_helper(const struct qemu_plugin_tb *ptb,
+     inject_mem_disable_helper(insn, begin_op);
+ }
+ 
+-static void plugin_inject_cb(const struct qemu_plugin_tb *ptb, TCGOp *begin_op,
+-                             int insn_idx)
+-{
+-    enum plugin_gen_from from = begin_op->args[0];
+-    enum plugin_gen_cb type = begin_op->args[1];
+-
+-    switch (from) {
+-    case PLUGIN_GEN_FROM_TB:
+-        switch (type) {
+-        case PLUGIN_GEN_CB_UDATA:
+-            plugin_gen_tb_udata(ptb, begin_op);
+-            return;
+-        case PLUGIN_GEN_CB_INLINE:
+-            plugin_gen_tb_inline(ptb, begin_op);
+-            return;
+-        default:
+-            g_assert_not_reached();
+-        }
+-    case PLUGIN_GEN_FROM_INSN:
+-        switch (type) {
+-        case PLUGIN_GEN_CB_UDATA:
+-            plugin_gen_insn_udata(ptb, begin_op, insn_idx);
+-            return;
+-        case PLUGIN_GEN_CB_INLINE:
+-            plugin_gen_insn_inline(ptb, begin_op, insn_idx);
+-            return;
+-        case PLUGIN_GEN_ENABLE_MEM_HELPER:
+-            plugin_gen_enable_mem_helper(ptb, begin_op, insn_idx);
+-            return;
+-        default:
+-            g_assert_not_reached();
+-        }
+-    case PLUGIN_GEN_FROM_MEM:
+-        switch (type) {
+-        case PLUGIN_GEN_CB_MEM:
+-            plugin_gen_mem_regular(ptb, begin_op, insn_idx);
+-            return;
+-        case PLUGIN_GEN_CB_INLINE:
+-            plugin_gen_mem_inline(ptb, begin_op, insn_idx);
+-            return;
+-        default:
+-            g_assert_not_reached();
+-        }
+-    case PLUGIN_GEN_AFTER_INSN:
+-        switch (type) {
+-        case PLUGIN_GEN_DISABLE_MEM_HELPER:
+-            plugin_gen_disable_mem_helper(ptb, begin_op, insn_idx);
+-            return;
+-        default:
+-            g_assert_not_reached();
+-        }
+-    default:
+-        g_assert_not_reached();
+-    }
+-}
+-
+ /* #define DEBUG_PLUGIN_GEN_OPS */
+ static void pr_ops(void)
+ {
+@@ -820,21 +760,95 @@ static void pr_ops(void)
+ static void plugin_gen_inject(const struct qemu_plugin_tb *plugin_tb)
+ {
+     TCGOp *op;
+-    int insn_idx;
++    int insn_idx = -1;
+ 
+     pr_ops();
+-    insn_idx = -1;
+-    QSIMPLEQ_FOREACH(op, &tcg_ctx->plugin_ops, plugin_link) {
+-        enum plugin_gen_from from = op->args[0];
+-        enum plugin_gen_cb type = op->args[1];
+-
+-        tcg_debug_assert(op->opc == INDEX_op_plugin_cb_start);
+-        /* ENABLE_MEM_HELPER is the first callback of an instruction */
+-        if (from == PLUGIN_GEN_FROM_INSN &&
+-            type == PLUGIN_GEN_ENABLE_MEM_HELPER) {
 +
-          case QCOW2_CLUSTER_UNALLOCATED:
-+            if (l2_bitmap & QCOW_L2_BITMAP_ALL_ALLOC) {
-+                res->corruptions++;
-+                fprintf(stderr, "ERROR: Unallocated "
-+                        "cluster has non-zero subcluster allocation map\n");
++    QTAILQ_FOREACH(op, &tcg_ctx->ops, link) {
++        switch (op->opc) {
++        case INDEX_op_insn_start:
+             insn_idx++;
++            break;
++        case INDEX_op_plugin_cb_start:
++        {
++            enum plugin_gen_from from = op->args[0];
++            enum plugin_gen_cb type = op->args[1];
++
++            switch (from) {
++            case PLUGIN_GEN_FROM_TB:
++            {
++                g_assert(insn_idx == -1);
++
++                switch (type) {
++                case PLUGIN_GEN_CB_UDATA:
++                    plugin_gen_tb_udata(plugin_tb, op);
++                    break;
++                case PLUGIN_GEN_CB_INLINE:
++                    plugin_gen_tb_inline(plugin_tb, op);
++                    break;
++                default:
++                    g_assert_not_reached();
++                }
++                break;
 +            }
-              break;
-  
-          default:
-
-
++            case PLUGIN_GEN_FROM_INSN:
++            {
++                g_assert(insn_idx >= 0);
++
++                switch (type) {
++                case PLUGIN_GEN_CB_UDATA:
++                    plugin_gen_insn_udata(plugin_tb, op, insn_idx);
++                    break;
++                case PLUGIN_GEN_CB_INLINE:
++                    plugin_gen_insn_inline(plugin_tb, op, insn_idx);
++                    break;
++                case PLUGIN_GEN_ENABLE_MEM_HELPER:
++                    plugin_gen_enable_mem_helper(plugin_tb, op, insn_idx);
++                    break;
++                default:
++                    g_assert_not_reached();
++                }
++                break;
++            }
++            case PLUGIN_GEN_FROM_MEM:
++            {
++                g_assert(insn_idx >= 0);
++
++                switch (type) {
++                case PLUGIN_GEN_CB_MEM:
++                    plugin_gen_mem_regular(plugin_tb, op, insn_idx);
++                    break;
++                case PLUGIN_GEN_CB_INLINE:
++                    plugin_gen_mem_inline(plugin_tb, op, insn_idx);
++                    break;
++                default:
++                    g_assert_not_reached();
++                }
++
++                break;
++            }
++            case PLUGIN_GEN_AFTER_INSN:
++            {
++                g_assert(insn_idx >= 0);
++
++                switch (type) {
++                case PLUGIN_GEN_DISABLE_MEM_HELPER:
++                    plugin_gen_disable_mem_helper(plugin_tb, op, insn_idx);
++                    break;
++                default:
++                    g_assert_not_reached();
++                }
++                break;
++            }
++            default:
++                g_assert_not_reached();
++            }
++            break;
++        }
++        default:
++            /* plugins don't care about any other ops */
++            break;
+         }
+-        plugin_inject_cb(plugin_tb, op, insn_idx);
+     }
+     pr_ops();
+ }
+@@ -847,7 +861,6 @@ bool plugin_gen_tb_start(CPUState *cpu, const TranslationBlock *tb, bool mem_onl
+     if (test_bit(QEMU_PLUGIN_EV_VCPU_TB_TRANS, cpu->plugin_mask)) {
+         ret = true;
+ 
+-        QSIMPLEQ_INIT(&tcg_ctx->plugin_ops);
+         ptb->vaddr = tb->pc;
+         ptb->vaddr2 = -1;
+         get_page_addr_code_hostp(cpu->env_ptr, tb->pc, &ptb->haddr1);
 -- 
-Best regards,
-Vladimir
+2.30.2
+
 
