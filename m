@@ -2,92 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F357E40B437
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 18:09:43 +0200 (CEST)
-Received: from localhost ([::1]:37442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B4D40B42F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 18:07:55 +0200 (CEST)
+Received: from localhost ([::1]:60912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQB0B-00015X-0k
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 12:09:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43656)
+	id 1mQAyP-0006Fz-Ih
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 12:07:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQAke-0002PY-QV
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:53:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28450)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQAkb-0003kn-Nm
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:53:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631634816;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6hUwwzfi7ZCFW20LiJr9iIjQbHTM6ICVlhLWMEND5eY=;
- b=F/yKRAahJSGmOC+x0OtFIhZimzJkqFPFbX4qI8jhLAWq43aNvtPFMV5UMS4GZki6txKFUO
- k7xfhDrrNxUFY7XDlHulK4Xw/qbQmWtQaUlQeJBGCvVR4iFLdFAe91R812J/tBIcR+Srca
- sGgZNh+1zQRg1OLmvdIIQ2WOeITMyfw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-xLAPavsoPpinp-Nhvw0xAQ-1; Tue, 14 Sep 2021 11:53:35 -0400
-X-MC-Unique: xLAPavsoPpinp-Nhvw0xAQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- w25-20020a1cf6190000b0290252505ddd56so6651861wmc.3
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 08:53:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mQAkn-0002bW-Oy
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:53:50 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:43814)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mQAkj-0003sy-7i
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:53:47 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id v1so8496161plo.10
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 08:53:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RZUvNMdAO7QAl/5GiOxQ7IKzNAp6d8JCJiSN7rhuSlk=;
+ b=cLWRdMj9fj64c6hfl2VGJAl3BkKm83YENTWPaWFjRD5idlLvjd4FVL6u2GVa7/AApR
+ xNkXHt6ban6SWtWSnGcDIRTO0sa3ZXrZGTmBkg5si0fO8T+SBaqIoMXnGEHoN/RSBIwu
+ U+6Ty826qaZF/9X3iQ7kKcno9NC6CRRS/+z0LovI7+U6TC4roVP4yRYda/d/amH0s4ga
+ 1lAuMbAiQ2PJBIskofzC8RaomLcVYM5Hx3GGAgIgyAmIHvXFEfVri5IF7DY7MpSscONB
+ 3x3FhqjCNjzedGeK0aIHmxoxPdy4bhlt2rsGYw5muW9snfLwETHhtjwQyiFc4TNOAf2d
+ 9akg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=6hUwwzfi7ZCFW20LiJr9iIjQbHTM6ICVlhLWMEND5eY=;
- b=K7XPFSthyVNCBF+smwVczLHqHujUZg4W5Viz2Q1UI53X2j88brhhmtKQ+8Cij6ylcq
- p8X/f7oawJ6uRtY5dkBGbfhuzRaTd7Bo/E3ho7bD1WS8F+/vQpdXnByDqwt/7anXQih8
- jZ5BVNDPk8n6gUt3QR6U7IpvfkPMQDfPB543ZSqOaKSzHbV4Wpuw8UK8dwBORAnS1kCn
- NqL1YxJp7Ihyu21t1wUkly5bsET5ORXAgRhlDtjSa/b1+zIbnKwJHp5VNZ3pNXEY4bEr
- WbmXXkYcgfmn+XH6g6a0aImlKvqZ85VsGVoS7URy9FktJiUHmT41QYEEsibqUV3wbfjg
- YE4Q==
-X-Gm-Message-State: AOAM532PVFsvFcRtic0IZFIYGw1KHSJlLmTeus4p3rHw1RwF+mtYrSLy
- UKEHy09bI8V7Xhmq0NwJmra3a0XYVJDrnz9uv6a9E5F/QUXL7Q0Xbmsru7RLEvbWMeKWKUwFpCP
- TuTI3RwN5Cm7K3qo=
-X-Received: by 2002:a5d:63d2:: with SMTP id c18mr19252673wrw.311.1631634814299; 
- Tue, 14 Sep 2021 08:53:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzHHNaPVddGYd3jAil39+4NY0g1upviTmy4TdnEsM1WbSlcVhAV279zp7hUBa0vYHP7SnHymw==
-X-Received: by 2002:a5d:63d2:: with SMTP id c18mr19252627wrw.311.1631634814088; 
- Tue, 14 Sep 2021 08:53:34 -0700 (PDT)
-Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
- [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id a10sm10977861wrd.51.2021.09.14.08.53.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 08:53:33 -0700 (PDT)
-Subject: Re: [PATCH v2 06/53] hw/core: introduce 'format_state' callback to
- replace 'dump_state'
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210914142042.1655100-1-berrange@redhat.com>
- <20210914142042.1655100-7-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c3ad4843-02dd-380e-a09b-91c80a25b052@redhat.com>
-Date: Tue, 14 Sep 2021 17:53:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=RZUvNMdAO7QAl/5GiOxQ7IKzNAp6d8JCJiSN7rhuSlk=;
+ b=fKstQwy//siLW3sSypZHL4H11R5X30zGcaJMA/W0lJ1G5R0nFYIpjyGy0v8kIsvpJC
+ 0j7NVjBHWwirRJP2r+WznP3M0Y+TLynTgq0O8focXYxFBUTOFpP1zIW399xJ4OvxQWXG
+ V7tR1C885SV9FQEzmHirQotVtPmMP3YjYB9fCOni2jQqkELocvB0DnzT3Bm9F/Z1unCD
+ WbxHAEk771ZGqEoLFz0LfHFSYkva4zMJ/XLMMrton3qzWUsdWn+YgHW6OAaWLaHPkwv6
+ xQkzdWTpuYEG5+S7BbUZFpAwvsYbLq8fFNer64KwMfMAK8lI2zy7esqlOS08wBfHAhSI
+ tsTg==
+X-Gm-Message-State: AOAM53319Nj0lbfrAlMxMY7IjqoyTUVNfhrce86yqYYBrZkTqyhE4WpB
+ RtxWpnt5ddGaZ9d06DtY0DfrbQvgeSMbPA==
+X-Google-Smtp-Source: ABdhPJzxY180h2HsEBKKO1w06qOjCNH86aDmOcLZQKVGeSRtfTp3y+L+IFjKkzC3shCZFpQp7dRrqQ==
+X-Received: by 2002:a17:902:e743:b0:13a:eb0:d124 with SMTP id
+ p3-20020a170902e74300b0013a0eb0d124mr15556591plf.38.1631634823562; 
+ Tue, 14 Sep 2021 08:53:43 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id g3sm2085985pjm.22.2021.09.14.08.53.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Sep 2021 08:53:43 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL v3 00/44] tcg patch queue
+Date: Tue, 14 Sep 2021 08:53:41 -0700
+Message-Id: <20210914155342.1296339-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210914142042.1655100-7-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,42 +82,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Peter Xu <peterx@redhat.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
- Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-ppc@nongnu.org,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/21 4:19 PM, Daniel P. Berrangé wrote:
-> The 'dump_state' callback assumes it will be outputting to a FILE
-> object. This is fine for HMP, but not so useful for QMP. Introduce
-> a new 'format_state' callback that returns a formatted GString
-> instead.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  hw/core/cpu-common.c  | 15 +++++++++++++++
->  include/hw/core/cpu.h | 13 ++++++++++++-
->  2 files changed, 27 insertions(+), 1 deletion(-)
+Version 3: Rebase and fix a minor patch conflict.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+r~
+
+
+The following changes since commit c6f5e042d89e79206cd1ce5525d3df219f13c3cc:
+
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210913-3' into staging (2021-09-13 21:06:15 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210914
+
+for you to fetch changes up to a5b759b6dca7daf87fa5007a7f5784bf22f3830f:
+
+  tcg/arm: More use of the TCGReg enum (2021-09-14 07:59:43 -0700)
+
+----------------------------------------------------------------
+Fix translation race condition for user-only.
+Fix tcg/i386 encoding for VPSLLVQ, VPSRLVQ.
+Fix tcg/arm tcg_out_vec_op signature.
+Fix tcg/ppc (32bit) build with clang.
+Remove dupluate TCG_KICK_PERIOD definition.
+Remove unused tcg_global_reg_new.
+Restrict cpu_exec_interrupt and its callees to sysemu.
+Cleanups for tcg/arm.
+
+----------------------------------------------------------------
+Bin Meng (1):
+      tcg: Remove tcg_global_reg_new defines
+
+Ilya Leoshkevich (3):
+      accel/tcg: Add DisasContextBase argument to translator_ld*
+      accel/tcg: Clear PAGE_WRITE before translation
+      accel/tcg/user-exec: Fix read-modify-write of code on s390 hosts
+
+Jose R. Ziviani (1):
+      tcg/arm: Fix tcg_out_vec_op function signature
+
+Luc Michel (1):
+      accel/tcg: remove redundant TCG_KICK_PERIOD define
+
+Philippe Mathieu-Daudé (25):
+      target/avr: Remove pointless use of CONFIG_USER_ONLY definition
+      target/i386: Restrict sysemu-only fpu_helper helpers
+      target/i386: Simplify TARGET_X86_64 #ifdef'ry
+      target/xtensa: Restrict do_transaction_failed() to sysemu
+      accel/tcg: Rename user-mode do_interrupt hack as fake_user_interrupt
+      target/alpha: Restrict cpu_exec_interrupt() handler to sysemu
+      target/arm: Restrict cpu_exec_interrupt() handler to sysemu
+      target/cris: Restrict cpu_exec_interrupt() handler to sysemu
+      target/hppa: Restrict cpu_exec_interrupt() handler to sysemu
+      target/i386: Restrict cpu_exec_interrupt() handler to sysemu
+      target/i386: Move x86_cpu_exec_interrupt() under sysemu/ folder
+      target/m68k: Restrict cpu_exec_interrupt() handler to sysemu
+      target/microblaze: Restrict cpu_exec_interrupt() handler to sysemu
+      target/mips: Restrict cpu_exec_interrupt() handler to sysemu
+      target/nios2: Restrict cpu_exec_interrupt() handler to sysemu
+      target/openrisc: Restrict cpu_exec_interrupt() handler to sysemu
+      target/ppc: Restrict cpu_exec_interrupt() handler to sysemu
+      target/riscv: Restrict cpu_exec_interrupt() handler to sysemu
+      target/sh4: Restrict cpu_exec_interrupt() handler to sysemu
+      target/sparc: Restrict cpu_exec_interrupt() handler to sysemu
+      target/rx: Restrict cpu_exec_interrupt() handler to sysemu
+      target/xtensa: Restrict cpu_exec_interrupt() handler to sysemu
+      accel/tcg: Restrict TCGCPUOps::cpu_exec_interrupt() to sysemu
+      user: Remove cpu_get_pic_interrupt() stubs
+      user: Mark cpu_loop() with noreturn attribute
+
+Richard Henderson (13):
+      tcg/i386: Split P_VEXW from P_REXW
+      tcg/ppc: Replace TCG_TARGET_CALL_DARWIN with _CALL_DARWIN
+      tcg/ppc: Ensure _CALL_SYSV is set for 32-bit ELF
+      tcg/arm: Remove fallback definition of __ARM_ARCH
+      tcg/arm: Standardize on tcg_out_<branch>_{reg,imm}
+      tcg/arm: Simplify use_armv5t_instructions
+      tcg/arm: Support armv4t in tcg_out_goto and tcg_out_call
+      tcg/arm: Split out tcg_out_ldstm
+      tcg/arm: Simplify usage of encode_imm
+      tcg/arm: Drop inline markers
+      tcg/arm: Give enum arm_cond_code_e a typedef and use it
+      tcg/arm: More use of the ARMInsn enum
+      tcg/arm: More use of the TCGReg enum
+
+ bsd-user/qemu.h                           |   2 +-
+ include/exec/translate-all.h              |   1 +
+ include/exec/translator.h                 |  44 +--
+ include/hw/core/tcg-cpu-ops.h             |  26 +-
+ include/tcg/tcg-op.h                      |   2 -
+ linux-user/qemu.h                         |   2 +-
+ target/alpha/cpu.h                        |   2 +-
+ target/arm/arm_ldst.h                     |  12 +-
+ target/arm/cpu.h                          |   3 +-
+ target/cris/cpu.h                         |   2 +-
+ target/hppa/cpu.h                         |   4 +-
+ target/i386/cpu.h                         |   3 +
+ target/i386/tcg/helper-tcg.h              |   2 +
+ target/m68k/cpu.h                         |   2 +
+ target/microblaze/cpu.h                   |   2 +
+ target/mips/tcg/tcg-internal.h            |   5 +-
+ target/openrisc/cpu.h                     |   5 +-
+ target/ppc/cpu.h                          |   4 +-
+ target/riscv/cpu.h                        |   2 +-
+ target/rx/cpu.h                           |   2 +
+ target/sh4/cpu.h                          |   4 +-
+ target/xtensa/cpu.h                       |   2 +
+ tcg/arm/tcg-target.h                      |  27 +-
+ accel/tcg/cpu-exec.c                      |  14 +-
+ accel/tcg/tcg-accel-ops-rr.c              |   2 -
+ accel/tcg/translate-all.c                 |  59 ++--
+ accel/tcg/translator.c                    |  39 +++
+ accel/tcg/user-exec.c                     |  48 ++-
+ bsd-user/i386/target_arch_cpu.c           |   5 -
+ bsd-user/x86_64/target_arch_cpu.c         |   5 -
+ linux-user/main.c                         |   7 -
+ target/alpha/cpu.c                        |   2 +-
+ target/alpha/helper.c                     |   5 +-
+ target/alpha/translate.c                  |   2 +-
+ target/arm/cpu.c                          |   7 +-
+ target/arm/cpu_tcg.c                      |   6 +-
+ target/arm/translate-a64.c                |   2 +-
+ target/arm/translate.c                    |   9 +-
+ target/avr/cpu.c                          |   3 -
+ target/cris/cpu.c                         |   4 +-
+ target/cris/helper.c                      |  17 +-
+ target/hexagon/translate.c                |   3 +-
+ target/hppa/cpu.c                         |   2 +-
+ target/hppa/int_helper.c                  |   7 +-
+ target/hppa/translate.c                   |   5 +-
+ target/i386/tcg/seg_helper.c              |  74 +----
+ target/i386/tcg/sysemu/seg_helper.c       |  62 ++++
+ target/i386/tcg/tcg-cpu.c                 |   8 +-
+ target/i386/tcg/translate.c               |  10 +-
+ target/m68k/cpu.c                         |   2 +-
+ target/m68k/op_helper.c                   |  16 +-
+ target/m68k/translate.c                   |   2 +-
+ target/microblaze/cpu.c                   |   2 +-
+ target/microblaze/helper.c                |  13 +-
+ target/mips/cpu.c                         |   2 +-
+ target/mips/tcg/exception.c               |  18 --
+ target/mips/tcg/sysemu/tlb_helper.c       |  18 ++
+ target/mips/tcg/translate.c               |   8 +-
+ target/mips/tcg/user/tlb_helper.c         |   5 -
+ target/nios2/cpu.c                        |   5 +-
+ target/openrisc/cpu.c                     |   2 +-
+ target/openrisc/interrupt.c               |   2 -
+ target/openrisc/translate.c               |   2 +-
+ target/ppc/cpu_init.c                     |   2 +-
+ target/ppc/excp_helper.c                  |  21 +-
+ target/ppc/translate.c                    |   5 +-
+ target/riscv/cpu.c                        |   2 +-
+ target/riscv/cpu_helper.c                 |   5 -
+ target/riscv/translate.c                  |   5 +-
+ target/rx/cpu.c                           |   2 +-
+ target/rx/helper.c                        |   4 +
+ target/s390x/tcg/translate.c              |  16 +-
+ target/sh4/cpu.c                          |   2 +-
+ target/sh4/helper.c                       |   9 +-
+ target/sh4/translate.c                    |   4 +-
+ target/sparc/cpu.c                        |   4 +-
+ target/sparc/translate.c                  |   2 +-
+ target/xtensa/cpu.c                       |   2 +-
+ target/xtensa/exc_helper.c                |   7 +-
+ target/xtensa/translate.c                 |   5 +-
+ target/mips/tcg/micromips_translate.c.inc |   2 +-
+ target/mips/tcg/mips16e_translate.c.inc   |   4 +-
+ target/mips/tcg/nanomips_translate.c.inc  |   4 +-
+ tcg/arm/tcg-target.c.inc                  | 517 ++++++++++++++++--------------
+ tcg/i386/tcg-target.c.inc                 |  13 +-
+ tcg/ppc/tcg-target.c.inc                  |  25 +-
+ target/openrisc/meson.build               |   6 +-
+ 87 files changed, 702 insertions(+), 630 deletions(-)
 
