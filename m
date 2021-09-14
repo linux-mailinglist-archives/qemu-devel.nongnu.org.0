@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDC340A90A
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 10:19:56 +0200 (CEST)
-Received: from localhost ([::1]:58798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5DD40A911
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 10:22:29 +0200 (CEST)
+Received: from localhost ([::1]:35140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ3fX-000720-7u
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 04:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50284)
+	id 1mQ3i0-0001m3-Ui
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 04:22:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mQ3e1-0006JX-Sg
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 04:18:22 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37454)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mQ3dy-0003gu-GF
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 04:18:21 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- c8-20020a7bc008000000b002e6e462e95fso1342514wmb.2
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 01:18:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fIHKmDEO3e7eZVACbbjQ5/Wxf6pVOacq+4SVsm08e9o=;
- b=Ibs6NnmXl7EVKWE5THzVqq+Vs+kMWab2nmMILjmdP2nh7niU+NjIlQkdlqpn+SwLqn
- gN6mPZQMbGXP+8IBJwyq0apZQDXdDr/qXEZJAeyPo3N5F1Kheh0zJ50SFM7Q1xcrM9Ut
- 4rq/fuht5ILnnjO+rPDwantilTvNfCEj3PtdLpCKOzVxNQebfuFBtAUFCu/0PK6iFk8w
- hbV73xOf6oB0ppLR5njMyz0Enea6f88agPY3/Eg9weJizAH37O7HdNAq1qV8O9lBPyXr
- e9uyK2NuXdLIoaFf43RMYQct+Kt7oYZpg4/MvV3SlxPk5pJXQYDMCEt2Cy3Kjrl1Tb68
- bMAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fIHKmDEO3e7eZVACbbjQ5/Wxf6pVOacq+4SVsm08e9o=;
- b=klCtBdzCRd9MVIaJaduitOnL9mWg+BSdTfvbNAAukmmmL8N+nxLpRGg25LaC2vV0rl
- Zbm/1AW5o06cL4uv2Ll/TlBoZ5nsTc8UC1YHNt1vPrpSunNkjM+K2RwxzvLNYaxbnjTb
- iqbT817KyA9Yqt/tUNXrz4ywbllKDA17S7ERt6DDj5kLQX16W6VcczVR4eY7hf1FbInt
- X4OJDkZ5Guy1/GmItDBvserdhc4Co37WdOUE1tUSoyHrLzXfyBYE2y+wtCrUTIAmbWbk
- TPmcLgFSp2KBVJXfmPosCyRkn/FzAWFYezjvE6spvMPOc01DKdzsR2Xtbtwp4fv5shCf
- Q5og==
-X-Gm-Message-State: AOAM531btaoxQWTmkNNosyi7DqHojXeo0JCSdwqRuhKUkuq5mq9ZXM47
- Io5rpdpkwKbtkpZ/7VciXVkIX9dW5JX5rRA7llc=
-X-Google-Smtp-Source: ABdhPJzefGULsui2seNpa0zR8KSLBrVR03CysJUmfjLOffpcUF+yxU3AQ64cCA/UR5+WauhXACA3ROgAqW/9TPTs0xI=
-X-Received: by 2002:a1c:7503:: with SMTP id o3mr715403wmc.129.1631607494761;
- Tue, 14 Sep 2021 01:18:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQ3gh-0008MD-7F
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 04:21:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37374)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQ3gb-0006As-LE
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 04:21:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631607660;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CDT35quz9nszWkfZm4wxsDBm32uD2+Llx7qdHYfvl+o=;
+ b=hnwE4Mu83cIG3zNdTWLyCKfROd+Mp9+fCLxyc6nkazKTE2Tp2RC5pYd/DB9Tr4ozaXmxPj
+ Nz8hy8bdiBMtKzaqzj2o57QOURMMV17qaAkaTBJiHmeMLTHPAFPZoro4/IRAua/mNx6rBc
+ 9BTONyEWf5WbvGP9uso6xxjPFwGeWc8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-466-459SCjRTOZC2_9Tx86zsOg-1; Tue, 14 Sep 2021 04:20:54 -0400
+X-MC-Unique: 459SCjRTOZC2_9Tx86zsOg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC6F1802929;
+ Tue, 14 Sep 2021 08:20:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C13D860C4A;
+ Tue, 14 Sep 2021 08:20:48 +0000 (UTC)
+Date: Tue, 14 Sep 2021 09:20:46 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [qemu-web RFC PATCH] Add Sponsors page
+Message-ID: <YUBbXjND2sZlXY7Z@redhat.com>
+References: <20210913182512.1021618-1-philmd@redhat.com>
+ <d57973da-49ac-f231-1652-cf78769e884a@redhat.com>
 MIME-Version: 1.0
-References: <20210913130950.214756-1-marcandre.lureau@redhat.com>
- <CAFEAcA97pX7qHLXkGL23_ygFk2hcJEw2J7CSKDJukdbxpvgKpg@mail.gmail.com>
-In-Reply-To: <CAFEAcA97pX7qHLXkGL23_ygFk2hcJEw2J7CSKDJukdbxpvgKpg@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 14 Sep 2021 12:18:03 +0400
-Message-ID: <CAJ+F1C+QKX6b4d1p_6KksvKzHp6S2VSmOU5QXN68dOX8qrb3vg@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: add supported host CPU architectures section
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000235f9505cbf039f0"
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <d57973da-49ac-f231-1652-cf78769e884a@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,232 +82,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000235f9505cbf039f0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Mon, Sep 13, 2021 at 6:28 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> On Mon, 13 Sept 2021 at 14:10, <marcandre.lureau@redhat.com> wrote:
-> >
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > I was looking for such documentation, but couldn't find it. Add it to
-> > the build-platform.rst document.
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+On Tue, Sep 14, 2021 at 07:41:47AM +0200, Thomas Huth wrote:
+> On 13/09/2021 20.25, Philippe Mathieu-Daudé wrote:
+> > Add a page listing QEMU sponsors and displaying their logos.
+> > 
+> > Logo sources:
+> > - https://www.rackspace.com/es/newsroom/media-kit
+> > - https://developer.arm.com/solutions/infrastructure/works-on-arm
+> > - https://gitlab.com/fosshost/assets/logo
+> > - https://www.linkedin.com/company/cip-united
+> > 
+> > Resolves: https://gitlab.com/qemu-project/qemu-web/-/issues/2
+> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > > ---
-> >  docs/about/build-platforms.rst | 28 ++++++++++++++++++++++++++++
-> >  meson.build                    |  2 +-
-> >  2 files changed, 29 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/docs/about/build-platforms.rst
-> b/docs/about/build-platforms.rst
-> > index 692323609e..518a19aff7 100644
-> > --- a/docs/about/build-platforms.rst
-> > +++ b/docs/about/build-platforms.rst
-> > @@ -29,6 +29,34 @@ The `Repology`_ site is a useful resource to identif=
-y
-> >  currently shipped versions of software in various operating systems,
-> >  though it does not cover all distros listed below.
-> >
-> > +Supported host architectures
-> > +----------------------------
+> > There are probably more, but I'm not aware of them.
+> > 
+> > Maybe we should list past sponsors, precising a year range?
+> 
+> I think we might have a hard time to compile a complete list, so I'd rather
+> not start that job.
+> 
+> > ---
+> >   _includes/nav.html      |   1 +
+> >   sponsors.md             |  22 ++++++++++++++++++++++
+> >   sponsors/cipunited.jpg  | Bin 0 -> 10607 bytes
+> >   sponsors/fosshost.png   | Bin 0 -> 18251 bytes
+> >   sponsors/rackspace.png  | Bin 0 -> 7363 bytes
+> >   sponsors/worksonarm.png | Bin 0 -> 9965 bytes
+> >   6 files changed, 23 insertions(+)
+> >   create mode 100644 sponsors.md
+> >   create mode 100644 sponsors/cipunited.jpg
+> >   create mode 100644 sponsors/fosshost.png
+> >   create mode 100644 sponsors/rackspace.png
+> >   create mode 100644 sponsors/worksonarm.png
+> > 
+> > diff --git a/_includes/nav.html b/_includes/nav.html
+> > index 73b39b3..49ad4cd 100644
+> > --- a/_includes/nav.html
+> > +++ b/_includes/nav.html
+> > @@ -8,6 +8,7 @@
+> >   			</li><li {% if current[1] == 'contribute' %}class='current'{% endif %}><a href="{{ relative_root }}/contribute">Contribute</a>
+> >   			</li><li {% if current[1] == 'documentation' %}class='current'{% endif %}><a href="{{ relative_root }}/documentation">Docs</a>
+> >   			</li><li><a href="https://wiki.qemu.org">Wiki</a>
+> > +			</li><li {% if current[1] == 'sponsors' %}class='current'{% endif %}><a href="{{ relative_root }}/sponsors">Sponsors</a>
+> 
+> Not sure whether we need that link on every page (i.e. in the navigation
+> menu)? Maybe it's enough to put the link somewhere on the home page?
+
+Yes, we definitely don't want this in the top navbar as it is irrelevant
+information to essentially every single visitor. We're only adding this
+because one of the sponsors asked for it.
+
+I'd say it can be linked in the footer, adjacent to the link to
+the SFC.
+
+Or maybe we just replace the SFC link with a link "About QEMU" and
+on that page document that we're a member of the SFC and also
+document official sponsors, and any other companies whose services
+we rely on unofficially (eg the gitlab point below).
+
+> >   			</li><li {% if current[1] == 'blog' %}class='current'{% endif %}><a href="{{ relative_root }}/blog">Blog</a></li>
+> >   		</ul>
+> >   	</nav>
+> > diff --git a/sponsors.md b/sponsors.md
+> > new file mode 100644
+> > index 0000000..da1bf19
+> > --- /dev/null
+> > +++ b/sponsors.md
+> > @@ -0,0 +1,22 @@
+> > +---
+> > +title: QEMU sponsors
+> > +permalink: /sponsors/
+> > +---
 > > +
-> > +Those hosts have a native TCG backend and are regularly tested:
+> > +QEMU has sponsors!
 > > +
-> > +  .. list-table::
-> > +   :header-rows: 1
+> > +The website is hosted by [Rackspace Technology](https://www.rackspace.com/).
 > > +
-> > +   * - CPU Architecture
-> > +     - Accelerators
-> > +   * - Arm
-> > +     - kvm (64 bit only), xen
-> > +   * - MIPS
-> > +     - kvm
-> > +   * - PPC
-> > +     - kvm
-> > +   * - RISC-V
-> > +     -
-> > +   * - s390x
-> > +     - kvm
-> > +   * - SPARC
-> > +     -
-> > +   * - x86
-> > +     - kvm, xen, hax, hvf (64 bit only), nvmm, whpx (64 bit only)
->
-> I still wonder if this would be clearer if we listed 'tcg' as
-> an accelerator like all the others, rather than describing it as
-> a kind of special case in the text above the table. After all, you
-> can select it with '-accel tcg' the same as any other.
->
-
-ok
-
-
-> I think the information in the table is correct now.
->
-> Sort the list of accelerators alphabetically ?
->
-
-ok
-
-
+> > +For continuous integration and testing, hardware is provided by:
+> > +- Arm and Equinix Metal via the [Works on Arm program](https://www.worksonarm.com/)
+> > +- [Fosshost](https://fosshost.org/)
+> > +- [CIP United](https://www.cipunited.com/)
 > > +
-> > +Other architectures are not actively maintained. They may be removed i=
-n
-> future
-> > +releases.
 > > +
-> >  Linux OS, macOS, FreeBSD, NetBSD, OpenBSD
-> >  -----------------------------------------
-> >
-> > diff --git a/meson.build b/meson.build
-> > index 9a64d16943..27593c9b90 100644
-> > --- a/meson.build
-> > +++ b/meson.build
-> > @@ -78,7 +78,7 @@ endif
-> >
-> >  accelerator_targets =3D { 'CONFIG_KVM': kvm_targets }
-> >  if cpu in ['x86', 'x86_64', 'arm', 'aarch64']
-> > -  # i368 emulator provides xenpv machine type for multiple architectur=
-es
-> > +  # i386 emulator provides xenpv machine type for multiple architectur=
-es
-> >    accelerator_targets +=3D {
-> >      'CONFIG_XEN': ['i386-softmmu', 'x86_64-softmmu'],
-> >    }
->
-> This change appears to be unrelated ?
->
+> > +![Rackspace Technology](rackspace.png)
+> > +
+> > +![Works on Arm](worksonarm.png)
+> > +
+> > +![Fosshost](fosshost.png)
+> > +
+> > +![CIP United](cipunited.jpg)
+> 
+> Some remarks:
+> 
+> 1) Could you please use the original URLs as source for the pictures instead
+> of copying them over into our website? Some folks don't like it when their
+> images are copied...
 
-minor typo found while looking at our related build script parts. Worth a
-different patch?
+More importantly than that, do the trademark terms for each company
+here permit us to actually use their logo on our website ?
 
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000235f9505cbf039f0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 13, 2021 at 6:28 PM Pet=
-er Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@li=
-naro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">On Mon, 13 Sept 2021 at 14:10, &lt;<a href=3D"mailto:marcandre.lure=
-au@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; wrote:=
-<br>
-&gt;<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt;<br>
-&gt; I was looking for such documentation, but couldn&#39;t find it. Add it=
- to<br>
-&gt; the build-platform.rst document.<br>
-&gt;<br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
-&gt; ---<br>
-&gt;=C2=A0 docs/about/build-platforms.rst | 28 ++++++++++++++++++++++++++++=
-<br>
-&gt;=C2=A0 meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-&gt;=C2=A0 2 files changed, 29 insertions(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/docs/about/build-platforms.rst b/docs/about/build-platfor=
-ms.rst<br>
-&gt; index 692323609e..518a19aff7 100644<br>
-&gt; --- a/docs/about/build-platforms.rst<br>
-&gt; +++ b/docs/about/build-platforms.rst<br>
-&gt; @@ -29,6 +29,34 @@ The `Repology`_ site is a useful resource to identi=
-fy<br>
-&gt;=C2=A0 currently shipped versions of software in various operating syst=
-ems,<br>
-&gt;=C2=A0 though it does not cover all distros listed below.<br>
-&gt;<br>
-&gt; +Supported host architectures<br>
-&gt; +----------------------------<br>
-&gt; +<br>
-&gt; +Those hosts have a native TCG backend and are regularly tested:<br>
-&gt; +<br>
-&gt; +=C2=A0 .. list-table::<br>
-&gt; +=C2=A0 =C2=A0:header-rows: 1<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0* - CPU Architecture<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0- Accelerators<br>
-&gt; +=C2=A0 =C2=A0* - Arm<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0- kvm (64 bit only), xen<br>
-&gt; +=C2=A0 =C2=A0* - MIPS<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0- kvm<br>
-&gt; +=C2=A0 =C2=A0* - PPC<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0- kvm<br>
-&gt; +=C2=A0 =C2=A0* - RISC-V<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0-<br>
-&gt; +=C2=A0 =C2=A0* - s390x<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0- kvm<br>
-&gt; +=C2=A0 =C2=A0* - SPARC<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0-<br>
-&gt; +=C2=A0 =C2=A0* - x86<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0- kvm, xen, hax, hvf (64 bit only), nvmm, whpx (6=
-4 bit only)<br>
-<br>
-I still wonder if this would be clearer if we listed &#39;tcg&#39; as<br>
-an accelerator like all the others, rather than describing it as<br>
-a kind of special case in the text above the table. After all, you<br>
-can select it with &#39;-accel tcg&#39; the same as any other.<br></blockqu=
-ote><div><br></div><div>ok</div><div> <br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">
-<br>
-I think the information in the table is correct now.<br>
-<br>
-Sort the list of accelerators alphabetically ?<br></blockquote><div><br></d=
-iv><div>ok</div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">
-<br>
-&gt; +<br>
-&gt; +Other architectures are not actively maintained. They may be removed =
-in future<br>
-&gt; +releases.<br>
-&gt; +<br>
-&gt;=C2=A0 Linux OS, macOS, FreeBSD, NetBSD, OpenBSD<br>
-&gt;=C2=A0 -----------------------------------------<br>
-&gt;<br>
-&gt; diff --git a/meson.build b/meson.build<br>
-&gt; index 9a64d16943..27593c9b90 100644<br>
-&gt; --- a/meson.build<br>
-&gt; +++ b/meson.build<br>
-&gt; @@ -78,7 +78,7 @@ endif<br>
-&gt;<br>
-&gt;=C2=A0 accelerator_targets =3D { &#39;CONFIG_KVM&#39;: kvm_targets }<br=
->
-&gt;=C2=A0 if cpu in [&#39;x86&#39;, &#39;x86_64&#39;, &#39;arm&#39;, &#39;=
-aarch64&#39;]<br>
-&gt; -=C2=A0 # i368 emulator provides xenpv machine type for multiple archi=
-tectures<br>
-&gt; +=C2=A0 # i386 emulator provides xenpv machine type for multiple archi=
-tectures<br>
-&gt;=C2=A0 =C2=A0 accelerator_targets +=3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &#39;CONFIG_XEN&#39;: [&#39;i386-softmmu&#39;, &#3=
-9;x86_64-softmmu&#39;],<br>
-&gt;=C2=A0 =C2=A0 }<br>
-<br>
-This change appears to be unrelated ?<br></blockquote><div><br></div><div>m=
-inor typo=C2=A0found while looking at our related build script parts. Worth=
- a different patch?<br></div></div><br clear=3D"all"><br>-- <br><div dir=3D=
-"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000235f9505cbf039f0--
 
