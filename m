@@ -2,74 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF5640A2A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 03:40:18 +0200 (CEST)
-Received: from localhost ([::1]:43800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 162DB40A2EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 03:55:34 +0200 (CEST)
+Received: from localhost ([::1]:47830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPxQn-0002EV-Dy
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 21:40:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38500)
+	id 1mPxfY-0005iN-Po
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 21:55:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mPxOI-0000fT-5i
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 21:37:42 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:36613)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mPxOG-0003Hj-I7
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 21:37:41 -0400
-Received: by mail-pg1-x535.google.com with SMTP id t1so11181168pgv.3
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 18:37:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=roW543BBRKwyDSK74Fh0URInsf5V8zJVUSaALAYhsdE=;
- b=me1kSbNNo+8UW6AZlcZncXlvCmJhVkNWKAS6/7/bTzgOHoGhJ5Fj2gkDxwTdzYxqir
- El/9OsfTn4LKLs+m17a1MaQcSq3qzYDiTX5Zv16k4aew39qrcHmCAXZQNPpatMbHHa3U
- DYzIeU6lwGBzaix6C4T4/OT9n08vIJ3gw6zGLXZgx4B3abH3YBFjYvdevdVZLi4DfB+w
- ut4sYBcBNhVi+vSkr5rAJP162Vy8CowM6XOfiwhN+SRcka6T/5aeSGaJpPtu6mzKNyLS
- fyl1d5HJBKHRRSku0czxKEsx53KxEQ9RAzdBi5iD6wwn5B4yJcJYyJISMKWyVULmk18D
- 1vug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=roW543BBRKwyDSK74Fh0URInsf5V8zJVUSaALAYhsdE=;
- b=XHPegDF6HFSceN6Gj/BqqaBJp6G9wCi03Lh8h0ZZCmqk9cAJ4LbXCRevLy2ChKFl1Y
- 05roEsm8sLDDCiv7R9dOaXRTTNrRB5kgGn0U/9EnoAAy2LNWoe6m6k13qBg9crVV+8/V
- 2gMCWILgWUWC8vleACcSKOcgQ9rmXktOZpQJFf8IM4EWrzgcKJoCrRV8XJX7fAhhAEQU
- F8jUV9AtXmhKsX0DgklzjQVVWhsBK5wHQLYogAB//D3dUIRpzfODUPqG5JM/ivmFwxGb
- OpJlZWUbX/3hur2PFjxY0oo/PI5KfQATuSSu2DAOFmsu/czZNihp81DTG8GJ47Dlrbn5
- XkIQ==
-X-Gm-Message-State: AOAM531lh5haSqjBQOwVLm9Bc5t/7JdAPje+9kMrFM8TvjDay+Mh9OkM
- a+A5rxhnZ9u3Pw2rzEQeTOvjIYji31QMIg==
-X-Google-Smtp-Source: ABdhPJw4MtNt8InmYr6ENgM+icXjvzNf7bqgyzhkU3shJDTDJ5ZjPuWX7dgfuuA5N/Am78js1x8OsA==
-X-Received: by 2002:a63:535f:: with SMTP id t31mr13629434pgl.270.1631583458905; 
- Mon, 13 Sep 2021 18:37:38 -0700 (PDT)
-Received: from localhost.localdomain (123-193-74-252.dynamic.kbronet.com.tw.
- [123.193.74.252])
- by smtp.gmail.com with ESMTPSA id m1sm8390316pfc.30.2021.09.13.18.37.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 18:37:38 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH] target/riscv: Force to set mstatus_hs.[SD|FS] bits in
- mark_fs_dirty()
-Date: Tue, 14 Sep 2021 09:37:31 +0800
-Message-Id: <20210914013732.881754-1-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1mPxeC-0004T3-6C
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 21:54:08 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:3164)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1mPxe9-0005Ye-Oj
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 21:54:07 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4H7mb64Ht4z57Cl;
+ Tue, 14 Sep 2021 09:53:22 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.8; Tue, 14 Sep 2021 09:53:58 +0800
+Received: from DESKTOP-6NKE0BC.china.huawei.com (10.174.185.210) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.8; Tue, 14 Sep 2021 09:53:58 +0800
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+To: Alex Williamson <alex.williamson@redhat.com>, Eric Auger
+ <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>, "open
+ list:All patches CC here" <qemu-devel@nongnu.org>
+Subject: [PATCH v2 0/2] vfio: Some fixes about vfio-pci MMIO RAM mapping
+Date: Tue, 14 Sep 2021 09:53:24 +0800
+Message-ID: <20210914015326.1494-1-jiangkunkun@huawei.com>
+X-Mailer: git-send-email 2.26.2.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.185.210]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,73 +65,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- Vincent Chen <vincent.chen@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: wanghaibin.wang@huawei.com, Kunkun Jiang <jiangkunkun@huawei.com>,
+ tangnianyao@huawei.com, ganqixin@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+This series include patches as below:
 
-When V=1, both vsstauts.FS and HS-level sstatus.FS are in effect.
-Modifying the floating-point state when V=1 causes both fields to
-be set to 3 (Dirty).
+Patch 1:
+- vfio/pci: Fix vfio-pci sub-page MMIO BAR mmaping in live migration
 
-However, it's possible that HS-level sstatus.FS is Clean and VS-level
-vsstatus.FS is Dirty at the time mark_fs_dirty() is called when V=1.
-We can't early return for this case because we still need to set
-sstatus.FS to Dirty according to spec.
+Patch 2:
+- Added a trace point to informe users when a MMIO RAM ection less than PAGE_SIZE
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Vincent Chen <vincent.chen@sifive.com>
-Tested-by: Vincent Chen <vincent.chen@sifive.com>
----
- target/riscv/translate.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+History:
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index e356fc6c46c..0096b098738 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -280,26 +280,27 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
- static void mark_fs_dirty(DisasContext *ctx)
- {
-     TCGv tmp;
--    target_ulong sd;
-+    target_ulong sd = is_32bit(ctx) ? MSTATUS32_SD : MSTATUS64_SD;
-+
-+    if (ctx->virt_enabled) {
-+        tmp = tcg_temp_new();
-+        tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
-+        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
-+        tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
-+        tcg_temp_free(tmp);
-+    }
- 
-     if (ctx->mstatus_fs == MSTATUS_FS) {
-         return;
-     }
-+
-     /* Remember the state change for the rest of the TB.  */
-     ctx->mstatus_fs = MSTATUS_FS;
- 
-     tmp = tcg_temp_new();
--    sd = is_32bit(ctx) ? MSTATUS32_SD : MSTATUS64_SD;
--
-     tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
-     tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
-     tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
--
--    if (ctx->virt_enabled) {
--        tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
--        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
--        tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
--    }
-     tcg_temp_free(tmp);
- }
- #else
+v1 -> v2:
+- Add iterate sub-page BARs in vfio_pci_load_config and try to update them [Alex Williamson]
+
+Kunkun Jiang (2):
+  vfio/pci: Fix vfio-pci sub-page MMIO BAR mmaping in live migration
+  vfio/common: Add trace point when a MMIO RAM section less than
+    PAGE_SIZE
+
+ hw/vfio/common.c |  7 +++++++
+ hw/vfio/pci.c    | 15 ++++++++++++++-
+ 2 files changed, 21 insertions(+), 1 deletion(-)
+
 -- 
-2.25.1
+2.23.0
 
 
