@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B0D40B273
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 17:03:49 +0200 (CEST)
-Received: from localhost ([::1]:36380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 434A640B22A
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 16:53:51 +0200 (CEST)
+Received: from localhost ([::1]:37968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ9yO-0000hh-52
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 11:03:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36068)
+	id 1mQ9ok-0007t2-Ax
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 10:53:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mQ9MW-0006Fe-PX
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:24:45 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:42825)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mQ9MP-0005Ri-BS
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:24:40 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- u19-20020a7bc053000000b002f8d045b2caso2706290wmc.1
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 07:24:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3D6Y3PvRWCDvWbbifCcyvKIH074CbOWIFebtpK8KpRk=;
- b=wHr8Bc/xfufFLw8hn6VUZNdbS2j4KdCkE9Nmy6YtCnuWrPpIdid1/7QYAFo/eV1MMM
- 6nHglWfTlQnzP0PUU0pAvRTECKHwpZjcdFoLNNR5dHUOAXaltaD1h8JeXd/7OWOaNa0U
- rC+VGI1vUk4SL2t1naba0qh6QNvE99Csa41CjhnF1i1ZNLh4he79EAG4tDQ8zL15w1Je
- DCiJFUl4II6iHot7PbZEkhgvGWWgyGlhBlFU7TnjtKBOjYiQEHGlFBmKZDO7NYN2QZXt
- WiNTUUE73OlIh03zS4s+U7nZo3DM5PY66c4BW+FRu3ULU8biC64fFuKeJUDnN7gLcPrb
- HMbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3D6Y3PvRWCDvWbbifCcyvKIH074CbOWIFebtpK8KpRk=;
- b=lWoNs+bnXuqLvSC1lSt9Xsf+sCJD1tGS0JnNB6jNe926lne1o8o9eu5qND8uqIrkOj
- 6PxYk4e/kw8EujfsKOzgQATH+kDuzIiZyQkr6SfwzJDiT0s5QI6q/s/PDvgAMW4lgC6O
- zA/xw6BW+r054EMYYPvqkZyQ+44ZG2FAt7RPN+gOv93DK1iMd73/luBTjtP/5ea3kFlW
- V6p3ncEu/qQxtcIrfG4XQJ3Yh/jmbPqJkWT1BLzQyxmNDgs0BP5uULa7mQCMD1dq0Qai
- ICJlZz7m+kTeSNf56JdntLOrHASMRAW7JbnOIWLvexTIcY2Gpw/gDhdQSgUeYrnxn2Qp
- g1qw==
-X-Gm-Message-State: AOAM5332O7j1Bsyshr+48bFeWSTstdph+F7qtiACo0qjTAZ+nZHjwZeQ
- yyH5NBp3s5OGrlMQym+uz4jjjg==
-X-Google-Smtp-Source: ABdhPJyBlpSFt6T92TRgSuVAMBbcTwjZGGpL8ah9c31hPUdxK5xQz9BnGxnaZoxqXsvDUf8VEQ+1NQ==
-X-Received: by 2002:a05:600c:4f13:: with SMTP id
- l19mr2532533wmq.39.1631629468447; 
- Tue, 14 Sep 2021 07:24:28 -0700 (PDT)
-Received: from localhost.localdomain
- (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
- by smtp.gmail.com with ESMTPSA id k6sm184252wmo.37.2021.09.14.07.24.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Sep 2021 07:24:28 -0700 (PDT)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: eric.auger@redhat.com
-Subject: [PATCH v3 07/10] tests/acpi: add test cases for VIOT
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQ9Mg-0006Vu-AC
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:24:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38340)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQ9Mc-0005dH-RG
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:24:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631629486;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LoFfr8g3FSNNy3L4uDE/+m5DtUq3ewlCSsUT+QmYgig=;
+ b=IHw/n3xZ+bQ2/p8YmShoiSN5Qhjfrl5QHQJMtzkRxAZj6/yJBdhZ2BeY8M1gUMHzda0tN4
+ or6nCaSyRBpgPazQf0gXr6VDZKpU0xnrCp8hd+Jmyt1phEqKOS/XXYycXpI+r/yXyNx2Iw
+ 2ic+H+Ex+o0bkk7QSd2XTTkexJoy6hk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-247-KzG8qg-VPpene3i-haubDA-1; Tue, 14 Sep 2021 10:24:44 -0400
+X-MC-Unique: KzG8qg-VPpene3i-haubDA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30EE5108468A;
+ Tue, 14 Sep 2021 14:24:41 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.39.193.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D96745D9CA;
+ Tue, 14 Sep 2021 14:24:22 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 13/53] target/hppa: convert to use format_state instead of
+ dump_state
 Date: Tue, 14 Sep 2021 15:20:02 +0100
-Message-Id: <20210914142004.2433568-8-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210914142004.2433568-1-jean-philippe@linaro.org>
-References: <20210914142004.2433568-1-jean-philippe@linaro.org>
+Message-Id: <20210914142042.1655100-14-berrange@redhat.com>
+In-Reply-To: <20210914142042.1655100-1-berrange@redhat.com>
+References: <20210914142042.1655100-1-berrange@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,87 +79,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
- Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-arm@nongnu.org,
- pbonzini@redhat.com, ani@anisinha.ca, imammedo@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
+ David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
+ Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Peter Xu <peterx@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add two test cases for VIOT, one on the q35 machine and the other on
-virt. To test complex topologies the q35 test has two PCIe buses that
-bypass the IOMMU (and are therefore not described by VIOT), and two
-buses that are translated by virtio-iommu.
-
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 39 ++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ target/hppa/cpu.c    |  2 +-
+ target/hppa/cpu.h    |  2 +-
+ target/hppa/helper.c | 25 ++++++++++++++-----------
+ 3 files changed, 16 insertions(+), 13 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 4f11d03055..f8bfe2f247 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1403,6 +1403,43 @@ static void test_acpi_virt_tcg(void)
-     free_test_data(&data);
+diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
+index 2eace4ee12..f7fe7c49d6 100644
+--- a/target/hppa/cpu.c
++++ b/target/hppa/cpu.c
+@@ -164,7 +164,7 @@ static void hppa_cpu_class_init(ObjectClass *oc, void *data)
+ 
+     cc->class_by_name = hppa_cpu_class_by_name;
+     cc->has_work = hppa_cpu_has_work;
+-    cc->dump_state = hppa_cpu_dump_state;
++    cc->format_state = hppa_cpu_format_state;
+     cc->set_pc = hppa_cpu_set_pc;
+     cc->gdb_read_register = hppa_cpu_gdb_read_register;
+     cc->gdb_write_register = hppa_cpu_gdb_write_register;
+diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
+index 748270bfa3..d4f1922545 100644
+--- a/target/hppa/cpu.h
++++ b/target/hppa/cpu.h
+@@ -327,7 +327,7 @@ int hppa_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int hppa_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ void hppa_cpu_do_interrupt(CPUState *cpu);
+ bool hppa_cpu_exec_interrupt(CPUState *cpu, int int_req);
+-void hppa_cpu_dump_state(CPUState *cs, FILE *f, int);
++void hppa_cpu_format_state(CPUState *cs, GString *buf, int);
+ bool hppa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                        MMUAccessType access_type, int mmu_idx,
+                        bool probe, uintptr_t retaddr);
+diff --git a/target/hppa/helper.c b/target/hppa/helper.c
+index 1ccff5765a..6e30d1ea63 100644
+--- a/target/hppa/helper.c
++++ b/target/hppa/helper.c
+@@ -76,7 +76,7 @@ void cpu_hppa_put_psw(CPUHPPAState *env, target_ureg psw)
+     }
  }
  
-+static void test_acpi_q35_viot(void)
-+{
-+    test_data data = {
-+        .machine = MACHINE_Q35,
-+        .variant = ".viot",
-+        .blkdev = "virtio-blk,bus=pcie.0",
-+    };
-+
-+    /*
-+     * To keep things interesting, two buses bypass the IOMMU.
-+     * VIOT should only describes the other two buses.
-+     */
-+    test_acpi_one("-machine default_bus_bypass_iommu=on "
-+                  "-device virtio-iommu "
-+                  "-device pxb-pcie,bus_nr=0x10,id=pcie.100,bus=pcie.0 "
-+                  "-device pxb-pcie,bus_nr=0x20,id=pcie.200,bus=pcie.0,bypass_iommu=on "
-+                  "-device pxb-pcie,bus_nr=0x30,id=pcie.300,bus=pcie.0",
-+                  &data);
-+    free_test_data(&data);
-+}
-+
-+static void test_acpi_virt_viot(void)
-+{
-+    test_data data = {
-+        .machine = "virt",
-+        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
-+        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
-+        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
-+        .ram_start = 0x40000000ULL,
-+        .scan_len = 128ULL * 1024 * 1024,
-+    };
-+
-+    test_acpi_one("-cpu cortex-a57 "
-+                  "-device virtio-iommu", &data);
-+    free_test_data(&data);
-+}
-+
- static void test_oem_fields(test_data *data)
+-void hppa_cpu_dump_state(CPUState *cs, FILE *f, int flags)
++void hppa_cpu_format_state(CPUState *cs, GString *buf, int flags)
  {
+     HPPACPU *cpu = HPPA_CPU(cs);
+     CPUHPPAState *env = &cpu->env;
+@@ -85,9 +85,10 @@ void hppa_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     char psw_c[20];
      int i;
-@@ -1567,12 +1604,14 @@ int main(int argc, char *argv[])
-         if (strcmp(arch, "x86_64") == 0) {
-             qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
-         }
-+        qtest_add_func("acpi/q35/viot", test_acpi_q35_viot);
-     } else if (strcmp(arch, "aarch64") == 0) {
-         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-         qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
-         qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
-         qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
-         qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
-+        qtest_add_func("acpi/virt/viot", test_acpi_virt_viot);
+ 
+-    qemu_fprintf(f, "IA_F " TARGET_FMT_lx " IA_B " TARGET_FMT_lx "\n",
+-                 hppa_form_gva_psw(psw, env->iasq_f, env->iaoq_f),
+-                 hppa_form_gva_psw(psw, env->iasq_b, env->iaoq_b));
++    g_string_append_printf(buf,
++                           "IA_F " TARGET_FMT_lx " IA_B " TARGET_FMT_lx "\n",
++                           hppa_form_gva_psw(psw, env->iasq_f, env->iaoq_f),
++                           hppa_form_gva_psw(psw, env->iasq_b, env->iaoq_b));
+ 
+     psw_c[0]  = (psw & PSW_W ? 'W' : '-');
+     psw_c[1]  = (psw & PSW_E ? 'E' : '-');
+@@ -110,20 +111,22 @@ void hppa_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     psw_c[18] = '\0';
+     psw_cb = ((env->psw_cb >> 4) & 0x01111111) | (env->psw_cb_msb << 28);
+ 
+-    qemu_fprintf(f, "PSW  " TREG_FMT_lx " CB   " TREG_FMT_lx " %s\n",
+-                 psw, psw_cb, psw_c);
++    g_string_append_printf(buf,
++                           "PSW  " TREG_FMT_lx " CB   " TREG_FMT_lx " %s\n",
++                           psw, psw_cb, psw_c);
+ 
+     for (i = 0; i < 32; i++) {
+-        qemu_fprintf(f, "GR%02d " TREG_FMT_lx "%c", i, env->gr[i],
+-                     (i & 3) == 3 ? '\n' : ' ');
++        g_string_append_printf(buf, "GR%02d " TREG_FMT_lx "%c", i, env->gr[i],
++                               (i & 3) == 3 ? '\n' : ' ');
      }
-     ret = g_test_run();
-     boot_sector_cleanup(disk);
+ #ifndef CONFIG_USER_ONLY
+     for (i = 0; i < 8; i++) {
+-        qemu_fprintf(f, "SR%02d %08x%c", i, (uint32_t)(env->sr[i] >> 32),
+-                     (i & 3) == 3 ? '\n' : ' ');
++        g_string_append_printf(buf,
++                               "SR%02d %08x%c", i, (uint32_t)(env->sr[i] >> 32),
++                               (i & 3) == 3 ? '\n' : ' ');
+     }
+ #endif
+-     qemu_fprintf(f, "\n");
++     g_string_append_printf(buf, "\n");
+ 
+     /* ??? FR */
+ }
 -- 
-2.33.0
+2.31.1
 
 
