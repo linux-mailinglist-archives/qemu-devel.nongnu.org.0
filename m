@@ -2,89 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1727440ACE9
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 13:58:31 +0200 (CEST)
-Received: from localhost ([::1]:56260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C88340ACF0
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 13:59:57 +0200 (CEST)
+Received: from localhost ([::1]:59574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ753-0006oB-P9
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 07:58:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45474)
+	id 1mQ76S-0000b9-7q
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 07:59:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mQ6z0-0005IU-Ec
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 07:52:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40028)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQ728-0002yr-Vr
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 07:55:29 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:59355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mQ6yu-0007Nl-AK
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 07:52:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631620327;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xiin61qQHRQJuFfJtZIvj/8PDAv1mtm9Lzc4rxWOruY=;
- b=NosT5jVJQMLuxVzxDi9SXtYvqcGgkBtNI/ETd3sTbkVGfRwZrAxD5LF6Cf+uO6k4KGSplb
- Iyv8+z4DaT8vnk5a9/3rkgSLfSnEdpLBbi1FBbzS6RT55oTjckRpxZNPVb8xFckL1iILN2
- qTRE6aNGOX2TSNCdFOHO2wT384aZLT0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-Zx1B-oW8PDiQHqn0cLjhVg-1; Tue, 14 Sep 2021 07:52:06 -0400
-X-MC-Unique: Zx1B-oW8PDiQHqn0cLjhVg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- m1-20020a056000180100b0015e1ec30ac3so576088wrh.8
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 04:52:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xiin61qQHRQJuFfJtZIvj/8PDAv1mtm9Lzc4rxWOruY=;
- b=iMa5fyeAGytVZ1a+H73fNDNd2JMlYb8fFiSieLD7dlvuwtRmTtch9nybsQFSs5jFmi
- m+PmaEias4TDf4wzcoOuPEIGEXHqZzwYEPAImbeA96WTI9UFjaHqwFCjTJHj0X6VvpQ5
- TmSgcWq7ZfzenkfLF2dBsEbMcgoOJn389mluncIugOC1+gF6me3j4yKe98N1FT9HcsEK
- Xd/4RKvQTn8RdGFfhAjARcLe+cXCRhv59lWQva/bKX/eW9UZ6KAlgmB+ZZxRSweBoLuG
- n4CXv90Xrbo0Y8B0Aen3gLdgZX99CmtBLcMvhcsp5lSG7ifL5pEM0kSUHdQETQWP3JqJ
- 8mow==
-X-Gm-Message-State: AOAM531cuqG87ZUEu8FIKGpYu+znJmqykIekip/MjZ9Q9xVNhuUWA/o2
- WnZJZzWnd1Np3Gr1CFAJK7wZDt+fBn0f2CP+gjsGTPwam/JnEJ94OPgBfun08hGZyGFl2qqITx+
- WkJQUZzKbGCJdrpdnKCjDczS3ma3iCuJsVa1Rz1Ft58FjoiOauzRFz8WsPgQX8guu3uY=
-X-Received: by 2002:a1c:a94a:: with SMTP id s71mr1724112wme.32.1631620325440; 
- Tue, 14 Sep 2021 04:52:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzbsN00r2NRbe2A3OFgGAMKFhWY/yMOVIr+d7cIJTwKJ8+Ca/8sBJTAKo7idmF++0iJaCBMsw==
-X-Received: by 2002:a1c:a94a:: with SMTP id s71mr1724071wme.32.1631620325107; 
- Tue, 14 Sep 2021 04:52:05 -0700 (PDT)
-Received: from localhost (static-109-144-85-188.ipcom.comunitel.net.
- [188.85.144.109])
- by smtp.gmail.com with ESMTPSA id q11sm919335wmc.41.2021.09.14.04.52.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Sep 2021 04:52:04 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] migration/ram: Don't passs RAMState to
- migration_clear_memory_region_dirty_bitmap_*()
-Date: Tue, 14 Sep 2021 13:51:57 +0200
-Message-Id: <20210914115157.35868-6-quintela@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210914115157.35868-1-quintela@redhat.com>
-References: <20210914115157.35868-1-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQ725-00019X-GK
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 07:55:28 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-126-KAOwMUAhPga957n5GT9Skg-1; Tue, 14 Sep 2021 07:55:18 -0400
+X-MC-Unique: KAOwMUAhPga957n5GT9Skg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 098981006AA2;
+ Tue, 14 Sep 2021 11:55:17 +0000 (UTC)
+Received: from bahia.huguette (unknown [10.39.192.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A2F4060C4A;
+ Tue, 14 Sep 2021 11:55:15 +0000 (UTC)
+Date: Tue, 14 Sep 2021 13:55:14 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v6 3/6] spapr: introduce spapr_numa_associativity_reset()
+Message-ID: <20210914135514.1896ea3e@bahia.huguette>
+In-Reply-To: <20210910195539.797170-4-danielhb413@gmail.com>
+References: <20210910195539.797170-1-danielhb413@gmail.com>
+ <20210910195539.797170-4-danielhb413@gmail.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,79 +65,284 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+On Fri, 10 Sep 2021 16:55:36 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-The parameter is unused, let's drop it.
+> Introducing a new NUMA affinity, FORM2, requires a new mechanism to
+> switch between affinity modes after CAS. Also, we want FORM2 data
+> structures and functions to be completely separated from the existing
+> FORM1 code, allowing us to avoid adding new code that inherits the
+> existing complexity of FORM1.
+>=20
+> At the same time, it's also desirable to minimize the amount of changes
+> made in write_dt() functions that are used to write ibm,associativity of
+> the resources, RTAS artifacts and h_home_node_associativity. These
+> functions can work in the same way in both NUMA affinity modes, as long
+> as we use a similar data structure and parametrize it properly depending
+> on the affinity mode selected.
+>=20
+> This patch introduces spapr_numa_associativity_reset() to start this
+> process. This function will be used to switch to the chosen NUMA
+> affinity after CAS and after migrating the guest. To do that, the
+> existing 'numa_assoc_array' is renamed to 'FORM1_assoc_array' and will
+> hold FORM1 data that is populated at associativity_init().
+> 'numa_assoc_array' is now a pointer that can be switched between the
+> existing affinity arrays. We don't have FORM2 data structures yet, so
+> 'numa_assoc_array' will always point to 'FORM1_assoc_array'.
+>=20
+> We also take the precaution of pointing 'numa_assoc_array' to
+> 'FORM1_assoc_array' in associativity_init() time, before CAS, to not
+> change FORM1 availability for existing guests.
+>=20
+> A small change in spapr_numa_write_associativity_dt() is made to reflect
+> the fact that 'numa_assoc_array' is now a pointer and we must be
+> explicit with the size being written in the DT.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>  hw/ppc/spapr.c              | 14 +++++++++++++
+>  hw/ppc/spapr_hcall.c        |  7 +++++++
+>  hw/ppc/spapr_numa.c         | 42 +++++++++++++++++++++++++++++--------
+>  include/hw/ppc/spapr.h      |  3 ++-
+>  include/hw/ppc/spapr_numa.h |  1 +
+>  5 files changed, 57 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index d39fd4e644..5afbb76cab 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1786,6 +1786,20 @@ static int spapr_post_load(void *opaque, int versi=
+on_id)
+>          return err;
+>      }
+> =20
+> +    /*
+> +     * NUMA affinity selection is made in CAS time. There is no reliable
+> +     * way of telling whether the guest already went through CAS before
+> +     * migration due to how spapr_ov5_cas_needed works: a FORM1 guest ca=
+n
+> +     * be migrated with ov5_cas empty regardless of going through CAS
+> +     * first.
+> +     *
+> +     * One solution is to call numa_associativity_reset(). The downside
+> +     * is that a guest migrated before CAS will reset it again when goin=
+g
+> +     * through it, but since it's a lightweight operation it's worth bei=
+ng
+> +     * a little redundant to be safe.
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Juan Quintela <quintela@redhat.com>
----
- migration/ram.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+Also this isn't a hot path.
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 7a43bfd7af..bb908822d5 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -789,8 +789,7 @@ unsigned long migration_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
-     return find_next_bit(bitmap, size, start);
- }
- 
--static void migration_clear_memory_region_dirty_bitmap(RAMState *rs,
--                                                       RAMBlock *rb,
-+static void migration_clear_memory_region_dirty_bitmap(RAMBlock *rb,
-                                                        unsigned long page)
- {
-     uint8_t shift;
-@@ -818,8 +817,7 @@ static void migration_clear_memory_region_dirty_bitmap(RAMState *rs,
- }
- 
- static void
--migration_clear_memory_region_dirty_bitmap_range(RAMState *rs,
--                                                 RAMBlock *rb,
-+migration_clear_memory_region_dirty_bitmap_range(RAMBlock *rb,
-                                                  unsigned long start,
-                                                  unsigned long npages)
- {
-@@ -832,7 +830,7 @@ migration_clear_memory_region_dirty_bitmap_range(RAMState *rs,
-      * exclusive.
-      */
-     for (i = chunk_start; i < chunk_end; i += chunk_pages) {
--        migration_clear_memory_region_dirty_bitmap(rs, rb, i);
-+        migration_clear_memory_region_dirty_bitmap(rb, i);
-     }
- }
- 
-@@ -850,7 +848,7 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
-      * the page in the chunk we clear the remote dirty bitmap for all.
-      * Clearing it earlier won't be a problem, but too late will.
-      */
--    migration_clear_memory_region_dirty_bitmap(rs, rb, page);
-+    migration_clear_memory_region_dirty_bitmap(rb, page);
- 
-     ret = test_and_clear_bit(page, rb->bmap);
-     if (ret) {
-@@ -2777,8 +2775,7 @@ void qemu_guest_free_page_hint(void *addr, size_t len)
-          * are initially set. Otherwise those skipped pages will be sent in
-          * the next round after syncing from the memory region bitmap.
-          */
--        migration_clear_memory_region_dirty_bitmap_range(ram_state, block,
--                                                         start, npages);
-+        migration_clear_memory_region_dirty_bitmap_range(block, start, npages);
-         ram_state->migration_dirty_pages -=
-                       bitmap_count_one_with_offset(block->bmap, start, npages);
-         bitmap_clear(block->bmap, start, npages);
--- 
-2.31.1
+> +     */
+> +     spapr_numa_associativity_reset(spapr);
+> +
+>      return err;
+>  }
+> =20
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index 0e9a5b2e40..82ab92ddba 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -17,6 +17,7 @@
+>  #include "kvm_ppc.h"
+>  #include "hw/ppc/fdt.h"
+>  #include "hw/ppc/spapr_ovec.h"
+> +#include "hw/ppc/spapr_numa.h"
+>  #include "mmu-book3s-v3.h"
+>  #include "hw/mem/memory-device.h"
+> =20
+> @@ -1197,6 +1198,12 @@ target_ulong do_client_architecture_support(PowerP=
+CCPU *cpu,
+>      spapr->cas_pre_isa3_guest =3D !spapr_ovec_test(ov1_guest, OV1_PPC_3_=
+00);
+>      spapr_ovec_cleanup(ov1_guest);
+> =20
+> +    /*
+> +     * Reset numa_assoc_array now that we know which NUMA affinity
+> +     * the guest will use.
+> +     */
+> +    spapr_numa_associativity_reset(spapr);
+> +
+>      /*
+>       * Ensure the guest asks for an interrupt mode we support;
+>       * otherwise terminate the boot.
+> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+> index fb6059550f..327952ba9e 100644
+> --- a/hw/ppc/spapr_numa.c
+> +++ b/hw/ppc/spapr_numa.c
+> @@ -97,7 +97,7 @@ static void spapr_numa_define_FORM1_domains(SpaprMachin=
+eState *spapr)
+>       */
+>      for (i =3D 1; i < nb_numa_nodes; i++) {
+>          for (j =3D 1; j < MAX_DISTANCE_REF_POINTS; j++) {
+> -            spapr->numa_assoc_array[i][j] =3D cpu_to_be32(i);
+> +            spapr->FORM1_assoc_array[i][j] =3D cpu_to_be32(i);
+>          }
+>      }
+> =20
+> @@ -149,8 +149,8 @@ static void spapr_numa_define_FORM1_domains(SpaprMach=
+ineState *spapr)
+>               * and going up to 0x1.
+>               */
+>              for (i =3D n_level; i > 0; i--) {
+> -                assoc_src =3D spapr->numa_assoc_array[src][i];
+> -                spapr->numa_assoc_array[dst][i] =3D assoc_src;
+> +                assoc_src =3D spapr->FORM1_assoc_array[src][i];
+> +                spapr->FORM1_assoc_array[dst][i] =3D assoc_src;
+>              }
+>          }
+>      }
+> @@ -167,6 +167,11 @@ static void spapr_numa_FORM1_affinity_init(SpaprMach=
+ineState *spapr,
+>      int nb_numa_nodes =3D machine->numa_state->num_nodes;
+>      int i, j, max_nodes_with_gpus;
+> =20
+> +    /* init FORM1_assoc_array */
+> +    for (i =3D 0; i < MAX_NODES + NVGPU_MAX_NUM; i++) {
+> +        spapr->FORM1_assoc_array[i] =3D g_new0(uint32_t, NUMA_ASSOC_SIZE=
+);
+
+Why dynamic allocation since you have fixed size ?
+
+> +    }
+> +
+>      /*
+>       * For all associativity arrays: first position is the size,
+>       * position MAX_DISTANCE_REF_POINTS is always the numa_id,
+> @@ -177,8 +182,8 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachi=
+neState *spapr,
+>       * 'i' will be a valid node_id set by the user.
+>       */
+>      for (i =3D 0; i < nb_numa_nodes; i++) {
+> -        spapr->numa_assoc_array[i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_P=
+OINTS);
+> -        spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_b=
+e32(i);
+> +        spapr->FORM1_assoc_array[i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_=
+POINTS);
+> +        spapr->FORM1_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_=
+be32(i);
+>      }
+> =20
+>      /*
+> @@ -192,15 +197,15 @@ static void spapr_numa_FORM1_affinity_init(SpaprMac=
+hineState *spapr,
+>      max_nodes_with_gpus =3D nb_numa_nodes + NVGPU_MAX_NUM;
+> =20
+>      for (i =3D nb_numa_nodes; i < max_nodes_with_gpus; i++) {
+> -        spapr->numa_assoc_array[i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_P=
+OINTS);
+> +        spapr->FORM1_assoc_array[i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_=
+POINTS);
+> =20
+>          for (j =3D 1; j < MAX_DISTANCE_REF_POINTS; j++) {
+>              uint32_t gpu_assoc =3D smc->pre_5_1_assoc_refpoints ?
+>                                   SPAPR_GPU_NUMA_ID : cpu_to_be32(i);
+> -            spapr->numa_assoc_array[i][j] =3D gpu_assoc;
+> +            spapr->FORM1_assoc_array[i][j] =3D gpu_assoc;
+>          }
+> =20
+> -        spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_b=
+e32(i);
+> +        spapr->FORM1_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_=
+be32(i);
+>      }
+> =20
+>      /*
+> @@ -227,14 +232,33 @@ void spapr_numa_associativity_init(SpaprMachineStat=
+e *spapr,
+>                                     MachineState *machine)
+>  {
+>      spapr_numa_FORM1_affinity_init(spapr, machine);
+> +
+> +    /*
+> +     * Default to FORM1 affinity until CAS. We'll call affinity_reset()
+> +     * during CAS when we're sure about which NUMA affinity the guest
+> +     * is going to use.
+> +     *
+> +     * This step is a failsafe - guests in the wild were able to read
+> +     * FORM1 affinity info before CAS for a long time. Since affinity_re=
+set()
+> +     * is just a pointer switch between data that was already populated
+> +     * here, this is an acceptable overhead to be on the safer side.
+> +     */
+> +    spapr->numa_assoc_array =3D spapr->FORM1_assoc_array;
+
+The right way to do that is to call spapr_numa_associativity_reset() from
+spapr_machine_reset() because we want to revert to FORM1 each time the
+guest is rebooted.
+
+> +}
+> +
+> +void spapr_numa_associativity_reset(SpaprMachineState *spapr)
+> +{
+> +    /* No FORM2 affinity implemented yet */
+
+This seems quite obvious at this point, not sure the comment helps.
+
+> +    spapr->numa_assoc_array =3D spapr->FORM1_assoc_array;
+>  }
+> =20
+>  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *f=
+dt,
+>                                         int offset, int nodeid)
+>  {
+> +    /* Hardcode the size of FORM1 associativity array for now */
+>      _FDT((fdt_setprop(fdt, offset, "ibm,associativity",
+>                        spapr->numa_assoc_array[nodeid],
+> -                      sizeof(spapr->numa_assoc_array[nodeid]))));
+> +                      NUMA_ASSOC_SIZE * sizeof(uint32_t))));
+
+Rather than doing this temporary change that gets undone in
+a later patch, I suggest you introduce get_numa_assoc_size()
+in a preliminary patch and use it here already :
+
+-                      NUMA_ASSOC_SIZE * sizeof(uint32_t))));
++                      get_numa_assoc_size(spapr) * sizeof(uint32_t))));
+
+This will simplify the reviewing.
+
+>  }
+> =20
+>  static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *spapr,
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 637652ad16..8a9490f0bf 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -249,7 +249,8 @@ struct SpaprMachineState {
+>      unsigned gpu_numa_id;
+>      SpaprTpmProxy *tpm_proxy;
+> =20
+> -    uint32_t numa_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE=
+];
+> +    uint32_t *FORM1_assoc_array[MAX_NODES + NVGPU_MAX_NUM];
+
+As said above, I really don't see the point in not having :
+
+    uint32_t *FORM1_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE]=
+;
+
+> +    uint32_t **numa_assoc_array;
+> =20
+>      Error *fwnmi_migration_blocker;
+>  };
+> diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
+> index 6f9f02d3de..ccf3e4eae8 100644
+> --- a/include/hw/ppc/spapr_numa.h
+> +++ b/include/hw/ppc/spapr_numa.h
+> @@ -24,6 +24,7 @@
+>   */
+>  void spapr_numa_associativity_init(SpaprMachineState *spapr,
+>                                     MachineState *machine);
+> +void spapr_numa_associativity_reset(SpaprMachineState *spapr);
+>  void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int r=
+tas);
+>  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *f=
+dt,
+>                                         int offset, int nodeid);
 
 
