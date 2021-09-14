@@ -2,91 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3181640B438
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 18:10:36 +0200 (CEST)
-Received: from localhost ([::1]:40142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF3740B44B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 18:14:51 +0200 (CEST)
+Received: from localhost ([::1]:52300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQB11-0002wT-73
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 12:10:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42140)
+	id 1mQB58-0003IK-Tl
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 12:14:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQAhj-0006Fk-AW
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:50:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39379)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1mQAjS-00019N-VU
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:52:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQAhc-0001G3-EP
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:50:39 -0400
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1mQAjQ-0002rF-OR
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:52:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631634630;
+ s=mimecast20190719; t=1631634742;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UbQHstuguLGguwNwEH9yKdw3QROFtfW0lRABjmr0LcA=;
- b=RDTRGxp1ZMnATJiZhbY3zUE1c/FA9gQ/dzxvCA+DlDfg4IcwYNlH+f4+YulaDGfRvJsjNk
- 9o5+5z3Z85OSNstJB3bWMhv2vQy235W4wSOvkZHSpjXILdYCJTvOFb+8X7kxEXDlfuQ+DF
- KVvGFO/4C6neQ2gwB64vfaB9qI3jbTQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-pZoAwBfTPKSIjLnhUZzBqg-1; Tue, 14 Sep 2021 11:50:28 -0400
-X-MC-Unique: pZoAwBfTPKSIjLnhUZzBqg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5-20020a1c00050000b02902e67111d9f0so6642655wma.4
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 08:50:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UbQHstuguLGguwNwEH9yKdw3QROFtfW0lRABjmr0LcA=;
- b=f8aACaftWptXxJa4L1ujKc7aCgi6ouGXs+ccvAeLvckS6KMFF+aUkIUhJUESb/AlaL
- puz7DiTIjjXyd95wBjtzBSJCfpm5XGZOV7caELLFPxjyOgb1PDyxntiZostpyK6isbI+
- vPAAALS5QpHt27MbQGkDXh/WoJjEehmzkGpYl7oLiWMFnHB3BVKor1N3PG2MfV015PCe
- 207xliXzye4l9bCVP0LYcypspD1Oyr1LIJQslswJv5lGlSJG9AvfLxGSub6BtTjFcTnQ
- rUo7CaU9T1bjcXixYBrpjMmIy40Xrr5LjMDLMSEUFx3yvcA1V2Y6ZyWs8zu28h1PMAC4
- ISJg==
-X-Gm-Message-State: AOAM533Xk9bdfWbH0bnk6+24eKrOXH3+l2MkKQOaUkl543ZQ16yMx1so
- RP0fy6bMYxXgd2x2uIV/1eNWLV/SsVzTPO7p+eYshHtfi8w5KfVxehXiwJq63QHkJyPyK12040t
- OLkMXqcnnCDbAli8=
-X-Received: by 2002:a7b:cf02:: with SMTP id l2mr2886725wmg.47.1631634627309;
- Tue, 14 Sep 2021 08:50:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyD0sCPyg1USChk7EQNQ+iko9oWyJoXU6WuDi15FaNJI16mOW+AVqGYriMrUPUdNLYknMn/ZA==
-X-Received: by 2002:a7b:cf02:: with SMTP id l2mr2886670wmg.47.1631634627067;
- Tue, 14 Sep 2021 08:50:27 -0700 (PDT)
-Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
- [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id p6sm1386042wmq.48.2021.09.14.08.50.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 08:50:26 -0700 (PDT)
-Subject: Re: [PATCH v2 28/53] monitor: remove 'info ioapic' HMP command
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210914142042.1655100-1-berrange@redhat.com>
- <20210914142042.1655100-29-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a8bdd82b-2784-faed-56c2-07071f0d5838@redhat.com>
-Date: Tue, 14 Sep 2021 17:50:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=ZMnmF36NpJLencIN47ewkXJeydFagF9FlbQ/WeXOPb4=;
+ b=QAcjf9AbirT4CmtTEFgzrgMTUzv+SO3hSCnop+lHUJ32a+bfIKmP0rv/WdlT25YQZ4dmCz
+ wvAxahDbgY7johDgCl1RJNq9TtZ5irj4n77+h2dh8NfueWT0mepssmpFzEcTtAL0j2nXXx
+ GikLTOU5IBWOLJlW24BdFhevG+rD2IA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-503-8L-mLjYTNSC_eRnVO5Q7LA-1; Tue, 14 Sep 2021 11:52:21 -0400
+X-MC-Unique: 8L-mLjYTNSC_eRnVO5Q7LA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CB861006AA1;
+ Tue, 14 Sep 2021 15:52:20 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.35.206.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 58CAB5D9D3;
+ Tue, 14 Sep 2021 15:52:18 +0000 (UTC)
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/3] KVM: use KVM_{GET|SET}_SREGS2 when supported.
+Date: Tue, 14 Sep 2021 18:52:12 +0300
+Message-Id: <20210914155214.105415-2-mlevitsk@redhat.com>
+In-Reply-To: <20210914155214.105415-1-mlevitsk@redhat.com>
+References: <20210914155214.105415-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210914142042.1655100-29-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.398, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.969,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,47 +73,274 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Eric Blake <eblake@redhat.com>, Marek Vasut <marex@denx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-ppc@nongnu.org,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Peter Xu <peterx@redhat.com>, Stafford Horne <shorne@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: kvm@vger.kernel.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/21 4:20 PM, Daniel P. Berrangé wrote:
-> This command was turned into a no-op four years ago in
-> 
->   commit 0c8465440d50c18a7bb13d0a866748f0593e193a
->   Author: Peter Xu <peterx@redhat.com>
->   Date:   Fri Dec 29 15:31:04 2017 +0800
-> 
->     hmp: obsolete "info ioapic"
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  hmp-commands-info.hx         | 15 ---------------
->  include/monitor/hmp-target.h |  1 -
->  target/i386/monitor.c        |  6 ------
->  3 files changed, 22 deletions(-)
+This allows to make PDPTRs part of the migration
+stream and thus not reload them after migration which
+is against X86 spec.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ accel/kvm/kvm-all.c   |   5 ++
+ include/sysemu/kvm.h  |   4 ++
+ target/i386/cpu.h     |   3 ++
+ target/i386/kvm/kvm.c | 107 +++++++++++++++++++++++++++++++++++++++++-
+ target/i386/machine.c |  30 ++++++++++++
+ 5 files changed, 147 insertions(+), 2 deletions(-)
+
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 0125c17edb..6b187e9c96 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -163,6 +163,7 @@ bool kvm_msi_via_irqfd_allowed;
+ bool kvm_gsi_routing_allowed;
+ bool kvm_gsi_direct_mapping;
+ bool kvm_allowed;
++bool kvm_sregs2;
+ bool kvm_readonly_mem_allowed;
+ bool kvm_vm_attributes_allowed;
+ bool kvm_direct_msi_allowed;
+@@ -2554,6 +2555,10 @@ static int kvm_init(MachineState *ms)
+     kvm_ioeventfd_any_length_allowed =
+         (kvm_check_extension(s, KVM_CAP_IOEVENTFD_ANY_LENGTH) > 0);
+ 
++
++    kvm_sregs2 =
++        (kvm_check_extension(s, KVM_CAP_SREGS2) > 0);
++
+     kvm_state = s;
+ 
+     ret = kvm_arch_init(ms, s);
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index a1ab1ee12d..b3d4538c55 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -32,6 +32,7 @@
+ #ifdef CONFIG_KVM_IS_POSSIBLE
+ 
+ extern bool kvm_allowed;
++extern bool kvm_sregs2;
+ extern bool kvm_kernel_irqchip;
+ extern bool kvm_split_irqchip;
+ extern bool kvm_async_interrupts_allowed;
+@@ -139,6 +140,9 @@ extern bool kvm_msi_use_devid;
+  */
+ #define kvm_gsi_direct_mapping() (kvm_gsi_direct_mapping)
+ 
++
++#define kvm_supports_sregs2() (kvm_sregs2)
++
+ /**
+  * kvm_readonly_mem_enabled:
+  *
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 71ae3141c3..9adae12426 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1436,6 +1436,9 @@ typedef struct CPUX86State {
+     SegmentCache idt; /* only base and limit are used */
+ 
+     target_ulong cr[5]; /* NOTE: cr1 is unused */
++
++    bool pdptrs_valid;
++    uint64_t pdptrs[4];
+     int32_t a20_mask;
+ 
+     BNDReg bnd_regs[4];
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 500d2e0e68..841b3b98f7 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -2587,6 +2587,61 @@ static int kvm_put_sregs(X86CPU *cpu)
+     return kvm_vcpu_ioctl(CPU(cpu), KVM_SET_SREGS, &sregs);
+ }
+ 
++static int kvm_put_sregs2(X86CPU *cpu)
++{
++    CPUX86State *env = &cpu->env;
++    struct kvm_sregs2 sregs;
++    int i;
++
++    sregs.flags = 0;
++
++    if ((env->eflags & VM_MASK)) {
++        set_v8086_seg(&sregs.cs, &env->segs[R_CS]);
++        set_v8086_seg(&sregs.ds, &env->segs[R_DS]);
++        set_v8086_seg(&sregs.es, &env->segs[R_ES]);
++        set_v8086_seg(&sregs.fs, &env->segs[R_FS]);
++        set_v8086_seg(&sregs.gs, &env->segs[R_GS]);
++        set_v8086_seg(&sregs.ss, &env->segs[R_SS]);
++    } else {
++        set_seg(&sregs.cs, &env->segs[R_CS]);
++        set_seg(&sregs.ds, &env->segs[R_DS]);
++        set_seg(&sregs.es, &env->segs[R_ES]);
++        set_seg(&sregs.fs, &env->segs[R_FS]);
++        set_seg(&sregs.gs, &env->segs[R_GS]);
++        set_seg(&sregs.ss, &env->segs[R_SS]);
++    }
++
++    set_seg(&sregs.tr, &env->tr);
++    set_seg(&sregs.ldt, &env->ldt);
++
++    sregs.idt.limit = env->idt.limit;
++    sregs.idt.base = env->idt.base;
++    memset(sregs.idt.padding, 0, sizeof sregs.idt.padding);
++    sregs.gdt.limit = env->gdt.limit;
++    sregs.gdt.base = env->gdt.base;
++    memset(sregs.gdt.padding, 0, sizeof sregs.gdt.padding);
++
++    sregs.cr0 = env->cr[0];
++    sregs.cr2 = env->cr[2];
++    sregs.cr3 = env->cr[3];
++    sregs.cr4 = env->cr[4];
++
++    sregs.cr8 = cpu_get_apic_tpr(cpu->apic_state);
++    sregs.apic_base = cpu_get_apic_base(cpu->apic_state);
++
++    sregs.efer = env->efer;
++
++    if (env->pdptrs_valid) {
++        for (i = 0; i < 4; i++) {
++            sregs.pdptrs[i] = env->pdptrs[i];
++        }
++        sregs.flags |= KVM_SREGS2_FLAGS_PDPTRS_VALID;
++    }
++
++    return kvm_vcpu_ioctl(CPU(cpu), KVM_SET_SREGS2, &sregs);
++}
++
++
+ static void kvm_msr_buf_reset(X86CPU *cpu)
+ {
+     memset(cpu->kvm_msr_buf, 0, MSR_BUF_SIZE);
+@@ -3252,6 +3307,53 @@ static int kvm_get_sregs(X86CPU *cpu)
+     return 0;
+ }
+ 
++static int kvm_get_sregs2(X86CPU *cpu)
++{
++    CPUX86State *env = &cpu->env;
++    struct kvm_sregs2 sregs;
++    int i, ret;
++
++    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_SREGS2, &sregs);
++    if (ret < 0) {
++        return ret;
++    }
++
++    get_seg(&env->segs[R_CS], &sregs.cs);
++    get_seg(&env->segs[R_DS], &sregs.ds);
++    get_seg(&env->segs[R_ES], &sregs.es);
++    get_seg(&env->segs[R_FS], &sregs.fs);
++    get_seg(&env->segs[R_GS], &sregs.gs);
++    get_seg(&env->segs[R_SS], &sregs.ss);
++
++    get_seg(&env->tr, &sregs.tr);
++    get_seg(&env->ldt, &sregs.ldt);
++
++    env->idt.limit = sregs.idt.limit;
++    env->idt.base = sregs.idt.base;
++    env->gdt.limit = sregs.gdt.limit;
++    env->gdt.base = sregs.gdt.base;
++
++    env->cr[0] = sregs.cr0;
++    env->cr[2] = sregs.cr2;
++    env->cr[3] = sregs.cr3;
++    env->cr[4] = sregs.cr4;
++
++    env->efer = sregs.efer;
++
++    env->pdptrs_valid = sregs.flags & KVM_SREGS2_FLAGS_PDPTRS_VALID;
++
++    if (env->pdptrs_valid) {
++        for (i = 0; i < 4; i++) {
++            env->pdptrs[i] = sregs.pdptrs[i];
++        }
++    }
++
++    /* changes to apic base and cr8/tpr are read back via kvm_arch_post_run */
++    x86_update_hflags(env);
++
++    return 0;
++}
++
+ static int kvm_get_msrs(X86CPU *cpu)
+ {
+     CPUX86State *env = &cpu->env;
+@@ -4077,7 +4179,8 @@ int kvm_arch_put_registers(CPUState *cpu, int level)
+     assert(cpu_is_stopped(cpu) || qemu_cpu_is_self(cpu));
+ 
+     /* must be before kvm_put_nested_state so that EFER.SVME is set */
+-    ret = kvm_put_sregs(x86_cpu);
++    ret = kvm_supports_sregs2() ? kvm_put_sregs2(x86_cpu) :
++                                  kvm_put_sregs(x86_cpu);
+     if (ret < 0) {
+         return ret;
+     }
+@@ -4182,7 +4285,7 @@ int kvm_arch_get_registers(CPUState *cs)
+     if (ret < 0) {
+         goto out;
+     }
+-    ret = kvm_get_sregs(cpu);
++    ret = kvm_supports_sregs2() ? kvm_get_sregs2(cpu) : kvm_get_sregs(cpu);
+     if (ret < 0) {
+         goto out;
+     }
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index b0943118d1..154666e7c0 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -1415,6 +1415,35 @@ static const VMStateDescription vmstate_msr_tsx_ctrl = {
+     }
+ };
+ 
++static bool pdptrs_needed(void *opaque)
++{
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
++    return env->pdptrs_valid;
++}
++
++static int pdptrs_post_load(void *opaque, int version_id)
++{
++    X86CPU *cpu = opaque;
++    CPUX86State *env = &cpu->env;
++    env->pdptrs_valid = true;
++    return 0;
++}
++
++
++static const VMStateDescription vmstate_pdptrs = {
++    .name = "cpu/pdptrs",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = pdptrs_needed,
++    .post_load = pdptrs_post_load,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64_ARRAY(env.pdptrs, X86CPU, 4),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++
+ const VMStateDescription vmstate_x86_cpu = {
+     .name = "cpu",
+     .version_id = 12,
+@@ -1551,6 +1580,7 @@ const VMStateDescription vmstate_x86_cpu = {
+         &vmstate_nested_state,
+ #endif
+         &vmstate_msr_tsx_ctrl,
++        &vmstate_pdptrs,
+         NULL
+     }
+ };
+-- 
+2.26.3
 
 
