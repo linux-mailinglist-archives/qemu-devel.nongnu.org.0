@@ -2,57 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213A740AE82
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:03:25 +0200 (CEST)
-Received: from localhost ([::1]:49414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA14040AE84
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 15:04:03 +0200 (CEST)
+Received: from localhost ([::1]:50492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ85s-0006YW-5S
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:03:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36746)
+	id 1mQ86U-0007JW-W2
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 09:04:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQ80x-00034P-Sh
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:58:22 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:36983)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mQ81o-0003se-Vj
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:59:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQ80u-0006TF-EC
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:58:19 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-hFI80A-PMmugMyDpTkhB2A-1; Tue, 14 Sep 2021 08:58:10 -0400
-X-MC-Unique: hFI80A-PMmugMyDpTkhB2A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73EA51B18BC3;
- Tue, 14 Sep 2021 12:58:09 +0000 (UTC)
-Received: from bahia.huguette (unknown [10.39.192.206])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF3F760C7F;
- Tue, 14 Sep 2021 12:58:07 +0000 (UTC)
-Date: Tue, 14 Sep 2021 14:58:04 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v6 6/6] spapr_numa.c: FORM2 NUMA affinity support
-Message-ID: <20210914145804.4c8c7ebe@bahia.huguette>
-In-Reply-To: <20210910195539.797170-7-danielhb413@gmail.com>
-References: <20210910195539.797170-1-danielhb413@gmail.com>
- <20210910195539.797170-7-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mQ81i-0006s2-Un
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 08:59:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631624343;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1J/PJYFQmR+3cQTe6eo0kU6n1bmkVKvvxRTyRAipk5k=;
+ b=Uu11rPqN3MjWLACCni7dAqN6g6C5VjlBqMZSx07SKY7nIshAd7WEjYH6NGTv1nTo7Po9qK
+ 5PoVlasEiiBzKnOS8BeC1q1Xx0EEsY33njbRc97YbvhZA7/QbQRJi2lw+gUsWoO1R7lfHd
+ AiY5s2UGI6l82XA+c0NpXYceUnF8BmM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492--O_07GZLNcC9P4n_eyz11Q-1; Tue, 14 Sep 2021 08:59:03 -0400
+X-MC-Unique: -O_07GZLNcC9P4n_eyz11Q-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k5-20020a7bc3050000b02901e081f69d80so6424477wmj.8
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 05:59:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1J/PJYFQmR+3cQTe6eo0kU6n1bmkVKvvxRTyRAipk5k=;
+ b=Y15FFb9wOhDNJ3tl1LJWxi6uFcHKwlh7yr2FqEQ9aPFUPI8jnOhZMvscCsdeSl3RdO
+ De1fDcq4VDxpSWkAq+OrjI+HygukZB47Y896hEINb6UAgv9Wei1aeKwEWx7pKkhy4DJc
+ 3DnUdIEoradd3uy0ebvUolpF1/pf/FcU7TZAgsESJrFntYC4FBuBvHp6381ueLqy4mIx
+ aIqFGT/29a+UqrK19IF17c5mhdM4T2D4stvRUtaLhVphLgVeo2fXZi0xE3E0rBrin1sR
+ xrL/l3GdToSEdfSSFCkA8J6Xt8bkGbu6n/hggDLXiIaoIvyqw/TqCCRPM0xyMbQOKCdZ
+ fgag==
+X-Gm-Message-State: AOAM530p5+BealWWB67nkEjJ+EdNFGLfTILhz0yF3Xk3ax5xoxY5Jl95
+ w8fDPbmgb2W/4Zdc78Lps865jx/ngbojN4Q45xaVBcJjsCGyErERti6CSpBN1OBDVNjQv0OLFQ9
+ +qT8yNBFet6YlMMk=
+X-Received: by 2002:a1c:f219:: with SMTP id s25mr2072621wmc.99.1631624340686; 
+ Tue, 14 Sep 2021 05:59:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxZwbnwWOB0LnDhLtiTTQ5wYYfenEi+9S+/ZEcoEBNF/uLMYSLw/P6IodQzla34kILVDkxKSA==
+X-Received: by 2002:a1c:f219:: with SMTP id s25mr2072605wmc.99.1631624340435; 
+ Tue, 14 Sep 2021 05:59:00 -0700 (PDT)
+Received: from localhost ([185.140.112.229])
+ by smtp.gmail.com with ESMTPSA id c2sm10403816wrs.60.2021.09.14.05.58.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Sep 2021 05:58:59 -0700 (PDT)
+Date: Tue, 14 Sep 2021 14:58:58 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH 3/3] bios-tables-test: Update ACPI DSDT table golden
+ blobs for q35
+Message-ID: <20210914145858.7c8dbb3c@redhat.com>
+In-Reply-To: <20210914045410.3380946-4-ani@anisinha.ca>
+References: <20210914045410.3380946-1-ani@anisinha.ca>
+ <20210914045410.3380946-4-ani@anisinha.ca>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,351 +97,300 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: jusual@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org, "Michael S.
+ Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 Sep 2021 16:55:39 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+On Tue, 14 Sep 2021 10:24:10 +0530
+Ani Sinha <ani@anisinha.ca> wrote:
 
-> The main feature of FORM2 affinity support is the separation of NUMA
-> distances from ibm,associativity information. This allows for a more
-> flexible and straightforward NUMA distance assignment without relying on
-> complex associations between several levels of NUMA via
-> ibm,associativity matches. Another feature is its extensibility. This bas=
-e
-> support contains the facilities for NUMA distance assignment, but in the
-> future more facilities will be added for latency, performance, bandwidth
-> and so on.
->=20
-> This patch implements the base FORM2 affinity support as follows:
->=20
-> - the use of FORM2 associativity is indicated by using bit 2 of byte 5
-> of ibm,architecture-vec-5. A FORM2 aware guest can choose to use FORM1
-> or FORM2 affinity. Setting both forms will default to FORM2. We're not
-> advertising FORM2 for pseries-6.1 and older machine versions to prevent
-> guest visible changes in those;
->=20
-> - ibm,associativity-reference-points has a new semantic. Instead of
-> being used to calculate distances via NUMA levels, it's now used to
-> indicate the primary domain index in the ibm,associativity domain of
-> each resource. In our case it's set to {0x4}, matching the position
-> where we already place logical_domain_id;
->=20
-> - two new RTAS DT artifacts are introduced: ibm,numa-lookup-index-table
-> and ibm,numa-distance-table. The index table is used to list all the
-> NUMA logical domains of the platform, in ascending order, and allows for
-> spartial NUMA configurations (although QEMU ATM doesn't support that).
-> ibm,numa-distance-table is an array that contains all the distances from
-> the first NUMA node to all other nodes, then the second NUMA node
-> distances to all other nodes and so on;
->=20
-> - get_max_dist_ref_points() and get_numa_assoc_size() now checks for
-> OV5_FORM2_AFFINITY and returns FORM2 values if the guest selected FORM2
-> affinity during CAS.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> We have modified the IO address range for ACPI pci hotplug in q35. See change:
+> 
+> 36f98d0d4f ("hw/i386/acpi: fix conflicting IO address range for acpi pci hotplug in q35")
+> 
+> The ACPI DSDT table golden blobs must be regenrated in order to make the unit tests
+> pass. This change updates the golden ACPI DSDT table blobs.
+> 
+> Following is the ASL diff between the blobs:
+> 
+> @@ -1,30 +1,30 @@
+>  /*
+>   * Intel ACPI Component Architecture
+>   * AML/ASL+ Disassembler version 20190509 (64-bit version)
+>   * Copyright (c) 2000 - 2019 Intel Corporation
+>   *
+>   * Disassembling to symbolic ASL+ operators
+>   *
+> - * Disassembly of tests/data/acpi/q35/DSDT, Tue Sep 14 09:04:06 2021
+> + * Disassembly of /tmp/aml-52DP90, Tue Sep 14 09:04:06 2021
+>   *
+>   * Original Table Header:
+>   *     Signature        "DSDT"
+>   *     Length           0x00002061 (8289)
+>   *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
+> - *     Checksum         0xE5
+> + *     Checksum         0xF9
+>   *     OEM ID           "BOCHS "
+>   *     OEM Table ID     "BXPC    "
+>   *     OEM Revision     0x00000001 (1)
+>   *     Compiler ID      "BXPC"
+>   *     Compiler Version 0x00000001 (1)
+>   */
+>  DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
+>  {
+>      Scope (\)
+>      {
+>          OperationRegion (DBG, SystemIO, 0x0402, One)
+>          Field (DBG, ByteAcc, NoLock, Preserve)
+>          {
+>              DBGB,   8
+>          }
+> 
+> @@ -226,46 +226,46 @@
+>              Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+>              {
+>                  IO (Decode16,
+>                      0x0070,             // Range Minimum
+>                      0x0070,             // Range Maximum
+>                      0x01,               // Alignment
+>                      0x08,               // Length
+>                      )
+>                  IRQNoFlags ()
+>                      {8}
+>              })
+>          }
+>      }
+> 
+>      Scope (_SB.PCI0)
+>      {
+> -        OperationRegion (PCST, SystemIO, 0x0CC4, 0x08)
+> +        OperationRegion (PCST, SystemIO, 0x0CC0, 0x08)
+>          Field (PCST, DWordAcc, NoLock, WriteAsZeros)
+>          {
+>              PCIU,   32,
+>              PCID,   32
+>          }
+> 
+> -        OperationRegion (SEJ, SystemIO, 0x0CCC, 0x04)
+> +        OperationRegion (SEJ, SystemIO, 0x0CC8, 0x04)
+>          Field (SEJ, DWordAcc, NoLock, WriteAsZeros)
+>          {
+>              B0EJ,   32
+>          }
+> 
+> -        OperationRegion (BNMR, SystemIO, 0x0CD4, 0x08)
+> +        OperationRegion (BNMR, SystemIO, 0x0CD0, 0x08)
+>          Field (BNMR, DWordAcc, NoLock, WriteAsZeros)
+>          {
+>              BNUM,   32,
+>              PIDX,   32
+>          }
+> 
+>          Mutex (BLCK, 0x00)
+>          Method (PCEJ, 2, NotSerialized)
+>          {
+>              Acquire (BLCK, 0xFFFF)
+>              BNUM = Arg0
+>              B0EJ = (One << Arg1)
+>              Release (BLCK)
+>              Return (Zero)
+>          }
+> 
+> @@ -3185,34 +3185,34 @@
+>                      0x0620,             // Range Minimum
+>                      0x0620,             // Range Maximum
+>                      0x01,               // Alignment
+>                      0x10,               // Length
+>                      )
+>              })
+>          }
+> 
+>          Device (PHPR)
+>          {
+>              Name (_HID, "PNP0A06" /* Generic Container Device */)  // _HID: Hardware ID
+>              Name (_UID, "PCI Hotplug resources")  // _UID: Unique ID
+>              Name (_STA, 0x0B)  // _STA: Status
+>              Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+>              {
+>                  IO (Decode16,
+> -                    0x0CC4,             // Range Minimum
+> -                    0x0CC4,             // Range Maximum
+> +                    0x0CC0,             // Range Minimum
+> +                    0x0CC0,             // Range Maximum
+>                      0x01,               // Alignment
+>                      0x18,               // Length
+>                      )
+>              })
+>          }
+>      }
+> 
+>      Scope (\)
+>      {
+>          Name (_S3, Package (0x04)  // _S3_: S3 System State
+>          {
+>              One,
+>              One,
+>              Zero,
+>              Zero
+>          })
+> 
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+
+Acked-by: Igor Mammedov <imammedo@redhat.com>
+
 > ---
->  hw/ppc/spapr.c              |   8 ++
->  hw/ppc/spapr_numa.c         | 151 +++++++++++++++++++++++++++++++++++-
->  include/hw/ppc/spapr.h      |   2 +
->  include/hw/ppc/spapr_ovec.h |   1 +
->  4 files changed, 159 insertions(+), 3 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 0703a26093..23aba5ae2d 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -2766,6 +2766,11 @@ static void spapr_machine_init(MachineState *machi=
-ne)
-> =20
->      spapr_ovec_set(spapr->ov5, OV5_FORM1_AFFINITY);
-> =20
-> +    /* Do not advertise FORM2 NUMA support for pseries-6.1 and older */
-> +    if (!smc->pre_6_2_numa_affinity) {
-> +        spapr_ovec_set(spapr->ov5, OV5_FORM2_AFFINITY);
-> +    }
-> +
->      /* advertise support for dedicated HP event source to guests */
->      if (spapr->use_hotplug_event_source) {
->          spapr_ovec_set(spapr->ov5, OV5_HP_EVT);
-> @@ -4681,8 +4686,11 @@ DEFINE_SPAPR_MACHINE(6_2, "6.2", true);
->   */
->  static void spapr_machine_6_1_class_options(MachineClass *mc)
->  {
-> +    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
-> +
->      spapr_machine_6_2_class_options(mc);
->      compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len)=
-;
-> +    smc->pre_6_2_numa_affinity =3D true;
->  }
-> =20
->  DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
-> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index 0ade63c2d3..dd52b8921c 100644
-> --- a/hw/ppc/spapr_numa.c
-> +++ b/hw/ppc/spapr_numa.c
-> @@ -31,12 +31,22 @@
->  #define FORM1_DIST_REF_POINTS            4
->  #define FORM1_NUMA_ASSOC_SIZE            (FORM1_DIST_REF_POINTS + 1)
-> =20
-> +/*
-> + * FORM2 NUMA affinity has a single associativity domain, giving
-> + * us a assoc size of 2.
-> + */
-> +#define FORM2_DIST_REF_POINTS            1
-> +#define FORM2_NUMA_ASSOC_SIZE            (FORM2_DIST_REF_POINTS + 1)
-> +
->  /*
->   * Retrieves max_dist_ref_points of the current NUMA affinity.
->   */
->  static int get_max_dist_ref_points(SpaprMachineState *spapr)
->  {
-> -    /* No FORM2 affinity implemented yet */
-> +    if (spapr_ovec_test(spapr->ov5_cas, OV5_FORM2_AFFINITY)) {
-> +        return FORM2_DIST_REF_POINTS;
-> +    }
-> +
->      return FORM1_DIST_REF_POINTS;
->  }
-> =20
-> @@ -45,7 +55,10 @@ static int get_max_dist_ref_points(SpaprMachineState *=
-spapr)
->   */
->  static int get_numa_assoc_size(SpaprMachineState *spapr)
->  {
-> -    /* No FORM2 affinity implemented yet */
-> +    if (spapr_ovec_test(spapr->ov5_cas, OV5_FORM2_AFFINITY)) {
-> +        return FORM2_NUMA_ASSOC_SIZE;
-> +    }
-> +
->      return FORM1_NUMA_ASSOC_SIZE;
->  }
-> =20
-> @@ -305,10 +318,39 @@ static void spapr_numa_FORM1_affinity_init(SpaprMac=
-hineState *spapr,
->      spapr_numa_define_FORM1_domains(spapr);
->  }
-> =20
-> +/*
-> + * Init NUMA FORM2 machine state data
-> + */
-> +static void spapr_numa_FORM2_affinity_init(SpaprMachineState *spapr)
-> +{
-> +    int i;
-> +
-> +    /*
-> +     * For all resources but CPUs, FORM2 associativity arrays will
-> +     * be a size 2 array with the following format:
-> +     *
-> +     * ibm,associativity =3D {1, numa_id}
-> +     *
-> +     * CPUs will write an additional 'vcpu_id' on top of the arrays
-> +     * being initialized here. 'numa_id' is represented by the
-> +     * index 'i' of the loop.
-> +     *
-> +     * Given that this initialization is also valid for GPU associativit=
-y
-> +     * arrays, handle everything in one single step by populating the
-> +     * arrays up to NUMA_NODES_MAX_NUM.
-> +     */
-> +    for (i =3D 0; i < NUMA_NODES_MAX_NUM; i++) {
-> +        spapr->FORM2_assoc_array[i] =3D g_new0(uint32_t, 2);
-
-Same remark as with FORM1 for dynamic allocation.
-
-> +        spapr->FORM2_assoc_array[i][0] =3D cpu_to_be32(1);
-> +        spapr->FORM2_assoc_array[i][1] =3D cpu_to_be32(i);
-> +    }
-> +}
-> +
->  void spapr_numa_associativity_init(SpaprMachineState *spapr,
->                                     MachineState *machine)
->  {
->      spapr_numa_FORM1_affinity_init(spapr, machine);
-> +    spapr_numa_FORM2_affinity_init(spapr);
-> =20
->      /*
->       * Default to FORM1 affinity until CAS. We'll call affinity_reset()
-> @@ -326,7 +368,11 @@ void spapr_numa_associativity_init(SpaprMachineState=
- *spapr,
->  void spapr_numa_associativity_reset(SpaprMachineState *spapr,
->                                      bool post_CAS_check)
->  {
-> -    /* No FORM2 affinity implemented yet */
-> +    if (spapr_ovec_test(spapr->ov5_cas, OV5_FORM2_AFFINITY)) {
-> +        spapr->numa_assoc_array =3D spapr->FORM2_assoc_array;
-> +        return;
-> +    }
-> +
->      spapr->numa_assoc_array =3D spapr->FORM1_assoc_array;
-> =20
->      if (post_CAS_check) {
-> @@ -471,6 +517,100 @@ static void spapr_numa_FORM1_write_rtas_dt(SpaprMac=
-hineState *spapr,
->                       maxdomains, sizeof(maxdomains)));
->  }
-> =20
-> +static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
-> +                                               void *fdt, int rtas)
-> +{
-> +    MachineState *ms =3D MACHINE(spapr);
-> +    NodeInfo *numa_info =3D ms->numa_state->nodes;
-> +    int nb_numa_nodes =3D ms->numa_state->num_nodes;
-> +    int distance_table_entries =3D nb_numa_nodes * nb_numa_nodes;
-> +    g_autofree uint32_t *lookup_index_table =3D NULL;
-> +    g_autofree uint32_t *distance_table =3D NULL;
-> +    int src, dst, i, distance_table_size;
-> +    uint8_t *node_distances;
-> +
-> +    /*
-> +     * ibm,numa-lookup-index-table: array with length and a
-> +     * list of NUMA ids present in the guest.
-> +     */
-> +    lookup_index_table =3D g_new0(uint32_t, nb_numa_nodes + 1);
-> +    lookup_index_table[0] =3D cpu_to_be32(nb_numa_nodes);
-> +
-> +    for (i =3D 0; i < nb_numa_nodes; i++) {
-> +        lookup_index_table[i + 1] =3D cpu_to_be32(i);
-> +    }
-> +
-> +    _FDT(fdt_setprop(fdt, rtas, "ibm,numa-lookup-index-table",
-> +                     lookup_index_table,
-> +                     (nb_numa_nodes + 1) * sizeof(uint32_t)));
-> +
-> +    /*
-> +     * ibm,numa-distance-table: contains all node distances. First
-> +     * element is the size of the table as uint32, followed up
-> +     * by all the uint8 distances from the first NUMA node, then all
-> +     * distances from the second NUMA node and so on.
-> +     *
-> +     * ibm,numa-lookup-index-table is used by guest to navigate this
-> +     * array because NUMA ids can be sparse (node 0 is the first,
-> +     * node 8 is the second ...).
-> +     */
-> +    distance_table =3D g_new0(uint32_t, distance_table_entries + 1);
-> +    distance_table[0] =3D cpu_to_be32(distance_table_entries);
-> +
-> +    node_distances =3D (uint8_t *)&distance_table[1];
-> +    i =3D 0;
-> +
-> +    for (src =3D 0; src < nb_numa_nodes; src++) {
-> +        for (dst =3D 0; dst < nb_numa_nodes; dst++) {
-> +            node_distances[i++] =3D numa_info[src].distance[dst];
-> +        }
-> +    }
-> +
-> +    distance_table_size =3D distance_table_entries * sizeof(uint8_t) +
-> +                          sizeof(uint32_t);
-> +    _FDT(fdt_setprop(fdt, rtas, "ibm,numa-distance-table",
-> +                     distance_table, distance_table_size));
-> +}
-> +
-> +/*
-> + * This helper could be compressed in a single function with
-> + * FORM1 logic since we're setting the same DT values, with the
-> + * difference being a call to spapr_numa_FORM2_write_rtas_tables()
-> + * in the end. The separation was made to avoid clogging FORM1 code
-> + * which already has to deal with compat modes from previous
-> + * QEMU machine types.
-> + */
-
-Well... indeed both functions populate the same properties in the DT,
-but that's about the only common thing between FORM1 and FORM2. The
-contents are different and so are the ways they are computed. This
-load of differences is the motivation to have distinct implementations.
-
-Not sure it is worth adding a comment that basically says "we could
-have come up with a works-for-all clogged helper but we decided to
-go for separate and easier code paths". This is clearly visible with
-the resulting code.
-
-Also to make this even more obvious you could open-code
-spapr_numa_FORM2_write_rtas_tables() in spapr_numa_FORM2_write_rtas_dt()
-since it is its only user.
-
-> +static void spapr_numa_FORM2_write_rtas_dt(SpaprMachineState *spapr,
-> +                                           void *fdt, int rtas)
-> +{
-> +    MachineState *ms =3D MACHINE(spapr);
-> +    uint32_t number_nvgpus_nodes =3D spapr->gpu_numa_id -
-> +                                   spapr_numa_initial_nvgpu_numa_id(ms);
-> +
-> +    /*
-> +     * In FORM2, ibm,associativity-reference-points will point to
-> +     * the element in the ibm,associativity array that contains the
-> +     * primary domain index (for FORM2, the first element).
-> +     *
-> +     * This value (in our case, the numa-id) is then used as an index
-> +     * to retrieve all other attributes of the node (distance,
-> +     * bandwidth, latency) via ibm,numa-lookup-index-table and other
-> +     * ibm,numa-*-table properties.
-> +     */
-> +    uint32_t refpoints[] =3D { cpu_to_be32(1) };
-> +
-> +    uint32_t maxdomain =3D ms->numa_state->num_nodes + number_nvgpus_nod=
-es;
-> +    uint32_t maxdomains[] =3D { cpu_to_be32(1), cpu_to_be32(maxdomain) }=
-;
-> +
-> +    _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
-> +                     refpoints, sizeof(refpoints)));
-> +
-> +    _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
-> +                     maxdomains, sizeof(maxdomains)));
-> +
-> +    spapr_numa_FORM2_write_rtas_tables(spapr, fdt, rtas);
-> +}
-> +
->  /*
->   * Helper that writes ibm,associativity-reference-points and
->   * max-associativity-domains in the RTAS pointed by @rtas
-> @@ -478,6 +618,11 @@ static void spapr_numa_FORM1_write_rtas_dt(SpaprMach=
-ineState *spapr,
->   */
->  void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int r=
-tas)
->  {
-> +    if (spapr_ovec_test(spapr->ov5_cas, OV5_FORM2_AFFINITY)) {
-> +        spapr_numa_FORM2_write_rtas_dt(spapr, fdt, rtas);
-> +        return;
-> +    }
-> +
->      spapr_numa_FORM1_write_rtas_dt(spapr, fdt, rtas);
->  }
-> =20
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 2554928250..2a4502b65d 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -133,6 +133,7 @@ struct SpaprMachineClass {
->      hwaddr rma_limit;          /* clamp the RMA to this size */
->      bool pre_5_1_assoc_refpoints;
->      bool pre_5_2_numa_associativity;
-> +    bool pre_6_2_numa_affinity;
-> =20
->      bool (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
->                            uint64_t *buid, hwaddr *pio,
-> @@ -238,6 +239,7 @@ struct SpaprMachineState {
->      SpaprTpmProxy *tpm_proxy;
-> =20
->      uint32_t *FORM1_assoc_array[NUMA_NODES_MAX_NUM];
-> +    uint32_t *FORM2_assoc_array[NUMA_NODES_MAX_NUM];
->      uint32_t **numa_assoc_array;
-> =20
->      Error *fwnmi_migration_blocker;
-> diff --git a/include/hw/ppc/spapr_ovec.h b/include/hw/ppc/spapr_ovec.h
-> index 48b716a060..c3e8b98e7e 100644
-> --- a/include/hw/ppc/spapr_ovec.h
-> +++ b/include/hw/ppc/spapr_ovec.h
-> @@ -49,6 +49,7 @@ typedef struct SpaprOptionVector SpaprOptionVector;
->  /* option vector 5 */
->  #define OV5_DRCONF_MEMORY       OV_BIT(2, 2)
->  #define OV5_FORM1_AFFINITY      OV_BIT(5, 0)
-> +#define OV5_FORM2_AFFINITY      OV_BIT(5, 2)
->  #define OV5_HP_EVT              OV_BIT(6, 5)
->  #define OV5_HPT_RESIZE          OV_BIT(6, 7)
->  #define OV5_DRMEM_V2            OV_BIT(22, 0)
+>  tests/data/acpi/q35/DSDT                    | Bin 8289 -> 8289 bytes
+>  tests/data/acpi/q35/DSDT.acpihmat           | Bin 9614 -> 9614 bytes
+>  tests/data/acpi/q35/DSDT.bridge             | Bin 11003 -> 11003 bytes
+>  tests/data/acpi/q35/DSDT.cphp               | Bin 8753 -> 8753 bytes
+>  tests/data/acpi/q35/DSDT.dimmpxm            | Bin 9943 -> 9943 bytes
+>  tests/data/acpi/q35/DSDT.ipmibt             | Bin 8364 -> 8364 bytes
+>  tests/data/acpi/q35/DSDT.memhp              | Bin 9648 -> 9648 bytes
+>  tests/data/acpi/q35/DSDT.mmio64             | Bin 9419 -> 9419 bytes
+>  tests/data/acpi/q35/DSDT.nohpet             | Bin 8147 -> 8147 bytes
+>  tests/data/acpi/q35/DSDT.numamem            | Bin 8295 -> 8295 bytes
+>  tests/data/acpi/q35/DSDT.tis                | Bin 8894 -> 8894 bytes
+>  tests/qtest/bios-tables-test-allowed-diff.h |  11 -----------
+>  12 files changed, 11 deletions(-)
+> 
+> diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
+> index 842533f53e6db40935c3cdecd1d182edba6c17d4..281fc82c03b2562d2e6b7caec0d817b034a47138 100644
+> GIT binary patch
+> delta 65
+> zcmaFp@X&$FCD<h-QGtPh@#jV^erCo4lckttrB3j0u|zj=2fKR3J3AS;dMQLVIQjVo
+> VF>+tn9LO9j!+e0}z~trfy8v~b6W9O%  
+> 
+> delta 65
+> zcmaFp@X&$FCD<h-QGtPh@##h`erCoalckttrOxnhu|zj=2fKR3J3AS;dMQLVIQjVo
+> VF>+to9LO9j!+eD2$mHeny8v@q6W9O%  
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
+> index 8d00f2ea0dd78f962e136273d68cb0c568e43c27..8c1e05a11a328ec1cc6f86e36e52c28f41f9744e 100644
+> GIT binary patch
+> delta 65
+> zcmeD4?(^ny33dtTQ)OUa+_sU6pPBK%WGQA@sS`Y0EYXeJ!LDBM&Q1odUJB6-PJX^Y
+> VjNBJC2QoJ(G9TbMF!_qgE&x%Q6Po}4
+> 
+> delta 65
+> zcmeD4?(^ny33dtTQ)OUaT(pskpPBK<WGQA@sWUuWEYXeJ!LDBM&Q1odUJB6-PJX^Y
+> VjNDf?2QoJ(G9TeNGWm+iE&xwf6Po}4
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
+> index 55ad4bd7ab4759d68031b2f1d0307355a7332fe7..6f1464b6c712d7f33cb4b891b7ce76fe228f44c9 100644
+> GIT binary patch
+> delta 66
+> zcmewz`a6`%CD<k8w-y5fBlAWserCo4lckttrB3j0u|zj=2fKR3J3AS;dMQLVIQjVo
+> WF>+tn9LO9j!+e0}z~<%hA>06yixa5;  
+> 
+> delta 66
+> zcmewz`a6`%CD<k8w-y5f<NJ+V{LG9;CQC8PN}b{1Vu^0#4tDj5cXl#x^-_p#aPspF
+> WV&uNEIgmM6hWQB3k<H8HL%0FOM--_5
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.cphp b/tests/data/acpi/q35/DSDT.cphp
+> index ccde2add9f87db0c0eaf0cc155717d5744e4ef40..f8337ff5191a37a47dcf7c09a6c39c4e704a15bf 100644
+> GIT binary patch
+> delta 65
+> zcmdn!veAXhCD<jzP>F$oF?J&tKQrTj$x_U+QYU!0SfU%bgI&Giot+F^y%eGwocw%)
+> V7`ZQO4rErAV?MxhU~;+QE&wzZ5?TNN
+> 
+> delta 65
+> zcmdn!veAXhCD<jzP>F$o(Q_jgKQrTz$x_U+QfGL$SfU%bgI&Giot+F^y%eGwocw%)
+> V7`d-(4rErAV?M%jWOBLUE&wso5?TNN
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.dimmpxm b/tests/data/acpi/q35/DSDT.dimmpxm
+> index b062e30117f955c7a2ac9629a0512324bbd28bf2..fe5820d93d057ef09a001662369b15afbc5b87e2 100644
+> GIT binary patch
+> delta 65
+> zcmccad)=4ICD<k8x*7umqx(iKerCo4lckttrB3j0u|zj=2fKR3J3AS;dMQLVIQjVo
+> VF>+tn9LRi9iTMD}fyuIJy8v<O6QKYA  
+> 
+> delta 65
+> zcmccad)=4ICD<k8x*7umqwz*AerCoalckttrOxnhu|zj=2fKR3J3AS;dMQLVIQjVo
+> VF>+to9LRi9iTMc6k;$@Zy8v&d6QKYA  
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.ipmibt b/tests/data/acpi/q35/DSDT.ipmibt
+> index 1c5737692f56fc678e685a4ad0bb1df38d487a14..631741065860fd5036aa303904dabd1d2839f9c6 100644
+> GIT binary patch
+> delta 89
+> zcmZ4ExW<voCD<iojRFG$qwYqoC}xWTJX{>njRFDA!6D88&YqzPK*B{Kx*^!rE1r@2
+> p1P>QWbR##2<LqSM>IIZ=^79R1<i4<Z4s);!^8ua%lRwGt0sv3%8ejkb  
+> 
+> delta 89
+> zcmZ4ExW<voCD<iojRFG$qvS@eC}xWzJX{>njRFDA!6D88&YqzPK*B{Kx*^!rE1r@2
+> p3=bDebR##2<LqSM>IIZ=^79R1<i4_b4s);!^AVmSlRwGt0su@a8ejkb
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.memhp b/tests/data/acpi/q35/DSDT.memhp
+> index 7b6f6487b229cac3424a5215c8f1755c0c85310c..9bc11518fc57687ca789dc70793b48b29a0d74ed 100644
+> GIT binary patch
+> delta 65
+> zcmV-H0KWgQOR!4{L{mgmuq6Nh0qd~}4+8<flNtjZ8psR^1Y3a%Q$<Q&Lqae`N+4T+
+> XLQYLm0SnNxQ3IkO1HcTxllCOKc2g93
+> 
+> delta 65
+> zcmV-H0KWgQOR!4{L{mgmuq6Nh0oSn#4+8<jlNtjZ8q5p|1Y3a%Q$<Q&Lqae`N+4T+
+> XLQYLm0SnZ#Q3IkO1H=r(llCOKbPp7I
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.mmio64 b/tests/data/acpi/q35/DSDT.mmio64
+> index 2e0a772a85275c9c3b4c9317d98cc7c3d27417f3..713288a12ef2b70a20b4e8836c036ba4db3a57a8 100644
+> GIT binary patch
+> delta 64
+> zcmV-G0KfmsNy|wJL{mgm%On5*0jIGF4+8<flNtjZ8psR^1Y3a%Q$<Q&Lqae`N+4T+
+> WLQYLm0SnNxQ3I?X1HcTxk|fJz%oC*m
+> 
+> delta 64
+> zcmV-G0KfmsNy|wJL{mgm%On5*0h6%`4+8<jlNtjZ8q5p|1Y3a%Q$<Q&Lqae`N+4T+
+> WLQYLm0SnZ#Q3I?X1H=r(k|fJxh!dp%
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.nohpet b/tests/data/acpi/q35/DSDT.nohpet
+> index ceb61f4115c2ccf4bcbb0d529551236933ecee15..e8202e6ddfbe96071f32f1ec05758f650569943e 100644
+> GIT binary patch
+> delta 65
+> zcmV-H0KWgzKhr-7L{mgm(;ol;0mHEhfdT=*lZ*l#8psR^1Y3a%Q$<Q&Lqae`N+4T+
+> XLQYLm0SnNx!va$r1HcTxlNlenr{@&9
+> 
+> delta 65
+> zcmV-H0KWgzKhr-7L{mgm(;ol;0k5$NfdT=<lZ*l#8q5p|1Y3a%Q$<Q&Lqae`N+4T+
+> XLQYLm0SnZ#!va$r1H=r(lNlenrK1$O
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.numamem b/tests/data/acpi/q35/DSDT.numamem
+> index a3f846df541a70ce0730d0351954b78818bbcdd0..151e7cf42953f3f5fe61ff0140ab7b976fe9e5b8 100644
+> GIT binary patch
+> delta 65
+> zcmaFv@Z5pRCD<h-U4emtaq&hjerCo4lckttrB3j0u|zj=2fKR3J3AS;dMQLVIQjVo
+> VF>+tn9LO9g!+e0}z~r^^y8vk#6QBS9  
+> 
+> delta 65
+> zcmaFv@Z5pRCD<h-U4emtv40~MKQrTz$x_U+QfGL$SfU%bgI&Giot+F^y%eGwocw%)
+> V7`d-(4rGp$VLrlhWb#`1T>xg*6QBS9
+> 
+> diff --git a/tests/data/acpi/q35/DSDT.tis b/tests/data/acpi/q35/DSDT.tis
+> index d1433e3c14570bbd17b029a9aec6bc53134c3b7d..c92d4d29c79352a60974ea9f665d0b9a410a4bac 100644
+> GIT binary patch
+> delta 66
+> zcmdnzy3du%CD<iopArKD<HL<y{LG98CQC8PN}b^0Vu^0#4tDj5cXl#x^-_p#aPspF
+> WV&uNCIgmMChWP-`fz6xcxtRfqZWC_+
+> 
+> delta 66
+> zcmdnzy3du%CD<iopArKD<JpZ|{LG9;CQC8PN}b{1Vu^0#4tDj5cXl#x^-_p#aPspF
+> WV&uNEIgmMChWQB3k<FXsxtRfoDid!2
+> 
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> index a02b88305c..dfb8523c8b 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1,12 +1 @@
+>  /* List of comma-separated changed AML files to ignore */
+> -"tests/data/acpi/q35/DSDT",
+> -"tests/data/acpi/q35/DSDT.tis",
+> -"tests/data/acpi/q35/DSDT.bridge",
+> -"tests/data/acpi/q35/DSDT.mmio64",
+> -"tests/data/acpi/q35/DSDT.ipmibt",
+> -"tests/data/acpi/q35/DSDT.cphp",
+> -"tests/data/acpi/q35/DSDT.memhp",
+> -"tests/data/acpi/q35/DSDT.numamem",
+> -"tests/data/acpi/q35/DSDT.nohpet",
+> -"tests/data/acpi/q35/DSDT.dimmpxm",
+> -"tests/data/acpi/q35/DSDT.acpihmat",
 
 
