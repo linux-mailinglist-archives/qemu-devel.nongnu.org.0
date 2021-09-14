@@ -2,84 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B6940B3CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 17:55:24 +0200 (CEST)
-Received: from localhost ([::1]:60284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F53D40B3FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 17:59:27 +0200 (CEST)
+Received: from localhost ([::1]:42798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQAmI-0003PY-RM
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 11:55:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32780)
+	id 1mQAqE-0002KY-38
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 11:59:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQAH0-0006YV-9E
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:23:02 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:39843)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQAGx-00038g-Gg
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:23:01 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- c13-20020a17090a558d00b00198e6497a4fso2414916pji.4
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 08:22:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=pkgjLpitsHJMhDXArCswox8AfpKZOBwtH5nrcktpw6M=;
- b=qx/iztLHMvW9e5Y9fsukYzn5C1B1MhPA1Ru0PaPQULOXhEvi3MCGWo4suLtwss9HO0
- Elt3c5W8VCn0K71hZrvijlaU8QUIiehws6V8ibAqUnBsqwQBQRGaPWLkJKZCwwyHPw3f
- TjSJffDcPvEVLFJ9VcjhvlwFbRelnC7om8TY9d5CeQhB0eCJeIJgoFA6cc+EdHszjYDL
- KScT/tJmn83Np8dG9spSDjzmQI39fJibpuP4j6LSQ+t1rRIK+5c1o1v9vDaiwFW0p7t9
- 0ac6EWNqjDOyopHxC3BqOq2No+SLXY8XyLYATnmNsCenSDEm25MRPVZLgjW9sdw9vpfe
- W9zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pkgjLpitsHJMhDXArCswox8AfpKZOBwtH5nrcktpw6M=;
- b=lehHcj4mwqzt7QGAptiHM+N7N6WCYZHovInoslnOtNxi7nKY09rjZd2350yfoMN20M
- I3nw54eF5MmonCs57QEwTwatwe1qovXfwguEKOwtSiD2kV+1jvNWfc+caAWIMbHzKM/I
- 00ly2O64puwuZGkMwtnyIcM453fGlNP0mbMVUvhwTabznGCCymgedmaBJ4WFKXDcjgOL
- Vdb+hguQL3y1vYV+wccTWHItjM7VMrRyXyE4Yw3Ay5+6fkR0wjzum6qDX48RvLZkcUNE
- GYfK8wgddfkoMBgg/npxEoJhnlja7gLXfNQ+0s5W1mXcBDy8aOnqS2nv00f81VN2Vu4f
- wwNw==
-X-Gm-Message-State: AOAM532+/re8k4BpdeJPhV3mPF0MwIw6j7QcbwzLzkSR8iuLu0PNIiue
- JHXY3N7tkkuwAdOhYDFRJyK24g==
-X-Google-Smtp-Source: ABdhPJxILJALrmpPUm6uy8TAXUqh0RbS92lb03ZDl+U3ULkA18Kbbyyit9P072O837nzi9I91UKK8w==
-X-Received: by 2002:a17:902:6e02:b0:137:b47e:d779 with SMTP id
- u2-20020a1709026e0200b00137b47ed779mr15447944plk.50.1631632977764; 
- Tue, 14 Sep 2021 08:22:57 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id f6sm2090403pjo.0.2021.09.14.08.22.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 08:22:57 -0700 (PDT)
-Subject: Re: [PULL 14/14] hw/arm/aspeed: Add Fuji machine type
-To: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>
-References: <20210913161304.3805652-1-clg@kaod.org>
- <20210913161304.3805652-15-clg@kaod.org>
- <88c26520-6b87-e7a2-ac78-c1c92477c814@kaod.org>
- <BBC4A4E0-651C-41DB-81DE-1F6D86AABAB1@fb.com>
- <CACPK8Xdey9_x-ZN1JbgFyTrW59EapH4xcqYbyNQxyQ5t0uWPvw@mail.gmail.com>
- <CAFEAcA8ntPE3GkTNU8bSBhCWzk_jdH4QR1kDgwo6deQ+T1iOKw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1949e204-1bce-f15b-553b-1b42b41e3e08@linaro.org>
-Date: Tue, 14 Sep 2021 08:22:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1mQAjR-00017c-FL
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:52:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49946)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1mQAjQ-0002p0-0U
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 11:52:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631634740;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rsc7F78hfpb2cAPyQAe2qVvV2kE4WtG8AgRwBpIg1Ek=;
+ b=gN3+S48OYs2B9Q64FHWV5HU+BEOagPrJP60go8TaCcNYAMcNoVL0rl8icO21WVXCUBaivi
+ /pLaMnosooKXEto8+fXP73cOt1GVLnci2jzlZegzSHgdxd+/VMY29NV9I6kwaUTjXGw6Tl
+ /7BS7VWQWo5zPgvAHUfHvOHpJmTZFV8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-123-HMinhiJtNM6AW3I-2Hl-Pw-1; Tue, 14 Sep 2021 11:52:19 -0400
+X-MC-Unique: HMinhiJtNM6AW3I-2Hl-Pw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC6A1835DEA;
+ Tue, 14 Sep 2021 15:52:17 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.35.206.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 141875D9D3;
+ Tue, 14 Sep 2021 15:52:15 +0000 (UTC)
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] KVM: qemu patches for few KVM features I developed
+Date: Tue, 14 Sep 2021 18:52:11 +0300
+Message-Id: <20210914155214.105415-1-mlevitsk@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8ntPE3GkTNU8bSBhCWzk_jdH4QR1kDgwo6deQ+T1iOKw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.969,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,33 +71,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Peter Delevoryas <pdel@fb.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goate?= =?UTF-8?Q?r?= <clg@kaod.org>
+Cc: kvm@vger.kernel.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/21 5:26 AM, Peter Maydell wrote:
-> (2) RAM blocks should have a length that fits inside a
->      signed 32-bit type on 32-bit hosts (at least I assume this
->      is where the 2047MB limit is coming from; in theory this ought
->      to be improveable but auditing the code for mishandling of
->      RAMblock sizes to ensure we weren't accidentally stuffing
->      their size into a signed 'long' somewhere would be kind
->      of painful)
+These patches implement the qemu side logic to support=0D
+the KVM features I developed recently.=0D
+=0D
+First two patches are for features that are already accepted=0D
+upstream, and I already posted them on the qemu mailing list once.=0D
+=0D
+And the 3rd patch is for nested TSC scaling on SVM=0D
+which isn't yet accepted in KVM but can already be added to qemu since=0D
+it is conditional on KVM supporting it, and ABI wise it only relies=0D
+on SVM spec.=0D
+=0D
+Best regards,=0D
+    Maxim Levitsky=0D
+=0D
+Maxim Levitsky (3):=0D
+  KVM: use KVM_{GET|SET}_SREGS2 when supported.=0D
+  gdbstub: implement NOIRQ support for single step on KVM=0D
+  KVM: SVM: add migration support for nested TSC scaling=0D
+=0D
+ accel/kvm/kvm-all.c   |  30 +++++++++++=0D
+ gdbstub.c             |  60 +++++++++++++++++----=0D
+ include/sysemu/kvm.h  |  17 ++++++=0D
+ target/i386/cpu.c     |   5 ++=0D
+ target/i386/cpu.h     |   7 +++=0D
+ target/i386/kvm/kvm.c | 122 +++++++++++++++++++++++++++++++++++++++++-=0D
+ target/i386/machine.c |  53 ++++++++++++++++++=0D
+ 7 files changed, 282 insertions(+), 12 deletions(-)=0D
+=0D
+-- =0D
+2.26.3=0D
+=0D
 
-Recalling that the win64 abi model is p64, i.e. 'long' is still 32-bit while pointers are 
-64-bit, how close do we think we are to this being fixed already?
-
-> Even if we did fix (2) we'd need to compromise on (3)
-> sometimes still -- if a board has 4GB of RAM that's
-> not going to fit in 32 bits regardless. But we would be
-> able to let boards with 2GB have 2GB.
-
-I'm not opposed to deprecating 32-bit hosts...  ;-)
-
-
-r~
 
