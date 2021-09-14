@@ -2,51 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1185240B8EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 22:21:14 +0200 (CEST)
-Received: from localhost ([::1]:37064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0C6740B8B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 22:05:19 +0200 (CEST)
+Received: from localhost ([::1]:49334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQEvY-0001JS-KO
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 16:21:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47746)
+	id 1mQEgA-0006A7-UU
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 16:05:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=M2pG=OE=ubuntu.com=christian.brauner@kernel.org>)
- id 1mQAux-0002Df-NB
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 12:04:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43734)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mQEap-0001qu-DU; Tue, 14 Sep 2021 15:59:47 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:49109)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=M2pG=OE=ubuntu.com=christian.brauner@kernel.org>)
- id 1mQAut-0004JX-A2
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 12:04:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 39CAC6044F;
- Tue, 14 Sep 2021 16:04:10 +0000 (UTC)
-Date: Tue, 14 Sep 2021 18:04:07 +0200
-From: Christian Brauner <christian.brauner@ubuntu.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: question on vhost, limiting kernel threads and NPROC
-Message-ID: <20210914160407.aedq4c56ep5vrpvt@wittgenstein>
-References: <b6d181c2-ec7b-913b-3eea-142fcce7c104@oracle.com>
- <YOwwGbOhkDEy/KvQ@stefanha-x1.localdomain>
- <cb6824cb-e730-e842-dbbb-95de49a72cd7@oracle.com>
- <20210913173020-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mQEan-000401-37; Tue, 14 Sep 2021 15:59:47 -0400
+Received: from [192.168.100.1] ([82.142.27.6]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M5QAt-1mRbcZ3J3N-001UvA; Tue, 14 Sep 2021 21:58:47 +0200
+Subject: Re: [PATCH v2 15/53] target/m68k: convert to use format_state instead
+ of dump_state
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210914142042.1655100-1-berrange@redhat.com>
+ <20210914142042.1655100-16-berrange@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <e1133cdd-849c-51ba-f231-355b1862f09d@vivier.eu>
+Date: Tue, 14 Sep 2021 21:58:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210914142042.1655100-16-berrange@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210913173020-mutt-send-email-mst@kernel.org>
-Received-SPF: pass client-ip=198.145.29.99;
- envelope-from=SRS0=M2pG=OE=ubuntu.com=christian.brauner@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:oQ8rFflSL7UKxEjcLoo7dNYVHGISlp72iBh0XMtcWNPsNJWm8u1
+ vt/ADkNBNsaAMhqnmWMaJ8nFEQrwN0Z5lEAva3Ur7h22zLhKJMpv6klZLfXnjAiIk7+czuk
+ phOHRsNvjttg8y8x1fdRGojqJrC0HzlPEWiL2IkWY83FEVW0ZyEG0M7OGTl0JOX2ax0l6Wa
+ jyLbg/mpvsn71dNPi1P5w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:re4Eq8JjYLY=:y2LO3H9Cpnpo/+wWxFobdW
+ bVsyWW8WgQi8aJQFXpPRwTXfpi8Cp8ORn6G6upGi7vCGLbN9OSWr8zsENz3DXuWNl34TYeAdH
+ xV6hDaW6ntUDQYbwgbDzQGdnbKavJ3D/q5a2iP5Gp5QBuqYUV7g/IpiltN2R9WavykqjLXQhI
+ Y5fR7lNm7IJ5IdOjcb2YuooWgQgWRTgUVZdIE4bwZJ4lhlBhS5JBhbijwkXZ3a0WQh5dbvCqp
+ hSQlShBX/CGdzwTJyhRqqerau2U5RoV3i+YMVxH7yphYrFw0IIjdXkIR+baNwzcWz3CePZkMU
+ vKMTb2srKWr/eqwEeoVG5Td3BshZ2CFI3v5pbm5bfrdUF9f3A4hnUIFManJimnWqursurYXid
+ GpIKY4IbWtcw5D53BbJVNXflxXh3Uqaufyntg+i1NImhYn6YRmHZvLYFFhMYpiicc+5aDHO3g
+ 3B9Sr3GMws99eBWA8nYIC57q3or/YJ1CMBYqa3MrT8qRfWHd2MD7vk6OtbYa5gv4TvapE8eu0
+ Krn/aieNg/5gLPr2UqTxdazr/kN45HWZsMuFH9lIs+LQlXz8Cgd5eVuOGZop3FgAvBM+jtMjd
+ sw6X8hc6RErl8tKdsPCez4XptKNldbVZSIUibOMRO/c8+dVuI0c+TgwaPcjZG4FXA1u1jbvpS
+ U2rKFORVVFxy5YqqehKzbu3Gn59S7sbA/9wveUUGzF09+siTLxc8M/Lc7PHrjpsu4Y9ylKsQU
+ Mi87TzIYGwxlsHUUbNwtDD05vAhF+1DB+/fP6Q==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.969,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 14 Sep 2021 16:19:31 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,380 +72,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, "jasowang@redhat.com" <jasowang@redhat.com>,
- qemu-devel@nongnu.org, "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Mike Christie <michael.christie@oracle.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Peter Xu <peterx@redhat.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
+ Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-ppc@nongnu.org,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 13, 2021 at 05:32:32PM -0400, Michael S. Tsirkin wrote:
-> On Mon, Sep 13, 2021 at 12:04:04PM -0500, Mike Christie wrote:
-> > I just realized I forgot to cc the virt list so adding now.
-> > 
-> > Christian see the very bottom for a different fork patch.
-> > 
-> > On 7/12/21 7:05 AM, Stefan Hajnoczi wrote:
-> > > On Fri, Jul 09, 2021 at 11:25:37AM -0500, Mike Christie wrote:
-> > >> Hi,
-> > >>
-> > >> The goal of this email is to try and figure how we want to track/limit the
-> > >> number of kernel threads created by vhost devices.
-> > >>
-> > >> Background:
-> > >> -----------
-> > >> For vhost-scsi, we've hit a issue where the single vhost worker thread can't
-> > >> handle all IO the being sent from multiple queues. IOPs is stuck at around
-> > >> 500K. To fix this, we did this patchset:
-> > >>
-> > >> https://lore.kernel.org/linux-scsi/20210525180600.6349-1-michael.christie@oracle.com/
-> > >>
-> > >> which allows userspace to create N threads and map them to a dev's virtqueues.
-> > >> With this we can get around 1.4M IOPs.
-> > >>
-> > >> Problem:
-> > >> --------
-> > >> While those patches were being reviewed, a concern about tracking all these
-> > >> new possible threads was raised here:
-> > >>
-> > >> https://lore.kernel.org/linux-scsi/YL45CfpHyzSEcAJv@stefanha-x1.localdomain/
-> > >>
-> > >> To save you some time, the question is what does other kernel code using the
-> > >> kthread API do to track the number of kernel threads created on behalf of
-> > >> a userspace thread. The answer is they don't do anything so we will have to
-> > >> add that code.
-> > >>
-> > >> I started to do that here:
-> > >>
-> > >> https://lkml.org/lkml/2021/6/23/1233
-> > >>
-> > >> where those patches would charge/check the vhost device owner's RLIMIT_NPROC
-> > >> value. But, the question of if we really want to do this has come up which is
-> > >> why I'm bugging lists like libvirt now.
-> > >>
-> > >> Question/Solution:
-> > >> ------------------
-> > >> I'm bugging everyone so we can figure out:
-> > >>
-> > >> If we need to specifically track the number of kernel threads being made
-> > >> for the vhost kernel use case by the RLIMIT_NPROC limit?
-> > >>
-> > >> Or, is it ok to limit the number of devices with the RLIMIT_NOFILE limit.
-> > >> Then each device has a limit on the number of threads it can create.
-> > > 
-> > > Do we want to add an interface where an unprivileged userspace process
-> > > can create large numbers of kthreads? The number is indirectly bounded
-> > > by RLIMIT_NOFILE * num_virtqueues, but there is no practical way to
-> > > use that rlimit since num_virtqueues various across vhost devices and
-> > > RLIMIT_NOFILE might need to have a specific value to control file
-> > > descriptors.
-> > > 
-> > > io_uring worker threads are limited by RLIMIT_NPROC. I think it makes
-> > > sense in vhost too where the device instance is owned by a specific
-> > > userspace process and can be accounted against that process' rlimit.
-> > > 
-> > > I don't have a specific use case other than that I think vhost should be
-> > > safe and well-behaved.
-> > > 
-> > 
-> > Sorry for the late reply. I finally got to go on PTO and used like 2
-> > years worth in one super long vacation :)
-> > 
-> > I still don't have a RLIMIT_NPROC use case and it wasn't not clear to
-> > me if that has to be handled before merging. However, I might have got
-> > lucky and found a bug where the fix will handle your request too.
-> > 
-> > It looks like cgroup v2 is supposed to work, but for vhost threads
-> > it doesn't because the kernel functions we use just support v1. If
-> > we change the vhost layer to create threads like how io_uring does
-> > then we get the RLIMIT_NPROC checks and also cgroup v2 support.
-> > 
-> > Christian, If you didn't like this patch
-> > 
-> > https://lkml.org/lkml/2021/6/23/1233
-> > 
-> > then I'm not sure how much you will like what is needed to support the
-> > above. Here is a patch which includes what we would need from the fork
-> > related code. On one hand, it's nicer because it fits into the PF FLAG
-> > code like you requested. But, I have to add a no_files arg. See below:
-> > 
-> > 
-> > ----------------------------------------------
-> > 
-> > 
-> > >From 351d476e8db0a78b9bdf22d77dd1abe66c0eac40 Mon Sep 17 00:00:00 2001
-> > From: Mike Christie <michael.christie@oracle.com>
-> > Date: Mon, 13 Sep 2021 11:20:20 -0500
-> > Subject: [PATCH] fork: allow cloning of userspace procs from kernel
-> > 
-> > Userspace apps/processes like Qemu call into the vhost layer to create
-> > worker threads which execute IO on behalf of VMs. If users set RIMIT
-> > or cgroup limits or setup v2 cgroups or namespaces, the worker thread
-> > is not accounted for or even setup correctly. The reason is that vhost
-> > uses the kthread api which inherits those attributes/values from the
-> > kthreadd thread. This patch allows kernel modules to work like the
-> > io_uring code which can call kernel_clone from the userspace thread's
-> > context and directly inherit its attributes like cgroups from and will
-> > check limits like RLIMIT_NPROC against that userspace thread.
-> > 
-> > Note: this patch combines 2 changes that should be separate patches. I'm
-> > including both in one patch to just make it easier to get an idea of what
-> > needs to be done. If we are ok with this then I'll break it up into a
-> > proper patchset.
-> > 
-> > This patch does the following:
-> > 
-> > 1. Separates the PF_IO_WORKER flag behavior that controls signals and exit
-> > cleanup into a new flag PF_USER_WORKER, so the vhost layer can use it
-> > without the PF_IO_WORKER scheduling/IO behavior.
-> > 
-> > 2. It adds a new no_files kernel_clone_args field. This is needed by vhost
-> > because tools like qemu/libvirt do not always do a close() on the vhost
-> > device. For some devices they just rely on the process exit reaping/cleanup
-> > code to do a close() on all open FDs. However, if the vhost worker threads
-> > have the device open (CLONE_FILES not set) or have a refcount on the
-> > files_struct (CLONE_FILES set) then we can leak or possibly crash.
-> > 
-> > leak - qemu just exits and expects the put done by the process exit
-> > code will be the last put on the fd. But becuase the worker thread has a
-> > ref to the fd or to the process's files_struct then it will never get the
-> > last put and so the vhost device's release function will never be called.
-> > 
-> > crash - if we add signal handling to the worker threads then it can
-> > happen where the worker thread might get the signal and exit before
-> > qemu has called the vhost cleanup releated ioctls and we can end up
-> > crashing referencing what should be a valid device still.
-> > ---
-> >  arch/x86/kernel/process.c  |  4 ++--
-> >  include/linux/sched.h      |  1 +
-> >  include/linux/sched/task.h |  5 ++++-
-> >  init/main.c                |  4 ++--
-> >  kernel/fork.c              | 24 +++++++++++++++++++-----
-> >  kernel/kthread.c           |  3 ++-
-> >  kernel/signal.c            |  4 ++--
-> >  kernel/umh.c               |  5 +++--
-> >  8 files changed, 35 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
-> > index 1d9463e3096b..1c5d516fb508 100644
-> > --- a/arch/x86/kernel/process.c
-> > +++ b/arch/x86/kernel/process.c
-> > @@ -178,9 +178,9 @@ int copy_thread(unsigned long clone_flags, unsigned long sp, unsigned long arg,
-> >  	task_user_gs(p) = get_user_gs(current_pt_regs());
-> >  #endif
-> >  
-> > -	if (unlikely(p->flags & PF_IO_WORKER)) {
-> > +	if (unlikely(p->flags & PF_USER_WORKER)) {
-> >  		/*
-> > -		 * An IO thread is a user space thread, but it doesn't
-> > +		 * A user worker thread is a user space thread, but it doesn't
-> >  		 * return to ret_after_fork().
-> >  		 *
-> >  		 * In order to indicate that to tools like gdb,
-> > diff --git a/include/linux/sched.h b/include/linux/sched.h
-> > index ec8d07d88641..0c9b3f62d85f 100644
-> > --- a/include/linux/sched.h
-> > +++ b/include/linux/sched.h
-> > @@ -1577,6 +1577,7 @@ extern struct pid *cad_pid;
-> >  #define PF_VCPU			0x00000001	/* I'm a virtual CPU */
-> >  #define PF_IDLE			0x00000002	/* I am an IDLE thread */
-> >  #define PF_EXITING		0x00000004	/* Getting shut down */
-> > +#define PF_USER_WORKER		0x00000008	/* Userspace kernel thread  */
-> >  #define PF_IO_WORKER		0x00000010	/* Task is an IO worker */
-> >  #define PF_WQ_WORKER		0x00000020	/* I'm a workqueue worker */
-> >  #define PF_FORKNOEXEC		0x00000040	/* Forked but didn't exec */
-> > diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
-> > index ef02be869cf2..2a8f9b8c3868 100644
-> > --- a/include/linux/sched/task.h
-> > +++ b/include/linux/sched/task.h
-> > @@ -32,6 +32,8 @@ struct kernel_clone_args {
-> >  	size_t set_tid_size;
-> >  	int cgroup;
-> >  	int io_thread;
-> > +	int no_files;
-> > +	int user_worker;
-> >  	struct cgroup *cgrp;
-> >  	struct css_set *cset;
-> >  };
-> > @@ -86,7 +88,8 @@ extern pid_t kernel_clone(struct kernel_clone_args *kargs);
-> >  struct task_struct *create_io_thread(int (*fn)(void *), void *arg, int node);
-> >  struct task_struct *fork_idle(int);
-> >  struct mm_struct *copy_init_mm(void);
-> > -extern pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags);
-> > +extern pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags,
-> > +			   int no_files, int user_worker);
-> >  extern long kernel_wait4(pid_t, int __user *, int, struct rusage *);
-> >  int kernel_wait(pid_t pid, int *stat);
-> >  
-> > diff --git a/init/main.c b/init/main.c
-> > index f5b8246e8aa1..18f3b126df93 100644
-> > --- a/init/main.c
-> > +++ b/init/main.c
-> > @@ -676,7 +676,7 @@ noinline void __ref rest_init(void)
-> >  	 * the init task will end up wanting to create kthreads, which, if
-> >  	 * we schedule it before we create kthreadd, will OOPS.
-> >  	 */
-> > -	pid = kernel_thread(kernel_init, NULL, CLONE_FS);
-> > +	pid = kernel_thread(kernel_init, NULL, CLONE_FS, 0, 0);
-> >  	/*
-> >  	 * Pin init on the boot CPU. Task migration is not properly working
-> >  	 * until sched_init_smp() has been run. It will set the allowed
-> > @@ -689,7 +689,7 @@ noinline void __ref rest_init(void)
-> >  	rcu_read_unlock();
-> >  
-> >  	numa_default_policy();
-> > -	pid = kernel_thread(kthreadd, NULL, CLONE_FS | CLONE_FILES);
-> > +	pid = kernel_thread(kthreadd, NULL, CLONE_FS | CLONE_FILES, 0, 0);
-> >  	rcu_read_lock();
-> >  	kthreadd_task = find_task_by_pid_ns(pid, &init_pid_ns);
-> >  	rcu_read_unlock();
-> > diff --git a/kernel/fork.c b/kernel/fork.c
-> > index bc94b2cc5995..9528940d83d7 100644
-> > --- a/kernel/fork.c
-> > +++ b/kernel/fork.c
-> > @@ -1458,7 +1458,8 @@ static int copy_fs(unsigned long clone_flags, struct task_struct *tsk)
-> >  	return 0;
-> >  }
-> >  
-> > -static int copy_files(unsigned long clone_flags, struct task_struct *tsk)
-> > +static int copy_files(unsigned long clone_flags, struct task_struct *tsk,
-> > +		      int no_files)
-> >  {
-> >  	struct files_struct *oldf, *newf;
-> >  	int error = 0;
-> > @@ -1470,6 +1471,11 @@ static int copy_files(unsigned long clone_flags, struct task_struct *tsk)
-> >  	if (!oldf)
-> >  		goto out;
-> >  
-> > +	if (no_files) {
-> > +		tsk->files = NULL;
-> > +		goto out;
-> > +	}
-> > +
-> >  	if (clone_flags & CLONE_FILES) {
-> >  		atomic_inc(&oldf->count);
-> >  		goto out;
-> > @@ -1954,11 +1960,14 @@ static __latent_entropy struct task_struct *copy_process(
-> >  		goto fork_out;
-> >  	if (args->io_thread) {
-> >  		/*
-> > -		 * Mark us an IO worker, and block any signal that isn't
-> > -		 * fatal or STOP
-> > +		 * Mark us an IO worker.
-> >  		 */
-> >  		p->flags |= PF_IO_WORKER;
-> > +	}
-> > +
-> > +	if (args->user_worker) {
-> >  		siginitsetinv(&p->blocked, sigmask(SIGKILL)|sigmask(SIGSTOP));
-> > +		p->flags |= PF_USER_WORKER;
-> >  	}
-> >  
-> >  	/*
-> > @@ -2104,7 +2113,7 @@ static __latent_entropy struct task_struct *copy_process(
-> >  	retval = copy_semundo(clone_flags, p);
-> >  	if (retval)
-> >  		goto bad_fork_cleanup_security;
-> > -	retval = copy_files(clone_flags, p);
-> > +	retval = copy_files(clone_flags, p, args->no_files);
-> >  	if (retval)
-> >  		goto bad_fork_cleanup_semundo;
-> >  	retval = copy_fs(clone_flags, p);
-> > @@ -2452,6 +2461,7 @@ struct task_struct *create_io_thread(int (*fn)(void *), void *arg, int node)
-> >  		.stack		= (unsigned long)fn,
-> >  		.stack_size	= (unsigned long)arg,
-> >  		.io_thread	= 1,
-> > +		.user_worker	= 1,
-> >  	};
-> >  
-> >  	return copy_process(NULL, 0, node, &args);
-> > @@ -2548,7 +2558,8 @@ pid_t kernel_clone(struct kernel_clone_args *args)
-> >  /*
-> >   * Create a kernel thread.
-> >   */
-> > -pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags)
-> > +pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags,
-> > +		    int no_files, int user_worker)
-> >  {
-> >  	struct kernel_clone_args args = {
-> >  		.flags		= ((lower_32_bits(flags) | CLONE_VM |
-> > @@ -2556,10 +2567,13 @@ pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags)
-> >  		.exit_signal	= (lower_32_bits(flags) & CSIGNAL),
-> >  		.stack		= (unsigned long)fn,
-> >  		.stack_size	= (unsigned long)arg,
-> > +		.no_files	= no_files,
-> > +		.user_worker	= user_worker,
-> >  	};
-> >  
-> >  	return kernel_clone(&args);
-> >  }
-> > +EXPORT_SYMBOL_GPL(kernel_thread);
-> >  
-> >  #ifdef __ARCH_WANT_SYS_FORK
-> >  SYSCALL_DEFINE0(fork)
-> > diff --git a/kernel/kthread.c b/kernel/kthread.c
-> > index 5b37a8567168..724c7ec63307 100644
-> > --- a/kernel/kthread.c
-> > +++ b/kernel/kthread.c
-> > @@ -339,7 +339,8 @@ static void create_kthread(struct kthread_create_info *create)
-> >  	current->pref_node_fork = create->node;
-> >  #endif
-> >  	/* We want our own signal handler (we take no signals by default). */
-> > -	pid = kernel_thread(kthread, create, CLONE_FS | CLONE_FILES | SIGCHLD);
-> > +	pid = kernel_thread(kthread, create, CLONE_FS | CLONE_FILES | SIGCHLD,
-> > +			    0, 0);
-> >  	if (pid < 0) {
-> >  		/* If user was SIGKILLed, I release the structure. */
-> >  		struct completion *done = xchg(&create->done, NULL);
-> > diff --git a/kernel/signal.c b/kernel/signal.c
-> > index a3229add4455..3f901067b266 100644
-> > --- a/kernel/signal.c
-> > +++ b/kernel/signal.c
-> > @@ -2795,11 +2795,11 @@ bool get_signal(struct ksignal *ksig)
-> >  		}
-> >  
-> >  		/*
-> > -		 * PF_IO_WORKER threads will catch and exit on fatal signals
-> > +		 * PF_USER_WORKER threads will catch and exit on fatal signals
-> >  		 * themselves. They have cleanup that must be performed, so
-> >  		 * we cannot call do_exit() on their behalf.
-> >  		 */
-> > -		if (current->flags & PF_IO_WORKER)
-> > +		if (current->flags & PF_USER_WORKER)
-> >  			goto out;
-> >  
-> >  		/*
-> > diff --git a/kernel/umh.c b/kernel/umh.c
-> > index 36c123360ab8..a6b7b733bd99 100644
-> > --- a/kernel/umh.c
-> > +++ b/kernel/umh.c
-> > @@ -132,7 +132,8 @@ static void call_usermodehelper_exec_sync(struct subprocess_info *sub_info)
-> >  
-> >  	/* If SIGCLD is ignored do_wait won't populate the status. */
-> >  	kernel_sigaction(SIGCHLD, SIG_DFL);
-> > -	pid = kernel_thread(call_usermodehelper_exec_async, sub_info, SIGCHLD);
-> > +	pid = kernel_thread(call_usermodehelper_exec_async, sub_info, SIGCHLD,
-> > +			    0, 0);
-> >  	if (pid < 0)
-> >  		sub_info->retval = pid;
-> >  	else
-> > @@ -172,7 +173,7 @@ static void call_usermodehelper_exec_work(struct work_struct *work)
-> >  		 * that always ignores SIGCHLD to ensure auto-reaping.
-> >  		 */
-> >  		pid = kernel_thread(call_usermodehelper_exec_async, sub_info,
-> > -				    CLONE_PARENT | SIGCHLD);
-> > +				    CLONE_PARENT | SIGCHLD, 0, 0);
-> >  		if (pid < 0) {
-> >  			sub_info->retval = pid;
-> >  			umh_complete(sub_info);
+Le 14/09/2021 à 16:20, Daniel P. Berrangé a écrit :
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  target/m68k/cpu.c       |  2 +-
+>  target/m68k/cpu.h       |  2 +-
+>  target/m68k/translate.c | 92 ++++++++++++++++++++++-------------------
+>  3 files changed, 51 insertions(+), 45 deletions(-)
 > 
+> diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+> index 72de6e9726..4ccf572a68 100644
+> --- a/target/m68k/cpu.c
+> +++ b/target/m68k/cpu.c
+> @@ -536,7 +536,7 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
+>  
+>      cc->class_by_name = m68k_cpu_class_by_name;
+>      cc->has_work = m68k_cpu_has_work;
+> -    cc->dump_state = m68k_cpu_dump_state;
+> +    cc->format_state = m68k_cpu_format_state;
+>      cc->set_pc = m68k_cpu_set_pc;
+>      cc->gdb_read_register = m68k_cpu_gdb_read_register;
+>      cc->gdb_write_register = m68k_cpu_gdb_write_register;
+> diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+> index 997d588911..b0641f6d0d 100644
+> --- a/target/m68k/cpu.h
+> +++ b/target/m68k/cpu.h
+> @@ -168,7 +168,7 @@ struct M68kCPU {
+>  
+>  void m68k_cpu_do_interrupt(CPUState *cpu);
+>  bool m68k_cpu_exec_interrupt(CPUState *cpu, int int_req);
+> -void m68k_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+> +void m68k_cpu_format_state(CPUState *cpu, GString *buf, int flags);
+>  hwaddr m68k_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+>  int m68k_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+>  int m68k_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+> diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+> index c34d9aed61..951bbed6bf 100644
+> --- a/target/m68k/translate.c
+> +++ b/target/m68k/translate.c
+> @@ -6316,75 +6316,81 @@ static double floatx80_to_double(CPUM68KState *env, uint16_t high, uint64_t low)
+>      return u.d;
+>  }
+>  
+> -void m68k_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+> +void m68k_cpu_format_state(CPUState *cs, GString *buf, int flags)
+>  {
+>      M68kCPU *cpu = M68K_CPU(cs);
+>      CPUM68KState *env = &cpu->env;
+>      int i;
+>      uint16_t sr;
+>      for (i = 0; i < 8; i++) {
+> -        qemu_fprintf(f, "D%d = %08x   A%d = %08x   "
+> -                     "F%d = %04x %016"PRIx64"  (%12g)\n",
+> -                     i, env->dregs[i], i, env->aregs[i],
+> -                     i, env->fregs[i].l.upper, env->fregs[i].l.lower,
+> -                     floatx80_to_double(env, env->fregs[i].l.upper,
+> -                                        env->fregs[i].l.lower));
+> -    }
+> -    qemu_fprintf(f, "PC = %08x   ", env->pc);
+> +        g_string_append_printf(buf, "D%d = %08x   A%d = %08x   "
+> +                               "F%d = %04x %016"PRIx64"  (%12g)\n",
+> +                               i, env->dregs[i], i, env->aregs[i],
+> +                               i, env->fregs[i].l.upper, env->fregs[i].l.lower,
+> +                               floatx80_to_double(env, env->fregs[i].l.upper,
+> +                                                  env->fregs[i].l.lower));
+> +    }
+> +    g_string_append_printf(buf, "PC = %08x   ", env->pc);
+>      sr = env->sr | cpu_m68k_get_ccr(env);
+> -    qemu_fprintf(f, "SR = %04x T:%x I:%x %c%c %c%c%c%c%c\n",
+> -                 sr, (sr & SR_T) >> SR_T_SHIFT, (sr & SR_I) >> SR_I_SHIFT,
+> -                 (sr & SR_S) ? 'S' : 'U', (sr & SR_M) ? '%' : 'I',
+> -                 (sr & CCF_X) ? 'X' : '-', (sr & CCF_N) ? 'N' : '-',
+> -                 (sr & CCF_Z) ? 'Z' : '-', (sr & CCF_V) ? 'V' : '-',
+> -                 (sr & CCF_C) ? 'C' : '-');
+> -    qemu_fprintf(f, "FPSR = %08x %c%c%c%c ", env->fpsr,
+> -                 (env->fpsr & FPSR_CC_A) ? 'A' : '-',
+> -                 (env->fpsr & FPSR_CC_I) ? 'I' : '-',
+> -                 (env->fpsr & FPSR_CC_Z) ? 'Z' : '-',
+> -                 (env->fpsr & FPSR_CC_N) ? 'N' : '-');
+> -    qemu_fprintf(f, "\n                                "
+> -                 "FPCR =     %04x ", env->fpcr);
+> +    g_string_append_printf(buf, "SR = %04x T:%x I:%x %c%c %c%c%c%c%c\n",
+> +                           sr, (sr & SR_T) >> SR_T_SHIFT,
+> +                           (sr & SR_I) >> SR_I_SHIFT,
+> +                           (sr & SR_S) ? 'S' : 'U', (sr & SR_M) ? '%' : 'I',
+> +                           (sr & CCF_X) ? 'X' : '-', (sr & CCF_N) ? 'N' : '-',
+> +                           (sr & CCF_Z) ? 'Z' : '-', (sr & CCF_V) ? 'V' : '-',
+> +                           (sr & CCF_C) ? 'C' : '-');
+> +    g_string_append_printf(buf, "FPSR = %08x %c%c%c%c ", env->fpsr,
+> +                           (env->fpsr & FPSR_CC_A) ? 'A' : '-',
+> +                           (env->fpsr & FPSR_CC_I) ? 'I' : '-',
+> +                           (env->fpsr & FPSR_CC_Z) ? 'Z' : '-',
+> +                           (env->fpsr & FPSR_CC_N) ? 'N' : '-');
+> +    g_string_append_printf(buf, "\n                                "
+> +                           "FPCR =     %04x ", env->fpcr);
+>      switch (env->fpcr & FPCR_PREC_MASK) {
+>      case FPCR_PREC_X:
+> -        qemu_fprintf(f, "X ");
+> +        g_string_append_printf(buf, "X ");
+>          break;
+>      case FPCR_PREC_S:
+> -        qemu_fprintf(f, "S ");
+> +        g_string_append_printf(buf, "S ");
+>          break;
+>      case FPCR_PREC_D:
+> -        qemu_fprintf(f, "D ");
+> +        g_string_append_printf(buf, "D ");
+>          break;
+>      }
+>      switch (env->fpcr & FPCR_RND_MASK) {
+>      case FPCR_RND_N:
+> -        qemu_fprintf(f, "RN ");
+> +        g_string_append_printf(buf, "RN ");
+>          break;
+>      case FPCR_RND_Z:
+> -        qemu_fprintf(f, "RZ ");
+> +        g_string_append_printf(buf, "RZ ");
+>          break;
+>      case FPCR_RND_M:
+> -        qemu_fprintf(f, "RM ");
+> +        g_string_append_printf(buf, "RM ");
+>          break;
+>      case FPCR_RND_P:
+> -        qemu_fprintf(f, "RP ");
+> +        g_string_append_printf(buf, "RP ");
+>          break;
+>      }
+> -    qemu_fprintf(f, "\n");
+> +    g_string_append_printf(buf, "\n");
+>  #ifdef CONFIG_SOFTMMU
+> -    qemu_fprintf(f, "%sA7(MSP) = %08x %sA7(USP) = %08x %sA7(ISP) = %08x\n",
+> -                 env->current_sp == M68K_SSP ? "->" : "  ", env->sp[M68K_SSP],
+> -                 env->current_sp == M68K_USP ? "->" : "  ", env->sp[M68K_USP],
+> -                 env->current_sp == M68K_ISP ? "->" : "  ", env->sp[M68K_ISP]);
+> -    qemu_fprintf(f, "VBR = 0x%08x\n", env->vbr);
+> -    qemu_fprintf(f, "SFC = %x DFC %x\n", env->sfc, env->dfc);
+> -    qemu_fprintf(f, "SSW %08x TCR %08x URP %08x SRP %08x\n",
+> -                 env->mmu.ssw, env->mmu.tcr, env->mmu.urp, env->mmu.srp);
+> -    qemu_fprintf(f, "DTTR0/1: %08x/%08x ITTR0/1: %08x/%08x\n",
+> -                 env->mmu.ttr[M68K_DTTR0], env->mmu.ttr[M68K_DTTR1],
+> -                 env->mmu.ttr[M68K_ITTR0], env->mmu.ttr[M68K_ITTR1]);
+> -    qemu_fprintf(f, "MMUSR %08x, fault at %08x\n",
+> -                 env->mmu.mmusr, env->mmu.ar);
+> +    g_string_append_printf(buf, "%sA7(MSP) = %08x %sA7(USP) = %08x "
+> +                           "%sA7(ISP) = %08x\n",
+> +                           env->current_sp == M68K_SSP ?
+> +                           "->" : "  ", env->sp[M68K_SSP],
+> +                           env->current_sp == M68K_USP ?
+> +                           "->" : "  ", env->sp[M68K_USP],
+> +                           env->current_sp == M68K_ISP ?
+> +                           "->" : "  ", env->sp[M68K_ISP]);
+> +    g_string_append_printf(buf, "VBR = 0x%08x\n", env->vbr);
+> +    g_string_append_printf(buf, "SFC = %x DFC %x\n", env->sfc, env->dfc);
+> +    g_string_append_printf(buf, "SSW %08x TCR %08x URP %08x SRP %08x\n",
+> +                           env->mmu.ssw, env->mmu.tcr,
+> +                           env->mmu.urp, env->mmu.srp);
+> +    g_string_append_printf(buf, "DTTR0/1: %08x/%08x ITTR0/1: %08x/%08x\n",
+> +                           env->mmu.ttr[M68K_DTTR0], env->mmu.ttr[M68K_DTTR1],
+> +                           env->mmu.ttr[M68K_ITTR0], env->mmu.ttr[M68K_ITTR1]);
+> +    g_string_append_printf(buf, "MMUSR %08x, fault at %08x\n",
+> +                           env->mmu.mmusr, env->mmu.ar);
+>  #endif
+>  }
+>  
 > 
-> Looks quite reasonable to me. You do of course want to post
-> it and CC the proper people so it gets review. And add the
-> vhost changes of course.
 
-Looks reasonable to me. Cc Jens Axboe too on this please.
-
-Christian
+Acked-by: Laurent Vivier <laurent@vivier.eu>
 
