@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0997A40A1D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 02:18:37 +0200 (CEST)
-Received: from localhost ([::1]:51402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B3140A217
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 02:38:24 +0200 (CEST)
+Received: from localhost ([::1]:40816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPw9j-0004oG-Sj
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 20:18:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53856)
+	id 1mPwSt-0002E9-4S
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 20:38:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPw6j-0001oG-04
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:30 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:44010)
+ id 1mPw6s-0001rt-Ej
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:38 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:39850)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPw6d-0007q5-VX
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:28 -0400
-Received: by mail-pf1-x436.google.com with SMTP id f65so10433375pfb.10
+ id 1mPw6f-0007qs-IB
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:34 -0400
+Received: by mail-pg1-x531.google.com with SMTP id g184so11004019pgc.6
  for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 17:15:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UMGhT+Bk3r2Ql0EVWaSy+w/Od3g4R59cJ3IGkIKsmyE=;
- b=MF2zj3Mf23hIgMDmiWJcNuzjdGQrGE/axuyQdp/7Hmg/gBNNvXOs02CbC6YlNs+pYn
- TknkL8z2VypXjDeAm64UJSvzMIS5rDEbRzleiWJrG/+w4TU93snP7V+bIpoqWpcBasnJ
- aliI3zM1MVNRxJU9H1h4W1G0V2I9caLV9aCPlioGcRJEHZErNNfv8dy3CAT0S0n2rv3i
- 21kDeDR3Pd4U8RjswM0Ksz5xX6X6UeG6VWlc0GjWoPODj9CB2BdJ4vos85o7/DJJtXyo
- LwJMJCmranZB/XFswBhgPihLkjYOKWxXqp7Kijw+pXX1yIBpdPnfVARb/AXDlRuMZYZB
- KjvA==
+ bh=wr6V+HMLHJbAkFT+KuII9FEWJ5dhHoEyzENG4sNw/t0=;
+ b=GyNQpfctXAkMyQmn8RdJs8ONvxWCXo4MDOfPhEsEp0W5HIQtW8N9YNhXBK9/YmhQGW
+ BP9UO5HxVeJjCjm3oEoEBoIGUkCO77roKMMUDOvKC/nOrkZRfAQsmlxKoSwMFfY1g2v9
+ +tskIMM/idrv9Zhl4vjHPnNvFseP1ZssB8DZ3EvVRQ4h65ZKPBvS02DeuqQ4heLsEli+
+ lJMOqbvJP+wN7B7tdoAKm0Q15sl3l9N/L9QJBCT1UHtF7vXPecYHEFyFBlH2hAksWSj9
+ JK4Sc9jenUFwLApFxRR6kggrd5krEfsvv5cY3+HGPWsevaFBEMm9XQjC8vEv363M87qC
+ jWZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UMGhT+Bk3r2Ql0EVWaSy+w/Od3g4R59cJ3IGkIKsmyE=;
- b=N0arnccS7+6ZoCFBl85sq1LSc/SHy8QMlip+uk0s9cnkqYi6indzg1hK0LVqFqh3fy
- MmQektdSgRXtZtUyFqna774vv9hqUjIP9jq0507MPZjku2uZjU2kshaY319/lXIOsi8f
- mZT2iMhpcYr7KkTmWDBxGVhONNkWWsSsxaanePMPyV/zbmap1LH4rmmcgC7FV1WLVbLe
- ML05cESX2339sA6F8wDqNQgAnuznyDRcgIK2oyX2V1EWLSbN1roRsRGRjVYDPEY/rJYI
- 0itmi/jwIgfJkXmDVgvkfath//9bHNS6NgrAKZehJA/yX6GXlUTIDn1KXx9C4W934Y2P
- EEHQ==
-X-Gm-Message-State: AOAM533yQZ5KouFosfTornGsiJKfsxAS/1vt0cF5WfPz5rU9eyCXc2zH
- wBW9RARyLhXb99fDLTtHUeqmE2GstpSMSA==
-X-Google-Smtp-Source: ABdhPJz5cfxjOjWx50t3W0ZgRHPjOPIHKWH9hIPMIKmwngTUc6c/0mhp9NGWVXN3y7dZL/8mqm6Jvg==
-X-Received: by 2002:a63:9313:: with SMTP id b19mr13266059pge.128.1631578520855; 
- Mon, 13 Sep 2021 17:15:20 -0700 (PDT)
+ bh=wr6V+HMLHJbAkFT+KuII9FEWJ5dhHoEyzENG4sNw/t0=;
+ b=pzj3VFb6ttXNKRGb3lcTVzuhQxbXmzx5KNmRNDhuY3q/kw63ilSZ3SqKJAm0UdAzLZ
+ o+iL7TUm4CjuH6ZgO4sNK9gWznGQeDtq2I7ENNSbfhKm7uaq5+xW+9MWqJViZYNVlX4c
+ Fb5hh95JGenJJmtbhXPHIGgnAlLaiMAyghI76laLZ2rSxgMX4MfJWLzzIFQG6aPjrBIT
+ oRyct7rb4XBGYF9w5GfUrFXxxzvpQKYmb8Q3r5QvME9uMJAqKo2lnoJ4w3knJrscJPuY
+ D7KDR+0Oyo9Kg6POdoffJnguQE3QH5NjSDip3m9K/vlRzDrGlzawUPHz2duY5jhUTrIu
+ mGaQ==
+X-Gm-Message-State: AOAM533v3WfjAg9l7rnfbco1W7gGzdISnO9yKD1KN9dTsW9j6IwNtUtY
+ Mv9Af5teFCKAgqmxiXxlQOjjV+9oOnPDJQ==
+X-Google-Smtp-Source: ABdhPJwfE4ohrAVDRsNCEOlhAyKUMnAxdIDB5gbz39OJ+sPHVjqIsn6cnKPax4RotIYJrnCdhh5f1Q==
+X-Received: by 2002:a63:c113:: with SMTP id w19mr13223450pgf.168.1631578521466; 
+ Mon, 13 Sep 2021 17:15:21 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
  by smtp.gmail.com with ESMTPSA id m7sm9334179pgn.32.2021.09.13.17.15.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 17:15:20 -0700 (PDT)
+ Mon, 13 Sep 2021 17:15:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/44] accel/tcg: Restrict TCGCPUOps::cpu_exec_interrupt() to
- sysemu
-Date: Mon, 13 Sep 2021 17:14:43 -0700
-Message-Id: <20210914001456.793490-32-richard.henderson@linaro.org>
+Subject: [PULL 32/44] user: Remove cpu_get_pic_interrupt() stubs
+Date: Mon, 13 Sep 2021 17:14:44 -0700
+Message-Id: <20210914001456.793490-33-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210914001456.793490-1-richard.henderson@linaro.org>
 References: <20210914001456.793490-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,107 +84,93 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-All targets call TCGCPUOps::cpu_exec_interrupt() from sysemu code.
-Move its declaration to restrict it to system emulation.
-Extend the code guarded.
-Restrict the static inlined need_replay_interrupt() method to
-avoid a "defined but not used" warning.
+cpu_get_pic_interrupt() is now unreachable from user-mode,
+delete the unnecessary stubs.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210911165434.531552-24-f4bug@amsat.org>
+Message-Id: <20210911165434.531552-25-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/tcg-cpu-ops.h |  4 ++--
- accel/tcg/cpu-exec.c          | 10 +++++++---
- 2 files changed, 9 insertions(+), 5 deletions(-)
+ target/i386/cpu.h                 | 2 +-
+ bsd-user/i386/target_arch_cpu.c   | 5 -----
+ bsd-user/x86_64/target_arch_cpu.c | 5 -----
+ linux-user/main.c                 | 7 -------
+ 4 files changed, 1 insertion(+), 18 deletions(-)
 
-diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-index 6c7ab9600b..55123cb4d2 100644
---- a/include/hw/core/tcg-cpu-ops.h
-+++ b/include/hw/core/tcg-cpu-ops.h
-@@ -35,8 +35,6 @@ struct TCGCPUOps {
-     void (*cpu_exec_enter)(CPUState *cpu);
-     /** @cpu_exec_exit: Callback for cpu_exec cleanup */
-     void (*cpu_exec_exit)(CPUState *cpu);
--    /** @cpu_exec_interrupt: Callback for processing interrupts in cpu_exec */
--    bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
-     /**
-      * @tlb_fill: Handle a softmmu tlb miss or user-only address fault
-      *
-@@ -68,6 +66,8 @@ struct TCGCPUOps {
-     void (*do_interrupt)(CPUState *cpu);
- #endif /* !CONFIG_USER_ONLY || !TARGET_I386 */
- #ifdef CONFIG_SOFTMMU
-+    /** @cpu_exec_interrupt: Callback for processing interrupts in cpu_exec */
-+    bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
-     /**
-      * @do_transaction_failed: Callback for handling failed memory transactions
-      * (ie bus faults or external aborts; not MMU faults)
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 2838177e7f..75dbc1e4e3 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -685,6 +685,7 @@ static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
-     return false;
- }
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 1a36c53c18..7dd664791a 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1836,9 +1836,9 @@ int x86_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ void x86_cpu_list(void);
+ int cpu_x86_support_mca_broadcast(CPUX86State *env);
  
 +#ifndef CONFIG_USER_ONLY
- /*
-  * CPU_INTERRUPT_POLL is a virtual event which gets converted into a
-  * "real" interrupt event later. It does not need to be recorded for
-@@ -698,12 +699,11 @@ static inline bool need_replay_interrupt(int interrupt_request)
-     return true;
- #endif
- }
-+#endif /* !CONFIG_USER_ONLY */
+ int cpu_get_pic_interrupt(CPUX86State *s);
  
- static inline bool cpu_handle_interrupt(CPUState *cpu,
-                                         TranslationBlock **last_tb)
- {
--    CPUClass *cc = CPU_GET_CLASS(cpu);
+-#ifndef CONFIG_USER_ONLY
+ /* MSDOS compatibility mode FPU exception support */
+ void x86_register_ferr_irq(qemu_irq irq);
+ void fpu_check_raise_ferr_irq(CPUX86State *s);
+diff --git a/bsd-user/i386/target_arch_cpu.c b/bsd-user/i386/target_arch_cpu.c
+index 71998e5ba5..d349e45299 100644
+--- a/bsd-user/i386/target_arch_cpu.c
++++ b/bsd-user/i386/target_arch_cpu.c
+@@ -33,11 +33,6 @@ uint64_t cpu_get_tsc(CPUX86State *env)
+     return cpu_get_host_ticks();
+ }
+ 
+-int cpu_get_pic_interrupt(CPUX86State *env)
+-{
+-    return -1;
+-}
 -
-     /* Clear the interrupt flag now since we're processing
-      * cpu->interrupt_request and cpu->exit_request.
-      * Ensure zeroing happens before reading cpu->exit_request or
-@@ -725,6 +725,7 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-             qemu_mutex_unlock_iothread();
-             return true;
-         }
-+#if !defined(CONFIG_USER_ONLY)
-         if (replay_mode == REPLAY_MODE_PLAY && !replay_has_interrupt()) {
-             /* Do nothing */
-         } else if (interrupt_request & CPU_INTERRUPT_HALT) {
-@@ -753,12 +754,14 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-             qemu_mutex_unlock_iothread();
-             return true;
-         }
+ void bsd_i386_write_dt(void *ptr, unsigned long addr, unsigned long limit,
+                      int flags)
+ {
+diff --git a/bsd-user/x86_64/target_arch_cpu.c b/bsd-user/x86_64/target_arch_cpu.c
+index db822e54c6..be7bd10720 100644
+--- a/bsd-user/x86_64/target_arch_cpu.c
++++ b/bsd-user/x86_64/target_arch_cpu.c
+@@ -33,11 +33,6 @@ uint64_t cpu_get_tsc(CPUX86State *env)
+     return cpu_get_host_ticks();
+ }
+ 
+-int cpu_get_pic_interrupt(CPUX86State *env)
+-{
+-    return -1;
+-}
+-
+ void bsd_x86_64_write_dt(void *ptr, unsigned long addr,
+         unsigned long limit, int flags)
+ {
+diff --git a/linux-user/main.c b/linux-user/main.c
+index a6094563b6..45bde4598d 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -120,13 +120,6 @@ const char *qemu_uname_release;
+    by remapping the process stack directly at the right place */
+ unsigned long guest_stack_size = 8 * 1024 * 1024UL;
+ 
+-#if defined(TARGET_I386)
+-int cpu_get_pic_interrupt(CPUX86State *env)
+-{
+-    return -1;
+-}
 -#endif
-+#endif /* !TARGET_I386 */
-         /* The target hook has 3 exit conditions:
-            False when the interrupt isn't processed,
-            True when it is, and we should restart on a new TB,
-            and via longjmp via cpu_loop_exit.  */
-         else {
-+            CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-             if (cc->tcg_ops->cpu_exec_interrupt &&
-                 cc->tcg_ops->cpu_exec_interrupt(cpu, interrupt_request)) {
-                 if (need_replay_interrupt(interrupt_request)) {
-@@ -777,6 +780,7 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-              * reload the 'interrupt_request' value */
-             interrupt_request = cpu->interrupt_request;
-         }
-+#endif /* !CONFIG_USER_ONLY */
-         if (interrupt_request & CPU_INTERRUPT_EXITTB) {
-             cpu->interrupt_request &= ~CPU_INTERRUPT_EXITTB;
-             /* ensure that no TB jump will be modified as
+-
+ /***********************************************************/
+ /* Helper routines for implementing atomic operations.  */
+ 
 -- 
 2.25.1
 
