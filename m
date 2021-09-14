@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B68F340A1E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 02:27:15 +0200 (CEST)
-Received: from localhost ([::1]:48382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2D1940A1CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 02:18:29 +0200 (CEST)
+Received: from localhost ([::1]:50992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mPwI6-0004vs-OZ
-	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 20:27:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53488)
+	id 1mPw9c-0004Xf-54
+	for lists+qemu-devel@lfdr.de; Mon, 13 Sep 2021 20:18:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPw6P-0001i6-1A
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:09 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:44807)
+ id 1mPw6K-0001eN-A2
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:04 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:42619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mPw6F-0007YU-Qa
- for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:08 -0400
-Received: by mail-pl1-x636.google.com with SMTP id d18so6969848pll.11
+ id 1mPw6H-0007YZ-90
+ for qemu-devel@nongnu.org; Mon, 13 Sep 2021 20:15:03 -0400
+Received: by mail-pg1-x532.google.com with SMTP id q68so10998519pga.9
  for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 17:14:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cqsNI8eB8dYdrkbYfVw44LeDsz6A95z3X+kux7Iyodc=;
- b=m7AGjrzK6GAz6j0ckkXwkpb6pK+LfS598/yfeL7XT68S408rcTPEUXsG1VJa7+Mc4J
- Q05fNo7GFrFmTi+oeSkoCQmg7NMuA8R5WCfA40FQD//Xvf4a04+w62MdN/zyImMO17iQ
- IddEe7cf7b1M57BfuAuf/1IdVv7lmTnNZlLhSrC7n8y5Z2t+M8/DWtcURAmzpFXHlSMJ
- SLxhxRq/XEeQxjFJwpqm17W9vGxFf41cozSKSIo5SOmvuOh/Z0iJaSBUjK3rla8hMEaT
- q3I/S11gL3TXFRj4bwFAi50itRq0KNPhCdgP8TeCO+E15JMmJt+ngof8vLcJtwamfV9K
- +Itw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=2/aRV94oyF6HEuHjJmnfTp1vElXNF/Wl/VWcdqDW0pY=;
+ b=zHzul7VrPAsn1+XH8D1QfwwFIxekL813rkemt8hcLTQRuZ9xIA2hjAHjx5CTXLnDj3
+ BOeU7n5fitz1CPBUS4U9XcmR86bs0RjONO5D5P0KKG+QvvsF0TZ63TE46RO5bAwizVj6
+ gvT4B19qqV9ovyGrdB9UsXhwAha7KMnFgN1ytGHSV1hHwuhfrKWrBbFFmXNDQHPuzfWC
+ h5AeWyUAh/wV+Y8jaq2rlkuH21DiSjkqjtDSSdYvPALUldF7qhygYOpRP7IQvymIkM8O
+ haZBOVzAtCIhg3vFicb+FUYhID6rf9qqdDULUHpYB1R4bnRBhGMp4cQpCpV5/3lzEHqb
+ r4ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cqsNI8eB8dYdrkbYfVw44LeDsz6A95z3X+kux7Iyodc=;
- b=TzgQJ9e7SuP8OHbDert92SP/yBoDvP8cnaazEg7T9XmBPfswx94ZynbjrONLQzNxNP
- PochjoFYr4C9XSYpeQ2SEEvlXukLz16c/Rk6Z6hO4HnFA03vVyP0wDs5hcQRvNtCNku4
- cmre80vzztqd4yunfscZJPWlUo6mgRkprfw4wKEdjUXErbueWJPNwnRr+6o729eeKzsp
- NOM7gqG+Ri/Bq1Daqah1jIpxD8K6QDWqlw+GXeoP3Zf4Xcuyo9vCwwLVlv76pOJHCHAi
- MyG/FDhhf+c2HjUdU0aj/nXZXSH1es//2YXULnem8hFt2rH0eRD5uGkmMZA3Doohhrnp
- IaQg==
-X-Gm-Message-State: AOAM530wiZxcGOlEoxTdVBStfkp8sk14wP7ASmh0IcmS0HwfrYvyDhz3
- 5D3c4Gs7lHuiiJ1K35JtTOAwPH2hNN2JeQ==
-X-Google-Smtp-Source: ABdhPJyRYQMFPye2KGzIoNy0O5wxoVoWV9WJM67fKpPEy94FkgDyWitTDPC1XKRok/nBmag+YjyNvQ==
-X-Received: by 2002:a17:902:b202:b0:13a:2f9a:bd97 with SMTP id
- t2-20020a170902b20200b0013a2f9abd97mr12697092plr.2.1631578498067; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=2/aRV94oyF6HEuHjJmnfTp1vElXNF/Wl/VWcdqDW0pY=;
+ b=xkpCPaXVCUWs+7P3XDz1W5LOKRwqhLfZfsIswFt8/FWPhzYJyXEvyVvDyrrAw0DGlD
+ kqD833xHadtn1Cxzn9Ijic88bp5R8irKN6iDPGqpBuiK4oz7N+U86SqsFqJzjGDlEvk+
+ zku59KDO6nG3pe0v4jk51f7SxCVY9rR6jaethHBStx13FnmwDrhbwnEUiQWHTKHqRdkC
+ 6xgit6MWCPhNJ6dpz/rQO7VY69bAgOjd4UJ4F/2cHIg+5dImqbt9vgMQKH0WDdGQgMf/
+ QlYkFOjzGYh3z1MrN+4DLDBiKdbYtvVVYOTNZTNTYaj5UAHEMDqfEHWnIkFCEZXPl/FE
+ K87Q==
+X-Gm-Message-State: AOAM5337r31t/2FuKz03/lC1s0D86BDXjyTcBx2ktc2V+4jloelexiNa
+ 9olQNmarYH9rEH2Uh6E097wxLf6KwBsdmQ==
+X-Google-Smtp-Source: ABdhPJyByzgSURYRN/oxwTJQPuH+ytN4qyi/WErPA+ePqu6d46U99TQZHe8Ka0SzbfzdeYU3sh5n1w==
+X-Received: by 2002:aa7:9542:0:b0:434:5a64:bc8 with SMTP id
+ w2-20020aa79542000000b004345a640bc8mr2038819pfq.30.1631578498813; 
  Mon, 13 Sep 2021 17:14:58 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id m7sm9334179pgn.32.2021.09.13.17.14.57
+ by smtp.gmail.com with ESMTPSA id m7sm9334179pgn.32.2021.09.13.17.14.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 17:14:57 -0700 (PDT)
+ Mon, 13 Sep 2021 17:14:58 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/44] tcg patch queue, v2
-Date: Mon, 13 Sep 2021 17:14:12 -0700
-Message-Id: <20210914001456.793490-1-richard.henderson@linaro.org>
+Subject: [PULL 01/44] accel/tcg: Add DisasContextBase argument to
+ translator_ld*
+Date: Mon, 13 Sep 2021 17:14:13 -0700
+Message-Id: <20210914001456.793490-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210914001456.793490-1-richard.henderson@linaro.org>
+References: <20210914001456.793490-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,184 +84,489 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, Ilya Leoshkevich <iii@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Version 2 drops the bswap patch that caused such problems
-on the various BSDs; I'll have to look at that further.
-In the meantime I've also been collecting more pending
-patches, and I might as well include them now.
+From: Ilya Leoshkevich <iii@linux.ibm.com>
 
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+[rth: Split out of a larger patch.]
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/exec/translator.h                 |  9 +++++----
+ target/arm/arm_ldst.h                     | 12 ++++++------
+ target/alpha/translate.c                  |  2 +-
+ target/arm/translate-a64.c                |  2 +-
+ target/arm/translate.c                    |  9 +++++----
+ target/hexagon/translate.c                |  3 ++-
+ target/hppa/translate.c                   |  2 +-
+ target/i386/tcg/translate.c               | 10 +++++-----
+ target/m68k/translate.c                   |  2 +-
+ target/mips/tcg/translate.c               |  8 ++++----
+ target/openrisc/translate.c               |  2 +-
+ target/ppc/translate.c                    |  5 +++--
+ target/riscv/translate.c                  |  5 +++--
+ target/s390x/tcg/translate.c              | 16 +++++++++-------
+ target/sh4/translate.c                    |  4 ++--
+ target/sparc/translate.c                  |  2 +-
+ target/xtensa/translate.c                 |  5 +++--
+ target/mips/tcg/micromips_translate.c.inc |  2 +-
+ target/mips/tcg/mips16e_translate.c.inc   |  4 ++--
+ target/mips/tcg/nanomips_translate.c.inc  |  4 ++--
+ 20 files changed, 58 insertions(+), 50 deletions(-)
 
-r~
+diff --git a/include/exec/translator.h b/include/exec/translator.h
+index d318803267..6c054e8d05 100644
+--- a/include/exec/translator.h
++++ b/include/exec/translator.h
+@@ -157,7 +157,8 @@ bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest);
+ 
+ #define GEN_TRANSLATOR_LD(fullname, type, load_fn, swap_fn)             \
+     static inline type                                                  \
+-    fullname ## _swap(CPUArchState *env, abi_ptr pc, bool do_swap)      \
++    fullname ## _swap(CPUArchState *env, DisasContextBase *dcbase,      \
++                      abi_ptr pc, bool do_swap)                         \
+     {                                                                   \
+         type ret = load_fn(env, pc);                                    \
+         if (do_swap) {                                                  \
+@@ -166,10 +167,10 @@ bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest);
+         plugin_insn_append(&ret, sizeof(ret));                          \
+         return ret;                                                     \
+     }                                                                   \
+-                                                                        \
+-    static inline type fullname(CPUArchState *env, abi_ptr pc)          \
++    static inline type fullname(CPUArchState *env,                      \
++                                DisasContextBase *dcbase, abi_ptr pc)   \
+     {                                                                   \
+-        return fullname ## _swap(env, pc, false);                       \
++        return fullname ## _swap(env, dcbase, pc, false);               \
+     }
+ 
+ GEN_TRANSLATOR_LD(translator_ldub, uint8_t, cpu_ldub_code, /* no swap */)
+diff --git a/target/arm/arm_ldst.h b/target/arm/arm_ldst.h
+index 057160e8da..cee0548a1c 100644
+--- a/target/arm/arm_ldst.h
++++ b/target/arm/arm_ldst.h
+@@ -24,15 +24,15 @@
+ #include "qemu/bswap.h"
+ 
+ /* Load an instruction and return it in the standard little-endian order */
+-static inline uint32_t arm_ldl_code(CPUARMState *env, target_ulong addr,
+-                                    bool sctlr_b)
++static inline uint32_t arm_ldl_code(CPUARMState *env, DisasContextBase *s,
++                                    target_ulong addr, bool sctlr_b)
+ {
+-    return translator_ldl_swap(env, addr, bswap_code(sctlr_b));
++    return translator_ldl_swap(env, s, addr, bswap_code(sctlr_b));
+ }
+ 
+ /* Ditto, for a halfword (Thumb) instruction */
+-static inline uint16_t arm_lduw_code(CPUARMState *env, target_ulong addr,
+-                                     bool sctlr_b)
++static inline uint16_t arm_lduw_code(CPUARMState *env, DisasContextBase* s,
++                                     target_ulong addr, bool sctlr_b)
+ {
+ #ifndef CONFIG_USER_ONLY
+     /* In big-endian (BE32) mode, adjacent Thumb instructions have been swapped
+@@ -41,7 +41,7 @@ static inline uint16_t arm_lduw_code(CPUARMState *env, target_ulong addr,
+         addr ^= 2;
+     }
+ #endif
+-    return translator_lduw_swap(env, addr, bswap_code(sctlr_b));
++    return translator_lduw_swap(env, s, addr, bswap_code(sctlr_b));
+ }
+ 
+ #endif
+diff --git a/target/alpha/translate.c b/target/alpha/translate.c
+index de6c0a8439..b034206688 100644
+--- a/target/alpha/translate.c
++++ b/target/alpha/translate.c
+@@ -2971,7 +2971,7 @@ static void alpha_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+ {
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+     CPUAlphaState *env = cpu->env_ptr;
+-    uint32_t insn = translator_ldl(env, ctx->base.pc_next);
++    uint32_t insn = translator_ldl(env, &ctx->base, ctx->base.pc_next);
+ 
+     ctx->base.pc_next += 4;
+     ctx->base.is_jmp = translate_one(ctx, insn);
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 422e2ac0c9..a52949b1f3 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -14655,7 +14655,7 @@ static void disas_a64_insn(CPUARMState *env, DisasContext *s)
+     uint32_t insn;
+ 
+     s->pc_curr = s->base.pc_next;
+-    insn = arm_ldl_code(env, s->base.pc_next, s->sctlr_b);
++    insn = arm_ldl_code(env, &s->base, s->base.pc_next, s->sctlr_b);
+     s->insn = insn;
+     s->base.pc_next += 4;
+ 
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 24b7f49d76..422fca353d 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -9302,7 +9302,7 @@ static bool insn_crosses_page(CPUARMState *env, DisasContext *s)
+      * boundary, so we cross the page if the first 16 bits indicate
+      * that this is a 32 bit insn.
+      */
+-    uint16_t insn = arm_lduw_code(env, s->base.pc_next, s->sctlr_b);
++    uint16_t insn = arm_lduw_code(env, &s->base, s->base.pc_next, s->sctlr_b);
+ 
+     return !thumb_insn_is_16bit(s, s->base.pc_next, insn);
+ }
+@@ -9540,7 +9540,7 @@ static void arm_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+     }
+ 
+     dc->pc_curr = dc->base.pc_next;
+-    insn = arm_ldl_code(env, dc->base.pc_next, dc->sctlr_b);
++    insn = arm_ldl_code(env, &dc->base, dc->base.pc_next, dc->sctlr_b);
+     dc->insn = insn;
+     dc->base.pc_next += 4;
+     disas_arm_insn(dc, insn);
+@@ -9610,11 +9610,12 @@ static void thumb_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+     }
+ 
+     dc->pc_curr = dc->base.pc_next;
+-    insn = arm_lduw_code(env, dc->base.pc_next, dc->sctlr_b);
++    insn = arm_lduw_code(env, &dc->base, dc->base.pc_next, dc->sctlr_b);
+     is_16bit = thumb_insn_is_16bit(dc, dc->base.pc_next, insn);
+     dc->base.pc_next += 2;
+     if (!is_16bit) {
+-        uint32_t insn2 = arm_lduw_code(env, dc->base.pc_next, dc->sctlr_b);
++        uint32_t insn2 = arm_lduw_code(env, &dc->base, dc->base.pc_next,
++                                       dc->sctlr_b);
+ 
+         insn = insn << 16 | insn2;
+         dc->base.pc_next += 2;
+diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
+index 54fdcaa5e8..6fb4e6853c 100644
+--- a/target/hexagon/translate.c
++++ b/target/hexagon/translate.c
+@@ -112,7 +112,8 @@ static int read_packet_words(CPUHexagonState *env, DisasContext *ctx,
+     memset(words, 0, PACKET_WORDS_MAX * sizeof(uint32_t));
+     for (nwords = 0; !found_end && nwords < PACKET_WORDS_MAX; nwords++) {
+         words[nwords] =
+-            translator_ldl(env, ctx->base.pc_next + nwords * sizeof(uint32_t));
++            translator_ldl(env, &ctx->base,
++                           ctx->base.pc_next + nwords * sizeof(uint32_t));
+         found_end = is_packet_end(words[nwords]);
+     }
+     if (!found_end) {
+diff --git a/target/hppa/translate.c b/target/hppa/translate.c
+index b18150ef8d..3ce22cdd09 100644
+--- a/target/hppa/translate.c
++++ b/target/hppa/translate.c
+@@ -4177,7 +4177,7 @@ static void hppa_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     {
+         /* Always fetch the insn, even if nullified, so that we check
+            the page permissions for execute.  */
+-        uint32_t insn = translator_ldl(env, ctx->base.pc_next);
++        uint32_t insn = translator_ldl(env, &ctx->base, ctx->base.pc_next);
+ 
+         /* Set up the IA queue for the next insn.
+            This will be overwritten by a branch.  */
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index aacb605eee..a46be75b00 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -2028,28 +2028,28 @@ static uint64_t advance_pc(CPUX86State *env, DisasContext *s, int num_bytes)
+ 
+ static inline uint8_t x86_ldub_code(CPUX86State *env, DisasContext *s)
+ {
+-    return translator_ldub(env, advance_pc(env, s, 1));
++    return translator_ldub(env, &s->base, advance_pc(env, s, 1));
+ }
+ 
+ static inline int16_t x86_ldsw_code(CPUX86State *env, DisasContext *s)
+ {
+-    return translator_ldsw(env, advance_pc(env, s, 2));
++    return translator_ldsw(env, &s->base, advance_pc(env, s, 2));
+ }
+ 
+ static inline uint16_t x86_lduw_code(CPUX86State *env, DisasContext *s)
+ {
+-    return translator_lduw(env, advance_pc(env, s, 2));
++    return translator_lduw(env, &s->base, advance_pc(env, s, 2));
+ }
+ 
+ static inline uint32_t x86_ldl_code(CPUX86State *env, DisasContext *s)
+ {
+-    return translator_ldl(env, advance_pc(env, s, 4));
++    return translator_ldl(env, &s->base, advance_pc(env, s, 4));
+ }
+ 
+ #ifdef TARGET_X86_64
+ static inline uint64_t x86_ldq_code(CPUX86State *env, DisasContext *s)
+ {
+-    return translator_ldq(env, advance_pc(env, s, 8));
++    return translator_ldq(env, &s->base, advance_pc(env, s, 8));
+ }
+ #endif
+ 
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index c34d9aed61..50a55f949c 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -415,7 +415,7 @@ static TCGv gen_ldst(DisasContext *s, int opsize, TCGv addr, TCGv val,
+ static inline uint16_t read_im16(CPUM68KState *env, DisasContext *s)
+ {
+     uint16_t im;
+-    im = translator_lduw(env, s->pc);
++    im = translator_lduw(env, &s->base, s->pc);
+     s->pc += 2;
+     return im;
+ }
+diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+index 6f4a9a839c..148afec9dc 100644
+--- a/target/mips/tcg/translate.c
++++ b/target/mips/tcg/translate.c
+@@ -16041,17 +16041,17 @@ static void mips_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+ 
+     is_slot = ctx->hflags & MIPS_HFLAG_BMASK;
+     if (ctx->insn_flags & ISA_NANOMIPS32) {
+-        ctx->opcode = translator_lduw(env, ctx->base.pc_next);
++        ctx->opcode = translator_lduw(env, &ctx->base, ctx->base.pc_next);
+         insn_bytes = decode_isa_nanomips(env, ctx);
+     } else if (!(ctx->hflags & MIPS_HFLAG_M16)) {
+-        ctx->opcode = translator_ldl(env, ctx->base.pc_next);
++        ctx->opcode = translator_ldl(env, &ctx->base, ctx->base.pc_next);
+         insn_bytes = 4;
+         decode_opc(env, ctx);
+     } else if (ctx->insn_flags & ASE_MICROMIPS) {
+-        ctx->opcode = translator_lduw(env, ctx->base.pc_next);
++        ctx->opcode = translator_lduw(env, &ctx->base, ctx->base.pc_next);
+         insn_bytes = decode_isa_micromips(env, ctx);
+     } else if (ctx->insn_flags & ASE_MIPS16) {
+-        ctx->opcode = translator_lduw(env, ctx->base.pc_next);
++        ctx->opcode = translator_lduw(env, &ctx->base, ctx->base.pc_next);
+         insn_bytes = decode_ase_mips16e(env, ctx);
+     } else {
+         gen_reserved_instruction(ctx);
+diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
+index d6ea536744..5f3d430245 100644
+--- a/target/openrisc/translate.c
++++ b/target/openrisc/translate.c
+@@ -1613,7 +1613,7 @@ static void openrisc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+ {
+     DisasContext *dc = container_of(dcbase, DisasContext, base);
+     OpenRISCCPU *cpu = OPENRISC_CPU(cs);
+-    uint32_t insn = translator_ldl(&cpu->env, dc->base.pc_next);
++    uint32_t insn = translator_ldl(&cpu->env, &dc->base, dc->base.pc_next);
+ 
+     if (!decode(dc, insn)) {
+         gen_illegal_exception(dc);
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 171b216e17..5d8b06bd80 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -8585,7 +8585,7 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+               ctx->base.pc_next, ctx->mem_idx, (int)msr_ir);
+ 
+     ctx->cia = pc = ctx->base.pc_next;
+-    insn = translator_ldl_swap(env, pc, need_byteswap(ctx));
++    insn = translator_ldl_swap(env, dcbase, pc, need_byteswap(ctx));
+     ctx->base.pc_next = pc += 4;
+ 
+     if (!is_prefix_insn(ctx, insn)) {
+@@ -8600,7 +8600,8 @@ static void ppc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+         gen_exception_err(ctx, POWERPC_EXCP_ALIGN, POWERPC_EXCP_ALIGN_INSN);
+         ok = true;
+     } else {
+-        uint32_t insn2 = translator_ldl_swap(env, pc, need_byteswap(ctx));
++        uint32_t insn2 = translator_ldl_swap(env, dcbase, pc,
++                                             need_byteswap(ctx));
+         ctx->base.pc_next = pc += 4;
+         ok = decode_insn64(ctx, deposit64(insn2, 32, 32, insn));
+     }
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index e356fc6c46..74b33fa3c9 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -500,7 +500,8 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+     } else {
+         uint32_t opcode32 = opcode;
+         opcode32 = deposit32(opcode32, 16, 16,
+-                             translator_lduw(env, ctx->base.pc_next + 2));
++                             translator_lduw(env, &ctx->base,
++                                             ctx->base.pc_next + 2));
+         ctx->pc_succ_insn = ctx->base.pc_next + 4;
+         if (!decode_insn32(ctx, opcode32)) {
+             gen_exception_illegal(ctx);
+@@ -561,7 +562,7 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+ {
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+     CPURISCVState *env = cpu->env_ptr;
+-    uint16_t opcode16 = translator_lduw(env, ctx->base.pc_next);
++    uint16_t opcode16 = translator_lduw(env, &ctx->base, ctx->base.pc_next);
+ 
+     decode_opc(env, ctx, opcode16);
+     ctx->base.pc_next = ctx->pc_succ_insn;
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index 0632b0374b..f284870cd2 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -388,14 +388,16 @@ static void update_cc_op(DisasContext *s)
+     }
+ }
+ 
+-static inline uint64_t ld_code2(CPUS390XState *env, uint64_t pc)
++static inline uint64_t ld_code2(CPUS390XState *env, DisasContext *s,
++                                uint64_t pc)
+ {
+-    return (uint64_t)cpu_lduw_code(env, pc);
++    return (uint64_t)translator_lduw(env, &s->base, pc);
+ }
+ 
+-static inline uint64_t ld_code4(CPUS390XState *env, uint64_t pc)
++static inline uint64_t ld_code4(CPUS390XState *env, DisasContext *s,
++                                uint64_t pc)
+ {
+-    return (uint64_t)(uint32_t)cpu_ldl_code(env, pc);
++    return (uint64_t)(uint32_t)translator_ldl(env, &s->base, pc);
+ }
+ 
+ static int get_mem_index(DisasContext *s)
+@@ -6273,7 +6275,7 @@ static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s)
+         ilen = s->ex_value & 0xf;
+         op = insn >> 56;
+     } else {
+-        insn = ld_code2(env, pc);
++        insn = ld_code2(env, s, pc);
+         op = (insn >> 8) & 0xff;
+         ilen = get_ilen(op);
+         switch (ilen) {
+@@ -6281,10 +6283,10 @@ static const DisasInsn *extract_insn(CPUS390XState *env, DisasContext *s)
+             insn = insn << 48;
+             break;
+         case 4:
+-            insn = ld_code4(env, pc) << 32;
++            insn = ld_code4(env, s, pc) << 32;
+             break;
+         case 6:
+-            insn = (insn << 48) | (ld_code4(env, pc + 2) << 16);
++            insn = (insn << 48) | (ld_code4(env, s, pc + 2) << 16);
+             break;
+         default:
+             g_assert_not_reached();
+diff --git a/target/sh4/translate.c b/target/sh4/translate.c
+index 8704fea1ca..cf5fe9243d 100644
+--- a/target/sh4/translate.c
++++ b/target/sh4/translate.c
+@@ -1907,7 +1907,7 @@ static void decode_gusa(DisasContext *ctx, CPUSH4State *env)
+ 
+     /* Read all of the insns for the region.  */
+     for (i = 0; i < max_insns; ++i) {
+-        insns[i] = translator_lduw(env, pc + i * 2);
++        insns[i] = translator_lduw(env, &ctx->base, pc + i * 2);
+     }
+ 
+     ld_adr = ld_dst = ld_mop = -1;
+@@ -2307,7 +2307,7 @@ static void sh4_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     }
+ #endif
+ 
+-    ctx->opcode = translator_lduw(env, ctx->base.pc_next);
++    ctx->opcode = translator_lduw(env, &ctx->base, ctx->base.pc_next);
+     decode_opc(ctx);
+     ctx->base.pc_next += 2;
+ }
+diff --git a/target/sparc/translate.c b/target/sparc/translate.c
+index bb70ba17de..fdb8bbe5dc 100644
+--- a/target/sparc/translate.c
++++ b/target/sparc/translate.c
+@@ -5855,7 +5855,7 @@ static void sparc_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+     CPUSPARCState *env = cs->env_ptr;
+     unsigned int insn;
+ 
+-    insn = translator_ldl(env, dc->pc);
++    insn = translator_ldl(env, &dc->base, dc->pc);
+     dc->base.pc_next += 4;
+     disas_sparc_insn(dc, insn);
+ 
+diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
+index 20399d6a04..dcf6b500ef 100644
+--- a/target/xtensa/translate.c
++++ b/target/xtensa/translate.c
+@@ -882,7 +882,8 @@ static int arg_copy_compare(const void *a, const void *b)
+ static void disas_xtensa_insn(CPUXtensaState *env, DisasContext *dc)
+ {
+     xtensa_isa isa = dc->config->isa;
+-    unsigned char b[MAX_INSN_LENGTH] = {translator_ldub(env, dc->pc)};
++    unsigned char b[MAX_INSN_LENGTH] = {translator_ldub(env, &dc->base,
++                                                        dc->pc)};
+     unsigned len = xtensa_op0_insn_len(dc, b[0]);
+     xtensa_format fmt;
+     int slot, slots;
+@@ -907,7 +908,7 @@ static void disas_xtensa_insn(CPUXtensaState *env, DisasContext *dc)
+ 
+     dc->base.pc_next = dc->pc + len;
+     for (i = 1; i < len; ++i) {
+-        b[i] = translator_ldub(env, dc->pc + i);
++        b[i] = translator_ldub(env, &dc->base, dc->pc + i);
+     }
+     xtensa_insnbuf_from_chars(isa, dc->insnbuf, b, len);
+     fmt = xtensa_format_decode(isa, dc->insnbuf);
+diff --git a/target/mips/tcg/micromips_translate.c.inc b/target/mips/tcg/micromips_translate.c.inc
+index 5e95f47854..0da4c802a3 100644
+--- a/target/mips/tcg/micromips_translate.c.inc
++++ b/target/mips/tcg/micromips_translate.c.inc
+@@ -1627,7 +1627,7 @@ static void decode_micromips32_opc(CPUMIPSState *env, DisasContext *ctx)
+     uint32_t op, minor, minor2, mips32_op;
+     uint32_t cond, fmt, cc;
+ 
+-    insn = translator_lduw(env, ctx->base.pc_next + 2);
++    insn = translator_lduw(env, &ctx->base, ctx->base.pc_next + 2);
+     ctx->opcode = (ctx->opcode << 16) | insn;
+ 
+     rt = (ctx->opcode >> 21) & 0x1f;
+diff --git a/target/mips/tcg/mips16e_translate.c.inc b/target/mips/tcg/mips16e_translate.c.inc
+index 54071813f1..84d816603a 100644
+--- a/target/mips/tcg/mips16e_translate.c.inc
++++ b/target/mips/tcg/mips16e_translate.c.inc
+@@ -455,7 +455,7 @@ static void decode_i64_mips16(DisasContext *ctx,
+ 
+ static int decode_extended_mips16_opc(CPUMIPSState *env, DisasContext *ctx)
+ {
+-    int extend = translator_lduw(env, ctx->base.pc_next + 2);
++    int extend = translator_lduw(env, &ctx->base, ctx->base.pc_next + 2);
+     int op, rx, ry, funct, sa;
+     int16_t imm, offset;
+ 
+@@ -688,7 +688,7 @@ static int decode_ase_mips16e(CPUMIPSState *env, DisasContext *ctx)
+         /* No delay slot, so just process as a normal instruction */
+         break;
+     case M16_OPC_JAL:
+-        offset = translator_lduw(env, ctx->base.pc_next + 2);
++        offset = translator_lduw(env, &ctx->base, ctx->base.pc_next + 2);
+         offset = (((ctx->opcode & 0x1f) << 21)
+                   | ((ctx->opcode >> 5) & 0x1f) << 16
+                   | offset) << 2;
+diff --git a/target/mips/tcg/nanomips_translate.c.inc b/target/mips/tcg/nanomips_translate.c.inc
+index a66ae26796..ccbcecad09 100644
+--- a/target/mips/tcg/nanomips_translate.c.inc
++++ b/target/mips/tcg/nanomips_translate.c.inc
+@@ -3656,7 +3656,7 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
+     int offset;
+     int imm;
+ 
+-    insn = translator_lduw(env, ctx->base.pc_next + 2);
++    insn = translator_lduw(env, &ctx->base, ctx->base.pc_next + 2);
+     ctx->opcode = (ctx->opcode << 16) | insn;
+ 
+     rt = extract32(ctx->opcode, 21, 5);
+@@ -3775,7 +3775,7 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
+         break;
+     case NM_P48I:
+         {
+-            insn = translator_lduw(env, ctx->base.pc_next + 4);
++            insn = translator_lduw(env, &ctx->base, ctx->base.pc_next + 4);
+             target_long addr_off = extract32(ctx->opcode, 0, 16) | insn << 16;
+             switch (extract32(ctx->opcode, 16, 5)) {
+             case NM_LI48:
+-- 
+2.25.1
 
-
-The following changes since commit 7d79344d4fa44e520e6e89f8fed9a27d3d554a9b:
-
-  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-09-13 13:33:21 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210913
-
-for you to fetch changes up to 5b778e9b4e0e0a37a86200e6af322b2a9b69c62e:
-
-  tcg/arm: More use of the TCGReg enum (2021-09-13 12:09:05 -0700)
-
-----------------------------------------------------------------
-Fix translation race condition for user-only.
-Fix tcg/i386 encoding for VPSLLVQ, VPSRLVQ.
-Fix tcg/arm tcg_out_vec_op signature.
-Fix tcg/ppc (32bit) build with clang.
-Remove dupluate TCG_KICK_PERIOD definition.
-Remove unused tcg_global_reg_new.
-Restrict cpu_exec_interrupt and its callees to sysemu.
-Cleanups for tcg/arm.
-
-----------------------------------------------------------------
-Bin Meng (1):
-      tcg: Remove tcg_global_reg_new defines
-
-Ilya Leoshkevich (3):
-      accel/tcg: Add DisasContextBase argument to translator_ld*
-      accel/tcg: Clear PAGE_WRITE before translation
-      accel/tcg/user-exec: Fix read-modify-write of code on s390 hosts
-
-Jose R. Ziviani (1):
-      tcg/arm: Fix tcg_out_vec_op function signature
-
-Luc Michel (1):
-      accel/tcg: remove redundant TCG_KICK_PERIOD define
-
-Philippe Mathieu-Daudé (25):
-      target/avr: Remove pointless use of CONFIG_USER_ONLY definition
-      target/i386: Restrict sysemu-only fpu_helper helpers
-      target/i386: Simplify TARGET_X86_64 #ifdef'ry
-      target/xtensa: Restrict do_transaction_failed() to sysemu
-      accel/tcg: Rename user-mode do_interrupt hack as fake_user_interrupt
-      target/alpha: Restrict cpu_exec_interrupt() handler to sysemu
-      target/arm: Restrict cpu_exec_interrupt() handler to sysemu
-      target/cris: Restrict cpu_exec_interrupt() handler to sysemu
-      target/hppa: Restrict cpu_exec_interrupt() handler to sysemu
-      target/i386: Restrict cpu_exec_interrupt() handler to sysemu
-      target/i386: Move x86_cpu_exec_interrupt() under sysemu/ folder
-      target/m68k: Restrict cpu_exec_interrupt() handler to sysemu
-      target/microblaze: Restrict cpu_exec_interrupt() handler to sysemu
-      target/mips: Restrict cpu_exec_interrupt() handler to sysemu
-      target/nios2: Restrict cpu_exec_interrupt() handler to sysemu
-      target/openrisc: Restrict cpu_exec_interrupt() handler to sysemu
-      target/ppc: Restrict cpu_exec_interrupt() handler to sysemu
-      target/riscv: Restrict cpu_exec_interrupt() handler to sysemu
-      target/sh4: Restrict cpu_exec_interrupt() handler to sysemu
-      target/sparc: Restrict cpu_exec_interrupt() handler to sysemu
-      target/rx: Restrict cpu_exec_interrupt() handler to sysemu
-      target/xtensa: Restrict cpu_exec_interrupt() handler to sysemu
-      accel/tcg: Restrict TCGCPUOps::cpu_exec_interrupt() to sysemu
-      user: Remove cpu_get_pic_interrupt() stubs
-      user: Mark cpu_loop() with noreturn attribute
-
-Richard Henderson (13):
-      tcg/i386: Split P_VEXW from P_REXW
-      tcg/ppc: Replace TCG_TARGET_CALL_DARWIN with _CALL_DARWIN
-      tcg/ppc: Ensure _CALL_SYSV is set for 32-bit ELF
-      tcg/arm: Remove fallback definition of __ARM_ARCH
-      tcg/arm: Standardize on tcg_out_<branch>_{reg,imm}
-      tcg/arm: Simplify use_armv5t_instructions
-      tcg/arm: Support armv4t in tcg_out_goto and tcg_out_call
-      tcg/arm: Split out tcg_out_ldstm
-      tcg/arm: Simplify usage of encode_imm
-      tcg/arm: Drop inline markers
-      tcg/arm: Give enum arm_cond_code_e a typedef and use it
-      tcg/arm: More use of the ARMInsn enum
-      tcg/arm: More use of the TCGReg enum
-
- bsd-user/qemu.h                           |   2 +-
- include/exec/translate-all.h              |   1 +
- include/exec/translator.h                 |  44 +--
- include/hw/core/tcg-cpu-ops.h             |  26 +-
- include/tcg/tcg-op.h                      |   2 -
- linux-user/qemu.h                         |   2 +-
- target/alpha/cpu.h                        |   2 +-
- target/arm/arm_ldst.h                     |  12 +-
- target/arm/cpu.h                          |   3 +-
- target/cris/cpu.h                         |   2 +-
- target/hppa/cpu.h                         |   4 +-
- target/i386/cpu.h                         |   3 +
- target/i386/tcg/helper-tcg.h              |   2 +
- target/m68k/cpu.h                         |   2 +
- target/microblaze/cpu.h                   |   2 +
- target/mips/tcg/tcg-internal.h            |   5 +-
- target/openrisc/cpu.h                     |   5 +-
- target/ppc/cpu.h                          |   4 +-
- target/riscv/cpu.h                        |   2 +-
- target/rx/cpu.h                           |   2 +
- target/sh4/cpu.h                          |   4 +-
- target/xtensa/cpu.h                       |   2 +
- tcg/arm/tcg-target.h                      |  27 +-
- accel/tcg/cpu-exec.c                      |  14 +-
- accel/tcg/tcg-accel-ops-rr.c              |   2 -
- accel/tcg/translate-all.c                 |  59 ++--
- accel/tcg/translator.c                    |  39 +++
- accel/tcg/user-exec.c                     |  48 ++-
- bsd-user/i386/target_arch_cpu.c           |   5 -
- bsd-user/x86_64/target_arch_cpu.c         |   5 -
- linux-user/main.c                         |   7 -
- target/alpha/cpu.c                        |   2 +-
- target/alpha/helper.c                     |   5 +-
- target/alpha/translate.c                  |   2 +-
- target/arm/cpu.c                          |   7 +-
- target/arm/cpu_tcg.c                      |   6 +-
- target/arm/translate-a64.c                |   2 +-
- target/arm/translate.c                    |   9 +-
- target/avr/cpu.c                          |   3 -
- target/cris/cpu.c                         |   4 +-
- target/cris/helper.c                      |  17 +-
- target/hexagon/translate.c                |   3 +-
- target/hppa/cpu.c                         |   2 +-
- target/hppa/int_helper.c                  |   7 +-
- target/hppa/translate.c                   |   5 +-
- target/i386/tcg/seg_helper.c              |  74 +----
- target/i386/tcg/sysemu/seg_helper.c       |  62 ++++
- target/i386/tcg/tcg-cpu.c                 |   8 +-
- target/i386/tcg/translate.c               |  10 +-
- target/m68k/cpu.c                         |   2 +-
- target/m68k/op_helper.c                   |  16 +-
- target/m68k/translate.c                   |   2 +-
- target/microblaze/cpu.c                   |   2 +-
- target/microblaze/helper.c                |  13 +-
- target/mips/cpu.c                         |   2 +-
- target/mips/tcg/exception.c               |  18 --
- target/mips/tcg/sysemu/tlb_helper.c       |  18 ++
- target/mips/tcg/translate.c               |   8 +-
- target/mips/tcg/user/tlb_helper.c         |   5 -
- target/nios2/cpu.c                        |   5 +-
- target/openrisc/cpu.c                     |   2 +-
- target/openrisc/interrupt.c               |   2 -
- target/openrisc/translate.c               |   2 +-
- target/ppc/cpu_init.c                     |   2 +-
- target/ppc/excp_helper.c                  |  21 +-
- target/ppc/translate.c                    |   5 +-
- target/riscv/cpu.c                        |   2 +-
- target/riscv/cpu_helper.c                 |   5 -
- target/riscv/translate.c                  |   5 +-
- target/rx/cpu.c                           |   2 +-
- target/rx/helper.c                        |   4 +
- target/s390x/tcg/translate.c              |  16 +-
- target/sh4/cpu.c                          |   2 +-
- target/sh4/helper.c                       |   9 +-
- target/sh4/translate.c                    |   4 +-
- target/sparc/cpu.c                        |   4 +-
- target/sparc/translate.c                  |   2 +-
- target/xtensa/cpu.c                       |   2 +-
- target/xtensa/exc_helper.c                |   7 +-
- target/xtensa/translate.c                 |   5 +-
- target/mips/tcg/micromips_translate.c.inc |   2 +-
- target/mips/tcg/mips16e_translate.c.inc   |   4 +-
- target/mips/tcg/nanomips_translate.c.inc  |   4 +-
- tcg/arm/tcg-target.c.inc                  | 517 ++++++++++++++++--------------
- tcg/i386/tcg-target.c.inc                 |  13 +-
- tcg/ppc/tcg-target.c.inc                  |  25 +-
- target/openrisc/meson.build               |   6 +-
- 87 files changed, 702 insertions(+), 630 deletions(-)
 
