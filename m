@@ -2,92 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248F840AA09
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 10:58:05 +0200 (CEST)
-Received: from localhost ([::1]:40252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CAC140AA14
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 11:02:13 +0200 (CEST)
+Received: from localhost ([::1]:44476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ4GS-0000Dh-6G
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 04:58:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59908)
+	id 1mQ4KS-0003Dd-Jn
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 05:02:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQ4D7-0005J8-R5
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 04:54:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50611)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQ4IQ-0002KW-Sv
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 05:00:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQ4D3-0000sx-Tq
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 04:54:36 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQ4IO-0005T5-6l
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 05:00:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631609672;
+ s=mimecast20190719; t=1631610002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GKTbNZ3gWKTTBNqqb81VtQvASTcP/qe7/2shVDcWhQA=;
- b=C+/aXN7yphYpaYKPoV9xG5KzrrDuhkaon/Pop6vz3pO5YVAbqjx0r7O/u+ZwNs3xi1+mJ7
- Zt6FE+w9tNtcYW4il+wnEDLl4WHhynCQ3RTF/i7rd2UwnWdB2FLWAF0GviYdArqKq65I6L
- nyaHnKRO0Q8LehixLBb5wNxXvieXK+k=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-HFYj9WIBO7aC6rsKjn5FQA-1; Tue, 14 Sep 2021 04:54:31 -0400
-X-MC-Unique: HFYj9WIBO7aC6rsKjn5FQA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- z2-20020a5d4c82000000b0015b140e0562so3702171wrs.7
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 01:54:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=GKTbNZ3gWKTTBNqqb81VtQvASTcP/qe7/2shVDcWhQA=;
- b=UkQdVYltX78Sa57hLVC/KZAjuUbF6C0+Nsx8Y9fd0pryc0Esgw+VZDme0wANqNU15T
- GfPAt5YzAFuE4ByNCZ1NbB76DYh0WCpmLVfaVQ/yZikD693JzPFMJlQlFhtxZOm27YvS
- ru9Z4HZVXk3FEjePK4KmR0+glSX6jZhTeqlyGIw9WaFG3YgK5hziNxrzJGLBTyxXOGkL
- eO0UBZDLjLo+pphUaYNeSZosJhvv+OkbaMmpm+JTxjPcVvM6kmBm6OOCdkPnUeB6CQjq
- Jr4Qk0gdN+YThgcIPaPXhO0e0zF9CSEjK6A7iomuqyJmLz6NIHARxsRUHAWmC20HdInP
- dWzA==
-X-Gm-Message-State: AOAM533peNUPbrDWpymPf/fSElaoj/ioBBE38iXMBdITNXuwkI6Yh5kA
- rhKThpLbuzIuwru1JQ9qpAXHYt+2x++ewIBtb0m3UwaLTrBW7UCqP1qpBCa53uFo1davymsfbul
- qukXXq8f0fXP9cZE=
-X-Received: by 2002:a05:600c:510a:: with SMTP id
- o10mr887633wms.81.1631609670200; 
- Tue, 14 Sep 2021 01:54:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzGLf39Vd0e/n2SzQ24dAf/xs3NQ3MVIG12/4U1iTb5PjUT5K8cGAeHTDDsicBhXFcqQzNZFg==
-X-Received: by 2002:a05:600c:510a:: with SMTP id
- o10mr887619wms.81.1631609670034; 
- Tue, 14 Sep 2021 01:54:30 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
- by smtp.gmail.com with ESMTPSA id i2sm5736654wrq.78.2021.09.14.01.54.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 01:54:29 -0700 (PDT)
-Subject: Re: [PATCH v3 06/10] qcow2-refcount: check_refcounts_l2(): check
- l2_bitmap
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210524142031.142109-1-vsementsov@virtuozzo.com>
- <20210524142031.142109-7-vsementsov@virtuozzo.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <704ed8a0-387a-d2e7-827f-39957f67b892@redhat.com>
-Date: Tue, 14 Sep 2021 10:54:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=ro+XLWZx3PBStRRCnh4RLzzSNyKsddiaDPP8jVNISX0=;
+ b=R3ysWug1BBz0CsmMk+Zs74h+I0nTKG03sqFHqJj+YrPrc5jcz4zHTrkl7qQJlzBa/IHCVT
+ Pwp/FezKW3Qx6a50te+24lJkPMCAs1FsZ+u+HUQl1VOVrxTSqvqYiUWmWciPVXoNBoDrQz
+ iaSRsN/3+RcqZYKlowmdgoEg3Nm4+KI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-543-LgE373qHOjqU4cWhECfhBg-1; Tue, 14 Sep 2021 05:00:00 -0400
+X-MC-Unique: LgE373qHOjqU4cWhECfhBg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40FBD802C94
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 08:59:59 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E23745D9DC;
+ Tue, 14 Sep 2021 08:59:58 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 5A941113865F; Tue, 14 Sep 2021 10:59:57 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v3 6/6] tests/qapi-schema: Test cases for aliases
+References: <20210812161131.92017-1-kwolf@redhat.com>
+ <20210812161131.92017-7-kwolf@redhat.com>
+ <878s09d8pe.fsf@dusky.pond.sub.org> <YTt0G1cs+BweXOMD@redhat.com>
+Date: Tue, 14 Sep 2021 10:59:57 +0200
+In-Reply-To: <YTt0G1cs+BweXOMD@redhat.com> (Kevin Wolf's message of "Fri, 10
+ Sep 2021 17:04:59 +0200")
+Message-ID: <87bl4vedma.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210524142031.142109-7-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.398, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.969,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -102,81 +83,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berto@igalia.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, ktkhai@virtuozzo.com, den@openvz.org, eblake@redhat.com
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.05.21 16:20, Vladimir Sementsov-Ogievskiy wrote:
-> Check subcluster bitmap of the l2 entry for different types of
-> clusters:
+Kevin Wolf <kwolf@redhat.com> writes:
+
+> Am 06.09.2021 um 17:28 hat Markus Armbruster geschrieben:
+>> Kevin Wolf <kwolf@redhat.com> writes:
+>> > +    /* Can still specify the real member name with alias support */
+>> > +    v =3D visitor_input_test_init(data, "{ 'foo': 42 }");
+>> > +    visit_type_AliasStruct1(v, NULL, &tmp, &error_abort);
+>> > +    g_assert_cmpint(tmp->foo, =3D=3D, 42);
+>> > +    qapi_free_AliasStruct1(tmp);
+>> > +
+>> > +    /* The alias is a working alternative */
+>> > +    v =3D visitor_input_test_init(data, "{ 'bar': 42 }");
+>> > +    visit_type_AliasStruct1(v, NULL, &tmp, &error_abort);
+>> > +    g_assert_cmpint(tmp->foo, =3D=3D, 42);
+>> > +    qapi_free_AliasStruct1(tmp);
+>> > +
+>> > +    /* But you can't use both at the same time */
+>> > +    v =3D visitor_input_test_init(data, "{ 'foo': 5, 'bar': 42 }");
+>> > +    visit_type_AliasStruct1(v, NULL, &tmp, &err);
+>> > +    error_free_or_abort(&err);
+>>=20
+>> I double-checked this reports "Value for parameter foo was already given
+>> through an alias", as it should.
+>>=20
+>> Pointing to what exactly is giving values to foo already would be nice.
+>> In this case, 'foo' is obvious, but 'bar' is not.  This is not a demand.
 >
->   - for compressed it must be zero
->   - for allocated check consistency of two parts of the bitmap
->   - for unallocated all subclusters should be unallocated
->     (or zero-plain)
+> We have the name, so we could print it, but it could be in a different
+> StackObject. I'm not sure if we have a good way to identify a parent
+> StackObject, and without it the message could be very confusing.
+
+All we have is full_name_so(), which can describe members / aliases in
+any StackObject currently on qiv->stack, i.e. in the current object, the
+object that contains it, and so forth up to the root object.
+
+> If you have a good idea what the message should look like, I can make an
+> attempt.
+
+Of course, users don't want to know about alias chains, they want to
+know what part of their input makes things explode.  The answer to that
+question could be like "'a.b.c' clashes with 'c'" (too terse, but you
+get the idea).
+
+Perhaps users then want to know *why* it clashes.  To answer that
+question, we'd have to present the complete alias chain.  I'm not sure
+this is worth the trouble.
+
+>> > +    /* You can't use more than one option at the same time */
+>> > +    v =3D visitor_input_test_init(data, "{ 'foo': 42, 'nested': { 'fo=
+o': 42 } }");
+>> > +    visit_type_AliasStruct3(v, NULL, &tmp, &err);
+>> > +    error_free_or_abort(&err);
+>>=20
+>> "Parameter 'foo' is unexpected".  Say what?  It *is* expected, it just
+>> clashes with 'nested.foo'.
+>>=20
+>> I figure this is what happens:
+>>=20
+>> * visit_type_AliasStruct3()
+>>=20
+>>   - visit_start_struct()
+>>=20
+>>   - visit_type_AliasStruct3_members()
+>>=20
+>>     =E2=80=A2 visit_type_AliasStruct1() for member @nested.
+>>=20
+>>       This consumes consumes input nested.foo.
+>>=20
+>>   - visit_check_struct()
+>>=20
+>>     Error: input foo has not been consumed.
+>>=20
+>> Any ideas on how to report this error more clearly?
 >
-> For unallocated clusters we can safely fix the entry by making it
-> zero-plain.
+> It's a result of the logic that wildcard aliases are silently ignored
+> when they aren't needed. The reason why I included this is that it would
+> allow you to have two members with the same name in the object
+> containing the alias and in the aliased object without conflicting as
+> long as both are given.
+
+*brain cramp*
+
+Example?
+
+> Never skipping wildcard aliases makes the code simpler and results in
+> the expected error message here. So I'll do that for v4.
+
+Trusting your judgement.
+
+> Note that parsing something like '--chardev type=3Dsocket,addr.type=3Duni=
+x,
+> path=3D/tmp/sock,id=3Dc' now depends on the order in the generated code. =
+If
+> the top level 'type' weren't parsed and removed from the input first,
+> visiting 'addr.type' would now detect a conflict. For union types, we
+> know that 'type' is always parsed first, so it's not a problem, but in
+> the general case you need to be careful with the order.
+
+Uff!  I think I'd like to understand this better.  No need to delay v4
+for that.
+
+Can't yet say whether we need to spell out the limitation in commit
+message and/or documentation.
+
+>> > +
+>> > +    v =3D visitor_input_test_init(data, "{ 'tag': 'eins', 'foo': 6, '=
+bar': 9 }");
+>> > +    visit_type_AliasFlatUnion(v, NULL, &tmp, &err);
+>> > +    error_free_or_abort(&err);
+>>=20
+>> "Value for parameter foo was already given through an alias".  Good,
+>> except I'm getting a feeling "already" may be confusing.  It's "already"
+>> only in the sense that we already got the value via alias, which is an
+>> implementation detail.  It may or may not be given already in the
+>> input.  Here it's not: 'bar' follows 'foo'.
+>>=20
+>> What about "is also given through an alias"?
 >
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Tested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
-> ---
->   block/qcow2-refcount.c | 30 +++++++++++++++++++++++++++++-
->   1 file changed, 29 insertions(+), 1 deletion(-)
+> Sounds good.
 >
-> diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-> index f48c5e1b5d..062ec48a15 100644
-> --- a/block/qcow2-refcount.c
-> +++ b/block/qcow2-refcount.c
-> @@ -1681,6 +1681,7 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
->           uint64_t coffset;
->           int csize;
->           l2_entry = get_l2_entry(s, l2_table, i);
-> +        uint64_t l2_bitmap = get_l2_bitmap(s, l2_table, i);
+>> Positive tests look good to me, except they neglect to use any of the
+>> types using the alias features in QMP.  I think we need something like
+>> the appended incremental patch.
+>
+> I'm squashing it in.
 
-This is a declaration after a statement.  (Easily fixable by moving the 
-l2_entry declaration here, though.  Or by putting the l2_bitmap 
-declaration where l2_entry is declared.)
-
-[...]
-
-> @@ -1800,6 +1815,19 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
->   
->           case QCOW2_CLUSTER_ZERO_PLAIN:
->           case QCOW2_CLUSTER_UNALLOCATED:
-> +            if (l2_bitmap & QCOW_L2_BITMAP_ALL_ALLOC) {
-> +                res->corruptions++;
-> +                fprintf(stderr, "%s: Unallocated "
-> +                        "cluster has non-zero subcluster allocation map\n",
-> +                        fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR");
-> +                if (fix & BDRV_FIX_ERRORS) {
-> +                    ret = fix_l2_entry_by_zero(bs, res, l2_offset, l2_table, i,
-> +                                               active, &metadata_overlap);
-
-I believe this is indeed the correct repair method for 
-QCOW2_CLUSTER_ZERO_PLAIN, but I’m not so sure for 
-QCOW2_CLUSTER_UNALLOCATED.  As far as I can tell, 
-qcow2_get_subcluster_type() will return QCOW2_SUBCLUSTER_INVALID for 
-this case, and so trying to read from this clusters will produce I/O 
-errors.  But still, shouldn’t we rather make such a cluster unallocated 
-rather than zero then?
-
-And as for QCOW2_CLUSTER_ZERO_PLAIN, I believe qcow2_get_cluster_type() 
-will never return it when subclusters are enabled.  So this repair path 
-will never happen with a cluster type of ZERO_PLAIN, but only for 
-UNALLOCATED.
-
-Hanna
-
-> +                    if (metadata_overlap) {
-> +                        return ret;
-> +                    }
-> +                }
-> +            }
->               break;
->   
->           default:
+Thanks!
 
 
