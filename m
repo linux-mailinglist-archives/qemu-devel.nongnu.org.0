@@ -2,58 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E7B40B82C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 21:34:46 +0200 (CEST)
-Received: from localhost ([::1]:56924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47DA240B81F
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 21:34:05 +0200 (CEST)
+Received: from localhost ([::1]:54746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQECb-0006zo-41
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 15:34:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42112)
+	id 1mQEBw-0005VJ-Ce
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 15:34:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQE99-0003qk-JL
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 15:31:12 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:35291)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQE97-0001Ww-BY
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 15:31:11 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-y3aolB9gOoC8Kc_Sg0WRhg-1; Tue, 14 Sep 2021 15:31:07 -0400
-X-MC-Unique: y3aolB9gOoC8Kc_Sg0WRhg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4247EA40FD;
- Tue, 14 Sep 2021 19:31:03 +0000 (UTC)
-Received: from bahia.huguette (unknown [10.39.192.206])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 37B72838D7;
- Tue, 14 Sep 2021 19:30:37 +0000 (UTC)
-Date: Tue, 14 Sep 2021 21:30:36 +0200
-From: Greg Kurz <groug@kaod.org>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Subject: Re: [PATCH v2 20/53] target/ppc: convert to use format_state
- instead of dump_state
-Message-ID: <20210914213036.3f7a70ba@bahia.huguette>
-In-Reply-To: <20210914142042.1655100-21-berrange@redhat.com>
-References: <20210914142042.1655100-1-berrange@redhat.com>
- <20210914142042.1655100-21-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mQE8q-0003Hw-W1
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 15:30:53 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:35467)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mQE8o-0001LI-L2
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 15:30:52 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ f3-20020a17090a638300b00199097ddf1aso3106920pjj.0
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 12:30:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yLjkJDld/NkduZAOMzve/po3wnfh8pYm6OF1IYAcAbg=;
+ b=W4028S8DcODghpOyKcaSjHqEwOThZuDK8Ekjk0sXrE4BiyJz6GyIF5D6ZEI4qF5caB
+ njvuT5AHw0BWK9qgny5aI3vbBOVBh6u33lZGt6iouMZ+JR/8NOItFkIQKeXlZ4G23EA+
+ /F9iIhpumEuqf7Q/8GVCwtvBiQs6P7C+/0h8OUsp+AerdCufXuJ8eE2XyaS32QUYUCAA
+ 09z+sEjhDw1VXzOFfJ9s60V2hFwuxoqV9KZbWh2G05cetkXJCa13uGG+1ia40LCgC8jJ
+ 61tsIJeygdz+Y/n9KDPL1t4+5c/228raVzc1yzAKmONmQr5mf9vC1mOIiwdfkJBc8Joz
+ GLmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yLjkJDld/NkduZAOMzve/po3wnfh8pYm6OF1IYAcAbg=;
+ b=umFH9+nL4m61Kk+h2qhjnquiWfy7qQ5jqD2tKUfHH2CTBKstTZFYMVPqxTOJ2SI3N3
+ KyMgifvzvOAr2SvN2MBdIiLl9BinE72hgavIiqqS/IBl84OE7vohEO0b52s4Lrrtv3LI
+ JS91iKa4NuCXut0EDWi/BuKB0gT0f8TOC+e2BVfQ5aZe/TIBvdW8tgGPG8DJY9xtLFAl
+ pGyNgQBdsR72y+eh4ZkZgZeuS1ayiXSIV6u6VZ2s9p5DqqzU+BLDIA2Bo7HwNUfe6u0Q
+ V+S8XuB6gIVbEAaTXDIn8mCbusU/8dlR9V3IiuRbWzP997dYpw/4+ie7Xp0mHtJNuYXV
+ dnTQ==
+X-Gm-Message-State: AOAM530uwRQBmHETO5ObyeGGSoO9AvTZ/4zPaFSmL2Exqk9+q1xVxSdj
+ fXLyoXYDoaED9L/uARrK+9PYJW0pHCURDw==
+X-Google-Smtp-Source: ABdhPJx9npm4TN7PEtqgQTz0igyhNLu3/rd031GNnbhpj2wGz/QSG9bf+FusS/oSqdf+eQKk9LouTg==
+X-Received: by 2002:a17:90a:ae06:: with SMTP id
+ t6mr3943894pjq.37.1631647843628; 
+ Tue, 14 Sep 2021 12:30:43 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id 203sm11085718pfx.119.2021.09.14.12.30.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Sep 2021 12:30:43 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/43] tcg patch queue
+Date: Tue, 14 Sep 2021 12:30:42 -0700
+Message-Id: <20210914193042.1388497-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,407 +83,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
- Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E.
- Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
- Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Peter Xu <peterx@redhat.com>, Stafford Horne <shorne@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Sep 2021 15:20:09 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+Version 4: Drop the cpu_loop noreturn patch.
 
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> ---
 
-Acked-by: Greg Kurz <groug@kaod.org>
+r~
 
->  target/ppc/cpu.h      |   2 +-
->  target/ppc/cpu_init.c | 212 +++++++++++++++++++++++++-----------------
->  2 files changed, 126 insertions(+), 88 deletions(-)
->=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 500205229c..c84ae29b98 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -1256,7 +1256,7 @@ DECLARE_OBJ_CHECKERS(PPCVirtualHypervisor, PPCVirtu=
-alHypervisorClass,
-> =20
->  void ppc_cpu_do_interrupt(CPUState *cpu);
->  bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
-> -void ppc_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
-> +void ppc_cpu_format_state(CPUState *cpu, GString *buf, int flags);
->  hwaddr ppc_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
->  int ppc_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
->  int ppc_cpu_gdb_read_register_apple(CPUState *cpu, GByteArray *buf, int =
-reg);
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index ad7abc6041..3456be465c 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -9043,7 +9043,7 @@ static void ppc_cpu_class_init(ObjectClass *oc, voi=
-d *data)
-> =20
->      cc->class_by_name =3D ppc_cpu_class_by_name;
->      cc->has_work =3D ppc_cpu_has_work;
-> -    cc->dump_state =3D ppc_cpu_dump_state;
-> +    cc->format_state =3D ppc_cpu_format_state;
->      cc->set_pc =3D ppc_cpu_set_pc;
->      cc->gdb_read_register =3D ppc_cpu_gdb_read_register;
->      cc->gdb_write_register =3D ppc_cpu_gdb_write_register;
-> @@ -9104,7 +9104,7 @@ static void ppc_cpu_register_types(void)
->  #endif
->  }
-> =20
-> -void ppc_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-> +void ppc_cpu_format_state(CPUState *cs, GString *buf, int flags)
->  {
->  #define RGPL  4
->  #define RFPL  4
-> @@ -9113,39 +9113,41 @@ void ppc_cpu_dump_state(CPUState *cs, FILE *f, in=
-t flags)
->      CPUPPCState *env =3D &cpu->env;
->      int i;
-> =20
-> -    qemu_fprintf(f, "NIP " TARGET_FMT_lx "   LR " TARGET_FMT_lx " CTR "
-> -                 TARGET_FMT_lx " XER " TARGET_FMT_lx " CPU#%d\n",
-> -                 env->nip, env->lr, env->ctr, cpu_read_xer(env),
-> -                 cs->cpu_index);
-> -    qemu_fprintf(f, "MSR " TARGET_FMT_lx " HID0 " TARGET_FMT_lx "  HF "
-> -                 "%08x iidx %d didx %d\n",
-> -                 env->msr, env->spr[SPR_HID0], env->hflags,
-> -                 cpu_mmu_index(env, true), cpu_mmu_index(env, false));
-> +    g_string_append_printf(buf,
-> +                           "NIP " TARGET_FMT_lx "   LR " TARGET_FMT_lx "=
- CTR "
-> +                           TARGET_FMT_lx " XER " TARGET_FMT_lx " CPU#%d\=
-n",
-> +                           env->nip, env->lr, env->ctr, cpu_read_xer(env=
-),
-> +                           cs->cpu_index);
-> +    g_string_append_printf(buf,
-> +                           "MSR " TARGET_FMT_lx " HID0 " TARGET_FMT_lx "=
-  HF "
-> +                           "%08x iidx %d didx %d\n",
-> +                           env->msr, env->spr[SPR_HID0], env->hflags,
-> +                           cpu_mmu_index(env, true), cpu_mmu_index(env, =
-false));
->  #if !defined(NO_TIMER_DUMP)
-> -    qemu_fprintf(f, "TB %08" PRIu32 " %08" PRIu64
-> +    g_string_append_printf(buf, "TB %08" PRIu32 " %08" PRIu64
->  #if !defined(CONFIG_USER_ONLY)
-> -                 " DECR " TARGET_FMT_lu
-> +                           " DECR " TARGET_FMT_lu
->  #endif
-> -                 "\n",
-> -                 cpu_ppc_load_tbu(env), cpu_ppc_load_tbl(env)
-> +                           "\n",
-> +                           cpu_ppc_load_tbu(env), cpu_ppc_load_tbl(env)
->  #if !defined(CONFIG_USER_ONLY)
-> -                 , cpu_ppc_load_decr(env)
-> +                           , cpu_ppc_load_decr(env)
->  #endif
->          );
->  #endif
->      for (i =3D 0; i < 32; i++) {
->          if ((i & (RGPL - 1)) =3D=3D 0) {
-> -            qemu_fprintf(f, "GPR%02d", i);
-> +            g_string_append_printf(buf, "GPR%02d", i);
->          }
-> -        qemu_fprintf(f, " %016" PRIx64, ppc_dump_gpr(env, i));
-> +        g_string_append_printf(buf, " %016" PRIx64, ppc_dump_gpr(env, i)=
-);
->          if ((i & (RGPL - 1)) =3D=3D (RGPL - 1)) {
-> -            qemu_fprintf(f, "\n");
-> +            g_string_append_printf(buf, "\n");
->          }
->      }
-> -    qemu_fprintf(f, "CR ");
-> +    g_string_append_printf(buf, "CR ");
->      for (i =3D 0; i < 8; i++)
-> -        qemu_fprintf(f, "%01x", env->crf[i]);
-> -    qemu_fprintf(f, "  [");
-> +        g_string_append_printf(buf, "%01x", env->crf[i]);
-> +    g_string_append_printf(buf, "  [");
->      for (i =3D 0; i < 8; i++) {
->          char a =3D '-';
->          if (env->crf[i] & 0x08) {
-> @@ -9155,75 +9157,97 @@ void ppc_cpu_dump_state(CPUState *cs, FILE *f, in=
-t flags)
->          } else if (env->crf[i] & 0x02) {
->              a =3D 'E';
->          }
-> -        qemu_fprintf(f, " %c%c", a, env->crf[i] & 0x01 ? 'O' : ' ');
-> +        g_string_append_printf(buf, " %c%c", a, env->crf[i] & 0x01 ? 'O'=
- : ' ');
->      }
-> -    qemu_fprintf(f, " ]             RES " TARGET_FMT_lx "\n",
-> -                 env->reserve_addr);
-> +    g_string_append_printf(buf, " ]             RES " TARGET_FMT_lx "\n"=
-,
-> +                           env->reserve_addr);
-> =20
->      if (flags & CPU_DUMP_FPU) {
->          for (i =3D 0; i < 32; i++) {
->              if ((i & (RFPL - 1)) =3D=3D 0) {
-> -                qemu_fprintf(f, "FPR%02d", i);
-> +                g_string_append_printf(buf, "FPR%02d", i);
->              }
-> -            qemu_fprintf(f, " %016" PRIx64, *cpu_fpr_ptr(env, i));
-> +            g_string_append_printf(buf, " %016" PRIx64, *cpu_fpr_ptr(env=
-, i));
->              if ((i & (RFPL - 1)) =3D=3D (RFPL - 1)) {
-> -                qemu_fprintf(f, "\n");
-> +                g_string_append_printf(buf, "\n");
->              }
->          }
-> -        qemu_fprintf(f, "FPSCR " TARGET_FMT_lx "\n", env->fpscr);
-> +        g_string_append_printf(buf, "FPSCR " TARGET_FMT_lx "\n", env->fp=
-scr);
->      }
-> =20
->  #if !defined(CONFIG_USER_ONLY)
-> -    qemu_fprintf(f, " SRR0 " TARGET_FMT_lx "  SRR1 " TARGET_FMT_lx
-> -                 "    PVR " TARGET_FMT_lx " VRSAVE " TARGET_FMT_lx "\n",
-> -                 env->spr[SPR_SRR0], env->spr[SPR_SRR1],
-> -                 env->spr[SPR_PVR], env->spr[SPR_VRSAVE]);
-> -
-> -    qemu_fprintf(f, "SPRG0 " TARGET_FMT_lx " SPRG1 " TARGET_FMT_lx
-> -                 "  SPRG2 " TARGET_FMT_lx "  SPRG3 " TARGET_FMT_lx "\n",
-> -                 env->spr[SPR_SPRG0], env->spr[SPR_SPRG1],
-> -                 env->spr[SPR_SPRG2], env->spr[SPR_SPRG3]);
-> -
-> -    qemu_fprintf(f, "SPRG4 " TARGET_FMT_lx " SPRG5 " TARGET_FMT_lx
-> -                 "  SPRG6 " TARGET_FMT_lx "  SPRG7 " TARGET_FMT_lx "\n",
-> -                 env->spr[SPR_SPRG4], env->spr[SPR_SPRG5],
-> -                 env->spr[SPR_SPRG6], env->spr[SPR_SPRG7]);
-> +    g_string_append_printf(buf, " SRR0 " TARGET_FMT_lx "  SRR1 " TARGET_=
-FMT_lx
-> +                           "    PVR " TARGET_FMT_lx " VRSAVE " TARGET_FM=
-T_lx
-> +                           "\n",
-> +                           env->spr[SPR_SRR0], env->spr[SPR_SRR1],
-> +                           env->spr[SPR_PVR], env->spr[SPR_VRSAVE]);
-> +
-> +    g_string_append_printf(buf, "SPRG0 " TARGET_FMT_lx " SPRG1 " TARGET_=
-FMT_lx
-> +                           "  SPRG2 " TARGET_FMT_lx "  SPRG3 " TARGET_FM=
-T_lx
-> +                           "\n",
-> +                           env->spr[SPR_SPRG0], env->spr[SPR_SPRG1],
-> +                           env->spr[SPR_SPRG2], env->spr[SPR_SPRG3]);
-> +
-> +    g_string_append_printf(buf, "SPRG4 " TARGET_FMT_lx " SPRG5 " TARGET_=
-FMT_lx
-> +                           "  SPRG6 " TARGET_FMT_lx "  SPRG7 " TARGET_FM=
-T_lx
-> +                           "\n",
-> +                           env->spr[SPR_SPRG4], env->spr[SPR_SPRG5],
-> +                           env->spr[SPR_SPRG6], env->spr[SPR_SPRG7]);
-> =20
->  #if defined(TARGET_PPC64)
->      if (env->excp_model =3D=3D POWERPC_EXCP_POWER7 ||
->          env->excp_model =3D=3D POWERPC_EXCP_POWER8 ||
->          env->excp_model =3D=3D POWERPC_EXCP_POWER9 ||
->          env->excp_model =3D=3D POWERPC_EXCP_POWER10)  {
-> -        qemu_fprintf(f, "HSRR0 " TARGET_FMT_lx " HSRR1 " TARGET_FMT_lx "=
-\n",
-> -                     env->spr[SPR_HSRR0], env->spr[SPR_HSRR1]);
-> +        g_string_append_printf(buf, "HSRR0 " TARGET_FMT_lx
-> +                               " HSRR1 " TARGET_FMT_lx "\n",
-> +                               env->spr[SPR_HSRR0], env->spr[SPR_HSRR1])=
-;
->      }
->  #endif
->      if (env->excp_model =3D=3D POWERPC_EXCP_BOOKE) {
-> -        qemu_fprintf(f, "CSRR0 " TARGET_FMT_lx " CSRR1 " TARGET_FMT_lx
-> -                     " MCSRR0 " TARGET_FMT_lx " MCSRR1 " TARGET_FMT_lx "=
-\n",
-> -                     env->spr[SPR_BOOKE_CSRR0], env->spr[SPR_BOOKE_CSRR1=
-],
-> -                     env->spr[SPR_BOOKE_MCSRR0], env->spr[SPR_BOOKE_MCSR=
-R1]);
-> -
-> -        qemu_fprintf(f, "  TCR " TARGET_FMT_lx "   TSR " TARGET_FMT_lx
-> -                     "    ESR " TARGET_FMT_lx "   DEAR " TARGET_FMT_lx "=
-\n",
-> -                     env->spr[SPR_BOOKE_TCR], env->spr[SPR_BOOKE_TSR],
-> -                     env->spr[SPR_BOOKE_ESR], env->spr[SPR_BOOKE_DEAR]);
-> -
-> -        qemu_fprintf(f, "  PIR " TARGET_FMT_lx " DECAR " TARGET_FMT_lx
-> -                     "   IVPR " TARGET_FMT_lx "   EPCR " TARGET_FMT_lx "=
-\n",
-> -                     env->spr[SPR_BOOKE_PIR], env->spr[SPR_BOOKE_DECAR],
-> -                     env->spr[SPR_BOOKE_IVPR], env->spr[SPR_BOOKE_EPCR])=
-;
-> -
-> -        qemu_fprintf(f, " MCSR " TARGET_FMT_lx " SPRG8 " TARGET_FMT_lx
-> -                     "    EPR " TARGET_FMT_lx "\n",
-> -                     env->spr[SPR_BOOKE_MCSR], env->spr[SPR_BOOKE_SPRG8]=
-,
-> -                     env->spr[SPR_BOOKE_EPR]);
-> +        g_string_append_printf(buf, "CSRR0 " TARGET_FMT_lx
-> +                               " CSRR1 " TARGET_FMT_lx
-> +                               " MCSRR0 " TARGET_FMT_lx
-> +                               " MCSRR1 " TARGET_FMT_lx "\n",
-> +                               env->spr[SPR_BOOKE_CSRR0],
-> +                               env->spr[SPR_BOOKE_CSRR1],
-> +                               env->spr[SPR_BOOKE_MCSRR0],
-> +                               env->spr[SPR_BOOKE_MCSRR1]);
-> +
-> +        g_string_append_printf(buf, "  TCR " TARGET_FMT_lx
-> +                               "   TSR " TARGET_FMT_lx
-> +                               "    ESR " TARGET_FMT_lx
-> +                               "   DEAR " TARGET_FMT_lx "\n",
-> +                               env->spr[SPR_BOOKE_TCR],
-> +                               env->spr[SPR_BOOKE_TSR],
-> +                               env->spr[SPR_BOOKE_ESR],
-> +                               env->spr[SPR_BOOKE_DEAR]);
-> +
-> +        g_string_append_printf(buf, "  PIR " TARGET_FMT_lx
-> +                               " DECAR " TARGET_FMT_lx
-> +                               "   IVPR " TARGET_FMT_lx
-> +                               "   EPCR " TARGET_FMT_lx "\n",
-> +                               env->spr[SPR_BOOKE_PIR],
-> +                               env->spr[SPR_BOOKE_DECAR],
-> +                               env->spr[SPR_BOOKE_IVPR],
-> +                               env->spr[SPR_BOOKE_EPCR]);
-> +
-> +        g_string_append_printf(buf, " MCSR " TARGET_FMT_lx
-> +                               " SPRG8 " TARGET_FMT_lx
-> +                               "    EPR " TARGET_FMT_lx "\n",
-> +                               env->spr[SPR_BOOKE_MCSR],
-> +                               env->spr[SPR_BOOKE_SPRG8],
-> +                               env->spr[SPR_BOOKE_EPR]);
-> =20
->          /* FSL-specific */
-> -        qemu_fprintf(f, " MCAR " TARGET_FMT_lx "  PID1 " TARGET_FMT_lx
-> -                     "   PID2 " TARGET_FMT_lx "    SVR " TARGET_FMT_lx "=
-\n",
-> -                     env->spr[SPR_Exxx_MCAR], env->spr[SPR_BOOKE_PID1],
-> -                     env->spr[SPR_BOOKE_PID2], env->spr[SPR_E500_SVR]);
-> +        g_string_append_printf(buf, " MCAR " TARGET_FMT_lx
-> +                               "  PID1 " TARGET_FMT_lx
-> +                               "   PID2 " TARGET_FMT_lx
-> +                               "    SVR " TARGET_FMT_lx "\n",
-> +                               env->spr[SPR_Exxx_MCAR],
-> +                               env->spr[SPR_BOOKE_PID1],
-> +                               env->spr[SPR_BOOKE_PID2],
-> +                               env->spr[SPR_E500_SVR]);
-> =20
->          /*
->           * IVORs are left out as they are large and do not change often =
---
-> @@ -9233,12 +9257,13 @@ void ppc_cpu_dump_state(CPUState *cs, FILE *f, in=
-t flags)
-> =20
->  #if defined(TARGET_PPC64)
->      if (env->flags & POWERPC_FLAG_CFAR) {
-> -        qemu_fprintf(f, " CFAR " TARGET_FMT_lx"\n", env->cfar);
-> +        g_string_append_printf(buf, " CFAR " TARGET_FMT_lx"\n", env->cfa=
-r);
->      }
->  #endif
-> =20
->      if (env->spr_cb[SPR_LPCR].name) {
-> -        qemu_fprintf(f, " LPCR " TARGET_FMT_lx "\n", env->spr[SPR_LPCR])=
-;
-> +        g_string_append_printf(buf,
-> +                               " LPCR " TARGET_FMT_lx "\n", env->spr[SPR=
-_LPCR]);
->      }
-> =20
->      switch (env->mmu_model) {
-> @@ -9254,29 +9279,42 @@ void ppc_cpu_dump_state(CPUState *cs, FILE *f, in=
-t flags)
->      case POWERPC_MMU_3_00:
->  #endif
->          if (env->spr_cb[SPR_SDR1].name) { /* SDR1 Exists */
-> -            qemu_fprintf(f, " SDR1 " TARGET_FMT_lx " ", env->spr[SPR_SDR=
-1]);
-> +            g_string_append_printf(buf, " SDR1 " TARGET_FMT_lx " ",
-> +                                   env->spr[SPR_SDR1]);
->          }
->          if (env->spr_cb[SPR_PTCR].name) { /* PTCR Exists */
-> -            qemu_fprintf(f, " PTCR " TARGET_FMT_lx " ", env->spr[SPR_PTC=
-R]);
-> +            g_string_append_printf(buf, " PTCR " TARGET_FMT_lx " ",
-> +                                   env->spr[SPR_PTCR]);
->          }
-> -        qemu_fprintf(f, "  DAR " TARGET_FMT_lx "  DSISR " TARGET_FMT_lx =
-"\n",
-> -                     env->spr[SPR_DAR], env->spr[SPR_DSISR]);
-> +        g_string_append_printf(buf, "  DAR " TARGET_FMT_lx "  DSISR "
-> +                               TARGET_FMT_lx "\n",
-> +                               env->spr[SPR_DAR], env->spr[SPR_DSISR]);
->          break;
->      case POWERPC_MMU_BOOKE206:
-> -        qemu_fprintf(f, " MAS0 " TARGET_FMT_lx "  MAS1 " TARGET_FMT_lx
-> -                     "   MAS2 " TARGET_FMT_lx "   MAS3 " TARGET_FMT_lx "=
-\n",
-> -                     env->spr[SPR_BOOKE_MAS0], env->spr[SPR_BOOKE_MAS1],
-> -                     env->spr[SPR_BOOKE_MAS2], env->spr[SPR_BOOKE_MAS3])=
-;
-> -
-> -        qemu_fprintf(f, " MAS4 " TARGET_FMT_lx "  MAS6 " TARGET_FMT_lx
-> -                     "   MAS7 " TARGET_FMT_lx "    PID " TARGET_FMT_lx "=
-\n",
-> -                     env->spr[SPR_BOOKE_MAS4], env->spr[SPR_BOOKE_MAS6],
-> -                     env->spr[SPR_BOOKE_MAS7], env->spr[SPR_BOOKE_PID]);
-> -
-> -        qemu_fprintf(f, "MMUCFG " TARGET_FMT_lx " TLB0CFG " TARGET_FMT_l=
-x
-> -                     " TLB1CFG " TARGET_FMT_lx "\n",
-> -                     env->spr[SPR_MMUCFG], env->spr[SPR_BOOKE_TLB0CFG],
-> -                     env->spr[SPR_BOOKE_TLB1CFG]);
-> +        g_string_append_printf(buf, " MAS0 " TARGET_FMT_lx
-> +                               "  MAS1 " TARGET_FMT_lx
-> +                               "   MAS2 " TARGET_FMT_lx
-> +                               "   MAS3 " TARGET_FMT_lx "\n",
-> +                               env->spr[SPR_BOOKE_MAS0],
-> +                               env->spr[SPR_BOOKE_MAS1],
-> +                               env->spr[SPR_BOOKE_MAS2],
-> +                               env->spr[SPR_BOOKE_MAS3]);
-> +
-> +        g_string_append_printf(buf, " MAS4 " TARGET_FMT_lx
-> +                               "  MAS6 " TARGET_FMT_lx
-> +                               "   MAS7 " TARGET_FMT_lx
-> +                               "    PID " TARGET_FMT_lx "\n",
-> +                               env->spr[SPR_BOOKE_MAS4],
-> +                               env->spr[SPR_BOOKE_MAS6],
-> +                               env->spr[SPR_BOOKE_MAS7],
-> +                               env->spr[SPR_BOOKE_PID]);
-> +
-> +        g_string_append_printf(buf, "MMUCFG " TARGET_FMT_lx
-> +                               " TLB0CFG " TARGET_FMT_lx
-> +                               " TLB1CFG " TARGET_FMT_lx "\n",
-> +                               env->spr[SPR_MMUCFG],
-> +                               env->spr[SPR_BOOKE_TLB0CFG],
-> +                               env->spr[SPR_BOOKE_TLB1CFG]);
->          break;
->      default:
->          break;
 
+The following changes since commit 4c9af1ea1457782cf0adb293179335ef6de942aa:
+
+  gitlab-ci: Make more custom runner jobs manual, and don't allow failure (2021-09-14 17:03:03 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210914-4
+
+for you to fetch changes up to e028eada62dbfcba134ac5afdefc3aa343ae202f:
+
+  tcg/arm: More use of the TCGReg enum (2021-09-14 12:00:21 -0700)
+
+----------------------------------------------------------------
+Fix translation race condition for user-only.
+Fix tcg/i386 encoding for VPSLLVQ, VPSRLVQ.
+Fix tcg/arm tcg_out_vec_op signature.
+Fix tcg/ppc (32bit) build with clang.
+Remove dupluate TCG_KICK_PERIOD definition.
+Remove unused tcg_global_reg_new.
+Restrict cpu_exec_interrupt and its callees to sysemu.
+Cleanups for tcg/arm.
+
+----------------------------------------------------------------
+Bin Meng (1):
+      tcg: Remove tcg_global_reg_new defines
+
+Ilya Leoshkevich (3):
+      accel/tcg: Add DisasContextBase argument to translator_ld*
+      accel/tcg: Clear PAGE_WRITE before translation
+      accel/tcg/user-exec: Fix read-modify-write of code on s390 hosts
+
+Jose R. Ziviani (1):
+      tcg/arm: Fix tcg_out_vec_op function signature
+
+Luc Michel (1):
+      accel/tcg: remove redundant TCG_KICK_PERIOD define
+
+Philippe Mathieu-Daudé (24):
+      target/avr: Remove pointless use of CONFIG_USER_ONLY definition
+      target/i386: Restrict sysemu-only fpu_helper helpers
+      target/i386: Simplify TARGET_X86_64 #ifdef'ry
+      target/xtensa: Restrict do_transaction_failed() to sysemu
+      accel/tcg: Rename user-mode do_interrupt hack as fake_user_interrupt
+      target/alpha: Restrict cpu_exec_interrupt() handler to sysemu
+      target/arm: Restrict cpu_exec_interrupt() handler to sysemu
+      target/cris: Restrict cpu_exec_interrupt() handler to sysemu
+      target/hppa: Restrict cpu_exec_interrupt() handler to sysemu
+      target/i386: Restrict cpu_exec_interrupt() handler to sysemu
+      target/i386: Move x86_cpu_exec_interrupt() under sysemu/ folder
+      target/m68k: Restrict cpu_exec_interrupt() handler to sysemu
+      target/microblaze: Restrict cpu_exec_interrupt() handler to sysemu
+      target/mips: Restrict cpu_exec_interrupt() handler to sysemu
+      target/nios2: Restrict cpu_exec_interrupt() handler to sysemu
+      target/openrisc: Restrict cpu_exec_interrupt() handler to sysemu
+      target/ppc: Restrict cpu_exec_interrupt() handler to sysemu
+      target/riscv: Restrict cpu_exec_interrupt() handler to sysemu
+      target/sh4: Restrict cpu_exec_interrupt() handler to sysemu
+      target/sparc: Restrict cpu_exec_interrupt() handler to sysemu
+      target/rx: Restrict cpu_exec_interrupt() handler to sysemu
+      target/xtensa: Restrict cpu_exec_interrupt() handler to sysemu
+      accel/tcg: Restrict TCGCPUOps::cpu_exec_interrupt() to sysemu
+      user: Remove cpu_get_pic_interrupt() stubs
+
+Richard Henderson (13):
+      tcg/i386: Split P_VEXW from P_REXW
+      tcg/ppc: Replace TCG_TARGET_CALL_DARWIN with _CALL_DARWIN
+      tcg/ppc: Ensure _CALL_SYSV is set for 32-bit ELF
+      tcg/arm: Remove fallback definition of __ARM_ARCH
+      tcg/arm: Standardize on tcg_out_<branch>_{reg,imm}
+      tcg/arm: Simplify use_armv5t_instructions
+      tcg/arm: Support armv4t in tcg_out_goto and tcg_out_call
+      tcg/arm: Split out tcg_out_ldstm
+      tcg/arm: Simplify usage of encode_imm
+      tcg/arm: Drop inline markers
+      tcg/arm: Give enum arm_cond_code_e a typedef and use it
+      tcg/arm: More use of the ARMInsn enum
+      tcg/arm: More use of the TCGReg enum
+
+ include/exec/translate-all.h              |   1 +
+ include/exec/translator.h                 |  44 +--
+ include/hw/core/tcg-cpu-ops.h             |  26 +-
+ include/tcg/tcg-op.h                      |   2 -
+ target/alpha/cpu.h                        |   2 +-
+ target/arm/arm_ldst.h                     |  12 +-
+ target/arm/cpu.h                          |   3 +-
+ target/cris/cpu.h                         |   2 +-
+ target/hppa/cpu.h                         |   4 +-
+ target/i386/cpu.h                         |   3 +
+ target/i386/tcg/helper-tcg.h              |   2 +
+ target/m68k/cpu.h                         |   2 +
+ target/microblaze/cpu.h                   |   2 +
+ target/mips/tcg/tcg-internal.h            |   5 +-
+ target/openrisc/cpu.h                     |   5 +-
+ target/ppc/cpu.h                          |   4 +-
+ target/riscv/cpu.h                        |   2 +-
+ target/rx/cpu.h                           |   2 +
+ target/sh4/cpu.h                          |   4 +-
+ target/xtensa/cpu.h                       |   2 +
+ tcg/arm/tcg-target.h                      |  27 +-
+ accel/tcg/cpu-exec.c                      |  14 +-
+ accel/tcg/tcg-accel-ops-rr.c              |   2 -
+ accel/tcg/translate-all.c                 |  59 ++--
+ accel/tcg/translator.c                    |  39 +++
+ accel/tcg/user-exec.c                     |  48 ++-
+ bsd-user/i386/target_arch_cpu.c           |   5 -
+ bsd-user/x86_64/target_arch_cpu.c         |   5 -
+ linux-user/main.c                         |   7 -
+ target/alpha/cpu.c                        |   2 +-
+ target/alpha/helper.c                     |   5 +-
+ target/alpha/translate.c                  |   2 +-
+ target/arm/cpu.c                          |   7 +-
+ target/arm/cpu_tcg.c                      |   6 +-
+ target/arm/translate-a64.c                |   2 +-
+ target/arm/translate.c                    |   9 +-
+ target/avr/cpu.c                          |   3 -
+ target/cris/cpu.c                         |   4 +-
+ target/cris/helper.c                      |  17 +-
+ target/hexagon/translate.c                |   3 +-
+ target/hppa/cpu.c                         |   2 +-
+ target/hppa/int_helper.c                  |   7 +-
+ target/hppa/translate.c                   |   5 +-
+ target/i386/tcg/seg_helper.c              |  74 +----
+ target/i386/tcg/sysemu/seg_helper.c       |  62 ++++
+ target/i386/tcg/tcg-cpu.c                 |   8 +-
+ target/i386/tcg/translate.c               |  10 +-
+ target/m68k/cpu.c                         |   2 +-
+ target/m68k/op_helper.c                   |  16 +-
+ target/m68k/translate.c                   |   2 +-
+ target/microblaze/cpu.c                   |   2 +-
+ target/microblaze/helper.c                |  13 +-
+ target/mips/cpu.c                         |   2 +-
+ target/mips/tcg/exception.c               |  18 --
+ target/mips/tcg/sysemu/tlb_helper.c       |  18 ++
+ target/mips/tcg/translate.c               |   8 +-
+ target/mips/tcg/user/tlb_helper.c         |   5 -
+ target/nios2/cpu.c                        |   5 +-
+ target/openrisc/cpu.c                     |   2 +-
+ target/openrisc/interrupt.c               |   2 -
+ target/openrisc/translate.c               |   2 +-
+ target/ppc/cpu_init.c                     |   2 +-
+ target/ppc/excp_helper.c                  |  21 +-
+ target/ppc/translate.c                    |   5 +-
+ target/riscv/cpu.c                        |   2 +-
+ target/riscv/cpu_helper.c                 |   5 -
+ target/riscv/translate.c                  |   5 +-
+ target/rx/cpu.c                           |   2 +-
+ target/rx/helper.c                        |   4 +
+ target/s390x/tcg/translate.c              |  16 +-
+ target/sh4/cpu.c                          |   2 +-
+ target/sh4/helper.c                       |   9 +-
+ target/sh4/translate.c                    |   4 +-
+ target/sparc/cpu.c                        |   4 +-
+ target/sparc/translate.c                  |   2 +-
+ target/xtensa/cpu.c                       |   2 +-
+ target/xtensa/exc_helper.c                |   7 +-
+ target/xtensa/translate.c                 |   5 +-
+ target/mips/tcg/micromips_translate.c.inc |   2 +-
+ target/mips/tcg/mips16e_translate.c.inc   |   4 +-
+ target/mips/tcg/nanomips_translate.c.inc  |   4 +-
+ tcg/arm/tcg-target.c.inc                  | 517 ++++++++++++++++--------------
+ tcg/i386/tcg-target.c.inc                 |  13 +-
+ tcg/ppc/tcg-target.c.inc                  |  25 +-
+ target/openrisc/meson.build               |   6 +-
+ 85 files changed, 700 insertions(+), 628 deletions(-)
 
