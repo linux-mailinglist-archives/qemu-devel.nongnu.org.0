@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7908340B0B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 16:33:30 +0200 (CEST)
-Received: from localhost ([::1]:34542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0222740B24D
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 16:56:39 +0200 (CEST)
+Received: from localhost ([::1]:44646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ9V3-000851-Gz
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 10:33:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35470)
+	id 1mQ9rS-0003sr-3E
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 10:56:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQ9MB-0005aI-Hz
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:24:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49230)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mQ9MR-0006Ab-BM
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:24:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQ9M8-0005G8-FE
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:24:19 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mQ9MJ-0005NY-3Q
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 10:24:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631629455;
+ s=mimecast20190719; t=1631629465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=1peG8FlXGAVPxZXXgHgHcqiMb6ER609wDdnL4U1fej4=;
- b=DXnORQk7EfTOi1pB5iZUWTvk+Ldc6HDcAmaa6iX6DyxXxZGDnuucWs6vfhyq9LqRBJJXiW
- PRUGdRoDBxLbvZUpTFoDWPINuYqjIyD58OL9Z96MbG0xOEMpJ+B7qJGRyTltvxC3ew+TVC
- aNu66laHwAFPAio+eDlkDvC6V65qoUA=
+ bh=Y00R7uXorG/rvuFet2UkGSdvIx3ZMFsLp0oOvAru3VM=;
+ b=DzXZzA1kXk2WPjEIgwPBHSVelYICyxhmxw3i9NPiSb0nWt8n2B+NNuxAkLp4vFZ32PvwIB
+ 8NDMoWA0xAE8Wgg/+CKGshzJrI464Y1q9w/u9kIctmyheVOWQlJN/uMOu0dKhAeqEugu8t
+ Q7KQru4X6L/B31LHpdW3a+PuYNuF9T4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-LQV7d7O0PiafpGiijWMqfA-1; Tue, 14 Sep 2021 10:24:14 -0400
-X-MC-Unique: LQV7d7O0PiafpGiijWMqfA-1
+ us-mta-574-OJfTrESyOCeFZuTPklHMcA-1; Tue, 14 Sep 2021 10:24:23 -0400
+X-MC-Unique: OJfTrESyOCeFZuTPklHMcA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A096218414A4
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 14:24:13 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C2375C1D1;
- Tue, 14 Sep 2021 14:24:13 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D46FE113865F; Tue, 14 Sep 2021 16:24:11 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v3 4/6] qapi: Apply aliases in qobject-input-visitor
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAB0DA0CB0
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 14:24:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EC86F5C1BB;
+ Tue, 14 Sep 2021 14:24:21 +0000 (UTC)
+Date: Tue, 14 Sep 2021 16:24:20 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v3 5/6] qapi: Add support for aliases
+Message-ID: <YUCwlJCOenLKMccm@redhat.com>
 References: <20210812161131.92017-1-kwolf@redhat.com>
- <20210812161131.92017-5-kwolf@redhat.com>
- <87pmtld99s.fsf@dusky.pond.sub.org> <YTi0HPZRC7vaBtVz@redhat.com>
- <87bl4vfxsw.fsf@dusky.pond.sub.org> <YUBs/bfbt18uNPeS@redhat.com>
-Date: Tue, 14 Sep 2021 16:24:11 +0200
-In-Reply-To: <YUBs/bfbt18uNPeS@redhat.com> (Kevin Wolf's message of "Tue, 14
- Sep 2021 11:35:57 +0200")
-Message-ID: <87r1dr6xro.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ <20210812161131.92017-6-kwolf@redhat.com>
+ <87eea1d8x8.fsf@dusky.pond.sub.org> <YTo4tZgLIj8p2EPX@redhat.com>
+ <87k0jjeeg0.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
+In-Reply-To: <87k0jjeeg0.fsf@dusky.pond.sub.org>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -86,186 +82,153 @@ Cc: jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+Am 14.09.2021 um 10:42 hat Markus Armbruster geschrieben:
+> >>     It also provides a new tool for evolving the schema while maintaining
+> >>     backwards compatibility (possibly during a deprecation period).
+> >> 
+> >> For the second use, we need to be able to tack feature 'deprecated' to
+> >> exactly one of the two.
+> >> 
+> >> We can already tack it to the "real" member.  The real member's
+> >> 'deprecated' must not apply to its aliases.
+> >> 
+> >> We can't tack it to the alias, yet.  More on that in review of PATCH 6.
+> >
+> > Let's ignore this part for now. It's more an idea for a future
+> > direction. The first use is what I actually need now for -chardev.
+> >
+> > In an early version of the series, I tried to make aliases visible in
+> > introspection, but as my use case doesn't need it and I soon found out
+> > that it's not completely obvious how things should be exposed, I decided
+> > to leave it out in this series.
+> 
+> Fair.  One step at a time.  We just have to be clear on limitations.  I
+> think we should caution readers that aliases are not visible in
+> introspection, and therefore implementing QMP input as aliases is wrong.
+> 
+> What uses are left then?  I figure it's just CLI, and only because it
+> lacks introspection.  Thoughts?
 
-> Am 14.09.2021 um 08:58 hat Markus Armbruster geschrieben:
->> Kevin Wolf <kwolf@redhat.com> writes:
->> 
->> > Am 06.09.2021 um 17:16 hat Markus Armbruster geschrieben:
->> >> Kevin Wolf <kwolf@redhat.com> writes:
->> >> 
->> >> > When looking for an object in a struct in the external representation,
->> >> > check not only the currently visited struct, but also whether an alias
->> >> > in the current StackObject matches and try to fetch the value from the
->> >> > alias then. Providing two values for the same object through different
->> >> > aliases is an error.
->> >> >
->> >> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->
->> >> > +/*
->> >> > + * Check whether the member @name in the object visited by @so can be
->> >> > + * specified in the input by using the alias described by @a (which
->> >> > + * must be an alias contained in so->aliases).
->> >> > + *
->> >> > + * If @name is only a prefix of the alias source, but doesn't match
->> >> > + * immediately, false is returned and *is_alias_prefix is set to true
->> >> > + * if it is non-NULL.  In all other cases, *is_alias_prefix is left
->> >> > + * unchanged.
->> >> > + */
->> >> > +static bool alias_source_matches(QObjectInputVisitor *qiv,
->> >> > +                                 StackObject *so, InputVisitorAlias *a,
->> >> > +                                 const char *name, bool *is_alias_prefix)
->> >> > +{
->> >> > +    if (a->src[0] == NULL) {
->> >> > +        assert(a->name == NULL);
->> >> > +        return true;
->> >> > +    }
->> >> > +
->> >> > +    if (!strcmp(a->src[0], name)) {
->> >> > +        if (a->name && a->src[1] == NULL) {
->> >> > +            /*
->> >> > +             * We're matching an exact member, the source for this alias is
->> >> > +             * immediately in @so.
->> >> > +             */
->> >> > +            return true;
->> >> > +        } else if (is_alias_prefix) {
->> >> > +            /*
->> >> > +             * We're only looking at a prefix of the source path for the alias.
->> >> > +             * If the input contains no object of the requested name, we will
->> >> > +             * implicitly create an empty one so that the alias can still be
->> >> > +             * used.
->> >> > +             *
->> >> > +             * We want to create the implicit object only if the alias is
->> >> > +             * actually used, but we can't tell here for wildcard aliases (only
->> >> > +             * a later visitor call will determine this). This means that
->> >> > +             * wildcard aliases must never have optional keys in their source
->> >> > +             * path. The QAPI generator checks this condition.
->> >> > +             */
->> >> 
->> >> Double-checking: this actually ensures that we only ever create the
->> >> implicit object when it will not remain empty.  Correct?
->> >
->> > For wildcard aliases, we still can't know which keys will be visited
->> > later. Checking that we don't have optional keys only avoids the
->> > confusion between absent and present, but empty objects that you would
->> > get from the implicit objects. So it means that creating an implicit
->> > object is never wrong, either the nested object can be visited (which
->> > means we needed the implicit object) or it errors out.
->> 
->> What I'm trying to understand is whether aliases may make up an empty
->> object, and if yes, under what conditions.  Can you help me?
->> 
->> "Make up an empty object" = have an empty QDict in the result where the
->> JSON input doesn't have a {}.
->
-> Well, the result is a C type, not a QDict. We never build a single QDict
-> for the object including values resolved from aliases, we just fetch the
-> values from different QDicts if necessary.
+My current use case is CLI, yes. It might be the only one that fully
+works after this series.
 
-I managed to confuse myself.  Fortunately, it looks like I failed to
-confuse you.
+If we have to, we could use it in QMP with the usual hacks for detecting
+features that are otherwise invisible in the schema (tie it to some
+visible change, or add a feature flag), but preferably, introspection
+support would be added before we use it in QMP.
 
-> But for what I think you're trying to get at: Yes, it can happen that we
-> start visiting a struct which was not present in the JSON, and for which
-> no members will match. This is if you have a wildcard alias for the
-> members of this object because we must assume that the alias might
-> provide the necessary values - but it might as well not have them.
->
-> There are two cases here:
->
-> 1. The nested object contains non-optional members. This is an error
->    case. The error message will change from missing struct to missing
->    member, but this isn't too bad because the missing member does in
->    fact exist on the outer level, too, as an alias. So I think the error
->    message is still good.
->
-> 2. The nested object only contains optional members. Then the alias
->    allows just not specifying the empty nested object, all of the zero
->    required members are taken from the outer object.
->
->    This would be a problem if the nested object were optional itself
->    because it would turn absent into present, but empty. So this is the
->    reason why we check in the generator that you don't have optional
->    members in the path of wildcard aliases.
+> >> > +    for a in aliases:
+> >> > +        if not isinstance(a, dict):
+> >> > +            raise QAPISemError(info, "'aliases' members must be objects")
+> >> 
+> >> Convered by alias-bad-type.
+> >> 
+> >> Doesn't identify the offending member.  Same for all errors reported in
+> >> this loop.  Users should have no trouble identifying this one
+> >> themselves.  Less obvious ones might be confusing.
+> >> 
+> >> Class QAPISchemaAlias identifies like 'alias ' + a['name'] and 'wildcard
+> >> alias', as several test results show, e.g. alias-name-conflict.err and
+> >> alias-source-non-object-wildcard.err.  Could be improved on top.
+> >
+> > We don't have a QAPISchemaAlias here, and more importantly, we don't
+> > have a name because the object that should contain the name is actually
+> > not an object.
+> 
+> You're right for this error, and as I said, this error is good enough as
+> is.  I was wondering whether the loop's remaining errors would also be
+> good enough.  There, we still don't have a QAPISchemaAlias.  The point I
+> was trying to make is that the way QAPISchemaAlias describes itself
+> would work there as well: we survived the not isinstance(a, dict) check
+> visible above, so @a either has a member @name, or it is a wildcard.
+> QAPISchemaAlias.describe() describes the former as "alias 'NAME'", and
+> the latter as "wildcard alias".
 
-I'm too tired / stupid to grasp this in the abstract.  I'll try again
-tomorrow, with concrete examples.
+Ok, makes sense, I'll add the alias name to the later error messages. I
+was just confused because you made the point under an error where this
+doesn't apply.
 
->> >> > +
->> >> > +        /*
->> >> > +         * For single-member aliases, an alias name is specified in the
->> >> > +         * alias definition. For wildcard aliases, the alias has the same
->> >> > +         * name as the member in the source object, i.e. *name.
->> >> > +         */
->> >> > +        if (!input_present(qiv, a->alias_so, a->name ?: *name)) {
->> >> > +            continue;
->> >> 
->> >> What if alias_source_matches() already set *is_alias_prefix = true?
->> >> 
->> >> I figure this can't happen, because it guards the assignment with the
->> >> exact same call of input_present().  In other words, we can get here
->> >> only for "full match".  Correct?
->> >
->> > Probably, but my reasoning is much simpler: If alias_source_matches()
->> > sets *is_alias_prefix, it also returns false, so we would already have
->> > taken a different path above.
->> 
->> I see.  The contract even says so: "false is returned and
->> *is_alias_prefix is set to true".  It's actually the only way for
->> *is_alias_prefix to become true.
->> 
->> Output parameters that are set only sometimes require the caller to
->> initialize the receiving variable, or use it only under the same
->> condition it is set.  The former is easy to forget, and the latter is
->> easy to get wrong.
->> 
->> "Set sometimes" can be useful, say when you have several calls where the
->> output should "accumulate".  When you don't, I prefer to set always,
->> because it makes the function harder to misuse.  Would you mind?
->
-> It does "accumulate" here. We want to return true if any of the aliases
-> make it true.
+> >> Now let's see what this function does.  It detects the following errors:
+> >> 
+> >> 1. Alias loop
+> >> 
+> >> 2. Alias "dotting through" a non-object
+> >> 
+> >> 3. Wildcard alias "dotting through" an optional object
+> >> 
+> >> 4. Alias must resolve to something (common or variant member, possibly
+> >>    nested)
+> >> 
+> >> Lovely!  But how does it work?
+> >> 
+> >> The first loop takes care of 1.  Looks like we try to resolve the alias,
+> >> then recurse, keeping track of things meanwhile so we can detect loops.
+> >> Isn't this more complicated than it needs to be?
+> >> 
+> >> Aliases can only resolve to the same or deeper nesting levels.
+> >> 
+> >> An alias that resolves to a deeper level cannot be part of a loop
+> >> (because we can't resolve to back to the alias's level).
+> >> 
+> >> So this should do:
+> >> 
+> >>     local_aliases_seen = {}
+> >>     for all aliases that resolve to the same level:
+> >>         if local_aliases_seen[alias.name]:
+> >>             # loop!  we can retrace it using @local_aliases_seen if we
+> >>             # care
+> >>             raise ...
+> >>         local_aliases_seen[alias.name] = alias
+> >> 
+> >> Or am I missing something?
+> >
+> > You can change the recursion into something iterative, but the resulting
+> > code would neither be shorter nor easier to understand (well, the latter
+> > is subjective).
+> 
+> I wasn't talking about recursion vs. (equivalent) iteration.
+> 
+> When searching for alias loops, recursing into aliases that resolve
+> "deeper" is pointless, because they can't ever be part of a loop.
+> 
+> What's left is a simple linear chase of alias resolutions with loop
+> detection.  Slightly complicated by not using a map from member name to
+> definition, but searching through the alias list instead.  We build such
+> a map: @seen.
 
-You're right.
+The current recursive call of the function doesn't only detect loops,
+but performs all of the four checks you identified above.
 
-It doesn't accumulate with find_object_member() below.  There, the code
-always sets, but the contract doesn't actually promise it.
+So you still need to resolve non-local aliases and check the whole path
+for them even if they can't be part of a loop. There are three more
+error cases that could apply for them.
 
->> >> > @@ -189,10 +372,31 @@ static QObject *qobject_input_try_get_object(QObjectInputVisitor *qiv,
->> >> >      assert(qobj);
->> >> >  
->> >> >      if (qobject_type(qobj) == QTYPE_QDICT) {
->> >> > -        assert(name);
->> >> > -        ret = qdict_get(qobject_to(QDict, qobj), name);
->> >> > -        if (tos->h && consume && ret) {
->> >> > -            bool removed = g_hash_table_remove(tos->h, name);
->> >> > +        StackObject *so = tos;
->> >> > +        const char *key = name;
->> >> > +        bool is_alias_prefix;
->> >> > +
->> >> > +        assert(key);
->> >> > +        if (!find_object_member(qiv, &so, &key, &is_alias_prefix, errp)) {
->> >> 
->> >> * Input absent: zap @so, @key, set @is_alias_prefix.
->> >> 
->> >> * Error: set *errp, leave @is_alias_prefix undefined.
->> >> 
->> >> > +            if (is_alias_prefix) {
->> >> 
->> >> Use of undefined @is_alias_prefix in case "Error".  Bug in code or in
->> >> contract?
->> >
->> > We should probably use ERRP_GUARD() and check for !*errp here.
->> 
->> A need to use ERRP_GUARD() often signals "awkward interface".
->> 
->> What about always setting is_alias_prefix?  Then it's false on error.
->
-> Ok, I can define it as false for error cases if you prefer.
->
-> I'm not sure if I find it more readable than !*errp && ..., though. It
-> makes is_alias_prefix carry more information than its name suggests.
->
-> Kevin
+For a moment I thought you're right and we don't need to resolve aliases
+for these cases because other aliases will be checked separately. But
+consider a case with these two aliases:
+
+    alias1 -> alias2/bar
+    alias2 -> foo
+
+Here we need to make sure that the path foo/bar exists, which
+check_path() for alias2 won't do anyway. We also must not check whether
+the path alias2/bar exists without resolving aliases, because it would
+incorrectly fail.
+
+In the example, alias2 was a local alias, but the same is also true if
+it were in a nested object. We still need to cjeck the full path with
+resolved aliases.
+
+> > Essentially, instead of the recursive call, you would update @first and
+> > then wrap the whole thing in a while loop. Either a 'while True' if
+> > Python can break out of two loops (I thought it could, but doesn't look
+> > like it?), or with some additional boolean variables.
+> 
+> If you don't bite, I can always simplify on top :)
+
+I'll leave the code as it is for now. Feel free to simplify on top if
+you find a way that is actually simple and correct.
+
+Kevin
 
 
