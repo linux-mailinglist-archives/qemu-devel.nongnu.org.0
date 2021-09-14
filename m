@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C1F240B594
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 19:06:40 +0200 (CEST)
-Received: from localhost ([::1]:33940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A91940B5A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 19:10:06 +0200 (CEST)
+Received: from localhost ([::1]:37092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQBtH-0000di-OD
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 13:06:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40614)
+	id 1mQBwb-0003EK-4H
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 13:10:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQBrf-0007uG-Jo
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:04:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20932)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQBvI-0002Kq-LQ
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:08:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQBrc-0008H0-Vt
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:04:59 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQBvH-00030B-6G
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 13:08:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631639096;
+ s=mimecast20190719; t=1631639322;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tUVjlFHNXmCa8Js779pWipBhiI5Qz+agCSvcz3EWAJc=;
- b=fFagU9Qpn2KRFNfzvr9wD3UrMf1C1HEodXuxgHSy+FvPE7RVOu1mREOkZvahC9yrSxPs/V
- Vs4P7SdL5ETBVcFDUw5IW5CJ1Xyc+a/FcV1ZJEh/GN/Os/BynRSN8K03tan9O1FCagCIFl
- 0Oq0iQJLEIRU2RNvjKu+TsRl5Aoo0j4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-koMRQi_tNMK926w5S1tlaA-1; Tue, 14 Sep 2021 13:04:54 -0400
-X-MC-Unique: koMRQi_tNMK926w5S1tlaA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k5-20020a7bc3050000b02901e081f69d80so18799wmj.8
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 10:04:54 -0700 (PDT)
+ bh=tHuF5tDXpwTyyE9i5D1O1THwJuvyx5m3litSonptixY=;
+ b=ZIUEJZdydmUq0PnAOJ72EfthqKpNqNe+Iy/ov4OFolHBAPmvl8dDtPJ6aAadCzbnhJ5gRy
+ fE60OkTNvbwSzPxWLu5y3sCn2BG/1Ru3auVQCWohTNnYPiY8wWSB09P8TdMAqEGZY0MIks
+ 3fAS+2xgqDL3xUOJkoYWZ7CrbbRhANM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-152-_gOCm0ShOeqBsgO4nDbbaA-1; Tue, 14 Sep 2021 13:08:39 -0400
+X-MC-Unique: _gOCm0ShOeqBsgO4nDbbaA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ n1-20020a5d4c41000000b00159305d19baso4231237wrt.11
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 10:08:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=tUVjlFHNXmCa8Js779pWipBhiI5Qz+agCSvcz3EWAJc=;
- b=ViH7/aww6e19r1j+WkFgZ8KaFeXQ7uziSfNfLJpGwwG8XJyshVpUh8Owqwovjgca71
- CF9vutm7niPRvCslpD4WJ+xgJm0cbttpcBnOIK6fmMBi5il4rU2PQUxGlPODGHXmXMf1
- bymuZBf4ikewgJ1+oZqwTq+ds+s6ja3D9qEb0ZWM4ZDz3e2gvKTGNYjMUhAJDrpmgPot
- WHm4N54p/NZFlbqzQIq24u8RoTaWPCA1NwWPKRc6V0gxLOGR7Jv7Y5NlPXudlq7GHfL7
- 5A8GJy9Qym7glmYM5/YPRRmehx8a1299/O2OQri0eAQMG+c4z1cqug9fjoZKO0Eq8F5O
- O7/A==
-X-Gm-Message-State: AOAM5321f8zp76QCMGhrWEJH/dmKilHuxbZ0h6n2l+xX01WUpNbdXPMG
- HH7VBb1yi4H4J5ZLN+3IucP2xUX2XhwPgisF6WQLwAJio+ixcYo8+zWb3Kn3DaDbOBqS1vSmtbv
- ymNeKeJQXyDlkM24=
-X-Received: by 2002:adf:ef02:: with SMTP id e2mr150684wro.401.1631639093188;
- Tue, 14 Sep 2021 10:04:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJytCOfBX3N0TupTpQKysrJGCj0pxmFWr0I2eQYSD4V8ee24XpVsLhP23ozoQfX01XxF3OM+vQ==
-X-Received: by 2002:adf:ef02:: with SMTP id e2mr150662wro.401.1631639093031;
- Tue, 14 Sep 2021 10:04:53 -0700 (PDT)
+ bh=tHuF5tDXpwTyyE9i5D1O1THwJuvyx5m3litSonptixY=;
+ b=mhXaFBPbA+DFvg2qTgDdCZT/DdK9mX1MiT0bq5zH7OYNPmOYryxqKK2m32uR5SHeL4
+ uITMID6ctu2q2KmtPPC4QjvA5aFV6grZST2bNEqu7mfzjyG8Ef2xuYzS+Sgl/VGg6nl+
+ hB7kaD2cjN6hhNOQBQZvzlaU5w2r/uFsyXgE240K/XoRUdj6HbMVPJtzjwTHV7ahHrM+
+ zM7pi2epqjepbatp9VT9eh4jF43YTgCN+XZHSfNpcwXS2X4sRUZ/mhg1jhShkpdVJ1v6
+ dHl/9hl8TEXCg77Gpg9Bx2zeBQEeIMynkpSbwtPUSjXv4rsk0clznYVnUdqQqiSLRKl/
+ ir/g==
+X-Gm-Message-State: AOAM532J9MO3HsjcNlOLXOv92CsDu/OBsVpuT01Sb+IBbDeazzUFG7Oe
+ 1rBJlLTmPqibXG0fVc5HkPOxiZtOW/4QDYC9FzqOZzzLvZ9OonaB6Y/5n8CtLRV3G/RsDdg374s
+ r1LG+lmGevD95yBw=
+X-Received: by 2002:adf:c501:: with SMTP id q1mr259120wrf.150.1631639317794;
+ Tue, 14 Sep 2021 10:08:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwHCW493IBoWMNRABWao+hmFXx+PRpcMgCpeVMsW8dZ+XhZe+UQoI0utIsJfo28p20xJl+a6g==
+X-Received: by 2002:adf:c501:: with SMTP id q1mr259079wrf.150.1631639317421;
+ Tue, 14 Sep 2021 10:08:37 -0700 (PDT)
 Received: from dresden.str.redhat.com
  ([2a02:908:1e42:9e20:fd73:7ee2:9975:24d9])
- by smtp.gmail.com with ESMTPSA id f19sm1690898wmf.11.2021.09.14.10.04.52
+ by smtp.gmail.com with ESMTPSA id n17sm3830479wrp.17.2021.09.14.10.08.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Sep 2021 10:04:52 -0700 (PDT)
-Subject: Re: [PATCH v3 07/17] iotests.py: filter out successful output of
- qemu-img create
+ Tue, 14 Sep 2021 10:08:37 -0700 (PDT)
+Subject: Re: [PATCH v3 00/17] iotests: support zstd
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20210914102547.83963-1-vsementsov@virtuozzo.com>
- <20210914102547.83963-8-vsementsov@virtuozzo.com>
 From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <90fa7766-a503-341d-509a-9c38c61e4eee@redhat.com>
-Date: Tue, 14 Sep 2021 19:04:51 +0200
+Message-ID: <b0fb7a33-c273-33e2-fc80-d5488fbce877@redhat.com>
+Date: Tue, 14 Sep 2021 19:08:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210914102547.83963-8-vsementsov@virtuozzo.com>
+In-Reply-To: <20210914102547.83963-1-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,7 +77,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -51
 X-Spam_score: -5.2
@@ -105,20 +103,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 14.09.21 12:25, Vladimir Sementsov-Ogievskiy wrote:
-> The only "feature" of this "Formatting ..." line is that we have to
-> update it every time we add new option. Let's drop it.
+> These series makes tests pass with
 >
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   tests/qemu-iotests/149.out    | 21 ---------------------
->   tests/qemu-iotests/237.out    |  3 ---
->   tests/qemu-iotests/255.out    |  4 ----
->   tests/qemu-iotests/274.out    | 29 -----------------------------
->   tests/qemu-iotests/280.out    |  1 -
->   tests/qemu-iotests/296.out    | 10 +++-------
->   tests/qemu-iotests/iotests.py | 10 ++++++++--
->   7 files changed, 11 insertions(+), 67 deletions(-)
+>     IMGOPTS='compression_type=zstd'
+>
+> Also, python iotests start to support IMGOPTS (they didn't before).
+>
+> v3:
+> 02-04,06,08,14,17: add Hanna's r-b
+> 07  iotests.py: filter out successful output of qemu-img create
+>        fix subject
+>        handle 149, 237 and 296 iotests
+>           (note, 149 is handled intuitively, as it fails :(
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+It was also reviewed intuitively. :)
+
+Thanks, applied to my block branch:
+
+https://github.com/XanClic/qemu/commits/block
+
+Hanna
 
 
