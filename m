@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B55240A6C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 08:40:50 +0200 (CEST)
-Received: from localhost ([::1]:43858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEE4440A6ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 Sep 2021 08:53:56 +0200 (CEST)
+Received: from localhost ([::1]:51306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQ27d-00074C-7D
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 02:40:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59032)
+	id 1mQ2KJ-0004D4-BD
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 02:53:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQ25x-0006Ll-QN
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 02:39:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27078)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQ2IR-0003W2-S0
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 02:51:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQ25w-0003cv-75
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 02:39:05 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQ2IL-0006Fs-3V
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 02:51:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631601543;
+ s=mimecast20190719; t=1631602310;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ionTWrfNJj1tXs7Y8q6IiEvZHk9nXrh9rXCb4fAXEx4=;
- b=hfImdvhElaX7FwgtVNELaV1TDGDsdx5LSlfG0U39M2Uf2aELgcJkA+lDHGd+IDZYpRX09f
- R45enFHvEp81vs7Z704YFfZrfePnsce58IVhXRNhsemGY8iO7zecPfO45Qoi1+dM4zpFNc
- AZRRnTKnCDJnDaUmVwujG3fPv4CPX6U=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-1ZH3IexjMIyoL7CplHixRA-1; Tue, 14 Sep 2021 02:39:02 -0400
-X-MC-Unique: 1ZH3IexjMIyoL7CplHixRA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- k5-20020a7bc3050000b02901e081f69d80so6014675wmj.8
- for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 23:39:02 -0700 (PDT)
+ bh=phfGUCeN6Z4c5JJSEq+e4zdrinJ5NMJq5wHqHIEtVN4=;
+ b=i5H/vIgG249/84s2oB13qZpcaMlBI8LTT6lt55+yQhZTYOCPzW6xzcrrS+RcZTaj4UMp2O
+ Dbt1P30eOhryz8BJ8WNHPaw/7XjHQYO1jTltDnk0NvNd2MdMRO7rd3fObT6t3tmP/l32cu
+ poYha7j09PihV5T+vfsgodP0Xxqx1YY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-257-MA4fF41mOSeUVpnp_0TsLg-1; Tue, 14 Sep 2021 02:51:49 -0400
+X-MC-Unique: MA4fF41mOSeUVpnp_0TsLg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ r7-20020a5d6947000000b0015e0f68a63bso1365180wrw.22
+ for <qemu-devel@nongnu.org>; Mon, 13 Sep 2021 23:51:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ionTWrfNJj1tXs7Y8q6IiEvZHk9nXrh9rXCb4fAXEx4=;
- b=uxqNgELl+ksNzmLU4sYMThlAo+hcNRHT4Rxb6WM61ZvAKC9lj3wPSJHDLjOvNPpx67
- CjqxXJNGkuyGhUm9mTmLgt/D48jak2YLyh7j2TVSvRy2g7dzm0m8Deyw98Wo0y+g7BiX
- 9d6TH0kncQQi8i0Jt3GVu/oI9MbWBFeHSAiMbd3QwUsFxbIqKOy8ArwYc3Zr0+UbihKR
- zFsb3TtAVlKewDYBeMaYDV9u0nbNmwCGjHTQT+XNA0H4RgfmKKZoOiah/1dMMYVcSA7w
- rn1voXYZySmmkHpCmeQXFTDyfa0/422CWz4E5ZuB3/57BzVDjFBV1nMLmc/3H1t+Qmcs
- upYA==
-X-Gm-Message-State: AOAM532PiDcsVeI1O2a7XhjJ+hKOkw3IPMYlGM+IqX1YxB/zzu4X617A
- jz8u/9dTvLRgoZrz6MTKuwx3S3frXH4XiIXwi3+zCNgT12g30LWQF10du+OkEL3+rUTNy/AvNx5
- iqCNCybMa08xHExo=
-X-Received: by 2002:adf:ef07:: with SMTP id e7mr12292572wro.56.1631601541203; 
- Mon, 13 Sep 2021 23:39:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6sQCZs3K0rkogJbRc8cxjI5xF8tIwMd8qlhDq05NqOK/NU2HzfYzMa3ikpaLXFR+xEjJipg==
-X-Received: by 2002:adf:ef07:: with SMTP id e7mr12292553wro.56.1631601540986; 
- Mon, 13 Sep 2021 23:39:00 -0700 (PDT)
+ bh=phfGUCeN6Z4c5JJSEq+e4zdrinJ5NMJq5wHqHIEtVN4=;
+ b=PIdAY2mBDk+2HknmdJN5gzkgbUKk9EnmlJ6AxlB/LbJW1zmj/7MaMYLAL/CemS71aX
+ uyUObDvAeAjOSK7jXwwsMXWdwUj2B6D4FOOpfDET6Mm+C/Mx2gTHoyCcSvcKSmbho9sF
+ Iy3F9kCGmOq1vAxo4nXovWFZm/NY7vgpCkmrE46Y9s4VegPG+fgbEo8qvXcGMOMYTJU4
+ xMPEyhU/4eN+UcwwrhFjnDGY4zYtHp6eG1Ts6qJ+NKCL5wO6iqmdHA0VpTxsUyH5hmdY
+ oDT3Sh4GTH5VVwG5DgdUllU/luHIMZF+aqB13vOK4h1D1BTZvzo9w3HX9TSOcu1KNp5Q
+ ewgg==
+X-Gm-Message-State: AOAM531OtR0vw7bS1pxkPSdEtNYnLCYNA73wCTaoMjKpLqjDqMC64/Ns
+ k4RynRKM3cNaVrskdJLCYV0NdVwUklB02+NzSLjR4O7XOdN14kF2A0gbrdsQzcdtd4hrUx31A5P
+ bC9c+yqjly/YNrWI=
+X-Received: by 2002:a7b:c217:: with SMTP id x23mr384349wmi.192.1631602308622; 
+ Mon, 13 Sep 2021 23:51:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyhOThs5+DvILlWJePIvCC7kf4DMECe/ZQKI9IzC6LKuFXjdvW1y+KzasWcr6Pqg3vuN1TfbA==
+X-Received: by 2002:a7b:c217:: with SMTP id x23mr384335wmi.192.1631602308453; 
+ Mon, 13 Sep 2021 23:51:48 -0700 (PDT)
 Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id m4sm11089764wrx.81.2021.09.13.23.39.00
+ by smtp.gmail.com with ESMTPSA id l7sm166288wmp.48.2021.09.13.23.51.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 23:39:00 -0700 (PDT)
-Subject: Re: [PATCH v4 10/33] i386: Add get/set/migrate support for
- SGX_LEPUBKEYHASH MSRs
+ Mon, 13 Sep 2021 23:51:47 -0700 (PDT)
+Subject: Re: [PATCH v4 00/33] Qemu SGX virtualization
 To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
 References: <20210719112136.57018-1-yang.zhong@intel.com>
- <20210719112136.57018-11-yang.zhong@intel.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7f81ee2f-1876-3f84-8415-51031e1fd887@redhat.com>
-Date: Tue, 14 Sep 2021 08:38:59 +0200
+Message-ID: <4f1d0102-7ec1-fc38-aac0-8f38839df32f@redhat.com>
+Date: Tue, 14 Sep 2021 08:51:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210719112136.57018-11-yang.zhong@intel.com>
+In-Reply-To: <20210719112136.57018-1-yang.zhong@intel.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,15 +76,15 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.969, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,65 +103,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/19/21 1:21 PM, Yang Zhong wrote:
-> From: Sean Christopherson <sean.j.christopherson@intel.com>
-> 
-> On real hardware, on systems that supports SGX Launch Control, those
-> MSRs are initialized to digest of Intel's signing key; on systems that
-> don't support SGX Launch Control, those MSRs are not available but
-> hardware always uses digest of Intel's signing key in EINIT.
-> 
-> KVM advertises SGX LC via CPUID if and only if the MSRs are writable.
-> Unconditionally initialize those MSRs to digest of Intel's signing key
-> when CPU is realized and reset to reflect the fact. This avoids
-> potential bug in case kvm_arch_put_registers() is called before
-> kvm_arch_get_registers() is called, in which case guest's virtual
-> SGX_LEPUBKEYHASH MSRs will be set to 0, although KVM initializes those
-> to digest of Intel's signing key by default, since KVM allows those MSRs
-> to be updated by Qemu to support live migration.
-> 
-> Save/restore the SGX Launch Enclave Public Key Hash MSRs if SGX Launch
-> Control (LC) is exposed to the guest. Likewise, migrate the MSRs if they
-> are writable by the guest.
-> 
-> Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-> Signed-off-by: Kai Huang <kai.huang@intel.com>
-> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> ---
->  target/i386/cpu.c     | 17 ++++++++++++++++-
->  target/i386/cpu.h     |  1 +
->  target/i386/kvm/kvm.c | 22 ++++++++++++++++++++++
->  target/i386/machine.c | 20 ++++++++++++++++++++
->  4 files changed, 59 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 840f825431..cea4307930 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -5673,6 +5673,16 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
->      }
->  }
->  
-> +#ifndef CONFIG_USER_ONLY
-> +static void x86_cpu_set_sgxlepubkeyhash(CPUX86State *env)
-> +{
-> +    env->msr_ia32_sgxlepubkeyhash[0] = 0xa6053e051270b7acULL;
-> +    env->msr_ia32_sgxlepubkeyhash[1] = 0x6cfbe8ba8b3b413dULL;
-> +    env->msr_ia32_sgxlepubkeyhash[2] = 0xc4916d99f2b3735dULL;
-> +    env->msr_ia32_sgxlepubkeyhash[3] = 0xd4f8c05909f9bb3bULL;
-> +}
-> +#endif
 
-Maybe easier to move the #ifdef'ry inside the function.
+> This series is Qemu SGX virtualization implementation rebased on latest
+> Qemu release. The numa support for SGX will be sent in another patchset
+> once this basic SGX patchset are merged.
 
-Where these values come from btw?
+>  backends/hostmem-epc.c                   | 118 ++++++++++
+>  backends/meson.build                     |   1 +
+>  configs/devices/i386-softmmu/default.mak |   1 +
+>  docs/intel-sgx.txt                       | 167 ++++++++++++++
+>  hmp-commands-info.hx                     |  15 ++
+>  hw/i386/Kconfig                          |   5 +
+>  hw/i386/acpi-build.c                     |  22 ++
+>  hw/i386/fw_cfg.c                         |  10 +-
+>  hw/i386/meson.build                      |   2 +
+>  hw/i386/pc.c                             |  15 +-
+>  hw/i386/pc_piix.c                        |   4 +
+>  hw/i386/pc_q35.c                         |   3 +
+>  hw/i386/sgx-epc.c                        | 265 +++++++++++++++++++++++
+>  hw/i386/sgx-stub.c                       |  13 ++
+>  hw/i386/sgx.c                            | 170 +++++++++++++++
+>  hw/i386/x86.c                            |  29 +++
+>  hw/vfio/common.c                         |   1 +
+>  include/exec/memory.h                    |  15 +-
+>  include/hw/i386/pc.h                     |  10 +
+>  include/hw/i386/sgx-epc.h                |  68 ++++++
+>  include/hw/i386/x86.h                    |   1 +
+>  include/monitor/hmp.h                    |   1 +
+>  include/qemu/bitops.h                    |   7 +
 
-> @@ -6186,6 +6198,10 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
->             & CPUID_EXT2_AMD_ALIASES);
->      }
->  
-> +#ifndef CONFIG_USER_ONLY
-> +    x86_cpu_set_sgxlepubkeyhash(env);
-> +#endif
-> +
+Consider using scripts/git.orderfile to ease reviewers workflow.
 
 
