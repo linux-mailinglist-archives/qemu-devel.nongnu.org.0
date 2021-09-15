@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58A9C40CC46
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 20:04:32 +0200 (CEST)
-Received: from localhost ([::1]:44932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7342440CC47
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 20:04:55 +0200 (CEST)
+Received: from localhost ([::1]:46704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQZGp-0000ce-AW
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 14:04:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51616)
+	id 1mQZHC-0001r8-GB
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 14:04:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6K-00062s-Ve
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:53:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56052)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6U-0006Kq-9I
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:53:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6J-0006Y6-1m
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:53:40 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6Q-0006fG-E5
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:53:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631728418;
+ s=mimecast20190719; t=1631728424;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aMUtWYK/2KwKWgY8RiKkut/IQ2b4UDkPmQRpHRS/4Sk=;
- b=Djhw5vlyuNNMqNgxfSAO8VwvCaJNhIpx/UKAxYsjGzxh9sVmUcPcfABYbE7OyERC15mZxp
- Os5r9lpJjB9nMuraEeOjozIWilyBX5QAbfxIjBh8kim5FPVXLf+r/k6JZm1sljjVRuUpqH
- Rh2/h6eoPc/9TmO9XxDwnENfmiCSvmk=
+ bh=xabGNgbrdboR/jzlUlFWKXCDyhQKRxtHQ9tiGKd09RI=;
+ b=ZoFMHJjZ6kmTOdqT7JIXA8oYLs5zTVa9jhBr66mhYSXIVLwNMnG3m+dPLJn9vH+sb+9UcK
+ 1t6LzIwgbDpy9krGjXS4NTbIHUAhOaeVI+npiqQ9demW/fvUaLrfGWB+HFUvj45E2c29d9
+ ceLYWvWwYjm0CWPYphT0jhl87ebHLRM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-iQ6rC0evNAuMEJ33HHxfPw-1; Wed, 15 Sep 2021 13:53:37 -0400
-X-MC-Unique: iQ6rC0evNAuMEJ33HHxfPw-1
+ us-mta-315-Vf_Zy9HlNtaPB74veHFKYg-1; Wed, 15 Sep 2021 13:53:43 -0400
+X-MC-Unique: Vf_Zy9HlNtaPB74veHFKYg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0416F84A5E1;
- Wed, 15 Sep 2021 17:53:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C8D0802947;
+ Wed, 15 Sep 2021 17:53:42 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E0CB19736;
- Wed, 15 Sep 2021 17:53:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D638C196F1;
+ Wed, 15 Sep 2021 17:53:41 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 07/32] block/iscsi: Do not force-cap *pnum
-Date: Wed, 15 Sep 2021 19:52:53 +0200
-Message-Id: <20210915175318.853225-8-hreitz@redhat.com>
+Subject: [PULL 10/32] iotests/297: Drop 169 and 199 from the skip list
+Date: Wed, 15 Sep 2021 19:52:56 +0200
+Message-Id: <20210915175318.853225-11-hreitz@redhat.com>
 In-Reply-To: <20210915175318.853225-1-hreitz@redhat.com>
 References: <20210915175318.853225-1-hreitz@redhat.com>
 MIME-Version: 1.0
@@ -81,34 +81,32 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bdrv_co_block_status() does it for us, we do not need to do it here.
-
-The advantage of not capping *pnum is that bdrv_co_block_status() can
-cache larger data regions than requested by its caller.
+169 and 199 have been renamed and moved to tests/ (commit a44be0334be:
+"iotests: rename and move 169 and 199 tests"), so we can drop them from
+the skip list.
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20210812084148.14458-7-hreitz@redhat.com>
+Message-Id: <20210902094017.32902-2-hreitz@redhat.com>
 ---
- block/iscsi.c | 3 ---
- 1 file changed, 3 deletions(-)
+ tests/qemu-iotests/297 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/iscsi.c b/block/iscsi.c
-index 4d2a416ce7..852384086b 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -781,9 +781,6 @@ retry:
-         iscsi_allocmap_set_allocated(iscsilun, offset, *pnum);
-     }
- 
--    if (*pnum > bytes) {
--        *pnum = bytes;
--    }
- out_unlock:
-     qemu_mutex_unlock(&iscsilun->mutex);
-     g_free(iTask.err_str);
+diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
+index 1ee15dd866..a0c0cf9e5d 100755
+--- a/tests/qemu-iotests/297
++++ b/tests/qemu-iotests/297
+@@ -29,7 +29,7 @@ import iotests
+ SKIP_FILES = (
+     '030', '040', '041', '044', '045', '055', '056', '057', '065', '093',
+     '096', '118', '124', '132', '136', '139', '147', '148', '149',
+-    '151', '152', '155', '163', '165', '169', '194', '196', '199', '202',
++    '151', '152', '155', '163', '165', '194', '196', '202',
+     '203', '205', '206', '207', '208', '210', '211', '212', '213', '216',
+     '218', '219', '224', '228', '234', '235', '236', '237', '238',
+     '240', '242', '245', '246', '248', '255', '256', '257', '258', '260',
 -- 
 2.31.1
 
