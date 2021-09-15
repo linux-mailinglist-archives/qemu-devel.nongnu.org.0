@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8B340CC8C
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 20:29:13 +0200 (CEST)
-Received: from localhost ([::1]:44370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6646740CC74
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 20:17:50 +0200 (CEST)
+Received: from localhost ([::1]:47044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQZeh-0005JQ-Jh
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 14:29:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52276)
+	id 1mQZTh-0004pb-G9
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 14:17:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ70-0007XG-R0
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:54:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38057)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ72-0007c7-K2
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:54:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6y-0007BK-Qr
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:54:22 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ70-0007DF-Qh
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:54:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631728460;
+ s=mimecast20190719; t=1631728462;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wk6xFgIjoymCAZ9mM2AceqT6xK7ZGXGDRVC8mDtLZog=;
- b=QiwajBLReImsWo2IXRSokcnyL0zwALIYIpJbJVxZJu3zVM6e10Dy5cwmu3VqEh+iyE8hUO
- YWEcMVqyKMsMhNOhqnTL5Ly2RSxHSix3TgWLrW9QHLNE+r3OCxwmORu6hBn2Q6Y0FD8Ter
- EqkKNS/KwxeGS3FdRVeVeno6I960l84=
+ bh=qlZ6RTQTKYnjfEbjtw6/W5ZOlmU2l9EmeF+xWRIr0vk=;
+ b=IL+75nto3Ti+mbjwZBepStNFyPFrpp7ogfulfxksWOUjnn8ABH3eBg4/vVwq1EInE0TI+P
+ fNx2hCy9DR8DPw2LcrdEw+plXPL+n4zOc65PCkJ4KprYpGiYYKv1PBTMmtEC9NPvFIQv7W
+ u30nQ0kSVtISZuepHQkLHt0MIIHmTFM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-X1RZ2bNAP4SPehSsDL6Khw-1; Wed, 15 Sep 2021 13:54:17 -0400
-X-MC-Unique: X1RZ2bNAP4SPehSsDL6Khw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-268-_xPs65RHPWasscFsiU8BlQ-1; Wed, 15 Sep 2021 13:54:19 -0400
+X-MC-Unique: _xPs65RHPWasscFsiU8BlQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42EDD1006ACA;
- Wed, 15 Sep 2021 17:54:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53D40801B3D;
+ Wed, 15 Sep 2021 17:54:18 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DB6B019736;
- Wed, 15 Sep 2021 17:54:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EE3C37A8CA;
+ Wed, 15 Sep 2021 17:54:17 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 26/32] qcow2-refcount: fix_l2_entry_by_zero(): also zero L2
- entry bitmap
-Date: Wed, 15 Sep 2021 19:53:12 +0200
-Message-Id: <20210915175318.853225-27-hreitz@redhat.com>
+Subject: [PULL 27/32] qcow2-refcount: check_refcounts_l2(): check l2_bitmap
+Date: Wed, 15 Sep 2021 19:53:13 +0200
+Message-Id: <20210915175318.853225-28-hreitz@redhat.com>
 In-Reply-To: <20210915175318.853225-1-hreitz@redhat.com>
 References: <20210915175318.853225-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.39, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,54 +83,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-We'll reuse the function to fix wrong L2 entry bitmap. Support it now.
+Check subcluster bitmap of the l2 entry for different types of
+clusters:
+
+ - for compressed it must be zero
+ - for allocated check consistency of two parts of the bitmap
+ - for unallocated all subclusters should be unallocated
+   (or zero-plain)
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Tested-by: Kirill Tkhai <ktkhai@virtuozzo.com>
+Message-Id: <20210914122454.141075-7-vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20210914122454.141075-6-vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- block/qcow2-refcount.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ block/qcow2-refcount.c | 28 ++++++++++++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
 
 diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index 184b96ad63..f48c5e1b5d 100644
+index f48c5e1b5d..9a5ae3cac4 100644
 --- a/block/qcow2-refcount.c
 +++ b/block/qcow2-refcount.c
-@@ -1588,7 +1588,8 @@ enum {
- };
+@@ -1661,7 +1661,7 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+                               int flags, BdrvCheckMode fix, bool active)
+ {
+     BDRVQcow2State *s = bs->opaque;
+-    uint64_t l2_entry;
++    uint64_t l2_entry, l2_bitmap;
+     uint64_t next_contiguous_offset = 0;
+     int i, ret;
+     size_t l2_size_bytes = s->l2_size * l2_entry_size(s);
+@@ -1681,6 +1681,7 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+         uint64_t coffset;
+         int csize;
+         l2_entry = get_l2_entry(s, l2_table, i);
++        l2_bitmap = get_l2_bitmap(s, l2_table, i);
  
- /*
-- * Fix L2 entry by making it QCOW2_CLUSTER_ZERO_PLAIN.
-+ * Fix L2 entry by making it QCOW2_CLUSTER_ZERO_PLAIN (or making all its present
-+ * subclusters QCOW2_SUBCLUSTER_ZERO_PLAIN).
-  *
-  * This function decrements res->corruptions on success, so the caller is
-  * responsible to increment res->corruptions prior to the call.
-@@ -1605,9 +1606,20 @@ static int fix_l2_entry_by_zero(BlockDriverState *bs, BdrvCheckResult *res,
-     int idx = l2_index * (l2_entry_size(s) / sizeof(uint64_t));
-     uint64_t l2e_offset = l2_offset + (uint64_t)l2_index * l2_entry_size(s);
-     int ign = active ? QCOW2_OL_ACTIVE_L2 : QCOW2_OL_INACTIVE_L2;
--    uint64_t l2_entry = has_subclusters(s) ? 0 : QCOW_OFLAG_ZERO;
+         switch (qcow2_get_cluster_type(bs, l2_entry)) {
+         case QCOW2_CLUSTER_COMPRESSED:
+@@ -1700,6 +1701,14 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+                 break;
+             }
  
--    set_l2_entry(s, l2_table, l2_index, l2_entry);
-+    if (has_subclusters(s)) {
-+        uint64_t l2_bitmap = get_l2_bitmap(s, l2_table, l2_index);
++            if (l2_bitmap) {
++                fprintf(stderr, "ERROR compressed cluster %d with non-zero "
++                        "subcluster allocation bitmap, entry=0x%" PRIx64 "\n",
++                        i, l2_entry);
++                res->corruptions++;
++                break;
++            }
 +
-+        /* Allocated subclusters become zero */
-+        l2_bitmap |= l2_bitmap << 32;
-+        l2_bitmap &= QCOW_L2_BITMAP_ALL_ZEROES;
+             /* Mark cluster as used */
+             qcow2_parse_compressed_l2_entry(bs, l2_entry, &coffset, &csize);
+             ret = qcow2_inc_refcounts_imrt(
+@@ -1727,13 +1736,19 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+         {
+             uint64_t offset = l2_entry & L2E_OFFSET_MASK;
+ 
++            if ((l2_bitmap >> 32) & l2_bitmap) {
++                res->corruptions++;
++                fprintf(stderr, "ERROR offset=%" PRIx64 ": Allocated "
++                        "cluster has corrupted subcluster allocation bitmap\n",
++                        offset);
++            }
 +
-+        set_l2_bitmap(s, l2_table, l2_index, l2_bitmap);
-+        set_l2_entry(s, l2_table, l2_index, 0);
-+    } else {
-+        set_l2_entry(s, l2_table, l2_index, QCOW_OFLAG_ZERO);
-+    }
+             /* Correct offsets are cluster aligned */
+             if (offset_into_cluster(s, offset)) {
+                 bool contains_data;
+                 res->corruptions++;
+ 
+                 if (has_subclusters(s)) {
+-                    uint64_t l2_bitmap = get_l2_bitmap(s, l2_table, i);
+                     contains_data = (l2_bitmap & QCOW_L2_BITMAP_ALL_ALLOC);
+                 } else {
+                     contains_data = !(l2_entry & QCOW_OFLAG_ZERO);
+@@ -1799,7 +1814,16 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+         }
+ 
+         case QCOW2_CLUSTER_ZERO_PLAIN:
++            /* Impossible when image has subclusters */
++            assert(!l2_bitmap);
++            break;
 +
-     ret = qcow2_pre_write_overlap_check(bs, ign, l2e_offset, l2_entry_size(s),
-                                         false);
-     if (metadata_overlap) {
+         case QCOW2_CLUSTER_UNALLOCATED:
++            if (l2_bitmap & QCOW_L2_BITMAP_ALL_ALLOC) {
++                res->corruptions++;
++                fprintf(stderr, "ERROR: Unallocated "
++                        "cluster has non-zero subcluster allocation map\n");
++            }
+             break;
+ 
+         default:
 -- 
 2.31.1
 
