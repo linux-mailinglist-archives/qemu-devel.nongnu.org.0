@@ -2,97 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E8F640C508
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 14:17:23 +0200 (CEST)
-Received: from localhost ([::1]:51360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 541CF40C50A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 14:18:31 +0200 (CEST)
+Received: from localhost ([::1]:53804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQTqs-0005wo-A4
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 08:17:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35206)
+	id 1mQTry-0007sR-EO
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 08:18:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mQTp2-00050E-O8
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 08:15:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33491)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQTqK-0006Pq-3T
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 08:16:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mQTp1-0008J2-8P
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 08:15:28 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQTqH-00011t-2x
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 08:16:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631708125;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1631708204;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZhZzbf5qo8Q9g4Cvj1aSQ2nnxSPozfH06+p7PPsMePQ=;
- b=fCmJLN7UY4s9ekyp6ZLHYV65T/Vatq1ZaTI1ykPaGnaRAVJFfoZu9YrzzwdzMbskl1WH+P
- JlOibx9cZUc7JL/k3NLte6hnTFPF1U/JppQZ6hZnJb2OrJC0sHMULxz/1EPmXKg9Xjtoky
- Cm0S+YCWoOiNxNTQeLee5sbKbjLmnhg=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-YF3JnjVXMm2FiKyceb6ykg-1; Wed, 15 Sep 2021 08:14:13 -0400
-X-MC-Unique: YF3JnjVXMm2FiKyceb6ykg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- z17-20020a05640240d100b003cac681f4f4so1477733edb.21
- for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 05:14:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZhZzbf5qo8Q9g4Cvj1aSQ2nnxSPozfH06+p7PPsMePQ=;
- b=0KISptVbfjDL3ADmPuLHllUTSx/5831kzxgzBaxmX4yexyUFa2pl6W/4LQCiW0AZdY
- o6qMHfXYfxp99dmdAVD/p/PB610OtrTppv6PbEOS83aL2DaQzwroETse3gWeoPFfkic/
- fBl2qpJEyYB+2v08+CSZYP7GU35Z/3DDkGjfRBkuBqkS/OZJGMFlKSm+3epHtM7WVnKT
- o6PC6pPY725kW1iDqz6pwT37aRh7Z5crEAMQRMNHKrMx3jiN+nmT1qn2X6hEUOr05/Eb
- WPXJJX1jWrS0h2KnsmxdPhMm/neTxdRE1BjHcxpn8/zsrXL5fBVqVTAzWwR2G9B4ripf
- Lh7w==
-X-Gm-Message-State: AOAM530I83QgTOAYjnNfc7mZOgKxiVYzRJep7VbCzf+D/ScAbvZTCrA3
- 0rtwvU6vw0FWZCsL9Kd1IbXR7NaLSOOeUs2/t00fjK2xNtDnU9XAHlt2p9URkEH07KnGM1df1av
- TzgbRNHmC0m07EErTSCWhxN7fVgDxe70+Opmgb000S+V3RvxRsdjwkgHWoResNSzEez0=
-X-Received: by 2002:a05:6402:424e:: with SMTP id
- g14mr25539034edb.372.1631708051494; 
- Wed, 15 Sep 2021 05:14:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwHrxD2kmUT2Jgr0qSAtjdEuXrBD5CxQEaiP0Ezje0c4gJ3clBstOHkkKy1vBoTeLgI4RDPlg==
-X-Received: by 2002:a05:6402:424e:: with SMTP id
- g14mr25538994edb.372.1631708051189; 
- Wed, 15 Sep 2021 05:14:11 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id dn28sm5192062edb.76.2021.09.15.05.14.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Sep 2021 05:14:10 -0700 (PDT)
-Subject: Re: [RFC PATCH 3/4] include/sysemu/block-backend: split header into
- I/O and graph API
-To: Stefan Hajnoczi <stefanha@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>
-References: <20210908131021.774533-1-eesposit@redhat.com>
- <20210908131021.774533-4-eesposit@redhat.com>
- <YT9RzrThGlWp4E5Q@stefanha-x1.localdomain>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <5060185f-9a76-da5a-9214-6d11efef0281@redhat.com>
-Date: Wed, 15 Sep 2021 14:14:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=zgo0xWP8pisT5sFYCU8ij4VtsMvqxOjoevWF/MHnis4=;
+ b=CKNVk4pJwbDN115lqG95U8tMEXqY4rJvKVJ4h+LaCM05z64xGk1o6lWMX9uJYfPYwLzZb/
+ so11Mip/OHjzLaoomsPj7g/qcHoFUttJwqJdS3kzzL1QQfNKUudYI2sPS7OOo7Z8YtfNnh
+ eyUwj17pwyXzWcsuXfEWUfGY/4+HBqg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-340-IzhQxZr5O4CYt-RPTicZUA-1; Wed, 15 Sep 2021 08:16:37 -0400
+X-MC-Unique: IzhQxZr5O4CYt-RPTicZUA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4304019251CB;
+ Wed, 15 Sep 2021 12:16:36 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.233])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A536E5D9CA;
+ Wed, 15 Sep 2021 12:16:34 +0000 (UTC)
+Date: Wed, 15 Sep 2021 13:16:32 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] gitlab-ci: Make more custom runner jobs manual, and
+ don't allow failure
+Message-ID: <YUHkIOhcV4Z4Iv1P@redhat.com>
+References: <20210913101948.12600-1-peter.maydell@linaro.org>
+ <CAFEAcA86yjW8oeif4tY7WWzGfXYYV0VuqY+4RV9f_NqAApeeeg@mail.gmail.com>
+ <YUGu1PbzB+pzZdjf@redhat.com>
+ <CAFEAcA9CjgNrGJN2t40PJW6ZO-fP9R0senq4_G_h_8pmjH5n9Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YT9RzrThGlWp4E5Q@stefanha-x1.localdomain>
+In-Reply-To: <CAFEAcA9CjgNrGJN2t40PJW6ZO-fP9R0senq4_G_h_8pmjH5n9Q@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.698, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,30 +85,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Eric Blake <eblake@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/09/21 15:27, Stefan Hajnoczi wrote:
->> +/*
->> + * I/O API functions. These functions are thread-safe, and therefore
->> + * can run in any AioContext.
-> "can run in any AioContext" makes me wonder what the exact requirements
-> are. Can they run in any*thread*  (regardless of whether an AioContext
-> even exists for that thread) or do they need to run in a thread that has
-> called qemu_set_current_aio_context()?
+On Wed, Sep 15, 2021 at 01:12:23PM +0100, Peter Maydell wrote:
+> On Wed, 15 Sept 2021 at 09:29, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > Urgh, my bad, I completely forget this behaviour when reviewing.
+> > When we only have
+> >
+> >   when: manual
+> >
+> > then the job has to be manually started, and it still contributes
+> > to pipeline status, so it /must/ triggered manually.
+> >
+> > If we want it to be manually started and not contribute to the
+> > pipeline status we need:
+> >
+> >  rules:
+> >    ...
+> >    when: manual
+> >    allow_failure: true
+> 
+> So there's no way to say "if it is triggered, then it must
+> not fail, but if it is not triggered, that's OK" ?
 
-I think they can run in any thread as long as they have called 
-aio_context_acquire/release; later on, they will be able to run in any 
-thread completely (which will be the underlying mechanism for multiqueue).
+Not that I've found.
 
-Paolo
+> I guess it's not a big deal either way though.
+> So the fix is to add back the allow_failure tag to those jobs
+> which are manual. I'll send a patch...
+
+Note "allow_failure" is allowed both at the top level of the job
+and inside the "rules:". I find it clearer if we put it against
+the "rules:" section as shown above.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
