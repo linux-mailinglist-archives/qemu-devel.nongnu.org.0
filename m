@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A0D940CC4C
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 20:05:46 +0200 (CEST)
-Received: from localhost ([::1]:48606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC5540CC57
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 20:08:33 +0200 (CEST)
+Received: from localhost ([::1]:57036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQZHz-00035r-BB
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 14:05:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51882)
+	id 1mQZKh-0000Th-AW
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 14:08:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6b-0006Qz-Pl
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:53:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49981)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6e-0006Se-Dh
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:54:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6Z-0006p2-Ut
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:53:57 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6c-0006rH-9E
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:54:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631728435;
+ s=mimecast20190719; t=1631728437;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FQTGBN/4iuV8wISjMgE98z+muO+KQ01nh5WbJ/PiZ54=;
- b=HWdiJVTfj5NnpzBzzWwpqO6nulC07oF68o3F0ZXKoJ234LCvPrYCxExlhKmtsIOz4mc5mQ
- StYEQrlPQEukvixTdsOt+N2uyNiAwJKH66lFcG+tMB3W7fPCALzayk3CyosDHjUiuB82vZ
- Tdd3947VItqc7x5qRiInQcQNp/SiAxE=
+ bh=7f8jWXwv/UeM2qL7zOLHTHGXiOIsI8zl10DcCWQrbtA=;
+ b=CNu7Vs9ex96+Yu9UtVCmSxluHATeVJ7T9eQ0jmvS9EdSOSKAMqwRTV3iNhW0/cb+RsjZ9l
+ fAqaxy3kEv0b/ZDnJsSoCQsTJjYTh+gHTPIfwPC8BSLHTvCRdqk4ZU1T/0y0ROmiRzelUc
+ OL8tn6o/Rjd+8zRDbzQf87uTX6I7/iA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-_zMm7k7HPLWHxoTp8-r2hw-1; Wed, 15 Sep 2021 13:53:53 -0400
-X-MC-Unique: _zMm7k7HPLWHxoTp8-r2hw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-470-1Ao9B-FnMyC97usb_g3grw-1; Wed, 15 Sep 2021 13:53:55 -0400
+X-MC-Unique: 1Ao9B-FnMyC97usb_g3grw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C205C5074C;
- Wed, 15 Sep 2021 17:53:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2B151966321;
+ Wed, 15 Sep 2021 17:53:54 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 690441B5B7;
- Wed, 15 Sep 2021 17:53:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 828BA6B54B;
+ Wed, 15 Sep 2021 17:53:54 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 15/32] block/mirror: fix NULL pointer dereference in
- mirror_wait_on_conflicts()
-Date: Wed, 15 Sep 2021 19:53:01 +0200
-Message-Id: <20210915175318.853225-16-hreitz@redhat.com>
+Subject: [PULL 16/32] tests: add migrate-during-backup
+Date: Wed, 15 Sep 2021 19:53:02 +0200
+Message-Id: <20210915175318.853225-17-hreitz@redhat.com>
 In-Reply-To: <20210915175318.853225-1-hreitz@redhat.com>
 References: <20210915175318.853225-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,79 +81,138 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefano Garzarella <sgarzare@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-In mirror_iteration() we call mirror_wait_on_conflicts() with
-`self` parameter set to NULL.
+Add a simple test which tries to run migration during backup.
+bdrv_inactivate_all() should fail. But due to bug (see next commit with
+fix) it doesn't, nodes are inactivated and continued backup crashes
+on assertion "assert(!(bs->open_flags & BDRV_O_INACTIVE));" in
+bdrv_co_write_req_prepare().
 
-Starting from commit d44dae1a7c we dereference `self` pointer in
-mirror_wait_on_conflicts() without checks if it is not NULL.
-
-Backtrace:
-  Program terminated with signal SIGSEGV, Segmentation fault.
-  #0  mirror_wait_on_conflicts (self=0x0, s=<optimized out>, offset=<optimized out>, bytes=<optimized out>)
-      at ../block/mirror.c:172
-  172	                self->waiting_for_op = op;
-  [Current thread is 1 (Thread 0x7f0908931ec0 (LWP 380249))]
-  (gdb) bt
-  #0  mirror_wait_on_conflicts (self=0x0, s=<optimized out>, offset=<optimized out>, bytes=<optimized out>)
-      at ../block/mirror.c:172
-  #1  0x00005610c5d9d631 in mirror_run (job=0x5610c76a2c00, errp=<optimized out>) at ../block/mirror.c:491
-  #2  0x00005610c5d58726 in job_co_entry (opaque=0x5610c76a2c00) at ../job.c:917
-  #3  0x00005610c5f046c6 in coroutine_trampoline (i0=<optimized out>, i1=<optimized out>)
-      at ../util/coroutine-ucontext.c:173
-  #4  0x00007f0909975820 in ?? () at ../sysdeps/unix/sysv/linux/x86_64/__start_context.S:91
-      from /usr/lib64/libc.so.6
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2001404
-Fixes: d44dae1a7c ("block/mirror: fix active mirror dead-lock in mirror_wait_on_conflicts")
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20210910124533.288318-1-sgarzare@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20210911120027.8063-2-vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- block/mirror.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+ .../qemu-iotests/tests/migrate-during-backup  | 97 +++++++++++++++++++
+ .../tests/migrate-during-backup.out           |  5 +
+ 2 files changed, 102 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/migrate-during-backup
+ create mode 100644 tests/qemu-iotests/tests/migrate-during-backup.out
 
-diff --git a/block/mirror.c b/block/mirror.c
-index 98fc66eabf..85b781bc21 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -160,18 +160,25 @@ static void coroutine_fn mirror_wait_on_conflicts(MirrorOp *self,
-             if (ranges_overlap(self_start_chunk, self_nb_chunks,
-                                op_start_chunk, op_nb_chunks))
-             {
--                /*
--                 * If the operation is already (indirectly) waiting for us, or
--                 * will wait for us as soon as it wakes up, then just go on
--                 * (instead of producing a deadlock in the former case).
--                 */
--                if (op->waiting_for_op) {
--                    continue;
-+                if (self) {
-+                    /*
-+                     * If the operation is already (indirectly) waiting for us,
-+                     * or will wait for us as soon as it wakes up, then just go
-+                     * on (instead of producing a deadlock in the former case).
-+                     */
-+                    if (op->waiting_for_op) {
-+                        continue;
-+                    }
+diff --git a/tests/qemu-iotests/tests/migrate-during-backup b/tests/qemu-iotests/tests/migrate-during-backup
+new file mode 100755
+index 0000000000..1046904c5a
+--- /dev/null
++++ b/tests/qemu-iotests/tests/migrate-during-backup
+@@ -0,0 +1,97 @@
++#!/usr/bin/env python3
++# group: migration disabled
++#
++# Copyright (c) 2021 Virtuozzo International GmbH
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-+                    self->waiting_for_op = op;
-                 }
- 
--                self->waiting_for_op = op;
-                 qemu_co_queue_wait(&op->waiting_requests, NULL);
--                self->waiting_for_op = NULL;
++import os
++import iotests
++from iotests import qemu_img_create, qemu_io
 +
-+                if (self) {
-+                    self->waiting_for_op = NULL;
-+                }
 +
-                 break;
-             }
-         }
++disk_a = os.path.join(iotests.test_dir, 'disk_a')
++disk_b = os.path.join(iotests.test_dir, 'disk_b')
++size = '1M'
++mig_file = os.path.join(iotests.test_dir, 'mig_file')
++mig_cmd = 'exec: cat > ' + mig_file
++
++
++class TestMigrateDuringBackup(iotests.QMPTestCase):
++    def tearDown(self):
++        self.vm.shutdown()
++        os.remove(disk_a)
++        os.remove(disk_b)
++        os.remove(mig_file)
++
++    def setUp(self):
++        qemu_img_create('-f', iotests.imgfmt, disk_a, size)
++        qemu_img_create('-f', iotests.imgfmt, disk_b, size)
++        qemu_io('-c', f'write 0 {size}', disk_a)
++
++        self.vm = iotests.VM().add_drive(disk_a)
++        self.vm.launch()
++        result = self.vm.qmp('blockdev-add', {
++            'node-name': 'target',
++            'driver': iotests.imgfmt,
++            'file': {
++                'driver': 'file',
++                'filename': disk_b
++            }
++        })
++        self.assert_qmp(result, 'return', {})
++
++    def test_migrate(self):
++        result = self.vm.qmp('blockdev-backup', device='drive0',
++                             target='target', sync='full',
++                             speed=1, x_perf={
++                                 'max-workers': 1,
++                                 'max-chunk': 64 * 1024
++                             })
++        self.assert_qmp(result, 'return', {})
++
++        result = self.vm.qmp('job-pause', id='drive0')
++        self.assert_qmp(result, 'return', {})
++
++        result = self.vm.qmp('migrate-set-capabilities',
++                             capabilities=[{'capability': 'events',
++                                            'state': True}])
++        self.assert_qmp(result, 'return', {})
++        result = self.vm.qmp('migrate', uri=mig_cmd)
++        self.assert_qmp(result, 'return', {})
++
++        e = self.vm.events_wait((('MIGRATION',
++                                  {'data': {'status': 'completed'}}),
++                                 ('MIGRATION',
++                                  {'data': {'status': 'failed'}})))
++
++        # Don't assert that e is 'failed' now: this way we'll miss
++        # possible crash when backup continues :)
++
++        result = self.vm.qmp('block-job-set-speed', device='drive0',
++                             speed=0)
++        self.assert_qmp(result, 'return', {})
++        result = self.vm.qmp('job-resume', id='drive0')
++        self.assert_qmp(result, 'return', {})
++
++        # For future: if something changes so that both migration
++        # and backup pass, let's not miss that moment, as it may
++        # be a bug as well as improvement.
++        self.assert_qmp(e, 'data/status', 'failed')
++
++
++if __name__ == '__main__':
++    iotests.main(supported_fmts=['qcow2'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/tests/migrate-during-backup.out b/tests/qemu-iotests/tests/migrate-during-backup.out
+new file mode 100644
+index 0000000000..ae1213e6f8
+--- /dev/null
++++ b/tests/qemu-iotests/tests/migrate-during-backup.out
+@@ -0,0 +1,5 @@
++.
++----------------------------------------------------------------------
++Ran 1 tests
++
++OK
 -- 
 2.31.1
 
