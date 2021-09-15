@@ -2,75 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645D740C207
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 10:51:28 +0200 (CEST)
-Received: from localhost ([::1]:52428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E8040C20C
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 10:53:11 +0200 (CEST)
+Received: from localhost ([::1]:55274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQQda-00062u-63
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 04:51:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45818)
+	id 1mQQfG-0007zk-8Q
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 04:53:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQQc6-00050Z-EC
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 04:49:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48848)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQQc3-0000qN-ED
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 04:49:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631695789;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UbsWX5ThNzbLSLppNv0zipcECBhQ1lONYygbF5FVZZg=;
- b=X1uY1cyeQ/prqnx0R7/2SKtnT/hVj6H5JPSBf9Qk9Oo28NHwV01I1jtW+yKNKS45yGS5Jo
- BiAF24QFoLvSYDUKKJ7JK+ffsNsUH7zyQZSGc+HMFX3MGO+6UgIX0jNLUP4oDN8S/2ob/D
- UVXzH3ZdYZy8Kc+NXLCxTDj11/LVaHI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-fke9A7PLMHqixdvWp5O0SA-1; Wed, 15 Sep 2021 04:49:48 -0400
-X-MC-Unique: fke9A7PLMHqixdvWp5O0SA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F03F802928;
- Wed, 15 Sep 2021 08:49:44 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.233])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7AFF06B54B;
- Wed, 15 Sep 2021 08:49:24 +0000 (UTC)
-Date: Wed, 15 Sep 2021 09:49:21 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 09/53] target/avr: convert to use format_state instead
- of dump_state
-Message-ID: <YUGzkcTjgsTjO5PQ@redhat.com>
-References: <20210914142042.1655100-1-berrange@redhat.com>
- <20210914142042.1655100-10-berrange@redhat.com>
- <e0ca8f7b-0e88-4548-1b24-2a3b79e56ad5@amsat.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mQQeA-000777-Fl; Wed, 15 Sep 2021 04:52:02 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53241)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mQQe8-0002jy-3U; Wed, 15 Sep 2021 04:52:02 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id e26so1534034wmk.2;
+ Wed, 15 Sep 2021 01:51:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=RyvysqWVtjp2lByu0gUlF/jmURsLmVfpSoNq9WFejBQ=;
+ b=ZmiqgbbTjpBetsY8Rt6aZ7T1fZdXMlzzGt0e1qxYFyt0oxxMqTznp80XwLys/resV4
+ hiIY4Xq3Sf/cBuoVFXxWDwbQkZXVS9RL8kgYh+C2zNWnn3bEg6fkN3gZz76srlCX76Ml
+ ECQqOcx3UKYz3lY8gU6up29gtgxABdW3H1CWG7ynuWOL0seHT/D4/z/JE5/jXskAZn5J
+ 8lWSn5GCSnf1vez2db8gjRWIhSw8iGgllP204GG620jlE7A3dRmgfGKcPAwtIfMHtGE/
+ Zz1rHlDx7vDUvhDhjLH1yoCF4w1X8jvLuFNmrbZeVJPgpnBmeOsuTKDAVnCVIA9Rl213
+ oafQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RyvysqWVtjp2lByu0gUlF/jmURsLmVfpSoNq9WFejBQ=;
+ b=Oe7jHFElgHSh6Uf1PSF76GndObdeFovDEULfgN3sAAyHo5Xgt4bQbbuQgIxWaPMrWh
+ kOGdT7wTJeHx2SNc6Xaujtjh1m3/NynXNvbpF5/O8kKymxlFsrmlvOlZT0ntkUvZgKiW
+ 5E7CnAt2duo7+PgxLAiAwp9pm4U5x8i1gNuRS2X3Yi498lZ3vTMJ6nl5IAtPiCReekQ4
+ 7TpeQngB3G6BoaBfffffSW4eVt5fJYR4ROc2pGE8I6tMwrRDXLXPQOxvGmmGkS/lK7rL
+ L1Amk9Xa1AIZWgkt4bhuWlUxRKa7aEppvmANUii4VXx0UphmxgcSvpcl5u9+lwzimwXN
+ Pocg==
+X-Gm-Message-State: AOAM53175k95M2mSSfWc9jPbOte0UodjXjsB8YOBYXSrc0Giqnl7slkN
+ s1MTP2lpZ9AHlJtkud7JJBc=
+X-Google-Smtp-Source: ABdhPJzE3VME2t4v0T5MmUGj4eo3A7qDSopDvVUoUl+9n5PDV+wethHm/nyRCIf3s9ntUavAZzLYvw==
+X-Received: by 2002:a1c:210a:: with SMTP id h10mr3054972wmh.165.1631695918023; 
+ Wed, 15 Sep 2021 01:51:58 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
+ [83.35.25.14])
+ by smtp.gmail.com with ESMTPSA id c7sm3759781wmq.13.2021.09.15.01.51.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Sep 2021 01:51:57 -0700 (PDT)
+Subject: Re: Deprecate 32-bit hosts? (was: Re: [PULL 14/14] hw/arm/aspeed: Add
+ Fuji machine type)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <20210913161304.3805652-1-clg@kaod.org>
+ <20210913161304.3805652-15-clg@kaod.org>
+ <88c26520-6b87-e7a2-ac78-c1c92477c814@kaod.org>
+ <BBC4A4E0-651C-41DB-81DE-1F6D86AABAB1@fb.com>
+ <CACPK8Xdey9_x-ZN1JbgFyTrW59EapH4xcqYbyNQxyQ5t0uWPvw@mail.gmail.com>
+ <CAFEAcA8ntPE3GkTNU8bSBhCWzk_jdH4QR1kDgwo6deQ+T1iOKw@mail.gmail.com>
+ <1949e204-1bce-f15b-553b-1b42b41e3e08@linaro.org>
+ <ee5d379f-a792-aae1-370a-b5f21582ae58@redhat.com>
+ <YUGw1v20jNRxq2zH@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a7a8ee29-cfc5-fec4-30fc-761df76107da@amsat.org>
+Date: Wed, 15 Sep 2021 10:51:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <e0ca8f7b-0e88-4548-1b24-2a3b79e56ad5@amsat.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <YUGw1v20jNRxq2zH@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.969,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,94 +96,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Eric Blake <eblake@redhat.com>, Marek Vasut <marex@denx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-ppc@nongnu.org,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Peter Xu <peterx@redhat.com>, Stafford Horne <shorne@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Palmer Dabbelt <palmer@dabbelt.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Michael Tokarev <mjt@tls.msk.ru>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Richard W.M. Jones" <rjones@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+ Peter Delevoryas <pdel@fb.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 15, 2021 at 09:13:14AM +0200, Philippe Mathieu-Daudé wrote:
-> On 9/14/21 4:19 PM, Daniel P. Berrangé wrote:
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >  target/avr/cpu.c | 57 ++++++++++++++++++++++++------------------------
-> >  1 file changed, 29 insertions(+), 28 deletions(-)
-> > 
-> > diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-> > index ea14175ca5..17ff21f8be 100644
-> > --- a/target/avr/cpu.c
-> > +++ b/target/avr/cpu.c
-> > @@ -145,43 +145,44 @@ static ObjectClass *avr_cpu_class_by_name(const char *cpu_model)
-> >      return oc;
-> >  }
-> >  
-> > -static void avr_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-> > +static void avr_cpu_format_state(CPUState *cs, GString *buf, int flags)
-> >  {
-> >      AVRCPU *cpu = AVR_CPU(cs);
-> >      CPUAVRState *env = &cpu->env;
-> >      int i;
-> >  
-> > -    qemu_fprintf(f, "\n");
-> > -    qemu_fprintf(f, "PC:    %06x\n", env->pc_w * 2); /* PC points to words */
-> > -    qemu_fprintf(f, "SP:      %04x\n", env->sp);
-> > -    qemu_fprintf(f, "rampD:     %02x\n", env->rampD >> 16);
-> > -    qemu_fprintf(f, "rampX:     %02x\n", env->rampX >> 16);
-> > -    qemu_fprintf(f, "rampY:     %02x\n", env->rampY >> 16);
-> > -    qemu_fprintf(f, "rampZ:     %02x\n", env->rampZ >> 16);
-> > -    qemu_fprintf(f, "EIND:      %02x\n", env->eind >> 16);
-> > -    qemu_fprintf(f, "X:       %02x%02x\n", env->r[27], env->r[26]);
-> > -    qemu_fprintf(f, "Y:       %02x%02x\n", env->r[29], env->r[28]);
-> > -    qemu_fprintf(f, "Z:       %02x%02x\n", env->r[31], env->r[30]);
-> > -    qemu_fprintf(f, "SREG:    [ %c %c %c %c %c %c %c %c ]\n",
-> > -                 env->sregI ? 'I' : '-',
-> > -                 env->sregT ? 'T' : '-',
-> > -                 env->sregH ? 'H' : '-',
-> > -                 env->sregS ? 'S' : '-',
-> > -                 env->sregV ? 'V' : '-',
-> > -                 env->sregN ? '-' : 'N', /* Zf has negative logic */
-> > -                 env->sregZ ? 'Z' : '-',
-> > -                 env->sregC ? 'I' : '-');
-> > -    qemu_fprintf(f, "SKIP:    %02x\n", env->skip);
-> > -
-> > -    qemu_fprintf(f, "\n");
-> > +    g_string_append_printf(buf, "\n");
+On 9/15/21 10:37 AM, Daniel P. Berrangé wrote:
+> On Wed, Sep 15, 2021 at 09:42:48AM +0200, Thomas Huth wrote:
+>> On 14/09/2021 17.22, Richard Henderson wrote:
+>>> On 9/14/21 5:26 AM, Peter Maydell wrote:
+>>>> (2) RAM blocks should have a length that fits inside a
+>>>>      signed 32-bit type on 32-bit hosts (at least I assume this
+>>>>      is where the 2047MB limit is coming from; in theory this ought
+>>>>      to be improveable but auditing the code for mishandling of
+>>>>      RAMblock sizes to ensure we weren't accidentally stuffing
+>>>>      their size into a signed 'long' somewhere would be kind
+>>>>      of painful)
+>>>
+>>> Recalling that the win64 abi model is p64, i.e. 'long' is still 32-bit
+>>> while pointers are 64-bit, how close do we think we are to this being
+>>> fixed already?
+>>>
+>>>> Even if we did fix (2) we'd need to compromise on (3)
+>>>> sometimes still -- if a board has 4GB of RAM that's
+>>>> not going to fit in 32 bits regardless. But we would be
+>>>> able to let boards with 2GB have 2GB.
+>>>
+>>> I'm not opposed to deprecating 32-bit hosts...  ;-)
+>>
+>> I think we should consider this again, indeed. Plain 32-bit CPUs are quite
+>> seldom these days, aren't they? And I think we urgently need to decrease the
+>> amount of things that we have to test and maintain in our CI and developer
+>> branches... So is there still a really really compelling reason to keep
+>> 32-bit host support alive?
 > 
-> This would be g_string_append_c(buf, '\n') but in this particular case
-> it doesn't seem helpful so I'd directly remove it.
+> I think it probably depends on the architecture to some extent.
+> 
+> i386 is possibly getting rare enough to consider dropping, though
+> IIUC, KVM in the kernel still supports it.  Would feel odd to drop
+> it in QEMU if the kernel still thinks it is popular enough to keep
+> KVM support.
+> 
+> armv7 feels like it is relatively common as 64-bit didn't arrive
+> in widespread use until relatively recent times compared to x86_64.
+> KVM dropped armv7, but then hardware for that was never widespread,
+> so armv7 was always TCG dominated
+> 
+> Other 32-bit arches were/are always rare.
 
-I don't want to change output format of the commands, with exception of
-error reporting, as this is intended to be just refactoring patch, not
-a cleanup patch.
+While I could understand there are rare uses of system emulation on
+32-bit hosts, I still believe user-emulation is used, but would like
+to be proven to the contrary. With that in mind, I'm not sure removing
+sysemu on 32-bit hosts is worthful. Maybe we should ask distribution
+maintainers first, then eventually poll the community? Or start with
+a deprecation warning?
 
-I'm not convinced it is worth special casing single byte strings to
-use g_string_append_c either really.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>> Could we maybe also decrease the amount of targets, i.e. merge
+>> qemu-system-x86_64 and qemu-system-i386, merge qemu-system-ppc64 and
+>> qemu-system-ppc, etc. where it makes sense (i.e. where one of the binaries
+>> is a superset of the other)?
+> 
+> Regards,
+> Daniel
+> 
 
 
