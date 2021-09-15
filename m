@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 437C940CA7C
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 18:39:57 +0200 (CEST)
-Received: from localhost ([::1]:54976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADEC40CAE9
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 18:45:28 +0200 (CEST)
+Received: from localhost ([::1]:43866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQXwy-000243-8a
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 12:39:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60138)
+	id 1mQY2J-0005AM-EL
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 12:45:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXpI-0005TH-9A
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:32:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54837)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXpM-0005YC-D3
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:32:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXpG-0005Yi-Mf
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:32:00 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXpK-0005bK-90
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:32:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631723518;
+ s=mimecast20190719; t=1631723520;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lW4p/EelRiZW36aOLnrsvp2tjcOz5ulxundD4GJSKOg=;
- b=HiTyZ2QqnyBFkEIs0Pjs98lJ3VkSV66BGzEqCmVsa48dHdyoB6Un57s81UCelWcTrq9TSA
- i12QUyu3GIum0GsaMshYHyuI0HOszvWvLuMWp/3SIaGgeZYnYivvOsxHvC8f5KNoiUu85v
- YluuCGS2W+dTwMUV6I5VlH6TgyKMEqE=
+ bh=fpzFbhKZT1tsmO6esYUGCQRfRAJzdyu9F7idGBsfJzY=;
+ b=I8q/gTWur+jgIFYyA3l8E8Esodcp8F7hY00o+V4JbiGrY/k0EbYswoJFM0vxlKKXTd1yiT
+ AHofbSSsdNQFk4+ezsvMqmvuNaAvSBX+oOg1DQLssqVXIrG2/8078xbMbLQ3WtI5SKvgC9
+ 2XKvOBnNW9Oc9lo1fMc7Fq78/rxFgKQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-UaQgBdJpPzOH5cx96I3c5A-1; Wed, 15 Sep 2021 12:31:56 -0400
-X-MC-Unique: UaQgBdJpPzOH5cx96I3c5A-1
+ us-mta-71-1_0RmpZoOcWCneK3f6rwbQ-1; Wed, 15 Sep 2021 12:31:58 -0400
+X-MC-Unique: 1_0RmpZoOcWCneK3f6rwbQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A45FA800FF4;
- Wed, 15 Sep 2021 16:31:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A7929F92A;
+ Wed, 15 Sep 2021 16:31:57 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 668C97771A;
- Wed, 15 Sep 2021 16:31:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD0057771A;
+ Wed, 15 Sep 2021 16:31:55 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 26/27] python/aqmp: add LineProtocol tests
-Date: Wed, 15 Sep 2021 12:29:54 -0400
-Message-Id: <20210915162955.333025-27-jsnow@redhat.com>
+Subject: [PATCH v4 27/27] python/aqmp: Add Coverage.py support
+Date: Wed, 15 Sep 2021 12:29:55 -0400
+Message-Id: <20210915162955.333025-28-jsnow@redhat.com>
 In-Reply-To: <20210915162955.333025-1-jsnow@redhat.com>
 References: <20210915162955.333025-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -85,79 +85,87 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tests a real connect, a real accept, and really sending and receiving a
-message over a UNIX socket.
+I'm not exposing this via the Makefile help, it's not likely to be
+useful to passersby. Switch the avocado runner to the 'legacy' runner
+for now, as the new runner seems to obscure coverage reports, again.
 
-Brings coverage of protocol.py up to ~93%.
+Usage is to enter your venv of choice and then:
+`make check-coverage && xdg-open htmlcov/index.html`.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/tests/protocol.py | 48 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+ python/.gitignore  |  5 +++++
+ python/Makefile    |  9 +++++++++
+ python/avocado.cfg |  3 +++
+ python/setup.cfg   | 10 ++++++++++
+ 4 files changed, 27 insertions(+)
 
-diff --git a/python/tests/protocol.py b/python/tests/protocol.py
-index f0682d29ce..5cd7938be3 100644
---- a/python/tests/protocol.py
-+++ b/python/tests/protocol.py
-@@ -78,6 +78,25 @@ async def simulate_disconnect(self) -> None:
-         self._schedule_disconnect()
+diff --git a/python/.gitignore b/python/.gitignore
+index c8b0e67fe6..904f324bb1 100644
+--- a/python/.gitignore
++++ b/python/.gitignore
+@@ -15,3 +15,8 @@ qemu.egg-info/
+ .venv/
+ .tox/
+ .dev-venv/
++
++# Coverage.py reports
++.coverage
++.coverage.*
++htmlcov/
+diff --git a/python/Makefile b/python/Makefile
+index fe27a3e12e..3334311362 100644
+--- a/python/Makefile
++++ b/python/Makefile
+@@ -92,6 +92,13 @@ check:
+ check-tox:
+ 	@tox $(QEMU_TOX_EXTRA_ARGS)
  
- 
-+class LineProtocol(AsyncProtocol[str]):
-+    def __init__(self, name=None):
-+        super().__init__(name)
-+        self.rx_history = []
++.PHONY: check-coverage
++check-coverage:
++	@coverage run -m avocado --config avocado.cfg run tests/*.py
++	@coverage combine
++	@coverage html
++	@coverage report
 +
-+    async def _do_recv(self) -> str:
-+        raw = await self._readline()
-+        msg = raw.decode()
-+        self.rx_history.append(msg)
-+        return msg
+ .PHONY: clean
+ clean:
+ 	python3 setup.py clean --all
+@@ -100,3 +107,5 @@ clean:
+ .PHONY: distclean
+ distclean: clean
+ 	rm -rf qemu.egg-info/ .venv/ .tox/ $(QEMU_VENV_DIR) dist/
++	rm -f .coverage .coverage.*
++	rm -rf htmlcov/
+diff --git a/python/avocado.cfg b/python/avocado.cfg
+index 10dc6fb605..c7722e7ecd 100644
+--- a/python/avocado.cfg
++++ b/python/avocado.cfg
+@@ -1,3 +1,6 @@
++[run]
++test_runner = runner
 +
-+    def _do_send(self, msg: str) -> None:
-+        assert self._writer is not None
-+        self._writer.write(msg.encode() + b'\n')
+ [simpletests]
+ # Don't show stdout/stderr in the test *summary*
+ status.failure_fields = ['status']
+diff --git a/python/setup.cfg b/python/setup.cfg
+index c22d9961df..37c71d395b 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -139,3 +139,13 @@ deps =
+     .[fuse]  # Workaround to trigger tox venv rebuild
+ commands =
+     make check
 +
-+    async def send_msg(self, msg: str) -> None:
-+        await self._outgoing.put(msg)
++# Coverage.py [https://coverage.readthedocs.io/en/latest/] is a tool for
++# measuring code coverage of Python programs. It monitors your program,
++# noting which parts of the code have been executed, then analyzes the
++# source to identify code that could have been executed but was not.
 +
-+
- def run_as_task(coro, allow_cancellation=False):
-     """
-     Run a given coroutine as a task.
-@@ -533,3 +552,32 @@ async def testConnectRequireDisconnecting(self):
-              " Call disconnect() to return to IDLE state."),
-             accept=False,
-         )
-+
-+
-+class SimpleSession(TestBase):
-+
-+    def setUp(self):
-+        super().setUp()
-+        self.server = LineProtocol(type(self).__name__ + '-server')
-+
-+    async def _asyncSetUp(self):
-+        await super()._asyncSetUp()
-+        await self._watch_runstates(*self.GOOD_CONNECTION_STATES)
-+
-+    async def _asyncTearDown(self):
-+        await self.proto.disconnect()
-+        try:
-+            await self.server.disconnect()
-+        except EOFError:
-+            pass
-+        await super()._asyncTearDown()
-+
-+    @TestBase.async_test
-+    async def testSmoke(self):
-+        with TemporaryDirectory(suffix='.aqmp') as tmpdir:
-+            sock = os.path.join(tmpdir, type(self.proto).__name__ + ".sock")
-+            server_task = create_task(self.server.accept(sock))
-+
-+            # give the server a chance to start listening [...]
-+            await asyncio.sleep(0)
-+            await self.proto.connect(sock)
++[coverage:run]
++concurrency = multiprocessing
++source = qemu/
++parallel = true
 -- 
 2.31.1
 
