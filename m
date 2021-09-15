@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE0F40C005
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 09:03:32 +0200 (CEST)
-Received: from localhost ([::1]:40584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D937A40C01D
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 09:06:51 +0200 (CEST)
+Received: from localhost ([::1]:43822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQOx9-0003nW-H0
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 03:03:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49582)
+	id 1mQP0M-00068J-VG
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 03:06:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQOuY-0002Xr-PF; Wed, 15 Sep 2021 03:00:50 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:52132)
+ id 1mQOxx-0004ay-FT; Wed, 15 Sep 2021 03:04:21 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQOuX-0000p0-7g; Wed, 15 Sep 2021 03:00:50 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id y132so1319256wmc.1;
- Wed, 15 Sep 2021 00:00:47 -0700 (PDT)
+ id 1mQOxt-0003lC-Ou; Wed, 15 Sep 2021 03:04:21 -0400
+Received: by mail-wr1-x435.google.com with SMTP id q26so2140170wrc.7;
+ Wed, 15 Sep 2021 00:04:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nb19ci96u3IUUidBv4wolxo/PqC0IzC4bkQ6SDizgY8=;
- b=qLKVfD6FuakluSM/fGLN+CUMiQj4cJnpTz1tLk8aI9UhJx4/c/xFq0IR6uEBlTGUcA
- R7MY/JgPPAqd/6tiujru4sStx75pUfo1K9e1X5MMfH3ZrAvX5gnqNltuY9nmp9b4Xf5W
- AHWtxWHYgq6AvKosz38cO6RKb0FrJlq70fAY7VyWgkDoA/Pait0a3aJd8hH6xWwamJlN
- g5ZqzIBmC8OjqlMKX/iX6PHkAcwAvuJ0v7DM5wIAGH6KYUTc6VzppYacRHKT5kO5jwyy
- bHWBmWcpDuVvXWBvleIDESi8NLMuSHqE81/fVQkTdwDdocMt97cYAVXjFROgJtgzSG3s
- +oFg==
+ bh=XQsK2tVvUIfERCk7xsCI4Ejtq4oM6ZnZ6pFRx/4L4iw=;
+ b=Z6hxxKBQ73xZWGdj1a876+xRkPLxPmzjy0Q4aBJ3UyjIUVupD87cCa3xoXNfm+aEIf
+ kbZAs2jQV1ocYVlNN7IZsQHZ50x+juMtL/Qz4Vy/wz7VD3Exc5eOWcYdggXM7VSS6Jx4
+ DY3Jw5jnGJ/23Rpq7BWCRj/wl+RqilDldBWFXy+5/o37GHl6CG3T4qEeinMz0P53iESP
+ mWrt0wzs0PeYKGWjsVDkSELIlXd/xGswToR28P2l5uJizOf31JCFGSOk8JfWaQfHnYx9
+ O6ScS76334uNBno+0MLsEC5VOTHhWPABNBjlsYluFgjn80NOCV34vgbTnsl1+wXICj53
+ jctQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nb19ci96u3IUUidBv4wolxo/PqC0IzC4bkQ6SDizgY8=;
- b=IL74gpwPVJUQ4po+jqgKGkybLFZ/l6NqrN+yTB9leM1N8/VecaTUhU+ZiFSAcgfad+
- bcKODQAwCPJ+Cqq3oEga2oncq+LEJqVbcQimQLJAaBrLbLb8nr6ZJZLWBxC9rzMT4mXw
- DzR7urqa4RXD/hl2gBIFLURezH7sFLoHdX7LGos5cd+VpgT5ZH2ftpj3tuIrkKnfhuh1
- QY3Qhn7DwvX4YaBPR4JEARtkG7qGgbz95YgNwB/lal6NHJJWjo44henvJdxzj3h+LgFX
- CmZ827CaeFjtVKru78WtJyHCL8eFG9lcAUb2Qf1kO4nKelqN9/R6Z+vwvLPR/DnbcyEB
- gVYA==
-X-Gm-Message-State: AOAM533+il0qnq/oOwLuv/udhjzhsaOQAxHZukaDtHOZj1jCmFNbed7q
- 3pSJvCTf2UzU8qxO61uHPdo=
-X-Google-Smtp-Source: ABdhPJwJiBY+C9p8TtVIE4zoc1Ta74elamDrcWp2XwJ0tXsJM3cQCPrRasqwO52kXQeepRfcGEGqiQ==
-X-Received: by 2002:a1c:149:: with SMTP id 70mr2746679wmb.187.1631689246206;
- Wed, 15 Sep 2021 00:00:46 -0700 (PDT)
+ bh=XQsK2tVvUIfERCk7xsCI4Ejtq4oM6ZnZ6pFRx/4L4iw=;
+ b=o57wdx1I1fv/KbNMuBWiKzJMYfGC7jzBxZK8G25/x0EFqOBLvDOV7v70lqmaN23Cu/
+ P/fOiN7FNGnVdZf6/fRcSsUAS1+2Op24hmir9QdxujWO/3NN7odc7Y6Y+U9/bN1UWpk7
+ Myt2VxtLLFAa5FaBIYbt45M0dDAJTItYtP3j22giZK+m0uSGc27u2h5MulHZAKH4YK5u
+ f19+38ok50L522MmsKeV3OJOmFzY7pES9R+OaqFYJ0c+7nBFlV/VWKZtLPxfjrflapot
+ CbRRwT2+6jqJX9/e9WP4X73AWURGuBwu0JGpeX4NQtrnWN721c+z2mFwrUL88gYT4oYk
+ hfEA==
+X-Gm-Message-State: AOAM532MNuSmBibolnU7P3JPAQ3XrQUqkjMUXPmVZSyqA8R41maNF6YM
+ oKVj+Yc4wZH5P+hWSsYLAYg=
+X-Google-Smtp-Source: ABdhPJxl1xRdpU3R0VolQNysf1ZStu3nAmstP7zaSPgWxJUI0BRb8Efwuo+cTOUurEt58v/x5kV2Vg==
+X-Received: by 2002:adf:fc0e:: with SMTP id i14mr3129525wrr.173.1631689454892; 
+ Wed, 15 Sep 2021 00:04:14 -0700 (PDT)
 Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
  [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id q201sm3629594wme.2.2021.09.15.00.00.43
+ by smtp.gmail.com with ESMTPSA id y1sm3531747wmq.43.2021.09.15.00.04.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Sep 2021 00:00:45 -0700 (PDT)
-Subject: Re: [PATCH v2 11/53] target/hexagon: delete unused hexagon_debug()
- method
+ Wed, 15 Sep 2021 00:04:14 -0700 (PDT)
+Subject: Re: [PATCH v2 17/53] target/mips: convert to use format_state instead
+ of dump_state
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210914142042.1655100-1-berrange@redhat.com>
- <20210914142042.1655100-12-berrange@redhat.com>
+ <20210914142042.1655100-18-berrange@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b8bf9d50-6e03-308a-024e-2d2093ed418a@amsat.org>
-Date: Wed, 15 Sep 2021 09:00:43 +0200
+Message-ID: <c42b6131-43aa-dcf8-934f-1a8967c954f4@amsat.org>
+Date: Wed, 15 Sep 2021 09:04:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210914142042.1655100-12-berrange@redhat.com>
+In-Reply-To: <20210914142042.1655100-18-berrange@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -92,11 +92,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
  David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Taylor Simpson <tsimpson@quicinc.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Peter Xu <peterx@redhat.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
  Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Eric Blake <eblake@redhat.com>, Marek Vasut <marex@denx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
+ Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
  Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, qemu-ppc@nongnu.org,
  Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
@@ -104,9 +104,8 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
  qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Peter Xu <peterx@redhat.com>, Stafford Horne <shorne@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
  Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
@@ -115,14 +114,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/14/21 4:20 PM, Daniel P. Berrangé wrote:
-> This method isn't used in any code and its functionality is already
-> available via the 'info registers' HMP command.
-> 
 > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  target/hexagon/cpu.c      | 5 -----
->  target/hexagon/internal.h | 1 -
->  2 files changed, 6 deletions(-)
+>  target/mips/cpu.c | 85 +++++++++++++++++++++++++----------------------
+>  1 file changed, 45 insertions(+), 40 deletions(-)
+> 
+> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+> index d426918291..9ced90d810 100644
+> --- a/target/mips/cpu.c
+> +++ b/target/mips/cpu.c
+> @@ -42,76 +42,81 @@ const char regnames[32][3] = {
+>      "t8", "t9", "k0", "k1", "gp", "sp", "s8", "ra",
+>  };
+>  
+> -static void fpu_dump_fpr(fpr_t *fpr, FILE *f, bool is_fpu64)
+> +static void fpu_dump_fpr(fpr_t *fpr, GString *buf, bool is_fpu64)
+>  {
+>      if (is_fpu64) {
+> -        qemu_fprintf(f, "w:%08x d:%016" PRIx64 " fd:%13g fs:%13g psu: %13g\n",
+> -                     fpr->w[FP_ENDIAN_IDX], fpr->d,
+> -                     (double)fpr->fd,
+> -                     (double)fpr->fs[FP_ENDIAN_IDX],
+> -                     (double)fpr->fs[!FP_ENDIAN_IDX]);
+> +        g_string_append_printf(buf, "w:%08x d:%016" PRIx64
+> +                               " fd:%13g fs:%13g psu: %13g\n",
 
+IIUC QEMU coding style, the 2nd part of the format should be
+aligned with the first part. (multiple occurrences in this series).
+
+Otherwise:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
