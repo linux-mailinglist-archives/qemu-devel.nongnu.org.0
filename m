@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E320A40CD31
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 21:27:56 +0200 (CEST)
-Received: from localhost ([::1]:47988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D00C40CD3E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 21:33:13 +0200 (CEST)
+Received: from localhost ([::1]:58046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQaZX-0007NI-VT
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 15:27:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47224)
+	id 1mQaee-0005kg-3S
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 15:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQaWr-0004Q6-9E
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 15:25:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48633)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQaXp-0005yl-UK
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 15:26:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQaWl-0000hr-W0
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 15:25:07 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQaXo-0001kZ-5t
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 15:26:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631733903;
+ s=mimecast20190719; t=1631733967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uBZipsgcM+UscVSKOG+lcqjQ2yRgeBRUmDAaaQ9qSIE=;
- b=b6/+RT5kisROywlj1CYjOXk0cNxBG6RVKdx7h4Owh4bq/3xgoK8Jf3hzsd0r71LChec7M5
- jgL1Ui9mJ9dT+yeMTM7D3P6rdEBlgglr2peA4d/mtejZFXhqyQVM9aQl3QaoVuVcbbRMtn
- FA0ZYWeIQNTrGrMsixih1fNZ1EZEx7A=
+ bh=dbgspBvgFxt9qQH1dj40rdbnpFsaK/gv5LCBDrH1SqU=;
+ b=MSkcORRI2UTDI5pmKTMxY2cQzqBOsPsH4KHsLXjmo6KhNMDWC1P5ihdllDU8PCPtZCpzYA
+ hGGahF6XF4F4kgAQej51BNHU96f9JCxgIAntGMkJWmuDPNSOvGTgUqXCyJtXCIMqO8vSBs
+ /+H90Q8xYmge8ynVNQud86Z7/YXcX1g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-314-KvukmvPqNkyVRfzj6uCA7A-1; Wed, 15 Sep 2021 15:25:01 -0400
-X-MC-Unique: KvukmvPqNkyVRfzj6uCA7A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-319-NlmInfhgMaGfw3B3koNuag-1; Wed, 15 Sep 2021 15:26:06 -0400
+X-MC-Unique: NlmInfhgMaGfw3B3koNuag-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25CDB1006AA3;
- Wed, 15 Sep 2021 19:25:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13D8379EE2;
+ Wed, 15 Sep 2021 19:26:04 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52275196FA;
- Wed, 15 Sep 2021 19:24:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3042B84000;
+ Wed, 15 Sep 2021 19:26:00 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 313EB1138529; Wed, 15 Sep 2021 21:24:25 +0200 (CEST)
+ id CFD66113865F; Wed, 15 Sep 2021 21:25:58 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 5/5] block: Deprecate transaction type drive-backup
-Date: Wed, 15 Sep 2021 21:24:25 +0200
-Message-Id: <20210915192425.4104210-6-armbru@redhat.com>
-In-Reply-To: <20210915192425.4104210-1-armbru@redhat.com>
-References: <20210915192425.4104210-1-armbru@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 3/3] qapi: deprecate drive-backup
+References: <20210505135803.67896-1-vsementsov@virtuozzo.com>
+ <20210505135803.67896-4-vsementsov@virtuozzo.com>
+ <87eedc1ugb.fsf@dusky.pond.sub.org>
+ <3c1c05c3-87ec-c665-00ae-0c0ca312e5bc@virtuozzo.com>
+ <874ke7s46i.fsf@dusky.pond.sub.org>
+Date: Wed, 15 Sep 2021 21:25:58 +0200
+In-Reply-To: <874ke7s46i.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+ of "Wed, 09 Jun 2021 12:49:57 +0200")
+Message-ID: <87mtod1vzt.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -79,62 +83,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
- libvir-list@redhat.com, eblake@redhat.com, mdroth@linux.vnet.ibm.com,
- pkrempa@redhat.com, marcandre.lureau@redhat.com, jsnow@redhat.com,
- libguestfs@redhat.com
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ berrange@redhat.com, qemu-block@nongnu.org, kchamart@redhat.com,
+ libvir-list@redhat.com, jsnow@redhat.com, xiechanglong.d@gmail.com,
+ qemu-devel@nongnu.org, pkrempa@redhat.com, yur@virtuozzo.com,
+ nshirokovskiy@virtuozzo.com, wencongyang2@huawei.com, den@openvz.org,
+ eblake@redhat.com, dim@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Several moons ago, Vladimir posted
+Markus Armbruster <armbru@redhat.com> writes:
 
-    Subject: [PATCH v2 3/3] qapi: deprecate drive-backup
-    Date: Wed,  5 May 2021 16:58:03 +0300
-    Message-Id: <20210505135803.67896-4-vsementsov@virtuozzo.com>
-    https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg01394.html
+> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+>
+>> 08.06.2021 14:12, Markus Armbruster wrote:
+>>> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+>>> 
+>>> [...]
+>>> 
+>>>> TODO: We also need to deprecate drive-backup transaction action..
+>>>> But union members in QAPI doesn't support 'deprecated' feature. I tried
+>>>> to dig a bit, but failed :/ Markus, could you please help with it? At
+>>>> least by advice?
+>>> 
+>>> There are two closely related things in play here: the union branch and
+>>> the corresponding enum value.
+>>> 
+>>> So far, the QAPI schema language doesn't support tacking feature flags
+>>> to either.
+>>> 
+>>> If an enum value is deprecated, any union branches corresponding to it
+>>> must also be deprecated (because their use requires using the deprecated
+>>> enum value).
+>>> 
+>>> The converse is not true, but I can't see a use for deprecating a union
+>>> branch without also deprecating the enum member.
+>>> 
+>>> I think we can implement feature flags just for enum members, then
+>>> document that 'deprecated' enum value implies corresponding union
+>>> branches are also deprecated.
+>>> 
+>>> I have unfinished patches implementing feature flags for enum members.
+>>> 
+>>> Since TransactionAction is a simple union, the corresponding enum is
+>>> implicit.  We can make it explicit by converting to a flat union.
+>>> Simple unions need to die anyway.
+>>
+>>
+>> Does BlockStatsSpecific from qapi/block-core.json a correct example of flat union you mean? I can make patch to convert TransactionAction to be similar if that helps (discriminator field should be called "type", yes?).
+>
+> From docs/devel/qapi-code-gen.txt:
+>
+>     A simple union can always be re-written as a flat union where the base
+>     class has a single member named 'type', and where each branch of the
+>     union has a struct with a single member named 'data'.  That is,
+>
+>      { 'union': 'Simple', 'data': { 'one': 'str', 'two': 'int' } }
+>
+>     is identical on the wire to:
+>
+>      { 'enum': 'Enum', 'data': ['one', 'two'] }
+>      { 'struct': 'Branch1', 'data': { 'data': 'str' } }
+>      { 'struct': 'Branch2', 'data': { 'data': 'int' } }
+>      { 'union': 'Flat', 'base': { 'type': 'Enum' }, 'discriminator': 'type',
+>        'data': { 'one': 'Branch1', 'two': 'Branch2' } }
+>
+> The generated C isn't identical, but adjusting the code using it should
+> be straightforward.
+>
+>>> Does this make sense?
+>>> 
+>>
+>> Yes if it helps)
+>>
+>> Did you also look at John's https://gitlab.com/jsnow/qemu/-/commits/hack-deprecate-union-branches/ ?
+>
+> Not yet.
+>
+>> I hope you and John will send patches that you have, I'll help with reviewing (keep me in CC), and finally we'll get the feature.
+>
+> Sounds like a plan.  I need to get my post-vacation e-mail pileup under
+> control first.
 
-with this
+Just sent:
 
-    TODO: We also need to deprecate drive-backup transaction action..
-    But union members in QAPI doesn't support 'deprecated' feature. I tried
-    to dig a bit, but failed :/ Markus, could you please help with it? At
-    least by advice?
+Subject: [PATCH RFC 0/5] Subject: [PATCH RFC 0/5] qapi: Add feature flags to enum members
+Message-Id: <20210915192425.4104210-1-armbru@redhat.com>
 
-This is one way to resolve it.  Sorry it took so long.
-
-John explored another way, namely adding feature flags to union
-branches.  Could also be useful, say to add different features to
-branches in multiple unions sharing the same tag enum.
-
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- qapi/transaction.json | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/qapi/transaction.json b/qapi/transaction.json
-index d7fc73d7df..0be6f83f6d 100644
---- a/qapi/transaction.json
-+++ b/qapi/transaction.json
-@@ -41,6 +41,9 @@
- ##
- # @TransactionActionKind:
- #
-+# Features:
-+# @deprecated: Member @drive-backup is deprecated.  Use FIXME instead.
-+#
- # Since: 6.1
- ##
- { 'enum': 'TransactionActionKind',
-@@ -49,7 +52,7 @@
-             'block-dirty-bitmap-disable', 'block-dirty-bitmap-merge',
-             'blockdev-backup', 'blockdev-snapshot',
-             'blockdev-snapshot-internal-sync', 'blockdev-snapshot-sync',
--            'drive-backup' ] }
-+            { 'name': 'drive-backup', 'features': [ 'deprecated' ] } ] }
- 
- ##
- # @AbortWrapper:
--- 
-2.31.1
+Yes, I mangled the subject %-/
 
 
