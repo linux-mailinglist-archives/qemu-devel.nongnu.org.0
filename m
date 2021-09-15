@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C8940CA34
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 18:33:49 +0200 (CEST)
-Received: from localhost ([::1]:36082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E19B40CA35
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 18:33:50 +0200 (CEST)
+Received: from localhost ([::1]:36194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQXr2-0006Es-1F
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 12:33:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59572)
+	id 1mQXr3-0006JN-6A
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 12:33:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXoF-0003JK-6y
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXoF-0003JM-71
  for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:30:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21959)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXoD-0004et-H3
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXoD-0004f1-FK
  for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:30:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1631723452;
@@ -23,28 +23,28 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+dODXwNlKPWgaARRULbyeHWIYtNuTcb7CS1ebXs5Soc=;
- b=WdXkcLXcuCzMnkvvt47GEiVPFo7uTUfztgrn01HRx9+t67y4qxEveDMP82l62yrkDNWLap
- 7U4VprZmkR+JE55v5Y0iaga1DGklBBefJeYJNOI20OK1MVVs84YIuwcQcJNN0I0sAH3XAN
- Exiag8rkzmbMCTmqUHeWGaGxOhVhOiM=
+ bh=YTCO6MzTVMFV93dahv8Luzq4wfhHGWqsHf3nDvYq+0o=;
+ b=WiYCOBRK1OgnerAMJNtASCEq3pqBC3NTc7pYoqMezhuvxDyt2huWFz5ku28JUxMkpWwUqT
+ gXY7s4XxDw1/P79vc/OUQqcSJyD2LOIvW0EK7Rpl+R+pnPO77WUnfKJuZ1GM15EAwqBunc
+ A+IkP3p+1R2b2MlkJP2pnwloG9LZQqQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-HAYmGxwKPOCM_cGw6Avumw-1; Wed, 15 Sep 2021 12:30:49 -0400
-X-MC-Unique: HAYmGxwKPOCM_cGw6Avumw-1
+ us-mta-296-27K3VRJ9Mhaiaa41JV-9-A-1; Wed, 15 Sep 2021 12:30:50 -0400
+X-MC-Unique: 27K3VRJ9Mhaiaa41JV-9-A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49F5010168C6;
- Wed, 15 Sep 2021 16:30:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F671802C8F;
+ Wed, 15 Sep 2021 16:30:49 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 719E1781ED;
- Wed, 15 Sep 2021 16:30:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 708F67771A;
+ Wed, 15 Sep 2021 16:30:48 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/27] python/aqmp: add error classes
-Date: Wed, 15 Sep 2021 12:29:30 -0400
-Message-Id: <20210915162955.333025-3-jsnow@redhat.com>
+Subject: [PATCH v4 03/27] python/pylint: Add exception for TypeVar names ('T')
+Date: Wed, 15 Sep 2021 12:29:31 -0400
+Message-Id: <20210915162955.333025-4-jsnow@redhat.com>
 In-Reply-To: <20210915162955.333025-1-jsnow@redhat.com>
 References: <20210915162955.333025-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -57,11 +57,11 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.39, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,86 +85,30 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+'T' is a common TypeVar name, allow its use.
+
+See also https://github.com/PyCQA/pylint/issues/3401 -- In the future,
+we might be able to have a separate list of acceptable names for
+TypeVars exclusively.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- python/qemu/aqmp/__init__.py |  4 +++
- python/qemu/aqmp/error.py    | 50 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
- create mode 100644 python/qemu/aqmp/error.py
+ python/setup.cfg | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
-index 391141c948..c97be950bf 100644
---- a/python/qemu/aqmp/__init__.py
-+++ b/python/qemu/aqmp/__init__.py
-@@ -21,7 +21,11 @@
- # This work is licensed under the terms of the GNU GPL, version 2.  See
- # the COPYING file in the top-level directory.
+diff --git a/python/setup.cfg b/python/setup.cfg
+index dfce732e83..e8f3261691 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -101,6 +101,7 @@ good-names=i,
+            fh,  # fh = open(...)
+            fd,  # fd = os.open(...)
+            c,   # for c in string: ...
++           T,   # for TypeVars. See pylint#3401
  
-+from .error import AQMPError
-+
- 
- # The order of these fields impact the Sphinx documentation order.
- __all__ = (
-+    # Exceptions
-+    'AQMPError',
- )
-diff --git a/python/qemu/aqmp/error.py b/python/qemu/aqmp/error.py
-new file mode 100644
-index 0000000000..781f49b008
---- /dev/null
-+++ b/python/qemu/aqmp/error.py
-@@ -0,0 +1,50 @@
-+"""
-+AQMP Error Classes
-+
-+This package seeks to provide semantic error classes that are intended
-+to be used directly by clients when they would like to handle particular
-+semantic failures (e.g. "failed to connect") without needing to know the
-+enumeration of possible reasons for that failure.
-+
-+AQMPError serves as the ancestor for all exceptions raised by this
-+package, and is suitable for use in handling semantic errors from this
-+library. In most cases, individual public methods will attempt to catch
-+and re-encapsulate various exceptions to provide a semantic
-+error-handling interface.
-+
-+.. admonition:: AQMP Exception Hierarchy Reference
-+
-+ |   `Exception`
-+ |    +-- `AQMPError`
-+ |         +-- `ConnectError`
-+ |         +-- `StateError`
-+ |         +-- `ExecInterruptedError`
-+ |         +-- `ExecuteError`
-+ |         +-- `ListenerError`
-+ |         +-- `ProtocolError`
-+ |              +-- `DeserializationError`
-+ |              +-- `UnexpectedTypeError`
-+ |              +-- `ServerParseError`
-+ |              +-- `BadReplyError`
-+ |              +-- `GreetingError`
-+ |              +-- `NegotiationError`
-+"""
-+
-+
-+class AQMPError(Exception):
-+    """Abstract error class for all errors originating from this package."""
-+
-+
-+class ProtocolError(AQMPError):
-+    """
-+    Abstract error class for protocol failures.
-+
-+    Semantically, these errors are generally the fault of either the
-+    protocol server or as a result of a bug in this library.
-+
-+    :param error_message: Human-readable string describing the error.
-+    """
-+    def __init__(self, error_message: str):
-+        super().__init__(error_message)
-+        #: Human-readable error message, without any prefix.
-+        self.error_message: str = error_message
+ [pylint.similarities]
+ # Ignore imports when computing similarities.
 -- 
 2.31.1
 
