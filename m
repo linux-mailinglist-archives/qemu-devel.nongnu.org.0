@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F40ED40BCB4
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 02:37:18 +0200 (CEST)
-Received: from localhost ([::1]:50684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A475040BCC0
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 02:52:13 +0200 (CEST)
+Received: from localhost ([::1]:58500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQIvO-0000S3-3c
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 20:37:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59012)
+	id 1mQJ9o-0006MU-5A
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 20:52:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQItU-0007tc-KW
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 20:35:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49967)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQItP-0001gv-L7
- for qemu-devel@nongnu.org; Tue, 14 Sep 2021 20:35:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631666112;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LiUDq0+HPVB8E3/vskx0vkxSF4P9zxVVyD5OoW3+u9M=;
- b=dvSMULJ2EBD3sONcDI9GCu9qgkxwdY3O2FceU+r9cYO4j9eTPMZVrVCrWNV1Nt/ZzS8LBz
- ZCV2j3UVJPXo/k/96lKfVT+kZNC5nOnc2fc1meKogPP3sZBqK8HJNlHkmml8X0VQAG6gfb
- aQzBeIqAaO1p7ynQzGxoWxZiz7hp4M4=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-YNqq9rAIM4u2HIYdetharw-1; Tue, 14 Sep 2021 20:35:11 -0400
-X-MC-Unique: YNqq9rAIM4u2HIYdetharw-1
-Received: by mail-ot1-f70.google.com with SMTP id
- i2-20020a05683033e200b00538e5aa7d41so876246otu.1
- for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 17:35:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mQJ7W-0004sc-EU; Tue, 14 Sep 2021 20:49:51 -0400
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:37867)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mQJ7U-00030W-OP; Tue, 14 Sep 2021 20:49:50 -0400
+Received: by mail-io1-xd34.google.com with SMTP id b7so1246954iob.4;
+ Tue, 14 Sep 2021 17:49:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PQOILSLiEq00IWL9WUKH7BZ/VBswGFuUP37Ium2/zmE=;
+ b=G3anOIRikDuUbFeyPVDMPbXVX0VDCqaiyxbk+4PrFwr1cALk1V6XCJSqpw1Pn7wDCD
+ llKXJH2ooSvgJZ+N7xqM8hfSbFQzMEWJDsC8Q5HhqUOz7ceDIsDwLS3xBUTD/1K1fLHM
+ 6SQO9ghroGoMwyRyliEhQ+4tWJAgheRYTxczfcdibIPDgQ+Vd3VEC13ujFSCkdR0th+9
+ PgqFh2DuNKtTeokTiz/SW+rKbd10ZProHsBFnCAzLl3/G2fLMcOGqV1pKUCarKiCoh4y
+ IwA4fvGE4kfJlalTuq1kv6N8B28+xvgR8rSP00irNGW3UyS6LlzDRt7SeRd/uSjIPdto
+ pHjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LiUDq0+HPVB8E3/vskx0vkxSF4P9zxVVyD5OoW3+u9M=;
- b=oOyyhnMkEDotdziLhsKkyYYqE/lCHmNO3635nmKFsaYSOVPkGrEF1KChVbP7YYiXsd
- 1uaJsSFMnLWNStVN76hCNvhEftzGr50zIv/GR/8EDU7NV4PP5Ft/ImOOnOBawEM/vqxj
- gB3PXxTXi1woUIbRoU/vmCQJlDUz/hRCA8XchmaUZZXrdatSTDbm9A2rKN/Bg4FETxnY
- DZPZAcqaP7XIrDDnBGjRfZU8fEn7SecyEAsTktNwGDUmJiHgmE8JG2BVH9ldi8tkljOq
- rSkBeJVpvBcQpZP7ZSr8Fc1zomFSNLhu0iQx39amN6eDC33iSZYpdpHtOGH3QMgWOvwW
- KsjA==
-X-Gm-Message-State: AOAM533kmX647ozfoipYhswHgG7UzoEcK0xy4kH6BEDOClNSgZ8RERwW
- Fn/vYrfsQOoNqmAfewnppicAggDJ4aRyi2/00FqjLJeL4/5qyxJ6YeNXWWcQgKlgeObXzlGwDtA
- w14dAYZX6dLT/1/4dvc5jUB1r0DbbcN0=
-X-Received: by 2002:aca:add3:: with SMTP id w202mr3310486oie.112.1631666110295; 
- Tue, 14 Sep 2021 17:35:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxcxnjVB1CTpNjRuuIatESKrijqveBbuI+hF7cmeBVeJVfUoRbTfxHz2V/MNVrlLYQW17DAf8loxnz6vLZuLoY=
-X-Received: by 2002:aca:add3:: with SMTP id w202mr3310472oie.112.1631666110068; 
- Tue, 14 Sep 2021 17:35:10 -0700 (PDT)
+ bh=PQOILSLiEq00IWL9WUKH7BZ/VBswGFuUP37Ium2/zmE=;
+ b=HsKraeCZomlBPZ5eRzWXgGxI+f/EpVU3PFTlAqZeMdupc+1tAMiqt0F9C9moafSkDq
+ rmpJoV/qth9uXZ2ebUlELNsbjn+SA6IVxfKHZpisCjiSnn2Ps2u2ABSTWn6LXx0wH9Mp
+ DhmxBG8MIOFd+IWGg2qFL261yF6N/LyWYhA4MOzyOGfcD+0pT8ijCjNoWAKHKy+FVAFD
+ FT9p9VC5BF26Sk9G9mZN30SY4tf75JpVFUzYvn9twCaN+5daBEOiKjkZy/QOBP2Agoa/
+ rPSluZSrz9YePIJBCIkqKJmF+s7F2ekkb5LsWG4+KmKTM/BlFFTfBrdrmIWRDADYgmo7
+ Gv/Q==
+X-Gm-Message-State: AOAM531DXBeioRXYoT7hD2j/UmeQu/5MGWzjKrRne1sj3k6Wj2qWoVk0
+ uFjLfqUMI3/bji4mHq2lfxIWA0XnEWAEFHhBcMU=
+X-Google-Smtp-Source: ABdhPJx0sfmsEgHj2Yah5WsvpzRtvBWZ3N9n9M5ioqbjFEYgy23MsOnDTSCsqFyny9jsd+MPItpUP5xUYeqtkjL/MRU=
+X-Received: by 2002:a05:6638:3046:: with SMTP id
+ u6mr16919929jak.35.1631666986404; 
+ Tue, 14 Sep 2021 17:49:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210708145514.1751773-1-f4bug@amsat.org>
- <CAFEAcA_ukc+t_BYddOSv7EF6O1qoVHGGj6sA5uumUgt0VMS_pA@mail.gmail.com>
- <CAFEAcA8PLvMUEzyu=sN4bn4mU30w1aajU+T+i__5jnB0QMZnqg@mail.gmail.com>
- <7cbaaf94-e255-a91b-8d71-ca720943bfcc@amsat.org>
- <CAKJDGDbxBYQ5O3Cim5evkNfFcLZ_FwFEe7GhQgE=WWHS7jODOg@mail.gmail.com>
- <88820040-ca86-1442-5dd3-68ecbf878c87@amsat.org>
-In-Reply-To: <88820040-ca86-1442-5dd3-68ecbf878c87@amsat.org>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 14 Sep 2021 20:34:59 -0400
-Message-ID: <CAFn=p-ZZE9cXFOwgRBd8b3HEnjg2k1c77_ShzeYHfnPZcdSY0g@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] hw/arm/raspi: Remove deprecated raspi2/raspi3
- aliases
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000e221ea05cbfdde69"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210902112520.475901-1-anup.patel@wdc.com>
+ <20210902112520.475901-5-anup.patel@wdc.com>
+ <CAKmqyKPK9zrtM=g6hruL+eRLVPdz76jLR+P0xZ8qPfWXvnSTzg@mail.gmail.com>
+ <CAAhSdy2jihzXxxMJkrb7vydjETbpiGDA6b9OmWnUaJv8-jF6OQ@mail.gmail.com>
+In-Reply-To: <CAAhSdy2jihzXxxMJkrb7vydjETbpiGDA6b9OmWnUaJv8-jF6OQ@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 15 Sep 2021 10:49:20 +1000
+Message-ID: <CAKmqyKN8MeKKS1h-eu+3QEuubbgW+kYAVR6-T750xvW-4HYq+g@mail.gmail.com>
+Subject: Re: [PATCH v2 04/22] target/riscv: Improve fidelity of guest external
+ interrupts
+To: Anup Patel <anup@brainfault.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,137 +80,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Willian Rampazzo <wrampazz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e221ea05cbfdde69
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Aug 27, 2021 at 2:30 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g>
-wrote:
-
-> On 8/27/21 8:01 PM, Willian Rampazzo wrote:
-> > Hi, Phil,
+On Tue, Sep 14, 2021 at 2:33 AM Anup Patel <anup@brainfault.org> wrote:
+>
+> On Thu, Sep 9, 2021 at 12:14 PM Alistair Francis <alistair23@gmail.com> wrote:
 > >
-> > On Thu, Aug 26, 2021 at 1:49 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
-t.org>
-> wrote:
-> >>
-> >> Hi Peter,
-> >>
-> >> On 7/9/21 6:00 PM, Peter Maydell wrote:
-> >>> On Fri, 9 Jul 2021 at 16:33, Peter Maydell <peter.maydell@linaro.org>
-> wrote:
-> >>>>
-> >>>> On Thu, 8 Jul 2021 at 15:55, Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
-t.org>
-> wrote:
-> >>>>>
-> >>>>> Since v1:
-> >>>>> - renamed tests (Peter)
-> >>>>>
-> >>>>> Philippe Mathieu-Daud=C3=A9 (2):
-> >>>>>   tests: Remove uses of deprecated raspi2/raspi3 machine names
-> >>>>>   hw/arm/raspi: Remove deprecated raspi2/raspi3 aliases
-> >>>>
-> >>>>
-> >>>>
-> >>>> Applied to target-arm.next, thanks.
-> >>>
-> >>> I found that this seems to break 'make check':
-> >>>
-> >>>  (09/52)
-> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_i=
-nitrd:
-> >>> ERROR: Could not perform graceful shutdown (40.38 s)
-> >>
-> >> I can not reproduce. Maybe something got changed in Python/Avocado
-> >> since... I'm going to simply respin (updating 6.1 -> 6.2).
+> > On Thu, Sep 2, 2021 at 9:26 PM Anup Patel <anup.patel@wdc.com> wrote:
+> > >
+> > > The guest external interrupts for external interrupt controller are
+> > > not delivered to the guest running under hypervisor on time. This
+> > > results in a guest having sluggish response to serial console input
+> > > and other I/O events. To improve timely delivery of guest external
+> > > interrupts, we check and inject interrupt upon every sret instruction.
+> > >
+> > > Signed-off-by: Anup Patel <anup.patel@wdc.com>
+> > > ---
+> > >  target/riscv/op_helper.c | 9 +++++++++
+> > >  1 file changed, 9 insertions(+)
+> > >
+> > > diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+> > > index ee7c24efe7..4c995c239e 100644
+> > > --- a/target/riscv/op_helper.c
+> > > +++ b/target/riscv/op_helper.c
+> > > @@ -129,6 +129,15 @@ target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
+> > >
+> > >      riscv_cpu_set_mode(env, prev_priv);
+> > >
+> > > +    /*
+> > > +     * QEMU does not promptly deliver guest external interrupts
+> > > +     * to a guest running on a hypervisor which in-turn is running
+> > > +     * on QEMU. We make dummy call to riscv_cpu_update_mip() upon
+> > > +     * every sret instruction so that QEMU pickup guest external
+> > > +     * interrupts sooner.
+> > > +     */
+> > > +     riscv_cpu_update_mip(env_archcpu(env), 0, 0);
 > >
-> > I also could not reproduce. I checked and nothing changed on the
-> > Avocado side. The version is still the same on the QEMU side.
+> > This doesn't seem right. I don't understand why we need this?
+> >
+> > riscv_cpu_update_mip() is called when an interrupt is delivered to the
+> > CPU, if we are missing interrupts then that is a bug somewhere else.
 >
-> Thanks for double-checking!
+> I have finally figured out the cause of guest external interrupts being
+> missed by Guest/VM.
 >
+> The riscv_cpu_set_irq() which handles guest external interrupt lines
+> of each CPU is called asynchronously. This function in-turn calls
+> riscv_cpu_update_mip() but the CPU might be in host mode (V=0)
+> or in Guest/VM mode (V=1). If the CPU is in host mode (V=0) when
+
+The IRQ being raised should just directly call riscv_cpu_update_mip()
+so the IRQ should happen straight away.
+
+Even from MTTCG I see this:
+
+"""
+Currently thanks to KVM work any access to IO memory is automatically
+protected by the global iothread mutex, also known as the BQL (Big
+Qemu Lock). Any IO region that doesn't use global mutex is expected to
+do its own locking.
+
+However IO memory isn't the only way emulated hardware state can be
+modified. Some architectures have model specific registers that
+trigger hardware emulation features. Generally any translation helper
+that needs to update more than a single vCPUs of state should take the
+BQL.
+"""
+
+So we should be fine here as well.
+
+Can you supply a test case to reproduce the bug?
+
+> the riscv_cpu_set_irq() is called, then the CPU interrupt requested by
+> riscv_cpu_update_mip() has no effect because the CPU can't take
+> the interrupt until it enters Guest/VM mode.
 >
-Sorry for the long silence.
+> This patch does the right thing by doing a dummy call to
+> riscv_cpu_update_mip() upon SRET instruction so that if the CPU
+> had missed a guest interrupt previously then the CPU can take it now.
 
-Did you get this sorted out? I don't recall changing the QEMUMachine code
-upstream lately (Though I have been tinkering with it a lot in my own
-branches) -- was the root cause of the failure discovered?
+This still doesn't look like the right fix.
 
---js
+Alistair
 
---000000000000e221ea05cbfdde69
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
-mail_attr">On Fri, Aug 27, 2021 at 2:30 PM Philippe Mathieu-Daud=C3=A9 &lt;=
-<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt; wrote:<br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">On 8/27/21 8:01 PM, Willi=
-an Rampazzo wrote:<br>
-&gt; Hi, Phil,<br>
-&gt; <br>
-&gt; On Thu, Aug 26, 2021 at 1:49 PM Philippe Mathieu-Daud=C3=A9 &lt;<a hre=
-f=3D"mailto:f4bug@amsat.org" target=3D"_blank">f4bug@amsat.org</a>&gt; wrot=
-e:<br>
-&gt;&gt;<br>
-&gt;&gt; Hi Peter,<br>
-&gt;&gt;<br>
-&gt;&gt; On 7/9/21 6:00 PM, Peter Maydell wrote:<br>
-&gt;&gt;&gt; On Fri, 9 Jul 2021 at 16:33, Peter Maydell &lt;<a href=3D"mail=
-to:peter.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>=
-&gt; wrote:<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; On Thu, 8 Jul 2021 at 15:55, Philippe Mathieu-Daud=C3=A9 &=
-lt;<a href=3D"mailto:f4bug@amsat.org" target=3D"_blank">f4bug@amsat.org</a>=
-&gt; wrote:<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Since v1:<br>
-&gt;&gt;&gt;&gt;&gt; - renamed tests (Peter)<br>
-&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Philippe Mathieu-Daud=C3=A9 (2):<br>
-&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0tests: Remove uses of deprecated raspi2/ra=
-spi3 machine names<br>
-&gt;&gt;&gt;&gt;&gt;=C2=A0 =C2=A0hw/arm/raspi: Remove deprecated raspi2/ras=
-pi3 aliases<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Applied to target-arm.next, thanks.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; I found that this seems to break &#39;make check&#39;:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;=C2=A0 (09/52) tests/acceptance/boot_linux_console.py:BootLinux=
-Console.test_arm_raspi2_initrd:<br>
-&gt;&gt;&gt; ERROR: Could not perform graceful shutdown (40.38 s)<br>
-&gt;&gt;<br>
-&gt;&gt; I can not reproduce. Maybe something got changed in Python/Avocado=
-<br>
-&gt;&gt; since... I&#39;m going to simply respin (updating 6.1 -&gt; 6.2).<=
-br>
-&gt; <br>
-&gt; I also could not reproduce. I checked and nothing changed on the<br>
-&gt; Avocado side. The version is still the same on the QEMU side.<br>
-<br>
-Thanks for double-checking!<br>
-<br></blockquote><div><br></div><div><div dir=3D"ltr"><div>Sorry for the lo=
-ng silence.</div><div><br></div><div>Did
- you get this sorted out? I don&#39;t recall changing the QEMUMachine code=
-=20
-upstream lately (Though I have been tinkering with it a lot in my own=20
-branches) -- was the root cause of the failure discovered?<br></div></div>=
-=C2=A0</div><div>--js<br></div></div></div>
-
---000000000000e221ea05cbfdde69--
-
+>
+> Regards,
+> Anup
 
