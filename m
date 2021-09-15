@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A8D40C597
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 14:49:15 +0200 (CEST)
-Received: from localhost ([::1]:51866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 028B940C5A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 14:50:56 +0200 (CEST)
+Received: from localhost ([::1]:54754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQULi-0002zf-7e
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 08:49:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41704)
+	id 1mQUNL-0004vN-27
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 08:50:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mQUKi-00026U-8Z; Wed, 15 Sep 2021 08:48:12 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:57407)
+ id 1mQULP-0003BH-De; Wed, 15 Sep 2021 08:48:55 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:50021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mQUKg-0004JA-Dq; Wed, 15 Sep 2021 08:48:12 -0400
+ id 1mQULN-0004ny-73; Wed, 15 Sep 2021 08:48:55 -0400
 Received: from [192.168.100.1] ([82.142.27.6]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MyKYE-1mpapj2a1U-00yhCj; Wed, 15 Sep 2021 14:48:03 +0200
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1Ml72g-1nBbmt0eKq-00lYTK; Wed, 15 Sep 2021 14:48:47 +0200
 Subject: Re: [PATCH v2] hw/i386/acpi-build: Fix a typo
+From: Laurent Vivier <laurent@vivier.eu>
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210911082036.436139-1-philmd@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <420999a6-dfa5-a4e3-c95b-0854da15fc20@vivier.eu>
-Date: Wed, 15 Sep 2021 14:48:02 +0200
+ <420999a6-dfa5-a4e3-c95b-0854da15fc20@vivier.eu>
+Message-ID: <c2f4f543-c475-494f-b4a6-3cd92bbe7c81@vivier.eu>
+Date: Wed, 15 Sep 2021 14:48:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210911082036.436139-1-philmd@redhat.com>
+In-Reply-To: <420999a6-dfa5-a4e3-c95b-0854da15fc20@vivier.eu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:7wHMEuWWceFZvVP2IAs/p8Oebsfi83lKpuwAHen5xe0dUxbLZGO
- qHht4F0GDHHqbBKuHgBqRSJruxpqiqFcBnZsMlvUI5OBeYb96Fh2Evpouqrea4LO26qrLlm
- omaxIr8NbsAN9lBpEWMM0GQ6UgytCRdhNvOOtlJ8foceCe8Gd4jkSDTLyD8J0Rwl5JkI5vV
- wCckMa5aa7c+lbZ1+k0wg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ilDNiaOelJw=:Al0L9i4N1GPTA2JhY+tjXM
- TaeF0tzZanRuqekHsql9zXt+Y7+HT4/56y79ddh7Z07FbmO70uTs4Mm87VNo990ieI0wpeWeL
- Fv6Ucco3w0FjXG245JSY83GqmJGeJm6YlQOlkkLw2KlcKiTJfiW9dZgA6ApODQ9d810hJ2wLZ
- ESJWSKXkUzaJ4W9a6EGfKgAA4xWPPcjunobyUoTB0NCgHoBREUPha/C/uOH+2H2Gt8+mseAxM
- PvRkV1+xl4Fw1vW6a9cJqYkeLuYxCNC+SmV6+C9QiSL9gWEGlk0/TObtv1m0UmS7iNhkdsCzE
- PgTEfe9yGscYgJ22IxlMes+5CvHn168BDp2jEtkpTpC05OzBTa88/tDx4WlByThP5iwgFwA6E
- usLG4POe1HFFUWsjc5nFs4Wk3IidSODS6+XjnraHlQjjAefMdwh7hwEkuspwi27XswnSEgQES
- Z+UPLkdty9fb1m/h4cjfHAytp1uUv7PDjZ0pVq96vQntQlCqPucu+uLy0FZzz0jYTgWaEZAuN
- pJiDV0ziaJnQaX3OI73xlUo0LwhM8tyE1oWb+BQSrG36ktvFtRoRU4e+zw2ac5ZE99q1sj5qF
- 3C/BTplRF1kh0p0qb9aFLheXcYCtoIcfOh6Kp3eBojli3eQJGubGxdfCRsz6T1QLOkognJXeU
- A/NUhE8dYJigVHRn1hmjhTpLxQDYKbqBFNbh5RfX4ZNYsTCFj49WsfBimYH0gs50+KpOJ3bih
- 3O5OHuSMNlIagO2tPfTfNdzubvHgvQEEvPvx4Q==
+X-Provags-ID: V03:K1:OQp5lFj406DP4LxWqEy1zgIcVlqYt9+bFaOSeqFmWtvC778q0fC
+ w3ntKUc/u/qnyssljD5W8r0HwIonqzwxwlw31lnFoJMVogg5SCxaJ05nRXJEx8UbNwAPtmB
+ nA/jHi2cz7r8syefbJ82W9qkwRxyO05nirWbW8nU3aqECbm6nWCTBbUjArutoeZWKlZTMIL
+ VD6thekYxWSijQ/NYXgSg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DcosyRwItnY=:pGNfpkM+r1pVCMNXrnsnD0
+ lvdaUP4q/nfyNiXL1rkNbNSqGvtlHzDNjNbWGDtsytvO11PgdZnKvnWe9J7vzkg6MD6wrRdAm
+ kTQVIxBN68iHhspWRRU9/SXKrpaQ4u+a3Ft5aj21dRF02eIDLZlw3CMd2ad8of+F0eikmNC22
+ ZOsGkKL7Qu9Tjo7YouWkQVi2pnSTUVKTVUjOb8qyCl7Akf29hEb+lmJyYIioDB0HWcKWYKJO1
+ 3xKm536vHZFbr54CtDjpxBKApi6+Af6gQf2ml/a/B6gzrU54Yu6A45Cf6kPEQ6/+wvXjGNNns
+ GDqcz0VhOoQo9nm/h2giqs0EfaWXJpoVqSzbENnfC1/ApDBBtuVwgAkdd9dZv+CUNuZFFrUjK
+ xs1N7o2kJckV385z2WwXX8iNrSG3wqd+1BZ/dAEJGF1goRZ8MpNqxj6NE1Dd31aEzIeB1q3tA
+ MJ66YKHPXk2LXwf5RMbdAE33fu+7+aSpBTwDV8GmdE/YtL3ejd1w46bLJNZxTx2Gl+Rma3mfJ
+ TK+1QfXWWOCtGhHxEPF7e9ngKa7gBkm+4pW17IKPofErfYR+2jLMOGPrEPmONmbpz0fXgzZSo
+ e5xBDdTJM8CSi7vSO3d8S4C6IbPQCMhygKva8wbRR/wXoRv3enUBkof8idLr+kYgPTjXUdiQQ
+ cF1QpHTrbQX3llcHzY5kNsa1b6H89Dan+56QNXOUIFwoWhR9YPAXrutX5kVnDWqeF9vLrMO8v
+ 6CWDR5e6xOtoAlSbvPuyVdUiovNxMICb93VuhQ==
 Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -35
@@ -74,51 +75,54 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
  =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
  Richard Henderson <richard.henderson@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 11/09/2021 à 10:20, Philippe Mathieu-Daudé a écrit :
-> Fix 'hotplugabble' -> 'hotpluggable' typo.
+Le 15/09/2021 à 14:48, Laurent Vivier a écrit :
+> Le 11/09/2021 à 10:20, Philippe Mathieu-Daudé a écrit :
+>> Fix 'hotplugabble' -> 'hotpluggable' typo.
+>>
+>> Reviewed-by: Ani Sinha <ani@anisinha.ca>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>> v1 still had a typo =) (Volker Rümelin)
+>> ---
+>>  hw/i386/acpi-build.c | 6 +++---
+>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+>> index d1f5fa3b5a5..dfaa47cdc20 100644
+>> --- a/hw/i386/acpi-build.c
+>> +++ b/hw/i386/acpi-build.c
+>> @@ -1916,7 +1916,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>>      PCMachineState *pcms = PC_MACHINE(machine);
+>>      int nb_numa_nodes = machine->numa_state->num_nodes;
+>>      NodeInfo *numa_info = machine->numa_state->nodes;
+>> -    ram_addr_t hotplugabble_address_space_size =
+>> +    ram_addr_t hotpluggable_address_space_size =
+>>          object_property_get_int(OBJECT(pcms), PC_MACHINE_DEVMEM_REGION_SIZE,
+>>                                  NULL);
+>>  
+>> @@ -2022,10 +2022,10 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>>       * Memory devices may override proximity set by this entry,
+>>       * providing _PXM method if necessary.
+>>       */
+>> -    if (hotplugabble_address_space_size) {
+>> +    if (hotpluggable_address_space_size) {
+>>          numamem = acpi_data_push(table_data, sizeof *numamem);
+>>          build_srat_memory(numamem, machine->device_memory->base,
+>> -                          hotplugabble_address_space_size, nb_numa_nodes - 1,
+>> +                          hotpluggable_address_space_size, nb_numa_nodes - 1,
+>>                            MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
+>>      }
+>>  
+>>
 > 
-> Reviewed-by: Ani Sinha <ani@anisinha.ca>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> v1 still had a typo =) (Volker Rümelin)
-> ---
->  hw/i386/acpi-build.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index d1f5fa3b5a5..dfaa47cdc20 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1916,7 +1916,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->      PCMachineState *pcms = PC_MACHINE(machine);
->      int nb_numa_nodes = machine->numa_state->num_nodes;
->      NodeInfo *numa_info = machine->numa_state->nodes;
-> -    ram_addr_t hotplugabble_address_space_size =
-> +    ram_addr_t hotpluggable_address_space_size =
->          object_property_get_int(OBJECT(pcms), PC_MACHINE_DEVMEM_REGION_SIZE,
->                                  NULL);
->  
-> @@ -2022,10 +2022,10 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->       * Memory devices may override proximity set by this entry,
->       * providing _PXM method if necessary.
->       */
-> -    if (hotplugabble_address_space_size) {
-> +    if (hotpluggable_address_space_size) {
->          numamem = acpi_data_push(table_data, sizeof *numamem);
->          build_srat_memory(numamem, machine->device_memory->base,
-> -                          hotplugabble_address_space_size, nb_numa_nodes - 1,
-> +                          hotpluggable_address_space_size, nb_numa_nodes - 1,
->                            MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
->      }
->  
-> 
+> Applied to my linux-user-for-6.2 branch.
 
-Applied to my linux-user-for-6.2 branch.
+I mean "trivial-patches"
 
 Thanks,
 Laurent
