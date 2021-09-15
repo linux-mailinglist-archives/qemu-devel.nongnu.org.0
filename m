@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00C940BF59
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 07:32:54 +0200 (CEST)
-Received: from localhost ([::1]:38712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4F140BF96
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 08:18:18 +0200 (CEST)
+Received: from localhost ([::1]:53812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQNXR-0005Al-Vn
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 01:32:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37240)
+	id 1mQOFL-0000GC-CC
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 02:18:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQNUz-0002wB-P9
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 01:30:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29219)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQNUw-0007wf-UL
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 01:30:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631683818;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Sk07toWMC3BU2UbUR6Kz9cS0v8W1KnxVGUCAgDHbNLo=;
- b=YpXY0iacO6jigyXEW3K0PGTEHDvrc4/BPFhrqEVaR8H68G6yWZke4PTm9QW2n7P0VeCaBv
- duSHKPJIlfu4arFguQ/tRbm4AgkJhbA9ltunLN9wUuaxOAx8DI8uza0H9lE1/vkdvjgqIA
- Wq+eyXlf7tCFlKi7p4KrrYPko4/P0aw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-sTPge-WSPRu3fAX9Vo5MDw-1; Wed, 15 Sep 2021 01:30:15 -0400
-X-MC-Unique: sTPge-WSPRu3fAX9Vo5MDw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56EB810144E8;
- Wed, 15 Sep 2021 05:30:14 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.11.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2D602196E2;
- Wed, 15 Sep 2021 05:30:13 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/1] python: Update for pylint 2.10
-Date: Wed, 15 Sep 2021 01:30:11 -0400
-Message-Id: <20210915053011.293335-2-jsnow@redhat.com>
-In-Reply-To: <20210915053011.293335-1-jsnow@redhat.com>
-References: <20210915053011.293335-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mQOCp-0007J9-3G
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 02:15:39 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:39743)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mQOCn-0004Im-BJ
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 02:15:38 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ 196-20020a1c04cd000000b002fa489ffe1fso3844270wme.4
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 23:15:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=ZEq44c40tycow7waXkmvWW8wWPbMIiY3si7F9pV7PV8=;
+ b=tHXB9CUfLkuvRKwK4crbU0Vj0s+7Nd8L3Q6Thzz7P2Cf7nfoWipWjTDNtftJjZ04K/
+ z/3kQvwePrrx25yk+N9K6q7TDBn/vgESFJDjMRWZHO87+T+G4voX0RxwS49nitwfzY+i
+ nh56Ld+thZUz8tbmy/NahRGf5+zezObouDErluA0X49TWUTtqBO/hMOIJ+gVxcHLPWPu
+ wD6PaYNTSnEiDutzpd/vS82T+pbxZexQFifrWFdIHpJ/XzbF+u63Ik6hWfSgEeHkZ/1W
+ 43G5LRWNVWrzNeXiOL/8BLckwgeHppqqUmsj6v2MVAv35vLtiB4U8iTGyznATyt2O1kG
+ SRww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=ZEq44c40tycow7waXkmvWW8wWPbMIiY3si7F9pV7PV8=;
+ b=M0QpVlsOnFr5qzFueLa1uPe9wCJ72QMgAaqJIGe5ipjQdg49Lp+MGWnPxKYfGTw+ce
+ uRZe4cjoqLy5lhIjm/Tl1chopcL5jyXsJtltj0LRf4jqu32VuylyeTkxEeVjzzRJmaqP
+ UL/psdAcWIEL2CWw4Zo+Nzfc++xTl+QV84JM0iT3Pd0oC91DoSeMFGwdPx3JULyUxZjQ
+ rVstaNqfnUSpp5isU0kzESyMVgZNc42VDfj1W8cN1Iw/wgGxHsdahYvZAJB26y7rQ7S2
+ Ur23XbOaLORei03JItK2LLPGBWf3dV3J5ums9eEysW/XjPGp7KvsDJw5yGZ1NNV9wPNb
+ X9ig==
+X-Gm-Message-State: AOAM5338XG1mKRBBH43jkHVgVwSzEnL2orZbBhKxY/Vz8H3rUveEPiQ1
+ vNBLVoSiQ1rd//SVPM3t/emFkA==
+X-Google-Smtp-Source: ABdhPJztsF8grOGn/HcxE0vefcaUKKHe2b5nLNJDPISW4NkcceulimOtVapAYpjAJeiYPyGUxs5qNA==
+X-Received: by 2002:a1c:acc2:: with SMTP id v185mr2540447wme.71.1631686535627; 
+ Tue, 14 Sep 2021 23:15:35 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p6sm12111814wrq.47.2021.09.14.23.15.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Sep 2021 23:15:34 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id EE7EB1FF96;
+ Wed, 15 Sep 2021 07:15:32 +0100 (BST)
+References: <20210914185830.1378771-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.0; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 0/2] gitlab-ci: Add riscv64 cross builds
+Date: Wed, 15 Sep 2021 07:15:18 +0100
+In-reply-to: <20210914185830.1378771-1-richard.henderson@linaro.org>
+Message-ID: <87zgsetldn.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,54 +87,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- G S Niteesh Babu <niteesh.gs@gmail.com>
+Cc: willianr@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org,
+ wainersm@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A few new annoyances. Of note is the new warning for an unspecified
-encoding when opening a text file, which actually does indicate a
-potentially real problem; see
-https://www.python.org/dev/peps/pep-0597/#motivation
 
-It's not clear to me what the "right" encoding is; it depends on
-whatever encoding QEMU is using when it prints to terminal. I'm going to
-assume UTF-8 works.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- python/qemu/machine/machine.py | 3 ++-
- python/setup.cfg               | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+> The only tcg host that does not have build coverage is riscv64.
+> Filling this hole will help with tcg reorgs I have in the works.
+>
+> Thanks to Alex for help debugging the docker image creation.
 
-diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index a7081b1845..a27a80497d 100644
---- a/python/qemu/machine/machine.py
-+++ b/python/qemu/machine/machine.py
-@@ -291,7 +291,8 @@ def get_pid(self) -> Optional[int]:
- 
-     def _load_io_log(self) -> None:
-         if self._qemu_log_path is not None:
--            with open(self._qemu_log_path, "r") as iolog:
-+            with open(self._qemu_log_path, "r",
-+                      encoding='utf-8') as iolog:
-                 self._iolog = iolog.read()
- 
-     @property
-diff --git a/python/setup.cfg b/python/setup.cfg
-index 83909c1c97..0f0cab098f 100644
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -104,6 +104,7 @@ good-names=i,
- [pylint.similarities]
- # Ignore imports when computing similarities.
- ignore-imports=yes
-+ignore-signatures=yes
- 
- # Minimum lines number of a similarity.
- # TODO: Remove after we opt in to Pylint 2.8.3. See commit msg.
--- 
-2.31.1
+Queued to testing/next, thanks.
 
+--=20
+Alex Benn=C3=A9e
 
