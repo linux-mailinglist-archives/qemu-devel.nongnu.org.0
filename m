@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61DB940C7E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 17:07:35 +0200 (CEST)
-Received: from localhost ([::1]:33630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D1A40C7E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 17:10:54 +0200 (CEST)
+Received: from localhost ([::1]:40844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQWVa-0002z8-7B
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 11:07:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35328)
+	id 1mQWYn-0007q4-Iz
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 11:10:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQWS5-0000Gy-GQ
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 11:03:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27636)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1mQWVK-0003ih-DT; Wed, 15 Sep 2021 11:07:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQWS3-0005Ad-Ig
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 11:03:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631718235;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UoVPpb84d+lO3c9KREsu5ZfPf1ya4GwXO0RKlncmKkg=;
- b=XWt8VnzKII7M9f6yL1i46gr5haeuRiltLfYQOUPsq0DPLE5PqttxdSOyd2EG2eq10homAH
- vrI8BRkfpNtWzPC8Pl+2rEd4UcKaYoduCLQxNhDPNOAkeEDj0ecM4GjawTIOmf9p8fQkhx
- 0WFwuiSCjzqpjOB1yumWxJwf5HTy4lI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-BUJRPCQSNdSV7nIPYdvVDA-1; Wed, 15 Sep 2021 11:03:52 -0400
-X-MC-Unique: BUJRPCQSNdSV7nIPYdvVDA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1mQWVG-000862-K1; Wed, 15 Sep 2021 11:07:17 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0B5D1084686;
- Wed, 15 Sep 2021 15:03:50 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.233])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E6F74188E4;
- Wed, 15 Sep 2021 15:03:40 +0000 (UTC)
-Date: Wed, 15 Sep 2021 16:03:38 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 1/2] tests/docker: promote debian-riscv64-cross to a full
- image
-Message-ID: <YUILSp1ssORl9zir@redhat.com>
-References: <20210914185830.1378771-1-richard.henderson@linaro.org>
- <20210914185830.1378771-2-richard.henderson@linaro.org>
- <14f98dad-fb1c-7b1b-4194-484973a53c90@amsat.org>
- <87v932tfn2.fsf@linaro.org>
- <145f1b51-bffc-85c2-f4d6-3240ba51611a@amsat.org>
-MIME-Version: 1.0
-In-Reply-To: <145f1b51-bffc-85c2-f4d6-3240ba51611a@amsat.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.39, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ by mail.kernel.org (Postfix) with ESMTPSA id E8E0561029;
+ Wed, 15 Sep 2021 15:07:11 +0000 (UTC)
+Received: from [198.52.44.129] (helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1mQWVB-00AxRm-Sx; Wed, 15 Sep 2021 16:07:10 +0100
+Date: Wed, 15 Sep 2021 16:07:07 +0100
+Message-ID: <87v931c1yc.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Alexander Graf <agraf@csgraf.de>
+Subject: Re: [PATCH v9 07/11] hvf: arm: Implement PSCI handling
+In-Reply-To: <4ce23412-7484-f77a-6378-4369b0b2397c@csgraf.de>
+References: <20210912230757.41096-1-agraf@csgraf.de>
+ <20210912230757.41096-8-agraf@csgraf.de>
+ <CAFEAcA8BybrfxNxkWbEjxji4DvDumr6Otb_RK_f84Dt_TWXfpA@mail.gmail.com>
+ <ad707e0d-8d4a-0248-80f4-a02a7226ce0a@csgraf.de>
+ <CAFEAcA_OBK1hbqC1Nc7J+VEwkO54WvqBrNa=bR5T3tZW+nfEkQ@mail.gmail.com>
+ <3132e2f5-41a6-6011-808b-7ea12abec1c0@csgraf.de>
+ <CAFEAcA9k0-przZxAXpdwZKju9GW4gFpTcqAxTD4z_QoueHg=NQ@mail.gmail.com>
+ <87wnnib291.wl-maz@kernel.org>
+ <4ce23412-7484-f77a-6378-4369b0b2397c@csgraf.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 198.52.44.129
+X-SA-Exim-Rcpt-To: agraf@csgraf.de, peter.maydell@linaro.org,
+ ehabkost@redhat.com, slp@redhat.com, philmd@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, dirty@apple.com,
+ r.bolshakov@yadro.com, qemu-arm@nongnu.org, lfy@google.com,
+ pbonzini@redhat.com, pcc@google.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,89 +76,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: thuth@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, wainersm@redhat.com, willianr@redhat.com,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Peter Collingbourne <pcc@google.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 15, 2021 at 05:01:23PM +0200, Philippe Mathieu-Daudé wrote:
-> On 9/15/21 10:15 AM, Alex Bennée wrote:
-> > Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
-> >> On 9/14/21 8:58 PM, Richard Henderson wrote:
-> >>> From: Alex Bennée <alex.bennee@linaro.org>
+On Wed, 15 Sep 2021 11:58:29 +0100,
+Alexander Graf <agraf@csgraf.de> wrote:
+> 
+> 
+> On 15.09.21 11:46, Marc Zyngier wrote:
+> > On Mon, 13 Sep 2021 13:30:57 +0100,
+> > Peter Maydell <peter.maydell@linaro.org> wrote:
+> >> On Mon, 13 Sept 2021 at 13:02, Alexander Graf <agraf@csgraf.de> wrote:
 > >>>
-> >>> To be able to cross build QEMU itself we need to include a few more
-> >>> libraries. These are only available in Debian's unstable ports repo
-> >>> for now so we need to base the riscv64 image on sid with the the
-> >>> minimal libs needed to build QEMU (glib/pixman).
-> >>>
-> >>> The result works but is not as clean as using build-dep to bring in
-> >>> more dependencies. However sid is by definition a shifting pile of
-> >>> sand and by keeping the list of libs minimal we reduce the chance of
-> >>> having an image we can't build. It's good enough for a basic cross
-> >>> build testing of TCG.
-> >>>
-> > <snip>
-> >>> diff --git a/tests/docker/dockerfiles/debian-riscv64-cross.docker b/tests/docker/dockerfiles/debian-riscv64-cross.docker
-> >>> index 2bbff19772..594d97982c 100644
-> >>> --- a/tests/docker/dockerfiles/debian-riscv64-cross.docker
-> >>> +++ b/tests/docker/dockerfiles/debian-riscv64-cross.docker
-> >>> @@ -1,12 +1,48 @@
-> >>>  #
-> >>> -# Docker cross-compiler target
-> >>> +# Docker cross-compiler target for riscv64
-> >>>  #
-> >>> -# This docker target builds on the debian Buster base image.
-> >>> +# Currently the only distro that gets close to cross compiling riscv64
-> >>> +# images is Debian Sid (with unofficial ports). As this is a moving
-> >>> +# target we keep the library list minimal and are aiming to migrate
-> >>> +# from this hack as soon as we are able.
-> >>>  #
-> >>> -FROM qemu/debian10
-> >>> +FROM docker.io/library/debian:sid-slim
-> >>> +
-> >>> +# Add ports
-> >>> +RUN apt update && \
-> >>> +    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
-> >>> +    DEBIAN_FRONTEND=noninteractive eatmydata apt update -yy && \
-> >>> +    DEBIAN_FRONTEND=noninteractive eatmydata apt upgrade -yy
-> >>> +
-> >>> +# Install common build utilities
-> >>> +RUN DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy \
-> >>> +    bc \
-> >>> +    build-essential \
-> >>> +    ca-certificates \
-> >>> +    debian-ports-archive-keyring \
-> >>> +    dpkg-dev \
-> >>> +    gettext \
-> >>> +    git \
-> >>> +    ninja-build \
-> >>> +    pkg-config \
-> >>> +    python3
+> >>> On 13.09.21 13:44, Peter Maydell wrote:
+> >>>> On Mon, 13 Sept 2021 at 12:07, Alexander Graf <agraf@csgraf.de> wrote:
+> >>>>> To keep your train of thought though, what would you do if we encounter
+> >>>>> a conduit that is different from the chosen one? Today, I am aware of 2
+> >>>>> different implementations: TCG injects #UD [1] while KVM sets x0 to -1 [2].
+> >>>> If the SMC or HVC insn isn't being used for PSCI then it should
+> >>>> have its standard architectural behaviour.
+> >>> Why?
+> >> QEMU's assumption here is that there are basically two scenarios
+> >> for these instructions:
+> >>  (1) we're providing an emulation of firmware that uses this
+> >>      instruction (and only this insn, not the other one) to
+> >>      provide PSCI services
+> >>  (2) we're not emulating any firmware at all, we're running it
+> >>      in the guest, and that guest firmware is providing PSCI
 > >>
-> >> Alex, why not using a debian-sid intermediate image?
-> > 
-> > Well we removed the original debian-sid image a while ago having excised
-> > images that used it. Basing things on sid does cause problems given it's
-> > such a moving feast. Rather than encouraging others to build sid based
-> > images we decided it made more sense to make this a pure standalone
-> > image which we can migrate away from at the first opportunity.
+> >> In case (1) we provide a PSCI ABI on the end of the insn.
+> >> In case (2) we provide the architectural behaviour for the insn
+> >> so that the guest firmware can use it.
+> >>
+> >> We don't currently have
+> >>  (3) we're providing an emulation of firmware that does something
+> >>      other than providing PSCI services on this instruction
+> >>
+> >> which is what I think you're asking for. (Alternatively, you might
+> >> be after "provide PSCI via SMC, not HVC", ie use a different conduit.
+> >> If hvf documents that SMC is guaranteed to trap that would be
+> >> possible, I guess.)
+> >>
+> >>> Also, why does KVM behave differently?
+> >> Looks like Marc made KVM set x0 to -1 for SMC calls in kernel commit
+> >> c0938c72f8070aa; conveniently he's on the cc list here so we can
+> >> ask him :-)
+> > If we got a SMC trap into KVM, that's because the HW knows about it,
+> > so injecting an UNDEF is rather counter productive (we don't hide the
+> > fact that EL3 actually exists).
 > 
-> Yeah, which is why I'm worried we'll get the same problem...
 > 
-> So this image can't be used as gating IMO.
+> This is the part where you and Peter disagree :). What would you suggest
+> to do to create consistency between KVM and TCG based EL0/1 only VMs?
 
-Yeah, IME from babysitting libvirt CI, 'sid' containers break in dep
-solving more often than is acceptable for a mandatory job, especially
-for non-x86 arches.
+I don't think we disagree. We simply have different implementation
+choices. The KVM "firmware" can only be used with HVC, and not
+SMC. SMC is reserved for cases where the guest talks to the actual
+EL3, or an emulation of it in the case of NV.
 
-Regards,
-Daniel
+As for consistency between TGC and KVM, I have no plan for that
+whatsoever. Both implementations are valid, and they don't have to be
+identical. Even more, diversity is important, as it weeds out silly
+assumptions that are baked in non-portable SW.
+
+Windows doesn't boot? I won't loose any sleep over it.
+
+> 
+> > However, we don't implement anything on the back of this instruction,
+> > so we just return NOT_IMPLEMENTED (-1). With NV, we actually use it as
+> > a guest hypervisor can use it for PSCI and SMC is guaranteed to trap
+> > even if EL3 doesn't exist in the HW.
+> >
+> > For the brain-damaged case where there is no EL3, SMC traps and the
+> > hypervisor doesn't actually advertises EL3, that's likely a guest
+> > bug. Tough luck.
+> >
+> > Side note: Not sure where HVF does, but on the M1 running Linux, SMC
+> > appears to trap to EL2 with EC=0x3f, which is a reserved exception
+> > class. This of course results in an UNDEF being injected because as
+> > far as KVM is concerned, this should never happen.
+>
+> Could that be yet another magical implementation specific MSR bit that
+> needs to be set? Hvf returns 0x17 (EC_AA64_SMC) for SMC calls.
+
+That's possible, but that's not something KVM will do. Also, from what
+I understand of HVF, this value is what you get in userspace, and it
+says nothing of what the kernel side does. It could well be
+translating the invalid EC into something else, after having read the
+instruction from the guest for all I know.
+
+It is pretty obvious that this HW is not a valid implementation of the
+architecture and if it decides to screw itself up, I'm happy to
+oblige.
+
+	M.
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Without deviation from the norm, progress is not possible.
 
