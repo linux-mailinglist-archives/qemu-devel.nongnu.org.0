@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A475040BCC0
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 02:52:13 +0200 (CEST)
-Received: from localhost ([::1]:58500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 881F540BCC1
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 02:52:38 +0200 (CEST)
+Received: from localhost ([::1]:59248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQJ9o-0006MU-5A
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 20:52:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60712)
+	id 1mQJAD-0006sC-L8
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 20:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mQJ7W-0004sc-EU; Tue, 14 Sep 2021 20:49:51 -0400
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:37867)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mQJ7U-00030W-OP; Tue, 14 Sep 2021 20:49:50 -0400
-Received: by mail-io1-xd34.google.com with SMTP id b7so1246954iob.4;
- Tue, 14 Sep 2021 17:49:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PQOILSLiEq00IWL9WUKH7BZ/VBswGFuUP37Ium2/zmE=;
- b=G3anOIRikDuUbFeyPVDMPbXVX0VDCqaiyxbk+4PrFwr1cALk1V6XCJSqpw1Pn7wDCD
- llKXJH2ooSvgJZ+N7xqM8hfSbFQzMEWJDsC8Q5HhqUOz7ceDIsDwLS3xBUTD/1K1fLHM
- 6SQO9ghroGoMwyRyliEhQ+4tWJAgheRYTxczfcdibIPDgQ+Vd3VEC13ujFSCkdR0th+9
- PgqFh2DuNKtTeokTiz/SW+rKbd10ZProHsBFnCAzLl3/G2fLMcOGqV1pKUCarKiCoh4y
- IwA4fvGE4kfJlalTuq1kv6N8B28+xvgR8rSP00irNGW3UyS6LlzDRt7SeRd/uSjIPdto
- pHjA==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQJ8a-0005LH-1x
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 20:50:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22567)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQJ8K-0003aI-JY
+ for qemu-devel@nongnu.org; Tue, 14 Sep 2021 20:50:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631667038;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fcmy/kr3FNAxNzuFytLeIJqK4uLm5ASkxxHGcYUfpUs=;
+ b=FsQoXyQtUWkPdPTq0MyqzwYOQKQ01VTfrxQWMkM6NqLsnY/P7Mjx1Qfh2zUFliPzlh+Fg1
+ b9u1xwYX0nvAGDBoTPuILozZLfyCjg1M0Hv5Pttrb8x2eFvxnvyMmNqboxfHZs3zzEqk1g
+ ht3EKhe9sXT1OlCAXV3P1S2OtdH/qY0=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-556--PPpK5XuOe21UDrPfyY_cA-1; Tue, 14 Sep 2021 20:50:35 -0400
+X-MC-Unique: -PPpK5XuOe21UDrPfyY_cA-1
+Received: by mail-ot1-f72.google.com with SMTP id
+ i2-20020a05683033e200b00538e5aa7d41so899514otu.1
+ for <qemu-devel@nongnu.org>; Tue, 14 Sep 2021 17:50:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=PQOILSLiEq00IWL9WUKH7BZ/VBswGFuUP37Ium2/zmE=;
- b=HsKraeCZomlBPZ5eRzWXgGxI+f/EpVU3PFTlAqZeMdupc+1tAMiqt0F9C9moafSkDq
- rmpJoV/qth9uXZ2ebUlELNsbjn+SA6IVxfKHZpisCjiSnn2Ps2u2ABSTWn6LXx0wH9Mp
- DhmxBG8MIOFd+IWGg2qFL261yF6N/LyWYhA4MOzyOGfcD+0pT8ijCjNoWAKHKy+FVAFD
- FT9p9VC5BF26Sk9G9mZN30SY4tf75JpVFUzYvn9twCaN+5daBEOiKjkZy/QOBP2Agoa/
- rPSluZSrz9YePIJBCIkqKJmF+s7F2ekkb5LsWG4+KmKTM/BlFFTfBrdrmIWRDADYgmo7
- Gv/Q==
-X-Gm-Message-State: AOAM531DXBeioRXYoT7hD2j/UmeQu/5MGWzjKrRne1sj3k6Wj2qWoVk0
- uFjLfqUMI3/bji4mHq2lfxIWA0XnEWAEFHhBcMU=
-X-Google-Smtp-Source: ABdhPJx0sfmsEgHj2Yah5WsvpzRtvBWZ3N9n9M5ioqbjFEYgy23MsOnDTSCsqFyny9jsd+MPItpUP5xUYeqtkjL/MRU=
-X-Received: by 2002:a05:6638:3046:: with SMTP id
- u6mr16919929jak.35.1631666986404; 
- Tue, 14 Sep 2021 17:49:46 -0700 (PDT)
+ bh=fcmy/kr3FNAxNzuFytLeIJqK4uLm5ASkxxHGcYUfpUs=;
+ b=s57IfUz5LFBk0zA5UcRPgzzHtJsFhFC2YnbvWat8QRrCI/G4iM8xw4v26vgbhLtLnK
+ 8I3CFDLOi/qfB9+Fm6Q2TMCgFbhRUfW0ahD+zV1yc0PcjMhuO4A3GsSlyfGWAemYHqFU
+ ASdIibcW8NjzCfejkK5xioCMsFJen1ka3GPZSThFHcteuKX5VPi/YC3xtwHP26SWJeHh
+ yKh5BWVLxxcsE3wuXa+IFlOIuwfXdpGJuBzdxBm1jwftoB5SldRu4zv8qMypXURjf4Ye
+ 1SabNXN9TiEfBc2FyTTYJqu5Aovs6owzYDkFpze0+YhI6ffSDGVJZ3pHPacQy+gjErxO
+ XLtg==
+X-Gm-Message-State: AOAM5313HS7aEbrXU+IbDLVdqjDS+x5l0LEOG+JOHVZeO4zSEQg8eSrp
+ 33g0b4eIj3sPGz/fO9RigUIMsYQxdYkJLTssdTj5pJzThQeN7c5+hh/D3Pqi7vYNoRI5nj6coiE
+ VVuO2KuqQxnUDXVcr7NXsYlMxnzNqyMo=
+X-Received: by 2002:aca:add3:: with SMTP id w202mr3340929oie.112.1631667034420; 
+ Tue, 14 Sep 2021 17:50:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzAO5XJsPDUJZxrSyp/raI7PZi3PQZrHCED0c6RCwKC/wbycONyuAlVterk1rsLVNx4FR8wrA59IgUNPlqzMLI=
+X-Received: by 2002:aca:add3:: with SMTP id w202mr3340919oie.112.1631667034244; 
+ Tue, 14 Sep 2021 17:50:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210902112520.475901-1-anup.patel@wdc.com>
- <20210902112520.475901-5-anup.patel@wdc.com>
- <CAKmqyKPK9zrtM=g6hruL+eRLVPdz76jLR+P0xZ8qPfWXvnSTzg@mail.gmail.com>
- <CAAhSdy2jihzXxxMJkrb7vydjETbpiGDA6b9OmWnUaJv8-jF6OQ@mail.gmail.com>
-In-Reply-To: <CAAhSdy2jihzXxxMJkrb7vydjETbpiGDA6b9OmWnUaJv8-jF6OQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 15 Sep 2021 10:49:20 +1000
-Message-ID: <CAKmqyKN8MeKKS1h-eu+3QEuubbgW+kYAVR6-T750xvW-4HYq+g@mail.gmail.com>
-Subject: Re: [PATCH v2 04/22] target/riscv: Improve fidelity of guest external
- interrupts
-To: Anup Patel <anup@brainfault.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20210824153540.177128-1-hreitz@redhat.com>
+ <20210824153540.177128-2-hreitz@redhat.com>
+ <2404b821-78bf-bfcd-417e-0f4bb9eb911c@redhat.com>
+In-Reply-To: <2404b821-78bf-bfcd-417e-0f4bb9eb911c@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 14 Sep 2021 20:50:23 -0400
+Message-ID: <CAFn=p-Y3d8-Qhc5GnArfy+NmoX7foao_yQ++O7xVnh75LAOEgA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] iotests: Fix unspecified-encoding pylint warnings
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000f7dc5805cbfe15af"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,97 +88,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 14, 2021 at 2:33 AM Anup Patel <anup@brainfault.org> wrote:
->
-> On Thu, Sep 9, 2021 at 12:14 PM Alistair Francis <alistair23@gmail.com> wrote:
+--000000000000f7dc5805cbfe15af
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Aug 24, 2021 at 11:47 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
+.com>
+wrote:
+
+> On 8/24/21 5:35 PM, Hanna Reitz wrote:
+> > As of recently, pylint complains when `open()` calls are missing an
+> > `encoding=3D` specified.  Everything we have should be UTF-8 (and in fa=
+ct,
+> > everything should be UTF-8, period (exceptions apply)), so use that.
 > >
-> > On Thu, Sep 2, 2021 at 9:26 PM Anup Patel <anup.patel@wdc.com> wrote:
-> > >
-> > > The guest external interrupts for external interrupt controller are
-> > > not delivered to the guest running under hypervisor on time. This
-> > > results in a guest having sluggish response to serial console input
-> > > and other I/O events. To improve timely delivery of guest external
-> > > interrupts, we check and inject interrupt upon every sret instruction.
-> > >
-> > > Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> > > ---
-> > >  target/riscv/op_helper.c | 9 +++++++++
-> > >  1 file changed, 9 insertions(+)
-> > >
-> > > diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> > > index ee7c24efe7..4c995c239e 100644
-> > > --- a/target/riscv/op_helper.c
-> > > +++ b/target/riscv/op_helper.c
-> > > @@ -129,6 +129,15 @@ target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
-> > >
-> > >      riscv_cpu_set_mode(env, prev_priv);
-> > >
-> > > +    /*
-> > > +     * QEMU does not promptly deliver guest external interrupts
-> > > +     * to a guest running on a hypervisor which in-turn is running
-> > > +     * on QEMU. We make dummy call to riscv_cpu_update_mip() upon
-> > > +     * every sret instruction so that QEMU pickup guest external
-> > > +     * interrupts sooner.
-> > > +     */
-> > > +     riscv_cpu_update_mip(env_archcpu(env), 0, 0);
-> >
-> > This doesn't seem right. I don't understand why we need this?
-> >
-> > riscv_cpu_update_mip() is called when an interrupt is delivered to the
-> > CPU, if we are missing interrupts then that is a bug somewhere else.
+> > Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> > ---
+> >  tests/qemu-iotests/297        | 2 +-
+> >  tests/qemu-iotests/iotests.py | 8 +++++---
+> >  2 files changed, 6 insertions(+), 4 deletions(-)
 >
-> I have finally figured out the cause of guest external interrupts being
-> missed by Guest/VM.
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 >
-> The riscv_cpu_set_irq() which handles guest external interrupt lines
-> of each CPU is called asynchronously. This function in-turn calls
-> riscv_cpu_update_mip() but the CPU might be in host mode (V=0)
-> or in Guest/VM mode (V=1). If the CPU is in host mode (V=0) when
-
-The IRQ being raised should just directly call riscv_cpu_update_mip()
-so the IRQ should happen straight away.
-
-Even from MTTCG I see this:
-
-"""
-Currently thanks to KVM work any access to IO memory is automatically
-protected by the global iothread mutex, also known as the BQL (Big
-Qemu Lock). Any IO region that doesn't use global mutex is expected to
-do its own locking.
-
-However IO memory isn't the only way emulated hardware state can be
-modified. Some architectures have model specific registers that
-trigger hardware emulation features. Generally any translation helper
-that needs to update more than a single vCPUs of state should take the
-BQL.
-"""
-
-So we should be fine here as well.
-
-Can you supply a test case to reproduce the bug?
-
-> the riscv_cpu_set_irq() is called, then the CPU interrupt requested by
-> riscv_cpu_update_mip() has no effect because the CPU can't take
-> the interrupt until it enters Guest/VM mode.
 >
-> This patch does the right thing by doing a dummy call to
-> riscv_cpu_update_mip() upon SRET instruction so that if the CPU
-> had missed a guest interrupt previously then the CPU can take it now.
+I don't see this upstream just yet, so ...
 
-This still doesn't look like the right fix.
+Reviewed-by: John Snow <jsnow@redhat.com>
 
-Alistair
+I'll get around to revisiting my "run the iotest linters on Python CI"
+thing soon which will flush out anything else that might still be missing.
 
+--js
+
+--000000000000f7dc5805cbfe15af
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 24, 2021 at 11:47 AM Phil=
+ippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@red=
+hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">On 8/24/21 5:35 PM, Hanna Reitz wrote:<br>
+&gt; As of recently, pylint complains when `open()` calls are missing an<br=
 >
-> Regards,
-> Anup
+&gt; `encoding=3D` specified.=C2=A0 Everything we have should be UTF-8 (and=
+ in fact,<br>
+&gt; everything should be UTF-8, period (exceptions apply)), so use that.<b=
+r>
+&gt; <br>
+&gt; Signed-off-by: Hanna Reitz &lt;<a href=3D"mailto:hreitz@redhat.com" ta=
+rget=3D"_blank">hreitz@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 tests/qemu-iotests/297=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+&gt;=C2=A0 tests/qemu-iotests/iotests.py | 8 +++++---<br>
+&gt;=C2=A0 2 files changed, 6 insertions(+), 4 deletions(-)<br>
+<br>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redha=
+t.com" target=3D"_blank">philmd@redhat.com</a>&gt;<br>
+<br></blockquote><div><br></div><div>I don&#39;t see this upstream just yet=
+, so ...</div><div><br></div><div>Reviewed-by: John Snow &lt;<a href=3D"mai=
+lto:jsnow@redhat.com">jsnow@redhat.com</a>&gt;</div><div><br></div><div>I&#=
+39;ll get around to revisiting my &quot;run the iotest linters on Python CI=
+&quot; thing soon which will flush out anything else that might still be mi=
+ssing.</div><div><br></div><div>--js<br></div></div></div>
+
+--000000000000f7dc5805cbfe15af--
+
 
