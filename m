@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C78840CC5E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 20:11:40 +0200 (CEST)
-Received: from localhost ([::1]:36154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A8E40CC7C
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 20:21:34 +0200 (CEST)
+Received: from localhost ([::1]:55162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQZNj-0005Vs-LC
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 14:11:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52128)
+	id 1mQZXJ-00020S-3q
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 14:21:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6q-00071L-C0
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:54:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55440)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6s-0007A2-In
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:54:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6n-00071E-LG
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:54:12 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6q-00074R-RS
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:54:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631728448;
+ s=mimecast20190719; t=1631728452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1ZNUvK+igyqmEZ+P+tnZfm/uqiSbIePHbkyWvCn0fFU=;
- b=CBQOXs3pCtRGEhhbXkhRuVHdpwAvZg0DS8c15jhlY2zZPa+wfFvpXqGgdSTIUx9/QweIZq
- ycBUP+7SGEFvkt93wC8FTCMmVcg/GL5SgpxecUkMzuYFDAlsz8GeKxwDgfO6Wi7sG3WA1D
- wj6e7AcNU0l4Zm4EpVy3T1iun4HdObo=
+ bh=2KlHe7tGu//cdJNIfMj1TR4njO/RkTY1YGV0mEbgXyc=;
+ b=WEEJFY+pq0mr0SrtBM1xgYtzVuyUo61wgAQs+c7K8Hu2Fkd8lCWrAC7VdikEGCEt3kGx1t
+ 1HSTBTR8bvln+5q5MdjtAWM37kOpHkqBxUG9XvlCP16GE1acm14Ti8tofgO0/24yxpxfSV
+ jAD1Cx4dCFBHNoJTQ9y96hKKSGbix30=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-526-mHKnlEr8O2-rXWrY30nviA-1; Wed, 15 Sep 2021 13:54:06 -0400
-X-MC-Unique: mHKnlEr8O2-rXWrY30nviA-1
+ us-mta-449-KD41pAWWPOG8t8X8lRjwQg-1; Wed, 15 Sep 2021 13:54:08 -0400
+X-MC-Unique: KD41pAWWPOG8t8X8lRjwQg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C79B1084683;
- Wed, 15 Sep 2021 17:54:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97704802B9F;
+ Wed, 15 Sep 2021 17:54:07 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FDC3604CC;
- Wed, 15 Sep 2021 17:54:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D5FE604CC;
+ Wed, 15 Sep 2021 17:54:07 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 21/32] qemu-img: Allow target be aligned to sector size
-Date: Wed, 15 Sep 2021 19:53:07 +0200
-Message-Id: <20210915175318.853225-22-hreitz@redhat.com>
+Subject: [PULL 22/32] qcow2-refcount: improve style of check_refcounts_l2()
+Date: Wed, 15 Sep 2021 19:53:08 +0200
+Message-Id: <20210915175318.853225-23-hreitz@redhat.com>
 In-Reply-To: <20210915175318.853225-1-hreitz@redhat.com>
 References: <20210915175318.853225-1-hreitz@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -81,51 +81,134 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We cannot write to images opened with O_DIRECT unless we allow them to
-be resized so they are aligned to the sector size: Since 9c60a5d1978,
-bdrv_node_refresh_perm() ensures that for nodes whose length is not
-aligned to the request alignment and where someone has taken a WRITE
-permission, the RESIZE permission is taken, too).
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Let qemu-img convert pass the BDRV_O_RESIZE flag (which causes
-blk_new_open() to take the RESIZE permission) when using cache=none for
-the target, so that when writing to it, it can be aligned to the target
-sector size.
+ - don't use same name for size in bytes and in entries
+ - use g_autofree for l2_table
+ - add whitespace
+ - fix block comment style
 
-Without this patch, an error is returned:
-
-$ qemu-img convert -f raw -O raw -t none foo.img /mnt/tmp/foo.img
-qemu-img: Could not open '/mnt/tmp/foo.img': Cannot get 'write'
-permission without 'resize': Image size is not a multiple of request
-alignment
-
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1994266
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Message-Id: <20210914122454.141075-2-vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20210819101200.64235-1-hreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- qemu-img.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ block/qcow2-refcount.c | 47 +++++++++++++++++++++---------------------
+ 1 file changed, 24 insertions(+), 23 deletions(-)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index d77f3e76a9..e43a71a794 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -2628,6 +2628,14 @@ static int img_convert(int argc, char **argv)
-         goto out;
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index 8e649b008e..2734338625 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -1601,23 +1601,22 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+                               int flags, BdrvCheckMode fix, bool active)
+ {
+     BDRVQcow2State *s = bs->opaque;
+-    uint64_t *l2_table, l2_entry;
++    uint64_t l2_entry;
+     uint64_t next_contiguous_offset = 0;
+-    int i, l2_size, nb_csectors, ret;
++    int i, nb_csectors, ret;
++    size_t l2_size_bytes = s->l2_size * l2_entry_size(s);
++    g_autofree uint64_t *l2_table = g_malloc(l2_size_bytes);
+ 
+     /* Read L2 table from disk */
+-    l2_size = s->l2_size * l2_entry_size(s);
+-    l2_table = g_malloc(l2_size);
+-
+-    ret = bdrv_pread(bs->file, l2_offset, l2_table, l2_size);
++    ret = bdrv_pread(bs->file, l2_offset, l2_table, l2_size_bytes);
+     if (ret < 0) {
+         fprintf(stderr, "ERROR: I/O error in check_refcounts_l2\n");
+         res->check_errors++;
+-        goto fail;
++        return ret;
      }
  
-+    if (flags & BDRV_O_NOCACHE) {
-+        /*
-+         * If we open the target with O_DIRECT, it may be necessary to
-+         * extend its size to align to the physical sector size.
-+         */
-+        flags |= BDRV_O_RESIZE;
-+    }
-+
-     if (skip_create) {
-         s.target = img_open(tgt_image_opts, out_filename, out_fmt,
-                             flags, writethrough, s.quiet, false);
+     /* Do the actual checks */
+-    for(i = 0; i < s->l2_size; i++) {
++    for (i = 0; i < s->l2_size; i++) {
+         l2_entry = get_l2_entry(s, l2_table, i);
+ 
+         switch (qcow2_get_cluster_type(bs, l2_entry)) {
+@@ -1647,14 +1646,15 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+                 l2_entry & QCOW2_COMPRESSED_SECTOR_MASK,
+                 nb_csectors * QCOW2_COMPRESSED_SECTOR_SIZE);
+             if (ret < 0) {
+-                goto fail;
++                return ret;
+             }
+ 
+             if (flags & CHECK_FRAG_INFO) {
+                 res->bfi.allocated_clusters++;
+                 res->bfi.compressed_clusters++;
+ 
+-                /* Compressed clusters are fragmented by nature.  Since they
++                /*
++                 * Compressed clusters are fragmented by nature.  Since they
+                  * take up sub-sector space but we only have sector granularity
+                  * I/O we need to re-read the same sectors even for adjacent
+                  * compressed clusters.
+@@ -1700,9 +1700,11 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+                         if (ret < 0) {
+                             fprintf(stderr, "ERROR: Overlap check failed\n");
+                             res->check_errors++;
+-                            /* Something is seriously wrong, so abort checking
+-                             * this L2 table */
+-                            goto fail;
++                            /*
++                             * Something is seriously wrong, so abort checking
++                             * this L2 table.
++                             */
++                            return ret;
+                         }
+ 
+                         ret = bdrv_pwrite_sync(bs->file, l2e_offset,
+@@ -1712,13 +1714,17 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+                             fprintf(stderr, "ERROR: Failed to overwrite L2 "
+                                     "table entry: %s\n", strerror(-ret));
+                             res->check_errors++;
+-                            /* Do not abort, continue checking the rest of this
+-                             * L2 table's entries */
++                            /*
++                             * Do not abort, continue checking the rest of this
++                             * L2 table's entries.
++                             */
+                         } else {
+                             res->corruptions--;
+                             res->corruptions_fixed++;
+-                            /* Skip marking the cluster as used
+-                             * (it is unused now) */
++                            /*
++                             * Skip marking the cluster as used
++                             * (it is unused now).
++                             */
+                             continue;
+                         }
+                     }
+@@ -1743,7 +1749,7 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+                                                refcount_table_size,
+                                                offset, s->cluster_size);
+                 if (ret < 0) {
+-                    goto fail;
++                    return ret;
+                 }
+             }
+             break;
+@@ -1758,12 +1764,7 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+         }
+     }
+ 
+-    g_free(l2_table);
+     return 0;
+-
+-fail:
+-    g_free(l2_table);
+-    return ret;
+ }
+ 
+ /*
 -- 
 2.31.1
 
