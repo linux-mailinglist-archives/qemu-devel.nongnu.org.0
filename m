@@ -2,61 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F2240CBC6
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 19:37:29 +0200 (CEST)
-Received: from localhost ([::1]:59614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEBA940CBF4
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 19:52:00 +0200 (CEST)
+Received: from localhost ([::1]:38956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQYqe-0005DY-1S
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 13:37:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47608)
+	id 1mQZ4g-0002Yz-Kk
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 13:51:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQYow-0004V3-OL
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:35:42 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45814)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mQZ2i-0000tk-EJ
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:49:56 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:41633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQYov-0008Pd-3a
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:35:42 -0400
-Received: by mail-wr1-x429.google.com with SMTP id d21so5086216wra.12
- for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 10:35:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mQZ2g-00037M-Qr
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:49:56 -0400
+Received: by mail-pl1-x634.google.com with SMTP id v2so2096595plp.8
+ for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 10:49:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gSLuy7VhdwhZNrcCEmQYbRw3DlmGyIuJ0TFX16j/o9A=;
- b=E/lk3dZkP+GCLh62NDc/QvJuWeiKUV/1Ywlo3XoOMQTblnUOcTcUx6kw5YejVJOuR8
- bmclPai1VhBVTXNAjNUyx74wfkbyEXgqfT4pdrhXMT5BR37ey9m+kK7LVl7+qrmYjNBH
- b/v/61dcUX45Qzrxkp9zkGxUsANkE+crkX2UilO0Ld0RhvvmHQGTTMVMb8MuXumtpglq
- N8EDLaSXdgD2R1eFbHFIVhb7sD2i9H+9S8u6F53cnVma/h+fmNFW0ctwP5pvOj3jKPEC
- sgJoNC+vBildI6i0ZCwrqCnscvuZlrOKZeA+chIjWJXtUSzCsgIth0KPwaGtiM1L7/uE
- Yyxw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bcayDksC/Oq9jBwFrtjuESC91JhSZUwPZau7KUsWGbg=;
+ b=dsLawO+Z/dWd9HNw51fZtkWuMpHnjx9m5y9aUORsrQqKIR4WZr9JOGNifsXuputiqX
+ 0uLTRUnUC/SEYnq0eW60rhPpv0GGJJCd1J9niZ+STNYNCIDTj6Gqc29WvVGR5ls226Ds
+ 0GhGiqzWOoKvHGK4DWuPXglNXp57/EWXPajwD23fBYHI5nESOEYpiXxGSBK90W4vrVEO
+ a287+M7cav/5K7VLsJCVbpCjvicpm8rUKG1SiptfiP/7zo20oMxGpLjyTxhbwHtRVO5J
+ 2xEI0yd+FykScma/kccQj3U3ddHEh7EhTdOZ3v59EDwpPUbZiNTDdFK0ykyY1TJP3SwG
+ AGPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gSLuy7VhdwhZNrcCEmQYbRw3DlmGyIuJ0TFX16j/o9A=;
- b=g4t6X+cG1wGjEl1UmfSZcfZS0d/TdWS3gZNGo1gCN8yVQxmexrMCcfPRhzP+6Ywhhq
- R99wOCSIfIjvUAU7CF3bCs/vhVBrFFDJS+ZG/lz4is6MybGB59go0VzMIEI9QNExV4ro
- Dg95dzfi6QgyDr9qTsuUwpkq2XweuFgqCpc7S4U22XjxTAkoTEcNrS5RnJ7+I7hmfNOt
- GB//tVA/tX+O7hR49SjQ5uj2QMN4dG2EpYFIyjCKbP42UQXlwkb/i8Vr221CQPaJvLQv
- 4BjuaaqZtK/CiF/obBHXVc1djkT7AE3k2Tzk8bHUgPwE5/qHMXzFxGkn+4U/+F5Nn7VB
- BTqg==
-X-Gm-Message-State: AOAM533g4ii0IZJYTeSly5PMc8skyE6MGR9qHUA0SNG7Du5O+REgKs5v
- rhTpqzhkGYL0WO5D+EcNA7knl/sr4SyINjZO2HOHPQ==
-X-Google-Smtp-Source: ABdhPJzwSrcL0HzD+VIKmpiUWFAeX96waqj0VHLRJlsCHQ40Q6cFGJSvVo+RNXGWYjYHvAfv+WtiR21Pklx99HvVV3Y=
-X-Received: by 2002:adf:fd12:: with SMTP id e18mr1318846wrr.275.1631727339290; 
- Wed, 15 Sep 2021 10:35:39 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bcayDksC/Oq9jBwFrtjuESC91JhSZUwPZau7KUsWGbg=;
+ b=rJsFKjKaaT/jZpDjy/vMIRFm/OAY2KirmE1fbQjRTiKNZrDMGu4854TN6/JJqZwEZW
+ P1nxkvdElyQXwo+q50CvGSB5GYdkyklNbt1a3KUtr0AVb+WhRYDJ28iGhutjy+a72hOC
+ 3pZiuHbtjAjz+UQ+c+FwcVInsVjXXMnyKOX1Ckb7aFP21wjflezsh4oraxWYNz8ka2TL
+ Ebijt0jI+iz+uqvdPO6ov3Nk06vyUgNLtoBHBCMnnb0BQXHoFHKoEVTZh/HryqeWOGiI
+ c+66q9mTGndriypYLEBQwlQANUyDdJuPxwAWCAp/xJ1Rhi/dO70O8sVWQazDJ4a8s0VW
+ zTNA==
+X-Gm-Message-State: AOAM530WVlW9nbQcs5EzXWDF3r2HRKvhFWLXVwj6+RTETcjkfwwr6AC7
+ BukGis7p9uEXz9vMhcLMpIt3GsVKeHXrHg==
+X-Google-Smtp-Source: ABdhPJzqVf1XwJ4waYABelXl6xj4Ramu5i4Y4SM+Vk6aGyWhSb5/BeCf5un1+9fH0FCTJuWlM9xu+A==
+X-Received: by 2002:a17:90a:a791:: with SMTP id
+ f17mr1023428pjq.225.1631728193105; 
+ Wed, 15 Sep 2021 10:49:53 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id g4sm311667pjt.56.2021.09.15.10.49.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Sep 2021 10:49:52 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] linux-user/nios2: trap and kuser fixes
+Date: Wed, 15 Sep 2021 10:49:49 -0700
+Message-Id: <20210915174951.1852266-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210915164329.13815-1-pbonzini@redhat.com>
-In-Reply-To: <20210915164329.13815-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 15 Sep 2021 18:34:48 +0100
-Message-ID: <CAFEAcA_6kdWX37d+Ak6nQVywE6f_4sGYvQZ2_H3+9ONzi7HJeA@mail.gmail.com>
-Subject: Re: [PULL 0/4] Update meson version
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,36 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: marex@denx.de, crwulff@gmail.com, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Sept 2021 at 18:14, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit 831aaf24967a49d7750090b9dcfd6bf356f16529:
->
->   Merge remote-tracking branch 'remotes/marcandre/tags/misc-pull-request' into staging (2021-09-14 18:14:56 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to 3bfc2d0b71a59e17b886769d56bef2771701f4f0:
->
->   target/xtensa: list cores in a text file (2021-09-15 09:12:55 +0200)
->
-> ----------------------------------------------------------------
-> * Update Meson to 0.58.2
->
-> ----------------------------------------------------------------
-> Paolo Bonzini (4):
->       meson: bump submodule to 0.58.2
->       meson: switch minimum meson version to 0.58.2
->       hexagon: use env keyword argument to pass PYTHONPATH
->       target/xtensa: list cores in a text file
+Based-on: 20210813131809.28655-1-peter.maydell@linaro.org
+("linux-user: Clean up siginfo_t handling for arm, aarch64")
+... for force_sig_fault().
 
-Was this intended to be a pull request ? AFAICT patch 4 at least
-has not been seen before on the list for review.
+Emulation of EXCP_TRAP was really wrong, in that we were using
+the contents of R1 when we really wanted the trap immediate.
 
--- PMM
+Emulation of the kuser page was wrong, in that the first word
+contains the version, and must be readable.  The easiest way
+to fix this is to map real data, but then we have to come up
+with some replacement for __kuser_cmpxchg, and the easiest way
+to do that is to steal an unused trap number.
+
+Both of these stand in the way of cleaning up SIGSEGV, which
+is how the kuser page is currently implemented.
+
+I built a nios2-elf binutils and wrote a couple of asm smoke
+tests for this.  So, golden!
+
+
+r~
+
+
+Richard Henderson (2):
+  linux-user/nios2: Properly emulate EXCP_TRAP
+  linux-user/nios2: Map a real kuser page
+
+ target/nios2/cpu.h          |  5 ++-
+ linux-user/elfload.c        | 35 +++++++++++++++
+ linux-user/nios2/cpu_loop.c | 85 ++++++++++++++++++++-----------------
+ target/nios2/translate.c    | 26 +++++++-----
+ 4 files changed, 99 insertions(+), 52 deletions(-)
+
+-- 
+2.25.1
 
