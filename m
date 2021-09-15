@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5545040CAF9
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 18:47:10 +0200 (CEST)
-Received: from localhost ([::1]:46122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A5C40CAF3
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 18:46:32 +0200 (CEST)
+Received: from localhost ([::1]:45800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQY3x-0006fV-En
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 12:47:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59864)
+	id 1mQY3L-0006ST-Mm
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 12:46:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXoi-0004Si-RT
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:31:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57123)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXol-0004dh-QE
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:31:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXod-00050G-RX
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:31:24 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXoj-00055X-RO
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:31:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631723479;
+ s=mimecast20190719; t=1631723485;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X3ZdB6zVPOaC5MPl+Q5FhyNGt37ubCDpIGjI5YszfCE=;
- b=BD6VkepLSmJx2diVGo56dskfPb81i5D09+qt/HA7EnN8HOU0uPP66cFPSyZTmXwSoebZb7
- eW85pqHQ8+nl/0j3GWcQoHu0gVkdR2bcEnkGczT12ObQnsGFVSafOGK52prgAMx+E8itoN
- PGtxuotRg80KcRLGs7ds2e0E7frkMHE=
+ bh=dwUGGY5uyWyYQd5Zurxfm8CsvdBOc3cG50bLx3lkVDI=;
+ b=IiAgdV2dDRVHzgbzrhUUZ5nnEf0h2X+1YOpnFTo8/PkSDZrK5fq7AeVLjaWwMI2NCJ0bXt
+ +bN5M44k0B8LayeQPm2FgzOmyYdi7/7oa11GBMfy3ooXzyRhugRAkTiXslPpfsGkmdtSld
+ i1aUomfrW5uJFq5N+JfY8uvMkbmn9u4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-5pX12LYUO2qtq-SLxYD-jg-1; Wed, 15 Sep 2021 12:31:17 -0400
-X-MC-Unique: 5pX12LYUO2qtq-SLxYD-jg-1
+ us-mta-69-NblDxtM9OEu4SqAremXjOA-1; Wed, 15 Sep 2021 12:31:23 -0400
+X-MC-Unique: NblDxtM9OEu4SqAremXjOA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A25369126D;
- Wed, 15 Sep 2021 16:31:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6D0810168C4;
+ Wed, 15 Sep 2021 16:31:22 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 172D17771A;
- Wed, 15 Sep 2021 16:31:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D5D827771A;
+ Wed, 15 Sep 2021 16:31:16 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 13/27] python/aqmp: add QMP Message format
-Date: Wed, 15 Sep 2021 12:29:41 -0400
-Message-Id: <20210915162955.333025-14-jsnow@redhat.com>
+Subject: [PATCH v4 14/27] python/aqmp: add well-known QMP object models
+Date: Wed, 15 Sep 2021 12:29:42 -0400
+Message-Id: <20210915162955.333025-15-jsnow@redhat.com>
 In-Reply-To: <20210915162955.333025-1-jsnow@redhat.com>
 References: <20210915162955.333025-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,255 +85,155 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Message class is here primarily to serve as a solid type to use for
-mypy static typing for unambiguous annotation and documentation.
-
-We can also stuff JSON serialization and deserialization into this class
-itself so it can be re-used even outside this infrastructure.
+The QMP spec doesn't define very many objects that are iron-clad in
+their format, but there are a few. This module makes it trivial to
+validate them without relying on an external third-party library.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- python/qemu/aqmp/__init__.py |   4 +-
- python/qemu/aqmp/message.py  | 209 +++++++++++++++++++++++++++++++++++
- 2 files changed, 212 insertions(+), 1 deletion(-)
- create mode 100644 python/qemu/aqmp/message.py
+ python/qemu/aqmp/models.py | 133 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 133 insertions(+)
+ create mode 100644 python/qemu/aqmp/models.py
 
-diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
-index 88ead4c023..96fff1e5f3 100644
---- a/python/qemu/aqmp/__init__.py
-+++ b/python/qemu/aqmp/__init__.py
-@@ -22,12 +22,14 @@
- # the COPYING file in the top-level directory.
- 
- from .error import AQMPError
-+from .message import Message
- from .protocol import ConnectError, Runstate, StateError
- 
- 
- # The order of these fields impact the Sphinx documentation order.
- __all__ = (
--    # Classes
-+    # Classes, most to least important
-+    'Message',
-     'Runstate',
- 
-     # Exceptions, most generic to most explicit
-diff --git a/python/qemu/aqmp/message.py b/python/qemu/aqmp/message.py
+diff --git a/python/qemu/aqmp/models.py b/python/qemu/aqmp/models.py
 new file mode 100644
-index 0000000000..f76ccc9074
+index 0000000000..24c94123ac
 --- /dev/null
-+++ b/python/qemu/aqmp/message.py
-@@ -0,0 +1,209 @@
++++ b/python/qemu/aqmp/models.py
+@@ -0,0 +1,133 @@
 +"""
-+QMP Message Format
++QMP Data Models
 +
-+This module provides the `Message` class, which represents a single QMP
-+message sent to or from the server.
++This module provides simplistic data classes that represent the few
++structures that the QMP spec mandates; they are used to verify incoming
++data to make sure it conforms to spec.
 +"""
++# pylint: disable=too-few-public-methods
 +
-+import json
-+from json import JSONDecodeError
++from collections import abc
 +from typing import (
-+    Dict,
-+    Iterator,
++    Any,
 +    Mapping,
-+    MutableMapping,
 +    Optional,
-+    Union,
++    Sequence,
 +)
 +
-+from .error import ProtocolError
 +
-+
-+class Message(MutableMapping[str, object]):
++class Model:
 +    """
-+    Represents a single QMP protocol message.
++    Abstract data model, representing some QMP object of some kind.
 +
-+    QMP uses JSON objects as its basic communicative unit; so this
-+    Python object is a :py:obj:`~collections.abc.MutableMapping`. It may
-+    be instantiated from either another mapping (like a `dict`), or from
-+    raw `bytes` that still need to be deserialized.
-+
-+    Once instantiated, it may be treated like any other MutableMapping::
-+
-+        >>> msg = Message(b'{"hello": "world"}')
-+        >>> assert msg['hello'] == 'world'
-+        >>> msg['id'] = 'foobar'
-+        >>> print(msg)
-+        {
-+          "hello": "world",
-+          "id": "foobar"
-+        }
-+
-+    It can be converted to `bytes`::
-+
-+        >>> msg = Message({"hello": "world"})
-+        >>> print(bytes(msg))
-+        b'{"hello":"world","id":"foobar"}'
-+
-+    Or back into a garden-variety `dict`::
-+
-+       >>> dict(msg)
-+       {'hello': 'world'}
-+
-+
-+    :param value: Initial value, if any.
-+    :param eager:
-+        When `True`, attempt to serialize or deserialize the initial value
-+        immediately, so that conversion exceptions are raised during
-+        the call to ``__init__()``.
++    :param raw: The raw object to be validated.
++    :raise KeyError: If any required fields are absent.
++    :raise TypeError: If any required fields have the wrong type.
 +    """
-+    # pylint: disable=too-many-ancestors
++    def __init__(self, raw: Mapping[str, Any]):
++        self._raw = raw
 +
-+    def __init__(self,
-+                 value: Union[bytes, Mapping[str, object]] = b'{}', *,
-+                 eager: bool = True):
-+        self._data: Optional[bytes] = None
-+        self._obj: Optional[Dict[str, object]] = None
++    def _check_key(self, key: str) -> None:
++        if key not in self._raw:
++            raise KeyError(f"'{self._name}' object requires '{key}' member")
 +
-+        if isinstance(value, bytes):
-+            self._data = value
-+            if eager:
-+                self._obj = self._deserialize(self._data)
-+        else:
-+            self._obj = dict(value)
-+            if eager:
-+                self._data = self._serialize(self._obj)
++    def _check_value(self, key: str, type_: type, typestr: str) -> None:
++        assert key in self._raw
++        if not isinstance(self._raw[key], type_):
++            raise TypeError(
++                f"'{self._name}' member '{key}' must be a {typestr}"
++            )
 +
-+    # Methods necessary to implement the MutableMapping interface, see:
-+    # https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableMapping
-+
-+    # We get pop, popitem, clear, update, setdefault, __contains__,
-+    # keys, items, values, get, __eq__ and __ne__ for free.
-+
-+    def __getitem__(self, key: str) -> object:
-+        return self._object[key]
-+
-+    def __setitem__(self, key: str, value: object) -> None:
-+        self._object[key] = value
-+        self._data = None
-+
-+    def __delitem__(self, key: str) -> None:
-+        del self._object[key]
-+        self._data = None
-+
-+    def __iter__(self) -> Iterator[str]:
-+        return iter(self._object)
-+
-+    def __len__(self) -> int:
-+        return len(self._object)
-+
-+    # Dunder methods not related to MutableMapping:
-+
-+    def __repr__(self) -> str:
-+        if self._obj is not None:
-+            return f"Message({self._object!r})"
-+        return f"Message({bytes(self)!r})"
-+
-+    def __str__(self) -> str:
-+        """Pretty-printed representation of this QMP message."""
-+        return json.dumps(self._object, indent=2)
-+
-+    def __bytes__(self) -> bytes:
-+        """bytes representing this QMP message."""
-+        if self._data is None:
-+            self._data = self._serialize(self._obj or {})
-+        return self._data
-+
-+    # Conversion Methods
++    def _check_member(self, key: str, type_: type, typestr: str) -> None:
++        self._check_key(key)
++        self._check_value(key, type_, typestr)
 +
 +    @property
-+    def _object(self) -> Dict[str, object]:
-+        """
-+        A `dict` representing this QMP message.
++    def _name(self) -> str:
++        return type(self).__name__
 +
-+        Generated on-demand, if required. This property is private
-+        because it returns an object that could be used to invalidate
-+        the internal state of the `Message` object.
-+        """
-+        if self._obj is None:
-+            self._obj = self._deserialize(self._data or b'{}')
-+        return self._obj
-+
-+    @classmethod
-+    def _serialize(cls, value: object) -> bytes:
-+        """
-+        Serialize a JSON object as `bytes`.
-+
-+        :raise ValueError: When the object cannot be serialized.
-+        :raise TypeError: When the object cannot be serialized.
-+
-+        :return: `bytes` ready to be sent over the wire.
-+        """
-+        return json.dumps(value, separators=(',', ':')).encode('utf-8')
-+
-+    @classmethod
-+    def _deserialize(cls, data: bytes) -> Dict[str, object]:
-+        """
-+        Deserialize JSON `bytes` into a native Python `dict`.
-+
-+        :raise DeserializationError:
-+            If JSON deserialization fails for any reason.
-+        :raise UnexpectedTypeError:
-+            If the data does not represent a JSON object.
-+
-+        :return: A `dict` representing this QMP message.
-+        """
-+        try:
-+            obj = json.loads(data)
-+        except JSONDecodeError as err:
-+            emsg = "Failed to deserialize QMP message."
-+            raise DeserializationError(emsg, data) from err
-+        if not isinstance(obj, dict):
-+            raise UnexpectedTypeError(
-+                "QMP message is not a JSON object.",
-+                obj
-+            )
-+        return obj
++    def __repr__(self) -> str:
++        return f"{self._name}({self._raw!r})"
 +
 +
-+class DeserializationError(ProtocolError):
++class Greeting(Model):
 +    """
-+    A QMP message was not understood as JSON.
++    Defined in qmp-spec.txt, section 2.2, "Server Greeting".
 +
-+    When this Exception is raised, ``__cause__`` will be set to the
-+    `json.JSONDecodeError` Exception, which can be interrogated for
-+    further details.
-+
-+    :param error_message: Human-readable string describing the error.
-+    :param raw: The raw `bytes` that prompted the failure.
++    :param raw: The raw Greeting object.
++    :raise KeyError: If any required fields are absent.
++    :raise TypeError: If any required fields have the wrong type.
 +    """
-+    def __init__(self, error_message: str, raw: bytes):
-+        super().__init__(error_message)
-+        #: The raw `bytes` that were not understood as JSON.
-+        self.raw: bytes = raw
++    def __init__(self, raw: Mapping[str, Any]):
++        super().__init__(raw)
++        #: 'QMP' member
++        self.QMP: QMPGreeting  # pylint: disable=invalid-name
 +
-+    def __str__(self) -> str:
-+        return "\n".join([
-+            super().__str__(),
-+            f"  raw bytes were: {str(self.raw)}",
-+        ])
++        self._check_member('QMP', abc.Mapping, "JSON object")
++        self.QMP = QMPGreeting(self._raw['QMP'])
 +
 +
-+class UnexpectedTypeError(ProtocolError):
++class QMPGreeting(Model):
 +    """
-+    A QMP message was JSON, but not a JSON object.
++    Defined in qmp-spec.txt, section 2.2, "Server Greeting".
 +
-+    :param error_message: Human-readable string describing the error.
-+    :param value: The deserialized JSON value that wasn't an object.
++    :param raw: The raw QMPGreeting object.
++    :raise KeyError: If any required fields are absent.
++    :raise TypeError: If any required fields have the wrong type.
 +    """
-+    def __init__(self, error_message: str, value: object):
-+        super().__init__(error_message)
-+        #: The JSON value that was expected to be an object.
-+        self.value: object = value
++    def __init__(self, raw: Mapping[str, Any]):
++        super().__init__(raw)
++        #: 'version' member
++        self.version: Mapping[str, object]
++        #: 'capabilities' member
++        self.capabilities: Sequence[object]
 +
-+    def __str__(self) -> str:
-+        strval = json.dumps(self.value, indent=2)
-+        return "\n".join([
-+            super().__str__(),
-+            f"  json value was: {strval}",
-+        ])
++        self._check_member('version', abc.Mapping, "JSON object")
++        self.version = self._raw['version']
++
++        self._check_member('capabilities', abc.Sequence, "JSON array")
++        self.capabilities = self._raw['capabilities']
++
++
++class ErrorResponse(Model):
++    """
++    Defined in qmp-spec.txt, section 2.4.2, "error".
++
++    :param raw: The raw ErrorResponse object.
++    :raise KeyError: If any required fields are absent.
++    :raise TypeError: If any required fields have the wrong type.
++    """
++    def __init__(self, raw: Mapping[str, Any]):
++        super().__init__(raw)
++        #: 'error' member
++        self.error: ErrorInfo
++        #: 'id' member
++        self.id: Optional[object] = None  # pylint: disable=invalid-name
++
++        self._check_member('error', abc.Mapping, "JSON object")
++        self.error = ErrorInfo(self._raw['error'])
++
++        if 'id' in raw:
++            self.id = raw['id']
++
++
++class ErrorInfo(Model):
++    """
++    Defined in qmp-spec.txt, section 2.4.2, "error".
++
++    :param raw: The raw ErrorInfo object.
++    :raise KeyError: If any required fields are absent.
++    :raise TypeError: If any required fields have the wrong type.
++    """
++    def __init__(self, raw: Mapping[str, Any]):
++        super().__init__(raw)
++        #: 'class' member, with an underscore to avoid conflicts in Python.
++        self.class_: str
++        #: 'desc' member
++        self.desc: str
++
++        self._check_member('class', str, "string")
++        self.class_ = self._raw['class']
++
++        self._check_member('desc', str, "string")
++        self.desc = self._raw['desc']
 -- 
 2.31.1
 
