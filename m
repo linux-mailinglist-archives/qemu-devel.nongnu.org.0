@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 385B740CB7D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 19:14:43 +0200 (CEST)
-Received: from localhost ([::1]:42896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 488CB40CB46
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 18:54:35 +0200 (CEST)
+Received: from localhost ([::1]:35340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQYUb-0001OB-PY
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 13:14:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35392)
+	id 1mQYB8-0001js-AU
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 12:54:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mQY0Y-0003Rq-1D
+ id 1mQY0Y-0003Rs-LH
  for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:43:39 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:39569)
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:39560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mQY0S-0006Ya-Q0
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:43:37 -0400
-Received: by mail-ed1-x533.google.com with SMTP id h17so5880245edj.6
+ id 1mQY0T-0006Yi-EP
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:43:38 -0400
+Received: by mail-ed1-x529.google.com with SMTP id h17so5880383edj.6
  for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 09:43:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JFlliBat+zzIFPe47YHh0SA10XgO+nHZfXQTWW6ZzM4=;
- b=bTJr4QOdyMjqxYA/IpEj1YUdE+kbtpkKqPkPBS4w/zyDHq3m1HRw88k+cgta/aXGNE
- mv7U0lw+h75oJbpSpfb/Om+OpDvZFB4X7FCSbsXGv2wFS8sTX2eklaxnnJmO97OL3gnQ
- UkBzxi2nFcP4z3o9BnIwvmu5Lux16GAwbluq9fRNM1dyBSLDMvZ1tyBpOU5FN0zjomiG
- TYUaGlYHM1IFeSkqCY+QqtbDR8wlj3IPy3idlZ9WnxTDDgYj5teo8HCm9GdzqMJV62Qn
- aVtSWnOJtijW8uZS9NGHSaUtPbDeM4tJusG25gChyYA1pZOG2BVji2YqlopTgYDVxm0I
- MeSg==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=xWYtDan3pEXu3qMZtaWU1X/f9DRe7zuT6HxLtpUUEf0=;
+ b=DrpeZsUo2M6JkHVwfxTq5KbTWMz6AXOM/uNYF7+uiwo7XImB25Evhz76V9xjB0Grav
+ OyNGiwF52mBM+T/o94hdjACR47oVGnF97J+4fKZ0v1sF4I1Yq5mFhqsZyo3HwEAR55UE
+ XIryXgCvJxvpXxSxn/WKm6exzgo3JQROegC2ZvrOh4fUpq0WeXnSaVe/DYjxJyMrBDM1
+ ZwGVXpVl5XnBbtqAB8yt1BWAgSa3mELZGuDUQYU5XminOkabsD+FaYcHmEdgabiJ86UL
+ vi1VR2ddrhd1yB001mH/8P15uuH+UA5/rCHVJOM5ZJ3FcBXdmt16uf47Zd7wdakLKp9Q
+ /4gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=JFlliBat+zzIFPe47YHh0SA10XgO+nHZfXQTWW6ZzM4=;
- b=a4KCHCwqerD5PU3DooCBjCkwf8r/vrAOZPE9YarsK1oo8pxa+NyFcDUYuDXCDjGxnq
- eoHAq8EiqE3cqTz/H+dd9RAx4Eu7bU1yI8bf6nORKDxxquo+RHrr1XYVQLonYArALAwZ
- 7ZJo1/ce5OqP4aIDhdAnG3Z+Q/1Xw+VeW0sCKcXxpxMNiZnUy5++ZNnTxhPlXJOvPGVh
- PmlTvGLZmDLn3pVowFVoR17rqXDjNtjzyGnxL1d/ejPMw2qwffMGuP2N6c/WEjDFr9jt
- 8OOjDxO8Bh2bht8hmdV6Tsj5ivT0H7vOcv+g0AfpYKfbnGXF9nktqjW8H7UZ/NAfVDWJ
- qcZw==
-X-Gm-Message-State: AOAM532A2foGLoB8x/eIbs1X+8LnL2m5vxGBCqlxrbGktIJOewjj0/Ow
- 7mnV8nztUcted+J5ICAeb39TAYWP8yE=
-X-Google-Smtp-Source: ABdhPJyyz1+1+BaHa0v+QLvQiOCh9zp9Uin2XGYHdwu5fYuMZwno0mkIQf0JzTjhhqcgXz4hdiznEQ==
-X-Received: by 2002:a17:906:36d6:: with SMTP id
- b22mr906466ejc.387.1631724210700; 
- Wed, 15 Sep 2021 09:43:30 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=xWYtDan3pEXu3qMZtaWU1X/f9DRe7zuT6HxLtpUUEf0=;
+ b=W0B1s5JhLw6T8EBDR1yaXU7pz3UJpFi1pbbXAXSHIuBma2Od3etWBwGPdYRoxMCHVz
+ pr/NJvFwGdweCWEuMwqP0fh7grt2/G6hH4v8QVSg0qSuezXltf05XzrpMsJxjPxCsT3A
+ Fe8j4zyW1Ddka+qErfuxEUNm/A1ywED6aMkOn2BbsBXTi42B6luv7fXDngZPeScdtqgd
+ ipIHwAsgsNrUVTqSCSdM1G4A8F7WpP8oJb/OtLYB1VLWvXkn0Q55M7ywBoJCycZNdpq5
+ wgzkLK8W38qBxzfhrzhYf+inS4yavC2cdPLwtPHnI0/t0c19zvEjn0wNnUguRyu/VItK
+ FfLA==
+X-Gm-Message-State: AOAM533p2luck2YjnakJ578AhGFsImPIh6i30X5OYBlZi2OpWJXTED2Z
+ rxMwIMQy8hyycWzZeSMfOcql6wSAHdU=
+X-Google-Smtp-Source: ABdhPJygqcFdwr4I+LQP12QVfrHD4wZ06s3aRKYVvJx6Z1RHaHOOX4oQjBFoHKpY7ZeK8/mwy1mtsA==
+X-Received: by 2002:aa7:ce14:: with SMTP id d20mr992385edv.132.1631724211487; 
+ Wed, 15 Sep 2021 09:43:31 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id v1sm238319ejd.31.2021.09.15.09.43.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Sep 2021 09:43:30 -0700 (PDT)
+ Wed, 15 Sep 2021 09:43:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/4] Update meson version
-Date: Wed, 15 Sep 2021 18:43:25 +0200
-Message-Id: <20210915164329.13815-1-pbonzini@redhat.com>
+Subject: [PULL 1/4] meson: bump submodule to 0.58.2
+Date: Wed, 15 Sep 2021 18:43:26 +0200
+Message-Id: <20210915164329.13815-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210915164329.13815-1-pbonzini@redhat.com>
+References: <20210915164329.13815-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,45 +87,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 831aaf24967a49d7750090b9dcfd6bf356f16529:
+The update to 0.57 has been delayed due to it causing warnings for
+some actual issues, but it brings in important bugfixes and new
+features.  0.58 also brings in a bugfix that is useful for modinfo.
 
-  Merge remote-tracking branch 'remotes/marcandre/tags/misc-pull-request' into staging (2021-09-14 18:14:56 +0100)
+Important bugfixes:
 
-are available in the Git repository at:
+- 0.57: https://github.com/mesonbuild/meson/pull/7760, build: use PIE
+objects for non-PIC static libraries if b_pie=true
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+- 0.57: https://github.com/mesonbuild/meson/pull/7900, thus avoiding
+unnecessary rebuilds after running meson.
 
-for you to fetch changes up to 3bfc2d0b71a59e17b886769d56bef2771701f4f0:
+- 0.58.2: https://github.com/mesonbuild/meson/pull/8900, fixes for
+passing extract_objects() to custom_target (useful for modinfo)
 
-  target/xtensa: list cores in a text file (2021-09-15 09:12:55 +0200)
+Features:
 
-----------------------------------------------------------------
-* Update Meson to 0.58.2
+- 0.57: the keyval module has now been stabilized
 
-----------------------------------------------------------------
-Paolo Bonzini (4):
-      meson: bump submodule to 0.58.2
-      meson: switch minimum meson version to 0.58.2
-      hexagon: use env keyword argument to pass PYTHONPATH
-      target/xtensa: list cores in a text file
+- 0.57: env argument to custom_target (useful for hexagon)
 
- configure                     |  8 ++-----
- docs/meson.build              | 14 +++++------
- meson                         |  2 +-
- meson.build                   | 54 ++++++++++++++++++++-----------------------
- plugins/meson.build           |  4 ++--
- scripts/mtest2make.py         |  7 ++----
- target/hexagon/meson.build    |  3 ++-
- target/xtensa/cores.list      |  9 ++++++++
- target/xtensa/import_core.sh  |  3 +++
- target/xtensa/meson.build     |  4 ++--
- tests/qapi-schema/meson.build |  4 ++--
- tests/qtest/meson.build       |  2 +-
- tests/unit/meson.build        |  2 +-
- trace/meson.build             |  4 ++--
- 14 files changed, 61 insertions(+), 59 deletions(-)
- create mode 100644 target/xtensa/cores.list
+- 0.57: Feature parity between "meson test" and QEMU's TAP driver
+
+- 0.57: https://github.com/mesonbuild/meson/pull/8231, allows bringing
+back version numbers in the configuration summary
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ meson | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meson b/meson
+index 776acd2a80..8bcd4c72e3 160000
+--- a/meson
++++ b/meson
+@@ -1 +1 @@
+-Subproject commit 776acd2a805c9b42b4f0375150977df42130317f
++Subproject commit 8bcd4c72e321705cb6cde02c684ffd2ec5cc8843
 -- 
 2.31.1
+
 
 
