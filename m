@@ -2,93 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1330C40C1EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 10:42:25 +0200 (CEST)
-Received: from localhost ([::1]:46518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1213F40C204
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 10:48:15 +0200 (CEST)
+Received: from localhost ([::1]:48976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQQUq-0001cj-4S
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 04:42:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43294)
+	id 1mQQaU-0003Vo-4t
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 04:48:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQQTE-0000WZ-Mu
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 04:40:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40856)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQQTD-0001M4-0T
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 04:40:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631695242;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ICY6YKQBWKhzWlriVRdXH1eQgxlE35y3CXcudm8xNvA=;
- b=JzPLltrGVvj0hjud4K66bhoWCzYL6GXaHxRXbGaX0/pkG7aHE1pMjSz6JtzBi3qjNc1yPM
- TDqMsXOZxtW+Bz4JV/6f+yCk7TjLmzZkcldcB+eGiTfJGxzNog4unEHAs4twEvhxLqkMmg
- jNlg9646gQG8bdKdFRsEmIxIJQ2vmXg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-OHigjq6WPOGqPTyVYYw3BA-1; Wed, 15 Sep 2021 04:40:39 -0400
-X-MC-Unique: OHigjq6WPOGqPTyVYYw3BA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- f17-20020a05600c155100b002f05f30ff03so1396214wmg.3
- for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 01:40:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mQQYa-0002kB-I6; Wed, 15 Sep 2021 04:46:16 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:46719)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mQQYV-00069U-4m; Wed, 15 Sep 2021 04:46:14 -0400
+Received: by mail-pg1-x536.google.com with SMTP id w7so1962502pgk.13;
+ Wed, 15 Sep 2021 01:46:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d5ck1rtCN9MckXHSNpLUv9QcdDbnsE0E63EIXFwHXKo=;
+ b=W94L9ve2NDe7j4TVJlLsj+n22/1p97d9a7ZWYdSAsj2rRHr0GDfCbl9t3NhGphEYWd
+ RTUrqyMtRLeB3UbTXnerhX/Jn7ChWte4C6z5CPGgFLX1WxkRd6K+xlvKPDw6eh6e8DMc
+ bjDoFKBP67hhITn1bXTK5hn2E5Xyr93qYRKHlXmLLmZFVbpseJ2frd9n8RYG7x+Ax8nH
+ yAuyduwYzXgso04v+ef+lMVxKhSURoTvyC/GYM8Xx7VSbgvvDjqw5xHMkiVW9Hu12unc
+ Bu516+Q9Dn3yd0Uo7jB5LkZGtIWahywGEtSgia1gwiPnPq+up+7+dN9lb9wsnaMVAIDD
+ uRoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ICY6YKQBWKhzWlriVRdXH1eQgxlE35y3CXcudm8xNvA=;
- b=QdtluvYPD3rImKXSYBFBxqar/+2rq16u1O1WDPRNHLo/DtCzgngrRLpwbNqIJGUmVi
- J5tlsGgzw0Id6xSgeeIfN+mKRz5lupcApTm57BC+X/yadPoTnqM5rb9l/vesHC8GbvjM
- Z4kvoG+9LUZA5LVnSTs3hYo8tmrVu4qbU8bcS/98t2K1eb92zukf/HXx1Ri+GiG/YvZy
- sFqeJhbcLfahT7mO+7XrPeDKNjEnci0WdITQn4eVW4tQiQxuS4YfjKZ6SkaYKRbaYtiF
- 7khMp82yOb1nxbxilKgCvWV9q9usHpMctywtDhIBTsogq3lfJECceMTTnlDfCGerz0cS
- Mzjw==
-X-Gm-Message-State: AOAM531EhMQeAI7ftZ80I8C9nlXAPHOIWUIx2mCXg0wVpQPUJSYairSV
- 5DjDSalwVWi7aHZ4AAg/GdkLsl7ySy+Tb53uXEP8HvUj557hyPKHlRjmjbxOTiBhiImQqHG6aQ1
- zJKTJFxKle2lEhpg=
-X-Received: by 2002:adf:f183:: with SMTP id h3mr3643973wro.32.1631695237790;
- Wed, 15 Sep 2021 01:40:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyhnyThkKgrVZeQKGBxjIiqY5THrI3JZdSFDfHHJ1HrSlKXfYC2yNUClzeXo75mduQH6zAt8Q==
-X-Received: by 2002:adf:f183:: with SMTP id h3mr3643943wro.32.1631695237422;
- Wed, 15 Sep 2021 01:40:37 -0700 (PDT)
-Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
- [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id o13sm11448042wri.53.2021.09.15.01.40.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Sep 2021 01:40:36 -0700 (PDT)
-Subject: Re: [PATCH] gitlab-ci: Make more custom runner jobs manual, and don't
- allow failure
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210913101948.12600-1-peter.maydell@linaro.org>
- <CAFEAcA86yjW8oeif4tY7WWzGfXYYV0VuqY+4RV9f_NqAApeeeg@mail.gmail.com>
- <YUGu1PbzB+pzZdjf@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7e9ad0c4-e27f-42f4-fc82-56d16d3d3953@redhat.com>
-Date: Wed, 15 Sep 2021 10:40:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=d5ck1rtCN9MckXHSNpLUv9QcdDbnsE0E63EIXFwHXKo=;
+ b=a4wfJR1jqYdcy0QhvQhqO6/qKJK+5R1p5WK1Xd/DT0waMpN1wkXrrnKkgH9KPoeJas
+ HIjaiRrrHRBetg+RYccgwLZ3gye1H0XJcAr7OFIcbUpqabGYciba58BMfIqrG3s7zh4W
+ nuJO4U3H3WY8/Y6VAEbgp4CeQPnBjBmXOQwkphVASQLChpJOE+muGevuNaUEJriXvKOi
+ i0UsXDUW23lVaS8Yr9LHkeGoxyWpSI0bTzblDuQAAwzm3Bl1127VY2Bnuf2pnP3Bb6dS
+ 2mLcxowEdImYBeO+c8IrvUfVLcFyb8cDSl8bDoV9pE1A1zqTBv2FFQLSkqXUE8C1m21V
+ +g/A==
+X-Gm-Message-State: AOAM530zKNHDwKLejQZZ/+dWmSO/lu10ZfWPwJJQF5CMf1BjCPQMjx1+
+ aNDcEt0rlJwBeQ8hCXKh/EQ=
+X-Google-Smtp-Source: ABdhPJyO2Zw4uicK4pP1V9vWTmnnJxfNYyDeA5lidj2SbO2OKB9IUleGnauCpQ160XSZNiIGYB3HqA==
+X-Received: by 2002:a05:6a00:1147:b029:3e0:8c37:938e with SMTP id
+ b7-20020a056a001147b02903e08c37938emr9195106pfm.65.1631695568527; 
+ Wed, 15 Sep 2021 01:46:08 -0700 (PDT)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id i1sm1430902pja.26.2021.09.15.01.46.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Sep 2021 01:46:08 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH] target/riscv: csr: Rename HCOUNTEREN_CY and friends
+Date: Wed, 15 Sep 2021 16:46:01 +0800
+Message-Id: <20210915084601.24304-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <YUGu1PbzB+pzZdjf@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.969, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,69 +81,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/15/21 10:29 AM, Daniel P. Berrangé wrote:
-> On Tue, Sep 14, 2021 at 08:17:19PM +0100, Peter Maydell wrote:
->> On Mon, 13 Sept 2021 at 11:19, Peter Maydell <peter.maydell@linaro.org> wrote:
->>>
->>> Currently we define a lot of jobs for our custom runners:
->>> for both aarch64 and s390x we have
->>>  - all-linux-static
->>>  - all
->>>  - alldbg
->>>  - clang (manual)
->>>  - tci
->>>  - notcg (manual)
->>>
->>> This is overkill.  The main reason to run on these hosts is to get
->>> coverage for the host architecture; we can leave the handling of
->>> differences like debug vs non-debug to the x86 CI jobs.
->>>
->>> The jobs are also generally running OK; they occasionally fail due to
->>> timeouts, which is likely because we're overloading the machine by
->>> asking it to run 4 CI jobs at once plus the ad-hoc CI.
->>>
->>> Remove the 'allow_failure' tag from all these jobs, and switch the
->>> s390x-alldbg, aarch64-all, s390x-tci and aarch64-tci jobs to manual.
->>> This will let us make the switch for s390x and aarch64 hosts from
->>> the ad-hoc CI to gitlab.
->>>
->>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->>
->> It looks like this change has resulted in pipelines ending
->> up in a "blocked" state:
->>
->> https://gitlab.com/qemu-project/qemu/-/pipelines
->>
->> I'm not sure why this is -- is it perhaps because there were
->> other jobs that depended on the now-manual-only jobs ?
->> Can somebody suggest a fix ?
-> 
-> Urgh, my bad, I completely forget this behaviour when reviewing.
-> When we only have
-> 
->   when: manual
-> 
-> then the job has to be manually started, and it still contributes
-> to pipeline status, so it /must/ triggered manually.
-> 
-> If we want it to be manually started and not contribute to the
-> pipeline status we need:
-> 
->  rules:
->    ...
->    when: manual
->    allow_failure: true
+The macro name HCOUNTEREN_CY suggests it is for CSR HCOUNTEREN, but
+in fact it applies to M-mode and S-mode CSR too. Rename these macros
+to have the COUNTEREN_ prefix.
 
-Reminds me of the following commits:
-- d3a4e41da25 ("gitlab-ci: Fix 'when:' condition in acceptance...")
-- 59e8b62b220 ("gitlab-ci: Fix 'when:' condition in EDK2 jobs")
-- c217fd8e36a ("gitlab-ci: Fix 'when:' condition in OpenSBI jobs")
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+---
+
+ target/riscv/cpu_bits.h |  8 ++++----
+ target/riscv/csr.c      | 24 ++++++++++++------------
+ 2 files changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 7330ff5a19..34564d367c 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -397,10 +397,10 @@
+ #define HSTATUS32_WPRI       0xFF8FF87E
+ #define HSTATUS64_WPRI       0xFFFFFFFFFF8FF87EULL
+ 
+-#define HCOUNTEREN_CY        (1 << 0)
+-#define HCOUNTEREN_TM        (1 << 1)
+-#define HCOUNTEREN_IR        (1 << 2)
+-#define HCOUNTEREN_HPM3      (1 << 3)
++#define COUNTEREN_CY         (1 << 0)
++#define COUNTEREN_TM         (1 << 1)
++#define COUNTEREN_IR         (1 << 2)
++#define COUNTEREN_HPM3       (1 << 3)
+ 
+ /* Privilege modes */
+ #define PRV_U 0
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 50a2c3a3b4..1cd34a6453 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -71,20 +71,20 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+     if (riscv_cpu_virt_enabled(env)) {
+         switch (csrno) {
+         case CSR_CYCLE:
+-            if (!get_field(env->hcounteren, HCOUNTEREN_CY) &&
+-                get_field(env->mcounteren, HCOUNTEREN_CY)) {
++            if (!get_field(env->hcounteren, COUNTEREN_CY) &&
++                get_field(env->mcounteren, COUNTEREN_CY)) {
+                 return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+             }
+             break;
+         case CSR_TIME:
+-            if (!get_field(env->hcounteren, HCOUNTEREN_TM) &&
+-                get_field(env->mcounteren, HCOUNTEREN_TM)) {
++            if (!get_field(env->hcounteren, COUNTEREN_TM) &&
++                get_field(env->mcounteren, COUNTEREN_TM)) {
+                 return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+             }
+             break;
+         case CSR_INSTRET:
+-            if (!get_field(env->hcounteren, HCOUNTEREN_IR) &&
+-                get_field(env->mcounteren, HCOUNTEREN_IR)) {
++            if (!get_field(env->hcounteren, COUNTEREN_IR) &&
++                get_field(env->mcounteren, COUNTEREN_IR)) {
+                 return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+             }
+             break;
+@@ -98,20 +98,20 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+         if (riscv_cpu_is_32bit(env)) {
+             switch (csrno) {
+             case CSR_CYCLEH:
+-                if (!get_field(env->hcounteren, HCOUNTEREN_CY) &&
+-                    get_field(env->mcounteren, HCOUNTEREN_CY)) {
++                if (!get_field(env->hcounteren, COUNTEREN_CY) &&
++                    get_field(env->mcounteren, COUNTEREN_CY)) {
+                     return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+                 }
+                 break;
+             case CSR_TIMEH:
+-                if (!get_field(env->hcounteren, HCOUNTEREN_TM) &&
+-                    get_field(env->mcounteren, HCOUNTEREN_TM)) {
++                if (!get_field(env->hcounteren, COUNTEREN_TM) &&
++                    get_field(env->mcounteren, COUNTEREN_TM)) {
+                     return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+                 }
+                 break;
+             case CSR_INSTRETH:
+-                if (!get_field(env->hcounteren, HCOUNTEREN_IR) &&
+-                    get_field(env->mcounteren, HCOUNTEREN_IR)) {
++                if (!get_field(env->hcounteren, COUNTEREN_IR) &&
++                    get_field(env->mcounteren, COUNTEREN_IR)) {
+                     return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+                 }
+                 break;
+-- 
+2.25.1
 
 
