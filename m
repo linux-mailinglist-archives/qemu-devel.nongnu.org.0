@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4282640CB4E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 18:59:10 +0200 (CEST)
-Received: from localhost ([::1]:42660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7BAD40CB7F
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 19:16:50 +0200 (CEST)
+Received: from localhost ([::1]:44984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQYFZ-0006lJ-BX
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 12:59:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35394)
+	id 1mQYWf-0002sV-VI
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 13:16:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mQY0Y-0003Rr-9h
+ id 1mQY0X-0003Rp-Od
  for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:43:39 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:43839)
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:34593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mQY0U-0006Zz-84
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:43:38 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id n10so5742461eda.10
- for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 09:43:33 -0700 (PDT)
+ id 1mQY0V-0006ak-FN
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:43:37 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id i6so5936264edu.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 09:43:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VMxPJY6t4uoMf/I961hE4R2GzgtcCFDrssDoN4r5NzQ=;
- b=ln2cgUN/OEgN1Cr7zoLKrsVHPHK4qCJDNRZATl9WfxIiyvwr5+iJ482g0/7+FoRm9k
- wgYqL+QH16qe58hL+JlWiM4i99mh55rI1o1sVOLEuXj+4q4gNq94arK2cHHkCO1+eX2t
- NjHx1V8rlCevZd4pqrOCo+RgFbNyEO/A20q3CdFx7nexKV+YxqvAUPrGkpXbnD8uvT1p
- Dg9V6bW/v2Chg1VFbSOuX/URy++ywXucw2hrOVZHqdxx20+1CxgwkuNQ0kpCWVoqN+7h
- jTMEhK6PXFswIVOkBev70ErSXFyEyOhgtkA9qIKxs/lZ/dYsu1PQ4Oyytd04SvRhWoY9
- fh/Q==
+ bh=UArhIR2Xzaj04yqObEvMGnbWPul/JgDRnUvix747Vb0=;
+ b=m2Nia5sg+LD22AJ0b9c3iICcTN1cboe8n0BwnSHnBoJptCI8zT8g8xBh1LEhZg2g8A
+ 1gk0+/9M/0GOffQodsSdtti9A35rpQfhU+nRWAaw5co5NZF8kU3a7zJf2Gkx76ttwrk6
+ pVKACJue5KkgvYG6T4h00CG1QeuGm9JR3IUao3lttPOOnBzTPg1NL46j84trx/qAD/oI
+ l3neD0J/e1jQE1sMmBgTVgOVQtiuPZn/KhSaqZqk7BBQmNiEel1DyW7RFpbW1sAQuiNn
+ BvD9LpAdaHgZWbUItRsKHNL2Z+JKqJ9x2N+safvRBTpCR1NwqmPROuK0YCHrzwAHwghG
+ 8DBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=VMxPJY6t4uoMf/I961hE4R2GzgtcCFDrssDoN4r5NzQ=;
- b=mcmMv4TtGMN6l4J2PE6ydqkXSDQ/ChCcdac/n3a840oCq6i6Az6HqgdbfotHqaH712
- TwUCtZmzhdXkWo5gzwTLjkbwtp2ER7aFmAzvztwR4/9W2hQuPCl/hvyWt44XSaSGGLiB
- GQFHbGYbUx62ujJAfHxAGTat6P7RiRBaV4iEcgCd7uezYjyXaBbRqeIYYdBOEXq9Ix9u
- 1+yGsxvJdc7pPTD635uY9X585/hw/9AEGzwm631zSi0W74Z6+SbQfg/Xr2AcR47KgHw3
- kO3KsaslgNrbwYZGHYmqof7ZwyGHbDRSg6cNs39OZSigJt96ArZhMQg/565rj0aMauPT
- bXqA==
-X-Gm-Message-State: AOAM532wygvhA7eBcV+bQGSIJ16o+51ee8H2UDxUPw6wUt93V1a6fc+u
- 5802mzFqLPyKC076K0xr0ZyrHw+eXEk=
-X-Google-Smtp-Source: ABdhPJw7staccBP/slH4d2RKHA5p7DeuLf6iIa54n5Qyxx6ehwMLKgDdtbfoBBd8/e3Vi3jJV9eBFg==
-X-Received: by 2002:a17:906:774f:: with SMTP id
- o15mr941411ejn.200.1631724212904; 
- Wed, 15 Sep 2021 09:43:32 -0700 (PDT)
+ bh=UArhIR2Xzaj04yqObEvMGnbWPul/JgDRnUvix747Vb0=;
+ b=6x/cnIkaghY8Sle6pw3JmxO+hlh51eTEpUBsThqAmiIDMvzGNhaMnQyD3B0O2q/EYH
+ 9GURhIUiDMq1sdU94eLmpbFzWwrr5E53OM7EklkG2CyFJcdyLV/kH22hg/hV8uixq3Zd
+ X+I8z0SnxFFW6oFsME3NGmhsJfYuevIzWZ3HgIO77BKHlll5zdy1+CwCPmwWzIQbLVFV
+ 2KJhGZFxcF9VrxW7S4PSC3I0opkZIP6TWCSFb7ObcZ16nGiNS+v7qIl1r8Nr8rGbBJNE
+ MfMvylIoSlEqoLzVZ4k+9eakNmb+zpS3Zevdp4LxrMB6vyhnRgggBUO2fZhPmeghJ0ZB
+ soow==
+X-Gm-Message-State: AOAM533NgyFEuMv2b+alNGWPxjrmIdDsvBTKVbFKiLjkOe+QnpyItSls
+ c91gv65e/FiYSQrXSR1KGR9UOLjacjg=
+X-Google-Smtp-Source: ABdhPJzs39hzuNj0uWtRIEFyPDdl56aDVNhCqDmjT+xyB/rU4XK/dKafiMNfDRjL7+foUVyfEcnwfg==
+X-Received: by 2002:a50:8589:: with SMTP id a9mr977490edh.124.1631724213511;
+ Wed, 15 Sep 2021 09:43:33 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id v1sm238319ejd.31.2021.09.15.09.43.32
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Sep 2021 09:43:32 -0700 (PDT)
+ Wed, 15 Sep 2021 09:43:33 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/4] hexagon: use env keyword argument to pass PYTHONPATH
-Date: Wed, 15 Sep 2021 18:43:28 +0200
-Message-Id: <20210915164329.13815-4-pbonzini@redhat.com>
+Subject: [PULL 4/4] target/xtensa: list cores in a text file
+Date: Wed, 15 Sep 2021 18:43:29 +0200
+Message-Id: <20210915164329.13815-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210915164329.13815-1-pbonzini@redhat.com>
 References: <20210915164329.13815-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,29 +87,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This feature is new in meson 0.57 and allows getting rid of the "env" wrapper.
+Avoid that leftover files affect the build; instead, use the same
+mechanism that was in place before the Meson transition of updating
+a file from import_core.sh.  Starting with Meson 0.57, the file
+can be easily read from the filesystem module, so do that instead
+of using run_command.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/hexagon/meson.build | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/xtensa/cores.list     | 9 +++++++++
+ target/xtensa/import_core.sh | 3 +++
+ target/xtensa/meson.build    | 4 ++--
+ 3 files changed, 14 insertions(+), 2 deletions(-)
+ create mode 100644 target/xtensa/cores.list
 
-diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
-index 6fd9360b74..c6d858ffb2 100644
---- a/target/hexagon/meson.build
-+++ b/target/hexagon/meson.build
-@@ -156,7 +156,8 @@ dectree_generated = custom_target(
-     'dectree_generated.h.inc',
-     output: 'dectree_generated.h.inc',
-     depends: [iset_py],
--    command: ['env', 'PYTHONPATH=' + meson.current_build_dir(), files('dectree.py'), '@OUTPUT@'],
-+    env: {'PYTHONPATH': meson.current_build_dir()},
-+    command: [python, files('dectree.py'), '@OUTPUT@'],
- )
- hexagon_ss.add(dectree_generated)
+diff --git a/target/xtensa/cores.list b/target/xtensa/cores.list
+new file mode 100644
+index 0000000000..5772a00ab2
+--- /dev/null
++++ b/target/xtensa/cores.list
+@@ -0,0 +1,9 @@
++core-dc232b.c
++core-dc233c.c
++core-de212.c
++core-de233_fpu.c
++core-dsp3400.c
++core-fsf.c
++core-sample_controller.c
++core-test_kc705_be.c
++core-test_mmuhifi_c3.c
+diff --git a/target/xtensa/import_core.sh b/target/xtensa/import_core.sh
+index 396b264be9..df66d09393 100755
+--- a/target/xtensa/import_core.sh
++++ b/target/xtensa/import_core.sh
+@@ -66,3 +66,6 @@ static XtensaConfig $NAME __attribute__((unused)) = {
  
+ REGISTER_CORE($NAME)
+ EOF
++
++grep -qxf core-${NAME}.c "$BASE"/cores.list || \
++    echo core-${NAME}.c >> "$BASE"/cores.list
+diff --git a/target/xtensa/meson.build b/target/xtensa/meson.build
+index 7c4efa6c62..20bbf9b335 100644
+--- a/target/xtensa/meson.build
++++ b/target/xtensa/meson.build
+@@ -1,7 +1,7 @@
+ xtensa_ss = ss.source_set()
+ 
+-xtensa_cores = run_command('sh', '-c', 'cd $MESON_SOURCE_ROOT/$MESON_SUBDIR ; ls -1 core-*.c')
+-xtensa_ss.add(files(xtensa_cores.stdout().strip().split('\n')))
++xtensa_cores = fs.read('cores.list')
++xtensa_ss.add(files(xtensa_cores.strip().split('\n')))
+ 
+ xtensa_ss.add(files(
+   'cpu.c',
 -- 
 2.31.1
-
 
 
