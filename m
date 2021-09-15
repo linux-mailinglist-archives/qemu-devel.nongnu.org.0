@@ -2,49 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6279C40BE28
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 05:24:57 +0200 (CEST)
-Received: from localhost ([::1]:46570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F0840BEF5
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 06:30:43 +0200 (CEST)
+Received: from localhost ([::1]:55144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQLXb-0002HI-R1
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 23:24:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50102)
+	id 1mQMZF-0002v4-Iq
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 00:30:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mQLUQ-0001Oi-Tc; Tue, 14 Sep 2021 23:21:38 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:39325)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQMXM-0002Ea-Qj
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 00:28:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32316)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mQLUM-0001G6-8l; Tue, 14 Sep 2021 23:21:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1631676085;
- bh=6xC04rIk3PZ6gR+Tpri0M4zOs83YX5nqB6TZRttkg6w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gn98CxdMLQKWSsVtaUG4sVbhUCtr9bYJtfmmv041I+iUPvgiUoqumH+YOcsK236wd
- xOvZQuDuUAqbu0G29Q21wzr53la936aSsjSV1zQLQjSnL+9kQFPFPP2quGqPCyrR3C
- aMhNUwFPXAYKqfFXTtK6EXHOyOxshi7fuG/Jd8EE=
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4H8QVF5DMdz9sVw; Wed, 15 Sep 2021 13:21:25 +1000 (AEST)
-Date: Wed, 15 Sep 2021 13:15:13 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Luis Pires <luis.pires@eldorado.org.br>
-Subject: Re: [PATCH v3 00/22] target/ppc: DFP instructions using decodetree
-Message-ID: <YUFlQcHovtytx90O@yekko>
-References: <20210910112624.72748-1-luis.pires@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQMXH-0006D4-6x
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 00:28:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631680116;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=t6m9TZh92CBt8e8uPCiG2EZ5+msp2rhaXraIOkX9sao=;
+ b=PVlf7V7KZaJ+k+TdhpU4o0WOAAi7W0Co0A0gdRrAvvGq4pEq02H6ecuvqoI9MXCO7S1aIl
+ mhXCvmiU4SZCN7t6tGZzHK65r8FHZ9p9XIgDO6iZCmSbaRNv6wOH4Dn54U5P3ma8Jjh++Z
+ RU0ctSQJSxfhvVi5uLCtkvNZIqbw0qM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-p1Pn5vLEPhWQZazjZpvf8w-1; Wed, 15 Sep 2021 00:28:34 -0400
+X-MC-Unique: p1Pn5vLEPhWQZazjZpvf8w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB040802929;
+ Wed, 15 Sep 2021 04:28:33 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 678E15D6AD;
+ Wed, 15 Sep 2021 04:28:33 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id F1BE3113865F; Wed, 15 Sep 2021 06:28:31 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: ensuring a machine's buses have unique names
+References: <CAFEAcA8Q2XEANtKfk_Ak2GgeM8b_=kf_qduLztCuL=E_k36FWg@mail.gmail.com>
+ <87czq0l2mn.fsf@dusky.pond.sub.org>
+ <CAFEAcA-1cGjt54XDEmKiDctySW4zdQptoc2taGp0XxMOtKvGCw@mail.gmail.com>
+Date: Wed, 15 Sep 2021 06:28:31 +0200
+In-Reply-To: <CAFEAcA-1cGjt54XDEmKiDctySW4zdQptoc2taGp0XxMOtKvGCw@mail.gmail.com>
+ (Peter Maydell's message of "Tue, 14 Sep 2021 16:25:49 +0100")
+Message-ID: <87mtoe4g40.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QPOJWgVO/1sLfA4+"
-Content-Disposition: inline
-In-Reply-To: <20210910112624.72748-1-luis.pires@eldorado.org.br>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,87 +81,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- groug@kaod.org
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Peter Maydell <peter.maydell@linaro.org> writes:
 
---QPOJWgVO/1sLfA4+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Thu, 26 Aug 2021 at 15:08, Markus Armbruster <armbru@redhat.com> wrote:
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>> > What's the right way to ensure that when a machine has multiple
+>> > buses of the same type (eg multiple i2c controllers, multiple
+>> > sd card controllers) they all get assigned unique names so that
+>> > the user can use '-device ...,bus=some-name' to put a device on a
+>> > specific bus?
+>
+>> Another one used to be isapc.  It's not anymore.  I believe it's due to
+>>
+>> commit 61de36761b565a4138d8ad7ec75489ab28fe84b6
+>> Author: Alexander Graf <agraf@csgraf.de>
+>> Date:   Thu Feb 6 16:08:15 2014 +0100
+>>
+>>     qdev: Keep global allocation counter per bus
+>
+>> Note that the automatic bus numbers depend on the order in which board
+>> code creates devices.  Too implicit and fragile for my taste.  But it's
+>> been working well enough.
+>
+> I had a bit of a look into this. I think the problem here is that
+> we created a family of easy-to-misuse APIs and then misused them...
 
-On Fri, Sep 10, 2021 at 08:26:02AM -0300, Luis Pires wrote:
-> This series moves all existing DFP instructions to decodetree and
-> implements the 2 new instructions (dcffixqq and dctfixqq) from
-> Power ISA 3.1.
->=20
-> In order to implement dcffixqq, divu128/divs128 were modified to
-> support 128-bit quotients (previously, they were limited to 64-bit
-> quotients), along with adjustments being made to their existing callers.
-> libdecnumber was also expanded to allow creating decimal numbers from
-> 128-bit integers.
->=20
-> Similarly, for dctfixqq, mulu128 (host-utils) and decNumberIntegralToInt1=
-28
-> (libdecnumber) were introduced to support 128-bit integers.
->=20
-> The remaining patches of this series move all of the already existing
-> DFP instructions to decodetree, and end up removing dfp-ops.c.inc, which
-> is no longer needed.
->=20
-> NOTE 1: The previous, non-decodetree code, was updating ctx->nip for all =
-the
-> DFP instructions. I've removed that, but it would be great if someone cou=
-ld
-> confirm that updating nip really wasn't necessary.
->=20
-> NOTE 2: Some arithmetic function support for 128-bit integers was added,
-> for now, still using 64-bit pairs. In the near future, I think we should
-> modify all of them to use Int128 (and introduce UInt128). But I'll send
-> out an RFC to discuss how to do that in another patch series.
->=20
-> NOTE 3: The helper names are in uppercase, to match the instruction
-> names and to simplify the macros that define trans* functions.
-> Previously, this wasn't the case, as we were using lowercase instruction
-> names in the pre-decodetree code. Another standalone patch will be sent
-> later on, changing to uppercase the other new (decodetree) helpers whose
-> names are directly related to instruction names, eventually making PPC
-> helper names consistent.
->=20
-> Based-on: 20210823150235.35759-1-luis.pires@eldorado.org.br
-> (target/ppc: fix setting of CR flags in bcdcfsq)
-> This series assumes bcdcfsq's fix is already in.
+Well, "mission accomplished!"
 
-I've applied 1..4 to ppc-for-6.2, since those have acks.  Waiting on
-reviews (probably from Richard) before applying the rest.
+> The qbus_create() and qbus_create_inplace() functions both take
+> a 'const char *name' argument. If they're passed in NULL then
+> they create an automatically-uniquified name (as per the commit
+> above).
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Fine print: if the device providing the bus has an ID (the thing set
+with id=ID), then the name is ID.N, where N counts from 0 in this
+device, else it's TYPE.N, where N counts from 0 globally per bus type,
+and TYPE is the bus's type name converted to lower case.
 
---QPOJWgVO/1sLfA4+
-Content-Type: application/pgp-signature; name="signature.asc"
+Either scheme produces unique names, but together they need not: 
 
------BEGIN PGP SIGNATURE-----
+    $ qemu-system-x86_64 --nodefaults -S -display none -monitor stdio -device intel-hda -device intel-hda,id=hda
+    QEMU 6.1.50 monitor - type 'help' for more information
+    (qemu) info qtree
+    bus: main-system-bus
+      type System
+      [...]
+      dev: i440FX-pcihost, id ""
+        [...]
+        bus: pci.0
+          type PCI
+          dev: intel-hda, id "hda"
+            [...]
+            bus: hda.0
+              type HDA
+          dev: intel-hda, id ""
+            [...]
+            bus: hda.0
+              type HDA
+      [...]
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFBZT8ACgkQbDjKyiDZ
-s5Kbpw/+N5RC2W1MJ6t6iZgMfXoabCe1zXY/RWZHl9SCEU4cmvZHoD0bx3MNn6/J
-jq0NaF5R1GqKU/EHxNCZ4V8qJvNNAP4N0cGbORB5xL3nGd/PzJ9Q0g/o+IweOyaA
-37lqwy4gehDm9I0O2o1PI35ole/X7By5ierast5ZzTZzt5sMXDs4CMlNLkAeSnn2
-m+7uK8IFcEVe3mKWtRj7AAfcJRbhg9LWXZfe4Jt1XHSovnSsWd7QcsqKQm1AMYU5
-rggvW8I0SNzRL/by/PEBE/GohsljyIsH6bUTJBsLTxKA2UiOXomq+6lfMGUrwb9w
-YPfosJOM1pMkrR1pCcxyM2jFNqZtSGFeo7sl8Wo0rB40ZtnRrLgDWaUghKzuUI4N
-1OAvIk9nt3NiK/TF3GB/W4fISCE5QONZkEInjrcQV00mYm819/xnslbDiIg7keoX
-laqZ41GSO9HajkYCuCwsleSgFx8s4kkOMTPiHdv0enVbajiIn80rchQh8DmQlhPb
-8TvMgv00ZYcT8YlBonIOrSmZItc0kinjJGHoJZB2yvuHAUbB1mqKGTDa2/1wpLm7
-tpwPFyuAHLRB1SvznP2j70Bo7eFOv/WDg00UmGkHZoxcOIYYuxtG3li/vvZZBsOM
-rWWoD2oDzedrzWXDD27RFYx7OCJIpOHpdjCnKkIVH0h0kvuMV2U=
-=gjba
------END PGP SIGNATURE-----
+Both buses are named "hda.0".
 
---QPOJWgVO/1sLfA4+--
+Awesome: we made avoiding device IDs that produce bus ID clashes the
+user's job.  To know what to avoid, you need to know your machine type,
+and the buses provided by the devices you add without ID (which you
+shouldn't).  "Fun" when your machine type evolves.
+
+Poorly designed from the start, and then commit 61de36761b5 blew its
+chance to fix it.
+
+>         If they're passed in a non-NULL string then they use
+> it as-is, whether it's unique in the system or not. We then
+> typically wrap qbus_create() in a bus-specific creation function
+> (examples are scsi_bus_new(), ide_bus_new(), i2c_init_bus()).
+> Mostly those creation functions also take a 'name' argument and
+> pass it through. ide_bus_new() is an interesting exception which
+> does not take a name argument.
+>
+> The easy-to-misuse part is that now we have a set of functions
+> that look like you should pass them in a name (and where there's
+> plenty of code in the codebase that passes in a name) but where
+> that's the wrong thing unless you're a board model and are
+> picking a guaranteed unique name, or you're an odd special case
+> like virtio-scsi. (virtio-scsi is the one caller of scsi_bus_new()
+> that passes in something other than NULL.) In particular for
+> code which is implementing a device that is a whatever-controller,
+> creating a whatever-bus and specifying a name is almost always
+> going to be wrong, because as soon as some machine creates two
+> of these whatever-controllers it has non-unique bus names.
+
+Yes.
+
+> It looks like IDE buses are OK because ide_bus_new() takes no
+> name argument, and SCSI buses are OK because the callers
+> correctly pass in NULL, but almost all the "minor" buses
+> (SD, I2C, ipack, aux...) have a lot of incorrect naming of
+> buses in controller models.
+>
+> I'm not sure how best to sort this tangle out. We could:
+>  * make controller devices pass in NULL as bus name; this
+>    means that some bus names will change, which is an annoying
+>    breakage but for these minor bus types we can probably
+>    get away with it. This brings these buses into line with
+>    how we've been handling uniqueness for ide and scsi.
+
+To gauge the breakage, we need a list of the affected bus names.
+
+>  * drop the 'name' argument for buses like ide that don't
+>    actually have any callsites that need to pass a name
+>  * split into foo_bus_new() and foo_bus_new_named() so that
+>    the "easy default" doesn't pass a name, and there's at least
+>    a place to put a doc comment explaining that the name passed
+>    into the _named() version should be unique ??
+
+Yes, please.
+
+A bus name setter would be even more discouraging, but is no good,
+because it can't undo the side effect on the bus type's counter.
+
+Omitting foo_bus_new_named() when there is no user feels okay to me.
+
+>  * something else ?
+>
+> thanks
+> -- PMM
+
 
