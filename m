@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3865040CB3B
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 18:51:12 +0200 (CEST)
-Received: from localhost ([::1]:54250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94FD440CADF
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 18:42:50 +0200 (CEST)
+Received: from localhost ([::1]:35264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQY7p-0003p4-UJ
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 12:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60084)
+	id 1mQXzl-0007o8-Mj
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 12:42:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXpE-0005Ot-Fb
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:31:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34116)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXpK-0005WX-Hy
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:32:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXpC-0005Vm-Su
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:31:56 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQXpF-0005YO-5l
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 12:32:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631723513;
+ s=mimecast20190719; t=1631723516;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DL752ew1IXWaGANWQM0QidU51y0morGIvNAk6vcMxms=;
- b=is18MITfOcFRMUOGt7oqtEP/A/zqj5yQ6znD9lqIJ0t/TX3ZP4vtom463YX/xOkdpv6y8x
- S/mBueyzR9Zk3ht1t0/vP31waYFl/zzZokyu55tUdsx4vIyLLfuXOw1dEnpY5Dja1T0rwq
- QsZlBd8GV9y8bLZoHCVSCJ0p08HfEmo=
+ bh=kQKFe1TBi2xJLQ2rhsWupZ++mkrbEtyBWa24fd1BFbc=;
+ b=jNgKbc4T1tGygpZOpAxWp3UQ/hYhBeLi18GnOOFiquvpq7b16NbvNTvLavW1IX6ns7bncP
+ vPaPWFEHIAiY5OM9WvtJ/h2k1DoVBGFK3ab+32qTNRKS1veRZJgRgwpDqlUPH5YlIKT98j
+ 3Yu2oWGTWwuqjhER9+PfL++0nTVq1sY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-c1PlM1-gMKaxL4sid6JqNA-1; Wed, 15 Sep 2021 12:31:52 -0400
-X-MC-Unique: c1PlM1-gMKaxL4sid6JqNA-1
+ us-mta-520-qC4HEk9dPPehfPGD5NkTNg-1; Wed, 15 Sep 2021 12:31:53 -0400
+X-MC-Unique: qC4HEk9dPPehfPGD5NkTNg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 223D79F93A;
- Wed, 15 Sep 2021 16:31:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76261100CCC0;
+ Wed, 15 Sep 2021 16:31:52 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E100A7771A;
- Wed, 15 Sep 2021 16:31:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 51E077771A;
+ Wed, 15 Sep 2021 16:31:51 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 23/27] python/aqmp: add scary message
-Date: Wed, 15 Sep 2021 12:29:51 -0400
-Message-Id: <20210915162955.333025-24-jsnow@redhat.com>
+Subject: [PATCH v4 24/27] python: bump avocado to v90.0
+Date: Wed, 15 Sep 2021 12:29:52 -0400
+Message-Id: <20210915162955.333025-25-jsnow@redhat.com>
 In-Reply-To: <20210915162955.333025-1-jsnow@redhat.com>
 References: <20210915162955.333025-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,46 +85,58 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a warning whenever AQMP is used to steer people gently away from
-using it for the time-being.
+Avocado v90 includes improved support for running async unit tests. The
+workaround that existed prior to v90 causes the unit tests to fail
+afterwards, however, so upgrade our minimum version pin to the very
+latest and greatest.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/__init__.py | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ python/Pipfile.lock | 8 ++++----
+ python/setup.cfg    | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
-index 4b7df53e00..ab1782999c 100644
---- a/python/qemu/aqmp/__init__.py
-+++ b/python/qemu/aqmp/__init__.py
-@@ -21,6 +21,8 @@
- # This work is licensed under the terms of the GNU GPL, version 2.  See
- # the COPYING file in the top-level directory.
- 
-+import warnings
-+
- from .error import AQMPError
- from .events import EventListener
- from .message import Message
-@@ -28,6 +30,18 @@
- from .qmp_client import ExecInterruptedError, ExecuteError, QMPClient
- 
- 
-+_WMSG = """
-+
-+The Asynchronous QMP library is currently in development and its API
-+should be considered highly fluid and subject to change. It should
-+not be used by any other scripts checked into the QEMU tree.
-+
-+Proceed with caution!
-+"""
-+
-+warnings.warn(_WMSG, FutureWarning)
-+
-+
- # The order of these fields impact the Sphinx documentation order.
- __all__ = (
-     # Classes, most to least important
+diff --git a/python/Pipfile.lock b/python/Pipfile.lock
+index 8ab41a3f60..457f5c3fe8 100644
+--- a/python/Pipfile.lock
++++ b/python/Pipfile.lock
+@@ -1,7 +1,7 @@
+ {
+     "_meta": {
+         "hash": {
+-            "sha256": "eff562a688ebc6f3ffe67494dbb804b883e2159ad81c4d55d96da9f7aec13e91"
++            "sha256": "784b327272db32403d5a488507853b5afba850ba26a5948e5b6a90c1baef2d9c"
+         },
+         "pipfile-spec": 6,
+         "requires": {
+@@ -39,11 +39,11 @@
+         },
+         "avocado-framework": {
+             "hashes": [
+-                "sha256:3fca7226d7d164f124af8a741e7fa658ff4345a0738ddc32907631fd688b38ed",
+-                "sha256:48ac254c0ae2ef0c0ceeb38e3d3df0388718eda8f48b3ab55b30b252839f42b1"
++                "sha256:244cb569f8eb4e50a22ac82e1a2b2bba2458999f4281efbe2651bd415d59c65b",
++                "sha256:6f15998b67ecd0e7dde790c4de4dd249d6df52dfe6d5cc4e2dd6596df51c3583"
+             ],
+             "index": "pypi",
+-            "version": "==87.0"
++            "version": "==90.0"
+         },
+         "distlib": {
+             "hashes": [
+diff --git a/python/setup.cfg b/python/setup.cfg
+index 9d35024e48..c22d9961df 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -37,7 +37,7 @@ packages =
+ # version, use e.g. "pipenv install --dev pylint==3.0.0".
+ # Subsequently, edit 'Pipfile' to remove e.g. 'pylint = "==3.0.0'.
+ devel =
+-    avocado-framework >= 87.0
++    avocado-framework >= 90.0
+     flake8 >= 3.6.0
+     fusepy >= 2.0.4
+     isort >= 5.1.2
 -- 
 2.31.1
 
