@@ -2,50 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C16B40BD65
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 03:51:49 +0200 (CEST)
-Received: from localhost ([::1]:59720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7386440BDDB
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 04:43:34 +0200 (CEST)
+Received: from localhost ([::1]:42446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQK5U-0004Rw-Hg
-	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 21:51:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40326)
+	id 1mQKtZ-0005qX-3w
+	for lists+qemu-devel@lfdr.de; Tue, 14 Sep 2021 22:43:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mQK1k-00022b-E0; Tue, 14 Sep 2021 21:47:56 -0400
-Received: from ozlabs.org ([203.11.71.1]:40587)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mQK1h-0000O2-4y; Tue, 14 Sep 2021 21:47:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1631670453;
- bh=NwndZtTLOjUYyi7djQs5a8xGpidoGLI0MTf/YJl8xX8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=m7qhXllqRNNhq4fLcTX7eS5ebYpfq4aZMQ7AVceLwEcCjESISKQ2yHBx40meq9rDK
- BuSE4PJJuRRNUbuavz2Uw/Ra199mIHehu84BSLY6CNJCYren38Z86jTHsP9Oa/3uPS
- GWQnbuX+0mBzYOZrnIkEny08+AgDi/3gc9RLoKN4=
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4H8NPx18JXz9sW4; Wed, 15 Sep 2021 11:47:33 +1000 (AEST)
-Date: Wed, 15 Sep 2021 11:41:28 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2 50/53] monitor: merge duplicate "info tlb" handlers
-Message-ID: <YUFPSJCIsUlp5L4Y@yekko>
-References: <20210914142042.1655100-1-berrange@redhat.com>
- <20210914142042.1655100-51-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mQKsD-00052V-Q9; Tue, 14 Sep 2021 22:42:09 -0400
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:40508)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mQKsB-0003tZ-AU; Tue, 14 Sep 2021 22:42:09 -0400
+Received: by mail-io1-xd34.google.com with SMTP id z1so1518338ioh.7;
+ Tue, 14 Sep 2021 19:42:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FRZCI1oTKwBOs9dXYI4/j+Pd9t8Gr1iIk+cbfeB+rnI=;
+ b=DgiZpVTOcDvo/xc/wlVJBO3g9ptKNjexNmCf5aYEi0YGpEW3FUXZOWZjg+zF79QAHz
+ ujxSFm16udCO93M9TqxRLBZaz4iMBy5avXYoqgkpJQE4YWwzeQJhFAG5dQBzt9wPVf33
+ CREqXXh4HhPJc9HnOrIX4fdejVgy9piSTEQGe7gML/clXahxjiZfo9I4N4j+/Fro5RhL
+ ZtodkqwPZJRQy4t55fUd2K6Zj1OfZl9rtoEcBUfSSMBiVsQwpzvyxxQwjkxa+b03+W+Y
+ AcbxiS6+eibM2jjjk8pd0nAnKiwScuQg10zDVPQcW3XIx7930F/QMIf6lliBd2JUsQ74
+ z49w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FRZCI1oTKwBOs9dXYI4/j+Pd9t8Gr1iIk+cbfeB+rnI=;
+ b=W0wSFJMkF/W1LcMNekJCiyCKKkY+nvKTlzjbme8CIUjYT2o9ih4l0+WEqNwMS1rWPu
+ ZSlWlQ67v4q1D5WZGFAu57mN8wb/HxzuyAU967Eq/7JnItT0TdB1rJD+9caWcaLrAfVD
+ tZWndt4EW7RXOg8ddk9JrhShrEN5lmH0PkYNGCceqaQn+Pj/J/mVSV04mCB1kTUd3JWw
+ deJaX/Qe3wwV5WnCnKWerHLVsojo95CT8ZrV3hKWKRTXVnmMEb1MsQ/VqORsTW8pIx17
+ yAlOJ3aVzngl4PKFSfFItjxzs32M8Kst84BB7Vej4+Kho+Yg/zkWxXPijR9CHn0VaW+y
+ Ds0A==
+X-Gm-Message-State: AOAM533UgfakR+PU9Znqfxid8abZwPcCgQRpbcROt4651lyrwPAgL/Eb
+ ci3+0B+GMCTk7ju50q3Iiw8EE5mw25Nw6QOVJPY=
+X-Google-Smtp-Source: ABdhPJyEnAskawQt5HZDNfFuub1wvXe1D0/SKk63HPLMNXSKmW6cEA3WTmg6PQPDQQ4Na+ypTsrUgIrsZ5spN2gKFRw=
+X-Received: by 2002:a02:6d17:: with SMTP id m23mr17152697jac.63.1631673725218; 
+ Tue, 14 Sep 2021 19:42:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="a/JNFcIeN8xVqrhe"
-Content-Disposition: inline
-In-Reply-To: <20210914142042.1655100-51-berrange@redhat.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210902112520.475901-1-anup.patel@wdc.com>
+ <20210902112520.475901-4-anup.patel@wdc.com>
+In-Reply-To: <20210902112520.475901-4-anup.patel@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 15 Sep 2021 12:41:38 +1000
+Message-ID: <CAKmqyKNFVhA+B6E3waPrXvU5A+OvMcpbTwFhd4eQZ6_8SvDFWg@mail.gmail.com>
+Subject: Re: [PATCH v2 03/22] target/riscv: Implement hgeie and hgeip CSRs
+To: Anup Patel <anup.patel@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,325 +76,374 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
- Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
- Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Peter Xu <peterx@redhat.com>, Stafford Horne <shorne@gmail.com>,
- qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-ppc@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Sep 2, 2021 at 9:47 PM Anup Patel <anup.patel@wdc.com> wrote:
+>
+> The hgeie and hgeip CSRs are required for emulating an external
+> interrupt controller capable of injecting virtual external
+> interrupt to Guest/VM running at VS-level.
+>
+> Signed-off-by: Anup Patel <anup.patel@wdc.com>
 
---a/JNFcIeN8xVqrhe
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-On Tue, Sep 14, 2021 at 03:20:39PM +0100, Daniel P. Berrang=E9 wrote:
-> Now that all target architectures are converted to use the "format_tlb"
-> callback, we can merge all the duplicate "info tlb" handlers into one
-> and remove the architecture condition on the command.
->=20
-> Signed-off-by: Daniel P. Berrang=E9 <berrange@redhat.com>
-
-ppc parts
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Alistair
 
 > ---
->  hmp-commands-info.hx         |  3 ---
->  include/monitor/hmp-target.h |  1 -
->  monitor/misc.c               | 15 +++++++++++++++
->  target/i386/monitor.c        | 15 ---------------
->  target/m68k/monitor.c        | 15 ---------------
->  target/nios2/monitor.c       | 15 ---------------
->  target/ppc/monitor.c         | 15 ---------------
->  target/sh4/monitor.c         | 15 ---------------
->  target/sparc/monitor.c       | 16 ----------------
->  target/xtensa/monitor.c      | 15 ---------------
->  10 files changed, 15 insertions(+), 110 deletions(-)
->=20
-> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-> index f8312342cd..7bd1e04d46 100644
-> --- a/hmp-commands-info.hx
-> +++ b/hmp-commands-info.hx
-> @@ -206,8 +206,6 @@ SRST
->      Show PCI information.
->  ERST
-> =20
-> -#if defined(TARGET_I386) || defined(TARGET_SH4) || defined(TARGET_SPARC)=
- || \
-> -    defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K)
->      {
->          .name       =3D "tlb",
->          .args_type  =3D "",
-> @@ -215,7 +213,6 @@ ERST
->          .help       =3D "show virtual to physical memory mappings",
->          .cmd        =3D hmp_info_tlb,
->      },
-> -#endif
-> =20
->  SRST
->    ``info tlb``
-> diff --git a/include/monitor/hmp-target.h b/include/monitor/hmp-target.h
-> index df79ad3355..04e02e8895 100644
-> --- a/include/monitor/hmp-target.h
-> +++ b/include/monitor/hmp-target.h
-> @@ -45,7 +45,6 @@ CPUArchState *mon_get_cpu_env(Monitor *mon);
->  CPUState *mon_get_cpu(Monitor *mon);
-> =20
->  void hmp_info_mem(Monitor *mon, const QDict *qdict);
-> -void hmp_info_tlb(Monitor *mon, const QDict *qdict);
->  void hmp_mce(Monitor *mon, const QDict *qdict);
->  void hmp_info_local_apic(Monitor *mon, const QDict *qdict);
-> =20
-> diff --git a/monitor/misc.c b/monitor/misc.c
-> index 6b07efdddd..c7d138914d 100644
-> --- a/monitor/misc.c
-> +++ b/monitor/misc.c
-> @@ -936,6 +936,21 @@ static void hmp_info_mtree(Monitor *mon, const QDict=
- *qdict)
->      mtree_info(flatview, dispatch_tree, owner, disabled);
->  }
-> =20
-> +static void hmp_info_tlb(Monitor *mon, const QDict *qdict)
-> +{
-> +    g_autoptr(GString) buf =3D g_string_new("");
-> +    CPUState *cpu =3D mon_get_cpu(mon);
+>  target/riscv/cpu.c        | 61 ++++++++++++++++++++++++++++-----------
+>  target/riscv/cpu.h        |  5 ++++
+>  target/riscv/cpu_bits.h   |  1 +
+>  target/riscv/cpu_helper.c | 36 +++++++++++++++++++++--
+>  target/riscv/csr.c        | 43 ++++++++++++++++++---------
+>  target/riscv/machine.c    |  6 ++--
+>  6 files changed, 117 insertions(+), 35 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 9d97fbe3d9..0ade6ad144 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -572,23 +572,49 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>  static void riscv_cpu_set_irq(void *opaque, int irq, int level)
+>  {
+>      RISCVCPU *cpu = RISCV_CPU(opaque);
+> +    CPURISCVState *env = &cpu->env;
+>
+> -    switch (irq) {
+> -    case IRQ_U_SOFT:
+> -    case IRQ_S_SOFT:
+> -    case IRQ_VS_SOFT:
+> -    case IRQ_M_SOFT:
+> -    case IRQ_U_TIMER:
+> -    case IRQ_S_TIMER:
+> -    case IRQ_VS_TIMER:
+> -    case IRQ_M_TIMER:
+> -    case IRQ_U_EXT:
+> -    case IRQ_S_EXT:
+> -    case IRQ_VS_EXT:
+> -    case IRQ_M_EXT:
+> -        riscv_cpu_update_mip(cpu, 1 << irq, BOOL_TO_MASK(level));
+> -        break;
+> -    default:
+> +    if (irq < IRQ_LOCAL_MAX) {
+> +        switch (irq) {
+> +        case IRQ_U_SOFT:
+> +        case IRQ_S_SOFT:
+> +        case IRQ_VS_SOFT:
+> +        case IRQ_M_SOFT:
+> +        case IRQ_U_TIMER:
+> +        case IRQ_S_TIMER:
+> +        case IRQ_VS_TIMER:
+> +        case IRQ_M_TIMER:
+> +        case IRQ_U_EXT:
+> +        case IRQ_S_EXT:
+> +        case IRQ_VS_EXT:
+> +        case IRQ_M_EXT:
+> +            riscv_cpu_update_mip(cpu, 1 << irq, BOOL_TO_MASK(level));
+> +            break;
+> +        default:
+> +            g_assert_not_reached();
+> +        }
+> +    } else if (irq < (IRQ_LOCAL_MAX + IRQ_LOCAL_GUEST_MAX)) {
+> +        /* Require H-extension for handling guest local interrupts */
+> +        if (!riscv_has_ext(env, RVH)) {
+> +            g_assert_not_reached();
+> +        }
 > +
-> +    if (!cpu) {
-> +        monitor_printf(mon, "No CPU available\n");
+> +        /* Compute bit position in HGEIP CSR */
+> +        irq = irq - IRQ_LOCAL_MAX + 1;
+> +        if (env->geilen < irq) {
+> +            g_assert_not_reached();
+> +        }
+> +
+> +        /* Update HGEIP CSR */
+> +        env->hgeip &= ~((target_ulong)1 << irq);
+> +        if (level) {
+> +            env->hgeip |= (target_ulong)1 << irq;
+> +        }
+> +
+> +        /* Update mip.SGEIP bit */
+> +        riscv_cpu_update_mip(cpu, MIP_SGEIP,
+> +                             BOOL_TO_MASK(!!(env->hgeie & env->hgeip)));
+> +    } else {
+>          g_assert_not_reached();
+>      }
+>  }
+> @@ -601,7 +627,8 @@ static void riscv_cpu_init(Object *obj)
+>      cpu_set_cpustate_pointers(cpu);
+>
+>  #ifndef CONFIG_USER_ONLY
+> -    qdev_init_gpio_in(DEVICE(cpu), riscv_cpu_set_irq, IRQ_LOCAL_MAX);
+> +    qdev_init_gpio_in(DEVICE(cpu), riscv_cpu_set_irq,
+> +                      IRQ_LOCAL_MAX + IRQ_LOCAL_GUEST_MAX);
+>  #endif /* CONFIG_USER_ONLY */
+>  }
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index bf1c899c00..59b36f758f 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -148,6 +148,7 @@ struct CPURISCVState {
+>      target_ulong priv;
+>      /* This contains QEMU specific information about the virt state. */
+>      target_ulong virt;
+> +    target_ulong geilen;
+>      target_ulong resetvec;
+>
+>      target_ulong mhartid;
+> @@ -185,6 +186,8 @@ struct CPURISCVState {
+>      target_ulong htval;
+>      target_ulong htinst;
+>      target_ulong hgatp;
+> +    target_ulong hgeie;
+> +    target_ulong hgeip;
+>      uint64_t htimedelta;
+>
+>      /* Virtual CSRs */
+> @@ -336,6 +339,8 @@ int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+>  int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+>  bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
+>  bool riscv_cpu_fp_enabled(CPURISCVState *env);
+> +target_ulong riscv_cpu_get_geilen(CPURISCVState *env);
+> +void riscv_cpu_set_geilen(CPURISCVState *env, target_ulong geilen);
+>  bool riscv_cpu_virt_enabled(CPURISCVState *env);
+>  void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
+>  bool riscv_cpu_force_hs_excep_enabled(CPURISCVState *env);
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 17ede1d4a9..a1958dbd6a 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -506,6 +506,7 @@ typedef enum RISCVException {
+>  #define IRQ_M_EXT                          11
+>  #define IRQ_S_GEXT                         12
+>  #define IRQ_LOCAL_MAX                      13
+> +#define IRQ_LOCAL_GUEST_MAX                (TARGET_LONG_BITS - 1)
+>
+>  /* mip masks */
+>  #define MIP_USIP                           (1 << IRQ_U_SOFT)
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 968cb8046f..ee316db594 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -46,7 +46,10 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+>
+>      target_ulong pending = env->mip & env->mie &
+>                                 ~(MIP_VSSIP | MIP_VSTIP | MIP_VSEIP);
+> -    target_ulong vspending = (env->mip & env->mie &
+> +    target_ulong vsgemask =
+> +                (target_ulong)1 << get_field(env->hstatus, HSTATUS_VGEIN);
+> +    target_ulong vsgein = (env->hgeip & vsgemask) ? MIP_VSEIP : 0;
+> +    target_ulong vspending = ((env->mip | vsgein) & env->mie &
+>                                (MIP_VSSIP | MIP_VSTIP | MIP_VSEIP));
+>
+>      target_ulong mie    = env->priv < PRV_M ||
+> @@ -167,6 +170,28 @@ void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env)
+>      }
+>  }
+>
+> +target_ulong riscv_cpu_get_geilen(CPURISCVState *env)
+> +{
+> +    if (!riscv_has_ext(env, RVH)) {
+> +        return 0;
+> +    }
+> +
+> +    return env->geilen;
+> +}
+> +
+> +void riscv_cpu_set_geilen(CPURISCVState *env, target_ulong geilen)
+> +{
+> +    if (!riscv_has_ext(env, RVH)) {
 > +        return;
 > +    }
 > +
-> +    cpu_format_tlb(cpu, buf);
+> +    if (geilen > (TARGET_LONG_BITS - 1)) {
+> +        return;
+> +    }
 > +
-> +    monitor_printf(mon, "%s", buf->str);
+> +    env->geilen = geilen;
 > +}
 > +
->  static void hmp_info_profile(Monitor *mon, const QDict *qdict)
+>  bool riscv_cpu_virt_enabled(CPURISCVState *env)
 >  {
->      Error *err =3D NULL;
-> diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-> index 698fbbc80b..a7eb4205c7 100644
-> --- a/target/i386/monitor.c
-> +++ b/target/i386/monitor.c
-> @@ -248,21 +248,6 @@ void x86_cpu_format_tlb(CPUState *cpu, GString *buf)
+>      if (!riscv_has_ext(env, RVH)) {
+> @@ -228,9 +253,14 @@ uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value)
+>  {
+>      CPURISCVState *env = &cpu->env;
+>      CPUState *cs = CPU(cpu);
+> -    uint32_t old = env->mip;
+> +    uint32_t gein, vsgein = 0, old = env->mip;
+>      bool locked = false;
+>
+> +    if (riscv_cpu_virt_enabled(env)) {
+> +        gein = get_field(env->hstatus, HSTATUS_VGEIN);
+> +        vsgein = (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
+> +    }
+> +
+>      if (!qemu_mutex_iothread_locked()) {
+>          locked = true;
+>          qemu_mutex_lock_iothread();
+> @@ -238,7 +268,7 @@ uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value)
+>
+>      env->mip = (env->mip & ~mask) | (value & mask);
+>
+> -    if (env->mip) {
+> +    if (env->mip | vsgein) {
+>          cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+>      } else {
+>          cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index bc25c79e39..77fb5884bc 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -764,7 +764,7 @@ static RISCVException rmw_mip(CPURISCVState *env, int csrno,
+>      RISCVCPU *cpu = env_archcpu(env);
+>      /* Allow software control of delegable interrupts not claimed by hardware */
+>      target_ulong mask = write_mask & delegable_ints & ~env->miclaim;
+> -    uint32_t old_mip;
+> +    uint32_t gin, old_mip;
+>
+>      if (mask) {
+>          old_mip = riscv_cpu_update_mip(cpu, mask, (new_value & mask));
+> @@ -772,6 +772,11 @@ static RISCVException rmw_mip(CPURISCVState *env, int csrno,
+>          old_mip = env->mip;
 >      }
->  }
-> =20
-> -void hmp_info_tlb(Monitor *mon, const QDict *qdict)
-> -{
-> -    g_autoptr(GString) buf =3D g_string_new("");
-> -    CPUState *cpu =3D mon_get_cpu(mon);
-> -
-> -    if (!cpu) {
-> -        monitor_printf(mon, "No CPU available\n");
-> -        return;
-> -    }
-> -
-> -    cpu_format_tlb(cpu, buf);
-> -
-> -    monitor_printf(mon, "%s", buf->str);
-> -}
-> -
->  static void mem_print(Monitor *mon, CPUArchState *env,
->                        hwaddr *pstart, int *plast_prot,
->                        hwaddr end, int prot)
-> diff --git a/target/m68k/monitor.c b/target/m68k/monitor.c
-> index 003a665246..0dc729692b 100644
-> --- a/target/m68k/monitor.c
-> +++ b/target/m68k/monitor.c
-> @@ -12,21 +12,6 @@
->  #include "qapi/error.h"
->  #include "qapi/qapi-commands-machine-target.h"
-> =20
-> -void hmp_info_tlb(Monitor *mon, const QDict *qdict)
-> -{
-> -    g_autoptr(GString) buf =3D g_string_new("");
-> -    CPUState *cpu =3D mon_get_cpu(mon);
-> -
-> -    if (!cpu) {
-> -        monitor_printf(mon, "No CPU available\n");
-> -        return;
-> -    }
-> -
-> -    cpu_format_tlb(cpu, buf);
-> -
-> -    monitor_printf(mon, "%s", buf->str);
-> -}
-> -
->  static const MonitorDef monitor_defs[] =3D {
->      { "d0", offsetof(CPUM68KState, dregs[0]) },
->      { "d1", offsetof(CPUM68KState, dregs[1]) },
-> diff --git a/target/nios2/monitor.c b/target/nios2/monitor.c
-> index 99d35e8ef1..1180a32f80 100644
-> --- a/target/nios2/monitor.c
-> +++ b/target/nios2/monitor.c
-> @@ -26,18 +26,3 @@
->  #include "monitor/monitor.h"
->  #include "monitor/hmp-target.h"
->  #include "monitor/hmp.h"
-> -
-> -void hmp_info_tlb(Monitor *mon, const QDict *qdict)
-> -{
-> -    g_autoptr(GString) buf =3D g_string_new("");
-> -    CPUState *cpu =3D mon_get_cpu(mon);
-> -
-> -    if (!cpu) {
-> -        monitor_printf(mon, "No CPU available\n");
-> -        return;
-> -    }
-> -
-> -    cpu_format_tlb(cpu, buf);
-> -
-> -    monitor_printf(mon, "%s", buf->str);
-> -}
-> diff --git a/target/ppc/monitor.c b/target/ppc/monitor.c
-> index 401a36c2eb..3564fd5f45 100644
-> --- a/target/ppc/monitor.c
-> +++ b/target/ppc/monitor.c
-> @@ -65,21 +65,6 @@ static target_long monitor_get_tbl(Monitor *mon, const=
- struct MonitorDef *md,
->      return cpu_ppc_load_tbl(env);
->  }
-> =20
-> -void hmp_info_tlb(Monitor *mon, const QDict *qdict)
-> -{
-> -    g_autoptr(GString) buf =3D g_string_new("");
-> -    CPUState *cpu =3D mon_get_cpu(mon);
-> -
-> -    if (!cpu) {
-> -        monitor_printf(mon, "No CPU available\n");
-> -        return;
-> -    }
-> -
-> -    cpu_format_tlb(cpu, buf);
-> -
-> -    monitor_printf(mon, "%s", buf->str);
-> -}
-> -
->  const MonitorDef monitor_defs[] =3D {
->      { "fpscr", offsetof(CPUPPCState, fpscr) },
->      /* Next instruction pointer */
-> diff --git a/target/sh4/monitor.c b/target/sh4/monitor.c
-> index 5ccb95af93..d641d95316 100644
-> --- a/target/sh4/monitor.c
-> +++ b/target/sh4/monitor.c
-> @@ -53,18 +53,3 @@ void superh_cpu_format_tlb(CPUState *cpu, GString *buf)
->          print_tlb(buf, i, &env->utlb[i]);
+>
+> +    if (csrno != CSR_HVIP) {
+> +        gin = get_field(env->hstatus, HSTATUS_VGEIN);
+> +        old_mip |= (env->hgeip & ((target_ulong)1 << gin)) ? MIP_VSEIP : 0;
+> +    }
+> +
+>      if (ret_value) {
+>          *ret_value = old_mip;
 >      }
+> @@ -939,7 +944,7 @@ static RISCVException rmw_vsip(CPURISCVState *env, int csrno,
+>                                 target_ulong new_value, target_ulong write_mask)
+>  {
+>      /* Shift the S bits to their VS bit location in mip */
+> -    int ret = rmw_mip(env, 0, ret_value, new_value << 1,
+> +    int ret = rmw_mip(env, csrno, ret_value, new_value << 1,
+>                        (write_mask << 1) & vsip_writable_mask & env->hideleg);
+>
+>      if (ret_value) {
+> @@ -959,7 +964,7 @@ static RISCVException rmw_sip(CPURISCVState *env, int csrno,
+>      if (riscv_cpu_virt_enabled(env)) {
+>          ret = rmw_vsip(env, CSR_VSIP, ret_value, new_value, write_mask);
+>      } else {
+> -        ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
+> +        ret = rmw_mip(env, csrno, ret_value, new_value,
+>                        write_mask & env->mideleg & sip_writable_mask);
+>      }
+>
+> @@ -1078,7 +1083,7 @@ static RISCVException rmw_hvip(CPURISCVState *env, int csrno,
+>                                 target_ulong *ret_value,
+>                                 target_ulong new_value, target_ulong write_mask)
+>  {
+> -    int ret = rmw_mip(env, 0, ret_value, new_value,
+> +    int ret = rmw_mip(env, csrno, ret_value, new_value,
+>                        write_mask & hvip_writable_mask);
+>
+>      if (ret_value) {
+> @@ -1091,7 +1096,7 @@ static RISCVException rmw_hip(CPURISCVState *env, int csrno,
+>                                target_ulong *ret_value,
+>                                target_ulong new_value, target_ulong write_mask)
+>  {
+> -    int ret = rmw_mip(env, 0, ret_value, new_value,
+> +    int ret = rmw_mip(env, csrno, ret_value, new_value,
+>                        write_mask & hip_writable_mask);
+>
+>      if (ret_value) {
+> @@ -1128,15 +1133,27 @@ static RISCVException write_hcounteren(CPURISCVState *env, int csrno,
+>      return RISCV_EXCP_NONE;
 >  }
-> -
-> -void hmp_info_tlb(Monitor *mon, const QDict *qdict)
-> -{
-> -    g_autoptr(GString) buf =3D g_string_new("");
-> -    CPUState *cpu =3D mon_get_cpu(mon);
-> -
-> -    if (!cpu) {
-> -        monitor_printf(mon, "No CPU available\n");
-> -        return;
-> -    }
-> -
-> -    cpu_format_tlb(cpu, buf);
-> -
-> -    monitor_printf(mon, "%s", buf->str);
-> -}
-> diff --git a/target/sparc/monitor.c b/target/sparc/monitor.c
-> index cc7fe74e3e..0c51669c08 100644
-> --- a/target/sparc/monitor.c
-> +++ b/target/sparc/monitor.c
-> @@ -27,22 +27,6 @@
->  #include "monitor/hmp-target.h"
->  #include "monitor/hmp.h"
-> =20
-> -
-> -void hmp_info_tlb(Monitor *mon, const QDict *qdict)
-> -{
-> -    g_autoptr(GString) buf =3D g_string_new("");
-> -    CPUState *cpu =3D mon_get_cpu(mon);
-> -
-> -    if (!cpu) {
-> -        monitor_printf(mon, "No CPU available\n");
-> -        return;
-> -    }
-> -
-> -    cpu_format_tlb(cpu, buf);
-> -
-> -    monitor_printf(mon, "%s", buf->str);
-> -}
-> -
->  #ifndef TARGET_SPARC64
->  static target_long monitor_get_psr(Monitor *mon, const struct MonitorDef=
- *md,
->                                     int val)
-> diff --git a/target/xtensa/monitor.c b/target/xtensa/monitor.c
-> index 99d35e8ef1..1180a32f80 100644
-> --- a/target/xtensa/monitor.c
-> +++ b/target/xtensa/monitor.c
-> @@ -26,18 +26,3 @@
->  #include "monitor/monitor.h"
->  #include "monitor/hmp-target.h"
->  #include "monitor/hmp.h"
-> -
-> -void hmp_info_tlb(Monitor *mon, const QDict *qdict)
-> -{
-> -    g_autoptr(GString) buf =3D g_string_new("");
-> -    CPUState *cpu =3D mon_get_cpu(mon);
-> -
-> -    if (!cpu) {
-> -        monitor_printf(mon, "No CPU available\n");
-> -        return;
-> -    }
-> -
-> -    cpu_format_tlb(cpu, buf);
-> -
-> -    monitor_printf(mon, "%s", buf->str);
-> -}
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---a/JNFcIeN8xVqrhe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFBT0gACgkQbDjKyiDZ
-s5JCkQ//fbqmB3EVRceZI0ugxSzJRNRF+PHrSkMJO2IHOs8NRO2guAHi8Lp1Ish9
-FfwMbkYt5XMlVnmuq17jDc4HFQrISgAQCwkhS6J3P+CZtyLRf8sc8UMQ0VF/jAoS
-muTD/Gm94WAxsEL++e1SlIuZ8t1o9CwL/b8aOTMghTaij7ZB4JHtfo2d6zkVksoc
-RMzJNN5VXfnUqRKeeeMf9qbnydsazyRHWr/jsMktUc3G7HilLJhNT3vvPEfPlgK/
-ODqHO+8DyPrT5oCVUM1i5h0rk7VQCrSEDkNh0DKQePl8NYfW1P+fTgbhUY19fBAR
-+V6qZLQNoCOkBN2wN+1Hz3v0fhF605eYO1bPBplRcL5zYyEy41McWTOOJ4YKLIrM
-M0UPfkyljLiDkNn8IlfNUcVW+KfgT64OoUMc9u40LRbm20I4ub3FL5ubRQqMvMHD
-xPVAcMdY/N8P6uIXEXVqYEd5I37seFldw4bTqzfaeD65vXvnOv0CAOwVgOZrkRzQ
-dWnJVFrBEsQsaxlePt2NQY368SxREv9Yqkhw4hBK66eG471LkpEVqzIJvB76tQBn
-JDwr7F4yMFIFRV+uj0PcBjMeiJ8ua7t9xcSqNq6GtW9/DOZ/LufgrE36Od9rffN0
-zT1KKEgM/iedA20p20EdyWfKvaYCI5OaM7QtVb3JPgIr1plPoSs=
-=Ir56
------END PGP SIGNATURE-----
-
---a/JNFcIeN8xVqrhe--
+>
+> -static RISCVException write_hgeie(CPURISCVState *env, int csrno,
+> -                                  target_ulong val)
+> +static RISCVException read_hgeie(CPURISCVState *env, int csrno,
+> +                                 target_ulong *val)
+>  {
+>      if (val) {
+> -        qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
+> +        *val = env->hgeie;
+>      }
+>      return RISCV_EXCP_NONE;
+>  }
+>
+> +static RISCVException write_hgeie(CPURISCVState *env, int csrno,
+> +                                  target_ulong val)
+> +{
+> +    /* Only GEILEN:1 bits implemented and BIT0 is never implemented */
+> +    val &= ((((target_ulong)1) << env->geilen) - 1) << 1;
+> +    env->hgeie = val;
+> +    /* Update mip.SGEIP bit */
+> +    riscv_cpu_update_mip(env_archcpu(env), MIP_SGEIP,
+> +                         BOOL_TO_MASK(!!(env->hgeie & env->hgeip)));
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+>  static RISCVException read_htval(CPURISCVState *env, int csrno,
+>                                   target_ulong *val)
+>  {
+> @@ -1164,11 +1181,11 @@ static RISCVException write_htinst(CPURISCVState *env, int csrno,
+>      return RISCV_EXCP_NONE;
+>  }
+>
+> -static RISCVException write_hgeip(CPURISCVState *env, int csrno,
+> -                                  target_ulong val)
+> +static RISCVException read_hgeip(CPURISCVState *env, int csrno,
+> +                                 target_ulong *val)
+>  {
+>      if (val) {
+> -        qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
+> +        *val = env->hgeip;
+>      }
+>      return RISCV_EXCP_NONE;
+>  }
+> @@ -1595,10 +1612,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>      [CSR_HIP]         = { "hip",         hmode,   NULL,   NULL,     rmw_hip           },
+>      [CSR_HIE]         = { "hie",         hmode,   read_hie,         write_hie         },
+>      [CSR_HCOUNTEREN]  = { "hcounteren",  hmode,   read_hcounteren,  write_hcounteren  },
+> -    [CSR_HGEIE]       = { "hgeie",       hmode,   read_zero,        write_hgeie       },
+> +    [CSR_HGEIE]       = { "hgeie",       hmode,   read_hgeie,       write_hgeie       },
+>      [CSR_HTVAL]       = { "htval",       hmode,   read_htval,       write_htval       },
+>      [CSR_HTINST]      = { "htinst",      hmode,   read_htinst,      write_htinst      },
+> -    [CSR_HGEIP]       = { "hgeip",       hmode,   read_zero,        write_hgeip       },
+> +    [CSR_HGEIP]       = { "hgeip",       hmode,   read_hgeip,       NULL              },
+>      [CSR_HGATP]       = { "hgatp",       hmode,   read_hgatp,       write_hgatp       },
+>      [CSR_HTIMEDELTA]  = { "htimedelta",  hmode,   read_htimedelta,  write_htimedelta  },
+>      [CSR_HTIMEDELTAH] = { "htimedeltah", hmode32, read_htimedeltah, write_htimedeltah },
+> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> index 16a08302da..a669d63e0f 100644
+> --- a/target/riscv/machine.c
+> +++ b/target/riscv/machine.c
+> @@ -102,8 +102,8 @@ static const VMStateDescription vmstate_vector = {
+>
+>  static const VMStateDescription vmstate_hyper = {
+>      .name = "cpu/hyper",
+> -    .version_id = 1,
+> -    .minimum_version_id = 1,
+> +    .version_id = 2,
+> +    .minimum_version_id = 2,
+>      .needed = hyper_needed,
+>      .fields = (VMStateField[]) {
+>          VMSTATE_UINTTL(env.hstatus, RISCVCPU),
+> @@ -113,6 +113,8 @@ static const VMStateDescription vmstate_hyper = {
+>          VMSTATE_UINTTL(env.htval, RISCVCPU),
+>          VMSTATE_UINTTL(env.htinst, RISCVCPU),
+>          VMSTATE_UINTTL(env.hgatp, RISCVCPU),
+> +        VMSTATE_UINTTL(env.hgeie, RISCVCPU),
+> +        VMSTATE_UINTTL(env.hgeip, RISCVCPU),
+>          VMSTATE_UINT64(env.htimedelta, RISCVCPU),
+>
+>          VMSTATE_UINT64(env.vsstatus, RISCVCPU),
+> --
+> 2.25.1
+>
+>
 
