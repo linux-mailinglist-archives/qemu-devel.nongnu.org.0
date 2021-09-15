@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8087340CC70
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 20:16:30 +0200 (CEST)
-Received: from localhost ([::1]:44222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C78840CC5E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 20:11:40 +0200 (CEST)
+Received: from localhost ([::1]:36154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQZSP-0002od-JR
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 14:16:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52138)
+	id 1mQZNj-0005Vs-LC
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 14:11:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6r-000760-JM
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:54:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56950)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6q-00071L-C0
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:54:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6m-00070K-3S
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:54:13 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6n-00071E-LG
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:54:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631728447;
+ s=mimecast20190719; t=1631728448;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GKhGGeL/HQSlt9pmGXMeq7t9aX9YoIvPwLp/0+X6+2Q=;
- b=dnkkFxfVT4ZSs9YhvP/qu54tL1NmwSSXWu1a7COqFKDlvF1qah+GCFbSYCscAeBvHWFkVF
- gGdVVLIz+xd37STNLprABr60W1NQxB5ofDlVTg2MuFS2k+GOZnewleQC+l/7Vg9DgK9L7L
- 0+s2OZkpZcXAD0hhz8GdR8cGNgGCUiY=
+ bh=1ZNUvK+igyqmEZ+P+tnZfm/uqiSbIePHbkyWvCn0fFU=;
+ b=CBQOXs3pCtRGEhhbXkhRuVHdpwAvZg0DS8c15jhlY2zZPa+wfFvpXqGgdSTIUx9/QweIZq
+ ycBUP+7SGEFvkt93wC8FTCMmVcg/GL5SgpxecUkMzuYFDAlsz8GeKxwDgfO6Wi7sG3WA1D
+ wj6e7AcNU0l4Zm4EpVy3T1iun4HdObo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-tmNFrr1ZPnaOB8qgNT5mBg-1; Wed, 15 Sep 2021 13:54:04 -0400
-X-MC-Unique: tmNFrr1ZPnaOB8qgNT5mBg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-526-mHKnlEr8O2-rXWrY30nviA-1; Wed, 15 Sep 2021 13:54:06 -0400
+X-MC-Unique: mHKnlEr8O2-rXWrY30nviA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8697784A5EB;
- Wed, 15 Sep 2021 17:54:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C79B1084683;
+ Wed, 15 Sep 2021 17:54:05 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 028381972E;
- Wed, 15 Sep 2021 17:54:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FDC3604CC;
+ Wed, 15 Sep 2021 17:54:04 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 20/32] qcow2: handle_dependencies(): relax conflict detection
-Date: Wed, 15 Sep 2021 19:53:06 +0200
-Message-Id: <20210915175318.853225-21-hreitz@redhat.com>
+Subject: [PULL 21/32] qemu-img: Allow target be aligned to sector size
+Date: Wed, 15 Sep 2021 19:53:07 +0200
+Message-Id: <20210915175318.853225-22-hreitz@redhat.com>
 In-Reply-To: <20210915175318.853225-1-hreitz@redhat.com>
 References: <20210915175318.853225-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.39, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -81,113 +81,51 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+We cannot write to images opened with O_DIRECT unless we allow them to
+be resized so they are aligned to the sector size: Since 9c60a5d1978,
+bdrv_node_refresh_perm() ensures that for nodes whose length is not
+aligned to the request alignment and where someone has taken a WRITE
+permission, the RESIZE permission is taken, too).
 
-There is no conflict and no dependency if we have parallel writes to
-different subclusters of one cluster when the cluster itself is already
-allocated. So, relax extra dependency.
+Let qemu-img convert pass the BDRV_O_RESIZE flag (which causes
+blk_new_open() to take the RESIZE permission) when using cache=none for
+the target, so that when writing to it, it can be aligned to the target
+sector size.
 
-Measure performance:
-First, prepare build/qemu-img-old and build/qemu-img-new images.
+Without this patch, an error is returned:
 
-cd scripts/simplebench
-./img_bench_templater.py
+$ qemu-img convert -f raw -O raw -t none foo.img /mnt/tmp/foo.img
+qemu-img: Could not open '/mnt/tmp/foo.img': Cannot get 'write'
+permission without 'resize': Image size is not a multiple of request
+alignment
 
-Paste the following to stdin of running script:
-
-qemu_img=../../build/qemu-img-{old|new}
-$qemu_img create -f qcow2 -o extended_l2=on /ssd/x.qcow2 1G
-$qemu_img bench -c 100000 -d 8 [-s 2K|-s 2K -o 512|-s $((1024*2+512))] \
-        -w -t none -n /ssd/x.qcow2
-
-The result:
-
-All results are in seconds
-
-------------------  ---------  ---------
-                    old        new
--s 2K               6.7 ± 15%  6.2 ± 12%
-                                 -7%
--s 2K -o 512        13 ± 3%    11 ± 5%
-                                 -16%
--s $((1024*2+512))  9.5 ± 4%   8.4
-                                 -12%
-------------------  ---------  ---------
-
-So small writes are more independent now and that helps to keep deeper
-io queue which improves performance.
-
-271 iotest output becomes racy for three allocation in one cluster.
-Second and third writes may finish in different order. Second and
-third requests don't depend on each other any more. Still they both
-depend on first request anyway. Filter out second and third write
-offsets to cover both possible outputs.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20210824101517.59802-4-vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-[hreitz: s/ an / and /]
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1994266
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+Message-Id: <20210819101200.64235-1-hreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/qcow2-cluster.c      | 11 +++++++++++
- tests/qemu-iotests/271     |  5 ++++-
- tests/qemu-iotests/271.out |  4 ++--
- 3 files changed, 17 insertions(+), 3 deletions(-)
+ qemu-img.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 9917e5c28c..c1c43a891b 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -1403,6 +1403,17 @@ static int handle_dependencies(BlockDriverState *bs, uint64_t guest_offset,
-             continue;
-         }
+diff --git a/qemu-img.c b/qemu-img.c
+index d77f3e76a9..e43a71a794 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -2628,6 +2628,14 @@ static int img_convert(int argc, char **argv)
+         goto out;
+     }
  
-+        if (old_alloc->keep_old_clusters &&
-+            (end <= l2meta_cow_start(old_alloc) ||
-+             start >= l2meta_cow_end(old_alloc)))
-+        {
-+            /*
-+             * Clusters intersect but COW areas don't. And cluster itself is
-+             * already allocated. So, there is no actual conflict.
-+             */
-+            continue;
-+        }
++    if (flags & BDRV_O_NOCACHE) {
++        /*
++         * If we open the target with O_DIRECT, it may be necessary to
++         * extend its size to align to the physical sector size.
++         */
++        flags |= BDRV_O_RESIZE;
++    }
 +
-         /* Conflict */
- 
-         if (start < old_start) {
-diff --git a/tests/qemu-iotests/271 b/tests/qemu-iotests/271
-index 599b849cc6..2775b4d130 100755
---- a/tests/qemu-iotests/271
-+++ b/tests/qemu-iotests/271
-@@ -893,7 +893,10 @@ EOF
- }
- 
- _make_test_img -o extended_l2=on 1M
--_concurrent_io     | $QEMU_IO | _filter_qemu_io
-+# Second and third writes in _concurrent_io() are independent and may finish in
-+# different order. So, filter offset out to match both possible variants.
-+_concurrent_io     | $QEMU_IO | _filter_qemu_io | \
-+    $SED -e 's/\(20480\|40960\)/OFFSET/'
- _concurrent_verify | $QEMU_IO | _filter_qemu_io
- 
- # success, all done
-diff --git a/tests/qemu-iotests/271.out b/tests/qemu-iotests/271.out
-index 81043ba4d7..5be780de76 100644
---- a/tests/qemu-iotests/271.out
-+++ b/tests/qemu-iotests/271.out
-@@ -719,8 +719,8 @@ blkdebug: Suspended request 'A'
- blkdebug: Resuming request 'A'
- wrote 2048/2048 bytes at offset 30720
- 2 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--wrote 2048/2048 bytes at offset 20480
-+wrote 2048/2048 bytes at offset OFFSET
- 2 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--wrote 2048/2048 bytes at offset 40960
-+wrote 2048/2048 bytes at offset OFFSET
- 2 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- *** done
+     if (skip_create) {
+         s.target = img_open(tgt_image_opts, out_filename, out_fmt,
+                             flags, writethrough, s.quiet, false);
 -- 
 2.31.1
 
