@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0264940CC54
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 20:07:22 +0200 (CEST)
-Received: from localhost ([::1]:53482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A0D940CC4C
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 20:05:46 +0200 (CEST)
+Received: from localhost ([::1]:48606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQZJY-0006P3-2M
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 14:07:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51916)
+	id 1mQZHz-00035r-BB
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 14:05:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6c-0006RQ-UK
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6b-0006Qz-Pl
  for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:53:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42250)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6a-0006pO-TG
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:53:58 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6Z-0006p2-Ut
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:53:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1631728435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lkOkeoxp19pmD7HeGfldqA9NqC7NzqGhqxfyK41gAp4=;
- b=Vq0C2Og8CdotwZHDn2RkblZr2AO3KKymU8twGNVEIga1+9+iHSpmCX454mgHbNzMdcPsyQ
- I/MMt+SLUOuZ325RBepU+Yc2Q8ZI2oIiB1lZRadbm20X9ipojff+1tNRdTALAP4eSIWyH4
- w9i+LE5+UnjOaBm7Hrgdd3JJ1hkgA/w=
+ bh=FQTGBN/4iuV8wISjMgE98z+muO+KQ01nh5WbJ/PiZ54=;
+ b=HWdiJVTfj5NnpzBzzWwpqO6nulC07oF68o3F0ZXKoJ234LCvPrYCxExlhKmtsIOz4mc5mQ
+ StYEQrlPQEukvixTdsOt+N2uyNiAwJKH66lFcG+tMB3W7fPCALzayk3CyosDHjUiuB82vZ
+ Tdd3947VItqc7x5qRiInQcQNp/SiAxE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-6rzER8G8NXKF_OLsnfC95g-1; Wed, 15 Sep 2021 13:53:51 -0400
-X-MC-Unique: 6rzER8G8NXKF_OLsnfC95g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-406-_zMm7k7HPLWHxoTp8-r2hw-1; Wed, 15 Sep 2021 13:53:53 -0400
+X-MC-Unique: _zMm7k7HPLWHxoTp8-r2hw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF8911084684;
- Wed, 15 Sep 2021 17:53:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C205C5074C;
+ Wed, 15 Sep 2021 17:53:52 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 57BE25C1C5;
- Wed, 15 Sep 2021 17:53:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 690441B5B7;
+ Wed, 15 Sep 2021 17:53:52 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 14/32] iotests/297: Cover tests/
-Date: Wed, 15 Sep 2021 19:53:00 +0200
-Message-Id: <20210915175318.853225-15-hreitz@redhat.com>
+Subject: [PULL 15/32] block/mirror: fix NULL pointer dereference in
+ mirror_wait_on_conflicts()
+Date: Wed, 15 Sep 2021 19:53:01 +0200
+Message-Id: <20210915175318.853225-16-hreitz@redhat.com>
 In-Reply-To: <20210915175318.853225-1-hreitz@redhat.com>
 References: <20210915175318.853225-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,37 +82,79 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-297 so far does not check the named tests, which reside in the tests/
-directory (i.e. full path tests/qemu-iotests/tests).  Fix it.
+From: Stefano Garzarella <sgarzare@redhat.com>
 
-Thanks to the previous two commits, all named tests pass its scrutiny,
-so we do not have to add anything to SKIP_FILES.
+In mirror_iteration() we call mirror_wait_on_conflicts() with
+`self` parameter set to NULL.
 
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Starting from commit d44dae1a7c we dereference `self` pointer in
+mirror_wait_on_conflicts() without checks if it is not NULL.
+
+Backtrace:
+  Program terminated with signal SIGSEGV, Segmentation fault.
+  #0  mirror_wait_on_conflicts (self=0x0, s=<optimized out>, offset=<optimized out>, bytes=<optimized out>)
+      at ../block/mirror.c:172
+  172	                self->waiting_for_op = op;
+  [Current thread is 1 (Thread 0x7f0908931ec0 (LWP 380249))]
+  (gdb) bt
+  #0  mirror_wait_on_conflicts (self=0x0, s=<optimized out>, offset=<optimized out>, bytes=<optimized out>)
+      at ../block/mirror.c:172
+  #1  0x00005610c5d9d631 in mirror_run (job=0x5610c76a2c00, errp=<optimized out>) at ../block/mirror.c:491
+  #2  0x00005610c5d58726 in job_co_entry (opaque=0x5610c76a2c00) at ../job.c:917
+  #3  0x00005610c5f046c6 in coroutine_trampoline (i0=<optimized out>, i1=<optimized out>)
+      at ../util/coroutine-ucontext.c:173
+  #4  0x00007f0909975820 in ?? () at ../sysdeps/unix/sysv/linux/x86_64/__start_context.S:91
+      from /usr/lib64/libc.so.6
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2001404
+Fixes: d44dae1a7c ("block/mirror: fix active mirror dead-lock in mirror_wait_on_conflicts")
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-Id: <20210910124533.288318-1-sgarzare@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20210902094017.32902-6-hreitz@redhat.com>
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/297 | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ block/mirror.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
-diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index a0c0cf9e5d..b04cba5366 100755
---- a/tests/qemu-iotests/297
-+++ b/tests/qemu-iotests/297
-@@ -55,8 +55,9 @@ def is_python_file(filename):
+diff --git a/block/mirror.c b/block/mirror.c
+index 98fc66eabf..85b781bc21 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -160,18 +160,25 @@ static void coroutine_fn mirror_wait_on_conflicts(MirrorOp *self,
+             if (ranges_overlap(self_start_chunk, self_nb_chunks,
+                                op_start_chunk, op_nb_chunks))
+             {
+-                /*
+-                 * If the operation is already (indirectly) waiting for us, or
+-                 * will wait for us as soon as it wakes up, then just go on
+-                 * (instead of producing a deadlock in the former case).
+-                 */
+-                if (op->waiting_for_op) {
+-                    continue;
++                if (self) {
++                    /*
++                     * If the operation is already (indirectly) waiting for us,
++                     * or will wait for us as soon as it wakes up, then just go
++                     * on (instead of producing a deadlock in the former case).
++                     */
++                    if (op->waiting_for_op) {
++                        continue;
++                    }
++
++                    self->waiting_for_op = op;
+                 }
  
- 
- def run_linters():
--    files = [filename for filename in (set(os.listdir('.')) - set(SKIP_FILES))
--             if is_python_file(filename)]
-+    named_tests = [f'tests/{entry}' for entry in os.listdir('tests')]
-+    check_tests = set(os.listdir('.') + named_tests) - set(SKIP_FILES)
-+    files = [filename for filename in check_tests if is_python_file(filename)]
- 
-     iotests.logger.debug('Files to be checked:')
-     iotests.logger.debug(', '.join(sorted(files)))
+-                self->waiting_for_op = op;
+                 qemu_co_queue_wait(&op->waiting_requests, NULL);
+-                self->waiting_for_op = NULL;
++
++                if (self) {
++                    self->waiting_for_op = NULL;
++                }
++
+                 break;
+             }
+         }
 -- 
 2.31.1
 
