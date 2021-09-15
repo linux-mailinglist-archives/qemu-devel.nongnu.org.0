@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDFE440C296
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 11:14:10 +0200 (CEST)
-Received: from localhost ([::1]:53062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC78A40C2A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 11:17:30 +0200 (CEST)
+Received: from localhost ([::1]:57402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQQzZ-0001Pl-Ud
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 05:14:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50146)
+	id 1mQR2n-0004Su-Ub
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 05:17:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQQt1-0003If-Ag; Wed, 15 Sep 2021 05:07:23 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34677)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQQsz-0007c5-Dn; Wed, 15 Sep 2021 05:07:23 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id m9so2724125wrb.1;
- Wed, 15 Sep 2021 02:07:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=U7De9gyi9xPhvUagsve7h9eCcKKpY2sSmb3AGMuPBvE=;
- b=J2wZiF+VQFwUr0y2axBF0lHTHgx1865sfQCMDPXFjPZaiQvDTklK6fZL41bUOv2Q/W
- x1fb1AtZ06HxIMzlYmNuqQkAcVNpbVdTDFglb3lHCONszEgLlfZq7MB+MkMMfmaiQI8u
- IKwzcDcOns5lcyZnZ92AA5Et/MGJDEl0msMlZtsOQJCXNvccLE+9aymlus6lMsgzgwd5
- BsTNc0j0VxSz+T2t1DUUEr+04vwHYV9L3hGMt3mZtXsZbYiJGvUZNwQtELl84TzuFtdi
- 7hAibTbzA3/1sl58v2YdRQZ7Sp8oFNFsrZ7EeK4uD2TXDc0KcYp54UUTuolKeG34TU8O
- 8Vew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=U7De9gyi9xPhvUagsve7h9eCcKKpY2sSmb3AGMuPBvE=;
- b=PTuIjD8tEncdO6pmnB8PA1Gyl6hE5KA1ksunZn76OFtmIwreoa3TcKqkHYVlqwnshJ
- Kjd+Bt7veR/ov2GRa48Rte7Zlxp0Y+tpFIjBZQmDbnBYC5xxWKkEPqAIPLygFmf/6n4Q
- fuwBISD/wTJVJ+OF3rLR7JDJOqEDfAj8IFONTyFFb/ZwqXh+043BUZxmBoWJb1+DDdvc
- cvthrAU04ZAER4oWsLhbHVqqKhFrk6Lfh1pJMpykr8Hu7DUbC+dAPfamwdCTDw35JngI
- e2zuxJHzfph5zbkgUWwkMKpakPF41x2dWM7i9zrzcRttRyJGRoYRVNQcqSQdsmgSQO85
- /DXg==
-X-Gm-Message-State: AOAM530ZDTc7t9IJ9cdVIAq+deUGfdwoTvNXm4fVZX5wFQO5SUcJxyyS
- mhC3CK6UdGsKbNTjy4TdXHxQYmrRrx8=
-X-Google-Smtp-Source: ABdhPJxZDamEwlZVsMzyTQaeozwWTKc1I3crVPKoKoDCDDG+hs0K179xBrwqTBvhfVN0lIJYy7Smbw==
-X-Received: by 2002:adf:d084:: with SMTP id y4mr3687447wrh.249.1631696837915; 
- Wed, 15 Sep 2021 02:07:17 -0700 (PDT)
-Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
- [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id e3sm16391741wrv.18.2021.09.15.02.07.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Sep 2021 02:07:17 -0700 (PDT)
-Subject: Re: high cpu usage in idle state
-To: Ali Vatankhah <alivatankhah72@gmail.com>, qemu-discuss@nongnu.org,
- qemu-ppc <qemu-ppc@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
-References: <CABip9V9nwDNAEg-620hG2r5pyhw_rig+2nf9Ja3s=WA-wmH=jQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e53eecec-8897-767a-149f-51faffd76d67@amsat.org>
-Date: Wed, 15 Sep 2021 11:07:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQQwF-0006fz-SW
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 05:10:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27722)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQQwD-0001yK-DG
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 05:10:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631697040;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=SNL8vT3gmxSYSk5LDHcRfZFEnCsHh2J7DN6hG0hv0F8=;
+ b=WW1mjSyRWQ19LEdE8kQvOA6b3hRBp/sn1g2yU7KecrKLyJDYE/KvSci2E8yrQ8S67c1SMz
+ ZJ0F4Fn5Av/l8sXcqxaQbbMQGAwK1pX3hB8khyDTsuvNA0z7khWWU/cLl6vr+Ac8LQFooA
+ m7usQFE0F7djQ1NIgjL2Dd8R+dttMKI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-524-h-sYY_3mNduSIIPNAmKIbg-1; Wed, 15 Sep 2021 05:10:38 -0400
+X-MC-Unique: h-sYY_3mNduSIIPNAmKIbg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0446B10846A3;
+ Wed, 15 Sep 2021 09:10:38 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.233])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A0081981F;
+ Wed, 15 Sep 2021 09:10:36 +0000 (UTC)
+Date: Wed, 15 Sep 2021 10:10:34 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 0/1] Update check-python-tox test for pylint 2.10
+Message-ID: <YUG4iuTaFK0Krje6@redhat.com>
+References: <20210915053011.293335-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CABip9V9nwDNAEg-620hG2r5pyhw_rig+2nf9Ja3s=WA-wmH=jQ@mail.gmail.com>
+In-Reply-To: <20210915053011.293335-1-jsnow@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.969,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,26 +78,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: G S Niteesh Babu <niteesh.gs@gmail.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/15/21 9:46 AM, Ali Vatankhah wrote:
-> Dear qemu developers
-> I built an image for e5500 cpu with yocto and run with qemu ppce500 machine:
-> qemu-system-ppc64 -nographic -M ppce500 -cpu e5500 -kernel uImage
-> -initrd core-image-minimal.rootfs.ext2.gz -append 'root=/dev/ram rw' 
-> It works well, but as the emulated guest is in idle state, in the host
-> it consumes 100% cpu on one core. 
-> Is this cpu usage due to guest idle instruction emulated on the host? is
-> it possible to correct that?
+On Wed, Sep 15, 2021 at 01:30:10AM -0400, John Snow wrote:
+> V2: It's not safe to use sys.stderr.encoding to determine a "console
+> encoding", because that uses the "current" stderr and not a
+> hypothetically generic one -- and doing this causes the acceptance tests
+> to fail.
+> 
+> Use UTF-8 instead.
+> 
+> Question: What encoding do terminal programs use? Is there an inherent
+> encoding to fprintf et al, or does it just push whatever bytes you put
+> into it straight into the stdout/stderr pipe?
 
-It depends of:
+Programs are expected to output data in the encoding that is set in
+the various env variables LC_ALL/LC_CTYPE/LANG.
 
-- is your CPU able wait when there is no workload
-  (Old CPUs don't have this ability and just keep running
-   wasting cycles. Newer have instructions such "wait for
-   interrupt or something" or "idle")
+In traditional end user scenarios this almost always means UTF-8 charset.
 
-- is your guest using such instruction, or doing a while(true)
-  loop while idling?
+There's plenty of cases which end up with the C locale though, which
+would mean 7-bit ASCII on Linux, though apps are supposed to be 8-bit
+clean allow data with the high bit to pass through without interpretation.
+The latter is what python3 gets very wrong complaining if you output
+8-bit high data in C locale.
+
+There is increasing support for a C.UTF-8 locale to bring it closer to
+other locales which are all UTF-8.
+
+On macOS the C locale has been UTF-8 by default indefinitely.
+
+Windows is a whole other world of fun and IIRC isn't UTF-8 by default,
+but I don't recall details.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
