@@ -2,89 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E30740C454
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 13:21:39 +0200 (CEST)
-Received: from localhost ([::1]:49336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A4940C46A
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 13:35:18 +0200 (CEST)
+Received: from localhost ([::1]:53750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQSyv-0006P8-DP
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 07:21:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49398)
+	id 1mQTC8-0001eq-Rp
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 07:35:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQSwz-0004l5-Cu
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 07:19:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52170)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQSwV-0002r1-Rj
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 07:19:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631704745;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sKGtrpLJ2wfwNcCmbGtULxPlANU3kncZIOHFXXe0m8w=;
- b=Vp/j8uM9nwXhLk51pu8Fhm54tGlg06QuWYT6Yl8bvkGpIncJXww3X/10lMvTZwOFJ1Bq2D
- xsopVBqYXGi6A+fI3vu8jXJDGWNbRBj8QhKz/XUPMKKJMps7gBVMBVSOk15W5QUf/0cdF6
- mZmhBLIuacrgZ8cO91f9uyP1RXIRYQA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-571-ybI5ZqRTMWGIaxw0_Zg0mg-1; Wed, 15 Sep 2021 07:19:04 -0400
-X-MC-Unique: ybI5ZqRTMWGIaxw0_Zg0mg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- x2-20020a5d54c2000000b0015dfd2b4e34so895170wrv.6
- for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 04:19:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mQT9c-0000Vq-4d
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 07:32:40 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44823)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mQT9Z-0004gU-9Z
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 07:32:39 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id d6so3320439wrc.11
+ for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 04:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=i16Jx1dOKB2+JSWDesFzw4eGD9flhCGCi9tHiJR35Zg=;
+ b=BTcnC7XfWtC0BY0Po3F+ZwB4LgZQ/c+wn6aLhKpC3I4DstQxMehzNtx8ucJTWhqqm1
+ Z6XAgFfjcOsyW9RzDk3kG2T5DhX60svtmrHBUSW/w6+rTKO0CgLnchPk8tR8ePXCLApy
+ OgB1i+eDU0Ffo2pUTGov4XQrJPyVqVCT3GoKcfOt8s3ghB/eO7m3l5xDYHPa/c0w+dgI
+ X5HYQEuGKl3s9OlJ7uDDeVh0IAi/wu4mg0LyOY3yLnqB7jQgsd7Xel26i9RJqDYslc0b
+ TAQKZY+PaaSg1Aq9JuLUdfgvMeDPoJDfh5iwcI+6UrFAbLyGkzxTlsm87PCIaA8QL81y
+ b16g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=sKGtrpLJ2wfwNcCmbGtULxPlANU3kncZIOHFXXe0m8w=;
- b=rlorprqHkUgEkil3EwuxQwaFJ6yqDdv+x2CcaYfURgcvjid+F+5Q79hT5kMR3ImErw
- DiysJ05+q9IqFFrGkWTWuqGp7Rf6+Oomm5Eq8BAt1xePZJcxNFzUqAZHZgZK6VvwbK/E
- 3a2KG0rX/mNZV+UkSHlILQqfWdX9IBCEbUmtGYK/MoIIZr9ixmqNMZhQWzBIckosFAJC
- /lAnHWc+83txLpbgKuFcDFErX0SWjsTKWMos21uXFY2Ht9IgDQ/wWHslYXwUlqaeCvUO
- rlmlTEPcpbkD/2xM2WC0oxd3XTq+LCsuGI1IKTCwHU01C3VPZQSfis/xgyn/wwGcxt3a
- olaw==
-X-Gm-Message-State: AOAM531uCjpnvoZrMRbV/SFsPyK6uzA+WEvnUZJjXsp7HZn8ygObwTeK
- WvZD3GO57lmq1aZSNiTHuumWl8Knpy0fEbYQGUL8ZAWKtrjdMOQYFD68j5t3TPZ7jwTwb9wc/5N
- Zx9ll9vgSEF9W1Hc=
-X-Received: by 2002:a5d:61c1:: with SMTP id q1mr4378549wrv.154.1631704742890; 
- Wed, 15 Sep 2021 04:19:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxSGTHH8fH/8RVIq43rsLyM0t4XNg5vywAFjrYW1sJFiil/xIB13SrzSUEf0pbIpuwP7v2ZBw==
-X-Received: by 2002:a5d:61c1:: with SMTP id q1mr4378532wrv.154.1631704742721; 
- Wed, 15 Sep 2021 04:19:02 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
- by smtp.gmail.com with ESMTPSA id e8sm13559224wrj.48.2021.09.15.04.19.01
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=i16Jx1dOKB2+JSWDesFzw4eGD9flhCGCi9tHiJR35Zg=;
+ b=Iz4bVfi+WXZXhZSmJArKGpEeqEU8C3bm8CvwyqEmrY7eib3FnPV4GMpO+fzl53a03R
+ 58qx0cQBab02NhDCiQKbc7ExRuDguvi8/Tmwj/3ZR24URW9DCKA5UASi/kAkQQEVPKbx
+ FpmNWNrJGBrftfz05n3QA6107+yPnGiYnkKSIScnQRGaOF7ec67SsJBWXV4i5vZGhYRn
+ p3aCQh8sjDc6VQQ1kRxvPVMfn5kQzw94oS5Dkd4KAnWcXhKJgzZdbx2q0XV3k7BwzbT6
+ dMhSDAH5rS3xD3rejnW/xtOqFPBdOZFp4dRdOISmMq6xJCWTOUUcpF9mUldOsEQ1lXf3
+ 6PgQ==
+X-Gm-Message-State: AOAM533tmaB+sygTKASdeog+jEV/5zWcqBENupFzMHguZ2qzE9lRRGhZ
+ LPODzJDfhCyBRI5vZKYXDOQ=
+X-Google-Smtp-Source: ABdhPJyWAc8uG/ZQ1OFj8Fy9I6Geqd/e6JwmMQEeVCGW+bWU/CyE2vvocCMBgp+efPrnxaocOQeJgw==
+X-Received: by 2002:adf:b319:: with SMTP id j25mr4562941wrd.256.1631705555553; 
+ Wed, 15 Sep 2021 04:32:35 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
+ [83.35.25.14])
+ by smtp.gmail.com with ESMTPSA id l124sm3967436wml.8.2021.09.15.04.32.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Sep 2021 04:19:02 -0700 (PDT)
-Subject: Re: [PATCH] qemu-img: Add -F shorthand to convert
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20210913131735.1948339-1-eblake@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <d6cc5017-319c-5349-5bf1-677580d590f9@redhat.com>
-Date: Wed, 15 Sep 2021 13:19:01 +0200
+ Wed, 15 Sep 2021 04:32:35 -0700 (PDT)
+Subject: Re: [PATCH v2 20/20] q800: configure nubus available slots for Quadra
+ 800
+To: BALATON Zoltan <balaton@eik.bme.hu>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20210915101026.25174-1-mark.cave-ayland@ilande.co.uk>
+ <20210915101026.25174-21-mark.cave-ayland@ilande.co.uk>
+ <34dbcdd0-c328-b6e5-c6da-dcc22cdb58f0@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <89e3482f-1e74-5ee6-fa4c-8bd046af8f0d@amsat.org>
+Date: Wed, 15 Sep 2021 13:32:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210913131735.1948339-1-eblake@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <34dbcdd0-c328-b6e5-c6da-dcc22cdb58f0@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.698, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.698,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,33 +92,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13.09.21 15:17, Eric Blake wrote:
-> Although we have long supported 'qemu-img convert -o
-> backing_file=foo,backing_fmt=bar', the fact that we have a shortcut -B
-> for backing_file but none for backing_fmt has made it more likely that
-> users accidentally run into:
->
-> qemu-img: warning: Deprecated use of backing file without explicit backing format
->
-> when using -B instead of -o.  For similarity with other qemu-img
-> commands, such as create and compare, add '-F $fmt' as the shorthand
-> for '-o backing_fmt=$fmt'.  Update iotest 122 for coverage of both
-> spellings.
->
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->
-> This stemmed from an IRC conversation; I'd add a Reported-by: line if
-> I can figure out how to credit more than just the nick bparker_.
+On 9/15/21 12:50 PM, BALATON Zoltan wrote:
+> On Wed, 15 Sep 2021, Mark Cave-Ayland wrote:
+>> Slot 0x9 is reserved for use by the in-built framebuffer whilst only
+>> slots
+>> 0xc, 0xd and 0xe physically exist on the Quadra 800.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> ---
+>> hw/m68k/q800.c | 9 +++++++++
+>> 1 file changed, 9 insertions(+)
 
-Thanks, applied to my block branch:
+>> +/*
+>> + * Slot 0x9 is reserved for use by the in-built framebuffer whilst only
+>> + * slots 0xc, 0xd and 0xe physically exist on the Quadra 800
+>> + */
+>> +#define Q800_NUBUS_SLOTS_AVAILABLE    ((1UL << 0x9) | (1UL << 0xc) | \
+>> +                                       (1UL << 0xd) | (1UL << 0xe))
+> 
+> There is a BIT(x) macro for these kind of constants that I find more
+> readable as there would be less < signs and perenthesis but I don't
+> insist on using it just note for consideration in case you need another
+> respin for other reasons. (That macro could also be used to shorten the
+> ~(1UL << nr_bits)
+> values in other patches.)
 
-https://gitlab.com/hreitz/qemu/-/commits/block/
-
-Hanna
-
+Good idea.
 
