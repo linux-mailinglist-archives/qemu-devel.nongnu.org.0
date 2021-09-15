@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97AC40C2C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 11:28:29 +0200 (CEST)
-Received: from localhost ([::1]:35036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F06840C2EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 11:48:25 +0200 (CEST)
+Received: from localhost ([::1]:48766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQRDQ-0000XP-Il
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 05:28:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54286)
+	id 1mQRWh-0002Dq-D6
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 05:48:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mQR9r-0007yi-Uw
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 05:24:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31964)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1mQRUb-0001EO-Gj; Wed, 15 Sep 2021 05:46:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mQR9o-0005OE-St
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 05:24:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631697884;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5Btno7VFSbEKRCBYKMAzYV5lgees2sTR0A0YjNbj/EY=;
- b=Wk4p855aCz2M1jUw+s9dWru2PXA5S8YYiuDPdS8nhZQ5M7PsGlMKvq+IuRZ1o69zjLXkXf
- vSjDPPRuI1Z1d1Yp09IkBwA0gzxD+P5WCRzdqPPopTMWaYX4DLHxUrMeGkxUEAr86rEDre
- XDIcOo/2OMEZbhdtsXyHvWj1bg0YQdg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-446-GJA5jWD1PWCZqpFA5jym2w-1; Wed, 15 Sep 2021 05:24:41 -0400
-X-MC-Unique: GJA5jWD1PWCZqpFA5jym2w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>)
+ id 1mQRUZ-0006yv-4I; Wed, 15 Sep 2021 05:46:12 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5A6D802935
- for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 09:24:40 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA424226E9;
- Wed, 15 Sep 2021 09:24:39 +0000 (UTC)
-Date: Wed, 15 Sep 2021 11:24:38 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v3 6/6] tests/qapi-schema: Test cases for aliases
-Message-ID: <YUG71uATYCwpRyQH@redhat.com>
-References: <20210812161131.92017-1-kwolf@redhat.com>
- <20210812161131.92017-7-kwolf@redhat.com>
- <878s09d8pe.fsf@dusky.pond.sub.org> <YTt0G1cs+BweXOMD@redhat.com>
- <87bl4vedma.fsf@dusky.pond.sub.org> <YUB0BcZUwwwecrFl@redhat.com>
- <87k0jj8evk.fsf@dusky.pond.sub.org>
-MIME-Version: 1.0
-In-Reply-To: <87k0jj8evk.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.398,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ by mail.kernel.org (Postfix) with ESMTPSA id 0DB926124E;
+ Wed, 15 Sep 2021 09:46:08 +0000 (UTC)
+Received: from [198.52.44.129] (helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1mQRUU-00AuWh-6x; Wed, 15 Sep 2021 10:46:06 +0100
+Date: Wed, 15 Sep 2021 10:46:02 +0100
+Message-ID: <87wnnib291.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v9 07/11] hvf: arm: Implement PSCI handling
+In-Reply-To: <CAFEAcA9k0-przZxAXpdwZKju9GW4gFpTcqAxTD4z_QoueHg=NQ@mail.gmail.com>
+References: <20210912230757.41096-1-agraf@csgraf.de>
+ <20210912230757.41096-8-agraf@csgraf.de>
+ <CAFEAcA8BybrfxNxkWbEjxji4DvDumr6Otb_RK_f84Dt_TWXfpA@mail.gmail.com>
+ <ad707e0d-8d4a-0248-80f4-a02a7226ce0a@csgraf.de>
+ <CAFEAcA_OBK1hbqC1Nc7J+VEwkO54WvqBrNa=bR5T3tZW+nfEkQ@mail.gmail.com>
+ <3132e2f5-41a6-6011-808b-7ea12abec1c0@csgraf.de>
+ <CAFEAcA9k0-przZxAXpdwZKju9GW4gFpTcqAxTD4z_QoueHg=NQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 198.52.44.129
+X-SA-Exim-Rcpt-To: peter.maydell@linaro.org, agraf@csgraf.de,
+ ehabkost@redhat.com, slp@redhat.com, philmd@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, dirty@apple.com,
+ r.bolshakov@yadro.com, qemu-arm@nongnu.org, lfy@google.com,
+ pbonzini@redhat.com, pcc@google.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,196 +74,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Peter Collingbourne <pcc@google.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ qemu-arm <qemu-arm@nongnu.org>, Frank Yang <lfy@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.09.2021 um 15:29 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
+On Mon, 13 Sep 2021 13:30:57 +0100,
+Peter Maydell <peter.maydell@linaro.org> wrote:
 > 
-> > Am 14.09.2021 um 10:59 hat Markus Armbruster geschrieben:
-> >> >> > +    /* You can't use more than one option at the same time */
-> >> >> > +    v = visitor_input_test_init(data, "{ 'foo': 42, 'nested': { 'foo': 42 } }");
-> >> >> > +    visit_type_AliasStruct3(v, NULL, &tmp, &err);
-> >> >> > +    error_free_or_abort(&err);
-> >> >> 
-> >> >> "Parameter 'foo' is unexpected".  Say what?  It *is* expected, it just
-> >> >> clashes with 'nested.foo'.
-> >> >> 
-> >> >> I figure this is what happens:
-> >> >> 
-> >> >> * visit_type_AliasStruct3()
-> >> >> 
-> >> >>   - visit_start_struct()
-> >> >> 
-> >> >>   - visit_type_AliasStruct3_members()
-> >> >> 
-> >> >>     • visit_type_AliasStruct1() for member @nested.
-> >> >> 
-> >> >>       This consumes consumes input nested.foo.
-> >> >> 
-> >> >>   - visit_check_struct()
-> >> >> 
-> >> >>     Error: input foo has not been consumed.
-> >> >> 
-> >> >> Any ideas on how to report this error more clearly?
-> >> >
-> >> > It's a result of the logic that wildcard aliases are silently ignored
-> >> > when they aren't needed. The reason why I included this is that it would
-> >> > allow you to have two members with the same name in the object
-> >> > containing the alias and in the aliased object without conflicting as
-> >> > long as both are given.
-> >> 
-> >> *brain cramp*
-> >> 
-> >> Example?
+> On Mon, 13 Sept 2021 at 13:02, Alexander Graf <agraf@csgraf.de> wrote:
 > >
-> > Let's use the real-world example I mentioned below:
 > >
-> > { 'union': 'ChardevBackend',
-> >   'data': { ...,
-> >             'socket': 'ChardevSocket',
-> >             ... },
-> >   'aliases': [ { 'source': ['data'] } ] }
-> 
-> To pretend the simple union was flat, i.e. peel off its 'data', because
-> that nesting doesn't exist in the CLI you want to QAPIfy.
-> 
+> > On 13.09.21 13:44, Peter Maydell wrote:
+> > > On Mon, 13 Sept 2021 at 12:07, Alexander Graf <agraf@csgraf.de> wrote:
+> > >> To keep your train of thought though, what would you do if we encounter
+> > >> a conduit that is different from the chosen one? Today, I am aware of 2
+> > >> different implementations: TCG injects #UD [1] while KVM sets x0 to -1 [2].
+> > > If the SMC or HVC insn isn't being used for PSCI then it should
+> > > have its standard architectural behaviour.
 > >
-> > { 'struct': 'ChardevSocket',
-> >   'data': { 'addr': 'SocketAddressLegacy',
-> >             ... },
-> >   'base': 'ChardevCommon',
-> >   'aliases': [ { 'source': ['addr'] } ] }
+> > Why?
 > 
-> To unbox struct SocketAddressLegacy, i.e. peel off its 'addr', for the
-> same reason.
+> QEMU's assumption here is that there are basically two scenarios
+> for these instructions:
+>  (1) we're providing an emulation of firmware that uses this
+>      instruction (and only this insn, not the other one) to
+>      provide PSCI services
+>  (2) we're not emulating any firmware at all, we're running it
+>      in the guest, and that guest firmware is providing PSCI
 > 
-> >
-> > { 'union': 'SocketAddressLegacy',
-> >   'data': {
-> >     'inet': 'InetSocketAddress',
-> >     'unix': 'UnixSocketAddress',
-> >     'vsock': 'VsockSocketAddress',
-> >     'fd': 'String' },
-> >   'aliases': [
-> >     { 'source': ['data'] },
+> In case (1) we provide a PSCI ABI on the end of the insn.
+> In case (2) we provide the architectural behaviour for the insn
+> so that the guest firmware can use it.
 > 
-> To pretend the simple union was flat, i.e. peel off its 'data',
+> We don't currently have
+>  (3) we're providing an emulation of firmware that does something
+>      other than providing PSCI services on this instruction
 > 
-> >     { 'name': 'fd', 'source': ['data', 'str'] }
+> which is what I think you're asking for. (Alternatively, you might
+> be after "provide PSCI via SMC, not HVC", ie use a different conduit.
+> If hvf documents that SMC is guaranteed to trap that would be
+> possible, I guess.)
 > 
-> To unbox struct String, i.e. peel off its 'data'.
+> > Also, why does KVM behave differently?
 > 
-> >   ] }
-> 
-> Okay, I understand what you're trying to do.  However:
-> 
-> > We have two simple unions there, and wildcard aliases all the way
-> > through, so that you can have things like "hostname" on the top level.
-> > However, two simple unions mean that "type" could refer to either
-> > ChardevBackend.type or to SocketAddressLegacy.type.
-> 
-> Yup.  In ChardevBackend, we have both a (common) member @type, and a
-> chain of aliases that resolves @type to data.addr.data.type.
-> 
-> > Even though strictly speaking 'type=socket' is ambiguous, you don't want
-> > to error out, but interpret it as a value for the outer one.
-> 
-> I'm not sure.
+> Looks like Marc made KVM set x0 to -1 for SMC calls in kernel commit
+> c0938c72f8070aa; conveniently he's on the cc list here so we can
+> ask him :-)
 
-It's the only possible syntax for specifying ChardevBackend.type, so if
-you don't allow this, everything breaks down.
+If we got a SMC trap into KVM, that's because the HW knows about it,
+so injecting an UNDEF is rather counter productive (we don't hide the
+fact that EL3 actually exists).
 
-> When exactly are collisions an error?  How exactly are non-erroneous
-> collisions resolved?  qapi-code-gen.rst needs to answer this.
+However, we don't implement anything on the back of this instruction,
+so we just return NOT_IMPLEMENTED (-1). With NV, we actually use it as
+a guest hypervisor can use it for PSCI and SMC is guaranteed to trap
+even if EL3 doesn't exist in the HW.
 
-The strategy implemented in this version is: Collisions are generally an
-error, except for wildcard aliases conflicting with a non-wildcard-alias
-value. In this case the wildcard alias is ignored and the value is
-assumed to belong elsewhere.
+For the brain-damaged case where there is no EL3, SMC traps and the
+hypervisor doesn't actually advertises EL3, that's likely a guest
+bug. Tough luck.
 
-If it doesn't belong elsewhere in the end, it still sits in the QDict
-when qobject_input_check_struct() runs, so you get an error.
+Side note: Not sure where HVF does, but on the M1 running Linux, SMC
+appears to trap to EL2 with EC=0x3f, which is a reserved exception
+class. This of course results in an UNDEF being injected because as
+far as KVM is concerned, this should never happen.
 
-> Back to the example.  If 'type' resolves to ChardevBackend's member, how
-> should I specify SocketAddressLegacy's member?  'addr.type'?
-> 
-> Aside: existing -chardev infers SocketAddressLegacy's tag addr.type from
-> the presence of variant members, but that's a separate QAPIfication
-> problem.
+	M.
 
-So does the new -chardev in its compatibility code, but if you want to
-specify it explicitly, addr.type is what you should use.
-
-> I figure aliases let me refer to these guys at any level I like:
-> 'data.addr.data.FOO', 'data.addr.FOO', 'addr.data.FOO', 'addr.FOO', or
-> just 'FOO'.  Except for 'type', where just 'type' means something else.
-> Bizarre...
-
-About as bizarre as shadowing variables in C. The more local one wins.
-
-> We actually require much less: for QMP chardev-add, we need
-> 'data.addr.data.FOO' and nothing else, and for CLI -chardev, we need
-> 'FOO' and nothing else (I think).  The unneeded ones become accidental
-> parts of the external interface.  If experience is any guide, we'll have
-> plenty of opportunity to regret such accidents :)
-> 
-> Can we somehow restrict external interfaces to what we actually need?
-
-Not reasonably, I would say. Of course, you could try to cover all
-paths with aliases in the top level, but the top level really shouldn't
-have to know about the details of types deep inside some union variants.
-
-The solution for reducing the allowed options here is to work on
-introspection, mark 'data' deprecated everywhere and get rid of the
-simple union nonsense.
-
-> >> > Never skipping wildcard aliases makes the code simpler and results in
-> >> > the expected error message here. So I'll do that for v4.
-> >> 
-> >> Trusting your judgement.
-> >> 
-> >> > Note that parsing something like '--chardev type=socket,addr.type=unix,
-> >> > path=/tmp/sock,id=c' now depends on the order in the generated code. If
-> >> > the top level 'type' weren't parsed and removed from the input first,
-> >> > visiting 'addr.type' would now detect a conflict. For union types, we
-> >> > know that 'type' is always parsed first, so it's not a problem, but in
-> >> > the general case you need to be careful with the order.
-> >> 
-> >> Uff!  I think I'd like to understand this better.  No need to delay v4
-> >> for that.
-> >> 
-> >> Can't yet say whether we need to spell out the limitation in commit
-> >> message and/or documentation.
-> >
-> > The point where we could error out is when parsing SocketAddressLegacy,
-> > because there can be two possible providers for "type".
-> >
-> > The idea in the current code of this series was that we'll just ignore
-> > wildcard aliases if we already have a value, because then the value must
-> > be meant for somewhere else. So it doesn't error out and leaves the
-> > value in the QDict for someone else to pick it up. If nobody picks it
-> > up, it's an error "'foo' is unexpected".
-> >
-> > If we change it and do error out when there are multiple possible values
-> > through wildcard aliases, then the only thing that makes it work is that
-> > ChardevBackend.type is parsed first and is therefore not a possible
-> > value for SocketAddressLegacy.type any more.
-> 
-> You wrote you're picking the alternative with the simpler code for v4.
-> Fine with me, as long as it's reasonably easy to explain, in
-> qapi-code-gen.rst.
-
-I think I've come to the conclusion that it's not easy enough to
-explain. As long as the parsing order should remain an implementation
-detail that schema authors shouldn't rely on, it's not possible at all.
-
-It's a pity because the code would have been simpler and it would
-probably have worked for the cases we're interested in. But it doesn't
-work in all hypothetical cases and we can't document the conditions for
-that without making people rely on the parsing order.
-
-Kevin
-
+-- 
+Without deviation from the norm, progress is not possible.
 
