@@ -2,63 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 028B940C5A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 14:50:56 +0200 (CEST)
-Received: from localhost ([::1]:54754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD5340C5C8
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 14:57:24 +0200 (CEST)
+Received: from localhost ([::1]:34046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQUNL-0004vN-27
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 08:50:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41938)
+	id 1mQUTb-0001zS-4V
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 08:57:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mQULP-0003BH-De; Wed, 15 Sep 2021 08:48:55 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:50021)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQUR7-0000YY-KW
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 08:54:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mQULN-0004ny-73; Wed, 15 Sep 2021 08:48:55 -0400
-Received: from [192.168.100.1] ([82.142.27.6]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Ml72g-1nBbmt0eKq-00lYTK; Wed, 15 Sep 2021 14:48:47 +0200
-Subject: Re: [PATCH v2] hw/i386/acpi-build: Fix a typo
-From: Laurent Vivier <laurent@vivier.eu>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210911082036.436139-1-philmd@redhat.com>
- <420999a6-dfa5-a4e3-c95b-0854da15fc20@vivier.eu>
-Message-ID: <c2f4f543-c475-494f-b4a6-3cd92bbe7c81@vivier.eu>
-Date: Wed, 15 Sep 2021 14:48:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQUR2-0007nw-UC
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 08:54:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631710483;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=eSSlWV7zXCWIY2EirDp0+olwFG1lDN4bjKW8Ut3k+pw=;
+ b=PF2j6qN1kpMyGMHovHAHFlK7GF2nL1RIZ8rHLAF4ZmSiGEDeRUFX+gt8H72MHzmPkbrbrp
+ QztFboMhN5EBPnuoJz6vGce2zjxI72T2nPcxHj5snr4yVbGFmL4GhDOBQb1UrHXAACV7kt
+ iU1WBM1giZ75ouJff9O4RpyVzqrocXI=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-596-tjh-0gVOPJKMOch-7WzEhg-1; Wed, 15 Sep 2021 08:54:39 -0400
+X-MC-Unique: tjh-0gVOPJKMOch-7WzEhg-1
+Received: by mail-oi1-f199.google.com with SMTP id
+ u23-20020acaab17000000b0026857819b52so1985514oie.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 05:54:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eSSlWV7zXCWIY2EirDp0+olwFG1lDN4bjKW8Ut3k+pw=;
+ b=pMLIAeYi6lG7eUTA5nuceSGlZEGbcEWw/qq/U8ABUXVi59/uM6hWOUY+sHT0q5YDVi
+ 0mxRouiHHGUaqt2Yd35FVS2/le0kF9bD9/HS0nxgDw/yCFt7PXXcSS28w57y0SaT87f3
+ xKMoA5a954g0dGsUw27yd4jsZNTP6BI1NYykHmHhLWcR0MuT6kB4U5uuHSOyfVKBLk5t
+ tE3jxUGuQQE8gr4p8PuDp7lZSyj0Hg0vd5Yxwk5OUBAC5FaMZYRf7Jdk+0rs+bOkiGvD
+ gHLGarhWo2PpnyCBIHHlyh8+7RQLWzp6zRvd/z75Il4906gOj16bJYsCHSQmczoB5BAb
+ g00Q==
+X-Gm-Message-State: AOAM531sZKuA1CqrSL8cn3IwETyr/aqHXKsWvG3EIKGqU2W9YyfkJobK
+ nu2ezliAZ8X8SBfzpCmFrjb4/okr1ykI3/m9efLcXBwj+UudfdNJCiKa0KVQKfjVzQwC1SKhf8t
+ nzIsH0zmfpd5iGj65PJTHwhfaAtIZQFs=
+X-Received: by 2002:a05:6808:a01:: with SMTP id
+ n1mr4877357oij.52.1631710478606; 
+ Wed, 15 Sep 2021 05:54:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz573Kmu+HUXLDRrKSbbRI2M2CIQdsQXmXDrvLPHSHCS2BybSmN1ku3fl5r2bm57siCY1UnEmSSqEh+0x6EOfc=
+X-Received: by 2002:a05:6808:a01:: with SMTP id
+ n1mr4877340oij.52.1631710478369; 
+ Wed, 15 Sep 2021 05:54:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <420999a6-dfa5-a4e3-c95b-0854da15fc20@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:OQp5lFj406DP4LxWqEy1zgIcVlqYt9+bFaOSeqFmWtvC778q0fC
- w3ntKUc/u/qnyssljD5W8r0HwIonqzwxwlw31lnFoJMVogg5SCxaJ05nRXJEx8UbNwAPtmB
- nA/jHi2cz7r8syefbJ82W9qkwRxyO05nirWbW8nU3aqECbm6nWCTBbUjArutoeZWKlZTMIL
- VD6thekYxWSijQ/NYXgSg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DcosyRwItnY=:pGNfpkM+r1pVCMNXrnsnD0
- lvdaUP4q/nfyNiXL1rkNbNSqGvtlHzDNjNbWGDtsytvO11PgdZnKvnWe9J7vzkg6MD6wrRdAm
- kTQVIxBN68iHhspWRRU9/SXKrpaQ4u+a3Ft5aj21dRF02eIDLZlw3CMd2ad8of+F0eikmNC22
- ZOsGkKL7Qu9Tjo7YouWkQVi2pnSTUVKTVUjOb8qyCl7Akf29hEb+lmJyYIioDB0HWcKWYKJO1
- 3xKm536vHZFbr54CtDjpxBKApi6+Af6gQf2ml/a/B6gzrU54Yu6A45Cf6kPEQ6/+wvXjGNNns
- GDqcz0VhOoQo9nm/h2giqs0EfaWXJpoVqSzbENnfC1/ApDBBtuVwgAkdd9dZv+CUNuZFFrUjK
- xs1N7o2kJckV385z2WwXX8iNrSG3wqd+1BZ/dAEJGF1goRZ8MpNqxj6NE1Dd31aEzIeB1q3tA
- MJ66YKHPXk2LXwf5RMbdAE33fu+7+aSpBTwDV8GmdE/YtL3ejd1w46bLJNZxTx2Gl+Rma3mfJ
- TK+1QfXWWOCtGhHxEPF7e9ngKa7gBkm+4pW17IKPofErfYR+2jLMOGPrEPmONmbpz0fXgzZSo
- e5xBDdTJM8CSi7vSO3d8S4C6IbPQCMhygKva8wbRR/wXoRv3enUBkof8idLr+kYgPTjXUdiQQ
- cF1QpHTrbQX3llcHzY5kNsa1b6H89Dan+56QNXOUIFwoWhR9YPAXrutX5kVnDWqeF9vLrMO8v
- 6CWDR5e6xOtoAlSbvPuyVdUiovNxMICb93VuhQ==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+References: <20210915053011.293335-1-jsnow@redhat.com>
+ <YUG4iuTaFK0Krje6@redhat.com>
+In-Reply-To: <YUG4iuTaFK0Krje6@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 15 Sep 2021 08:54:27 -0400
+Message-ID: <CAFn=p-b9ic6CpJ3F60=j+TQ3NkhdvpR-14250h+h35q=SS_55w@mail.gmail.com>
+Subject: Re: [PATCH v2 0/1] Update check-python-tox test for pylint 2.10
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000070a01005cc083387"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.698,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,59 +89,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: G S Niteesh Babu <niteesh.gs@gmail.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 15/09/2021 à 14:48, Laurent Vivier a écrit :
-> Le 11/09/2021 à 10:20, Philippe Mathieu-Daudé a écrit :
->> Fix 'hotplugabble' -> 'hotpluggable' typo.
->>
->> Reviewed-by: Ani Sinha <ani@anisinha.ca>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->> v1 still had a typo =) (Volker Rümelin)
->> ---
->>  hw/i386/acpi-build.c | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
->> index d1f5fa3b5a5..dfaa47cdc20 100644
->> --- a/hw/i386/acpi-build.c
->> +++ b/hw/i386/acpi-build.c
->> @@ -1916,7 +1916,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->>      PCMachineState *pcms = PC_MACHINE(machine);
->>      int nb_numa_nodes = machine->numa_state->num_nodes;
->>      NodeInfo *numa_info = machine->numa_state->nodes;
->> -    ram_addr_t hotplugabble_address_space_size =
->> +    ram_addr_t hotpluggable_address_space_size =
->>          object_property_get_int(OBJECT(pcms), PC_MACHINE_DEVMEM_REGION_SIZE,
->>                                  NULL);
->>  
->> @@ -2022,10 +2022,10 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->>       * Memory devices may override proximity set by this entry,
->>       * providing _PXM method if necessary.
->>       */
->> -    if (hotplugabble_address_space_size) {
->> +    if (hotpluggable_address_space_size) {
->>          numamem = acpi_data_push(table_data, sizeof *numamem);
->>          build_srat_memory(numamem, machine->device_memory->base,
->> -                          hotplugabble_address_space_size, nb_numa_nodes - 1,
->> +                          hotpluggable_address_space_size, nb_numa_nodes - 1,
->>                            MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
->>      }
->>  
->>
-> 
-> Applied to my linux-user-for-6.2 branch.
+--00000000000070a01005cc083387
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I mean "trivial-patches"
+On Wed, Sep 15, 2021 at 5:10 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m>
+wrote:
 
-Thanks,
-Laurent
+> On Wed, Sep 15, 2021 at 01:30:10AM -0400, John Snow wrote:
+> > V2: It's not safe to use sys.stderr.encoding to determine a "console
+> > encoding", because that uses the "current" stderr and not a
+> > hypothetically generic one -- and doing this causes the acceptance test=
+s
+> > to fail.
+> >
+> > Use UTF-8 instead.
+> >
+> > Question: What encoding do terminal programs use? Is there an inherent
+> > encoding to fprintf et al, or does it just push whatever bytes you put
+> > into it straight into the stdout/stderr pipe?
+>
+> Programs are expected to output data in the encoding that is set in
+> the various env variables LC_ALL/LC_CTYPE/LANG.
+>
+> In traditional end user scenarios this almost always means UTF-8 charset.
+>
+> There's plenty of cases which end up with the C locale though, which
+> would mean 7-bit ASCII on Linux, though apps are supposed to be 8-bit
+> clean allow data with the high bit to pass through without interpretation=
+.
+> The latter is what python3 gets very wrong complaining if you output
+> 8-bit high data in C locale.
+>
+> There is increasing support for a C.UTF-8 locale to bring it closer to
+> other locales which are all UTF-8.
+>
+> On macOS the C locale has been UTF-8 by default indefinitely.
+>
+> Windows is a whole other world of fun and IIRC isn't UTF-8 by default,
+> but I don't recall details.
+>
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :|
+>
+>
+Hm, I believe I can use `lang, encoding =3D locale.getlocale() ` in this ca=
+se
+-- I believe it follows LC_CTYPE. This ought to accurately match the
+console output from QEMU.
+I'll respin, actually. We don't test the Python packages on Windows, but I
+see no reason to introduce a nasty timebomb.
+
+Thanks!
+--js
+
+--00000000000070a01005cc083387
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 15, 2021 at 5:10 AM Danie=
+l P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redh=
+at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">On Wed, Sep 15, 2021 at 01:30:10AM -0400, John Snow wrote:<br>
+&gt; V2: It&#39;s not safe to use sys.stderr.encoding to determine a &quot;=
+console<br>
+&gt; encoding&quot;, because that uses the &quot;current&quot; stderr and n=
+ot a<br>
+&gt; hypothetically generic one -- and doing this causes the acceptance tes=
+ts<br>
+&gt; to fail.<br>
+&gt; <br>
+&gt; Use UTF-8 instead.<br>
+&gt; <br>
+&gt; Question: What encoding do terminal programs use? Is there an inherent=
+<br>
+&gt; encoding to fprintf et al, or does it just push whatever bytes you put=
+<br>
+&gt; into it straight into the stdout/stderr pipe?<br>
+<br>
+Programs are expected to output data in the encoding that is set in<br>
+the various env variables LC_ALL/LC_CTYPE/LANG.<br>
+<br>
+In traditional end user scenarios this almost always means UTF-8 charset.<b=
+r>
+<br>
+There&#39;s plenty of cases which end up with the C locale though, which<br=
+>
+would mean 7-bit ASCII on Linux, though apps are supposed to be 8-bit<br>
+clean allow data with the high bit to pass through without interpretation.<=
+br>
+The latter is what python3 gets very wrong complaining if you output<br>
+8-bit high data in C locale.<br>
+<br>
+There is increasing support for a C.UTF-8 locale to bring it closer to<br>
+other locales which are all UTF-8.<br>
+<br>
+On macOS the C locale has been UTF-8 by default indefinitely.<br>
+<br>
+Windows is a whole other world of fun and IIRC isn&#39;t UTF-8 by default,<=
+br>
+but I don&#39;t recall details.<br>
+<br>
+<br>
+Regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
+tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
+s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://www.flickr.com/photos/dberrange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
+oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
+nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
+"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
+https://www.instagram.com/dberrange</a> :|<br>
+<br></blockquote><div><br></div><div>Hm, I believe I can use `lang, encodin=
+g =3D locale.getlocale() ` in this case -- I believe it follows LC_CTYPE. T=
+his ought to accurately match the console output from QEMU.</div><div>I&#39=
+;ll respin, actually. We don&#39;t test the Python packages on Windows, but=
+ I see no reason to introduce a nasty timebomb.</div><div><br></div><div>Th=
+anks!</div><div>--js<br></div><div><br></div></div></div>
+
+--00000000000070a01005cc083387--
+
 
