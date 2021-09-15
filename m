@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE9C040CC3B
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 20:01:09 +0200 (CEST)
-Received: from localhost ([::1]:36390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDA2140CC35
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 19:59:56 +0200 (CEST)
+Received: from localhost ([::1]:34070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQZDY-0003Fo-J8
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 14:01:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51516)
+	id 1mQZCM-0001iX-Uw
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 13:59:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6H-0005pX-Cl
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:53:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43620)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6I-0005rh-0e
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:53:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6D-0006Rw-Kl
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:53:36 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQZ6F-0006Tq-0m
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 13:53:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631728412;
+ s=mimecast20190719; t=1631728414;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xEmsIsVZJ1b5hOCrP/lM8Zro4QPWjantR9Q31P7XTqs=;
- b=TgLHxRh1Hxa6SOo3WJBjAKV2Dsqn8zxek8EvPrxCRydGd1wkseGIJNC6Ijwmusk2K8AzBl
- mAH15ZUOq6uMytWku/oIFnH5y2gR7X7FEXlunUbeHdRcpMf71B8E54OAmxJc+TTkb37hZU
- l+rgB0ijQ80MG6cgkS3u83BwnB5tla8=
+ bh=Qo+uPRCXtU9RGueubkJAbnnVqop39YkPM/NlvMn3tI8=;
+ b=ZQqN8o0QQASj0KA3tEqCYtPIg6WudlREmI9Uquy7bvzdL8xdY8789pHz5pEbZ1fnlaRqr3
+ DYdf4kWjgukzgakqFat9v7jKA6nhRwctiyuopko3RZ6PYMr8UsAT+i3hAuvn8YJx4S0vrN
+ aJs3A5n6no4MnRA5JDypbqiIpmGIFWI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-Di7TYAicO26HA0Kz2FFSLQ-1; Wed, 15 Sep 2021 13:53:30 -0400
-X-MC-Unique: Di7TYAicO26HA0Kz2FFSLQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-532-v_OkWvJFNl-kTynpiVSHkw-1; Wed, 15 Sep 2021 13:53:32 -0400
+X-MC-Unique: v_OkWvJFNl-kTynpiVSHkw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C96F684A5E0;
- Wed, 15 Sep 2021 17:53:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCCF61006AA2;
+ Wed, 15 Sep 2021 17:53:31 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7202D5D9D3;
- Wed, 15 Sep 2021 17:53:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D7ED10016FB;
+ Wed, 15 Sep 2021 17:53:31 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 04/32] block: Clarify that @bytes is no limit on *pnum
-Date: Wed, 15 Sep 2021 19:52:50 +0200
-Message-Id: <20210915175318.853225-5-hreitz@redhat.com>
+Subject: [PULL 05/32] block/file-posix: Do not force-cap *pnum
+Date: Wed, 15 Sep 2021 19:52:51 +0200
+Message-Id: <20210915175318.853225-6-hreitz@redhat.com>
 In-Reply-To: <20210915175318.853225-1-hreitz@redhat.com>
 References: <20210915175318.853225-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.39, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,45 +81,52 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-.bdrv_co_block_status() implementations are free to return a *pnum that
-exceeds @bytes, because bdrv_co_block_status() in block/io.c will clamp
-*pnum as necessary.
+bdrv_co_block_status() does it for us, we do not need to do it here.
 
-On the other hand, if drivers' implementations return values for *pnum
-that are as large as possible, our recently introduced block-status
-cache will become more effective.
+The advantage of not capping *pnum is that bdrv_co_block_status() can
+cache larger data regions than requested by its caller.
 
-So, make a note in block_int.h that @bytes is no upper limit for *pnum.
-
-Suggested-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20210812084148.14458-4-hreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20210812084148.14458-5-hreitz@redhat.com>
 ---
- include/block/block_int.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ block/file-posix.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 437d746733..5451f89b8d 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -348,6 +348,15 @@ struct BlockDriver {
-      * clamped to bdrv_getlength() and aligned to request_alignment,
-      * as well as non-NULL pnum, map, and file; in turn, the driver
-      * must return an error or set pnum to an aligned non-zero value.
-+     *
-+     * Note that @bytes is just a hint on how big of a region the
-+     * caller wants to inspect.  It is not a limit on *pnum.
-+     * Implementations are free to return larger values of *pnum if
-+     * doing so does not incur a performance penalty.
-+     *
-+     * block/io.c's bdrv_co_block_status() will utilize an unclamped
-+     * *pnum value for the block-status cache on protocol nodes, prior
-+     * to clamping *pnum for return to its caller.
-      */
-     int coroutine_fn (*bdrv_co_block_status)(BlockDriverState *bs,
-         bool want_zero, int64_t offset, int64_t bytes, int64_t *pnum,
+diff --git a/block/file-posix.c b/block/file-posix.c
+index cb9bffe047..9f35e5631a 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2744,7 +2744,8 @@ static int find_allocation(BlockDriverState *bs, off_t start,
+  * the specified offset) that are known to be in the same
+  * allocated/unallocated state.
+  *
+- * 'bytes' is the max value 'pnum' should be set to.
++ * 'bytes' is a soft cap for 'pnum'.  If the information is free, 'pnum' may
++ * well exceed it.
+  */
+ static int coroutine_fn raw_co_block_status(BlockDriverState *bs,
+                                             bool want_zero,
+@@ -2782,7 +2783,7 @@ static int coroutine_fn raw_co_block_status(BlockDriverState *bs,
+     } else if (data == offset) {
+         /* On a data extent, compute bytes to the end of the extent,
+          * possibly including a partial sector at EOF. */
+-        *pnum = MIN(bytes, hole - offset);
++        *pnum = hole - offset;
+ 
+         /*
+          * We are not allowed to return partial sectors, though, so
+@@ -2801,7 +2802,7 @@ static int coroutine_fn raw_co_block_status(BlockDriverState *bs,
+     } else {
+         /* On a hole, compute bytes to the beginning of the next extent.  */
+         assert(hole == offset);
+-        *pnum = MIN(bytes, data - offset);
++        *pnum = data - offset;
+         ret = BDRV_BLOCK_ZERO;
+     }
+     *map = offset;
 -- 
 2.31.1
 
