@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304C940C88A
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 17:43:17 +0200 (CEST)
-Received: from localhost ([::1]:59328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9EA340C8A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 17:47:21 +0200 (CEST)
+Received: from localhost ([::1]:39288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQX48-00050J-8m
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 11:43:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46506)
+	id 1mQX84-00026L-Om
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 11:47:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQX1c-0002aF-AB
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 11:40:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33832)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQX1a-0003a1-Ic
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 11:40:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631720437;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0p40qM0IN9RsRuikNIh7r24vKS+fPI8oVNzJ8H4Ia6Y=;
- b=gCDe93v7j3sjLdLyyQuZh7s8MAcNzeLBMGuUxooZ8dFR0+cyfdIlM+WVKDXqnbxCcyb9r8
- QgGyLzV+I38T2KOKIUZkXqnHXkKawL9E1QhANR0ZAjxzYsUUVYS8HvBRECIvyXd0tLemjH
- VBA4jXHzRMLkL6qdMzWLEVMYCOZEM8c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-6m4QS_moNX-SOXadSuqzMw-1; Wed, 15 Sep 2021 11:40:36 -0400
-X-MC-Unique: 6m4QS_moNX-SOXadSuqzMw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D352236301;
- Wed, 15 Sep 2021 15:40:34 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.11.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC4675D9D3;
- Wed, 15 Sep 2021 15:40:33 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/1] python: Update for pylint 2.10
-Date: Wed, 15 Sep 2021 11:40:31 -0400
-Message-Id: <20210915154031.321592-2-jsnow@redhat.com>
-In-Reply-To: <20210915154031.321592-1-jsnow@redhat.com>
-References: <20210915154031.321592-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mQX4k-0007Fi-Nk
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 11:43:54 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:36784)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mQX4i-0006CH-Tn
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 11:43:54 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ l18-20020a05600c4f1200b002f8cf606262so5160966wmq.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 08:43:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=i8c8XdpV0joi0dwxjCGSjhfA5PrGb+9IVtV0lUbIGmA=;
+ b=nhstBdXstH1zhgrwDcxN7ZgNe/P4XLcc8y0QKNuMNdUyOjWKjPlnp+Pf9XLmFRNs2l
+ iwomD1TO7O6Er2rWmgFdFccKQgwIHVAppuEDc5aLmMwNyhiEWHiFRQyVDzbRM4STBGlX
+ 92/GfwF1jcqI62UNXP/RdaVio5Ct0FdN3g/pW/GrmWAyz5erwbA/dtft0+1Eg1lNKQUE
+ +G7ozrFv60kKtDDQBHtaPkL+3i58wZqMrmbZZMUCNzuw9JqEPEpxzAujkoU8d1QbNScp
+ st9XTO1IWtGmsE7K81K+icnC31feMbExEInXiMIhlhRCzr3e6WUqyuRk1E+ruq8VBuxh
+ DgHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=i8c8XdpV0joi0dwxjCGSjhfA5PrGb+9IVtV0lUbIGmA=;
+ b=uq9twALrXh8kldNCv+BThdLgTJ4MJkpxMMK+6C1xMmKzRDmNlAiUMjxHK9ys6u1O6r
+ mQ2a2ER0Vcl7y8+qdCkjsg1yrU4tEXTd4witoJrhb/3jRTU1lJoACcauvGyfgf7DZJT/
+ e/dU0GRUaJSTwItUgAWbFgHwaEYRfOrIsotiSzBAWj4WCp+inEWcdogHFkEdgX7JiP0o
+ 2QZrNB9Hm4XkyHRMX7/JsuoR8xepyyqCj0v35BhU9Mw/nQRBnONCrnq0nDY6qkDrBbik
+ cHqkRG0lnCdAjNPBzaD2J7/i68YQibXrZEsmizvRM7VlhLR0+KfP9wnMq1aUIXkRN5i2
+ 4R1Q==
+X-Gm-Message-State: AOAM530yiM7l+h01viCfxvHLlhtv654rn+Yz1WgbJss7TD4UKBA36R+c
+ 7I2U7nbCJUbdMSDLRaPnFOy8NbTTy1IeBaLywQozS5RGHjU=
+X-Google-Smtp-Source: ABdhPJxG0egcp6O0hNb/VKxZsPu4gNM9tcsCNhNDgDE9t+o0xPH1vVUxLX+IaSioX/tXVqJNrYluENJKUKOF9JrAW+4=
+X-Received: by 2002:a05:600c:4848:: with SMTP id
+ j8mr5194661wmo.21.1631720630910; 
+ Wed, 15 Sep 2021 08:43:50 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210915123412.8232-1-peter.maydell@linaro.org>
+In-Reply-To: <20210915123412.8232-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 15 Sep 2021 16:42:59 +0100
+Message-ID: <CAFEAcA8c4ZURFTd1KYiASFCwGn0jr2ozjJ_U++qeLPvjk1SGmw@mail.gmail.com>
+Subject: Re: [PATCH] gitlab-ci: Mark manual-only jobs as allow_failure
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,71 +78,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, John Snow <jsnow@redhat.com>,
- G S Niteesh Babu <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A few new annoyances. Of note is the new warning for an unspecified
-encoding when opening a text file, which actually does indicate a
-potentially real problem; see
-https://www.python.org/dev/peps/pep-0597/#motivation
+On Wed, 15 Sept 2021 at 13:34, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> If a gitlab CI job is marked as manual-only but is not marked
+> as allow_failure, then gitlab considers that the pipeline is
+> "blocked" until the job has been manually triggered. We need
+> to mark these manual-only jobs as also allow_failure: true
+> so that gitlab doesn't insist that they have run before it
+> will consider the pipeline to be complete.
+>
+> Fixes: 4c9af1ea1457782cf0adb29
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
 
-Use LC_CTYPE to determine an encoding to use for interpreting QEMU's
-terminal output. Note that Python states: "language code and encoding
-may be None if their values cannot be determined" -- use a platform
-default as a backup.
+Applied to master, thanks.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- python/qemu/machine/machine.py | 9 ++++++++-
- python/setup.cfg               | 1 +
- 2 files changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index a7081b1845..51b6e79a13 100644
---- a/python/qemu/machine/machine.py
-+++ b/python/qemu/machine/machine.py
-@@ -19,6 +19,7 @@
- 
- import errno
- from itertools import chain
-+import locale
- import logging
- import os
- import shutil
-@@ -290,8 +291,14 @@ def get_pid(self) -> Optional[int]:
-         return self._subp.pid
- 
-     def _load_io_log(self) -> None:
-+        # Assume that the output encoding of QEMU's terminal output
-+        # is defined by our locale. If indeterminate, use a platform default.
-+        _, encoding = locale.getlocale()
-+        if encoding is None:
-+            encoding = locale.getpreferredencoding(do_setlocale=False)
-         if self._qemu_log_path is not None:
--            with open(self._qemu_log_path, "r") as iolog:
-+            with open(self._qemu_log_path, "r",
-+                      encoding=encoding) as iolog:
-                 self._iolog = iolog.read()
- 
-     @property
-diff --git a/python/setup.cfg b/python/setup.cfg
-index 83909c1c97..0f0cab098f 100644
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -104,6 +104,7 @@ good-names=i,
- [pylint.similarities]
- # Ignore imports when computing similarities.
- ignore-imports=yes
-+ignore-signatures=yes
- 
- # Minimum lines number of a similarity.
- # TODO: Remove after we opt in to Pylint 2.8.3. See commit msg.
--- 
-2.31.1
-
+-- PMM
 
