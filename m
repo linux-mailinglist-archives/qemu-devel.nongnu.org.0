@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B36140C0A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 09:39:01 +0200 (CEST)
-Received: from localhost ([::1]:48132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F8740C0B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 09:40:59 +0200 (CEST)
+Received: from localhost ([::1]:51810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQPVU-00060r-I5
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 03:39:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57560)
+	id 1mQPXO-0000AB-Qf
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 03:40:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQPT1-000495-O0
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 03:36:27 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:39700)
+ id 1mQPUY-0005u3-6e; Wed, 15 Sep 2021 03:38:03 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQPSz-0005eq-9h
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 03:36:27 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- 196-20020a1c04cd000000b002fa489ffe1fso3983460wme.4
- for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 00:36:24 -0700 (PDT)
+ id 1mQPUW-0006rE-DX; Wed, 15 Sep 2021 03:38:01 -0400
+Received: by mail-wr1-x432.google.com with SMTP id w29so2288663wra.8;
+ Wed, 15 Sep 2021 00:37:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=AwD919eFDS6T21T/k/MjVbCLi2HASQXmNo241OhzzmM=;
- b=fRLJrIAr/jdAicGDS2nygnmI3wECend7e/2l9lq7QM+GmKrgQi5KjV5LQSGUVJFg9B
- 5Y19qxDQs09OHCaaUXZ4ZjmNyY7t/UOvZa5/DZblNZrkcmqXj7MimUNt8Quu1YtsZvGD
- eUYtnoosFu+sHI/IZ5K1FdC7dsYCqrf3V1a3y6bQVyXD1UcCFQHmxgj7zXbbCURkkoe5
- EhMgjG3cBXSnZoJE+HeKzjOFFHHSe62V97zT580MATxmw/CLKDP66IjyA6QtQmrHWCvZ
- BkASLg6gN3blm0WRUPynRS9ymE7LAeIGCOeQ4GRcNkDiPmakh+vhbwldW9ddTbua9vhD
- sMmg==
+ bh=4LDKksQvcOi6WArX/kpiTRtfBjTcOHeL+OPkJRfp0Uw=;
+ b=G+dd4LE1dS/xuF5pr3Pdv5QvDEyQydpXpl7ZZPYn4C7jEcs1v8UWgZ7FnkKr/e2Af6
+ NBEFtg8WQ6UAoOUsCDFN0jilRphbKKiptoX6awPJkwsHURe9cyLZSsC3O6PWnaI8sWSX
+ FUpfqnr9HQCkfNpc0fsEoQZPHwjfc7DGFTREPl6bjdLCN2Jz2RL3PHfsNOc4lHvvcmna
+ DILB+fBNSiOFGyqikn2RJFyrSSpEVQTub0jxps41OlheaW8qo7bQheAajEQbZdhx9YzD
+ iEklO9pTew7LwMIpOv4kI1hHbF7C1Rcb/K/m1kFa0PrblyfqtbI4noIoPkbHjXVf9oet
+ eylQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=AwD919eFDS6T21T/k/MjVbCLi2HASQXmNo241OhzzmM=;
- b=aTuqIPTgcQAOoNlyZjyMxG5y38ws4yWQt3/TuU1if92d1kOk4q/xVFD2elrbhhQlME
- njPR8NnhKQrcki7lol+U9DgyiDQ2kYzPY6y2ijL4DPkmL3SKVzYxf2YgUMdAfmrEW4eo
- Dvjoc1gY59jKDDM9/nw4+tV3RD6mTb1Hr+BhVuu6+n27LR8ch9lVJyosJa2x3Kf93TRG
- DicGSIPcjo7zrXHmLRoA7G3B5+4J7vROF6OrCc8c+1ns0uyZXd6AGExHtJCJqiXkuJBr
- 3mAGtXUxGZOFFYDnaURjLBCaoEQ8f0OiXYk1APmdsooV1gfc9YAS8e1xyGxmLCwL7pl3
- VsWw==
-X-Gm-Message-State: AOAM53288rPL1wyidYfiRw1kXowcsP69SsmGbFmqMeAtg2alYXIjny+A
- 9DReDjoAMRObY/rSBLoxLfQ=
-X-Google-Smtp-Source: ABdhPJzEs+5SwHUZ4Ue9UcPgjAjkvbcj4JTygR2Q2w8Ue4cFOXtNBi8A7kzIqqrrN8K+lwasb9Oyng==
-X-Received: by 2002:a7b:cc94:: with SMTP id p20mr2913491wma.75.1631691383270; 
- Wed, 15 Sep 2021 00:36:23 -0700 (PDT)
+ bh=4LDKksQvcOi6WArX/kpiTRtfBjTcOHeL+OPkJRfp0Uw=;
+ b=MduoAmtP4JfxXBl9M20Sd3Stpvahr+qpFXadCXhMoU3492tPZePiUO6TOuEH8RaN5s
+ 8Dy2BFtubGhseJ83WuGmj0N9SGw6bYm88LRQkTgZV9kzDx1tVG59zNXtFxUzCwWHIhbL
+ gIZqPWPLogYbTLfIyMoNfKO3YQ0dx7/zWVH7iR+bT02vMTaMs/o8gltTQY2rSAbbuwWr
+ N6hq6o+xUX9CLKGVmpNjwmHcy4O6QAYOLmMlUrs3sKvA3la31NZJhFsTWBa8rygvMnH6
+ dp8RqQHxsft01R9EGd/JLXLym1FSHz7kSH1VqvC/fHCrgU8pZ7Yr4TOlPY3QBA0R/7wX
+ h65g==
+X-Gm-Message-State: AOAM531vOarH5u8RO0hKcNMuRtk+hmzJUzI79x1DbXTxffAPxKYdRoPc
+ iEBrkWujOLuylZOkYICQaLc=
+X-Google-Smtp-Source: ABdhPJzGJVQgcIRzEqy9wibodkw7C+lqJmfaqxov8MG/7qdA9jsT2PXQhWcM/XqiwB4PQR6IytVNpA==
+X-Received: by 2002:a05:6000:18c2:: with SMTP id
+ w2mr3341032wrq.282.1631691478151; 
+ Wed, 15 Sep 2021 00:37:58 -0700 (PDT)
 Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
  [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id l13sm12438503wrb.11.2021.09.15.00.36.22
+ by smtp.gmail.com with ESMTPSA id v8sm11169639wrt.12.2021.09.15.00.37.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Sep 2021 00:36:22 -0700 (PDT)
-Subject: Re: [PATCH 2/2] gitlab: Add cross-riscv64-system, cross-riscv64-user
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210914185830.1378771-1-richard.henderson@linaro.org>
- <20210914185830.1378771-3-richard.henderson@linaro.org>
+ Wed, 15 Sep 2021 00:37:57 -0700 (PDT)
+Subject: Re: [PATCH v2 0/2] hw/arm/raspi: Remove deprecated raspi2/raspi3
+ aliases
+To: John Snow <jsnow@redhat.com>
+References: <20210708145514.1751773-1-f4bug@amsat.org>
+ <CAFEAcA_ukc+t_BYddOSv7EF6O1qoVHGGj6sA5uumUgt0VMS_pA@mail.gmail.com>
+ <CAFEAcA8PLvMUEzyu=sN4bn4mU30w1aajU+T+i__5jnB0QMZnqg@mail.gmail.com>
+ <7cbaaf94-e255-a91b-8d71-ca720943bfcc@amsat.org>
+ <CAKJDGDbxBYQ5O3Cim5evkNfFcLZ_FwFEe7GhQgE=WWHS7jODOg@mail.gmail.com>
+ <88820040-ca86-1442-5dd3-68ecbf878c87@amsat.org>
+ <CAFn=p-ZZE9cXFOwgRBd8b3HEnjg2k1c77_ShzeYHfnPZcdSY0g@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <c5ce301c-92c9-ae30-e64f-c594ec250207@amsat.org>
-Date: Wed, 15 Sep 2021 09:36:21 +0200
+Message-ID: <a558ccae-983c-a5d9-4cad-4322e1df879b@amsat.org>
+Date: Wed, 15 Sep 2021 09:37:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210914185830.1378771-3-richard.henderson@linaro.org>
+In-Reply-To: <CAFn=p-ZZE9cXFOwgRBd8b3HEnjg2k1c77_ShzeYHfnPZcdSY0g@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -90,16 +94,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: willianr@redhat.com, thuth@redhat.com, alex.bennee@linaro.org,
- wainersm@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Willian Rampazzo <wrampazz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/21 8:58 PM, Richard Henderson wrote:
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  .gitlab-ci.d/crossbuilds.yml | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+On 9/15/21 2:34 AM, John Snow wrote:
+> On Fri, Aug 27, 2021 at 2:30 PM Philippe Mathieu-Daudé <f4bug@amsat.org
+> <mailto:f4bug@amsat.org>> wrote:
+> 
+>     On 8/27/21 8:01 PM, Willian Rampazzo wrote:
+>     > Hi, Phil,
+>     >
+>     > On Thu, Aug 26, 2021 at 1:49 PM Philippe Mathieu-Daudé
+>     <f4bug@amsat.org <mailto:f4bug@amsat.org>> wrote:
+>     >>
+>     >> Hi Peter,
+>     >>
+>     >> On 7/9/21 6:00 PM, Peter Maydell wrote:
+>     >>> On Fri, 9 Jul 2021 at 16:33, Peter Maydell
+>     <peter.maydell@linaro.org <mailto:peter.maydell@linaro.org>> wrote:
+>     >>>>
+>     >>>> On Thu, 8 Jul 2021 at 15:55, Philippe Mathieu-Daudé
+>     <f4bug@amsat.org <mailto:f4bug@amsat.org>> wrote:
+>     >>>>>
+>     >>>>> Since v1:
+>     >>>>> - renamed tests (Peter)
+>     >>>>>
+>     >>>>> Philippe Mathieu-Daudé (2):
+>     >>>>>   tests: Remove uses of deprecated raspi2/raspi3 machine names
+>     >>>>>   hw/arm/raspi: Remove deprecated raspi2/raspi3 aliases
+>     >>>>
+>     >>>>
+>     >>>>
+>     >>>> Applied to target-arm.next, thanks.
+>     >>>
+>     >>> I found that this seems to break 'make check':
+>     >>>
+>     >>>  (09/52)
+>     tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_initrd:
+>     >>> ERROR: Could not perform graceful shutdown (40.38 s)
+>     >>
+>     >> I can not reproduce. Maybe something got changed in Python/Avocado
+>     >> since... I'm going to simply respin (updating 6.1 -> 6.2).
+>     >
+>     > I also could not reproduce. I checked and nothing changed on the
+>     > Avocado side. The version is still the same on the QEMU side.
+> 
+>     Thanks for double-checking!
+> 
+> 
+> Sorry for the long silence.
+> 
+> Did you get this sorted out? I don't recall changing the QEMUMachine
+> code upstream lately (Though I have been tinkering with it a lot in my
+> own branches) -- was the root cause of the failure discovered?
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+No. Peter tested again and it passed, then this eventually got merged.
 
