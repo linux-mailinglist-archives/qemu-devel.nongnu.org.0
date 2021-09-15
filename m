@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18D8440C09A
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 09:36:54 +0200 (CEST)
-Received: from localhost ([::1]:44278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D78040C0AA
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 09:39:16 +0200 (CEST)
+Received: from localhost ([::1]:49040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQPTR-00034G-3w
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 03:36:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57102)
+	id 1mQPVj-0006ds-Di
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 03:39:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQPQh-0001Lg-3L; Wed, 15 Sep 2021 03:34:06 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51819)
+ id 1mQPSa-0003oH-LQ
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 03:36:03 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:42584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQPQf-0003Zr-D8; Wed, 15 Sep 2021 03:34:02 -0400
-Received: by mail-wm1-x329.google.com with SMTP id y132so1381126wmc.1;
- Wed, 15 Sep 2021 00:33:59 -0700 (PDT)
+ id 1mQPSY-0005Hf-SG
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 03:36:00 -0400
+Received: by mail-wr1-x430.google.com with SMTP id q11so2267704wrr.9
+ for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 00:35:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/fnaAOh9p4p4wc129sOXgPIxvFnAnZYJvtoB3c8uF9k=;
- b=Ee0E7i9/CLXT3s/wHkSIGvqoE3nPYVxCL0dd8m7srTteWQ6iqEH9DSH1Ayt4yH06hZ
- P/53yMCRl1lZ5nidPzNHips2d0CNKkZ/ir6tn7xRHdDR2hNwSsyIBQJ2ND1I/fRvdBW7
- NtnBvHswfFjQBQGS6iwjJnYhqNr+OJFnnIIkpFg/3Ut7CK9Ba3JJAWhfA13bioAZJHJS
- yccWbIRKYGR+UUasJZrNVznXEKM1K3Fp8Eu/2cW0w/SzKzcYGX+UwqwlG2bmY4OaRQ4a
- 6p42G31yu/MgJFy1nMprRNT62Me0McDXt//TlzJU2HkholRAdqwgAiUVK3oEBdcUTMxc
- BDBA==
+ bh=zqg2Ey4D7v59cLJKa6aTNVFrZvr/bnLJFmpTCmKedaQ=;
+ b=RpkLdBAEOWNG/ucVg4WcqcDin3JD8v6XfRk8AZBuw/w3okpJqSjSKnv0rcfwPxqHop
+ /DMz6VL9uAQKzvPRJp8TSZEIIPPC+6DB/1cSNpdAbMv3dIAf/IoaPxOccpFpHyucmqEO
+ E2vQoqSrOZKZcGohBO1cf/INhBqPXbRHwZB8E5QEt/0GQan/vbNyL/i4pDT6eCyIH+tR
+ OpmzlOcQxZNtAv0k0KgmwWlsIJak0iFjQEHPEBQZHo45ovupqv2f7hShZ/kTWGO7/DdQ
+ boiVNQ46pU1J+N87nAqJHqJyuoFaW6IAjtQmVzE5C6JF3m06zcKCeIw17+IuGyuUt2lD
+ O3Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/fnaAOh9p4p4wc129sOXgPIxvFnAnZYJvtoB3c8uF9k=;
- b=DFBITmtvSfTlRk6gNAgqcq7f7DiJYGqLJm9j2jxPlodoGzX95WJL9XobnAJeS5ljcF
- hawEe0/fJSwofh/fGvxEQFGc6wwpDIV39vwin3INabZjGpU49AUq66u1KA9G2ktAMv1I
- 4i8+5sAuyPcpE5C2IwWhfRNpKHyenO2kcjtigiFWgccuisxgnxQTK05I/5Mn1FklmRLr
- yVKXaP+vgXiFKOwJ/nAo671isa/5ctrcCubBuqWHj33aloySwtQDSNOD1X+XioMJtIVY
- lS3x9ryZ+hTvGl4fnD7mmSaqWfRaCip0/jvl7qUizBEoIawo2CKtLeqkY5bU4BAcjS6i
- FH0Q==
-X-Gm-Message-State: AOAM532//YBW+DNBKhmN/HI2irOBHIVwMcoNYOsn3e02i/9DA+/+Tn6E
- myYstDWouqa1zYXUjXjuBwk=
-X-Google-Smtp-Source: ABdhPJyCTlxmuD7rWTLJwH1adpYsfO3LLn8q9FCWuFm/4JqqqqXqg/qXd0Um+RZmTPhrubIbz8E7aQ==
-X-Received: by 2002:a1c:403:: with SMTP id 3mr2853133wme.161.1631691238156;
- Wed, 15 Sep 2021 00:33:58 -0700 (PDT)
+ bh=zqg2Ey4D7v59cLJKa6aTNVFrZvr/bnLJFmpTCmKedaQ=;
+ b=x7J8GokLrGBtDnxonkhkHDOHMFop38e0OXa3q152YlJ6qh0p5wL0wEoLFGEUbuJwd4
+ gnHvR53XPo9TtIQPbZQ1PhLAJngpFLesoxx5sRX5hrNePz14zqJqMHIVm7BVZ2Q2D0zn
+ exnQNSsTIKPfHyxoZfQOOYwxskFcPW8js6pp24kvPgGdJqXGVpdCf6opZ5WVugLqA6T7
+ kQdNvDXy+hgk0PPV1rZ4hFWjE7O1D5eHygSW537VfkKXluzO1rmq/GwunFIJ8q6m0VK3
+ gdOgqA/uA7lOqZ0Dj59rBtxRdL9Q1ZqxN/ikJTuXYF+Jx/doUTQIlbKzeI9wnD7xDQWJ
+ FR5g==
+X-Gm-Message-State: AOAM533EagmbxCODUSqDwOgBy5eA4gZ7nmrtB3eeh/xNlT2YFP10YWQ1
+ HX1HyA7dVG0adOQkijkKAZ0=
+X-Google-Smtp-Source: ABdhPJwYs703rAab5dAOOcb2Ragm1o7+JRreyNe4S21L0tNSMXnpSmd0pyV7H7Z58knvvXCSC6PquA==
+X-Received: by 2002:adf:fc49:: with SMTP id e9mr3274824wrs.298.1631691356440; 
+ Wed, 15 Sep 2021 00:35:56 -0700 (PDT)
 Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
  [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id v28sm12754903wrv.93.2021.09.15.00.33.55
+ by smtp.gmail.com with ESMTPSA id z7sm15903598wre.72.2021.09.15.00.35.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Sep 2021 00:33:57 -0700 (PDT)
-Subject: Re: [PATCH v2 10/53] target/cris: convert to use format_state instead
- of dump_state
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210914142042.1655100-1-berrange@redhat.com>
- <20210914142042.1655100-11-berrange@redhat.com>
+ Wed, 15 Sep 2021 00:35:55 -0700 (PDT)
+Subject: Re: [PATCH 1/2] tests/docker: promote debian-riscv64-cross to a full
+ image
+To: qemu-devel@nongnu.org, alex.bennee@linaro.org
+References: <20210914185830.1378771-1-richard.henderson@linaro.org>
+ <20210914185830.1378771-2-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <eecfb79d-6e49-4e6e-df11-f54dad16f4f1@amsat.org>
-Date: Wed, 15 Sep 2021 09:33:55 +0200
+Message-ID: <14f98dad-fb1c-7b1b-4194-484973a53c90@amsat.org>
+Date: Wed, 15 Sep 2021 09:35:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210914142042.1655100-11-berrange@redhat.com>
+In-Reply-To: <20210914185830.1378771-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -89,137 +90,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Eric Blake <eblake@redhat.com>, Marek Vasut <marex@denx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-ppc@nongnu.org,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Peter Xu <peterx@redhat.com>, Stafford Horne <shorne@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: willianr@redhat.com,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, thuth@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, wainersm@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/14/21 4:19 PM, Daniel P. Berrangé wrote:
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+On 9/14/21 8:58 PM, Richard Henderson wrote:
+> From: Alex Bennée <alex.bennee@linaro.org>
+> 
+> To be able to cross build QEMU itself we need to include a few more
+> libraries. These are only available in Debian's unstable ports repo
+> for now so we need to base the riscv64 image on sid with the the
+> minimal libs needed to build QEMU (glib/pixman).
+> 
+> The result works but is not as clean as using build-dep to bring in
+> more dependencies. However sid is by definition a shifting pile of
+> sand and by keeping the list of libs minimal we reduce the chance of
+> having an image we can't build. It's good enough for a basic cross
+> build testing of TCG.
+> 
+> Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/cris/cpu.c       |  2 +-
->  target/cris/cpu.h       |  2 +-
->  target/cris/translate.c | 33 +++++++++++++++++----------------
->  3 files changed, 19 insertions(+), 18 deletions(-)
+>  .gitlab-ci.d/container-cross.yml              |  1 -
+>  tests/docker/Makefile.include                 |  2 -
+>  .../dockerfiles/debian-riscv64-cross.docker   | 46 +++++++++++++++++--
+>  3 files changed, 41 insertions(+), 8 deletions(-)
 > 
-> diff --git a/target/cris/cpu.c b/target/cris/cpu.c
-> index 70932b1f8c..5159cf6528 100644
-> --- a/target/cris/cpu.c
-> +++ b/target/cris/cpu.c
-> @@ -295,7 +295,7 @@ static void cris_cpu_class_init(ObjectClass *oc, void *data)
+> diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
+> index 0fcebe363a..05996200e1 100644
+> --- a/.gitlab-ci.d/container-cross.yml
+> +++ b/.gitlab-ci.d/container-cross.yml
+> @@ -134,7 +134,6 @@ ppc64el-debian-cross-container:
+>  riscv64-debian-cross-container:
+>    extends: .container_job_template
+>    stage: containers-layer2
+> -  needs: ['amd64-debian10-container']
+>    variables:
+>      NAME: debian-riscv64-cross
 >  
->      cc->class_by_name = cris_cpu_class_by_name;
->      cc->has_work = cris_cpu_has_work;
-> -    cc->dump_state = cris_cpu_dump_state;
-> +    cc->format_state = cris_cpu_format_state;
->      cc->set_pc = cris_cpu_set_pc;
->      cc->gdb_read_register = cris_cpu_gdb_read_register;
->      cc->gdb_write_register = cris_cpu_gdb_write_register;
-> diff --git a/target/cris/cpu.h b/target/cris/cpu.h
-> index d3b6492909..908cb051da 100644
-> --- a/target/cris/cpu.h
-> +++ b/target/cris/cpu.h
-> @@ -191,7 +191,7 @@ void cris_cpu_do_interrupt(CPUState *cpu);
->  void crisv10_cpu_do_interrupt(CPUState *cpu);
->  bool cris_cpu_exec_interrupt(CPUState *cpu, int int_req);
->  
-> -void cris_cpu_dump_state(CPUState *cs, FILE *f, int flags);
-> +void cris_cpu_format_state(CPUState *cs, GString *buf, int flags);
->  
->  hwaddr cris_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
->  
-> diff --git a/target/cris/translate.c b/target/cris/translate.c
-> index a84b753349..6098693186 100644
-> --- a/target/cris/translate.c
-> +++ b/target/cris/translate.c
-> @@ -3307,7 +3307,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
->      translator_loop(&cris_tr_ops, &dc.base, cs, tb, max_insns);
->  }
->  
-> -void cris_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-> +void cris_cpu_format_state(CPUState *cs, GString *buf, int flags)
->  {
->      CRISCPU *cpu = CRIS_CPU(cs);
->      CPUCRISState *env = &cpu->env;
-> @@ -3326,40 +3326,41 @@ void cris_cpu_dump_state(CPUState *cs, FILE *f, int flags)
->          regnames = regnames_v32;
->      }
->  
-> -    qemu_fprintf(f, "PC=%x CCS=%x btaken=%d btarget=%x\n"
-> -                 "cc_op=%d cc_src=%d cc_dest=%d cc_result=%x cc_mask=%x\n",
-> -                 env->pc, env->pregs[PR_CCS], env->btaken, env->btarget,
-> -                 env->cc_op,
-> -                 env->cc_src, env->cc_dest, env->cc_result, env->cc_mask);
-> +    g_string_append_printf(buf, "PC=%x CCS=%x btaken=%d btarget=%x\n"
-> +                           "cc_op=%d cc_src=%d cc_dest=%d cc_result=%x "
-> +                           "cc_mask=%x\n",
-> +                           env->pc, env->pregs[PR_CCS], env->btaken,
-> +                           env->btarget, env->cc_op, env->cc_src,
-> +                           env->cc_dest, env->cc_result, env->cc_mask);
->  
->  
->      for (i = 0; i < 16; i++) {
-> -        qemu_fprintf(f, "%s=%8.8x ", regnames[i], env->regs[i]);
-> +        g_string_append_printf(buf, "%s=%8.8x ", regnames[i], env->regs[i]);
->          if ((i + 1) % 4 == 0) {
-> -            qemu_fprintf(f, "\n");
-> +            g_string_append_printf(buf, "\n");
+> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+> index ff5d732889..3b03763186 100644
+> --- a/tests/docker/Makefile.include
+> +++ b/tests/docker/Makefile.include
+> @@ -141,7 +141,6 @@ docker-image-debian-mips64-cross: docker-image-debian10
+>  docker-image-debian-mips64el-cross: docker-image-debian10
+>  docker-image-debian-mipsel-cross: docker-image-debian10
+>  docker-image-debian-ppc64el-cross: docker-image-debian10
+> -docker-image-debian-riscv64-cross: docker-image-debian10
+>  docker-image-debian-s390x-cross: docker-image-debian10
+>  docker-image-debian-sh4-cross: docker-image-debian10
+>  docker-image-debian-sparc64-cross: docker-image-debian10
+> @@ -180,7 +179,6 @@ DOCKER_PARTIAL_IMAGES += debian-arm64-test-cross
+>  DOCKER_PARTIAL_IMAGES += debian-powerpc-test-cross
+>  DOCKER_PARTIAL_IMAGES += debian-hppa-cross
+>  DOCKER_PARTIAL_IMAGES += debian-m68k-cross debian-mips64-cross
+> -DOCKER_PARTIAL_IMAGES += debian-riscv64-cross
+>  DOCKER_PARTIAL_IMAGES += debian-sh4-cross debian-sparc64-cross
+>  DOCKER_PARTIAL_IMAGES += debian-tricore-cross
+>  DOCKER_PARTIAL_IMAGES += debian-xtensa-cross
+> diff --git a/tests/docker/dockerfiles/debian-riscv64-cross.docker b/tests/docker/dockerfiles/debian-riscv64-cross.docker
+> index 2bbff19772..594d97982c 100644
+> --- a/tests/docker/dockerfiles/debian-riscv64-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-riscv64-cross.docker
+> @@ -1,12 +1,48 @@
+>  #
+> -# Docker cross-compiler target
+> +# Docker cross-compiler target for riscv64
+>  #
+> -# This docker target builds on the debian Buster base image.
+> +# Currently the only distro that gets close to cross compiling riscv64
+> +# images is Debian Sid (with unofficial ports). As this is a moving
+> +# target we keep the library list minimal and are aiming to migrate
+> +# from this hack as soon as we are able.
+>  #
+> -FROM qemu/debian10
+> +FROM docker.io/library/debian:sid-slim
+> +
+> +# Add ports
+> +RUN apt update && \
+> +    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+> +    DEBIAN_FRONTEND=noninteractive eatmydata apt update -yy && \
+> +    DEBIAN_FRONTEND=noninteractive eatmydata apt upgrade -yy
+> +
+> +# Install common build utilities
+> +RUN DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy \
+> +    bc \
+> +    build-essential \
+> +    ca-certificates \
+> +    debian-ports-archive-keyring \
+> +    dpkg-dev \
+> +    gettext \
+> +    git \
+> +    ninja-build \
+> +    pkg-config \
+> +    python3
 
-g_string_append_c() (various).
+Alex, why not using a debian-sid intermediate image?
 
->          }
->      }
-> -    qemu_fprintf(f, "\nspecial regs:\n");
-> +    g_string_append_printf(buf, "\nspecial regs:\n");
->      for (i = 0; i < 16; i++) {
-> -        qemu_fprintf(f, "%s=%8.8x ", pregnames[i], env->pregs[i]);
-> +        g_string_append_printf(buf, "%s=%8.8x ", pregnames[i], env->pregs[i]);
->          if ((i + 1) % 4 == 0) {
-> -            qemu_fprintf(f, "\n");
-> +            g_string_append_printf(buf, "\n");
->          }
->      }
->      if (env->pregs[PR_VR] >= 32) {
->          uint32_t srs = env->pregs[PR_SRS];
-> -        qemu_fprintf(f, "\nsupport function regs bank %x:\n", srs);
-> +        g_string_append_printf(buf, "\nsupport function regs bank %x:\n", srs);
->          if (srs < ARRAY_SIZE(env->sregs)) {
->              for (i = 0; i < 16; i++) {
-> -                qemu_fprintf(f, "s%2.2d=%8.8x ",
-> -                             i, env->sregs[srs][i]);
-> +                g_string_append_printf(buf, "s%2.2d=%8.8x ",
-> +                                       i, env->sregs[srs][i]);
->                  if ((i + 1) % 4 == 0) {
-> -                    qemu_fprintf(f, "\n");
-> +                    g_string_append_printf(buf, "\n");
->                  }
->              }
->          }
->      }
-> -    qemu_fprintf(f, "\n\n");
-> +    g_string_append_printf(buf, "\n\n");
+> +# Add ports and riscv64 architecture
+> +RUN echo "deb http://ftp.ports.debian.org/debian-ports/ sid main" >> /etc/apt/sources.list
+> +RUN dpkg --add-architecture riscv64
+> +
+> +# Duplicate deb line as deb-src
+> +RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
 >  
->  }
->  
+>  RUN apt update && \
+>      DEBIAN_FRONTEND=noninteractive eatmydata \
+>      apt install -y --no-install-recommends \
+> -        gcc-riscv64-linux-gnu \
+> -        libc6-dev-riscv64-cross
+> +         gcc-riscv64-linux-gnu \
+> +         libc6-dev-riscv64-cross \
+> +         libffi-dev:riscv64 \
+> +         libglib2.0-dev:riscv64 \
+> +         libpixman-1-dev:riscv64
+> +
+> +# Specify the cross prefix for this image (see tests/docker/common.rc)
+> +ENV QEMU_CONFIGURE_OPTS --cross-prefix=riscv64-linux-gnu-
+> +ENV DEF_TARGET_LIST riscv64-softmmu,riscv64-linux-user
 > 
+
 
