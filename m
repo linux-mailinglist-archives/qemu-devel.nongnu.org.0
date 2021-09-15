@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C353F40C7E9
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 17:12:00 +0200 (CEST)
-Received: from localhost ([::1]:43166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51B5340C86B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 17:40:39 +0200 (CEST)
+Received: from localhost ([::1]:54852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQWZr-0000yc-Sw
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 11:11:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37332)
+	id 1mQX1Z-0001uI-7f
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 11:40:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mQWWQ-00055j-U6
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 11:08:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29125)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQX0E-0001DX-Qw
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 11:39:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mQWWO-0000hu-QP
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 11:08:26 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQX09-0002IO-Rk
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 11:39:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631718503;
+ s=mimecast20190719; t=1631720348;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3Ei2dwuxTq4L/RK9XHN3r43TONtHyME8hsCQMchyXz8=;
- b=ZEP2DBEnMB9Oj6NibS6LBhWFhndqsf+pFqH9ZnTH87rVJnqXcAv2+qQxtFjXTujveinur8
- ZGlbvvNwOb/PbeINccIp0nHJncmK9jl2i29qwsmCNI4X6FeIDxPK/HLRd34QPPgZZxhwMB
- rVn8gDjNxt5uSzjYV7IwXd4Kk7F/Q2o=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-566-2vC6zw5DNiuRUSV14WQu0w-1; Wed, 15 Sep 2021 11:08:21 -0400
-X-MC-Unique: 2vC6zw5DNiuRUSV14WQu0w-1
-Received: by mail-pj1-f72.google.com with SMTP id
- n3-20020a17090a394300b0019765b9bd7bso1901645pjf.8
- for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 08:08:21 -0700 (PDT)
+ bh=5m9k+jwa4suiD2VrkgSppJ3RqxHZJM/jT4dySR6zMZE=;
+ b=PAUIaTnKhBUNEv/M+QSE/quUFIGEh+dGzZjjxuQTkIhXeRhpLCwOnBYGHEdTI6vBy2Iews
+ naUYvxuX5aJu6hujA489nsSaUaAFDF2FYyEKdSybHNDOvYc+CSUCUniUnSXRzf8Pa2G7T1
+ lzKdLWMwQoYRocKSG296aQgrSEyHXCA=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-423-_8e7ryvZOBitIllIZhZk4w-1; Wed, 15 Sep 2021 11:39:07 -0400
+X-MC-Unique: _8e7ryvZOBitIllIZhZk4w-1
+Received: by mail-ot1-f70.google.com with SMTP id
+ i7-20020a9d6507000000b0051c10643794so2808078otl.22
+ for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 08:39:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=3Ei2dwuxTq4L/RK9XHN3r43TONtHyME8hsCQMchyXz8=;
- b=fGDJRMh6uJSfTgD30jXh/xSHcUOs1Y9g/CkkNHBAIUpNcc3/pSFDnqkESVTNUGYScC
- thNTRR3b+YYJCn6K8+AwLHftK5DcB979vh5kJPkwTqnyhp4nkzl4z/UeZ8uSXOZXzfzr
- 5y88YbU8/fz/OgS3aMzD7di9WLORFPfIZNuDHycpHLhtDGw1Cyz+/+TFfLRHqttawttL
- v6jc7Tr5/dGmN/YwYQjgiyQKz9bklJPt1R4/cP/+aPPBDVdv1Xb9Kd0YR6m60E5zyeu7
- N9ZQA5Pq1C8Jr79/p495xHKrpdhwUSE5JtbCpP5knktHvGd+ccJZ7SC96QRmeP6qLeku
- Ya8w==
-X-Gm-Message-State: AOAM532XkfEZ9v2FlZ6XSvu/5BD/JpWFKQnxsfUaOOhDD5tD/ECNGZZr
- hcfuoGNZesmvXYp7GTVCFdMmVrAJswaIMlFmYUtYGkQTn113bHCk7VL7ktwkp30h2pSabm0Hh/Q
- TplUfEspsCRbVARrkyC6WxuQ0VjM94hQ=
-X-Received: by 2002:a63:e64a:: with SMTP id p10mr209872pgj.263.1631718500480; 
- Wed, 15 Sep 2021 08:08:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyw6PFuLB6jGZjG2lc/zhHPbaqzBPNteF0+tayb0QTLTo6kRJzgfJILwt07ct/X4YiSbHELWzUXrrXMkvk64jQ=
-X-Received: by 2002:a63:e64a:: with SMTP id p10mr209849pgj.263.1631718500144; 
- Wed, 15 Sep 2021 08:08:20 -0700 (PDT)
+ bh=5m9k+jwa4suiD2VrkgSppJ3RqxHZJM/jT4dySR6zMZE=;
+ b=zXwyEG0MeyXPvFl+AXDERtQcz0H2gaPlgy0OFea6ajg1B/KA0VJ4LPEZkGc8JdUH4P
+ 92Z4h1shxz9fekmzN7VGViD7kyYC7uevnZwgiEBoQRbqHhP+mQ49cl3hiFaE82oI7Gn0
+ a0HAmKaF880WttX6Beu4NEwDF+wwsFg+aRi+/WpgorLwPjCNhmIUkD/aLzz2/WwXjuDu
+ 6io6oC2Rr38OGmKWyBy4+Euvf+CzbnouFL2libEonU+KPVB17aSCfx/JczlroSXQqsUy
+ P2Z/87Xqwd9pYKc8tMAt2LX4Iax5rJqe7R9C9Or1/AQ6wYYOAgCWtBAGn2aZRMC3wGlT
+ c7TQ==
+X-Gm-Message-State: AOAM5318CBZEJG+vkxfcgkIzHtkFmMF/x7O9hqpnzdLL3q8EW4KHG6Za
+ nmmhNbg8GRVUrbR8yJBOphlnO615q87ukUGFAhkF7VtWg7TaylMY6u4lP4iHB848gloh03Beh48
+ hs7AYg1JmPR3ncM4qZOnZ8nuhNdGaeYk=
+X-Received: by 2002:a05:6808:a01:: with SMTP id n1mr216937oij.52.1631720346526; 
+ Wed, 15 Sep 2021 08:39:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzJ7TdQiI5WvUOo0iQTvwJvQ+0GxfDB/f5JbIA9O1M3gQzuCGJpysfrwhc6H0gtKD4ofLk9AtPu4IPTj9vrMo0=
+X-Received: by 2002:a05:6808:a01:: with SMTP id n1mr215014oij.52.1631720316373; 
+ Wed, 15 Sep 2021 08:38:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210831123809.1107782-1-armbru@redhat.com>
  <CAMxuvaxLTknvV3k_J4OtTWB2MjL6tj_2AH-0=NV7QbZLwFwOWA@mail.gmail.com>
  <87mtoxwuw8.fsf@dusky.pond.sub.org>
  <CAFn=p-YCi+UYcwU1nKaNTjq8SLLzD+jDrPPZy61b7U23G07PcA@mail.gmail.com>
-In-Reply-To: <CAFn=p-YCi+UYcwU1nKaNTjq8SLLzD+jDrPPZy61b7U23G07PcA@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 15 Sep 2021 19:08:09 +0400
-Message-ID: <CAMxuvay00M-n-iAj_Q_houF=-Wg4ci=L5PS40Y5xeC5QS1yydw@mail.gmail.com>
+ <CAMxuvay00M-n-iAj_Q_houF=-Wg4ci=L5PS40Y5xeC5QS1yydw@mail.gmail.com>
+In-Reply-To: <CAMxuvay00M-n-iAj_Q_houF=-Wg4ci=L5PS40Y5xeC5QS1yydw@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 15 Sep 2021 11:38:25 -0400
+Message-ID: <CAFn=p-a3EYj-YJ2whigVt3=DkYPen5hVDZCdffXa0px_sn7FNQ@mail.gmail.com>
 Subject: Re: [PATCH 00/12] qapi: Fixes and cleanups for recent work (mostly)
-To: John Snow <jsnow@redhat.com>
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000932b5205cc0a1159"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+Content-Type: multipart/alternative; boundary="000000000000d49c0405cc0a7d55"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -96,111 +95,120 @@ Cc: Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000932b5205cc0a1159
+--000000000000d49c0405cc0a7d55
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Wed, Sep 15, 2021 at 11:08 AM Marc-Andr=C3=A9 Lureau <
+marcandre.lureau@redhat.com> wrote:
 
-On Wed, Sep 15, 2021 at 6:51 PM John Snow <jsnow@redhat.com> wrote:
-
+> Hi
 >
+> On Wed, Sep 15, 2021 at 6:51 PM John Snow <jsnow@redhat.com> wrote:
 >
-> On Tue, Aug 31, 2021 at 10:28 AM Markus Armbruster <armbru@redhat.com>
-> wrote:
->
->> Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
 >>
->> > On Tue, Aug 31, 2021 at 4:38 PM Markus Armbruster <armbru@redhat.com>
+>>
+>> On Tue, Aug 31, 2021 at 10:28 AM Markus Armbruster <armbru@redhat.com>
 >> wrote:
->> >
->> >> Markus Armbruster (12):
->> >>   qapi: Simplify QAPISchemaIfCond's interface for generating C
->> >>   qapi: Simplify how QAPISchemaIfCond represents "no condition"
->> >>   tests/qapi-schema: Correct two 'if' conditionals
->> >>   tests/qapi-schema: Demonstrate broken C code for 'if'
->> >>   qapi: Fix C code generation for 'if'
->> >>   qapi: Factor common recursion out of cgen_ifcond(), docgen_ifcond()
->> >>   qapi: Avoid redundant parens in code generated for conditionals
->> >>   qapi: Use "not COND" instead of "!COND" for generated documentation
->> >>   qapi: Use re.fullmatch() where appropriate
->> >>   tests/qapi-schema: Hide OrderedDict in test output
->> >>   qapi: Tweak error messages for missing / conflicting meta-type
->> >>   qapi: Tweak error messages for unknown / conflicting 'if' keys
->> >>
->> >>  scripts/qapi/common.py                  | 51 ++++++++++++++---------=
---
->> >>  scripts/qapi/expr.py                    | 32 +++++++---------
->> >>  scripts/qapi/gen.py                     |  6 +--
->> >>  scripts/qapi/introspect.py              |  6 +--
->> >>  scripts/qapi/schema.py                  | 12 +++++-
->> >>  scripts/qapi/types.py                   | 22 +++++------
->> >>  scripts/qapi/visit.py                   | 14 +++----
->> >>  tests/qapi-schema/bad-if-key.err        |  2 +-
->> >>  tests/qapi-schema/bad-if-keys.err       |  2 +-
->> >>  tests/qapi-schema/doc-good.json         |  2 +-
->> >>  tests/qapi-schema/doc-good.out          |  6 +--
->> >>  tests/qapi-schema/doc-good.txt          |  8 ++--
->> >>  tests/qapi-schema/double-type.err       |  4 +-
->> >>  tests/qapi-schema/enum-if-invalid.err   |  2 +-
->> >>  tests/qapi-schema/missing-type.err      |  2 +-
->> >>  tests/qapi-schema/qapi-schema-test.json |  9 +++--
->> >>  tests/qapi-schema/qapi-schema-test.out  | 31 ++++++++-------
->> >>  tests/qapi-schema/test-qapi.py          | 11 +++++-
->> >>  18 files changed, 118 insertions(+), 104 deletions(-)
->> >>
->> >>
->> > The first patch, you should apply isort
 >>
->> Will fix.
+>>> Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com> writes:
+>>>
+>>> > On Tue, Aug 31, 2021 at 4:38 PM Markus Armbruster <armbru@redhat.com>
+>>> wrote:
+>>> >
+>>> >> Markus Armbruster (12):
+>>> >>   qapi: Simplify QAPISchemaIfCond's interface for generating C
+>>> >>   qapi: Simplify how QAPISchemaIfCond represents "no condition"
+>>> >>   tests/qapi-schema: Correct two 'if' conditionals
+>>> >>   tests/qapi-schema: Demonstrate broken C code for 'if'
+>>> >>   qapi: Fix C code generation for 'if'
+>>> >>   qapi: Factor common recursion out of cgen_ifcond(), docgen_ifcond(=
+)
+>>> >>   qapi: Avoid redundant parens in code generated for conditionals
+>>> >>   qapi: Use "not COND" instead of "!COND" for generated documentatio=
+n
+>>> >>   qapi: Use re.fullmatch() where appropriate
+>>> >>   tests/qapi-schema: Hide OrderedDict in test output
+>>> >>   qapi: Tweak error messages for missing / conflicting meta-type
+>>> >>   qapi: Tweak error messages for unknown / conflicting 'if' keys
+>>> >>
+>>> >>  scripts/qapi/common.py                  | 51
+>>> ++++++++++++++-----------
+>>> >>  scripts/qapi/expr.py                    | 32 +++++++---------
+>>> >>  scripts/qapi/gen.py                     |  6 +--
+>>> >>  scripts/qapi/introspect.py              |  6 +--
+>>> >>  scripts/qapi/schema.py                  | 12 +++++-
+>>> >>  scripts/qapi/types.py                   | 22 +++++------
+>>> >>  scripts/qapi/visit.py                   | 14 +++----
+>>> >>  tests/qapi-schema/bad-if-key.err        |  2 +-
+>>> >>  tests/qapi-schema/bad-if-keys.err       |  2 +-
+>>> >>  tests/qapi-schema/doc-good.json         |  2 +-
+>>> >>  tests/qapi-schema/doc-good.out          |  6 +--
+>>> >>  tests/qapi-schema/doc-good.txt          |  8 ++--
+>>> >>  tests/qapi-schema/double-type.err       |  4 +-
+>>> >>  tests/qapi-schema/enum-if-invalid.err   |  2 +-
+>>> >>  tests/qapi-schema/missing-type.err      |  2 +-
+>>> >>  tests/qapi-schema/qapi-schema-test.json |  9 +++--
+>>> >>  tests/qapi-schema/qapi-schema-test.out  | 31 ++++++++-------
+>>> >>  tests/qapi-schema/test-qapi.py          | 11 +++++-
+>>> >>  18 files changed, 118 insertions(+), 104 deletions(-)
+>>> >>
+>>> >>
+>>> > The first patch, you should apply isort
+>>>
+>>> Will fix.
+>>>
+>>> > The first patch, you should apply isort (we should have a check for
+>>> that
+>>> > and linters I suppose).
+>>>
+>>> John will get us there.
+>>>
+>>>
+>> The goal is to move scripts/qapi to python/qemu/qapi where it will be
+>> covered by the tests that exist there.
+>> Try going to the python/ directory and run 'make' to see help output on
+>> what tests are available and how to invoke them, and what they actually
+>> test.
 >>
->> > The first patch, you should apply isort (we should have a check for th=
-at
->> > and linters I suppose).
+>> "make check-dev" is the target that requires the least amount of
+>> dependencies and environment setup to run, and should be nearly push-but=
+ton
+>> in most environments.
+>> 'make check-tox' and 'make check-pipenv' are executed by GitlabCI as
+>> check-python-tox and check-python-pipenv, respectively.
 >>
->> John will get us there.
 >>
->>
-> The goal is to move scripts/qapi to python/qemu/qapi where it will be
-> covered by the tests that exist there.
-> Try going to the python/ directory and run 'make' to see help output on
-> what tests are available and how to invoke them, and what they actually
-> test.
+> What about a pre-commit hook?
 >
-> "make check-dev" is the target that requires the least amount of
-> dependencies and environment setup to run, and should be nearly push-butt=
-on
-> in most environments.
-> 'make check-tox' and 'make check-pipenv' are executed by GitlabCI as
-> check-python-tox and check-python-pipenv, respectively.
->
->
-What about a pre-commit hook?
 
+"patches welcome" ? There are other python tests likely to go here in the
+future too, so it might be too costly to run as a commit hook. YMMV.
 
-> In the meantime, I've been running tests against qapi manually -- with th=
-e
-> scripts I included in my 'python-qapi-cleanup-pt0' branch.
->
-> --js
->
+--js
 
---000000000000932b5205cc0a1159
+--000000000000d49c0405cc0a7d55
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 15, 2021 at 6:51 PM Joh=
-n Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"=
-ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"=
-ltr" class=3D"gmail_attr">On Tue, Aug 31, 2021 at 10:28 AM Markus Armbruste=
-r &lt;<a href=3D"mailto:armbru@redhat.com" target=3D"_blank">armbru@redhat.=
-com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com=
-" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; writes:<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 15, 2021 at 11:08 AM Marc=
+-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marca=
+ndre.lureau@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 1=
+5, 2021 at 6:51 PM John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=
+=3D"_blank">jsnow@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br=
+><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, A=
+ug 31, 2021 at 10:28 AM Markus Armbruster &lt;<a href=3D"mailto:armbru@redh=
+at.com" target=3D"_blank">armbru@redhat.com</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">Marc-Andr=C3=A9 Lureau &lt;<a hr=
+ef=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lurea=
+u@redhat.com</a>&gt; writes:<br>
 <br>
 &gt; On Tue, Aug 31, 2021 at 4:38 PM Markus Armbruster &lt;<a href=3D"mailt=
 o:armbru@redhat.com" target=3D"_blank">armbru@redhat.com</a>&gt; wrote:<br>
@@ -285,15 +293,12 @@ t setup to run, and should be nearly push-button in most environments.</div=
 ><div>&#39;make check-tox&#39; and &#39;make check-pipenv&#39; are executed=
  by GitlabCI as check-python-tox and check-python-pipenv, respectively.</di=
 v><div><br></div></div></div></div></blockquote><div>=C2=A0</div><div>What =
-about a pre-commit hook?<br></div><div>=C2=A0</div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div>=
-<div></div><div>In the meantime, I&#39;ve been running tests against qapi m=
-anually -- with the scripts I included in my &#39;python-qapi-cleanup-pt0&#=
-39; branch.<br></div></div><div><div><br></div><div>--js</div></div></div><=
-/div>
-</blockquote></div></div>
+about a pre-commit hook?<br></div></div></div></blockquote><br></div><div c=
+lass=3D"gmail_quote">&quot;patches welcome&quot; ? There are other python t=
+ests likely to go here in the future too, so it might be too costly to run =
+as a commit hook. YMMV.<br></div><div class=3D"gmail_quote"><br></div><div =
+class=3D"gmail_quote">--js<div><br></div></div></div>
 
---000000000000932b5205cc0a1159--
+--000000000000d49c0405cc0a7d55--
 
 
