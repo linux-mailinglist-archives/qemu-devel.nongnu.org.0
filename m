@@ -2,52 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE6A40C40F
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 13:01:14 +0200 (CEST)
-Received: from localhost ([::1]:40690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E30740C454
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 Sep 2021 13:21:39 +0200 (CEST)
+Received: from localhost ([::1]:49336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQSfB-0006hR-QW
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 07:01:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45468)
+	id 1mQSyv-0006P8-DP
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 07:21:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1mQScn-0005kF-FX; Wed, 15 Sep 2021 06:58:45 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:50418 helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1mQSci-0000Ii-Vl; Wed, 15 Sep 2021 06:58:45 -0400
-Received: from MacBook-Air.alex.local
- (dynamic-095-117-089-091.95.117.pool.telefonica.de [95.117.89.91])
- by csgraf.de (Postfix) with ESMTPSA id 3C4D460803DB;
- Wed, 15 Sep 2021 12:58:30 +0200 (CEST)
-Subject: Re: [PATCH v9 07/11] hvf: arm: Implement PSCI handling
-To: Marc Zyngier <maz@kernel.org>, Peter Maydell <peter.maydell@linaro.org>
-References: <20210912230757.41096-1-agraf@csgraf.de>
- <20210912230757.41096-8-agraf@csgraf.de>
- <CAFEAcA8BybrfxNxkWbEjxji4DvDumr6Otb_RK_f84Dt_TWXfpA@mail.gmail.com>
- <ad707e0d-8d4a-0248-80f4-a02a7226ce0a@csgraf.de>
- <CAFEAcA_OBK1hbqC1Nc7J+VEwkO54WvqBrNa=bR5T3tZW+nfEkQ@mail.gmail.com>
- <3132e2f5-41a6-6011-808b-7ea12abec1c0@csgraf.de>
- <CAFEAcA9k0-przZxAXpdwZKju9GW4gFpTcqAxTD4z_QoueHg=NQ@mail.gmail.com>
- <87wnnib291.wl-maz@kernel.org>
-From: Alexander Graf <agraf@csgraf.de>
-Message-ID: <4ce23412-7484-f77a-6378-4369b0b2397c@csgraf.de>
-Date: Wed, 15 Sep 2021 12:58:29 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQSwz-0004l5-Cu
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 07:19:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52170)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQSwV-0002r1-Rj
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 07:19:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631704745;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sKGtrpLJ2wfwNcCmbGtULxPlANU3kncZIOHFXXe0m8w=;
+ b=Vp/j8uM9nwXhLk51pu8Fhm54tGlg06QuWYT6Yl8bvkGpIncJXww3X/10lMvTZwOFJ1Bq2D
+ xsopVBqYXGi6A+fI3vu8jXJDGWNbRBj8QhKz/XUPMKKJMps7gBVMBVSOk15W5QUf/0cdF6
+ mZmhBLIuacrgZ8cO91f9uyP1RXIRYQA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-571-ybI5ZqRTMWGIaxw0_Zg0mg-1; Wed, 15 Sep 2021 07:19:04 -0400
+X-MC-Unique: ybI5ZqRTMWGIaxw0_Zg0mg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ x2-20020a5d54c2000000b0015dfd2b4e34so895170wrv.6
+ for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 04:19:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=sKGtrpLJ2wfwNcCmbGtULxPlANU3kncZIOHFXXe0m8w=;
+ b=rlorprqHkUgEkil3EwuxQwaFJ6yqDdv+x2CcaYfURgcvjid+F+5Q79hT5kMR3ImErw
+ DiysJ05+q9IqFFrGkWTWuqGp7Rf6+Oomm5Eq8BAt1xePZJcxNFzUqAZHZgZK6VvwbK/E
+ 3a2KG0rX/mNZV+UkSHlILQqfWdX9IBCEbUmtGYK/MoIIZr9ixmqNMZhQWzBIckosFAJC
+ /lAnHWc+83txLpbgKuFcDFErX0SWjsTKWMos21uXFY2Ht9IgDQ/wWHslYXwUlqaeCvUO
+ rlmlTEPcpbkD/2xM2WC0oxd3XTq+LCsuGI1IKTCwHU01C3VPZQSfis/xgyn/wwGcxt3a
+ olaw==
+X-Gm-Message-State: AOAM531uCjpnvoZrMRbV/SFsPyK6uzA+WEvnUZJjXsp7HZn8ygObwTeK
+ WvZD3GO57lmq1aZSNiTHuumWl8Knpy0fEbYQGUL8ZAWKtrjdMOQYFD68j5t3TPZ7jwTwb9wc/5N
+ Zx9ll9vgSEF9W1Hc=
+X-Received: by 2002:a5d:61c1:: with SMTP id q1mr4378549wrv.154.1631704742890; 
+ Wed, 15 Sep 2021 04:19:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxSGTHH8fH/8RVIq43rsLyM0t4XNg5vywAFjrYW1sJFiil/xIB13SrzSUEf0pbIpuwP7v2ZBw==
+X-Received: by 2002:a5d:61c1:: with SMTP id q1mr4378532wrv.154.1631704742721; 
+ Wed, 15 Sep 2021 04:19:02 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id e8sm13559224wrj.48.2021.09.15.04.19.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Sep 2021 04:19:02 -0700 (PDT)
+Subject: Re: [PATCH] qemu-img: Add -F shorthand to convert
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20210913131735.1948339-1-eblake@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <d6cc5017-319c-5349-5bf1-677580d590f9@redhat.com>
+Date: Wed, 15 Sep 2021 13:19:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <87wnnib291.wl-maz@kernel.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210913131735.1948339-1-eblake@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.698,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.698, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,83 +97,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Peter Collingbourne <pcc@google.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 15.09.21 11:46, Marc Zyngier wrote:
-> On Mon, 13 Sep 2021 13:30:57 +0100,
-> Peter Maydell <peter.maydell@linaro.org> wrote:
->> On Mon, 13 Sept 2021 at 13:02, Alexander Graf <agraf@csgraf.de> wrote:
->>>
->>> On 13.09.21 13:44, Peter Maydell wrote:
->>>> On Mon, 13 Sept 2021 at 12:07, Alexander Graf <agraf@csgraf.de> wrote:
->>>>> To keep your train of thought though, what would you do if we encounter
->>>>> a conduit that is different from the chosen one? Today, I am aware of 2
->>>>> different implementations: TCG injects #UD [1] while KVM sets x0 to -1 [2].
->>>> If the SMC or HVC insn isn't being used for PSCI then it should
->>>> have its standard architectural behaviour.
->>> Why?
->> QEMU's assumption here is that there are basically two scenarios
->> for these instructions:
->>  (1) we're providing an emulation of firmware that uses this
->>      instruction (and only this insn, not the other one) to
->>      provide PSCI services
->>  (2) we're not emulating any firmware at all, we're running it
->>      in the guest, and that guest firmware is providing PSCI
->>
->> In case (1) we provide a PSCI ABI on the end of the insn.
->> In case (2) we provide the architectural behaviour for the insn
->> so that the guest firmware can use it.
->>
->> We don't currently have
->>  (3) we're providing an emulation of firmware that does something
->>      other than providing PSCI services on this instruction
->>
->> which is what I think you're asking for. (Alternatively, you might
->> be after "provide PSCI via SMC, not HVC", ie use a different conduit.
->> If hvf documents that SMC is guaranteed to trap that would be
->> possible, I guess.)
->>
->>> Also, why does KVM behave differently?
->> Looks like Marc made KVM set x0 to -1 for SMC calls in kernel commit
->> c0938c72f8070aa; conveniently he's on the cc list here so we can
->> ask him :-)
-> If we got a SMC trap into KVM, that's because the HW knows about it,
-> so injecting an UNDEF is rather counter productive (we don't hide the
-> fact that EL3 actually exists).
-
-
-This is the part where you and Peter disagree :). What would you suggest
-to do to create consistency between KVM and TCG based EL0/1 only VMs?
-
-
-> However, we don't implement anything on the back of this instruction,
-> so we just return NOT_IMPLEMENTED (-1). With NV, we actually use it as
-> a guest hypervisor can use it for PSCI and SMC is guaranteed to trap
-> even if EL3 doesn't exist in the HW.
+On 13.09.21 15:17, Eric Blake wrote:
+> Although we have long supported 'qemu-img convert -o
+> backing_file=foo,backing_fmt=bar', the fact that we have a shortcut -B
+> for backing_file but none for backing_fmt has made it more likely that
+> users accidentally run into:
 >
-> For the brain-damaged case where there is no EL3, SMC traps and the
-> hypervisor doesn't actually advertises EL3, that's likely a guest
-> bug. Tough luck.
+> qemu-img: warning: Deprecated use of backing file without explicit backing format
 >
-> Side note: Not sure where HVF does, but on the M1 running Linux, SMC
-> appears to trap to EL2 with EC=0x3f, which is a reserved exception
-> class. This of course results in an UNDEF being injected because as
-> far as KVM is concerned, this should never happen.
+> when using -B instead of -o.  For similarity with other qemu-img
+> commands, such as create and compare, add '-F $fmt' as the shorthand
+> for '-o backing_fmt=$fmt'.  Update iotest 122 for coverage of both
+> spellings.
+>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>
+> This stemmed from an IRC conversation; I'd add a Reported-by: line if
+> I can figure out how to credit more than just the nick bparker_.
 
+Thanks, applied to my block branch:
 
-Could that be yet another magical implementation specific MSR bit that
-needs to be set? Hvf returns 0x17 (EC_AA64_SMC) for SMC calls.
+https://gitlab.com/hreitz/qemu/-/commits/block/
 
-
-Alex
+Hanna
 
 
