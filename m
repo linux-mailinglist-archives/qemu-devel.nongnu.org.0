@@ -2,69 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D6740E0A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:22:34 +0200 (CEST)
-Received: from localhost ([::1]:44190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AAE940E13F
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:29:15 +0200 (CEST)
+Received: from localhost ([::1]:60850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQu9h-0002QG-HS
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:22:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47432)
+	id 1mQuG9-0005IC-Q0
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:29:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQtmg-0002gV-7k
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:58:46 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34742)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQtme-0000P9-AM
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:58:45 -0400
-Received: by mail-wr1-x431.google.com with SMTP id t8so3304015wri.1
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 08:58:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9va8IPoUbumHfiNo6Kwcmx+DBrcIdYjE4IvnXeCl2Bo=;
- b=LUMvFE0TL9aJVlN8n7lB2fFaTrZCfWRJQadFPlxDUaUniE+r3J5Fhkh2sjLxAbMMCm
- xSxkVmPWCkinZB0jERwKk9bKgwiWfwUxSQMPyzsbG+9jtPYZr8x2SoBtZeJBMh9JEReZ
- pqLIpkjnzIFcQtG27bI4AtM7t+k8SHe0CX6nE2N7mxXwxIckttnoD7QvKylAAj8cXOO6
- Wz4+1rhLnLGNQbiBSG3bD0U5vVc9IHTLnMLiBXTnG/B2h6Mn+W9chuoJyXdq/0K7sLIZ
- S5R9Eypi/bvA3yaMdF1YmWtrv7fhjgP54+szPM51LzXoQjkvJ9vYYQpbNu8u/VzS3uHi
- H43A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9va8IPoUbumHfiNo6Kwcmx+DBrcIdYjE4IvnXeCl2Bo=;
- b=ura3+H1H5+vRcYUAJXUxaNXabW1qFt0IS+mT2g3z+U9ui/oHx/rWyZ3AvcqgjrNwpO
- f6VlgF03xWiul+yxjplQ03soxp3fN0mJ2PT+mu3+RA/Hs5qtcsVEgz/DhYyw7zYXTyU7
- oqFfac6LBQeABSZigl3TKuKdkeu8IWvF/RU5yYe57EiFBPEeOdm6sMGusT8FOXXyb4MF
- nw6ZeU8eahzAwmSt478UHs9jWamR5mK0XfpQtJL1wKVs9G+1c1naIZt64ZbzJyY6Vaxp
- mxid3HzelMGxYqOPWlawb0Z4mLECkQTPCPJR97icstdrRT7J0Z69jTJqPACCwKnbYqZU
- tPZw==
-X-Gm-Message-State: AOAM5302Uo/QsucM0d71VkdCLxERPsKXbyLqsWY1Z/N+8IxbOsmuj4Cx
- AHWQO3p2M2pJ2ead6BbsKHZiUrQ8s1PGJG+uchMpjQ==
-X-Google-Smtp-Source: ABdhPJxwdf8PLmTqydUjj7yppShOcL6/eiCnJHXLxUw+z/chuXY8ZXmPMy0luIkSGZVDAyP7TK7W7U28TvMY/ZPRa1o=
-X-Received: by 2002:a5d:4a08:: with SMTP id m8mr6771793wrq.263.1631807922502; 
- Thu, 16 Sep 2021 08:58:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
+ id 1mQttP-0004B8-Uv; Thu, 16 Sep 2021 12:05:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60252)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
+ id 1mQttJ-000654-Rs; Thu, 16 Sep 2021 12:05:40 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 811ED61284;
+ Thu, 16 Sep 2021 16:05:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1631808328;
+ bh=VzJSebYs1KUuC/ajUXKa/vXtZKo1ICr0zMwS9puvvqU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=hJrD6i5Nru1B+yK6WWHH+W4Qy9xX8vSQHYEoE+/h/zDSAeZfo/NgkSyDqW/PHA3d1
+ b53B4oJxnDzVfweieHLDj8y9WQBUVzYgvX6ORSSh+vuFNy+4FswFd7Sqo1WDmgOQLI
+ HluOe97bNZv0wQ3zaOhkk/NuVDiDG3PkbG83kFcNFs/Oth124kTczlT/H+ATDJ64mu
+ z2MOB7uQUW+rnSOAXMY5+luSjAXOmrVNJdbJSIxlqZypSetm74bOk4LhEmGZ+/IRnF
+ bBEhVUuMI3m/WUAJVktWzAOSgxKqyEmuyjy/m+/GylhFzUbr6qn+SGhj8jjFMpeVNx
+ IDNDgVpKyU/6g==
+Received: by mail-oi1-f173.google.com with SMTP id v2so9688280oie.6;
+ Thu, 16 Sep 2021 09:05:28 -0700 (PDT)
+X-Gm-Message-State: AOAM5316tRJ50Z/R2Vsw7C9rRmufklFoXvjKx7t2rT3ik1j+vx5gue52
+ WW4FAqXTO3+r+r5wQEl6D8z0pdmBKaaUUMWNzvM=
+X-Google-Smtp-Source: ABdhPJzdWgzpKb7f0S/OUUR0qHiq2l+jNt66TkV6uXTTbaz4XXwAn1scAua4FrWAS5dBqLyu/rHv42pr6yrBlK+6h5g=
+X-Received: by 2002:a05:6808:15a2:: with SMTP id
+ t34mr9537589oiw.47.1631808327889; 
+ Thu, 16 Sep 2021 09:05:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210916135241.150566-1-dgilbert@redhat.com>
- <CAFEAcA-k=jKqBcEzxd+ALPYz_UVT1_AG3PnsuX2N77_UTSE=nA@mail.gmail.com>
- <YUNj1DQT9VyU54DV@work-vm>
-In-Reply-To: <YUNj1DQT9VyU54DV@work-vm>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Sep 2021 16:57:51 +0100
-Message-ID: <CAFEAcA_DDQFkF-n3_mr9RyRBUnUN00kZNKoiP_e5koY3F1zxHg@mail.gmail.com>
-Subject: Re: [PULL 0/2] virtiofs queue
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20210915181049.27597-1-agraf@csgraf.de>
+ <20210915181049.27597-7-agraf@csgraf.de>
+ <CAFEAcA9JZZ4nb8WAvKVYpwqxb_E5NFOVW9rKF3u7GhFqfNZgOQ@mail.gmail.com>
+ <8e219cb0-8b65-faf8-f636-5c1d24471f84@csgraf.de>
+ <CAFEAcA8xs3x5WCqT+FnPYip=nbQx6=UEH90Dkjq48YLboV9qAw@mail.gmail.com>
+In-Reply-To: <CAFEAcA8xs3x5WCqT+FnPYip=nbQx6=UEH90Dkjq48YLboV9qAw@mail.gmail.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Thu, 16 Sep 2021 18:05:16 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXEEN+J4k_Kib8gRHcy8v1vVRwk7c847yT_Kuv+jnLf9ww@mail.gmail.com>
+Message-ID: <CAMj1kXEEN+J4k_Kib8gRHcy8v1vVRwk7c847yT_Kuv+jnLf9ww@mail.gmail.com>
+Subject: Re: [PATCH v11 06/10] hvf: arm: Implement -cpu host
+To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=ardb@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -74
+X-Spam_score: -7.5
+X-Spam_bar: -------
+X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,42 +72,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Sergio Lopez <slp@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- vgoyal@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ qemu-arm <qemu-arm@nongnu.org>, Frank Yang <lfy@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Sept 2021 at 16:33, Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
+On Thu, 16 Sept 2021 at 17:56, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> * Peter Maydell (peter.maydell@linaro.org) wrote:
-> > On Thu, 16 Sept 2021 at 14:58, Dr. David Alan Gilbert (git)
-> > <dgilbert@redhat.com> wrote:
-> > >
-> > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > >
-> > > The following changes since commit 57b6f58c1d0df757c9311496c32d502925056894:
-> > >
-> > >   Merge remote-tracking branch 'remotes/hreitz/tags/pull-block-2021-09-15' into staging (2021-09-15 18:55:59 +0100)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20210916
-> > >
-> > > for you to fetch changes up to 046d91c83caac29e2ba26c63fd7d685a57463f6d:
-> > >
-> > >   virtiofsd: Reverse req_list before processing it (2021-09-16 14:50:48 +0100)
-> > >
+> On Thu, 16 Sept 2021 at 16:30, Alexander Graf <agraf@csgraf.de> wrote:
 > >
-> > gpg says your key has expired; what keyserver can I download an
-> > updated key from?
+> >
+> > On 16.09.21 14:24, Peter Maydell wrote:
+> > > On Wed, 15 Sept 2021 at 19:10, Alexander Graf <agraf@csgraf.de> wrote:
+> > >> Now that we have working system register sync, we push more target CPU
+> > >> properties into the virtual machine. That might be useful in some
+> > >> situations, but is not the typical case that users want.
+> > >>
+> > >> So let's add a -cpu host option that allows them to explicitly pass all
+> > >> CPU capabilities of their host CPU into the guest.
+> > >>
+> > >> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+> > >> Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> > >> Reviewed-by: Sergio Lopez <slp@redhat.com>
+> > >>
+> > >> +    /*
+> > >> +     * A scratch vCPU returns SCTLR 0, so let's fill our default with the M1
+> > >> +     * boot SCTLR from https://github.com/AsahiLinux/m1n1/issues/97
 >
-> I pushed an updated one to pgp.mit.edu just before I sent the pull;
-> I can see it there (although it's a bit slow to respond).
+> Side note: SCTLR_EL1 is a 64-bit register, do you have anything that
+> prints the full 64-bits to confirm that [63:32] are indeed all 0?
+>
+> > >> +     */
+> > >> +    ahcf->reset_sctlr = 0x30100180;
+> > >> +    /* OVMF chokes on boot if SPAN is not set, so default it to on */
+> > >> +    ahcf->reset_sctlr |= 0x00800000;
+> > > Isn't that just an OVMF bug ? If you want this then you need to
+> > > convince me why this isn't just a workaround for a buggy guest.
+> >
+> >
+> > I couldn't find anything in the ARMv8 spec that explicitly says "If you
+> > support PAN, SCTLR.SPAN should be 1 by default". It is RES1 for CPUs
+> > that do not implement PAN. Beware that for SPAN, "1" means disabled and
+> > "0" means enabled.
+>
+> It's UNKNOWN on reset. So unless OVMF is relying on whatever
+> is launching it to set SCTLR correctly (ie there is some part of
+> the "firmware-to-OVMF" contract it is relying on) then it seems to
+> me that it's OVMF's job to initialize it to what it needs. (Lots of
+> SCTLR is like that.)
+>
+> Linux does this here:
+>  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/kernel/head.S?h=v5.15-rc1#n485
+>  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/include/asm/sysreg.h?h=v5.15-rc1#n695
+> because the INIT_SCTLR_EL1_MMU_OFF constant includes forcing
+> all "this kernel expects these to be RES0/RES1 because that's all
+> the architectural features we know about at this time" bits to
+> their RESn values.
+>
+> But we can probably construct an argument for why having it set
+> makes sense, yes.
+>
 
-It doesn't seem to respond for me; a recv-keys just hangs.
-I recommend keys.openpgp.org or keyserver.ubuntu.com.
-
--- PMM
+I'd argue that compliance with the architecture means that the
+software should not clear RES1 bits, but I don't think we can blame it
+for not touching bits that were in in invalid state upon entry.
 
