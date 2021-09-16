@@ -2,70 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F2740D9C3
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 14:22:04 +0200 (CEST)
-Received: from localhost ([::1]:44336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F7B40D9DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 14:24:16 +0200 (CEST)
+Received: from localhost ([::1]:47544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQqOy-00022L-0u
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 08:22:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42524)
+	id 1mQqR5-0004Zg-Nx
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 08:24:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQqMD-00007h-4f
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:19:14 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35355)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQqMB-0007Jx-4L
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:19:12 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- z184-20020a1c7ec1000000b003065f0bc631so7247494wmc.0
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 05:19:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=x6+2J429AKKWmA7iWiebRHTPC6uL6qahB8bMeVZb9zU=;
- b=H3jOEU1sqM0YyUSCbfQKN1S4HIxkuvsEKfA8RX8cqcHsQN46xcLwyJ3kqkLzsMuDmk
- JNMZEorHMdChl1sIkeDN1g4ZfJ+TjdeGD+hHF11cpbAyhINriTWHCUgIq7XqGtYIqhNw
- wbddWJ/xDap8lWdskaKv5818QWweCLJbhMlpQu1yjLMSV3QlZ6QYV5sH+r450ihvELHj
- sDL7eBJhZbED+oiOs1pIe0fuVYOS5X8Jwuy7Xnll9psckp/IY+Ghfz9dYxHmX2YrnMVU
- jkpCwmfISuVHv9AgwW901TP23KvyVCQwmkj/uDC5iaKR8N4ifoTkOCnIO8/mdqWwojBX
- I+0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=x6+2J429AKKWmA7iWiebRHTPC6uL6qahB8bMeVZb9zU=;
- b=t+v8WGMSsUy8rbq/q2FAH+L7XJD5YF7epL0BmureQHKC5BW8RrjqbKxSUKBB4KzQVI
- gg8LqfXDK3izsMf4mEU44RTs8EoWfTJgFK8MRO8HTSlqI/qHfDgbKDoVVB8cJTdKri5Q
- 6boNfOGcV7P4qsOCmapiblHZNREbDd5a9pJwAdGo3xk53hFUAuDCqN+qmfiLYacFOQcO
- 8+qzI6qUG6fIHHV/w8fC9JuTwADS8XplwIn+5AdrtCaHqRJUB98KfdcvnB0iAeI6MSxV
- 3+L3UgWeoTRp99rxRGMiX5o6xdsyEdXZnn3zR1AVul0mslYhdIaVdCsMlg/gFpwa6xCz
- k64A==
-X-Gm-Message-State: AOAM530J6zaV/acQhQAWz73HDXvenOMOeWG6wgJQaWf3qCp3tSg9Y47Q
- iPRNSuAJed2vY8ChVHb6QokMLwBrj8ha1L7LngZamQ==
-X-Google-Smtp-Source: ABdhPJznfEZdxkev+LehJmdGEBd3RElm452l814NxzltMH5ec/CDPrgsB+w4/JbQh2HO/vipB8PX9Q3LpVW367vzqxc=
-X-Received: by 2002:a05:600c:4848:: with SMTP id
- j8mr9626908wmo.21.1631794749402; 
- Thu, 16 Sep 2021 05:19:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210915181049.27597-1-agraf@csgraf.de>
- <20210915181049.27597-6-agraf@csgraf.de>
-In-Reply-To: <20210915181049.27597-6-agraf@csgraf.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Sep 2021 13:18:18 +0100
-Message-ID: <CAFEAcA-gYow+rkW+LDgGPE0tWP4EJVLjZu3yMtNBcfhuNmhh7g@mail.gmail.com>
-Subject: Re: [PATCH v11 05/10] arm/hvf: Add a WFI handler
-To: Alexander Graf <agraf@csgraf.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1mQqOV-000310-Jm
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:21:37 -0400
+Received: from kerio.kamp.de ([195.62.97.192]:39686)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1mQqOS-0001D9-O9
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:21:35 -0400
+X-Footer: a2FtcC5kZQ==
+Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 14:21:22 +0200
+Received: (qmail 40586 invoked from network); 16 Sep 2021 12:21:22 -0000
+Received: from lieven-pc.kamp-intra.net (HELO lieven-pc)
+ (relay@kamp.de@::ffff:172.21.12.60)
+ by submission.kamp.de with ESMTPS (DHE-RSA-AES256-GCM-SHA384 encrypted) ESMTPA;
+ 16 Sep 2021 12:21:22 -0000
+Received: by lieven-pc (Postfix, from userid 1060)
+ id 851DB13D87D; Thu, 16 Sep 2021 14:21:22 +0200 (CEST)
+From: Peter Lieven <pl@kamp.de>
+To: qemu-block@nongnu.org
+Subject: [PATCH V3] block/rbd: implement bdrv_co_block_status
+Date: Thu, 16 Sep 2021 14:21:16 +0200
+Message-Id: <20210916122116.802-1-pl@kamp.de>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,42 +53,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Peter Collingbourne <pcc@google.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: kwolf@redhat.com, idryomov@redhat.com, berrange@redhat.com,
+ Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org, ct@flyingcircus.io,
+ pbonzini@redhat.com, idryomov@gmail.com, mreitz@redhat.com,
+ dillaman@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Sept 2021 at 19:10, Alexander Graf <agraf@csgraf.de> wrote:
->
-> From: Peter Collingbourne <pcc@google.com>
->
-> Sleep on WFI until the VTIMER is due but allow ourselves to be woken
-> up on IPI.
->
-> In this implementation IPI is blocked on the CPU thread at startup and
-> pselect() is used to atomically unblock the signal and begin sleeping.
-> The signal is sent unconditionally so there's no need to worry about
-> races between actually sleeping and the "we think we're sleeping"
-> state. It may lead to an extra wakeup but that's better than missing
-> it entirely.
->
-> Signed-off-by: Peter Collingbourne <pcc@google.com>
-> [agraf: Remove unused 'set' variable, always advance PC on WFX trap,
->         support vm stop / continue operations and cntv offsets]
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> Reviewed-by: Sergio Lopez <slp@redhat.com>
->
-> ---
+the qemu rbd driver currently lacks support for bdrv_co_block_status.
+This results mainly in incorrect progress during block operations (e.g.
+qemu-img convert with an rbd image as source).
 
-Other than the points Philippe raises,
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+This patch utilizes the rbd_diff_iterate2 call from librbd to detect
+allocated and unallocated (all zero areas).
 
-thanks
--- PMM
+To avoid querying the ceph OSDs for the answer this is only done if
+the image has the fast-diff feature which depends on the object-map and
+exclusive-lock features. In this case it is guaranteed that the information
+is present in memory in the librbd client and thus very fast.
+
+If fast-diff is not available all areas are reported to be allocated
+which is the current behaviour if bdrv_co_block_status is not implemented.
+
+Signed-off-by: Peter Lieven <pl@kamp.de>
+---
+V2->V3:
+- check rbd_flags every time (they can change during runtime) [Ilya]
+- also check for fast-diff invalid flag [Ilya]
+- *map and *file cant be NULL [Ilya]
+- set ret = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID in case of an
+  unallocated area [Ilya]
+- typo: catched -> caught [Ilya]
+- changed wording about fast-diff, object-map and exclusive lock in
+  commit msg [Ilya]
+
+V1->V2:
+- add commit comment [Stefano]
+- use failed_post_open [Stefano]
+- remove redundant assert [Stefano]
+- add macro+comment for the magic -9000 value [Stefano]
+- always set *file if its non NULL [Stefano]
+
+ block/rbd.c | 126 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 126 insertions(+)
+
+diff --git a/block/rbd.c b/block/rbd.c
+index dcf82b15b8..3cb24f9981 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -1259,6 +1259,131 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
+     return spec_info;
+ }
+ 
++typedef struct rbd_diff_req {
++    uint64_t offs;
++    uint64_t bytes;
++    int exists;
++} rbd_diff_req;
++
++/*
++ * rbd_diff_iterate2 allows to interrupt the exection by returning a negative
++ * value in the callback routine. Choose a value that does not conflict with
++ * an existing exitcode and return it if we want to prematurely stop the
++ * execution because we detected a change in the allocation status.
++ */
++#define QEMU_RBD_EXIT_DIFF_ITERATE2 -9000
++
++static int qemu_rbd_co_block_status_cb(uint64_t offs, size_t len,
++                                       int exists, void *opaque)
++{
++    struct rbd_diff_req *req = opaque;
++
++    assert(req->offs + req->bytes <= offs);
++
++    if (req->exists && offs > req->offs + req->bytes) {
++        /*
++         * we started in an allocated area and jumped over an unallocated area,
++         * req->bytes contains the length of the allocated area before the
++         * unallocated area. stop further processing.
++         */
++        return QEMU_RBD_EXIT_DIFF_ITERATE2;
++    }
++    if (req->exists && !exists) {
++        /*
++         * we started in an allocated area and reached a hole. req->bytes
++         * contains the length of the allocated area before the hole.
++         * stop further processing.
++         */
++        return QEMU_RBD_EXIT_DIFF_ITERATE2;
++    }
++    if (!req->exists && exists && offs > req->offs) {
++        /*
++         * we started in an unallocated area and hit the first allocated
++         * block. req->bytes must be set to the length of the unallocated area
++         * before the allocated area. stop further processing.
++         */
++        req->bytes = offs - req->offs;
++        return QEMU_RBD_EXIT_DIFF_ITERATE2;
++    }
++
++    /*
++     * assert that we caught all cases above and allocation state has not
++     * changed during callbacks.
++     */
++    assert(exists == req->exists || !req->bytes);
++    req->exists = exists;
++
++    /*
++     * assert that we either return an unallocated block or have got callbacks
++     * for all allocated blocks present.
++     */
++    assert(!req->exists || offs == req->offs + req->bytes);
++    req->bytes = offs + len - req->offs;
++
++    return 0;
++}
++
++static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
++                                                 bool want_zero, int64_t offset,
++                                                 int64_t bytes, int64_t *pnum,
++                                                 int64_t *map,
++                                                 BlockDriverState **file)
++{
++    BDRVRBDState *s = bs->opaque;
++    int ret, r;
++    struct rbd_diff_req req = { .offs = offset };
++    uint64_t features, flags;
++
++    assert(offset + bytes <= s->image_size);
++
++    /* default to all sectors allocated */
++    ret = BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID;
++    *map = offset;
++    *file = bs;
++    *pnum = bytes;
++
++    /* check if RBD image supports fast-diff */
++    r = rbd_get_features(s->image, &features);
++    if (r < 0) {
++        goto out;
++    }
++    if (!(features & RBD_FEATURE_FAST_DIFF)) {
++        goto out;
++    }
++
++    /* check if RBD fast-diff result is valid */
++    r = rbd_get_flags(s->image, &flags);
++    if (r < 0) {
++        goto out;
++    }
++    if (flags & RBD_FLAG_FAST_DIFF_INVALID) {
++        goto out;
++    }
++
++    r = rbd_diff_iterate2(s->image, NULL, offset, bytes, true, true,
++                          qemu_rbd_co_block_status_cb, &req);
++    if (r < 0 && r != QEMU_RBD_EXIT_DIFF_ITERATE2) {
++        goto out;
++    }
++    assert(req.bytes <= bytes);
++    if (!req.exists) {
++        if (r == 0 && !req.bytes) {
++            /*
++             * rbd_diff_iterate2 does not invoke callbacks for unallocated areas
++             * except for the case where an overlay has a hole where the parent
++             * has not. This here catches the case where no callback was
++             * invoked at all.
++             */
++            req.bytes = bytes;
++        }
++        ret = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID;
++    }
++    *pnum = req.bytes;
++
++out:
++    return ret;
++}
++
+ static int64_t qemu_rbd_getlength(BlockDriverState *bs)
+ {
+     BDRVRBDState *s = bs->opaque;
+@@ -1494,6 +1619,7 @@ static BlockDriver bdrv_rbd = {
+ #ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
+     .bdrv_co_pwrite_zeroes  = qemu_rbd_co_pwrite_zeroes,
+ #endif
++    .bdrv_co_block_status   = qemu_rbd_co_block_status,
+ 
+     .bdrv_snapshot_create   = qemu_rbd_snap_create,
+     .bdrv_snapshot_delete   = qemu_rbd_snap_remove,
+-- 
+2.17.1
+
+
 
