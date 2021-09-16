@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D53940DC91
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 16:17:48 +0200 (CEST)
-Received: from localhost ([::1]:38126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9FCA40DC89
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 16:14:04 +0200 (CEST)
+Received: from localhost ([::1]:57970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQsCx-0000vz-Hk
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 10:17:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49512)
+	id 1mQs9L-0003a9-Rz
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 10:14:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mQs63-0000YB-6m; Thu, 16 Sep 2021 10:10:39 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:40843)
+ id 1mQs6A-0000ap-Rg; Thu, 16 Sep 2021 10:10:47 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:57871)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mQs60-0005qL-Sa; Thu, 16 Sep 2021 10:10:38 -0400
+ id 1mQs63-0005rK-5Y; Thu, 16 Sep 2021 10:10:46 -0400
 Received: from quad ([82.142.27.6]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MGA0o-1mhOth1TFk-00GasX; Thu, 16
- Sep 2021 16:10:33 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MMnru-1mAJ9J3WvE-00IjXR; Thu, 16
+ Sep 2021 16:10:34 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/10] configure: add missing pc-bios/qemu_vga.ndrv symlink in
- build tree
-Date: Thu, 16 Sep 2021 16:10:21 +0200
-Message-Id: <20210916141026.1174822-6-laurent@vivier.eu>
+Subject: [PULL 06/10] target/i386: spelling: occured=>occurred,
+ mininum=>minimum
+Date: Thu, 16 Sep 2021 16:10:22 +0200
+Message-Id: <20210916141026.1174822-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210916141026.1174822-1-laurent@vivier.eu>
 References: <20210916141026.1174822-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9BA2pgzc5u9CNywlhK+tSwD/iueJ87rLuGvMtGZqFFfA4xELrih
- vlsz2ZosEiLehJq9TOhnBrYvizYfH3v4vRii1FC/L7FjnXBMaeq/FYDXiJkD2BDmBJ6T+B4
- xmI+cf+5/sLXvJQewp9Bwn+etorA01ixbEEzv0O8/6TKwbzueSfKndEvA0NtMQagpI1U7AQ
- 0tSt30IF05y5V+M447ZdA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:roFIoukUcnM=:Iz40SEJt8KqJTE0WCNTRgj
- nMupeU3WBoB2l+KKBumKtCH5HG5YcFmQGg+pn+eI20nSN9L6+vcznAXFdT6GNnAkN5SC6jgoZ
- 6YuEaGW3PQepOWfTB4m/RLBRUXjTxR25S5IT/p9jn2lEciLTnWzOKBRu+a0Pp2VE0938UZwWQ
- iJNztyBc4oOTqtPRdog9BG67wzlt7ajOk0GLgPztaOMOO/OQauNQ2iHv6SJE2j+rcHf2cvHLX
- x+Usn/40JOxs30LxZg7bhvjY7p7F8tqksN3vulVmqx0q2xzUQAnAbPAzw8IzCkdRn4u5PpEAl
- gUnHYpHjToLqHpuD3/uFOdCPZR/M1ULdJkYuluRqSV7lGRafe0cMCD/8ZwHxvIcqPKvrTgfPX
- 0OAKj/zE5QPxRCBdZodYuwzA/I3gRqlhkRey/ZUzz9wrs+gNVBhqI3lLh4OTB9yd//RA3u9HC
- fJ8wv8M/paGCkw/H+Jn4etn4cp6LoUXfyL7VGJbY5rCgLgfewLhW1tkfwzBX8JkgGYDfPkD/c
- Vp24YZlMUusGCAS2CYfLEU5CP0/RhIVt21wEITazL/8HEcFBGv/vtZYcAAvCVvCoYDRDw6wLl
- ek/Nt+jeK0hJCaaMTbYKIJcwXMgLn9Swvcg4/p65PJg4HN17yHYc4Q0ptSbQ17J86X/IbGATN
- HnTf/gFydeKnu0EMaxNkB9n2Gp6c4lOG02xc5bAEgWjHgOYYCfnJ0/xQmEQlsyzrSMYUwIoTu
- HSCc2TYxkIs1ogpynb7SKkFdYFXkBMNhM9VWgg==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:q12Zwxsk4WKAO2JqcRHb4/GkOO6guq2y7RSOyzvkjkwwwEMYvcz
+ Wjv28Y7OC8knmySCPX3xPARMU9yY5bKhEg9ToGuSmx5jXy8hAKo5UKLrtgXDOQbmQCWTvNQ
+ 9rbbGTKFI6rhLc1ocEtcQ3RJc5HyzRhsUR1I4SWymQlpQ6v23q/7fAjorC8QpTwQV39whPR
+ wjYO8QUKRSEcjLAZigqJA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8j424mu0bLI=:qxdyNdmkDKkdhQJqKHZKXG
+ MZULPecokB3XT+nS4DpPTv5YBs71lN64uVNj78Evv71t9cU33AwOkwnxmgE7D6xnPF7AXVYss
+ f9tNeFwPFq47Sr5czp55njyWLB4/ABw1VYn0GrZrSW1wBz6oaq81fc2TaGGhzSVBDSz0KCHHR
+ R+pE8uQ0ir7kpGecWZ10G18zgLQgOWb8m03TUN7ZmMgAM+FlRcLcMUa++iQHlF6znhpKL2lAl
+ /Ta21jM+EhCKem4kfmhPDnvXJbi9iZS742C61X2XCyqLkSompVB1puL9GbdlfLvTYONgfYj6d
+ IYThtHBM3HZjLgPli53HZRJxZMOvT6RhXC7E6ojU20pAJNUbJtHHAnchK8TF+/uyzCtLYJjgp
+ 7zB66yG2Yje9+upZDAytqNpnZHaO+VFGZQoBMBqeatkAS22BkBC+4fCHJOsg8gxR/jkqsO545
+ hZ2wBV7tK/nY5t6bcsUSBReWsxw4DdGAFfpQRpr02QTcWqRB5hAPoLQSmf9NxAjyn0497mwEb
+ 507mbWLEgHoH1Bpr2Sx7PPu8LeqHGcXElobIkcx3tjb6AXu+QB6V5F3PTEYUTl6+0SL4NMKOJ
+ GWbInDOE+LHv9oNkkbJPD+NRw2qIPcwF+fyWwSPhJqwulXNOFsNqQEsePpbQLRssoXw7npMJO
+ lLqG7QVDpnHe8JD0gGV9Y725qBCnp4mGvPK3YAGUdRQ/lgc39K1+10P0GAgdWdk2L3oZlNrjC
+ KqKamiWdXYI8UwgT8EQ0+9ZjynpJTNHpiBdP0g==
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -66,42 +66,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, John Arbuckle <programmingkidx@gmail.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Arbuckle <programmingkidx@gmail.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
 
-Ensure that a link to pc-bios/qemu_vga.ndrv is added to the build tree,
-otherwise the optional MacOS client driver will not be loaded by OpenBIOS
-when launching QEMU directly from the build directory.
-
-Signed-off-by: John Arbuckle <programmingkidx@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20210831165020.84855-1-programmingkidx@gmail.com>
-[lv: commit message rewording as suggested by Mark]
+Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+Message-Id: <20210818141352.417716-1-mjt@msgid.tls.msk.ru>
+[lv: add mininum=>minimum in subject]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- configure | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ accel/kvm/kvm-all.c      | 2 +-
+ target/i386/cpu-sysemu.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index da2501489f34..1043ccce4f99 100755
---- a/configure
-+++ b/configure
-@@ -5052,7 +5052,9 @@ for bios_file in \
-     $source_path/pc-bios/openbios-* \
-     $source_path/pc-bios/u-boot.* \
-     $source_path/pc-bios/edk2-*.fd.bz2 \
--    $source_path/pc-bios/palcode-*
-+    $source_path/pc-bios/palcode-* \
-+    $source_path/pc-bios/qemu_vga.ndrv
-+
- do
-     LINKS="$LINKS pc-bios/$(basename $bios_file)"
- done
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 0125c17edb8d..cace5ffe6442 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -2469,7 +2469,7 @@ static int kvm_init(MachineState *ms)
+             ret = kvm_vm_enable_cap(s, KVM_CAP_DIRTY_LOG_RING, 0, ring_bytes);
+             if (ret) {
+                 error_report("Enabling of KVM dirty ring failed: %s. "
+-                             "Suggested mininum value is 1024.", strerror(-ret));
++                             "Suggested minimum value is 1024.", strerror(-ret));
+                 goto err;
+             }
+ 
+diff --git a/target/i386/cpu-sysemu.c b/target/i386/cpu-sysemu.c
+index 1078e3d157f0..37b7c562f53c 100644
+--- a/target/i386/cpu-sysemu.c
++++ b/target/i386/cpu-sysemu.c
+@@ -335,7 +335,7 @@ void x86_cpu_get_crash_info_qom(Object *obj, Visitor *v,
+     GuestPanicInformation *panic_info;
+ 
+     if (!cs->crash_occurred) {
+-        error_setg(errp, "No crash occured");
++        error_setg(errp, "No crash occurred");
+         return;
+     }
+ 
 -- 
 2.31.1
 
