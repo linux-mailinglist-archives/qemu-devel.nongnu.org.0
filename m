@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5338440D78A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:37:48 +0200 (CEST)
-Received: from localhost ([::1]:34326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1554B40D797
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:40:43 +0200 (CEST)
+Received: from localhost ([::1]:40946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQom3-0007jl-An
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:37:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47762)
+	id 1mQoor-0003no-QI
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:40:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mQokj-00057g-79; Thu, 16 Sep 2021 06:36:25 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:33603)
+ id 1mQom2-0000wv-Pl; Thu, 16 Sep 2021 06:37:46 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:53175)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mQokh-0002mP-N4; Thu, 16 Sep 2021 06:36:24 -0400
+ id 1mQom1-0003wY-7f; Thu, 16 Sep 2021 06:37:46 -0400
 Received: from [192.168.100.1] ([82.142.27.6]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MyseA-1mmRmH09mE-00vwii; Thu, 16 Sep 2021 11:55:59 +0200
-Subject: Re: [PATCH] intel_iommu: Fix typo in comments
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N62mG-1my2Rr1Dqq-016MId; Thu, 16 Sep 2021 11:58:23 +0200
+Subject: Re: [PATCH] hw/vfio: Fix typo in comments
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Cai Huoqing <caihuoqing@baidu.com>, mst@redhat.com, peterx@redhat.com,
- jasowang@redhat.com
-References: <20210730014942.2311-1-caihuoqing@baidu.com>
- <6305f2ce-5d58-7eac-1568-05b64f45d96f@redhat.com>
+ Cai Huoqing <caihuoqing@baidu.com>, alex.williamson@redhat.com
+References: <20210730012613.2198-1-caihuoqing@baidu.com>
+ <ebb42d43-f3b8-f55c-b0d5-55e60a881747@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <5fc722a9-be3d-d2fb-9664-e498c5eeec9e@vivier.eu>
-Date: Thu, 16 Sep 2021 11:55:57 +0200
+Message-ID: <ea4bfccc-1293-dad2-0209-91d4b39188a2@vivier.eu>
+Date: Thu, 16 Sep 2021 11:58:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <6305f2ce-5d58-7eac-1568-05b64f45d96f@redhat.com>
+In-Reply-To: <ebb42d43-f3b8-f55c-b0d5-55e60a881747@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:BDYPMQNyamKfRW2oseWUIkB0PMr2ZCOJZSFAQKVCbTtdhik+Ylb
- pBctbtGQF7FexGmtRP1hmrb5/CAStbqjphTK+huxecj68EZxY8lXH4LW5cuqN2zxJnlHY1q
- Y+OxqSfmKjMU2g6OZ0LzCIA9kBH/B9Si7tBUwTSjiEfdTYPJICjzXYdHgZRK9RCQC8TWrGe
- a2+QelwJohvjHuTrJi8NQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VAYZ1GgB47U=:bU2vXAEJEJOngFxQAvtKn7
- cGmKSCRJUtZ4UUjxulgaBVpBPio0u332DEUq1MOrSAbah7SBYJxTh5ZSctlKBDME2ijnGwN5v
- aAREEw+mBbR3iY5q0oVmdJu1nuEvrb+zY7GPmga4Q7SXPhhkhdfSYAPFHYoIYkZ0ra4semg9j
- 2+59VkqkaBZGW0E/Qzsqu9ypWXCL9FdgxQNPDwYlHHP822MYGKvdxIU6MzzV86STBeG49l5yV
- d2P9ZDRuLgp0I+nmr1kXODH/6C5B3e/2oaJF12E+737FdxZLc/EP6W7qDZl9eZT473nmkecYO
- nM9oN6lbTr5+R32dezRUHPZ14m6vCDOodjpqeyHKWYJYLrMwX0ctbNX3pRfx+lfbIh3GKak3O
- AjsRjhxU0Iu1sTkKxq6gLsJh8rkHP64GRUb632E7IG7cK+VFwG+O2yiMDYnWk80UduKHuqQrX
- /ldh5MpbGnKhacBBpENoDc5rlmWCQehNEcFcfllWjTkshyRdqJ0hOF/0C705hxeRhUf0vahTM
- eV4ojR5IaQ1MxHx5lUT9rwF+XObg2L/DKg0rc4on0YFwD0rRbZ3/RMgE649mq6TiJm+ZcVe3k
- arPRSk17j66Xcfl40TeA0rx13CT9ucNqL/YtzdJ9BmKE4I035jciu5XkxoOk7YNz3+nuOnhDo
- 5IEK0//CdlxGR7nwASqK3vpCrCtGbZO41e87SceUr7tswI+HlGoDEP/pgMDcMELv6wBb4LmFk
- MIbDCYp5w+exNcY3zL57Iq4d6v9s5hgY2HmopV8XvrddPyReBuuWOx0d+uW3dq96hrph/7meQ
- 8eRl7KX
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:H2Nt1+ucJJE7WvXeLOZujm+jIb9uTJBBuRnzBGQhOXsNt9aFZhd
+ f+zghGPBfz5Fp0UK5hfiJe0MuGVnlaA0TazCJ11WJuK6Mc8SIgAggp1/xxSyVNrs8cfzHAX
+ VYwLF0HpqHZX6eGZmmnKOg/oNVLcT0EA7wXLcDVhOT7Tiqh9cVHudCwhYmoAlU342MvNZ7f
+ 3HtlKY0amklxdXB5zcbzQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rx9kGhBWkuo=:TL5n5rJO7TVx7yjdEtR5Dr
+ ZGq+77ZLua+bk6P6ul3PHlD5FzZvMhES+SDaxz2aXhiATulNEMO+GxRvcMuOo/GX3QhYM2EVQ
+ KpknfsFEwlDU30q80mqp77W6J7iqkh17/EJ73IJrJmjQV5m4fjbWj5UbMNk6z3DRi6WqZH5mW
+ 14VuX9eIkF75NQ49okncuH3Y5DjzZfKc+sJUh4eyjjXzQ0DHIc63I8JnVlCThivQC8QfNPKhJ
+ ofrOlQcd40K2kSQus3T9fnUEiaO8aiKjI/CwqL8bSLC1TC8awnsC+O1AHfBOZuJ89tgIY4n/f
+ Ebt3tJX1oI5uVH02QgnbTq3N6wg0tex+ZtlpzHBfvoAerXgkyrFF9zzVAl+IJerpqaLpDJ7lR
+ THbCokPqVQcJyTvl7dAqAJ80iDKI9ajLjxj0aZfoNIjho62jQ7QHI3qnOE9G+JEwo+etuau55
+ T+Jq/4SM/7daCsvMTm4jl1pXy3cyPkxCLEymb/bJEX16UsE7mHRyrhzjNTF5XPYTPiVLOggFA
+ Z1d4JzXX6UcEAM10f9CcV3wkfkyiYBgRzrnOSDVMJKhOzXMFifWUMdcp53YCydDmwXfKrEd9H
+ rMDjeTqu5yWJsSYUNRgrtmxAUUVWcmsoPnI5vr7pgY7EY8mu5tFU6ZURRAYBPBhXOSyZVPdty
+ xRfih2wglmxS4wVXUF2pHb34uSlwXkvAziEhFauV/XpDbl+1NNmHPL6kTYeoAAAKm3PeDhcpv
+ YjRY50Jen6fOmbpE1cbgGl0X0u6eJR+spWPSyoRCL+4cVWoYO/Axbcjia87nBllYyAy2WLZ2I
+ wl5bleb
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -77,21 +76,29 @@ Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 30/07/2021 à 15:27, Philippe Mathieu-Daudé a écrit :
-> On 7/30/21 3:49 AM, Cai Huoqing wrote:
->> Fix typo:
->> *Unknwon  ==> Unknown
->> *futher  ==> further
->> *configed  ==> configured
+Le 30/07/2021 à 13:26, Philippe Mathieu-Daudé a écrit :
+> On 7/30/21 3:26 AM, Cai Huoqing wrote:
+>> Fix typo in comments:
+>> *programatically  ==> programmatically
+>> *disconecting  ==> disconnecting
+>> *mulitple  ==> multiple
+>> *timout  ==> timeout
+>> *regsiter  ==> register
+>> *forumula  ==> formula
 >>
 >> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 >> ---
->>  hw/i386/intel_iommu.c | 8 ++++----
->>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>  hw/vfio/igd.c        | 2 +-
+>>  hw/vfio/pci-quirks.c | 2 +-
+>>  hw/vfio/pci.c        | 6 +++---
+>>  hw/vfio/platform.c   | 2 +-
+>>  4 files changed, 6 insertions(+), 6 deletions(-)
 > 
 > Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > 
 > 
+
+
 Applied to my trivial-patches branch.
 
 Thanks,
