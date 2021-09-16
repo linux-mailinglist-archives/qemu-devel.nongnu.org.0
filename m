@@ -2,69 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED33240DBDE
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 15:55:23 +0200 (CEST)
-Received: from localhost ([::1]:47022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2C240DBF4
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 15:58:19 +0200 (CEST)
+Received: from localhost ([::1]:53890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQrrH-0001BJ-1d
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 09:55:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38322)
+	id 1mQru6-00062D-53
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 09:58:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mQrp5-0006mr-Qa
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:53:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29157)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mQrp4-0007d9-8B
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:53:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631800385;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WeVs70nP8IJqBN8vGJjlNT4eY9YWcMW2vG7HdUK5kFo=;
- b=EVJbChGPDAqhFGTzsKLTi5hnTfdRJynt8JaxxU65ah9dgoHFmUEgJCRM1EeQh2nXoKCLjy
- C0s8cEY8kDrLno6gk3JlibB4wevOniAdXMtVgGzmvq5o7S7C1pjHXPB/ul8Fixv0Pg/KZf
- urNJBadvvqW/2jFzy/ygbAQSgNPScjU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-QQ95BtUqOE6DqYlNAjwc_w-1; Thu, 16 Sep 2021 09:53:04 -0400
-X-MC-Unique: QQ95BtUqOE6DqYlNAjwc_w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A872100F955
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 13:53:03 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.39.194.134])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 716AA19C79;
- Thu, 16 Sep 2021 13:53:02 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, vgoyal@redhat.com, slp@redhat.com, thuth@redhat.com
-Subject: [PULL 2/2] virtiofsd: Reverse req_list before processing it
-Date: Thu, 16 Sep 2021 14:52:41 +0100
-Message-Id: <20210916135241.150566-3-dgilbert@redhat.com>
-In-Reply-To: <20210916135241.150566-1-dgilbert@redhat.com>
-References: <20210916135241.150566-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mQrpd-0008BG-02; Thu, 16 Sep 2021 09:53:41 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mQrpZ-0007wc-8P; Thu, 16 Sep 2021 09:53:40 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id s24so4879068wmh.4;
+ Thu, 16 Sep 2021 06:53:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Xs41x05dcFcumFdYZ0blpNEK9yloXwu3R4GFRqVabY4=;
+ b=TiJyuy6IINYsgd3rMEtD5ePunciL8UMKwvDuq2ccFJ+fRiE47AE1+SkSGZqa/QxetU
+ fcIpQFxjCqE4CwTu8+xk1RyGHMg8i19JT3xXvOucw6+AiaYIf6yVvNIrNd3NWVpOi8Hx
+ VywRqw656eBmvuGNioJaOervTDxGT47nPfb3rzq/5XcWS2shZLYZ1+hhdptqJckW4z5B
+ u+7wa9QUtlhMchiZjKo9Yg2jQQ8yOzCkFYx+7nEX0d2hk8VT1jWNCtWunmCrcpcJKd7q
+ kmK7GCp5XNCMpFV4d24YlZ81zNwtfr/iHA15K5nylue+CAOoexwgxm8AvdMI2wUMl3Iw
+ iC7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Xs41x05dcFcumFdYZ0blpNEK9yloXwu3R4GFRqVabY4=;
+ b=p+Ffr8wuAQ0L4sy1ruW7tw6aZDBRXCBcE8yal2A5tmi0Zte409CEzHKC60I+7wC6qQ
+ Lk0oxzYey2bUH65f0e0Z8ouLjkeGF/g2jIrvLM8ttReY9rCXaU9XjlLDWOKYh3neTsvU
+ HjtCXY1fnNWWwyF5KWJ8SpUEf7cEZLjaajkhMva6l885G+4fq3o2XVfMSyrnIMCoxQGW
+ gkpGHNmRsRdGY3xS9uncOjMz7mXOJ/F7W82+GcpemY0BsG/5nbrr167zdIDGWmuvZyND
+ 9t2R59+GsICGxhca/9TvrajqX/laC6JkKxbtD50dyhwh95YCG/ebh4Ow2r1lmNwcINZ6
+ ZtNA==
+X-Gm-Message-State: AOAM531Dd4HLkl3WWdKuHL/vBUMtGO1umXCCKNSzUItzaXX810y5uGxy
+ x2ZMsk3pOYAj9dskRXeIHoc=
+X-Google-Smtp-Source: ABdhPJxQKdRTYhK/oMm3QSol3qeb4fP2k4cXAJtmeLhuDmdK5EllGu+jGXS5O3mGGKlma4/Itxs9Cw==
+X-Received: by 2002:a1c:a913:: with SMTP id s19mr5166201wme.26.1631800415450; 
+ Thu, 16 Sep 2021 06:53:35 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
+ [83.35.25.14])
+ by smtp.gmail.com with ESMTPSA id o7sm3885580wro.45.2021.09.16.06.53.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Sep 2021 06:53:34 -0700 (PDT)
+Subject: Re: [PULL 14/14] hw/arm/aspeed: Add Fuji machine type
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>
+References: <20210913161304.3805652-1-clg@kaod.org>
+ <20210913161304.3805652-15-clg@kaod.org>
+ <88c26520-6b87-e7a2-ac78-c1c92477c814@kaod.org>
+ <BBC4A4E0-651C-41DB-81DE-1F6D86AABAB1@fb.com>
+ <CACPK8Xdey9_x-ZN1JbgFyTrW59EapH4xcqYbyNQxyQ5t0uWPvw@mail.gmail.com>
+ <CAFEAcA8ntPE3GkTNU8bSBhCWzk_jdH4QR1kDgwo6deQ+T1iOKw@mail.gmail.com>
+ <1949e204-1bce-f15b-553b-1b42b41e3e08@linaro.org>
+ <d00d7eeb-a50c-c039-046c-7749fde25af8@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <1d6fb312-ab21-ca9c-d7ec-1043ccc65b10@amsat.org>
+Date: Thu, 16 Sep 2021 15:53:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <d00d7eeb-a50c-c039-046c-7749fde25af8@kaod.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.488,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,68 +95,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com
+Cc: Andrew Jeffery <andrew@aj.id.au>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Peter Delevoryas <pdel@fb.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sergio Lopez <slp@redhat.com>
+On 9/16/21 2:29 PM, Cédric Le Goater wrote:
+> On 9/14/21 17:22, Richard Henderson wrote:
+>> On 9/14/21 5:26 AM, Peter Maydell wrote:
+>>> (2) RAM blocks should have a length that fits inside a
+>>>      signed 32-bit type on 32-bit hosts (at least I assume this
+>>>      is where the 2047MB limit is coming from; in theory this ought
+>>>      to be improveable but auditing the code for mishandling of
+>>>      RAMblock sizes to ensure we weren't accidentally stuffing
+>>>      their size into a signed 'long' somewhere would be kind
+>>>      of painful)
 
-With the thread pool disabled, we add the requests in the queue to a
-GList, processing by iterating over there afterwards.
+>>> Even if we did fix (2) we'd need to compromise on (3)
+>>> sometimes still -- if a board has 4GB of RAM that's
+>>> not going to fit in 32 bits regardless. But we would be
+>>> able to let boards with 2GB have 2GB.
+>>
+>> I'm not opposed to deprecating 32-bit hosts...  ;-)
+> 
+> Until then, I am willing to make the following compromise for the fuji  :
+> 
+>     mc->default_ram_size = (HOST_LONG_BITS == 32 ? 1 : 2) * GiB;
 
-For adding them, we're using "g_list_prepend()", which is more
-efficient but causes the requests to be processed in reverse order,
-breaking the read-ahead and request-merging optimizations in the host
-for sequential operations.
-
-According to the documentation, if you need to process the request
-in-order, using "g_list_prepend()" and then reversing the list with
-"g_list_reverse()" is more efficient than using "g_list_append()", so
-let's do it that way.
-
-Testing on a spinning disk (to boost the increase of read-ahead and
-request-merging) shows a 4x improvement on sequential write fio test:
-
-Test:
-fio --directory=/mnt/virtio-fs --filename=fio-file1 --runtime=20
---iodepth=16 --size=4G --direct=1 --blocksize=4K --ioengine libaio
---rw write --name seqwrite-libaio
-
-Without "g_list_reverse()":
-...
-Jobs: 1 (f=1): [W(1)][100.0%][w=22.4MiB/s][w=5735 IOPS][eta 00m:00s]
-seqwrite-libaio: (groupid=0, jobs=1): err= 0: pid=710: Tue Aug 24 12:58:16 2021
-  write: IOPS=5709, BW=22.3MiB/s (23.4MB/s)(446MiB/20002msec); 0 zone resets
-...
-
-With "g_list_reverse()":
-...
-Jobs: 1 (f=1): [W(1)][100.0%][w=84.0MiB/s][w=21.5k IOPS][eta 00m:00s]
-seqwrite-libaio: (groupid=0, jobs=1): err= 0: pid=716: Tue Aug 24 13:00:15 2021
-  write: IOPS=21.3k, BW=83.1MiB/s (87.2MB/s)(1663MiB/20001msec); 0 zone resets
-...
-
-Signed-off-by: Sergio Lopez <slp@redhat.com>
-Message-Id: <20210824131158.39970-1-slp@redhat.com>
-Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tools/virtiofsd/fuse_virtio.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index fc2564a603..8f4fd165b9 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -716,6 +716,7 @@ static void *fv_queue_thread(void *opaque)
- 
-         /* Process all the requests. */
-         if (!se->thread_pool_size && req_list != NULL) {
-+            req_list = g_list_reverse(req_list);
-             g_list_foreach(req_list, fv_queue_worker, qi);
-             g_list_free(req_list);
-             req_list = NULL;
--- 
-2.31.1
-
+While I disagree with this approach, better to document it clearly
+like commit 25ff112a8cc ("hw/arm/mps2-tz: Add new mps3-an524 board").
 
