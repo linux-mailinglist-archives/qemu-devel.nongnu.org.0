@@ -2,86 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45BF340D33A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 08:28:36 +0200 (CEST)
-Received: from localhost ([::1]:45100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E265540D351
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 08:37:00 +0200 (CEST)
+Received: from localhost ([::1]:50836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQkst-00077h-7j
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 02:28:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53994)
+	id 1mQl12-0002vT-0X
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 02:37:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mQkqt-0006Le-GT
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 02:26:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23777)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQkzF-00023y-Ll
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 02:35:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mQkqn-0006F9-8Z
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 02:26:27 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQkzC-0005Ki-DC
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 02:35:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631773583;
+ s=mimecast20190719; t=1631774105;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to; bh=zaRWC7M8aQOWFa/dFol8qZWm/jo5leOT0h8+QwVw6JU=;
- b=Qb7FAizQeJQ/vghFU9okHwLHfm58F9ee2T5gQgXa/jWGx61W+LtiQrAYP04isHrV1RC/Cx
- Ll2Z61nL2pNV08xUVyJwwXnkktJN6o/2QFxtJrTN+dEEmdZvZMzO7nxRG72kqN55LUw/iv
- vdhdoFHrZNay4/RcjfUXSPPwlfQUt2s=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-cFFM6NlQN-2hPA5xNG49dA-1; Thu, 16 Sep 2021 02:26:19 -0400
-X-MC-Unique: cFFM6NlQN-2hPA5xNG49dA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- n5-20020a05640206c500b003cf53f7cef2so1480622edy.12
- for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 23:26:19 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jXxhCHXL5Haa9Cpgo33yHGIdDy4f6h7fzNCLGADzzV4=;
+ b=HL6llRP7WB+2/hzbhCBmZW7Outy0TaKLx4QQAARd3x9MLnbSpOp+oD8N7s2VKM1/bx7NxQ
+ wJTj/rPtSvW91mUzT92fG4IxCcnf/aiP5QYS1WFHxkXHBX/xhLvfcJLDZgaabUXJ6EdqNo
+ BgHCwwmljj2O+QaMOy0wMna3fJTl39I=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-534-5w4BxLvZNLi2V7Z5Ja-IJg-1; Thu, 16 Sep 2021 02:35:04 -0400
+X-MC-Unique: 5w4BxLvZNLi2V7Z5Ja-IJg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5-20020a1c00050000b02902e67111d9f0so2688994wma.4
+ for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 23:35:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:in-reply-to;
- bh=zaRWC7M8aQOWFa/dFol8qZWm/jo5leOT0h8+QwVw6JU=;
- b=UqCkn7cYTNq1/4xbQVoSyvFbmDt5fUj/2bjlVhOlT0QJ7Ij6UECzBy8+yzHKxzlabq
- 0u9AwFpqiQFCnqEX4+kDT6IOss7RCKOpJGs5WJ4kIth8KiCxcThsXhPxL/Z0EnoTr+xc
- pcfgNhOozOHXL2nPM45gAGmirggOrdF/Kuf7stH/BcNhZJDEykxQCzsFDAQfzdGB1H7j
- tMs178EvkCGOGB7bg6hO36Q+q/YexBcfCIkV5vdhi7jCY+0SYmsvvzuWuhsDz/gkawem
- dIZ6xTk2DcgOXjTwRjZwXMv6yhZZDEp+tBFwjpEwKaHsMc7gCGx/i+XHHRwGpZWRuHev
- 33TQ==
-X-Gm-Message-State: AOAM532oHslRebVsp/V6RjMvZzXG1u1Y9Tr1cDn4i1fUP4aMzaWeo4tL
- C82oltZZE435jTcHHyajC4T8d8zP3ibFoyVDRFa29eC8o5LV+QZ+5/QyS7nrnUz1IoR69ZpqNxR
- FBkq/DO1x0Ac6430=
-X-Received: by 2002:a05:6402:198:: with SMTP id
- r24mr4659088edv.93.1631773578309; 
- Wed, 15 Sep 2021 23:26:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyKph9ZrOzY+hDdVJxpoxp7fQjuCj8jpUHlg1GJwAoHFfeNjBMkSBR/TE7RyTNTv3/qKqU1hQ==
-X-Received: by 2002:a05:6402:198:: with SMTP id
- r24mr4659072edv.93.1631773578031; 
- Wed, 15 Sep 2021 23:26:18 -0700 (PDT)
-Received: from steredhat (host-79-51-2-59.retail.telecomitalia.it.
- [79.51.2.59])
- by smtp.gmail.com with ESMTPSA id s9sm934428edc.82.2021.09.15.23.26.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Sep 2021 23:26:17 -0700 (PDT)
-Date: Thu, 16 Sep 2021 08:26:15 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: "Jiang Wang ." <jiang.wang@bytedance.com>
-Subject: Re: [RFC v6] virtio/vsock: add two more queues for datagram types
-Message-ID: <20210916062615.uxqzujbdceblmy7e@steredhat>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jXxhCHXL5Haa9Cpgo33yHGIdDy4f6h7fzNCLGADzzV4=;
+ b=KHEI9afQSdXCumPdRpydrTer2kj2GdTVBDyN2oqB9sdMvpy1lWQXI8cDDE5aSXjHYg
+ fsSZM4zoYWuTmICqvmSBUjoJYu/A/TsoTO9a83RMzjwLcBdT/K8XRZ6qPipy3FOwm1ho
+ BeyhFCeVtW0nvPqf36wmrI5Q1ECBZyGIlGSyRCbDIbUZkFcN/wBuAlLGtEbti/fPb6yC
+ JdKveL3JC3eFo9K0/AseWRQj6MO0vwv72+3CQZOTsDT8tQnc80o1pzCaGYnWa+N9WDb1
+ Uc+TTrboiePrwXjUCy6e7PhE7l6H1I6eBWI+AlxLzdfRmO6hktH+H/ewL00v0CfGFBIR
+ 2S7g==
+X-Gm-Message-State: AOAM532KDasPqUxE7NDqDC3UaFq9d6infOV6qY8Qp+i5Pb7Lud85pvj+
+ y8F+51ZZWEo96nHBM35pGKFWTPucuqmATIKzZgBX3j9qrN9AQd0z+NJu8DC2tUQiUCKCiiH8bRx
+ ghPtEzYaNNwNl3Qo=
+X-Received: by 2002:a5d:58cf:: with SMTP id o15mr4000432wrf.312.1631774103177; 
+ Wed, 15 Sep 2021 23:35:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw44JcMlMz/zDkbKXgTphVpjRDtz8s1gWyEgiinJQJgrzgNNisSJFO0LiL4pT/YXZHwPMgKAg==
+X-Received: by 2002:a5d:58cf:: with SMTP id o15mr4000408wrf.312.1631774102973; 
+ Wed, 15 Sep 2021 23:35:02 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
+ [83.35.25.14])
+ by smtp.gmail.com with ESMTPSA id c17sm2667635wrn.54.2021.09.15.23.35.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Sep 2021 23:35:02 -0700 (PDT)
+Subject: Re: [PATCH v4 10/33] i386: Add get/set/migrate support for
+ SGX_LEPUBKEYHASH MSRs
+To: Yang Zhong <yang.zhong@intel.com>
+References: <20210719112136.57018-1-yang.zhong@intel.com>
+ <20210719112136.57018-11-yang.zhong@intel.com>
+ <7f81ee2f-1876-3f84-8415-51031e1fd887@redhat.com>
+ <20210916060841.GB31727@yangzhon-Virtual>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <99913189-cf9a-096a-8030-636486bcc1da@redhat.com>
+Date: Thu, 16 Sep 2021 08:35:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAP_N_Z8vJF7F=mhpRpcFwQarFH_uLWBmahi0jb1q6yj=j7YSXg@mail.gmail.com>
+In-Reply-To: <20210916060841.GB31727@yangzhon-Virtual>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.698, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,203 +101,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Arseny Krasnov <arseny.krasnov@kaspersky.com>,
- Jason Wang <jasowang@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: seanjc@google.com, kai.huang@intel.com, qemu-devel@nongnu.org,
+ jarkko@kernel.org, pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 15, 2021 at 08:59:17PM -0700, Jiang Wang . wrote:
->On Tue, Sep 14, 2021 at 5:46 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On 9/16/21 8:08 AM, Yang Zhong wrote:
+> On Tue, Sep 14, 2021 at 08:38:59AM +0200, Philippe Mathieu-Daudé wrote:
+>> On 7/19/21 1:21 PM, Yang Zhong wrote:
+>>> From: Sean Christopherson <sean.j.christopherson@intel.com>
+>>>
+>>> On real hardware, on systems that supports SGX Launch Control, those
+>>> MSRs are initialized to digest of Intel's signing key; on systems that
+>>> don't support SGX Launch Control, those MSRs are not available but
+>>> hardware always uses digest of Intel's signing key in EINIT.
+>>>
+>>> KVM advertises SGX LC via CPUID if and only if the MSRs are writable.
+>>> Unconditionally initialize those MSRs to digest of Intel's signing key
+>>> when CPU is realized and reset to reflect the fact. This avoids
+>>> potential bug in case kvm_arch_put_registers() is called before
+>>> kvm_arch_get_registers() is called, in which case guest's virtual
+>>> SGX_LEPUBKEYHASH MSRs will be set to 0, although KVM initializes those
+>>> to digest of Intel's signing key by default, since KVM allows those MSRs
+>>> to be updated by Qemu to support live migration.
+>>>
+>>> Save/restore the SGX Launch Enclave Public Key Hash MSRs if SGX Launch
+>>> Control (LC) is exposed to the guest. Likewise, migrate the MSRs if they
+>>> are writable by the guest.
+>>>
+>>> Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+>>> Signed-off-by: Kai Huang <kai.huang@intel.com>
+>>> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+>>> ---
+>>>  target/i386/cpu.c     | 17 ++++++++++++++++-
+>>>  target/i386/cpu.h     |  1 +
+>>>  target/i386/kvm/kvm.c | 22 ++++++++++++++++++++++
+>>>  target/i386/machine.c | 20 ++++++++++++++++++++
+>>>  4 files changed, 59 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+>>> index 840f825431..cea4307930 100644
+>>> --- a/target/i386/cpu.c
+>>> +++ b/target/i386/cpu.c
+>>> @@ -5673,6 +5673,16 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>>>      }
+>>>  }
+>>>  
+>>> +#ifndef CONFIG_USER_ONLY
+>>> +static void x86_cpu_set_sgxlepubkeyhash(CPUX86State *env)
+>>> +{
+>>> +    env->msr_ia32_sgxlepubkeyhash[0] = 0xa6053e051270b7acULL;
+>>> +    env->msr_ia32_sgxlepubkeyhash[1] = 0x6cfbe8ba8b3b413dULL;
+>>> +    env->msr_ia32_sgxlepubkeyhash[2] = 0xc4916d99f2b3735dULL;
+>>> +    env->msr_ia32_sgxlepubkeyhash[3] = 0xd4f8c05909f9bb3bULL;
+>>> +}
+>>> +#endif
 >>
->> On Mon, Sep 13, 2021 at 10:18:43PM +0000, Jiang Wang wrote:
->> > Datagram sockets are connectionless and unreliable.
->> > The sender does not know the capacity of the receiver
->> > and may send more packets than the receiver can handle.
->> >
->> > Add two more dedicate virtqueues for datagram sockets,
->> > so that it will not unfairly steal resources from
->> > stream and future connection-oriented sockets.
->> >
->> > Signed-off-by: Jiang Wang <jiang.wang@bytedance.com>
->> > ---
->> > v1 -> v2: use qemu cmd option to control number of queues,
->> >         removed configuration settings for dgram.
->> > v2 -> v3: use ioctl to get features and decide number of
->> >         virt queues, instead of qemu cmd option.
->> > v3 -> v4: change DGRAM feature bit value to 2. Add an argument
->> >         in vhost_vsock_common_realize to indicate dgram is supported or not.
->> > v4 -> v5: don't open dev to get vhostfd. Removed leftover definition of
->> >         enable_dgram
->> > v5 -> v6: fix style errors. Imporve error handling of
->> >         vhost_vsock_dgram_supported. Rename MAX_VQS_WITH_DGRAM and another one.
->> >
->> >  hw/virtio/vhost-user-vsock.c                  |  2 +-
->> >  hw/virtio/vhost-vsock-common.c                | 25 ++++++++++++--
->> >  hw/virtio/vhost-vsock.c                       | 34 ++++++++++++++++++-
->> >  include/hw/virtio/vhost-vsock-common.h        |  6 ++--
->> >  include/hw/virtio/vhost-vsock.h               |  3 ++
->> >  include/standard-headers/linux/virtio_vsock.h |  1 +
->> >  6 files changed, 64 insertions(+), 7 deletions(-)
->> >
->> > diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
->> > index 6095ed7349..e9ec0e1c00 100644
->> > --- a/hw/virtio/vhost-user-vsock.c
->> > +++ b/hw/virtio/vhost-user-vsock.c
->> > @@ -105,7 +105,7 @@ static void vuv_device_realize(DeviceState *dev, Error **errp)
->> >          return;
->> >      }
->> >
->> > -    vhost_vsock_common_realize(vdev, "vhost-user-vsock");
->> > +    vhost_vsock_common_realize(vdev, "vhost-user-vsock", false);
+>> Maybe easier to move the #ifdef'ry inside the function.
 >>
->> VIRTIO_VSOCK_F_DGRAM support should work equally well for
->> vhost-user-vsock. I don't think there is a need to disable it here.
->>
->Stefano mentioned in previous email ( V3 ) that I can disable dgram
->for vhost-user-vsock for now. I think we need some extra changes to
->fully support vhost-vsock-user, like feature discovery?
+> 
+>   Thanks for comments, since this function is pure void function, we can move this #ifdef
+>   into function.
+>  
+>> Where these values come from btw?
+> 
+>   Those MSR values are intel default values, which were defined in Skylake platform.
 
-I think Stefan is suggesting something similar of what we discussed 
-here:
-https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg06689.html
-
-We can allocate all the queues, and choose at runtime which queue to use 
-for events, that is the only queue used by QEMU.
-
-We can check that in vhost_vsock_common_start(), just before starting 
-the device, where we know the features acked by the guest 
-(vdev->guest_features).
-
-And I agree that would be the best approach, since we don't need 
-discovery anymore, and the same code works also for vhost-user-vsock as 
-is.
-
->
->> >
->> >      vhost_dev_set_config_notifier(&vvc->vhost_dev, &vsock_ops);
->> >
->> > diff --git a/hw/virtio/vhost-vsock-common.c 
->> > b/hw/virtio/vhost-vsock-common.c
->> > index 4ad6e234ad..d94636e04e 100644
->> > --- a/hw/virtio/vhost-vsock-common.c
->> > +++ b/hw/virtio/vhost-vsock-common.c
->> > @@ -17,6 +17,8 @@
->> >  #include "hw/virtio/vhost-vsock.h"
->> >  #include "qemu/iov.h"
->> >  #include "monitor/monitor.h"
->> > +#include <sys/ioctl.h>
->> > +#include <linux/vhost.h>
->> >
->> >  int vhost_vsock_common_start(VirtIODevice *vdev)
->> >  {
->> > @@ -196,9 +198,11 @@ int vhost_vsock_common_post_load(void *opaque, 
->> > int version_id)
->> >      return 0;
->> >  }
->> >
->> > -void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name)
->> > +void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name,
->> > +                               bool enable_dgram)
->> >  {
->> >      VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
->> > +    int nvqs = VHOST_VSOCK_NVQS;
->> >
->> >      virtio_init(vdev, name, VIRTIO_ID_VSOCK,
->> >                  sizeof(struct virtio_vsock_config));
->> > @@ -209,12 +213,20 @@ void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name)
->> >      vvc->trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
->> >                                         vhost_vsock_common_handle_output);
->> >
->> > +    if (enable_dgram) {
->> > +        nvqs = VHOST_VSOCK_NVQS_DGRAM;
->> > +        vvc->dgram_recv_vq = virtio_add_queue(vdev, 
->> > VHOST_VSOCK_QUEUE_SIZE,
->> > +                                              vhost_vsock_common_handle_output);
->> > +        vvc->dgram_trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
->> > +                                              vhost_vsock_common_handle_output);
->> > +    }
->>
->> I think the virtqueues can be added unconditionally.
->>
->OK.
->> > +
->> >      /* The event queue belongs to QEMU */
->> >      vvc->event_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
->> >                                         vhost_vsock_common_handle_output);
->> >
->> > -    vvc->vhost_dev.nvqs = ARRAY_SIZE(vvc->vhost_vqs);
->> > -    vvc->vhost_dev.vqs = vvc->vhost_vqs;
->> > +    vvc->vhost_dev.nvqs = nvqs;
->> > +    vvc->vhost_dev.vqs = g_new0(struct vhost_virtqueue, vvc->vhost_dev.nvqs);
->>
->> IIUC the number of virtqueues needs to be the maximum supported number.
->> It's okay to have more virtqueues than needed. The feature bit is used
->> by the driver to detect the device's support for dgrams, not the number
->> of virtqueues.
->>
->OK. I can just make these changes. But I am not able to test 
->vhost-user-vsock
->as of now. I tried to follow the steps on here:
->https://patchew.org/QEMU/20200515152110.202917-1-sgarzare@redhat.com/
->But the git repo for the vhost-user-vsock is kind of broken. I tried to
->fix it but I am new to rust so it will take some time. Is there any updated
->or an easier way to test vhost-user-vsock?
->
-
-Yep, it was a PoC, please use the new vhost-user-vsock that Harsha is 
-developing here:
-https://github.com/rust-vmm/vhost-device/pull/7
-
-Feel free to reach me or Harsha if you have any issue.
-
->
->> >
->> >      vvc->post_load_timer = NULL;
->> >  }
->> > @@ -227,6 +239,13 @@ void vhost_vsock_common_unrealize(VirtIODevice *vdev)
->> >
->> >      virtio_delete_queue(vvc->recv_vq);
->> >      virtio_delete_queue(vvc->trans_vq);
->> > +    if (vvc->vhost_dev.nvqs == VHOST_VSOCK_NVQS_DGRAM) {
->> > +        virtio_delete_queue(vvc->dgram_recv_vq);
->> > +        virtio_delete_queue(vvc->dgram_trans_vq);
->> > +    }
->> > +
->> > +    g_free(vvc->vhost_dev.vqs);
->> > +
->> >      virtio_delete_queue(vvc->event_vq);
->> >      virtio_cleanup(vdev);
->> >  }
->> > diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
->> > index 1b1a5c70ed..891d38e226 100644
->> > --- a/hw/virtio/vhost-vsock.c
->> > +++ b/hw/virtio/vhost-vsock.c
->> > @@ -20,9 +20,12 @@
->> >  #include "hw/qdev-properties.h"
->> >  #include "hw/virtio/vhost-vsock.h"
->> >  #include "monitor/monitor.h"
->> > +#include <sys/ioctl.h>
->> > +#include <linux/vhost.h>
->> >
->> >  const int feature_bits[] = {
->> >      VIRTIO_VSOCK_F_SEQPACKET,
->> > +    VIRTIO_VSOCK_F_DGRAM,
->>
->> Stefano is currently working on a way to control live migration
->> compatibility when features like seqpacket or dgram aren't available. He
->> can suggest how to do this for dgram.
->>
->Yes. I watched that email thread. I can make similar changes to
->DGRAM. I will do it for the next version.
-
-I'll send a new patch for seqpacket (using on,off,auto prop) hopefully 
-tomorrow or early next week, then you can rebase on it. It should be 
-simple to add the dgram feature too.
-
-I'll keep you in CC.
+Could you add a comment (and reference if possible) about them please?
 
 Thanks,
-Stefano
+
+Phil.
 
 
