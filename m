@@ -2,41 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FCD640E17B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:29:59 +0200 (CEST)
-Received: from localhost ([::1]:35158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2EE40E19C
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:35:20 +0200 (CEST)
+Received: from localhost ([::1]:42782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQuGr-0006yh-UT
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:29:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46688)
+	id 1mQuM1-0003nf-5v
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:35:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1mQtiQ-00035i-3t; Thu, 16 Sep 2021 11:54:22 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:51400 helo=zulu616.server4you.de)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1mQtiL-0005BE-AV; Thu, 16 Sep 2021 11:54:21 -0400
-Received: from localhost.localdomain
- (dynamic-077-009-016-098.77.9.pool.telefonica.de [77.9.16.98])
- by csgraf.de (Postfix) with ESMTPSA id 63EA1608075F;
- Thu, 16 Sep 2021 17:54:11 +0200 (CEST)
-From: Alexander Graf <agraf@csgraf.de>
-To: QEMU Developers <qemu-devel@nongnu.org>
-Subject: [PATCH v12 10/10] arm: tcg: Adhere to SMCCC 1.3 section 5.2
-Date: Thu, 16 Sep 2021 17:54:04 +0200
-Message-Id: <20210916155404.86958-11-agraf@csgraf.de>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
-In-Reply-To: <20210916155404.86958-1-agraf@csgraf.de>
-References: <20210916155404.86958-1-agraf@csgraf.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mQtkU-0006sW-8W
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:56:30 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:43926)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mQtkR-00074a-Uy
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:56:29 -0400
+Received: by mail-wr1-x431.google.com with SMTP id w17so2131990wrv.10
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 08:56:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=U/NXuPuG7h9Ohs5uPZKjte9gsdg347Wf5yRF8oIx/co=;
+ b=UAy1I8DyidsoFE6sYocjFKuwMRdVjS9/+kvGARc4OniZao4zuhdKicm7THVLfMHLli
+ rTnMtY4n+0tuQBL8/i7il/LT/XTGunpDcuX8Q/OqOszmV6lUYFdek2eONu0srsPQZ6PX
+ jEoNFjTN/ixD+xUW6vBCG/mM+rxCHQoosHox1Zrv5sO3IAnCEdIFTlz2gJHnm6SPNfp6
+ 0tN4TU3NI6Dzpg36q3pkwpOqNiovYUp3+VQeothjm6WGKfwllTH62rxA2oVo6coRwzBe
+ HW+HWGWX98GGT2dkdQJcBV33jVsZ0OmeyPwsMn6WkE1hONl4NzHxdeDJ1s8MWLE861eU
+ s6pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=U/NXuPuG7h9Ohs5uPZKjte9gsdg347Wf5yRF8oIx/co=;
+ b=PS/Km/UipV51dRRSGDDo0YqKnQw4fzPCG9f58gCxGcKBw+Rf5yF0JuCBodWMcRRgvM
+ l/FQJOmU6JxmsqaEy1iSf1QK3SgaUOIkhXhaNrxQZXGXpQyleU5rmHOAz05Zy67OuE9P
+ ldCamYC3iQoZcioU+y+OqVjvrzfI+NRqIwGKHt123GHTwNsgDJEj5OWhHKPj6sWovJHM
+ hpFB7MCQ6GPjExeytPEDJC0QQYMM+jUwz+EIAm9ybw2TY0zSyXtAMBL0V18UAIM1NkZl
+ s2x65CpHwuEe4PaiSXN1xANV6P3egtJNF/34DBzv4FAThnJMmpfM7BSW8wFGL6lXYQ8x
+ gCfQ==
+X-Gm-Message-State: AOAM533EmnKj25VCaaMCWEoI1JNfEKicNOSx5gBlMbBycKDTRny8SX60
+ o/P+D3drisAyY1zH8d5ueNHEESi9VK0alz4voXd/Yg==
+X-Google-Smtp-Source: ABdhPJwL005Ey1Ks+CyhwbAYuWQbl9pXYmKdohn+7mAqofAM7XwhJeUn8KD+RbIuAeI1axPcdtdYGyBQgQJ5T1WCY64=
+X-Received: by 2002:adf:fb91:: with SMTP id a17mr6780568wrr.376.1631807786077; 
+ Thu, 16 Sep 2021 08:56:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20210915181049.27597-1-agraf@csgraf.de>
+ <20210915181049.27597-7-agraf@csgraf.de>
+ <CAFEAcA9JZZ4nb8WAvKVYpwqxb_E5NFOVW9rKF3u7GhFqfNZgOQ@mail.gmail.com>
+ <8e219cb0-8b65-faf8-f636-5c1d24471f84@csgraf.de>
+In-Reply-To: <8e219cb0-8b65-faf8-f636-5c1d24471f84@csgraf.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Sep 2021 16:55:34 +0100
+Message-ID: <CAFEAcA8xs3x5WCqT+FnPYip=nbQx6=UEH90Dkjq48YLboV9qAw@mail.gmail.com>
+Subject: Re: [PATCH v11 06/10] hvf: arm: Implement -cpu host
+To: Alexander Graf <agraf@csgraf.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -50,112 +79,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Peter Collingbourne <pcc@google.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- qemu-arm <qemu-arm@nongnu.org>, Frank Yang <lfy@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>, Ard Biesheuvel <ardb@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SMCCC 1.3 spec section 5.2 says
+On Thu, 16 Sept 2021 at 16:30, Alexander Graf <agraf@csgraf.de> wrote:
+>
+>
+> On 16.09.21 14:24, Peter Maydell wrote:
+> > On Wed, 15 Sept 2021 at 19:10, Alexander Graf <agraf@csgraf.de> wrote:
+> >> Now that we have working system register sync, we push more target CPU
+> >> properties into the virtual machine. That might be useful in some
+> >> situations, but is not the typical case that users want.
+> >>
+> >> So let's add a -cpu host option that allows them to explicitly pass all
+> >> CPU capabilities of their host CPU into the guest.
+> >>
+> >> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+> >> Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> >> Reviewed-by: Sergio Lopez <slp@redhat.com>
+> >>
+> >> +    /*
+> >> +     * A scratch vCPU returns SCTLR 0, so let's fill our default with the M1
+> >> +     * boot SCTLR from https://github.com/AsahiLinux/m1n1/issues/97
 
-  The Unknown SMC Function Identifier is a sign-extended value of (-1)
-  that is returned in the R0, W0 or X0 registers. An implementation must
-  return this error code when it receives:
+Side note: SCTLR_EL1 is a 64-bit register, do you have anything that
+prints the full 64-bits to confirm that [63:32] are indeed all 0?
 
-    * An SMC or HVC call with an unknown Function Identifier
-    * An SMC or HVC call for a removed Function Identifier
-    * An SMC64/HVC64 call from AArch32 state
+> >> +     */
+> >> +    ahcf->reset_sctlr = 0x30100180;
+> >> +    /* OVMF chokes on boot if SPAN is not set, so default it to on */
+> >> +    ahcf->reset_sctlr |= 0x00800000;
+> > Isn't that just an OVMF bug ? If you want this then you need to
+> > convince me why this isn't just a workaround for a buggy guest.
+>
+>
+> I couldn't find anything in the ARMv8 spec that explicitly says "If you
+> support PAN, SCTLR.SPAN should be 1 by default". It is RES1 for CPUs
+> that do not implement PAN. Beware that for SPAN, "1" means disabled and
+> "0" means enabled.
 
-To comply with these statements, let's always return -1 when we encounter
-an unknown HVC or SMC call.
+It's UNKNOWN on reset. So unless OVMF is relying on whatever
+is launching it to set SCTLR correctly (ie there is some part of
+the "firmware-to-OVMF" contract it is relying on) then it seems to
+me that it's OVMF's job to initialize it to what it needs. (Lots of
+SCTLR is like that.)
 
-Signed-off-by: Alexander Graf <agraf@csgraf.de>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Linux does this here:
+ https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/kernel/head.S?h=v5.15-rc1#n485
+ https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/include/asm/sysreg.h?h=v5.15-rc1#n695
+because the INIT_SCTLR_EL1_MMU_OFF constant includes forcing
+all "this kernel expects these to be RES0/RES1 because that's all
+the architectural features we know about at this time" bits to
+their RESn values.
 
----
+But we can probably construct an argument for why having it set
+makes sense, yes.
 
-v8 -> v9:
-
-  - Remove Windows specifics and just comply with SMCCC spec
-
-v9 -> v10:
-
-  - Fix comment
----
- target/arm/psci.c | 35 ++++++-----------------------------
- 1 file changed, 6 insertions(+), 29 deletions(-)
-
-diff --git a/target/arm/psci.c b/target/arm/psci.c
-index 6709e28013..b279c0b9a4 100644
---- a/target/arm/psci.c
-+++ b/target/arm/psci.c
-@@ -27,15 +27,13 @@
- 
- bool arm_is_psci_call(ARMCPU *cpu, int excp_type)
- {
--    /* Return true if the r0/x0 value indicates a PSCI call and
--     * the exception type matches the configured PSCI conduit. This is
--     * called before the SMC/HVC instruction is executed, to decide whether
--     * we should treat it as a PSCI call or with the architecturally
-+    /*
-+     * Return true if the exception type matches the configured PSCI conduit.
-+     * This is called before the SMC/HVC instruction is executed, to decide
-+     * whether we should treat it as a PSCI call or with the architecturally
-      * defined behaviour for an SMC or HVC (which might be UNDEF or trap
-      * to EL2 or to EL3).
-      */
--    CPUARMState *env = &cpu->env;
--    uint64_t param = is_a64(env) ? env->xregs[0] : env->regs[0];
- 
-     switch (excp_type) {
-     case EXCP_HVC:
-@@ -52,27 +50,7 @@ bool arm_is_psci_call(ARMCPU *cpu, int excp_type)
-         return false;
-     }
- 
--    switch (param) {
--    case QEMU_PSCI_0_2_FN_PSCI_VERSION:
--    case QEMU_PSCI_0_2_FN_MIGRATE_INFO_TYPE:
--    case QEMU_PSCI_0_2_FN_AFFINITY_INFO:
--    case QEMU_PSCI_0_2_FN64_AFFINITY_INFO:
--    case QEMU_PSCI_0_2_FN_SYSTEM_RESET:
--    case QEMU_PSCI_0_2_FN_SYSTEM_OFF:
--    case QEMU_PSCI_0_1_FN_CPU_ON:
--    case QEMU_PSCI_0_2_FN_CPU_ON:
--    case QEMU_PSCI_0_2_FN64_CPU_ON:
--    case QEMU_PSCI_0_1_FN_CPU_OFF:
--    case QEMU_PSCI_0_2_FN_CPU_OFF:
--    case QEMU_PSCI_0_1_FN_CPU_SUSPEND:
--    case QEMU_PSCI_0_2_FN_CPU_SUSPEND:
--    case QEMU_PSCI_0_2_FN64_CPU_SUSPEND:
--    case QEMU_PSCI_0_1_FN_MIGRATE:
--    case QEMU_PSCI_0_2_FN_MIGRATE:
--        return true;
--    default:
--        return false;
--    }
-+    return true;
- }
- 
- void arm_handle_psci_call(ARMCPU *cpu)
-@@ -194,10 +172,9 @@ void arm_handle_psci_call(ARMCPU *cpu)
-         break;
-     case QEMU_PSCI_0_1_FN_MIGRATE:
-     case QEMU_PSCI_0_2_FN_MIGRATE:
-+    default:
-         ret = QEMU_PSCI_RET_NOT_SUPPORTED;
-         break;
--    default:
--        g_assert_not_reached();
-     }
- 
- err:
--- 
-2.30.1 (Apple Git-130)
-
+-- PMM
 
