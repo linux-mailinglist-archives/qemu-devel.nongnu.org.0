@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C96C740DA94
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 15:03:31 +0200 (CEST)
-Received: from localhost ([::1]:49714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A7340DA93
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 15:03:24 +0200 (CEST)
+Received: from localhost ([::1]:49490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQr34-0004Du-SZ
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 09:03:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54550)
+	id 1mQr2y-00043q-0G
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 09:03:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQqzD-0001JP-Nd
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:59:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30567)
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1mQr0R-00023H-9a
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:00:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mQqz5-0003Sh-9P
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:59:31 -0400
+ (Exim 4.90_1) (envelope-from <jsuvorov@redhat.com>)
+ id 1mQr0O-0004Tw-RI
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:00:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631797162;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=CEImmixDLEcbAuVQodxqOvRJmrCOWYTqsmoe7OD1DBc=;
- b=BehLZpLJPZ7HrrwxYarDqy1ytJC2b4ozd/cV+uhcSl5/5ou0QyxiTQB8yXroXXVG3ZBash
- LKwE+kgR2apH98FudYaq2SImE1LbA/7fx2Mp108Po6LscjaeN2vdTlRgssZx5gQUn3hevk
- Y3RxjpTGSVnJv6ANFRXhGFveCp0Lugs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-jen5_laiNlSR9soNXy4KMg-1; Thu, 16 Sep 2021 08:59:16 -0400
-X-MC-Unique: jen5_laiNlSR9soNXy4KMg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C00AD9126B;
- Thu, 16 Sep 2021 12:59:15 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.97])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 50F5A5D6D5;
- Thu, 16 Sep 2021 12:59:14 +0000 (UTC)
-Date: Thu, 16 Sep 2021 13:59:11 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 1/1] python: Update for pylint 2.10
-Message-ID: <YUM/n/QWlxLvp3lw@redhat.com>
-References: <20210915154031.321592-1-jsnow@redhat.com>
- <20210915154031.321592-2-jsnow@redhat.com>
+ s=mimecast20190719; t=1631797243;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Mh9hOwxySgdZf5T/R3qcRZI+qbOSIb5CXeQKoU+vmvI=;
+ b=cJUhCKUVLFOHiUoLmFp9gjwx1S19yv7I8z/8kx0GElgWN/mSQq7iah1I0/LpPS9bC3tMo+
+ uOJ2dTxYB6lnSx0B3FNRWLKD6e0Vvf9EQR8/UopoSWU0VHXEvD5ebAAREQja9PSdwdpgNQ
+ i9vLkYzn758hiXLqp9kZvaPOmP7b3n8=
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
+ [209.85.161.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-28-90th94gcPiiQsFHJ7dfP7g-1; Thu, 16 Sep 2021 08:59:34 -0400
+X-MC-Unique: 90th94gcPiiQsFHJ7dfP7g-1
+Received: by mail-oo1-f72.google.com with SMTP id
+ t1-20020a4ad0a1000000b0028bbf04eae9so23517367oor.10
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 05:59:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Mh9hOwxySgdZf5T/R3qcRZI+qbOSIb5CXeQKoU+vmvI=;
+ b=JIFx4UEm5Efg3TVahMJV//JaIs3yNECHevMxcfZanoOfT7c5Pu4AGgXGpJGu2ok1vC
+ 4gSJapwYGZz5pwGQFepu9gHISgsRJvfqYoNTtS4lgzd9z3dQGVJ63qQVEWgzmXL0LgrW
+ rY3Dfv2jtVsdI4u4WP643zWYWlZCRGkz/JV7g9Nmljmavo88ZKGXqYFA9vfG1I1wfkka
+ gdvR69S82lryOLF3fjD+SP1JNQW5H8xOpXOHKySC8TrMsULj/CpJ1l2MunHA5/I0883V
+ hU8BFR711F41q6yW97miVQuvNVyqBYcZKYosg27gUv8VFlfs+1OYXPb1H2QDeJK2MPwA
+ QdsA==
+X-Gm-Message-State: AOAM532SOZhMZq+W9rkb5litbGXmoie1CGfLMAWdatAILvhkaaQdlb3d
+ lRPuKuMxwIvhmNjV2Mp1W/18c9IZ1Vpqfln7VQ7Ztq80NSaw1Li1U3VhqpgGIdR6PxXgqEvfhph
+ qSY1qSDmOs840qQiD+IQlieXWARf7ax0=
+X-Received: by 2002:a54:4383:: with SMTP id u3mr8786083oiv.149.1631797173591; 
+ Thu, 16 Sep 2021 05:59:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxdZGFA6NARQDdFQi4PsjE+ivRpVx+6kfW3HkNPOKuU+3zEjJuPLnDu6Q6beskl/huHqlgNZdxediKNgEVyhUc=
+X-Received: by 2002:a54:4383:: with SMTP id u3mr8786071oiv.149.1631797173376; 
+ Thu, 16 Sep 2021 05:59:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210915154031.321592-2-jsnow@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+References: <20210914045410.3380946-1-ani@anisinha.ca>
+ <20210914045410.3380946-3-ani@anisinha.ca>
+In-Reply-To: <20210914045410.3380946-3-ani@anisinha.ca>
+From: Julia Suvorova <jusual@redhat.com>
+Date: Thu, 16 Sep 2021 14:59:22 +0200
+Message-ID: <CAMDeoFUMn21-m4hnMaWdjVFW9izOXg58HJZQ+PcXy5HbVqrESw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] hw/i386/acpi: fix conflicting IO address range for
+ acpi pci hotplug in q35
+To: Ani Sinha <ani@anisinha.ca>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsuvorov@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsuvorov@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,72 +90,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- G S Niteesh Babu <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ Philippe Mathieu Daude <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 15, 2021 at 11:40:31AM -0400, John Snow wrote:
-> A few new annoyances. Of note is the new warning for an unspecified
-> encoding when opening a text file, which actually does indicate a
-> potentially real problem; see
-> https://www.python.org/dev/peps/pep-0597/#motivation
-> 
-> Use LC_CTYPE to determine an encoding to use for interpreting QEMU's
-> terminal output. Note that Python states: "language code and encoding
-> may be None if their values cannot be determined" -- use a platform
-> default as a backup.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
+On Tue, Sep 14, 2021 at 6:54 AM Ani Sinha <ani@anisinha.ca> wrote:
+>
+> Change caf108bc58790 ("hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35")
+> selects an IO address range for acpi based PCI hotplug for q35 arbitrarily. It
+> starts at address 0x0cc4 and ends at 0x0cdb. At the time when the patch was
+> written but the final version of the patch was not yet pushed upstream, this
+> address range was free and did not conflict with any other IO address ranges.
+> However, with the following change, this address range was no
+> longer conflict free as in this change, the IO address range
+> (value of ACPI_PCIHP_SIZE) was incremented by four bytes:
+>
+> b32bd763a1ca92 ("pci: introduce acpi-index property for PCI device")
+>
+> This can be seen from the output of QMP command 'info mtree' :
+>
+> 0000000000000600-0000000000000603 (prio 0, i/o): acpi-evt
+> 0000000000000604-0000000000000605 (prio 0, i/o): acpi-cnt
+> 0000000000000608-000000000000060b (prio 0, i/o): acpi-tmr
+> 0000000000000620-000000000000062f (prio 0, i/o): acpi-gpe0
+> 0000000000000630-0000000000000637 (prio 0, i/o): acpi-smi
+> 0000000000000cc4-0000000000000cdb (prio 0, i/o): acpi-pci-hotplug
+> 0000000000000cd8-0000000000000ce3 (prio 0, i/o): acpi-cpu-hotplug
+>
+> It shows that there is a region of conflict between IO regions of acpi
+> pci hotplug and acpi cpu hotplug.
+>
+> Unfortunately, the change caf108bc58790 did not update the IO address range
+> appropriately before it was pushed upstream to accomodate
+
+s/accomodate/accommodate
+
+> the increased
+> length of the IO address space introduced in change b32bd763a1ca92.
+>
+> Due to this bug, windows guests complain 'This device cannot find
+> enough free resources it can use' in the device manager panel for extended
+> IO buses. This issue also breaks the correct functioning of pci hotplug as the
+> following shows that the IO space for pci hotplug has been truncated:
+>
+> (qemu) info mtree -f
+> FlatView #0
+>  AS "I/O", root: io
+>  Root memory region: io
+>   0000000000000cc4-0000000000000cd7 (prio 0, i/o): acpi-pci-hotplug
+>   0000000000000cd8-0000000000000cf7 (prio 0, i/o): acpi-cpu-hotplug
+>
+> Therefore, in this fix, we adjust the IO address range for the acpi pci
+> hotplug so that it does not conflict with cpu hotplug and there is no
+> truncation of IO spaces. The starting IO address of PCI hotplug region
+> has been decremented by four bytes in order to accomodate
+
+same
+
+> four byte
+> increment in the IO address space introduced by change
+> b32bd763a1ca92 ("pci: introduce acpi-index property for PCI device")
+>
+> After fixing, the following are the corrected IO ranges:
+>
+> 0000000000000600-0000000000000603 (prio 0, i/o): acpi-evt
+> 0000000000000604-0000000000000605 (prio 0, i/o): acpi-cnt
+> 0000000000000608-000000000000060b (prio 0, i/o): acpi-tmr
+> 0000000000000620-000000000000062f (prio 0, i/o): acpi-gpe0
+> 0000000000000630-0000000000000637 (prio 0, i/o): acpi-smi
+> 0000000000000cc0-0000000000000cd7 (prio 0, i/o): acpi-pci-hotplug
+> 0000000000000cd8-0000000000000ce3 (prio 0, i/o): acpi-cpu-hotplug
+>
+> This change has been tested using a Windows Server 2019 guest VM. Windows
+> no longer complains after this change.
+>
+> Fixes: caf108bc58790 ("hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/561
+>
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+
+On the code itself:
+Reviewed-by: Julia Suvorova <jusual@redhat.com>
+
+
 > ---
->  python/qemu/machine/machine.py | 9 ++++++++-
->  python/setup.cfg               | 1 +
->  2 files changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-> index a7081b1845..51b6e79a13 100644
-> --- a/python/qemu/machine/machine.py
-> +++ b/python/qemu/machine/machine.py
-> @@ -19,6 +19,7 @@
->  
->  import errno
->  from itertools import chain
-> +import locale
->  import logging
->  import os
->  import shutil
-> @@ -290,8 +291,14 @@ def get_pid(self) -> Optional[int]:
->          return self._subp.pid
->  
->      def _load_io_log(self) -> None:
-> +        # Assume that the output encoding of QEMU's terminal output
-> +        # is defined by our locale. If indeterminate, use a platform default.
-> +        _, encoding = locale.getlocale()
-> +        if encoding is None:
-> +            encoding = locale.getpreferredencoding(do_setlocale=False)
-
-Do we really need this getpreferredencoding ?  IIUC, this is a sign
-that the application is buggy by not calling
-
-  locale.setlocale(locale.LC_ALL, '')
-
-during its main() method, which I think we can just delegate to the
-code in question to fix. Missing setlocale will affect everything
-they run, so doing workarounds in only 1 place is not worth it IMHO
-
->          if self._qemu_log_path is not None:
-> -            with open(self._qemu_log_path, "r") as iolog:
-> +            with open(self._qemu_log_path, "r",
-> +                      encoding=encoding) as iolog:
->                  self._iolog = iolog.read()
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>  include/hw/acpi/ich9.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
+> index a329ce43ab..f04f1791bd 100644
+> --- a/include/hw/acpi/ich9.h
+> +++ b/include/hw/acpi/ich9.h
+> @@ -29,7 +29,7 @@
+>  #include "hw/acpi/acpi_dev_interface.h"
+>  #include "hw/acpi/tco.h"
+>
+> -#define ACPI_PCIHP_ADDR_ICH9 0x0cc4
+> +#define ACPI_PCIHP_ADDR_ICH9 0x0cc0
+>
+>  typedef struct ICH9LPCPMRegs {
+>      /*
+> --
+> 2.25.1
+>
 
 
