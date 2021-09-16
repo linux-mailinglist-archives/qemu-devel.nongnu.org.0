@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382B340DF56
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:07:40 +0200 (CEST)
-Received: from localhost ([::1]:38628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A33D640E06A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:21:05 +0200 (CEST)
+Received: from localhost ([::1]:39874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQtvH-0003fz-0p
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:07:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46622)
+	id 1mQu8G-0007tS-NU
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:21:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1mQtiK-00030C-C0; Thu, 16 Sep 2021 11:54:16 -0400
-Received: from mail.csgraf.de ([85.25.223.15]:51310 helo=zulu616.server4you.de)
+ id 1mQtiH-0002wR-Ge; Thu, 16 Sep 2021 11:54:15 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:51322 helo=zulu616.server4you.de)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1mQtiD-00053f-QK; Thu, 16 Sep 2021 11:54:13 -0400
+ id 1mQtiD-00054W-1f; Thu, 16 Sep 2021 11:54:13 -0400
 Received: from localhost.localdomain
  (dynamic-077-009-016-098.77.9.pool.telefonica.de [77.9.16.98])
- by csgraf.de (Postfix) with ESMTPSA id 76D446080641;
- Thu, 16 Sep 2021 17:54:05 +0200 (CEST)
+ by csgraf.de (Postfix) with ESMTPSA id 23A70608068E;
+ Thu, 16 Sep 2021 17:54:06 +0200 (CEST)
 From: Alexander Graf <agraf@csgraf.de>
 To: QEMU Developers <qemu-devel@nongnu.org>
-Subject: [PATCH v12 01/10] arm: Move PMC register definitions to internals.h
-Date: Thu, 16 Sep 2021 17:53:55 +0200
-Message-Id: <20210916155404.86958-2-agraf@csgraf.de>
+Subject: [PATCH v12 02/10] hvf: Add execute to dirty log permission bitmap
+Date: Thu, 16 Sep 2021 17:53:56 +0200
+Message-Id: <20210916155404.86958-3-agraf@csgraf.de>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20210916155404.86958-1-agraf@csgraf.de>
 References: <20210916155404.86958-1-agraf@csgraf.de>
@@ -61,135 +61,37 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will need PMC register definitions in accel specific code later.
-Move all constant definitions to common arm headers so we can reuse
-them.
+Hvf's permission bitmap during and after dirty logging does not include
+the HV_MEMORY_EXEC permission. At least on Apple Silicon, this leads to
+instruction faults once dirty logging was enabled.
+
+Add the bit to make it work properly.
 
 Signed-off-by: Alexander Graf <agraf@csgraf.de>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
 ---
+ accel/hvf/hvf-accel-ops.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-v9 -> v10:
-
-  - Move to target/arm/internals.h
-
-v10 -> v11:
-
-  - Fix subject line
----
- target/arm/helper.c    | 44 ------------------------------------------
- target/arm/internals.h | 44 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 44 insertions(+), 44 deletions(-)
-
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index b210da2bc2..21ee94ec2e 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -1114,50 +1114,6 @@ static const ARMCPRegInfo v6_cp_reginfo[] = {
-     REGINFO_SENTINEL
- };
+diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
+index d1691be989..71cc2fa70f 100644
+--- a/accel/hvf/hvf-accel-ops.c
++++ b/accel/hvf/hvf-accel-ops.c
+@@ -239,12 +239,12 @@ static void hvf_set_dirty_tracking(MemoryRegionSection *section, bool on)
+     if (on) {
+         slot->flags |= HVF_SLOT_LOG;
+         hv_vm_protect((uintptr_t)slot->start, (size_t)slot->size,
+-                      HV_MEMORY_READ);
++                      HV_MEMORY_READ | HV_MEMORY_EXEC);
+     /* stop tracking region*/
+     } else {
+         slot->flags &= ~HVF_SLOT_LOG;
+         hv_vm_protect((uintptr_t)slot->start, (size_t)slot->size,
+-                      HV_MEMORY_READ | HV_MEMORY_WRITE);
++                      HV_MEMORY_READ | HV_MEMORY_WRITE | HV_MEMORY_EXEC);
+     }
+ }
  
--/* Definitions for the PMU registers */
--#define PMCRN_MASK  0xf800
--#define PMCRN_SHIFT 11
--#define PMCRLC  0x40
--#define PMCRDP  0x20
--#define PMCRX   0x10
--#define PMCRD   0x8
--#define PMCRC   0x4
--#define PMCRP   0x2
--#define PMCRE   0x1
--/*
-- * Mask of PMCR bits writeable by guest (not including WO bits like C, P,
-- * which can be written as 1 to trigger behaviour but which stay RAZ).
-- */
--#define PMCR_WRITEABLE_MASK (PMCRLC | PMCRDP | PMCRX | PMCRD | PMCRE)
--
--#define PMXEVTYPER_P          0x80000000
--#define PMXEVTYPER_U          0x40000000
--#define PMXEVTYPER_NSK        0x20000000
--#define PMXEVTYPER_NSU        0x10000000
--#define PMXEVTYPER_NSH        0x08000000
--#define PMXEVTYPER_M          0x04000000
--#define PMXEVTYPER_MT         0x02000000
--#define PMXEVTYPER_EVTCOUNT   0x0000ffff
--#define PMXEVTYPER_MASK       (PMXEVTYPER_P | PMXEVTYPER_U | PMXEVTYPER_NSK | \
--                               PMXEVTYPER_NSU | PMXEVTYPER_NSH | \
--                               PMXEVTYPER_M | PMXEVTYPER_MT | \
--                               PMXEVTYPER_EVTCOUNT)
--
--#define PMCCFILTR             0xf8000000
--#define PMCCFILTR_M           PMXEVTYPER_M
--#define PMCCFILTR_EL0         (PMCCFILTR | PMCCFILTR_M)
--
--static inline uint32_t pmu_num_counters(CPUARMState *env)
--{
--  return (env->cp15.c9_pmcr & PMCRN_MASK) >> PMCRN_SHIFT;
--}
--
--/* Bits allowed to be set/cleared for PMCNTEN* and PMINTEN* */
--static inline uint64_t pmu_counter_mask(CPUARMState *env)
--{
--  return (1 << 31) | ((1 << pmu_num_counters(env)) - 1);
--}
--
- typedef struct pm_event {
-     uint16_t number; /* PMEVTYPER.evtCount is 16 bits wide */
-     /* If the event is supported on this CPU (used to generate PMCEID[01]) */
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index cd2ea8a388..777f968764 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1226,4 +1226,48 @@ enum MVEECIState {
-     /* All other values reserved */
- };
- 
-+/* Definitions for the PMU registers */
-+#define PMCRN_MASK  0xf800
-+#define PMCRN_SHIFT 11
-+#define PMCRLC  0x40
-+#define PMCRDP  0x20
-+#define PMCRX   0x10
-+#define PMCRD   0x8
-+#define PMCRC   0x4
-+#define PMCRP   0x2
-+#define PMCRE   0x1
-+/*
-+ * Mask of PMCR bits writeable by guest (not including WO bits like C, P,
-+ * which can be written as 1 to trigger behaviour but which stay RAZ).
-+ */
-+#define PMCR_WRITEABLE_MASK (PMCRLC | PMCRDP | PMCRX | PMCRD | PMCRE)
-+
-+#define PMXEVTYPER_P          0x80000000
-+#define PMXEVTYPER_U          0x40000000
-+#define PMXEVTYPER_NSK        0x20000000
-+#define PMXEVTYPER_NSU        0x10000000
-+#define PMXEVTYPER_NSH        0x08000000
-+#define PMXEVTYPER_M          0x04000000
-+#define PMXEVTYPER_MT         0x02000000
-+#define PMXEVTYPER_EVTCOUNT   0x0000ffff
-+#define PMXEVTYPER_MASK       (PMXEVTYPER_P | PMXEVTYPER_U | PMXEVTYPER_NSK | \
-+                               PMXEVTYPER_NSU | PMXEVTYPER_NSH | \
-+                               PMXEVTYPER_M | PMXEVTYPER_MT | \
-+                               PMXEVTYPER_EVTCOUNT)
-+
-+#define PMCCFILTR             0xf8000000
-+#define PMCCFILTR_M           PMXEVTYPER_M
-+#define PMCCFILTR_EL0         (PMCCFILTR | PMCCFILTR_M)
-+
-+static inline uint32_t pmu_num_counters(CPUARMState *env)
-+{
-+  return (env->cp15.c9_pmcr & PMCRN_MASK) >> PMCRN_SHIFT;
-+}
-+
-+/* Bits allowed to be set/cleared for PMCNTEN* and PMINTEN* */
-+static inline uint64_t pmu_counter_mask(CPUARMState *env)
-+{
-+  return (1 << 31) | ((1 << pmu_num_counters(env)) - 1);
-+}
-+
- #endif
 -- 
 2.30.1 (Apple Git-130)
 
