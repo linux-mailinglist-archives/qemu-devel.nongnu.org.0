@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B54140D749
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:18:05 +0200 (CEST)
-Received: from localhost ([::1]:43480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED19E40D74E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:20:45 +0200 (CEST)
+Received: from localhost ([::1]:52008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQoSy-0000Jb-FX
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:18:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40440)
+	id 1mQoVU-00066t-OO
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:20:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQoHn-0002ak-UT
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:06:33 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40376
+ id 1mQoHs-0002fQ-Us
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:06:37 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40382
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQoHm-0002hi-Fx
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:06:31 -0400
+ id 1mQoHq-0002ni-IS
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:06:36 -0400
 Received: from host109-153-76-56.range109-153.btcentralplus.com
  ([109.153.76.56] helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQoHe-000ChM-Gk; Thu, 16 Sep 2021 11:06:26 +0100
+ id 1mQoHi-000ChM-EG; Thu, 16 Sep 2021 11:06:30 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Thu, 16 Sep 2021 11:05:41 +0100
-Message-Id: <20210916100554.10963-8-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 16 Sep 2021 11:05:42 +0100
+Message-Id: <20210916100554.10963-9-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210916100554.10963-1-mark.cave-ayland@ilande.co.uk>
 References: <20210916100554.10963-1-mark.cave-ayland@ilande.co.uk>
@@ -39,7 +39,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.76.56
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 07/20] nubus: add trace-events for empty slot accesses
+Subject: [PATCH v3 08/20] nubus: generate bus error when attempting to access
+ empty slots
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,111 +66,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Increase the max_access_size to 4 bytes for empty Nubus slot and super slot
-accesses to allow tracing of the Nubus enumeration process by the guest OS.
+According to "Designing Cards and Drivers for the Macintosh Family" any attempt
+to access an unimplemented address location on Nubus generates a bus error. MacOS
+uses a custom bus error handler to detect empty Nubus slots, and with the current
+implementation assumes that all slots are occupied as the Nubus transactions
+never fail.
+
+Switch nubus_slot_ops and nubus_super_slot_ops over to use {read,write}_with_attrs
+and hard-code them to return MEMTX_DECODE_ERROR so that unoccupied Nubus slots
+will generate the expected bus error.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/nubus/nubus-bus.c  | 10 +++++++---
- hw/nubus/trace-events |  7 +++++++
- hw/nubus/trace.h      |  1 +
- meson.build           |  1 +
- 4 files changed, 16 insertions(+), 3 deletions(-)
- create mode 100644 hw/nubus/trace-events
- create mode 100644 hw/nubus/trace.h
+ hw/nubus/nubus-bus.c | 34 ++++++++++++++++++----------------
+ 1 file changed, 18 insertions(+), 16 deletions(-)
 
 diff --git a/hw/nubus/nubus-bus.c b/hw/nubus/nubus-bus.c
-index 63e7d66b95..39182db065 100644
+index 39182db065..a617459a4f 100644
 --- a/hw/nubus/nubus-bus.c
 +++ b/hw/nubus/nubus-bus.c
-@@ -11,6 +11,7 @@
- #include "qemu/osdep.h"
- #include "hw/nubus/nubus.h"
- #include "qapi/error.h"
-+#include "trace.h"
- 
- 
- static NubusBus *nubus_find(void)
-@@ -23,12 +24,13 @@ static void nubus_slot_write(void *opaque, hwaddr addr, uint64_t val,
-                              unsigned int size)
- {
-     /* read only */
-+    trace_nubus_slot_write(addr, val, size);
+@@ -20,23 +20,23 @@ static NubusBus *nubus_find(void)
+     return NUBUS_BUS(object_resolve_path_type("", TYPE_NUBUS_BUS, NULL));
  }
  
--
- static uint64_t nubus_slot_read(void *opaque, hwaddr addr,
-                                 unsigned int size)
+-static void nubus_slot_write(void *opaque, hwaddr addr, uint64_t val,
+-                             unsigned int size)
++static MemTxResult nubus_slot_write(void *opaque, hwaddr addr, uint64_t val,
++                                    unsigned size, MemTxAttrs attrs)
  {
-+    trace_nubus_slot_read(addr, size);
-     return 0;
+-    /* read only */
+     trace_nubus_slot_write(addr, val, size);
++    return MEMTX_DECODE_ERROR;
  }
  
-@@ -38,7 +40,7 @@ static const MemoryRegionOps nubus_slot_ops = {
+-static uint64_t nubus_slot_read(void *opaque, hwaddr addr,
+-                                unsigned int size)
++static MemTxResult nubus_slot_read(void *opaque, hwaddr addr, uint64_t *data,
++                                   unsigned size, MemTxAttrs attrs)
+ {
+     trace_nubus_slot_read(addr, size);
+-    return 0;
++    return MEMTX_DECODE_ERROR;
+ }
+ 
+ static const MemoryRegionOps nubus_slot_ops = {
+-    .read  = nubus_slot_read,
+-    .write = nubus_slot_write,
++    .read_with_attrs  = nubus_slot_read,
++    .write_with_attrs = nubus_slot_write,
      .endianness = DEVICE_BIG_ENDIAN,
      .valid = {
          .min_access_size = 1,
--        .max_access_size = 1,
-+        .max_access_size = 4,
+@@ -44,23 +44,25 @@ static const MemoryRegionOps nubus_slot_ops = {
      },
  };
  
-@@ -46,11 +48,13 @@ static void nubus_super_slot_write(void *opaque, hwaddr addr, uint64_t val,
-                                    unsigned int size)
+-static void nubus_super_slot_write(void *opaque, hwaddr addr, uint64_t val,
+-                                   unsigned int size)
++static MemTxResult nubus_super_slot_write(void *opaque, hwaddr addr,
++                                          uint64_t val, unsigned size,
++                                          MemTxAttrs attrs)
  {
-     /* read only */
-+    trace_nubus_super_slot_write(addr, val, size);
+-    /* read only */
+     trace_nubus_super_slot_write(addr, val, size);
++    return MEMTX_DECODE_ERROR;
  }
  
- static uint64_t nubus_super_slot_read(void *opaque, hwaddr addr,
-                                       unsigned int size)
+-static uint64_t nubus_super_slot_read(void *opaque, hwaddr addr,
+-                                      unsigned int size)
++static MemTxResult nubus_super_slot_read(void *opaque, hwaddr addr,
++                                         uint64_t *data, unsigned size,
++                                         MemTxAttrs attrs)
  {
-+    trace_nubus_super_slot_read(addr, size);
-     return 0;
+     trace_nubus_super_slot_read(addr, size);
+-    return 0;
++    return MEMTX_DECODE_ERROR;
  }
  
-@@ -60,7 +64,7 @@ static const MemoryRegionOps nubus_super_slot_ops = {
+ static const MemoryRegionOps nubus_super_slot_ops = {
+-    .read  = nubus_super_slot_read,
+-    .write = nubus_super_slot_write,
++    .read_with_attrs = nubus_super_slot_read,
++    .write_with_attrs = nubus_super_slot_write,
      .endianness = DEVICE_BIG_ENDIAN,
      .valid = {
          .min_access_size = 1,
--        .max_access_size = 1,
-+        .max_access_size = 4,
-     },
- };
- 
-diff --git a/hw/nubus/trace-events b/hw/nubus/trace-events
-new file mode 100644
-index 0000000000..e31833d694
---- /dev/null
-+++ b/hw/nubus/trace-events
-@@ -0,0 +1,7 @@
-+# See docs/devel/tracing.txt for syntax documentation.
-+
-+# nubus-bus.c
-+nubus_slot_read(uint64_t addr, int size) "reading unassigned addr 0x%"PRIx64 " size %d"
-+nubus_slot_write(uint64_t addr, uint64_t val, int size) "writing unassigned addr 0x%"PRIx64 " value 0x%"PRIx64 " size %d"
-+nubus_super_slot_read(uint64_t addr, int size) "reading unassigned addr 0x%"PRIx64 " size %d"
-+nubus_super_slot_write(uint64_t addr, uint64_t val, int size) "writing unassigned addr 0x%"PRIx64 " value 0x%"PRIx64 " size %d"
-diff --git a/hw/nubus/trace.h b/hw/nubus/trace.h
-new file mode 100644
-index 0000000000..3749420da1
---- /dev/null
-+++ b/hw/nubus/trace.h
-@@ -0,0 +1 @@
-+#include "trace/trace-hw_nubus.h"
-diff --git a/meson.build b/meson.build
-index 2711cbb789..612ce671b5 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2135,6 +2135,7 @@ if have_system
-     'hw/misc/macio',
-     'hw/net',
-     'hw/net/can',
-+    'hw/nubus',
-     'hw/nvme',
-     'hw/nvram',
-     'hw/pci',
 -- 
 2.20.1
 
