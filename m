@@ -2,86 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6609340E1AF
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:46:01 +0200 (CEST)
-Received: from localhost ([::1]:34668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE7740E1B6
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:52:25 +0200 (CEST)
+Received: from localhost ([::1]:48372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQuWN-0001eL-SD
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:46:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55414)
+	id 1mQucZ-0002ga-Ou
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:52:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mQuIu-0002bB-91; Thu, 16 Sep 2021 12:32:07 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:33821)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mQuay-0001oa-F0
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 12:50:44 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:40287)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mQuIs-0002qG-Av; Thu, 16 Sep 2021 12:32:04 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 11947320093F;
- Thu, 16 Sep 2021 12:32:00 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Thu, 16 Sep 2021 12:32:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=2Bvr7qCuD9toDam9A2fJAHrUE/b
- l0bKoeB0cLwbHj/M=; b=Semi3eeLs4rVSB32bV1tOgxwOGwubHQ+dRQdIfjIfdx
- uSw7wtHQsES5XseYzQw7JxnQVoXn6H0KuMSDU/pQ1ax98MfBO5dh3nynZTUZJivC
- pSCUBDnK9fhqX8MpkPdZH2HNm89xJyluGDuXyfBCRKe6MlL1ZgbEGAjcx1VwM0+e
- o9ZEP39CgpaR2T3TpaY+Y6Zq/5XfE6o1yyBMCAZAkF2Yabiy8rNNE63WTN65Tp3X
- AwnQ49tVA0oC++9bn8tnoWr55me09+2MoIj5xd+v457Lhrk1EjZUJxhYMndy1uax
- +5ZUnbpZToSfzluafXzwYORoPcGkOXzv6a1zar/stiw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=2Bvr7q
- CuD9toDam9A2fJAHrUE/bl0bKoeB0cLwbHj/M=; b=NVadQpBmXMNv0ckHXXVvZS
- wMvSC2YGCl42WtyODFpb3y3EXzxWCLMPrHSRSXvSIsbFkJIOpt4y3tft2Sn1kHhr
- WX+8nLPol2E+flDbPmgMDdNZdH8cXCAfMqWBobfJczgup1+On0kaOymXElxg6Svz
- 0M3CKWw7lWuXt6C24U30ZqavwwMQNVo3Ah/qyak5h5xJja99V/54vH9fY8rMT8ca
- tUqkA+SvTxS6YiiKtgIDG0cIiQLquSCsEeJfSmKj98C90SZxLIbPUtr7/vgyYCVD
- eiXat3+28/dYZin3U3smpPtm4UmgZj6FI3KyV9KCKA5nX4+E7qrmQUiYVOaiRjZw
- ==
-X-ME-Sender: <xms:fnFDYawcDwto-x8IYywAD7TfUYx1HaL6hpesEg72_uu7vL78Mwis-g>
- <xme:fnFDYWTZtydKLFQR7dOJgPiSAgsX_I_HEl7DpF4KK8LRqaPWi8HayJRvEyJZxLKLd
- 66gw5PDrpO_wNI870A>
-X-ME-Received: <xmr:fnFDYcW_Jy4WA5xCG7CzU0kCh-KsAHTilvdonDXQ9KZm0JAS16LNaB1IhAlOW5GBjN0LdLUWE846YNJX55Z3H-nzpm-2YNZQLi1XS9yb_ISdSR_lHA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgleeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:fnFDYQgRt0G6SER4fv5yK_Q-rATi19Z7nLrhHrhcnGWuGq0Jc3zOsw>
- <xmx:fnFDYcA041NFeQ0ClBa_qh0PJFMGpxS6Ucg-5riGLYOYvAPmdRWMXw>
- <xmx:fnFDYRKSCHtDto_-Ddsu978TpYIBn0eic37DhBn0aR48zKDFjfIQWA>
- <xmx:f3FDYY0jigQ6OjsvNUoD3Ayvwn7MlBxrmRK2TP8Y2SxRXn4AN50V4A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Sep 2021 12:31:57 -0400 (EDT)
-Date: Thu, 16 Sep 2021 18:31:55 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH RFC 02/13] hw/nvme: move zns helpers and types into zoned.h
-Message-ID: <YUNxe9l5SlTngX39@apples.localdomain>
-References: <20210914203737.182571-1-its@irrelevant.dk>
- <20210914203737.182571-3-its@irrelevant.dk>
- <20210916160605.GA3908552@dhcp-10-100-145-180.wdc.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mQuau-0002hf-KW
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 12:50:43 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id A295A7462D3;
+ Thu, 16 Sep 2021 18:50:37 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 710C27457EE; Thu, 16 Sep 2021 18:50:37 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 6F554745708;
+ Thu, 16 Sep 2021 18:50:37 +0200 (CEST)
+Date: Thu, 16 Sep 2021 18:50:37 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v3 12/20] nubus: move nubus to its own 32-bit address space
+In-Reply-To: <129c6752-11af-8139-2b34-8738a57a3db2@ilande.co.uk>
+Message-ID: <1d7dd0e1-b892-d69d-3c9-568d9f945b@eik.bme.hu>
+References: <20210916100554.10963-1-mark.cave-ayland@ilande.co.uk>
+ <20210916100554.10963-13-mark.cave-ayland@ilande.co.uk>
+ <cd70aa7-1c56-e51f-2395-45e5787580@eik.bme.hu>
+ <129c6752-11af-8139-2b34-8738a57a3db2@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="g4Kyf0b2/j86ovoq"
-Content-Disposition: inline
-In-Reply-To: <20210916160605.GA3908552@dhcp-10-100-145-180.wdc.com>
-Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
- helo=wout2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1024379279-1631811037=:41161"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,53 +60,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
---g4Kyf0b2/j86ovoq
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--3866299591-1024379279-1631811037=:41161
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-On Sep 16 09:06, Keith Busch wrote:
-> On Tue, Sep 14, 2021 at 10:37:26PM +0200, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> >=20
-> > Move ZNS related helpers and types into zoned.h. Use a common prefix
-> > (nvme_zoned or nvme_ns_zoned) for zns related functions.
->=20
-> Just a nitpicks on the naming, you can feel free to ignore.
->=20
-> Since we're within NVMe specific protocol here, using that terminology
-> should be fine. I prefer "nvme_zns_" for the prefix.
->=20
-> And for function names like "nvme_zoned_zs()", the "zs" abbreviation
-> expands to "zone_state", so "zone" is redunant. I think
-> "nvme_zns_state()" is a good name for that one.
+On Thu, 16 Sep 2021, Mark Cave-Ayland wrote:
+> On 16/09/2021 13:48, BALATON Zoltan wrote:
+>
+>> On Thu, 16 Sep 2021, Mark Cave-Ayland wrote:
+>>> According to "Designing Cards and Drivers for the Macintosh Family" the 
+>>> Nubus
+>>> has its own 32-bit address space based upon physical slot addressing.
+>>> 
+>>> Move Nubus to its own 32-bit address space and then use memory region 
+>>> aliases
+>>> to map available slot and super slot ranges into the q800 system address
+>>> space via the Macintosh Nubus bridge.
+>>> 
+>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>> hw/m68k/q800.c                      |  8 +++-----
+>>> hw/nubus/mac-nubus-bridge.c         | 15 +++++++++++++--
+>>> hw/nubus/nubus-bus.c                | 18 ++++++++++++++++++
+>>> hw/nubus/nubus-device.c             |  2 +-
+>>> include/hw/nubus/mac-nubus-bridge.h |  2 ++
+>>> include/hw/nubus/nubus.h            | 10 +++++++---
+>>> 6 files changed, 44 insertions(+), 11 deletions(-)
+>>> 
+>>> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+>>> index 5ba87f789c..0a0051a296 100644
+>>> --- a/hw/m68k/q800.c
+>>> +++ b/hw/m68k/q800.c
+>>> @@ -67,9 +67,6 @@
+>>> #define ASC_BASE              (IO_BASE + 0x14000)
+>>> #define SWIM_BASE             (IO_BASE + 0x1E000)
+>>> 
+>>> -#define NUBUS_SUPER_SLOT_BASE 0x60000000
+>>> -#define NUBUS_SLOT_BASE       0xf0000000
+>>> -
+>>> #define SONIC_PROM_SIZE       0x1000
+>>> 
+>>> /*
+>>> @@ -396,8 +393,9 @@ static void q800_init(MachineState *machine)
+>>> 
+>>>     dev = qdev_new(TYPE_MAC_NUBUS_BRIDGE);
+>>>     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>>> -    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, NUBUS_SUPER_SLOT_BASE);
+>>> -    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 1, NUBUS_SLOT_BASE);
+>>> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 9 * NUBUS_SUPER_SLOT_SIZE);
+>>> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 1, NUBUS_SLOT_BASE +
+>>> +                                            9 * NUBUS_SLOT_SIZE);
+>>> 
+>>>     nubus = MAC_NUBUS_BRIDGE(dev)->bus;
+>>> 
+>>> diff --git a/hw/nubus/mac-nubus-bridge.c b/hw/nubus/mac-nubus-bridge.c
+>>> index c1d77e2bc7..574bc7831e 100644
+>>> --- a/hw/nubus/mac-nubus-bridge.c
+>>> +++ b/hw/nubus/mac-nubus-bridge.c
+>>> @@ -21,8 +21,19 @@ static void mac_nubus_bridge_init(Object *obj)
+>>>     /* Macintosh only has slots 0x9 to 0xe available */
+>>>     s->bus->slot_available_mask = MAKE_64BIT_MASK(9, 6);
+>>> 
+>>> -    sysbus_init_mmio(sbd, &s->bus->super_slot_io);
+>>> -    sysbus_init_mmio(sbd, &s->bus->slot_io);
+>>> +    /* Aliases for slots 0x9 to 0xe */
+>>> +    memory_region_init_alias(&s->super_slot_alias, obj, 
+>>> "super-slot-alias",
+>>> +                             &s->bus->nubus_mr,
+>>> +                             9 * NUBUS_SUPER_SLOT_SIZE,
+>>> +                             6 * NUBUS_SUPER_SLOT_SIZE);
+>> 
+>> Sorry for not spotting it yesterday in v2 but I only had time to have a 
+>> closer look now. Do these 9 and 6 worth a #define? Are these something like 
+>> MAC_FIST_SLOT and MAC_NUM_SLOTS? As they maybe always appear together with 
+>> NUBUS_SUPER_SLOT_SIZE (I haven't checked all but most look like that) so 
+>> those products could have a #define just to make it shorter in these calls. 
+>> (Are those the #defines that you've removed above?) Maybe
+>> 
+>> #define MAC_FIRST_SLOT 9
+>> #define MAC_NUM_SLOTS  6
+>> 
+>> then use these to
+>> 
+>> #define MAC_SLOTS_MASK  MAKE_64BIT_MASK(MAC_FIRST_SLOT, MAC_NUM_SLOTS)
+>> 
+>> and similarly the memory address and size as
+>> 
+>> #define MAC_SLOT_BASE  9 * NUBUS_SUPER_SLOT_SIZE #define MAC_SLOT_SIZE  6 * 
+>> NUBUS_SUPER_SLOT_SIZE
+>> 
+>> or so and then use these latter three where they appear now open coded 
+>> could be shorter and clearer but I don't mind either way so if you want to 
+>> keep the current version that's OK with me as well. (I may have got the 
+>> names for these wrong but hopefully you get the idea, I haven't tried to 
+>> understand in detail what these really are.)
+>> 
+>> Regards,
+>> BALATON Zoltan
+>
+> I'm not amazingly sold on this since it introduces another layer of 
+> indirection: in its current form you can immediately correlate all of mask, 
+> offset, and size with the comment without having to look up another set of 
+> constants first.
 
-Naming is hard, so nitpicks are appreciated! I see your points, I'll fix
-it up :)
+As I said I'm OK with it as it as too.
 
---g4Kyf0b2/j86ovoq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmFDcXoACgkQTeGvMW1P
-DelvMQf/dX50lQ4bX0ljGFDftJVlWd0XajezrRoq8aepDc+k+T0tVt1tCjhNdYYX
-M0ukuaqtF/LerupNKxZxmWVAlLSJ0cvEQa5QRxcNCWSgu9mdCzY5qKyYUW2ENGoH
-z8rIALa3B8EAZ4Z7QBViGy625dH1ZmbOLl34vWDj1KvfNmBLMz15HhFHklExP3/Z
-oZXw6DMEPu3ZNSQV5mzKJAA5eZ0tBMobte+30Nf4PoItAqhnX53ZeRdE2n5ioShL
-ruHjvqir19eSgg7DTrPMSa/W2mK/ASKKnKAeuGpAiMId+QN96aa+GWledxlC42fV
-cRzunMi0efZgwcgykhoRwzZzqB5E6Q==
-=dm4m
------END PGP SIGNATURE-----
-
---g4Kyf0b2/j86ovoq--
+Regards,
+BALATON Zoltan
+--3866299591-1024379279-1631811037=:41161--
 
