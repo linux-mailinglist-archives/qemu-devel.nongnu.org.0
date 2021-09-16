@@ -2,94 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F5840DA58
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 14:51:14 +0200 (CEST)
-Received: from localhost ([::1]:55596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6765B40DA54
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 14:50:27 +0200 (CEST)
+Received: from localhost ([::1]:53804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQqrB-0005QX-5f
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 08:51:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50638)
+	id 1mQqqP-000495-8k
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 08:50:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mQqlR-0008DH-Ls
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:45:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45595)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mQqlQ-00023o-2s
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:45:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631796315;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LLAO5ENOgWdaDWrFt1uFZvt4Uis2tSuoHxip8axgiGs=;
- b=hyv8C7MrnNKc2DX4oQrNBCOASkR1WEo/Z1L4zmx5gbzXN3BZwGYzI3lbzsKjoPBft3W7O6
- rE51skShrUg6hK5ky7AijgafMhnFoZYnvk5d8sTaEGPWpdvuaZw6wljijMICN+1B614Adt
- oweuV9Eb/3XuO3zAjZSufO66ySQLcnk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-HQPPmEeNMAmf0vvPEBPYJw-1; Thu, 16 Sep 2021 08:45:13 -0400
-X-MC-Unique: HQPPmEeNMAmf0vvPEBPYJw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- r5-20020adfb1c5000000b0015cddb7216fso2391499wra.3
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 05:45:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mQqnu-0002P2-Q4
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:47:52 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36825)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mQqnq-0003mW-UE
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:47:49 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ l18-20020a05600c4f1200b002f8cf606262so7280355wmq.1
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 05:47:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=L2Yvd/cgfHZHV5jXl0qKgtBYgx1SM1is6wGI6Lh7oXw=;
+ b=GFZH7ar4xtW6OrQgCBwABLE+0JEVHVLxPIpux5FWWUF8/3qhkbiYYdQxSiqAQd41Ks
+ BoxQu+cxx28prBeXV+8bWwQqddzuiXpD/j+6rDoh6viEAUm8TfHpi1QdvXDD6dvkjAFg
+ gWC1FkHkHf5CnKFcLX6+k8J5+jCAijxKvO/JeABlXSPCdv3CHBw2+AO/NyMLo+Bt4xHt
+ wJiU94CW3PUxfkjuCRg5wPlafraM8GC/wD8XpXSQEUDNj/YhFehbVvjKzF6b2KxQKAgv
+ o4gVN3woJvF9p/wp5/h9q6IgO3cu8+eW3W2px2V/nDM9MIFFBka9jpL+U725WO/3yPCD
+ zhWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=LLAO5ENOgWdaDWrFt1uFZvt4Uis2tSuoHxip8axgiGs=;
- b=KpjXH8kTz5uoEtCzu3wwo2sW88GHAhU9usItAE2fbOq6hXjWYJmAkO/kPC5FjZBWXD
- felLVTc53WPaBKuRv16zsVWivVAqCKU5gBdmeCqhDZnAtZxXmTrkHA9Xi1t3JBVsTa+9
- yvWdFYbEfqY0o2+gP5uJPEeYtev7GG7HtRMdi4MJtZN+cZOIf+oj371ONiqDDWh9HzPM
- GoqLGWYW352r2qxl+D2WNqwtpPKfoLSan1XTWbMMU3+8PNVkbIHTt/5Ewg7RkUHxg9X8
- 3+dk1NBNTOV0faxETCVBvKk898tan9Db/PyjOfGVwwmSPe/BXdtmHXBw65TqgkCTWIuN
- bXAg==
-X-Gm-Message-State: AOAM531H+pZUdOITYNAGW1FlInEh03uc7Z1kVVUzYz8w3yyLS9G/rvKO
- CL5H7vnqjOkD/IgxS7+XnUlHLvwU5n+jqGV6HbLYpnOCUsKz1PsiBkdJn6JfYZH5BrNzsmH8XQE
- H/AvB4N21xQT+bD4=
-X-Received: by 2002:adf:b789:: with SMTP id s9mr5863626wre.315.1631796312768; 
- Thu, 16 Sep 2021 05:45:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyGqABLZILJhMS4W4bdgiHIeI4YfFW6t4M+ct3uIC7FGCpZH0SGFrn+TbXvUOCD3w1D7BPvAA==
-X-Received: by 2002:adf:b789:: with SMTP id s9mr5863611wre.315.1631796312639; 
- Thu, 16 Sep 2021 05:45:12 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id q11sm7537382wmc.41.2021.09.16.05.45.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 05:45:12 -0700 (PDT)
-Subject: Re: [PATCH v3 04/10] hw/arm/virt: Reject instantiation of multiple
- IOMMUs
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-References: <20210914142004.2433568-1-jean-philippe@linaro.org>
- <20210914142004.2433568-5-jean-philippe@linaro.org>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <4f7dd188-ada5-8750-8396-ff294f526c41@redhat.com>
-Date: Thu, 16 Sep 2021 14:45:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=L2Yvd/cgfHZHV5jXl0qKgtBYgx1SM1is6wGI6Lh7oXw=;
+ b=mOehk/fknkwrYi/8yelZ48ezOY3ifiUYLTwh6le6ymv6l01YZlAFvJpApTjRN0zAR+
+ d+4uhaOsygX3Ty4gV5uag6eMRyWr5FeEU0YQhFwOVqWXs0g/ckizOrUPSWWC468Z+7h3
+ LeNmQiPSUcuYKR6MAtxqCC/qd9YJerzJ5fi0zPjG4yBABCnFxWGVp3J0djQ5YkIW23Cx
+ OZjgyiM0wYwR8wRUWSvA6PxbodGqgEstE7R0NWa0Nj3WaeHa0MLXPZSWD1KNhY/4ncLM
+ D9m4jc7YMRoJDieuaHxSg7XY3HZYXu63Uuc3A265KUnpiOEDQ7Xq8+lryjpra2LnekUg
+ 9M6w==
+X-Gm-Message-State: AOAM531qOxOJAejxRSxS0b/9Nfh1Hd+zMuaXLJtQZUxIXXmjJm76O9Ii
+ WLRPIHuF5HI1DCHISLXZRXAlrUJuSA5sIXwLEvSkmQ==
+X-Google-Smtp-Source: ABdhPJzy3GwcQwZobU/1R+LAgRzxqCI+w5Cf1JymF3cu3vLA76Afdw/Wz9Rm1sqZetrAg0X6m5AEV1z5jmV0g2Miizo=
+X-Received: by 2002:a1c:a505:: with SMTP id o5mr4877905wme.32.1631796465207;
+ Thu, 16 Sep 2021 05:47:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210914142004.2433568-5-jean-philippe@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.488, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210915205809.59068-1-shashi.mallela@linaro.org>
+ <4aba1039-addb-9594-924a-4f8650637df4@amsat.org>
+In-Reply-To: <4aba1039-addb-9594-924a-4f8650637df4@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Sep 2021 13:46:54 +0100
+Message-ID: <CAFEAcA8C3_Yzc7fBvP3Tz=ybZQqnRQ_sOP4EYCJMsNNibH=Zpw@mail.gmail.com>
+Subject: Re: [PATCH] hw/intc: GIC maintenance interrupt not triggered
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,45 +80,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, pbonzini@redhat.com, ani@anisinha.ca, imammedo@redhat.com
+Cc: Shashi Mallela <shashi.mallela@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jean,
-
-On 9/14/21 4:19 PM, Jean-Philippe Brucker wrote:
-> We do not support instantiating multiple IOMMUs. Before adding a
-> virtio-iommu, check that no other IOMMU is present. This will detect
-> both "iommu=smmuv3" machine parameter and another virtio-iommu instance.
+On Thu, 16 Sept 2021 at 05:36, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
 >
-> Fixes: 70e89132c9 ("hw/arm/virt: Add the virtio-iommu device tree mappings")
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Tested-by: Eric Auger <eric.auger@redhat.com>
-
-Eric
-> ---
->  hw/arm/virt.c | 5 +++++
->  1 file changed, 5 insertions(+)
+> On 9/15/21 10:58 PM, Shashi Mallela wrote:
+> > During sbsa acs level 3 testing,it is seen that the GIC
+> > maintenance interrupts are not triggered and the related test
+> > cases failed.On debugging the cause,found that the value of
+> > MISR register (from maintenance_interrupt_state()) was being
+> > passed to qemu_set_irq() as level.Updated logic to set level
+> > to 1 if any of the maintenance interrupt attributes are set.
+> > Confirmed that the GIC maintanence interrupts are triggered and
+> > sbsa acs test cases passed with this change.
+> >
 >
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index f238766aa1..26069f943a 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -2471,6 +2471,11 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
->      if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
->          PCIDevice *pdev = PCI_DEVICE(dev);
->  
-> +        if (vms->iommu != VIRT_IOMMU_NONE) {
-> +            error_setg(errp, "virt machine does not support multiple IOMMUs");
-> +            return;
-> +        }
-> +
->          vms->iommu = VIRT_IOMMU_VIRTIO;
->          vms->virtio_iommu_bdf = pci_get_bdf(pdev);
->          create_virtio_iommu_dt_bindings(vms);
+> Fixes: c5fc89b36c0 ("hw/intc/arm_gicv3: Implement
+> gicv3_cpuif_virt_update()")
+>
+> > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
+> > ---
+> >  hw/intc/arm_gicv3_cpuif.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
+> > index 462a35f66e..34691d4fe2 100644
+> > --- a/hw/intc/arm_gicv3_cpuif.c
+> > +++ b/hw/intc/arm_gicv3_cpuif.c
+> > @@ -418,7 +418,9 @@ static void gicv3_cpuif_virt_update(GICv3CPUState *=
+cs)
+> >      }
+> >
+> >      if (cs->ich_hcr_el2 & ICH_HCR_EL2_EN) {
+> > -        maintlevel =3D maintenance_interrupt_state(cs);
+> > +        if (maintenance_interrupt_state(cs)) {
+> > +            maintlevel =3D 1;
+> > +        }
+>
+> Or:
+>            maintlevel =3D !!maintenance_interrupt_state(cs);
+>
+> But your style is more explicit.
 
+Applied to target-arm.next, thanks.
+
+I opted to tweak the code to
+
++    if ((cs->ich_hcr_el2 & ICH_HCR_EL2_EN) &&
++        maintenance_interrupt_state(cs) !=3D 0) {
++        maintlevel =3D 1;
+     }
+
+to avoid the nested if()s.
+
+-- PMM
 
