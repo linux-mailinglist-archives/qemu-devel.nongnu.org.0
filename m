@@ -2,56 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AAE940E13F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:29:15 +0200 (CEST)
-Received: from localhost ([::1]:60850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8CC40E18C
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:31:47 +0200 (CEST)
+Received: from localhost ([::1]:37720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQuG9-0005IC-Q0
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:29:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48646)
+	id 1mQuIb-0000G1-Oy
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:31:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
- id 1mQttP-0004B8-Uv; Thu, 16 Sep 2021 12:05:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60252)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1mQtts-0004bP-Bo; Thu, 16 Sep 2021 12:06:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
- id 1mQttJ-000654-Rs; Thu, 16 Sep 2021 12:05:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 811ED61284;
- Thu, 16 Sep 2021 16:05:28 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1mQttq-0006cM-Gi; Thu, 16 Sep 2021 12:06:12 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2D49A61279;
+ Thu, 16 Sep 2021 16:06:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631808328;
- bh=VzJSebYs1KUuC/ajUXKa/vXtZKo1ICr0zMwS9puvvqU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=hJrD6i5Nru1B+yK6WWHH+W4Qy9xX8vSQHYEoE+/h/zDSAeZfo/NgkSyDqW/PHA3d1
- b53B4oJxnDzVfweieHLDj8y9WQBUVzYgvX6ORSSh+vuFNy+4FswFd7Sqo1WDmgOQLI
- HluOe97bNZv0wQ3zaOhkk/NuVDiDG3PkbG83kFcNFs/Oth124kTczlT/H+ATDJ64mu
- z2MOB7uQUW+rnSOAXMY5+luSjAXOmrVNJdbJSIxlqZypSetm74bOk4LhEmGZ+/IRnF
- bBEhVUuMI3m/WUAJVktWzAOSgxKqyEmuyjy/m+/GylhFzUbr6qn+SGhj8jjFMpeVNx
- IDNDgVpKyU/6g==
-Received: by mail-oi1-f173.google.com with SMTP id v2so9688280oie.6;
- Thu, 16 Sep 2021 09:05:28 -0700 (PDT)
-X-Gm-Message-State: AOAM5316tRJ50Z/R2Vsw7C9rRmufklFoXvjKx7t2rT3ik1j+vx5gue52
- WW4FAqXTO3+r+r5wQEl6D8z0pdmBKaaUUMWNzvM=
-X-Google-Smtp-Source: ABdhPJzdWgzpKb7f0S/OUUR0qHiq2l+jNt66TkV6uXTTbaz4XXwAn1scAua4FrWAS5dBqLyu/rHv42pr6yrBlK+6h5g=
-X-Received: by 2002:a05:6808:15a2:: with SMTP id
- t34mr9537589oiw.47.1631808327889; 
- Thu, 16 Sep 2021 09:05:27 -0700 (PDT)
+ s=k20201202; t=1631808367;
+ bh=wJVB3s73fHyOgU11KaO2kBjMEvFeyUaHVulRaXAqoCY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=n9xNBWY3cliaGPjcNq1Nk+NC3zv0Lq05BECUdyI44gm3seWfDUA3AZNFlEGF0TVlZ
+ 2gUaV7jdU4TU8Qbp3RZyLMdcohSibRmJa+kgHMtjCQ396zmDCyadKVnHcDYi7UFI2v
+ j0DPlh11bk3bxAbCDvJYYIhHTfH3yw4abOLEEft5x+UcTi3VWfo49LYgSnwgpY7P8a
+ 7wBGVbBAc8xkEMtyIRmdpBypdK3kDE1bVe68cYJuC0sJzveRVIFpunKzLWqX7/CtYG
+ XOGccP+85EsmaU8hyZNdvUtpULhaXsEXSzu6UWIv5bXwxBkAZ0dJlLP92hdAwWbdX2
+ KKroJMRat2OFg==
+Date: Thu, 16 Sep 2021 09:06:05 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH RFC 02/13] hw/nvme: move zns helpers and types into zoned.h
+Message-ID: <20210916160605.GA3908552@dhcp-10-100-145-180.wdc.com>
+References: <20210914203737.182571-1-its@irrelevant.dk>
+ <20210914203737.182571-3-its@irrelevant.dk>
 MIME-Version: 1.0
-References: <20210915181049.27597-1-agraf@csgraf.de>
- <20210915181049.27597-7-agraf@csgraf.de>
- <CAFEAcA9JZZ4nb8WAvKVYpwqxb_E5NFOVW9rKF3u7GhFqfNZgOQ@mail.gmail.com>
- <8e219cb0-8b65-faf8-f636-5c1d24471f84@csgraf.de>
- <CAFEAcA8xs3x5WCqT+FnPYip=nbQx6=UEH90Dkjq48YLboV9qAw@mail.gmail.com>
-In-Reply-To: <CAFEAcA8xs3x5WCqT+FnPYip=nbQx6=UEH90Dkjq48YLboV9qAw@mail.gmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Thu, 16 Sep 2021 18:05:16 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXEEN+J4k_Kib8gRHcy8v1vVRwk7c847yT_Kuv+jnLf9ww@mail.gmail.com>
-Message-ID: <CAMj1kXEEN+J4k_Kib8gRHcy8v1vVRwk7c847yT_Kuv+jnLf9ww@mail.gmail.com>
-Subject: Re: [PATCH v11 06/10] hvf: arm: Implement -cpu host
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=ardb@kernel.org;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210914203737.182571-3-its@irrelevant.dk>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
  helo=mail.kernel.org
 X-Spam_score_int: -74
 X-Spam_score: -7.5
@@ -72,73 +61,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- qemu-arm <qemu-arm@nongnu.org>, Frank Yang <lfy@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Sept 2021 at 17:56, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Thu, 16 Sept 2021 at 16:30, Alexander Graf <agraf@csgraf.de> wrote:
-> >
-> >
-> > On 16.09.21 14:24, Peter Maydell wrote:
-> > > On Wed, 15 Sept 2021 at 19:10, Alexander Graf <agraf@csgraf.de> wrote:
-> > >> Now that we have working system register sync, we push more target CPU
-> > >> properties into the virtual machine. That might be useful in some
-> > >> situations, but is not the typical case that users want.
-> > >>
-> > >> So let's add a -cpu host option that allows them to explicitly pass all
-> > >> CPU capabilities of their host CPU into the guest.
-> > >>
-> > >> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> > >> Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> > >> Reviewed-by: Sergio Lopez <slp@redhat.com>
-> > >>
-> > >> +    /*
-> > >> +     * A scratch vCPU returns SCTLR 0, so let's fill our default with the M1
-> > >> +     * boot SCTLR from https://github.com/AsahiLinux/m1n1/issues/97
->
-> Side note: SCTLR_EL1 is a 64-bit register, do you have anything that
-> prints the full 64-bits to confirm that [63:32] are indeed all 0?
->
-> > >> +     */
-> > >> +    ahcf->reset_sctlr = 0x30100180;
-> > >> +    /* OVMF chokes on boot if SPAN is not set, so default it to on */
-> > >> +    ahcf->reset_sctlr |= 0x00800000;
-> > > Isn't that just an OVMF bug ? If you want this then you need to
-> > > convince me why this isn't just a workaround for a buggy guest.
-> >
-> >
-> > I couldn't find anything in the ARMv8 spec that explicitly says "If you
-> > support PAN, SCTLR.SPAN should be 1 by default". It is RES1 for CPUs
-> > that do not implement PAN. Beware that for SPAN, "1" means disabled and
-> > "0" means enabled.
->
-> It's UNKNOWN on reset. So unless OVMF is relying on whatever
-> is launching it to set SCTLR correctly (ie there is some part of
-> the "firmware-to-OVMF" contract it is relying on) then it seems to
-> me that it's OVMF's job to initialize it to what it needs. (Lots of
-> SCTLR is like that.)
->
-> Linux does this here:
->  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/kernel/head.S?h=v5.15-rc1#n485
->  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/include/asm/sysreg.h?h=v5.15-rc1#n695
-> because the INIT_SCTLR_EL1_MMU_OFF constant includes forcing
-> all "this kernel expects these to be RES0/RES1 because that's all
-> the architectural features we know about at this time" bits to
-> their RESn values.
->
-> But we can probably construct an argument for why having it set
-> makes sense, yes.
->
+On Tue, Sep 14, 2021 at 10:37:26PM +0200, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Move ZNS related helpers and types into zoned.h. Use a common prefix
+> (nvme_zoned or nvme_ns_zoned) for zns related functions.
 
-I'd argue that compliance with the architecture means that the
-software should not clear RES1 bits, but I don't think we can blame it
-for not touching bits that were in in invalid state upon entry.
+Just a nitpicks on the naming, you can feel free to ignore.
+
+Since we're within NVMe specific protocol here, using that terminology
+should be fine. I prefer "nvme_zns_" for the prefix.
+
+And for function names like "nvme_zoned_zs()", the "zs" abbreviation
+expands to "zone_state", so "zone" is redunant. I think
+"nvme_zns_state()" is a good name for that one.
 
