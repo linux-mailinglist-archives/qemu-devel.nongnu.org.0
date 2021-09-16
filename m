@@ -2,72 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B00340D703
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:06:55 +0200 (CEST)
-Received: from localhost ([::1]:49020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A77540D733
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:13:30 +0200 (CEST)
+Received: from localhost ([::1]:33016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQoIA-0001aO-3i
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:06:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39296)
+	id 1mQoOX-0001lF-5U
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:13:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQoDa-0006qI-9N
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:02:10 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37771)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQoDV-00075n-L3
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:02:10 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id t8so8542162wrq.4
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 03:02:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZPlnvWwDJmBGYDY064GS1S31c3Nx6YEROSxkxDU+k+w=;
- b=A7FQKZHqnh4oMyKLMRlS0c27yw+juxxQ09nwuGURUTvPsUeQfIZmGblvYJH2znkXfa
- TM+GDaGBzzNGLIWB4lJzyljb6fkIKfq1h2FFdiPYpZqwqvfTZ4ZRmGEaBwzpeCeVlhxG
- AFtCRkDe4EYV+IO0C65sxz1dvqwbikuFYHBmzAQhNuau8w4FSoaV/OvOk7vHQFzhs5iV
- rduEXNRJVl1EN4hOOHfrH0T4ehIy8RXjADpDrhiE4FVFScKR8V1QtEy0A3N/n5EJCCvr
- tbgKbZK0RHRt8itMJC/s67i0kV7rjorfBeh2EcLV7wQ2aU+K425S2Rjc+FTZJWIEhV/P
- 7abQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZPlnvWwDJmBGYDY064GS1S31c3Nx6YEROSxkxDU+k+w=;
- b=5TpPqV+4x18ZJ/w+PFZF/sM3y8tL9VVkmdMxO/0Sq5/O0dAowbaOXUfaVLmFCAI4SO
- ywJ2iDUVpxRos65MpmYJnvqcT64SQ6hQNpsQGzMaJEI/w8Yj7yRfkvZv5N160WcaCs1e
- dVxMwlNCL6BFIPeLxUAfHtuDA4G7d8E4yBITfkqe5coPUjSaijrr0mrPmV84hNtUW2TR
- t9hdcXICSLFxnqe3M1O73BGJ10Vsq01IkWPPbnakBgKhU+vCNxBlyF+nWXKBgV04jMok
- F6ZBq+bVHe4k6gd+8qNm9TuIXmJbO6881Lm3qhfdPbMQuNs+iRePGwa79ahQf6Ij3j9F
- gvqw==
-X-Gm-Message-State: AOAM5307Vf0mPzqzCgaOsV7uxGjU0aGLbIc/+jjOL3S78cGEaj10v4Jg
- wi91J8g1YMWMHKyt1Dd5l9nDMe7VmbmnjuT++rwz5GqkX3Y=
-X-Google-Smtp-Source: ABdhPJwiR+vjEApCr5+tH2PC+ZqBbnYVxzDZ4zez8L4zWTa5PldkVBP+wI6VsQjuIL7lDaIqLcjVBEWZtT2e3K7fChY=
-X-Received: by 2002:a5d:59a4:: with SMTP id p4mr5055802wrr.149.1631786523815; 
- Thu, 16 Sep 2021 03:02:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mQoHW-0002PZ-NS
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:06:14 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40334
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mQoHU-0002PM-Md
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:06:14 -0400
+Received: from host109-153-76-56.range109-153.btcentralplus.com
+ ([109.153.76.56] helo=kentang.home)
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mQoHI-000ChM-Bc; Thu, 16 Sep 2021 11:06:04 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org,
+	laurent@vivier.eu
+Date: Thu, 16 Sep 2021 11:05:34 +0100
+Message-Id: <20210916100554.10963-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20210913095440.13462-1-peter.maydell@linaro.org>
- <20210913095440.13462-10-peter.maydell@linaro.org>
- <1a0247d3-f472-546d-b838-dcacb640d282@linaro.org>
- <CAFEAcA-aDJ+14yNwnTmxZSWH=fgtz51CWa2bEahn4oYaWWrQgQ@mail.gmail.com>
- <a4344169-c9bf-9f5e-efa0-e29759f985c5@linaro.org>
-In-Reply-To: <a4344169-c9bf-9f5e-efa0-e29759f985c5@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Sep 2021 11:01:12 +0100
-Message-ID: <CAFEAcA_Xtig7iw97JURq2UnhqWdJA_Fok2=yYNBRoqfoX3M=FQ@mail.gmail.com>
-Subject: Re: [PATCH v2 09/12] target/arm: Optimize MVE VSHL,
- VSHR immediate forms
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 109.153.76.56
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH v3 00/20] nubus: bus, device, bridge,
+ IRQ and address space improvements
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,46 +61,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 Sept 2021 at 16:53, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 9/13/21 7:21 AM, Peter Maydell wrote:
-> > On Mon, 13 Sept 2021 at 14:56, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> >>
-> >> On 9/13/21 2:54 AM, Peter Maydell wrote:
-> >>> +static void do_gvec_shri_s(unsigned vece, uint32_t dofs, uint32_t aofs,
-> >>> +                           int64_t shift, uint32_t oprsz, uint32_t maxsz)
-> >>> +{
-> >>> +    /*
-> >>> +     * We get here with a negated shift count, and we must handle
-> >>> +     * shifts by the element size, which tcg_gen_gvec_sari() does not do.
-> >>> +     */
-> >>> +    shift = -shift;
-> >>
-> >> You've already performed the negation in do_2shift_vec.
-> >
-> > Here we are undoing the negation we did there, so as to get a
-> > "positive means shift right" shift count back again, which is what
-> > the instruction encoding has and what tcg_gen_gvic_shri() wants.
->
-> Ah, I misinterpreted.
->
-> >> Perhaps worth placing these functions somewhere we can share code with NEON?  Tactical
-> >> error, perhaps, open-coding these tests in trans_VSHR_S_2sh and trans_VSHR_U_2sh.
-> >
-> > I'm not convinced the resemblance is close enough to be worth the
-> > effort...
->
-> Yeah, not with the negation bit above.
+This patchset is the next set of changes required to boot MacOS on the q800 machine. The
+main aim of these patches is to improve the Nubus support so that devices can be plugged
+into the Nubus from the command line i.e.
 
-Could I get a reviewed-by for this patch, then, please ?
+    -device nubus-macfb[,slot=num][,romfile=decl.rom]
 
-thanks
--- PMM
+At the moment the only device that can be plugged into the Nubus is the macfb framebuffer
+however with these changes it is possible to take a ROM from a real Nubus card and
+attempt to use it in QEMU, and also allow for future interfaces such as virtio.
+
+Patches 1 to 6 move the logic which manages bus addresses from the NubusDevice into
+the NubusBus itself, including the introduction of a bitmap to manage available
+slots on the bus.
+
+Patches 7 and 8 change the handling for unassigned (empty) slots to generate a bus
+fault and add trace events to allow logging of empty slot accesses during Nubus
+enumeration.
+
+Patches 9 to 11 remove the existing stubs for generating the format block (the epilogue
+of the Nubus device embedded ROM consisting of metadata and a checksum) and replace them
+with a romfile device property to allow the entire Nubus ROM to be loaded from a file
+into the ROM area, similar to a PCI option ROM.
+
+Patch 12 moves the Nubus into its own separate address space whilst patches 13 to 17
+update the NubusBridge (and MacNubusBridge) devices to allow machines to map the
+required slots from the Nubus address space using sysbus_mmio_map().
+
+Finally patches 18 to 20 add support for Nubus IRQs and wire them up appropriately for
+the q800 machine through VIA2, which is required for the next set of macfb updates.
+
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+
+v3:
+- Rebase onto master
+- Add Phil's R-B for patch 7
+- Move NUBUS_FIRST_SLOT/NUBUS_LAST_SLOT check to end of nubus_device_realize() in patch 4
+- Use BIT() macro in patches 4 and 20
+
+v2:
+- Rebase onto master
+- Tweak the cover letter by adding the optional slot parameter in the -device example
+- Add R-B tags from Phil
+- Document the increase in max_access_size in patch 7
+- Change the maximum declaration ROM size to 128KiB using (128 * KiB) in patch 11
+- use MAKE_64BIT_MASK() in patches 4 and 16
+
+
+Mark Cave-Ayland (20):
+  nubus-device: rename slot_nb variable to slot
+  nubus-device: expose separate super slot memory region
+  nubus-device: add device slot parameter
+  nubus: use bitmap to manage available slots
+  nubus: move slot bitmap checks from NubusDevice realize() to BusClass
+    check_address()
+  nubus: implement BusClass get_dev_path()
+  nubus: add trace-events for empty slot accesses
+  nubus: generate bus error when attempting to access empty slots
+  macfb: don't register declaration ROM
+  nubus-device: remove nubus_register_rom() and
+    nubus_register_format_block()
+  nubus-device: add romfile property for loading declaration ROMs
+  nubus: move nubus to its own 32-bit address space
+  nubus-bridge: introduce separate NubusBridge structure
+  mac-nubus-bridge: rename MacNubusState to MacNubusBridge
+  nubus: move NubusBus from mac-nubus-bridge to nubus-bridge
+  nubus-bridge: embed the NubusBus object directly within nubus-bridge
+  nubus-bridge: make slot_available_mask a qdev property
+  nubus: add support for slot IRQs
+  q800: wire up nubus IRQs
+  q800: configure nubus available slots for Quadra 800
+
+ hw/display/macfb.c                  |   6 -
+ hw/m68k/q800.c                      |  24 ++-
+ hw/nubus/mac-nubus-bridge.c         |  28 +++-
+ hw/nubus/nubus-bridge.c             |  23 ++-
+ hw/nubus/nubus-bus.c                | 117 +++++++++++---
+ hw/nubus/nubus-device.c             | 226 ++++++++--------------------
+ hw/nubus/trace-events               |   7 +
+ hw/nubus/trace.h                    |   1 +
+ include/hw/nubus/mac-nubus-bridge.h |   9 +-
+ include/hw/nubus/nubus.h            |  48 +++---
+ meson.build                         |   1 +
+ 11 files changed, 264 insertions(+), 226 deletions(-)
+ create mode 100644 hw/nubus/trace-events
+ create mode 100644 hw/nubus/trace.h
+
+-- 
+2.20.1
+
 
