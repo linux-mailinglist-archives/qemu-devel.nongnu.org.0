@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A2A40EA7A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 20:57:00 +0200 (CEST)
-Received: from localhost ([::1]:59186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5773C40EAA8
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 21:08:15 +0200 (CEST)
+Received: from localhost ([::1]:37454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQwZ9-0005QY-Pu
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 14:56:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56362)
+	id 1mQwk1-0002bP-Sp
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 15:08:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1mQwUu-0003yA-Rc
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 14:52:43 -0400
-Received: from mail-qk1-x734.google.com ([2607:f8b0:4864:20::734]:37555)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1mQwUs-0005Cv-Oj
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 14:52:36 -0400
-Received: by mail-qk1-x734.google.com with SMTP id 73so4523197qki.4
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 11:52:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=atishpatra.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zn2PYiZVymQ+gwAk75LHSWUTGTPORBbTC/kfbYOgSiA=;
- b=pkZTHSTWy+JWt+lfIaeTQ0JTDaWKunDBm/1/kNzKwnTs5vMoB42GKmv/Oa35akHdcL
- 1oRoIl7CTM7G+sd+Om8PtoDpWdX/OIXYBXftSFmDea78z7Sp6zWWWagXyKpIJkYWDeJ0
- 6Zz7FSSMssv/HGFAR4kEgr1UXHcYztAdR0gf0=
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQwio-0001ZC-0Q
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 15:06:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43129)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQwij-0000aW-Ty
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 15:06:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631819212;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=omF1Fk7KJoOCRtxMOvNEn0dwaf234UZ163YAl6k/Q/k=;
+ b=ZozZdG1xyMRGeUGACGWXlDP45CGgC55HG2dQzF/h7p7F2H4dXJrGf96NR/nl+P68d/5KbC
+ d7toWZ9Rl1QiF12evx0xP4VZ3q1dmUiExkP+0RMZ3G/q4OrnJ24IlrOL3I+g0snFeY9+LW
+ 4CVXJtdKz1QWGt2wXHGGxj479kPgu84=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-104-SvJJlWWtMI2VBFczJMnZFA-1; Thu, 16 Sep 2021 15:06:50 -0400
+X-MC-Unique: SvJJlWWtMI2VBFczJMnZFA-1
+Received: by mail-ot1-f71.google.com with SMTP id
+ 76-20020a9d0152000000b0053b372910bbso36062432otu.14
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 12:06:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zn2PYiZVymQ+gwAk75LHSWUTGTPORBbTC/kfbYOgSiA=;
- b=CBIAC/aa1QQtEW83YzR/bYx43C5BcgMtkh4oTa9YMX2We4RhWpl0Rqbc/nbqTMcO82
- TqmZ2GsBowAEQXeLxO4knEoXttyZYuLstQA0UbgjtrHiQK9pjpU4XMjIMTOty09zAxy0
- x8EyVwAyVFMVH48sM42IxKF8E9vm0Y3bBylHHE+yZP1cReINdLtTMpyb1KBpJN9//DFL
- 5r/i/shgMoMVxhLOcA41Lf+gJ0MpBpfEgBDBN7MMmgHA/tLpth6vPiRIhCkW+iCLGCR3
- 9DxDHNbzIXugHuEm09l1y6p/w9AEJMjoZr9dOHYj6slt5Y1lQFTdg4LX74S6LB07aCod
- xbsw==
-X-Gm-Message-State: AOAM531DyisfTWpDdkHcOXCsbBsYfN3lsNW07Mxai6R6zVsDomB5qK1s
- 2Q8PCg5CbyRtxMF3wGk8lyAnTIUcLYOwclDiksb5
-X-Google-Smtp-Source: ABdhPJy7knRgkyborMLg5fJL2Aq3+kVHocv42GkzT+i4HWhrZN2nBGLyCQxhtMFbXUeVY/gtHLsljLvlFHn1aEQW5UU=
-X-Received: by 2002:a25:21c5:: with SMTP id h188mr8349218ybh.23.1631818353845; 
- Thu, 16 Sep 2021 11:52:33 -0700 (PDT)
+ bh=omF1Fk7KJoOCRtxMOvNEn0dwaf234UZ163YAl6k/Q/k=;
+ b=fLU8AvPuoZJHoDsISX9xPtzgecmtyOPisw7HOpbaaLBDuKKPsOSwiR6BBsXXcujtQx
+ 87cvK8sJjQQyNeSeJcMnXI/gDp5aIzZppbHQkay+3YPYfxkT3u01oNi7FvAtj9SFdg9o
+ 92M7p9r+PFENii/4CurJR9yzYDao4gHCq8W62TCPuZHJYbuPstsRjiId7RVne+mj3CN+
+ dTBf+l2gwT3cTwjmBYlab+c+wp+IJHEC+JTIPCKqBdFkBKSQ6IiCqoieEAGO7XMKOI2Q
+ cJKWsRVbCy1IqETLwOaTkpsere2dS/Qdy+NwgO1RXSvi9ZnJD2Q3bB/ks5oKOdfxCo2Q
+ GZpg==
+X-Gm-Message-State: AOAM533s9BCOzEtPQ4lYOP7wqJrYcbodLHLSjiaOupH/8NouU10JLM39
+ zgAXJBYqXZOY5Ushbjyi+GnIR/M7cmLJnQCZtZhKCM/jUHOq4tbdJQE2mjBSJ/zqKpLnlFhdgyA
+ FSp3EiOygpOvwqLX3ns/OIG7R5VwbcLc=
+X-Received: by 2002:a05:6830:310c:: with SMTP id
+ b12mr2658378ots.252.1631819209558; 
+ Thu, 16 Sep 2021 12:06:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwxNN6dO35kh43hQXUrtVl332LMaHEH5PCjngLlMWr+OLuQRwPzjrtit1x4eos4Ysj9W6N/TX1bGsGYeZKTeWA=
+X-Received: by 2002:a05:6830:310c:: with SMTP id
+ b12mr2658362ots.252.1631819209370; 
+ Thu, 16 Sep 2021 12:06:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210909202639.1230170-1-atish.patra@wdc.com>
- <20210909202639.1230170-4-atish.patra@wdc.com>
- <CAEUhbmWFhsFMge6O+P+5zu_F-i46F4axmspnPFOOUve681FnsA@mail.gmail.com>
-In-Reply-To: <CAEUhbmWFhsFMge6O+P+5zu_F-i46F4axmspnPFOOUve681FnsA@mail.gmail.com>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Thu, 16 Sep 2021 11:52:23 -0700
-Message-ID: <CAOnJCU+q0T0TrG3JwFAaJnE-X6QUG2nnW4=GsUSE5srmQSc5mw@mail.gmail.com>
-Subject: Re: [ RFC v2 3/9] target/riscv: pmu: Make number of counters
- configurable
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::734;
- envelope-from=atishp@atishpatra.org; helo=mail-qk1-x734.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210916182248.721529-1-jsnow@redhat.com>
+In-Reply-To: <20210916182248.721529-1-jsnow@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 16 Sep 2021 15:06:38 -0400
+Message-ID: <CAFn=p-Yvx-Mxi0aNpEBZOiKgiafrzPcbAVPt8ezaf4wKZ928bw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Python: update CI tests for pylint 2.10 and 2.11
+To: qemu-devel <qemu-devel@nongnu.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000050008505cc21849f"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,237 +88,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 15, 2021 at 7:51 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Fri, Sep 10, 2021 at 4:29 AM Atish Patra <atish.patra@wdc.com> wrote:
-> >
-> > The RISC-V privilege specification provides flexibility to implement
-> > any number of counters from 29 programmable counters. However, the Qemu
->
-> nits: %s/Qemu/QEMU
->
-> > implements all the counters.
-> >
-> > Make it configurable through pmu config parameter which now will indicate
-> > how many programmable counters should be implemented by the cpu.
-> >
-> > Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> > ---
-> >  target/riscv/cpu.c |  2 +-
-> >  target/riscv/cpu.h |  2 +-
-> >  target/riscv/csr.c | 96 ++++++++++++++++++++++++++++++----------------
-> >  3 files changed, 65 insertions(+), 35 deletions(-)
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index 7a486450ebc6..eba6050324a0 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -587,7 +587,7 @@ static Property riscv_cpu_properties[] = {
-> >      DEFINE_PROP_BOOL("x-b", RISCVCPU, cfg.ext_b, false),
-> >      DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-> >      DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-> > -    DEFINE_PROP_BOOL("pmu", RISCVCPU, cfg.ext_pmu, true),
-> > +    DEFINE_PROP_UINT16("pmu", RISCVCPU, cfg.ext_pmu, 16),
->
-> UINT8 should be enough. The name should better be changed to pmu-num
-> (cfg.pmu_num).
+--00000000000050008505cc21849f
+Content-Type: text/plain; charset="UTF-8"
 
-ok. will change it.
+On Thu, Sep 16, 2021 at 2:22 PM John Snow <jsnow@redhat.com> wrote:
 
+> GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-package-pylint-211
+> CI: https://gitlab.com/jsnow/qemu/-/pipelines/372122981
 >
-> >      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-> >      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-> >      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index 5e67003e58a3..0e2e88f3bbea 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -293,9 +293,9 @@ struct RISCVCPU {
-> >          bool ext_u;
-> >          bool ext_h;
-> >          bool ext_v;
-> > -        bool ext_pmu;
-> >          bool ext_ifencei;
-> >          bool ext_icsr;
-> > +        uint16_t ext_pmu;
-> >
-> >          char *priv_spec;
-> >          char *user_spec;
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index c3ce7d83a6b2..fa014bac72ab 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -57,15 +57,45 @@ static RISCVException vs(CPURISCVState *env, int csrno)
-> >      return RISCV_EXCP_ILLEGAL_INST;
-> >  }
-> >
-> > +static RISCVException mctr(CPURISCVState *env, int csrno)
-> > +{
-> > +#if !defined(CONFIG_USER_ONLY)
-> > +    CPUState *cs = env_cpu(env);
-> > +    RISCVCPU *cpu = RISCV_CPU(cs);
-> > +    int ctr_index;
-> > +    int base_csrno = CSR_MHPMCOUNTER3;
-> > +
-> > +    if (riscv_cpu_is_32bit(env) && csrno >= CSR_MCYCLEH) {
-> > +        /* Offset for RV32 hpmcounternh counters */
+> While debating the fix for 2.10, 2.11 released and added new warnings to
+> suppress.
 >
-> should be mhpmcounternh
+> This version includes everything needed to get the Gitlab CI green again.
+>
+> John Snow (2):
+>   python: Update for pylint 2.10
+>   python: pylint 2.11 support
+>
+>  python/qemu/machine/machine.py | 7 ++++++-
+>  python/setup.cfg               | 3 ++-
+>  2 files changed, 8 insertions(+), 2 deletions(-)
+>
+>
+Eduardo, Willian: Thank you very much!
 
-yeah.
+I have staged this on my python branch:
+https://gitlab.com/jsnow/qemu/-/commits/python
 
->
-> > +        base_csrno += 0x80;
-> > +    }
-> > +    ctr_index = csrno - base_csrno;
-> > +    if (!cpu->cfg.ext_pmu || ctr_index > cpu->cfg.ext_pmu) {
->
-> ctr_index >= cpu->cfg.ext_pmu
+PR to follow as soon as the lights turn green.
 
-Yup.
+--js
 
->
-> > +        /* The Counters extensions is not enabled or out of range*/
->
-> PMU extension
->
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +#endif
-> > +}
-> > +
-> >  static RISCVException ctr(CPURISCVState *env, int csrno)
-> >  {
-> >  #if !defined(CONFIG_USER_ONLY)
-> >      CPUState *cs = env_cpu(env);
-> >      RISCVCPU *cpu = RISCV_CPU(cs);
-> >      int ctr_index;
-> > +    int base_csrno = CSR_CYCLE;
-> > +    bool brv32 = riscv_cpu_is_32bit(env);
-> > +
-> > +    if (brv32 && csrno >= CSR_CYCLEH) {
-> > +        /* Offset for RV32 hpmcounternh counters */
-> > +        base_csrno += 0x80;
-> > +    }
-> > +    ctr_index = csrno - base_csrno;
-> >
-> > -    if (!cpu->cfg.ext_pmu) {
-> > -        /* The Counters extensions is not enabled */
-> > +    if (!cpu->cfg.ext_pmu || ctr_index > (cpu->cfg.ext_pmu + 3)) {
->
-> ctr_index >=
->
-> > +        /* The Counters extensions is not enabled or out of range */
->
-> PMU extension
+--00000000000050008505cc21849f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks. I will address all these in v3.
-
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 16, 2021 at 2:22 PM John =
+Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">GitLab: <a hre=
+f=3D"https://gitlab.com/jsnow/qemu/-/commits/python-package-pylint-211" rel=
+=3D"noreferrer" target=3D"_blank">https://gitlab.com/jsnow/qemu/-/commits/p=
+ython-package-pylint-211</a><br>
+CI: <a href=3D"https://gitlab.com/jsnow/qemu/-/pipelines/372122981" rel=3D"=
+noreferrer" target=3D"_blank">https://gitlab.com/jsnow/qemu/-/pipelines/372=
+122981</a><br>
+<br>
+While debating the fix for 2.10, 2.11 released and added new warnings to<br=
 >
-> >          return RISCV_EXCP_ILLEGAL_INST;
-> >      }
-> >
-> > @@ -93,7 +123,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> >              }
-> >              break;
-> >          }
-> > -        if (riscv_cpu_is_32bit(env)) {
-> > +        if (brv32) {
-> >              switch (csrno) {
-> >              case CSR_CYCLEH:
-> >                  if (!get_field(env->mcounteren, HCOUNTEREN_CY)) {
-> > @@ -148,7 +178,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> >              }
-> >              break;
-> >          }
-> > -        if (riscv_cpu_is_32bit(env)) {
-> > +        if (brv32) {
-> >              switch (csrno) {
-> >              case CSR_CYCLEH:
-> >                  if (!get_field(env->hcounteren, HCOUNTEREN_CY) &&
-> > @@ -1721,35 +1751,35 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> >      [CSR_HPMCOUNTER30]   = { "hpmcounter30",   ctr,    read_zero },
-> >      [CSR_HPMCOUNTER31]   = { "hpmcounter31",   ctr,    read_zero },
-> >
-> > -    [CSR_MHPMCOUNTER3]   = { "mhpmcounter3",   any,    read_zero },
-> > -    [CSR_MHPMCOUNTER4]   = { "mhpmcounter4",   any,    read_zero },
-> > -    [CSR_MHPMCOUNTER5]   = { "mhpmcounter5",   any,    read_zero },
-> > -    [CSR_MHPMCOUNTER6]   = { "mhpmcounter6",   any,    read_zero },
-> > -    [CSR_MHPMCOUNTER7]   = { "mhpmcounter7",   any,    read_zero },
-> > -    [CSR_MHPMCOUNTER8]   = { "mhpmcounter8",   any,    read_zero },
-> > -    [CSR_MHPMCOUNTER9]   = { "mhpmcounter9",   any,    read_zero },
-> > -    [CSR_MHPMCOUNTER10]  = { "mhpmcounter10",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER11]  = { "mhpmcounter11",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER12]  = { "mhpmcounter12",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER13]  = { "mhpmcounter13",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER14]  = { "mhpmcounter14",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER15]  = { "mhpmcounter15",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER16]  = { "mhpmcounter16",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER17]  = { "mhpmcounter17",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER18]  = { "mhpmcounter18",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER19]  = { "mhpmcounter19",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER20]  = { "mhpmcounter20",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER21]  = { "mhpmcounter21",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER22]  = { "mhpmcounter22",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER23]  = { "mhpmcounter23",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER24]  = { "mhpmcounter24",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER25]  = { "mhpmcounter25",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER26]  = { "mhpmcounter26",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER27]  = { "mhpmcounter27",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER28]  = { "mhpmcounter28",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER29]  = { "mhpmcounter29",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER30]  = { "mhpmcounter30",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER31]  = { "mhpmcounter31",  any,    read_zero },
-> > +    [CSR_MHPMCOUNTER3]   = { "mhpmcounter3",   mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER4]   = { "mhpmcounter4",   mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER5]   = { "mhpmcounter5",   mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER6]   = { "mhpmcounter6",   mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER7]   = { "mhpmcounter7",   mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER8]   = { "mhpmcounter8",   mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER9]   = { "mhpmcounter9",   mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER10]  = { "mhpmcounter10",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER11]  = { "mhpmcounter11",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER12]  = { "mhpmcounter12",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER13]  = { "mhpmcounter13",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER14]  = { "mhpmcounter14",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER15]  = { "mhpmcounter15",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER16]  = { "mhpmcounter16",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER17]  = { "mhpmcounter17",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER18]  = { "mhpmcounter18",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER19]  = { "mhpmcounter19",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER20]  = { "mhpmcounter20",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER21]  = { "mhpmcounter21",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER22]  = { "mhpmcounter22",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER23]  = { "mhpmcounter23",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER24]  = { "mhpmcounter24",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER25]  = { "mhpmcounter25",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER26]  = { "mhpmcounter26",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER27]  = { "mhpmcounter27",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER28]  = { "mhpmcounter28",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER29]  = { "mhpmcounter29",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER30]  = { "mhpmcounter30",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER31]  = { "mhpmcounter31",  mctr,   read_zero },
-> >
-> >      [CSR_MHPMEVENT3]     = { "mhpmevent3",     any,    read_zero },
-> >      [CSR_MHPMEVENT4]     = { "mhpmevent4",     any,    read_zero },
-> > --
->
-> Regards,
-> Bin
->
+suppress.<br>
+<br>
+This version includes everything needed to get the Gitlab CI green again.<b=
+r>
+<br>
+John Snow (2):<br>
+=C2=A0 python: Update for pylint 2.10<br>
+=C2=A0 python: pylint 2.11 support<br>
+<br>
+=C2=A0python/qemu/machine/machine.py | 7 ++++++-<br>
+=C2=A0python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 3 ++-<br>
+=C2=A02 files changed, 8 insertions(+), 2 deletions(-)<br>
+<br></blockquote><div><br></div><div>Eduardo, Willian: Thank you very much!=
+</div><div><br></div><div>I have staged this on my python branch:</div><div=
+><a href=3D"https://gitlab.com/jsnow/qemu/-/commits/python">https://gitlab.=
+com/jsnow/qemu/-/commits/python</a></div><div><br></div><div>PR to follow a=
+s soon as the lights turn green.</div><div><br></div><div>--js<br></div></d=
+iv></div>
 
+--00000000000050008505cc21849f--
 
--- 
-Regards,
-Atish
 
