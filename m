@@ -2,80 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E14340D528
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 10:54:13 +0200 (CEST)
-Received: from localhost ([::1]:40128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1FE40D535
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 10:59:33 +0200 (CEST)
+Received: from localhost ([::1]:50042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQn9o-0007R9-M7
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 04:54:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50488)
+	id 1mQnEw-0005o9-7o
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 04:59:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQn7c-0004hH-FG
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 04:51:56 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:34420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQn7a-0004pE-9F
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 04:51:56 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id t8so1218324wri.1
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 01:51:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cugmDjD8c26jybPrFiBC4p74U0ksnoQL6/ZS0DXCGio=;
- b=oAeir/zXsRUgtqmrEybJMAiY/ZjOpDeXUqzJ9N8tyLuwxqr+OLEcVx3Yew/sZMq4LE
- X1qeue1Epl3D4Cw18kxr1z3Y3FWSrydIdA1/ThYbaNEGijisC9k4EzBMui488DHLsZfB
- j+5mUczP/8n1DEqjYuBeOyPa2h1UJlL+kl8sG3aas/zKjT9QNyiGnTK01E0rUm2n/AWs
- TX01BicQUuAqzkoH2ak4hkqQrq1iqWUmPgrxMnf5UBaO/GgVzjHRxw5cSJGD34/xQZ0d
- glLc1uNEU612p64MTC3n2ZIaj+cFVTwYSdk/2AQyML4k0MMHEQB6Dw8WKbF6PFNN93JG
- cd9A==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mQnDS-0004NG-IW
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 04:57:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32814)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mQnDJ-0001XT-7e
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 04:57:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631782668;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=alRkbF6WyMecQbHB0CZbNp5qNi/eD/X7Uwv4JQfemIo=;
+ b=DqTdq7toI2wZVmuulxSEeZ7/EYKy1AULRWTFACKngY3gCtZX8Vg9s49WnOniFW2YF4+GzH
+ eJUXwVmyeRpSjxT6Q78cO1znTGeMogjGwzjwNFO4NAfwdVUk2Aqb+AdYpWY6PZwSzYlsT+
+ OdYVwEti5BaMUE6Z3+nkKhCbt5kGx6o=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-582-Oc78GfU5MoKe-RZQTxruaA-1; Thu, 16 Sep 2021 04:57:45 -0400
+X-MC-Unique: Oc78GfU5MoKe-RZQTxruaA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ r7-20020aa7c147000000b003d1f18329dcso4680377edp.13
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 01:57:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cugmDjD8c26jybPrFiBC4p74U0ksnoQL6/ZS0DXCGio=;
- b=oSgARQ2bh5isQ0ejRZ3gftJcxlP8CBWNrIMihDo5rdNLHi+eBZRJ4Ol+Uhr4rCn1v9
- 6omJgwfPQrNRYsM90JisOvv/Aoq7hrq9PeuYaeu6w26ltWoPjhx9UuAt36GTf6CNM040
- J8fk/cmscu52WXiGZfjtzu9RAm2H3Uj5/sI7DaaA7np8IOqgXMQGZeSfIRoEsOlI6Twe
- OdA/CK8j6IKH/G+tMpP0NNGMNr/l+c1RAK7NV13mPkgofObMqNxvxnxrK+xXEv3n74f1
- SvouvW73snJJ1xKcrbS7ujU/5jJ/I9SIjELLhuhTloV3wBEu3TPLsutSkmOccgLk26iR
- EHeg==
-X-Gm-Message-State: AOAM532Kq+YP/7F1DPnoSqQ6R42uMkdrTIWfLrucABftYR1cnccJe1oB
- 8W96mwJoqtaQG8kUSu3ytzc=
-X-Google-Smtp-Source: ABdhPJx+nxXWGzNw3hEXwf8dsRymZMZWX6fkaOq90vogo9XO468dOLVVTuHaCWHBKsvRgO/Dql+Dpg==
-X-Received: by 2002:adf:e408:: with SMTP id g8mr4810337wrm.138.1631782312695; 
- Thu, 16 Sep 2021 01:51:52 -0700 (PDT)
-Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
- [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id k22sm2851621wrd.59.2021.09.16.01.51.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 01:51:52 -0700 (PDT)
-Subject: Re: [RFC PATCH 7/7] linux-user: Reorg cpu_signal_handler
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210913220552.604064-1-richard.henderson@linaro.org>
- <20210913220552.604064-8-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <454870cf-e18e-16a5-bc75-84cf055a5e54@amsat.org>
-Date: Thu, 16 Sep 2021 10:51:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=alRkbF6WyMecQbHB0CZbNp5qNi/eD/X7Uwv4JQfemIo=;
+ b=LTV6SiMoF1EbT4DivJrxar4kjpjUpmfVqcnS420XcTDJ6jfVuNvMtiBS5QjUzttkTX
+ z5CQHTFM2M4h55a72Xn8VpRTIc3escOSlUb3Pu6SDI8TwJ/PTCcplF//2CJ7qApi+SDk
+ 1Q0OUFtOo4TcpGEweGG9CI+ZWiErnCbIg8L6abZUBfd1vfA8VeCmcB6IbVQGvrD+C5t2
+ D7K8ymU3rHQhn+8eAVTlNvCqzzX9e3FYjJ3LiEVG1Lh4G1kvok30HITYrZQNhgCRb+3G
+ sRzlpWiLoLnS216cjMx4sE22E9vnc1an4WNJ3L2xwbHhnDPNjf8zIAJnfAsrsL1BYsLz
+ d8mw==
+X-Gm-Message-State: AOAM53387JinsH6Q3xnLBluxTKEago9OloIjD6lwrXDIIAEFnG4s4rVg
+ XylQkNQUEFWyrdMfNBE5nyC3NuI7i51iyi5bbpjDMWLHiC4dFDvCh8kYaz9UvKrnK7A0AdPkkS9
+ MSWNWkkqX+ngdzEQ=
+X-Received: by 2002:a17:906:a382:: with SMTP id
+ k2mr5187103ejz.454.1631782664341; 
+ Thu, 16 Sep 2021 01:57:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyESoWWVJkMRlZBd/1ICCk9iLw92p9LUaSUuRg17Qw+T3kUAZC4DF0LqjLk9kUdCODOH2hRIQ==
+X-Received: by 2002:a17:906:a382:: with SMTP id
+ k2mr5187090ejz.454.1631782664133; 
+ Thu, 16 Sep 2021 01:57:44 -0700 (PDT)
+Received: from steredhat (host-79-51-2-59.retail.telecomitalia.it.
+ [79.51.2.59])
+ by smtp.gmail.com with ESMTPSA id bj10sm958746ejb.17.2021.09.16.01.57.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Sep 2021 01:57:43 -0700 (PDT)
+Date: Thu, 16 Sep 2021 10:57:41 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: "Jiang Wang ." <jiang.wang@bytedance.com>
+Subject: Re: [RFC v6] virtio/vsock: add two more queues for datagram types
+Message-ID: <20210916085741.6xqh3pdlrnkapfkv@steredhat>
+References: <CAP_N_Z8vJF7F=mhpRpcFwQarFH_uLWBmahi0jb1q6yj=j7YSXg@mail.gmail.com>
+ <20210916062615.uxqzujbdceblmy7e@steredhat>
 MIME-Version: 1.0
-In-Reply-To: <20210913220552.604064-8-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+In-Reply-To: <20210916062615.uxqzujbdceblmy7e@steredhat>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.698,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,216 +97,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, laurent@vivier.eu, imp@bsdimp.com
+Cc: Arseny Krasnov <arseny.krasnov@kaspersky.com>,
+ Jason Wang <jasowang@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+On Thu, Sep 16, 2021 at 08:26:15AM +0200, Stefano Garzarella wrote:
+>On Wed, Sep 15, 2021 at 08:59:17PM -0700, Jiang Wang . wrote:
+>>On Tue, Sep 14, 2021 at 5:46 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>>>
+>>>On Mon, Sep 13, 2021 at 10:18:43PM +0000, Jiang Wang wrote:
+>>>> Datagram sockets are connectionless and unreliable.
+>>>> The sender does not know the capacity of the receiver
+>>>> and may send more packets than the receiver can handle.
+>>>>
+>>>> Add two more dedicate virtqueues for datagram sockets,
+>>>> so that it will not unfairly steal resources from
+>>>> stream and future connection-oriented sockets.
+>>>>
+>>>> Signed-off-by: Jiang Wang <jiang.wang@bytedance.com>
+>>>> ---
+>>>> v1 -> v2: use qemu cmd option to control number of queues,
+>>>>         removed configuration settings for dgram.
+>>>> v2 -> v3: use ioctl to get features and decide number of
+>>>>         virt queues, instead of qemu cmd option.
+>>>> v3 -> v4: change DGRAM feature bit value to 2. Add an argument
+>>>>         in vhost_vsock_common_realize to indicate dgram is supported or not.
+>>>> v4 -> v5: don't open dev to get vhostfd. Removed leftover definition of
+>>>>         enable_dgram
+>>>> v5 -> v6: fix style errors. Imporve error handling of
+>>>>         vhost_vsock_dgram_supported. Rename MAX_VQS_WITH_DGRAM and another one.
+>>>>
+>>>>  hw/virtio/vhost-user-vsock.c                  |  2 +-
+>>>>  hw/virtio/vhost-vsock-common.c                | 25 ++++++++++++--
+>>>>  hw/virtio/vhost-vsock.c                       | 34 ++++++++++++++++++-
+>>>>  include/hw/virtio/vhost-vsock-common.h        |  6 ++--
+>>>>  include/hw/virtio/vhost-vsock.h               |  3 ++
+>>>>  include/standard-headers/linux/virtio_vsock.h |  1 +
+>>>>  6 files changed, 64 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
+>>>> index 6095ed7349..e9ec0e1c00 100644
+>>>> --- a/hw/virtio/vhost-user-vsock.c
+>>>> +++ b/hw/virtio/vhost-user-vsock.c
+>>>> @@ -105,7 +105,7 @@ static void vuv_device_realize(DeviceState *dev, Error **errp)
+>>>>          return;
+>>>>      }
+>>>>
+>>>> -    vhost_vsock_common_realize(vdev, "vhost-user-vsock");
+>>>> +    vhost_vsock_common_realize(vdev, "vhost-user-vsock", false);
+>>>
+>>>VIRTIO_VSOCK_F_DGRAM support should work equally well for
+>>>vhost-user-vsock. I don't think there is a need to disable it here.
+>>>
+>>Stefano mentioned in previous email ( V3 ) that I can disable dgram
+>>for vhost-user-vsock for now. I think we need some extra changes to
+>>fully support vhost-vsock-user, like feature discovery?
+>
+>I think Stefan is suggesting something similar of what we discussed 
+>here:
+>https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg06689.html
+>
+>We can allocate all the queues, and choose at runtime which queue to 
+>use for events, that is the only queue used by QEMU.
+>
+>We can check that in vhost_vsock_common_start(), just before starting 
+>the device, where we know the features acked by the guest 
+>(vdev->guest_features).
+>
+>And I agree that would be the best approach, since we don't need 
+>discovery anymore, and the same code works also for vhost-user-vsock 
+>as is.
+>
 
-On 9/14/21 12:05 AM, Richard Henderson wrote:
-> Split out two functions into linux-user/host/arch/host-signal.h.
-> Since linux-user requires a linux host, drop all of the BSD and
-> Solaris ifdefs.  These should be recreated under bsd-user/ when
-> the current blanks there are filled.
-> 
-> Fold the remnants of handle_cpu_signal into host_signal_handler.
-> 
-> Drop the call to cc->tcg_ops->tlb_fill.  This was simply an indirect
-> method to raise SIGSEGV; it is far easier to pass the host siginfo_t
-> along to the guest.  This fixes all of the guest cpu_loop code that
-> currently fails to properly fill in SEGV_MAPERR vs SEGV_ACCERR.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/exec/exec-all.h               |  12 -
->  linux-user/host/aarch64/host-signal.h |  73 +++
->  linux-user/host/alpha/host-signal.h   |  41 ++
->  linux-user/host/arm/host-signal.h     |  30 ++
->  linux-user/host/i386/host-signal.h    |  24 +
->  linux-user/host/mips/host-signal.h    |  61 +++
->  linux-user/host/ppc/host-signal.h     |  24 +
->  linux-user/host/ppc64/host-signal.h   |   1 +
->  linux-user/host/riscv32/host-signal.h |  57 +++
->  linux-user/host/riscv64/host-signal.h |   1 +
->  linux-user/host/s390/host-signal.h    |  92 ++++
->  linux-user/host/s390x/host-signal.h   |   1 +
->  linux-user/host/sparc/host-signal.h   |  53 ++
->  linux-user/host/sparc64/host-signal.h |   1 +
->  linux-user/host/x86_64/host-signal.h  |  24 +
->  accel/tcg/user-exec.c                 | 712 --------------------------
->  linux-user/signal.c                   |  93 ++--
->  17 files changed, 543 insertions(+), 757 deletions(-)
->  create mode 100644 linux-user/host/aarch64/host-signal.h
->  create mode 100644 linux-user/host/alpha/host-signal.h
->  create mode 100644 linux-user/host/arm/host-signal.h
->  create mode 100644 linux-user/host/i386/host-signal.h
->  create mode 100644 linux-user/host/mips/host-signal.h
->  create mode 100644 linux-user/host/ppc/host-signal.h
->  create mode 100644 linux-user/host/ppc64/host-signal.h
->  create mode 100644 linux-user/host/riscv32/host-signal.h
->  create mode 100644 linux-user/host/riscv64/host-signal.h
->  create mode 100644 linux-user/host/s390/host-signal.h
->  create mode 100644 linux-user/host/s390x/host-signal.h
->  create mode 100644 linux-user/host/sparc/host-signal.h
->  create mode 100644 linux-user/host/sparc64/host-signal.h
->  create mode 100644 linux-user/host/x86_64/host-signal.h
+In second thought, I think we really need to know whether the guest has 
+acked the feature or not.
 
-> diff --git a/linux-user/signal.c b/linux-user/signal.c
-> index 73c0f9066b..509dad7850 100644
-> --- a/linux-user/signal.c
-> +++ b/linux-user/signal.c
+Otherwise if QEMU and host kernel support dgram, but guest kernel 
+doesn't, QEMU will use fifth queue instead of third for events, but 
+guest doesn't support it.
 
-> -static void host_signal_handler(int host_signum, siginfo_t *info,
-> -                                void *puc)
-> +static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
->  {
->      CPUArchState *env = thread_cpu->env_ptr;
->      CPUState *cpu = env_cpu(env);
->      TaskState *ts = cpu->opaque;
-> -
-> -    int sig;
-> +    bool sync_sig = false;
->      target_siginfo_t tinfo;
->      ucontext_t *uc = puc;
->      struct emulated_sigtable *k;
-> +    uintptr_t pc = 0;
-> +    int guest_sig;
->  
-> -    /* the CPU emulator uses some host signals to detect exceptions,
-> -       we forward to it some signals */
-> -    if ((host_signum == SIGSEGV || host_signum == SIGBUS)
-> -        && info->si_code > 0) {
-> -        if (cpu_signal_handler(host_signum, info, puc))
-> +    /*
-> +     * Non-spoofed SIGSEGV and SIGBUS are synchronous, and need special
-> +     * handling wrt signal blocking and unwinding.  SIGSEGV may need to
-> +     * remove write-protection and restart the instruction.
-> +     */
-> +    if ((host_sig == SIGSEGV || host_sig == SIGBUS) && info->si_code > 0) {
-> +        pc = adjust_signal_pc(host_signal_pc(uc));
-> +        if (host_sig == SIGSEGV &&
-> +            info->si_code == SEGV_ACCERR &&
-> +            host_sigsegv_write(info, uc) &&
-> +            handle_sigsegv_accerr_write(cpu, &uc->uc_sigmask, pc,
-> +                                        (uintptr_t)info->si_addr)) {
->              return;
-> +        }
-> +        sync_sig = true;
-> +    } else {
-> +        rewind_if_in_safe_syscall(puc);
-> +
-> +        /*
-> +         * Block host signals until target signal handler entered.
-> +         * We can't block SIGSEGV or SIGBUS while we're executing
-> +         * guest code in case the guest code provokes one in the
-> +         * window between now and it getting out to the main loop.
-> +         * Signals will be unblocked again in process_pending_signals().
-> +         *
-> +         * WARNING: we cannot use sigfillset() here because the uc_sigmask
-> +         * field is a kernel sigset_t, which is much smaller than the
-> +         * libc sigset_t which sigfillset() operates on. Using sigfillset()
-> +         * would write 0xff bytes off the end of the structure and trash
-> +         * data on the struct.
-> +         * We can't use sizeof(uc->uc_sigmask) either, because the libc
-> +         * headers define the struct field with the wrong (too large) type.
-> +         */
-> +        memset(&uc->uc_sigmask, 0xff, SIGSET_T_SIZE);
-> +        sigdelset(&uc->uc_sigmask, SIGSEGV);
-> +        sigdelset(&uc->uc_sigmask, SIGBUS);
->      }
->  
->      /* get target signal number */
-> -    sig = host_to_target_signal(host_signum);
-> -    if (sig < 1 || sig > TARGET_NSIG)
-> +    guest_sig = host_to_target_signal(host_sig);
-> +    if (guest_sig < 1 || guest_sig > TARGET_NSIG) {
->          return;
-> -    trace_user_host_signal(env, host_signum, sig);
-> -
-> -    rewind_if_in_safe_syscall(puc);
-> +    }
-> +    trace_user_host_signal(env, host_sig, guest_sig);
->  
->      host_to_target_siginfo_noswap(&tinfo, info);
-> -    k = &ts->sigtab[sig - 1];
-> +    k = &ts->sigtab[guest_sig - 1];
->      k->info = tinfo;
-> -    k->pending = sig;
-> +    k->pending = guest_sig;
->      ts->signal_pending = 1;
->  
-> -    /* Block host signals until target signal handler entered. We
-> -     * can't block SIGSEGV or SIGBUS while we're executing guest
-> -     * code in case the guest code provokes one in the window between
-> -     * now and it getting out to the main loop. Signals will be
-> -     * unblocked again in process_pending_signals().
-> -     *
-> -     * WARNING: we cannot use sigfillset() here because the uc_sigmask
-> -     * field is a kernel sigset_t, which is much smaller than the
-> -     * libc sigset_t which sigfillset() operates on. Using sigfillset()
-> -     * would write 0xff bytes off the end of the structure and trash
-> -     * data on the struct.
-> -     * We can't use sizeof(uc->uc_sigmask) either, because the libc
-> -     * headers define the struct field with the wrong (too large) type.
-> +    /*
-> +     * For synchronous signals, unwind the cpu state to the faulting
-> +     * insn and then exit back to the main loop so that the signal
-> +     * is delivered immediately.
->       */
-> -    memset(&uc->uc_sigmask, 0xff, SIGSET_T_SIZE);
-> -    sigdelset(&uc->uc_sigmask, SIGSEGV);
-> -    sigdelset(&uc->uc_sigmask, SIGBUS);
-> +    if (sync_sig) {
-> +        clear_helper_retaddr();
-> +        sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
-> +        cpu->exception_index = EXCP_INTERRUPT;
-> +        cpu_loop_exit_restore(cpu, pc);
-> +    }
->  
-> -    /* interrupt the virtual CPU as soon as possible */
-> +    /*
-> +     * Interrupt the virtual CPU as soon as possible, but for now
-> +     * return to continue with the current TB.
-> +     */
->      cpu_exit(thread_cpu);
->  }
+Thanks,
+Stefano
 
-Is it possible to split this patch per architectures,
-doing for the first arch:
-
-  #if ARCH1
-
-  new host_signal_handler() {}
-
-  #else
-
-  old unmodified host_signal_handler() {}
-
-  #endif
-
-Then for the second:
-
-  #if ARCH1 || ARCH2
-
-  new host_signal_handler() {}
-
-  #else
-
-  old unmodified host_signal_handler() {}
-
-  #endif
-
-Last patch being cleaning the transition:
-
-- #if ARCH1 || ARCH2 || ...
-
-  new host_signal_handler() {}
-
-- #else
--
-- old unmodified host_signal_handler() {}
--
-- #endif
-
-?
 
