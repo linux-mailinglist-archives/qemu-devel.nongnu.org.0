@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4712E40D149
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 03:37:03 +0200 (CEST)
-Received: from localhost ([::1]:41830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92F740D13E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 03:34:31 +0200 (CEST)
+Received: from localhost ([::1]:35192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQgKk-00081d-At
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 21:37:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45324)
+	id 1mQgII-0003ZZ-RZ
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 21:34:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mQgEV-0006tj-7x; Wed, 15 Sep 2021 21:30:36 -0400
-Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:42573)
+ id 1mQgGE-0000n9-LM; Wed, 15 Sep 2021 21:32:23 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:37827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mQgES-0004KX-9t; Wed, 15 Sep 2021 21:30:35 -0400
-Received: by mail-qk1-x733.google.com with SMTP id t4so5728909qkb.9;
- Wed, 15 Sep 2021 18:30:31 -0700 (PDT)
+ id 1mQgGA-0005U1-CE; Wed, 15 Sep 2021 21:32:20 -0400
+Received: by mail-qk1-x729.google.com with SMTP id 73so685386qki.4;
+ Wed, 15 Sep 2021 18:32:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=D/FfgWFSiS86WF5yRhDm3S5AMj1DHorE3wbzzE0S9U0=;
- b=iXtMIzFHctCQTUzGoYsNESyB9GEB2A9AEagf14BhF+hc1D2aktySD/guL7C6gJqbUC
- 9xoZPX/Nxxfgpd4BC1UlS3OvrceDreNb1GMsWlO+PmEzaU+hO2zk5pFYFX5CeGYwcsJa
- 9qPccnMZdDbIQ0pn1q5bxe7mmQd6f+aesZlEaD0tZnGjWepOttZn5C/Qsyb/+r/QCgAx
- vhVqznAaKZxI0pQcvYjj19DkVqaXKDxsxZBlwByKMcII1Nhm9ckDe272iuuashoaAEZv
- 5pz7AgcZsO0dWuZ3ckdlOE18qGDooN48pQ9aa64j2s5E/CHpR4jI4ygOqxZTyqXwv+VR
- a7Gw==
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:cc:references:in-reply-to:content-transfer-encoding;
+ bh=FXH/+LW9swJgO3cAw3AdD4unBC3zLSsul4vxGmrBHYM=;
+ b=EYHmgYe77pXB/YB8b15iC49jBBAVOh09DFKQBKT0Xx699kVDE3s9TvvoYaKVuRrmgH
+ IIgBBPutCJoJF1ENbY1wIr2c2wiGIyuJco7gKTEhsGT4R5/T4Kh1VPPivpdp/2TybUlm
+ ZjkLINrgJonRADIuiHg3Gq3nLBjEAP8Rm51nrnXMB2NYnGgJj8vIy5wH3V6ds50cp07y
+ 40D2gBqwd8kAngA/mKXlVZDEVBpxAeVlPm6EVxSNytLB9SLNRxdyeb22m6ZJuG9pkw7O
+ fckXdAvAnsVYoyGVbmxHAcjAEspHjwdhH/5tKmKNVMqJ1jtYmBieh3iXi7gVAq/BJFU0
+ FesQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=D/FfgWFSiS86WF5yRhDm3S5AMj1DHorE3wbzzE0S9U0=;
- b=dSbIPIrMkHGLpCefyPBb3lV4C6UlPica4bqjZx2z/nfiKJZEj79tinhP49EFqcQIZb
- 1ErrxV12+ciKchhvqL4FbT2dYR8jTez4ZDuJPPVDRhfHeqBmYjoT+wZU9JCrDov0dkgA
- fMcW8oZZHQ4sFT94ifnLG7Sp0XYl/G1MiLe0TC2QwwqxmUSzhGb3rCPssDIw3vecGpZa
- IA5Km9Xf8haaw6DAW7vUmOqff6uCDQLRinyZwYQkHhEh3ukMc/ztKsK/XDS9Ail2eLcX
- V4gjnSUypGCbcSgfSUuYtKFImAKzVcyn4QKq29FuhSUwDTd9WzVtDBAHVB1hgxPDhh5k
- 3J+A==
-X-Gm-Message-State: AOAM532KNE4KVlCyRPCAyOV9JiWjDllVV6MPUkyk5Gtmyd5rklXQA4DN
- h70CQkDYUc51bS5VKGTEdqkaW827EwM=
-X-Google-Smtp-Source: ABdhPJyMWTJ4IpgTO8bHowDf1dhHFBpT5FZ3aky+z81cyQUGkPA0FcQICEsvgIi+uUTWjU/twqyqaQ==
-X-Received: by 2002:a05:620a:c53:: with SMTP id
- u19mr2900189qki.144.1631755830996; 
- Wed, 15 Sep 2021 18:30:30 -0700 (PDT)
-Received: from rekt.COMFAST ([177.189.43.50])
- by smtp.gmail.com with ESMTPSA id 67sm1369417qkl.1.2021.09.15.18.30.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Sep 2021 18:30:30 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 7/7] spapr_numa.c: handle auto NUMA node with no distance
- info
-Date: Wed, 15 Sep 2021 22:30:04 -0300
-Message-Id: <20210916013004.272059-8-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210916013004.272059-1-danielhb413@gmail.com>
-References: <20210916013004.272059-1-danielhb413@gmail.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=FXH/+LW9swJgO3cAw3AdD4unBC3zLSsul4vxGmrBHYM=;
+ b=7xsgFDBT8tnqXoTP+IKtPkzkKya/fwXtCRI/Rx/cq7YVR5LQ2B1Uq4OTYeiuv3KHlB
+ i5WV64yTsQWyJa5r368QHBgk8qWNDn8i8VJOBY0UmF/jmObpoacRxcvU5bnxfCX3JvdB
+ 09d/UTy7WXWkLEljs2yLDNsdeumkoCOiVuSYhypW/XbuBwr57vmJmnct6Gv+E1nguHD0
+ ydGv3o1zKic/y83QDSOW/ZFf6jh6BcoJgfKpS9/LyC5WIOn7KePA15o0Y0TTOfxJ7fyB
+ N+R56YdWJGhR7nFEct3kM5yHLzovEBIctXWMl0qlCtWkawdh9v1BWpbOOZEY9ccSesiU
+ qzMQ==
+X-Gm-Message-State: AOAM533gH0+KUhEVzZHeElcZjPk+ktTYOTD73HUQIHWeqqQP6PIe976n
+ YooutJ34MQRlSF7yLeT2v1aBabN3Yjc=
+X-Google-Smtp-Source: ABdhPJwd0tI5+wH5rvBB2pIOc6bhK5qyzq5WTo1Gr9hp5v74B5sxaSgidZtd5RyEj4hCTcjbpcUdfw==
+X-Received: by 2002:a37:9445:: with SMTP id w66mr3034323qkd.410.1631755936832; 
+ Wed, 15 Sep 2021 18:32:16 -0700 (PDT)
+Received: from [192.168.10.222] ([177.189.43.50])
+ by smtp.gmail.com with ESMTPSA id j2sm1225061qtr.4.2021.09.15.18.32.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Sep 2021 18:32:16 -0700 (PDT)
+Message-ID: <0dc516f6-8504-6d65-93f7-c8cd0de3afa2@gmail.com>
+Date: Wed, 15 Sep 2021 22:32:13 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v6 3/6] spapr: introduce spapr_numa_associativity_reset()
+Content-Language: en-US
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: Greg Kurz <groug@kaod.org>
+References: <20210910195539.797170-1-danielhb413@gmail.com>
+ <20210910195539.797170-4-danielhb413@gmail.com>
+ <20210914135514.1896ea3e@bahia.huguette>
+ <3bd59a2f-5c3b-f062-4a6c-abf34340000d@gmail.com>
+In-Reply-To: <3bd59a2f-5c3b-f062-4a6c-abf34340000d@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x733.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x729.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.698,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,82 +88,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- groug@kaod.org, david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-numa_complete_configuration() in hw/core/numa.c always adds a NUMA node
-for the pSeries machine if none was specified, but without node distance
-information for the single node created. This added node is also not
-accounted for in numa_state->num_nodes, which returns zero.
-
-NUMA FORM1 affinity code didn't rely on numa_state information to do its
-job, but FORM2 does. As is now, this is the result of a pSeries guest
-with NUMA FORM2 affinity when no NUMA nodes is specified:
-
-$ numactl -H available: 1 nodes (0) node 0 cpus: 0 node 0 size: 16222 MB
-node 0 free: 15681 MB No distance information available.
-
-This can be amended in spapr_numa_FORM2_write_rtas_tables(). We're
-always expecting at least one NUMA node, and we're going to enforce that
-the local distance (the distance to the node to itself) is always 10.
-This allows for the proper creation of the NUMA distance tables, fixing
-the output of 'numactl -H' in the guest:
-
-$ numactl -H available: 1 nodes (0) node 0 cpus: 0 node 0 size: 16222 MB
-node 0 free: 15685 MB node distances: node   0
-  0:  10
-
-CC: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
-
-Igor,
-
-CCing you as a FYI. I wasn't sure whether there is a reason for
-numa_complete_configuration() not adding distance info an update 'num_nodes'
-for the auto-generated NUMA node, I decided to handle this case in
-pseries side instead.
+Greg,
 
 
+On 9/14/21 16:58, Daniel Henrique Barboza wrote:
+> 
+> 
+> On 9/14/21 08:55, Greg Kurz wrote:
+>> On Fri, 10 Sep 2021 16:55:36 -0300
+>> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+>>
 
- hw/ppc/spapr_numa.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+[...]
 
-diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index 659513b405..d8caf5f6bd 100644
---- a/hw/ppc/spapr_numa.c
-+++ b/hw/ppc/spapr_numa.c
-@@ -499,7 +499,7 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
- {
-     MachineState *ms = MACHINE(spapr);
-     NodeInfo *numa_info = ms->numa_state->nodes;
--    int nb_numa_nodes = ms->numa_state->num_nodes;
-+    int nb_numa_nodes = ms->numa_state->num_nodes ?: 1;
-     int distance_table_entries = nb_numa_nodes * nb_numa_nodes;
-     g_autofree uint32_t *lookup_index_table = NULL;
-     g_autofree uint32_t *distance_table = NULL;
-@@ -539,6 +539,17 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
- 
-     for (src = 0; src < nb_numa_nodes; src++) {
-         for (dst = 0; dst < nb_numa_nodes; dst++) {
-+            /*
-+             * We need to be explicit with the local distance
-+             * value to cover the case where the user didn't added any
-+             * NUMA nodes, but QEMU adds the default NUMA node without
-+             * adding the numa_info to retrieve the info from.
-+             */
-+            if (src == dst) {
-+                node_distances[i++] = 10;
-+                continue;
-+            }
-+
-             node_distances[i++] = numa_info[src].distance[dst];
-         }
-     }
--- 
-2.31.1
 
+>>>       }
+>>> @@ -167,6 +167,11 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
+>>>       int nb_numa_nodes = machine->numa_state->num_nodes;
+>>>       int i, j, max_nodes_with_gpus;
+>>> +    /* init FORM1_assoc_array */
+>>> +    for (i = 0; i < MAX_NODES + NVGPU_MAX_NUM; i++) {
+>>> +        spapr->FORM1_assoc_array[i] = g_new0(uint32_t, NUMA_ASSOC_SIZE);
+>>
+>> Why dynamic allocation since you have fixed size ?
+> 
+> If I use static allocation the C compiler complains that I can't assign a
+> uint32_t** pointer to a uint32_t[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE]
+> array type.
+> 
+> And given that the FORM2 array is a [MAX_NODES + NVGPU_MAX_NUM][2] array, the
+> way I worked around that here is to use dynamic allocation. Then C considers valid
+> to use numa_assoc_array as an uint32_t** pointer for both FORM1 and FORM2
+> 2D arrays. I'm fairly certain that there might be a way of doing static allocation
+> and keeping the uint32_t** pointer as is, but didn't find any. Tips welcome :D
+> 
+> An alternative that I considered, without the need for this dynamic allocation hack,
+> is to make both FORM1 and FORM2 data structures the same size (i.e.
+> an [MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE] uint32_t array) and then numa_assoc_array
+> can be a pointer of the same array type for both. Since we're controlling FORM1 and
+> FORM2 sizes separately inside the functions this would work. The downside is that
+> FORM2 2D array would be bigger than necessary.
+
+I took a look and didn't find any neat way of doing a pointer switch
+between 2 static arrays without either allocating dynamic mem on the
+pointer and then g_memdup'ing it, or make all arrays the same size
+(i.e. numa_assoc_array would also be a statically allocated array
+with FORM1 size) and then memcpy() the chosen mode.
+
+I just posted a new version in which I'm not relying on 'numa_assoc_array'.
+Instead, the DT functions will use a get_associativity() to retrieve
+the current associativity array based on CAS choice, in a similar
+manner like it is already done with the array sizes. This also allowed
+us to get rid of associativity_reset().
+
+
+Thanks,
+
+
+Daniel
+
+
+
+> 
+> 
+> I don't have strong opinions about which way to do it, so I'm all ears.
+> 
+> 
+> Thanks,
+> 
+> 
+> Daniel
+> 
+> 
+> 
+>>
+>>> +    }
+>>> +
+>>>       /*
+>>>        * For all associativity arrays: first position is the size,
+>>>        * position MAX_DISTANCE_REF_POINTS is always the numa_id,
+>>> @@ -177,8 +182,8 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
+>>>        * 'i' will be a valid node_id set by the user.
+>>>        */
+>>>       for (i = 0; i < nb_numa_nodes; i++) {
+>>> -        spapr->numa_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+>>> -        spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
+>>> +        spapr->FORM1_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+>>> +        spapr->FORM1_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
+>>>       }
+>>>       /*
+>>> @@ -192,15 +197,15 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
+>>>       max_nodes_with_gpus = nb_numa_nodes + NVGPU_MAX_NUM;
+>>>       for (i = nb_numa_nodes; i < max_nodes_with_gpus; i++) {
+>>> -        spapr->numa_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+>>> +        spapr->FORM1_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+>>>           for (j = 1; j < MAX_DISTANCE_REF_POINTS; j++) {
+>>>               uint32_t gpu_assoc = smc->pre_5_1_assoc_refpoints ?
+>>>                                    SPAPR_GPU_NUMA_ID : cpu_to_be32(i);
+>>> -            spapr->numa_assoc_array[i][j] = gpu_assoc;
+>>> +            spapr->FORM1_assoc_array[i][j] = gpu_assoc;
+>>>           }
+>>> -        spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
+>>> +        spapr->FORM1_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
+>>>       }
+>>>       /*
+>>> @@ -227,14 +232,33 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
+>>>                                      MachineState *machine)
+>>>   {
+>>>       spapr_numa_FORM1_affinity_init(spapr, machine);
+>>> +
+>>> +    /*
+>>> +     * Default to FORM1 affinity until CAS. We'll call affinity_reset()
+>>> +     * during CAS when we're sure about which NUMA affinity the guest
+>>> +     * is going to use.
+>>> +     *
+>>> +     * This step is a failsafe - guests in the wild were able to read
+>>> +     * FORM1 affinity info before CAS for a long time. Since affinity_reset()
+>>> +     * is just a pointer switch between data that was already populated
+>>> +     * here, this is an acceptable overhead to be on the safer side.
+>>> +     */
+>>> +    spapr->numa_assoc_array = spapr->FORM1_assoc_array;
+>>
+>> The right way to do that is to call spapr_numa_associativity_reset() from
+>> spapr_machine_reset() because we want to revert to FORM1 each time the
+>> guest is rebooted.
+>>
+>>> +}
+>>> +
+>>> +void spapr_numa_associativity_reset(SpaprMachineState *spapr)
+>>> +{
+>>> +    /* No FORM2 affinity implemented yet */
+>>
+>> This seems quite obvious at this point, not sure the comment helps.
+>>
+>>> +    spapr->numa_assoc_array = spapr->FORM1_assoc_array;
+>>>   }
+>>>   void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
+>>>                                          int offset, int nodeid)
+>>>   {
+>>> +    /* Hardcode the size of FORM1 associativity array for now */
+>>>       _FDT((fdt_setprop(fdt, offset, "ibm,associativity",
+>>>                         spapr->numa_assoc_array[nodeid],
+>>> -                      sizeof(spapr->numa_assoc_array[nodeid]))));
+>>> +                      NUMA_ASSOC_SIZE * sizeof(uint32_t))));
+>>
+>> Rather than doing this temporary change that gets undone in
+>> a later patch, I suggest you introduce get_numa_assoc_size()
+>> in a preliminary patch and use it here already :
+>>
+>> -                      NUMA_ASSOC_SIZE * sizeof(uint32_t))));
+>> +                      get_numa_assoc_size(spapr) * sizeof(uint32_t))));
+>>
+>> This will simplify the reviewing.
+>>
+>>>   }
+>>>   static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *spapr,
+>>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+>>> index 637652ad16..8a9490f0bf 100644
+>>> --- a/include/hw/ppc/spapr.h
+>>> +++ b/include/hw/ppc/spapr.h
+>>> @@ -249,7 +249,8 @@ struct SpaprMachineState {
+>>>       unsigned gpu_numa_id;
+>>>       SpaprTpmProxy *tpm_proxy;
+>>> -    uint32_t numa_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE];
+>>> +    uint32_t *FORM1_assoc_array[MAX_NODES + NVGPU_MAX_NUM];
+>>
+>> As said above, I really don't see the point in not having :
+>>
+>>      uint32_t *FORM1_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE];
+>>
+>>> +    uint32_t **numa_assoc_array;
+>>>       Error *fwnmi_migration_blocker;
+>>>   };
+>>> diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
+>>> index 6f9f02d3de..ccf3e4eae8 100644
+>>> --- a/include/hw/ppc/spapr_numa.h
+>>> +++ b/include/hw/ppc/spapr_numa.h
+>>> @@ -24,6 +24,7 @@
+>>>    */
+>>>   void spapr_numa_associativity_init(SpaprMachineState *spapr,
+>>>                                      MachineState *machine);
+>>> +void spapr_numa_associativity_reset(SpaprMachineState *spapr);
+>>>   void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas);
+>>>   void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
+>>>                                          int offset, int nodeid);
+>>
 
