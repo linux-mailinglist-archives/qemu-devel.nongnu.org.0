@@ -2,75 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EDC740DCB4
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 16:31:02 +0200 (CEST)
-Received: from localhost ([::1]:40972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9262040DCAA
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 16:26:19 +0200 (CEST)
+Received: from localhost ([::1]:59252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQsPl-0004v1-5O
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 10:31:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50758)
+	id 1mQsLC-0006cz-HF
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 10:26:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQs8K-0003Ya-A0
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 10:13:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21977)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mQsFE-0006QE-RG
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 10:20:09 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40868
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mQs8G-0007Yq-M6
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 10:12:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631801575;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UxOo1dZZFfMX7PPqVJlHZnMdGobRmH02PkX3+EuHZBQ=;
- b=YiTZxT0q1IiosqxbHFtHjk0PzxwsScdwKuCulLPfSUBuwbTdqVEcwnRe5sRrJKPEthuxTS
- 0lSqtNZVpN3ZpTTJebIvqwRVam7P8XII0SRjsk1iXMXCUJzPcxmdbkpQrirMMH9O1C4gsU
- Q8uWAzlYDEwYDrkFju+Lvg0wqCUso0g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-y-GQdPSKOgagNfS74UtjBQ-1; Thu, 16 Sep 2021 10:12:52 -0400
-X-MC-Unique: y-GQdPSKOgagNfS74UtjBQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22AD1801B3D;
- Thu, 16 Sep 2021 14:12:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D5065C1CF;
- Thu, 16 Sep 2021 14:12:39 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C2B1F113865F; Thu, 16 Sep 2021 16:12:37 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH RFC 0/5] Subject: [PATCH RFC 0/5] qapi: Add feature
- flags to enum members
-References: <20210915192425.4104210-1-armbru@redhat.com>
- <5b9b9fe9-12e2-c6f3-8430-450f55255d55@virtuozzo.com>
- <87r1do65kl.fsf@dusky.pond.sub.org>
- <1df50f40-1385-9119-126a-56938fde9a92@virtuozzo.com>
-Date: Thu, 16 Sep 2021 16:12:37 +0200
-In-Reply-To: <1df50f40-1385-9119-126a-56938fde9a92@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Thu, 16 Sep 2021 16:28:40 +0300")
-Message-ID: <87ee9o4nje.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mQsF8-0003x4-VB
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 10:20:08 -0400
+Received: from host109-153-76-56.range109-153.btcentralplus.com
+ ([109.153.76.56] helo=[192.168.50.176])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mQsEx-0001fG-Hx; Thu, 16 Sep 2021 15:19:55 +0100
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20210916100554.10963-1-mark.cave-ayland@ilande.co.uk>
+ <20210916100554.10963-12-mark.cave-ayland@ilande.co.uk>
+ <a6857eaa-a0d3-c098-3cda-057ee9fa15a4@amsat.org>
+ <878rzw655h.fsf@dusky.pond.sub.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <f8e0ec4d-2692-774f-ad67-9fc40ace044d@ilande.co.uk>
+Date: Thu, 16 Sep 2021 15:19:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+In-Reply-To: <878rzw655h.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 109.153.76.56
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v3 11/20] nubus-device: add romfile property for loading
+ declaration ROMs
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -33
+X-Spam_score: -3.4
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.488,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,130 +68,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
- libvir-list@redhat.com, eblake@redhat.com, mdroth@linux.vnet.ibm.com,
- qemu-devel@nongnu.org, marcandre.lureau@redhat.com, jsnow@redhat.com,
- libguestfs@redhat.com
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+On 16/09/2021 14:06, Markus Armbruster wrote:
 
-> 16.09.2021 15:57, Markus Armbruster wrote:
->> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
->> 
->>> Great! Thanks for working on this!
+> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
+> 
+>> On 9/16/21 12:05 PM, Mark Cave-Ayland wrote:
+>>> The declaration ROM is located at the top-most address of the standard slot
+>>> space.
 >>>
->>> 15.09.2021 22:24, Markus Armbruster wrote:
->>>> PATCH 1+2 add feature flags to enum members.  Awkward due to an
->>>> introspection design mistake; see PATCH 1 for details.  Feedback
->>>> welcome, in particular from management application guys.
->>>> PATCH 3+4 implement policy deprecated-input={reject,crash} for enum
->>>> values.
->>>>
->>>> Policy deprecated-output=hide is not implemented, because we can't
->>>> hide a value without hiding the entire member, which is almost
->>>> certainly more than the requester of this policy bargained for.
->>>> Perhaps we want a new policy deprecated-output=crash to help us catch
->>>> unwanted use of deprecated enum values.  Thoughts?
->>>
->>> I think crash policy for output is doubtful. If we have query-*
->>> command that returns a lot of things and some of them are deprecated
->>> the whole command will always crash..
->> 
->> Policy "crash" is not quite as crazy as it may look :)
->> 
->> The non-default policies for handling deprecated interfaces are intended
->> for testing users of these interfaces.
->> 
->> Input policy reject and output policy hide enable "testing the future".
->> 
->> Input policy crash is a robust way to double-check "management
->> application does not send deprecated input".  This is not quite the same
->> as "testing the future".  A management application may choose to send
->> deprecated input, detect the failure and recover.  Testing that should
->> pass with input policy reject, but not with input policy crash.
->> 
->> Output policy crash could be a way to double-check "the management
->> application does not make QEMU send deprecated output".
->> 
->> Example: Say we deprecate BlockdevDriver member 'vvfat'.  We know that
->> output of query-named-block-nodes can contain 'vvfat' only if something
->> creates such nodes.  Input policy reject will reject attempts to use
->> this driver with blockdev-add.  But what if the management application
->> uses some other way to create such nodes, not (yet) covered by input
->> policy?  Output policy crash could be used to double-check it doesn't.
->> 
->> Except it doesn't actually work, because as you said, testing will
->> likely produce *other* deprecated output that should *not* crash the
->> test.
->> 
->> Perhaps a policy hide-or-else-crash could work.
->> 
->>>                                         Deprecated is "use" of the
->>> deprecated field, but we can't control does user use a specific field
->>> or not.
->>>
->>> If some deprecated output is a consequence of deprecated input, we'd
->>> better always show it.. Or in other words, we shouldn't deprecate such
->>> output, deprecating of the corresponding input is enough.
->> 
->> Deprecating only input may require duplicating definitions used both for
->> input and output, unless we replace today's feature flags by something
->> more sophisticated.
->> 
->> Example: BlockdevDriver is used both as input of blockdev-add and as
->> output of query-named-block-nodes.  Deprecate member 'vvfat' affects
->> both input and output.
->
->
-> If we deprecate a vvfat, but still have some not deprecated ways to
-> create vvfat node, that's a kind of bug[1] in deprecation system: if
-> vvfat is deprecated, all ways to create vvfat should go through input
-> compat policy.
+>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>> ---
+>>>   hw/nubus/nubus-device.c  | 43 +++++++++++++++++++++++++++++++++++++++-
+>>>   include/hw/nubus/nubus.h |  6 ++++++
+>>>   2 files changed, 48 insertions(+), 1 deletion(-)
+>>
+>>> @@ -38,10 +43,46 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
+>>>       memory_region_add_subregion(&nubus->slot_io, slot_offset,
+>>>                                   &nd->slot_mem);
+>>>       g_free(name);
+>>> +
+>>> +    /* Declaration ROM */
+>>> +    if (nd->romfile != NULL) {
+>>> +        path = qemu_find_file(QEMU_FILE_TYPE_BIOS, nd->romfile);
+>>> +        if (path == NULL) {
+>>> +            path = g_strdup(nd->romfile);
+>>> +        }
+>>> +
+>>> +        size = get_image_size(path);
+>>> +        if (size < 0) {
+>>> +            error_setg(errp, "failed to find romfile \"%s\"", nd->romfile);
+>>> +            g_free(path);
+>>> +            return;
+>>> +        } else if (size == 0) {
+>>> +            error_setg(errp, "romfile \"%s\" is empty", nd->romfile);
+>>> +            g_free(path);
+>>> +            return;
+>>> +        } else if (size > NUBUS_DECL_ROM_MAX_SIZE) {
+>>> +            error_setg(errp, "romfile \"%s\" too large (maximum size 128K)",
+>>> +                       nd->romfile);
+>>> +            g_free(path);
+>>> +            return;
+>>> +        }
+>>> +
+>>> +        name = g_strdup_printf("nubus-slot-%x-declaration-rom", nd->slot);
+>>> +        memory_region_init_rom(&nd->decl_rom, OBJECT(dev), name, size,
+>>> +                               &error_fatal);
+> 
+> Is this error expected to happen?
+> 
+> If yes, you should quite probably propagate it.
+> 
+> If no, &error_abort.
 
-We need to distinguish between three separate things:
+(goes and looks)
 
-(1) Deprecating certain interface usage
+Ultimately this gets set from memory_region_init_rom_device_nomigrate() where err is 
+returned from qemu_ram_alloc() which is fairly fatal. So I guess this should be 
+&error_abort then?
 
-(2) QAPI feature flag 'deprecated'
+Note that I copied that part of the logic from hw/pci/pci.c's pci_add_option_rom() so 
+it may also need to be adjusted there.
 
-(3) Policy for handling deprecated interface usage
+>>> +        ret = load_image_mr(path, &nd->decl_rom);
+>>
+>> load_image_mr() already calls get_image_size(), rom_add_file() and
+>> qemu_find_file(). *But* it doesn't takes and Error handle, and report
+>> error using fprintf()...
+> 
+> ... except when they don't:
+> 
+>      int load_image_mr(const char *filename, MemoryRegion *mr)
+>      {
+>          int size;
+> 
+>          if (!memory_access_is_direct(mr, false)) {
+>              /* Can only load an image into RAM or ROM */
+> --->        return -1;
+>          }
+> 
+>          size = get_image_size(filename);
+> 
+>          if (size < 0 || size > memory_region_size(mr)) {
+>              return -1;
+>          }
+>          if (size > 0) {
+>              if (rom_add_file_mr(filename, mr, -1) < 0) {
+>                  return -1;
+>              }
+>          }
+>          return size;
+>      }
+> 
+> Hot mess!
+> 
+>>                           So unfortunately rom_add*() functions are
+>> kinda outdated and you are doing the right thing to propagate detailled
+>> errors.
+> 
+> I can't see errors being propagated, only a warn_report()...
+> 
+>>          Therefore:
+>>
+>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>
+>>> +        g_free(path);
+>>> +        if (ret < 0) {
+>>> +            warn_report("nubus-device: could not load prom '%s'", nd->romfile);
+> 
+> ... here.
 
-Note that (2) cannot cover all of (1) for two reasons, only one of them
-fixable:
+Looking again at pci_add_option_rom() then perhaps this should be error_setg() 
+instead: if you are explicitly trying to load a ROM image, then you should at least 
+be able to get the filename correct.
 
-* Some interfaces still aren't QAPI-based.  QAPIfying them all is hard.
+>>> +        }
+>>> +        memory_region_add_subregion(&nd->slot_mem, NUBUS_SLOT_SIZE - size,
+>>> +                                    &nd->decl_rom);
+>>> +    }
+>>>   }
 
-* Feature flags only apply to *syntactic* elements, such as a command
-  argument.
 
-  Example for a deprecation where they don't apply: we deprecated use of
-  chardev-add argument "wait" together with "server": false in v4.0
-  (it's an error since v6.0).  Use without "server": false remains okay.
+ATB,
 
-Note further that (3) may cover both less and more than (2).
-
-Before this series, it covers exactly (2).  Afterwards, there is a hole:
-
-    # Limitation: deprecated-output policy @hide is not implemented for
-    # enumeration values.  They behave the same as with policy @accept.
-
-But it could also go beyond (2) in the future:
-
-    # Limitation: covers only syntactic aspects of QMP, i.e. stuff tagged
-    # with feature 'deprecated'.  We may want to extend it to cover
-    # semantic aspects, CLI, and experimental features.
-
-> So, making qemu crash on trying to output "vvfat" for me looks like a
-> workaround for that bug[1]. And it's strange to create and interface
-> to workaround the internal bug..
->
-> May be, we can just enable hide-or-else-crash behavior automatically,
-> when user choose input=crash and output=hide?
-
-Hmm, interesting idea.  Needs to be documented, obviously.
-
-[...]
-
+Mark.
 
