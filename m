@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E6540EB22
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 21:51:25 +0200 (CEST)
-Received: from localhost ([::1]:36610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22CE440EB6F
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 22:11:08 +0200 (CEST)
+Received: from localhost ([::1]:43238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQxPo-0005mR-FG
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 15:51:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38546)
+	id 1mQxis-0002xA-MF
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 16:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mQxNt-0004n7-41
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 15:49:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mQxNp-00034r-Ia
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 15:49:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631821758;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dPn2qqU0bKo34+6HyvsSo50Lp3Jr+UfW3s6jQx2nnyY=;
- b=YZAzqHLrt5skQJRaeob4JoNhSpWLXX43FGKbCeWoR1A5uEh/wHlTxfwhtsMfWex7DaD7Dr
- TJsBhqIs5QZoRuo5H0d9RbPzgL5s0Ego3WlXGdZLfODAthxjjsX5EXCeLq6WgeweBM5FjC
- dm6gMKYnNqaiUxRUPnznlEZiNU9JjbQ=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-DegI3wA4MR6orlz9_HzZ4A-1; Thu, 16 Sep 2021 15:49:16 -0400
-X-MC-Unique: DegI3wA4MR6orlz9_HzZ4A-1
-Received: by mail-pf1-f197.google.com with SMTP id
- 127-20020a621685000000b0043376b0ce1dso5568005pfw.22
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 12:49:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mQxhA-00025B-Bb
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 16:09:20 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34370)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mQxh8-0002yY-3I
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 16:09:20 -0400
+Received: by mail-wr1-x432.google.com with SMTP id t8so4391660wri.1
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 13:09:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ppSC+/+Jpx8UR/QL3oTEu0FnuI55Fdz4BkNPfXRhnjk=;
+ b=wZ8lh2gQ+b5shgJAyzS4/dzCFt0fcD6J60kh8qafm9neLry7rW/UzfqM1GROhE53G9
+ uVgYTSfPjr1TfOvil4RB6z477BkOdtwngzWL8opR60ckESzo09Apc6UlyMFtmt3WRuNL
+ LkVz3NuEMm4FEjYfmfAn6dMwOX+e7dJSYwbhi6jxfNcGB2OJPVWx1DTj3UBcBzPRtx8N
+ YCOa7XHiXa5TtTP8HW67DoD6Le9NXLa6bb1KOIKVGqRJRkTSs+CKyX0Lfl5U65CMIpDg
+ HZ91zBaqi+52roJuUYcfWXD6BIzv2avDjfYMX9jJxmULv5XfV14U5f+HjP8J03cL6z5o
+ 3GNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=dPn2qqU0bKo34+6HyvsSo50Lp3Jr+UfW3s6jQx2nnyY=;
- b=To6FkBUpo7gnSaGyYy/EV0nLojDLsiB4ErEE8huXsbwrjEP+tlOwADPtjE2hsM7h5g
- TG6Ngtw0f51EOqJ3US+KJtGPr0+CB2Rj92k4bEXKbuWaOXQCnX2PXGC3sMInDZlpt3xo
- 2AkdtnP4J8xlhgE2D0VWGAA2s+lvlWcdHU4YTmLav790Sq897eV/wCYqiws6YhlZxKE+
- dMSM89VWac5dHokz3EEM4OWbpgq/edw1MdYwzbFxaCvHDZY4oo1qBLYvxuqiVPjBS5M1
- hvCyCU9XTPtVcdr3dpO54eIJt9WICb7QUWjsHOyV1pjCJjBxpKirRGUHXStkf8uL1Gb7
- IoRw==
-X-Gm-Message-State: AOAM530v3KAr3pN+I0yOAYVKh9FOC6iHwZoOIQUc8ajojpwF2Jua/JMw
- sFCi6OkJN7/3YewQgXO7mE7Bo+fevpbCat6YprotbLo9GSPhrojSDBT/1dz7UUGNcxUbTRN/ENw
- HJ97mMQxbaLw0qAMr3LCSV4/BYO/WFW4=
-X-Received: by 2002:a17:90a:708c:: with SMTP id
- g12mr16618317pjk.13.1631821755324; 
- Thu, 16 Sep 2021 12:49:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy2+cRfPgMyU7PVoKWb0I2HmKQlseV9vkUoDANQf9aJZtygfqf+gMjT2hffXDiAvbj3uJyFOwESYI8sMjCIaiA=
-X-Received: by 2002:a17:90a:708c:: with SMTP id
- g12mr16618281pjk.13.1631821754953; 
- Thu, 16 Sep 2021 12:49:14 -0700 (PDT)
+ bh=ppSC+/+Jpx8UR/QL3oTEu0FnuI55Fdz4BkNPfXRhnjk=;
+ b=iWQvz+xgIWtJB927j4AFvdIxbeT3H0GmiCtmzzPdLPCKZOJVbuEyEQFyG0exrklqgR
+ mjTVe1+ua4PUVh1SuI33QN5LPv7cazAVQKCBFbCcHGHKoQIa38q9u0xMWngxYthTBs8M
+ +MiaQ61j91z1WF3xc2eg1EaGclwZMx+HNZ9zZhfNJM3Xk5hAT9D8GWWMEYMazZw/gt6v
+ kpvKtmyH56kwaursCMmXuAjRlFI++2oUA7EklEMznDxJTFKhBcGx9qR6qFN8VFhpJVDi
+ Vd/9gAjwacKoEUQQtkp5IvFfQ/1BgcBmeVEHMEc+9dhUT8UEFyQDMCm0gyI2kaim+vhv
+ dHqw==
+X-Gm-Message-State: AOAM531SgJkiTiylk3MvVairhkMfvGl5bBg+dRy9mcKN9W3CBeYNhCsN
+ pzZBDzl1uIre3CHkNasy9DgYUGmz6IgA1IdnwmiTEw==
+X-Google-Smtp-Source: ABdhPJxgr/xpIjeD5ZZrGULm3j8i3pgHyQZmod3emZRE//ZQvHJOahNby2XKP6EqPBVYRwQojZs5HevnXUmFEeXUd4I=
+X-Received: by 2002:adf:fb91:: with SMTP id a17mr7923921wrr.376.1631822956195; 
+ Thu, 16 Sep 2021 13:09:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210908131021.774533-1-eesposit@redhat.com>
- <YT9NuK84J2hvMXs2@stefanha-x1.localdomain>
- <916c8456-9433-42a0-df2d-3e62ced283fd@redhat.com>
- <YUIGlyfL+SleHCAc@stefanha-x1.localdomain>
- <7bf39273-3349-c378-25c4-6a72129bd3fd@redhat.com>
-In-Reply-To: <7bf39273-3349-c378-25c4-6a72129bd3fd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Thu, 16 Sep 2021 21:49:02 +0200
-Message-ID: <CABgObfYtR_a3EgTN18V8XyuN6pPGw-hb2VMQGcCoZ9NBQhm=tA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] block layer: split block APIs in graph and I/O
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000000a8e4405cc221cbe"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210916141026.1174822-1-laurent@vivier.eu>
+In-Reply-To: <20210916141026.1174822-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 Sep 2021 21:08:25 +0100
+Message-ID: <CAFEAcA9Q-_T+wMyi+EmfjdnFMhdN70vcCy4_tG0s4h1eDZb=QA@mail.gmail.com>
+Subject: Re: [PULL 00/10] Trivial branch for 6.2 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,148 +76,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000a8e4405cc221cbe
-Content-Type: text/plain; charset="UTF-8"
-
-I think either -global or -global-state.
-
-Paolo
-
-
-Il gio 16 set 2021, 16:03 Emanuele Giuseppe Esposito <eesposit@redhat.com>
-ha scritto:
-
+On Thu, 16 Sept 2021 at 15:19, Laurent Vivier <laurent@vivier.eu> wrote:
 >
+> The following changes since commit 831aaf24967a49d7750090b9dcfd6bf356f16529:
 >
-> On 15/09/2021 16:43, Stefan Hajnoczi wrote:
-> > On Wed, Sep 15, 2021 at 02:11:41PM +0200, Paolo Bonzini wrote:
-> >> On 13/09/21 15:10, Stefan Hajnoczi wrote:
-> >>> On Wed, Sep 08, 2021 at 09:10:17AM -0400, Emanuele Giuseppe Esposito
-> wrote:
-> >>>> Currently, block layer APIs like block-backend.h contain a mix of
-> >>>> functions that are either running in the main loop and under the
-> >>>> BQL, or are thread-safe functions and run in iothreads performing I/O.
-> >>>> The functions running under BQL also take care of modifying the
-> >>>> block graph, by using drain and/or aio_context_acquire/release.
-> >>>> This makes it very confusing to understand where each function
-> >>>> runs, and what assumptions it provided with regards to thread
-> >>>> safety.
-> >>>>
-> >>>> We call the functions running under BQL "graph API", and
-> >>>> distinguish them from the thread-safe "I/O API".
-> >>>
-> >>> Maybe "BQL" is clearer than "graph" because not all functions
-> classified
-> >>> as "graph" need to traverse/modify the graph.
-> >>
-> >> Bikeshedding, I like it! :)
-> >>
-> >> ... on the other hand, qemu-storage-daemon does not have a BQL (see
-> patch
-> >> 1); "graph API" functions run from the main (monitor) thread.
-> >>
-> >> The characteristic of the "graph API" is that they affect global state,
-> so
-> >> another possibility could be "global state API".  But is there any
-> global
-> >> state apart from the BlockDriverState graph and the associated
-> >> BlockBackends?
-> >
-> > I would be happy with that name too.
-> >
+>   Merge remote-tracking branch 'remotes/marcandre/tags/misc-pull-request' into staging (2021-09-14 18:14:56 +0100)
 >
-> Sounds good to me too, thanks.
-> One more minor cosmetic thing: should I name the header
-> block-backend-global-state.h or using block-backend-gs.h is
-> straightforward enough?
+> are available in the Git repository at:
 >
-> Thank you,
-> Emanuele
+>   git://github.com/vivier/qemu.git tags/trivial-branch-for-6.2-pull-request
 >
+> for you to fetch changes up to 9ac200acce8c27ef44da31246f337a2454e54e0d:
 >
+>   target/sparc: Make sparc_cpu_dump_state() static (2021-09-16 14:52:46 +0200)
+>
+> ----------------------------------------------------------------
+> Trivial patches pull request 20210916
+>
+> ----------------------------------------------------------------
 
---0000000000000a8e4405cc221cbe
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">I think either -global or -global-state.<div dir=3D"auto"=
-><br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br></div></div><=
-br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Il gio =
-16 set 2021, 16:03 Emanuele Giuseppe Esposito &lt;<a href=3D"mailto:eesposi=
-t@redhat.com">eesposit@redhat.com</a>&gt; ha scritto:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex"><br>
-<br>
-On 15/09/2021 16:43, Stefan Hajnoczi wrote:<br>
-&gt; On Wed, Sep 15, 2021 at 02:11:41PM +0200, Paolo Bonzini wrote:<br>
-&gt;&gt; On 13/09/21 15:10, Stefan Hajnoczi wrote:<br>
-&gt;&gt;&gt; On Wed, Sep 08, 2021 at 09:10:17AM -0400, Emanuele Giuseppe Es=
-posito wrote:<br>
-&gt;&gt;&gt;&gt; Currently, block layer APIs like block-backend.h contain a=
- mix of<br>
-&gt;&gt;&gt;&gt; functions that are either running in the main loop and und=
-er the<br>
-&gt;&gt;&gt;&gt; BQL, or are thread-safe functions and run in iothreads per=
-forming I/O.<br>
-&gt;&gt;&gt;&gt; The functions running under BQL also take care of modifyin=
-g the<br>
-&gt;&gt;&gt;&gt; block graph, by using drain and/or aio_context_acquire/rel=
-ease.<br>
-&gt;&gt;&gt;&gt; This makes it very confusing to understand where each func=
-tion<br>
-&gt;&gt;&gt;&gt; runs, and what assumptions it provided with regards to thr=
-ead<br>
-&gt;&gt;&gt;&gt; safety.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; We call the functions running under BQL &quot;graph API&qu=
-ot;, and<br>
-&gt;&gt;&gt;&gt; distinguish them from the thread-safe &quot;I/O API&quot;.=
-<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Maybe &quot;BQL&quot; is clearer than &quot;graph&quot; becaus=
-e not all functions classified<br>
-&gt;&gt;&gt; as &quot;graph&quot; need to traverse/modify the graph.<br>
-&gt;&gt;<br>
-&gt;&gt; Bikeshedding, I like it! :)<br>
-&gt;&gt;<br>
-&gt;&gt; ... on the other hand, qemu-storage-daemon does not have a BQL (se=
-e patch<br>
-&gt;&gt; 1); &quot;graph API&quot; functions run from the main (monitor) th=
-read.<br>
-&gt;&gt;<br>
-&gt;&gt; The characteristic of the &quot;graph API&quot; is that they affec=
-t global state, so<br>
-&gt;&gt; another possibility could be &quot;global state API&quot;.=C2=A0 B=
-ut is there any global<br>
-&gt;&gt; state apart from the BlockDriverState graph and the associated<br>
-&gt;&gt; BlockBackends?<br>
-&gt; <br>
-&gt; I would be happy with that name too.<br>
-&gt; <br>
-<br>
-Sounds good to me too, thanks.<br>
-One more minor cosmetic thing: should I name the header <br>
-block-backend-global-state.h or using block-backend-gs.h is <br>
-straightforward enough?<br>
-<br>
-Thank you,<br>
-Emanuele<br>
-<br>
-</blockquote></div>
+Applied, thanks.
 
---0000000000000a8e4405cc221cbe--
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
+for any user-visible changes.
 
+-- PMM
 
