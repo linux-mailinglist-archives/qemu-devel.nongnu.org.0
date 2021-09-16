@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22C7040D757
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:24:24 +0200 (CEST)
-Received: from localhost ([::1]:58956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F24C40D74F
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:22:14 +0200 (CEST)
+Received: from localhost ([::1]:54104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQoZ5-0002TK-7J
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:24:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40626)
+	id 1mQoWz-0007Uc-3n
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:22:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQoIH-0003Ux-8q
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:07:01 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40420
+ id 1mQoIN-0003mc-Me
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:07:07 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40426
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQoIF-0003AR-Pd
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:07:01 -0400
+ id 1mQoIM-0003EN-0C
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:07:07 -0400
 Received: from host109-153-76-56.range109-153.btcentralplus.com
  ([109.153.76.56] helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQoI7-000ChM-Hk; Thu, 16 Sep 2021 11:06:55 +0100
+ id 1mQoIB-000ChM-Tf; Thu, 16 Sep 2021 11:07:00 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Thu, 16 Sep 2021 11:05:48 +0100
-Message-Id: <20210916100554.10963-15-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 16 Sep 2021 11:05:49 +0100
+Message-Id: <20210916100554.10963-16-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210916100554.10963-1-mark.cave-ayland@ilande.co.uk>
 References: <20210916100554.10963-1-mark.cave-ayland@ilande.co.uk>
@@ -39,8 +39,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.76.56
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 14/20] mac-nubus-bridge: rename MacNubusState to
- MacNubusBridge
+Subject: [PATCH v3 15/20] nubus: move NubusBus from mac-nubus-bridge to
+ nubus-bridge
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -66,65 +66,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This better reflects that the mac-nubus-bridge device is derived from the
-nubus-bridge device, and that the structure represents the state of the bridge
-device and not the Nubus itself. Also update the comment in the file header to
-reflect that mac-nubus-bridge is specific to the Macintosh.
+Now that Nubus has its own address space rather than mapping directly into the
+system bus, move the Nubus reference from MacNubusBridge to NubusBridge.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/nubus/mac-nubus-bridge.c         | 8 +++++---
- include/hw/nubus/mac-nubus-bridge.h | 4 ++--
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ hw/m68k/q800.c                      | 2 +-
+ hw/nubus/mac-nubus-bridge.c         | 9 ++++-----
+ hw/nubus/nubus-bridge.c             | 9 +++++++++
+ include/hw/nubus/mac-nubus-bridge.h | 1 -
+ include/hw/nubus/nubus.h            | 2 ++
+ 5 files changed, 16 insertions(+), 7 deletions(-)
 
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index 0a0051a296..46befe0898 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -397,7 +397,7 @@ static void q800_init(MachineState *machine)
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 1, NUBUS_SLOT_BASE +
+                                             9 * NUBUS_SLOT_SIZE);
+ 
+-    nubus = MAC_NUBUS_BRIDGE(dev)->bus;
++    nubus = NUBUS_BRIDGE(dev)->bus;
+ 
+     /* framebuffer in nubus slot #9 */
+ 
 diff --git a/hw/nubus/mac-nubus-bridge.c b/hw/nubus/mac-nubus-bridge.c
-index 574bc7831e..76ea403f80 100644
+index 76ea403f80..4854e7e546 100644
 --- a/hw/nubus/mac-nubus-bridge.c
 +++ b/hw/nubus/mac-nubus-bridge.c
-@@ -1,5 +1,7 @@
- /*
-- *  Copyright (c) 2013-2018 Laurent Vivier <laurent@vivier.eu>
-+ * QEMU Macintosh Nubus
-+ *
-+ * Copyright (c) 2013-2018 Laurent Vivier <laurent@vivier.eu>
-  *
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-@@ -13,7 +15,7 @@
- 
+@@ -16,21 +16,20 @@
  static void mac_nubus_bridge_init(Object *obj)
  {
--    MacNubusState *s = MAC_NUBUS_BRIDGE(obj);
-+    MacNubusBridge *s = MAC_NUBUS_BRIDGE(obj);
+     MacNubusBridge *s = MAC_NUBUS_BRIDGE(obj);
++    NubusBridge *nb = NUBUS_BRIDGE(obj);
      SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
  
-     s->bus = NUBUS_BUS(qbus_create(TYPE_NUBUS_BUS, DEVICE(s), NULL));
-@@ -47,7 +49,7 @@ static const TypeInfo mac_nubus_bridge_info = {
-     .name          = TYPE_MAC_NUBUS_BRIDGE,
-     .parent        = TYPE_NUBUS_BRIDGE,
-     .instance_init = mac_nubus_bridge_init,
--    .instance_size = sizeof(MacNubusState),
-+    .instance_size = sizeof(MacNubusBridge),
-     .class_init    = mac_nubus_bridge_class_init,
- };
+-    s->bus = NUBUS_BUS(qbus_create(TYPE_NUBUS_BUS, DEVICE(s), NULL));
+-
+     /* Macintosh only has slots 0x9 to 0xe available */
+-    s->bus->slot_available_mask = MAKE_64BIT_MASK(9, 6);
++    nb->bus->slot_available_mask = MAKE_64BIT_MASK(9, 6);
  
+     /* Aliases for slots 0x9 to 0xe */
+     memory_region_init_alias(&s->super_slot_alias, obj, "super-slot-alias",
+-                             &s->bus->nubus_mr,
++                             &nb->bus->nubus_mr,
+                              9 * NUBUS_SUPER_SLOT_SIZE,
+                              6 * NUBUS_SUPER_SLOT_SIZE);
+ 
+     memory_region_init_alias(&s->slot_alias, obj, "slot-alias",
+-                             &s->bus->nubus_mr,
++                             &nb->bus->nubus_mr,
+                              NUBUS_SLOT_BASE + 9 * NUBUS_SLOT_SIZE,
+                              6 * NUBUS_SLOT_SIZE);
+ 
+diff --git a/hw/nubus/nubus-bridge.c b/hw/nubus/nubus-bridge.c
+index 95662568c5..3b68d4435c 100644
+--- a/hw/nubus/nubus-bridge.c
++++ b/hw/nubus/nubus-bridge.c
+@@ -12,6 +12,14 @@
+ #include "hw/sysbus.h"
+ #include "hw/nubus/nubus.h"
+ 
++
++static void nubus_bridge_init(Object *obj)
++{
++    NubusBridge *s = NUBUS_BRIDGE(obj);
++
++    s->bus = NUBUS_BUS(qbus_create(TYPE_NUBUS_BUS, DEVICE(s), NULL));
++}
++
+ static void nubus_bridge_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -22,6 +30,7 @@ static void nubus_bridge_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo nubus_bridge_info = {
+     .name          = TYPE_NUBUS_BRIDGE,
+     .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_init = nubus_bridge_init,
+     .instance_size = sizeof(NubusBridge),
+     .class_init    = nubus_bridge_class_init,
+ };
 diff --git a/include/hw/nubus/mac-nubus-bridge.h b/include/hw/nubus/mac-nubus-bridge.h
-index 7365038966..d9bb11db31 100644
+index d9bb11db31..45ec610d52 100644
 --- a/include/hw/nubus/mac-nubus-bridge.h
 +++ b/include/hw/nubus/mac-nubus-bridge.h
-@@ -13,9 +13,9 @@
- #include "qom/object.h"
- 
- #define TYPE_MAC_NUBUS_BRIDGE "mac-nubus-bridge"
--OBJECT_DECLARE_SIMPLE_TYPE(MacNubusState, MAC_NUBUS_BRIDGE)
-+OBJECT_DECLARE_SIMPLE_TYPE(MacNubusBridge, MAC_NUBUS_BRIDGE)
- 
--struct MacNubusState {
-+struct MacNubusBridge {
+@@ -18,7 +18,6 @@ OBJECT_DECLARE_SIMPLE_TYPE(MacNubusBridge, MAC_NUBUS_BRIDGE)
+ struct MacNubusBridge {
      NubusBridge parent_obj;
  
-     NubusBus *bus;
+-    NubusBus *bus;
+     MemoryRegion super_slot_alias;
+     MemoryRegion slot_alias;
+ };
+diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
+index bb2e70e1d1..2c83e7f7b8 100644
+--- a/include/hw/nubus/nubus.h
++++ b/include/hw/nubus/nubus.h
+@@ -61,6 +61,8 @@ struct NubusDevice {
+ 
+ struct NubusBridge {
+     SysBusDevice parent_obj;
++
++    NubusBus *bus;
+ };
+ 
+ #endif
 -- 
 2.20.1
 
