@@ -2,91 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B16E40ED0B
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 00:02:19 +0200 (CEST)
-Received: from localhost ([::1]:56590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2424140ECF7
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 23:56:55 +0200 (CEST)
+Received: from localhost ([::1]:40682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQzSU-0004F0-Ao
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 18:02:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56832)
+	id 1mQzNG-0001wh-4V
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 17:56:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=886e160e1=alistair.francis@opensource.wdc.com>)
- id 1mQzGx-0005wS-6J
+ id 1mQzH1-0005ws-2d
  for qemu-devel@nongnu.org; Thu, 16 Sep 2021 17:50:27 -0400
 Received: from esa6.hgst.iphmx.com ([216.71.154.45]:5550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=886e160e1=alistair.francis@opensource.wdc.com>)
- id 1mQzGv-0002V0-6u
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 17:50:22 -0400
+ id 1mQzGy-0002V0-RI
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 17:50:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1631829022; x=1663365022;
+ t=1631829025; x=1663365025;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=gTgrezxrY8pu1Le1R0UTY4bW15/1om0/bxby21zwLDA=;
- b=mdWGkCuDz4L+P+7OIyFKQhZWOQNILOODIp0iZegbd+uuH/O7Zaug6EYY
- 7GHZLawcuwz89AcRoJ7XyDmyyrShhXqGypno7NE6F7ct1WLoOTkuTN/Ci
- G82/iu0v0POzRgNBYB1GyVwTI8iQAgcZu6h/Ejg6Gxb+jJawYZVO2FUIb
- 29f/RjQRqS5RixXCCWzUbZEgsHuyFj2qn79ui6sT441dpHONh5KwCGnRz
- lUuuwQq9IEaQbN6ToKDS2yQvzTdaeCp4/Wt+F3mFDFk49nfzyGHEk9LP0
- p6Sn/weLMKBo0qzMTBcgUAoAFF+RMKsQrZ5efDHIsyQw4z5Oe1qoQZTLV A==;
-X-IronPort-AV: E=Sophos;i="5.85,299,1624291200"; d="scan'208";a="180726599"
+ bh=d+7i1/ikkPN4/VNr77qOp15/AgdcbLQRSk33SZZi9l4=;
+ b=Rz1VsEiNKdCmu3xva5F5P3/Wo62A3Hg/GOjQ7qCNiMwOrWZ1n2N2ai3S
+ fBxxPyW3xBX9wWEUrYBJ1+zRZ2zM+HoEQ+LgZoSwv7vDXnGjTK+Ie2DQt
+ 1cPF+CG7IpHKjf3qdi35r5HxhmNoneSUD37rT4fOjTMblK1vGERfG5lmC
+ Npzpxe8+ZJiQf2H30MqZqkaHRzwILsEcRK72hhFY3VZoGC0zOkZOByRIg
+ 9eH0VeKhe9Iu5//Fa1r0h8Yx8rPVFQPjMMHojFPt2Fri1rzFxJP/2sQLf
+ dDcna0/F1lvRYh/NeA8STaOJm3j5GpjXfHNv9L268iiY19gs1rkfBKhei A==;
+X-IronPort-AV: E=Sophos;i="5.85,299,1624291200"; d="scan'208";a="180726606"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 17 Sep 2021 05:50:20 +0800
-IronPort-SDR: iOk8XJ9lW1keclv5QaE03VNQtrqh8VbX4bW3gdoKBP8cFvM/iRkGiNNECMV4+MB0tdPHv0OAyC
- n6MtZ4Y+iiHJ9oVkARkxIINTt2qV1ZzTY/Npk3i4xEuVOsjFsLNg3JC6uhHELt/OfaXAxidERT
- MjBVF8ViAi1QJwOcD0VK4UAcnxAAz89ua1XpiHDkZuO79LC00yrzLYTJN5hOwvxQ8smYsK5EEw
- KQWRSUcbroW2riI4nGCSoCRNJ8Uh2AtHzkF/Zp2PvKTCJts1TujHbOFZj4IlzabiVZ0p+sUY46
- QXEqloWkK/DbmjtcKqAs2AVW
+ by ob1.hgst.iphmx.com with ESMTP; 17 Sep 2021 05:50:25 +0800
+IronPort-SDR: 5JK3RwLnjNGDDAG/Tr3A7YaDBGiT3b5L0o2US5bGx0kzyoNgVw/nZM2yrumSfmCqnF5/dtXpZ+
+ VMFXs8xdrAUrPOZ1wc8+gePBSu3L+u0ZX9PoRXY8Di+tuyuaI1Zy4K9Tt2A6Is1+Fa4G2vIdkE
+ mjAf5PlzK9XDGjXoKkzaRSeUlVLn+kJchQ69dDpIqZUzOpBWO0yjly7QzRbeOrym+pD6zFG2Ja
+ MbO3oDTy7VIJ2mDizonKRr6ufwiXNr4/3JgQc9J1JizYfw1/OZl9ZCnYv4esRWpl8ibTZom8VT
+ tHKUCtZOpMYYj3aw6AV+B0ZJ
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2021 14:26:39 -0700
-IronPort-SDR: n9XpUFVd/sYMxktoJffu6J6hrXYQlMHGlDMiE9dAqZCsvKf+bMCU9HWs7/YDqkvwtt1ItuAmhy
- pH45scWY2ShxQjfNblgIhqu7AYpKCcV5oLvqVy6l+5X3yQOn71S/AhWw6tYg7RreWcnGIUCVJ+
- adkXohw8wYbyKt099TehVmczFeo4kHoUgiE+iDwuJ/B5eZdco0EOePnLg1UldhAvogR3PkaRoL
- vjiA+ghhC/SpOHyF/hog+i5kQL0rDpydYLw6lXssg8UHTvu2fc51gzC0FsA7r0QG7/Z5Sr+H6s
- ZmQ=
+ 16 Sep 2021 14:26:44 -0700
+IronPort-SDR: OH2D/+k+405UWb17ubhwMrBXHQp10qDxqywufjKP5sTf8XsAJ0LpsfqNWtrhb21oJnzAholea+
+ ArDEhN8ggK/RK0fd5gkijHv5wx2yyOMWw67TuTnvhxK/UE98L7RBwSWz5ea5yXgovMKOGaGbvB
+ 9uVO7rVlyuIWuIPEhOm2Iu4Jvzo2LH+Ci1xRDke1zXMqDI0tdpTDzWLJXy2ZgtoCBV/VK+nAra
+ 42WUz+Ix/mFFZHmjANTxQXPMxwlWE4nY9Nz43jUeMUWfgMDJXg5JF4Bi4LBX0zfmJg/1IQqYKZ
+ bSA=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2021 14:50:19 -0700
+ 16 Sep 2021 14:50:24 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4H9W3H08jDz1Rws7
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 14:50:19 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4H9W3M6D81z1RwsC
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 14:50:23 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1631829018; x=1634421019; bh=gTgrezxrY8pu1Le1R0
- UTY4bW15/1om0/bxby21zwLDA=; b=YxAfl/0v9BML+F/4+6z1nsx87uScJyxudq
- 2N+1K6rU4CrDfVCpH9iOYxbEbjLuL/S/Li8BeJRlQFfKNozJIXHiXdOtHYUa3KVa
- 4L4YEt/UgmPRn+49gwmSxsSp60xwE0hGH3lRX0whpH+GpWPF+4KOraYW1LxUcO3/
- 2Aau4VEdU5lpIBAyxSg0oKLEK7TCc5M5wj9JUMjHyC4hh72GREQfHfTcpAgiaDqf
- 8M0NiXUltvgsG/KFMmnpSKyw6Seq376ixwP0oOTnAR8SnJpzoVVQjsznLI7Q0rHw
- XkiCyixyUN3VS3ErqExXpGUDXUnzmPFdpWsrK4pANO8dF4BirrZA==
+ :from; s=dkim; t=1631829023; x=1634421024; bh=d+7i1/ikkPN4/VNr77
+ qOp15/AgdcbLQRSk33SZZi9l4=; b=Togd02xpVSlsy4Gg7xk0zIaiQhRmw2nhgj
+ 6ctV8LyvwOnY1C+H8NAM0SbkFlvgTvSJCt8dNnyTT9Czl3fZ1p/Yh9rs/lekJnKn
+ 4OOrlfJQzc7fKJTw5I4uKIBTck6fdco+Ow87LptC/qVQc4AVSDeiZrQmowK7iP3W
+ gYzdivoI5IrNM8QyTHVYI5tCAxjps0k8AxFQgIWwe6UFqh75BgUDJDd4miG/off5
+ WjGc0bS2ATDiDMGHcxHApOnt/7DT21BX6KR6YmPlNE+K/c7fHvbgi0XUfUZQZNEL
+ MXXOZP9tqFICI+Ti6Pl3aaliZxAdXDBg0j7vInKXMtY2RhV/Xdyw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 8M5YqjO89oqI for <qemu-devel@nongnu.org>;
- Thu, 16 Sep 2021 14:50:18 -0700 (PDT)
+ port 10026) with ESMTP id E8vovPfF00fG for <qemu-devel@nongnu.org>;
+ Thu, 16 Sep 2021 14:50:23 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.23])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4H9W3B2sjQz1Rws4;
- Thu, 16 Sep 2021 14:50:13 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4H9W3H1ngwz1Rws4;
+ Thu, 16 Sep 2021 14:50:18 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Cc: alistair23@gmail.com, Anup Patel <anup.patel@wdc.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
-Subject: [PULL 13/21] hw/riscv: virt: Add optional ACLINT support to virt
- machine
-Date: Fri, 17 Sep 2021 07:48:56 +1000
-Message-Id: <20210916214904.734206-14-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
+ Max Hsu <max.hsu@sifive.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 14/21] hw/dma: sifive_pdma: reset Next* registers when
+ Control.claim is set
+Date: Fri, 17 Sep 2021 07:48:57 +1000
+Message-Id: <20210916214904.734206-15-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210916214904.734206-1-alistair.francis@opensource.wdc.com>
 References: <20210916214904.734206-1-alistair.francis@opensource.wdc.com>
@@ -117,243 +118,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anup Patel <anup.patel@wdc.com>
+From: Frank Chang <frank.chang@sifive.com>
 
-We extend virt machine to emulate ACLINT devices only when "aclint=3Don"
-parameter is passed along with machine name in QEMU command-line.
+Setting Control.claim clears all of the chanel's Next registers.
+This is effective only when Control.claim is set from 0 to 1.
 
-Signed-off-by: Anup Patel <anup.patel@wdc.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Tested-by: Max Hsu <max.hsu@sifive.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: 20210831110603.338681-5-anup.patel@wdc.com
+Tested-by: Bin Meng <bmeng.cn@gmail.com>
+Message-id: 20210912130553.179501-2-frank.chang@sifive.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- docs/system/riscv/virt.rst |  10 ++++
- include/hw/riscv/virt.h    |   2 +
- hw/riscv/virt.c            | 113 ++++++++++++++++++++++++++++++++++++-
- 3 files changed, 124 insertions(+), 1 deletion(-)
+ hw/dma/sifive_pdma.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/docs/system/riscv/virt.rst b/docs/system/riscv/virt.rst
-index 321d77e07d..fa016584bf 100644
---- a/docs/system/riscv/virt.rst
-+++ b/docs/system/riscv/virt.rst
-@@ -53,6 +53,16 @@ with the default OpenSBI firmware image as the -bios. =
-It also supports
- the recommended RISC-V bootflow: U-Boot SPL (M-mode) loads OpenSBI fw_dy=
-namic
- firmware and U-Boot proper (S-mode), using the standard -bios functional=
-ity.
+diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
+index 9b2ac2017d..d92e27dfdc 100644
+--- a/hw/dma/sifive_pdma.c
++++ b/hw/dma/sifive_pdma.c
+@@ -54,6 +54,13 @@
+ #define DMA_EXEC_DST        0x110
+ #define DMA_EXEC_SRC        0x118
 =20
-+Machine-specific options
-+------------------------
++/*
++ * FU540/FU740 docs are incorrect with NextConfig.wsize/rsize reset valu=
+es.
++ * The reset values tested on Unleashed/Unmatched boards are 6 instead o=
+f 0.
++ */
++#define CONFIG_WRSZ_DEFAULT 6
++#define CONFIG_RDSZ_DEFAULT 6
 +
-+The following machine-specific options are supported:
-+
-+- aclint=3D[on|off]
-+
-+  When this option is "on", ACLINT devices will be emulated instead of
-+  SiFive CLINT. When not specified, this option is assumed to be "off".
-+
- Running Linux kernel
- --------------------
+ enum dma_chan_state {
+     DMA_CHAN_STATE_IDLE,
+     DMA_CHAN_STATE_STARTED,
+@@ -221,6 +228,7 @@ static void sifive_pdma_write(void *opaque, hwaddr of=
+fset,
+ {
+     SiFivePDMAState *s =3D opaque;
+     int ch =3D SIFIVE_PDMA_CHAN_NO(offset);
++    bool claimed;
 =20
-diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index 349fee1f89..d9105c1886 100644
---- a/include/hw/riscv/virt.h
-+++ b/include/hw/riscv/virt.h
-@@ -43,6 +43,7 @@ struct RISCVVirtState {
-     FWCfgState *fw_cfg;
-=20
-     int fdt_size;
-+    bool have_aclint;
- };
-=20
- enum {
-@@ -51,6 +52,7 @@ enum {
-     VIRT_TEST,
-     VIRT_RTC,
-     VIRT_CLINT,
-+    VIRT_ACLINT_SSWI,
-     VIRT_PLIC,
-     VIRT_UART0,
-     VIRT_VIRTIO,
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 7f716901ef..ec0cb69b8c 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -48,6 +48,7 @@ static const MemMapEntry virt_memmap[] =3D {
-     [VIRT_TEST] =3D        {   0x100000,        0x1000 },
-     [VIRT_RTC] =3D         {   0x101000,        0x1000 },
-     [VIRT_CLINT] =3D       {  0x2000000,       0x10000 },
-+    [VIRT_ACLINT_SSWI] =3D {  0x2F00000,        0x4000 },
-     [VIRT_PCIE_PIO] =3D    {  0x3000000,       0x10000 },
-     [VIRT_PLIC] =3D        {  0xc000000, VIRT_PLIC_SIZE(VIRT_CPUS_MAX * =
-2) },
-     [VIRT_UART0] =3D       { 0x10000000,         0x100 },
-@@ -281,6 +282,82 @@ static void create_fdt_socket_clint(RISCVVirtState *=
-s,
-     g_free(clint_cells);
- }
-=20
-+static void create_fdt_socket_aclint(RISCVVirtState *s,
-+                                     const MemMapEntry *memmap, int sock=
-et,
-+                                     uint32_t *intc_phandles)
-+{
-+    int cpu;
-+    char *name;
-+    unsigned long addr;
-+    uint32_t aclint_cells_size;
-+    uint32_t *aclint_mswi_cells;
-+    uint32_t *aclint_sswi_cells;
-+    uint32_t *aclint_mtimer_cells;
-+    MachineState *mc =3D MACHINE(s);
+     if (ch >=3D SIFIVE_PDMA_CHANS) {
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid channel no %d\n",
+@@ -231,6 +239,17 @@ static void sifive_pdma_write(void *opaque, hwaddr o=
+ffset,
+     offset &=3D 0xfff;
+     switch (offset) {
+     case DMA_CONTROL:
++        claimed =3D !!s->chan[ch].control & CONTROL_CLAIM;
 +
-+    aclint_mswi_cells =3D g_new0(uint32_t, s->soc[socket].num_harts * 2)=
-;
-+    aclint_mtimer_cells =3D g_new0(uint32_t, s->soc[socket].num_harts * =
-2);
-+    aclint_sswi_cells =3D g_new0(uint32_t, s->soc[socket].num_harts * 2)=
-;
-+
-+    for (cpu =3D 0; cpu < s->soc[socket].num_harts; cpu++) {
-+        aclint_mswi_cells[cpu * 2 + 0] =3D cpu_to_be32(intc_phandles[cpu=
-]);
-+        aclint_mswi_cells[cpu * 2 + 1] =3D cpu_to_be32(IRQ_M_SOFT);
-+        aclint_mtimer_cells[cpu * 2 + 0] =3D cpu_to_be32(intc_phandles[c=
-pu]);
-+        aclint_mtimer_cells[cpu * 2 + 1] =3D cpu_to_be32(IRQ_M_TIMER);
-+        aclint_sswi_cells[cpu * 2 + 0] =3D cpu_to_be32(intc_phandles[cpu=
-]);
-+        aclint_sswi_cells[cpu * 2 + 1] =3D cpu_to_be32(IRQ_S_SOFT);
-+    }
-+    aclint_cells_size =3D s->soc[socket].num_harts * sizeof(uint32_t) * =
-2;
-+
-+    addr =3D memmap[VIRT_CLINT].base + (memmap[VIRT_CLINT].size * socket=
-);
-+    name =3D g_strdup_printf("/soc/mswi@%lx", addr);
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "riscv,aclint-m=
-swi");
-+    qemu_fdt_setprop_cells(mc->fdt, name, "reg",
-+        0x0, addr, 0x0, RISCV_ACLINT_SWI_SIZE);
-+    qemu_fdt_setprop(mc->fdt, name, "interrupts-extended",
-+        aclint_mswi_cells, aclint_cells_size);
-+    qemu_fdt_setprop(mc->fdt, name, "interrupt-controller", NULL, 0);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "#interrupt-cells", 0);
-+    riscv_socket_fdt_write_id(mc, mc->fdt, name, socket);
-+    g_free(name);
-+
-+    addr =3D memmap[VIRT_CLINT].base + RISCV_ACLINT_SWI_SIZE +
-+        (memmap[VIRT_CLINT].size * socket);
-+    name =3D g_strdup_printf("/soc/mtimer@%lx", addr);
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    qemu_fdt_setprop_string(mc->fdt, name, "compatible",
-+        "riscv,aclint-mtimer");
-+    qemu_fdt_setprop_cells(mc->fdt, name, "reg",
-+        0x0, addr + RISCV_ACLINT_DEFAULT_MTIME,
-+        0x0, memmap[VIRT_CLINT].size - RISCV_ACLINT_SWI_SIZE -
-+             RISCV_ACLINT_DEFAULT_MTIME,
-+        0x0, addr + RISCV_ACLINT_DEFAULT_MTIMECMP,
-+        0x0, RISCV_ACLINT_DEFAULT_MTIME);
-+    qemu_fdt_setprop(mc->fdt, name, "interrupts-extended",
-+        aclint_mtimer_cells, aclint_cells_size);
-+    riscv_socket_fdt_write_id(mc, mc->fdt, name, socket);
-+    g_free(name);
-+
-+    addr =3D memmap[VIRT_ACLINT_SSWI].base +
-+        (memmap[VIRT_ACLINT_SSWI].size * socket);
-+    name =3D g_strdup_printf("/soc/sswi@%lx", addr);
-+    qemu_fdt_add_subnode(mc->fdt, name);
-+    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "riscv,aclint-s=
-swi");
-+    qemu_fdt_setprop_cells(mc->fdt, name, "reg",
-+        0x0, addr, 0x0, memmap[VIRT_ACLINT_SSWI].size);
-+    qemu_fdt_setprop(mc->fdt, name, "interrupts-extended",
-+        aclint_sswi_cells, aclint_cells_size);
-+    qemu_fdt_setprop(mc->fdt, name, "interrupt-controller", NULL, 0);
-+    qemu_fdt_setprop_cell(mc->fdt, name, "#interrupt-cells", 0);
-+    riscv_socket_fdt_write_id(mc, mc->fdt, name, socket);
-+    g_free(name);
-+
-+    g_free(aclint_mswi_cells);
-+    g_free(aclint_mtimer_cells);
-+    g_free(aclint_sswi_cells);
-+}
-+
- static void create_fdt_socket_plic(RISCVVirtState *s,
-                                    const MemMapEntry *memmap, int socket=
-,
-                                    uint32_t *phandle, uint32_t *intc_pha=
-ndles,
-@@ -359,7 +436,11 @@ static void create_fdt_sockets(RISCVVirtState *s, co=
-nst MemMapEntry *memmap,
-=20
-         create_fdt_socket_memory(s, memmap, socket);
-=20
--        create_fdt_socket_clint(s, memmap, socket, intc_phandles);
-+        if (s->have_aclint) {
-+            create_fdt_socket_aclint(s, memmap, socket, intc_phandles);
-+        } else {
-+            create_fdt_socket_clint(s, memmap, socket, intc_phandles);
-+        }
-=20
-         create_fdt_socket_plic(s, memmap, socket, phandle,
-             intc_phandles, xplic_phandles);
-@@ -750,6 +831,14 @@ static void virt_machine_init(MachineState *machine)
-             RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
-             RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, true);
-=20
-+        /* Per-socket ACLINT SSWI */
-+        if (s->have_aclint) {
-+            riscv_aclint_swi_create(
-+                memmap[VIRT_ACLINT_SSWI].base +
-+                    i * memmap[VIRT_ACLINT_SSWI].size,
-+                base_hartid, hart_count, true);
++        if (!claimed && (value & CONTROL_CLAIM)) {
++            /* reset Next* registers */
++            s->chan[ch].next_config =3D (CONFIG_RDSZ_DEFAULT << CONFIG_R=
+DSZ_SHIFT) |
++                                      (CONFIG_WRSZ_DEFAULT << CONFIG_WRS=
+Z_SHIFT);
++            s->chan[ch].next_bytes =3D 0;
++            s->chan[ch].next_dst =3D 0;
++            s->chan[ch].next_src =3D 0;
 +        }
 +
-         /* Per-socket PLIC hart topology configuration string */
-         plic_hart_config =3D plic_hart_config_string(hart_count);
+         s->chan[ch].control =3D value;
 =20
-@@ -914,6 +1003,22 @@ static void virt_machine_instance_init(Object *obj)
- {
- }
-=20
-+static bool virt_get_aclint(Object *obj, Error **errp)
-+{
-+    MachineState *ms =3D MACHINE(obj);
-+    RISCVVirtState *s =3D RISCV_VIRT_MACHINE(ms);
-+
-+    return s->have_aclint;
-+}
-+
-+static void virt_set_aclint(Object *obj, bool value, Error **errp)
-+{
-+    MachineState *ms =3D MACHINE(obj);
-+    RISCVVirtState *s =3D RISCV_VIRT_MACHINE(ms);
-+
-+    s->have_aclint =3D value;
-+}
-+
- static void virt_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc =3D MACHINE_CLASS(oc);
-@@ -929,6 +1034,12 @@ static void virt_machine_class_init(ObjectClass *oc=
-, void *data)
-     mc->numa_mem_supported =3D true;
-=20
-     machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
-+
-+    object_class_property_add_bool(oc, "aclint", virt_get_aclint,
-+                                   virt_set_aclint);
-+    object_class_property_set_description(oc, "aclint",
-+                                          "Set on/off to enable/disable =
-"
-+                                          "emulating ACLINT devices");
- }
-=20
- static const TypeInfo virt_machine_typeinfo =3D {
+         if (value & CONTROL_RUN) {
 --=20
 2.31.1
 
