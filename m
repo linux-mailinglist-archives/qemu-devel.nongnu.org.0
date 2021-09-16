@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 388F440D240
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 06:16:16 +0200 (CEST)
-Received: from localhost ([::1]:49804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6374540D24E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 06:20:35 +0200 (CEST)
+Received: from localhost ([::1]:57300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQiop-0005aU-9n
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 00:16:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35170)
+	id 1mQit0-0002I2-Ey
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 00:20:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQijG-0007Y0-Lk
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:10:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41747)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQijT-0007sL-Rl
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:10:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQijF-0000lx-0F
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:10:30 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQijM-0000sO-H6
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:10:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631765428;
+ s=mimecast20190719; t=1631765436;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EXSMN2cISA4KkMPi9qx2K1SzmOnDUsccxCFDZczj9FU=;
- b=SHmdimpeVMwiB3nU0wI9El3R7/qYWwmuTDuYfUzCwbuvJnFU0NxmfmXzxCt+XhNQqZ0LmR
- peZk3pv/VXFthvMs4gmZJFoVRMwl67rk0XKsgTQh2ecSfwzFaa6RHH5v4US62GYuwa26pS
- Cbox0OleDKaZ6p/ShfhLtJxcz9JapK8=
+ bh=T206XK0zbs2PAHZtEWEeelvImDHyMsx6iLFvbZRT79Y=;
+ b=C8w0HKr/dBszIj5ohWDQtVqtK7ESVagViLVXiaTnn+rLw3JzjARVv90+xXjwmQExBCTUcb
+ 7p1MuNn/VxsqU3O4lrNkpCAtLSAkY2D+DAY7hT8Ffd+7Y7tzrp8iVNxO4ElSaV4JkvLOFY
+ 62NvFrrEoU8pMHig8yBRfNRp8B6EHbY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-292-EzWfdtZEOUWlKr3F3evKwg-1; Thu, 16 Sep 2021 00:10:26 -0400
-X-MC-Unique: EzWfdtZEOUWlKr3F3evKwg-1
+ us-mta-5-f5g7-JEyOtGdO7t7Xt3B2Q-1; Thu, 16 Sep 2021 00:10:28 -0400
+X-MC-Unique: f5g7-JEyOtGdO7t7Xt3B2Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79C09362F8;
- Thu, 16 Sep 2021 04:10:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58859801B3D;
+ Thu, 16 Sep 2021 04:10:27 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 07E511972E;
- Thu, 16 Sep 2021 04:10:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF0E819C79;
+ Thu, 16 Sep 2021 04:10:25 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/16] iotests/297: return error code from run_linters()
-Date: Thu, 16 Sep 2021 00:09:50 -0400
-Message-Id: <20210916040955.628560-12-jsnow@redhat.com>
+Subject: [PATCH v3 12/16] iotests/297: split linters.py off from 297
+Date: Thu, 16 Sep 2021 00:09:51 -0400
+Message-Id: <20210916040955.628560-13-jsnow@redhat.com>
 In-Reply-To: <20210916040955.628560-1-jsnow@redhat.com>
 References: <20210916040955.628560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,15 +55,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,63 +84,280 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This turns run_linters() into a bit of a hybrid test; returning non-zero
-on failed execution while also printing diffable information. This is
-done for the benefit of the avocado simple test runner, which will soon
-be attempting to execute this test from a different environment.
+Split the linter execution itself out from 297, leaving just environment
+setup in 297. This is done so that non-iotest code can invoke the
+linters without needing to worry about imports of unpackaged iotest
+code.
 
-(Note: universal_newlines is added to the pylint invocation for type
-consistency with the mypy run -- it's not strictly necessary, but it
-avoids some typing errors caused by our re-use of the 'p' variable.)
+Eventually, it should be possible to replace linters.py with mypy.ini
+and pylintrc files that instruct these tools how to run properly in this
+directory, but ... not yet, and not in this series.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/297 | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/297        | 105 ++----------------------------
+ tests/qemu-iotests/linters.py | 117 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 121 insertions(+), 101 deletions(-)
+ create mode 100755 tests/qemu-iotests/linters.py
 
 diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index e05c99972e..f9ddfb53a0 100755
+index f9ddfb53a0..3d29af5b78 100755
 --- a/tests/qemu-iotests/297
 +++ b/tests/qemu-iotests/297
-@@ -68,19 +68,22 @@ def run_linters(
-     files: List[str],
-     directory: str = '.',
-     env: Optional[Mapping[str, str]] = None,
--) -> None:
-+) -> int:
-+    ret = 0
+@@ -17,110 +17,13 @@
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
-     print('=== pylint ===')
-     sys.stdout.flush()
+ import os
+-import re
+ import shutil
+-import subprocess
+-import sys
+-from typing import List, Mapping, Optional
  
-     # Todo notes are fine, but fixme's or xxx's should probably just be
-     # fixed (in tests, at least)
--    subprocess.run(
-+    p = subprocess.run(
-         ('python3', '-m', 'pylint', '--score=n', '--notes=FIXME,XXX', *files),
-         cwd=directory,
-         env=env,
-         check=False,
-+        universal_newlines=True,
-     )
-+    ret += p.returncode
+ import iotests
++import linters
  
-     print('=== mypy ===')
-     sys.stdout.flush()
-@@ -113,9 +116,12 @@ def run_linters(
-             universal_newlines=True
-         )
  
-+        ret += p.returncode
-         if p.returncode != 0:
-             print(p.stdout)
+-# TODO: Empty this list!
+-SKIP_FILES = (
+-    '030', '040', '041', '044', '045', '055', '056', '057', '065', '093',
+-    '096', '118', '124', '132', '136', '139', '147', '148', '149',
+-    '151', '152', '155', '163', '165', '194', '196', '202',
+-    '203', '205', '206', '207', '208', '210', '211', '212', '213', '216',
+-    '218', '219', '224', '228', '234', '235', '236', '237', '238',
+-    '240', '242', '245', '246', '248', '255', '256', '257', '258', '260',
+-    '262', '264', '266', '274', '277', '280', '281', '295', '296', '298',
+-    '299', '302', '303', '304', '307',
+-    'nbd-fault-injector.py', 'qcow2.py', 'qcow2_format.py', 'qed.py'
+-)
+-
+-
+-def is_python_file(filename: str, directory: str = '.') -> bool:
+-    filepath = os.path.join(directory, filename)
+-
+-    if not os.path.isfile(filepath):
+-        return False
+-
+-    if filename.endswith('.py'):
+-        return True
+-
+-    with open(filepath, encoding='utf-8') as f:
+-        try:
+-            first_line = f.readline()
+-            return re.match('^#!.*python', first_line) is not None
+-        except UnicodeDecodeError:  # Ignore binary files
+-            return False
+-
+-
+-def get_test_files(directory: str = '.') -> List[str]:
+-    named_test_dir = os.path.join(directory, 'tests')
+-    named_tests = [f"tests/{entry}" for entry in os.listdir(named_test_dir)]
+-    check_tests = set(os.listdir(directory) + named_tests) - set(SKIP_FILES)
+-    return list(filter(lambda f: is_python_file(f, directory), check_tests))
+-
+-
+-def run_linters(
+-    files: List[str],
+-    directory: str = '.',
+-    env: Optional[Mapping[str, str]] = None,
+-) -> int:
+-    ret = 0
+-
+-    print('=== pylint ===')
+-    sys.stdout.flush()
+-
+-    # Todo notes are fine, but fixme's or xxx's should probably just be
+-    # fixed (in tests, at least)
+-    p = subprocess.run(
+-        ('python3', '-m', 'pylint', '--score=n', '--notes=FIXME,XXX', *files),
+-        cwd=directory,
+-        env=env,
+-        check=False,
+-        universal_newlines=True,
+-    )
+-    ret += p.returncode
+-
+-    print('=== mypy ===')
+-    sys.stdout.flush()
+-
+-    # We have to call mypy separately for each file.  Otherwise, it
+-    # will interpret all given files as belonging together (i.e., they
+-    # may not both define the same classes, etc.; most notably, they
+-    # must not both define the __main__ module).
+-    for filename in files:
+-        p = subprocess.run(
+-            (
+-                'python3', '-m', 'mypy',
+-                '--warn-unused-configs',
+-                '--disallow-subclassing-any',
+-                '--disallow-any-generics',
+-                '--disallow-incomplete-defs',
+-                '--disallow-untyped-decorators',
+-                '--no-implicit-optional',
+-                '--warn-redundant-casts',
+-                '--warn-unused-ignores',
+-                '--no-implicit-reexport',
+-                '--namespace-packages',
+-                filename,
+-            ),
+-            cwd=directory,
+-            env=env,
+-            check=False,
+-            stdout=subprocess.PIPE,
+-            stderr=subprocess.STDOUT,
+-            universal_newlines=True
+-        )
+-
+-        ret += p.returncode
+-        if p.returncode != 0:
+-            print(p.stdout)
+-
+-    return ret
++# Looking for the list of excluded tests? See linters.py !
  
-+    return ret
-+
  
  def main() -> None:
-     for linter in ('pylint-3', 'mypy'):
+@@ -128,7 +31,7 @@ def main() -> None:
+         if shutil.which(linter) is None:
+             iotests.notrun(f'{linter} not found')
+ 
+-    files = get_test_files()
++    files = linters.get_test_files()
+ 
+     iotests.logger.debug('Files to be checked:')
+     iotests.logger.debug(', '.join(sorted(files)))
+@@ -143,7 +46,7 @@ def main() -> None:
+ 
+     env['MYPYPATH'] = env['PYTHONPATH']
+ 
+-    run_linters(files, env=env)
++    linters.run_linters(files, env=env)
+ 
+ 
+ iotests.script_main(main)
+diff --git a/tests/qemu-iotests/linters.py b/tests/qemu-iotests/linters.py
+new file mode 100755
+index 0000000000..e263b7cbee
+--- /dev/null
++++ b/tests/qemu-iotests/linters.py
+@@ -0,0 +1,117 @@
++# Copyright (C) 2020 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++
++import os
++import re
++import subprocess
++import sys
++from typing import List, Mapping, Optional
++
++
++# TODO: Empty this list!
++SKIP_FILES = (
++    '030', '040', '041', '044', '045', '055', '056', '057', '065', '093',
++    '096', '118', '124', '132', '136', '139', '147', '148', '149',
++    '151', '152', '155', '163', '165', '194', '196', '202',
++    '203', '205', '206', '207', '208', '210', '211', '212', '213', '216',
++    '218', '219', '224', '228', '234', '235', '236', '237', '238',
++    '240', '242', '245', '246', '248', '255', '256', '257', '258', '260',
++    '262', '264', '266', '274', '277', '280', '281', '295', '296', '298',
++    '299', '302', '303', '304', '307',
++    'nbd-fault-injector.py', 'qcow2.py', 'qcow2_format.py', 'qed.py'
++)
++
++
++def is_python_file(filename: str, directory: str = '.') -> bool:
++    filepath = os.path.join(directory, filename)
++
++    if not os.path.isfile(filepath):
++        return False
++
++    if filename.endswith('.py'):
++        return True
++
++    with open(filepath, encoding='utf-8') as f:
++        try:
++            first_line = f.readline()
++            return re.match('^#!.*python', first_line) is not None
++        except UnicodeDecodeError:  # Ignore binary files
++            return False
++
++
++def get_test_files(directory: str = '.') -> List[str]:
++    named_test_dir = os.path.join(directory, 'tests')
++    named_tests = [f"tests/{entry}" for entry in os.listdir(named_test_dir)]
++    check_tests = set(os.listdir(directory) + named_tests) - set(SKIP_FILES)
++    return list(filter(lambda f: is_python_file(f, directory), check_tests))
++
++
++def run_linters(
++    files: List[str],
++    directory: str = '.',
++    env: Optional[Mapping[str, str]] = None,
++) -> int:
++    ret = 0
++
++    print('=== pylint ===')
++    sys.stdout.flush()
++
++    # Todo notes are fine, but fixme's or xxx's should probably just be
++    # fixed (in tests, at least)
++    p = subprocess.run(
++        ('python3', '-m', 'pylint', '--score=n', '--notes=FIXME,XXX', *files),
++        cwd=directory,
++        env=env,
++        check=False,
++        universal_newlines=True,
++    )
++    ret += p.returncode
++
++    print('=== mypy ===')
++    sys.stdout.flush()
++
++    # We have to call mypy separately for each file.  Otherwise, it
++    # will interpret all given files as belonging together (i.e., they
++    # may not both define the same classes, etc.; most notably, they
++    # must not both define the __main__ module).
++    for filename in files:
++        p = subprocess.run(
++            (
++                'python3', '-m', 'mypy',
++                '--warn-unused-configs',
++                '--disallow-subclassing-any',
++                '--disallow-any-generics',
++                '--disallow-incomplete-defs',
++                '--disallow-untyped-decorators',
++                '--no-implicit-optional',
++                '--warn-redundant-casts',
++                '--warn-unused-ignores',
++                '--no-implicit-reexport',
++                '--namespace-packages',
++                filename,
++            ),
++            cwd=directory,
++            env=env,
++            check=False,
++            stdout=subprocess.PIPE,
++            stderr=subprocess.STDOUT,
++            universal_newlines=True
++        )
++
++        ret += p.returncode
++        if p.returncode != 0:
++            print(p.stdout)
++
++    return ret
 -- 
 2.31.1
 
