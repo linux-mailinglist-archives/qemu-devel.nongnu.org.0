@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6302740D28F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 06:31:48 +0200 (CEST)
-Received: from localhost ([::1]:50612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D3C40D28C
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 06:28:46 +0200 (CEST)
+Received: from localhost ([::1]:45008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQj3r-0008TX-E4
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 00:31:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35346)
+	id 1mQj0v-0004k6-J8
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 00:28:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQijR-0007q7-J6
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:10:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29090)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQijO-0007pa-Dl
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:10:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQijP-0000tq-B1
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:10:41 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQijM-0000sH-Jp
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:10:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631765437;
+ s=mimecast20190719; t=1631765435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YQD+xvNddz3IgxRD7bdkK21oFfXzQ6rrTLfD3Du0hJg=;
- b=Su8fbtlKWgA87un4OHz9cdPcwAj9JUC/FdPu+KK9Pw28Q0qdQpO8Mg5Ptz19BS/p3niSS/
- EYD7cIloVZpGYT7hatbvxMTktPsioAExtkoToYMjIAnQcUBDuj43zcb/w3ztaGeCkmcaT8
- trQe87XQzZoKFIF8zrVFXRLJBJrLRYk=
+ bh=XLSUoDkaQux3bt2HK7o/hFB8uu+8oqTXxlx/NpP+lUk=;
+ b=FUrvXtAh43sYWGq63uzHx02EhiP2TkICDfVEgy7Ci8XOIBNQuOkdeGTa1snwNKQVPjNpw/
+ 1OUyterIKZLoEOW7XhgFbU9MYOLwcUIcLA0rNgktFEVGthmX77i8YxA7lpVSLvdigICtNe
+ 39TPF5stLVhpkGX/r4iTP2aGqujSmXM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-qciGnQlpO1uo-la-Jh5Ftg-1; Thu, 16 Sep 2021 00:10:33 -0400
-X-MC-Unique: qciGnQlpO1uo-la-Jh5Ftg-1
+ us-mta-412-6002h18RMF-O5ojMXfbqcg-1; Thu, 16 Sep 2021 00:10:35 -0400
+X-MC-Unique: 6002h18RMF-O5ojMXfbqcg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0ADD41084689;
- Thu, 16 Sep 2021 04:10:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD1B5824FAE;
+ Thu, 16 Sep 2021 04:10:33 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 843AD19C79;
- Thu, 16 Sep 2021 04:10:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 516E719C79;
+ Thu, 16 Sep 2021 04:10:32 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 14/16] iotests/linters: Add workaround for mypy bug #9852
-Date: Thu, 16 Sep 2021 00:09:53 -0400
-Message-Id: <20210916040955.628560-15-jsnow@redhat.com>
+Subject: [PATCH v3 15/16] python: Add iotest linters to test suite
+Date: Thu, 16 Sep 2021 00:09:54 -0400
+Message-Id: <20210916040955.628560-16-jsnow@redhat.com>
 In-Reply-To: <20210916040955.628560-1-jsnow@redhat.com>
 References: <20210916040955.628560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.39, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,44 +84,27 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This one is insidious: if you use the invocation
-"from {namespace} import {subpackage}" as mirror-top-perms does,
-mypy will fail on every-other invocation *if* the package being
-imported is a package.
-
-Now, I could just edit mirror-top-perms to avoid this invocation, but
-since I tripped on a landmine, I might as well head it off at the pass
-and make sure nobody else trips on the same landmine.
-
-It seems to have something to do with the order in which files are
-checked as well, meaning the random order in which set(os.listdir())
-produces the list of files to test will cause problems intermittently.
-
-mypy >= 0.920 isn't released yet, so add this workaround for now.
-
-See also:
- https://github.com/python/mypy/issues/11010
- https://github.com/python/mypy/issues/9852
+As a convenience, since iotests is an extremely prominent user of the
+qemu.qmp and qemu.machine packages and already implements a linting
+regime, run those tests as well so that it's very hard to miss
+regressions caused by changes to the python library.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/linters.py | 3 +++
- 1 file changed, 3 insertions(+)
+ python/tests/iotests.sh | 4 ++++
+ 1 file changed, 4 insertions(+)
+ create mode 100755 python/tests/iotests.sh
 
-diff --git a/tests/qemu-iotests/linters.py b/tests/qemu-iotests/linters.py
-index 4df062a973..9c97324e87 100755
---- a/tests/qemu-iotests/linters.py
-+++ b/tests/qemu-iotests/linters.py
-@@ -100,6 +100,9 @@ def run_linters(
-                 '--warn-unused-ignores',
-                 '--no-implicit-reexport',
-                 '--namespace-packages',
-+                # Until we can use mypy >= 0.920, see
-+                # https://github.com/python/mypy/issues/9852
-+                '--no-incremental',
-                 filename,
-             ),
-             cwd=directory,
+diff --git a/python/tests/iotests.sh b/python/tests/iotests.sh
+new file mode 100755
+index 0000000000..70324540cf
+--- /dev/null
++++ b/python/tests/iotests.sh
+@@ -0,0 +1,4 @@
++#!/bin/sh -e
++
++cd ../tests/qemu-iotests/
++python3 -m linters
 -- 
 2.31.1
 
