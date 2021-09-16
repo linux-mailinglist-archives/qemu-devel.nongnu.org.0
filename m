@@ -2,73 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ABE140DF8F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:10:42 +0200 (CEST)
-Received: from localhost ([::1]:46136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34BB340E020
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:18:55 +0200 (CEST)
+Received: from localhost ([::1]:34600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQtyD-0000nE-FW
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:10:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41430)
+	id 1mQu6A-0004Iz-1s
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:18:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQtM5-00029T-UH
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:31:19 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:38894)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQtLj-0002gF-G6
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:31:14 -0400
-Received: by mail-pg1-x529.google.com with SMTP id w8so6486608pgf.5
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 08:30:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zxXZyIG+Pw01TAIshh/v24ac5SJa+rYMBmTa7I6pYe8=;
- b=i3qy1MUF7NrohW/phU3qwMsmnhqBGpAQOZditdLxgWX/87KuQvGf4+gkmcaRKOI/Tf
- rlLPYQIGFNDGtqePfAomKnMQxIPtjdQXolV8UHXhrPDGkIOa1kbKyEVR59zATPHuxwFt
- bolX28j/6PQkvolQ6zYB/m4Ltx4Lf7/uiR3dTYMk6J1SrWs3+iNDr6zHCNDZVsJqGlNU
- zJKmXsIJQuDZNZw09ZfDySV/R7T7yvcdrvrKO0a70IgH+cZkR2bxs8EdW9M3CLsZRmoC
- JWAyJJ4Qis+wNy8sc76BGbY8mYU+MUDHMcytssbRhZhAVXNji/sfXkSHf5SomUPqiTQ5
- madg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zxXZyIG+Pw01TAIshh/v24ac5SJa+rYMBmTa7I6pYe8=;
- b=8ERAok5lL4nR9t7ZF/5sXH3+5I63teLvMqfkYEZuyFCjFLi1J9Iy1ybxDwbVE1N/uq
- RZuq49tSl7Mc2cyBBO8S6QklgXbT3Uqc1VQ3+mPqrj/EQjtLmo1lYz0IGtbvfsOXIkvg
- TueiNZufT382rS/ngaAoArrr5gPDs33u2QX0Jwtmon6QhQ7TsWC0jZFaUzWVUn8L41+2
- 3L886sYlZdOU76834puCo0yJkllqQGG/HZHpgra27BpP89VHrl2hQ1prS+RA3dig5OmL
- s1WnFxOYpgXr3pjbr6x2H2dBGFe5j3IQsy/EsikWZDZQA+ZnynjO6E5uI+zSmFGk1k9o
- /s5w==
-X-Gm-Message-State: AOAM531wH6NkUtwx+J0EURGEcWfBQODXho8/byS/R0NQC4WZHFjO/FHK
- pgu5Cmqq0bCDNUUBVNmB7PWawi6ER9ehcg==
-X-Google-Smtp-Source: ABdhPJyonU3OOXhpNRCPrjHbrneBCRUB91ytAALUHljZF4sDGUR3wagTwvK99CBHVp/K7v8dJVxrVw==
-X-Received: by 2002:a63:150e:: with SMTP id v14mr5507189pgl.126.1631806250492; 
- Thu, 16 Sep 2021 08:30:50 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id b7sm3779447pgs.64.2021.09.16.08.30.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Sep 2021 08:30:50 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 35/35] tcg/mips: Drop special alignment for code_gen_buffer
-Date: Thu, 16 Sep 2021 08:30:25 -0700
-Message-Id: <20210916153025.1944763-36-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210916153025.1944763-1-richard.henderson@linaro.org>
-References: <20210916153025.1944763-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1mQtiE-0002sd-VA; Thu, 16 Sep 2021 11:54:10 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:51298 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1mQtiC-000539-1G; Thu, 16 Sep 2021 11:54:10 -0400
+Received: from localhost.localdomain
+ (dynamic-077-009-016-098.77.9.pool.telefonica.de [77.9.16.98])
+ by csgraf.de (Postfix) with ESMTPSA id D7003608061B;
+ Thu, 16 Sep 2021 17:54:04 +0200 (CEST)
+From: Alexander Graf <agraf@csgraf.de>
+To: QEMU Developers <qemu-devel@nongnu.org>
+Subject: [PATCH v12 00/10] hvf: Implement Apple Silicon Support
+Date: Thu, 16 Sep 2021 17:53:54 +0200
+Message-Id: <20210916155404.86958-1-agraf@csgraf.de>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,150 +48,243 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Peter Collingbourne <pcc@google.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Frank Yang <lfy@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/region.c | 91 ----------------------------------------------------
- 1 file changed, 91 deletions(-)
+Now that Apple Silicon is widely available, people are obviously excited
+to try and run virtualized workloads on them, such as Linux and Windows.
 
-diff --git a/tcg/region.c b/tcg/region.c
-index e64c3ea230..9cc30d4922 100644
---- a/tcg/region.c
-+++ b/tcg/region.c
-@@ -467,38 +467,6 @@ static size_t tcg_n_regions(size_t tb_size, unsigned max_cpus)
-   (DEFAULT_CODE_GEN_BUFFER_SIZE_1 < MAX_CODE_GEN_BUFFER_SIZE \
-    ? DEFAULT_CODE_GEN_BUFFER_SIZE_1 : MAX_CODE_GEN_BUFFER_SIZE)
- 
--#ifdef __mips__
--/*
-- * In order to use J and JAL within the code_gen_buffer, we require
-- * that the buffer not cross a 256MB boundary.
-- */
--static inline bool cross_256mb(void *addr, size_t size)
--{
--    return ((uintptr_t)addr ^ ((uintptr_t)addr + size)) & ~0x0ffffffful;
--}
--
--/*
-- * We weren't able to allocate a buffer without crossing that boundary,
-- * so make do with the larger portion of the buffer that doesn't cross.
-- * Returns the new base and size of the buffer in *obuf and *osize.
-- */
--static inline void split_cross_256mb(void **obuf, size_t *osize,
--                                     void *buf1, size_t size1)
--{
--    void *buf2 = (void *)(((uintptr_t)buf1 + size1) & ~0x0ffffffful);
--    size_t size2 = buf1 + size1 - buf2;
--
--    size1 = buf2 - buf1;
--    if (size1 < size2) {
--        size1 = size2;
--        buf1 = buf2;
--    }
--
--    *obuf = buf1;
--    *osize = size1;
--}
--#endif
--
- #ifdef USE_STATIC_CODE_GEN_BUFFER
- static uint8_t static_code_gen_buffer[DEFAULT_CODE_GEN_BUFFER_SIZE]
-     __attribute__((aligned(CODE_GEN_ALIGN)));
-@@ -526,12 +494,6 @@ static int alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
-         size = QEMU_ALIGN_DOWN(tb_size, qemu_real_host_page_size);
-     }
- 
--#ifdef __mips__
--    if (cross_256mb(buf, size)) {
--        split_cross_256mb(&buf, &size, buf, size);
--    }
--#endif
--
-     region.start_aligned = buf;
-     region.total_size = size;
- 
-@@ -573,39 +535,6 @@ static int alloc_code_gen_buffer_anon(size_t size, int prot,
-         return -1;
-     }
- 
--#ifdef __mips__
--    if (cross_256mb(buf, size)) {
--        /*
--         * Try again, with the original still mapped, to avoid re-acquiring
--         * the same 256mb crossing.
--         */
--        size_t size2;
--        void *buf2 = mmap(NULL, size, prot, flags, -1, 0);
--        switch ((int)(buf2 != MAP_FAILED)) {
--        case 1:
--            if (!cross_256mb(buf2, size)) {
--                /* Success!  Use the new buffer.  */
--                munmap(buf, size);
--                break;
--            }
--            /* Failure.  Work with what we had.  */
--            munmap(buf2, size);
--            /* fallthru */
--        default:
--            /* Split the original buffer.  Free the smaller half.  */
--            split_cross_256mb(&buf2, &size2, buf, size);
--            if (buf == buf2) {
--                munmap(buf + size2, size - size2);
--            } else {
--                munmap(buf, size - size2);
--            }
--            size = size2;
--            break;
--        }
--        buf = buf2;
--    }
--#endif
--
-     region.start_aligned = buf;
-     region.total_size = size;
-     return prot;
-@@ -620,35 +549,15 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
-     void *buf_rw = NULL, *buf_rx = MAP_FAILED;
-     int fd = -1;
- 
--#ifdef __mips__
--    /* Find space for the RX mapping, vs the 256MiB regions. */
--    if (alloc_code_gen_buffer_anon(size, PROT_NONE,
--                                   MAP_PRIVATE | MAP_ANONYMOUS |
--                                   MAP_NORESERVE, errp) < 0) {
--        return false;
--    }
--    /* The size of the mapping may have been adjusted. */
--    buf_rx = region.start_aligned;
--    size = region.total_size;
--#endif
--
-     buf_rw = qemu_memfd_alloc("tcg-jit", size, 0, &fd, errp);
-     if (buf_rw == NULL) {
-         goto fail;
-     }
- 
--#ifdef __mips__
--    void *tmp = mmap(buf_rx, size, PROT_READ | PROT_EXEC,
--                     MAP_SHARED | MAP_FIXED, fd, 0);
--    if (tmp != buf_rx) {
--        goto fail_rx;
--    }
--#else
-     buf_rx = mmap(NULL, size, PROT_READ | PROT_EXEC, MAP_SHARED, fd, 0);
-     if (buf_rx == MAP_FAILED) {
-         goto fail_rx;
-     }
--#endif
- 
-     close(fd);
-     region.start_aligned = buf_rw;
+This patch set implements a fully functional version to get the ball
+going on that. With this applied, I can successfully run both Linux and
+Windows as guests. I am not aware of any limitations specific to
+Hypervisor.framework apart from:
+
+  - gdbstub debugging (breakpoints)
+  - missing GICv3 support
+  - Windows will not work due to UDEF SMC implementation
+
+To use hvf support, please make sure to run -M virt,highmem=off to fit
+in M1's physical address space limits and use -cpu host.
+
+
+Enjoy!
+
+Alex
+
+v1 -> v2:
+
+  - New patch: hvf: Actually set SIG_IPI mask
+  - New patch: hvf: Introduce hvf vcpu struct
+  - New patch: hvf: arm: Mark CPU as dirty on reset
+  - Removed patch: hw/arm/virt: Disable highmem when on hypervisor.framework
+  - Removed patch: arm: Synchronize CPU on PSCI on
+  - Fix build on 32bit arm
+  - Merge vcpu kick function patch into ARM enablement
+  - Implement WFI handling (allows vCPUs to sleep)
+  - Synchronize system registers (fixes OVMF crashes and reboot)
+  - Don't always call cpu_synchronize_state()
+  - Use more fine grained iothread locking
+  - Populate aa64mmfr0 from hardware
+  - Make safe to ctrl-C entitlement application
+
+v2 -> v3:
+
+  - Removed patch: hvf: Actually set SIG_IPI mask
+  - New patch: hvf: arm: Add support for GICv3
+  - New patch: hvf: arm: Implement -cpu host
+  - Advance PC on SMC
+  - Use cp list interface for sysreg syncs
+  - Do not set current_cpu
+  - Fix sysreg isread mask
+  - Move sysreg handling to functions
+  - Remove WFI logic again
+  - Revert to global iothread locking
+
+v3 -> v4:
+
+  - Removed patch: hvf: arm: Mark CPU as dirty on reset
+  - New patch: hvf: Simplify post reset/init/loadvm hooks
+  - Remove i386-softmmu target (meson.build for hvf target)
+  - Combine both if statements (PSCI)
+  - Use hv.h instead of Hypervisor.h for 10.15 compat
+  - Remove manual inclusion of Hypervisor.h in common .c files
+  - No longer include Hypervisor.h in arm hvf .c files
+  - Remove unused exe_full variable
+  - Reuse exe_name variable
+
+v4 -> v5:
+
+  - Use g_free() on destroy
+
+v5 -> v6:
+
+  - Switch SYSREG() macro order to the same as asm intrinsics
+
+v6 -> v7:
+
+  - Already merged: hvf: Add hypervisor entitlement to output binaries
+  - Already merged: hvf: x86: Remove unused definitions
+  - Patch split: hvf: Move common code out
+    -> hvf: Move assert_hvf_ok() into common directory
+    -> hvf: Move vcpu thread functions into common directory
+    -> hvf: Move cpu functions into common directory
+    -> hvf: Move hvf internal definitions into common header
+    -> hvf: Make hvf_set_phys_mem() static
+    -> hvf: Remove use of hv_uvaddr_t and hv_gpaddr_t
+    -> hvf: Split out common code on vcpu init and destroy
+    -> hvf: Use cpu_synchronize_state()
+    -> hvf: Make synchronize functions static
+    -> hvf: Remove hvf-accel-ops.h
+  - New patch: hvf: arm: Implement PSCI handling
+  - New patch: arm: Enable Windows 10 trusted SMCCC boot call
+  - New patch: hvf: arm: Handle Windows 10 SMC call
+  - Removed patch: "arm: Set PSCI to 0.2 for HVF" (included above)
+  - Removed patch: "hvf: arm: Add support for GICv3" (deferred to later)
+  - Remove osdep.h include from hvf_int.h
+  - Synchronize SIMD registers as well
+  - Prepend 0x for hex values
+  - Convert DPRINTF to trace points
+  - Use main event loop (fixes gdbstub issues)
+  - Remove PSCI support, inject UDEF on HVC/SMC
+  - Change vtimer logic to look at ctl.istatus for vtimer mask sync
+  - Add kick callback again (fixes remote CPU notification)
+  - Move function define to own header
+  - Do not propagate SVE features for HVF
+  - Remove stray whitespace change
+  - Verify that EL0 and EL1 do not allow AArch32 mode
+  - Only probe host CPU features once
+  - Move WFI into function
+  - Improve comment wording
+  - Simplify HVF matching logic in meson build file
+
+v7 -> v8:
+
+  - checkpatch fixes
+  - Do not advance for HVC, PC is already updated by hvf
+    (fixes Linux boot)
+
+v8 -> v9:
+
+  - [Merged] hvf: Move assert_hvf_ok() into common directory
+  - [Merged] hvf: Move vcpu thread functions into common directory
+  - [Merged] hvf: Move cpu functions into common directory
+  - [Merged] hvf: Move hvf internal definitions into common header
+  - [Merged] hvf: Make hvf_set_phys_mem() static
+  - [Merged] hvf: Remove use of hv_uvaddr_t and hv_gpaddr_t
+  - [Merged] hvf: Split out common code on vcpu init and destroy
+  - [Merged] hvf: Use cpu_synchronize_state()
+  - [Merged] hvf: Make synchronize functions static
+  - [Merged] hvf: Remove hvf-accel-ops.h
+  - [Merged] hvf: Introduce hvf vcpu struct
+  - [Merged] hvf: Simplify post reset/init/loadvm hooks
+  - [Dropped] arm: Enable Windows 10 trusted SMCCC boot call
+  - [Dropped] hvf: arm: Handle Windows 10 SMC call
+  - [New] arm: Move PMC register definitions to cpu.h
+  - [New] hvf: Add execute to dirty log permission bitmap
+  - [New] hvf: Introduce hvf_arch_init() callback
+  - [New] hvf: arm: Implement PSCI handling
+  - [New] hvf: arm: Add rudimentary PMC support
+  - [New] arm: tcg: Adhere to SMCCC 1.3 section 5.2
+  - [New] hvf: arm: Adhere to SMCCC 1.3 section 5.2
+  - Make kick function non-weak
+  - Use arm_cpu_do_interrupt()
+  - Remove CNTPCT_EL0 write case
+  - Inject UDEF on invalid sysreg access
+  - Add support for OS locking sysregs
+  - Remove PMCCNTR_EL0 handling
+  - Print PC on unhandled sysreg trace
+  - Sync SP (x31) based on SP_EL0/SP_EL1
+  - Fix SPSR_EL1 mapping
+  - Only sync known sysregs, assert when syncing fails
+  - Improve error message on unhandled ec
+  - Move vtimer sync to post-exit (fixes disable corner case from
+    kvm-unit-tests)
+  - Add vtimer offset, migration and pause logic
+  - Flush registers only after EXCP checkers (fixes PSCI on race)
+  - Remove Windows specifics and just comply with SMCCC spec
+  - Zero-initialize host_isar
+  - Use M1 SCTLR reset value
+  - Add support for cntv offsets
+  - Improve code readability
+  - Use new hvf_raise_exception() prototype
+  - Make cpu_off function void
+  - Add comment about return value, use -1 for "not found"
+  - Remove cpu_synchronize_state() when halted
+
+v9 -> v10:
+
+  - [Dropped] hvf: arm: Adhere to SMCCC 1.3 section 5.2
+  - Only handle PSCI calls for the current conduit
+  - Return true/false
+  - Return -1 in x0 on unknown SMC/HVC calls
+  - Move to target/arm/internals.h
+  - Fail -cpu host class creation gracefully
+  - Adjust error message on -cpu host realize failure
+  - Extend SCTLR comment that hvf returns 0 as default value
+  - Return true/false
+  - Report errors lazily
+  - Fix comment
+
+v10 -> v11:
+
+  - Treat SMC as UDEF. A follow-up patch set will try to change behavior
+    consistently in TCG as well as HVF.
+
+v11 -> v12:
+
+  - Structure SMC/HVC handling code similarly
+  - Inject UDEF on HVC with SMC conduit
+  - s/hvf_unknown_hvf/hvf_unknown_hvc/g
+  - s/hvf_unknown_hvf/hvf_unknown_hvc/g
+  - Use muldiv64
+  - Declare ts at start of block
+  - Improve SPAN comment
+
+Alexander Graf (9):
+  arm: Move PMC register definitions to internals.h
+  hvf: Add execute to dirty log permission bitmap
+  hvf: Introduce hvf_arch_init() callback
+  hvf: Add Apple Silicon support
+  hvf: arm: Implement -cpu host
+  hvf: arm: Implement PSCI handling
+  arm: Add Hypervisor.framework build target
+  hvf: arm: Add rudimentary PMC support
+  arm: tcg: Adhere to SMCCC 1.3 section 5.2
+
+Peter Collingbourne (1):
+  arm/hvf: Add a WFI handler
+
+ MAINTAINERS                 |    5 +
+ accel/hvf/hvf-accel-ops.c   |   21 +-
+ include/sysemu/hvf_int.h    |   12 +-
+ meson.build                 |    8 +
+ target/arm/cpu.c            |   17 +-
+ target/arm/cpu.h            |    2 +
+ target/arm/helper.c         |   44 --
+ target/arm/hvf/hvf.c        | 1274 +++++++++++++++++++++++++++++++++++
+ target/arm/hvf/meson.build  |    3 +
+ target/arm/hvf/trace-events |   11 +
+ target/arm/hvf_arm.h        |   19 +
+ target/arm/internals.h      |   44 ++
+ target/arm/kvm_arm.h        |    2 -
+ target/arm/meson.build      |    2 +
+ target/arm/psci.c           |   35 +-
+ target/i386/hvf/hvf.c       |   10 +
+ 16 files changed, 1421 insertions(+), 88 deletions(-)
+ create mode 100644 target/arm/hvf/hvf.c
+ create mode 100644 target/arm/hvf/meson.build
+ create mode 100644 target/arm/hvf/trace-events
+ create mode 100644 target/arm/hvf_arm.h
+
 -- 
-2.25.1
+2.30.1 (Apple Git-130)
 
 
