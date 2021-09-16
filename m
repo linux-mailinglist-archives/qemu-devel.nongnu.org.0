@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D129440E9EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 20:31:06 +0200 (CEST)
-Received: from localhost ([::1]:36488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33FB140EA17
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 20:41:55 +0200 (CEST)
+Received: from localhost ([::1]:42620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQwA5-0005M5-T1
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 14:31:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51238)
+	id 1mQwKW-00024f-6o
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 14:41:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQw4Y-0002Lp-HA
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 14:25:22 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37610)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQw4S-0007YL-IU
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 14:25:21 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- c8-20020a7bc008000000b002e6e462e95fso8062997wmb.2
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 11:25:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jLQWi+VQsqU7rdfktb9GjHxd+38EFiznSEk5gl9g1lY=;
- b=kwlG+pZbxZdADWQaK6yg9yoE2SlDhOmUtspeO79sqN4iy/nrFHJJjzhlT0JZ3AG3k/
- dUSSBuYykvDCjiE6f5VALHTLppkaUSvhPJZ/aV724wFE047UtUl1zTwxOPiU440ErwUK
- KS55gvBHf6PrJLeAOKBtxXABx7k6XXf/zNbbIiS4TF+f78f0yabQuQDeu5lmcGoh/7w9
- +q92TWFaRD6Ccj9iSDKcbfz7tha/mrphOaHE6ozhjQTxrFh1eMPvw1nqW+hOV0kSBKKT
- dMhTi1Mfiy02XB/etKBbv2vFSI6w+i1SRDlQM7/ChrfUNA6oTDYsPHeRfQPvGqxgJtRZ
- 49xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jLQWi+VQsqU7rdfktb9GjHxd+38EFiznSEk5gl9g1lY=;
- b=nJZAZVKLFwwqX3F6dzO5XqzUn7W1LjqNbpC9rOYw8XwrMXjUahuAjRSiFXWk0FFFTk
- cU54QJBmFj1uTh3hWeV0MU+vqHkarKttym9BrGQQvHduOyzGxhVUMAYXJL0cFgj4y+1x
- oLJMmytQxMnc3hKL75U2xdL/Z0R6DBRGKMEuX9RawHRg6diUUPiNVtKI2EIaEOBn41dw
- 1KRz8y8UznDkCSQSIEQ76kuoE9nWamwgAFEFKN3sOpjgAaYbbpMi/GGdidZzzd0u1UjA
- Z1cKDomZ1w1iOlXIZKOr8S78BPPiYaSSfi977OBEjJtdJdEgzBLkSe8N/e9swU9K+GFH
- ZbLA==
-X-Gm-Message-State: AOAM531PcAerlGpQFmpGymrwSw6le1A/GmafuXrCkF7QWn71M30/A9rq
- EP7kBPN7JGwU3EaHPY2K9FcgFUwyJ9q/1Xj68VqafQ==
-X-Google-Smtp-Source: ABdhPJwPZfteenmiBUULBLEhhOU3qlqi2rQDTapN5758TmaS5efMtYc9u7/ratrIeW1fSbp0EUfAioqwgVVPf2OLIww=
-X-Received: by 2002:a7b:c194:: with SMTP id y20mr2443441wmi.37.1631816714359; 
- Thu, 16 Sep 2021 11:25:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mQwHp-0000hP-U7
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 14:39:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54747)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mQwHl-00025T-RX
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 14:39:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631817540;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bUCHdbeLh5/AwaYXFwV8UaVI3MXGRlu0iffEH3Cuuo4=;
+ b=iVMUSjzE/kXDw2GDl7JmPh925+9RGYsujvRMXIn2G0AdMo/vHQZ/ymOTKd0XUrd0k0ajeC
+ MOPrAxI5zuGkp+or1pc6ugm36WQj0h0LHw/BCdMVAMxcHSADMBDsaWjO2eucJa93CUjyoa
+ N+pk7gaCfWO1XPFuCHjKcRH51tfCKGE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-522-R5qmqeMENhWwYvB3WFa6sg-1; Thu, 16 Sep 2021 14:38:58 -0400
+X-MC-Unique: R5qmqeMENhWwYvB3WFa6sg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 603C7362F8
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 18:38:57 +0000 (UTC)
+Received: from localhost (unknown [10.22.8.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D6C569FC8;
+ Thu, 16 Sep 2021 18:38:57 +0000 (UTC)
+Date: Thu, 16 Sep 2021 14:38:56 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 1/2] python: Update for pylint 2.10
+Message-ID: <20210916183856.zksc533l4tlfsikq@habkost.net>
+References: <20210916182248.721529-1-jsnow@redhat.com>
+ <20210916182248.721529-2-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <20210909122402.127977-1-eric.auger@redhat.com>
- <CAFEAcA9gs4of2tw77YfYNjYKjoeBAHy0SknkCFNuZprGa-203Q@mail.gmail.com>
- <f6aa5469-3ef4-bda1-51bd-d0eec5bf9fed@redhat.com>
-In-Reply-To: <f6aa5469-3ef4-bda1-51bd-d0eec5bf9fed@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Sep 2021 19:24:22 +0100
-Message-ID: <CAFEAcA8UQ3t+Zbo_qiM5uEEgJ3D-4OPGp4GXRPyVyWSd5x1+TA@mail.gmail.com>
-Subject: Re: [PATCH] hw/rtc/pl031: Send RTC_CHANGE QMP event
-To: Eric Auger <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210916182248.721529-2-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,69 +78,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Gavin Shan <gshan@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Auger <eric.auger.pro@gmail.com>
+Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Sept 2021 at 18:19, Eric Auger <eric.auger@redhat.com> wrote:
->
-> Hi Peter,
-> On 9/16/21 3:32 PM, Peter Maydell wrote:
-> > None of the other users of qapi_event_send_rtc_change()
-> > seem to have to track the baseline time like this. Shouldn't
-> > this be doing something involving using qemu_ref_timedate()
-> > as the baseline that it uses to figure out the change value ?
-> > (The other users do this via qemu_timedate_diff() but since we
-> > start with a value-in-seconds we might want to expose some other
-> > API in softmmu/rtc.c.)
->
-> I struggled understanding the various kinds of clocks modeled in qemu
-> and the PL031 implementation. Both devices calling
-> qapi_event_send_rtc_change() seem to store the base rtc in their state
-> (mc146818rtc.c cmos data or spapr_rtc tas_ld(args, )) and then
-> effectivelly call qemu_timedate_diff() on this base rtc value. I did not
-> figure to do the equivalent with the pl031. I will further investigate
-> how I can mimic their implementation though.
+On Thu, Sep 16, 2021 at 02:22:47PM -0400, John Snow wrote:
+> A few new annoyances. Of note is the new warning for an unspecified
+> encoding when opening a text file, which actually does indicate a
+> potentially real problem; see
+> https://www.python.org/dev/peps/pep-0597/#motivation
+> 
+> Use LC_CTYPE to determine an encoding to use for interpreting QEMU's
+> terminal output. Note that Python states: "language code and encoding
+> may be None if their values cannot be determined" -- use a platform
+> default as a backup.
+> 
+> Notes: Passing encoding=None will generate a suppressed warning on
+> Python 3.10+ that 'None' should not be passed as the encoding
+> argument. This behavior may be deprecated in the future and the default
+> switched to be a ubiquitous UTF-8. Opting in to the locale default will
+> be done by passing the encoding 'locale', but that isn't available in
+> 3.6 through 3.9. Presumably this warning will be unsuppressed some time
+> prior to the actual switch and we can re-investigate these issues at
+> that time if necessary.
 
-mc146818rtc.c calls qapi_event_send_rtc_change() in rtc_set_time().
-It looks to me like that is just "when the guest writes to an
-RTC register such that the guest RTC time has changed, use
-qemu_timedate_diff() to find out the delta between that and what
-the softmmu/rtc.c clock has as its baseline time, and then pass
-that delta in seconds to qapi_event_send_rtc_change()".
-This RTC has a lot of separate day/month/year registers, so the
-implementation's idea of "current guest RTC setting" is a
-complicated thing that it fills in into a struct tm, and which
-qemu_timedate_diff() then parses back out into a "seconds" value.
+So, in the very worst case this will trigger a warning that is
+currently suppressed.  And that will happen only if we are in the
+unlikely situation where we have absolutely no information about
+the encoding being used by other parts of the system.
 
-spapr_rtc() is a hypercall implementation, so the guest passes it
-a complete set of year/month/day/etc values all at once to set the time.
+Sounds reasonable to me, so:
 
-pl031 is a lot simpler as it is essentially just a count of
-time in seconds, which we set up as "seconds since the Unix epoch".
-But the basic principle is the same: the device contains the state
-that tells you what it thinks the guest RTC value is now, and the
-value we want to pass qapi_event_send_rtc_change() is the
-difference between that and the reference time kept in
-softmmu/rtc.c.
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 
-I think what you want is probably:
+> 
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/qemu/machine/machine.py | 7 ++++++-
+>  python/setup.cfg               | 1 +
+>  2 files changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+> index a7081b1845..34131884a5 100644
+> --- a/python/qemu/machine/machine.py
+> +++ b/python/qemu/machine/machine.py
+> @@ -19,6 +19,7 @@
+>  
+>  import errno
+>  from itertools import chain
+> +import locale
+>  import logging
+>  import os
+>  import shutil
+> @@ -290,8 +291,12 @@ def get_pid(self) -> Optional[int]:
+>          return self._subp.pid
+>  
+>      def _load_io_log(self) -> None:
+> +        # Assume that the output encoding of QEMU's terminal output is
+> +        # defined by our locale. If indeterminate, allow open() to fall
+> +        # back to the platform default.
+> +        _, encoding = locale.getlocale()
+>          if self._qemu_log_path is not None:
+> -            with open(self._qemu_log_path, "r") as iolog:
+> +            with open(self._qemu_log_path, "r", encoding=encoding) as iolog:
+>                  self._iolog = iolog.read()
+>  
+>      @property
+> diff --git a/python/setup.cfg b/python/setup.cfg
+> index 83909c1c97..0f0cab098f 100644
+> --- a/python/setup.cfg
+> +++ b/python/setup.cfg
+> @@ -104,6 +104,7 @@ good-names=i,
+>  [pylint.similarities]
+>  # Ignore imports when computing similarities.
+>  ignore-imports=yes
+> +ignore-signatures=yes
+>  
+>  # Minimum lines number of a similarity.
+>  # TODO: Remove after we opt in to Pylint 2.8.3. See commit msg.
+> -- 
+> 2.31.1
+> 
 
-    struct tm tm;
+-- 
+Eduardo
 
-    qemu_get_timedate(&tm, s->tick_offset);
-    qapi_event_send_rtc_change(qemu_timedate_diff(&tm));
-
-But I'm not 100% sure. I also feel like this is doing a
-roundtrip from seconds to struct tm to seconds again, which
-seems a bit silly (but it might matter if the rtc is configured
-to 'localtime'? At any rate it's not completely clear that
-it's always a no-op roundtrip).
-
-I've cc'd Paolo who might be a bit more familiar with the rtc code
-than I am.
-
--- PMM
 
