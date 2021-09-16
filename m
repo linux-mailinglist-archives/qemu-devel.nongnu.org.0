@@ -2,62 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2337240DDA6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:12:56 +0200 (CEST)
-Received: from localhost ([::1]:54838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9890340DDBB
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:15:55 +0200 (CEST)
+Received: from localhost ([::1]:59842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQt4J-0001pk-7U
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:12:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34592)
+	id 1mQt7C-0005KQ-Ny
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:15:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mQsxn-0002mQ-Nm
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:06:13 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:58327)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mQt48-0002hI-Va
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:12:45 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:39799)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mQsxj-00070x-P8
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:06:09 -0400
-Received: from [192.168.100.1] ([82.142.27.6]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MBltM-1md0S011wa-00CAlh; Thu, 16 Sep 2021 17:06:04 +0200
-Subject: Re: [PATCH 0/2] linux-user/nios2: trap and kuser fixes
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210915174951.1852266-1-richard.henderson@linaro.org>
- <2a014319-18ac-2224-982f-19973eb89d6a@linaro.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mQt47-00045G-3i
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:12:44 -0400
+Received: from quad ([82.142.27.6]) by mrelayeu.kundenserver.de (mreue107
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MVdYY-1mJ9Gs1lZs-00RV6B; Thu, 16
+ Sep 2021 17:12:38 +0200
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <528272f3-d778-1e84-faa8-acc359e3ce78@vivier.eu>
-Date: Thu, 16 Sep 2021 17:06:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/10] Linux user for 6.2 patches
+Date: Thu, 16 Sep 2021 17:12:27 +0200
+Message-Id: <20210916151237.1188301-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <2a014319-18ac-2224-982f-19973eb89d6a@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:TrbhfBuat5KXYcpT02nd0eSnVStiCC/Ca2Z/1s+kKeH3/QDY2iz
- kq2aHpUsTZDglhh1LniYuFgDMQzvshndqLoGYJOTNRSGOcvQihFqVsItL4NY+mNi/0WkIvk
- BIJ2FcxNmna8h00kmE9RvGujOfNXgMbLbIDPxGuNR3vMp9I9H3UoZ+4gDttCT+6KZvfaEMa
- j3951fm/0tYxvuwLpzgfA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BQggf/X1sY0=:UsAP0XG2rTmW9hq8DtF+d6
- 2wnbhuDQ4uDKdYu6IiuF7sTEwxF5ql2WBJd/n7QZAkLfRMQxYPNGjb/o8FZ1mlDWDWEwQv7Mb
- +axcZ0VzRQ56l1pRLwkrousHZBHJaHACGJuE/78LV3UHCNqjuANXeUsHxOs1x+L0jNgCsJEt0
- 7LREI8MLaGiesZfKcrkVL3rLeJOK3NyVNYlAwLaP+ZHNGwBXsE+bt/jMCzLY+/NP41yJjMeAs
- mouPSH0sqDK402ZS09U7F3Boaa0O/f5Xv8zp1jpCTDIGQ+1l+OZu0ia9U5hPucyvIvkulhn2p
- oam0SAUzp+DxwuoS2k/czKC4J73yqn3RqgH28pU+Vh7UXNVtP+NQnw6RgBusK8y0WTV7UMWUn
- F5Mz/STjYOi8tOfXoTq00p2d9xi6RW7+AsPWU2hmW5SfGYJYN+dZpCFulQNJEj5yzBIZZ12nk
- 8B2AqvAcxFshcO2tuqKVlIabDXS3qutJsVuwqSzajr4Rdm3kfzSZDbwazbu917r4bXjh8ZrrT
- BCME99ZvPKxiMsDspqUcQVw/cqMHFA1ViMef3f9RpdLNaXheF61fu6FdxEug6wX5VU7kp8pW8
- kM2Iw5rZG7o/Y2cC0PBeKHL6UUQ2UCupbe7e2+4Iuw43+Ty0XVMF2EIcdVm7DuEo/5ScliSvx
- Mv5ROKsR1u/r+UjbkokLeqbqriBhNNIoLDhecX2P4NBhoFQLpVm4PQwXxWSzdyfipoqghxhVi
- l+XQyUonVCuKPHFGK6fZP/p5daWHZdzavv41DQ==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:8tvnPdC3sDkphJyRiMcnBDmZeGe6/qiXixWqas6cHvwTb05Edgn
+ yFgnLZi0QFLXLm4KeE9qdikNajBnXS1tcoMOMuUkchF63bF6tu5th2HaM8W3Rvo+Rzk9BrK
+ c8rcHXvA/XrKjC58etpQtVOqKbDxOJ1f27Q3zsktDmHRadtuXN3YOMmwclnW5/HCiCgjg4e
+ PnRbG9AwbKhgRwjCaSsRQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vjYnxkrTNyk=:2b6v9e6o9O+oxUgILT/kcy
+ /P2egV1eR0pvqC67AT9V3RVwcaCgpNhCBs8ZTt2qKTGI4zH+ilB/yibDn9TiMBxH2ChprzNzJ
+ sKyMrsUKt30QNts6GPOsbfETw+0uyKR0Kn9v2ptUOixWPXqmzqLg0SLnHuDs9PlTV9XbkasdY
+ iWPOsjlfxL+Ih3bwq/zUcDbdKeME7cmuwXu20KlDjd7fYZwc7T+0I7xzxns6E7VxxoU8SB9yu
+ +TB/Ry2sqFnd9nMVJhKJ82GE5mgDo4nkdPxCSWfENCqZ31X6ikGVsXvevY+/wpmeYdk3b6PN7
+ AVVxWN+26ao758uG5+7eSRXbm3x0zk0iGv/X4/fII3CtEs1u/AfxxI0cFbDS4DijscO6ow/68
+ 9vpaQaxOt6S2csG7DYTyXROF0CkVDW5x0ar3MfXaKTIJa0nWKdvlpnT40Zs4tDKGhnVTC3aOt
+ 8/AJaa4VMjOTZrWDpPq2f3p9fh/HfuwyMQOjtVm8hp6zMrKOlPNrA+lM62AJzT68kiXlQWpl3
+ zlwOUbmBhzj8qOGV1L9V96eOrYWAdWY9uW4mptcYPAyPCFRtmr1uPCMF5FZdk8txAh24tEydE
+ 0NrHGcEH2jDYw4nitWl7hNt0U3UJsU9q1uKpgxDq3SYELrS8pLa753IAXyKgHC2SCOYDHrD7f
+ 24sx1NGHEYF3708+Ofd4owlMye2mWBguxaVu9hexKFTrTalVrJ1A4o306Eqf55nCu0cg2MdXZ
+ H9mGRD1AZNTRou3FeFwLAdhvs9qCvOQLyvt7lA==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.488,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,23 +64,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marex@denx.de, crwulff@gmail.com
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 15/09/2021 à 19:54, Richard Henderson a écrit :
-> On 9/15/21 10:49 AM, Richard Henderson wrote:
->> Based-on: 20210813131809.28655-1-peter.maydell@linaro.org
->> ("linux-user: Clean up siginfo_t handling for arm, aarch64")
->> ... for force_sig_fault().
-> 
-> Laurent, while I posted a follow-up to Peter's patch set, I'd prefer to go ahead and merge his
-> first.  Just about everything I'm poking about with currently requires force_sig_fault().
-> 
-
-I'm going to send a PR with the "linux-user: split internals out of qemu.h" series, the Peter's
-siginfo series will be in the next one.
-
-Thanks,
-Laurent
+The following changes since commit 7d79344d4fa44e520e6e89f8fed9a27d3d554a9b=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' i=
+nto staging (2021-09-13 13:33:21 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu.git tags/linux-user-for-6.2-pull-request=0D
+=0D
+for you to fetch changes up to 74e43b04b0260da09d14bc56a5d629d4753b8b27:=0D
+=0D
+  linux-user: Check lock_user result for ip_mreq_source sockopts (2021-09-1=
+6 17:04:21 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+Pull request linux-user 20210916=0D
+=0D
+Code cleanup=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Peter Maydell (10):=0D
+  linux-user: Fix coding style nits in qemu.h=0D
+  linux-user: Split strace prototypes into strace.h=0D
+  linux-user: Split signal-related prototypes into signal-common.h=0D
+  linux-user: Split loader-related prototypes into loader.h=0D
+  linux-user: Split mmap prototypes into user-mmap.h=0D
+  linux-user: Split safe-syscall macro into its own header=0D
+  linux-user: Split linux-user internals out of qemu.h=0D
+  linux-user: Don't include gdbstub.h in qemu.h=0D
+  linux-user: Drop unneeded includes from qemu.h=0D
+  linux-user: Check lock_user result for ip_mreq_source sockopts=0D
+=0D
+ gdbstub.c                        |   2 +-=0D
+ linux-user/aarch64/cpu_loop.c    |   2 +=0D
+ linux-user/aarch64/signal.c      |   1 +=0D
+ linux-user/alpha/cpu_loop.c      |   2 +=0D
+ linux-user/alpha/signal.c        |   1 +=0D
+ linux-user/arm/cpu_loop.c        |   2 +=0D
+ linux-user/arm/signal.c          |   1 +=0D
+ linux-user/cris/cpu_loop.c       |   2 +=0D
+ linux-user/cris/signal.c         |   1 +=0D
+ linux-user/elfload.c             |   3 +=0D
+ linux-user/exit.c                |   2 +=0D
+ linux-user/fd-trans.c            |   2 +=0D
+ linux-user/flatload.c            |   3 +=0D
+ linux-user/hexagon/cpu_loop.c    |   2 +=0D
+ linux-user/hexagon/signal.c      |   1 +=0D
+ linux-user/hppa/cpu_loop.c       |   2 +=0D
+ linux-user/hppa/signal.c         |   1 +=0D
+ linux-user/i386/cpu_loop.c       |   3 +=0D
+ linux-user/i386/signal.c         |   1 +=0D
+ linux-user/linuxload.c           |   2 +=0D
+ linux-user/loader.h              |  59 +++++=0D
+ linux-user/m68k/cpu_loop.c       |   2 +=0D
+ linux-user/m68k/signal.c         |   1 +=0D
+ linux-user/main.c                |   5 +=0D
+ linux-user/microblaze/cpu_loop.c |   2 +=0D
+ linux-user/microblaze/signal.c   |   1 +=0D
+ linux-user/mips/cpu_loop.c       |   2 +=0D
+ linux-user/mips/signal.c         |   1 +=0D
+ linux-user/mmap.c                |   2 +=0D
+ linux-user/nios2/cpu_loop.c      |   2 +=0D
+ linux-user/nios2/signal.c        |   1 +=0D
+ linux-user/openrisc/cpu_loop.c   |   2 +=0D
+ linux-user/openrisc/signal.c     |   1 +=0D
+ linux-user/ppc/cpu_loop.c        |   2 +=0D
+ linux-user/ppc/signal.c          |   1 +=0D
+ linux-user/qemu.h                | 429 ++-----------------------------=0D
+ linux-user/riscv/cpu_loop.c      |   2 +=0D
+ linux-user/riscv/signal.c        |   1 +=0D
+ linux-user/s390x/cpu_loop.c      |   2 +=0D
+ linux-user/s390x/signal.c        |   1 +=0D
+ linux-user/safe-syscall.h        | 154 +++++++++++=0D
+ linux-user/semihost.c            |   1 +=0D
+ linux-user/sh4/cpu_loop.c        |   2 +=0D
+ linux-user/sh4/signal.c          |   1 +=0D
+ linux-user/signal-common.h       |  36 +++=0D
+ linux-user/signal.c              |   5 +=0D
+ linux-user/sparc/cpu_loop.c      |   2 +=0D
+ linux-user/sparc/signal.c        |   1 +=0D
+ linux-user/strace.c              |   3 +=0D
+ linux-user/strace.h              |  38 +++=0D
+ linux-user/syscall.c             |   9 +=0D
+ linux-user/uaccess.c             |   1 +=0D
+ linux-user/uname.c               |   1 +=0D
+ linux-user/user-internals.h      | 186 ++++++++++++++=0D
+ linux-user/user-mmap.h           |  34 +++=0D
+ linux-user/vm86.c                |   1 +=0D
+ linux-user/xtensa/cpu_loop.c     |   2 +=0D
+ linux-user/xtensa/signal.c       |   1 +=0D
+ semihosting/arm-compat-semi.c    |   2 +-=0D
+ target/m68k/m68k-semi.c          |   2 +-=0D
+ target/nios2/nios2-semi.c        |   2 +-=0D
+ thunk.c                          |   1 +=0D
+ 62 files changed, 623 insertions(+), 417 deletions(-)=0D
+ create mode 100644 linux-user/loader.h=0D
+ create mode 100644 linux-user/safe-syscall.h=0D
+ create mode 100644 linux-user/strace.h=0D
+ create mode 100644 linux-user/user-internals.h=0D
+ create mode 100644 linux-user/user-mmap.h=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
