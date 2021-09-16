@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4847C40DE8F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:49:38 +0200 (CEST)
-Received: from localhost ([::1]:54926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7E7140DE63
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:46:04 +0200 (CEST)
+Received: from localhost ([::1]:44592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQtdp-0001qy-Bd
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:49:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41196)
+	id 1mQtaN-000375-QZ
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:46:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQtLk-0001ZL-1i
+ id 1mQtLk-0001a1-8p
  for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:30:56 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:38893)
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:36511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQtLZ-0002ah-5w
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:30:54 -0400
-Received: by mail-pg1-x529.google.com with SMTP id w8so6486197pgf.5
+ id 1mQtLZ-0002ao-TG
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:30:55 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id m26so6284144pff.3
  for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 08:30:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/h2t7iFSfX1gtAhd6k9niCF0SPBIUY92gpdkPQq/Z1o=;
- b=mg7GdO2mmqVUEKzB3EjE3GpHETqpdw2XOG/GbE0Uf97+m+thauE9rFCdz0GmesGa90
- Bf1tRYa+LEukgfX6cYiFOdKD1XKlxIdz8oAeOmKx3HOpmvfCDbwL8ITkTSytASehnQUl
- JEN7Np7MWw0mSBg3ts2BGf/YE7GQUykEMQtKzK9KQ5S8wwJFiljXkS9VKW34UvUTWrDB
- V2h6Q37eqoKchknJo3Bb7e+XvtC29DObbw/wVVnJk/ArbVL671IYAwaEhVHCy80wsDxj
- NIHOBPQThiz0o1omMOgu1bQCdEaaXTP/XQfI1etYNbMUHSgPtWl7+kowcFBJDvV1TVev
- 8Zpg==
+ bh=54hnQT1IlwQI1vqo01dQd8XkfxGimuQYo48f9SWydvk=;
+ b=Hjrgstxnep7o/Hr+KHF+lb6Ag0brMUDSrBglIPfYKX9JZOID81wcKhTOO/EHj3nVIp
+ 4Fe4Dyx2sjAnhb0bBDb1XXhDLE0XqcPWwlSiOdsPk8lWCtZi4pu8Keex3G+NDCevy6kQ
+ rGSMc3HfhlL9KX/4WKnzufDc/wHgM1Z5Hlsq5uPlt+YrOJCApdSvPmbGhPs+k39oHR7R
+ S0kEJqKeUVBvQBvUjN2WNXnzNtmdLJxldGnHCxAYPsqCZvcFEXa/gCct/4QIVc9waPS3
+ DDjJIcIPRSdnILbfuhEj6FIV4ndiVN/ZIsaRfUtBaD5BFtaL+XoyqwX0zrM7w2Ap2mbJ
+ se8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/h2t7iFSfX1gtAhd6k9niCF0SPBIUY92gpdkPQq/Z1o=;
- b=bX+in59FThVNwtSBkcfnQJQMhXpmyGmBIGebj/pvr4dCm3fBS1mGq9usfFBX+3T1fZ
- irOX2+/R+DFw856Ar4ad0POFc5inG/wx24DRSjPuOTwOASik/XzWHqhsT2GjDi9GyM8z
- hD1GBXP6OzThpca2asLPm6yNP4EqYPk7wJ4J+BumhcdDrAKRPMNlvYto5RY+qXJcXKUz
- 6P66+bkM5DARufrIIyyZeK1lXL3Fj7mrAWp5TPUaVQ/RKXRwtbe3o89+9HRX+pFkqk1n
- XOJCVtSGvIRvTU5hfmNW2bJZKeB9rhOew0MwmHQWQFJsUw5AGzVnmRiXdYf4ZNZ+EMWt
- JQJw==
-X-Gm-Message-State: AOAM531fNmD4KhiTtOUYoVZ/sa7eQTEEDVCEdbRPNJo40Gx1YCek+y9D
- eZDeon0Z1z8JqU6KECTWXZrWixE5ZjEZeA==
-X-Google-Smtp-Source: ABdhPJxUu40UsFtbEWRfms8U9wc926GSsOZqdu7rgMkD+f34gX49UvIHH0r6Ki/btJP8lUPfJhzbbQ==
-X-Received: by 2002:a63:f817:: with SMTP id n23mr5442467pgh.250.1631806242490; 
- Thu, 16 Sep 2021 08:30:42 -0700 (PDT)
+ bh=54hnQT1IlwQI1vqo01dQd8XkfxGimuQYo48f9SWydvk=;
+ b=KRhOe4DSJx2NQoYivzK/uA7omhU3A3xNgBfsNvN1ht0UXfSBDjOM34PLbvS84wiKt6
+ bBI9+reTdJcvTYk7uXdv/5BOWZ6klomvLR5GURoNVdxNnWJ6Wr7h8GV9dlIUaKCz3aaC
+ 28ZA5xO0veBh9nY0VrP5jfkv/LBxM2lwpdAtkUbmrXy9MS/MS8ymws0NYW3yR3nKlIG0
+ HS3yBwmVFiMNBLnP7zXWn+pdA3waU5NxR8wdp1XchdmFxhb/S0OivS69pGpkPac0+8N6
+ OIDn8iEefURy0fPoHAPUxaDvNyCwETiQ79F0bVbdiN64mkjQkmX/LgJUxk86ygOd2NmH
+ u3WA==
+X-Gm-Message-State: AOAM533TJSWOYcfE9RA5WKNue64agc2LUsGrqM9cqeYdGHZf9EEmLPL7
+ yITlJftKW7aTnHrO2/8HPKi21XqsLjweHA==
+X-Google-Smtp-Source: ABdhPJznvrVM/7KN1w1zyK8/pRyZoEgvz5N/BAFUMwQED9LA3bO5Es5XGut6uk5Qlz5vCMavsXEKRA==
+X-Received: by 2002:a62:18c1:0:b0:436:2125:e79e with SMTP id
+ 184-20020a6218c1000000b004362125e79emr5734063pfy.68.1631806243108; 
+ Thu, 16 Sep 2021 08:30:43 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
  by smtp.gmail.com with ESMTPSA id b7sm3779447pgs.64.2021.09.16.08.30.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 16 Sep 2021 08:30:42 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/35] target/riscv: Restrict has_work() handler to sysemu and
- TCG
-Date: Thu, 16 Sep 2021 08:30:13 -0700
-Message-Id: <20210916153025.1944763-24-richard.henderson@linaro.org>
+Subject: [PULL 24/35] target/rx: Restrict has_work() handler to sysemu
+Date: Thu, 16 Sep 2021 08:30:14 -0700
+Message-Id: <20210916153025.1944763-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210916153025.1944763-1-richard.henderson@linaro.org>
 References: <20210916153025.1944763-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,59 +91,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Restrict has_work() to TCG sysemu.
+Restrict has_work() to sysemu.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210912172731.789788-23-f4bug@amsat.org>
+Message-Id: <20210912172731.789788-24-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/cpu.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ target/rx/cpu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 13575c1408..abb555a8bd 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -335,9 +335,9 @@ static void riscv_cpu_synchronize_from_tb(CPUState *cs,
-     env->pc = tb->pc;
+diff --git a/target/rx/cpu.c b/target/rx/cpu.c
+index 25a4aa2976..ac6b40b271 100644
+--- a/target/rx/cpu.c
++++ b/target/rx/cpu.c
+@@ -41,11 +41,13 @@ static void rx_cpu_synchronize_from_tb(CPUState *cs,
+     cpu->env.pc = tb->pc;
  }
  
-+#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
- static bool riscv_cpu_has_work(CPUState *cs)
++#if !defined(CONFIG_USER_ONLY)
+ static bool rx_cpu_has_work(CPUState *cs)
  {
--#ifndef CONFIG_USER_ONLY
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
-     /*
-@@ -345,10 +345,8 @@ static bool riscv_cpu_has_work(CPUState *cs)
-      * mode and delegation registers, but respect individual enables
-      */
-     return (env->mip & env->mie) != 0;
--#else
--    return true;
--#endif
+     return cs->interrupt_request &
+         (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIR);
  }
-+#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
++#endif /* !CONFIG_USER_ONLY */
  
- void restore_state_to_opc(CPURISCVState *env, TranslationBlock *tb,
-                           target_ulong *data)
-@@ -647,6 +645,7 @@ static const struct TCGCPUOps riscv_tcg_ops = {
-     .tlb_fill = riscv_cpu_tlb_fill,
+ static void rx_cpu_reset(DeviceState *dev)
+ {
+@@ -189,6 +191,7 @@ static const struct TCGCPUOps rx_tcg_ops = {
+     .tlb_fill = rx_cpu_tlb_fill,
  
  #ifndef CONFIG_USER_ONLY
-+    .has_work = riscv_cpu_has_work,
-     .cpu_exec_interrupt = riscv_cpu_exec_interrupt,
-     .do_interrupt = riscv_cpu_do_interrupt,
-     .do_transaction_failed = riscv_cpu_do_transaction_failed,
-@@ -666,7 +665,6 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     device_class_set_parent_reset(dc, riscv_cpu_reset, &mcc->parent_reset);
++    .has_work = rx_cpu_has_work,
+     .cpu_exec_interrupt = rx_cpu_exec_interrupt,
+     .do_interrupt = rx_cpu_do_interrupt,
+ #endif /* !CONFIG_USER_ONLY */
+@@ -206,7 +209,6 @@ static void rx_cpu_class_init(ObjectClass *klass, void *data)
+                                   &rcc->parent_reset);
  
-     cc->class_by_name = riscv_cpu_class_by_name;
--    cc->has_work = riscv_cpu_has_work;
-     cc->dump_state = riscv_cpu_dump_state;
-     cc->set_pc = riscv_cpu_set_pc;
-     cc->gdb_read_register = riscv_cpu_gdb_read_register;
+     cc->class_by_name = rx_cpu_class_by_name;
+-    cc->has_work = rx_cpu_has_work;
+     cc->dump_state = rx_cpu_dump_state;
+     cc->set_pc = rx_cpu_set_pc;
+ 
 -- 
 2.25.1
 
