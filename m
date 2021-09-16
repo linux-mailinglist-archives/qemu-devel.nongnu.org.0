@@ -2,73 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012C640DB94
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 15:44:18 +0200 (CEST)
-Received: from localhost ([::1]:58872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD56340DBCE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 15:53:28 +0200 (CEST)
+Received: from localhost ([::1]:41552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQrgX-0006XM-4G
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 09:44:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35450)
+	id 1mQrpP-0005rz-Gr
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 09:53:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mQrf8-0005Vw-CU
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:42:50 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42530)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mQrf6-0000Al-13
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:42:50 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id q11so9565514wrr.9
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 06:42:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=b5jV+2z/QDEzpF7P05W5teG4eKI+YZACdN/YNAIx45Y=;
- b=VQuKWTNWnB+sPBS1+qneGSZBKS3OLqo1EK7kc9rfZ5HS7CDjn3q+ayapKY8tx7wEy9
- vG8NTmJjzc8CfMSefeH/OggOnj/rj6iNcVx1gIXJ62aM+dRRBc4OCddVOf5rqBwbRBhz
- ks/wOJ/mN0P/G2DytYTL44+OkJRz5BDlyWz2vxku+y980lUPTjwThMOj5r1jHrRVw+iS
- nbxOgQkOq8vLwA5qUVnwsQHqRIITAtDh9nOb4GGJUeVED3YKbqVI92ehwa1W10FUsF23
- dGUh5VCcwHCGGaCh9fshLivBWxK5c9Ok64uz3ouWtrMyUGY4H+7KbeWM9hTSrhrdrUbB
- 09Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b5jV+2z/QDEzpF7P05W5teG4eKI+YZACdN/YNAIx45Y=;
- b=JDtDNCJq6D+swFLvek7NznofgXDsMKPjnPTK8V6mNsPwScPbaWJWYh77d7YqDnACeH
- ZzXQBTkQEG4ntQTAz1pJpcAHguoMy5rgksks7CGrcooaFZk1qBBlsqRbVi/XcSzEeCK7
- P16vlLM5B87vDNcrAl6IyGmntNpAQNBkTEvtYW7qRkyEc02xTs8X5MksSyHW6jk5GwEu
- gWLsLlGSgJekASSeQFPabjtbN1AXn/o97ZuiLMTZSlF9KzMU93mhFO6wVHnI7W5AxAad
- yB+A2My+hpPqyHp1+LR2mwaBegXx1wtC1aRKxxzJlO/LSMHWLBeOkmohJy9y9wZw/7Fd
- bk1Q==
-X-Gm-Message-State: AOAM530PiPu/5tqs+YfIH2Y/hqRb+xoo+RQvmIjNTTjA7tPil0PVXW+A
- assGX6veYqA7rWNDEYQGQINzPMkS17BiMohgrw0lqQ==
-X-Google-Smtp-Source: ABdhPJy8lBzEFfWo7OcqYLhthbZrKptkhQ3OYTjECDD2YLuoHoPkwJgFXmLexvrpOoL2kJ2Fsx5s0X7NnemS0lHVQoA=
-X-Received: by 2002:adf:8124:: with SMTP id 33mr6103816wrm.331.1631799765878; 
- Thu, 16 Sep 2021 06:42:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mQrnF-0003Xu-CO; Thu, 16 Sep 2021 09:51:13 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40260)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mQrnB-0006Ga-8n; Thu, 16 Sep 2021 09:51:13 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 18GDYae6014034;
+ Thu, 16 Sep 2021 09:51:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version; s=pp1;
+ bh=F6b48gr8CaUNW5yao2ytsNytFKg2R+VOYflMKBrlOfE=;
+ b=HDSvgd0GZc3l6AC5ywg0Su8JkjDye5dG4ldQupFsboljciweSeTX9ohYGJzckUV19R2R
+ Ki0QoqPm2lCeJjCyXusLgJgT+zSb/hcTowU2/mY5s58ZwrKQ2BPaSWQ5jUdKtsW0HQZC
+ Ke6gqwj6ikFVEks1a5fiy2wMQ+WAXdfYNkbWy9IK0pJvz4WmIX4ysrL0w1htESDlKHl4
+ un+H2ePK0ElUG639nfop9mUTcofffj2bfy6wWil072Q8R0OnZIvNw12HDt/2Mk0hMt94
+ NvjvqaXiGQL+VmBOuH3fz8z57jbVi4MR4LhpwlPLoHQ2hnOKwGp3hikxixmddoK9WUvX NA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3b46x9rdqy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Sep 2021 09:51:03 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18GDYhdm014259;
+ Thu, 16 Sep 2021 09:51:03 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3b46x9rdq2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Sep 2021 09:51:02 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18GDktwI025398;
+ Thu, 16 Sep 2021 13:51:00 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3b0m3a375a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Sep 2021 13:51:00 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 18GDkKsS56230398
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Sep 2021 13:46:20 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 667874204F;
+ Thu, 16 Sep 2021 13:50:56 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E408042045;
+ Thu, 16 Sep 2021 13:50:55 +0000 (GMT)
+Received: from oc3016276355.ibm.com (unknown [9.145.190.206])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 16 Sep 2021 13:50:55 +0000 (GMT)
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Subject: [PATCH v3 0/4] s390x: CPU Topology
+Date: Thu, 16 Sep 2021 15:50:50 +0200
+Message-Id: <1631800254-25762-1-git-send-email-pmorel@linux.ibm.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: H4dMDcrGAGS6BuE7Wmt6UN9XsN3tWKTv
+X-Proofpoint-GUID: cOzXzhPu-9TzpS4epjNoMUq9KH09OPHu
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20210902112520.475901-1-anup.patel@wdc.com>
- <20210902112520.475901-5-anup.patel@wdc.com>
- <CAKmqyKPK9zrtM=g6hruL+eRLVPdz76jLR+P0xZ8qPfWXvnSTzg@mail.gmail.com>
- <CAAhSdy2jihzXxxMJkrb7vydjETbpiGDA6b9OmWnUaJv8-jF6OQ@mail.gmail.com>
- <CAKmqyKN8MeKKS1h-eu+3QEuubbgW+kYAVR6-T750xvW-4HYq+g@mail.gmail.com>
-In-Reply-To: <CAKmqyKN8MeKKS1h-eu+3QEuubbgW+kYAVR6-T750xvW-4HYq+g@mail.gmail.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Thu, 16 Sep 2021 19:12:34 +0530
-Message-ID: <CAAhSdy3yDLmGMofZxocoPBydfQbXy_qNJUsQ7MWsL=0eWpx6QQ@mail.gmail.com>
-Subject: Re: [PATCH v2 04/22] target/riscv: Improve fidelity of guest external
- interrupts
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::42c;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.687,Hydra:6.0.235,FMLib:17.0.607.475
+ definitions=2020-10-13_15,2020-10-13_02,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ suspectscore=0 phishscore=0 adultscore=0 malwarescore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 mlxscore=0 clxscore=1015 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109030001 definitions=main-2109160085
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,122 +105,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 15, 2021 at 6:19 AM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Tue, Sep 14, 2021 at 2:33 AM Anup Patel <anup@brainfault.org> wrote:
-> >
-> > On Thu, Sep 9, 2021 at 12:14 PM Alistair Francis <alistair23@gmail.com> wrote:
-> > >
-> > > On Thu, Sep 2, 2021 at 9:26 PM Anup Patel <anup.patel@wdc.com> wrote:
-> > > >
-> > > > The guest external interrupts for external interrupt controller are
-> > > > not delivered to the guest running under hypervisor on time. This
-> > > > results in a guest having sluggish response to serial console input
-> > > > and other I/O events. To improve timely delivery of guest external
-> > > > interrupts, we check and inject interrupt upon every sret instruction.
-> > > >
-> > > > Signed-off-by: Anup Patel <anup.patel@wdc.com>
-> > > > ---
-> > > >  target/riscv/op_helper.c | 9 +++++++++
-> > > >  1 file changed, 9 insertions(+)
-> > > >
-> > > > diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> > > > index ee7c24efe7..4c995c239e 100644
-> > > > --- a/target/riscv/op_helper.c
-> > > > +++ b/target/riscv/op_helper.c
-> > > > @@ -129,6 +129,15 @@ target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
-> > > >
-> > > >      riscv_cpu_set_mode(env, prev_priv);
-> > > >
-> > > > +    /*
-> > > > +     * QEMU does not promptly deliver guest external interrupts
-> > > > +     * to a guest running on a hypervisor which in-turn is running
-> > > > +     * on QEMU. We make dummy call to riscv_cpu_update_mip() upon
-> > > > +     * every sret instruction so that QEMU pickup guest external
-> > > > +     * interrupts sooner.
-> > > > +     */
-> > > > +     riscv_cpu_update_mip(env_archcpu(env), 0, 0);
-> > >
-> > > This doesn't seem right. I don't understand why we need this?
-> > >
-> > > riscv_cpu_update_mip() is called when an interrupt is delivered to the
-> > > CPU, if we are missing interrupts then that is a bug somewhere else.
-> >
-> > I have finally figured out the cause of guest external interrupts being
-> > missed by Guest/VM.
-> >
-> > The riscv_cpu_set_irq() which handles guest external interrupt lines
-> > of each CPU is called asynchronously. This function in-turn calls
-> > riscv_cpu_update_mip() but the CPU might be in host mode (V=0)
-> > or in Guest/VM mode (V=1). If the CPU is in host mode (V=0) when
->
-> The IRQ being raised should just directly call riscv_cpu_update_mip()
-> so the IRQ should happen straight away.
+Hi,
 
-That's not true for guest external interrupts. The target Guest/VM might
-not be running on the receiving HART.
+This series is a first part of the implementation of CPU topology
+for S390 greatly reduced from the first spin.
 
-Let say IMSIC injected guest external IRQ1 to HARTx which is meant
-for a Guest/VM, so the riscv_cpu_set_irq() will call riscv_cpu_update_mip().
-If HARTx might be in HS-mode or HARTx might be running some
-other Guest/VM then cpu_interrupt() request queued by riscv_cpu_update_mip()
-will not result in any interrupt being injected. This further means that
-QEMU has to check and inject guest external interrupts to target
-Guest/VM when HARTx makes a switch from HS-mode to VS-mode. By
-calling riscv_cpu_update_mip() upon SRET instruction we are ensuring
-that if any guest external interrupt was missed then it is injected ot
-VS-mode.
+In particular, we reduced the scope to the S390x specificities, removing
+all code touching to SMP or NUMA, with the goal to:
+- facilitate review and acceptance
+- let for later the SMP part currently actively discussed in mainline
+- be able despite the reduction of code to handle CPU topology for S390
+  using the current S390 topology provided by QEMU with cores and sockets
+  only.
 
->
-> Even from MTTCG I see this:
->
-> """
-> Currently thanks to KVM work any access to IO memory is automatically
-> protected by the global iothread mutex, also known as the BQL (Big
-> Qemu Lock). Any IO region that doesn't use global mutex is expected to
-> do its own locking.
->
-> However IO memory isn't the only way emulated hardware state can be
-> modified. Some architectures have model specific registers that
-> trigger hardware emulation features. Generally any translation helper
-> that needs to update more than a single vCPUs of state should take the
-> BQL.
-> """
->
-> So we should be fine here as well.
->
-> Can you supply a test case to reproduce the bug?
+To use these patches, you will need the Linux series version 4.
+You find it there:
+https://lkml.org/lkml/2021/9/16/576
 
-Just boot Linux Guest using my QEMU, OpenSBI, Linux, and KVMTOOL
-having AIA support patches. If this patch is not there then lot of Guest
-external interrupts are missed and Guest gets stuck at random places.
+Currently this code is for KVM only, I have no idea if it is interesting
+to provide a TCG patch. If ever it will be done in another series.
+
+A short introduction
+====================
+
+CPU Topology is described in the S390 POP with essentially the description
+of two instructions:
+
+PTF Perform Topology function used to poll for topology change
+    and used to set the polarization but this part is not part of this item.
+
+STSI Store System Information and the SYSIB 15.1.x providing the Topology
+    configuration.
+
+S390 Topology is a 6 levels hierarchical topology with up to 5 level
+    of containers. The last topology level, specifying the CPU cores.
+
+    This patch series only uses the two lower levels sockets and cores.
+    
+    To get the information on the topology, S390 provides the STSI
+    instruction, which stores a structures providing the list of the
+    containers used in the Machine topology: the SYSIB.
+    A selector within the STSI instruction allow to chose how many topology
+    levels will be provide in the SYSIB.
+
+    Using the Topology List Entries (TLE) provided inside the SYSIB we
+    the Linux kernel is able to compute the information about the cache
+    distance between two cores and can use this information to take
+    scheduling decisions.
+
+Note:
+-----
+     Z15 reports 3 levels of containers, drawers, book, sockets as
+     Container-TLEs above the core description inside CPU-TLEs.
+
+The Topology can be seen at several places inside zLinux:
+    - sysfs: /sys/devices/system/cpu/cpuX/topology
+    - procfs: /proc/sysinfo and /proc/cpuinfo
+    - lscpu -e : gives toplogy information
+
+The different Topology levels have names:
+    - Node - Drawer - Book - sockets or physical package - core
+
+Threads:
+    Multithreading, is not part of the topology as described by the
+    SYSIB 15.1.x
+
+The interest of the guest to know the CPU topology is obviously to be
+able to optimise the load balancing and the migration of threads.
+KVM will have the same interest concerning vCPUs scheduling and cache
+optimisation.
+
+
+The design
+==========
+
+1) To be ready for hotplug, I chose an Object oriented design
+of the topology containers:
+- A node is a bridge on the SYSBUS and defines a "node bus"
+- A drawer is hotplug on the "node bus"
+- A book on the "drawer bus"
+- A socket on the "book bus"
+- And the CPU Topology List Entry (CPU-TLE)sits on the socket bus.
+These objects will be enhanced with the cache information when
+NUMA is implemented.
+
+This also allows for easy retrieval when building the different SYSIB
+for Store Topology System Information (STSI)
+
+2) Perform Topology Function (PTF) instruction is made available to the
+guest with a new KVM capability and intercepted in QEMU, allowing the
+guest to pool for topology changes.
+
+
+Features and TBD list
+=====================
+
+- There is no direct match between IDs shown by:
+    - lscpu (unrelated numbered list),
+    - SYSIB 15.1.x (topology ID)
+
+- The CPU number, left column of lscpu, is used to reference a CPU
+    by Linux tools
+    While the CPU address is used by QEMU for hotplug.
+
+- Effect of -smp parsing on the topology with an example:
+    -smp 9,sockets=4,cores=4,maxcpus=16
+
+    We have 4 socket each holding 4 cores so that we have a maximum 
+    of 16 CPU, 9 of them are active on boot. (Should be obvious)
+
+# lscpu -e
+CPU NODE DRAWER BOOK SOCKET CORE L1d:L1i:L2d:L2i ONLINE CONFIGURED POLARIZATION ADDRESS
+  0    0      0    0      0    0 0:0:0:0            yes yes        horizontal   0
+  1    0      0    0      0    1 1:1:1:1            yes yes        horizontal   1
+  2    0      0    0      0    2 2:2:2:2            yes yes        horizontal   2
+  3    0      0    0      0    3 3:3:3:3            yes yes        horizontal   3
+  4    0      0    0      1    4 4:4:4:4            yes yes        horizontal   4
+  5    0      0    0      1    5 5:5:5:5            yes yes        horizontal   5
+  6    0      0    0      1    6 6:6:6:6            yes yes        horizontal   6
+  7    0      0    0      1    7 7:7:7:7            yes yes        horizontal   7
+  8    0      0    0      2    8 8:8:8:8            yes yes        horizontal   8
+# 
+
+
+- To plug a new CPU inside the topology one can simply use the CPU
+    address like in:
+  
+(qemu) device_add host-s390x-cpu,core-id=12
+# lscpu -e
+CPU NODE DRAWER BOOK SOCKET CORE L1d:L1i:L2d:L2i ONLINE CONFIGURED POLARIZATION ADDRESS
+  0    0      0    0      0    0 0:0:0:0            yes yes        horizontal   0
+  1    0      0    0      0    1 1:1:1:1            yes yes        horizontal   1
+  2    0      0    0      0    2 2:2:2:2            yes yes        horizontal   2
+  3    0      0    0      0    3 3:3:3:3            yes yes        horizontal   3
+  4    0      0    0      1    4 4:4:4:4            yes yes        horizontal   4
+  5    0      0    0      1    5 5:5:5:5            yes yes        horizontal   5
+  6    0      0    0      1    6 6:6:6:6            yes yes        horizontal   6
+  7    0      0    0      1    7 7:7:7:7            yes yes        horizontal   7
+  8    0      0    0      2    8 8:8:8:8            yes yes        horizontal   8
+  9    -      -    -      -    - :::                 no yes        horizontal   12
+# chcpu -e 9
+CPU 9 enabled
+# lscpu -e
+CPU NODE DRAWER BOOK SOCKET CORE L1d:L1i:L2d:L2i ONLINE CONFIGURED POLARIZATION ADDRESS
+  0    0      0    0      0    0 0:0:0:0            yes yes        horizontal   0
+  1    0      0    0      0    1 1:1:1:1            yes yes        horizontal   1
+  2    0      0    0      0    2 2:2:2:2            yes yes        horizontal   2
+  3    0      0    0      0    3 3:3:3:3            yes yes        horizontal   3
+  4    0      0    0      1    4 4:4:4:4            yes yes        horizontal   4
+  5    0      0    0      1    5 5:5:5:5            yes yes        horizontal   5
+  6    0      0    0      1    6 6:6:6:6            yes yes        horizontal   6
+  7    0      0    0      1    7 7:7:7:7            yes yes        horizontal   7
+  8    0      0    0      2    8 8:8:8:8            yes yes        horizontal   8
+  9    0      0    0      3    9 9:9:9:9            yes yes        horizontal   12
+#
+
+It is up to the admin level, Libvirt for example, to pin the righ CPU to the right
+vCPU, but as we can see without NUMA, chosing separate sockets for CPUs is not easy
+without hotplug because without information the code will assign the vCPU and fill
+the sockets one after the other.
+Note that this is also the default behavior on the LPAR.
+
+Conclusion
+==========
+
+This patch, together with the associated KVM patch allows to provide CPU topology
+information to the guest.
+Currently, only dedicated vCPU and CPU are supported and a NUMA topology can only
+be handled using CPU hotplug inside the guest.
+
+Next extensions are to provide:
+- Topology information change for shared CPU
+- NUMA using the -numa QEMU parameter.
 
 Regards,
-Anup
+Pierre
 
->
-> > the riscv_cpu_set_irq() is called, then the CPU interrupt requested by
-> > riscv_cpu_update_mip() has no effect because the CPU can't take
-> > the interrupt until it enters Guest/VM mode.
-> >
-> > This patch does the right thing by doing a dummy call to
-> > riscv_cpu_update_mip() upon SRET instruction so that if the CPU
-> > had missed a guest interrupt previously then the CPU can take it now.
->
-> This still doesn't look like the right fix.
->
-> Alistair
->
-> >
-> > Regards,
-> > Anup
+Pierre Morel (4):
+  linux-headers update
+  s390x: kvm: topology: interception of PTF instruction
+  s390x: topology: CPU topology objects and structures
+  s390x: topology: implementating Store Topology System Information
+
+ hw/s390x/cpu-topology.c            | 353 +++++++++++++++++++++++++++++
+ hw/s390x/meson.build               |   1 +
+ hw/s390x/s390-virtio-ccw.c         |  40 ++++
+ include/hw/s390x/cpu-topology.h    |  67 ++++++
+ include/hw/s390x/s390-virtio-ccw.h |   6 +
+ linux-headers/linux/kvm.h          |   1 +
+ target/s390x/cpu.h                 |  47 ++++
+ target/s390x/kvm/kvm.c             | 116 ++++++++++
+ 8 files changed, 631 insertions(+)
+ create mode 100644 hw/s390x/cpu-topology.c
+ create mode 100644 include/hw/s390x/cpu-topology.h
+
+-- 
+2.25.1
+
 
