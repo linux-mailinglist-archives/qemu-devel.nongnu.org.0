@@ -2,55 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F30A40D158
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 03:44:48 +0200 (CEST)
-Received: from localhost ([::1]:51196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FFD140D13D
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 03:33:26 +0200 (CEST)
+Received: from localhost ([::1]:60646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQgSF-00062Q-Mg
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 21:44:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47054)
+	id 1mQgHF-0001jq-2E
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 21:33:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mQgR4-0005M2-CY
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 21:43:34 -0400
-Received: from mga12.intel.com ([192.55.52.136]:60305)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mQgR2-0004ZA-6y
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 21:43:33 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="201963455"
-X-IronPort-AV: E=Sophos;i="5.85,297,1624345200"; d="scan'208";a="201963455"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2021 18:43:30 -0700
-X-IronPort-AV: E=Sophos;i="5.85,297,1624345200"; d="scan'208";a="553620132"
-Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
- ([10.238.144.101])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 15 Sep 2021 18:43:28 -0700
-Date: Thu, 16 Sep 2021 09:29:30 +0800
-From: Yang Zhong <yang.zhong@intel.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 04/33] i386: Add 'sgx-epc' device to expose EPC
- sections to guest
-Message-ID: <20210916012930.GA31727@yangzhon-Virtual>
-References: <20210719112136.57018-1-yang.zhong@intel.com>
- <20210719112136.57018-5-yang.zhong@intel.com>
- <6a2fe37a-0016-018d-ff41-77f1e57b8aeb@redhat.com>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mQgEL-0006om-8H; Wed, 15 Sep 2021 21:30:25 -0400
+Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:38417)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mQgEH-00049Q-3L; Wed, 15 Sep 2021 21:30:25 -0400
+Received: by mail-qt1-x831.google.com with SMTP id g11so4221412qtk.5;
+ Wed, 15 Sep 2021 18:30:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sTT2KRU8uUO+cpZwUyEjvBbGwEB4FkWqJRkkQq5A/Z8=;
+ b=Vyk4QVG5rO5QNxHqN4rmGPoKk9nlxUfxUYGx9Sz3jCqvjymqeEVVFjmirxKTiCEdsD
+ 2iTCaFW6hXxniG39LBwZiIbmpomh5sXhrMka1A3/eJhiH8Xogsh6O24duZ+KtTDbhx3g
+ +GCfFcP3IKmRsXxHlC89YmDiu8KFqvqIy22rYcVVfWmKhe3EphvUi6sMfPTDhCKSSSLT
+ NPJnGIleu8pSnWBGPHEDF91G1a7YFERFqk5bwhDPrF0ngdNDqFnejkzJfsFgRvbOIu8e
+ qVaEbUe+0tF9TgylHRK6cmRQEWTxko8ZnE3NZJdfVfgp1htiu4vQ4fR6XLytdxYrTwN/
+ Bjxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sTT2KRU8uUO+cpZwUyEjvBbGwEB4FkWqJRkkQq5A/Z8=;
+ b=JmG+zyd/92cgeqqIFiFwceRGrVKIkBlYsIcHZTRJFDVSbRzHyhudlo8Hddqx23U/PB
+ MDQf0Y5l340bBHR+6T0+q7djmuLi6SMIr1Qbs++yMiZDFvT/ha7D8LCC1w1AEYdXoabM
+ QnO/5vpv/tZ/Meh+nkemtZrTDWbCDS82R5fNq/6TcZFbKumck0spESPqsVBAste4q+oE
+ mTRXcJnlvfAQ7/dzV8/YsCNI7SZaks8NqNhkYL6dlpsBqr0cSP/Pjm1ymaL5OaJWlF4A
+ jC/IFS3VXu+bu4PySRymaoQFQw0a31RVGa5ygGt6QTQoQ2Z+fv0xhUk1+SGOzkuIEbSb
+ F0AQ==
+X-Gm-Message-State: AOAM530dWIT1baQX1bpqivM+k0OKhxxySsXwdKZIEJ5bm7zKMFG/U8vP
+ rnV4aJ68EYVCKsJdXwDQ1cnxqY6VLYQ=
+X-Google-Smtp-Source: ABdhPJx2GZ3nxlihWTOnJ24nLbsCjUhL9Fg4LuFTw8in4rZ8jQozhYU5mIFji4aWQ2JHqJ/WrQ8i4Q==
+X-Received: by 2002:a05:622a:287:: with SMTP id
+ z7mr2904175qtw.255.1631755816964; 
+ Wed, 15 Sep 2021 18:30:16 -0700 (PDT)
+Received: from rekt.COMFAST ([177.189.43.50])
+ by smtp.gmail.com with ESMTPSA id 67sm1369417qkl.1.2021.09.15.18.30.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Sep 2021 18:30:16 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 0/7] pSeries FORM2 affinity support
+Date: Wed, 15 Sep 2021 22:29:57 -0300
+Message-Id: <20210916013004.272059-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6a2fe37a-0016-018d-ff41-77f1e57b8aeb@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=yang.zhong@intel.com;
- helo=mga12.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x831.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,99 +80,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, seanjc@google.com, kai.huang@intel.com,
- qemu-devel@nongnu.org, jarkko@kernel.org, pbonzini@redhat.com,
- eblake@redhat.com
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 14, 2021 at 08:36:24AM +0200, Philippe Mathieu-Daudé wrote:
-> On 7/19/21 1:21 PM, Yang Zhong wrote:
-> > From: Sean Christopherson <sean.j.christopherson@intel.com>
-> > 
-> > SGX EPC is enumerated through CPUID, i.e. EPC "devices" need to be
-> > realized prior to realizing the vCPUs themselves, which occurs long
-> > before generic devices are parsed and realized.  Because of this,
-> > do not allow 'sgx-epc' devices to be instantiated after vCPUS have
-> > been created.
-> > 
-> > The 'sgx-epc' device is essentially a placholder at this time, it will
-> > be fully implemented in a future patch along with a dedicated command
-> > to create 'sgx-epc' devices.
-> > 
-> > Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> > ---
-> >  hw/i386/meson.build       |   1 +
-> >  hw/i386/sgx-epc.c         | 161 ++++++++++++++++++++++++++++++++++++++
-> >  include/hw/i386/sgx-epc.h |  44 +++++++++++
-> >  3 files changed, 206 insertions(+)
-> >  create mode 100644 hw/i386/sgx-epc.c
-> >  create mode 100644 include/hw/i386/sgx-epc.h
-> > 
-> > diff --git a/hw/i386/meson.build b/hw/i386/meson.build
-> > index 80dad29f2b..27476b36bb 100644
-> > --- a/hw/i386/meson.build
-> > +++ b/hw/i386/meson.build
-> > @@ -5,6 +5,7 @@ i386_ss.add(files(
-> >    'e820_memory_layout.c',
-> >    'multiboot.c',
-> >    'x86.c',
-> > +  'sgx-epc.c',
-> >  ))
-> >  
-> >  i386_ss.add(when: 'CONFIG_X86_IOMMU', if_true: files('x86-iommu.c'),
-> > diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
-> > new file mode 100644
-> > index 0000000000..aa487dea79
-> > --- /dev/null
-> > +++ b/hw/i386/sgx-epc.c
-> > @@ -0,0 +1,161 @@
-> > +/*
-> > + * SGX EPC device
-> > + *
-> > + * Copyright (C) 2019 Intel Corporation
-> > + *
-> > + * Authors:
-> > + *   Sean Christopherson <sean.j.christopherson@intel.com>
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> > + * See the COPYING file in the top-level directory.
-> > + */
-> > +#include "qemu/osdep.h"
-> > +#include "hw/i386/pc.h"
-> > +#include "hw/i386/sgx-epc.h"
-> > +#include "hw/mem/memory-device.h"
-> > +#include "hw/qdev-properties.h"
-> > +#include "monitor/qdev.h"
-> 
-> Is that include used?
-> 
-> > +#include "qapi/error.h"
-> > +#include "qapi/visitor.h"
-> > +#include "qemu/config-file.h"
-> 
-> Ditto.
-> 
-> > +#include "qemu/error-report.h"
-> 
-> Ditto.
-> 
-> > +#include "qemu/option.h"
-> 
-> Ditto.
-> 
-> > +#include "qemu/units.h"
-> 
-> Ditto.
->
- 
-  Thanks Philippe, those header files have been removed in the Paolo's
-  gitlab(sgx branch), thanks!
+Hi,
 
-  Yang
+In this version the biggest change is the end of the numa_assoc_array
+struct in the machine state. The write_dt() functions are now retrieving
+the current NUMA associativity array by checking CAS first.
 
- 
-> > +#include "target/i386/cpu.h"
-> > +#include "exec/address-spaces.h"
+This change allowed for several simplifications, e.g. we don't need
+a reset() function to be called after CAS or in spapr_post_load().
+Arrays are now statically allocated.
+
+I also catched a last minute bug during my tests. See patch 7 for more
+info.
+
+Changes from v6:
+- patch 1:
+  * added Greg's r-b
+- patch 2:
+  * added the missing NUMA nodes number check
+  * added Greg's r-b
+- patch 3 (former patch 4):
+  * no changes.
+- former patch 3 (associativity_reset()): dropped
+- patch 4 (new):
+  * added get_associativity()
+  * do not allocate FORM1_assoc_array in the heap
+- patch 5:
+  * fixed typo
+  * added new check function to be called in CAS
+- patch 6:
+  * do not allocate FORM2_assoc_array in the heap
+- patch 7 (new):
+  * FORM2 fixes to handle the implicit added QEMU NUMA node when there's
+  no NUMA node added by the user.
+- v6 link: https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02892.html
+
+
+Daniel Henrique Barboza (7):
+  spapr_numa.c: split FORM1 code into helpers
+  spapr_numa.c: scrap 'legacy_numa' concept
+  spapr_numa.c: parametrize FORM1 macros
+  spapr_numa.c: rename numa_assoc_array to FORM1_assoc_array
+  spapr: move FORM1 verifications to post CAS
+  spapr_numa.c: FORM2 NUMA affinity support
+  spapr_numa.c: handle auto NUMA node with no distance info
+
+ hw/ppc/spapr.c              |  41 +---
+ hw/ppc/spapr_hcall.c        |   7 +
+ hw/ppc/spapr_numa.c         | 380 ++++++++++++++++++++++++++++++------
+ include/hw/ppc/spapr.h      |  35 ++--
+ include/hw/ppc/spapr_numa.h |   1 +
+ include/hw/ppc/spapr_ovec.h |   1 +
+ 6 files changed, 354 insertions(+), 111 deletions(-)
+
+-- 
+2.31.1
+
 
