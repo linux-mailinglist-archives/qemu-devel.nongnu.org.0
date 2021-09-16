@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D49A40D793
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:39:39 +0200 (CEST)
-Received: from localhost ([::1]:39004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5338440D78A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:37:48 +0200 (CEST)
+Received: from localhost ([::1]:34326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQonq-0002VM-Fh
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:39:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47424)
+	id 1mQom3-0007jl-An
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:37:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mQok7-0003D9-Hv; Thu, 16 Sep 2021 06:35:47 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:52665)
+ id 1mQokj-00057g-79; Thu, 16 Sep 2021 06:36:25 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:33603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mQok5-000277-PC; Thu, 16 Sep 2021 06:35:47 -0400
+ id 1mQokh-0002mP-N4; Thu, 16 Sep 2021 06:36:24 -0400
 Received: from [192.168.100.1] ([82.142.27.6]) by mrelayeu.kundenserver.de
  (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N7zJj-1mv0001R6R-014z98; Thu, 16 Sep 2021 11:52:43 +0200
-Subject: Re: [PATCH, trivial, for-6.1] target/i386: spelling: occured=>occurred
-To: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org
-References: <20210818141352.417716-1-mjt@msgid.tls.msk.ru>
+ 1MyseA-1mmRmH09mE-00vwii; Thu, 16 Sep 2021 11:55:59 +0200
+Subject: Re: [PATCH] intel_iommu: Fix typo in comments
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Cai Huoqing <caihuoqing@baidu.com>, mst@redhat.com, peterx@redhat.com,
+ jasowang@redhat.com
+References: <20210730014942.2311-1-caihuoqing@baidu.com>
+ <6305f2ce-5d58-7eac-1568-05b64f45d96f@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <68147eaf-126f-c2b6-3269-c1b7a5aa8a4d@vivier.eu>
-Date: Thu, 16 Sep 2021 11:52:41 +0200
+Message-ID: <5fc722a9-be3d-d2fb-9664-e498c5eeec9e@vivier.eu>
+Date: Thu, 16 Sep 2021 11:55:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210818141352.417716-1-mjt@msgid.tls.msk.ru>
+In-Reply-To: <6305f2ce-5d58-7eac-1568-05b64f45d96f@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:8tlLkUz8UjUU/fgVdPUmNK8PLQmnjufmMi5+JYE0hqySgSZk55+
- 7qQCwYjUv5slL/sVia9lX7yck597xWk4BdxS9W8o30ltGe2w2vCuMMOteN+MSoj+EOS89QR
- BRr0Vw2BoGImc774l7/rno4jmfH1LJ1BwYn/U6Cjwhah+3CQOuCh9oHg4YQjY/X9gT2sdDf
- /hsWfmwuj80JchI7ulC/g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KJ7xXlMjvHU=:4BZ+Giim3KHRiQhwaiHX+4
- /Twgel+mT2mRcbfVjKnZOwrTi/fCrFYBbR2EgsUCnIfEPSCpQvi0kHn2F3tGh+ILvZMfoIeL+
- vQCVH30HmT5mUbbTFzq1O8anbnYhyasq1ZBiqwf3BHhvDvj8GoRKJEEkvcONamVW7NA0BAitz
- DwBMYOxG+UCdxJYhsq2qpv/4OeJAICguqfHCsGIAJMZ2vra+3kKUCH+dbDpNVsdjrHGBe+oxD
- GyB2hXZfAFpO5hobDs+D3Ouxo2RfLycb/G544zDlYPDsqjyZ/OEn4gsuKLgwN+77y13oXhOs2
- ge6gAjRKQSdIWMI6h5wrxFAv40aUqwMbI0l45CVG/GbdneqyM+U0V7ouNh54ZnIxHDiBckepE
- dziV7+b6tfPyajMD13g4wxB+YkHJFaj6EWNJoc3V/cBs3+VAT+pLIOi7yIf1YkiNBDySVfiTS
- Vag9ww3rwoKDiC5m/kJwxqVk+2qg5EJb8B2Nn8mHHzofTXyWU/SF4+ViSsgHP+Je8jzEGvPF0
- zfHRvmUuiJvHJdljd758sqbYNkJy0SMBzO+zZydg/kcCK4Xf6HYgiyaRD1t2Z8gfArImIlov7
- sudp+ttkKhgtR4T5SEI9pp3DxGUMpP1lWYKHQ+HDDcNXNAeFkScTE0AAaNgs4H1BZ1xpph7P0
- 0lOEqiN7X2dig9dFREOmBumNOxNAr/qpbUefE/MpvMjwJ6L6yIskElAae65Aq4/lMk9IVzmPE
- VyX4ypXToSTvWiADKLaX3lsALaXVUigiP0F4e+pcMhIgcX/lk2v4WIpGi25rpTo3BRVzGPK+V
- kbUOC4R
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:BDYPMQNyamKfRW2oseWUIkB0PMr2ZCOJZSFAQKVCbTtdhik+Ylb
+ pBctbtGQF7FexGmtRP1hmrb5/CAStbqjphTK+huxecj68EZxY8lXH4LW5cuqN2zxJnlHY1q
+ Y+OxqSfmKjMU2g6OZ0LzCIA9kBH/B9Si7tBUwTSjiEfdTYPJICjzXYdHgZRK9RCQC8TWrGe
+ a2+QelwJohvjHuTrJi8NQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VAYZ1GgB47U=:bU2vXAEJEJOngFxQAvtKn7
+ cGmKSCRJUtZ4UUjxulgaBVpBPio0u332DEUq1MOrSAbah7SBYJxTh5ZSctlKBDME2ijnGwN5v
+ aAREEw+mBbR3iY5q0oVmdJu1nuEvrb+zY7GPmga4Q7SXPhhkhdfSYAPFHYoIYkZ0ra4semg9j
+ 2+59VkqkaBZGW0E/Qzsqu9ypWXCL9FdgxQNPDwYlHHP822MYGKvdxIU6MzzV86STBeG49l5yV
+ d2P9ZDRuLgp0I+nmr1kXODH/6C5B3e/2oaJF12E+737FdxZLc/EP6W7qDZl9eZT473nmkecYO
+ nM9oN6lbTr5+R32dezRUHPZ14m6vCDOodjpqeyHKWYJYLrMwX0ctbNX3pRfx+lfbIh3GKak3O
+ AjsRjhxU0Iu1sTkKxq6gLsJh8rkHP64GRUb632E7IG7cK+VFwG+O2yiMDYnWk80UduKHuqQrX
+ /ldh5MpbGnKhacBBpENoDc5rlmWCQehNEcFcfllWjTkshyRdqJ0hOF/0C705hxeRhUf0vahTM
+ eV4ojR5IaQ1MxHx5lUT9rwF+XObg2L/DKg0rc4on0YFwD0rRbZ3/RMgE649mq6TiJm+ZcVe3k
+ arPRSk17j66Xcfl40TeA0rx13CT9ucNqL/YtzdJ9BmKE4I035jciu5XkxoOk7YNz3+nuOnhDo
+ 5IEK0//CdlxGR7nwASqK3vpCrCtGbZO41e87SceUr7tswI+HlGoDEP/pgMDcMELv6wBb4LmFk
+ MIbDCYp5w+exNcY3zL57Iq4d6v9s5hgY2HmopV8XvrddPyReBuuWOx0d+uW3dq96hrph/7meQ
+ 8eRl7KX
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -70,48 +73,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 18/08/2021 à 16:13, Michael Tokarev a écrit :
-> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-> ---
->  accel/kvm/kvm-all.c      | 2 +-
->  target/i386/cpu-sysemu.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+Le 30/07/2021 à 15:27, Philippe Mathieu-Daudé a écrit :
+> On 7/30/21 3:49 AM, Cai Huoqing wrote:
+>> Fix typo:
+>> *Unknwon  ==> Unknown
+>> *futher  ==> further
+>> *configed  ==> configured
+>>
+>> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+>> ---
+>>  hw/i386/intel_iommu.c | 8 ++++----
+>>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index 0125c17edb..cace5ffe64 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -2469,7 +2469,7 @@ static int kvm_init(MachineState *ms)
->              ret = kvm_vm_enable_cap(s, KVM_CAP_DIRTY_LOG_RING, 0, ring_bytes);
->              if (ret) {
->                  error_report("Enabling of KVM dirty ring failed: %s. "
-> -                             "Suggested mininum value is 1024.", strerror(-ret));
-> +                             "Suggested minimum value is 1024.", strerror(-ret));
->                  goto err;
->              }
->  
-> diff --git a/target/i386/cpu-sysemu.c b/target/i386/cpu-sysemu.c
-> index 1078e3d157..37b7c562f5 100644
-> --- a/target/i386/cpu-sysemu.c
-> +++ b/target/i386/cpu-sysemu.c
-> @@ -335,7 +335,7 @@ void x86_cpu_get_crash_info_qom(Object *obj, Visitor *v,
->      GuestPanicInformation *panic_info;
->  
->      if (!cs->crash_occurred) {
-> -        error_setg(errp, "No crash occured");
-> +        error_setg(errp, "No crash occurred");
->          return;
->      }
->  
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > 
-
+> 
 Applied to my trivial-patches branch.
-
-Updated subject with mininum=>minimum
 
 Thanks,
 Laurent
