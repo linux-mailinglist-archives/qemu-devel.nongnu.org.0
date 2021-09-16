@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE49140DDD6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:19:55 +0200 (CEST)
-Received: from localhost ([::1]:42654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3BD540DDE5
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:21:56 +0200 (CEST)
+Received: from localhost ([::1]:46980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQtB4-0004SM-Vv
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36262)
+	id 1mQtD1-0007Ql-Om
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:21:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mQt4U-00037r-4e
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:13:06 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:40885)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mQt4K-0002xW-LD
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:12:56 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:38697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mQt4A-0004At-Rl
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:13:03 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mQt4H-0004FU-TU
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:12:56 -0400
 Received: from quad ([82.142.27.6]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1M27ep-1mSnwG2TVZ-002amk; Thu, 16
- Sep 2021 17:12:41 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MY6P5-1mPRrz0dBt-00YOrK; Thu, 16
+ Sep 2021 17:12:42 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/10] linux-user: Split mmap prototypes into user-mmap.h
-Date: Thu, 16 Sep 2021 17:12:32 +0200
-Message-Id: <20210916151237.1188301-6-laurent@vivier.eu>
+Subject: [PULL 06/10] linux-user: Split safe-syscall macro into its own header
+Date: Thu, 16 Sep 2021 17:12:33 +0200
+Message-Id: <20210916151237.1188301-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210916151237.1188301-1-laurent@vivier.eu>
 References: <20210916151237.1188301-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fisbrR2TAFF4KtCuGEU6ddyrKDFa6KLsXsx5twGIcqCWOK2oWLS
- ZtjGplSNM1n0K8Z1R5zwy9jTmh1K5BU9ZNDA20urHBbAf+6W8/cw+7hexkPrCJD8fO97j2g
- 5UYjmbsQa/+P6zm36y1Kd8FzaCMUSqdPb0sqIZwBNkB5oVf7efpmrsiXOoM/oAzsbJ4ZKDt
- Z7hTpvpCT9ZBWUOvOwlWA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OcY21J0WZlk=:2hW+QZCbk3OuFJNimB9cLN
- rgFgvYpj0ILeeKLJVQOpP38YTlFXBorlx9qwEONQPFpNDTynFbXin1/QeGRsSnOnm1Gssme0o
- 43uLKlpgttYhfqyWsqJAw1D0fyWL8UhPgFUTQYBbRnda63ncktb342yVgAvhtfgjuvzT0pSlK
- z36Q/ynDV7QDW+8YlJ/8WquKH1HK1xRSODtFtDYkCsdkefqcsiZT6Qb03w1SxXVM387kfuVZc
- o0hXSGlr4JBXOBeQdU2lGINNEcrFE0rTd8mSsSkek9/NigAX1SihMXBJyuoQThbZn40EzQcP8
- 1B9VFaiPwRsITc4ztom4wcMffVBPOAjdpheJo9lmYHCq8gpA0Vd7gCkMarrhjI0l+tbKJWIrd
- m5p+7hKmkRZtUX/BiRB3Gt2JTkQ6JX881j5L/FWOH2YaRVFZ+6HDk/TQWEV5Bf4JILDIJZSB3
- kDnHyPGkrHkbCA864gFJZpHoUVk7nXm+q6oedZBZTlFA8tg+m6Jy9dw34KMUTse+rNt0wtoqe
- XSas03xW90q+tGP8U6IgfFZzhLE+XMVyu3SVDY8ikrGrBb3XfbRhHNtJzW88nR/RlwX7FiWc6
- iLudsW1Txyt7Goi7o/bZ4v9D7XGRoAW7qg35dwNO76xn0cYYllxRfG2UKLSBrBjEAaGCl7Ubg
- 5sRBiLPIWqLvkebVZPOJb5u/r6rPnwAt7phkyCFM7D8XUfd9n9WzDigXSN1WPdlu91SMFLP01
- Ko5IaGMFbS+COuQR4RY3AXCa+LZd2zDxTDcDNQ==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:+Vp8u7c4VeUNyjpDUNpTmJyMbG4avvzcUoQSpQ8CpmxxoFYP07l
+ /xsH7fV4tEzQ8ZJ2EXSq5/6dR0mFvjF5Cmx/wIMBtbGHNpjMKciI5aPFr6X6NQxf+8XiuPD
+ j3GXTWQV5sqy45qmAJ/BBQJ0CbTFKPzogWfTsCU68Y53uvXJ7Blo3NQazhNTgoUQ/C0DQhb
+ UHi/Fcxv7U6/AHsDMfLoQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7VoIXFLKvxE=:EOE9YHypF6oyD2W4WaTFRh
+ oLpzDSjN8+RIKqYHyZ+RO8zRhlIV6DCpHw1sJV1iQ3fCEM7VK0OLutb0RgM6yM1dBNAfsRnC+
+ M12rYzy9OOdO/G59yDKQCuozFHOVOXgbEs6k3Zx+n12kvQK1PPJtZVebEOUiAxX5TQtExQW8y
+ Mnlgc8Ph5gZs3TrObI4/YGQFWOATBssZz6pOdtmN/9lP7vJ57WdHBDVp7bAbcM622Bk+wnSUt
+ RXvCaC8PRlpIpOIbzYTepOVAVwqHFwZNeSc4EImIndN87ebsuXL++8VgYkwaAM1zLKUVkqp5x
+ UaQMmKcW8HWEcWd2brRWWE873wvsX3S7qLyhDQqaUT/x5JPITgwQeACCASOSx2i6bJ4DHtspy
+ ucBHeKNVFtpfmySsfa/cekneqhCYGNZjiP3VwNB/QHngiE6MFGFZg9POg5vR67dJB+RJzQq5c
+ 5mmBd4Ac4/Jr4eSUslQnZnhVWFWbLH7Z/R1Ik6+JEColaPE5cj1T2/AtxL1gEiTYl41DVaY3B
+ 3rW3k0UoUZRg73+vz0oQbXyxnukbzdQ0H4x6XBwr+zx9K+56/c3XzGRps3Cc49E0GmiUujBqI
+ 74dDSHVrRPinBNylqxV+4vJWp7ARy3mWU7fXgmwXDLnATxzR2MYGRFtW/jLj8mqq5HmORxxFM
+ nm/00yPXrS9qRTI/FsG/JZeTo/GRWK5lNN50Y+f/BfywALTy1uSZR5lTJSz9mbPImJuZzVJGz
+ gLGETyXykehOHivcvfBY5wqoicNrgtnPaX3b7g==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) SPF_HELO_NONE=0.001,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,131 +76,174 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-Split out the mmap prototypes into a new header user-mmap.h
-which we only include where required.
+Split the safe-syscall macro from qemu.h into a new safe-syscall.h.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210908154405.15417-6-peter.maydell@linaro.org>
+Message-Id: <20210908154405.15417-7-peter.maydell@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c       |  1 +
- linux-user/flatload.c      |  1 +
- linux-user/i386/cpu_loop.c |  1 +
- linux-user/main.c          |  1 +
- linux-user/mmap.c          |  1 +
- linux-user/qemu.h          | 14 --------------
- linux-user/syscall.c       |  1 +
- linux-user/user-mmap.h     | 34 ++++++++++++++++++++++++++++++++++
- 8 files changed, 40 insertions(+), 14 deletions(-)
- create mode 100644 linux-user/user-mmap.h
+ linux-user/qemu.h         | 135 ---------------------------------
+ linux-user/safe-syscall.h | 154 ++++++++++++++++++++++++++++++++++++++
+ linux-user/syscall.c      |   1 +
+ 3 files changed, 155 insertions(+), 135 deletions(-)
+ create mode 100644 linux-user/safe-syscall.h
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 6244fcd05ce4..c291f3cee09f 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -7,6 +7,7 @@
- 
- #include "qemu.h"
- #include "loader.h"
-+#include "user-mmap.h"
- #include "disas/disas.h"
- #include "qemu/bitops.h"
- #include "qemu/path.h"
-diff --git a/linux-user/flatload.c b/linux-user/flatload.c
-index 7484a4a35432..99550061db8d 100644
---- a/linux-user/flatload.c
-+++ b/linux-user/flatload.c
-@@ -37,6 +37,7 @@
- 
- #include "qemu.h"
- #include "loader.h"
-+#include "user-mmap.h"
- #include "flat.h"
- #include "target_flat.h"
- 
-diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
-index ee2e139a0634..fcc410a426ae 100644
---- a/linux-user/i386/cpu_loop.c
-+++ b/linux-user/i386/cpu_loop.c
-@@ -22,6 +22,7 @@
- #include "qemu.h"
- #include "cpu_loop-common.h"
- #include "signal-common.h"
-+#include "user-mmap.h"
- 
- /***********************************************************/
- /* CPUX86 core interface */
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 67c5a87ffadd..a76aec733689 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -51,6 +51,7 @@
- #include "fd-trans.h"
- #include "signal-common.h"
- #include "loader.h"
-+#include "user-mmap.h"
- 
- #ifndef AT_FLAGS_PRESERVE_ARGV0
- #define AT_FLAGS_PRESERVE_ARGV0_BIT 0
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 0e103859fed8..4b182444bbdc 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -20,6 +20,7 @@
- #include "trace.h"
- #include "exec/log.h"
- #include "qemu.h"
-+#include "user-mmap.h"
- 
- static pthread_mutex_t mmap_mutex = PTHREAD_MUTEX_INITIALIZER;
- static __thread int mmap_lock_count;
 diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 02c4778c9704..0cb799905796 100644
+index 0cb799905796..a82a46236e64 100644
 --- a/linux-user/qemu.h
 +++ b/linux-user/qemu.h
-@@ -389,20 +389,6 @@ void sparc64_set_context(CPUSPARCState *env);
- void sparc64_get_context(CPUSPARCState *env);
- #endif
+@@ -240,141 +240,6 @@ void probe_guest_base(const char *image_name,
  
--/* mmap.c */
--int target_mprotect(abi_ulong start, abi_ulong len, int prot);
--abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
--                     int flags, int fd, abi_ulong offset);
--int target_munmap(abi_ulong start, abi_ulong len);
--abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
--                       abi_ulong new_size, unsigned long flags,
--                       abi_ulong new_addr);
--extern unsigned long last_brk;
--extern abi_ulong mmap_next_start;
--abi_ulong mmap_find_vma(abi_ulong, abi_ulong, abi_ulong);
--void mmap_fork_start(void);
--void mmap_fork_end(int child);
+ #include "qemu/log.h"
+ 
+-/* safe_syscall.S */
 -
- /* user access */
+-/**
+- * safe_syscall:
+- * @int number: number of system call to make
+- * ...: arguments to the system call
+- *
+- * Call a system call if guest signal not pending.
+- * This has the same API as the libc syscall() function, except that it
+- * may return -1 with errno == TARGET_ERESTARTSYS if a signal was pending.
+- *
+- * Returns: the system call result, or -1 with an error code in errno
+- * (Errnos are host errnos; we rely on TARGET_ERESTARTSYS not clashing
+- * with any of the host errno values.)
+- */
+-
+-/*
+- * A guide to using safe_syscall() to handle interactions between guest
+- * syscalls and guest signals:
+- *
+- * Guest syscalls come in two flavours:
+- *
+- * (1) Non-interruptible syscalls
+- *
+- * These are guest syscalls that never get interrupted by signals and
+- * so never return EINTR. They can be implemented straightforwardly in
+- * QEMU: just make sure that if the implementation code has to make any
+- * blocking calls that those calls are retried if they return EINTR.
+- * It's also OK to implement these with safe_syscall, though it will be
+- * a little less efficient if a signal is delivered at the 'wrong' moment.
+- *
+- * Some non-interruptible syscalls need to be handled using block_signals()
+- * to block signals for the duration of the syscall. This mainly applies
+- * to code which needs to modify the data structures used by the
+- * host_signal_handler() function and the functions it calls, including
+- * all syscalls which change the thread's signal mask.
+- *
+- * (2) Interruptible syscalls
+- *
+- * These are guest syscalls that can be interrupted by signals and
+- * for which we need to either return EINTR or arrange for the guest
+- * syscall to be restarted. This category includes both syscalls which
+- * always restart (and in the kernel return -ERESTARTNOINTR), ones
+- * which only restart if there is no handler (kernel returns -ERESTARTNOHAND
+- * or -ERESTART_RESTARTBLOCK), and the most common kind which restart
+- * if the handler was registered with SA_RESTART (kernel returns
+- * -ERESTARTSYS). System calls which are only interruptible in some
+- * situations (like 'open') also need to be handled this way.
+- *
+- * Here it is important that the host syscall is made
+- * via this safe_syscall() function, and *not* via the host libc.
+- * If the host libc is used then the implementation will appear to work
+- * most of the time, but there will be a race condition where a
+- * signal could arrive just before we make the host syscall inside libc,
+- * and then then guest syscall will not correctly be interrupted.
+- * Instead the implementation of the guest syscall can use the safe_syscall
+- * function but otherwise just return the result or errno in the usual
+- * way; the main loop code will take care of restarting the syscall
+- * if appropriate.
+- *
+- * (If the implementation needs to make multiple host syscalls this is
+- * OK; any which might really block must be via safe_syscall(); for those
+- * which are only technically blocking (ie which we know in practice won't
+- * stay in the host kernel indefinitely) it's OK to use libc if necessary.
+- * You must be able to cope with backing out correctly if some safe_syscall
+- * you make in the implementation returns either -TARGET_ERESTARTSYS or
+- * EINTR though.)
+- *
+- * block_signals() cannot be used for interruptible syscalls.
+- *
+- *
+- * How and why the safe_syscall implementation works:
+- *
+- * The basic setup is that we make the host syscall via a known
+- * section of host native assembly. If a signal occurs, our signal
+- * handler checks the interrupted host PC against the addresse of that
+- * known section. If the PC is before or at the address of the syscall
+- * instruction then we change the PC to point at a "return
+- * -TARGET_ERESTARTSYS" code path instead, and then exit the signal handler
+- * (causing the safe_syscall() call to immediately return that value).
+- * Then in the main.c loop if we see this magic return value we adjust
+- * the guest PC to wind it back to before the system call, and invoke
+- * the guest signal handler as usual.
+- *
+- * This winding-back will happen in two cases:
+- * (1) signal came in just before we took the host syscall (a race);
+- *   in this case we'll take the guest signal and have another go
+- *   at the syscall afterwards, and this is indistinguishable for the
+- *   guest from the timing having been different such that the guest
+- *   signal really did win the race
+- * (2) signal came in while the host syscall was blocking, and the
+- *   host kernel decided the syscall should be restarted;
+- *   in this case we want to restart the guest syscall also, and so
+- *   rewinding is the right thing. (Note that "restart" semantics mean
+- *   "first call the signal handler, then reattempt the syscall".)
+- * The other situation to consider is when a signal came in while the
+- * host syscall was blocking, and the host kernel decided that the syscall
+- * should not be restarted; in this case QEMU's host signal handler will
+- * be invoked with the PC pointing just after the syscall instruction,
+- * with registers indicating an EINTR return; the special code in the
+- * handler will not kick in, and we will return EINTR to the guest as
+- * we should.
+- *
+- * Notice that we can leave the host kernel to make the decision for
+- * us about whether to do a restart of the syscall or not; we do not
+- * need to check SA_RESTART flags in QEMU or distinguish the various
+- * kinds of restartability.
+- */
+-#ifdef HAVE_SAFE_SYSCALL
+-/* The core part of this function is implemented in assembly */
+-extern long safe_syscall_base(int *pending, long number, ...);
+-
+-#define safe_syscall(...)                                               \
+-    ({                                                                  \
+-        long ret_;                                                      \
+-        int *psp_ = &((TaskState *)thread_cpu->opaque)->signal_pending; \
+-        ret_ = safe_syscall_base(psp_, __VA_ARGS__);                    \
+-        if (is_error(ret_)) {                                           \
+-            errno = -ret_;                                              \
+-            ret_ = -1;                                                  \
+-        }                                                               \
+-        ret_;                                                           \
+-    })
+-
+-#else
+-
+-/*
+- * Fallback for architectures which don't yet provide a safe-syscall assembly
+- * fragment; note that this is racy!
+- * This should go away when all host architectures have been updated.
+- */
+-#define safe_syscall syscall
+-
+-#endif
+-
+ /* syscall.c */
+ int host_to_target_waitstatus(int status);
  
- #define VERIFY_READ  PAGE_READ
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index b1cd7410d8bb..b6c8406e1dc0 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -130,6 +130,7 @@
- #include "strace.h"
- #include "signal-common.h"
- #include "loader.h"
-+#include "user-mmap.h"
- #include "qemu/guest-random.h"
- #include "qemu/selfmap.h"
- #include "user/syscall-trace.h"
-diff --git a/linux-user/user-mmap.h b/linux-user/user-mmap.h
+diff --git a/linux-user/safe-syscall.h b/linux-user/safe-syscall.h
 new file mode 100644
-index 000000000000..d1dec99c0249
+index 000000000000..6bc039026284
 --- /dev/null
-+++ b/linux-user/user-mmap.h
-@@ -0,0 +1,34 @@
++++ b/linux-user/safe-syscall.h
+@@ -0,0 +1,154 @@
 +/*
-+ * user-mmap.h: prototypes for linux-user guest binary loader
++ * safe-syscall.h: prototypes for linux-user signal-race-safe syscalls
 + *
 + *  This program is free software; you can redistribute it and/or modify
 + *  it under the terms of the GNU General Public License as published by
@@ -215,23 +259,155 @@ index 000000000000..d1dec99c0249
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef LINUX_USER_USER_MMAP_H
-+#define LINUX_USER_USER_MMAP_H
++#ifndef LINUX_USER_SAFE_SYSCALL_H
++#define LINUX_USER_SAFE_SYSCALL_H
 +
-+int target_mprotect(abi_ulong start, abi_ulong len, int prot);
-+abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-+                     int flags, int fd, abi_ulong offset);
-+int target_munmap(abi_ulong start, abi_ulong len);
-+abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
-+                       abi_ulong new_size, unsigned long flags,
-+                       abi_ulong new_addr);
-+extern unsigned long last_brk;
-+extern abi_ulong mmap_next_start;
-+abi_ulong mmap_find_vma(abi_ulong, abi_ulong, abi_ulong);
-+void mmap_fork_start(void);
-+void mmap_fork_end(int child);
++/**
++ * safe_syscall:
++ * @int number: number of system call to make
++ * ...: arguments to the system call
++ *
++ * Call a system call if guest signal not pending.
++ * This has the same API as the libc syscall() function, except that it
++ * may return -1 with errno == TARGET_ERESTARTSYS if a signal was pending.
++ *
++ * Returns: the system call result, or -1 with an error code in errno
++ * (Errnos are host errnos; we rely on TARGET_ERESTARTSYS not clashing
++ * with any of the host errno values.)
++ */
 +
-+#endif /* LINUX_USER_USER_MMAP_H */
++/*
++ * A guide to using safe_syscall() to handle interactions between guest
++ * syscalls and guest signals:
++ *
++ * Guest syscalls come in two flavours:
++ *
++ * (1) Non-interruptible syscalls
++ *
++ * These are guest syscalls that never get interrupted by signals and
++ * so never return EINTR. They can be implemented straightforwardly in
++ * QEMU: just make sure that if the implementation code has to make any
++ * blocking calls that those calls are retried if they return EINTR.
++ * It's also OK to implement these with safe_syscall, though it will be
++ * a little less efficient if a signal is delivered at the 'wrong' moment.
++ *
++ * Some non-interruptible syscalls need to be handled using block_signals()
++ * to block signals for the duration of the syscall. This mainly applies
++ * to code which needs to modify the data structures used by the
++ * host_signal_handler() function and the functions it calls, including
++ * all syscalls which change the thread's signal mask.
++ *
++ * (2) Interruptible syscalls
++ *
++ * These are guest syscalls that can be interrupted by signals and
++ * for which we need to either return EINTR or arrange for the guest
++ * syscall to be restarted. This category includes both syscalls which
++ * always restart (and in the kernel return -ERESTARTNOINTR), ones
++ * which only restart if there is no handler (kernel returns -ERESTARTNOHAND
++ * or -ERESTART_RESTARTBLOCK), and the most common kind which restart
++ * if the handler was registered with SA_RESTART (kernel returns
++ * -ERESTARTSYS). System calls which are only interruptible in some
++ * situations (like 'open') also need to be handled this way.
++ *
++ * Here it is important that the host syscall is made
++ * via this safe_syscall() function, and *not* via the host libc.
++ * If the host libc is used then the implementation will appear to work
++ * most of the time, but there will be a race condition where a
++ * signal could arrive just before we make the host syscall inside libc,
++ * and then then guest syscall will not correctly be interrupted.
++ * Instead the implementation of the guest syscall can use the safe_syscall
++ * function but otherwise just return the result or errno in the usual
++ * way; the main loop code will take care of restarting the syscall
++ * if appropriate.
++ *
++ * (If the implementation needs to make multiple host syscalls this is
++ * OK; any which might really block must be via safe_syscall(); for those
++ * which are only technically blocking (ie which we know in practice won't
++ * stay in the host kernel indefinitely) it's OK to use libc if necessary.
++ * You must be able to cope with backing out correctly if some safe_syscall
++ * you make in the implementation returns either -TARGET_ERESTARTSYS or
++ * EINTR though.)
++ *
++ * block_signals() cannot be used for interruptible syscalls.
++ *
++ *
++ * How and why the safe_syscall implementation works:
++ *
++ * The basic setup is that we make the host syscall via a known
++ * section of host native assembly. If a signal occurs, our signal
++ * handler checks the interrupted host PC against the addresse of that
++ * known section. If the PC is before or at the address of the syscall
++ * instruction then we change the PC to point at a "return
++ * -TARGET_ERESTARTSYS" code path instead, and then exit the signal handler
++ * (causing the safe_syscall() call to immediately return that value).
++ * Then in the main.c loop if we see this magic return value we adjust
++ * the guest PC to wind it back to before the system call, and invoke
++ * the guest signal handler as usual.
++ *
++ * This winding-back will happen in two cases:
++ * (1) signal came in just before we took the host syscall (a race);
++ *   in this case we'll take the guest signal and have another go
++ *   at the syscall afterwards, and this is indistinguishable for the
++ *   guest from the timing having been different such that the guest
++ *   signal really did win the race
++ * (2) signal came in while the host syscall was blocking, and the
++ *   host kernel decided the syscall should be restarted;
++ *   in this case we want to restart the guest syscall also, and so
++ *   rewinding is the right thing. (Note that "restart" semantics mean
++ *   "first call the signal handler, then reattempt the syscall".)
++ * The other situation to consider is when a signal came in while the
++ * host syscall was blocking, and the host kernel decided that the syscall
++ * should not be restarted; in this case QEMU's host signal handler will
++ * be invoked with the PC pointing just after the syscall instruction,
++ * with registers indicating an EINTR return; the special code in the
++ * handler will not kick in, and we will return EINTR to the guest as
++ * we should.
++ *
++ * Notice that we can leave the host kernel to make the decision for
++ * us about whether to do a restart of the syscall or not; we do not
++ * need to check SA_RESTART flags in QEMU or distinguish the various
++ * kinds of restartability.
++ */
++#ifdef HAVE_SAFE_SYSCALL
++/* The core part of this function is implemented in assembly */
++extern long safe_syscall_base(int *pending, long number, ...);
++
++#define safe_syscall(...)                                               \
++    ({                                                                  \
++        long ret_;                                                      \
++        int *psp_ = &((TaskState *)thread_cpu->opaque)->signal_pending; \
++        ret_ = safe_syscall_base(psp_, __VA_ARGS__);                    \
++        if (is_error(ret_)) {                                           \
++            errno = -ret_;                                              \
++            ret_ = -1;                                                  \
++        }                                                               \
++        ret_;                                                           \
++    })
++
++#else
++
++/*
++ * Fallback for architectures which don't yet provide a safe-syscall assembly
++ * fragment; note that this is racy!
++ * This should go away when all host architectures have been updated.
++ */
++#define safe_syscall syscall
++
++#endif
++
++#endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index b6c8406e1dc0..9873830b465b 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -131,6 +131,7 @@
+ #include "signal-common.h"
+ #include "loader.h"
+ #include "user-mmap.h"
++#include "safe-syscall.h"
+ #include "qemu/guest-random.h"
+ #include "qemu/selfmap.h"
+ #include "user/syscall-trace.h"
 -- 
 2.31.1
 
