@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A938540DBA1
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 15:46:13 +0200 (CEST)
-Received: from localhost ([::1]:60990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 012C640DB94
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 15:44:18 +0200 (CEST)
+Received: from localhost ([::1]:58872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQriO-0007zo-8i
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 09:46:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35516)
+	id 1mQrgX-0006XM-4G
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 09:44:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQrfG-0005gQ-OZ
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:42:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41712)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQrfB-0000FN-Q7
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:42:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631799771;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HPiUXY4+c3KhodmENffwvEWaABK/LRXjEo6QDhno+2Y=;
- b=Bn3OmPZOA/pUnp4m1ab+bh+MInlQr/KOLcl/Dkg9MuKo469FOCy212cuKso/pb5j7IQPTY
- egBDpJcpu5ANJgDnKhXB7+umJrM+7E55HxKkaD/t4sbdKxYX5HsD+ypFqyD1/YZ1nViMos
- Z/yZhOFK9e6r9Cxms361h+weinGOIc4=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-3un-lICHPvWPfhv9-m9hHA-1; Thu, 16 Sep 2021 09:42:42 -0400
-X-MC-Unique: 3un-lICHPvWPfhv9-m9hHA-1
-Received: by mail-ot1-f72.google.com with SMTP id
- r10-20020a056830448a00b0051b9c05a2a8so26720899otv.2
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 06:42:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mQrf8-0005Vw-CU
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:42:50 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42530)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mQrf6-0000Al-13
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:42:50 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id q11so9565514wrr.9
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 06:42:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=b5jV+2z/QDEzpF7P05W5teG4eKI+YZACdN/YNAIx45Y=;
+ b=VQuKWTNWnB+sPBS1+qneGSZBKS3OLqo1EK7kc9rfZ5HS7CDjn3q+ayapKY8tx7wEy9
+ vG8NTmJjzc8CfMSefeH/OggOnj/rj6iNcVx1gIXJ62aM+dRRBc4OCddVOf5rqBwbRBhz
+ ks/wOJ/mN0P/G2DytYTL44+OkJRz5BDlyWz2vxku+y980lUPTjwThMOj5r1jHrRVw+iS
+ nbxOgQkOq8vLwA5qUVnwsQHqRIITAtDh9nOb4GGJUeVED3YKbqVI92ehwa1W10FUsF23
+ dGUh5VCcwHCGGaCh9fshLivBWxK5c9Ok64uz3ouWtrMyUGY4H+7KbeWM9hTSrhrdrUbB
+ 09Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=HPiUXY4+c3KhodmENffwvEWaABK/LRXjEo6QDhno+2Y=;
- b=bIx27CuwcEVYryzBFqk12fyC9LjCKt9aWQFL0rVuuWzWHi1AgCgDQDK8H8sfXvnKeY
- HaN0yMUks/+hyc4QVNxlzgcMVHXHpmth8N4pGcJQU3ZowKELeh+SeJsGJe+LczhAP0fE
- g1bLt5yKKh4ouzQ5p3Mv230Ja1MZjCsFPZ/8cAr/wjbbqZWW4pGf8sj+wEe73H8Rx77i
- MmZwYG3Z6hSM0jYwplqNoQAooPY4DYdPus/cPUYiQ/0cUvOqCk3jnxuTma8XcgdAue1I
- 6rZZi4ahKOkl9CMnVPAG+Pt8fegSOBSk7wshvK6qtBmkndQLQTQ3zQFEy0t2WvCI1d8Z
- xMZQ==
-X-Gm-Message-State: AOAM532IsKRg5RpHrCrb8sNS6WSOpsTnzX6+WWL1Nv5cUi/j5LWyqk9N
- McBa/UtC+wa3teOxbwpfBEF43466OT8M5XUC7eO0oCJD/+trzN91zmiEAJ4CkwYoq0Rn9lwyYhO
- 1xVKUbAmdlAXY3VQ+dT3e9NCO3qzlp14=
-X-Received: by 2002:a05:6830:310c:: with SMTP id
- b12mr1297713ots.252.1631799762141; 
- Thu, 16 Sep 2021 06:42:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwOjz/15BhHeHfcoz8jUi2HvwBb7cRJXgMyHDWCQMap6MRj7cTdgJPrhdij69VZh1E8/TB/54ApJ4C+YNVIVqQ=
-X-Received: by 2002:a05:6830:310c:: with SMTP id
- b12mr1297694ots.252.1631799761884; 
- Thu, 16 Sep 2021 06:42:41 -0700 (PDT)
+ bh=b5jV+2z/QDEzpF7P05W5teG4eKI+YZACdN/YNAIx45Y=;
+ b=JDtDNCJq6D+swFLvek7NznofgXDsMKPjnPTK8V6mNsPwScPbaWJWYh77d7YqDnACeH
+ ZzXQBTkQEG4ntQTAz1pJpcAHguoMy5rgksks7CGrcooaFZk1qBBlsqRbVi/XcSzEeCK7
+ P16vlLM5B87vDNcrAl6IyGmntNpAQNBkTEvtYW7qRkyEc02xTs8X5MksSyHW6jk5GwEu
+ gWLsLlGSgJekASSeQFPabjtbN1AXn/o97ZuiLMTZSlF9KzMU93mhFO6wVHnI7W5AxAad
+ yB+A2My+hpPqyHp1+LR2mwaBegXx1wtC1aRKxxzJlO/LSMHWLBeOkmohJy9y9wZw/7Fd
+ bk1Q==
+X-Gm-Message-State: AOAM530PiPu/5tqs+YfIH2Y/hqRb+xoo+RQvmIjNTTjA7tPil0PVXW+A
+ assGX6veYqA7rWNDEYQGQINzPMkS17BiMohgrw0lqQ==
+X-Google-Smtp-Source: ABdhPJy8lBzEFfWo7OcqYLhthbZrKptkhQ3OYTjECDD2YLuoHoPkwJgFXmLexvrpOoL2kJ2Fsx5s0X7NnemS0lHVQoA=
+X-Received: by 2002:adf:8124:: with SMTP id 33mr6103816wrm.331.1631799765878; 
+ Thu, 16 Sep 2021 06:42:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210915154031.321592-1-jsnow@redhat.com>
- <20210915154031.321592-2-jsnow@redhat.com>
- <YUM/n/QWlxLvp3lw@redhat.com>
-In-Reply-To: <YUM/n/QWlxLvp3lw@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 16 Sep 2021 09:42:30 -0400
-Message-ID: <CAFn=p-bNB9s8LPg_Y6SjD-KPdn7boauphTb8iqBin_evxRRJqw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] python: Update for pylint 2.10
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000026e97a05cc1cfdf2"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210902112520.475901-1-anup.patel@wdc.com>
+ <20210902112520.475901-5-anup.patel@wdc.com>
+ <CAKmqyKPK9zrtM=g6hruL+eRLVPdz76jLR+P0xZ8qPfWXvnSTzg@mail.gmail.com>
+ <CAAhSdy2jihzXxxMJkrb7vydjETbpiGDA6b9OmWnUaJv8-jF6OQ@mail.gmail.com>
+ <CAKmqyKN8MeKKS1h-eu+3QEuubbgW+kYAVR6-T750xvW-4HYq+g@mail.gmail.com>
+In-Reply-To: <CAKmqyKN8MeKKS1h-eu+3QEuubbgW+kYAVR6-T750xvW-4HYq+g@mail.gmail.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Thu, 16 Sep 2021 19:12:34 +0530
+Message-ID: <CAAhSdy3yDLmGMofZxocoPBydfQbXy_qNJUsQ7MWsL=0eWpx6QQ@mail.gmail.com>
+Subject: Re: [PATCH v2 04/22] target/riscv: Improve fidelity of guest external
+ interrupts
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::42c;
+ envelope-from=anup@brainfault.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,267 +82,121 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- G S Niteesh Babu <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- Eric Blake <eblake@redhat.com>
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000026e97a05cc1cfdf2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Sep 16, 2021 at 8:59 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
-
-> On Wed, Sep 15, 2021 at 11:40:31AM -0400, John Snow wrote:
-> > A few new annoyances. Of note is the new warning for an unspecified
-> > encoding when opening a text file, which actually does indicate a
-> > potentially real problem; see
-> > https://www.python.org/dev/peps/pep-0597/#motivation
+On Wed, Sep 15, 2021 at 6:19 AM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Tue, Sep 14, 2021 at 2:33 AM Anup Patel <anup@brainfault.org> wrote:
 > >
-> > Use LC_CTYPE to determine an encoding to use for interpreting QEMU's
-> > terminal output. Note that Python states: "language code and encoding
-> > may be None if their values cannot be determined" -- use a platform
-> > default as a backup.
+> > On Thu, Sep 9, 2021 at 12:14 PM Alistair Francis <alistair23@gmail.com> wrote:
+> > >
+> > > On Thu, Sep 2, 2021 at 9:26 PM Anup Patel <anup.patel@wdc.com> wrote:
+> > > >
+> > > > The guest external interrupts for external interrupt controller are
+> > > > not delivered to the guest running under hypervisor on time. This
+> > > > results in a guest having sluggish response to serial console input
+> > > > and other I/O events. To improve timely delivery of guest external
+> > > > interrupts, we check and inject interrupt upon every sret instruction.
+> > > >
+> > > > Signed-off-by: Anup Patel <anup.patel@wdc.com>
+> > > > ---
+> > > >  target/riscv/op_helper.c | 9 +++++++++
+> > > >  1 file changed, 9 insertions(+)
+> > > >
+> > > > diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+> > > > index ee7c24efe7..4c995c239e 100644
+> > > > --- a/target/riscv/op_helper.c
+> > > > +++ b/target/riscv/op_helper.c
+> > > > @@ -129,6 +129,15 @@ target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
+> > > >
+> > > >      riscv_cpu_set_mode(env, prev_priv);
+> > > >
+> > > > +    /*
+> > > > +     * QEMU does not promptly deliver guest external interrupts
+> > > > +     * to a guest running on a hypervisor which in-turn is running
+> > > > +     * on QEMU. We make dummy call to riscv_cpu_update_mip() upon
+> > > > +     * every sret instruction so that QEMU pickup guest external
+> > > > +     * interrupts sooner.
+> > > > +     */
+> > > > +     riscv_cpu_update_mip(env_archcpu(env), 0, 0);
+> > >
+> > > This doesn't seem right. I don't understand why we need this?
+> > >
+> > > riscv_cpu_update_mip() is called when an interrupt is delivered to the
+> > > CPU, if we are missing interrupts then that is a bug somewhere else.
 > >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >  python/qemu/machine/machine.py | 9 ++++++++-
-> >  python/setup.cfg               | 1 +
-> >  2 files changed, 9 insertions(+), 1 deletion(-)
+> > I have finally figured out the cause of guest external interrupts being
+> > missed by Guest/VM.
 > >
-> > diff --git a/python/qemu/machine/machine.py
-> b/python/qemu/machine/machine.py
-> > index a7081b1845..51b6e79a13 100644
-> > --- a/python/qemu/machine/machine.py
-> > +++ b/python/qemu/machine/machine.py
-> > @@ -19,6 +19,7 @@
+> > The riscv_cpu_set_irq() which handles guest external interrupt lines
+> > of each CPU is called asynchronously. This function in-turn calls
+> > riscv_cpu_update_mip() but the CPU might be in host mode (V=0)
+> > or in Guest/VM mode (V=1). If the CPU is in host mode (V=0) when
+>
+> The IRQ being raised should just directly call riscv_cpu_update_mip()
+> so the IRQ should happen straight away.
+
+That's not true for guest external interrupts. The target Guest/VM might
+not be running on the receiving HART.
+
+Let say IMSIC injected guest external IRQ1 to HARTx which is meant
+for a Guest/VM, so the riscv_cpu_set_irq() will call riscv_cpu_update_mip().
+If HARTx might be in HS-mode or HARTx might be running some
+other Guest/VM then cpu_interrupt() request queued by riscv_cpu_update_mip()
+will not result in any interrupt being injected. This further means that
+QEMU has to check and inject guest external interrupts to target
+Guest/VM when HARTx makes a switch from HS-mode to VS-mode. By
+calling riscv_cpu_update_mip() upon SRET instruction we are ensuring
+that if any guest external interrupt was missed then it is injected ot
+VS-mode.
+
+>
+> Even from MTTCG I see this:
+>
+> """
+> Currently thanks to KVM work any access to IO memory is automatically
+> protected by the global iothread mutex, also known as the BQL (Big
+> Qemu Lock). Any IO region that doesn't use global mutex is expected to
+> do its own locking.
+>
+> However IO memory isn't the only way emulated hardware state can be
+> modified. Some architectures have model specific registers that
+> trigger hardware emulation features. Generally any translation helper
+> that needs to update more than a single vCPUs of state should take the
+> BQL.
+> """
+>
+> So we should be fine here as well.
+>
+> Can you supply a test case to reproduce the bug?
+
+Just boot Linux Guest using my QEMU, OpenSBI, Linux, and KVMTOOL
+having AIA support patches. If this patch is not there then lot of Guest
+external interrupts are missed and Guest gets stuck at random places.
+
+Regards,
+Anup
+
+>
+> > the riscv_cpu_set_irq() is called, then the CPU interrupt requested by
+> > riscv_cpu_update_mip() has no effect because the CPU can't take
+> > the interrupt until it enters Guest/VM mode.
 > >
-> >  import errno
-> >  from itertools import chain
-> > +import locale
-> >  import logging
-> >  import os
-> >  import shutil
-> > @@ -290,8 +291,14 @@ def get_pid(self) -> Optional[int]:
-> >          return self._subp.pid
+> > This patch does the right thing by doing a dummy call to
+> > riscv_cpu_update_mip() upon SRET instruction so that if the CPU
+> > had missed a guest interrupt previously then the CPU can take it now.
+>
+> This still doesn't look like the right fix.
+>
+> Alistair
+>
 > >
-> >      def _load_io_log(self) -> None:
-> > +        # Assume that the output encoding of QEMU's terminal output
-> > +        # is defined by our locale. If indeterminate, use a platform
-> default.
-> > +        _, encoding =3D locale.getlocale()
-> > +        if encoding is None:
-> > +            encoding =3D locale.getpreferredencoding(do_setlocale=3DFa=
-lse)
->
-> Do we really need this getpreferredencoding ?  IIUC, this is a sign
-> that the application is buggy by not calling
->
->   locale.setlocale(locale.LC_ALL, '')
->
-> during its main() method, which I think we can just delegate to the
-> code in question to fix. Missing setlocale will affect everything
-> they run, so doing workarounds in only 1 place is not worth it IMHO
->
->
-I genuinely don't know! (And, I try to keep the Python code free from
-assuming Linux as much as I can help it.)
-
-Python's getlocale documentation states: "language code and encoding may be
-None if their values cannot be determined."
-https://docs.python.org/3/library/locale.html#locale.getlocale
-
-But it is quiet as to the circumstances under which this may happen.
-Browsing the cpython source code, (3.9ish):
-
-```
-def getlocale(category=3DLC_CTYPE):
-    localename =3D _setlocale(category)
-    if category =3D=3D LC_ALL and ';' in localename:
-        raise TypeError('category LC_ALL is not supported')
-    return _parse_localename(localename)
-```
-_setlocale is ultimately a call to (I think) _localemodule.c's
-PyLocale_setlocale(PyObject *self, PyObject *args) C function.
-It calls `result =3D setlocale(category, locale)` where the category is goi=
-ng
-to be LC_CTYPE, so this should be equivalent to locale(3) (LC_CTYPE, NULL).
-
-locale(3) says that "The return value is NULL if the request cannot be
-honored."
-
-Python parses that string according to _parse_localename, which in turn
-calls normalize(localename).
-Normalization looks quite involved, but has a fallback of returning the
-string verbatim. If the normalized locale string is "C", we return the
-tuple (None, None)!
-
-So I figured there was a non-zero chance that we'd see a value of `None`
-here.
-
-Source code is in cpython/Lib/locale.py and cpython/Modules/_localemodule.c
-if you want to nose around yourself.
-
-I also have no idea how this will all shake out on Windows, so I decided to
-add the fallback here just in case. (Does the Python package work on
-Windows? I don't know, but I avoid assuming it won't EVER run there...
-Certainly, I have an interest in having the QMP packages I am building work
-on all platforms.)
-
-Thoughts?
-
->          if self._qemu_log_path is not None:
-> > -            with open(self._qemu_log_path, "r") as iolog:
-> > +            with open(self._qemu_log_path, "r",
-> > +                      encoding=3Dencoding) as iolog:
-> >                  self._iolog =3D iolog.read()
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
->
-
---00000000000026e97a05cc1cfdf2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 16, 2021 at 8:59 AM Danie=
-l P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com" target=3D"_bl=
-ank">berrange@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">On Wed, Sep 15, 2021 at 11:40:31AM -0400, John Snow=
- wrote:<br>
-&gt; A few new annoyances. Of note is the new warning for an unspecified<br=
->
-&gt; encoding when opening a text file, which actually does indicate a<br>
-&gt; potentially real problem; see<br>
-&gt; <a href=3D"https://www.python.org/dev/peps/pep-0597/#motivation" rel=
-=3D"noreferrer" target=3D"_blank">https://www.python.org/dev/peps/pep-0597/=
-#motivation</a><br>
-&gt; <br>
-&gt; Use LC_CTYPE to determine an encoding to use for interpreting QEMU&#39=
-;s<br>
-&gt; terminal output. Note that Python states: &quot;language code and enco=
-ding<br>
-&gt; may be None if their values cannot be determined&quot; -- use a platfo=
-rm<br>
-&gt; default as a backup.<br>
-&gt; <br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 python/qemu/machine/machine.py | 9 ++++++++-<br>
-&gt;=C2=A0 python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0| 1 +<br>
-&gt;=C2=A0 2 files changed, 9 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/mach=
-ine.py<br>
-&gt; index a7081b1845..51b6e79a13 100644<br>
-&gt; --- a/python/qemu/machine/machine.py<br>
-&gt; +++ b/python/qemu/machine/machine.py<br>
-&gt; @@ -19,6 +19,7 @@<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 import errno<br>
-&gt;=C2=A0 from itertools import chain<br>
-&gt; +import locale<br>
-&gt;=C2=A0 import logging<br>
-&gt;=C2=A0 import os<br>
-&gt;=C2=A0 import shutil<br>
-&gt; @@ -290,8 +291,14 @@ def get_pid(self) -&gt; Optional[int]:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return self._subp.pid<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 def _load_io_log(self) -&gt; None:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Assume that the output encoding of QEMU=
-&#39;s terminal output<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # is defined by our locale. If indetermin=
-ate, use a platform default.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 _, encoding =3D locale.getlocale()<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if encoding is None:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 encoding =3D locale.getpref=
-erredencoding(do_setlocale=3DFalse)<br>
-<br>
-Do we really need this getpreferredencoding ?=C2=A0 IIUC, this is a sign<br=
->
-that the application is buggy by not calling<br>
-<br>
-=C2=A0 locale.setlocale(locale.LC_ALL, &#39;&#39;)<br>
-<br>
-during its main() method, which I think we can just delegate to the<br>
-code in question to fix. Missing setlocale will affect everything<br>
-they run, so doing workarounds in only 1 place is not worth it IMHO<br>
-<br></blockquote><div><br></div><div>I genuinely don&#39;t know! (And, I tr=
-y to keep the Python code free from assuming Linux as much as I can help it=
-.)<br></div><div><br></div><div>Python&#39;s getlocale documentation states=
-: &quot;language code and encoding may be None if their values cannot be de=
-termined.&quot;</div><div><a href=3D"https://docs.python.org/3/library/loca=
-le.html#locale.getlocale">https://docs.python.org/3/library/locale.html#loc=
-ale.getlocale</a></div><div><br></div><div>But it is quiet as to the circum=
-stances under which this may happen. Browsing the cpython source code, (3.9=
-ish):</div><div><br></div><div>```<br></div><div>def getlocale(category=3DL=
-C_CTYPE):<br>=C2=A0 =C2=A0 localename =3D _setlocale(category)<br>=C2=A0 =
-=C2=A0 if category =3D=3D LC_ALL and &#39;;&#39; in localename:<br>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 raise TypeError(&#39;category LC_ALL is not supported&=
-#39;)<br>=C2=A0 =C2=A0 return _parse_localename(localename)</div><div>```</=
-div><div>_setlocale is ultimately a call to (I think) _localemodule.c&#39;s=
- PyLocale_setlocale(PyObject *self, PyObject *args) C function.</div><div>I=
-t calls `result =3D setlocale(category, locale)` where the category is goin=
-g to be LC_CTYPE, so this should be equivalent to locale(3) (LC_CTYPE, NULL=
-).</div><div><br></div><div>locale(3) says that &quot;The return value is N=
-ULL if the request cannot be honored.&quot;</div><div><br></div><div>Python=
- parses that string according to _parse_localename, which in turn calls nor=
-malize(localename).</div><div>Normalization looks quite involved, but has a=
- fallback of returning the string verbatim. If the normalized locale string=
- is &quot;C&quot;, we return the tuple (None, None)!</div><div><br></div><d=
-iv>So I figured there was a non-zero chance that we&#39;d see a value of `N=
-one` here.</div><div><br></div><div>Source code is in cpython/Lib/locale.py=
- and cpython/Modules/_localemodule.c if you want to nose around yourself.</=
-div><div><br></div><div>I also have no idea how this will all shake out on =
-Windows, so I decided to add the fallback here just in case. (Does the Pyth=
-on package work on Windows? I don&#39;t know, but I avoid assuming it won&#=
-39;t EVER run there... Certainly, I have an interest in having the QMP pack=
-ages I am building work on all platforms.)<br></div><div>=C2=A0</div><div>T=
-houghts?</div></div><div class=3D"gmail_quote"><div><br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if self._qemu_log_path is not None:<=
-br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(self._qemu_log_pa=
-th, &quot;r&quot;) as iolog:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(self._qemu_log_pa=
-th, &quot;r&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 encoding=3Dencoding) as iolog:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._io=
-log =3D iolog.read()<br>
-Regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
-s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
-oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
-nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
-"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
-https://www.instagram.com/dberrange</a> :|<br>
-<br>
-</blockquote></div></div>
-
---00000000000026e97a05cc1cfdf2--
-
+> > Regards,
+> > Anup
 
