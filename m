@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6BC40DC6E
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 16:08:55 +0200 (CEST)
-Received: from localhost ([::1]:46892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F1E40DC70
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 16:09:29 +0200 (CEST)
+Received: from localhost ([::1]:48704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQs4M-0004AJ-7k
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 10:08:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46248)
+	id 1mQs4u-0005U1-Qi
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 10:09:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQs1o-0001fw-7F
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 10:06:16 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34322)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQs1m-0001u3-Ag
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 10:06:15 -0400
-Received: by mail-wr1-x433.google.com with SMTP id t8so2698962wri.1
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 07:06:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=flE3/Xp9xEou041iPWoTUEH1ojqRrVEenXKxIz2IbME=;
- b=HVPw1HIz9L3iKwpRx+yrWAOvHAjAeImDSe/Cl/07mnaTNqRN5wTOkt3cdtkdddFo7C
- 9b7R/Dx5mKS59Rvc3Xzai8lKpppRTl6t1I1U9klrWTxP6GK9HHYDjB5S1/m5U3xKctL+
- /5PTRVd+UXlprQwIJeMDK5VBbcHKheJ/WEAR96jzPTZS9ztyuCIoz6Wkb2krY3Ouhcu7
- iSh00jstWTEXH6qZZENI/u56ajOzR9xDzNop8G5d41DAcFl9q30oHA435S08mZVDEmt4
- 9kJM0R8AiHmpQa2DVqhC+M7zKKPdFE7bQ+0rFipNryllGiCdXI7NlVG1Z03O/8dAtmxQ
- NTFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=flE3/Xp9xEou041iPWoTUEH1ojqRrVEenXKxIz2IbME=;
- b=6DAxbDbbwO+zRlB3/rl/wl4asQBXWf6y5TcFYe0bIEMDraOKSQecOyp71KZ54uFlIk
- ZGHSeBB0ShQot23iHga4QI34pl4+SI/o5hk/AxB7rHOZnn5q6SQozwSck8JTOb3IweAu
- Ct01gyqwJ8rq2KcqAeDnIFyWjfvLSotAf0IQVZ630uGdXe77aMkw3RfqjvfepHUToGJB
- l/9oqRbdMXF59eOeAGtc5tBpRHL1a4AdQiROaq/LwA64+aF6ZMZCMCuqpMNcNsDImnD3
- w5vbjCL2DYQij5urZ4KnMFPw9O5bzGJZFhslyg+rx55+nq79egyXbpcro+WMo6yghoOU
- x0NA==
-X-Gm-Message-State: AOAM531FpHPcDNb9SaUsbf6UiXCsXYyJpSw2SbwFxBdtg+TBR+woth/G
- 9/BJN7Wjdw8yzgW7x3CT+i61uqQeJTnsk/XiBah/Wg==
-X-Google-Smtp-Source: ABdhPJy9d7woP0xm/a1NJOExjCI/s03tDWiZkd9jb+skf8dsswMdXifSoTFfbUMlple7nuY6SS0FN7kRz37lS2T+qrM=
-X-Received: by 2002:adf:f185:: with SMTP id h5mr6393048wro.302.1631801172409; 
- Thu, 16 Sep 2021 07:06:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mQs28-0002Cx-Nq
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 10:06:38 -0400
+Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:35453)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mQs25-0002CS-Kq
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 10:06:36 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.2])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 476C41FEE7;
+ Thu, 16 Sep 2021 14:06:29 +0000 (UTC)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Thu, 16 Sep
+ 2021 16:06:28 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G0034cf39797-09a8-4990-8343-34599739d5cc,
+ 902CC554B2B666CF336F93082A9AEA4058B2700C) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <7ae560b5-e719-0b6d-1fdc-b231af9d6a81@kaod.org>
+Date: Thu, 16 Sep 2021 16:06:27 +0200
 MIME-Version: 1.0
-References: <20210915181049.27597-1-agraf@csgraf.de>
- <20210915181049.27597-3-agraf@csgraf.de>
- <CAFEAcA9e+tnF56J11AWcsyKGH+h+3VKKADOFGaM37JhYR_HqDA@mail.gmail.com>
- <2b3f4581-56c3-db0e-f083-fd6d1b7cc2f8@csgraf.de>
-In-Reply-To: <2b3f4581-56c3-db0e-f083-fd6d1b7cc2f8@csgraf.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Sep 2021 15:05:21 +0100
-Message-ID: <CAFEAcA9+mRkGwHTnHzRrhAFRKj=NM3Yj_tsMskGjNE+=fzdf3w@mail.gmail.com>
-Subject: Re: [PATCH v11 02/10] hvf: Add execute to dirty log permission bitmap
-To: Alexander Graf <agraf@csgraf.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PULL 14/14] hw/arm/aspeed: Add Fuji machine type
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Richard
+ Henderson <richard.henderson@linaro.org>, Peter Maydell
+ <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>
+References: <20210913161304.3805652-1-clg@kaod.org>
+ <20210913161304.3805652-15-clg@kaod.org>
+ <88c26520-6b87-e7a2-ac78-c1c92477c814@kaod.org>
+ <BBC4A4E0-651C-41DB-81DE-1F6D86AABAB1@fb.com>
+ <CACPK8Xdey9_x-ZN1JbgFyTrW59EapH4xcqYbyNQxyQ5t0uWPvw@mail.gmail.com>
+ <CAFEAcA8ntPE3GkTNU8bSBhCWzk_jdH4QR1kDgwo6deQ+T1iOKw@mail.gmail.com>
+ <1949e204-1bce-f15b-553b-1b42b41e3e08@linaro.org>
+ <d00d7eeb-a50c-c039-046c-7749fde25af8@kaod.org>
+ <1d6fb312-ab21-ca9c-d7ec-1043ccc65b10@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <1d6fb312-ab21-ca9c-d7ec-1043ccc65b10@amsat.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 708cef0f-6b27-45bd-92a7-cd70bd34d47c
+X-Ovh-Tracer-Id: 5720978902582528876
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepphguvghlsehfsgdrtghomh
+Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
+ helo=10.mo548.mail-out.ovh.net
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.488,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,65 +79,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Peter Delevoryas <pdel@fb.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Sept 2021 at 15:04, Alexander Graf <agraf@csgraf.de> wrote:
->
->
-> On 16.09.21 13:59, Peter Maydell wrote:
-> > On Wed, 15 Sept 2021 at 19:10, Alexander Graf <agraf@csgraf.de> wrote:
-> >> Hvf's permission bitmap during and after dirty logging does not include
-> >> the HV_MEMORY_EXEC permission. At least on Apple Silicon, this leads to
-> >> instruction faults once dirty logging was enabled.
-> >>
-> >> Add the bit to make it work properly.
-> >>
-> >> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> >> ---
-> >>  accel/hvf/hvf-accel-ops.c | 4 ++--
-> >>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
-> >> index d1691be989..71cc2fa70f 100644
-> >> --- a/accel/hvf/hvf-accel-ops.c
-> >> +++ b/accel/hvf/hvf-accel-ops.c
-> >> @@ -239,12 +239,12 @@ static void hvf_set_dirty_tracking(MemoryRegionSection *section, bool on)
-> >>      if (on) {
-> >>          slot->flags |= HVF_SLOT_LOG;
-> >>          hv_vm_protect((uintptr_t)slot->start, (size_t)slot->size,
-> >> -                      HV_MEMORY_READ);
-> >> +                      HV_MEMORY_READ | HV_MEMORY_EXEC);
-> >>      /* stop tracking region*/
-> >>      } else {
-> >>          slot->flags &= ~HVF_SLOT_LOG;
-> >>          hv_vm_protect((uintptr_t)slot->start, (size_t)slot->size,
-> >> -                      HV_MEMORY_READ | HV_MEMORY_WRITE);
-> >> +                      HV_MEMORY_READ | HV_MEMORY_WRITE | HV_MEMORY_EXEC);
-> >>      }
-> >>  }
-> > Makes sense -- this matches the premissions we set initially
-> > for memory regions in hvf_set_phys_mem().
-> >
-> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> >
-> > Should we change also the hv_vm_protect() call in
-> > target/i386/hvf/hvf.c:ept_emulation_fault(), for consistency ?
->
->
-> The x86 hvf code seems to deal just fine with !X mappings, so I'd leave
-> it as is as part of the arm enablement series - especially because I
-> have limited testing capabilities for x86 hvf.
+On 9/16/21 15:53, Philippe Mathieu-Daudé wrote:
+> On 9/16/21 2:29 PM, Cédric Le Goater wrote:
+>> On 9/14/21 17:22, Richard Henderson wrote:
+>>> On 9/14/21 5:26 AM, Peter Maydell wrote:
+>>>> (2) RAM blocks should have a length that fits inside a
+>>>>       signed 32-bit type on 32-bit hosts (at least I assume this
+>>>>       is where the 2047MB limit is coming from; in theory this ought
+>>>>       to be improveable but auditing the code for mishandling of
+>>>>       RAMblock sizes to ensure we weren't accidentally stuffing
+>>>>       their size into a signed 'long' somewhere would be kind
+>>>>       of painful)
+> 
+>>>> Even if we did fix (2) we'd need to compromise on (3)
+>>>> sometimes still -- if a board has 4GB of RAM that's
+>>>> not going to fit in 32 bits regardless. But we would be
+>>>> able to let boards with 2GB have 2GB.
+>>>
+>>> I'm not opposed to deprecating 32-bit hosts...  ;-)
+>>
+>> Until then, I am willing to make the following compromise for the fuji  :
+>>
+>>      mc->default_ram_size = (HOST_LONG_BITS == 32 ? 1 : 2) * GiB;
+> 
+> While I disagree with this approach, better to document it clearly
+> like commit 25ff112a8cc ("hw/arm/mps2-tz: Add new mps3-an524 board").
+> 
 
-Yeah, I should have been clearer -- that would be best as
-a separate x86-specific patch.
+OK. The patch I had prepared was a bit more explicit :
 
--- PMM
+     /* On 32-bit hosts, lower RAM to 1G because of 2047 MB limit */
+     mc->default_ram_size = (HOST_LONG_BITS == 32 ? 1 : 2) * GiB;
+
+I even have a version with a warn_report() since 32-bit hosts are
+not that common these days. But let's adopt the mps3-an524 board
+approach.
+
+Thanks,
+
+C.
 
