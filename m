@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248BF40D74A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:18:45 +0200 (CEST)
-Received: from localhost ([::1]:45684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F18B40D742
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:17:21 +0200 (CEST)
+Received: from localhost ([::1]:41346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQoTc-0001u0-5S
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:18:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40472)
+	id 1mQoSG-0007KO-9j
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:17:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQoHx-0002jM-2o
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:06:41 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40386
+ id 1mQoI0-0002nj-PB
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:06:45 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40394
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQoHu-0002sp-L8
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:06:40 -0400
+ id 1mQoHz-0002wy-3H
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:06:44 -0400
 Received: from host109-153-76-56.range109-153.btcentralplus.com
  ([109.153.76.56] helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQoHm-000ChM-LD; Thu, 16 Sep 2021 11:06:34 +0100
+ id 1mQoHq-000ChM-Ry; Thu, 16 Sep 2021 11:06:39 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Thu, 16 Sep 2021 11:05:43 +0100
-Message-Id: <20210916100554.10963-10-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 16 Sep 2021 11:05:44 +0100
+Message-Id: <20210916100554.10963-11-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210916100554.10963-1-mark.cave-ayland@ilande.co.uk>
 References: <20210916100554.10963-1-mark.cave-ayland@ilande.co.uk>
@@ -38,7 +38,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.76.56
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 09/20] macfb: don't register declaration ROM
+Subject: [PATCH v3 10/20] nubus-device: remove nubus_register_rom() and
+ nubus_register_format_block()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,38 +65,208 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The macfb device is an on-board framebuffer and so is initialised by the
-system declaration ROM included within the MacOS toolbox ROM.
+Since there is no need to generate a dummy declaration ROM, remove both
+nubus_register_rom() and nubus_register_format_block(). These will shortly be
+replaced with a mechanism to optionally load a declaration ROM from disk to
+allow real images to be used within QEMU.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/display/macfb.c | 6 ------
- 1 file changed, 6 deletions(-)
+ hw/nubus/nubus-device.c  | 143 ---------------------------------------
+ include/hw/nubus/nubus.h |  19 ------
+ 2 files changed, 162 deletions(-)
 
-diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index d8183b9bbd..76808b69cc 100644
---- a/hw/display/macfb.c
-+++ b/hw/display/macfb.c
-@@ -383,10 +383,6 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
-     sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_vram);
- }
+diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
+index 7a32c8c95b..9c1992ceb0 100644
+--- a/hw/nubus/nubus-device.c
++++ b/hw/nubus/nubus-device.c
+@@ -13,147 +13,6 @@
+ #include "qapi/error.h"
  
--const uint8_t macfb_rom[] = {
--    255, 0, 0, 0,
+ 
+-/* The Format Block Structure */
+-
+-#define FBLOCK_DIRECTORY_OFFSET 0
+-#define FBLOCK_LENGTH           4
+-#define FBLOCK_CRC              8
+-#define FBLOCK_REVISION_LEVEL   12
+-#define FBLOCK_FORMAT           13
+-#define FBLOCK_TEST_PATTERN     14
+-#define FBLOCK_RESERVED         18
+-#define FBLOCK_BYTE_LANES       19
+-
+-#define FBLOCK_SIZE             20
+-#define FBLOCK_PATTERN_VAL      0x5a932bc7
+-
+-static uint64_t nubus_fblock_read(void *opaque, hwaddr addr, unsigned int size)
+-{
+-    NubusDevice *dev = opaque;
+-    uint64_t val;
+-
+-#define BYTE(v, b) (((v) >> (24 - 8 * (b))) & 0xff)
+-    switch (addr) {
+-    case FBLOCK_BYTE_LANES:
+-        val = dev->byte_lanes;
+-        val |= (val ^ 0xf) << 4;
+-        break;
+-    case FBLOCK_RESERVED:
+-        val = 0x00;
+-        break;
+-    case FBLOCK_TEST_PATTERN...FBLOCK_TEST_PATTERN + 3:
+-        val = BYTE(FBLOCK_PATTERN_VAL, addr - FBLOCK_TEST_PATTERN);
+-        break;
+-    case FBLOCK_FORMAT:
+-        val = dev->rom_format;
+-        break;
+-    case FBLOCK_REVISION_LEVEL:
+-        val = dev->rom_rev;
+-        break;
+-    case FBLOCK_CRC...FBLOCK_CRC + 3:
+-        val = BYTE(dev->rom_crc, addr - FBLOCK_CRC);
+-        break;
+-    case FBLOCK_LENGTH...FBLOCK_LENGTH + 3:
+-        val = BYTE(dev->rom_length, addr - FBLOCK_LENGTH);
+-        break;
+-    case FBLOCK_DIRECTORY_OFFSET...FBLOCK_DIRECTORY_OFFSET + 3:
+-        val = BYTE(dev->directory_offset, addr - FBLOCK_DIRECTORY_OFFSET);
+-        break;
+-    default:
+-        val = 0;
+-        break;
+-    }
+-    return val;
+-}
+-
+-static void nubus_fblock_write(void *opaque, hwaddr addr, uint64_t val,
+-                               unsigned int size)
+-{
+-    /* read only */
+-}
+-
+-static const MemoryRegionOps nubus_format_block_ops = {
+-    .read = nubus_fblock_read,
+-    .write = nubus_fblock_write,
+-    .endianness = DEVICE_BIG_ENDIAN,
+-    .valid = {
+-        .min_access_size = 1,
+-        .max_access_size = 1,
+-    }
 -};
 -
- static void macfb_nubus_realize(DeviceState *dev, Error **errp)
- {
-     NubusDevice *nd = NUBUS_DEVICE(dev);
-@@ -399,8 +395,6 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
-     macfb_common_realize(dev, ms, errp);
-     memory_region_add_subregion(&nd->slot_mem, DAFB_BASE, &ms->mem_ctrl);
-     memory_region_add_subregion(&nd->slot_mem, VIDEO_BASE, &ms->mem_vram);
+-static void nubus_register_format_block(NubusDevice *dev)
+-{
+-    char *fblock_name;
 -
--    nubus_register_rom(nd, macfb_rom, sizeof(macfb_rom), 1, 9, 0xf);
+-    fblock_name = g_strdup_printf("nubus-slot-%d-format-block",
+-                                  dev->slot);
+-
+-    hwaddr fblock_offset = memory_region_size(&dev->slot_mem) - FBLOCK_SIZE;
+-    memory_region_init_io(&dev->fblock_io, NULL, &nubus_format_block_ops,
+-                          dev, fblock_name, FBLOCK_SIZE);
+-    memory_region_add_subregion(&dev->slot_mem, fblock_offset,
+-                                &dev->fblock_io);
+-
+-    g_free(fblock_name);
+-}
+-
+-static void mac_nubus_rom_write(void *opaque, hwaddr addr, uint64_t val,
+-                                       unsigned int size)
+-{
+-    /* read only */
+-}
+-
+-static uint64_t mac_nubus_rom_read(void *opaque, hwaddr addr,
+-                                    unsigned int size)
+-{
+-    NubusDevice *dev = opaque;
+-
+-    return dev->rom[addr];
+-}
+-
+-static const MemoryRegionOps mac_nubus_rom_ops = {
+-    .read  = mac_nubus_rom_read,
+-    .write = mac_nubus_rom_write,
+-    .endianness = DEVICE_BIG_ENDIAN,
+-    .valid = {
+-        .min_access_size = 1,
+-        .max_access_size = 1,
+-    },
+-};
+-
+-
+-void nubus_register_rom(NubusDevice *dev, const uint8_t *rom, uint32_t size,
+-                        int revision, int format, uint8_t byte_lanes)
+-{
+-    hwaddr rom_offset;
+-    char *rom_name;
+-
+-    /* FIXME : really compute CRC */
+-    dev->rom_length = 0;
+-    dev->rom_crc = 0;
+-
+-    dev->rom_rev = revision;
+-    dev->rom_format = format;
+-
+-    dev->byte_lanes = byte_lanes;
+-    dev->directory_offset = -size;
+-
+-    /* ROM */
+-
+-    dev->rom = rom;
+-    rom_name = g_strdup_printf("nubus-slot-%d-rom", dev->slot);
+-    memory_region_init_io(&dev->rom_io, NULL, &mac_nubus_rom_ops,
+-                          dev, rom_name, size);
+-    memory_region_set_readonly(&dev->rom_io, true);
+-
+-    rom_offset = memory_region_size(&dev->slot_mem) - FBLOCK_SIZE +
+-                 dev->directory_offset;
+-    memory_region_add_subregion(&dev->slot_mem, rom_offset, &dev->rom_io);
+-
+-    g_free(rom_name);
+-}
+-
+ static void nubus_device_realize(DeviceState *dev, Error **errp)
+ {
+     NubusBus *nubus = NUBUS_BUS(qdev_get_parent_bus(dev));
+@@ -179,8 +38,6 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
+     memory_region_add_subregion(&nubus->slot_io, slot_offset,
+                                 &nd->slot_mem);
+     g_free(name);
+-
+-    nubus_register_format_block(nd);
  }
  
- static void macfb_sysbus_reset(DeviceState *d)
+ static Property nubus_device_properties[] = {
+diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
+index 8ff4736259..87a97516c7 100644
+--- a/include/hw/nubus/nubus.h
++++ b/include/hw/nubus/nubus.h
+@@ -45,25 +45,6 @@ struct NubusDevice {
+     int32_t slot;
+     MemoryRegion super_slot_mem;
+     MemoryRegion slot_mem;
+-
+-    /* Format Block */
+-
+-    MemoryRegion fblock_io;
+-
+-    uint32_t rom_length;
+-    uint32_t rom_crc;
+-    uint8_t rom_rev;
+-    uint8_t rom_format;
+-    uint8_t byte_lanes;
+-    int32_t directory_offset;
+-
+-    /* ROM */
+-
+-    MemoryRegion rom_io;
+-    const uint8_t *rom;
+ };
+ 
+-void nubus_register_rom(NubusDevice *dev, const uint8_t *rom, uint32_t size,
+-                        int revision, int format, uint8_t byte_lanes);
+-
+ #endif
 -- 
 2.20.1
 
