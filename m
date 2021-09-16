@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E823940DEC1
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:55:40 +0200 (CEST)
-Received: from localhost ([::1]:40868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E58040DEC2
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:55:47 +0200 (CEST)
+Received: from localhost ([::1]:41708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQtjf-0002wo-SZ
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:55:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42094)
+	id 1mQtjm-0003bg-GP
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:55:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mQtOb-0006SP-2a
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:33:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49753)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQtTr-0001S9-AM
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:39:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59019)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mQtOX-00053D-BN
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:33:51 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mQtTp-0001BI-84
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:39:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631806425;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1631806756;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W8bm2Q8tnXq1saUgjFrWtX5D46Y4Plobcus6HUTJKok=;
- b=eJneyuSJk3fQbNba+dgzT3JKxsl6cLuAM92UrIopS77Tb0/+DxP9tS9srJlRAQml9jiora
- G/muampcAZQ12Kic8hFbBBw1YuV9kmfwNNAFrjAdZAKdBkpmtyth/ZE1065NqQ33G4kGBQ
- gT3Uo4WqLZ7uMJ8z3bTXmTSLtnhKzjM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-pjaYo1XdP6GMVcnXayZiNg-1; Thu, 16 Sep 2021 11:33:44 -0400
-X-MC-Unique: pjaYo1XdP6GMVcnXayZiNg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- x2-20020a5d54c2000000b0015dfd2b4e34so2587047wrv.6
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 08:33:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=W8bm2Q8tnXq1saUgjFrWtX5D46Y4Plobcus6HUTJKok=;
- b=32xRFmI/T9x7L6Ps3M5K50vryJEDhMR56IAQYiT4HhIREmhRRo8j/xOR8CU8O2qEXh
- fvmzp211AiVt7vqxp9sV1uC8ndGRhoy2qkaGumU8P3ZoH7EwXjydJyokY+Oxd49olrvK
- tiMKvQ3r8rA2EExhMMSlmcLoRuahYDSmR/tRJYrIzgPUNlxO0sG64k2WK7u5Ugj2OnyA
- NMRIzqv3G39Bn/iDT+FPWIHwNx9VIeKPWWCwwDcgR/tgJjI1mRTyXqG9ABLIjBPHD5Wt
- y8AfkCaF+3TqQxXHe1GjeNE9Dp0b+F4lIydq5hcu+QLQSNwvy8NftlL6aR9OQgm0I9MY
- VpXw==
-X-Gm-Message-State: AOAM531kVIWe/fG359c2bCeWDy4yLnvr6jjLNbFZNPeEOAcpWP7U7TEM
- mwIlVU8b9xlLWCkPZgUrrb3WuOa42Z2MTYuhShNxtAqqi+aKpULaLMdzQWSM2wgnf+oQFnOGsZx
- T8V3HRIHX2i8Et6c=
-X-Received: by 2002:a05:6000:14d:: with SMTP id
- r13mr6949891wrx.420.1631806423412; 
- Thu, 16 Sep 2021 08:33:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCNbNz8UKOhbyAOLtxRmTQH1tvVi8cilOPpY+L6Rs1kp51/PQA+pYldPWmh+szeSVJ3LSAqw==
-X-Received: by 2002:a05:6000:14d:: with SMTP id
- r13mr6949863wrx.420.1631806423164; 
- Thu, 16 Sep 2021 08:33:43 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id d9sm4856047wrb.36.2021.09.16.08.33.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Sep 2021 08:33:42 -0700 (PDT)
-Date: Thu, 16 Sep 2021 16:33:40 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 0/2] virtiofs queue
-Message-ID: <YUNj1DQT9VyU54DV@work-vm>
-References: <20210916135241.150566-1-dgilbert@redhat.com>
- <CAFEAcA-k=jKqBcEzxd+ALPYz_UVT1_AG3PnsuX2N77_UTSE=nA@mail.gmail.com>
+ bh=aGZnR418PGCFlYSm2qeQC+EAo0GuxrqqM+EMUQWr4mc=;
+ b=TNLWj+LHpMFtUbOYicwl5Snz8msUaTXpRGz6azNwE7OWCkrJqqfk4BqAD2qwl2bmc5Erii
+ NZ7MrzVlkBi4/PCPtlovTxywklxo2xnQtx9Uzuw0P6W83qK/EkZkstirsd/ZACPaX//Ts7
+ WHPceDb3yYY/lXr4VyZHBMh6Pk7QU3U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-597-QxiB_-riPJi73xAEpoH2GA-1; Thu, 16 Sep 2021 11:39:11 -0400
+X-MC-Unique: QxiB_-riPJi73xAEpoH2GA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44EE810247A6;
+ Thu, 16 Sep 2021 15:39:10 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 809555C1CF;
+ Thu, 16 Sep 2021 15:39:08 +0000 (UTC)
+Date: Thu, 16 Sep 2021 16:39:06 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v3 1/1] python: Update for pylint 2.10
+Message-ID: <YUNlGvkSDtynuH7N@redhat.com>
+References: <20210915154031.321592-1-jsnow@redhat.com>
+ <20210915154031.321592-2-jsnow@redhat.com>
+ <YUM/n/QWlxLvp3lw@redhat.com>
+ <CAFn=p-bNB9s8LPg_Y6SjD-KPdn7boauphTb8iqBin_evxRRJqw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-k=jKqBcEzxd+ALPYz_UVT1_AG3PnsuX2N77_UTSE=nA@mail.gmail.com>
+In-Reply-To: <CAFn=p-bNB9s8LPg_Y6SjD-KPdn7boauphTb8iqBin_evxRRJqw@mail.gmail.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -98,43 +84,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Sergio Lopez <slp@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- vgoyal@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ G S Niteesh Babu <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> On Thu, 16 Sept 2021 at 14:58, Dr. David Alan Gilbert (git)
-> <dgilbert@redhat.com> wrote:
-> >
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >
-> > The following changes since commit 57b6f58c1d0df757c9311496c32d502925056894:
-> >
-> >   Merge remote-tracking branch 'remotes/hreitz/tags/pull-block-2021-09-15' into staging (2021-09-15 18:55:59 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20210916
-> >
-> > for you to fetch changes up to 046d91c83caac29e2ba26c63fd7d685a57463f6d:
-> >
-> >   virtiofsd: Reverse req_list before processing it (2021-09-16 14:50:48 +0100)
-> >
+On Thu, Sep 16, 2021 at 09:42:30AM -0400, John Snow wrote:
+> On Thu, Sep 16, 2021 at 8:59 AM Daniel P. Berrangé <berrange@redhat.com>
+> wrote:
 > 
-> gpg says your key has expired; what keyserver can I download an
-> updated key from?
-
-I pushed an updated one to pgp.mit.edu just before I sent the pull;
-I can see it there (although it's a bit slow to respond).
-
-Dave
-
-> thanks
-> -- PMM
+> > On Wed, Sep 15, 2021 at 11:40:31AM -0400, John Snow wrote:
+> > > A few new annoyances. Of note is the new warning for an unspecified
+> > > encoding when opening a text file, which actually does indicate a
+> > > potentially real problem; see
+> > > https://www.python.org/dev/peps/pep-0597/#motivation
+> > >
+> > > Use LC_CTYPE to determine an encoding to use for interpreting QEMU's
+> > > terminal output. Note that Python states: "language code and encoding
+> > > may be None if their values cannot be determined" -- use a platform
+> > > default as a backup.
+> > >
+> > > Signed-off-by: John Snow <jsnow@redhat.com>
+> > > ---
+> > >  python/qemu/machine/machine.py | 9 ++++++++-
+> > >  python/setup.cfg               | 1 +
+> > >  2 files changed, 9 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/python/qemu/machine/machine.py
+> > b/python/qemu/machine/machine.py
+> > > index a7081b1845..51b6e79a13 100644
+> > > --- a/python/qemu/machine/machine.py
+> > > +++ b/python/qemu/machine/machine.py
+> > > @@ -19,6 +19,7 @@
+> > >
+> > >  import errno
+> > >  from itertools import chain
+> > > +import locale
+> > >  import logging
+> > >  import os
+> > >  import shutil
+> > > @@ -290,8 +291,14 @@ def get_pid(self) -> Optional[int]:
+> > >          return self._subp.pid
+> > >
+> > >      def _load_io_log(self) -> None:
+> > > +        # Assume that the output encoding of QEMU's terminal output
+> > > +        # is defined by our locale. If indeterminate, use a platform
+> > default.
+> > > +        _, encoding = locale.getlocale()
+> > > +        if encoding is None:
+> > > +            encoding = locale.getpreferredencoding(do_setlocale=False)
+> >
+> > Do we really need this getpreferredencoding ?  IIUC, this is a sign
+> > that the application is buggy by not calling
+> >
+> >   locale.setlocale(locale.LC_ALL, '')
+> >
+> > during its main() method, which I think we can just delegate to the
+> > code in question to fix. Missing setlocale will affect everything
+> > they run, so doing workarounds in only 1 place is not worth it IMHO
+> >
+> >
+> I genuinely don't know! (And, I try to keep the Python code free from
+> assuming Linux as much as I can help it.)
 > 
+> Python's getlocale documentation states: "language code and encoding may be
+> None if their values cannot be determined."
+> https://docs.python.org/3/library/locale.html#locale.getlocale
+> 
+> But it is quiet as to the circumstances under which this may happen.
+> Browsing the cpython source code, (3.9ish):
+> 
+> ```
+> def getlocale(category=LC_CTYPE):
+>     localename = _setlocale(category)
+>     if category == LC_ALL and ';' in localename:
+>         raise TypeError('category LC_ALL is not supported')
+>     return _parse_localename(localename)
+> ```
+> _setlocale is ultimately a call to (I think) _localemodule.c's
+> PyLocale_setlocale(PyObject *self, PyObject *args) C function.
+> It calls `result = setlocale(category, locale)` where the category is going
+> to be LC_CTYPE, so this should be equivalent to locale(3) (LC_CTYPE, NULL).
+> 
+> locale(3) says that "The return value is NULL if the request cannot be
+> honored."
+> 
+> Python parses that string according to _parse_localename, which in turn
+> calls normalize(localename).
+> Normalization looks quite involved, but has a fallback of returning the
+> string verbatim. If the normalized locale string is "C", we return the
+> tuple (None, None)!
+> 
+> So I figured there was a non-zero chance that we'd see a value of `None`
+> here.
+> 
+> Source code is in cpython/Lib/locale.py and cpython/Modules/_localemodule.c
+> if you want to nose around yourself.
+> 
+> I also have no idea how this will all shake out on Windows, so I decided to
+> add the fallback here just in case. (Does the Python package work on
+> Windows? I don't know, but I avoid assuming it won't EVER run there...
+> Certainly, I have an interest in having the QMP packages I am building work
+> on all platforms.)
+> 
+> Thoughts?
+
+Well this machine.py is using UNIX domain sockets and FD passing,
+so Windows is out of the question.
+
+I'd be inclined to just keep it simple unless someone reports a
+real bug with it.
+
+
+Regards,
+Daniel
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
