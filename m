@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD1A40D789
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:37:27 +0200 (CEST)
-Received: from localhost ([::1]:60404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D49A40D793
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:39:39 +0200 (CEST)
+Received: from localhost ([::1]:39004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQoli-0006J4-Be
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:37:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46346)
+	id 1mQonq-0002VM-Fh
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:39:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mQogW-0005lc-9v; Thu, 16 Sep 2021 06:32:04 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:58941)
+ id 1mQok7-0003D9-Hv; Thu, 16 Sep 2021 06:35:47 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:52665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mQogT-00079m-TG; Thu, 16 Sep 2021 06:32:03 -0400
+ id 1mQok5-000277-PC; Thu, 16 Sep 2021 06:35:47 -0400
 Received: from [192.168.100.1] ([82.142.27.6]) by mrelayeu.kundenserver.de
  (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M1Yl9-1mSBll2pQ3-00388I; Thu, 16 Sep 2021 11:43:18 +0200
-Subject: Re: [PATCH] target/sparc: Make sparc_cpu_dump_state() static
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210916084002.1918445-1-f4bug@amsat.org>
+ 1N7zJj-1mv0001R6R-014z98; Thu, 16 Sep 2021 11:52:43 +0200
+Subject: Re: [PATCH, trivial, for-6.1] target/i386: spelling: occured=>occurred
+To: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org
+References: <20210818141352.417716-1-mjt@msgid.tls.msk.ru>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <508042dd-6cb6-0cc0-54eb-4a8b5411ddc9@vivier.eu>
-Date: Thu, 16 Sep 2021 11:43:17 +0200
+Message-ID: <68147eaf-126f-c2b6-3269-c1b7a5aa8a4d@vivier.eu>
+Date: Thu, 16 Sep 2021 11:52:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210916084002.1918445-1-f4bug@amsat.org>
+In-Reply-To: <20210818141352.417716-1-mjt@msgid.tls.msk.ru>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:KQUkL+h96Nnb8A0t3XmupWpQkzV6KCqN+e+oDlvV8DYz+Fq6VRw
- 8ibvAmzui3eyOQZupbIi7yr6vst4U3ODUt2MCdd1TH0k0nGb+ETAZ9jgsc0nxD4trfc7XCU
- T+N/BTBnCXw63v7D/PWW8V0SQllTmVgtLR9keh0VBgtgWLdu+EsLfSahUtvOwo0LJ4zFoVd
- Sml+xR2SRoftuNgxZS9iA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:uMqxoJ0Arao=:+M7apHmANSjev7OhJTL1uD
- xu+fKOGUWMREQZY3wncznVXz7DxFEhWtlxGghl+EVnpvRnbfluZqwoFJT9BtqIw09UesMz1Lm
- 6TTnurSYLBsIKamMDCCCbDA7U7Ny4TA235hyWmbds+TEVRCR36Zooi/gfZCriKU6asq2wwB6n
- r2UbgGSFU8Co0zFDRdeCNdxzoCEBKFlr2DByT4vy0A6bujC3qcnQzhM7MD8VmWyiBufWxZUKM
- vUGES0YR1n2Uv/H4dLJtQPV2kYYoGLsvSQsvYEFqaok4LjzGfBs0d2cTXjULOjiN1p1d3Stgb
- 4/QkHAXVFhOCgKnJXNZ7MFwvJgaNKys5j2KOCLxrPaslHDeEMWyEGG/xSHOFq2cmG4bxajhpj
- 2bH8HCnHYB9pKXrSrLx5AkPFuF12MRZFjcOPA5quSh4I9jscKZibCyAYZ5TUZeig9fwrk8YoI
- 8Lffm1VcrouzwsR4ZoejjPIWRC2hfSfkXTXErexwchFKnemXwfAxam1Nh+y6UvY6AaxN8td5T
- lfMSsGUEh4vBS17B/aNMqlLlIODFyteGN+A2t23GReb/al50t8R2wOo7bYC57KiIjDlnCHACh
- a5pyqJUhBv2+CNQrkEO7ehP+SYLEx1X5AnhWwjF+PNti1m3xpzsAxNNvEK3wirBSmYvGXjbqr
- Y6sKZxU3kY5rztcEtMrQrzm3dFjmh5wX9ml4qzdlMr66tUtbxjz96ZOGpumwINwxWma5f+ip6
- a5TlJC4loX+YsteOHtpupPkB3K45oTTB/6r7sMFV+xpQh2CcoNU0nNC0O8C172LbJ27ilpQUM
- eo4nAef
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:8tlLkUz8UjUU/fgVdPUmNK8PLQmnjufmMi5+JYE0hqySgSZk55+
+ 7qQCwYjUv5slL/sVia9lX7yck597xWk4BdxS9W8o30ltGe2w2vCuMMOteN+MSoj+EOS89QR
+ BRr0Vw2BoGImc774l7/rno4jmfH1LJ1BwYn/U6Cjwhah+3CQOuCh9oHg4YQjY/X9gT2sdDf
+ /hsWfmwuj80JchI7ulC/g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KJ7xXlMjvHU=:4BZ+Giim3KHRiQhwaiHX+4
+ /Twgel+mT2mRcbfVjKnZOwrTi/fCrFYBbR2EgsUCnIfEPSCpQvi0kHn2F3tGh+ILvZMfoIeL+
+ vQCVH30HmT5mUbbTFzq1O8anbnYhyasq1ZBiqwf3BHhvDvj8GoRKJEEkvcONamVW7NA0BAitz
+ DwBMYOxG+UCdxJYhsq2qpv/4OeJAICguqfHCsGIAJMZ2vra+3kKUCH+dbDpNVsdjrHGBe+oxD
+ GyB2hXZfAFpO5hobDs+D3Ouxo2RfLycb/G544zDlYPDsqjyZ/OEn4gsuKLgwN+77y13oXhOs2
+ ge6gAjRKQSdIWMI6h5wrxFAv40aUqwMbI0l45CVG/GbdneqyM+U0V7ouNh54ZnIxHDiBckepE
+ dziV7+b6tfPyajMD13g4wxB+YkHJFaj6EWNJoc3V/cBs3+VAT+pLIOi7yIf1YkiNBDySVfiTS
+ Vag9ww3rwoKDiC5m/kJwxqVk+2qg5EJb8B2Nn8mHHzofTXyWU/SF4+ViSsgHP+Je8jzEGvPF0
+ zfHRvmUuiJvHJdljd758sqbYNkJy0SMBzO+zZydg/kcCK4Xf6HYgiyaRD1t2Z8gfArImIlov7
+ sudp+ttkKhgtR4T5SEI9pp3DxGUMpP1lWYKHQ+HDDcNXNAeFkScTE0AAaNgs4H1BZ1xpph7P0
+ 0lOEqiN7X2dig9dFREOmBumNOxNAr/qpbUefE/MpvMjwJ6L6yIskElAae65Aq4/lMk9IVzmPE
+ VyX4ypXToSTvWiADKLaX3lsALaXVUigiP0F4e+pcMhIgcX/lk2v4WIpGi25rpTo3BRVzGPK+V
+ kbUOC4R
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -71,47 +70,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 16/09/2021 à 10:40, Philippe Mathieu-Daudé a écrit :
-> The sparc_cpu_dump_state() function is only called within
-> the same file. Make it static.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Le 18/08/2021 à 16:13, Michael Tokarev a écrit :
+> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 > ---
->  target/sparc/cpu.h | 1 -
->  target/sparc/cpu.c | 2 +-
->  2 files changed, 1 insertion(+), 2 deletions(-)
+>  accel/kvm/kvm-all.c      | 2 +-
+>  target/i386/cpu-sysemu.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-> index ff8ae73002a..1f40d768d8b 100644
-> --- a/target/sparc/cpu.h
-> +++ b/target/sparc/cpu.h
-> @@ -571,7 +571,6 @@ extern const VMStateDescription vmstate_sparc_cpu;
->  #endif
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 0125c17edb..cace5ffe64 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -2469,7 +2469,7 @@ static int kvm_init(MachineState *ms)
+>              ret = kvm_vm_enable_cap(s, KVM_CAP_DIRTY_LOG_RING, 0, ring_bytes);
+>              if (ret) {
+>                  error_report("Enabling of KVM dirty ring failed: %s. "
+> -                             "Suggested mininum value is 1024.", strerror(-ret));
+> +                             "Suggested minimum value is 1024.", strerror(-ret));
+>                  goto err;
+>              }
 >  
->  void sparc_cpu_do_interrupt(CPUState *cpu);
-> -void sparc_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
->  hwaddr sparc_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
->  int sparc_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
->  int sparc_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-> diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-> index 5a8a4ce7506..21dd27796d0 100644
-> --- a/target/sparc/cpu.c
-> +++ b/target/sparc/cpu.c
-> @@ -612,7 +612,7 @@ static void cpu_print_cc(FILE *f, uint32_t cc)
->  #define REGS_PER_LINE 8
->  #endif
+> diff --git a/target/i386/cpu-sysemu.c b/target/i386/cpu-sysemu.c
+> index 1078e3d157..37b7c562f5 100644
+> --- a/target/i386/cpu-sysemu.c
+> +++ b/target/i386/cpu-sysemu.c
+> @@ -335,7 +335,7 @@ void x86_cpu_get_crash_info_qom(Object *obj, Visitor *v,
+>      GuestPanicInformation *panic_info;
 >  
-> -void sparc_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-> +static void sparc_cpu_dump_state(CPUState *cs, FILE *f, int flags)
->  {
->      SPARCCPU *cpu = SPARC_CPU(cs);
->      CPUSPARCState *env = &cpu->env;
+>      if (!cs->crash_occurred) {
+> -        error_setg(errp, "No crash occured");
+> +        error_setg(errp, "No crash occurred");
+>          return;
+>      }
+>  
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Applied to my trivial-patches branch.
+
+Updated subject with mininum=>minimum
+
+Thanks,
+Laurent
 
