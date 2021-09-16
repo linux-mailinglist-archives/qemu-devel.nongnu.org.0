@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE18B40DE81
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:48:39 +0200 (CEST)
-Received: from localhost ([::1]:51286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA75F40DE47
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:40:32 +0200 (CEST)
+Received: from localhost ([::1]:57882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQtcs-0007lv-KP
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:48:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40980)
+	id 1mQtV1-000129-OY
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:40:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQtLV-0001Ni-Oj
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:30:41 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:42516)
+ id 1mQtLZ-0001Q2-IC
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:30:46 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:34400)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQtLQ-0002Sr-Qb
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:30:41 -0400
-Received: by mail-pl1-x631.google.com with SMTP id n4so4081699plh.9
+ id 1mQtLR-0002Ui-DY
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:30:44 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ on12-20020a17090b1d0c00b001997c60aa29so6334303pjb.1
  for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 08:30:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jAI1XCWGYN+pfAsCZFTEnAEoAetKy0IcJx6ab0+wDcg=;
- b=TBdmkxtq2CIedgYBkpubctNylv4K0FRXEIb4ZxzRTzQKYTi0ngXTmpFYUGCYF2SgND
- lZ6pf0mdlihvz+Ui2y9nFtkCcYL/IoAlkm94/n2ZcRHnoVMFD1aiBcPy53RnHzvPgmay
- z1i7WzW4yfNvFxIyx4qmBdL6CpqV55O83Qzr4Pa5VrsTkz7vLnm0eyLuuIrFX/3X5Frr
- 2UgCYZFhs99GyAEE1PEnVSe9YaEiumcitP3hOfmne0eb46tJVbSOoRDAwMYfS6okmDwL
- hyK0gsa+2KF1flFx81DTd2tEK3kemS6Ft6cRpPuUiLnRg/w27jFtVumM3UfiL/eQ7WBU
- dE+g==
+ bh=ePy6aN6lFva1+oLoEnr79Yb8aPoSMIJ8GBwpmOsa/Yg=;
+ b=zM61HbEkl1c783RInvmFY7x5NS3QLwdH0K05kzTFWbwzhedwGSt86lrY8eaOfJtHmt
+ S0QlgAg/kjW0E4DFwi+n1rcg0GbZ3LATp5karnfKDubX3st6XZbdQHzOys53C/O/YneE
+ Tde12SaNrqiPLqb0LofT4jnIzpFtu/fv90w6TxUVkA7KuMKwgpO60EBWtU36kiriEycV
+ RR+OGfYLIaHwkiqq3DAP2633nNkv3nvnEGsADHUktWcRVHnD2ZNf8aqWvmpDI+d8fqla
+ 4Fi9Y8m+51r/n3bgD86UWr6AJBZPgojwOg3AQB80Y+jM9c0jyphFxshn5wi9RqbbiFM4
+ sxCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jAI1XCWGYN+pfAsCZFTEnAEoAetKy0IcJx6ab0+wDcg=;
- b=LANVUyiVtxCXeIo8a7OIsY7JFAjfMNBo46m/miq5hylJnPlvSWpz3FeDTKxK4QlLby
- Dpb44+cy4xjXPGy3BrBuA6nDCiP1AEZK5+8BtKLu9NafGXwUH/fb9ZTzDBjXhHWiuXVy
- inCfJYzv6Mw/h1ENPRXfQHe1BLK2r8VMd92p2CV27Dzb6cS7BRavJAqRYUWCRXh2QIBX
- oL+d6RRan8d+wElmd1YeZSk717WLn0gKIVkV9rtHqdGuIcGVyVI6DJpE8dRPgUEA6V30
- +VnMCLLng66E4UYkjF3b4tZigkmcrNnQKKdW1/ZVAwbzQu2JxPLxlUESP/8mA76N0VL6
- 02gA==
-X-Gm-Message-State: AOAM531IgZkJGDCfHNIWrPvpAfqHblSNexhhzYi6d3dwWgDoqRspvr9o
- JDbkcQVGD7aqb/XPSnsJapiUIKS/AfUJKg==
-X-Google-Smtp-Source: ABdhPJwEe/kKX98Lcuz83h2dgghHa5/Jn9n0tQZMAjcj1Mna4ytGUQVsvdujj2caalgRuAwNLPNIfQ==
-X-Received: by 2002:a17:90a:e7cd:: with SMTP id
- kb13mr5262807pjb.52.1631806235338; 
+ bh=ePy6aN6lFva1+oLoEnr79Yb8aPoSMIJ8GBwpmOsa/Yg=;
+ b=wEfLN3la72BwYrSnrC7Ef4GKW169yNJLjLuiealypMGj9L5SxRj/uOtMHyz0afy4Wc
+ behi4mKIp0bJ7tkgi/j0j2jYokrf8VzQrJwAJynXda0dDvE012zplwZZbgWlvJP6sZ0k
+ ADa8mx9NI4N+sYrzqrPNztif3xXyWqB0sBBqUkREluXqQP1jqPkjz842/LxafGXIE/Vx
+ +jTlYjFongUo6wBLV2KesDFUc+gBWDWSALgKvoPUoVI35eAam1GdtIhvXhqQ8NyRN4DI
+ keFYZx4ONlJvZn1VAvXsWyhHeSBx74olO2oNf0OC6ZNazFEaB+UpfZgmjMM5axUQyFn7
+ PSsQ==
+X-Gm-Message-State: AOAM533dN32CRCNJ+joDr1Y2qdwujPCu8A2Immwr2v5n0jnHRtvli3rM
+ VOjJp6aD50Kwt7fY+nBDPseXdzxu2XtQwg==
+X-Google-Smtp-Source: ABdhPJyxGaznb3O46qykn/DiYMW2e4MtkftaOSr6EyirSNlczSv+3JRw3eigazXuk7Cg55kgm5haKw==
+X-Received: by 2002:a17:902:8ec5:b0:13a:2789:cbb0 with SMTP id
+ x5-20020a1709028ec500b0013a2789cbb0mr5274397plo.60.1631806235961; 
  Thu, 16 Sep 2021 08:30:35 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id b7sm3779447pgs.64.2021.09.16.08.30.34
+ by smtp.gmail.com with ESMTPSA id b7sm3779447pgs.64.2021.09.16.08.30.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 16 Sep 2021 08:30:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/35] target/hexagon: Remove unused has_work() handler
-Date: Thu, 16 Sep 2021 08:30:03 -0700
-Message-Id: <20210916153025.1944763-14-richard.henderson@linaro.org>
+Subject: [PULL 14/35] target/hppa: Restrict has_work() handler to sysemu
+Date: Thu, 16 Sep 2021 08:30:04 -0700
+Message-Id: <20210916153025.1944763-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210916153025.1944763-1-richard.henderson@linaro.org>
 References: <20210916153025.1944763-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,41 +92,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-has_work() is sysemu specific, and Hexagon target only provides
-a linux-user implementation. Remove the unused hexagon_cpu_has_work().
+Restrict has_work() to sysemu.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210912172731.789788-13-f4bug@amsat.org>
+Message-Id: <20210912172731.789788-14-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/cpu.c | 6 ------
- 1 file changed, 6 deletions(-)
+ target/hppa/cpu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/hexagon/cpu.c b/target/hexagon/cpu.c
-index 3338365c16..aa01974807 100644
---- a/target/hexagon/cpu.c
-+++ b/target/hexagon/cpu.c
-@@ -189,11 +189,6 @@ static void hexagon_cpu_synchronize_from_tb(CPUState *cs,
-     env->gpr[HEX_REG_PC] = tb->pc;
+diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
+index e8edd189bf..be940ae224 100644
+--- a/target/hppa/cpu.c
++++ b/target/hppa/cpu.c
+@@ -60,10 +60,12 @@ static void hppa_cpu_synchronize_from_tb(CPUState *cs,
+     cpu->env.psw_n = (tb->flags & PSW_N) != 0;
  }
  
--static bool hexagon_cpu_has_work(CPUState *cs)
--{
--    return true;
--}
--
- void restore_state_to_opc(CPUHexagonState *env, TranslationBlock *tb,
-                           target_ulong *data)
++#if !defined(CONFIG_USER_ONLY)
+ static bool hppa_cpu_has_work(CPUState *cs)
  {
-@@ -287,7 +282,6 @@ static void hexagon_cpu_class_init(ObjectClass *c, void *data)
-     device_class_set_parent_reset(dc, hexagon_cpu_reset, &mcc->parent_reset);
+     return cs->interrupt_request & CPU_INTERRUPT_HARD;
+ }
++#endif /* !CONFIG_USER_ONLY */
  
-     cc->class_by_name = hexagon_cpu_class_by_name;
--    cc->has_work = hexagon_cpu_has_work;
-     cc->dump_state = hexagon_dump_state;
-     cc->set_pc = hexagon_cpu_set_pc;
-     cc->gdb_read_register = hexagon_gdb_read_register;
+ static void hppa_cpu_disas_set_info(CPUState *cs, disassemble_info *info)
+ {
+@@ -147,6 +149,7 @@ static const struct TCGCPUOps hppa_tcg_ops = {
+     .tlb_fill = hppa_cpu_tlb_fill,
+ 
+ #ifndef CONFIG_USER_ONLY
++    .has_work = hppa_cpu_has_work,
+     .cpu_exec_interrupt = hppa_cpu_exec_interrupt,
+     .do_interrupt = hppa_cpu_do_interrupt,
+     .do_unaligned_access = hppa_cpu_do_unaligned_access,
+@@ -163,7 +166,6 @@ static void hppa_cpu_class_init(ObjectClass *oc, void *data)
+                                     &acc->parent_realize);
+ 
+     cc->class_by_name = hppa_cpu_class_by_name;
+-    cc->has_work = hppa_cpu_has_work;
+     cc->dump_state = hppa_cpu_dump_state;
+     cc->set_pc = hppa_cpu_set_pc;
+     cc->gdb_read_register = hppa_cpu_gdb_read_register;
 -- 
 2.25.1
 
