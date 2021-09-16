@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E024C40EAC4
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 21:24:33 +0200 (CEST)
-Received: from localhost ([::1]:44408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF05C40EACB
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 21:28:03 +0200 (CEST)
+Received: from localhost ([::1]:50016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQwzp-0007wb-0Y
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 15:24:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34920)
+	id 1mQx3C-0003NG-Po
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 15:28:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1mQwy6-0006ZO-RW
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 15:22:46 -0400
-Received: from mailout08.t-online.de ([194.25.134.20]:35448)
+ id 1mQwyB-0006ig-Cb
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 15:22:51 -0400
+Received: from mailout11.t-online.de ([194.25.134.85]:37780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1mQwy5-0005pu-05
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 15:22:46 -0400
-Received: from fwd84.dcpf.telekom.de (fwd84.aul.t-online.de [10.223.144.110])
- by mailout08.t-online.de (Postfix) with SMTP id 8D63A64AD;
- Thu, 16 Sep 2021 21:22:41 +0200 (CEST)
-Received: from linpower.localnet ([79.208.16.31]) by fwd84.t-online.de
+ id 1mQwy7-0005sh-QV
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 15:22:51 -0400
+Received: from fwd82.dcpf.telekom.de (fwd82.aul.t-online.de [10.223.144.108])
+ by mailout11.t-online.de (Postfix) with SMTP id 3FCC11294D;
+ Thu, 16 Sep 2021 21:22:45 +0200 (CEST)
+Received: from linpower.localnet ([79.208.16.31]) by fwd82.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1mQwy0-1aPJ9l0; Thu, 16 Sep 2021 21:22:40 +0200
+ esmtp id 1mQwy2-0c5Y130; Thu, 16 Sep 2021 21:22:42 +0200
 Received: by linpower.localnet (Postfix, from userid 1000)
- id CC95620061A; Thu, 16 Sep 2021 21:22:39 +0200 (CEST)
+ id CE9502006DF; Thu, 16 Sep 2021 21:22:39 +0200 (CEST)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH v2 1/4] ui/console: replace QEMUFIFO with Fifo8
-Date: Thu, 16 Sep 2021 21:22:36 +0200
-Message-Id: <20210916192239.18742-1-vr_qemu@t-online.de>
+Subject: [PATCH v2 2/4] ui/console: replace kbd_timer with chr_accept_input
+ callback
+Date: Thu, 16 Sep 2021 21:22:37 +0200
+Message-Id: <20210916192239.18742-2-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <b383305b-0604-bf6e-1f66-aefeaef1df82@t-online.de>
 References: <b383305b-0604-bf6e-1f66-aefeaef1df82@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1631820160-0000BA1A-CB2EA370/0/0 CLEAN NORMAL
-X-TOI-MSGID: 72e2812a-90b6-4652-83f8-bdc4df3925b6
-Received-SPF: none client-ip=194.25.134.20;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout08.t-online.de
+X-TOI-EXPURGATEID: 150726::1631820162-000100A4-568E3CDF/0/0 CLEAN NORMAL
+X-TOI-MSGID: d71079d8-64be-43b6-a8ad-050eadccf06b
+Received-SPF: none client-ip=194.25.134.85;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout11.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,157 +66,92 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-One of the two FIFO implementations QEMUFIFO and Fifo8 is
-redundant. Replace QEMUFIFO with Fifo8.
+There's a ChardevClass chr_accept_input() callback function that
+can replace the write retry timer.
 
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- ui/console.c | 86 ++++++++++++----------------------------------------
- 1 file changed, 20 insertions(+), 66 deletions(-)
+ ui/console.c | 28 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
 diff --git a/ui/console.c b/ui/console.c
-index eabbbc951c..d2433c0636 100644
+index d2433c0636..dda1e6861d 100644
 --- a/ui/console.c
 +++ b/ui/console.c
-@@ -27,6 +27,7 @@
- #include "hw/qdev-core.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-ui.h"
-+#include "qemu/fifo8.h"
- #include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/timer.h"
-@@ -62,57 +63,6 @@ enum TTYState {
-     TTY_STATE_CSI,
- };
- 
--typedef struct QEMUFIFO {
--    uint8_t *buf;
--    int buf_size;
--    int count, wptr, rptr;
--} QEMUFIFO;
--
--static int qemu_fifo_write(QEMUFIFO *f, const uint8_t *buf, int len1)
--{
--    int l, len;
--
--    l = f->buf_size - f->count;
--    if (len1 > l)
--        len1 = l;
--    len = len1;
--    while (len > 0) {
--        l = f->buf_size - f->wptr;
--        if (l > len)
--            l = len;
--        memcpy(f->buf + f->wptr, buf, l);
--        f->wptr += l;
--        if (f->wptr >= f->buf_size)
--            f->wptr = 0;
--        buf += l;
--        len -= l;
--    }
--    f->count += len1;
--    return len1;
--}
--
--static int qemu_fifo_read(QEMUFIFO *f, uint8_t *buf, int len1)
--{
--    int l, len;
--
--    if (len1 > f->count)
--        len1 = f->count;
--    len = len1;
--    while (len > 0) {
--        l = f->buf_size - f->rptr;
--        if (l > len)
--            l = len;
--        memcpy(buf, f->buf + f->rptr, l);
--        f->rptr += l;
--        if (f->rptr >= f->buf_size)
--            f->rptr = 0;
--        buf += l;
--        len -= l;
--    }
--    f->count -= len1;
--    return len1;
--}
--
- typedef enum {
-     GRAPHIC_CONSOLE,
-     TEXT_CONSOLE,
-@@ -165,8 +115,7 @@ struct QemuConsole {
- 
+@@ -116,7 +116,6 @@ struct QemuConsole {
      Chardev *chr;
      /* fifo for key pressed */
--    QEMUFIFO out_fifo;
--    uint8_t out_fifo_buf[16];
-+    Fifo8 out_fifo;
-     QEMUTimer *kbd_timer;
+     Fifo8 out_fifo;
+-    QEMUTimer *kbd_timer;
      CoQueue dump_queue;
  
-@@ -1160,21 +1109,25 @@ static int vc_chr_write(Chardev *chr, const uint8_t *buf, int len)
- static void kbd_send_chars(void *opaque)
+     QTAILQ_ENTRY(QemuConsole) next;
+@@ -1106,30 +1105,21 @@ static int vc_chr_write(Chardev *chr, const uint8_t *buf, int len)
+     return len;
+ }
+ 
+-static void kbd_send_chars(void *opaque)
++static void kbd_send_chars(QemuConsole *s)
  {
-     QemuConsole *s = opaque;
--    int len;
--    uint8_t buf[16];
-+    uint32_t len, avail;
+-    QemuConsole *s = opaque;
+     uint32_t len, avail;
  
      len = qemu_chr_be_can_write(s->chr);
--    if (len > s->out_fifo.count)
--        len = s->out_fifo.count;
--    if (len > 0) {
--        if (len > sizeof(buf))
--            len = sizeof(buf);
--        qemu_fifo_read(&s->out_fifo, buf, len);
--        qemu_chr_be_write(s->chr, buf, len);
-+    avail = fifo8_num_used(&s->out_fifo);
-+    if (len > avail) {
-+        len = avail;
-+    }
-+    while (len > 0) {
-+        const uint8_t *buf;
-+        uint32_t size;
-+
-+        buf = fifo8_pop_buf(&s->out_fifo, len, &size);
-+        qemu_chr_be_write(s->chr, (uint8_t *)buf, size);
-+        len -= size;
-+        avail -= size;
-     }
-     /* characters are pending: we send them a bit later (XXX:
-        horrible, should change char device API) */
--    if (s->out_fifo.count > 0) {
-+    if (avail > 0) {
-         timer_mod(s->kbd_timer, qemu_clock_get_ms(QEMU_CLOCK_REALTIME) + 1);
-     }
- }
-@@ -1185,6 +1138,7 @@ void kbd_put_keysym_console(QemuConsole *s, int keysym)
-     uint8_t buf[16], *q;
-     CharBackend *be;
-     int c;
-+    uint32_t num_free;
+     avail = fifo8_num_used(&s->out_fifo);
+-    if (len > avail) {
+-        len = avail;
+-    }
+-    while (len > 0) {
++    while (len > 0 && avail > 0) {
+         const uint8_t *buf;
+         uint32_t size;
  
-     if (!s || (s->console_type == GRAPHIC_CONSOLE))
-         return;
-@@ -1228,7 +1182,8 @@ void kbd_put_keysym_console(QemuConsole *s, int keysym)
-         }
-         be = s->chr->be;
-         if (be && be->chr_read) {
--            qemu_fifo_write(&s->out_fifo, buf, q - buf);
-+            num_free = fifo8_num_free(&s->out_fifo);
-+            fifo8_push_all(&s->out_fifo, buf, MIN(num_free, q - buf));
-             kbd_send_chars(s);
-         }
-         break;
-@@ -2233,8 +2188,7 @@ static void text_console_do_init(Chardev *chr, DisplayState *ds)
-     int g_width = 80 * FONT_WIDTH;
+-        buf = fifo8_pop_buf(&s->out_fifo, len, &size);
++        buf = fifo8_pop_buf(&s->out_fifo, MIN(len, avail), &size);
+         qemu_chr_be_write(s->chr, (uint8_t *)buf, size);
+-        len -= size;
++        len = qemu_chr_be_can_write(s->chr);
+         avail -= size;
+     }
+-    /* characters are pending: we send them a bit later (XXX:
+-       horrible, should change char device API) */
+-    if (avail > 0) {
+-        timer_mod(s->kbd_timer, qemu_clock_get_ms(QEMU_CLOCK_REALTIME) + 1);
+-    }
+ }
+ 
+ /* called when an ascii key is pressed */
+@@ -2141,6 +2131,14 @@ int qemu_console_get_height(QemuConsole *con, int fallback)
+     return con ? surface_height(con->surface) : fallback;
+ }
+ 
++static void vc_chr_accept_input(Chardev *chr)
++{
++    VCChardev *drv = VC_CHARDEV(chr);
++    QemuConsole *s = drv->console;
++
++    kbd_send_chars(s);
++}
++
+ static void vc_chr_set_echo(Chardev *chr, bool echo)
+ {
+     VCChardev *drv = VC_CHARDEV(chr);
+@@ -2189,7 +2187,6 @@ static void text_console_do_init(Chardev *chr, DisplayState *ds)
      int g_height = 24 * FONT_HEIGHT;
  
--    s->out_fifo.buf = s->out_fifo_buf;
--    s->out_fifo.buf_size = sizeof(s->out_fifo_buf);
-+    fifo8_create(&s->out_fifo, 16);
-     s->kbd_timer = timer_new_ms(QEMU_CLOCK_REALTIME, kbd_send_chars, s);
+     fifo8_create(&s->out_fifo, 16);
+-    s->kbd_timer = timer_new_ms(QEMU_CLOCK_REALTIME, kbd_send_chars, s);
      s->ds = ds;
+ 
+     s->y_displayed = 0;
+@@ -2439,6 +2436,7 @@ static void char_vc_class_init(ObjectClass *oc, void *data)
+     cc->parse = qemu_chr_parse_vc;
+     cc->open = vc_chr_open;
+     cc->chr_write = vc_chr_write;
++    cc->chr_accept_input = vc_chr_accept_input;
+     cc->chr_set_echo = vc_chr_set_echo;
+ }
  
 -- 
 2.31.1
