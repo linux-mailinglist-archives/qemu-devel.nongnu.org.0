@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA37240D44F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 10:11:32 +0200 (CEST)
-Received: from localhost ([::1]:52630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5BDA40D453
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 10:13:13 +0200 (CEST)
+Received: from localhost ([::1]:54924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQmUU-0001ay-Oh
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 04:11:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41310)
+	id 1mQmW9-0003El-0F
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 04:13:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mQmSp-0000uc-VF
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 04:09:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36143)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mQmVA-0002aB-8M
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 04:12:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mQmSl-00029y-FB
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 04:09:46 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mQmV8-0004JO-Pt
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 04:12:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631779782;
+ s=mimecast20190719; t=1631779930;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KZnipUXt1a4NpiioxK/T8P8d+zBkcnnQeyECwwg3I9Y=;
- b=Vl7NaA5Op+oqC6sKpSe55rRVtocWyHwV5IfNbDitPT1AHDCTeZG6JdEELnNgR5mVA8Aaoz
- CmOuyADJ66pEvPOAWwKe8CwERl3hSx1LkxGYzSKGfT+66eYAw3JHWdlR7AByaZfMTcayJ9
- BCwmlwZQx3T63iMSr687fugISJHC8kw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-dZVTD3grNiaAIn_uZH41kg-1; Thu, 16 Sep 2021 04:09:40 -0400
-X-MC-Unique: dZVTD3grNiaAIn_uZH41kg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- h5-20020a5d6885000000b0015e21e37523so2109942wru.10
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 01:09:40 -0700 (PDT)
+ bh=5hyuq75pRTeZMDEk5SXv6pKlKxZxuJUegf1yMz98oeU=;
+ b=ae1u/7zkQ5MnUNeB8yosf6N8sl1qC1K0GrUFIBxIGkAY1PUUnTFSSEB6lbxNaBuwiEZ9l/
+ L8Q1vu+o5JGzSBeNu0etdhkYbjx852+QmVOM/PlOpWR1nOJG0NlWIb4e4737auakBmRvpZ
+ 96A5KganEZV+1ZohFpGbCkDG7owfYbY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-J6VeUlozPHK6HqvmmzxQnA-1; Thu, 16 Sep 2021 04:12:09 -0400
+X-MC-Unique: J6VeUlozPHK6HqvmmzxQnA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ m18-20020adfe952000000b0015b0aa32fd6so2109703wrn.12
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 01:12:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:references:from:organization
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=KZnipUXt1a4NpiioxK/T8P8d+zBkcnnQeyECwwg3I9Y=;
- b=gz/UaIx0Ge8rqf0akmzXIikoiQUhwSXTtXFVy4oOYzANZufvFWd1UxuRmyluucpTEF
- +spGamwDbRzZk5GKWv2t+vFkXD8HUQCjr6w410FflgcfUE9IzsvGoV/7YRgRj42oDK3f
- aakrA/Pl1Za9Q7B4oBAj3oujTEV3FO/Eitz6wx3BQVG3UQ9O+WWczs1VZftrNoW9AZZ9
- nODcAv2hg9lPJwWzqwwvl5KD1rQ4BLUyUxm+2AOxOQhiEKVlKVDqcQE7FseE4yvwc9sx
- rEBIr22UAbKxYaIshyDetlVQmoxzV6dmR/5IW0cocpL7akvV6Y8tQF4zsJvbqdMl5BSN
- 9H2w==
-X-Gm-Message-State: AOAM5326q9yHKs+o8CGGBMg7pIB49xH/8bj/8xQL9QcGbgPxZayhg/tt
- pRyKX1x8oUVeOtC8yEI1apdFcRCrKYzgv1w66apLYLfFU92l9NYp3MJwXYN2yzuKLyq8xZ7DVq9
- NFlWQ6Plxg6CLp8Mv71Ej4YAMpKfqtkAxWKISY7EL1aDVVI4V2DqJu4d0SRo+6hk=
-X-Received: by 2002:a05:6000:160c:: with SMTP id
- u12mr4568102wrb.100.1631779779705; 
- Thu, 16 Sep 2021 01:09:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwALvJwFHxIercW8cOKX4HrzAQ47xGjX7nL/Wrgol0FZ3oNSONa2cH9LNwdJ5dIZfF/pJ1K3Q==
-X-Received: by 2002:a05:6000:160c:: with SMTP id
- u12mr4568086wrb.100.1631779779474; 
- Thu, 16 Sep 2021 01:09:39 -0700 (PDT)
+ bh=5hyuq75pRTeZMDEk5SXv6pKlKxZxuJUegf1yMz98oeU=;
+ b=j1lKgBvTTLjPNFJEeT8llqoHDsodQha6mXCQf+i2CRwSLw/qgwXnfFV+5HI8t2+px1
+ xu1OtC0AXir3iihcPX6yUnzCyWO8EY3qbUYSRw31+5IKwE0H7lgqRVctCa1erDn7/tjO
+ Umlh8ocp7+XhBu4x6yeHaf1BmFk8ddCYFY48jJO8cN+ZPa9m+9kZ+b6/to3imkcole68
+ zZtXraJsPqJ8awjWl9A/WokNXns++rMVdbt2XPW7044NyFeMOOtiSykoaFKkuWDuRW0s
+ BS1FG42U133VRv4baXBQh3zUmhNBN3OZauRTpt9iY7dluTOhJl8nnxZzWPWox1c36STr
+ Bzsw==
+X-Gm-Message-State: AOAM530hJCHO+WPRLpT5KWtphhbcYCW/L+kEiRR9olZ0MHK7ea9mJ2Yu
+ rPZ6X3TdUHa2yFFa5BwU/1oASP1Kp1og8xOB/UrtA9SbL65Saa0AWqMWB7tqpAQpRNhMxDnr0D3
+ 1ZLkc1eIMoWhbx6yLXFDStBYR+nkfkMaIIhaYiH0LD5ZfPdvBNnHOot0XOc4pVcU=
+X-Received: by 2002:a1c:28a:: with SMTP id 132mr3739558wmc.101.1631779927866; 
+ Thu, 16 Sep 2021 01:12:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwmcWhublelTUFHmtyZ7mXHElUNgLRazGj8jWiyyhvW+ivrMtUziYquQk205niZ/K3H+HNEwg==
+X-Received: by 2002:a1c:28a:: with SMTP id 132mr3739540wmc.101.1631779927674; 
+ Thu, 16 Sep 2021 01:12:07 -0700 (PDT)
 Received: from [192.168.3.132] (p4ff23828.dip0.t-ipconnect.de. [79.242.56.40])
  by smtp.gmail.com with ESMTPSA id
- d9sm3175669wrb.36.2021.09.16.01.09.38
+ v10sm2564503wrg.15.2021.09.16.01.12.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 01:09:39 -0700 (PDT)
-Subject: Re: [PATCH v5 06/16] tcg/s390x: Implement tcg_out_ld/st for vector
- types
+ Thu, 16 Sep 2021 01:12:07 -0700 (PDT)
+Subject: Re: [PATCH v5 10/16] tcg/s390x: Implement andc, orc, abs, neg, not
+ vector operations
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210915213114.1923776-1-richard.henderson@linaro.org>
- <20210915213114.1923776-7-richard.henderson@linaro.org>
+ <20210915213114.1923776-11-richard.henderson@linaro.org>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-Message-ID: <01edeec4-a541-599f-d632-96ff04c8ea14@redhat.com>
-Date: Thu, 16 Sep 2021 10:09:38 +0200
+Message-ID: <26652172-04f0-fd06-2226-121dfa020681@redhat.com>
+Date: Thu, 16 Sep 2021 10:12:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210915213114.1923776-7-richard.henderson@linaro.org>
+In-Reply-To: <20210915213114.1923776-11-richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -106,12 +104,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 15.09.21 23:31, Richard Henderson wrote:
+> These logical and arithmetic operations are optional but trivial.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   tcg/s390x/tcg-target.c.inc | 132 +++++++++++++++++++++++++++++++++----
->   1 file changed, 120 insertions(+), 12 deletions(-)
+>   tcg/s390x/tcg-target-con-set.h |  1 +
+>   tcg/s390x/tcg-target.h         | 11 ++++++-----
+>   tcg/s390x/tcg-target.c.inc     | 32 ++++++++++++++++++++++++++++++++
+>   3 files changed, 39 insertions(+), 5 deletions(-)
 > 
-
 Reviewed-by: David Hildenbrand <david@redhat.com>
 
 
