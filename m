@@ -2,102 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89FBA40D29C
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 06:39:42 +0200 (CEST)
-Received: from localhost ([::1]:36338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD4740D2A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 06:44:25 +0200 (CEST)
+Received: from localhost ([::1]:41644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQjBV-0001GV-LK
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 00:39:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40142)
+	id 1mQjG4-0004yV-S7
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 00:44:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=886e160e1=alistair.francis@opensource.wdc.com>)
- id 1mQj9s-000880-CY
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:38:01 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:4810)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=886e160e1=alistair.francis@opensource.wdc.com>)
- id 1mQj9p-0007B9-Ij
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:37:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1631767075; x=1663303075;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=JLuylWYBtEa555dunSRK4Mk8tc3gj74iC8WdUNYeuHw=;
- b=XjQudDhx/hE71Y+xOApWWlT7FTyInGC95vRVxhlw72Xe+NSNfv7B08kr
- zmI6b5JhI5JjqQ7BCSOiY5nlX1lni/66AvX5cuDfDaqPUUN4AobokPFAl
- MqclWuTluQctjGDmqJ1e/g6kbpu3ilPgaPbYjv8eJjTs/CbIlGTLKj1iJ
- puTJVe6QvPyB3kBaHYcmmnI4nQCKkyuxFi4F3BiCjxUj1ZiUyfMW6woEq
- mf0Uo4ASAzbZZSUcnx0JQaaDTHPYDYkNzGSASrAaa3g64ca/dEW2unv/u
- 8mXcYIZMn8rrhQFLnL6pBGkT43MvqEdZMJwo8WPVat8XKGiZTwaX9p4IR Q==;
-X-IronPort-AV: E=Sophos;i="5.85,297,1624291200"; d="scan'208";a="184925504"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 16 Sep 2021 12:37:49 +0800
-IronPort-SDR: qfPFJTBmuJmIgjvRRQTwhxRqM3R4Pae+C0d9oVhCLkp12brJbR5SWfU6r/mPkQYgzYkRERrZOp
- Va9b0IKVV/Ws99qOn0d1fW2nDjVvoE2EhWmmvpAAb+TU8+FXu/lphihHjL2jKlFUjO5DXDeFJ8
- 6IvnGBFs4X1qS+Q6cgq0zExtX79V6ALPunRCjmlT/ItZwZUVW84iaiYV4+XjHNaF0koa51zUSQ
- N/QtPvtCvS23LuUNFrKP4kQi6brBofY+RCQ9dBpmyj9SqAV1TctQXwuJ8IdihNy2DgPfq9YedI
- nBQHtSepMxrnqB1H+4bGgprG
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2021 21:12:38 -0700
-IronPort-SDR: YtFVum4mV1eHQ9XUv1ela3gYt9YwIq/QYgdoWA6DSW+BSNAgqSlrcgoCwbadU5VAvRUfmX5Qzk
- 6HTMgHayOS7munYoWqSaSSJMiI2RBSzuTH5aGXS3RMRjaKeFGdMfFHCFjbBPP6P/Z3FBtRaMdX
- w6BYhBwb0ks5zxCT+K6S63JPHJoypgVkEGaiKYPq1BeiTabnT5pWXnkIc87ieLk1juTbvWjeO8
- egISD0DaM6m6QlosBAyPVmneFRVqKDPwnv0hWpBmrI85pizhce6fqeYayQYoMbdlzql+DgZVF+
- gZM=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2021 21:37:50 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4H947y1hs7z1RvmL
- for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 21:37:50 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :x-mailer:message-id:date:subject:to:from; s=dkim; t=1631767069;
- x=1634359070; bh=JLuylWYBtEa555dunSRK4Mk8tc3gj74iC8WdUNYeuHw=; b=
- NEwma1HpkXKZ5v4ZheDbufMdimNde1nIvtPhknX+yW65uPjVMD+w3mVI3+Whn8di
- htmUDteJCRtaoRGzh9+URc+/p3bNajBApA5fIxXtJ8D45KbQfKmDjO7FdJgrfI3D
- c6AbDANWmFJuFDOJkKSpmtm4KTuNh+5/ehB3OSKSJB7JrDJyHTfIN/AAGzxmJMXT
- h4YLQn8BbXWRBQ10Nyr6K2QWzuqpQJRBjKW4HOektcMZE+878YqMXMZPiWmczblv
- M1i8HrIjXHtPysTydwOyX4MEeVjNhHfZ6+0V9+9MGZ/labD7mWCnEXdC8ZaEn1dm
- 9FTwhUjETDDoHOmAZVautQ==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id FDVSCKvtopvR for <qemu-devel@nongnu.org>;
- Wed, 15 Sep 2021 21:37:49 -0700 (PDT)
-Received: from toolbox.alistair23.me (unknown [10.225.165.23])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4H947r4qp8z1Rvlb;
- Wed, 15 Sep 2021 21:37:44 -0700 (PDT)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: bmeng.cn@gmail.com, palmer@dabbelt.com, alistair.francis@wdc.com,
- alistair23@gmail.com
-Subject: [PATCH v1 1/1] hw/riscv: opentitan: Correct the USB Dev address
-Date: Thu, 16 Sep 2021 14:37:38 +1000
-Message-Id: <d6cb4dfe75a2f536f217d7075b750ece3acb1535.1631767043.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mQjEi-0004FY-Ad; Thu, 16 Sep 2021 00:43:00 -0400
+Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:35369)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mQjEc-0002wX-0q; Thu, 16 Sep 2021 00:42:58 -0400
+Received: by mail-il1-x131.google.com with SMTP id h29so5408902ila.2;
+ Wed, 15 Sep 2021 21:42:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yskA2MtkTEYh0zmVCGh8Lnad2w1kA63qb6ufLgBYLC0=;
+ b=nUz4ooff+FKL2UhDqoQD3jea838UsxUC7SHV5Y/B+oJUUGbnzeXqZsL0dXVpvWu5Rs
+ 0bkC8pt7o1WCQk4cLaMIK4RdTUyWpm6rxRpT4Ekn3jpF1LQVjk0Ax78O396lXPjnzduE
+ zgMSP+zc3zVsdDfpnQ+YGI/Yqo/Ib2GZfcATgglYFIYpLBXhuKIt+zwOLMGiRCxBs+yT
+ VRhw2YP5/BIQkNIy7eXZx/UOZFxqF/reFoTVRu/qvUz5ODItcyp12ndCOkZSwgE2SA9u
+ 2JQi29nIwL0zgGUSa8JvNTGQvLhP8zFMu7633WcO/Dl4+hJweoEFPQXB9xwucEXAxtIo
+ 3LFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yskA2MtkTEYh0zmVCGh8Lnad2w1kA63qb6ufLgBYLC0=;
+ b=ChSb13irGG4oET6f4mrk43MW4zPUVf+Jq4UF1TUYdKEGLVILwHovYJXxXinXTet1dS
+ OZ+L0X+6UFatyRzMJMsYlYEp0F5nYwBqFiab9/rwbPaCD1Z1xjEOg/0GPdOvf2NSsW8c
+ FZPmEaoLIV/r4+XkZgqQgEqtziCbHLke/ffx3bzS1wuhKQ800DafnO+OktjGUn10h3n7
+ R4PRr9gSim7wKGhBEAoAxJvQnPJH5aGkzcRoe17hzSCPYWC6Ql9Ux4yfRz67ms3ALNuz
+ ayhHYHjNsnQGFIaZiOvILkw0bVEvuatbWWDrDdptQVJuuFm1DiuKQDVZGdG+RmuyPBRq
+ sx7w==
+X-Gm-Message-State: AOAM532FyGqSfrvcOXJBzYQwYfIYyUTlVSdlvLZ34c5G+H428IzRrCpk
+ rjCEfMJ+dAYyIdavOcEV8RY0A+nn6nNQBd7vhSU=
+X-Google-Smtp-Source: ABdhPJxL5P5uDCslJqe3qkvedDCf60RKCKk3zNN1qyKguEnfZkRs+AUG7clsAHeoJgx1xU8kiQ/DYVU7dxogMX8iG0k=
+X-Received: by 2002:a05:6e02:1088:: with SMTP id
+ r8mr2581845ilj.46.1631767371534; 
+ Wed, 15 Sep 2021 21:42:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.153.141;
- envelope-from=prvs=886e160e1=alistair.francis@opensource.wdc.com;
- helo=esa3.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20210915084601.24304-1-bmeng.cn@gmail.com>
+In-Reply-To: <20210915084601.24304-1-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 16 Sep 2021 14:42:24 +1000
+Message-ID: <CAKmqyKNVC-CC06qPM_TtgwMPMnY-3=+D+-FKxEtkxDVMLd78=g@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: csr: Rename HCOUNTEREN_CY and friends
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x131.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,35 +76,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+On Wed, Sep 15, 2021 at 6:47 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> The macro name HCOUNTEREN_CY suggests it is for CSR HCOUNTEREN, but
+> in fact it applies to M-mode and S-mode CSR too. Rename these macros
+> to have the COUNTEREN_ prefix.
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/riscv/opentitan.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 36a41c8b5b..d38c43abc1 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -39,12 +39,12 @@ static const MemMapEntry ibex_memmap[] =3D {
-     [IBEX_DEV_TIMER] =3D          {  0x40100000,  0x1000  },
-     [IBEX_DEV_SENSOR_CTRL] =3D    {  0x40110000,  0x1000  },
-     [IBEX_DEV_OTP_CTRL] =3D       {  0x40130000,  0x4000  },
-+    [IBEX_DEV_USBDEV] =3D         {  0x40150000,  0x1000  },
-     [IBEX_DEV_PWRMGR] =3D         {  0x40400000,  0x1000  },
-     [IBEX_DEV_RSTMGR] =3D         {  0x40410000,  0x1000  },
-     [IBEX_DEV_CLKMGR] =3D         {  0x40420000,  0x1000  },
-     [IBEX_DEV_PINMUX] =3D         {  0x40460000,  0x1000  },
-     [IBEX_DEV_PADCTRL] =3D        {  0x40470000,  0x1000  },
--    [IBEX_DEV_USBDEV] =3D         {  0x40500000,  0x1000  },
-     [IBEX_DEV_FLASH_CTRL] =3D     {  0x41000000,  0x1000  },
-     [IBEX_DEV_PLIC] =3D           {  0x41010000,  0x1000  },
-     [IBEX_DEV_AES] =3D            {  0x41100000,  0x1000  },
---=20
-2.31.1
+Alistair
 
+> ---
+>
+>  target/riscv/cpu_bits.h |  8 ++++----
+>  target/riscv/csr.c      | 24 ++++++++++++------------
+>  2 files changed, 16 insertions(+), 16 deletions(-)
+>
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 7330ff5a19..34564d367c 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -397,10 +397,10 @@
+>  #define HSTATUS32_WPRI       0xFF8FF87E
+>  #define HSTATUS64_WPRI       0xFFFFFFFFFF8FF87EULL
+>
+> -#define HCOUNTEREN_CY        (1 << 0)
+> -#define HCOUNTEREN_TM        (1 << 1)
+> -#define HCOUNTEREN_IR        (1 << 2)
+> -#define HCOUNTEREN_HPM3      (1 << 3)
+> +#define COUNTEREN_CY         (1 << 0)
+> +#define COUNTEREN_TM         (1 << 1)
+> +#define COUNTEREN_IR         (1 << 2)
+> +#define COUNTEREN_HPM3       (1 << 3)
+>
+>  /* Privilege modes */
+>  #define PRV_U 0
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 50a2c3a3b4..1cd34a6453 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -71,20 +71,20 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>      if (riscv_cpu_virt_enabled(env)) {
+>          switch (csrno) {
+>          case CSR_CYCLE:
+> -            if (!get_field(env->hcounteren, HCOUNTEREN_CY) &&
+> -                get_field(env->mcounteren, HCOUNTEREN_CY)) {
+> +            if (!get_field(env->hcounteren, COUNTEREN_CY) &&
+> +                get_field(env->mcounteren, COUNTEREN_CY)) {
+>                  return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>              }
+>              break;
+>          case CSR_TIME:
+> -            if (!get_field(env->hcounteren, HCOUNTEREN_TM) &&
+> -                get_field(env->mcounteren, HCOUNTEREN_TM)) {
+> +            if (!get_field(env->hcounteren, COUNTEREN_TM) &&
+> +                get_field(env->mcounteren, COUNTEREN_TM)) {
+>                  return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>              }
+>              break;
+>          case CSR_INSTRET:
+> -            if (!get_field(env->hcounteren, HCOUNTEREN_IR) &&
+> -                get_field(env->mcounteren, HCOUNTEREN_IR)) {
+> +            if (!get_field(env->hcounteren, COUNTEREN_IR) &&
+> +                get_field(env->mcounteren, COUNTEREN_IR)) {
+>                  return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>              }
+>              break;
+> @@ -98,20 +98,20 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>          if (riscv_cpu_is_32bit(env)) {
+>              switch (csrno) {
+>              case CSR_CYCLEH:
+> -                if (!get_field(env->hcounteren, HCOUNTEREN_CY) &&
+> -                    get_field(env->mcounteren, HCOUNTEREN_CY)) {
+> +                if (!get_field(env->hcounteren, COUNTEREN_CY) &&
+> +                    get_field(env->mcounteren, COUNTEREN_CY)) {
+>                      return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>                  }
+>                  break;
+>              case CSR_TIMEH:
+> -                if (!get_field(env->hcounteren, HCOUNTEREN_TM) &&
+> -                    get_field(env->mcounteren, HCOUNTEREN_TM)) {
+> +                if (!get_field(env->hcounteren, COUNTEREN_TM) &&
+> +                    get_field(env->mcounteren, COUNTEREN_TM)) {
+>                      return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>                  }
+>                  break;
+>              case CSR_INSTRETH:
+> -                if (!get_field(env->hcounteren, HCOUNTEREN_IR) &&
+> -                    get_field(env->mcounteren, HCOUNTEREN_IR)) {
+> +                if (!get_field(env->hcounteren, COUNTEREN_IR) &&
+> +                    get_field(env->mcounteren, COUNTEREN_IR)) {
+>                      return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>                  }
+>                  break;
+> --
+> 2.25.1
+>
+>
 
