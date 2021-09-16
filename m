@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BEF40E1B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:51:11 +0200 (CEST)
-Received: from localhost ([::1]:44646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6609340E1AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:46:01 +0200 (CEST)
+Received: from localhost ([::1]:34668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQubM-0008Ux-5F
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55212)
+	id 1mQuWN-0001eL-SD
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:46:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mQuI7-0001eC-Me; Thu, 16 Sep 2021 12:31:17 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:39627)
+ id 1mQuIu-0002bB-91; Thu, 16 Sep 2021 12:32:07 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:33821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mQuI1-000270-MW; Thu, 16 Sep 2021 12:31:15 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 222DA320093F;
- Thu, 16 Sep 2021 12:31:03 -0400 (EDT)
+ id 1mQuIs-0002qG-Av; Thu, 16 Sep 2021 12:32:04 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 11947320093F;
+ Thu, 16 Sep 2021 12:32:00 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 16 Sep 2021 12:31:03 -0400
+ by compute1.internal (MEProxy); Thu, 16 Sep 2021 12:32:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=Cd82PinYr5Fc94dMDNs1Xm7fycz
- HGDgqgVbJ+eoj5sY=; b=D0/SRw6Wz8sO3p91Slgfiy5hvr5rb9OpH4kc/xP+S+5
- 6sfxbQX/A49UhlsbpRD0P+PCTHOI89UIejLcSGSbzTMnnU7f/rUTzSVLxUkYXyao
- g9s+JUUnI1n9lVesbN6Jk9fN6Oj/ARESxkfdSpMYzF9hbhYaD4QFBzuY8iw5FYBP
- 7q8H3zP/OqW5Oj/XhzOL7rlnGfR3hDoczDPjpJEXPQvGdAw03HBIT+ulwSEoJFv/
- frPxlul7qqudkmW6Plwa56nWdMw869lA4b0aOECNQudPmllWXQxsX99kOQiBIuMn
- IZTsD3HgpxBl0+E5rroRj5FbRV6TmjB0a6nkNI4P52A==
+ :content-type:in-reply-to; s=fm1; bh=2Bvr7qCuD9toDam9A2fJAHrUE/b
+ l0bKoeB0cLwbHj/M=; b=Semi3eeLs4rVSB32bV1tOgxwOGwubHQ+dRQdIfjIfdx
+ uSw7wtHQsES5XseYzQw7JxnQVoXn6H0KuMSDU/pQ1ax98MfBO5dh3nynZTUZJivC
+ pSCUBDnK9fhqX8MpkPdZH2HNm89xJyluGDuXyfBCRKe6MlL1ZgbEGAjcx1VwM0+e
+ o9ZEP39CgpaR2T3TpaY+Y6Zq/5XfE6o1yyBMCAZAkF2Yabiy8rNNE63WTN65Tp3X
+ AwnQ49tVA0oC++9bn8tnoWr55me09+2MoIj5xd+v457Lhrk1EjZUJxhYMndy1uax
+ +5ZUnbpZToSfzluafXzwYORoPcGkOXzv6a1zar/stiw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Cd82Pi
- nYr5Fc94dMDNs1Xm7fyczHGDgqgVbJ+eoj5sY=; b=aTsfxcgqadzW/92h8xqJZI
- eCgDyRV0LwRDpeWwgSAK5pNK1YalJ0xqssbnoxBS4pG/kylXDGgqBdyCJaFs2Fmn
- BgRwDYoCEnds1y+YbeRuVxEjESUwRhxLEO9QsnNLuvOyTmv48yWcfG9qlUMLcIVW
- nChF7yXwWPq7BwLdL5PRdYK1XzlJNgLa4/X9N+/Tukhwmv9wS1fxatNKWH6o68Jq
- 9S9FdO78vlXTpXGLxu8Magr1JTagRmrRbjOsg1YziFe+L39Va+cWnb1y+SxbZxiF
- p9GftewzsgWcHiSzHrMFch42YlUBg1QZrTNPRje9StF4Smi/sqB9pFt08PZ6bIsA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=2Bvr7q
+ CuD9toDam9A2fJAHrUE/bl0bKoeB0cLwbHj/M=; b=NVadQpBmXMNv0ckHXXVvZS
+ wMvSC2YGCl42WtyODFpb3y3EXzxWCLMPrHSRSXvSIsbFkJIOpt4y3tft2Sn1kHhr
+ WX+8nLPol2E+flDbPmgMDdNZdH8cXCAfMqWBobfJczgup1+On0kaOymXElxg6Svz
+ 0M3CKWw7lWuXt6C24U30ZqavwwMQNVo3Ah/qyak5h5xJja99V/54vH9fY8rMT8ca
+ tUqkA+SvTxS6YiiKtgIDG0cIiQLquSCsEeJfSmKj98C90SZxLIbPUtr7/vgyYCVD
+ eiXat3+28/dYZin3U3smpPtm4UmgZj6FI3KyV9KCKA5nX4+E7qrmQUiYVOaiRjZw
  ==
-X-ME-Sender: <xms:RXFDYSfvb-KBIXaH-2yRQ0R2VgrruM3p4-zyxF4z9lJCh0YjUK6HZQ>
- <xme:RXFDYcP5b4xU4CDBlI36zwpMaJr62kC5n7P_FsQu2f9YrQ_OU2EpVItwm909Lz519
- E3cLECaTWxZvpTjDT4>
-X-ME-Received: <xmr:RXFDYTjiNrfC9G3aF3kRE9_sRdY8GAnWJbVmgDOhCnFhsbziW6ty_QIZXfV7YVBYNP88TLTdi7rR9S4pjuSFPv1ugwxtD057lgboZj-A8PNISWIZPA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgleehucetufdoteggodetrfdotf
+X-ME-Sender: <xms:fnFDYawcDwto-x8IYywAD7TfUYx1HaL6hpesEg72_uu7vL78Mwis-g>
+ <xme:fnFDYWTZtydKLFQR7dOJgPiSAgsX_I_HEl7DpF4KK8LRqaPWi8HayJRvEyJZxLKLd
+ 66gw5PDrpO_wNI870A>
+X-ME-Received: <xmr:fnFDYcW_Jy4WA5xCG7CzU0kCh-KsAHTilvdonDXQ9KZm0JAS16LNaB1IhAlOW5GBjN0LdLUWE846YNJX55Z3H-nzpm-2YNZQLi1XS9yb_ISdSR_lHA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgleeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
@@ -54,24 +54,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgleehucetufdoteggod
  gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
  keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:RXFDYf8NILL62gI1ZSFZ-uNuMoel1jhEBV57O9CIJ_lUhNNtD8cUIg>
- <xmx:RXFDYevTkOnXrMGlpeku990UnxtSxG2EraZfNFWyn1iwcMwYhYuBLw>
- <xmx:RXFDYWH5mTgZnOGaUFEiZrxeRrgHTbOjkgojFx33ScNhGo5dXxDCTg>
- <xmx:RnFDYcDIwqtAFGpeYzVITHq4wSsjIGSoVZP1nqVBpeFI1CGQvHNH7w>
+X-ME-Proxy: <xmx:fnFDYQgRt0G6SER4fv5yK_Q-rATi19Z7nLrhHrhcnGWuGq0Jc3zOsw>
+ <xmx:fnFDYcA041NFeQ0ClBa_qh0PJFMGpxS6Ucg-5riGLYOYvAPmdRWMXw>
+ <xmx:fnFDYRKSCHtDto_-Ddsu978TpYIBn0eic37DhBn0aR48zKDFjfIQWA>
+ <xmx:f3FDYY0jigQ6OjsvNUoD3Ayvwn7MlBxrmRK2TP8Y2SxRXn4AN50V4A>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Sep 2021 12:30:59 -0400 (EDT)
-Date: Thu, 16 Sep 2021 18:30:56 +0200
+ 16 Sep 2021 12:31:57 -0400 (EDT)
+Date: Thu, 16 Sep 2021 18:31:55 +0200
 From: Klaus Jensen <its@irrelevant.dk>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH RFC 00/13] hw/nvme: experimental user-creatable objects
-Message-ID: <YUNxQCbZSF3nMkVT@apples.localdomain>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH RFC 02/13] hw/nvme: move zns helpers and types into zoned.h
+Message-ID: <YUNxe9l5SlTngX39@apples.localdomain>
 References: <20210914203737.182571-1-its@irrelevant.dk>
- <YUM7YEQDQ2L3Qdh9@redhat.com>
+ <20210914203737.182571-3-its@irrelevant.dk>
+ <20210916160605.GA3908552@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Ogu5yQgKENf7ltnF"
+ protocol="application/pgp-signature"; boundary="g4Kyf0b2/j86ovoq"
 Content-Disposition: inline
-In-Reply-To: <YUM7YEQDQ2L3Qdh9@redhat.com>
+In-Reply-To: <20210916160605.GA3908552@dhcp-10-100-145-180.wdc.com>
 Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
  helo=wout2-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -93,145 +94,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>,
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Ogu5yQgKENf7ltnF
+--g4Kyf0b2/j86ovoq
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sep 16 14:41, Kevin Wolf wrote:
-> Am 14.09.2021 um 22:37 hat Klaus Jensen geschrieben:
+On Sep 16 09:06, Keith Busch wrote:
+> On Tue, Sep 14, 2021 at 10:37:26PM +0200, Klaus Jensen wrote:
 > > From: Klaus Jensen <k.jensen@samsung.com>
 > >=20
-> > Hi,
-> >=20
-> > This is an attempt at adressing a bunch of issues that have presented
-> > themselves since we added subsystem support. It's been brewing for a
-> > while now.
-> >=20
-> > Fundamentally, I've come to the conclusion that modeling namespaces and
-> > subsystems as "devices" is wrong. They should have been user-creatable
-> > objects. We've run into multiple issues with wrt. hotplugging due to how
-> > namespaces hook up to the controller with a bus. The bus-based design
-> > made a lot of sense when we didn't have subsystem support and it follows
-> > the design of hw/scsi. But, the problem here is that the bus-based
-> > design dictates a one parent relationship, and with shared namespaces,
-> > that is just not true. If the namespaces are considered to have a single
-> > parent, that parent is the subsystem, not any specific controller.
-> >=20
-> > This series adds a set of experimental user-creatable objects:
-> >=20
-> >   -object x-nvme-subsystem
-> >   -object x-nvme-ns-nvm
-> >   -object x-nvme-ns-zoned
-> >=20
-> > It also adds a new controller device (-device x-nvme-ctrl) that supports
-> > these new objects (and gets rid of a bunch of deprecated and confusing
-> > parameters). This new approach has a bunch of benefits (other than just
-> > fixing the hotplugging issues properly) - we also get support for some
-> > nice introspection through some new dynamic properties:
-> >=20
-> >   (qemu) qom-get /machine/peripheral/nvme-ctrl-1 attached-namespaces
-> >   [
-> >       "/objects/nvm-1",
-> >       "/objects/zns-1"
-> >   ]
-> >=20
-> >   (qemu) qom-list /objects/zns-1
-> >   type (string)
-> >   subsys (link<x-nvme-subsystem>)
-> >   nsid (uint32)
-> >   uuid (string)
-> >   attached-ctrls (str)
-> >   eui64 (string)
-> >   blockdev (string)
-> >   pi-first (bool)
-> >   pi-type (NvmeProtInfoType)
-> >   extended-lba (bool)
-> >   metadata-size (uint16)
-> >   lba-size (size)
-> >   zone-descriptor-extension-size (size)
-> >   zone-cross-read (bool)
-> >   zone-max-open (uint32)
-> >   zone-capacity (size)
-> >   zone-size (size)
-> >   zone-max-active (uint32)
-> >=20
-> >   (qemu) qom-get /objects/zns-1 pi-type
-> >   "none"
-> >=20
-> >   (qemu) qom-get /objects/zns-1 eui64
-> >   "52:54:00:17:67:a0:40:15"
-> >=20
-> >   (qemu) qom-get /objects/zns-1 zone-capacity
-> >   12582912
-> >=20
-> > Currently, there are no shortcuts, so you have to define the full
-> > topology to get it up and running. Notice that the topology is explicit
-> > (the 'subsys' and 'attached-ctrls' links). There are no 'nvme-bus'
-> > anymore.
-> >=20
-> >   -object x-nvme-subsystem,id=3Dsubsys0,subnqn=3Dfoo
-> >   -device x-nvme-ctrl,id=3Dnvme-ctrl-0,serial=3Dfoo,subsys=3Dsubsys0
-> >   -device x-nvme-ctrl,id=3Dnvme-ctrl-1,serial=3Dbar,subsys=3Dsubsys0
-> >   -drive  id=3Dnvm-1,file=3Dnvm-1.img,format=3Draw,if=3Dnone,discard=3D=
-unmap
-> >   -object x-nvme-ns-nvm,id=3Dnvm-1,blockdev=3Dnvm-1,nsid=3D1,subsys=3Ds=
-ubsys0,attached-ctrls=3Dnvme-ctrl-1
-> >   -drive  id=3Dnvm-2,file=3Dnvm-2.img,format=3Draw,if=3Dnone,discard=3D=
-unmap
-> >   -object x-nvme-ns-nvm,id=3Dnvm-2,blockdev=3Dnvm-2,nsid=3D2,subsys=3Ds=
-ubsys0,attached-ctrls=3Dnvme-ctrl-0
+> > Move ZNS related helpers and types into zoned.h. Use a common prefix
+> > (nvme_zoned or nvme_ns_zoned) for zns related functions.
 >=20
-> I may be wrong here, but my first gut feeling when seeing this was that
-> referencing the controller device in the namespace object feels
-> backwards. Usually, we have objects that are created independently and
-> then the devices reference them.
+> Just a nitpicks on the naming, you can feel free to ignore.
 >=20
-> Your need to use a machine_done notifier is probably related to that,
-> too, because it goes against the normal initialisation order, so you
-> have to wait. Error handling also isn't really possible in the notifier
-> any more, so this series seems to just print something to stderr, but
-> ignore the error otherwise.
+> Since we're within NVMe specific protocol here, using that terminology
+> should be fine. I prefer "nvme_zns_" for the prefix.
 >=20
-> Did you consider passing a list of namespaces to the controller device
-> instead?
->=20
-> I guess a problem that you have with both ways is that support for
-> list options isn't great in QemuOpts, which is still used both for
-> -object and -device in the system emulator...
->=20
+> And for function names like "nvme_zoned_zs()", the "zs" abbreviation
+> expands to "zone_state", so "zone" is redunant. I think
+> "nvme_zns_state()" is a good name for that one.
 
-Heh. Exactly. The ability to better support lists with -object through
-QAPI is why I did it like this...
+Naming is hard, so nitpicks are appreciated! I see your points, I'll fix
+it up :)
 
-Having the list of namespaces on the controller is preferable. I'll see
-what I can come up with.
-
-Thanks!
-
---Ogu5yQgKENf7ltnF
+--g4Kyf0b2/j86ovoq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmFDcTwACgkQTeGvMW1P
-DemBYQgAn2iKNeygICiElXz5D+ZicQcAXxa8UF3GqGm9Dd/1I8Le7FHHikpftUfi
-NWLdsYF1C3+fsmnFCYaAUMRqY2c7Gs7FNYEz2YbHw/YGDICM9/QyWTHk197pMoiG
-eoQ0udH3whNS+VIGNnSQdUgxTTng7HzQ7llTvvGk7heyBKviLwsTYdXgLawkXJtD
-+p0KIgkUr5L4VjqQ+bAcM2QAFfbIIsjLg/U0DOqTMHs+0kTa2lUdQoiwE3IT+/h1
-plO7d4nyio+VmEqWy+153w/j+7aTu55JIXcAHVbVfj9cCnjyv3ECZCuvluesZw5n
-RKh4V6tgxHQHHD4KeER/NGsE8qJTww==
-=ogEV
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmFDcXoACgkQTeGvMW1P
+DelvMQf/dX50lQ4bX0ljGFDftJVlWd0XajezrRoq8aepDc+k+T0tVt1tCjhNdYYX
+M0ukuaqtF/LerupNKxZxmWVAlLSJ0cvEQa5QRxcNCWSgu9mdCzY5qKyYUW2ENGoH
+z8rIALa3B8EAZ4Z7QBViGy625dH1ZmbOLl34vWDj1KvfNmBLMz15HhFHklExP3/Z
+oZXw6DMEPu3ZNSQV5mzKJAA5eZ0tBMobte+30Nf4PoItAqhnX53ZeRdE2n5ioShL
+ruHjvqir19eSgg7DTrPMSa/W2mK/ASKKnKAeuGpAiMId+QN96aa+GWledxlC42fV
+cRzunMi0efZgwcgykhoRwzZzqB5E6Q==
+=dm4m
 -----END PGP SIGNATURE-----
 
---Ogu5yQgKENf7ltnF--
+--g4Kyf0b2/j86ovoq--
 
