@@ -2,96 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C89C40CF4D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 00:29:50 +0200 (CEST)
-Received: from localhost ([::1]:59604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F30A40D158
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 03:44:48 +0200 (CEST)
+Received: from localhost ([::1]:51196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQdPY-0006V2-NW
-	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 18:29:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52000)
+	id 1mQgSF-00062Q-Mg
+	for lists+qemu-devel@lfdr.de; Wed, 15 Sep 2021 21:44:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mQdNp-00057k-1I
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 18:28:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37464)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1mQgR4-0005M2-CY
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 21:43:34 -0400
+Received: from mga12.intel.com ([192.55.52.136]:60305)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mQdNl-0007Xp-46
- for qemu-devel@nongnu.org; Wed, 15 Sep 2021 18:28:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631744873;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+V5YK/aF41NGzOoa7GPgR7Dn2BQjsRHyTfZrd6AIPaY=;
- b=LS86xBUZO93iOkpYYAfmpbrjtp1uIm2s87fLh0sirhWi+MtJiLTWENx4pH5uv4SYq+DFkq
- ESVnNWlziVX77lW8v0aL0Oa1V8Z4oFDHqYLd6Btvvvwc4uqC2/MJ8Ut88YbID45wbrHsxo
- Bd5qWU+Y5FbeLxgmuiOe9EtqwDr+uto=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-Jl59xMFXMFWQZ1qFM6_ZTg-1; Wed, 15 Sep 2021 18:27:52 -0400
-X-MC-Unique: Jl59xMFXMFWQZ1qFM6_ZTg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- y10-20020a056402270a00b003c8adc4d40cso3118880edd.15
- for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 15:27:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+V5YK/aF41NGzOoa7GPgR7Dn2BQjsRHyTfZrd6AIPaY=;
- b=XXRFtHpQ9jzQig+pwukVoG6t6YxGzuQI78w5OWVZg+/2GP9VI+C63E9ZI9qYWE8sFF
- apzL8jqVszJpCjHWAGp/n41H4aaeAYQX2V1DR0fwbqBz1gNtvEbNAQH5sdZW/8BrPJs7
- gXUPdzN6OXn9THmlrMDRVkuddtJlQfKMQa8vllokUcf5l1F3bLDzb038vezXGqdAScuo
- zpdkJnaZ4/U21mbaZGBVyiT8CIMzitYewnxDat8Dn6uLJO8r/jztH2vhnZ9sPNFiHxhz
- FALtUyPuUmVo32jVQ4/yUSiCqZQnB8Y8WjcU3FvOSMBOtJUu8puyuFRhjr/W1dcRf7rr
- +GCw==
-X-Gm-Message-State: AOAM533cOPXm9E6wwow45wLXNFv8yJsYXDBojTyU1r1efA9GchwGUsss
- YDjGxxiQL77Cr5Mv7H+sYhEiMZKaLw5mI0q7cpOoAaE9fr2gazCxp9/V1x6Cz5akic+B4tkYfJD
- 1RpJpOobFc8qihtU=
-X-Received: by 2002:a17:906:1615:: with SMTP id
- m21mr2640838ejd.279.1631744871379; 
- Wed, 15 Sep 2021 15:27:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyb8sB/dEwGmtWzFpUj1ABWHW+smEOqrGAB2q7qrB4yk1Nw0rHqCvYcpolB+ihBZIEUnBCdZQ==
-X-Received: by 2002:a17:906:1615:: with SMTP id
- m21mr2640819ejd.279.1631744871220; 
- Wed, 15 Sep 2021 15:27:51 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id bq4sm509357ejb.43.2021.09.15.15.27.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Sep 2021 15:27:50 -0700 (PDT)
-Subject: Re: [qemu-web PATCH] Gemfile: Add webrick bundle dependency
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20210913182927.1022862-1-philmd@redhat.com>
- <9f52b00e-0189-8f44-96d4-cbb398c4514f@redhat.com>
- <YUBbjbJwpcpxjDmt@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <574a9927-9a2d-f606-5192-3b66a1847b12@redhat.com>
-Date: Thu, 16 Sep 2021 00:27:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1mQgR2-0004ZA-6y
+ for qemu-devel@nongnu.org; Wed, 15 Sep 2021 21:43:33 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="201963455"
+X-IronPort-AV: E=Sophos;i="5.85,297,1624345200"; d="scan'208";a="201963455"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2021 18:43:30 -0700
+X-IronPort-AV: E=Sophos;i="5.85,297,1624345200"; d="scan'208";a="553620132"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.144.101])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 15 Sep 2021 18:43:28 -0700
+Date: Thu, 16 Sep 2021 09:29:30 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v4 04/33] i386: Add 'sgx-epc' device to expose EPC
+ sections to guest
+Message-ID: <20210916012930.GA31727@yangzhon-Virtual>
+References: <20210719112136.57018-1-yang.zhong@intel.com>
+ <20210719112136.57018-5-yang.zhong@intel.com>
+ <6a2fe37a-0016-018d-ff41-77f1e57b8aeb@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YUBbjbJwpcpxjDmt@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
+In-Reply-To: <6a2fe37a-0016-018d-ff41-77f1e57b8aeb@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=yang.zhong@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.698, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,20 +63,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: yang.zhong@intel.com, seanjc@google.com, kai.huang@intel.com,
+ qemu-devel@nongnu.org, jarkko@kernel.org, pbonzini@redhat.com,
+ eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/09/21 10:21, Daniel P. BerrangÃ© wrote:
-> Yes, this is needed to fix Ruby 3.
+On Tue, Sep 14, 2021 at 08:36:24AM +0200, Philippe Mathieu-Daudé wrote:
+> On 7/19/21 1:21 PM, Yang Zhong wrote:
+> > From: Sean Christopherson <sean.j.christopherson@intel.com>
+> > 
+> > SGX EPC is enumerated through CPUID, i.e. EPC "devices" need to be
+> > realized prior to realizing the vCPUs themselves, which occurs long
+> > before generic devices are parsed and realized.  Because of this,
+> > do not allow 'sgx-epc' devices to be instantiated after vCPUS have
+> > been created.
+> > 
+> > The 'sgx-epc' device is essentially a placholder at this time, it will
+> > be fully implemented in a future patch along with a dedicated command
+> > to create 'sgx-epc' devices.
+> > 
+> > Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> > ---
+> >  hw/i386/meson.build       |   1 +
+> >  hw/i386/sgx-epc.c         | 161 ++++++++++++++++++++++++++++++++++++++
+> >  include/hw/i386/sgx-epc.h |  44 +++++++++++
+> >  3 files changed, 206 insertions(+)
+> >  create mode 100644 hw/i386/sgx-epc.c
+> >  create mode 100644 include/hw/i386/sgx-epc.h
+> > 
+> > diff --git a/hw/i386/meson.build b/hw/i386/meson.build
+> > index 80dad29f2b..27476b36bb 100644
+> > --- a/hw/i386/meson.build
+> > +++ b/hw/i386/meson.build
+> > @@ -5,6 +5,7 @@ i386_ss.add(files(
+> >    'e820_memory_layout.c',
+> >    'multiboot.c',
+> >    'x86.c',
+> > +  'sgx-epc.c',
+> >  ))
+> >  
+> >  i386_ss.add(when: 'CONFIG_X86_IOMMU', if_true: files('x86-iommu.c'),
+> > diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
+> > new file mode 100644
+> > index 0000000000..aa487dea79
+> > --- /dev/null
+> > +++ b/hw/i386/sgx-epc.c
+> > @@ -0,0 +1,161 @@
+> > +/*
+> > + * SGX EPC device
+> > + *
+> > + * Copyright (C) 2019 Intel Corporation
+> > + *
+> > + * Authors:
+> > + *   Sean Christopherson <sean.j.christopherson@intel.com>
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> > + * See the COPYING file in the top-level directory.
+> > + */
+> > +#include "qemu/osdep.h"
+> > +#include "hw/i386/pc.h"
+> > +#include "hw/i386/sgx-epc.h"
+> > +#include "hw/mem/memory-device.h"
+> > +#include "hw/qdev-properties.h"
+> > +#include "monitor/qdev.h"
 > 
-> I didn't propose it myself as I'm not sure if it in turn breaks people
-> with Ruby 2.x ?
+> Is that include used?
+> 
+> > +#include "qapi/error.h"
+> > +#include "qapi/visitor.h"
+> > +#include "qemu/config-file.h"
+> 
+> Ditto.
+> 
+> > +#include "qemu/error-report.h"
+> 
+> Ditto.
+> 
+> > +#include "qemu/option.h"
+> 
+> Ditto.
+> 
+> > +#include "qemu/units.h"
+> 
+> Ditto.
+>
+ 
+  Thanks Philippe, those header files have been removed in the Paolo's
+  gitlab(sgx branch), thanks!
 
-Does it pass the GitLab CI (which uses 2.5)?
+  Yang
 
-Paolo
-
+ 
+> > +#include "target/i386/cpu.h"
+> > +#include "exec/address-spaces.h"
 
