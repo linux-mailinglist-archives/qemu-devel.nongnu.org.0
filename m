@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC5340D50D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 10:50:56 +0200 (CEST)
-Received: from localhost ([::1]:60082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D6640D4D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 10:44:48 +0200 (CEST)
+Received: from localhost ([::1]:44486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQn6d-0001nh-BC
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 04:50:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48264)
+	id 1mQn0h-00085B-IB
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 04:44:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQmxs-0004ve-1d
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 04:41:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43791)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQmxy-0005Cb-5A
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 04:41:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQmxq-0004e0-7r
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 04:41:51 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQmxv-0004mw-RM
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 04:41:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631781705;
+ s=mimecast20190719; t=1631781715;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GQq7PVfPt12HO8B/MZpLQYAZnvGez48Zdk7HM3HgHyQ=;
- b=QBVugky3j1ipUaocAhPjhkzcxOiMC4Fkvs6q1Xnz8w/+Yjkda5gMMMB5s0tlsfi5W773KK
- JcgsWrpZRJ7KjtwxjGpGivHwGdg5IDvmtrHkqrHofPOiyK4w7ucWHQxkul7m2n8/+3NIcF
- cJUbjB7pIQuLL+ZyjRK0YUEDxyd7/Jw=
+ bh=QHb/m7LNWzjjVHgHsiAfXIOJoC+uV/r0UT9ieBKPj4Y=;
+ b=ZYFppFhnITM2TBti1KgjltOWwdBRvZYDwApwephYBHaEqTJ0ahSPiYk5FQNeUG7QzCShU5
+ 4MyniR69He43V5H6gw0LD+ila7kWiKWquU2C+wKPpT66z8debqNNRR5oWZLb/l5JteHYO9
+ k4IwwNYbtOMuYsspWgQixlHIvz9e6Dk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-5930drqdNxqDgstSVRwiRw-1; Thu, 16 Sep 2021 04:41:42 -0400
-X-MC-Unique: 5930drqdNxqDgstSVRwiRw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-221-XvnP1lmYMoiiSNwPXhSa_w-1; Thu, 16 Sep 2021 04:41:51 -0400
+X-MC-Unique: XvnP1lmYMoiiSNwPXhSa_w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7BF4108468C
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 08:41:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11027835DE1
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 08:41:51 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BC9296D981;
- Thu, 16 Sep 2021 08:41:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 706085D9F4;
+ Thu, 16 Sep 2021 08:41:43 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH v4 06/12] virtiofsd: Let lo_fd() return a TempFd
-Date: Thu, 16 Sep 2021 10:40:39 +0200
-Message-Id: <20210916084045.31684-7-hreitz@redhat.com>
+Subject: [PATCH v4 07/12] virtiofsd: Let lo_inode_open() return a TempFd
+Date: Thu, 16 Sep 2021 10:40:40 +0200
+Message-Id: <20210916084045.31684-8-hreitz@redhat.com>
 In-Reply-To: <20210916084045.31684-1-hreitz@redhat.com>
 References: <20210916084045.31684-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -83,173 +83,448 @@ Cc: Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Accessing lo_inode.fd must generally happen through lo_inode_fd(), and
-lo_fd() is no exception; and then it must pass on the TempFd it has
-received from lo_inode_fd().
+Strictly speaking, this is not necessary, because lo_inode_open() will
+always return a new FD owned by the caller, so TempFd.owned will always
+be true.
 
-(Note that all lo_fd() calls now use proper error handling, where all of
-them were in-line before; i.e. they were used in place of the fd
-argument of some function call.  This only worked because the only error
-that could occur was that lo_inode() failed to find the inode ID: Then
--1 would be passed as the fd, which would result in an EBADF error,
-which is precisely what we would want to return to the guest for an
-invalid inode ID.
-Now, though, lo_inode_fd() might potentially invoke open_by_handle_at(),
-which can return many different errors, and they should be properly
-handled and returned to the guest.  So we can no longer allow lo_fd() to
-be used in-line, and instead need to do proper error handling for it.)
+The auto-cleanup is nice, though.  Also, we get a more unified interface
+where you always get a TempFd when you need an FD for an lo_inode
+(regardless of whether it is an O_PATH FD or a non-O_PATH FD).
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 55 +++++++++++++++++++++++++-------
- 1 file changed, 44 insertions(+), 11 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 156 +++++++++++++++----------------
+ 1 file changed, 75 insertions(+), 81 deletions(-)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index c5baa752e4..3bf20b8659 100644
+index 3bf20b8659..d257eda129 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -666,18 +666,19 @@ static int lo_inode_fd(const struct lo_inode *inode, TempFd *tfd)
-  * they are done with the fd.  This will be done in a later patch to make
-  * review easier.
+@@ -293,10 +293,8 @@ static void temp_fd_clear(TempFd *temp_fd)
+ /**
+  * Return an owned fd from *temp_fd that will not be closed when
+  * *temp_fd goes out of scope.
+- *
+- * (TODO: Remove __attribute__ once this is used.)
   */
--static int lo_fd(fuse_req_t req, fuse_ino_t ino)
-+static int lo_fd(fuse_req_t req, fuse_ino_t ino, TempFd *tfd)
+-static __attribute__((unused)) int temp_fd_steal(TempFd *temp_fd)
++static int temp_fd_steal(TempFd *temp_fd)
  {
-     struct lo_inode *inode = lo_inode(req, ino);
+     if (temp_fd->owned) {
+         temp_fd->owned = false;
+@@ -309,10 +307,8 @@ static __attribute__((unused)) int temp_fd_steal(TempFd *temp_fd)
+ /**
+  * Create a borrowing copy of an existing TempFd.  Note that *to is
+  * only valid as long as *from is valid.
+- *
+- * (TODO: Remove __attribute__ once this is used.)
+  */
+-static __attribute__((unused)) void temp_fd_copy(const TempFd *from, TempFd *to)
++static void temp_fd_copy(const TempFd *from, TempFd *to)
+ {
+     *to = (TempFd) {
+         .fd = from->fd,
+@@ -689,9 +685,12 @@ static int lo_fd(fuse_req_t req, fuse_ino_t ino, TempFd *tfd)
+  * when a malicious client opens special files such as block device nodes.
+  * Symlink inodes are also rejected since symlinks must already have been
+  * traversed on the client side.
++ *
++ * The fd is returned in tfd->fd.  The return value is 0 on success and -errno
++ * otherwise.
+  */
+ static int lo_inode_open(struct lo_data *lo, struct lo_inode *inode,
+-                         int open_flags)
++                         int open_flags, TempFd *tfd)
+ {
+     g_autofree char *fd_str = g_strdup_printf("%d", inode->fd);
+     int fd;
+@@ -710,7 +709,13 @@ static int lo_inode_open(struct lo_data *lo, struct lo_inode *inode,
+     if (fd < 0) {
+         return -errno;
+     }
+-    return fd;
++
++    *tfd = (TempFd) {
++        .fd = fd,
++        .owned = true,
++    };
++
++    return 0;
+ }
+ 
+ static void lo_init(void *userdata, struct fuse_conn_info *conn)
+@@ -854,7 +859,8 @@ static int lo_fi_fd(fuse_req_t req, struct fuse_file_info *fi)
+ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+                        int valid, struct fuse_file_info *fi)
+ {
+-    g_auto(TempFd) path_fd = TEMP_FD_INIT;
++    g_auto(TempFd) path_fd = TEMP_FD_INIT; /* at least an O_PATH fd */
++    g_auto(TempFd) rw_fd = TEMP_FD_INIT; /* O_RDWR fd */
+     int saverr;
+     char procname[64];
+     struct lo_data *lo = lo_data(req);
+@@ -868,7 +874,15 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+         return;
+     }
+ 
+-    res = lo_inode_fd(inode, &path_fd);
++    if (!fi && (valid & FUSE_SET_ATTR_SIZE)) {
++        /* We need an O_RDWR FD for ftruncate() */
++        res = lo_inode_open(lo, inode, O_RDWR, &rw_fd);
++        if (res >= 0) {
++            temp_fd_copy(&rw_fd, &path_fd);
++        }
++    } else {
++        res = lo_inode_fd(inode, &path_fd);
++    }
+     if (res < 0) {
+         saverr = -res;
+         goto out_err;
+@@ -916,18 +930,12 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+         if (fi) {
+             truncfd = fd;
+         } else {
+-            truncfd = lo_inode_open(lo, inode, O_RDWR);
+-            if (truncfd < 0) {
+-                saverr = -truncfd;
+-                goto out_err;
+-            }
++            assert(rw_fd.fd >= 0);
++            truncfd = rw_fd.fd;
+         }
+ 
+         saverr = drop_security_capability(lo, truncfd);
+         if (saverr) {
+-            if (!fi) {
+-                close(truncfd);
+-            }
+             goto out_err;
+         }
+ 
+@@ -935,9 +943,6 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+             res = drop_effective_cap("FSETID", &cap_fsetid_dropped);
+             if (res != 0) {
+                 saverr = res;
+-                if (!fi) {
+-                    close(truncfd);
+-                }
+                 goto out_err;
+             }
+         }
+@@ -950,9 +955,6 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+                 fuse_log(FUSE_LOG_ERR, "Failed to gain CAP_FSETID\n");
+             }
+         }
+-        if (!fi) {
+-            close(truncfd);
+-        }
+         if (res == -1) {
+             goto out_err;
+         }
+@@ -1840,11 +1842,13 @@ static struct lo_dirp *lo_dirp(fuse_req_t req, struct fuse_file_info *fi)
+ static void lo_opendir(fuse_req_t req, fuse_ino_t ino,
+                        struct fuse_file_info *fi)
+ {
++    g_auto(TempFd) rd_fd = TEMP_FD_INIT;
+     int error = ENOMEM;
+     struct lo_data *lo = lo_data(req);
+     struct lo_inode *inode;
+     struct lo_dirp *d = NULL;
+     int fd;
++    int res;
+     ssize_t fh;
+ 
+     inode = lo_inode(req, ino);
+@@ -1858,14 +1862,16 @@ static void lo_opendir(fuse_req_t req, fuse_ino_t ino,
+         goto out_err;
+     }
+ 
+-    fd = lo_inode_open(lo, inode, O_RDONLY);
+-    if (fd < 0) {
+-        error = -fd;
++    res = lo_inode_open(lo, inode, O_RDONLY, &rd_fd);
++    if (res < 0) {
++        error = -res;
+         goto out_err;
+     }
+ 
++    fd = temp_fd_steal(&rd_fd);
+     d->dp = fdopendir(fd);
+     if (d->dp == NULL) {
++        close(fd);
+         goto out_errno;
+     }
+ 
+@@ -1895,8 +1901,6 @@ out_err:
+     if (d) {
+         if (d->dp) {
+             closedir(d->dp);
+-        } else if (fd != -1) {
+-            close(fd);
+         }
+         free(d);
+     }
+@@ -2096,6 +2100,7 @@ static void update_open_flags(int writeback, int allow_direct_io,
+ static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
+                       int existing_fd, struct fuse_file_info *fi)
+ {
++    g_auto(TempFd) opened_fd = TEMP_FD_INIT;
+     ssize_t fh;
+     int fd = existing_fd;
+     int err;
+@@ -2112,16 +2117,18 @@ static int lo_do_open(struct lo_data *lo, struct lo_inode *inode,
+             }
+         }
+ 
+-        fd = lo_inode_open(lo, inode, fi->flags);
++        err = lo_inode_open(lo, inode, fi->flags, &opened_fd);
+ 
+         if (cap_fsetid_dropped) {
+             if (gain_effective_cap("FSETID")) {
+                 fuse_log(FUSE_LOG_ERR, "Failed to gain CAP_FSETID\n");
+             }
+         }
+-        if (fd < 0) {
+-            return -fd;
++        if (err < 0) {
++            return -err;
+         }
++        fd = temp_fd_steal(&opened_fd);
++
+         if (fi->flags & (O_TRUNC)) {
+             int err = drop_security_capability(lo, fd);
+             if (err) {
+@@ -2231,8 +2238,9 @@ static struct lo_inode_plock *lookup_create_plock_ctx(struct lo_data *lo,
+                                                       uint64_t lock_owner,
+                                                       pid_t pid, int *err)
+ {
++    g_auto(TempFd) rw_fd = TEMP_FD_INIT;
+     struct lo_inode_plock *plock;
 -    int fd;
 +    int res;
  
-     if (!inode) {
--        return -1;
-+        return -EBADF;
+     plock =
+         g_hash_table_lookup(inode->posix_locks, GUINT_TO_POINTER(lock_owner));
+@@ -2249,15 +2257,15 @@ static struct lo_inode_plock *lookup_create_plock_ctx(struct lo_data *lo,
+ 
+     /* Open another instance of file which can be used for ofd locks. */
+     /* TODO: What if file is not writable? */
+-    fd = lo_inode_open(lo, inode, O_RDWR);
+-    if (fd < 0) {
+-        *err = -fd;
++    res = lo_inode_open(lo, inode, O_RDWR, &rw_fd);
++    if (res < 0) {
++        *err = -res;
+         free(plock);
+         return NULL;
      }
  
--    fd = inode->fd;
-+    res = lo_inode_fd(inode, tfd);
-+
-     lo_inode_put(lo_data(req), &inode);
--    return fd;
-+    return res;
- }
- 
- /*
-@@ -814,14 +815,19 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
- static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
-                        struct fuse_file_info *fi)
+     plock->lock_owner = lock_owner;
+-    plock->fd = fd;
++    plock->fd = temp_fd_steal(&rw_fd);
+     g_hash_table_insert(inode->posix_locks, GUINT_TO_POINTER(plock->lock_owner),
+                         plock);
+     return plock;
+@@ -2473,6 +2481,7 @@ static void lo_flush(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+ static void lo_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
+                      struct fuse_file_info *fi)
  {
-+    g_auto(TempFd) path_fd = TEMP_FD_INIT;
-     int res;
-     struct stat buf;
++    g_auto(TempFd) rw_fd = TEMP_FD_INIT;
+     struct lo_inode *inode = lo_inode(req, ino);
      struct lo_data *lo = lo_data(req);
- 
-     (void)fi;
- 
--    res =
--        fstatat(lo_fd(req, ino), "", &buf, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
-+    res = lo_fd(req, ino, &path_fd);
-+    if (res < 0) {
-+        return (void)fuse_reply_err(req, -res);
-+    }
-+
-+    res = fstatat(path_fd.fd, "", &buf, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
-     if (res == -1) {
-         return (void)fuse_reply_err(req, errno);
-     }
-@@ -1547,6 +1553,7 @@ out:
- 
- static void lo_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
- {
-+    g_auto(TempFd) parent_path_fd = TEMP_FD_INIT;
      int res;
-     struct lo_inode *inode;
-     struct lo_data *lo = lo_data(req);
-@@ -1561,13 +1568,19 @@ static void lo_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
-         return;
+@@ -2487,11 +2496,12 @@ static void lo_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
      }
  
-+    res = lo_fd(req, parent, &parent_path_fd);
-+    if (res < 0) {
-+        fuse_reply_err(req, -res);
-+        return;
-+    }
-+
-     inode = lookup_name(req, parent, name);
-     if (!inode) {
-         fuse_reply_err(req, EIO);
-         return;
-     }
- 
--    res = unlinkat(lo_fd(req, parent), name, AT_REMOVEDIR);
-+    res = unlinkat(parent_path_fd.fd, name, AT_REMOVEDIR);
- 
-     fuse_reply_err(req, res == -1 ? errno : 0);
-     unref_inode_lolocked(lo, inode, 1);
-@@ -1653,6 +1666,7 @@ out:
- 
- static void lo_unlink(fuse_req_t req, fuse_ino_t parent, const char *name)
- {
-+    g_auto(TempFd) parent_path_fd = TEMP_FD_INIT;
-     int res;
-     struct lo_inode *inode;
-     struct lo_data *lo = lo_data(req);
-@@ -1667,13 +1681,19 @@ static void lo_unlink(fuse_req_t req, fuse_ino_t parent, const char *name)
-         return;
-     }
- 
-+    res = lo_fd(req, parent, &parent_path_fd);
-+    if (res < 0) {
-+        fuse_reply_err(req, -res);
-+        return;
-+    }
-+
-     inode = lookup_name(req, parent, name);
-     if (!inode) {
-         fuse_reply_err(req, EIO);
-         return;
-     }
- 
--    res = unlinkat(lo_fd(req, parent), name, 0);
-+    res = unlinkat(parent_path_fd.fd, name, 0);
- 
-     fuse_reply_err(req, res == -1 ? errno : 0);
-     unref_inode_lolocked(lo, inode, 1);
-@@ -1753,10 +1773,16 @@ static void lo_forget_multi(fuse_req_t req, size_t count,
- 
- static void lo_readlink(fuse_req_t req, fuse_ino_t ino)
- {
-+    g_auto(TempFd) path_fd = TEMP_FD_INIT;
-     char buf[PATH_MAX + 1];
-     int res;
- 
--    res = readlinkat(lo_fd(req, ino), "", buf, sizeof(buf));
-+    res = lo_fd(req, ino, &path_fd);
-+    if (res < 0) {
-+        return (void)fuse_reply_err(req, -res);
-+    }
-+
-+    res = readlinkat(path_fd.fd, "", buf, sizeof(buf));
-     if (res == -1) {
-         return (void)fuse_reply_err(req, errno);
-     }
-@@ -2554,10 +2580,17 @@ static void lo_write_buf(fuse_req_t req, fuse_ino_t ino,
- 
- static void lo_statfs(fuse_req_t req, fuse_ino_t ino)
- {
-+    g_auto(TempFd) path_fd = TEMP_FD_INIT;
-     int res;
-     struct statvfs stbuf;
- 
--    res = fstatvfs(lo_fd(req, ino), &stbuf);
-+    res = lo_fd(req, ino, &path_fd);
-+    if (res < 0) {
-+        fuse_reply_err(req, -res);
-+        return;
-+    }
-+
-+    res = fstatvfs(path_fd.fd, &stbuf);
-     if (res == -1) {
-         fuse_reply_err(req, errno);
+     if (!fi) {
+-        fd = lo_inode_open(lo, inode, O_RDWR);
+-        if (fd < 0) {
+-            res = -fd;
++        res = lo_inode_open(lo, inode, O_RDWR, &rw_fd);
++        if (res < 0) {
++            res = -res;
+             goto out;
+         }
++        fd = rw_fd.fd;
      } else {
+         fd = lo_fi_fd(req, fi);
+     }
+@@ -2501,9 +2511,6 @@ static void lo_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
+     } else {
+         res = fsync(fd) == -1 ? errno : 0;
+     }
+-    if (!fi) {
+-        close(fd);
+-    }
+ out:
+     lo_inode_put(lo, &inode);
+     fuse_reply_err(req, res);
+@@ -3065,7 +3072,6 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+     struct lo_inode *inode;
+     ssize_t ret;
+     int saverr;
+-    int fd = -1;
+ 
+     if (block_xattr(lo, in_name)) {
+         fuse_reply_err(req, EOPNOTSUPP);
+@@ -3117,12 +3123,14 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+      * Otherwise, call fchdir() to avoid open().
+      */
+     if (S_ISREG(inode->filetype) || S_ISDIR(inode->filetype)) {
+-        fd = lo_inode_open(lo, inode, O_RDONLY);
+-        if (fd < 0) {
+-            saverr = -fd;
++        g_auto(TempFd) rd_fd = TEMP_FD_INIT;
++
++        ret = lo_inode_open(lo, inode, O_RDONLY, &rd_fd);
++        if (ret < 0) {
++            saverr = -ret;
+             goto out;
+         }
+-        ret = fgetxattr(fd, name, value, size);
++        ret = fgetxattr(rd_fd.fd, name, value, size);
+         saverr = ret == -1 ? errno : 0;
+     } else {
+         g_auto(TempFd) path_fd = TEMP_FD_INIT;
+@@ -3153,10 +3161,6 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+         fuse_reply_xattr(req, ret);
+     }
+ out_free:
+-    if (fd >= 0) {
+-        close(fd);
+-    }
+-
+     lo_inode_put(lo, &inode);
+     return;
+ 
+@@ -3176,7 +3180,6 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
+     struct lo_inode *inode;
+     ssize_t ret;
+     int saverr;
+-    int fd = -1;
+ 
+     inode = lo_inode(req, ino);
+     if (!inode) {
+@@ -3200,12 +3203,14 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
+     }
+ 
+     if (S_ISREG(inode->filetype) || S_ISDIR(inode->filetype)) {
+-        fd = lo_inode_open(lo, inode, O_RDONLY);
+-        if (fd < 0) {
+-            saverr = -fd;
++        g_auto(TempFd) rd_fd = TEMP_FD_INIT;
++
++        ret = lo_inode_open(lo, inode, O_RDONLY, &rd_fd);
++        if (ret < 0) {
++            saverr = -ret;
+             goto out;
+         }
+-        ret = flistxattr(fd, value, size);
++        ret = flistxattr(rd_fd.fd, value, size);
+         saverr = ret == -1 ? errno : 0;
+     } else {
+         g_auto(TempFd) path_fd = TEMP_FD_INIT;
+@@ -3294,10 +3299,6 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
+         fuse_reply_xattr(req, ret);
+     }
+ out_free:
+-    if (fd >= 0) {
+-        close(fd);
+-    }
+-
+     lo_inode_put(lo, &inode);
+     return;
+ 
+@@ -3312,14 +3313,14 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+                         const char *value, size_t size, int flags,
+                         uint32_t extra_flags)
+ {
+-    g_auto(TempFd) path_fd = TEMP_FD_INIT;
++    g_auto(TempFd) path_fd = TEMP_FD_INIT; /* O_PATH fd */
++    g_auto(TempFd) rd_fd = TEMP_FD_INIT; /* O_RDONLY fd */
+     const char *name;
+     char *mapped_name;
+     struct lo_data *lo = lo_data(req);
+     struct lo_inode *inode;
+     ssize_t ret;
+     int saverr;
+-    int fd = -1;
+     bool switched_creds = false;
+     bool cap_fsetid_dropped = false;
+     struct lo_cred old = {};
+@@ -3364,9 +3365,9 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+      * setxattr() on the link's filename there.
+      */
+     if (S_ISREG(inode->filetype) || S_ISDIR(inode->filetype)) {
+-        fd = lo_inode_open(lo, inode, O_RDONLY);
+-        if (fd < 0) {
+-            saverr = -fd;
++        ret = lo_inode_open(lo, inode, O_RDONLY, &rd_fd);
++        if (ret < 0) {
++            saverr = -ret;
+             goto out;
+         }
+     } else {
+@@ -3401,8 +3402,8 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+         }
+         switched_creds = true;
+     }
+-    if (fd >= 0) {
+-        ret = fsetxattr(fd, name, value, size, flags);
++    if (rd_fd.fd >= 0) {
++        ret = fsetxattr(rd_fd.fd, name, value, size, flags);
+         saverr = ret == -1 ? errno : 0;
+     } else {
+         char procname[64];
+@@ -3424,10 +3425,6 @@ out:
+         FCHDIR_NOFAIL(lo->root.fd);
+     }
+ 
+-    if (fd >= 0) {
+-        close(fd);
+-    }
+-
+     lo_inode_put(lo, &inode);
+     g_free(mapped_name);
+     fuse_reply_err(req, saverr);
+@@ -3442,7 +3439,6 @@ static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *in_name)
+     struct lo_inode *inode;
+     ssize_t ret;
+     int saverr;
+-    int fd = -1;
+ 
+     if (block_xattr(lo, in_name)) {
+         fuse_reply_err(req, EOPNOTSUPP);
+@@ -3478,12 +3474,14 @@ static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *in_name)
+              name);
+ 
+     if (S_ISREG(inode->filetype) || S_ISDIR(inode->filetype)) {
+-        fd = lo_inode_open(lo, inode, O_RDONLY);
+-        if (fd < 0) {
+-            saverr = -fd;
++        g_auto(TempFd) rd_fd = TEMP_FD_INIT;
++
++        ret = lo_inode_open(lo, inode, O_RDONLY, &rd_fd);
++        if (ret < 0) {
++            saverr = -ret;
+             goto out;
+         }
+-        ret = fremovexattr(fd, name);
++        ret = fremovexattr(rd_fd.fd, name);
+         saverr = ret == -1 ? errno : 0;
+     } else {
+         g_auto(TempFd) path_fd = TEMP_FD_INIT;
+@@ -3502,10 +3500,6 @@ static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *in_name)
+     }
+ 
+ out:
+-    if (fd >= 0) {
+-        close(fd);
+-    }
+-
+     lo_inode_put(lo, &inode);
+     g_free(mapped_name);
+     fuse_reply_err(req, saverr);
 -- 
 2.31.1
 
