@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D9E40E9CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 20:24:48 +0200 (CEST)
-Received: from localhost ([::1]:57400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BAD40E9D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 20:29:27 +0200 (CEST)
+Received: from localhost ([::1]:35254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQw3z-0000HQ-2f
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 14:24:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50664)
+	id 1mQw8U-0004TF-Ah
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 14:29:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQw2F-00072p-Is
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQw2F-00072T-F6
  for qemu-devel@nongnu.org; Thu, 16 Sep 2021 14:22:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32371)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44255)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQw2B-0005Xq-OP
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 14:22:59 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQw2B-0005Xr-Dh
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 14:22:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1631816573;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ZX01rYVGFkoGy4Ggi/nSCzx9kr3m+m08PNcJoeHIXzU=;
- b=hAfwJ4I+6I1doD6fvf4THdVYnrXS5TAjc5cCTRpxo0pTo9Bl68NrXWxpKEmIJEZfhRyXKw
- /XQUlTOGyTMkTwqLA0Q+e4zutkhO9UyXebg7wGfOSp5gwjBFUCLuHgLHVA0UZeVATB4O6D
- AzaLOHYHh57boc0VkIWLm3uAUNGjZho=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bzgRlCnUwr8C7RdlzflpzkafzKy+zAEU1cieDUJxL24=;
+ b=ZU/3m0giM0H7SNm0N973MKy2xw0lcYvdbSlrNpZe3i37Q0bSJgVa9PwBzIRWpH8S9BH31s
+ mgtSNMzS+koJkirwbGeDGUxGUfsA2lcyBT2OkCLLPQXpr5jHurG8ttu9OiATGt8Narqo21
+ xB3HoruBcJW0xak+HGdZE3K4Y6QmPMw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-461-rKLeRMA9MU2MuvRM2wf9ew-1; Thu, 16 Sep 2021 14:22:50 -0400
-X-MC-Unique: rKLeRMA9MU2MuvRM2wf9ew-1
+ us-mta-372-5tqPc7B4PRmjCyxN0mIsAA-1; Thu, 16 Sep 2021 14:22:51 -0400
+X-MC-Unique: 5tqPc7B4PRmjCyxN0mIsAA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBA33800FF4
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 18:22:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0B4A50755
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 18:22:50 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 30EE7196E2;
- Thu, 16 Sep 2021 18:22:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 24A8C196E2;
+ Thu, 16 Sep 2021 18:22:49 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] Python: update CI tests for pylint 2.10 and 2.11
-Date: Thu, 16 Sep 2021 14:22:46 -0400
-Message-Id: <20210916182248.721529-1-jsnow@redhat.com>
+Subject: [PATCH 1/2] python: Update for pylint 2.10
+Date: Thu, 16 Sep 2021 14:22:47 -0400
+Message-Id: <20210916182248.721529-2-jsnow@redhat.com>
+In-Reply-To: <20210916182248.721529-1-jsnow@redhat.com>
+References: <20210916182248.721529-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,26 +81,70 @@ Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-package-pylint-211=
-=0D
-CI: https://gitlab.com/jsnow/qemu/-/pipelines/372122981=0D
-=0D
-While debating the fix for 2.10, 2.11 released and added new warnings to=0D
-suppress.=0D
-=0D
-This version includes everything needed to get the Gitlab CI green again.=
-=0D
-=0D
-John Snow (2):=0D
-  python: Update for pylint 2.10=0D
-  python: pylint 2.11 support=0D
-=0D
- python/qemu/machine/machine.py | 7 ++++++-=0D
- python/setup.cfg               | 3 ++-=0D
- 2 files changed, 8 insertions(+), 2 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+A few new annoyances. Of note is the new warning for an unspecified
+encoding when opening a text file, which actually does indicate a
+potentially real problem; see
+https://www.python.org/dev/peps/pep-0597/#motivation
+
+Use LC_CTYPE to determine an encoding to use for interpreting QEMU's
+terminal output. Note that Python states: "language code and encoding
+may be None if their values cannot be determined" -- use a platform
+default as a backup.
+
+Notes: Passing encoding=None will generate a suppressed warning on
+Python 3.10+ that 'None' should not be passed as the encoding
+argument. This behavior may be deprecated in the future and the default
+switched to be a ubiquitous UTF-8. Opting in to the locale default will
+be done by passing the encoding 'locale', but that isn't available in
+3.6 through 3.9. Presumably this warning will be unsuppressed some time
+prior to the actual switch and we can re-investigate these issues at
+that time if necessary.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ python/qemu/machine/machine.py | 7 ++++++-
+ python/setup.cfg               | 1 +
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+index a7081b1845..34131884a5 100644
+--- a/python/qemu/machine/machine.py
++++ b/python/qemu/machine/machine.py
+@@ -19,6 +19,7 @@
+ 
+ import errno
+ from itertools import chain
++import locale
+ import logging
+ import os
+ import shutil
+@@ -290,8 +291,12 @@ def get_pid(self) -> Optional[int]:
+         return self._subp.pid
+ 
+     def _load_io_log(self) -> None:
++        # Assume that the output encoding of QEMU's terminal output is
++        # defined by our locale. If indeterminate, allow open() to fall
++        # back to the platform default.
++        _, encoding = locale.getlocale()
+         if self._qemu_log_path is not None:
+-            with open(self._qemu_log_path, "r") as iolog:
++            with open(self._qemu_log_path, "r", encoding=encoding) as iolog:
+                 self._iolog = iolog.read()
+ 
+     @property
+diff --git a/python/setup.cfg b/python/setup.cfg
+index 83909c1c97..0f0cab098f 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -104,6 +104,7 @@ good-names=i,
+ [pylint.similarities]
+ # Ignore imports when computing similarities.
+ ignore-imports=yes
++ignore-signatures=yes
+ 
+ # Minimum lines number of a similarity.
+ # TODO: Remove after we opt in to Pylint 2.8.3. See commit msg.
+-- 
+2.31.1
 
 
