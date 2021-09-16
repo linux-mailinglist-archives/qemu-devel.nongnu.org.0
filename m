@@ -2,76 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC5AF40DEB4
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:52:33 +0200 (CEST)
-Received: from localhost ([::1]:33138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E823940DEC1
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:55:40 +0200 (CEST)
+Received: from localhost ([::1]:40868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQtgd-0006Cn-SP
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:52:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41352)
+	id 1mQtjf-0002wo-SZ
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:55:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQtLp-0001qh-5Z
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:31:01 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:37696)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQtLh-0002gA-AB
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:31:00 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id
- me5-20020a17090b17c500b0019af76b7bb4so7131443pjb.2
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 08:30:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sx9OxIFdY4NzqELX94oh/fd9umRX24uKGyg1w/4NOWY=;
- b=Chb+4yuw/cV/lINWg6Sl4dc0FB6+1UBfYkzhS8JQP+pwvygJY+lyZOsPClNuDIH1tx
- +0hNGBMv9DCpqAQ1fV4McEOflYjNBL1Knrnt1qPOzPnI/PAfU25zPsmalmKduLNMY+K3
- LendHxwOPJzc80QpxF+9spGYNJ+8EjO9BUkufu8l0PeyjZ9dDVnqL7RBFrOT4k87/G8B
- 1DGUPW9Z+XXqZOo1u9jX21aQGLIM5fnv3nIJ2hpSdEJ9XFkZNEq0G7Xqt5TSROrWkZ/h
- kKhb/2Dfm1/xTLlAkw9Lo3A5znuXW4nPanuonEuCWzcVEiMc+NMU2B+p+N2QNKQvBtdE
- 9E1w==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mQtOb-0006SP-2a
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:33:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49753)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mQtOX-00053D-BN
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:33:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631806425;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=W8bm2Q8tnXq1saUgjFrWtX5D46Y4Plobcus6HUTJKok=;
+ b=eJneyuSJk3fQbNba+dgzT3JKxsl6cLuAM92UrIopS77Tb0/+DxP9tS9srJlRAQml9jiora
+ G/muampcAZQ12Kic8hFbBBw1YuV9kmfwNNAFrjAdZAKdBkpmtyth/ZE1065NqQ33G4kGBQ
+ gT3Uo4WqLZ7uMJ8z3bTXmTSLtnhKzjM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-121-pjaYo1XdP6GMVcnXayZiNg-1; Thu, 16 Sep 2021 11:33:44 -0400
+X-MC-Unique: pjaYo1XdP6GMVcnXayZiNg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ x2-20020a5d54c2000000b0015dfd2b4e34so2587047wrv.6
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 08:33:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sx9OxIFdY4NzqELX94oh/fd9umRX24uKGyg1w/4NOWY=;
- b=NkQ/dGEviQh7lJcKwTeNEmoe5S5rbBYyP03XFj+zDeLCm2XSMcJWI2aaPdc/1VFIDB
- vD11xzYU2yMV4sK0rnUdhPNvOvHXyf4p8mR1JZwfaAP4KR5MrAr6Rt63FCyY1AleeEYS
- 3oxonXL0ulbinqcokyNxgXDaWbfXjuVrNoAY08rjRD/JeBO3Ya8ijsczxL46jPgo8bu9
- hMkHjawsPMc7nLkCysJ01k9eoz9lJ7fHLmo8TIZbRYObcbEyIjLeMVZamR6Kl7Ie5Wal
- VrutFSShlfLNosvqeMfMycwDzsVB+7RnW+Kj12O9V64Czd6+iKDPVM4a93oznTW0Cvme
- rxBg==
-X-Gm-Message-State: AOAM5327+TL7d889gXZ/+1IBlXfuuHTkdYhuYfMtHeMD4c4o4NRDM/Xu
- +0FSqj269hCqCr15hvW1tzjNfHt0Udcj9w==
-X-Google-Smtp-Source: ABdhPJxMU9Sl8YaryB3bc9SocGSr7sr1CGTu61RdnZkqQmDQYuWgCa6X1gKKc2/4FgkF9MzVSSFFow==
-X-Received: by 2002:a17:902:ceca:b0:13c:8366:deac with SMTP id
- d10-20020a170902ceca00b0013c8366deacmr5210440plg.68.1631806249862; 
- Thu, 16 Sep 2021 08:30:49 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id b7sm3779447pgs.64.2021.09.16.08.30.49
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=W8bm2Q8tnXq1saUgjFrWtX5D46Y4Plobcus6HUTJKok=;
+ b=32xRFmI/T9x7L6Ps3M5K50vryJEDhMR56IAQYiT4HhIREmhRRo8j/xOR8CU8O2qEXh
+ fvmzp211AiVt7vqxp9sV1uC8ndGRhoy2qkaGumU8P3ZoH7EwXjydJyokY+Oxd49olrvK
+ tiMKvQ3r8rA2EExhMMSlmcLoRuahYDSmR/tRJYrIzgPUNlxO0sG64k2WK7u5Ugj2OnyA
+ NMRIzqv3G39Bn/iDT+FPWIHwNx9VIeKPWWCwwDcgR/tgJjI1mRTyXqG9ABLIjBPHD5Wt
+ y8AfkCaF+3TqQxXHe1GjeNE9Dp0b+F4lIydq5hcu+QLQSNwvy8NftlL6aR9OQgm0I9MY
+ VpXw==
+X-Gm-Message-State: AOAM531kVIWe/fG359c2bCeWDy4yLnvr6jjLNbFZNPeEOAcpWP7U7TEM
+ mwIlVU8b9xlLWCkPZgUrrb3WuOa42Z2MTYuhShNxtAqqi+aKpULaLMdzQWSM2wgnf+oQFnOGsZx
+ T8V3HRIHX2i8Et6c=
+X-Received: by 2002:a05:6000:14d:: with SMTP id
+ r13mr6949891wrx.420.1631806423412; 
+ Thu, 16 Sep 2021 08:33:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyCNbNz8UKOhbyAOLtxRmTQH1tvVi8cilOPpY+L6Rs1kp51/PQA+pYldPWmh+szeSVJ3LSAqw==
+X-Received: by 2002:a05:6000:14d:: with SMTP id
+ r13mr6949863wrx.420.1631806423164; 
+ Thu, 16 Sep 2021 08:33:43 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id d9sm4856047wrb.36.2021.09.16.08.33.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Sep 2021 08:30:49 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 34/35] tcg/mips: Unset TCG_TARGET_HAS_direct_jump
-Date: Thu, 16 Sep 2021 08:30:24 -0700
-Message-Id: <20210916153025.1944763-35-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210916153025.1944763-1-richard.henderson@linaro.org>
-References: <20210916153025.1944763-1-richard.henderson@linaro.org>
+ Thu, 16 Sep 2021 08:33:42 -0700 (PDT)
+Date: Thu, 16 Sep 2021 16:33:40 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 0/2] virtiofs queue
+Message-ID: <YUNj1DQT9VyU54DV@work-vm>
+References: <20210916135241.150566-1-dgilbert@redhat.com>
+ <CAFEAcA-k=jKqBcEzxd+ALPYz_UVT1_AG3PnsuX2N77_UTSE=nA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAFEAcA-k=jKqBcEzxd+ALPYz_UVT1_AG3PnsuX2N77_UTSE=nA@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,100 +98,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only use indirect jumps.  Finish weaning away from the
-unique alignment requirements for code_gen_buffer.
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Thu, 16 Sept 2021 at 14:58, Dr. David Alan Gilbert (git)
+> <dgilbert@redhat.com> wrote:
+> >
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> >
+> > The following changes since commit 57b6f58c1d0df757c9311496c32d502925056894:
+> >
+> >   Merge remote-tracking branch 'remotes/hreitz/tags/pull-block-2021-09-15' into staging (2021-09-15 18:55:59 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20210916
+> >
+> > for you to fetch changes up to 046d91c83caac29e2ba26c63fd7d685a57463f6d:
+> >
+> >   virtiofsd: Reverse req_list before processing it (2021-09-16 14:50:48 +0100)
+> >
+> 
+> gpg says your key has expired; what keyserver can I download an
+> updated key from?
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/mips/tcg-target.h     | 12 +++++-------
- tcg/mips/tcg-target.c.inc | 23 +++++------------------
- 2 files changed, 10 insertions(+), 25 deletions(-)
+I pushed an updated one to pgp.mit.edu just before I sent the pull;
+I can see it there (although it's a bit slow to respond).
 
-diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
-index 3a62055f04..c366fdf74b 100644
---- a/tcg/mips/tcg-target.h
-+++ b/tcg/mips/tcg-target.h
-@@ -39,11 +39,7 @@
- #define TCG_TARGET_TLB_DISPLACEMENT_BITS 16
- #define TCG_TARGET_NB_REGS 32
- 
--/*
-- * We have a 256MB branch region, but leave room to make sure the
-- * main executable is also within that region.
-- */
--#define MAX_CODE_GEN_BUFFER_SIZE  (128 * MiB)
-+#define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
- 
- typedef enum {
-     TCG_REG_ZERO = 0,
-@@ -136,7 +132,7 @@ extern bool use_mips32r2_instructions;
- #define TCG_TARGET_HAS_muluh_i32        1
- #define TCG_TARGET_HAS_mulsh_i32        1
- #define TCG_TARGET_HAS_bswap32_i32      1
--#define TCG_TARGET_HAS_direct_jump      1
-+#define TCG_TARGET_HAS_direct_jump      0
- 
- #if TCG_TARGET_REG_BITS == 64
- #define TCG_TARGET_HAS_add2_i32         0
-@@ -207,7 +203,9 @@ extern bool use_mips32r2_instructions;
- #define TCG_TARGET_DEFAULT_MO (0)
- #define TCG_TARGET_HAS_MEMORY_BSWAP     1
- 
--void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
-+/* not defined -- call should be eliminated at compile time */
-+void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t)
-+    QEMU_ERROR("code path is reachable");
- 
- #ifdef CONFIG_SOFTMMU
- #define TCG_TARGET_NEED_LDST_LABELS
-diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index 3a40af8799..41ffa28394 100644
---- a/tcg/mips/tcg-target.c.inc
-+++ b/tcg/mips/tcg-target.c.inc
-@@ -1654,17 +1654,11 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         }
-         break;
-     case INDEX_op_goto_tb:
--        if (s->tb_jmp_insn_offset) {
--            /* direct jump method */
--            s->tb_jmp_insn_offset[a0] = tcg_current_code_size(s);
--            /* Avoid clobbering the address during retranslation.  */
--            tcg_out32(s, OPC_J | (*(uint32_t *)s->code_ptr & 0x3ffffff));
--        } else {
--            /* indirect jump method */
--            tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP0, TCG_REG_ZERO,
--                       (uintptr_t)(s->tb_jmp_target_addr + a0));
--            tcg_out_opc_reg(s, OPC_JR, 0, TCG_TMP0, 0);
--        }
-+        /* indirect jump method */
-+        tcg_debug_assert(s->tb_jmp_insn_offset == 0);
-+        tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP0, TCG_REG_ZERO,
-+                   (uintptr_t)(s->tb_jmp_target_addr + a0));
-+        tcg_out_opc_reg(s, OPC_JR, 0, TCG_TMP0, 0);
-         tcg_out_nop(s);
-         set_jmp_reset_offset(s, a0);
-         break;
-@@ -2538,13 +2532,6 @@ static void tcg_target_init(TCGContext *s)
-     tcg_regset_set_reg(s->reserved_regs, TCG_REG_GP);   /* global pointer */
- }
- 
--void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
--                              uintptr_t jmp_rw, uintptr_t addr)
--{
--    qatomic_set((uint32_t *)jmp_rw, deposit32(OPC_J, 0, 26, addr >> 2));
--    flush_idcache_range(jmp_rx, jmp_rw, 4);
--}
--
- typedef struct {
-     DebugFrameHeader h;
-     uint8_t fde_def_cfa[4];
+Dave
+
+> thanks
+> -- PMM
+> 
 -- 
-2.25.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
