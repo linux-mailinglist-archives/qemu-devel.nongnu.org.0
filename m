@@ -2,55 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9301C40D325
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 08:23:42 +0200 (CEST)
-Received: from localhost ([::1]:42804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8955F40D340
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 08:29:50 +0200 (CEST)
+Received: from localhost ([::1]:47244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQko9-0005P1-6B
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 02:23:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53550)
+	id 1mQku5-00007s-Lg
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 02:29:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mQknN-0004jU-Vo
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 02:22:53 -0400
-Received: from mga04.intel.com ([192.55.52.120]:17027)
+ id 1mQktG-0007qk-DP
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 02:28:58 -0400
+Received: from mga06.intel.com ([134.134.136.31]:46905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1mQknK-00039s-2j
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 02:22:53 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220613127"
-X-IronPort-AV: E=Sophos;i="5.85,297,1624345200"; d="scan'208";a="220613127"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2021 23:22:42 -0700
-X-IronPort-AV: E=Sophos;i="5.85,297,1624345200"; d="scan'208";a="545390846"
+ id 1mQktE-0008RH-3c
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 02:28:57 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="283495753"
+X-IronPort-AV: E=Sophos;i="5.85,297,1624345200"; d="scan'208";a="283495753"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2021 23:28:53 -0700
+X-IronPort-AV: E=Sophos;i="5.85,297,1624345200"; d="scan'208";a="509191006"
 Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
  ([10.238.144.101])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
- 15 Sep 2021 23:22:39 -0700
-Date: Thu, 16 Sep 2021 14:08:41 +0800
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 15 Sep 2021 23:28:52 -0700
+Date: Thu, 16 Sep 2021 14:14:54 +0800
 From: Yang Zhong <yang.zhong@intel.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 10/33] i386: Add get/set/migrate support for
- SGX_LEPUBKEYHASH MSRs
-Message-ID: <20210916060841.GB31727@yangzhon-Virtual>
-References: <20210719112136.57018-1-yang.zhong@intel.com>
- <20210719112136.57018-11-yang.zhong@intel.com>
- <7f81ee2f-1876-3f84-8415-51031e1fd887@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 1/3] monitor: Add HMP and QMP interfaces
+Message-ID: <20210916061454.GC31727@yangzhon-Virtual>
+References: <20210910102258.46648-1-yang.zhong@intel.com>
+ <20210910102258.46648-2-yang.zhong@intel.com>
+ <YTthmPn2KGcfNX21@redhat.com> <YT8bboSgYfWJP9kh@redhat.com>
+ <4ae8c563-9b44-d234-eb01-a61000d01439@redhat.com>
+ <YT9KbTrZv7XpvNbN@redhat.com>
+ <20210913125228.GA27608@yangzhon-Virtual>
+ <YT9RKFjKyI+FThq0@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7f81ee2f-1876-3f84-8415-51031e1fd887@redhat.com>
+In-Reply-To: <YT9RKFjKyI+FThq0@redhat.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=192.55.52.120; envelope-from=yang.zhong@intel.com;
- helo=mga04.intel.com
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=yang.zhong@intel.com;
+ helo=mga06.intel.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,81 +67,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, seanjc@google.com, kai.huang@intel.com,
- qemu-devel@nongnu.org, jarkko@kernel.org, pbonzini@redhat.com,
- eblake@redhat.com
+Cc: yang.zhong@intel.com, pbonzini@redhat.com, eblake@redhat.com,
+ qemu-devel@nongnu.org, seanjc@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 14, 2021 at 08:38:59AM +0200, Philippe Mathieu-Daudé wrote:
-> On 7/19/21 1:21 PM, Yang Zhong wrote:
-> > From: Sean Christopherson <sean.j.christopherson@intel.com>
+On Mon, Sep 13, 2021 at 02:24:56PM +0100, Daniel P. Berrangé wrote:
+> On Mon, Sep 13, 2021 at 08:52:28PM +0800, Yang Zhong wrote:
+> > On Mon, Sep 13, 2021 at 01:56:13PM +0100, Daniel P. Berrangé wrote:
+> > > On Mon, Sep 13, 2021 at 02:48:37PM +0200, Paolo Bonzini wrote:
+> > > > On 13/09/21 11:35, Daniel P. Berrangé wrote:
+> > > > > >    g_autoptr(Error) err = NULL
+> > > > > I was mistaken here - Error shouldn't use g_autoptr, just
+> > > > > 
+> > > > >     Error err = NULL;
+> > > > > 
+> > > > > > > +    SGXInfo *info = qmp_query_sgx(NULL);
+> > > > > > Pass in &err not NULL;
+> > > > > > 
+> > > > > > Also  declare it with  'g_autoptr(SGXInfo) info = ...'
+> > > > > > 
+> > > > > > And then
+> > > > > > 
+> > > > > >     if (err) {
+> > > > > >        monitor_printf(mon, "%s\n", error_get_pretty(err);
+> > > > > Then use the simpler:
+> > > > > 
+> > > > >      error_report_err(err);
+> > > > 
+> > > > Indeed.
+> > > > 
+> > > > That said, more long term (but this is something Coccinelle could help with)
+> > > > perhaps error_report_err should not free the error, and instead we should
+> > > > use g_autoptr(Error) in the callers.  I don't like functions that do not
+> > > > have free in their name and yet free a pointer...
+> > > 
+> > > Yes, this error_report_err surprises me every 6 months when I
+> > > come to deal with it. So I think using g_autoptr would be a
+> > > nice replacement, with no additional burden in terms of lines
+> > > of code in callers too.
+> > >
 > > 
-> > On real hardware, on systems that supports SGX Launch Control, those
-> > MSRs are initialized to digest of Intel's signing key; on systems that
-> > don't support SGX Launch Control, those MSRs are not available but
-> > hardware always uses digest of Intel's signing key in EINIT.
+> >   Do we need call qapi_free_SGXInfo(info) here?
 > > 
-> > KVM advertises SGX LC via CPUID if and only if the MSRs are writable.
-> > Unconditionally initialize those MSRs to digest of Intel's signing key
-> > when CPU is realized and reset to reflect the fact. This avoids
-> > potential bug in case kvm_arch_put_registers() is called before
-> > kvm_arch_get_registers() is called, in which case guest's virtual
-> > SGX_LEPUBKEYHASH MSRs will be set to 0, although KVM initializes those
-> > to digest of Intel's signing key by default, since KVM allows those MSRs
-> > to be updated by Qemu to support live migration.
+> >   In previous code design, the code like below:
 > > 
-> > Save/restore the SGX Launch Enclave Public Key Hash MSRs if SGX Launch
-> > Control (LC) is exposed to the guest. Likewise, migrate the MSRs if they
-> > are writable by the guest.
-> > 
-> > Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-> > Signed-off-by: Kai Huang <kai.huang@intel.com>
-> > Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> > ---
-> >  target/i386/cpu.c     | 17 ++++++++++++++++-
-> >  target/i386/cpu.h     |  1 +
-> >  target/i386/kvm/kvm.c | 22 ++++++++++++++++++++++
-> >  target/i386/machine.c | 20 ++++++++++++++++++++
-> >  4 files changed, 59 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > index 840f825431..cea4307930 100644
-> > --- a/target/i386/cpu.c
-> > +++ b/target/i386/cpu.c
-> > @@ -5673,6 +5673,16 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-> >      }
-> >  }
-> >  
-> > +#ifndef CONFIG_USER_ONLY
-> > +static void x86_cpu_set_sgxlepubkeyhash(CPUX86State *env)
-> > +{
-> > +    env->msr_ia32_sgxlepubkeyhash[0] = 0xa6053e051270b7acULL;
-> > +    env->msr_ia32_sgxlepubkeyhash[1] = 0x6cfbe8ba8b3b413dULL;
-> > +    env->msr_ia32_sgxlepubkeyhash[2] = 0xc4916d99f2b3735dULL;
-> > +    env->msr_ia32_sgxlepubkeyhash[3] = 0xd4f8c05909f9bb3bULL;
-> > +}
-> > +#endif
+> >   SGXInfo *info = qmp_query_sgx(&err);
+> >   ......
+> >   qapi_free_SGXInfo(info);
 > 
-> Maybe easier to move the #ifdef'ry inside the function.
+> I suggested "g_autoptr(SGXInfo) info" for the declaration to avoid
+> the need for qapi_free_SGXInfo calls
 >
 
-  Thanks for comments, since this function is pure void function, we can move this #ifdef
-  into function.
- 
-> Where these values come from btw?
+  Daniel, thanks!
 
-  Those MSR values are intel default values, which were defined in Skylake platform.
+  Paolo, i checked the sgx branch of your gitlab, we need add this definition
+  "g_autoptr(SGXInfo) info" into hmp_info_sgx() function. thanks!
 
   Yang
-
+   
 > 
-> > @@ -6186,6 +6198,10 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-> >             & CPUID_EXT2_AMD_ALIASES);
-> >      }
-> >  
-> > +#ifndef CONFIG_USER_ONLY
-> > +    x86_cpu_set_sgxlepubkeyhash(env);
-> > +#endif
-> > +
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
