@@ -2,92 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBCD940ED22
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 00:10:03 +0200 (CEST)
-Received: from localhost ([::1]:40744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C24040ED1A
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 00:07:05 +0200 (CEST)
+Received: from localhost ([::1]:35558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQzZy-0004OL-VF
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 18:10:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57076)
+	id 1mQzX6-0000iO-N6
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 18:07:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=886e160e1=alistair.francis@opensource.wdc.com>)
- id 1mQzHR-00072m-Iz
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 17:50:53 -0400
+ id 1mQzHU-0007Eu-F2
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 17:50:56 -0400
 Received: from esa2.hgst.iphmx.com ([68.232.143.124]:57941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=886e160e1=alistair.francis@opensource.wdc.com>)
- id 1mQzHP-0002yi-Uh
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 17:50:53 -0400
+ id 1mQzHS-0002yi-Hw
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 17:50:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1631829051; x=1663365051;
+ t=1631829054; x=1663365054;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=qHuAS75QJ7ERbWQ2Yyq5VV1sy/Bq9K+z/XHahQCnYPw=;
- b=hOkqW9YYsgSrSI8XGAOgdqYSy6t++rEF0uawdFruf+TeIBr0ut3tBEAQ
- s/Liugjeri/pEeJj7Eb/VMn7nBTDPlLXdQljduMjzB+F179ZDIDVIXvz2
- erxuIqQtqkroBonM5vnkxDfk+ab43YxKxcSJOB34gHxamdxt6llDtSZXG
- Y6Vm3k4OwTKu2ypZlFelkmdzESAMw8WgQKldXfo+7oORQJnM8W6uGThHn
- vm7AsTH6lvABOxHbUc8mzgR/48b58xn6DYfkXgQS6E2YlnYNk3RsLxLmn
- +3UMVLyEjwc7ZFWT10ug+WrM+ZvtbOJygwRcentyG0YoD2nHUUJyk94vX A==;
-X-IronPort-AV: E=Sophos;i="5.85,299,1624291200"; d="scan'208";a="284004767"
+ bh=lSMQwbKRLR8OHi30bRKwHm7mIkz1GUbYOiyB4Zccdlc=;
+ b=QNhqbZMfhLoKAoUjOiwHOMOWZv+ICoWeL8cgwL8DrmvVcFDhuBsYadoI
+ pdfpG3hYKlF2TdGqIiNydJIP6rR7obKXXwrQIqi/Ya/z1xlLDryvbWJJX
+ T9I0YyYgPS7XPaxU39l18/P/x4GZclD6Ic3TyqYO9MyCbi5K+OXIhibhv
+ H4YOkNbHrtZxK6Sn8jzDqWekt0VuriyV52e1PQ+9qBBbffNZQqBvaxyBN
+ 3khtqorqWJ2JM8AT89/2EeFJX5xSC71IehOE00PcWv10EV3HaN0zatUDq
+ LwcY3X5zAnHL9FqPlsWyMBa0l72lCHGjwoCDBNjijl6xSu2jkuMWsM5TX g==;
+X-IronPort-AV: E=Sophos;i="5.85,299,1624291200"; d="scan'208";a="284004773"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 17 Sep 2021 05:50:49 +0800
-IronPort-SDR: aSgvHDFc4wpgjJOMPH3/t0cyngFbyD67TwBKeAl1r6XVmHU/YgDyZuqtcYRbA8YZuHRhyzWw2X
- Wj0GvODV145hAwf+P2h8ET0Nf/NZ87731x/sidy0fXrg5p546SY5b/27mvssgs32mS2GNXLVkb
- Miol1Ih544fEwEkTzl4Jvfxb+m3fLJRWZFKLWDaZD6xsiM5yruiT7u1zPsMJ6pI6+YJvhdLo54
- jaRJnTdFbuiJIjGKhopMw7SZm2LmgObEICmkgS4Y4CF41XcVk2rCuQCHzYLdwCSLiqxRxxSjtZ
- jJkoKr2VS9wy2VjchI31bBCb
+ by ob1.hgst.iphmx.com with ESMTP; 17 Sep 2021 05:50:53 +0800
+IronPort-SDR: SqOluTY3kXWoXjhYA+/01Xlarav+MebrpnWC3r6pUzhWLPu+6ksxMZisf3H05ydsPh9N17ek9P
+ 2k6ZobdX9R7/A/DYXDlO70gRlK44fI0kfqC4OBRPnvT6HB+YrpjiL9BBxCAsWaUt85ZQmPxRpk
+ CmtzY2iLhH/swQDCq5JJN2u+Oe36pNoRwJq7PHYcNwccnmwdkBcFja1FOsrPaWkl/37wsYx07Q
+ Jg29Nt3NgJErGp0KSc0tcQmFxSxviCC0yxq2hCZ9ybcrbCNlBZWIzsEmlp/CMxCX2MvdASpc4W
+ hFp0x/ZR/UutXEpy0jmezfSa
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2021 14:25:36 -0700
-IronPort-SDR: T4ldlp+B57sOrKYBPioyX8eIoxVUV558u8J3+42P1RCny/5TX297kf2/rGL23NoqHG+IJCGyMQ
- X6+imG14BbmM9XToCUM0v0b5oad3Cp2zYAh7niOwo0KOw41iDzKd64n2seW73A71JWtiYk3Ijn
- gKOHOVvakWd7ixRmW/26rKy8CEtmOn3fmsJboBiGqV5m2FH4wDLq6H2J7h6t16t0irahWDNj9z
- s7se7PveJOGhZWHEJvdK7H8GIS/LpGV40a/PdaSxSOAASNsE0UD5oAPDhSy2BQVJWRWj8+vozH
- vJU=
+ 16 Sep 2021 14:25:41 -0700
+IronPort-SDR: 7jOC9kpIE0kcYr4jp4Ri6oudylx/K6RyF9LEgb+tZCCNc1aXTgV5ZL3l3air8O6EiE+QKJEa6d
+ ezL7LcDTuAwu1ykIV5daxtOmNtkZQKaAUfMjVMLfcwih19CDGOsIII5ZHzn6sQCMdBXJZGaiFo
+ 4Th15b36xcr5Tn/TWXgBu7w9PqlIRpKYAJifyN3ergkGg0VSSIr9tb/s8azpcPeyAhmoTr0JJw
+ 8b02msqZYov7dBhCKm+e/eZn2DJXovcpNt217jw2lSD2oPECn6OTzTC5cypPdVgkGC3VLwGzf+
+ HrE=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2021 14:50:49 -0700
+ 16 Sep 2021 14:50:54 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4H9W3s1CNRz1RwsC
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 14:50:49 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4H9W3x52CFz1RwsB
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 14:50:53 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1631829048; x=1634421049; bh=qHuAS75QJ7ERbWQ2Yy
- q5VV1sy/Bq9K+z/XHahQCnYPw=; b=i4EZQOKal9j6OZU0rshN2YWyzK2sQUgjhR
- oAW9B2A7EdEEjKMZ9klr57ZQeTNTiWKzJbZjnzhsWzSkMDxMJ1Bs80uqPaWZibmB
- i1PgQR8RQKl+Wb8O8jddYd172UbrOCizVXJu0SnUuCkOBlRh17gaPVY5H/rx+O6f
- IrE3v+7JYwxAICdfU86XQ/htfeDkdrBUJt/MDlK+i+0qhwxiBsn539OM69DLp6jt
- HAfucG5Pv/um2/dZvldDCrrkDIWgSElbv7h8xxXT3yPvKFvSbb6I4ISrM+gwuPvC
- tYOyXbJl64QbjQe/GoH0t1o4FeRPJUvdCui3/yv7nw/IXDxpEwgA==
+ :from; s=dkim; t=1631829053; x=1634421054; bh=lSMQwbKRLR8OHi30bR
+ KwHm7mIkz1GUbYOiyB4Zccdlc=; b=nY4NHdhNuP377BN1qBmv6DlX3dhtpyjrcj
+ 7F/ujfDCPSqomZDdvReaC51+dNDojKee0OXYy9npkekp5lPbpsGWkGwyr9tYv5ry
+ oAIfZtAsJotdMWhUQs7EiNER1/4B02JI3UAH6jdHzjM6ROZZuqg6UE+sHF3bSWNE
+ ocAOzV4H2oKqWKKfYDfZOfaIWNDFQBFNS28kxdvglzuQ667tcrZRJigA9JDSlD0t
+ VP4R8prTtactreqQ3UywNYfAcLDvXhCgp50K9U9zyA8alfsP2PBW/ZlCvpdXPc68
+ Jb96DtAAWG6oUTMtf5TSF1YFsWhuJbzErqi7ZyIcEyF3aXTVM5aQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id Qnttlx7KeYQ3 for <qemu-devel@nongnu.org>;
- Thu, 16 Sep 2021 14:50:48 -0700 (PDT)
+ port 10026) with ESMTP id K8cbdb9Hs0Vs for <qemu-devel@nongnu.org>;
+ Thu, 16 Sep 2021 14:50:53 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.23])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4H9W3m6kdJz1Rws0;
- Thu, 16 Sep 2021 14:50:44 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4H9W3s5SqDz1Rws0;
+ Thu, 16 Sep 2021 14:50:49 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
- Vincent Chen <vincent.chen@sifive.com>,
+Cc: alistair23@gmail.com, Bin Meng <bmeng.cn@gmail.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 19/21] target/riscv: Backup/restore mstatus.SD bit when virtual
- register swapped
-Date: Fri, 17 Sep 2021 07:49:02 +1000
-Message-Id: <20210916214904.734206-20-alistair.francis@opensource.wdc.com>
+Subject: [PULL 20/21] target/riscv: csr: Rename HCOUNTEREN_CY and friends
+Date: Fri, 17 Sep 2021 07:49:03 +1000
+Message-Id: <20210916214904.734206-21-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210916214904.734206-1-alistair.francis@opensource.wdc.com>
 References: <20210916214904.734206-1-alistair.francis@opensource.wdc.com>
@@ -118,38 +116,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+From: Bin Meng <bmeng.cn@gmail.com>
 
-When virtual registers are swapped, mstatus.SD bit should also be
-backed up/restored. Otherwise, mstatus.SD bit will be incorrectly kept
-across the world switches.
+The macro name HCOUNTEREN_CY suggests it is for CSR HCOUNTEREN, but
+in fact it applies to M-mode and S-mode CSR too. Rename these macros
+to have the COUNTEREN_ prefix.
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Vincent Chen <vincent.chen@sifive.com>
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210914013717.881430-1-frank.chang@sifive.com
+Message-id: 20210915084601.24304-1-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/riscv/cpu_bits.h |  8 ++++----
+ target/riscv/csr.c      | 24 ++++++++++++------------
+ 2 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 701858d670..00ad21f1e1 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -106,9 +106,10 @@ bool riscv_cpu_fp_enabled(CPURISCVState *env)
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index ce9dcc030c..999187a9ee 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -397,10 +397,10 @@
+ #define HSTATUS32_WPRI       0xFF8FF87E
+ #define HSTATUS64_WPRI       0xFFFFFFFFFF8FF87EULL
 =20
- void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env)
- {
-+    target_ulong sd =3D riscv_cpu_is_32bit(env) ? MSTATUS32_SD : MSTATUS=
-64_SD;
-     uint64_t mstatus_mask =3D MSTATUS_MXR | MSTATUS_SUM | MSTATUS_FS |
-                             MSTATUS_SPP | MSTATUS_SPIE | MSTATUS_SIE |
--                            MSTATUS64_UXL;
-+                            MSTATUS64_UXL | sd;
-     bool current_virt =3D riscv_cpu_virt_enabled(env);
+-#define HCOUNTEREN_CY        (1 << 0)
+-#define HCOUNTEREN_TM        (1 << 1)
+-#define HCOUNTEREN_IR        (1 << 2)
+-#define HCOUNTEREN_HPM3      (1 << 3)
++#define COUNTEREN_CY         (1 << 0)
++#define COUNTEREN_TM         (1 << 1)
++#define COUNTEREN_IR         (1 << 2)
++#define COUNTEREN_HPM3       (1 << 3)
 =20
-     g_assert(riscv_has_ext(env, RVH));
+ /* Privilege modes */
+ #define PRV_U 0
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index ba9818f6a5..23fbbd3216 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -71,20 +71,20 @@ static RISCVException ctr(CPURISCVState *env, int csr=
+no)
+     if (riscv_cpu_virt_enabled(env)) {
+         switch (csrno) {
+         case CSR_CYCLE:
+-            if (!get_field(env->hcounteren, HCOUNTEREN_CY) &&
+-                get_field(env->mcounteren, HCOUNTEREN_CY)) {
++            if (!get_field(env->hcounteren, COUNTEREN_CY) &&
++                get_field(env->mcounteren, COUNTEREN_CY)) {
+                 return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+             }
+             break;
+         case CSR_TIME:
+-            if (!get_field(env->hcounteren, HCOUNTEREN_TM) &&
+-                get_field(env->mcounteren, HCOUNTEREN_TM)) {
++            if (!get_field(env->hcounteren, COUNTEREN_TM) &&
++                get_field(env->mcounteren, COUNTEREN_TM)) {
+                 return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+             }
+             break;
+         case CSR_INSTRET:
+-            if (!get_field(env->hcounteren, HCOUNTEREN_IR) &&
+-                get_field(env->mcounteren, HCOUNTEREN_IR)) {
++            if (!get_field(env->hcounteren, COUNTEREN_IR) &&
++                get_field(env->mcounteren, COUNTEREN_IR)) {
+                 return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+             }
+             break;
+@@ -98,20 +98,20 @@ static RISCVException ctr(CPURISCVState *env, int csr=
+no)
+         if (riscv_cpu_is_32bit(env)) {
+             switch (csrno) {
+             case CSR_CYCLEH:
+-                if (!get_field(env->hcounteren, HCOUNTEREN_CY) &&
+-                    get_field(env->mcounteren, HCOUNTEREN_CY)) {
++                if (!get_field(env->hcounteren, COUNTEREN_CY) &&
++                    get_field(env->mcounteren, COUNTEREN_CY)) {
+                     return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+                 }
+                 break;
+             case CSR_TIMEH:
+-                if (!get_field(env->hcounteren, HCOUNTEREN_TM) &&
+-                    get_field(env->mcounteren, HCOUNTEREN_TM)) {
++                if (!get_field(env->hcounteren, COUNTEREN_TM) &&
++                    get_field(env->mcounteren, COUNTEREN_TM)) {
+                     return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+                 }
+                 break;
+             case CSR_INSTRETH:
+-                if (!get_field(env->hcounteren, HCOUNTEREN_IR) &&
+-                    get_field(env->mcounteren, HCOUNTEREN_IR)) {
++                if (!get_field(env->hcounteren, COUNTEREN_IR) &&
++                    get_field(env->mcounteren, COUNTEREN_IR)) {
+                     return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+                 }
+                 break;
 --=20
 2.31.1
 
