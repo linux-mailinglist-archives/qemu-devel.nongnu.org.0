@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC51440D9B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 14:19:32 +0200 (CEST)
-Received: from localhost ([::1]:40718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2F2740D9C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 14:22:04 +0200 (CEST)
+Received: from localhost ([::1]:44336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQqMV-0007oU-H1
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 08:19:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41852)
+	id 1mQqOy-00022L-0u
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 08:22:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQqKX-00065Y-T9
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:17:29 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:50967)
+ id 1mQqMD-00007h-4f
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:19:14 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQqKW-0005u4-9O
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:17:29 -0400
-Received: by mail-wm1-x330.google.com with SMTP id 140so4694569wma.0
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 05:17:27 -0700 (PDT)
+ id 1mQqMB-0007Jx-4L
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:19:12 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ z184-20020a1c7ec1000000b003065f0bc631so7247494wmc.0
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 05:19:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oSpHLR6R74Rtm2/C22hOJeM8MXyeV/bagNFJ8H86SME=;
- b=aBqVlh84zSbm9YMNbW55U9/g86cZWrw1jLX0REsfBJVIzAPVkSPzpvZdFVupbd14+2
- kSIS8nUY9NsPyfPfZMQogzitR6oUgx/udNiKone7wfqslRenjmylRcn4qDkhlh8Yc85b
- VpglQzQZX+ncgtKGTbWPBnCWL+0qggDe8WKQ0INJP2zzLLcf8t+bqg83lXtfy3kBtiU9
- 4zbOzUoC1Kjx9XNgL+ixWW22tAgyBZdiBGNdgKkJrKz8ESv85tsyTUcRVBCNlxInSN9i
- jVKBDij4yz+oaCzgegr+BZ33zehVor96sJ4F62gAlkm1Qzj9Hr1azfThEl4mrxBKQorp
- N0pg==
+ :cc; bh=x6+2J429AKKWmA7iWiebRHTPC6uL6qahB8bMeVZb9zU=;
+ b=H3jOEU1sqM0YyUSCbfQKN1S4HIxkuvsEKfA8RX8cqcHsQN46xcLwyJ3kqkLzsMuDmk
+ JNMZEorHMdChl1sIkeDN1g4ZfJ+TjdeGD+hHF11cpbAyhINriTWHCUgIq7XqGtYIqhNw
+ wbddWJ/xDap8lWdskaKv5818QWweCLJbhMlpQu1yjLMSV3QlZ6QYV5sH+r450ihvELHj
+ sDL7eBJhZbED+oiOs1pIe0fuVYOS5X8Jwuy7Xnll9psckp/IY+Ghfz9dYxHmX2YrnMVU
+ jkpCwmfISuVHv9AgwW901TP23KvyVCQwmkj/uDC5iaKR8N4ifoTkOCnIO8/mdqWwojBX
+ I+0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=oSpHLR6R74Rtm2/C22hOJeM8MXyeV/bagNFJ8H86SME=;
- b=bwvsiCEqRpsFaOBjlyRRoCSe+ebd+DD+/Hp35BTUHW5sHcn7Peyj428V6Lkt78+fnx
- ALsSvmEbGV8EBqoS4qTKCnXQjF4Tk62HxMcUiHQIwmMpFJ/x9PC0X/8dYV1l0F8Pct4e
- oYnHhEjv6gAZGh/pt8uAWYnTN4xSIiIJ6dN1jGcV4sNgSvpmqHyjggdxitXlzVM+0mwU
- G/DDYs+Z/JDoTx/4U/Mdb0pjzWU7jVZ1gCXbU9n6+qbuPBmA5hzjhxr4kPKGFnE8dRGA
- VHZZ+ItKRgsNwTzrfEU4r4bALnrmQYJyi9kM2bk6EE13oK3vbAvJFrlHtZLr+boGMVyy
- 4vTw==
-X-Gm-Message-State: AOAM532VPdF2erBA+HqGHJcE1KAIGgtdDt++xtaVgSujJ+RBNRxe8Tsu
- MBPt1pl3sgP2CCLTZLrqiRa3QHCZ+I2byAsljhqNnA==
-X-Google-Smtp-Source: ABdhPJwooF8aF3jU21zITOdxz2qm+c2beB/kJn0sonK68UKqEWay56OZ+P49bEZwc/CWXFU8p8OUMICgAfsz/tQxWXc=
+ bh=x6+2J429AKKWmA7iWiebRHTPC6uL6qahB8bMeVZb9zU=;
+ b=t+v8WGMSsUy8rbq/q2FAH+L7XJD5YF7epL0BmureQHKC5BW8RrjqbKxSUKBB4KzQVI
+ gg8LqfXDK3izsMf4mEU44RTs8EoWfTJgFK8MRO8HTSlqI/qHfDgbKDoVVB8cJTdKri5Q
+ 6boNfOGcV7P4qsOCmapiblHZNREbDd5a9pJwAdGo3xk53hFUAuDCqN+qmfiLYacFOQcO
+ 8+qzI6qUG6fIHHV/w8fC9JuTwADS8XplwIn+5AdrtCaHqRJUB98KfdcvnB0iAeI6MSxV
+ 3+L3UgWeoTRp99rxRGMiX5o6xdsyEdXZnn3zR1AVul0mslYhdIaVdCsMlg/gFpwa6xCz
+ k64A==
+X-Gm-Message-State: AOAM530J6zaV/acQhQAWz73HDXvenOMOeWG6wgJQaWf3qCp3tSg9Y47Q
+ iPRNSuAJed2vY8ChVHb6QokMLwBrj8ha1L7LngZamQ==
+X-Google-Smtp-Source: ABdhPJznfEZdxkev+LehJmdGEBd3RElm452l814NxzltMH5ec/CDPrgsB+w4/JbQh2HO/vipB8PX9Q3LpVW367vzqxc=
 X-Received: by 2002:a05:600c:4848:: with SMTP id
- j8mr9619485wmo.21.1631794646489; 
- Thu, 16 Sep 2021 05:17:26 -0700 (PDT)
+ j8mr9626908wmo.21.1631794749402; 
+ Thu, 16 Sep 2021 05:19:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210915181049.27597-1-agraf@csgraf.de>
- <20210915181049.27597-5-agraf@csgraf.de>
-In-Reply-To: <20210915181049.27597-5-agraf@csgraf.de>
+ <20210915181049.27597-6-agraf@csgraf.de>
+In-Reply-To: <20210915181049.27597-6-agraf@csgraf.de>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Sep 2021 13:16:35 +0100
-Message-ID: <CAFEAcA9omLRSXw23Q0KPEihe+kXs7vDheqnZLSCGegAOrifWsA@mail.gmail.com>
-Subject: Re: [PATCH v11 04/10] hvf: Add Apple Silicon support
+Date: Thu, 16 Sep 2021 13:18:18 +0100
+Message-ID: <CAFEAcA-gYow+rkW+LDgGPE0tWP4EJVLjZu3yMtNBcfhuNmhh7g@mail.gmail.com>
+Subject: Re: [PATCH v11 05/10] arm/hvf: Add a WFI handler
 To: Alexander Graf <agraf@csgraf.de>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,23 +91,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 15 Sept 2021 at 19:10, Alexander Graf <agraf@csgraf.de> wrote:
 >
-> With Apple Silicon available to the masses, it's a good time to add support
-> for driving its virtualization extensions from QEMU.
+> From: Peter Collingbourne <pcc@google.com>
 >
-> This patch adds all necessary architecture specific code to get basic VMs
-> working, including save/restore.
+> Sleep on WFI until the VTIMER is due but allow ourselves to be woken
+> up on IPI.
 >
-> Known limitations:
+> In this implementation IPI is blocked on the CPU thread at startup and
+> pselect() is used to atomically unblock the signal and begin sleeping.
+> The signal is sent unconditionally so there's no need to worry about
+> races between actually sleeping and the "we think we're sleeping"
+> state. It may lead to an extra wakeup but that's better than missing
+> it entirely.
 >
->   - WFI handling is missing (follows in later patch)
->   - No watchpoint/breakpoint support
->
+> Signed-off-by: Peter Collingbourne <pcc@google.com>
+> [agraf: Remove unused 'set' variable, always advance PC on WFX trap,
+>         support vm stop / continue operations and cntv offsets]
 > Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
 > Reviewed-by: Sergio Lopez <slp@redhat.com>
 >
 > ---
 
+Other than the points Philippe raises,
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
