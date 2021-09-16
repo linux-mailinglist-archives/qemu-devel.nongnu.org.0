@@ -2,55 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA9540D801
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:57:19 +0200 (CEST)
-Received: from localhost ([::1]:46856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A56840D820
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 13:07:35 +0200 (CEST)
+Received: from localhost ([::1]:54988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQp4w-0001vl-Dw
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:57:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52364)
+	id 1mQpEr-0008C4-9q
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 07:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQp2b-0008Sl-0u; Thu, 16 Sep 2021 06:54:53 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40650
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQp2Y-0001MQ-63; Thu, 16 Sep 2021 06:54:52 -0400
-Received: from host109-153-76-56.range109-153.btcentralplus.com
- ([109.153.76.56] helo=[192.168.50.176])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQp21-0000KB-N9; Thu, 16 Sep 2021 11:54:21 +0100
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210914142042.1655100-1-berrange@redhat.com>
- <20210914142042.1655100-49-berrange@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <547a6d41-85f2-7e50-909e-382aa733e367@ilande.co.uk>
-Date: Thu, 16 Sep 2021 11:54:19 +0100
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mQpDA-0006tC-Nt
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 07:05:48 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:39754)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mQpD8-0002Py-C1
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 07:05:48 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 196-20020a1c04cd000000b002fa489ffe1fso7058088wme.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 04:05:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:references:from:cc:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=H2PsU82MMlyW78SaWN79PjADHJVEchsxP5tnC3pZR3E=;
+ b=PDotSiZGBHTOzxjPQZsN7GITegUiQ0CTkp/LQwyCHz7cpYtEBdh6U7YYUXUnEv/nQP
+ Z/R0qh7/o2PKXFl23mfW3iVth7mVYYKv4iqYLN2fBrhwY4vnlPnFySJwlm13k2mJzvSt
+ TzCScp9OZg/vBF8BbW59RNr/pbdSKSAjKRwpR+Vo4X6lYl9PbErPQ0Z1QEFx4P+Kolzb
+ P7oJkOPfnMy68JmodStFd82ehXP/byFNW1+nRPn5SA7NVfI7DyY/GG0PjncOLU/9l091
+ eKWWgbH6D4DEERti7b3u3elowmPKf9ASVVpTWVUcgBq6ZKVgOsabF4Qfw28MmsDSPfQE
+ x6BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:subject:to:references:from:cc:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=H2PsU82MMlyW78SaWN79PjADHJVEchsxP5tnC3pZR3E=;
+ b=gaVRAXpU9Ca7suxqzixuFXplKahAGTuQ/Mzcn6cHAQVF5GRLsseDzg9SXIBr0EX3r5
+ WYR32a3A/NZFZFshTT1Mv8jZ+PJ/4Yr9CZ6qsxTZjAYGuc7Y+IGkl2AsOBWUt8r3HKOW
+ zlAQWOJd2zreYT5kdQq3fwpWUQNnZu9z/Nc+18vqHGRHTkpbfrXyqQEj6qmwm14mQnqf
+ oFaaQBaqy5AjeFjVNg4kSrJPGVzqz1o+E/c5FHTAaZMruyIbdOFjW7qCHYeDNRMZiEXy
+ ZzsS7xuzx51QufwnQSY5cOr5/aCyvr+0HH+aYiGRVLL5dDzvAsN7q09cX7yeTVVKxF31
+ AK6A==
+X-Gm-Message-State: AOAM532504SVsCwaDBp17jmOwCcEWrfVnQtqkTVGtxIOH3S9qDdVWKfS
+ yRK9tdn6Vpk/kbveVlz2hsc=
+X-Google-Smtp-Source: ABdhPJwAoX+wrkntSmitZHgz1SW7ISjn/2qii9uCsTLRYZUMIMgj/eYt8luXMsN+qrPbbFWiUa0mmA==
+X-Received: by 2002:a05:600c:1c11:: with SMTP id
+ j17mr9560747wms.138.1631790342866; 
+ Thu, 16 Sep 2021 04:05:42 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
+ [83.35.25.14])
+ by smtp.gmail.com with ESMTPSA id k22sm3319722wrd.59.2021.09.16.04.05.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Sep 2021 04:05:42 -0700 (PDT)
+Subject: Re: [PATCH v3 11/20] nubus-device: add romfile property for loading
+ declaration ROMs
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ laurent@vivier.eu
+References: <20210916100554.10963-1-mark.cave-ayland@ilande.co.uk>
+ <20210916100554.10963-12-mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a6857eaa-a0d3-c098-3cda-057ee9fa15a4@amsat.org>
+Date: Thu, 16 Sep 2021 13:05:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210914142042.1655100-49-berrange@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210916100554.10963-12-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 109.153.76.56
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 48/53] target/sparc: convert to use format_tlb callback
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.488,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.488,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,174 +93,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
- Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Peter Xu <peterx@redhat.com>, Stafford Horne <shorne@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/09/2021 15:20, Daniel P. Berrangé wrote:
-
-> Change the "info tlb" implementation to use the format_tlb callback.
+On 9/16/21 12:05 PM, Mark Cave-Ayland wrote:
+> The declaration ROM is located at the top-most address of the standard slot
+> space.
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->   target/sparc/cpu.c        |  1 +
->   target/sparc/cpu.h        |  1 +
->   target/sparc/mmu_helper.c | 43 ++++++++++++++++++++++++---------------
->   target/sparc/monitor.c    | 10 ++++++---
->   4 files changed, 36 insertions(+), 19 deletions(-)
-> 
-> diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-> index 9346a79239..f78ddc72b5 100644
-> --- a/target/sparc/cpu.c
-> +++ b/target/sparc/cpu.c
-> @@ -898,6 +898,7 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
->       cc->has_work = sparc_cpu_has_work;
->       cc->format_state = sparc_cpu_format_state;
->   #if !defined(TARGET_SPARC64) && !defined(CONFIG_USER_ONLY)
-> +    cc->format_tlb = sparc_cpu_format_tlb;
->       cc->memory_rw_debug = sparc_cpu_memory_rw_debug;
->   #endif
->       cc->set_pc = sparc_cpu_set_pc;
-> diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-> index 65a01a7884..233f0b3eb7 100644
-> --- a/target/sparc/cpu.h
-> +++ b/target/sparc/cpu.h
-> @@ -572,6 +572,7 @@ extern const VMStateDescription vmstate_sparc_cpu;
->   
->   void sparc_cpu_do_interrupt(CPUState *cpu);
->   void sparc_cpu_format_state(CPUState *cpu, GString *buf, int flags);
-> +void sparc_cpu_format_tlb(CPUState *cpu, GString *buf);
->   hwaddr sparc_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
->   int sparc_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
->   int sparc_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-> diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
-> index a44473a1c7..06b16aca6a 100644
-> --- a/target/sparc/mmu_helper.c
-> +++ b/target/sparc/mmu_helper.c
-> @@ -371,37 +371,39 @@ target_ulong mmu_probe(CPUSPARCState *env, target_ulong address, int mmulev)
->       return 0;
->   }
->   
-> -void dump_mmu(CPUSPARCState *env)
-> +void sparc_cpu_format_tlb(CPUState *cpu, GString *buf)
->   {
-> -    CPUState *cs = env_cpu(env);
-> +    CPUSPARCState *env = cpu->env_ptr;
->       target_ulong va, va1, va2;
->       unsigned int n, m, o;
->       hwaddr pa;
->       uint32_t pde;
->   
-> -    qemu_printf("Root ptr: " TARGET_FMT_plx ", ctx: %d\n",
-> -                (hwaddr)env->mmuregs[1] << 4, env->mmuregs[2]);
-> +    g_string_append_printf(buf, "Root ptr: " TARGET_FMT_plx ", ctx: %d\n",
-> +                           (hwaddr)env->mmuregs[1] << 4, env->mmuregs[2]);
->       for (n = 0, va = 0; n < 256; n++, va += 16 * 1024 * 1024) {
->           pde = mmu_probe(env, va, 2);
->           if (pde) {
-> -            pa = cpu_get_phys_page_debug(cs, va);
-> -            qemu_printf("VA: " TARGET_FMT_lx ", PA: " TARGET_FMT_plx
-> -                        " PDE: " TARGET_FMT_lx "\n", va, pa, pde);
-> +            pa = cpu_get_phys_page_debug(cpu, va);
-> +            g_string_append_printf(buf, "VA: " TARGET_FMT_lx
-> +                                   ", PA: " TARGET_FMT_plx
-> +                                   " PDE: " TARGET_FMT_lx "\n", va, pa, pde);
->               for (m = 0, va1 = va; m < 64; m++, va1 += 256 * 1024) {
->                   pde = mmu_probe(env, va1, 1);
->                   if (pde) {
-> -                    pa = cpu_get_phys_page_debug(cs, va1);
-> -                    qemu_printf(" VA: " TARGET_FMT_lx ", PA: "
-> -                                TARGET_FMT_plx " PDE: " TARGET_FMT_lx "\n",
-> -                                va1, pa, pde);
-> +                    pa = cpu_get_phys_page_debug(cpu, va1);
-> +                    g_string_append_printf(buf, " VA: " TARGET_FMT_lx
-> +                                           ", PA: " TARGET_FMT_plx
-> +                                           " PDE: " TARGET_FMT_lx "\n",
-> +                                           va1, pa, pde);
->                       for (o = 0, va2 = va1; o < 64; o++, va2 += 4 * 1024) {
->                           pde = mmu_probe(env, va2, 0);
->                           if (pde) {
-> -                            pa = cpu_get_phys_page_debug(cs, va2);
-> -                            qemu_printf("  VA: " TARGET_FMT_lx ", PA: "
-> -                                        TARGET_FMT_plx " PTE: "
-> -                                        TARGET_FMT_lx "\n",
-> -                                        va2, pa, pde);
-> +                            pa = cpu_get_phys_page_debug(cpu, va2);
-> +                            g_string_append_printf(buf, "  VA: " TARGET_FMT_lx
-> +                                                   ", PA: " TARGET_FMT_plx
-> +                                                   " PTE: " TARGET_FMT_lx "\n",
-> +                                                   va2, pa, pde);
->                           }
->                       }
->                   }
-> @@ -410,6 +412,15 @@ void dump_mmu(CPUSPARCState *env)
->       }
->   }
->   
-> +void dump_mmu(CPUSPARCState *env)
-> +{
-> +    CPUState *cs = env_cpu(env);
-> +    g_autoptr(GString) buf = g_string_new("");
-> +
-> +    sparc_cpu_format_tlb(cs, buf);
-> +    qemu_printf("%s", buf->str);
-> +}
-> +
->   /* Gdb expects all registers windows to be flushed in ram. This function handles
->    * reads (and only reads) in stack frames as if windows were flushed. We assume
->    * that the sparc ABI is followed.
-> diff --git a/target/sparc/monitor.c b/target/sparc/monitor.c
-> index 318413686a..cc7fe74e3e 100644
-> --- a/target/sparc/monitor.c
-> +++ b/target/sparc/monitor.c
-> @@ -30,13 +30,17 @@
->   
->   void hmp_info_tlb(Monitor *mon, const QDict *qdict)
->   {
-> -    CPUArchState *env1 = mon_get_cpu_env(mon);
-> +    g_autoptr(GString) buf = g_string_new("");
-> +    CPUState *cpu = mon_get_cpu(mon);
->   
-> -    if (!env1) {
-> +    if (!cpu) {
->           monitor_printf(mon, "No CPU available\n");
->           return;
->       }
-> -    dump_mmu(env1);
-> +
-> +    cpu_format_tlb(cpu, buf);
-> +
-> +    monitor_printf(mon, "%s", buf->str);
->   }
->   
->   #ifndef TARGET_SPARC64
+>  hw/nubus/nubus-device.c  | 43 +++++++++++++++++++++++++++++++++++++++-
+>  include/hw/nubus/nubus.h |  6 ++++++
+>  2 files changed, 48 insertions(+), 1 deletion(-)
 
-Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> @@ -38,10 +43,46 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
+>      memory_region_add_subregion(&nubus->slot_io, slot_offset,
+>                                  &nd->slot_mem);
+>      g_free(name);
+> +
+> +    /* Declaration ROM */
+> +    if (nd->romfile != NULL) {
+> +        path = qemu_find_file(QEMU_FILE_TYPE_BIOS, nd->romfile);
+> +        if (path == NULL) {
+> +            path = g_strdup(nd->romfile);
+> +        }
+> +
+> +        size = get_image_size(path);
+> +        if (size < 0) {
+> +            error_setg(errp, "failed to find romfile \"%s\"", nd->romfile);
+> +            g_free(path);
+> +            return;
+> +        } else if (size == 0) {
+> +            error_setg(errp, "romfile \"%s\" is empty", nd->romfile);
+> +            g_free(path);
+> +            return;
+> +        } else if (size > NUBUS_DECL_ROM_MAX_SIZE) {
+> +            error_setg(errp, "romfile \"%s\" too large (maximum size 128K)",
+> +                       nd->romfile);
+> +            g_free(path);
+> +            return;
+> +        }
+> +
+> +        name = g_strdup_printf("nubus-slot-%x-declaration-rom", nd->slot);
+> +        memory_region_init_rom(&nd->decl_rom, OBJECT(dev), name, size,
+> +                               &error_fatal);
+> +        ret = load_image_mr(path, &nd->decl_rom);
 
+load_image_mr() already calls get_image_size(), rom_add_file() and
+qemu_find_file(). *But* it doesn't takes and Error handle, and report
+error using fprintf()... So unfortunately rom_add*() functions are
+kinda outdated and you are doing the right thing to propagate detailled
+errors. Therefore:
 
-ATB,
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Mark.
+> +        g_free(path);
+> +        if (ret < 0) {
+> +            warn_report("nubus-device: could not load prom '%s'", nd->romfile);
+> +        }
+> +        memory_region_add_subregion(&nd->slot_mem, NUBUS_SLOT_SIZE - size,
+> +                                    &nd->decl_rom);
+> +    }
+>  }
 
