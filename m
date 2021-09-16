@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75EF740D734
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:13:38 +0200 (CEST)
-Received: from localhost ([::1]:33594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CAC840D72A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:09:24 +0200 (CEST)
+Received: from localhost ([::1]:53734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQoOf-00029Y-Fb
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:13:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40324)
+	id 1mQoKZ-00052E-Ia
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:09:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQoHX-0002QH-UA
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:06:16 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40340
+ id 1mQoHa-0002SO-UU
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:06:19 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40348
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQoHU-0002Rk-Vx
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:06:15 -0400
+ id 1mQoHZ-0002X5-BP
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:06:18 -0400
 Received: from host109-153-76-56.range109-153.btcentralplus.com
  ([109.153.76.56] helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQoHM-000ChM-N0; Thu, 16 Sep 2021 11:06:08 +0100
+ id 1mQoHQ-000ChM-Tw; Thu, 16 Sep 2021 11:06:13 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Thu, 16 Sep 2021 11:05:35 +0100
-Message-Id: <20210916100554.10963-2-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 16 Sep 2021 11:05:36 +0100
+Message-Id: <20210916100554.10963-3-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210916100554.10963-1-mark.cave-ayland@ilande.co.uk>
 References: <20210916100554.10963-1-mark.cave-ayland@ilande.co.uk>
@@ -39,7 +39,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.76.56
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 01/20] nubus-device: rename slot_nb variable to slot
+Subject: [PATCH v3 02/20] nubus-device: expose separate super slot memory
+ region
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -65,73 +66,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is in preparation for creating a qdev property of the same name.
+According to "Designing Cards and Drivers for the Macintosh Family" each physical
+nubus slot can access 2 separate address ranges: a super slot memory region which
+is 256MB and a standard slot memory region which is 16MB.
+
+Currently a Nubus device uses the physical slot number to determine whether it is
+using a standard slot memory region or a super slot memory region rather than
+exposing both memory regions for use as required.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/nubus/nubus-device.c  | 14 +++++++-------
- include/hw/nubus/nubus.h |  2 +-
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ hw/nubus/nubus-device.c  | 36 ++++++++++++++++++------------------
+ include/hw/nubus/nubus.h |  1 +
+ 2 files changed, 19 insertions(+), 18 deletions(-)
 
 diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
-index ffe78a8823..be01269563 100644
+index be01269563..36203848e5 100644
 --- a/hw/nubus/nubus-device.c
 +++ b/hw/nubus/nubus-device.c
-@@ -87,7 +87,7 @@ static void nubus_register_format_block(NubusDevice *dev)
-     char *fblock_name;
- 
-     fblock_name = g_strdup_printf("nubus-slot-%d-format-block",
--                                  dev->slot_nb);
-+                                  dev->slot);
- 
-     hwaddr fblock_offset = memory_region_size(&dev->slot_mem) - FBLOCK_SIZE;
-     memory_region_init_io(&dev->fblock_io, NULL, &nubus_format_block_ops,
-@@ -142,7 +142,7 @@ void nubus_register_rom(NubusDevice *dev, const uint8_t *rom, uint32_t size,
-     /* ROM */
- 
-     dev->rom = rom;
--    rom_name = g_strdup_printf("nubus-slot-%d-rom", dev->slot_nb);
-+    rom_name = g_strdup_printf("nubus-slot-%d-rom", dev->slot);
-     memory_region_init_io(&dev->rom_io, NULL, &mac_nubus_rom_ops,
-                           dev, rom_name, size);
-     memory_region_set_readonly(&dev->rom_io, true);
-@@ -167,12 +167,12 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
-         return;
+@@ -168,26 +168,26 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
      }
  
--    nd->slot_nb = nubus->current_slot++;
--    name = g_strdup_printf("nubus-slot-%d", nd->slot_nb);
-+    nd->slot = nubus->current_slot++;
-+    name = g_strdup_printf("nubus-slot-%d", nd->slot);
+     nd->slot = nubus->current_slot++;
+-    name = g_strdup_printf("nubus-slot-%d", nd->slot);
+-
+-    if (nd->slot < NUBUS_FIRST_SLOT) {
+-        /* Super */
+-        slot_offset = (nd->slot - 6) * NUBUS_SUPER_SLOT_SIZE;
+-
+-        memory_region_init(&nd->slot_mem, OBJECT(dev), name,
+-                           NUBUS_SUPER_SLOT_SIZE);
+-        memory_region_add_subregion(&nubus->super_slot_io, slot_offset,
+-                                    &nd->slot_mem);
+-    } else {
+-        /* Normal */
+-        slot_offset = nd->slot * NUBUS_SLOT_SIZE;
+-
+-        memory_region_init(&nd->slot_mem, OBJECT(dev), name, NUBUS_SLOT_SIZE);
+-        memory_region_add_subregion(&nubus->slot_io, slot_offset,
+-                                    &nd->slot_mem);
+-    }
  
--    if (nd->slot_nb < NUBUS_FIRST_SLOT) {
-+    if (nd->slot < NUBUS_FIRST_SLOT) {
-         /* Super */
--        slot_offset = (nd->slot_nb - 6) * NUBUS_SUPER_SLOT_SIZE;
-+        slot_offset = (nd->slot - 6) * NUBUS_SUPER_SLOT_SIZE;
++    /* Super */
++    slot_offset = (nd->slot - 6) * NUBUS_SUPER_SLOT_SIZE;
++
++    name = g_strdup_printf("nubus-super-slot-%x", nd->slot);
++    memory_region_init(&nd->super_slot_mem, OBJECT(dev), name,
++                        NUBUS_SUPER_SLOT_SIZE);
++    memory_region_add_subregion(&nubus->super_slot_io, slot_offset,
++                                &nd->super_slot_mem);
++    g_free(name);
++
++    /* Normal */
++    slot_offset = nd->slot * NUBUS_SLOT_SIZE;
++
++    name = g_strdup_printf("nubus-slot-%x", nd->slot);
++    memory_region_init(&nd->slot_mem, OBJECT(dev), name, NUBUS_SLOT_SIZE);
++    memory_region_add_subregion(&nubus->slot_io, slot_offset,
++                                &nd->slot_mem);
+     g_free(name);
++
+     nubus_register_format_block(nd);
+ }
  
-         memory_region_init(&nd->slot_mem, OBJECT(dev), name,
-                            NUBUS_SUPER_SLOT_SIZE);
-@@ -180,7 +180,7 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
-                                     &nd->slot_mem);
-     } else {
-         /* Normal */
--        slot_offset = nd->slot_nb * NUBUS_SLOT_SIZE;
-+        slot_offset = nd->slot * NUBUS_SLOT_SIZE;
- 
-         memory_region_init(&nd->slot_mem, OBJECT(dev), name, NUBUS_SLOT_SIZE);
-         memory_region_add_subregion(&nubus->slot_io, slot_offset,
 diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
-index e2b5cf260b..424309dd73 100644
+index 424309dd73..89b0976aaa 100644
 --- a/include/hw/nubus/nubus.h
 +++ b/include/hw/nubus/nubus.h
-@@ -42,7 +42,7 @@ struct NubusBus {
- struct NubusDevice {
+@@ -43,6 +43,7 @@ struct NubusDevice {
      DeviceState qdev;
  
--    int slot_nb;
-+    int slot;
+     int slot;
++    MemoryRegion super_slot_mem;
      MemoryRegion slot_mem;
  
      /* Format Block */
