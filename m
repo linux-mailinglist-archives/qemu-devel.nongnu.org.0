@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD7D40D756
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:24:18 +0200 (CEST)
-Received: from localhost ([::1]:58788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD03E40D758
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:24:50 +0200 (CEST)
+Received: from localhost ([::1]:60222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQoYz-0002Mi-3P
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:24:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40788)
+	id 1mQoZV-0003Ky-O5
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:24:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQoIZ-0004Ld-QX
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:07:19 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40432
+ id 1mQoId-0004QF-UV
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:07:24 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40436
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQoIY-0003Hu-6f
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:07:19 -0400
+ id 1mQoIc-0003La-ET
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 06:07:23 -0400
 Received: from host109-153-76-56.range109-153.btcentralplus.com
  ([109.153.76.56] helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mQoIG-000ChM-4s; Thu, 16 Sep 2021 11:07:04 +0100
+ id 1mQoIK-000ChM-BP; Thu, 16 Sep 2021 11:07:08 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Thu, 16 Sep 2021 11:05:50 +0100
-Message-Id: <20210916100554.10963-17-mark.cave-ayland@ilande.co.uk>
+Date: Thu, 16 Sep 2021 11:05:51 +0100
+Message-Id: <20210916100554.10963-18-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210916100554.10963-1-mark.cave-ayland@ilande.co.uk>
 References: <20210916100554.10963-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.76.56
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 16/20] nubus-bridge: embed the NubusBus object directly
- within nubus-bridge
+Subject: [PATCH v3 17/20] nubus-bridge: make slot_available_mask a qdev
+ property
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -66,86 +65,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since nubus-bridge is a container for NubusBus then it should be embedded
-directly within the bridge device using qbus_create_inplace().
+This is to allow Macintosh machines to further specify which slots are available
+since the number of addressable slots may not match the number of physical slots
+present in the machine.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/m68k/q800.c              | 2 +-
- hw/nubus/mac-nubus-bridge.c | 7 ++++---
- hw/nubus/nubus-bridge.c     | 3 ++-
- include/hw/nubus/nubus.h    | 2 +-
- 4 files changed, 8 insertions(+), 6 deletions(-)
+ hw/nubus/nubus-bridge.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 46befe0898..e34df1a829 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -397,7 +397,7 @@ static void q800_init(MachineState *machine)
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 1, NUBUS_SLOT_BASE +
-                                             9 * NUBUS_SLOT_SIZE);
- 
--    nubus = NUBUS_BRIDGE(dev)->bus;
-+    nubus = &NUBUS_BRIDGE(dev)->bus;
- 
-     /* framebuffer in nubus slot #9 */
- 
-diff --git a/hw/nubus/mac-nubus-bridge.c b/hw/nubus/mac-nubus-bridge.c
-index 4854e7e546..f764b2f562 100644
---- a/hw/nubus/mac-nubus-bridge.c
-+++ b/hw/nubus/mac-nubus-bridge.c
-@@ -18,18 +18,19 @@ static void mac_nubus_bridge_init(Object *obj)
-     MacNubusBridge *s = MAC_NUBUS_BRIDGE(obj);
-     NubusBridge *nb = NUBUS_BRIDGE(obj);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-+    NubusBus *bus = &nb->bus;
- 
-     /* Macintosh only has slots 0x9 to 0xe available */
--    nb->bus->slot_available_mask = MAKE_64BIT_MASK(9, 6);
-+    bus->slot_available_mask = MAKE_64BIT_MASK(9, 6);
- 
-     /* Aliases for slots 0x9 to 0xe */
-     memory_region_init_alias(&s->super_slot_alias, obj, "super-slot-alias",
--                             &nb->bus->nubus_mr,
-+                             &bus->nubus_mr,
-                              9 * NUBUS_SUPER_SLOT_SIZE,
-                              6 * NUBUS_SUPER_SLOT_SIZE);
- 
-     memory_region_init_alias(&s->slot_alias, obj, "slot-alias",
--                             &nb->bus->nubus_mr,
-+                             &bus->nubus_mr,
-                              NUBUS_SLOT_BASE + 9 * NUBUS_SLOT_SIZE,
-                              6 * NUBUS_SLOT_SIZE);
- 
 diff --git a/hw/nubus/nubus-bridge.c b/hw/nubus/nubus-bridge.c
-index 3b68d4435c..1adda7f5a6 100644
+index 1adda7f5a6..2c7c4ee121 100644
 --- a/hw/nubus/nubus-bridge.c
 +++ b/hw/nubus/nubus-bridge.c
-@@ -16,8 +16,9 @@
- static void nubus_bridge_init(Object *obj)
- {
-     NubusBridge *s = NUBUS_BRIDGE(obj);
-+    NubusBus *bus = &s->bus;
- 
--    s->bus = NUBUS_BUS(qbus_create(TYPE_NUBUS_BUS, DEVICE(s), NULL));
-+    qbus_create_inplace(bus, sizeof(s->bus), TYPE_NUBUS_BUS, DEVICE(s), NULL);
+@@ -21,11 +21,18 @@ static void nubus_bridge_init(Object *obj)
+     qbus_create_inplace(bus, sizeof(s->bus), TYPE_NUBUS_BUS, DEVICE(s), NULL);
  }
  
++static Property nubus_bridge_properties[] = {
++    DEFINE_PROP_UINT32("slot-available-mask", NubusBridge,
++                       bus.slot_available_mask, 0xffff),
++    DEFINE_PROP_END_OF_LIST()
++};
++
  static void nubus_bridge_class_init(ObjectClass *klass, void *data)
-diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
-index 2c83e7f7b8..cf9a585a91 100644
---- a/include/hw/nubus/nubus.h
-+++ b/include/hw/nubus/nubus.h
-@@ -62,7 +62,7 @@ struct NubusDevice {
- struct NubusBridge {
-     SysBusDevice parent_obj;
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
  
--    NubusBus *bus;
-+    NubusBus bus;
- };
+     dc->fw_name = "nubus";
++    device_class_set_props(dc, nubus_bridge_properties);
+ }
  
- #endif
+ static const TypeInfo nubus_bridge_info = {
 -- 
 2.20.1
 
