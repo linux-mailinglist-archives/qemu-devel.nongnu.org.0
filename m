@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 087FA40D24B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 06:20:15 +0200 (CEST)
-Received: from localhost ([::1]:56996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 388F440D240
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 06:16:16 +0200 (CEST)
+Received: from localhost ([::1]:49804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQisg-00023w-0R
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 00:20:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35146)
+	id 1mQiop-0005aU-9n
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 00:16:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQijE-0007PR-HW
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:10:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34318)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQijG-0007Y0-Lk
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:10:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQijC-0000kI-OK
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:10:28 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQijF-0000lx-0F
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:10:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631765426;
+ s=mimecast20190719; t=1631765428;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C5bnYvaVaZR3Rc4sd0Frx86BC+9YsKCE/Qfue57FWLY=;
- b=ge5+of7E0aVieBOIjxQa974Nw6mHeZxTMj4Nq1sZTQSLoOhoT9VSyewzZNVWxqHVwYsrsm
- bUcaguHsWbSov8hgAdJQYu+LO+Q6eF+ni9tnlaI1xMVeEE7zDrmQUzY/cy2EdCIirFIgVx
- kUN+c0VGwo3KLdA1+ZHSfwT2+0i8IvQ=
+ bh=EXSMN2cISA4KkMPi9qx2K1SzmOnDUsccxCFDZczj9FU=;
+ b=SHmdimpeVMwiB3nU0wI9El3R7/qYWwmuTDuYfUzCwbuvJnFU0NxmfmXzxCt+XhNQqZ0LmR
+ peZk3pv/VXFthvMs4gmZJFoVRMwl67rk0XKsgTQh2ecSfwzFaa6RHH5v4US62GYuwa26pS
+ Cbox0OleDKaZ6p/ShfhLtJxcz9JapK8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-gOvhuztqPVKCQfr9A8AjHQ-1; Thu, 16 Sep 2021 00:10:24 -0400
-X-MC-Unique: gOvhuztqPVKCQfr9A8AjHQ-1
+ us-mta-292-EzWfdtZEOUWlKr3F3evKwg-1; Thu, 16 Sep 2021 00:10:26 -0400
+X-MC-Unique: EzWfdtZEOUWlKr3F3evKwg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3275824FA7;
- Thu, 16 Sep 2021 04:10:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79C09362F8;
+ Thu, 16 Sep 2021 04:10:25 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1F64619C79;
- Thu, 16 Sep 2021 04:10:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 07E511972E;
+ Thu, 16 Sep 2021 04:10:23 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/16] iotests/297: Add 'directory' argument to run_linters
-Date: Thu, 16 Sep 2021 00:09:49 -0400
-Message-Id: <20210916040955.628560-11-jsnow@redhat.com>
+Subject: [PATCH v3 11/16] iotests/297: return error code from run_linters()
+Date: Thu, 16 Sep 2021 00:09:50 -0400
+Message-Id: <20210916040955.628560-12-jsnow@redhat.com>
 In-Reply-To: <20210916040955.628560-1-jsnow@redhat.com>
 References: <20210916040955.628560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -57,11 +57,11 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.39, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,43 +84,63 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow run_linters to work well if it's executed from a different
-directory.
+This turns run_linters() into a bit of a hybrid test; returning non-zero
+on failed execution while also printing diffable information. This is
+done for the benefit of the avocado simple test runner, which will soon
+be attempting to execute this test from a different environment.
+
+(Note: universal_newlines is added to the pylint invocation for type
+consistency with the mypy run -- it's not strictly necessary, but it
+avoids some typing errors caused by our re-use of the 'p' variable.)
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/297 | 3 +++
- 1 file changed, 3 insertions(+)
+ tests/qemu-iotests/297 | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index 08d2b87108..e05c99972e 100755
+index e05c99972e..f9ddfb53a0 100755
 --- a/tests/qemu-iotests/297
 +++ b/tests/qemu-iotests/297
-@@ -66,6 +66,7 @@ def get_test_files(directory: str = '.') -> List[str]:
- 
- def run_linters(
+@@ -68,19 +68,22 @@ def run_linters(
      files: List[str],
-+    directory: str = '.',
+     directory: str = '.',
      env: Optional[Mapping[str, str]] = None,
- ) -> None:
+-) -> None:
++) -> int:
++    ret = 0
  
-@@ -76,6 +77,7 @@ def run_linters(
+     print('=== pylint ===')
+     sys.stdout.flush()
+ 
+     # Todo notes are fine, but fixme's or xxx's should probably just be
      # fixed (in tests, at least)
-     subprocess.run(
+-    subprocess.run(
++    p = subprocess.run(
          ('python3', '-m', 'pylint', '--score=n', '--notes=FIXME,XXX', *files),
-+        cwd=directory,
+         cwd=directory,
          env=env,
          check=False,
++        universal_newlines=True,
      )
-@@ -103,6 +105,7 @@ def run_linters(
-                 '--namespace-packages',
-                 filename,
-             ),
-+            cwd=directory,
-             env=env,
-             check=False,
-             stdout=subprocess.PIPE,
++    ret += p.returncode
+ 
+     print('=== mypy ===')
+     sys.stdout.flush()
+@@ -113,9 +116,12 @@ def run_linters(
+             universal_newlines=True
+         )
+ 
++        ret += p.returncode
+         if p.returncode != 0:
+             print(p.stdout)
+ 
++    return ret
++
+ 
+ def main() -> None:
+     for linter in ('pylint-3', 'mypy'):
 -- 
 2.31.1
 
