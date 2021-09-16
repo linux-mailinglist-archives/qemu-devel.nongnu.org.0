@@ -2,79 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E5F640DC8D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 16:15:44 +0200 (CEST)
-Received: from localhost ([::1]:33546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 507EC40DC95
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 16:19:29 +0200 (CEST)
+Received: from localhost ([::1]:41622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQsAx-0006Bl-JV
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 10:15:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47738)
+	id 1mQsEa-0003J2-DY
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 10:19:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQs3d-0004eB-NE
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 10:08:09 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:41756)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQs3Z-0003ds-70
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 10:08:09 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id w29so9694070wra.8
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 07:08:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9OcG9R46gWROcs84De+kGo7pBwcho3/LbxQ2XLKdnIc=;
- b=Iy9+8W9ypaW9PnroEXdrcgexwbA6VJxtTTkdPvB21LCv1rdn5jLH1eLdDYhBZ8Lcmx
- fG54wwmJGi0NoOiMO1oNzr2ticjZYrSSz7IUuhC39KOfaumcuvWKjOOHiF4CkbMx4Ovc
- 8hfJYgXIAEA6gW8Jut03JYKcNdphCi1XaymaEVrdR+qKBr09KrWsnV7Kbg/exnClN2Og
- pZdYrLTLzU52QNwMP6NKBsu34j6UNNrlJNASL0VCZPfOq0gz5nMExGHrxqBcbj0MvD1T
- uuj7d2wZl9ByhYtieFDx7G56FhESYTeiXw57B43LqZr/HPm+aBfglq5d0uKK1FMOCNvi
- eO6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9OcG9R46gWROcs84De+kGo7pBwcho3/LbxQ2XLKdnIc=;
- b=LC46osCZaRdHjvJN1tXFx2Of05bzNkPbAiRA6iBnurEVl06DcTXC5NykLEW7AP3BuL
- YiblXT3S+3DnH3I3jtTpxWHtZohn+AsKqfi7vFGdQOpblL7VCzKUWicy/dVCgYMu0uo2
- uUEHXPgS619ysGQxzV00YyTZ0Jy+fUgnkgNCwpXuGx/Cwqn0pk1qOfQmzQHye3jNUis/
- EBba+Ni75eDCgEjYdnSyGR0j8HqqW4ensMjcHmIGJ3M8B7nH7+sSTlb4NfrCd8tnI6BF
- 40Xo3ZsvP3rgx8c9HptwjrzuMw77Xdx6E+/1MyV+NxespqHSjngzO/O5bNMsRfwqBtev
- hHtQ==
-X-Gm-Message-State: AOAM531PX9GPuWY65Rx/+q6PcXOkr+ynXefkCUVUGeK1H/My8UV/24hW
- Apfu6j7E5g9iLQz1GtBur8dDRZpt7usPrTlorbfgJw==
-X-Google-Smtp-Source: ABdhPJxn9ifbAAN4VNXIcXwO4lbMBCEhxXoN/55nzepz8N4dR2qw/kIAY3F9OBGqa2KL8hXl0n3ZjiolnvSDkjEAHY4=
-X-Received: by 2002:adf:fb91:: with SMTP id a17mr6175060wrr.376.1631801283779; 
- Thu, 16 Sep 2021 07:08:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mQs5z-0000WY-Oo; Thu, 16 Sep 2021 10:10:35 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:57531)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mQs5x-0005nD-0H; Thu, 16 Sep 2021 10:10:35 -0400
+Received: from quad ([82.142.27.6]) by mrelayeu.kundenserver.de (mreue107
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1N3KDM-1mqpF91k4w-010I5D; Thu, 16
+ Sep 2021 16:10:29 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/10] Trivial branch for 6.2 patches
+Date: Thu, 16 Sep 2021 16:10:16 +0200
+Message-Id: <20210916141026.1174822-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210913161304.3805652-1-clg@kaod.org>
- <20210913161304.3805652-15-clg@kaod.org>
- <88c26520-6b87-e7a2-ac78-c1c92477c814@kaod.org>
- <BBC4A4E0-651C-41DB-81DE-1F6D86AABAB1@fb.com>
- <CACPK8Xdey9_x-ZN1JbgFyTrW59EapH4xcqYbyNQxyQ5t0uWPvw@mail.gmail.com>
- <CAFEAcA8ntPE3GkTNU8bSBhCWzk_jdH4QR1kDgwo6deQ+T1iOKw@mail.gmail.com>
- <1949e204-1bce-f15b-553b-1b42b41e3e08@linaro.org>
- <d00d7eeb-a50c-c039-046c-7749fde25af8@kaod.org>
- <1d6fb312-ab21-ca9c-d7ec-1043ccc65b10@amsat.org>
- <7ae560b5-e719-0b6d-1fdc-b231af9d6a81@kaod.org>
-In-Reply-To: <7ae560b5-e719-0b6d-1fdc-b231af9d6a81@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Sep 2021 15:07:12 +0100
-Message-ID: <CAFEAcA__dFt-WjNdazA7eVK88uLnXzkQ+mKp1Jq6dM0va+uyLQ@mail.gmail.com>
-Subject: Re: [PULL 14/14] hw/arm/aspeed: Add Fuji machine type
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Provags-ID: V03:K1:Wpq0bRMF3+P84rb+hJlwu9x/zcLHnK/WIAjQkObOb7JQYS3h86g
+ uwFKcgzv8I4JL8g9UgZTApd9qkfgW+14qKS02mVtpfASu1fI9r2x7dQWeeTiJCIjfUpDLN2
+ +VfwVK1iLTdC1q/pDgeEjSaP/8rFcBJ/Zp9ygjgVaAOrWxjeZ+8a00Xqr+49VBtJ/UCjn9D
+ LMkO6qFFNZrdRX+lJAV5g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1eJwSLzp7Ic=:S8i95Pck8d1Q0xnqO5pUhg
+ /gTsUIGLil1qpGOMpDhbYjQbs+u7NtpZtnlIvFhI/e3TniwUbfbTbgzX2OXdcKCRl3AErJE0x
+ Uivm3vCd0pzQuh5+v2mAhk66I0MetBxhefknFc57/yy5yqq3NNxseNa9G67026tHqWNmLfmlK
+ kgdIbdsp8BDsjNXkZSzyL17mN8I4GKVJrwMIFkrs+yVn1Kiid6zbK0/8vrt6HaF0ShEWtvXoq
+ tvT9mmnD5UqRTTuK5qfF+CATJymfawZ/eHBSybR4htpFMMeWQaKHSdSKAnl8J+RSTNOSZkYgI
+ DjRwMrN6qbAIsB4kQ9yv3UjZogvg6bBwBecZrJFzcsfJSM50cq89GVrHMYBUg1C+CZPzX7uhr
+ v/gTW3mjdlmvuSMHPyzVucCzfHie1QevPd/JQHtE3R7dTc7G+PtJGEi6c/v/fJYz2kSvQDBTP
+ GH556nngD9nsCvyti7SBTbs3j8IveZfr+H4s2THcrzFrJOowju9N4+zBsJX5CgdXmqhkh0Ua/
+ NRv0vxQN8DV8rvHGWTXnib0Nn7ZUxZgWrsNldOhz90KLcBCqosHjB2Km9RTtws67W8BAWBTGq
+ 6tWqPgoMV/+4yfjtADtbZXZRgQgUwz6O2gw9uraytvESZPjz8IhX/AsuHgFkWFXitfBfhoX4Q
+ mf7X85i4e06BWQAAQRIvZbAeJkRe6zAY981UYNa6PFj2opId1Pf6PAwiNCAdkExpSRskzs54l
+ kidPRvwic1+/JjdxIC9saXJdUU2FrczGthLgDw==
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,27 +65,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- Peter Delevoryas <pdel@fb.com>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Sept 2021 at 15:06, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
-> OK. The patch I had prepared was a bit more explicit :
->
->      /* On 32-bit hosts, lower RAM to 1G because of 2047 MB limit */
->      mc->default_ram_size =3D (HOST_LONG_BITS =3D=3D 32 ? 1 : 2) * GiB;
->
-> I even have a version with a warn_report() since 32-bit hosts are
-> not that common these days.
-
-Using warn_report is likely to get the patch bounced because
-it adds a new warning to the 'make check' output on 32-bit hosts,
-unless you take special care to suppress it when running in qtest...
-
--- PMM
+The following changes since commit 831aaf24967a49d7750090b9dcfd6bf356f16529=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/marcandre/tags/misc-pull-request' i=
+nto staging (2021-09-14 18:14:56 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://github.com/vivier/qemu.git tags/trivial-branch-for-6.2-pull-request=
+=0D
+=0D
+for you to fetch changes up to 9ac200acce8c27ef44da31246f337a2454e54e0d:=0D
+=0D
+  target/sparc: Make sparc_cpu_dump_state() static (2021-09-16 14:52:46 +02=
+00)=0D
+=0D
+----------------------------------------------------------------=0D
+Trivial patches pull request 20210916=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+AlexChen (1):=0D
+  util: Remove redundant checks in the openpty()=0D
+=0D
+Cai Huoqing (2):=0D
+  intel_iommu: Fix typo in comments=0D
+  hw/vfio: Fix typo in comments=0D
+=0D
+John Arbuckle (1):=0D
+  configure: add missing pc-bios/qemu_vga.ndrv symlink in build tree=0D
+=0D
+Michael Tokarev (2):=0D
+  spelling: sytem =3D> system=0D
+  target/i386: spelling: occured=3D>occurred, mininum=3D>minimum=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  hw/i386/acpi-build: Fix a typo=0D
+  qdev: Complete qdev_init_gpio_out() documentation=0D
+  target/sparc: Make sparc_cpu_dump_state() static=0D
+=0D
+Stefan Weil (1):=0D
+  target/avr: Fix compiler errors (-Werror=3Denum-conversion)=0D
+=0D
+ accel/kvm/kvm-all.c             | 2 +-=0D
+ block/file-posix.c              | 2 +-=0D
+ configure                       | 4 +++-=0D
+ hw/i386/acpi-build.c            | 6 +++---=0D
+ hw/i386/intel_iommu.c           | 8 ++++----=0D
+ hw/vfio/igd.c                   | 2 +-=0D
+ hw/vfio/pci-quirks.c            | 2 +-=0D
+ hw/vfio/pci.c                   | 6 +++---=0D
+ hw/vfio/platform.c              | 2 +-=0D
+ include/hw/qdev-core.h          | 4 ++++=0D
+ target/avr/translate.c          | 8 +++-----=0D
+ target/i386/cpu-sysemu.c        | 2 +-=0D
+ target/sparc/cpu.c              | 2 +-=0D
+ target/sparc/cpu.h              | 1 -=0D
+ tools/virtiofsd/fuse_lowlevel.h | 4 ++--=0D
+ util/qemu-openpty.c             | 7 +++----=0D
+ 16 files changed, 32 insertions(+), 30 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
