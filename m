@@ -2,60 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4148840E794
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 19:33:46 +0200 (CEST)
-Received: from localhost ([::1]:42186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD3B40E7B4
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 19:49:53 +0200 (CEST)
+Received: from localhost ([::1]:47570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQvGa-00034c-UC
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 13:33:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41450)
+	id 1mQvWB-000879-R1
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 13:49:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQvF2-0002CH-M2
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 13:32:09 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:32500)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQvTB-0006gA-W8
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 13:46:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQvEy-0004UX-Dd
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 13:32:08 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-71-3tdK28RhMDSoS-K8BHJ8Kw-1; Thu, 16 Sep 2021 13:31:51 -0400
-X-MC-Unique: 3tdK28RhMDSoS-K8BHJ8Kw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E47AA100C662;
- Thu, 16 Sep 2021 17:31:49 +0000 (UTC)
-Received: from bahia.huguette (unknown [10.39.192.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8C33A10023AB;
- Thu, 16 Sep 2021 17:31:48 +0000 (UTC)
-Date: Thu, 16 Sep 2021 19:31:46 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v6 3/6] spapr: introduce spapr_numa_associativity_reset()
-Message-ID: <20210916193146.6961a0c6@bahia.huguette>
-In-Reply-To: <0dc516f6-8504-6d65-93f7-c8cd0de3afa2@gmail.com>
-References: <20210910195539.797170-1-danielhb413@gmail.com>
- <20210910195539.797170-4-danielhb413@gmail.com>
- <20210914135514.1896ea3e@bahia.huguette>
- <3bd59a2f-5c3b-f062-4a6c-abf34340000d@gmail.com>
- <0dc516f6-8504-6d65-93f7-c8cd0de3afa2@gmail.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mQvT7-0000L1-5E
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 13:46:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631814399;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=yszteKjXsUw+tEeK30ja5G95BQT5b27QdvetnjlzBRA=;
+ b=cWpEbRc8DOLe/uuOrMGqgbhFDuc9kqo8rjyM5YC+tUeaHsjv4J4Lv3jeVvzLogK7fyh1ry
+ 01zgN+rimIBF7v7Q7qzbrHQh3pwYhvSKRPdc3g//um3xptM7X/Cgmb39obfrHoWKLQAc5H
+ zEe2U0CYHpzu4dULVzoewyfKeEMZvRc=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-pv183pUgMcaeLTmVstd4cQ-1; Thu, 16 Sep 2021 13:46:36 -0400
+X-MC-Unique: pv183pUgMcaeLTmVstd4cQ-1
+Received: by mail-ot1-f71.google.com with SMTP id
+ i11-20020a9d53cb000000b00538e5ca17d6so34891302oth.18
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 10:46:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yszteKjXsUw+tEeK30ja5G95BQT5b27QdvetnjlzBRA=;
+ b=8HExQxTWjvXqn630n0RDVVBrU2Sm1ebNKS4sKNv6Vx9t8eviUwoyuSzi87ZM1+8+fQ
+ Wsm/iaZD3r3wtfCvGTSWH5L1GqiBr7ZgUuDO2d0UOnni22+vEC/ZS7PRlQEh0/CnB+hy
+ GLJdccq3MXQCncaVLH04YYgK/A2cWfvgZsw2Z4YKWinpxnOKhghIleSy86mLiXTSo0fR
+ IKXZozCEiBRQ94btOeOZ7GJ0rxaIjRHr7BToy7DF6ArEgkctmr3mGssH/YwhG6DZKRyU
+ wEY2D26nVFwdRHRmerB5i5rdc0iR62o8L/OlzARJvJH0RundybWbhJQ67xNMeS1odZTQ
+ EpDQ==
+X-Gm-Message-State: AOAM533ahBw+xNal6K+l+mCsl6OL1etEVUl7Dql64074dy7LomFwJ263
+ 5e7kKWH/LJTvPsoPbgQ2sIjVtDHeyYA1+1vAgNxOx1GlQwDhN1WRlkdCD2vd10CVeU84xGgUl+4
+ n2S4kKaIThlGHE4d1m+wPB+5iuqdOOkw=
+X-Received: by 2002:a05:6830:2685:: with SMTP id
+ l5mr2057446otu.129.1631814395838; 
+ Thu, 16 Sep 2021 10:46:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxlywDrcxKZgL0uSd89n1gjrEtH7Bwv/aCnbtYLfIwfo7dD2y3oTVYL7ll9Txop2dMcoU1X5PdxHo7nIN6XYaI=
+X-Received: by 2002:a05:6830:2685:: with SMTP id
+ l5mr2057425otu.129.1631814395614; 
+ Thu, 16 Sep 2021 10:46:35 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+References: <20210915154031.321592-1-jsnow@redhat.com>
+ <20210915154031.321592-2-jsnow@redhat.com>
+ <YUM/n/QWlxLvp3lw@redhat.com>
+ <CAFn=p-bNB9s8LPg_Y6SjD-KPdn7boauphTb8iqBin_evxRRJqw@mail.gmail.com>
+ <YUNlGvkSDtynuH7N@redhat.com>
+ <CAFn=p-YX7jFqU0g_DAwD3zxC3LxDVQjPRpjdpRcQ6Fy7GeZJKA@mail.gmail.com>
+In-Reply-To: <CAFn=p-YX7jFqU0g_DAwD3zxC3LxDVQjPRpjdpRcQ6Fy7GeZJKA@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 16 Sep 2021 13:46:24 -0400
+Message-ID: <CAFn=p-YpMFs0O+KwA1q9h2WHk1-swSr0uZ-kBwehvRD0HGTMww@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] python: Update for pylint 2.10
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000063e8ba05cc206549"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,293 +93,348 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ G S Niteesh Babu <niteesh.gs@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Sep 2021 22:32:13 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+--00000000000063e8ba05cc206549
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Greg,
->=20
->=20
-> On 9/14/21 16:58, Daniel Henrique Barboza wrote:
-> >=20
-> >=20
-> > On 9/14/21 08:55, Greg Kurz wrote:
-> >> On Fri, 10 Sep 2021 16:55:36 -0300
-> >> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
-> >>
->=20
-> [...]
->=20
->=20
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> >>> @@ -167,6 +167,11 @@ static void spapr_numa_FORM1_affinity_init(Spapr=
-MachineState *spapr,
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int nb_numa_nodes =3D machine->numa_st=
-ate->num_nodes;
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int i, j, max_nodes_with_gpus;
-> >>> +=C2=A0=C2=A0=C2=A0 /* init FORM1_assoc_array */
-> >>> +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < MAX_NODES + NVGPU_MAX_NUM; i++)=
- {
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->FORM1_assoc_array[=
-i] =3D g_new0(uint32_t, NUMA_ASSOC_SIZE);
-> >>
-> >> Why dynamic allocation since you have fixed size ?
-> >=20
-> > If I use static allocation the C compiler complains that I can't assign=
- a
-> > uint32_t** pointer to a uint32_t[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_=
-SIZE]
-> > array type.
-> >=20
-> > And given that the FORM2 array is a [MAX_NODES + NVGPU_MAX_NUM][2] arra=
-y, the
-> > way I worked around that here is to use dynamic allocation. Then C cons=
-iders valid
-> > to use numa_assoc_array as an uint32_t** pointer for both FORM1 and FOR=
-M2
-> > 2D arrays. I'm fairly certain that there might be a way of doing static=
- allocation
-> > and keeping the uint32_t** pointer as is, but didn't find any. Tips wel=
-come :D
-> >=20
-> > An alternative that I considered, without the need for this dynamic all=
-ocation hack,
-> > is to make both FORM1 and FORM2 data structures the same size (i.e.
-> > an [MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE] uint32_t array) and the=
-n numa_assoc_array
-> > can be a pointer of the same array type for both. Since we're controlli=
-ng FORM1 and
-> > FORM2 sizes separately inside the functions this would work. The downsi=
-de is that
-> > FORM2 2D array would be bigger than necessary.
->=20
-> I took a look and didn't find any neat way of doing a pointer switch
-> between 2 static arrays without either allocating dynamic mem on the
-> pointer and then g_memdup'ing it, or make all arrays the same size
-> (i.e. numa_assoc_array would also be a statically allocated array
-> with FORM1 size) and then memcpy() the chosen mode.
->=20
-> I just posted a new version in which I'm not relying on 'numa_assoc_array=
-'.
-> Instead, the DT functions will use a get_associativity() to retrieve
-> the current associativity array based on CAS choice, in a similar
-> manner like it is already done with the array sizes. This also allowed
-> us to get rid of associativity_reset().
->=20
+On Thu, Sep 16, 2021 at 11:40 AM John Snow <jsnow@redhat.com> wrote:
 
+>
+>
+> On Thu, Sep 16, 2021 at 11:39 AM Daniel P. Berrang=C3=A9 <berrange@redhat=
+.com>
+> wrote:
+>
+>> On Thu, Sep 16, 2021 at 09:42:30AM -0400, John Snow wrote:
+>> > On Thu, Sep 16, 2021 at 8:59 AM Daniel P. Berrang=C3=A9 <berrange@redh=
+at.com
+>> >
+>> > wrote:
+>> >
+>> > > On Wed, Sep 15, 2021 at 11:40:31AM -0400, John Snow wrote:
+>> > > > A few new annoyances. Of note is the new warning for an unspecifie=
+d
+>> > > > encoding when opening a text file, which actually does indicate a
+>> > > > potentially real problem; see
+>> > > > https://www.python.org/dev/peps/pep-0597/#motivation
+>> > > >
+>> > > > Use LC_CTYPE to determine an encoding to use for interpreting QEMU=
+'s
+>> > > > terminal output. Note that Python states: "language code and
+>> encoding
+>> > > > may be None if their values cannot be determined" -- use a platfor=
+m
+>> > > > default as a backup.
+>> > > >
+>> > > > Signed-off-by: John Snow <jsnow@redhat.com>
+>> > > > ---
+>> > > >  python/qemu/machine/machine.py | 9 ++++++++-
+>> > > >  python/setup.cfg               | 1 +
+>> > > >  2 files changed, 9 insertions(+), 1 deletion(-)
+>> > > >
+>> > > > diff --git a/python/qemu/machine/machine.py
+>> > > b/python/qemu/machine/machine.py
+>> > > > index a7081b1845..51b6e79a13 100644
+>> > > > --- a/python/qemu/machine/machine.py
+>> > > > +++ b/python/qemu/machine/machine.py
+>> > > > @@ -19,6 +19,7 @@
+>> > > >
+>> > > >  import errno
+>> > > >  from itertools import chain
+>> > > > +import locale
+>> > > >  import logging
+>> > > >  import os
+>> > > >  import shutil
+>> > > > @@ -290,8 +291,14 @@ def get_pid(self) -> Optional[int]:
+>> > > >          return self._subp.pid
+>> > > >
+>> > > >      def _load_io_log(self) -> None:
+>> > > > +        # Assume that the output encoding of QEMU's terminal outp=
+ut
+>> > > > +        # is defined by our locale. If indeterminate, use a
+>> platform
+>> > > default.
+>> > > > +        _, encoding =3D locale.getlocale()
+>> > > > +        if encoding is None:
+>> > > > +            encoding =3D
+>> locale.getpreferredencoding(do_setlocale=3DFalse)
+>> > >
+>> > > Do we really need this getpreferredencoding ?  IIUC, this is a sign
+>> > > that the application is buggy by not calling
+>> > >
+>> > >   locale.setlocale(locale.LC_ALL, '')
+>> > >
+>> > > during its main() method, which I think we can just delegate to the
+>> > > code in question to fix. Missing setlocale will affect everything
+>> > > they run, so doing workarounds in only 1 place is not worth it IMHO
+>> > >
+>> > >
+>> > I genuinely don't know! (And, I try to keep the Python code free from
+>> > assuming Linux as much as I can help it.)
+>> >
+>> > Python's getlocale documentation states: "language code and encoding
+>> may be
+>> > None if their values cannot be determined."
+>> > https://docs.python.org/3/library/locale.html#locale.getlocale
+>> >
+>> > But it is quiet as to the circumstances under which this may happen.
+>> > Browsing the cpython source code, (3.9ish):
+>> >
+>> > ```
+>> > def getlocale(category=3DLC_CTYPE):
+>> >     localename =3D _setlocale(category)
+>> >     if category =3D=3D LC_ALL and ';' in localename:
+>> >         raise TypeError('category LC_ALL is not supported')
+>> >     return _parse_localename(localename)
+>> > ```
+>> > _setlocale is ultimately a call to (I think) _localemodule.c's
+>> > PyLocale_setlocale(PyObject *self, PyObject *args) C function.
+>> > It calls `result =3D setlocale(category, locale)` where the category i=
+s
+>> going
+>> > to be LC_CTYPE, so this should be equivalent to locale(3) (LC_CTYPE,
+>> NULL).
+>> >
+>> > locale(3) says that "The return value is NULL if the request cannot be
+>> > honored."
+>> >
+>> > Python parses that string according to _parse_localename, which in tur=
+n
+>> > calls normalize(localename).
+>> > Normalization looks quite involved, but has a fallback of returning th=
+e
+>> > string verbatim. If the normalized locale string is "C", we return the
+>> > tuple (None, None)!
+>> >
+>> > So I figured there was a non-zero chance that we'd see a value of `Non=
+e`
+>> > here.
+>> >
+>> > Source code is in cpython/Lib/locale.py and
+>> cpython/Modules/_localemodule.c
+>> > if you want to nose around yourself.
+>> >
+>> > I also have no idea how this will all shake out on Windows, so I
+>> decided to
+>> > add the fallback here just in case. (Does the Python package work on
+>> > Windows? I don't know, but I avoid assuming it won't EVER run there...
+>> > Certainly, I have an interest in having the QMP packages I am building
+>> work
+>> > on all platforms.)
+>> >
+>> > Thoughts?
+>>
+>> Well this machine.py is using UNIX domain sockets and FD passing,
+>> so Windows is out of the question.
+>>
+>> I'd be inclined to just keep it simple unless someone reports a
+>> real bug with it.
+>>
+>>
+> What about the case where getlocale finds "C" and can't/won't return an
+> encoding? Is that not a real circumstance?
+>
+> --js
+>
 
-Hi Daniel,
+So, a few things:
 
-I've vaguely started at looking at the new version and it seems
-to look better indeed. Now that KVM Forum 2021 and its too many
-captivating talks are over :-) , I'll try to find some time to
-review.
+(1) machine.py can also use TCP, it doesn't have to use UNIX sockets.
+(2) The FD passing is optional and already checks for the ability to do so
+before it is invoked
+(3) jsnow@scv ~/s/q/python (python-package-pylint-210)> LC_ALL=3D"C" python=
+3
+-c "import locale; print(locale.getlocale());"
+(None, None)
 
-Cheers,
+(4) If you specify an encoding of "None", open() itself does exactly what I
+wrote: getpreferredencoding(do_setlocale=3DFalse)
 
---
-Greg
+I'll drop the manual fallback -- but not because it wasn't actually
+necessary. It just so happens that it's handled for us.
 
->=20
-> Thanks,
->=20
->=20
-> Daniel
->=20
->=20
->=20
-> >=20
-> >=20
-> > I don't have strong opinions about which way to do it, so I'm all ears.
-> >=20
-> >=20
-> > Thanks,
-> >=20
-> >=20
-> > Daniel
-> >=20
-> >=20
-> >=20
-> >>
-> >>> +=C2=A0=C2=A0=C2=A0 }
-> >>> +
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * For all associativity arrays: =
-first position is the size,
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * position MAX_DISTANCE_REF_POIN=
-TS is always the numa_id,
-> >>> @@ -177,8 +182,8 @@ static void spapr_numa_FORM1_affinity_init(SpaprM=
-achineState *spapr,
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * 'i' will be a valid node_id se=
-t by the user.
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < nb_numa_nodes; i++) =
-{
-> >>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->numa_assoc_array[i=
-][0] =3D cpu_to_be32(MAX_DISTANCE_REF_POINTS);
-> >>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->numa_assoc_array[i=
-][MAX_DISTANCE_REF_POINTS] =3D cpu_to_be32(i);
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->FORM1_assoc_array[=
-i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_POINTS);
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->FORM1_assoc_array[=
-i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_be32(i);
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
-> >>> @@ -192,15 +197,15 @@ static void spapr_numa_FORM1_affinity_init(Spap=
-rMachineState *spapr,
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 max_nodes_with_gpus =3D nb_numa_nodes =
-+ NVGPU_MAX_NUM;
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D nb_numa_nodes; i < max_node=
-s_with_gpus; i++) {
-> >>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->numa_assoc_array[i=
-][0] =3D cpu_to_be32(MAX_DISTANCE_REF_POINTS);
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->FORM1_assoc_array[=
-i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_POINTS);
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (j =3D 1; =
-j < MAX_DISTANCE_REF_POINTS; j++) {
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 uint32_t gpu_assoc =3D smc->pre_5_1_assoc_refpoints ?
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SPAPR_GPU_NUMA=
-_ID : cpu_to_be32(i);
-> >>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s=
-papr->numa_assoc_array[i][j] =3D gpu_assoc;
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s=
-papr->FORM1_assoc_array[i][j] =3D gpu_assoc;
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> >>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->numa_assoc_array[i=
-][MAX_DISTANCE_REF_POINTS] =3D cpu_to_be32(i);
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->FORM1_assoc_array[=
-i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_be32(i);
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
-> >>> @@ -227,14 +232,33 @@ void spapr_numa_associativity_init(SpaprMachine=
-State *spapr,
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ma=
-chineState *machine)
-> >>> =C2=A0 {
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr_numa_FORM1_affinity_init(spapr, =
-machine);
-> >>> +
-> >>> +=C2=A0=C2=A0=C2=A0 /*
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Default to FORM1 affinity until CAS. We'l=
-l call affinity_reset()
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * during CAS when we're sure about which NU=
-MA affinity the guest
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * is going to use.
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * This step is a failsafe - guests in the w=
-ild were able to read
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * FORM1 affinity info before CAS for a long=
- time. Since affinity_reset()
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * is just a pointer switch between data tha=
-t was already populated
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * here, this is an acceptable overhead to b=
-e on the safer side.
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
-> >>> +=C2=A0=C2=A0=C2=A0 spapr->numa_assoc_array =3D spapr->FORM1_assoc_ar=
-ray;
-> >>
-> >> The right way to do that is to call spapr_numa_associativity_reset() f=
-rom
-> >> spapr_machine_reset() because we want to revert to FORM1 each time the
-> >> guest is rebooted.
-> >>
-> >>> +}
-> >>> +
-> >>> +void spapr_numa_associativity_reset(SpaprMachineState *spapr)
-> >>> +{
-> >>> +=C2=A0=C2=A0=C2=A0 /* No FORM2 affinity implemented yet */
-> >>
-> >> This seems quite obvious at this point, not sure the comment helps.
-> >>
-> >>> +=C2=A0=C2=A0=C2=A0 spapr->numa_assoc_array =3D spapr->FORM1_assoc_ar=
-ray;
-> >>> =C2=A0 }
-> >>> =C2=A0 void spapr_numa_write_associativity_dt(SpaprMachineState *spap=
-r, void *fdt,
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 int offset, int nodeid)
-> >>> =C2=A0 {
-> >>> +=C2=A0=C2=A0=C2=A0 /* Hardcode the size of FORM1 associativity array=
- for now */
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 _FDT((fdt_setprop(fdt, offset, "ibm,as=
-sociativity",
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr=
-->numa_assoc_array[nodeid],
-> >>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(spapr->=
-numa_assoc_array[nodeid]))));
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NUMA_ASSOC_SIZ=
-E * sizeof(uint32_t))));
-> >>
-> >> Rather than doing this temporary change that gets undone in
-> >> a later patch, I suggest you introduce get_numa_assoc_size()
-> >> in a preliminary patch and use it here already :
-> >>
-> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NUMA_ASSOC_SIZE *=
- sizeof(uint32_t))));
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 get_numa_assoc_si=
-ze(spapr) * sizeof(uint32_t))));
-> >>
-> >> This will simplify the reviewing.
-> >>
-> >>> =C2=A0 }
-> >>> =C2=A0 static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *=
-spapr,
-> >>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> >>> index 637652ad16..8a9490f0bf 100644
-> >>> --- a/include/hw/ppc/spapr.h
-> >>> +++ b/include/hw/ppc/spapr.h
-> >>> @@ -249,7 +249,8 @@ struct SpaprMachineState {
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned gpu_numa_id;
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SpaprTpmProxy *tpm_proxy;
-> >>> -=C2=A0=C2=A0=C2=A0 uint32_t numa_assoc_array[MAX_NODES + NVGPU_MAX_N=
-UM][NUMA_ASSOC_SIZE];
-> >>> +=C2=A0=C2=A0=C2=A0 uint32_t *FORM1_assoc_array[MAX_NODES + NVGPU_MAX=
-_NUM];
-> >>
-> >> As said above, I really don't see the point in not having :
-> >>
-> >> =C2=A0=C2=A0=C2=A0=C2=A0 uint32_t *FORM1_assoc_array[MAX_NODES + NVGPU=
-_MAX_NUM][NUMA_ASSOC_SIZE];
-> >>
-> >>> +=C2=A0=C2=A0=C2=A0 uint32_t **numa_assoc_array;
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Error *fwnmi_migration_blocker;
-> >>> =C2=A0 };
-> >>> diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.=
-h
-> >>> index 6f9f02d3de..ccf3e4eae8 100644
-> >>> --- a/include/hw/ppc/spapr_numa.h
-> >>> +++ b/include/hw/ppc/spapr_numa.h
-> >>> @@ -24,6 +24,7 @@
-> >>> =C2=A0=C2=A0 */
-> >>> =C2=A0 void spapr_numa_associativity_init(SpaprMachineState *spapr,
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ma=
-chineState *machine);
-> >>> +void spapr_numa_associativity_reset(SpaprMachineState *spapr);
-> >>> =C2=A0 void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *=
-fdt, int rtas);
-> >>> =C2=A0 void spapr_numa_write_associativity_dt(SpaprMachineState *spap=
-r, void *fdt,
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 int offset, int nodeid);
-> >>
+--js
+
+--00000000000063e8ba05cc206549
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 16, 2021 at 11:40 AM John=
+ Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"l=
+tr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"l=
+tr" class=3D"gmail_attr">On Thu, Sep 16, 2021 at 11:39 AM Daniel P. Berrang=
+=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com" target=3D"_blank">berrang=
+e@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">On Thu, Sep 16, 2021 at 09:42:30AM -0400, John Snow wrote:<br>
+&gt; On Thu, Sep 16, 2021 at 8:59 AM Daniel P. Berrang=C3=A9 &lt;<a href=3D=
+"mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a>&gt;<=
+br>
+&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; On Wed, Sep 15, 2021 at 11:40:31AM -0400, John Snow wrote:<br>
+&gt; &gt; &gt; A few new annoyances. Of note is the new warning for an unsp=
+ecified<br>
+&gt; &gt; &gt; encoding when opening a text file, which actually does indic=
+ate a<br>
+&gt; &gt; &gt; potentially real problem; see<br>
+&gt; &gt; &gt; <a href=3D"https://www.python.org/dev/peps/pep-0597/#motivat=
+ion" rel=3D"noreferrer" target=3D"_blank">https://www.python.org/dev/peps/p=
+ep-0597/#motivation</a><br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Use LC_CTYPE to determine an encoding to use for interpretin=
+g QEMU&#39;s<br>
+&gt; &gt; &gt; terminal output. Note that Python states: &quot;language cod=
+e and encoding<br>
+&gt; &gt; &gt; may be None if their values cannot be determined&quot; -- us=
+e a platform<br>
+&gt; &gt; &gt; default as a backup.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.=
+com" target=3D"_blank">jsnow@redhat.com</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt;=C2=A0 python/qemu/machine/machine.py | 9 ++++++++-<br>
+&gt; &gt; &gt;=C2=A0 python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 1 +<br>
+&gt; &gt; &gt;=C2=A0 2 files changed, 9 insertions(+), 1 deletion(-)<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; diff --git a/python/qemu/machine/machine.py<br>
+&gt; &gt; b/python/qemu/machine/machine.py<br>
+&gt; &gt; &gt; index a7081b1845..51b6e79a13 100644<br>
+&gt; &gt; &gt; --- a/python/qemu/machine/machine.py<br>
+&gt; &gt; &gt; +++ b/python/qemu/machine/machine.py<br>
+&gt; &gt; &gt; @@ -19,6 +19,7 @@<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 import errno<br>
+&gt; &gt; &gt;=C2=A0 from itertools import chain<br>
+&gt; &gt; &gt; +import locale<br>
+&gt; &gt; &gt;=C2=A0 import logging<br>
+&gt; &gt; &gt;=C2=A0 import os<br>
+&gt; &gt; &gt;=C2=A0 import shutil<br>
+&gt; &gt; &gt; @@ -290,8 +291,14 @@ def get_pid(self) -&gt; Optional[int]:<=
+br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return self._subp.pid<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 def _load_io_log(self) -&gt; None:<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Assume that the output encodi=
+ng of QEMU&#39;s terminal output<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # is defined by our locale. If =
+indeterminate, use a platform<br>
+&gt; &gt; default.<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 _, encoding =3D locale.getlocal=
+e()<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if encoding is None:<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 encoding =3D loca=
+le.getpreferredencoding(do_setlocale=3DFalse)<br>
+&gt; &gt;<br>
+&gt; &gt; Do we really need this getpreferredencoding ?=C2=A0 IIUC, this is=
+ a sign<br>
+&gt; &gt; that the application is buggy by not calling<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0locale.setlocale(locale.LC_ALL, &#39;&#39;)<br>
+&gt; &gt;<br>
+&gt; &gt; during its main() method, which I think we can just delegate to t=
+he<br>
+&gt; &gt; code in question to fix. Missing setlocale will affect everything=
+<br>
+&gt; &gt; they run, so doing workarounds in only 1 place is not worth it IM=
+HO<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; I genuinely don&#39;t know! (And, I try to keep the Python code free f=
+rom<br>
+&gt; assuming Linux as much as I can help it.)<br>
+&gt; <br>
+&gt; Python&#39;s getlocale documentation states: &quot;language code and e=
+ncoding may be<br>
+&gt; None if their values cannot be determined.&quot;<br>
+&gt; <a href=3D"https://docs.python.org/3/library/locale.html#locale.getloc=
+ale" rel=3D"noreferrer" target=3D"_blank">https://docs.python.org/3/library=
+/locale.html#locale.getlocale</a><br>
+&gt; <br>
+&gt; But it is quiet as to the circumstances under which this may happen.<b=
+r>
+&gt; Browsing the cpython source code, (3.9ish):<br>
+&gt; <br>
+&gt; ```<br>
+&gt; def getlocale(category=3DLC_CTYPE):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0localename =3D _setlocale(category)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0if category =3D=3D LC_ALL and &#39;;&#39; in locale=
+name:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise TypeError(&#39;category LC_ALL =
+is not supported&#39;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0return _parse_localename(localename)<br>
+&gt; ```<br>
+&gt; _setlocale is ultimately a call to (I think) _localemodule.c&#39;s<br>
+&gt; PyLocale_setlocale(PyObject *self, PyObject *args) C function.<br>
+&gt; It calls `result =3D setlocale(category, locale)` where the category i=
+s going<br>
+&gt; to be LC_CTYPE, so this should be equivalent to locale(3) (LC_CTYPE, N=
+ULL).<br>
+&gt; <br>
+&gt; locale(3) says that &quot;The return value is NULL if the request cann=
+ot be<br>
+&gt; honored.&quot;<br>
+&gt; <br>
+&gt; Python parses that string according to _parse_localename, which in tur=
+n<br>
+&gt; calls normalize(localename).<br>
+&gt; Normalization looks quite involved, but has a fallback of returning th=
+e<br>
+&gt; string verbatim. If the normalized locale string is &quot;C&quot;, we =
+return the<br>
+&gt; tuple (None, None)!<br>
+&gt; <br>
+&gt; So I figured there was a non-zero chance that we&#39;d see a value of =
+`None`<br>
+&gt; here.<br>
+&gt; <br>
+&gt; Source code is in cpython/Lib/locale.py and cpython/Modules/_localemod=
+ule.c<br>
+&gt; if you want to nose around yourself.<br>
+&gt; <br>
+&gt; I also have no idea how this will all shake out on Windows, so I decid=
+ed to<br>
+&gt; add the fallback here just in case. (Does the Python package work on<b=
+r>
+&gt; Windows? I don&#39;t know, but I avoid assuming it won&#39;t EVER run =
+there...<br>
+&gt; Certainly, I have an interest in having the QMP packages I am building=
+ work<br>
+&gt; on all platforms.)<br>
+&gt; <br>
+&gt; Thoughts?<br>
+<br>
+Well this machine.py is using UNIX domain sockets and FD passing,<br>
+so Windows is out of the question.<br>
+<br>
+I&#39;d be inclined to just keep it simple unless someone reports a<br>
+real bug with it.<br>
+<br></blockquote><div><br></div><div>What about the case where getlocale fi=
+nds &quot;C&quot; and can&#39;t/won&#39;t return an encoding? Is that not a=
+ real circumstance?</div><div><br></div><div>--js<br></div></div></div></bl=
+ockquote><div><br></div><div>So, a few things:</div><div><br></div><div>(1)=
+ machine.py can also use TCP, it doesn&#39;t have to use UNIX sockets.<br><=
+/div><div>(2) The FD passing is optional and already checks for the ability=
+ to do so before it is invoked</div><div>(3) jsnow@scv ~/s/q/python (python=
+-package-pylint-210)&gt; LC_ALL=3D&quot;C&quot; python3 -c &quot;import loc=
+ale; print(locale.getlocale());&quot;<br>(None, None)<br></div><div><br></d=
+iv><div>(4) If you specify an encoding of &quot;None&quot;, open() itself d=
+oes exactly what I wrote: getpreferredencoding(do_setlocale=3DFalse)</div><=
+div><br></div><div>I&#39;ll drop the manual fallback -- but not because it =
+wasn&#39;t actually necessary. It just so happens that it&#39;s handled for=
+ us.<br></div><br><div>--js<br></div></div></div>
+
+--00000000000063e8ba05cc206549--
 
 
