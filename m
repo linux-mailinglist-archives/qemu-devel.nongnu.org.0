@@ -2,87 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A2C240DBF4
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 15:58:19 +0200 (CEST)
-Received: from localhost ([::1]:53890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5087140DC45
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 16:03:40 +0200 (CEST)
+Received: from localhost ([::1]:35034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQru6-00062D-53
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 09:58:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38380)
+	id 1mQrzH-0004Sg-3Q
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 10:03:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQrpd-0008BG-02; Thu, 16 Sep 2021 09:53:41 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54795)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQrpZ-0007wc-8P; Thu, 16 Sep 2021 09:53:40 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id s24so4879068wmh.4;
- Thu, 16 Sep 2021 06:53:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Xs41x05dcFcumFdYZ0blpNEK9yloXwu3R4GFRqVabY4=;
- b=TiJyuy6IINYsgd3rMEtD5ePunciL8UMKwvDuq2ccFJ+fRiE47AE1+SkSGZqa/QxetU
- fcIpQFxjCqE4CwTu8+xk1RyGHMg8i19JT3xXvOucw6+AiaYIf6yVvNIrNd3NWVpOi8Hx
- VywRqw656eBmvuGNioJaOervTDxGT47nPfb3rzq/5XcWS2shZLYZ1+hhdptqJckW4z5B
- u+7wa9QUtlhMchiZjKo9Yg2jQQ8yOzCkFYx+7nEX0d2hk8VT1jWNCtWunmCrcpcJKd7q
- kmK7GCp5XNCMpFV4d24YlZ81zNwtfr/iHA15K5nylue+CAOoexwgxm8AvdMI2wUMl3Iw
- iC7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Xs41x05dcFcumFdYZ0blpNEK9yloXwu3R4GFRqVabY4=;
- b=p+Ffr8wuAQ0L4sy1ruW7tw6aZDBRXCBcE8yal2A5tmi0Zte409CEzHKC60I+7wC6qQ
- Lk0oxzYey2bUH65f0e0Z8ouLjkeGF/g2jIrvLM8ttReY9rCXaU9XjlLDWOKYh3neTsvU
- HjtCXY1fnNWWwyF5KWJ8SpUEf7cEZLjaajkhMva6l885G+4fq3o2XVfMSyrnIMCoxQGW
- gkpGHNmRsRdGY3xS9uncOjMz7mXOJ/F7W82+GcpemY0BsG/5nbrr167zdIDGWmuvZyND
- 9t2R59+GsICGxhca/9TvrajqX/laC6JkKxbtD50dyhwh95YCG/ebh4Ow2r1lmNwcINZ6
- ZtNA==
-X-Gm-Message-State: AOAM531Dd4HLkl3WWdKuHL/vBUMtGO1umXCCKNSzUItzaXX810y5uGxy
- x2ZMsk3pOYAj9dskRXeIHoc=
-X-Google-Smtp-Source: ABdhPJxQKdRTYhK/oMm3QSol3qeb4fP2k4cXAJtmeLhuDmdK5EllGu+jGXS5O3mGGKlma4/Itxs9Cw==
-X-Received: by 2002:a1c:a913:: with SMTP id s19mr5166201wme.26.1631800415450; 
- Thu, 16 Sep 2021 06:53:35 -0700 (PDT)
-Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
- [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id o7sm3885580wro.45.2021.09.16.06.53.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 06:53:34 -0700 (PDT)
-Subject: Re: [PULL 14/14] hw/arm/aspeed: Add Fuji machine type
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>
-References: <20210913161304.3805652-1-clg@kaod.org>
- <20210913161304.3805652-15-clg@kaod.org>
- <88c26520-6b87-e7a2-ac78-c1c92477c814@kaod.org>
- <BBC4A4E0-651C-41DB-81DE-1F6D86AABAB1@fb.com>
- <CACPK8Xdey9_x-ZN1JbgFyTrW59EapH4xcqYbyNQxyQ5t0uWPvw@mail.gmail.com>
- <CAFEAcA8ntPE3GkTNU8bSBhCWzk_jdH4QR1kDgwo6deQ+T1iOKw@mail.gmail.com>
- <1949e204-1bce-f15b-553b-1b42b41e3e08@linaro.org>
- <d00d7eeb-a50c-c039-046c-7749fde25af8@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <1d6fb312-ab21-ca9c-d7ec-1043ccc65b10@amsat.org>
-Date: Thu, 16 Sep 2021 15:53:33 +0200
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mQrqG-0000ze-QY
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:54:20 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40808
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mQrqF-0008Mh-0l
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:54:20 -0400
+Received: from host109-153-76-56.range109-153.btcentralplus.com
+ ([109.153.76.56] helo=[192.168.50.176])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mQrq4-0001SY-TO; Thu, 16 Sep 2021 14:54:13 +0100
+To: Helge Konetzka <hk@zapateado.de>, qemu-devel@nongnu.org
+References: <2b5ab039-8495-b55f-03f1-ecfd996907a9@zapateado.de>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <058d0e1f-7268-ff3f-7628-48941ee48694@ilande.co.uk>
+Date: Thu, 16 Sep 2021 14:54:11 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <d00d7eeb-a50c-c039-046c-7749fde25af8@kaod.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <2b5ab039-8495-b55f-03f1-ecfd996907a9@zapateado.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-SA-Exim-Connect-IP: 109.153.76.56
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH] configure/optionrom: Fix MSYS2 multiboot.bin issue
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -33
+X-Spam_score: -3.4
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.488,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.488,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,35 +63,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Peter Delevoryas <pdel@fb.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/16/21 2:29 PM, Cédric Le Goater wrote:
-> On 9/14/21 17:22, Richard Henderson wrote:
->> On 9/14/21 5:26 AM, Peter Maydell wrote:
->>> (2) RAM blocks should have a length that fits inside a
->>>      signed 32-bit type on 32-bit hosts (at least I assume this
->>>      is where the 2047MB limit is coming from; in theory this ought
->>>      to be improveable but auditing the code for mishandling of
->>>      RAMblock sizes to ensure we weren't accidentally stuffing
->>>      their size into a signed 'long' somewhere would be kind
->>>      of painful)
+On 15/09/2021 11:56, Helge Konetzka wrote:
 
->>> Even if we did fix (2) we'd need to compromise on (3)
->>> sometimes still -- if a board has 4GB of RAM that's
->>> not going to fit in 32 bits regardless. But we would be
->>> able to let boards with 2GB have 2GB.
->>
->> I'm not opposed to deprecating 32-bit hosts...  ;-)
+> This patch enables native builds on MSYS2 with symlinks disabled.
 > 
-> Until then, I am willing to make the following compromise for the fuji  :
 > 
->     mc->default_ram_size = (HOST_LONG_BITS == 32 ? 1 : 2) * GiB;
+> Signed-off-by: Helge Konetzka <hk@zapateado.de>
+> ---
+> 
+> Without this patch these builds fail with:
+> 
+> make[1]: *** No rule to make target 'multiboot.bin', needed by 'all'. Stop.
+> make: *** [Makefile:189: pc-bios/optionrom/all] Error 2
+> make: *** Waiting for unfinished jobs....
+> ...
+> ==> ERROR: A failure occurred in build().
+>       Aborting...
+> 
+> Builds fail because make cannot determine correct TOPSRC_DIR/SRC_DIR based on copied 
+> instead of linked Makefile
+> 
+> After applying this patch to current master I succeeded in building natively on Linux 
+> and Windows/MSYS2 with symlinks disabled and enabled (winsymlinks:nativestrict, bash 
+> executed as Administrator).
+> 
+>   configure                  | 4 ++++
+>   pc-bios/optionrom/Makefile | 5 ++---
+>   2 files changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index da2501489f..a12bc8edbf 100755
+> --- a/configure
+> +++ b/configure
+> @@ -5090,6 +5090,10 @@ for rom in seabios; do
+>       echo "RANLIB=$ranlib" >> $config_mak
+>   done
+> 
+> +config_mak=pc-bios/optionrom/config.mak
+> +echo "# Automatically generated by configure - do not modify" > $config_mak
+> +echo "TOPSRC_DIR=$source_path" >> $config_mak
+> +
+>   if test "$skip_meson" = no; then
+>     cross="config-meson.cross.new"
+>     meson_quote() {
+> diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
+> index 30771f8d17..3482508a86 100644
+> --- a/pc-bios/optionrom/Makefile
+> +++ b/pc-bios/optionrom/Makefile
+> @@ -1,6 +1,5 @@
+> -CURRENT_MAKEFILE := $(realpath $(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST)))
+> -SRC_DIR := $(dir $(CURRENT_MAKEFILE))
+> -TOPSRC_DIR := $(SRC_DIR)/../..
+> +include config.mak
+> +SRC_DIR := $(TOPSRC_DIR)/pc-bios/optionrom
+>   VPATH = $(SRC_DIR)
+> 
+>   all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
 
-While I disagree with this approach, better to document it clearly
-like commit 25ff112a8cc ("hw/arm/mps2-tz: Add new mps3-an524 board").
+(Added Marc-André on CC)
+
+Thanks for the patch! IMO this is a better solution since then there are no special 
+requirements for Windows compared with POSIX-type builds.
+
+Marc-André, could you have a look at this? In short, commit bf708f3c4a ("optionrom: 
+simplify Makefile") in its current form requires either a) copying and renaming 
+compiler binaries and passing --cross-prefix into configure (see 
+https://wiki.qemu.org/Hosts/W32#Native_builds_with_MSYS2) or b) enabling symlinks in 
+Windows developer mode as per 
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg750968.html for native Windows 
+builds.
+
+
+ATB,
+
+Mark.
 
