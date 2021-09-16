@@ -2,78 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55AAE40E19B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:34:13 +0200 (CEST)
-Received: from localhost ([::1]:41020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4502D40E057
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 18:20:55 +0200 (CEST)
+Received: from localhost ([::1]:38996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQuKy-0002aj-3r
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:34:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49452)
+	id 1mQu86-0007Hg-8t
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 12:20:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQtwS-0000Gc-3e; Thu, 16 Sep 2021 12:08:52 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42862)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mQtwO-0000Jz-Tg; Thu, 16 Sep 2021 12:08:51 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id q11so10342797wrr.9;
- Thu, 16 Sep 2021 09:08:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wwHDQQV0ftA9eG68f+sUZ/zG3bwXATLPzLgJRp2Owac=;
- b=j13HcfZLh5WzFIXz+kW8TT+SPO7xglrqQk9tmx5+r+Cl8/wt5woKU8Hdlw+Ah8V8sY
- uyRFZVROES4avFgDn3McPPIv5QgSZPP1JaakRuAa8t42rY+dh/sePCP4FEI7WmpCj4PT
- EOq65ePyNKPBS2AW+iTQNSW0nwoUZqxBTEJzxLcSpN1roSIkCkoGijHFiw9yDsUyqv82
- C/+lKoZdbNJihmfZtTpMytbpVXbmYW+5nGZQqU7U26GAIegYdrYpk9fw/mAKCWwODpKn
- UZh+TKyfUGhqfIrGwFOHOHvg2VQi/QUwujeh5YgNUpGcwO3HqMG4lJIKAKqnLsud8ho0
- 64mg==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mQtxk-00027a-EH
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 12:10:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25636)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mQtxe-0001LR-B1
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 12:10:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631808604;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=X/75nplITC1BbmVrqUgdxpjRfsz7ttQKw73sr6291Kg=;
+ b=XkIxOiM0kSGt1la3HtYeU0AXf8Rv/EQhU9zHJgyXrYx2M5G/REjtS2KHd/8vzixm5BoJQA
+ 2bZPdN58NFsoX+wgJGDzQyM13OLtQEZQ1GXynhOPE678G4/cyKj1yR7j+lIp2SB86Dv1Ba
+ Gl/flnEJy5MsmElB6oAP3JkgZ8LpyEY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-BPs3-MdqMJi448LGpCqfZQ-1; Thu, 16 Sep 2021 12:10:01 -0400
+X-MC-Unique: BPs3-MdqMJi448LGpCqfZQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ g1-20020a5d64e1000000b0015e0b21ef04so2644369wri.17
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 09:10:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wwHDQQV0ftA9eG68f+sUZ/zG3bwXATLPzLgJRp2Owac=;
- b=verWjY5n8zQgfDB3euWEe/DU3IYVdl+Xpxz3MdsTbQdtB2EBdIvD+rNQpByzmWnFo+
- RyHtB0keZyeM+lKjapYQMgRiFOVNdsUoADr2sTe5qRmD3RMeLiEP78rQ9eKNOqmEwlhC
- CXk3oT8lxn63Jo7qcgatzQ8bOLGYyXcpW71dgfgj1G30X/pi3HSyQLQfSC65YO4xndcd
- iOz5Z2IZ4FxzuZS0zR0kii8wCTMGPpGVRwrk7x/MCVI55Nu6AELf5E8jCZjb8/eFSBFO
- 9a2/Y+tqDaX3w68MeKyHNq9TtH1k/eFnX6zL9d73+Z/fCNJxnfSIBT7L1aujCSgxpeXy
- pEcA==
-X-Gm-Message-State: AOAM533pSRzevMtFNasLfFWxODJQTeP1LoIcd8f/5rVQQJQmCg+T49Sc
- gI6t5OurFOuWv3fuA4SPLsc=
-X-Google-Smtp-Source: ABdhPJxlSmWt3aQyOIb7qbKemO8bS+oRQ4pVfG+3D+wXIeUK7zjI0WbrRCFiIcKQLpkcF5Q7qwX9Lg==
-X-Received: by 2002:adf:cd92:: with SMTP id q18mr6964548wrj.211.1631808526480; 
- Thu, 16 Sep 2021 09:08:46 -0700 (PDT)
-Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
- [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id u8sm8327335wmq.45.2021.09.16.09.08.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 09:08:45 -0700 (PDT)
-Subject: Re: [PATCH v12 06/10] hvf: arm: Implement -cpu host
-To: Alexander Graf <agraf@csgraf.de>, QEMU Developers <qemu-devel@nongnu.org>
-References: <20210916155404.86958-1-agraf@csgraf.de>
- <20210916155404.86958-7-agraf@csgraf.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7e962ac1-57d3-7329-108e-99b06b46d4a1@amsat.org>
-Date: Thu, 16 Sep 2021 18:08:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=X/75nplITC1BbmVrqUgdxpjRfsz7ttQKw73sr6291Kg=;
+ b=IFx1/XJBpp/B+LfJasX9JDDIbR4AdgvcTWimtIcBcFLhNTlEZOkLEWmKY9AZRLY9+p
+ aJjetDk8m/d+80o+k2dgyvi//fkzrPhgwPB2GRELfQ+HWseIKWnqz6wPfUIxIpHJd7Op
+ 5KMmXuvIFJCIqowz9vA2LPRiht3sD9Ze9x81hsLbrRO9ylmG8/DXP5EF4SuC3r5nyR8U
+ vYiErUcPWPLrCkBQ5nsYvEyxo+D79CQOmh+ZSKsrTunXhpxndd0V0j9/xkB1p+5Oc1oj
+ QjG1z275+ZN6YHLHJvUSh5TaZeQ5nottVg/fDJGNKnWpXGUZTZhzasGV3nyPLDR6qoZs
+ VMWQ==
+X-Gm-Message-State: AOAM5303CL3qWyuvTRCl9ucnEmvdDbo7xKlaPnLz3UHN2/2Yggsp1B4H
+ 75Xkh8EV9Wtbp+iPvYzQEwFonfLORUS2UFm/PTVDOw1JNTw1O6EmXjSjni2AIW6wJ15LKCKTUD6
+ eVGHD6KYvRyunzPk=
+X-Received: by 2002:a7b:cb97:: with SMTP id m23mr4814154wmi.70.1631808600742; 
+ Thu, 16 Sep 2021 09:10:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw/Jz2/anI2Hj2wAiTO2qvJ+QsWW5epaWUU1N7zejpYLljEbBPoY/OyYekRtgWi3rRqZW4YMw==
+X-Received: by 2002:a7b:cb97:: with SMTP id m23mr4814129wmi.70.1631808600503; 
+ Thu, 16 Sep 2021 09:10:00 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id j27sm3320192wms.6.2021.09.16.09.09.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Sep 2021 09:09:59 -0700 (PDT)
+Date: Thu, 16 Sep 2021 17:09:57 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 0/2] virtiofs queue
+Message-ID: <YUNsVVctMVjSHOQ6@work-vm>
+References: <20210916135241.150566-1-dgilbert@redhat.com>
+ <CAFEAcA-k=jKqBcEzxd+ALPYz_UVT1_AG3PnsuX2N77_UTSE=nA@mail.gmail.com>
+ <YUNj1DQT9VyU54DV@work-vm>
+ <CAFEAcA_DDQFkF-n3_mr9RyRBUnUN00kZNKoiP_e5koY3F1zxHg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210916155404.86958-7-agraf@csgraf.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+In-Reply-To: <CAFEAcA_DDQFkF-n3_mr9RyRBUnUN00kZNKoiP_e5koY3F1zxHg@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.488,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,56 +98,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- qemu-arm <qemu-arm@nongnu.org>, Frank Yang <lfy@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/16/21 5:54 PM, Alexander Graf wrote:
-> Now that we have working system register sync, we push more target CPU
-> properties into the virtual machine. That might be useful in some
-> situations, but is not the typical case that users want.
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Thu, 16 Sept 2021 at 16:33, Dr. David Alan Gilbert
+> <dgilbert@redhat.com> wrote:
+> >
+> > * Peter Maydell (peter.maydell@linaro.org) wrote:
+> > > On Thu, 16 Sept 2021 at 14:58, Dr. David Alan Gilbert (git)
+> > > <dgilbert@redhat.com> wrote:
+> > > >
+> > > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > > >
+> > > > The following changes since commit 57b6f58c1d0df757c9311496c32d502925056894:
+> > > >
+> > > >   Merge remote-tracking branch 'remotes/hreitz/tags/pull-block-2021-09-15' into staging (2021-09-15 18:55:59 +0100)
+> > > >
+> > > > are available in the Git repository at:
+> > > >
+> > > >   https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20210916
+> > > >
+> > > > for you to fetch changes up to 046d91c83caac29e2ba26c63fd7d685a57463f6d:
+> > > >
+> > > >   virtiofsd: Reverse req_list before processing it (2021-09-16 14:50:48 +0100)
+> > > >
+> > >
+> > > gpg says your key has expired; what keyserver can I download an
+> > > updated key from?
+> >
+> > I pushed an updated one to pgp.mit.edu just before I sent the pull;
+> > I can see it there (although it's a bit slow to respond).
 > 
-> So let's add a -cpu host option that allows them to explicitly pass all
-> CPU capabilities of their host CPU into the guest.
+> It doesn't seem to respond for me; a recv-keys just hangs.
+> I recommend keys.openpgp.org or keyserver.ubuntu.com.
+
+I've just pushed them to both of those.
+
+Dave
+
+> -- PMM
 > 
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> Reviewed-by: Sergio Lopez <slp@redhat.com>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> 
-> ---
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-> diff --git a/target/arm/hvf_arm.h b/target/arm/hvf_arm.h
-> new file mode 100644
-> index 0000000000..603074a331
-> --- /dev/null
-> +++ b/target/arm/hvf_arm.h
-> @@ -0,0 +1,19 @@
-> +/*
-> + * QEMU Hypervisor.framework (HVF) support -- ARM specifics
-> + *
-> + * Copyright (c) 2021 Alexander Graf
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
-> +
-> +#ifndef QEMU_HVF_ARM_H
-> +#define QEMU_HVF_ARM_H
-> +
-> +#include "qemu/accel.h"
-
-This include shouldn't be necessary.
-
-> +#include "cpu.h"
-> +
-> +void hvf_arm_set_cpu_features_from_host(struct ARMCPU *cpu);
-> +
-> +#endif
 
