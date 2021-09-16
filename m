@@ -2,89 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C67E140D296
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 06:34:19 +0200 (CEST)
-Received: from localhost ([::1]:54536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D92940D29D
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 06:39:53 +0200 (CEST)
+Received: from localhost ([::1]:37082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQj6I-0002px-Rn
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 00:34:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38986)
+	id 1mQjBg-0001ll-L4
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 00:39:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQj3J-0000bd-8j
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:31:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mQj3H-0001EJ-PX
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 00:31:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631766671;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nDFiQfCzYBj4ZGTTYDZH0j2vxflJyMsT8E0b1Qr0++8=;
- b=VPJwPJR+Mj62uziJNP6uRNFKo/SQxWkoHuVDeuKd531KZ5NaVURhqNQ1jlvv0+oEplvhFz
- V2epzLIpnKf/EhdvrtUc46VgtfZH5dsKXq7Px9uqA6zRoL3nCHDJjpdebrcMNeJ5psecq3
- 0uwmxAqBs0VmPeF/10o63cNi1pPw5IE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-TBxg42n8OSydmjKvNuIIQg-1; Thu, 16 Sep 2021 00:31:09 -0400
-X-MC-Unique: TBxg42n8OSydmjKvNuIIQg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c187-20020a1c35c4000000b00304b489f2d8so2543678wma.6
- for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 21:31:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mQj8x-0007Pv-AV; Thu, 16 Sep 2021 00:37:03 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:39527)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mQj8v-0006Sf-5n; Thu, 16 Sep 2021 00:37:03 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ 196-20020a1c04cd000000b002fa489ffe1fso6373176wme.4; 
+ Wed, 15 Sep 2021 21:36:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=RA/qMhU9dd5BvbadOHmviAXUl/yG5PeLghHm7IiXOf0=;
+ b=CBOcMVcz6AttMtBy1QHWbWTSJ+eKPqcxWJS8hb1Nf3SU4JU82mR4wDePySrKF9mu1Y
+ 7tS/DtVetQ7PffJHJMYfM61jl5Hi0QXt86uqTlTJIYSFAZJoDLYrhOLJ6TmpQ4Dhila7
+ OLVD/66mSN08BEO3IEmA0PTW1tkpcXTdkBiWMLJTqDHHMMeE377HYWDl4RCdPzeTyDsF
+ u6PvO9H/cp3zMjz6qgCuoVaF2KhO0pW1LmUyzufI2WCJy72UcOeQCtsgKg+sGD7RBEQn
+ cZT1UPcJz/gAk9I0ut2t67wI5s3AdQaqu6sHJn4XtIX6cRJktUddxzxRQLcAVS9DMWrp
+ coIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nDFiQfCzYBj4ZGTTYDZH0j2vxflJyMsT8E0b1Qr0++8=;
- b=wTVDmTH8BiQEDmfGnGb1ASpH1+Xl9nrnrxCiiEDDd5MaljyNnwt4PriCwd0omCydJk
- Ax2/Bxluo/k4BRSHwkdvm/KZnSRFqycZarbXajaMPzXW0evnZVW+2ZkzeoG/pULAROdi
- Gj8UNV80pk/CGoiK24uYwXFs0ng8aL1zMdgQMCnEESocysYEr6URRfqH0O2wvkYQnuuq
- sNCaBG0MXFYD1S242dbIHUq1WX9dR7L82CMlx5023+KC7GRn4k0W+SEqYStMg/3WML8k
- bubMDyhWojGfTI77rZ80KUX9vw5RxWT8RcMlyC5a/B+bxaE1IjuEVdLCCYdziGVb25ot
- P2/w==
-X-Gm-Message-State: AOAM530sWZb4hCfqjJRkx4ETASIsK+2QD2IFKTJ25CwdSfoTRG9D2SOM
- T5cKz+P54JeP+snH5W8PckDOJXngE5FekDVodsgaZ0etVjV/rR30PtJFioyPMtd20Y1zl6N1OwT
- 05H2WXXEO5gLGKJk=
-X-Received: by 2002:adf:ded1:: with SMTP id i17mr3534182wrn.83.1631766668810; 
- Wed, 15 Sep 2021 21:31:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzhveZmfvgexfqwosccvSMHsruMOTGmVvUCZU57MLXtGdjbLXeWrYizNTP8SL7I8wfS8DCGpw==
-X-Received: by 2002:adf:ded1:: with SMTP id i17mr3534158wrn.83.1631766668633; 
- Wed, 15 Sep 2021 21:31:08 -0700 (PDT)
+ bh=RA/qMhU9dd5BvbadOHmviAXUl/yG5PeLghHm7IiXOf0=;
+ b=ynAaFp5mSflo1GUhKLRVjNb4g6EGZTcopdm9EkigsMQgjdBvHvJ/fid9ZDyLjuI4Kv
+ mIvv+gQ+TZdRZj1gwsW5h9fIc/vudHfvxpzWQfayXbOwe6kXqrb9ArZJyroJxRxZJRUS
+ P2kpePqk+2DZYupRj+tr1KVk5hDwPtJPgGRWuAdYBnZ0mI+IW2gI3goZrTLOzJ4FJxw/
+ eGmnhGHW08AMFgl5Qnm+ubtPCsDdAk1oGzGjk20AQeY2N3z6LtYFF6KWj17IfFxPrvyU
+ CNR49Ta9t0vus0qYVGfLf5KdXdGUMbMsHPiTTXpucA6PLevDgUOsGCHADo1m1SUb6PhN
+ 7XRQ==
+X-Gm-Message-State: AOAM532LGQ91u0eIBtGHj9o2EHfI97Oszn6GXJ8THUAXISXebwsQHKKl
+ lH1Jb7rnoiGPJ94RlMWjU9XUI6p8emU=
+X-Google-Smtp-Source: ABdhPJxBOefUQInUwCoXMCw6Bbh+0z182BKL+xPqe2XjUJSKPq6TDQ2uSiuK5lQrXTwbNlKAbW96vg==
+X-Received: by 2002:a05:600c:3652:: with SMTP id
+ y18mr3004553wmq.66.1631767018131; 
+ Wed, 15 Sep 2021 21:36:58 -0700 (PDT)
 Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
  [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id i9sm6155358wmi.44.2021.09.15.21.31.07
+ by smtp.gmail.com with ESMTPSA id u13sm1621196wmq.33.2021.09.15.21.36.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Sep 2021 21:31:08 -0700 (PDT)
-Subject: Re: [PATCH v3 08/16] iotests/297: Create main() function
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20210916040955.628560-1-jsnow@redhat.com>
- <20210916040955.628560-9-jsnow@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8c24103b-f3a3-7807-ca80-37fd0d14aeb0@redhat.com>
-Date: Thu, 16 Sep 2021 06:31:07 +0200
+ Wed, 15 Sep 2021 21:36:57 -0700 (PDT)
+Subject: Re: [PATCH] hw/intc: GIC maintenance interrupt not triggered
+To: Shashi Mallela <shashi.mallela@linaro.org>, peter.maydell@linaro.org
+References: <20210915205809.59068-1-shashi.mallela@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <4aba1039-addb-9594-924a-4f8650637df4@amsat.org>
+Date: Thu, 16 Sep 2021 06:36:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210916040955.628560-9-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210915205809.59068-1-shashi.mallela@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) DKIMWL_WL_HIGH=-0.39, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.698,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.698,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,27 +88,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/16/21 6:09 AM, John Snow wrote:
-> Instead of running "run_linters" directly, create a main() function that
-> will be responsible for environment setup, leaving run_linters()
-> responsible only for execution of the linters.
+On 9/15/21 10:58 PM, Shashi Mallela wrote:
+> During sbsa acs level 3 testing,it is seen that the GIC
+> maintenance interrupts are not triggered and the related test
+> cases failed.On debugging the cause,found that the value of
+> MISR register (from maintenance_interrupt_state()) was being
+> passed to qemu_set_irq() as level.Updated logic to set level
+> to 1 if any of the maintenance interrupt attributes are set.
+> Confirmed that the GIC maintanence interrupts are triggered and
+> sbsa acs test cases passed with this change.
 > 
-> (That environment setup will be moved over in forthcoming commits.)
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+Fixes: c5fc89b36c0 ("hw/intc/arm_gicv3: Implement
+gicv3_cpuif_virt_update()")
+
+> Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
 > ---
->  tests/qemu-iotests/297 | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
+>  hw/intc/arm_gicv3_cpuif.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
+> index 462a35f66e..34691d4fe2 100644
+> --- a/hw/intc/arm_gicv3_cpuif.c
+> +++ b/hw/intc/arm_gicv3_cpuif.c
+> @@ -418,7 +418,9 @@ static void gicv3_cpuif_virt_update(GICv3CPUState *cs)
+>      }
+>  
+>      if (cs->ich_hcr_el2 & ICH_HCR_EL2_EN) {
+> -        maintlevel = maintenance_interrupt_state(cs);
+> +        if (maintenance_interrupt_state(cs)) {
+> +            maintlevel = 1;
+> +        }
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Or:
+           maintlevel = !!maintenance_interrupt_state(cs);
 
+But your style is more explicit.
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
