@@ -2,75 +2,143 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584FC40DB88
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 15:41:25 +0200 (CEST)
-Received: from localhost ([::1]:52968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088E240DB42
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 15:32:01 +0200 (CEST)
+Received: from localhost ([::1]:34484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQrdk-0002Q1-Cr
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 09:41:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60354)
+	id 1mQrUc-0006K3-Nb
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 09:31:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mQrS6-0005Nr-39
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:29:22 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:43927)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mQrS2-0007hc-LP
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:29:21 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id c1so2980248pfp.10
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 06:29:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Jw3hy0CK2SjmQ2J8uDE5OdqRAyAYgDija0tjMaT78GQ=;
- b=BJUVZeab9HJ++AZYWEMY5mKcX6kUYMoPTReYe7MNc55RJSsTPrMBc1WWtepxTHAEOZ
- E6TdfedUudU98lZyRKrOaxUBKS2QVFaZNtwS+sKRggSF3abt5BC0nhovqmVWMR5rwz/I
- cU00bzKS6J6EcP57ZzdZCNjEm3TX7M0fP1VIo6Bz/U6xEmi60RIFRGBTICav9rlJGcRm
- +XUY+ULPwJn7Ie6r+MoIdie+p6cgixVqQBpY1RP3JUjoh7+mvHTH2rNK53rpaZ379Ii9
- 39GyuvTm2jPtMNwuxTR618Ab2UB0ttKsQey038prvWc8QaFPrg4mAgf79fOXNt18jGYq
- Py8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Jw3hy0CK2SjmQ2J8uDE5OdqRAyAYgDija0tjMaT78GQ=;
- b=z/JIsGzwAKjB5TXyNprz0axdMjd1cx4ATzDZwrT+SMCDLgKEOCMFr1wQSJ0ZKfTAY3
- VoS2RSHDTPzCuzCOMHjA48Y3CvSQkdjnL6qdIXb2WQISpL2kv7kaWW3K52jaGNQ8l50M
- NlbzpF1MWTMLigDAc8KpndcIvPoTrIxeqj1A9ONvHYVNwG0n4u7+lo+67LzayTGktLfX
- BYyTM3JYnN8bYzLPrfow1sQuYz0gzOhNcjkg8y9SN8mPtUOwnZVG/6nap71QhiQrKn+8
- L1cy7DUQ0CD6urvm2TQxxGsGALyp9vtEUX1sG38Nf2dDkTwynuke6WbACkRHnjvhricI
- HjvA==
-X-Gm-Message-State: AOAM531w3OVEvYK1AosaDM5kvepY6XHiLN6ppB+QNEl3QtIXOb4tHU8S
- cGCOn9W9IbI4PMANxk23IR4BNwmSpERsUQ==
-X-Google-Smtp-Source: ABdhPJzuxSbvc5/hbqBJgli3ni74LocjmzAlONe2J82T7Qra1f7wFOIoQV3975/CGWerNNaFBHdjzw==
-X-Received: by 2002:a62:dd94:0:b0:442:bb03:9663 with SMTP id
- w142-20020a62dd94000000b00442bb039663mr2417514pff.0.1631798956113; 
- Thu, 16 Sep 2021 06:29:16 -0700 (PDT)
-Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.163.233.134])
- by smtp.googlemail.com with ESMTPSA id w67sm3458272pfb.99.2021.09.16.06.29.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Sep 2021 06:29:15 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org,
-	qemu-stable@nongnu.org
-Subject: [PATCH v2 3/3] bios-tables-test: Update ACPI DSDT table golden blobs
- for q35
-Date: Thu, 16 Sep 2021 18:58:38 +0530
-Message-Id: <20210916132838.3469580-4-ani@anisinha.ca>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210916132838.3469580-1-ani@anisinha.ca>
-References: <20210916132838.3469580-1-ani@anisinha.ca>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mQrRb-0004NW-8O
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:28:51 -0400
+Received: from mail-eopbgr70117.outbound.protection.outlook.com
+ ([40.107.7.117]:63877 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mQrRW-0007N9-2P
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 09:28:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hoSqIQuf/1liwmIeqTzUxXZ8n1kpyE3dT0+PRGuS39QbqXiIvxi2cxu5a04qWSITmSERstJyfIY0vtocDvV23vsITOKyIFqKxekfWgajhMDHr2l0RzZiz3qZ2HlT67vb5Xge5YDZlWrzT8GANRqF8SWGkrxM6U+qjrxdEhvO10UC72gOxtIWyD5J9w+myzL2FvHW921q/OfP7MYbkqgnQN7RFMNzMBvLX/xcMDTBCN0iZViI/W4TrcU/Ley9IdSGOszl4Z4DCIvloCFP59Em+dFojoiRptjM6xGcX53tjzIIcEAQwq9dxXd9IFRnb56rGgBQ0xqqsCXBpVRG2YHpcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=NJiJfW0zF11ho0yr2AzXqzYJUgWVT713Jqf30ekgnO0=;
+ b=jmzl3hdbjEmX4vSSSXRd5XQNOw8NJyXRId2QNGb2+h8lIox9VTxZmtPetyapVirlZX1dX1uhVY+qvkIDNthKMwdVhb7jX+DROY+9g/ajqbfzcU7k5i//8zAu1H7VoQX+3s1Ie2bgFfPFo2k4wE9ecwD+VQPnairbLz8ltM1KgUqGN0vkhqBa5tizGGp1eG4Uh8NXwhTTaTKrcXhh7OP5dBaHs7SKZszwX5Q/nNffluzoHqptq9bv/34nTDgCZ4OG4XomwJO/CWpuCInTHcyAzsQDxAHsgaK4JI/2/juYSZtTVzC9k0H7flWgiIbhwX2tFh3Lz8LDlP2ImBHlqG23lA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NJiJfW0zF11ho0yr2AzXqzYJUgWVT713Jqf30ekgnO0=;
+ b=vMi1UOC9sbjaoNkBRemTAQL8FC4MVMab4dM/kR71PtjQ//HeZ2E1KbRROqo7rvxRSJlP98Ja6k1/0ZG0FLrvFL+YSrsghH1PPmCDEaUIr/TZCyWq3Dc8iYus2tCTPIo/X26oSxr83tBQ3/gv7swdOzYT6g6A3gKK3NzeGqANs6o=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0802MB2450.eurprd08.prod.outlook.com (2603:10a6:203:a0::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.17; Thu, 16 Sep
+ 2021 13:28:42 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4523.016; Thu, 16 Sep 2021
+ 13:28:42 +0000
+Subject: Re: [PATCH RFC 0/5] Subject: [PATCH RFC 0/5] qapi: Add feature flags
+ to enum members
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, eblake@redhat.com, jsnow@redhat.com,
+ marcandre.lureau@redhat.com, mdroth@linux.vnet.ibm.com,
+ libguestfs@redhat.com, libvir-list@redhat.com, berrange@redhat.com,
+ pkrempa@redhat.com, kwolf@redhat.com
+References: <20210915192425.4104210-1-armbru@redhat.com>
+ <5b9b9fe9-12e2-c6f3-8430-450f55255d55@virtuozzo.com>
+ <87r1do65kl.fsf@dusky.pond.sub.org>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <1df50f40-1385-9119-126a-56938fde9a92@virtuozzo.com>
+Date: Thu, 16 Sep 2021 16:28:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <87r1do65kl.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0085.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1e::9) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::42d;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x42d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.205) by
+ FR0P281CA0085.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1e::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4544.6 via Frontend Transport; Thu, 16 Sep 2021 13:28:41 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c0f8122a-389b-429c-4957-08d97915e68d
+X-MS-TrafficTypeDiagnostic: AM5PR0802MB2450:
+X-Microsoft-Antispam-PRVS: <AM5PR0802MB2450BCC52D8179090CAD2DABC1DC9@AM5PR0802MB2450.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zgrV1Tn9Ysw7oPoFTqXdI2lM8Z42NuYoDHIwwELhEv7fWu4CmYyldH+sFbp3IYfJiwgll5PpFjCVbhndmQA8pYrvBjKyPPNMvSdFJIalwQ23tRugMU0VuXQHAKu6A1y8j9eUo46ig3ksNdX7c3/SxUuJKBIYmNGxi6kNJ/8z3KdpwNmYFCnMsfBdDrvdcSiT44DM81G12/E46/SF5s41ogF5HHfmaS6gGEOwu9lByJQU1+f/JB66jmri1WEeBVecJaZ4ZdsstBVuCADHaySWtGDUB8BBPz9i4i9XH/Q9DAq3/YW4UMV5hUyLU0atLTV8RnjulEEEV1hZd/tW87uHfFLFf9Bi1c0OsfmzEKNX0ShyZG8t1gzCxP7wikrLaP7FMc8xfoKUdVqeElkL2koib20miikUk0NPR/LiaRT+yCPU4CUVso1HJOGPNaoDLa6DjRR4DXjUnc+Qy0SjxmA/UcE2z5ZMEkyV7LqDCWMWHP29FGPGMHzKMvn2q7A68IjuzTu7ABU8+oZp2dcqQ/PgnUa0MCgLs9qGqywtiu0jm7O3S7Qz1XZXhdmb1RAbgKBRo0hGJED9ZAsu6psIm9CU+Qx0pfu+iQRo7+nHGIhhB6KN/4dXgePpHRhC/1ghGoe+WrSQhOy4QeZQ/wwP1CwL2/DpFXXAp8UAas1eEZ/ycukAyxMu+PmpSeKsPKXqJBq79BCCEKrs0bBTZH8HaDgV2hG13GH93kO0rpv4GcxGwxG0iduaZhUQlcWA4qqu8ke2+nlg2V0VUfQMBSgcMT+UOg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(376002)(39850400004)(136003)(366004)(6916009)(36756003)(38100700002)(86362001)(16576012)(38350700002)(6486002)(52116002)(31686004)(7416002)(8936002)(316002)(31696002)(83380400001)(478600001)(5660300002)(8676002)(66556008)(66476007)(66946007)(26005)(2906002)(4326008)(2616005)(186003)(956004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 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
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0f8122a-389b-429c-4957-08d97915e68d
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2021 13:28:42.0596 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3o0ZnWggrF3LPNtd1mO/7UhvSL308WN2p/yswjN4aQMnUX/GTwDzaJ7MVD+HmY8aczx6ZDE32hALF/uIGmP7jJdC8NMlkqAPlGNHV/SGX9w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2450
+Received-SPF: pass client-ip=40.107.7.117;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.488, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,298 +151,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, philmd@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>, jusual@redhat.com,
- Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have modified the IO address range for ACPI pci hotplug in q35. See change:
+16.09.2021 15:57, Markus Armbruster wrote:
+> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+> 
+>> Great! Thanks for working on this!
+>>
+>> 15.09.2021 22:24, Markus Armbruster wrote:
+>>> PATCH 1+2 add feature flags to enum members.  Awkward due to an
+>>> introspection design mistake; see PATCH 1 for details.  Feedback
+>>> welcome, in particular from management application guys.
+>>> PATCH 3+4 implement policy deprecated-input={reject,crash} for enum
+>>> values.
+>>>
+>>> Policy deprecated-output=hide is not implemented, because we can't
+>>> hide a value without hiding the entire member, which is almost
+>>> certainly more than the requester of this policy bargained for.
+>>> Perhaps we want a new policy deprecated-output=crash to help us catch
+>>> unwanted use of deprecated enum values.  Thoughts?
+>>
+>> I think crash policy for output is doubtful. If we have query-*
+>> command that returns a lot of things and some of them are deprecated
+>> the whole command will always crash..
+> 
+> Policy "crash" is not quite as crazy as it may look :)
+> 
+> The non-default policies for handling deprecated interfaces are intended
+> for testing users of these interfaces.
+> 
+> Input policy reject and output policy hide enable "testing the future".
+> 
+> Input policy crash is a robust way to double-check "management
+> application does not send deprecated input".  This is not quite the same
+> as "testing the future".  A management application may choose to send
+> deprecated input, detect the failure and recover.  Testing that should
+> pass with input policy reject, but not with input policy crash.
+> 
+> Output policy crash could be a way to double-check "the management
+> application does not make QEMU send deprecated output".
+> 
+> Example: Say we deprecate BlockdevDriver member 'vvfat'.  We know that
+> output of query-named-block-nodes can contain 'vvfat' only if something
+> creates such nodes.  Input policy reject will reject attempts to use
+> this driver with blockdev-add.  But what if the management application
+> uses some other way to create such nodes, not (yet) covered by input
+> policy?  Output policy crash could be used to double-check it doesn't.
+> 
+> Except it doesn't actually work, because as you said, testing will
+> likely produce *other* deprecated output that should *not* crash the
+> test.
+> 
+> Perhaps a policy hide-or-else-crash could work.
+> 
+>>                                         Deprecated is "use" of the
+>> deprecated field, but we can't control does user use a specific field
+>> or not.
+>>
+>> If some deprecated output is a consequence of deprecated input, we'd
+>> better always show it.. Or in other words, we shouldn't deprecate such
+>> output, deprecating of the corresponding input is enough.
+> 
+> Deprecating only input may require duplicating definitions used both for
+> input and output, unless we replace today's feature flags by something
+> more sophisticated.
+> 
+> Example: BlockdevDriver is used both as input of blockdev-add and as
+> output of query-named-block-nodes.  Deprecate member 'vvfat' affects
+> both input and output.
 
-5adcc9e39e6a5 ("hw/i386/acpi: fix conflicting IO address range for acpi pci hotplug in q35")
 
-The ACPI DSDT table golden blobs must be regenrated in order to make the unit tests
-pass. This change updates the golden ACPI DSDT table blobs.
+If we deprecate a vvfat, but still have some not deprecated ways to create vvfat node, that's a kind of bug[1] in deprecation system: if vvfat is deprecated, all ways to create vvfat should go through input compat policy.
 
-Following is the ASL diff between the blobs:
+So, making qemu crash on trying to output "vvfat" for me looks like a workaround for that bug[1]. And it's strange to create and interface to workaround the internal bug..
 
-@@ -1,30 +1,30 @@
- /*
-  * Intel ACPI Component Architecture
-  * AML/ASL+ Disassembler version 20190509 (64-bit version)
-  * Copyright (c) 2000 - 2019 Intel Corporation
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/q35/DSDT, Tue Sep 14 09:04:06 2021
-+ * Disassembly of /tmp/aml-52DP90, Tue Sep 14 09:04:06 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-  *     Length           0x00002061 (8289)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0xE5
-+ *     Checksum         0xF9
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-  *     Compiler ID      "BXPC"
-  *     Compiler Version 0x00000001 (1)
-  */
- DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
- {
-     Scope (\)
-     {
-         OperationRegion (DBG, SystemIO, 0x0402, One)
-         Field (DBG, ByteAcc, NoLock, Preserve)
-         {
-             DBGB,   8
-         }
+May be, we can just enable hide-or-else-crash behavior automatically, when user choose input=crash and output=hide?
 
-@@ -226,46 +226,46 @@
-             Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
-             {
-                 IO (Decode16,
-                     0x0070,             // Range Minimum
-                     0x0070,             // Range Maximum
-                     0x01,               // Alignment
-                     0x08,               // Length
-                     )
-                 IRQNoFlags ()
-                     {8}
-             })
-         }
-     }
+> 
+>> So, we are saying about showing some internal state to the user. And
+>> part of this state becomes deprecated because internal implementation
+>> changed. I think the only correct thing to do is handle
+>> deprecated=hide by hand, in the place where we set this deprecated
+>> field. Only at this place we can decide, should we simulate old
+>> deprecated output value or not. For this we'll need a possibility to
+>> get current policy at any place, but that doesn't seem to be a
+>> problem, I see, it's just a global variable compat_policy.
+> 
+> I'm not sure I fully got this.
+> 
+> Compat policies are not about optionally providing older versions of an
+> interface ("simulate old deprecated output value").  They try to help
+> with testing users of interfaces.  One aspect of that is optionally
+> approximating expected future interfaces.
+> 
 
-     Scope (_SB.PCI0)
-     {
--        OperationRegion (PCST, SystemIO, 0x0CC4, 0x08)
-+        OperationRegion (PCST, SystemIO, 0x0CC0, 0x08)
-         Field (PCST, DWordAcc, NoLock, WriteAsZeros)
-         {
-             PCIU,   32,
-             PCID,   32
-         }
-
--        OperationRegion (SEJ, SystemIO, 0x0CCC, 0x04)
-+        OperationRegion (SEJ, SystemIO, 0x0CC8, 0x04)
-         Field (SEJ, DWordAcc, NoLock, WriteAsZeros)
-         {
-             B0EJ,   32
-         }
-
--        OperationRegion (BNMR, SystemIO, 0x0CD4, 0x08)
-+        OperationRegion (BNMR, SystemIO, 0x0CD0, 0x08)
-         Field (BNMR, DWordAcc, NoLock, WriteAsZeros)
-         {
-             BNUM,   32,
-             PIDX,   32
-         }
-
-         Mutex (BLCK, 0x00)
-         Method (PCEJ, 2, NotSerialized)
-         {
-             Acquire (BLCK, 0xFFFF)
-             BNUM = Arg0
-             B0EJ = (One << Arg1)
-             Release (BLCK)
-             Return (Zero)
-         }
-
-@@ -3185,34 +3185,34 @@
-                     0x0620,             // Range Minimum
-                     0x0620,             // Range Maximum
-                     0x01,               // Alignment
-                     0x10,               // Length
-                     )
-             })
-         }
-
-         Device (PHPR)
-         {
-             Name (_HID, "PNP0A06" /* Generic Container Device */)  // _HID: Hardware ID
-             Name (_UID, "PCI Hotplug resources")  // _UID: Unique ID
-             Name (_STA, 0x0B)  // _STA: Status
-             Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
-             {
-                 IO (Decode16,
--                    0x0CC4,             // Range Minimum
--                    0x0CC4,             // Range Maximum
-+                    0x0CC0,             // Range Minimum
-+                    0x0CC0,             // Range Maximum
-                     0x01,               // Alignment
-                     0x18,               // Length
-                     )
-             })
-         }
-     }
-
-     Scope (\)
-     {
-         Name (_S3, Package (0x04)  // _S3_: S3 System State
-         {
-             One,
-             One,
-             Zero,
-             Zero
-         })
-
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
----
- tests/data/acpi/q35/DSDT                    | Bin 8289 -> 8289 bytes
- tests/data/acpi/q35/DSDT.acpihmat           | Bin 9614 -> 9614 bytes
- tests/data/acpi/q35/DSDT.bridge             | Bin 11003 -> 11003 bytes
- tests/data/acpi/q35/DSDT.cphp               | Bin 8753 -> 8753 bytes
- tests/data/acpi/q35/DSDT.dimmpxm            | Bin 9943 -> 9943 bytes
- tests/data/acpi/q35/DSDT.ipmibt             | Bin 8364 -> 8364 bytes
- tests/data/acpi/q35/DSDT.memhp              | Bin 9648 -> 9648 bytes
- tests/data/acpi/q35/DSDT.mmio64             | Bin 9419 -> 9419 bytes
- tests/data/acpi/q35/DSDT.nohpet             | Bin 8147 -> 8147 bytes
- tests/data/acpi/q35/DSDT.numamem            | Bin 8295 -> 8295 bytes
- tests/data/acpi/q35/DSDT.tis                | Bin 8894 -> 8894 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |  11 -----------
- 12 files changed, 11 deletions(-)
-
-diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
-index 842533f53e6db40935c3cdecd1d182edba6c17d4..281fc82c03b2562d2e6b7caec0d817b034a47138 100644
-GIT binary patch
-delta 65
-zcmaFp@X&$FCD<h-QGtPh@#jV^erCo4lckttrB3j0u|zj=2fKR3J3AS;dMQLVIQjVo
-VF>+tn9LO9j!+e0}z~trfy8v~b6W9O%
-
-delta 65
-zcmaFp@X&$FCD<h-QGtPh@##h`erCoalckttrOxnhu|zj=2fKR3J3AS;dMQLVIQjVo
-VF>+to9LO9j!+eD2$mHeny8v@q6W9O%
-
-diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
-index 8d00f2ea0dd78f962e136273d68cb0c568e43c27..8c1e05a11a328ec1cc6f86e36e52c28f41f9744e 100644
-GIT binary patch
-delta 65
-zcmeD4?(^ny33dtTQ)OUa+_sU6pPBK%WGQA@sS`Y0EYXeJ!LDBM&Q1odUJB6-PJX^Y
-VjNBJC2QoJ(G9TbMF!_qgE&x%Q6Po}4
-
-delta 65
-zcmeD4?(^ny33dtTQ)OUaT(pskpPBK<WGQA@sWUuWEYXeJ!LDBM&Q1odUJB6-PJX^Y
-VjNDf?2QoJ(G9TeNGWm+iE&xwf6Po}4
-
-diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
-index 55ad4bd7ab4759d68031b2f1d0307355a7332fe7..6f1464b6c712d7f33cb4b891b7ce76fe228f44c9 100644
-GIT binary patch
-delta 66
-zcmewz`a6`%CD<k8w-y5fBlAWserCo4lckttrB3j0u|zj=2fKR3J3AS;dMQLVIQjVo
-WF>+tn9LO9j!+e0}z~<%hA>06yixa5;
-
-delta 66
-zcmewz`a6`%CD<k8w-y5f<NJ+V{LG9;CQC8PN}b{1Vu^0#4tDj5cXl#x^-_p#aPspF
-WV&uNEIgmM6hWQB3k<H8HL%0FOM--_5
-
-diff --git a/tests/data/acpi/q35/DSDT.cphp b/tests/data/acpi/q35/DSDT.cphp
-index ccde2add9f87db0c0eaf0cc155717d5744e4ef40..f8337ff5191a37a47dcf7c09a6c39c4e704a15bf 100644
-GIT binary patch
-delta 65
-zcmdn!veAXhCD<jzP>F$oF?J&tKQrTj$x_U+QYU!0SfU%bgI&Giot+F^y%eGwocw%)
-V7`ZQO4rErAV?MxhU~;+QE&wzZ5?TNN
-
-delta 65
-zcmdn!veAXhCD<jzP>F$o(Q_jgKQrTz$x_U+QfGL$SfU%bgI&Giot+F^y%eGwocw%)
-V7`d-(4rErAV?M%jWOBLUE&wso5?TNN
-
-diff --git a/tests/data/acpi/q35/DSDT.dimmpxm b/tests/data/acpi/q35/DSDT.dimmpxm
-index b062e30117f955c7a2ac9629a0512324bbd28bf2..fe5820d93d057ef09a001662369b15afbc5b87e2 100644
-GIT binary patch
-delta 65
-zcmccad)=4ICD<k8x*7umqx(iKerCo4lckttrB3j0u|zj=2fKR3J3AS;dMQLVIQjVo
-VF>+tn9LRi9iTMD}fyuIJy8v<O6QKYA
-
-delta 65
-zcmccad)=4ICD<k8x*7umqwz*AerCoalckttrOxnhu|zj=2fKR3J3AS;dMQLVIQjVo
-VF>+to9LRi9iTMc6k;$@Zy8v&d6QKYA
-
-diff --git a/tests/data/acpi/q35/DSDT.ipmibt b/tests/data/acpi/q35/DSDT.ipmibt
-index 1c5737692f56fc678e685a4ad0bb1df38d487a14..631741065860fd5036aa303904dabd1d2839f9c6 100644
-GIT binary patch
-delta 89
-zcmZ4ExW<voCD<iojRFG$qwYqoC}xWTJX{>njRFDA!6D88&YqzPK*B{Kx*^!rE1r@2
-p1P>QWbR##2<LqSM>IIZ=^79R1<i4<Z4s);!^8ua%lRwGt0sv3%8ejkb
-
-delta 89
-zcmZ4ExW<voCD<iojRFG$qvS@eC}xWzJX{>njRFDA!6D88&YqzPK*B{Kx*^!rE1r@2
-p3=bDebR##2<LqSM>IIZ=^79R1<i4_b4s);!^AVmSlRwGt0su@a8ejkb
-
-diff --git a/tests/data/acpi/q35/DSDT.memhp b/tests/data/acpi/q35/DSDT.memhp
-index 7b6f6487b229cac3424a5215c8f1755c0c85310c..9bc11518fc57687ca789dc70793b48b29a0d74ed 100644
-GIT binary patch
-delta 65
-zcmV-H0KWgQOR!4{L{mgmuq6Nh0qd~}4+8<flNtjZ8psR^1Y3a%Q$<Q&Lqae`N+4T+
-XLQYLm0SnNxQ3IkO1HcTxllCOKc2g93
-
-delta 65
-zcmV-H0KWgQOR!4{L{mgmuq6Nh0oSn#4+8<jlNtjZ8q5p|1Y3a%Q$<Q&Lqae`N+4T+
-XLQYLm0SnZ#Q3IkO1H=r(llCOKbPp7I
-
-diff --git a/tests/data/acpi/q35/DSDT.mmio64 b/tests/data/acpi/q35/DSDT.mmio64
-index 2e0a772a85275c9c3b4c9317d98cc7c3d27417f3..713288a12ef2b70a20b4e8836c036ba4db3a57a8 100644
-GIT binary patch
-delta 64
-zcmV-G0KfmsNy|wJL{mgm%On5*0jIGF4+8<flNtjZ8psR^1Y3a%Q$<Q&Lqae`N+4T+
-WLQYLm0SnNxQ3I?X1HcTxk|fJz%oC*m
-
-delta 64
-zcmV-G0KfmsNy|wJL{mgm%On5*0h6%`4+8<jlNtjZ8q5p|1Y3a%Q$<Q&Lqae`N+4T+
-WLQYLm0SnZ#Q3I?X1H=r(k|fJxh!dp%
-
-diff --git a/tests/data/acpi/q35/DSDT.nohpet b/tests/data/acpi/q35/DSDT.nohpet
-index ceb61f4115c2ccf4bcbb0d529551236933ecee15..e8202e6ddfbe96071f32f1ec05758f650569943e 100644
-GIT binary patch
-delta 65
-zcmV-H0KWgzKhr-7L{mgm(;ol;0mHEhfdT=*lZ*l#8psR^1Y3a%Q$<Q&Lqae`N+4T+
-XLQYLm0SnNx!va$r1HcTxlNlenr{@&9
-
-delta 65
-zcmV-H0KWgzKhr-7L{mgm(;ol;0k5$NfdT=<lZ*l#8q5p|1Y3a%Q$<Q&Lqae`N+4T+
-XLQYLm0SnZ#!va$r1H=r(lNlenrK1$O
-
-diff --git a/tests/data/acpi/q35/DSDT.numamem b/tests/data/acpi/q35/DSDT.numamem
-index a3f846df541a70ce0730d0351954b78818bbcdd0..151e7cf42953f3f5fe61ff0140ab7b976fe9e5b8 100644
-GIT binary patch
-delta 65
-zcmaFv@Z5pRCD<h-U4emtaq&hjerCo4lckttrB3j0u|zj=2fKR3J3AS;dMQLVIQjVo
-VF>+tn9LO9g!+e0}z~r^^y8vk#6QBS9
-
-delta 65
-zcmaFv@Z5pRCD<h-U4emtv40~MKQrTz$x_U+QfGL$SfU%bgI&Giot+F^y%eGwocw%)
-V7`d-(4rGp$VLrlhWb#`1T>xg*6QBS9
-
-diff --git a/tests/data/acpi/q35/DSDT.tis b/tests/data/acpi/q35/DSDT.tis
-index d1433e3c14570bbd17b029a9aec6bc53134c3b7d..c92d4d29c79352a60974ea9f665d0b9a410a4bac 100644
-GIT binary patch
-delta 66
-zcmdnzy3du%CD<iopArKD<HL<y{LG98CQC8PN}b^0Vu^0#4tDj5cXl#x^-_p#aPspF
-WV&uNCIgmMChWP-`fz6xcxtRfqZWC_+
-
-delta 66
-zcmdnzy3du%CD<iopArKD<JpZ|{LG9;CQC8PN}b{1Vu^0#4tDj5cXl#x^-_p#aPspF
-WV&uNEIgmMChWQB3k<FXsxtRfoDid!2
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index a02b88305c..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,12 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/q35/DSDT",
--"tests/data/acpi/q35/DSDT.tis",
--"tests/data/acpi/q35/DSDT.bridge",
--"tests/data/acpi/q35/DSDT.mmio64",
--"tests/data/acpi/q35/DSDT.ipmibt",
--"tests/data/acpi/q35/DSDT.cphp",
--"tests/data/acpi/q35/DSDT.memhp",
--"tests/data/acpi/q35/DSDT.numamem",
--"tests/data/acpi/q35/DSDT.nohpet",
--"tests/data/acpi/q35/DSDT.dimmpxm",
--"tests/data/acpi/q35/DSDT.acpihmat",
 -- 
-2.25.1
-
+Best regards,
+Vladimir
 
