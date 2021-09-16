@@ -2,90 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F9040DD89
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:04:56 +0200 (CEST)
-Received: from localhost ([::1]:41264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E76CA40DDA2
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:10:54 +0200 (CEST)
+Received: from localhost ([::1]:52296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQswY-0000Us-Hr
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:04:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33536)
+	id 1mQt2M-0008PF-2g
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:10:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQsto-0006jH-TA
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:02:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41821)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mQstm-0003WH-5I
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:02:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631804520;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=38WB3fz79AYdQTogOklCqZdExvJ42LVBLDhwdCNMlq8=;
- b=OpDK+waBMk0JHnzyOyiAVg/EzNDB/6X+/tKBV943FtFyQMCEHM0cLjA+5ktOvEHcbtYI85
- bzLAwrSbeC7Y2TTfcWW4SoRrbgTEHX4+3jddjdApNSy6y66mfKwEEr2czzd8QZNfVzU22h
- BctFvMRP/VuugoggsX5mqkJkpZq0p+0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-JO6VAih8OzaXOwLDGnJmtA-1; Thu, 16 Sep 2021 11:01:59 -0400
-X-MC-Unique: JO6VAih8OzaXOwLDGnJmtA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 201-20020a1c04d2000000b0030b3e4fdcfbso475282wme.0
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 08:01:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=38WB3fz79AYdQTogOklCqZdExvJ42LVBLDhwdCNMlq8=;
- b=1tU7xXWvGbdzU60Af65yLpn9odoc3SMv67G8CqpzU9o6wkTEJhYKgFxLevOyU3gCzX
- 0a2T2laTI7VfvNw+n3AZKJwapMA4Yr6x8D3AMix22/4MBQ4rkHqqHV7T+IZZjOTOmLsd
- ystpLMhGsV/9W4OfrPHmMi7WK0Tlg1M5/Ut1NdbyjBvoMdHqRfnOuNN8QSg3tQjjkWer
- jwSyL2e9zBLRJ13xm7BmbKn1x/ChGxohIg+k5qEgcMycm9RUBwFB3WmEeZYNw8l3XyBd
- HMvyLQChH5RteAp/0CPWw3UfKKRL/9Z6+AFvJj5+/5P/O/3hk4091nlfvaBlsw/Qixhs
- Jf5Q==
-X-Gm-Message-State: AOAM532aYDPibhkdi03oH7CJVMeh2SvW4UJxFcpAwDRnCVuqkqo3Dvrv
- C5jWLzKK8vs5HwqnGir9q1JaIc2xqmmaaxP4hgROtY2gEsejy3A+dQrwn4T4YFfoLlIckjOV5pW
- Tas68Krw+w4rquHw=
-X-Received: by 2002:adf:e6c9:: with SMTP id y9mr6709121wrm.429.1631804518457; 
- Thu, 16 Sep 2021 08:01:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxpHtlzg4Xi48jRGm9fJC/o5qOqm7cCnRnmTCvq64R7avpF+hV6kdoxlygDPtsuagykaJ4ViQ==
-X-Received: by 2002:adf:e6c9:: with SMTP id y9mr6709110wrm.429.1631804518335; 
- Thu, 16 Sep 2021 08:01:58 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
- by smtp.gmail.com with ESMTPSA id c2sm3657799wrs.60.2021.09.16.08.01.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 08:01:57 -0700 (PDT)
-Subject: Re: [PATCH 10/22] qapi: Convert simple union TransactionAction to
- flat one
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20210913123932.3306639-1-armbru@redhat.com>
- <20210913123932.3306639-11-armbru@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <9f8db6ae-1923-a3d0-c305-bcbce055f7c3@redhat.com>
-Date: Thu, 16 Sep 2021 17:01:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1mQsuU-0007Zj-IO; Thu, 16 Sep 2021 11:02:46 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:51254 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1mQsuS-00044G-3S; Thu, 16 Sep 2021 11:02:46 -0400
+Received: from MacBook-Air.alex.local
+ (dynamic-077-009-016-098.77.9.pool.telefonica.de [77.9.16.98])
+ by csgraf.de (Postfix) with ESMTPSA id A91D36080098;
+ Thu, 16 Sep 2021 17:02:40 +0200 (CEST)
+Subject: Re: [PATCH v11 05/10] arm/hvf: Add a WFI handler
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Peter Collingbourne <pcc@google.com>
+References: <20210915181049.27597-1-agraf@csgraf.de>
+ <20210915181049.27597-6-agraf@csgraf.de>
+ <8d255a90-7d7c-fcb6-2d9f-8febe182c286@amsat.org>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <2de02003-8355-8022-835d-5fcdf2dddbff@csgraf.de>
+Date: Thu, 16 Sep 2021 17:02:39 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20210913123932.3306639-11-armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <8d255a90-7d7c-fcb6-2d9f-8febe182c286@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.488, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.488,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,29 +56,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, jsnow@redhat.com, eblake@redhat.com,
- marcandre.lureau@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Frank Yang <lfy@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13.09.21 14:39, Markus Armbruster wrote:
-> Simple unions predate flat unions.  Having both complicates the QAPI
-> schema language and the QAPI generator.  We haven't been using simple
-> unions in new code for a long time, because they are less flexible and
-> somewhat awkward on the wire.
->
-> To prepare for their removal, convert simple union TransactionAction
-> to an equivalent flat one.  Adds some boilerplate to the schema, which
-> is a bit ugly, but a lot easier to maintain than the simple union
-> feature.
->
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: Hanna Reitz <hreitz@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->   qapi/transaction.json | 111 +++++++++++++++++++++++++++++++++++++-----
->   1 file changed, 99 insertions(+), 12 deletions(-)
 
-Acked-by: Hanna Reitz <hreitz@redhat.com>
+On 16.09.21 06:49, Philippe Mathieu-Daudé wrote:
+> On 9/15/21 8:10 PM, Alexander Graf wrote:
+>> From: Peter Collingbourne <pcc@google.com>
+>>
+>> Sleep on WFI until the VTIMER is due but allow ourselves to be woken
+>> up on IPI.
+>>
+>> In this implementation IPI is blocked on the CPU thread at startup and
+>> pselect() is used to atomically unblock the signal and begin sleeping.
+>> The signal is sent unconditionally so there's no need to worry about
+>> races between actually sleeping and the "we think we're sleeping"
+>> state. It may lead to an extra wakeup but that's better than missing
+>> it entirely.
+>>
+>> Signed-off-by: Peter Collingbourne <pcc@google.com>
+>> [agraf: Remove unused 'set' variable, always advance PC on WFX trap,
+>>         support vm stop / continue operations and cntv offsets]
+>> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+>> Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
+>> Reviewed-by: Sergio Lopez <slp@redhat.com>
+>>
+>> ---
+>> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+>> index 8fe008dab5..49f265cc08 100644
+>> --- a/target/arm/hvf/hvf.c
+>> +++ b/target/arm/hvf/hvf.c
+>> @@ -2,6 +2,7 @@
+>>   * QEMU Hypervisor.framework support for Apple Silicon
+>>  
+>>   * Copyright 2020 Alexander Graf <agraf@csgraf.de>
+>> + * Copyright 2020 Google LLC
+>>   *
+>>   * This work is licensed under the terms of the GNU GPL, version 2 or later.
+>>   * See the COPYING file in the top-level directory.
+>> @@ -490,6 +491,7 @@ int hvf_arch_init_vcpu(CPUState *cpu)
+>>  
+>>  void hvf_kick_vcpu_thread(CPUState *cpu)
+>>  {
+>> +    cpus_kick_thread(cpu);
+> Doesn't this belong to the previous patch?
+
+
+Until this patch, we're never running outside guest context on the vCPU
+thread, so hv_vcpus_exit() is enough to kick us out :).
+
+
+Thanks a lot for the review!
+
+Alex
 
 
