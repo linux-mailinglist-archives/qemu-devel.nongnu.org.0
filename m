@@ -2,104 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508E740ECF8
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 23:57:19 +0200 (CEST)
-Received: from localhost ([::1]:42800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB58640ED0A
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 00:01:37 +0200 (CEST)
+Received: from localhost ([::1]:54722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQzNe-0003PJ-EI
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 17:57:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56736)
+	id 1mQzRo-0002tX-Tc
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 18:01:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=886e160e1=alistair.francis@opensource.wdc.com>)
- id 1mQzGi-0005qi-2d
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 17:50:09 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:20965)
+ id 1mQzGk-0005sf-Iz
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 17:50:11 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:16939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=886e160e1=alistair.francis@opensource.wdc.com>)
- id 1mQzGe-0002Ow-Ls
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 17:50:07 -0400
+ id 1mQzGi-0002Sg-8n
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 17:50:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1631829004; x=1663365004;
+ t=1631829006; x=1663365006;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=bEGVNCgosMHtUlxH9kOtaXa5oZpBJ9IYzT/i1SohdGA=;
- b=YW2+hv6pnvwKFBwB36/A93uapQRteM4TW5V+Wjq28wV+B2UvJbhlhYg1
- cGN/DxdMYE70CzSlL4CGW055JjAatNxtuQc4z0W/WUC+f9z2NIl6xfeuy
- /fOGhDwqhaSgeKhLvbjckSLsOL/86Fy3jmpyjS0himeqVgndVMt2vkOCK
- 2EJz0dr9inJjZ4on4YE9BiaQfS4vkThe8YfAPDNRE5L2D86hPrQ7VemrV
- nNMj3/uZcd5R+OaaJJWsutTrKP4FQhmuQA7MW0DJSA8vy+u1f2k+yTeB0
- kB86Z+1fWZKxPMt0HlVUh7MPs5VLiab/1rEgL3DrURUIrI6GOGwlrMMFd w==;
-X-IronPort-AV: E=Sophos;i="5.85,299,1624291200"; d="scan'208";a="184998236"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 17 Sep 2021 05:49:58 +0800
-IronPort-SDR: ZJFo4xMb9v7HlifIMsGiEGdKO+5fjsLQsxf+bEVTyJ2/QIdNbEasIgy9pTXIYpqJTUIcpZTYAb
- 7eEIuHO1UL1+NC6nLQbuxhtYQHZMWbZZn5ZLiu9yrT4dV/0cLNJrY4EuernLw3Iou5aLg+jhOk
- 0DXL9HyauxS1aqQysljUEw2kurMK3nYgbkfS0Nb8cQwMfp8bgnCpl/OY8g0qTRLyuIUMfbwbcj
- WZ9uhQNLwKFVqLK4Vq1X8sPESq1Vub/wV79XEZey3yfik637B7FQdGEyvyHnnDCAIopqlq1ScV
- k/csJktyg1opUjyzkdmJdjUv
+ bh=udY9w+NeiDp/mEpbscKWZmSK8L6Dbk1lDBcl4Yj5kHk=;
+ b=SprjkFiJDRcSb0rJty/OmQxtF8aJxod5Da80DuPH+/Rmzn5eA0QBdjC0
+ UFQpIypLGiU4YE8LgDjvdXK5I+VAu8Ri8/QIDni8tAcY3pEAn9VZ9YxM2
+ FQ0zsOlGgOqou9Bvb1c2wZIjrGaAGLjn9ov5tNgFNyHD4ITXM+plLRx3S
+ OnLZ0k+GrqAGwlazA+gMCWA6IGGbSIGGR+kaRE2ytjCg141XkwzjeBa0j
+ PUAaR1EUDNuyCDfKvzFqwpBuQy3A2Kf5yIr7gLiKeGHv/m7TcZuc46cCz
+ 60AdQDZYiEiN9hqwJ7fpmTUYgNUViOsWxmqocffU/s2T5A9Xh3aJZ0aXH w==;
+X-IronPort-AV: E=Sophos;i="5.85,299,1624291200"; d="scan'208";a="180214974"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 17 Sep 2021 05:50:04 +0800
+IronPort-SDR: NiJ0JgiWz861qs6pkIvjqMBo95REoAe/hE+6z9pYOhSKmOOKHsbzBAgtJr9YsJxRBWLpXeYNFW
+ DaQ1zlo7LErFmW4cdVdp1OdXuo8HH8/0H+euPrP+dO/tq/yBuAdsV8k5f2DhUUJyYDdohzw+yj
+ 9RAS0WnmReUiTRWkXC9RVihT7ebV54v9edX2iUoqPJO0WyMmC1xpeyBEpnSt+RLQEAptayN2hE
+ pznx4AqA4TX40uNRBRI16IswNLn26RWBeVxOwAi6SJ3DW9eeE/w4TA8W3VHZYil231xbQHZjLO
+ tPTB7BaZNL+IsJZZhpdL/zV8
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2021 14:24:46 -0700
-IronPort-SDR: AxKl6PtRcmwE47v6682827tjnBH2iFfBkF1gI2iz7B7f2ehG1Wji6z7rCZUxD1n5B76/oHZh98
- Zwgu5OgmFL8cvWNvh91jgvGPbIoKrbyNSi+sSTSFiaJ6c+rYYRRrRgk86ZCEQNGnHQRydx6ZF0
- GoMNaHKUcYVabaMntdAafYTMHicyTBjzZWi11hBag6y8l5ckIIUApCw3BDFHgl1xb37PSF2Rb7
- qTEXtZU6fw8U5P2OgQZwpiwbUCic7++vbVr5ybCm4viPSFyjORoaRZHMMbhijhIAMqwHDu17uS
- WUg=
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2021 14:26:25 -0700
+IronPort-SDR: FjoQFeBElx/i9DGyzlr/9M7iHMMJArD5W1zL1vPX4aU+bX2CQnB4aQBnOW6lBaBHzp570McKOg
+ vfzvtDbAtXMcgder/oYCTTYE2aokgAtloWEI4SFwYEfBmIeQzsLCj5PpJIC3mfT1cMWq0kxwUj
+ D1EPNIjvI7Tee/iaBh/eF0DwHcIpaPIAeBdWKaob1YEnvEYsb/ITtuvpfDB8jrG3HHLHlAleVZ
+ nxKVxM4u5fnQSnI1Tu5fl+dS7afNAB64dgS5N+vvWWkeOa1uASl9A65KedeQqd5JtX11eL/NPT
+ rLQ=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2021 14:49:59 -0700
+ 16 Sep 2021 14:50:06 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4H9W2v1jdWz1Rwrx
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 14:49:59 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4H9W3120TRz1Rws0
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 14:50:05 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1631828998; x=1634420999; bh=bEGVNCgosMHtUlxH9k
- OtaXa5oZpBJ9IYzT/i1SohdGA=; b=nBHJFvkZYNuFccWzE8vNVHyjwnOBmg5xi5
- DK1r9dzKOS1G/SU1FkSBzuML+53pSs/APiiIeVOBDNG38EpU5NhFipzGUvu6MYZ2
- Zt/dJeCO8HWOU6gwGsOamo8qSz7ZlfA64J4LARX7pGxF3u3PixQR7CB4880asxzU
- 1ffy2PduFKIImGaBtCs/vvvA/e5tr8Dlf2ljUGyCPKo4Yc2UeTVu++ZQGRpOygEZ
- 0/PzuFA5mR68v4gnZxcchO69DKdbxW5q+WZcH/hTelryAbVK1TDMfCI2TErD1WJd
- w9MuEJ5PDgeahD2khduJXysOlarI7KQ5VOd4SOhCYVTsAp0G/GLQ==
+ :from; s=dkim; t=1631829003; x=1634421004; bh=udY9w+NeiDp/mEpbsc
+ KWZmSK8L6Dbk1lDBcl4Yj5kHk=; b=I2sJ+ymM/AKbTINc/cqlkjqMCRYf+8+6ox
+ 6iqnciYItYluOAmbpTIoomwTh7cun27p1bzvvJbb1C48Dc3ckMurAPwwlCgfb/52
+ crhXpoyZ7cMBnn+41o8s6H0yWCe+xGv2D22UVAybKfXiiqe0jve/n/Nex+yIesnO
+ M1+SIsTqFUYJV6vugSh5zmIAUsXX7OFoLNCle6fPZzWk212f9KedIRSJk235wqku
+ /9AvE4k0dCCN6JPyOcO0splqXCSiMlKf1SehMcyKJPvyzPZzgN/U58+QBtmbuXOR
+ VbZMgtckIAIfdzveAPYO8FeQS23gmnrZEzFLw+9iJyfKXLkhiDDA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id vteDRpENx0Ee for <qemu-devel@nongnu.org>;
- Thu, 16 Sep 2021 14:49:58 -0700 (PDT)
+ port 10026) with ESMTP id K_wkH47H79hN for <qemu-devel@nongnu.org>;
+ Thu, 16 Sep 2021 14:50:03 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.23])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4H9W2q20Vlz1RvlV;
- Thu, 16 Sep 2021 14:49:54 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4H9W2v3nhSz1RvlV;
+ Thu, 16 Sep 2021 14:49:59 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bmeng.cn@gmail.com>
-Subject: [PULL 09/21] sifive_u: Connect the SiFive PWM device
-Date: Fri, 17 Sep 2021 07:48:52 +1000
-Message-Id: <20210916214904.734206-10-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Anup Patel <anup.patel@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
+Subject: [PULL 10/21] hw/intc: Rename sifive_clint sources to riscv_aclint
+ sources
+Date: Fri, 17 Sep 2021 07:48:53 +1000
+Message-Id: <20210916214904.734206-11-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210916214904.734206-1-alistair.francis@opensource.wdc.com>
 References: <20210916214904.734206-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.153.141;
+Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=886e160e1=alistair.francis@opensource.wdc.com;
- helo=esa3.hgst.iphmx.com
+ helo=esa5.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
 X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,207 +117,218 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+From: Anup Patel <anup.patel@wdc.com>
 
-Connect the SiFive PWM device and expose it via the device tree.
+We will be upgrading SiFive CLINT implementation into RISC-V ACLINT
+implementation so let's first rename the sources.
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Anup Patel <anup.patel@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: 22f98648b4e012f78529a56f5ca60b0b27852a4d.1631159656.git.alist=
-air.francis@wdc.com
+Message-id: 20210831110603.338681-2-anup.patel@wdc.com
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- docs/system/riscv/sifive_u.rst |  1 +
- include/hw/riscv/sifive_u.h    | 14 ++++++++-
- hw/riscv/sifive_u.c            | 55 +++++++++++++++++++++++++++++++++-
- hw/riscv/Kconfig               |  1 +
- 4 files changed, 69 insertions(+), 2 deletions(-)
+ include/hw/intc/{sifive_clint.h =3D> riscv_aclint.h} |  0
+ hw/intc/{sifive_clint.c =3D> riscv_aclint.c}         |  2 +-
+ hw/riscv/microchip_pfsoc.c                         |  2 +-
+ hw/riscv/shakti_c.c                                |  2 +-
+ hw/riscv/sifive_e.c                                |  2 +-
+ hw/riscv/sifive_u.c                                |  2 +-
+ hw/riscv/spike.c                                   |  2 +-
+ hw/riscv/virt.c                                    |  2 +-
+ hw/intc/Kconfig                                    |  2 +-
+ hw/intc/meson.build                                |  2 +-
+ hw/riscv/Kconfig                                   | 12 ++++++------
+ 11 files changed, 15 insertions(+), 15 deletions(-)
+ rename include/hw/intc/{sifive_clint.h =3D> riscv_aclint.h} (100%)
+ rename hw/intc/{sifive_clint.c =3D> riscv_aclint.c} (99%)
 
-diff --git a/docs/system/riscv/sifive_u.rst b/docs/system/riscv/sifive_u.=
-rst
-index 01108b5ecc..7c65e9c440 100644
---- a/docs/system/riscv/sifive_u.rst
-+++ b/docs/system/riscv/sifive_u.rst
-@@ -24,6 +24,7 @@ The ``sifive_u`` machine supports the following devices=
-:
- * 2 QSPI controllers
- * 1 ISSI 25WP256 flash
- * 1 SD card in SPI mode
-+* PWM0 and PWM1
+diff --git a/include/hw/intc/sifive_clint.h b/include/hw/intc/riscv_aclin=
+t.h
+similarity index 100%
+rename from include/hw/intc/sifive_clint.h
+rename to include/hw/intc/riscv_aclint.h
+diff --git a/hw/intc/sifive_clint.c b/hw/intc/riscv_aclint.c
+similarity index 99%
+rename from hw/intc/sifive_clint.c
+rename to hw/intc/riscv_aclint.c
+index ab172d8e40..31ce990d0e 100644
+--- a/hw/intc/sifive_clint.c
++++ b/hw/intc/riscv_aclint.c
+@@ -26,7 +26,7 @@
+ #include "hw/sysbus.h"
+ #include "target/riscv/cpu.h"
+ #include "hw/qdev-properties.h"
+-#include "hw/intc/sifive_clint.h"
++#include "hw/intc/riscv_aclint.h"
+ #include "qemu/timer.h"
+ #include "hw/irq.h"
 =20
- Please note the real world HiFive Unleashed board has a fixed configurat=
-ion of
- 1 E51 core and 4 U54 core combination and the RISC-V core boots in 64-bi=
-t mode.
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 2656b39808..f71c90c94c 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -27,6 +27,7 @@
- #include "hw/misc/sifive_u_otp.h"
- #include "hw/misc/sifive_u_prci.h"
- #include "hw/ssi/sifive_spi.h"
-+#include "hw/timer/sifive_pwm.h"
-=20
- #define TYPE_RISCV_U_SOC "riscv.sifive.u.soc"
- #define RISCV_U_SOC(obj) \
-@@ -49,6 +50,7 @@ typedef struct SiFiveUSoCState {
-     SiFiveSPIState spi0;
-     SiFiveSPIState spi2;
-     CadenceGEMState gem;
-+    SiFivePwmState pwm[2];
-=20
-     uint32_t serial;
-     char *cpu_type;
-@@ -92,7 +94,9 @@ enum {
-     SIFIVE_U_DEV_FLASH0,
-     SIFIVE_U_DEV_DRAM,
-     SIFIVE_U_DEV_GEM,
--    SIFIVE_U_DEV_GEM_MGMT
-+    SIFIVE_U_DEV_GEM_MGMT,
-+    SIFIVE_U_DEV_PWM0,
-+    SIFIVE_U_DEV_PWM1
- };
-=20
- enum {
-@@ -126,6 +130,14 @@ enum {
-     SIFIVE_U_PDMA_IRQ5 =3D 28,
-     SIFIVE_U_PDMA_IRQ6 =3D 29,
-     SIFIVE_U_PDMA_IRQ7 =3D 30,
-+    SIFIVE_U_PWM0_IRQ0 =3D 42,
-+    SIFIVE_U_PWM0_IRQ1 =3D 43,
-+    SIFIVE_U_PWM0_IRQ2 =3D 44,
-+    SIFIVE_U_PWM0_IRQ3 =3D 45,
-+    SIFIVE_U_PWM1_IRQ0 =3D 46,
-+    SIFIVE_U_PWM1_IRQ1 =3D 47,
-+    SIFIVE_U_PWM1_IRQ2 =3D 48,
-+    SIFIVE_U_PWM1_IRQ3 =3D 49,
-     SIFIVE_U_QSPI0_IRQ =3D 51,
-     SIFIVE_U_GEM_IRQ =3D 53
- };
+diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+index eef55f69fd..eed9e81355 100644
+--- a/hw/riscv/microchip_pfsoc.c
++++ b/hw/riscv/microchip_pfsoc.c
+@@ -49,7 +49,7 @@
+ #include "hw/riscv/boot.h"
+ #include "hw/riscv/riscv_hart.h"
+ #include "hw/riscv/microchip_pfsoc.h"
+-#include "hw/intc/sifive_clint.h"
++#include "hw/intc/riscv_aclint.h"
+ #include "hw/intc/sifive_plic.h"
+ #include "sysemu/device_tree.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
+index 09d4e1433e..f9f0a45651 100644
+--- a/hw/riscv/shakti_c.c
++++ b/hw/riscv/shakti_c.c
+@@ -21,7 +21,7 @@
+ #include "hw/riscv/shakti_c.h"
+ #include "qapi/error.h"
+ #include "hw/intc/sifive_plic.h"
+-#include "hw/intc/sifive_clint.h"
++#include "hw/intc/riscv_aclint.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/qdev-properties.h"
+ #include "exec/address-spaces.h"
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index 04265c5640..a73848958e 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -41,7 +41,7 @@
+ #include "hw/riscv/sifive_e.h"
+ #include "hw/riscv/boot.h"
+ #include "hw/char/sifive_uart.h"
+-#include "hw/intc/sifive_clint.h"
++#include "hw/intc/riscv_aclint.h"
+ #include "hw/intc/sifive_plic.h"
+ #include "hw/misc/sifive_e_prci.h"
+ #include "chardev/char.h"
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 6766edc1d0..f4cde10667 100644
+index f4cde10667..aaab46c43c 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -17,6 +17,7 @@
-  * 7) DMA (Direct Memory Access Controller)
-  * 8) SPI0 connected to an SPI flash
-  * 9) SPI2 connected to an SD card
-+ * 10) PWM0 and PWM1
-  *
-  * This board currently generates devicetree dynamically that indicates =
-at least
-  * two harts and up to five harts.
-@@ -75,6 +76,8 @@ static const MemMapEntry sifive_u_memmap[] =3D {
-     [SIFIVE_U_DEV_PRCI] =3D     { 0x10000000,     0x1000 },
-     [SIFIVE_U_DEV_UART0] =3D    { 0x10010000,     0x1000 },
-     [SIFIVE_U_DEV_UART1] =3D    { 0x10011000,     0x1000 },
-+    [SIFIVE_U_DEV_PWM0] =3D     { 0x10020000,     0x1000 },
-+    [SIFIVE_U_DEV_PWM1] =3D     { 0x10021000,     0x1000 },
-     [SIFIVE_U_DEV_QSPI0] =3D    { 0x10040000,     0x1000 },
-     [SIFIVE_U_DEV_QSPI2] =3D    { 0x10050000,     0x1000 },
-     [SIFIVE_U_DEV_GPIO] =3D     { 0x10060000,     0x1000 },
-@@ -441,6 +444,38 @@ static void create_fdt(SiFiveUState *s, const MemMap=
-Entry *memmap,
-     qemu_fdt_setprop_cell(fdt, nodename, "reg", 0x0);
-     g_free(nodename);
+@@ -52,7 +52,7 @@
+ #include "hw/riscv/sifive_u.h"
+ #include "hw/riscv/boot.h"
+ #include "hw/char/sifive_uart.h"
+-#include "hw/intc/sifive_clint.h"
++#include "hw/intc/riscv_aclint.h"
+ #include "hw/intc/sifive_plic.h"
+ #include "chardev/char.h"
+ #include "net/eth.h"
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index aae36f2cb4..690c19c12a 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -35,7 +35,7 @@
+ #include "hw/riscv/boot.h"
+ #include "hw/riscv/numa.h"
+ #include "hw/char/riscv_htif.h"
+-#include "hw/intc/sifive_clint.h"
++#include "hw/intc/riscv_aclint.h"
+ #include "chardev/char.h"
+ #include "sysemu/device_tree.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 47f1beb473..df33fd74c2 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -32,7 +32,7 @@
+ #include "hw/riscv/virt.h"
+ #include "hw/riscv/boot.h"
+ #include "hw/riscv/numa.h"
+-#include "hw/intc/sifive_clint.h"
++#include "hw/intc/riscv_aclint.h"
+ #include "hw/intc/sifive_plic.h"
+ #include "hw/misc/sifive_test.h"
+ #include "chardev/char.h"
+diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+index f4694088a4..78aed93c45 100644
+--- a/hw/intc/Kconfig
++++ b/hw/intc/Kconfig
+@@ -62,7 +62,7 @@ config RX_ICU
+ config LOONGSON_LIOINTC
+     bool
 =20
-+    nodename =3D g_strdup_printf("/soc/pwm@%lx",
-+        (long)memmap[SIFIVE_U_DEV_PWM0].base);
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,pwm0");
-+    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-+        0x0, memmap[SIFIVE_U_DEV_PWM0].base,
-+        0x0, memmap[SIFIVE_U_DEV_PWM0].size);
-+    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandl=
-e);
-+    qemu_fdt_setprop_cells(fdt, nodename, "interrupts",
-+                           SIFIVE_U_PWM0_IRQ0, SIFIVE_U_PWM0_IRQ1,
-+                           SIFIVE_U_PWM0_IRQ2, SIFIVE_U_PWM0_IRQ3);
-+    qemu_fdt_setprop_cells(fdt, nodename, "clocks",
-+                           prci_phandle, PRCI_CLK_TLCLK);
-+    qemu_fdt_setprop_cell(fdt, nodename, "#pwm-cells", 0);
-+    g_free(nodename);
-+
-+    nodename =3D g_strdup_printf("/soc/pwm@%lx",
-+        (long)memmap[SIFIVE_U_DEV_PWM1].base);
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,pwm0");
-+    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-+        0x0, memmap[SIFIVE_U_DEV_PWM1].base,
-+        0x0, memmap[SIFIVE_U_DEV_PWM1].size);
-+    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandl=
-e);
-+    qemu_fdt_setprop_cells(fdt, nodename, "interrupts",
-+                           SIFIVE_U_PWM1_IRQ0, SIFIVE_U_PWM1_IRQ1,
-+                           SIFIVE_U_PWM1_IRQ2, SIFIVE_U_PWM1_IRQ3);
-+    qemu_fdt_setprop_cells(fdt, nodename, "clocks",
-+                           prci_phandle, PRCI_CLK_TLCLK);
-+    qemu_fdt_setprop_cell(fdt, nodename, "#pwm-cells", 0);
-+    g_free(nodename);
-+
-     nodename =3D g_strdup_printf("/soc/serial@%lx",
-         (long)memmap[SIFIVE_U_DEV_UART1].base);
-     qemu_fdt_add_subnode(fdt, nodename);
-@@ -765,6 +800,8 @@ static void sifive_u_soc_instance_init(Object *obj)
-     object_initialize_child(obj, "pdma", &s->dma, TYPE_SIFIVE_PDMA);
-     object_initialize_child(obj, "spi0", &s->spi0, TYPE_SIFIVE_SPI);
-     object_initialize_child(obj, "spi2", &s->spi2, TYPE_SIFIVE_SPI);
-+    object_initialize_child(obj, "pwm0", &s->pwm[0], TYPE_SIFIVE_PWM);
-+    object_initialize_child(obj, "pwm1", &s->pwm[1], TYPE_SIFIVE_PWM);
- }
+-config SIFIVE_CLINT
++config RISCV_ACLINT
+     bool
 =20
- static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-@@ -777,7 +814,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Er=
-ror **errp)
-     MemoryRegion *l2lim_mem =3D g_new(MemoryRegion, 1);
-     char *plic_hart_config;
-     size_t plic_hart_config_len;
--    int i;
-+    int i, j;
-     NICInfo *nd =3D &nd_table[0];
-=20
-     qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", ms->smp.cpus -=
- 1);
-@@ -904,6 +941,22 @@ static void sifive_u_soc_realize(DeviceState *dev, E=
-rror **errp)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->gem), 0,
-                        qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_U_GEM_IR=
-Q));
-=20
-+    /* PWM */
-+    for (i =3D 0; i < 2; i++) {
-+        if (!sysbus_realize(SYS_BUS_DEVICE(&s->pwm[i]), errp)) {
-+            return;
-+        }
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&s->pwm[i]), 0,
-+                                memmap[SIFIVE_U_DEV_PWM0].base + (0x1000=
- * i));
-+
-+        /* Connect PWM interrupts to the PLIC */
-+        for (j =3D 0; j < SIFIVE_PWM_IRQS; j++) {
-+            sysbus_connect_irq(SYS_BUS_DEVICE(&s->pwm[i]), j,
-+                               qdev_get_gpio_in(DEVICE(s->plic),
-+                                        SIFIVE_U_PWM0_IRQ0 + (i * 4) + j=
-));
-+        }
-+    }
-+
-     create_unimplemented_device("riscv.sifive.u.gem-mgmt",
-         memmap[SIFIVE_U_DEV_GEM_MGMT].base, memmap[SIFIVE_U_DEV_GEM_MGMT=
-].size);
-=20
+ config SIFIVE_PLIC
+diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+index 4dcfea6aa8..a1d00aa48d 100644
+--- a/hw/intc/meson.build
++++ b/hw/intc/meson.build
+@@ -47,7 +47,7 @@ specific_ss.add(when: 'CONFIG_RX_ICU', if_true: files('=
+rx_icu.c'))
+ specific_ss.add(when: 'CONFIG_S390_FLIC', if_true: files('s390_flic.c'))
+ specific_ss.add(when: 'CONFIG_S390_FLIC_KVM', if_true: files('s390_flic_=
+kvm.c'))
+ specific_ss.add(when: 'CONFIG_SH_INTC', if_true: files('sh_intc.c'))
+-specific_ss.add(when: 'CONFIG_SIFIVE_CLINT', if_true: files('sifive_clin=
+t.c'))
++specific_ss.add(when: 'CONFIG_RISCV_ACLINT', if_true: files('riscv_aclin=
+t.c'))
+ specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic.=
+c'))
+ specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
+ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XICS'],
 diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index ff75add6f3..d56c339ef6 100644
+index d56c339ef6..d2d869aaad 100644
 --- a/hw/riscv/Kconfig
 +++ b/hw/riscv/Kconfig
-@@ -69,6 +69,7 @@ config SIFIVE_U
-     select SIFIVE_UART
-     select SIFIVE_U_OTP
-     select SIFIVE_U_PRCI
-+    select SIFIVE_PWM
-     select SSI_M25P80
-     select SSI_SD
+@@ -12,7 +12,7 @@ config MICROCHIP_PFSOC
+     select MCHP_PFSOC_MMUART
+     select MCHP_PFSOC_SYSREG
+     select MSI_NONBROKEN
+-    select SIFIVE_CLINT
++    select RISCV_ACLINT
+     select SIFIVE_PDMA
+     select SIFIVE_PLIC
      select UNIMP
+@@ -26,7 +26,7 @@ config SHAKTI_C
+     bool
+     select UNIMP
+     select SHAKTI_UART
+-    select SIFIVE_CLINT
++    select RISCV_ACLINT
+     select SIFIVE_PLIC
+=20
+ config RISCV_VIRT
+@@ -41,7 +41,7 @@ config RISCV_VIRT
+     select PCI_EXPRESS_GENERIC_BRIDGE
+     select PFLASH_CFI01
+     select SERIAL
+-    select SIFIVE_CLINT
++    select RISCV_ACLINT
+     select SIFIVE_PLIC
+     select SIFIVE_TEST
+     select VIRTIO_MMIO
+@@ -50,7 +50,7 @@ config RISCV_VIRT
+ config SIFIVE_E
+     bool
+     select MSI_NONBROKEN
+-    select SIFIVE_CLINT
++    select RISCV_ACLINT
+     select SIFIVE_GPIO
+     select SIFIVE_PLIC
+     select SIFIVE_UART
+@@ -61,7 +61,7 @@ config SIFIVE_U
+     bool
+     select CADENCE
+     select MSI_NONBROKEN
+-    select SIFIVE_CLINT
++    select RISCV_ACLINT
+     select SIFIVE_GPIO
+     select SIFIVE_PDMA
+     select SIFIVE_PLIC
+@@ -79,5 +79,5 @@ config SPIKE
+     select RISCV_NUMA
+     select HTIF
+     select MSI_NONBROKEN
+-    select SIFIVE_CLINT
++    select RISCV_ACLINT
+     select SIFIVE_PLIC
 --=20
 2.31.1
 
