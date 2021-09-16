@@ -2,87 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7B140D6E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 11:57:54 +0200 (CEST)
-Received: from localhost ([::1]:40068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD1A40D789
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 12:37:27 +0200 (CEST)
+Received: from localhost ([::1]:60404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQo9R-0003hs-HT
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 05:57:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37400)
+	id 1mQoli-0006J4-Be
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 06:37:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mQo7a-0002GJ-1d
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 05:55:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31144)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mQogW-0005lc-9v; Thu, 16 Sep 2021 06:32:04 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:58941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1mQo7V-0001tu-Km
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 05:55:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631786151;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ke1sTA/Ko4i8+F2yhyD2A2Nn2VwPPui91Z7lXWZNBtE=;
- b=U6CoDiw7gc/SsFaMgI/CfPR+OlYxwww9h91O6h8dXIPpzYbdqxyeICVQR0Cw5bMc+ETlx9
- /RBDBoB+JMk2blkOEkYuD14cWq9WayjgW28YCGESVko/aHkYRMA8fvB4ksU279rp5qwPng
- E/MTC2tJKvF+Sb2WKR2G3kX8Gnmbpb4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-5gYv7L8xM9WYQsnazMyzsA-1; Thu, 16 Sep 2021 05:55:50 -0400
-X-MC-Unique: 5gYv7L8xM9WYQsnazMyzsA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n30-20020a05600c3b9e00b002fbbaada5d7so2379409wms.7
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 02:55:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Ke1sTA/Ko4i8+F2yhyD2A2Nn2VwPPui91Z7lXWZNBtE=;
- b=v/gIT2Q/oiDkFsHNZWLBXdmah/ugx34E6iV3GBpLjZr4keyEX62v55kaIwnhzymYcw
- Eqg8E/JrAOmUzB206OXsASCAPkHY0mV85xcCXarKBAFuRm1157H1amMxXOPkRTfvpLZT
- cZ++yB0a6VMEDXuhNBYWcVtVaj50eR7zwSA71WUhJxa3emYEJAryikgM8nbm/rzBTJ8N
- YvxiZs7gY9JPTVSkGVRJAJIuktADhiM04b6M6bdK/5nc12DkRS6bLZxaBQWJXjT1/yJc
- wSfPf/Wvb339XgRif+igaAB8SVOdEeayzMq6ZCHFA1u746sgaMkLNKajU7evIyOVUXwO
- 5Gjw==
-X-Gm-Message-State: AOAM530WZiS8+YFKct+zSGcvaQMV0Icj/wDTLk9zbaivM3MzHQsOyKsd
- qSHit3IaBFQMoU//c5RC9FOaEdwDYvu7E292+eQuxXIpoanz7lDDEzZ01roEe0kFHmzKEChvoCk
- Yur/tFtsvCZoCuRI=
-X-Received: by 2002:adf:f789:: with SMTP id q9mr5005757wrp.367.1631786149545; 
- Thu, 16 Sep 2021 02:55:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxAJ37lM4VVKz8a2072p1TNF6uEF9jX6flKL6BO10OdyUHqBziD46/ED12apNEtGiWhN9fG3A==
-X-Received: by 2002:adf:f789:: with SMTP id q9mr5005740wrp.367.1631786149286; 
- Thu, 16 Sep 2021 02:55:49 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id o8sm3409589wrm.9.2021.09.16.02.55.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Sep 2021 02:55:48 -0700 (PDT)
-Date: Thu, 16 Sep 2021 10:55:46 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Subject: Re: [PATCH] virtiofsd: Reverse req_list before processing it
-Message-ID: <YUMUonBdCHCtXA/3@work-vm>
-References: <20210824131158.39970-1-slp@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mQogT-00079m-TG; Thu, 16 Sep 2021 06:32:03 -0400
+Received: from [192.168.100.1] ([82.142.27.6]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M1Yl9-1mSBll2pQ3-00388I; Thu, 16 Sep 2021 11:43:18 +0200
+Subject: Re: [PATCH] target/sparc: Make sparc_cpu_dump_state() static
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210916084002.1918445-1-f4bug@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <508042dd-6cb6-0cc0-54eb-4a8b5411ddc9@vivier.eu>
+Date: Thu, 16 Sep 2021 11:43:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210824131158.39970-1-slp@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.39, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210916084002.1918445-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:KQUkL+h96Nnb8A0t3XmupWpQkzV6KCqN+e+oDlvV8DYz+Fq6VRw
+ 8ibvAmzui3eyOQZupbIi7yr6vst4U3ODUt2MCdd1TH0k0nGb+ETAZ9jgsc0nxD4trfc7XCU
+ T+N/BTBnCXw63v7D/PWW8V0SQllTmVgtLR9keh0VBgtgWLdu+EsLfSahUtvOwo0LJ4zFoVd
+ Sml+xR2SRoftuNgxZS9iA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uMqxoJ0Arao=:+M7apHmANSjev7OhJTL1uD
+ xu+fKOGUWMREQZY3wncznVXz7DxFEhWtlxGghl+EVnpvRnbfluZqwoFJT9BtqIw09UesMz1Lm
+ 6TTnurSYLBsIKamMDCCCbDA7U7Ny4TA235hyWmbds+TEVRCR36Zooi/gfZCriKU6asq2wwB6n
+ r2UbgGSFU8Co0zFDRdeCNdxzoCEBKFlr2DByT4vy0A6bujC3qcnQzhM7MD8VmWyiBufWxZUKM
+ vUGES0YR1n2Uv/H4dLJtQPV2kYYoGLsvSQsvYEFqaok4LjzGfBs0d2cTXjULOjiN1p1d3Stgb
+ 4/QkHAXVFhOCgKnJXNZ7MFwvJgaNKys5j2KOCLxrPaslHDeEMWyEGG/xSHOFq2cmG4bxajhpj
+ 2bH8HCnHYB9pKXrSrLx5AkPFuF12MRZFjcOPA5quSh4I9jscKZibCyAYZ5TUZeig9fwrk8YoI
+ 8Lffm1VcrouzwsR4ZoejjPIWRC2hfSfkXTXErexwchFKnemXwfAxam1Nh+y6UvY6AaxN8td5T
+ lfMSsGUEh4vBS17B/aNMqlLlIODFyteGN+A2t23GReb/al50t8R2wOo7bYC57KiIjDlnCHACh
+ a5pyqJUhBv2+CNQrkEO7ehP+SYLEx1X5AnhWwjF+PNti1m3xpzsAxNNvEK3wirBSmYvGXjbqr
+ Y6sKZxU3kY5rztcEtMrQrzm3dFjmh5wX9ml4qzdlMr66tUtbxjz96ZOGpumwINwxWma5f+ip6
+ a5TlJC4loX+YsteOHtpupPkB3K45oTTB/6r7sMFV+xpQh2CcoNU0nNC0O8C172LbJ27ilpQUM
+ eo4nAef
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.698,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,71 +71,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, vgoyal@redhat.com
+Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Sergio Lopez (slp@redhat.com) wrote:
-> With the thread pool disabled, we add the requests in the queue to a
-> GList, processing by iterating over there afterwards.
+Le 16/09/2021 à 10:40, Philippe Mathieu-Daudé a écrit :
+> The sparc_cpu_dump_state() function is only called within
+> the same file. Make it static.
 > 
-> For adding them, we're using "g_list_prepend()", which is more
-> efficient but causes the requests to be processed in reverse order,
-> breaking the read-ahead and request-merging optimizations in the host
-> for sequential operations.
-> 
-> According to the documentation, if you need to process the request
-> in-order, using "g_list_prepend()" and then reversing the list with
-> "g_list_reverse()" is more efficient than using "g_list_append()", so
-> let's do it that way.
-> 
-> Testing on a spinning disk (to boost the increase of read-ahead and
-> request-merging) shows a 4x improvement on sequential write fio test:
-> 
-> Test:
-> fio --directory=/mnt/virtio-fs --filename=fio-file1 --runtime=20
-> --iodepth=16 --size=4G --direct=1 --blocksize=4K --ioengine libaio
-> --rw write --name seqwrite-libaio
-> 
-> Without "g_list_reverse()":
-> ...
-> Jobs: 1 (f=1): [W(1)][100.0%][w=22.4MiB/s][w=5735 IOPS][eta 00m:00s]
-> seqwrite-libaio: (groupid=0, jobs=1): err= 0: pid=710: Tue Aug 24 12:58:16 2021
->   write: IOPS=5709, BW=22.3MiB/s (23.4MB/s)(446MiB/20002msec); 0 zone resets
-> ...
-> 
-> With "g_list_reverse()":
-> ...
-> Jobs: 1 (f=1): [W(1)][100.0%][w=84.0MiB/s][w=21.5k IOPS][eta 00m:00s]
-> seqwrite-libaio: (groupid=0, jobs=1): err= 0: pid=716: Tue Aug 24 13:00:15 2021
->   write: IOPS=21.3k, BW=83.1MiB/s (87.2MB/s)(1663MiB/20001msec); 0 zone resets
-> ...
-> 
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
-
-Queued
-
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  tools/virtiofsd/fuse_virtio.c | 1 +
->  1 file changed, 1 insertion(+)
+>  target/sparc/cpu.h | 1 -
+>  target/sparc/cpu.c | 2 +-
+>  2 files changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> index fc2564a603..8f4fd165b9 100644
-> --- a/tools/virtiofsd/fuse_virtio.c
-> +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -716,6 +716,7 @@ static void *fv_queue_thread(void *opaque)
+> diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+> index ff8ae73002a..1f40d768d8b 100644
+> --- a/target/sparc/cpu.h
+> +++ b/target/sparc/cpu.h
+> @@ -571,7 +571,6 @@ extern const VMStateDescription vmstate_sparc_cpu;
+>  #endif
 >  
->          /* Process all the requests. */
->          if (!se->thread_pool_size && req_list != NULL) {
-> +            req_list = g_list_reverse(req_list);
->              g_list_foreach(req_list, fv_queue_worker, qi);
->              g_list_free(req_list);
->              req_list = NULL;
-> -- 
-> 2.26.2
+>  void sparc_cpu_do_interrupt(CPUState *cpu);
+> -void sparc_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+>  hwaddr sparc_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+>  int sparc_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+>  int sparc_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+> diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+> index 5a8a4ce7506..21dd27796d0 100644
+> --- a/target/sparc/cpu.c
+> +++ b/target/sparc/cpu.c
+> @@ -612,7 +612,7 @@ static void cpu_print_cc(FILE *f, uint32_t cc)
+>  #define REGS_PER_LINE 8
+>  #endif
+>  
+> -void sparc_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+> +static void sparc_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+>  {
+>      SPARCCPU *cpu = SPARC_CPU(cs);
+>      CPUSPARCState *env = &cpu->env;
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
