@@ -2,93 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1117D40E3AB
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 19:21:18 +0200 (CEST)
-Received: from localhost ([::1]:34702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4148840E794
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 19:33:46 +0200 (CEST)
+Received: from localhost ([::1]:42186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQv4W-0005tj-Le
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 13:21:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38736)
+	id 1mQvGa-00034c-UC
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 13:33:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mQv2f-00052H-Dj
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 13:19:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59509)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQvF2-0002CH-M2
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 13:32:09 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:32500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mQv2Z-0001qo-8S
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 13:19:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631812752;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Vp2d7Rm6eG2E7A/UD+ACpYSg+XdVticDpgAWqAZ+Rz4=;
- b=MILen4kT44VCeDYQXcDC90j06+/hvuLZV67RVveMxnYQ5/P6hGmOk8EqdrMajL9+ZK1zlp
- 4VMKauwaWUZ6g+f9nG87n0Mm8n9Apwfs4DxQm+WPg6g5vrO6cnmJzyIVVW4KIf6zhSh8UM
- u7vNQPapjReyCsD3naOdjo6o024AL/s=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-Eiegvof1OFaHfznXaxd8sg-1; Thu, 16 Sep 2021 13:19:11 -0400
-X-MC-Unique: Eiegvof1OFaHfznXaxd8sg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- e1-20020adfa741000000b0015e424fdd01so2228904wrd.11
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 10:19:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=Vp2d7Rm6eG2E7A/UD+ACpYSg+XdVticDpgAWqAZ+Rz4=;
- b=xlaqvpNcL6X0DDNvMfJan4CD/da8qM8Ge1STkyRKGY/+/U1sKDl3Q01jjYb8nc0Tdo
- Jwh5eqZ9pLcCvqend16ZMD9Z01LGv/oM0xs7vmeYAd9+b2zFB1VS7DrhaXa5VYi4EzTM
- DlXnxCw4pE5cIBRCRfEolDTBb6oEb2gcaem4+jwAm2MJQNQEqnggRszeQ10UAVJUKdDz
- 4IIfDaLe/NYgOGanq2xe5fWsMiXgGyiodVIQDk6HmfmlpQ9dLYAyLBtcNb2MmmZ067h/
- Y8xZKqbe8cc+cAdBU+B5XDZHgaKDpMUbKvFQUJia9h3rzQ8EeDq7m+trAOKa7M/ScSOo
- FZtw==
-X-Gm-Message-State: AOAM531usJOShaLqA9UE4oeSu/VdXiHhSokR8XTjqaO/wdiCrqa99iHU
- vynKO87F+a0+zLldxYv2cPyJUAjf32Os8ueMU2MGLmRMIbgkXZPFwUo6TpSK2Wma7uwxy48Jgs1
- lnAW75z2QpDslFSI=
-X-Received: by 2002:a1c:a713:: with SMTP id q19mr11047552wme.42.1631812750173; 
- Thu, 16 Sep 2021 10:19:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxOQc92u41pSvQtucgjwwM7k+Pq23pR+ZkLQ0TZCEEIVXVBFvu5PZON6IIlKaGnSOfJtZt5HQ==
-X-Received: by 2002:a1c:a713:: with SMTP id q19mr11047522wme.42.1631812749887; 
- Thu, 16 Sep 2021 10:19:09 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id x5sm4766362wmk.32.2021.09.16.10.19.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 10:19:09 -0700 (PDT)
-Subject: Re: [PATCH] hw/rtc/pl031: Send RTC_CHANGE QMP event
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210909122402.127977-1-eric.auger@redhat.com>
- <CAFEAcA9gs4of2tw77YfYNjYKjoeBAHy0SknkCFNuZprGa-203Q@mail.gmail.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <f6aa5469-3ef4-bda1-51bd-d0eec5bf9fed@redhat.com>
-Date: Thu, 16 Sep 2021 19:19:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mQvEy-0004UX-Dd
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 13:32:08 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-71-3tdK28RhMDSoS-K8BHJ8Kw-1; Thu, 16 Sep 2021 13:31:51 -0400
+X-MC-Unique: 3tdK28RhMDSoS-K8BHJ8Kw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E47AA100C662;
+ Thu, 16 Sep 2021 17:31:49 +0000 (UTC)
+Received: from bahia.huguette (unknown [10.39.192.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8C33A10023AB;
+ Thu, 16 Sep 2021 17:31:48 +0000 (UTC)
+Date: Thu, 16 Sep 2021 19:31:46 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v6 3/6] spapr: introduce spapr_numa_associativity_reset()
+Message-ID: <20210916193146.6961a0c6@bahia.huguette>
+In-Reply-To: <0dc516f6-8504-6d65-93f7-c8cd0de3afa2@gmail.com>
+References: <20210910195539.797170-1-danielhb413@gmail.com>
+ <20210910195539.797170-4-danielhb413@gmail.com>
+ <20210914135514.1896ea3e@bahia.huguette>
+ <3bd59a2f-5c3b-f062-4a6c-abf34340000d@gmail.com>
+ <0dc516f6-8504-6d65-93f7-c8cd0de3afa2@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9gs4of2tw77YfYNjYKjoeBAHy0SknkCFNuZprGa-203Q@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.488, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: 0
+X-Spam_score: -0.0
+X-Spam_bar: /
+X-Spam_report: (-0.0 / 5.0 requ) RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,72 +68,293 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: Andrew Jones <drjones@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Gavin Shan <gshan@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Eric Auger <eric.auger.pro@gmail.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-On 9/16/21 3:32 PM, Peter Maydell wrote:
-> On Thu, 9 Sept 2021 at 13:24, Eric Auger <eric.auger@redhat.com> wrote:
->> The PL031 currently is not able to report guest RTC change to the QMP
->> monitor as opposed to mc146818 or spapr RTCs. This patch adds the call
->> to qapi_event_send_rtc_change() when the Load Register is written. The
->> value that is reported corresponds to the difference between the new
->> RTC value and the RTC value elapsed since the base.
->>
->> For instance adding 20s to the guest RTC value will report 20:
->> {'timestamp': {'seconds': 1631189494, 'microseconds': 16932},
->> 'event': 'RTC_CHANGE', 'data': {'offset': 20}}
->>
->> Adding another extra 20s to the guest RTC value will report 40:
->> {'timestamp': {'seconds': 1631189498, 'microseconds': 9708},
->> 'event': 'RTC_CHANGE', 'data': {'offset': 40}}
->>
->> To compute the offset we need to track the origin tick_offset (the one
->> computed at init time). So we need to migrate that field, which is done
->> in a dedicated subsection. The migration of this subsection is disabled
->> for machine types less or equal than 6.1.
->>
->> After migration, adding an extra 20s on the destination returns 60:
->> {'timestamp': {'seconds': 1631189522, 'microseconds': 13081},
->> 'event': 'RTC_CHANGE', 'data': {'offset': 60}}
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->
->> @@ -138,6 +140,7 @@ static void pl031_write(void * opaque, hwaddr offset,
->>      switch (offset) {
->>      case RTC_LR:
->>          s->tick_offset += value - pl031_get_count(s);
->> +        qapi_event_send_rtc_change(s->tick_offset - s->original_tick_offset);
->>          pl031_set_alarm(s);
->>          break;
->>      case RTC_MR:
-> None of the other users of qapi_event_send_rtc_change()
-> seem to have to track the baseline time like this. Shouldn't
-> this be doing something involving using qemu_ref_timedate()
-> as the baseline that it uses to figure out the change value ?
-> (The other users do this via qemu_timedate_diff() but since we
-> start with a value-in-seconds we might want to expose some other
-> API in softmmu/rtc.c.)
+On Wed, 15 Sep 2021 22:32:13 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-I struggled understanding the various kinds of clocks modeled in qemu
-and the PL031 implementation. Both devices calling
-qapi_event_send_rtc_change() seem to store the base rtc in their state
-(mc146818rtc.c cmos data or spapr_rtc tas_ld(args, )) and then
-effectivelly call qemu_timedate_diff() on this base rtc value. I did not
-figure to do the equivalent with the pl031. I will further investigate
-how I can mimic their implementation though.
+> Greg,
+>=20
+>=20
+> On 9/14/21 16:58, Daniel Henrique Barboza wrote:
+> >=20
+> >=20
+> > On 9/14/21 08:55, Greg Kurz wrote:
+> >> On Fri, 10 Sep 2021 16:55:36 -0300
+> >> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+> >>
+>=20
+> [...]
+>=20
+>=20
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> >>> @@ -167,6 +167,11 @@ static void spapr_numa_FORM1_affinity_init(Spapr=
+MachineState *spapr,
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int nb_numa_nodes =3D machine->numa_st=
+ate->num_nodes;
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int i, j, max_nodes_with_gpus;
+> >>> +=C2=A0=C2=A0=C2=A0 /* init FORM1_assoc_array */
+> >>> +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < MAX_NODES + NVGPU_MAX_NUM; i++)=
+ {
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->FORM1_assoc_array[=
+i] =3D g_new0(uint32_t, NUMA_ASSOC_SIZE);
+> >>
+> >> Why dynamic allocation since you have fixed size ?
+> >=20
+> > If I use static allocation the C compiler complains that I can't assign=
+ a
+> > uint32_t** pointer to a uint32_t[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_=
+SIZE]
+> > array type.
+> >=20
+> > And given that the FORM2 array is a [MAX_NODES + NVGPU_MAX_NUM][2] arra=
+y, the
+> > way I worked around that here is to use dynamic allocation. Then C cons=
+iders valid
+> > to use numa_assoc_array as an uint32_t** pointer for both FORM1 and FOR=
+M2
+> > 2D arrays. I'm fairly certain that there might be a way of doing static=
+ allocation
+> > and keeping the uint32_t** pointer as is, but didn't find any. Tips wel=
+come :D
+> >=20
+> > An alternative that I considered, without the need for this dynamic all=
+ocation hack,
+> > is to make both FORM1 and FORM2 data structures the same size (i.e.
+> > an [MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE] uint32_t array) and the=
+n numa_assoc_array
+> > can be a pointer of the same array type for both. Since we're controlli=
+ng FORM1 and
+> > FORM2 sizes separately inside the functions this would work. The downsi=
+de is that
+> > FORM2 2D array would be bigger than necessary.
+>=20
+> I took a look and didn't find any neat way of doing a pointer switch
+> between 2 static arrays without either allocating dynamic mem on the
+> pointer and then g_memdup'ing it, or make all arrays the same size
+> (i.e. numa_assoc_array would also be a statically allocated array
+> with FORM1 size) and then memcpy() the chosen mode.
+>=20
+> I just posted a new version in which I'm not relying on 'numa_assoc_array=
+'.
+> Instead, the DT functions will use a get_associativity() to retrieve
+> the current associativity array based on CAS choice, in a similar
+> manner like it is already done with the array sizes. This also allowed
+> us to get rid of associativity_reset().
+>=20
 
-Thanks
 
-Eric
+Hi Daniel,
 
->
-> thanks
-> -- PMM
->
+I've vaguely started at looking at the new version and it seems
+to look better indeed. Now that KVM Forum 2021 and its too many
+captivating talks are over :-) , I'll try to find some time to
+review.
+
+Cheers,
+
+--
+Greg
+
+>=20
+> Thanks,
+>=20
+>=20
+> Daniel
+>=20
+>=20
+>=20
+> >=20
+> >=20
+> > I don't have strong opinions about which way to do it, so I'm all ears.
+> >=20
+> >=20
+> > Thanks,
+> >=20
+> >=20
+> > Daniel
+> >=20
+> >=20
+> >=20
+> >>
+> >>> +=C2=A0=C2=A0=C2=A0 }
+> >>> +
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * For all associativity arrays: =
+first position is the size,
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * position MAX_DISTANCE_REF_POIN=
+TS is always the numa_id,
+> >>> @@ -177,8 +182,8 @@ static void spapr_numa_FORM1_affinity_init(SpaprM=
+achineState *spapr,
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * 'i' will be a valid node_id se=
+t by the user.
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < nb_numa_nodes; i++) =
+{
+> >>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->numa_assoc_array[i=
+][0] =3D cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+> >>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->numa_assoc_array[i=
+][MAX_DISTANCE_REF_POINTS] =3D cpu_to_be32(i);
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->FORM1_assoc_array[=
+i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->FORM1_assoc_array[=
+i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_be32(i);
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+> >>> @@ -192,15 +197,15 @@ static void spapr_numa_FORM1_affinity_init(Spap=
+rMachineState *spapr,
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 max_nodes_with_gpus =3D nb_numa_nodes =
++ NVGPU_MAX_NUM;
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D nb_numa_nodes; i < max_node=
+s_with_gpus; i++) {
+> >>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->numa_assoc_array[i=
+][0] =3D cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->FORM1_assoc_array[=
+i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (j =3D 1; =
+j < MAX_DISTANCE_REF_POINTS; j++) {
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 uint32_t gpu_assoc =3D smc->pre_5_1_assoc_refpoints ?
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SPAPR_GPU_NUMA=
+_ID : cpu_to_be32(i);
+> >>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s=
+papr->numa_assoc_array[i][j] =3D gpu_assoc;
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s=
+papr->FORM1_assoc_array[i][j] =3D gpu_assoc;
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> >>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->numa_assoc_array[i=
+][MAX_DISTANCE_REF_POINTS] =3D cpu_to_be32(i);
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr->FORM1_assoc_array[=
+i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_be32(i);
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+> >>> @@ -227,14 +232,33 @@ void spapr_numa_associativity_init(SpaprMachine=
+State *spapr,
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ma=
+chineState *machine)
+> >>> =C2=A0 {
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr_numa_FORM1_affinity_init(spapr, =
+machine);
+> >>> +
+> >>> +=C2=A0=C2=A0=C2=A0 /*
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Default to FORM1 affinity until CAS. We'l=
+l call affinity_reset()
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * during CAS when we're sure about which NU=
+MA affinity the guest
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * is going to use.
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * This step is a failsafe - guests in the w=
+ild were able to read
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * FORM1 affinity info before CAS for a long=
+ time. Since affinity_reset()
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * is just a pointer switch between data tha=
+t was already populated
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * here, this is an acceptable overhead to b=
+e on the safer side.
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
+> >>> +=C2=A0=C2=A0=C2=A0 spapr->numa_assoc_array =3D spapr->FORM1_assoc_ar=
+ray;
+> >>
+> >> The right way to do that is to call spapr_numa_associativity_reset() f=
+rom
+> >> spapr_machine_reset() because we want to revert to FORM1 each time the
+> >> guest is rebooted.
+> >>
+> >>> +}
+> >>> +
+> >>> +void spapr_numa_associativity_reset(SpaprMachineState *spapr)
+> >>> +{
+> >>> +=C2=A0=C2=A0=C2=A0 /* No FORM2 affinity implemented yet */
+> >>
+> >> This seems quite obvious at this point, not sure the comment helps.
+> >>
+> >>> +=C2=A0=C2=A0=C2=A0 spapr->numa_assoc_array =3D spapr->FORM1_assoc_ar=
+ray;
+> >>> =C2=A0 }
+> >>> =C2=A0 void spapr_numa_write_associativity_dt(SpaprMachineState *spap=
+r, void *fdt,
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 int offset, int nodeid)
+> >>> =C2=A0 {
+> >>> +=C2=A0=C2=A0=C2=A0 /* Hardcode the size of FORM1 associativity array=
+ for now */
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 _FDT((fdt_setprop(fdt, offset, "ibm,as=
+sociativity",
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spapr=
+->numa_assoc_array[nodeid],
+> >>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(spapr->=
+numa_assoc_array[nodeid]))));
+> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NUMA_ASSOC_SIZ=
+E * sizeof(uint32_t))));
+> >>
+> >> Rather than doing this temporary change that gets undone in
+> >> a later patch, I suggest you introduce get_numa_assoc_size()
+> >> in a preliminary patch and use it here already :
+> >>
+> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NUMA_ASSOC_SIZE *=
+ sizeof(uint32_t))));
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 get_numa_assoc_si=
+ze(spapr) * sizeof(uint32_t))));
+> >>
+> >> This will simplify the reviewing.
+> >>
+> >>> =C2=A0 }
+> >>> =C2=A0 static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *=
+spapr,
+> >>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> >>> index 637652ad16..8a9490f0bf 100644
+> >>> --- a/include/hw/ppc/spapr.h
+> >>> +++ b/include/hw/ppc/spapr.h
+> >>> @@ -249,7 +249,8 @@ struct SpaprMachineState {
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned gpu_numa_id;
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SpaprTpmProxy *tpm_proxy;
+> >>> -=C2=A0=C2=A0=C2=A0 uint32_t numa_assoc_array[MAX_NODES + NVGPU_MAX_N=
+UM][NUMA_ASSOC_SIZE];
+> >>> +=C2=A0=C2=A0=C2=A0 uint32_t *FORM1_assoc_array[MAX_NODES + NVGPU_MAX=
+_NUM];
+> >>
+> >> As said above, I really don't see the point in not having :
+> >>
+> >> =C2=A0=C2=A0=C2=A0=C2=A0 uint32_t *FORM1_assoc_array[MAX_NODES + NVGPU=
+_MAX_NUM][NUMA_ASSOC_SIZE];
+> >>
+> >>> +=C2=A0=C2=A0=C2=A0 uint32_t **numa_assoc_array;
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Error *fwnmi_migration_blocker;
+> >>> =C2=A0 };
+> >>> diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.=
+h
+> >>> index 6f9f02d3de..ccf3e4eae8 100644
+> >>> --- a/include/hw/ppc/spapr_numa.h
+> >>> +++ b/include/hw/ppc/spapr_numa.h
+> >>> @@ -24,6 +24,7 @@
+> >>> =C2=A0=C2=A0 */
+> >>> =C2=A0 void spapr_numa_associativity_init(SpaprMachineState *spapr,
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ma=
+chineState *machine);
+> >>> +void spapr_numa_associativity_reset(SpaprMachineState *spapr);
+> >>> =C2=A0 void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *=
+fdt, int rtas);
+> >>> =C2=A0 void spapr_numa_write_associativity_dt(SpaprMachineState *spap=
+r, void *fdt,
+> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 int offset, int nodeid);
+> >>
 
 
