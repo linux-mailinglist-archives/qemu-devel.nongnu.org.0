@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32DF440DE22
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:34:16 +0200 (CEST)
-Received: from localhost ([::1]:39254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9305840DE4D
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 17:42:35 +0200 (CEST)
+Received: from localhost ([::1]:34830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQtOx-0004kw-93
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:34:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40880)
+	id 1mQtWy-0004rz-UR
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 11:42:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQtLR-0001HI-50
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:30:37 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:41872)
+ id 1mQtLQ-0001Fp-LZ
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:30:36 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:40477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mQtLO-0002Pn-2q
+ id 1mQtLO-0002Qp-OT
  for qemu-devel@nongnu.org; Thu, 16 Sep 2021 11:30:36 -0400
-Received: by mail-pg1-x531.google.com with SMTP id k24so6474200pgh.8
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 08:30:32 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id h3so6479691pgb.7
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 08:30:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+2Hxp80Fi+o3vSY5VLA0rrEE2x+zxZah+yk4DEWnBqQ=;
- b=n/bBt6FqUP/oIaWoyfHhqzVjfad66TEbRLTvpe+XZkQLJTJ7j5SzOzmEnu8ALBzD5V
- Bys7O3m04CaI4NWXab0TNlJepZsPngHhFjlx9kFp3qQlQoFwGEjrfVyp58IAQhBvBGUh
- kS/IdG1PkKU5WtI9rw6lPYg5XW1QQ1Z4hRxEkr7S9Oqh0JABKhT0o/3ah71sI0ybgfhk
- fAqA9pw5mk5rbpo/bJSH2adNA9vhA5mkboJoh2qCplU6E7Yq+uGM6vtslDIpNOdacdcC
- lj2WMIpn0/S9woDbB5gFg/rpCGPrRfV3CaMhIyBdCK1f/lAXGmU7MbREnA35HVDr3r71
- MqXA==
+ bh=v+sL6u8bXsTKjedcptTkC5TsAqmI7f7iPpsRjw30zQg=;
+ b=QE+qMyCSwLWL5uZLgEsUmXsngvI9g0Dc+Lc36Wlz/jCrWnR2aRJx1t+1vIfqcg5rQa
+ stdniSM7jXDJZr1PcpJ2nT96ah7R5l/zZUfzi6WrluzV5NN3N89KYicx37WJTC64YQQ0
+ I0rlBAvQxABFvpWZXIhoEAdWoxR+NwCZvcQcoA34YAngG9s+xQCsUlQlKcNGkN+D2PBY
+ b47GiskaQ+KYmHcMgcm1o+Op4Bg6cNb+i0o5F+U8/d1/TZkPHRclfDcrhkdPPijnCjl0
+ HpZ0r/Drc4KyQoAngou1ksloTx2gYHaM4gMdUmBUG3Y+YpcNnXQOBgN+EYsX5j4+3ntO
+ +24A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+2Hxp80Fi+o3vSY5VLA0rrEE2x+zxZah+yk4DEWnBqQ=;
- b=0dMmh45NrPMZajNlTj0VtqvCd8J2ea1qShvVlCoqi9RJHuqNTCS9UO9DnlfsV8UP/q
- 37dKkIUq1TbUq0PCStDD9LnlloDxTsV6GH0UrtiKyBZsaMAdpmcGXW86fEWNnHpO0lUa
- 2zBRk5dlDv0sXw5l4EfOT0YUlE8DOld4iCBylpGgnmx8+/0qCOp8au3gH+sazdYM4JfI
- vCmQTnCyKIyuRF+iA+nz288nWvYLFYsn9zSVeyvb7Zvwd/vGRZ3N5tqc4hq1agzBy24M
- G1Ay9FPpAEGFxmBby/AGnB6kHO8ljpGVkiizUQ8tgAtvZoOYd6leW960h/UoKtYWyiVF
- TWFQ==
-X-Gm-Message-State: AOAM5326OUVCTsOL34kLJmQNOuEsBiWwebggrl92m4MZhXWx4/ACZIoK
- syclJ73XZSw79eIt4NwdjnV1FMcRRpp94g==
-X-Google-Smtp-Source: ABdhPJwAIa7UZPSCM52vgDOzhUFTtdLXDM3q9tuRuozVs2Puc49jhPwCdSOOiJqub3VuEo1T8wKm9A==
-X-Received: by 2002:a62:4e0f:0:b0:3ee:668d:b841 with SMTP id
- c15-20020a624e0f000000b003ee668db841mr6122077pfb.48.1631806231697; 
- Thu, 16 Sep 2021 08:30:31 -0700 (PDT)
+ bh=v+sL6u8bXsTKjedcptTkC5TsAqmI7f7iPpsRjw30zQg=;
+ b=k/QaK2Ccw+dBgIcoISILWyWzwMFIdP4/OmV2pbA7qoPg00Ouxrm5XrGoQb1gtytpRY
+ GI927eEnLIR78tMDwkWIqgqo73dVmLTqZ2wZi5pyI1JDsdH4Mz6b/pegJPhQCp4hy4uu
+ f6f1inDV0iyUdXlzDaINCqvC1gy9lxbPuhz7W19RGa/bZWDg6/XKLexYWTYwX4gH38QP
+ QZO2RWmTYM2JUBk4A8kihZO8GSs7O/fMSDcAYOxWha+QRpUEFu/Y5pIf6X07H3aT1Xjm
+ 5/A8DR4GruGneq9ltUrMJjmqKnxlwqF/c/5hXc+Vp+NxZwCRRE2IS1LXtVmTPppWx4Q/
+ FpAg==
+X-Gm-Message-State: AOAM530hMqxKUcIYwrmcFiU11FJNyU1f98wmpBwPiZtLoTqvKFIqlwG7
+ 8eYwQ2Ay3UB6gjQqPh1blhZ2gw7D3rDNwg==
+X-Google-Smtp-Source: ABdhPJwtKqWaJGMgAf98dmO2Scka+91pjs3jkOlsTXPFYiL9C3cKSAE2MtrWK6kSb9ZEnsa3c8CRlQ==
+X-Received: by 2002:aa7:8893:0:b0:416:4ed7:e4c4 with SMTP id
+ z19-20020aa78893000000b004164ed7e4c4mr5729264pfe.83.1631806232446; 
+ Thu, 16 Sep 2021 08:30:32 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id b7sm3779447pgs.64.2021.09.16.08.30.31
+ by smtp.gmail.com with ESMTPSA id b7sm3779447pgs.64.2021.09.16.08.30.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Sep 2021 08:30:31 -0700 (PDT)
+ Thu, 16 Sep 2021 08:30:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/35] accel/tcg: Implement AccelOpsClass::has_work() as stub
-Date: Thu, 16 Sep 2021 08:29:58 -0700
-Message-Id: <20210916153025.1944763-9-richard.henderson@linaro.org>
+Subject: [PULL 09/35] target/alpha: Restrict has_work() handler to sysemu
+Date: Thu, 16 Sep 2021 08:29:59 -0700
+Message-Id: <20210916153025.1944763-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210916153025.1944763-1-richard.henderson@linaro.org>
 References: <20210916153025.1944763-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,71 +91,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Add TCG target-specific has_work() handler in TCGCPUOps,
-and add tcg_cpu_has_work() as AccelOpsClass has_work()
-implementation.
+Restrict has_work() to sysemu.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210912172731.789788-8-f4bug@amsat.org>
+Message-Id: <20210912172731.789788-9-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/tcg-cpu-ops.h |  4 ++++
- accel/tcg/tcg-accel-ops.c     | 12 ++++++++++++
- 2 files changed, 16 insertions(+)
+ target/alpha/cpu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-index 55123cb4d2..4a4c4053e3 100644
---- a/include/hw/core/tcg-cpu-ops.h
-+++ b/include/hw/core/tcg-cpu-ops.h
-@@ -66,6 +66,10 @@ struct TCGCPUOps {
-     void (*do_interrupt)(CPUState *cpu);
- #endif /* !CONFIG_USER_ONLY || !TARGET_I386 */
- #ifdef CONFIG_SOFTMMU
-+    /**
-+     * @has_work: Callback for checking if there is work to do.
-+     */
-+    bool (*has_work)(CPUState *cpu);
-     /** @cpu_exec_interrupt: Callback for processing interrupts in cpu_exec */
-     bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
-     /**
-diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
-index 1a8e8390bd..ed4ebe735f 100644
---- a/accel/tcg/tcg-accel-ops.c
-+++ b/accel/tcg/tcg-accel-ops.c
-@@ -32,6 +32,7 @@
- #include "qemu/main-loop.h"
- #include "qemu/guest-random.h"
- #include "exec/exec-all.h"
-+#include "hw/core/tcg-cpu-ops.h"
- 
- #include "tcg-accel-ops.h"
- #include "tcg-accel-ops-mttcg.h"
-@@ -73,6 +74,16 @@ int tcg_cpus_exec(CPUState *cpu)
-     return ret;
+diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
+index 93e16a2ffb..1ca601cac5 100644
+--- a/target/alpha/cpu.c
++++ b/target/alpha/cpu.c
+@@ -33,6 +33,7 @@ static void alpha_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.pc = value;
  }
  
-+static bool tcg_cpu_has_work(CPUState *cpu)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (!cc->tcg_ops->has_work) {
-+        return false;
-+    }
-+    return cc->tcg_ops->has_work(cpu);
-+}
-+
- /* mask must never be zero, except for A20 change call */
- void tcg_handle_interrupt(CPUState *cpu, int mask)
++#if !defined(CONFIG_USER_ONLY)
+ static bool alpha_cpu_has_work(CPUState *cs)
  {
-@@ -108,6 +119,7 @@ static void tcg_accel_ops_init(AccelOpsClass *ops)
-         ops->kick_vcpu_thread = rr_kick_vcpu_thread;
-         ops->handle_interrupt = tcg_handle_interrupt;
-     }
-+    ops->has_work = tcg_cpu_has_work;
+     /* Here we are checking to see if the CPU should wake up from HALT.
+@@ -47,6 +48,7 @@ static bool alpha_cpu_has_work(CPUState *cs)
+                                     | CPU_INTERRUPT_SMP
+                                     | CPU_INTERRUPT_MCHK);
  }
++#endif /* !CONFIG_USER_ONLY */
  
- static void tcg_accel_ops_class_init(ObjectClass *oc, void *data)
+ static void alpha_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
+ {
+@@ -221,6 +223,7 @@ static const struct TCGCPUOps alpha_tcg_ops = {
+     .tlb_fill = alpha_cpu_tlb_fill,
+ 
+ #ifndef CONFIG_USER_ONLY
++    .has_work = alpha_cpu_has_work,
+     .cpu_exec_interrupt = alpha_cpu_exec_interrupt,
+     .do_interrupt = alpha_cpu_do_interrupt,
+     .do_transaction_failed = alpha_cpu_do_transaction_failed,
+@@ -238,7 +241,6 @@ static void alpha_cpu_class_init(ObjectClass *oc, void *data)
+                                     &acc->parent_realize);
+ 
+     cc->class_by_name = alpha_cpu_class_by_name;
+-    cc->has_work = alpha_cpu_has_work;
+     cc->dump_state = alpha_cpu_dump_state;
+     cc->set_pc = alpha_cpu_set_pc;
+     cc->gdb_read_register = alpha_cpu_gdb_read_register;
 -- 
 2.25.1
 
