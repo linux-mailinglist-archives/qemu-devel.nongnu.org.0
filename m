@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14FE40D9E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 14:27:02 +0200 (CEST)
-Received: from localhost ([::1]:51568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6FCE40D9ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 14:29:37 +0200 (CEST)
+Received: from localhost ([::1]:54210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQqTl-0007pF-TK
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 08:27:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45014)
+	id 1mQqWG-0001Fp-V8
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 08:29:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQqSC-0006U1-3R
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:25:25 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:44594)
+ id 1mQqV4-0000NG-4l
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:28:22 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mQqSA-0004tQ-0H
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:25:23 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- l7-20020a1c2507000000b002e6be5d86b3so4341817wml.3
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 05:25:21 -0700 (PDT)
+ id 1mQqV0-0006rv-Tl
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 08:28:20 -0400
+Received: by mail-wr1-x432.google.com with SMTP id i23so9234865wrb.2
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 05:28:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=71AUUp+YrqYzna7fzXwAiwy0Kwn6P++MR152fVslebw=;
- b=zvem2x5wkL9u41qQP2kjAm3R3uMZ48xNc9BVEqDLxKkKQXNvCQKwJ5XyOuxyJWGoQA
- 9K/osQqSIF1De9eISoiAVCipYmCCON2ZlS7x5FbeUebAzJ5RgJga8lOANFgPsYG5YgaB
- u29bGJZBb0by6CAKcnm88GpT5z39nR1JJ082CJMgKIvgTHH4GB1wXLretU3bgmM8ke3x
- V52SiB5wcu2ohWCLakU7gf3pDoK3uiE9EP22uMCBwZmPZMGo0OP9YvoPl/jfD10EliJD
- bE0wqjVKD2VIyJ72q/exXE7kQBUSqV8Kza0ypCRMxE7fqLNfchwHVEHlSiX+XpZOVV8T
- o8vg==
+ :cc; bh=JYaVzc3bsBvi8u7PdMACZ4Dg2H84QKVVlZpDhjNAW/Y=;
+ b=Mh1HiIHdHpcYyd7dMgpWJSBrHJMU94ahWOcXx7h+YKdJfyJcgpqf3ruGneF5pIUeNY
+ jHM7ESz5P5f3/Hxv2wyOdMM6aaWL3H2anvBn8ldaYEOZkh0sD0Lc2txtiaWuXzJQC8ZC
+ 6CTHyY06CoafxZRUdGJ7VvQ7dK/pfNhuKhSWIIIErkN18OhH2MSpR8D0UoDeQEYHYCh1
+ Ile+pgUf3y1CsChBmPpK7rz2VoYRJsRAGK068wdx9sSd6fHZTMlPJPG1ZLTnizTFRbEt
+ j7/X5a6rAr5i5I2HoH1gnEjxNyDYZTY8IUJqyWXMgfUykw40PfMuhhb6uSD1Ouq60jC6
+ NwKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=71AUUp+YrqYzna7fzXwAiwy0Kwn6P++MR152fVslebw=;
- b=CxiuOJoKB4rbjeA8bamPofi+Vn5shmmUUAhcoCNXkvIuuSjVsnCIrFjnMM2H4TdWJq
- SneptQuzJrg7WxFho88jIkNWudqpJw6Rn8vq4m8/ioiDy0jRIkjFKKYGtyN5NFbfD6GU
- WXwMbezVv83m/6sj69b7pmMlQKOUT9Iu0MEDgz6yUy8A5a8YVxUXN8vTpUQViBsJUSGt
- M9p1jcGZw8+Cry4SklbrCjorQSwf55mzGZxNX/oyyub2l/R4i7lY6bB+7gf57JoUeRb5
- Qy/UwF+A1OXRHM6I2I4u4LpzPDIDJwC4SLlmWaaL14fmqza8j2kkVbbvdRRD/6wGea56
- KEmg==
-X-Gm-Message-State: AOAM530okD+fxZHrhDrP0nPzmed8Mt3thWqD1c99LEFVlv743Zgy6Fbn
- maMoy0nTClaAeAYx1D9W3uopGLzxlrZptjIrOAbfHA==
-X-Google-Smtp-Source: ABdhPJyXxcl4ikmX42HwfCz3G+/S/vFGefYj469OjKmLkIAK5pV4YdnEaiw/f1Se9goiOcKZfmVieeMWMPjRBAvLwpE=
-X-Received: by 2002:a7b:c194:: with SMTP id y20mr801054wmi.37.1631795119786;
- Thu, 16 Sep 2021 05:25:19 -0700 (PDT)
+ bh=JYaVzc3bsBvi8u7PdMACZ4Dg2H84QKVVlZpDhjNAW/Y=;
+ b=aq37vQeTw+zLQttMd9DWFp66CZ5B1HD+WBKE6N0qmqRtB/S1EXtawMcd44yaFzKkG5
+ wZEMm779IqBCW6h6LAycEG2laF5sxprcZuo2bgQzNOEDO9sjcKKu/F0De5huw9qCigv9
+ 5PBinIqRjFCEkuASNqpDKTC3imICimAKQzMA06BRow2dQ202/xEN6nYewozTZIPJqOR1
+ hH/i3zASbC2oTiHnsNNqVqTTpWnpxIfPVQWX+4AEwjNl1s7X3mqyJ4e50HARJcVUl1b4
+ aI3R49IyRnfnMmoO+rs03BXZNtkpla74NVjX0GODfjrMJuCvraXkZVuDTPumzIkRcs6q
+ lGWQ==
+X-Gm-Message-State: AOAM5325ykQjssSIKZ9ueNqUSKXjGQge+7qTgJoWYzPDkmCNnVeEUPhc
+ V2XA8b23CgB8XWJU8+R2rI8uq2JOpKP7wbzaIC3O5Q==
+X-Google-Smtp-Source: ABdhPJyd3uzIiaL/g/+H/62PywcsfHXK5lgLJQGEh5b6MTYUBH4U0CzLSaMqqgVSMI1rmATnW076h858zE29B7phRSo=
+X-Received: by 2002:adf:f185:: with SMTP id h5mr5869605wro.302.1631795296673; 
+ Thu, 16 Sep 2021 05:28:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210915181049.27597-1-agraf@csgraf.de>
- <20210915181049.27597-7-agraf@csgraf.de>
-In-Reply-To: <20210915181049.27597-7-agraf@csgraf.de>
+ <20210915181049.27597-8-agraf@csgraf.de>
+In-Reply-To: <20210915181049.27597-8-agraf@csgraf.de>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 Sep 2021 13:24:28 +0100
-Message-ID: <CAFEAcA9JZZ4nb8WAvKVYpwqxb_E5NFOVW9rKF3u7GhFqfNZgOQ@mail.gmail.com>
-Subject: Re: [PATCH v11 06/10] hvf: arm: Implement -cpu host
+Date: Thu, 16 Sep 2021 13:27:25 +0100
+Message-ID: <CAFEAcA9JWdh_y4SPtnNOdywLkyN-L4vAqfic_LsxtgCgdTSyPQ@mail.gmail.com>
+Subject: Re: [PATCH v11 07/10] hvf: arm: Implement PSCI handling
 To: Alexander Graf <agraf@csgraf.de>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,31 +89,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 15 Sept 2021 at 19:10, Alexander Graf <agraf@csgraf.de> wrote:
 >
-> Now that we have working system register sync, we push more target CPU
-> properties into the virtual machine. That might be useful in some
-> situations, but is not the typical case that users want.
+> We need to handle PSCI calls. Most of the TCG code works for us,
+> but we can simplify it to only handle aa64 mode and we need to
+> handle SUSPEND differently.
 >
-> So let's add a -cpu host option that allows them to explicitly pass all
-> CPU capabilities of their host CPU into the guest.
+> This patch takes the TCG code as template and duplicates it in HVF.
+>
+> To tell the guest that we support PSCI 0.2 now, update the check in
+> arm_cpu_initfn() as well.
 >
 > Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
 > Reviewed-by: Sergio Lopez <slp@redhat.com>
->
 
-> +    /*
-> +     * A scratch vCPU returns SCTLR 0, so let's fill our default with the M1
-> +     * boot SCTLR from https://github.com/AsahiLinux/m1n1/issues/97
-> +     */
-> +    ahcf->reset_sctlr = 0x30100180;
-> +    /* OVMF chokes on boot if SPAN is not set, so default it to on */
-> +    ahcf->reset_sctlr |= 0x00800000;
+> +    case QEMU_PSCI_0_2_FN_SYSTEM_RESET:
+> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+> +        /* QEMU reset and shutdown are async requests, but PSCI
+> +         * mandates that we never return from the reset/shutdown
+> +         * call, so power the CPU off now so it doesn't execute
+> +         * anything further.
+> +         */
 
-Isn't that just an OVMF bug ? If you want this then you need to
-convince me why this isn't just a workaround for a buggy guest.
+QEMU coding standard wants the opening "/*" of a block comment on its
+own line.
+
+> @@ -898,14 +1011,29 @@ int hvf_vcpu_exec(CPUState *cpu)
+>          break;
+>      case EC_AA64_HVC:
+>          cpu_synchronize_state(cpu);
+> -        trace_hvf_unknown_hvf(env->xregs[0]);
+> -        /* SMCCC 1.3 section 5.2 says every unknown SMCCC call returns -1 */
+> -        env->xregs[0] = -1;
+> +        if ((arm_cpu->psci_conduit != QEMU_PSCI_CONDUIT_HVC) ||
+> +            !hvf_handle_psci_call(cpu)) {
+> +            trace_hvf_unknown_hvf(env->xregs[0]);
+> +            /* SMCCC 1.3 section 5.2 says every unknown SMCCC call returns -1 */
+> +            env->xregs[0] = -1;
+> +        }
+>          break;
+>      case EC_AA64_SMC:
+>          cpu_synchronize_state(cpu);
+> -        trace_hvf_unknown_smc(env->xregs[0]);
+> -        hvf_raise_exception(cpu, EXCP_UDEF, syn_uncategorized());
+> +
+> +        if (arm_cpu->psci_conduit == QEMU_PSCI_CONDUIT_SMC) {
+> +            advance_pc = true;
+> +
+> +            if (!hvf_handle_psci_call(cpu)) {
+> +                trace_hvf_unknown_smc(env->xregs[0]);
+> +                /* SMCCC 1.3 section 5.2 says every unknown SMCCC call returns -1 */
+> +                env->xregs[0] = -1;
+> +            }
+> +        } else {
+> +            trace_hvf_unknown_smc(env->xregs[0]);
+> +            hvf_raise_exception(cpu, EXCP_UDEF, syn_uncategorized());
+> +        }
+
+We seem to have ended up with an odd asymmetry in the way the
+code for HVC and SMC has been structured.
 
 Otherwise
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
