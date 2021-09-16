@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 925F140D2E5
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 07:41:02 +0200 (CEST)
-Received: from localhost ([::1]:47142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A637940D2EF
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Sep 2021 07:58:13 +0200 (CEST)
+Received: from localhost ([::1]:53796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mQk8r-0004Uy-3P
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 01:41:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47742)
+	id 1mQkPU-0001Kr-64
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 01:58:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mQk62-0003ly-7o
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 01:38:06 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:46038)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mQk60-0007j1-KM
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 01:38:05 -0400
-Received: by mail-pl1-x634.google.com with SMTP id n2so491314plk.12
- for <qemu-devel@nongnu.org>; Wed, 15 Sep 2021 22:38:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Sxm0iKDu0ghxity7dWW1SOPKYZ5kJbuYk8sL/Nimx5w=;
- b=MI9ZfClzw/3yN1zyVOQ0A7UD2WmWepGfNsUjdWb3lEe9PJh/U6s+T7flFduZ0zg5ny
- pTRyWA8KE7cXrWZbJe6r8E/kS65njuemzkIkXAZkAf4CQorCDopNy5HY0M+dPiQiqE0O
- Q/3ySQIx5AT54UPK0Dv6mszXzJfpwD7H1Rxch3noTZzGcFrPnzI3RNBAzW8LlDVPlkyY
- +7uKRv/qKtIySxnA70Fcay5sR3e8/Ce115IxRjXDlhmrVlq5BFUM0tXVbSOZW0wE1aNH
- GzGmF0Jj3XOBUbMl1+VO5qI3kaCtrl5Cjeqk97uG9er3ZGDVRv2gmv61UV7GA5iwGieR
- 7xLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Sxm0iKDu0ghxity7dWW1SOPKYZ5kJbuYk8sL/Nimx5w=;
- b=gd/8X2cqjxH2ansaiZVkUnsaaim2b64A9RLLJBoLyffNWnz1Kh3ad0FkL3izb+SgUZ
- ANLKNCXx7b/NTcpiQb9k3DyCSYkjX5Ln5fgXjJrFa1eYlDk9wm8gSbSubUQ3EKg6bTNh
- B1DgFMOAhi5ah4wellZt9V0MarK5ipUHzkXgu1BshzkX9M5FruJbjQDCjckILezAv8So
- 8saJFtqD3FKQFai89EOE/jwwvoFNkEo3O8zn+pltrIA5dk684J12eZRqDJOZ0dgZyxRq
- RTvDB12ScMGfaCiOW+wlwMVmoZNeZQs8AsXgCTJvwDvQSJTOfrld1/uVikBjBr+rVQVI
- JgHQ==
-X-Gm-Message-State: AOAM5325z0fjT+lDYahri50J0wxxIpPf5kFpW3eKIWnJuSvJWfAOhwEN
- SwHCR83pPBYEIFX0v0aMagOb1RWHp5ZiBw==
-X-Google-Smtp-Source: ABdhPJzJlfoJ03l2lpWXqWNmiXOXWyZDAdOS8pEW8kS1cKwMPamEo2cae9Kq7LwNNb0Wye6IhDeDew==
-X-Received: by 2002:a17:902:9692:b0:13a:2554:9646 with SMTP id
- n18-20020a170902969200b0013a25549646mr3094011plp.9.1631770682014; 
- Wed, 15 Sep 2021 22:38:02 -0700 (PDT)
-Received: from anisinha-lenovo.ba.nuagenetworks.net ([203.163.233.134])
- by smtp.googlemail.com with ESMTPSA id cm5sm1305086pjb.24.2021.09.15.22.37.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Sep 2021 22:38:01 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mQkNz-0008Ix-TO
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 01:56:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22399)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mQkNv-0006bk-UM
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 01:56:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631771794;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ERhfMAbsjlS2wwdC917Ee8XSi+YRkkjxgB34tHdW+LU=;
+ b=dB/XnmN2dKt7teehmGyJy2i2VTGPQ8LNpOvdrHimqxg359q+R8RCT1/r4NtY5U/X5n0V+F
+ BHGdaxd7KlRRQlhk+QaqqnPH3GU8QtcbYK6sTb4fvudQcmjhkA/5cLBAFSdlocmpcKdHz2
+ G3P6yW47g83Xq2R4mbE8WbY3g6m+jRM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-379-_PGPmvJ0MJO-um5YYk_Gvw-1; Thu, 16 Sep 2021 01:56:33 -0400
+X-MC-Unique: _PGPmvJ0MJO-um5YYk_Gvw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA4291006AA0
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 05:56:32 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8637F19736;
+ Thu, 16 Sep 2021 05:56:25 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D3AD618000A9; Thu, 16 Sep 2021 07:56:23 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] MAINTAINERS: add myself as a reviewer for KVM guest cpu
- related changes
-Date: Thu, 16 Sep 2021 11:07:33 +0530
-Message-Id: <20210916053733.3457822-1-ani@anisinha.ca>
-X-Mailer: git-send-email 2.25.1
+Subject: [PULL 0/6] Vga 20210916 patches
+Date: Thu, 16 Sep 2021 07:56:17 +0200
+Message-Id: <20210916055623.1846418-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::634;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,34 +75,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have looked into cpu features for KVM guests as a part of a different
-project. Would be interested to follow and review patches in this space.
-
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6c20634d63..3a3167c499 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -364,6 +364,7 @@ Guest CPU Cores (KVM)
- ---------------------
- Overall KVM CPUs
- M: Paolo Bonzini <pbonzini@redhat.com>
-+R: Ani Sinha <ani@anisinha.ca>
- L: kvm@vger.kernel.org
- S: Supported
- F: */*/kvm*
--- 
-2.25.1
+The following changes since commit 831aaf24967a49d7750090b9dcfd6bf356f16529=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/marcandre/tags/misc-pull-request' i=
+nto staging (2021-09-14 18:14:56 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/vga-20210916-pull-request=0D
+=0D
+for you to fetch changes up to b3a5dfdea99da55fdc70538eeeb2227ebe6d6a5f:=0D
+=0D
+  virtio-gpu: Add gl_flushed callback (2021-09-15 08:42:00 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+virtio-gpu + ui: fence syncronization.=0D
+qxl: unbreak live migration.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Gerd Hoffmann (1):=0D
+  qxl: fix pre-save logic=0D
+=0D
+Vivek Kasireddy (5):=0D
+  ui/gtk: Create a common release_dmabuf helper=0D
+  ui/egl: Add egl helpers to help with synchronization=0D
+  ui: Create sync objects and fences only for blobs=0D
+  ui/gtk-egl: Wait for the draw signal for dmabuf blobs=0D
+  virtio-gpu: Add gl_flushed callback=0D
+=0D
+ include/ui/console.h            |  3 +++=0D
+ include/ui/egl-helpers.h        |  3 +++=0D
+ include/ui/gtk.h                |  5 ++--=0D
+ hw/display/qxl.c                |  2 +-=0D
+ hw/display/virtio-gpu-udmabuf.c |  1 +=0D
+ hw/display/virtio-gpu.c         | 32 ++++++++++++++++++++--=0D
+ ui/egl-helpers.c                | 26 ++++++++++++++++++=0D
+ ui/gtk-egl.c                    | 48 +++++++++++++++++++++++++++------=0D
+ ui/gtk-gl-area.c                | 26 ++++++++++++++++++=0D
+ ui/gtk.c                        | 26 ++++++++++++++++--=0D
+ 10 files changed, 157 insertions(+), 15 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
