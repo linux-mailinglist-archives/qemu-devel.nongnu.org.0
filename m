@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01B94100B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 23:29:58 +0200 (CEST)
-Received: from localhost ([::1]:59296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8307B4100BE
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 23:33:23 +0200 (CEST)
+Received: from localhost ([::1]:38220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRLQh-0005px-N8
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 17:29:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44106)
+	id 1mRLU2-0002Jr-LS
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 17:33:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mRLP4-00037N-GF; Fri, 17 Sep 2021 17:28:14 -0400
-Received: from mail-oo1-xc2a.google.com ([2607:f8b0:4864:20::c2a]:35623)
+ id 1mRLP7-00039T-TF; Fri, 17 Sep 2021 17:28:17 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:44851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mRLP3-0007id-0w; Fri, 17 Sep 2021 17:28:14 -0400
-Received: by mail-oo1-xc2a.google.com with SMTP id
- y3-20020a4ab403000000b00290e2a52c71so3656984oon.2; 
- Fri, 17 Sep 2021 14:28:12 -0700 (PDT)
+ id 1mRLP6-0007lg-BT; Fri, 17 Sep 2021 17:28:17 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id o66so13145205oib.11;
+ Fri, 17 Sep 2021 14:28:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nOJLthqDv8T5wGOAZCSaxH/T/GXkkiMVB5naSo+TwyA=;
- b=W4CnnA4gKoysxwe7X9bZb26fnxn7Le/KjaZHP6b0IutVpaz/m3XiwNfKgDkheFm7Qt
- 0XJrNmYT9Tq0NayUjmfNn8kle1mZZbU2La7+ivv2nZuOyFSyTDeBBylLAiwpXWBEAo4y
- F8Ex0Nhj/fIlp1Ch22wmEj8CdcNna7rzkngQtsmr5OXpPKpFGEY30ta365aO3rqFSi92
- +SVTMXVODwtoVCGlxg7Vs8WP+tTYLBSY2H9/jVaYbHM8t8tQyrhE8V77qgmCqzcS65/s
- MXOtqMeMcKtJZC2i9lQCxSQ2tXVFGrigFk8PmgxPpPLN7RHpCZJn/ROFamLRntzulXbn
- eezA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=uCwUlAEuHu9NPWjIuULqWyr2j0RMt56Ie8slVpbbpAE=;
+ b=BqlgjChOOOscwUgTTA3JbZL2PZA8OtiRrwUtdKA1iKJAWzL7/EDNe4KmlG2M0MQo9b
+ sAT3wP+QHmje9/9kFLA41bBpN/JtR39bsq57BynB1LU510kP6r8SqDk1K7gd7h2BP0P8
+ x/h6ZrtnVMONznGxfydr8FYKOpDZAs69TB9UbIb1MV6PPRkjkY5hEkeQEdT41gIy7Ti2
+ RD5rAN7PKCd2i0NCx6EKrom5PBGlnNJK+OqZ9rCIHr8DWSWhkP9bsBI7hJpSlOsD2OCS
+ Du3WohD0IVJJ1PtJqo2GhNSOuSfzPd8hDHkRIB7dO6EwzzM9thB/DCGapX3dsOC9eebi
+ +ryw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nOJLthqDv8T5wGOAZCSaxH/T/GXkkiMVB5naSo+TwyA=;
- b=O6mviis70K/e0ALIJs7b+F7gKURZIoKByWZthmDmt6f6gKXZmfRn4ZjQX3lOyUCBKk
- CsUH7Ef4vYmucVHN0SlGevHen9ee/0xUy687c6W7iHwpzXpSI/gMEljR0/4Z6EawykMT
- VbQePqj5RZCnrrr5Qnj2EnICpSRstpNcNBgKIgsk6y/y59OYcNrs7aLMVrYnqss3GlA4
- CGWF05mpX6Nupq/PZTyTwSGy7eZJuwFlDgqvTcIFQkhVA82s5YK2rGg/zyVD/pZ+P6eL
- +MQdkEt72G+XVMLHdGbytfAoLR1wS2Ba+72lIHyn/oDIfIitCDdO1ERyTDig4Gz3uTw+
- Zadg==
-X-Gm-Message-State: AOAM533b9a8PffrTAVgiLp3XY5R7X8ZBQhp+q1m8Vz40CJP7LIEVXLSC
- DhJL82Wua+hVON5FH/gc5Q+S0eQ1qTM=
-X-Google-Smtp-Source: ABdhPJwtSr8f/WDrlMJ++1/A8E4QghX39R3MVeB4NUk0MPhs9WcUobFzlTuEqAweHIEpJphmGoqQdA==
-X-Received: by 2002:a4a:a509:: with SMTP id v9mr10680598ook.73.1631914091390; 
- Fri, 17 Sep 2021 14:28:11 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=uCwUlAEuHu9NPWjIuULqWyr2j0RMt56Ie8slVpbbpAE=;
+ b=6SU78E3VpL/gwvqTrKBs8pPr9d8/gSbelucK1+rKO9EEBfYALURzDYh2j300f8J1HU
+ hqi5IPlclF5H3D9TmxOs5x2pMsN+d3nrHsm7qZ2JKqfH+V7cxOxr9mN8uPG473J5LrGf
+ 54j0Wje43q1H3xlB4Fcg1PrZVhUwC8dPv7Hrg64I/OdrGmwKq5fg6ucy5R94igEDF2Qy
+ fprO3ssl47f0TBI1kFDdj/oMomZ7j6VzGHI4P7Y3phXt3Vg6OvFUoVEYng16zPj1ky/b
+ oErQ7ELGpmbM9MeyfXgkcGSRYDQx9AQa/Yxc8O0biIQPvF7JxNVBAsh+ZfpAsr7sNIrX
+ BMcQ==
+X-Gm-Message-State: AOAM531eEONiyOZGj8I6dblkFqJHUK+70SukKvwNaToq0c7JBgUQksJh
+ R8jmsF66ntETv6acsnRf27V/MG26iA0=
+X-Google-Smtp-Source: ABdhPJyEf1P79Dr8JfytOHZG9lCn3XPKaHln8Oxrf867oP/LGs9y3G+lzWN9EzYN4+cJoyeXMfT6hQ==
+X-Received: by 2002:aca:f108:: with SMTP id p8mr5575216oih.63.1631914093348;
+ Fri, 17 Sep 2021 14:28:13 -0700 (PDT)
 Received: from rekt.COMFAST ([177.189.43.50])
- by smtp.gmail.com with ESMTPSA id s16sm710560otq.78.2021.09.17.14.28.09
+ by smtp.gmail.com with ESMTPSA id s16sm710560otq.78.2021.09.17.14.28.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Sep 2021 14:28:11 -0700 (PDT)
+ Fri, 17 Sep 2021 14:28:13 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 0/7] pSeries FORM2 affinity support
-Date: Fri, 17 Sep 2021 18:27:55 -0300
-Message-Id: <20210917212802.424481-1-danielhb413@gmail.com>
+Subject: [PATCH v8 1/7] spapr_numa.c: split FORM1 code into helpers
+Date: Fri, 17 Sep 2021 18:27:56 -0300
+Message-Id: <20210917212802.424481-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210917212802.424481-1-danielhb413@gmail.com>
+References: <20210917212802.424481-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2a;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22c.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -85,60 +86,97 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+The upcoming FORM2 NUMA affinity will support asymmetric NUMA topologies
+and doesn't need be concerned with all the legacy support for older
+pseries FORM1 guests.
 
-This new version contains changes made in patch 7 after looking more
-carefully in the auto-generated NUMA node issue. I also took the
-opportunity to make a change that Greg requested in an earlier
-review that didn't make to v7.
+We're also not going to calculate associativity domains based on numa
+distance (via spapr_numa_define_associativity_domains) since the
+distances will be written directly into new DT properties.
 
+Let's split FORM1 code into its own functions to allow for easier
+insertion of FORM2 logic later on.
 
-Changes from v7:
-- patch 3:
-  * removed redundant 'no FORM2 available yet' comments
-- patch 7:
-  * removed the unneeded handling of numa_state->num_nodes
-- v7 link: https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg04156.html
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/spapr_numa.c | 35 +++++++++++++++++++++++++----------
+ 1 file changed, 25 insertions(+), 10 deletions(-)
 
-Changes from v6:
-- patch 1:
-  * added Greg's r-b
-- patch 2:
-  * added the missing NUMA nodes number check
-  * added Greg's r-b
-- patch 3 (former patch 4):
-  * no changes.
-- former patch 3 (associativity_reset()): dropped
-- patch 4 (new):
-  * added get_associativity()
-  * do not allocate FORM1_assoc_array in the heap
-- patch 5:
-  * fixed typo
-  * added new check function to be called in CAS
-- patch 6:
-  * do not allocate FORM2_assoc_array in the heap
-- patch 7 (new):
-  * FORM2 fixes to handle the implicit added QEMU NUMA node when there's
-  no NUMA node added by the user.
-- v6 link: https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02892.html
-
-Daniel Henrique Barboza (7):
-  spapr_numa.c: split FORM1 code into helpers
-  spapr_numa.c: scrap 'legacy_numa' concept
-  spapr_numa.c: parametrize FORM1 macros
-  spapr_numa.c: rename numa_assoc_array to FORM1_assoc_array
-  spapr: move FORM1 verifications to post CAS
-  spapr_numa.c: FORM2 NUMA affinity support
-  spapr_numa.c: handle auto NUMA node with no distance info
-
- hw/ppc/spapr.c              |  41 +---
- hw/ppc/spapr_hcall.c        |   7 +
- hw/ppc/spapr_numa.c         | 380 ++++++++++++++++++++++++++++++------
- include/hw/ppc/spapr.h      |  35 ++--
- include/hw/ppc/spapr_numa.h |   1 +
- include/hw/ppc/spapr_ovec.h |   1 +
- 6 files changed, 354 insertions(+), 111 deletions(-)
-
+diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+index 779f18b994..786def7c73 100644
+--- a/hw/ppc/spapr_numa.c
++++ b/hw/ppc/spapr_numa.c
+@@ -92,7 +92,7 @@ static uint8_t spapr_numa_get_numa_level(uint8_t distance)
+     return 0;
+ }
+ 
+-static void spapr_numa_define_associativity_domains(SpaprMachineState *spapr)
++static void spapr_numa_define_FORM1_domains(SpaprMachineState *spapr)
+ {
+     MachineState *ms = MACHINE(spapr);
+     NodeInfo *numa_info = ms->numa_state->nodes;
+@@ -155,8 +155,11 @@ static void spapr_numa_define_associativity_domains(SpaprMachineState *spapr)
+ 
+ }
+ 
+-void spapr_numa_associativity_init(SpaprMachineState *spapr,
+-                                   MachineState *machine)
++/*
++ * Set NUMA machine state data based on FORM1 affinity semantics.
++ */
++static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
++                                           MachineState *machine)
+ {
+     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
+     int nb_numa_nodes = machine->numa_state->num_nodes;
+@@ -225,7 +228,13 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
+         exit(EXIT_FAILURE);
+     }
+ 
+-    spapr_numa_define_associativity_domains(spapr);
++    spapr_numa_define_FORM1_domains(spapr);
++}
++
++void spapr_numa_associativity_init(SpaprMachineState *spapr,
++                                   MachineState *machine)
++{
++    spapr_numa_FORM1_affinity_init(spapr, machine);
+ }
+ 
+ void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
+@@ -302,12 +311,8 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
+     return ret;
+ }
+ 
+-/*
+- * Helper that writes ibm,associativity-reference-points and
+- * max-associativity-domains in the RTAS pointed by @rtas
+- * in the DT @fdt.
+- */
+-void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
++static void spapr_numa_FORM1_write_rtas_dt(SpaprMachineState *spapr,
++                                           void *fdt, int rtas)
+ {
+     MachineState *ms = MACHINE(spapr);
+     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
+@@ -365,6 +370,16 @@ void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
+                      maxdomains, sizeof(maxdomains)));
+ }
+ 
++/*
++ * Helper that writes ibm,associativity-reference-points and
++ * max-associativity-domains in the RTAS pointed by @rtas
++ * in the DT @fdt.
++ */
++void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
++{
++    spapr_numa_FORM1_write_rtas_dt(spapr, fdt, rtas);
++}
++
+ static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
+                                               SpaprMachineState *spapr,
+                                               target_ulong opcode,
 -- 
 2.31.1
 
