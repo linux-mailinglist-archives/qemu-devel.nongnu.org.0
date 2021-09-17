@@ -2,72 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6BFE40F030
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 05:06:23 +0200 (CEST)
-Received: from localhost ([::1]:37614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1E6C40F16C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 06:42:53 +0200 (CEST)
+Received: from localhost ([::1]:51664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mR4Ck-0005Ig-NJ
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 23:06:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53236)
+	id 1mR5i8-0003KI-7m
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 00:42:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mR45j-0003Bk-30
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 22:59:07 -0400
-Received: from mail-vs1-xe2b.google.com ([2607:f8b0:4864:20::e2b]:43860)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mR45g-0007dp-DK
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 22:59:06 -0400
-Received: by mail-vs1-xe2b.google.com with SMTP id n17so7441258vsr.10
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 19:59:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rOn4JkAT1JBFwhiZctCbb9caACV5VRk56wZXmsKWr80=;
- b=GgpahZpCq84n4xXWTR5Huf/93eyWVUtAGRHJOniKe48XLDEPFBC0pjh/Ec2HNRbWCY
- pd54TVejE6d+bTPdAb8WN/uXACtyLNcu18Ey6hO4T06pK/d9mdmBwXxyXs3VJIkK5lBR
- h1GMlB2rBmNxrvrpEf3h+2SSMm37JyvDdm4kQXxOZhZS6Er04CujIZEK51QoHb5HwKaV
- HVeYfoeZLsHDW10phs3hgRJEBuNR4J2oBxDevVQ+1BECn6mme1g0DcD9xKIAESdXtSkq
- 7mtYOA1r9iNdrgJueqsCuveOWCw56qqdLWICgqVAGuQtzOsLEK4xScCzFlyiKSLsKlXL
- HJUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rOn4JkAT1JBFwhiZctCbb9caACV5VRk56wZXmsKWr80=;
- b=obX/8XP1s/sTrDmPKXYZgAP6m/IFtqqQ3v6swURvxd1XmroA39tiDP6l7oknbe7ka2
- MgKUfG6W4tXKpR6GmRlQuaDCks/F+Pc+ktCuLAZldTTjQ3ek6u7uH/dniyUuxXGw9qkL
- 5ehua987B1kJPSvp9MZX8DypkGhYNAKCcglBnUAy9FgWoMITfz8gDm+L/c1p7eFS9hP/
- iU+sAEun4Rj/J5VpxgXrK9pxWx/nRAPqlP1D2DL2faJYhG5iktXRLmyj+//BxdjVHByL
- 9bZZf86RBQibB6BTT/AqZVJzZfZIaoOHhI36+VqAoSMHV/Y+8xA3ds/uIEIWuCwEsndw
- E5Zw==
-X-Gm-Message-State: AOAM531x59ni+HrlwCLsAch92+arM3jARwKx6pksOZMq1hxVKUqfLiQA
- SrCwtIJH7R6GfWbiAov6D49wRlxFoBVLGgR0GvHesJuz8iPu9gfA
-X-Google-Smtp-Source: ABdhPJwI7cByjhHLkjN/9hBKA2qIgmtnbWzTIFwgWr7429QxabLnJ8tQfrIuPn9oC8zrr1iX07mM0I2aSSzdrVgZ6wM=
-X-Received: by 2002:a67:1985:: with SMTP id 127mr6761480vsz.44.1631847542235; 
- Thu, 16 Sep 2021 19:59:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mR5gM-0002KJ-Da
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 00:41:02 -0400
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:53604)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mR5gJ-0002qs-37
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 00:41:02 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 982144053B
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 04:40:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1631853653;
+ bh=TDEtO63H70MjbHqEZDo0yBGMILDgb4D+24kPlGv9G6g=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=S3Jq58XqmPAE25W9pFhMxdG5IEb1gOuIw+ZGlhsHYSB9azpl0fojI34nfPbgwXqUu
+ sOIw5r7mSvrNjGO2IqvYqrsZAz/zCBIU81zx2iqoFcxJfsgCUkkUdppNnmNgAIXAE7
+ WhIY3pLCIGvyHANcRUVJJp4NZZGEflAnYsv4iME4Hxvy7w4WW2qWBjFmoIyF7r8IId
+ OqyjbzoM+g6SP5flOywtM213B3bOzmIJRxaQlAOKmvO4vmpRn5kjM944dWee3oDlv+
+ Pc2ojBmHn6JpESetFgbOodlquuFqPkx2Jt/A0kO5kQiaOaG0G7uH4yTKn3h2o36Pin
+ m6Kqbi+eEOrjg==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4F7D92E818D
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 04:40:53 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210917025635.32011-1-imp@bsdimp.com>
- <20210917025635.32011-8-imp@bsdimp.com>
-In-Reply-To: <20210917025635.32011-8-imp@bsdimp.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 16 Sep 2021 20:58:51 -0600
-Message-ID: <CANCZdfr2W_7rOvmk9-TsN-iC893eu+7CB4TaN6f6P_+xXdZv9w@mail.gmail.com>
-Subject: Re: [PATCH 7/9] bsd-user: Don't try to mmap fd when it is -1
- independently from MAP_ANONYMOUS flag
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000015383c05cc281dee"
-Received-SPF: none client-ip=2607:f8b0:4864:20::e2b;
- envelope-from=wlosh@bsdimp.com; helo=mail-vs1-xe2b.google.com
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 17 Sep 2021 04:33:22 -0000
+From: Sebastian Unger <1749393@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Fix Released; importance=Undecided;
+ assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu;
+ component=main; status=Triaged; importance=Medium; assignee=None; 
+X-Launchpad-Bug-Tags: arm linux-user qemu-20.10
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: doko gerard-f-vidal-4 hertzog janitor komainu8
+ laurent-vivier paelzer peterogden pmaydell racb rth sebunger44
+X-Launchpad-Bug-Reporter: =?utf-8?q?Rapha=C3=ABl_Hertzog_=28hertzog=29?=
+X-Launchpad-Bug-Modifier: Sebastian Unger (sebunger44)
+References: <151859702399.9461.6832978283203997178.malonedeb@chaenomeles.canonical.com>
+Message-Id: <163185320302.31483.12647085014559152121.malone@gac.canonical.com>
+Subject: [Bug 1749393] Re: sbrk() not working under qemu-user with a
+ PIE-compiled binary?
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="5b65b151acd4c2f8a97ca7e6060e3b23123c0959"; Instance="production"
+X-Launchpad-Hash: ac7cee3a04e727d02771725d074c92e713701495
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,146 +91,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Guy Yur <guyyur@gmail.com>
+Reply-To: Bug 1749393 <1749393@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000015383c05cc281dee
-Content-Type: text/plain; charset="UTF-8"
+I'm running qemu-arm version 4.2.1 (Debian 1:4.2-3ubuntu6.17) on Ubuntu
+20.04.03, but I seem to still be affected by this (or something very
+much like it). In my case it is armhf exim4 crashing while creating a
+chroot on an amd64 host. The final command run from deeply within
+exim4's postinst is:
 
-On Thu, Sep 16, 2021 at 8:56 PM Warner Losh <imp@bsdimp.com> wrote:
+/usr/sbin/exim4 -C /var/lib/exim4/config.autogenerated.tmp -bV
 
-> From: Guy Yur <guyyur@ngmail.com>
->
+and produces
 
-I need to fix this email address in the next round or for the pull request.
-It's gmail.com, not ngmail.com.
+Exim version 4.93 #5 built 28-Apr-2021 13:19:17
+Copyright (c) University of Cambridge, 1995 - 2018
+(c) The Exim Maintainers and contributors in ACKNOWLEDGMENTS file, 2007 - 2=
+018
+Berkeley DB: Berkeley DB 5.3.28: (September  9, 2013)
+Support for: crypteq iconv() IPv6 GnuTLS move_frozen_messages DANE DKIM DNS=
+SEC Event I18N OCSP PRDR SOCKS TCP_Fast_Open
+Lookups (built-in): lsearch wildlsearch nwildlsearch iplsearch cdb dbm dbmj=
+z dbmnz dnsdb dsearch nis nis0 passwd
+Authenticators: cram_md5 plaintext
+Routers: accept dnslookup ipliteral manualroute queryprogram redirect
+Transports: appendfile/maildir/mailstore autoreply lmtp pipe smtp
+Fixed never_users: 0
+Configure owner: 0:0
+Size of off_t: 8
+qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+Segmentation fault (core dumped)
 
-Switch checks for !(flags & MAP_ANONYMOUS) with checks for fd != -1.
-> MAP_STACK and MAP_GUARD also force fd == -1 and they don't require
-> mapping the fd either.
->
-> Signed-off-by: Guy Yur <guyyur@gmail.com>
-> [ partially merged before, finishing the job and documenting origin]
-> Signed-off-by: Warner Losh <imp@bsdimp.com>
-> ---
->  bsd-user/mmap.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c
-> index 8b763fffc3..347d314aa9 100644
-> --- a/bsd-user/mmap.c
-> +++ b/bsd-user/mmap.c
-> @@ -154,7 +154,7 @@ static int mmap_frag(abi_ulong real_start,
->      if (prot1 == 0) {
->          /* no page was there, so we allocate one */
->          void *p = mmap(host_start, qemu_host_page_size, prot,
-> -                       flags | MAP_ANON, -1, 0);
-> +                       flags | ((fd != -1) ? MAP_ANON : 0), -1, 0);
->          if (p == MAP_FAILED)
->              return -1;
->          prot1 = prot;
-> @@ -162,7 +162,7 @@ static int mmap_frag(abi_ulong real_start,
->      prot1 &= PAGE_BITS;
->
->      prot_new = prot | prot1;
-> -    if (!(flags & MAP_ANON)) {
-> +    if (fd != -1) {
->          /* msync() won't work here, so we return an error if write is
->             possible while it is a shared mapping */
->          if ((flags & TARGET_BSD_MAP_FLAGMASK) == MAP_SHARED &&
-> @@ -571,7 +571,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len,
-> int prot,
->           * worst case: we cannot map the file because the offset is not
->           * aligned, so we read it
->           */
-> -        if (!(flags & MAP_ANON) &&
-> +        if (fd != -1 &&
->              (offset & ~qemu_host_page_mask) != (start &
-> ~qemu_host_page_mask)) {
->              /*
->               * msync() won't work here, so we return an error if write is
-> --
-> 2.32.0
->
->
+Interestingly, even
 
---00000000000015383c05cc281dee
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+/usr/sbin/exim4 -C /dev/null -bV
 
-<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Sep 16, 2021 at 8:56 PM Warner Losh &lt;<a href=3D"=
-mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
-padding-left:1ex">From: Guy Yur &lt;<a href=3D"mailto:guyyur@ngmail.com" ta=
-rget=3D"_blank">guyyur@ngmail.com</a>&gt;<br></blockquote><div><br></div><d=
-iv>I need to fix this email address in the next round or for the pull reque=
-st. It&#39;s <a href=3D"http://gmail.com">gmail.com</a>, not <a href=3D"htt=
-p://ngmail.com">ngmail.com</a>.</div><div><br></div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
-ft:1ex">
-Switch checks for !(flags &amp; MAP_ANONYMOUS) with checks for fd !=3D -1.<=
-br>
-MAP_STACK and MAP_GUARD also force fd =3D=3D -1 and they don&#39;t require<=
-br>
-mapping the fd either.<br>
-<br>
-Signed-off-by: Guy Yur &lt;<a href=3D"mailto:guyyur@gmail.com" target=3D"_b=
-lank">guyyur@gmail.com</a>&gt;<br>
-[ partially merged before, finishing the job and documenting origin]<br>
-Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" target=3D"=
-_blank">imp@bsdimp.com</a>&gt;<br>
----<br>
-=C2=A0bsd-user/mmap.c | 6 +++---<br>
-=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c<br>
-index 8b763fffc3..347d314aa9 100644<br>
---- a/bsd-user/mmap.c<br>
-+++ b/bsd-user/mmap.c<br>
-@@ -154,7 +154,7 @@ static int mmap_frag(abi_ulong real_start,<br>
-=C2=A0 =C2=A0 =C2=A0if (prot1 =3D=3D 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* no page was there, so we allocate one =
-*/<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void *p =3D mmap(host_start, qemu_host_pa=
-ge_size, prot,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0flags | MAP_ANON, -1, 0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0flags | ((fd !=3D -1) ? MAP_ANON : 0), -1, 0);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (p =3D=3D MAP_FAILED)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0prot1 =3D prot;<br>
-@@ -162,7 +162,7 @@ static int mmap_frag(abi_ulong real_start,<br>
-=C2=A0 =C2=A0 =C2=A0prot1 &amp;=3D PAGE_BITS;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0prot_new =3D prot | prot1;<br>
--=C2=A0 =C2=A0 if (!(flags &amp; MAP_ANON)) {<br>
-+=C2=A0 =C2=A0 if (fd !=3D -1) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* msync() won&#39;t work here, so we ret=
-urn an error if write is<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 possible while it is a shared map=
-ping */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ((flags &amp; TARGET_BSD_MAP_FLAGMASK)=
- =3D=3D MAP_SHARED &amp;&amp;<br>
-@@ -571,7 +571,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, in=
-t prot,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * worst case: we cannot map the file bec=
-ause the offset is not<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * aligned, so we read it<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!(flags &amp; MAP_ANON) &amp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (fd !=3D -1 &amp;&amp;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(offset &amp; ~qemu_host_pa=
-ge_mask) !=3D (start &amp; ~qemu_host_page_mask)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * msync() won&#39;t work h=
-ere, so we return an error if write is<br>
--- <br>
-2.32.0<br>
-<br>
-</blockquote></div></div>
+produces the same result, so it likely doesn't depend on any
+configuration at my end and should be reproducible.
 
---00000000000015383c05cc281dee--
+Please let me know if there is anything I can do to help debug further.
+
+Should I create a separate ticket?
+
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1749393
+
+Title:
+  sbrk() not working under qemu-user with a PIE-compiled binary?
+
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Focal:
+  Triaged
+
+Bug description:
+  [Impact]
+
+   * The current space reserved can be too small and we can end up
+     with no space at all for BRK. It can happen to any case, but is
+     much more likely with the now common PIE binaries.
+
+   * Backport the upstream fix which reserves a bit more space while loading
+     and giving it back after interpreter and stack is loaded.
+
+  [Test Plan]
+
+   * On x86 run:
+  sudo apt install -y qemu-user-static docker.io
+  sudo docker run --rm arm64v8/debian:bullseye bash -c 'apt update && apt i=
+nstall -y wget'
+  ...
+  Running hooks in /etc/ca-certificates/update.d...
+  done.
+  Errors were encountered while processing:
+   libc-bin
+  E: Sub-process /usr/bin/dpkg returned an error code (1)
+
+ =20
+  [Where problems could occur]
+
+   * Regressions would be around use-cases of linux-user that is
+     emulation not of a system but of binaries.
+     Commonly uses for cross-tests and cross-builds so that is the
+     space to watch for regressions
+
+  [Other Info]
+  =20
+   * n/a
+
+
+  ---
+
+  In Debian unstable, we recently switched bash to be a PIE-compiled
+  binary (for hardening). Unfortunately this resulted in bash being
+  broken when run under qemu-user (for all target architectures, host
+  being amd64 for me).
+
+  $ sudo chroot /srv/chroots/sid-i386/ qemu-i386-static /bin/bash
+  bash: xmalloc: .././shell.c:1709: cannot allocate 10 bytes (0 bytes alloc=
+ated)
+
+  bash has its own malloc implementation based on sbrk():
+  https://git.savannah.gnu.org/cgit/bash.git/tree/lib/malloc/malloc.c
+
+  When we disable this internal implementation and rely on glibc's
+  malloc, then everything is fine. But it might be that glibc has a
+  fallback when sbrk() is not working properly and it might hide the
+  underlying problem in qemu-user.
+
+  This issue has also been reported to the bash upstream author and he sugg=
+ested that the issue might be in qemu-user so I'm opening a ticket here. He=
+re's the discussion with the bash upstream author:
+  https://lists.gnu.org/archive/html/bug-bash/2018-02/threads.html#00080
+
+  You can find the problematic bash binary in that .deb file:
+  http://snapshot.debian.org/archive/debian/20180206T154716Z/pool/main/b/ba=
+sh/bash_4.4.18-1_i386.deb
+
+  The version of qemu I have been using is 2.11 (Debian package qemu-
+  user-static version 1:2.11+dfsg-1) but I have had reports that the
+  problem is reproducible with older versions (back to 2.8 at least).
+
+  Here are the related Debian bug reports:
+  https://bugs.debian.org/889869
+  https://bugs.debian.org/865599
+
+  It's worth noting that bash used to have this problem (when compiled as a=
+ PIE binary) even when run directly but then something got fixed in the ker=
+nel and now the problem only appears when run under qemu-user:
+  https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1518483
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1749393/+subscriptions
+
 
