@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E36B4100AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 23:19:55 +0200 (CEST)
-Received: from localhost ([::1]:52004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A01B94100B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 23:29:58 +0200 (CEST)
+Received: from localhost ([::1]:59296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRLGz-0000Ue-PR
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 17:19:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40278)
+	id 1mRLQh-0005px-N8
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 17:29:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mRLFs-00084c-8L; Fri, 17 Sep 2021 17:18:44 -0400
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:34789)
+ id 1mRLP4-00037N-GF; Fri, 17 Sep 2021 17:28:14 -0400
+Received: from mail-oo1-xc2a.google.com ([2607:f8b0:4864:20::c2a]:35623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mRLFq-0007an-Km; Fri, 17 Sep 2021 17:18:44 -0400
-Received: by mail-oi1-x234.google.com with SMTP id p2so15838030oif.1;
- Fri, 17 Sep 2021 14:18:42 -0700 (PDT)
+ id 1mRLP3-0007id-0w; Fri, 17 Sep 2021 17:28:14 -0400
+Received: by mail-oo1-xc2a.google.com with SMTP id
+ y3-20020a4ab403000000b00290e2a52c71so3656984oon.2; 
+ Fri, 17 Sep 2021 14:28:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=OSiBlqLacKhCEhT4rz0FdO+a9FUEtfVs24ZJ+f0/KYo=;
- b=pUawTNZw3h17XK9yXNIQEqMQG2By4vw/+myFCTGh8oJJll0N3oU/NIE7rh/d+I15Et
- uKUU16Zocg/+z6Hy4ZMt6Ujq4q1rrssjJOq92Sc2M7x6ILwIMdLc/VNJ+8I7c0Pp/hQ3
- u+RF+9dOruxgLpJl3rt3qdIn+sttKOeizoM3Jb/T2fk327GSGCbF+GK8UgGGdt+h9ukl
- vYqLqRSSdrRfjYFFUINlkr2KLG/hXIT1RaGYUTeAPzTvjK3BQXsPbR0Jgd5AS0zu5K4R
- mynLZiNpjZql4uLgqnoksLVeWpDt1/U3k7kq5JcgigV0jKC7Jz0WKHP88nVGtI4jJiua
- Py9g==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nOJLthqDv8T5wGOAZCSaxH/T/GXkkiMVB5naSo+TwyA=;
+ b=W4CnnA4gKoysxwe7X9bZb26fnxn7Le/KjaZHP6b0IutVpaz/m3XiwNfKgDkheFm7Qt
+ 0XJrNmYT9Tq0NayUjmfNn8kle1mZZbU2La7+ivv2nZuOyFSyTDeBBylLAiwpXWBEAo4y
+ F8Ex0Nhj/fIlp1Ch22wmEj8CdcNna7rzkngQtsmr5OXpPKpFGEY30ta365aO3rqFSi92
+ +SVTMXVODwtoVCGlxg7Vs8WP+tTYLBSY2H9/jVaYbHM8t8tQyrhE8V77qgmCqzcS65/s
+ MXOtqMeMcKtJZC2i9lQCxSQ2tXVFGrigFk8PmgxPpPLN7RHpCZJn/ROFamLRntzulXbn
+ eezA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=OSiBlqLacKhCEhT4rz0FdO+a9FUEtfVs24ZJ+f0/KYo=;
- b=WgI+qWyG2MGRkBa2diA2TCN6SujEB7pvxgfpR1vJ9Ocy/ArZ6ay4+wwN6N1/3r9yBt
- GNmG+WHG7h7xl5q2A7FUfbrXQ45rZuBpvSAAq+lCYDGnpTnHcaLmd4lWHKncs8UCUh1T
- BNGHmqTE7ul1D4uubpV0msSvdSHtxFSflgxd363XVZwfNCPc9NgY1Wzc42lkQagV+k33
- WxqZZKZHXb95kiAUgU+rPxVLYVv09bAhf75P/e5UbjUKEM+QYlPZnQrUc9RMvFbuq8S5
- aH7YbMHdxSEBlV63bmFFcu5sypLtO/6BVJFDR8sSode6YBjqR0qIiqQqRSVIE7ag6+tq
- X/Pg==
-X-Gm-Message-State: AOAM530eZod+8a7Fjrtejr2KPWCYDF3y17M0vNktCu6YexhoDFIq7dmZ
- hIdnfPtD0ym/yPvdgkoOS2w=
-X-Google-Smtp-Source: ABdhPJz0OvdfX9jGaoBFx1IesSaQfnWP75y9TMh1C0JbYSNCkiE4Fn9iNNGunsDlftcw5Z8U6BSZ+A==
-X-Received: by 2002:a54:4f89:: with SMTP id g9mr3475921oiy.71.1631913521201;
- Fri, 17 Sep 2021 14:18:41 -0700 (PDT)
-Received: from [192.168.10.222] ([177.189.43.50])
- by smtp.gmail.com with ESMTPSA id v24sm1767701ote.66.2021.09.17.14.18.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Sep 2021 14:18:40 -0700 (PDT)
-Message-ID: <81d53dc4-d69b-6931-9cda-b07598df2a19@gmail.com>
-Date: Fri, 17 Sep 2021 18:18:32 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v7 7/7] spapr_numa.c: handle auto NUMA node with no
- distance info
-Content-Language: en-US
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20210916013004.272059-1-danielhb413@gmail.com>
- <20210916013004.272059-8-danielhb413@gmail.com>
- <20210917102552.7ce1cbcb@redhat.com>
+ bh=nOJLthqDv8T5wGOAZCSaxH/T/GXkkiMVB5naSo+TwyA=;
+ b=O6mviis70K/e0ALIJs7b+F7gKURZIoKByWZthmDmt6f6gKXZmfRn4ZjQX3lOyUCBKk
+ CsUH7Ef4vYmucVHN0SlGevHen9ee/0xUy687c6W7iHwpzXpSI/gMEljR0/4Z6EawykMT
+ VbQePqj5RZCnrrr5Qnj2EnICpSRstpNcNBgKIgsk6y/y59OYcNrs7aLMVrYnqss3GlA4
+ CGWF05mpX6Nupq/PZTyTwSGy7eZJuwFlDgqvTcIFQkhVA82s5YK2rGg/zyVD/pZ+P6eL
+ +MQdkEt72G+XVMLHdGbytfAoLR1wS2Ba+72lIHyn/oDIfIitCDdO1ERyTDig4Gz3uTw+
+ Zadg==
+X-Gm-Message-State: AOAM533b9a8PffrTAVgiLp3XY5R7X8ZBQhp+q1m8Vz40CJP7LIEVXLSC
+ DhJL82Wua+hVON5FH/gc5Q+S0eQ1qTM=
+X-Google-Smtp-Source: ABdhPJwtSr8f/WDrlMJ++1/A8E4QghX39R3MVeB4NUk0MPhs9WcUobFzlTuEqAweHIEpJphmGoqQdA==
+X-Received: by 2002:a4a:a509:: with SMTP id v9mr10680598ook.73.1631914091390; 
+ Fri, 17 Sep 2021 14:28:11 -0700 (PDT)
+Received: from rekt.COMFAST ([177.189.43.50])
+ by smtp.gmail.com with ESMTPSA id s16sm710560otq.78.2021.09.17.14.28.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Sep 2021 14:28:11 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20210917102552.7ce1cbcb@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x234.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 0/7] pSeries FORM2 affinity support
+Date: Fri, 17 Sep 2021 18:27:55 -0300
+Message-Id: <20210917212802.424481-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c2a;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.488,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,114 +80,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
+
+This new version contains changes made in patch 7 after looking more
+carefully in the auto-generated NUMA node issue. I also took the
+opportunity to make a change that Greg requested in an earlier
+review that didn't make to v7.
 
 
-On 9/17/21 05:25, Igor Mammedov wrote:
-> On Wed, 15 Sep 2021 22:30:04 -0300
-> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
-> 
->> numa_complete_configuration() in hw/core/numa.c always adds a NUMA node
->> for the pSeries machine if none was specified, but without node distance
->> information for the single node created.
-> 
-> distance is optional feature, hence generic auto create magic doesn't
-> do anything with it (it does bare minimum for memhotplug to work).
-> I'd like to drop auto-generated node altogether and ask user to explicitly
-> provide needed -numa options (now with deprecation it's possible) if it's required.
+Changes from v7:
+- patch 3:
+  * removed redundant 'no FORM2 available yet' comments
+- patch 7:
+  * removed the unneeded handling of numa_state->num_nodes
+- v7 link: https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg04156.html
 
-This means that there's a need to handle the case of local distance for a
-single NUMA node. Thanks for confirming that.
+Changes from v6:
+- patch 1:
+  * added Greg's r-b
+- patch 2:
+  * added the missing NUMA nodes number check
+  * added Greg's r-b
+- patch 3 (former patch 4):
+  * no changes.
+- former patch 3 (associativity_reset()): dropped
+- patch 4 (new):
+  * added get_associativity()
+  * do not allocate FORM1_assoc_array in the heap
+- patch 5:
+  * fixed typo
+  * added new check function to be called in CAS
+- patch 6:
+  * do not allocate FORM2_assoc_array in the heap
+- patch 7 (new):
+  * FORM2 fixes to handle the implicit added QEMU NUMA node when there's
+  no NUMA node added by the user.
+- v6 link: https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02892.html
 
-> 
->> This added node is also not
->> accounted for in numa_state->num_nodes, which returns zero.
-> 
-> that's probably a bug, parse_numa_node() should always increments on success,
-> can you check why it doesn't happen in your case?
+Daniel Henrique Barboza (7):
+  spapr_numa.c: split FORM1 code into helpers
+  spapr_numa.c: scrap 'legacy_numa' concept
+  spapr_numa.c: parametrize FORM1 macros
+  spapr_numa.c: rename numa_assoc_array to FORM1_assoc_array
+  spapr: move FORM1 verifications to post CAS
+  spapr_numa.c: FORM2 NUMA affinity support
+  spapr_numa.c: handle auto NUMA node with no distance info
 
-After checking the problem further I realized that this isn't true.
-numa_state->num_nodes is correctly reporting size = 1 in this case as
-well.
+ hw/ppc/spapr.c              |  41 +---
+ hw/ppc/spapr_hcall.c        |   7 +
+ hw/ppc/spapr_numa.c         | 380 ++++++++++++++++++++++++++++++------
+ include/hw/ppc/spapr.h      |  35 ++--
+ include/hw/ppc/spapr_numa.h |   1 +
+ include/hw/ppc/spapr_ovec.h |   1 +
+ 6 files changed, 354 insertions(+), 111 deletions(-)
 
-The problem is just the absence of node distance information for the
-auto-generated NUMA node. I'll fix both the code and commit message
-in the next version.
+-- 
+2.31.1
 
-
-Thanks,
-
-
-Daniel
-
-> 
->> NUMA FORM1 affinity code didn't rely on numa_state information to do its
->> job, but FORM2 does. As is now, this is the result of a pSeries guest
->> with NUMA FORM2 affinity when no NUMA nodes is specified:
->>
->> $ numactl -H available: 1 nodes (0) node 0 cpus: 0 node 0 size: 16222 MB
->> node 0 free: 15681 MB No distance information available.
->>
->> This can be amended in spapr_numa_FORM2_write_rtas_tables(). We're
->> always expecting at least one NUMA node, and we're going to enforce that
->> the local distance (the distance to the node to itself) is always 10.
->> This allows for the proper creation of the NUMA distance tables, fixing
->> the output of 'numactl -H' in the guest:
->>
->> $ numactl -H available: 1 nodes (0) node 0 cpus: 0 node 0 size: 16222 MB
->> node 0 free: 15685 MB node distances: node   0
->>    0:  10
->>
->> CC: Igor Mammedov <imammedo@redhat.com>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>
->> Igor,
->>
->> CCing you as a FYI. I wasn't sure whether there is a reason for
->> numa_complete_configuration() not adding distance info an update 'num_nodes'
->> for the auto-generated NUMA node, I decided to handle this case in
->> pseries side instead.
->>
->>
->>
->>   hw/ppc/spapr_numa.c | 13 ++++++++++++-
->>   1 file changed, 12 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
->> index 659513b405..d8caf5f6bd 100644
->> --- a/hw/ppc/spapr_numa.c
->> +++ b/hw/ppc/spapr_numa.c
->> @@ -499,7 +499,7 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
->>   {
->>       MachineState *ms = MACHINE(spapr);
->>       NodeInfo *numa_info = ms->numa_state->nodes;
->> -    int nb_numa_nodes = ms->numa_state->num_nodes;
->> +    int nb_numa_nodes = ms->numa_state->num_nodes ?: 1;
->>       int distance_table_entries = nb_numa_nodes * nb_numa_nodes;
->>       g_autofree uint32_t *lookup_index_table = NULL;
->>       g_autofree uint32_t *distance_table = NULL;
->> @@ -539,6 +539,17 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
->>   
->>       for (src = 0; src < nb_numa_nodes; src++) {
->>           for (dst = 0; dst < nb_numa_nodes; dst++) {
->> +            /*
->> +             * We need to be explicit with the local distance
->> +             * value to cover the case where the user didn't added any
->> +             * NUMA nodes, but QEMU adds the default NUMA node without
->> +             * adding the numa_info to retrieve the info from.
->> +             */
->> +            if (src == dst) {
->> +                node_distances[i++] = 10;
->> +                continue;
->> +            }
->> +
->>               node_distances[i++] = numa_info[src].distance[dst];
->>           }
->>       }
-> 
 
