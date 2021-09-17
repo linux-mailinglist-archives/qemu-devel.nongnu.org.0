@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2839540FA3E
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 16:35:10 +0200 (CEST)
-Received: from localhost ([::1]:60154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01EB040FA3B
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 16:34:06 +0200 (CEST)
+Received: from localhost ([::1]:55920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRExJ-0001EH-70
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 10:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38326)
+	id 1mREwH-0006qo-1Q
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 10:34:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mREu0-0003wo-1g
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mREu0-0003y8-Mx
  for qemu-devel@nongnu.org; Fri, 17 Sep 2021 10:31:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27468)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mREtv-00009p-Nq
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 10:31:43 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mREtx-0000D3-7M
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 10:31:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631889098;
+ s=mimecast20190719; t=1631889100;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bG20UQJrLdcwhDM3/vqapm/YQ6eVNMfSChKJyGlHFi8=;
- b=VpNcey/N7+y1FNBc7YnzJDaRQc2wibsYU+7t6xflyb9K1Wz00oF/i6vQy0LsVJcebc/Xhl
- vkV9SeWK8MxA3YENZijO9Wa7Flam1WLCQvJJ8aMlpzfwKRUKqcR4NM7KzuNpj3PjnUsuyA
- qe0dpb5e3eXDIhi79xJ7XsKzQm9jYtI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=g3Elx8A36QJtA29cxlYq7YCWsDJiR8+rH47sQtQ6zkg=;
+ b=ftMBoMtcVeCpAEitJ5IWL2h8w3GXqiaSTxWZVhPkQ1SZk7cmA0onQPLWpTJbPlrTsWC43G
+ 2Izr/BE+FJy5qnf8mQnvd3W9fG4pxxTCFXm9hX+JBjIPlXmUbouov+UBFiZbQnSyUgzAs+
+ YzCMykzFVL6gKdjIO88+6vlnCk0/dhw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-vzjW7ve6N0K7RgTMylT0xg-1; Fri, 17 Sep 2021 10:31:37 -0400
-X-MC-Unique: vzjW7ve6N0K7RgTMylT0xg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-76-jxOVxxh6Pz2P0ALoK_MxCQ-1; Fri, 17 Sep 2021 10:31:39 -0400
+X-MC-Unique: jxOVxxh6Pz2P0ALoK_MxCQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 690761966323;
- Fri, 17 Sep 2021 14:31:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86C1EBBEE4;
+ Fri, 17 Sep 2021 14:31:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD96D5D6B1;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DF25D19736;
  Fri, 17 Sep 2021 14:31:35 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 565AA113865F; Fri, 17 Sep 2021 16:31:34 +0200 (CEST)
+ id 58BDA113861E; Fri, 17 Sep 2021 16:31:34 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/23] qapi: Remove simple unions from the schema language
-Date: Fri, 17 Sep 2021 16:31:11 +0200
-Message-Id: <20210917143134.412106-1-armbru@redhat.com>
+Subject: [PATCH v2 01/23] qapi: Tidy up unusual line breaks
+Date: Fri, 17 Sep 2021 16:31:12 +0200
+Message-Id: <20210917143134.412106-2-armbru@redhat.com>
+In-Reply-To: <20210917143134.412106-1-armbru@redhat.com>
+References: <20210917143134.412106-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -76,276 +79,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>, michael.roth@amd.com,
- eblake@redhat.com, Hanna Reitz <hreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- marcandre.lureau@redhat.com, jsnow@redhat.com
+Cc: jsnow@redhat.com, michael.roth@amd.com, eblake@redhat.com,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simple unions predate flat unions.  Having both complicates the QAPI
-schema language and the QAPI generator.  We haven't been using simple
-unions in new code for a long time, because they are less flexible and
-somewhat awkward on the wire.
+Break lines between members instead of within members.
 
-Get rid of them.  We should've done this long ago.
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ docs/devel/qapi-code-gen.rst            | 12 +++++------
+ tests/qapi-schema/doc-good.json         |  4 ++--
+ tests/qapi-schema/enum-if-invalid.json  |  4 ++--
+ tests/qapi-schema/qapi-schema-test.json | 28 ++++++++++++-------------
+ 4 files changed, 24 insertions(+), 24 deletions(-)
 
-This adds some boilerplate to the schema:
-
-    $ git-diff --shortstat master qapi
-     7 files changed, 461 insertions(+), 59 deletions(-)
-
-Well worth the language simplification, in my opinion:
-
-    $ git-diff --stat master scripts/ docs/
-     docs/devel/qapi-code-gen.rst | 137 ++++++++++---------------------------------
-     scripts/qapi/common.py       |  19 ++----
-     scripts/qapi/expr.py         |  48 +++++++--------
-     scripts/qapi/schema.py       | 101 +++++++------------------------
-     4 files changed, 80 insertions(+), 225 deletions(-)
-
-The complete diffstat looks even better, but is somewhat misleading,
-because it's dominated by two tests rewritten in a much more compact
-way.
-
-v2:
-* PATCH 03-10: Since tags tidied up [Eric]
-* PATCH 19: Commit message typo fixed, -Union2 renamed to -Union
-  [Eric]
-* PATCH 22: New
-
-Cc: "Daniel P. Berrangé" <berrange@redhat.com>
-Cc: "Marc-André Lureau" <marcandre.lureau@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Hanna Reitz <hreitz@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
-
-Markus Armbruster (23):
-  qapi: Tidy up unusual line breaks
-  qapi: Stop enforcing "type name should not end in 'Kind'
-  qapi: Convert simple union KeyValue to flat one
-  qapi: Convert simple union InputEvent to flat one
-  qapi: Convert simple union TpmTypeOptions to flat one
-  qapi: Convert simple union MemoryDeviceInfo to flat one
-  qapi: Convert simple union ChardevBackend to flat one
-  qapi: Convert simple union SocketAddressLegacy to flat one
-  qapi: Convert simple union ImageInfoSpecific to flat one
-  qapi: Convert simple union TransactionAction to flat one
-  tests/qapi-schema: Prepare for simple union UserDefListUnion removal
-  test-qobject-input-visitor: Wean off UserDefListUnion
-  test-qobject-output-visitor: Wean off UserDefListUnion
-  test-clone-visitor: Wean off UserDefListUnion
-  tests/qapi-schema: Wean off UserDefListUnion
-  tests/qapi-schema: Simple union UserDefListUnion is now unused, drop
-  tests/qapi-schema: Rewrite simple union TestIfUnion to be flat
-  test-clone-visitor: Wean off __org.qemu_x-Union1
-  tests/qapi-schema: Drop simple union __org.qemu_x-Union1
-  tests/qapi-schema: Purge simple unions from tests
-  qapi: Drop simple unions
-  tests/qapi-schema: Rename flat-union-* test cases to union-*
-  test-clone-visitor: Correct an accidental rename
-
- docs/devel/qapi-code-gen.rst                  | 137 ++----
- qapi/block-core.json                          |  59 ++-
- qapi/char.json                                | 187 ++++++-
- qapi/machine.json                             |  42 +-
- qapi/sockets.json                             |  46 +-
- qapi/tpm.json                                 |  24 +-
- qapi/transaction.json                         | 139 +++++-
- qapi/ui.json                                  |  72 ++-
- backends/tpm/tpm_emulator.c                   |   2 +-
- backends/tpm/tpm_passthrough.c                |   2 +-
- chardev/char-socket.c                         |   6 +-
- chardev/char-udp.c                            |   4 +-
- monitor/hmp-cmds.c                            |   8 +-
- tests/unit/test-clone-visitor.c               |  98 ++--
- tests/unit/test-qmp-cmds.c                    |  18 +-
- tests/unit/test-qobject-input-visitor.c       | 460 ++++++------------
- tests/unit/test-qobject-output-visitor.c      | 391 ++++-----------
- tests/unit/test-yank.c                        |   6 +-
- util/qemu-sockets.c                           |   8 +-
- scripts/qapi/expr.py                          |  27 +-
- scripts/qapi/schema.py                        | 101 +---
- tests/qapi-schema/args-union.err              |   2 +-
- tests/qapi-schema/args-union.json             |   8 +-
- tests/qapi-schema/bad-base.err                |   2 +-
- tests/qapi-schema/bad-base.json               |   8 +-
- tests/qapi-schema/doc-good.json               |  13 +-
- tests/qapi-schema/doc-good.out                |  22 -
- tests/qapi-schema/doc-good.txt                |  20 -
- tests/qapi-schema/enum-if-invalid.json        |   4 +-
- tests/qapi-schema/flat-union-array-branch.err |   2 -
- tests/qapi-schema/flat-union-bad-base.err     |   2 -
- .../flat-union-bad-discriminator.err          |   2 -
- tests/qapi-schema/flat-union-base-any.err     |   2 -
- tests/qapi-schema/flat-union-base-union.err   |   2 -
- tests/qapi-schema/flat-union-clash-member.err |   2 -
- .../flat-union-discriminator-bad-name.err     |   2 -
- tests/qapi-schema/flat-union-empty.err        |   2 -
- tests/qapi-schema/flat-union-empty.json       |   4 -
- .../flat-union-inline-invalid-dict.err        |   2 -
- tests/qapi-schema/flat-union-int-branch.err   |   2 -
- .../flat-union-invalid-branch-key.err         |   2 -
- .../flat-union-invalid-discriminator.err      |   2 -
- .../flat-union-invalid-if-discriminator.err   |   2 -
- tests/qapi-schema/flat-union-no-base.err      |   2 -
- .../flat-union-optional-discriminator.err     |   2 -
- .../flat-union-string-discriminator.err       |   2 -
- .../flat-union-string-discriminator.out       |   0
- tests/qapi-schema/meson.build                 |  35 +-
- tests/qapi-schema/qapi-schema-test.json       |  51 +-
- tests/qapi-schema/qapi-schema-test.out        | 116 ++---
- tests/qapi-schema/reserved-member-u.json      |   2 +-
- tests/qapi-schema/reserved-type-kind.err      |   2 -
- tests/qapi-schema/reserved-type-kind.json     |   2 -
- tests/qapi-schema/reserved-type-kind.out      |   0
- tests/qapi-schema/union-array-branch.err      |   2 +
- ...ay-branch.json => union-array-branch.json} |   2 +-
- ...rray-branch.out => union-array-branch.out} |   0
- tests/qapi-schema/union-bad-base.err          |   2 +
- ...nion-bad-base.json => union-bad-base.json} |   0
- ...-union-bad-base.out => union-bad-base.out} |   0
- tests/qapi-schema/union-bad-discriminator.err |   2 +
- ...ator.json => union-bad-discriminator.json} |   0
- ...inator.out => union-bad-discriminator.out} |   0
- tests/qapi-schema/union-base-any.err          |   2 +
- ...nion-base-any.json => union-base-any.json} |   0
- ...-union-base-any.out => union-base-any.out} |   0
- tests/qapi-schema/union-base-empty.json       |   2 +-
- .../union-base-no-discriminator.err           |   2 +-
- .../union-base-no-discriminator.json          |   2 +-
- tests/qapi-schema/union-base-union.err        |   2 +
- ...-base-union.json => union-base-union.json} |   3 +
- ...on-base-union.out => union-base-union.out} |   0
- tests/qapi-schema/union-branch-case.err       |   2 -
- tests/qapi-schema/union-branch-case.json      |   2 -
- tests/qapi-schema/union-branch-case.out       |   0
- .../qapi-schema/union-branch-invalid-dict.err |   2 +-
- .../union-branch-invalid-dict.json            |   4 +
- tests/qapi-schema/union-clash-branches.err    |   2 -
- tests/qapi-schema/union-clash-branches.json   |   7 -
- tests/qapi-schema/union-clash-branches.out    |   0
- tests/qapi-schema/union-clash-member.err      |   2 +
- ...sh-member.json => union-clash-member.json} |   0
- ...lash-member.out => union-clash-member.out} |   0
- .../union-discriminator-bad-name.err          |   2 +
- ...json => union-discriminator-bad-name.json} |   0
- ...e.out => union-discriminator-bad-name.out} |   0
- tests/qapi-schema/union-empty.err             |   2 +-
- tests/qapi-schema/union-empty.json            |   6 +-
- .../qapi-schema/union-inline-invalid-dict.err |   2 +
- ...ct.json => union-inline-invalid-dict.json} |   0
- ...mpty.out => union-inline-invalid-dict.out} |   0
- tests/qapi-schema/union-int-branch.err        |   2 +
- ...-int-branch.json => union-int-branch.json} |   2 +-
- ...-invalid-dict.out => union-int-branch.out} |   0
- .../qapi-schema/union-invalid-branch-key.err  |   2 +
- ...key.json => union-invalid-branch-key.json} |   0
- ...ranch.out => union-invalid-branch-key.out} |   0
- .../union-invalid-discriminator.err           |   2 +
- ....json => union-invalid-discriminator.json} |   0
- ...ey.out => union-invalid-discriminator.out} |   0
- .../union-invalid-if-discriminator.err        |   2 +
- ...on => union-invalid-if-discriminator.json} |   0
- ...out => union-invalid-if-discriminator.out} |   0
- tests/qapi-schema/union-no-base.err           |   2 +
- ...-union-no-base.json => union-no-base.json} |   2 +-
- ...if-discriminator.out => union-no-base.out} |   0
- tests/qapi-schema/union-optional-branch.err   |   2 -
- tests/qapi-schema/union-optional-branch.json  |   2 -
- tests/qapi-schema/union-optional-branch.out   |   0
- .../union-optional-discriminator.err          |   2 +
- ...json => union-optional-discriminator.json} |   0
- ...e.out => union-optional-discriminator.out} |   0
- .../union-string-discriminator.err            |   2 +
- ...r.json => union-string-discriminator.json} |   0
- ...tor.out => union-string-discriminator.out} |   0
- tests/qapi-schema/union-unknown.err           |   2 +-
- tests/qapi-schema/union-unknown.json          |   5 +-
- 117 files changed, 1020 insertions(+), 1223 deletions(-)
- delete mode 100644 tests/qapi-schema/flat-union-array-branch.err
- delete mode 100644 tests/qapi-schema/flat-union-bad-base.err
- delete mode 100644 tests/qapi-schema/flat-union-bad-discriminator.err
- delete mode 100644 tests/qapi-schema/flat-union-base-any.err
- delete mode 100644 tests/qapi-schema/flat-union-base-union.err
- delete mode 100644 tests/qapi-schema/flat-union-clash-member.err
- delete mode 100644 tests/qapi-schema/flat-union-discriminator-bad-name.err
- delete mode 100644 tests/qapi-schema/flat-union-empty.err
- delete mode 100644 tests/qapi-schema/flat-union-empty.json
- delete mode 100644 tests/qapi-schema/flat-union-inline-invalid-dict.err
- delete mode 100644 tests/qapi-schema/flat-union-int-branch.err
- delete mode 100644 tests/qapi-schema/flat-union-invalid-branch-key.err
- delete mode 100644 tests/qapi-schema/flat-union-invalid-discriminator.err
- delete mode 100644 tests/qapi-schema/flat-union-invalid-if-discriminator.err
- delete mode 100644 tests/qapi-schema/flat-union-no-base.err
- delete mode 100644 tests/qapi-schema/flat-union-optional-discriminator.err
- delete mode 100644 tests/qapi-schema/flat-union-string-discriminator.err
- delete mode 100644 tests/qapi-schema/flat-union-string-discriminator.out
- delete mode 100644 tests/qapi-schema/reserved-type-kind.err
- delete mode 100644 tests/qapi-schema/reserved-type-kind.json
- delete mode 100644 tests/qapi-schema/reserved-type-kind.out
- create mode 100644 tests/qapi-schema/union-array-branch.err
- rename tests/qapi-schema/{flat-union-array-branch.json => union-array-branch.json} (86%)
- rename tests/qapi-schema/{flat-union-array-branch.out => union-array-branch.out} (100%)
- create mode 100644 tests/qapi-schema/union-bad-base.err
- rename tests/qapi-schema/{flat-union-bad-base.json => union-bad-base.json} (100%)
- rename tests/qapi-schema/{flat-union-bad-base.out => union-bad-base.out} (100%)
- create mode 100644 tests/qapi-schema/union-bad-discriminator.err
- rename tests/qapi-schema/{flat-union-bad-discriminator.json => union-bad-discriminator.json} (100%)
- rename tests/qapi-schema/{flat-union-bad-discriminator.out => union-bad-discriminator.out} (100%)
- create mode 100644 tests/qapi-schema/union-base-any.err
- rename tests/qapi-schema/{flat-union-base-any.json => union-base-any.json} (100%)
- rename tests/qapi-schema/{flat-union-base-any.out => union-base-any.out} (100%)
- create mode 100644 tests/qapi-schema/union-base-union.err
- rename tests/qapi-schema/{flat-union-base-union.json => union-base-union.json} (86%)
- rename tests/qapi-schema/{flat-union-base-union.out => union-base-union.out} (100%)
- delete mode 100644 tests/qapi-schema/union-branch-case.err
- delete mode 100644 tests/qapi-schema/union-branch-case.json
- delete mode 100644 tests/qapi-schema/union-branch-case.out
- delete mode 100644 tests/qapi-schema/union-clash-branches.err
- delete mode 100644 tests/qapi-schema/union-clash-branches.json
- delete mode 100644 tests/qapi-schema/union-clash-branches.out
- create mode 100644 tests/qapi-schema/union-clash-member.err
- rename tests/qapi-schema/{flat-union-clash-member.json => union-clash-member.json} (100%)
- rename tests/qapi-schema/{flat-union-clash-member.out => union-clash-member.out} (100%)
- create mode 100644 tests/qapi-schema/union-discriminator-bad-name.err
- rename tests/qapi-schema/{flat-union-discriminator-bad-name.json => union-discriminator-bad-name.json} (100%)
- rename tests/qapi-schema/{flat-union-discriminator-bad-name.out => union-discriminator-bad-name.out} (100%)
- create mode 100644 tests/qapi-schema/union-inline-invalid-dict.err
- rename tests/qapi-schema/{flat-union-inline-invalid-dict.json => union-inline-invalid-dict.json} (100%)
- rename tests/qapi-schema/{flat-union-empty.out => union-inline-invalid-dict.out} (100%)
- create mode 100644 tests/qapi-schema/union-int-branch.err
- rename tests/qapi-schema/{flat-union-int-branch.json => union-int-branch.json} (86%)
- rename tests/qapi-schema/{flat-union-inline-invalid-dict.out => union-int-branch.out} (100%)
- create mode 100644 tests/qapi-schema/union-invalid-branch-key.err
- rename tests/qapi-schema/{flat-union-invalid-branch-key.json => union-invalid-branch-key.json} (100%)
- rename tests/qapi-schema/{flat-union-int-branch.out => union-invalid-branch-key.out} (100%)
- create mode 100644 tests/qapi-schema/union-invalid-discriminator.err
- rename tests/qapi-schema/{flat-union-invalid-discriminator.json => union-invalid-discriminator.json} (100%)
- rename tests/qapi-schema/{flat-union-invalid-branch-key.out => union-invalid-discriminator.out} (100%)
- create mode 100644 tests/qapi-schema/union-invalid-if-discriminator.err
- rename tests/qapi-schema/{flat-union-invalid-if-discriminator.json => union-invalid-if-discriminator.json} (100%)
- rename tests/qapi-schema/{flat-union-invalid-discriminator.out => union-invalid-if-discriminator.out} (100%)
- create mode 100644 tests/qapi-schema/union-no-base.err
- rename tests/qapi-schema/{flat-union-no-base.json => union-no-base.json} (90%)
- rename tests/qapi-schema/{flat-union-invalid-if-discriminator.out => union-no-base.out} (100%)
- delete mode 100644 tests/qapi-schema/union-optional-branch.err
- delete mode 100644 tests/qapi-schema/union-optional-branch.json
- delete mode 100644 tests/qapi-schema/union-optional-branch.out
- create mode 100644 tests/qapi-schema/union-optional-discriminator.err
- rename tests/qapi-schema/{flat-union-optional-discriminator.json => union-optional-discriminator.json} (100%)
- rename tests/qapi-schema/{flat-union-no-base.out => union-optional-discriminator.out} (100%)
- create mode 100644 tests/qapi-schema/union-string-discriminator.err
- rename tests/qapi-schema/{flat-union-string-discriminator.json => union-string-discriminator.json} (100%)
- rename tests/qapi-schema/{flat-union-optional-discriminator.out => union-string-discriminator.out} (100%)
-
+diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+index ced7a5ffe1..b154eae82e 100644
+--- a/docs/devel/qapi-code-gen.rst
++++ b/docs/devel/qapi-code-gen.rst
+@@ -859,9 +859,9 @@ longhand form of MEMBER.
+ Example: a struct type with unconditional member 'foo' and conditional
+ member 'bar' ::
+ 
+- { 'struct': 'IfStruct', 'data':
+-   { 'foo': 'int',
+-     'bar': { 'type': 'int', 'if': 'IFCOND'} } }
++ { 'struct': 'IfStruct',
++   'data': { 'foo': 'int',
++             'bar': { 'type': 'int', 'if': 'IFCOND'} } }
+ 
+ A union's discriminator may not be conditional.
+ 
+@@ -871,9 +871,9 @@ the longhand form of ENUM-VALUE_.
+ Example: an enum type with unconditional value 'foo' and conditional
+ value 'bar' ::
+ 
+- { 'enum': 'IfEnum', 'data':
+-   [ 'foo',
+-     { 'name' : 'bar', 'if': 'IFCOND' } ] }
++ { 'enum': 'IfEnum',
++   'data': [ 'foo',
++             { 'name' : 'bar', 'if': 'IFCOND' } ] }
+ 
+ Likewise, features can be conditional.  This requires the longhand
+ form of FEATURE_.
+diff --git a/tests/qapi-schema/doc-good.json b/tests/qapi-schema/doc-good.json
+index e0027e4cf6..cbf5c56c4b 100644
+--- a/tests/qapi-schema/doc-good.json
++++ b/tests/qapi-schema/doc-good.json
+@@ -60,8 +60,8 @@
+ #
+ # @two is undocumented
+ ##
+-{ 'enum': 'Enum', 'data':
+-  [ { 'name': 'one', 'if': 'IFONE' }, 'two' ],
++{ 'enum': 'Enum',
++  'data': [ { 'name': 'one', 'if': 'IFONE' }, 'two' ],
+   'features': [ 'enum-feat' ],
+   'if': 'IFCOND' }
+ 
+diff --git a/tests/qapi-schema/enum-if-invalid.json b/tests/qapi-schema/enum-if-invalid.json
+index 60bd0ef1d7..6bd20041f3 100644
+--- a/tests/qapi-schema/enum-if-invalid.json
++++ b/tests/qapi-schema/enum-if-invalid.json
+@@ -1,3 +1,3 @@
+ # check invalid 'if' type
+-{ 'enum': 'TestIfEnum', 'data':
+-  [ 'foo', { 'name' : 'bar', 'if': { 'val': 'foo' } } ] }
++{ 'enum': 'TestIfEnum',
++  'data': [ 'foo', { 'name' : 'bar', 'if': { 'val': 'foo' } } ] }
+diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
+index b6c36a9eee..3c43e14e22 100644
+--- a/tests/qapi-schema/qapi-schema-test.json
++++ b/tests/qapi-schema/qapi-schema-test.json
+@@ -220,27 +220,27 @@
+ 
+ # test 'if' condition handling
+ 
+-{ 'struct': 'TestIfStruct', 'data':
+-  { 'foo': 'int',
+-    'bar': { 'type': 'int', 'if': 'TEST_IF_STRUCT_BAR'} },
++{ 'struct': 'TestIfStruct',
++  'data': { 'foo': 'int',
++            'bar': { 'type': 'int', 'if': 'TEST_IF_STRUCT_BAR'} },
+   'if': 'TEST_IF_STRUCT' }
+ 
+-{ 'enum': 'TestIfEnum', 'data':
+-  [ 'foo', { 'name' : 'bar', 'if': 'TEST_IF_ENUM_BAR' } ],
++{ 'enum': 'TestIfEnum',
++  'data': [ 'foo', { 'name' : 'bar', 'if': 'TEST_IF_ENUM_BAR' } ],
+   'if': 'TEST_IF_ENUM' }
+ 
+-{ 'union': 'TestIfUnion', 'data':
+-  { 'foo': 'TestStruct',
+-    'bar': { 'type': 'str', 'if': 'TEST_IF_UNION_BAR'} },
++{ 'union': 'TestIfUnion',
++  'data': { 'foo': 'TestStruct',
++            'bar': { 'type': 'str', 'if': 'TEST_IF_UNION_BAR'} },
+   'if': { 'all': ['TEST_IF_UNION', 'TEST_IF_STRUCT'] } }
+ 
+ { 'command': 'test-if-union-cmd',
+   'data': { 'union-cmd-arg': 'TestIfUnion' },
+   'if': { 'all': ['TEST_IF_UNION', 'TEST_IF_STRUCT'] } }
+ 
+-{ 'alternate': 'TestIfAlternate', 'data':
+-  { 'foo': 'int',
+-    'bar': { 'type': 'TestStruct', 'if': 'TEST_IF_ALT_BAR'} },
++{ 'alternate': 'TestIfAlternate',
++  'data': { 'foo': 'int',
++            'bar': { 'type': 'TestStruct', 'if': 'TEST_IF_ALT_BAR'} },
+   'if': { 'all': ['TEST_IF_ALT', 'TEST_IF_STRUCT'] } }
+ 
+ { 'command': 'test-if-alternate-cmd',
+@@ -256,9 +256,9 @@
+ 
+ { 'command': 'test-cmd-return-def-three', 'returns': 'UserDefThree' }
+ 
+-{ 'event': 'TEST_IF_EVENT', 'data':
+-  { 'foo': 'TestIfStruct',
+-    'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_BAR' } },
++{ 'event': 'TEST_IF_EVENT',
++  'data': { 'foo': 'TestIfStruct',
++            'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_BAR' } },
+   'if': { 'all': ['TEST_IF_EVT', 'TEST_IF_STRUCT'] } }
+ 
+ { 'event': 'TEST_IF_EVENT2', 'data': {},
 -- 
 2.31.1
 
