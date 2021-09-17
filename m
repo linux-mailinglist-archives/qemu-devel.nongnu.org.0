@@ -2,91 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1AD140F7FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 14:39:14 +0200 (CEST)
-Received: from localhost ([::1]:47698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C12440F80F
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 14:40:25 +0200 (CEST)
+Received: from localhost ([::1]:48874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRD97-0006fS-R0
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 08:39:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41474)
+	id 1mRDA4-0007SJ-HF
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 08:40:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRD6l-000589-RU
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:36:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39477)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRD6h-0004UB-HU
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:36:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631882200;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CaoOzV3ClwXcIjBUc4Qk1fBprm3Qyt/HQEFXy1KxM+k=;
- b=WQvmoxByiVCjDNxsb7YqSqXHpJYqu6xpWgfq7tcp5kqwMANlLkHHOrLbeNQgAZrO8BvCpX
- AkQJK4U0SU7jsv1vdk9fVR3wEGVVrPKIBVm+JwAjH2QRHDy5IxEIKEH3NT0QpGwrQNTK+E
- ydUkBFkBFkZhqjImYkkLMQf9RuYN3AU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-6loau_M5OuCrkym5z0uELg-1; Fri, 17 Sep 2021 08:36:37 -0400
-X-MC-Unique: 6loau_M5OuCrkym5z0uELg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c2-20020a7bc8420000b0290238db573ab7so3681007wml.5
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 05:36:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mRD7z-0005wa-75
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:38:03 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40675)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mRD7v-0005HV-2X
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:38:02 -0400
+Received: by mail-wr1-x432.google.com with SMTP id q26so14938577wrc.7
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 05:37:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=yP2ksUtdY9yo/Ky7o+0GePhbKbP+WSor9Jb4xFDea90=;
+ b=j+rlRd0gxxAJ4V6xrUqcgagzWk/UuJte5h0eMZpGGL6mh51m78A5ql8JZkasytGzPI
+ fK4kHZ7xvVUw+ZfAbFwYJWNT4qQFBC7OzL+UznM7z72vFGkHM0fEdIIopfkO7DTrh7CD
+ b5lghaG4fFY+n6tFSLXEqaJx8CHhQE37fs7Dff/fPE9eAcnFYr/uPJJ1C0xNng/+oCcN
+ fQhnewwerLhJt2qKjWqzLH9cVDmqQjWlua5skQCIBPacsyHMWOWPyPQvU2K6arnUHThE
+ yamR/Aur5OXVj7hDPmqtCTMAyRsAckXvWWHddInSNniBS43XGzaxNVYKDSKYEax5aOja
+ z1OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=CaoOzV3ClwXcIjBUc4Qk1fBprm3Qyt/HQEFXy1KxM+k=;
- b=aK9SpD/wKm7faikv5qJE/rAVfs0fL7q6sXLXWuVshVPTzowqyHRMUi3bVMBH4g/IF8
- a9Tt1J85mzdLjbHJCIJPdwnSkkfTF6orU7lxa4yHkZBMyPhMAaSrGPKhePMxJQ8XA9cP
- V+f82slY1byLrBXRbaUZV5WAi5KPpq82PFkeS8aNUQgWyY+AnyN1ACi2EVFTv7Bmg+Ek
- EAEbQj2KIRngThwByjhHyFs4VlHLN4W8Lczpt1woubEEiGejZoUCnF5Ch+72cCxga/I9
- yFAYdjYICXyoE7lY/InJyCqQlnvY/kQoi2qKRZLIR7uj0y+9NbXdGCijE14U+zocUSKa
- ntAQ==
-X-Gm-Message-State: AOAM532td/nGF3UXWRX5KWg2oXFc890Lr/BTb+AlQQe0YBRWMpw3M+LH
- oU1gOA2COl80szz1ceJfBaty5vESqxx7ORzqvPeRsspPQobQIzx+6Z4sFP8e1qWLjIDcNLjcG0I
- lfbB10Y+2xMZWRGw=
-X-Received: by 2002:adf:e806:: with SMTP id o6mr11422339wrm.239.1631882196532; 
- Fri, 17 Sep 2021 05:36:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzaMPFccj/Fal440q8Vwjfz+tKhrsWrg8tfX8YMYBQ8nJA6V7A0EL2DGetlDwZJoS5VwZVI6g==
-X-Received: by 2002:adf:e806:: with SMTP id o6mr11422322wrm.239.1631882196314; 
- Fri, 17 Sep 2021 05:36:36 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
- by smtp.gmail.com with ESMTPSA id h15sm6403208wrc.19.2021.09.17.05.36.35
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yP2ksUtdY9yo/Ky7o+0GePhbKbP+WSor9Jb4xFDea90=;
+ b=rz3M7fuiR4hjMsLwVd20Vn3tYZMfdRHVt3vxKoQOYFQR/5IzUnCDlPTv0Dx8oNVM9D
+ uXTVwEjVIoVVVxt9vEqj83CgTUDHqSry0MhjvKtepZXNiIK+lDK6XYghwNGNIr5RMPHJ
+ B0ZzSaNTOkafGZD6eJQRj5f7518LKU3l+3bngmJyrzxsXmpGBvUoPAfVlSRpHXtPzsrz
+ v+9GcIA4EnJiiuebn0yn4N1biSdvXRWUZSUeDQdAfj7lQAWFQlB/UXOMVEUvbAM+j0TW
+ SoBK+I9kXFXWPv+JU8U5JKUmXC1ovxy/Q9ptrxH4UQUSSuYjJZ0OmfuBcZm8fCVU1gW6
+ 8c6g==
+X-Gm-Message-State: AOAM530faG+9ALKB4Bs04/1UtOwqbHMWOAhCtxif1mfojzDwLNVTufSb
+ At6QhvOGrb0unel4JuThKWpStGdH36E=
+X-Google-Smtp-Source: ABdhPJyYqmj1VmrfG7P8sMiTHBRMsLQgty07o47JB0sVj6iDnH/x0siM91V01Ywl6MAuvMY4IydQYw==
+X-Received: by 2002:adf:9ccc:: with SMTP id h12mr11386014wre.385.1631882277479; 
+ Fri, 17 Sep 2021 05:37:57 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
+ [83.35.25.14])
+ by smtp.gmail.com with ESMTPSA id j23sm7143815wmo.14.2021.09.17.05.37.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Sep 2021 05:36:36 -0700 (PDT)
-Subject: Re: [PATCH 03/15] python/aqmp: Return cleared events from
- EventListener.clear()
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20210917054047.2042843-1-jsnow@redhat.com>
- <20210917054047.2042843-4-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <19e00805-83cc-f0bf-beea-1ac6ca0472d8@redhat.com>
-Date: Fri, 17 Sep 2021 14:36:35 +0200
+ Fri, 17 Sep 2021 05:37:56 -0700 (PDT)
+Subject: Re: [PATCH] travis.yml: Remove the "Release tarball" job
+To: Thomas Huth <thuth@redhat.com>
+References: <20210917094826.466047-1-thuth@redhat.com>
+ <CAAdtpL7DkZyE7z-M2trjnXj0mpry95Y-T7-WahgxWg-jfg9gCg@mail.gmail.com>
+ <9a941135-a659-bf8e-6b4f-bc7e297060c0@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <3cbe10a2-5003-8214-f20f-601a49d513f2@amsat.org>
+Date: Fri, 17 Sep 2021 14:37:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210917054047.2042843-4-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <9a941135-a659-bf8e-6b4f-bc7e297060c0@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.488, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.488,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,33 +90,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Michael Roth <michael.roth@amd.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.09.21 07:40, John Snow wrote:
-> This serves two purposes:
->
-> (1) It is now possible to discern whether or not clear() removed any
-> event(s) from the queue with absolute certainty, and
->
-> (2) It is now very easy to get a List of all pending events in one
-> chunk, which is useful for the sync bridge.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   python/qemu/aqmp/events.py | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
+On 9/17/21 1:42 PM, Thomas Huth wrote:
+> On 17/09/2021 13.25, Philippe Mathieu-Daudé wrote:
+>> Le ven. 17 sept. 2021 11:48, Thomas Huth <thuth@redhat.com
+>> <mailto:thuth@redhat.com>> a écrit :
+>>
+>>     This is a leftover from the days when we were using Travis
+>> excessively,
+>>     but since x86 jobs are not really usable there anymore, this job has
+>>     likely never been used since many months. Let's simply remove it now.
+>>
+>>     Signed-off-by: Thomas Huth <thuth@redhat.com
+>> <mailto:thuth@redhat.com>>
+>>     ---
+>>       .travis.yml | 23 -----------------------
+>>       1 file changed, 23 deletions(-)
+>>
+>> Do we have the equivalent job on GitLab?
+> 
+> I'm not aware of any. But since this job was only running on v* tags
+> anyway, it likely does not make much sense to translate it 1:1 to a
+> gitlab job. But maybe Michael could suggest something similar if it's
+> helpful for making sure the release tarballs do no regress?
 
-Not sure if `clear` is an ideal name then, but `drain` sounds like 
-something that would block, and `drop` is really much different from 
-`clear`.  Also, doesn’t matter, having Collection.delete return the 
-deleted element is a common thing in any language’s standard library, so 
-why not have `clear` do the same.
-
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-
+This is why we added this job in the first place... Peter tagged a
+released then Michael got issues when generating the archive.
 
