@@ -2,85 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D432D40F256
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 08:27:44 +0200 (CEST)
-Received: from localhost ([::1]:54386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22B0B40F289
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 08:39:47 +0200 (CEST)
+Received: from localhost ([::1]:59718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mR7Lb-00078H-Ik
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 02:27:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54202)
+	id 1mR7XF-00031v-PL
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 02:39:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mR7GD-0006Eo-Al; Fri, 17 Sep 2021 02:22:09 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:43709)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mR7GB-0004AF-32; Fri, 17 Sep 2021 02:22:09 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 6116C5C016A;
- Fri, 17 Sep 2021 02:22:05 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 17 Sep 2021 02:22:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=ugKhuXWT7ErLxJn6Brhbz9y7av0
- DgPPdrnxtFQLRJKM=; b=ZgWaCBpcIKeqrYKTU28azqhvnFrFD8cGo+m2MInLdM+
- 71pfgds3ZQk3+OmBmxld2Uuz5nKI6TUgi2+1/nxGRZhvfk2f1GU+cZ15wXQ93T7H
- qdir0BFj/NZIrQ1Ga/Fq0CnfYCGrD6AUuAxU8w7yBABTZ3RSrcKePp4kjP0jjEiZ
- 4fcQjrFSGNJbOJBszoKlr47mVchVJRL2su1razYxOVU5vRkpdDEroiNhuGU7Uy+h
- vQLEEhSf1ip7iav7d6oG3LTu5zSuRtnN4ktEyY67IBjdhgX1hGeICMY78WFR7RwD
- 8fEKg34pfBumr+zbPxJJUpNW2aYVCCv0zDUPwPHUo9w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ugKhuX
- WT7ErLxJn6Brhbz9y7av0DgPPdrnxtFQLRJKM=; b=n9GFs59is/KxSq2yt5bkUr
- QWZdoww0COr6s4i2yti/23rKzKouU+4TtHxjIyLIMokKjNUrRyJmLlrOFcq7hPix
- NAwc/tRMEMUcUeEZbLWvUS+nr5y8Hhdw+oN89+mlgDP4sR5T+TsNSo8eQXfzjVA9
- ys8YSf+dUYA/qMNqYjTMoG3h4Bl+yU5Dcg0KTtbPbQmeZzoBAWUr19eVr++6DXFm
- ae8B2FT6HCL9iC8cnSP/tPxWyQ6gPsQEZvEv2MgN1EqpxbC0v930DsRdYVsLmu6B
- yx8GrMK5TjFure0IYcCguxP/r6ugscBuZNTkXYaUZolj/Vbea1efJeCdQOYUTXaA
- ==
-X-ME-Sender: <xms:DDREYahBO6PkczvbfujQ9ccRCL-hOZBQWLsJOhPaJPDWoSE8R44w_A>
- <xme:DDREYbAADjx_qjepv1Be1Y-NQCwHtRjjsPNTWciyrmNE5KK91nanv3DhmXA4K_S9V
- ueUQkJsrvxlB__Zhi8>
-X-ME-Received: <xmr:DDREYSHDNGBxrrL6HXsAZoQiUya3J-C_44FJtuu8TcrJu8ph1ocW25hGx0SWu3gxe9UxuvWa3r4m5AWF5XsO4JVCmn-pwupuKaCUGey1HCODQdkB6w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehhedguddthecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:DDREYTQnFiMkAGh_HEQFafhHcBpNmLIhjGXwvEweJi3vmo-Mw5t1Uw>
- <xmx:DDREYXwt20-IWVzcSu1l45Lg1gRHprEhLDXoO8P-0hqpkhaIRpdNDQ>
- <xmx:DDREYR5iZuL0JdtbM8SqyRt-D4_y2U3rZ9QGPa5-OMJLF3jjO9vM3g>
- <xmx:DTREYem1jtkwRdsMdjw2Azavizh5KPDZqZFzM6_y1DrcWvMHHP_AbQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Sep 2021 02:22:03 -0400 (EDT)
-Date: Fri, 17 Sep 2021 08:21:59 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH RFC 00/13] hw/nvme: experimental user-creatable objects
-Message-ID: <YUQ0B3VQzY++MGsz@apples.localdomain>
-References: <20210914203737.182571-1-its@irrelevant.dk>
- <YUM7YEQDQ2L3Qdh9@redhat.com> <YUNxQCbZSF3nMkVT@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mR7W9-0002HY-7X
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 02:38:37 -0400
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:40487)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1mR7W5-0001D7-SD
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 02:38:37 -0400
+Received: by mail-io1-xd30.google.com with SMTP id z1so10940780ioh.7
+ for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 23:38:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XmUhTDqFsHtDgE9nmzLnIwwBaJAdESV8WUxMaghAusE=;
+ b=Ao82bKgSBmqcqNBZzRT07m4fce/ALttpqQpwF5vFUkoAuFPCgzNzENh3J+JVSt8aVJ
+ Lm+cPPk9WCqVEeoZzlJ83wpdRS2RQVIN6PrcAQ7oqhOBRMABQpJ8FNB0NgV8LLeKTdy3
+ /VW90rYvhI7kn2hf9JVNYXW7ODsXD8vernVD2owOSMMs9lBL58DY6OCaM2CqZj3k39dm
+ fbDovtK775D8bA66ev5mXMlvads3E1/yoDZY0C3wSUqAufOo4Ne3P9UYIfTrxgPPhJUJ
+ WNr/ck4XIrxvRFpNM3Latt8A+iQpsiOQ9gOkgAkhwJeAulEXchDuh8P9t7kZ8TCBd33A
+ Xslw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XmUhTDqFsHtDgE9nmzLnIwwBaJAdESV8WUxMaghAusE=;
+ b=4ViNhSW4w4VoPgho86Ss/GE5IvVmH4umtR7jmJ/opnvHA/5dPtu+VVIxkUNZ3yXa7x
+ 0ZwoTWkdoK6XL6Em4O4kgqmaWb+wCaG18HqGeoCNUYSsASTO/YAgqg36XRcdGHd+K3fm
+ AmZUkKBvckXS6EJb9OK4e4Q0DtD7duuxfQdmMHQJxah8n//FvpAwygstNpz1YxvKOV+7
+ 9+tiaUxoVI0GiVAXPFE9gDR++z91azsvCyDssxHUHoQlmneO38VE/IY+ftIjph9yZ7tu
+ 0SaWY1XaupdY52cU8gfGPWW2dwi6JTHF91LNdRlXpmBfRLzvl5wNW4DErF46B70g6oJo
+ fjCQ==
+X-Gm-Message-State: AOAM533tWLPz41p//u98/yQ/hlA1lCvgClnfwt2lKVPuGeQuBV/iAMz0
+ KFzb4HqeSGHJpu9WAPqeKNYj/L/IIqU+mGg3jwNR3gEtl/Q=
+X-Google-Smtp-Source: ABdhPJwrbyjP4KQfXLn1mUNNjiw1dT28UZenNDHQnnFfkEW5cgBmhW5JEswIDIpC84ltgxHtuShvHIwyQ26+12awPEY=
+X-Received: by 2002:a6b:f007:: with SMTP id w7mr7443640ioc.112.1631860712584; 
+ Thu, 16 Sep 2021 23:38:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="JHakeY+Ep3Jolzn+"
-Content-Disposition: inline
-In-Reply-To: <YUNxQCbZSF3nMkVT@apples.localdomain>
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210917061441.3757201-1-frank.chang@sifive.com>
+In-Reply-To: <20210917061441.3757201-1-frank.chang@sifive.com>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Fri, 17 Sep 2021 14:38:21 +0800
+Message-ID: <CAE_xrPiG7cbg8K9C6kiP6itwrHXxh4pGaVS4jm1xmLWX_xfssA@mail.gmail.com>
+Subject: Re: [PATCH v2] target/riscv: Set mstatus_hs.[SD|FS] bits if Clean and
+ V=1 in mark_fs_dirty()
+To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000018d26805cc2b2e2c"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=frank.chang@sifive.com; helo=mail-io1-xd30.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,156 +78,282 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Vincent Chen <vincent.chen@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000018d26805cc2b2e2c
+Content-Type: text/plain; charset="UTF-8"
 
---JHakeY+Ep3Jolzn+
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+On Fri, Sep 17, 2021 at 2:14 PM <frank.chang@sifive.com> wrote:
+
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> When V=1, both vsstauts.FS and HS-level sstatus.FS are in effect.
+> Modifying the floating-point state when V=1 causes both fields to
+> be set to 3 (Dirty).
+>
+> However, it's possible that HS-level sstatus.FS is Clean and VS-level
+> vsstatus.FS is Dirty at the time mark_fs_dirty() is called when V=1.
+> We can't early return for this case because we still need to set
+> sstatus.FS to Dirty according to spec.
+>
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> Reviewed-by: Vincent Chen <vincent.chen@sifive.com>
+> Tested-by: Vincent Chen <vincent.chen@sifive.com>
+> ---
+>  target/riscv/cpu.h       |  3 +++
+>  target/riscv/translate.c | 24 +++++++++++++++---------
+>  2 files changed, 18 insertions(+), 9 deletions(-)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index e735e53e26c..c5cae45f955 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -394,6 +394,7 @@ FIELD(TB_FLAGS, SEW, 5, 3)
+>  FIELD(TB_FLAGS, VILL, 8, 1)
+>  /* Is a Hypervisor instruction load/store allowed? */
+>  FIELD(TB_FLAGS, HLSX, 9, 1)
+> +FIELD(TB_FLAGS, MSTATUS_HS_FS, 10, 2)
+>
+>  bool riscv_cpu_is_32bit(CPURISCVState *env);
+>
+> @@ -450,6 +451,8 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState
+> *env, target_ulong *pc,
+>                  get_field(env->hstatus, HSTATUS_HU))) {
+>              flags = FIELD_DP32(flags, TB_FLAGS, HLSX, 1);
+>          }
+> +
+> +        flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS,
+> env->mstatus_hs);
+>
+
+Oops, I should use get_field() to extract FS bits from env->mstatus_hs here.
+Please ignore this one. I will revise it and resent the patch.
+Sorry for the confusion.
+
+Regards,
+Frank Chang
+
+
+>      }
+>  #endif
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 74b33fa3c90..2b48db6fd02 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -58,6 +58,7 @@ typedef struct DisasContext {
+>      target_ulong misa;
+>      uint32_t opcode;
+>      uint32_t mstatus_fs;
+> +    uint32_t mstatus_hs_fs;
+>      uint32_t mem_idx;
+>      /* Remember the rounding mode encoded in the previous fp instruction,
+>         which we have already installed into env->fp_status.  Or -1 for
+> @@ -280,26 +281,30 @@ static void gen_jal(DisasContext *ctx, int rd,
+> target_ulong imm)
+>  static void mark_fs_dirty(DisasContext *ctx)
+>  {
+>      TCGv tmp;
+> -    target_ulong sd;
+> +    target_ulong sd = is_32bit(ctx) ? MSTATUS32_SD : MSTATUS64_SD;
+> +
+> +    if (ctx->virt_enabled && ctx->mstatus_hs_fs != MSTATUS_FS) {
+> +        /* Remember the stage change for the rest of the TB. */
+> +        ctx->mstatus_hs_fs = MSTATUS_FS;
+> +
+> +        tmp = tcg_temp_new();
+> +        tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> +        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
+> +        tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> +        tcg_temp_free(tmp);
+> +    }
+>
+>      if (ctx->mstatus_fs == MSTATUS_FS) {
+>          return;
+>      }
+> +
+>      /* Remember the state change for the rest of the TB.  */
+>      ctx->mstatus_fs = MSTATUS_FS;
+>
+>      tmp = tcg_temp_new();
+> -    sd = is_32bit(ctx) ? MSTATUS32_SD : MSTATUS64_SD;
+> -
+>      tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
+>      tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
+>      tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
+> -
+> -    if (ctx->virt_enabled) {
+> -        tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> -        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
+> -        tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> -    }
+>      tcg_temp_free(tmp);
+>  }
+>  #else
+> @@ -533,6 +538,7 @@ static void
+> riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>      ctx->frm = -1;  /* unknown rounding mode */
+>      ctx->ext_ifencei = cpu->cfg.ext_ifencei;
+>      ctx->vlen = cpu->cfg.vlen;
+> +    ctx->mstatus_hs_fs = FIELD_EX32(tb_flags, TB_FLAGS, MSTATUS_HS_FS);
+>      ctx->hlsx = FIELD_EX32(tb_flags, TB_FLAGS, HLSX);
+>      ctx->vill = FIELD_EX32(tb_flags, TB_FLAGS, VILL);
+>      ctx->sew = FIELD_EX32(tb_flags, TB_FLAGS, SEW);
+> --
+> 2.25.1
+>
+>
+
+--00000000000018d26805cc2b2e2c
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sep 16 18:30, Klaus Jensen wrote:
-> On Sep 16 14:41, Kevin Wolf wrote:
-> > Am 14.09.2021 um 22:37 hat Klaus Jensen geschrieben:
-> > > From: Klaus Jensen <k.jensen@samsung.com>
-> > >=20
-> > > Hi,
-> > >=20
-> > > This is an attempt at adressing a bunch of issues that have presented
-> > > themselves since we added subsystem support. It's been brewing for a
-> > > while now.
-> > >=20
-> > > Fundamentally, I've come to the conclusion that modeling namespaces a=
-nd
-> > > subsystems as "devices" is wrong. They should have been user-creatable
-> > > objects. We've run into multiple issues with wrt. hotplugging due to =
-how
-> > > namespaces hook up to the controller with a bus. The bus-based design
-> > > made a lot of sense when we didn't have subsystem support and it foll=
-ows
-> > > the design of hw/scsi. But, the problem here is that the bus-based
-> > > design dictates a one parent relationship, and with shared namespaces,
-> > > that is just not true. If the namespaces are considered to have a sin=
-gle
-> > > parent, that parent is the subsystem, not any specific controller.
-> > >=20
-> > > This series adds a set of experimental user-creatable objects:
-> > >=20
-> > >   -object x-nvme-subsystem
-> > >   -object x-nvme-ns-nvm
-> > >   -object x-nvme-ns-zoned
-> > >=20
-> > > It also adds a new controller device (-device x-nvme-ctrl) that suppo=
-rts
-> > > these new objects (and gets rid of a bunch of deprecated and confusing
-> > > parameters). This new approach has a bunch of benefits (other than ju=
-st
-> > > fixing the hotplugging issues properly) - we also get support for some
-> > > nice introspection through some new dynamic properties:
-> > >=20
-> > >   (qemu) qom-get /machine/peripheral/nvme-ctrl-1 attached-namespaces
-> > >   [
-> > >       "/objects/nvm-1",
-> > >       "/objects/zns-1"
-> > >   ]
-> > >=20
-> > >   (qemu) qom-list /objects/zns-1
-> > >   type (string)
-> > >   subsys (link<x-nvme-subsystem>)
-> > >   nsid (uint32)
-> > >   uuid (string)
-> > >   attached-ctrls (str)
-> > >   eui64 (string)
-> > >   blockdev (string)
-> > >   pi-first (bool)
-> > >   pi-type (NvmeProtInfoType)
-> > >   extended-lba (bool)
-> > >   metadata-size (uint16)
-> > >   lba-size (size)
-> > >   zone-descriptor-extension-size (size)
-> > >   zone-cross-read (bool)
-> > >   zone-max-open (uint32)
-> > >   zone-capacity (size)
-> > >   zone-size (size)
-> > >   zone-max-active (uint32)
-> > >=20
-> > >   (qemu) qom-get /objects/zns-1 pi-type
-> > >   "none"
-> > >=20
-> > >   (qemu) qom-get /objects/zns-1 eui64
-> > >   "52:54:00:17:67:a0:40:15"
-> > >=20
-> > >   (qemu) qom-get /objects/zns-1 zone-capacity
-> > >   12582912
-> > >=20
-> > > Currently, there are no shortcuts, so you have to define the full
-> > > topology to get it up and running. Notice that the topology is explic=
-it
-> > > (the 'subsys' and 'attached-ctrls' links). There are no 'nvme-bus'
-> > > anymore.
-> > >=20
-> > >   -object x-nvme-subsystem,id=3Dsubsys0,subnqn=3Dfoo
-> > >   -device x-nvme-ctrl,id=3Dnvme-ctrl-0,serial=3Dfoo,subsys=3Dsubsys0
-> > >   -device x-nvme-ctrl,id=3Dnvme-ctrl-1,serial=3Dbar,subsys=3Dsubsys0
-> > >   -drive  id=3Dnvm-1,file=3Dnvm-1.img,format=3Draw,if=3Dnone,discard=
-=3Dunmap
-> > >   -object x-nvme-ns-nvm,id=3Dnvm-1,blockdev=3Dnvm-1,nsid=3D1,subsys=
-=3Dsubsys0,attached-ctrls=3Dnvme-ctrl-1
-> > >   -drive  id=3Dnvm-2,file=3Dnvm-2.img,format=3Draw,if=3Dnone,discard=
-=3Dunmap
-> > >   -object x-nvme-ns-nvm,id=3Dnvm-2,blockdev=3Dnvm-2,nsid=3D2,subsys=
-=3Dsubsys0,attached-ctrls=3Dnvme-ctrl-0
-> >=20
-> > I may be wrong here, but my first gut feeling when seeing this was that
-> > referencing the controller device in the namespace object feels
-> > backwards. Usually, we have objects that are created independently and
-> > then the devices reference them.
-> >=20
-> > Your need to use a machine_done notifier is probably related to that,
-> > too, because it goes against the normal initialisation order, so you
-> > have to wait. Error handling also isn't really possible in the notifier
-> > any more, so this series seems to just print something to stderr, but
-> > ignore the error otherwise.
-> >=20
-> > Did you consider passing a list of namespaces to the controller device
-> > instead?
-> >=20
-> > I guess a problem that you have with both ways is that support for
-> > list options isn't great in QemuOpts, which is still used both for
-> > -object and -device in the system emulator...
-> >=20
->=20
-> Heh. Exactly. The ability to better support lists with -object through
-> QAPI is why I did it like this...
->=20
-> Having the list of namespaces on the controller is preferable. I'll see
-> what I can come up with.
->=20
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Sep 17, 2021 at 2:14 PM &lt;<a hr=
+ef=3D"mailto:frank.chang@sifive.com">frank.chang@sifive.com</a>&gt; wrote:<=
+br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">From: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.com" =
+target=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
+<br>
+When V=3D1, both vsstauts.FS and HS-level sstatus.FS are in effect.<br>
+Modifying the floating-point state when V=3D1 causes both fields to<br>
+be set to 3 (Dirty).<br>
+<br>
+However, it&#39;s possible that HS-level sstatus.FS is Clean and VS-level<b=
+r>
+vsstatus.FS is Dirty at the time mark_fs_dirty() is called when V=3D1.<br>
+We can&#39;t early return for this case because we still need to set<br>
+sstatus.FS to Dirty according to spec.<br>
+<br>
+Signed-off-by: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.com" ta=
+rget=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
+Reviewed-by: Vincent Chen &lt;<a href=3D"mailto:vincent.chen@sifive.com" ta=
+rget=3D"_blank">vincent.chen@sifive.com</a>&gt;<br>
+Tested-by: Vincent Chen &lt;<a href=3D"mailto:vincent.chen@sifive.com" targ=
+et=3D"_blank">vincent.chen@sifive.com</a>&gt;<br>
+---<br>
+=C2=A0target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 3 +++<br>
+=C2=A0target/riscv/translate.c | 24 +++++++++++++++---------<br>
+=C2=A02 files changed, 18 insertions(+), 9 deletions(-)<br>
+<br>
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h<br>
+index e735e53e26c..c5cae45f955 100644<br>
+--- a/target/riscv/cpu.h<br>
++++ b/target/riscv/cpu.h<br>
+@@ -394,6 +394,7 @@ FIELD(TB_FLAGS, SEW, 5, 3)<br>
+=C2=A0FIELD(TB_FLAGS, VILL, 8, 1)<br>
+=C2=A0/* Is a Hypervisor instruction load/store allowed? */<br>
+=C2=A0FIELD(TB_FLAGS, HLSX, 9, 1)<br>
++FIELD(TB_FLAGS, MSTATUS_HS_FS, 10, 2)<br>
+<br>
+=C2=A0bool riscv_cpu_is_32bit(CPURISCVState *env);<br>
+<br>
+@@ -450,6 +451,8 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *=
+env, target_ulong *pc,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0get_field(env=
+-&gt;hstatus, HSTATUS_HU))) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0flags =3D FIELD_DP32(flags,=
+ TB_FLAGS, HLSX, 1);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 flags =3D FIELD_DP32(flags, TB_FLAGS, MSTATUS_=
+HS_FS, env-&gt;mstatus_hs);<br></blockquote><div><br></div><div>Oops, I sho=
+uld use get_field() to extract FS bits from env-&gt;mstatus_hs here.</div><=
+div>Please ignore this one. I will revise it and resent the patch.</div><di=
+v>Sorry for the confusion.</div><div><br></div><div>Regards,</div><div>Fran=
+k Chang</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0#endif<br>
+<br>
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c<br>
+index 74b33fa3c90..2b48db6fd02 100644<br>
+--- a/target/riscv/translate.c<br>
++++ b/target/riscv/translate.c<br>
+@@ -58,6 +58,7 @@ typedef struct DisasContext {<br>
+=C2=A0 =C2=A0 =C2=A0target_ulong misa;<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t opcode;<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t mstatus_fs;<br>
++=C2=A0 =C2=A0 uint32_t mstatus_hs_fs;<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t mem_idx;<br>
+=C2=A0 =C2=A0 =C2=A0/* Remember the rounding mode encoded in the previous f=
+p instruction,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 which we have already installed into env-&gt;fp=
+_status.=C2=A0 Or -1 for<br>
+@@ -280,26 +281,30 @@ static void gen_jal(DisasContext *ctx, int rd, target=
+_ulong imm)<br>
+=C2=A0static void mark_fs_dirty(DisasContext *ctx)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0TCGv tmp;<br>
+-=C2=A0 =C2=A0 target_ulong sd;<br>
++=C2=A0 =C2=A0 target_ulong sd =3D is_32bit(ctx) ? MSTATUS32_SD : MSTATUS64=
+_SD;<br>
++<br>
++=C2=A0 =C2=A0 if (ctx-&gt;virt_enabled &amp;&amp; ctx-&gt;mstatus_hs_fs !=
+=3D MSTATUS_FS) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Remember the stage change for the rest of t=
+he TB. */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ctx-&gt;mstatus_hs_fs =3D MSTATUS_FS;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 tmp =3D tcg_temp_new();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVS=
+tate, mstatus_hs));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVS=
+tate, mstatus_hs));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_temp_free(tmp);<br>
++=C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (ctx-&gt;mstatus_fs =3D=3D MSTATUS_FS) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0/* Remember the state change for the rest of the TB.=C2=
+=A0 */<br>
+=C2=A0 =C2=A0 =C2=A0ctx-&gt;mstatus_fs =3D MSTATUS_FS;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0tmp =3D tcg_temp_new();<br>
+-=C2=A0 =C2=A0 sd =3D is_32bit(ctx) ? MSTATUS32_SD : MSTATUS64_SD;<br>
+-<br>
+=C2=A0 =C2=A0 =C2=A0tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mst=
+atus));<br>
+=C2=A0 =C2=A0 =C2=A0tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);<br>
+=C2=A0 =C2=A0 =C2=A0tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mst=
+atus));<br>
+-<br>
+-=C2=A0 =C2=A0 if (ctx-&gt;virt_enabled) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVS=
+tate, mstatus_hs));<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVS=
+tate, mstatus_hs));<br>
+-=C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0tcg_temp_free(tmp);<br>
+=C2=A0}<br>
+=C2=A0#else<br>
+@@ -533,6 +538,7 @@ static void riscv_tr_init_disas_context(DisasContextBas=
+e *dcbase, CPUState *cs)<br>
+=C2=A0 =C2=A0 =C2=A0ctx-&gt;frm =3D -1;=C2=A0 /* unknown rounding mode */<b=
+r>
+=C2=A0 =C2=A0 =C2=A0ctx-&gt;ext_ifencei =3D cpu-&gt;cfg.ext_ifencei;<br>
+=C2=A0 =C2=A0 =C2=A0ctx-&gt;vlen =3D cpu-&gt;cfg.vlen;<br>
++=C2=A0 =C2=A0 ctx-&gt;mstatus_hs_fs =3D FIELD_EX32(tb_flags, TB_FLAGS, MST=
+ATUS_HS_FS);<br>
+=C2=A0 =C2=A0 =C2=A0ctx-&gt;hlsx =3D FIELD_EX32(tb_flags, TB_FLAGS, HLSX);<=
+br>
+=C2=A0 =C2=A0 =C2=A0ctx-&gt;vill =3D FIELD_EX32(tb_flags, TB_FLAGS, VILL);<=
+br>
+=C2=A0 =C2=A0 =C2=A0ctx-&gt;sew =3D FIELD_EX32(tb_flags, TB_FLAGS, SEW);<br=
+>
+-- <br>
+2.25.1<br>
+<br>
+</blockquote></div></div>
 
-There is also the issue that the x-nvme-ns-nvm -object needs a blockdev
-- and the ordering is also a problem here. That also requires the
-machine done notifier.
-
---JHakeY+Ep3Jolzn+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmFENAMACgkQTeGvMW1P
-DelCUQgAk8AoNUsgIeTkZ0TETOtqvzov7XR7niT17oFU3LqmMbJ/kLB7xw7bsphk
-FPp9z1wslkFwDb4LwJu/k7Cd0l8X31oLFB54bTfWN7nHql27DbLn6aPTTr/70Jvx
-P5+QTXOjRwXVgOMEyU2swAxOqbAT65097EARfNxMcxkalfeuqcyw1+Sv1LzCtdkJ
-7/xOBu0pfR57nI+B5GNJ664xNPqcWLP5fgOyQ6GYTvirHHdezoy2AbPCFHnr7u6X
-MZk2c+ZmdDKwGn3GBV0dk1tWdNUbdO+LqMIX/c2ylyvq0YPO0kBeG09Fq9stv1CD
-3CJ3Jd7PqgGENOOuXnSddPc0O5E9YA==
-=Th6t
------END PGP SIGNATURE-----
-
---JHakeY+Ep3Jolzn+--
+--00000000000018d26805cc2b2e2c--
 
