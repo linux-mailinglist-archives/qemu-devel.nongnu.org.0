@@ -2,67 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A265D410043
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 22:15:40 +0200 (CEST)
-Received: from localhost ([::1]:49984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76067410055
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 22:39:57 +0200 (CEST)
+Received: from localhost ([::1]:36178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRKGp-0002fI-B5
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 16:15:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57130)
+	id 1mRKeK-0004w0-2e
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 16:39:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mRKFJ-0001sP-MX
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 16:14:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mRKFG-0002JT-Ab
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 16:14:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631909640;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hmqPi24++8055HBg+1yu7D1+kmZDJFp9bMO281LWx/A=;
- b=TZ1wix9tIaRGX6MBOqg3+xexmMpEYOx8rMsjz3Guj9IUXjblB2ONQS8AqogE0kJ5UUO9eN
- 1ncl6JlFjDbfqDJFve/Fh0jT1HIYTufDlEH0gOZE8xfIMuCwZghgIkCh+35aZMXZ/hYIvk
- NvFdVGf0pLeeap3I4UM6ACpGegWSVwg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-sIV6_CJqPuu4aWLYfnntww-1; Fri, 17 Sep 2021 16:13:57 -0400
-X-MC-Unique: sIV6_CJqPuu4aWLYfnntww-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37B7E8145EE;
- Fri, 17 Sep 2021 20:13:56 +0000 (UTC)
-Received: from redhat.com (ovpn-113-101.phx2.redhat.com [10.3.113.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E43A100164A;
- Fri, 17 Sep 2021 20:13:48 +0000 (UTC)
-Date: Fri, 17 Sep 2021 15:13:47 -0500
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] qemu-img: Add -F shorthand to convert
-Message-ID: <20210917201347.aaiwgds6ykyybx75@redhat.com>
-References: <20210913131735.1948339-1-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mRKdB-0004BD-PA
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 16:38:45 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:38497)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mRKd9-00070L-0p
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 16:38:45 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id u18so15361095wrg.5
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 13:38:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=y/uVeqNYy4NaEmmLgcIJkBd2+eA9fMYT3GYrffpHuGs=;
+ b=gi2T0Dbrf/hLVg/VAlhecBOCeGHO3AQ18nrX4ZIk2OZ8XuMootNJzE+IdODZU64nCW
+ GnE6pJrwdmE6F96qpYNmlacruqSn5j7qdCIMYY8SEC9gsHzZys52ol8C4XFZx0dmWqvS
+ 9lm4ct9lhvnKR3LAQkhzjCEkYbQwKdJUvnGD7nR4LecRXH6TeR3kZZ3BEwkIo6wDjx50
+ RlDRCHivePGY9P4uW7LPw46OnIsOPxxoEcHJdTxnsELcstMv/AShtUAPhiWz+O+0qE0l
+ mP+8RLgRvPcXgpaxRaYt1Ll3S1XinOBU22txe06hzla3rxcvBlaNrNy9F7tjZ8n5bF5E
+ 7rJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=y/uVeqNYy4NaEmmLgcIJkBd2+eA9fMYT3GYrffpHuGs=;
+ b=hRA/11mBld5TMW7h5XWLrOpAZi5PlMU/ooCknMWN0c75YJv7DNEsXN9JQg4BuQEln1
+ TLBJJgWW0bThpnEkRA3oAxHXITmju+VTDZo9OtSvBAkGIGfwvxiEgoiqeVmI/kNLUUIW
+ MqU7amfVSdNWCQ4+eHeTxiF2QVWMGDOU3I8E8j8rdmhX0+DkcbhhdtvPxQQ7zBehRezc
+ H6JV0FuogpgL3KpLwMLUdlD0PkAw8tQ4ZlgCwaKQYMkW3wtapiCqdhzxp78tnEzWZfFq
+ u41Bv9AvRYy+Tp8LYmUDTzc4WKQV6G9XrRo067F/+mxgO5OSZbd4T2ftePpb5hSsbLtB
+ 8uFw==
+X-Gm-Message-State: AOAM532Y9DVvoaAGS5/+mWA7XyjqEhOPKvg2ECXKbde/SAhwCqlz6q7A
+ xQ01dxgR+Kwid1oJJAGB4xI=
+X-Google-Smtp-Source: ABdhPJxTALd+U9CYh8gWKrRMfhPnyEQlTO5teY54emwzaYg2fJXpEd+U21P4S+AhLPyFFxJIXBpXZg==
+X-Received: by 2002:a5d:5989:: with SMTP id n9mr11611544wri.89.1631911121021; 
+ Fri, 17 Sep 2021 13:38:41 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
+ [83.35.25.14])
+ by smtp.gmail.com with ESMTPSA id r5sm7561866wrm.79.2021.09.17.13.38.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Sep 2021 13:38:40 -0700 (PDT)
+Message-ID: <12ef13f3-9d8e-e6d8-25d2-6d6c592941b8@amsat.org>
+Date: Fri, 17 Sep 2021 22:38:38 +0200
 MIME-Version: 1.0
-In-Reply-To: <20210913131735.1948339-1-eblake@redhat.com>
-User-Agent: NeoMutt/20210205-772-2b4c52
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v1 03/11] tests/tcg: move some multiarch files and make
+ conditional
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210917162332.3511179-1-alex.bennee@linaro.org>
+ <20210917162332.3511179-4-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20210917162332.3511179-4-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.488,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,56 +92,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- berrange@redhat.com, qemu-block@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, aurelien@aurel32.net,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 13, 2021 at 08:17:35AM -0500, Eric Blake wrote:
-> Although we have long supported 'qemu-img convert -o
-> backing_file=foo,backing_fmt=bar', the fact that we have a shortcut -B
-> for backing_file but none for backing_fmt has made it more likely that
-> users accidentally run into:
+On 9/17/21 18:23, Alex Bennée wrote:
+> We had some messy code to filter out stuff we can't build. Lets junk
+> that and simplify the logic by pushing some stuff into subdirs. In
+> particular we move:
 > 
-> qemu-img: warning: Deprecated use of backing file without explicit backing format
+>   float_helpers into libs - not a standalone test
+>   linux-test into linux - so we only build on Linux hosts
 > 
-> when using -B instead of -o.  For similarity with other qemu-img
-> commands, such as create and compare, add '-F $fmt' as the shorthand
-> for '-o backing_fmt=$fmt'.  Update iotest 122 for coverage of both
-> spellings.
+> This allows for at least some of the tests to be nominally usable
+> by *BSD user builds.
 > 
-> Signed-off-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Warner Losh <imp@bsdimp.com>
 > ---
->
+>  tests/tcg/multiarch/{ => libs}/float_helpers.c |  2 +-
+>  tests/tcg/multiarch/{ => linux}/linux-test.c   |  0
+>  tests/tcg/multiarch/Makefile.target            | 15 ++++++++++-----
+>  tests/tcg/x86_64/Makefile.target               |  4 ++++
+>  4 files changed, 15 insertions(+), 6 deletions(-)
+>  rename tests/tcg/multiarch/{ => libs}/float_helpers.c (99%)
+>  rename tests/tcg/multiarch/{ => linux}/linux-test.c (100%)
 
-Self-review (and late, too), but...
-
-> +++ b/docs/tools/qemu-img.rst
-> @@ -414,7 +414,7 @@ Command description:
->    4
->      Error on reading data
-> 
-> -.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps [--skip-broken-bitmaps]] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-r RATE_LIMIT] [-m NUM_COROUTINES] [-W] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
-> +.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps [--skip-broken-bitmaps]] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE [-F backing_fmt]] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-r RATE_LIMIT] [-m NUM_COROUTINES] [-W] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
-
-s/backing_fmt/BACKING_FMT/ would be more consistent here
-
-> +++ b/qemu-img-cmds.hx
-> @@ -46,7 +46,7 @@ SRST
->  ERST
-> 
->  DEF("convert", img_convert,
-> -    "convert [--object objectdef] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cache] [-T src_cache] [-O output_fmt] [-B backing_file] [-o options] [-l snapshot_param] [-S sparse_size] [-r rate_limit] [-m num_coroutines] [-W] [--salvage] filename [filename2 [...]] output_filename")
-> +    "convert [--object objectdef] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cache] [-T src_cache] [-O output_fmt] [-B backing_file [-F backing_fmt]] [-o options] [-l snapshot_param] [-S sparse_size] [-r rate_limit] [-m num_coroutines] [-W] [--salvage] filename [filename2 [...]] output_filename")
->  SRST
->  .. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-r RATE_LIMIT] [-m NUM_COROUTINES] [-W] [--salvage] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
-
-and I missed this line here. We have too much not-quite-identical
-duplication :( Followup patch coming.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
