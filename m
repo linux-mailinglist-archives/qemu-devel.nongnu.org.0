@@ -2,77 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED5640FA16
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 16:20:07 +0200 (CEST)
-Received: from localhost ([::1]:44058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA0F40FA1F
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 16:25:34 +0200 (CEST)
+Received: from localhost ([::1]:48672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mREil-0006lD-1p
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 10:20:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34860)
+	id 1mREo1-0001Zi-Gi
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 10:25:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mREgJ-0005J6-4o; Fri, 17 Sep 2021 10:17:35 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:39649)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mREgG-0006oP-Gt; Fri, 17 Sep 2021 10:17:34 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id y144so17888841qkb.6;
- Fri, 17 Sep 2021 07:17:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=a5eQfdSgBkDvH6C+hAfDOcFFE3CPWh+NfgV0Tds3fmY=;
- b=UurAuuPRGlz+FBBgN8UwUb6D43is3H2FUyJuNjdRwKeMH5+Q4n8i0J8acoHgv1xoWG
- SzKIgjJxFdKgaw9pFezt1zJJJGQQ60u5suQ2w4YnsUoPjgfE6ej0wXKABhVXIG5F8IfX
- n1M7FA3E46psT8ILJK4LoYgJCa0OTWX74oOfAKl76Wl1osOZ6l5jlaQ++6S7qsk49a0K
- KpQrD2Gpv6+t3G2I10mXxrs6rSPaMUuz/RiX4pj2zum0ngZ2keYQX1zOyvMLjC/+m+sG
- /UPlGYlT9x81wbsAAWgkNgXrrOCHmWuRlznSiEXm/LSzsYj8U+M+px1Jmg5iyfi1Smdr
- gRWA==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mREmH-0000mr-3b
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 10:23:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40842)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mREmC-0002C0-FO
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 10:23:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631888618;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q1u/TMeoM1KouwUHSsb4ePtvOgIVe/SP1DHW3hsrYj8=;
+ b=drKL44HPhqdYPp5pqOPgqHh+h6FNpMfREXbUuPKYg5vKeRXip/tJf0yllsfZ71eA+w5UB6
+ galW2nflIc/a+crQ1+4IUli7M7dQeR3B8nb6fyHW5VPMkb3ZNh7SNGi3vWQRgZD5ajmhti
+ P+n19j3DEtabVeHpOYm6SA0q41xjks0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-287-2d02yLf0O8WQE_0Lnf2fzQ-1; Fri, 17 Sep 2021 10:23:36 -0400
+X-MC-Unique: 2d02yLf0O8WQE_0Lnf2fzQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ y23-20020a05600c365700b003015b277f98so1789702wmq.2
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 07:23:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=a5eQfdSgBkDvH6C+hAfDOcFFE3CPWh+NfgV0Tds3fmY=;
- b=hOLubi6RMfGCi5RlzUZ1qgKo4FFDalwX8zQIYP9U1VvMaHz4kDQ0vWOG/kFykTv5bh
- OLhxt2LexzCJL3tdIPGmQuFJ7fSwwbzu3elR3qawZ2e/lwd7408pfqIPkhyNZ5NK9//2
- xhO9rj0e/JcW6ARql9EFQzH557gKzZ/UFthdRziTrGAb9iVmLQtQavceQZ5VivxU+Cii
- Kmq96wcvDVK93GMi9Jpw/UcqTg1u1mGdPXzJ4JWuds0vDfTr7YL9akex4dvsvuE6s4Ko
- deIRa/kFG/DSU7Vaam18mo34+X470LCrdel7rmQ5FsRf1tEIc694rZOJm1cdqTvk69XK
- 95eg==
-X-Gm-Message-State: AOAM531CBpNtWHeP8adyIDyL2Cfir/bVRy9omv9U5LQl+2mgQcbJtkMU
- Xrdl0K97PtVcO5KOajsW4Wk=
-X-Google-Smtp-Source: ABdhPJyMOiHcdHqNyfG8jwjRjz2O3QYTrGVyeJ0lMDXnM+I9l53V2+3q1Fi1eXtJ0+XgA3wtJthNOw==
-X-Received: by 2002:a37:6683:: with SMTP id a125mr8592306qkc.351.1631888250858; 
- Fri, 17 Sep 2021 07:17:30 -0700 (PDT)
-Received: from [192.168.10.222] ([177.189.43.50])
- by smtp.gmail.com with ESMTPSA id 10sm4593121qtu.66.2021.09.17.07.17.28
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=q1u/TMeoM1KouwUHSsb4ePtvOgIVe/SP1DHW3hsrYj8=;
+ b=sMg78AqZl/u608uQMyvYsaohYn9+itPD4dCgE51snS5RW0HGK4AfKWSgn/iWvnjZQB
+ XeQLY/94iOtBwkollQOdem1b3htvzcamw1D7H/NYKhctERYn+cDXeFjcyGB2Do1T+6A6
+ 34UYfmh6k9TviXBZLywlvZgm7sqPJgSLaDg8W12wXDzLpX4oaZY9K+sf+Xu5azjIXs2a
+ 2rgzjLi4zcvow03husbYQfTS52RmOBa4gBGjPWXDayC77jdjPmvkV/tL+33VU61mY0z+
+ NfBu6V+M6GTQMZ0FvLV90pf5XbYe/CEcajKZstK/VYbCKUrQp0/Dyd87VcPfwBXV/b3p
+ vFaA==
+X-Gm-Message-State: AOAM533wzZfwfQibbAejZnEx1DO5etEVtS3flwLElcq0aoJM/T1fXiez
+ 5ooREN86qEz19bOqAzkOBzsoUqGpmfhBYqMbBFZQe7bMQhzIaWsA65X2XXHXNRfvJrm36gChNGV
+ AzPpDvVe2Fxznw4I=
+X-Received: by 2002:adf:e603:: with SMTP id p3mr12553195wrm.357.1631888615837; 
+ Fri, 17 Sep 2021 07:23:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwNWKFMLBvyQn3pvaNopJ00nUXRaFTzoAEoHo1QW0QE6AxoSgT6uf6Wo0kvPgF1LMiMEJ6nJw==
+X-Received: by 2002:adf:e603:: with SMTP id p3mr12553160wrm.357.1631888615607; 
+ Fri, 17 Sep 2021 07:23:35 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id u25sm10802696wmj.10.2021.09.17.07.23.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Sep 2021 07:17:30 -0700 (PDT)
-Message-ID: <2a6a935e-a842-a2ba-6cf1-2629762adc23@gmail.com>
-Date: Fri, 17 Sep 2021 11:17:26 -0300
+ Fri, 17 Sep 2021 07:23:35 -0700 (PDT)
+Subject: Re: [PATCH 11/15] python/aqmp: Create sync QMP wrapper for iotests
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20210917054047.2042843-1-jsnow@redhat.com>
+ <20210917054047.2042843-12-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <5896598a-ebd3-daf4-aff2-0bee44ea8d5e@redhat.com>
+Date: Fri, 17 Sep 2021 16:23:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2 0/2] Require hypervisor privilege for tlbie[l] when
- PSR=0 and HR=1.
+In-Reply-To: <20210917054047.2042843-12-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20210917114751.206845-1-matheus.ferst@eldorado.org.br>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20210917114751.206845-1-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72e.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.488,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.488,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,71 +98,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: leandro.lupori@eldorado.org.br, richard.henderson@linaro.org,
- groug@kaod.org, david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 17.09.21 07:40, John Snow wrote:
+> This is a wrapper around the async QMPClient that mimics the old,
+> synchronous QEMUMonitorProtocol class. It is designed to be
+> interchangeable with the old implementation.
+>
+> It does not, however, attempt to mimic Exception compatibility.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   python/qemu/aqmp/legacy.py | 131 +++++++++++++++++++++++++++++++++++++
+>   1 file changed, 131 insertions(+)
+>   create mode 100644 python/qemu/aqmp/legacy.py
 
+Looks reasonable to me, although I can’t give an R-b in good 
+conscience.  I’m tempted to give a neo-tag (“Looks-okay-to:”), but let’s 
+just be boring and do an
 
-On 9/17/21 08:47, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> 
-> While working on FreeBSD radix support, Leandro Lupori (CC'ed) noticed
-> that the latest build still fails in KVM but works in TCG[1]. This
-> difference occurs because the current implementation of "tlbiel" does
-> not validate the instruction parameters and always check for supervisor
-> privilege.
-> 
-> This patch series partially address this problem by requiring hypervisor
-> privilege for radix mode when PSR=0. The validation of other parameters
-> can be done when we move storage control instructions to decodetree.
-> 
-> [1] To reproduce the issue, grab an ISO from [2] run qemu as
-> 
-> qemu-system-ppc64 -cpu power9 -m 2G \
->      -machine pseries,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off \
->      -boot d -vga none -nographic -cdrom FreeBSD-14.0-CURRENT-powerpc-*.iso
-> 
-> or
-> 
-> qemu-system-ppc64 -cpu power9 -m 2G -enable-kvm \
->      -machine pseries,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off \
->      -boot d -vga none -nographic -cdrom FreeBSD-14.0-CURRENT-powerpc-*.iso
-> 
-> Stop the boot at the prompt and use
-> 
-> OK set radix_mmu=1
-> OK boot
-> 
-> [2] https://download.freebsd.org/ftp/snapshots/powerpc/powerpc64/ISO-IMAGES/14.0/
-> 
-> Matheus Ferst (2):
->    target/ppc: add LPCR[HR] to DisasContext and hflags
->    target/ppc: Check privilege level based on PSR and LPCR[HR] in
->      tlbie[l]
+Acked-by: Hanna Reitz <hreitz@redhat.com>
 
-
-For some reason I didn't receive these 2 patches in my mailbox, just this cover
-letter. I reviewed both using the qemu-devel archives.
-
-
-Both patches:
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-
-
-Thanks,
-
-
-Daniel
-
-
-> 
->   target/ppc/cpu.h         |  1 +
->   target/ppc/helper_regs.c |  3 +++
->   target/ppc/translate.c   | 28 +++++++++++++++++++++++-----
->   3 files changed, 27 insertions(+), 5 deletions(-)
-> 
 
