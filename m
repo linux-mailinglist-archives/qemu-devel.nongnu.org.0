@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C238040FAD8
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 16:54:59 +0200 (CEST)
-Received: from localhost ([::1]:60210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE9FE40FACA
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 16:52:23 +0200 (CEST)
+Received: from localhost ([::1]:50564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRFGU-0005Rn-S9
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 10:54:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39218)
+	id 1mRFDy-0007S2-UX
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 10:52:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRExg-0003hn-VD
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 10:35:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49616)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRF18-0002CJ-2U
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 10:39:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRExZ-000377-41
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 10:35:27 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRF15-0005jU-8H
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 10:39:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631889324;
+ s=mimecast20190719; t=1631889542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4HPAaernueLEXQHI8foK4Jczca2GjTKG1F8nfF4P634=;
- b=J1Efpit7WOSxT01Ye3T2+7yaoAgSHWgfcFPBjn0EIP2kZ5y1qwgYg44MvCw5PWmQZ/lZRP
- nafDKfB5Nb2yx3xuOFvjFsq8yCQukgdiAe2pwDGaPazEKpXNWXJwbPvJZvEok4RumOq9Id
- QWlofBS/lLdZdEXcldpG6wInwGNiQyg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-8N3CCLbsO26_Z1SH9kbWSA-1; Fri, 17 Sep 2021 10:35:23 -0400
-X-MC-Unique: 8N3CCLbsO26_Z1SH9kbWSA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- z1-20020adfec81000000b0015b085dbde3so3800282wrn.14
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 07:35:23 -0700 (PDT)
+ bh=nRG7m8QmpVl+mJP073cyMld+3DLBc9o97brYMUqHQzU=;
+ b=a1WuV1oAbX3IKsN5j4rImJweZME7Ple7hONoCPJrKasZGjabHjNkFSzJ/TYmJ6FrzZwtnk
+ xE9tbEDTqTQML+fwwl+AFD1ch9oYSEw64/cqqd2dCoqYqVIT6XWppZaaiyaZGtYePN8XY3
+ hwP/6H8KPTCHThLHZCzQm5yUiVnRS08=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-lxlCmuB-M6mq-rE1kAuiJA-1; Fri, 17 Sep 2021 10:38:59 -0400
+X-MC-Unique: lxlCmuB-M6mq-rE1kAuiJA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ g74-20020a1c204d000000b0030a1652fea8so270458wmg.3
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 07:38:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=4HPAaernueLEXQHI8foK4Jczca2GjTKG1F8nfF4P634=;
- b=qtI8YiV7chBhR/wy+B43Z4+HDSG5jvS2KpmK+q4k5MDGDkaiNiWOkM5ZjfikKUp/3k
- BUByClCern00troy5DD0s7KY4pmrpM9Ttwa/8mAfwk0+nVuPJr9qOQiedj8ayzT3fJM0
- ebTwdo6ri9+ltKj2bXirZ6IK1bowQP4ff1JC1RYDfBB6rk1qXZ3XIdlFSQ9LvSBoONyh
- 2atVzkpZ5lPeX7VJ2DWZM/++aEKxC3PhVR3Y8CrEHoy6RfvS+eqDiu8N/xLH2rexUtKw
- Xk8nvwKpMZYU7uU46wasfCHPPOhs3CRi0tuBkOCEDNXHbw8+Lc6O9KZPhuYhPJJIq5lg
- xZEw==
-X-Gm-Message-State: AOAM531DWqr2kYa5Q5zY9vpbxOlqKnn4n/lSevVmkNfpL4Ln+edN5fZp
- rGdseo2wBHZ7dEtQALKsMRO6cealvcP2rjJjbGxxuamZYWDKOlUDLgeLlpQ0JY3uQxKcWQzbtBJ
- NGZrq1jNYE4Hk7wM=
-X-Received: by 2002:a05:6000:1889:: with SMTP id
- a9mr8660597wri.300.1631889322106; 
- Fri, 17 Sep 2021 07:35:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyAC+NVuWjSiRKdeNfVDUl3ROzijNUAm9os6NSwtcigQ8cC3fD+2G8kJbX9j6aRuFE3V/LIww==
-X-Received: by 2002:a05:6000:1889:: with SMTP id
- a9mr8660565wri.300.1631889321883; 
- Fri, 17 Sep 2021 07:35:21 -0700 (PDT)
+ bh=nRG7m8QmpVl+mJP073cyMld+3DLBc9o97brYMUqHQzU=;
+ b=wWZkKXRMUqYYEqKQVy8bH/6qsP2NC/zcgEVUZZg673uwmcIqLdSqBOSyPREAHGKv3d
+ rSUmGclnlhWAFMx7ooK+BXg+SQc5tlcx+6AP4zUo5XzAEJhOgTtt3AVC0aVDFi2ENtRC
+ 9G7kYbGGLsxWNxjJHYjkkY8btslMMHiaOihU1ABjEPAUMiA1DkqQr3YX2jKO2/T5rXNe
+ iMcp6iKccX1sHZQcipwUGxdm4DIynTwzoU2gtGI98kldmFW9/8sRmOzhM3XOUWTv6hK7
+ WIX+yjuvd3YiuXoli41JuyQLe7dssB0NhDZFxc6p9c3Pi3IYQIAZfdVU8YhQe+BkQS2B
+ jVHw==
+X-Gm-Message-State: AOAM533kpfT+LgIipAJx0pHV/YW9ZF3EkA61hTXjcqDGU7kAOW4B5A7C
+ AFeIFRJdKKblkn1aLY5a6Mnj1qq4JqKzFERefiEe7E7w4i2LXHkeuo/KFoBSCxT2kFS45DNWhyO
+ 4+wbXASCSxjSPuMk=
+X-Received: by 2002:adf:ed92:: with SMTP id c18mr12354011wro.86.1631889538258; 
+ Fri, 17 Sep 2021 07:38:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw3UnMOSUUduBaOcLW34qolenhKM0lG5Ys6v7+z5p+7pL6dS4Jf6rJGRQMCM7S6+7njDl4hGw==
+X-Received: by 2002:adf:ed92:: with SMTP id c18mr12354004wro.86.1631889538154; 
+ Fri, 17 Sep 2021 07:38:58 -0700 (PDT)
 Received: from dresden.str.redhat.com
  ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
- by smtp.gmail.com with ESMTPSA id o17sm7007557wrj.96.2021.09.17.07.35.21
+ by smtp.gmail.com with ESMTPSA id y8sm6797486wrh.44.2021.09.17.07.38.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Sep 2021 07:35:21 -0700 (PDT)
-Subject: Re: [PATCH 13/15] iotests: Accommodate async QMP Exception classes
+ Fri, 17 Sep 2021 07:38:57 -0700 (PDT)
+Subject: Re: [PATCH 14/15] python/aqmp: Remove scary message
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20210917054047.2042843-1-jsnow@redhat.com>
- <20210917054047.2042843-14-jsnow@redhat.com>
+ <20210917054047.2042843-15-jsnow@redhat.com>
 From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <5ef334d0-515b-42bf-01a0-b933c413c01e@redhat.com>
-Date: Fri, 17 Sep 2021 16:35:20 +0200
+Message-ID: <7e77d482-3ba1-06b4-6c6d-0bafb9ff7e2f@redhat.com>
+Date: Fri, 17 Sep 2021 16:38:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210917054047.2042843-14-jsnow@redhat.com>
+In-Reply-To: <20210917054047.2042843-15-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,7 +85,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-1.488, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,75 +106,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 17.09.21 07:40, John Snow wrote:
-> (But continue to support the old ones for now, too.)
->
-> There are very few cases of any user of QEMUMachine or a subclass
-> thereof relying on a QMP Exception type. If you'd like to check for
-> yourself, you want to grep for all of the derivatives of QMPError,
-> excluding 'AQMPError' and its derivatives. That'd be these:
->
-> - QMPError
-> - QMPConnectError
-> - QMPCapabilitiesError
-> - QMPTimeoutError
-> - QMPProtocolError
-> - QMPResponseError
-> - QMPBadPortError
->
+> The scary message interferes with the iotests output. Coincidentally, if
+> iotests works by removing this, then it's good evidence that we don't
+> really need to scare people away from using it.
 >
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   scripts/simplebench/bench_block_job.py    | 3 ++-
->   tests/qemu-iotests/tests/mirror-top-perms | 6 +++++-
->   2 files changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/simplebench/bench_block_job.py b/scripts/simplebench/bench_block_job.py
-> index 4f03c12169..a403c35b08 100755
-> --- a/scripts/simplebench/bench_block_job.py
-> +++ b/scripts/simplebench/bench_block_job.py
-> @@ -28,6 +28,7 @@
->   sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
->   from qemu.machine import QEMUMachine
->   from qemu.qmp import QMPConnectError
-> +from qemu.aqmp import ConnectError
->   
->   
->   def bench_block_job(cmd, cmd_args, qemu_args):
-> @@ -49,7 +50,7 @@ def bench_block_job(cmd, cmd_args, qemu_args):
->           vm.launch()
->       except OSError as e:
->           return {'error': 'popen failed: ' + str(e)}
-> -    except (QMPConnectError, socket.timeout):
-> +    except (QMPConnectError, ConnectError, socket.timeout):
->           return {'error': 'qemu failed: ' + str(vm.get_log())}
->   
->       try:
-> diff --git a/tests/qemu-iotests/tests/mirror-top-perms b/tests/qemu-iotests/tests/mirror-top-perms
-> index 451a0666f8..7d448f4d23 100755
-> --- a/tests/qemu-iotests/tests/mirror-top-perms
-> +++ b/tests/qemu-iotests/tests/mirror-top-perms
-> @@ -103,7 +103,11 @@ class TestMirrorTopPerms(iotests.QMPTestCase):
->               print('ERROR: VM B launched successfully, this should not have '
->                     'happened')
->           except qemu.qmp.QMPConnectError:
-> -            assert 'Is another process using the image' in self.vm_b.get_log()
-> +            pass
-> +        except qemu.aqmp.ConnectError:
-> +            pass
-> +
-> +        assert 'Is another process using the image' in self.vm_b.get_log()
+>   python/qemu/aqmp/__init__.py | 14 --------------
+>   1 file changed, 14 deletions(-)
 
-But this assertion will fail if there was no exception, and so we won’t 
-get to see the real problem, which is the original VM aborting (see the 
-doc string).
+I definitely won’t give an R-b for this one, because that would require 
+me reviewing the AQMP series, and, well, you know.
 
-It doesn’t really matter that much that VM B can start (hence it being a 
-logged error message, not a fatal error), and when it can start, of 
-course it won’t print an error – but what’s important is that the 
-original VM will then abort.
+Also, if I were to review the AQMP series and could actually give R-bs 
+in good faith, why would I accept adding this message?  I mean, if I’d 
+reviewed it, I’d’ve had to trust it.
 
-I mean, not an absolute showstopper by any means, but still, the 
-assertion was deliberately placed into the `except` block.
+So, öhm, I’m fine with dropping this message because evidently I’d’ve 
+never agreed to adding it in the first place (had I reviewed the AQMP 
+series).
 
 Hanna
 
