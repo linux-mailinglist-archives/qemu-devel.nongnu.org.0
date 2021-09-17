@@ -2,62 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE1C40F977
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 15:43:54 +0200 (CEST)
-Received: from localhost ([::1]:35984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB5D40F984
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 15:48:23 +0200 (CEST)
+Received: from localhost ([::1]:42898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRE9h-0006VG-Qs
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 09:43:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55198)
+	id 1mREE1-0002pV-Tn
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 09:48:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mRE7v-000510-O2; Fri, 17 Sep 2021 09:42:03 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:51385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mRE7p-0007Z7-Q8; Fri, 17 Sep 2021 09:42:03 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.134])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 65BCFBE9153B;
- Fri, 17 Sep 2021 15:41:44 +0200 (CEST)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 17 Sep
- 2021 15:41:43 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002d8ba091f-5929-4afa-b1bd-2ba328f05c31,
- 2811AC2F724D5CB001CF4B7629903955A49C8FE9) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <a0661690-bdb4-f002-3862-306458b36d3d@kaod.org>
-Date: Fri, 17 Sep 2021 15:41:42 +0200
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mRECC-0001Uz-5Q
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 09:46:28 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:45640)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mRECA-0002O5-M1
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 09:46:27 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id w19so9195376pfn.12
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 06:46:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ggmYzqZZFKQLVlMqfXGVDW4Iw0KANZi8ex7DgwbASMc=;
+ b=VEvMtNKR3NpFKzTcytGdoH4rU3Q57jkfza5YRJy3ayFFHUNi9TaTe/hQLt7F/hnTuz
+ 30BWUJ6RRRGOqfL1jkzjvVbvDhs+WhcQaal/wEmdQRZfrfM5lA2lUbxctOZroi/1tgPj
+ qKoy/OxFu3DcZWqBliVFQltvQYkVg+DwGNn5fbAvvPcLNQ51hJai6uELx7G3rTCWdMMp
+ YIrcPiO21wIe9jrVbQ2693kguyfS+tCe4JsGQv+jRwn19tzjJdq8vQ3I0tX3I9iBIDFT
+ AWnn/AItTVQznozN9EuEDJg+w+Mtq132MWEcGnKusxX7vNXCKCPlLXjzp/NV4+eKuGpO
+ qgBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ggmYzqZZFKQLVlMqfXGVDW4Iw0KANZi8ex7DgwbASMc=;
+ b=56g/avm55Os9V7N02vkvV2wWsYa8ROJ3dYFU8xYMhJRzQIJJr9FIm4j0z0+kGcCW7D
+ eoi2GgPs8eacspYu7qbAY8cPSI4CvtMZ9fTFAGbdf2PZKjDB23Pmf/RwmStSey1gEhfi
+ ki1yCGT/Amg5WgUh3Na0h5f8hPaDdGm8mv00tjfj5JciZz8DBzw1skABl0cHrbR+pAyE
+ b1kxxRO0fq+3htwmgx3sM/k8gKR+5MHyEyfvcUjK1XjN8LQ+AFbr+KxNIPLrV+1Ha7uv
+ 8cYlD4PqI6MIqedaiq3KTFvU1q5wpIm+QBAKuWy3kjiE8jvysIBc3iLrXFpaCpwLTfjz
+ SdsQ==
+X-Gm-Message-State: AOAM532lS4OosQvDUPY8BuXpNrk3cIcc1iyWvYMngR8gOuVk0SQvqj5D
+ xzJ0DIvlvFs7ZkJGfZEcKE5xbw==
+X-Google-Smtp-Source: ABdhPJxbaB+VLBwE/2Fkdphdu24mxyR+DIliCk1D3QmM5/tEK9eQLcqDDLQWIOSuVYfh3jE4YGP7hw==
+X-Received: by 2002:a62:5406:0:b0:441:c46a:ccb9 with SMTP id
+ i6-20020a625406000000b00441c46accb9mr8324883pfb.52.1631886385166; 
+ Fri, 17 Sep 2021 06:46:25 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id a20sm10436603pjh.46.2021.09.17.06.46.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Sep 2021 06:46:24 -0700 (PDT)
+Subject: Re: [PATCH v5 01/16] tcg: Expand usadd/ussub with umin/umax
+To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org
+References: <20210915213114.1923776-1-richard.henderson@linaro.org>
+ <20210915213114.1923776-2-richard.henderson@linaro.org>
+ <d5d876e5-e22b-290c-1510-3c77cc29f357@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <12bb1aa2-bcf2-47e7-4d97-70047ee181f9@linaro.org>
+Date: Fri, 17 Sep 2021 06:46:22 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3] target/ppc: Fix 64-bit decrementer
+In-Reply-To: <d5d876e5-e22b-290c-1510-3c77cc29f357@eldorado.org.br>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>, David Gibson
- <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-References: <20210916143710.236489-1-clg@kaod.org>
- <CP2PR80MB36680A1BE91AFABE9DD3295BDADC9@CP2PR80MB3668.lamprd80.prod.outlook.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CP2PR80MB36680A1BE91AFABE9DD3295BDADC9@CP2PR80MB3668.lamprd80.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 39358e6f-5fde-413a-bd4c-82a707a54358
-X-Ovh-Tracer-Id: 11175401004070308713
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudehiedgieefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieefiefgudethffgkeelvdfhledvvdekudejuedttedtkeekieffuddvleeutefgnecuffhomhgrihhnpegvlhguohhrrgguohdrohhrghdrsghrnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.488,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.488,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,101 +89,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On 9/17/21 4:24 AM, Matheus K. Ferst wrote:
+>>   void tcg_gen_usadd_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
+>>   {
+>> -    do_op3_nofail(vece, r, a, b, INDEX_op_usadd_vec);
+>> +    if (!do_op3(vece, r, a, b, INDEX_op_usadd_vec)) {
+>> +        const TCGOpcode *hold_list = tcg_swap_vecop_list(NULL);
+>> +        TCGv_vec t = tcg_temp_new_vec_matching(r);
+>> +
+>> +        /* usadd(a, b) = min(a, ~b) + b */
+>> +        tcg_gen_not_vec(vece, t, b);
+>> +        tcg_gen_umin_vec(vece, t, t, a);
+>> +        tcg_gen_add_vec(vece, r, r, b);
+> 
+> I think it should be
+> 
+> tcg_gen_add_vec(vece, r, t, b);
 
-On 9/16/21 20:22, Luis Fernando Fujita Pires wrote:
-> Hi Cédric,
-> 
-> These changes look good and seem to replicate the exact behavior we had before, while fixing the 64-bit dec from MicroWatt.
+Yep, good catch.
 
-Yes. That's the goal. I would like to minimize the possible impact on other
-platforms. I checked MAC, pSeries and PowerNV but there are many more.
-
-> A few notes, in case they help others, too:
-> 
-> According to the Power ISA:
->    When not in Large Decrementer mode:
->      - the maximum positive value for the decrementer is the maximum possible signed 32-bit int (2^31 - 1)
->      - the minimum possible value for the decrementer is 0x00000000FFFFFFFF
->    When in Large Decrementer mode:
->      - the maximum positive value for the decrementer is 2^(nr_bits - 1) - 1
->      - the minimum possible value for the decrementer is 0xFFFFFFFFFFFFFFFF
-> 
-> And the decrementer is decremented until its value becomes 0, and then once more, to the minimum possible value (0x00000000FFFFFFFF or 0xFFFFFFFFFFFFFFFF, depending on the Large Decrementer mode).
-> 
->  From what I understood from the code, the 'decr' value passed to __cpu_ppc_store_decr is the value of DECR before the change, and 'value' is the new one.
-> 
-> Now, back to the code... :)
-> 
->> +    target_long signed_value;
->> +    target_long signed_decr;
-> 
-> Since these values will be the results of sextract64, it's probably better to define them as int64_t.
-
-but then it breaks the code doing the logging on PPC32 targets :/
-
-> 
->>       LOG_TB("%s: " TARGET_FMT_lx " => " TARGET_FMT_lx "\n", __func__,
->> -                decr, value);
->> +                decr, signed_value);
-> 
-> While this reproduces the behavior we previously had, I think it would be more consistent if we logged what we had before the sign-extension ('value' instead of 'signed_value'). And 'decr' is okay, which is also not sign-extended.
-> 
->> ||
->> +        ((tb_env->flags & PPC_DECR_UNDERFLOW_TRIGGERED) && signed_value
->> < 0
->> +          && signed_decr >= 0)) {
-> 
-> The 'signed_decr >= 0' is ok. It catches the case where the previous value (now sign-extended as signed_decr) was >= 0 and we signed_value just got negative (which should be exactly 0xFFFFFFFFFFFFFF, after being sign-extended to 64 bits).
-> 
-> One point that I found odd, but not directly related to your patch, is the implementation of _cpu_ppc_load_decr:
-> 
-> static inline int64_t _cpu_ppc_load_decr(CPUPPCState *env, uint64_t next)
-> {
->      ppc_tb_t *tb_env = env->tb_env;
->      int64_t decr, diff;
-> 
->      diff = next - qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->      if (diff >= 0) {
->          decr = muldiv64(diff, tb_env->decr_freq, NANOSECONDS_PER_SECOND);
->      } else if (tb_env->flags & PPC_TIMER_BOOKE) {
->          decr = 0;
->      }  else {
->          decr = -muldiv64(-diff, tb_env->decr_freq, NANOSECONDS_PER_SECOND);
->      }
->      LOG_TB("%s: %016" PRIx64 "\n", __func__, decr);
-> 
->      return decr;
-> }
-> 
-> The diff < 0 case:
->          decr = -muldiv64(-diff, tb_env->decr_freq, NANOSECONDS_PER_SECOND);
-> should probably just be:
->          decr = -1;
-> to comply with the minimum possible values specified by the ISA.
-> But, again, this doesn't impact your patch directly.
-
-We can try to address that in a followup patch.
-
-> And also:
-> Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
-
-Thanks,
-
-C.
-
-
-> --
-> Luis Pires
-> Instituto de Pesquisas ELDORADO
-> Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
-> 
-
+r~
 
