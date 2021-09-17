@@ -2,52 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870F440F687
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 13:09:12 +0200 (CEST)
-Received: from localhost ([::1]:35638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0A740F6A8
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 13:21:58 +0200 (CEST)
+Received: from localhost ([::1]:51048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRBjz-0003DQ-Fw
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 07:09:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53384)
+	id 1mRBwL-0006Pz-N0
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 07:21:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mRBej-000107-1a
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:03:46 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:39441 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mRBeg-0002Jz-5J
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:03:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1631876617;
- bh=CwhAEdJBND6aVKDuMYACTXqkgvp+cwmWT1bdm1mWDIk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=R1gOxTN5o2fCYvjud8mfasimmY30bDl78FOKHj1quDm/eEUJSlrBFC9inzmKNfeAH
- 8Bb+05fsLVI7m4HuA1r7czoO6WThOnO7udyCcwUc332HmDV4Js01/6lA+MVh4/dlf9
- uEUn+nqtViEtt8ljpU9XZggofDj1a0VSTDAI5LlY=
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4H9rfd5YxMz9sRN; Fri, 17 Sep 2021 21:03:37 +1000 (AEST)
-Date: Fri, 17 Sep 2021 21:03:34 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: Rust in Qemu BoF followup: Rust vs. qemu platform support
-Message-ID: <YUR2BjppxkBo8mD0@yekko>
-References: <YURYvaOpya498Xx2@yekko> <87k0jfh88i.fsf@redhat.com>
- <CAJ+F1CJJvqVQrG5iPXV2s7oLbduHfAhHs0pHdZ8XbxLkNi42VQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mRBtS-0004wG-Jj
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:18:58 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39434)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mRBtQ-0005fL-SC
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:18:58 -0400
+Received: by mail-wr1-x435.google.com with SMTP id u15so14580887wru.6
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 04:18:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=R/IY9E01Oa8SWGzlb8ofPYd8yYcbaS4qWoo3dBcbL/s=;
+ b=cb+ticA5IhKCLg/Z7UfPlz2R1uoJG07oeVaAkz93usTcDnEtQZ0eHuqm9WSW2JXDTy
+ kDG3Jy9S/sGz18gwZd34qjtXJ40NFp37M3KDkI4tJ9R/EU2XG2hHgwfGkXA5O2XiOVrM
+ SWU2vZXHxPiLdz9eNSr5FmHhsWYMBomEV4t/QDNCD6rYiuz9BR4GIKJPBWwol7b1KkSt
+ WOBRq4TwJ+637gJDpCmi0cebFgPottX8VEqy3yi5ANFnA1nIJsb7d8bjOVfMtwp1LP1z
+ RSCo1bl+8fb0qIzPR7a+K0VhscFaEDZsycM6wdCXFQvhLruPZzdK3Kgdebhl89e6gVd9
+ OJoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=R/IY9E01Oa8SWGzlb8ofPYd8yYcbaS4qWoo3dBcbL/s=;
+ b=4xs6BNovadxxDeUicyk5n2tHpmv4AZrioxz7sdCWmcnC4ZzYjhGkVRgmKCWaFGtAFX
+ +bUg3nHUXd7BUsTtGbVYF51fQ5ZJyTipe8dYB2m6TFn0pfFxzhRJhVbGenc4fVXrh7EH
+ TCpwqLJ9vvYX5PwhkIuLvosQbGy/qoU+/SYv6li/fAOtwqFJD/WQelaB7zP/gyQTU4OO
+ iN+1xkBZTUb5P8wGIC13AHbAmyRZJvqL0zGlxVumkTeUyL2Rvb6ti/STQBqeEM1hvhuN
+ D0EN/D5otu9uthqGomfyDo81ezVpJkJeBLz+L/cWzMslBCd/ZGGbimLZr9f5dBwH5qMM
+ oYKA==
+X-Gm-Message-State: AOAM533aesiZoGxUIZ8NeCEl9dLnSr06jvtqPIoAdeQ2CuqXTBKrnmxr
+ ge8iEJHDVEcn/DpvGX2Cw3kYLmVccQr55w==
+X-Google-Smtp-Source: ABdhPJwvIhVIsLQUA/KHURIZBXJWiREvwVzgaCZrSpTnm9ThKuOGnIGRxmxeEQwo2VJ3dnWs83al1A==
+X-Received: by 2002:a5d:58c9:: with SMTP id o9mr11660759wrf.279.1631877535259; 
+ Fri, 17 Sep 2021 04:18:55 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h16sm6413256wre.52.2021.09.17.04.18.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Sep 2021 04:18:54 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6AE5C1FF96;
+ Fri, 17 Sep 2021 12:18:53 +0100 (BST)
+References: <YUOssEF1lND+Rhsr@strawberry.localdomain>
+User-agent: mu4e 1.7.0; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Aaron Lindsay <aaron@os.amperecomputing.com>
+Subject: Re: plugins: Missing Store Exclusive Memory Accesses
+Date: Fri, 17 Sep 2021 12:05:09 +0100
+In-reply-to: <YUOssEF1lND+Rhsr@strawberry.localdomain>
+Message-ID: <87fsu3tppe.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="H6fcbcTbWPaz6kDV"
-Content-Disposition: inline
-In-Reply-To: <CAJ+F1CJJvqVQrG5iPXV2s7oLbduHfAhHs0pHdZ8XbxLkNi42VQ@mail.gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,134 +86,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>, hreitz@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: cota@braap.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---H6fcbcTbWPaz6kDV
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Aaron Lindsay <aaron@os.amperecomputing.com> writes:
 
-On Fri, Sep 17, 2021 at 01:54:22PM +0400, Marc-Andr=E9 Lureau wrote:
-> Hi
->=20
-> On Fri, Sep 17, 2021 at 1:19 PM Cornelia Huck <cohuck@redhat.com> wrote:
->=20
-> > On Fri, Sep 17 2021, David Gibson <david@gibson.dropbear.id.au> wrote:
-> >
-> > > Hi all,
-> > >
-> > > At the qemu-in-rust BoF at KVM Forum, I volunteered to look into
-> > > whether Rust supported all the host/build platforms that qemu does,
-> > > which is obviously vital if we want to make Rust a non-optional
-> > > component of the build.
-> > >
-> > > I've added the information to our wiki at:
-> > >       https://wiki.qemu.org/RustInQemu
-> >
-> > Thank you for doing that!
-> >
-> >
-> Yes, the condensed coloured matrix is much more readable than the Rust lo=
-ng
-> list. I wonder if they would also adopt it :)
+> Hello,
+>
+> I recently noticed that the plugin interface does not appear to be
+> emitting callbacks to functions registered via
+> `qemu_plugin_register_vcpu_mem_cb` for AArch64 store exclusives. This
+> would include instructions like `stxp  w16, x2, x3, [x4]` (encoding:
+> 0xc8300c82). Seeing as how I'm only running with a single CPU, I don't
+> see how this could be due to losing exclusivity after the preceding
+> `ldxp`.
 
-So, in this case we have the relatively small matrix of qemu supported
-build OSes by qemu supported build ISAs.  For the Rust page there's a
-much larger list of OSes, and a somewhat larger list of ISAs.  Or
-larger still since it's really ABIs they're listing there rather than
-just ISAs.  And lots of that matrix would be missing for all the OSes
-that only support a handful of ISAs.  So I think trying to do it as a
-matrix there would get pretty unwieldy.
+The exclusive handling is a bit special due to the need to emulate it's
+behaviour using cmpxchg primitives.
 
-> > > TBH, the coverage is not as good as I expected.  Linux, macOS and
-> > > Windows are pretty much ok, with the exception of Linux on Sparc.
-> > > There are a lot of gaps in *BSD support, however.
-> >
-> > Yes :(
->=20
-> Can we say reasonably that QEMU is supported on *BSD other than x86 (and
-> aarch64?), I wonder. Maybe we should consider moving those under the
-> unsupported rank.
+>
+> In looking at QEMU's source, I *think* this is because the
+> `gen_store_exclusive` function in translate-a64.c is not making the same
+> calls to `plugin_gen_mem_callbacks` & company that are being made by
+> "normal" stores handled by functions like `tcg_gen_qemu_st_i64` (at
+> least in my case; I do see some code paths under `gen_store_exclusive`
+> call down into `tcg_gen_qemu_st_i64` eventually, but it appears not all
+> of them do?).
 
-Yeah, that was my first question as well.  I included it all since the
-qemu page doesn't qualify the list of OSes/archs, but I did wonder if
-anyone is really using obscure archs with a BSD.
+The key TCG operation is the cmpxchg which does the effective store. For
+-smp 1 we should use normal ld and st tcg ops. For > 1 it eventually
+falls to tcg_gen_atomic_cmpxchg_XX which is a helper. That eventually
+ends up at:
 
-> > Do we actually have an idea what we would require? I'm surprised that
-> > there are so many targets without host tools or without std support (but
-> > maybe they are only missing small things.)
->=20
-> For sparc 32, it was added to support Gentoo at that time which didn't
-> switch to 64-bit yet (https://github.com/rust-lang/rust/pull/48297)
->=20
-> For the past 2-3y, Gentoo sparc is now 64 bit. (like Debian apparently for
-> a while)
->=20
-> But apparently, by lack of CI it was downgraded to Tier-3.
->=20
-> Is it reasonable to officially drop support for sparc 32 in QEMU
-> too?
+  atomic_trace_rmw_post
 
-As a qemu build arch I would say probably yes.  As a qemu *target*
-arch, probably not.  Qemu targets aren't really relevant to this
-discussion, but I'm clarifying since if someone sees "XXX arch support
-in qemu" without context they'll probably think of target arch before
-host arch.
+which should be where things are hooked.
 
-> > > I've included some notes on where the information comes from, and some
-> > > uncertainties in there.
-> > >
-> > > I've made an effort to get the information correct, but double
-> > > checking would be appreciated.
-> >
-> > I did not spot any errors on a quick cross check, but I'm not really
-> > sure about what the BSDs support.
-> >
-> > >
-> > > I haven't yet looked into the packaging situation for the Rust
-> > > toolchain on various platforms and distros, but I still intend to do
-> > > so.
-> >
-> >
-> >
-> I would share our wiki page on r/rust if you don't mind, as there are
-> various people that can help us fill the gaps I think.
+> Does my initial guess check out? And, if so, does anyone have insight
+> into how to fix this issue most cleanly/generically? I suspect if/when I
+> debug my particular case I can discover one code path to fix, but I'm
+> wondering if my discovery may be part of a larger class of cases which
+> fell through the cracks and ought to be fixed together.
 
-Fine by me.
+Have you got simple example of a test case?
+
+>
+> Thanks for any help,
+>
+> Aaron
+
 
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---H6fcbcTbWPaz6kDV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFEdgYACgkQbDjKyiDZ
-s5KKdhAAlAXfpx1QKry/AI8mphhmreowiqq4ACbBy2NoPJ0Rq56uwMiU2w0M/TEZ
-oElSn894kkmRxAYCHKs4rbGUViUK8jifze18fBeDvvdvje/DdcAACO/Rr9eix9ut
-nx2dTZKD6rcMUvgknPVPnuEsYJ0d+VwKVP5Ogq5FlRsOCvxcVQ+oFzvR9Yb9bbW+
-WgXwaqTcObOl9B7lUKjK0FkCQNNoaroBVYETCKNanGLRE6aqyPBMYMtUkX00RUQl
-toZmnyqolWlQmRbKfkCbs2DmgV/k0D6w0jCvTcZ9AwP0lte/UWx7vxwHJRu4Pppx
-TCYEeQyj6oFwPUNzwrajfKMSS67O94KjgZFW5Fd97Pl+NZPfFJjlDLrGV1fKmPJc
-/Fi4EqGj4iUM6+j4dFFBUrgHI8GRwc4AJUyoFdshWDahluP6fS3XaXPVCrOsfQ/d
-YxAsIckT0+OpTxDlnaGJY7VyuzUoN6JRydfMYg2pfFks7EdlKGx+LZx6JwoaNi9K
-MMtItBMNkznXw7kZRuywkwftO88oFct9v6zCiyAN4cwN1ptST+T26qW3kJXfyV7j
-Za55pq/ixyzi2y0IJ4qWgx3iARbDl6PNq+ukzES0u/HWMDoIZV3Hq7VWbhyaB94Q
-mAZG7QNtjt5r/OfMIVunD7kBgRANcPX3eiV3xtAz0yBZS44wf5I=
-=I0oF
------END PGP SIGNATURE-----
-
---H6fcbcTbWPaz6kDV--
+Alex Benn=C3=A9e
 
