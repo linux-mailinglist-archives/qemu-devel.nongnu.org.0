@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C12440F80F
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 14:40:25 +0200 (CEST)
-Received: from localhost ([::1]:48874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF2740F85C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 14:52:33 +0200 (CEST)
+Received: from localhost ([::1]:54806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRDA4-0007SJ-HF
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 08:40:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41730)
+	id 1mRDLz-0003eI-B7
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 08:52:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mRD7z-0005wa-75
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:38:03 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40675)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mRD7v-0005HV-2X
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:38:02 -0400
-Received: by mail-wr1-x432.google.com with SMTP id q26so14938577wrc.7
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 05:37:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yP2ksUtdY9yo/Ky7o+0GePhbKbP+WSor9Jb4xFDea90=;
- b=j+rlRd0gxxAJ4V6xrUqcgagzWk/UuJte5h0eMZpGGL6mh51m78A5ql8JZkasytGzPI
- fK4kHZ7xvVUw+ZfAbFwYJWNT4qQFBC7OzL+UznM7z72vFGkHM0fEdIIopfkO7DTrh7CD
- b5lghaG4fFY+n6tFSLXEqaJx8CHhQE37fs7Dff/fPE9eAcnFYr/uPJJ1C0xNng/+oCcN
- fQhnewwerLhJt2qKjWqzLH9cVDmqQjWlua5skQCIBPacsyHMWOWPyPQvU2K6arnUHThE
- yamR/Aur5OXVj7hDPmqtCTMAyRsAckXvWWHddInSNniBS43XGzaxNVYKDSKYEax5aOja
- z1OA==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRDL8-0002qW-BD
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:51:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55478)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRDL5-0005uw-9j
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:51:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631883093;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t9MNLHx2X+pIQTk/SARhgbl/Vh6NygwKk3faw7vEr/4=;
+ b=HCi6L/EjwPziFu17dS6ABvRC1aq1i+wvtyh1KdKIEyIpS7t9sfBcaO8czh9GRDlnvdIc6g
+ U9XQwnUBsSv6MHX8V3g/GyJLIvXgsBn98MgKMb+D2XR+vEyA93YLQTW7kfzubtLB7s+D8K
+ sQ3Zde1kdDSgsXfFTxZNu6cqwKYG7Gw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-mWF3-p9fOE2hYBIp4pD5eg-1; Fri, 17 Sep 2021 08:51:32 -0400
+X-MC-Unique: mWF3-p9fOE2hYBIp4pD5eg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ w25-20020a1cf6190000b0290252505ddd56so4613730wmc.3
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 05:51:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yP2ksUtdY9yo/Ky7o+0GePhbKbP+WSor9Jb4xFDea90=;
- b=rz3M7fuiR4hjMsLwVd20Vn3tYZMfdRHVt3vxKoQOYFQR/5IzUnCDlPTv0Dx8oNVM9D
- uXTVwEjVIoVVVxt9vEqj83CgTUDHqSry0MhjvKtepZXNiIK+lDK6XYghwNGNIr5RMPHJ
- B0ZzSaNTOkafGZD6eJQRj5f7518LKU3l+3bngmJyrzxsXmpGBvUoPAfVlSRpHXtPzsrz
- v+9GcIA4EnJiiuebn0yn4N1biSdvXRWUZSUeDQdAfj7lQAWFQlB/UXOMVEUvbAM+j0TW
- SoBK+I9kXFXWPv+JU8U5JKUmXC1ovxy/Q9ptrxH4UQUSSuYjJZ0OmfuBcZm8fCVU1gW6
- 8c6g==
-X-Gm-Message-State: AOAM530faG+9ALKB4Bs04/1UtOwqbHMWOAhCtxif1mfojzDwLNVTufSb
- At6QhvOGrb0unel4JuThKWpStGdH36E=
-X-Google-Smtp-Source: ABdhPJyYqmj1VmrfG7P8sMiTHBRMsLQgty07o47JB0sVj6iDnH/x0siM91V01Ywl6MAuvMY4IydQYw==
-X-Received: by 2002:adf:9ccc:: with SMTP id h12mr11386014wre.385.1631882277479; 
- Fri, 17 Sep 2021 05:37:57 -0700 (PDT)
-Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
- [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id j23sm7143815wmo.14.2021.09.17.05.37.56
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=t9MNLHx2X+pIQTk/SARhgbl/Vh6NygwKk3faw7vEr/4=;
+ b=WSY3npbwDvZdZuZtwvkdB161sjnRuzvzQYLP+R+V1IBYQAHhukkVG+a62cpPrmEq66
+ Sxq2JWjG+BBB4U32IY2LZJE7K2QWLx7ej4dU4U9SxwYqw53pwF8drtQuhQ4l9/wiH13j
+ zI5zhH5fe+n6oy5qND3ABdYU7Y6aGe7qPr6Wdw9qq1VYiavpbSr3LCr2fy1FI5noI4ID
+ cl8/rGpOit1LmGHoi9Im73X80Bf4MBCotUYV8CqCd31V7KNvm/qMqlV1VSOFy9Pi+M0q
+ aNxsr3DXCwyiupTyH7Jzudu8zxMkr8rIpD6AKWgbQlodCMfK/xeYrg+wksA91hTHK+vg
+ ZOYQ==
+X-Gm-Message-State: AOAM531z9HOLN/sg0uGYUSolAq94A42hAUNwm6jFfOYWpQF7RkvIz376
+ KbxYaqpfXxTQEQ5CjZamDElRILjiiVPWnC6vbdMsP7ESKZLzaf1Ny+yJRLcU4bI2Bvya2elFMaH
+ 2XfezAdTtUEPQkMs=
+X-Received: by 2002:a1c:183:: with SMTP id 125mr9931048wmb.186.1631883091412; 
+ Fri, 17 Sep 2021 05:51:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxf+qQWFml0SoOrlrLzIE/eKQehV+BA3I930AHDd8CjiN11FK0r3rDRL10zqWwJkAQdU59TEQ==
+X-Received: by 2002:a1c:183:: with SMTP id 125mr9931023wmb.186.1631883091166; 
+ Fri, 17 Sep 2021 05:51:31 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id a25sm10647842wmj.34.2021.09.17.05.51.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Sep 2021 05:37:56 -0700 (PDT)
-Subject: Re: [PATCH] travis.yml: Remove the "Release tarball" job
-To: Thomas Huth <thuth@redhat.com>
-References: <20210917094826.466047-1-thuth@redhat.com>
- <CAAdtpL7DkZyE7z-M2trjnXj0mpry95Y-T7-WahgxWg-jfg9gCg@mail.gmail.com>
- <9a941135-a659-bf8e-6b4f-bc7e297060c0@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <3cbe10a2-5003-8214-f20f-601a49d513f2@amsat.org>
-Date: Fri, 17 Sep 2021 14:37:55 +0200
+ Fri, 17 Sep 2021 05:51:30 -0700 (PDT)
+Subject: Re: [PATCH 04/15] python/qmp: clear events on get_events() call
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20210917054047.2042843-1-jsnow@redhat.com>
+ <20210917054047.2042843-5-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <bc3f4366-6fa9-750d-3e33-ac8c3deaad2b@redhat.com>
+Date: Fri, 17 Sep 2021 14:51:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <9a941135-a659-bf8e-6b4f-bc7e297060c0@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <20210917054047.2042843-5-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.488,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.488, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,38 +98,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Michael Roth <michael.roth@amd.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/17/21 1:42 PM, Thomas Huth wrote:
-> On 17/09/2021 13.25, Philippe Mathieu-Daudé wrote:
->> Le ven. 17 sept. 2021 11:48, Thomas Huth <thuth@redhat.com
->> <mailto:thuth@redhat.com>> a écrit :
->>
->>     This is a leftover from the days when we were using Travis
->> excessively,
->>     but since x86 jobs are not really usable there anymore, this job has
->>     likely never been used since many months. Let's simply remove it now.
->>
->>     Signed-off-by: Thomas Huth <thuth@redhat.com
->> <mailto:thuth@redhat.com>>
->>     ---
->>       .travis.yml | 23 -----------------------
->>       1 file changed, 23 deletions(-)
->>
->> Do we have the equivalent job on GitLab?
-> 
-> I'm not aware of any. But since this job was only running on v* tags
-> anyway, it likely does not make much sense to translate it 1:1 to a
-> gitlab job. But maybe Michael could suggest something similar if it's
-> helpful for making sure the release tarballs do no regress?
+On 17.09.21 07:40, John Snow wrote:
+> All callers in the tree *already* clear the events after a call to
+> get_events(). Do it automatically instead and update callsites to remove
+> the manual clear call.
+>
+> These semantics are quite a bit easier to emulate with async QMP, and
+> nobody appears to be abusing some emergent properties of what happens if
+> you decide not to clear them, so let's dial down to the dumber, simpler
+> thing.
+>
+> Specifically: callers of clear() right after a call to get_events() are
+> more likely expressing their desire to not see any events they just
+> retrieved, whereas callers of clear_events() not in relation to a recent
+> call to pull_event/get_events are likely expressing their desire to
+> simply drop *all* pending events straight onto the floor. In the sync
+> world, this is safe enough; in the async world it's nearly impossible to
+> promise that nothing happens between getting and clearing the
+> events.
+>
+> Making the retrieval also clear the queue is vastly simpler.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   python/qemu/machine/machine.py | 1 -
+>   python/qemu/qmp/__init__.py    | 4 +++-
+>   python/qemu/qmp/qmp_shell.py   | 1 -
+>   3 files changed, 3 insertions(+), 3 deletions(-)
 
-This is why we added this job in the first place... Peter tagged a
-released then Michael got issues when generating the archive.
+[...]
+
+> diff --git a/python/qemu/qmp/__init__.py b/python/qemu/qmp/__init__.py
+> index 269516a79b..ba15668c25 100644
+> --- a/python/qemu/qmp/__init__.py
+> +++ b/python/qemu/qmp/__init__.py
+> @@ -374,7 +374,9 @@ def get_events(self, wait: bool = False) -> List[QMPMessage]:
+>           @return The list of available QMP events.
+>           """
+>           self.__get_events(wait)
+> -        return self.__events
+> +        events = self.__events
+> +        self.__events = []
+> +        return events
+
+Maybe it’s worth updating the doc string that right now just says “Get a 
+list of available QMP events”?
+
+(Also, perhaps renaming it to get_new_events, but that’s an even weaker 
+suggestion.)
+
+Anyway:
+
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+
 
