@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AADA540FAEE
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 16:58:07 +0200 (CEST)
-Received: from localhost ([::1]:39464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AECE40FB06
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 17:03:21 +0200 (CEST)
+Received: from localhost ([::1]:51094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRFJW-00023o-PV
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 10:58:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43498)
+	id 1mRFOa-0001fw-Ab
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 11:03:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mRFHI-0007l0-Cp
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 10:55:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35818)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mRFHE-0001qd-U9
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 10:55:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631890544;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ES6Tn8zcpZEi/LRU1UjNQzt7mn0bLNLRPyEUiMjWASI=;
- b=hayoNwsACvaY5SF9RVn3FnqFKCoUJP0JyhH7jw/QHQOOHxlFg5vC7dxQ9jwprSPEddCi+U
- ETwBgxmJYDO27/pLozxwe7IBAa1NXzYIWKL5GYmO65ZfpnMIjFvdIt/AWcAqHLNUr7rNiQ
- yH74IsnD89ImsaCOSEh10x1cLOuwoSE=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-ZfiE_TGcM4GSAPFayzHHiQ-1; Fri, 17 Sep 2021 10:55:40 -0400
-X-MC-Unique: ZfiE_TGcM4GSAPFayzHHiQ-1
-Received: by mail-oi1-f197.google.com with SMTP id
- 17-20020aca2111000000b0026d657f80d7so34036219oiz.16
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 07:55:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mRFNS-0000ww-8k
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 11:02:11 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33707)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mRFNQ-0007IH-GS
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 11:02:10 -0400
+Received: by mail-wr1-x430.google.com with SMTP id t18so15752679wrb.0
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 08:02:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=oLYBifoYFNc+HBPGEB4jAQGMsUs9rmG+c1Umb7r2LR8=;
+ b=kxOQkkUg2NCnFycm1uwTGKYHS0FVvOBBy0FYf8yXQd2LyRHHWumNbLGnCMxhfCSGjl
+ B0gbl56+0s0qSZ395KPF2SH8Sk8g0Gk281Ylf/78QYNQJ9Qh3qY6QWd1UDekvyNGbqBq
+ FJ6IMt1KI5U9jQry+Y2hTpgVl468MQZ04sPoR7eMqz+y4YAL7PGWrSGOM8ArtAPeLpQd
+ wOzjf2/1o5NqtoOPptnTuXy6nFS0prqr62NdssK0TDTnEOGk3Al5W8RbV3EZfqEhKz4r
+ uap077Mrtvi5v2KxqjpARXlCH/38gxScgvChl1G2NkVsQHLOoS4lPaWmBP0uIALYYDva
+ t6Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ES6Tn8zcpZEi/LRU1UjNQzt7mn0bLNLRPyEUiMjWASI=;
- b=nxVLbciWHNy6iuEdAGpkq281GGME2NcF4cvHhGYLy1BrP/i5DlFVv2ZTLStrmqaWzn
- Y7iIZMzi9DiHTAqKHoPe3g/rLLhU9oENt2402DhBqjWYH9Jd0POovFdP+f42vMZookRF
- tJpeASGKluy+qrRQQs8sJ/WZFlKYDiHieFhPLt4bl48o4NWDhJ22VtWCAv0kzw5JkxLG
- ZDCqze4cj4ZKa2cO8ULtc1V+Ah/2BrF2wEIe1KbwLeBIlHAfz6hDr1x65fjP4wQvLVTP
- 8B4F6M+1km7RZNdKlvXJ4bo3oOYLeqED9YlY7lcSX9tpHgIuj+CnDEzvh9f9DK65zeen
- TfHg==
-X-Gm-Message-State: AOAM5307DV9INgeWvzo2nKKovhx5Z6SsUmCD8ieTDStWxsjPW5Ymo+s+
- zqumcRNNHrPNK3RcCQqqxYY/3Z5lmbEcEZEf3tAPewOK+RQzUK43J320lzKrUiTQF9nCiFzpTYe
- 0u0PiKv02YxG5s9kS/ry2s94c7yxWdXc=
-X-Received: by 2002:a4a:45cc:: with SMTP id y195mr9335134ooa.52.1631890539862; 
- Fri, 17 Sep 2021 07:55:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwDe0zgZsNqCE4Rt4NIQNiwtEdwjvrTACjFSOKJoYjYyhpWHgXVZBn0ApEoeVV5DrxBgwJzVBTQ1THSKi/t1V8=
-X-Received: by 2002:a4a:45cc:: with SMTP id y195mr9335119ooa.52.1631890539647; 
- Fri, 17 Sep 2021 07:55:39 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oLYBifoYFNc+HBPGEB4jAQGMsUs9rmG+c1Umb7r2LR8=;
+ b=lih30klbsjZ3XZFkeMy6eZvdWWPfMeFMzMRL6ANLc9DPb45XDIHnlT6cdBk8FW2Xh7
+ Whq5RErHuKnmyPptz79G0jBX5hVCnQ0Av1V5o1nlyvUb8hhX50QPWT4lqEacHxwqFo1p
+ xZIoc4ptF32mtwyuM6wyU+ULCXbPeIztx3S5hAe/fcUJKxGheKGNAmKfMY9r6LDgGREO
+ Sk3JpH46vPdQnVIwxd2WQa/MmenV6sfPWETZnQ7DXszKI6WC/sgsjBF5rgFabITJ0o67
+ JwWcOl2KAh4uP80i94//L4FZKZkBGUJyicTzHDdvvoLl0DG/WBcwDvPBQ8MN6j4CuoqK
+ oatA==
+X-Gm-Message-State: AOAM532ADVNX3rs0eDBZ7D6aHAwuWyKOjqUxwd36AtUQdUIr2qp6s9Vw
+ W2AJsO0kVbL8lmFTz9Veytg=
+X-Google-Smtp-Source: ABdhPJw4QZriG4liL+RI4TgIm307hppJWVFnQVzNLlD9VvyXe53exUXt0/hsMLWjjgx95yZG0CF7MQ==
+X-Received: by 2002:adf:e404:: with SMTP id g4mr12630549wrm.143.1631890926927; 
+ Fri, 17 Sep 2021 08:02:06 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
+ [83.35.25.14])
+ by smtp.gmail.com with ESMTPSA id g22sm10032543wmp.39.2021.09.17.08.02.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Sep 2021 08:02:06 -0700 (PDT)
+Subject: Re: [PATCH 1/9] bsd-user: Apply e6deac9cf99 from linux-user (zero
+ anonymous memory)
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+References: <20210917025635.32011-1-imp@bsdimp.com>
+ <20210917025635.32011-2-imp@bsdimp.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d9ca1949-7c57-e805-8f94-00e09ff9cb48@amsat.org>
+Date: Fri, 17 Sep 2021 17:02:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210917054047.2042843-1-jsnow@redhat.com>
- <20210917054047.2042843-16-jsnow@redhat.com>
- <c5c66550-8e12-8aa2-1af3-b778aa399b10@redhat.com>
-In-Reply-To: <c5c66550-8e12-8aa2-1af3-b778aa399b10@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 17 Sep 2021 10:55:29 -0400
-Message-ID: <CAFn=p-Y-HJ8_dQ51P8xZabYwzdh3FxGozBmAW1zVT20wV6Z-7Q@mail.gmail.com>
-Subject: Re: [PATCH 15/15] python, iotests: replace qmp with aqmp
-To: Hanna Reitz <hreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000eda41505cc321f59"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+In-Reply-To: <20210917025635.32011-2-imp@bsdimp.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.488,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,125 +90,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+Cc: kevans@freebsd.org, Riku Voipio <riku.voipio@linaro.org>,
+ Chen Gang <gang.chen.5i5j@gmail.com>,
+ =?UTF-8?Q?Mika=c3=abl_Urankar?= <mikael.urankar@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000eda41505cc321f59
-Content-Type: text/plain; charset="UTF-8"
+On 9/17/21 4:56 AM, Warner Losh wrote:
+> From: Mikaël Urankar <mikael.urankar@gmail.com>
+> 
+> linux-user/mmap.c: Always zero MAP_ANONYMOUS memory in mmap_frag()
 
-On Fri, Sep 17, 2021 at 10:40 AM Hanna Reitz <hreitz@redhat.com> wrote:
+Please use it as subject, "bsd-user/mmap: Always zero MAP_ANONYMOUS
+memory in mmap_frag()"
 
-> On 17.09.21 07:40, John Snow wrote:
-> > Swap out the synchronous QEMUMonitorProtocol from qemu.qmp with the sync
-> > wrapper from qemu.aqmp instead.
-> >
-> > Add an escape hatch in the form of the environment variable
-> > QEMU_PYTHON_LEGACY_QMP which allows you to cajole QEMUMachine into using
-> > the old interface, proving that both implementations work concurrently.
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >   python/qemu/machine/machine.py | 7 ++++++-
-> >   1 file changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/python/qemu/machine/machine.py
-> b/python/qemu/machine/machine.py
-> > index 8f5a6649e5..6b005dd5d1 100644
-> > --- a/python/qemu/machine/machine.py
-> > +++ b/python/qemu/machine/machine.py
-> > @@ -41,7 +41,6 @@
-> >   )
-> >
-> >   from qemu.qmp import (  # pylint: disable=import-error
-> > -    QEMUMonitorProtocol,
-> >       QMPMessage,
-> >       QMPReturnValue,
-> >       SocketAddrT,
-> > @@ -50,6 +49,12 @@
-> >   from . import console_socket
-> >
-> >
-> > +if os.environ.get('QEMU_PYTHON_LEGACY_QMP'):
-> > +    from qemu.qmp import QEMUMonitorProtocol
-> > +else:
-> > +    from qemu.aqmp.legacy import QEMUMonitorProtocol
-> > +
-> > +
-> >   LOG = logging.getLogger(__name__)
->
-> Black magic.
->
-> Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-> Tested-by: Hanna Reitz <hreitz@redhat.com>
->
->
-Thanks for taking a look! Sorry for making you look at python :)
+Then describe:
 
---000000000000eda41505cc321f59
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Similar to the equivalent linux-user commit e6deac9cf99, ...
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 17, 2021 at 10:40 AM Hann=
-a Reitz &lt;<a href=3D"mailto:hreitz@redhat.com">hreitz@redhat.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 17.09.=
-21 07:40, John Snow wrote:<br>
-&gt; Swap out the synchronous QEMUMonitorProtocol from qemu.qmp with the sy=
-nc<br>
-&gt; wrapper from qemu.aqmp instead.<br>
-&gt;<br>
-&gt; Add an escape hatch in the form of the environment variable<br>
-&gt; QEMU_PYTHON_LEGACY_QMP which allows you to cajole QEMUMachine into usi=
-ng<br>
-&gt; the old interface, proving that both implementations work concurrently=
-.<br>
-&gt;<br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0python/qemu/machine/machine.py | 7 ++++++-<br>
-&gt;=C2=A0 =C2=A01 file changed, 6 insertions(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/mach=
-ine.py<br>
-&gt; index 8f5a6649e5..6b005dd5d1 100644<br>
-&gt; --- a/python/qemu/machine/machine.py<br>
-&gt; +++ b/python/qemu/machine/machine.py<br>
-&gt; @@ -41,7 +41,6 @@<br>
-&gt;=C2=A0 =C2=A0)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0from qemu.qmp import (=C2=A0 # pylint: disable=3Dimport-er=
-ror<br>
-&gt; -=C2=A0 =C2=A0 QEMUMonitorProtocol,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0QMPMessage,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0QMPReturnValue,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0SocketAddrT,<br>
-&gt; @@ -50,6 +49,12 @@<br>
-&gt;=C2=A0 =C2=A0from . import console_socket<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +if os.environ.get(&#39;QEMU_PYTHON_LEGACY_QMP&#39;):<br>
-&gt; +=C2=A0 =C2=A0 from qemu.qmp import QEMUMonitorProtocol<br>
-&gt; +else:<br>
-&gt; +=C2=A0 =C2=A0 from qemu.aqmp.legacy import QEMUMonitorProtocol<br>
-&gt; +<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0LOG =3D logging.getLogger(__name__)<br>
-<br>
-Black magic.<br>
-<br>
-Reviewed-by: Hanna Reitz &lt;<a href=3D"mailto:hreitz@redhat.com" target=3D=
-"_blank">hreitz@redhat.com</a>&gt;<br>
-Tested-by: Hanna Reitz &lt;<a href=3D"mailto:hreitz@redhat.com" target=3D"_=
-blank">hreitz@redhat.com</a>&gt;<br>
-<br></blockquote><div><br></div><div>Thanks for taking a look! Sorry for ma=
-king you look at python :) <br></div><div><br></div></div></div>
+> 
+> When mapping MAP_ANONYMOUS memory fragments, still need notice about to
+> set it zero, or it will cause issues.
+> 
+> Signed-off-by: Chen Gang <gang.chen.5i5j@gmail.com>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
 
---000000000000eda41505cc321f59--
+^ These tags were for another file, not this one, please
+remove them.
+
+> [ bsd-user merge by Mikaël Urankar, updated for untagged by Warner Losh ]
+> Signed-off-by: Mikaël Urankar <mikael.urankar@gmail.com>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>  bsd-user/mmap.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c
+> index b40ab9045f..fc3c1480f5 100644
+> --- a/bsd-user/mmap.c
+> +++ b/bsd-user/mmap.c
+> @@ -180,10 +180,12 @@ static int mmap_frag(abi_ulong real_start,
+>          if (prot_new != (prot1 | PROT_WRITE))
+>              mprotect(host_start, qemu_host_page_size, prot_new);
+>      } else {
+> -        /* just update the protection */
+>          if (prot_new != prot1) {
+>              mprotect(host_start, qemu_host_page_size, prot_new);
+>          }
+> +        if (prot_new & PROT_WRITE) {
+> +            memset(g2h_untagged(start), 0, end - start);
+> +        }
+>      }
+>      return 0;
+>  }
+> 
 
 
