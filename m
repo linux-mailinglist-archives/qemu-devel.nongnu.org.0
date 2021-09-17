@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D2440F293
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 08:43:38 +0200 (CEST)
-Received: from localhost ([::1]:33982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8DE40F2F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 09:16:23 +0200 (CEST)
+Received: from localhost ([::1]:43182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mR7az-0004sY-3L
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 02:43:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56952)
+	id 1mR86f-0004BI-PR
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 03:16:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mR7Zk-00040Y-7m
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 02:42:20 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:43757)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mR7Zh-0004Rc-8o
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 02:42:20 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id n10so25480076eda.10
- for <qemu-devel@nongnu.org>; Thu, 16 Sep 2021 23:42:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mRucfBE3m0jS7yCA991+lKESEKC9rkLrp76UAzTUenY=;
- b=mt21cTCGQQJ87F+IBfXXO7x8n/6K5OP7nzGzKDoG3ZN0eG5UpZsj1NVSU/c7UAeFJn
- GDX4hkHM1cof57M+jhlsuyOYtyJsc6ZebcWyI0sWY0mW33DPxIWDuSIGES3rUn2z3Rd2
- ISiHw+iwslj1owwHqb3q9JqRfvFZUSocDz6x/CCPOSeyN90bnLp7RzJvwz2oBOJm/94q
- i/2MCeWVNf8VotaCo5PkVK6O1lXYGSfyBKlkLqYvGRDZNLCGPfjpz2+av25nlAAGEHEr
- d0H/trYnv5+bOPmAzj/HqU4pJF71X722TLIG4DNpy7t2zSht3qK+0sn2vHUzBp9jO/tA
- 0alg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mRucfBE3m0jS7yCA991+lKESEKC9rkLrp76UAzTUenY=;
- b=ghscyBsL3DBG/nakKQP6PbK9BAs8/ravMh7LmyNITlumfyuIhAhp7VrzpOrb0Nu4oA
- Babgpnyzv352a4ydn105yOdySINjodgi+2nFLM8NTU+R6S+hDJx+EVHjA0F7HkNY6Rfd
- vo4Mgf0oWPurq/yqk5JhdzXZAq1qbHGLF8DoSNUP2BFsCUrCOR7l/o2ShjaU90pRLncl
- IWiwMhtcWwNnOwlJChBQ6oAhzoDG7CyuKWMIrI4W7Wde4V6fl4v/jjGWqHdHKHBrlhYP
- p+oFKBU89geUI4ri1o8zPc/MJOylZfTLYwJ7FRNcRjfqu61cTwUfhjRMqkpgN2qDS6wo
- mRbA==
-X-Gm-Message-State: AOAM533RuFNXEeTdtJml4i4V6/gn7BDBWs6Rl3B1n/8bxuh2l6WM3Zem
- JbsjG8vzjpKgvtsfa1t9O17eUjoO75SJGyGHxf+7Dg==
-X-Google-Smtp-Source: ABdhPJy+ihFP1SOEfXGL/WWr38Q8lmNq16189Sg2imTPnQ9baHK5lR+msBK7pcylotDz9Q7xOTMIjNOFAJHh3g7yh4s=
-X-Received: by 2002:a17:906:d045:: with SMTP id
- bo5mr10539111ejb.461.1631860934107; 
- Thu, 16 Sep 2021 23:42:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mR84c-0003Uh-So
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 03:14:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52805)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mR84a-0006kP-Dz
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 03:14:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631862848;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=09dK/3DhcHQnOHNwcX8SlX+jZnYGaLmlpvltpHB/QZE=;
+ b=LqlKU4RF0ezzgq49CmXFL7Zko/ISmrrYulCHejl3kTNWRk5rV3pyhXgsjjMf6LSYaf9mo5
+ IIQjo7Z7M3iGJPEcLf3HQP/27U9pEdRcxWCqAabmLyseS8U+WPEIBXQyXW0mHGNc0pyfO6
+ 6+T8DOzJC3J5JSjjTA7ygq3QRQbfNYU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-9jBKljE_Ph2Hx1la0izlYw-1; Fri, 17 Sep 2021 03:14:07 -0400
+X-MC-Unique: 9jBKljE_Ph2Hx1la0izlYw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1B55100F969;
+ Fri, 17 Sep 2021 07:14:06 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 491C277F29;
+ Fri, 17 Sep 2021 07:14:06 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 86C4218000A9; Fri, 17 Sep 2021 09:14:04 +0200 (CEST)
+Date: Fri, 17 Sep 2021 09:14:04 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Jose R. Ziviani" <jziviani@suse.de>
+Subject: Re: [PATCH 1/2] meson: introduce modules_arch
+Message-ID: <20210917071404.efhv3tlnad2ezz3e@sirius.home.kraxel.org>
+References: <20210917012904.26544-1-jziviani@suse.de>
+ <20210917012904.26544-2-jziviani@suse.de>
 MIME-Version: 1.0
-References: <20210916132838.3469580-1-ani@anisinha.ca>
- <20210916185427-mutt-send-email-mst@kernel.org>
- <alpine.DEB.2.22.394.2109171002510.3487658@anisinha-lenovo>
-In-Reply-To: <alpine.DEB.2.22.394.2109171002510.3487658@anisinha-lenovo>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Fri, 17 Sep 2021 12:12:03 +0530
-Message-ID: <CAARzgwzSR7K2NzgpvuS7gZ_AEKzkoFsfFkNi3pXz1AiP66RJYA@mail.gmail.com>
-Subject: Re: hw/i386/acpi: fix conflicting IO address range for acpi pci
- hotplug in q35
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::52d;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210917012904.26544-2-jziviani@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,89 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-stable@nongnu.org
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 17, 2021 at 10:11 AM Ani Sinha <ani@anisinha.ca> wrote:
->
->
->
-> On Thu, 16 Sep 2021, Michael S. Tsirkin wrote:
->
-> > On Thu, Sep 16, 2021 at 06:58:35PM +0530, Ani Sinha wrote:
-> > > Here's sending v2.
-> > >
-> > > changelog :
-> > > v1: original patch.
-> > > v2: typo fixed. reviewed-by tags added.
-> >
-> >
-> > Thanks, tagged!
-> > Ani pls make sure the voer letter in the series has
-> > subject
-> >
-> > [PATCH 0/3] hw/i386/acpi: fix conflicting IO address range for acpi pci
-> >  hotplug in q35
-> >
-> >
-> > using --cover-letter with git format-patch will do this automatically.
-> >
-> > It will also include diffstat and other useful info.
->
-> Ah I see. I was wondering about this few days back because I saw a
-> patchset with diffstat etc. I use git send-email --cover -v2 -3 -cc
-> --cc-cmd etc. I did not realize that git format-patch also has similar
-> options and adds more info to the cover letter. I wonder why the behavior
-> is different between them.  Also --cc-cmd is missing in format-patch!
+  Hi,
 
-Also note that checkpatch.pl can be run without spitting out the
-patches in separate files:
+> This variable keeps track of all modules enabled for a target
+> architecture. This will be used in modinfo to refine the
+> architectures that can really load the .so to avoid errors.
 
-./scripts/checkpatch.pl HEAD~3..HEAD
-1/3 Checking commit 0a4f1a3d8733 (bios-tables-test: allow changes in
-DSDT ACPI tables for q35)
-total: 0 errors, 0 warnings, 12 lines checked
+I think this is the wrong approach.  The reason why modules are
+not loading is typically *not* the architecture, but a feature
+or subsystem the device needs not being compiled in.  Often the
+subsystem is a bus (pci, usb, ccw), but there are also other
+cases (virtio, vga).
 
-Patch 1/3 has no obvious style problems and is ready for submission.
-2/3 Checking commit 5adcc9e39e6a (hw/i386/acpi: fix conflicting IO
-address range for acpi pci hotplug in q35)
-total: 0 errors, 0 warnings, 8 lines checked
+We can stick that into modinfo, simliar to module_dep() but for bits
+provided by core qemu instead of other modules.  i.e. add something
+along the lines of ...
 
-Patch 2/3 has no obvious style problems and is ready for submission.
-3/3 Checking commit 5e0a8181d2d9 (bios-tables-test: Update ACPI DSDT
-table golden blobs for q35)
-total: 0 errors, 0 warnings, 1 lines checked
+	module_need(BUS_PCI);
 
-Patch 3/3 has no obvious style problems and is ready for submission.
+... to the modules, store that in modinfo and check it before trying
+to load.
 
-So I guess the workflow should always be :
-1) use git format-patch -o <dir>
-2) run checkpatch on patches in dir
-3) git send-email dir/*.patch
+That would also allow to remove hacks like commit 2dd9d8cfb4f3 ("s390x:
+add have_virtio_ccw")
 
->
-> Was this an essential complexity or accidental one :-)
->
->
->
-> >
-> >
-> > > This issue has been reported here:
-> > > https://gitlab.com/qemu-project/qemu/-/issues/561
-> > >
-> > > We have disucssed this issue at length here:
-> > > https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg02146.html
-> > >
-> > > This issue affects Qemu version 6.1.
-> > >
-> > > Patch 1 : allows q35 DSDT table changes.
-> > > Patch 2 : actual fix.
-> > > Patch 3: updates DSDT table blobs.
-> > >
-> > >
-> >
-> >
+take care,
+  Gerd
+
 
