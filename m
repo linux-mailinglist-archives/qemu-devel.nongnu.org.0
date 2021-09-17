@@ -2,69 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 444EE40F566
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 11:57:03 +0200 (CEST)
-Received: from localhost ([::1]:40522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0FF40F56D
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 11:59:37 +0200 (CEST)
+Received: from localhost ([::1]:44266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRAcA-0006qe-CE
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 05:57:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33632)
+	id 1mRAee-0001CD-S5
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 05:59:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mRAZq-0005Hs-H7
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 05:54:38 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:43987)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mRAZo-0000F6-I8
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 05:54:38 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- a194-20020a1c98cb000000b0030b41ac389fso1740516wme.2
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 02:54:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bLxx2IwOwRvPhr3v6Do21piRFPMqHmHiGLdYe501Q+w=;
- b=PGEYZVJ7yq9e8hVBj1Fh0OLjFQCwwfD+lP8YDzDpgg1l7fOBTT+PwSGK7EWIiDZ+jw
- oa42gIaCocUoZHJDp67PUtLCZJ3lK9M/jpfwDJ910CQ8bkQOXHxEjZ3ol9V7V3AYai4a
- 1LDjUHvVflxdgaMySJKPdDoSDFwcxIVoGx/OetfMB1hYSYujO4+XoNb8ALxw3h1m01OW
- L2qN9sshMnG3s5uRuF4LWZIpcUPHqSWsL7PQZSz/+O0qnJTqA7KFSQaANl2WhSOElz7a
- zxI31qVeocTljKdcjcSt861qXCStSOIzXf5xAB/JYo33cNUkbK3FVf75x/JFBNjAvY1O
- x/Jw==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRAdl-0000MI-0T
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 05:58:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37815)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRAdd-0004UH-QX
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 05:58:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631872711;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1pDGVjEov/tqrXg73Xxf6WX6KCXqfUcFa0/herRzY/A=;
+ b=fB1vES4JbnR4LPpo3/9Ut7NIOJdzaosNNp+O4X6xW5BzcgY7990f/KJ8gClNV1jOVHbGKR
+ m3YO45LMZLwZZw5QQI9YgbOXGcLUj5ivgD/7F1HwlLc+QyZhBbqREUMOAp2d/HCQSa2Wln
+ qMeVWEjL8vAcbZKmSNZHNP7IFJXsCek=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-322-zfCGWychOQKpf50kybP0LA-1; Fri, 17 Sep 2021 05:58:30 -0400
+X-MC-Unique: zfCGWychOQKpf50kybP0LA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ h5-20020a5d6885000000b0015e21e37523so3523976wru.10
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 02:58:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bLxx2IwOwRvPhr3v6Do21piRFPMqHmHiGLdYe501Q+w=;
- b=1foW2bTQkBgHRNTxQTFT+Hpkh6Cyp6XowbUtRFjNJzmvUymZs5nIB6YtPEs2OwwQWk
- xzunDAhauClxnka+Lgz79RhlqW4XU8sv7q/nLAZBjoWT+zEwViPoHEEcnRr7+hDN6n2Y
- mSrHeiaeORqPBe5/k26YD6qCwhx83zBBB5ByxFAjJxf8wvvBbxlbRDMCJcbdVHsNd7Os
- 7Eio27wbQ/0NnhxCkAoBmnHRcD4hieM8oZoAK55kAcp/mu6X2z/d6WL+buu6VQvPk/XP
- LCAtfvX1jLl5sa5ND8BQGXPiu0QRWWYMpUPzNKn03JcP0HdsKVyQZ+aAd0N4bGJApSXN
- FsnQ==
-X-Gm-Message-State: AOAM532zTgQ0Kx9Xk9H79X+Vaigvxygz51/UCcVaY8b1TLANumxJjvz5
- sHVPJh4MvRuyow8eMbK+T8jKAzVY13l5qCEcp2o=
-X-Google-Smtp-Source: ABdhPJy2N+ZyEEOWsm6O79Z9xZ4DZiaLaUMlFCwCepAuNhTyM9xJBDSPFiKHB7xtgaX/fZwivX1YfdV5mMQZ/8KH1A4=
-X-Received: by 2002:a1c:f206:: with SMTP id s6mr14067867wmc.15.1631872474103; 
- Fri, 17 Sep 2021 02:54:34 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=1pDGVjEov/tqrXg73Xxf6WX6KCXqfUcFa0/herRzY/A=;
+ b=NMHi/boqLdDxhPkvyPuQ2j7EIXYGs6IHd/OcHByKiVR6yTm6CR0EjW2Bt79x9zR5JA
+ HG+ChF4au8AMsA9hpF2YWN7iuvCQOdE30cOEzXS7GB5SXRxRlOb1ldaoxt+vnDWV7xtX
+ 73/Rya1eXqkHQ4Il28mlFUTif38T1nEJdi2tgqHsmZxseO+tDTiOY8RtvWDqBEH4Tbxq
+ 1L3OCl4JrRCyEwDnSc3NpyZjTe/P4Tk2miYfTLLoHofl9cYwDmlLs/QG2HsXodI7jHCc
+ BgsNfU1WEzkeiS+NQvpsivUx05+u1Hn0Ktz76kmDvr3hHQLWw/rAiYbIZLUh9yaysQhc
+ YYBQ==
+X-Gm-Message-State: AOAM532jUZyhDfn+Oq8/gL5EnSoGCaZSqgMaCEed5w4rTne27vlpCm90
+ /gifGvnp9J+Jj1mWPuOLM4avmd3AxIMYAon4UTmOKKWHHvOtwAK4X8oowvm8gBOn2CIAvNuJHC1
+ emaJpycy8Rn2buYQ=
+X-Received: by 2002:a7b:c3cc:: with SMTP id t12mr14179910wmj.68.1631872709410; 
+ Fri, 17 Sep 2021 02:58:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyqqtn4+6JH4ex4EFbHtounf+IQNRAKBQc4He2qNkDhisEuWKAJtE71VH0yajdfXbu9xmjz3g==
+X-Received: by 2002:a7b:c3cc:: with SMTP id t12mr14179895wmj.68.1631872709284; 
+ Fri, 17 Sep 2021 02:58:29 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id k17sm6166396wrq.7.2021.09.17.02.58.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Sep 2021 02:58:29 -0700 (PDT)
+Subject: Re: [PATCH v3 08/16] iotests/297: Create main() function
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20210916040955.628560-1-jsnow@redhat.com>
+ <20210916040955.628560-9-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <228a72dd-4657-8ff4-b48a-c797ae3aeda6@redhat.com>
+Date: Fri, 17 Sep 2021 11:58:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <YURYvaOpya498Xx2@yekko> <87k0jfh88i.fsf@redhat.com>
-In-Reply-To: <87k0jfh88i.fsf@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 17 Sep 2021 13:54:22 +0400
-Message-ID: <CAJ+F1CJJvqVQrG5iPXV2s7oLbduHfAhHs0pHdZ8XbxLkNi42VQ@mail.gmail.com>
-Subject: Re: Rust in Qemu BoF followup: Rust vs. qemu platform support
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000023433305cc2deb03"
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210916040955.628560-9-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.488, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,180 +98,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU <qemu-devel@nongnu.org>, hreitz@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000023433305cc2deb03
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Fri, Sep 17, 2021 at 1:19 PM Cornelia Huck <cohuck@redhat.com> wrote:
-
-> On Fri, Sep 17 2021, David Gibson <david@gibson.dropbear.id.au> wrote:
+On 16.09.21 06:09, John Snow wrote:
+> Instead of running "run_linters" directly, create a main() function that
+> will be responsible for environment setup, leaving run_linters()
+> responsible only for execution of the linters.
 >
-> > Hi all,
-> >
-> > At the qemu-in-rust BoF at KVM Forum, I volunteered to look into
-> > whether Rust supported all the host/build platforms that qemu does,
-> > which is obviously vital if we want to make Rust a non-optional
-> > component of the build.
-> >
-> > I've added the information to our wiki at:
-> >       https://wiki.qemu.org/RustInQemu
+> (That environment setup will be moved over in forthcoming commits.)
 >
-> Thank you for doing that!
->
->
-Yes, the condensed coloured matrix is much more readable than the Rust long
-list. I wonder if they would also adopt it :)
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/297 | 12 ++++++++----
+>   1 file changed, 8 insertions(+), 4 deletions(-)
 
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
-> >
-> > TBH, the coverage is not as good as I expected.  Linux, macOS and
-> > Windows are pretty much ok, with the exception of Linux on Sparc.
-> > There are a lot of gaps in *BSD support, however.
->
-> Yes :(
->
-
-Can we say reasonably that QEMU is supported on *BSD other than x86 (and
-aarch64?), I wonder. Maybe we should consider moving those under the
-unsupported rank.
-
-
->
-> Do we actually have an idea what we would require? I'm surprised that
-> there are so many targets without host tools or without std support (but
-> maybe they are only missing small things.)
->
-
-For sparc 32, it was added to support Gentoo at that time which didn't
-switch to 64-bit yet (https://github.com/rust-lang/rust/pull/48297)
-
-For the past 2-3y, Gentoo sparc is now 64 bit. (like Debian apparently for
-a while)
-
-But apparently, by lack of CI it was downgraded to Tier-3.
-
-Is it reasonable to officially drop support for sparc 32 in QEMU too?
-
-
-> >
-> > I've included some notes on where the information comes from, and some
-> > uncertainties in there.
-> >
-> > I've made an effort to get the information correct, but double
-> > checking would be appreciated.
->
-> I did not spot any errors on a quick cross check, but I'm not really
-> sure about what the BSDs support.
->
-> >
-> > I haven't yet looked into the packaging situation for the Rust
-> > toolchain on various platforms and distros, but I still intend to do
-> > so.
->
->
->
-I would share our wiki page on r/rust if you don't mind, as there are
-various people that can help us fill the gaps I think.
-
-Thanks
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000023433305cc2deb03
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 17, 2021 at 1:19 PM Cor=
-nelia Huck &lt;<a href=3D"mailto:cohuck@redhat.com">cohuck@redhat.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri=
-, Sep 17 2021, David Gibson &lt;<a href=3D"mailto:david@gibson.dropbear.id.=
-au" target=3D"_blank">david@gibson.dropbear.id.au</a>&gt; wrote:<br>
-<br>
-&gt; Hi all,<br>
-&gt;<br>
-&gt; At the qemu-in-rust BoF at KVM Forum, I volunteered to look into<br>
-&gt; whether Rust supported all the host/build platforms that qemu does,<br=
->
-&gt; which is obviously vital if we want to make Rust a non-optional<br>
-&gt; component of the build.<br>
-&gt;<br>
-&gt; I&#39;ve added the information to our wiki at:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://wiki.qemu.org/RustInQemu"=
- rel=3D"noreferrer" target=3D"_blank">https://wiki.qemu.org/RustInQemu</a><=
-br>
-<br>
-Thank you for doing that!<br>
-<br></blockquote><div><br></div><div>Yes, the condensed coloured matrix is =
-much more readable than the Rust long list. I wonder if they would also ado=
-pt it :)<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-&gt;<br>
-&gt; TBH, the coverage is not as good as I expected.=C2=A0 Linux, macOS and=
-<br>
-&gt; Windows are pretty much ok, with the exception of Linux on Sparc.<br>
-&gt; There are a lot of gaps in *BSD support, however.<br>
-<br>
-Yes :(<br></blockquote><div><br></div><div>Can we say reasonably that QEMU =
-is supported on *BSD other than x86 (and aarch64?), I wonder. Maybe we shou=
-ld consider moving those under the unsupported rank.<br></div><div>=C2=A0</=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Do we actually have an idea what we would require? I&#39;m surprised that<b=
-r>
-there are so many targets without host tools or without std support (but<br=
->
-maybe they are only missing small things.)<br></blockquote><div><br></div><=
-div>For sparc 32, it was added to support Gentoo at that time which didn&#3=
-9;t switch to 64-bit yet (<a href=3D"https://github.com/rust-lang/rust/pull=
-/48297">https://github.com/rust-lang/rust/pull/48297</a>)</div><div><br></d=
-iv><div>For the past 2-3y, Gentoo sparc is now 64 bit. (like Debian apparen=
-tly for a while)<br></div><div><br></div><div>But apparently, by lack of CI=
- it was downgraded to Tier-3.</div><div><br></div><div>Is it reasonable to =
-officially drop support for sparc 32 in QEMU too?<br></div><div><br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt;<br>
-&gt; I&#39;ve included some notes on where the information comes from, and =
-some<br>
-&gt; uncertainties in there.<br>
-&gt;<br>
-&gt; I&#39;ve made an effort to get the information correct, but double<br>
-&gt; checking would be appreciated.<br>
-<br>
-I did not spot any errors on a quick cross check, but I&#39;m not really<br=
->
-sure about what the BSDs support.<br>
-<br>
-&gt;<br>
-&gt; I haven&#39;t yet looked into the packaging situation for the Rust<br>
-&gt; toolchain on various platforms and distros, but I still intend to do<b=
-r>
-&gt; so.<br>
-<br>
-<br>
-</blockquote></div><div><br></div><div>I would share our wiki page on r/rus=
-t if you don&#39;t mind, as there are various people that can help us fill =
-the gaps I think.</div><div><br></div><div>Thanks<br></div><br>-- <br><div =
-dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div=
->
-
---00000000000023433305cc2deb03--
 
