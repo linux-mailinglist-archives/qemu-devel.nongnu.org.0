@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D3B40F3D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 10:11:12 +0200 (CEST)
-Received: from localhost ([::1]:55728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB8B140F3DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 10:12:49 +0200 (CEST)
+Received: from localhost ([::1]:57856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mR8xj-00022A-Ej
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 04:11:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38944)
+	id 1mR8zJ-0003Wf-19
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 04:12:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mR8fR-0006UT-6N
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 03:52:17 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41798
+ id 1mR8fY-0006aO-K3
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 03:52:25 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41810
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mR8fO-0005yW-0F
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 03:52:16 -0400
+ id 1mR8fW-00064h-15
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 03:52:23 -0400
 Received: from host109-153-84-64.range109-153.btcentralplus.com
  ([109.153.84.64] helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mR8f5-0007Od-Fm; Fri, 17 Sep 2021 08:51:59 +0100
+ id 1mR8fE-0007Od-2d; Fri, 17 Sep 2021 08:52:07 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Fri, 17 Sep 2021 08:50:55 +0100
-Message-Id: <20210917075057.20924-19-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 17 Sep 2021 08:50:57 +0100
+Message-Id: <20210917075057.20924-21-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210917075057.20924-1-mark.cave-ayland@ilande.co.uk>
 References: <20210917075057.20924-1-mark.cave-ayland@ilande.co.uk>
@@ -38,7 +38,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.84.64
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v4 18/20] nubus: add support for slot IRQs
+Subject: [PATCH v4 20/20] q800: configure nubus available slots for Quadra 800
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,87 +64,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Each Nubus slot has an IRQ line that can be used to request service from the
-CPU. Connect the IRQs to the Nubus bridge so that they can be wired up using qdev
-gpios accordingly, and introduce a new nubus_set_irq() function that can be used
-by Nubus devices to control the slot IRQ.
+Slot 0x9 is reserved for use by the in-built framebuffer whilst only slots
+0xc, 0xd and 0xe physically exist on the Quadra 800.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/nubus/nubus-bridge.c  | 2 ++
- hw/nubus/nubus-device.c  | 8 ++++++++
- include/hw/nubus/nubus.h | 6 ++++++
- 3 files changed, 16 insertions(+)
+ hw/m68k/q800.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/hw/nubus/nubus-bridge.c b/hw/nubus/nubus-bridge.c
-index 2c7c4ee121..0366d925a9 100644
---- a/hw/nubus/nubus-bridge.c
-+++ b/hw/nubus/nubus-bridge.c
-@@ -19,6 +19,8 @@ static void nubus_bridge_init(Object *obj)
-     NubusBus *bus = &s->bus;
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index fbc45a301f..63f42764eb 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -78,6 +78,13 @@
  
-     qbus_create_inplace(bus, sizeof(s->bus), TYPE_NUBUS_BUS, DEVICE(s), NULL);
+ #define MAC_CLOCK  3686418
+ 
++/*
++ * Slot 0x9 is reserved for use by the in-built framebuffer whilst only
++ * slots 0xc, 0xd and 0xe physically exist on the Quadra 800
++ */
++#define Q800_NUBUS_SLOTS_AVAILABLE    (BIT(0x9) | BIT(0xc) | BIT(0xd) | \
++                                       BIT(0xe))
 +
-+    qdev_init_gpio_out(DEVICE(s), bus->irqs, NUBUS_IRQS);
- }
+ /*
+  * The GLUE (General Logic Unit) is an Apple custom integrated circuit chip
+  * that performs a variety of functions (RAM management, clock generation, ...).
+@@ -392,6 +399,8 @@ static void q800_init(MachineState *machine)
+     /* NuBus */
  
- static Property nubus_bridge_properties[] = {
-diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
-index 9cecb487a1..4856e81991 100644
---- a/hw/nubus/nubus-device.c
-+++ b/hw/nubus/nubus-device.c
-@@ -10,12 +10,20 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/datadir.h"
-+#include "hw/irq.h"
- #include "hw/loader.h"
- #include "hw/nubus/nubus.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- 
- 
-+void nubus_set_irq(NubusDevice *nd, int level)
-+{
-+    NubusBus *nubus = NUBUS_BUS(qdev_get_parent_bus(DEVICE(nd)));
-+
-+    qemu_set_irq(nubus->irqs[nd->slot], level);
-+}
-+
- static void nubus_device_realize(DeviceState *dev, Error **errp)
- {
-     NubusBus *nubus = NUBUS_BUS(qdev_get_parent_bus(dev));
-diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
-index cf9a585a91..1c487f74ac 100644
---- a/include/hw/nubus/nubus.h
-+++ b/include/hw/nubus/nubus.h
-@@ -25,6 +25,8 @@
- #define NUBUS_FIRST_SLOT      0x0
- #define NUBUS_LAST_SLOT       0xf
- 
-+#define NUBUS_IRQS            16
-+
- #define TYPE_NUBUS_DEVICE "nubus-device"
- OBJECT_DECLARE_SIMPLE_TYPE(NubusDevice, NUBUS_DEVICE)
- 
-@@ -44,6 +46,8 @@ struct NubusBus {
-     MemoryRegion slot_io;
- 
-     uint32_t slot_available_mask;
-+
-+    qemu_irq irqs[NUBUS_IRQS];
- };
- 
- #define NUBUS_DECL_ROM_MAX_SIZE    (128 * KiB)
-@@ -59,6 +63,8 @@ struct NubusDevice {
-     MemoryRegion decl_rom;
- };
- 
-+void nubus_set_irq(NubusDevice *nd, int level);
-+
- struct NubusBridge {
-     SysBusDevice parent_obj;
- 
+     dev = qdev_new(TYPE_MAC_NUBUS_BRIDGE);
++    qdev_prop_set_uint32(dev, "slot-available-mask",
++                         Q800_NUBUS_SLOTS_AVAILABLE);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 9 * NUBUS_SUPER_SLOT_SIZE);
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 1, NUBUS_SLOT_BASE +
 -- 
 2.20.1
 
