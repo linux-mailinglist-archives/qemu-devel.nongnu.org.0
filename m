@@ -2,70 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522D340F482
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 11:08:23 +0200 (CEST)
-Received: from localhost ([::1]:37928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E38A40F489
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 11:09:39 +0200 (CEST)
+Received: from localhost ([::1]:40272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mR9r4-0008Uo-Ch
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 05:08:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52414)
+	id 1mR9sI-0001eT-5H
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 05:09:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mR9p0-0006RY-6W
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 05:06:14 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:38590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mR9ot-0000XS-GE
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 05:06:13 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- j134-20020a1c238c000000b0030b32367649so3025660wmj.3
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 02:06:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EWX7LtfbvUbZhOcMQaMQrtguuDZy1PSNR0PZwkGe/+8=;
- b=SwqPtWlBJodXjZekKQzy6qPvUdnS6tXV+5AFCiUoCgl+VZN9NYXxFoNir4b++8lSWo
- z+858Orzi/eKPN+cFifl2R4gqX68/dENHyAj/eLFNuOH33MxfJp2D1DmmiM4BD4cHTyU
- q4tV20EII+PxOopFRtZLeZ7MnKSrn4PkcAfhxjnAfN6NAVx+FYWkgqjuNwlYbgIDkAga
- 47KJzbNVU0V5XFXwDvzJVOOzumOxhlf/d9Vfs36hYOnbruQuuLHmyeOemVt1wlLibmN2
- nQnfxWuP7IDYw+/w22uB+4kmrAx8eyEMNWik5pLHFBIrWvodRoz0q5z2l8wq8+oY3iXW
- 7Z1w==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mR9qv-0000Py-Bh
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 05:08:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37695)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mR9qs-0002Ol-V4
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 05:08:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631869689;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=V5HQSopQ6f9Gj4o1Ly9Yb4R8kWw02BHdFLYsCzXQRBs=;
+ b=QZ55hushImAMWmZ9QIaQFX9d6NGvv0dQuZqGQppNQlwdNxrYlfB8lcWzoKLL5JylzmquYg
+ R8asb0Dk5139n8eaxfTNPqJhYcA57f3RYCpWPdkKSvs2F68mBY2Z+jLImxtNpG6FxDr6ik
+ hGIJ5NgXPFOHqq0r0FPo2zI92E493B0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-314-0NY8yP5vO_WbIwMBvSR_-Q-1; Fri, 17 Sep 2021 05:08:08 -0400
+X-MC-Unique: 0NY8yP5vO_WbIwMBvSR_-Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v2-20020a7bcb420000b02902e6b108fcf1so3486822wmj.8
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 02:08:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EWX7LtfbvUbZhOcMQaMQrtguuDZy1PSNR0PZwkGe/+8=;
- b=X2uq0tOMy78cWAd2kh8WUJaBPFgNEXqn1fhGMC/JTOPr3PqME9f8ZDQLiUXJGrWdYE
- qvmsHho89ouSYpxt4KKQrRjubAd6efjUCTlekpo2Wz8CiNbI2af1U8z45C+YOBeMNhQC
- vL/wvM8AyfiqBg2EOFt4FmB++MDmBy296Yo+B4Lvmna1lT1aYyPtnYwX/FmnS1MIMTy8
- CjEOVzszxR1ukNQZ+lednOd0xoKmrepxSjtSykWFymDYn/wKmR7CFtZx5B+Np+tpJMsM
- jrNMmpKRevZQYUz9QQJ6tr3nQFZmTPoR6Yck4olLzCHmutnV1ahCdZPezmhr8B18qNe0
- avxw==
-X-Gm-Message-State: AOAM530b2CW6GKyGPB+PArxZAHf/ZA12WA73zfaA6eczDR3Y92YWaROU
- X8M4WZRFm9CyyaYA99fTEhimTejLRqcZOXsVK8XnTQ==
-X-Google-Smtp-Source: ABdhPJzpTYLnxwdXU7fN+185/qhjp7UxrcTbc+T8lWx8wC/rGdAjWn8u4AT3EmstqHu3HvoC0Ia/tPl3nIbINTGklE0=
-X-Received: by 2002:a05:600c:2259:: with SMTP id
- a25mr9255187wmm.133.1631869565202; 
- Fri, 17 Sep 2021 02:06:05 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=V5HQSopQ6f9Gj4o1Ly9Yb4R8kWw02BHdFLYsCzXQRBs=;
+ b=XwplF1KB+uFdssKwztJyjPxUhwjWC5Zc/znWUj9jrgSCCKJ+lAVs03KLExJtE5SPye
+ uNmXQQKRyyju+ksRjdC5kNPoAipzsaySwSQMnmWDMri35uAj94L+IV2MeauQ7sSgdc+A
+ PfHLOy3+rPR6mANnWmtM3yU6/0h8Bn5JhqKQSdq7rn05yzuNmVR/9BOzvjBgQoxkeA5V
+ AaIPymR15p02qtWCMFfWUOUJ5cbxLHWQBImOCtPZbMGRCV4Jg4V3TRY8W+N02k6r702t
+ 5kryTNApaB+4Ej4DG+33NJX0uUjdr/w/NLAmW/WO0e2tJ691MWGt12p8PDguwhOOdRAY
+ Dldg==
+X-Gm-Message-State: AOAM531hdMdwOpQw6vkeDFWdZHHAeMmFEj3qOzr5LwuKIPbYJyKb+1Eo
+ iYC5TsfB2wKGzPo8rUc/BsEJ5TdUtxXl10yt7TWkutIomBFeSN7/h1eMUhDg0B5RFrU0LGEvOD2
+ O/yx6LUxfdtkLuNs=
+X-Received: by 2002:adf:9d47:: with SMTP id o7mr10889092wre.50.1631869687425; 
+ Fri, 17 Sep 2021 02:08:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJygubMCdPFShdicPHGufU7crmrElt4U3wPGqYnNZlQLrVG3+wgZz0tVMHPpcHwN0+U/CjviGw==
+X-Received: by 2002:adf:9d47:: with SMTP id o7mr10889070wre.50.1631869687250; 
+ Fri, 17 Sep 2021 02:08:07 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id o26sm9950976wmc.17.2021.09.17.02.08.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Sep 2021 02:08:06 -0700 (PDT)
+Subject: Re: [PATCH v3 05/16] iotests/297: modify is_python_file to work from
+ any CWD
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20210916040955.628560-1-jsnow@redhat.com>
+ <20210916040955.628560-6-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <79575288-2552-15d4-8694-db2bc2fe9347@redhat.com>
+Date: Fri, 17 Sep 2021 11:08:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210916151237.1188301-1-laurent@vivier.eu>
-In-Reply-To: <20210916151237.1188301-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 Sep 2021 10:05:13 +0100
-Message-ID: <CAFEAcA_C2JxvKOM0F9HCLciNA+THYZLP6JvRC72AJ2wBcrEqzA@mail.gmail.com>
-Subject: Re: [PULL 00/10] Linux user for 6.2 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210916040955.628560-6-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.488, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,36 +99,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Sept 2021 at 16:16, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit 7d79344d4fa44e520e6e89f8fed9a27d3d554a9b:
->
->   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-09-13 13:33:21 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu.git tags/linux-user-for-6.2-pull-request
->
-> for you to fetch changes up to 74e43b04b0260da09d14bc56a5d629d4753b8b27:
->
->   linux-user: Check lock_user result for ip_mreq_source sockopts (2021-09-16 17:04:21 +0200)
->
-> ----------------------------------------------------------------
-> Pull request linux-user 20210916
->
-> Code cleanup
->
-> ----------------------------------------------------------------
+On 16.09.21 06:09, John Snow wrote:
+> Add a directory argument to is_python_file to allow it to work correctly
+> no matter what CWD we happen to run it from. This is done in
+> anticipation of running the iotests from another directory (./python/).
 
+“the iotests” or just 297?  All of the iotests would sound like an 
+ambitious goal.
 
-Applied, thanks.
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   tests/qemu-iotests/297 | 8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
-for any user-visible changes.
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
--- PMM
 
