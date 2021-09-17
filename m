@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B764440FDFF
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 18:37:57 +0200 (CEST)
-Received: from localhost ([::1]:60464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0B7140FE1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 18:46:41 +0200 (CEST)
+Received: from localhost ([::1]:47922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRGs8-0002g6-S9
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 12:37:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35726)
+	id 1mRH0a-0005C4-Pn
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 12:46:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mRGeY-0003aO-61
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:23:54 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:36357)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mRGeW-0005dE-C1
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:23:53 -0400
-Received: by mail-wr1-x431.google.com with SMTP id g16so16074068wrb.3
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 09:23:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=GCZPVLj0653u4cTSSRRcYrTh9dJINc809P2AzsfKj0E=;
- b=lLMV/QlCkIR610MvZSHRJ50xu6QlYWL9widoi/3/+oO9WPFNnnwtG6PHldVffkJ5FR
- GGbnkOXBLlC9VUnbFXdosWeWbAdmeVd5jo97Op5YBec3x5AJ4toa/W3APUcq/kbUGS//
- zTinekuR5as0gmpIazRdKs/V7I+mYCA+3RNMtb6UyJAZOxRenmCkcjo68PJXlIscYixc
- n86AC1DaguBAZrPz/yrT3Uux7Cxa6Lo83ZKNN5CkRqVGmEi/uiAgqHRVFSoRclf+IvkJ
- SAX5XFtEXrhL7NtvxlJb4Mw/zVZgmiqOiketCZCVhd1NDI+6O3p1PpqCXdQ/TTbjdTLh
- /0pA==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mRGk0-0005ZA-Mh
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:29:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45631)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mRGjv-0001UG-5f
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:29:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631896165;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BdboGx8W84ZC6NJ45z/qxZdAkM1ckRZ0uRw9g/ecIyI=;
+ b=XfF6ekNeAzuo/EM8VKPSeksFKoOZ3tcnHe1K6h/12O+71vJgzE0D+rR0rkncPwFhyQl4hh
+ Mz4/Xcc3Mmjo4LdRxABSFnYpx+MgD8hOEdRJzy1OUqrz9NTgNY+s8tNv+ICj35c04yyyk5
+ aNCmrKY4Wk5rbO2dDbHj7wlYDkdglLk=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-529-wIWX-vmROBG4Hzw7dSi8iQ-1; Fri, 17 Sep 2021 12:29:23 -0400
+X-MC-Unique: wIWX-vmROBG4Hzw7dSi8iQ-1
+Received: by mail-oi1-f200.google.com with SMTP id
+ s1-20020a05680810c100b00268d4e0d155so34169038ois.15
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 09:29:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GCZPVLj0653u4cTSSRRcYrTh9dJINc809P2AzsfKj0E=;
- b=ulA0AS5BxIa9n6nUbHlo7weqvQRsH6aEyQegA77Ll3fsqpWraAEE33IAtugsV8kYDG
- UF1KrFXfMPidy6u4r7g0PNaG3mBc+GDiRvlHT/z+O3FxVAU9Sj9V+Ga72rUnmMd0cLpY
- 2kxcvkxfrz5ehh7w2QG9SKaATzvVdYRI13CmXP3ZotXENFgjcrEIm5SOGQyiltUpiBhO
- nRJqDvbjxnsp0jYq6JW1oE0kC12SOlJLzTntUkJ2BLqXLd1k2XylcPD2He9NpxX5alFY
- meG3EKA6HWTpfAiNs7Zi5D/AfwQ8ONojc/1j8nX2kXy9m+JAzM5sr0q4EoApP7q0WjeP
- qhVQ==
-X-Gm-Message-State: AOAM531ArHFOBXeIL/c+QwJthrrJxTFSHbefP5oxsQrxYr8TkwYMfJjG
- HXqP938lqSPoGtOKYL9Pq78Pdw==
-X-Google-Smtp-Source: ABdhPJwnWiLkzNmfyRsdYgXlflwOXv8tITuq3QrP8V5oeYAdcKK9/Rr37LN6hr7EB+v9Jli3KundKA==
-X-Received: by 2002:a5d:59a4:: with SMTP id p4mr12917545wrr.332.1631895830714; 
- Fri, 17 Sep 2021 09:23:50 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r129sm7138432wmr.7.2021.09.17.09.23.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Sep 2021 09:23:40 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2115F1FFA9;
- Fri, 17 Sep 2021 17:23:33 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 11/11] accel/tcg: re-factor plugin_inject_cb so we can
- assert insn_idx is valid
-Date: Fri, 17 Sep 2021 17:23:32 +0100
-Message-Id: <20210917162332.3511179-12-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210917162332.3511179-1-alex.bennee@linaro.org>
-References: <20210917162332.3511179-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BdboGx8W84ZC6NJ45z/qxZdAkM1ckRZ0uRw9g/ecIyI=;
+ b=Oep83L0DYG6fSBjQFHsWP1dFGuawWnuuks098/DdsNs5eFeMeac8wVExcEhcXawiON
+ 6EO/TlhtuR20ggWsfnNtBKC8iiV130V6vl32o1h2EhWoMU7c9CwnTdha4OXCIUS3pFhZ
+ 396rW65RvY8Pey1JwPZBH/GOwXxOR2W6BJUenlsnIQsaTRiRha6ISIdovFgyK1HzgcOm
+ NGvu8X1zAWG7z9HnNz9c69iqz3KiFJkxmHwnipONMFERho++5j/HOaa+HjcrnOOU+0DP
+ m39ZrlWjz3N1DUE+8WdWhiLLedMm4hoK6q5U52pBYtlfUeZGPEnIJUQhCrloNlO4TAwq
+ 9Q5w==
+X-Gm-Message-State: AOAM5332YsTp6GA/z4YxKccG66tIw/eegSYrt+E1uHQByNnd8wmhoY7l
+ ftnlH+8CTQnylmOMXVlkkrtMwN5/qx35H7jP3aks3mBZsevCG3wo+NdbrrNLzwfgWoNirQ8GoiZ
+ 4k11sEYEB+KT/X7jpgkdaHxCGLFQacW8=
+X-Received: by 2002:a05:6830:13c5:: with SMTP id
+ e5mr10035958otq.374.1631896162642; 
+ Fri, 17 Sep 2021 09:29:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyed36tyDGInVYXLfRBOmt9WWV0qjvS/29gb2qvOneRG1nxuIF+HOEoKtQyrnM9daMphBFUoVFTrEfXIeZwK8I=
+X-Received: by 2002:a05:6830:13c5:: with SMTP id
+ e5mr10035868otq.374.1631896161399; 
+ Fri, 17 Sep 2021 09:29:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210917162332.3511179-1-alex.bennee@linaro.org>
+ <20210917162332.3511179-7-alex.bennee@linaro.org>
+In-Reply-To: <20210917162332.3511179-7-alex.bennee@linaro.org>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 17 Sep 2021 12:29:10 -0400
+Message-ID: <CAFn=p-YK0KF9uAPTykb_gft7Jg6yt1JQsxVT_Ddsu9GmfYSsRw@mail.gmail.com>
+Subject: Re: [PATCH v1 06/11] python: Update for pylint 2.10
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000002f0fc05cc336fe1"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,261 +89,201 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
- berrange@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- f4bug@amsat.org, stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Cc: fam@euphon.net, Daniel Berrange <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity doesn't know enough about how we have arranged our plugin TCG
-ops to know we will always have incremented insn_idx before injecting
-the callback. Let us assert it for the benefit of Coverity and protect
-ourselves from accidentally breaking the assumption and triggering
-harder to grok errors deeper in the code if we attempt a negative
-indexed array lookup.
+--00000000000002f0fc05cc336fe1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-However to get to this point we re-factor the code and remove the
-second hand instruction boundary detection in favour of scanning the
-full set of ops and using the existing INDEX_op_insn_start to cleanly
-detect when the instruction has started. As we no longer need the
-plugin specific list of ops we delete that.
+Hi, I sent a PR for this (and an additional fix that is needed as of
+yesterday):
 
-My initial benchmarks shows no discernible impact of dropping the
-plugin specific ops list.
+https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg04477.html
 
-Fixes: Coverity 1459509
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Please drop this patch and prefer that series.
 
----
-v2/v3
-  - re-factor and drop the plugin_op/link approach
----
- include/tcg/tcg.h      |   6 --
- accel/tcg/plugin-gen.c | 157 ++++++++++++++++++++++-------------------
- 2 files changed, 85 insertions(+), 78 deletions(-)
+--js
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 44ccd86f3e..a7f6475348 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -492,9 +492,6 @@ typedef struct TCGOp {
- 
-     /* Next and previous opcodes.  */
-     QTAILQ_ENTRY(TCGOp) link;
--#ifdef CONFIG_PLUGIN
--    QSIMPLEQ_ENTRY(TCGOp) plugin_link;
--#endif
- 
-     /* Arguments for the opcode.  */
-     TCGArg args[MAX_OPC_PARAM];
-@@ -604,9 +601,6 @@ struct TCGContext {
- 
-     /* descriptor of the instruction being translated */
-     struct qemu_plugin_insn *plugin_insn;
--
--    /* list to quickly access the injected ops */
--    QSIMPLEQ_HEAD(, TCGOp) plugin_ops;
- #endif
- 
-     GHashTable *const_table[TCG_TYPE_COUNT];
-diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
-index 88e25c6df9..f145b815c0 100644
---- a/accel/tcg/plugin-gen.c
-+++ b/accel/tcg/plugin-gen.c
-@@ -163,11 +163,7 @@ static void gen_empty_mem_helper(void)
- static void gen_plugin_cb_start(enum plugin_gen_from from,
-                                 enum plugin_gen_cb type, unsigned wr)
- {
--    TCGOp *op;
--
-     tcg_gen_plugin_cb_start(from, type, wr);
--    op = tcg_last_op();
--    QSIMPLEQ_INSERT_TAIL(&tcg_ctx->plugin_ops, op, plugin_link);
- }
- 
- static void gen_wrapped(enum plugin_gen_from from,
-@@ -707,62 +703,6 @@ static void plugin_gen_disable_mem_helper(const struct qemu_plugin_tb *ptb,
-     inject_mem_disable_helper(insn, begin_op);
- }
- 
--static void plugin_inject_cb(const struct qemu_plugin_tb *ptb, TCGOp *begin_op,
--                             int insn_idx)
--{
--    enum plugin_gen_from from = begin_op->args[0];
--    enum plugin_gen_cb type = begin_op->args[1];
--
--    switch (from) {
--    case PLUGIN_GEN_FROM_TB:
--        switch (type) {
--        case PLUGIN_GEN_CB_UDATA:
--            plugin_gen_tb_udata(ptb, begin_op);
--            return;
--        case PLUGIN_GEN_CB_INLINE:
--            plugin_gen_tb_inline(ptb, begin_op);
--            return;
--        default:
--            g_assert_not_reached();
--        }
--    case PLUGIN_GEN_FROM_INSN:
--        switch (type) {
--        case PLUGIN_GEN_CB_UDATA:
--            plugin_gen_insn_udata(ptb, begin_op, insn_idx);
--            return;
--        case PLUGIN_GEN_CB_INLINE:
--            plugin_gen_insn_inline(ptb, begin_op, insn_idx);
--            return;
--        case PLUGIN_GEN_ENABLE_MEM_HELPER:
--            plugin_gen_enable_mem_helper(ptb, begin_op, insn_idx);
--            return;
--        default:
--            g_assert_not_reached();
--        }
--    case PLUGIN_GEN_FROM_MEM:
--        switch (type) {
--        case PLUGIN_GEN_CB_MEM:
--            plugin_gen_mem_regular(ptb, begin_op, insn_idx);
--            return;
--        case PLUGIN_GEN_CB_INLINE:
--            plugin_gen_mem_inline(ptb, begin_op, insn_idx);
--            return;
--        default:
--            g_assert_not_reached();
--        }
--    case PLUGIN_GEN_AFTER_INSN:
--        switch (type) {
--        case PLUGIN_GEN_DISABLE_MEM_HELPER:
--            plugin_gen_disable_mem_helper(ptb, begin_op, insn_idx);
--            return;
--        default:
--            g_assert_not_reached();
--        }
--    default:
--        g_assert_not_reached();
--    }
--}
--
- /* #define DEBUG_PLUGIN_GEN_OPS */
- static void pr_ops(void)
- {
-@@ -820,21 +760,95 @@ static void pr_ops(void)
- static void plugin_gen_inject(const struct qemu_plugin_tb *plugin_tb)
- {
-     TCGOp *op;
--    int insn_idx;
-+    int insn_idx = -1;
- 
-     pr_ops();
--    insn_idx = -1;
--    QSIMPLEQ_FOREACH(op, &tcg_ctx->plugin_ops, plugin_link) {
--        enum plugin_gen_from from = op->args[0];
--        enum plugin_gen_cb type = op->args[1];
--
--        tcg_debug_assert(op->opc == INDEX_op_plugin_cb_start);
--        /* ENABLE_MEM_HELPER is the first callback of an instruction */
--        if (from == PLUGIN_GEN_FROM_INSN &&
--            type == PLUGIN_GEN_ENABLE_MEM_HELPER) {
-+
-+    QTAILQ_FOREACH(op, &tcg_ctx->ops, link) {
-+        switch (op->opc) {
-+        case INDEX_op_insn_start:
-             insn_idx++;
-+            break;
-+        case INDEX_op_plugin_cb_start:
-+        {
-+            enum plugin_gen_from from = op->args[0];
-+            enum plugin_gen_cb type = op->args[1];
-+
-+            switch (from) {
-+            case PLUGIN_GEN_FROM_TB:
-+            {
-+                g_assert(insn_idx == -1);
-+
-+                switch (type) {
-+                case PLUGIN_GEN_CB_UDATA:
-+                    plugin_gen_tb_udata(plugin_tb, op);
-+                    break;
-+                case PLUGIN_GEN_CB_INLINE:
-+                    plugin_gen_tb_inline(plugin_tb, op);
-+                    break;
-+                default:
-+                    g_assert_not_reached();
-+                }
-+                break;
-+            }
-+            case PLUGIN_GEN_FROM_INSN:
-+            {
-+                g_assert(insn_idx >= 0);
-+
-+                switch (type) {
-+                case PLUGIN_GEN_CB_UDATA:
-+                    plugin_gen_insn_udata(plugin_tb, op, insn_idx);
-+                    break;
-+                case PLUGIN_GEN_CB_INLINE:
-+                    plugin_gen_insn_inline(plugin_tb, op, insn_idx);
-+                    break;
-+                case PLUGIN_GEN_ENABLE_MEM_HELPER:
-+                    plugin_gen_enable_mem_helper(plugin_tb, op, insn_idx);
-+                    break;
-+                default:
-+                    g_assert_not_reached();
-+                }
-+                break;
-+            }
-+            case PLUGIN_GEN_FROM_MEM:
-+            {
-+                g_assert(insn_idx >= 0);
-+
-+                switch (type) {
-+                case PLUGIN_GEN_CB_MEM:
-+                    plugin_gen_mem_regular(plugin_tb, op, insn_idx);
-+                    break;
-+                case PLUGIN_GEN_CB_INLINE:
-+                    plugin_gen_mem_inline(plugin_tb, op, insn_idx);
-+                    break;
-+                default:
-+                    g_assert_not_reached();
-+                }
-+
-+                break;
-+            }
-+            case PLUGIN_GEN_AFTER_INSN:
-+            {
-+                g_assert(insn_idx >= 0);
-+
-+                switch (type) {
-+                case PLUGIN_GEN_DISABLE_MEM_HELPER:
-+                    plugin_gen_disable_mem_helper(plugin_tb, op, insn_idx);
-+                    break;
-+                default:
-+                    g_assert_not_reached();
-+                }
-+                break;
-+            }
-+            default:
-+                g_assert_not_reached();
-+            }
-+            break;
-+        }
-+        default:
-+            /* plugins don't care about any other ops */
-+            break;
-         }
--        plugin_inject_cb(plugin_tb, op, insn_idx);
-     }
-     pr_ops();
- }
-@@ -847,7 +861,6 @@ bool plugin_gen_tb_start(CPUState *cpu, const TranslationBlock *tb, bool mem_onl
-     if (test_bit(QEMU_PLUGIN_EV_VCPU_TB_TRANS, cpu->plugin_mask)) {
-         ret = true;
- 
--        QSIMPLEQ_INIT(&tcg_ctx->plugin_ops);
-         ptb->vaddr = tb->pc;
-         ptb->vaddr2 = -1;
-         get_page_addr_code_hostp(cpu->env_ptr, tb->pc, &ptb->haddr1);
--- 
-2.30.2
+On Fri, Sep 17, 2021 at 12:23 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+
+> From: John Snow <jsnow@redhat.com>
+>
+> A few new annoyances. Of note is the new warning for an unspecified
+> encoding when opening a text file, which actually does indicate a
+> potentially real problem; see
+> https://www.python.org/dev/peps/pep-0597/#motivation
+>
+> Use LC_CTYPE to determine an encoding to use for interpreting QEMU's
+> terminal output. Note that Python states: "language code and encoding
+> may be None if their values cannot be determined" -- use a platform
+> default as a backup.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Message-Id: <20210916040955.628560-2-jsnow@redhat.com>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  python/qemu/machine/machine.py | 9 ++++++++-
+>  python/setup.cfg               | 1 +
+>  2 files changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/python/qemu/machine/machine.py
+> b/python/qemu/machine/machine.py
+> index a7081b1845..51b6e79a13 100644
+> --- a/python/qemu/machine/machine.py
+> +++ b/python/qemu/machine/machine.py
+> @@ -19,6 +19,7 @@
+>
+>  import errno
+>  from itertools import chain
+> +import locale
+>  import logging
+>  import os
+>  import shutil
+> @@ -290,8 +291,14 @@ def get_pid(self) -> Optional[int]:
+>          return self._subp.pid
+>
+>      def _load_io_log(self) -> None:
+> +        # Assume that the output encoding of QEMU's terminal output
+> +        # is defined by our locale. If indeterminate, use a platform
+> default.
+> +        _, encoding =3D locale.getlocale()
+> +        if encoding is None:
+> +            encoding =3D locale.getpreferredencoding(do_setlocale=3DFals=
+e)
+>          if self._qemu_log_path is not None:
+> -            with open(self._qemu_log_path, "r") as iolog:
+> +            with open(self._qemu_log_path, "r",
+> +                      encoding=3Dencoding) as iolog:
+>                  self._iolog =3D iolog.read()
+>
+>      @property
+> diff --git a/python/setup.cfg b/python/setup.cfg
+> index 83909c1c97..0f0cab098f 100644
+> --- a/python/setup.cfg
+> +++ b/python/setup.cfg
+> @@ -104,6 +104,7 @@ good-names=3Di,
+>  [pylint.similarities]
+>  # Ignore imports when computing similarities.
+>  ignore-imports=3Dyes
+> +ignore-signatures=3Dyes
+>
+>  # Minimum lines number of a similarity.
+>  # TODO: Remove after we opt in to Pylint 2.8.3. See commit msg.
+> --
+> 2.30.2
+>
+>
+
+--00000000000002f0fc05cc336fe1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi, I sent a PR for this (and an additional fix that =
+is needed as of yesterday):</div><div><br></div><div><a href=3D"https://lis=
+ts.gnu.org/archive/html/qemu-devel/2021-09/msg04477.html">https://lists.gnu=
+.org/archive/html/qemu-devel/2021-09/msg04477.html</a></div><div><br></div>=
+<div>Please drop this patch and prefer that series.</div><div><br></div><di=
+v>--js<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
+ail_attr">On Fri, Sep 17, 2021 at 12:23 PM Alex Benn=C3=A9e &lt;<a href=3D"=
+mailto:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">From: John Snow &lt;<a=
+ href=3D"mailto:jsnow@redhat.com" target=3D"_blank">jsnow@redhat.com</a>&gt=
+;<br>
+<br>
+A few new annoyances. Of note is the new warning for an unspecified<br>
+encoding when opening a text file, which actually does indicate a<br>
+potentially real problem; see<br>
+<a href=3D"https://www.python.org/dev/peps/pep-0597/#motivation" rel=3D"nor=
+eferrer" target=3D"_blank">https://www.python.org/dev/peps/pep-0597/#motiva=
+tion</a><br>
+<br>
+Use LC_CTYPE to determine an encoding to use for interpreting QEMU&#39;s<br=
+>
+terminal output. Note that Python states: &quot;language code and encoding<=
+br>
+may be None if their values cannot be determined&quot; -- use a platform<br=
+>
+default as a backup.<br>
+<br>
+Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"=
+_blank">jsnow@redhat.com</a>&gt;<br>
+Message-Id: &lt;<a href=3D"mailto:20210916040955.628560-2-jsnow@redhat.com"=
+ target=3D"_blank">20210916040955.628560-2-jsnow@redhat.com</a>&gt;<br>
+Reviewed-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org"=
+ target=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>
+Tested-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org" t=
+arget=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>
+Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.or=
+g" target=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>
+---<br>
+=C2=A0python/qemu/machine/machine.py | 9 ++++++++-<br>
+=C2=A0python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 1 +<br>
+=C2=A02 files changed, 9 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.p=
+y<br>
+index a7081b1845..51b6e79a13 100644<br>
+--- a/python/qemu/machine/machine.py<br>
++++ b/python/qemu/machine/machine.py<br>
+@@ -19,6 +19,7 @@<br>
+<br>
+=C2=A0import errno<br>
+=C2=A0from itertools import chain<br>
++import locale<br>
+=C2=A0import logging<br>
+=C2=A0import os<br>
+=C2=A0import shutil<br>
+@@ -290,8 +291,14 @@ def get_pid(self) -&gt; Optional[int]:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return self._subp.pid<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0def _load_io_log(self) -&gt; None:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Assume that the output encoding of QEMU&#39;=
+s terminal output<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # is defined by our locale. If indeterminate, =
+use a platform default.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 _, encoding =3D locale.getlocale()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if encoding is None:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 encoding =3D locale.getpreferred=
+encoding(do_setlocale=3DFalse)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if self._qemu_log_path is not None:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(self._qemu_log_path, &=
+quot;r&quot;) as iolog:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(self._qemu_log_path, &=
+quot;r&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 encoding=3Dencoding) as iolog:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self._iolog =
+=3D iolog.read()<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0@property<br>
+diff --git a/python/setup.cfg b/python/setup.cfg<br>
+index 83909c1c97..0f0cab098f 100644<br>
+--- a/python/setup.cfg<br>
++++ b/python/setup.cfg<br>
+@@ -104,6 +104,7 @@ good-names=3Di,<br>
+=C2=A0[pylint.similarities]<br>
+=C2=A0# Ignore imports when computing similarities.<br>
+=C2=A0ignore-imports=3Dyes<br>
++ignore-signatures=3Dyes<br>
+<br>
+=C2=A0# Minimum lines number of a similarity.<br>
+=C2=A0# TODO: Remove after we opt in to Pylint 2.8.3. See commit msg.<br>
+-- <br>
+2.30.2<br>
+<br>
+</blockquote></div></div>
+
+--00000000000002f0fc05cc336fe1--
 
 
