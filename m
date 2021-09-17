@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A4F40FB50
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 17:06:34 +0200 (CEST)
-Received: from localhost ([::1]:54806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9716840FB49
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 17:06:20 +0200 (CEST)
+Received: from localhost ([::1]:54562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRFRh-0004Fa-4g
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 11:06:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45366)
+	id 1mRFRT-00045H-Nn
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 11:06:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mRFPD-0002oP-Fz
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 11:03:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37370)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mRFP8-0000cT-Dl
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 11:03:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631891029;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XEkqczxQI1yuvbOH4QMjCDRFmfNhROoUWfDHs7VK5G4=;
- b=Kw2xI0NZaiiC23qGCtIrgFbazzzyYgAPH0U1x1/hWGPWnj78g9XSYOsfmyw7LC1oIdRjgd
- uUgV4BFIQW2373IhuDQYmRFJXEu7RT6D8TsWyHdySZS/w6gdkKskTFlkhar68FSE6qIs1E
- hV2n5i36S2HHQbBBHilPGZdnnbgSZLY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-pOzFszClMv6lDqQvROYqbA-1; Fri, 17 Sep 2021 11:03:45 -0400
-X-MC-Unique: pOzFszClMv6lDqQvROYqbA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FBCA1966320
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 15:03:44 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.161])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9CF6460843;
- Fri, 17 Sep 2021 15:03:43 +0000 (UTC)
-Date: Fri, 17 Sep 2021 17:03:42 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v3 6/6] tests/qapi-schema: Test cases for aliases
-Message-ID: <YUSuThJtW9ar2wCY@redhat.com>
-References: <20210812161131.92017-1-kwolf@redhat.com>
- <20210812161131.92017-7-kwolf@redhat.com>
- <878s09d8pe.fsf@dusky.pond.sub.org> <YTt0G1cs+BweXOMD@redhat.com>
- <87bl4vedma.fsf@dusky.pond.sub.org> <YUB0BcZUwwwecrFl@redhat.com>
- <87k0jj8evk.fsf@dusky.pond.sub.org> <YUG71uATYCwpRyQH@redhat.com>
- <8735q3y5db.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mRFP6-0002lZ-QB
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 11:03:52 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37638)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mRFP3-0000Za-AY
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 11:03:51 -0400
+Received: by mail-wr1-x435.google.com with SMTP id t8so15701841wrq.4
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 08:03:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qM5kiNULW1v2c+xYqG4kJYOm0JZzUh7WqPcGkhMvE80=;
+ b=VXwy0K0tu/DxDLBkAFfXKpbb4f4jh5SKjRhq6Gjh459HrfAPVzDhsFjExJyZix4h0Q
+ y0zVkEh765bUOgA1cnBFU/LaxaEy82ZAw6oDSq3CGP7S1JviJ48tE8FwDUyVKh4doVpB
+ 4sNJq37lBdmghVFq/OFwlbUAC2znhd110dJmsauLFGSwd6FDYr2PsvDX5pFvOH5oaCI4
+ 63nh+FOj5ZrwtkbQGWKSA7GGpAReaq/8laGdJI//8uuccPPMoZM8yYy562GG6W3MIf+q
+ Y+hQ+GOi7vzNSwew0fOu1W3tG5abf+IzT8GtNhODT/GA6T7lSrh76/Fo1+yc8sOIie2a
+ IXSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qM5kiNULW1v2c+xYqG4kJYOm0JZzUh7WqPcGkhMvE80=;
+ b=pmqrh4iPoavLcrxtm1Q2uZ+Fh3kxMlVhfe87cELVj63z8lyqZxemYMgZXtAmODLDa7
+ s5s2ome60IPTAkmsunaxgwT0QKwWHchUd7FXTk4ulVIrUVC318pt0atZa1+W8NPGJ5QO
+ NQSdiefLOU2YyIXnFpwj/TdLtQKFTesaQshPiUoYcFx0sMvbs0ivKi6QIN/i6A9Pwlf6
+ n1tbA7jfM1veMsb431lRRSdBD80BkNpvnOksFJsXBIU9ng02jz1gACfRYuNUNMNRJQ3Z
+ 065ocNSAAj66Zz8KOyax5oF5Q8vNV49QbDbV2Xod3QcqJgCVI0epGulor8xs9IbudmcR
+ HabQ==
+X-Gm-Message-State: AOAM533ST36NdsyLnGVasaMM1nW7/HYNsPb5yreamp64t/g2yFVKrbiY
+ a9Bj0lr95GHCA8EPnsr0mps=
+X-Google-Smtp-Source: ABdhPJxgKQBLPcgOJugjm4TtJZwAes1xH4oa1mDVoqAH8S9vQ4dfpsRXWH+QBtqBDgOw2SyBtVdTrw==
+X-Received: by 2002:adf:f805:: with SMTP id s5mr12327578wrp.259.1631891027634; 
+ Fri, 17 Sep 2021 08:03:47 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
+ [83.35.25.14])
+ by smtp.gmail.com with ESMTPSA id r25sm7456385wrc.26.2021.09.17.08.03.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Sep 2021 08:03:46 -0700 (PDT)
+Subject: Re: [PATCH 3/9] bsd-user: MAP_ symbols are defined, so no need for
+ ifdefs
+To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
+References: <20210917025635.32011-1-imp@bsdimp.com>
+ <20210917025635.32011-4-imp@bsdimp.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <669f5945-d23c-befb-acb3-4a1da90e15b9@amsat.org>
+Date: Fri, 17 Sep 2021 17:03:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <8735q3y5db.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+In-Reply-To: <20210917025635.32011-4-imp@bsdimp.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.488,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,227 +90,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: kevans@freebsd.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 17.09.2021 um 10:26 hat Markus Armbruster geschrieben:
-> >> When exactly are collisions an error?  How exactly are non-erroneous
-> >> collisions resolved?  qapi-code-gen.rst needs to answer this.
-> >
-> > The strategy implemented in this version is: Collisions are generally an
-> > error, except for wildcard aliases conflicting with a non-wildcard-alias
-> > value. In this case the wildcard alias is ignored and the value is
-> > assumed to belong elsewhere.
+On 9/17/21 4:56 AM, Warner Losh wrote:
+> All these MAP_ symbols are always defined on supported FreeBSD versions
+> (12.2 and newer), so remove the #ifdefs since they aren't needed.
 > 
-> Kinds of collisions:
-> 
->                 member          ordinary alias  wildcard alias
-> member          error[1]        error[2]        member wins[4]
-> ordinary alias                  error[3]        ordinary wins[4]
-> wildcard alias                                  ???[5]
-> 
-> [1] Test case duplicate-key demonstrates.
-> 
-> [2] Test case alias-name-conflict demonstrates.
-> 
-> [3] No test case, manual testing results in "alias 'a' collides with
->     alias 'a'".
-> 
-> [4] Please confirm I got this right.
-> 
-> [5] No test case, manual testing results in no error.  What's the
->     intended behavior?
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> ---
+>  bsd-user/mmap.c | 14 --------------
+>  1 file changed, 14 deletions(-)
 
-[5] is going to become "more local wins". In v3 it's "runtime error if
-both are specified, except sometimes".
-
-Both [4] and [5] are runtime errors if two values are specified and
-there aren't two consumers for them.
-
-> >> We actually require much less: for QMP chardev-add, we need
-> >> 'data.addr.data.FOO' and nothing else, and for CLI -chardev, we need
-> >> 'FOO' and nothing else (I think).  The unneeded ones become accidental
-> >> parts of the external interface.  If experience is any guide, we'll have
-> >> plenty of opportunity to regret such accidents :)
-> >> 
-> >> Can we somehow restrict external interfaces to what we actually need?
-> >
-> > Not reasonably, I would say. Of course, you could try to cover all
-> > paths with aliases in the top level, but the top level really shouldn't
-> > have to know about the details of types deep inside some union variants.
-> >
-> > The solution for reducing the allowed options here is to work on
-> > introspection, mark 'data' deprecated everywhere and get rid of the
-> > simple union nonsense.
-> 
-> Accidental extension of QMP to enable QAPIfication elsewhere would be a
-> mistake.  Elsewhere right now: -chardev.
->
-> The knee-jerk short-term solution for QMP is to ignore aliases there
-> completely.  Without introspection, they can't be used seriously anyway.
-
-I would say it's intentional enough. If we can flatten simple unions for
-the CLI, why not accept them in QMP, too? (And management tools will
-only be happier if they can use the same representation for QMP and
-CLI.) I hope that we can get introspection done for 6.2, but even if we
-can't, making the case already work shouldn't hurt anyone.
-
-Now you could argue that some aliases to be introduced for -chardev have
-no place in QMP because they have no practical use there. But isn't a
-consistent QAPI structure on all external interfaces more valuable than
-keeping the interface in QMP minimal, but inconsistent with the CLI?
-
-The problem I would generally see with accidental extension of QMP is
-that it may restrict future changes for no reason. But if we already
-get the restriction because we must stay compatible with the CLI, too,
-then this doesn't apply any more.
-
-> Of course, we eventually want to use them for evolving QMP, e.g. to
-> flatten simple unions.  The knee-jerk solution sets up another obstacle.
-> 
-> The issue also exists in -chardev with a JSON argument.  We can apply
-> the knee-jerk solution to any JSON-based interface, not just to QMP.
-> 
-> The issue also exists in -chardev with a dotted keys argument.  There,
-> we definitely need the outermost alias (e.g. "host") for compatibility,
-> and we may want the member ("data.addr.data.host") for symmetry with
-> JSON.  I can't see an argument for exposing the intermediate aliases as
-> dotted keys, though.
-> 
-> I find the argument "for symmetry with JSON" quite weak.  But exposing
-> the member seems unlikely to create problems later on.
-
-Well, my simple argument is: It's hard to get rid of them, so why bother
-with extra complexity to get rid of them?
-
-But I think there is a better argument, and "symmetry with JSON"
-actually covers support for the intermediate aliases, too:
-
-The alias that flattens SocketAddressLegacy isn't an alias for the
-command chardev-add, it's an alias for the type. If you have code that
-formats JSON for SocketAddressLegacy, then you should be able to use it
-everywhere where a SocketAddressLegacy is required.
-
-So if your code to format JSON for SocketAddressLegacy uses the alias to
-provide a flat representation, but the caller producing ChardevBackend
-doesn't flatten the union yet, then that should be fine. And if you have
-code for flat ChardevBackend, but your common SocketAddressLegacy code
-still produces the nesting, then that should be fine, too.
-
-Essentially partial use of aliases in JSON is a feature to allow libvirt
-adopting changes incrementally. And just having a mapping of JSON to the
-command line is why it should be there in dotted key syntax, too.
-
-> You argue that "the top level really shouldn't have to know about the
-> details of types deep inside some union variants."  That's a valid
-> argument about the QAPI schema language's support for abstraction.  But
-> the QAPI schema language is means, while the external interfaces are
-> ends.  They come first.  A nicer schema language is certainly desirable,
-> but the niceties shouldn't leak crap into the external interfaces.
-> 
-> Let me work through an example to ground this.  Consider chardev-add /
-> -chardev.  Structure of chardev-add's argument:
-> 
->     id: str
->     backend:
->         type: enum ChardevBackendKind
->         data: one of the following, selected by the value of @type:
->         for socket:
->             addr:
->                 type: enum SocketAddressType
->                 data: one of the following, selected by the value of @type:
->                   for inet:
->                   host: str
->                   ...
->           ...
-> 
-> In contrast, -chardev's argument is flat.  To QAPIfy it, we could use
-> aliases from the root into the object nest:
-> 
->     from type to backend.type
->     from host to backend.data.addr.data.host
->     ...
-> 
-> We'd certainly design chardev-add's argument differently today, namely
-> with much less nesting.  Say we want to evolve to this structure:
-> 
->     id: str
->     type: enum ChardevBackendKind
->     one of the following, selected by the value of @type:
->     for socket:
->     addr:
->         type: enum SocketAddressType
->         one of the following, selected by the value of @type:
->         for inet:
->         host: str
->         ...
->     ...
-> 
-> We obviously need to keep the old structure around for compatibility.
-> For that, we could use a *different* set of aliases:
-> 
->     from type to backend.type
->     from addr.host to backend.data.addr.data.host
->     ...
-> 
-> What's the plan for supporting different uses wanting different aliases?
-> Throw all the aliases together and shake?  Then one interface's
-> requirements will contaminate other interfaces with unwanted aliases.
-> Getting one interface right is hard enough, having to reason about *all*
-> QAPI-based interfaces would set us up for failure.  And what if we run
-> into contradictory requirements?
-
-Are there legitimate reasons for exposing the same QAPI type in
-different ways on different interfaces? This sounds like a bad idea to
-me. If it's the same thing, it should look the same.
-
-The biggest reason for QAPIfying things is to unify interfaces instead
-of having different parsers everywhere. Intentionally accepting some
-keys only in QMP and others only in the CLI seems to go against this
-goal.
-
-> Could we instead tag aliases somehow, pass a tag to the visitor, and
-> have it ignore aliases with a different tag?
-> 
-> Reminds me of the problem of generating multiple QMPs from a single
-> schema, e.g. one for qemu-system-FOO, and another one for
-> qemu-storage-daemon.  Inchoate idea: use tags for that somehow.  But I
-> digress.
-> 
-> I'm actually tempted to try how far we can get with just one level of
-> aliases, i.e. aliases that can only resolve to a member, not to another
-> alias.  I'd expect the code to become quite a bit simpler.
-
-The visitor code would become slightly simpler, but the schema would
-become much less maintainable. If someone adds a new field to, say,
-InetSocketAddress, review would have to catch this and request that a
-new alias be added to ChardevOptions. I don't think this is a realistic
-option.
-
-> > I think I've come to the conclusion that it's not easy enough to
-> > explain. As long as the parsing order should remain an implementation
-> > detail that schema authors shouldn't rely on, it's not possible at all.
-> >
-> > It's a pity because the code would have been simpler and it would
-> > probably have worked for the cases we're interested in. But it doesn't
-> > work in all hypothetical cases and we can't document the conditions for
-> > that without making people rely on the parsing order.
-> 
-> The order in which the visitors visit members is not really specified.
-> The examples in qapi-code-gen.rst show it's in source order, and the
-> order is quite unlikely to change.  So, making it official is not out of
-> the question.
-> 
-> However, depending on member order for anything feels iffy.  I'd like to
-> be able to shuffle them around without breaking anything.
-> 
-> Thoughts?
-
-No, I agree. As I said it's not simple enough to explain, so I'll just
-have the deleted code back and add a bit to improve error reporting. Not
-a big deal for me - though it might be one for your review...
-
-Kevin
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
