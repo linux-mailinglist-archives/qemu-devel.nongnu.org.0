@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36EE40EEC4
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 03:31:54 +0200 (CEST)
-Received: from localhost ([::1]:58386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 016A540EEC5
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 03:33:50 +0200 (CEST)
+Received: from localhost ([::1]:33420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mR2jJ-0001Ua-Oi
-	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 21:31:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41698)
+	id 1mR2lC-0003v4-2r
+	for lists+qemu-devel@lfdr.de; Thu, 16 Sep 2021 21:33:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mR2go-0008TV-3q
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 21:29:18 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:60984)
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mR2gp-0008UF-B7
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 21:29:19 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:60996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mR2gm-000273-8D
- for qemu-devel@nongnu.org; Thu, 16 Sep 2021 21:29:17 -0400
+ (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1mR2gn-00028q-I0
+ for qemu-devel@nongnu.org; Thu, 16 Sep 2021 21:29:19 -0400
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 75A2F20255;
- Fri, 17 Sep 2021 01:29:14 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 6B71420254;
+ Fri, 17 Sep 2021 01:29:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1631842154; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1631842156; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XRe8BotprcYmLgv2jEYrvMQEO2bkQ7SMvSpjBUVFwLo=;
- b=NaFVuy3vAAG3G399Jq8X1LGQ3uVuU2C67vbuw6laQqh1C6P4QXoso5l5a08tkc9s3EX/Uv
- hkSCICqwP2dABwKzBu6wdsLkTd4Nitk5kQ537Y3fClev2MikZ5E3n46DmtWCvWwPe6UEXu
- 1c+AdtNr2HA7u539UMm1HGBT9zpVi2o=
+ bh=AIDmPLiCUGSEbOY6P1kZf8ttCJM80BMchcTHMSif23c=;
+ b=bbbx9h9sagg/C9Ge+XogzTr5MWUoOBPsnMHKHG3AY6XroFcusMoPVBigEOS3aXs5xPXLMu
+ UpafQ3zwsc2TD+SSxvYrzgmw7AJnPI0sX1ivSq141Qe0YeueEGkNGIKAqdCZLetqI2ABm9
+ izK9H63IZspGKOITw0mAboqmNKYO4t0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1631842154;
+ s=susede2_ed25519; t=1631842156;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XRe8BotprcYmLgv2jEYrvMQEO2bkQ7SMvSpjBUVFwLo=;
- b=WQ2pv5g9mc4BicyM+p1x0Nv9r9os29jw4GFX1MTKmm0XIOyznpt/YZrP4ldpeARyc+MO4w
- tj1OmhQJXZ4QKFBw==
+ bh=AIDmPLiCUGSEbOY6P1kZf8ttCJM80BMchcTHMSif23c=;
+ b=bRJ8rIPenl4LJpIMQjZXh3vfKuQhoHZTFjAKAQXovezmg+DRLkAbUJhVJJbYG9Y/Hw81te
+ R7nY4hMJDBXFoqBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0013D13DEF;
- Fri, 17 Sep 2021 01:29:12 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E9D6213DEF;
+ Fri, 17 Sep 2021 01:29:14 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id mNImLWjvQ2GsFgAAMHmgww
- (envelope-from <jziviani@suse.de>); Fri, 17 Sep 2021 01:29:12 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id EPCYKmrvQ2GsFgAAMHmgww
+ (envelope-from <jziviani@suse.de>); Fri, 17 Sep 2021 01:29:14 +0000
 From: "Jose R. Ziviani" <jziviani@suse.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] meson: introduce modules_arch
-Date: Thu, 16 Sep 2021 22:29:03 -0300
-Message-Id: <20210917012904.26544-2-jziviani@suse.de>
+Subject: [PATCH 2/2] modules: use a list of supported arch for each module
+Date: Thu, 16 Sep 2021 22:29:04 -0300
+Message-Id: <20210917012904.26544-3-jziviani@suse.de>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210917012904.26544-1-jziviani@suse.de>
 References: <20210917012904.26544-1-jziviani@suse.de>
@@ -86,170 +86,165 @@ Cc: pbonzini@redhat.com, kraxel@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This variable keeps track of all modules enabled for a target
-architecture. This will be used in modinfo to refine the
-architectures that can really load the .so to avoid errors.
+When compiling QEMU with more than one target, for instance,
+--target-list=s390x-softmmu,x86_64-softmmu, modinfo.c will be
+filled with modules available for both, with no specification
+of what modules can/cannot be loaded for a particular target.
+
+This will cause message errors when executing the target that
+shouldn't be loading that module, such as:
+
+$ qemu-system-s390x -nodefaults -display none -accel qtest -M none -device help
+Failed to open module: /.../hw-display-virtio-vga.so: undefined symbol: vmstate_vga_common
+
+This patch changes the module infrastructure to use a list of
+architectures, obtained during the build time, to specify what
+targets can load each module.
 
 Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
 ---
- hw/display/meson.build | 48 ++++++++++++++++++++++++++++++++++++++++++
- hw/usb/meson.build     | 36 +++++++++++++++++++++++++++++++
- meson.build            |  1 +
- 3 files changed, 85 insertions(+)
+ include/qemu/module.h       |  2 +-
+ meson.build                 | 18 +++++++++++++-----
+ scripts/modinfo-collect.py  | 10 ++++++++++
+ scripts/modinfo-generate.py |  7 +++----
+ util/module.c               | 18 +++++++++++++-----
+ 5 files changed, 40 insertions(+), 15 deletions(-)
 
-diff --git a/hw/display/meson.build b/hw/display/meson.build
-index 861c43ff98..ba06f58ff1 100644
---- a/hw/display/meson.build
-+++ b/hw/display/meson.build
-@@ -43,6 +43,18 @@ if config_all_devices.has_key('CONFIG_QXL')
-   qxl_ss.add(when: 'CONFIG_QXL', if_true: [files('qxl.c', 'qxl-logger.c', 'qxl-render.c'),
-                                            pixman, spice])
-   hw_display_modules += {'qxl': qxl_ss}
-+
-+  archs = []
-+  foreach target: target_dirs
-+    if target.endswith('-softmmu')
-+      cfg_target = config_target_mak[target]
-+      if cfg_target.has_key('CONFIG_QXL') and cfg_target['CONFIG_QXL'] == 'y'
-+        archs += [cfg_target['TARGET_NAME']]
-+      endif
-+    endif
-+  endforeach
-+
-+  modules_arch += {'qxl': archs}
- endif
- 
- softmmu_ss.add(when: 'CONFIG_DPCD', if_true: files('dpcd.c'))
-@@ -65,6 +77,18 @@ if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
-   virtio_gpu_gl_ss.add(when: ['CONFIG_VIRTIO_GPU', virgl, opengl],
-                        if_true: [files('virtio-gpu-gl.c', 'virtio-gpu-virgl.c'), pixman, virgl])
-   hw_display_modules += {'virtio-gpu-gl': virtio_gpu_gl_ss}
-+
-+  archs = []
-+  foreach target: target_dirs
-+    if target.endswith('-softmmu')
-+      cfg_target = config_target_mak[target]
-+      if cfg_target.has_key('CONFIG_VIRTIO_GPU') and cfg_target['CONFIG_VIRTIO_GPU'] == 'y'
-+        archs += [cfg_target['TARGET_NAME']]
-+      endif
-+    endif
-+  endforeach
-+
-+  modules_arch += {'virtio-gpu': archs, 'virtio-gpu-gl': archs}
- endif
- 
- if config_all_devices.has_key('CONFIG_VIRTIO_PCI')
-@@ -79,6 +103,18 @@ if config_all_devices.has_key('CONFIG_VIRTIO_PCI')
-   virtio_gpu_pci_gl_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRTIO_PCI', virgl, opengl],
-                            if_true: [files('virtio-gpu-pci-gl.c'), pixman])
-   hw_display_modules += {'virtio-gpu-pci-gl': virtio_gpu_pci_gl_ss}
-+
-+  archs = []
-+  foreach target: target_dirs
-+    if target.endswith('-softmmu')
-+      cfg_target = config_target_mak[target]
-+      if cfg_target.has_key('CONFIG_VIRTIO_PCI') and cfg_target['CONFIG_VIRTIO_PCI'] == 'y'
-+        archs += [cfg_target['TARGET_NAME']]
-+      endif
-+    endif
-+  endforeach
-+
-+  modules_arch += {'virtio-gpu-pci': archs, 'virtio-gpu-pci-gl': archs}
- endif
- 
- if config_all_devices.has_key('CONFIG_VIRTIO_VGA')
-@@ -93,6 +129,18 @@ if config_all_devices.has_key('CONFIG_VIRTIO_VGA')
-   virtio_vga_gl_ss.add(when: ['CONFIG_VIRTIO_VGA', virgl, opengl],
-                        if_true: [files('virtio-vga-gl.c'), pixman])
-   hw_display_modules += {'virtio-vga-gl': virtio_vga_gl_ss}
-+
-+  archs = []
-+  foreach target: target_dirs
-+    if target.endswith('-softmmu')
-+      cfg_target = config_target_mak[target]
-+      if cfg_target.has_key('CONFIG_VIRTIO_VGA') and cfg_target['CONFIG_VIRTIO_VGA'] == 'y'
-+        archs += [cfg_target['TARGET_NAME']]
-+      endif
-+    endif
-+  endforeach
-+
-+  modules_arch += {'virtio-vga': archs, 'virtio-vga-gl': archs}
- endif
- 
- specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_lcdc.c'))
-diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index de853d780d..6b889d2ee2 100644
---- a/hw/usb/meson.build
-+++ b/hw/usb/meson.build
-@@ -54,6 +54,18 @@ if cacard.found()
-   usbsmartcard_ss.add(when: 'CONFIG_USB_SMARTCARD',
-                       if_true: [cacard, files('ccid-card-emulated.c', 'ccid-card-passthru.c')])
-   hw_usb_modules += {'smartcard': usbsmartcard_ss}
-+
-+  archs = []
-+  foreach target: target_dirs
-+    if target.endswith('-softmmu')
-+      cfg_target = config_target_mak[target]
-+      if cfg_target.has_key('CONFIG_USB_SMARTCARD') and cfg_target['CONFIG_USB_SMARTCARD'] == 'y'
-+        archs += [cfg_target['TARGET_NAME']]
-+      endif
-+    endif
-+  endforeach
-+
-+  modules_arch += {'smartcard': archs}
- endif
- 
- # U2F
-@@ -69,6 +81,18 @@ if usbredir.found()
-   usbredir_ss.add(when: 'CONFIG_USB',
-                   if_true: [usbredir, files('redirect.c', 'quirks.c')])
-   hw_usb_modules += {'redirect': usbredir_ss}
-+
-+  archs = []
-+  foreach target: target_dirs
-+    if target.endswith('-softmmu')
-+      cfg_target = config_target_mak[target]
-+      if cfg_target.has_key('CONFIG_USB') and cfg_target['CONFIG_USB'] == 'y'
-+        archs += [cfg_target['TARGET_NAME']]
-+      endif
-+    endif
-+  endforeach
-+
-+  modules_arch += {'redirect': archs}
- endif
- 
- # usb pass-through
-@@ -77,6 +101,18 @@ if libusb.found()
-   usbhost_ss.add(when: ['CONFIG_USB', libusb],
-                  if_true: files('host-libusb.c'))
-   hw_usb_modules += {'host': usbhost_ss}
-+
-+  archs = []
-+  foreach target: target_dirs
-+    if target.endswith('-softmmu')
-+      cfg_target = config_target_mak[target]
-+      if cfg_target.has_key('CONFIG_USB') and cfg_target['CONFIG_USB'] == 'y'
-+        archs += [cfg_target['TARGET_NAME']]
-+      endif
-+    endif
-+  endforeach
-+
-+  modules_arch += {'host': archs}
- endif
- 
- softmmu_ss.add(when: ['CONFIG_USB', 'CONFIG_XEN', libusb], if_true: files('xen-usb.c'))
+diff --git a/include/qemu/module.h b/include/qemu/module.h
+index 3deac0078b..3b487c646c 100644
+--- a/include/qemu/module.h
++++ b/include/qemu/module.h
+@@ -144,7 +144,7 @@ void module_allow_arch(const char *arch);
+ typedef struct QemuModinfo QemuModinfo;
+ struct QemuModinfo {
+     const char *name;
+-    const char *arch;
++    const char **archs;
+     const char **objs;
+     const char **deps;
+     const char **opts;
 diff --git a/meson.build b/meson.build
-index 2711cbb789..d1d3fd84ec 100644
+index d1d3fd84ec..efba275092 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -2071,6 +2071,7 @@ tcg_module_ss = ss.source_set()
+@@ -2343,11 +2343,19 @@ foreach d, list : modules
+         # unique when it comes to lookup in compile_commands.json.
+         # Depnds on a mesion version with
+         # https://github.com/mesonbuild/meson/pull/8900
+-        modinfo_files += custom_target(d + '-' + m + '.modinfo',
+-                                       output: d + '-' + m + '.modinfo',
+-                                       input: module_ss.sources() + genh,
+-                                       capture: true,
+-                                       command: [modinfo_collect, module_ss.sources()])
++        if modules_arch.has_key(m)
++          modinfo_files += custom_target(d + '-' + m + '.modinfo',
++                                        output: d + '-' + m + '.modinfo',
++                                        input: module_ss.sources() + genh,
++                                        capture: true,
++                                        command: [modinfo_collect, module_ss.sources(), '--archs', modules_arch[m]])
++        else
++          modinfo_files += custom_target(d + '-' + m + '.modinfo',
++                                        output: d + '-' + m + '.modinfo',
++                                        input: module_ss.sources() + genh,
++                                        capture: true,
++                                        command: [modinfo_collect, module_ss.sources()])
++        endif
+       endif
+     else
+       if d == 'block'
+diff --git a/scripts/modinfo-collect.py b/scripts/modinfo-collect.py
+index 4acb188c3e..739cd23e2f 100755
+--- a/scripts/modinfo-collect.py
++++ b/scripts/modinfo-collect.py
+@@ -50,6 +50,16 @@ def main(args):
+         print("MODINFO_START arch \"%s\" MODINFO_END" % arch)
+     with open('compile_commands.json') as f:
+         compile_commands = json.load(f)
++
++    try:
++        arch_idx = args.index('--archs')
++        archs = args[arch_idx + 1:]
++        args = args[:arch_idx]
++        for arch in archs:
++            print("MODINFO_START arch \"%s\" MODINFO_END" % arch)
++    except ValueError:
++        pass
++
+     for src in args:
+         print("MODINFO_DEBUG src %s" % src)
+         command = find_command(src, target, compile_commands)
+diff --git a/scripts/modinfo-generate.py b/scripts/modinfo-generate.py
+index f559eed007..e1d13acd92 100755
+--- a/scripts/modinfo-generate.py
++++ b/scripts/modinfo-generate.py
+@@ -33,7 +33,7 @@ def parse_line(line):
+     return (kind, data)
  
- modules = {}
- target_modules = {}
-+modules_arch = {}
- hw_arch = {}
- target_arch = {}
- target_softmmu_arch = {}
+ def generate(name, lines):
+-    arch = ""
++    archs = []
+     objs = []
+     deps = []
+     opts = []
+@@ -47,14 +47,13 @@ def generate(name, lines):
+             elif kind == 'opts':
+                 opts.append(data)
+             elif kind == 'arch':
+-                arch = data;
++                archs.append(data);
+             else:
+                 print("unknown:", kind)
+                 exit(1)
+ 
+     print("    .name = \"%s\"," % name)
+-    if arch != "":
+-        print("    .arch = %s," % arch)
++    print_array("archs", archs)
+     print_array("objs", objs)
+     print_array("deps", deps)
+     print_array("opts", opts)
+diff --git a/util/module.c b/util/module.c
+index 6bb4ad915a..7009143bfc 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -131,16 +131,24 @@ void module_allow_arch(const char *arch)
+ 
+ static bool module_check_arch(const QemuModinfo *modinfo)
+ {
+-    if (modinfo->arch) {
++    const char **arch;
++
++    if (modinfo->archs) {
+         if (!module_arch) {
+             /* no arch set -> ignore all */
+             return false;
+         }
+-        if (strcmp(module_arch, modinfo->arch) != 0) {
+-            /* mismatch */
+-            return false;
++
++        for (arch = modinfo->archs; *arch != NULL; arch++) {
++            if (strcmp(module_arch, *arch) == 0) {
++                return true;
++            }
+         }
++
++        /* mismatch */
++        return false;
+     }
++
+     return true;
+ }
+ 
+@@ -245,7 +253,7 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+     g_hash_table_add(loaded_modules, module_name);
+ 
+     for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
+-        if (modinfo->arch) {
++        if (modinfo->archs) {
+             if (strcmp(modinfo->name, module_name) == 0) {
+                 if (!module_check_arch(modinfo)) {
+                     return false;
 -- 
 2.33.0
 
