@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AF4A40FE62
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 19:09:26 +0200 (CEST)
-Received: from localhost ([::1]:57394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B501240FE65
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 19:11:32 +0200 (CEST)
+Received: from localhost ([::1]:33592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRHMb-0005yp-G4
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 13:09:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46984)
+	id 1mRHOd-0000Xg-PM
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 13:11:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mRHJI-00049D-K5
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 13:06:00 -0400
-Received: from mail-vs1-xe33.google.com ([2607:f8b0:4864:20::e33]:39574)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mRHME-0006t3-Pg
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 13:09:03 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mRHJF-0006GE-1y
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 13:06:00 -0400
-Received: by mail-vs1-xe33.google.com with SMTP id o124so10073949vsc.6
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 10:05:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mRHM9-00005z-V9
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 13:09:01 -0400
+Received: by mail-wr1-x435.google.com with SMTP id u18so14547686wrg.5
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 10:08:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k/rMKi5R1dA3LpYwO5bcbDIM3wrIUhAu8+n259qeJSM=;
- b=drZ5Rd8z/CI+6SkqiEvq9krluBfleo1Gp/6AZ7tKd+rK258CTuo3PPnb3F//Vj1m2j
- LuJzsGsToIY4mw21CRB88RshRmVpL3M7mBPMIvRsjEL5u5I2CWokOmW9+d4fauMPMr/j
- 6fDFAJFbs8MWyaHR44I9FH4sZpZfPO+s+dAVEDFHyzyBmuLaAX7RvmfZ2xXDsj1Lhc43
- oLLeardEddlVo0+X5jD7O3AVbsn3Eq6hYqyTl6dCFkU3Syd6Lsy5qXpkxU6ntRUVYtRJ
- 9O0+VNIpcBmDAUmPu/41vH7pmXxSFc3+6y0BnhddZ7MwA+PoqRqXWGbuzXKhZarXSQBg
- 1HOg==
+ :cc; bh=J+LNGoeclOK31Z/uXf8hfvJhJSrWRk0AfDQjqP6oVxQ=;
+ b=SEzmOFbYj1LUZ+fooSUNwCQmQvbklELv9tUDsuSVqiJW2Zy5z6x84YzUH+9a3Iqq08
+ QWlt1cYcJcxpyqiBC8No98z4VVZSXcBQGKX0xC9ZQLS/0K8KlYrGEKW3c8iAGTYngpSv
+ i5JkAYBTaZy0+ypESVZ6KoXJHiovo0FU/Qmq+hKMleCj73NGkKsitNHvL3ZV/sEj22FH
+ 2BD2v+p8WCp4D3Nkzhv1PqaF+RS6ZpC/0WA+qBe7E2nQUJ5TZMG2Qey/26+TxHqtEi9A
+ fBwTzgHHVqXhbjYU35XvQPsC8BrtKC0pX8c5YoAOMFl/knJoq/tgh+bqgl+bsr2g+mlO
+ G8og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=k/rMKi5R1dA3LpYwO5bcbDIM3wrIUhAu8+n259qeJSM=;
- b=BefKrGepQt20uTbjQXLSbZKZW4KokVZ0yO73UH/BVOb52sRth7XVlQp2IQ8QAe52Gb
- PgRTHlmHVyRxwvUBExiu3U7x74wMrbyRUdqoGbCja/GfgOf88xN7s9MirDpcy/wd+gAd
- in0cX4In6euEfOFcGbEFznQjvi0hGhkwiHCHAnu8Zr4BPqUe7o4mFsp0DPK47P7Q3j8S
- Rhq6ss/xcE3k15bFtBEiyfcsPSoo7Vrkt/up2w6Ee4IMnmqQoXzkFFhU0owQAWRSjpnv
- MaoKwXRDk17X9tfn8Y0+JC0ExDHkYvIUOkTDWhI3duLVjtlbgASoowTsVIvK2DuQk5vf
- ALbw==
-X-Gm-Message-State: AOAM533A288D+Rm2+SPvO8IWtB1JTIZ9gThhbq39Q887BfGdEJWeNfYQ
- hYS3gH/yV5ZXepaV/ad8KJIQ7+Lro1Vn+pu0V2akgA==
-X-Google-Smtp-Source: ABdhPJyNODaESQScjRlbKtZZWW68MlIrZvGl9tyddxjUlEWidh0xxZbNZBgSdOD5dh5IGajKDxNjBkJvMsWm61Dnc1w=
-X-Received: by 2002:a67:1985:: with SMTP id 127mr9317532vsz.44.1631898352443; 
- Fri, 17 Sep 2021 10:05:52 -0700 (PDT)
+ bh=J+LNGoeclOK31Z/uXf8hfvJhJSrWRk0AfDQjqP6oVxQ=;
+ b=xynghf6+t/viTmvthmokCeSUltw6F5PQ8PEfQRZ8NetF0JFxBBuw1MDljNuhKLlBOj
+ aeTTjfW1rSna0cR0qJLSy37WxdsW6VWCgZc5mwkVaImNll41moS/62R1LYxWoDL2gYFT
+ zH0GJ1J0Mw1Yn6ba/vt5bZAVT/lhd0+uDvlJhMHI4Wm/iE5LzQr74+XvWMWNzD//48D7
+ L5VvaO2KqDzb5OACPjOtE+qRPrHqkXX8LdaGsB8VlSM9C93MSLbUkVCKfQSRgT6Kv8UB
+ zCXJ8vKD/YfHEeMnDVWqcWlM822uYjVxMFCIAqNYAONQfE/dLclK+NLZIa3rVLmnHVVp
+ zKYQ==
+X-Gm-Message-State: AOAM532SwZv2gxMZjsuml9cZMmjQJUm3aH9VgnBDc5vEu26pQ7fc+HSC
+ TeesyGaBJftT8AUvuwaPG64jl+ikszgk3uL+Fa4=
+X-Google-Smtp-Source: ABdhPJzZ4ClndpTIZHZJ5IIhTm2nwFdoOeoBh2h1rSjVjHcqj7jpt1XKjx8fH1DxhVnmqa9c6lBp3oqOpNO8rtGxFUQ=
+X-Received: by 2002:adf:e806:: with SMTP id o6mr12930208wrm.239.1631898534606; 
+ Fri, 17 Sep 2021 10:08:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210917162332.3511179-1-alex.bennee@linaro.org>
- <20210917162332.3511179-4-alex.bennee@linaro.org>
-In-Reply-To: <20210917162332.3511179-4-alex.bennee@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Fri, 17 Sep 2021 11:05:41 -0600
-Message-ID: <CANCZdfphGX=D9=WucAqxfsT5bJnD9LH6aewfvu6Qosau7reqXQ@mail.gmail.com>
-Subject: Re: [PATCH v1 03/11] tests/tcg: move some multiarch files and make
- conditional
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000009b77df05cc33f110"
-Received-SPF: none client-ip=2607:f8b0:4864:20::e33;
- envelope-from=wlosh@bsdimp.com; helo=mail-vs1-xe33.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <b383305b-0604-bf6e-1f66-aefeaef1df82@t-online.de>
+ <20210916192239.18742-4-vr_qemu@t-online.de>
+In-Reply-To: <20210916192239.18742-4-vr_qemu@t-online.de>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 17 Sep 2021 21:08:43 +0400
+Message-ID: <CAJ+F1CK_7eNV_8DFDwc+3_xqWZ4H1qZqo6rAFK97zs++4EfCpA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] ui/console: prevent use after free error
+To: =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>
+Content-Type: multipart/alternative; boundary="00000000000076fccd05cc33fcc7"
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,255 +77,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009b77df05cc33f110
+--00000000000076fccd05cc33fcc7
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 17, 2021 at 10:23 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+Hi
+
+On Thu, Sep 16, 2021 at 11:29 PM Volker R=C3=BCmelin <vr_qemu@t-online.de> =
 wrote:
 
-> We had some messy code to filter out stuff we can't build. Lets junk
-> that and simplify the logic by pushing some stuff into subdirs. In
-> particular we move:
+> Make chr in the QemuConsole object a strong reference to the
+> referenced chardev device. This prevents a use after free error
+> if the chardev device goes away unexpectedly.
 >
->   float_helpers into libs - not a standalone test
->   linux-test into linux - so we only build on Linux hosts
+> To reproduce the error start qemu-system built with address
+> sanitizer with the the following command line options.
 >
-> This allows for at least some of the tests to be nominally usable
-> by *BSD user builds.
+> -display sdl -chardev vc,id=3Dtest0,cols=3D132,rows=3D50.
 >
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Warner Losh <imp@bsdimp.com>
+> Open the monitor console with CTRL-ALT-3 and remove the
+> unconnected chardev device test0.
+>
+> (qemu) chardev-remove test0
+>
+> Open the text console test0 with CTRL-ALT-2 and type a character.
+> QEMU immediately exits with this error message.
+>
+
+Hmm, why is it not busy like the other chardevs?
+
+
+> =3D=3D28148=3D=3DERROR: AddressSanitizer: heap-use-after-free
+>   on address 0x60e000043778 at pc 0x558712ba7125
+>   bp 0x7fff270980b0 sp 0x7fff270980a8
+> READ of size 8 at 0x60e000043778 thread T0
+>     #0 0x558712ba7124 in qemu_chr_be_can_write
+>       ../qemu-master/chardev/char.c:188
+>     #1 0x558711624770 in kbd_send_chars
+>       ../qemu-master/ui/console.c:1113
+>     #2 0x558711634e91 in kbd_put_keysym_console
+>       ../qemu-master/ui/console.c:1175
+>     #3 0x55871163532a in kbd_put_string_console
+>       ../qemu-master/ui/console.c:1221
+>     #4 0x5587120a21e4 in handle_textinput
+>       ../qemu-master/ui/sdl2.c:464
+>     #5 0x5587120a21e4 in sdl2_poll_events
+>       ../qemu-master/ui/sdl2.c:650
+>     #6 0x5587116269c3 in dpy_refresh
+>       ../qemu-master/ui/console.c:1673
+>     #7 0x5587116269c3 in gui_update
+>       ../qemu-master/ui/console.c:158
+>     #8 0x558712d3a919 in timerlist_run_timers
+>       ../qemu-master/util/qemu-timer.c:573
+>     #9 0x558712d3b183 in qemu_clock_run_timers
+>       ../qemu-master/util/qemu-timer.c:587
+>     #10 0x558712d3b183 in qemu_clock_run_all_timers
+>       ../qemu-master/util/qemu-timer.c:669
+>     #11 0x558712d286d9 in main_loop_wait
+>       ../qemu-master/util/main-loop.c:542
+>     #12 0x5587123d313b in qemu_main_loop
+>       ../qemu-master/softmmu/runstate.c:726
+>     #13 0x5587115f989d in main
+>       ../qemu-master/softmmu/main.c:50
+>     #14 0x7f832ee0934c in __libc_start_main
+>       (/lib64/libc.so.6+0x2534c)
+>     #15 0x55871160b6e9 in _start
+>       (/home/ruemelin/rpmbuild/BUILD/qemu-6.1.50-build/
+>       qemu-system-x86_64+0x1f4f6e9)
+>
+> Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 > ---
->  tests/tcg/multiarch/{ =3D> libs}/float_helpers.c |  2 +-
->  tests/tcg/multiarch/{ =3D> linux}/linux-test.c   |  0
->  tests/tcg/multiarch/Makefile.target            | 15 ++++++++++-----
->  tests/tcg/x86_64/Makefile.target               |  4 ++++
->  4 files changed, 15 insertions(+), 6 deletions(-)
->  rename tests/tcg/multiarch/{ =3D> libs}/float_helpers.c (99%)
->  rename tests/tcg/multiarch/{ =3D> linux}/linux-test.c (100%)
+>  ui/console.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/ui/console.c b/ui/console.c
+> index 29a3e3f0f5..1ef5a96295 100644
+> --- a/ui/console.c
+> +++ b/ui/console.c
+> @@ -2264,6 +2264,7 @@ static void vc_chr_open(Chardev *chr,
+>      }
+>
+>      s->chr =3D chr;
+> +    object_ref(chr);
+>      drv->console =3D s;
+>
+>      if (display_state) {
 >
 
-Reviewed-by: Warner Losh <imp@bsdimp.com>
+Isn't this effectively preventing removing the chardev? Hence, it should
+either be made busy, or keeping a weak pointer invalidated on
+instance_finalize imho.
 
-I've also tested it as well.
+thanks
 
 
-> diff --git a/tests/tcg/multiarch/float_helpers.c
-> b/tests/tcg/multiarch/libs/float_helpers.c
-> similarity index 99%
-> rename from tests/tcg/multiarch/float_helpers.c
-> rename to tests/tcg/multiarch/libs/float_helpers.c
-> index bc530e5732..4e68d2b659 100644
-> --- a/tests/tcg/multiarch/float_helpers.c
-> +++ b/tests/tcg/multiarch/libs/float_helpers.c
-> @@ -22,7 +22,7 @@
->  #include <float.h>
->  #include <fenv.h>
->
-> -#include "float_helpers.h"
-> +#include "../float_helpers.h"
->
->  #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
->
-> diff --git a/tests/tcg/multiarch/linux-test.c
-> b/tests/tcg/multiarch/linux/linux-test.c
-> similarity index 100%
-> rename from tests/tcg/multiarch/linux-test.c
-> rename to tests/tcg/multiarch/linux/linux-test.c
-> diff --git a/tests/tcg/multiarch/Makefile.target
-> b/tests/tcg/multiarch/Makefile.target
-> index 85a6fb7a2e..3763df2019 100644
-> --- a/tests/tcg/multiarch/Makefile.target
-> +++ b/tests/tcg/multiarch/Makefile.target
-> @@ -8,18 +8,23 @@
->  MULTIARCH_SRC=3D$(SRC_PATH)/tests/tcg/multiarch
->
->  # Set search path for all sources
-> -VPATH          +=3D $(MULTIARCH_SRC)
-> -MULTIARCH_SRCS   =3D$(notdir $(wildcard $(MULTIARCH_SRC)/*.c))
-> -MULTIARCH_TESTS  =3D$(filter-out float_helpers, $(MULTIARCH_SRCS:.c=3D))
-> +VPATH         +=3D $(MULTIARCH_SRC)
-> +MULTIARCH_SRCS =3D  $(notdir $(wildcard $(MULTIARCH_SRC)/*.c))
-> +ifneq ($(CONFIG_LINUX),)
-> +VPATH         +=3D $(MULTIARCH_SRC)/linux
-> +MULTIARCH_SRCS +=3D $(notdir $(wildcard $(MULTIARCH_SRC)/linux/*.c))
-> +endif
-> +MULTIARCH_TESTS =3D $(MULTIARCH_SRCS:.c=3D)
->
-> +$(info SRCS=3D${MULTIARCH_SRCS} and ${MULTIARCH_TESTS})
->  #
->  # The following are any additional rules needed to build things
->  #
->
->
->  float_%: LDFLAGS+=3D-lm
-> -float_%: float_%.c float_helpers.c
-> -       $(CC) $(CFLAGS) $(EXTRA_CFLAGS) $<
-> $(MULTIARCH_SRC)/float_helpers.c -o $@ $(LDFLAGS)
-> +float_%: float_%.c libs/float_helpers.c
-> +       $(CC) $(CFLAGS) $(EXTRA_CFLAGS) $<
-> $(MULTIARCH_SRC)/libs/float_helpers.c -o $@ $(LDFLAGS)
->
->  run-float_%: float_%
->         $(call run-test,$<, $(QEMU) $(QEMU_OPTS) $<,"$< on $(TARGET_NAME)=
-")
-> diff --git a/tests/tcg/x86_64/Makefile.target
-> b/tests/tcg/x86_64/Makefile.target
-> index 2151ea6302..d7a7385583 100644
-> --- a/tests/tcg/x86_64/Makefile.target
-> +++ b/tests/tcg/x86_64/Makefile.target
-> @@ -8,8 +8,12 @@
->
->  include $(SRC_PATH)/tests/tcg/i386/Makefile.target
->
-> +ifneq ($(CONFIG_LINUX),)
->  X86_64_TESTS +=3D vsyscall
->  TESTS=3D$(MULTIARCH_TESTS) $(X86_64_TESTS) test-x86_64
-> +else
-> +TESTS=3D$(MULTIARCH_TESTS)
-> +endif
->  QEMU_OPTS +=3D -cpu max
->
->  test-x86_64: LDFLAGS+=3D-lm -lc
-> --
-> 2.30.2
->
->
+--=20
+Marc-Andr=C3=A9 Lureau
 
---0000000000009b77df05cc33f110
+--00000000000076fccd05cc33fcc7
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 17, 2021 at 10:23 AM Alex=
- Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@lina=
-ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">We had some messy code to filter out stuff we can&#39;t build. Lets j=
-unk<br>
-that and simplify the logic by pushing some stuff into subdirs. In<br>
-particular we move:<br>
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 16, 2021 at 11:29 PM Vo=
+lker R=C3=BCmelin &lt;<a href=3D"mailto:vr_qemu@t-online.de">vr_qemu@t-onli=
+ne.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">Make chr in the QemuConsole object a strong reference to the<br>
+referenced chardev device. This prevents a use after free error<br>
+if the chardev device goes away unexpectedly.<br>
 <br>
-=C2=A0 float_helpers into libs - not a standalone test<br>
-=C2=A0 linux-test into linux - so we only build on Linux hosts<br>
+To reproduce the error start qemu-system built with address<br>
+sanitizer with the the following command line options.<br>
 <br>
-This allows for at least some of the tests to be nominally usable<br>
-by *BSD user builds.<br>
+-display sdl -chardev vc,id=3Dtest0,cols=3D132,rows=3D50.<br>
 <br>
-Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.or=
-g" target=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>
-Cc: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt=
-;<br>
+Open the monitor console with CTRL-ALT-3 and remove the<br>
+unconnected chardev device test0.<br>
+<br>
+(qemu) chardev-remove test0<br>
+<br>
+Open the text console test0 with CTRL-ALT-2 and type a character.<br>
+QEMU immediately exits with this error message.<br></blockquote><div><br></=
+div><div>Hmm, why is it not busy like the other chardevs?<br></div><div><br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+=3D=3D28148=3D=3DERROR: AddressSanitizer: heap-use-after-free<br>
+=C2=A0 on address 0x60e000043778 at pc 0x558712ba7125<br>
+=C2=A0 bp 0x7fff270980b0 sp 0x7fff270980a8<br>
+READ of size 8 at 0x60e000043778 thread T0<br>
+=C2=A0 =C2=A0 #0 0x558712ba7124 in qemu_chr_be_can_write<br>
+=C2=A0 =C2=A0 =C2=A0 ../qemu-master/chardev/char.c:188<br>
+=C2=A0 =C2=A0 #1 0x558711624770 in kbd_send_chars<br>
+=C2=A0 =C2=A0 =C2=A0 ../qemu-master/ui/console.c:1113<br>
+=C2=A0 =C2=A0 #2 0x558711634e91 in kbd_put_keysym_console<br>
+=C2=A0 =C2=A0 =C2=A0 ../qemu-master/ui/console.c:1175<br>
+=C2=A0 =C2=A0 #3 0x55871163532a in kbd_put_string_console<br>
+=C2=A0 =C2=A0 =C2=A0 ../qemu-master/ui/console.c:1221<br>
+=C2=A0 =C2=A0 #4 0x5587120a21e4 in handle_textinput<br>
+=C2=A0 =C2=A0 =C2=A0 ../qemu-master/ui/sdl2.c:464<br>
+=C2=A0 =C2=A0 #5 0x5587120a21e4 in sdl2_poll_events<br>
+=C2=A0 =C2=A0 =C2=A0 ../qemu-master/ui/sdl2.c:650<br>
+=C2=A0 =C2=A0 #6 0x5587116269c3 in dpy_refresh<br>
+=C2=A0 =C2=A0 =C2=A0 ../qemu-master/ui/console.c:1673<br>
+=C2=A0 =C2=A0 #7 0x5587116269c3 in gui_update<br>
+=C2=A0 =C2=A0 =C2=A0 ../qemu-master/ui/console.c:158<br>
+=C2=A0 =C2=A0 #8 0x558712d3a919 in timerlist_run_timers<br>
+=C2=A0 =C2=A0 =C2=A0 ../qemu-master/util/qemu-timer.c:573<br>
+=C2=A0 =C2=A0 #9 0x558712d3b183 in qemu_clock_run_timers<br>
+=C2=A0 =C2=A0 =C2=A0 ../qemu-master/util/qemu-timer.c:587<br>
+=C2=A0 =C2=A0 #10 0x558712d3b183 in qemu_clock_run_all_timers<br>
+=C2=A0 =C2=A0 =C2=A0 ../qemu-master/util/qemu-timer.c:669<br>
+=C2=A0 =C2=A0 #11 0x558712d286d9 in main_loop_wait<br>
+=C2=A0 =C2=A0 =C2=A0 ../qemu-master/util/main-loop.c:542<br>
+=C2=A0 =C2=A0 #12 0x5587123d313b in qemu_main_loop<br>
+=C2=A0 =C2=A0 =C2=A0 ../qemu-master/softmmu/runstate.c:726<br>
+=C2=A0 =C2=A0 #13 0x5587115f989d in main<br>
+=C2=A0 =C2=A0 =C2=A0 ../qemu-master/softmmu/main.c:50<br>
+=C2=A0 =C2=A0 #14 0x7f832ee0934c in __libc_start_main<br>
+=C2=A0 =C2=A0 =C2=A0 (/lib64/libc.so.6+0x2534c)<br>
+=C2=A0 =C2=A0 #15 0x55871160b6e9 in _start<br>
+=C2=A0 =C2=A0 =C2=A0 (/home/ruemelin/rpmbuild/BUILD/qemu-6.1.50-build/<br>
+=C2=A0 =C2=A0 =C2=A0 qemu-system-x86_64+0x1f4f6e9)<br>
+<br>
+Signed-off-by: Volker R=C3=BCmelin &lt;<a href=3D"mailto:vr_qemu@t-online.d=
+e" target=3D"_blank">vr_qemu@t-online.de</a>&gt;<br>
 ---<br>
-=C2=A0tests/tcg/multiarch/{ =3D&gt; libs}/float_helpers.c |=C2=A0 2 +-<br>
-=C2=A0tests/tcg/multiarch/{ =3D&gt; linux}/linux-test.c=C2=A0 =C2=A0|=C2=A0=
- 0<br>
-=C2=A0tests/tcg/multiarch/Makefile.target=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 | 15 ++++++++++-----<br>
-=C2=A0tests/tcg/x86_64/Makefile.target=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 4 ++++<br>
-=C2=A04 files changed, 15 insertions(+), 6 deletions(-)<br>
-=C2=A0rename tests/tcg/multiarch/{ =3D&gt; libs}/float_helpers.c (99%)<br>
-=C2=A0rename tests/tcg/multiarch/{ =3D&gt; linux}/linux-test.c (100%)<br></=
-blockquote><div><br></div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mail=
-to:imp@bsdimp.com">imp@bsdimp.com</a>&gt;</div><div><br></div><div>I&#39;ve=
- also tested it as well.</div><div>=C2=A0</div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">
-diff --git a/tests/tcg/multiarch/float_helpers.c b/tests/tcg/multiarch/libs=
-/float_helpers.c<br>
-similarity index 99%<br>
-rename from tests/tcg/multiarch/float_helpers.c<br>
-rename to tests/tcg/multiarch/libs/float_helpers.c<br>
-index bc530e5732..4e68d2b659 100644<br>
---- a/tests/tcg/multiarch/float_helpers.c<br>
-+++ b/tests/tcg/multiarch/libs/float_helpers.c<br>
-@@ -22,7 +22,7 @@<br>
-=C2=A0#include &lt;float.h&gt;<br>
-=C2=A0#include &lt;fenv.h&gt;<br>
+=C2=A0ui/console.c | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
 <br>
--#include &quot;float_helpers.h&quot;<br>
-+#include &quot;../float_helpers.h&quot;<br>
+diff --git a/ui/console.c b/ui/console.c<br>
+index 29a3e3f0f5..1ef5a96295 100644<br>
+--- a/ui/console.c<br>
++++ b/ui/console.c<br>
+@@ -2264,6 +2264,7 @@ static void vc_chr_open(Chardev *chr,<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
 <br>
-=C2=A0#define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;chr =3D chr;<br>
++=C2=A0 =C2=A0 object_ref(chr);<br>
+=C2=A0 =C2=A0 =C2=A0drv-&gt;console =3D s;<br>
 <br>
-diff --git a/tests/tcg/multiarch/linux-test.c b/tests/tcg/multiarch/linux/l=
-inux-test.c<br>
-similarity index 100%<br>
-rename from tests/tcg/multiarch/linux-test.c<br>
-rename to tests/tcg/multiarch/linux/linux-test.c<br>
-diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Make=
-file.target<br>
-index 85a6fb7a2e..3763df2019 100644<br>
---- a/tests/tcg/multiarch/Makefile.target<br>
-+++ b/tests/tcg/multiarch/Makefile.target<br>
-@@ -8,18 +8,23 @@<br>
-=C2=A0MULTIARCH_SRC=3D$(SRC_PATH)/tests/tcg/multiarch<br>
-<br>
-=C2=A0# Set search path for all sources<br>
--VPATH=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 +=3D $(MULTIARCH_SRC)<br>
--MULTIARCH_SRCS=C2=A0 =C2=A0=3D$(notdir $(wildcard $(MULTIARCH_SRC)/*.c))<b=
-r>
--MULTIARCH_TESTS=C2=A0 =3D$(filter-out float_helpers, $(MULTIARCH_SRCS:.c=
-=3D))<br>
-+VPATH=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+=3D $(MULTIARCH_SRC)<br>
-+MULTIARCH_SRCS =3D=C2=A0 $(notdir $(wildcard $(MULTIARCH_SRC)/*.c))<br>
-+ifneq ($(CONFIG_LINUX),)<br>
-+VPATH=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+=3D $(MULTIARCH_SRC)/linux<br>
-+MULTIARCH_SRCS +=3D $(notdir $(wildcard $(MULTIARCH_SRC)/linux/*.c))<br>
-+endif<br>
-+MULTIARCH_TESTS =3D $(MULTIARCH_SRCS:.c=3D)<br>
-<br>
-+$(info SRCS=3D${MULTIARCH_SRCS} and ${MULTIARCH_TESTS})<br>
-=C2=A0#<br>
-=C2=A0# The following are any additional rules needed to build things<br>
-=C2=A0#<br>
-<br>
-<br>
-=C2=A0float_%: LDFLAGS+=3D-lm<br>
--float_%: float_%.c float_helpers.c<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $&lt; $(MULTIAR=
-CH_SRC)/float_helpers.c -o $@ $(LDFLAGS)<br>
-+float_%: float_%.c libs/float_helpers.c<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $&lt; $(MULTIAR=
-CH_SRC)/libs/float_helpers.c -o $@ $(LDFLAGS)<br>
-<br>
-=C2=A0run-float_%: float_%<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 $(call run-test,$&lt;, $(QEMU) $(QEMU_OPTS) $&l=
-t;,&quot;$&lt; on $(TARGET_NAME)&quot;)<br>
-diff --git a/tests/tcg/x86_64/Makefile.target b/tests/tcg/x86_64/Makefile.t=
-arget<br>
-index 2151ea6302..d7a7385583 100644<br>
---- a/tests/tcg/x86_64/Makefile.target<br>
-+++ b/tests/tcg/x86_64/Makefile.target<br>
-@@ -8,8 +8,12 @@<br>
-<br>
-=C2=A0include $(SRC_PATH)/tests/tcg/i386/Makefile.target<br>
-<br>
-+ifneq ($(CONFIG_LINUX),)<br>
-=C2=A0X86_64_TESTS +=3D vsyscall<br>
-=C2=A0TESTS=3D$(MULTIARCH_TESTS) $(X86_64_TESTS) test-x86_64<br>
-+else<br>
-+TESTS=3D$(MULTIARCH_TESTS)<br>
-+endif<br>
-=C2=A0QEMU_OPTS +=3D -cpu max<br>
-<br>
-=C2=A0test-x86_64: LDFLAGS+=3D-lm -lc<br>
--- <br>
-2.30.2<br>
-<br>
-</blockquote></div></div>
+=C2=A0 =C2=A0 =C2=A0if (display_state) {<br clear=3D"all"></blockquote><div=
+><br></div><div>Isn&#39;t this effectively preventing removing the chardev?=
+ Hence, it should either be made busy, or keeping a weak pointer invalidate=
+d on instance_finalize imho.</div><div><br></div><div>thanks<br></div><div>=
+=C2=A0</div></div><br>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Mar=
+c-Andr=C3=A9 Lureau<br></div></div>
 
---0000000000009b77df05cc33f110--
+--00000000000076fccd05cc33fcc7--
 
