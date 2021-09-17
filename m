@@ -2,90 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE29E40F481
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 11:06:15 +0200 (CEST)
-Received: from localhost ([::1]:33362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 522D340F482
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 11:08:23 +0200 (CEST)
+Received: from localhost ([::1]:37928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mR9p0-0005Oc-Ms
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 05:06:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51076)
+	id 1mR9r4-0008Uo-Ch
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 05:08:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mR9id-0002td-QO
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 04:59:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59971)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mR9iZ-0003SW-6i
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 04:59:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631869174;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lfWLsDMcDJCBpi517s5xKISqgPEbDTZzpQo54ivTci0=;
- b=R12HON8PWS4LpUHMWb2cnJo4OJYd8j7zUdWru3M2Y4BICrdeSqjFCCoOVV6K5Xcw6ovvdl
- zZyl9S3jBGT1KStsMgQ7yWDof1iSGAto3+K64QZ2rmzbPku2VoYQ1kJZXDIRKEEfJ1qIF6
- jSuKGDZCUA0E0qCj/Nh9UxyrwNboRSQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-rpwDTjGHMcGb38U-j6ET9g-1; Fri, 17 Sep 2021 04:59:31 -0400
-X-MC-Unique: rpwDTjGHMcGb38U-j6ET9g-1
-Received: by mail-wr1-f72.google.com with SMTP id
- z2-20020a5d4c82000000b0015b140e0562so3476931wrs.7
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 01:59:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mR9p0-0006RY-6W
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 05:06:14 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:38590)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mR9ot-0000XS-GE
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 05:06:13 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ j134-20020a1c238c000000b0030b32367649so3025660wmj.3
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 02:06:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EWX7LtfbvUbZhOcMQaMQrtguuDZy1PSNR0PZwkGe/+8=;
+ b=SwqPtWlBJodXjZekKQzy6qPvUdnS6tXV+5AFCiUoCgl+VZN9NYXxFoNir4b++8lSWo
+ z+858Orzi/eKPN+cFifl2R4gqX68/dENHyAj/eLFNuOH33MxfJp2D1DmmiM4BD4cHTyU
+ q4tV20EII+PxOopFRtZLeZ7MnKSrn4PkcAfhxjnAfN6NAVx+FYWkgqjuNwlYbgIDkAga
+ 47KJzbNVU0V5XFXwDvzJVOOzumOxhlf/d9Vfs36hYOnbruQuuLHmyeOemVt1wlLibmN2
+ nQnfxWuP7IDYw+/w22uB+4kmrAx8eyEMNWik5pLHFBIrWvodRoz0q5z2l8wq8+oY3iXW
+ 7Z1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=lfWLsDMcDJCBpi517s5xKISqgPEbDTZzpQo54ivTci0=;
- b=QzJST3vAOdJ3ggA9/5NYCADNh9JTDkrmjju2FWrs3wjoIh/diD81pW6O6PynhiLFTx
- LNxkYmzAnGEoW4dMpbu65Vw00l/Sc28WMXnEi0ebmvpe4KmDLqm2OKTod17eKYgFw4gL
- uDMAdXlUFGh1j2aC2EyDnnzF758xdYHLkI2D65wsxk2wg3OVz3UdNmKfN60N9/zLRLuy
- cEP1qEydOJPv1MCSi5sTScNAvK17V+UfEebmhg0CVTb6yxsD+vzlkI2/KwOPGOoKq7sS
- 10v9TrIS3GMqXLxvQGnpIs7+zzk0ySQsruNPscRKGq/iY+ATNVGqtUPIcr7NR2hXIA5f
- 5fuA==
-X-Gm-Message-State: AOAM531meO3uYmANoKGb//3hXynE0Z9J6il+mLhsFsZ06jnkF1YCvPFm
- BHRoVUHG3UM/eLn3s3d2m4APIdELR5p1Hfz8IeY252PTjnU3t+1zokjtSTmdSHLekht8wjka9Gc
- 9hGwvp3qvjr7e1Cs=
-X-Received: by 2002:a5d:4d4f:: with SMTP id a15mr10883102wru.210.1631869170107; 
- Fri, 17 Sep 2021 01:59:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzBoKPy3iBaYZ/w3mmEaBd+FzXZaApU+LOWk5UlLhohjIp7GB2YAvRg7pphTkr38NHiQNnAxQ==
-X-Received: by 2002:a5d:4d4f:: with SMTP id a15mr10883086wru.210.1631869169915; 
- Fri, 17 Sep 2021 01:59:29 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
- by smtp.gmail.com with ESMTPSA id s15sm6142161wrb.22.2021.09.17.01.59.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Sep 2021 01:59:29 -0700 (PDT)
-Subject: Re: [PATCH v3 04/16] iotests/migrate-bitmaps-test: delint
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20210916040955.628560-1-jsnow@redhat.com>
- <20210916040955.628560-5-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <76e4af2b-f3f1-3642-9b2c-98b39a465601@redhat.com>
-Date: Fri, 17 Sep 2021 10:59:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EWX7LtfbvUbZhOcMQaMQrtguuDZy1PSNR0PZwkGe/+8=;
+ b=X2uq0tOMy78cWAd2kh8WUJaBPFgNEXqn1fhGMC/JTOPr3PqME9f8ZDQLiUXJGrWdYE
+ qvmsHho89ouSYpxt4KKQrRjubAd6efjUCTlekpo2Wz8CiNbI2af1U8z45C+YOBeMNhQC
+ vL/wvM8AyfiqBg2EOFt4FmB++MDmBy296Yo+B4Lvmna1lT1aYyPtnYwX/FmnS1MIMTy8
+ CjEOVzszxR1ukNQZ+lednOd0xoKmrepxSjtSykWFymDYn/wKmR7CFtZx5B+Np+tpJMsM
+ jrNMmpKRevZQYUz9QQJ6tr3nQFZmTPoR6Yck4olLzCHmutnV1ahCdZPezmhr8B18qNe0
+ avxw==
+X-Gm-Message-State: AOAM530b2CW6GKyGPB+PArxZAHf/ZA12WA73zfaA6eczDR3Y92YWaROU
+ X8M4WZRFm9CyyaYA99fTEhimTejLRqcZOXsVK8XnTQ==
+X-Google-Smtp-Source: ABdhPJzpTYLnxwdXU7fN+185/qhjp7UxrcTbc+T8lWx8wC/rGdAjWn8u4AT3EmstqHu3HvoC0Ia/tPl3nIbINTGklE0=
+X-Received: by 2002:a05:600c:2259:: with SMTP id
+ a25mr9255187wmm.133.1631869565202; 
+ Fri, 17 Sep 2021 02:06:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210916040955.628560-5-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.488, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210916151237.1188301-1-laurent@vivier.eu>
+In-Reply-To: <20210916151237.1188301-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 17 Sep 2021 10:05:13 +0100
+Message-ID: <CAFEAcA_C2JxvKOM0F9HCLciNA+THYZLP6JvRC72AJ2wBcrEqzA@mail.gmail.com>
+Subject: Re: [PULL 00/10] Linux user for 6.2 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,23 +78,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16.09.21 06:09, John Snow wrote:
-> Mostly uninteresting stuff. Move the test injections under a function
-> named main() so that the variables used during that process aren't in
-> the global scope.
+On Thu, 16 Sept 2021 at 16:16, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   tests/qemu-iotests/tests/migrate-bitmaps-test | 50 +++++++++++--------
->   1 file changed, 28 insertions(+), 22 deletions(-)
+> The following changes since commit 7d79344d4fa44e520e6e89f8fed9a27d3d554a9b:
+>
+>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-09-13 13:33:21 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/linux-user-for-6.2-pull-request
+>
+> for you to fetch changes up to 74e43b04b0260da09d14bc56a5d629d4753b8b27:
+>
+>   linux-user: Check lock_user result for ip_mreq_source sockopts (2021-09-16 17:04:21 +0200)
+>
+> ----------------------------------------------------------------
+> Pull request linux-user 20210916
+>
+> Code cleanup
+>
+> ----------------------------------------------------------------
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
+for any user-visible changes.
+
+-- PMM
 
