@@ -2,45 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A0FD40F430
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 10:33:42 +0200 (CEST)
-Received: from localhost ([::1]:54834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 138F340F415
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 10:26:12 +0200 (CEST)
+Received: from localhost ([::1]:36408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mR9JV-0005p3-4d
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 04:33:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44094)
+	id 1mR9CF-0001rO-4I
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 04:26:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mR973-00021h-Nh
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 04:20:49 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:41026 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mR96p-0004GN-JJ
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 04:20:49 -0400
-Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxleUMTkRhuvoIAA--.26151S23; 
- Fri, 17 Sep 2021 16:13:43 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 21/21] scripts: add loongarch64 binfmt config
-Date: Fri, 17 Sep 2021 16:13:00 +0800
-Message-Id: <1631866380-31017-22-git-send-email-gaosong@loongson.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1631866380-31017-1-git-send-email-gaosong@loongson.cn>
-References: <1631866380-31017-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9DxleUMTkRhuvoIAA--.26151S23
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4xXr4kArWDGFyfXF17trb_yoW8WF4Dpr
- 15A3W8CF4jg3WUA3WkXw13Gr1DGrn0kas7Xr43tr1UAF15tw1rZr1fJr18J3WDJF48JF1j
- 9F95Ja1DJF4IkF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1mR93c-0003g4-5s
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 04:17:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41643)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1mR93X-0001Iz-EJ
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 04:17:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631866629;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YjAhy4etJLYI7E4SySbNL/8/zzcpiPNLbp4/8iVqvL4=;
+ b=SN8AF1KarRjeAhUf+ai4zcQQS9qKyJ+SR5rihXB1NuFpVN70hBX/TDHveE38M068rdv6kz
+ ZrqhCz96+RG5vXKMQGYz7rHG6ur/Malhn2OS508k1uikXA8RZV4NeC48QpUE/w7BcSvA8Q
+ FfZBz7Dw2+WElW4ay/IiZTebjzSe3uY=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-G9AmK7BQNySK8AZuJiXqQw-1; Fri, 17 Sep 2021 04:17:08 -0400
+X-MC-Unique: G9AmK7BQNySK8AZuJiXqQw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ 14-20020a508e0e000000b003d822ac0581so47611edw.22
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 01:17:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=YjAhy4etJLYI7E4SySbNL/8/zzcpiPNLbp4/8iVqvL4=;
+ b=f/4FerrlWLynOHtSu39tqhJ0oj8Ka0CDziZXGM3Hz9ZnxyaK4bN94lroODQplUODje
+ pXe3+dfZ+FAoT7EunD8F9WISCtZrkbUojG3uHnEc/CO7I5Zkt2HtB0CucGWnhQCoQpXr
+ IQiRo3YROqqlPAOr3DQ8r24PAnm5liLILjuYA2qPE/5bKeMwOnhNus+51V9kp3u2s+7H
+ mrdpuK97tXEGY/rFl4pyJMjfU+z90kqWfvLqfVL+GjMh8uJ5QiQEiLxcPDrdRBdU23L6
+ oIKqOFccb3/0E4LqbrMbYM+dq5ysBfXFOfcGgOYQsPHJ/1OOhrEw1LYVKM33Zwr3xdeb
+ Om6w==
+X-Gm-Message-State: AOAM533nuje0feD7cSZGYnAVTWAbFjWBd/B98jKb77BGOuk6MjmtF1uU
+ Nr7uHh3dj9Gd2Ej+ZZbGqhDBIN5Jp4GSIcIs/QfSnQSXyqSEcMkhdj4kDEMvEjQWremzQeyL4BU
+ BAK0d4U5xPRvb9RE=
+X-Received: by 2002:aa7:c9cd:: with SMTP id i13mr11395546edt.178.1631866627261; 
+ Fri, 17 Sep 2021 01:17:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx9poZ4JKtkQCVqvYKvtMkuAyU51Yb2cS+hxRb/gEjEl6JC2ms1FGC0DhsJ3+PZm+gfHABHQg==
+X-Received: by 2002:aa7:c9cd:: with SMTP id i13mr11395533edt.178.1631866627072; 
+ Fri, 17 Sep 2021 01:17:07 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id c5sm2328927edx.81.2021.09.17.01.17.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Sep 2021 01:17:06 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 0/8] i386: Assorted KVM PV and Hyper-V feature
+ improvements
+In-Reply-To: <20210902093530.345756-1-vkuznets@redhat.com>
+References: <20210902093530.345756-1-vkuznets@redhat.com>
+Date: Fri, 17 Sep 2021 10:17:06 +0200
+Message-ID: <87a6kbboql.fsf@vitty.brq.redhat.com>
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,46 +93,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, chenhuacai@loongson.cn,
- philmd@redhat.com, richard.henderson@linaro.org, laurent@vivier.eu,
- peterx@redhat.com, f4bug@amsat.org, yangxiaojuan@loongson.cn,
- alistair.francis@wdc.com, maobibo@loongson.cn, pbonzini@redhat.com,
- bmeng.cn@gmail.com, alex.bennee@linaro.org, gaosong@loongson.cn
+Cc: Igor Mammedov <imammedo@redhat.com>, Vadim Rozenfeld <vrozenfe@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Song Gao <gaosong@loongson.cn>
-Signed-off-by: XiaoJuan Yang <yangxiaojuan@loongson.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- scripts/qemu-binfmt-conf.sh | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Vitaly Kuznetsov <vkuznets@redhat.com> writes:
 
-diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-index 7de996d..5575bdd 100755
---- a/scripts/qemu-binfmt-conf.sh
-+++ b/scripts/qemu-binfmt-conf.sh
-@@ -4,7 +4,7 @@
- qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
- ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
- sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
--microblaze microblazeel or1k x86_64 hexagon"
-+microblaze microblazeel or1k x86_64 hexagon loongarch64"
- 
- i386_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x03\x00'
- i386_mask='\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-@@ -140,6 +140,10 @@ hexagon_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x
- hexagon_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
- hexagon_family=hexagon
- 
-+loongarch64_magic='\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x02\x01'
-+loongarch64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-+loongarch64_family=loongarch
-+
- qemu_get_family() {
-     cpu=${HOST_ARCH:-$(uname -m)}
-     case "$cpu" in
+> This is a continuation of "[PATCH 0/3] i386/kvm: Paravirtualized features usage 
+> enforcement" series, thus v2.
+>
+> This series implements several unrelated features but as there are code
+> dependencies between them I'm sending it as one series.
+>
+> PATCH1 adds empty 6.2 machine types and the required compat infrastructure
+> (to be used by PATCH8)
+> PATCH2 adds documentation for KVM PV features
+> PATCH3 adds support for KVM_CAP_ENFORCE_PV_FEATURE_CPUID
+> PATCH4 adds support for KVM_CAP_HYPERV_ENFORCE_CPUID
+> PATCHes5-6 add 'hv-avic' feature
+> PATCH7 makes Hyper-V version info settable
+> PATCH8 changes the default Hyper-V version to 2016
+
+Eduardo, Paolo, all,
+
+any comments? It seems patches can still be applied to 'master' with no
+issues.
+
 -- 
-1.8.3.1
+Vitaly
 
 
