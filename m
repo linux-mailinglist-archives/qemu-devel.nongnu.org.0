@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F4140F1BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 07:49:00 +0200 (CEST)
-Received: from localhost ([::1]:43668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C92140F1BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 07:44:44 +0200 (CEST)
+Received: from localhost ([::1]:36070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mR6k7-0005AC-5E
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 01:48:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48082)
+	id 1mR6fz-0008LY-F6
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 01:44:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mR6cb-0004vv-Ki
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mR6cb-0004vx-L1
  for qemu-devel@nongnu.org; Fri, 17 Sep 2021 01:41:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36134)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29278)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mR6cY-0003Kt-CL
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mR6cY-0003MD-KB
  for qemu-devel@nongnu.org; Fri, 17 Sep 2021 01:41:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631857269;
+ s=mimecast20190719; t=1631857270;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9rQTYxM12O0gGxp/LBmoCwHBzY/dzx3Uu+G1x1JDjrI=;
- b=isiWP+HMqy391OqV8oXWkawruKx7cUye7LzK/PzDc8TwCoKXdSV80+GOjGLxcucrKYMq/q
- EnErTN1I4g0K1idOqEd+kiL5P0BnmKd8tlCdWpAFuzSbLrUwPz38Kk6OM//aIhDyBlAnxh
- sERnLYHCYiBhjkjKuPnfqGmEswsnmAE=
+ bh=GBw5mtpr7i7V2RinC1R2gjVHzSYtc5auLIfH0TrTmBc=;
+ b=ijGGKyOytX29N370oDD68HdEbo2bYI+4U8t/Qg8AbmZJPbJyBq4ZHLvagPllp5H3+rcgUP
+ 86bB6vPiY0graZp9t816NKt26laQU1fyYtxlP6/qlWE8M2wRfHWSV6MEPiuzDsaa/GUeZ9
+ BVqrPiEl/XWzAd3s9SbuKLNAiaFCmiQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-EpER2eMrPISZCBhGor2Zyw-1; Fri, 17 Sep 2021 01:41:06 -0400
-X-MC-Unique: EpER2eMrPISZCBhGor2Zyw-1
+ us-mta-230-70RLgkoBNXS8RUyMq_qfFQ-1; Fri, 17 Sep 2021 01:41:08 -0400
+X-MC-Unique: 70RLgkoBNXS8RUyMq_qfFQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8D061084681;
- Fri, 17 Sep 2021 05:41:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69EA2824FA6;
+ Fri, 17 Sep 2021 05:41:07 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C24DC60843;
- Fri, 17 Sep 2021 05:41:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1E23360843;
+ Fri, 17 Sep 2021 05:41:06 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/15] python/aqmp: Return cleared events from
- EventListener.clear()
-Date: Fri, 17 Sep 2021 01:40:35 -0400
-Message-Id: <20210917054047.2042843-4-jsnow@redhat.com>
+Subject: [PATCH 04/15] python/qmp: clear events on get_events() call
+Date: Fri, 17 Sep 2021 01:40:36 -0400
+Message-Id: <20210917054047.2042843-5-jsnow@redhat.com>
 In-Reply-To: <20210917054047.2042843-1-jsnow@redhat.com>
 References: <20210917054047.2042843-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,56 +84,72 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This serves two purposes:
+All callers in the tree *already* clear the events after a call to
+get_events(). Do it automatically instead and update callsites to remove
+the manual clear call.
 
-(1) It is now possible to discern whether or not clear() removed any
-event(s) from the queue with absolute certainty, and
+These semantics are quite a bit easier to emulate with async QMP, and
+nobody appears to be abusing some emergent properties of what happens if
+you decide not to clear them, so let's dial down to the dumber, simpler
+thing.
 
-(2) It is now very easy to get a List of all pending events in one
-chunk, which is useful for the sync bridge.
+Specifically: callers of clear() right after a call to get_events() are
+more likely expressing their desire to not see any events they just
+retrieved, whereas callers of clear_events() not in relation to a recent
+call to pull_event/get_events are likely expressing their desire to
+simply drop *all* pending events straight onto the floor. In the sync
+world, this is safe enough; in the async world it's nearly impossible to
+promise that nothing happens between getting and clearing the
+events.
+
+Making the retrieval also clear the queue is vastly simpler.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/events.py | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ python/qemu/machine/machine.py | 1 -
+ python/qemu/qmp/__init__.py    | 4 +++-
+ python/qemu/qmp/qmp_shell.py   | 1 -
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/python/qemu/aqmp/events.py b/python/qemu/aqmp/events.py
-index 271899f6b8..5f7150c78d 100644
---- a/python/qemu/aqmp/events.py
-+++ b/python/qemu/aqmp/events.py
-@@ -562,7 +562,7 @@ def empty(self) -> bool:
+diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+index 34131884a5..ae945ca3c9 100644
+--- a/python/qemu/machine/machine.py
++++ b/python/qemu/machine/machine.py
+@@ -631,7 +631,6 @@ def get_qmp_events(self, wait: bool = False) -> List[QMPMessage]:
+         events = self._qmp.get_events(wait=wait)
+         events.extend(self._events)
+         del self._events[:]
+-        self._qmp.clear_events()
+         return events
+ 
+     @staticmethod
+diff --git a/python/qemu/qmp/__init__.py b/python/qemu/qmp/__init__.py
+index 269516a79b..ba15668c25 100644
+--- a/python/qemu/qmp/__init__.py
++++ b/python/qemu/qmp/__init__.py
+@@ -374,7 +374,9 @@ def get_events(self, wait: bool = False) -> List[QMPMessage]:
+         @return The list of available QMP events.
          """
-         return self._queue.empty()
- 
--    def clear(self) -> None:
-+    def clear(self) -> List[Message]:
-         """
-         Clear this listener of all pending events.
- 
-@@ -570,17 +570,22 @@ def clear(self) -> None:
-         pending FIFO queue synchronously. It can be also be used to
-         manually clear any pending events, if desired.
- 
-+        :return: The cleared events, if any.
-+
-         .. warning::
-             Take care when discarding events. Cleared events will be
-             silently tossed on the floor. All events that were ever
-             accepted by this listener are visible in `history()`.
-         """
-+        events = []
-         while True:
-             try:
--                self._queue.get_nowait()
-+                events.append(self._queue.get_nowait())
-             except asyncio.QueueEmpty:
-                 break
- 
+         self.__get_events(wait)
+-        return self.__events
++        events = self.__events
++        self.__events = []
 +        return events
-+
-     def __aiter__(self) -> AsyncIterator[Message]:
-         return self
  
+     def clear_events(self) -> None:
+         """
+diff --git a/python/qemu/qmp/qmp_shell.py b/python/qemu/qmp/qmp_shell.py
+index 337acfce2d..e7d7eb18f1 100644
+--- a/python/qemu/qmp/qmp_shell.py
++++ b/python/qemu/qmp/qmp_shell.py
+@@ -381,7 +381,6 @@ def read_exec_command(self) -> bool:
+         if cmdline == '':
+             for event in self.get_events():
+                 print(event)
+-            self.clear_events()
+             return True
+ 
+         return self._execute_cmd(cmdline)
 -- 
 2.31.1
 
