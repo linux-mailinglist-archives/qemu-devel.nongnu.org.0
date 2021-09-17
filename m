@@ -2,68 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6690240FDC2
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 18:19:28 +0200 (CEST)
-Received: from localhost ([::1]:43640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9046540FDEF
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 18:31:23 +0200 (CEST)
+Received: from localhost ([::1]:40488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRGaF-0005mT-GG
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 12:19:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60680)
+	id 1mRGlm-0005yc-Kt
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 12:31:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mRGRx-0003ok-II
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:10:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37669)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mRGUh-0007QY-60
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:13:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mRGRu-0003kR-1P
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:10:51 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mRGUc-0005rT-1L
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:13:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631895048;
+ s=mimecast20190719; t=1631895215;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pBAduwEuFo/pbkgs6E5WXLKNkorA44XpdlapDUpXyZc=;
- b=P5JU9LNKp3G7kb/6rfhsqc7e07j7Zl870ilPUjj7+I4PSFzUzh79Dplb92gQQCE4lWyttn
- 3nsOLpEdZSJp3uf3nd6yCYLoxOZBL3XVzdgtE3W3Yvb/GSVvjaeWokKRL04UiwDVG2A/rZ
- vUSGsfAPF9bNPJ5r3p4wziB+QEDRwC4=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Qdgu37w88DJMRPaklZUp1cwI02el6LlbveHWc9NkObM=;
+ b=COkYbUORhr1eSr8jMiYw2SpCAoIK+LIC1P+JBe2jP6vyB4kwOBgqP0EK62X/2ohV99Iqgq
+ Wr8AnUf5tJPfRiZk0QoNT8P6sBF2cE6s56VltYYYTpEBjlAHsZNVGVWYVsoqbdJHkA7MmL
+ VepGrn4miAVT7xPnL5kfdrGiK6wwdwc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-OTHuKKFyMaG3LKp9IK21Og-1; Fri, 17 Sep 2021 12:10:46 -0400
-X-MC-Unique: OTHuKKFyMaG3LKp9IK21Og-1
+ us-mta-553-uPtpW-IXMDiB8Viw82-hcQ-1; Fri, 17 Sep 2021 12:13:32 -0400
+X-MC-Unique: uPtpW-IXMDiB8Viw82-hcQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAD2191279;
- Fri, 17 Sep 2021 16:10:45 +0000 (UTC)
-Received: from redhat.com (ovpn-113-101.phx2.redhat.com [10.3.113.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B8B060C2B;
- Fri, 17 Sep 2021 16:10:45 +0000 (UTC)
-Date: Fri, 17 Sep 2021 11:10:43 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2] nbd/server: Suppress Broken pipe errors on abrupt
- disconnection
-Message-ID: <20210917161043.5xxfice6bbf7acb7@redhat.com>
-References: <20210913151936.392705-1-rjones@redhat.com>
- <6c59b070-b9b4-6ecb-8557-3ea54af3d45a@virtuozzo.com>
- <20210914145200.GJ26415@redhat.com>
- <997fe8b4-3610-2336-c7f3-67a0e2cbf34e@virtuozzo.com>
- <20210914163232.GN26415@redhat.com>
- <0bdef3d9-df05-f49d-038c-9930c2677f54@virtuozzo.com>
- <20210915090025.GP26415@redhat.com>
- <637d695d-7910-9bdf-3b6e-18408c556825@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7631F10168C7
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 16:13:31 +0000 (UTC)
+Received: from merkur.redhat.com (unknown [10.39.193.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F2F87A5C5;
+ Fri, 17 Sep 2021 16:13:30 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/8] qapi: Add support for aliases
+Date: Fri, 17 Sep 2021 18:13:12 +0200
+Message-Id: <20210917161320.201086-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <637d695d-7910-9bdf-3b6e-18408c556825@virtuozzo.com>
-User-Agent: NeoMutt/20210205-772-2b4c52
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -84,56 +73,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, "Richard W.M. Jones" <rjones@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, jsnow@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 15, 2021 at 12:11:35PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> > > >    There are two methods of terminating the transmission phase:
-> > > >    ...
-> > > >    "The client or the server drops the TCP session (in which case it
-> > > >    SHOULD shut down the TLS session first). This is referred to as
-> > > >    'initiating a hard disconnect'."
-> > > 
-> > > Right. Here the method is defined, no word that client can do it at any time.
+This series introduces alias definitions for QAPI object types (structs
+and unions).
 
-Note that right now, most TLS clients are NOT gracefully shutting down
-the TLS session, on either hard or soft disconnect.  And this is even
-observable in non-deterministic behavior of what message the server
-reports when it diagnoses that a TLS client has gone away.  As argued
-elsewhere, a hard disconnect does not necessarily lose data, but it
-does add non-determinism into the equation, which makes regression
-testing a bit harder.
+This allows using the same QAPI type and visitor even when the syntax
+has some variations between different external interfaces such as QMP
+and the command line.
 
-> > 
-> > I don't read this as a definition.
-> 
-> If so, next paragraphs that specify client behavior doesn't make sense.
-> 
-> > 
-> > But we should probably clarify the spec to note that dropping the
-> > connection is fine, because it is - no one has made any argument so
-> > far that there's an actual reason to waste time on NBD_CMD_DISC.
-> > 
-> 
-> I agree that it's safe enough..
-> 
-> Hmm. If we update the spec to clarify that sending DISC is not necessary, is there any reason to send it at all? We can stop sending it in Qemu as well.
+It also provides a new tool for evolving the schema while maintaining
+backwards compatibility (possibly during a deprecation period).
 
-No, I'd still prefer that qemu send NBD_CMD_DISC where possible.
-Although existing servers tolerate hard disconnects, the way I read
-the NBD spec is that clients SHOULD prefer soft disconnect, in case it
-deals with a server where the difference matters.
+The first user is intended to be a QAPIfied -chardev command line
+option, for which I'll send a separate series. A git tag is available
+that contains both this series and the chardev changes that make use of
+it:
 
-When implementing 'qemu-nbd --list', I remember having to rejigger
-code to add in a graceful NBD_OPT_ABORT into more places, for the same
-reason as sending NBD_CMD_DISC at the end of transmission phase
-reduces the chance for non-determinism on how the server may react.
+    https://repo.or.cz/qemu/kevin.git qapi-alias-chardev-v4
+
+v4:
+- Make sure to keep a defined order of aliases in StackObject.aliases
+- Added patch 4 to allow for better error messages when wildcard aliases
+  provide a second value for a member, which may or may not be consumed
+  elsewhere.
+- Resolve chained aliases only once instead of just checking that they
+  can be resolved while looking for matching aliases, and actually
+  resolving them at the end. This is not only a code simplification, but
+  actually necessary for correct error messages on conflicts.
+- Separate schema.py cleanup patch by Markus ('qapi: Revert an
+  accidental change from list to view object')
+- Fixed alias name checks in the QAPI generator
+- Changed check_path() to avoid modifying its 'path' parameter
+- Some more test cases
+- Coding style fixes
+- Documentation improvements
+
+v3:
+- Mention the new functions in the big comment in visitor.h. However,
+  since the comment is about users of the visitor rather than the
+  generated code, it seems like to wrong place to go into details.
+- Updated commit message for patch 3 ('Simplify full_name_nth() ...')
+- Patch 4 ('qapi: Apply aliases in qobject-input-visitor'):
+    - Multiple matching wildcard aliases are considered conflicting now
+    - Improved comments for several functions
+    - Renamed bool *implicit_object into *is_alias_prefix, which
+      describes better what it is rather than what it is used for
+    - Simplified alias_present() into input_present()
+    - Fixed potential use of wrong StackObject in error message
+- Patch 5 ('qapi: Add support for aliases'):
+    - Made QAPISchemaAlias a QAPISchemaMember
+    - Check validity of alias source paths (must exist in at least one
+      variant, no optional objects in the path of a wildcard alias, no
+      alias loops)
+- Many new tests cases, both positive and negative, including unit tests
+  of the generated visit functions
+- Coding style changes
+- Rebased documentation (.txt -> .rst conversion in master)
+
+v2:
+- Renamed 'alias' to 'name' in all data structures describing aliases
+- Tons of new or changed comments and other documentation
+- Be more explicit that empty 'source' is invalid and assert it
+- Fixed full_name_so() for lists (added a parameter to tell the function
+  whether the name of a list member or the list itself is meant)
+- Changed some QAPI generator error messages
+- Assert the type of parameters in QAPISchemaAlias.__init__()
+
+Kevin Wolf (7):
+  qapi: Add interfaces for alias support to Visitor
+  qapi: Remember alias definitions in qobject-input-visitor
+  qapi: Simplify full_name_nth() in qobject-input-visitor
+  qapi: Store Error in StackObject.h for qobject-input-visitor
+  qapi: Apply aliases in qobject-input-visitor
+  qapi: Add support for aliases
+  tests/qapi-schema: Test cases for aliases
+
+Markus Armbruster (1):
+  qapi: Revert an accidental change from list to view object
+
+ docs/devel/qapi-code-gen.rst                  | 109 ++++-
+ docs/sphinx/qapidoc.py                        |   2 +-
+ include/qapi/visitor-impl.h                   |  12 +
+ include/qapi/visitor.h                        |  59 ++-
+ qapi/qapi-visit-core.c                        |  22 +
+ qapi/qobject-input-visitor.c                  | 452 ++++++++++++++++--
+ tests/unit/test-qmp-cmds.c                    |  10 +
+ tests/unit/test-qobject-input-visitor.c       | 271 +++++++++++
+ scripts/qapi/expr.py                          |  54 ++-
+ scripts/qapi/schema.py                        | 117 ++++-
+ scripts/qapi/types.py                         |   4 +-
+ scripts/qapi/visit.py                         |  34 +-
+ tests/qapi-schema/test-qapi.py                |   7 +-
+ tests/qapi-schema/alias-bad-type.err          |   2 +
+ tests/qapi-schema/alias-bad-type.json         |   3 +
+ tests/qapi-schema/alias-bad-type.out          |   0
+ tests/qapi-schema/alias-missing-source.err    |   2 +
+ tests/qapi-schema/alias-missing-source.json   |   3 +
+ tests/qapi-schema/alias-missing-source.out    |   0
+ tests/qapi-schema/alias-name-bad-type.err     |   2 +
+ tests/qapi-schema/alias-name-bad-type.json    |   3 +
+ tests/qapi-schema/alias-name-bad-type.out     |   0
+ tests/qapi-schema/alias-name-conflict.err     |   2 +
+ tests/qapi-schema/alias-name-conflict.json    |   4 +
+ tests/qapi-schema/alias-name-conflict.out     |   0
+ tests/qapi-schema/alias-recursive.err         |   2 +
+ tests/qapi-schema/alias-recursive.json        |   4 +
+ tests/qapi-schema/alias-recursive.out         |   0
+ tests/qapi-schema/alias-source-bad-type.err   |   2 +
+ tests/qapi-schema/alias-source-bad-type.json  |   3 +
+ tests/qapi-schema/alias-source-bad-type.out   |   0
+ .../alias-source-elem-bad-type.err            |   2 +
+ .../alias-source-elem-bad-type.json           |   3 +
+ .../alias-source-elem-bad-type.out            |   0
+ tests/qapi-schema/alias-source-empty.err      |   2 +
+ tests/qapi-schema/alias-source-empty.json     |   3 +
+ tests/qapi-schema/alias-source-empty.out      |   0
+ .../alias-source-inexistent-variants.err      |   2 +
+ .../alias-source-inexistent-variants.json     |  12 +
+ .../alias-source-inexistent-variants.out      |   0
+ tests/qapi-schema/alias-source-inexistent.err |   2 +
+ .../qapi-schema/alias-source-inexistent.json  |   3 +
+ tests/qapi-schema/alias-source-inexistent.out |   0
+ .../alias-source-non-object-path.err          |   2 +
+ .../alias-source-non-object-path.json         |   3 +
+ .../alias-source-non-object-path.out          |   0
+ .../alias-source-non-object-wildcard.err      |   2 +
+ .../alias-source-non-object-wildcard.json     |   3 +
+ .../alias-source-non-object-wildcard.out      |   0
+ ...lias-source-optional-wildcard-indirect.err |   2 +
+ ...ias-source-optional-wildcard-indirect.json |   6 +
+ ...lias-source-optional-wildcard-indirect.out |   0
+ .../alias-source-optional-wildcard.err        |   2 +
+ .../alias-source-optional-wildcard.json       |   5 +
+ .../alias-source-optional-wildcard.out        |   0
+ tests/qapi-schema/alias-unknown-key.err       |   3 +
+ tests/qapi-schema/alias-unknown-key.json      |   3 +
+ tests/qapi-schema/alias-unknown-key.out       |   0
+ tests/qapi-schema/aliases-bad-type.err        |   2 +
+ tests/qapi-schema/aliases-bad-type.json       |   3 +
+ tests/qapi-schema/aliases-bad-type.out        |   0
+ tests/qapi-schema/meson.build                 |  16 +
+ tests/qapi-schema/qapi-schema-test.json       |  35 ++
+ tests/qapi-schema/qapi-schema-test.out        |  44 ++
+ tests/qapi-schema/unknown-expr-key.err        |   2 +-
+ 65 files changed, 1290 insertions(+), 57 deletions(-)
+ create mode 100644 tests/qapi-schema/alias-bad-type.err
+ create mode 100644 tests/qapi-schema/alias-bad-type.json
+ create mode 100644 tests/qapi-schema/alias-bad-type.out
+ create mode 100644 tests/qapi-schema/alias-missing-source.err
+ create mode 100644 tests/qapi-schema/alias-missing-source.json
+ create mode 100644 tests/qapi-schema/alias-missing-source.out
+ create mode 100644 tests/qapi-schema/alias-name-bad-type.err
+ create mode 100644 tests/qapi-schema/alias-name-bad-type.json
+ create mode 100644 tests/qapi-schema/alias-name-bad-type.out
+ create mode 100644 tests/qapi-schema/alias-name-conflict.err
+ create mode 100644 tests/qapi-schema/alias-name-conflict.json
+ create mode 100644 tests/qapi-schema/alias-name-conflict.out
+ create mode 100644 tests/qapi-schema/alias-recursive.err
+ create mode 100644 tests/qapi-schema/alias-recursive.json
+ create mode 100644 tests/qapi-schema/alias-recursive.out
+ create mode 100644 tests/qapi-schema/alias-source-bad-type.err
+ create mode 100644 tests/qapi-schema/alias-source-bad-type.json
+ create mode 100644 tests/qapi-schema/alias-source-bad-type.out
+ create mode 100644 tests/qapi-schema/alias-source-elem-bad-type.err
+ create mode 100644 tests/qapi-schema/alias-source-elem-bad-type.json
+ create mode 100644 tests/qapi-schema/alias-source-elem-bad-type.out
+ create mode 100644 tests/qapi-schema/alias-source-empty.err
+ create mode 100644 tests/qapi-schema/alias-source-empty.json
+ create mode 100644 tests/qapi-schema/alias-source-empty.out
+ create mode 100644 tests/qapi-schema/alias-source-inexistent-variants.err
+ create mode 100644 tests/qapi-schema/alias-source-inexistent-variants.json
+ create mode 100644 tests/qapi-schema/alias-source-inexistent-variants.out
+ create mode 100644 tests/qapi-schema/alias-source-inexistent.err
+ create mode 100644 tests/qapi-schema/alias-source-inexistent.json
+ create mode 100644 tests/qapi-schema/alias-source-inexistent.out
+ create mode 100644 tests/qapi-schema/alias-source-non-object-path.err
+ create mode 100644 tests/qapi-schema/alias-source-non-object-path.json
+ create mode 100644 tests/qapi-schema/alias-source-non-object-path.out
+ create mode 100644 tests/qapi-schema/alias-source-non-object-wildcard.err
+ create mode 100644 tests/qapi-schema/alias-source-non-object-wildcard.json
+ create mode 100644 tests/qapi-schema/alias-source-non-object-wildcard.out
+ create mode 100644 tests/qapi-schema/alias-source-optional-wildcard-indirect.err
+ create mode 100644 tests/qapi-schema/alias-source-optional-wildcard-indirect.json
+ create mode 100644 tests/qapi-schema/alias-source-optional-wildcard-indirect.out
+ create mode 100644 tests/qapi-schema/alias-source-optional-wildcard.err
+ create mode 100644 tests/qapi-schema/alias-source-optional-wildcard.json
+ create mode 100644 tests/qapi-schema/alias-source-optional-wildcard.out
+ create mode 100644 tests/qapi-schema/alias-unknown-key.err
+ create mode 100644 tests/qapi-schema/alias-unknown-key.json
+ create mode 100644 tests/qapi-schema/alias-unknown-key.out
+ create mode 100644 tests/qapi-schema/aliases-bad-type.err
+ create mode 100644 tests/qapi-schema/aliases-bad-type.json
+ create mode 100644 tests/qapi-schema/aliases-bad-type.out
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.31.1
 
 
