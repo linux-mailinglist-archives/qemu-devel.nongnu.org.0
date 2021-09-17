@@ -2,93 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF97F40F6A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 13:21:04 +0200 (CEST)
-Received: from localhost ([::1]:49448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E098E40F6AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 13:23:23 +0200 (CEST)
+Received: from localhost ([::1]:55468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRBvT-0005ED-7h
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 07:21:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55522)
+	id 1mRBxi-0000yE-VQ
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 07:23:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRBrD-00036w-F9
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:16:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52910)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRBrA-0003LA-SQ
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:16:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631877394;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=suKUSBJX+uX4ZzQk519ABpJZgAJZtj8L11YCAaPtR2g=;
- b=Zr/stPPJTGDuoLTtwGLWhE2dJx6PzYxTWOOyhjGw+2L8/b88Bf4+eVZ6uLa73EDoYoPq8P
- NDXW8Dx8C0j+0qD4FGGu3Jgw5Zmuv8NxLoG0QCglQqgaWvIS0dyvUzSXr8M5MpM/I4kNT/
- SkNGLQD/mvCIPuLefa8/ZfDsUPSLsNA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-576-5B6ScG6UMSypf3JmApahnQ-1; Fri, 17 Sep 2021 07:16:31 -0400
-X-MC-Unique: 5B6ScG6UMSypf3JmApahnQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m9-20020a05600c4f4900b003057c761567so3603155wmq.1
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 04:16:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mRBu6-0005I6-SF
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:19:40 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33502)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mRBu3-0006DW-DH
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:19:37 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id t18so14650808wrb.0
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 04:19:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Gi5JOniMY7KM69HpS/1C4OaxdbKj0NfXn409YZmTpJU=;
+ b=cs3Y6C8tl7unGiCEuIBxzp3AzxrUBJHWddkGVBBLNFA85tCHuNqKZGfsWzNYecaCFl
+ Gabiwktkpf4LcIjMzME8ZZfX111Dr1jlJkfQ5EcDsoybVjUCo8WzV4MKNl/L5LmjrCS+
+ gYx+FShhvH2DYP2ZUXV7eMicuRS/saQcrSgxGZX0qJmcive8WFw9f8iVKjZp+GEddD2A
+ Uei7SCsneIDKiWcJRk2kcdd/U2U7i6iBllYHc3pud9LpnLFU4E5pAK8m9AeoKwMJ0hhL
+ GXZDBq17g14Cs1aPA8BB9nErBXVzwK/XXvuPqBaaem//b42gmY0Nu2OPqD9pG6mRi66z
+ LFGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=suKUSBJX+uX4ZzQk519ABpJZgAJZtj8L11YCAaPtR2g=;
- b=5NP0zAFQZg/96BVT8qTF3T3R9RiIyoSuMoO/wYVpw4VIB3gSfLGHLYiyQXw7rIDO+Y
- tUEwahD9FKHDAIyR3Cw753dJvZDbUNWZLjrFrpv6Y0dxmM8FgMPud9u7Oh33s1ctQ5Xh
- Os6RYNbFJkj68wLi5oLgcO8KGGpDweBL7LLV4nmNvKTHdQC1vF34KvMJ1ybn6OtjJeMg
- Rf5suelqzCP3D2+Mb88uLCI79ysm9fkChyn8NnWnnHBVW3+XhAHxUs89qr/XZkE1acDC
- W3WgBnTq4tArDIcEu4YtQ2HUFVN7gZl6D2yci6CbKJr/WoLBrmOs2M3uBElam/9Rse60
- dB8Q==
-X-Gm-Message-State: AOAM530XPhAYybN89bRb+DB6t3S2el9UmmE6m5WMJhalyb33PU36qVcF
- OE7F5l3Wd94xIvk/QK5JCUU30+0LyuC8dRJWEsRYazMzKGeZAgfSWEr9g40gF7ke9skhU0dE6xb
- DBT+xU6/aw9RgV1o=
-X-Received: by 2002:a05:6000:1809:: with SMTP id
- m9mr11738539wrh.396.1631877390436; 
- Fri, 17 Sep 2021 04:16:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyLYow88XnQqAqojoLRcLqSAsxFF2pI/wpJ5s8RbTyaPbmQaWyk4AJeyScGPNhpCCeTUXDAgg==
-X-Received: by 2002:a05:6000:1809:: with SMTP id
- m9mr11738514wrh.396.1631877390220; 
- Fri, 17 Sep 2021 04:16:30 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
- by smtp.gmail.com with ESMTPSA id b187sm4995163wmd.33.2021.09.17.04.16.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Sep 2021 04:16:29 -0700 (PDT)
-Subject: Re: [PATCH v3 14/16] iotests/linters: Add workaround for mypy bug
- #9852
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20210916040955.628560-1-jsnow@redhat.com>
- <20210916040955.628560-15-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <78ba9506-5c79-8018-3f73-a2701d313429@redhat.com>
-Date: Fri, 17 Sep 2021 13:16:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Gi5JOniMY7KM69HpS/1C4OaxdbKj0NfXn409YZmTpJU=;
+ b=oFjLj1qLwmYaQ/sRcYOFYTKifmCb6d41bEml8sDiu7B6BjXL8LXbMDnXuqy2rQ+dgt
+ OS/LDIjSuAUaTEF9zvKmiUJY76ZZDTcYJTiOD5m21ok5Vu98kO4Uw4qkdCWbiTKJ1bbs
+ fXMp7sj3zbYmJJGz9HytQv4T29n50lRNGyBNjhpl6EJhrwQnuTpl+Azrg1I89ApGJwux
+ b63qBFs1Y3Z9AIhzMgb1aACovzTwTyloTztVkas6cugZf5pcaZtynO9Mu+10sKvoTNqU
+ T7yx4JCAq8TaPA4ldkBQfzDUKxAIaErkJ2Ts9MJ1GzxdVzEWY4M/JC9zrSxI7x0nuoSb
+ 2bMA==
+X-Gm-Message-State: AOAM531sbNxtNEEE+djm7oStd0PVEj+Sc9kRpV4Kt/cRCricGEm5EGTj
+ s4QI4nYRJQgoEfhuoXg8zzzXPw==
+X-Google-Smtp-Source: ABdhPJzhc/Fhct8ZtJVdp4/rFlO6Uj1n3Nj1cIBZ3Y/yVCdg71YkOwWIQy84nw8Fsify2Mji2gIsFA==
+X-Received: by 2002:adf:f48d:: with SMTP id l13mr11434730wro.94.1631877574032; 
+ Fri, 17 Sep 2021 04:19:34 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j19sm6352116wra.92.2021.09.17.04.19.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Sep 2021 04:19:33 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B315E1FF96;
+ Fri, 17 Sep 2021 12:19:32 +0100 (BST)
+References: <20210917094826.466047-1-thuth@redhat.com>
+User-agent: mu4e 1.7.0; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] travis.yml: Remove the "Release tarball" job
+Date: Fri, 17 Sep 2021 12:19:27 +0100
+In-reply-to: <20210917094826.466047-1-thuth@redhat.com>
+Message-ID: <87bl4rtpob.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210916040955.628560-15-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.488, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,60 +86,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16.09.21 06:09, John Snow wrote:
-> This one is insidious: if you use the invocation
-> "from {namespace} import {subpackage}" as mirror-top-perms does,
-> mypy will fail on every-other invocation *if* the package being
-> imported is a package.
->
-> Now, I could just edit mirror-top-perms to avoid this invocation, but
-> since I tripped on a landmine, I might as well head it off at the pass
-> and make sure nobody else trips on the same landmine.
->
-> It seems to have something to do with the order in which files are
-> checked as well, meaning the random order in which set(os.listdir())
-> produces the list of files to test will cause problems intermittently.
->
-> mypy >= 0.920 isn't released yet, so add this workaround for now.
->
-> See also:
->   https://github.com/python/mypy/issues/11010
->   https://github.com/python/mypy/issues/9852
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   tests/qemu-iotests/linters.py | 3 +++
->   1 file changed, 3 insertions(+)
->
-> diff --git a/tests/qemu-iotests/linters.py b/tests/qemu-iotests/linters.py
-> index 4df062a973..9c97324e87 100755
-> --- a/tests/qemu-iotests/linters.py
-> +++ b/tests/qemu-iotests/linters.py
-> @@ -100,6 +100,9 @@ def run_linters(
->                   '--warn-unused-ignores',
->                   '--no-implicit-reexport',
->                   '--namespace-packages',
-> +                # Until we can use mypy >= 0.920, see
-> +                # https://github.com/python/mypy/issues/9852
-> +                '--no-incremental',
->                   filename,
->               ),
 
-I’m afraid I still don’t really understand this, but I’m happy with this 
-given as the reported workaround and you saying it works.
+Thomas Huth <thuth@redhat.com> writes:
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+> This is a leftover from the days when we were using Travis excessively,
+> but since x86 jobs are not really usable there anymore, this job has
+> likely never been used since many months. Let's simply remove it now.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Question is, when “can we use” mypy >= 0.920?  Should we check the 
-version string and append this switch as required?
+Queued to testing/next, thanks.
 
-Hanna
-
+--=20
+Alex Benn=C3=A9e
 
