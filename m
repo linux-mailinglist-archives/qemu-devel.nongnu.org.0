@@ -2,71 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08EEF40F753
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 14:19:01 +0200 (CEST)
-Received: from localhost ([::1]:49096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CB9C40F769
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 14:22:57 +0200 (CEST)
+Received: from localhost ([::1]:54438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRCpX-0003yN-MN
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 08:18:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37106)
+	id 1mRCtM-0007r2-3j
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 08:22:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mRCkX-0007Q0-V7
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:13:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37067)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRCrX-0006Gg-Rk
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:21:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mRCkU-0002eT-7O
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:13:48 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRCrW-0000k8-B1
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:21:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631880824;
+ s=mimecast20190719; t=1631881260;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BQ9LOHcVL6pMO9RURYwTiSX6yYYsfgGPQdwzQBlnO4I=;
- b=gvqktLlD3J3X0rEG+j6maFVipa0zSEUG4gctQ4eSZ8bZSzzurStaPMAwb3QqQq3hvM/iuW
- Ij+XZPEK/qBf3j+6wYtDTqR/6zs65f/s0S9Pqq7vdtfpYsTZq8UhSaOeW5CiNtPKo7IHKZ
- 5bu9FzY6kpwu29GxNhripeh6GxeQz+Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-rpbCsAgHMue8mxLHn55n8Q-1; Fri, 17 Sep 2021 08:13:43 -0400
-X-MC-Unique: rpbCsAgHMue8mxLHn55n8Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 834D6800FF4;
- Fri, 17 Sep 2021 12:13:42 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F3AB86A257;
- Fri, 17 Sep 2021 12:13:20 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 729F0113865F; Fri, 17 Sep 2021 14:13:19 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-trivial@nongnu.org
-Subject: Re: [PATCH 0/2] hmp: Unbreak "change vnc", tidy up set_password's doc
-References: <20210909081219.308065-1-armbru@redhat.com>
-Date: Fri, 17 Sep 2021 14:13:19 +0200
-In-Reply-To: <20210909081219.308065-1-armbru@redhat.com> (Markus Armbruster's
- message of "Thu, 9 Sep 2021 10:12:17 +0200")
-Message-ID: <87ilyzs8m8.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=GN2ffREyZiOFFWqG+MkDVXjApJsEnheocA5K7okbSU4=;
+ b=g+SdsBKBIXhuHoqX4dJ1eOvOtjxpOUhtcxp61ou4IrAvywhdjqckqMb0d4lZqRCYP/n6R2
+ NSv377Rm+ieKES/K+rtUAGveOOKrBpXg+Nafu8KNsBsEaL7Efx7x/3nqqAPw+RUe9BgKZy
+ PX60eqUFWJKoq0+clsRYgpfkThCXZCE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-30-461PCMc6Ptu2JtS0wdo1xQ-1; Fri, 17 Sep 2021 08:20:50 -0400
+X-MC-Unique: 461PCMc6Ptu2JtS0wdo1xQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ u14-20020a7bcb0e0000b0290248831d46e4so1669414wmj.6
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 05:20:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=GN2ffREyZiOFFWqG+MkDVXjApJsEnheocA5K7okbSU4=;
+ b=5zfCDjgsWKwfse5/QwMi5OWL6zmB3pJ79FMSY+sDZHlfIP98t4gdHap6Vi3es3bbqV
+ 7UJ+6DCUG6oPLv8iEfRZ2cYX2mEq3PKafqhRTUC9Hr8+eGQUPgiJAPp4HkH9hdR/8MbI
+ zyO0Lb4uXP4EOuQ3MwZinEYR8RNMGPqZWQNUXA5z9UGi5pPO7xESuv5RW7qC/zUAWMWg
+ kn1FaZDblqnhuNXXDv7YchXGplGFboAHCGJHWs6wb20HOQ/i0UWVYEVHEEbyqmNYtwbP
+ y5BfUENw8EKCCO4ZV8eVvnZSjxfvSZOXWI5NaDtULiPsTKjw0kQnp+BbS2bwBgCV2+ne
+ fUPA==
+X-Gm-Message-State: AOAM533NC7IU+33/XEdsuWhQewOyJc+pbuB6NIPi9VRlvOGPUTITWJnu
+ Nfa5JvY3zN1JToB8kBpH5PpXNOFHStrf81aSxxDeml+w3I3h1jaDkSLE4+T14pp7HlQozUcvcqy
+ Q2oNB7uYvAVx8k2E=
+X-Received: by 2002:a5d:46c7:: with SMTP id g7mr11548913wrs.316.1631881248681; 
+ Fri, 17 Sep 2021 05:20:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxZh6G6ZZG0aBBbfV5ALwcTH9o+uKkx2MNMjwtc4YUr+tf1IDfv+pGDlCxhuir82bGke1CI5Q==
+X-Received: by 2002:a5d:46c7:: with SMTP id g7mr11548885wrs.316.1631881248444; 
+ Fri, 17 Sep 2021 05:20:48 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id j14sm6590809wrp.21.2021.09.17.05.20.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Sep 2021 05:20:48 -0700 (PDT)
+Subject: Re: [PATCH 01/15] python/aqmp: add greeting property to QMPClient
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20210917054047.2042843-1-jsnow@redhat.com>
+ <20210917054047.2042843-2-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <85f27f1d-f92e-08f1-b958-bf21eb561ef5@redhat.com>
+Date: Fri, 17 Sep 2021 14:20:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210917054047.2042843-2-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.488, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,11 +98,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, kraxel@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Routing to qemu-trivial.
+On 17.09.21 07:40, John Snow wrote:
+> Expose the greeting as a read-only property of QMPClient so it can be
+> retrieved at-will.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   python/qemu/aqmp/qmp_client.py | 5 +++++
+>   1 file changed, 5 insertions(+)
+
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
