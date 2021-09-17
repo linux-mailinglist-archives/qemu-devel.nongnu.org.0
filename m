@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F4840FA0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 16:13:08 +0200 (CEST)
-Received: from localhost ([::1]:34150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD3940FA0F
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 16:13:58 +0200 (CEST)
+Received: from localhost ([::1]:35532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mREbz-0008QT-4R
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 10:13:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32988)
+	id 1mREcn-0000wh-K1
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 10:13:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mREZi-0006oK-Q9
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 10:10:46 -0400
-Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233]:45211)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mREZd-00028o-0u
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 10:10:45 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.118])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 43A2C225C9;
- Fri, 17 Sep 2021 14:10:35 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 17 Sep
- 2021 16:10:34 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002e37934bb-a3a9-4de9-a15f-1974bc0b985f,
- 2811AC2F724D5CB001CF4B7629903955A49C8FE9) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <b8545741-185f-c74c-f572-ad4b5372e825@kaod.org>
-Date: Fri, 17 Sep 2021 16:10:33 +0200
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mREZz-0006wa-SO
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 10:11:06 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:43550)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mREZq-0002Lh-8W
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 10:11:03 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ k23-20020a17090a591700b001976d2db364so7484328pji.2
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 07:10:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=xmCmavPb7k6mtBYkmkHVuqWXURj9Yuu/cfEWaAz9m6U=;
+ b=5sIq/b8YIGwZwISALgDKP+Heef40fonc1VmkT5lP/d5zHJEq72n7I53zib7U7Pjdhm
+ XIhvU8yWvr3aGmtAsn3H0rpx8PviTtRrn24kyhCiZhG/jKpOOUtuMn+WRpsP17jvOLaW
+ 22Xmz9m3lvlluemHWv2t1PyFo8ykRKGVwmtaWG3T0E51DEt2N9FvdfuthP2tTUrAUiGC
+ mjEP6ND6vH1624ajQEK5fJ02N3fA45ob6ptk/GLAjK8gCzpMxi/2ciqjnG1fgrQSLaDN
+ Gv+WBjg5Y5fXoXo9g8+NWsU4yN22K7OK6J40YARUVBiipg1aiZe0My6oWb1GHI4j0LyY
+ 9cwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=xmCmavPb7k6mtBYkmkHVuqWXURj9Yuu/cfEWaAz9m6U=;
+ b=VDBEM61aNPWyUB87wpXNfNQDaU15RVNFu1YYdoy7cKi6fLGfzh8TxvIlA71+jlhNHS
+ Xv4av4wcVJ9hHjeTwgxk8MfJy9w8uDE2tnp+8MUhspfpD+DAFIHztuom7SUswR+W5pre
+ G8gyVr5Oao1NlIuESKGJBu2AXgM6E9KJ4X24Y1/edJxV32PuyDGv8N1QnaFBuPcmZOa5
+ r1CbA5UdyBVB+FWrbM6GI7irpQD/SMUuHYJZLpSmj8dlNdSIeE0D7uz8E12rhxmfCKVy
+ cvKLgfupyednSvhL6xVGnA226blZQ6iUbgYGSTepcZVDWoVeYg4sdUBcJtUt0GfiWy7a
+ MXYQ==
+X-Gm-Message-State: AOAM530BhD92CngRcUnBgMKRPEJD/NREWF0foMBTZHNhqOiWL8sgzrM2
+ QyLCUHCRAogbDGmtQU7UqZKitQ==
+X-Google-Smtp-Source: ABdhPJxAUiM8FfKMEQCxxdg/FoSOOGJ1Rp3sfpaWCcrRq2ANmmfyz9C+r9qUrJ2TBM1l78nQL++KFw==
+X-Received: by 2002:a17:90a:9291:: with SMTP id
+ n17mr12547448pjo.243.1631887852041; 
+ Fri, 17 Sep 2021 07:10:52 -0700 (PDT)
+Received: from anisinha-lenovo ([203.163.238.80])
+ by smtp.googlemail.com with ESMTPSA id x7sm6652196pfc.71.2021.09.17.07.10.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Sep 2021 07:10:51 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Fri, 17 Sep 2021 19:40:46 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: Add a unit test to exercize support for ACPI hotplug on
+ multifunction bridges in q35
+In-Reply-To: <CAARzgwxQyeCEAY1tqX1Pik7N6nnJvfMD+fgetkfHJ2vL7rFs_Q@mail.gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2109171939390.3498555@anisinha-lenovo>
+References: <20210906093911.2069140-1-ani@anisinha.ca>
+ <CAARzgwxQyeCEAY1tqX1Pik7N6nnJvfMD+fgetkfHJ2vL7rFs_Q@mail.gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3] target/ppc: Fix 64-bit decrementer
-Content-Language: en-US
-To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>, David Gibson
- <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-References: <20210916143710.236489-1-clg@kaod.org>
- <CP2PR80MB36680A1BE91AFABE9DD3295BDADC9@CP2PR80MB3668.lamprd80.prod.outlook.com>
- <a0661690-bdb4-f002-3862-306458b36d3d@kaod.org>
- <CP2PR80MB3668712B5A367E87089D724BDADD9@CP2PR80MB3668.lamprd80.prod.outlook.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CP2PR80MB3668712B5A367E87089D724BDADD9@CP2PR80MB3668.lamprd80.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 5259308f-c06e-46ab-9e92-bce40f62a091
-X-Ovh-Tracer-Id: 11662915662756154217
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudehiedgieelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
- helo=2.mo552.mail-out.ovh.net
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.488,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,53 +86,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/17/21 16:00, Luis Fernando Fujita Pires wrote:
-> From: Cédric Le Goater <clg@kaod.org>
->>>> +    target_long signed_value;
->>>> +    target_long signed_decr;
->>>
->>> Since these values will be the results of sextract64, it's probably better to
->> define them as int64_t.
->>
->> but then it breaks the code doing the logging on PPC32 targets :/
-> 
-> You mean here?
+Michael,
+Please do not queue this patchset just as yet. Igor provided some feedback
+on the RFC patch related to this. Let me work through his comments.
 
-You need to define PPC_DEBUG_TB and compile the ppc-softmmu :
 
-../hw/ppc/ppc.c: In function ‘__cpu_ppc_store_decr’:
-../hw/ppc/ppc.c:883:12: error: format ‘%x’ expects argument of type ‘unsigned int’, but argument 4 has type ‘int64_t’ {aka ‘long int’} [-Werror=format=]
-   883 |     LOG_TB("%s: " TARGET_FMT_lx " => " TARGET_FMT_lx "\n", __func__,
-       |            ^~~~~~
-   884 |                 decr, signed_value);
-       |                       ~~~~~~~~~~~~
-       |                       |
-       |                       int64_t {aka long int}
-../hw/ppc/ppc.c:51:32: note: in definition of macro ‘LOG_TB’
-    51 | #  define LOG_TB(...) qemu_log(__VA_ARGS__)
-       |                                ^~~~~~~~~~~
-cc1: all warnings being treated as errors
+On Tue, 14 Sep 2021, Ani Sinha wrote:
 
->>>>        LOG_TB("%s: " TARGET_FMT_lx " => " TARGET_FMT_lx "\n", __func__,
->>>> -                decr, value);
->>>> +                decr, signed_value);
->>>
->>> While this reproduces the behavior we previously had, I think it would be more
->> consistent if we logged what we had before the sign-extension ('value' instead
->> of 'signed_value'). And 'decr' is okay, which is also not sign-extended.
-> 
-> It won't break if you log 'value' instead of 'signed_value', right?
-
-Yes but it's extra change ...
-
-Thanks,
-
-C.
+> Ping
+>
+> On Mon, Sep 6, 2021 at 15:09 Ani Sinha <ani@anisinha.ca> wrote:
+>
+> > Hi Igor/Michael :
+> >
+> > Added a unit test to exercize the following commit :
+> >
+> > d7346e614f4ec353 ("acpi: x86: pcihp: add support hotplug on multifunction
+> > bridges")
+> >
+> > I had sent just the unit test earlier but since the review is getting
+> > delayed, I thought of sending
+> > the whole patch set which can be now reviewed in totality.
+> >
+> > Thanks
+> > ani
+> >
+> >
+> >
+>
 
