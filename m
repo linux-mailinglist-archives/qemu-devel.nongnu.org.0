@@ -2,80 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66EA440F6AD
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 13:25:04 +0200 (CEST)
-Received: from localhost ([::1]:59124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C2F40F6B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 13:26:39 +0200 (CEST)
+Received: from localhost ([::1]:60930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRBzK-0003NX-E9
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 07:25:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57178)
+	id 1mRC0s-0004am-FZ
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 07:26:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mRBxh-0001jR-6U
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:23:21 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:40808)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mRBxf-000163-Mv
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:23:20 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- b21-20020a1c8015000000b003049690d882so9672012wmd.5
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 04:23:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=R2gGIPD34EH/Q0Y+qX06NkRrXd7vPR0qs6epvML/8ls=;
- b=LZxHmKv5qYtFPGP38bSPSy6/b3xu9SRbZkRWllQ/TO9rApYs03RKXzFdRzoeBCWviw
- 2YaAMFxZyb7ex23YL7OE5/c1vZFRujVUwCPf0csdfeZWk73kyx+C84Zq5rWSKDckEvca
- SMN+yrCMG+whgYhww2SRWWP3R5jHnDXXcHGNgWpaBQJbQYYtqe0tPEtJqg5y1+MZjtz+
- O6pnsOCafFURNkQTQBdOka/2Fd4fgdqPO46kdAcvM+MmTFGAyGtw7FyJwB6OXVajqnCK
- KOucqejWf1ioqtsJH50jk99H1OfhUpI1umhEgPXBNHhGJScFLq6rNNiPnoYWdFMerwf/
- dcdA==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRBy8-0002ny-UO
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:23:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52148)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRBy6-0001W1-H9
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:23:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631877824;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vmf8Y7OocOxD66xIeDRi66iV8he0SSpaA9yA8vfqhXI=;
+ b=X/GmF+DqEhVG3FkeGCgqkGe7kXiLGdELEDAhQTeEPsAYkwBSufmpaWF+qIU/Vf8z0h7gVD
+ +DLHbhXthLWEsL5DdsxlDDCPTNy10bPqZca17EbUZzvi0px63XP15ygmQvP4FgpWWI7u2o
+ AFudqH4OMnNgSTUCfeUFhWXtS7CzuoE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-317-QqhhX-t7OLKrrG_Rxuqefg-1; Fri, 17 Sep 2021 07:23:43 -0400
+X-MC-Unique: QqhhX-t7OLKrrG_Rxuqefg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ f7-20020a5d50c7000000b0015e288741a4so3606147wrt.9
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 04:23:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=R2gGIPD34EH/Q0Y+qX06NkRrXd7vPR0qs6epvML/8ls=;
- b=HErYWg+ubFXl5KexkRIG7qMkJr7wcQWnsTqtIykByRRI65tWGv1KohSlZfiLQ9Dcjd
- IyNB2X4o98kDlkLO+elgDr32OkS4ZmsQAxNCP1JyHo9jZj3S4bZsVm2OZsQaJuzxqa1e
- yomx5abdnZOdh8PrPk6f+1azrpNsPmJL1gUxGfutZdiAR5opJH2pEem9NF0095mE35cY
- RmJTEzBoUaY+0ez4DA0J1qOj9sfeF1XTQwsFp4eZcJlw0OxziQ7FKeMaKDlqIi09WKeT
- aIpg9cNUAA10M3uEMm0bhwtEH1yE8Hip/YDZ5ZbosvHoa8fWPvaIsMkRbLcUT2L/+gA6
- Xinw==
-X-Gm-Message-State: AOAM532UaeemEVMSqCsS/XDyYd8N8G5Q492cl689Q4flNpmTXiNsN7aF
- tD6QDtuqppwLPxSdIhapvdcFSg==
-X-Google-Smtp-Source: ABdhPJwS1hYL4W2h+KBlSgCL0JO2YiP4kpcJ8cALr3upyVUsAVY55fuQ0vzQGR4uNThfpJDEjuPX9g==
-X-Received: by 2002:a05:600c:154f:: with SMTP id
- f15mr9878455wmg.21.1631877797929; 
- Fri, 17 Sep 2021 04:23:17 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i67sm1498157wmi.41.2021.09.17.04.23.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Sep 2021 04:23:17 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 778211FF96;
- Fri, 17 Sep 2021 12:23:16 +0100 (BST)
-References: <20210915125452.1704899-1-berrange@redhat.com>
-User-agent: mu4e 1.7.0; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH 0/2] gitlab: some minor CI tweaks
-Date: Fri, 17 Sep 2021 12:23:11 +0100
-In-reply-to: <20210915125452.1704899-1-berrange@redhat.com>
-Message-ID: <877dfftpi3.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=Vmf8Y7OocOxD66xIeDRi66iV8he0SSpaA9yA8vfqhXI=;
+ b=S3/hKJVSEUU3u0EftGRTwndHifnAt9bvLwGZ1jWxI3D7dGClYv7Veqv4BAXbmszDg6
+ gzlJ5MgiMz2oMrchfsYWhVTH0w1Q0Gn/9I6iojBJ/She0eS61LHDs4zphSl5VjCTI+k7
+ xFCNuDIOgWo/KSFnfMeAEu5jRVnQtkPc4sUuXuBa4835Jrodsl+v8yJJF0+JNTs772hT
+ 7jzG1K/K377oYbe0yRbnzXRYjIj+HyLYBLQ4aF1jWzKL8IjaK0W8xGE5RWe3OOHXTIny
+ ZmVEzw2rvZua7r8SeKitmFg5gKSJt9lJbUr96wM9LvPHG5If8c55U/QJuk4DEQPSZMsr
+ BBBA==
+X-Gm-Message-State: AOAM532q2AFAJavdIzYJrhBd/yE09Ts09JOzJ/9wEOuXgr+s6ZWqJygo
+ RX9ScjENGJaECrzn0vzvMDDXcHEYUEvLvI/F/tcwarDA4kuUvxzH8ii+vgWR52YA78UHAaqOrGj
+ YCNG+WnBvV8/m9NA=
+X-Received: by 2002:adf:e88d:: with SMTP id d13mr11461185wrm.91.1631877822687; 
+ Fri, 17 Sep 2021 04:23:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxe+Qd0B6PFeTbr8/wpHSR5RIP58aaA8xWFOIy9u4p9jJfF1+tGDBQUNBLvb12feKRkql1sYw==
+X-Received: by 2002:adf:e88d:: with SMTP id d13mr11461175wrm.91.1631877822551; 
+ Fri, 17 Sep 2021 04:23:42 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id x13sm6499248wrg.62.2021.09.17.04.23.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Sep 2021 04:23:42 -0700 (PDT)
+Subject: Re: [PATCH v3 16/16] iotests/linters: check mypy files all at once
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20210916040955.628560-1-jsnow@redhat.com>
+ <20210916040955.628560-17-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <2235c3ee-0987-c6e2-1929-7785c74db286@redhat.com>
+Date: Fri, 17 Sep 2021 13:23:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210916040955.628560-17-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.488, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,19 +98,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 16.09.21 06:09, John Snow wrote:
+> We can circumvent the '__main__' redefinition problem by passing
+> --scripts-are-modules. Take mypy out of the loop per-filename and check
+> everything in one go: it's quite a bit faster.
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Is it possible to pull this to the beginning of the series?  Just 
+because patch 14 has to make everything quite slow (which might be a 
+tiny nuisance in bisecting some day?).
 
-> Addressing a few issues raised by Peter on IRC yesterday
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   tests/qemu-iotests/linters.py | 62 ++++++++++++++++-------------------
+>   1 file changed, 29 insertions(+), 33 deletions(-)
 
-Queued to testing/next, thanks.
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
---=20
-Alex Benn=C3=A9e
 
