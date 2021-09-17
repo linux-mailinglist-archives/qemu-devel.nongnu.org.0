@@ -2,96 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11CB740F73E
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 14:08:54 +0200 (CEST)
-Received: from localhost ([::1]:36504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08EEF40F753
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 14:19:01 +0200 (CEST)
+Received: from localhost ([::1]:49096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRCfk-0002we-EH
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 08:08:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35810)
+	id 1mRCpX-0003yN-MN
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 08:18:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mRCe4-0001VU-Nv; Fri, 17 Sep 2021 08:07:08 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4062)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mRCkX-0007Q0-V7
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:13:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mRCe0-0005ea-7i; Fri, 17 Sep 2021 08:07:08 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18HBDvT4002866; 
- Fri, 17 Sep 2021 08:07:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references; s=pp1;
- bh=ZgTfM7xudK910Oe2/b23jWLKMN8urtJm1aideuCul5A=;
- b=D3Ut9g5AVN6fByv/Tvb80v0s9M9/CYhrAD5LaGccY0JIdQnKzT31f1FyD+Vmq+UCwKjN
- rTg/VrxRCk3a4uY/ZFH2jMsApFCSTPmV3kY2JsBvM/vbikJf6rAwHSu8tPo20tW6U+qB
- zF0u4tXBkm0bHIs6M0D/OJgE4rLYTCXwBFeRI49vsdIScxFfV+uGKGoJVwaly2RHyd3l
- PXFs40EHKTR5WL1mtRdUOlkzAyj6BZPQYDSE+ILBPJjIBZgNYrW2GVvs0cU7lUj8cWiu
- sYk6aUURKjHUN/kCNM1AiqZ7DGlWoEoR1uMKqvM7ouv5F9il5d7gHGKW0wpA/KPbdJ8e dA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3b4mfv0svd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Sep 2021 08:07:01 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18HBwBOj022045;
- Fri, 17 Sep 2021 08:07:01 -0400
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3b4mfv0suk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Sep 2021 08:07:01 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18HC3wf3011087;
- Fri, 17 Sep 2021 12:06:59 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04fra.de.ibm.com with ESMTP id 3b0m3av46a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Sep 2021 12:06:59 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 18HC6tAk47579524
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 17 Sep 2021 12:06:55 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9530111C082;
- Fri, 17 Sep 2021 12:06:55 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1158411C04A;
- Fri, 17 Sep 2021 12:06:55 +0000 (GMT)
-Received: from oc3016276355.ibm.com (unknown [9.145.70.78])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 17 Sep 2021 12:06:54 +0000 (GMT)
-From: Pierre Morel <pmorel@linux.ibm.com>
-To: qemu-s390x@nongnu.org
-Subject: [PATCH 1/1] s390x:clp: implementing CLP immediate commands
-Date: Fri, 17 Sep 2021 14:06:53 +0200
-Message-Id: <1631880413-20655-2-git-send-email-pmorel@linux.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1631880413-20655-1-git-send-email-pmorel@linux.ibm.com>
-References: <1631880413-20655-1-git-send-email-pmorel@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: tylTsEdqjGgtsW4-UNaJ8fGFRnQ3EImR
-X-Proofpoint-ORIG-GUID: 7VPAZcdbjuMekXQDJEaL12j_zNTFp9_5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-09-17_05,2021-09-17_02,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- mlxlogscore=992 priorityscore=1501 spamscore=0 mlxscore=0 malwarescore=0
- impostorscore=0 phishscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109030001
- definitions=main-2109170077
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mRCkU-0002eT-7O
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:13:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631880824;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BQ9LOHcVL6pMO9RURYwTiSX6yYYsfgGPQdwzQBlnO4I=;
+ b=gvqktLlD3J3X0rEG+j6maFVipa0zSEUG4gctQ4eSZ8bZSzzurStaPMAwb3QqQq3hvM/iuW
+ Ij+XZPEK/qBf3j+6wYtDTqR/6zs65f/s0S9Pqq7vdtfpYsTZq8UhSaOeW5CiNtPKo7IHKZ
+ 5bu9FzY6kpwu29GxNhripeh6GxeQz+Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-rpbCsAgHMue8mxLHn55n8Q-1; Fri, 17 Sep 2021 08:13:43 -0400
+X-MC-Unique: rpbCsAgHMue8mxLHn55n8Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 834D6800FF4;
+ Fri, 17 Sep 2021 12:13:42 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F3AB86A257;
+ Fri, 17 Sep 2021 12:13:20 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 729F0113865F; Fri, 17 Sep 2021 14:13:19 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-trivial@nongnu.org
+Subject: Re: [PATCH 0/2] hmp: Unbreak "change vnc", tidy up set_password's doc
+References: <20210909081219.308065-1-armbru@redhat.com>
+Date: Fri, 17 Sep 2021 14:13:19 +0200
+In-Reply-To: <20210909081219.308065-1-armbru@redhat.com> (Markus Armbruster's
+ message of "Thu, 9 Sep 2021 10:12:17 +0200")
+Message-ID: <87ilyzs8m8.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,103 +79,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, mjrosato@linux.ibm.com, david@redhat.com,
- farman@linux.ibm.com, cohuck@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com
+Cc: pbonzini@redhat.com, kraxel@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CLP immediate commands allow to query the Logical Processor
-available on the machine and to check for a specific one.
-
-Let's add these commands.
-
-Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
----
- hw/s390x/s390-pci-inst.c         | 33 ++++++++++++++++++++++++++++++++
- include/hw/s390x/s390-pci-inst.h |  5 +++++
- target/s390x/kvm/kvm.c           |  6 ++++++
- 3 files changed, 44 insertions(+)
-
-diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-index 1c8ad91175..9fd0669591 100644
---- a/hw/s390x/s390-pci-inst.c
-+++ b/hw/s390x/s390-pci-inst.c
-@@ -156,6 +156,39 @@ out:
-     return rc;
- }
- 
-+int clp_immediate_cmd(S390CPU *cpu, uint8_t r1, uint8_t r2, uint8_t i3,
-+                      uintptr_t ra)
-+{
-+    CPUS390XState *env = &cpu->env;
-+
-+    switch (r2) {
-+    case 0: /* Command Check */
-+        switch (i3 & 0x07) {
-+        case CLP_LPS_PCI: /* PCI */
-+            if (!s390_has_feat(S390_FEAT_ZPCI)) {
-+                setcc(cpu, 3);
-+                return 0;
-+            }
-+            /* fallthrough */
-+        case CLP_LPS_BASE: /* Base LP */
-+            setcc(cpu, 0);
-+            return 0;
-+        }
-+        setcc(cpu, 3);
-+        return 0;
-+    case 1: /* Command Query */
-+        env->regs[r1] = CLP_QUERY_LP_BASE;
-+        if (s390_has_feat(S390_FEAT_ZPCI)) {
-+            env->regs[r1] |= CLP_QUERY_LP_BASE >> CLP_LPS_PCI;
-+        }
-+        setcc(cpu, 0);
-+        return 0;
-+    }
-+
-+    s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+    return 0;
-+}
-+
- int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra)
- {
-     ClpReqHdr *reqh;
-diff --git a/include/hw/s390x/s390-pci-inst.h b/include/hw/s390x/s390-pci-inst.h
-index a55c448aad..07721b08da 100644
---- a/include/hw/s390x/s390-pci-inst.h
-+++ b/include/hw/s390x/s390-pci-inst.h
-@@ -101,6 +101,11 @@ typedef struct ZpciFib {
- int pci_dereg_irqs(S390PCIBusDevice *pbdev);
- void pci_dereg_ioat(S390PCIIOMMU *iommu);
- int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra);
-+#define CLP_LPS_BASE 0
-+#define CLP_LPS_PCI  2
-+#define CLP_QUERY_LP_BASE (1UL << 63)
-+int clp_immediate_cmd(S390CPU *cpu, uint8_t r1, uint8_t r2, uint8_t i3,
-+                      uintptr_t ra);
- int pcilg_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra);
- int pcistg_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra);
- int rpcit_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra);
-diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
-index 0a5f2aced2..af1316372d 100644
---- a/target/s390x/kvm/kvm.c
-+++ b/target/s390x/kvm/kvm.c
-@@ -1345,7 +1345,13 @@ static uint64_t get_base_disp_rsy(S390CPU *cpu, struct kvm_run *run,
- 
- static int kvm_clp_service_call(S390CPU *cpu, struct kvm_run *run)
- {
-+    uint8_t r1 = (run->s390_sieic.ipb & 0x00f00000) >> 20;
-     uint8_t r2 = (run->s390_sieic.ipb & 0x000f0000) >> 16;
-+    uint8_t i3 = (run->s390_sieic.ipb & 0xff000000) >> 24;
-+
-+    if (i3 & 0x80) {
-+        return clp_immediate_cmd(cpu, r1, r2, i3, RA_IGNORED);
-+    }
- 
-     if (s390_has_feat(S390_FEAT_ZPCI)) {
-         return clp_service_call(cpu, r2, RA_IGNORED);
--- 
-2.25.1
+Routing to qemu-trivial.
 
 
