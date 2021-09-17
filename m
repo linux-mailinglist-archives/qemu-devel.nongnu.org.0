@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789C540FD6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 17:58:16 +0200 (CEST)
-Received: from localhost ([::1]:35690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0424740FD85
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 18:06:18 +0200 (CEST)
+Received: from localhost ([::1]:45772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRGFj-00062A-1P
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 11:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57600)
+	id 1mRGNU-0004cM-Fm
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 12:06:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mRGDx-0005A9-8w
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 11:56:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37588)
+ id 1mRGGv-00009g-1B
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 11:59:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mRGDs-0000ka-VI
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 11:56:22 -0400
+ id 1mRGGs-0003AN-7L
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 11:59:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631894179;
+ s=mimecast20190719; t=1631894365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ZTNxZB0jK+eUy2jyHRaWda0Y4jurIL8j9+KZMScI8rY=;
- b=HRCzqQIYBUg0eyZ9b9M/eZAUhvaOK46P0EODEFpGZQ4Y5OBQ4bejfed4JQsKudxx6TGbY7
- qnHlyCBRhErLP/R1tK90Jd/76zjRDtRKrDCVkM/T6a/dU1/s5SuM7ow1ODviqajNrQsYfJ
- 9bOWKwA0DoOoX3DNqNodwr7aJD2XQOQ=
+ bh=wFWPZAFHSRf41Gn3sI9uh7ggsVtFgkzv9iodOqcvkAg=;
+ b=N6QU8ELnK469ZHW/r2J0V7TKirFK+w5woNAXhT3EB6/N/S7Ho5nR4KlNtq2WJCcTbR48vY
+ OXzqQ34YsRcD3Sod9tzHY5nk7daZ7pJsXV4ZLjSU0nJ5NDVCmhQrqRSZLXVH+HUHvjN0gT
+ 1TH6LteuKWeOIdgaULrzXA2sFYKM8fo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-bFDBb15EMUm4vZbUt4PCLA-1; Fri, 17 Sep 2021 11:56:17 -0400
-X-MC-Unique: bFDBb15EMUm4vZbUt4PCLA-1
+ us-mta-559-z7tUXkY7Nk2DhoJnfVgcpA-1; Fri, 17 Sep 2021 11:59:18 -0400
+X-MC-Unique: z7tUXkY7Nk2DhoJnfVgcpA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D829835DE3;
- Fri, 17 Sep 2021 15:56:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBF0D1084683;
+ Fri, 17 Sep 2021 15:59:16 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.234])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6EDB15C1A1;
- Fri, 17 Sep 2021 15:56:03 +0000 (UTC)
-Date: Fri, 17 Sep 2021 16:56:02 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 588B15C1C5;
+ Fri, 17 Sep 2021 15:59:10 +0000 (UTC)
+Date: Fri, 17 Sep 2021 16:59:09 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
 Subject: Re: Rust in Qemu BoF followup: Rust vs. qemu platform support
-Message-ID: <YUS6kp0l7eiHt/fu@stefanha-x1.localdomain>
+Message-ID: <YUS7TUQ11WtyqCMf@stefanha-x1.localdomain>
 References: <YURYvaOpya498Xx2@yekko>
- <CAAdtpL5W9eztLiPSu=goROh8eHMn+7BLUuKaEfukcVrKCEAtXg@mail.gmail.com>
+ <YUR9RXXZ4lSRfcyB@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAdtpL5W9eztLiPSu=goROh8eHMn+7BLUuKaEfukcVrKCEAtXg@mail.gmail.com>
+In-Reply-To: <YUR9RXXZ4lSRfcyB@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2WSGO6lPA+XFVzNm"
+ protocol="application/pgp-signature"; boundary="aZEcIB46odRFmFnX"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -79,64 +79,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, hreitz@redhat.com,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, slp@redhat.com, cohuck@redhat.com,
+ f4bug@amsat.org, qemu-devel@nongnu.org, hreitz@redhat.com,
+ marcandre.lureau@redhat.com, pbonzini@redhat.com, sgarzare@redhat.com,
+ alex.bennee@linaro.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---2WSGO6lPA+XFVzNm
+--aZEcIB46odRFmFnX
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 17, 2021 at 01:11:56PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Le ven. 17 sept. 2021 10:58, David Gibson <david@gibson.dropbear.id.au> a
-> =E9crit :
->=20
+On Fri, Sep 17, 2021 at 12:34:29PM +0100, Daniel P. Berrang=E9 wrote:
+> On Fri, Sep 17, 2021 at 06:58:37PM +1000, David Gibson wrote:
 > > Hi all,
-> >
+> >=20
 > > At the qemu-in-rust BoF at KVM Forum, I volunteered to look into
 > > whether Rust supported all the host/build platforms that qemu does,
 > > which is obviously vital if we want to make Rust a non-optional
-> > component of the build
-> >
+> > component of the build.
+> >=20
+> > I've added the information to our wiki at:
+> > =09https://wiki.qemu.org/RustInQemu
+> >=20
+> > TBH, the coverage is not as good as I expected.  Linux, macOS and
+> > Windows are pretty much ok, with the exception of Linux on Sparc.
+> > There are a lot of gaps in *BSD support, however.
 >=20
-> Could user mode emulation be impacted by this decision? What code used by
-> user emulation could potentially be converted to Rust?
+> To me the coverage looks pretty much what I'd expect to need
+> for QEMU - almost all boxes that I'd want to see green are
+> green, except OpenBSD, possibly x86 32-bit for *BSD and
+> sparc(64) on Linux.
+>=20
+> Mostly it highlights that we've never explicitly declared what
+> our architecture coverage is intended to be. We do check host
+> arches in configure, but we didn't distinguish this by OS and
+> I think that's a mistake.
+>=20
+> In terms of our CI coverage, the only non-x86 testing we do
+> is for Linux based systems.
+>=20
+> Although its possible people use non-x86 on non-Linux, I don't
+> recall any discussions/bugs/patches targetting this situation,
+> so if we do have users I doubt there's many.
 
-qemu-user does not have the same security requirements as qemu-system,
-since the application is running under a given uid/gid on the host
-system and can invoke system calls.
-
-I think the benefits of Rust in qemu-user would be more around
-expressiveness (language constructs like pattern matching, traits, etc)
-and correctness (memory leaks, concurrency, etc). Both benefits might
-motivate someone to write parts of qemu-user in Rust, so I guess the
-answer is "all of it potentially could be converted". It's impossible to
-know until someone contributes patches.
+macOS on Apple silicon is a non-x86 non-Linux host platform that is
+currently receiving some developer attention. Luckily
+aarch64-apple-darwin is in Tier 2 with host tools.
 
 Stefan
 
---2WSGO6lPA+XFVzNm
+--aZEcIB46odRFmFnX
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFEupIACgkQnKSrs4Gr
-c8iaswf7BAvChaRprLZpLVJvdtWinfw2nhT/T0Y/ai4U7qQHNJBJ56JDtt6FwUee
-vWUzS6ZboW+rqWMnJps/htPEOHotKVasauD/LzGXpY5gpPUFZILmPT0OUfwrObic
-u9EMncK5aFzZd/MUFMfRX6v2Gpasg1T/9+IMr93ipcrkoRyAbFKE7vgH3jTUQUWo
-fRQceccpZtp52zmAab0X9uXU3uNnMEd2Con/avQdwz6IAcLxhv89eeEC5RM1Zj5N
-HWN5FqCd3IjDKf9OlMhH/9XXl0clsMubkRLQnJYmNePbqBbVvKeT3XIBfyP5SFyb
-xRM8nCMcFt+8yo9e27chmUG0s1ZcsA==
-=064X
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmFEu00ACgkQnKSrs4Gr
+c8iW/ggAvINpXO2C9A0A0hWSPtLVoVczKHLJVQdtWdHuE+jxLNQBswymyznBjU9T
+YBksbAZWwufwTrNW1EVnbpAzf8hDqJ25+4KPfxZagypAWd49A3i20Mm9WtlvejI5
+Mv5+eE2tBdSeGU81Zfk7nU7Seq45r3mXbev0yWNUCg7A9Xx/ww7ZUpAKgYtcG229
+xS/ZIR3+Ton2lFmEBy1vTQjr8X3hUb1LLk31PvCY3eOStUge9l4QJEX3Buw/rOqT
++ALQ4S2a3+e1dQoL4GtnUSE54VYvJ/erEsBgvBXfOyn72UeIxOcUihq7IrOm1llW
+DBXOZIbVetFAi6qcImAdIZU1sUt/7Q==
+=s/XY
 -----END PGP SIGNATURE-----
 
---2WSGO6lPA+XFVzNm--
+--aZEcIB46odRFmFnX--
 
 
