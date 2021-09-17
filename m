@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8A240F396
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 09:53:43 +0200 (CEST)
-Received: from localhost ([::1]:43278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD25940F3A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 09:56:13 +0200 (CEST)
+Received: from localhost ([::1]:51712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mR8gn-000802-W4
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 03:53:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38666)
+	id 1mR8jF-00058q-0p
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 03:56:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mR8ea-0005EC-A7
+ id 1mR8ea-0005FV-Sb
  for qemu-devel@nongnu.org; Fri, 17 Sep 2021 03:51:24 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41716
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41722
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mR8eY-0005PL-JA
+ id 1mR8eZ-0005PP-03
  for qemu-devel@nongnu.org; Fri, 17 Sep 2021 03:51:24 -0400
 Received: from host109-153-84-64.range109-153.btcentralplus.com
  ([109.153.84.64] helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mR8eQ-0007Od-27; Fri, 17 Sep 2021 08:51:18 +0100
+ id 1mR8eU-0007Od-8o; Fri, 17 Sep 2021 08:51:18 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Fri, 17 Sep 2021 08:50:41 +0100
-Message-Id: <20210917075057.20924-5-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 17 Sep 2021 08:50:42 +0100
+Message-Id: <20210917075057.20924-6-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210917075057.20924-1-mark.cave-ayland@ilande.co.uk>
 References: <20210917075057.20924-1-mark.cave-ayland@ilande.co.uk>
@@ -38,7 +38,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.84.64
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v4 04/20] nubus: use bitmap to manage available slots
+Subject: [PATCH v4 05/20] nubus: move slot bitmap checks from NubusDevice
+ realize() to BusClass check_address()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,55 +65,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert nubus_device_realize() to use a bitmap to manage available slots to allow
-for future Nubus devices to be plugged into arbitrary slots from the command line.
-
-Update mac_nubus_bridge_init() to only allow slots 0x9 to 0xe on a Macintosh
-machines as documented in "Desigining Cards and Drivers for the Macintosh Family".
+Allow Nubus to manage the slot allocations itself using the BusClass check_address()
+virtual function rather than managing this during NubusDevice realize().
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/nubus/mac-nubus-bridge.c |  3 +++
- hw/nubus/nubus-bus.c        |  2 +-
- hw/nubus/nubus-device.c     | 29 +++++++++++++++++++++++++----
- include/hw/nubus/nubus.h    |  4 ++--
- 4 files changed, 31 insertions(+), 7 deletions(-)
+ hw/nubus/nubus-bus.c    | 37 +++++++++++++++++++++++++++++++++++++
+ hw/nubus/nubus-device.c | 29 -----------------------------
+ 2 files changed, 37 insertions(+), 29 deletions(-)
 
-diff --git a/hw/nubus/mac-nubus-bridge.c b/hw/nubus/mac-nubus-bridge.c
-index 7c329300b8..c1d77e2bc7 100644
---- a/hw/nubus/mac-nubus-bridge.c
-+++ b/hw/nubus/mac-nubus-bridge.c
-@@ -18,6 +18,9 @@ static void mac_nubus_bridge_init(Object *obj)
- 
-     s->bus = NUBUS_BUS(qbus_create(TYPE_NUBUS_BUS, DEVICE(s), NULL));
- 
-+    /* Macintosh only has slots 0x9 to 0xe available */
-+    s->bus->slot_available_mask = MAKE_64BIT_MASK(9, 6);
-+
-     sysbus_init_mmio(sbd, &s->bus->super_slot_io);
-     sysbus_init_mmio(sbd, &s->bus->slot_io);
- }
 diff --git a/hw/nubus/nubus-bus.c b/hw/nubus/nubus-bus.c
-index 5c13452308..404c1032e0 100644
+index 404c1032e0..141876b579 100644
 --- a/hw/nubus/nubus-bus.c
 +++ b/hw/nubus/nubus-bus.c
-@@ -84,7 +84,7 @@ static void nubus_init(Object *obj)
-                           nubus, "nubus-slots",
-                           NUBUS_SLOT_NB * NUBUS_SLOT_SIZE);
- 
--    nubus->current_slot = NUBUS_FIRST_SLOT;
-+    nubus->slot_available_mask = MAKE_64BIT_MASK(0, 16);
+@@ -87,11 +87,48 @@ static void nubus_init(Object *obj)
+     nubus->slot_available_mask = MAKE_64BIT_MASK(0, 16);
  }
  
- static void nubus_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
-index c1832f73da..d91a1e4af3 100644
---- a/hw/nubus/nubus-device.c
-+++ b/hw/nubus/nubus-device.c
-@@ -160,14 +160,35 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
-     NubusDevice *nd = NUBUS_DEVICE(dev);
-     char *name;
-     hwaddr slot_offset;
++static bool nubus_check_address(BusState *bus, DeviceState *dev, Error **errp)
++{
++    NubusDevice *nd = NUBUS_DEVICE(dev);
++    NubusBus *nubus = NUBUS_BUS(bus);
 +    uint16_t s;
 +
 +    if (nd->slot == -1) {
@@ -123,54 +96,77 @@ index c1832f73da..d91a1e4af3 100644
 +        } else {
 +            error_setg(errp, "Cannot register nubus card, no free slot "
 +                             "available");
-+            return;
++            return false;
 +        }
 +    } else {
 +        /* Slot specified, make sure the slot is available */
 +        if (!(nubus->slot_available_mask & BIT(nd->slot))) {
 +            error_setg(errp, "Cannot register nubus card, slot %d is "
 +                             "unavailable or already occupied", nd->slot);
-+            return;
++            return false;
 +        }
 +    }
- 
--    if (nubus->current_slot < NUBUS_FIRST_SLOT ||
--            nubus->current_slot > NUBUS_LAST_SLOT) {
--        error_setg(errp, "Cannot register nubus card, not enough slots");
++
 +    if (nd->slot < NUBUS_FIRST_SLOT || nd->slot > NUBUS_LAST_SLOT) {
 +        error_setg(errp, "Cannot register nubus card, slot must be "
 +                         "between %d and %d", NUBUS_FIRST_SLOT,
 +                         NUBUS_LAST_SLOT);
-         return;
-     }
- 
--    nd->slot = nubus->current_slot++;
++        return false;
++    }
++
 +    nubus->slot_available_mask &= ~BIT(nd->slot);
++    return true;
++}
++
+ static void nubus_class_init(ObjectClass *oc, void *data)
+ {
+     BusClass *bc = BUS_CLASS(oc);
+ 
+     bc->realize = nubus_realize;
++    bc->check_address = nubus_check_address;
+ }
+ 
+ static const TypeInfo nubus_bus_info = {
+diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
+index d91a1e4af3..7a32c8c95b 100644
+--- a/hw/nubus/nubus-device.c
++++ b/hw/nubus/nubus-device.c
+@@ -160,35 +160,6 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
+     NubusDevice *nd = NUBUS_DEVICE(dev);
+     char *name;
+     hwaddr slot_offset;
+-    uint16_t s;
+-
+-    if (nd->slot == -1) {
+-        /* No slot specified, find first available free slot */
+-        s = ctz32(nubus->slot_available_mask);
+-        if (s != 32) {
+-            nd->slot = s;
+-        } else {
+-            error_setg(errp, "Cannot register nubus card, no free slot "
+-                             "available");
+-            return;
+-        }
+-    } else {
+-        /* Slot specified, make sure the slot is available */
+-        if (!(nubus->slot_available_mask & BIT(nd->slot))) {
+-            error_setg(errp, "Cannot register nubus card, slot %d is "
+-                             "unavailable or already occupied", nd->slot);
+-            return;
+-        }
+-    }
+-
+-    if (nd->slot < NUBUS_FIRST_SLOT || nd->slot > NUBUS_LAST_SLOT) {
+-        error_setg(errp, "Cannot register nubus card, slot must be "
+-                         "between %d and %d", NUBUS_FIRST_SLOT,
+-                         NUBUS_LAST_SLOT);
+-        return;
+-    }
+-
+-    nubus->slot_available_mask &= ~BIT(nd->slot);
  
      /* Super */
      slot_offset = (nd->slot - 6) * NUBUS_SUPER_SLOT_SIZE;
-diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
-index 357f621d15..8ff4736259 100644
---- a/include/hw/nubus/nubus.h
-+++ b/include/hw/nubus/nubus.h
-@@ -19,7 +19,7 @@
- #define NUBUS_SLOT_SIZE       0x01000000
- #define NUBUS_SLOT_NB         0xF
- 
--#define NUBUS_FIRST_SLOT      0x9
-+#define NUBUS_FIRST_SLOT      0x0
- #define NUBUS_LAST_SLOT       0xF
- 
- #define TYPE_NUBUS_DEVICE "nubus-device"
-@@ -36,7 +36,7 @@ struct NubusBus {
-     MemoryRegion super_slot_io;
-     MemoryRegion slot_io;
- 
--    int current_slot;
-+    uint32_t slot_available_mask;
- };
- 
- struct NubusDevice {
 -- 
 2.20.1
 
