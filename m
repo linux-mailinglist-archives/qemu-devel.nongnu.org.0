@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4CD040FE38
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 18:57:21 +0200 (CEST)
-Received: from localhost ([::1]:36980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2BCF40FE57
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 19:04:44 +0200 (CEST)
+Received: from localhost ([::1]:50182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRHAu-0000RO-GM
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 12:57:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42928)
+	id 1mRHI3-0000xg-Bo
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 13:04:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mRH5y-000482-1O
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:52:14 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37833)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mRH5q-00036k-Qb
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:52:13 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- c8-20020a7bc008000000b002e6e462e95fso10490638wmb.2
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 09:52:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=K0WAuYXzze6b1/7quqv9Gq+wEuztzV4W4oFtDHhZ1T8=;
- b=FWKp5jDnKITWHjIN5WmtjgeIQ7TEaD5SdtwmSc9Dbjdx6I+ElNPO1Wymm4hFU2bXKK
- FaSBzGSPLtA68IDpcW7NST5iI9T0TiLVNJ26pmxyZ67JpAY7ro+TY3qDOLqEXnMY7n6F
- Mbn7EdRb7cJ/0+V61xCoCmn1KSKQV3pIGxBEBWKWMQh1y3HLsAhUqL7qsxcL+soEes+o
- 7MQd0a+TAv4Sfbfo4xuSwEtaClulhxvjeVK9rnPCFZ6DbJHwubLz/46jxJ5iMNFpXFop
- ymQh/u4qNX6JI//a1V5bjmIN//2VWx3X82qDYezZgDJ6B0a78gLIgrLEdv3xPU4VF+Ks
- kx4A==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1mRHFM-0007hM-Oj
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 13:01:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53535)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1mRHFC-0002eO-3b
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 13:01:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631898102;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zkNfZVSI2mKGpekE3Vn357S6xU21KhD/CQ6Olk0VTNo=;
+ b=OCsNyRCrrIlX6l4s6DsEHSYVyBiCfc6hResTf1GZ9KZ51HRo3NrdcWk+OfIoYBOnodWsel
+ s9IFtxfCZMMNxqagrM2zWt5eNZkRrd+hFsQauL9GD5dlLrTqssT8PjzI46pgCJrYCHNM0S
+ tmOaGpM20Htde14EdlqA0L2Nrl20f1o=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-489-zddhtzZ5PRuvYcTmAyj97A-1; Fri, 17 Sep 2021 13:01:41 -0400
+X-MC-Unique: zddhtzZ5PRuvYcTmAyj97A-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ v206-20020a627ad7000000b0043e010e5392so7732361pfc.1
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 10:01:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=K0WAuYXzze6b1/7quqv9Gq+wEuztzV4W4oFtDHhZ1T8=;
- b=UFeuayktZVuasmmayllhAl9ls444FDtC2LFuywUVlLynBBWolIqbtIwhmwfpsd9PoX
- DDOOA4jLMx5SLkfTbHG62v5MFHNyZ7iFE19RKMHQUgWh78jSK7gQ038rLl6Bu6QxsptH
- 3cZMwN3xUiV8ununroxXVBtB4xsRqoM7s8TmjrYvsJWBLnOaEh7L4t2v0kiEYromHPPw
- n5vvS/rsTyWyUmXun+zHPIOe1Bty9/m0Te36IVsWPZtP/ZwqiX+5xHR9XrheO52ex0Al
- RqeX8zk6w0S7UhjUGqyEjGaaX0e4ZHS6XDj38+9bK9SUP4rwivZbKKEc4pTGo+L1NMbF
- u5eA==
-X-Gm-Message-State: AOAM530dMsBN5stdR30Sr+yAh18Hrwi1LZFLsya2arZhglguvyGULt+i
- M7yt4fg/lhnUr5yaEdKgvzRQtg==
-X-Google-Smtp-Source: ABdhPJwc9KwSU+WnVrlmDHztKFE7Z1EMLsqTP2CgWsR/N6Ez+eZqr8utILfS34+fv5NH6+QVCpDgsg==
-X-Received: by 2002:a1c:2056:: with SMTP id g83mr15969976wmg.27.1631897524798; 
- Fri, 17 Sep 2021 09:52:04 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q10sm6756432wmq.12.2021.09.17.09.52.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Sep 2021 09:52:03 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 20C651FF96;
- Fri, 17 Sep 2021 17:52:03 +0100 (BST)
-References: <20210913102917.0bf933d8@ktm>
-User-agent: mu4e 1.7.0; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Lukasz Majewski <l.majewski@majess.pl>
-Subject: Re: Problem with init debugging under QEMU ARM
-Date: Fri, 17 Sep 2021 17:49:46 +0100
-In-reply-to: <20210913102917.0bf933d8@ktm>
-Message-ID: <87tuijrvpo.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zkNfZVSI2mKGpekE3Vn357S6xU21KhD/CQ6Olk0VTNo=;
+ b=zoop5VG0YB5zbsP6JGg36dvZzprxl4KZwveyEs8UNii9cPAyxvjm9V4Dd46GTXF1Q3
+ gfiegkdSLHlAiMahTA0IrZxINveSFNcZKpXbQ4QYrg0LWjXeji2T9QauSj+6trCaNFk7
+ iZOjUZ/9i5HxMGNAUGOx51mdKI1NmbJBa6wUxMznSl76I4LOOsD4Lv49EE4UHnFy87VR
+ G6aBaYa7kuKOYTpsYAnqMBCLYj3zr6xJsDmPidp86cr0Pwm6bpCiqCD+/dGTN998DYEx
+ KUl3hWNLNaXnUByQzRgeT/qxo3hpEqfIJujHKnBiLO4GufDzMqyRTQjID9VlbwdU+egz
+ ajQg==
+X-Gm-Message-State: AOAM5324D4/7qQwb+yrBJe0JyIZnqpUqb0rwp+F+I/MTMSUGifEdGM9f
+ L16FjnrEUxtihP9z2wCEQFbYhy5kIjCXx1VBr6Fg7NDGPps0cc73ITZVNJ2KvpWnPOkjd5MqLOL
+ VohS/wwjuWaoaxlrXgOlinqmUGKP9v1Y=
+X-Received: by 2002:a05:6a00:124f:b0:416:4ed7:e4c6 with SMTP id
+ u15-20020a056a00124f00b004164ed7e4c6mr11570672pfi.85.1631898099424; 
+ Fri, 17 Sep 2021 10:01:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy8PqS/qs9iivp4KXga6DI7VIqBr5cB59J4ia5JcuzgDWBml9PEIsSNixeofT5+xnrRzifbGOoGJ/91+3pw0zI=
+X-Received: by 2002:a05:6a00:124f:b0:416:4ed7:e4c6 with SMTP id
+ u15-20020a056a00124f00b004164ed7e4c6mr11570642pfi.85.1631898099102; Fri, 17
+ Sep 2021 10:01:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <b383305b-0604-bf6e-1f66-aefeaef1df82@t-online.de>
+ <20210916192239.18742-1-vr_qemu@t-online.de>
+In-Reply-To: <20210916192239.18742-1-vr_qemu@t-online.de>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Fri, 17 Sep 2021 21:01:28 +0400
+Message-ID: <CAMxuvaxBvRQLOuYC9ghYx6zGe=i_SXrjvPDpcVt_BmqsQK_aOg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] ui/console: replace QEMUFIFO with Fifo8
+To: =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000081c7e605cc33e21a"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,135 +91,370 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-discuss@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000081c7e605cc33e21a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Lukasz Majewski <l.majewski@majess.pl> writes:
+On Thu, Sep 16, 2021 at 11:22 PM Volker R=C3=BCmelin <vr_qemu@t-online.de> =
+wrote:
 
-> [[PGP Signed Part:Undecided]]
-> Dear QEMU community,
+> One of the two FIFO implementations QEMUFIFO and Fifo8 is
+> redundant. Replace QEMUFIFO with Fifo8.
 >
-> I'm now trying to fix bug in glibc which became apparent on qemu 6.0.0.
+> Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
 >
-> The error is caused by glibc commit:
-> bca0f5cbc9257c13322b99e55235c4f21ba0bd82
-> https://sourceware.org/git/?p=3Dglibc.git;a=3Dblobdiff;f=3Dsysdeps/arm/dl=
--machine.h;h=3Deb13cb8b57496a0ec175c54a495f7e78db978fb7;hp=3Dff5e09e207f798=
-6b1506b8895ae6c2aff032a380;hb=3Dbca0f5cbc9257c13322b99e55235c4f21ba0bd82;hp=
-b=3D34b4624b04fc8f038b2c329ca7560197320615b4
->
-> (reverting it causes the board to boot again)
->
-> Other components:
-> binutils_2.37
-> gcc_11.2
-> Yocto poky: SHA1: 1e2e9a84d6dd81d7f6dd69c0d119d0149d10ade1
->
-> Qemu start line (the problem is visible on 5.2.0 and 6.0.0):
-> qemu-system-arm -device
-> virtio-net-device,netdev=3Dnet0,mac=3D52:54:00:12:34:02 -netdev
-> tap,id=3Dnet0,ifnam e=3Dtap0,script=3Dno,downscript=3Dno -object
-> rng-random,filename=3D/dev/urandom,id=3Drng0 -device
-> virtio-rng-pci,rng=3Drng0 -drive
-> id=3Ddisk0,file=3Dy2038-image-devel-qemuarm.ext4,if=3Dnone,format
-> =3Draw -device virtio-blk-device,drive=3Ddisk0 -device qemu-xhci -device
-> usb-tablet -device usb-kbd  -machine virt,highmem=3Doff -cpu cortex-a15
-> -smp 4 -m 256 -serial mon:stdio -serial null -nographic -device
-> VGA,edid=3Don -kernel
-> zImage--5.10.62+git0+bce2813b16_machine-r0-qemuarm-20210910095636.bin
-> -append 'root=3D/dev/vda rw  mem=3D256M
-> ip=3D192.168.7.2::192.168.7.1:255.255.255.0 console=3DttyAMA0 console=3Dh=
-vc0
-> vmalloc=3D256
->
->
-> It has been tested with Cortex-A9 (Vexpress A9 2 core board) and
-> Cortex-A15. I've also tested the v5.1, v5.10 and v5.14 kernels. The
-> error is persistent.
->
-> I do add -s and -S when starting qemu-system-arm. I can use gdb to
-> debug the kernel without issues. Unfortunately, I'm not able to debug
-> /sbin/init after switching contex to user space.
 
-Is GDB being confused by the switch to userspace? Have you stepped over
-an eret into userspace?
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-> Moreover, gdbserver cannot be used as the error (and kernel OOPs) is
-> caused when early code from ld-linux.so.3 (the _dl_start function) is
-> executed.
+---
+>  ui/console.c | 86 ++++++++++++----------------------------------------
+>  1 file changed, 20 insertions(+), 66 deletions(-)
+>
+> diff --git a/ui/console.c b/ui/console.c
+> index eabbbc951c..d2433c0636 100644
+> --- a/ui/console.c
+> +++ b/ui/console.c
+> @@ -27,6 +27,7 @@
+>  #include "hw/qdev-core.h"
+>  #include "qapi/error.h"
+>  #include "qapi/qapi-commands-ui.h"
+> +#include "qemu/fifo8.h"
+>  #include "qemu/module.h"
+>  #include "qemu/option.h"
+>  #include "qemu/timer.h"
+> @@ -62,57 +63,6 @@ enum TTYState {
+>      TTY_STATE_CSI,
+>  };
+>
+> -typedef struct QEMUFIFO {
+> -    uint8_t *buf;
+> -    int buf_size;
+> -    int count, wptr, rptr;
+> -} QEMUFIFO;
+> -
+> -static int qemu_fifo_write(QEMUFIFO *f, const uint8_t *buf, int len1)
+> -{
+> -    int l, len;
+> -
+> -    l =3D f->buf_size - f->count;
+> -    if (len1 > l)
+> -        len1 =3D l;
+> -    len =3D len1;
+> -    while (len > 0) {
+> -        l =3D f->buf_size - f->wptr;
+> -        if (l > len)
+> -            l =3D len;
+> -        memcpy(f->buf + f->wptr, buf, l);
+> -        f->wptr +=3D l;
+> -        if (f->wptr >=3D f->buf_size)
+> -            f->wptr =3D 0;
+> -        buf +=3D l;
+> -        len -=3D l;
+> -    }
+> -    f->count +=3D len1;
+> -    return len1;
+> -}
+> -
+> -static int qemu_fifo_read(QEMUFIFO *f, uint8_t *buf, int len1)
+> -{
+> -    int l, len;
+> -
+> -    if (len1 > f->count)
+> -        len1 =3D f->count;
+> -    len =3D len1;
+> -    while (len > 0) {
+> -        l =3D f->buf_size - f->rptr;
+> -        if (l > len)
+> -            l =3D len;
+> -        memcpy(buf, f->buf + f->rptr, l);
+> -        f->rptr +=3D l;
+> -        if (f->rptr >=3D f->buf_size)
+> -            f->rptr =3D 0;
+> -        buf +=3D l;
+> -        len -=3D l;
+> -    }
+> -    f->count -=3D len1;
+> -    return len1;
+> -}
+> -
+>  typedef enum {
+>      GRAPHIC_CONSOLE,
+>      TEXT_CONSOLE,
+> @@ -165,8 +115,7 @@ struct QemuConsole {
+>
+>      Chardev *chr;
+>      /* fifo for key pressed */
+> -    QEMUFIFO out_fifo;
+> -    uint8_t out_fifo_buf[16];
+> +    Fifo8 out_fifo;
+>      QEMUTimer *kbd_timer;
+>      CoQueue dump_queue;
+>
+> @@ -1160,21 +1109,25 @@ static int vc_chr_write(Chardev *chr, const
+> uint8_t *buf, int len)
+>  static void kbd_send_chars(void *opaque)
+>  {
+>      QemuConsole *s =3D opaque;
+> -    int len;
+> -    uint8_t buf[16];
+> +    uint32_t len, avail;
+>
+>      len =3D qemu_chr_be_can_write(s->chr);
+> -    if (len > s->out_fifo.count)
+> -        len =3D s->out_fifo.count;
+> -    if (len > 0) {
+> -        if (len > sizeof(buf))
+> -            len =3D sizeof(buf);
+> -        qemu_fifo_read(&s->out_fifo, buf, len);
+> -        qemu_chr_be_write(s->chr, buf, len);
+> +    avail =3D fifo8_num_used(&s->out_fifo);
+> +    if (len > avail) {
+> +        len =3D avail;
+> +    }
+> +    while (len > 0) {
+> +        const uint8_t *buf;
+> +        uint32_t size;
+> +
+> +        buf =3D fifo8_pop_buf(&s->out_fifo, len, &size);
+> +        qemu_chr_be_write(s->chr, (uint8_t *)buf, size);
+> +        len -=3D size;
+> +        avail -=3D size;
+>      }
+>      /* characters are pending: we send them a bit later (XXX:
+>         horrible, should change char device API) */
+> -    if (s->out_fifo.count > 0) {
+> +    if (avail > 0) {
+>          timer_mod(s->kbd_timer, qemu_clock_get_ms(QEMU_CLOCK_REALTIME) +
+> 1);
+>      }
+>  }
+> @@ -1185,6 +1138,7 @@ void kbd_put_keysym_console(QemuConsole *s, int
+> keysym)
+>      uint8_t buf[16], *q;
+>      CharBackend *be;
+>      int c;
+> +    uint32_t num_free;
+>
+>      if (!s || (s->console_type =3D=3D GRAPHIC_CONSOLE))
+>          return;
+> @@ -1228,7 +1182,8 @@ void kbd_put_keysym_console(QemuConsole *s, int
+> keysym)
+>          }
+>          be =3D s->chr->be;
+>          if (be && be->chr_read) {
+> -            qemu_fifo_write(&s->out_fifo, buf, q - buf);
+> +            num_free =3D fifo8_num_free(&s->out_fifo);
+> +            fifo8_push_all(&s->out_fifo, buf, MIN(num_free, q - buf));
+>              kbd_send_chars(s);
+>          }
+>          break;
+> @@ -2233,8 +2188,7 @@ static void text_console_do_init(Chardev *chr,
+> DisplayState *ds)
+>      int g_width =3D 80 * FONT_WIDTH;
+>      int g_height =3D 24 * FONT_HEIGHT;
+>
+> -    s->out_fifo.buf =3D s->out_fifo_buf;
+> -    s->out_fifo.buf_size =3D sizeof(s->out_fifo_buf);
+> +    fifo8_create(&s->out_fifo, 16);
+>      s->kbd_timer =3D timer_new_ms(QEMU_CLOCK_REALTIME, kbd_send_chars, s=
+);
+>      s->ds =3D ds;
+>
+> --
+> 2.31.1
 >
 >
-> Any hints on how to debug it?
 
-Are any of the linux gdb python scripts able to give you the paddr of a
-given binary/task so you can stick a breakpoint there?
+--00000000000081c7e605cc33e21a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->
-> Inspecting assembler is one (awkward) option (some results presented
-> below). I can also inspect the VMA of the code just before starting the
-> /sbin/init process.
->
-> Unfortunately, when I try to break on user space code it is not very
-> helpful (as -S -s are supposed to be used with kernel).
->
->
-> Some info with the eligible code (_dl_start function):
-> ------------------------------------------------------
->
-> I think that the problem may be with having the negative value
-> calculated.
->
-> The relevant snipet:
->
->     116c:       bf00            nop
->     116e:       bf00            nop
->     1170:       bf00            nop
->     1172:       f8df 3508       ldr.w   r3, [pc, #1288] ; 167c
->     <_dl_start+0x520>
->
->     1176:       f8df 1508       ldr.w   r1, [pc, #1288] ; 1680
->     <_dl_start+0x524>
->
->     117a:       447b            add     r3, pc
->     117c:       4479            add     r1, pc
->     117e:       f8c3 1598       str.w   r1, [r3, #1432] ; 0x598
->     1182:       bf00            nop
->     1184:       bf00            nop
->     1186:       bf00            nop
->     1188:       bf00            nop
->     118a:       bf00            nop
->     118c:       bf00            nop
->     118e:       f8df 24f4       ldr.w   r2, [pc, #1268] ; 1684
->     <_dl_start+0x528> 1192:       f8d3 5598       ldr.w   r5, [r3,
->     #1432] ; 0x598 1196:       447a            add     r2, pc
->     1198:       442a            add     r2, r5
->     119a:       1a52            subs    r2, r2, r1
->     119c:       f8c3 25a0       str.w   r2, [r3, #1440] ; 0x5a0
->     11a0:       6813            ldr     r3, [r2, #0]
->
->
->     167c:       0002be92        .word   0x0002be92
->     1680:       ffffee80        .word   0xffffee80
->
-> The r1 gets the 0xffffee80 (negative offset) value. It is then added to
-> pc and used to calculate r2.
->
-> For working code (aforementioned patch reverted) - there are NO such
-> large values (like aforementioned 0xffffee80). The arithmetic is done
-> on=20
->
->    1690:       00000020        .word   0x00000020
->    1694:       0002be7e        .word   0x0002be7e
->
-> which seems to work.
->
-> Maybe I'm missing some flag when I do start qemu-system-arm?
->
-> Thanks in advance for help and hints.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 16, 2021 at 11:22 PM Volk=
+er R=C3=BCmelin &lt;<a href=3D"mailto:vr_qemu@t-online.de">vr_qemu@t-online=
+.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">One of the two FIFO implementations QEMUFIFO and Fifo8 is<br>
+redundant. Replace QEMUFIFO with Fifo8.<br>
+<br>
+Signed-off-by: Volker R=C3=BCmelin &lt;<a href=3D"mailto:vr_qemu@t-online.d=
+e" target=3D"_blank">vr_qemu@t-online.de</a>&gt;<br></blockquote><div><br><=
+/div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcand=
+re.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0ui/console.c | 86 ++++++++++++---------------------------------------=
+-<br>
+=C2=A01 file changed, 20 insertions(+), 66 deletions(-)<br>
+<br>
+diff --git a/ui/console.c b/ui/console.c<br>
+index eabbbc951c..d2433c0636 100644<br>
+--- a/ui/console.c<br>
++++ b/ui/console.c<br>
+@@ -27,6 +27,7 @@<br>
+=C2=A0#include &quot;hw/qdev-core.h&quot;<br>
+=C2=A0#include &quot;qapi/error.h&quot;<br>
+=C2=A0#include &quot;qapi/qapi-commands-ui.h&quot;<br>
++#include &quot;qemu/fifo8.h&quot;<br>
+=C2=A0#include &quot;qemu/module.h&quot;<br>
+=C2=A0#include &quot;qemu/option.h&quot;<br>
+=C2=A0#include &quot;qemu/timer.h&quot;<br>
+@@ -62,57 +63,6 @@ enum TTYState {<br>
+=C2=A0 =C2=A0 =C2=A0TTY_STATE_CSI,<br>
+=C2=A0};<br>
+<br>
+-typedef struct QEMUFIFO {<br>
+-=C2=A0 =C2=A0 uint8_t *buf;<br>
+-=C2=A0 =C2=A0 int buf_size;<br>
+-=C2=A0 =C2=A0 int count, wptr, rptr;<br>
+-} QEMUFIFO;<br>
+-<br>
+-static int qemu_fifo_write(QEMUFIFO *f, const uint8_t *buf, int len1)<br>
+-{<br>
+-=C2=A0 =C2=A0 int l, len;<br>
+-<br>
+-=C2=A0 =C2=A0 l =3D f-&gt;buf_size - f-&gt;count;<br>
+-=C2=A0 =C2=A0 if (len1 &gt; l)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 len1 =3D l;<br>
+-=C2=A0 =C2=A0 len =3D len1;<br>
+-=C2=A0 =C2=A0 while (len &gt; 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 l =3D f-&gt;buf_size - f-&gt;wptr;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (l &gt; len)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 l =3D len;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 memcpy(f-&gt;buf + f-&gt;wptr, buf, l);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 f-&gt;wptr +=3D l;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (f-&gt;wptr &gt;=3D f-&gt;buf_size)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f-&gt;wptr =3D 0;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf +=3D l;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 len -=3D l;<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 f-&gt;count +=3D len1;<br>
+-=C2=A0 =C2=A0 return len1;<br>
+-}<br>
+-<br>
+-static int qemu_fifo_read(QEMUFIFO *f, uint8_t *buf, int len1)<br>
+-{<br>
+-=C2=A0 =C2=A0 int l, len;<br>
+-<br>
+-=C2=A0 =C2=A0 if (len1 &gt; f-&gt;count)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 len1 =3D f-&gt;count;<br>
+-=C2=A0 =C2=A0 len =3D len1;<br>
+-=C2=A0 =C2=A0 while (len &gt; 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 l =3D f-&gt;buf_size - f-&gt;rptr;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (l &gt; len)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 l =3D len;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 memcpy(buf, f-&gt;buf + f-&gt;rptr, l);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 f-&gt;rptr +=3D l;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (f-&gt;rptr &gt;=3D f-&gt;buf_size)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f-&gt;rptr =3D 0;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf +=3D l;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 len -=3D l;<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 f-&gt;count -=3D len1;<br>
+-=C2=A0 =C2=A0 return len1;<br>
+-}<br>
+-<br>
+=C2=A0typedef enum {<br>
+=C2=A0 =C2=A0 =C2=A0GRAPHIC_CONSOLE,<br>
+=C2=A0 =C2=A0 =C2=A0TEXT_CONSOLE,<br>
+@@ -165,8 +115,7 @@ struct QemuConsole {<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0Chardev *chr;<br>
+=C2=A0 =C2=A0 =C2=A0/* fifo for key pressed */<br>
+-=C2=A0 =C2=A0 QEMUFIFO out_fifo;<br>
+-=C2=A0 =C2=A0 uint8_t out_fifo_buf[16];<br>
++=C2=A0 =C2=A0 Fifo8 out_fifo;<br>
+=C2=A0 =C2=A0 =C2=A0QEMUTimer *kbd_timer;<br>
+=C2=A0 =C2=A0 =C2=A0CoQueue dump_queue;<br>
+<br>
+@@ -1160,21 +1109,25 @@ static int vc_chr_write(Chardev *chr, const uint8_t=
+ *buf, int len)<br>
+=C2=A0static void kbd_send_chars(void *opaque)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0QemuConsole *s =3D opaque;<br>
+-=C2=A0 =C2=A0 int len;<br>
+-=C2=A0 =C2=A0 uint8_t buf[16];<br>
++=C2=A0 =C2=A0 uint32_t len, avail;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0len =3D qemu_chr_be_can_write(s-&gt;chr);<br>
+-=C2=A0 =C2=A0 if (len &gt; s-&gt;out_fifo.count)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D s-&gt;out_fifo.count;<br>
+-=C2=A0 =C2=A0 if (len &gt; 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (len &gt; sizeof(buf))<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D sizeof(buf);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fifo_read(&amp;s-&gt;out_fifo, buf, len);=
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_chr_be_write(s-&gt;chr, buf, len);<br>
++=C2=A0 =C2=A0 avail =3D fifo8_num_used(&amp;s-&gt;out_fifo);<br>
++=C2=A0 =C2=A0 if (len &gt; avail) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D avail;<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 while (len &gt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 const uint8_t *buf;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t size;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf =3D fifo8_pop_buf(&amp;s-&gt;out_fifo, len=
+, &amp;size);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_chr_be_write(s-&gt;chr, (uint8_t *)buf, s=
+ize);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 len -=3D size;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 avail -=3D size;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0/* characters are pending: we send them a bit later (XX=
+X:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 horrible, should change char device API) */<br>
+-=C2=A0 =C2=A0 if (s-&gt;out_fifo.count &gt; 0) {<br>
++=C2=A0 =C2=A0 if (avail &gt; 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0timer_mod(s-&gt;kbd_timer, qemu_clock_get=
+_ms(QEMU_CLOCK_REALTIME) + 1);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+@@ -1185,6 +1138,7 @@ void kbd_put_keysym_console(QemuConsole *s, int keysy=
+m)<br>
+=C2=A0 =C2=A0 =C2=A0uint8_t buf[16], *q;<br>
+=C2=A0 =C2=A0 =C2=A0CharBackend *be;<br>
+=C2=A0 =C2=A0 =C2=A0int c;<br>
++=C2=A0 =C2=A0 uint32_t num_free;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (!s || (s-&gt;console_type =3D=3D GRAPHIC_CONSOLE))<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+@@ -1228,7 +1182,8 @@ void kbd_put_keysym_console(QemuConsole *s, int keysy=
+m)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0be =3D s-&gt;chr-&gt;be;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (be &amp;&amp; be-&gt;chr_read) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fifo_write(&amp;s-&gt;out_f=
+ifo, buf, q - buf);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 num_free =3D fifo8_num_free(&amp=
+;s-&gt;out_fifo);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fifo8_push_all(&amp;s-&gt;out_fi=
+fo, buf, MIN(num_free, q - buf));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kbd_send_chars(s);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+@@ -2233,8 +2188,7 @@ static void text_console_do_init(Chardev *chr, Displa=
+yState *ds)<br>
+=C2=A0 =C2=A0 =C2=A0int g_width =3D 80 * FONT_WIDTH;<br>
+=C2=A0 =C2=A0 =C2=A0int g_height =3D 24 * FONT_HEIGHT;<br>
+<br>
+-=C2=A0 =C2=A0 s-&gt;out_fifo.buf =3D s-&gt;out_fifo_buf;<br>
+-=C2=A0 =C2=A0 s-&gt;out_fifo.buf_size =3D sizeof(s-&gt;out_fifo_buf);<br>
++=C2=A0 =C2=A0 fifo8_create(&amp;s-&gt;out_fifo, 16);<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;kbd_timer =3D timer_new_ms(QEMU_CLOCK_REALTIME, k=
+bd_send_chars, s);<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;ds =3D ds;<br>
+<br>
+-- <br>
+2.31.1<br>
+<br>
+</blockquote></div></div>
 
+--00000000000081c7e605cc33e21a--
 
---=20
-Alex Benn=C3=A9e
 
