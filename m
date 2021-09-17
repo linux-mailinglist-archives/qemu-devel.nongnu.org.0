@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4FD240F1C0
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 07:49:04 +0200 (CEST)
-Received: from localhost ([::1]:43696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C8B440F1C7
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 07:54:30 +0200 (CEST)
+Received: from localhost ([::1]:59180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mR6kB-0005Ay-PT
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 01:49:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48332)
+	id 1mR6pR-00077A-O7
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 01:54:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mR6cv-0005Go-OE
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 01:41:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40732)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mR6cy-0005PO-QT
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 01:41:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22306)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mR6cp-0003dS-Fe
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 01:41:33 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mR6cq-0003fk-En
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 01:41:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631857284;
+ s=mimecast20190719; t=1631857286;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qkwvaqgYVXKJ52bAFsA3LmVzXWBREOn5KcDadOq0Zmo=;
- b=QkO8ey3hBw9zHuDXw9Xue/RZjiJ9UbbQIag1WG7HxZw0clYPX/jenCjxbbGmBmj/EzAlTC
- fXKVs6CPQMUOmSuhCFLqxPNP0etgwGQDIuIgCBAsLK+lerZdd40RMaeXbjfNLXLb3aFXhT
- Ru6wNCi4UXKf8bHm1cTSimen3Xo+xO0=
+ bh=m6EUxYxhOFzLU6kuss4XhdFLrG7URHqgFVAK7WCGG9Y=;
+ b=TgQZbI62fy8jXGtWQH0TJy3803cOJMmKzKn5svKPJ4Z42dTZ9cUH52G1kU35DNusdI5bJy
+ A67APIXnfoY3icwkqzNGAcmgm4Tl8lKLt57b2FQaKj1XEZ8SPlde6ZzkfmzLAIoT9SzriI
+ 01P9iabZ5qn5SIFJZfK4InCAh4V3QS4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-91-WuHlwuG3MiWDP8NnrBkYIg-1; Fri, 17 Sep 2021 01:41:23 -0400
-X-MC-Unique: WuHlwuG3MiWDP8NnrBkYIg-1
+ us-mta-324-tjj2HYjnMTmgFgyvL74yXg-1; Fri, 17 Sep 2021 01:41:25 -0400
+X-MC-Unique: tjj2HYjnMTmgFgyvL74yXg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A2271084681;
- Fri, 17 Sep 2021 05:41:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53AC0824FA6;
+ Fri, 17 Sep 2021 05:41:24 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.11.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C365F77F3C;
- Fri, 17 Sep 2021 05:41:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B56877F3C;
+ Fri, 17 Sep 2021 05:41:22 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/15] iotests: Disable AQMP logging under non-debug modes
-Date: Fri, 17 Sep 2021 01:40:44 -0400
-Message-Id: <20210917054047.2042843-13-jsnow@redhat.com>
+Subject: [PATCH 13/15] iotests: Accommodate async QMP Exception classes
+Date: Fri, 17 Sep 2021 01:40:45 -0400
+Message-Id: <20210917054047.2042843-14-jsnow@redhat.com>
 In-Reply-To: <20210917054047.2042843-1-jsnow@redhat.com>
 References: <20210917054047.2042843-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,15 +55,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,31 +84,66 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Disable the aqmp logger, which likes to (at the moment) print out
-intermediate warnings and errors that cause session termination; disable
-them so they don't interfere with the job output.
+(But continue to support the old ones for now, too.)
 
-Leave any "CRITICAL" warnings enabled though, those are ones that we
-should never see, no matter what.
+There are very few cases of any user of QEMUMachine or a subclass
+thereof relying on a QMP Exception type. If you'd like to check for
+yourself, you want to grep for all of the derivatives of QMPError,
+excluding 'AQMPError' and its derivatives. That'd be these:
+
+- QMPError
+- QMPConnectError
+- QMPCapabilitiesError
+- QMPTimeoutError
+- QMPProtocolError
+- QMPResponseError
+- QMPBadPortError
+
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 2 ++
- 1 file changed, 2 insertions(+)
+ scripts/simplebench/bench_block_job.py    | 3 ++-
+ tests/qemu-iotests/tests/mirror-top-perms | 6 +++++-
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 273d2777ae..47e5f9738b 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -1383,6 +1383,8 @@ def execute_setup_common(supported_fmts: Sequence[str] = (),
-     if debug:
-         sys.argv.remove('-d')
-     logging.basicConfig(level=(logging.DEBUG if debug else logging.WARN))
-+    if not debug:
-+        logging.getLogger("qemu.aqmp.qmp_client").setLevel(logging.CRITICAL)
+diff --git a/scripts/simplebench/bench_block_job.py b/scripts/simplebench/bench_block_job.py
+index 4f03c12169..a403c35b08 100755
+--- a/scripts/simplebench/bench_block_job.py
++++ b/scripts/simplebench/bench_block_job.py
+@@ -28,6 +28,7 @@
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+ from qemu.machine import QEMUMachine
+ from qemu.qmp import QMPConnectError
++from qemu.aqmp import ConnectError
  
-     _verify_image_format(supported_fmts, unsupported_fmts)
-     _verify_protocol(supported_protocols, unsupported_protocols)
+ 
+ def bench_block_job(cmd, cmd_args, qemu_args):
+@@ -49,7 +50,7 @@ def bench_block_job(cmd, cmd_args, qemu_args):
+         vm.launch()
+     except OSError as e:
+         return {'error': 'popen failed: ' + str(e)}
+-    except (QMPConnectError, socket.timeout):
++    except (QMPConnectError, ConnectError, socket.timeout):
+         return {'error': 'qemu failed: ' + str(vm.get_log())}
+ 
+     try:
+diff --git a/tests/qemu-iotests/tests/mirror-top-perms b/tests/qemu-iotests/tests/mirror-top-perms
+index 451a0666f8..7d448f4d23 100755
+--- a/tests/qemu-iotests/tests/mirror-top-perms
++++ b/tests/qemu-iotests/tests/mirror-top-perms
+@@ -103,7 +103,11 @@ class TestMirrorTopPerms(iotests.QMPTestCase):
+             print('ERROR: VM B launched successfully, this should not have '
+                   'happened')
+         except qemu.qmp.QMPConnectError:
+-            assert 'Is another process using the image' in self.vm_b.get_log()
++            pass
++        except qemu.aqmp.ConnectError:
++            pass
++
++        assert 'Is another process using the image' in self.vm_b.get_log()
+ 
+         result = self.vm.qmp('block-job-cancel',
+                              device='mirror')
 -- 
 2.31.1
 
