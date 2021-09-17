@@ -2,45 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8E5B40F3A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 09:58:05 +0200 (CEST)
-Received: from localhost ([::1]:58092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E0040F3AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 10:00:44 +0200 (CEST)
+Received: from localhost ([::1]:36598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mR8l2-0000zw-Nc
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 03:58:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38748)
+	id 1mR8nb-0005Ua-H6
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 04:00:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mR8em-0005Nu-Ov
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 03:51:39 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41740
+ id 1mR8en-0005O2-MR
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 03:51:41 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41746
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mR8el-0005aX-8t
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 03:51:36 -0400
+ id 1mR8el-0005ar-GZ
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 03:51:37 -0400
 Received: from host109-153-84-64.range109-153.btcentralplus.com
  ([109.153.84.64] helo=kentang.home)
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mR8ed-0007Od-0V; Fri, 17 Sep 2021 08:51:30 +0100
+ id 1mR8eh-0007Od-1k; Fri, 17 Sep 2021 08:51:31 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Fri, 17 Sep 2021 08:50:45 +0100
-Message-Id: <20210917075057.20924-9-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 17 Sep 2021 08:50:46 +0100
+Message-Id: <20210917075057.20924-10-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210917075057.20924-1-mark.cave-ayland@ilande.co.uk>
 References: <20210917075057.20924-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.153.84.64
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v4 08/20] nubus: generate bus error when attempting to access
- empty slots
+Subject: [PATCH v4 09/20] macfb: don't register declaration ROM
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -66,92 +64,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to "Designing Cards and Drivers for the Macintosh Family" any attempt
-to access an unimplemented address location on Nubus generates a bus error. MacOS
-uses a custom bus error handler to detect empty Nubus slots, and with the current
-implementation assumes that all slots are occupied as the Nubus transactions
-never fail.
-
-Switch nubus_slot_ops and nubus_super_slot_ops over to use {read,write}_with_attrs
-and hard-code them to return MEMTX_DECODE_ERROR so that unoccupied Nubus slots
-will generate the expected bus error.
+The macfb device is an on-board framebuffer and so is initialised by the
+system declaration ROM included within the MacOS toolbox ROM.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/nubus/nubus-bus.c | 34 ++++++++++++++++++----------------
- 1 file changed, 18 insertions(+), 16 deletions(-)
+ hw/display/macfb.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/hw/nubus/nubus-bus.c b/hw/nubus/nubus-bus.c
-index 39182db065..a617459a4f 100644
---- a/hw/nubus/nubus-bus.c
-+++ b/hw/nubus/nubus-bus.c
-@@ -20,23 +20,23 @@ static NubusBus *nubus_find(void)
-     return NUBUS_BUS(object_resolve_path_type("", TYPE_NUBUS_BUS, NULL));
+diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+index d8183b9bbd..76808b69cc 100644
+--- a/hw/display/macfb.c
++++ b/hw/display/macfb.c
+@@ -383,10 +383,6 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
+     sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_vram);
  }
  
--static void nubus_slot_write(void *opaque, hwaddr addr, uint64_t val,
--                             unsigned int size)
-+static MemTxResult nubus_slot_write(void *opaque, hwaddr addr, uint64_t val,
-+                                    unsigned size, MemTxAttrs attrs)
+-const uint8_t macfb_rom[] = {
+-    255, 0, 0, 0,
+-};
+-
+ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
  {
--    /* read only */
-     trace_nubus_slot_write(addr, val, size);
-+    return MEMTX_DECODE_ERROR;
+     NubusDevice *nd = NUBUS_DEVICE(dev);
+@@ -399,8 +395,6 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
+     macfb_common_realize(dev, ms, errp);
+     memory_region_add_subregion(&nd->slot_mem, DAFB_BASE, &ms->mem_ctrl);
+     memory_region_add_subregion(&nd->slot_mem, VIDEO_BASE, &ms->mem_vram);
+-
+-    nubus_register_rom(nd, macfb_rom, sizeof(macfb_rom), 1, 9, 0xf);
  }
  
--static uint64_t nubus_slot_read(void *opaque, hwaddr addr,
--                                unsigned int size)
-+static MemTxResult nubus_slot_read(void *opaque, hwaddr addr, uint64_t *data,
-+                                   unsigned size, MemTxAttrs attrs)
- {
-     trace_nubus_slot_read(addr, size);
--    return 0;
-+    return MEMTX_DECODE_ERROR;
- }
- 
- static const MemoryRegionOps nubus_slot_ops = {
--    .read  = nubus_slot_read,
--    .write = nubus_slot_write,
-+    .read_with_attrs  = nubus_slot_read,
-+    .write_with_attrs = nubus_slot_write,
-     .endianness = DEVICE_BIG_ENDIAN,
-     .valid = {
-         .min_access_size = 1,
-@@ -44,23 +44,25 @@ static const MemoryRegionOps nubus_slot_ops = {
-     },
- };
- 
--static void nubus_super_slot_write(void *opaque, hwaddr addr, uint64_t val,
--                                   unsigned int size)
-+static MemTxResult nubus_super_slot_write(void *opaque, hwaddr addr,
-+                                          uint64_t val, unsigned size,
-+                                          MemTxAttrs attrs)
- {
--    /* read only */
-     trace_nubus_super_slot_write(addr, val, size);
-+    return MEMTX_DECODE_ERROR;
- }
- 
--static uint64_t nubus_super_slot_read(void *opaque, hwaddr addr,
--                                      unsigned int size)
-+static MemTxResult nubus_super_slot_read(void *opaque, hwaddr addr,
-+                                         uint64_t *data, unsigned size,
-+                                         MemTxAttrs attrs)
- {
-     trace_nubus_super_slot_read(addr, size);
--    return 0;
-+    return MEMTX_DECODE_ERROR;
- }
- 
- static const MemoryRegionOps nubus_super_slot_ops = {
--    .read  = nubus_super_slot_read,
--    .write = nubus_super_slot_write,
-+    .read_with_attrs = nubus_super_slot_read,
-+    .write_with_attrs = nubus_super_slot_write,
-     .endianness = DEVICE_BIG_ENDIAN,
-     .valid = {
-         .min_access_size = 1,
+ static void macfb_sysbus_reset(DeviceState *d)
 -- 
 2.20.1
 
