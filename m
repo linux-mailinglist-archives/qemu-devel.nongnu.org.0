@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A4440FF8D
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 20:41:08 +0200 (CEST)
-Received: from localhost ([::1]:49876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 092F840FFA6
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 21:06:41 +0200 (CEST)
+Received: from localhost ([::1]:44748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRInL-0002aj-T3
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 14:41:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38490)
+	id 1mRJC4-0002Ow-3Y
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 15:06:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mRIlU-0001vP-6F
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 14:39:12 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:44031)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mRIlR-0004lW-33
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 14:39:11 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- a194-20020a1c98cb000000b0030b41ac389fso2783047wme.2
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 11:39:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ff75Wwy1zN+zZwUShiOiWAvFzSxHJiSsky9vxx8gt5k=;
- b=U6cJ2nsa3wfA/5zlsmhmktW6Jns/6jw0N28eA6aBan/rMv6g7b5mPWALFrpDFVm9F6
- Y/fiF8NhH6Ot/KJvKiO1o/+UMAicaoyz0NH7mQOs6W+14Twf1U0wBnfySJX493Y1RrKU
- 12L2ACKYMw2/vHdTPm1wQqZRedxecPTfwt+bq+un46HwihagteFA9N8nkmzZasGxv0AE
- 1PYxPOGqKsNnUDA1JpomtuWC/MtrO0PZgK/N6jFW3M7lbl8UxGGdHg9Y1puc7waQ4Msn
- folHFZxktUtU5hdySRumEY75fysIQLzAAd6/cjxsixrbd2DzdIFLqNP1C++Exclxl4hv
- ez0g==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mRJ5d-0005zt-0f
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 15:00:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29957)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mRJ5Z-0005f8-Eg
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 15:00:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631905194;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=G05cTUCHwzS6cXSpZNXkIEEVYtlshGTI4V0WMUKZa7o=;
+ b=bTZwztExKCEeHaZDxUgCLKMTBX44x00ydPHgUSnkQyvc7Z7HNPmbVvLJ006g679ZIr+COp
+ C8W/HnOQOQcwu6IvjYjQ9VA2wVV6k7EOJQmQUetd4xm/xvwvI93GRGs9uHwR0bzHE4wWFj
+ ubCdT2bJwkINHIgXGpXPMYdd8Prt4m8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-10xq24aYO1KQ9D7yvTghVQ-1; Fri, 17 Sep 2021 14:59:53 -0400
+X-MC-Unique: 10xq24aYO1KQ9D7yvTghVQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c2-20020a7bc8420000b0290238db573ab7so4079853wml.5
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 11:59:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Ff75Wwy1zN+zZwUShiOiWAvFzSxHJiSsky9vxx8gt5k=;
- b=Z2UgTPfg6VQv0PCVviJ//EaUuRmliw8nyeBwihbr3ijg0tbYWSTHbJ7Lj+M6DGD/IJ
- yitDIs/PdhihogIzdYsaqDshmC9LkCjc+gygGzeX0EijuMRHtB69cIN9BLvrS+aNKPxk
- JXNs1MA1TQzkV9yjtp3py49ASL0ml1ez4fEAZOq/R1nD6KB+LBXSR2GcekAnAgQmDX+Q
- o8UF3xRIDXuoTYXOjco8Febih8zx0RerfABPsIA1jkbz1WO/LZs5HjSpM46wB6vKBUL3
- Mp2zUaDzEsKSPItxXzPfiFCFkabNjIVhf+bSTlwz/3mrp8OLWV86SrZZ0CQ682Z0dDQb
- QPFg==
-X-Gm-Message-State: AOAM531DdnI3WfhE3o+QrMfo5YMx4Zm3BjVB0hRL/+0Yl+Y+oyQfhIL+
- LhSA2lM8J9j1ukDTqYmI3FQ=
-X-Google-Smtp-Source: ABdhPJx0muUkCFqnVcKq7T6wWPBk8Kn0oKP1K5VrePLtPkzSD95VmevQWHQF0yvK87EUJbp+vgqScQ==
-X-Received: by 2002:a1c:f308:: with SMTP id q8mr16293928wmq.153.1631903947597; 
- Fri, 17 Sep 2021 11:39:07 -0700 (PDT)
-Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
- [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id z19sm13793363wma.0.2021.09.17.11.39.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Sep 2021 11:39:07 -0700 (PDT)
-Subject: Re: Rust in Qemu BoF followup: Rust vs. qemu platform support
-To: Warner Losh <imp@bsdimp.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <YURYvaOpya498Xx2@yekko> <YUR9RXXZ4lSRfcyB@redhat.com>
- <CANCZdfoezvfO+wKgqwMf7oCO3dAgpJ28RGecnZs31_o3+iUdGA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <119693ac-5aed-969a-9d8f-252db75a2d98@amsat.org>
-Date: Fri, 17 Sep 2021 20:39:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=G05cTUCHwzS6cXSpZNXkIEEVYtlshGTI4V0WMUKZa7o=;
+ b=GvRfOmdF/cjO0AwN7YJqJhkA9J3jyA9XL8s56ZKaBmJ4jzL6K+cnobqDgf1MKNxV6P
+ MKB8iDj3MAxRkdldDhb69LvUkhoYJePaaQd0lCE0eBe/THvupJok3BK1bTdWmWBvP+Io
+ F0NiR/4Ng7EMXDzQ2wUEMp5k1UtOvqxqLZgOzWrcfczLvA+1kHlyrW0p2ZBc0FSmoymh
+ J7Dgd07HGjFHDvNHSMdaBlQn+zD7ctcDLffdMDmkdpasG7SXMSf2ghfypSE42V9CRwDp
+ 4M+RW/4YxjgfCfS7g6hjfE/bzMeh+kfd7TM5jw/bL5Hu7TjdgGb+X6I2/E4/JOejjx3G
+ pWWQ==
+X-Gm-Message-State: AOAM532g0+G29WPzx7CGULlOte1F8aOiGpuMiEl4Mkbsqs1EYg5E0kDo
+ KtNt5Z2NS7AHf2zULycvVbxad8cRQrLCa/QC7ICWYm6SwEaULEXRFSZxO9P2i2nX4V95/24pRxK
+ Hi3jh2shtnT/aCD57U6KiaWx9sXRCAyOkDeI5SJC/ROmvkmZ3kv2UBWENeCn81hqd
+X-Received: by 2002:a1c:149:: with SMTP id 70mr16511794wmb.187.1631905192045; 
+ Fri, 17 Sep 2021 11:59:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxvDHyCcd9/t84rtWDdBPlMMkOO9PF/uGvQEV1OxrNCnRSlzemjNwIDUsY1Rg74IDIzEsrkcA==
+X-Received: by 2002:a1c:149:: with SMTP id 70mr16511761wmb.187.1631905191611; 
+ Fri, 17 Sep 2021 11:59:51 -0700 (PDT)
+Received: from x1w.. (14.red-83-35-25.dynamicip.rima-tde.net. [83.35.25.14])
+ by smtp.gmail.com with ESMTPSA id 129sm7222720wmz.26.2021.09.17.11.59.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Sep 2021 11:59:51 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/loader: Restrict PC_ROM_* definitions to hw/i386/pc
+Date: Fri, 17 Sep 2021 20:59:49 +0200
+Message-Id: <20210917185949.2244956-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <CANCZdfoezvfO+wKgqwMf7oCO3dAgpJ28RGecnZs31_o3+iUdGA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.488,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,72 +90,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, slp@redhat.com, cohuck@redhat.com,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, sgarzare@redhat.com
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/17/21 6:04 PM, Warner Losh wrote:> wrt FreeBSD:
-> 
-> The main focus of the project is on AMD64 (x86_64) and ARM64 (aarc64). With
-> ricsv64 being ascendant as well. i386 and armv7 are fading. ppc64 has
-> strong,
-> but episodic, interest as well. The rest are bit players.
-> 
-> i386 (i686 really), armv7 and riscv7 are the next tier of interest in
-> FreeBSD
-> land. i386 is confined to 32-bit VMs with only a few legacy hardware
-> deployments
-> still kicking. armv7 is more popular on embedded boards, some of which have
-> a need to run qemu.
+The PC_ROM_* definitions are only used by the PC machine,
+and are irrelevant to the other architectures / machines.
+Reduce their scope by moving them to hw/i386/pc.c.
 
-What part of QEMU is used there, user-emulation (likely IMO) or
-system-emulation (unlikely) or both?
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ include/hw/loader.h | 6 ------
+ hw/i386/pc.c        | 6 ++++++
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-> riscv64 has a rust port that's being upstreamed, but not
-> there yet and there's likely interest to run qemu on it for research
-> projects.
-> riscv64 isn't widely deployed but has a lot of developer interest /
-> mindshare.
-> sparc64 was removed from FreeBSD 13 and has been irrelevant for years.
-> ppc 32 bit has some minor interest. mips has been fading fast and stands
-> an excellent chance of being removed before FreeBSD 14 (which is currently
-> slated for 2022). PowerPC 64 is hard to talk about... there's interest
-> that comes
-> and goes, but when it's around, it's quite intense. It's quite likely
-> there will
-> be interest to run qemu on ppc64 on FreeBSD, but that's much less certain.
-> 
-> So it all depends on what having rust means for those platforms that
-> don't have
-> it. Would it be a 'half a loaf' situation where the non-rust bits would
-> be buildable
-> but cool new drivers written in rust won't be? Or will it be so central
-> that rust is
-> table stakes to even start a qemu build? To be honest, I'm not sure this
-> difference
-> would greatly affect the above answer :).
-> 
-> Rust works really well on x86_64 and aarch64 (though there's more often
-> a lag
-> on the latter of a few weeks). I know of a rust riscv64 port, but that's
-> just getting
-> ready to upstream. No first-hand or second-hand clue on the rest.
-> 
-> FreeBSD tl;dr: x86_64 and aarch64 are must have. i386, armv7 and riscv64 are
-> really nice to have. ppc64 might also be in that list, but that's less
-> certain. The rest
-> have little to no relevance.
+diff --git a/include/hw/loader.h b/include/hw/loader.h
+index cbfc1848737..81104cb02fe 100644
+--- a/include/hw/loader.h
++++ b/include/hw/loader.h
+@@ -336,12 +336,6 @@ void hmp_info_roms(Monitor *mon, const QDict *qdict);
+ #define rom_add_blob_fixed_as(_f, _b, _l, _a, _as)      \
+     rom_add_blob(_f, _b, _l, _l, _a, NULL, NULL, NULL, _as, true)
+ 
+-#define PC_ROM_MIN_VGA     0xc0000
+-#define PC_ROM_MIN_OPTION  0xc8000
+-#define PC_ROM_MAX         0xe0000
+-#define PC_ROM_ALIGN       0x800
+-#define PC_ROM_SIZE        (PC_ROM_MAX - PC_ROM_MIN_VGA)
+-
+ int rom_add_vga(const char *file);
+ int rom_add_option(const char *file, int32_t bootindex);
+ 
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 7e523b913ca..557d49c9f8f 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -843,6 +843,12 @@ void xen_load_linux(PCMachineState *pcms)
+     x86ms->fw_cfg = fw_cfg;
+ }
+ 
++#define PC_ROM_MIN_VGA     0xc0000
++#define PC_ROM_MIN_OPTION  0xc8000
++#define PC_ROM_MAX         0xe0000
++#define PC_ROM_ALIGN       0x800
++#define PC_ROM_SIZE        (PC_ROM_MAX - PC_ROM_MIN_VGA)
++
+ void pc_memory_init(PCMachineState *pcms,
+                     MemoryRegion *system_memory,
+                     MemoryRegion *rom_memory,
+-- 
+2.31.1
 
-Thanks for gathering this useful info!
-
-> P.S I've been poking at people to get our QEMU aarch64 CI story in better
-> shape than it is today... I'll have to continue to prompt those
-> interested...
-> 
 
