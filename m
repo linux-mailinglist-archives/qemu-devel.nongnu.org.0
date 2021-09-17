@@ -2,91 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F98B40F465
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 10:47:16 +0200 (CEST)
-Received: from localhost ([::1]:52304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69BC340F480
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 11:03:05 +0200 (CEST)
+Received: from localhost ([::1]:59172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mR9Wd-0006Se-24
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 04:47:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46828)
+	id 1mR9lv-0003Y5-UO
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 05:03:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mR9NF-0004q9-71
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 04:37:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34745)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mR9hx-0002QI-1p
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 04:58:57 -0400
+Received: from ozlabs.org ([203.11.71.1]:44945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mR9NC-00016w-Bo
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 04:37:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631867849;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ly/gusIckYI0I5dCCJUvU1esdCREVIUBaXMwvw6uLoo=;
- b=daUWSt9c7029yA0hZrAWiBMs1AEuU5IghMdbSHXLNKpgk7V+BtRqF2p3m85JJTFZcuFbeU
- oUgHSZixWUDCtZCIecCzU1T8ZXrg09t5oWB9tVwjn7JD4k0rrvG5qlub9F5QGmYye3etoa
- FGptkyrz1YmT9P+U7cTuhKi2DJJsmds=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-7Q-3vqrXNeqVJhphUoeFcA-1; Fri, 17 Sep 2021 04:37:28 -0400
-X-MC-Unique: 7Q-3vqrXNeqVJhphUoeFcA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- i16-20020adfded0000000b001572ebd528eso3439344wrn.19
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 01:37:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=Ly/gusIckYI0I5dCCJUvU1esdCREVIUBaXMwvw6uLoo=;
- b=5/gZBNBm1Re+kOE0T9RQ3LUhNuvIV9ROMZ9Cwmc1H32PbSsZHp7raJThjFb9pQXH+5
- 310iV/b3K9AhnryV/wohPAwUQtjbtcMD4+zZxWL09YuJ/vw1GagG1r6urL8hLTnNBbCR
- VaXhf/k+nBeqF7Xquhil6/18/fL6DGf+AdLt/yDey0O1tTluxHt2+zLPwr3IXeKH60nA
- dlL/Mo4sqzESAyGhGLCXniND1rnCn5jTdxdhXSt7A8TOK1WpBHY6R0GvpZrlAAvsGP6c
- 2AzNDR3sQbcg2tSvo2g/XTWMNE6NRx2Yybz2Nrkzc9QeVSyiuHxYckmaIzcDKitMtLBu
- tPUA==
-X-Gm-Message-State: AOAM531LqFiL3isbobU/+faClnH1F7hb7/NEfHBYHgVI7HBz1xumdzWK
- KdHsQqls6hFp9dvlY2k2wkEZ8j7oV87MbgrjW+lc5VFoaT/lmx5puYLBgxCX0ALTlkkeKOM0KK2
- 0NVFh9KPlQ57IZ5o=
-X-Received: by 2002:adf:9bdb:: with SMTP id e27mr10548819wrc.162.1631867847519; 
- Fri, 17 Sep 2021 01:37:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwVBLkAECDpn0wG00v+XFKSw8BWQHE8VUkCf6uOHTQdN8Djis2uKXP83+f1qTzZz1YZc5D1cw==
-X-Received: by 2002:adf:9bdb:: with SMTP id e27mr10548786wrc.162.1631867847222; 
- Fri, 17 Sep 2021 01:37:27 -0700 (PDT)
-Received: from dresden.str.redhat.com
- ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
- by smtp.gmail.com with ESMTPSA id l21sm5547445wmh.31.2021.09.17.01.37.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Sep 2021 01:37:27 -0700 (PDT)
-Subject: Re: [PATCH v3 03/16] iotests/migrate-bitmaps-postcopy-test: declare
- instance variables
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20210916040955.628560-1-jsnow@redhat.com>
- <20210916040955.628560-4-jsnow@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <5d44034d-d629-95cb-4a54-8e2785d94439@redhat.com>
-Date: Fri, 17 Sep 2021 10:37:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mR9hs-0002kg-DS
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 04:58:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1631869120;
+ bh=5zxcVqBqrEXJjU7dHr1sHuWX1sBeAnoL/xXu0di3ylk=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Ik6vokG4dc0iKw+QXMYoGHcS0Ju0UOWv+No7R4WJc9oTlQ5K7673jOrlCvr394Buu
+ pYJxxaH2/V8z9o+6szQl1raGXl2IVx4j6yeuhAbWyFy5N9HaVPsj+4q6F5S1pB6xeD
+ +QKzf5U4t3XjbcZM7FTAHksv9634lPROHZbeFVRQ=
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4H9ntS5B9wz9sW4; Fri, 17 Sep 2021 18:58:40 +1000 (AEST)
+Date: Fri, 17 Sep 2021 18:58:37 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: qemu-devel@nongnu.org
+Subject: Rust in Qemu BoF followup: Rust vs. qemu platform support
+Message-ID: <YURYvaOpya498Xx2@yekko>
 MIME-Version: 1.0
-In-Reply-To: <20210916040955.628560-4-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.488, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="2k5/rjYAJaW37kqS"
+Content-Disposition: inline
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,36 +58,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: peter.maydell@linaro.org, slp@redhat.com, cohuck@redhat.com,
+ f4bug@amsat.org, hreitz@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com, alex.bennee@linaro.org, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16.09.21 06:09, John Snow wrote:
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test | 3 +++
->   1 file changed, 3 insertions(+)
->
-> diff --git a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
-> index 00ebb5c251..9c00ae61c8 100755
-> --- a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
-> +++ b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
-> @@ -115,6 +115,9 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
->           self.vm_a_events = []
->           self.vm_b_events = []
->   
-> +        self.discards1_sha256: str
-> +        self.all_discards_sha256: str
-> +
->       def start_postcopy(self):
->           """ Run migration until RESUME event on target. Return this event. """
->           for i in range(nb_bitmaps):
 
-Isn’t this obsolete after e2ad17a62d9da45fbcddc3faa3d6ced519a9453a?
+--2k5/rjYAJaW37kqS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hanna
+Hi all,
 
+At the qemu-in-rust BoF at KVM Forum, I volunteered to look into
+whether Rust supported all the host/build platforms that qemu does,
+which is obviously vital if we want to make Rust a non-optional
+component of the build.
+
+I've added the information to our wiki at:
+	https://wiki.qemu.org/RustInQemu
+
+TBH, the coverage is not as good as I expected.  Linux, macOS and
+Windows are pretty much ok, with the exception of Linux on Sparc.
+There are a lot of gaps in *BSD support, however.
+
+I've included some notes on where the information comes from, and some
+uncertainties in there.
+
+I've made an effort to get the information correct, but double
+checking would be appreciated.
+
+I haven't yet looked into the packaging situation for the Rust
+toolchain on various platforms and distros, but I still intend to do
+so.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--2k5/rjYAJaW37kqS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFEWLwACgkQbDjKyiDZ
+s5LHVg//XyRDzuk4Yhn9xRRDpQanK72vZY0KcTivY1QLY+2uhpOIHewdYPM3E9gc
+HYAUGtAlWPRTP3UVp7sS6KAPRxlRmKLsuItol62xUBOMeB+X87PJWwcqyJiNUaZ1
+B0EJGfpabEkgToKtSNy8rqtF4H14RPP0+fwXXWsNu4hTHHZJuWWoDYQXCckhGwp5
+avuSzwBGWRNnJWBh6SuJ182X2SUUUZPwGh8Pp0q7GDancwa4GXcczxs5+K9RWGPc
+jy/IYEkBgJGLLzzfDsepyk9/13YC7rolPbeeRuGLKHckubpNmBK98mc/eszbSSQh
+/RhCIN3j3eYabfw46faLb6jIrImHSJtGoS1cu9htEVq/kXzxY2qgSWGMj2gAAtQD
+RShgepktRvmDxEE/Iw64ghaXKV6iqu2nVhjzzIP01E4MyKFApetxw18Y9ZhEaBg3
+kTOmLEKOVoO8FCzQ5ISS93j11UXcbJVyc35DxdVQSS/xF/FC/Sxwu/25Yd/T64GU
+fOkGQdQdq0BCqp3htY2VG+JLr5LDF2h/YmSFqzsIUEfPMqrtZWk9CHQtka6gnwMS
+Nu9TGVwmnXzdEWUjE2BTwa/PEfH861mZgO3bYp6nfognvxdJHU08/epwB37iG4Vn
+rQMzei+XQ0kCF4450uyC9JNEG0ZmdItdGMin8vGuf4mLh8LX6VE=
+=NAvu
+-----END PGP SIGNATURE-----
+
+--2k5/rjYAJaW37kqS--
 
