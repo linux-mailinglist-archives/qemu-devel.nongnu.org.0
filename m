@@ -2,52 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E2940F6BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 13:29:33 +0200 (CEST)
-Received: from localhost ([::1]:38580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B40BB40F6B4
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 13:27:41 +0200 (CEST)
+Received: from localhost ([::1]:35948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRC3h-0000BS-0n
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 07:29:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57358)
+	id 1mRC1s-0006qy-RL
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 07:27:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mRBz9-0004F7-3b
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:24:52 -0400
-Received: from [201.28.113.2] (port=48354 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>) id 1mRBz6-0002HG-Dy
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:24:50 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 17 Sep 2021 08:24:43 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id C4BB680130D;
- Fri, 17 Sep 2021 08:24:42 -0300 (-03)
-Subject: Re: [PATCH v5 01/16] tcg: Expand usadd/ussub with umin/umax
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210915213114.1923776-1-richard.henderson@linaro.org>
- <20210915213114.1923776-2-richard.henderson@linaro.org>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Message-ID: <d5d876e5-e22b-290c-1510-3c77cc29f357@eldorado.org.br>
-Date: Fri, 17 Sep 2021 08:24:43 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mRC00-0005HZ-9B
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:25:44 -0400
+Received: from mail-ot1-f51.google.com ([209.85.210.51]:38590)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mRBzy-00038J-OL
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 07:25:44 -0400
+Received: by mail-ot1-f51.google.com with SMTP id
+ i8-20020a056830402800b0051afc3e373aso12423430ots.5
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 04:25:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UY8vWBybgg0ziw+oJk2ZxIkD36FVrMBaGrfEqYF6Fm8=;
+ b=lI9R0mV9IEAWIfiYhHoXMB3pujel1Y3ebUaiLsYFIiuPkOuyMT+W91hxt+08um44c4
+ dfnEso3Fis/K+Q//i9VK4UMU00i29fkZJs6IPV+1nqvc6pRMwOSJKOiEnkR9CYKKR211
+ I/Q6zu99pTBh7yEhR9C6r4bSFpFlEmQQLCLrSM6xhRg0am7OvM/05xQ3UwSFON+k75O/
+ 4ZTuG+EO4mcrxzxEX+BhKLtGNajSoUl2m3sRA87FWCcrVXU+1T/eYR0qUitdd2lnvuaP
+ Wpnn7ja+fRdBGoi9bqu+igC0mvgG0T54B06DrUaLh+IKarCJJPG4iX9IFM90O7t7sn9x
+ sRlQ==
+X-Gm-Message-State: AOAM533Er7CjC4dpJE+zxm31cugLMh+Ui+oHhEtLx4L6b9bhQ4boREr5
+ WN4JD+jotoSY9Xbm11BIStgV3ZSic9yOTIrGPiQ=
+X-Google-Smtp-Source: ABdhPJyo+QjsU6uMAGZFnYohfdT7im+vajuAh2tbQLnL0m3LHi1kcaoa4+Ooi7E+YcKi0a+BK8UNdFSluc1zYg3O7vA=
+X-Received: by 2002:a05:6830:812:: with SMTP id
+ r18mr8274706ots.190.1631877941653; 
+ Fri, 17 Sep 2021 04:25:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210915213114.1923776-2-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 17 Sep 2021 11:24:43.0185 (UTC)
- FILETIME=[9CAF4A10:01D7ABB6]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_40=-0.001, NICE_REPLY_A=-1.488,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210917094826.466047-1-thuth@redhat.com>
+In-Reply-To: <20210917094826.466047-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Fri, 17 Sep 2021 13:25:30 +0200
+Message-ID: <CAAdtpL7DkZyE7z-M2trjnXj0mpry95Y-T7-WahgxWg-jfg9gCg@mail.gmail.com>
+Subject: Re: [PATCH] travis.yml: Remove the "Release tarball" job
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000000775b105cc2f313b"
+Received-SPF: pass client-ip=209.85.210.51;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ot1-f51.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,100 +70,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Michael Roth <michael.roth@amd.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/09/2021 18:30, Richard Henderson wrote:
-> [E-MAIL EXTERNO] Não clique em links ou abra anexos, a menos que você possa confirmar o remetente e saber que o conteúdo é seguro. Em caso de e-mail suspeito entre imediatamente em contato com o DTI.
-> 
-> For usadd, we only have to consider overflow.  Since ~B + B == -1,
-> the maximum value for A that saturates is ~B.
-> 
-> For ussub, we only have to consider underflow.  The minimum value
-> that saturates to 0 from A - B is B.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+--0000000000000775b105cc2f313b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Le ven. 17 sept. 2021 11:48, Thomas Huth <thuth@redhat.com> a =C3=A9crit :
+
+> This is a leftover from the days when we were using Travis excessively,
+> but since x86 jobs are not really usable there anymore, this job has
+> likely never been used since many months. Let's simply remove it now.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   tcg/tcg-op-vec.c | 37 +++++++++++++++++++++++++++++++++++--
->   1 file changed, 35 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
-> index 15e026ae49..7705a49c0b 100644
-> --- a/tcg/tcg-op-vec.c
-> +++ b/tcg/tcg-op-vec.c
-> @@ -119,6 +119,18 @@ bool tcg_can_emit_vecop_list(const TCGOpcode *list,
->                   continue;
->               }
->               break;
-> +        case INDEX_op_usadd_vec:
-> +            if (tcg_can_emit_vec_op(INDEX_op_umin_vec, type, vece) ||
-> +                tcg_can_emit_vec_op(INDEX_op_cmp_vec, type, vece)) {
-> +                continue;
-> +            }
-> +            break;
-> +        case INDEX_op_ussub_vec:
-> +            if (tcg_can_emit_vec_op(INDEX_op_umax_vec, type, vece) ||
-> +                tcg_can_emit_vec_op(INDEX_op_cmp_vec, type, vece)) {
-> +                continue;
-> +            }
-> +            break;
->           case INDEX_op_cmpsel_vec:
->           case INDEX_op_smin_vec:
->           case INDEX_op_smax_vec:
-> @@ -603,7 +615,18 @@ void tcg_gen_ssadd_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
-> 
->   void tcg_gen_usadd_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
->   {
-> -    do_op3_nofail(vece, r, a, b, INDEX_op_usadd_vec);
-> +    if (!do_op3(vece, r, a, b, INDEX_op_usadd_vec)) {
-> +        const TCGOpcode *hold_list = tcg_swap_vecop_list(NULL);
-> +        TCGv_vec t = tcg_temp_new_vec_matching(r);
-> +
-> +        /* usadd(a, b) = min(a, ~b) + b */
-> +        tcg_gen_not_vec(vece, t, b);
-> +        tcg_gen_umin_vec(vece, t, t, a);
-> +        tcg_gen_add_vec(vece, r, r, b);
+>  .travis.yml | 23 -----------------------
+>  1 file changed, 23 deletions(-)
+>
 
-I think it should be
+Do we have the equivalent job on GitLab?
 
-tcg_gen_add_vec(vece, r, t, b);
+>
 
-> +
-> +        tcg_temp_free_vec(t);
-> +        tcg_swap_vecop_list(hold_list);
-> +    }
->   }
-> 
->   void tcg_gen_sssub_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
-> @@ -613,7 +636,17 @@ void tcg_gen_sssub_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
-> 
->   void tcg_gen_ussub_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
->   {
-> -    do_op3_nofail(vece, r, a, b, INDEX_op_ussub_vec);
-> +    if (!do_op3(vece, r, a, b, INDEX_op_ussub_vec)) {
-> +        const TCGOpcode *hold_list = tcg_swap_vecop_list(NULL);
-> +        TCGv_vec t = tcg_temp_new_vec_matching(r);
-> +
-> +        /* ussub(a, b) = max(a, b) - b */
-> +        tcg_gen_umax_vec(vece, t, a, b);
-> +        tcg_gen_sub_vec(vece, r, t, b);
-> +
-> +        tcg_temp_free_vec(t);
-> +        tcg_swap_vecop_list(hold_list);
-> +    }
->   }
-> 
->   static void do_minmax(unsigned vece, TCGv_vec r, TCGv_vec a,
-> --
-> 2.25.1
-> 
-> 
+--0000000000000775b105cc2f313b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">Le ven. 17 sept. 2021 11:48, Thomas Huth &lt;<a href=3D"mailto=
+:thuth@redhat.com">thuth@redhat.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
+#ccc solid;padding-left:1ex">This is a leftover from the days when we were =
+using Travis excessively,<br>
+but since x86 jobs are not really usable there anymore, this job has<br>
+likely never been used since many months. Let&#39;s simply remove it now.<b=
+r>
+<br>
+Signed-off-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=
+=3D"_blank" rel=3D"noreferrer">thuth@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0.travis.yml | 23 -----------------------<br>
+=C2=A01 file changed, 23 deletions(-)<br></blockquote></div></div><div><br>=
+</div><div>Do we have the equivalent job on GitLab?=C2=A0</div><div><div cl=
+ass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">
+</blockquote></div></div></div>
 
-Thanks,
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software Júnior
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+--0000000000000775b105cc2f313b--
 
