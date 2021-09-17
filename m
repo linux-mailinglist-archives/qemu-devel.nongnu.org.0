@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799E740FE68
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 19:14:17 +0200 (CEST)
-Received: from localhost ([::1]:40070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD0DE40FE90
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 19:21:46 +0200 (CEST)
+Received: from localhost ([::1]:47412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRHRI-0004yb-CO
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 13:14:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49322)
+	id 1mRHYX-0001hN-Hg
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 13:21:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mRHPl-0003Q4-J1; Fri, 17 Sep 2021 13:12:41 -0400
-Received: from smtpout1.mo3005.mail-out.ovh.net ([79.137.123.220]:43373
- helo=smtpout1.3005.mail-out.ovh.net)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mRHWM-00087D-Gl
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 13:19:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56865)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mRHPj-00036N-Aa; Fri, 17 Sep 2021 13:12:41 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.210])
- by mo3005.mail-out.ovh.net (Postfix) with ESMTPS id B4CFE13B0D4;
- Fri, 17 Sep 2021 17:12:34 +0000 (UTC)
-Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 17 Sep
- 2021 19:12:33 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004c568c9b9-5104-4279-98df-5c5362b044ce,
- 4CB242D324285DC6A6012FA7036A1BCD1D408584) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <4981cec7-5988-af2e-883b-de304e918c32@kaod.org>
-Date: Fri, 17 Sep 2021 19:12:33 +0200
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mRHWJ-0008RW-I2
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 13:19:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631899166;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WUiCKybLQLfmg+nCcj1yTHm4mcwFZklVLpofjUOiYvA=;
+ b=Y8vS1xMIknV4mVyhnffsznKQlWGpU/g8MgpPqXD6l08dstPIjwdFrI3JXVT+VVv3VVziQd
+ MNc9mh3tm7BJAB82biZs7JM28BxqH44XBUtdq+dqksnkbKCqs9APFqwwwz1Db+6MqoYUqG
+ hQOcylzgJJ9LR/953ynBQr02vh7QDHE=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-262-2Ad9VN7xObiiugrVpNbawQ-1; Fri, 17 Sep 2021 13:19:24 -0400
+X-MC-Unique: 2Ad9VN7xObiiugrVpNbawQ-1
+Received: by mail-ot1-f70.google.com with SMTP id
+ a4-20020a056830008400b005194eddc1d4so39572569oto.23
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 10:19:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WUiCKybLQLfmg+nCcj1yTHm4mcwFZklVLpofjUOiYvA=;
+ b=wl8KQdC/7l6gI1xPSpKkD21Jw0qK3d60TXcbdCOMKJhU9Yui91M+rcYSwDfE8bOzfS
+ C8SzwhL9BcOZwA51RkK1DF2O1uGhBibyUGGh7ZrvjCIa0inKTPZleGznzKSaLYV5ouZj
+ qtzEG/Nf13EjZE9VyWCUA0h3ofZK7nk94paceBxlUsDTRcDuA7IeryXHZLC0iZDwPknf
+ +GpyZhS6t3CXH8hl+D7gPqedlyBSOJUBm4QHbEWGmjKaYLvnSVTYFlsOVnzsxPbMVc8Q
+ Xhij0/HbeqAQeoUlcHM4NpWxqc0F/IJskL6QSqhUyT7ap4/Go9wK4PwhmVWgzJZDoYWB
+ EDXw==
+X-Gm-Message-State: AOAM533XV8CTmf3qO/0X4xs6vcaojlfcZWLKQJkPy1J/elEXDc0QG92D
+ zUbvgW+ueHvVwfoLHS9s9Tog8rtpcMFGC1d6ZNZwJ8IwsrDe9hT1SIZ2Ks7XVksCEownmM+99ME
+ A7eKoatGLx3HwAgMcU9GShY4psvADqq0=
+X-Received: by 2002:a05:6808:a01:: with SMTP id
+ n1mr4697339oij.52.1631899164104; 
+ Fri, 17 Sep 2021 10:19:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyCTmZg67cujBquDk7lP9atvB5aFytTRLi07BRE7LRvzaW/ZfMluq3rmIX/4FW/Zh3dCKIxG/pGWmKPgVwwUv4=
+X-Received: by 2002:a05:6808:a01:: with SMTP id
+ n1mr4697330oij.52.1631899163927; 
+ Fri, 17 Sep 2021 10:19:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3] target/ppc: Fix 64-bit decrementer
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, Luis Fernando Fujita
- Pires <luis.pires@eldorado.org.br>, David Gibson
- <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-References: <20210916143710.236489-1-clg@kaod.org>
- <CP2PR80MB36680A1BE91AFABE9DD3295BDADC9@CP2PR80MB3668.lamprd80.prod.outlook.com>
- <a0661690-bdb4-f002-3862-306458b36d3d@kaod.org>
- <CP2PR80MB3668712B5A367E87089D724BDADD9@CP2PR80MB3668.lamprd80.prod.outlook.com>
- <b8545741-185f-c74c-f572-ad4b5372e825@kaod.org>
- <62ad0cb4-0e41-4994-a52b-533b24b46401@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <62ad0cb4-0e41-4994-a52b-533b24b46401@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 923dd77f-3130-4697-9c8e-1c8edf810514
-X-Ovh-Tracer-Id: 14736340933097720681
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudehiedguddthecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout1.3005.mail-out.ovh.net
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+References: <20210917054047.2042843-1-jsnow@redhat.com>
+ <20210917054047.2042843-4-jsnow@redhat.com>
+ <19e00805-83cc-f0bf-beea-1ac6ca0472d8@redhat.com>
+In-Reply-To: <19e00805-83cc-f0bf-beea-1ac6ca0472d8@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 17 Sep 2021 13:19:13 -0400
+Message-ID: <CAFn=p-Zdy9m5T55K4=ZXxttc_gAbNN5cZBAOi_P_swps-A=w4Q@mail.gmail.com>
+Subject: Re: [PATCH 03/15] python/aqmp: Return cleared events from
+ EventListener.clear()
+To: Hanna Reitz <hreitz@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000f9be9005cc342106"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.488,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,16 +91,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> So use PRIx64, as you're supposed to do.
-> Or, in fact, change this to a tracepoint.
+--000000000000f9be9005cc342106
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-yes. I will change all of them. It should be useful for everyone.
+On Fri, Sep 17, 2021 at 8:36 AM Hanna Reitz <hreitz@redhat.com> wrote:
 
-C.
+> On 17.09.21 07:40, John Snow wrote:
+> > This serves two purposes:
+> >
+> > (1) It is now possible to discern whether or not clear() removed any
+> > event(s) from the queue with absolute certainty, and
+> >
+> > (2) It is now very easy to get a List of all pending events in one
+> > chunk, which is useful for the sync bridge.
+> >
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >   python/qemu/aqmp/events.py | 9 +++++++--
+> >   1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> Not sure if `clear` is an ideal name then, but `drain` sounds like
+> something that would block, and `drop` is really much different from
+> `clear`.  Also, doesn=E2=80=99t matter, having Collection.delete return t=
+he
+> deleted element is a common thing in any language=E2=80=99s standard libr=
+ary, so
+> why not have `clear` do the same.
+>
+>
+It isn't too late to change the name, but it sounds like you don't
+necessarily prefer any of those others over what's there now.
+
+
+> Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+>
+>
+Thanks!
+
+--000000000000f9be9005cc342106
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 17, 2021 at 8:36 AM Hanna=
+ Reitz &lt;<a href=3D"mailto:hreitz@redhat.com">hreitz@redhat.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 17.09.2=
+1 07:40, John Snow wrote:<br>
+&gt; This serves two purposes:<br>
+&gt;<br>
+&gt; (1) It is now possible to discern whether or not clear() removed any<b=
+r>
+&gt; event(s) from the queue with absolute certainty, and<br>
+&gt;<br>
+&gt; (2) It is now very easy to get a List of all pending events in one<br>
+&gt; chunk, which is useful for the sync bridge.<br>
+&gt;<br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0python/qemu/aqmp/events.py | 9 +++++++--<br>
+&gt;=C2=A0 =C2=A01 file changed, 7 insertions(+), 2 deletions(-)<br>
+<br>
+Not sure if `clear` is an ideal name then, but `drain` sounds like <br>
+something that would block, and `drop` is really much different from <br>
+`clear`.=C2=A0 Also, doesn=E2=80=99t matter, having Collection.delete retur=
+n the <br>
+deleted element is a common thing in any language=E2=80=99s standard librar=
+y, so <br>
+why not have `clear` do the same.<br>
+<br></blockquote><div><br></div><div>It isn&#39;t too late to change the na=
+me, but it sounds like you don&#39;t necessarily prefer any of those others=
+ over what&#39;s there now.<br></div><div>=C2=A0</div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">
+Reviewed-by: Hanna Reitz &lt;<a href=3D"mailto:hreitz@redhat.com" target=3D=
+"_blank">hreitz@redhat.com</a>&gt;<br>
+<br></blockquote><div><br></div><div>Thanks! <br></div></div></div>
+
+--000000000000f9be9005cc342106--
+
 
