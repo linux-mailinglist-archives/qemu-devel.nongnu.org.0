@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B42940F77A
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 14:28:51 +0200 (CEST)
-Received: from localhost ([::1]:34406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B748640F786
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 14:31:13 +0200 (CEST)
+Received: from localhost ([::1]:38402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRCz4-0005f1-JJ
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 08:28:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39756)
+	id 1mRD1M-0008LY-Qy
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 08:31:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xuemingl@nvidia.com>)
- id 1mRCxA-0003Ux-4o; Fri, 17 Sep 2021 08:26:52 -0400
-Received: from mail-dm6nam12on2043.outbound.protection.outlook.com
- ([40.107.243.43]:4064 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ id 1mRCxF-0003jv-MC; Fri, 17 Sep 2021 08:26:57 -0400
+Received: from mail-dm6nam12on2070.outbound.protection.outlook.com
+ ([40.107.243.70]:59360 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xuemingl@nvidia.com>)
- id 1mRCx7-0005pM-JS; Fri, 17 Sep 2021 08:26:51 -0400
+ id 1mRCxD-0005tH-N2; Fri, 17 Sep 2021 08:26:57 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VPb+J+Ej0K7/+pho5+hK/QnVIxKsmE+4iJ7kyiR4Cs2yMhgtTYiiMnp4PhL1SEMieUwmKmJhCViq+ajuKD3chDrKhqISEYO2mrAZ/zzHmlrQDmTPnyRATzSorqOZVOPidYrsDwgfXs+ZvmqoUphpOQ/tZjkCS9/JMAcPa6oOfafLmLXc7LUb9/R5d8bk/5oTMMHhLcHX2bso8ZehWimmiwXcXSZbPPhZ51XXjOTV2uutTYn3VeBONeaYvNh3/TGSHIHju0Sexq3p12TYgaENmrLZ7Y7FSJbmx1j+bviq+IYnzXPeup384sn+dKY5oZhvzFFPgf4Ii9N8+mIXAQXy0A==
+ b=ntPsnJwLdN+RAQskoQlwbBzHI8dDBuDWH9PE7kG6zYKlgA0J+/EHpoPXqTXfrmYQBNiUjl/yHkQ4iqIj3eQashx+goa4ObteQ1zmN6/JMDkrmUC+a67/FE3Sy80P1Meiax6WuliY2YXw0IB+zF+qewco4DcZ1+v0xuhXWLzBl6zUndJwynXfCn91KrolAQ+12dAhztF04j+S/idSSLVury/iw2dWRTRr7kbgeJe3zd9XLbdvA7ttxFDOcQ0LjE7D7LyR9oG9cxMuQD1EGJHKUR4Ky0rFdfVyLhT4YX7QjY0KlQ/izGp/+ygQ5Y8dF92ic5udKvt/8ZF1ik/xIf237A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=Tl1kvGroobiX9ae/CdkRD3SLIl5vyxhq5fU0WkdeywU=;
- b=nj6V6iHDKQOxs5AiFkYB+/rNJdDjqH81kcEEdww4pt56lthzUEl/FWENbEIoVYdhFXgsCDqALzsCrGTv5UY41uOVsjkf477a8DvsGx6KWE8Gz0U8l9o1n1tvHPCWh8l0GIZKicWgijgErssDYGLB4mSueko0bDCejfVm8XH/lXzD9bO7XdLK28CzmNrIaJ49HO2YTOFCRef/nJsMDbHeTjXiBkmWCgyfG4zPxc/27aK/PRd7O19bQtsgqiJKQwVGLRa5+RJTKb4uk+cbHX3mXgzd3QZb2fUMzTo4r90MmXFEwoMuvyfomE1yJbZlccrAuExYm1kBM4mBwBETT/hwlQ==
+ bh=9IaZsPlTSVXhuBLAyo96RYqC/8lUFJYfrRNywLcpPNs=;
+ b=fSYRh95JvEdwomh77G4IMFStw/4u7Pdr91jmk3v1oWMn2+DtSuwwLzktvNd3JC8+jh/9wZmv/NN6lAoFfX6+DnOllRAMDYx6s8r6Rj5Tl5/Uk+u+DtW+2CuxpLbbrsE+VM4N9vtqOJk9FAdk7GgERlmnh6KSOQ24q3t+nU7F07Bg2O+T4eVgIsJYuOwpkKEP3oBUmG2mHWAx0mkgfTPVWksogbUaDL5bkx08a+O6p4Wfn1Tyj8pUf/wWNu0jfECEkP9oM6aUV4gHATjhmUgdMr6CSK2WD6UvkglkxJ3gToKG30yaCYFY4Rb5Y1VOF4JfHFuPhuQDmIW/uZjqfQac2w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.35) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
+ 216.228.112.32) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com; 
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tl1kvGroobiX9ae/CdkRD3SLIl5vyxhq5fU0WkdeywU=;
- b=LU8MNvHgpvGkP+i8z8f5ol4J/GDafo8UQ3XuXP1k603/32oNn9xgaZh0YgIZKcyTR7jytGBWHKvfr/8x8ByTtaWuqAIh2IMBlJldSAnyk1LnreuVhhuNP36J03gTNTnTdWfDK4Ymf0GXPGrRuKsDgwTh7N47jWFEgIQ9iFj+rgD+L2Uwtu/zGx7eBTxaTGnmGqb3u1nNpwf746W91bBBQIypCpi5HgUjVc5uZLzmMYClT5zngNE0tAeQfqgSpUJxoZ/2A5BBnKQ9gfYpPhxmpO4jrLuCZnJkIIz3hSWyEIrx7zRf2UQDDJAFnfA8qrY8nnyx8SqZ04IKzhX11PcTFQ==
-Received: from BN1PR14CA0017.namprd14.prod.outlook.com (2603:10b6:408:e3::22)
- by MN2PR12MB3997.namprd12.prod.outlook.com (2603:10b6:208:161::11)
- with Microsoft SMTP Server (version=TLS1_2,
+ bh=9IaZsPlTSVXhuBLAyo96RYqC/8lUFJYfrRNywLcpPNs=;
+ b=IIBGbl0t4/K/FXnQ2A9d3vh3G7fPbfxoq+90i6+fokpoIwYxMEsD58vAJK5mRax9kge2oD6WIz4PoVejMIzB04J2a8fcdiCOR6B+7rZOLcWE2QMEXTzfwfPePfXfIFmmFM/TteVCQRRfE9JYCiWUzeWlfXHZzZV/7Z/yDMtq12uQqWDxX4wCNdkDk560GnOgtIQt46BB1SUwu0dBY+5jBtDU2s3KRlntULUIARoaWLlmm+eIfG6cb87OlOKlF0gaXqjMhEZSVGeWKNMYvXWt7F/1favnFKWdXIpM/GiVv0ekRdjbFCsc4AU7qWHV1vAx7jJaL7REYpxdxXsc+okMmg==
+Received: from BN6PR11CA0014.namprd11.prod.outlook.com (2603:10b6:405:2::24)
+ by DM5PR12MB1484.namprd12.prod.outlook.com (2603:10b6:4:11::10) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.16; Fri, 17 Sep
- 2021 12:26:45 +0000
-Received: from BN8NAM11FT029.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e3:cafe::8e) by BN1PR14CA0017.outlook.office365.com
- (2603:10b6:408:e3::22) with Microsoft SMTP Server (version=TLS1_2,
+ 2021 12:26:47 +0000
+Received: from BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:405:2:cafe::8b) by BN6PR11CA0014.outlook.office365.com
+ (2603:10b6:405:2::24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14 via Frontend
- Transport; Fri, 17 Sep 2021 12:26:45 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.35)
+ Transport; Fri, 17 Sep 2021 12:26:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.32)
  smtp.mailfrom=nvidia.com; nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.35 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.35; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.35) by
- BN8NAM11FT029.mail.protection.outlook.com (10.13.177.68) with Microsoft SMTP
+ 216.228.112.32 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.32; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.32) by
+ BN8NAM11FT034.mail.protection.outlook.com (10.13.176.139) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4523.14 via Frontend Transport; Fri, 17 Sep 2021 12:26:44 +0000
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Fri, 17 Sep
- 2021 12:26:44 +0000
+ 15.20.4523.14 via Frontend Transport; Fri, 17 Sep 2021 12:26:47 +0000
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Fri, 17 Sep
+ 2021 05:26:46 -0700
 Received: from nvidia.com (172.20.187.6) by DRHQMAIL107.nvidia.com
  (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Fri, 17 Sep
- 2021 12:26:42 +0000
+ 2021 12:26:44 +0000
 From: Xueming Li <xuemingl@nvidia.com>
 To: <qemu-devel@nongnu.org>
 CC: <xuemingl@nvidia.com>, <qemu-stable@nongnu.org>, <tiwei.bie@intel.com>,
  Yuwei Zhang <zhangyuwei.9149@bytedance.com>, "Michael S. Tsirkin"
  <mst@redhat.com>
-Subject: [PATCH v2 1/2] vhost-user: fix VirtQ notifier cleanup
-Date: Fri, 17 Sep 2021 20:26:15 +0800
-Message-ID: <20210917122616.6067-2-xuemingl@nvidia.com>
+Subject: [PATCH v2 2/2] vhost-user: remove VirtQ notifier restore
+Date: Fri, 17 Sep 2021 20:26:16 +0800
+Message-ID: <20210917122616.6067-3-xuemingl@nvidia.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210917122616.6067-1-xuemingl@nvidia.com>
 References: <20210912162014.106704-1-xuemingl@nvidia.com>
@@ -80,30 +80,30 @@ X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
  DRHQMAIL107.nvidia.com (10.27.9.16)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 202d71b4-4898-4f23-abf9-08d979d6698f
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3997:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3997DECA01895D285E0D7CE0A1DD9@MN2PR12MB3997.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 2d566679-e4b9-4cf8-1245-08d979d66ad4
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1484:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1484ECA6FD3594C6EDEAAD78A1DD9@DM5PR12MB1484.namprd12.prod.outlook.com>
 X-MS-Exchange-Transport-Forked: True
-X-MS-Oob-TLC-OOBClassifiers: OLM:158;
+X-MS-Oob-TLC-OOBClassifiers: OLM:205;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 47TiicxfShUx8o/csoRBX99PjG5+X/xI5uWpiPazg8LJuRc6B1+tQkn1mPKuHp0SG3IDMa5gTJ52Sz9c9hSMSWDjmT15MQcM/oXq2mlzc75MjwX9GeIVtnYHCcWfZj1uVuiqfc/uloVpWqwQZu2EqXxeqL8uhnZbpQutjX3yvxes/7KP8W9Sz9mwCn4eJ4SM52jALU/g0jnhReImnyOCSy6Duxt20XetEKo55uT4cAy1HRrDuZujp6PiUmc4Y0AFfrfKvk/HbojDOcQzOigkx4FPxbT1YadNq8NNIlH44IQbPWGnmyOzQiCt6176xnDKiaVDmjzO0V4Fa7Q3kcn1DgqM00T3w9zIDf/ZpSx2SjzSW7DDAe48wHd0EuYUr9sD7huOTTHjFOJFfgb/DU7EaREISBKaahkXTWKIk6KnOL+Xg2CVcy+Me3Q5XppAAXWD5QLsyWrmnfPXqO53fisS1iO1gmeOVoJGCLdz2URpeKRi6HTKprHHoGAx6Y2LtU03y7PWtkBf3frmjXSKRc2lnjR0sJ19VGEgrfBCbp9slEdB3ha+OnDCt2yd+XD8OXRT65HxGHjeNK47Ha8hiwFsk2BoYbOfF2GzHXt9NQJ6zpIgvIaAaEqrUjzF+5/5ZhAGG/kppunmdBQ+S2Yg2gMy+RFG7r81jWFb/UfnNZpAhSs0FtdQLKoOQI682YY+JhnP/yFzXwKirPylcbajLKSErQ==
-X-Forefront-Antispam-Report: CIP:216.228.112.35; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid04.nvidia.com; CAT:NONE;
- SFS:(4636009)(376002)(396003)(136003)(39860400002)(346002)(46966006)(36840700001)(426003)(2616005)(6286002)(82740400003)(36756003)(5660300002)(70586007)(2906002)(6666004)(83380400001)(8936002)(70206006)(1076003)(26005)(186003)(86362001)(336012)(7636003)(16526019)(356005)(36906005)(55016002)(478600001)(6916009)(47076005)(316002)(82310400003)(4326008)(8676002)(36860700001)(54906003)(7696005);
+X-Microsoft-Antispam-Message-Info: stQ3bwPJkCuXhbFj/iaaddCfFwCj8xBY2vZ8mvShQilswksvbdNg0YUcTU6/EHhmy+3+/sCEA57FqP8pjlJ0jbvQxCm4Sk20uOij6AqE9ij0DkjMy4osevzD9gUM8CuhURKdM6IIHHGzQfYET5oPAf2lxKOYD1+4zffjQupSSxs1iMEyQ3iBT02ftfLeQ4WYBTR91Hg+Dc2eZ4cq5H6D1+0DHppGY4NlUoTYoMWAhiE/zyINhLok3kkjA3UHjaq5oOl44H8A7j3WX0/EpMoaDQTnARFXtEzZp0AvinlIYWMGRIWgcWME0fv11AlRfrRvYX6ZyxQkYvobRayaKqPN24eB20wCWB8zQZBy1krY9sjy+XsQAXJzvTVu6T5I4o2kO9OtunIIlnSK9mjS3dKzSG2BIuvKTPk0gNfagnNT5F6EYJSVgnLeFZkPMcbOiGc66pQEABkVx2+udvM4N9ksyDb42KLlpXgmWiLgIXdanxw6EkIRMIuq4YjxvSuYp60/UH4ccCE9ldazk9/4tveB9anliHITrD8Q9LQqtQLeKzXj1sziHhogDbfic2J4jA++VWqjIu04lyR2K1ShEdx15uOjCspIljuXJpUi1Ig+7hGKTHihZK9NAeQ3OAMQwNxHfT//ZQ1lDCxVZk6TjFOG2Paab7JCfI7tnoW/QK8VzR7J4dekHMGZiw9+w7UXw/UXYhcv/qKGZ/KxUNF47FwN8Q==
+X-Forefront-Antispam-Report: CIP:216.228.112.32; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid01.nvidia.com; CAT:NONE;
+ SFS:(4636009)(46966006)(36840700001)(6286002)(1076003)(508600001)(6666004)(83380400001)(2616005)(70206006)(356005)(186003)(7636003)(7696005)(5660300002)(55016002)(8936002)(70586007)(36756003)(8676002)(316002)(4326008)(86362001)(2906002)(54906003)(6916009)(47076005)(36860700001)(82310400003)(16526019)(336012)(426003)(26005);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2021 12:26:44.9054 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 202d71b4-4898-4f23-abf9-08d979d6698f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2021 12:26:47.0012 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d566679-e4b9-4cf8-1245-08d979d66ad4
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.35];
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.32];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT029.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3997
-Received-SPF: softfail client-ip=40.107.243.43;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1484
+Received-SPF: softfail client-ip=40.107.243.70;
  envelope-from=xuemingl@nvidia.com;
  helo=NAM12-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -24
@@ -128,12 +128,11 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When vhost-user device stop and unmmap notifier address, vCPU thread
-that writing the notifier via old flatview failed with accessing invalid
-address.
+When vhost-user vdpa client restart, VQ notifier resources become
+invalid, no need to keep mmap, vdpa client will set VQ notifier after
+reconnect.
 
-To avoid this concurrent issue, wait memory flatview update by draining
-rcu callbacks before unmaping notifiers.
+Removes VQ notifier restore and related flags.
 
 Fixes: 44866521bd6e ("vhost-user: support registering external host notifiers")
 Cc: tiwei.bie@intel.com
@@ -141,58 +140,86 @@ Cc: qemu-stable@nongnu.org
 Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>
 Signed-off-by: Xueming Li <xuemingl@nvidia.com>
 ---
- hw/virtio/vhost-user.c | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+ hw/virtio/vhost-user.c         | 20 ++------------------
+ include/hw/virtio/vhost-user.h |  1 -
+ 2 files changed, 2 insertions(+), 19 deletions(-)
 
 diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 2c8556237f..08581e6711 100644
+index 08581e6711..15a4b4ee76 100644
 --- a/hw/virtio/vhost-user.c
 +++ b/hw/virtio/vhost-user.c
-@@ -1165,6 +1165,11 @@ static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
- 
-     if (n->addr && n->set) {
-         virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
-+        if (!qemu_in_vcpu_thread())
-+            /* Wait vCPU threads accessing notifier via old flatview. */
-+            drain_call_rcu();
-+        munmap(n->addr, qemu_real_host_page_size);
-+        n->addr = NULL;
-         n->set = false;
-     }
+@@ -22,6 +22,7 @@
+ #include "qemu/main-loop.h"
+ #include "qemu/sockets.h"
+ #include "sysemu/cryptodev.h"
++#include "sysemu/cpus.h"
+ #include "migration/migration.h"
+ #include "migration/postcopy-ram.h"
+ #include "trace.h"
+@@ -1143,19 +1144,6 @@ static int vhost_user_set_vring_num(struct vhost_dev *dev,
+     return vhost_set_vring(dev, VHOST_USER_SET_VRING_NUM, ring);
  }
-@@ -1502,12 +1507,7 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
  
-     n = &user->notifier[queue_idx];
- 
--    if (n->addr) {
--        virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
--        object_unparent(OBJECT(&n->mr));
--        munmap(n->addr, page_size);
--        n->addr = NULL;
+-static void vhost_user_host_notifier_restore(struct vhost_dev *dev,
+-                                             int queue_idx)
+-{
+-    struct vhost_user *u = dev->opaque;
+-    VhostUserHostNotifier *n = &u->user->notifier[queue_idx];
+-    VirtIODevice *vdev = dev->vdev;
+-
+-    if (n->addr && !n->set) {
+-        virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, true);
+-        n->set = true;
 -    }
-+    vhost_user_host_notifier_remove(dev, queue_idx);
+-}
+-
+ static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
+                                             int queue_idx)
+ {
+@@ -1163,22 +1151,19 @@ static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
+     VhostUserHostNotifier *n = &u->user->notifier[queue_idx];
+     VirtIODevice *vdev = dev->vdev;
  
-     if (area->u64 & VHOST_USER_VRING_NOFD_MASK) {
-         return 0;
-@@ -2484,11 +2484,17 @@ void vhost_user_cleanup(VhostUserState *user)
-     for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
-         if (user->notifier[i].addr) {
-             object_unparent(OBJECT(&user->notifier[i].mr));
-+        }
-+    }
-+    memory_region_transaction_commit();
-+    /* Wait VM threads accessing old flatview which contains notifier. */
-+    drain_call_rcu();
-+    for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
-+        if (user->notifier[i].addr) {
-             munmap(user->notifier[i].addr, qemu_real_host_page_size);
-             user->notifier[i].addr = NULL;
-         }
+-    if (n->addr && n->set) {
++    if (n->addr) {
+         virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
+         if (!qemu_in_vcpu_thread())
+             /* Wait vCPU threads accessing notifier via old flatview. */
+             drain_call_rcu();
+         munmap(n->addr, qemu_real_host_page_size);
+         n->addr = NULL;
+-        n->set = false;
      }
--    memory_region_transaction_commit();
-     user->chr = NULL;
  }
  
+ static int vhost_user_set_vring_base(struct vhost_dev *dev,
+                                      struct vhost_vring_state *ring)
+ {
+-    vhost_user_host_notifier_restore(dev, ring->index);
+-
+     return vhost_set_vring(dev, VHOST_USER_SET_VRING_BASE, ring);
+ }
+ 
+@@ -1537,7 +1522,6 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+     }
+ 
+     n->addr = addr;
+-    n->set = true;
+ 
+     return 0;
+ }
+diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-user.h
+index a9abca3288..f6012b2078 100644
+--- a/include/hw/virtio/vhost-user.h
++++ b/include/hw/virtio/vhost-user.h
+@@ -14,7 +14,6 @@
+ typedef struct VhostUserHostNotifier {
+     MemoryRegion mr;
+     void *addr;
+-    bool set;
+ } VhostUserHostNotifier;
+ 
+ typedef struct VhostUserState {
 -- 
 2.33.0
 
