@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7850A40FDC1
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 18:19:15 +0200 (CEST)
-Received: from localhost ([::1]:42644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 363AC40FDAF
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 18:14:55 +0200 (CEST)
+Received: from localhost ([::1]:33666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRGa2-00057o-G4
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 12:19:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59494)
+	id 1mRGVo-0007KG-Lx
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 12:14:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mRGMM-0006Lq-8U
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:05:06 -0400
-Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30]:36570)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mRGMJ-0007V6-Bh
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:05:05 -0400
-Received: by mail-vs1-xe30.google.com with SMTP id 186so4712268vsi.3
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 09:05:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=u2VSww9Enhc9+QxFAyhkk2313MgxXU4UY9401krIpec=;
- b=sVVV8nZJszLs188ML4VQvUWtrCNf0/dtr8OqcX/hhPEGma+I3GUKBg2dHg+R7pmD0r
- le1rzIKmjvNcqIghrk2e+BTNkCy+FHb+X2zhB76zHR4PTAkQVIGa0kw5ZZijOkjTGlVS
- 6h6cMsUGQXgm2PNK4/oXrN6q3/3qsZV9U0Zc9fYo4KUTgrhThCcphuXsiMkhRxf3bV0m
- c4t1cO26iPdeahu2TKxHPfkkrBDKImAU1iybYCfHKcWsAP6i2aW16vhs51EjHBqNu6uw
- onMWU2ho7y+5Ff1uwcAEhFWetFztDuLRkil/fcrP9oMJCvj4QZvoLkeXxHXZsn+477D6
- LJzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=u2VSww9Enhc9+QxFAyhkk2313MgxXU4UY9401krIpec=;
- b=EjqVYbOu4NdWjHGoPhtkYu4kJLQkr70Y1qLqP+Ek18vc2zOvLOQ+Ke3Xylm20FZoDA
- a7zuTyPNOheWiRlG/lJAB5QuI/Az70vVI6XJcrUH0TuZR37JA1rdj//mS+wRKaC4Pz+b
- FX2pmOHxVlMqOcZXy9mTslT/0fN/klsnG2s59mT9udHaol4B/+Aa8IJEOdxWWrthMJI5
- 3Etm200pQ9WE+I7i8Iu+MmnzARlLXth0DHRASmNkLljz98kRnKniagqzsKQhHfidgPqU
- NiMuLPYSN8MxwzvZGNqciPRYziHqal1vQ2ECtpJMR3lY90sown/4uC/YkRq3S57erEkN
- /icA==
-X-Gm-Message-State: AOAM5310kKn1wk7l4ZY0UBtOe11pyYldONUrBq0QN+HBSepbjfYc7ApR
- h17+wAg8xXMHwJGNHENRG/4oME2MnetL7M/eClyzXw==
-X-Google-Smtp-Source: ABdhPJyvWHmW3ZfytfMXH6ctYsZUhscNlAODBJVhg3jVV/mgS6bQRoiPvxCrKtaAeuCeyOeuNJU9PyfqkYM7cgtW09Y=
-X-Received: by 2002:a05:6102:1161:: with SMTP id
- k1mr9343790vsg.6.1631894701494; 
- Fri, 17 Sep 2021 09:05:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mRGNG-0006gC-Qt
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:06:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36557)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mRGND-0008Hh-Du
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:06:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631894758;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bvzp8P3XATmhYONZ3PdriO3DohQDw4owhazrOVsVRVE=;
+ b=QVLjRh28O6ogBgKcfdu3rmAJk4bdOGJvZFRyPR38q9ZF17p22QDp9YBnPt1XauYsjx16i/
+ ly5yzF6esvdiB/kEocYdIK/S8/4Wu0UMwFRxkbGxmxZlsXkj67cOkwcbjiOIzQoU0pDWOB
+ j35kbH6p8wzcKGZYjW5kt/IYBIQ4+mw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-560-PZkWTHf-MOas3bgPHoXTwQ-1; Fri, 17 Sep 2021 12:05:55 -0400
+X-MC-Unique: PZkWTHf-MOas3bgPHoXTwQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E24E1084681;
+ Fri, 17 Sep 2021 16:05:54 +0000 (UTC)
+Received: from redhat.com (ovpn-113-101.phx2.redhat.com [10.3.113.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 09AB06D000;
+ Fri, 17 Sep 2021 16:05:51 +0000 (UTC)
+Date: Fri, 17 Sep 2021 11:05:50 -0500
+From: Eric Blake <eblake@redhat.com>
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Subject: Re: [PATCH v2] nbd/server: Suppress Broken pipe errors on abrupt
+ disconnection
+Message-ID: <20210917160550.ck2yeogaafsbx6jv@redhat.com>
+References: <20210913151936.392705-1-rjones@redhat.com>
+ <6c59b070-b9b4-6ecb-8557-3ea54af3d45a@virtuozzo.com>
+ <20210914145200.GJ26415@redhat.com>
+ <997fe8b4-3610-2336-c7f3-67a0e2cbf34e@virtuozzo.com>
+ <20210914163232.GN26415@redhat.com>
+ <0bdef3d9-df05-f49d-038c-9930c2677f54@virtuozzo.com>
+ <20210915090025.GP26415@redhat.com>
 MIME-Version: 1.0
-References: <YURYvaOpya498Xx2@yekko> <YUR9RXXZ4lSRfcyB@redhat.com>
-In-Reply-To: <YUR9RXXZ4lSRfcyB@redhat.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Fri, 17 Sep 2021 10:04:50 -0600
-Message-ID: <CANCZdfoezvfO+wKgqwMf7oCO3dAgpJ28RGecnZs31_o3+iUdGA@mail.gmail.com>
-Subject: Re: Rust in Qemu BoF followup: Rust vs. qemu platform support
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000fe61f805cc331711"
-Received-SPF: none client-ip=2607:f8b0:4864:20::e30;
- envelope-from=wlosh@bsdimp.com; helo=mail-vs1-xe30.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210915090025.GP26415@redhat.com>
+User-Agent: NeoMutt/20210205-772-2b4c52
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,233 +83,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, slp@redhat.com, cohuck@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- sgarzare@redhat.com, =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000fe61f805cc331711
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Sep 15, 2021 at 10:00:25AM +0100, Richard W.M. Jones wrote:
+> > >I would say the spec is at best contradictory, but if you read other
+> > >parts of the spec, then it's pretty clear that we're allowed to drop
+> > >the connection whenever we like.  This section says as much:
+> > >
+> > >https://github.com/NetworkBlockDevice/nbd/blob/5805b25ad3da96e7c0b3160cda51ea19eb518d5b/doc/proto.md#terminating-the-transmission-phase
+> > 
+> > Hmm, that was exactly the section I read and quoted :)
+> > 
+> > >
+> > >   There are two methods of terminating the transmission phase:
+> > >   ...
+> > >   "The client or the server drops the TCP session (in which case it
+> > >   SHOULD shut down the TLS session first). This is referred to as
+> > >   'initiating a hard disconnect'."
+> > 
+> > Right. Here the method is defined, no word that client can do it at any time.
+> 
+> I don't read this as a definition.
+> 
+> But we should probably clarify the spec to note that dropping the
+> connection is fine, because it is - no one has made any argument so
+> far that there's an actual reason to waste time on NBD_CMD_DISC.
+> 
+> Rich.
+> 
+> > Next, in same section:
+> > 
+> >    Either side MAY initiate a hard disconnect if it detects a violation by the other party of a mandatory condition within this document.
+> > 
+> > Next
+> >    The client MAY issue a soft disconnect at any time
+> > 
+> > And finally:
+> > 
+> >    The client and the server MUST NOT initiate any form of disconnect other than in one of the above circumstances.
 
-On Fri, Sep 17, 2021 at 5:35 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
+I went and re-read the upstream NBD discussion when this part of the
+doc was added...
 
-> On Fri, Sep 17, 2021 at 06:58:37PM +1000, David Gibson wrote:
-> > Hi all,
-> >
-> > At the qemu-in-rust BoF at KVM Forum, I volunteered to look into
-> > whether Rust supported all the host/build platforms that qemu does,
-> > which is obviously vital if we want to make Rust a non-optional
-> > component of the build.
-> >
-> > I've added the information to our wiki at:
-> >       https://wiki.qemu.org/RustInQemu
-> >
-> > TBH, the coverage is not as good as I expected.  Linux, macOS and
-> > Windows are pretty much ok, with the exception of Linux on Sparc.
-> > There are a lot of gaps in *BSD support, however.
->
-> To me the coverage looks pretty much what I'd expect to need
-> for QEMU - almost all boxes that I'd want to see green are
-> green, except OpenBSD, possibly x86 32-bit for *BSD and
-> sparc(64) on Linux.
->
-> Mostly it highlights that we've never explicitly declared what
-> our architecture coverage is intended to be. We do check host
-> arches in configure, but we didn't distinguish this by OS and
-> I think that's a mistake.
->
-> In terms of our CI coverage, the only non-x86 testing we do
-> is for Linux based systems.
->
-> Although its possible people use non-x86 on non-Linux, I don't
-> recall any discussions/bugs/patches targetting this situation,
-> so if we do have users I doubt there's many.
->
-> Would be interesting to hear input from anyone representing
-> interests of the various *BSD platforms about their thoughts
-> wrt non-x86 coverage.
->
-> I think our first step is probably to make our architecture
-> support explicit, regardless of our use of Rust.
->
-> If we assume QEMU followed a similar 3 tier policy, on the QEMU
-> side my interpretation of what we're implicitly targetting would
-> be:
->
->  Linux:  all arches with a TCG target
->  macOS: x86_64
->  Windows: i686, x86_64
->  FreeBSD: x86_64  (maybe +i686 too)
->  NetBSD: x86_64  (maybe +i686 too)
->  OpenBSD: x86_64  (maybe +i686 too)
->
-> with tier 1 vs 2 for the above depending on whether we run
-> 'make check' in gating CI)
->
+https://lists.debian.org/nbd/2016/04/msg00420.html
+https://lists.debian.org/nbd/2016/04/msg00425.html
 
-wrt FreeBSD:
+The argument back then was that sending CMD_DISC is desirable (clients
+want to be nice to the server) but not mandatory (server must be
+prepared for clients that aren't nice).  Sending CMD_DISC is what
+counts as initiating soft disconnect; terminating abruptly without
+CMD_DISC is hard disconnect (servers must not do it without detecting
+some other first, but clients doing it when they have nothing further
+to send is something we have to live with).
 
-The main focus of the project is on AMD64 (x86_64) and ARM64 (aarc64). With
-ricsv64 being ascendant as well. i386 and armv7 are fading. ppc64 has
-strong,
-but episodic, interest as well. The rest are bit players.
+At the time the text was added, there was a question of whether to add
+a command NBD_CMD_CLOSE that guaranteed clean server shutdown (the
+client had to wait for the server's response):
+https://lists.debian.org/nbd/2016/04/msg00236.html
 
-i386 (i686 really), armv7 and riscv7 are the next tier of interest in
-FreeBSD
-land. i386 is confined to 32-bit VMs with only a few legacy hardware
-deployments
-still kicking. armv7 is more popular on embedded boards, some of which have
-a need to run qemu. riscv64 has a rust port that's being upstreamed, but no=
-t
-there yet and there's likely interest to run qemu on it for research
-projects.
-riscv64 isn't widely deployed but has a lot of developer interest /
-mindshare.
-sparc64 was removed from FreeBSD 13 and has been irrelevant for years.
-ppc 32 bit has some minor interest. mips has been fading fast and stands
-an excellent chance of being removed before FreeBSD 14 (which is currently
-slated for 2022). PowerPC 64 is hard to talk about... there's interest that
-comes
-and goes, but when it's around, it's quite intense. It's quite likely there
-will
-be interest to run qemu on ppc64 on FreeBSD, but that's much less certain.
+but in the end, it was decided that the semantics of NBD_CMD_DISC were
+already good enough for that purpose.  Which in turn means that
+clients really do expect servers to gracefully flush things to disk on
+NBD_CMD_DISC, and merely disconnecting (a hard shutdown) after
+NBD_CMD_FLUSH is a bit riskier than sending a soft shutdown request.
 
-So it all depends on what having rust means for those platforms that don't
-have
-it. Would it be a 'half a loaf' situation where the non-rust bits would be
-buildable
-but cool new drivers written in rust won't be? Or will it be so central
-that rust is
-table stakes to even start a qemu build? To be honest, I'm not sure this
-difference
-would greatly affect the above answer :).
+> > 
+> > 
+> > Or do you mean some other spec section I missed?
+> > 
+> > >
+> > >Anyway we're dropping the TCP connection because sometimes we are just
+> > >interrogating an NBD server eg to find out what it supports, and doing
+> > >a graceful shutdown is a waste of time and internet.
 
-Rust works really well on x86_64 and aarch64 (though there's more often a
-lag
-on the latter of a few weeks). I know of a rust riscv64 port, but that's
-just getting
-ready to upstream. No first-hand or second-hand clue on the rest.
+You're right that it costs another couple of packets, particularly for
+things like 'nbdinfo --list', but is it really dominating the time
+spent in the normal use of NBD?  Micro-optimizing the shutdown doesn't
+have as much payoff as optimizing the speed of NBD_CMD_READ/WRITE.
 
-FreeBSD tl;dr: x86_64 and aarch64 are must have. i386, armv7 and riscv64 ar=
-e
-really nice to have. ppc64 might also be in that list, but that's less
-certain. The rest
-have little to no relevance.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
-Warner
-
-P.S I've been poking at people to get our QEMU aarch64 CI story in better
-shape than it is today... I'll have to continue to prompt those
-interested...
-
---000000000000fe61f805cc331711
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 17, 2021 at 5:35 AM Danie=
-l P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redh=
-at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Fri, Sep 17, 2021 at 06:58:37PM +1000, David Gibson wrote:<br>
-&gt; Hi all,<br>
-&gt; <br>
-&gt; At the qemu-in-rust BoF at KVM Forum, I volunteered to look into<br>
-&gt; whether Rust supported all the host/build platforms that qemu does,<br=
->
-&gt; which is obviously vital if we want to make Rust a non-optional<br>
-&gt; component of the build.<br>
-&gt; <br>
-&gt; I&#39;ve added the information to our wiki at:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://wiki.qemu.org/RustInQemu"=
- rel=3D"noreferrer" target=3D"_blank">https://wiki.qemu.org/RustInQemu</a><=
-br>
-&gt; <br>
-&gt; TBH, the coverage is not as good as I expected.=C2=A0 Linux, macOS and=
-<br>
-&gt; Windows are pretty much ok, with the exception of Linux on Sparc.<br>
-&gt; There are a lot of gaps in *BSD support, however.<br>
-<br>
-To me the coverage looks pretty much what I&#39;d expect to need<br>
-for QEMU - almost all boxes that I&#39;d want to see green are<br>
-green, except OpenBSD, possibly x86 32-bit for *BSD and<br>
-sparc(64) on Linux.<br>
-<br>
-Mostly it highlights that we&#39;ve never explicitly declared what<br>
-our architecture coverage is intended to be. We do check host<br>
-arches in configure, but we didn&#39;t distinguish this by OS and<br>
-I think that&#39;s a mistake.<br>
-<br>
-In terms of our CI coverage, the only non-x86 testing we do<br>
-is for Linux based systems.<br>
-<br>
-Although its possible people use non-x86 on non-Linux, I don&#39;t<br>
-recall any discussions/bugs/patches targetting this situation,<br>
-so if we do have users I doubt there&#39;s many.<br>
-<br>
-Would be interesting to hear input from anyone representing<br>
-interests of the various *BSD platforms about their thoughts<br>
-wrt non-x86 coverage.<br>
-<br>
-I think our first step is probably to make our architecture<br>
-support explicit, regardless of our use of Rust.<br>
-<br>
-If we assume QEMU followed a similar 3 tier policy, on the QEMU<br>
-side my interpretation of what we&#39;re implicitly targetting would<br>
-be:<br>
-<br>
-=C2=A0Linux:=C2=A0 all arches with a TCG target<br>
-=C2=A0macOS: x86_64<br>
-=C2=A0Windows: i686, x86_64<br>
-=C2=A0FreeBSD: x86_64=C2=A0 (maybe +i686 too)<br>
-=C2=A0NetBSD: x86_64=C2=A0 (maybe +i686 too)<br>
-=C2=A0OpenBSD: x86_64=C2=A0 (maybe +i686 too)<br>
-<br>
-with tier 1 vs 2 for the above depending on whether we run<br>
-&#39;make check&#39; in gating CI)<br></blockquote><div><br></div><div>wrt =
-FreeBSD:</div><div><br></div><div>The main focus of the project is on AMD64=
- (x86_64) and ARM64 (aarc64). With</div><div>ricsv64 being ascendant as wel=
-l. i386 and armv7 are fading. ppc64 has strong,</div><div>but episodic, int=
-erest as well. The rest are bit players.</div><div><br></div><div>i386 (i68=
-6 really), armv7 and riscv7 are the next tier of interest in FreeBSD<br></d=
-iv><div>land. i386 is confined to 32-bit VMs with only a few legacy hardwar=
-e deployments</div><div>still kicking. armv7 is more popular on embedded bo=
-ards, some of which have</div><div>a need to run qemu. riscv64 has a rust p=
-ort that&#39;s being upstreamed, but not</div><div>there yet and there&#39;=
-s likely interest to run qemu on it for research projects.</div><div>riscv6=
-4 isn&#39;t widely deployed but has a lot of developer interest / mindshare=
-.</div><div>sparc64 was removed from FreeBSD 13 and has been irrelevant for=
- years.</div><div>ppc 32 bit has some minor interest. mips has been fading =
-fast and stands</div><div>an excellent chance of being removed before FreeB=
-SD 14 (which is currently</div><div>slated for 2022). PowerPC 64 is hard to=
- talk about... there&#39;s interest that comes</div><div>and goes, but when=
- it&#39;s around, it&#39;s quite intense. It&#39;s quite likely there will<=
-/div><div>be interest to run qemu on ppc64 on FreeBSD, but that&#39;s much =
-less certain.</div><div><br></div><div>So it all depends on what having rus=
-t means for those platforms that don&#39;t have</div><div>it. Would it be a=
- &#39;half a loaf&#39; situation where the non-rust bits would be buildable=
-</div><div>but cool new drivers written in rust won&#39;t be? Or will it be=
- so central that rust is</div><div>table stakes to even start a qemu build?=
- To be honest, I&#39;m not sure this difference</div><div>would greatly aff=
-ect the above answer :).</div><div><br></div><div>Rust works really well on=
- x86_64 and aarch64 (though there&#39;s more often a lag</div><div>on the l=
-atter of a few weeks). I know of a rust riscv64 port, but that&#39;s just g=
-etting</div><div>ready to upstream. No first-hand or second-hand clue on th=
-e rest.</div><div><br></div><div>FreeBSD tl;dr: x86_64 and aarch64 are must=
- have. i386, armv7 and riscv64 are</div><div>really nice to have. ppc64 mig=
-ht also be in that list, but that&#39;s less certain. The rest</div><div>ha=
-ve little to no relevance.</div><div><br></div><div>Warner</div><div><br></=
-div><div>P.S I&#39;ve been poking at people to get our QEMU aarch64 CI stor=
-y in better</div><div>shape than it is today... I&#39;ll have to continue t=
-o prompt those interested...</div><div><br></div></div></div>
-
---000000000000fe61f805cc331711--
 
