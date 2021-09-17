@@ -2,117 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B748640F786
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 14:31:13 +0200 (CEST)
-Received: from localhost ([::1]:38402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AD140F7FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 14:39:14 +0200 (CEST)
+Received: from localhost ([::1]:47698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRD1M-0008LY-Qy
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 08:31:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39786)
+	id 1mRD97-0006fS-R0
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 08:39:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuemingl@nvidia.com>)
- id 1mRCxF-0003jv-MC; Fri, 17 Sep 2021 08:26:57 -0400
-Received: from mail-dm6nam12on2070.outbound.protection.outlook.com
- ([40.107.243.70]:59360 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRD6l-000589-RU
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:36:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuemingl@nvidia.com>)
- id 1mRCxD-0005tH-N2; Fri, 17 Sep 2021 08:26:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ntPsnJwLdN+RAQskoQlwbBzHI8dDBuDWH9PE7kG6zYKlgA0J+/EHpoPXqTXfrmYQBNiUjl/yHkQ4iqIj3eQashx+goa4ObteQ1zmN6/JMDkrmUC+a67/FE3Sy80P1Meiax6WuliY2YXw0IB+zF+qewco4DcZ1+v0xuhXWLzBl6zUndJwynXfCn91KrolAQ+12dAhztF04j+S/idSSLVury/iw2dWRTRr7kbgeJe3zd9XLbdvA7ttxFDOcQ0LjE7D7LyR9oG9cxMuQD1EGJHKUR4Ky0rFdfVyLhT4YX7QjY0KlQ/izGp/+ygQ5Y8dF92ic5udKvt/8ZF1ik/xIf237A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=9IaZsPlTSVXhuBLAyo96RYqC/8lUFJYfrRNywLcpPNs=;
- b=fSYRh95JvEdwomh77G4IMFStw/4u7Pdr91jmk3v1oWMn2+DtSuwwLzktvNd3JC8+jh/9wZmv/NN6lAoFfX6+DnOllRAMDYx6s8r6Rj5Tl5/Uk+u+DtW+2CuxpLbbrsE+VM4N9vtqOJk9FAdk7GgERlmnh6KSOQ24q3t+nU7F07Bg2O+T4eVgIsJYuOwpkKEP3oBUmG2mHWAx0mkgfTPVWksogbUaDL5bkx08a+O6p4Wfn1Tyj8pUf/wWNu0jfECEkP9oM6aUV4gHATjhmUgdMr6CSK2WD6UvkglkxJ3gToKG30yaCYFY4Rb5Y1VOF4JfHFuPhuQDmIW/uZjqfQac2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.32) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com; 
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9IaZsPlTSVXhuBLAyo96RYqC/8lUFJYfrRNywLcpPNs=;
- b=IIBGbl0t4/K/FXnQ2A9d3vh3G7fPbfxoq+90i6+fokpoIwYxMEsD58vAJK5mRax9kge2oD6WIz4PoVejMIzB04J2a8fcdiCOR6B+7rZOLcWE2QMEXTzfwfPePfXfIFmmFM/TteVCQRRfE9JYCiWUzeWlfXHZzZV/7Z/yDMtq12uQqWDxX4wCNdkDk560GnOgtIQt46BB1SUwu0dBY+5jBtDU2s3KRlntULUIARoaWLlmm+eIfG6cb87OlOKlF0gaXqjMhEZSVGeWKNMYvXWt7F/1favnFKWdXIpM/GiVv0ekRdjbFCsc4AU7qWHV1vAx7jJaL7REYpxdxXsc+okMmg==
-Received: from BN6PR11CA0014.namprd11.prod.outlook.com (2603:10b6:405:2::24)
- by DM5PR12MB1484.namprd12.prod.outlook.com (2603:10b6:4:11::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.16; Fri, 17 Sep
- 2021 12:26:47 +0000
-Received: from BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
- (2603:10b6:405:2:cafe::8b) by BN6PR11CA0014.outlook.office365.com
- (2603:10b6:405:2::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14 via Frontend
- Transport; Fri, 17 Sep 2021 12:26:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.32)
- smtp.mailfrom=nvidia.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.32 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.32; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.32) by
- BN8NAM11FT034.mail.protection.outlook.com (10.13.176.139) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4523.14 via Frontend Transport; Fri, 17 Sep 2021 12:26:47 +0000
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Fri, 17 Sep
- 2021 05:26:46 -0700
-Received: from nvidia.com (172.20.187.6) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Fri, 17 Sep
- 2021 12:26:44 +0000
-From: Xueming Li <xuemingl@nvidia.com>
-To: <qemu-devel@nongnu.org>
-CC: <xuemingl@nvidia.com>, <qemu-stable@nongnu.org>, <tiwei.bie@intel.com>,
- Yuwei Zhang <zhangyuwei.9149@bytedance.com>, "Michael S. Tsirkin"
- <mst@redhat.com>
-Subject: [PATCH v2 2/2] vhost-user: remove VirtQ notifier restore
-Date: Fri, 17 Sep 2021 20:26:16 +0800
-Message-ID: <20210917122616.6067-3-xuemingl@nvidia.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210917122616.6067-1-xuemingl@nvidia.com>
-References: <20210912162014.106704-1-xuemingl@nvidia.com>
- <20210917122616.6067-1-xuemingl@nvidia.com>
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mRD6h-0004UB-HU
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 08:36:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631882200;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CaoOzV3ClwXcIjBUc4Qk1fBprm3Qyt/HQEFXy1KxM+k=;
+ b=WQvmoxByiVCjDNxsb7YqSqXHpJYqu6xpWgfq7tcp5kqwMANlLkHHOrLbeNQgAZrO8BvCpX
+ AkQJK4U0SU7jsv1vdk9fVR3wEGVVrPKIBVm+JwAjH2QRHDy5IxEIKEH3NT0QpGwrQNTK+E
+ ydUkBFkBFkZhqjImYkkLMQf9RuYN3AU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-6loau_M5OuCrkym5z0uELg-1; Fri, 17 Sep 2021 08:36:37 -0400
+X-MC-Unique: 6loau_M5OuCrkym5z0uELg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c2-20020a7bc8420000b0290238db573ab7so3681007wml.5
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 05:36:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=CaoOzV3ClwXcIjBUc4Qk1fBprm3Qyt/HQEFXy1KxM+k=;
+ b=aK9SpD/wKm7faikv5qJE/rAVfs0fL7q6sXLXWuVshVPTzowqyHRMUi3bVMBH4g/IF8
+ a9Tt1J85mzdLjbHJCIJPdwnSkkfTF6orU7lxa4yHkZBMyPhMAaSrGPKhePMxJQ8XA9cP
+ V+f82slY1byLrBXRbaUZV5WAi5KPpq82PFkeS8aNUQgWyY+AnyN1ACi2EVFTv7Bmg+Ek
+ EAEbQj2KIRngThwByjhHyFs4VlHLN4W8Lczpt1woubEEiGejZoUCnF5Ch+72cCxga/I9
+ yFAYdjYICXyoE7lY/InJyCqQlnvY/kQoi2qKRZLIR7uj0y+9NbXdGCijE14U+zocUSKa
+ ntAQ==
+X-Gm-Message-State: AOAM532td/nGF3UXWRX5KWg2oXFc890Lr/BTb+AlQQe0YBRWMpw3M+LH
+ oU1gOA2COl80szz1ceJfBaty5vESqxx7ORzqvPeRsspPQobQIzx+6Z4sFP8e1qWLjIDcNLjcG0I
+ lfbB10Y+2xMZWRGw=
+X-Received: by 2002:adf:e806:: with SMTP id o6mr11422339wrm.239.1631882196532; 
+ Fri, 17 Sep 2021 05:36:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzaMPFccj/Fal440q8Vwjfz+tKhrsWrg8tfX8YMYBQ8nJA6V7A0EL2DGetlDwZJoS5VwZVI6g==
+X-Received: by 2002:adf:e806:: with SMTP id o6mr11422322wrm.239.1631882196314; 
+ Fri, 17 Sep 2021 05:36:36 -0700 (PDT)
+Received: from dresden.str.redhat.com
+ ([2a02:908:1e48:3780:4451:9a65:d4e9:9bb6])
+ by smtp.gmail.com with ESMTPSA id h15sm6403208wrc.19.2021.09.17.05.36.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Sep 2021 05:36:36 -0700 (PDT)
+Subject: Re: [PATCH 03/15] python/aqmp: Return cleared events from
+ EventListener.clear()
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20210917054047.2042843-1-jsnow@redhat.com>
+ <20210917054047.2042843-4-jsnow@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <19e00805-83cc-f0bf-beea-1ac6ca0472d8@redhat.com>
+Date: Fri, 17 Sep 2021 14:36:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210917054047.2042843-4-jsnow@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.20.187.6]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2d566679-e4b9-4cf8-1245-08d979d66ad4
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1484:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB1484ECA6FD3594C6EDEAAD78A1DD9@DM5PR12MB1484.namprd12.prod.outlook.com>
-X-MS-Exchange-Transport-Forked: True
-X-MS-Oob-TLC-OOBClassifiers: OLM:205;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: stQ3bwPJkCuXhbFj/iaaddCfFwCj8xBY2vZ8mvShQilswksvbdNg0YUcTU6/EHhmy+3+/sCEA57FqP8pjlJ0jbvQxCm4Sk20uOij6AqE9ij0DkjMy4osevzD9gUM8CuhURKdM6IIHHGzQfYET5oPAf2lxKOYD1+4zffjQupSSxs1iMEyQ3iBT02ftfLeQ4WYBTR91Hg+Dc2eZ4cq5H6D1+0DHppGY4NlUoTYoMWAhiE/zyINhLok3kkjA3UHjaq5oOl44H8A7j3WX0/EpMoaDQTnARFXtEzZp0AvinlIYWMGRIWgcWME0fv11AlRfrRvYX6ZyxQkYvobRayaKqPN24eB20wCWB8zQZBy1krY9sjy+XsQAXJzvTVu6T5I4o2kO9OtunIIlnSK9mjS3dKzSG2BIuvKTPk0gNfagnNT5F6EYJSVgnLeFZkPMcbOiGc66pQEABkVx2+udvM4N9ksyDb42KLlpXgmWiLgIXdanxw6EkIRMIuq4YjxvSuYp60/UH4ccCE9ldazk9/4tveB9anliHITrD8Q9LQqtQLeKzXj1sziHhogDbfic2J4jA++VWqjIu04lyR2K1ShEdx15uOjCspIljuXJpUi1Ig+7hGKTHihZK9NAeQ3OAMQwNxHfT//ZQ1lDCxVZk6TjFOG2Paab7JCfI7tnoW/QK8VzR7J4dekHMGZiw9+w7UXw/UXYhcv/qKGZ/KxUNF47FwN8Q==
-X-Forefront-Antispam-Report: CIP:216.228.112.32; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid01.nvidia.com; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(6286002)(1076003)(508600001)(6666004)(83380400001)(2616005)(70206006)(356005)(186003)(7636003)(7696005)(5660300002)(55016002)(8936002)(70586007)(36756003)(8676002)(316002)(4326008)(86362001)(2906002)(54906003)(6916009)(47076005)(36860700001)(82310400003)(16526019)(336012)(426003)(26005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2021 12:26:47.0012 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d566679-e4b9-4cf8-1245-08d979d66ad4
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.32];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1484
-Received-SPF: softfail client-ip=40.107.243.70;
- envelope-from=xuemingl@nvidia.com;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.488, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,102 +99,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When vhost-user vdpa client restart, VQ notifier resources become
-invalid, no need to keep mmap, vdpa client will set VQ notifier after
-reconnect.
+On 17.09.21 07:40, John Snow wrote:
+> This serves two purposes:
+>
+> (1) It is now possible to discern whether or not clear() removed any
+> event(s) from the queue with absolute certainty, and
+>
+> (2) It is now very easy to get a List of all pending events in one
+> chunk, which is useful for the sync bridge.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   python/qemu/aqmp/events.py | 9 +++++++--
+>   1 file changed, 7 insertions(+), 2 deletions(-)
 
-Removes VQ notifier restore and related flags.
+Not sure if `clear` is an ideal name then, but `drain` sounds like 
+something that would block, and `drop` is really much different from 
+`clear`.  Also, doesn’t matter, having Collection.delete return the 
+deleted element is a common thing in any language’s standard library, so 
+why not have `clear` do the same.
 
-Fixes: 44866521bd6e ("vhost-user: support registering external host notifiers")
-Cc: tiwei.bie@intel.com
-Cc: qemu-stable@nongnu.org
-Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>
-Signed-off-by: Xueming Li <xuemingl@nvidia.com>
----
- hw/virtio/vhost-user.c         | 20 ++------------------
- include/hw/virtio/vhost-user.h |  1 -
- 2 files changed, 2 insertions(+), 19 deletions(-)
-
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 08581e6711..15a4b4ee76 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -22,6 +22,7 @@
- #include "qemu/main-loop.h"
- #include "qemu/sockets.h"
- #include "sysemu/cryptodev.h"
-+#include "sysemu/cpus.h"
- #include "migration/migration.h"
- #include "migration/postcopy-ram.h"
- #include "trace.h"
-@@ -1143,19 +1144,6 @@ static int vhost_user_set_vring_num(struct vhost_dev *dev,
-     return vhost_set_vring(dev, VHOST_USER_SET_VRING_NUM, ring);
- }
- 
--static void vhost_user_host_notifier_restore(struct vhost_dev *dev,
--                                             int queue_idx)
--{
--    struct vhost_user *u = dev->opaque;
--    VhostUserHostNotifier *n = &u->user->notifier[queue_idx];
--    VirtIODevice *vdev = dev->vdev;
--
--    if (n->addr && !n->set) {
--        virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, true);
--        n->set = true;
--    }
--}
--
- static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
-                                             int queue_idx)
- {
-@@ -1163,22 +1151,19 @@ static void vhost_user_host_notifier_remove(struct vhost_dev *dev,
-     VhostUserHostNotifier *n = &u->user->notifier[queue_idx];
-     VirtIODevice *vdev = dev->vdev;
- 
--    if (n->addr && n->set) {
-+    if (n->addr) {
-         virtio_queue_set_host_notifier_mr(vdev, queue_idx, &n->mr, false);
-         if (!qemu_in_vcpu_thread())
-             /* Wait vCPU threads accessing notifier via old flatview. */
-             drain_call_rcu();
-         munmap(n->addr, qemu_real_host_page_size);
-         n->addr = NULL;
--        n->set = false;
-     }
- }
- 
- static int vhost_user_set_vring_base(struct vhost_dev *dev,
-                                      struct vhost_vring_state *ring)
- {
--    vhost_user_host_notifier_restore(dev, ring->index);
--
-     return vhost_set_vring(dev, VHOST_USER_SET_VRING_BASE, ring);
- }
- 
-@@ -1537,7 +1522,6 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
-     }
- 
-     n->addr = addr;
--    n->set = true;
- 
-     return 0;
- }
-diff --git a/include/hw/virtio/vhost-user.h b/include/hw/virtio/vhost-user.h
-index a9abca3288..f6012b2078 100644
---- a/include/hw/virtio/vhost-user.h
-+++ b/include/hw/virtio/vhost-user.h
-@@ -14,7 +14,6 @@
- typedef struct VhostUserHostNotifier {
-     MemoryRegion mr;
-     void *addr;
--    bool set;
- } VhostUserHostNotifier;
- 
- typedef struct VhostUserState {
--- 
-2.33.0
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
