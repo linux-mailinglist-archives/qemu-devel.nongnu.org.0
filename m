@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D7E40FDBC
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 18:17:26 +0200 (CEST)
-Received: from localhost ([::1]:37444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D372A40FDBB
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 18:17:25 +0200 (CEST)
+Received: from localhost ([::1]:37434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRGYH-0001YW-6U
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 12:17:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33116)
+	id 1mRGYG-0001YH-SZ
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 12:17:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mRGUh-0007R6-Op
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:13:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36229)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mRGUf-0007Pg-8k
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:13:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45803)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mRGUe-0005uV-2U
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:13:43 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mRGUd-0005u8-Ky
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:13:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631895219;
+ s=mimecast20190719; t=1631895218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8kbAIt856i4x0fUYIzjgqfwpiwON3pRH4u1BkJ30nTM=;
- b=NfouclvvIWT8tHI7zG2+rc7ynxryrDnFrcnTcKoEW9F9ycD9d+oNWngSxWs2IIWWrSOPWn
- chNvMBdfP6LBYDwxN1wMtt83X6yvtvDFelg/v6oIlUk1HzeXVNhsKg+L4mhxbswdc1YXXD
- dEwOcyg8PjsERo97xW9i/svCLdEpeuI=
+ bh=QWTQldGid/ZrxsUJpdPp+u6Xxn7Sbp5DcAGyh08mIRM=;
+ b=g+Xn8N4Viy/k3DeFs/zeB0kCBxUQkmml6fEyHZRWkhpgku2MfNgyIqlVaxZZ0pS5IhHOvX
+ rKpHLU3VXL0fMcZOXBJstT+jg5jsjKcIvMf4SlQN0dguothnm5L1VT+Xl90A6txx/N989O
+ qIEp5/y65jW4Uh41XlI0BHTtoTKFt4s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-R-w0A8ibOQ2aYbcmDjys2A-1; Fri, 17 Sep 2021 12:13:36 -0400
-X-MC-Unique: R-w0A8ibOQ2aYbcmDjys2A-1
+ us-mta-43-bfui841ZPISYGk4QDzKgoQ-1; Fri, 17 Sep 2021 12:13:37 -0400
+X-MC-Unique: bfui841ZPISYGk4QDzKgoQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F16A19611C6
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 16:13:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CA1791272
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 16:13:36 +0000 (UTC)
 Received: from merkur.redhat.com (unknown [10.39.193.161])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F5FD60C2B;
- Fri, 17 Sep 2021 16:13:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 79A6E60C2B;
+ Fri, 17 Sep 2021 16:13:35 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/8] qapi: Simplify full_name_nth() in qobject-input-visitor
-Date: Fri, 17 Sep 2021 18:13:15 +0200
-Message-Id: <20210917161320.201086-4-kwolf@redhat.com>
+Subject: [PATCH v4 4/8] qapi: Store Error in StackObject.h for
+ qobject-input-visitor
+Date: Fri, 17 Sep 2021 18:13:16 +0200
+Message-Id: <20210917161320.201086-5-kwolf@redhat.com>
 In-Reply-To: <20210917161320.201086-1-kwolf@redhat.com>
 References: <20210917161320.201086-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,14 +56,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,105 +81,76 @@ Cc: kwolf@redhat.com, jsnow@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of counting how many elements from the top of the stack we need
-to ignore until we find the thing we're interested in, we can just
-directly pass the StackObject pointer because all callers already know
-it.
+StackObject.h is a GHashTable that stores all keys in the input that
+haven't been consumed yet. If qobject_input_check_struct() still finds
+any entry, an error is returned because the input was unexpected. The
+value of hash table entries is currently unused (always NULL).
 
-We only need a different way now to tell if we want to know the name of
-something contained in the given StackObject or of the StackObject
-itself. Make this explicit with a new boolean parameter.
+The next patch implements, amongst others, wildcard aliases that can
+lead to situations where it can't be decided immediately if a value is
+still used elsewhere or if a conflict (two values for one member) needs
+to be reported.
 
-This makes the function easier to use in cases where we have the
-StackObject, but don't know how many steps down the stack it is. The
-following patches will introduce such a caller.
+Allow it to store an Error object in the hash table so that a good error
+message is used for qobject_input_check_struct() if the value isn't
+consumed elsewhere, but no error is reported if some other object does
+consume the value.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/qobject-input-visitor.c | 43 ++++++++++++++++++++----------------
- 1 file changed, 24 insertions(+), 19 deletions(-)
+ qapi/qobject-input-visitor.c | 24 +++++++++++++++++++-----
+ 1 file changed, 19 insertions(+), 5 deletions(-)
 
 diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-index 44de05ad0a..3eb3b34894 100644
+index 3eb3b34894..90ebd2fe95 100644
 --- a/qapi/qobject-input-visitor.c
 +++ b/qapi/qobject-input-visitor.c
-@@ -115,20 +115,20 @@ static QObjectInputVisitor *to_qiv(Visitor *v)
- }
+@@ -79,7 +79,14 @@ typedef struct StackObject {
+     QObject *obj;                /* QDict or QList being visited */
+     void *qapi; /* sanity check that caller uses same pointer */
  
- /*
-- * Find the full name of something @qiv is currently visiting.
-- * @qiv is visiting something named @name in the stack of containers
-- * @qiv->stack.
-- * If @n is zero, return its full name.
-- * If @n is positive, return the full name of the @n-th container
-- * counting from the top.  The stack of containers must have at least
-- * @n elements.
-- * The returned string is valid until the next full_name_nth(@v) or
-- * destruction of @v.
-+ * Find the full name of a member in @so which @qiv is currently
-+ * visiting.  If the currently visited thing is an object, @name is
-+ * the (local) name of the member to describe.  If it is a list, @name
-+ * is ignored and the current index (so->index) is included.
-+ *
-+ * If @skip_member is true, find the full name of @so itself instead.
-+ * @name must be NULL then.
-+ *
-+ * The returned string is valid until the next full_name_so(@qiv) or
-+ * destruction of @qiv.
-  */
--static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
--                                 int n)
-+static const char *full_name_so(QObjectInputVisitor *qiv, const char *name,
-+                                bool skip_member, StackObject *so)
- {
--    StackObject *so;
-     char buf[32];
- 
-     if (qiv->errname) {
-@@ -137,10 +137,14 @@ static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
-         qiv->errname = g_string_new("");
-     }
- 
--    QSLIST_FOREACH(so , &qiv->stack, node) {
--        if (n) {
--            n--;
--        } else if (qobject_type(so->obj) == QTYPE_QDICT) {
-+    if (skip_member && so) {
-+        assert(name == NULL);
-+        name = so->name;
-+        so = QSLIST_NEXT(so, node);
-+    }
+-    GHashTable *h;              /* If @obj is QDict: unvisited keys */
++    /*
++     * If @obj is QDict:
++     * Keys are the unvisited keys. Values are Error objects to be
++     * returned in qobject_input_check_struct() if the value was not
++     * consumed, or NULL for a default error.
++     */
++    GHashTable *h;
 +
-+    for (; so; so = QSLIST_NEXT(so, node)) {
-+        if (qobject_type(so->obj) == QTYPE_QDICT) {
-             g_string_prepend(qiv->errname, name ?: "<anonymous>");
-             g_string_prepend_c(qiv->errname, '.');
-         } else {
-@@ -151,7 +155,6 @@ static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
-         }
-         name = so->name;
-     }
--    assert(!n);
+     const QListEntry *entry;    /* If @obj is QList: unvisited tail */
+     unsigned index;             /* If @obj is QList: list index of @entry */
  
-     if (name) {
-         g_string_prepend(qiv->errname, name);
-@@ -166,7 +169,9 @@ static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
+@@ -318,7 +325,8 @@ static const QListEntry *qobject_input_push(QObjectInputVisitor *qiv,
+     QSIMPLEQ_INIT(&tos->aliases);
  
- static const char *full_name(QObjectInputVisitor *qiv, const char *name)
- {
--    return full_name_nth(qiv, name, 0);
-+    StackObject *tos = QSLIST_FIRST(&qiv->stack);
-+
-+    return full_name_so(qiv, name, false, tos);
- }
+     if (qdict) {
+-        h = g_hash_table_new(g_str_hash, g_str_equal);
++        h = g_hash_table_new_full(g_str_hash, g_str_equal, NULL,
++                                  (GDestroyNotify) error_free);
+         for (entry = qdict_first(qdict);
+              entry;
+              entry = qdict_next(qdict, entry)) {
+@@ -345,13 +353,19 @@ static bool qobject_input_check_struct(Visitor *v, Error **errp)
+     StackObject *tos = QSLIST_FIRST(&qiv->stack);
+     GHashTableIter iter;
+     const char *key;
++    Error *err;
  
- static QObject *qobject_input_try_get_object(QObjectInputVisitor *qiv,
-@@ -513,7 +518,7 @@ static bool qobject_input_check_list(Visitor *v, Error **errp)
+     assert(tos && !tos->entry);
  
-     if (tos->entry) {
-         error_setg(errp, "Only %u list elements expected in %s",
--                   tos->index + 1, full_name_nth(qiv, NULL, 1));
-+                   tos->index + 1, full_name_so(qiv, NULL, true, tos));
+     g_hash_table_iter_init(&iter, tos->h);
+-    if (g_hash_table_iter_next(&iter, (void **)&key, NULL)) {
+-        error_setg(errp, "Parameter '%s' is unexpected",
+-                   full_name(qiv, key));
++    if (g_hash_table_iter_next(&iter, (void **)&key, (void **)&err)) {
++        if (err) {
++            g_hash_table_steal(tos->h, key);
++            error_propagate(errp, err);
++        } else {
++            error_setg(errp, "Parameter '%s' is unexpected",
++                       full_name(qiv, key));
++        }
          return false;
      }
      return true;
