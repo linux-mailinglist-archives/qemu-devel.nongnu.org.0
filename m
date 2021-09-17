@@ -2,51 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D397640FDFD
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 18:36:58 +0200 (CEST)
-Received: from localhost ([::1]:56546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BD440FE24
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 18:48:39 +0200 (CEST)
+Received: from localhost ([::1]:51314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRGrB-0008Qw-Tc
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 12:36:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38006)
+	id 1mRH2U-0007cv-J2
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 12:48:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1mRGp5-0004Th-J2
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:34:47 -0400
-Received: from mga05.intel.com ([192.55.52.43]:58723)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1mRGp3-0005TT-0t
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:34:47 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10110"; a="308377625"
-X-IronPort-AV: E=Sophos;i="5.85,301,1624345200"; d="scan'208";a="308377625"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2021 09:34:41 -0700
-X-IronPort-AV: E=Sophos;i="5.85,301,1624345200"; d="scan'208";a="510009259"
-Received: from dongwonk-mobl.amr.corp.intel.com ([10.251.131.202])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2021 09:34:40 -0700
-Date: Fri, 17 Sep 2021 09:34:39 -0700
-From: Dongwon Kim <dongwon.kim@intel.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH] ui/gtk: skip any extra draw of same guest scanout blob res
-Message-ID: <20210917163439.GA65@dongwonk-MOBL.amr.corp.intel.com>
-References: <20210916234156.5505-1-dongwon.kim@intel.com>
- <20210917100202.vrdadmmqbeebwp5g@sirius.home.kraxel.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mRGzB-0005Nx-U1
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:45:13 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40549)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mRGzA-0005YO-3v
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 12:45:13 -0400
+Received: by mail-wr1-x430.google.com with SMTP id q26so16166128wrc.7
+ for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 09:45:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=RXNRs2YChbM2q/tazkXpFs70yL3wLXFi3eLTjH8y224=;
+ b=HBAYANXP/DEYVuebTczJMsUDr6nk8iK6Ryg5ly7JbgnCRpi3188EH/jXnkaalgSf5I
+ JGJJAeAtTg7wiXFhrd/VpVFHEL860DL4EpvE4Y9ExkWYn2I7Kv8jvLpIhdjyBIsdVS7p
+ f2TVm4dc+vNF5tqlrbCQgKS62FLE6wwFjw9XdwA7i4fm5SBjgI7Kp0MhffzRF9UNcOy+
+ UQbfKnGXmOv2oFTZZTkU8RwChSnsXhjn65PGsBNGdBjuqCf2pPDap5FNK+NROJBv1H95
+ OE4H63OmWk1GmKm8jVx1L/6zcaiexkU3e1RTgSTZjIpxE1b/dsfFncrwbxgzIYk7aLWF
+ ZtoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=RXNRs2YChbM2q/tazkXpFs70yL3wLXFi3eLTjH8y224=;
+ b=fdOndJ2v+aJdCWUACgD9+aM8m87RkBEIkeEZ9RwIryRpYV15vEIwx41v0RLXFpw4AL
+ WxiJ8mNCaQhg1vz5v56w7JIfqOv85DPTJUvVsvlIREfW9PARk0eZeK08nsMRIHZITgQ0
+ U63TCeXXaFLQgUk7SFyN0gbMDUgH9QEGiifW0uiLfV5vf1ZSUb8/hqQlP8SMum8JD16a
+ HGUCLPlv49L1NUS8R2+NY9wWqvaoD1iFyDGxn54H/ya7W0G5Tkpjje6mNhSQshGjKrOU
+ UpI2rJQOchD3N3TQiPh8DlnKY2AeIvIJZottdh2cO9J/vpOWuBnd+W/Og2sRqP8O9aVL
+ Wjpg==
+X-Gm-Message-State: AOAM531IHDCvUT07YRltynANOP+0R7Yq7kacMhjvXG9F+tbSkmldlTD4
+ 6tsIdR132AmFWvJNWeuZPAPkAw==
+X-Google-Smtp-Source: ABdhPJwZ3Q3a9tkSGT13B8atfdVboXrNiCx8IqRkAJkinwKVENItyIEMskqgje9vcdBo1sdIOpjYNg==
+X-Received: by 2002:adf:df0d:: with SMTP id y13mr13174759wrl.335.1631897110318; 
+ Fri, 17 Sep 2021 09:45:10 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s3sm2571425wra.72.2021.09.17.09.45.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Sep 2021 09:45:09 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A62EC1FF96;
+ Fri, 17 Sep 2021 17:45:08 +0100 (BST)
+References: <20210803110237.1051032-1-alex.bennee@linaro.org>
+ <20210803110237.1051032-4-alex.bennee@linaro.org>
+ <CANCZdfo=96hcsaRuWoH0X8LHoRioYfP3OyQjPRQzjbCfCW+7wA@mail.gmail.com>
+ <8735q3tgfo.fsf@linaro.org>
+ <CANCZdfoR=xBietGR-y_9VpDiinNwOz2u44HGOpOx3CHwKs5fBw@mail.gmail.com>
+User-agent: mu4e 1.7.0; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Warner Losh <imp@bsdimp.com>
+Subject: Re: [RFC PATCH 3/3] tests/tcg: commit Makefile atrocities in the
+ name of portability
+Date: Fri, 17 Sep 2021 17:41:16 +0100
+In-reply-to: <CANCZdfoR=xBietGR-y_9VpDiinNwOz2u44HGOpOx3CHwKs5fBw@mail.gmail.com>
+Message-ID: <87y27vrw17.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210917100202.vrdadmmqbeebwp5g@sirius.home.kraxel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=dongwon.kim@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,54 +91,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Vivek Kasireddy <vivek.kasireddy@intel.com>
+Cc: fam@euphon.net, "Daniel P.
+ Berrange" <berrange@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 17, 2021 at 12:02:02PM +0200, Gerd Hoffmann wrote:
->   Hi,
-> 
-> > +    bool      draw_submitted;
-> > +    QemuMutex mutex;
-> 
-> Why the mutex?  I think all the code runs while holding the BQL so it
-> should be serialized.
 
-Guest drawing process using blob is serialized (gd_egl_flush->scheduling
-draw call->gd_egl_draw) but an asynchronous draw event from another thread
-is causing a problem.
+Warner Losh <imp@bsdimp.com> writes:
 
-I initially thought using a flag (draw_submitted) would be enough to get this
-worked around, but it wasn't as the asynchronous draw could take it over before,
+> On Fri, Sep 17, 2021 at 8:39 AM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
+>
+>  Warner Losh <imp@bsdimp.com> writes:
+>
+>  > On Tue, Aug 3, 2021 at 5:02 AM Alex Benn=C3=A9e <alex.bennee@linaro.or=
+g> wrote:
+>  >
+>  >  Not all of the multiarch tests are pure POSIX so elide over those
+>  >  tests on a non-Linux system. This allows for at least some of the
+>  >  tests to be nominally usable by *BSD user builds.
+>  >
+>  >  Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>  >  Cc: Warner Losh <imp@bsdimp.com>
+>  >  ---
+>  >   tests/tcg/multiarch/Makefile.target | 6 +++++-
+>  >   tests/tcg/x86_64/Makefile.target    | 4 ++++
+>  >   2 files changed, 9 insertions(+), 1 deletion(-)
+>  >
+>  > Acked-by: Warner Losh <imp@bsdimp.com>
+>  >
+>  > To do this with gcc10, however, I had to add -Wno-error=3Doverflow
+>  > otherwise I got a lot of warnings about constants being truncated to
+>  > 0.
+>  >
+>  > It also fails the sha1 test, but when I run it by hand it works. It tu=
+rns
+>  > out that I have a sha1 in my path, and at least in the bsd-user edition
+>  > of qemu-i386 tries to run that and fails.
+>  >
+>  > Also, the hello world program needed tweaking
+>  >
+>  > So with this applied and the following patch
+>  >
+>  > diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+>  > index 63cf1b2573..39420631a8 100644
+>  > --- a/tests/tcg/Makefile.target
+>  > +++ b/tests/tcg/Makefile.target
+>  > @@ -155,7 +155,7 @@ RUN_TESTS+=3D$(EXTRA_RUNS)
+>  >
+>  >  ifdef CONFIG_USER_ONLY
+>  >  run-%: %
+>  > -       $(call run-test, $<, $(QEMU) $(QEMU_OPTS) $<, "$< on $(TARGET_=
+NAME)")
+>  > +       $(call run-test, $<, $(QEMU) $(QEMU_OPTS) ./$<, "$< on $(TARGE=
+T_NAME)")
+>  >
+>  >  run-plugin-%:
+>  >         $(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
+>  > @@ -168,7 +168,7 @@ run-%: %
+>  >         $(call run-test, $<, \
+>  >           $(QEMU) -monitor none -display none \
+>  >                   -chardev file$(COMMA)path=3D$<.out$(COMMA)id=3Doutpu=
+t \
+>  > -                 $(QEMU_OPTS) $<, \
+>  > +                 $(QEMU_OPTS) ./$<, \
+>  >           "$< on $(TARGET_NAME)")
+>
+>  That's weird. I'm not super keen to merge this because it's incomplete
+>  (we have a large number of manual run-FOO stanzas). AFAICT neither of
+>  the loaders attempt to enumerate and search path so I wonder if this is
+>  a function of the shell?
+>
+> bsd-user does, in fact, search the path. It does so in loader_exec. It do=
+es this,
+> I believe, to support execing native binaries, but I'll need to check
+> on that.
 
-dambuf->draw_submitted = false;
+It's certainly different from what linux-user does. The execing of
+native binaries seems a bit niche given you can always pass an explicit
+path. Maybe you could tweak loader_exec to check for the local binary
+first. It seems to skip straight to searching the path if there are no
+/'s in the filename.
 
-happens during normal draw sequence. I thought mutex would be a reasonable
-solution for this case.
+This is unrelated to how you handle foreign binaries on the BSDs? Is
+there an equivalent to binfmt_misc?
 
-> 
-> > +#ifdef CONFIG_GBM
-> > +        if (dmabuf) {
-> > +            qemu_mutex_lock(&dmabuf->mutex);
-> > +            if (!dmabuf->draw_submitted) {
-> > +                qemu_mutex_unlock(&dmabuf->mutex);
-> > +                return;
-> > +            } else {
-> > +                dmabuf->draw_submitted = false;
-> > +            }
-> > +        }
-> > +#endif
-> 
-> Factoring out that into helper functions is probably a good idea.  Then
-> have stub functions for the CONFIG_GBM=no case and *alot* less #ifdefs
-> in the code ...
-
-I will look into this part.
-Thanks,
-DW
-
-> 
-> thanks,
->   Gerd
-> 
+--=20
+Alex Benn=C3=A9e
 
