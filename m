@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F037540F6EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 13:52:07 +0200 (CEST)
-Received: from localhost ([::1]:52008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63B3B40F6EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Sep 2021 13:55:46 +0200 (CEST)
+Received: from localhost ([::1]:57218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRCPX-00028j-0z
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 07:52:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32896)
+	id 1mRCT2-0005d1-UE
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 07:55:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mRCN1-0000WA-I4; Fri, 17 Sep 2021 07:49:31 -0400
+ id 1mRCN3-0000Zq-Vn; Fri, 17 Sep 2021 07:49:33 -0400
 Received: from [201.28.113.2] (port=58746 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mRCN0-00070N-2M; Fri, 17 Sep 2021 07:49:31 -0400
+ id 1mRCN2-00070N-Jc; Fri, 17 Sep 2021 07:49:33 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Fri, 17 Sep 2021 08:48:26 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Fri, 17 Sep 2021 08:48:27 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 8223080130D;
- Fri, 17 Sep 2021 08:48:25 -0300 (-03)
+ by power9a (Postfix) with ESMTP id EF5A280130D;
+ Fri, 17 Sep 2021 08:48:26 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 1/2] target/ppc: add LPCR[HR] to DisasContext and hflags
-Date: Fri, 17 Sep 2021 08:47:50 -0300
-Message-Id: <20210917114751.206845-2-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 2/2] target/ppc: Check privilege level based on PSR and
+ LPCR[HR] in tlbie[l]
+Date: Fri, 17 Sep 2021 08:47:51 -0300
+Message-Id: <20210917114751.206845-3-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210917114751.206845-1-matheus.ferst@eldorado.org.br>
 References: <20210917114751.206845-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 17 Sep 2021 11:48:26.0094 (UTC)
- FILETIME=[ECCDF8E0:01D7ABB9]
+X-OriginalArrivalTime: 17 Sep 2021 11:48:27.0565 (UTC)
+ FILETIME=[EDAE6DD0:01D7ABB9]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -63,66 +64,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Add a Host Radix field (hr) in DisasContext with LPCR[HR] value to allow
-us to decide between Radix and HPT while validating instructions
-arguments. Note that PowerISA v3.1 does not require LPCR[HR] and PATE.HR
-to match if the thread is in ultravisor/hypervisor real addressing mode,
-so ctx->hr may be invalid if ctx->hv and ctx->dr are set.
+PowerISA v3.0B made tlbie[l] hypervisor privileged when PSR=0 and HR=1.
+To allow the check at translation time, we'll use the HR bit of LPCR to
+check the MMU mode instead of the PATE.HR.
 
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h         | 1 +
- target/ppc/helper_regs.c | 3 +++
- target/ppc/translate.c   | 2 ++
- 3 files changed, 6 insertions(+)
+ target/ppc/translate.c | 26 +++++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 500205229c..e1b8d343cd 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -600,6 +600,7 @@ enum {
-     HFLAGS_64 = 2,   /* computed from MSR_CE and MSR_SF */
-     HFLAGS_GTSE = 3, /* computed from SPR_LPCR[GTSE] */
-     HFLAGS_DR = 4,   /* MSR_DR */
-+    HFLAGS_HR = 5,   /* computed from SPR_LPCR[HR] */
-     HFLAGS_SPE = 6,  /* from MSR_SPE if cpu has SPE; avoid overlap w/ MSR_VR */
-     HFLAGS_TM = 8,   /* computed from MSR_TM */
-     HFLAGS_BE = 9,   /* MSR_BE -- from elsewhere on embedded ppc */
-diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-index 405450d863..1bfb480ecf 100644
---- a/target/ppc/helper_regs.c
-+++ b/target/ppc/helper_regs.c
-@@ -106,6 +106,9 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
-     if (env->spr[SPR_LPCR] & LPCR_GTSE) {
-         hflags |= 1 << HFLAGS_GTSE;
-     }
-+    if (env->spr[SPR_LPCR] & LPCR_HR) {
-+        hflags |= 1 << HFLAGS_HR;
-+    }
- 
- #ifndef CONFIG_USER_ONLY
-     if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 171b216e17..909a092fde 100644
+index 909a092fde..25ee9f75b2 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -175,6 +175,7 @@ struct DisasContext {
-     bool spe_enabled;
-     bool tm_enabled;
-     bool gtse;
-+    bool hr;
-     ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
-     int singlestep_enabled;
-     uint32_t flags;
-@@ -8539,6 +8540,7 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->vsx_enabled = (hflags >> HFLAGS_VSX) & 1;
-     ctx->tm_enabled = (hflags >> HFLAGS_TM) & 1;
-     ctx->gtse = (hflags >> HFLAGS_GTSE) & 1;
-+    ctx->hr = (hflags >> HFLAGS_HR) & 1;
+@@ -5517,7 +5517,15 @@ static void gen_tlbiel(DisasContext *ctx)
+ #if defined(CONFIG_USER_ONLY)
+     GEN_PRIV;
+ #else
+-    CHK_SV;
++    bool psr = (ctx->opcode >> 17) & 0x1;
++
++    if (ctx->pr || (!ctx->hv && !psr && ctx->hr)) {
++        /*
++         * tlbiel is privileged except when PSR=0 and HR=1, making it
++         * hypervisor privileged.
++         */
++        GEN_PRIV;
++    }
  
-     ctx->singlestep_enabled = 0;
-     if ((hflags >> HFLAGS_SE) & 1) {
+     gen_helper_tlbie(cpu_env, cpu_gpr[rB(ctx->opcode)]);
+ #endif /* defined(CONFIG_USER_ONLY) */
+@@ -5529,12 +5537,20 @@ static void gen_tlbie(DisasContext *ctx)
+ #if defined(CONFIG_USER_ONLY)
+     GEN_PRIV;
+ #else
++    bool psr = (ctx->opcode >> 17) & 0x1;
+     TCGv_i32 t1;
+ 
+-    if (ctx->gtse) {
+-        CHK_SV; /* If gtse is set then tlbie is supervisor privileged */
+-    } else {
+-        CHK_HV; /* Else hypervisor privileged */
++    if (ctx->pr) {
++        /* tlbie is privileged... */
++        GEN_PRIV;
++    } else if (!ctx->hv) {
++        if (!ctx->gtse || (!psr && ctx->hr)) {
++            /*
++             * ... except when GTSE=0 or when PSR=0 and HR=1, making it
++             * hypervisor privileged.
++             */
++            GEN_PRIV;
++        }
+     }
+ 
+     if (NARROW_MODE(ctx)) {
 -- 
 2.25.1
 
