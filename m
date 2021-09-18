@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0064F41084C
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 21:09:53 +0200 (CEST)
-Received: from localhost ([::1]:43314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2AD41085F
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 21:29:23 +0200 (CEST)
+Received: from localhost ([::1]:53920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRfii-0005rw-2P
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 15:09:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55118)
+	id 1mRg1b-0007EQ-1Z
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 15:29:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRfOc-00028c-9P
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:49:07 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:42817)
+ id 1mRfMb-0006It-3g
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:47:01 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:44790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRfOa-0000YN-Ne
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:49:06 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id q68so13076548pga.9
- for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 11:49:04 -0700 (PDT)
+ id 1mRfMY-0007hm-3K
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:47:00 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id s11so13086928pgr.11
+ for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 11:46:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=loPJ4fwu9tGHXBjISnsRpqTsfoBC8LJntmjmF4lGwE8=;
- b=aL+gt94Vb9+9BwTUJRN2W4P+jro2wkEzdTYq9+TQLx7wtNcNgWhS0iNngGjXeI+Xug
- 8IKjz7apG76IJeacSUXnBwD5Q7cpv/FbA5jg/qXXDtIA6lXJlI4gYCvar93xbdBjJHUZ
- vJssrWihnSveyxIquwJU8NzToYShdqUroHDAqzYxYK2+OxmZS2pPpCCVy4Ru5poEbHH7
- lNJb48+EqiSSh5sZFgfpdXTAkb7CYX5wTBYbkK0A5U2sT3cVEjaGHCRgydsFWAH8xz8+
- fOt1Q05rCJWdBOWfTgfuYsVK14P/E6OKeeeH9EcEbA/5X3c/bd4r7uh9YuLTVmhWDXj+
- K9wA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=PcKH8XWPzS0JZZC/TfKjpHlJ3lopA1X9EPv+H8eHY+c=;
+ b=KRVMX3mDyybLbnIp2j/iDqh5KGzk4xzra2WOzUR5niBiMWtrQGMWusGNjAYaTKtvdz
+ O3A+IGIKXRk5IeOSZQvEt/nljlrbmaxUrfRkEWtXmbfi7ERgbz1WdtXrgQvnRp9QfJ/J
+ gs1QucPviduYS4D88l1qzMQ/kARITJBjYMU1OOhs4EIdLwSzU8S3867Z/0okZgfTtYAw
+ YUtI6Kz4gM/wuDPrpKnXU+45AvzgpATW4mn95XViRlNtCjikQXieJ2CDSHtC0HAQZpX2
+ qMTkCFdmleLfx068zQMsBLj7cadbd7GfG0u4Xyl9W1KoAm/s+kDPtzFU4PK4ZW3lxuEs
+ D8qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=loPJ4fwu9tGHXBjISnsRpqTsfoBC8LJntmjmF4lGwE8=;
- b=r2no62dWd6IL/ZnBV5AKWGfI+Ii6Xspv2z181qcyfNEFwcjckRv6kx3uEefUwT9mAL
- nHJpC03LQ1IqTi9Ossxc5/O4ZZqxA00DKDAteg4NkpIRBwTvxiL1btPRwypxGeAiN0+O
- 36cJOTo/uaeL2TVvBaI8QQW//nzCc7DChYWQqjiKrKzOJO/yTqdFODxSUBs91de3Yx1h
- tDAyD1sBYe4XNeX8IHN1tENOdFCU/rZmWvHxjyxd3SwN542MmtgZufFJl3LD+wZ80UPq
- EASg0SfjERFv/hRYQ+wDzk8c6KqRJNktaUjAL7qwznBEGrV4quJ2McIZFqNh6FXMEQt3
- yJZw==
-X-Gm-Message-State: AOAM532PPYyd6+dEYQu/SMaMyHkaKXAV4bgGEh9kJ8zhTsc/piziuquc
- 8cwzofa44p1lX/nsKfqiAVFbHzJs5DxfQw==
-X-Google-Smtp-Source: ABdhPJzjATC2E9KX1FBnZ2BqYNXatViFDy/tIuXuJjTTZ/xBOBHHS0rhEpfoCyQ1dPNgICB+pQ55Jg==
-X-Received: by 2002:aa7:9823:0:b0:43c:6454:92b0 with SMTP id
- q3-20020aa79823000000b0043c645492b0mr17021396pfl.68.1631990943309; 
- Sat, 18 Sep 2021 11:49:03 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id p30sm9916522pfh.116.2021.09.18.11.49.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Sep 2021 11:49:02 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PcKH8XWPzS0JZZC/TfKjpHlJ3lopA1X9EPv+H8eHY+c=;
+ b=Vw8hWKMk7r4xA6+P8URbfgqMFDqgU7uPW2BZUVMVyvw6dz6jRagVGeYLpVIr49iC4X
+ y4OvVGoidxPZ+1Cbdsbxy8VUYvKgc1b5dbYIO2u/7rYJE/P6ND+dNK2/CThzQxmbTFaY
+ 2Dd2J/H6rrUwPR+noSnuwBmd6HNtx3+QjUYIhZPsc24wLHVqJtRThrAfdyjmgKcbZes6
+ EwCg6+QpcaunIDeYZvmFLcXH8eHPQwfRCB6BiDX6N/2FKOYUXx4NeEzkT3EiKswE6skD
+ YA3Vl6LfQbEAJi6uUHoAJeUBxzyNdcAtO9Eb9u24Ou6M7euRI0hVXivdj3W92L5ubuaz
+ Cgew==
+X-Gm-Message-State: AOAM531x219rHM8By/+lmGX/3zxPlH9PE5V+2fQM00n1gGsJRYCD9qLx
+ CAbQpbmZHFAG9bhfbRteLGw7NSbE+o+j4A==
+X-Google-Smtp-Source: ABdhPJxSGG6jSZyUkF1OFFSNHl2XIsJw9E5uWiNm3PdxKcZVUmqmpEGF0Fi6ssftUL5oQadYaswVdQ==
+X-Received: by 2002:a62:63c6:0:b0:43f:cbf9:4383 with SMTP id
+ x189-20020a6263c6000000b0043fcbf94383mr17211791pfb.14.1631990816764; 
+ Sat, 18 Sep 2021 11:46:56 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id e7sm388938pfc.114.2021.09.18.11.46.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 18 Sep 2021 11:46:56 -0700 (PDT)
+Subject: Re: [PATCH RESEND v2] target/riscv: Set mstatus_hs.[SD|FS] bits if
+ Clean and V=1 in mark_fs_dirty()
+To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <20210917093153.4067812-1-frank.chang@sifive.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 41/41] accel/tcg: Restrict TCGCPUOps::tlb_fill() to sysemu
-Date: Sat, 18 Sep 2021 11:45:27 -0700
-Message-Id: <20210918184527.408540-42-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210918184527.408540-1-richard.henderson@linaro.org>
-References: <20210918184527.408540-1-richard.henderson@linaro.org>
+Message-ID: <93e9a615-94fb-3958-9560-111910668768@linaro.org>
+Date: Sat, 18 Sep 2021 11:46:54 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20210917093153.4067812-1-frank.chang@sifive.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.538,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,74 +88,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu
+Cc: Vincent Chen <vincent.chen@sifive.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have replaced tlb_fill with record_sigsegv for user mod.
-Move the declaration to restrict it to system emulation.
+On 9/17/21 2:31 AM, frank.chang@sifive.com wrote:
+> From: Frank Chang <frank.chang@sifive.com>
+> 
+> When V=1, both vsstauts.FS and HS-level sstatus.FS are in effect.
+> Modifying the floating-point state when V=1 causes both fields to
+> be set to 3 (Dirty).
+> 
+> However, it's possible that HS-level sstatus.FS is Clean and VS-level
+> vsstatus.FS is Dirty at the time mark_fs_dirty() is called when V=1.
+> We can't early return for this case because we still need to set
+> sstatus.FS to Dirty according to spec.
+> 
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> Reviewed-by: Vincent Chen <vincent.chen@sifive.com>
+> Tested-by: Vincent Chen <vincent.chen@sifive.com>
+> ---
+>   target/riscv/cpu.h       |  4 ++++
+>   target/riscv/translate.c | 24 +++++++++++++++---------
+>   2 files changed, 19 insertions(+), 9 deletions(-)
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/hw/core/tcg-cpu-ops.h | 22 ++++++++++------------
- linux-user/signal.c           |  3 ---
- 2 files changed, 10 insertions(+), 15 deletions(-)
 
-diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-index e229a40772..988561e8d4 100644
---- a/include/hw/core/tcg-cpu-ops.h
-+++ b/include/hw/core/tcg-cpu-ops.h
-@@ -35,18 +35,6 @@ struct TCGCPUOps {
-     void (*cpu_exec_enter)(CPUState *cpu);
-     /** @cpu_exec_exit: Callback for cpu_exec cleanup */
-     void (*cpu_exec_exit)(CPUState *cpu);
--    /**
--     * @tlb_fill: Handle a softmmu tlb miss or user-only address fault
--     *
--     * For system mode, if the access is valid, call tlb_set_page
--     * and return true; if the access is invalid, and probe is
--     * true, return false; otherwise raise an exception and do
--     * not return.  For user-only mode, always raise an exception
--     * and do not return.
--     */
--    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
--                     MMUAccessType access_type, int mmu_idx,
--                     bool probe, uintptr_t retaddr);
-     /** @debug_excp_handler: Callback for handling debug exceptions */
-     void (*debug_excp_handler)(CPUState *cpu);
- 
-@@ -72,6 +60,16 @@ struct TCGCPUOps {
-     bool (*has_work)(CPUState *cpu);
-     /** @cpu_exec_interrupt: Callback for processing interrupts in cpu_exec */
-     bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
-+    /**
-+     * @tlb_fill: Handle a softmmu tlb miss
-+     *
-+     * If the access is valid, call tlb_set_page and return true;
-+     * if the access is invalid and probe is true, return false;
-+     * otherwise raise an exception and do not return.
-+     */
-+    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
-+                     MMUAccessType access_type, int mmu_idx,
-+                     bool probe, uintptr_t retaddr);
-     /**
-      * @do_transaction_failed: Callback for handling failed memory transactions
-      * (ie bus faults or external aborts; not MMU faults)
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index ae31b46be0..4f4c919b23 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -690,9 +690,6 @@ void raise_sigsegv(CPUState *cpu, target_ulong addr,
- 
-     if (tcg_ops->record_sigsegv) {
-         tcg_ops->record_sigsegv(cpu, addr, access_type, maperr, ra);
--    } else if (tcg_ops->tlb_fill) {
--        tcg_ops->tlb_fill(cpu, addr, 0, access_type, MMU_USER_IDX, false, ra);
--        g_assert_not_reached();
-     }
- 
-     force_sig_fault(TARGET_SIGSEGV,
--- 
-2.25.1
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+>   static void mark_fs_dirty(DisasContext *ctx)
+>   {
+>       TCGv tmp;
+> -    target_ulong sd;
+> +    target_ulong sd = is_32bit(ctx) ? MSTATUS32_SD : MSTATUS64_SD;
+> +
+> +    if (ctx->virt_enabled && ctx->mstatus_hs_fs != MSTATUS_FS) {
+> +        /* Remember the stage change for the rest of the TB. */
+> +        ctx->mstatus_hs_fs = MSTATUS_FS;
+> +
+> +        tmp = tcg_temp_new();
+> +        tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> +        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
+> +        tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> +        tcg_temp_free(tmp);
+> +    }
+>   
+>       if (ctx->mstatus_fs == MSTATUS_FS) {
+>           return;
+>       }
+> +
+>       /* Remember the state change for the rest of the TB.  */
+>       ctx->mstatus_fs = MSTATUS_FS;
+>   
+>       tmp = tcg_temp_new();
+> -    sd = is_32bit(ctx) ? MSTATUS32_SD : MSTATUS64_SD;
+> -
+>       tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
+>       tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
+>       tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
+> -
+> -    if (ctx->virt_enabled) {
+> -        tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> -        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
+> -        tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
+> -    }
+>       tcg_temp_free(tmp);
+
+While it works, it would be nicer to keep these two cases as similar as possible.
+
+
+r~
 
