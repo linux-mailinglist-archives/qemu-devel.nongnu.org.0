@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0587C410854
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 21:18:54 +0200 (CEST)
-Received: from localhost ([::1]:36348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0064F41084C
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 21:09:53 +0200 (CEST)
+Received: from localhost ([::1]:43314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRfrR-0003PQ-3y
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 15:18:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55114)
+	id 1mRfii-0005rw-2P
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 15:09:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRfOb-00026a-Kq
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:49:05 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:43776)
+ id 1mRfOc-00028c-9P
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:49:07 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:42817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRfOZ-0000Y1-Ti
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:49:05 -0400
-Received: by mail-pg1-x535.google.com with SMTP id r2so13090825pgl.10
- for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 11:49:03 -0700 (PDT)
+ id 1mRfOa-0000YN-Ne
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:49:06 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id q68so13076548pga.9
+ for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 11:49:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=evwYpaYtIeusJUHkEEt0rDRSAZ60QDEAx/EDgh8MFt8=;
- b=yd1OrPle+GMfowzsFnb2GpLny3itCxb1b1Fjs50fC6JIyetlNtQQBRGb7Y8cWGrEor
- 7T8KpI5djlt8zaJPhYx//iQRhi9wLLT+rZKLyFz047ytIAstoOttuU5fvAAfsig19ASY
- HlTpDWTjQZa4WstMWOyhriNUWg0gL0MBHgporCCnsngkjxkgP6Al5XYAVe3jPpwEBOr5
- P3GhZQ1xurjtFpKCQJbCgjekW6Ob0F4VkKU8EGHLXnMcppYXB1CtCXlun7QDONrocJbT
- v0O6flus8sX2zWFHaPDFV/sQ2GOyVs0zS3tK09um/wh657iGvOTYMHsG9ZLgMHEzjaqs
- RnsA==
+ bh=loPJ4fwu9tGHXBjISnsRpqTsfoBC8LJntmjmF4lGwE8=;
+ b=aL+gt94Vb9+9BwTUJRN2W4P+jro2wkEzdTYq9+TQLx7wtNcNgWhS0iNngGjXeI+Xug
+ 8IKjz7apG76IJeacSUXnBwD5Q7cpv/FbA5jg/qXXDtIA6lXJlI4gYCvar93xbdBjJHUZ
+ vJssrWihnSveyxIquwJU8NzToYShdqUroHDAqzYxYK2+OxmZS2pPpCCVy4Ru5poEbHH7
+ lNJb48+EqiSSh5sZFgfpdXTAkb7CYX5wTBYbkK0A5U2sT3cVEjaGHCRgydsFWAH8xz8+
+ fOt1Q05rCJWdBOWfTgfuYsVK14P/E6OKeeeH9EcEbA/5X3c/bd4r7uh9YuLTVmhWDXj+
+ K9wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=evwYpaYtIeusJUHkEEt0rDRSAZ60QDEAx/EDgh8MFt8=;
- b=dtezWKDbN0PczRsaWLi4VUCp444NOM/DM6UMlyHQm5CXcdoKj1SJF2v17ccvoPoco4
- mmZ7M8Q70jBldMQodygVKAg/MgtvhlRvmyimNJIcnlMZcWi2LzC+qtjbh7FUZI4HIbbb
- rwxmJEHDOKMl8nEpQjJTe0N2//YHd77ZhJkYLLFIMfoWJjSpsufb1p8NtB2pm1qsmaFH
- 4Bj05XH+dvslVB4ocT9sT8a6jKUzxiFIf/3qW6G7UwOHoxmDQMMGu3wmuZ59g6ukVEl/
- BW1pPARLAp6AOXaJ+zzMdYu+8X7eJBSCfxnrYRfme/wjkpLLGWcajcuufg2BoyJNulA4
- y53A==
-X-Gm-Message-State: AOAM530xkBwovwNBlLHOU1pWDcG8TlsEUq8QI3B59G56/ud1o9LDFtMf
- HmYMw1ABoGLmjedxlFtncAc+PMAVIApPLA==
-X-Google-Smtp-Source: ABdhPJwweo1dJJirzQMk1muAM9t9Pei2GS7JEolmt2l8gMQCQ9Z9l9/UGCI0yzEDVGNWU5g65a4ciw==
-X-Received: by 2002:a63:1914:: with SMTP id z20mr15963906pgl.87.1631990942447; 
- Sat, 18 Sep 2021 11:49:02 -0700 (PDT)
+ bh=loPJ4fwu9tGHXBjISnsRpqTsfoBC8LJntmjmF4lGwE8=;
+ b=r2no62dWd6IL/ZnBV5AKWGfI+Ii6Xspv2z181qcyfNEFwcjckRv6kx3uEefUwT9mAL
+ nHJpC03LQ1IqTi9Ossxc5/O4ZZqxA00DKDAteg4NkpIRBwTvxiL1btPRwypxGeAiN0+O
+ 36cJOTo/uaeL2TVvBaI8QQW//nzCc7DChYWQqjiKrKzOJO/yTqdFODxSUBs91de3Yx1h
+ tDAyD1sBYe4XNeX8IHN1tENOdFCU/rZmWvHxjyxd3SwN542MmtgZufFJl3LD+wZ80UPq
+ EASg0SfjERFv/hRYQ+wDzk8c6KqRJNktaUjAL7qwznBEGrV4quJ2McIZFqNh6FXMEQt3
+ yJZw==
+X-Gm-Message-State: AOAM532PPYyd6+dEYQu/SMaMyHkaKXAV4bgGEh9kJ8zhTsc/piziuquc
+ 8cwzofa44p1lX/nsKfqiAVFbHzJs5DxfQw==
+X-Google-Smtp-Source: ABdhPJzjATC2E9KX1FBnZ2BqYNXatViFDy/tIuXuJjTTZ/xBOBHHS0rhEpfoCyQ1dPNgICB+pQ55Jg==
+X-Received: by 2002:aa7:9823:0:b0:43c:6454:92b0 with SMTP id
+ q3-20020aa79823000000b0043c645492b0mr17021396pfl.68.1631990943309; 
+ Sat, 18 Sep 2021 11:49:03 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id p30sm9916522pfh.116.2021.09.18.11.49.01
+ by smtp.gmail.com with ESMTPSA id p30sm9916522pfh.116.2021.09.18.11.49.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Sep 2021 11:49:01 -0700 (PDT)
+ Sat, 18 Sep 2021 11:49:02 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 40/41] target/xtensa: Make xtensa_cpu_tlb_fill sysemu only
-Date: Sat, 18 Sep 2021 11:45:26 -0700
-Message-Id: <20210918184527.408540-41-richard.henderson@linaro.org>
+Subject: [PATCH v2 41/41] accel/tcg: Restrict TCGCPUOps::tlb_fill() to sysemu
+Date: Sat, 18 Sep 2021 11:45:27 -0700
+Message-Id: <20210918184527.408540-42-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210918184527.408540-1-richard.henderson@linaro.org>
 References: <20210918184527.408540-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,103 +87,69 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fallback code in raise_sigsegv is sufficient for xtensa.
-Remove the code from cpu_loop that raised SIGSEGV.
+We have replaced tlb_fill with record_sigsegv for user mod.
+Move the declaration to restrict it to system emulation.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/xtensa/cpu.h          |  2 +-
- linux-user/xtensa/cpu_loop.c |  9 ---------
- target/xtensa/cpu.c          |  2 +-
- target/xtensa/helper.c       | 22 +---------------------
- 4 files changed, 3 insertions(+), 32 deletions(-)
+ include/hw/core/tcg-cpu-ops.h | 22 ++++++++++------------
+ linux-user/signal.c           |  3 ---
+ 2 files changed, 10 insertions(+), 15 deletions(-)
 
-diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-index 646965f379..cf0fffbd26 100644
---- a/target/xtensa/cpu.h
-+++ b/target/xtensa/cpu.h
-@@ -563,10 +563,10 @@ struct XtensaCPU {
- };
+diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+index e229a40772..988561e8d4 100644
+--- a/include/hw/core/tcg-cpu-ops.h
++++ b/include/hw/core/tcg-cpu-ops.h
+@@ -35,18 +35,6 @@ struct TCGCPUOps {
+     void (*cpu_exec_enter)(CPUState *cpu);
+     /** @cpu_exec_exit: Callback for cpu_exec cleanup */
+     void (*cpu_exec_exit)(CPUState *cpu);
+-    /**
+-     * @tlb_fill: Handle a softmmu tlb miss or user-only address fault
+-     *
+-     * For system mode, if the access is valid, call tlb_set_page
+-     * and return true; if the access is invalid, and probe is
+-     * true, return false; otherwise raise an exception and do
+-     * not return.  For user-only mode, always raise an exception
+-     * and do not return.
+-     */
+-    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
+-                     MMUAccessType access_type, int mmu_idx,
+-                     bool probe, uintptr_t retaddr);
+     /** @debug_excp_handler: Callback for handling debug exceptions */
+     void (*debug_excp_handler)(CPUState *cpu);
  
+@@ -72,6 +60,16 @@ struct TCGCPUOps {
+     bool (*has_work)(CPUState *cpu);
+     /** @cpu_exec_interrupt: Callback for processing interrupts in cpu_exec */
+     bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
++    /**
++     * @tlb_fill: Handle a softmmu tlb miss
++     *
++     * If the access is valid, call tlb_set_page and return true;
++     * if the access is invalid and probe is true, return false;
++     * otherwise raise an exception and do not return.
++     */
++    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
++                     MMUAccessType access_type, int mmu_idx,
++                     bool probe, uintptr_t retaddr);
+     /**
+      * @do_transaction_failed: Callback for handling failed memory transactions
+      * (ie bus faults or external aborts; not MMU faults)
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index ae31b46be0..4f4c919b23 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -690,9 +690,6 @@ void raise_sigsegv(CPUState *cpu, target_ulong addr,
  
-+#ifndef CONFIG_USER_ONLY
- bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                          MMUAccessType access_type, int mmu_idx,
-                          bool probe, uintptr_t retaddr);
--#ifndef CONFIG_USER_ONLY
- void xtensa_cpu_do_interrupt(CPUState *cpu);
- bool xtensa_cpu_exec_interrupt(CPUState *cpu, int interrupt_request);
- void xtensa_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
-diff --git a/linux-user/xtensa/cpu_loop.c b/linux-user/xtensa/cpu_loop.c
-index 64831c9199..b48781c6e8 100644
---- a/linux-user/xtensa/cpu_loop.c
-+++ b/linux-user/xtensa/cpu_loop.c
-@@ -224,15 +224,6 @@ void cpu_loop(CPUXtensaState *env)
-                 queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-                 break;
- 
--            case LOAD_PROHIBITED_CAUSE:
--            case STORE_PROHIBITED_CAUSE:
--                info.si_signo = TARGET_SIGSEGV;
--                info.si_errno = 0;
--                info.si_code = TARGET_SEGV_ACCERR;
--                info._sifields._sigfault._addr = env->sregs[EXCVADDR];
--                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--                break;
--
-             default:
-                 fprintf(stderr, "exccause = %d\n", env->sregs[EXCCAUSE]);
-                 g_assert_not_reached();
-diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
-index 5cb19a8881..c289c4e679 100644
---- a/target/xtensa/cpu.c
-+++ b/target/xtensa/cpu.c
-@@ -192,11 +192,11 @@ static const struct SysemuCPUOps xtensa_sysemu_ops = {
- 
- static const struct TCGCPUOps xtensa_tcg_ops = {
-     .initialize = xtensa_translate_init,
--    .tlb_fill = xtensa_cpu_tlb_fill,
-     .debug_excp_handler = xtensa_breakpoint_handler,
- 
- #ifndef CONFIG_USER_ONLY
-     .has_work = xtensa_cpu_has_work,
-+    .tlb_fill = xtensa_cpu_tlb_fill,
-     .cpu_exec_interrupt = xtensa_cpu_exec_interrupt,
-     .do_interrupt = xtensa_cpu_do_interrupt,
-     .do_transaction_failed = xtensa_cpu_do_transaction_failed,
-diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
-index f18ab383fd..29d216ec1b 100644
---- a/target/xtensa/helper.c
-+++ b/target/xtensa/helper.c
-@@ -242,27 +242,7 @@ void xtensa_cpu_list(void)
+     if (tcg_ops->record_sigsegv) {
+         tcg_ops->record_sigsegv(cpu, addr, access_type, maperr, ra);
+-    } else if (tcg_ops->tlb_fill) {
+-        tcg_ops->tlb_fill(cpu, addr, 0, access_type, MMU_USER_IDX, false, ra);
+-        g_assert_not_reached();
      }
- }
  
--#ifdef CONFIG_USER_ONLY
--
--bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                         MMUAccessType access_type, int mmu_idx,
--                         bool probe, uintptr_t retaddr)
--{
--    XtensaCPU *cpu = XTENSA_CPU(cs);
--    CPUXtensaState *env = &cpu->env;
--
--    qemu_log_mask(CPU_LOG_INT,
--                  "%s: rw = %d, address = 0x%08" VADDR_PRIx ", size = %d\n",
--                  __func__, access_type, address, size);
--    env->sregs[EXCVADDR] = address;
--    env->sregs[EXCCAUSE] = (access_type == MMU_DATA_STORE ?
--                            STORE_PROHIBITED_CAUSE : LOAD_PROHIBITED_CAUSE);
--    cs->exception_index = EXC_USER;
--    cpu_loop_exit_restore(cs, retaddr);
--}
--
--#else /* !CONFIG_USER_ONLY */
--
-+#ifndef CONFIG_USER_ONLY
- void xtensa_cpu_do_unaligned_access(CPUState *cs,
-                                     vaddr addr, MMUAccessType access_type,
-                                     int mmu_idx, uintptr_t retaddr)
+     force_sig_fault(TARGET_SIGSEGV,
 -- 
 2.25.1
 
