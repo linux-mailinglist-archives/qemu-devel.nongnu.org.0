@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4064410849
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 21:07:52 +0200 (CEST)
-Received: from localhost ([::1]:35246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F921410857
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 21:23:22 +0200 (CEST)
+Received: from localhost ([::1]:45132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRfgl-0000Yk-SW
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 15:07:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54640)
+	id 1mRfvl-00018w-IA
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 15:23:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRfLn-0005Lj-FH
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:46:11 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:35636)
+ id 1mRfLl-0005HN-Nk
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:46:09 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:38524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRfLb-0006x0-3j
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:46:11 -0400
-Received: by mail-pf1-x431.google.com with SMTP id w14so1834208pfu.2
- for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 11:45:56 -0700 (PDT)
+ id 1mRfLb-0006x6-4D
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:46:09 -0400
+Received: by mail-pg1-x531.google.com with SMTP id w8so13086670pgf.5
+ for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 11:45:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b8i+4Ubm77XbfHdsRyJB5Dlng3rJ0jGxHde2wGc/RXc=;
- b=cFFXdP3kMGcgUkPMjkjvATamv+a9RM5y7Xk85Ul6//YBwxwZOzp+cmR9PMOWgxR+Z7
- nC5qz6Mqj9zZk6q20aeMIXbbShQ/Ovsb1JuGcvyDOsszNO2F5UvhqbDFbpVn7SsztP9A
- 6b6Q1hF6guf7MH4fz4z8hqNjHxkSd1uIIcnTZnBF2cJcOBWHySiyjoAsdXoqqn88xCi8
- 6fZqQmFE/42jBkviCuq9dlGH0npgRGOAnJZohDrfnidMEFfP8CaNJdeH4Vq0lhpo0x+P
- jx4Sz+T8wgVmUAZQ62lg8IcIeFZy1NFajZFw/xjOwtTLFw/6ZEQKEikmonHSkqIiE3ds
- quWA==
+ bh=Sn+LIrzqj+yUnZFtGLsVKMxQIhFnl26SyubeCGE6DkU=;
+ b=B6MspZYAJYqgG6K/uTqQMn/Ddo9O0k4jTqPEQSTkZB0wtBiBJNsb+N6JBmV2P3bKIX
+ tnK4mXr8M3V4vKpzOYK7fFHgmC04PcQfvgspqY3My2z3pDMLxzQjqkeMnEuX8QzxDGoK
+ EQku/TjvUJ280cyj5z6oeCpVezJFnMeiHXafUS9qAzWF9NgxsV3YL1Ln0+M+ki1t4lYv
+ ryMY262MWftOBIVWDyFmvkJ+LgfITyd4BKp0CVDHvwOfmNXFodJHxF5GNyCZiUGo/dx+
+ jRIvLbTRUD8DcsmR7dMeIdQEymXQOuMEwhN1peSdogEEEjGjX0Wkz0Qe2yOS6IFDR6zQ
+ fOdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b8i+4Ubm77XbfHdsRyJB5Dlng3rJ0jGxHde2wGc/RXc=;
- b=mvxkuAsiK35hqZfFknJ55FyCwa9j9K/4mVarLJynGVPVDEIj82bFfXOstvXblTZWFW
- +LA1IOSegQe1oAJ+V1sK0QbUCdGO9u8XSQDbtYhU2KWbA035L+4nvpDBnqHJ6CMBqf+4
- ebMz8vIRPhSJYn8vSVlEk0UqaNpk1un4HykG4wk0f4A8GstkAt55pKeaEpNSYZXFuOmy
- edad33Fwyb3a2INgEXhS2XAOa9cVxmk9y4AVvldVFP27nrlrKQh7XizoMrYCVXTvyPFX
- 4jlwAynOCsBoWezQxAYXWKhnmGf0vmlgjU3IOw2Y5s9AvhD8kcOs2USLQ41MlziagPLm
- w6Iw==
-X-Gm-Message-State: AOAM5305/VRx0OOSesluJnDT0fiOXvGrExDkFLl9SZ77lChKJg26dCta
- g7/CDDC5nIU6AtcZRwugB5WsmuyLXqbLXQ==
-X-Google-Smtp-Source: ABdhPJwAtAXRRNNqyU+DXfRevZ+PWgx4T5mxa/2u1YK2PVxL3JQTs9gJmRf42HMEYQxDSuy56G87Tw==
-X-Received: by 2002:a62:7d45:0:b0:445:545b:4d0e with SMTP id
- y66-20020a627d45000000b00445545b4d0emr7615686pfc.1.1631990755883; 
- Sat, 18 Sep 2021 11:45:55 -0700 (PDT)
+ bh=Sn+LIrzqj+yUnZFtGLsVKMxQIhFnl26SyubeCGE6DkU=;
+ b=yN2MiSfXoY/1aUmklU/wlRH+6Nyh2hZJdZgnTPk5WxznlyxlqzXWp8f3/cr29qy6VL
+ mpwIESH5ZgofEibo5WpII4H0XzTuM3rpU9Yx2MFGvk3jIBm85YXCw1Wf74YxIghzEvOp
+ OLIQcJCvE6RUTQtccuzLKMrdwHDIxdUq1kJ4xUeCNff36Evy3mU19KD8wF7pcpSdsOa+
+ K1mpi6WwNC72M4S/WAkix0vig47u8YJKnFxM4Z9R6ruae4pDWaAtxrDvi5pd5HDEPm6G
+ 1Io9LVVbznmiWQQK0c22ykVfRDhWTN6ibjw6cryJztrdsIlh3z8VqpLLDU1lrmRbTnFB
+ i03A==
+X-Gm-Message-State: AOAM53209GFm00ceF8M6/RVKAXWlfsKgVFa2Q6yrwMXHClJSFuzVy3T9
+ tar6DuA9ei9O4iz6aLLW9zpBE6bVbjUXYg==
+X-Google-Smtp-Source: ABdhPJx5R0YyfirwCYXzyIqX0OTYpDHOYWFYKPLprgOPoxcwb+tRg/7d7OgsJ+37gRf3iItOuhMiCw==
+X-Received: by 2002:a62:e50c:0:b029:2f9:b9b1:d44f with SMTP id
+ n12-20020a62e50c0000b02902f9b9b1d44fmr17619345pff.42.1631990756905; 
+ Sat, 18 Sep 2021 11:45:56 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id y26sm9555858pfe.69.2021.09.18.11.45.55
+ by smtp.gmail.com with ESMTPSA id y26sm9555858pfe.69.2021.09.18.11.45.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Sep 2021 11:45:55 -0700 (PDT)
+ Sat, 18 Sep 2021 11:45:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 33/41] target/openrisc: Make openrisc_cpu_tlb_fill sysemu
- only
-Date: Sat, 18 Sep 2021 11:45:19 -0700
-Message-Id: <20210918184527.408540-34-richard.henderson@linaro.org>
+Subject: [PATCH v2 34/41] target/ppc: Implement ppc_cpu_record_sigsegv
+Date: Sat, 18 Sep 2021 11:45:20 -0700
+Message-Id: <20210918184527.408540-35-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210918184527.408540-1-richard.henderson@linaro.org>
 References: <20210918184527.408540-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,149 +87,102 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fallback code in raise_sigsegv is sufficient for openrisc.
-This makes all of the code in mmu.c sysemu only, so remove
-the ifdefs and move the file to openrisc_softmmu_ss.
-Remove the code from cpu_loop that handled EXCP_DPF.
+Record DAR, DSISR, and exception_index.  That last means
+that we must exit to cpu_loop ourselves, instead of letting
+exception_index being overwritten.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/openrisc/cpu.h          | 7 ++++---
- linux-user/openrisc/cpu_loop.c | 8 --------
- target/openrisc/cpu.c          | 2 +-
- target/openrisc/mmu.c          | 8 --------
- target/openrisc/meson.build    | 2 +-
- 5 files changed, 6 insertions(+), 21 deletions(-)
+ target/ppc/cpu.h              |  3 ---
+ target/ppc/internal.h         |  9 +++++++++
+ target/ppc/cpu_init.c         |  6 ++++--
+ target/ppc/user_only_helper.c | 15 +++++++++++----
+ 4 files changed, 24 insertions(+), 9 deletions(-)
 
-diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
-index 187a4a114e..ee069b080c 100644
---- a/target/openrisc/cpu.h
-+++ b/target/openrisc/cpu.h
-@@ -317,14 +317,15 @@ hwaddr openrisc_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- int openrisc_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int openrisc_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- void openrisc_translate_init(void);
--bool openrisc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                           MMUAccessType access_type, int mmu_idx,
--                           bool probe, uintptr_t retaddr);
- int print_insn_or1k(bfd_vma addr, disassemble_info *info);
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 01d3773bc7..60d1117845 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1278,9 +1278,6 @@ extern const VMStateDescription vmstate_ppc_cpu;
  
- #define cpu_list cpu_openrisc_list
+ /*****************************************************************************/
+ void ppc_translate_init(void);
+-bool ppc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                      MMUAccessType access_type, int mmu_idx,
+-                      bool probe, uintptr_t retaddr);
  
- #ifndef CONFIG_USER_ONLY
-+bool openrisc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                           MMUAccessType access_type, int mmu_idx,
-+                           bool probe, uintptr_t retaddr);
-+
- extern const VMStateDescription vmstate_openrisc_cpu;
+ #if !defined(CONFIG_USER_ONLY)
+ void ppc_store_sdr1(CPUPPCState *env, target_ulong value);
+diff --git a/target/ppc/internal.h b/target/ppc/internal.h
+index b71406fa46..f3e5aa8fbc 100644
+--- a/target/ppc/internal.h
++++ b/target/ppc/internal.h
+@@ -283,5 +283,14 @@ static inline void pte_invalidate(target_ulong *pte0)
+ #define PTE_PTEM_MASK 0x7FFFFFBF
+ #define PTE_CHECK_MASK (TARGET_PAGE_MASK | 0x7B)
  
- void openrisc_cpu_do_interrupt(CPUState *cpu);
-diff --git a/linux-user/openrisc/cpu_loop.c b/linux-user/openrisc/cpu_loop.c
-index 314e7fba1e..5e50c0d743 100644
---- a/linux-user/openrisc/cpu_loop.c
-+++ b/linux-user/openrisc/cpu_loop.c
-@@ -53,14 +53,6 @@ void cpu_loop(CPUOpenRISCState *env)
-                 cpu_set_gpr(env, 11, ret);
-             }
-             break;
--        case EXCP_DPF:
--        case EXCP_IPF:
--            info.si_signo = TARGET_SIGSEGV;
--            info.si_errno = 0;
--            info.si_code = TARGET_SEGV_MAPERR;
--            info._sifields._sigfault._addr = env->pc;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--            break;
-         case EXCP_RANGE:
-         case EXCP_FPE:
-             /* ??? The kernel vectors both of these to unhandled_exception. */
-diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
-index 3c368a1bde..0092fc161d 100644
---- a/target/openrisc/cpu.c
-+++ b/target/openrisc/cpu.c
-@@ -188,10 +188,10 @@ static const struct SysemuCPUOps openrisc_sysemu_ops = {
++#ifdef CONFIG_USER_ONLY
++void ppc_cpu_record_sigsegv(CPUState *cs, vaddr addr,
++                            MMUAccessType access_type,
++                            bool maperr, uintptr_t ra);
++#else
++bool ppc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                      MMUAccessType access_type, int mmu_idx,
++                      bool probe, uintptr_t retaddr);
++#endif
  
- static const struct TCGCPUOps openrisc_tcg_ops = {
-     .initialize = openrisc_translate_init,
--    .tlb_fill = openrisc_cpu_tlb_fill,
+ #endif /* PPC_INTERNAL_H */
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 5c134adeea..d56fde1215 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -9028,10 +9028,12 @@ static const struct SysemuCPUOps ppc_sysemu_ops = {
  
- #ifndef CONFIG_USER_ONLY
-     .has_work = openrisc_cpu_has_work,
-+    .tlb_fill = openrisc_cpu_tlb_fill,
-     .cpu_exec_interrupt = openrisc_cpu_exec_interrupt,
-     .do_interrupt = openrisc_cpu_do_interrupt,
- #endif /* !CONFIG_USER_ONLY */
-diff --git a/target/openrisc/mmu.c b/target/openrisc/mmu.c
-index 94df8c7bef..91cedf4125 100644
---- a/target/openrisc/mmu.c
-+++ b/target/openrisc/mmu.c
-@@ -23,11 +23,8 @@
+ static const struct TCGCPUOps ppc_tcg_ops = {
+   .initialize = ppc_translate_init,
+-  .tlb_fill = ppc_cpu_tlb_fill,
+ 
+-#ifndef CONFIG_USER_ONLY
++#ifdef CONFIG_USER_ONLY
++  .record_sigsegv = ppc_cpu_record_sigsegv,
++#else
+   .has_work = ppc_cpu_has_work,
++  .tlb_fill = ppc_cpu_tlb_fill,
+   .cpu_exec_interrupt = ppc_cpu_exec_interrupt,
+   .do_interrupt = ppc_cpu_do_interrupt,
+   .cpu_exec_enter = ppc_cpu_exec_enter,
+diff --git a/target/ppc/user_only_helper.c b/target/ppc/user_only_helper.c
+index aa3f867596..7ff76f7a06 100644
+--- a/target/ppc/user_only_helper.c
++++ b/target/ppc/user_only_helper.c
+@@ -21,16 +21,23 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
  #include "exec/exec-all.h"
- #include "exec/gdbstub.h"
- #include "qemu/host-utils.h"
--#ifndef CONFIG_USER_ONLY
- #include "hw/loader.h"
--#endif
++#include "internal.h"
  
--#ifndef CONFIG_USER_ONLY
- static inline void get_phys_nommu(hwaddr *phys_addr, int *prot,
-                                   target_ulong address)
+-
+-bool ppc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                      MMUAccessType access_type, int mmu_idx,
+-                      bool probe, uintptr_t retaddr)
++void ppc_cpu_record_sigsegv(CPUState *cs, vaddr address,
++                            MMUAccessType access_type,
++                            bool maperr, uintptr_t retaddr)
  {
-@@ -94,7 +91,6 @@ static int get_phys_mmu(OpenRISCCPU *cpu, hwaddr *phys_addr, int *prot,
-         return need & PAGE_EXEC ? EXCP_ITLBMISS : EXCP_DTLBMISS;
-     }
- }
--#endif
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = &cpu->env;
+     int exception, error_code;
  
- static void raise_mmu_exception(OpenRISCCPU *cpu, target_ulong address,
-                                 int exception)
-@@ -113,7 +109,6 @@ bool openrisc_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
-     OpenRISCCPU *cpu = OPENRISC_CPU(cs);
-     int excp = EXCP_DPF;
- 
--#ifndef CONFIG_USER_ONLY
-     int prot;
-     hwaddr phys_addr;
- 
-@@ -138,13 +133,11 @@ bool openrisc_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
-     if (probe) {
-         return false;
-     }
--#endif
- 
-     raise_mmu_exception(cpu, addr, excp);
-     cpu_loop_exit_restore(cs, retaddr);
- }
- 
--#ifndef CONFIG_USER_ONLY
- hwaddr openrisc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
- {
-     OpenRISCCPU *cpu = OPENRISC_CPU(cs);
-@@ -177,4 +170,3 @@ hwaddr openrisc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-         return phys_addr;
-     }
- }
--#endif
-diff --git a/target/openrisc/meson.build b/target/openrisc/meson.build
-index e445dec4a0..84322086ec 100644
---- a/target/openrisc/meson.build
-+++ b/target/openrisc/meson.build
-@@ -10,7 +10,6 @@ openrisc_ss.add(files(
-   'fpu_helper.c',
-   'gdbstub.c',
-   'interrupt_helper.c',
--  'mmu.c',
-   'sys_helper.c',
-   'translate.c',
- ))
-@@ -19,6 +18,7 @@ openrisc_softmmu_ss = ss.source_set()
- openrisc_softmmu_ss.add(files(
-   'interrupt.c',
-   'machine.c',
-+  'mmu.c',
- ))
- 
- target_arch += {'openrisc': openrisc_ss}
++    /*
++     * Both DSISR and the "trap number" (exception vector offset,
++     * looked up from exception_index) are present in the linux-user
++     * signal frame.
++     * FIXME: we don't actually populate the trap number properly.
++     * It would be easiest to fill in an env->trap value now.
++     */
+     if (access_type == MMU_INST_FETCH) {
+         exception = POWERPC_EXCP_ISI;
+         error_code = 0x40000000;
 -- 
 2.25.1
 
