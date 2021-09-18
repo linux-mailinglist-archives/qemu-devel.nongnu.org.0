@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F000F410845
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 21:04:51 +0200 (CEST)
-Received: from localhost ([::1]:54850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD9DF410851
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 21:16:38 +0200 (CEST)
+Received: from localhost ([::1]:59738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRfdr-0003CE-1e
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 15:04:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54610)
+	id 1mRfpF-0008Sz-SJ
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 15:16:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRfLm-0005IP-7F
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:46:10 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:35507)
+ id 1mRfLn-0005Lp-GJ
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:46:11 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:37432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRfLb-0006xA-3o
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:46:09 -0400
-Received: by mail-pg1-x533.google.com with SMTP id e7so13099560pgk.2
- for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 11:45:58 -0700 (PDT)
+ id 1mRfLe-0006xF-Qy
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:46:11 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id 17so13099119pgp.4
+ for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 11:45:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yZsRnAbPNXmk9r6jQwi13vxXn5d80YjT3gRS7kzZYQg=;
- b=WmdVLLhxYmNfMaOGZHrEbsyNamF2DTSk/3y7jEKEvkeBqNWTBChMbaEnxeL/LG31Q4
- kzSNkf0u2De/SXZovJwB3v9pRE1xPhRxIIpL3G3g3KGX+vXDd/OfzOqtR3BgR4NgqGEz
- OoJavbt3MbN+Pe+WCbpmxPs8s+U7VI2JIPLoFQf3Z/PISohBNJ+XD+ipVYK7MheaERit
- SMFGnUsKCnMx+1Fyq7VH/jjHGCAnSjLM9hDzbirgNi5nANlsXz2q01PplWmHwZF0s6+p
- q3Us/53glIJAnMXrDxd6twD7rBR9lVUlP7tjlEwQSEj/Br/hlsx6Tz7KIJ+LjNEMbvlq
- bl4g==
+ bh=gDQMWHvEjv12594lnZ03zCrTOpjiJ4+Ocs7aFLjDJuU=;
+ b=r/2ntDRmBf5TGJNkoiPoWGAY9oJHnDO2yFUuRzcsxKqv9RDdACsKbbAZf0/vsRkTkC
+ 85X9A7uzR35wTz2CMUF69pj7skYSM0mhOK8IHl+bHzSUEiOGmoBGJGFw7y30f2GVXK9E
+ kBjucLi0ya/Xn8jKiegkleqaXmTKOJtlDXTLnU96SWJprMcwYjTiOxW0j+oZu4VJigma
+ wqdNUJlv+Kb5wHbbInnj+oBDtSgPqhG0RErG/RLpmcXz3Srnt2jKeSTancrH6rjqw88p
+ gg9If+1RCp2MwViBCxe+C3EN+nZPx6ThPFzrlhL2mcUTU+VLSPEaBTeQVOH7aVCPNbVt
+ ouVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yZsRnAbPNXmk9r6jQwi13vxXn5d80YjT3gRS7kzZYQg=;
- b=zdVlJ8k/TKMoJUFn4jcZ7jT9tPyeV59C82k47VkDcqnu76CQZlnXIUoS6Z0F0gguGG
- N3rc9Htc2lFp3g9uaOL571BvqlVmqyKiahdLpJyMx3tjZ+JzQvmy8XH6gUxxNKkqnmYQ
- CFrCfVjBWCav1wWwvOOL43aiQEpKEBkw6GAtDzWRMos6382BihRLIf6a0OkW2wBr83cX
- JbgtEcS+7YLLDJIaJqcPHjwIoH6/UfYq0rK+xvvZSKBE9MVpVFrNBkIJ3L5IMrmfxlnj
- t5Vg9hqgp8r3IL2LP03+HaWRdryV1xKkQ6ExSxZPdvpqVdkzFXnP/13t/nxHTYaw8H61
- UhQg==
-X-Gm-Message-State: AOAM531SIcFFki/EpXecStC4vUhAEOoCelwac0tkRKnP+D2QQorqxR/Q
- +9FYR6sBxWqgBLFgH0rOX9OhR4AaXMFZ4w==
-X-Google-Smtp-Source: ABdhPJyP63/PlolCk+wq/h13pIiqOmflNiENF5AnIHF5JvInlwxTu7OCAF3XXunVHnXgBHorf4acxQ==
-X-Received: by 2002:a62:1683:0:b0:3f3:814f:4367 with SMTP id
- 125-20020a621683000000b003f3814f4367mr17481629pfw.68.1631990757698; 
- Sat, 18 Sep 2021 11:45:57 -0700 (PDT)
+ bh=gDQMWHvEjv12594lnZ03zCrTOpjiJ4+Ocs7aFLjDJuU=;
+ b=HQzR0uN5f8nBwoq7IX1fq71JMDExeKWwx8eJ7Avz8zisjAQ1ycQVrAodfULu4963pM
+ iMKN4oSebclKwBfFyVHEKDHXKkVOCtaSaCoZG6RgQnMSTC7oLbGTzsjtfPpbMjp+x/9d
+ NiW17QBl450Oo+I7f6uFKGQCZ/zry4Fii0LPTYU1SOKAs4kAaUkBSaIA5bFUym8zbxeA
+ oJEypVSfVJvGJb600KvAMG+YpbDi3clp5DlXaLpLOJucO3DePzDiYheKbzX1db86Ky/n
+ FgI9QHxLuPCy6itts56NdmLlDQqdRquePUaOcQHreezVrrpZE1bUt5SW0k27mCCQ9+Ur
+ 9B1g==
+X-Gm-Message-State: AOAM533A/7WSjIYh1ZFQxIWtmiLQRyodYi6An7bM7NqWWEmdjsw7kcmM
+ jsWtB/j1EGyPjfajqkSzvejfBMdSuDJZcA==
+X-Google-Smtp-Source: ABdhPJy+kNl/5Ts0AhgjUn08J0Mx9AeABUw621YtYeQRRIkBkwKkK2n/h4z1dtiTanCDJBC7pSpZsQ==
+X-Received: by 2002:a63:ea44:: with SMTP id l4mr15721455pgk.210.1631990758546; 
+ Sat, 18 Sep 2021 11:45:58 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id y26sm9555858pfe.69.2021.09.18.11.45.57
+ by smtp.gmail.com with ESMTPSA id y26sm9555858pfe.69.2021.09.18.11.45.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Sep 2021 11:45:57 -0700 (PDT)
+ Sat, 18 Sep 2021 11:45:58 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 35/41] target/riscv: Make riscv_cpu_tlb_fill sysemu only
-Date: Sat, 18 Sep 2021 11:45:21 -0700
-Message-Id: <20210918184527.408540-36-richard.henderson@linaro.org>
+Subject: [PATCH v2 36/41] target/s390x: Use probe_access_flags in
+ s390_probe_access
+Date: Sat, 18 Sep 2021 11:45:22 -0700
+Message-Id: <20210918184527.408540-37-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210918184527.408540-1-richard.henderson@linaro.org>
 References: <20210918184527.408540-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,97 +87,55 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fallback code in raise_sigsegv is sufficient for riscv.
-Remove the code from cpu_loop that raised SIGSEGV.
+Not sure why the user-only code wasn't rewritten to use
+probe_access_flags at the same time that the sysemu code
+was converted.  For the purpose of user-only, this is an
+exact replacement.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/riscv/cpu_loop.c |  7 -------
- target/riscv/cpu.c          |  2 +-
- target/riscv/cpu_helper.c   | 21 +--------------------
- 3 files changed, 2 insertions(+), 28 deletions(-)
+ target/s390x/tcg/mem_helper.c | 18 +++++-------------
+ 1 file changed, 5 insertions(+), 13 deletions(-)
 
-diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
-index 74a9628dc9..49fa2209a7 100644
---- a/linux-user/riscv/cpu_loop.c
-+++ b/linux-user/riscv/cpu_loop.c
-@@ -85,13 +85,6 @@ void cpu_loop(CPURISCVState *env)
-             sigcode = TARGET_TRAP_BRKPT;
-             sigaddr = env->pc;
-             break;
--        case RISCV_EXCP_INST_PAGE_FAULT:
--        case RISCV_EXCP_LOAD_PAGE_FAULT:
--        case RISCV_EXCP_STORE_PAGE_FAULT:
--            signum = TARGET_SIGSEGV;
--            sigcode = TARGET_SEGV_MAPERR;
--            sigaddr = env->badaddr;
--            break;
-         case RISCV_EXCP_SEMIHOST:
-             env->gpr[xA0] = do_common_semihosting(cs);
-             env->pc += 4;
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index abb555a8bd..830e5b568f 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -642,10 +642,10 @@ static const struct SysemuCPUOps riscv_sysemu_ops = {
- static const struct TCGCPUOps riscv_tcg_ops = {
-     .initialize = riscv_translate_init,
-     .synchronize_from_tb = riscv_cpu_synchronize_from_tb,
--    .tlb_fill = riscv_cpu_tlb_fill,
- 
- #ifndef CONFIG_USER_ONLY
-     .has_work = riscv_cpu_has_work,
-+    .tlb_fill = riscv_cpu_tlb_fill,
-     .cpu_exec_interrupt = riscv_cpu_exec_interrupt,
-     .do_interrupt = riscv_cpu_do_interrupt,
-     .do_transaction_failed = riscv_cpu_do_transaction_failed,
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 701858d670..2260f95c79 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -747,7 +747,6 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-                             riscv_cpu_two_stage_lookup(mmu_idx);
-     riscv_raise_exception(env, cs->exception_index, retaddr);
- }
--#endif /* !CONFIG_USER_ONLY */
- 
- bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         MMUAccessType access_type, int mmu_idx,
-@@ -755,7 +754,6 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
+index 0bf775a37d..596270e45d 100644
+--- a/target/s390x/tcg/mem_helper.c
++++ b/target/s390x/tcg/mem_helper.c
+@@ -142,20 +142,12 @@ static int s390_probe_access(CPUArchState *env, target_ulong addr, int size,
+                              MMUAccessType access_type, int mmu_idx,
+                              bool nonfault, void **phost, uintptr_t ra)
  {
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
--#ifndef CONFIG_USER_ONLY
-     vaddr im_address;
-     hwaddr pa = 0;
-     int prot, prot2, prot_pmp;
-@@ -887,25 +885,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     }
++#if defined(CONFIG_USER_ONLY)
++    return probe_access_flags(env, addr, access_type, mmu_idx,
++                              nonfault, phost, ra);
++#else
+     int flags;
  
-     return true;
--
--#else
--    switch (access_type) {
--    case MMU_INST_FETCH:
--        cs->exception_index = RISCV_EXCP_INST_PAGE_FAULT;
--        break;
--    case MMU_DATA_LOAD:
--        cs->exception_index = RISCV_EXCP_LOAD_PAGE_FAULT;
--        break;
--    case MMU_DATA_STORE:
--        cs->exception_index = RISCV_EXCP_STORE_PAGE_FAULT;
--        break;
--    default:
--        g_assert_not_reached();
+-#if defined(CONFIG_USER_ONLY)
+-    flags = page_get_flags(addr);
+-    if (!(flags & (access_type == MMU_DATA_LOAD ?  PAGE_READ : PAGE_WRITE_ORG))) {
+-        env->__excp_addr = addr;
+-        flags = (flags & PAGE_VALID) ? PGM_PROTECTION : PGM_ADDRESSING;
+-        if (nonfault) {
+-            return flags;
+-        }
+-        tcg_s390_program_interrupt(env, flags, ra);
 -    }
--    env->badaddr = address;
--    cpu_loop_exit_restore(cs, retaddr);
+-    *phost = g2h(env_cpu(env), addr);
+-#else
+     /*
+      * For !CONFIG_USER_ONLY, we cannot rely on TLB_INVALID_MASK or haddr==NULL
+      * to detect if there was an exception during tlb_fill().
+@@ -174,8 +166,8 @@ static int s390_probe_access(CPUArchState *env, target_ulong addr, int size,
+                              (access_type == MMU_DATA_STORE
+                               ? BP_MEM_WRITE : BP_MEM_READ), ra);
+     }
 -#endif
+     return 0;
++#endif
  }
-+#endif /* !CONFIG_USER_ONLY */
  
- /*
-  * Handle Traps
+ static int access_prepare_nf(S390Access *access, CPUS390XState *env,
 -- 
 2.25.1
 
