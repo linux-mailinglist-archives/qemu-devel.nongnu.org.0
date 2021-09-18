@@ -2,70 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4185410423
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 07:10:19 +0200 (CEST)
-Received: from localhost ([::1]:48216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C98E410434
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 07:36:04 +0200 (CEST)
+Received: from localhost ([::1]:51624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRScE-0007nB-6J
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 01:10:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41944)
+	id 1mRT18-0003Cc-LT
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 01:36:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1mRSaQ-00070v-Cv; Sat, 18 Sep 2021 01:08:27 -0400
-Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:42684)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1mRSaL-0001uw-6i; Sat, 18 Sep 2021 01:08:25 -0400
-Received: by mail-lf1-x12c.google.com with SMTP id bq5so41751872lfb.9;
- Fri, 17 Sep 2021 22:08:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4TxNL+cbAlm69v5QIBh94W8NtjcdtACqoM/td41qnGM=;
- b=VNQD6nlYgDHB3Bajql+/yp3xROPrl4dtJ3VlZ1lThbM+rqQchbY+Yrx/oY5s+kKQbH
- /YknOh6gzauU7nMPzxmD6Dl4Q3opuhpdpGtDgKjmWZq8GPyF1AF+Ig9LgZHfBdLReABx
- bX0iAa3V2AdhdkzkOJXYQiiY0kqcFIWZ1yyQk3Nxz7DyVqDOQ82h2cASNMrCoQBcvjoP
- jTf5KtpAUgGGfxgGNnTHLBx9hOARQ7WxSdNo0TCI0dvHS6a0lNCLp8PtBN1sIe8jz0tt
- uxvZzRKKd7rohqysvCzIsVweEvHm2OIICHxg4ntM7hKG4iROJy7+5UuRt9gwGVJhPaqD
- qpqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4TxNL+cbAlm69v5QIBh94W8NtjcdtACqoM/td41qnGM=;
- b=TrQGfII2p6eKxbw2elcSZc+KnjOilMmCPPCJn7X8d2qI3e6T4iud6S00GWwbfKQI0b
- Bzl8TvFIKq1XdMkrwElQvQkX8ZYuOGRFOBRoiUzhTFuOquMXuHx49PnnPDLfQBLgB0TS
- Vw0HAqisUPC+51MTiKbPb5hwf+BWZLQcZUcFEvezWn8FkweRTrqIQhj4LKBvilyFS5tn
- GtmDRB8iwBVD/fzjt5nzu6ok1U3svd4GbcE9qpGdQCn3Mao1pMduK3ttDb94T+I1RhCk
- P59sLu4jyHN2tcuhSkYR0UK5ecljhSitmmdu8DmDj7BVwYlCbRtczgq/3VwKRIR4jHSN
- FbrQ==
-X-Gm-Message-State: AOAM530J2O9ojWegIFjjyyaYjDzWO348SQgTI2D015nRIojI8Fsgwaip
- NsSHGkoucwoFGkHqewtzER0cKWnVu6VkfCM+RBk=
-X-Google-Smtp-Source: ABdhPJw37mq5rXDVf/XJBk8971Or/RUlNLispXXuzYUDHbQEsF8mP5P1Hag1WniyfugDz/u5GwCBlW13eKVQH9N7SEk=
-X-Received: by 2002:a05:6512:15a4:: with SMTP id
- bp36mr10572227lfb.509.1631941698298; 
- Fri, 17 Sep 2021 22:08:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mRSyC-0002Sj-5i
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 01:33:00 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55203 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mRSy7-0005q6-DJ
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 01:32:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1631943170;
+ bh=+MTyllj8JNkt5mdIdOpsmOq70bwR12NWZZYBfCL4RuI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nGJu3oq/jvryZweAKG9j5bHFcP3SnTzDz+6ewOr3+haYv5dElHNYaMC6zgn+JD57d
+ njiyiG+fzzvK/OgyIjBJ/5NO0pnY1d/5TROMA7p+f8Krrl3d6fqdF0hs+Z63dWuXUI
+ KDzJGfB1qwyGnUTMCoBELa/V+7t7dOio+h9g9NLk=
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4HBKGV0cc1z9sX3; Sat, 18 Sep 2021 15:32:50 +1000 (AEST)
+Date: Sat, 18 Sep 2021 15:25:28 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: Rust in Qemu BoF followup: Rust vs. qemu platform support
+Message-ID: <YUV4SDIFjpvIfmX1@yekko>
+References: <YURYvaOpya498Xx2@yekko>
+ <CAAdtpL5W9eztLiPSu=goROh8eHMn+7BLUuKaEfukcVrKCEAtXg@mail.gmail.com>
+ <YUS6kp0l7eiHt/fu@stefanha-x1.localdomain>
 MIME-Version: 1.0
-References: <20210909190033.1339448-1-space.monkey.delivers@gmail.com>
- <20210909190033.1339448-6-space.monkey.delivers@gmail.com>
- <4098b753-76fb-2dad-4922-837061184fc1@linaro.org>
-In-Reply-To: <4098b753-76fb-2dad-4922-837061184fc1@linaro.org>
-From: Alexey Baturo <baturo.alexey@gmail.com>
-Date: Sat, 18 Sep 2021 07:08:05 +0200
-Message-ID: <CAFukJ-BJ6HQmrz6gGtxazYRo-q20tBMhtkk81SamCoRuRuEhew@mail.gmail.com>
-Subject: Re: [PATCH v11 5/7] [RISCV_PM] Support pointer masking for RISC-V for
- i/c/f/d/a types of instructions
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000038ac2205cc3e094d"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=baturo.alexey@gmail.com; helo=mail-lf1-x12c.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001, GAPPY_SUBJECT=0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="NgGe6oOgRT5lgLhZ"
+Content-Disposition: inline
+In-Reply-To: <YUS6kp0l7eiHt/fu@stefanha-x1.localdomain>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,82 +61,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de, Bin Meng <bin.meng@windriver.com>,
- qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
- Alistair.Francis@wdc.com, palmer@dabbelt.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, hreitz@redhat.com,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000038ac2205cc3e094d
-Content-Type: text/plain; charset="UTF-8"
+
+--NgGe6oOgRT5lgLhZ
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Richard,
+On Fri, Sep 17, 2021 at 04:56:02PM +0100, Stefan Hajnoczi wrote:
+> On Fri, Sep 17, 2021 at 01:11:56PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> > Le ven. 17 sept. 2021 10:58, David Gibson <david@gibson.dropbear.id.au>=
+ a
+> > =E9crit :
+> >=20
+> > > Hi all,
+> > >
+> > > At the qemu-in-rust BoF at KVM Forum, I volunteered to look into
+> > > whether Rust supported all the host/build platforms that qemu does,
+> > > which is obviously vital if we want to make Rust a non-optional
+> > > component of the build
+> > >
+> >=20
+> > Could user mode emulation be impacted by this decision? What code used =
+by
+> > user emulation could potentially be converted to Rust?
+>=20
+> qemu-user does not have the same security requirements as qemu-system,
+> since the application is running under a given uid/gid on the host
+> system and can invoke system calls.
+>=20
+> I think the benefits of Rust in qemu-user would be more around
+> expressiveness (language constructs like pattern matching, traits, etc)
+> and correctness (memory leaks, concurrency, etc). Both benefits might
+> motivate someone to write parts of qemu-user in Rust, so I guess the
+> answer is "all of it potentially could be converted". It's impossible to
+> know until someone contributes patches.
 
-Thanks for noticing that.
-Do you think it would be an ok solution to pass dst as a pointer
-into gen_pm_adjust_address, so in case pm is enabled, it'd allocate the
-temp and update the dst afterwards?
-Thanks
+Right.  It certainly could be used there, but I don't know it's the
+most promising or interesting area for it.
 
-=D0=BF=D1=82, 10 =D1=81=D0=B5=D0=BD=D1=82. 2021 =D0=B3. =D0=B2 00:00, Richa=
-rd Henderson <
-richard.henderson@linaro.org>:
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-> On 9/9/21 9:00 PM, Alexey Baturo wrote:
-> > +++ b/target/riscv/insn_trans/trans_rva.c.inc
-> > @@ -25,6 +25,7 @@ static bool gen_lr(DisasContext *ctx, arg_atomic *a,
-> MemOp mop)
-> >       if (a->rl) {
-> >           tcg_gen_mb(TCG_MO_ALL | TCG_BAR_STRL);
-> >       }
-> > +    gen_pm_adjust_address(ctx, src1, src1);
->
-> This will not work anymore, since src1 may not be a temporary.  See the
-> use of temp_new()
-> e.g. in gen_load().  We're currently only conditionally allocating a
-> temporary; with this
-> extension, we'll always need one.  So it is probably worth cleaning that
-> up at this time.
->
->
-> r~
->
+--NgGe6oOgRT5lgLhZ
+Content-Type: application/pgp-signature; name="signature.asc"
 
---00000000000038ac2205cc3e094d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-----BEGIN PGP SIGNATURE-----
 
-<div dir=3D"ltr">Hi Richard,<div><br></div><div>Thanks for noticing that.</=
-div><div>Do you think it would be an ok solution to pass dst as a pointer i=
-nto=C2=A0gen_pm_adjust_address, so in case pm is enabled, it&#39;d allocate=
- the temp and update the dst afterwards?</div><div>Thanks</div></div><br><d=
-iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=D0=BF=D1=82=
-, 10 =D1=81=D0=B5=D0=BD=D1=82. 2021 =D0=B3. =D0=B2 00:00, Richard Henderson=
- &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.henderson@lina=
-ro.org</a>&gt;:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-On 9/9/21 9:00 PM, Alexey Baturo wrote:<br>
-&gt; +++ b/target/riscv/insn_trans/trans_rva.c.inc<br>
-&gt; @@ -25,6 +25,7 @@ static bool gen_lr(DisasContext *ctx, arg_atomic *a,=
- MemOp mop)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (a-&gt;rl) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_mb(TCG_MO_ALL | TCG_BA=
-R_STRL);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 gen_pm_adjust_address(ctx, src1, src1);<br>
-<br>
-This will not work anymore, since src1 may not be a temporary.=C2=A0 See th=
-e use of temp_new() <br>
-e.g. in gen_load().=C2=A0 We&#39;re currently only conditionally allocating=
- a temporary; with this <br>
-extension, we&#39;ll always need one.=C2=A0 So it is probably worth cleanin=
-g that up at this time.<br>
-<br>
-<br>
-r~<br>
-</blockquote></div>
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFFeEYACgkQbDjKyiDZ
+s5IjJxAAgKv2l9ZQIX5+JP7xeaxyn+OdMgeSb+C9WNLh2DrWarN9vuHO2afFW0vG
+GQPAs7bbMYeVgL4/pzGERdCXcM7+vLaPy4yYyaPamZ/ohMCM+gyQJjYnG+5ZJY3M
+L+LBkTyY42INXut0cjffNMLYPxT9m+0JvRntfhUbjGzM02lAC5fqcjS+Uk8lWKOH
+bzPJhCeBoV/RiTIhjiw8dbpVlbnTBmtOpNYJGIGdQR5rGGPad1r6l0zN+1VvRz9y
+AF7S5NnIzDol9vDod/aqlapXcOHMWWMZ2brFa1XbdbOrlbpvU6lTXjkktEutfpCU
+fheaEHuRB0SElweo6FnElv6BIxFunkV1FdeUAFJrg7qzI8GYEfQ8IZ8LLcW1Gttl
+l/FUOLfVRRWLADuDBNeoG2UyIk56EqCQIqX0Gx89IUH6vGFGbytndDK0tNuOdJ5t
+nHrS1kZ5J7AtdwpUWin0Xjl3GIyda/PAe6JqXaTxayaSlEGYQBQ6qHUDbxY1BfuW
+cq9d7KfK4oCpdkBjyJP9rG2pvbFzXxKuu5Z0BniEHj+Lq6nUhRBTM9yCnsEuMs4U
+EkOybOdXwV31qy08jvif5mTxnbdqfr7DMv18mZytPBqBXJzOwARPGeFvZ+sDQDJp
+PYFWLm39bB2prhm+YhKls3qxJ1BqHmV5+8qy/GyvG9yzWjKKeCk=
+=Ft80
+-----END PGP SIGNATURE-----
 
---00000000000038ac2205cc3e094d--
+--NgGe6oOgRT5lgLhZ--
 
