@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A848B410515
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 10:23:17 +0200 (CEST)
-Received: from localhost ([::1]:59620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D79E410517
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 10:24:51 +0200 (CEST)
+Received: from localhost ([::1]:38904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRVcy-0004W3-LH
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 04:23:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48768)
+	id 1mRVeU-00011U-Lu
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 04:24:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tangxingxin1008@gmail.com>)
- id 1mRTqC-0002gl-Jm; Sat, 18 Sep 2021 02:28:48 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:35834)
+ id 1mRTqJ-0002i6-4e; Sat, 18 Sep 2021 02:28:55 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:40826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <tangxingxin1008@gmail.com>)
- id 1mRTqB-0003A3-89; Sat, 18 Sep 2021 02:28:48 -0400
-Received: by mail-pf1-x431.google.com with SMTP id w14so730138pfu.2;
- Fri, 17 Sep 2021 23:28:46 -0700 (PDT)
+ id 1mRTqH-0003Es-JQ; Sat, 18 Sep 2021 02:28:54 -0400
+Received: by mail-pf1-x431.google.com with SMTP id y8so11205569pfa.7;
+ Fri, 17 Sep 2021 23:28:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Hoil6t6vGDo7tQoCRnUVu4aITmil+jgKZTVBnbTPVHw=;
- b=BI9wz36wUuCeop2fEZj+LP8tQ2OiKkgT7t+3G+qL/CcfoY5i804UzlBalRbwOhuni2
- TehaqWQ3KCMy2Xpce2fcM25K4vWp5DoEy9991CDLYSmlrT9LcwWn8HhmBPNhYUALU8uy
- 56OLgIFzNPF6JWCm44T8S2Ybppi2QSU1k/6aziRkZgrPRkwu72miGdovuw8U2tRa/+nX
- AH5M0xrfCau+Ew2oNKdTRdp0XMkG/B2DNcwSwyxtl6zklO55g5UI3X1jXtrs/mUhE3dB
- mYEbGTK0haJi7xjanRpVg/o616KJtpacLIpCpmavte1a5mjKFAYfwsrtLfgOSDCdjNFh
- wZEg==
+ bh=rFoqqvN0CrtpEo+tl8a+Opb0h4GrOuZq3kv55mR/xyk=;
+ b=otdpNdYbX+jDxVwlRFR3QbS2k/ftbI3nTXwl5L4XZyM6FXj7h39YOSIsqlEbXYlXT0
+ NHaTVL6WpQOzySQpLN4Naw2CGXLijVv/Kd7EwbLn247qpW+BZWt7gRmURPHb/FkdOjg+
+ YMvU/RsImXrph/C544f6CN0ZN0Nvy+pMFUU6CGAUxHbEI9b8GjBNkA66BkfM21zG/AE5
+ Phj+7JjgzPD4mgWVy7JyUCUPoppwInsmCsfAGyCMvzohAYkzR/7Qjb7Grc5kvbenBvGd
+ sgHBx9tXY1itLqXZue35F+lcRLdJvAtLSQGLSBx4vLJn1cplejsakcuzTEyx/K+lQiNT
+ bwfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Hoil6t6vGDo7tQoCRnUVu4aITmil+jgKZTVBnbTPVHw=;
- b=wRS9QxVWyj1KypcLfSvrJPHgppgXGRFDge6/4IcUh0ZY/VO1NlY4+SYwd21nyBqCgM
- XbvIac2V0svvUWjDr8w0HbnL2sde3lIzh3QO3Za1HAInmOhGfYPqhBAopDDOP4jAiBCg
- UoDnJQCCQB1Lw4AyHsG93iTyqyUuSRz6FP0mTiX6KBsMjptq/aP4k00/HJXQUm9n0ySd
- EH4PDfJAjs54+2aeAGM+gXwlN4v7DjJQatvKJukF8Kd5V1V2dXOzNjw93KPS8VdNsEVT
- ASADw+ApKIZliTv3Z5e8HtI+vGSteswV0US2bp7Xt17AL/tzvblnBk2MCaMzFvtY98+2
- 0Ybg==
-X-Gm-Message-State: AOAM532OJ1vKbV8IEWpIFwaeYt/yBCsrxlgHMS8oednnTZfv6r24C4J7
- dIB1uYjVAiCa2UVwcw/YDk5aHB8vhNGoo4V4
-X-Google-Smtp-Source: ABdhPJy+8HcYgbSa+y+X8zb9tKME+tZxgcy3NkfOE4wc7ik0U1Ut2Ocju6eqEEUbi0XbFZzOxMtTng==
-X-Received: by 2002:a63:3c5d:: with SMTP id i29mr13225022pgn.415.1631946525418; 
- Fri, 17 Sep 2021 23:28:45 -0700 (PDT)
+ bh=rFoqqvN0CrtpEo+tl8a+Opb0h4GrOuZq3kv55mR/xyk=;
+ b=H+ojwKf3W/rplQdyBxnYScJkR2T3HAzlejbsannVBqXipBIDNKjW5VUFTKUfW8fFDv
+ YVuro6qXOIujl7CRgq4VFG/Bbn2lKNK7xzW9K7xG7pdVpabdRwwi5b4KJf4SsoX5IL3/
+ j9WvAtCdDl3b4YEcyddZGc19W5c+TPg3psq3HEke3Ku6ibAKu3+kiQKUcQ2YAEmEwwuY
+ QUoSCkTeZNPcsjtPJcUQAG/mKW8QS6jNB7g3rK1DpmxyMH6UpLXWi806xrgUs0lwZlVL
+ XlEKjMAOxulzmGuom7sfjH9XlRW3gzfw0rmwYmdyAo7jATmDV0JN+ycUHSgW6JbRXzTZ
+ ZYrw==
+X-Gm-Message-State: AOAM530TEJBBdbv/FOa+qBbbN6jtpskhzei4HWrvcS31mGsKTApPy3p+
+ OMZDl3laxbPlLC1WMXfXEUK1e9MJ7G5z4gaY
+X-Google-Smtp-Source: ABdhPJwza0ofM+D56dyABx3c24Zz22rCdlN2IUjvnayW6RZufrM5kdNogPeOWJxXXywKW5kain8Beg==
+X-Received: by 2002:a65:6554:: with SMTP id a20mr13342565pgw.107.1631946531747; 
+ Fri, 17 Sep 2021 23:28:51 -0700 (PDT)
 Received: from eric-OptiPlex-7080.starfivetech.com (ip164.ip-51-195-37.eu.
  [51.195.37.164])
- by smtp.gmail.com with ESMTPSA id f27sm8126432pfq.78.2021.09.17.23.28.39
+ by smtp.gmail.com with ESMTPSA id f27sm8126432pfq.78.2021.09.17.23.28.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Sep 2021 23:28:45 -0700 (PDT)
+ Fri, 17 Sep 2021 23:28:51 -0700 (PDT)
 From: Eric Tang <tangxingxin1008@gmail.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC 01/10] target/riscv: rvb: fixed an error about srow/sroiw
- instructions
-Date: Sat, 18 Sep 2021 14:28:07 +0800
-Message-Id: <20210918062816.7546-2-tangxingxin1008@gmail.com>
+Subject: [RFC 02/10] target/riscv: rvb: add carry-less multiply instructions
+Date: Sat, 18 Sep 2021 14:28:08 +0800
+Message-Id: <20210918062816.7546-3-tangxingxin1008@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210918062816.7546-1-tangxingxin1008@gmail.com>
 References: <20210918062816.7546-1-tangxingxin1008@gmail.com>
@@ -70,7 +69,7 @@ X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 18 Sep 2021 04:20:45 -0400
+X-Mailman-Approved-At: Sat, 18 Sep 2021 04:20:50 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,59 +85,101 @@ Cc: alistair.francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-    According to spec, these instructions ignore the upper 32 bit of
-    their input and sign-extend their 32 bit output values. Fixed the
-    output's error when their input values greater than 0xffffffff.
-
 Signed-off-by: Eric Tang <tangxingxin1008@gmail.com>
 
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index b72e76255c..96b6fcb41d 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -484,12 +484,32 @@ static bool trans_sloiw(DisasContext *ctx, arg_sloiw *a)
-     return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_slo);
+diff --git a/target/riscv/bitmanip_helper.c b/target/riscv/bitmanip_helper.c
+index 5b2f795d03..e31cf582ca 100644
+--- a/target/riscv/bitmanip_helper.c
++++ b/target/riscv/bitmanip_helper.c
+@@ -88,3 +88,38 @@ target_ulong HELPER(gorcw)(target_ulong rs1, target_ulong rs2)
+ {
+     return do_gorc(rs1, rs2, 32);
  }
- 
-+static void gen_srow(TCGv ret, TCGv arg1, TCGv arg2)
-+{
-+    TCGv_i32 t1 = tcg_temp_new_i32();
-+    TCGv_i32 t2 = tcg_temp_new_i32();
 +
-+    /* truncate to 32-bits */
-+    tcg_gen_trunc_tl_i32(t1, arg1);
-+    tcg_gen_trunc_tl_i32(t2, arg2);
-+
-+    tcg_gen_not_i32(t1, t1);
-+    tcg_gen_shr_i32(t1, t1, t2);
-+    tcg_gen_not_i32(t1, t1);
-+
-+    /* sign-extend 64-bits */
-+    tcg_gen_ext_i32_tl(ret, t1);
-+
-+    tcg_temp_free_i32(t1);
-+    tcg_temp_free_i32(t2);
++#define DO_CLMULA(NAME, NUM, BODY)                          \
++static target_ulong do_##NAME(target_ulong rs1,             \
++                              target_ulong rs2,             \
++                              int bits)                     \
++{                                                           \
++    target_ulong x = 0;                                     \
++    int i;                                                  \
++                                                            \
++    for (i = NUM; i < bits; i++) {                          \
++        if ((rs2 >> i) & 1) {                               \
++            x ^= BODY;                                      \
++        }                                                   \
++    }                                                       \
++    return x;                                               \
 +}
 +
- static bool trans_srow(DisasContext *ctx, arg_srow *a)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVB);
-     ctx->w = true;
--    return gen_shift(ctx, a, EXT_ZERO, gen_sro);
-+    return gen_shift(ctx, a, EXT_ZERO, gen_srow);
++DO_CLMULA(clmul, 0, (rs1 << i))
++DO_CLMULA(clmulh, 1, (rs1 >> (bits - i)))
++DO_CLMULA(clmulr, 0, (rs1 >> (bits - i - 1)))
++
++target_ulong HELPER(clmul)(target_ulong rs1, target_ulong rs2)
++{
++    return do_clmul(rs1, rs2, TARGET_LONG_BITS);
++}
++
++target_ulong HELPER(clmulh)(target_ulong rs1, target_ulong rs2)
++{
++    return do_clmulh(rs1, rs2, TARGET_LONG_BITS);
++}
++
++target_ulong HELPER(clmulr)(target_ulong rs1, target_ulong rs2)
++{
++    return do_clmulr(rs1, rs2, TARGET_LONG_BITS);
++}
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 460eee9988..7cbcee48e6 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -63,6 +63,9 @@ DEF_HELPER_FLAGS_2(grev, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_FLAGS_2(grevw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_FLAGS_2(gorc, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_FLAGS_2(gorcw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(clmul, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(clmulh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(clmulr, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ 
+ /* Special functions */
+ DEF_HELPER_2(csrr, tl, env, int)
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 2cd921d51c..9eff9d5f5c 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -690,6 +690,9 @@ gorc       0010100 .......... 101 ..... 0110011 @r
+ sh1add     0010000 .......... 010 ..... 0110011 @r
+ sh2add     0010000 .......... 100 ..... 0110011 @r
+ sh3add     0010000 .......... 110 ..... 0110011 @r
++clmul      0000101 .......... 001 ..... 0110011 @r
++clmulh     0000101 .......... 011 ..... 0110011 @r
++clmulr     0000101 .......... 010 ..... 0110011 @r
+ 
+ bseti      00101. ........... 001 ..... 0010011 @sh
+ bclri      01001. ........... 001 ..... 0010011 @sh
+diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
+index 96b6fcb41d..1d999929de 100644
+--- a/target/riscv/insn_trans/trans_rvb.c.inc
++++ b/target/riscv/insn_trans/trans_rvb.c.inc
+@@ -321,6 +321,17 @@ static bool trans_gorci(DisasContext *ctx, arg_gorci *a)
+     return gen_shift_imm_tl(ctx, a, EXT_ZERO, gen_helper_gorc);
  }
  
- static bool trans_sroiw(DisasContext *ctx, arg_sroiw *a)
-@@ -497,7 +517,7 @@ static bool trans_sroiw(DisasContext *ctx, arg_sroiw *a)
-     REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVB);
-     ctx->w = true;
--    return gen_shift_imm_tl(ctx, a, EXT_ZERO, gen_sro);
-+    return gen_shift_imm_tl(ctx, a, EXT_ZERO, gen_srow);
- }
- 
- static void gen_rorw(TCGv ret, TCGv arg1, TCGv arg2)
++#define GEN_TRANS_CLMUL(NAME)                               \
++static bool trans_##NAME(DisasContext *ctx, arg_##NAME * a) \
++{                                                           \
++    REQUIRE_EXT(ctx, RVB);                                  \
++    return gen_arith(ctx, a, EXT_NONE, gen_helper_##NAME);  \
++}
++
++GEN_TRANS_CLMUL(clmul)
++GEN_TRANS_CLMUL(clmulh)
++GEN_TRANS_CLMUL(clmulr)
++
+ #define GEN_SHADD(SHAMT)                                       \
+ static void gen_sh##SHAMT##add(TCGv ret, TCGv arg1, TCGv arg2) \
+ {                                                              \
 -- 
 2.17.1
 
