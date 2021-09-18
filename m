@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547CA41055F
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 11:21:44 +0200 (CEST)
-Received: from localhost ([::1]:60834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FAC410577
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 11:31:46 +0200 (CEST)
+Received: from localhost ([::1]:38102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRWXW-0003MY-Sr
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 05:21:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38882)
+	id 1mRWhF-0007W8-Ng
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 05:31:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mRWVe-0002Ze-UB; Sat, 18 Sep 2021 05:19:47 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34657)
+ id 1mRWfG-0006kB-Dx
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 05:29:42 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45016)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mRWVd-0001hV-Ce; Sat, 18 Sep 2021 05:19:46 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id t8so12145160wri.1;
- Sat, 18 Sep 2021 02:19:44 -0700 (PDT)
+ id 1mRWfE-0001f5-Tf
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 05:29:42 -0400
+Received: by mail-wr1-x431.google.com with SMTP id d6so19095651wrc.11
+ for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 02:29:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=9ZYQoPS3hRnIZhGJE1UoBlup91/dLu7whMtlZDc5Ga0=;
- b=c75VxutUjxDo9w9YqiTNVeFTpP7AJT0Mk8EKkSNV59CDYt7k/NSmdN3bVF4vsjB/HG
- 8nmjfUK5RDZNkuL9nUxf9gCTwQqFJ6Rtue/SH36MKgZEWKds0ddy7/ZnGW8tnYYMavDg
- 3JGvIarbbKIWewQ1VlQeqEPZPr0+UNj40D9WsZuA8CoQSgvGklC3ajd5+TJjpC1b1wJL
- kSDoh8ayZh5e22MWPpqMtAi/uXYySC4ZAnzTo1pVFkA3y9bSLSISpxXP6TqVIW+8a/1A
- G6CB+2T/z4+FrSCkpRJw2fc1APTFtLBsPYlzJC0BRQirQ8j5eGAkR8LlHwuQiEYMGpfV
- HsqQ==
+ bh=2UGkGTVf3XdY2MLxODODzC1bLQbsnsFlLtiWf19vMKY=;
+ b=aT5Vkm+pgS9VHgF5/Fx0yXRfGnBSOiV9pCwLBiwiX686yutIEY2OG1iU2cvWoDII8M
+ EwKJy6hZmxi7vAfN8yIAzF3oEM3k46z6I1Nyo8gc57Zo+NaSZNWtaqyJRJvevSnDsMm0
+ pf6+k3MzNwzdhDIi84blagxd3Xk7zqwKqMjnPoEyMFHSLPhP+IlDiDf6+FTFaEP8uHft
+ 3ebT2am5t4IgzcPA4UVSkDQPG2g9rtUW8J+EAW8Nzh0A2JqlTgYbyCyLwAoo4KT+kAnd
+ mlrkZKDz3vXdPMaKBhcAGlcJBv4yPx6WgES6MXpX3VveF3Yav0OOkqmdrp8MSaVdeX77
+ buRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=9ZYQoPS3hRnIZhGJE1UoBlup91/dLu7whMtlZDc5Ga0=;
- b=mqn9UGL6vTZyXDzHV/tZFP1JdcC/xTDJ3Fv7VuG5rJ8Vtg6s3WAtu1OU2fPe4eXq4p
- xsg4owakABm6v98JCaL/lrxL/Mp0M0WVdWGTa8LMAnlYbDVGh6wWEjuZIE3JmFvTYuMu
- wwyjZadSyUgAYX7I/f9DU2tqlXT663vrhut2Ad8kzzeT2gLqAMhYkHQKOPErdIpFl5rG
- m6nDZxHImeXqyOt7xeuN29TUgDB9cKxcsPxcLtfbafldYr3zJozsFYJUv7xLdVFytSFc
- BaZLzG4vcZe1VVuiP6gDE6VZgAEbpJBhGsAP6BnvXHx/14WUNJHBG2Lwrd1tD0mq54bH
- DRNQ==
-X-Gm-Message-State: AOAM531rckPh1zxlcn58xLBzsGjhlZnKOS8AyLcxX04VxeeLvkMNIHcD
- p3ZBL9kkDPN8vW/0rhlLU6k5lfexJMQ=
-X-Google-Smtp-Source: ABdhPJxESnhMW0xxnnNEVlGJFis9rDUU+jw95IZ0V/HehGwUQVhkyAfRDhMzbzyYE3AEEGJQHyTvHg==
-X-Received: by 2002:a05:6000:1b8d:: with SMTP id
- r13mr17262570wru.230.1631956783239; 
- Sat, 18 Sep 2021 02:19:43 -0700 (PDT)
+ bh=2UGkGTVf3XdY2MLxODODzC1bLQbsnsFlLtiWf19vMKY=;
+ b=lQyF0o7At+aVIrmkCxXzwVliD6NnfB6cjXB5QXM6ObUgyy3ftkvYUpek6z6x2dDXHw
+ B17sprjOVoSxlw8+/Xctq66oZkuI+Mlcfo3KMelympTBtyRyXippEwpO7Hyb4AiXKobY
+ Gzr2soEKDv3jS5oBtoLHtfYjZw+9QrmWrTpMy9aNkcCvlB2GjpipCIeEoOivfMqMlTTz
+ Q20gOxwDWNu//lwmzGFgPdHMZt1OBK6/nPtiAXTJaML/k90htvLbf6I3nLAwfmDHimDq
+ 9eYjIL/U7cUDUSV0gm8QffK+sy4siUvpvkyDRgT8XUrlYQ9hqZTdgaRTJZSFgHr2REop
+ 2iHg==
+X-Gm-Message-State: AOAM532FmoHznXelOKpYeF/++XI/yL3wt2sC9ytPQHR8hYoQxbtQh/Gk
+ OWWfa9iqkvHGGgcBhY5gmnk=
+X-Google-Smtp-Source: ABdhPJw2kAx6ZLSGeutinF0NuHJbN7eL0UgCnOJ8KpS0sGtvSINv2LxGEMk//AKBk8ALggnr9uN24w==
+X-Received: by 2002:adf:f207:: with SMTP id p7mr17109232wro.166.1631957378567; 
+ Sat, 18 Sep 2021 02:29:38 -0700 (PDT)
 Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
  [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id 129sm8840382wmz.26.2021.09.18.02.19.41
+ by smtp.gmail.com with ESMTPSA id r129sm9251207wmr.7.2021.09.18.02.29.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 18 Sep 2021 02:19:42 -0700 (PDT)
-Message-ID: <a99e29c5-0aed-2a7c-cbdd-ebaecc99a448@amsat.org>
-Date: Sat, 18 Sep 2021 11:19:40 +0200
+ Sat, 18 Sep 2021 02:29:37 -0700 (PDT)
+Message-ID: <01de4f7f-dff3-3f27-dead-de4599f209a4@amsat.org>
+Date: Sat, 18 Sep 2021 11:29:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH-for-6.2 0/2] disas/nios2: Simplify endianess conversion
+Subject: Re: [PATCH-for-6.1] target/mips: Check nanoMIPS DSP MULT[U]
+ accumulator with Release 6
 Content-Language: en-US
-To: qemu-devel@nongnu.org, QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20210807110939.95853-1-f4bug@amsat.org>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210727083043.1504402-1-f4bug@amsat.org>
+ <2ac421d3-d462-0bb2-dbf5-c8ae56eef075@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20210807110939.95853-1-f4bug@amsat.org>
+In-Reply-To: <2ac421d3-d462-0bb2-dbf5-c8ae56eef075@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -88,32 +91,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Chris Wulff <crwulff@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing qemu-trivial@ (series fully reviewed).
+On 7/27/21 18:38, Richard Henderson wrote:
+> On 7/26/21 10:30 PM, Philippe Mathieu-Daudé wrote:
+>> Per the "MIPS Architecture Extension: nanoMIPS32 DSP TRM" rev 0.04,
+>> MULT and MULTU opcodes:
+>>
+>>    The value of ac selects an accumulator numbered from 0 to 3.
+>>    When ac=0, this refers to the original HI/LO register pair of the
+>>    MIPS32 architecture.
+>>
+>>    In Release 6 of the MIPS Architecture, accumulators are eliminated
+>>    from MIPS32.
+>>
+>> Ensure pre-Release 6 is restricted to HI/LO registers pair.
+>>
+>> Fixes: 8b3698b2947 ("target/mips: Add emulation of DSP ASE for
+>> nanoMIPS - part 4")
+>> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+>> ---
+>>   target/mips/tcg/nanomips_translate.c.inc | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-On 8/7/21 13:09, Philippe Mathieu-Daudé wrote:
-> After chatting with Richard Henderson and Paolo Bonzini, we
-> concluded the load/store API is mature enough to have target
-> code endianess-agnostic.
-> Thus we could remove the TARGET_WORDS_BIGENDIAN definition from
-> target-specific code (restricting it to the binary format loaders).
-> 
-> While experimenting, I noticed the Nios2 disassembler is an easy
-> win. MIPS will follow shortly.
-> 
-> Philippe Mathieu-Daudé (2):
->   disas/nios2: Fix style in print_insn_nios2()
->   disas/nios2: Simplify endianess conversion
-> 
->  include/disas/dis-asm.h |  3 +-
->  disas/nios2.c           | 71 ++++++++++++++++-------------------------
->  target/nios2/cpu.c      |  6 +---
->  3 files changed, 29 insertions(+), 51 deletions(-)
-> 
+Thanks, applied to mips-next.
 
