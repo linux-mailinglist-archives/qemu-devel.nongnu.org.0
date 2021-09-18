@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E26941052C
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 10:35:48 +0200 (CEST)
-Received: from localhost ([::1]:36814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 547CA41055F
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 11:21:44 +0200 (CEST)
+Received: from localhost ([::1]:60834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRVp4-00022q-UK
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 04:35:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59380)
+	id 1mRWXW-0003MY-Sr
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 05:21:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alivatankhah72@gmail.com>)
- id 1mRVRj-0004F7-H1; Sat, 18 Sep 2021 04:11:39 -0400
-Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a]:44001)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mRWVe-0002Ze-UB; Sat, 18 Sep 2021 05:19:47 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alivatankhah72@gmail.com>)
- id 1mRVRh-0003cX-MN; Sat, 18 Sep 2021 04:11:39 -0400
-Received: by mail-qv1-xf2a.google.com with SMTP id cf2so7932989qvb.10;
- Sat, 18 Sep 2021 01:11:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mRWVd-0001hV-Ce; Sat, 18 Sep 2021 05:19:46 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id t8so12145160wri.1;
+ Sat, 18 Sep 2021 02:19:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AhP0JRlrDLbBcy/Iv52Pwdg0pj92OIpZllOi+a5BuEg=;
- b=WiPvvWT5Cq24cXT6vD7tMl0RwzlO1P+KxcgIkYyECOKCzgrughl66YKQMYG0xWT8eL
- LfnTwlMXeDYPRT4vuVtAJLaNaP5tc5kVRrEd0iqDXfvL9ZMmNik+I0vZlOcL2CwQd++b
- d7XAGg9/C+Kqdx7waxH6l+RCL+MPGJZBZzm8kz0WvCM50FzKy4YVGmFDxv2Bah2VTA9b
- 4Q/QLmmM1HRQZXJfJtSYshePLf9ipP/74/LMSSiOoNb70WlN9HeCZgkBosOUzQauYd66
- GlhCIc5713aFbdL6xTuwkRAbcTePVcn7PexvGlnNBmSWxHnzVJyawffmfzIDj1ysoIk7
- JoLQ==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9ZYQoPS3hRnIZhGJE1UoBlup91/dLu7whMtlZDc5Ga0=;
+ b=c75VxutUjxDo9w9YqiTNVeFTpP7AJT0Mk8EKkSNV59CDYt7k/NSmdN3bVF4vsjB/HG
+ 8nmjfUK5RDZNkuL9nUxf9gCTwQqFJ6Rtue/SH36MKgZEWKds0ddy7/ZnGW8tnYYMavDg
+ 3JGvIarbbKIWewQ1VlQeqEPZPr0+UNj40D9WsZuA8CoQSgvGklC3ajd5+TJjpC1b1wJL
+ kSDoh8ayZh5e22MWPpqMtAi/uXYySC4ZAnzTo1pVFkA3y9bSLSISpxXP6TqVIW+8a/1A
+ G6CB+2T/z4+FrSCkpRJw2fc1APTFtLBsPYlzJC0BRQirQ8j5eGAkR8LlHwuQiEYMGpfV
+ HsqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AhP0JRlrDLbBcy/Iv52Pwdg0pj92OIpZllOi+a5BuEg=;
- b=CZuCTCxLxWc9KbWd30HOe5Lf80yUtEtp3fvatbxsZWwRZC9+AXbSa37vZ4q2Q543Dl
- wq+sMLldAt8eRfwrxPUFAIfusf6mVHLCc5iKLNQ6pe35/fDQ/030sTCpMpL9J0A2l9ni
- t1rAZ+w3J4mKlRYPdZ5409ZsnR9hZs9RGlU4gJJTtYMb6K/n4AOQajosoQJzCKu9mym3
- fsaGCGLtbDnCMX0MPGZF1oK4LcH2IUGub8o6Ckj7NMEc+PEVg1wkJ/UGyqUKvsv8FYlT
- 70I0zVP3mooJEVVqCGg/JlHJm2kQFaZCzJjFnPD9pnMlKebDsI5Puu04ua9+CibDgRfM
- uKbA==
-X-Gm-Message-State: AOAM5311v6JCfVUvSZWznxvinBd65uz6WNRuJqxZ5D1dCoamZHx0Ce8e
- 5HEZbutrfAxFv5Ux0Uq5q/3pu3xA/A5f1lbUaYN6qG51ZEB66eq9
-X-Google-Smtp-Source: ABdhPJwiEJr25Pr0vkFnZJ+wl5cqrqEpfSKLKt29tBCdvmeK4e70uiUjMZYXKyVi/GInowTuNZGDdAiTt5bUyxyitLM=
-X-Received: by 2002:a05:6214:529:: with SMTP id
- x9mr15146777qvw.17.1631952695176; 
- Sat, 18 Sep 2021 01:11:35 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9ZYQoPS3hRnIZhGJE1UoBlup91/dLu7whMtlZDc5Ga0=;
+ b=mqn9UGL6vTZyXDzHV/tZFP1JdcC/xTDJ3Fv7VuG5rJ8Vtg6s3WAtu1OU2fPe4eXq4p
+ xsg4owakABm6v98JCaL/lrxL/Mp0M0WVdWGTa8LMAnlYbDVGh6wWEjuZIE3JmFvTYuMu
+ wwyjZadSyUgAYX7I/f9DU2tqlXT663vrhut2Ad8kzzeT2gLqAMhYkHQKOPErdIpFl5rG
+ m6nDZxHImeXqyOt7xeuN29TUgDB9cKxcsPxcLtfbafldYr3zJozsFYJUv7xLdVFytSFc
+ BaZLzG4vcZe1VVuiP6gDE6VZgAEbpJBhGsAP6BnvXHx/14WUNJHBG2Lwrd1tD0mq54bH
+ DRNQ==
+X-Gm-Message-State: AOAM531rckPh1zxlcn58xLBzsGjhlZnKOS8AyLcxX04VxeeLvkMNIHcD
+ p3ZBL9kkDPN8vW/0rhlLU6k5lfexJMQ=
+X-Google-Smtp-Source: ABdhPJxESnhMW0xxnnNEVlGJFis9rDUU+jw95IZ0V/HehGwUQVhkyAfRDhMzbzyYE3AEEGJQHyTvHg==
+X-Received: by 2002:a05:6000:1b8d:: with SMTP id
+ r13mr17262570wru.230.1631956783239; 
+ Sat, 18 Sep 2021 02:19:43 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
+ [83.35.25.14])
+ by smtp.gmail.com with ESMTPSA id 129sm8840382wmz.26.2021.09.18.02.19.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 18 Sep 2021 02:19:42 -0700 (PDT)
+Message-ID: <a99e29c5-0aed-2a7c-cbdd-ebaecc99a448@amsat.org>
+Date: Sat, 18 Sep 2021 11:19:40 +0200
 MIME-Version: 1.0
-References: <CABip9V9nwDNAEg-620hG2r5pyhw_rig+2nf9Ja3s=WA-wmH=jQ@mail.gmail.com>
- <e53eecec-8897-767a-149f-51faffd76d67@amsat.org>
-In-Reply-To: <e53eecec-8897-767a-149f-51faffd76d67@amsat.org>
-From: Ali Vatankhah <alivatankhah72@gmail.com>
-Date: Sat, 18 Sep 2021 12:41:57 +0430
-Message-ID: <CABip9V88osKWXBqSLDscAup6wAoh+_W-6WZR_Okwj9GG60nGCw@mail.gmail.com>
-Subject: Re: high cpu usage in idle state
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="000000000000afb21a05cc40982e"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
- envelope-from=alivatankhah72@gmail.com; helo=mail-qv1-xf2a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH-for-6.2 0/2] disas/nios2: Simplify endianess conversion
+Content-Language: en-US
+To: qemu-devel@nongnu.org, QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20210807110939.95853-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20210807110939.95853-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.488,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 18 Sep 2021 04:21:31 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,87 +88,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
- qemu-discuss@nongnu.org
+Cc: Marek Vasut <marex@denx.de>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Chris Wulff <crwulff@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000afb21a05cc40982e
-Content-Type: text/plain; charset="UTF-8"
+Cc'ing qemu-trivial@ (series fully reviewed).
 
-Hi Philippe, Thank for your email
-
-I investigated your advice,
-
-first checked the CPU's programmer's reference manual and it has wait for
-interrupt instruction.
-
-then to check what instructions are executing I run this command:
-
-qemu-system-ppc64 -nographic -M ppce500 -cpu e5500 -kernel uImage
--singlestep -d in_asm -D target_asm.log
-
-Obviously this results in a Kernel panic, but the point is that after panic
-there is no guest
- instruction running as there is no more log in the file but still CPU
-usage is 100.
-
-also run this command to check generated host assembly code:
-
-qemu-system-ppc64 -nographic -M ppce500 -cpu e5500 -kernel uImage
--singlestep -d out_asm -D host_asm.log
-
-and the result was the same, after Kernel panic there are no more
-instructions to run
-(though there are some nop instructions in tb slow paths + alignment
-section at
-the end of some TBs but I think it's not relevant).
-
-in another test I run the complete working command with log options and
-after login kill all
- services except init:
-
-qemu-system-ppc64 -nographic -m 256 -M ppce500 -cpu e5500 -kernel uImage
--initrd rootfs.ext2.gz
-         -append 'root=/dev/ram rw ramdisk_size=150000' -singlestep -d
-out_asm -D  host_asm.log
-
-it logs in the file once in a while but still CPU usage is 100% constantly.
-
-Thanks. Regards
-
---000000000000afb21a05cc40982e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi=C2=A0Philippe, Thank for your email<div><br></div><div>=
-I investigated your advice,=C2=A0</div><div><br></div><div>first checked th=
-e CPU&#39;s programmer&#39;s reference manual and it has wait for interrupt=
- instruction.</div><div><br><div>then to check what instructions are execut=
-ing I run this command:</div></div><div><br></div><div><font face=3D"monosp=
-ace">qemu-system-ppc64 -nographic -M ppce500 -cpu e5500 -kernel uImage -sin=
-glestep -d in_asm -D target_asm.log</font><br></div><div><font face=3D"mono=
-space"><br></font></div><div>Obviously this results in a Kernel panic, but =
-the point is that after panic there is no guest</div><div>=C2=A0instruction=
- running as there is no more log in the file but still CPU usage is 100.</d=
-iv><div><br></div><div>also run this command to check=C2=A0generated host a=
-ssembly code:</div><div><br></div><div><font face=3D"monospace">qemu-system=
--ppc64 -nographic -M ppce500 -cpu e5500 -kernel uImage -singlestep -d out_a=
-sm -D host_asm.log</font><br></div><div><font face=3D"monospace"><br></font=
-></div><div>and the result was the same, after Kernel panic there are no mo=
-re instructions to run=C2=A0</div><div>(though there are some nop instructi=
-ons in tb slow paths + alignment section at=C2=A0</div><div>the end of some=
- TBs but I think it&#39;s not relevant).</div><div><br></div><div>in anothe=
-r test I run the complete working command with log options and after login =
-kill all</div><div>=C2=A0services except=C2=A0init:</div><div><br></div><di=
-v><font face=3D"monospace">qemu-system-ppc64 -nographic -m 256 -M ppce500 -=
-cpu e5500 -kernel uImage -initrd rootfs.ext2.gz</font></div><div><font face=
-=3D"monospace">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-append &#39;root=3D/dev/r=
-am rw ramdisk_size=3D150000&#39; -singlestep -d out_asm -D=C2=A0
-
-host_asm.log</font><br></div><div><br></div><div>it logs in the file=C2=A0o=
-nce in a while but still CPU usage is 100% constantly.</div><div><br></div>=
-<div>Thanks. Regards</div><div><br></div></div>
-
---000000000000afb21a05cc40982e--
+On 8/7/21 13:09, Philippe Mathieu-Daudé wrote:
+> After chatting with Richard Henderson and Paolo Bonzini, we
+> concluded the load/store API is mature enough to have target
+> code endianess-agnostic.
+> Thus we could remove the TARGET_WORDS_BIGENDIAN definition from
+> target-specific code (restricting it to the binary format loaders).
+> 
+> While experimenting, I noticed the Nios2 disassembler is an easy
+> win. MIPS will follow shortly.
+> 
+> Philippe Mathieu-Daudé (2):
+>   disas/nios2: Fix style in print_insn_nios2()
+>   disas/nios2: Simplify endianess conversion
+> 
+>  include/disas/dis-asm.h |  3 +-
+>  disas/nios2.c           | 71 ++++++++++++++++-------------------------
+>  target/nios2/cpu.c      |  6 +---
+>  3 files changed, 29 insertions(+), 51 deletions(-)
+> 
 
