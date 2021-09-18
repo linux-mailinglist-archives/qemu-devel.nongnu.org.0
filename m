@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5889F41083B
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 20:58:20 +0200 (CEST)
-Received: from localhost ([::1]:37666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF6A1410836
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 20:54:45 +0200 (CEST)
+Received: from localhost ([::1]:57274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRfXX-0008Kk-E5
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 14:58:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54504)
+	id 1mRfU4-0002VF-Nh
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 14:54:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRfLf-0005Cz-PF
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:46:04 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:41489)
+ id 1mRfLb-0005Ba-A0
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:46:00 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:33631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRfLP-0006r8-LB
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:45:59 -0400
-Received: by mail-pg1-x531.google.com with SMTP id k24so13081116pgh.8
- for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 11:45:46 -0700 (PDT)
+ id 1mRfLP-0006rs-LU
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:45:57 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id s16so4094002pfk.0
+ for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 11:45:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bUABOOKdTsHd1I4YhOWD+WaOacOY2c/QLq79HLsoZBA=;
- b=xBJjH7Xq4e8UymD4tS49FIHDlu3ITrRgnX0MoCCaDJX9km+bpGD7H+nkVYJsyekaX3
- 5xXIVAnrVyP3vMQqDVSL8o/Rm+U81kpfLhVUUHT7SvG2p6AiV9mDjX9U4CWZu+ZgT/y5
- 1iCNIvK+jhn5nBadtwdUg0/rLrNiBTFlSbwOCQqx5j5JGxEMIZkfyQWqomZk62H1EwEl
- xGj7FO39MZBXoI3eRxnD3J8D3H6ky3HqFOAWE1DbB+2pmMCc+nTrS3+NPzi2UpH3CK27
- loNxkt9tKZC4mrHrtwJ63X2QQseK+rcqqzSXyc4BblH9EBWkor1JTE+kdxJVMv2966DJ
- bpDQ==
+ bh=6Qr0OuX9QX9R8kKysHcFpFuFjKaNccsgQik+Lfl3HtE=;
+ b=FEtv63qdtHpQXjwHldIR6HU0QERpSHEV/wrQ/k2i9kXSuvqbG9PVpC6ZuzTBwSILG4
+ bdw+q+IdFpIfFK5Db6UOVvo2Vc23Xi2EAX1MvORh9YazN6wrnRGvRh++dFRySuUN2AI7
+ Pe4eOb7Mxw/4IC+8tLvUjI+fG1rwkefw3+ka0ohDVNqfTDbjx1HTpVvTLbhyc9zXwvhK
+ 9djmE8ZAiMS7m7n6snwHIkw39odafZHHR+i9C+exrl5udt8GflheJnWrLaTWj2l5DNJk
+ TNtXGsDTZoPAPaTOm4pbr0+xc//SR351VC5kePPfhW6QeStSczaBnc9pGVmN5zA/ZZFs
+ ikwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bUABOOKdTsHd1I4YhOWD+WaOacOY2c/QLq79HLsoZBA=;
- b=aoWYhbz5Kb2BOYyavEAFLHekDeLX4Kzb6vq7Ndxeme5o1lRNctOIoGfOA+6xQjcitW
- +i4LgHF1i0MxWeNGbqFmsFnPQ8h0EodNdBBhc++334M1UtC/JCU1zi30Y+oTb28Dlxuw
- qW0F1/5UN/RBppd71Gme1x6lI10ksZCbVwPz7T03BvIq683NUXOSiBWeux1pgKiAa1L2
- q+OlOjtlnqgD9LftjbzbtXHIgHzF8Wn1wY21piSQ6DCotoTVS6gRZ0R30ERI5s+QfokP
- oUBDZpcZMtYB3FYXNRcpCY2mnCL58eAdSUvwE+rjYeun8wPX4BoaUCFd3t1N9rWSngsy
- JzIg==
-X-Gm-Message-State: AOAM533gLsd4PV2KGPDlFn/qTMpPtK34Vql9a8N1QZxCHrxG4HkZZkew
- 42vdaPLwEerjzKUwWq5h2FH105CchJJo8w==
-X-Google-Smtp-Source: ABdhPJxeOBF2sgv3UEzAGkbeijoohY7mF0PbnIHSKnbs0/oAAbDpPRsg1J+fN7GYGcCEfqgMa5p/7w==
-X-Received: by 2002:a62:2cd8:0:b0:43d:e6c0:1725 with SMTP id
- s207-20020a622cd8000000b0043de6c01725mr17193710pfs.55.1631990745424; 
- Sat, 18 Sep 2021 11:45:45 -0700 (PDT)
+ bh=6Qr0OuX9QX9R8kKysHcFpFuFjKaNccsgQik+Lfl3HtE=;
+ b=fmRJ/hKN+xCxZ1bBZNcZiWhsVT+Wn5uAz/vpvUN0BwDnL2g5kf0Eib2aQagknOk+AH
+ q9BWsRS+2VQ43oosjenN7gyevWb6NFWfmZaMmaIAnbWSdt9qoms2oNf3wWPyK7HjrY7B
+ tLCYHEZNWjd4wyd3u6oOQXUxAH5pA/KLaqH1ctEAeS5snWcxr3ZN18bhteAVSt75pcpn
+ 2M6BShSVQ1pKYcOozo0NmRsjZp46lD/BfMHdwO/r3W+4dMhAoanGaZ+F1zITlOCiCF6c
+ pEoJ35l2MlPXXla+DqXk0QMwjyZLNfipdgmJjG1o9hLCFEicISrLFVcPKRISv70aqELP
+ 0W8g==
+X-Gm-Message-State: AOAM5330I/2uWVwkPfT8Y/qJJ3jgpLCC6/ZPe2rWNT23NCdBG83I1Mto
+ 5uGBTKO7aG0jGC2z92mH6k8kEKqz2pvl+w==
+X-Google-Smtp-Source: ABdhPJzvmgNu+YZ0hZK1VEuf/LIF4Xh8GEsZYpTb8jEnC2e8Mn6t9My4dt7kWk1upv2rIDvzNgYfRg==
+X-Received: by 2002:a62:16cd:0:b0:440:5296:afab with SMTP id
+ 196-20020a6216cd000000b004405296afabmr15965978pfw.4.1631990746285; 
+ Sat, 18 Sep 2021 11:45:46 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id y26sm9555858pfe.69.2021.09.18.11.45.44
+ by smtp.gmail.com with ESMTPSA id y26sm9555858pfe.69.2021.09.18.11.45.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 18 Sep 2021 11:45:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 20/41] linux-user: Add raise_sigsegv
-Date: Sat, 18 Sep 2021 11:45:06 -0700
-Message-Id: <20210918184527.408540-21-richard.henderson@linaro.org>
+Subject: [PATCH v2 21/41] target/alpha: Make alpha_cpu_tlb_fill sysemu only
+Date: Sat, 18 Sep 2021 11:45:07 -0700
+Message-Id: <20210918184527.408540-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210918184527.408540-1-richard.henderson@linaro.org>
 References: <20210918184527.408540-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,164 +87,107 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a new interface to be provided by the os emulator
-for raising SIGSEGV on fault.  Use the new record_sigsegv
-target hook.
+The fallback code in raise_sigsegv is sufficient for alpha-linux-user.
+Remove the code from cpu_loop that handled EXCP_MMFAULT.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/exec-all.h | 15 +++++++++++++++
- accel/tcg/user-exec.c   | 33 ++++++++++++++++++---------------
- linux-user/signal.c     | 30 ++++++++++++++++++++++--------
- 3 files changed, 55 insertions(+), 23 deletions(-)
+ target/alpha/cpu.h          |  7 ++++---
+ linux-user/alpha/cpu_loop.c |  8 --------
+ target/alpha/cpu.c          |  2 +-
+ target/alpha/helper.c       | 13 +------------
+ 4 files changed, 6 insertions(+), 24 deletions(-)
 
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 5dd663c153..2091c1bf1a 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -685,6 +685,21 @@ MMUAccessType adjust_signal_pc(uintptr_t *pc, bool is_write);
- bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
-                                  uintptr_t host_pc, abi_ptr guest_addr);
+diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+index ce9ec32199..cbca4c369c 100644
+--- a/target/alpha/cpu.h
++++ b/target/alpha/cpu.h
+@@ -439,9 +439,6 @@ void alpha_translate_init(void);
+ #define CPU_RESOLVING_TYPE TYPE_ALPHA_CPU
  
-+/**
-+ * raise_sigsegv:
-+ * @cpu: the cpu context
-+ * @addr: the guest address of the fault
-+ * @access_type: access was read/write/execute
-+ * @maperr: true for invalid page, false for permission fault
-+ * @ra: host pc for unwinding
-+ *
-+ * Use the TCGCPUOps hook to record cpu state, do guest operating system
-+ * specific things to raise SIGSEGV, and jump to the main cpu loop.
-+ */
-+void QEMU_NORETURN raise_sigsegv(CPUState *cpu, target_ulong addr,
-+                                 MMUAccessType access_type,
-+                                 bool maperr, uintptr_t ra);
+ void alpha_cpu_list(void);
+-bool alpha_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                        MMUAccessType access_type, int mmu_idx,
+-                        bool probe, uintptr_t retaddr);
+ void QEMU_NORETURN dynamic_excp(CPUAlphaState *, uintptr_t, int, int);
+ void QEMU_NORETURN arith_excp(CPUAlphaState *, uintptr_t, int, uint64_t);
+ 
+@@ -449,12 +446,16 @@ uint64_t cpu_alpha_load_fpcr (CPUAlphaState *env);
+ void cpu_alpha_store_fpcr (CPUAlphaState *env, uint64_t val);
+ uint64_t cpu_alpha_load_gr(CPUAlphaState *env, unsigned reg);
+ void cpu_alpha_store_gr(CPUAlphaState *env, unsigned reg, uint64_t val);
 +
- #else
- static inline void mmap_lock(void) {}
- static inline void mmap_unlock(void) {}
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 01e7e69e7f..ab9cc6686d 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -143,35 +143,38 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
-                                  int fault_size, MMUAccessType access_type,
-                                  bool nonfault, uintptr_t ra)
- {
--    int flags;
-+    bool maperr = true;
-+    int acc_flag;
- 
-     switch (access_type) {
-     case MMU_DATA_STORE:
--        flags = PAGE_WRITE;
-+        acc_flag = PAGE_WRITE_ORG;
-         break;
-     case MMU_DATA_LOAD:
--        flags = PAGE_READ;
-+        acc_flag = PAGE_READ;
-         break;
-     case MMU_INST_FETCH:
--        flags = PAGE_EXEC;
-+        acc_flag = PAGE_EXEC;
-         break;
-     default:
-         g_assert_not_reached();
-     }
- 
--    if (!guest_addr_valid_untagged(addr) ||
--        page_check_range(addr, 1, flags) < 0) {
--        if (nonfault) {
--            return TLB_INVALID_MASK;
--        } else {
--            CPUState *cpu = env_cpu(env);
--            CPUClass *cc = CPU_GET_CLASS(cpu);
--            cc->tcg_ops->tlb_fill(cpu, addr, fault_size, access_type,
--                                  MMU_USER_IDX, false, ra);
--            g_assert_not_reached();
-+    if (guest_addr_valid_untagged(addr)) {
-+        int page_flags = page_get_flags(addr);
-+        if (page_flags & acc_flag) {
-+            return 0; /* success */
-+        }
-+        if (page_flags & PAGE_VALID) {
-+            maperr = false;
-         }
-     }
--    return 0;
-+
-+    if (nonfault) {
-+        return TLB_INVALID_MASK;
-+    }
-+
-+    raise_sigsegv(env_cpu(env), addr, access_type, maperr, ra);
- }
- 
- int probe_access_flags(CPUArchState *env, target_ulong addr,
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index e6531fdfa0..ae31b46be0 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -681,9 +681,27 @@ void force_sigsegv(int oldsig)
-     }
-     force_sig(TARGET_SIGSEGV);
- }
--
+ #ifndef CONFIG_USER_ONLY
+ void alpha_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+                                      vaddr addr, unsigned size,
+                                      MMUAccessType access_type,
+                                      int mmu_idx, MemTxAttrs attrs,
+                                      MemTxResult response, uintptr_t retaddr);
++bool alpha_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                        MMUAccessType access_type, int mmu_idx,
++                        bool probe, uintptr_t retaddr);
  #endif
  
-+void raise_sigsegv(CPUState *cpu, target_ulong addr,
-+                   MMUAccessType access_type, bool maperr, uintptr_t ra)
-+{
-+    const struct TCGCPUOps *tcg_ops = CPU_GET_CLASS(cpu)->tcg_ops;
-+
-+    if (tcg_ops->record_sigsegv) {
-+        tcg_ops->record_sigsegv(cpu, addr, access_type, maperr, ra);
-+    } else if (tcg_ops->tlb_fill) {
-+        tcg_ops->tlb_fill(cpu, addr, 0, access_type, MMU_USER_IDX, false, ra);
-+        g_assert_not_reached();
-+    }
-+
-+    force_sig_fault(TARGET_SIGSEGV,
-+                    maperr ? TARGET_SEGV_MAPERR : TARGET_SEGV_ACCERR,
-+                    addr);
-+    cpu->exception_index = EXCP_INTERRUPT;
-+    cpu_loop_exit_restore(cpu, ra);
-+}
-+
- /* abort execution with signal */
- static void QEMU_NORETURN dump_core_and_abort(int target_sig)
- {
-@@ -799,7 +817,7 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
-         access_type = adjust_signal_pc(&pc, is_write);
+ static inline void cpu_get_tb_cpu_state(CPUAlphaState *env, target_ulong *pc,
+diff --git a/linux-user/alpha/cpu_loop.c b/linux-user/alpha/cpu_loop.c
+index 7ce2461a02..60b650a827 100644
+--- a/linux-user/alpha/cpu_loop.c
++++ b/linux-user/alpha/cpu_loop.c
+@@ -52,14 +52,6 @@ void cpu_loop(CPUAlphaState *env)
+             fprintf(stderr, "External interrupt. Exit\n");
+             exit(EXIT_FAILURE);
+             break;
+-        case EXCP_MMFAULT:
+-            info.si_signo = TARGET_SIGSEGV;
+-            info.si_errno = 0;
+-            info.si_code = (page_get_flags(env->trap_arg0) & PAGE_VALID
+-                            ? TARGET_SEGV_ACCERR : TARGET_SEGV_MAPERR);
+-            info._sifields._sigfault._addr = env->trap_arg0;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+-            break;
+         case EXCP_UNALIGN:
+             info.si_signo = TARGET_SIGBUS;
+             info.si_errno = 0;
+diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
+index 1ca601cac5..83c201d86a 100644
+--- a/target/alpha/cpu.c
++++ b/target/alpha/cpu.c
+@@ -220,10 +220,10 @@ static const struct SysemuCPUOps alpha_sysemu_ops = {
  
-         if (host_sig == SIGSEGV) {
--            const struct TCGCPUOps *tcg_ops;
-+            bool maperr = true;
+ static const struct TCGCPUOps alpha_tcg_ops = {
+     .initialize = alpha_translate_init,
+-    .tlb_fill = alpha_cpu_tlb_fill,
  
-             if (info->si_code == SEGV_ACCERR && h2g_valid(host_addr)) {
-                 /* If this was a write to a TB protected page, restart. */
-@@ -814,18 +832,14 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
-                  * which means that we may get ACCERR when we want MAPERR.
-                  */
-                 if (page_get_flags(guest_addr) & PAGE_VALID) {
--                    /* maperr = false; */
-+                    maperr = false;
-                 } else {
-                     info->si_code = SEGV_MAPERR;
-                 }
-             }
+ #ifndef CONFIG_USER_ONLY
+     .has_work = alpha_cpu_has_work,
++    .tlb_fill = alpha_cpu_tlb_fill,
+     .cpu_exec_interrupt = alpha_cpu_exec_interrupt,
+     .do_interrupt = alpha_cpu_do_interrupt,
+     .do_transaction_failed = alpha_cpu_do_transaction_failed,
+diff --git a/target/alpha/helper.c b/target/alpha/helper.c
+index 81550d9e2f..266d56ea73 100644
+--- a/target/alpha/helper.c
++++ b/target/alpha/helper.c
+@@ -119,18 +119,7 @@ void cpu_alpha_store_gr(CPUAlphaState *env, unsigned reg, uint64_t val)
+     *cpu_alpha_addr_gr(env, reg) = val;
+ }
  
-             sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
+-#if defined(CONFIG_USER_ONLY)
+-bool alpha_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                        MMUAccessType access_type, int mmu_idx,
+-                        bool probe, uintptr_t retaddr)
+-{
+-    AlphaCPU *cpu = ALPHA_CPU(cs);
 -
--            tcg_ops = CPU_GET_CLASS(cpu)->tcg_ops;
--            tcg_ops->tlb_fill(cpu, guest_addr, 0, access_type,
--                              MMU_USER_IDX, false, pc);
--            g_assert_not_reached();
-+            raise_sigsegv(cpu, guest_addr, access_type, maperr, pc);
-         } else {
-             sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
-         }
+-    cs->exception_index = EXCP_MMFAULT;
+-    cpu->env.trap_arg0 = address;
+-    cpu_loop_exit_restore(cs, retaddr);
+-}
+-#else
++#ifndef CONFIG_USER_ONLY
+ /* Returns the OSF/1 entMM failure indication, or -1 on success.  */
+ static int get_physical_address(CPUAlphaState *env, target_ulong addr,
+                                 int prot_need, int mmu_idx,
 -- 
 2.25.1
 
