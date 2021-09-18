@@ -2,81 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC5E41028C
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 03:13:36 +0200 (CEST)
-Received: from localhost ([::1]:58152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B61814102EC
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 04:14:57 +0200 (CEST)
+Received: from localhost ([::1]:39686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mROv9-0005KU-If
-	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 21:13:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49266)
+	id 1mRPsW-0006YJ-DB
+	for lists+qemu-devel@lfdr.de; Fri, 17 Sep 2021 22:14:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mROu3-0004fD-In
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 21:12:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31460)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1mRPrQ-0005sU-MR
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 22:13:48 -0400
+Received: from mga02.intel.com ([134.134.136.20]:31335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mROu0-0003aV-GJ
- for qemu-devel@nongnu.org; Fri, 17 Sep 2021 21:12:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631927543;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZZR/aKeIMyog3TvxWUCQENJ4SEUl79t/cB/rFfwUvh0=;
- b=YMjga/VLr5cUvgkOVkepnVXBYHXi66UWZ/rCbhKgQqx6MFqs863woMrOrd9GPf4qrF5IM2
- t9d0rvcyvtj4SKQUcG6IsPJis7Ih+LEyVLB0F8Ob1b7eavBoAAsDXfnrxAN9AId+HCtMHQ
- c0k+btJYXhXAXeX2mgmmimH2/VFWUIw=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-0umx3YuzMy2Wf63Lh4IO5w-1; Fri, 17 Sep 2021 21:12:21 -0400
-X-MC-Unique: 0umx3YuzMy2Wf63Lh4IO5w-1
-Received: by mail-oi1-f200.google.com with SMTP id
- y185-20020acaafc2000000b0027359453ad4so1731285oie.6
- for <qemu-devel@nongnu.org>; Fri, 17 Sep 2021 18:12:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZZR/aKeIMyog3TvxWUCQENJ4SEUl79t/cB/rFfwUvh0=;
- b=DRrra7Pqo32ROTcvahymIUHIod+VNosOZGfWFR1AWOnHcNiinJBTWprYuPJpyJFkmF
- UsjD5K+8moMeljlVNYS4AH9TWsytlHerBqHLCOo/9BSadoTJCa/LkkRPTCPmeeUityZs
- Hm6fDAb3nmHrDgIs9bJgE746Zww9ReV7xOfj2dW92GXA0n7NSuQ3dYj9inilAvn4dLBA
- iG6F+Dttok4XTJG2hTePj1VeHcxqRxIf/XCTiCC7RaNmzV1c9V7mpkyFEdeTClJ6hquF
- 5d2DHYIDkN7OsaagvJZOYeCaZBkfIHQ2+GGtWW6TP3hG7UatBFZxzGbVBnBe8PSmzhlO
- sTPw==
-X-Gm-Message-State: AOAM532zterTWAk9bvwr249y6EetoQVWa18hWVUHN41SK7wJAqkl7+9z
- Au+VMSKOSDA1EhAkVL/OCs2odpdGxKRBpP7juvRj4A1rJVu0FFD6HyAbRZsgh8yepgfr6LcPtq+
- IyS9+HPjUsqp3FELXqhn5IfF5KE8X8HE=
-X-Received: by 2002:a05:6830:310c:: with SMTP id
- b12mr8887971ots.252.1631927541165; 
- Fri, 17 Sep 2021 18:12:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzDkReLH9ZIAutWS4PAlLsO/fgc13ZwpJ2J7oewNPLqfxmAuLXE6hslUKbGDSjG6fiZCPatfxJYNTY1A6rB1jI=
-X-Received: by 2002:a05:6830:310c:: with SMTP id
- b12mr8887955ots.252.1631927540920; 
- Fri, 17 Sep 2021 18:12:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1mRPrM-0002zw-BZ
+ for qemu-devel@nongnu.org; Fri, 17 Sep 2021 22:13:48 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10110"; a="210143393"
+X-IronPort-AV: E=Sophos;i="5.85,303,1624345200"; d="scan'208";a="210143393"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2021 19:13:36 -0700
+X-IronPort-AV: E=Sophos;i="5.85,303,1624345200"; d="scan'208";a="546747395"
+Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2021 19:13:33 -0700
+From: Zhang Chen <chen.zhang@intel.com>
+To: Jason Wang <jasowang@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH V3] net/colo: check vnet_hdr_support flag when using virtio-net
+Date: Sat, 18 Sep 2021 10:04:37 +0800
+Message-Id: <20210918020437.1822937-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210917054047.2042843-1-jsnow@redhat.com>
- <20210917054047.2042843-14-jsnow@redhat.com>
- <5ef334d0-515b-42bf-01a0-b933c413c01e@redhat.com>
-In-Reply-To: <5ef334d0-515b-42bf-01a0-b933c413c01e@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 17 Sep 2021 21:12:10 -0400
-Message-ID: <CAFn=p-Ydbnhdu5-xY-1ysqzS9kWanTAO+NPR-t3jeEOE_ujOEA@mail.gmail.com>
-Subject: Re: [PATCH 13/15] iotests: Accommodate async QMP Exception classes
-To: Hanna Reitz <hreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000604e4d05cc3abdfc"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.20; envelope-from=chen.zhang@intel.com;
+ helo=mga02.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,229 +57,306 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+Cc: Zhang Chen <chen.zhang@intel.com>, Tao Xu <tao3.xu@intel.com>,
+ Lukas Straub <lukasstraub2@web.de>, qemu-dev <qemu-devel@nongnu.org>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000604e4d05cc3abdfc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+When COLO use only one vnet_hdr_support parameter between
+COLO network filter(filter-mirror, filter-redirector or
+filter-rewriter and colo-compare, packet will not be parsed
+correctly. Acquire network driver related to COLO, if it is
+nirtio-net, check vnet_hdr_support flag of COLO network filter
+and colo-compare.
 
-On Fri, Sep 17, 2021 at 10:35 AM Hanna Reitz <hreitz@redhat.com> wrote:
+Signed-off-by: Tao Xu <tao3.xu@intel.com>
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+---
 
-> On 17.09.21 07:40, John Snow wrote:
-> > (But continue to support the old ones for now, too.)
-> >
-> > There are very few cases of any user of QEMUMachine or a subclass
-> > thereof relying on a QMP Exception type. If you'd like to check for
-> > yourself, you want to grep for all of the derivatives of QMPError,
-> > excluding 'AQMPError' and its derivatives. That'd be these:
-> >
-> > - QMPError
-> > - QMPConnectError
-> > - QMPCapabilitiesError
-> > - QMPTimeoutError
-> > - QMPProtocolError
-> > - QMPResponseError
-> > - QMPBadPortError
-> >
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >   scripts/simplebench/bench_block_job.py    | 3 ++-
-> >   tests/qemu-iotests/tests/mirror-top-perms | 6 +++++-
-> >   2 files changed, 7 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/scripts/simplebench/bench_block_job.py
-> b/scripts/simplebench/bench_block_job.py
-> > index 4f03c12169..a403c35b08 100755
-> > --- a/scripts/simplebench/bench_block_job.py
-> > +++ b/scripts/simplebench/bench_block_job.py
-> > @@ -28,6 +28,7 @@
-> >   sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..',
-> 'python'))
-> >   from qemu.machine import QEMUMachine
-> >   from qemu.qmp import QMPConnectError
-> > +from qemu.aqmp import ConnectError
-> >
-> >
-> >   def bench_block_job(cmd, cmd_args, qemu_args):
-> > @@ -49,7 +50,7 @@ def bench_block_job(cmd, cmd_args, qemu_args):
-> >           vm.launch()
-> >       except OSError as e:
-> >           return {'error': 'popen failed: ' + str(e)}
-> > -    except (QMPConnectError, socket.timeout):
-> > +    except (QMPConnectError, ConnectError, socket.timeout):
-> >           return {'error': 'qemu failed: ' + str(vm.get_log())}
-> >
-> >       try:
-> > diff --git a/tests/qemu-iotests/tests/mirror-top-perms
-> b/tests/qemu-iotests/tests/mirror-top-perms
-> > index 451a0666f8..7d448f4d23 100755
-> > --- a/tests/qemu-iotests/tests/mirror-top-perms
-> > +++ b/tests/qemu-iotests/tests/mirror-top-perms
-> > @@ -103,7 +103,11 @@ class TestMirrorTopPerms(iotests.QMPTestCase):
-> >               print('ERROR: VM B launched successfully, this should not
-> have '
-> >                     'happened')
-> >           except qemu.qmp.QMPConnectError:
-> > -            assert 'Is another process using the image' in
-> self.vm_b.get_log()
-> > +            pass
-> > +        except qemu.aqmp.ConnectError:
-> > +            pass
-> > +
-> > +        assert 'Is another process using the image' in
-> self.vm_b.get_log()
->
-> But this assertion will fail if there was no exception, and so we won=E2=
-=80=99t
-> get to see the real problem, which is the original VM aborting (see the
-> doc string).
->
+Changelog:
+v3:
+    Fix some typos.
+    Rebased for Qemu 6.2.
 
-Uh, hm. OK, so the intent was that if vm_b somehow starts successfully that
-we will fail the test based on output in the diff, but we'll continue on to
-see other kinds of explosions so that the output is more useful for
-diagnosing the failure. Gotcha.
+v2:
+    Detect virtio-net driver and apply vnet_hdr_support
+    automatically. (Jason)
+---
+ net/colo-compare.c    | 57 +++++++++++++++++++++++++++++++++++++++++++
+ net/colo.c            | 20 +++++++++++++++
+ net/colo.h            |  4 +++
+ net/filter-mirror.c   | 21 ++++++++++++++++
+ net/filter-rewriter.c | 10 ++++++++
+ qapi/qom.json         |  6 +++++
+ qemu-options.hx       |  6 +++--
+ 7 files changed, 122 insertions(+), 2 deletions(-)
 
-It doesn=E2=80=99t really matter that much that VM B can start (hence it be=
-ing a
-> logged error message, not a fatal error), and when it can start, of
-> course it won=E2=80=99t print an error =E2=80=93 but what=E2=80=99s impor=
-tant is that the
-> original VM will then abort.
->
-
-> I mean, not an absolute showstopper by any means, but still, the
-> assertion was deliberately placed into the `except` block.
->
-> Hanna
->
-
-I misunderstood the "test style" here. I'll fix it.
-
-(Uh, I also forgot to explicitly import qemu.aqmp. It happens to work
-anyway because of $reasons, but it's not very good style. I'll fix that,
-too.)
-
---js
-
---000000000000604e4d05cc3abdfc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 17, 2021 at 10:35 AM Hann=
-a Reitz &lt;<a href=3D"mailto:hreitz@redhat.com">hreitz@redhat.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 17.09.=
-21 07:40, John Snow wrote:<br>
-&gt; (But continue to support the old ones for now, too.)<br>
-&gt;<br>
-&gt; There are very few cases of any user of QEMUMachine or a subclass<br>
-&gt; thereof relying on a QMP Exception type. If you&#39;d like to check fo=
-r<br>
-&gt; yourself, you want to grep for all of the derivatives of QMPError,<br>
-&gt; excluding &#39;AQMPError&#39; and its derivatives. That&#39;d be these=
-:<br>
-&gt;<br>
-&gt; - QMPError<br>
-&gt; - QMPConnectError<br>
-&gt; - QMPCapabilitiesError<br>
-&gt; - QMPTimeoutError<br>
-&gt; - QMPProtocolError<br>
-&gt; - QMPResponseError<br>
-&gt; - QMPBadPortError<br>
-&gt;<br>
-&gt;<br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0scripts/simplebench/bench_block_job.py=C2=A0 =C2=A0 | 3 ++=
--<br>
-&gt;=C2=A0 =C2=A0tests/qemu-iotests/tests/mirror-top-perms | 6 +++++-<br>
-&gt;=C2=A0 =C2=A02 files changed, 7 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/scripts/simplebench/bench_block_job.py b/scripts/simplebe=
-nch/bench_block_job.py<br>
-&gt; index 4f03c12169..a403c35b08 100755<br>
-&gt; --- a/scripts/simplebench/bench_block_job.py<br>
-&gt; +++ b/scripts/simplebench/bench_block_job.py<br>
-&gt; @@ -28,6 +28,7 @@<br>
-&gt;=C2=A0 =C2=A0sys.path.append(os.path.join(os.path.dirname(__file__), &#=
-39;..&#39;, &#39;..&#39;, &#39;python&#39;))<br>
-&gt;=C2=A0 =C2=A0from qemu.machine import QEMUMachine<br>
-&gt;=C2=A0 =C2=A0from qemu.qmp import QMPConnectError<br>
-&gt; +from qemu.aqmp import ConnectError<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0def bench_block_job(cmd, cmd_args, qemu_args):<br>
-&gt; @@ -49,7 +50,7 @@ def bench_block_job(cmd, cmd_args, qemu_args):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vm.launch()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0except OSError as e:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return {&#39;error&#39;: &#39;=
-popen failed: &#39; + str(e)}<br>
-&gt; -=C2=A0 =C2=A0 except (QMPConnectError, socket.timeout):<br>
-&gt; +=C2=A0 =C2=A0 except (QMPConnectError, ConnectError, socket.timeout):=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return {&#39;error&#39;: &#39;=
-qemu failed: &#39; + str(vm.get_log())}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
-&gt; diff --git a/tests/qemu-iotests/tests/mirror-top-perms b/tests/qemu-io=
-tests/tests/mirror-top-perms<br>
-&gt; index 451a0666f8..7d448f4d23 100755<br>
-&gt; --- a/tests/qemu-iotests/tests/mirror-top-perms<br>
-&gt; +++ b/tests/qemu-iotests/tests/mirror-top-perms<br>
-&gt; @@ -103,7 +103,11 @@ class TestMirrorTopPerms(iotests.QMPTestCase):<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0print(&#39;ERROR=
-: VM B launched successfully, this should not have &#39;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0&#39;happened&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except qemu.qmp.QMPConnectErro=
-r:<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert &#39;Is another proc=
-ess using the image&#39; in self.vm_b.get_log()<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pass<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 except qemu.aqmp.ConnectError:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pass<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 assert &#39;Is another process using the =
-image&#39; in self.vm_b.get_log()<br>
-<br>
-But this assertion will fail if there was no exception, and so we won=E2=80=
-=99t <br>
-get to see the real problem, which is the original VM aborting (see the <br=
->
-doc string).<br></blockquote><div><br></div><div>Uh, hm. OK, so the intent =
-was that if vm_b somehow starts successfully that we will fail the test bas=
-ed on output in the diff, but we&#39;ll continue on to see other kinds of e=
-xplosions so that the output is more useful for diagnosing the failure. Got=
-cha.<br></div><br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-It doesn=E2=80=99t really matter that much that VM B can start (hence it be=
-ing a <br>
-logged error message, not a fatal error), and when it can start, of <br>
-course it won=E2=80=99t print an error =E2=80=93 but what=E2=80=99s importa=
-nt is that the <br>
-original VM will then abort.<br></blockquote><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">
-<br>
-I mean, not an absolute showstopper by any means, but still, the <br>
-assertion was deliberately placed into the `except` block.<br>
-<br>
-Hanna<br></blockquote><div><br></div><div>I misunderstood the &quot;test st=
-yle&quot; here. I&#39;ll fix it.<br><br></div><div>(Uh, I also forgot to ex=
-plicitly import qemu.aqmp. It happens to work anyway because of $reasons, b=
-ut it&#39;s not very good style. I&#39;ll fix that, too.)</div><div><br></d=
-iv><div>--js<br></div></div></div>
-
---000000000000604e4d05cc3abdfc--
+diff --git a/net/colo-compare.c b/net/colo-compare.c
+index b100e7b51f..870bd05a41 100644
+--- a/net/colo-compare.c
++++ b/net/colo-compare.c
+@@ -110,6 +110,7 @@ struct CompareState {
+     char *sec_indev;
+     char *outdev;
+     char *notify_dev;
++    char *netdev;
+     CharBackend chr_pri_in;
+     CharBackend chr_sec_in;
+     CharBackend chr_out;
+@@ -838,6 +839,28 @@ static int compare_chr_can_read(void *opaque)
+     return COMPARE_READ_LEN_MAX;
+ }
+ 
++static int colo_set_default_netdev(void *opaque, QemuOpts *opts, Error **errp)
++{
++    const char *colo_obj_type, *netdev_from_filter;
++    char **netdev = (char **)opaque;
++
++    colo_obj_type = qemu_opt_get(opts, "qom-type");
++
++    if (colo_obj_type &&
++        (strcmp(colo_obj_type, "filter-mirror") == 0 ||
++         strcmp(colo_obj_type, "filter-redirector") == 0 ||
++         strcmp(colo_obj_type, "filter-rewriter") == 0)) {
++        netdev_from_filter = qemu_opt_get(opts, "netdev");
++        if (*netdev == NULL) {
++            *netdev = g_strdup(netdev_from_filter);
++        } else if (strcmp(*netdev, netdev_from_filter) != 0) {
++            warn_report("%s is using a different netdev from other COLO "
++                        "component", colo_obj_type);
++        }
++    }
++    return 0;
++}
++
+ /*
+  * Called from the main thread on the primary for packets
+  * arriving over the socket from the primary.
+@@ -1050,6 +1073,21 @@ static void compare_set_vnet_hdr(Object *obj,
+     s->vnet_hdr = value;
+ }
+ 
++static char *compare_get_netdev(Object *obj, Error **errp)
++{
++    CompareState *s = COLO_COMPARE(obj);
++
++    return g_strdup(s->netdev);
++}
++
++static void compare_set_netdev(Object *obj, const char *value, Error **errp)
++{
++    CompareState *s = COLO_COMPARE(obj);
++
++    g_free(s->netdev);
++    s->netdev = g_strdup(value);
++}
++
+ static char *compare_get_notify_dev(Object *obj, Error **errp)
+ {
+     CompareState *s = COLO_COMPARE(obj);
+@@ -1274,6 +1312,12 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
+         max_queue_size = MAX_QUEUE_SIZE;
+     }
+ 
++    if (!s->netdev) {
++        /* Set default netdev as the first colo netfilter found */
++        qemu_opts_foreach(qemu_find_opts("object"),
++                          colo_set_default_netdev, &s->netdev, NULL);
++    }
++
+     if (find_and_check_chardev(&chr, s->pri_indev, errp) ||
+         !qemu_chr_fe_init(&s->chr_pri_in, chr, errp)) {
+         return;
+@@ -1289,6 +1333,16 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
+         return;
+     }
+ 
++    if (!s->vnet_hdr &&
++        qemu_opts_foreach(qemu_find_opts("device"),
++                          vnet_driver_check, s->netdev, NULL)) {
++        /*
++         * colo compare needs 'vnet_hdr_support' when it works on virtio-net,
++         * add 'vnet_hdr_support' automatically
++         */
++        s->vnet_hdr = true;
++    }
++
+     net_socket_rs_init(&s->pri_rs, compare_pri_rs_finalize, s->vnet_hdr);
+     net_socket_rs_init(&s->sec_rs, compare_sec_rs_finalize, s->vnet_hdr);
+ 
+@@ -1400,6 +1454,9 @@ static void colo_compare_init(Object *obj)
+     s->vnet_hdr = false;
+     object_property_add_bool(obj, "vnet_hdr_support", compare_get_vnet_hdr,
+                              compare_set_vnet_hdr);
++    /* colo compare can't varify that netdev is correct */
++    object_property_add_str(obj, "netdev", compare_get_netdev,
++                            compare_set_netdev);
+ }
+ 
+ void colo_compare_cleanup(void)
+diff --git a/net/colo.c b/net/colo.c
+index 3a3e6e89a0..4a03780f45 100644
+--- a/net/colo.c
++++ b/net/colo.c
+@@ -243,3 +243,23 @@ bool connection_has_tracked(GHashTable *connection_track_table,
+ 
+     return conn ? true : false;
+ }
++
++/* check the network driver related to COLO, return 1 if it is virtio-net */
++int vnet_driver_check(void *opaque, QemuOpts *opts, Error **errp)
++{
++    const char *driver_type, *netdev_from_driver;
++    char *netdev_from_filter = (char *)opaque;
++
++    driver_type = qemu_opt_get(opts, "driver");
++    netdev_from_driver = qemu_opt_get(opts, "netdev");
++
++    if (!driver_type || !netdev_from_driver || !netdev_from_filter) {
++        return 0;
++    }
++
++    if (g_str_has_prefix(driver_type, "virtio-net") &&
++        strcmp(netdev_from_driver, netdev_from_filter) == 0) {
++        return 1;
++    }
++    return 0;
++}
+diff --git a/net/colo.h b/net/colo.h
+index d91cd245c4..d401fc76b6 100644
+--- a/net/colo.h
++++ b/net/colo.h
+@@ -18,6 +18,9 @@
+ #include "qemu/jhash.h"
+ #include "qemu/timer.h"
+ #include "net/eth.h"
++#include "qemu/option.h"
++#include "qemu/option_int.h"
++#include "qemu/config-file.h"
+ 
+ #define HASHTABLE_MAX_SIZE 16384
+ 
+@@ -104,5 +107,6 @@ Packet *packet_new(const void *data, int size, int vnet_hdr_len);
+ Packet *packet_new_nocopy(void *data, int size, int vnet_hdr_len);
+ void packet_destroy(void *opaque, void *user_data);
+ void packet_destroy_partial(void *opaque, void *user_data);
++int vnet_driver_check(void *opaque, QemuOpts *opts, Error **errp);
+ 
+ #endif /* NET_COLO_H */
+diff --git a/net/filter-mirror.c b/net/filter-mirror.c
+index f20240cc9f..69ca9c9839 100644
+--- a/net/filter-mirror.c
++++ b/net/filter-mirror.c
+@@ -12,6 +12,7 @@
+ #include "qemu/osdep.h"
+ #include "net/filter.h"
+ #include "net/net.h"
++#include "net/colo.h"
+ #include "qapi/error.h"
+ #include "qom/object.h"
+ #include "qemu/main-loop.h"
+@@ -224,6 +225,16 @@ static void filter_mirror_setup(NetFilterState *nf, Error **errp)
+         return;
+     }
+ 
++    if (!s->vnet_hdr &&
++        qemu_opts_foreach(qemu_find_opts("device"),
++                          vnet_driver_check, nf->netdev_id, NULL)) {
++        /*
++         * filter mirror needs 'vnet_hdr_support' when colo filter modules
++         * work on virtio-net, add 'vnet_hdr_support' automatically
++         */
++        s->vnet_hdr = true;
++    }
++
+     qemu_chr_fe_init(&s->chr_out, chr, errp);
+ }
+ 
+@@ -252,6 +263,16 @@ static void filter_redirector_setup(NetFilterState *nf, Error **errp)
+         }
+     }
+ 
++    if (!s->vnet_hdr &&
++        qemu_opts_foreach(qemu_find_opts("device"),
++                          vnet_driver_check, nf->netdev_id, NULL)) {
++        /*
++         * filter redirector needs 'vnet_hdr_support' when colo filter modules
++         * work on virtio-net, add 'vnet_hdr_support' automatically
++         */
++        s->vnet_hdr = true;
++    }
++
+     net_socket_rs_init(&s->rs, redirector_rs_finalize, s->vnet_hdr);
+ 
+     if (s->indev) {
+diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c
+index cb3a96cde1..637ef4ce71 100644
+--- a/net/filter-rewriter.c
++++ b/net/filter-rewriter.c
+@@ -388,6 +388,16 @@ static void colo_rewriter_setup(NetFilterState *nf, Error **errp)
+ {
+     RewriterState *s = FILTER_REWRITER(nf);
+ 
++    if (!s->vnet_hdr &&
++        qemu_opts_foreach(qemu_find_opts("device"),
++                          vnet_driver_check, nf->netdev_id, NULL)) {
++        /*
++         * filter rewriter needs 'vnet_hdr_support' when colo filter modules
++         * work on virtio-net, add 'vnet_hdr_support' automatically
++         */
++        s->vnet_hdr = true;
++    }
++
+     s->connection_track_table = g_hash_table_new_full(connection_key_hash,
+                                                       connection_key_equal,
+                                                       g_free,
+diff --git a/qapi/qom.json b/qapi/qom.json
+index a25616bc7a..5760107160 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -241,6 +241,11 @@
+ # @notify_dev: name of the character device backend to be used to communicate
+ #              with the remote colo-frame (only for Xen COLO)
+ #
++# @netdev: id of the network device backend to colo-compare. Although
++#          colo-compare doesn't depend on network device directly, this
++#          parameter helps colo-compare know what network driver it is
++#          working on.(since 6.2)
++#
+ # @compare_timeout: the maximum time to hold a packet from @primary_in for
+ #                   comparison with an incoming packet on @secondary_in in
+ #                   milliseconds (default: 3000)
+@@ -264,6 +269,7 @@
+             'outdev': 'str',
+             'iothread': 'str',
+             '*notify_dev': 'str',
++            '*netdev': 'str',
+             '*compare_timeout': 'uint64',
+             '*expired_scan_cycle': 'uint32',
+             '*max_queue_size': 'uint32',
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 8f603cc7e6..250937fbbf 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4964,12 +4964,14 @@ SRST
+         stored. The file format is libpcap, so it can be analyzed with
+         tools such as tcpdump or Wireshark.
+ 
+-    ``-object colo-compare,id=id,primary_in=chardevid,secondary_in=chardevid,outdev=chardevid,iothread=id[,vnet_hdr_support][,notify_dev=id][,compare_timeout=@var{ms}][,expired_scan_cycle=@var{ms}][,max_queue_size=@var{size}]``
++    ``-object colo-compare,id=id,primary_in=chardevid,secondary_in=chardevid,outdev=chardevid,iothread=id[,netdev=netdevid][,vnet_hdr_support][,notify_dev=id][,compare_timeout=@var{ms}][,expired_scan_cycle=@var{ms}][,max_queue_size=@var{size}]``
+         Colo-compare gets packet from primary\_in chardevid and
+         secondary\_in, then compare whether the payload of primary packet
+         and secondary packet are the same. If same, it will output
+         primary packet to out\_dev, else it will notify COLO-framework to do
+-        checkpoint and send primary packet to out\_dev. In order to
++        checkpoint and send primary packet to out\_dev. Although colo-compare
++        does not depend on network device directly, netdevid helps
++        colo-compare know what network driver it is working on. In order to
+         improve efficiency, we need to put the task of comparison in
+         another iothread. If it has the vnet\_hdr\_support flag,
+         colo compare will send/recv packet with vnet\_hdr\_len.
+-- 
+2.25.1
 
 
