@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D1341036C
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 06:21:38 +0200 (CEST)
-Received: from localhost ([::1]:44968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4185410423
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 07:10:19 +0200 (CEST)
+Received: from localhost ([::1]:48216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRRr7-0002hc-69
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 00:21:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37930)
+	id 1mRScE-0007nB-6J
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 01:10:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1mRRp8-0001l8-0g; Sat, 18 Sep 2021 00:19:34 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:45823)
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1mRSaQ-00070v-Cv; Sat, 18 Sep 2021 01:08:27 -0400
+Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:42684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1mRRp2-0002VO-ME; Sat, 18 Sep 2021 00:19:33 -0400
-Received: by mail-ot1-x331.google.com with SMTP id
- l7-20020a0568302b0700b0051c0181deebso15592240otv.12; 
- Fri, 17 Sep 2021 21:19:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1mRSaL-0001uw-6i; Sat, 18 Sep 2021 01:08:25 -0400
+Received: by mail-lf1-x12c.google.com with SMTP id bq5so41751872lfb.9;
+ Fri, 17 Sep 2021 22:08:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+2tKechx+ZhlpM/E2TOJyj4EGX8JY1a++laKGyyB928=;
- b=M/SlhcW9v1h0ukggcu96RxQWBj4FmW50VbCb4H63uHjkg7ITk4Ad3FhucRGtRWQwuD
- rLxt78l9Vp594HQdrbqdN4XFr57USaJ9L+A1DFgchabhwRC12yZ1jWtnueqoW/KSz2F0
- ulereToJUSnvAzobONLoC0oLrgc7Nq2h3AfpY94s+x/2jjjia5RbqTNnGEXmG0PRJcS5
- yFuVb8rlhFdWDy8F9HQsVOn853d2zW7w/m/Ml/5huWKKWb/4gGcyw7pUMAhz8sfBqeK1
- Yu3I6BrK6M1bNC7/eoCQPX6KZ7Es+ZVrdN9eMzEgzadUmOBDf8TJ9bR2kifcWDichkqg
- trcA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4TxNL+cbAlm69v5QIBh94W8NtjcdtACqoM/td41qnGM=;
+ b=VNQD6nlYgDHB3Bajql+/yp3xROPrl4dtJ3VlZ1lThbM+rqQchbY+Yrx/oY5s+kKQbH
+ /YknOh6gzauU7nMPzxmD6Dl4Q3opuhpdpGtDgKjmWZq8GPyF1AF+Ig9LgZHfBdLReABx
+ bX0iAa3V2AdhdkzkOJXYQiiY0kqcFIWZ1yyQk3Nxz7DyVqDOQ82h2cASNMrCoQBcvjoP
+ jTf5KtpAUgGGfxgGNnTHLBx9hOARQ7WxSdNo0TCI0dvHS6a0lNCLp8PtBN1sIe8jz0tt
+ uxvZzRKKd7rohqysvCzIsVweEvHm2OIICHxg4ntM7hKG4iROJy7+5UuRt9gwGVJhPaqD
+ qpqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+2tKechx+ZhlpM/E2TOJyj4EGX8JY1a++laKGyyB928=;
- b=lgql9dEg16uD4t4g87YquDic3cSuGJTB6zcRHhlFCjfvIuJF9t4e9HlKgrMsyxJGok
- 0S7sGN+lyz2LK2suwlCQpmQmPdYXKEBKMEcS6bU2uGfF5BmopZwqyIKubPtW/N1QBwAo
- JkXIyq/chZPj+CSv+ShZgvEPEsjnhQEoGZoL5cST9eprsy3sIVto3uuYSV1Zii0/tZlK
- 1r1y8h7VMMSZyCMBSUy5jLQ/K+nJlQHF2svUeO3GWdTbjfxFSWKBRkBm98c3YII9qiIu
- YzxNcY4SBxY8LKV4mFBg/KSQ/gBPDkpj6/mi8dVvuTFeSfGAk8ieGA8lP2dxvTPVeaix
- RH5w==
-X-Gm-Message-State: AOAM531nxp6MVvW6i5Cue409fbe3tNXxlBev2GKVrMSEnHFGu2dQ4er3
- xyf5Fkk4ZqHjPpG1/RNcMwk=
-X-Google-Smtp-Source: ABdhPJyPfpbTwVhn+7VpFM5AzFElClZnTwjwViTQ7esjjDGEqF/GkSVKC5II8dLq4/hJ/6J2YG9rbA==
-X-Received: by 2002:a9d:7019:: with SMTP id k25mr12654218otj.350.1631938766677; 
- Fri, 17 Sep 2021 21:19:26 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- g2sm1815211otp.7.2021.09.17.21.19.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Sep 2021 21:19:25 -0700 (PDT)
-Subject: Re: [PATCH] hw/ssi: imx_spi: Improve chip select handling
-To: "Cheng, Xuzhou" <Xuzhou.Cheng@windriver.com>
-References: <CAFEAcA_cAp6kWTE6Lpx6QF1zfTYfQXiOPgdfkztS3iuJkRB0xQ@mail.gmail.com>
- <b5e43e87-c1bd-3265-298e-346413a22a82@roeck-us.net>
- <CAEUhbmWN1=j=hPntg1j6aOv-AZNDm1UrDFB364Qqf0SAccyJew@mail.gmail.com>
- <c49b65a2-fa3e-c180-5fdf-a0a64cb91a32@amsat.org>
- <e08467c0-bd69-81d3-93d3-13b8fc812453@roeck-us.net>
- <CAEUhbmX9JxE+VxSL8BWGd_XKD-WJ0r5d5MKsbdVgPiJkZd5Y3w@mail.gmail.com>
- <CAEUhbmVfFRdbtu7yWUauO6sd0QNhoH6tuTAFA2PMxZp5P7+awA@mail.gmail.com>
- <PH0PR11MB5205AE78D6C5DFFFA767183B97D49@PH0PR11MB5205.namprd11.prod.outlook.com>
- <8b86d434-a2e6-8122-0a88-dc9a15fbfe87@roeck-us.net>
- <PH0PR11MB5205684F9CDEC890187D09D997DC9@PH0PR11MB5205.namprd11.prod.outlook.com>
- <20210916142140.GA252836@roeck-us.net>
- <PH0PR11MB52058E0462672E61797758B997DE9@PH0PR11MB5205.namprd11.prod.outlook.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <2cd83a88-952c-6f86-74b2-8c0da3ce4394@roeck-us.net>
-Date: Fri, 17 Sep 2021 21:19:23 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4TxNL+cbAlm69v5QIBh94W8NtjcdtACqoM/td41qnGM=;
+ b=TrQGfII2p6eKxbw2elcSZc+KnjOilMmCPPCJn7X8d2qI3e6T4iud6S00GWwbfKQI0b
+ Bzl8TvFIKq1XdMkrwElQvQkX8ZYuOGRFOBRoiUzhTFuOquMXuHx49PnnPDLfQBLgB0TS
+ Vw0HAqisUPC+51MTiKbPb5hwf+BWZLQcZUcFEvezWn8FkweRTrqIQhj4LKBvilyFS5tn
+ GtmDRB8iwBVD/fzjt5nzu6ok1U3svd4GbcE9qpGdQCn3Mao1pMduK3ttDb94T+I1RhCk
+ P59sLu4jyHN2tcuhSkYR0UK5ecljhSitmmdu8DmDj7BVwYlCbRtczgq/3VwKRIR4jHSN
+ FbrQ==
+X-Gm-Message-State: AOAM530J2O9ojWegIFjjyyaYjDzWO348SQgTI2D015nRIojI8Fsgwaip
+ NsSHGkoucwoFGkHqewtzER0cKWnVu6VkfCM+RBk=
+X-Google-Smtp-Source: ABdhPJw37mq5rXDVf/XJBk8971Or/RUlNLispXXuzYUDHbQEsF8mP5P1Hag1WniyfugDz/u5GwCBlW13eKVQH9N7SEk=
+X-Received: by 2002:a05:6512:15a4:: with SMTP id
+ bp36mr10572227lfb.509.1631941698298; 
+ Fri, 17 Sep 2021 22:08:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <PH0PR11MB52058E0462672E61797758B997DE9@PH0PR11MB5205.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=groeck7@gmail.com; helo=mail-ot1-x331.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.488,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+References: <20210909190033.1339448-1-space.monkey.delivers@gmail.com>
+ <20210909190033.1339448-6-space.monkey.delivers@gmail.com>
+ <4098b753-76fb-2dad-4922-837061184fc1@linaro.org>
+In-Reply-To: <4098b753-76fb-2dad-4922-837061184fc1@linaro.org>
+From: Alexey Baturo <baturo.alexey@gmail.com>
+Date: Sat, 18 Sep 2021 07:08:05 +0200
+Message-ID: <CAFukJ-BJ6HQmrz6gGtxazYRo-q20tBMhtkk81SamCoRuRuEhew@mail.gmail.com>
+Subject: Re: [PATCH v11 5/7] [RISCV_PM] Support pointer masking for RISC-V for
+ i/c/f/d/a types of instructions
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000038ac2205cc3e094d"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
+ envelope-from=baturo.alexey@gmail.com; helo=mail-lf1-x12c.google.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001, GAPPY_SUBJECT=0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,29 +78,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, Bin Meng <bin.meng@windriver.com>,
+ qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
+ Alistair.Francis@wdc.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/17/21 8:09 PM, Cheng, Xuzhou wrote:
->>> I got some free time in the past days to investigate this issue. Guenter is right, the Linux imx-spi driver does not work on QEMU.
->>>
->>> The reason is that the state of m25p80 machine loops in STATE_READING_DATA state after receiving RDSR command, the new command is ignored. Before sending a new command, the CS line should be pulled to high, this make the state of m25p80 back to IDLE.
->>>
->>> I have same point with Guenter, it's that set CS to 1 when burst is zero. But i don't think it is necessary to set CS to 0 in imx_spi_flush_txfifo(). I will send a new patch to fix this issue.
->>>
->>
->> Thanks a lot for looking into this. If you have a better solution than mine, by all means, please go for it. As I mentioned in my patch, I didn't really like it, but I was unable to find a better solution.
-> I am doing some experiment to verify that the new patch is reasonable, so the new patch will be delayed few days.
-> 
+--00000000000038ac2205cc3e094d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-No problem. Note that I'll be traveling for the next 2-3 weeks, and I won't be able
-to test any patches during that time.
+Hi Richard,
 
-Guenter
+Thanks for noticing that.
+Do you think it would be an ok solution to pass dst as a pointer
+into gen_pm_adjust_address, so in case pm is enabled, it'd allocate the
+temp and update the dst afterwards?
+Thanks
+
+=D0=BF=D1=82, 10 =D1=81=D0=B5=D0=BD=D1=82. 2021 =D0=B3. =D0=B2 00:00, Richa=
+rd Henderson <
+richard.henderson@linaro.org>:
+
+> On 9/9/21 9:00 PM, Alexey Baturo wrote:
+> > +++ b/target/riscv/insn_trans/trans_rva.c.inc
+> > @@ -25,6 +25,7 @@ static bool gen_lr(DisasContext *ctx, arg_atomic *a,
+> MemOp mop)
+> >       if (a->rl) {
+> >           tcg_gen_mb(TCG_MO_ALL | TCG_BAR_STRL);
+> >       }
+> > +    gen_pm_adjust_address(ctx, src1, src1);
+>
+> This will not work anymore, since src1 may not be a temporary.  See the
+> use of temp_new()
+> e.g. in gen_load().  We're currently only conditionally allocating a
+> temporary; with this
+> extension, we'll always need one.  So it is probably worth cleaning that
+> up at this time.
+>
+>
+> r~
+>
+
+--00000000000038ac2205cc3e094d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Richard,<div><br></div><div>Thanks for noticing that.</=
+div><div>Do you think it would be an ok solution to pass dst as a pointer i=
+nto=C2=A0gen_pm_adjust_address, so in case pm is enabled, it&#39;d allocate=
+ the temp and update the dst afterwards?</div><div>Thanks</div></div><br><d=
+iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=D0=BF=D1=82=
+, 10 =D1=81=D0=B5=D0=BD=D1=82. 2021 =D0=B3. =D0=B2 00:00, Richard Henderson=
+ &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.henderson@lina=
+ro.org</a>&gt;:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+On 9/9/21 9:00 PM, Alexey Baturo wrote:<br>
+&gt; +++ b/target/riscv/insn_trans/trans_rva.c.inc<br>
+&gt; @@ -25,6 +25,7 @@ static bool gen_lr(DisasContext *ctx, arg_atomic *a,=
+ MemOp mop)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (a-&gt;rl) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcg_gen_mb(TCG_MO_ALL | TCG_BA=
+R_STRL);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +=C2=A0 =C2=A0 gen_pm_adjust_address(ctx, src1, src1);<br>
+<br>
+This will not work anymore, since src1 may not be a temporary.=C2=A0 See th=
+e use of temp_new() <br>
+e.g. in gen_load().=C2=A0 We&#39;re currently only conditionally allocating=
+ a temporary; with this <br>
+extension, we&#39;ll always need one.=C2=A0 So it is probably worth cleanin=
+g that up at this time.<br>
+<br>
+<br>
+r~<br>
+</blockquote></div>
+
+--00000000000038ac2205cc3e094d--
 
