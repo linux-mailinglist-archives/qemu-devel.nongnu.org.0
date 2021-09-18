@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88020410522
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 10:32:51 +0200 (CEST)
-Received: from localhost ([::1]:57826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E26941052C
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 10:35:48 +0200 (CEST)
+Received: from localhost ([::1]:36814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRVmE-0005TZ-KX
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 04:32:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49002)
+	id 1mRVp4-00022q-UK
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 04:35:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tangxingxin1008@gmail.com>)
- id 1mRTr8-00031R-RE; Sat, 18 Sep 2021 02:29:46 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:37590)
+ (Exim 4.90_1) (envelope-from <alivatankhah72@gmail.com>)
+ id 1mRVRj-0004F7-H1; Sat, 18 Sep 2021 04:11:39 -0400
+Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a]:44001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tangxingxin1008@gmail.com>)
- id 1mRTr7-0003zq-9J; Sat, 18 Sep 2021 02:29:46 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id j14so484474plx.4;
- Fri, 17 Sep 2021 23:29:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alivatankhah72@gmail.com>)
+ id 1mRVRh-0003cX-MN; Sat, 18 Sep 2021 04:11:39 -0400
+Received: by mail-qv1-xf2a.google.com with SMTP id cf2so7932989qvb.10;
+ Sat, 18 Sep 2021 01:11:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=yJ5Hy1smq6A7DzNmyfSRxxVHKv5+jjXK2R1bnXb9l40=;
- b=DnNrx8Fz1zwVIbW/40FnXPlvb5ej7fuZyS9Axuexptclb04yCeqBzRP1esN6o0Tr1G
- vTdqExkYomDZvlXJKru/0luTICQHHhJzeyD+srTNcePDFmw0Ta1dI3ke745VWYf6ZslT
- 1+Z5RK2YzpRsFwT6peDkCV5+2vZBR2OMbR+5WD1snstKGwT2renqXvW+WeW1u6wJN67x
- tCmkcjf8GmioktNgY8l/CxGP19vdf/wXqvBlOz5caFaG1yXDmKVEewat3wpItQ5tMVUI
- u/Y+BkOE4AWk21bKWLooFY2q7gybZ8hiH/bg5W5LkGhq0O1YBq/K7oC28y0Ls5TQrFml
- Ga7g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AhP0JRlrDLbBcy/Iv52Pwdg0pj92OIpZllOi+a5BuEg=;
+ b=WiPvvWT5Cq24cXT6vD7tMl0RwzlO1P+KxcgIkYyECOKCzgrughl66YKQMYG0xWT8eL
+ LfnTwlMXeDYPRT4vuVtAJLaNaP5tc5kVRrEd0iqDXfvL9ZMmNik+I0vZlOcL2CwQd++b
+ d7XAGg9/C+Kqdx7waxH6l+RCL+MPGJZBZzm8kz0WvCM50FzKy4YVGmFDxv2Bah2VTA9b
+ 4Q/QLmmM1HRQZXJfJtSYshePLf9ipP/74/LMSSiOoNb70WlN9HeCZgkBosOUzQauYd66
+ GlhCIc5713aFbdL6xTuwkRAbcTePVcn7PexvGlnNBmSWxHnzVJyawffmfzIDj1ysoIk7
+ JoLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=yJ5Hy1smq6A7DzNmyfSRxxVHKv5+jjXK2R1bnXb9l40=;
- b=b4sjJgH/Diq0yWZCQ5V+a7oU8MNmVzry2U6S2wZ5kBFVSbyo8VnaUE56Vw+fbvdqYw
- sf+jRQUXb5VrFcAft8l6YG+L7VQ3Jg3eNyPHySQ5uFtqUHjo5tjpIC9+eUM5sWEmiX3s
- FWXX8FQFT6J5w+l90ZDcWGRFvqIGRezfxy1uh+z2cP8b8/5XrUWRfTwaPeIFJQ4xnL9w
- IPCo4vWcb3uwt3kn3O6pJdQp8C+q/XOzRLikI6ldbfJMS965tnsz7HKfn4NwrWbnQ+nM
- noOSUgnjwuUzYbWfcuJ732EB/5nLELFf/YJ8KPqy4NuF08hXFmn3s+cq6Bhjzycr1MWe
- EoPQ==
-X-Gm-Message-State: AOAM533elmU7/PdE5SINFFTcf4HY/1xcTnYaWcY5I6Qq0N18DDVWzPRR
- XVYsiF5vx35ZjRGksLWlsu1Z7zjL5ysk8obM
-X-Google-Smtp-Source: ABdhPJxAMelvYv7Np4lFGFv+Zdaf85K4llIRfSRvBwtB76osvE5fmh8+lTq5VvyR2AKAfcUGuvZiog==
-X-Received: by 2002:a17:90a:9310:: with SMTP id
- p16mr25466588pjo.193.1631946583403; 
- Fri, 17 Sep 2021 23:29:43 -0700 (PDT)
-Received: from eric-OptiPlex-7080.starfivetech.com (ip164.ip-51-195-37.eu.
- [51.195.37.164])
- by smtp.gmail.com with ESMTPSA id f27sm8126432pfq.78.2021.09.17.23.29.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Sep 2021 23:29:43 -0700 (PDT)
-From: Eric Tang <tangxingxin1008@gmail.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [RFC 10/10] target/riscv: rvb: add funnel shfit instructions
-Date: Sat, 18 Sep 2021 14:28:16 +0800
-Message-Id: <20210918062816.7546-11-tangxingxin1008@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210918062816.7546-1-tangxingxin1008@gmail.com>
-References: <20210918062816.7546-1-tangxingxin1008@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=tangxingxin1008@gmail.com; helo=mail-pl1-x62c.google.com
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AhP0JRlrDLbBcy/Iv52Pwdg0pj92OIpZllOi+a5BuEg=;
+ b=CZuCTCxLxWc9KbWd30HOe5Lf80yUtEtp3fvatbxsZWwRZC9+AXbSa37vZ4q2Q543Dl
+ wq+sMLldAt8eRfwrxPUFAIfusf6mVHLCc5iKLNQ6pe35/fDQ/030sTCpMpL9J0A2l9ni
+ t1rAZ+w3J4mKlRYPdZ5409ZsnR9hZs9RGlU4gJJTtYMb6K/n4AOQajosoQJzCKu9mym3
+ fsaGCGLtbDnCMX0MPGZF1oK4LcH2IUGub8o6Ckj7NMEc+PEVg1wkJ/UGyqUKvsv8FYlT
+ 70I0zVP3mooJEVVqCGg/JlHJm2kQFaZCzJjFnPD9pnMlKebDsI5Puu04ua9+CibDgRfM
+ uKbA==
+X-Gm-Message-State: AOAM5311v6JCfVUvSZWznxvinBd65uz6WNRuJqxZ5D1dCoamZHx0Ce8e
+ 5HEZbutrfAxFv5Ux0Uq5q/3pu3xA/A5f1lbUaYN6qG51ZEB66eq9
+X-Google-Smtp-Source: ABdhPJwiEJr25Pr0vkFnZJ+wl5cqrqEpfSKLKt29tBCdvmeK4e70uiUjMZYXKyVi/GInowTuNZGDdAiTt5bUyxyitLM=
+X-Received: by 2002:a05:6214:529:: with SMTP id
+ x9mr15146777qvw.17.1631952695176; 
+ Sat, 18 Sep 2021 01:11:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <CABip9V9nwDNAEg-620hG2r5pyhw_rig+2nf9Ja3s=WA-wmH=jQ@mail.gmail.com>
+ <e53eecec-8897-767a-149f-51faffd76d67@amsat.org>
+In-Reply-To: <e53eecec-8897-767a-149f-51faffd76d67@amsat.org>
+From: Ali Vatankhah <alivatankhah72@gmail.com>
+Date: Sat, 18 Sep 2021 12:41:57 +0430
+Message-ID: <CABip9V88osKWXBqSLDscAup6wAoh+_W-6WZR_Okwj9GG60nGCw@mail.gmail.com>
+Subject: Re: high cpu usage in idle state
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="000000000000afb21a05cc40982e"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
+ envelope-from=alivatankhah72@gmail.com; helo=mail-qv1-xf2a.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 18 Sep 2021 04:21:17 -0400
+X-Mailman-Approved-At: Sat, 18 Sep 2021 04:21:31 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,144 +78,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com
+Cc: qemu-ppc <qemu-ppc@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ qemu-discuss@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-    Add funnel shfit instructions except fsri/fsriw for opcode ecoding
-    reason.
+--000000000000afb21a05cc40982e
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Eric Tang <tangxingxin1008@gmail.com>
+Hi Philippe, Thank for your email
 
-diff --git a/target/riscv/bitmanip_helper.c b/target/riscv/bitmanip_helper.c
-index e936444c12..08a2fbb376 100644
---- a/target/riscv/bitmanip_helper.c
-+++ b/target/riscv/bitmanip_helper.c
-@@ -124,6 +124,43 @@ target_ulong HELPER(clmulr)(target_ulong rs1, target_ulong rs2)
-     return do_clmulr(rs1, rs2, TARGET_LONG_BITS);
- }
- 
-+static target_ulong do_fsl(target_ulong rs1,
-+                           target_ulong rs2,
-+                           target_ulong rs3,
-+                           int bits)
-+{
-+    int shamt = rs2 & ((2 * bits) - 1);
-+    target_ulong a = rs1, b = rs3;
-+
-+    if (shamt >= bits) {
-+        shamt -= bits;
-+        a = rs3;
-+        b = rs1;
-+    }
-+
-+    return shamt ? (a << shamt) | (b >> (bits - shamt)) : a;
-+}
-+
-+target_ulong HELPER(fsl)(target_ulong rs1, target_ulong rs2, target_ulong rs3)
-+{
-+    return do_fsl(rs1, rs2, rs3, TARGET_LONG_BITS);
-+}
-+
-+target_ulong HELPER(fsr)(target_ulong rs1, target_ulong rs2, target_ulong rs3)
-+{
-+    return do_fsl(rs1, -rs2, rs3, TARGET_LONG_BITS);
-+}
-+
-+target_ulong HELPER(fslw)(target_ulong rs1, target_ulong rs2, target_ulong rs3)
-+{
-+    return do_fsl(rs1, rs2, rs3, 32);
-+}
-+
-+target_ulong HELPER(fsrw)(target_ulong rs1, target_ulong rs2, target_ulong rs3)
-+{
-+    return do_fsl(rs1, -rs2, rs3, 32);
-+}
-+
- static target_ulong shuffle_stage(target_ulong src,
-                                   uint64_t maskl,
-                                   uint64_t maskr,
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 8c8fb71bb4..619f635b6d 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -87,6 +87,10 @@ DEF_HELPER_FLAGS_1(crc32c_d, TCG_CALL_NO_RWG_SE, tl, tl)
- DEF_HELPER_FLAGS_2(bmatxor, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- DEF_HELPER_FLAGS_2(bmator, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- DEF_HELPER_FLAGS_1(bmatflip, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_3(fsl, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(fsr, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(fslw, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(fsrw, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
- 
- /* Special functions */
- DEF_HELPER_2(csrr, tl, env, int)
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 73f956486b..65e574709a 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -713,6 +713,8 @@ xperm_h    0010100 .......... 110 ..... 0110011 @r
- bfp        0100100 .......... 111 ..... 0110011 @r
- cmix       .....11 .......... 001 ..... 0110011 @r4
- cmov       .....11 .......... 101 ..... 0110011 @r4
-+fsl        .....10 .......... 001 ..... 0110011 @r4
-+fsr        .....10 .......... 101 ..... 0110011 @r4
- 
- bseti      00101. ........... 001 ..... 0010011 @sh
- bclri      01001. ........... 001 ..... 0010011 @sh
-@@ -754,6 +756,8 @@ xperm_w    0010100 .......... 000 ..... 0110011 @r
- bfpw       0100100 .......... 111 ..... 0111011 @r
- bmator     0000100 .......... 011 ..... 0110011 @r
- bmatxor    0100100 .......... 011 ..... 0110011 @r
-+fslw       .....10 .......... 001 ..... 0111011 @r4
-+fsrw       .....10 .......... 101 ..... 0111011 @r4
- 
- bsetiw     0010100 .......... 001 ..... 0011011 @sh5
- bclriw     0100100 .......... 001 ..... 0011011 @sh5
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 4523a5cd4c..5315baa185 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -428,6 +428,18 @@ static bool trans_cmov(DisasContext *ctx, arg_cmov *a)
-     return gen_quat(ctx, a, EXT_NONE, gen_cmov);
- }
- 
-+static bool trans_fsl(DisasContext *ctx, arg_fsl *a)
-+{
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_quat(ctx, a, EXT_NONE, gen_helper_fsl);
-+}
-+
-+static bool trans_fsr(DisasContext *ctx, arg_fsr *a)
-+{
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_quat(ctx, a, EXT_NONE, gen_helper_fsr);
-+}
-+
- #define GEN_SHADD(SHAMT)                                       \
- static void gen_sh##SHAMT##add(TCGv ret, TCGv arg1, TCGv arg2) \
- {                                                              \
-@@ -827,3 +839,19 @@ static bool trans_bmator(DisasContext *ctx, arg_bmator *a)
-     REQUIRE_EXT(ctx, RVB);
-     return gen_arith(ctx, a, EXT_NONE, gen_helper_bmator);
- }
-+
-+static bool trans_fslw(DisasContext *ctx, arg_fslw *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_EXT(ctx, RVB);
-+    ctx->w = true;
-+    return gen_quat(ctx, a, EXT_ZERO, gen_helper_fslw);
-+}
-+
-+static bool trans_fsrw(DisasContext *ctx, arg_fsrw *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_EXT(ctx, RVB);
-+    ctx->w = true;
-+    return gen_quat(ctx, a, EXT_ZERO, gen_helper_fsrw);
-+}
--- 
-2.17.1
+I investigated your advice,
 
+first checked the CPU's programmer's reference manual and it has wait for
+interrupt instruction.
+
+then to check what instructions are executing I run this command:
+
+qemu-system-ppc64 -nographic -M ppce500 -cpu e5500 -kernel uImage
+-singlestep -d in_asm -D target_asm.log
+
+Obviously this results in a Kernel panic, but the point is that after panic
+there is no guest
+ instruction running as there is no more log in the file but still CPU
+usage is 100.
+
+also run this command to check generated host assembly code:
+
+qemu-system-ppc64 -nographic -M ppce500 -cpu e5500 -kernel uImage
+-singlestep -d out_asm -D host_asm.log
+
+and the result was the same, after Kernel panic there are no more
+instructions to run
+(though there are some nop instructions in tb slow paths + alignment
+section at
+the end of some TBs but I think it's not relevant).
+
+in another test I run the complete working command with log options and
+after login kill all
+ services except init:
+
+qemu-system-ppc64 -nographic -m 256 -M ppce500 -cpu e5500 -kernel uImage
+-initrd rootfs.ext2.gz
+         -append 'root=/dev/ram rw ramdisk_size=150000' -singlestep -d
+out_asm -D  host_asm.log
+
+it logs in the file once in a while but still CPU usage is 100% constantly.
+
+Thanks. Regards
+
+--000000000000afb21a05cc40982e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi=C2=A0Philippe, Thank for your email<div><br></div><div>=
+I investigated your advice,=C2=A0</div><div><br></div><div>first checked th=
+e CPU&#39;s programmer&#39;s reference manual and it has wait for interrupt=
+ instruction.</div><div><br><div>then to check what instructions are execut=
+ing I run this command:</div></div><div><br></div><div><font face=3D"monosp=
+ace">qemu-system-ppc64 -nographic -M ppce500 -cpu e5500 -kernel uImage -sin=
+glestep -d in_asm -D target_asm.log</font><br></div><div><font face=3D"mono=
+space"><br></font></div><div>Obviously this results in a Kernel panic, but =
+the point is that after panic there is no guest</div><div>=C2=A0instruction=
+ running as there is no more log in the file but still CPU usage is 100.</d=
+iv><div><br></div><div>also run this command to check=C2=A0generated host a=
+ssembly code:</div><div><br></div><div><font face=3D"monospace">qemu-system=
+-ppc64 -nographic -M ppce500 -cpu e5500 -kernel uImage -singlestep -d out_a=
+sm -D host_asm.log</font><br></div><div><font face=3D"monospace"><br></font=
+></div><div>and the result was the same, after Kernel panic there are no mo=
+re instructions to run=C2=A0</div><div>(though there are some nop instructi=
+ons in tb slow paths + alignment section at=C2=A0</div><div>the end of some=
+ TBs but I think it&#39;s not relevant).</div><div><br></div><div>in anothe=
+r test I run the complete working command with log options and after login =
+kill all</div><div>=C2=A0services except=C2=A0init:</div><div><br></div><di=
+v><font face=3D"monospace">qemu-system-ppc64 -nographic -m 256 -M ppce500 -=
+cpu e5500 -kernel uImage -initrd rootfs.ext2.gz</font></div><div><font face=
+=3D"monospace">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-append &#39;root=3D/dev/r=
+am rw ramdisk_size=3D150000&#39; -singlestep -d out_asm -D=C2=A0
+
+host_asm.log</font><br></div><div><br></div><div>it logs in the file=C2=A0o=
+nce in a while but still CPU usage is 100% constantly.</div><div><br></div>=
+<div>Thanks. Regards</div><div><br></div></div>
+
+--000000000000afb21a05cc40982e--
 
