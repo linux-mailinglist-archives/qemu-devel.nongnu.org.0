@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6A1410836
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 20:54:45 +0200 (CEST)
-Received: from localhost ([::1]:57274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20DF941083A
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 20:58:20 +0200 (CEST)
+Received: from localhost ([::1]:37552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRfU4-0002VF-Nh
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 14:54:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54428)
+	id 1mRfXX-0008E7-68
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 14:58:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRfLb-0005Ba-A0
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:46:00 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:33631)
+ id 1mRfLj-0005Ea-23
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:46:08 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:45822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRfLP-0006rs-LU
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:45:57 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id s16so4094002pfk.0
+ id 1mRfLQ-0006t2-Pz
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 14:46:02 -0400
+Received: by mail-pl1-x635.google.com with SMTP id n2so5777437plk.12
  for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 11:45:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6Qr0OuX9QX9R8kKysHcFpFuFjKaNccsgQik+Lfl3HtE=;
- b=FEtv63qdtHpQXjwHldIR6HU0QERpSHEV/wrQ/k2i9kXSuvqbG9PVpC6ZuzTBwSILG4
- bdw+q+IdFpIfFK5Db6UOVvo2Vc23Xi2EAX1MvORh9YazN6wrnRGvRh++dFRySuUN2AI7
- Pe4eOb7Mxw/4IC+8tLvUjI+fG1rwkefw3+ka0ohDVNqfTDbjx1HTpVvTLbhyc9zXwvhK
- 9djmE8ZAiMS7m7n6snwHIkw39odafZHHR+i9C+exrl5udt8GflheJnWrLaTWj2l5DNJk
- TNtXGsDTZoPAPaTOm4pbr0+xc//SR351VC5kePPfhW6QeStSczaBnc9pGVmN5zA/ZZFs
- ikwg==
+ bh=DnPKZsYD4ZUYg+zokoIL0aqocBtGju8WD3IhYIaHRac=;
+ b=yffMT/ZjFLfxgTY1cEQIo4KJSWtd8EXUzQkcHY5f071b97Hp70o8Ut8zWqC4KtrAMQ
+ lnUsWQY6BkhgEClDKTjvMbMKD2opAQ5GsSBoXKHFzYMImNlcx1wO2WmT/fYCrtVFPZ80
+ 0mfcVj/gOwXEQMSEplXa+2lzneBQN+Xp7f+sMibz9gprwv+Okhs7ermzjOao0eae5RH7
+ bpxzX9LbmsxkhMBSkr9LSflIbpQNPLtj2cmxr+ithqaJPl5cZAndQfQP2HipAi6sFmXk
+ U9zuEtlWdu3aVpp6w0Nu4HWGGsnIJZnjSYZrTTJaNxh1ZwD4LJylnr9YgbYUKGUJRsg1
+ KD9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6Qr0OuX9QX9R8kKysHcFpFuFjKaNccsgQik+Lfl3HtE=;
- b=fmRJ/hKN+xCxZ1bBZNcZiWhsVT+Wn5uAz/vpvUN0BwDnL2g5kf0Eib2aQagknOk+AH
- q9BWsRS+2VQ43oosjenN7gyevWb6NFWfmZaMmaIAnbWSdt9qoms2oNf3wWPyK7HjrY7B
- tLCYHEZNWjd4wyd3u6oOQXUxAH5pA/KLaqH1ctEAeS5snWcxr3ZN18bhteAVSt75pcpn
- 2M6BShSVQ1pKYcOozo0NmRsjZp46lD/BfMHdwO/r3W+4dMhAoanGaZ+F1zITlOCiCF6c
- pEoJ35l2MlPXXla+DqXk0QMwjyZLNfipdgmJjG1o9hLCFEicISrLFVcPKRISv70aqELP
- 0W8g==
-X-Gm-Message-State: AOAM5330I/2uWVwkPfT8Y/qJJ3jgpLCC6/ZPe2rWNT23NCdBG83I1Mto
- 5uGBTKO7aG0jGC2z92mH6k8kEKqz2pvl+w==
-X-Google-Smtp-Source: ABdhPJzvmgNu+YZ0hZK1VEuf/LIF4Xh8GEsZYpTb8jEnC2e8Mn6t9My4dt7kWk1upv2rIDvzNgYfRg==
-X-Received: by 2002:a62:16cd:0:b0:440:5296:afab with SMTP id
- 196-20020a6216cd000000b004405296afabmr15965978pfw.4.1631990746285; 
- Sat, 18 Sep 2021 11:45:46 -0700 (PDT)
+ bh=DnPKZsYD4ZUYg+zokoIL0aqocBtGju8WD3IhYIaHRac=;
+ b=AOhreCzuHnccS/34nzdqPe3LGnVN1s2iwhpAY2fJV79XGXK58mMmNmC3TKDmI+Unda
+ cZuhy9timjxIpCgNxWgkmNzTztbToWTy5F6KhNCNw/09eDclP/Nk+34GMMMcr7kwv2zb
+ bOJdUFQiNa/zIAfmlf2JSj0+PzIg5qbov5QibdHv3uq7JnityGAX1I0YTnnKtsB3svVU
+ GAIuPoKk4DVLzyysj0CHuB58xPsyltzbvkhHBCPjUyu7smX0007JrYD6zOixrWmB09i3
+ Elz0ztXIJRPOeqvukKBptYInN+6TtxKV+0Idqcigu7fz4Qfe4n5lihTSYI/QXKHNDyPG
+ B45A==
+X-Gm-Message-State: AOAM531Mh4Vrt3VUMOjHnXK3R6HxVHusFxZTOEztGf5b5mZSbzauW+1G
+ bcyD9NVLp9l3BCqeZ/yPA3zt4N6Wcb78oA==
+X-Google-Smtp-Source: ABdhPJzg5CIDogyNIg4nWBK+GxE4T2575hXJZkvcd4Appp0P6hR1K1Rh2Bhhg/uTCpfRpv36JKQuFw==
+X-Received: by 2002:a17:902:9a06:b0:13c:86d8:ce0b with SMTP id
+ v6-20020a1709029a0600b0013c86d8ce0bmr15339135plp.51.1631990747074; 
+ Sat, 18 Sep 2021 11:45:47 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id y26sm9555858pfe.69.2021.09.18.11.45.45
+ by smtp.gmail.com with ESMTPSA id y26sm9555858pfe.69.2021.09.18.11.45.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Sep 2021 11:45:45 -0700 (PDT)
+ Sat, 18 Sep 2021 11:45:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 21/41] target/alpha: Make alpha_cpu_tlb_fill sysemu only
-Date: Sat, 18 Sep 2021 11:45:07 -0700
-Message-Id: <20210918184527.408540-22-richard.henderson@linaro.org>
+Subject: [PATCH v2 22/41] target/arm: Use raise_sigsegv for mte tag lookup
+Date: Sat, 18 Sep 2021 11:45:08 -0700
+Message-Id: <20210918184527.408540-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210918184527.408540-1-richard.henderson@linaro.org>
 References: <20210918184527.408540-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,107 +87,31 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fallback code in raise_sigsegv is sufficient for alpha-linux-user.
-Remove the code from cpu_loop that handled EXCP_MMFAULT.
+Use the new os interface for raising the exception,
+rather than calling arm_cpu_tlb_fill directly.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/alpha/cpu.h          |  7 ++++---
- linux-user/alpha/cpu_loop.c |  8 --------
- target/alpha/cpu.c          |  2 +-
- target/alpha/helper.c       | 13 +------------
- 4 files changed, 6 insertions(+), 24 deletions(-)
+ target/arm/mte_helper.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
-index ce9ec32199..cbca4c369c 100644
---- a/target/alpha/cpu.h
-+++ b/target/alpha/cpu.h
-@@ -439,9 +439,6 @@ void alpha_translate_init(void);
- #define CPU_RESOLVING_TYPE TYPE_ALPHA_CPU
+diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+index 724175210b..2575e65860 100644
+--- a/target/arm/mte_helper.c
++++ b/target/arm/mte_helper.c
+@@ -84,10 +84,8 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
+     uintptr_t index;
  
- void alpha_cpu_list(void);
--bool alpha_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                        MMUAccessType access_type, int mmu_idx,
--                        bool probe, uintptr_t retaddr);
- void QEMU_NORETURN dynamic_excp(CPUAlphaState *, uintptr_t, int, int);
- void QEMU_NORETURN arith_excp(CPUAlphaState *, uintptr_t, int, uint64_t);
+     if (!(flags & (ptr_access == MMU_DATA_STORE ? PAGE_WRITE_ORG : PAGE_READ))) {
+-        /* SIGSEGV */
+-        arm_cpu_tlb_fill(env_cpu(env), ptr, ptr_size, ptr_access,
+-                         ptr_mmu_idx, false, ra);
+-        g_assert_not_reached();
++        raise_sigsegv(env_cpu(env), ptr, ptr_access,
++                      !(flags & PAGE_VALID), ra);
+     }
  
-@@ -449,12 +446,16 @@ uint64_t cpu_alpha_load_fpcr (CPUAlphaState *env);
- void cpu_alpha_store_fpcr (CPUAlphaState *env, uint64_t val);
- uint64_t cpu_alpha_load_gr(CPUAlphaState *env, unsigned reg);
- void cpu_alpha_store_gr(CPUAlphaState *env, unsigned reg, uint64_t val);
-+
- #ifndef CONFIG_USER_ONLY
- void alpha_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-                                      vaddr addr, unsigned size,
-                                      MMUAccessType access_type,
-                                      int mmu_idx, MemTxAttrs attrs,
-                                      MemTxResult response, uintptr_t retaddr);
-+bool alpha_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                        MMUAccessType access_type, int mmu_idx,
-+                        bool probe, uintptr_t retaddr);
- #endif
- 
- static inline void cpu_get_tb_cpu_state(CPUAlphaState *env, target_ulong *pc,
-diff --git a/linux-user/alpha/cpu_loop.c b/linux-user/alpha/cpu_loop.c
-index 7ce2461a02..60b650a827 100644
---- a/linux-user/alpha/cpu_loop.c
-+++ b/linux-user/alpha/cpu_loop.c
-@@ -52,14 +52,6 @@ void cpu_loop(CPUAlphaState *env)
-             fprintf(stderr, "External interrupt. Exit\n");
-             exit(EXIT_FAILURE);
-             break;
--        case EXCP_MMFAULT:
--            info.si_signo = TARGET_SIGSEGV;
--            info.si_errno = 0;
--            info.si_code = (page_get_flags(env->trap_arg0) & PAGE_VALID
--                            ? TARGET_SEGV_ACCERR : TARGET_SEGV_MAPERR);
--            info._sifields._sigfault._addr = env->trap_arg0;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--            break;
-         case EXCP_UNALIGN:
-             info.si_signo = TARGET_SIGBUS;
-             info.si_errno = 0;
-diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
-index 1ca601cac5..83c201d86a 100644
---- a/target/alpha/cpu.c
-+++ b/target/alpha/cpu.c
-@@ -220,10 +220,10 @@ static const struct SysemuCPUOps alpha_sysemu_ops = {
- 
- static const struct TCGCPUOps alpha_tcg_ops = {
-     .initialize = alpha_translate_init,
--    .tlb_fill = alpha_cpu_tlb_fill,
- 
- #ifndef CONFIG_USER_ONLY
-     .has_work = alpha_cpu_has_work,
-+    .tlb_fill = alpha_cpu_tlb_fill,
-     .cpu_exec_interrupt = alpha_cpu_exec_interrupt,
-     .do_interrupt = alpha_cpu_do_interrupt,
-     .do_transaction_failed = alpha_cpu_do_transaction_failed,
-diff --git a/target/alpha/helper.c b/target/alpha/helper.c
-index 81550d9e2f..266d56ea73 100644
---- a/target/alpha/helper.c
-+++ b/target/alpha/helper.c
-@@ -119,18 +119,7 @@ void cpu_alpha_store_gr(CPUAlphaState *env, unsigned reg, uint64_t val)
-     *cpu_alpha_addr_gr(env, reg) = val;
- }
- 
--#if defined(CONFIG_USER_ONLY)
--bool alpha_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                        MMUAccessType access_type, int mmu_idx,
--                        bool probe, uintptr_t retaddr)
--{
--    AlphaCPU *cpu = ALPHA_CPU(cs);
--
--    cs->exception_index = EXCP_MMFAULT;
--    cpu->env.trap_arg0 = address;
--    cpu_loop_exit_restore(cs, retaddr);
--}
--#else
-+#ifndef CONFIG_USER_ONLY
- /* Returns the OSF/1 entMM failure indication, or -1 on success.  */
- static int get_physical_address(CPUAlphaState *env, target_ulong addr,
-                                 int prot_need, int mmu_idx,
+     /* Require both MAP_ANON and PROT_MTE for the page. */
 -- 
 2.25.1
 
