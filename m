@@ -2,75 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F2E6410583
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 11:37:31 +0200 (CEST)
-Received: from localhost ([::1]:49116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5937D41057E
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Sep 2021 11:34:00 +0200 (CEST)
+Received: from localhost ([::1]:42150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRWmo-0006fP-8W
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 05:37:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40038)
+	id 1mRWjP-0001ow-EI
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 05:33:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mRWhT-0008Uc-DP
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 05:31:59 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38583)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mRWhM-0008Fr-54
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 05:31:52 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:47039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mRWhO-0003eS-7r
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 05:31:59 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id u18so17435010wrg.5
- for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 02:31:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mRWhK-0003ar-IS
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 05:31:51 -0400
+Received: by mail-wr1-x430.google.com with SMTP id x6so19129178wrv.13
+ for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 02:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=VMxPJY6t4uoMf/I961hE4R2GzgtcCFDrssDoN4r5NzQ=;
- b=q3G+od+yz7iSO+EBAcPqU0Bi7hsQQQYLj0ua/sHQ67crBT7DxVK9MjDOrcKoRSyHe3
- US7x8zYS3Maq9K2mjeb/VdowLkWfQ1ONnc8y/LpAluRx5iho3vhxAXw7j39JoBMVosLK
- b/P7IyrTLCa2/yIV1OVZ9FV6muCtwCapjcbUmrUvMq9sV+Ctw+26QnM6l406o/l6wkZU
- yMPzftCEZKhRbo3+KBNwh7MzsS/9lQHdQHKnKNcZpIVosh12gTtVhYmq18Y7lO68sUO0
- yJhKX2s6LuK3Sdr81QSaX7XuL6JWG/AE6NlWnEC5QfiQFjM2iHU7X+vtS6yO2q/oUM1U
- YwlA==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=IGojhCVmddLqlfXqivwB5525RsOzz98roY56xHNtRUU=;
+ b=gTqnkXPWhmm0rhJ4db1Q5WZ64p8vpCI1xIni/uDeyojPKd9gBIGpc0stLMnzK6/rL1
+ 1F2LOtN7QLEmCHj7XLcQ31e4lD+ChFUv8Krecvn37JRM6TWb0bAvRGUzQSFXlKa3SHGy
+ geOmkRXB8Skm0N6Qo+sIcYgnJ23h0OIbtRbGiqbibGxCQkIU38QNqLM0qHhOmsMirUhZ
+ YnYNMiiEpLc8gl5kKUkUhvciVO8orUh5zthnQLXlXRnVTXDNIkFhvCiDmdgsIrR6kBhb
+ fQWkkTe3rypLIwj7Xzgfkp18YhX2thRG8Q7blWJ+4ZF8mHd1Sawrq9XFWwP9QIzH31gg
+ 7viQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=VMxPJY6t4uoMf/I961hE4R2GzgtcCFDrssDoN4r5NzQ=;
- b=lbT+XxXUuh2xNMdmBDcaJpjTLWSeiG8Pwi1/HWYYa7hPwadkvzS8oLMuD9waEsYbTV
- 0yYQKd3qBcyUAIzerSDorWRcF5Nilg+Hm67KhHbC2GMEGBO9dN9TYrkq/KFNpd9e0a86
- fBU5ahXPWGj3s5Fw84LGN/y1u4px4CgV4hOpLc9H2zudqFZyBpkimvHDy3Z+ULE4S6Ts
- CDyRChTrv9ifKKIt22HGznSn3d7KKsiQyoFcdEG/hnyfm4wIuZy86b6BIA36NNEj8rTx
- Ydxf+IhyDvKirZpsoBs+jy3Tf6j8IlfDRKc0wHDokh3hs/EKgO8S8mfRcFlaIKWoHOdz
- SNDg==
-X-Gm-Message-State: AOAM530HonJMfLGSnW0pHMk9nuY+eZg+0LXfL007oL3/tJftD6LENnHP
- 2TtpDtN1+tbRB8256m8A4+3msW87pv4=
-X-Google-Smtp-Source: ABdhPJywTtw8ol7uVZxuSBH09gpL/+Qdm37XsvuFvm1+p+OUGI1xg5LsT3FXurJ+7fKdgLJ8bATxZg==
-X-Received: by 2002:a5d:5258:: with SMTP id k24mr17188869wrc.390.1631957512973; 
- Sat, 18 Sep 2021 02:31:52 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id j14sm9233858wrp.21.2021.09.18.02.31.52
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Sep 2021 02:31:52 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] hexagon: use env keyword argument to pass PYTHONPATH
-Date: Sat, 18 Sep 2021 11:31:40 +0200
-Message-Id: <20210918093140.5797-4-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210918093140.5797-1-pbonzini@redhat.com>
-References: <20210918093140.5797-1-pbonzini@redhat.com>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=IGojhCVmddLqlfXqivwB5525RsOzz98roY56xHNtRUU=;
+ b=W4V5naaDiORz0lwd13TVBITJyVYNxRxz/5kx2IcF6067vmi4t7CfLkOzoondN1GVOy
+ Ns9UmgO2YF+fdsoSWF1agkz/o/gltL5CMFBGJM0YcnLg0QqBfFltu9jjjUUj+uYXHK+b
+ QVb/iI2+MBMeWxwPyCKiOOOZxaLXDBkZGL0Mr/cGA1acvLxUr45uGDnRmJ1bFweq7mUT
+ Ap8APcP06vscByZJBdFMh+I+Oyf/Ye3F9MNscebORYWXUb5YZC+WMA1Agjb1fOmtWbn/
+ 5XuA6U3iNCcsWtJJjeGEcAGviW/007TloXx0MARd04PDj1RLHUMH8lqZffjRMxjA1CiS
+ B4Rw==
+X-Gm-Message-State: AOAM533ZLIUePfRPmsL/KL7Wmlnd4tx7iTuViS9zBuvAEhWCXCcuolwy
+ oBnVW4pB4xcRffnc17n9T4PrfuP5hSE=
+X-Google-Smtp-Source: ABdhPJyrOrHBSFfKgoxuc2ULOQMn7Sdf+IQPMmx0SAJZywwM/eku62o+8+DQ0mB1OmEgNpWEUwuP3g==
+X-Received: by 2002:adf:ce89:: with SMTP id r9mr16865145wrn.238.1631957508993; 
+ Sat, 18 Sep 2021 02:31:48 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
+ [83.35.25.14])
+ by smtp.gmail.com with ESMTPSA id f8sm1301712wrx.15.2021.09.18.02.31.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 18 Sep 2021 02:31:48 -0700 (PDT)
+Message-ID: <282bb2b4-fa32-edd5-1a2f-3ed3d64592cd@amsat.org>
+Date: Sat, 18 Sep 2021 11:31:47 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v2 0/2] coverity-scan: Add accelerator and sysemu
+ components
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+References: <20210708155735.1805767-1-f4bug@amsat.org>
+ <d5b87a24-5fa3-eb9f-4105-76342f24f790@amsat.org>
+ <ae47059f-623b-2499-8eaf-7d44ca3104e9@amsat.org>
+In-Reply-To: <ae47059f-623b-2499-8eaf-7d44ca3104e9@amsat.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.488,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,31 +92,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This feature is new in meson 0.57 and allows getting rid of the "env" wrapper.
+ping^3
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/hexagon/meson.build | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
-index 6fd9360b74..c6d858ffb2 100644
---- a/target/hexagon/meson.build
-+++ b/target/hexagon/meson.build
-@@ -156,7 +156,8 @@ dectree_generated = custom_target(
-     'dectree_generated.h.inc',
-     output: 'dectree_generated.h.inc',
-     depends: [iset_py],
--    command: ['env', 'PYTHONPATH=' + meson.current_build_dir(), files('dectree.py'), '@OUTPUT@'],
-+    env: {'PYTHONPATH': meson.current_build_dir()},
-+    command: [python, files('dectree.py'), '@OUTPUT@'],
- )
- hexagon_ss.add(dectree_generated)
- 
--- 
-2.31.1
-
+On 7/31/21 17:25, Philippe Mathieu-Daudé wrote:
+> ping^2?
+> 
+> On 7/22/21 6:08 PM, Philippe Mathieu-Daudé wrote:
+>> ping?
+>>
+>> On 7/8/21 5:57 PM, Philippe Mathieu-Daudé wrote:
+>>> Add 'sysemu' component for issues not related to TCG.
+>>>
+>>> Since v1:
+>>> - add accelerator components (Peter)
+>>>
+>>> Supersedes: <20210619091342.3660495-1-f4bug@amsat.org>
+>>>
+>>> Philippe Mathieu-Daudé (2):
+>>>   coverity-scan: Add a component for each accelerator
+>>>   coverity-scan: Add 'sysemu' component
+>>>
+>>>  scripts/coverity-scan/COMPONENTS.md | 17 +++++++++++++----
+>>>  1 file changed, 13 insertions(+), 4 deletions(-)
+>>>
+>>
+> 
 
