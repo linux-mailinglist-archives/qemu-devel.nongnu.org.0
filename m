@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5D23410CF4
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 20:46:04 +0200 (CEST)
-Received: from localhost ([::1]:58198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 742AD410CF2
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 20:45:26 +0200 (CEST)
+Received: from localhost ([::1]:57530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mS1pD-00079u-P6
-	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 14:46:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59734)
+	id 1mS1ob-0006ih-E4
+	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 14:45:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mS1jZ-0008VX-GX
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 14:40:16 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:35516)
+ id 1mS1mY-0004RX-Sd
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 14:43:18 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mS1jY-0007C5-7N
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 14:40:13 -0400
-Received: by mail-wr1-x429.google.com with SMTP id i23so24707472wrb.2
- for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 11:40:11 -0700 (PDT)
+ id 1mS1mX-0000sD-Gb
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 14:43:18 -0400
+Received: by mail-wr1-x436.google.com with SMTP id d21so24625536wra.12
+ for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 11:43:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=zJB3XhK0rLyfW83PLDOB8HFj5465oVj2jpQ8rzNQ5qY=;
- b=Jy5QjjRNQv0lg4Tm2RdB3Efgh2mz4b6+7+aEJvvOFsVrvcvYH2A9HmbbdwPVeJZvhB
- JSCt21KEbGh3hevUQ5E7J5aFHhytCFMdmhZPniSIKjso7tcy+o6WbQ1d3clWD3aYd98q
- 5b4LRTZZ3znLDVdH1qX66loaYijr1ciJcTidiOJak9s2iyRTdABBnoA8s7rlyhEgLN1l
- m8HHsN7/m1Rz5QlNxS5uDhz3dvnPvLEMwQwKv2eCS63LF5JjBsuBhHaIYbrr3rVpUi1E
- kgoiMSWEj5bqL7PV1mB3qH/AUOkxlS/fAldk4kSQ8BoNNXQtDrKgVMgnlKjc6SBEVfR8
- X0AQ==
+ bh=Cmbsv52UypSrrFragVy3KnNKK9dGwHyFqZsZx3RHdF0=;
+ b=oYchNg5mQuK5hQveA7DwNkRW0UQt1bEbSm86h/FDB0lahtofk9ZeUjmMxZNb5l7KeQ
+ 8+wRe34eDPY5ptv2Ybs09yJQ99UC/z462ESUe+b06hh/gajlidL0BnsQco0usHmAKCxo
+ 1dRKEcczSDKwu8xEVz4mBA6v5YWA6SFTRvWfQP4h62wXOl2ClFX7fbSrHyzk2TRBoJAd
+ imwfNXvcI6Sqjl6dzPRUG7EwDWEwtRfLcr3MHqa9IqnRPebqBRlkuEaQOxDw9QZ2Yins
+ F4PvDQZDd19nVF24M/4GdaP5pVhSA9oJbfgqnEKHJjMG00kQGCtpPxqKTmVu8HcFAMS3
+ Hb+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=zJB3XhK0rLyfW83PLDOB8HFj5465oVj2jpQ8rzNQ5qY=;
- b=dpnGfjIdNxXzEXNuymKf2UMG4Sf2LQ+l2DgSuVISuwbnGP+3HMRxXcOWtcotPmGVlq
- JTrQVe3BFh75CnoTaKredb5gqCxgolAv6zaF9y0cJxB0oSaNxGAOH999O1dXvbkgC/+e
- IMVXRAxJ+j+2feoB0/Wa8LGbdQfiEaHd8/JmRnC354Wh0MXid5uH+aHlQa20+Qf4aMZP
- bQy0+UzvpBam++W0qGco74FlcYjDeMpWtcH5kRcRu05hbvMdyeKX2YD9LbF7CzuW2WKu
- 5WJgPdYWvZaR1tMWaTA3xdIwK1WjgIdQA83PD34iT7MwmtC+JXetupBN0uF2+2Bk3+y7
- ievg==
-X-Gm-Message-State: AOAM5331QGaa/jcusUDnr08k7ElAydClMS440IH2S2HvciHwFek6AVpt
- xUdjjmohoJH59KyN08ce41RgwPx2w2g=
-X-Google-Smtp-Source: ABdhPJzSxljSoabL56eTNGU843+C40uDv4j9orgFYJbi7WKFEqjN1zvpFwH0fH8fKhm3IM8SaSEdyg==
-X-Received: by 2002:a5d:43ca:: with SMTP id v10mr24905866wrr.139.1632076810807; 
- Sun, 19 Sep 2021 11:40:10 -0700 (PDT)
+ bh=Cmbsv52UypSrrFragVy3KnNKK9dGwHyFqZsZx3RHdF0=;
+ b=72jdRlmS5Ja6ErCENHmz9IWXumF1SAnow1oUNfyFiD9eyz++/F3Zg3k3p6GnFQYnY/
+ iQ6mVknhnfGq9V+FysFK02zqsZdsNMEJxMORezxfCVZx3dCkJ35QLbpMJH+lkIid1EsZ
+ dM/ja+UDAKZ1kbH/qX7wirmUOMUV3dg4BbkAJ7qZwUFQs0qyzThhlqBx6D3WwVk9o7qy
+ PlnLpPjb/gxny+YB2Uioyz5xmTD00/3lkcTo1KD/1HESBeTMMu3/Srld58fa/njZM2JO
+ NQghQ9Qi4oOF+p4GCNtW77EpC6AiZXdTFLevyRABm8feqyYJ22E5ScU1W+/r1D89lA7N
+ xYfA==
+X-Gm-Message-State: AOAM533Yktg3dtc5VtFhjYgdAeYs111fKZqZ9cd7LzFSWKTcMIsMjljV
+ Ph5OsbV0Uhps1siyt14MM6g=
+X-Google-Smtp-Source: ABdhPJzGO4osbCq2IrxcFRCBWO2aIpSdIyNYL/KQxIFkAqbhe6pAtwTyib01PLEzGc0a90j8Rr66eQ==
+X-Received: by 2002:a05:6000:1844:: with SMTP id
+ c4mr438281wri.355.1632076995957; 
+ Sun, 19 Sep 2021 11:43:15 -0700 (PDT)
 Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
  [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id p5sm15109933wrd.25.2021.09.19.11.40.09
+ by smtp.gmail.com with ESMTPSA id h15sm13084505wrc.19.2021.09.19.11.43.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Sep 2021 11:40:10 -0700 (PDT)
-Message-ID: <380e87dc-c249-922f-60d4-1d98afb684df@amsat.org>
-Date: Sun, 19 Sep 2021 20:40:09 +0200
+ Sun, 19 Sep 2021 11:43:15 -0700 (PDT)
+Message-ID: <30b30a40-8edc-92a4-7140-cf7e37fa5ab6@amsat.org>
+Date: Sun, 19 Sep 2021 20:43:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PATCH v2 41/41] accel/tcg: Restrict TCGCPUOps::tlb_fill() to
- sysemu
+Subject: Re: [PATCH v2 20/41] linux-user: Add raise_sigsegv
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210918184527.408540-1-richard.henderson@linaro.org>
- <20210918184527.408540-42-richard.henderson@linaro.org>
+ <20210918184527.408540-21-richard.henderson@linaro.org>
+ <425a941d-5f7f-e875-dc62-24d8973c4a23@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20210918184527.408540-42-richard.henderson@linaro.org>
+In-Reply-To: <425a941d-5f7f-e875-dc62-24d8973c4a23@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,17 +96,34 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/18/21 20:45, Richard Henderson wrote:
-> We have replaced tlb_fill with record_sigsegv for user mod.
-> Move the declaration to restrict it to system emulation.
+On 9/19/21 20:35, Richard Henderson wrote:
+> On 9/18/21 11:45 AM, Richard Henderson wrote:
+>> +/**
+>> + * raise_sigsegv:
+>> + * @cpu: the cpu context
+>> + * @addr: the guest address of the fault
+>> + * @access_type: access was read/write/execute
+>> + * @maperr: true for invalid page, false for permission fault
+>> + * @ra: host pc for unwinding
+>> + *
+>> + * Use the TCGCPUOps hook to record cpu state, do guest operating system
+>> + * specific things to raise SIGSEGV, and jump to the main cpu loop.
+>> + */
+>> +void QEMU_NORETURN raise_sigsegv(CPUState *cpu, target_ulong addr,
+>> +                                 MMUAccessType access_type,
+>> +                                 bool maperr, uintptr_t ra);
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/hw/core/tcg-cpu-ops.h | 22 ++++++++++------------
->  linux-user/signal.c           |  3 ---
->  2 files changed, 10 insertions(+), 15 deletions(-)
+> FYI, something to bikeshed here is the name of the function.  Should it
+> in fact be cpu_loop_exit_raise_sigsegv?
 
-Lovely :>
+That or cpu_loop_exit_segv() which is explicit enough IMO.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Because it can't be used outside of the running cpu context.  (E.g.
+> there are a couple of instances where it's tempting to use this from
+> within cpu_loop itself, processing pseudo-syscalls.)
+> 
+> 
+> r~
+> 
+
 
