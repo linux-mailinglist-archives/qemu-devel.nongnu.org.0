@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D71E410D1E
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 21:36:16 +0200 (CEST)
-Received: from localhost ([::1]:57116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 350CC410D1F
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 21:38:07 +0200 (CEST)
+Received: from localhost ([::1]:32842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mS2bm-00021P-JQ
-	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 15:36:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37564)
+	id 1mS2da-0004of-8O
+	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 15:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mS2a9-0000vc-Hh
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 15:34:33 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:43766)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mS2ax-0001qP-Qp
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 15:35:23 -0400
+Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129]:40626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mS2a7-0002CY-CB
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 15:34:33 -0400
-Received: by mail-il1-x144.google.com with SMTP id b15so16258216ils.10
- for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 12:34:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mS2aw-0002mY-4f
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 15:35:23 -0400
+Received: by mail-il1-x129.google.com with SMTP id a20so16252337ilq.7
+ for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 12:35:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=sender:from:mime-version:subject:in-reply-to:date:cc
  :content-transfer-encoding:message-id:references:to;
- bh=ezvovchdeXks6F+LIsfj9zMxVivH2Wuiw0KUct7eqCY=;
- b=PJiiZNyvE6XoEpfZO7u8HBbeHSjHdHm8CRY2ysmn5WUfza6+XszTXaSbjkNJ1n/RRq
- FZzANcaG2T4NRjzvoaT62yqORWSAFpChDaG+axn/7RTsjLymP6IMFRPVbnUBy+D5UuqV
- GoxWcvM9JZz7zRrQDR7GZTf61fxhsp/WEkkL0doErDY1j6+xjhNrrRkGsDYR4O4PC2IC
- kvhnt45mSSAQKzWVEx9vceqLwBa8WXoCHmyfVgZPvr6IZgBvsxz6SMR/PVlGEoUEuQ8S
- qXrcIK2u2Hg+VJu9fTCUsBvQz9kQt8yzIdu8nHI8gY+dGiGeWpvrh4oXnRYJbg0sE5ol
- WS8w==
+ bh=A4hciSc9uZI2RbKgDnJpT9KK+WSJmryBo6n54tk/MoI=;
+ b=FMyQWN440WA4tLrRWUxMIdNiDb7hs2C87gP34hJHMeMLo660LwznMhJ3kfb6MM9JEE
+ fnmEyIaqQVhfnKbhvdn9b8zyJhos4q2URX6JZtDYO8MtPJy2K9tOMFBCojiqPJMKSlqY
+ MZPeGIVaJoUpxfGpOeVt76VBawRNktYcGbgTB4Stla9VdkbQl+1gSEGsFvaGy1muh+Mk
+ T8Gqq3ofBRmUVWgiJkUIGqh9LmMxbTCSrHceiOJOU5C2wnmc8+9ALBuIDmxNeoCgcPhL
+ nbKTd9pvlUbg3fGeg+8B7xtL/w3GxcoOjBKFNkLaHgwMAMaC5vHU0gIb2cPeBOY/DR9n
+ C9xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:mime-version:subject:in-reply-to
  :date:cc:content-transfer-encoding:message-id:references:to;
- bh=ezvovchdeXks6F+LIsfj9zMxVivH2Wuiw0KUct7eqCY=;
- b=yFCCVCP5IaMTsImubG+mXFjyJgwy3L/E7Zj2fDW7Ao4z7T+jJ61YZwbPyiDYAv3n3Y
- JLSvACGOb/V+QyFSKf9OCQx5lzduol8ZL+XZWTRa/5NcpTiR6ewvFzHD9OygAQAGGlWl
- 9vNzxukl8TpKV34yaCgCYXE8x6Gnr1PTcspLYwkLW+Q2YHvCrw+L0F2C3dMMw7G3SvLT
- LQmhd6kMIHoF27hLHBZCgkuZPyFUujdT45GIdKgOTkyOnCaymlZKh4XGVFv/oTe77IWd
- fnwyX7renTZYRLFidY8ExlwsZsI26/OI+LC8SyarP9VhKzyxd9hVZSxk13BgRe0p/2yZ
- sOcQ==
-X-Gm-Message-State: AOAM530/1vkaeUR9OMO8obtTgp+ryUCzo/LfKQVQV+ug2MzLI7Wo2wrt
- H/WmaBLOAgyALVKiDr/gwlu49Q==
-X-Google-Smtp-Source: ABdhPJzQ9LzWEzZ2TpSt2wZ5Cr6KWaBY9Pk6/kfkZDIA4V5Crgjtkb77U94lkJJj88QNrQNsPF1EAQ==
-X-Received: by 2002:a92:8707:: with SMTP id m7mr14331155ild.177.1632080069537; 
- Sun, 19 Sep 2021 12:34:29 -0700 (PDT)
+ bh=A4hciSc9uZI2RbKgDnJpT9KK+WSJmryBo6n54tk/MoI=;
+ b=z48zcOU7wpSkZ1XlSOJhd5G65rUKuhtMXCcA7pqeOOh7bAe14wKizet35q5Uxlv1wl
+ nKKg9UlcbQFUCLkNn8W9mGYO2nOcq5dlHke4dFm14BYV2UkB5phtYnu02yXsXQRbIrg3
+ fI41I/ENr5rDiI3iHfMgT6DnorohGxIl7gC16jCkWHLKbqastgWFTbkZ9VnNxYKJ05oA
+ iXv+RjCw/MqaZ6sCC1iFWGTj04qCe8sJPiQPunldEzOcAUsafcVxNsS1hXGpBsYDbrau
+ AoBA1c0dFr98Qon+NWpOktyzsQVkIH5K1T+fK765C3gmUqXQWbP9aSeVC/s85eOLrz0r
+ F5ow==
+X-Gm-Message-State: AOAM531op0sGcLcSp4zmFHSFIRndWQtPq/Xh8PQlB2ZwKLKTUYhjz1jX
+ BzAmSyS2PdwZw8Oj6i7uy7dAEA==
+X-Google-Smtp-Source: ABdhPJyXaC5UtOjId2AXT/8gqlvrpIst9QDigHkcCXkTGD4PgxzZonzFxlKoqsOTLh2ooZOmEke5Ag==
+X-Received: by 2002:a92:cd8c:: with SMTP id r12mr7859769ilb.164.1632080120991; 
+ Sun, 19 Sep 2021 12:35:20 -0700 (PDT)
 Received: from macbook.nflx.bsdimp.com
  (50-253-99-174-static.hfc.comcastbusiness.net. [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id d12sm7007682iow.16.2021.09.19.12.34.28
+ by smtp.gmail.com with ESMTPSA id d12sm7007682iow.16.2021.09.19.12.35.20
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 19 Sep 2021 12:34:29 -0700 (PDT)
+ Sun, 19 Sep 2021 12:35:20 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 X-Google-Original-From: Warner Losh <bsdimp@gmail.com>
 Content-Type: text/plain;
-	charset=utf-8
+	charset=us-ascii
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.7\))
-Subject: Re: [PATCH v2 08/41] linux-user/host/ppc: Populate host_signal.h
-In-Reply-To: <20210918184527.408540-9-richard.henderson@linaro.org>
-Date: Sun, 19 Sep 2021 13:34:28 -0600
+Subject: Re: [PATCH v2 02/41] accel/tcg: Move clear_helper_retaddr to cpu loop
+In-Reply-To: <20210918184527.408540-3-richard.henderson@linaro.org>
+Date: Sun, 19 Sep 2021 13:35:19 -0600
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <FCAE546B-2629-45E0-969B-131F3A003E4C@gmail.com>
+Message-Id: <A7323840-E40C-4967-8FA5-A873BCC4EA63@gmail.com>
 References: <20210918184527.408540-1-richard.henderson@linaro.org>
- <20210918184527.408540-9-richard.henderson@linaro.org>
+ <20210918184527.408540-3-richard.henderson@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
 X-Mailer: Apple Mail (2.3608.120.23.2.7)
-Received-SPF: none client-ip=2607:f8b0:4864:20::144;
- envelope-from=wlosh@bsdimp.com; helo=mail-il1-x144.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::129;
+ envelope-from=wlosh@bsdimp.com; helo=mail-il1-x129.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -85,7 +85,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, laurent@vivier.eu
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,170 +94,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > On Sep 18, 2021, at 12:44 PM, Richard Henderson =
 <richard.henderson@linaro.org> wrote:
 >=20
-> Split host_signal_pc and host_signal_write out of user-exec.c.
-> Drop the *BSD code, to be re-created under bsd-user/ later.
+> Currently there are only two places that require we reset this
+> value before exiting to the main loop, but that will change.
 >=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> linux-user/host/ppc/host-signal.h   | 25 ++++++++-
-> linux-user/host/ppc64/host-signal.h |  2 +-
-> accel/tcg/user-exec.c               | 79 +----------------------------
-> 3 files changed, 26 insertions(+), 80 deletions(-)
-
-This is going to be a little work for me, but I=E2=80=99ll be able to =
-snag most of it from
-the - lines in this patch. It=E2=80=99s a better structure, to be =
-honest, since we were
-building user-exec.c for some platforms that never really had bsd-user
-and a natural consequence of this patch will stop that.
+> accel/tcg/cpu-exec.c  | 3 ++-
+> accel/tcg/user-exec.c | 2 --
+> 2 files changed, 2 insertions(+), 3 deletions(-)
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
 
-
-> diff --git a/linux-user/host/ppc/host-signal.h =
-b/linux-user/host/ppc/host-signal.h
-> index f4b4d65031..e09756c691 100644
-> --- a/linux-user/host/ppc/host-signal.h
-> +++ b/linux-user/host/ppc/host-signal.h
-> @@ -1 +1,24 @@
-> -#define HOST_SIGNAL_PLACEHOLDER
-> +/*
-> + * host-signal.h: signal info dependent on the host architecture
-> + *
-> + * Copyright (C) 2021 Linaro Limited
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or =
-later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef PPC_HOST_SIGNAL_H
-> +#define PPC_HOST_SIGNAL_H
-> +
-> +static inline uintptr_t host_signal_pc(ucontext_t *uc)
-> +{
-> +    return uc->uc_mcontext.regs->nip;
-> +}
-> +
-> +static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
-> +{
-> +    return uc->uc_mcontext.regs->trap !=3D 0x400
-> +        && (uc->uc_mcontext.regs->dsisr & 0x02000000);
-> +}
-> +
-> +#endif
-> diff --git a/linux-user/host/ppc64/host-signal.h =
-b/linux-user/host/ppc64/host-signal.h
-> index f4b4d65031..a353c22a90 100644
-> --- a/linux-user/host/ppc64/host-signal.h
-> +++ b/linux-user/host/ppc64/host-signal.h
-> @@ -1 +1 @@
-> -#define HOST_SIGNAL_PLACEHOLDER
-> +#include "../ppc/host-signal.h"
+> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> index 5fd1ed3422..410588d08a 100644
+> --- a/accel/tcg/cpu-exec.c
+> +++ b/accel/tcg/cpu-exec.c
+> @@ -451,6 +451,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
+>          * memory.
+>          */
+> #ifndef CONFIG_SOFTMMU
+> +        clear_helper_retaddr();
+>         tcg_debug_assert(!have_mmap_lock());
+> #endif
+>         if (qemu_mutex_iothread_locked()) {
+> @@ -460,7 +461,6 @@ void cpu_exec_step_atomic(CPUState *cpu)
+>         qemu_plugin_disable_mem_helpers(cpu);
+>     }
+>=20
+> -
+>     /*
+>      * As we start the exclusive region before codegen we must still
+>      * be in the region if we longjump out of either the codegen or
+> @@ -905,6 +905,7 @@ int cpu_exec(CPUState *cpu)
+> #endif
+>=20
+> #ifndef CONFIG_SOFTMMU
+> +        clear_helper_retaddr();
+>         tcg_debug_assert(!have_mmap_lock());
+> #endif
+>         if (qemu_mutex_iothread_locked()) {
 > diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-> index b5d06183db..e9e530e2e1 100644
+> index cef025d001..e94f1fed00 100644
 > --- a/accel/tcg/user-exec.c
 > +++ b/accel/tcg/user-exec.c
-> @@ -255,84 +255,7 @@ void *probe_access(CPUArchState *env, =
-target_ulong addr, int size,
->     return size ? g2h(env_cpu(env), addr) : NULL;
-> }
+> @@ -175,7 +175,6 @@ static inline int handle_cpu_signal(uintptr_t pc, =
+siginfo_t *info,
+>              * currently executing TB was modified and must be exited
+>              * immediately.  Clear helper_retaddr for next execution.
+>              */
+> -            clear_helper_retaddr();
+>             cpu_exit_tb_from_sighandler(cpu, old_set);
+>             /* NORETURN */
 >=20
-> -#if defined(_ARCH_PPC)
-> -
-> =
--/***********************************************************************
-> - * signal context platform-specific definitions
-> - * =46rom Wine
-> - */
-> -#ifdef linux
-> -/* All Registers access - only for local access */
-> -#define REG_sig(reg_name, context)              \
-> -    ((context)->uc_mcontext.regs->reg_name)
-> -/* Gpr Registers access  */
-> -#define GPR_sig(reg_num, context)              REG_sig(gpr[reg_num], =
-context)
-> -/* Program counter */
-> -#define IAR_sig(context)                       REG_sig(nip, context)
-> -/* Machine State Register (Supervisor) */
-> -#define MSR_sig(context)                       REG_sig(msr, context)
-> -/* Count register */
-> -#define CTR_sig(context)                       REG_sig(ctr, context)
-> -/* User's integer exception register */
-> -#define XER_sig(context)                       REG_sig(xer, context)
-> -/* Link register */
-> -#define LR_sig(context)                        REG_sig(link, context)
-> -/* Condition register */
-> -#define CR_sig(context)                        REG_sig(ccr, context)
-> -
-> -/* Float Registers access  */
-> -#define FLOAT_sig(reg_num, context)                                   =
-  \
-> -    (((double *)((char *)((context)->uc_mcontext.regs + 48 * =
-4)))[reg_num])
-> -#define FPSCR_sig(context) \
-> -    (*(int *)((char *)((context)->uc_mcontext.regs + (48 + 32 * 2) * =
-4)))
-> -/* Exception Registers access */
-> -#define DAR_sig(context)                       REG_sig(dar, context)
-> -#define DSISR_sig(context)                     REG_sig(dsisr, =
-context)
-> -#define TRAP_sig(context)                      REG_sig(trap, context)
-> -#endif /* linux */
-> -
-> -#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
-> -#include <ucontext.h>
-> -#define IAR_sig(context)               =
-((context)->uc_mcontext.mc_srr0)
-> -#define MSR_sig(context)               =
-((context)->uc_mcontext.mc_srr1)
-> -#define CTR_sig(context)               =
-((context)->uc_mcontext.mc_ctr)
-> -#define XER_sig(context)               =
-((context)->uc_mcontext.mc_xer)
-> -#define LR_sig(context)                ((context)->uc_mcontext.mc_lr)
-> -#define CR_sig(context)                ((context)->uc_mcontext.mc_cr)
-> -/* Exception Registers access */
-> -#define DAR_sig(context)               =
-((context)->uc_mcontext.mc_dar)
-> -#define DSISR_sig(context)             =
-((context)->uc_mcontext.mc_dsisr)
-> -#define TRAP_sig(context)              =
-((context)->uc_mcontext.mc_exc)
-> -#endif /* __FreeBSD__|| __FreeBSD_kernel__ */
-> -
-> -int cpu_signal_handler(int host_signum, void *pinfo,
-> -                       void *puc)
-> -{
-> -    siginfo_t *info =3D pinfo;
-> -#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
-> -    ucontext_t *uc =3D puc;
-> -#else
-> -    ucontext_t *uc =3D puc;
-> -#endif
-> -    unsigned long pc;
-> -    int is_write;
-> -
-> -    pc =3D IAR_sig(uc);
-> -    is_write =3D 0;
-> -#if 0
-> -    /* ppc 4xx case */
-> -    if (DSISR_sig(uc) & 0x00800000) {
-> -        is_write =3D 1;
-> -    }
-> -#else
-> -    if (TRAP_sig(uc) !=3D 0x400 && (DSISR_sig(uc) & 0x02000000)) {
-> -        is_write =3D 1;
-> -    }
-> -#endif
-> -    return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
-> -}
-> -
-> -#elif defined(__alpha__)
-> +#if defined(__alpha__)
+> @@ -193,7 +192,6 @@ static inline int handle_cpu_signal(uintptr_t pc, =
+siginfo_t *info,
+>      * an exception.  Undo signal and retaddr state prior to longjmp.
+>      */
+>     sigprocmask(SIG_SETMASK, old_set, NULL);
+> -    clear_helper_retaddr();
 >=20
-> int cpu_signal_handler(int host_signum, void *pinfo,
->                            void *puc)
+>     cc =3D CPU_GET_CLASS(cpu);
+>     cc->tcg_ops->tlb_fill(cpu, address, 0, access_type,
 > --=20
 > 2.25.1
 >=20
