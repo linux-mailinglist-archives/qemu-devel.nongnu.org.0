@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5EC6410939
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 04:16:35 +0200 (CEST)
-Received: from localhost ([::1]:50554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 283E8410967
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 04:51:05 +0200 (CEST)
+Received: from localhost ([::1]:36926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRmNe-0000sf-PE
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 22:16:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41850)
+	id 1mRmv1-0003YE-NW
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 22:51:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRm5Q-00046R-Ke
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:45 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:51182)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mRmtu-0002rj-Ad
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 22:49:54 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:38735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRm5N-0005Hj-QK
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:44 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id k23so9586931pji.0
- for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 18:57:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dG8D726sLCXCL5Zfb1IUY8jWTYav0TmVZuH4s8Ps4fo=;
- b=LJX2tj0AWPA628j6fXMjCZPvAJ8rNgZvDGPjlQ8BKprcYAAWkJKTmh2kmnjPy7UgfE
- wwf8WcSg/oaVahcVexOeZ0nCTvM28p54e/dBVCK5GVYBCWwt53YTbs6GStAayYb1qPHi
- 35CGV1aTPGLg+4aK+8u6uoinllsoB1R4yCVAhgJmIQ9mRk+KVQR8XH1Yme04D3hKdlKq
- ODHIxouRERAYuNvbhJO1tc248GtkjngVBQdOkwle77tgBELZSqW7p7rkSNO32hpVsOYd
- Yv+YpjciCY7mgEp0Spv32IZa+7yeOD2kE3Pr7p/4BSFrLhhZFMVGS3G9HpS8xVRC6WJZ
- SJTg==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mRmts-0008UZ-Dz
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 22:49:54 -0400
+Received: by mail-pl1-x633.google.com with SMTP id 5so8795036plo.5
+ for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 19:49:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=cC1M7tsaRndEVZUL0cWr78xoAixMFiRnn0Z8m5GLKgg=;
+ b=1pkdjbJ2f1p00ESgwkZFGh3JvNbRogIem9yBIQpvCmYm8eGLKorq46ifB+FH4L8UQ1
+ XAPs28cLEC85Mxp/Jm+DWyT34lSKeRHdYUX3AQhrcdIT78gR0COe7gcTB7HQ/swu+pib
+ DcyYrRwn0rv9yqL4R/UBFQiW3AfFcocdRSzhsH2eX2IAgb3WI7sxCju2CBeSv5WSP9uW
+ TIuIM3RjCq/OpVbrCcqb0HnvvFGOI6vsnsua8m5lB6KcYG4q7k4bXuNi8N5pqsPAKlG1
+ J/8Njn0bFZuD51TOYq9FTuBkSF3gEwXZiAPPDCkiXz3tpP2twsJ4ax6Whovng6nG2h6Y
+ ntyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dG8D726sLCXCL5Zfb1IUY8jWTYav0TmVZuH4s8Ps4fo=;
- b=DOHYRgY8dYB3OEDBHkdbr+bQkW1vWQBblhf0HMTqToEGnvrAekfz2f8n0ce/cYaWLm
- AeW7Z7oqw/X82vf6jFy9QeD4ZtKsqkg5SZXldh+m9nJH1JXbT9KWMXifRdHoWtzfgaVE
- 8R2B4AEBeCAuwYQJ8Lex8CsJPnC3eJ7DXo7wNR/wAI+DeMwoZKHmglgwTJF553XJT0yF
- di/AohUXFpxEcSbU8jJPTsUPrnHC+w3rP35Hi2nbL8dbCsYDppVVjCiSxf8zc5sUfEyW
- ZbgHM6MjykLStaliGr8rFNnYQfWSn+7LsMmMvBrkzhs4nQptubVodnh5yy0jRPPkTJOg
- L6Jg==
-X-Gm-Message-State: AOAM532COuP5SpA2mDHBfzMYZtv8P2iFiT4c5O0M1CwjemWoIWza3Fqx
- Ug6HQ39IzBAR9Lmid9zs4gcC5ZzcIHGaSA==
-X-Google-Smtp-Source: ABdhPJwLhoSdlFJiU0yK1QRdUcioyEv7jmuse7wFiKeb3pyIP83hfDRYAPXrVjjdy+cHhuVFmBWNKw==
-X-Received: by 2002:a17:90a:578e:: with SMTP id
- g14mr30382899pji.184.1632016660245; 
- Sat, 18 Sep 2021 18:57:40 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id k14sm6747899pgg.92.2021.09.18.18.57.39
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=cC1M7tsaRndEVZUL0cWr78xoAixMFiRnn0Z8m5GLKgg=;
+ b=1rcXa69XCu8HCYctKq2QAzCEYozYdIUMuyP1cHquCBSH+Do9CenIWy0UOlYmkjwsQv
+ CGhI4YRbDPFlagFD8nweQ9YLpSKoqqLKi4sL8FClmijGeWKfpaLB3ZJ+1YfEW58kztIR
+ 7LHcAxrJgRsJ/czxugD0o1JN2d/u0HYjAemS7sN0Uc9SvAUFOXnqmGLgv9F/Ui2bUWok
+ EAP983kx1XS+FQ8bSlPt46hekqXvlN9dDGn+mg+6s1g8SW3zSooP7XXPsgLdXVy9B9ne
+ iktZz9wOK43ZqnBdX3KgqAu/D/c7elivwOps10o++SxkqQ5GsATWkF7KlOSnILd4sJSk
+ hGIA==
+X-Gm-Message-State: AOAM533mKNS8whM0Za69A8W1S69iuuS5Fml15WWN9loW/BvSTuLL/s65
+ bMnYi2ixbSoWhLe4sOUID31zSw==
+X-Google-Smtp-Source: ABdhPJy10JXTlAD2Y5fUWRgU20Zwmw6R8zQIlTrnbPr7tP+ZU1uVUE0+Ti1if6+A4236wQgcO6FB+g==
+X-Received: by 2002:a17:902:ab54:b0:13c:9118:8520 with SMTP id
+ ij20-20020a170902ab5400b0013c91188520mr16354678plb.44.1632019789086; 
+ Sat, 18 Sep 2021 19:49:49 -0700 (PDT)
+Received: from anisinha-lenovo ([203.212.243.59])
+ by smtp.googlemail.com with ESMTPSA id v8sm13926537pjh.24.2021.09.18.19.49.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Sep 2021 18:57:39 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 25/25] linux-user/xtensa: Use force_sig_fault
-Date: Sat, 18 Sep 2021 18:57:18 -0700
-Message-Id: <20210919015718.466207-26-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210919015718.466207-1-richard.henderson@linaro.org>
-References: <20210919015718.466207-1-richard.henderson@linaro.org>
+ Sat, 18 Sep 2021 19:49:48 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Sun, 19 Sep 2021 08:19:43 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [RFC PATCH] tests/acpi/pcihp: add unit tests for hotplug on
+ multifunction bridges for q35
+In-Reply-To: <20210917153248.6ef88697@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2109190814020.3818584@anisinha-lenovo>
+References: <20210806174642.490023-1-ani@anisinha.ca>
+ <20210806174642.490023-2-ani@anisinha.ca>
+ <20210917153248.6ef88697@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::633;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,87 +86,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu
+Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the new function instead of setting up a target_siginfo_t
-and calling queue_signal. Fill in the missing PC for SIGTRAP.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- linux-user/xtensa/cpu_loop.c | 28 +++++++++++-----------------
- 1 file changed, 11 insertions(+), 17 deletions(-)
 
-diff --git a/linux-user/xtensa/cpu_loop.c b/linux-user/xtensa/cpu_loop.c
-index b48781c6e8..7392e83c9b 100644
---- a/linux-user/xtensa/cpu_loop.c
-+++ b/linux-user/xtensa/cpu_loop.c
-@@ -20,6 +20,8 @@
- #include "qemu/osdep.h"
- #include "qemu.h"
- #include "cpu_loop-common.h"
-+#include "signal-common.h"
-+
- 
- static void xtensa_rfw(CPUXtensaState *env)
- {
-@@ -124,7 +126,6 @@ static void xtensa_underflow12(CPUXtensaState *env)
- void cpu_loop(CPUXtensaState *env)
- {
-     CPUState *cs = env_cpu(env);
--    target_siginfo_t info;
-     abi_ulong ret;
-     int trapnr;
- 
-@@ -161,14 +162,12 @@ void cpu_loop(CPUXtensaState *env)
-         case EXC_USER:
-             switch (env->sregs[EXCCAUSE]) {
-             case ILLEGAL_INSTRUCTION_CAUSE:
-+                force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC,
-+                                env->sregs[EPC1]);
-+                break;
-             case PRIVILEGED_CAUSE:
--                info.si_signo = TARGET_SIGILL;
--                info.si_errno = 0;
--                info.si_code =
--                    env->sregs[EXCCAUSE] == ILLEGAL_INSTRUCTION_CAUSE ?
--                    TARGET_ILL_ILLOPC : TARGET_ILL_PRVOPC;
--                info._sifields._sigfault._addr = env->sregs[EPC1];
--                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+                force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC,
-+                                env->sregs[EPC1]);
-                 break;
- 
-             case SYSCALL_CAUSE:
-@@ -217,11 +216,8 @@ void cpu_loop(CPUXtensaState *env)
-                 break;
- 
-             case INTEGER_DIVIDE_BY_ZERO_CAUSE:
--                info.si_signo = TARGET_SIGFPE;
--                info.si_errno = 0;
--                info.si_code = TARGET_FPE_INTDIV;
--                info._sifields._sigfault._addr = env->sregs[EPC1];
--                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+                force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV,
-+                                env->sregs[EPC1]);
-                 break;
- 
-             default:
-@@ -230,10 +226,8 @@ void cpu_loop(CPUXtensaState *env)
-             }
-             break;
-         case EXCP_DEBUG:
--            info.si_signo = TARGET_SIGTRAP;
--            info.si_errno = 0;
--            info.si_code = TARGET_TRAP_BRKPT;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT,
-+                            env->sregs[EPC1]);
-             break;
-         case EXC_DEBUG:
-         default:
--- 
-2.25.1
+On Fri, 17 Sep 2021, Igor Mammedov wrote:
 
+> On Fri,  6 Aug 2021 23:16:42 +0530
+> Ani Sinha <ani@anisinha.ca> wrote:
+>
+> > commit d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction bridges")
+> > added ACPI hotplug descriptions for cold plugged bridges for functions other
+> > than 0. For all other devices, the ACPI hotplug descriptions are limited to
+> > function 0 only. This change adds unit tests for this feature.
+> >
+> > The diff of ACPI DSDT table before and after the change d7346e614f4e with the
+> > same newly added unit test is provided below:
+>
+> ASL below should be updated to match actual diff it's spewing out
+> (I get more than it mentioned below)
+
+No. this diff is correct. This is the diff of the DSDT table before and
+after appplying your change with the same unit test. So this diff shows
+what effectively changes in the DSDT table when your fix
+
+d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction
+bridges")
+
+is applied. So I think it is important to capture this data. I will
+clarify the diff more clearly in the commit log in the next version.
+
+
+>
+> > @@ -5,13 +5,13 @@
+> >   *
+> >   * Disassembling to symbolic ASL+ operators
+> >   *
+> > - * Disassembly of /tmp/aml-35UR70, Fri Aug  6 21:00:03 2021
+> > + * Disassembly of /tmp/aml-GY8760, Fri Aug  6 21:10:31 2021
+> >   *
+> >   * Original Table Header:
+> >   *     Signature        "DSDT"
+> > - *     Length           0x0000206A (8298)
+> > + *     Length           0x000020F3 (8435)
+> >   *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
+> > - *     Checksum         0x59
+> > + *     Checksum         0x1B
+> >   *     OEM ID           "BOCHS "
+> >   *     OEM Table ID     "BXPC    "
+> >   *     OEM Revision     0x00000001 (1)
+> > @@ -20,28 +20,6 @@
+> >   */
+> >  DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
+> >  {
+> > -    /*
+> > -     * iASL Warning: There was 1 external control method found during
+> > -     * disassembly, but only 0 were resolved (1 unresolved). Additional
+> > -     * ACPI tables may be required to properly disassemble the code. This
+> > -     * resulting disassembler output file may not compile because the
+> > -     * disassembler did not know how many arguments to assign to the
+> > -     * unresolved methods. Note: SSDTs can be dynamically loaded at
+> > -     * runtime and may or may not be available via the host OS.
+> > -     *
+> > -     * In addition, the -fe option can be used to specify a file containing
+> > -     * control method external declarations with the associated method
+> > -     * argument counts. Each line of the file must be of the form:
+> > -     *     External (<method pathname>, MethodObj, <argument count>)
+> > -     * Invocation:
+> > -     *     iasl -fe refs.txt -d dsdt.aml
+> > -     *
+> > -     * The following methods were unresolved and many not compile properly
+> > -     * because the disassembler had to guess at the number of arguments
+> > -     * required for each:
+> > -     */
+> > -    External (_SB_.PCI0.S09_.PCNT, MethodObj)    // Warning: Unknown method, guessing 1 arguments
+> > -
+> >      Scope (\)
+> >      {
+> >          OperationRegion (DBG, SystemIO, 0x0402, One)
+> > @@ -3280,9 +3258,45 @@
+> >                  }
+> >              }
+> >
+> > +            Device (S09)
+> > +            {
+> > +                Name (_ADR, 0x00010001)  // _ADR: Address
+> > +                Name (BSEL, Zero)
+> > +                Device (S00)
+> > +                {
+> > +                    Name (_SUN, Zero)  // _SUN: Slot User Number
+> > +                    Name (_ADR, Zero)  // _ADR: Address
+> > +                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
+> > +                    {
+> > +                        PCEJ (BSEL, _SUN)
+> > +                    }
+> > +
+> > +                    Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+> > +                    {
+> > +                        Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, _SUN))
+> > +                    }
+> > +                }
+> > +
+> > +                Method (DVNT, 2, NotSerialized)
+> > +                {
+> > +                    If ((Arg0 & One))
+> > +                    {
+> > +                        Notify (S00, Arg1)
+> > +                    }
+> > +                }
+> > +
+> > +                Method (PCNT, 0, NotSerialized)
+> > +                {
+> > +                    BNUM = Zero
+> > +                    DVNT (PCIU, One)
+> > +                    DVNT (PCID, 0x03)
+> > +                }
+> > +            }
+> > +
+> >              Method (PCNT, 0, NotSerialized)
+> >              {
+> > -                ^S09.PCNT (^S08.PCNT ())
+> > +                ^S09.PCNT ()
+> > +                ^S08.PCNT ()
+> >              }
+> >          }
+> >      }
+> >
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > ---
+> >  tests/qtest/bios-tables-test.c | 28 ++++++++++++++++++++++++++++
+> >  1 file changed, 28 insertions(+)
+> >
+> > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> > index 51d3a4e239..c92b70e8b8 100644
+> > --- a/tests/qtest/bios-tables-test.c
+> > +++ b/tests/qtest/bios-tables-test.c
+> > @@ -859,6 +859,33 @@ static void test_acpi_q35_tcg_bridge(void)
+> >      free_test_data(&data);
+> >  }
+> >
+> > +static void test_acpi_q35_multif_bridge(void)
+> > +{
+> > +    test_data data = {
+> > +        .machine = MACHINE_Q35,
+> > +        .variant = ".multi-bridge",
+>
+> > +        .required_struct_types = base_required_struct_types,
+> > +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types)
+> do we care, i.e. why is this here?
+
+This verifies the smbios struct. It seems most of the other tests uses it.
+So I left it in this test also.
+Which of the tests should not be testing smbios? Maybe we can remove this
+from other tests (even the ones that I added earlier)? I wasnt' sure so
+maybe you can clarify.
+
+
+>
+> > +    };
+> > +    /*
+> > +     * lets try three things:
+> s/try .../test following configuration/
+>
+> > +     * (a) a multifunction bridge device
+> > +     * (b) a bridge device with function 1
+> > +     * (c) a non-bridge device with function 2
+> > +     * We should see AML hotplug descriptions for (a) and (b) in DSDT.
+> > +     * For (a) it should have a hotplug AML description for function 0.
+> > +     */
+>
+> A little bit hard to parse this comment, maybe explain a bit more
+> what is being tested
+> also I'd move this comment into commit message
+
+OK will do in next revision.
+
+>
+> > +    test_acpi_one("-nodefaults -device pcie-root-port,id=pcie-root-port-0,"
+> > +                  "multifunction=on,"
+> > +                  "port=0x0,chassis=1,addr=0x1,bus=pcie.0 "
+> > +                  "-device pcie-root-port,id=pcie-root-port-1,"
+> > +                  "port=0x1,chassis=2,addr=0x1.0x1,bus=pcie.0 "
+> > +                  "-device virtio-balloon,id=balloon0,"
+> > +                  "bus=pcie.0,addr=0x1.0x2",
+> > +                  &data);
+> > +    free_test_data(&data);
+> > +}
+> > +
+> >  static void test_acpi_q35_tcg_mmio64(void)
+> >  {
+> >      test_data data = {
+> > @@ -1528,6 +1555,7 @@ int main(int argc, char *argv[])
+> >                         test_acpi_piix4_no_acpi_pci_hotplug);
+> >          qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+> >          qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+> > +        qtest_add_func("acpi/q35/multif-bridge", test_acpi_q35_multif_bridge);
+> >          qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
+> >          qtest_add_func("acpi/piix4/ipmi", test_acpi_piix4_tcg_ipmi);
+> >          qtest_add_func("acpi/q35/ipmi", test_acpi_q35_tcg_ipmi);
+>
+>
 
