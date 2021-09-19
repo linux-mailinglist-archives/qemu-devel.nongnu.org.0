@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F44410D75
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 23:15:57 +0200 (CEST)
-Received: from localhost ([::1]:52436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 200EE410D9B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 00:24:19 +0200 (CEST)
+Received: from localhost ([::1]:36970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mS4AG-00087G-RI
-	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 17:15:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55362)
+	id 1mS5EP-0003OH-Mo
+	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 18:24:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mS48s-0006wb-LG
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 17:14:30 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:50870)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mS5DP-0002WW-Lo
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 18:23:15 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:38508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mS48q-0004Cm-89
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 17:14:30 -0400
-Received: by mail-wm1-x331.google.com with SMTP id 140so11612127wma.0
- for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 14:14:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=WcclKzPtTz9ZWc0iO6AgNxivvKp/PpVPkltGdE8S2HM=;
- b=Up/fW9EgEl6ygRbc3kH8B8PgEo95K/qtARmhW+vxAR3bFj+zHmB8b99f5Hu1qGV1d+
- 4dscxeNtx2yM5aNLUO4wVRPwnFIXrGYk8Hh01oqFbZWOD2OTFZFEQaYHKzj77s+cVqbY
- P9VEIelXQd38HZGJW9exzdzqNOYqTaTbzx56byeTw0+xzq9Gw4xp0aNWebkaiOXbT43/
- SysXJdP96ZQpK3MVgmlpa7GmQjjYIFC57j5VfD1Y2Y2dFeT+QWSTnurQtF8wBTAxnIet
- E6LCdHFVaUqZwGQYsPisQlhzPK7nh8A/DFYrTFuPB4WOfP1IEwSBPIa8VR7f2Xfdhq8L
- ZoJg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mS5DO-0008Mk-4e
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 18:23:15 -0400
+Received: by mail-pg1-x536.google.com with SMTP id w8so15441100pgf.5
+ for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 15:23:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nA4szRw8XawE9C3V6GRhMA0rrZGOp+NAQpOeeyLaO5E=;
+ b=xUx8YaMCTpf8BSwP/bhzu+58UrlRcbp+PodSZLBBx2HQxH/9EP1TQkT4LngOIwy+Hv
+ ckdZordqr0lxpXucszzUfzcCGhRITUdXLrR78qOIR5Tl26CKXRrTkrUPRvyXu3D8SsJg
+ YCRQgj5h7/3cLE1LffJHxIz/bETZXl0PcNBI/HfF1UbOYHIKkfqLKYcYL/jMYsW36iOn
+ 52UDZ8BIbTY/YeoDnGu6Q0/A+IIx1lrUi4lRPvTSlXuRfsFD6qNVHlqItV3fAOpBPph2
+ IOd1MiMuQTzEFoDh9wMMNprCvRM4OgP19MAfXxfe6SOQ7LOQrqbagr1/VckmbVkB4deT
+ Eepw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=WcclKzPtTz9ZWc0iO6AgNxivvKp/PpVPkltGdE8S2HM=;
- b=irUnSGFQuUzHZl6zu8WmmOeSq3sJDTmNYFN8zMQ8SxCBRXWmUzMZDEePnqAx2Tvj35
- 5h+HOSHmBOy6gEQYN9bBMrRDvuMZYg5ZIP93JPefuhAd2nMGuupBhk4ar3ukArDB7XNK
- G6mCcn3Tvvld48MkjRrVIgkEREut/SD+HYLWP3dEsyE1oyN6EIM+FHqTCqJVyvswSZMG
- +ur11lqSZW/IhGsez6A9tyniOKRliCTa+OKYNx2PofrEefFLBPL+v5Kje097neSjCihb
- 4dUkYWZ5NudAX6fq4I3L6HQ0TOVg//aUUTmzY9RzidNl7m672SpRaSDamA+WGpr2nCDe
- uDrA==
-X-Gm-Message-State: AOAM531kACQtjoHeKCqSqdSOWv1ISIFFvMLp1YI6fGt6IM224SDixsqi
- W5zRklree2fjaLVkTBZs2DQ=
-X-Google-Smtp-Source: ABdhPJywROXVlE2ld/O4R3nwMcB/1oCv7FjXUOixbEw0CzepmmqNf+DXbr2WXY8A5dmdXYjNHw4aeQ==
-X-Received: by 2002:a1c:448a:: with SMTP id
- r132mr21860542wma.105.1632086066408; 
- Sun, 19 Sep 2021 14:14:26 -0700 (PDT)
-Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
- [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id j14sm13822349wrp.21.2021.09.19.14.14.24
+ bh=nA4szRw8XawE9C3V6GRhMA0rrZGOp+NAQpOeeyLaO5E=;
+ b=P6rfD5yen/qvjJpYcMLRXAST6DT8fp2hmNd2QpmXeHIEXwM67I7oAh7MnQk44YscJH
+ c3MwSczaRXLFGKsAksXBRgu+agdBKsUMzquU5fbcNN3pr/iQmBK2+rk4DygPe0douClZ
+ zmyNwqbY1YDwscCHAVUADgMk3eqxAvlcj3pii7q0NaBlLyH2kqHVYGVQfRzRliZnh8xc
+ GrIXl9qkKhjbcQx+Br57BMB7DgudNf20ObO9uJGaHUh+RqmhunU0TNa3iGPzaypG5/YY
+ MQ+qund4OxElgq0xp9KXi4Jx5LFyT6cvc7HVd/5NeXdItLM4cZqYUlbCasS0S9zONGPW
+ 9Wtg==
+X-Gm-Message-State: AOAM5338Dbmvpgk8IQaVHbCHNHZ/tTqrZkqDyUSZqnNmkJRf4NU06RuZ
+ 1ltmnDqTrMNX+m0blVO3VQairA==
+X-Google-Smtp-Source: ABdhPJxZg0Fas0AP/G972wIcbW8ii018j0WO76HagzcwOE9rQvGAlMdmJCNX3CQs+tOvukD1WPEfiw==
+X-Received: by 2002:a63:741b:: with SMTP id p27mr20859143pgc.140.1632090191861; 
+ Sun, 19 Sep 2021 15:23:11 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id t68sm13023463pgc.59.2021.09.19.15.23.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Sep 2021 14:14:25 -0700 (PDT)
-Message-ID: <e9f920f1-e525-a57d-3f37-bc17cecf3a4c@amsat.org>
-Date: Sun, 19 Sep 2021 23:14:24 +0200
+ Sun, 19 Sep 2021 15:23:11 -0700 (PDT)
+Subject: Re: [PATCH v2 4/8] linux-user/arm: Report SIGBUS and SIGSEGV correctly
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210821195958.41312-1-richard.henderson@linaro.org>
+ <20210821195958.41312-5-richard.henderson@linaro.org>
+ <CAFEAcA82iZptWmCcgonZvLTU4g+5nnEEQDdtHD5y=X7m82N1Yg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4a65af02-ae19-20c5-9ffa-3e3a7d0401d4@linaro.org>
+Date: Sun, 19 Sep 2021 15:23:09 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3 20/20] q800: configure nubus available slots for Quadra
- 800
+In-Reply-To: <CAFEAcA82iZptWmCcgonZvLTU4g+5nnEEQDdtHD5y=X7m82N1Yg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- laurent@vivier.eu
-References: <20210916100554.10963-1-mark.cave-ayland@ilande.co.uk>
- <20210916100554.10963-21-mark.cave-ayland@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20210916100554.10963-21-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,17 +88,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/16/21 12:05, Mark Cave-Ayland wrote:
-> Slot 0x9 is reserved for use by the in-built framebuffer whilst only slots
-> 0xc, 0xd and 0xe physically exist on the Quadra 800.
+On 8/26/21 6:31 AM, Peter Maydell wrote:
+>> +                si_signo = TARGET_SIGSEGV;
+>> +                si_code = TARGET_SEGV_ACCERR;
+>> +                break;
+>> +            case 0x5: /* Translation fault, level 1 */
+>> +            case 0x7: /* Translation fault, level 2 */
+>> +                si_signo = TARGET_SIGSEGV;
+>> +                si_code = TARGET_SEGV_MAPERR;
+>> +                break;
 > 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/m68k/q800.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
+> Side note: for cases like this where we can tell MAPERR from
+> ACCERR based on info the exception handler passes to us, should
+> we prefer that or the "check the page flags" approach that
+> force_sigsegv_for_addr() takes ?
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+FYI, the v3 version of the sigsegv+siginfo patch set makes is vastly easier on the target 
+code.  For the most part the target code goes away entirely.  For the specific case of Arm 
+(both a32 and a64), we retain it because we are supposed to report the ESR and FAR as part 
+of the signal frame.
+
+I'll note that a64 isn't filling in the esr_context and far_context structures.  The 
+latter was invented for MTE, I believe, where the normal si_addr is untagged.  I should 
+have a double-check around those at some point...
+
+
+r~
 
