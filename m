@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80BD1410B2C
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 12:40:58 +0200 (CEST)
-Received: from localhost ([::1]:56018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB6C410B4A
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 13:30:56 +0200 (CEST)
+Received: from localhost ([::1]:39362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRuFl-0007yN-7v
-	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 06:40:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59582)
+	id 1mRv26-0002L4-3E
+	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 07:30:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mRuDj-0007A7-5J
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 06:38:51 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:54215)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mRv0Y-0001ep-5L
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 07:29:18 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:38795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mRuDh-00009O-6W
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 06:38:50 -0400
-Received: by mail-wm1-x335.google.com with SMTP id z2so1773793wmc.3
- for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 03:38:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=QJwqV5DFZr/3qHtzBCjw6sF6cj8UkPbSNOoHE/xmDX8=;
- b=WbTBQqwT4MwuqWZ3sCLBeQq5jaqq/ztUo0+XyUEkd5nW40WYld5tlQPJB6HjwKw8Td
- vcbI2qQNA+8YoSihwtcA39R1M33acPqNPHyuRBTFgtUYsj5m4xau/DKeTvOSWG/Qt4Fj
- k4klOB8XYx+RdkItg/ITXjRYKyyiiQPbO/tTE6Q548qKF6IMnL/3cRd5853Cp+DyoEJv
- 3+p341JgLQdPrilE1sdPDdgqVxa0nBYnPbEx5vnsNpnKqPw3ZMviPJQi+7iVKRqnjmUw
- 2PJUrSVwyiIEt1wkqa1y+w1/1mwDC8P7HjkbD3fS9sb+Yp80lyQ+zJLcO3Gkmb6dz7ng
- JsoA==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mRv0U-0006U2-SX
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 07:29:17 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ g13-20020a17090a3c8d00b00196286963b9so13181280pjc.3
+ for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 04:29:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=IA89P+mMI6b4veXn3KfdPy9qphkJOcjjeuwmw7YadH0=;
+ b=csshuyOu7WeNY+RgF34xLrnvjUKl8gPiVrGaIRcKVkpOj9IIRkbVLC9QRBuIaSRLIa
+ newMGpQXaSROQiJiYsaTfTVPrUPWaaSkRvOuaWNnKjR2Hi9LxkUBWnN6RlRMLMExn5LE
+ NqQkTrc1Kf0P2sotKBJKg0fGumprrPeoWclj+Klm+NmDHK0Nw2ZE6kIFAToPzLaCkeg4
+ sHTreoPzK+HJW1UBgBRzrQ2FcEJozKBPZU+7igadgZ6Y+uVWCGrBrTAZXtsfbIDhrCXI
+ MqmZDfZxXW0kAAcHkDl0tAGc+UywipnFNFmsX3M6K+uxMWq5273uRjpYnluzSihsSABq
+ rGpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=QJwqV5DFZr/3qHtzBCjw6sF6cj8UkPbSNOoHE/xmDX8=;
- b=bUuXuY0U8z5c3190hIfLgYGd+xwNZOVssopletP+KwyU5j/kKv0xD65ETEM5ygOiM6
- Bl6oLDugj+TRFbZ6EVINwK0pDSWvASu3bsA+Vf2cvoN2f5jXY85o0LaBCMLcdOrS3uFo
- UbWFkk9V3NMqDZE0egI4h9SxCcRFXhJJaL9tf8dwLGC71Sn45m1sUIY+EqwOJxkCbi3k
- 164duX9OgDKx9KFdFdySt/malCGdHnNXfa2WV46AfDrguVHqp6gKpeItmEZkkrENslYV
- cPJ6kFqRJ980MeVl1wUodTZfxCv+357P8uCtjGYl3nuQCA0kyBH55XFDG/j/ZrIrDpir
- yP4Q==
-X-Gm-Message-State: AOAM530/n7DgIE4lFJaBVdbwMWSaqUZ+X+gbO8zLZVPHT1UBii1rAuYX
- 5KB+BXIGEch/ItO1oQLY2zA=
-X-Google-Smtp-Source: ABdhPJwgFFTKKqAfP9hSv0ORc1SWR4d44Dil5dgafjZxEAYbwHRHIpSfCRh8rxid8FpF95BSNltl8w==
-X-Received: by 2002:a1c:58:: with SMTP id 85mr1612111wma.87.1632047927207;
- Sun, 19 Sep 2021 03:38:47 -0700 (PDT)
-Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
- [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id f19sm11678905wmf.11.2021.09.19.03.38.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Sep 2021 03:38:43 -0700 (PDT)
-Message-ID: <2c7141a5-88ca-12ad-8bfb-85de33ba042c@amsat.org>
-Date: Sun, 19 Sep 2021 12:38:42 +0200
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=IA89P+mMI6b4veXn3KfdPy9qphkJOcjjeuwmw7YadH0=;
+ b=4P5wnnAbcpPU+W08vlcaIrDhesc2SJkqRoN1ZW1s0CjN/1PKqaH9SQbbAogDDSWLBE
+ oI9Ka55Ych8w8LMIMhtNxNOPFe3yLbAfeV3ZZiFjy/NjkGbSh5PJuZtfEW8wsvVBDj+E
+ ZlwBPjLxbulJ8EnQVfIcHpgSZ7NLLmXmW1c4isRWUAHz+5peSXCFTLAelxyXcaiI+QxF
+ h9UlWP0nHCXqWI34Ybst39klFXdOYVbhxyfvJvPLV3ZOTouarlbvX+B0SwlttQQbvhJl
+ ZYnzagg22p6q2effKEvZhOsaILjHl3KKaOE6G2M+M7B7n05StghnOs+AFVXm6k5rKHmJ
+ b+8A==
+X-Gm-Message-State: AOAM5322fEcxMS7U1WJp6P2x1FGG4mqVRDBA/mIMmsYrzz6vX9N9R7HE
+ CzpfrLGxDe1zghjMKiYi2Xa7Sg==
+X-Google-Smtp-Source: ABdhPJxB2wq6gxk1/7jzauzUvpFto/AGUb6k5+vvnqzuKVksPsb0+362vn7h4t2Pi4GYafU0/JVGrQ==
+X-Received: by 2002:a17:903:2451:b0:13b:9694:4ea3 with SMTP id
+ l17-20020a170903245100b0013b96944ea3mr17789953pls.74.1632050952966; 
+ Sun, 19 Sep 2021 04:29:12 -0700 (PDT)
+Received: from anisinha-lenovo ([203.212.243.59])
+ by smtp.googlemail.com with ESMTPSA id z12sm558787pjb.52.2021.09.19.04.29.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 19 Sep 2021 04:29:12 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Sun, 19 Sep 2021 16:59:07 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [RFC PATCH] tests/acpi/pcihp: add unit tests for hotplug on
+ multifunction bridges for q35
+In-Reply-To: <alpine.DEB.2.22.394.2109190822510.3818584@anisinha-lenovo>
+Message-ID: <alpine.DEB.2.22.394.2109191635040.3913985@anisinha-lenovo>
+References: <20210806174642.490023-1-ani@anisinha.ca>
+ <20210806174642.490023-2-ani@anisinha.ca>
+ <20210917153248.6ef88697@redhat.com>
+ <alpine.DEB.2.22.394.2109190814020.3818584@anisinha-lenovo>
+ <alpine.DEB.2.22.394.2109190822510.3818584@anisinha-lenovo>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2 00/41] linux-user: Streamline handling of SIGSEGV
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210918184527.408540-1-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20210918184527.408540-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.538,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,25 +89,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/18/21 20:44, Richard Henderson wrote:
 
->   linux-user: Reorg handling for SIGSEGV
->   linux-user/host/x86: Populate host_signal.h
->   linux-user/host/ppc: Populate host_signal.h
->   linux-user/host/alpha: Populate host_signal.h
->   linux-user/host/sparc: Populate host_signal.h
->   linux-user/host/arm: Populate host_signal.h
->   linux-user/host/aarch64: Populate host_signal.h
->   linux-user/host/s390: Populate host_signal.h
->   linux-user/host/mips: Populate host_signal.h
->   linux-user/host/riscv: Populate host_signal.h
->   target/arm: Fixup comment re handle_cpu_signal
->   linux-user/host/riscv: Improve host_signal_write
->   linux-user/signal: Drop HOST_SIGNAL_PLACEHOLDER
 
-Thanks for caring and splitting v1 patch :)
+On Sun, 19 Sep 2021, Ani Sinha wrote:
+
+
+> > > > +static void test_acpi_q35_multif_bridge(void)
+> > > > +{
+> > > > +    test_data data = {
+> > > > +        .machine = MACHINE_Q35,
+> > > > +        .variant = ".multi-bridge",
+> > >
+> > > > +        .required_struct_types = base_required_struct_types,
+> > > > +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types)
+> > > do we care, i.e. why is this here?
+> >
+> > This verifies the smbios struct. It seems most of the other tests uses it.
+> > So I left it in this test also.
+> > Which of the tests should not be testing smbios?
+>
+
+> Right now smbios is only tested for non-uefi firmware. There are lots
+> of tests that does not use uefi yet exercize the smbios struct tests.
+> For example:
+>
+> test_acpi_piix4_tcg
+> test_acpi_piix4_tcg_bridge
+> test_acpi_piix4_no_root_hotplug
+> test_acpi_piix4_no_bridge_hotplug
+> test_acpi_piix4_no_acpi_pci_hotplug
+> test_acpi_q35_tcg
+> test_acpi_q35_tcg_bridge
+> test_acpi_q35_tcg_mmio64
+> test_acpi_q35_tcg_ipmi
+> test_acpi_piix4_tcg_ipmi
+>
+> Should the smbios struct verification tests be removed from all of them?
+
+To answer my own question ...
+
+> test_acpi_q35_tcg
+
+This uses smbios options directly. So we need to keep smbios specific
+verifications.
+
+> test_acpi_piix4_no_root_hotplug
+> test_acpi_piix4_no_bridge_hotplug
+> test_acpi_piix4_no_acpi_pci_hotplug
+
+I think smbios specific struct tests can be removed from all of the above.
+They just deal with DSDT tables.
+
+Out of the rest,
+
+> test_acpi_piix4_tcg
+> test_acpi_piix4_tcg_bridge
+> test_acpi_q35_tcg_bridge
+
+I am not sure for the above three. I am not sure if the options passed
+indirectly affect smbios. Probably not?
+
+> test_acpi_q35_tcg_mmio64
+> test_acpi_q35_tcg_ipmi
+> test_acpi_piix4_tcg_ipmi
+
+For the above three, we probably need the smbios checks. Again I am not
+100% certain.
 
