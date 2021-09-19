@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1390410926
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 04:05:51 +0200 (CEST)
-Received: from localhost ([::1]:53262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9FFB41092A
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 04:08:44 +0200 (CEST)
+Received: from localhost ([::1]:33500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRmDG-0000iB-S4
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 22:05:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41686)
+	id 1mRmG3-0006N4-RY
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 22:08:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRm5F-0003pP-Te
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:33 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:37428)
+ id 1mRm5G-0003sc-M1
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:34 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:46983)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRm5D-0005AG-2m
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:33 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- me5-20020a17090b17c500b0019af76b7bb4so12050691pjb.2
- for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 18:57:30 -0700 (PDT)
+ id 1mRm5D-0005AP-Og
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:34 -0400
+Received: by mail-pg1-x531.google.com with SMTP id m21so4540638pgu.13
+ for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 18:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cTnSUy3sozc2mrt87w0e44ZRvgLTpypGGVhRf1mPH3Q=;
- b=Cropjl5UZYwxNZ/LNy6aKuP6ivtc+G/ncGZXx90wBIw/xmVZ0RXrZ4l1zPVJBJ9fqG
- 8TvIXrnoYY/5ePtBr3bnAzBJvd6B7bweeuhU4g1oul++QKPukvsOlM5klmUjXR0U1k6r
- GWF9do5ITjkvbMAe/1dxOO3xjFkjkvZkNXeubMfVjePg7UL8gl4NsLTJYtw+R8cwFCb6
- JzuChVmwmSy4rP4GETTf4Dfc/Qpy/VSi18AKPOA3a+DT1Xc/BMEwROkAZhVga+/UJJlt
- hMw1+qv5NA4xeWsS98BujlBWCqaJt2IDSd52+F+gsXFen6Lfwh4WUdA0ZrWR8UP8YWBg
- jguQ==
+ bh=d24uau7hAvhoR31DfETZUAFtZ6VzNOXKXU3xmJHN0Yo=;
+ b=M0+L3boMqUJsFaR8Z5BUbs/NeXNMGiXh39aJqgiFGJzamV4O/SOLlw8hbzqUx+ZRBF
+ Byz/QJ1SghZ7VyX2zzJjLDlzssROuw3oRE2QuRqtjQD2zWcR/OPKH5xL6E6dk/J6jg81
+ 3lZpUZLC5pe4PhgByIwnAZSn0vxnFb46i/eG/UGtDxvEDDeC5et3IvOKZv3mU/ivlqgu
+ y3B8ENkEeh2+3cD+YKkgXZrqvnhnvvoXDf5jx7gk3MeY7+4HsaJUri+D14CFL8i86AL/
+ FG2JwP49ju+9+5eCSQT5bbRFNXGPF5PgxUy2Cr0YlwqZhaHPxEMQw7xSwx/rr1A/+pnR
+ iEtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cTnSUy3sozc2mrt87w0e44ZRvgLTpypGGVhRf1mPH3Q=;
- b=H781jg3EJXezpWkabg+IYrKdsB25i0rev+//2M1JkoYiasMoqAZqUBSnekh0a3UgiK
- +XR9qSOOyPZsPjtcj9Vw7wGGIR+xjTOkq38XhjD2dsH/4UqPrmomgZTBzt5G8eG/iaia
- rAn5tl7u8owUaD1lVVZ3IhM+BVnTxISejirJVXj9Htq52aNwgAYhMmyqdurYMMw2DERa
- Rv4NMiDnq/RkIgjPjvZGJVw/DMQ4KG+y3n7ENuJCXz3TRJg8yvWVOGw3x0WjFlofHDDA
- Fgx8EIc4SigyHpb0xcMFQZUMhmc8Gva4xCs6FaqSC2P/EItYYCCj4xukLtr0bZCbfw9l
- WGRA==
-X-Gm-Message-State: AOAM532ndvvrdO00Xik7ZFypK5FfSoE4d/oh4jVaxG7U78tvxrNRtWrw
- Q+8oFcEp4alB2yVf692ujDwGjGH2WFjOVA==
-X-Google-Smtp-Source: ABdhPJzgWfRZwliB8hy1wBHsbnN6Zu85eBIAN98PoA7OVgkI2cod1619T5DNDLFyQmJQ3yjJ9Aw2xg==
-X-Received: by 2002:a17:902:8ec5:b0:13a:2789:cbb0 with SMTP id
- x5-20020a1709028ec500b0013a2789cbb0mr16527374plo.60.1632016649662; 
- Sat, 18 Sep 2021 18:57:29 -0700 (PDT)
+ bh=d24uau7hAvhoR31DfETZUAFtZ6VzNOXKXU3xmJHN0Yo=;
+ b=uPJMJV4f2qSqf75Ih8Y9zns9umzM8KFsl1LdF4GHLBXinXujNNmGxdYOLmzzpMUCot
+ sUvABNJ86hPPDVGGRB1GgQgY2VJlGS6N8GvsDhcoB7GZMGZAwQB2KDpI364rDruj/Qa+
+ 29pzUSGWzs1oNo3mxqayK7ipFVauqX2TwM4A3dU3cSHGLPLe6ldN0GpjPTQef0beZD/T
+ CtWK+Yq3rh/MHiqeXOTL8BiUEG1ixAWP/4ngbBCSxvnozwhypiW1N6W/t3MUMD3yWUNH
+ ZP8959Ct3TyubrjKq899BKavgJj5ORaBLzroaSBusJZETvHpzbnnD5PbsSIW+pP9OOuk
+ hDUA==
+X-Gm-Message-State: AOAM532hqixfauiQlKc31LG0PDDmsebaTGHaUJ2Qkmx4eA1ibWSl4IUn
+ s5okNbN44a7DrmJgOg3ocBIxXLxW/Bm1Pw==
+X-Google-Smtp-Source: ABdhPJy4DzSnV21c98yefT2LwtDZ3Bbee0jCUBGkmj23BqOmHzo1abD0kAZktoYKF3cFMiwnqLcbZw==
+X-Received: by 2002:a63:ac43:: with SMTP id z3mr17086857pgn.402.1632016650434; 
+ Sat, 18 Sep 2021 18:57:30 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
  by smtp.gmail.com with ESMTPSA id k14sm6747899pgg.92.2021.09.18.18.57.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Sep 2021 18:57:29 -0700 (PDT)
+ Sat, 18 Sep 2021 18:57:30 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/25] linux-user/m68k: Use force_sig_fault
-Date: Sat, 18 Sep 2021 18:57:05 -0700
-Message-Id: <20210919015718.466207-13-richard.henderson@linaro.org>
+Subject: [PATCH v3 13/25] linux-user/microblaze: Use force_sig_fault
+Date: Sat, 18 Sep 2021 18:57:06 -0700
+Message-Id: <20210919015718.466207-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210919015718.466207-1-richard.henderson@linaro.org>
 References: <20210919015718.466207-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,13 +90,13 @@ and calling queue_signal. Fill in the missing PC for SIGTRAP.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/m68k/cpu_loop.c | 26 ++++++--------------------
- 1 file changed, 6 insertions(+), 20 deletions(-)
+ linux-user/microblaze/cpu_loop.c | 63 ++++++++++++++------------------
+ 1 file changed, 27 insertions(+), 36 deletions(-)
 
-diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
-index 7d106aa86e..cf79a17f93 100644
---- a/linux-user/m68k/cpu_loop.c
-+++ b/linux-user/m68k/cpu_loop.c
+diff --git a/linux-user/microblaze/cpu_loop.c b/linux-user/microblaze/cpu_loop.c
+index 0b889a04a7..c527d21889 100644
+--- a/linux-user/microblaze/cpu_loop.c
++++ b/linux-user/microblaze/cpu_loop.c
 @@ -21,13 +21,14 @@
  #include "qemu-common.h"
  #include "qemu.h"
@@ -107,47 +104,90 @@ index 7d106aa86e..cf79a17f93 100644
 +#include "signal-common.h"
 +
  
- void cpu_loop(CPUM68KState *env)
+ void cpu_loop(CPUMBState *env)
  {
      CPUState *cs = env_cpu(env);
-     int trapnr;
-     unsigned int n;
+-    int trapnr, ret;
 -    target_siginfo_t info;
- 
-     for(;;) {
+-    
++    int trapnr, ret, si_code;
++
+     while (1) {
          cpu_exec_start(cs);
-@@ -44,25 +45,13 @@ void cpu_loop(CPUM68KState *env)
-         case EXCP_ILLEGAL:
-         case EXCP_LINEA:
-         case EXCP_LINEF:
--            info.si_signo = TARGET_SIGILL;
--            info.si_errno = 0;
--            info.si_code = TARGET_ILL_ILLOPN;
--            info._sifields._sigfault._addr = env->pc;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->pc);
+         trapnr = cpu_exec(cs);
+@@ -36,8 +37,8 @@ void cpu_loop(CPUMBState *env)
+ 
+         switch (trapnr) {
+         case EXCP_INTERRUPT:
+-          /* just indicate that signals should be handled asap */
+-          break;
++            /* just indicate that signals should be handled asap */
++            break;
+         case EXCP_SYSCALL:
+             /* Return address is 4 bytes after the call.  */
+             env->regs[14] += 4;
+@@ -65,6 +66,7 @@ void cpu_loop(CPUMBState *env)
+              */
+             env->regs[14] = env->pc;
              break;
-         case EXCP_CHK:
--            info.si_signo = TARGET_SIGFPE;
--            info.si_errno = 0;
--            info.si_code = TARGET_FPE_INTOVF;
--            info._sifields._sigfault._addr = env->pc;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTOVF, env->pc);
++
+         case EXCP_HW_EXCP:
+             env->regs[17] = env->pc + 4;
+             if (env->iflags & D_FLAG) {
+@@ -72,42 +74,31 @@ void cpu_loop(CPUMBState *env)
+                 env->pc -= 4;
+                 /* FIXME: if branch was immed, replay the imm as well.  */
+             }
+-
+             env->iflags &= ~(IMM_FLAG | D_FLAG);
+-
+             switch (env->esr & 31) {
+-                case ESR_EC_DIVZERO:
+-                    info.si_signo = TARGET_SIGFPE;
+-                    info.si_errno = 0;
+-                    info.si_code = TARGET_FPE_FLTDIV;
+-                    info._sifields._sigfault._addr = 0;
+-                    queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+-                    break;
+-                case ESR_EC_FPU:
+-                    info.si_signo = TARGET_SIGFPE;
+-                    info.si_errno = 0;
+-                    if (env->fsr & FSR_IO) {
+-                        info.si_code = TARGET_FPE_FLTINV;
+-                    }
+-                    if (env->fsr & FSR_DZ) {
+-                        info.si_code = TARGET_FPE_FLTDIV;
+-                    }
+-                    info._sifields._sigfault._addr = 0;
+-                    queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+-                    break;
+-                default:
+-                    fprintf(stderr, "Unhandled hw-exception: 0x%x\n",
+-                            env->esr & ESR_EC_MASK);
+-                    cpu_dump_state(cs, stderr, 0);
+-                    exit(EXIT_FAILURE);
+-                    break;
++            case ESR_EC_DIVZERO:
++                si_code = TARGET_FPE_FLTDIV;
++                break;
++            case ESR_EC_FPU:
++                si_code = 0;
++                if (env->fsr & FSR_IO) {
++                    si_code = TARGET_FPE_FLTINV;
++                }
++                if (env->fsr & FSR_DZ) {
++                    si_code = TARGET_FPE_FLTDIV;
++                }
++                break;
++            default:
++                fprintf(stderr, "Unhandled hw-exception: 0x%x\n",
++                        env->esr & ESR_EC_MASK);
++                cpu_dump_state(cs, stderr, 0);
++                exit(EXIT_FAILURE);
+             }
++            force_sig_fault(TARGET_SIGFPE, si_code, env->pc);
              break;
-         case EXCP_DIV0:
--            info.si_signo = TARGET_SIGFPE;
--            info.si_errno = 0;
--            info.si_code = TARGET_FPE_INTDIV;
--            info._sifields._sigfault._addr = env->pc;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV, env->pc);
-             break;
-         case EXCP_TRAP0:
-             {
-@@ -89,10 +78,7 @@ void cpu_loop(CPUM68KState *env)
-             /* just indicate that signals should be handled asap */
-             break;
++
          case EXCP_DEBUG:
 -            info.si_signo = TARGET_SIGTRAP;
 -            info.si_errno = 0;
