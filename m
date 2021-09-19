@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD400410923
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 04:03:14 +0200 (CEST)
-Received: from localhost ([::1]:45074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02966410927
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 04:06:12 +0200 (CEST)
+Received: from localhost ([::1]:53394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRmAj-0003hl-R0
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 22:03:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41648)
+	id 1mRmDb-0000n1-39
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 22:06:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRm5E-0003k1-Fv
+ id 1mRm5E-0003ky-O7
  for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:32 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:46980)
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:35431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRm5C-00059V-Ux
+ id 1mRm5D-0005A5-2c
  for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:32 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id m21so4540596pgu.13
+Received: by mail-pg1-x535.google.com with SMTP id e7so13753826pgk.2
  for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 18:57:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Aoy4O375ZO7hM1BTzhLh8wcId79QwPq349k/5KQ0lXY=;
- b=vuKBItTl5fRtZomJl4ONFqne/3MYooY0LVMul61wrsf11dGSb+btqHv+pgFrA1dY4M
- UTi8vLHQzJFmOGtp5twaIqH4dizPIhAMFuDSJHPUWuDHEVeUok5b/VCX/9P/G+juMrIx
- u10UD9dMfxCxZpUGrxyQ7h02h9Fj4IMVRc+/4DLue6Kf/9urho4Z3KRHPQzzjUQUKIwO
- Ev213cqrcExpHq7sWhDm6cYnJkJTTJ0XzJ3c0Vw4J8F3ELKRIv6UKPea1a58mM59L9HQ
- zq2ZnybH7I5D0MjV5r2vRQS56e4sfEAgNCfUDeGD6jhjWuN8tGnFcHLfVJG6ZFXcvEZs
- vQQQ==
+ bh=yKwU/najjPLz/Qvjmwc10h7jN4lkN7q52Z9b9OScyO8=;
+ b=EcgpzpNqNxynH+n4BW0bNwk5LKZY2uP+L12UHowlt7JkG9D8pYM7VkE2A4hSsm38og
+ Rcab7wWhdZ8PtI9RE9M5HRgZiOont4OEhTyQeDYHk4Py1e2xvCD6X+cr/gkmWJTcaV9a
+ c7zA3gdLoPPhMdVjodjsmYwBP/n0g64nq626UIiVeF+hdP2WcLemoQXXgYN713YVo1mP
+ Dix72tVEr2hpP380Uyq7Ws4/AaA0W72BWBPCrFzEvzptwI7obLJGn1S/8jAfX1p7iVs2
+ EfK6ZLAJPVXBOz4OjkBX14p1TPXR9sjBOHU2WjhyKHRYYGW8XgfoZww/LpiS3UBiGy+h
+ xfEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Aoy4O375ZO7hM1BTzhLh8wcId79QwPq349k/5KQ0lXY=;
- b=uG0emNVSMz1aCni/0OLYaVy1mFEwY/LCl+o3hC/rtCmpyRNjwvIFdAFfDfGbIPvWTk
- SCHX832z0i8l/DCeC8toTjvo6fFmOBRngK5ELYUqS+GTar00aN2T9fG9yyYj6Hen1vut
- JPu0cH8xkD9EGmkZfKxLXsn46QmDYHj7bBIoQ+zhfgS7mqfsmKMnq0q1TEMQSNaob6Jl
- yELS3ErSetnEFez7xqdS6GmWK0vZXKnFLrI1SzkGIOpHIaDIzxEB9hFLtUxJkafkjosw
- lZIZRcKDkv4gIAoLMDOjNYTvI8sgT8AV9oT1zaeb+6gXSujrZzNDDjjGsRWzFWf7xgeB
- n5cg==
-X-Gm-Message-State: AOAM5309GrfJNoo4dgpikHib5BWN0odoN6h5iXCEHmNb/8nOjM6yEZUa
- h5Eek38fK7z0pmGamcO/lWhFEZBgV45AQA==
-X-Google-Smtp-Source: ABdhPJzSzo1ScH0Oa5fyT2U0aMjhmzX5U0pdj59BEpdq60scsubprTb91QWntKWGv/VMnTX8LCPwrw==
-X-Received: by 2002:a62:7f01:0:b0:43c:ecef:98dd with SMTP id
- a1-20020a627f01000000b0043cecef98ddmr18708951pfd.50.1632016648159; 
+ bh=yKwU/najjPLz/Qvjmwc10h7jN4lkN7q52Z9b9OScyO8=;
+ b=INPUefGcJlFsTcBkBgC32g+yY/XGyVPSHBRAt437GblEP47kpnFBfrn/Ow0XkImQ2U
+ T+O5L/lXd4NElSelDa/vXK0ahKuKkioVS5gf9buEuTK5mgBf5tYzjRFicgQduoQTQdi1
+ DX9wyTI2J8UrjvbU5uMkyLNM9/jYg2ZyXZgVevFrQVwP0ddDU0UOgzZQVsvOshN+gMbI
+ CpaiVt1KflJkK10ndol57MTCzZyCMDQ+VdkbkKkVqFDUpM8lFEAQnG3cNUfFXPRnEETH
+ okOdTyt9RFvc1pfynYSDFTunPuIef3vljSdCkpGInjXFTagiPCxZb5QJTamzcZJiUStf
+ nROg==
+X-Gm-Message-State: AOAM531X+XekPaWC4mqxkaDmfqLaZMFqokAd6bY7Cw0rOvn166Pt4mwd
+ sfR8uuN9rgn2V4Rk3SiXCtIULUtznd2jKg==
+X-Google-Smtp-Source: ABdhPJyGtZBO5YzZk4zCjDvD+6gbhQdEyqjKMh2+Mr8Upg3K6+KJN4XlYoqnR9YUN7ifcPLfJ/kNOw==
+X-Received: by 2002:a63:7211:: with SMTP id n17mr17079586pgc.456.1632016648786; 
  Sat, 18 Sep 2021 18:57:28 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id k14sm6747899pgg.92.2021.09.18.18.57.27
+ by smtp.gmail.com with ESMTPSA id k14sm6747899pgg.92.2021.09.18.18.57.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Sep 2021 18:57:27 -0700 (PDT)
+ Sat, 18 Sep 2021 18:57:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/25] linux-user/i386: Split out maybe_handle_vm86_trap
-Date: Sat, 18 Sep 2021 18:57:03 -0700
-Message-Id: <20210919015718.466207-11-richard.henderson@linaro.org>
+Subject: [PATCH v3 11/25] linux-user/i386: Use force_sig, force_sig_fault
+Date: Sat, 18 Sep 2021 18:57:04 -0700
+Message-Id: <20210919015718.466207-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210919015718.466207-1-richard.henderson@linaro.org>
 References: <20210919015718.466207-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,88 +86,133 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reduce the number of ifdefs within cpu_loop().
+Replace the local gen_signal with the generic functions that match
+how the kernel raises signals. Fill in the missing PC for SIGTRAP.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/i386/cpu_loop.c | 31 +++++++++++++++----------------
- 1 file changed, 15 insertions(+), 16 deletions(-)
+ linux-user/i386/cpu_loop.c | 48 +++++++++++++++-----------------------
+ 1 file changed, 19 insertions(+), 29 deletions(-)
 
 diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
-index f813e87294..5866e98441 100644
+index 5866e98441..cd6c2b032d 100644
 --- a/linux-user/i386/cpu_loop.c
 +++ b/linux-user/i386/cpu_loop.c
-@@ -195,6 +195,17 @@ static void emulate_vsyscall(CPUX86State *env)
+@@ -21,6 +21,7 @@
+ #include "qemu-common.h"
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
++#include "signal-common.h"
+ 
+ /***********************************************************/
+ /* CPUX86 core interface */
+@@ -81,17 +82,6 @@ static void set_idt(int n, unsigned int dpl)
  }
  #endif
  
-+static bool maybe_handle_vm86_trap(CPUX86State *env, int trapnr)
-+{
-+#ifndef TARGET_X86_64
-+    if (env->eflags & VM_MASK) {
-+        handle_vm86_trap(env, trapnr);
-+        return true;
-+    }
-+#endif
-+    return false;
-+}
-+
- void cpu_loop(CPUX86State *env)
+-static void gen_signal(CPUX86State *env, int sig, int code, abi_ptr addr)
+-{
+-    target_siginfo_t info = {
+-        .si_signo = sig,
+-        .si_code = code,
+-        ._sifields._sigfault._addr = addr
+-    };
+-
+-    queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+-}
+-
+ #ifdef TARGET_X86_64
+ static bool write_ok_or_segv(CPUX86State *env, abi_ptr addr, size_t len)
  {
-     CPUState *cs = env_cpu(env);
-@@ -256,12 +267,9 @@ void cpu_loop(CPUX86State *env)
+@@ -104,7 +94,7 @@ static bool write_ok_or_segv(CPUX86State *env, abi_ptr addr, size_t len)
+     }
+ 
+     env->error_code = PG_ERROR_W_MASK | PG_ERROR_U_MASK;
+-    gen_signal(env, TARGET_SIGSEGV, TARGET_SEGV_MAPERR, addr);
++    force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR, addr);
+     return false;
+ }
+ 
+@@ -190,8 +180,7 @@ static void emulate_vsyscall(CPUX86State *env)
+     return;
+ 
+  sigsegv:
+-    /* Like force_sig(SIGSEGV).  */
+-    gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
++    force_sig(TARGET_SIGSEGV);
+ }
+ #endif
+ 
+@@ -263,53 +252,54 @@ void cpu_loop(CPUX86State *env)
+ #endif
+         case EXCP0B_NOSEG:
+         case EXCP0C_STACK:
+-            gen_signal(env, TARGET_SIGBUS, TARGET_SI_KERNEL, 0);
++            force_sig(TARGET_SIGBUS);
              break;
          case EXCP0D_GPF:
              /* XXX: potential problem if ABI32 */
--#ifndef TARGET_X86_64
--            if (env->eflags & VM_MASK) {
--                handle_vm86_fault(env);
-+            if (maybe_handle_vm86_trap(env, trapnr)) {
+             if (maybe_handle_vm86_trap(env, trapnr)) {
                  break;
              }
--#endif
-             gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
+-            gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
++            force_sig(TARGET_SIGSEGV);
              break;
          case EXCP0E_PAGE:
-@@ -271,22 +279,16 @@ void cpu_loop(CPUX86State *env)
-                        env->cr[2]);
+-            gen_signal(env, TARGET_SIGSEGV,
+-                       (env->error_code & 1 ?
+-                        TARGET_SEGV_ACCERR : TARGET_SEGV_MAPERR),
+-                       env->cr[2]);
++            force_sig_fault(TARGET_SIGSEGV,
++                            (env->error_code & PG_ERROR_P_MASK ?
++                             TARGET_SEGV_ACCERR : TARGET_SEGV_MAPERR),
++                            env->cr[2]);
              break;
          case EXCP00_DIVZ:
--#ifndef TARGET_X86_64
--            if (env->eflags & VM_MASK) {
--                handle_vm86_trap(env, trapnr);
-+            if (maybe_handle_vm86_trap(env, trapnr)) {
+             if (maybe_handle_vm86_trap(env, trapnr)) {
                  break;
              }
--#endif
-             gen_signal(env, TARGET_SIGFPE, TARGET_FPE_INTDIV, env->eip);
+-            gen_signal(env, TARGET_SIGFPE, TARGET_FPE_INTDIV, env->eip);
++            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV, env->eip);
              break;
          case EXCP01_DB:
-         case EXCP03_INT3:
--#ifndef TARGET_X86_64
--            if (env->eflags & VM_MASK) {
--                handle_vm86_trap(env, trapnr);
 +            if (maybe_handle_vm86_trap(env, trapnr)) {
++                break;
++            }
++            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->eip);
++            break;
+         case EXCP03_INT3:
+             if (maybe_handle_vm86_trap(env, trapnr)) {
                  break;
              }
--#endif
-             if (trapnr == EXCP01_DB) {
-                 gen_signal(env, TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->eip);
-             } else {
-@@ -295,12 +297,9 @@ void cpu_loop(CPUX86State *env)
+-            if (trapnr == EXCP01_DB) {
+-                gen_signal(env, TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->eip);
+-            } else {
+-                gen_signal(env, TARGET_SIGTRAP, TARGET_SI_KERNEL, 0);
+-            }
++            force_sig(TARGET_SIGTRAP);
              break;
          case EXCP04_INTO:
          case EXCP05_BOUND:
--#ifndef TARGET_X86_64
--            if (env->eflags & VM_MASK) {
--                handle_vm86_trap(env, trapnr);
-+            if (maybe_handle_vm86_trap(env, trapnr)) {
+             if (maybe_handle_vm86_trap(env, trapnr)) {
                  break;
              }
--#endif
-             gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
+-            gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
++            force_sig(TARGET_SIGSEGV);
              break;
          case EXCP06_ILLOP:
+-            gen_signal(env, TARGET_SIGILL, TARGET_ILL_ILLOPN, env->eip);
++            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->eip);
+             break;
+         case EXCP_INTERRUPT:
+             /* just indicate that signals should be handled asap */
+             break;
+         case EXCP_DEBUG:
+-            gen_signal(env, TARGET_SIGTRAP, TARGET_TRAP_BRKPT, 0);
++            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->eip);
+             break;
+         case EXCP_ATOMIC:
+             cpu_exec_step_atomic(cs);
 -- 
 2.25.1
 
