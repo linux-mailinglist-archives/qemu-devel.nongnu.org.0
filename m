@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200EE410D9B
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 00:24:19 +0200 (CEST)
-Received: from localhost ([::1]:36970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C0E410D9E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 00:35:35 +0200 (CEST)
+Received: from localhost ([::1]:41790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mS5EP-0003OH-Mo
-	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 18:24:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33244)
+	id 1mS5PK-00079K-Hr
+	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 18:35:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mS5DP-0002WW-Lo
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 18:23:15 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:38508)
+ id 1mS5O1-0006IW-RH
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 18:34:13 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:42636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mS5DO-0008Mk-4e
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 18:23:15 -0400
-Received: by mail-pg1-x536.google.com with SMTP id w8so15441100pgf.5
- for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 15:23:13 -0700 (PDT)
+ id 1mS5O0-0007Sn-Bj
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 18:34:13 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id q23so12368972pfs.9
+ for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 15:34:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nA4szRw8XawE9C3V6GRhMA0rrZGOp+NAQpOeeyLaO5E=;
- b=xUx8YaMCTpf8BSwP/bhzu+58UrlRcbp+PodSZLBBx2HQxH/9EP1TQkT4LngOIwy+Hv
- ckdZordqr0lxpXucszzUfzcCGhRITUdXLrR78qOIR5Tl26CKXRrTkrUPRvyXu3D8SsJg
- YCRQgj5h7/3cLE1LffJHxIz/bETZXl0PcNBI/HfF1UbOYHIKkfqLKYcYL/jMYsW36iOn
- 52UDZ8BIbTY/YeoDnGu6Q0/A+IIx1lrUi4lRPvTSlXuRfsFD6qNVHlqItV3fAOpBPph2
- IOd1MiMuQTzEFoDh9wMMNprCvRM4OgP19MAfXxfe6SOQ7LOQrqbagr1/VckmbVkB4deT
- Eepw==
+ bh=JjY/JjLJDJC/f2MYyieAToInvQGl9JzrnLCtUa1oBAA=;
+ b=A+yUj8so78600iuDGrYEclUwDwjBKw8QTA5WkVOn4qiGTZk73bJwkE1RpTt3GU8Gj5
+ 8F0bMBitbuW2Fv7/VUN36NU1eAZ8mo4PWAypl7m/AT+OXSAiL80JECE/d5k+VWqU+c4m
+ iZuDLI23/rzup8sdfLCHON75zHm4qJh+82YMPrl5v4JhL7H3Okx94ZiRf8MZCUmTtyXV
+ GACDNeQerxhCD6oLl3erCaiTMe1XMmNgeyPn17WCDGjsa4C5KFslheSd/p8/p9vK7Iaf
+ MCIeewjci7mb1YME36IRWSkVzXumGgwFuX0UFZvgcm3gu1JBkhrLGchZFzZO0ItU3iX4
+ 9ZkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nA4szRw8XawE9C3V6GRhMA0rrZGOp+NAQpOeeyLaO5E=;
- b=P6rfD5yen/qvjJpYcMLRXAST6DT8fp2hmNd2QpmXeHIEXwM67I7oAh7MnQk44YscJH
- c3MwSczaRXLFGKsAksXBRgu+agdBKsUMzquU5fbcNN3pr/iQmBK2+rk4DygPe0douClZ
- zmyNwqbY1YDwscCHAVUADgMk3eqxAvlcj3pii7q0NaBlLyH2kqHVYGVQfRzRliZnh8xc
- GrIXl9qkKhjbcQx+Br57BMB7DgudNf20ObO9uJGaHUh+RqmhunU0TNa3iGPzaypG5/YY
- MQ+qund4OxElgq0xp9KXi4Jx5LFyT6cvc7HVd/5NeXdItLM4cZqYUlbCasS0S9zONGPW
- 9Wtg==
-X-Gm-Message-State: AOAM5338Dbmvpgk8IQaVHbCHNHZ/tTqrZkqDyUSZqnNmkJRf4NU06RuZ
- 1ltmnDqTrMNX+m0blVO3VQairA==
-X-Google-Smtp-Source: ABdhPJxZg0Fas0AP/G972wIcbW8ii018j0WO76HagzcwOE9rQvGAlMdmJCNX3CQs+tOvukD1WPEfiw==
-X-Received: by 2002:a63:741b:: with SMTP id p27mr20859143pgc.140.1632090191861; 
- Sun, 19 Sep 2021 15:23:11 -0700 (PDT)
+ bh=JjY/JjLJDJC/f2MYyieAToInvQGl9JzrnLCtUa1oBAA=;
+ b=IPLvkWEGv6yJuAItcmz/o+SveTiWuwUb3cJvgcy7XyYjp7bEzGkPFK+GDWCOWunCPF
+ XptErGFdi9nNyT5s4MOdoHnhbKvCsA0Cz4RbEvcQTNESZWTaTXoPEmEFLAwgcXrRLsiB
+ 580gTdpe0GVYl3iuu6rsvnWGOOZs8SukVLnv2JicWmdFyJ3dqRcv9gkIyg2OOp8cjLzp
+ Qp7pYC8REIOEQSVDQiEVdSz5gQTBXjE/yKykmBC7DfIcaGcRk1nJVzZOXKAZ306jfWQ0
+ tbie+QBzF31jip80yIAMB7QVCtQiXjHjY/xZmcnKCOkVRwocwmXIzkrxAOUCGOotyld4
+ y2Xw==
+X-Gm-Message-State: AOAM533gOnRYjrY3lQNRKRXcEX/nGLQIp9Q9UtXmsLr3qFVPNR8CfuJL
+ V+1XKzmCi2IzhT+GmHGv3JWpSA==
+X-Google-Smtp-Source: ABdhPJyLE0BfvoQo2yO9w8U3bTXmnpc1Oq+TREouq51kDSsL8go7A+2rI947xpA9YBuK3QGCwpJvvQ==
+X-Received: by 2002:a63:741b:: with SMTP id p27mr20886130pgc.140.1632090850723; 
+ Sun, 19 Sep 2021 15:34:10 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id t68sm13023463pgc.59.2021.09.19.15.23.10
+ by smtp.gmail.com with ESMTPSA id l142sm5271094pfd.87.2021.09.19.15.34.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Sep 2021 15:23:11 -0700 (PDT)
-Subject: Re: [PATCH v2 4/8] linux-user/arm: Report SIGBUS and SIGSEGV correctly
-To: Peter Maydell <peter.maydell@linaro.org>
+ Sun, 19 Sep 2021 15:34:10 -0700 (PDT)
+Subject: Re: [PATCH v2 6/8] target/arm: Assert thumb pc is aligned
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 References: <20210821195958.41312-1-richard.henderson@linaro.org>
- <20210821195958.41312-5-richard.henderson@linaro.org>
- <CAFEAcA82iZptWmCcgonZvLTU4g+5nnEEQDdtHD5y=X7m82N1Yg@mail.gmail.com>
+ <20210821195958.41312-7-richard.henderson@linaro.org>
+ <feb3dea5-99d4-05c6-ca38-5f7dbc31d08e@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4a65af02-ae19-20c5-9ffa-3e3a7d0401d4@linaro.org>
-Date: Sun, 19 Sep 2021 15:23:09 -0700
+Message-ID: <84cebf48-f2bc-93e4-468f-2dff88726362@linaro.org>
+Date: Sun, 19 Sep 2021 15:34:08 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA82iZptWmCcgonZvLTU4g+5nnEEQDdtHD5y=X7m82N1Yg@mail.gmail.com>
+In-Reply-To: <feb3dea5-99d4-05c6-ca38-5f7dbc31d08e@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,33 +89,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/26/21 6:31 AM, Peter Maydell wrote:
->> +                si_signo = TARGET_SIGSEGV;
->> +                si_code = TARGET_SEGV_ACCERR;
->> +                break;
->> +            case 0x5: /* Translation fault, level 1 */
->> +            case 0x7: /* Translation fault, level 2 */
->> +                si_signo = TARGET_SIGSEGV;
->> +                si_code = TARGET_SEGV_MAPERR;
->> +                break;
+On 8/21/21 1:46 PM, Philippe Mathieu-Daudé wrote:
+>> +    /* Misaligned thumb PC is architecturally impossible. */
+>> +    assert((dc->base.pc_next & 1) == 0);
 > 
-> Side note: for cases like this where we can tell MAPERR from
-> ACCERR based on info the exception handler passes to us, should
-> we prefer that or the "check the page flags" approach that
-> force_sigsegv_for_addr() takes ?
+> What about using tcg_debug_assert() instead?
 
-FYI, the v3 version of the sigsegv+siginfo patch set makes is vastly easier on the target 
-code.  For the most part the target code goes away entirely.  For the specific case of Arm 
-(both a32 and a64), we retain it because we are supposed to report the ESR and FAR as part 
-of the signal frame.
-
-I'll note that a64 isn't filling in the esr_context and far_context structures.  The 
-latter was invented for MTE, I believe, where the normal si_addr is untagged.  I should 
-have a double-check around those at some point...
+I don't think we want to let this one compile out.
 
 
 r~
