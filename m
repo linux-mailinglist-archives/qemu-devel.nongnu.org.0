@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A1E410CBE
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 19:56:11 +0200 (CEST)
-Received: from localhost ([::1]:35942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53704410CC1
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 19:58:05 +0200 (CEST)
+Received: from localhost ([::1]:41044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mS12w-0003ep-9J
-	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 13:56:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52730)
+	id 1mS14m-00077Q-DK
+	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 13:58:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mS10x-0002CN-0n; Sun, 19 Sep 2021 13:54:07 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:46751)
+ id 1mS13Y-0005iN-GE
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 13:56:48 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mS10v-0000uz-En; Sun, 19 Sep 2021 13:54:06 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- d207-20020a1c1dd8000000b00307e2d1ec1aso10427920wmd.5; 
- Sun, 19 Sep 2021 10:54:04 -0700 (PDT)
+ id 1mS13L-0002rL-9l
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 13:56:48 -0400
+Received: by mail-wr1-x430.google.com with SMTP id t8so17525866wri.1
+ for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 10:56:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:cc:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=a0FVIp7ZjrtU9oF9wNU71qlGyNymejo1sxyNFUsrvgw=;
- b=apTHyQGf4mDGiNO4J+B9Yj08osOKknfdzS8DJuTgodf+bK3y1SxD+ZGZ2sMOnhnJcp
- JSF96/W2KhRQ7VDLojspN4YYT0TvHR2P9peC2nQXDvN3IJ2EK4wTEdiitxNrLVoI0F2f
- jQQR3qu77MjhseRLX6xh7ccp7fTuUjseI6ZfOu/bODd8Jv6TkrsAcnaisF08TDFhyVzq
- CjR8a/zj5JAUnJLmPROH5UszesDi4jcGWppI54FCv4JievHISJ4zCUKFg/rhglFiFMfR
- dhzkaoC+th8eNEDJyba2/HNGHoFR8egEqD2MeHezC4DTZBBMf9IDOKTT/QAzcJ7pbJpX
- g8UA==
+ bh=qOCTwxHXRxyyjRzkN9VdMCKOlI3nOcYtt3rUBAXney4=;
+ b=T6GvVdkME0TTKrfVHnHtB4+ULhaojy2iRDph+RoHE88IPsOiXUwyEJoPcmfRI+4HIQ
+ TAhNoBQ1xGE/odN5FlS8lgJXGRHdx/VKGDRHubbdvREd2tpr/4KWb01V8C3dfgH51N4P
+ /0FXlp16+CZUhTMkY6XJ4AS/4ytuzWMtCBOzvwVoDxqfBdqhzsni55iqR6Fa/BzjO0RA
+ Km98jVDkOQ5/V5aR3/Pj4HF/a3w1KQCeVW3REiQuhQiw3zYsBvFkHKfKnjdDQJU4nHdw
+ cjIRdWjGC58JpMK5Nlpn7wQ/YpyUBQFvbTV1imnRgJbYioI5uXH6yfO9r+Zdbg8eqrqQ
+ ZtMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:cc:from:in-reply-to
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=a0FVIp7ZjrtU9oF9wNU71qlGyNymejo1sxyNFUsrvgw=;
- b=LiQjsFv1L2GjPglluPXVOZHQwCzpT8FgQ2dCDDpXs4v5i0VbcesxYmg48UcshzZJHV
- RzWqkiwAPNWjphd+Og5CzqPvopV/6Cs2sMV9WuwU9LGhKVtvy6ypoMnWsUFPnmChcvjE
- D8fHh5d4wZpqrSfVkql0QjeHnIC9Z8qy83e2n2jH6mnSwOZUlDjSimKosN5vzM/t3Czl
- x2bF8AbAoi3PW6H8QEPu8v2qqWY8Y82hLBWF9NBWUHrtfkeGnrcywxKtPLKfx/Qsults
- cctrDs6vXRMaTuSMjDfWySNLKIE1Pd+MQL7b1fSFHODgeHZE65w9AnTsJBv4ZNE1F9tb
- Vz3Q==
-X-Gm-Message-State: AOAM533FOP5eOgMbcA4E/yVQ3XoVN0X26Q62WynmG3InSRU14MdrcP6L
- P4d7poASPQkDlUFGoRthgbM=
-X-Google-Smtp-Source: ABdhPJydZaYBkCGDBWHq+gAHWZmfYSuy5ImrD8Z54xrMVwNW/Ed/lXfl88i8UBAd1npMhGHxdaFg9w==
-X-Received: by 2002:a7b:c766:: with SMTP id x6mr20575959wmk.53.1632074043024; 
- Sun, 19 Sep 2021 10:54:03 -0700 (PDT)
+ bh=qOCTwxHXRxyyjRzkN9VdMCKOlI3nOcYtt3rUBAXney4=;
+ b=s2AG+t48af446m0uxLTTaHTMSN4d102uS5h4ncZaD9kb8xkU6AGAL3IpjfwFunZCiR
+ 4W4oRqRAT7ftyqf0qaLVMg1/Z8mq7FUrKIOUmLsOyzM/9tH6eJaSImvVwi9zu+HMxnPj
+ OBlTVURFmOnvBV7rg7bTJ9oC2D2lPdfFgMEjS02IhwPAJP2UWAmUZiqpqg5iYSSTGC16
+ z1+InEfCtCvP/LuhP/ck9vKK+XeBvcM7P+r5Vo7JZtMKn+498zRq+XsYHBOcZZu2ehBV
+ 7BYwXoxZN5nQhFZ/8FOkSqiqo8w0TMamigEC2Da2ImSzQyqaca8bbsP6bKJCp858FWUL
+ MB+w==
+X-Gm-Message-State: AOAM530/2H00iCi0+qkCQWxft4MAhO9UfOJBPgrz4eM9G0lRRmwJWuW/
+ +5oARYBZebGw1+sL80Q5U1o=
+X-Google-Smtp-Source: ABdhPJxcsrSY+Y4ps3PjhivB6ryVZ6lqJ6At5BHXMXcmAswQK9OY4YH7ZQNDE9ErM9Klzj+NO9OlXg==
+X-Received: by 2002:a05:6000:1866:: with SMTP id
+ d6mr17806628wri.205.1632074193691; 
+ Sun, 19 Sep 2021 10:56:33 -0700 (PDT)
 Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
  [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id l2sm17439748wmi.1.2021.09.19.10.54.02
+ by smtp.gmail.com with ESMTPSA id y8sm13100133wrh.44.2021.09.19.10.56.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Sep 2021 10:54:02 -0700 (PDT)
-Message-ID: <6ab9eb4d-5835-df61-b27f-932af7e64889@amsat.org>
-Date: Sun, 19 Sep 2021 19:54:01 +0200
+ Sun, 19 Sep 2021 10:56:33 -0700 (PDT)
+Message-ID: <bd42bfcc-c3d8-9020-cc66-1877f8e2d6f4@amsat.org>
+Date: Sun, 19 Sep 2021 19:56:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: Range of vcpu_index to plugin callbacks
+Subject: Re: [PATCH v2 05/41] configure: Merge riscv32 and riscv64 host
+ architectures
 Content-Language: en-US
-To: Robert Henry <rrh.henry@gmail.com>, qemu-discuss@nongnu.org
-References: <CAEYr_8=uH3=BGbVQrbjijoE5xB7jRch=35hjD0g0v91u_cXUog@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210918184527.408540-1-richard.henderson@linaro.org>
+ <20210918184527.408540-6-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <CAEYr_8=uH3=BGbVQrbjijoE5xB7jRch=35hjD0g0v91u_cXUog@mail.gmail.com>
+In-Reply-To: <20210918184527.408540-6-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,31 +91,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(Cc'ing qemu-devel@ mailing list since this is a development question).
-
-On 9/19/21 19:44, Robert Henry wrote:
-> What is the range of the values for vcpu_index given to callbacks, such as:
+On 9/18/21 20:44, Richard Henderson wrote:
+> The existing code for safe-syscall.inc.S will compile
+> without change for riscv32 and riscv64.  We may also
+> drop the meson.build stanza that merges them for tcg/.
 > 
-> typedef void (*qemu_plugin_vcpu_udata_cb_t)(unsigned int vcpu_index,
-> void *userdata);
-> 
-> Empirically, when QEMU is in system mode, the maximum vcpu_index is 1
-> less than the -smp cpus=$(NCPUS) value.
-> 
-> Empirically, when QEMU is in user mode, the values for vcpu_index slowly
-> increase without an apparent upper bound known statically (or when the
-> plugin is loaded?).
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  configure                                             |  8 ++------
+>  meson.build                                           |  4 +---
+>  linux-user/host/{riscv64 => riscv}/hostdep.h          |  4 ++--
+>  linux-user/host/riscv32/hostdep.h                     | 11 -----------
+>  linux-user/host/{riscv64 => riscv}/safe-syscall.inc.S |  0
+>  5 files changed, 5 insertions(+), 22 deletions(-)
+>  rename linux-user/host/{riscv64 => riscv}/hostdep.h (94%)
+>  delete mode 100644 linux-user/host/riscv32/hostdep.h
+>  rename linux-user/host/{riscv64 => riscv}/safe-syscall.inc.S (100%)
 
-Isn't it related to clone() calls? I'd expect new threads use
-a new vCPU, incrementing vcpu_index. But that is just a guess
-without having looked at the code to corroborate...
-
-Regards,
-
-Phil.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
