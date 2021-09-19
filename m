@@ -2,66 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01917410DB8
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 01:04:58 +0200 (CEST)
-Received: from localhost ([::1]:55728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55097410DBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 01:08:06 +0200 (CEST)
+Received: from localhost ([::1]:58128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mS5rl-0000yR-2a
-	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 19:04:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38110)
+	id 1mS5un-0002jr-EY
+	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 19:08:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mS5qN-0008Gv-Du
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 19:03:31 -0400
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:42829)
+ id 1mS5tx-0001yr-8l; Sun, 19 Sep 2021 19:07:13 -0400
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:43584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mS5qL-0001u2-Ag
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 19:03:31 -0400
-Received: by mail-il1-x12c.google.com with SMTP id m4so16609631ilj.9
- for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 16:03:28 -0700 (PDT)
+ id 1mS5tu-0004Mp-BJ; Sun, 19 Sep 2021 19:07:12 -0400
+Received: by mail-io1-xd36.google.com with SMTP id p80so13112113iod.10;
+ Sun, 19 Sep 2021 16:07:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=UojbpHFE7WDqM1JS6Es0a8l7KxX7vlj1un2p8/CbvBQ=;
- b=GaSCJ+7FDyQHSZWgKYWJrIhARhhGcCVNwoGkzutvBWJrTdac8P2OAx4kuvcLwMuQV9
- fXJNcXw74FYuX855HnEIDTZsdainNpLhVexQrrOCpOXVJwcWPqBv8JWb4p7B/XACrd+X
- a1JwtC0jXuWcSYvW2EOu47bNvijZDqCwdMuX0RkclbYegV5OmVm5iEUkhyB00AUo6fZM
- fNr4zSLG9xsxKpVbaZs/uWbbg5ecO1gwHA/PM4YajSDmVnQjErwkqwP2Jl+VVmNV8r73
- PYXJvN+8VwqM6VAy4OpMDB2sNDpzXHqFSDhgfDvOIuM4RhtAYkR+LHOpS2d5tEfEe9PM
- pzEg==
+ bh=1nYz6VD5pGjjtpg2NmKFJcpSWbQuPNZi0iSJHH4RmQ4=;
+ b=ell6oE1znSuC1Zrm+Ic6m1snbN4A5Kdz+9L9xi1sF6UkhUX/+6Etp0hZWUvXu8dOns
+ dbFRAQC0Cc3/4gUvBSwUtPdFdpLWTMIdWjV+eR99uVutGgEwSe39ZlvYaRcjjxHhCVOF
+ e747j6Jr5j/03iiGzcfVy57yJ3S3wDG8dIVZnzuCYD2qLqBIS7Rl4dTvOOrAih3+D5Rq
+ El02m7vJl43f/DS0K02oQc+4Mmyn6LE0NJ/hXKqDc2/uGWNfOA5rNuEoCZvxtgX8/YPJ
+ 6seAL1ycAmWgE0esnuG2Q0+I0ucvLbfgq3aN5ZxpW1hV4ngKrpRHfV3LboZov703D1n2
+ vNLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=UojbpHFE7WDqM1JS6Es0a8l7KxX7vlj1un2p8/CbvBQ=;
- b=VqovsQCqY8//p+k2DGbjGHeG0GtTFtgMUDCsApY9qoj3vM6yUlRgLRragQ/7Pu3tyP
- pgwYkzhYClS954R9RUiWQJJS6orTaEmS3BcKTAJHZVt+0DDJIK0ojjMR6lASHeClvGF1
- VjUEuIRKGlOnvq2QbFR4LFTxltVWXy+i+mFKiXff9+otgXlbjVLvNux8js4Y/CeZcSvt
- wfM8ZnbnI/316bkCjvsEBLpVpqFIUtdN08cLDvXuDgp2RYEnPWNFBnYlvDmYFtCgLtqb
- SW0RBxHnZEIVzVtdPFm/1Z3LemUFD1ip625qj1c59lMsJeOeSym2FWTtuKbC2n7b5Ze+
- FT+Q==
-X-Gm-Message-State: AOAM531Hs+2eL0C2FsRgZs8jqwBWJuowR3WIzYOFAQHC3kKVQzTD5paz
- cl04jiZwPOF0zTst9WNSEPvXP1kCXiuL3xRbZmU=
-X-Google-Smtp-Source: ABdhPJxLWB/SIbx49p/oq3KBeUVlD/zhAy1D/wuItagkPbj1L8Mm8pHF6kcXr/zMAWhzD2XGiw/0UIAHJAtD++mL8G8=
-X-Received: by 2002:a05:6e02:1b04:: with SMTP id
- i4mr7053323ilv.221.1632092607915; 
- Sun, 19 Sep 2021 16:03:27 -0700 (PDT)
+ bh=1nYz6VD5pGjjtpg2NmKFJcpSWbQuPNZi0iSJHH4RmQ4=;
+ b=03yQFDyb5yPfb2v+rsBcPCUZt+dKHmIFvf6XkVgi1itsoh3Q09YCnVvjvYVhyxum3F
+ s3cFzmi+DmELX9dru+sMvK9ujcVRjlOoXznx4RhWI95Y2cTv/irBYJJYGyaTBHBVcQ0r
+ 7dSfqUw/smvBdMbcJrSLOUzqeXpi2PErUOhXIkLoHYFh2VI4jYZb8E841aHequZnBO5m
+ 7qJ7RKI43PhbcKr/0NuqCv2JSq9BIoHe/by7n/jRxHLJyJnNFGOXcR7FLJcO65cz0n8v
+ GuOi+ZMv2jlqS7wO2PKbqtxY5cqGQK2oqHEkX4MFXxyuByzJvPS9ScDISorCWV/XJEq/
+ tkzA==
+X-Gm-Message-State: AOAM532/CGeoCDO6z3G2pmUr6pYFzUPqB24cVVlXCYG8ZI+xO014tHhT
+ mMb016EF1CS5K709y1+8liq9N4GVaqKRUpgL+N0=
+X-Google-Smtp-Source: ABdhPJxSIg8okrsLgC9d/OTy1+NK2ycgkgjEd+oT/1mW7a1UUf3wEvuZBMlgFjnkV6N47PCZUpti8NNbIN+KmVFuO+k=
+X-Received: by 2002:a5d:9499:: with SMTP id v25mr16063578ioj.187.1632092827808; 
+ Sun, 19 Sep 2021 16:07:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200910180938.584205-1-alistair.francis@wdc.com>
- <20200910180938.584205-8-alistair.francis@wdc.com>
- <CAAdtpL7-twPXfLGud9+hQq074g-VWCxOt+drkW02xzHuzDs_pA@mail.gmail.com>
-In-Reply-To: <CAAdtpL7-twPXfLGud9+hQq074g-VWCxOt+drkW02xzHuzDs_pA@mail.gmail.com>
+References: <20210918180738.2506799-1-f4bug@amsat.org>
+In-Reply-To: <20210918180738.2506799-1-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 20 Sep 2021 09:03:02 +1000
-Message-ID: <CAKmqyKNo7or8Or+kcMVWYOEcCbTuEMUbA6si+-7uiJ469daoAw@mail.gmail.com>
-Subject: Re: [PULL 07/30] hw/char: Add Microchip PolarFire SoC MMUART emulation
+Date: Mon, 20 Sep 2021 09:06:41 +1000
+Message-ID: <CAKmqyKNOdOODPzhEox5vE-yX+EOd3mH8HHGaPRB59gP9PJcwqw@mail.gmail.com>
+Subject: Re: [PATCH] hw/char/mchp_pfsoc_mmuart: QOM'ify PolarFire MMUART
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -82,205 +77,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 19, 2021 at 2:55 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+On Sun, Sep 19, 2021 at 4:07 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
 g> wrote:
 >
-> On Thu, Sep 10, 2020 at 8:29 PM Alistair Francis
-> <alistair.francis@wdc.com> wrote:
-> >
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > Microchip PolarFire SoC MMUART is ns16550 compatible, with some
-> > additional registers. Create a simple MMUART model built on top
-> > of the existing ns16550 model.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > Message-Id: <1598924352-89526-6-git-send-email-bmeng.cn@gmail.com>
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  include/hw/char/mchp_pfsoc_mmuart.h | 61 ++++++++++++++++++++
-> >  hw/char/mchp_pfsoc_mmuart.c         | 86 +++++++++++++++++++++++++++++
-> >  MAINTAINERS                         |  2 +
-> >  hw/char/Kconfig                     |  3 +
-> >  hw/char/meson.build                 |  1 +
-> >  5 files changed, 153 insertions(+)
-> >  create mode 100644 include/hw/char/mchp_pfsoc_mmuart.h
-> >  create mode 100644 hw/char/mchp_pfsoc_mmuart.c
-> >
-> > diff --git a/include/hw/char/mchp_pfsoc_mmuart.h b/include/hw/char/mchp=
-_pfsoc_mmuart.h
-> > new file mode 100644
-> > index 0000000000..f61990215f
-> > --- /dev/null
-> > +++ b/include/hw/char/mchp_pfsoc_mmuart.h
-> > @@ -0,0 +1,61 @@
-> > +/*
-> > + * Microchip PolarFire SoC MMUART emulation
-> > + *
-> > + * Copyright (c) 2020 Wind River Systems, Inc.
-> > + *
-> > + * Author:
-> > + *   Bin Meng <bin.meng@windriver.com>
-> > + *
-> > + * Permission is hereby granted, free of charge, to any person obtaini=
-ng a copy
-> > + * of this software and associated documentation files (the "Software"=
-), to deal
-> > + * in the Software without restriction, including without limitation t=
-he rights
-> > + * to use, copy, modify, merge, publish, distribute, sublicense, and/o=
-r sell
-> > + * copies of the Software, and to permit persons to whom the Software =
-is
-> > + * furnished to do so, subject to the following conditions:
-> > + *
-> > + * The above copyright notice and this permission notice shall be incl=
-uded in
-> > + * all copies or substantial portions of the Software.
-> > + *
-> > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT S=
-HALL
-> > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES O=
-R OTHER
-> > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARI=
-SING FROM,
-> > + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALI=
-NGS IN
-> > + * THE SOFTWARE.
-> > + */
-> > +
-> > +#ifndef HW_MCHP_PFSOC_MMUART_H
-> > +#define HW_MCHP_PFSOC_MMUART_H
-> > +
-> > +#include "hw/char/serial.h"
-> > +
-> > +#define MCHP_PFSOC_MMUART_REG_SIZE  52
-> > +
-> > +typedef struct MchpPfSoCMMUartState {
-> > +    MemoryRegion iomem;
-> > +    hwaddr base;
-> > +    qemu_irq irq;
-> > +
-> > +    SerialMM *serial;
-> > +
-> > +    uint32_t reg[MCHP_PFSOC_MMUART_REG_SIZE / sizeof(uint32_t)];
-> > +} MchpPfSoCMMUartState;
-> > +
-> > +/**
-> > + * mchp_pfsoc_mmuart_create - Create a Microchip PolarFire SoC MMUART
-> > + *
-> > + * This is a helper routine for board to create a MMUART device that i=
-s
-> > + * compatible with Microchip PolarFire SoC.
-> > + *
-> > + * @sysmem: system memory region to map
-> > + * @base: base address of the MMUART registers
-> > + * @irq: IRQ number of the MMUART device
-> > + * @chr: character device to associate to
-> > + *
-> > + * @return: a pointer to the device specific control structure
-> > + */
-> > +MchpPfSoCMMUartState *mchp_pfsoc_mmuart_create(MemoryRegion *sysmem,
-> > +    hwaddr base, qemu_irq irq, Chardev *chr);
-> > +
-> > +#endif /* HW_MCHP_PFSOC_MMUART_H */
-> > diff --git a/hw/char/mchp_pfsoc_mmuart.c b/hw/char/mchp_pfsoc_mmuart.c
-> > new file mode 100644
-> > index 0000000000..8a002b0a19
-> > --- /dev/null
-> > +++ b/hw/char/mchp_pfsoc_mmuart.c
-> > @@ -0,0 +1,86 @@
-> > +/*
-> > + * Microchip PolarFire SoC MMUART emulation
-> > + *
-> > + * Copyright (c) 2020 Wind River Systems, Inc.
-> > + *
-> > + * Author:
-> > + *   Bin Meng <bin.meng@windriver.com>
-> > + *
-> > + * This program is free software; you can redistribute it and/or
-> > + * modify it under the terms of the GNU General Public License as
-> > + * published by the Free Software Foundation; either version 2 or
-> > + * (at your option) version 3 of the License.
-> > + *
-> > + * This program is distributed in the hope that it will be useful,
-> > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> > + * GNU General Public License for more details.
-> > + *
-> > + * You should have received a copy of the GNU General Public License a=
-long
-> > + * with this program; if not, see <http://www.gnu.org/licenses/>.
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "qemu/log.h"
-> > +#include "chardev/char.h"
-> > +#include "exec/address-spaces.h"
-> > +#include "hw/char/mchp_pfsoc_mmuart.h"
-> > +
-> > +static uint64_t mchp_pfsoc_mmuart_read(void *opaque, hwaddr addr, unsi=
-gned size)
-> > +{
-> > +    MchpPfSoCMMUartState *s =3D opaque;
-> > +
-> > +    if (addr >=3D MCHP_PFSOC_MMUART_REG_SIZE) {
-> > +        qemu_log_mask(LOG_GUEST_ERROR, "%s: read: addr=3D0x%" HWADDR_P=
-RIx "\n",
-> > +                      __func__, addr);
-> > +        return 0;
-> > +    }
-> > +
-> > +    return s->reg[addr / sizeof(uint32_t)];
-> > +}
-> > +
-> > +static void mchp_pfsoc_mmuart_write(void *opaque, hwaddr addr,
-> > +                                    uint64_t value, unsigned size)
-> > +{
-> > +    MchpPfSoCMMUartState *s =3D opaque;
-> > +    uint32_t val32 =3D (uint32_t)value;
-> > +
-> > +    if (addr >=3D MCHP_PFSOC_MMUART_REG_SIZE) {
-> > +        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad write: addr=3D0x%" HWA=
-DDR_PRIx
-> > +                      " v=3D0x%x\n", __func__, addr, val32);
-> > +        return;
-> > +    }
-> > +
-> > +    s->reg[addr / sizeof(uint32_t)] =3D val32;
-> > +}
-> > +
-> > +static const MemoryRegionOps mchp_pfsoc_mmuart_ops =3D {
-> > +    .read =3D mchp_pfsoc_mmuart_read,
-> > +    .write =3D mchp_pfsoc_mmuart_write,
-> > +    .endianness =3D DEVICE_LITTLE_ENDIAN,
-> > +    .impl =3D {
-> > +        .min_access_size =3D 4,
-> > +        .max_access_size =3D 4,
-> > +    },
-> > +};
-> > +
-> > +MchpPfSoCMMUartState *mchp_pfsoc_mmuart_create(MemoryRegion *sysmem,
-> > +    hwaddr base, qemu_irq irq, Chardev *chr)
-> > +{
-> > +    MchpPfSoCMMUartState *s;
-> > +
-> > +    s =3D g_new0(MchpPfSoCMMUartState, 1);
+> - Embed SerialMM in MchpPfSoCMMUartState and QOM-initialize it
+> - Alias SERIAL_MM 'chardev' property on MCHP_PFSOC_UART
+> - Forward SerialMM sysbus IRQ in mchp_pfsoc_mmuart_realize()
+> - Keep mchp_pfsoc_mmuart_create() behavior
 >
-> Please stop adding non-QOM devices, we try hard to get rid of them.
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Sorry, because of serial_mm_init() I thought this would be ok
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
+
+> ---
+>  include/hw/char/mchp_pfsoc_mmuart.h | 16 ++++--
+>  hw/char/mchp_pfsoc_mmuart.c         | 77 +++++++++++++++++++++++------
+>  2 files changed, 73 insertions(+), 20 deletions(-)
+>
+> diff --git a/include/hw/char/mchp_pfsoc_mmuart.h b/include/hw/char/mchp_p=
+fsoc_mmuart.h
+> index f61990215f0..b484b7ea5e4 100644
+> --- a/include/hw/char/mchp_pfsoc_mmuart.h
+> +++ b/include/hw/char/mchp_pfsoc_mmuart.h
+> @@ -28,16 +28,22 @@
+>  #ifndef HW_MCHP_PFSOC_MMUART_H
+>  #define HW_MCHP_PFSOC_MMUART_H
+>
+> +#include "hw/sysbus.h"
+>  #include "hw/char/serial.h"
+>
+>  #define MCHP_PFSOC_MMUART_REG_SIZE  52
+>
+> -typedef struct MchpPfSoCMMUartState {
+> -    MemoryRegion iomem;
+> -    hwaddr base;
+> -    qemu_irq irq;
+> +#define TYPE_MCHP_PFSOC_UART "mchp.pfsoc.uart"
+> +OBJECT_DECLARE_SIMPLE_TYPE(MchpPfSoCMMUartState, MCHP_PFSOC_UART)
+>
+> -    SerialMM *serial;
+> +typedef struct MchpPfSoCMMUartState {
+> +    /*< private >*/
+> +    SysBusDevice parent_obj;
+> +
+> +    /*< public >*/
+> +    MemoryRegion iomem;
+> +
+> +    SerialMM serial_mm;
+>
+>      uint32_t reg[MCHP_PFSOC_MMUART_REG_SIZE / sizeof(uint32_t)];
+>  } MchpPfSoCMMUartState;
+> diff --git a/hw/char/mchp_pfsoc_mmuart.c b/hw/char/mchp_pfsoc_mmuart.c
+> index 2facf85c2d8..74404e047d4 100644
+> --- a/hw/char/mchp_pfsoc_mmuart.c
+> +++ b/hw/char/mchp_pfsoc_mmuart.c
+> @@ -22,8 +22,9 @@
+>
+>  #include "qemu/osdep.h"
+>  #include "qemu/log.h"
+> -#include "chardev/char.h"
+> +#include "qapi/error.h"
+>  #include "hw/char/mchp_pfsoc_mmuart.h"
+> +#include "hw/qdev-properties.h"
+>
+>  static uint64_t mchp_pfsoc_mmuart_read(void *opaque, hwaddr addr, unsign=
+ed size)
+>  {
+> @@ -63,23 +64,69 @@ static const MemoryRegionOps mchp_pfsoc_mmuart_ops =
+=3D {
+>      },
+>  };
+>
+> -MchpPfSoCMMUartState *mchp_pfsoc_mmuart_create(MemoryRegion *sysmem,
+> -    hwaddr base, qemu_irq irq, Chardev *chr)
+> +static void mchp_pfsoc_mmuart_init(Object *obj)
+>  {
+> -    MchpPfSoCMMUartState *s;
+> -
+> -    s =3D g_new0(MchpPfSoCMMUartState, 1);
+> +    SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
+> +    MchpPfSoCMMUartState *s =3D MCHP_PFSOC_UART(obj);
+>
+>      memory_region_init_io(&s->iomem, NULL, &mchp_pfsoc_mmuart_ops, s,
+>                            "mchp.pfsoc.mmuart", 0x1000);
+> +    sysbus_init_mmio(sbd, &s->iomem);
+>
+> -    s->base =3D base;
+> -    s->irq =3D irq;
+> -
+> -    s->serial =3D serial_mm_init(sysmem, base, 2, irq, 399193, chr,
+> -                               DEVICE_LITTLE_ENDIAN);
+> -
+> -    memory_region_add_subregion(sysmem, base + 0x20, &s->iomem);
+> -
+> -    return s;
+> +    object_initialize_child(obj, "serial-mm", &s->serial_mm, TYPE_SERIAL=
+_MM);
+> +    object_property_add_alias(obj, "chardev", OBJECT(&s->serial_mm), "ch=
+ardev");
+> +}
+> +
+> +static void mchp_pfsoc_mmuart_realize(DeviceState *dev, Error **errp)
+> +{
+> +    MchpPfSoCMMUartState *s =3D MCHP_PFSOC_UART(dev);
+> +
+> +    qdev_prop_set_uint8(DEVICE(&s->serial_mm), "regshift", 2);
+> +    qdev_prop_set_uint32(DEVICE(&s->serial_mm), "baudbase", 399193);
+> +    qdev_prop_set_uint8(DEVICE(&s->serial_mm), "endianness",
+> +                        DEVICE_LITTLE_ENDIAN);
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->serial_mm), errp)) {
+> +        return;
+> +    }
+> +    sysbus_pass_irq(SYS_BUS_DEVICE(dev), SYS_BUS_DEVICE(&s->serial_mm));
+> +    memory_region_add_subregion(&s->iomem, 0x20,
+> +                sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->serial_mm), 0)=
+);
+> +}
+> +
+> +static void mchp_pfsoc_mmuart_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc =3D DEVICE_CLASS(oc);
+> +
+> +    dc->realize =3D mchp_pfsoc_mmuart_realize;
+> +}
+> +
+> +static const TypeInfo mchp_pfsoc_mmuart_info =3D {
+> +    .name          =3D TYPE_MCHP_PFSOC_UART,
+> +    .parent        =3D TYPE_SYS_BUS_DEVICE,
+> +    .instance_size =3D sizeof(MchpPfSoCMMUartState),
+> +    .instance_init =3D mchp_pfsoc_mmuart_init,
+> +    .class_init    =3D mchp_pfsoc_mmuart_class_init,
+> +};
+> +
+> +static void mchp_pfsoc_mmuart_register_types(void)
+> +{
+> +    type_register_static(&mchp_pfsoc_mmuart_info);
+> +}
+> +
+> +type_init(mchp_pfsoc_mmuart_register_types)
+> +
+> +MchpPfSoCMMUartState *mchp_pfsoc_mmuart_create(MemoryRegion *sysmem,
+> +                                               hwaddr base,
+> +                                               qemu_irq irq, Chardev *ch=
+r)
+> +{
+> +    DeviceState *dev =3D qdev_new(TYPE_MCHP_PFSOC_UART);
+> +    SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
+> +
+> +    qdev_prop_set_chr(dev, "chardev", chr);
+> +    sysbus_realize(sbd, &error_fatal);
+> +
+> +    memory_region_add_subregion(sysmem, base, sysbus_mmio_get_region(sbd=
+, 0));
+> +    sysbus_connect_irq(sbd, 0, irq);
+> +
+> +    return MCHP_PFSOC_UART(dev);
+>  }
+> --
+> 2.31.1
+>
 
