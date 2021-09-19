@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D28C410930
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 04:12:13 +0200 (CEST)
-Received: from localhost ([::1]:42088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8389B410931
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 04:12:15 +0200 (CEST)
+Received: from localhost ([::1]:42442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRmJQ-0003hN-Az
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 22:12:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41744)
+	id 1mRmJS-0003wo-Jk
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 22:12:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRm5J-0003yT-3I
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:37 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:39736)
+ id 1mRm5K-00042G-4t
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:40 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:46681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRm5H-0005Cw-BP
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:36 -0400
-Received: by mail-pl1-x636.google.com with SMTP id c4so8751054pls.6
- for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 18:57:34 -0700 (PDT)
+ id 1mRm5I-0005EC-8g
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:37 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id bg1so8717541plb.13
+ for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 18:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=O9vg5roFylqoQkGnKileOtFvxG1CN8IesL9g9MIkxpY=;
- b=qfEADOXFNDKRC7tt8/YQJ3HwpaiVtr/o13VpiYVlzTevZ/LtgCftxq2pHp64sOh6QR
- ctWCHVnIeJuRQAaKBGPscX4SRYPEXTaVuNXNsTKaMdARHX0Bf34s/bpJgucaQJxkSETh
- YPStFLHsPHoi0dWT82gtwdkJ90rtC567kEE7cUj3yccbG0I1f3yjlXUG6yoS26mvU5Qw
- Ue3vf1lTAoGjtRa/fIMGCBdmniRK/fLYoBx3GwipQZg0c9CFFKrnkjRQj+zjBBkjue20
- McXIDnO777nH2t/0uDYiSe7dlZPkkeWxeLZWoLtSnsD9CXQ2sV49HNyIKw2Fe9OhppFH
- O15g==
+ bh=oYSYypY0CHRzBDmdIq9KLoLQWZgGM49DHWDL0hjemFE=;
+ b=JUGovj3m7VsVxSm+KI+tAJPOhuyQ3XjJvpe8WFAr7nwOwXu/tNYMIH4aQMiRKVPxQ0
+ SU+0pGXsHCbuGBD27hF4xGXL1/SdupeXKC4jM3vwybReWXZxEpzUMvvOPBvjR70N0eJ1
+ wveCE0BA42U71tmDyGNzmyEdn8leN+ALYpZC3merK6IwkbQ9LGLHejWjflJAHSzSUO5g
+ ydCIfWs+QiH7a3oMl3jfJVUOC3zgKP7EwBsnxs/e1ccQ0q3UP0FYUgGn1GknlE1Mr9gC
+ i+SUP4ZDyraylA0d54H8JbAkl+/zOm4a3FF37LWjUjPvUKOxEqsd92Kn7fe/KOk7fRsZ
+ OlzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=O9vg5roFylqoQkGnKileOtFvxG1CN8IesL9g9MIkxpY=;
- b=pR1Hdti+d3g+cPObZdXWJXLop7k/MXR8qL1WYuX3stv/heNiOGaCOpxX3IDKL9qmls
- stcfrfvwSW4eVedWvCvj2SjkD79fev/gZrqV0kRWr+mIbg7lVtE0pJeGKZY73ruQbGSs
- p48AmntUZHiUWb6QLc2LYqbHoZJNmdFUoDrz2Ca7B0R4Oi424nFXCqgJa0HpoM9G9UhP
- dC3xBPGoc1zxovFD9qMvBQnsyMWeiUJ1swSbdF1WhK6ooqpYTcnDqHdttkuCCMNq5ftL
- HEBY4zz7wP6K/0hy3BTDmzgVNCTZvANAxQeodf3KjxBEM+ET5/GK4m8RoIgAzbHhyVka
- kxaQ==
-X-Gm-Message-State: AOAM532eKG2F7dqING3+Tz311NkiAIzSLrpX9gav2bKtNIx08tT37Vut
- D1Ei8jiyUFy1iu8IG2rdr6TKOyb9oNa+zQ==
-X-Google-Smtp-Source: ABdhPJwuVn7f++ddPM2aryhn/gglVCBJf5g78SubCCuDbUuulA3kMH9ysmRpgN69kTBR0IsbTivl6A==
-X-Received: by 2002:a17:90a:1d6:: with SMTP id
- 22mr21348103pjd.214.1632016653934; 
- Sat, 18 Sep 2021 18:57:33 -0700 (PDT)
+ bh=oYSYypY0CHRzBDmdIq9KLoLQWZgGM49DHWDL0hjemFE=;
+ b=DIGLZUXSC/a87MJLKuptaVYt0EysBALgdWX2U5hwYzRhiX8HcXAiKOcIT424io9N6R
+ Zdc3hfWmkVPIvtjCbhM62rp/HgJiw7o4F8tvNDT6yK4p9+vH6PGMX/8JaO9dzJhlc1JT
+ 7THHe3zzVwJN0crsQqIub56Hv0eDBcC/RauZk/KJY5GscMAa39JqyrZe2PE9BG8Z2FtJ
+ fux6xxfbDDulYYSfp/0sltboA63fYcyqau9YxwrnXFERtwtsudPAaJDeI8qmkjO9C5Qh
+ EgiMvyKphfQigleNB1lAs6uOLclhzZ9+2uagt8RjpbYb7HtdJxYJY51hZRK/4FnSmLbZ
+ RxYg==
+X-Gm-Message-State: AOAM531tZ4pcASY1s46EUGZnxlPVyWH0JF51dGPiMBt4MfSVBPtNGQvZ
+ 8swgwPD3O9qysGz8kzBjNvN/RiazNSkRBw==
+X-Google-Smtp-Source: ABdhPJwq/UyELSEP7mK2PXqjBz3N+Oj4lVTFW3pv8KEwJHuW+ky0DV9R664yYxyANZNckkc6xUuj2w==
+X-Received: by 2002:a17:90b:f02:: with SMTP id
+ br2mr29500855pjb.125.1632016654975; 
+ Sat, 18 Sep 2021 18:57:34 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id k14sm6747899pgg.92.2021.09.18.18.57.33
+ by smtp.gmail.com with ESMTPSA id k14sm6747899pgg.92.2021.09.18.18.57.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Sep 2021 18:57:33 -0700 (PDT)
+ Sat, 18 Sep 2021 18:57:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 17/25] target/mips: Extract break code into env->error_code
-Date: Sat, 18 Sep 2021 18:57:10 -0700
-Message-Id: <20210919015718.466207-18-richard.henderson@linaro.org>
+Subject: [PATCH v3 18/25] target/mips: Extract trap code into env->error_code
+Date: Sat, 18 Sep 2021 18:57:11 -0700
+Message-Id: <20210919015718.466207-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210919015718.466207-1-richard.henderson@linaro.org>
 References: <20210919015718.466207-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,51 +89,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Simplify cpu_loop by doing all of the decode in translate.
 
-This fixes a bug in that cpu_loop was not handling the
-different layout of the R6 version of break16.  This fixes
-a bug in that cpu_loop extracted the wrong bits for the
-mips16e break16 instruction.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/mips/tcg/translate.h               |  1 +
- linux-user/mips/cpu_loop.c                | 73 +++--------------------
- target/mips/tcg/translate.c               | 12 +++-
- target/mips/tcg/micromips_translate.c.inc |  6 +-
- target/mips/tcg/mips16e_translate.c.inc   |  2 +-
- 5 files changed, 25 insertions(+), 69 deletions(-)
+ linux-user/mips/cpu_loop.c                | 41 +----------------------
+ target/mips/tcg/translate.c               | 24 ++++++++++---
+ target/mips/tcg/micromips_translate.c.inc |  4 +--
+ target/mips/tcg/nanomips_translate.c.inc  |  4 +--
+ 4 files changed, 25 insertions(+), 48 deletions(-)
 
-diff --git a/target/mips/tcg/translate.h b/target/mips/tcg/translate.h
-index 6111493651..ae01515efe 100644
---- a/target/mips/tcg/translate.h
-+++ b/target/mips/tcg/translate.h
-@@ -129,6 +129,7 @@ enum {
- void generate_exception(DisasContext *ctx, int excp);
- void generate_exception_err(DisasContext *ctx, int excp, int err);
- void generate_exception_end(DisasContext *ctx, int excp);
-+void generate_exception_break(DisasContext *ctx, int code);
- void gen_reserved_instruction(DisasContext *ctx);
- 
- void check_insn(DisasContext *ctx, uint64_t flags);
 diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-index e9d9208e83..c105b00eac 100644
+index c105b00eac..c02403d8f6 100644
 --- a/linux-user/mips/cpu_loop.c
 +++ b/linux-user/mips/cpu_loop.c
-@@ -64,6 +64,7 @@ void cpu_loop(CPUMIPSState *env)
- {
-     CPUState *cs = env_cpu(env);
-     int trapnr, si_code;
-+    unsigned int code;
-     abi_long ret;
- # ifdef TARGET_ABI_MIPSO32
-     unsigned int syscall_num;
-@@ -184,71 +185,15 @@ done_syscall:
-          * handling code in arch/mips/kernel/traps.c.
-          */
-         case EXCP_BREAK:
+@@ -196,51 +196,12 @@ done_syscall:
+             do_tr_or_bp(env, code, false);
+             break;
+         case EXCP_TRAP:
 -            {
 -                abi_ulong trap_instr;
--                unsigned int code;
+-                unsigned int code = 0;
 -
 -                /*
 -                 * FIXME: It would be better to decode the trap number
@@ -143,144 +117,149 @@ index e9d9208e83..c105b00eac 100644
 -                 */
 -
 -                if (env->hflags & MIPS_HFLAG_M16) {
--                    if (env->insn_flags & ASE_MICROMIPS) {
--                        /* microMIPS mode */
--                        ret = get_user_u16(trap_instr, env->active_tc.PC);
--                        if (ret != 0) {
--                            goto error;
--                        }
+-                    /* microMIPS mode */
+-                    abi_ulong instr[2];
 -
--                        if ((trap_instr >> 10) == 0x11) {
--                            /* 16-bit instruction */
--                            code = trap_instr & 0xf;
--                        } else {
--                            /* 32-bit instruction */
--                            abi_ulong instr_lo;
+-                    ret = get_user_u16(instr[0], env->active_tc.PC) ||
+-                          get_user_u16(instr[1], env->active_tc.PC + 2);
 -
--                            ret = get_user_u16(instr_lo,
--                                               env->active_tc.PC + 2);
--                            if (ret != 0) {
--                                goto error;
--                            }
--                            trap_instr = (trap_instr << 16) | instr_lo;
--                            code = ((trap_instr >> 6) & ((1 << 20) - 1));
--                            /* Unfortunately, microMIPS also suffers from
--                               the old assembler bug...  */
--                            if (code >= (1 << 10)) {
--                                code >>= 10;
--                            }
--                        }
--                    } else {
--                        /* MIPS16e mode */
--                        ret = get_user_u16(trap_instr, env->active_tc.PC);
--                        if (ret != 0) {
--                            goto error;
--                        }
--                        code = (trap_instr >> 6) & 0x3f;
--                    }
+-                    trap_instr = (instr[0] << 16) | instr[1];
 -                } else {
 -                    ret = get_user_u32(trap_instr, env->active_tc.PC);
--                    if (ret != 0) {
--                        goto error;
--                    }
+-                }
 -
--                    /* As described in the original Linux kernel code, the
--                     * below checks on 'code' are to work around an old
--                     * assembly bug.
--                     */
--                    code = ((trap_instr >> 6) & ((1 << 20) - 1));
--                    if (code >= (1 << 10)) {
--                        code >>= 10;
+-                if (ret != 0) {
+-                    goto error;
+-                }
+-
+-                /* The immediate versions don't provide a code.  */
+-                if (!(trap_instr & 0xFC000000)) {
+-                    if (env->hflags & MIPS_HFLAG_M16) {
+-                        /* microMIPS mode */
+-                        code = ((trap_instr >> 12) & ((1 << 4) - 1));
+-                    } else {
+-                        code = ((trap_instr >> 6) & ((1 << 10) - 1));
 -                    }
 -                }
 -
--                do_tr_or_bp(env, code, false);
-+            /*
-+             * As described in the original Linux kernel code, the below
-+             * checks on 'code' are to work around an old assembly bug.
-+             */
-+            code = env->error_code;
-+            if (code >= (1 << 10)) {
-+                code >>= 10;
-             }
-+            do_tr_or_bp(env, code, false);
+-                do_tr_or_bp(env, code, true);
+-            }
++            do_tr_or_bp(env, env->error_code, true);
              break;
-         case EXCP_TRAP:
-             {
+         case EXCP_ATOMIC:
+             cpu_exec_step_atomic(cs);
+             break;
+         default:
+-error:
+             EXCP_DUMP(env, "qemu: unhandled CPU exception 0x%x - aborting\n", trapnr);
+             abort();
+         }
 diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 148afec9dc..e17bcd24db 100644
+index e17bcd24db..6bb631e74a 100644
 --- a/target/mips/tcg/translate.c
 +++ b/target/mips/tcg/translate.c
-@@ -1367,6 +1367,16 @@ void generate_exception_end(DisasContext *ctx, int excp)
-     generate_exception_err(ctx, excp, 0);
- }
+@@ -4733,7 +4733,7 @@ static void gen_loongson_lsdc2(DisasContext *ctx, int rt,
  
-+void generate_exception_break(DisasContext *ctx, int code)
-+{
+ /* Traps */
+ static void gen_trap(DisasContext *ctx, uint32_t opc,
+-                     int rs, int rt, int16_t imm)
++                     int rs, int rt, int16_t imm, int code)
+ {
+     int cond;
+     TCGv t0 = tcg_temp_new();
+@@ -4778,6 +4778,11 @@ static void gen_trap(DisasContext *ctx, uint32_t opc,
+         case OPC_TGEU:  /* rs >= rs unsigned */
+         case OPC_TGEIU: /* r0 >= 0  unsigned */
+             /* Always trap */
 +#ifdef CONFIG_USER_ONLY
-+    /* Pass the break code along to cpu_loop. */
++            /* Pass the break code along to cpu_loop. */
++            tcg_gen_st_i32(tcg_constant_i32(code), cpu_env,
++                           offsetof(CPUMIPSState, error_code));
++#endif
+             generate_exception_end(ctx, EXCP_TRAP);
+             break;
+         case OPC_TLT:   /* rs < rs           */
+@@ -4818,6 +4823,18 @@ static void gen_trap(DisasContext *ctx, uint32_t opc,
+             tcg_gen_brcond_tl(TCG_COND_EQ, t0, t1, l1);
+             break;
+         }
++#ifdef CONFIG_USER_ONLY
++        /* Pass the break code along to cpu_loop. */
 +        tcg_gen_st_i32(tcg_constant_i32(code), cpu_env,
 +                       offsetof(CPUMIPSState, error_code));
 +#endif
-+    generate_exception_end(ctx, EXCP_BREAK);
-+}
-+
- void gen_reserved_instruction(DisasContext *ctx)
- {
-     generate_exception_end(ctx, EXCP_RI);
-@@ -14176,7 +14186,7 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
-         generate_exception_end(ctx, EXCP_SYSCALL);
-         break;
-     case OPC_BREAK:
--        generate_exception_end(ctx, EXCP_BREAK);
-+        generate_exception_break(ctx, extract32(ctx->opcode, 6, 20));
-         break;
-     case OPC_SYNC:
++        /* Like save_cpu_state, only don't update saved values. */
++        if (ctx->base.pc_next != ctx->saved_pc) {
++            gen_save_pc(ctx->base.pc_next);
++        }
++        if (ctx->hflags != ctx->saved_hflags) {
++            tcg_gen_movi_i32(hflags, ctx->hflags);
++        }
+         generate_exception(ctx, EXCP_TRAP);
+         gen_set_label(l1);
+     }
+@@ -14171,7 +14188,7 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
+     case OPC_TEQ:
+     case OPC_TNE:
          check_insn(ctx, ISA_MIPS2);
+-        gen_trap(ctx, op1, rs, rt, -1);
++        gen_trap(ctx, op1, rs, rt, -1, extract32(ctx->opcode, 6, 10));
+         break;
+     case OPC_PMON:
+         /* Pmon entry point, also R4010 selsl */
+@@ -15305,11 +15322,10 @@ static bool decode_opc_legacy(CPUMIPSState *env, DisasContext *ctx)
+         case OPC_TLTI:
+         case OPC_TLTIU:
+         case OPC_TEQI:
+-
+         case OPC_TNEI:
+             check_insn(ctx, ISA_MIPS2);
+             check_insn_opc_removed(ctx, ISA_MIPS_R6);
+-            gen_trap(ctx, op1, rs, -1, imm);
++            gen_trap(ctx, op1, rs, -1, imm, 0);
+             break;
+         case OPC_SIGRIE:
+             check_insn(ctx, ISA_MIPS_R6);
 diff --git a/target/mips/tcg/micromips_translate.c.inc b/target/mips/tcg/micromips_translate.c.inc
-index 0da4c802a3..f91f7a96cd 100644
+index f91f7a96cd..7e7d26a91b 100644
 --- a/target/mips/tcg/micromips_translate.c.inc
 +++ b/target/mips/tcg/micromips_translate.c.inc
-@@ -822,7 +822,7 @@ static void gen_pool16c_insn(DisasContext *ctx)
-         gen_HILO(ctx, OPC_MFLO, 0, uMIPS_RS5(ctx->opcode));
+@@ -1047,7 +1047,7 @@ static void gen_pool32axf(CPUMIPSState *env, DisasContext *ctx, int rt, int rs)
+     case TNE:
+         mips32_op = OPC_TNE;
+     do_trap:
+-        gen_trap(ctx, mips32_op, rs, rt, -1);
++        gen_trap(ctx, mips32_op, rs, rt, -1, extract32(ctx->opcode, 12, 4));
          break;
-     case BREAK16:
--        generate_exception_end(ctx, EXCP_BREAK);
-+        generate_exception_break(ctx, extract32(ctx->opcode, 0, 4));
+ #ifndef CONFIG_USER_ONLY
+     case MFC0:
+@@ -2439,7 +2439,7 @@ static void decode_micromips32_opc(CPUMIPSState *env, DisasContext *ctx)
+             check_insn_opc_removed(ctx, ISA_MIPS_R6);
+             mips32_op = OPC_TEQI;
+         do_trapi:
+-            gen_trap(ctx, mips32_op, rs, -1, imm);
++            gen_trap(ctx, mips32_op, rs, -1, imm, 0);
+             break;
+ 
+         case BNEZC:
+diff --git a/target/mips/tcg/nanomips_translate.c.inc b/target/mips/tcg/nanomips_translate.c.inc
+index ccbcecad09..2432c747df 100644
+--- a/target/mips/tcg/nanomips_translate.c.inc
++++ b/target/mips/tcg/nanomips_translate.c.inc
+@@ -1268,11 +1268,11 @@ static void gen_pool32a0_nanomips_insn(CPUMIPSState *env, DisasContext *ctx)
+         switch (extract32(ctx->opcode, 10, 1)) {
+         case NM_TEQ:
+             check_nms(ctx);
+-            gen_trap(ctx, OPC_TEQ, rs, rt, -1);
++            gen_trap(ctx, OPC_TEQ, rs, rt, -1, rd);
+             break;
+         case NM_TNE:
+             check_nms(ctx);
+-            gen_trap(ctx, OPC_TNE, rs, rt, -1);
++            gen_trap(ctx, OPC_TNE, rs, rt, -1, rd);
+             break;
+         }
          break;
-     case SDBBP16:
-         if (is_uhi(extract32(ctx->opcode, 0, 4))) {
-@@ -937,7 +937,7 @@ static void gen_pool16c_r6_insn(DisasContext *ctx)
-             break;
-         case R6_BREAK16:
-             /* BREAK16 */
--            generate_exception(ctx, EXCP_BREAK);
-+            generate_exception_break(ctx, extract32(ctx->opcode, 6, 4));
-             break;
-         case R6_SDBBP16:
-             /* SDBBP16 */
-@@ -1812,7 +1812,7 @@ static void decode_micromips32_opc(CPUMIPSState *env, DisasContext *ctx)
-             gen_pool32axf(env, ctx, rt, rs);
-             break;
-         case BREAK32:
--            generate_exception_end(ctx, EXCP_BREAK);
-+            generate_exception_break(ctx, extract32(ctx->opcode, 6, 20));
-             break;
-         case SIGRIE:
-             check_insn(ctx, ISA_MIPS_R6);
-diff --git a/target/mips/tcg/mips16e_translate.c.inc b/target/mips/tcg/mips16e_translate.c.inc
-index 84d816603a..f57e0a5f2a 100644
---- a/target/mips/tcg/mips16e_translate.c.inc
-+++ b/target/mips/tcg/mips16e_translate.c.inc
-@@ -969,7 +969,7 @@ static int decode_ase_mips16e(CPUMIPSState *env, DisasContext *ctx)
-             gen_slt(ctx, OPC_SLTU, 24, rx, ry);
-             break;
-         case RR_BREAK:
--            generate_exception_end(ctx, EXCP_BREAK);
-+            generate_exception_break(ctx, extract32(ctx->opcode, 5, 6));
-             break;
-         case RR_SLLV:
-             gen_shift(ctx, OPC_SLLV, ry, rx, ry);
 -- 
 2.25.1
 
