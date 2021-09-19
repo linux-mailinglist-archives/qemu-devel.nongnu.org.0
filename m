@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96AA41093A
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 04:16:38 +0200 (CEST)
-Received: from localhost ([::1]:50670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 539FB41093B
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 04:16:42 +0200 (CEST)
+Received: from localhost ([::1]:50924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mRmNh-0000ww-RM
-	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 22:16:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41796)
+	id 1mRmNl-00017S-Cv
+	for lists+qemu-devel@lfdr.de; Sat, 18 Sep 2021 22:16:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRm5M-00044G-C4
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:41 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:44563)
+ id 1mRm5O-00045Q-3E
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:43 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:46683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mRm5K-0005FE-0D
- for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:40 -0400
-Received: by mail-pl1-x631.google.com with SMTP id d18so8724453pll.11
- for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 18:57:37 -0700 (PDT)
+ id 1mRm5K-0005Ft-N7
+ for qemu-devel@nongnu.org; Sat, 18 Sep 2021 21:57:41 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id bg1so8717582plb.13
+ for <qemu-devel@nongnu.org>; Sat, 18 Sep 2021 18:57:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=36jggM214+fTAW9gTlMHtMxsJLBpH7zUDMElwE1JXsw=;
- b=fiZrd9cZmhwZFY+lcF1AxDRZclxH3Y+u9Ujy7ySqP7BT6VqdyDbCJ+9ajh6pxEx7vf
- Vw6A3ZtxvMT6m91XMxBMYkhQc1IcG+xxn6l+5DIYeR1y7aZ9XH9Q2omtLWg+zRCaefU4
- sGRh+FhB2sY36DSnzaZe+0JWI6bR99FoFfnsVtzhtcWasSdHlyjAlE9K5vJ6wiK1VFva
- GxshGeR2LtQ6dJOOpaWMR7DCnT7PvVhOey4+tavFVThf8wGaStodByCp0UOwNwl0j3kX
- i9zr3rgTn0LXza1RwvgEHlRAlfdJT1cloctMWBDug0Qi4ps1Zw/VsnZWtQRPZJpWUw3h
- pTJw==
+ bh=T1XRhqsnyLvkQPB9MYeH1KY/Vip5aHodZw4fWmIOwYc=;
+ b=Js7NMZX5iiEe3EcOS3n565oKM0PQ+UaNNSbIA1Vxu2bIZXOCP5Ew/05tuMQnjsP22B
+ /2ei7kpTHV6rB799hGyTWi+nF7rw0gyji1htuuItECV3CmaTN6V53IZvePoUDv5Ts4uD
+ fbd2lePDleW5vBGLpQie+E71vPAY0YfzJFITL1v33D1vkQpWo9R85laj4YoxLWyOGFy0
+ Kl9SvofuDL7qgYHFo6DtZSE8U1XHHO5J2jDhOSn9sOfxHtARAhIQZEGPp9VcBju1dwAT
+ GSFpDuZGvvApwepBoVodElyp6zG9eZ4grXJ0hXF8CeezvC8JcLQ88tt2LbwzzdFRPBl+
+ xJ2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=36jggM214+fTAW9gTlMHtMxsJLBpH7zUDMElwE1JXsw=;
- b=AoNTqJ1FoWm5MovEaWZki2TnB/0qBZOyoLD3jQbkdNuFj57ODaoPyckQXw75lPFv7t
- SFgJYRfk81aP6yqSmXN9AG9P6aayZUy1Atg/b5ZrjovvQNH3wrbBdto+nLMQZbHLegyB
- XLpOXkan/IhDuFNByEfFYFjeWTbRv1UQQA3AYVFcJ9Al83tdF6k69dr0KhWhdZ0vDfCh
- yTrQ9r1VehNXArX+llWvpAppA2GDkJ158a/PIaJ8rXz+KOrjpUqbBMD6UmnI4JCOfcpz
- +QaBqxV3zZAZRemwNeS5+iWNjhzZhfPQJuB14zFIf0ohkJZ+NLpyW+MopbcQhYAOhUh9
- CZ5g==
-X-Gm-Message-State: AOAM530jxV4nDcryJL5HhaMNDhLd9K9ecm52Hb2slZZE9gZQsxYJ1xVZ
- 9WEMoPfwg80Iz5H4AIHyiDll6SLASg449A==
-X-Google-Smtp-Source: ABdhPJzfWtI8Xqoc2AYL660No+z5yAe4CBArDMyP3sM0/q3Oa6YpwYPnV47P95UWYm+o3KEYba+eWw==
-X-Received: by 2002:a17:90b:3e88:: with SMTP id
- rj8mr30359357pjb.86.1632016656602; 
- Sat, 18 Sep 2021 18:57:36 -0700 (PDT)
+ bh=T1XRhqsnyLvkQPB9MYeH1KY/Vip5aHodZw4fWmIOwYc=;
+ b=dNye2kbP02MP2Hr1lMhTY5pxuTmGeaUJS6iMhXUGsMp8UwJBD7w56KsZAMFk8NsgjO
+ XWje/eeSSmuTU3nZYlay6VvpHO8cCl30k8dAVJO7fD/vO3foABwH4JnYj9v7RKbZCxgG
+ 8+ICLUFkIdXATvcTCulePQx5LRkhUfpYqbTKA0mXvXgWWVdPW8qpasvW6EHd1HtKaDS9
+ cuJtya+a1ugefApDvLoAqd/0fqlTXA6B3SutMhEdih4upKO93l9MhPhC26Srgg1HvQsr
+ gm8JmF+kCJlqgANPV2V0FiBXTMSRlyuPRgUEc9fThTUbXhdMtkuUa4SlnCgPh0tWNNv2
+ TG6w==
+X-Gm-Message-State: AOAM531/I8VhUHnuqwIoowUouahQFc4/aZZXVKJh7HDBvqsaB7x7qxBX
+ qit2omrklXKI5R27UVTUb5xzJUtnkykqYw==
+X-Google-Smtp-Source: ABdhPJyYqZsgRXOPHJErgfZ80dw7onyeeYpVAcHkilxb0p1UyO/TZH0Bv89r8SqiFDHBC+uOElAR6A==
+X-Received: by 2002:a17:90a:7185:: with SMTP id
+ i5mr21235178pjk.236.1632016657379; 
+ Sat, 18 Sep 2021 18:57:37 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
  by smtp.gmail.com with ESMTPSA id k14sm6747899pgg.92.2021.09.18.18.57.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Sep 2021 18:57:36 -0700 (PDT)
+ Sat, 18 Sep 2021 18:57:37 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 20/25] linux-user/ppc: Use force_sig_fault
-Date: Sat, 18 Sep 2021 18:57:13 -0700
-Message-Id: <20210919015718.466207-21-richard.henderson@linaro.org>
+Subject: [PATCH v3 21/25] linux-user/riscv: Use force_sig_fault
+Date: Sat, 18 Sep 2021 18:57:14 -0700
+Message-Id: <20210919015718.466207-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210919015718.466207-1-richard.henderson@linaro.org>
 References: <20210919015718.466207-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,286 +88,89 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Use the new function instead of setting up a target_siginfo_t
-and calling queue_signal.  Fill in the missing PC for SIGTRAP.
-The fault address for POWERPC_EXCP_ISI is nip exactly, not nip - 4.
+and calling queue_signal.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/ppc/cpu_loop.c | 146 +++++++++-----------------------------
- 1 file changed, 34 insertions(+), 112 deletions(-)
+ linux-user/riscv/cpu_loop.c | 32 ++++++--------------------------
+ 1 file changed, 6 insertions(+), 26 deletions(-)
 
-diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
-index fa91ea0eed..2b006317ba 100644
---- a/linux-user/ppc/cpu_loop.c
-+++ b/linux-user/ppc/cpu_loop.c
-@@ -21,6 +21,8 @@
- #include "qemu-common.h"
+diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
+index 49fa2209a7..9912796ebf 100644
+--- a/linux-user/riscv/cpu_loop.c
++++ b/linux-user/riscv/cpu_loop.c
+@@ -22,14 +22,14 @@
+ #include "qemu/error-report.h"
  #include "qemu.h"
  #include "cpu_loop-common.h"
 +#include "signal-common.h"
-+
+ #include "elf.h"
+ #include "semihosting/common-semi.h"
  
- static inline uint64_t cpu_ppc_get_tb(CPUPPCState *env)
- {
-@@ -74,8 +76,7 @@ int ppc_dcr_write (ppc_dcr_t *dcr_env, int dcrn, uint32_t val)
- void cpu_loop(CPUPPCState *env)
+ void cpu_loop(CPURISCVState *env)
  {
      CPUState *cs = env_cpu(env);
--    target_siginfo_t info;
--    int trapnr;
-+    int trapnr, si_signo, si_code;
+-    int trapnr, signum, sigcode;
+-    target_ulong sigaddr;
++    int trapnr;
      target_ulong ret;
  
-     for(;;) {
-@@ -100,61 +101,14 @@ void cpu_loop(CPUPPCState *env)
-                       "Aborting\n");
-             break;
-         case POWERPC_EXCP_DSI:      /* Data storage exception                */
--            /* XXX: check this. Seems bugged */
--            switch (env->error_code & 0xFF000000) {
--            case 0x40000000:
--            case 0x42000000:
--                info.si_signo = TARGET_SIGSEGV;
--                info.si_errno = 0;
--                info.si_code = TARGET_SEGV_MAPERR;
--                break;
--            case 0x04000000:
--                info.si_signo = TARGET_SIGILL;
--                info.si_errno = 0;
--                info.si_code = TARGET_ILL_ILLADR;
--                break;
--            case 0x08000000:
--                info.si_signo = TARGET_SIGSEGV;
--                info.si_errno = 0;
--                info.si_code = TARGET_SEGV_ACCERR;
--                break;
--            default:
--                /* Let's send a regular segfault... */
--                EXCP_DUMP(env, "Invalid segfault errno (%02x)\n",
--                          env->error_code);
--                info.si_signo = TARGET_SIGSEGV;
--                info.si_errno = 0;
--                info.si_code = TARGET_SEGV_MAPERR;
--                break;
--            }
--            info._sifields._sigfault._addr = env->spr[SPR_DAR];
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            /* FIXME: handle maperr in ppc_cpu_record_sigsegv. */
-+            force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR,
-+                            env->spr[SPR_DAR]);
-             break;
-         case POWERPC_EXCP_ISI:      /* Instruction storage exception         */
--            /* XXX: check this */
--            switch (env->error_code & 0xFF000000) {
--            case 0x40000000:
--                info.si_signo = TARGET_SIGSEGV;
--            info.si_errno = 0;
--                info.si_code = TARGET_SEGV_MAPERR;
--                break;
--            case 0x10000000:
--            case 0x08000000:
--                info.si_signo = TARGET_SIGSEGV;
--                info.si_errno = 0;
--                info.si_code = TARGET_SEGV_ACCERR;
--                break;
--            default:
--                /* Let's send a regular segfault... */
--                EXCP_DUMP(env, "Invalid segfault errno (%02x)\n",
--                          env->error_code);
--                info.si_signo = TARGET_SIGSEGV;
--                info.si_errno = 0;
--                info.si_code = TARGET_SEGV_MAPERR;
--                break;
--            }
--            info._sifields._sigfault._addr = env->nip - 4;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            /* FIXME: handle maperr in ppc_cpu_record_sigsegv. */
-+            force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR,
-+                            env->spr[SPR_DAR]);
-             break;
-         case POWERPC_EXCP_EXTERNAL: /* External input                        */
-             cpu_abort(cs, "External interrupt while in user mode. "
-@@ -162,35 +116,30 @@ void cpu_loop(CPUPPCState *env)
-             break;
-         case POWERPC_EXCP_ALIGN:    /* Alignment exception                   */
-             /* XXX: check this */
--            info.si_signo = TARGET_SIGBUS;
--            info.si_errno = 0;
--            info.si_code = TARGET_BUS_ADRALN;
--            info._sifields._sigfault._addr = env->nip;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            force_sig_fault(TARGET_SIGBUS, TARGET_BUS_ADRALN, env->nip);
-             break;
-         case POWERPC_EXCP_PROGRAM:  /* Program exception                     */
-         case POWERPC_EXCP_HV_EMU:   /* HV emulation                          */
-             /* XXX: check this */
-             switch (env->error_code & ~0xF) {
-             case POWERPC_EXCP_FP:
--                info.si_signo = TARGET_SIGFPE;
--                info.si_errno = 0;
-+                si_signo = TARGET_SIGFPE;
-                 switch (env->error_code & 0xF) {
-                 case POWERPC_EXCP_FP_OX:
--                    info.si_code = TARGET_FPE_FLTOVF;
-+                    si_code = TARGET_FPE_FLTOVF;
-                     break;
-                 case POWERPC_EXCP_FP_UX:
--                    info.si_code = TARGET_FPE_FLTUND;
-+                    si_code = TARGET_FPE_FLTUND;
-                     break;
-                 case POWERPC_EXCP_FP_ZX:
-                 case POWERPC_EXCP_FP_VXZDZ:
--                    info.si_code = TARGET_FPE_FLTDIV;
-+                    si_code = TARGET_FPE_FLTDIV;
-                     break;
-                 case POWERPC_EXCP_FP_XX:
--                    info.si_code = TARGET_FPE_FLTRES;
-+                    si_code = TARGET_FPE_FLTRES;
-                     break;
-                 case POWERPC_EXCP_FP_VXSOFT:
--                    info.si_code = TARGET_FPE_FLTINV;
-+                    si_code = TARGET_FPE_FLTINV;
-                     break;
-                 case POWERPC_EXCP_FP_VXSNAN:
-                 case POWERPC_EXCP_FP_VXISI:
-@@ -199,51 +148,50 @@ void cpu_loop(CPUPPCState *env)
-                 case POWERPC_EXCP_FP_VXVC:
-                 case POWERPC_EXCP_FP_VXSQRT:
-                 case POWERPC_EXCP_FP_VXCVI:
--                    info.si_code = TARGET_FPE_FLTSUB;
-+                    si_code = TARGET_FPE_FLTSUB;
-                     break;
-                 default:
-                     EXCP_DUMP(env, "Unknown floating point exception (%02x)\n",
-                               env->error_code);
-+                    si_code = 0;
-                     break;
-                 }
-                 break;
-             case POWERPC_EXCP_INVAL:
--                info.si_signo = TARGET_SIGILL;
--                info.si_errno = 0;
-+                si_signo = TARGET_SIGILL;
-                 switch (env->error_code & 0xF) {
-                 case POWERPC_EXCP_INVAL_INVAL:
--                    info.si_code = TARGET_ILL_ILLOPC;
-+                    si_code = TARGET_ILL_ILLOPC;
-                     break;
-                 case POWERPC_EXCP_INVAL_LSWX:
--                    info.si_code = TARGET_ILL_ILLOPN;
-+                    si_code = TARGET_ILL_ILLOPN;
-                     break;
-                 case POWERPC_EXCP_INVAL_SPR:
--                    info.si_code = TARGET_ILL_PRVREG;
-+                    si_code = TARGET_ILL_PRVREG;
-                     break;
-                 case POWERPC_EXCP_INVAL_FP:
--                    info.si_code = TARGET_ILL_COPROC;
-+                    si_code = TARGET_ILL_COPROC;
-                     break;
-                 default:
-                     EXCP_DUMP(env, "Unknown invalid operation (%02x)\n",
-                               env->error_code & 0xF);
--                    info.si_code = TARGET_ILL_ILLADR;
-+                    si_code = TARGET_ILL_ILLADR;
-                     break;
-                 }
-                 break;
-             case POWERPC_EXCP_PRIV:
--                info.si_signo = TARGET_SIGILL;
--                info.si_errno = 0;
-+                si_signo = TARGET_SIGILL;
-                 switch (env->error_code & 0xF) {
-                 case POWERPC_EXCP_PRIV_OPC:
--                    info.si_code = TARGET_ILL_PRVOPC;
-+                    si_code = TARGET_ILL_PRVOPC;
-                     break;
-                 case POWERPC_EXCP_PRIV_REG:
--                    info.si_code = TARGET_ILL_PRVREG;
-+                    si_code = TARGET_ILL_PRVREG;
-                     break;
-                 default:
-                     EXCP_DUMP(env, "Unknown privilege violation (%02x)\n",
-                               env->error_code & 0xF);
--                    info.si_code = TARGET_ILL_PRVOPC;
-+                    si_code = TARGET_ILL_PRVOPC;
-                     break;
-                 }
-                 break;
-@@ -256,28 +204,19 @@ void cpu_loop(CPUPPCState *env)
-                           env->error_code);
-                 break;
-             }
--            info._sifields._sigfault._addr = env->nip;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            force_sig_fault(si_signo, si_code, env->nip);
-             break;
-         case POWERPC_EXCP_FPU:      /* Floating-point unavailable exception  */
--            info.si_signo = TARGET_SIGILL;
--            info.si_errno = 0;
--            info.si_code = TARGET_ILL_COPROC;
--            info._sifields._sigfault._addr = env->nip;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+        case POWERPC_EXCP_APU:      /* Auxiliary processor unavailable       */
-+        case POWERPC_EXCP_SPEU:     /* SPE/embedded floating-point unavail.  */
-+        case POWERPC_EXCP_VPU:      /* Vector unavailable exception          */
-+            force_sig_fault(TARGET_SIGILL, TARGET_ILL_COPROC, env->nip);
-             break;
-         case POWERPC_EXCP_SYSCALL:  /* System call exception                 */
-         case POWERPC_EXCP_SYSCALL_VECTORED:
-             cpu_abort(cs, "Syscall exception while in user mode. "
-                       "Aborting\n");
-             break;
--        case POWERPC_EXCP_APU:      /* Auxiliary processor unavailable       */
--            info.si_signo = TARGET_SIGILL;
--            info.si_errno = 0;
--            info.si_code = TARGET_ILL_COPROC;
--            info._sifields._sigfault._addr = env->nip;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--            break;
-         case POWERPC_EXCP_DECR:     /* Decrementer exception                 */
-             cpu_abort(cs, "Decrementer interrupt while in user mode. "
-                       "Aborting\n");
-@@ -298,13 +237,6 @@ void cpu_loop(CPUPPCState *env)
-             cpu_abort(cs, "Instruction TLB exception while in user mode. "
-                       "Aborting\n");
-             break;
--        case POWERPC_EXCP_SPEU:     /* SPE/embedded floating-point unavail.  */
--            info.si_signo = TARGET_SIGILL;
--            info.si_errno = 0;
--            info.si_code = TARGET_ILL_COPROC;
--            info._sifields._sigfault._addr = env->nip;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--            break;
-         case POWERPC_EXCP_EFPDI:    /* Embedded floating-point data IRQ      */
-             cpu_abort(cs, "Embedded floating-point data IRQ not handled\n");
-             break;
-@@ -361,13 +293,6 @@ void cpu_loop(CPUPPCState *env)
-             cpu_abort(cs, "Hypervisor instruction segment exception "
-                       "while in user mode. Aborting\n");
-             break;
--        case POWERPC_EXCP_VPU:      /* Vector unavailable exception          */
--            info.si_signo = TARGET_SIGILL;
--            info.si_errno = 0;
--            info.si_code = TARGET_ILL_COPROC;
--            info._sifields._sigfault._addr = env->nip;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--            break;
-         case POWERPC_EXCP_PIT:      /* Programmable interval timer IRQ       */
-             cpu_abort(cs, "Programmable interval timer interrupt "
-                       "while in user mode. Aborting\n");
-@@ -450,10 +375,7 @@ void cpu_loop(CPUPPCState *env)
-             env->gpr[3] = ret;
-             break;
-         case EXCP_DEBUG:
--            info.si_signo = TARGET_SIGTRAP;
--            info.si_errno = 0;
--            info.si_code = TARGET_TRAP_BRKPT;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->nip);
-             break;
+     for (;;) {
+@@ -38,10 +38,6 @@ void cpu_loop(CPURISCVState *env)
+         cpu_exec_end(cs);
+         process_queued_cpu_work(cs);
+ 
+-        signum = 0;
+-        sigcode = 0;
+-        sigaddr = 0;
+-
+         switch (trapnr) {
          case EXCP_INTERRUPT:
              /* just indicate that signals should be handled asap */
+@@ -77,39 +73,23 @@ void cpu_loop(CPURISCVState *env)
+             }
+             break;
+         case RISCV_EXCP_ILLEGAL_INST:
+-            signum = TARGET_SIGILL;
+-            sigcode = TARGET_ILL_ILLOPC;
++            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC, env->pc);
+             break;
+         case RISCV_EXCP_BREAKPOINT:
+-            signum = TARGET_SIGTRAP;
+-            sigcode = TARGET_TRAP_BRKPT;
+-            sigaddr = env->pc;
++        case EXCP_DEBUG:
++        gdbstep:
++            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
+             break;
+         case RISCV_EXCP_SEMIHOST:
+             env->gpr[xA0] = do_common_semihosting(cs);
+             env->pc += 4;
+             break;
+-        case EXCP_DEBUG:
+-        gdbstep:
+-            signum = TARGET_SIGTRAP;
+-            sigcode = TARGET_TRAP_BRKPT;
+-            break;
+         default:
+             EXCP_DUMP(env, "\nqemu: unhandled CPU exception %#x - aborting\n",
+                      trapnr);
+             exit(EXIT_FAILURE);
+         }
+ 
+-        if (signum) {
+-            target_siginfo_t info = {
+-                .si_signo = signum,
+-                .si_errno = 0,
+-                .si_code = sigcode,
+-                ._sifields._sigfault._addr = sigaddr
+-            };
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+-        }
+-
+         process_pending_signals(env);
+     }
+ }
 -- 
 2.25.1
 
