@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD0A410CF9
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 21:00:34 +0200 (CEST)
-Received: from localhost ([::1]:40648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD91410CFA
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Sep 2021 21:02:26 +0200 (CEST)
+Received: from localhost ([::1]:43124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mS23F-0006Pv-99
-	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 15:00:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33374)
+	id 1mS253-0008At-GM
+	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 15:02:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mS21s-0005j1-P3
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 14:59:08 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:46075)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mS22g-0006Vx-CZ
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 14:59:58 -0400
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:37710)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mS21p-00030A-TC
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 14:59:08 -0400
-Received: by mail-io1-xd31.google.com with SMTP id a22so19217864iok.12
- for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 11:59:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mS22e-0003X9-Td
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 14:59:58 -0400
+Received: by mail-io1-xd35.google.com with SMTP id s20so10598217ioa.4
+ for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 11:59:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=sender:from:mime-version:subject:in-reply-to:date:cc
  :content-transfer-encoding:message-id:references:to;
- bh=sVEgT40WuyXSXQXIJmIXu57mr3X89L89kDe4j/sgmFg=;
- b=jE8wvBPy4IPJYsiEbqHX9Z9Flkb1uC/O/vN73Jz3VoNzcfZTcNXBqV095VgyQXIUbS
- JHAMGjwkrtc3nbRDA/GrQzN+jDuBdRgxU2wrTrZgXNOA44OwX56PvMj1X8PyeRLVmNru
- 0Lm+BGmDG6SAisevf1DGgLpHYtzqRw9f8fbmgh8onZkODjsoEB/LPab2ryJ/6gD/wjac
- uHpfcI58VjuXHm2jr5ZGI/Tx8Lu57g/Vk3VmEuvijEr/adBoMFRu2cABvQVfZ9FxkNPv
- CftVP7Ruz27s/lFFmx7Zh43910zmDpC/92YonCnN0z5QnLA2YxzJ70La0QAcjujAYLVr
- YvmA==
+ bh=kIzEUtBBaj6Bv0O8hkSXGLcyInCLJ/yGC/Nx6VRC33o=;
+ b=PplvdBUS/DExaFy2TKZLpup0wrmO5vzJNroJ+OQDXwzPy//ax39i9xhM7FYROPuhVJ
+ 7dQX+xgfTBWoOtB0fgWjcxjq2aK56k1QmsMovrxL9Sx9SA5xyM9GRN8R48aXcdfFyLX0
+ SZr6pnr2c4/sip4MX5C2vsuTppFHXvRkupsp7nz2OBQpozXmO7Awr7p5EwLZfkzxVL53
+ wTeTypLogbt0owFg17tIxzm6/5MEFikmZ+MxdmwI6UYH6TGKELvwTF8SwZQ5XlmLjQdx
+ ZQsuOChkHHnzsomlGnN3B6iNzZnYlX+6ujkL8Hw7g4m2xq3XN+RHeBAqtsbT1h2AE3vm
+ /nqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:mime-version:subject:in-reply-to
  :date:cc:content-transfer-encoding:message-id:references:to;
- bh=sVEgT40WuyXSXQXIJmIXu57mr3X89L89kDe4j/sgmFg=;
- b=Ar6aaAMYnIkLCEEfJZ6OqGxqSL0xN4oOzspSFT/0SgAcKJdA4gnYqDPhkkdap8XyhD
- 3MEnZZyiI3xXCj4o1wUzNJxxf/rzQqnEqSmmY+J7HWNz/fOX7Jsm9do8vRH5817cetF+
- GMTQyMA6U9ysMnImF5mn0TUEiE/qt8rXYhdKYb9CZ+YjD9o9YeTTHcOeV9wI03Km3y1w
- avX2KPOjurlUy5gBEqpNupak+K770PnGNSdIjiIBSu0VCIgvSc24e3bjZNMqTW7u9oir
- Lu2+tPFj4kjMsX7oxnzC/Vbw+51yYrC3RQSK5pUKou78AgQNUaGYrTE0b9c2OoWjIl2n
- rW3w==
-X-Gm-Message-State: AOAM530heNhwlJpyd5zSI7wUsYluoJ96Fg0iUWPgUsZDAB2RHn5Mq3J+
- UidGGTNGAEetiNqE+A4OvEMdcA==
-X-Google-Smtp-Source: ABdhPJyvGwTYfQSsu93Z4q1xsU1K2FmOzoUhDbnIFnd6C/33kvzl7Fmv7572o2WmQPH62on8djr8tg==
-X-Received: by 2002:a05:6602:1696:: with SMTP id
- s22mr16543725iow.198.1632077944417; 
- Sun, 19 Sep 2021 11:59:04 -0700 (PDT)
+ bh=kIzEUtBBaj6Bv0O8hkSXGLcyInCLJ/yGC/Nx6VRC33o=;
+ b=nfJzoWsX8BfbWx1ihrV9rcYrI/sXz6y4ef2zi9xM0eaRdNzBS5GO5yClVllSPUWAtQ
+ EvDCpC00g7Pi+WYZqpbiYBVceRLaIiAxxxlQGDdjDOWwOshsdxTZZ1cqYMd9zDJhpqdp
+ I3XdcYTnSAHn3tfq5RmTYD7f5Sp2anY4rsxnZLBK3sltsXkCZP3eCrPdK/cwJBfwkLWK
+ avDr9enXWdUvJP6Q9Hj41LymL1BJGPTl3uoLPDGgGSrmBSdf+23y6LCyD8OdmsXQUswX
+ smmAR2W6mjT228yRKkgX3DxcNJkvjmhQ1BZa3DDc1HCeSkHD/W7vmIvdISq1bsi++5R6
+ 3nKA==
+X-Gm-Message-State: AOAM531k5zW5wViGFEFMFX9YrCVZoWRFXODNpMrH5/AfOw9Z+qyw+2dd
+ 5ojEHnAMnjJy1Vfu1XDl5E11XA==
+X-Google-Smtp-Source: ABdhPJzWMaz4fe8kzf2uj014TyDhmUDrtUhpdqwKAyy4JQ/6fxoVT1odukYH+7iI1ek5opO3GMUgpw==
+X-Received: by 2002:a5d:8588:: with SMTP id f8mr16063411ioj.46.1632077995849; 
+ Sun, 19 Sep 2021 11:59:55 -0700 (PDT)
 Received: from macbook.nflx.bsdimp.com
  (50-253-99-174-static.hfc.comcastbusiness.net. [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id g14sm8100297ila.28.2021.09.19.11.59.03
+ by smtp.gmail.com with ESMTPSA id g14sm8100297ila.28.2021.09.19.11.59.54
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 19 Sep 2021 11:59:03 -0700 (PDT)
+ Sun, 19 Sep 2021 11:59:55 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 X-Google-Original-From: Warner Losh <bsdimp@gmail.com>
 Content-Type: text/plain;
-	charset=utf-8
+	charset=us-ascii
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.7\))
-Subject: Re: [PATCH v2 27/41] target/i386: Implement x86_cpu_record_sigsegv
-In-Reply-To: <20210918184527.408540-28-richard.henderson@linaro.org>
-Date: Sun, 19 Sep 2021 12:59:02 -0600
+Subject: Re: [PATCH v2 18/41] linux-user/signal: Drop HOST_SIGNAL_PLACEHOLDER
+In-Reply-To: <20210918184527.408540-19-richard.henderson@linaro.org>
+Date: Sun, 19 Sep 2021 12:59:54 -0600
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <B9D948F4-E743-4630-B43F-E3ABB6C86045@gmail.com>
+Message-Id: <6E349CE1-9C18-408B-9158-FD276D9A5202@gmail.com>
 References: <20210918184527.408540-1-richard.henderson@linaro.org>
- <20210918184527.408540-28-richard.henderson@linaro.org>
+ <20210918184527.408540-19-richard.henderson@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
 X-Mailer: Apple Mail (2.3608.120.23.2.7)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
- envelope-from=wlosh@bsdimp.com; helo=mail-io1-xd31.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=wlosh@bsdimp.com; helo=mail-io1-xd35.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -95,111 +94,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > On Sep 18, 2021, at 12:45 PM, Richard Henderson =
 <richard.henderson@linaro.org> wrote:
 >=20
-> Record cr2, error_code, and exception_index.  That last means
-> that we must exit to cpu_loop ourselves, instead of letting
-> exception_index being overwritten.
->=20
-> Use the maperr parameter to properly set PG_ERROR_P_MASK.
+> Now that all of the linux-user hosts have been converted
+> to host-signal.h, drop the compatibility code.
 >=20
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> target/i386/tcg/helper-tcg.h       |  6 ++++++
-> target/i386/tcg/tcg-cpu.c          |  3 ++-
-> target/i386/tcg/user/excp_helper.c | 23 +++++++++++++++++------
-> 3 files changed, 25 insertions(+), 7 deletions(-)
-
+> include/exec/exec-all.h | 12 ------------
+> linux-user/signal.c     | 13 -------------
+> 2 files changed, 25 deletions(-)
 
 Reviewed by: Warner Losh <imp@bsdimp.com>
 
-I think this encoding is fine, but haven=E2=80=99t thought though how =
-I=E2=80=99d implement
-this in bsd-user yet=E2=80=A6  I have the signal code queued up, but not =
-ready to send
-off yet.
-
-> diff --git a/target/i386/tcg/helper-tcg.h =
-b/target/i386/tcg/helper-tcg.h
-> index 60ca09e95e..0a4401e917 100644
-> --- a/target/i386/tcg/helper-tcg.h
-> +++ b/target/i386/tcg/helper-tcg.h
-> @@ -43,9 +43,15 @@ bool x86_cpu_exec_interrupt(CPUState *cpu, int =
-int_req);
-> #endif
+> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+> index 5f94d799aa..5dd663c153 100644
+> --- a/include/exec/exec-all.h
+> +++ b/include/exec/exec-all.h
+> @@ -685,18 +685,6 @@ MMUAccessType adjust_signal_pc(uintptr_t *pc, =
+bool is_write);
+> bool handle_sigsegv_accerr_write(CPUState *cpu, sigset_t *old_set,
+>                                  uintptr_t host_pc, abi_ptr =
+guest_addr);
 >=20
-> /* helper.c */
-> +#ifdef CONFIG_USER_ONLY
-> +void x86_cpu_record_sigsegv(CPUState *cs, vaddr addr,
-> +                            MMUAccessType access_type,
-> +                            bool maperr, uintptr_t ra);
-> +#else
-> bool x86_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->                       MMUAccessType access_type, int mmu_idx,
->                       bool probe, uintptr_t retaddr);
-> +#endif
->=20
-> void breakpoint_handler(CPUState *cs);
->=20
-> diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-> index aef050d089..3fab3676b1 100644
-> --- a/target/i386/tcg/tcg-cpu.c
-> +++ b/target/i386/tcg/tcg-cpu.c
-> @@ -77,11 +77,12 @@ static const struct TCGCPUOps x86_tcg_ops =3D {
->     .synchronize_from_tb =3D x86_cpu_synchronize_from_tb,
->     .cpu_exec_enter =3D x86_cpu_exec_enter,
->     .cpu_exec_exit =3D x86_cpu_exec_exit,
-> -    .tlb_fill =3D x86_cpu_tlb_fill,
-> #ifdef CONFIG_USER_ONLY
->     .fake_user_interrupt =3D x86_cpu_do_interrupt,
-> +    .record_sigsegv =3D x86_cpu_record_sigsegv,
+> -/**
+> - * cpu_signal_handler
+> - * @signum: host signal number
+> - * @pinfo: host siginfo_t
+> - * @puc: host ucontext_t
+> - *
+> - * To be called from the SIGBUS and SIGSEGV signal handler to inform =
+the
+> - * virtual cpu of exceptions.  Returns true if the signal was handled =
+by
+> - * the virtual CPU.
+> - */
+> -int cpu_signal_handler(int signum, void *pinfo, void *puc);
+> -
 > #else
->     .has_work =3D x86_cpu_has_work,
-> +    .tlb_fill =3D x86_cpu_tlb_fill,
->     .do_interrupt =3D x86_cpu_do_interrupt,
->     .cpu_exec_interrupt =3D x86_cpu_exec_interrupt,
->     .debug_excp_handler =3D breakpoint_handler,
-> diff --git a/target/i386/tcg/user/excp_helper.c =
-b/target/i386/tcg/user/excp_helper.c
-> index a89b5228fd..cd507e2a1b 100644
-> --- a/target/i386/tcg/user/excp_helper.c
-> +++ b/target/i386/tcg/user/excp_helper.c
-> @@ -22,18 +22,29 @@
-> #include "exec/exec-all.h"
-> #include "tcg/helper-tcg.h"
+> static inline void mmap_lock(void) {}
+> static inline void mmap_unlock(void) {}
+> diff --git a/linux-user/signal.c b/linux-user/signal.c
+> index 6f953f10d4..e6531fdfa0 100644
+> --- a/linux-user/signal.c
+> +++ b/linux-user/signal.c
+> @@ -773,16 +773,6 @@ static void host_signal_handler(int host_sig, =
+siginfo_t *info, void *puc)
+>     ucontext_t *uc =3D puc;
+>     struct emulated_sigtable *k;
+>     int guest_sig;
+> -
+> -#ifdef HOST_SIGNAL_PLACEHOLDER
+> -    /* the CPU emulator uses some host signals to detect exceptions,
+> -       we forward to it some signals */
+> -    if ((host_sig =3D=3D SIGSEGV || host_sig =3D=3D SIGBUS)
+> -        && info->si_code > 0) {
+> -        if (cpu_signal_handler(host_sig, info, puc))
+> -            return;
+> -    }
+> -#else
+>     uintptr_t pc =3D 0;
+>     bool sync_sig =3D false;
 >=20
-> -bool x86_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
-> -                      MMUAccessType access_type, int mmu_idx,
-> -                      bool probe, uintptr_t retaddr)
-> +void x86_cpu_record_sigsegv(CPUState *cs, vaddr addr,
-> +                            MMUAccessType access_type,
-> +                            bool maperr, uintptr_t ra)
-> {
->     X86CPU *cpu =3D X86_CPU(cs);
->     CPUX86State *env =3D &cpu->env;
+> @@ -842,7 +832,6 @@ static void host_signal_handler(int host_sig, =
+siginfo_t *info, void *puc)
 >=20
-> +    /*
-> +     * The error_code that hw reports as part of the exception frame
-> +     * is copied to linux sigcontext.err.  The exception_index is
-> +     * copied to linux sigcontext.trapno.  Short of inventing a new
-> +     * place to store the trapno, we cannot let our caller raise the
-> +     * signal and set exception_index to EXCP_INTERRUPT.
-> +     */
->     env->cr[2] =3D addr;
-> -    env->error_code =3D (access_type =3D=3D MMU_DATA_STORE) << =
-PG_ERROR_W_BIT;
-> -    env->error_code |=3D PG_ERROR_U_MASK;
-> +    env->error_code =3D ((access_type =3D=3D MMU_DATA_STORE) << =
-PG_ERROR_W_BIT)
-> +                    | (maperr ? 0 : PG_ERROR_P_MASK)
-> +                    | PG_ERROR_U_MASK;
->     cs->exception_index =3D EXCP0E_PAGE;
-> +
-> +    /* Disable do_interrupt_user. */
->     env->exception_is_int =3D 0;
->     env->exception_next_eip =3D -1;
-> -    cpu_loop_exit_restore(cs, retaddr);
-> +
-> +    cpu_loop_exit_restore(cs, ra);
-> }
+>         sync_sig =3D true;
+>     }
+> -#endif
+>=20
+>     /* get target signal number */
+>     guest_sig =3D host_to_target_signal(host_sig);
+> @@ -857,7 +846,6 @@ static void host_signal_handler(int host_sig, =
+siginfo_t *info, void *puc)
+>     k->pending =3D guest_sig;
+>     ts->signal_pending =3D 1;
+>=20
+> -#ifndef HOST_SIGNAL_PLACEHOLDER
+>     /*
+>      * For synchronous signals, unwind the cpu state to the faulting
+>      * insn and then exit back to the main loop so that the signal
+> @@ -867,7 +855,6 @@ static void host_signal_handler(int host_sig, =
+siginfo_t *info, void *puc)
+>         cpu->exception_index =3D EXCP_INTERRUPT;
+>         cpu_loop_exit_restore(cpu, pc);
+>     }
+> -#endif
+>=20
+>     rewind_if_in_safe_syscall(puc);
+>=20
 > --=20
 > 2.25.1
 >=20
