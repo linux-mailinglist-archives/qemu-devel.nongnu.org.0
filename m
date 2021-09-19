@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8EF6410DB6
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 01:03:16 +0200 (CEST)
-Received: from localhost ([::1]:52808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01917410DB8
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 01:04:58 +0200 (CEST)
+Received: from localhost ([::1]:55728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mS5q7-0007Pg-TK
-	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 19:03:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37682)
+	id 1mS5rl-0000yR-2a
+	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 19:04:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mS5ol-0006fv-Uv
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 19:01:51 -0400
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:46762)
+ id 1mS5qN-0008Gv-Du
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 19:03:31 -0400
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:42829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mS5oi-0000iu-0P
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 19:01:51 -0400
-Received: by mail-io1-xd2b.google.com with SMTP id d18so7342060iof.13
- for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 16:01:47 -0700 (PDT)
+ id 1mS5qL-0001u2-Ag
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 19:03:31 -0400
+Received: by mail-il1-x12c.google.com with SMTP id m4so16609631ilj.9
+ for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 16:03:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lMJfBcnxy7YuBsi872b1ZIVvUYz3aMtxr/EuFa0JM8s=;
- b=FME1k8ujs0bxAA0pubuZvcU5f65BHBySCff+NCO+6/eZG1q29t+Rkw+8Lvhqm/S6HU
- fnvdCACLTIhOr5KeWf7xoeTgo9iv1ZCZkRoPuWTmLFq+9qt2rsO6BGDA9shdBbXmnWzA
- 9LfW0eloCRsdRrR27TTeFdPMsZzoZTmJA/B9TlRXTKE4BTPDAfxyarKiFjkoX2S+Z7lv
- 20HYEOoPQl3njGu/czN6hQdB6tiD/FwHHJrYclIxMYyVP+MxiE5kXGJgFsJCZ8NSeZdf
- T21d6S3HdwVacsecxopessRFWx2hT17XINKaMuQN4Ks47rwl1LUM8BxdDARXUapZ8Lbu
- +aqw==
+ :cc:content-transfer-encoding;
+ bh=UojbpHFE7WDqM1JS6Es0a8l7KxX7vlj1un2p8/CbvBQ=;
+ b=GaSCJ+7FDyQHSZWgKYWJrIhARhhGcCVNwoGkzutvBWJrTdac8P2OAx4kuvcLwMuQV9
+ fXJNcXw74FYuX855HnEIDTZsdainNpLhVexQrrOCpOXVJwcWPqBv8JWb4p7B/XACrd+X
+ a1JwtC0jXuWcSYvW2EOu47bNvijZDqCwdMuX0RkclbYegV5OmVm5iEUkhyB00AUo6fZM
+ fNr4zSLG9xsxKpVbaZs/uWbbg5ecO1gwHA/PM4YajSDmVnQjErwkqwP2Jl+VVmNV8r73
+ PYXJvN+8VwqM6VAy4OpMDB2sNDpzXHqFSDhgfDvOIuM4RhtAYkR+LHOpS2d5tEfEe9PM
+ pzEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lMJfBcnxy7YuBsi872b1ZIVvUYz3aMtxr/EuFa0JM8s=;
- b=UkyLPcdyQNbCT1h+zhwIboQR5Gp3K/k38/VQzWHpe/q1If+aZ6d5qW98/vOP6qf19R
- SNHZE1v5AWsUdXmrx0Bap+M4+XEgekcQPsAGUzzHM0Lm4L2iZC0SHHBJ1KMPNzzMKqUj
- BLhQl1SpRGiORNxpCXX2LE70pQXfdqdqXrnke92rR++FUOA2+iAF3rHUiDUA9yxbBoE7
- 1r9QDitPLM+a9dW7AhwdjxcWl4sYVBCMe2j23cf3L4xsoYJWeFMB+mrJILSXHhDrZzqB
- 3rRPcCwuU3DN2Xh8JWNMmMPvMWjNi52gfsqp5c7ztiAnJfhEEQOSQqDE1U79PK+JmIqt
- EKAA==
-X-Gm-Message-State: AOAM533w9XkOruL+jP3jEho37vUG5eMmyStKvPn+L8rOcTzsAr/3LYNR
- R5UOpIxQNr8FulZNjyFnU7/sCqlyczakwpNLMPJJiL9I0QM=
-X-Google-Smtp-Source: ABdhPJxKXsw84dx9QYu/fKqbI7//J0kXV/ksa/QifitoGYMr+l2MWFLa2xeyDYv6JatoS0pLuBaxM21F/X+RjnokKx0=
-X-Received: by 2002:a6b:5913:: with SMTP id n19mr6887294iob.91.1632092506934; 
- Sun, 19 Sep 2021 16:01:46 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=UojbpHFE7WDqM1JS6Es0a8l7KxX7vlj1un2p8/CbvBQ=;
+ b=VqovsQCqY8//p+k2DGbjGHeG0GtTFtgMUDCsApY9qoj3vM6yUlRgLRragQ/7Pu3tyP
+ pgwYkzhYClS954R9RUiWQJJS6orTaEmS3BcKTAJHZVt+0DDJIK0ojjMR6lASHeClvGF1
+ VjUEuIRKGlOnvq2QbFR4LFTxltVWXy+i+mFKiXff9+otgXlbjVLvNux8js4Y/CeZcSvt
+ wfM8ZnbnI/316bkCjvsEBLpVpqFIUtdN08cLDvXuDgp2RYEnPWNFBnYlvDmYFtCgLtqb
+ SW0RBxHnZEIVzVtdPFm/1Z3LemUFD1ip625qj1c59lMsJeOeSym2FWTtuKbC2n7b5Ze+
+ FT+Q==
+X-Gm-Message-State: AOAM531Hs+2eL0C2FsRgZs8jqwBWJuowR3WIzYOFAQHC3kKVQzTD5paz
+ cl04jiZwPOF0zTst9WNSEPvXP1kCXiuL3xRbZmU=
+X-Google-Smtp-Source: ABdhPJxLWB/SIbx49p/oq3KBeUVlD/zhAy1D/wuItagkPbj1L8Mm8pHF6kcXr/zMAWhzD2XGiw/0UIAHJAtD++mL8G8=
+X-Received: by 2002:a05:6e02:1b04:: with SMTP id
+ i4mr7053323ilv.221.1632092607915; 
+ Sun, 19 Sep 2021 16:03:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210918184527.408540-1-richard.henderson@linaro.org>
- <20210918184527.408540-7-richard.henderson@linaro.org>
-In-Reply-To: <20210918184527.408540-7-richard.henderson@linaro.org>
+References: <20200910180938.584205-1-alistair.francis@wdc.com>
+ <20200910180938.584205-8-alistair.francis@wdc.com>
+ <CAAdtpL7-twPXfLGud9+hQq074g-VWCxOt+drkW02xzHuzDs_pA@mail.gmail.com>
+In-Reply-To: <CAAdtpL7-twPXfLGud9+hQq074g-VWCxOt+drkW02xzHuzDs_pA@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 20 Sep 2021 09:01:21 +1000
-Message-ID: <CAKmqyKMa9BTVdrVvDUO59zLdK9RbGKUW3d2haNsO00apH3eCsQ@mail.gmail.com>
-Subject: Re: [PATCH v2 06/41] linux-user: Reorg handling for SIGSEGV
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Mon, 20 Sep 2021 09:03:02 +1000
+Message-ID: <CAKmqyKNo7or8Or+kcMVWYOEcCbTuEMUbA6si+-7uiJ469daoAw@mail.gmail.com>
+Subject: Re: [PULL 07/30] hw/char: Add Microchip PolarFire SoC MMUART emulation
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -78,299 +82,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 19, 2021 at 4:55 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Sun, Sep 19, 2021 at 2:55 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
 >
-> Add stub host-signal.h for all linux-user hosts.
-> Add new code replacing cpu_signal_handler.
-> Full migration will happen one host at a time.
+> On Thu, Sep 10, 2020 at 8:29 PM Alistair Francis
+> <alistair.francis@wdc.com> wrote:
+> >
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > Microchip PolarFire SoC MMUART is ns16550 compatible, with some
+> > additional registers. Create a simple MMUART model built on top
+> > of the existing ns16550 model.
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > Message-Id: <1598924352-89526-6-git-send-email-bmeng.cn@gmail.com>
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  include/hw/char/mchp_pfsoc_mmuart.h | 61 ++++++++++++++++++++
+> >  hw/char/mchp_pfsoc_mmuart.c         | 86 +++++++++++++++++++++++++++++
+> >  MAINTAINERS                         |  2 +
+> >  hw/char/Kconfig                     |  3 +
+> >  hw/char/meson.build                 |  1 +
+> >  5 files changed, 153 insertions(+)
+> >  create mode 100644 include/hw/char/mchp_pfsoc_mmuart.h
+> >  create mode 100644 hw/char/mchp_pfsoc_mmuart.c
+> >
+> > diff --git a/include/hw/char/mchp_pfsoc_mmuart.h b/include/hw/char/mchp=
+_pfsoc_mmuart.h
+> > new file mode 100644
+> > index 0000000000..f61990215f
+> > --- /dev/null
+> > +++ b/include/hw/char/mchp_pfsoc_mmuart.h
+> > @@ -0,0 +1,61 @@
+> > +/*
+> > + * Microchip PolarFire SoC MMUART emulation
+> > + *
+> > + * Copyright (c) 2020 Wind River Systems, Inc.
+> > + *
+> > + * Author:
+> > + *   Bin Meng <bin.meng@windriver.com>
+> > + *
+> > + * Permission is hereby granted, free of charge, to any person obtaini=
+ng a copy
+> > + * of this software and associated documentation files (the "Software"=
+), to deal
+> > + * in the Software without restriction, including without limitation t=
+he rights
+> > + * to use, copy, modify, merge, publish, distribute, sublicense, and/o=
+r sell
+> > + * copies of the Software, and to permit persons to whom the Software =
+is
+> > + * furnished to do so, subject to the following conditions:
+> > + *
+> > + * The above copyright notice and this permission notice shall be incl=
+uded in
+> > + * all copies or substantial portions of the Software.
+> > + *
+> > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
+RESS OR
+> > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
+LITY,
+> > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT S=
+HALL
+> > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES O=
+R OTHER
+> > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARI=
+SING FROM,
+> > + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALI=
+NGS IN
+> > + * THE SOFTWARE.
+> > + */
+> > +
+> > +#ifndef HW_MCHP_PFSOC_MMUART_H
+> > +#define HW_MCHP_PFSOC_MMUART_H
+> > +
+> > +#include "hw/char/serial.h"
+> > +
+> > +#define MCHP_PFSOC_MMUART_REG_SIZE  52
+> > +
+> > +typedef struct MchpPfSoCMMUartState {
+> > +    MemoryRegion iomem;
+> > +    hwaddr base;
+> > +    qemu_irq irq;
+> > +
+> > +    SerialMM *serial;
+> > +
+> > +    uint32_t reg[MCHP_PFSOC_MMUART_REG_SIZE / sizeof(uint32_t)];
+> > +} MchpPfSoCMMUartState;
+> > +
+> > +/**
+> > + * mchp_pfsoc_mmuart_create - Create a Microchip PolarFire SoC MMUART
+> > + *
+> > + * This is a helper routine for board to create a MMUART device that i=
+s
+> > + * compatible with Microchip PolarFire SoC.
+> > + *
+> > + * @sysmem: system memory region to map
+> > + * @base: base address of the MMUART registers
+> > + * @irq: IRQ number of the MMUART device
+> > + * @chr: character device to associate to
+> > + *
+> > + * @return: a pointer to the device specific control structure
+> > + */
+> > +MchpPfSoCMMUartState *mchp_pfsoc_mmuart_create(MemoryRegion *sysmem,
+> > +    hwaddr base, qemu_irq irq, Chardev *chr);
+> > +
+> > +#endif /* HW_MCHP_PFSOC_MMUART_H */
+> > diff --git a/hw/char/mchp_pfsoc_mmuart.c b/hw/char/mchp_pfsoc_mmuart.c
+> > new file mode 100644
+> > index 0000000000..8a002b0a19
+> > --- /dev/null
+> > +++ b/hw/char/mchp_pfsoc_mmuart.c
+> > @@ -0,0 +1,86 @@
+> > +/*
+> > + * Microchip PolarFire SoC MMUART emulation
+> > + *
+> > + * Copyright (c) 2020 Wind River Systems, Inc.
+> > + *
+> > + * Author:
+> > + *   Bin Meng <bin.meng@windriver.com>
+> > + *
+> > + * This program is free software; you can redistribute it and/or
+> > + * modify it under the terms of the GNU General Public License as
+> > + * published by the Free Software Foundation; either version 2 or
+> > + * (at your option) version 3 of the License.
+> > + *
+> > + * This program is distributed in the hope that it will be useful,
+> > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> > + * GNU General Public License for more details.
+> > + *
+> > + * You should have received a copy of the GNU General Public License a=
+long
+> > + * with this program; if not, see <http://www.gnu.org/licenses/>.
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +#include "qemu/log.h"
+> > +#include "chardev/char.h"
+> > +#include "exec/address-spaces.h"
+> > +#include "hw/char/mchp_pfsoc_mmuart.h"
+> > +
+> > +static uint64_t mchp_pfsoc_mmuart_read(void *opaque, hwaddr addr, unsi=
+gned size)
+> > +{
+> > +    MchpPfSoCMMUartState *s =3D opaque;
+> > +
+> > +    if (addr >=3D MCHP_PFSOC_MMUART_REG_SIZE) {
+> > +        qemu_log_mask(LOG_GUEST_ERROR, "%s: read: addr=3D0x%" HWADDR_P=
+RIx "\n",
+> > +                      __func__, addr);
+> > +        return 0;
+> > +    }
+> > +
+> > +    return s->reg[addr / sizeof(uint32_t)];
+> > +}
+> > +
+> > +static void mchp_pfsoc_mmuart_write(void *opaque, hwaddr addr,
+> > +                                    uint64_t value, unsigned size)
+> > +{
+> > +    MchpPfSoCMMUartState *s =3D opaque;
+> > +    uint32_t val32 =3D (uint32_t)value;
+> > +
+> > +    if (addr >=3D MCHP_PFSOC_MMUART_REG_SIZE) {
+> > +        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad write: addr=3D0x%" HWA=
+DDR_PRIx
+> > +                      " v=3D0x%x\n", __func__, addr, val32);
+> > +        return;
+> > +    }
+> > +
+> > +    s->reg[addr / sizeof(uint32_t)] =3D val32;
+> > +}
+> > +
+> > +static const MemoryRegionOps mchp_pfsoc_mmuart_ops =3D {
+> > +    .read =3D mchp_pfsoc_mmuart_read,
+> > +    .write =3D mchp_pfsoc_mmuart_write,
+> > +    .endianness =3D DEVICE_LITTLE_ENDIAN,
+> > +    .impl =3D {
+> > +        .min_access_size =3D 4,
+> > +        .max_access_size =3D 4,
+> > +    },
+> > +};
+> > +
+> > +MchpPfSoCMMUartState *mchp_pfsoc_mmuart_create(MemoryRegion *sysmem,
+> > +    hwaddr base, qemu_irq irq, Chardev *chr)
+> > +{
+> > +    MchpPfSoCMMUartState *s;
+> > +
+> > +    s =3D g_new0(MchpPfSoCMMUartState, 1);
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Please stop adding non-QOM devices, we try hard to get rid of them.
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Sorry, because of serial_mm_init() I thought this would be ok
 
 Alistair
-
-> ---
->  linux-user/host/aarch64/host-signal.h |   1 +
->  linux-user/host/arm/host-signal.h     |   1 +
->  linux-user/host/i386/host-signal.h    |   1 +
->  linux-user/host/mips/host-signal.h    |   1 +
->  linux-user/host/ppc/host-signal.h     |   1 +
->  linux-user/host/ppc64/host-signal.h   |   1 +
->  linux-user/host/riscv/host-signal.h   |   1 +
->  linux-user/host/s390/host-signal.h    |   1 +
->  linux-user/host/s390x/host-signal.h   |   1 +
->  linux-user/host/sparc/host-signal.h   |   1 +
->  linux-user/host/sparc64/host-signal.h |   1 +
->  linux-user/host/x32/host-signal.h     |   1 +
->  linux-user/host/x86_64/host-signal.h  |   1 +
->  linux-user/signal.c                   | 109 ++++++++++++++++++++++----
->  14 files changed, 106 insertions(+), 16 deletions(-)
->  create mode 100644 linux-user/host/aarch64/host-signal.h
->  create mode 100644 linux-user/host/arm/host-signal.h
->  create mode 100644 linux-user/host/i386/host-signal.h
->  create mode 100644 linux-user/host/mips/host-signal.h
->  create mode 100644 linux-user/host/ppc/host-signal.h
->  create mode 100644 linux-user/host/ppc64/host-signal.h
->  create mode 100644 linux-user/host/riscv/host-signal.h
->  create mode 100644 linux-user/host/s390/host-signal.h
->  create mode 100644 linux-user/host/s390x/host-signal.h
->  create mode 100644 linux-user/host/sparc/host-signal.h
->  create mode 100644 linux-user/host/sparc64/host-signal.h
->  create mode 100644 linux-user/host/x32/host-signal.h
->  create mode 100644 linux-user/host/x86_64/host-signal.h
->
-> diff --git a/linux-user/host/aarch64/host-signal.h b/linux-user/host/aarch64/host-signal.h
-> new file mode 100644
-> index 0000000000..f4b4d65031
-> --- /dev/null
-> +++ b/linux-user/host/aarch64/host-signal.h
-> @@ -0,0 +1 @@
-> +#define HOST_SIGNAL_PLACEHOLDER
-> diff --git a/linux-user/host/arm/host-signal.h b/linux-user/host/arm/host-signal.h
-> new file mode 100644
-> index 0000000000..f4b4d65031
-> --- /dev/null
-> +++ b/linux-user/host/arm/host-signal.h
-> @@ -0,0 +1 @@
-> +#define HOST_SIGNAL_PLACEHOLDER
-> diff --git a/linux-user/host/i386/host-signal.h b/linux-user/host/i386/host-signal.h
-> new file mode 100644
-> index 0000000000..f4b4d65031
-> --- /dev/null
-> +++ b/linux-user/host/i386/host-signal.h
-> @@ -0,0 +1 @@
-> +#define HOST_SIGNAL_PLACEHOLDER
-> diff --git a/linux-user/host/mips/host-signal.h b/linux-user/host/mips/host-signal.h
-> new file mode 100644
-> index 0000000000..f4b4d65031
-> --- /dev/null
-> +++ b/linux-user/host/mips/host-signal.h
-> @@ -0,0 +1 @@
-> +#define HOST_SIGNAL_PLACEHOLDER
-> diff --git a/linux-user/host/ppc/host-signal.h b/linux-user/host/ppc/host-signal.h
-> new file mode 100644
-> index 0000000000..f4b4d65031
-> --- /dev/null
-> +++ b/linux-user/host/ppc/host-signal.h
-> @@ -0,0 +1 @@
-> +#define HOST_SIGNAL_PLACEHOLDER
-> diff --git a/linux-user/host/ppc64/host-signal.h b/linux-user/host/ppc64/host-signal.h
-> new file mode 100644
-> index 0000000000..f4b4d65031
-> --- /dev/null
-> +++ b/linux-user/host/ppc64/host-signal.h
-> @@ -0,0 +1 @@
-> +#define HOST_SIGNAL_PLACEHOLDER
-> diff --git a/linux-user/host/riscv/host-signal.h b/linux-user/host/riscv/host-signal.h
-> new file mode 100644
-> index 0000000000..f4b4d65031
-> --- /dev/null
-> +++ b/linux-user/host/riscv/host-signal.h
-> @@ -0,0 +1 @@
-> +#define HOST_SIGNAL_PLACEHOLDER
-> diff --git a/linux-user/host/s390/host-signal.h b/linux-user/host/s390/host-signal.h
-> new file mode 100644
-> index 0000000000..f4b4d65031
-> --- /dev/null
-> +++ b/linux-user/host/s390/host-signal.h
-> @@ -0,0 +1 @@
-> +#define HOST_SIGNAL_PLACEHOLDER
-> diff --git a/linux-user/host/s390x/host-signal.h b/linux-user/host/s390x/host-signal.h
-> new file mode 100644
-> index 0000000000..f4b4d65031
-> --- /dev/null
-> +++ b/linux-user/host/s390x/host-signal.h
-> @@ -0,0 +1 @@
-> +#define HOST_SIGNAL_PLACEHOLDER
-> diff --git a/linux-user/host/sparc/host-signal.h b/linux-user/host/sparc/host-signal.h
-> new file mode 100644
-> index 0000000000..f4b4d65031
-> --- /dev/null
-> +++ b/linux-user/host/sparc/host-signal.h
-> @@ -0,0 +1 @@
-> +#define HOST_SIGNAL_PLACEHOLDER
-> diff --git a/linux-user/host/sparc64/host-signal.h b/linux-user/host/sparc64/host-signal.h
-> new file mode 100644
-> index 0000000000..f4b4d65031
-> --- /dev/null
-> +++ b/linux-user/host/sparc64/host-signal.h
-> @@ -0,0 +1 @@
-> +#define HOST_SIGNAL_PLACEHOLDER
-> diff --git a/linux-user/host/x32/host-signal.h b/linux-user/host/x32/host-signal.h
-> new file mode 100644
-> index 0000000000..f4b4d65031
-> --- /dev/null
-> +++ b/linux-user/host/x32/host-signal.h
-> @@ -0,0 +1 @@
-> +#define HOST_SIGNAL_PLACEHOLDER
-> diff --git a/linux-user/host/x86_64/host-signal.h b/linux-user/host/x86_64/host-signal.h
-> new file mode 100644
-> index 0000000000..f4b4d65031
-> --- /dev/null
-> +++ b/linux-user/host/x86_64/host-signal.h
-> @@ -0,0 +1 @@
-> +#define HOST_SIGNAL_PLACEHOLDER
-> diff --git a/linux-user/signal.c b/linux-user/signal.c
-> index 5ea8e4584a..6f953f10d4 100644
-> --- a/linux-user/signal.c
-> +++ b/linux-user/signal.c
-> @@ -18,12 +18,15 @@
->   */
->  #include "qemu/osdep.h"
->  #include "qemu/bitops.h"
-> +#include "hw/core/tcg-cpu-ops.h"
-> +
->  #include <sys/ucontext.h>
->  #include <sys/resource.h>
->
->  #include "qemu.h"
->  #include "trace.h"
->  #include "signal-common.h"
-> +#include "host-signal.h"
->
->  static struct target_sigaction sigact_table[TARGET_NSIG];
->
-> @@ -761,41 +764,115 @@ static inline void rewind_if_in_safe_syscall(void *puc)
->  }
->  #endif
->
-> -static void host_signal_handler(int host_signum, siginfo_t *info,
-> -                                void *puc)
-> +static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
->  {
->      CPUArchState *env = thread_cpu->env_ptr;
->      CPUState *cpu = env_cpu(env);
->      TaskState *ts = cpu->opaque;
-> -
-> -    int sig;
->      target_siginfo_t tinfo;
->      ucontext_t *uc = puc;
->      struct emulated_sigtable *k;
-> +    int guest_sig;
->
-> +#ifdef HOST_SIGNAL_PLACEHOLDER
->      /* the CPU emulator uses some host signals to detect exceptions,
->         we forward to it some signals */
-> -    if ((host_signum == SIGSEGV || host_signum == SIGBUS)
-> +    if ((host_sig == SIGSEGV || host_sig == SIGBUS)
->          && info->si_code > 0) {
-> -        if (cpu_signal_handler(host_signum, info, puc))
-> +        if (cpu_signal_handler(host_sig, info, puc))
->              return;
->      }
-> +#else
-> +    uintptr_t pc = 0;
-> +    bool sync_sig = false;
-> +
-> +    /*
-> +     * Non-spoofed SIGSEGV and SIGBUS are synchronous, and need special
-> +     * handling wrt signal blocking and unwinding.
-> +     */
-> +    if ((host_sig == SIGSEGV || host_sig == SIGBUS) && info->si_code > 0) {
-> +        MMUAccessType access_type;
-> +        uintptr_t host_addr;
-> +        abi_ptr guest_addr;
-> +        bool is_write;
-> +
-> +        host_addr = (uintptr_t)info->si_addr;
-> +
-> +        /*
-> +         * Convert forcefully to guest address space: addresses outside
-> +         * reserved_va are still valid to report via SEGV_MAPERR.
-> +         */
-> +        guest_addr = h2g_nocheck(host_addr);
-> +
-> +        pc = host_signal_pc(uc);
-> +        is_write = host_signal_write(info, uc);
-> +        access_type = adjust_signal_pc(&pc, is_write);
-> +
-> +        if (host_sig == SIGSEGV) {
-> +            const struct TCGCPUOps *tcg_ops;
-> +
-> +            if (info->si_code == SEGV_ACCERR && h2g_valid(host_addr)) {
-> +                /* If this was a write to a TB protected page, restart. */
-> +                if (is_write &&
-> +                    handle_sigsegv_accerr_write(cpu, &uc->uc_sigmask,
-> +                                                pc, guest_addr)) {
-> +                    return;
-> +                }
-> +
-> +                /*
-> +                 * With reserved_va, the whole address space is PROT_NONE,
-> +                 * which means that we may get ACCERR when we want MAPERR.
-> +                 */
-> +                if (page_get_flags(guest_addr) & PAGE_VALID) {
-> +                    /* maperr = false; */
-> +                } else {
-> +                    info->si_code = SEGV_MAPERR;
-> +                }
-> +            }
-> +
-> +            sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
-> +
-> +            tcg_ops = CPU_GET_CLASS(cpu)->tcg_ops;
-> +            tcg_ops->tlb_fill(cpu, guest_addr, 0, access_type,
-> +                              MMU_USER_IDX, false, pc);
-> +            g_assert_not_reached();
-> +        } else {
-> +            sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
-> +        }
-> +
-> +        sync_sig = true;
-> +    }
-> +#endif
->
->      /* get target signal number */
-> -    sig = host_to_target_signal(host_signum);
-> -    if (sig < 1 || sig > TARGET_NSIG)
-> +    guest_sig = host_to_target_signal(host_sig);
-> +    if (guest_sig < 1 || guest_sig > TARGET_NSIG) {
->          return;
-> -    trace_user_host_signal(env, host_signum, sig);
-> +    }
-> +    trace_user_host_signal(env, host_sig, guest_sig);
-> +
-> +    host_to_target_siginfo_noswap(&tinfo, info);
-> +    k = &ts->sigtab[guest_sig - 1];
-> +    k->info = tinfo;
-> +    k->pending = guest_sig;
-> +    ts->signal_pending = 1;
-> +
-> +#ifndef HOST_SIGNAL_PLACEHOLDER
-> +    /*
-> +     * For synchronous signals, unwind the cpu state to the faulting
-> +     * insn and then exit back to the main loop so that the signal
-> +     * is delivered immediately.
-> +     */
-> +    if (sync_sig) {
-> +        cpu->exception_index = EXCP_INTERRUPT;
-> +        cpu_loop_exit_restore(cpu, pc);
-> +    }
-> +#endif
->
->      rewind_if_in_safe_syscall(puc);
->
-> -    host_to_target_siginfo_noswap(&tinfo, info);
-> -    k = &ts->sigtab[sig - 1];
-> -    k->info = tinfo;
-> -    k->pending = sig;
-> -    ts->signal_pending = 1;
-> -
-> -    /* Block host signals until target signal handler entered. We
-> +    /*
-> +     * Block host signals until target signal handler entered. We
->       * can't block SIGSEGV or SIGBUS while we're executing guest
->       * code in case the guest code provokes one in the window between
->       * now and it getting out to the main loop. Signals will be
-> --
-> 2.25.1
->
->
 
