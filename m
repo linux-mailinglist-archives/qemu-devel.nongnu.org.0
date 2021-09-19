@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C0E410D9E
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 00:35:35 +0200 (CEST)
-Received: from localhost ([::1]:41790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25103410DB5
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 00:59:01 +0200 (CEST)
+Received: from localhost ([::1]:50602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mS5PK-00079K-Hr
-	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 18:35:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34408)
+	id 1mS5lz-0005js-Oo
+	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 18:58:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mS5O1-0006IW-RH
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 18:34:13 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:42636)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mS5ki-000547-2d
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 18:57:40 -0400
+Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:34782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mS5O0-0007Sn-Bj
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 18:34:13 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id q23so12368972pfs.9
- for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 15:34:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JjY/JjLJDJC/f2MYyieAToInvQGl9JzrnLCtUa1oBAA=;
- b=A+yUj8so78600iuDGrYEclUwDwjBKw8QTA5WkVOn4qiGTZk73bJwkE1RpTt3GU8Gj5
- 8F0bMBitbuW2Fv7/VUN36NU1eAZ8mo4PWAypl7m/AT+OXSAiL80JECE/d5k+VWqU+c4m
- iZuDLI23/rzup8sdfLCHON75zHm4qJh+82YMPrl5v4JhL7H3Okx94ZiRf8MZCUmTtyXV
- GACDNeQerxhCD6oLl3erCaiTMe1XMmNgeyPn17WCDGjsa4C5KFslheSd/p8/p9vK7Iaf
- MCIeewjci7mb1YME36IRWSkVzXumGgwFuX0UFZvgcm3gu1JBkhrLGchZFzZO0ItU3iX4
- 9ZkQ==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mS5kg-0006UM-D5
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 18:57:39 -0400
+Received: by mail-il1-x133.google.com with SMTP id w1so16640660ilv.1
+ for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 15:57:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VfOVEPG/1Z8PIQ6ScsL2IZ6oPjAM6tmISFX7oGZSlqs=;
+ b=dKYpYfQq/WHknGR9S6+aEHkEmeFkjwx9gCjJeObwPOqeQ2Tum0PNggG4xBHIVx5sqN
+ Ot7iOC7vadZaio2RmIGfbUqqZnC6OfcuEzQXSrhbLOZuvMPrq2+RgrqgWgjj7Z4OdLJH
+ 4oY/LRmUIGwrZWvO590ZEvo6q5g5BTC92xjtv+uH7BK89pVuxORNfqcqsOIOFqRRsq+V
+ cZib4bGEw6CP3lDIaLphhO0WE2InuIB6avBz3npXIOIS+LCXZxgnQB/h1RzNhDQdjlVx
+ VKbx6MuxOqEpy3+E/E6CfXhUlcGBCbWcsjKr/uFL01gSujfrAelT/2jB6VG/Y/YBUVpY
+ QUPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JjY/JjLJDJC/f2MYyieAToInvQGl9JzrnLCtUa1oBAA=;
- b=IPLvkWEGv6yJuAItcmz/o+SveTiWuwUb3cJvgcy7XyYjp7bEzGkPFK+GDWCOWunCPF
- XptErGFdi9nNyT5s4MOdoHnhbKvCsA0Cz4RbEvcQTNESZWTaTXoPEmEFLAwgcXrRLsiB
- 580gTdpe0GVYl3iuu6rsvnWGOOZs8SukVLnv2JicWmdFyJ3dqRcv9gkIyg2OOp8cjLzp
- Qp7pYC8REIOEQSVDQiEVdSz5gQTBXjE/yKykmBC7DfIcaGcRk1nJVzZOXKAZ306jfWQ0
- tbie+QBzF31jip80yIAMB7QVCtQiXjHjY/xZmcnKCOkVRwocwmXIzkrxAOUCGOotyld4
- y2Xw==
-X-Gm-Message-State: AOAM533gOnRYjrY3lQNRKRXcEX/nGLQIp9Q9UtXmsLr3qFVPNR8CfuJL
- V+1XKzmCi2IzhT+GmHGv3JWpSA==
-X-Google-Smtp-Source: ABdhPJyLE0BfvoQo2yO9w8U3bTXmnpc1Oq+TREouq51kDSsL8go7A+2rI947xpA9YBuK3QGCwpJvvQ==
-X-Received: by 2002:a63:741b:: with SMTP id p27mr20886130pgc.140.1632090850723; 
- Sun, 19 Sep 2021 15:34:10 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id l142sm5271094pfd.87.2021.09.19.15.34.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Sep 2021 15:34:10 -0700 (PDT)
-Subject: Re: [PATCH v2 6/8] target/arm: Assert thumb pc is aligned
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210821195958.41312-1-richard.henderson@linaro.org>
- <20210821195958.41312-7-richard.henderson@linaro.org>
- <feb3dea5-99d4-05c6-ca38-5f7dbc31d08e@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <84cebf48-f2bc-93e4-468f-2dff88726362@linaro.org>
-Date: Sun, 19 Sep 2021 15:34:08 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VfOVEPG/1Z8PIQ6ScsL2IZ6oPjAM6tmISFX7oGZSlqs=;
+ b=Rm091mM5uobfURws0fcTGl7I4mWPWSvcnyu3ftKF7h9od/8yBWUtQce9AylM4kzp0K
+ 4jgGW/spg4RAm1DozUGyyGwlOZeGAjYb9d9BNDAro6rbs5a+S9IfaAQFY5B4S5qwjk6Z
+ CfuxXKdiP+OdH4UdI/K0bGceiFJNUstHX9+SP2KlCl66EkKRF/3E0RaCV+oz6nrZuwmm
+ i+4Q6YjAlPrvq+K1pkJnp2fe89ELo04lTwEaWOAtzy4gJF5xH9IcQaMJjz0EnG9RZhp0
+ qieVESkDR6TP7YJy+ca/PN5RB52rELbxBPnzDrCGXpLzzH6ZO3OR/evwDBGvMkt9Pjgb
+ WG+Q==
+X-Gm-Message-State: AOAM531kyOvbiqE/hi0F9QDJhAIKqMZJXkwpP5Qf8c8J+4aPzoDC8JGd
+ rZYOuOLLIM4hU90J6uv04rfM2/2pgcoB1S/ClII=
+X-Google-Smtp-Source: ABdhPJzWcuVTB08/c87gSdsycMJ2GYgxJS/bWLkDSMvTOkcUA+SfXYPTpu7mXTSsbQtKYckLHQgZpOI57c8hyQOp7U4=
+X-Received: by 2002:a05:6e02:964:: with SMTP id
+ q4mr15713575ilt.290.1632092256834; 
+ Sun, 19 Sep 2021 15:57:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <feb3dea5-99d4-05c6-ca38-5f7dbc31d08e@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20210918184527.408540-1-richard.henderson@linaro.org>
+ <20210918184527.408540-6-richard.henderson@linaro.org>
+In-Reply-To: <20210918184527.408540-6-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 20 Sep 2021 08:57:10 +1000
+Message-ID: <CAKmqyKM++_T1cppcHH0thZ=8yJ-rSOtiOrGK+0zS_=3S1xDrYQ@mail.gmail.com>
+Subject: Re: [PATCH v2 05/41] configure: Merge riscv32 and riscv64 host
+ architectures
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::133;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x133.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,18 +80,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/21/21 1:46 PM, Philippe Mathieu-Daudé wrote:
->> +    /* Misaligned thumb PC is architecturally impossible. */
->> +    assert((dc->base.pc_next & 1) == 0);
-> 
-> What about using tcg_debug_assert() instead?
+On Sun, Sep 19, 2021 at 4:53 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The existing code for safe-syscall.inc.S will compile
+> without change for riscv32 and riscv64.  We may also
+> drop the meson.build stanza that merges them for tcg/.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-I don't think we want to let this one compile out.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
+Alistair
 
-r~
+> ---
+>  configure                                             |  8 ++------
+>  meson.build                                           |  4 +---
+>  linux-user/host/{riscv64 => riscv}/hostdep.h          |  4 ++--
+>  linux-user/host/riscv32/hostdep.h                     | 11 -----------
+>  linux-user/host/{riscv64 => riscv}/safe-syscall.inc.S |  0
+>  5 files changed, 5 insertions(+), 22 deletions(-)
+>  rename linux-user/host/{riscv64 => riscv}/hostdep.h (94%)
+>  delete mode 100644 linux-user/host/riscv32/hostdep.h
+>  rename linux-user/host/{riscv64 => riscv}/safe-syscall.inc.S (100%)
+>
+> diff --git a/configure b/configure
+> index da2501489f..6ff037bac1 100755
+> --- a/configure
+> +++ b/configure
+> @@ -650,11 +650,7 @@ elif check_define __s390__ ; then
+>      cpu="s390"
+>    fi
+>  elif check_define __riscv ; then
+> -  if check_define _LP64 ; then
+> -    cpu="riscv64"
+> -  else
+> -    cpu="riscv32"
+> -  fi
+> +  cpu="riscv"
+>  elif check_define __arm__ ; then
+>    cpu="arm"
+>  elif check_define __aarch64__ ; then
+> @@ -667,7 +663,7 @@ ARCH=
+>  # Normalise host CPU name and set ARCH.
+>  # Note that this case should only have supported host CPUs, not guests.
+>  case "$cpu" in
+> -  ppc|ppc64|s390x|sparc64|x32|riscv32|riscv64)
+> +  ppc|ppc64|s390x|sparc64|x32|riscv)
+>    ;;
+>    ppc64le)
+>      ARCH="ppc64"
+> diff --git a/meson.build b/meson.build
+> index 2711cbb789..c35a230bf0 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -56,7 +56,7 @@ have_block = have_system or have_tools
+>  python = import('python').find_installation()
+>
+>  supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
+> -supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv32', 'riscv64', 'x86', 'x86_64',
+> +supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv', 'x86', 'x86_64',
+>    'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
+>
+>  cpu = host_machine.cpu_family()
+> @@ -271,8 +271,6 @@ if not get_option('tcg').disabled()
+>      tcg_arch = 'i386'
+>    elif config_host['ARCH'] == 'ppc64'
+>      tcg_arch = 'ppc'
+> -  elif config_host['ARCH'] in ['riscv32', 'riscv64']
+> -    tcg_arch = 'riscv'
+>    endif
+>    add_project_arguments('-iquote', meson.current_source_dir() / 'tcg' / tcg_arch,
+>                          language: ['c', 'cpp', 'objc'])
+> diff --git a/linux-user/host/riscv64/hostdep.h b/linux-user/host/riscv/hostdep.h
+> similarity index 94%
+> rename from linux-user/host/riscv64/hostdep.h
+> rename to linux-user/host/riscv/hostdep.h
+> index 865f0fb9ff..2ba07456ae 100644
+> --- a/linux-user/host/riscv64/hostdep.h
+> +++ b/linux-user/host/riscv/hostdep.h
+> @@ -5,8 +5,8 @@
+>   * See the COPYING file in the top-level directory.
+>   */
+>
+> -#ifndef RISCV64_HOSTDEP_H
+> -#define RISCV64_HOSTDEP_H
+> +#ifndef RISCV_HOSTDEP_H
+> +#define RISCV_HOSTDEP_H
+>
+>  /* We have a safe-syscall.inc.S */
+>  #define HAVE_SAFE_SYSCALL
+> diff --git a/linux-user/host/riscv32/hostdep.h b/linux-user/host/riscv32/hostdep.h
+> deleted file mode 100644
+> index adf9edbf2d..0000000000
+> --- a/linux-user/host/riscv32/hostdep.h
+> +++ /dev/null
+> @@ -1,11 +0,0 @@
+> -/*
+> - * hostdep.h : things which are dependent on the host architecture
+> - *
+> - * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> - * See the COPYING file in the top-level directory.
+> - */
+> -
+> -#ifndef RISCV32_HOSTDEP_H
+> -#define RISCV32_HOSTDEP_H
+> -
+> -#endif
+> diff --git a/linux-user/host/riscv64/safe-syscall.inc.S b/linux-user/host/riscv/safe-syscall.inc.S
+> similarity index 100%
+> rename from linux-user/host/riscv64/safe-syscall.inc.S
+> rename to linux-user/host/riscv/safe-syscall.inc.S
+> --
+> 2.25.1
+>
+>
 
