@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82AE412716
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 22:01:54 +0200 (CEST)
-Received: from localhost ([::1]:41248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C2E412720
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 22:03:37 +0200 (CEST)
+Received: from localhost ([::1]:44280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSPU9-0003XH-KE
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 16:01:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47348)
+	id 1mSPVo-0005Zw-9n
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 16:03:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSPRb-00016k-BL
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 15:59:15 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:59917)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSPUF-0004A4-0t
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 16:02:00 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:54395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSPRZ-00007p-JC
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 15:59:15 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSPUD-0002Ul-9X
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 16:01:58 -0400
 Received: from [192.168.100.1] ([82.64.211.94]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MK3eC-1mABph41tO-00LVHL; Mon, 20 Sep 2021 21:59:12 +0200
-Subject: Re: [PATCH v4 08/20] nubus: generate bus error when attempting to
- access empty slots
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N7hw4-1mxXJR1d5e-014hrj; Mon, 20 Sep 2021 22:01:55 +0200
+Subject: Re: [PATCH v4 09/20] macfb: don't register declaration ROM
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 References: <20210917075057.20924-1-mark.cave-ayland@ilande.co.uk>
- <20210917075057.20924-9-mark.cave-ayland@ilande.co.uk>
+ <20210917075057.20924-10-mark.cave-ayland@ilande.co.uk>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <22c414eb-2783-8879-eb5a-0be05a913f4f@vivier.eu>
-Date: Mon, 20 Sep 2021 21:59:11 +0200
+Message-ID: <a65fbc89-681c-22b5-87d4-31d37de15559@vivier.eu>
+Date: Mon, 20 Sep 2021 22:01:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210917075057.20924-9-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210917075057.20924-10-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:kyGg6BafMEvbn/Q1jKtEfPv34J57meLpvjCVqsv/f7mlYmRNNtk
- 6A6g/acXqBRn931m8FQE/DuHjMIir/ldOIf0TICR+Aug/jWeI+DF69tTGy7a0Zoyqa7GB55
- r/7Z0F0of9ksYkVGXmL0U7He0XDmk3GuDtkx+HIONrltHz5oT73ODDv4IFd2rMVxz8glu48
- iHpKYqSaPxAm6RRgKh5Tg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:X8Nil4neHyM=:LMe227K6v0DcAHfjSf59vY
- 5YjT/7sDXnvows+3h7ga+pHKOG2cuvjHw/cc8kosXs5EoI9ZMidzfTIp0y07HpilWdGW12a4E
- X6BjOiu+ZgQSMcGhXUwzB7erg8xsVf9WeknmyL8fOiVpg41zu3kU7J00WiXisfM/Fdibmp/5d
- Sl6HXHXH3QYkljg/gzZ7oQVNGkzm8H/oTU5FzqPENm0C20gcJ0AgyA0QcmLbPBvOp481JakQr
- TwXt4i/lToQ1Z4jE3CSQVV886PWJe5mQnGmQQcCBTOuD54RFQ4eB8g407hgridR6TAJ+k7U59
- v++WOVlXTMrScMMYAUJduIR3t9DMAyeUp20CgpT1ZcS23wRhdQgRuMN3h6Fo16mxU7gzYY2PK
- Xibp2VCJbTSP1DyBJPI8peH51kHQoMAlLCSSRMFfLD1Vf+ImfZmvSimeMQyDbFifIviF06AOv
- HRZLXV3gOebYM/dwB/q8pHbYMMlSSBCE39nUGNWjRVx0oIT9OD0wg4GR5ZvazuB2ezSxhgSlA
- +U/ZHv0kbnBkH9ozF2DhnULLovXXCCfJUza0gz/JIbGHKBffInZAXEV01eZYQPhmEQROI8KYE
- ehRXGugyxhgMmDMDXkyzjRVKGFYDKEmpIEZ9CE5SZqoKqTXyZe4cmN82FhaxNXXtCWobN/bqH
- YuILCjKwNsDM8GzrCxPf+0qnTw4qJtipquXJQSah+QlOK+2Yri0J0RWTz3Sh6s/dpGFiZIlB7
- TLAj3T4NeA8/ItbMOK85o0TCWpwzRdbOehUXlQ==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:bV6UkrGv+LMlcZAWpnNWewZWGINnh8xc82eUaTCIlM86xIKd3N7
+ gEUNHkw8ojWPwu1JQS6VbgxbApaKTR5gglQkRJE7G9n3fub4DaZrUBTjYOQnibc4t3JA5H0
+ F0u3D67VDgQ6es7WROMa5SkTBCwMhhRs352JdvD8r028twUz4q0Y0Kxfl8yaOg5RqV1eJ6r
+ Qkv3DcUI2naOG5UJAQ+pg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uB5D7oV5wKU=:rPmjd7Cu93s7mLCpek1zVW
+ VuJKozUTDY9PwvnXeCwoVZIeq7REWFJVAs+g1+6l6mkr3unTDCI6RlKpjKaKfV+awkcgyhmTH
+ QW1hWXtTaLZZ4qcIjNQfADrWrp3V2pv8qsQcdpj8H5tTgNdIz6FjruDp5WsPCXFvqy6NzA1tF
+ jgjPiqM5FNyUjMT9ZGpOPBur/vLql1Osyl7fLpvQr1rrFR6iQxlny7FlJ8e3O8mE9bPj6ZnBE
+ h35kf4NgVQjbZsX986ymCRtGoSi/DT68Vbuc4pMn2Z9zi6rWkv4OTt7O64grg3yT1JoCGbhi/
+ cuEQxEOVHFoa617McKMZCPTTNFIKHMeVKN2gDRZFkF37IV++22bwE6OvKmegE97MBr3btqRzI
+ mSpzNw8PXqgKp03JoQx+UCFFccNlxo04RNZJ/fEQuBci6zijqizlN2RiCIwuMl+iQdm70zqV2
+ JB2IPrHmRudyFvRZcSjJiVv0u9Mv2IY/BUURDnc14ncgL8zyBw87dMOa+OaH6dspvZpZF9vCS
+ YQOo0fkGnd7mzmNB4JWC5IngYYI6r9OSK3wIdTz70khP+AzDjgrGHARi6Gw6SDI/AXgmLhFE0
+ avR4ASNJ+ZSYbz5gTX9bGfUj7WJ0PhtvgeosylcQEwcrNpVjru+Or8f/RFToYIbF+WpixjN/j
+ jK2DvBdpYIjMiT/RjMiJwaIbXsu875eNpQ8bV8/VZyfPXmiNLBnJVvjCowGqqswfTASBFbvHD
+ rNHBeoCb35zbEYw0lylJmWDKVJ2m2yqw0qm3Gg==
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,93 +74,42 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 17/09/2021 à 09:50, Mark Cave-Ayland a écrit :
-> According to "Designing Cards and Drivers for the Macintosh Family" any attempt
-> to access an unimplemented address location on Nubus generates a bus error. MacOS
-> uses a custom bus error handler to detect empty Nubus slots, and with the current
-> implementation assumes that all slots are occupied as the Nubus transactions
-> never fail.
-> 
-> Switch nubus_slot_ops and nubus_super_slot_ops over to use {read,write}_with_attrs
-> and hard-code them to return MEMTX_DECODE_ERROR so that unoccupied Nubus slots
-> will generate the expected bus error.
+> The macfb device is an on-board framebuffer and so is initialised by the
+> system declaration ROM included within the MacOS toolbox ROM.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/nubus/nubus-bus.c | 34 ++++++++++++++++++----------------
->  1 file changed, 18 insertions(+), 16 deletions(-)
+>  hw/display/macfb.c | 6 ------
+>  1 file changed, 6 deletions(-)
 > 
-> diff --git a/hw/nubus/nubus-bus.c b/hw/nubus/nubus-bus.c
-> index 39182db065..a617459a4f 100644
-> --- a/hw/nubus/nubus-bus.c
-> +++ b/hw/nubus/nubus-bus.c
-> @@ -20,23 +20,23 @@ static NubusBus *nubus_find(void)
->      return NUBUS_BUS(object_resolve_path_type("", TYPE_NUBUS_BUS, NULL));
+> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+> index d8183b9bbd..76808b69cc 100644
+> --- a/hw/display/macfb.c
+> +++ b/hw/display/macfb.c
+> @@ -383,10 +383,6 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
+>      sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_vram);
 >  }
 >  
-> -static void nubus_slot_write(void *opaque, hwaddr addr, uint64_t val,
-> -                             unsigned int size)
-> +static MemTxResult nubus_slot_write(void *opaque, hwaddr addr, uint64_t val,
-> +                                    unsigned size, MemTxAttrs attrs)
+> -const uint8_t macfb_rom[] = {
+> -    255, 0, 0, 0,
+> -};
+> -
+>  static void macfb_nubus_realize(DeviceState *dev, Error **errp)
 >  {
-> -    /* read only */
->      trace_nubus_slot_write(addr, val, size);
-> +    return MEMTX_DECODE_ERROR;
+>      NubusDevice *nd = NUBUS_DEVICE(dev);
+> @@ -399,8 +395,6 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
+>      macfb_common_realize(dev, ms, errp);
+>      memory_region_add_subregion(&nd->slot_mem, DAFB_BASE, &ms->mem_ctrl);
+>      memory_region_add_subregion(&nd->slot_mem, VIDEO_BASE, &ms->mem_vram);
+> -
+> -    nubus_register_rom(nd, macfb_rom, sizeof(macfb_rom), 1, 9, 0xf);
 >  }
 >  
-> -static uint64_t nubus_slot_read(void *opaque, hwaddr addr,
-> -                                unsigned int size)
-> +static MemTxResult nubus_slot_read(void *opaque, hwaddr addr, uint64_t *data,
-> +                                   unsigned size, MemTxAttrs attrs)
->  {
->      trace_nubus_slot_read(addr, size);
-> -    return 0;
-> +    return MEMTX_DECODE_ERROR;
->  }
->  
->  static const MemoryRegionOps nubus_slot_ops = {
-> -    .read  = nubus_slot_read,
-> -    .write = nubus_slot_write,
-> +    .read_with_attrs  = nubus_slot_read,
-> +    .write_with_attrs = nubus_slot_write,
->      .endianness = DEVICE_BIG_ENDIAN,
->      .valid = {
->          .min_access_size = 1,
-> @@ -44,23 +44,25 @@ static const MemoryRegionOps nubus_slot_ops = {
->      },
->  };
->  
-> -static void nubus_super_slot_write(void *opaque, hwaddr addr, uint64_t val,
-> -                                   unsigned int size)
-> +static MemTxResult nubus_super_slot_write(void *opaque, hwaddr addr,
-> +                                          uint64_t val, unsigned size,
-> +                                          MemTxAttrs attrs)
->  {
-> -    /* read only */
->      trace_nubus_super_slot_write(addr, val, size);
-> +    return MEMTX_DECODE_ERROR;
->  }
->  
-> -static uint64_t nubus_super_slot_read(void *opaque, hwaddr addr,
-> -                                      unsigned int size)
-> +static MemTxResult nubus_super_slot_read(void *opaque, hwaddr addr,
-> +                                         uint64_t *data, unsigned size,
-> +                                         MemTxAttrs attrs)
->  {
->      trace_nubus_super_slot_read(addr, size);
-> -    return 0;
-> +    return MEMTX_DECODE_ERROR;
->  }
->  
->  static const MemoryRegionOps nubus_super_slot_ops = {
-> -    .read  = nubus_super_slot_read,
-> -    .write = nubus_super_slot_write,
-> +    .read_with_attrs = nubus_super_slot_read,
-> +    .write_with_attrs = nubus_super_slot_write,
->      .endianness = DEVICE_BIG_ENDIAN,
->      .valid = {
->          .min_access_size = 1,
+>  static void macfb_sysbus_reset(DeviceState *d)
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Will macfb continue to work with "-kernel" and without providing any MacOS ROM?
+
+Thanks,
+Laurent
 
