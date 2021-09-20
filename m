@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A3DB411338
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 12:59:20 +0200 (CEST)
-Received: from localhost ([::1]:41640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27400411339
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 12:59:30 +0200 (CEST)
+Received: from localhost ([::1]:41968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSH15-0006st-Kf
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 06:59:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49212)
+	id 1mSH1F-00077R-7S
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 06:59:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mSGzM-0004xv-AH
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 06:57:32 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106]:41426)
+ id 1mSGzN-0004yG-77
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 06:57:33 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:21748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mSGzJ-0002tT-6H
+ id 1mSGzJ-0002uN-JM
  for qemu-devel@nongnu.org; Mon, 20 Sep 2021 06:57:32 -0400
 Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 507D2449AB;
- Mon, 20 Sep 2021 12:57:18 +0200 (CEST)
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id CD4EA449AE;
+ Mon, 20 Sep 2021 12:57:19 +0200 (CEST)
 From: Stefan Reiter <s.reiter@proxmox.com>
 To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
@@ -30,20 +30,22 @@ To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
  Eric Blake <eblake@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Wolfgang Bumiller <w.bumiller@proxmox.com>,
  Thomas Lamprecht <t.lamprecht@proxmox.com>
-Subject: [PATCH v3 2/3] monitor/hmp: add support for flag argument with value
-Date: Mon, 20 Sep 2021 12:56:40 +0200
-Message-Id: <20210920105641.258104-3-s.reiter@proxmox.com>
+Subject: [PATCH v3 3/3] monitor: refactor set/expire_password and allow VNC
+ display id
+Date: Mon, 20 Sep 2021 12:56:41 +0200
+Message-Id: <20210920105641.258104-4-s.reiter@proxmox.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210920105641.258104-1-s.reiter@proxmox.com>
 References: <20210920105641.258104-1-s.reiter@proxmox.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=94.136.29.106; envelope-from=s.reiter@proxmox.com;
  helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,54 +63,483 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adds support for the "-xS" parameter type, where "-x" denotes a flag
-name and the "S" suffix indicates that this flag is supposed to take an
-arbitrary string parameter.
+It is possible to specify more than one VNC server on the command line,
+either with an explicit ID or the auto-generated ones à la "default",
+"vnc2", "vnc3", ...
 
-These parameters are always optional, the entry in the qdict will be
-omitted if the flag is not given.
+It is not possible to change the password on one of these extra VNC
+displays though. Fix this by adding a "display" parameter to the
+"set_password" and "expire_password" QMP and HMP commands.
 
+For HMP, the display is specified using the "-d" value flag.
+
+For QMP, the schema is updated to explicitly express the supported
+variants of the commands with protocol-discriminated unions.
+
+Suggested-by: Eric Blake <eblake@redhat.com>
+Suggested-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
 ---
- monitor/hmp.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/monitor/hmp.c b/monitor/hmp.c
-index d50c3124e1..a32dce7a35 100644
---- a/monitor/hmp.c
-+++ b/monitor/hmp.c
-@@ -980,6 +980,7 @@ static QDict *monitor_parse_arguments(Monitor *mon,
-             {
-                 const char *tmp = p;
-                 int skip_key = 0;
-+                int ret;
-                 /* option */
+The union schema simplifies the QMP code, but makes the HMP part a bit more
+involved. Since the parameters are practically the same, is there a way to just
+pass the HMP generated qdict off to the qapi parser to get the correct struct
+for calling the qmp_ methods?
+
+ hmp-commands.hx    |  29 ++++----
+ monitor/hmp-cmds.c |  60 +++++++++++++++-
+ monitor/qmp-cmds.c |  62 ++++++-----------
+ qapi/ui.json       | 168 +++++++++++++++++++++++++++++++++++++--------
+ 4 files changed, 235 insertions(+), 84 deletions(-)
+
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 8e45bce2cd..d78e4cfc47 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1514,34 +1514,35 @@ ERST
  
-                 c = *typestr++;
-@@ -1002,8 +1003,22 @@ static QDict *monitor_parse_arguments(Monitor *mon,
-                     }
-                     if (skip_key) {
-                         p = tmp;
-+                    } else if (*typestr == 'S') {
-+                        /* has option with string value */
-+                        typestr++;
-+                        tmp = p++;
-+                        while (qemu_isspace(*p)) {
-+                            p++;
-+                        }
-+                        ret = get_str(buf, sizeof(buf), &p);
-+                        if (ret < 0) {
-+                            monitor_printf(mon, "%s: value expected for -%c\n",
-+                                           cmd->name, *tmp);
-+                            goto fail;
-+                        }
-+                        qdict_put_str(qdict, key, buf);
-                     } else {
--                        /* has option */
-+                        /* has boolean option */
-                         p++;
-                         qdict_put_bool(qdict, key, true);
-                     }
+     {
+         .name       = "set_password",
+-        .args_type  = "protocol:s,password:s,connected:s?",
+-        .params     = "protocol password action-if-connected",
++        .args_type  = "protocol:s,password:s,display:-dS,connected:s?",
++        .params     = "protocol password [-d display] [action-if-connected]",
+         .help       = "set spice/vnc password",
+         .cmd        = hmp_set_password,
+     },
+ 
+ SRST
+-``set_password [ vnc | spice ] password [ action-if-connected ]``
+-  Change spice/vnc password.  Use zero to make the password stay valid
+-  forever.  *action-if-connected* specifies what should happen in
+-  case a connection is established: *fail* makes the password change
+-  fail.  *disconnect* changes the password and disconnects the
+-  client.  *keep* changes the password and keeps the connection up.
+-  *keep* is the default.
++``set_password [ vnc | spice ] password [ -d display ] [ action-if-connected ]``
++  Change spice/vnc password.  *display* can be used with 'vnc' to specify
++  which display to set the password on.  *action-if-connected* specifies
++  what should happen in case a connection is established: *fail* makes
++  the password change fail.  *disconnect* changes the password and
++  disconnects the client.  *keep* changes the password and keeps the
++  connection up.  *keep* is the default.
+ ERST
+ 
+     {
+         .name       = "expire_password",
+-        .args_type  = "protocol:s,time:s",
+-        .params     = "protocol time",
++        .args_type  = "protocol:s,time:s,display:-dS",
++        .params     = "protocol time [-d display]",
+         .help       = "set spice/vnc password expire-time",
+         .cmd        = hmp_expire_password,
+     },
+ 
+ SRST
+-``expire_password [ vnc | spice ]`` *expire-time*
+-  Specify when a password for spice/vnc becomes
+-  invalid. *expire-time* accepts:
++``expire_password [ vnc | spice ] expire-time [ -d display ]``
++  Specify when a password for spice/vnc becomes invalid.
++  *display* behaves the same as in ``set_password``.
++  *expire-time* accepts:
+ 
+   ``now``
+     Invalidate password instantly.
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index a7e197a90b..1a49c1c0d9 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1451,10 +1451,43 @@ void hmp_set_password(Monitor *mon, const QDict *qdict)
+ {
+     const char *protocol  = qdict_get_str(qdict, "protocol");
+     const char *password  = qdict_get_str(qdict, "password");
++    const char *display = qdict_get_try_str(qdict, "display");
+     const char *connected = qdict_get_try_str(qdict, "connected");
+     Error *err = NULL;
++    DisplayProtocol proto;
+ 
+-    qmp_set_password(protocol, password, !!connected, connected, &err);
++    SetPasswordOptions opts = {
++        .password = g_strdup(password),
++        .u.vnc.display = NULL,
++    };
++
++    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
++                            DISPLAY_PROTOCOL_VNC, &err);
++    if (err) {
++        hmp_handle_error(mon, err);
++        return;
++    }
++    opts.protocol = proto;
++
++    if (proto == DISPLAY_PROTOCOL_VNC) {
++        if ((opts.u.vnc.has_display = !!display)) {
++            opts.u.vnc.display = g_strdup(display);
++        }
++    } else if (proto == DISPLAY_PROTOCOL_SPICE) {
++        if ((opts.u.spice.has_connected = !!connected)) {
++            opts.u.spice.connected =
++                qapi_enum_parse(&SetPasswordAction_lookup, connected,
++                                SET_PASSWORD_ACTION_KEEP, &err);
++            if (err) {
++                hmp_handle_error(mon, err);
++                return;
++            }
++        }
++    }
++
++    qmp_set_password(&opts, &err);
++    g_free(opts.password);
++    g_free(opts.u.vnc.display);
+     hmp_handle_error(mon, err);
+ }
+ 
+@@ -1462,9 +1495,32 @@ void hmp_expire_password(Monitor *mon, const QDict *qdict)
+ {
+     const char *protocol  = qdict_get_str(qdict, "protocol");
+     const char *whenstr = qdict_get_str(qdict, "time");
++    const char *display = qdict_get_try_str(qdict, "display");
+     Error *err = NULL;
++    DisplayProtocol proto;
+ 
+-    qmp_expire_password(protocol, whenstr, &err);
++    ExpirePasswordOptions opts = {
++        .time = g_strdup(whenstr),
++        .u.vnc.display = NULL,
++    };
++
++    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
++                            DISPLAY_PROTOCOL_VNC, &err);
++    if (err) {
++        hmp_handle_error(mon, err);
++        return;
++    }
++    opts.protocol = proto;
++
++    if (proto == DISPLAY_PROTOCOL_VNC) {
++        if ((opts.u.vnc.has_display = !!display)) {
++            opts.u.vnc.display = g_strdup(display);
++        }
++    }
++
++    qmp_expire_password(&opts, &err);
++    g_free(opts.time);
++    g_free(opts.u.vnc.display);
+     hmp_handle_error(mon, err);
+ }
+ 
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 5c0d5e116b..cb229c01f8 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -163,45 +163,30 @@ void qmp_system_wakeup(Error **errp)
+     qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, errp);
+ }
+ 
+-void qmp_set_password(const char *protocol, const char *password,
+-                      bool has_connected, const char *connected, Error **errp)
++void qmp_set_password(SetPasswordOptions *opts, Error **errp)
+ {
+-    int disconnect_if_connected = 0;
+-    int fail_if_connected = 0;
+-    int rc;
++    bool disconnect_if_connected = false;
++    bool fail_if_connected = false;
++    int rc = 0;
+ 
+-    if (has_connected) {
+-        if (strcmp(connected, "fail") == 0) {
+-            fail_if_connected = 1;
+-        } else if (strcmp(connected, "disconnect") == 0) {
+-            disconnect_if_connected = 1;
+-        } else if (strcmp(connected, "keep") == 0) {
+-            /* nothing */
+-        } else {
+-            error_setg(errp, QERR_INVALID_PARAMETER, "connected");
+-            return;
+-        }
+-    }
+-
+-    if (strcmp(protocol, "spice") == 0) {
++    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
+         if (!qemu_using_spice(errp)) {
+             return;
+         }
+-        rc = qemu_spice.set_passwd(password, fail_if_connected,
+-                                   disconnect_if_connected);
+-    } else if (strcmp(protocol, "vnc") == 0) {
+-        if (fail_if_connected || disconnect_if_connected) {
+-            /* vnc supports "connected=keep" only */
+-            error_setg(errp, QERR_INVALID_PARAMETER, "connected");
+-            return;
++        if (opts->u.spice.has_connected) {
++            fail_if_connected =
++                opts->u.spice.connected == SET_PASSWORD_ACTION_FAIL;
++            disconnect_if_connected =
++                opts->u.spice.connected == SET_PASSWORD_ACTION_DISCONNECT;
+         }
++        rc = qemu_spice.set_passwd(opts->password, fail_if_connected,
++                                   disconnect_if_connected);
++    } else if (opts->protocol == DISPLAY_PROTOCOL_VNC) {
+         /* Note that setting an empty password will not disable login through
+          * this interface. */
+-        rc = vnc_display_password(NULL, password);
+-    } else {
+-        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
+-                   "'vnc' or 'spice'");
+-        return;
++        rc = vnc_display_password(
++                opts->u.vnc.has_display ? opts->u.vnc.display : NULL,
++                opts->password);
+     }
+ 
+     if (rc != 0) {
+@@ -209,11 +194,11 @@ void qmp_set_password(const char *protocol, const char *password,
+     }
+ }
+ 
+-void qmp_expire_password(const char *protocol, const char *whenstr,
+-                         Error **errp)
++void qmp_expire_password(ExpirePasswordOptions *opts, Error **errp)
+ {
+     time_t when;
+     int rc;
++    const char* whenstr = opts->time;
+ 
+     if (strcmp(whenstr, "now") == 0) {
+         when = 0;
+@@ -225,17 +210,14 @@ void qmp_expire_password(const char *protocol, const char *whenstr,
+         when = strtoull(whenstr, NULL, 10);
+     }
+ 
+-    if (strcmp(protocol, "spice") == 0) {
++    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
+         if (!qemu_using_spice(errp)) {
+             return;
+         }
+         rc = qemu_spice.set_pw_expire(when);
+-    } else if (strcmp(protocol, "vnc") == 0) {
+-        rc = vnc_display_pw_expire(NULL, when);
+-    } else {
+-        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
+-                   "'vnc' or 'spice'");
+-        return;
++    } else if (opts->protocol == DISPLAY_PROTOCOL_VNC) {
++        rc = vnc_display_pw_expire(
++                opts->u.vnc.has_display ? opts->u.vnc.display : NULL, when);
+     }
+ 
+     if (rc != 0) {
+diff --git a/qapi/ui.json b/qapi/ui.json
+index b2cf7a6759..494c92a65e 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -9,22 +9,23 @@
+ { 'include': 'common.json' }
+ { 'include': 'sockets.json' }
+ 
++##
++# @DisplayProtocol:
++#
++# Display protocols which support changing password options.
++#
++# Since: 6.2
++#
++##
++{ 'enum': 'DisplayProtocol',
++  'data': [ { 'name': 'vnc', 'if': 'CONFIG_VNC' },
++            { 'name': 'spice', 'if': 'CONFIG_SPICE' } ] }
++
+ ##
+ # @set_password:
+ #
+ # Sets the password of a remote display session.
+ #
+-# @protocol: - 'vnc' to modify the VNC server password
+-#            - 'spice' to modify the Spice server password
+-#
+-# @password: the new password
+-#
+-# @connected: how to handle existing clients when changing the
+-#             password.  If nothing is specified, defaults to 'keep'
+-#             'fail' to fail the command if clients are connected
+-#             'disconnect' to disconnect existing clients
+-#             'keep' to maintain existing clients
+-#
+ # Returns: - Nothing on success
+ #          - If Spice is not enabled, DeviceNotFound
+ #
+@@ -37,33 +38,101 @@
+ # <- { "return": {} }
+ #
+ ##
+-{ 'command': 'set_password',
+-  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str'} }
++{ 'command': 'set_password', 'boxed': true, 'data': 'SetPasswordOptions' }
++
++##
++# @SetPasswordOptions:
++#
++# Data required to set a new password on a display server protocol.
++#
++# @protocol: - 'vnc' to modify the VNC server password
++#            - 'spice' to modify the Spice server password
++#
++# @password: the new password
++#
++# Since: 6.2
++#
++##
++{ 'union': 'SetPasswordOptions',
++  'base': { 'protocol': 'DisplayProtocol',
++            'password': 'str' },
++  'discriminator': 'protocol',
++  'data': { 'vnc': 'SetPasswordOptionsVnc',
++            'spice': 'SetPasswordOptionsSpice' } }
++
++##
++# @SetPasswordAction:
++#
++# An action to take on changing a password on a connection with active clients.
++#
++# @fail: fail the command if clients are connected
++#
++# @disconnect: disconnect existing clients
++#
++# @keep: maintain existing clients
++#
++# Since: 6.2
++#
++##
++{ 'enum': 'SetPasswordAction',
++  'data': [ 'fail', 'disconnect', 'keep' ] }
++
++##
++# @SetPasswordActionVnc:
++#
++# See @SetPasswordAction. VNC only supports the keep action. 'connection'
++# should just be omitted for VNC, this is kept for backwards compatibility.
++#
++# @keep: maintain existing clients
++#
++# Since: 6.2
++#
++##
++{ 'enum': 'SetPasswordActionVnc',
++  'data': [ 'keep' ] }
++
++##
++# @SetPasswordOptionsSpice:
++#
++# Options for set_password specific to the VNC procotol.
++#
++# @connected: How to handle existing clients when changing the
++#             password. If nothing is specified, defaults to 'keep'.
++#
++# Since: 6.2
++#
++##
++{ 'struct': 'SetPasswordOptionsSpice',
++  'data': { '*connected': 'SetPasswordAction' } }
++
++##
++# @SetPasswordOptionsVnc:
++#
++# Options for set_password specific to the VNC procotol.
++#
++# @display: The id of the display where the password should be changed.
++#           Defaults to the first.
++#
++# @connected: How to handle existing clients when changing the
++#             password. Will always be 'keep' for VNC, parameter is
++#             deprecated and should be omitted.
++#
++# Since: 6.2
++#
++##
++{ 'struct': 'SetPasswordOptionsVnc',
++  'data': { '*display': 'str', '*connected': 'SetPasswordActionVnc' } }
+ 
+ ##
+ # @expire_password:
+ #
+ # Expire the password of a remote display server.
+ #
+-# @protocol: the name of the remote display protocol 'vnc' or 'spice'
+-#
+-# @time: when to expire the password.
+-#
+-#        - 'now' to expire the password immediately
+-#        - 'never' to cancel password expiration
+-#        - '+INT' where INT is the number of seconds from now (integer)
+-#        - 'INT' where INT is the absolute time in seconds
+-#
+ # Returns: - Nothing on success
+ #          - If @protocol is 'spice' and Spice is not active, DeviceNotFound
+ #
+ # Since: 0.14
+ #
+-# Notes: Time is relative to the server and currently there is no way to
+-#        coordinate server time with client time.  It is not recommended to
+-#        use the absolute time version of the @time parameter unless you're
+-#        sure you are on the same machine as the QEMU instance.
+-#
+ # Example:
+ #
+ # -> { "execute": "expire_password", "arguments": { "protocol": "vnc",
+@@ -71,7 +140,50 @@
+ # <- { "return": {} }
+ #
+ ##
+-{ 'command': 'expire_password', 'data': {'protocol': 'str', 'time': 'str'} }
++{ 'command': 'expire_password', 'boxed': true, 'data': 'ExpirePasswordOptions' }
++
++##
++# @ExpirePasswordOptions:
++#
++# Data required to set password expiration on a display server protocol.
++#
++# @protocol: - 'vnc' to modify the VNC server expiration
++#            - 'spice' to modify the Spice server expiration
++
++# @time: when to expire the password.
++#
++#        - 'now' to expire the password immediately
++#        - 'never' to cancel password expiration
++#        - '+INT' where INT is the number of seconds from now (integer)
++#        - 'INT' where INT is the absolute time in seconds
++#
++# Notes: Time is relative to the server and currently there is no way to
++#        coordinate server time with client time.  It is not recommended to
++#        use the absolute time version of the @time parameter unless you're
++#        sure you are on the same machine as the QEMU instance.
++#
++# Since: 6.2
++#
++##
++{ 'union': 'ExpirePasswordOptions',
++  'base': { 'protocol': 'DisplayProtocol',
++            'time': 'str' },
++  'discriminator': 'protocol',
++  'data': { 'vnc': 'ExpirePasswordOptionsVnc' } }
++
++##
++# @ExpirePasswordOptionsVnc:
++#
++# Options for expire_password specific to the VNC procotol.
++#
++# @display: The id of the display where the expiration should be changed.
++#           Defaults to the first.
++#
++# Since: 6.2
++#
++##
++{ 'struct': 'ExpirePasswordOptionsVnc',
++  'data': { '*display': 'str' } }
+ 
+ ##
+ # @screendump:
 -- 
 2.30.2
 
