@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA761411DD8
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 19:24:10 +0200 (CEST)
-Received: from localhost ([::1]:52888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FAC1411DCB
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 19:23:09 +0200 (CEST)
+Received: from localhost ([::1]:50450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSN1W-00037u-0y
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 13:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49214)
+	id 1mSN0W-0001Tf-BR
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 13:23:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSMwk-0005gK-J0
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 13:19:14 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:36845)
+ id 1mSMyX-0007sq-LI
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 13:21:05 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:42705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSMwj-0007o5-5F
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 13:19:14 -0400
-Received: by mail-pf1-x432.google.com with SMTP id m26so16907630pff.3
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 10:19:12 -0700 (PDT)
+ id 1mSMyW-0000pe-16
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 13:21:05 -0400
+Received: by mail-pf1-x433.google.com with SMTP id q23so14787560pfs.9
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 10:21:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=woJgHZi7N6rYoD2Ae814uyqjx/dO79FR/f7QzPar1zU=;
- b=LUTSNWWGPonY2AR2lbZFdBiL6VzSGuB/HkgjNi81XJqs50IOclOIjjsr4IIe/wew1e
- vg5kXLYk4kjDluSiWQdMfG2sHh90ONoZcPTic6u4PqWq+N1PGPyw55vzYVTx8+j66BVw
- S2X+vYgETkQp8LVl/ka8CqoA5VKFPiqphAUTpp5scqautH9Puw6GSUWtqKsM+eiZCQX4
- LZFxnxfdE1SOR8kB8pfSd53yiLO3ePyt+O00E7KkFtM9OMV5lTTN0FAB5js02ZCLpTJD
- a5T1klUjfMLQcS9VNi1BL3zqQnNp7l9ewr4A99Az+Z8EI1GhdMtDpIRJwaFXfqvpu8Wb
- Fq7Q==
+ bh=w7Llf/VhcVqFXmP9dcKcVYZ/WY5aWicdAY12V4fdRuM=;
+ b=zAUCPG/WVX+AfdSMq6XdvYpBEYdQ8QdOWn99yvY+HNNJ0W5vxD3BqExOz5Keta4DEf
+ +ERH8r8T7/VCAEwZmwhgiA3rAc30u+5elsitX6ytiletRXlEcvFuILMRvelEiGOyk8kT
+ XD9RFGifkx2ZRKwza85Bg/yV2MBtRBqBcYarCJ2yhHLhWNJpOtbxkkSUjqEH3lMQc9ph
+ Qf6QPDAX2ncN5hjOxo88xnqp7xjvq6fZTZfCxFIWsvkr5VNyh5xe+R2tRUjLm5h6kBal
+ ZvbrAGrBiD82v9kZAlBcLfuOuZvoze8HTZTcH/WfdEmsOfVGEGwUXArysuJl9ZMnVnwa
+ 6eBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=woJgHZi7N6rYoD2Ae814uyqjx/dO79FR/f7QzPar1zU=;
- b=JiV5Bv/QJfCIt6q0TTh3r1XhjePWiDTKW+piDzIDBtl38Bq5kjRE98JtK8lVtYhbI2
- BwMgM13yD/uifbdUGQ2XEb+Z6mNCqeYQgTpzzzUc60fbN50Xqxld44n3becC464nOlx1
- BVPJxVINEWUlDzdEMDqUv2kni7dIqb7bKjj0G44albPo5fjFOfDfMBNE+l63O0hqXgS1
- n+/ZeIokwk5V9oSs6zL8oMAiUGeoN3Y3ac5frrD+x9db/SxRhS/jx0YE1d66LSM/JB6O
- rkEIihGLwr4IwAC2omvrchWuzFt60pJpjEr4c8VfIKtteXVZoj+TFpGI6b4PebQsTxnc
- 6ruQ==
-X-Gm-Message-State: AOAM530+fw9ZoNTwO6/rhjUm2xYRvIy8ZWnF6/FQuT4F6XSnndF58iLW
- 9w5pgyx8zKdJReCcrgVzvJb58wpqJXenyg==
-X-Google-Smtp-Source: ABdhPJxZeejS/CYWKZToQiltKKPpoOQqBzbWCw/1bdo1c77XAb5mendfkESpxYy9nhSBJDokv39Jgw==
-X-Received: by 2002:a63:8c50:: with SMTP id q16mr10820334pgn.315.1632158351677; 
- Mon, 20 Sep 2021 10:19:11 -0700 (PDT)
+ bh=w7Llf/VhcVqFXmP9dcKcVYZ/WY5aWicdAY12V4fdRuM=;
+ b=ycudmUEUmf8FG1IkRYsU5Ix8Tcg//nZ+6/vd/a17wUSRuU8uU1TWJMQG5zsbIOKM5e
+ WseL3G4xW+6ocQ2koSC+HWvfaNCjFez7Zpm56qk6ZJC+9RmqcwDSZH8Y4lE0Mep65bQB
+ 4UD/VzN3d5s0MOnDuIZ1PLCqi/IUgohF2kZYC2y6hQ+ZDavncw/JcDvIpjUMs7tdLrqg
+ fGGznjn1FaYfFF623MbmD07cxXLAxWgUvrVrkQ7Pt0owrg2kJiIIlvOKCyY6pJB9L9Xt
+ mifjux/T8wxrRaYPdIexRJNB+7RFEcUTPo1CIPClQ6q/Ug0qTGfI2Ggqep7MDpb93Drg
+ nrpw==
+X-Gm-Message-State: AOAM532adObSh+6ZYJ50xfZORH+VT/ve7wK9bGJ97y/1XlpZDVFsb1vF
+ /kRckwDWsEziJuwoGLmur1qHG13XJZrp6A==
+X-Google-Smtp-Source: ABdhPJwwkSuMmfHq+HNF6boC7ZtFogo8HGu7Q5xvIWKc3VNYUuV2jRPFp9mwe788rJ9rW4VlIug6ng==
+X-Received: by 2002:a63:b147:: with SMTP id g7mr24854528pgp.478.1632158462407; 
+ Mon, 20 Sep 2021 10:21:02 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id q12sm368831pgv.26.2021.09.20.10.19.11
+ by smtp.gmail.com with ESMTPSA id k190sm15341604pfd.211.2021.09.20.10.21.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Sep 2021 10:19:11 -0700 (PDT)
-Subject: Re: [PATCH 26/30] tcg/loongarch: Implement tcg_target_init
+ Mon, 20 Sep 2021 10:21:02 -0700 (PDT)
+Subject: Re: [PATCH 27/30] tcg/loongarch: Register the JIT
 To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
 References: <20210920080451.408655-1-git@xen0n.name>
- <20210920080451.408655-27-git@xen0n.name>
+ <20210920080451.408655-28-git@xen0n.name>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e9e44d4a-8419-9eab-0650-98e51781076e@linaro.org>
-Date: Mon, 20 Sep 2021 10:19:09 -0700
+Message-ID: <83861503-b82e-e323-2924-aca4570fd066@linaro.org>
+Date: Mon, 20 Sep 2021 10:21:00 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210920080451.408655-27-git@xen0n.name>
+In-Reply-To: <20210920080451.408655-28-git@xen0n.name>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,20 +91,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/20/21 1:04 AM, WANG Xuerui wrote:
-> +static void tcg_target_init(TCGContext *s)
-> +{
-> +    tcg_target_available_regs[TCG_TYPE_I32] = 0xffffffff;
-> +    if (TCG_TARGET_REG_BITS == 64) {
-> +        tcg_target_available_regs[TCG_TYPE_I64] = 0xffffffff;
-> +    }
-> +
-> +    tcg_target_call_clobber_regs = -1u;
+> Signed-off-by: WANG Xuerui<git@xen0n.name>
+> ---
+>   tcg/loongarch/tcg-target.c.inc | 44 ++++++++++++++++++++++++++++++++++
+>   1 file changed, 44 insertions(+)
 
-In all 3 places, use your ALL_GENERAL_REGS constant.
-
-Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
