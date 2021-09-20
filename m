@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3CAF412794
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 22:57:50 +0200 (CEST)
-Received: from localhost ([::1]:51614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E10334127CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 23:16:35 +0200 (CEST)
+Received: from localhost ([::1]:60576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSQMH-0006Lf-Uv
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 16:57:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55522)
+	id 1mSQeQ-0004lX-EL
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 17:16:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mSQKs-0005TR-6Z
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 16:56:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34696)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1mSQKp-0004Q9-Nr
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 16:56:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632171379;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Kgi4mKMCkLTrjsnme4IOZndKUodJfcpHW6k9i3ND7Mo=;
- b=A73zKS++jNWtN4NhvYtD7DZmM+APs9Lzc0vm8yEUkUARzQaQRTurhSe8VKr2RspHwEdBm9
- 7F1ZzbT1ng7Yxo0pGGQSQx4zsbMd9kYC9l9GS/A2IS5rIzx1pk0MhMXqMNqMmj7zoAH890
- UAXNArCDrh2RtuMW7C1Pm6Ml9pukugE=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-AFctDC0LODKGBkfpxjSuTA-1; Mon, 20 Sep 2021 16:56:18 -0400
-X-MC-Unique: AFctDC0LODKGBkfpxjSuTA-1
-Received: by mail-pg1-f200.google.com with SMTP id
- z7-20020a63c047000000b0026b13e40309so16240022pgi.19
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 13:56:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mSQcj-00045w-2y
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:14:49 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41624)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mSQcg-00029v-Lm
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:14:48 -0400
+Received: by mail-wr1-x430.google.com with SMTP id w29so33401649wra.8
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 14:14:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XD5fRSM+OU8tHAahOoEuvs9RA5AEjddTn0+YTvLoRLc=;
+ b=hiUuHXGU8LUTuCkyD95Lho+HZKzfc4iYRAgS/FJRhO3afz7O8lh8pQJoSq4SExoVl3
+ OJjSnw0hmaXTNyaNCzxOBhdSJLTJncHRNSXMSAw+pB6FVYmwtfDjiyfmVWr/Zo4Np6B+
+ jOop2z1dxvz4GUH+GLi0wbPURAen/VeaPGQu/jztABjXg+4uSVqmM3Pu8MufpgzDaIFs
+ fPWx4fzYpyBKOPSppUm/1wAhTYqbjp2E0TbFzvM0Wvy/XTpJn83yVUlw2I0/MNPsVCjx
+ wTldjQ+DEgSb1W43Gt/5ohqGH0BrQJ3pgXro5VqDWfnn//6laPydUo0vhKgNRsmGpBhQ
+ AM4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Kgi4mKMCkLTrjsnme4IOZndKUodJfcpHW6k9i3ND7Mo=;
- b=pKE/7OZdeCyYrm6fddCM7si5N2Z2rvHWkS4xfWh7kSakvKn/yHQg8XAljnlFEkZLnu
- Bx/VZW3Tehk1bm0yqomSnpCpIZYWsBv4SIEJjGMc5aoggCd3hlGBNQlD1KMyDSVDpLE8
- /1w+DVIsdpI34Crifpwek2VoxioNmDKXFaTd72m64g4QCWtY1rC/9yfwW7rCJcV1qwD5
- 0yCpv9drMw6H2ipBPuvdJDRELsp2AJVgXCoP/QAP1B/XAnIJcX6P5VmPdezX7niR8FB8
- 2ubUDDanO4LtjSpTPdzs8RL8+3vSEFMmDW3aGKTYBopA26bJg8G/YB5HtlVsdTpmNIk0
- UZRA==
-X-Gm-Message-State: AOAM532ZIRHgd1xj2EKHwwBhxpPtPkSkNKqzXX+2FA4xofhVNFeM75UN
- Flq3sVJxti2TtUNWtPZwAdafWPdrVKwZZv8J8Eqrw25esjOhdz4VegWHCX1KY5aLPe+QxCaWEVR
- 0iujC85pnkojJMhhBkaE1CjF0/Ic82Eg=
-X-Received: by 2002:a65:47cd:: with SMTP id f13mr25442544pgs.439.1632171376798; 
- Mon, 20 Sep 2021 13:56:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzwao82yKwUAhdx7WK76luwlDmEDPtj7OczT+hXOOCUZpWfD3tSX77JizNHRC8IIF3Zm4m4xCvhR9D153DES8o=
-X-Received: by 2002:a65:47cd:: with SMTP id f13mr25442520pgs.439.1632171376536; 
- Mon, 20 Sep 2021 13:56:16 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XD5fRSM+OU8tHAahOoEuvs9RA5AEjddTn0+YTvLoRLc=;
+ b=3U5aWSXQ5UPwl8kWDkkMRBbzx2zTV7rfUX+2N/fQS/fl0zGz+hIVx07BgCcUEVkyJS
+ yzInSxk7DEsGxfe2jlqiFEwDWKpiYVdjVQpVg3DPgrEVS9WABO3CZ0VDqbDnlZ1g6fq3
+ 5QLKq0XjsVwyZfLtR/LjtQjiC+LGGd1fq5Qx5dUxjA7HJzsHIM+RSj9jLUjmLAPtPkBv
+ wbZcar49edpWf+yF2GesXecemaVWOo1V3CQK/V5cug0yMCweOM1/bkIlBUCztbJ6GeFx
+ ITmfmGcqCwJy4lM/2FVtV5oN7ae9r1HNSnflDuYPDEK2muPtrxKoahYSXzOLOs9cKkXz
+ wU9A==
+X-Gm-Message-State: AOAM5331pELVkY3XJcaWpHDnuU6Cs2PLVC5CZWjLQUgsyUs2jT3U5HSv
+ BH7UeTe3nrvXUDbcV9cN2vU=
+X-Google-Smtp-Source: ABdhPJwhPCRM9dM/0ahNc3FVXLypAp3+nsY73gYiATyQOSEePUaY1DBfyPk+BHpd3RpM0n7k325c7A==
+X-Received: by 2002:adf:ec02:: with SMTP id x2mr30634257wrn.407.1632172483227; 
+ Mon, 20 Sep 2021 14:14:43 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id q7sm17209115wru.56.2021.09.20.14.14.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Sep 2021 14:14:41 -0700 (PDT)
+Message-ID: <8b4592e8-ad3a-b38a-3ee1-3c38e62b253a@amsat.org>
+Date: Mon, 20 Sep 2021 23:14:40 +0200
 MIME-Version: 1.0
-References: <20210920204932.94132-1-willianr@redhat.com>
- <20210920204932.94132-3-willianr@redhat.com>
-In-Reply-To: <20210920204932.94132-3-willianr@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 20 Sep 2021 17:55:50 -0300
-Message-ID: <CAKJDGDaMxKOMUkxQVmJFKxcbUVgRw3UHhXO9yqdRjsvohnU=zg@mail.gmail.com>
-Subject: Re: [PATCH 2/6] avocado_qemu: standardize supper() call following
- PEP3135
-To: qemu-devel <qemu-devel@nongnu.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v3 07/16] tcg/mips: Allow JAL to be out of range in
+ tcg_out_bswap_subr
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210818201931.393394-1-richard.henderson@linaro.org>
+ <20210818201931.393394-8-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20210818201931.393394-8-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,50 +91,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ouch, s/supper/super/ in the email title.
-
-On Mon, Sep 20, 2021 at 5:52 PM Willian Rampazzo <willianr@redhat.com> wrote:
->
-> PEP3135 states when calling super(), there is no need to use arguments.
-> This changes the calls on avocado_qemu to standardize according to
-> PEP3135 and avoid warnings from linters.
->
-> Signed-off-by: Willian Rampazzo <willianr@redhat.com>
+On 8/18/21 22:19, Richard Henderson wrote:
+> Weaning off of unique alignment requirements, so allow JAL
+> to not reach the target.  TCG_TMP1 is always available for
+> use as a scratch because it is clobbered by the subroutine
+> being called.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tests/acceptance/avocado_qemu/__init__.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-> index d9e1b32aa1..d2077d63cd 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -282,7 +282,7 @@ def fetch_asset(self, name,
->                      asset_hash=None, algorithm=None,
->                      locations=None, expire=None,
->                      find_only=False, cancel_on_missing=True):
-> -        return super(Test, self).fetch_asset(name,
-> +        return super().fetch_asset(name,
->                          asset_hash=asset_hash,
->                          algorithm=algorithm,
->                          locations=locations,
-> @@ -470,7 +470,7 @@ def _set_distro(self):
->              self.distro.checksum = distro_checksum
->
->      def setUp(self, ssh_pubkey=None, network_device_type='virtio-net'):
-> -        super(LinuxTest, self).setUp()
-> +        super().setUp()
->          self._set_distro()
->          self.vm.add_args('-smp', '2')
->          self.vm.add_args('-m', '1024')
-> --
-> 2.31.1
->
->
+>  tcg/mips/tcg-target.c.inc | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
