@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991BA412789
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 22:54:02 +0200 (CEST)
-Received: from localhost ([::1]:45312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE75D41278E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 22:56:10 +0200 (CEST)
+Received: from localhost ([::1]:49448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSQIb-00021f-LD
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 16:54:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55070)
+	id 1mSQKg-0004mg-27
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 16:56:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1mSQEn-0004Vj-ME
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 16:50:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38910)
+ id 1mSQEq-0004Xr-PN
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 16:50:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1mSQEm-0008Ie-5l
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 16:50:05 -0400
+ id 1mSQEp-0008L2-BQ
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 16:50:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632171003;
+ s=mimecast20190719; t=1632171006;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iVY/lxhIHBy4QQd6YHsDbXUeWei2zHErAnCSMcoqIMQ=;
- b=TVi0YaxuQ6Uiet2lizXL15zGob2hJadZWiWb3bZfz853QvJA8tdoLiJO0GC1EeICX2A5nI
- EeNXIjxLqD1ue8vaFvhUdYwQheOx1LpO6gICQZyqFr7MdelK9qT+RNkKtr2qfm1tHwe8a4
- EKc2DlXjCLWwlo86D2zO8fzjbUXc6xA=
+ bh=SrnR0JFTLBagWY4aAzwbjJw0gLiDnNpkAkBlvs3OkZ8=;
+ b=CajBchGohBUEHu4qkQU5/SyquTPr8H0g/RiMz9K9e+nPqZs5GnJF3Ja2pwZZEeg3uGZCcm
+ zg0H47Re+N43LqPJYUkKstP2zZFitbBlQMj0MYSk9AU+Vl7UxqKAqggmwY1Wm0YKBOHEBB
+ lWOF5Vrx7IpVrjF13WKBRjXtgCpJ7PQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-266-osMHYP9cNESnEA02q_MIRg-1; Mon, 20 Sep 2021 16:50:02 -0400
-X-MC-Unique: osMHYP9cNESnEA02q_MIRg-1
+ us-mta-561-G6Y66GosOxCz5k2hgmNmmQ-1; Mon, 20 Sep 2021 16:50:05 -0400
+X-MC-Unique: G6Y66GosOxCz5k2hgmNmmQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BB9B1084681
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 20:50:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92E341923761
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 20:50:03 +0000 (UTC)
 Received: from wrampazz.redhat.com (unknown [10.22.16.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E77E519729;
- Mon, 20 Sep 2021 20:49:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1862619D9D;
+ Mon, 20 Sep 2021 20:50:01 +0000 (UTC)
 From: Willian Rampazzo <willianr@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/6] avocado_qemu: explicitly return None to avoid R1710
-Date: Mon, 20 Sep 2021 17:49:31 -0300
-Message-Id: <20210920204932.94132-6-willianr@redhat.com>
+Subject: [PATCH 6/6] avocado_qemu: fix inheritance order on LinuxTest class
+Date: Mon, 20 Sep 2021 17:49:32 -0300
+Message-Id: <20210920204932.94132-7-willianr@redhat.com>
 In-Reply-To: <20210920204932.94132-1-willianr@redhat.com>
 References: <20210920204932.94132-1-willianr@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=willianr@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=willianr@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -84,27 +84,27 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The linter is complaining the `pick_default_qemu_bin` is not explicitly
-returning None. Fix it to explicitly return None and avoid R1710
-inconsistent-return-statements.
+Class hierarchy on Python is defined from right to left. Although the
+current code is not harmful, let's fix it to avoid problems in the future.
 
 Signed-off-by: Willian Rampazzo <willianr@redhat.com>
 ---
- tests/acceptance/avocado_qemu/__init__.py | 1 +
- 1 file changed, 1 insertion(+)
+ tests/acceptance/avocado_qemu/__init__.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index c3613f9262..35318ce2a9 100644
+index 35318ce2a9..1841053e2c 100644
 --- a/tests/acceptance/avocado_qemu/__init__.py
 +++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -72,6 +72,7 @@ def pick_default_qemu_bin(arch=None):
-                                               qemu_bin_relative_path)
-     if is_readable_executable_file(qemu_bin_from_bld_dir_path):
-         return qemu_bin_from_bld_dir_path
-+    return None
+@@ -424,7 +424,7 @@ def default_kernel_params(self):
+         return self._info.get('kernel_params', None)
  
  
- def _console_interaction(test, success_message, failure_message,
+-class LinuxTest(Test, LinuxSSHMixIn):
++class LinuxTest(LinuxSSHMixIn, Test):
+     """Facilitates having a cloud-image Linux based available.
+ 
+     For tests that indend to interact with guests, this is a better choice
 -- 
 2.31.1
 
