@@ -2,63 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 567C6412735
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 22:13:15 +0200 (CEST)
-Received: from localhost ([::1]:51002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA6E841273D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 22:23:22 +0200 (CEST)
+Received: from localhost ([::1]:54800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSPf7-00022C-O7
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 16:13:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49212)
+	id 1mSPov-00050C-90
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 16:23:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSPeA-0001LQ-TO
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 16:12:14 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:40127)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSPe9-0002g5-2A
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 16:12:14 -0400
-Received: from [192.168.100.1] ([82.64.211.94]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MJEpp-1m9MI51lpz-00Kfgn; Mon, 20 Sep 2021 22:12:10 +0200
-Subject: Re: [PATCH v4 17/20] nubus-bridge: make slot_available_mask a qdev
- property
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20210917075057.20924-1-mark.cave-ayland@ilande.co.uk>
- <20210917075057.20924-18-mark.cave-ayland@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <2fa5aa17-00dc-99ae-de29-d61515eafd2d@vivier.eu>
-Date: Mon, 20 Sep 2021 22:12:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1mSPnI-00044L-4m; Mon, 20 Sep 2021 16:21:40 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:53646 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1mSPnE-00029a-GS; Mon, 20 Sep 2021 16:21:39 -0400
+Received: from MacBook-Air.alex.local
+ (dynamic-095-115-125-107.95.115.pool.telefonica.de [95.115.125.107])
+ by csgraf.de (Postfix) with ESMTPSA id 923B56080333;
+ Mon, 20 Sep 2021 22:21:28 +0200 (CEST)
+Subject: Re: [PATCH v12 00/10] hvf: Implement Apple Silicon Support
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210916155404.86958-1-agraf@csgraf.de>
+ <CAFEAcA-LrvO7sg9gY0ZKnvXJyJuFc2Ej1Ve1245FZ7YkH-Oj2A@mail.gmail.com>
+ <CAFEAcA_Hkqg16VbA1qACK4RG22iXHo8b3VZWQoBRZL0HuBazZA@mail.gmail.com>
+ <d4859cae-d9c1-2879-0682-080d4b5efe90@amsat.org>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <27a265d5-2e7c-f234-0d09-f40a731e588d@csgraf.de>
+Date: Mon, 20 Sep 2021 22:21:28 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20210917075057.20924-18-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <d4859cae-d9c1-2879-0682-080d4b5efe90@amsat.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Nr9rlShicyeleomSvKQ+6vn1c5NlQS91KdHcVlkUmRDxi/AAKZU
- mxPO4mu3TpQRlUTwfAPBRf19QBVqgbjeQKiZL9pVVW/ZlY7CxqLmJEYckQ/IT1vWF2hRXLo
- ttXbzgruPWNKu75BNPh39KvjPoCtY5l5UFOupvAuUazt20eLlGtIl4nmso981eaBkCtXl2N
- ESjwPzDFS9v7y7ooVyDtw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+6PJBaoKEUQ=:YNGaHScSuC/vPNmFWm3hCU
- o5ChBCG23xAGVt1jMCIqnZEZa2/drOpeCwFOraoUZX8skWs/e9D2oVEZXWaSDe6KpLJdVPXhM
- SMWtnLsFQ7bVrc3rJLYzhaSCYr3hicnz6uTfM327NCqHNfijhtj03ya4b9No590Ge40KqJnJ1
- 5Tf61d5VOxzBLaQAMShyGWvEryZM3/KUbEThJEBT0dy96cZfDVqXtgNIy4O+GhMeKaPqpZnBn
- G9pu6hIkvsMnxw31ek0issHAM0AzHcvvypqAyOjXqaks1PUYkLjVQYbQS1uWBJhK7gP79f4q1
- 6GBoeTI3E2K4ZPrC+Jqt57WB7tp4IzDAEEUDCP1HPj/fyuhxwEJVYoDFg4J0d+xP7uWRHPWmx
- OVqo/wyWpYn+YOSAVhga/ZDW7GlHaxdG0cLxRkihrAbRpNQFuQQa30wGUa3KK3EXXDoRqIVuo
- GAf2YV5SkX6Hdf85eewtsuAByq+mYYao7bMODGp51VpFG7lfYwv1G4QsD4lCifqLV+UZadmqL
- 4tnvKCdthbz/UfiphnXBfvQjjHiMhFpqklRarA68R6ImoIN4a25o4Kp4sb4FKEh9LrB2+UhBf
- pU/yBk2cyGt5P+wLZ3SDHD5D79fCyFREZ9h2FR1L+B5z3rQYVguCdVwz4wJCyoIc85FjFm7sl
- iRKAOnAruqhe+yJP3rGC40Vi6rdSrYfiN/b5He/MJIoNz7PaIAdn1RG99akOPrAsOtc7ae7rU
- TAMpv/tIny8eDUO5ShcLO7qV+LgUGMKbrh+Kjg==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+Content-Language: en-US
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,46 +57,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 17/09/2021 à 09:50, Mark Cave-Ayland a écrit :
-> This is to allow Macintosh machines to further specify which slots are available
-> since the number of addressable slots may not match the number of physical slots
-> present in the machine.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/nubus/nubus-bridge.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/hw/nubus/nubus-bridge.c b/hw/nubus/nubus-bridge.c
-> index 1adda7f5a6..2c7c4ee121 100644
-> --- a/hw/nubus/nubus-bridge.c
-> +++ b/hw/nubus/nubus-bridge.c
-> @@ -21,11 +21,18 @@ static void nubus_bridge_init(Object *obj)
->      qbus_create_inplace(bus, sizeof(s->bus), TYPE_NUBUS_BUS, DEVICE(s), NULL);
->  }
->  
-> +static Property nubus_bridge_properties[] = {
-> +    DEFINE_PROP_UINT32("slot-available-mask", NubusBridge,
-> +                       bus.slot_available_mask, 0xffff),
 
-So you can remove the "nubus->slot_available_mask = MAKE_64BIT_MASK(0, 16);" in nubus_init()?
+On 20.09.21 18:17, Philippe Mathieu-Daudé wrote:
+> On 9/20/21 15:15, Peter Maydell wrote:
+>> On Mon, 20 Sept 2021 at 11:11, Peter Maydell <peter.maydell@linaro.org> wrote:
+>>> On Thu, 16 Sept 2021 at 16:54, Alexander Graf <agraf@csgraf.de> wrote:
+>>>> Now that Apple Silicon is widely available, people are obviously excited
+>>>> to try and run virtualized workloads on them, such as Linux and Windows.
+>>>>
+>>>> This patch set implements a fully functional version to get the ball
+>>>> going on that. With this applied, I can successfully run both Linux and
+>>>> Windows as guests. I am not aware of any limitations specific to
+>>>> Hypervisor.framework apart from:
+>>>>
+>>>>   - gdbstub debugging (breakpoints)
+>>>>   - missing GICv3 support
+>>>>   - Windows will not work due to UDEF SMC implementation
+>>>>
+>>>> To use hvf support, please make sure to run -M virt,highmem=off to fit
+>>>> in M1's physical address space limits and use -cpu host.
+>>> Applied to target-arm.next, thanks (with the unnecessary #include
+>>> in patch 6 removed).
+>> Turns out that the final patch breaks "make check-acceptance".
+>> All the orangepi boot tests timeout:
+>>
+>>  (15/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi:
+>> INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
+>> Timeout reached\nOriginal status: ERROR\n{'name':
+>> '15-tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi',
+>> 'logdir': '/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/tests/...
+>> (90.24 s)
+>>  (16/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_initrd:
+>> INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
+>> Timeout reached\nOriginal status: ERROR\n{'name':
+>> '16-tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_initrd',
+>> 'logdir': '/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang...
+>> (90.24 s)
+>>  (17/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd:
+>> INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
+>> Timeout reached\nOriginal status: ERROR\n{'name':
+>> '17-tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd',
+>> 'logdir': '/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/tes...
+>> (90.24 s)
+> Works for me on x86_64 Fedora 34 built with
+> --enable-trace-backends=log --enable-debug:
+>
+> $ ./tests/venv/bin/avocado run
+> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi
+> Fetching asset from
+> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi
+> Fetching asset from
+> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_initrd
+> Fetching asset from
+> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_initrd
+> Fetching asset from
+> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd
+> Fetching asset from
+> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd
+> Fetching asset from
+> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic_20_08
+> Fetching asset from
+> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboot_netbsd9
+> Fetching asset from
+> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboot_netbsd9
+> JOB ID     : b19f151f7320def3a432255f3a99c0dde3da95c0
+> JOB LOG    :
+> /home/phil/avocado/job-results/job-2021-09-20T18.12-b19f151/job.log
+>  (1/5)
+> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi:
+> PASS (6.29 s)
+>  (2/5)
+> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_initrd:
+> PASS (51.23 s)
+>  (3/5)
+> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd:
+> PASS (76.53 s)
+>  (4/5)
+> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic_20_08:
+> SKIP: storage limited
+>  (5/5)
+> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboot_netbsd9:
+> SKIP: storage limited
+> RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 2 | WARN 0 | INTERRUPT 0 |
+> CANCEL 0
+> JOB TIME   : 135.18 s
+>
 
-> +    DEFINE_PROP_END_OF_LIST()
-> +};
-> +
->  static void nubus_bridge_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
->  
->      dc->fw_name = "nubus";
-> +    device_class_set_props(dc, nubus_bridge_properties);
->  }
->  
->  static const TypeInfo nubus_bridge_info = {
-> 
+The OrangePi kernel goes into an endless loop here:
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+ 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/compressed/head.S?h=v5.10#n637
+
+The reason is simple: It tries to install its own HYP code using the old
+"install HYP handler, then invoke it" trick based on SPSR's indication
+that HYP is available, but fails to do so because HYP calls get handled
+by QEMU instead because the PSCI conduit is configured to HVC.
+
+The patch below seems to fix it for me. Please advise how you want to
+proceed.
+
+
+Alex
+
+
+diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
+index 27f1070145..f9b7ed1871 100644
+--- a/hw/arm/allwinner-h3.c
++++ b/hw/arm/allwinner-h3.c
+@@ -237,7 +237,7 @@ static void allwinner_h3_realize(DeviceState *dev,
+Error **errp)
+
+         /* Provide Power State Coordination Interface */
+         qdev_prop_set_int32(DEVICE(&s->cpus[i]), "psci-conduit",
+-                            QEMU_PSCI_CONDUIT_HVC);
++                            QEMU_PSCI_CONDUIT_SMC);
+
+         /* Disable secondary CPUs */
+         qdev_prop_set_bit(DEVICE(&s->cpus[i]), "start-powered-off",
+
 
