@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8019411337
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 12:59:18 +0200 (CEST)
-Received: from localhost ([::1]:41556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AD32411347
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 13:02:37 +0200 (CEST)
+Received: from localhost ([::1]:46098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSH13-0006pe-S5
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 06:59:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49198)
+	id 1mSH4G-0001Z8-KQ
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 07:02:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mSGzL-0004xi-88
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 06:57:31 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106]:25167)
+ id 1mSGzM-0004xw-Bc
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 06:57:32 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:19986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mSGzJ-0002tN-BB
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 06:57:30 -0400
+ id 1mSGzJ-0002tS-FM
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 06:57:32 -0400
 Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 190D3449B6;
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 2ED02449A7;
  Mon, 20 Sep 2021 12:57:18 +0200 (CEST)
 From: Stefan Reiter <s.reiter@proxmox.com>
 To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
@@ -30,10 +30,13 @@ To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
  Eric Blake <eblake@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Wolfgang Bumiller <w.bumiller@proxmox.com>,
  Thomas Lamprecht <t.lamprecht@proxmox.com>
-Subject: [PATCH v3 0/3] VNC-related HMP/QMP fixes
-Date: Mon, 20 Sep 2021 12:56:38 +0200
-Message-Id: <20210920105641.258104-1-s.reiter@proxmox.com>
+Subject: [PATCH v3 1/3] monitor/hmp: correctly invert password argument
+ detection again
+Date: Mon, 20 Sep 2021 12:56:39 +0200
+Message-Id: <20210920105641.258104-2-s.reiter@proxmox.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210920105641.258104-1-s.reiter@proxmox.com>
+References: <20210920105641.258104-1-s.reiter@proxmox.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -60,41 +63,35 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the removal of the generic 'qmp_change' command, one can no longer replace
-the 'default' VNC display listen address at runtime (AFAIK). For our users who
-need to set up a secondary VNC access port, this means configuring a second VNC
-display (in addition to our standard one for web-access), but it turns out one
-cannot set a password on this second display at the moment, as the
-'set_password' call only operates on the 'default' display.
+Commit cfb5387a1d 'hmp: remove "change vnc TARGET" command' claims to
+remove the HMP "change vnc" command, but doesn't actually do that.
+Instead it rewires it to use 'qmp_change_vnc_password', and in the
+process inverts the argument detection - ignoring the first issue, this
+inversion is wrong, as this will now ask the user for a password if one
+is already provided, and simply fail if none is given.
 
-Additionally, using secret objects, the password is only read once at startup.
-This could be considered a bug too, but is not touched in this series and left
-for a later date.
+Fixes: cfb5387a1d ("hmp: remove "change vnc TARGET" command")
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+---
+ monitor/hmp-cmds.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-v2 -> v3:
-* refactor QMP schema for set/expire_password as suggested by Eric Blake and
-  Markus Armbruster
-
-v1 -> v2:
-* add Marc-André's R-b on patch 1
-* use '-d' flag as suggested by Eric Blake and Gerd Hoffmann
-  * I didn't see a way to do this yet, so I added a "flags with values" arg type
-
-
-Stefan Reiter (3):
-  monitor/hmp: correctly invert password argument detection again
-  monitor/hmp: add support for flag argument with value
-  monitor: refactor set/expire_password and allow VNC display id
-
- hmp-commands.hx    |  29 ++++----
- monitor/hmp-cmds.c |  62 ++++++++++++++++-
- monitor/hmp.c      |  17 ++++-
- monitor/qmp-cmds.c |  62 ++++++-----------
- qapi/ui.json       | 168 +++++++++++++++++++++++++++++++++++++--------
- 5 files changed, 252 insertions(+), 86 deletions(-)
-
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index e00255f7ee..a7e197a90b 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1496,7 +1496,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
+         }
+         if (strcmp(target, "passwd") == 0 ||
+             strcmp(target, "password") == 0) {
+-            if (arg) {
++            if (!arg) {
+                 MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
+                 monitor_read_password(hmp_mon, hmp_change_read_arg, NULL);
+                 return;
 -- 
 2.30.2
+
 
 
