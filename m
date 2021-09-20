@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0A69410FD4
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 09:06:06 +0200 (CEST)
-Received: from localhost ([::1]:55458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B4D41101E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 09:32:42 +0200 (CEST)
+Received: from localhost ([::1]:52616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSDNN-0004av-OQ
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 03:06:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37034)
+	id 1mSDn7-0005zh-Ho
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 03:32:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mSDLc-0003Fo-KR
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 03:04:16 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:43528)
+ (Exim 4.90_1) (envelope-from <alivatankhah72@gmail.com>)
+ id 1mSDkZ-0004WB-7l; Mon, 20 Sep 2021 03:30:03 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:44029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mSDLb-00074m-8v
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 03:04:16 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id r2so16361448pgl.10
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 00:04:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=3oZRP8+uBY3kDlzy2yje/yvYjNkR8rAxVFJ+kTiQ2pc=;
- b=0xU0wWBo33tTa5ODgFQtz1+dLTcrodE/lUHhBe4wMBaop2pPM735INxfGp5+tYXhKF
- fnxl12Iz3iyfqkJmv+rm92lAP5TgCjzfwC3m16bCd6jAGsraNt9gmgPkRNtpJMhwm4Ms
- WNrMykfODmwKCnf2P9dmp95WVmWPQ6kLo+01rtWxyu2J4ztY3W3ulJKnDfhrjaZyWx27
- 9c0E+WDljL/Xd0fB/3qEXDOVf2LJZgH1e6z8YvYqq+1cTIqiwTgWdLfYZeRM1GLSstwa
- qDmlumAhWQWR1RHS7EQb11DeQIHffK8PKtI37/EYDZDZv2UPEyqa1Tj3nGcHEt55q78m
- /5nw==
+ (Exim 4.90_1) (envelope-from <alivatankhah72@gmail.com>)
+ id 1mSDkW-00040G-TR; Mon, 20 Sep 2021 03:30:02 -0400
+Received: by mail-qk1-x731.google.com with SMTP id ay33so39423390qkb.10;
+ Mon, 20 Sep 2021 00:29:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LX/676UtOX6omY/N04kwzI6cT6uWWZeSZsdj1nOV2k4=;
+ b=lo53ysv5qZCLJkByWxq3E/yYCCeroNnxhBNPsLKgRpeFdNcYdWD3RbXBIIaR6eTDwE
+ RfURSOpnHH/7D+lB5t5gDM3JrA5Cd9EZspOZG2dAma0okO07qiXPiRr7FBoSbmUk0asC
+ s/LeD/ojP5soiHwDQMRXIQ9jaUDDClY4aNP1E0syawFsr+vHcDLCXddsX4KBqjFSQv71
+ VsIWGh9fpzhqUrb1Ad6nlu+kf6MmzRsmoHfmW270NjRyZ5YHOazTXsDN2fWYUJIrNd8/
+ cJ3U8eqYAx8Y26jC8t1MX2rptEtntKWOLc4OmUD+hxygeQ+SdZDTUMeb++Di5hdFILid
+ wChw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=3oZRP8+uBY3kDlzy2yje/yvYjNkR8rAxVFJ+kTiQ2pc=;
- b=ps46xdVUOXvGJbH2zBUwih6T9rJoUdapITiMUVUCYHs721qMML4JSsIhWign1bUg8B
- Tl5+ykl8kNx2l3suDLzq1On4Qxc66n50oPuInyzp1T2IwdsQiNPVoMKCx5As9VJYqnKH
- odqjvTm9/+mB+gtCvr4Q8dAJKtwwi8ytPGgIdc+iYBV68AlC4N/UzevOM2eXknCiCdsN
- iSf5lZ+sQd/cgS5b26vrAIyNsnPVUomylbuAhqg1tbjGttXP3eGpN+ZAHpihdk8PeIIN
- AxC6Heg1lFjdzCc9/GBfG1hxU9fwlZIqHd7n3P5eVYWrhdcR5Ce0s55kpOStccLWXArL
- Gttw==
-X-Gm-Message-State: AOAM531fMhfefuvowTJ3LxPyDon/583gMfEbPAqqIVyejPrKNG915gdQ
- JmP0j5tGKli+5GJRQcBeaCiz0g==
-X-Google-Smtp-Source: ABdhPJyEtk7KlAEhchdowlNXxud4Aaao3TvCeMSZxlxobHPf43IwiDgnIG20IYv1UryJb1VJiKll1w==
-X-Received: by 2002:a63:1f5b:: with SMTP id q27mr22236436pgm.324.1632121453877; 
- Mon, 20 Sep 2021 00:04:13 -0700 (PDT)
-Received: from anisinha-lenovo ([115.96.109.20])
- by smtp.googlemail.com with ESMTPSA id h9sm17942164pjg.9.2021.09.20.00.04.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 00:04:13 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Mon, 20 Sep 2021 12:34:08 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [RFC PATCH] tests/acpi/pcihp: add unit tests for hotplug on
- multifunction bridges for q35
-In-Reply-To: <20210920080333.1ca6bb3d@redhat.com>
-Message-ID: <alpine.DEB.2.22.394.2109201233180.3937404@anisinha-lenovo>
-References: <20210806174642.490023-1-ani@anisinha.ca>
- <20210806174642.490023-2-ani@anisinha.ca>
- <20210917153248.6ef88697@redhat.com>
- <alpine.DEB.2.22.394.2109190814020.3818584@anisinha-lenovo>
- <alpine.DEB.2.22.394.2109190822510.3818584@anisinha-lenovo>
- <20210920080333.1ca6bb3d@redhat.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LX/676UtOX6omY/N04kwzI6cT6uWWZeSZsdj1nOV2k4=;
+ b=V3uvTNfTMCv0WzNZh3wZmsCfRmaiaFsEVjuBTRvYqZ6JeRp1BVDkncwv1N57nwf2Br
+ 8rFNKdEVGq2bi8OwTR6autN4JTUZTMWf877g4fEEfujHdRRda2rUSxc2JuKzthv5OCQX
+ PjZ8SgQNuNOgBkhlNMlm7e6+kumkaH6JaKXWCf0HW1Xqa6ra6s/xxJp2uM6MRlcmxqrE
+ UmEELRnHRvKi+VOf6TN/TfpqFskq+mtTu9KhFKCkbVLQk90TJFwVhCXjzmgjBDHAyXSN
+ 3hToVcswG9/ZLY9FOdF67NdGcP0K8QmrxOJReEWos5RaekRRmFS85ssG0Vv4ONraNGT0
+ G3CA==
+X-Gm-Message-State: AOAM532sxKjWuTDcW1Mw16/QGP7g0TOQBAR1rIMQZMr+hfDFQ53oI12y
+ 137/9pRtgIq+0TSazMa36NO5SLAcBZr+1hoEKFs=
+X-Google-Smtp-Source: ABdhPJzH3eTPt53a3IWKxzkG9EIFBlP4FicUukSxc9pVR4Ez0E6p7ikuisOlw0T28N1ATd73mhJ/ixBSpzvDfuTToKw=
+X-Received: by 2002:a37:c83:: with SMTP id 125mr5836078qkm.229.1632122998751; 
+ Mon, 20 Sep 2021 00:29:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::52b;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <CABip9V9nwDNAEg-620hG2r5pyhw_rig+2nf9Ja3s=WA-wmH=jQ@mail.gmail.com>
+ <e53eecec-8897-767a-149f-51faffd76d67@amsat.org>
+ <CABip9V88osKWXBqSLDscAup6wAoh+_W-6WZR_Okwj9GG60nGCw@mail.gmail.com>
+ <CAFEAcA8Mj=icVHh7Jw4UjRhm6W=M7=gpZCfrPuQrQMnaCKAC+A@mail.gmail.com>
+ <384c4dd7-312b-9c52-ada5-138840c0217a@amsat.org>
+In-Reply-To: <384c4dd7-312b-9c52-ada5-138840c0217a@amsat.org>
+From: Ali Vatankhah <alivatankhah72@gmail.com>
+Date: Mon, 20 Sep 2021 12:00:23 +0430
+Message-ID: <CABip9V-TfUQSA5BwJkoJv7f6gyGR_Pd9f34QDczBcf7ac7m70g@mail.gmail.com>
+Subject: Re: high cpu usage in idle state
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="00000000000092042205cc683fed"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=alivatankhah72@gmail.com; helo=mail-qk1-x731.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,58 +80,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-ppc <qemu-ppc@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ qemu-discuss <qemu-discuss@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000092042205cc683fed
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Thank a lot Peter and Philippe
 
-On Mon, 20 Sep 2021, Igor Mammedov wrote:
+On 9/19/21 20:46, Philippe Mathieu-Daud=C3=A9 wrote:
+> In the "infinite loop exception" case, '-d int' might be sufficient,
+> before using 'exec/cpu', since you'll see the exception raise over
+> and over.
 
+I tried -d int and see that a lot of exceptions are rising in idle state
+and during boot:
 
-> > > > > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> > > > > index 51d3a4e239..c92b70e8b8 100644
-> > > > > --- a/tests/qtest/bios-tables-test.c
-> > > > > +++ b/tests/qtest/bios-tables-test.c
-> > > > > @@ -859,6 +859,33 @@ static void test_acpi_q35_tcg_bridge(void)
-> > > > >      free_test_data(&data);
-> > > > >  }
-> > > > >
-> > > > > +static void test_acpi_q35_multif_bridge(void)
-> > > > > +{
-> > > > > +    test_data data = {
-> > > > > +        .machine = MACHINE_Q35,
-> > > > > +        .variant = ".multi-bridge",
-> > > >
-> > > > > +        .required_struct_types = base_required_struct_types,
-> > > > > +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types)
-> > > > do we care, i.e. why is this here?
-> > >
-> > > This verifies the smbios struct. It seems most of the other tests uses it.
-> > > So I left it in this test also.
-> > > Which of the tests should not be testing smbios?
-> >
-> > Right now smbios is only tested for non-uefi firmware. There are lots
-> > of tests that does not use uefi yet exercize the smbios struct tests.
-> > For example:
-> >
-> > test_acpi_piix4_tcg
-> > test_acpi_piix4_tcg_bridge
-> > test_acpi_piix4_no_root_hotplug
-> > test_acpi_piix4_no_bridge_hotplug
-> > test_acpi_piix4_no_acpi_pci_hotplug
-> > test_acpi_q35_tcg
-> > test_acpi_q35_tcg_bridge
-> > test_acpi_q35_tcg_mmio64
-> > test_acpi_q35_tcg_ipmi
-> > test_acpi_piix4_tcg_ipmi
-> >
-> > Should the smbios struct verification tests be removed from all of them?
->
-> I'd leave them alone, and just remove smbios testing from this patch.
->
+Raise exception at 000000000fd841e4 =3D> 0000000a (00)
+Raise exception at 00000000100074cc =3D> 0000000a (00)
+....
 
-I have sent a v3. Please ignore v2.
+Can anyone please help me to find why these executions are rising?
+Is it kernel configuration mismatch with machine settings? how to debug it?
 
+Best Regards
+
+--00000000000092042205cc683fed
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><font face=3D"monospace">Thank a lot Pete=
+r and Philippe</font></div><div dir=3D"ltr"><font face=3D"monospace"><br></=
+font></div><div dir=3D"ltr"><font face=3D"monospace" color=3D"#000000">On 9=
+/19/21=C2=A020:46,=C2=A0<span style=3D"letter-spacing:0.2px;white-space:now=
+rap">Philippe Mathieu-Daud=C3=A9=C2=A0</span>wrote:</font></div><div class=
+=3D"gmail_quote"><div><font face=3D"monospace">&gt; In the &quot;infinite l=
+oop exception&quot; case, &#39;-d int&#39; might be sufficient,</font></div=
+><div><font face=3D"monospace">&gt; before using &#39;exec/cpu&#39;, since =
+you&#39;ll see the exception raise over</font></div><div><font face=3D"mono=
+space">&gt; and over.</font></div><div><font face=3D"monospace"><br></font>=
+</div><div><font face=3D"monospace">I tried -d int and see that a lot of ex=
+ceptions are rising in idle state and during boot:</font></div><div><font f=
+ace=3D"monospace"><br></font></div><div><font face=3D"monospace">Raise exce=
+ption at 000000000fd841e4 =3D&gt; 0000000a (00)<br>Raise exception at 00000=
+000100074cc =3D&gt; 0000000a (00)<br></font></div><div><font face=3D"monosp=
+ace">....</font></div><div><font face=3D"monospace"><br></font></div><div><=
+font face=3D"monospace">Can anyone please help me to find why these executi=
+ons=C2=A0are rising?=C2=A0</font></div><div><font face=3D"monospace">Is it =
+kernel configuration mismatch with machine settings? how to debug it?</font=
+></div><div><font face=3D"monospace"><br></font></div><div><font face=3D"mo=
+nospace">Best Regards=C2=A0</font></div><div><br></div></div></div>
+
+--00000000000092042205cc683fed--
 
