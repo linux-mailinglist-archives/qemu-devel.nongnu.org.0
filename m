@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5554116DE
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 16:27:33 +0200 (CEST)
-Received: from localhost ([::1]:54338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EF541173C
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 16:37:06 +0200 (CEST)
+Received: from localhost ([::1]:52176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSKGb-0000Z5-1O
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 10:27:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50282)
+	id 1mSKPq-0001K2-0f
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 10:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSETW-0008RF-OO
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSETW-0008RB-E9
  for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:16:31 -0400
-Received: from [115.28.160.31] (port=35650 helo=mailbox.box.xen0n.name)
+Received: from [115.28.160.31] (port=35656 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSETT-0000pX-MO
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:16:30 -0400
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSETT-0000pp-93
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:16:29 -0400
 Received: from ld50.lan (unknown [101.88.25.142])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id B4E0A6340D;
- Mon, 20 Sep 2021 16:06:18 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 4B2326340E;
+ Mon, 20 Sep 2021 16:06:20 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632125178; bh=XKhdqEM3fakRZEgCsNFnG1+88yBx48o+yAIIu6yO60k=;
+ t=1632125180; bh=fpSQtYgNWkiF6RriJDEQ8PrNe2lg1EUb631GLusOZt4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HKbp89uqMuG7OPfFcdMWO616ojNEv1CXziyhw5/kvnCDCFnKhkJjvSsC1FlKeFSd+
- bOmb2XOpxai9sSNCEH4PcZDYrfhr3GywbTnnPNGopADVZRO7ZS8i2wpftJ6b2x+XY5
- lXuDLl9pZXRPpNccggF56wPrNquwjeuurrK07xl0=
+ b=pL5trb4eVDiD4aiZefsXPmjdSvjRZo0w5U646z0Aw72F3bNZGyOHFeOelWC+d+2yN
+ gssF+xxBLjk0G32r6bkHT70toZkRjvzTDI33PDdy772VHqSYQHoe9UtW5hPamWrZ+J
+ 3h2/5s/vH2RRroNZtKcwsFzC86cqb90UAGcnNNEA=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 28/30] configure,
- meson.build: Mark support for 64-bit LoongArch hosts
-Date: Mon, 20 Sep 2021 16:04:49 +0800
-Message-Id: <20210920080451.408655-29-git@xen0n.name>
+Subject: [PATCH 29/30] linux-user: Add host dependency for 64-bit LoongArch
+Date: Mon, 20 Sep 2021 16:04:50 +0800
+Message-Id: <20210920080451.408655-30-git@xen0n.name>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210920080451.408655-1-git@xen0n.name>
 References: <20210920080451.408655-1-git@xen0n.name>
@@ -65,56 +64,32 @@ Cc: WANG Xuerui <git@xen0n.name>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Currently nothing special is needed for LoongArch hosts to work, so only
+leave a placeholder there.
+
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 ---
- configure   | 4 +++-
- meson.build | 4 +++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ linux-user/host/loongarch64/hostdep.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 linux-user/host/loongarch64/hostdep.h
 
-diff --git a/configure b/configure
-index 1043ccce4f..f1bc85e71b 100755
---- a/configure
-+++ b/configure
-@@ -659,6 +659,8 @@ elif check_define __arm__ ; then
-   cpu="arm"
- elif check_define __aarch64__ ; then
-   cpu="aarch64"
-+elif check_define __loongarch64 ; then
-+  cpu="loongarch64"
- else
-   cpu=$(uname -m)
- fi
-@@ -667,7 +669,7 @@ ARCH=
- # Normalise host CPU name and set ARCH.
- # Note that this case should only have supported host CPUs, not guests.
- case "$cpu" in
--  ppc|ppc64|s390x|sparc64|x32|riscv32|riscv64)
-+  ppc|ppc64|s390x|sparc64|x32|riscv32|riscv64|loongarch64)
-   ;;
-   ppc64le)
-     ARCH="ppc64"
-diff --git a/meson.build b/meson.build
-index 2711cbb789..fb3befead5 100644
---- a/meson.build
-+++ b/meson.build
-@@ -57,7 +57,7 @@ python = import('python').find_installation()
- 
- supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
- supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv32', 'riscv64', 'x86', 'x86_64',
--  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
-+  'arm', 'aarch64', 'loongarch64', 'mips', 'mips64', 'sparc', 'sparc64']
- 
- cpu = host_machine.cpu_family()
- targetos = host_machine.system()
-@@ -269,6 +269,8 @@ if not get_option('tcg').disabled()
-     tcg_arch = 's390'
-   elif config_host['ARCH'] in ['x86_64', 'x32']
-     tcg_arch = 'i386'
-+  elif config_host['ARCH'] == 'loongarch64'
-+    tcg_arch = 'loongarch'
-   elif config_host['ARCH'] == 'ppc64'
-     tcg_arch = 'ppc'
-   elif config_host['ARCH'] in ['riscv32', 'riscv64']
+diff --git a/linux-user/host/loongarch64/hostdep.h b/linux-user/host/loongarch64/hostdep.h
+new file mode 100644
+index 0000000000..4e55695155
+--- /dev/null
++++ b/linux-user/host/loongarch64/hostdep.h
+@@ -0,0 +1,11 @@
++/*
++ * hostdep.h : things which are dependent on the host architecture
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef LOONGARCH64_HOSTDEP_H
++#define LOONGARCH64_HOSTDEP_H
++
++#endif
 -- 
 2.33.0
 
