@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE6241166D
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 16:10:47 +0200 (CEST)
-Received: from localhost ([::1]:51172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE378411661
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 16:07:50 +0200 (CEST)
+Received: from localhost ([::1]:42550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSK0M-0004Z0-R6
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 10:10:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49252)
+	id 1mSJxV-0007I2-TL
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 10:07:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSEOl-0007fk-Qt
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:11:35 -0400
-Received: from [115.28.160.31] (port=35552 helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSEOn-0007hc-2R
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:11:37 -0400
+Received: from [115.28.160.31] (port=35560 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSEOj-0005De-49
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:11:35 -0400
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSEOj-0005Dx-4A
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:11:36 -0400
 Received: from ld50.lan (unknown [101.88.25.142])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id B487063405;
- Mon, 20 Sep 2021 16:06:02 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 3524C63406;
+ Mon, 20 Sep 2021 16:06:05 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632125162; bh=j4EjGiVRLTHDBonKZ1vRz9k/sx0JNUED3iBUWqcCYYw=;
+ t=1632125165; bh=YMTlbote+jZVGnAyPC9IZ5S0JP/N577aC42WFM/ARxE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HsamA/uq9EM7iYp9VVl4DJlDci8cenzgP3ePzGVSGENKfC5Z8GepcKsekvlrgcPur
- b+HAw8/Q/7Vxt3QqC8e4K3VGuEtpjuMqV7xdJx1ZOKEIBLLlAYYZsyvTVC9/NCOn1a
- G9KSZmyAX4oh5YbltM2iXZhgP359iuBCZkl64DB0=
+ b=qqYT8x2bXQVgqORA2A/PuSD4urZZKzKfFJwiNB2Ln5/AnAg8nWOLsgdqfZoz7Qite
+ a6krojO0c8ORviV5dmSkNEwzdYgW/6M5k2RgY6MCmEYx2SoNlEbig2T7O2juNNURRj
+ WLFQXmYFBRyJ0ywyQKPkFObKqJobAZRv9LyO+eNg=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 20/30] tcg/loongarch: Implement setcond ops
-Date: Mon, 20 Sep 2021 16:04:41 +0800
-Message-Id: <20210920080451.408655-21-git@xen0n.name>
+Subject: [PATCH 21/30] tcg/loongarch: Implement tcg_out_call
+Date: Mon, 20 Sep 2021 16:04:42 +0800
+Message-Id: <20210920080451.408655-22-git@xen0n.name>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210920080451.408655-1-git@xen0n.name>
 References: <20210920080451.408655-1-git@xen0n.name>
@@ -66,87 +66,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 ---
- tcg/loongarch/tcg-target.c.inc | 53 ++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ tcg/loongarch/tcg-target.c.inc | 37 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
 diff --git a/tcg/loongarch/tcg-target.c.inc b/tcg/loongarch/tcg-target.c.inc
-index a533a5619d..fb0143474a 100644
+index fb0143474a..01c6002fdb 100644
 --- a/tcg/loongarch/tcg-target.c.inc
 +++ b/tcg/loongarch/tcg-target.c.inc
-@@ -373,6 +373,52 @@ static void tcg_out_clzctz(TCGContext *s, LoongArchInsn opc,
-     tcg_out_opc_or(s, a0, TCG_REG_TMP0, a0);
+@@ -457,6 +457,42 @@ static void tcg_out_brcond(TCGContext *s, TCGCond cond, TCGReg arg1,
+     tcg_out32(s, encode_djsk16_insn(op, arg1, arg2, 0));
  }
  
-+static void tcg_out_setcond(TCGContext *s, TCGCond cond, TCGReg ret,
-+                            TCGReg arg1, TCGReg arg2)
++static void tcg_out_call_int(TCGContext *s, const tcg_insn_unit *arg, bool tail)
 +{
-+    switch (cond) {
-+    case TCG_COND_EQ:
-+        tcg_out_opc_sub_d(s, ret, arg1, arg2);
-+        tcg_out_opc_sltui(s, ret, ret, 1);
-+        break;
-+    case TCG_COND_NE:
-+        tcg_out_opc_sub_d(s, ret, arg1, arg2);
-+        tcg_out_opc_sltu(s, ret, TCG_REG_ZERO, ret);
-+        break;
-+    case TCG_COND_LT:
-+        tcg_out_opc_slt(s, ret, arg1, arg2);
-+        break;
-+    case TCG_COND_GE:
-+        tcg_out_opc_slt(s, ret, arg1, arg2);
-+        tcg_out_opc_xori(s, ret, ret, 1);
-+        break;
-+    case TCG_COND_LE:
-+        tcg_out_opc_slt(s, ret, arg2, arg1);
-+        tcg_out_opc_xori(s, ret, ret, 1);
-+        break;
-+    case TCG_COND_GT:
-+        tcg_out_opc_slt(s, ret, arg2, arg1);
-+        break;
-+    case TCG_COND_LTU:
-+        tcg_out_opc_sltu(s, ret, arg1, arg2);
-+        break;
-+    case TCG_COND_GEU:
-+        tcg_out_opc_sltu(s, ret, arg1, arg2);
-+        tcg_out_opc_xori(s, ret, ret, 1);
-+        break;
-+    case TCG_COND_LEU:
-+        tcg_out_opc_sltu(s, ret, arg2, arg1);
-+        tcg_out_opc_xori(s, ret, ret, 1);
-+        break;
-+    case TCG_COND_GTU:
-+        tcg_out_opc_sltu(s, ret, arg2, arg1);
-+        break;
-+    default:
-+         g_assert_not_reached();
-+         break;
-+     }
++    TCGReg link = tail ? TCG_REG_ZERO : TCG_REG_RA;
++    ptrdiff_t offset = tcg_pcrel_diff(s, arg);
++    int ret;
++
++    tcg_debug_assert((offset & 2) == 0);
++    if (offset == sextreg(offset, 0, 28)) {
++        /* short jump: +/- 256MiB */
++        if (tail) {
++            tcg_out_opc_b(s, offset >> 2);
++        } else {
++            tcg_out_opc_bl(s, offset >> 2);
++        }
++    } else if (TCG_TARGET_REG_BITS == 32 || offset == (int32_t)offset) {
++        /* long jump: +/- 2GiB */
++        tcg_out_opc_pcaddu12i(s, TCG_REG_TMP0, 0);
++        tcg_out_opc_jirl(s, link, TCG_REG_TMP0, 0);
++        ret = reloc_call(s->code_ptr - 2, arg);
++        tcg_debug_assert(ret == true);
++    } else if (TCG_TARGET_REG_BITS == 64) {
++        /* far jump: 64-bit */
++        tcg_target_long imm = sextreg((tcg_target_long)arg, 0, 12);
++        tcg_target_long base = (tcg_target_long)arg - imm;
++        tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_TMP0, base);
++        tcg_out_opc_jirl(s, link, TCG_REG_TMP0, imm >> 2);
++    } else {
++        g_assert_not_reached();
++    }
++}
++
++static void tcg_out_call(TCGContext *s, const tcg_insn_unit *arg)
++{
++    tcg_out_call_int(s, arg, false);
 +}
 +
  /*
-  * Branch helpers
+  * Entry-points
   */
-@@ -726,6 +772,11 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         tcg_out_opc_mod_du(s, a0, a1, a2);
-         break;
+@@ -779,6 +815,7 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
  
-+    case INDEX_op_setcond_i32:
-+    case INDEX_op_setcond_i64:
-+        tcg_out_setcond(s, args[3], a0, a1, a2);
-+        break;
-+
      case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
      case INDEX_op_mov_i64:
++    case INDEX_op_call:     /* Always emitted via tcg_out_call.  */
      default:
-@@ -830,6 +881,8 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_rem_i64:
-     case INDEX_op_remu_i32:
-     case INDEX_op_remu_i64:
-+    case INDEX_op_setcond_i32:
-+    case INDEX_op_setcond_i64:
-         return C_O1_I2(r, rZ, rZ);
- 
-     default:
+         g_assert_not_reached();
+     }
 -- 
 2.33.0
 
