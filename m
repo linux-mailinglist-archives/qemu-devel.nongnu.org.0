@@ -2,79 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3CCF4128FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 00:41:51 +0200 (CEST)
-Received: from localhost ([::1]:52818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B39EF4128A8
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 00:08:16 +0200 (CEST)
+Received: from localhost ([::1]:32944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSRyw-00006p-CY
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 18:41:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36104)
+	id 1mSRSR-0006g6-OM
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 18:08:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mSR87-0006Te-7w
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:47:17 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39569)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mSR84-0003Ue-7F
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:47:14 -0400
-Received: by mail-wr1-x432.google.com with SMTP id u15so33601174wru.6
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 14:47:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=1fT2quxplJ5GzjL7Rxg21kKvMAH6bBYwpkK2l5yjvQo=;
- b=R8nuokHfBefjPDnD6JhEgV32Lfk5fqb6cFKS7gvVlAZeqetJoBTdz/dthkWy1xSz2N
- 23GgWn/RdyZxbw1guhB8G5eUbi7AOmaca0QynJL0RujEpFb1Lq+I707tO28kt9tswTn3
- hbCEJwOzb+XcLj3XpRDyhcNDfJpjllC+dlItsuhoDgU1UaIwYZKZFk2hJuz6N0qwf7mF
- vnCHM1ikzGsuGQfw6XRpYVLGg4pJuzmgE7sdbsiFhfVq8U/CxqC4ZphX4bGdBb5UYT/x
- 7hic92Cl6Jf1oLqv1ENtXq0mq7PmqR4fP7WjQzMT/W0PpNVBfeIzu2T7TSAFCScJHRvY
- yPMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=1fT2quxplJ5GzjL7Rxg21kKvMAH6bBYwpkK2l5yjvQo=;
- b=OcAhOkdx7Lz+6qZHvuqccEQWHSVia3qE3N3g5v5w2kqE2PBydnyQmc0Te9hXSuyPaf
- ukf75CiJGQa+exLBf/WTlBz3dStP/BsFZKpXJt8iVd0BG4oXjOdeaiCTx7mtoZBUJGag
- 7iyoJUSwEVz68JksyT7u5oHvzlaZs0nHgCI8Pk44eH8Rb34wHQUXpfxT6LEJ1I9DvswN
- 8QBPHmgk4jXTrDD1v862vmJm4zUDiglEYh77A4cGg0eivd12G0LtTHOkhG35VpXCynNh
- LvHM7WnOBbTJefGN5w5KYRdHoRSx1ESWAs+d/6Tr5XX7sMCKv8+4pSW/NFWsudys9Cia
- ZaGQ==
-X-Gm-Message-State: AOAM532Bl9MtzHvmisDJSGKLPNTLfAjkgrXZOj1r9viL8cBzHqkgqZeZ
- eeMydIfci8kQ8+aIXpzM+Eqkl1mqSBc=
-X-Google-Smtp-Source: ABdhPJyR5An0CuA/D7A6BVciKJk8k63wZbCqLYIkkkWVZPbBsC76SiV6zbcI3qbRL+BtQuhbhK3XOQ==
-X-Received: by 2002:a05:600c:4fc7:: with SMTP id
- o7mr1116578wmq.91.1632174430793; 
- Mon, 20 Sep 2021 14:47:10 -0700 (PDT)
-Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id
- l124sm732345wml.8.2021.09.20.14.47.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 14:47:10 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 31/31] accel: Add missing AccelOpsClass::has_work() and
- drop SysemuCPUOps one
-Date: Mon, 20 Sep 2021 23:44:47 +0200
-Message-Id: <20210920214447.2998623-32-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210920214447.2998623-1-f4bug@amsat.org>
-References: <20210920214447.2998623-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSR5v-0002lQ-5J
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:44:59 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:57789)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSR5s-0001MN-0Z
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:44:57 -0400
+Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MAwPf-1mYnxU2URt-00BMVM; Mon, 20 Sep 2021 23:44:53 +0200
+Subject: Re: [PATCH v4 09/20] macfb: don't register declaration ROM
+From: Laurent Vivier <laurent@vivier.eu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20210917075057.20924-1-mark.cave-ayland@ilande.co.uk>
+ <20210917075057.20924-10-mark.cave-ayland@ilande.co.uk>
+ <a65fbc89-681c-22b5-87d4-31d37de15559@vivier.eu>
+Message-ID: <da82daeb-7226-46ff-5c0e-4025b24ba3d0@vivier.eu>
+Date: Mon, 20 Sep 2021 23:44:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <a65fbc89-681c-22b5-87d4-31d37de15559@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Provags-ID: V03:K1:DdxtcTNw00LaI95BemGuypGrHRXDCH7Gp8H9KL/nsYNCz4wpCUN
+ ZrRPrJIboY53R+phmWjeHONpgZkRMxQmGvnjO0wGIYsVcNxq+3iM2MhxwcfJvsUd4617YIw
+ eTKc6/e/AjDMaYsU0CHvTuH9n4izkUxXBBHtw8/6b0w4n2TCXftsnY/632RJe6X6ekH252K
+ 2Y5AP40UB8EQZvM1ondHg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hiSAK5le/gM=:34xCLP0RcADMJagUY6rOkj
+ eoa2Dno9AZygR08HCVR8g69v2ojSNXkHbVGSKvhtR9x1nUN0NG3Fw0fRoYDBu3Fg8PgyLlBVb
+ MK8BvNrY2nzXt8QP1kKCoe15RvKeY6BtCitnrIRP8v2oLHAGjyKAUHR90gSHjsbolMVhYwVQZ
+ shxPQ2sifSSILhsGFkA/R4LyR68YtXjku9+WcNJp0wC6g79ljJZfxyrA+DRg00w4JqufbpV3g
+ i58iXboIE6gyEozPIQ9P+jikvyDxZGJdMzDcqD6b3+9BMHIRZw/iSb1Y9kEUuDpCfRzQ+V+oy
+ mnKcLgo8ejz+7D9tfToN2mZZ2rRC/bUd10mCTysJwufjT84RwKQjCcvh9XnYwFQaMyGH/z2PL
+ xsYPZagAdkZASIrMRJOzbwRxUE4cO6a+7N9cAKLpsUvh/+iuES3vOuyfy4ThSem+4dDG49h8A
+ IY9y+brZMwlpuG+3DEodYfv00U60q144CqVl0T0SLdvlqZJnuiPh/YbBWiaIAoGpeEZsYCFkl
+ o7NNACfIclUDpTFqwo5Fa3KULVVnzlnYCIohyxOCJOVNQDpvQXWjRqi1DMpMkD1FoqkubWMKF
+ 78ahLLiJbVW0eAaDoxnd29fZ8zKqCtax0+EVIW5mMwheFaXiApoGqdRLJ034vDZUpyzVZafI1
+ Nt6c2F0z7rsm4Ib2er15CTCxq3B8afMf//8vevvZ+Uh5uQXc1Yu/spRYMLwal8hUj5Y7TpS9W
+ 7vUHCkKOXH1ijNnZVIP0RDEeGJsUdX1qyAVlVQ==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,219 +71,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paul Durrant <paul@xen.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu_common_has_work() is the default has_work() implementation
-and returns 'false'.
+Le 20/09/2021 à 22:01, Laurent Vivier a écrit :
+> Le 17/09/2021 à 09:50, Mark Cave-Ayland a écrit :
+>> The macfb device is an on-board framebuffer and so is initialised by the
+>> system declaration ROM included within the MacOS toolbox ROM.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> ---
+>>  hw/display/macfb.c | 6 ------
+>>  1 file changed, 6 deletions(-)
+>>
+>> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+>> index d8183b9bbd..76808b69cc 100644
+>> --- a/hw/display/macfb.c
+>> +++ b/hw/display/macfb.c
+>> @@ -383,10 +383,6 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
+>>      sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_vram);
+>>  }
+>>  
+>> -const uint8_t macfb_rom[] = {
+>> -    255, 0, 0, 0,
+>> -};
+>> -
+>>  static void macfb_nubus_realize(DeviceState *dev, Error **errp)
+>>  {
+>>      NubusDevice *nd = NUBUS_DEVICE(dev);
+>> @@ -399,8 +395,6 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
+>>      macfb_common_realize(dev, ms, errp);
+>>      memory_region_add_subregion(&nd->slot_mem, DAFB_BASE, &ms->mem_ctrl);
+>>      memory_region_add_subregion(&nd->slot_mem, VIDEO_BASE, &ms->mem_vram);
+>> -
+>> -    nubus_register_rom(nd, macfb_rom, sizeof(macfb_rom), 1, 9, 0xf);
+>>  }
+>>  
+>>  static void macfb_sysbus_reset(DeviceState *d)
+>>
+> 
+> Will macfb continue to work with "-kernel" and without providing any MacOS ROM?
 
-Explicit it for the QTest / HAX / HVF / NVMM / Xen accelerators
-and remove cpu_common_has_work().
+My Quadra doesn't seem to report any ROM on boot, so it must be fine
 
-Since there are no more implementations of SysemuCPUOps::has_work,
-remove it along with the assertion in cpu_has_work().
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: Paul Durrant <paul@xen.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- include/hw/core/cpu.h             |  2 --
- accel/hvf/hvf-accel-ops.c         |  6 ++++++
- accel/qtest/qtest.c               |  6 ++++++
- accel/xen/xen-all.c               |  6 ++++++
- hw/core/cpu-common.c              |  6 ------
- softmmu/cpus.c                    | 11 ++---------
- target/i386/hax/hax-accel-ops.c   |  6 ++++++
- target/i386/nvmm/nvmm-accel-ops.c |  6 ++++++
- 8 files changed, 32 insertions(+), 17 deletions(-)
-
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index e2dd171a13f..c64709b898c 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -89,7 +89,6 @@ struct SysemuCPUOps;
-  * instantiatable CPU type.
-  * @parse_features: Callback to parse command line arguments.
-  * @reset_dump_flags: #CPUDumpFlags to use for reset logging.
-- * @has_work: Callback for checking if there is work to do.
-  * @memory_rw_debug: Callback for GDB memory access.
-  * @dump_state: Callback for dumping state.
-  * @get_arch_id: Callback for getting architecture-dependent CPU ID.
-@@ -132,7 +131,6 @@ struct CPUClass {
-     void (*parse_features)(const char *typename, char *str, Error **errp);
- 
-     int reset_dump_flags;
--    bool (*has_work)(CPUState *cpu);
-     int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
-                            uint8_t *buf, int len, bool is_write);
-     void (*dump_state)(CPUState *cpu, FILE *, int flags);
-diff --git a/accel/hvf/hvf-accel-ops.c b/accel/hvf/hvf-accel-ops.c
-index d1691be9896..53c427ee42e 100644
---- a/accel/hvf/hvf-accel-ops.c
-+++ b/accel/hvf/hvf-accel-ops.c
-@@ -446,6 +446,11 @@ static void hvf_start_vcpu_thread(CPUState *cpu)
-                        cpu, QEMU_THREAD_JOINABLE);
- }
- 
-+static bool hvf_cpu_has_work(CPUState *cpu)
-+{
-+    return false;
-+}
-+
- static void hvf_accel_ops_class_init(ObjectClass *oc, void *data)
- {
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
-@@ -456,6 +461,7 @@ static void hvf_accel_ops_class_init(ObjectClass *oc, void *data)
-     ops->synchronize_post_init = hvf_cpu_synchronize_post_init;
-     ops->synchronize_state = hvf_cpu_synchronize_state;
-     ops->synchronize_pre_loadvm = hvf_cpu_synchronize_pre_loadvm;
-+    ops->has_work = hvf_cpu_has_work;
- };
- static const TypeInfo hvf_accel_ops_type = {
-     .name = ACCEL_OPS_NAME("hvf"),
-diff --git a/accel/qtest/qtest.c b/accel/qtest/qtest.c
-index 7e6b8110d52..eb5a17cef18 100644
---- a/accel/qtest/qtest.c
-+++ b/accel/qtest/qtest.c
-@@ -47,12 +47,18 @@ static const TypeInfo qtest_accel_type = {
- };
- module_obj(TYPE_QTEST_ACCEL);
- 
-+static bool qtest_cpu_has_work(CPUState *cpu)
-+{
-+    return false;
-+}
-+
- static void qtest_accel_ops_class_init(ObjectClass *oc, void *data)
- {
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
- 
-     ops->create_vcpu_thread = dummy_start_vcpu_thread;
-     ops->get_virtual_clock = qtest_get_virtual_clock;
-+    ops->has_work = qtest_cpu_has_work;
- };
- 
- static const TypeInfo qtest_accel_ops_type = {
-diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
-index 69aa7d018b2..fe5a37fa2e6 100644
---- a/accel/xen/xen-all.c
-+++ b/accel/xen/xen-all.c
-@@ -215,11 +215,17 @@ static const TypeInfo xen_accel_type = {
-     .class_init = xen_accel_class_init,
- };
- 
-+static bool xen_cpu_has_work(CPUState *cpu)
-+{
-+    return false;
-+}
-+
- static void xen_accel_ops_class_init(ObjectClass *oc, void *data)
- {
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
- 
-     ops->create_vcpu_thread = dummy_start_vcpu_thread;
-+    ops->has_work = xen_cpu_has_work;
- }
- 
- static const TypeInfo xen_accel_ops_type = {
-diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
-index e2f5a646046..5ed1ccdfdd5 100644
---- a/hw/core/cpu-common.c
-+++ b/hw/core/cpu-common.c
-@@ -143,11 +143,6 @@ static void cpu_common_reset(DeviceState *dev)
-     }
- }
- 
--static bool cpu_common_has_work(CPUState *cs)
--{
--    return false;
--}
--
- ObjectClass *cpu_class_by_name(const char *typename, const char *cpu_model)
- {
-     CPUClass *cc = CPU_CLASS(object_class_by_name(typename));
-@@ -279,7 +274,6 @@ static void cpu_class_init(ObjectClass *klass, void *data)
- 
-     k->parse_features = cpu_common_parse_features;
-     k->get_arch_id = cpu_common_get_arch_id;
--    k->has_work = cpu_common_has_work;
-     k->gdb_read_register = cpu_common_gdb_read_register;
-     k->gdb_write_register = cpu_common_gdb_write_register;
-     set_bit(DEVICE_CATEGORY_CPU, dc->categories);
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 98b4049aba7..e6dad2243c6 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -251,15 +251,8 @@ void cpu_interrupt(CPUState *cpu, int mask)
- 
- bool cpu_has_work(CPUState *cpu)
- {
--    CPUClass *cc = CPU_GET_CLASS(cpu);
--
--    if (cc->has_work) {
--        return cc->has_work(cpu);
--    }
--    if (cpus_accel->has_work) {
--        return cpus_accel->has_work(cpu);
--    }
--    g_assert_not_reached();
-+    g_assert(cpus_accel->has_work);
-+    return cpus_accel->has_work(cpu);
- }
- 
- static int do_vm_stop(RunState state, bool send_stop)
-diff --git a/target/i386/hax/hax-accel-ops.c b/target/i386/hax/hax-accel-ops.c
-index 136630e9b23..5407ba17eaf 100644
---- a/target/i386/hax/hax-accel-ops.c
-+++ b/target/i386/hax/hax-accel-ops.c
-@@ -74,6 +74,11 @@ static void hax_start_vcpu_thread(CPUState *cpu)
- #endif
- }
- 
-+static bool hax_cpu_has_work(CPUState *cpu)
-+{
-+    return false;
-+}
-+
- static void hax_accel_ops_class_init(ObjectClass *oc, void *data)
- {
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
-@@ -85,6 +90,7 @@ static void hax_accel_ops_class_init(ObjectClass *oc, void *data)
-     ops->synchronize_post_init = hax_cpu_synchronize_post_init;
-     ops->synchronize_state = hax_cpu_synchronize_state;
-     ops->synchronize_pre_loadvm = hax_cpu_synchronize_pre_loadvm;
-+    ops->has_work = hax_cpu_has_work;
- }
- 
- static const TypeInfo hax_accel_ops_type = {
-diff --git a/target/i386/nvmm/nvmm-accel-ops.c b/target/i386/nvmm/nvmm-accel-ops.c
-index f788f75289f..36296f79ff8 100644
---- a/target/i386/nvmm/nvmm-accel-ops.c
-+++ b/target/i386/nvmm/nvmm-accel-ops.c
-@@ -83,6 +83,11 @@ static void nvmm_kick_vcpu_thread(CPUState *cpu)
-     cpus_kick_thread(cpu);
- }
- 
-+static bool nvmm_cpu_has_work(CPUState *cpu)
-+{
-+    return false;
-+}
-+
- static void nvmm_accel_ops_class_init(ObjectClass *oc, void *data)
- {
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
-@@ -94,6 +99,7 @@ static void nvmm_accel_ops_class_init(ObjectClass *oc, void *data)
-     ops->synchronize_post_init = nvmm_cpu_synchronize_post_init;
-     ops->synchronize_state = nvmm_cpu_synchronize_state;
-     ops->synchronize_pre_loadvm = nvmm_cpu_synchronize_pre_loadvm;
-+    ops->has_work = nvmm_cpu_has_work;
- }
- 
- static const TypeInfo nvmm_accel_ops_type = {
--- 
-2.31.1
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
