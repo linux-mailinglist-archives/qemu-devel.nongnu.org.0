@@ -2,89 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEBD44115EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 15:39:51 +0200 (CEST)
-Received: from localhost ([::1]:55800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 674B74115FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 15:41:26 +0200 (CEST)
+Received: from localhost ([::1]:59076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSJWQ-0002mp-SQ
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 09:39:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55412)
+	id 1mSJXx-0004y1-GC
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 09:41:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mSJVG-0001IQ-6h
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 09:38:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mSJVA-0006ar-Je
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 09:38:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632145110;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xmabd9frQbLOBnR1dgUx679ZTkAAdTULUOMaxrX8oh0=;
- b=GYyYlXMnUvicI/XeV7rvZQ6QZsm3M30QMSC4GGv3XfwBmn1GaGi8n7hRhaJX2a8cuq2BD8
- adW9dTxnQpdUdTHs/yDjk6Fr2RjlUkbSiDmqKBWTWi93YuGPlwXo4evsaGz0Gsty0gT9s3
- nfoeTZAG4fhtFXyrcUK3IIn9F5b5QRI=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-585-Fh0PC5lXNE6aT4FD4zotvQ-1; Mon, 20 Sep 2021 09:38:29 -0400
-X-MC-Unique: Fh0PC5lXNE6aT4FD4zotvQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- e7-20020a50d4c7000000b003d871ecccd8so1712983edj.18
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 06:38:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mSJW3-00031H-Av; Mon, 20 Sep 2021 09:39:27 -0400
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:39849)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mSJW1-00079e-DY; Mon, 20 Sep 2021 09:39:27 -0400
+Received: by mail-qt1-x82c.google.com with SMTP id j13so10632828qtq.6;
+ Mon, 20 Sep 2021 06:39:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=d+9E9SFGue65fgCzFcWL0856vgJZeOFoYmNRDU/qMzw=;
+ b=mf5ml2/U8YfSmNB9y77uOnK54MvBI4sjbl2+iHzv+c8K0hqMIeU2wX0gBdTgvOslKK
+ cF2rWsrQKrDiKTGW6sPgEQMYdzNBOwHNyJzwaYhdb3vzaNBddTWu33E/FhyeO69XVtKj
+ pNR1/luCiTnkzy2Q6sT9Zef3YZoT2AXmOpX3M5famEmdVyxauTSrcG74wqdgailgvNCF
+ CNgLvQs3+5JCkD2FlG4yE+ZK0HICl9TtRRsK0nYYY+rwgTalZldavLyZX8rIowE0mpiC
+ MGVXkcoIaNEiqCi7sBozAQEHJnC71qveIlFiQtZDfIMgKoVqcKN78p4ThbFxsESxTE23
+ GMpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xmabd9frQbLOBnR1dgUx679ZTkAAdTULUOMaxrX8oh0=;
- b=kP+L7Gr+adA/xg4m8vh8D3vCeKzr7egnH2ByNaa4Q4JI/k7XVK1WwAu/QVfqTXF/73
- krqU3o6aTi4BI5JxriWKtX7VJSUQ473jhbbVp2bNOJbjBAZvXYULb1BIE7wRBkIxBJLF
- IqPLkf8LtSO9lXt4G7Exp3V5c6QOJ2E65vcsRtFkIWPpI5AKHtYGd492cOfkYuUqe8mW
- eAqLw8p1ExSuDj7IkA6Tn/+J53hyqO7qo55AphRnkBlrhCdK/0KgHlRnuIedDzyuadp1
- 6BJxjXSggClKWsvsxlNSmfLYC5M26yFceo7sejVxoj0v37Mls9UgZycj9OowraZ6J32i
- qDwg==
-X-Gm-Message-State: AOAM530SQQSTAblZq5giRF1rz/23wWtmv32h3yoJ4HCBfHHyN++656Xz
- 0BI2V80kntvJag+EL/opjV2My2I8WSjZl6oMyg/Be409JxRiI3PuPeGkXSdZWtN58HVMuIO+86X
- 5TaJje5WD6nZlPs8=
-X-Received: by 2002:a05:6402:698:: with SMTP id
- f24mr28908033edy.48.1632145107483; 
- Mon, 20 Sep 2021 06:38:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCvfVVNtlZ3i7TuTwu0YY6F8JgW2Ot+F7ffOzkGmLHQ9solEzLsCCwoaAKU7OEd+OBOH7DUQ==
-X-Received: by 2002:a05:6402:698:: with SMTP id
- f24mr28907996edy.48.1632145107194; 
- Mon, 20 Sep 2021 06:38:27 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id d16sm7035103edu.8.2021.09.20.06.38.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 06:38:26 -0700 (PDT)
-Date: Mon, 20 Sep 2021 15:38:25 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Subject: Re: [PATCH v6 02/10] ACPI ERST: specification for ERST support
-Message-ID: <20210920153825.70bcaf1a@redhat.com>
-In-Reply-To: <1628202639-16361-3-git-send-email-eric.devolder@oracle.com>
-References: <1628202639-16361-1-git-send-email-eric.devolder@oracle.com>
- <1628202639-16361-3-git-send-email-eric.devolder@oracle.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=d+9E9SFGue65fgCzFcWL0856vgJZeOFoYmNRDU/qMzw=;
+ b=Q5LbD1h8ziWKaezSus+lOaKkhu9VezKAA8dNn2gDiJipWg2VsqrLpCt9PFViPI17cD
+ acY5PpCKIt9H7sJGrzbYJmVhnZEqlCb+xgPkSpqthLS8y9wvDZh7V5LEUw4ynUFF8DZb
+ pjSTs/GX4n8+cBAlT9v3vcK+cusXm8fsUqMLMfy723F7Tgu+b5gdJJvHhMYEpVqFoZNs
+ ltZnQ6FyaNAVH9B2N5fQ1s63l+SgeaMp+klafs2xM7f+TSETb+XEatAQb2udQ1Q07+rU
+ TqPaoqQ5o0zt8ngpf2+pDYbKm6RVndQ0aJM+IAQho6ih7kkCLGPOkZb8RNt5ITq26MeN
+ Iupw==
+X-Gm-Message-State: AOAM530r+j9GtLqzi9LnKLm+58/HCxV5DkQ0Sv74/KF+hV2yjAf77qwO
+ wtkYP1f14WNEmeoHPR6+EK4yG/TH5g4=
+X-Google-Smtp-Source: ABdhPJxKOpedCE+o0sm3yQmj53d9R+sWu/WyV67lWqfDT6rkaXEbg2Y1/Kob0pkXyD7Tn0M9om8tWQ==
+X-Received: by 2002:ac8:7ee4:: with SMTP id r4mr22991249qtc.148.1632145163129; 
+ Mon, 20 Sep 2021 06:39:23 -0700 (PDT)
+Received: from [192.168.10.222] ([177.189.43.50])
+ by smtp.gmail.com with ESMTPSA id v7sm11417478qkd.41.2021.09.20.06.39.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Sep 2021 06:39:22 -0700 (PDT)
+Message-ID: <824f1a4d-3fed-fe77-ae9e-efadfdc6268d@gmail.com>
+Date: Mon, 20 Sep 2021 10:39:19 -0300
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v8 4/7] spapr_numa.c: rename numa_assoc_array to
+ FORM1_assoc_array
+Content-Language: en-US
+To: Greg Kurz <groug@kaod.org>
+References: <20210917212802.424481-1-danielhb413@gmail.com>
+ <20210917212802.424481-5-danielhb413@gmail.com>
+ <20210920112132.35d430df@bahia.huguette>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20210920112132.35d430df@bahia.huguette>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,191 +88,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
- eblake@redhat.com, rth@twiddle.net
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu,  5 Aug 2021 18:30:31 -0400
-Eric DeVolder <eric.devolder@oracle.com> wrote:
 
-> Information on the implementation of the ACPI ERST support.
+
+On 9/20/21 06:21, Greg Kurz wrote:
+> On Fri, 17 Sep 2021 18:27:59 -0300
+> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 > 
-> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-
-modulo missing parts documentation looks good to but
-I'm tainted at this point (after so many reviews) so
-libvirt folks (CCed) can take look at it and see if
-something needs to be changed here.
-
-> ---
->  docs/specs/acpi_erst.txt | 147 +++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 147 insertions(+)
->  create mode 100644 docs/specs/acpi_erst.txt
+>> Introducing a new NUMA affinity, FORM2, requires a new mechanism to
+>> switch between affinity modes after CAS. Also, we want FORM2 data
+>> structures and functions to be completely separated from the existing
+>> FORM1 code, allowing us to avoid adding new code that inherits the
+>> existing complexity of FORM1.
+>>
+>> The idea of switching values used by the write_dt() functions in
+>> spapr_numa.c was already introduced in the previous patch, and
+>> the same approach will be used when dealing with the FORM1 and FORM2
+>> arrays.
+>>
+>> We can accomplish that by that by renaming the existing numa_assoc_array
+>> to FORM1_assoc_array, which now is used exclusively to handle FORM1 affinity
+>> data. A new helper get_associativity() is then introduced to be used by the
+>> write_dt() functions to retrieve the current ibm,associativity array of
+>> a given node, after considering affinity selection that might have been
+>> done during CAS. All code that was using numa_assoc_array now needs to
+>> retrieve the array by calling this function.
+>>
+>> This will allow for an easier plug of FORM2 data later on.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
 > 
-> diff --git a/docs/specs/acpi_erst.txt b/docs/specs/acpi_erst.txt
-> new file mode 100644
-> index 0000000..7f7544f
-> --- /dev/null
-> +++ b/docs/specs/acpi_erst.txt
-> @@ -0,0 +1,147 @@
-> +ACPI ERST DEVICE
-> +================
-> +
-> +The ACPI ERST device is utilized to support the ACPI Error Record
-> +Serialization Table, ERST, functionality. This feature is designed for
-> +storing error records in persistent storage for future reference
-> +and/or debugging.
-> +
-> +The ACPI specification[1], in Chapter "ACPI Platform Error Interfaces
-> +(APEI)", and specifically subsection "Error Serialization", outlines a
-> +method for storing error records into persistent storage.
-> +
-> +The format of error records is described in the UEFI specification[2],
-> +in Appendix N "Common Platform Error Record".
-> +
-> +While the ACPI specification allows for an NVRAM "mode" (see
-> +GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES) where non-volatile RAM is
-> +directly exposed for direct access by the OS/guest, this device
-> +implements the non-NVRAM "mode". This non-NVRAM "mode" is what is
-> +implemented by most BIOS (since flash memory requires programming
-> +operations in order to update its contents). Furthermore, as of the
-> +time of this writing, Linux only supports the non-NVRAM "mode".
-> +
-> +
-> +Background/Motivation
-> +---------------------
-> +
-> +Linux uses the persistent storage filesystem, pstore, to record
-> +information (eg. dmesg tail) upon panics and shutdowns.  Pstore is
-> +independent of, and runs before, kdump.  In certain scenarios (ie.
-> +hosts/guests with root filesystems on NFS/iSCSI where networking
-> +software and/or hardware fails), pstore may contain information
-> +available for post-mortem debugging.
-> +
-> +Two common storage backends for the pstore filesystem are ACPI ERST
-> +and UEFI. Most BIOS implement ACPI ERST.  UEFI is not utilized in all
-> +guests. With QEMU supporting ACPI ERST, it becomes a viable pstore
-> +storage backend for virtual machines (as it is now for bare metal
-> +machines).
-> +
-> +Enabling support for ACPI ERST facilitates a consistent method to
-> +capture kernel panic information in a wide range of guests: from
-> +resource-constrained microvms to very large guests, and in particular,
-> +in direct-boot environments (which would lack UEFI run-time services).
-> +
-> +Note that Microsoft Windows also utilizes the ACPI ERST for certain
-> +crash information, if available[3].
-> +
-> +
-> +Configuration|Usage
-> +-------------------
-> +
-> +To use ACPI ERST, a memory-backend-file object and acpi-erst device
-> +can be created, for example:
-> +
-> + qemu ...
-> + -object memory-backend-file,id=erstnvram,mem-path=acpi-erst.backing,size=0x10000,share=on \
-> + -device acpi-erst,memdev=erstnvram
-> +
-> +For proper operation, the ACPI ERST device needs a memory-backend-file
-> +object with the following parameters:
-> +
-> + - id: The id of the memory-backend-file object is used to associate
-> +   this memory with the acpi-erst device.
-> + - size: The size of the ACPI ERST backing storage. This parameter is
-> +   required.
-> + - mem-path: The location of the ACPI ERST backing storage file. This
-> +   parameter is also required.
-> + - share: The share=on parameter is required so that updates to the
-> +   ERST backing store are written to the file.
-> +
-> +and ERST device:
-> +
-> + - memdev: Is the object id of the memory-backend-file.
-> +
-> +
-> +PCI Interface
-> +-------------
-> +
-> +The ERST device is a PCI device with two BARs, one for accessing the
-> +programming registers, and the other for accessing the record exchange
-> +buffer.
-> +
-> +BAR0 contains the programming interface consisting of ACTION and VALUE
-> +64-bit registers.  All ERST actions/operations/side effects happen on
-> +the write to the ACTION, by design. Any data needed by the action must
-> +be placed into VALUE prior to writing ACTION.  Reading the VALUE
-> +simply returns the register contents, which can be updated by a
-> +previous ACTION.
-> +
-> +BAR1 contains the 8KiB record exchange buffer, which is the
-> +implemented maximum record size.
-> +
-> +
-> +Backend Storage Format
-> +----------------------
-> +
-> +The backend storage is divided into fixed size "slots", 8KiB in
-> +length, with each slot storing a single record.  Not all slots need to
-> +be occupied, and they need not be occupied in a contiguous fashion.
-> +The ability to clear/erase specific records allows for the formation
-> +of unoccupied slots.
-> +
-> +Slot 0 is reserved for a backend storage header that identifies the
-> +contents as ERST and also facilitates efficient access to the records.
-> +Depending upon the size of the backend storage, additional slots will
-> +be reserved to be a part of the slot 0 header. For example, at 8KiB,
-> +the slot 0 header can accomodate 1024 records. Thus a storage size
-> +above 8MiB (8KiB * 1024) requires an additional slot. In this
-> +scenario, slot 0 and slot 1 form the backend storage header, and
-> +records can be stored starting at slot 2.
-> +
-> +Below is an example layout of the backend storage format (for storage
-> +size less than 8MiB). The size of the storage is a multiple of 8KiB,
-> +and contains N number of slots to store records. The example below
-> +shows two records (in CPER format) in the backend storage, while the
-> +remaining slots are empty/available.
-> +
-> + Slot   Record
-> +        +--------------------------------------------+
-> +    0   | reserved: storage header                   |
+> This looks good. Just one suggestion, see below.
+> 
+>>   hw/ppc/spapr_hcall.c   |  1 +
+>>   hw/ppc/spapr_numa.c    | 38 +++++++++++++++++++++++++-------------
+>>   include/hw/ppc/spapr.h |  2 +-
+>>   3 files changed, 27 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+>> index 0e9a5b2e40..9056644890 100644
+>> --- a/hw/ppc/spapr_hcall.c
+>> +++ b/hw/ppc/spapr_hcall.c
+>> @@ -17,6 +17,7 @@
+>>   #include "kvm_ppc.h"
+>>   #include "hw/ppc/fdt.h"
+>>   #include "hw/ppc/spapr_ovec.h"
+>> +#include "hw/ppc/spapr_numa.h"
+>>   #include "mmu-book3s-v3.h"
+>>   #include "hw/mem/memory-device.h"
+>>   
+>> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+>> index 08e2d6aed8..7339d00d20 100644
+>> --- a/hw/ppc/spapr_numa.c
+>> +++ b/hw/ppc/spapr_numa.c
+>> @@ -46,6 +46,15 @@ static int get_vcpu_assoc_size(SpaprMachineState *spapr)
+>>       return get_numa_assoc_size(spapr) + 1;
+>>   }
+>>   
+>> +/*
+>> + * Retrieves the ibm,associativity array of NUMA node 'node_id'
+>> + * for the current NUMA affinity.
+>> + */
+>> +static uint32_t *get_associativity(SpaprMachineState *spapr, int node_id)
+>> +{
+>> +    return spapr->FORM1_assoc_array[node_id];
+>> +}
+> 
+> All users of this helper only need to read the content of the
+> associativity array. And since these arrays are static, the
+> returned pointer should certainly not be passed to g_free()
+> for example. This wouldn't be detected by compilers though,
+> unless you have the helper to return a pointer to const
+> data. So I suggest you just do that for extra safety.
 
-typically reserved means 'not used', so I'd drop mentioning reserved 
-an leave it just as storage header.
+Good point. I'll be more vigilant about the use of const pointers in these
+cases. The extra safety is always welcome.
 
-Also header format should be described here
 
-> +        +--------------------------------------------+
-> +    1   | empty/available                            |
-> +        +--------------------------------------------+
-> +    2   | CPER                                       |
-> +        +--------------------------------------------+
+Daniel
 
-how can one distinguish empty vs used slots (i.e define empty somewhere here)
-
-> +    3   | CPER                                       |
-> +        +--------------------------------------------+
-> +  ...   |                                            |
-> +        +--------------------------------------------+
-> +    N   | empty/available                            |
-> +        +--------------------------------------------+
-> +        <------------------ 8KiB -------------------->
-> +
-> +
-> +
-> +References
-> +----------
-> +
-> +[1] "Advanced Configuration and Power Interface Specification",
-> +    version 4.0, June 2009.
-> +
-> +[2] "Unified Extensible Firmware Interface Specification",
-> +    version 2.1, October 2008.
-> +
-> +[3] "Windows Hardware Error Architecture", specfically
-> +    "Error Record Persistence Mechanism".
-
+> 
+>> +
+>>   static bool spapr_numa_is_symmetrical(MachineState *ms)
+>>   {
+>>       int src, dst;
+>> @@ -124,7 +133,7 @@ static void spapr_numa_define_FORM1_domains(SpaprMachineState *spapr)
+>>        */
+>>       for (i = 1; i < nb_numa_nodes; i++) {
+>>           for (j = 1; j < FORM1_DIST_REF_POINTS; j++) {
+>> -            spapr->numa_assoc_array[i][j] = cpu_to_be32(i);
+>> +            spapr->FORM1_assoc_array[i][j] = cpu_to_be32(i);
+>>           }
+>>       }
+>>   
+>> @@ -176,8 +185,8 @@ static void spapr_numa_define_FORM1_domains(SpaprMachineState *spapr)
+>>                * and going up to 0x1.
+>>                */
+>>               for (i = n_level; i > 0; i--) {
+>> -                assoc_src = spapr->numa_assoc_array[src][i];
+>> -                spapr->numa_assoc_array[dst][i] = assoc_src;
+>> +                assoc_src = spapr->FORM1_assoc_array[src][i];
+>> +                spapr->FORM1_assoc_array[dst][i] = assoc_src;
+>>               }
+>>           }
+>>       }
+>> @@ -204,8 +213,8 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
+>>        * 'i' will be a valid node_id set by the user.
+>>        */
+>>       for (i = 0; i < nb_numa_nodes; i++) {
+>> -        spapr->numa_assoc_array[i][0] = cpu_to_be32(FORM1_DIST_REF_POINTS);
+>> -        spapr->numa_assoc_array[i][FORM1_DIST_REF_POINTS] = cpu_to_be32(i);
+>> +        spapr->FORM1_assoc_array[i][0] = cpu_to_be32(FORM1_DIST_REF_POINTS);
+>> +        spapr->FORM1_assoc_array[i][FORM1_DIST_REF_POINTS] = cpu_to_be32(i);
+>>       }
+>>   
+>>       /*
+>> @@ -219,15 +228,15 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
+>>       max_nodes_with_gpus = nb_numa_nodes + NVGPU_MAX_NUM;
+>>   
+>>       for (i = nb_numa_nodes; i < max_nodes_with_gpus; i++) {
+>> -        spapr->numa_assoc_array[i][0] = cpu_to_be32(FORM1_DIST_REF_POINTS);
+>> +        spapr->FORM1_assoc_array[i][0] = cpu_to_be32(FORM1_DIST_REF_POINTS);
+>>   
+>>           for (j = 1; j < FORM1_DIST_REF_POINTS; j++) {
+>>               uint32_t gpu_assoc = smc->pre_5_1_assoc_refpoints ?
+>>                                    SPAPR_GPU_NUMA_ID : cpu_to_be32(i);
+>> -            spapr->numa_assoc_array[i][j] = gpu_assoc;
+>> +            spapr->FORM1_assoc_array[i][j] = gpu_assoc;
+>>           }
+>>   
+>> -        spapr->numa_assoc_array[i][FORM1_DIST_REF_POINTS] = cpu_to_be32(i);
+>> +        spapr->FORM1_assoc_array[i][FORM1_DIST_REF_POINTS] = cpu_to_be32(i);
+>>       }
+>>   
+>>       /*
+>> @@ -259,8 +268,10 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
+>>   void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
+>>                                          int offset, int nodeid)
+>>   {
+>> +    uint32_t *associativity = get_associativity(spapr, nodeid);
+>> +
+>>       _FDT((fdt_setprop(fdt, offset, "ibm,associativity",
+>> -                      spapr->numa_assoc_array[nodeid],
+>> +                      associativity,
+>>                         get_numa_assoc_size(spapr) * sizeof(uint32_t))));
+>>   }
+>>   
+>> @@ -270,6 +281,7 @@ static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *spapr,
+>>       int max_distance_ref_points = get_max_dist_ref_points(spapr);
+>>       int vcpu_assoc_size = get_vcpu_assoc_size(spapr);
+>>       uint32_t *vcpu_assoc = g_new(uint32_t, vcpu_assoc_size);
+>> +    uint32_t *associativity = get_associativity(spapr, cpu->node_id);
+>>       int index = spapr_get_vcpu_id(cpu);
+>>   
+>>       /*
+>> @@ -280,7 +292,7 @@ static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *spapr,
+>>        */
+>>       vcpu_assoc[0] = cpu_to_be32(max_distance_ref_points + 1);
+>>       vcpu_assoc[vcpu_assoc_size - 1] = cpu_to_be32(index);
+>> -    memcpy(vcpu_assoc + 1, spapr->numa_assoc_array[cpu->node_id] + 1,
+>> +    memcpy(vcpu_assoc + 1, associativity + 1,
+>>              (vcpu_assoc_size - 2) * sizeof(uint32_t));
+>>   
+>>       return vcpu_assoc;
+>> @@ -319,10 +331,10 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
+>>       cur_index += 2;
+>>       for (i = 0; i < nr_nodes; i++) {
+>>           /*
+>> -         * For the lookup-array we use the ibm,associativity array,
+>> -         * from numa_assoc_array. without the first element (size).
+>> +         * For the lookup-array we use the ibm,associativity array of the
+>> +         * current NUMA affinity, without the first element (size).
+>>            */
+>> -        uint32_t *associativity = spapr->numa_assoc_array[i];
+>> +        uint32_t *associativity = get_associativity(spapr, i);
+>>           memcpy(cur_index, ++associativity,
+>>                  sizeof(uint32_t) * max_distance_ref_points);
+>>           cur_index += max_distance_ref_points;
+>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+>> index 814e087e98..6b3dfc5dc2 100644
+>> --- a/include/hw/ppc/spapr.h
+>> +++ b/include/hw/ppc/spapr.h
+>> @@ -249,7 +249,7 @@ struct SpaprMachineState {
+>>       unsigned gpu_numa_id;
+>>       SpaprTpmProxy *tpm_proxy;
+>>   
+>> -    uint32_t numa_assoc_array[NUMA_NODES_MAX_NUM][FORM1_NUMA_ASSOC_SIZE];
+>> +    uint32_t FORM1_assoc_array[NUMA_NODES_MAX_NUM][FORM1_NUMA_ASSOC_SIZE];
+>>   
+>>       Error *fwnmi_migration_blocker;
+>>   };
+> 
 
