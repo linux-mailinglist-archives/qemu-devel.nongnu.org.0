@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F4AC412899
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 23:59:55 +0200 (CEST)
-Received: from localhost ([::1]:44584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C674128A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 00:06:47 +0200 (CEST)
+Received: from localhost ([::1]:56156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSRKM-0003cb-Jd
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 17:59:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35662)
+	id 1mSRQz-00032r-SG
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 18:06:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mSR6u-0004D2-MG
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:46:00 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45879)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mSR6t-0002RM-0q
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:46:00 -0400
-Received: by mail-wr1-x432.google.com with SMTP id d21so33518995wra.12
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 14:45:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FoSlQqSQ8ZbPbrlQxUB8XNqV2UVRF3KYNvOO8ZgTpHU=;
- b=cNTV7nI4+Ey6QhADr0AAVkgQ3XiQBxeAwVU+MYCgPOnEqSJjjn0naeyCBaZL47TLzw
- 1FVuvtIHJP/nRlt61um2pCJm6SVFsBX2i75iSWtLC7Ttk5B5tWdZR2WE5u6a2JbEoCdv
- YAb1kz/Qlyak42TrQNc6zg/pknLCwQHjVUNnrChYeBAP+SvdZGijgByLazaCA1KtF58L
- 3mASM9qB62b+K6lllWwtcknDSRl/Inv20sumsDPJlC2RY9vfkKVWjgAZ5WflHbZwK3zq
- NMJx0Ak8635C/YSNtJ1fP0dxoj5VabFivHVOJc2fT/FXgzfvT7MclccKpIUhdb4ZTeQ8
- VmTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=FoSlQqSQ8ZbPbrlQxUB8XNqV2UVRF3KYNvOO8ZgTpHU=;
- b=F/la/UsepumSv+AClpGvu0F6zu246aoXJIKb1vmspEhfPE9TWeI61sSPscoU5eFcaQ
- sadvjKqCkN36vHZEB071Oe+TM0U1PCwEgq6jwHZfSqX56tiuICMACWXJ446oBskzS40r
- IwcW2C7f0YnzGv6uEKMaxryVkFLfSm8m+ky7G7qlD7AbmdiDn8BxmO9ahpuB08gIRqSR
- UQwmFA+hnnzQefUJo+qzKfRmA3M5xST2+3l8VwWih1vnrasSf8vG0DLS57XjkBKEyMzu
- eLYd5HZE9Avzb6HQfq73Nfgy4Lo+cbQ/btGxHJTiqTeKyIw/cQZd22DGRm12ANUg07mQ
- brhQ==
-X-Gm-Message-State: AOAM531+pqKUF/nBXZ4RdSxvnET7PEgPTDEpX4aSE63ve+6CuQe3hdxr
- XkpEGPIuCCgVnfIa6T0wKeFEL79Ys8A=
-X-Google-Smtp-Source: ABdhPJyi2cVly5lukhzc+4Q682i63JYeUK1kLBdkLDuOBG7mjPFP3plDN+/c3hLBl4yzvpewfEuokA==
-X-Received: by 2002:a05:600c:5109:: with SMTP id
- o9mr1131950wms.90.1632174357544; 
- Mon, 20 Sep 2021 14:45:57 -0700 (PDT)
-Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id
- k6sm626163wmo.37.2021.09.20.14.45.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 14:45:57 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 15/31] target/i386: Restrict has_work() handler to sysemu
- and TCG
-Date: Mon, 20 Sep 2021 23:44:31 +0200
-Message-Id: <20210920214447.2998623-16-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210920214447.2998623-1-f4bug@amsat.org>
-References: <20210920214447.2998623-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSQp1-0005We-I7
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:27:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49364)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSQoy-0004NC-7m
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:27:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632173245;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=boyyZjgEshS9NYgwepGlNEP3YstuWhlkvnC3l/w/LBA=;
+ b=DQbtCbJGUuXxBTnoupebF1vIpfj1BTBAMDq+UdL+8b370I3xoMMGaB6sG8sOhFgpjufqZ0
+ MPomzwWbcDkk4t8ZZbgZPmgkt9p+uAaLKSqZ1vwdWT+Sny9Eh1H7UmpFIf8fbzmG+WzLHf
+ +Z7J0E4rWwDc20NaM83slmBKY5lOStw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-hU90ztlmPIKTO__QfPhxBg-1; Mon, 20 Sep 2021 17:27:22 -0400
+X-MC-Unique: hU90ztlmPIKTO__QfPhxBg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC5DE802936;
+ Mon, 20 Sep 2021 21:27:21 +0000 (UTC)
+Received: from redhat.com (ovpn-115-8.phx2.redhat.com [10.3.115.8])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 058B91000358;
+ Mon, 20 Sep 2021 21:27:15 +0000 (UTC)
+Date: Mon, 20 Sep 2021 16:27:14 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Stefan Reiter <s.reiter@proxmox.com>
+Subject: Re: [PATCH v3 2/3] monitor/hmp: add support for flag argument with
+ value
+Message-ID: <20210920212714.wjwtofo6jvau6gpm@redhat.com>
+References: <20210920105641.258104-1-s.reiter@proxmox.com>
+ <20210920105641.258104-3-s.reiter@proxmox.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210920105641.258104-3-s.reiter@proxmox.com>
+User-Agent: NeoMutt/20210205-772-2b4c52
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,78 +78,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Restrict has_work() to TCG sysemu.
+On Mon, Sep 20, 2021 at 12:56:40PM +0200, Stefan Reiter wrote:
+> Adds support for the "-xS" parameter type, where "-x" denotes a flag
+> name and the "S" suffix indicates that this flag is supposed to take an
+> arbitrary string parameter.
+> 
+> These parameters are always optional, the entry in the qdict will be
+> omitted if the flag is not given.
+> 
+> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+> ---
+>  monitor/hmp.c | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/i386/cpu.c         | 6 ------
- target/i386/tcg/tcg-cpu.c | 8 +++++++-
- 2 files changed, 7 insertions(+), 7 deletions(-)
+Looks like yet another hack on top of our existing pile of hacks, but
+it is cleaner in v3 than it was in v2, and I'm not coming up with
+anything better.
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6b029f1bdf1..36a1c5f3fd2 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6554,11 +6554,6 @@ int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request)
-     return 0;
- }
- 
--static bool x86_cpu_has_work(CPUState *cs)
--{
--    return x86_cpu_pending_interrupt(cs, cs->interrupt_request) != 0;
--}
--
- static void x86_disas_set_info(CPUState *cs, disassemble_info *info)
- {
-     X86CPU *cpu = X86_CPU(cs);
-@@ -6763,7 +6758,6 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
- 
-     cc->class_by_name = x86_cpu_class_by_name;
-     cc->parse_features = x86_cpu_parse_featurestr;
--    cc->has_work = x86_cpu_has_work;
-     cc->dump_state = x86_cpu_dump_state;
-     cc->set_pc = x86_cpu_set_pc;
-     cc->gdb_read_register = x86_cpu_gdb_read_register;
-diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-index 3ecfae34cb5..aef050d0898 100644
---- a/target/i386/tcg/tcg-cpu.c
-+++ b/target/i386/tcg/tcg-cpu.c
-@@ -55,6 +55,11 @@ static void x86_cpu_synchronize_from_tb(CPUState *cs,
- }
- 
- #ifndef CONFIG_USER_ONLY
-+static bool x86_cpu_has_work(CPUState *cs)
-+{
-+    return x86_cpu_pending_interrupt(cs, cs->interrupt_request) != 0;
-+}
-+
- static bool x86_debug_check_breakpoint(CPUState *cs)
- {
-     X86CPU *cpu = X86_CPU(cs);
-@@ -63,7 +68,7 @@ static bool x86_debug_check_breakpoint(CPUState *cs)
-     /* RF disables all architectural breakpoints. */
-     return !(env->eflags & RF_MASK);
- }
--#endif
-+#endif /* CONFIG_USER_ONLY */
- 
- #include "hw/core/tcg-cpu-ops.h"
- 
-@@ -76,6 +81,7 @@ static const struct TCGCPUOps x86_tcg_ops = {
- #ifdef CONFIG_USER_ONLY
-     .fake_user_interrupt = x86_cpu_do_interrupt,
- #else
-+    .has_work = x86_cpu_has_work,
-     .do_interrupt = x86_cpu_do_interrupt,
-     .cpu_exec_interrupt = x86_cpu_exec_interrupt,
-     .debug_excp_handler = breakpoint_handler,
+> 
+> diff --git a/monitor/hmp.c b/monitor/hmp.c
+> index d50c3124e1..a32dce7a35 100644
+> --- a/monitor/hmp.c
+> +++ b/monitor/hmp.c
+> @@ -980,6 +980,7 @@ static QDict *monitor_parse_arguments(Monitor *mon,
+>              {
+>                  const char *tmp = p;
+>                  int skip_key = 0;
+> +                int ret;
+>                  /* option */
+>  
+>                  c = *typestr++;
+> @@ -1002,8 +1003,22 @@ static QDict *monitor_parse_arguments(Monitor *mon,
+>                      }
+>                      if (skip_key) {
+>                          p = tmp;
+> +                    } else if (*typestr == 'S') {
+> +                        /* has option with string value */
+> +                        typestr++;
+> +                        tmp = p++;
+> +                        while (qemu_isspace(*p)) {
+> +                            p++;
+> +                        }
+> +                        ret = get_str(buf, sizeof(buf), &p);
+> +                        if (ret < 0) {
+> +                            monitor_printf(mon, "%s: value expected for -%c\n",
+> +                                           cmd->name, *tmp);
+> +                            goto fail;
+> +                        }
+> +                        qdict_put_str(qdict, key, buf);
+
+Do we have any documentation that also needs a matching update?  Or is
+our documentation for the pseudo-grammar of .hx parsing limited to the
+code?
+
+>                      } else {
+> -                        /* has option */
+> +                        /* has boolean option */
+>                          p++;
+>                          qdict_put_bool(qdict, key, true);
+>                      }
+
+Holding my nose a bit, but only because of the mess that this already
+is, not because of what you added.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 -- 
-2.31.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
