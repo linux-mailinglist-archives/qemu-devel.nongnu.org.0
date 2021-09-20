@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C674128A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 00:06:47 +0200 (CEST)
-Received: from localhost ([::1]:56156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C244128A1
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 00:04:40 +0200 (CEST)
+Received: from localhost ([::1]:52798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSRQz-00032r-SG
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 18:06:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
+	id 1mSROx-0000mp-Ro
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 18:04:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSQp1-0005We-I7
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:27:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49364)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSQoy-0004NC-7m
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:27:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632173245;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=boyyZjgEshS9NYgwepGlNEP3YstuWhlkvnC3l/w/LBA=;
- b=DQbtCbJGUuXxBTnoupebF1vIpfj1BTBAMDq+UdL+8b370I3xoMMGaB6sG8sOhFgpjufqZ0
- MPomzwWbcDkk4t8ZZbgZPmgkt9p+uAaLKSqZ1vwdWT+Sny9Eh1H7UmpFIf8fbzmG+WzLHf
- +Z7J0E4rWwDc20NaM83slmBKY5lOStw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-hU90ztlmPIKTO__QfPhxBg-1; Mon, 20 Sep 2021 17:27:22 -0400
-X-MC-Unique: hU90ztlmPIKTO__QfPhxBg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC5DE802936;
- Mon, 20 Sep 2021 21:27:21 +0000 (UTC)
-Received: from redhat.com (ovpn-115-8.phx2.redhat.com [10.3.115.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 058B91000358;
- Mon, 20 Sep 2021 21:27:15 +0000 (UTC)
-Date: Mon, 20 Sep 2021 16:27:14 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Stefan Reiter <s.reiter@proxmox.com>
-Subject: Re: [PATCH v3 2/3] monitor/hmp: add support for flag argument with
- value
-Message-ID: <20210920212714.wjwtofo6jvau6gpm@redhat.com>
-References: <20210920105641.258104-1-s.reiter@proxmox.com>
- <20210920105641.258104-3-s.reiter@proxmox.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mSR5p-0002f8-1x
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:44:54 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41496)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mSR5n-0001Ip-9X
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:44:52 -0400
+Received: by mail-wr1-x436.google.com with SMTP id w29so33569255wra.8
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 14:44:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RTwi2igTT3+qrBhQS4cIH1iklh8guDt/ShiMKOefJYo=;
+ b=Yvr51NBwXtey5nqidsNDLhdDL69geuMIooc1oWKXyIcP5WD7ddTMsUpxoEzqWjdRDI
+ YsOFTY3pV19uttk5e1QONgEzecDbm1LIxUXve1Ad/oAxXKmY1dTUcvms5OqKdlBONcbp
+ RaJkREAl+xuwAn6EtMA8zpGQ2L/5VzNxyLMnl9dTV4v50jfkaIx18u1VCnOnXxrmKzpY
+ 8Z2a17sUELHRGBRfhGGJNOEcmkJz7KRO/NAV989LRlkDiDCySLHnc74rATVuZPWHDGKP
+ H8zs4/LzPPNDkNkYFfXfgPjCpQt2st5WRC0SEsG6IQxpf71t99Ua0vjm+kcO5Rp9PGLW
+ vBQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=RTwi2igTT3+qrBhQS4cIH1iklh8guDt/ShiMKOefJYo=;
+ b=4T5r6S74G7ZyqHAEN5K7hx6Qnuj6F90P/zQfsXn7nPl/emhGmsMC0XVA3v2JGCAxio
+ yUPJ2eUq3fEWt0qr+qXcMHrXIOj8aaDFncNi9zDxRjxpzAqdc6hvwxsr36Pwupu08/TI
+ SvOpTsWre9ZYQj1yBpZ70aGrY5ZTY7JhsOFoJOfhAMdaPuvhJxYWaXyPgm0XsSy30bXi
+ pDmx/kJ4VzwuUsH+8T+3lDXjMkdo5nnBUtyxsBimIxyO5X17ZJL8eiM8xQMACb6FYYhW
+ Z//tdAtcL6UcGKBceMW4aQf/LXedX2hliAeLQfgJjwLuZieOFz0INGzECbDEIwdUI0Fr
+ Fj5A==
+X-Gm-Message-State: AOAM530usBHw7i9AqnP/EJcMtaTPLrgbmSONBZT8VjSHUeLZgFAUapBX
+ ihaw2jl6/gqrqNFMA+y7gJEevF0VtZw=
+X-Google-Smtp-Source: ABdhPJwy9K8nEqH7WgoQKfcRtl0SLJbs2ubU6iJ7aRqEofWBkXJ8uSGSNfkE7ZdkUavtnCBuphgm7w==
+X-Received: by 2002:a1c:3881:: with SMTP id f123mr1089011wma.185.1632174289304; 
+ Mon, 20 Sep 2021 14:44:49 -0700 (PDT)
+Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id
+ d129sm771686wmd.23.2021.09.20.14.44.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Sep 2021 14:44:48 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/31] accel: Move has_work() from SysemuCPUOps to
+ AccelOpsClass
+Date: Mon, 20 Sep 2021 23:44:16 +0200
+Message-Id: <20210920214447.2998623-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210920105641.258104-3-s.reiter@proxmox.com>
-User-Agent: NeoMutt/20210205-772-2b4c52
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,84 +84,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 20, 2021 at 12:56:40PM +0200, Stefan Reiter wrote:
-> Adds support for the "-xS" parameter type, where "-x" denotes a flag
-> name and the "S" suffix indicates that this flag is supposed to take an
-> arbitrary string parameter.
-> 
-> These parameters are always optional, the entry in the qdict will be
-> omitted if the flag is not given.
-> 
-> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
-> ---
->  monitor/hmp.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
-
-Looks like yet another hack on top of our existing pile of hacks, but
-it is cleaner in v3 than it was in v2, and I'm not coming up with
-anything better.
-
-> 
-> diff --git a/monitor/hmp.c b/monitor/hmp.c
-> index d50c3124e1..a32dce7a35 100644
-> --- a/monitor/hmp.c
-> +++ b/monitor/hmp.c
-> @@ -980,6 +980,7 @@ static QDict *monitor_parse_arguments(Monitor *mon,
->              {
->                  const char *tmp = p;
->                  int skip_key = 0;
-> +                int ret;
->                  /* option */
->  
->                  c = *typestr++;
-> @@ -1002,8 +1003,22 @@ static QDict *monitor_parse_arguments(Monitor *mon,
->                      }
->                      if (skip_key) {
->                          p = tmp;
-> +                    } else if (*typestr == 'S') {
-> +                        /* has option with string value */
-> +                        typestr++;
-> +                        tmp = p++;
-> +                        while (qemu_isspace(*p)) {
-> +                            p++;
-> +                        }
-> +                        ret = get_str(buf, sizeof(buf), &p);
-> +                        if (ret < 0) {
-> +                            monitor_printf(mon, "%s: value expected for -%c\n",
-> +                                           cmd->name, *tmp);
-> +                            goto fail;
-> +                        }
-> +                        qdict_put_str(qdict, key, buf);
-
-Do we have any documentation that also needs a matching update?  Or is
-our documentation for the pseudo-grammar of .hx parsing limited to the
-code?
-
->                      } else {
-> -                        /* has option */
-> +                        /* has boolean option */
->                          p++;
->                          qdict_put_bool(qdict, key, true);
->                      }
-
-Holding my nose a bit, but only because of the mess that this already
-is, not because of what you added.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+Missing review:=0D
+- 0001-target-arm-Implement-arm_v7m_cpu_has_work.patch=0D
+- 0005-sysemu-Introduce-AccelOpsClass-has_work.patch=0D
+- 0008-accel-tcg-Implement-AccelOpsClass-has_work-as-stub.patch=0D
+- 0010-target-arm-Restrict-has_work-handler-to-sysemu-and-T.patch=0D
+- 0012-target-cris-Restrict-has_work-handler-to-sysemu.patch=0D
+=0D
+Hi,=0D
+=0D
+CPU has_work() is a per-accelerator handler. This series=0D
+- explicit the KVM / WHPX implementations=0D
+- moves TCG implementations in AccelOpsClass=0D
+- explicit missing implementations (returning 'false').=0D
+=0D
+Since v4:=0D
+- Implement arm_v7m_cpu_has_work() (new patch)=0D
+- Assert has_work() handlers are set, don't use default value=0D
+- Fix ARM v7M and cris CPUs=0D
+- Reset R-b tags on modified patches=0D
+=0D
+Since v3:=0D
+- Remove pointless CONFIG_TCG uses (rth)=0D
+- Rework PPC patches, still using indirection=0D
+=0D
+Since v2:=0D
+- Full rewrite, no more RFC.=0D
+=0D
+$ git backport-diff v3..v4=0D
+[----] : patches are identical=0D
+[####] : number of functional differences between upstream/downstream patch=
+=0D
+[down] : patch is downstream-only=0D
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respecti=
+vely=0D
+=0D
+001/31:[down] 'target/arm: Implement arm_v7m_cpu_has_work()'=0D
+002/31:[----] [--] 'accel/tcg: Restrict cpu_handle_halt() to sysemu'=0D
+003/31:[----] [--] 'hw/core: Restrict cpu_has_work() to sysemu'=0D
+004/31:[----] [--] 'hw/core: Un-inline cpu_has_work()'=0D
+005/31:[0006] [FC] 'sysemu: Introduce AccelOpsClass::has_work()'=0D
+006/31:[----] [--] 'accel/kvm: Implement AccelOpsClass::has_work()'=0D
+007/31:[----] [--] 'accel/whpx: Implement AccelOpsClass::has_work()'=0D
+008/31:[0004] [FC] 'accel/tcg: Implement AccelOpsClass::has_work() as stub'=
+=0D
+009/31:[----] [--] 'target/alpha: Restrict has_work() handler to sysemu'=0D
+010/31:[0002] [FC] 'target/arm: Restrict has_work() handler to sysemu and T=
+CG'=0D
+011/31:[----] [--] 'target/avr: Restrict has_work() handler to sysemu'=0D
+012/31:[0001] [FC] 'target/cris: Restrict has_work() handler to sysemu'=0D
+013/31:[----] [--] 'target/hexagon: Remove unused has_work() handler'=0D
+014/31:[----] [--] 'target/hppa: Restrict has_work() handler to sysemu'=0D
+015/31:[----] [--] 'target/i386: Restrict has_work() handler to sysemu and =
+TCG'=0D
+016/31:[----] [--] 'target/m68k: Restrict has_work() handler to sysemu'=0D
+017/31:[----] [--] 'target/microblaze: Restrict has_work() handler to sysem=
+u'=0D
+018/31:[----] [--] 'target/mips: Restrict has_work() handler to sysemu and =
+TCG'=0D
+019/31:[----] [--] 'target/nios2: Restrict has_work() handler to sysemu'=0D
+020/31:[----] [--] 'target/openrisc: Restrict has_work() handler to sysemu'=
+=0D
+021/31:[----] [--] 'target/ppc: Introduce PowerPCCPUClass::has_work()'=0D
+022/31:[----] [--] 'target/ppc: Restrict has_work() handlers to sysemu and =
+TCG'=0D
+023/31:[----] [--] 'target/riscv: Restrict has_work() handler to sysemu and=
+ TCG'=0D
+024/31:[----] [--] 'target/rx: Restrict has_work() handler to sysemu'=0D
+025/31:[----] [--] 'target/s390x: Restrict has_work() handler to sysemu and=
+ TCG'=0D
+026/31:[----] [--] 'target/sh4: Restrict has_work() handler to sysemu'=0D
+027/31:[----] [--] 'target/sparc: Remove pointless use of CONFIG_TCG defini=
+tion'=0D
+028/31:[----] [--] 'target/sparc: Restrict has_work() handler to sysemu'=0D
+029/31:[----] [--] 'target/tricore: Restrict has_work() handler to sysemu'=
+=0D
+030/31:[----] [--] 'target/xtensa: Restrict has_work() handler to sysemu'=0D
+031/31:[0006] [FC] 'accel: Add missing AccelOpsClass::has_work() and drop S=
+ysemuCPUOps one'=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (31):=0D
+  target/arm: Implement arm_v7m_cpu_has_work()=0D
+  accel/tcg: Restrict cpu_handle_halt() to sysemu=0D
+  hw/core: Restrict cpu_has_work() to sysemu=0D
+  hw/core: Un-inline cpu_has_work()=0D
+  sysemu: Introduce AccelOpsClass::has_work()=0D
+  accel/kvm: Implement AccelOpsClass::has_work()=0D
+  accel/whpx: Implement AccelOpsClass::has_work()=0D
+  accel/tcg: Implement AccelOpsClass::has_work() as stub=0D
+  target/alpha: Restrict has_work() handler to sysemu=0D
+  target/arm: Restrict has_work() handler to sysemu and TCG=0D
+  target/avr: Restrict has_work() handler to sysemu=0D
+  target/cris: Restrict has_work() handler to sysemu=0D
+  target/hexagon: Remove unused has_work() handler=0D
+  target/hppa: Restrict has_work() handler to sysemu=0D
+  target/i386: Restrict has_work() handler to sysemu and TCG=0D
+  target/m68k: Restrict has_work() handler to sysemu=0D
+  target/microblaze: Restrict has_work() handler to sysemu=0D
+  target/mips: Restrict has_work() handler to sysemu and TCG=0D
+  target/nios2: Restrict has_work() handler to sysemu=0D
+  target/openrisc: Restrict has_work() handler to sysemu=0D
+  target/ppc: Introduce PowerPCCPUClass::has_work()=0D
+  target/ppc: Restrict has_work() handlers to sysemu and TCG=0D
+  target/riscv: Restrict has_work() handler to sysemu and TCG=0D
+  target/rx: Restrict has_work() handler to sysemu=0D
+  target/s390x: Restrict has_work() handler to sysemu and TCG=0D
+  target/sh4: Restrict has_work() handler to sysemu=0D
+  target/sparc: Remove pointless use of CONFIG_TCG definition=0D
+  target/sparc: Restrict has_work() handler to sysemu=0D
+  target/tricore: Restrict has_work() handler to sysemu=0D
+  target/xtensa: Restrict has_work() handler to sysemu=0D
+  accel: Add missing AccelOpsClass::has_work() and drop SysemuCPUOps one=0D
+=0D
+ include/hw/core/cpu.h             | 28 +++++++++--------------=0D
+ include/hw/core/tcg-cpu-ops.h     |  4 ++++=0D
+ include/sysemu/accel-ops.h        |  5 +++++=0D
+ target/ppc/cpu-qom.h              |  3 +++=0D
+ accel/hvf/hvf-accel-ops.c         |  6 +++++=0D
+ accel/kvm/kvm-accel-ops.c         |  6 +++++=0D
+ accel/qtest/qtest.c               |  6 +++++=0D
+ accel/tcg/cpu-exec.c              |  6 +++--=0D
+ accel/tcg/tcg-accel-ops.c         | 10 +++++++++=0D
+ accel/xen/xen-all.c               |  6 +++++=0D
+ hw/core/cpu-common.c              |  6 -----=0D
+ softmmu/cpus.c                    | 10 ++++++---=0D
+ target/alpha/cpu.c                |  4 +++-=0D
+ target/arm/cpu.c                  |  7 ++++--=0D
+ target/arm/cpu_tcg.c              |  6 +++++=0D
+ target/avr/cpu.c                  |  2 +-=0D
+ target/cris/cpu.c                 |  5 ++++-=0D
+ target/hexagon/cpu.c              |  6 -----=0D
+ target/hppa/cpu.c                 |  4 +++-=0D
+ target/i386/cpu.c                 |  6 -----=0D
+ target/i386/hax/hax-accel-ops.c   |  6 +++++=0D
+ target/i386/nvmm/nvmm-accel-ops.c |  6 +++++=0D
+ target/i386/tcg/tcg-cpu.c         |  8 ++++++-=0D
+ target/i386/whpx/whpx-accel-ops.c |  6 +++++=0D
+ target/m68k/cpu.c                 |  4 +++-=0D
+ target/microblaze/cpu.c           |  8 +++----=0D
+ target/mips/cpu.c                 |  4 +++-=0D
+ target/nios2/cpu.c                |  4 +++-=0D
+ target/openrisc/cpu.c             |  4 +++-=0D
+ target/ppc/cpu_init.c             | 37 ++++++++++++++++++++++---------=0D
+ target/riscv/cpu.c                |  8 +++----=0D
+ target/rx/cpu.c                   |  4 +++-=0D
+ target/s390x/cpu.c                |  4 +++-=0D
+ target/sh4/cpu.c                  |  5 +++--=0D
+ target/sparc/cpu.c                |  6 ++---=0D
+ target/tricore/cpu.c              |  6 ++++-=0D
+ target/xtensa/cpu.c               | 14 ++++++------=0D
+ 37 files changed, 184 insertions(+), 86 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
