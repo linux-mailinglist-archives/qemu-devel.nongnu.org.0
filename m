@@ -2,52 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18176410F42
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 07:15:07 +0200 (CEST)
-Received: from localhost ([::1]:39176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5A2410F1B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 06:48:35 +0200 (CEST)
+Received: from localhost ([::1]:53732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSBdw-0007Hp-Te
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 01:15:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47674)
+	id 1mSBEI-0005K7-25
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 00:48:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mSBWg-0002NE-GI
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 01:07:35 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:47855 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mSBD8-0004en-AE
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 00:47:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43982)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mSBWa-0008Gy-AD
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 01:07:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1632114436;
- bh=wq6NksA/Us7YvIieQ37yYQsbqqjwGZZLHTTx5/uOaBc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PpaOWi+j0zcJKjh1Y8LvEywps0tvmbM0vuuLxBxXjswgWNsL9fqWG2hVFjmu54qAn
- xCgBTGaezQHSY+54AlCKSiIUGT9D0V0sxd5KIBUc9iBiAa6SQRct3MoPEr8rZPpOQS
- 8II7A67XDSGZL0Bu4RwMuHu1AHb9cvenlnGuoVeg=
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4HCXc46HL5z9sX3; Mon, 20 Sep 2021 15:07:16 +1000 (AEST)
-Date: Mon, 20 Sep 2021 14:07:27 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Brad Smith <brad@comstyle.com>
-Subject: Re: Rust in Qemu BoF followup: Rust vs. qemu platform support
-Message-ID: <YUgI/xtQmWjfTSvq@yekko>
-References: <YURYvaOpya498Xx2@yekko>
- <17abd023-4477-4636-a87f-ccbdeffdb4b8@comstyle.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mSBD4-00084a-H7
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 00:47:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632113236;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jxsVjGAvuJSX7vAe8a6z4f9CpaqwuOw01xugjSFrmWY=;
+ b=b9shgCf3Kt1izECuCuc2KlHvvD+Vc9nacKZQ8ZFP/djxMICbQ3wV2Z4sCCGk6busfIB+Nn
+ nJrRdrR3vDKiwsYd7fOHJV9vuUMyds6SOEWLffHq7Lei00lDnsqaIOuZPmSdtp3cUabb0M
+ tRsalN6roAu9o7JkTWqyGWPMdIldBZM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-160-q8h3VSwkMc-P002WIvBL_g-1; Mon, 20 Sep 2021 00:47:13 -0400
+X-MC-Unique: q8h3VSwkMc-P002WIvBL_g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44E501006AA3;
+ Mon, 20 Sep 2021 04:47:12 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F3D6A6B54B;
+ Mon, 20 Sep 2021 04:47:11 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 636AC113865F; Mon, 20 Sep 2021 06:47:10 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: lishan <lishan24@huawei.com>
+Subject: Re: [PATCH] block/file-posix: Limit max_iov to IOV_MAX
+References: <20210918040658.19484-1-lishan24@huawei.com>
+Date: Mon, 20 Sep 2021 06:47:10 +0200
+In-Reply-To: <20210918040658.19484-1-lishan24@huawei.com> (lishan's message of
+ "Sat, 18 Sep 2021 12:06:58 +0800")
+Message-ID: <87lf3rn99t.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LPT1g8kaNLIik3MH"
-Content-Disposition: inline
-In-Reply-To: <17abd023-4477-4636-a87f-ccbdeffdb4b8@comstyle.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.476,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,115 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, slp@redhat.com, cohuck@redhat.com,
- qemu-devel@nongnu.org, f4bug@amsat.org, hreitz@redhat.com, stefanha@redhat.com,
- marcandre.lureau@redhat.com, pbonzini@redhat.com, alex.bennee@linaro.org,
- sgarzare@redhat.com
+Cc: qemu-devel@nongnu.org, eric.fangyi@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+lishan <lishan24@huawei.com> writes:
 
---LPT1g8kaNLIik3MH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> AIO read/write. The size of iocb->aio_nbytes in the kernel cannot exceed UIO_MAXIOV = 1024.
+> max_segments read from the block device layer may be greater than UIO_MAXIOV,
+> this causes the ioq_submit interface to return a -22(-EINVAL) error result.
+> ---
+>  block/file-posix.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index d81e15efa4..137e27e47b 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -1273,7 +1273,8 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+>  
+>          ret = hdev_get_max_segments(s->fd, &st);
+>          if (ret > 0) {
+> -            bs->bl.max_iov = ret;
+> +            /* The maximum segment size allowed by the kernel is UIO_MAXIOV = 1024. */
+> +            bs->bl.max_iov = MIN(ret, IOV_MAX);
+>          }
+>      }
+>  }
 
-On Sun, Sep 19, 2021 at 10:23:21PM -0400, Brad Smith wrote:
-> On 9/17/2021 4:58 AM, David Gibson wrote:
-> > Hi all,
-> >=20
-> > At the qemu-in-rust BoF at KVM Forum, I volunteered to look into
-> > whether Rust supported all the host/build platforms that qemu does,
-> > which is obviously vital if we want to make Rust a non-optional
-> > component of the build.
-> >=20
-> > I've added the information to our wiki at:
-> > 	https://wiki.qemu.org/RustInQemu
-> >=20
-> > TBH, the coverage is not as good as I expected.  Linux, macOS and
-> > Windows are pretty much ok, with the exception of Linux on Sparc.
-> > There are a lot of gaps in *BSD support, however.
-> >=20
-> > I've included some notes on where the information comes from, and some
-> > uncertainties in there.
-> >=20
-> > I've made an effort to get the information correct, but double
-> > checking would be appreciated.
-> >=20
-> > I haven't yet looked into the packaging situation for the Rust
-> > toolchain on various platforms and distros, but I still intend to do
-> > so.
->=20
-> Regarding this entry on the Wiki page..
->=20
-> "I think OpenBSD lacks mips32 support, but the presence of Loongson means
-> I'm having trouble pinning that down with certainty"
->=20
-> That is correct. Our loongson port is mips64el. OpenBSD only supports
-> 64-bit MIPS.
+I didn't check your assertion we always need to cap at IOV_MAX.
+Assuming you're right, why not do it in hdev_get_max_segments()?
 
-Thanks, I've updated the page to reflect that.
-
-> OpenBSD currently only provides packages and host tools for aarch64,
-> amd64, i386 and sparc64.
-
-Sorry, I'm not clear on what you mean by this.  Do you mean OpenBSD
-provides Rust packages and tools for aarch64, amd64, i386 and sparc64?
-Or some more general statement about openbsd support for those
-platforms.
-
-For purposes of this matrix, I'm considering upstream Rust support,
-not toolchain packaging (I'll be looking at that later).
-
-If you do have rust packages and host tools for sparc64, that would
-imply support is better than shown on
-https://doc.rust-lang.org/nightly/rustc/platform-support.html which
-notes 'sparc64-unknown-openbsd' as having "unknown or WiP" std library
-support and no support for building host tools.  Does that page need
-to be updated?
-
-> So for the Wiki armv7, MIPS (64-bit), PPC (32-bit) should be changed
-> to N/A.
-
-https://www.openbsd.org/plat.html lists armv7, mips64
-(loongson/octeon) and ppc32 (macppc) as supported platforms.  Is that
-no longer correct?
-
-> The SPARC (64-bit) entry should be changed to yellow.
-
-Can you confirm that your Rust port has full std library support and
-can build the host tools?  If so can you talk to the Rust people about
-updating their page?
-
-> I'd like to fill in the gaps for arm, mips64, mips64el, powerpc, powerpc6=
-4,
-> and riscv64.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---LPT1g8kaNLIik3MH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIyBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFICP0ACgkQbDjKyiDZ
-s5KtcA/4+gUuONt8OM/kFsxWzwDKW27EBsT/0ACZitkgxMevA0yvp2HJw5DdMP/1
-XpBBOySz9b6ukb6DucAXYO21OxsE8onv9MiGoTHlKuzpOvYwOtNi83BPKS7PlQfQ
-72Oh2m9YOV5q2iGBirIse8iXyPfdOjAkiIejcdi1TFtLZ8mL/SFjWqB3fFWfafhC
-cow7CLFr+SkhbEPpuiIcBVwLB/gSfXK84x5SuujSR95QLSH5iHnB3+Gss7ySXVYw
-a2f6I76AHYDwTUZ5SXy8iY6H46GpmCM0e0kf18s9WN5La8nwWIO+3oib8lnp53aA
-l7JklyjmC5JuHnqoZsZlHoTBXgh8EF1rwUFRC3ZhdQ/i+nW6fuWnHPgPuK5djLbf
-/S+h5b7NiuV84Oysj0iMWtiG9abomFZcGGJaZ4q+nqjwuvt5bnaQmDnGpKXKADgL
-ILXvqEMCyZ1lKOPUBm8AtOH2jOS905gT5nIz0E/ryg0WdWfoOekPHqk4PrPgJpiO
-ilK8uvnNsNbGoeM4r7d5XgBC3uTWBrVDONivM1ArS7N2WQkB4bMsuC6pkm30BKuH
-Uu931gSyF2vxz0Aknf8r3+TeqaYik2KwymU49DgMdY8PEc9sr5TG93ZsJV8eJaSr
-Fw3azehezfb8rFekWs8qv9k+WomHiPZWDcSE4bCCt4/FEevOJA==
-=c8PC
------END PGP SIGNATURE-----
-
---LPT1g8kaNLIik3MH--
 
