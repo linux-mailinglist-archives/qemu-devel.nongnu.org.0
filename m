@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17954128B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 00:17:30 +0200 (CEST)
-Received: from localhost ([::1]:56190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8D94128A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 00:04:30 +0200 (CEST)
+Received: from localhost ([::1]:52020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSRbN-0005u2-CO
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 18:17:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35512)
+	id 1mSROn-0000Fv-Lb
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 18:04:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mSR6F-0003OV-LP
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:45:19 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42968)
+ id 1mSR6W-0003Uf-M1
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:45:38 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mSR6E-0001jz-6c
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:45:19 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id q11so33569135wrr.9
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 14:45:17 -0700 (PDT)
+ id 1mSR6N-0001zq-QK
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:45:30 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id u15so33591964wru.6
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 14:45:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=naPHzWGP/6yDNY73WXVrE5ILIKRmkCw8JxXeNmytdeA=;
- b=qEU7DtBipdoVl7ow0AHc7m6ziI8W0+qT7r+IklWK5dj/zMJnLq94wQs1F3mduc/fuj
- EK4nlM29YXIomVtpwTYDwPycJH/c/PCqtGTBew+N0H8lgWwCU/NCYYZPzvxx6p8TsCQb
- dUC6IIaS2VvU+U4knMx7drgUZ3zbbG2HfLrO7JLJOfKdbFkY52JfvMH381kLm0IKjCqn
- TVI6nxEApLWza6/8b3RwmBGkZwrqyfiy7ZmG4jg3tRTPRD3rL37SfXI1WdJ9jFAywle2
- yAv0gYxRYvtzsAtEOQtbjNGFi3/nc/RKU7zrYWQCcJ1HW/dwzujmPB+k0z+OsYp/KMME
- uB1Q==
+ bh=TUgRmwD7tXnbjAggXKtnmXyY+RsIf+0q/OJybdA363I=;
+ b=bP9nQ7BoyCGod1BhG3z8QZjF/kVFqwUEfoZ7mDAOk+OudBxaZ+fOGTHUuyl0in/mIw
+ iRqpPiEhME4Q9diVh4WgxKmzEOClBH7PjsGUgzBHK4K0PLCJNbnJDn5Kt+eZwwzEj5+A
+ FDZ8kZJer87URFV5zW7EPRCLnW4cexqt01vKe4rkpuaVF+aFFqCsaXuo2SgBxDmrFTo7
+ xftvGEYol89+cCXKrls/rGJr7AOu4Wa8QIHU5iF8ZZjZJpbBjVom1oGfWvYrxRgJa1/k
+ ycL+MFvwF7CB4JX/blwrL58wXkCF4oXDB41m/9CUY7lzzTop7KBKZeWASwea9L/6HV8/
+ Oldw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=naPHzWGP/6yDNY73WXVrE5ILIKRmkCw8JxXeNmytdeA=;
- b=PrXVrD4tpIY30a77ReIynRwb+HnNiL7p70E7wSaGBavTDgVQAgpVeyw2JHIIyBXW0E
- zkztlmdD0Lp4HsmABTTWiFmI89gyyfqneGnix0RwAPJC8s8yLvYaYpxkKf/RFt+vvtGz
- 3jO8gpFX56zXa9Z980QvX0uO2uXkAUtHhjyxY5V+ZCLXv0xZLT/RKaO17GriFLCKUBIX
- DrDACZ68qJr6Lfu8ibt8Gbfjw4A8f+MEIVYt8M7k5Rqp8ESf77gQDg6MR30B1Upvbv+H
- q/qM2wat3dSpFf2rZEdGFdVs7qclTVtZXxlggwoF2+cxDZ21hm72TInchOZoDRtEkJIy
- ssSg==
-X-Gm-Message-State: AOAM531N/UPpYKWegau+6Chpo4U5AFZi6rBIXbrFi3nE6PvwLpf2Bmrk
- GFmWgE66x/MeoSsDjUKC+Kmwc1MEB6A=
-X-Google-Smtp-Source: ABdhPJyaYXH2NZetoujDi4+SAio4VhjxVTnNYQMcS7VanbwpAPfd0qMfOvD7PZ4LNDv4G9qxW80RBw==
-X-Received: by 2002:a1c:ed13:: with SMTP id l19mr1154876wmh.48.1632174316700; 
- Mon, 20 Sep 2021 14:45:16 -0700 (PDT)
+ bh=TUgRmwD7tXnbjAggXKtnmXyY+RsIf+0q/OJybdA363I=;
+ b=Y5zPeL42IYQWHmGugoEtWr9zNp5iM2hZ8EmBGoZxK4eEobJnlPUVpCsK0yZt+Kxjll
+ QDfrovDMzAm6pXWsBMIEZsy5Kr2HODWp2uVbsnu5BcBTPN62zZU8fS3QN7xGaKpwZlR2
+ C1ijUNYem6Oen6Lq5rvVWEV4PjQpDeqB9U9IBJMPp/bvktw+Jmtw/7tNIO9fRwadg2ja
+ 6dNuXWs9C2PgPInn1XKZnp8YUFGpDUqdJ26AR07nEwxWf2hzhl5fcont2KbvAxTtcNHh
+ sJc+p7IVoN9wdTFZ/P8ILP1Mu5bBk9dksoJeOTeOgQJBmM1c2clnKXw6yGUpKL74mOHC
+ w+NQ==
+X-Gm-Message-State: AOAM533Ghl6XPF9hz0ajMI8UUXKDFOx2026IqiLI5spfoAvhXyJ3U+7D
+ GbUV1bW431ZrdP1vZr1AusoFN9qRdfs=
+X-Google-Smtp-Source: ABdhPJxa7VtuXXanz24afeAyQiO8JqFLYZ4juV5+cGW0bQm8KYYDhaBDzpEwMTV0gtXtARqk3WEpow==
+X-Received: by 2002:a1c:f302:: with SMTP id q2mr862462wmq.56.1632174325818;
+ Mon, 20 Sep 2021 14:45:25 -0700 (PDT)
 Received: from x1w.. (118.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.118])
  by smtp.gmail.com with ESMTPSA id
- z133sm845447wmc.45.2021.09.20.14.45.15
+ g143sm705924wme.16.2021.09.20.14.45.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 14:45:16 -0700 (PDT)
+ Mon, 20 Sep 2021 14:45:25 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 06/31] accel/kvm: Implement AccelOpsClass::has_work()
-Date: Mon, 20 Sep 2021 23:44:22 +0200
-Message-Id: <20210920214447.2998623-7-f4bug@amsat.org>
+Subject: [PATCH v5 08/31] accel/tcg: Implement AccelOpsClass::has_work() as
+ stub
+Date: Mon, 20 Sep 2021 23:44:24 +0200
+Message-Id: <20210920214447.2998623-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210920214447.2998623-1-f4bug@amsat.org>
 References: <20210920214447.2998623-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,54 +91,66 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement KVM has_work() handler in AccelOpsClass and
-remove it from cpu_thread_is_idle() since cpu_has_work()
-is already called.
+Add TCG target-specific has_work() handler in TCGCPUOps,
+and add tcg_cpu_has_work() as AccelOpsClass has_work()
+implementation.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- accel/kvm/kvm-accel-ops.c | 6 ++++++
- softmmu/cpus.c            | 2 +-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ include/hw/core/tcg-cpu-ops.h |  4 ++++
+ accel/tcg/tcg-accel-ops.c     | 10 ++++++++++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/accel/kvm/kvm-accel-ops.c b/accel/kvm/kvm-accel-ops.c
-index 7516c67a3f5..6f4d5df3a0d 100644
---- a/accel/kvm/kvm-accel-ops.c
-+++ b/accel/kvm/kvm-accel-ops.c
-@@ -74,6 +74,11 @@ static void kvm_start_vcpu_thread(CPUState *cpu)
-                        cpu, QEMU_THREAD_JOINABLE);
+diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+index 55123cb4d22..4a4c4053e3b 100644
+--- a/include/hw/core/tcg-cpu-ops.h
++++ b/include/hw/core/tcg-cpu-ops.h
+@@ -66,6 +66,10 @@ struct TCGCPUOps {
+     void (*do_interrupt)(CPUState *cpu);
+ #endif /* !CONFIG_USER_ONLY || !TARGET_I386 */
+ #ifdef CONFIG_SOFTMMU
++    /**
++     * @has_work: Callback for checking if there is work to do.
++     */
++    bool (*has_work)(CPUState *cpu);
+     /** @cpu_exec_interrupt: Callback for processing interrupts in cpu_exec */
+     bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
+     /**
+diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
+index 1a8e8390bd6..f539ba53806 100644
+--- a/accel/tcg/tcg-accel-ops.c
++++ b/accel/tcg/tcg-accel-ops.c
+@@ -32,6 +32,7 @@
+ #include "qemu/main-loop.h"
+ #include "qemu/guest-random.h"
+ #include "exec/exec-all.h"
++#include "hw/core/tcg-cpu-ops.h"
+ 
+ #include "tcg-accel-ops.h"
+ #include "tcg-accel-ops-mttcg.h"
+@@ -73,6 +74,14 @@ int tcg_cpus_exec(CPUState *cpu)
+     return ret;
  }
  
-+static bool kvm_cpu_has_work(CPUState *cpu)
++static bool tcg_cpu_has_work(CPUState *cpu)
 +{
-+    return kvm_halt_in_kernel();
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++
++    g_assert(cc->tcg_ops->has_work);
++    return cc->tcg_ops->has_work(cpu);
 +}
 +
- static void kvm_accel_ops_class_init(ObjectClass *oc, void *data)
+ /* mask must never be zero, except for A20 change call */
+ void tcg_handle_interrupt(CPUState *cpu, int mask)
  {
-     AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
-@@ -83,6 +88,7 @@ static void kvm_accel_ops_class_init(ObjectClass *oc, void *data)
-     ops->synchronize_post_init = kvm_cpu_synchronize_post_init;
-     ops->synchronize_state = kvm_cpu_synchronize_state;
-     ops->synchronize_pre_loadvm = kvm_cpu_synchronize_pre_loadvm;
-+    ops->has_work = kvm_cpu_has_work;
+@@ -108,6 +117,7 @@ static void tcg_accel_ops_init(AccelOpsClass *ops)
+         ops->kick_vcpu_thread = rr_kick_vcpu_thread;
+         ops->handle_interrupt = tcg_handle_interrupt;
+     }
++    ops->has_work = tcg_cpu_has_work;
  }
  
- static const TypeInfo kvm_accel_ops_type = {
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index e59046ce39c..b22804c4193 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -90,7 +90,7 @@ bool cpu_thread_is_idle(CPUState *cpu)
-         return true;
-     }
-     if (!cpu->halted || cpu_has_work(cpu) ||
--        kvm_halt_in_kernel() || whpx_apic_in_platform()) {
-+        whpx_apic_in_platform()) {
-         return false;
-     }
-     return true;
+ static void tcg_accel_ops_class_init(ObjectClass *oc, void *data)
 -- 
 2.31.1
 
