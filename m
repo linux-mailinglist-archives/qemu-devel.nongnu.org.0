@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08EB41268C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 20:59:49 +0200 (CEST)
-Received: from localhost ([::1]:49846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E539B41268D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 21:00:23 +0200 (CEST)
+Received: from localhost ([::1]:50304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSOW4-0002ap-RL
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 14:59:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37902)
+	id 1mSOWc-0002tT-Fk
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 15:00:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mSOTB-0006lw-F6
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 14:56:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20761)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mSOT7-0005qO-MW
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 14:56:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632164204;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2caU3WY3weEfCmSPyOogyAXMdsGXKfBnQIt7aOaoFpc=;
- b=PePGqvSxpkgo7sVyUq4sVJCyg8h0ZW6pUobAX0dHdTx0tda0QFas5bCaQaYrjl2GmzkDR/
- URotsgjAjddtSkS8VxTraUfl4HrVG9BWf117xh2ar3mvzQSDrnxLQuTLN607nvroNANYvo
- 3zltM5Ckbkrg60hjb7qcHKPvGTmge48=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-4kk6jC-8Ml6yl7JlC9HsUA-1; Mon, 20 Sep 2021 14:56:42 -0400
-X-MC-Unique: 4kk6jC-8Ml6yl7JlC9HsUA-1
-Received: by mail-pl1-f198.google.com with SMTP id
- c11-20020a170902724b00b0013ca44249e9so5528944pll.10
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 11:56:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mSOT7-0006cg-4R
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 14:56:45 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:39773)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mSOT4-0005mX-E2
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 14:56:44 -0400
+Received: by mail-pf1-x435.google.com with SMTP id e16so17149785pfc.6
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 11:56:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=y2AmxF8lQAAQD3n7iN6BUQ9Y6JFlFg18BlqvX5uZQug=;
+ b=LwIORFN05Vvj/3u1cL82J4okRFS5rt3i/XShDecPDUvpPv40V/6Y6BIdxv3s8L0v5Z
+ 2DtdCm3+OY6PKdYMdGuDwzJeYmKDuqC5PWJi8DZBiLGK7LVY/+9NfMI5Uo1wnki1xOzH
+ OFzoduqqMi6pezyX/CIYEzH670CeAHf5rPDP7/L3qTmWu1m/Ujy0ziPU8RcABSaWvIHF
+ Cmxkz9mZ77CfI3cTjEBHDv9r87E6jE5t0pwo/XASKcDCFfpETh8CQSwXlMg9Z2exwuRe
+ 8YHiYjgYhTQ0fdaQ1jAW9086c91cToAV/aVEnpSivVOGgmlryU5tEp1Pi4rNg572B8w+
+ 5p9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2caU3WY3weEfCmSPyOogyAXMdsGXKfBnQIt7aOaoFpc=;
- b=UrK6DgVsVh2QMBIZhIk49WS7I9ohCiMV7rrbwv4582nEscwBHO8hr2S7vXI96K8lcP
- n2AgTXeol2NQMaZApbj6m5EgfaK5EupLkSumSDdgabLLJnqQaBAhjEW3laUTgPtpJrgq
- 4lnPnCNbF1FUrg1aHa9GNxrGvhi49FqbI/5qFasuEsiUzw8w0msRRoYiH47PO2XocT9Q
- 1EKNwFizbi3q3pjb4W5c5lLJt8Ge1JOYyyA9CuoMXXqiS7tNWWSvCdc8u52gGw+Nvqn2
- n0rz1g1rt9GYSXvtj6gngeI2n59RaeGA7Nrc0mwkhVSIaDpnuQf24dfCIb7zU5JoRjEt
- UwFQ==
-X-Gm-Message-State: AOAM5312iydDJLB9SENCBNV5gl4J5xl9cP2TLQ907MvtkQaGEukLuFna
- QcH8o97mQFXuA4pkweyIGif1P+c71bktYJnOrkbNPaKPzZ2NhgXKtUei+ckv4KXDYMuU8oIonA4
- SYrmX7ycVdQIvFIKS5Ybsomjupk0WYCQ=
-X-Received: by 2002:a17:90a:19d2:: with SMTP id
- 18mr580249pjj.122.1632164201011; 
- Mon, 20 Sep 2021 11:56:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz/W2I30rb29QIqt94VcUEj/tm2YXZ/zZxMw8KC6Z64U/kVgOZT+XmsQ9VvTwsexR/jxqU8Ls1ia8myQULWFMk=
-X-Received: by 2002:a17:90a:19d2:: with SMTP id
- 18mr580216pjj.122.1632164200654; 
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=y2AmxF8lQAAQD3n7iN6BUQ9Y6JFlFg18BlqvX5uZQug=;
+ b=CbYuOdpMJcgemBh/Evo0AlkNmIuka4wSHybLLz3TGK/aaMrqRc2d7bubmPYDRuvAvB
+ LNbt8Sdfn8fKHygcLoUenDHa/0TZ4I2tF47TFPab+zjOhndTU8iq3GT+GU2kN2hHuhXV
+ c9McgYaVGM2pclL3voMFfvRGBWpAM2NoukQGZAzbvLN1My5ZHfVWSj0CR1nRdSr/qeg/
+ 9oMcIyDX9eKwqZdZ2iRY45LnSHZIvNK5QG7P5xvgpkMMBPDIxFycSsrcp5FB+1ztzHA0
+ rlV0uPe5udZ4rOtgky1920uoyNdaf5xb5TgN7NHNh0WHDmlpjQpkVhfQMmsqtgQAdF7e
+ nkuA==
+X-Gm-Message-State: AOAM531y5RxcsFVwEzrgaKS/bbA8+sobLb/yeB2l/RhsdJuEeUxn/EfX
+ YeRf2wHTiavf5KIyl45RdinywQ==
+X-Google-Smtp-Source: ABdhPJxfTGXE4XuvJHiD8laFh/GcsUz3T82E3peXbftF0VuW5di+5m25Egg4j9wHOH7HcnRMdGnnWA==
+X-Received: by 2002:aa7:9718:0:b0:43e:ee6:fd94 with SMTP id
+ a24-20020aa79718000000b0043e0ee6fd94mr26085684pfg.73.1632164200775; 
  Mon, 20 Sep 2021 11:56:40 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id n19sm14760980pfa.60.2021.09.20.11.56.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Sep 2021 11:56:40 -0700 (PDT)
+Subject: Re: [PATCH v6 10/21] target/loongarch: Add floating point arithmetic
+ instruction translation
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <1631866380-31017-1-git-send-email-gaosong@loongson.cn>
+ <1631866380-31017-11-git-send-email-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <5d77c332-19bb-c337-840b-5e97f82ec530@linaro.org>
+Date: Mon, 20 Sep 2021 11:56:38 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20201116183114.55703-1-hare@suse.de>
- <20201116183114.55703-3-hare@suse.de>
-In-Reply-To: <20201116183114.55703-3-hare@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Mon, 20 Sep 2021 20:56:29 +0200
-Message-ID: <CABgObfbUH4Djyicuie0-Bbu1zKrYN3+NDd56c5KA16s+Q+Liww@mail.gmail.com>
-Subject: Re: [PATCH 2/3] scsi: make io_timeout configurable
-To: Hannes Reinecke <hare@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <1631866380-31017-11-git-send-email-gaosong@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,20 +89,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
+ yangxiaojuan@loongson.cn, laurent@vivier.eu, peterx@redhat.com,
+ f4bug@amsat.org, alistair.francis@wdc.com, maobibo@loongson.cn,
+ pbonzini@redhat.com, bmeng.cn@gmail.com, alex.bennee@linaro.org,
+ chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 16, 2020 at 7:31 PM Hannes Reinecke <hare@suse.de> wrote:
-> The current code sets an infinite timeout on SG_IO requests,
-> causing the guest to stall if the host experiences a frame
-> loss.
-> This patch adds an 'io_timeout' parameter for SCSIDevice to
-> make the SG_IO timeout configurable, and also shortens the
-> default timeout to 30 seconds to avoid infinite stalls.
+On 9/17/21 1:12 AM, Song Gao wrote:
+> This patch implement floating point arithmetic instruction translation.
+> 
+> This includes:
+> - F{ADD/SUB/MUL/DIV}.{S/D}
+> - F{MADD/MSUB/NMADD/NMSUB}.{S/D}
+> - F{MAX/MIN}.{S/D}
+> - F{MAXA/MINA}.{S/D}
+> - F{ABS/NEG}.{S/D}
+> - F{SQRT/RECIP/RSQRT}.{S/D}
+> - F{SCALEB/LOGB/COPYSIGN}.{S/D}
+> - FCLASS.{S/D}
+> 
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
+> Signed-off-by: XiaoJuan Yang<yangxiaojuan@loongson.cn>
+> ---
+>   target/loongarch/cpu.c                     |   1 +
+>   target/loongarch/fpu_helper.c              | 406 +++++++++++++++++++++++++++++
+>   target/loongarch/helper.h                  |  37 +++
+>   target/loongarch/insn_trans/trans_farith.c | 108 ++++++++
+>   target/loongarch/insns.decode              |  56 ++++
+>   target/loongarch/internals.h               |   2 +
+>   target/loongarch/translate.c               |  11 +
+>   7 files changed, 621 insertions(+)
+>   create mode 100644 target/loongarch/fpu_helper.c
+>   create mode 100644 target/loongarch/insn_trans/trans_farith.c
 
-Hannes, could 30 seconds be a bit too short for tape drives?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Paolo
-
+r~
 
