@@ -2,80 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF93C4119B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 18:23:41 +0200 (CEST)
-Received: from localhost ([::1]:44730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A520411A0C
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 18:45:11 +0200 (CEST)
+Received: from localhost ([::1]:41272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSM4x-0004ve-UL
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 12:23:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37368)
+	id 1mSMPk-00073l-Sb
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 12:45:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSM1W-0002cW-3L
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:20:06 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:36463)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSM1U-0001dn-5B
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:20:05 -0400
-Received: by mail-pf1-x429.google.com with SMTP id m26so16746869pff.3
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 09:20:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=GyAdnwk8e8OYiYp0Zr+lZZLbYlHeAlkVJrBZU/eLdO4=;
- b=xrrMQqNuGuUYUJAghbcWd2mPgMJell+WNg+KuuZpWQu7sbzceqFz6zAm+VMZ1yKGcX
- WFm/Z7xtXkMMdatnF8miCNX7lBpcHMQZKUfrg+KgLPhS0w6x1Qt6auNMtf18U821+1LS
- mMkau9SbUwFKzENgly+nG4kpo6Jw0/U8E0nHkmcOBJRdOwZv+A1/XQi4xAe1VoiGJxsW
- 2qziEMFH/cbchctSLiB4F162GNbKQdFHdlD1RrlGCC0RqYbBDsJ3nkqtekwLPHUtNDNU
- Jl6ut+6oKlSPIEQyv2je9KCwG2JLcJUBWFiGygi77EU0gZXwOEifzKHIISr3ozJiSLq5
- YX6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GyAdnwk8e8OYiYp0Zr+lZZLbYlHeAlkVJrBZU/eLdO4=;
- b=iOb3l6NGJXbhDQtbxCm4KQ/WTtxlafqH2lqHQGKpUvbGAqBO73hnOw5kkHGmYsDQur
- VJXpvRYKSICoMSR7NllAoSnOXDBpPFz4pqd+gX/bpWrQOkODjM3muaP2RFqEaigmdyPb
- +qcR+FnLr1srlBswNdABZOrmESVIhKWhXUaXq+rowZQO4V+WSXgIgXD5CTZ+4BxNzvhY
- +sHbWwY85dFZjD+Q0LHilPTq6g68kubQaQbXw/iif5nX2wdlg9nEYZGDQzb9shfH5jJH
- hOmFEIxOxXtrekmYs+sqZc5ntJRQoBIjiQwhVzje4J7a0sSSuv3HE8/za9vFlr94C5xd
- Efdg==
-X-Gm-Message-State: AOAM531bsaSP7GqBDc5CoT2YndyAH0d3ubYfJLSs9SQvFmpibk1/MtT1
- /KFrnd1UIeX00HtVCu30ToSUpidxmLEw1Q==
-X-Google-Smtp-Source: ABdhPJw0Oe5Fe70uVoLfXynYmT5LuXfs5X6AvHlLc5fSxr3FMrFOvu1VAW58ipQBxvWjz801TGidkw==
-X-Received: by 2002:a62:4ecb:0:b0:447:a583:ce8f with SMTP id
- c194-20020a624ecb000000b00447a583ce8fmr8501718pfb.59.1632154802592; 
- Mon, 20 Sep 2021 09:20:02 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id y25sm14826165pfe.28.2021.09.20.09.20.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Sep 2021 09:20:02 -0700 (PDT)
-Subject: Re: [PATCH 19/30] tcg/loongarch: Implement br/brcond ops
-To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
-References: <20210920080451.408655-1-git@xen0n.name>
- <20210920080451.408655-20-git@xen0n.name>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <65a138c8-9160-f5f7-f4bb-3323a0e26961@linaro.org>
-Date: Mon, 20 Sep 2021 09:20:00 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mSM7r-0002d8-LX
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:26:39 -0400
+Received: from [115.28.160.31] (port=40292 helo=mailbox.box.xen0n.name)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mSM7o-0006ib-7m
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:26:39 -0400
+Received: from [192.168.9.172] (unknown [101.88.25.142])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 1BBEA600FF;
+ Tue, 21 Sep 2021 00:20:44 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1632154844; bh=vofcx4B2MHYTu0PNvg0LN14bFdQj/7wolfvhBWkiT38=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=kw09b0nun4KbRBsrOieFy1wdJXU0bbStWcR+/UQjqSU7aRWkN+MDTXDTapudc4TPR
+ g9iE2R/p4+XtpXIJlUutl7fyArHjdvUUsSZcgco7yGHHzZ7VExnV83QsfpJSBOQxO/
+ Efv6FHzaZLuRJhkgBwwX2siOC6OHQEX3QqWXpEe8=
+Message-ID: <c43cba8a-0b05-a2f2-9537-a38bccf57c87@xen0n.name>
+Date: Tue, 21 Sep 2021 00:20:43 +0800
 MIME-Version: 1.0
-In-Reply-To: <20210920080451.408655-20-git@xen0n.name>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
+ Thunderbird/94.0a1
+Subject: Re: [PATCH 03/30] tcg/loongarch: Add the tcg-target.h file
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210920080451.408655-1-git@xen0n.name>
+ <20210920080451.408655-4-git@xen0n.name>
+ <c5104c22-e09f-d8b9-3429-fec2c52a7494@linaro.org>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <c5104c22-e09f-d8b9-3429-fec2c52a7494@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,14 +68,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/20/21 1:04 AM, WANG Xuerui wrote:
-> Signed-off-by: WANG Xuerui<git@xen0n.name>
-> ---
->   tcg/loongarch/tcg-target-con-set.h |  1 +
->   tcg/loongarch/tcg-target.c.inc     | 52 ++++++++++++++++++++++++++++++
->   2 files changed, 53 insertions(+)
+Hi Richard,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 9/20/21 22:23, Richard Henderson wrote:
+> On 9/20/21 1:04 AM, WANG Xuerui wrote:
+>> Signed-off-by: WANG Xuerui <git@xen0n.name>
+>> ---
+>>   tcg/loongarch/tcg-target.h | 183 +++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 183 insertions(+)
+>>   create mode 100644 tcg/loongarch/tcg-target.h
+>>
+>> diff --git a/tcg/loongarch/tcg-target.h b/tcg/loongarch/tcg-target.h
+>> new file mode 100644
+>> index 0000000000..b5e70e01b5
+>> --- /dev/null
+>> +++ b/tcg/loongarch/tcg-target.h
+>> @@ -0,0 +1,183 @@
+>> +/*
+>> + * Tiny Code Generator for QEMU
+>> + *
+>> + * Copyright (c) 2021 WANG Xuerui <git@xen0n.name>
+>> + *
+>> + * Based on tcg/riscv/tcg-target.h
+>> + *
+>> + * Copyright (c) 2018 SiFive, Inc
+>
+> You may have copied too much from the riscv port?  :-)
 
-r~
+First of all, thanks for the *extremely* quick review!
+
+As for the copying, I admit that I thought the riscv port generally was 
+doing things the recent and preferred way, so most of the logic are only 
+lightly touched. However the LoongArch is substantially similar to riscv 
+too, so much of the traits expressed here would be the same regardless.
+
+But in such a case of outstanding similarity, should I just drop my 
+"copyright" line? I'm actually okay with dropping if that's the best 
+thing to do.
+
+>
+>> +/*
+>> + * Loongson removed the (incomplete) 32-bit support from kernel and 
+>> toolchain
+>> + * for the initial upstreaming of this architecture, so don't bother 
+>> and just
+>> + * support the LP64 ABI for now.
+>> + */
+>> +#if defined(__loongarch64)
+>> +# define TCG_TARGET_REG_BITS 64
+>> +#else
+>> +# error unsupported LoongArch bitness
+>
+> s/bitness/register size/
+Sure; will fix in v2.
+>
+>
+>> +#define TCG_TARGET_TLB_DISPLACEMENT_BITS 20
+>
+> Hmm.  I was about to say this is more copying from riscv, and should 
+> be X, but now I see that this is no longer used.  You can omit it now; 
+> I'll remove the other instances myself.
+Thanks for the explanation, I'm only into qemu internals for 2 weeks and 
+that's something I haven't read about yet! I'll try to remove irrelevant 
+parts like this in v2.
+>
+>> +/* optional instructions */
+>> +#define TCG_TARGET_HAS_movcond_i32      0
+>> +#define TCG_TARGET_HAS_div_i32          1
+>> +#define TCG_TARGET_HAS_rem_i32          1
+>> +#define TCG_TARGET_HAS_div2_i32         0
+>> +#define TCG_TARGET_HAS_rot_i32          1
+>> +#define TCG_TARGET_HAS_deposit_i32      1
+>> +#define TCG_TARGET_HAS_extract_i32      1
+>> +#define TCG_TARGET_HAS_sextract_i32     0
+>> +#define TCG_TARGET_HAS_extract2_i32     0
+>> +#define TCG_TARGET_HAS_add2_i32         0
+>> +#define TCG_TARGET_HAS_sub2_i32         0
+>> +#define TCG_TARGET_HAS_mulu2_i32        0
+>> +#define TCG_TARGET_HAS_muls2_i32        0
+>> +#define TCG_TARGET_HAS_muluh_i32        1
+>> +#define TCG_TARGET_HAS_mulsh_i32        1
+>> +#define TCG_TARGET_HAS_ext8s_i32        1
+>> +#define TCG_TARGET_HAS_ext16s_i32       1
+>> +#define TCG_TARGET_HAS_ext8u_i32        1
+>> +#define TCG_TARGET_HAS_ext16u_i32       1
+>> +#define TCG_TARGET_HAS_bswap16_i32      0
+>> +#define TCG_TARGET_HAS_bswap32_i32      1
+>> +#define TCG_TARGET_HAS_not_i32          1
+>> +#define TCG_TARGET_HAS_neg_i32          1
+>> +#define TCG_TARGET_HAS_andc_i32         1
+>> +#define TCG_TARGET_HAS_orc_i32          1
+>> +#define TCG_TARGET_HAS_eqv_i32          0
+>> +#define TCG_TARGET_HAS_nand_i32         0
+>> +#define TCG_TARGET_HAS_nor_i32          1
+>> +#define TCG_TARGET_HAS_clz_i32          1
+>> +#define TCG_TARGET_HAS_ctz_i32          1
+>> +#define TCG_TARGET_HAS_ctpop_i32        0
+>> +#define TCG_TARGET_HAS_direct_jump      0
+>> +#define TCG_TARGET_HAS_brcond2          0
+>> +#define TCG_TARGET_HAS_setcond2         0
+>> +#define TCG_TARGET_HAS_qemu_st8_i32     0
+>> +
+>> +#if TCG_TARGET_REG_BITS == 64
+>
+> You don't need this conditional, since you've asserted it at the top 
+> (and unlike riscv, have no plans to add support for riscv32 at some 
+> future point).
+OK, will remove all such conditionals in v2 too.
 
