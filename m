@@ -2,57 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF53A4111F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 11:39:20 +0200 (CEST)
-Received: from localhost ([::1]:45296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73631411205
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 11:43:38 +0200 (CEST)
+Received: from localhost ([::1]:49336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSFlf-0001Vh-Fm
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 05:39:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36814)
+	id 1mSFpp-0004P7-9n
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 05:43:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mSFkc-0000f6-8t
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 05:38:14 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:34222)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mSFoQ-0003aS-QD
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 05:42:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mSFkZ-0002ij-Em
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 05:38:13 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mSFoM-0006AP-HB
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 05:42:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632130925;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=k+efZvytsEN9YF1eiVRTz6eRLD8aSUG82G5a8nPZm+A=;
+ b=jTaHGxc8NDGDqY6dk8tfWVM/LyBKgtTXzPEigu2RB2L1l8w7aOABEI/hA1genWbFVqQT7p
+ wd1gSuZBKmjQapppRbA7e6QhS4xEt0asLWPBTpDB8UfSy/fLNurwtse5JTRWqX0Y0EeJWo
+ h04QyCS2gSynV5ezVMtQtnCCo33P2e0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-551-q_7Je_OCM5mdyeBEVRC22A-1; Mon, 20 Sep 2021 05:38:07 -0400
-X-MC-Unique: q_7Je_OCM5mdyeBEVRC22A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-215-4cU2cdL3M6WIeSutUVKGqg-1; Mon, 20 Sep 2021 05:42:02 -0400
+X-MC-Unique: 4cU2cdL3M6WIeSutUVKGqg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEF5D362F8;
- Mon, 20 Sep 2021 09:38:05 +0000 (UTC)
-Received: from bahia.huguette (unknown [10.39.193.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 51FA95D9DD;
- Mon, 20 Sep 2021 09:38:04 +0000 (UTC)
-Date: Mon, 20 Sep 2021 11:38:03 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v8 5/7] spapr: move FORM1 verifications to post CAS
-Message-ID: <20210920113803.319112e4@bahia.huguette>
-In-Reply-To: <20210917212802.424481-6-danielhb413@gmail.com>
-References: <20210917212802.424481-1-danielhb413@gmail.com>
- <20210917212802.424481-6-danielhb413@gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07D91802928;
+ Mon, 20 Sep 2021 09:42:01 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1585566FFF;
+ Mon, 20 Sep 2021 09:41:59 +0000 (UTC)
+Date: Mon, 20 Sep 2021 11:41:58 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PULL 41/56] block/copy-before-write: make public block driver
+Message-ID: <YUhXZsbPxQyH2rpQ@redhat.com>
+References: <20210901151619.689075-1-hreitz@redhat.com>
+ <20210901151619.689075-42-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210901151619.689075-42-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.476,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,198 +76,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: vsementsov@virtuozzo.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 Sep 2021 18:28:00 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+Am 01.09.2021 um 17:16 hat Hanna Reitz geschrieben:
+> From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> 
+> Finally, copy-before-write gets own .bdrv_open and .bdrv_close
+> handlers, block_init() call and becomes available through bdrv_open().
+> 
+> To achieve this:
+> 
+>  - cbw_init gets unused flags argument and becomes cbw_open
+>  - block_copy_state_free() call moved to new cbw_close()
+>  - in bdrv_cbw_append:
+>    - options are completed with driver and node-name, and we can simply
+>      use bdrv_insert_node() to do both open and drained replacing
+>  - in bdrv_cbw_drop:
+>    - cbw_close() is now responsible for freeing s->bcs, so don't do it
+>      here
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Max Reitz <mreitz@redhat.com>
+> Message-Id: <20210824083856.17408-22-vsementsov@virtuozzo.com>
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 
-> FORM2 NUMA affinity is prepared to deal with empty (memory/cpu less)
-> NUMA nodes. This is used by the DAX KMEM driver to locate a PAPR SCM
-> device that has a different latency than the original NUMA node from the
-> regular memory. FORM2 is also able  to deal with asymmetric NUMA
-> distances gracefully, something that our FORM1 implementation doesn't
-> do.
->=20
-> Move these FORM1 verifications to a new function and wait until after
-> CAS, when we're sure that we're sticking with FORM1, to enforce them.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
+This patch results in a change in behaviour that I assume was not
+intentional: Previously, creating a backup block job would succeed to
+insert the filter node independently of whether the filter driver was
+whitelisted or not. After this patch, it becomes an error if the filter
+driver isn't explicitly whitelisted:
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+https://bugzilla.redhat.com/show_bug.cgi?id=2004812
 
->  hw/ppc/spapr.c              | 33 -----------------------
->  hw/ppc/spapr_hcall.c        |  6 +++++
->  hw/ppc/spapr_numa.c         | 53 ++++++++++++++++++++++++++++++++-----
->  include/hw/ppc/spapr_numa.h |  1 +
->  4 files changed, 54 insertions(+), 39 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index d39fd4e644..ada85ee083 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -2773,39 +2773,6 @@ static void spapr_machine_init(MachineState *machi=
-ne)
->      /* init CPUs */
->      spapr_init_cpus(spapr);
-> =20
-> -    /*
-> -     * check we don't have a memory-less/cpu-less NUMA node
-> -     * Firmware relies on the existing memory/cpu topology to provide th=
-e
-> -     * NUMA topology to the kernel.
-> -     * And the linux kernel needs to know the NUMA topology at start
-> -     * to be able to hotplug CPUs later.
-> -     */
-> -    if (machine->numa_state->num_nodes) {
-> -        for (i =3D 0; i < machine->numa_state->num_nodes; ++i) {
-> -            /* check for memory-less node */
-> -            if (machine->numa_state->nodes[i].node_mem =3D=3D 0) {
-> -                CPUState *cs;
-> -                int found =3D 0;
-> -                /* check for cpu-less node */
-> -                CPU_FOREACH(cs) {
-> -                    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> -                    if (cpu->node_id =3D=3D i) {
-> -                        found =3D 1;
-> -                        break;
-> -                    }
-> -                }
-> -                /* memory-less and cpu-less node */
-> -                if (!found) {
-> -                    error_report(
-> -                       "Memory-less/cpu-less nodes are not supported (no=
-de %d)",
-> -                                 i);
-> -                    exit(1);
-> -                }
-> -            }
-> -        }
-> -
-> -    }
-> -
->      spapr->gpu_numa_id =3D spapr_numa_initial_nvgpu_numa_id(machine);
-> =20
->      /* Init numa_assoc_array */
-> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index 9056644890..222c1b6bbd 100644
-> --- a/hw/ppc/spapr_hcall.c
-> +++ b/hw/ppc/spapr_hcall.c
-> @@ -1198,6 +1198,12 @@ target_ulong do_client_architecture_support(PowerP=
-CCPU *cpu,
->      spapr->cas_pre_isa3_guest =3D !spapr_ovec_test(ov1_guest, OV1_PPC_3_=
-00);
->      spapr_ovec_cleanup(ov1_guest);
-> =20
-> +    /*
-> +     * Check for NUMA affinity conditions now that we know which NUMA
-> +     * affinity the guest will use.
-> +     */
-> +    spapr_numa_associativity_check(spapr);
-> +
->      /*
->       * Ensure the guest asks for an interrupt mode we support;
->       * otherwise terminate the boot.
-> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index 7339d00d20..dfe4fada01 100644
-> --- a/hw/ppc/spapr_numa.c
-> +++ b/hw/ppc/spapr_numa.c
-> @@ -193,6 +193,48 @@ static void spapr_numa_define_FORM1_domains(SpaprMac=
-hineState *spapr)
-> =20
->  }
-> =20
-> +static void spapr_numa_FORM1_affinity_check(MachineState *machine)
-> +{
-> +    int i;
-> +
-> +    /*
-> +     * Check we don't have a memory-less/cpu-less NUMA node
-> +     * Firmware relies on the existing memory/cpu topology to provide th=
-e
-> +     * NUMA topology to the kernel.
-> +     * And the linux kernel needs to know the NUMA topology at start
-> +     * to be able to hotplug CPUs later.
-> +     */
-> +    if (machine->numa_state->num_nodes) {
-> +        for (i =3D 0; i < machine->numa_state->num_nodes; ++i) {
-> +            /* check for memory-less node */
-> +            if (machine->numa_state->nodes[i].node_mem =3D=3D 0) {
-> +                CPUState *cs;
-> +                int found =3D 0;
-> +                /* check for cpu-less node */
-> +                CPU_FOREACH(cs) {
-> +                    PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-> +                    if (cpu->node_id =3D=3D i) {
-> +                        found =3D 1;
-> +                        break;
-> +                    }
-> +                }
-> +                /* memory-less and cpu-less node */
-> +                if (!found) {
-> +                    error_report(
-> +"Memory-less/cpu-less nodes are not supported with FORM1 NUMA (node %d)"=
-, i);
-> +                    exit(EXIT_FAILURE);
-> +                }
-> +            }
-> +        }
-> +    }
-> +
-> +    if (!spapr_numa_is_symmetrical(machine)) {
-> +        error_report(
-> +"Asymmetrical NUMA topologies aren't supported in the pSeries machine us=
-ing FORM1 NUMA");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +}
-> +
->  /*
->   * Set NUMA machine state data based on FORM1 affinity semantics.
->   */
-> @@ -250,12 +292,6 @@ static void spapr_numa_FORM1_affinity_init(SpaprMach=
-ineState *spapr,
->          return;
+>  block/copy-before-write.c | 60 ++++++++++++++++++---------------------
+>  1 file changed, 28 insertions(+), 32 deletions(-)
+> 
+> diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+> index 2efe098aae..2cd68b480a 100644
+> --- a/block/copy-before-write.c
+> +++ b/block/copy-before-write.c
+> @@ -144,7 +144,8 @@ static void cbw_child_perm(BlockDriverState *bs, BdrvChild *c,
 >      }
-> =20
-> -    if (!spapr_numa_is_symmetrical(machine)) {
-> -        error_report("Asymmetrical NUMA topologies aren't supported "
-> -                     "in the pSeries machine");
-> -        exit(EXIT_FAILURE);
-> -    }
-> -
->      spapr_numa_define_FORM1_domains(spapr);
 >  }
-> =20
-> @@ -265,6 +301,11 @@ void spapr_numa_associativity_init(SpaprMachineState=
- *spapr,
->      spapr_numa_FORM1_affinity_init(spapr, machine);
+>  
+> -static int cbw_init(BlockDriverState *bs, QDict *options, Error **errp)
+> +static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
+> +                    Error **errp)
+>  {
+>      BDRVCopyBeforeWriteState *s = bs->opaque;
+>      BdrvDirtyBitmap *copy_bitmap;
+> @@ -181,10 +182,21 @@ static int cbw_init(BlockDriverState *bs, QDict *options, Error **errp)
+>      return 0;
 >  }
-> =20
-> +void spapr_numa_associativity_check(SpaprMachineState *spapr)
+>  
+> +static void cbw_close(BlockDriverState *bs)
 > +{
-> +    spapr_numa_FORM1_affinity_check(MACHINE(spapr));
+> +    BDRVCopyBeforeWriteState *s = bs->opaque;
+> +
+> +    block_copy_state_free(s->bcs);
+> +    s->bcs = NULL;
 > +}
 > +
->  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *f=
-dt,
->                                         int offset, int nodeid)
+>  BlockDriver bdrv_cbw_filter = {
+>      .format_name = "copy-before-write",
+>      .instance_size = sizeof(BDRVCopyBeforeWriteState),
+>  
+> +    .bdrv_open                  = cbw_open,
+> +    .bdrv_close                 = cbw_close,
+> +
+>      .bdrv_co_preadv             = cbw_co_preadv,
+>      .bdrv_co_pwritev            = cbw_co_pwritev,
+>      .bdrv_co_pwrite_zeroes      = cbw_co_pwrite_zeroes,
+> @@ -205,56 +217,40 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
+>                                    Error **errp)
 >  {
-> diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
-> index 6f9f02d3de..7cb3367400 100644
-> --- a/include/hw/ppc/spapr_numa.h
-> +++ b/include/hw/ppc/spapr_numa.h
-> @@ -24,6 +24,7 @@
->   */
->  void spapr_numa_associativity_init(SpaprMachineState *spapr,
->                                     MachineState *machine);
-> +void spapr_numa_associativity_check(SpaprMachineState *spapr);
->  void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int r=
-tas);
->  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *f=
-dt,
->                                         int offset, int nodeid);
+>      ERRP_GUARD();
+> -    int ret;
+>      BDRVCopyBeforeWriteState *state;
+>      BlockDriverState *top;
+>      QDict *opts;
+>  
+>      assert(source->total_sectors == target->total_sectors);
+>  
+> -    top = bdrv_new_open_driver(&bdrv_cbw_filter, filter_node_name,
+> -                               BDRV_O_RDWR, errp);
+
+bdrv_new_open_driver() is a relatively short and straightforward code
+path that just directly opens a driver for internal use.
+
+> -    if (!top) {
+> -        error_prepend(errp, "Cannot open driver: ");
+> -        return NULL;
+> -    }
+> -    state = top->opaque;
+> -
+>      opts = qdict_new();
+> +    qdict_put_str(opts, "driver", "copy-before-write");
+> +    if (filter_node_name) {
+> +        qdict_put_str(opts, "node-name", filter_node_name);
+> +    }
+>      qdict_put_str(opts, "file", bdrv_get_node_name(source));
+>      qdict_put_str(opts, "target", bdrv_get_node_name(target));
+>  
+> -    ret = cbw_init(top, opts, errp);
+> -    qobject_unref(opts);
+> -    if (ret < 0) {
+> -        goto fail;
+> -    }
+> -
+> -    bdrv_drained_begin(source);
+> -    ret = bdrv_replace_node(source, top, errp);
+> -    bdrv_drained_end(source);
+> -    if (ret < 0) {
+> -        error_prepend(errp, "Cannot append copy-before-write filter: ");
+> -        goto fail;
+> +    top = bdrv_insert_node(source, opts, BDRV_O_RDWR, errp);
+
+On the other hand, bdrv_insert_node() uses bdrv_open() internally, which
+is a really long and messy code path that basically has to handle all of
+the craziness that compatibility code for -drive needs to have.
+
+Do we really need bdrv_open() here?
+
+Or is all you really need just a version of bdrv_new_open_driver() that
+accepts an options QDict instead of just flags?
+
+Kevin
 
 
