@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368D741191D
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 18:12:49 +0200 (CEST)
-Received: from localhost ([::1]:58784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700DC411958
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 18:14:34 +0200 (CEST)
+Received: from localhost ([::1]:60956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSLuR-0003XE-QK
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 12:12:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35854)
+	id 1mSLw9-00051u-HH
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 12:14:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSLsg-0002l2-Gm
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:10:58 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:33785)
+ id 1mSLvJ-0004Ln-Ml
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:13:41 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:33371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSLsc-0002ZJ-AL
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:10:57 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- il14-20020a17090b164e00b0019c7a7c362dso247132pjb.0
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 09:10:52 -0700 (PDT)
+ id 1mSLvI-0004pf-7o
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:13:41 -0400
+Received: by mail-pl1-x634.google.com with SMTP id t4so11440257plo.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 09:13:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=LJMSdOgALX6O+WD6Lsbbv7MdH27HRgsIXQmivs5izfU=;
- b=UY+H+welFWPloY3rUQDSpECZmBg03QBMSpMvU25h/ue656yyoSVW1I77ZmA7jL/N7+
- boUx5JmwczVZrVUOZuVvhHC9Giiqz6oQ5gi4o+2bgsKBVoBE43ErW8Ij2PSnrWa9XvJq
- O19xvReMpcIJTnLPly4Sg/U9qjW74G1X+HRsvl1ofk6h4yHO94oePKuM5m3vXmHa2U7L
- +B1EeXO9zvpxgU2tLzc7/Qc59E1JCGpmsepMQ3j7lvVrdkpk5YyAeF5mZzEQicbfBS54
- 1SXu8R5DivA3PvIvrAUdokTBsmxt1WGLUB/olbqGLDYYwPLwOLNQXwTskGCA23MR9c/T
- DBEg==
+ bh=WppNSfTr/3lEANb4CA3gHO0hLSVKc/A6Ufkl9W/sYR0=;
+ b=CsC/ZzwxcRU+xbo3RMWt5eTvKtbWaucPNyBMJYKhqG+oS3ZDc7qxf3q5BUsRjHk2Np
+ hihyNfjSZWpahHG6XzdcO+uBfZ9O3QdHNPRGwLpWt8FQN7sX+i2M0X1GYdNJqQgruz3s
+ 18fYzlF02TCYjHhx/sfUh/nfm0pZ0VCqwIJ+SYDHTfI/Xis2JrFN5MUIaE13P7QEaRN7
+ mTNo32cohICGZuE/OHaD4unaD01m4XORPTBW8U+KbAHafJiqlNfm60noLgn1zFujkvxu
+ SMK9wIZxzwXvBN2hEHU9xZfkQdWBY/6mNuOuO72o7cmugu6GXVDL/ZGUA4u1oxNdVc8V
+ 63Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=LJMSdOgALX6O+WD6Lsbbv7MdH27HRgsIXQmivs5izfU=;
- b=3trU9/OPHWtfARBmCA8U+DcYM7EkwjgcwWd1Tupu5d4miPzv+UD7Vx2AWE2VsK9lhv
- VzSX7shvBG9LqryQ27wXEFlAuMHKdoX0KEY1BN/V1CYR7N+HykSds1V3jujT9mwiAtCT
- 1AR6pdU0VLqZsy19nt4PvN6Xk49Jh37mEAtb+BpcRXskj/LzOTmo2sHW2DOUeKKIdLax
- D86cQNl9lefsRtjtRiTlfeQmaEbHhliZUJ56Yng2hvoe02yNwyOOcya4qkL+dos20j9c
- GqqyIKFa5glotGOnR58obXFZbDqjHdTfa+TxdG9UW+LmnDHdyDCp6wFIXCFQwrCi1SNv
- kQjw==
-X-Gm-Message-State: AOAM5333LzvhNnWSP4E40Nu7Kx7IrHp+DGrK9glUWgt/HJPlLoJq7tTn
- xFmjIEBDh3Nvkq0jxEtdd+Mfklsx9FrquA==
-X-Google-Smtp-Source: ABdhPJxsypIDGwrEeQwmBVmjdJmePXyg0ObZfZuye2ZGOwhmzqd93folrMgXRItZ5ELql5kfCTkgMg==
-X-Received: by 2002:a17:90b:3904:: with SMTP id
- ob4mr27314562pjb.148.1632154251354; 
- Mon, 20 Sep 2021 09:10:51 -0700 (PDT)
+ bh=WppNSfTr/3lEANb4CA3gHO0hLSVKc/A6Ufkl9W/sYR0=;
+ b=H9lVErvCnaAlBuvKJCq110gdWGIVLtzApelV0e4JLlrCWGCBqge6EzGmyxy60ti7OS
+ yX9ZOn8D6q4F6TaYEYTfpAf4M62euVYhTX0PcoRURephAzLcbJSGJERPHXqaSILrhA8K
+ IC0sNjW6Wicv5FjxQailzBdpSs4bM8NnypRXckOOyuhzsDge4Iai4P39dMHdwYR0A4vo
+ Zl1FWHmbfQqVtP//DE3bXWWlQ1kVkFAbZBzwMAqwarq2xty5uBGuKGbl5emdL9wb68tU
+ M8qXUITc0MFrTzU5eBZ3QpY4PeC6mdN0wciIEZGGq8zMradqvHnwN9FiVr+WZi6hIDKM
+ SHMg==
+X-Gm-Message-State: AOAM531siM60mdakYzhO/DEt62J9dMGHp7UIrZL7zfGLupIGCp77JN+e
+ QBBTrRBohCz8/Yz/+PbIBz2ZW/jOI2niRg==
+X-Google-Smtp-Source: ABdhPJwfR4gD5RUQWTI7sq0p929LftVtlC0ctZNghoJPTHQsY0J7GqDNuJ01TYcHlKcPmtoSaK8yuQ==
+X-Received: by 2002:a17:90a:578e:: with SMTP id
+ g14mr39387051pji.184.1632154418453; 
+ Mon, 20 Sep 2021 09:13:38 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id 126sm17542415pgi.86.2021.09.20.09.10.50
+ by smtp.gmail.com with ESMTPSA id q3sm16675557pgf.18.2021.09.20.09.13.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Sep 2021 09:10:50 -0700 (PDT)
-Subject: Re: [PATCH 15/30] tcg/loongarch: Implement clz/ctz ops
+ Mon, 20 Sep 2021 09:13:38 -0700 (PDT)
+Subject: Re: [PATCH 16/30] tcg/loongarch: Implement shl/shr/sar/rotl/rotr ops
 To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
 References: <20210920080451.408655-1-git@xen0n.name>
- <20210920080451.408655-16-git@xen0n.name>
+ <20210920080451.408655-17-git@xen0n.name>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <82af9bf5-d809-9201-d142-c94688137239@linaro.org>
-Date: Mon, 20 Sep 2021 09:10:49 -0700
+Message-ID: <f0175db0-ba7a-699a-8df8-9588359353f4@linaro.org>
+Date: Mon, 20 Sep 2021 09:13:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210920080451.408655-16-git@xen0n.name>
+In-Reply-To: <20210920080451.408655-17-git@xen0n.name>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,23 +92,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/20/21 1:04 AM, WANG Xuerui wrote:
-> +static void tcg_out_clzctz(TCGContext *s, LoongArchInsn opc,
-> +                           TCGReg a0, TCGReg a1, TCGReg a2)
-> +{
-> +    /* all clz/ctz insns belong to DJ-format */
-> +    tcg_out32(s, encode_dj_insn(opc, TCG_REG_TMP0, a1));
-> +    /* a0 = a1 ? REG_TMP0 : a2 */
-> +    tcg_out_opc_maskeqz(s, TCG_REG_TMP0, TCG_REG_TMP0, a1);
-> +    tcg_out_opc_masknez(s, a0, a2, a1);
-> +    tcg_out_opc_or(s, a0, TCG_REG_TMP0, a0);
-> +}
+> +    case INDEX_op_rotl_i32:
+> +        /* transform into equivalent rotr_i32 */
+> +        if (c2) {
+> +            a2 = 32 - a2;
+> +        } else {
+> +            tcg_out_opc_sub_w(s, a2, TCG_REG_ZERO, a2);
+> +            tcg_out_opc_addi_w(s, a2, a2, 32);
 
- From Song Gao's translation, I believe that ctz(0) == 32 or 64, depending on the 
-operation width.  This is in fact the most common result, so it's worth specializing.  See 
-tcg/i386/tcg-target.c.inc, tcg_out_clz, have_lzcnt.
+You can't modify a2 here; need to use TCG_REG_TMP0.
+You don't need the addi, because the negation is sufficient, mod 32.
 
-But what's here looks ok.
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Likewise for INDEX_op_rotl_i64.
 
 
 r~
