@@ -2,85 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2382741269A
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 21:06:20 +0200 (CEST)
-Received: from localhost ([::1]:56652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F85412701
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 21:49:31 +0200 (CEST)
+Received: from localhost ([::1]:50108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSOcN-0007IT-2R
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 15:06:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38676)
+	id 1mSPI9-0006sN-Gc
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 15:49:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mSOZj-0005RN-1o
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 15:03:36 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:35788)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mSOZg-0002zt-BZ
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 15:03:34 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id v5so64031990edc.2
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 12:03:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1DWHDoOZ/pbRf8Jo1bNxhSninS64+4peeNbndFDqnEo=;
- b=asZ0q51fLsEarSICw3dcqvjB4gYmDVwjyVAIhzDMBiiQq2wEj50K0sOvuK/fwvIRhk
- sYjNC/nwBKCIFQNKWZv19TcTHQvjrKyINMVY/VNx1+/AxqYR0ixoiZra0A37mYDXom+T
- 4NwAYF7rsPZv1TJPEXgVLOTvfGKpbgmBNRWDiXM8o+ABVIBI+z8z7hme/0NGXOrxUJeo
- Tg5CWjkAk/wldrjRIF3qCSTG3t+bBlFmtDiJOBMkiDucFNO1ZOWPolxNAqdwOnMRolCw
- f8Y1iEMm+vZ0dFHylG+52S24U6lTr6dor64njw60fAvx+YYbxVJZAA3kH7lFyRHE5a2S
- bqug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1DWHDoOZ/pbRf8Jo1bNxhSninS64+4peeNbndFDqnEo=;
- b=toQEa9qbDANnFEhn0Cg/eMPl7wB7vhVhwu/RArs2uhTgMxh0RKPk0aD4kuoTce4m90
- xboCgVoEZXQmAO4wfkDW7d6Sf/AXCkCUVto+DjdAUvt84UeezQdbEIE4WmQVbk2pIPau
- zMbZQd/JncJ/3oLrVXozy6QzXS8U4XD2nrc06w2t6my+oj8dI7fvCLj14fx5nXFNtZG+
- PYxU6JOA9/TlG00Mp4oEHWikapxqEyOzAh6pO9D0nwTuSTTMQ3kHtU3n3WtjnNj1V5XA
- aXVxhSkR2SicJhZAoecOVGHlRyznd1/BfFMJUxtfNoiObOBxcX/bG0aPHJVRVCRfiZNl
- dzWQ==
-X-Gm-Message-State: AOAM531o4FOssNQFRV+qx0OhFK3NZlP/V+POVeNLpAUTJWK0tukHUxfZ
- maGEqwOt8P73BQ972u9aK/oE2mFFEds=
-X-Google-Smtp-Source: ABdhPJzFRM9VHemnshKsXOK1eSKehPMYAiceHclEAWwNsREu6z1YBeGq6M+9OPviQ5BW1TDwdJTQAQ==
-X-Received: by 2002:a50:d713:: with SMTP id t19mr30742714edi.2.1632164609923; 
- Mon, 20 Sep 2021 12:03:29 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id b3sm6425892ejb.7.2021.09.20.12.03.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Sep 2021 12:03:29 -0700 (PDT)
-Subject: Re: [PATCH 1/2] meson: introduce modules_arch
-To: "Jose R. Ziviani" <jziviani@suse.de>, Gerd Hoffmann <kraxel@redhat.com>
-References: <20210917012904.26544-1-jziviani@suse.de>
- <20210917012904.26544-2-jziviani@suse.de>
- <20210917071404.efhv3tlnad2ezz3e@sirius.home.kraxel.org>
- <YUSS0Jp+GBwNwYg3@pizza>
- <20210920051532.tzanl2asdqzuxlzn@sirius.home.kraxel.org>
- <YUiGcjBviIqPIyJB@pizza>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <05b09438-43ef-bd40-2b0a-2fdebf0425bd@redhat.com>
-Date: Mon, 20 Sep 2021 21:03:28 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSPH4-0006Bk-EG
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 15:48:22 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:42773)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSPH2-0007l9-C6
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 15:48:22 -0400
+Received: from [192.168.100.1] ([82.64.211.94]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MUXd0-1mJVL72fia-00QP9j; Mon, 20 Sep 2021 21:48:17 +0200
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20210917075057.20924-1-mark.cave-ayland@ilande.co.uk>
+ <20210917075057.20924-5-mark.cave-ayland@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v4 04/20] nubus: use bitmap to manage available slots
+Message-ID: <5398d9ef-d243-f600-2ec6-8ea8c0d48b09@vivier.eu>
+Date: Mon, 20 Sep 2021 21:48:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YUiGcjBviIqPIyJB@pizza>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210917075057.20924-5-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:VHPjzaNeOE25FCFwnBzraXa/FEpu44TNBJH4Xq3WFiS3QX1oZPL
+ RZuJ8dsFcQr6xw3QhhiDuu7Y0KxR8euY5qYKP3aoUjQhbuqyYk6E3xo4YnRQvGYgCbXvJb5
+ mOwICtMrPyzSNKG/mltLdPiXI0TEPYShEtbzK+2M8WrnDqnAzjrXNy9VEXERd5Zf9n6UFTn
+ GPHH5o7lE7khfr6363Ojg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Qceg44/Rejw=:Pdg5PIan13AB3ML8PZu6iH
+ 05jRcNw2Hw4IJzWYDv/yGfq465tg74nRuaNJI4vaZPnlYWxtpwiiqA3zb81bpn7e3cc8bUFhb
+ hV+3SpsfMbiX+5FFomC+0hLAkPvxN+wk9INu2xGM6pSNcr8WpJYYQPQcFNAmCwBh8AEy++64T
+ kifsscwa798uIdQhDOKKxh7L7qkQu+75mEbuNe74AuNwwFHa7TOV8kIJBg3/oCW9V1jC0bL+r
+ +nnHmxvcLyCGvnq6nCLinFvcBdH3GZ4y2JW0Nqc4GsBwg8FkF8tMYYk4gvTpD/rOYAcfr7V57
+ 7Eq8GBYIdaRUQmFtsP4LeByxvDB/8j0K99JkDNSZ1S5ts/eiQk5DSE5oeyJayxJdApWQwc+Hs
+ YU7l2Zv9fiFylZ6CCvNUnXezLGIo7Lx8IWvO/WtEexcLCWzAs5px6dBMLfljBAe1cUiG72+gC
+ +HKRrIAsavKs3iHuWCbzBgdA7tDj2icTuBDlRVT18ghpIx1StrXyuvpT7ME77UjwA2nT2PI3c
+ 2adJB3vlaYlNHxJ79WEB+KOdtY3Dh2LrzUVwfSXlHRYROouRp8ROmYEqKnC617rE4lcml6K7y
+ Z3kksk0JHsoBwR9ohZPbRI8yUN1wPq1zKFCmzvHYsBkjKW/LNGBhcj2nSNyRRnhUN4WN+6kwO
+ lk47MGlZUlJlhxjCX6mGBH0VfSIc+yXReXEsfvzl+RHfFTV3VqgQjGMNNu2M2T3LOvYqoHtbt
+ uPWAi4skM+n4zsrGv1LTUO0bwN2IY0WndPqIxQ==
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,26 +70,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/09/21 15:02, Jose R. Ziviani wrote:
-> But, in anyway, I'll still need to store the target architecture that
-> can use such core module, like I did here in this patch. Otherwise,
-> if I compile different targets at the same time, I'll end up with the
-> same problem of targets trying to load wrong modules.
+Le 17/09/2021 à 09:50, Mark Cave-Ayland a écrit :
+> Convert nubus_device_realize() to use a bitmap to manage available slots to allow
+> for future Nubus devices to be plugged into arbitrary slots from the command line.
 > 
-> I thought of using qom, but I think it will pollute module.c.
+> Update mac_nubus_bridge_init() to only allow slots 0x9 to 0xe on a Macintosh
+> machines as documented in "Desigining Cards and Drivers for the Macintosh Family".
 
-Alternatively, you could C-ify the contents of config-devices.mak, and 
-embed them in the per-arch modinfo-*.c; and record CONFIG_* symbols for 
-each module (e.g. '{ "CONFIG_QXL", "hw-display-qxl" }' from a 
-'module_config("CONFIG_QXL")' line in the global modinfo.c file.  Then 
-before loading a module you do a binary search on the per-arch 
-config-devices array.
+Perhaps we can also add "NuBus Specification" for the non mac-nubus part?
 
-I hope the above is readable. :)
+http://www.bitsavers.org/pdf/ti/nubus/2242825-0001_NuBus_Spec1983.pdf
 
-Paolo
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  hw/nubus/mac-nubus-bridge.c |  3 +++
+>  hw/nubus/nubus-bus.c        |  2 +-
+>  hw/nubus/nubus-device.c     | 29 +++++++++++++++++++++++++----
+>  include/hw/nubus/nubus.h    |  4 ++--
+>  4 files changed, 31 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/nubus/mac-nubus-bridge.c b/hw/nubus/mac-nubus-bridge.c
+> index 7c329300b8..c1d77e2bc7 100644
+> --- a/hw/nubus/mac-nubus-bridge.c
+> +++ b/hw/nubus/mac-nubus-bridge.c
+> @@ -18,6 +18,9 @@ static void mac_nubus_bridge_init(Object *obj)
+>  
+>      s->bus = NUBUS_BUS(qbus_create(TYPE_NUBUS_BUS, DEVICE(s), NULL));
+>  
+> +    /* Macintosh only has slots 0x9 to 0xe available */
+> +    s->bus->slot_available_mask = MAKE_64BIT_MASK(9, 6);
+
+Perhaps we can introduce MAC_NUBUS_FIRST_SLOT and MAC_NUBUS_LAST_SLOT
+
+#define MAC_NUBUS_FIRST_SLOT 0x9
+#define MAC_NUBUS_LAST_SLOT  0xe
+
+MAKE_64BIT_MASK(MAC_NUBUS_FIRST_SLOT, MAC_NUBUS_LAST_SLOT - MAC_NUBUS_FIRST_SLOT + 1)
+
+> +
+>      sysbus_init_mmio(sbd, &s->bus->super_slot_io);
+>      sysbus_init_mmio(sbd, &s->bus->slot_io);
+>  }
+> diff --git a/hw/nubus/nubus-bus.c b/hw/nubus/nubus-bus.c
+> index 5c13452308..404c1032e0 100644
+> --- a/hw/nubus/nubus-bus.c
+> +++ b/hw/nubus/nubus-bus.c
+> @@ -84,7 +84,7 @@ static void nubus_init(Object *obj)
+>                            nubus, "nubus-slots",
+>                            NUBUS_SLOT_NB * NUBUS_SLOT_SIZE);
+>  
+> -    nubus->current_slot = NUBUS_FIRST_SLOT;
+> +    nubus->slot_available_mask = MAKE_64BIT_MASK(0, 16);
+
+MAKE_64BIT_MASK(NUBUS_FIRST_SLOT, NUBUS_LAST_SLOT - NUBUS_FIRST_SLOT + 1) ?
+
+And we define 16 slots, but NUBUS_SLOT_NB (above) is 15. (I think it's the value for Mac as last
+slot is 0xe)
+
+>  }
+>  
+>  static void nubus_class_init(ObjectClass *oc, void *data)
+> diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
+> index c1832f73da..d91a1e4af3 100644
+> --- a/hw/nubus/nubus-device.c
+> +++ b/hw/nubus/nubus-device.c
+> @@ -160,14 +160,35 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
+>      NubusDevice *nd = NUBUS_DEVICE(dev);
+>      char *name;
+>      hwaddr slot_offset;
+> +    uint16_t s;
+> +
+> +    if (nd->slot == -1) {
+> +        /* No slot specified, find first available free slot */
+> +        s = ctz32(nubus->slot_available_mask);
+> +        if (s != 32) {
+> +            nd->slot = s;
+> +        } else {
+> +            error_setg(errp, "Cannot register nubus card, no free slot "
+> +                             "available");
+> +            return;
+> +        }
+> +    } else {
+> +        /* Slot specified, make sure the slot is available */
+> +        if (!(nubus->slot_available_mask & BIT(nd->slot))) {
+> +            error_setg(errp, "Cannot register nubus card, slot %d is "
+> +                             "unavailable or already occupied", nd->slot);
+> +            return;
+> +        }
+> +    }
+>  
+> -    if (nubus->current_slot < NUBUS_FIRST_SLOT ||
+> -            nubus->current_slot > NUBUS_LAST_SLOT) {
+> -        error_setg(errp, "Cannot register nubus card, not enough slots");
+> +    if (nd->slot < NUBUS_FIRST_SLOT || nd->slot > NUBUS_LAST_SLOT) {
+> +        error_setg(errp, "Cannot register nubus card, slot must be "
+> +                         "between %d and %d", NUBUS_FIRST_SLOT,
+> +                         NUBUS_LAST_SLOT);
+
+Do we need this checking as we already checked the slot bit is available?
+Moreover it would be more accurate to rely on the bitmap as the first available slot differs between
+nubus and mac-nubus.
+
+
+>          return;
+>      }
+>  
+> -    nd->slot = nubus->current_slot++;
+> +    nubus->slot_available_mask &= ~BIT(nd->slot);
+>  
+>      /* Super */
+>      slot_offset = (nd->slot - 6) * NUBUS_SUPER_SLOT_SIZE;
+> diff --git a/include/hw/nubus/nubus.h b/include/hw/nubus/nubus.h
+> index 357f621d15..8ff4736259 100644
+> --- a/include/hw/nubus/nubus.h
+> +++ b/include/hw/nubus/nubus.h
+> @@ -19,7 +19,7 @@
+>  #define NUBUS_SLOT_SIZE       0x01000000
+>  #define NUBUS_SLOT_NB         0xF
+>  
+> -#define NUBUS_FIRST_SLOT      0x9
+> +#define NUBUS_FIRST_SLOT      0x0
+>  #define NUBUS_LAST_SLOT       0xF
+>  
+>  #define TYPE_NUBUS_DEVICE "nubus-device"
+> @@ -36,7 +36,7 @@ struct NubusBus {
+>      MemoryRegion super_slot_io;
+>      MemoryRegion slot_io;
+>  
+> -    int current_slot;
+> +    uint32_t slot_available_mask;
+>  };
+>  
+>  struct NubusDevice {
+> 
+
 
