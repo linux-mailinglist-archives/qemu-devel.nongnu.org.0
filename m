@@ -2,91 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BECEA411AEB
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 18:52:12 +0200 (CEST)
-Received: from localhost ([::1]:53748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E12DE411B9B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 19:00:07 +0200 (CEST)
+Received: from localhost ([::1]:41104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSMWZ-0007Hk-Qh
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 12:52:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40414)
+	id 1mSMeE-00013k-VB
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 13:00:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mSMH6-0002Um-SN
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:36:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27257)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mSMH5-0006Ak-6D
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:36:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632155770;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RB8IUWsV39pT6mG32TzQMIf/82YGOoITz6OTWTJoAqM=;
- b=TWRQi4NzVilSTaGhtCT/rXUXDHjcnrddjiucHcnDP+3S+VWcf8g2JIxi9QywLyyjSfDi3V
- JitrF+d/efjxmQvRa6Qpu1Ey2xleL6ynWC8j8vQZZ614uZxq9YHqgjfxouSpursaRUxPgx
- ERJ97+gvbNMWhny/2oBeCC2Iaw1Ipgo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-rWxjvEt4MnWZjVJ0kZ9wFg-1; Mon, 20 Sep 2021 12:36:09 -0400
-X-MC-Unique: rWxjvEt4MnWZjVJ0kZ9wFg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- j16-20020adfa550000000b0016012acc443so1215519wrb.14
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 09:36:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mSMMB-0003ZI-9f
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:41:27 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36704)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mSMM9-0001rH-Df
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:41:26 -0400
+Received: by mail-wr1-x432.google.com with SMTP id g16so31510298wrb.3
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 09:41:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=5Zk3JviNQxrieMkt3e6a0KVkQ3QBIa5dw7ibCByL6YQ=;
+ b=Yweav/10wme1lGOlPcfwXI4Zw7BFIsa5611EeAlgM6KtZE3tb78J4dzXNBvndlohX1
+ KHPm1ibPnkmpsdNYQYVaqfGxlxURrOYSpDz4T+OO28s6lqmDZA9AnJ9Zpsia4evXSt6g
+ UDLUJCqiYfJ02qmoYg/E9XkZ2TiC6q9vSM2b/9dizHBtEpW7KbCEZynQuFt/IBI++wG0
+ NmyEzZvNWjeeF27e/wDZ31yHkFIcRoqHuoB3+xQTzMvzdZGN1pb7kOpGNgIbsNY0YgA2
+ tgrQhGje5ZZrRCOqhc4IGb23a+BWjQpYc6GOQYo3Zw+WtGaO9m7MQpSeR6hceWl8dwEc
+ g2jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RB8IUWsV39pT6mG32TzQMIf/82YGOoITz6OTWTJoAqM=;
- b=dcCjP6YkFApApJfvj1yu3ACrl62JLLTdZBlyt1hkIP4yumQ/OthQPDOVBRuvRt6oEn
- IrxO+M/feP9IXmNXjinm64q09bV5SoLfV7tVQYnWUifdOaHfW7b5LL9dg7VrIdibqA5n
- dDSBcNUDM+IbMXoGMZnhBmdRBdCydn6xB3ZIZMTstKzZ245UWlHXtaHTSG4+fsenS51p
- ELYvk9/ZVhRLYebZawlVuWpatJZgVxmU3ULdIbcGYUBFK9kIUDNWSY7+14t2YR56XFes
- QApR0AuYlKUueqjFeKlFldwXKQ3J/eA0QzciIeUR/ECH9Dny8I8pR2TuXgIKPE/50Ngg
- g1zA==
-X-Gm-Message-State: AOAM531oZ//omhdeXjp/9IHBKH4QVcDjIb7QIVTUVqIZsCjmr60hWpKz
- wA7cC50KqExyvIrdJpMhO0SmirCVLubqThMPACHleWRlUiXIOiN2bqi8YSkcLxh85Rih5TBfKxu
- K965adk9MuQja1hc=
-X-Received: by 2002:a1c:ed13:: with SMTP id l19mr30641587wmh.48.1632155767071; 
- Mon, 20 Sep 2021 09:36:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxIQzdqE8OKGvg2XJZIoigPRKW/TLRRfjNZ1UWFLgNY76M93f+ena6gGEmyO/+27WgsqRTjYg==
-X-Received: by 2002:a1c:ed13:: with SMTP id l19mr30641566wmh.48.1632155766775; 
- Mon, 20 Sep 2021 09:36:06 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id z6sm31785wmp.1.2021.09.20.09.36.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Sep 2021 09:36:06 -0700 (PDT)
-Subject: Re: [PATCH v3 10/35] acpi: nvdimm_build_nfit: use
- acpi_table_begin()/acpi_table_end() instead of build_header()
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20210907144814.741785-1-imammedo@redhat.com>
- <20210907144814.741785-11-imammedo@redhat.com>
-From: Eric Auger <eauger@redhat.com>
-Message-ID: <cb95db14-2fa0-a82c-5220-1d62bab437ee@redhat.com>
-Date: Mon, 20 Sep 2021 18:36:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=5Zk3JviNQxrieMkt3e6a0KVkQ3QBIa5dw7ibCByL6YQ=;
+ b=A7FXtlCCuAXo6ba83ietFQ/vWdsAVfumjESdbAsUFA5d/vIRq9SBWCbrxfcSbam16P
+ 33FjO56CkEiy+uUDVWM9HiH8f3tkXgRmByn6pLY6y4q4ffVcuKPtberX7jeYXkxheC8Z
+ JWgmc3GzNKDJ4dc8zgFCXULAwxFYg2npL0iILwmSGtDyv6LSmd/nYoKRsa7s8N5o57WK
+ 0bYxJqGLDvWPFkmm/csI05M7xbkI+uPLpG8myS6aPsDny8Q7GHvuxlWxwuMJstS314pR
+ H2LU+SDji4xIcAR4dzB4ua4BBWF7QSSktVdnd44laOopz+PyyG+RDlpz1LC6MWqa9+EQ
+ sKjA==
+X-Gm-Message-State: AOAM530CKH4Pn9Yh2SF3OTsbDgl2JQBZSXbFcRzxRo9qlODpV3L3w2yD
+ G2n5jLTVqSF6pYnceLVUAbYByX4uI/f2GQ==
+X-Google-Smtp-Source: ABdhPJx1OrzBKUi4vFrV0WLl3YVkqlPAKKnvGze0qqLw/JwiUKNBbSRKvq6xM+CuvJca9oPLwTPPZQ==
+X-Received: by 2002:a05:6000:1561:: with SMTP id
+ 1mr19781733wrz.369.1632156083647; 
+ Mon, 20 Sep 2021 09:41:23 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o1sm16329293wru.91.2021.09.20.09.41.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Sep 2021 09:41:22 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B371E1FF96;
+ Mon, 20 Sep 2021 17:41:21 +0100 (BST)
+References: <20210917162332.3511179-1-alex.bennee@linaro.org>
+ <20210917162332.3511179-2-alex.bennee@linaro.org>
+ <CAPyFy2CzPyMRX-__35qiAcjR_SyXe_mDXsQFH2BCJo+3nr+yjg@mail.gmail.com>
+User-agent: mu4e 1.7.0; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Ed Maste <emaste@freebsd.org>
+Subject: Re: [PATCH v1 01/11] configure: don't override the selected host
+ test compiler if defined
+Date: Mon, 20 Sep 2021 17:37:19 +0100
+In-reply-to: <CAPyFy2CzPyMRX-__35qiAcjR_SyXe_mDXsQFH2BCJo+3nr+yjg@mail.gmail.com>
+Message-ID: <8735pzp5ce.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210907144814.741785-11-imammedo@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eauger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,106 +90,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Ed Maste <emaste@freebsd.org> writes:
 
-On 9/7/21 4:47 PM, Igor Mammedov wrote:
-> it replaces error-prone pointer arithmetic for build_header() API,
-> with 2 calls to start and finish table creation,
-> which hides offsets magic from API user.
-> 
-> Also since acpi_table_begin() reserves space only for standard header
-> while previous acpi_data_push() reserved the header + 4 bytes field,
-> add 4 bytes 'Reserved' field into nvdimm_build_nfit() which didn't
-> have it.
-> 
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> On Fri, 17 Sept 2021 at 12:27, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+>>
+>> There are not many cases you would want to do this but one is if you
+>> want to use a test friendly compiler like gcc instead of a system
+>> compiler like clang. Either way we should honour the users choice if
+>> they have made it.
+>
+> A little bit of a tangent, but I'm curious about this comment - what
+> aspects of GCC make it more test friendly? (I help maintain LLVM tools
+> on FreeBSD, and would like to make sure they provide as good an
+> experience as possible.)
 
-Eric
+Some of the inline assembler in the old tests trips up LLVM. There is a
+chance the inline assembly is a bit bogus with it's constraints and GCC
+is just a bit more lax and accepting.
 
-> ---
-> v3:
->   * s/acpi_init_table|acpi_table_composed/acpi_table_begin|acpi_table_end/
-> 
-> CC: xiaoguangrong.eric@gmail.com
-> ---
->  hw/acpi/nvdimm.c | 42 +++++++++++++++++-------------------------
->  1 file changed, 17 insertions(+), 25 deletions(-)
-> 
-> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-> index e3d5fe1939..15f6ca82ca 100644
-> --- a/hw/acpi/nvdimm.c
-> +++ b/hw/acpi/nvdimm.c
-> @@ -44,22 +44,6 @@ static const uint8_t nvdimm_nfit_spa_uuid[] =
->        UUID_LE(0x66f0d379, 0xb4f3, 0x4074, 0xac, 0x43, 0x0d, 0x33,
->                0x18, 0xb7, 0x8c, 0xdb);
->  
-> -/*
-> - * NVDIMM Firmware Interface Table
-> - * @signature: "NFIT"
-> - *
-> - * It provides information that allows OSPM to enumerate NVDIMM present in
-> - * the platform and associate system physical address ranges created by the
-> - * NVDIMMs.
-> - *
-> - * It is defined in ACPI 6.0: 5.2.25 NVDIMM Firmware Interface Table (NFIT)
-> - */
-> -struct NvdimmNfitHeader {
-> -    ACPI_TABLE_HEADER_DEF
-> -    uint32_t reserved;
-> -} QEMU_PACKED;
-> -typedef struct NvdimmNfitHeader NvdimmNfitHeader;
-> -
->  /*
->   * define NFIT structures according to ACPI 6.0: 5.2.25 NVDIMM Firmware
->   * Interface Table (NFIT).
-> @@ -401,25 +385,33 @@ void nvdimm_plug(NVDIMMState *state)
->      nvdimm_build_fit_buffer(state);
->  }
->  
-> +/*
-> + * NVDIMM Firmware Interface Table
-> + * @signature: "NFIT"
-> + *
-> + * It provides information that allows OSPM to enumerate NVDIMM present in
-> + * the platform and associate system physical address ranges created by the
-> + * NVDIMMs.
-> + *
-> + * It is defined in ACPI 6.0: 5.2.25 NVDIMM Firmware Interface Table (NFIT)
-> + */
-> +
->  static void nvdimm_build_nfit(NVDIMMState *state, GArray *table_offsets,
->                                GArray *table_data, BIOSLinker *linker,
->                                const char *oem_id, const char *oem_table_id)
->  {
->      NvdimmFitBuffer *fit_buf = &state->fit_buf;
-> -    unsigned int header;
-> +    AcpiTable table = { .sig = "NFIT", .rev = 1,
-> +                        .oem_id = oem_id, .oem_table_id = oem_table_id };
->  
->      acpi_add_table(table_offsets, table_data);
->  
-> -    /* NFIT header. */
-> -    header = table_data->len;
-> -    acpi_data_push(table_data, sizeof(NvdimmNfitHeader));
-> +    acpi_table_begin(&table, table_data);
-> +    /* Reserved */
-> +    build_append_int_noprefix(table_data, 0, 4);
->      /* NVDIMM device structures. */
->      g_array_append_vals(table_data, fit_buf->fit->data, fit_buf->fit->len);
-> -
-> -    build_header(linker, table_data,
-> -                 (void *)(table_data->data + header), "NFIT",
-> -                 sizeof(NvdimmNfitHeader) + fit_buf->fit->len, 1, oem_id,
-> -                 oem_table_id);
-> +    acpi_table_end(linker, &table);
->  }
->  
->  #define NVDIMM_DSM_MEMORY_SIZE      4096
-> 
+I'm totally fine with merging something that restores support for clang
+for building tests it just needs the appropriate fixups to the tests. We
+already use clang for the hexagon builds after all. Once that is done we
+can drop the stuff in cf22f936f2 (tests/tcg: don't allow clang as a
+cross compiler).
 
+--=20
+Alex Benn=C3=A9e
 
