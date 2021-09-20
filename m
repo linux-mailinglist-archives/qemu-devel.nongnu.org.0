@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EF541173C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 16:37:06 +0200 (CEST)
-Received: from localhost ([::1]:52176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6E841168C
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 16:13:55 +0200 (CEST)
+Received: from localhost ([::1]:60168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSKPq-0001K2-0f
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 10:37:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50276)
+	id 1mSK3O-0002Ai-Vr
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 10:13:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSETW-0008RB-E9
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSETW-0008RD-L4
  for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:16:31 -0400
-Received: from [115.28.160.31] (port=35656 helo=mailbox.box.xen0n.name)
+Received: from [115.28.160.31] (port=35652 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSETT-0000pp-93
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:16:29 -0400
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSETT-0000pY-3u
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:16:30 -0400
 Received: from ld50.lan (unknown [101.88.25.142])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 4B2326340E;
- Mon, 20 Sep 2021 16:06:20 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 127246340F;
+ Mon, 20 Sep 2021 16:06:22 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632125180; bh=fpSQtYgNWkiF6RriJDEQ8PrNe2lg1EUb631GLusOZt4=;
+ t=1632125182; bh=0eHzsl2x/Qi54fYRqdqvLO1ukdxYXSVcFQeFmk/nHbA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pL5trb4eVDiD4aiZefsXPmjdSvjRZo0w5U646z0Aw72F3bNZGyOHFeOelWC+d+2yN
- gssF+xxBLjk0G32r6bkHT70toZkRjvzTDI33PDdy772VHqSYQHoe9UtW5hPamWrZ+J
- 3h2/5s/vH2RRroNZtKcwsFzC86cqb90UAGcnNNEA=
+ b=f4v3cBl3pSfJ4bTgZaADidgsf0YtpVpfdLBZFCoJAOXMjuiNptoCTmsQItmBuMakf
+ 29SUt4BqAe2NEQeqRLozH24Bjondegr81SYMDbAaSoG5ekeZx1nM9Dc4gOg5Izr9Vz
+ e85um5b5wD7nrD5t1Wyyihz79ggFI0LszLyiOkPI=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 29/30] linux-user: Add host dependency for 64-bit LoongArch
-Date: Mon, 20 Sep 2021 16:04:50 +0800
-Message-Id: <20210920080451.408655-30-git@xen0n.name>
+Subject: [PATCH 30/30] accel/tcg/user-exec: Implement CPU-specific signal
+ handler for LoongArch hosts
+Date: Mon, 20 Sep 2021 16:04:51 +0800
+Message-Id: <20210920080451.408655-31-git@xen0n.name>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210920080451.408655-1-git@xen0n.name>
 References: <20210920080451.408655-1-git@xen0n.name>
@@ -64,32 +65,105 @@ Cc: WANG Xuerui <git@xen0n.name>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently nothing special is needed for LoongArch hosts to work, so only
-leave a placeholder there.
-
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 ---
- linux-user/host/loongarch64/hostdep.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100644 linux-user/host/loongarch64/hostdep.h
+ accel/tcg/user-exec.c | 83 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 83 insertions(+)
 
-diff --git a/linux-user/host/loongarch64/hostdep.h b/linux-user/host/loongarch64/hostdep.h
-new file mode 100644
-index 0000000000..4e55695155
---- /dev/null
-+++ b/linux-user/host/loongarch64/hostdep.h
-@@ -0,0 +1,11 @@
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 8fed542622..0f85062e61 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -878,6 +878,89 @@ int cpu_signal_handler(int host_signum, void *pinfo,
+     return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
+ }
+ 
++#elif defined(__loongarch__)
++
 +/*
-+ * hostdep.h : things which are dependent on the host architecture
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ * This logic is bitness-agnostic, so the generic __loongarch__ guard is used
++ * instead of explicit ones like __loongarch64.
 + */
 +
-+#ifndef LOONGARCH64_HOSTDEP_H
-+#define LOONGARCH64_HOSTDEP_H
++int cpu_signal_handler(int host_signum, void *pinfo,
++                       void *puc)
++{
++    siginfo_t *info = pinfo;
++    ucontext_t *uc = puc;
++    greg_t pc = uc->uc_mcontext.__pc;
++    uint32_t insn = *(uint32_t *)pc;
++    int is_write = 0;
 +
-+#endif
++    /* Detect store by reading the instruction at the program counter.  */
++    switch ((insn >> 26) & 0b111111) {
++    case 0b001000: /* {ll,sc}.[wd] */
++        switch ((insn >> 24) & 0b11) {
++        case 0b01: /* sc.w */
++        case 0b11: /* sc.d */
++            is_write = 1;
++            break;
++        }
++        break;
++    case 0b001001: /* {ld,st}ox4.[wd] ({ld,st}ptr.[wd]) */
++        switch ((insn >> 24) & 0b11) {
++        case 0b01: /* stox4.w (stptr.w) */
++        case 0b11: /* stox4.d (stptr.d) */
++            is_write = 1;
++            break;
++        }
++        break;
++    case 0b001010: /* {ld,st}.* family */
++        switch ((insn >> 22) & 0b1111) {
++        case 0b0100: /* st.b */
++        case 0b0101: /* st.h */
++        case 0b0110: /* st.w */
++        case 0b0111: /* st.d */
++        case 0b1101: /* fst.s */
++        case 0b1111: /* fst.d */
++            is_write = 1;
++            break;
++        }
++        break;
++    case 0b001110: /* indexed, atomic, bounds-checking memory operations */
++        uint32_t sel = (insn >> 15) & 0b11111111111;
++
++        switch (sel) {
++        case 0b00000100000: /* stx.b */
++        case 0b00000101000: /* stx.h */
++        case 0b00000110000: /* stx.w */
++        case 0b00000111000: /* stx.d */
++        case 0b00001110000: /* fstx.s */
++        case 0b00001111000: /* fstx.d */
++        case 0b00011101100: /* fstgt.s */
++        case 0b00011101101: /* fstgt.d */
++        case 0b00011101110: /* fstle.s */
++        case 0b00011101111: /* fstle.d */
++        case 0b00011111000: /* stgt.b */
++        case 0b00011111001: /* stgt.h */
++        case 0b00011111010: /* stgt.w */
++        case 0b00011111011: /* stgt.d */
++        case 0b00011111100: /* stle.b */
++        case 0b00011111101: /* stle.h */
++        case 0b00011111110: /* stle.w */
++        case 0b00011111111: /* stle.d */
++            is_write = 1;
++            break;
++        default:
++            /* test for am* instruction range */
++            if (0b00011000000 <= sel && sel <= 0b00011100011) {
++                is_write = 1;
++            }
++            break;
++        }
++        break;
++    }
++
++    return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
++}
++
+ #else
+ 
+ #error host CPU specific signal handler needed
 -- 
 2.33.0
 
