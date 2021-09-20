@@ -2,64 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFABA410F50
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 07:30:51 +0200 (CEST)
-Received: from localhost ([::1]:47782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47654410F6F
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 08:06:30 +0200 (CEST)
+Received: from localhost ([::1]:37442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSBtC-0005JS-JQ
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 01:30:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49978)
+	id 1mSCRf-0002TQ-VS
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 02:06:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mSBrC-0003qC-2g
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 01:28:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51925)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mSCP3-00011j-TK
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 02:03:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mSBr9-0000w1-QH
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 01:28:45 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mSCOy-00067z-Np
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 02:03:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632115722;
+ s=mimecast20190719; t=1632117818;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3bVqjviNMDx0LGtH1xApOblF4/7MicSrBuqNKpdKxA0=;
- b=NPWKAqv7InVDrUI1N6oRKbRPk32SbS3MsjcCDo4yqUozfWMHd3JhFU4DNy8675UEbxtbKH
- hBLYmqopT3pmupjNoaKWsXD1/1HgtJWXhRpmbRnNNGCNC/tK316fLo4jZ/JdsiGJfQNoWw
- lu13pF7wVe330fGsDsicYi0CF0MtZjg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-8S1HmKr-P1S9NaT0_eN6fQ-1; Mon, 20 Sep 2021 01:28:41 -0400
-X-MC-Unique: 8S1HmKr-P1S9NaT0_eN6fQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 755CF1006AA4;
- Mon, 20 Sep 2021 05:28:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 79DEF1AC7E;
- Mon, 20 Sep 2021 05:28:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E363F113865F; Mon, 20 Sep 2021 07:28:20 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 2/8] block: add BlockParentClass class
-References: <20210802185416.50877-1-vsementsov@virtuozzo.com>
- <20210802185416.50877-3-vsementsov@virtuozzo.com>
-Date: Mon, 20 Sep 2021 07:28:20 +0200
-In-Reply-To: <20210802185416.50877-3-vsementsov@virtuozzo.com> (Vladimir
- Sementsov-Ogievskiy's message of "Mon, 2 Aug 2021 21:54:10 +0300")
-Message-ID: <87wnnb4xzf.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=PTwmc3KmpFrxtxD3OFmcXKWcHHTTQX4lNecdVnJ/qpc=;
+ b=QsbEZdp3eEPe/maFlHpnzDPmf/RJn8k0OBhOGf8Homl3kI+h3/QX/1nC/LA0sJLYk+LL64
+ 9BG4ZzfirDKbIQmxWhuBTRxf6/b0Jk7cEkOr0QFKHx0tZiPvKZIFZfd4ZtnK9AnZ1U98/3
+ 3SCgQgnk3umSPWq2G2MZN5+DNdW0AKE=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-588-9kUo5ttUPSKVZVH-4ixwKA-1; Mon, 20 Sep 2021 02:03:37 -0400
+X-MC-Unique: 9kUo5ttUPSKVZVH-4ixwKA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ n5-20020a05640206c500b003cf53f7cef2so11888826edy.12
+ for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 23:03:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=PTwmc3KmpFrxtxD3OFmcXKWcHHTTQX4lNecdVnJ/qpc=;
+ b=G4C2uVjXZElnXgc75ZU5FG+S4j4L4vJrmoUzwFnGrjhtq0PqxWhZreMu3CmgV59UPa
+ eMdF53BEfTc4IJPCeYYoANuMvSwfyMfLf7evGK4CH2gYpyMKNWQJUMeB4+LbwAgIxWEe
+ QSgQgFYoVCHljB3840ofCEBU0wBTTbpzJN+scApYMkdombnssF3LE2kiPVyyFzhojC1z
+ CV6d78YD01bI4iu+nVJnP2ypOavp9RjSLmKr/4DOwhBee03tj6fP98F7TYztUd2Q5KtK
+ PYgYgO5Tzpvyzg3y3tir3ZEytvn9Qsh+4Y6/xiBwwry4K4DTNE2z6/e4EDswkhh1X2vR
+ FHng==
+X-Gm-Message-State: AOAM5306f67qeYZVKzIFwqfu9S8xE38Op8SIvsstEQH3Xt2iSKGNjZPD
+ +uvqYIljoG0O0AFyh0SRdew1ZcqQsp3npPHPh2ncEFiVA1pzmySrHqZmuwOLNJ5ByS06a++0N1g
+ t4r3kwJZcIcoqwiU=
+X-Received: by 2002:a05:6402:27c7:: with SMTP id
+ c7mr27658512ede.351.1632117815799; 
+ Sun, 19 Sep 2021 23:03:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz0JSvbQPnHfJZW5+H71XubfuBDwkWYZ+uNRLUPIKUCYuxnAcSplxT2FpRxAxwcUmugnvIe+A==
+X-Received: by 2002:a05:6402:27c7:: with SMTP id
+ c7mr27658482ede.351.1632117815334; 
+ Sun, 19 Sep 2021 23:03:35 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id dc8sm6483007edb.28.2021.09.19.23.03.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 19 Sep 2021 23:03:34 -0700 (PDT)
+Date: Mon, 20 Sep 2021 08:03:33 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [RFC PATCH] tests/acpi/pcihp: add unit tests for hotplug on
+ multifunction bridges for q35
+Message-ID: <20210920080333.1ca6bb3d@redhat.com>
+In-Reply-To: <alpine.DEB.2.22.394.2109190822510.3818584@anisinha-lenovo>
+References: <20210806174642.490023-1-ani@anisinha.ca>
+ <20210806174642.490023-2-ani@anisinha.ca>
+ <20210917153248.6ef88697@redhat.com>
+ <alpine.DEB.2.22.394.2109190814020.3818584@anisinha-lenovo>
+ <alpine.DEB.2.22.394.2109190822510.3818584@anisinha-lenovo>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -80,178 +102,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pkrempa@redhat.com, berrange@redhat.com,
- ehabkost@redhat.com, qemu-block@nongnu.org, libvir-list@redhat.com,
- dim@virtuozzo.com, igor@virtuozzo.com, armbru@redhat.com,
- qemu-devel@nongnu.org, yur@virtuozzo.com, nshirokovskiy@virtuozzo.com,
- stefanha@redhat.com, den@openvz.org, pbonzini@redhat.com, mreitz@redhat.com,
- eblake@redhat.com
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+On Sun, 19 Sep 2021 08:29:51 +0530 (IST)
+Ani Sinha <ani@anisinha.ca> wrote:
 
-> Add a class that will unify block parents for blockdev-replace
-> functionality we are going to add.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  include/block/block-parent.h | 32 +++++++++++++++++
->  block/block-parent.c         | 66 ++++++++++++++++++++++++++++++++++++
->  block/meson.build            |  1 +
->  3 files changed, 99 insertions(+)
->  create mode 100644 include/block/block-parent.h
->  create mode 100644 block/block-parent.c
->
-> diff --git a/include/block/block-parent.h b/include/block/block-parent.h
-> new file mode 100644
-> index 0000000000..bd9c9d91e6
-> --- /dev/null
-> +++ b/include/block/block-parent.h
-> @@ -0,0 +1,32 @@
-> +/*
-> + * Block Parent class
-> + *
-> + * Copyright (c) 2021 Virtuozzo International GmbH.
-> + *
-> + * Authors:
-> + *  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef BLOCK_PARENT_H
-> +#define BLOCK_PARENT_H
-> +
-> +#include "block/block.h"
-> +
-> +typedef struct BlockParentClass {
-> +    const char *name;
-> +
-> +    int (*find_child)(const char *parent_id, const char *child_name,
-> +                      BlockDriverState *child_bs, BdrvChild **child,
-> +                      Error **errp);
-> +    QTAILQ_ENTRY(BlockParentClass) next;
-> +} BlockParentClass;
-> +
-> +void block_parent_class_register(BlockParentClass *cls);
-> +
-> +BdrvChild *block_find_child(const char *parent_id, const char *child_name,
-> +                            BlockDriverState *child_bs, Error **errp);
-> +
-> +#endif /* BLOCK_PARENT_H */
-> diff --git a/block/block-parent.c b/block/block-parent.c
-> new file mode 100644
-> index 0000000000..73b6026c42
-> --- /dev/null
-> +++ b/block/block-parent.c
-> @@ -0,0 +1,66 @@
-> +/*
-> + * Block Parent class
-> + *
-> + * Copyright (c) 2021 Virtuozzo International GmbH.
-> + *
-> + * Authors:
-> + *  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "block/block-parent.h"
-> +#include "qapi/error.h"
-> +
-> +static QTAILQ_HEAD(, BlockParentClass) block_parent_classes =
-> +    QTAILQ_HEAD_INITIALIZER(block_parent_classes);
-> +
-> +void block_parent_class_register(BlockParentClass *cls)
-> +{
-> +    QTAILQ_INSERT_HEAD(&block_parent_classes, cls, next);
-> +}
-> +
-> +BdrvChild *block_find_child(const char *parent_id, const char *child_name,
-> +                            BlockDriverState *child_bs, Error **errp)
-> +{
-> +    BdrvChild *found_child = NULL;
-> +    BlockParentClass *found_cls = NULL, *cls;
-> +
-> +    QTAILQ_FOREACH(cls, &block_parent_classes, next) {
-> +        int ret;
-> +        BdrvChild *c;
-> +
-> +        /*
-> +         * Note that .find_child must fail if parent is found but doesn't have
-> +         * corresponding child.
-> +         */
-> +        ret = cls->find_child(parent_id, child_name, child_bs, &c, errp);
-> +        if (ret < 0) {
-> +            return NULL;
+> On Sun, 19 Sep 2021, Ani Sinha wrote:
+> 
+> >
+> >
+> > On Fri, 17 Sep 2021, Igor Mammedov wrote:
+> >  
+> > > On Fri,  6 Aug 2021 23:16:42 +0530
+> > > Ani Sinha <ani@anisinha.ca> wrote:
+> > >  
+> > > > commit d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction bridges")
+> > > > added ACPI hotplug descriptions for cold plugged bridges for functions other
+> > > > than 0. For all other devices, the ACPI hotplug descriptions are limited to
+> > > > function 0 only. This change adds unit tests for this feature.
+> > > >
+> > > > The diff of ACPI DSDT table before and after the change d7346e614f4e with the
+> > > > same newly added unit test is provided below:  
+> > >
+> > > ASL below should be updated to match actual diff it's spewing out
+> > > (I get more than it mentioned below)  
+> >
+> > No. this diff is correct. This is the diff of the DSDT table before and
+> > after appplying your change with the same unit test. So this diff shows
+> > what effectively changes in the DSDT table when your fix
+> >
+> > d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction
+> > bridges")
+> >
+> > is applied. So I think it is important to capture this data. I will
+> > clarify the diff more clearly in the commit log in the next version.
+> >
+> >  
+> > >  
+> > > > @@ -5,13 +5,13 @@
+> > > >   *
+> > > >   * Disassembling to symbolic ASL+ operators
+> > > >   *
+> > > > - * Disassembly of /tmp/aml-35UR70, Fri Aug  6 21:00:03 2021
+> > > > + * Disassembly of /tmp/aml-GY8760, Fri Aug  6 21:10:31 2021
+> > > >   *
+> > > >   * Original Table Header:
+> > > >   *     Signature        "DSDT"
+> > > > - *     Length           0x0000206A (8298)
+> > > > + *     Length           0x000020F3 (8435)
+> > > >   *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
+> > > > - *     Checksum         0x59
+> > > > + *     Checksum         0x1B
+> > > >   *     OEM ID           "BOCHS "
+> > > >   *     OEM Table ID     "BXPC    "
+> > > >   *     OEM Revision     0x00000001 (1)
+> > > > @@ -20,28 +20,6 @@
+> > > >   */
+> > > >  DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
+> > > >  {
+> > > > -    /*
+> > > > -     * iASL Warning: There was 1 external control method found during
+> > > > -     * disassembly, but only 0 were resolved (1 unresolved). Additional
+> > > > -     * ACPI tables may be required to properly disassemble the code. This
+> > > > -     * resulting disassembler output file may not compile because the
+> > > > -     * disassembler did not know how many arguments to assign to the
+> > > > -     * unresolved methods. Note: SSDTs can be dynamically loaded at
+> > > > -     * runtime and may or may not be available via the host OS.
+> > > > -     *
+> > > > -     * In addition, the -fe option can be used to specify a file containing
+> > > > -     * control method external declarations with the associated method
+> > > > -     * argument counts. Each line of the file must be of the form:
+> > > > -     *     External (<method pathname>, MethodObj, <argument count>)
+> > > > -     * Invocation:
+> > > > -     *     iasl -fe refs.txt -d dsdt.aml
+> > > > -     *
+> > > > -     * The following methods were unresolved and many not compile properly
+> > > > -     * because the disassembler had to guess at the number of arguments
+> > > > -     * required for each:
+> > > > -     */
+> > > > -    External (_SB_.PCI0.S09_.PCNT, MethodObj)    // Warning: Unknown method, guessing 1 arguments
+> > > > -
+> > > >      Scope (\)
+> > > >      {
+> > > >          OperationRegion (DBG, SystemIO, 0x0402, One)
+> > > > @@ -3280,9 +3258,45 @@
+> > > >                  }
+> > > >              }
+> > > >
+> > > > +            Device (S09)
+> > > > +            {
+> > > > +                Name (_ADR, 0x00010001)  // _ADR: Address
+> > > > +                Name (BSEL, Zero)
+> > > > +                Device (S00)
+> > > > +                {
+> > > > +                    Name (_SUN, Zero)  // _SUN: Slot User Number
+> > > > +                    Name (_ADR, Zero)  // _ADR: Address
+> > > > +                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
+> > > > +                    {
+> > > > +                        PCEJ (BSEL, _SUN)
+> > > > +                    }
+> > > > +
+> > > > +                    Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+> > > > +                    {
+> > > > +                        Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, _SUN))
+> > > > +                    }
+> > > > +                }
+> > > > +
+> > > > +                Method (DVNT, 2, NotSerialized)
+> > > > +                {
+> > > > +                    If ((Arg0 & One))
+> > > > +                    {
+> > > > +                        Notify (S00, Arg1)
+> > > > +                    }
+> > > > +                }
+> > > > +
+> > > > +                Method (PCNT, 0, NotSerialized)
+> > > > +                {
+> > > > +                    BNUM = Zero
+> > > > +                    DVNT (PCIU, One)
+> > > > +                    DVNT (PCID, 0x03)
+> > > > +                }
+> > > > +            }
+> > > > +
+> > > >              Method (PCNT, 0, NotSerialized)
+> > > >              {
+> > > > -                ^S09.PCNT (^S08.PCNT ())
+> > > > +                ^S09.PCNT ()
+> > > > +                ^S08.PCNT ()
+> > > >              }
+> > > >          }
+> > > >      }
+> > > >
+> > > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > > > ---
+> > > >  tests/qtest/bios-tables-test.c | 28 ++++++++++++++++++++++++++++
+> > > >  1 file changed, 28 insertions(+)
+> > > >
+> > > > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> > > > index 51d3a4e239..c92b70e8b8 100644
+> > > > --- a/tests/qtest/bios-tables-test.c
+> > > > +++ b/tests/qtest/bios-tables-test.c
+> > > > @@ -859,6 +859,33 @@ static void test_acpi_q35_tcg_bridge(void)
+> > > >      free_test_data(&data);
+> > > >  }
+> > > >
+> > > > +static void test_acpi_q35_multif_bridge(void)
+> > > > +{
+> > > > +    test_data data = {
+> > > > +        .machine = MACHINE_Q35,
+> > > > +        .variant = ".multi-bridge",  
+> > >  
+> > > > +        .required_struct_types = base_required_struct_types,
+> > > > +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types)  
+> > > do we care, i.e. why is this here?  
+> >
+> > This verifies the smbios struct. It seems most of the other tests uses it.
+> > So I left it in this test also.
+> > Which of the tests should not be testing smbios?  
+> 
+> Right now smbios is only tested for non-uefi firmware. There are lots
+> of tests that does not use uefi yet exercize the smbios struct tests.
+> For example:
+> 
+> test_acpi_piix4_tcg
+> test_acpi_piix4_tcg_bridge
+> test_acpi_piix4_no_root_hotplug
+> test_acpi_piix4_no_bridge_hotplug
+> test_acpi_piix4_no_acpi_pci_hotplug
+> test_acpi_q35_tcg
+> test_acpi_q35_tcg_bridge
+> test_acpi_q35_tcg_mmio64
+> test_acpi_q35_tcg_ipmi
+> test_acpi_piix4_tcg_ipmi
+> 
+> Should the smbios struct verification tests be removed from all of them?
 
-Interesting: when one method fails, the entire function fails, even when
-other methods succeed.  The contract should probably spell this out.
+I'd leave them alone, and just remove smbios testing from this patch.
 
-> +        }
-> +        if (ret == 0) {
-> +            continue;
-> +        }
-> +
-> +        if (!found_child) {
-> +            found_cls = cls;
-> +            found_child = c;
-> +            continue;
-> +        }
-> +
-> +        error_setg(errp, "{%s, %s} parent-child pair is ambiguous: it match "
-> +                   "both %s and %s", parent_id, child_name, found_cls->name,
-> +                   cls->name);
-> +        return NULL;
-> +    }
-
-Style recommendation: if very much prefer
-
-           if bad
-               error out
-           normal
-
-over
-
-           if ok
-               normal
-           bad
-
-In this case:
-
-           if (found_child) {
-               error_setg(...);
-               return 0;
-           }
-
-           found_cls = cls;
-           found_child = c;
-       }
-
-> +
-> +    if (!found_child) {
-> +        error_setg(errp, "{%s, %s} parent-child pair not found", parent_id,
-> +                   child_name);
-> +        return NULL;
-> +    }
-> +
-> +    return found_child;
-> +}
-> diff --git a/block/meson.build b/block/meson.build
-> index 0450914c7a..5200e0ffce 100644
-> --- a/block/meson.build
-> +++ b/block/meson.build
-> @@ -10,6 +10,7 @@ block_ss.add(files(
->    'blkverify.c',
->    'block-backend.c',
->    'block-copy.c',
-> +  'block-parent.c',
->    'commit.c',
->    'copy-on-read.c',
->    'preallocate.c',
+> 
+> 
+> > Maybe we can remove this
+> > from other tests (even the ones that I added earlier)? I wasnt' sure so
+> > maybe you can clarify.  
+> 
+> 
+> >
+> >  
+> > >  
+> > > > +    };
+> > > > +    /*
+> > > > +     * lets try three things:  
+> > > s/try .../test following configuration/
+> > >  
+> > > > +     * (a) a multifunction bridge device
+> > > > +     * (b) a bridge device with function 1
+> > > > +     * (c) a non-bridge device with function 2
+> > > > +     * We should see AML hotplug descriptions for (a) and (b) in DSDT.
+> > > > +     * For (a) it should have a hotplug AML description for function 0.
+> > > > +     */  
+> > >
+> > > A little bit hard to parse this comment, maybe explain a bit more
+> > > what is being tested
+> > > also I'd move this comment into commit message  
+> >
+> > OK will do in next revision.
+> >  
+> > >  
+> > > > +    test_acpi_one("-nodefaults -device pcie-root-port,id=pcie-root-port-0,"
+> > > > +                  "multifunction=on,"
+> > > > +                  "port=0x0,chassis=1,addr=0x1,bus=pcie.0 "
+> > > > +                  "-device pcie-root-port,id=pcie-root-port-1,"
+> > > > +                  "port=0x1,chassis=2,addr=0x1.0x1,bus=pcie.0 "
+> > > > +                  "-device virtio-balloon,id=balloon0,"
+> > > > +                  "bus=pcie.0,addr=0x1.0x2",
+> > > > +                  &data);
+> > > > +    free_test_data(&data);
+> > > > +}
+> > > > +
+> > > >  static void test_acpi_q35_tcg_mmio64(void)
+> > > >  {
+> > > >      test_data data = {
+> > > > @@ -1528,6 +1555,7 @@ int main(int argc, char *argv[])
+> > > >                         test_acpi_piix4_no_acpi_pci_hotplug);
+> > > >          qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+> > > >          qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+> > > > +        qtest_add_func("acpi/q35/multif-bridge", test_acpi_q35_multif_bridge);
+> > > >          qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
+> > > >          qtest_add_func("acpi/piix4/ipmi", test_acpi_piix4_tcg_ipmi);
+> > > >          qtest_add_func("acpi/q35/ipmi", test_acpi_q35_tcg_ipmi);  
+> > >
+> > >  
+> >  
+> 
 
 
