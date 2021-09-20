@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD32411347
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 13:02:37 +0200 (CEST)
-Received: from localhost ([::1]:46098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A3DB411338
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 12:59:20 +0200 (CEST)
+Received: from localhost ([::1]:41640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSH4G-0001Z8-KQ
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 07:02:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49214)
+	id 1mSH15-0006st-Kf
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 06:59:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mSGzM-0004xw-Bc
+ id 1mSGzM-0004xv-AH
  for qemu-devel@nongnu.org; Mon, 20 Sep 2021 06:57:32 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106]:19986)
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:41426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mSGzJ-0002tS-FM
+ id 1mSGzJ-0002tT-6H
  for qemu-devel@nongnu.org; Mon, 20 Sep 2021 06:57:32 -0400
 Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 2ED02449A7;
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 507D2449AB;
  Mon, 20 Sep 2021 12:57:18 +0200 (CEST)
 From: Stefan Reiter <s.reiter@proxmox.com>
 To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
@@ -30,15 +30,13 @@ To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
  Eric Blake <eblake@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Wolfgang Bumiller <w.bumiller@proxmox.com>,
  Thomas Lamprecht <t.lamprecht@proxmox.com>
-Subject: [PATCH v3 1/3] monitor/hmp: correctly invert password argument
- detection again
-Date: Mon, 20 Sep 2021 12:56:39 +0200
-Message-Id: <20210920105641.258104-2-s.reiter@proxmox.com>
+Subject: [PATCH v3 2/3] monitor/hmp: add support for flag argument with value
+Date: Mon, 20 Sep 2021 12:56:40 +0200
+Message-Id: <20210920105641.258104-3-s.reiter@proxmox.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210920105641.258104-1-s.reiter@proxmox.com>
 References: <20210920105641.258104-1-s.reiter@proxmox.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=94.136.29.106; envelope-from=s.reiter@proxmox.com;
  helo=proxmox-new.maurer-it.com
@@ -63,33 +61,54 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit cfb5387a1d 'hmp: remove "change vnc TARGET" command' claims to
-remove the HMP "change vnc" command, but doesn't actually do that.
-Instead it rewires it to use 'qmp_change_vnc_password', and in the
-process inverts the argument detection - ignoring the first issue, this
-inversion is wrong, as this will now ask the user for a password if one
-is already provided, and simply fail if none is given.
+Adds support for the "-xS" parameter type, where "-x" denotes a flag
+name and the "S" suffix indicates that this flag is supposed to take an
+arbitrary string parameter.
 
-Fixes: cfb5387a1d ("hmp: remove "change vnc TARGET" command")
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+These parameters are always optional, the entry in the qdict will be
+omitted if the flag is not given.
+
 Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
 ---
- monitor/hmp-cmds.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ monitor/hmp.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index e00255f7ee..a7e197a90b 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1496,7 +1496,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
-         }
-         if (strcmp(target, "passwd") == 0 ||
-             strcmp(target, "password") == 0) {
--            if (arg) {
-+            if (!arg) {
-                 MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
-                 monitor_read_password(hmp_mon, hmp_change_read_arg, NULL);
-                 return;
+diff --git a/monitor/hmp.c b/monitor/hmp.c
+index d50c3124e1..a32dce7a35 100644
+--- a/monitor/hmp.c
++++ b/monitor/hmp.c
+@@ -980,6 +980,7 @@ static QDict *monitor_parse_arguments(Monitor *mon,
+             {
+                 const char *tmp = p;
+                 int skip_key = 0;
++                int ret;
+                 /* option */
+ 
+                 c = *typestr++;
+@@ -1002,8 +1003,22 @@ static QDict *monitor_parse_arguments(Monitor *mon,
+                     }
+                     if (skip_key) {
+                         p = tmp;
++                    } else if (*typestr == 'S') {
++                        /* has option with string value */
++                        typestr++;
++                        tmp = p++;
++                        while (qemu_isspace(*p)) {
++                            p++;
++                        }
++                        ret = get_str(buf, sizeof(buf), &p);
++                        if (ret < 0) {
++                            monitor_printf(mon, "%s: value expected for -%c\n",
++                                           cmd->name, *tmp);
++                            goto fail;
++                        }
++                        qdict_put_str(qdict, key, buf);
+                     } else {
+-                        /* has option */
++                        /* has boolean option */
+                         p++;
+                         qdict_put_bool(qdict, key, true);
+                     }
 -- 
 2.30.2
 
