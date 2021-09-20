@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189D54119EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 18:37:43 +0200 (CEST)
-Received: from localhost ([::1]:50776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 170AF4119DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 18:33:41 +0200 (CEST)
+Received: from localhost ([::1]:42192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSMIY-0002xh-3V
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 12:37:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38176)
+	id 1mSMEe-0005YS-0L
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 12:33:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mSM4n-0005xL-PY
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mSM4n-0005xM-Q6
  for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:23:31 -0400
-Received: from smtpout2.3005.mail-out.ovh.net ([46.105.54.81]:47975)
+Received: from smtpout2.3005.mail-out.ovh.net ([46.105.54.81]:45917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mSM4e-0004EM-TN
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mSM4e-0004EN-Th
  for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:23:29 -0400
 Received: from mxplan5.mail.ovh.net (unknown [10.108.4.35])
- by mo3005.mail-out.ovh.net (Postfix) with ESMTPS id 978FF13EB74;
- Mon, 20 Sep 2021 16:23:14 +0000 (UTC)
+ by mo3005.mail-out.ovh.net (Postfix) with ESMTPS id 7F74C13ECEE;
+ Mon, 20 Sep 2021 16:23:15 +0000 (UTC)
 Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 20 Sep
  2021 18:23:14 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005443192fb-46cc-46b1-80d7-f42416cfffd5,
+ (GARM-103G0054674aa11-8963-4cbe-8d7c-77a3068bc233,
  C584E5EC745A9DFF7B561FC81DF43D5934FDEC9F) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 08/12] aspeed/smc: QOMify AspeedSMCFlash
-Date: Mon, 20 Sep 2021 18:23:05 +0200
-Message-ID: <20210920162309.1091711-9-clg@kaod.org>
+Subject: [PATCH v2 09/12] aspeed/smc: Add default reset values
+Date: Mon, 20 Sep 2021 18:23:06 +0200
+Message-ID: <20210920162309.1091711-10-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210920162309.1091711-1-clg@kaod.org>
 References: <20210920162309.1091711-1-clg@kaod.org>
@@ -42,8 +42,8 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.103]
 X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 4030b99e-b178-4fba-91bb-cc0f443a69fb
-X-Ovh-Tracer-Id: 13074512671625087849
+X-Ovh-Tracer-GUID: 57a89890-66ce-4aac-9a31-0945ccc3f0ef
+X-Ovh-Tracer-Id: 13074512669166373670
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudeivddgleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
@@ -67,195 +67,154 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AspeedSMCFlash is a small structure representing the AHB memory window
-through which the contents of a flash device can be accessed with MMIOs.
+This simplifies the reset handler and has the benefit to remove some
+"bad" use of the segments array as an identifier of the controller model.
 
-Introduce an AspeedSMCFlash SysBusDevice model and attach the associated
-memory region to the newly instantiated objects.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/ssi/aspeed_smc.h | 13 +++++--
- hw/ssi/aspeed_smc.c         | 76 +++++++++++++++++++++++++++++++++----
- 2 files changed, 77 insertions(+), 12 deletions(-)
+ include/hw/ssi/aspeed_smc.h |  1 +
+ hw/ssi/aspeed_smc.c         | 52 +++++++++++++++++++------------------
+ 2 files changed, 28 insertions(+), 25 deletions(-)
 
 diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
-index 40b6926b3e02..ee943228b96f 100644
+index ee943228b96f..a1ca0e65c405 100644
 --- a/include/hw/ssi/aspeed_smc.h
 +++ b/include/hw/ssi/aspeed_smc.h
-@@ -30,18 +30,23 @@
- #include "qom/object.h"
- 
- struct AspeedSMCState;
--typedef struct AspeedSMCFlash {
--    struct AspeedSMCState *controller;
- 
-+#define TYPE_ASPEED_SMC_FLASH "aspeed.smc.flash"
-+OBJECT_DECLARE_SIMPLE_TYPE(AspeedSMCFlash, ASPEED_SMC_FLASH)
-+struct AspeedSMCFlash {
-+    SysBusDevice parent_obj;
-+
-+    struct AspeedSMCState *controller;
-     uint8_t cs;
- 
-     MemoryRegion mmio;
--} AspeedSMCFlash;
-+};
- 
- #define TYPE_ASPEED_SMC "aspeed.smc"
- OBJECT_DECLARE_TYPE(AspeedSMCState, AspeedSMCClass, ASPEED_SMC)
- 
- #define ASPEED_SMC_R_MAX        (0x100 / 4)
-+#define ASPEED_SMC_CS_MAX       5
- 
- struct AspeedSMCState {
-     SysBusDevice parent_obj;
-@@ -72,7 +77,7 @@ struct AspeedSMCState {
-     MemoryRegion *dram_mr;
-     AddressSpace dram_as;
- 
--    AspeedSMCFlash *flashes;
-+    AspeedSMCFlash flashes[ASPEED_SMC_CS_MAX];
- 
-     uint8_t snoop_index;
-     uint8_t snoop_dummies;
+@@ -98,6 +98,7 @@ struct AspeedSMCClass {
+     uint8_t nregs_timings;
+     uint8_t conf_enable_w0;
+     uint8_t max_peripherals;
++    const uint32_t *resets;
+     const AspeedSegments *segments;
+     hwaddr flash_window_base;
+     uint32_t flash_window_size;
 diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 643cde832396..c534e9bf87ee 100644
+index c534e9bf87ee..8cc7ccf45591 100644
 --- a/hw/ssi/aspeed_smc.c
 +++ b/hw/ssi/aspeed_smc.c
-@@ -1101,6 +1101,18 @@ static const MemoryRegionOps aspeed_smc_ops = {
-     .endianness = DEVICE_LITTLE_ENDIAN,
- };
- 
-+static void aspeed_smc_instance_init(Object *obj)
-+{
-+    AspeedSMCState *s = ASPEED_SMC(obj);
-+    AspeedSMCClass *asc = ASPEED_SMC_GET_CLASS(s);
-+    int i;
-+
-+    for (i = 0; i < asc->max_peripherals; i++) {
-+        object_initialize_child(obj, "flash[*]", &s->flashes[i],
-+                                TYPE_ASPEED_SMC_FLASH);
-+    }
-+}
-+
- /*
-  * Initialize the custom address spaces for DMAs
+@@ -196,12 +196,9 @@
+  * controller. These can be changed when board is initialized with the
+  * Segment Address Registers.
   */
-@@ -1123,7 +1135,6 @@ static void aspeed_smc_realize(DeviceState *dev, Error **errp)
-     AspeedSMCState *s = ASPEED_SMC(dev);
+-static const AspeedSegments aspeed_2400_fmc_segments[];
+ static const AspeedSegments aspeed_2400_spi1_segments[];
+-static const AspeedSegments aspeed_2500_fmc_segments[];
+ static const AspeedSegments aspeed_2500_spi1_segments[];
+ static const AspeedSegments aspeed_2500_spi2_segments[];
+-static const AspeedSegments aspeed_2600_fmc_segments[];
+ 
+ #define ASPEED_SMC_FEATURE_DMA       0x1
+ #define ASPEED_SMC_FEATURE_DMA_GRANT 0x2
+@@ -686,7 +683,11 @@ static void aspeed_smc_reset(DeviceState *d)
      AspeedSMCClass *asc = ASPEED_SMC_GET_CLASS(s);
      int i;
--    char name[32];
-     hwaddr offset = 0;
  
-     /* keep a copy under AspeedSMCState to speed up accesses */
-@@ -1170,8 +1181,6 @@ static void aspeed_smc_realize(DeviceState *dev, Error **errp)
-                              &s->mmio_flash, 0, asc->flash_window_size);
-     sysbus_init_mmio(sbd, &s->mmio_flash_alias);
+-    memset(s->regs, 0, sizeof s->regs);
++    if (asc->resets) {
++        memcpy(s->regs, asc->resets, sizeof s->regs);
++    } else {
++        memset(s->regs, 0, sizeof s->regs);
++    }
  
--    s->flashes = g_new0(AspeedSMCFlash, asc->max_peripherals);
--
-     /*
-      * Let's create a sub memory region for each possible peripheral. All
-      * have a configurable memory segment in the overall flash mapping
-@@ -1182,12 +1191,17 @@ static void aspeed_smc_realize(DeviceState *dev, Error **errp)
-     for (i = 0; i < asc->max_peripherals; ++i) {
-         AspeedSMCFlash *fl = &s->flashes[i];
- 
--        snprintf(name, sizeof(name), TYPE_ASPEED_SMC ".flash.%d", i);
-+        if (!object_property_set_link(OBJECT(fl), "controller", OBJECT(s),
-+                                      errp)) {
-+            return;
-+        }
-+        if (!object_property_set_uint(OBJECT(fl), "cs", i, errp)) {
-+            return;
-+        }
-+        if (!sysbus_realize(SYS_BUS_DEVICE(fl), errp)) {
-+            return;
-+        }
- 
--        fl->cs = i;
--        fl->controller = s;
--        memory_region_init_io(&fl->mmio, OBJECT(s), &aspeed_smc_flash_ops,
--                              fl, name, asc->segments[i].size);
-         memory_region_add_subregion(&s->mmio_flash, offset, &fl->mmio);
-         offset += asc->segments[i].size;
+     /* Unselect all peripherals */
+     for (i = 0; i < s->num_cs; ++i) {
+@@ -700,27 +701,6 @@ static void aspeed_smc_reset(DeviceState *d)
+                     asc->segment_to_reg(s, &asc->segments[i]));
      }
-@@ -1231,12 +1245,57 @@ static void aspeed_smc_class_init(ObjectClass *klass, void *data)
- static const TypeInfo aspeed_smc_info = {
-     .name           = TYPE_ASPEED_SMC,
-     .parent         = TYPE_SYS_BUS_DEVICE,
-+    .instance_init  = aspeed_smc_instance_init,
-     .instance_size  = sizeof(AspeedSMCState),
-     .class_size     = sizeof(AspeedSMCClass),
-     .class_init     = aspeed_smc_class_init,
-     .abstract       = true,
+ 
+-    /* HW strapping flash type for the AST2600 controllers  */
+-    if (asc->segments == aspeed_2600_fmc_segments) {
+-        /* flash type is fixed to SPI for all */
+-        s->regs[s->r_conf] |= (CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE0);
+-        s->regs[s->r_conf] |= (CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE1);
+-        s->regs[s->r_conf] |= (CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE2);
+-    }
+-
+-    /* HW strapping flash type for FMC controllers  */
+-    if (asc->segments == aspeed_2500_fmc_segments) {
+-        /* flash type is fixed to SPI for CE0 and CE1 */
+-        s->regs[s->r_conf] |= (CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE0);
+-        s->regs[s->r_conf] |= (CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE1);
+-    }
+-
+-    /* HW strapping for AST2400 FMC controllers (SCU70). Let's use the
+-     * configuration of the palmetto-bmc machine */
+-    if (asc->segments == aspeed_2400_fmc_segments) {
+-        s->regs[s->r_conf] |= (CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE0);
+-    }
+-
+     s->snoop_index = SNOOP_OFF;
+     s->snoop_dummies = 0;
+ }
+@@ -1352,6 +1332,14 @@ static const TypeInfo aspeed_2400_smc_info = {
+     .class_init = aspeed_2400_smc_class_init,
  };
  
-+static void aspeed_smc_flash_realize(DeviceState *dev, Error **errp)
-+{
-+    AspeedSMCFlash *s = ASPEED_SMC_FLASH(dev);
-+    AspeedSMCClass *asc;
-+    g_autofree char *name = g_strdup_printf(TYPE_ASPEED_SMC_FLASH ".%d", s->cs);
-+
-+    if (!s->controller) {
-+        error_setg(errp, TYPE_ASPEED_SMC_FLASH ": 'controller' link not set");
-+        return;
-+    }
-+
-+    asc = ASPEED_SMC_GET_CLASS(s->controller);
-+
++static const uint32_t aspeed_2400_fmc_resets[ASPEED_SMC_R_MAX] = {
 +    /*
-+     * Use the default segment value to size the memory region. This
-+     * can be changed by FW at runtime.
++     * CE0 and CE1 types are HW strapped in SCU70. Do it here to
++     * simplify the model.
 +     */
-+    memory_region_init_io(&s->mmio, OBJECT(s), &aspeed_smc_flash_ops,
-+                          s, name, asc->segments[s->cs].size);
-+    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
-+}
-+
-+static Property aspeed_smc_flash_properties[] = {
-+    DEFINE_PROP_UINT8("cs", AspeedSMCFlash, cs, 0),
-+    DEFINE_PROP_LINK("controller", AspeedSMCFlash, controller, TYPE_ASPEED_SMC,
-+                     AspeedSMCState *),
-+    DEFINE_PROP_END_OF_LIST(),
++    [R_CONF] = CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE0,
 +};
 +
-+static void aspeed_smc_flash_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->desc = "Aspeed SMC Flash device region";
-+    dc->realize = aspeed_smc_flash_realize;
-+    device_class_set_props(dc, aspeed_smc_flash_properties);
-+}
-+
-+static const TypeInfo aspeed_smc_flash_info = {
-+    .name           = TYPE_ASPEED_SMC_FLASH,
-+    .parent         = TYPE_SYS_BUS_DEVICE,
-+    .instance_size  = sizeof(AspeedSMCFlash),
-+    .class_init     = aspeed_smc_flash_class_init,
+ static const AspeedSegments aspeed_2400_fmc_segments[] = {
+     { 0x20000000, 64 * MiB }, /* start address is readonly */
+     { 0x24000000, 32 * MiB },
+@@ -1374,6 +1362,7 @@ static void aspeed_2400_fmc_class_init(ObjectClass *klass, void *data)
+     asc->conf_enable_w0    = CONF_ENABLE_W0;
+     asc->max_peripherals   = 5;
+     asc->segments          = aspeed_2400_fmc_segments;
++    asc->resets            = aspeed_2400_fmc_resets;
+     asc->flash_window_base = 0x20000000;
+     asc->flash_window_size = 0x10000000;
+     asc->features          = ASPEED_SMC_FEATURE_DMA;
+@@ -1424,6 +1413,11 @@ static const TypeInfo aspeed_2400_spi1_info = {
+     .class_init = aspeed_2400_spi1_class_init,
+ };
+ 
++static const uint32_t aspeed_2500_fmc_resets[ASPEED_SMC_R_MAX] = {
++    [R_CONF] = (CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE0 |
++                CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE1),
 +};
++
+ static const AspeedSegments aspeed_2500_fmc_segments[] = {
+     { 0x20000000, 128 * MiB }, /* start address is readonly */
+     { 0x28000000,  32 * MiB },
+@@ -1444,6 +1438,7 @@ static void aspeed_2500_fmc_class_init(ObjectClass *klass, void *data)
+     asc->conf_enable_w0    = CONF_ENABLE_W0;
+     asc->max_peripherals   = 3;
+     asc->segments          = aspeed_2500_fmc_segments;
++    asc->resets            = aspeed_2500_fmc_resets;
+     asc->flash_window_base = 0x20000000;
+     asc->flash_window_size = 0x10000000;
+     asc->features          = ASPEED_SMC_FEATURE_DMA;
+@@ -1569,6 +1564,12 @@ static void aspeed_2600_smc_reg_to_segment(const AspeedSMCState *s,
+     }
+ }
  
- /*
-  * The Segment Registers of the AST2400 and AST2500 have a 8MB
-@@ -1625,6 +1684,7 @@ static const TypeInfo aspeed_2600_spi2_info = {
- 
- static void aspeed_smc_register_types(void)
- {
-+    type_register_static(&aspeed_smc_flash_info);
-     type_register_static(&aspeed_smc_info);
-     type_register_static(&aspeed_2400_smc_info);
-     type_register_static(&aspeed_2400_fmc_info);
++static const uint32_t aspeed_2600_fmc_resets[ASPEED_SMC_R_MAX] = {
++    [R_CONF] = (CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE0 |
++                CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE1 |
++                CONF_FLASH_TYPE_SPI << CONF_FLASH_TYPE2),
++};
++
+ static const AspeedSegments aspeed_2600_fmc_segments[] = {
+     { 0x0, 128 * MiB }, /* start address is readonly */
+     { 128 * MiB, 128 * MiB }, /* default is disabled but needed for -kernel */
+@@ -1589,6 +1590,7 @@ static void aspeed_2600_fmc_class_init(ObjectClass *klass, void *data)
+     asc->conf_enable_w0    = CONF_ENABLE_W0;
+     asc->max_peripherals   = 3;
+     asc->segments          = aspeed_2600_fmc_segments;
++    asc->resets            = aspeed_2600_fmc_resets;
+     asc->flash_window_base = 0x20000000;
+     asc->flash_window_size = 0x10000000;
+     asc->features          = ASPEED_SMC_FEATURE_DMA |
 -- 
 2.31.1
 
