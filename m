@@ -2,142 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C626D411384
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 13:26:48 +0200 (CEST)
-Received: from localhost ([::1]:36202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 335154113BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 13:46:53 +0200 (CEST)
+Received: from localhost ([::1]:40638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSHRf-00087a-EF
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 07:26:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55164)
+	id 1mSHl5-0003t9-Kv
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 07:46:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mSHQl-0007L7-4Q; Mon, 20 Sep 2021 07:25:51 -0400
-Received: from mail-vi1eur05on2130.outbound.protection.outlook.com
- ([40.107.21.130]:1920 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mirela.grujic@greensocs.com>)
+ id 1mSHeC-0002qC-7F
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 07:39:44 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:45940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mSHQh-0005kL-BZ; Mon, 20 Sep 2021 07:25:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zm57ED86grSIplziC1feQSSHPt9nINOh2GhrHsCWglsXP9RClMNmKWIiGZlBj/6wUWJeDhrVm5FoP2qsSWMVOw0GY7WwPBM72vtARbEYF20BvFPM4UsSPc+Puuy9XwaUJ+ZS8+mJlFCW54rJ9YMqlXDiSu0Ui3OW02hZt436BGqxsV2pCxoDEs8Wj3dmAkL5jJCLLVjUX80pxKVGYIIRmHSKJqW1bF/06k/tESzGCQmqP9IrXKQ2kLWxJluSJOtW8EA8jnkXQ8asq3mc1rt6ytuA29B7mhb+HfKLD1Cnmp+vvm5wJL6qMNs/ipyf8h3ffyB21JUBmiWT3266BSeyCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=RVZfbB4mgt/E5ikY6vxYCdwQpgcilxxwF/8HSYBkVHU=;
- b=EIJkEVEMRdvyfOmNW0V6flNHJGZwCiXV1o84FsyTbMYXj4JyGJSyR7jnLIAUhvJrfcvqD/pL56SuIZARxe5Dj/DsoP0XvoNMbkKrbeCNLb+f7H270UNJFTWARLQu6/Ac5YYJGkLjchy9ExJmKUewLu9EA4DKAB6b5j6Wnda1QkLFdC9O2rgRwZq5Qfa42YNDj4eOeG9qArVD7BJcoYZnnlfyUHFQu0vPCBI+tBFmZnSJOlL9xN3DVlR9TrVmyM3L5LvEUTIAWOi3XFzKUI9hiD/3pBKYaezwBSa4Eta3V+YCbWPR0NFRJa5Sh1m/a7fuCjys1q8bgEzN/6ewPxLrUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RVZfbB4mgt/E5ikY6vxYCdwQpgcilxxwF/8HSYBkVHU=;
- b=MQzXvkNjp568qGZDPLDOETI/OA6zWDT2kfBq/H9aBs8tv7dqmxcPra/PtWh+QCRsapLRKK6zMkwY2dSAa9kVfy42C3E3CyIR8MfzpblJsOizSPdM0LYRiSpSiTKWN6zDC/KTg41UxSNOHZHcacVNbrUBOOOejEONw7DqPdOI//Y=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB2097.eurprd08.prod.outlook.com (2603:10a6:203:4c::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14; Mon, 20 Sep
- 2021 11:25:43 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4523.018; Mon, 20 Sep 2021
- 11:25:43 +0000
-Subject: Re: [PATCH 8/8] qapi: add blockdev-replace command
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, ehabkost@redhat.com, berrange@redhat.com,
- pbonzini@redhat.com, armbru@redhat.com, eblake@redhat.com,
- mreitz@redhat.com, kwolf@redhat.com, den@openvz.org,
- nshirokovskiy@virtuozzo.com, yur@virtuozzo.com, dim@virtuozzo.com,
- igor@virtuozzo.com, pkrempa@redhat.com, libvir-list@redhat.com,
- stefanha@redhat.com
-References: <20210802185416.50877-1-vsementsov@virtuozzo.com>
- <20210802185416.50877-9-vsementsov@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <19c31991-0a55-2b99-77f7-be84ace6b8da@virtuozzo.com>
-Date: Mon, 20 Sep 2021 14:25:40 +0300
+ (Exim 4.90_1) (envelope-from <mirela.grujic@greensocs.com>)
+ id 1mSHe9-0004Jo-6S
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 07:39:43 -0400
+Received: from [192.168.2.112] (cable-24-135-22-90.dynamic.sbb.rs
+ [24.135.22.90])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 7E5782089E;
+ Mon, 20 Sep 2021 11:39:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1632137976;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=y5xFqdWxMuATQGcQCPHuC3+bNlGlqGy46P/qKPES9rg=;
+ b=EawsO2eZ771p6a83pmWWnvvh2Ua3IhxUJrEJpLM0u8vN9hVA598ecWDMyE/s1MhM1BSqaM
+ PDN6pYGXp+4egVeLywu4qZkkfYaPAxoT6qByuAUpe0Kuba02jcQar8081jt/IRhPGmIHu/
+ Zv8vAGPgWG6VsMPQt5fwGSfrwfcGLM4=
+Subject: Re: [RFC PATCH] docs/specs: QMP configuration design specification
+From: Mirela Grujic <mirela.grujic@greensocs.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210601100729.23006-1-mirela.grujic@greensocs.com>
+ <a3d3febe-d2ec-6917-01ab-2c31fee1eee2@redhat.com>
+ <58f0e3c2-a68b-aff4-7cc5-4e7426245323@greensocs.com>
+Message-ID: <d628077b-1a4a-92b7-c2ed-ca265dbcd15a@greensocs.com>
+Date: Mon, 20 Sep 2021 13:39:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <20210802185416.50877-9-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM9P193CA0004.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:20b:21e::9) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.205) by
- AM9P193CA0004.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:21e::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4523.14 via Frontend Transport; Mon, 20 Sep 2021 11:25:41 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e599b26f-8368-418e-a2d1-08d97c2961d3
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB2097:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB2097560247FA2B23166D57ABC1A09@AM5PR0801MB2097.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SzCuymLlnP/xB2llMmu8HhxgK/RATQg88TffZMh8siNeRHzgU1ZFt4w3+BZrRcwif1CLL1s63U9wMXCEoFyHFrlFKcbdURhYM+m1vAAMmaUip7UNpAuz0oyKCdKLQcjmu5UvQKHjz9yeh2ieZ8G3HnY6h5zb3xZdEqFxPhydr1qOxUpfZhbcPH6kFZBHVLP+y5+7rv+RgwSb7lVVKBRC5qyLThQFXOZ3ludjBwYpBNCJmgaUSjeucnICaMMsaHdCSFhGO5ijswvndWKRZYDRwSZB6MXhQ+QIAGPhQyGD53qZ2QM8Xzs7GsRQPDVlqOxYgddBvEolNujXt6ovpV7DRQfJEo6g8342ytaPatkkgeNWtLwBdqD4LfcRhABfo3NPs54k2Il2/Q1YxU8a2paMbpj01SGXWtDEAOslz/XccakjnSjjd+otR0Y1aB+AfR/IlMm+PrDYWPuxPQu2GsZ0mvZ/UamSk7805HG6SnlMQnqQ4QeYzkwR7LNzuf/su2TY/KFDDmJ7x8tuoI9hPOvrDDoMbsl8y0qRvAAlMdfyLorPjk9lzlDAQchWkucLotJyORr/mD0rGykuyjITEgTfOA+2GvwbNUNZYl4QKUUfDZIW8NJpq3mJC99tED6AcHEXMT9Xyrug/drqov9lrlpwcPVTSZjUEoryRNbqGFxcQgUNaFmunqtBXB8tMKjn7VRfR7fYxaNDEz2ySG2n7vI0CikVMZn/ojmcno+WwXzLkdxZDafWFBdF0ZEYleadl2xRENoSKKQsQIk6IakFIBejkQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(36756003)(16576012)(186003)(316002)(52116002)(5660300002)(508600001)(8676002)(26005)(66946007)(8936002)(86362001)(31686004)(31696002)(7416002)(83380400001)(38100700002)(6916009)(956004)(4326008)(2906002)(2616005)(6486002)(38350700002)(66476007)(66556008)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dE90VjhXeVRtN1ZKRFZ1SSt6UVZwUk03UmlJYm5RMzAyRHV1elViTkNpdzRK?=
- =?utf-8?B?Y0NHS2ZlVWtQU3pwR1IxTFdFaFVMN2Z0emVaM0tESWZld29YZVJBMC9YQ3hw?=
- =?utf-8?B?SnBveGRwcEZBdXpBdW4yWVpEM2g2MEZIclROWjh5ZFZXRHVMeW1qQjMzYktp?=
- =?utf-8?B?REplYkhqTU10TXRaUFJuQUs3VW80S1VRVk1HT05yWVB6QitKZ0k3QW1idWgv?=
- =?utf-8?B?NlE0dGdIY1NXNndPWDNYUmpPbnd0dlNFSVBUNHEwNWMzNXFtZ3F5ZjVKdFlo?=
- =?utf-8?B?TmpNVzF4VjRVc1ZUWjBaNmd0cXhIL3BBcUhjWWxYYmxSY1k3TWllNTUvcGxJ?=
- =?utf-8?B?NGJ6WTc0ZmhpR2pYUzkrY2VDRm1RN1VEazh5VEhJRHVZdFovM09pVFp1NmFD?=
- =?utf-8?B?cW5DRmhGN1A0bTM1cTFSOW4zaTBkTjZqbHZENWpqT0ZCMnRRWCtudnN1ZElH?=
- =?utf-8?B?d3dTaVphR0lRbzlSUi9WTEE4WWYwZVZXTmw5ckoydW1wOTQ0RDNSaGYzME1z?=
- =?utf-8?B?dzRSeUIzR2J0bVo2bERFY1dTWkxMWVorNXJvQXUvbU9LbmYzdW1CTVRtcEgy?=
- =?utf-8?B?Zi9NZTZNeGJUblBFWGhQc0JQT0dRSEZXS0M0amYzZXZFVm15WU9qejgvUWly?=
- =?utf-8?B?aHlaVXZ2SEd6U0Z6Y0xFY2dpYXNpY0FDU2VrY1NqODFVM1oxUFREMnNCdmpo?=
- =?utf-8?B?RXVYbXJTdUlKOEt0N1FEVlcyM2tDZ28rRjUyUkJIcmVFU1BtZlpwRndYRkFp?=
- =?utf-8?B?bVZ4bUZnNjNuY09lOGh5RUVmY2FEOW5CUlZvM0VJRU5PUE5WRlhnQzcybFk1?=
- =?utf-8?B?TlpoUXVSSDJHMkNJdTRjT05MME4rdDVkTm9XTEE4OXdod0daeDN0N2MvUlpT?=
- =?utf-8?B?b3V3ZHl5aVBYbURRNVREdEpBUEY1WkFQRks4c1IxUmNOQkNrOHpKc3UrVm5X?=
- =?utf-8?B?MzdaZzFNZEZlMTZ3S1hRSEI3WUdjRHJ4QnYrWHB0bS9qMEptdjJNaGpzSm4v?=
- =?utf-8?B?YXh2UzJVYk5GTC9ZUXI0VXM0aTVxNDZEN3owTkFzUnROOHhMRi9iRXV4M0Fk?=
- =?utf-8?B?RzR3bGNTT05rNTlhSXNReEY1S0RCRzdVdkNERXVhL0JJUExQcDI0dlFZVlVP?=
- =?utf-8?B?RDJlUTdtZDZRWnJtSk84ODJzb1IxMksvcHEzVVlncU02V2hnUUdSdWlUdndP?=
- =?utf-8?B?NjBsY2U3SnpCSFdVYnlpRUpqRWNXOHpOSSt4UG1PdWo3SDBEajAyaTZNVVUr?=
- =?utf-8?B?Y2U2TDgyUW9BUWFvbWt1Y2IyVWFZbWVuaEtXenZBSDdXaHdWaU5FZGVXUkwv?=
- =?utf-8?B?K1A3cldSM3V0eVdOVXFxem52dnhkWElTc3dvSHdiM2pwTzhaMGJKUXBUOUVr?=
- =?utf-8?B?SHFyajl3cFJucDdGWEEzaHBHU2dvOVQ3WU9WSkIrcnhjNDMzc1FUWktjSVla?=
- =?utf-8?B?Yk5COWp3LzFEdURSSEhJOVFLYTRIZnNtamNIZVZ6Rml1eDRDUzVMV3BlMkV2?=
- =?utf-8?B?ZVBoU21SVk1oVEtlc2dTLzRNVVRXaG1VV2s0R1VyYmY1dnJTZHdSV2JsSkFY?=
- =?utf-8?B?cnhhTXdPSDR5TXQyTm1IaTlDTUFnb25zUGhFcE5ESkR0SWU0MElzcHlyNzNi?=
- =?utf-8?B?R2kybm8vb2xlK29RUWhHMFhNVHJnUXRwUGtXeGFHT2lVZmEvYWNKTGNOWEdB?=
- =?utf-8?B?NDhwZ2s5VERSN1lYdlY4OElDcU9GUkx6QnR5c3BQV1RXVGZzZy9MTWxQZlFi?=
- =?utf-8?Q?dIsWC9EYyCjJ+0xUJ2TQKVBXZWLmQvDU99t6htb?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e599b26f-8368-418e-a2d1-08d97c2961d3
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2021 11:25:42.9171 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RnIxT7SN7Ob14kmqFqYtNA4tzCqkaL37PCsxaw6aeskQbx/cRRBkzOz2j8M/TBEpvpS6pSDPXBVCy+t6tHoi/XjNyn6drcaHK21ADmKC7vU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB2097
-Received-SPF: pass client-ip=40.107.21.130;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
+In-Reply-To: <58f0e3c2-a68b-aff4-7cc5-4e7426245323@greensocs.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=mirela.grujic@greensocs.com; helo=beetle.greensocs.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -150,122 +68,293 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: edgar.iglesias@xilinx.com, damien.hedde@greensocs.com,
+ peter.maydell@linaro.org, mark.burton@greensocs.com, armbru@redhat.com,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-02.08.2021 21:54, Vladimir Sementsov-Ogievskiy wrote:
-> Add command that can add and remove filters.
-> 
-> Key points of functionality:
-> 
-> What the command does is simply replace some BdrvChild.bs by some other
-> nodes. The tricky thing is selecting there BdrvChild objects.
-> To be able to select any kind of BdrvChild we use a generic parent_id,
-> which may be a node-name, or qdev id or block export id. In future we
-> may support block jobs.
-> 
-> Any kind of ambiguity leads to error. If we have both device named
-> device0 and block export named device0 and they both point to same BDS,
-> user can't replace root child of one of these parents. So, to be able
-> to do replacements, user should avoid duplicating names in different
-> parent namespaces.
-> 
-> So, command allows to replace any single child in the graph.
-> 
-> On the other hand we want to realize a kind of bdrv_replace_node(),
-> which works well when we want to replace all parents of some node. For
-> this kind of task @parents-mode argument implemented.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   qapi/block-core.json | 78 +++++++++++++++++++++++++++++++++++++++++
->   block.c              | 82 ++++++++++++++++++++++++++++++++++++++++++++
->   2 files changed, 160 insertions(+)
-> 
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 675d8265eb..8059b96341 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -5433,3 +5433,81 @@
->   { 'command': 'blockdev-snapshot-delete-internal-sync',
->     'data': { 'device': 'str', '*id': 'str', '*name': 'str'},
->     'returns': 'SnapshotInfo' }
-> +
-> +##
-> +# @BlockdevReplaceParentsMode:
-> +#
-> +# Alternative (to directly set @parent) way to chose parents in
-> +# @blockdev-replace
-> +#
-> +# @exactly-one: Exactly one parent should match a condition, otherwise
-> +#               @blockdev-replace fails.
-> +#
-> +# @all: All matching parents are taken into account. If replacing lead
-> +#       to loops in block graph, @blockdev-replace fails.
-> +#
-> +# @auto: Same as @all, but automatically skip replacing parents if it
-> +#        leads to loops in block graph.
-> +#
-> +# Since: 6.2
-> +##
-> +{ 'enum': 'BlockdevReplaceParentsMode',
-> +  'data': ['exactly-one', 'all', 'auto'] }
-> +
-> +##
-> +# @BlockdevReplace:
-> +#
-> +# Declaration of one replacement.
-> +#
-> +# @parent: id of parent. It may be qdev or block export or simple
-> +#          node-name. If id is ambiguous (for example node-name of
-> +#          some BDS equals to block export name), blockdev-replace
-> +#          fails. If not specified, blockdev-replace goes through
-> +#          @parents-mode scenario, see below. Note, that @parent and
-> +#          @parents-mode can't be specified simultaneously.
-> +#          If @parent is specified, only one edge is selected. If
-> +#          several edges match the condition, blockdev-replace fails.
-> +#
-> +# @edge: name of the child. If omitted, any child name matches.
-> +#
-> +# @child: node-name of the child. If omitted, any child matches.
-> +#         Must be present if @parent is not specified.
-> +#
-> +# @parents-mode: declares how to select edge (or edges) when @parent
-> +#                is omitted. Default is 'one'.
-> +#
-> +# Since: 6.2
-> +#
-> +# Examples:
-> +#
-> +# 1. Change root node of some device.
-> +#
-> +# Note, that @edge name is omitted, as
-> +# devices always has only one child. As well, no need in specifying
-> +# old @child.
-> +#
-> +# -> { "parent": "device0", "new-child": "some-node-name" }
-> +#
-> +# 2. Insert copy-before-write filter.
-> +#
-> +# Assume, after blockdev-add we have block-node 'source', with several
-> +# writing parents and one copy-before-write 'filter' parent. And we want
-> +# to actually insert the filter. We do:
-> +#
-> +# -> { "child": "source", "parent-mode": "auto", "new-child": "filter" }
-> +#
-> +# All parents of source would be switched to 'filter' node, except for
-> +# 'filter' node itself (otherwise, it will make a loop in block-graph).
-> +##
-> +{ 'struct': 'BlockdevReplace',
-> +  'data': { '*parent': 'str', '*edge': 'str', '*child': 'str',
-> +            '*parents-mode': 'BlockdevReplaceParentsMode',
-> +            'new-child': 'str' } }
+Hi,
 
 
-We also can make 'new-child' a 'BlockdevRef' and allow creating and inserting the filter in one command.
+We haven't got any feedback on this, anyone, please?
 
 
--- 
-Best regards,
-Vladimir
+Thanks,
+
+Mirela
+
+
+On 6/28/21 11:55 AM, Mirela Grujic wrote:
+> Hi,
+>
+> While implementing a prototype we run into a couple of challenges. 
+> We're not sure whether our current implementation would be acceptable 
+> and whether there is a better solution, so we would highly appreciate 
+> your feedback.
+>
+> The device_add command, which was originally used for hot-plugging 
+> devices, initializes and realizes the device in a single step. In 
+> contrast, existing models in C code heavily rely on disjoint 
+> initialize and realize steps. Due to this discrepancy, it's 
+> challenging to replace hard-coded configurations with the QMP equivalent.
+>
+> For example, we need to create a CPU cluster with two CPUs. In C code, 
+> this is done as follows:
+> 1) Initialize the CPU cluster
+> 2) Create CPUs as children of the cluster
+> 3) Realize cluster
+>
+> Note that the cluster cannot be realized empty (without the CPU 
+> children). We need to establish parent-child relationships between the 
+> cluster and its CPU children before realizing the cluster. 
+> Consequently, we cannot simply add the cluster and CPUs using the 
+> existing device_add command. A similar issue exists if there are 
+> bidirectional links between the devices.
+>
+> An approach to solve the problem above is to allow the device_add 
+> command to skip realizing the device and to use the qom-set command to 
+> realize the device later. To support this, we would add a 'realized' 
+> option to the device_add command with the default true value. Setting 
+> 'realized' to false would be only allowed during the machine 
+> initialization phase, thus the existing behavior of the device_add 
+> command for hot-plugging devices wouldn't change.
+>
+> To initialize and realize the device in two steps we would run:
+>
+>     device_add driver=cpu-cluster id=cluster0 cluster-id=0 realized=false
+>     qom-set path=cluster0 property=realized value=true
+>
+> Additionally, to set the parent we would add the 'parent' option to the
+> device_add command. The cluster and its CPUs would be added as follows:
+>
+>     device_add driver=cpu-cluster cluster-id=0 id=cluster0 realized=false
+>     device_add driver=cortex-a72-arm-cpu id=apu-cpu0 parent=cluster0 ...
+>     device_add driver=cortex-a72-arm-cpu id=apu-cpu1 parent=cluster0 ...
+>     qom-set path=cluster0 property=realized value=true
+>
+> The implementation is quite simple. If anyone would like to take a 
+> look we can submit an RFC or point to a repository.
+>
+> An alternative to the proposal above would be to create device 
+> wrappers that would allow creating multiple devices that mutually 
+> depend, using a single device_add command.
+>
+> While the first approach is generic, it requires users to have some 
+> knowledge of QEMU internals (isn't this expected from someone who is 
+> configuring the machine at this level?). The second approach appears 
+> to be more user-friendly, but it would require additional device 
+> models just to enable the use of existing ones with the QMP 
+> configuration.
+>
+> Could you please let us know what do you think? Any other proposals?
+>
+> Thanks,
+> Mirela
+>
+>
+>
+> On 6/3/21 6:02 PM, Paolo Bonzini wrote:
+>> On 01/06/21 12:07, Mirela Grujic wrote:
+>>> diff --git a/docs/specs/qmp-configuration.txt 
+>>> b/docs/specs/qmp-configuration.txt
+>>> new file mode 100644
+>>> index 0000000000..69ff49cae6
+>>> --- /dev/null
+>>> +++ b/docs/specs/qmp-configuration.txt
+>>
+>> docs/specs is not the right place, as it is for guest devices. But 
+>> this is completely irrelevant to the proposal, which doesn't need to 
+>> live in docs/ at all.  So forget about it. :)
+>>
+>> In general this is a good starting point.  We can either deprecate or 
+>> stabilize x-machine-init once there is enough code written to have a 
+>> working qemu-qmp-* binary.  Then we will know whether an 
+>> accel-created->machine-init transition is needed or can be left 
+>> implicit.
+>>
+>> For now, what you propose is a very nice compromise that allows 
+>> parallel work on machine/accel configuration on one hand, and device 
+>> configuration on the other hand.  One other reason why that works 
+>> well is that we have more or less opposite interests (I care mostly 
+>> about machine/accel for example) so that's a natural way to split the 
+>> work.
+>>
+>> Thanks!
+>>
+>> Paolo
+>>
+>>> @@ -0,0 +1,112 @@
+>>> +
+>>> +Overview
+>>> +--------
+>>> +
+>>> +The QMP configuration in the context of this design stands for 
+>>> customizing an
+>>> +existing machine using the QEMU Monitor Protocol (QMP). The 
+>>> requirement for such
+>>> +a configuration comes from the use cases where a complete 
+>>> system-on-chip can be
+>>> +customized: from the number of cores, available peripherals, 
+>>> memories, IRQ
+>>> +mapping, etc. Our goal is to enable the emulation of customized 
+>>> platforms
+>>> +without requiring modifications in QEMU, and thus the QEMU 
+>>> recompilation.
+>>> +
+>>> +We will perform the QMP configuration from a QMP client that will 
+>>> communicate
+>>> +with QEMU via a socket. As an example of a QMP client, we will 
+>>> include a script,
+>>> +namely the QMP configurator, that will read QMP commands from a 
+>>> configuration
+>>> +file and send them to QEMU, one by one. The configuration file will 
+>>> be a text
+>>> +file that includes only a list of QMP commands to be executed.
+>>> +
+>>> +We will start QEMU with the -preconfig command-line option, thus 
+>>> QEMU will wait
+>>> +for the QMP configuration at an early initialization phase, before 
+>>> the machine
+>>> +initialization. The following configuration flow will rely on the 
+>>> machine
+>>> +initialization phases. In each initialization phase, a set of QMP 
+>>> commands will
+>>> +be available for configuring the machine and advancing it to the next
+>>> +initialization phase. Upon reaching the final initialization phase, 
+>>> the machine
+>>> +shall be ready to run. We specify detailed configuration flow in
+>>> +"QMP configuration flow in QEMU."
+>>> +
+>>> +
+>>> +QMP configurator
+>>> +----------------
+>>> +
+>>> +We decided to include the QMP configurator, a QMP client script 
+>>> that will
+>>> +communicate with QEMU, to automate the configuration. The QMP 
+>>> configurator will
+>>> +read the QMP commands from the configuration file, send each QMP 
+>>> command to
+>>> +QEMU, and quit at the end or exit earlier in the case of an error. 
+>>> We have not
+>>> +envisioned the QMP configurator to be interactive. For debugging 
+>>> purposes, one
+>>> +could use the QMP shell instead (scripts/qmp/qmp-shell).
+>>> +
+>>> +
+>>> +QMP configuration file
+>>> +----------------------
+>>> +
+>>> +The QMP configuration file will be a text file that includes only a 
+>>> list of
+>>> +QMP commands which configure the machine. QMP commands in the 
+>>> configuration file
+>>> +shall be in the same format and order as if they were issued using 
+>>> the QMP
+>>> +shell. The QMP configurator will convert each command into JSON 
+>>> format before
+>>> +sending it to QEMU, similarly as the QMP shell does.
+>>> +
+>>> +There are several ways to create a configuration file. One approach 
+>>> is to
+>>> +manually create a list of QMP commands which specify how to 
+>>> configure the
+>>> +machine. Another convenient method is to generate QMP commands from 
+>>> existing
+>>> +descriptions, such as the device tree or a proprietary format. 
+>>> Either way, the
+>>> +creation of the configuration file is out of the scope of this work.
+>>> +
+>>> +However, along with the QMP configurator, we will include an 
+>>> example of the
+>>> +machine and its configuration file to demonstrate the QMP 
+>>> configuration
+>>> +approach.
+>>> +
+>>> +
+>>> +QMP configuration flow in QEMU
+>>> +------------------------------
+>>> +
+>>> +We will build the QMP configuration flow on top of the machine 
+>>> initialization
+>>> +phases, that are:
+>>> +1) no-machine: machine does not exist yet (current_machine == NULL)
+>>> +2) machine-created: machine exists, but its accelerator does not
+>>> +   (current_machine->accelerator == NULL)
+>>> +3) accel-created: machine's accelerator is configured
+>>> +   (current_machine->accelerator != NULL), but machine class's 
+>>> init() has not
+>>> +   been called (no properties validated, machine_init_done 
+>>> notifiers not
+>>> +   registered, no sysbus, etc.)
+>>> +4) initialized: machine class's init() has been called, thus 
+>>> machine properties
+>>> +   are validated, machine_init_done notifiers registered, sysbus 
+>>> realized, etc.
+>>> +   Devices added at this phase are considered to be cold-plugged.
+>>> +5) ready: machine_init_done notifiers are called, then QEMU is 
+>>> ready to start
+>>> +   CPUs. Devices added at this phase are considered to be hot-plugged.
+>>> +
+>>> +We can stop QEMU today using the -preconfig command-line option at 
+>>> phase 3
+>>> +('accel-created'). This option was introduced to enable the QMP 
+>>> configuration of
+>>> +parameters that affect the machine initialization. We cannot add 
+>>> devices at
+>>> +this point because the machine class's init() has not been called, 
+>>> thus sysbus
+>>> +does not exist yet (a device cannot be added because there is no 
+>>> bus to attach
+>>> +it to).
+>>> +
+>>> +QEMU can be also stopped using the -S command-line option at the 
+>>> machine 'ready'
+>>> +phase. However, it is too late to add devices at this phase because 
+>>> the machine
+>>> +is already configured, and any devices added at this point are 
+>>> considered to be
+>>> +hot-plugged.
+>>> +
+>>> +Since the existing -preconfig command-line option stops QEMU too 
+>>> early, and the
+>>> +-S option stops too late, we need a way to stop QEMU in between 
+>>> (after the
+>>> +machine is initialized and before it becomes ready).
+>>> +
+>>> +We will reuse the existing -preconfig command-line option to stop 
+>>> QEMU at the
+>>> +'accel-created' phase. Then, we will add a QMP command, namely 
+>>> 'x-machine-init',
+>>> +to advance and stop the machine in the next initialization phase
+>>> +('initialized' phase). We will configure the machine during this 
+>>> phase using the
+>>> +existing 'device_add' QMP command. Note that the use of 
+>>> 'device_add' QMP command
+>>> +is currently not allowed before the machine is ready. We will 
+>>> enable the use of
+>>> +'device_add' during the 'initialized' phase.
+>>> +
+>>> +Once we complete the configuration, we will advance the machine to 
+>>> the 'ready'
+>>> +phase using the existing 'x-exit-preconfig' command. Upon the 
+>>> execution of
+>>> +'x-exit-preconfig' command, the machine will immediately start 
+>>> running the guest
+>>> +unless the -S option is provided as the command-line argument.
+>>> +
+>>> +We will also implement a QMP command to query the current machine 
+>>> initialization
+>>> +phase, namely the 'query-machine-phase' command.
+>>> +
+>>> +-------------------------------------------------------------------------------- 
+>>>
+>>> +
+>>> +This work is supported by Xilinx, SiFive, and Greensocs.
+>>> +
+>>>
+>>
+>>
+>
 
