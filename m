@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700DC411958
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 18:14:34 +0200 (CEST)
-Received: from localhost ([::1]:60956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 544714119A0
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 18:18:59 +0200 (CEST)
+Received: from localhost ([::1]:36540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSLw9-00051u-HH
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 12:14:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36140)
+	id 1mSM0Q-0007ki-Bg
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 12:18:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSLvJ-0004Ln-Ml
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:13:41 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:33371)
+ id 1mSLxs-00062A-I4
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:16:20 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:35489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSLvI-0004pf-7o
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:13:41 -0400
-Received: by mail-pl1-x634.google.com with SMTP id t4so11440257plo.0
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 09:13:39 -0700 (PDT)
+ id 1mSLxq-00077x-0a
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:16:19 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id bb10so11413851plb.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 09:16:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=WppNSfTr/3lEANb4CA3gHO0hLSVKc/A6Ufkl9W/sYR0=;
- b=CsC/ZzwxcRU+xbo3RMWt5eTvKtbWaucPNyBMJYKhqG+oS3ZDc7qxf3q5BUsRjHk2Np
- hihyNfjSZWpahHG6XzdcO+uBfZ9O3QdHNPRGwLpWt8FQN7sX+i2M0X1GYdNJqQgruz3s
- 18fYzlF02TCYjHhx/sfUh/nfm0pZ0VCqwIJ+SYDHTfI/Xis2JrFN5MUIaE13P7QEaRN7
- mTNo32cohICGZuE/OHaD4unaD01m4XORPTBW8U+KbAHafJiqlNfm60noLgn1zFujkvxu
- SMK9wIZxzwXvBN2hEHU9xZfkQdWBY/6mNuOuO72o7cmugu6GXVDL/ZGUA4u1oxNdVc8V
- 63Gw==
+ bh=GSuEVBq2pFQSZkx3es4SCDmILneqpevOQrLVr7YXF+E=;
+ b=tzQT5IsA+EE9PGsMfQ/Gqhhf2p+5XUcMqJxupl4FQcQ7k1QSy7vHAZ0niv4xX0RifL
+ HNmK4OaBUtfRvzSgqEIWewI/z6UkvMt3ae70HKXmnnI/Or2XT12YuyjmnTbZ7IqmrKeT
+ sbsognaPjCWpxCrhAcDjLKlY2vX514M56dy0r4Th4kfMi5StVM2eAH9wzFC+BDjwP0hK
+ HI+cQG6P3djAhHpLokCJpyGvPWtM6uxe2ldyeyZYW8t03KN5ZWaDECUWYW16FahsTxRs
+ 9xXEImAvYuCxxBoDCsvl3a0+SUMcjHkbhrK+yP0/1noNbdMfxNr424VFqNuVxG3UCzL8
+ TaZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=WppNSfTr/3lEANb4CA3gHO0hLSVKc/A6Ufkl9W/sYR0=;
- b=H9lVErvCnaAlBuvKJCq110gdWGIVLtzApelV0e4JLlrCWGCBqge6EzGmyxy60ti7OS
- yX9ZOn8D6q4F6TaYEYTfpAf4M62euVYhTX0PcoRURephAzLcbJSGJERPHXqaSILrhA8K
- IC0sNjW6Wicv5FjxQailzBdpSs4bM8NnypRXckOOyuhzsDge4Iai4P39dMHdwYR0A4vo
- Zl1FWHmbfQqVtP//DE3bXWWlQ1kVkFAbZBzwMAqwarq2xty5uBGuKGbl5emdL9wb68tU
- M8qXUITc0MFrTzU5eBZ3QpY4PeC6mdN0wciIEZGGq8zMradqvHnwN9FiVr+WZi6hIDKM
- SHMg==
-X-Gm-Message-State: AOAM531siM60mdakYzhO/DEt62J9dMGHp7UIrZL7zfGLupIGCp77JN+e
- QBBTrRBohCz8/Yz/+PbIBz2ZW/jOI2niRg==
-X-Google-Smtp-Source: ABdhPJwfR4gD5RUQWTI7sq0p929LftVtlC0ctZNghoJPTHQsY0J7GqDNuJ01TYcHlKcPmtoSaK8yuQ==
-X-Received: by 2002:a17:90a:578e:: with SMTP id
- g14mr39387051pji.184.1632154418453; 
- Mon, 20 Sep 2021 09:13:38 -0700 (PDT)
+ bh=GSuEVBq2pFQSZkx3es4SCDmILneqpevOQrLVr7YXF+E=;
+ b=JDfCIxWFRTFtWBFBYO2n0aHNDYljw/s1jwYBAciMtjGdKXWs4/6QVKl2VY6e8ly7qY
+ ej13r1Lx1srCpbZ3gd5oQtJCwRvwm5XzSZI5FzEn2+PWfaNbnFoFp+UxjJlA76Dutum9
+ V23nakPBXFM88J/JTdgu1+3LWUZ8U4zqZxvlkahromiPnCOvDW+e3q0HGv4kxPmQPOYB
+ EKDTfGxtW7XfMPmy5xPgVk4W9H6XyJChOTYoaiYEvU9goSUInvB0awYhTf+fbicaK6tz
+ EhNtDP+FNd+z4dVWnyVGsyBpzfWRDk1L00EfhxgN8qfbIYH90WD7HxTwd4zE1dz6VXtD
+ woFQ==
+X-Gm-Message-State: AOAM533oatlwXOfOvf0s6nkFAc04KoNTT1CYL4lvu1htaUiD5fcuEMNp
+ qA1rVQNJbrLR3c2fLSbztGM81ANArDvb8A==
+X-Google-Smtp-Source: ABdhPJxJ9nvk1bGWCAgTIyCu58/VhyiqvXr/JExP71OaHd/0TDuqdiFsGIEJNBGAarpysDEGAEgZGA==
+X-Received: by 2002:a17:90a:7345:: with SMTP id
+ j5mr39326640pjs.48.1632154575677; 
+ Mon, 20 Sep 2021 09:16:15 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id q3sm16675557pgf.18.2021.09.20.09.13.38
+ by smtp.gmail.com with ESMTPSA id n185sm15795862pfn.171.2021.09.20.09.16.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Sep 2021 09:13:38 -0700 (PDT)
-Subject: Re: [PATCH 16/30] tcg/loongarch: Implement shl/shr/sar/rotl/rotr ops
+ Mon, 20 Sep 2021 09:16:15 -0700 (PDT)
+Subject: Re: [PATCH 17/30] tcg/loongarch: Implement neg/add/sub ops
 To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
 References: <20210920080451.408655-1-git@xen0n.name>
- <20210920080451.408655-17-git@xen0n.name>
+ <20210920080451.408655-18-git@xen0n.name>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f0175db0-ba7a-699a-8df8-9588359353f4@linaro.org>
-Date: Mon, 20 Sep 2021 09:13:36 -0700
+Message-ID: <d360d8fd-6f8d-9977-342c-b23cdb484510@linaro.org>
+Date: Mon, 20 Sep 2021 09:16:13 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210920080451.408655-17-git@xen0n.name>
+In-Reply-To: <20210920080451.408655-18-git@xen0n.name>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,18 +92,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/20/21 1:04 AM, WANG Xuerui wrote:
-> +    case INDEX_op_rotl_i32:
-> +        /* transform into equivalent rotr_i32 */
-> +        if (c2) {
-> +            a2 = 32 - a2;
-> +        } else {
-> +            tcg_out_opc_sub_w(s, a2, TCG_REG_ZERO, a2);
-> +            tcg_out_opc_addi_w(s, a2, a2, 32);
+> Signed-off-by: WANG Xuerui<git@xen0n.name>
+> ---
+>   tcg/loongarch/tcg-target-con-set.h |  2 ++
+>   tcg/loongarch/tcg-target.c.inc     | 47 ++++++++++++++++++++++++++++++
+>   2 files changed, 49 insertions(+)
 
-You can't modify a2 here; need to use TCG_REG_TMP0.
-You don't need the addi, because the negation is sufficient, mod 32.
+You shouldn't have needed to implement neg, since tcg should have figured out that it 
+could use subtract from zero.  But anyway,
 
-Likewise for INDEX_op_rotl_i64.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
