@@ -2,55 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32CA5411177
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 10:56:50 +0200 (CEST)
-Received: from localhost ([::1]:38340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B688241117D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 10:59:54 +0200 (CEST)
+Received: from localhost ([::1]:43184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSF6X-0001SO-AS
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 04:56:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57202)
+	id 1mSF9V-0004kE-RS
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 04:59:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mSF48-0000UE-FT
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:54:20 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:54792)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mSF8N-00041r-Kq
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:58:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mSF46-0007VX-43
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:54:20 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mSF8I-0002h5-N4
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:58:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632128316;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FPg+qrZzaH0NnWro1nmCUHNqxk85qu4bQmqOBig2+Bw=;
+ b=GJtwITtUPxAV8WetxnQziBSB9AZ54SCGAcft4JL3XRdLoM/snGDlACJqV/Ddu1gnmfjurv
+ yKKwksoQNIMia8hObfGW2O7xqGHafV79Hd+EpECE6ywqLqtKcZvuYRGLSg+PxwZzKZI4ro
+ nXUiRRG/0rojusnfVZq0YQ4bv9PwlsY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-ZRtu6c8ZNDS1lm8vpCTO9w-1; Mon, 20 Sep 2021 04:54:04 -0400
-X-MC-Unique: ZRtu6c8ZNDS1lm8vpCTO9w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-139-5TLppg3jOumNrT28vjRgcg-1; Mon, 20 Sep 2021 04:58:35 -0400
+X-MC-Unique: 5TLppg3jOumNrT28vjRgcg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41C9C1023F4E;
- Mon, 20 Sep 2021 08:54:03 +0000 (UTC)
-Received: from bahia.huguette (unknown [10.39.193.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1723619E7E;
- Mon, 20 Sep 2021 08:54:01 +0000 (UTC)
-Date: Mon, 20 Sep 2021 10:54:00 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v8 3/7] spapr_numa.c: parametrize FORM1 macros
-Message-ID: <20210920105400.15ded535@bahia.huguette>
-In-Reply-To: <20210917212802.424481-4-danielhb413@gmail.com>
-References: <20210917212802.424481-1-danielhb413@gmail.com>
- <20210917212802.424481-4-danielhb413@gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E56D824FB1;
+ Mon, 20 Sep 2021 08:58:34 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
+ [10.36.112.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E7EF260C17;
+ Mon, 20 Sep 2021 08:57:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 799DA113865F; Mon, 20 Sep 2021 10:57:46 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH RFC 1/5] qapi: Enable enum member introspection to show
+ more than name
+References: <20210915192425.4104210-1-armbru@redhat.com>
+ <20210915192425.4104210-2-armbru@redhat.com>
+ <20210917135644.m37z2kpbel4lk6zn@redhat.com>
+Date: Mon, 20 Sep 2021 10:57:46 +0200
+In-Reply-To: <20210917135644.m37z2kpbel4lk6zn@redhat.com> (Eric Blake's
+ message of "Fri, 17 Sep 2021 08:56:44 -0500")
+Message-ID: <87bl4nd3p1.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.476,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,327 +82,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berrange@redhat.com,
+ qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com,
+ Markus Armbruster <armbru@redhat.com>, libvir-list@redhat.com,
+ pkrempa@redhat.com, marcandre.lureau@redhat.com, jsnow@redhat.com,
+ libguestfs@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 Sep 2021 18:27:58 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+Eric Blake <eblake@redhat.com> writes:
 
-> The next preliminary step to introduce NUMA FORM2 affinity is to make
-> the existing code independent of FORM1 macros and values, i.e.
-> MAX_DISTANCE_REF_POINTS, NUMA_ASSOC_SIZE and VCPU_ASSOC_SIZE. This patch
-> accomplishes that by doing the following:
->=20
-> - move the NUMA related macros from spapr.h to spapr_numa.c where they
-> are used. spapr.h gets instead a 'NUMA_NODES_MAX_NUM' macro that is used
-> to refer to the maximum number of NUMA nodes, including GPU nodes, that
-> the machine can support;
->=20
-> - MAX_DISTANCE_REF_POINTS and NUMA_ASSOC_SIZE are renamed to
-> FORM1_DIST_REF_POINTS and FORM1_NUMA_ASSOC_SIZE. These FORM1 specific
-> macros are used in FORM1 init functions;
->=20
-> - code that uses MAX_DISTANCE_REF_POINTS now retrieves the
-> max_dist_ref_points value using get_max_dist_ref_points().
-> NUMA_ASSOC_SIZE is replaced by get_numa_assoc_size() and VCPU_ASSOC_SIZE
-> is replaced by get_vcpu_assoc_size(). These functions are used by the
-> generic device tree functions and h_home_node_associativity() and will
-> allow them to switch between FORM1 and FORM2 without changing their core
-> logic.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
+> On Wed, Sep 15, 2021 at 09:24:21PM +0200, Markus Armbruster wrote:
+>> The next commit will add feature flags to enum members.  There's a
+>> problem, though: query-qmp-schema shows an enum type's members as an
+>> array of member names (SchemaInfoEnum member @values).  If it showed
+>> an array of objects with a name member, we could simply add more
+>> members to these objects.  Since it's just strings, we can't.
+>> 
+>> I can see three ways to correct this design mistake:
+>> 
+>> 1. Do it the way we should have done it, plus compatibility goo.
+>> 
+>>    We want a ['SchemaInfoEnumMember'] member in SchemaInfoEnum.  Since
+>>    changing @values would be a compatibility break, add a new member
+>>    @members instead.
+>> 
+>>    @values is now redundant.  We should be able to get rid of it
+>>    eventually.
+>> 
+>>    In my testing, output of qemu-system-x86_64's query-qmp-schema
+>>    grows by 11% (18.5KiB).
+>
+> This makes sense if we plan to deprecate @values - if so, that
+> deprecation would make sense as part of this series, although we may
+> drag our feet for how long before we actually remove it.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Yes.  Changing query-qmp-schema requires extra care, as it is the very
+means for coping with change.
 
->  hw/ppc/spapr_numa.c    | 74 ++++++++++++++++++++++++++++++------------
->  include/hw/ppc/spapr.h | 28 ++++++++--------
->  2 files changed, 67 insertions(+), 35 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index bf520d42b2..08e2d6aed8 100644
-> --- a/hw/ppc/spapr_numa.c
-> +++ b/hw/ppc/spapr_numa.c
-> @@ -19,6 +19,33 @@
->  /* Moved from hw/ppc/spapr_pci_nvlink2.c */
->  #define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
-> =20
-> +/*
-> + * Retrieves max_dist_ref_points of the current NUMA affinity.
-> + */
-> +static int get_max_dist_ref_points(SpaprMachineState *spapr)
-> +{
-> +    return FORM1_DIST_REF_POINTS;
-> +}
-> +
-> +/*
-> + * Retrieves numa_assoc_size of the current NUMA affinity.
-> + */
-> +static int get_numa_assoc_size(SpaprMachineState *spapr)
-> +{
-> +    return FORM1_NUMA_ASSOC_SIZE;
-> +}
-> +
-> +/*
-> + * Retrieves vcpu_assoc_size of the current NUMA affinity.
-> + *
-> + * vcpu_assoc_size is the size of ibm,associativity array
-> + * for CPUs, which has an extra element (vcpu_id) in the end.
-> + */
-> +static int get_vcpu_assoc_size(SpaprMachineState *spapr)
-> +{
-> +    return get_numa_assoc_size(spapr) + 1;
-> +}
-> +
->  static bool spapr_numa_is_symmetrical(MachineState *ms)
->  {
->      int src, dst;
-> @@ -96,7 +123,7 @@ static void spapr_numa_define_FORM1_domains(SpaprMachi=
-neState *spapr)
->       * considered a match with associativity domains of node 0.
->       */
->      for (i =3D 1; i < nb_numa_nodes; i++) {
-> -        for (j =3D 1; j < MAX_DISTANCE_REF_POINTS; j++) {
-> +        for (j =3D 1; j < FORM1_DIST_REF_POINTS; j++) {
->              spapr->numa_assoc_array[i][j] =3D cpu_to_be32(i);
->          }
->      }
-> @@ -134,7 +161,7 @@ static void spapr_numa_define_FORM1_domains(SpaprMach=
-ineState *spapr)
->               *
->               * The Linux kernel will assume that the distance between sr=
-c and
->               * dst, in this case of no match, is 10 (local distance) dou=
-bled
-> -             * for each NUMA it didn't match. We have MAX_DISTANCE_REF_P=
-OINTS
-> +             * for each NUMA it didn't match. We have FORM1_DIST_REF_POI=
-NTS
->               * levels (4), so this gives us 10*2*2*2*2 =3D 160.
->               *
->               * This logic can be seen in the Linux kernel source code, a=
-s of
-> @@ -169,7 +196,7 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachi=
-neState *spapr,
-> =20
->      /*
->       * For all associativity arrays: first position is the size,
-> -     * position MAX_DISTANCE_REF_POINTS is always the numa_id,
-> +     * position FORM1_DIST_REF_POINTS is always the numa_id,
->       * represented by the index 'i'.
->       *
->       * This will break on sparse NUMA setups, when/if QEMU starts
-> @@ -177,8 +204,8 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachi=
-neState *spapr,
->       * 'i' will be a valid node_id set by the user.
->       */
->      for (i =3D 0; i < nb_numa_nodes; i++) {
-> -        spapr->numa_assoc_array[i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_P=
-OINTS);
-> -        spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_b=
-e32(i);
-> +        spapr->numa_assoc_array[i][0] =3D cpu_to_be32(FORM1_DIST_REF_POI=
-NTS);
-> +        spapr->numa_assoc_array[i][FORM1_DIST_REF_POINTS] =3D cpu_to_be3=
-2(i);
->      }
-> =20
->      /*
-> @@ -192,15 +219,15 @@ static void spapr_numa_FORM1_affinity_init(SpaprMac=
-hineState *spapr,
->      max_nodes_with_gpus =3D nb_numa_nodes + NVGPU_MAX_NUM;
-> =20
->      for (i =3D nb_numa_nodes; i < max_nodes_with_gpus; i++) {
-> -        spapr->numa_assoc_array[i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_P=
-OINTS);
-> +        spapr->numa_assoc_array[i][0] =3D cpu_to_be32(FORM1_DIST_REF_POI=
-NTS);
-> =20
-> -        for (j =3D 1; j < MAX_DISTANCE_REF_POINTS; j++) {
-> +        for (j =3D 1; j < FORM1_DIST_REF_POINTS; j++) {
->              uint32_t gpu_assoc =3D smc->pre_5_1_assoc_refpoints ?
->                                   SPAPR_GPU_NUMA_ID : cpu_to_be32(i);
->              spapr->numa_assoc_array[i][j] =3D gpu_assoc;
->          }
-> =20
-> -        spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_b=
-e32(i);
-> +        spapr->numa_assoc_array[i][FORM1_DIST_REF_POINTS] =3D cpu_to_be3=
-2(i);
->      }
-> =20
->      /*
-> @@ -234,13 +261,15 @@ void spapr_numa_write_associativity_dt(SpaprMachine=
-State *spapr, void *fdt,
->  {
->      _FDT((fdt_setprop(fdt, offset, "ibm,associativity",
->                        spapr->numa_assoc_array[nodeid],
-> -                      sizeof(spapr->numa_assoc_array[nodeid]))));
-> +                      get_numa_assoc_size(spapr) * sizeof(uint32_t))));
->  }
-> =20
->  static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *spapr,
->                                             PowerPCCPU *cpu)
->  {
-> -    uint32_t *vcpu_assoc =3D g_new(uint32_t, VCPU_ASSOC_SIZE);
-> +    int max_distance_ref_points =3D get_max_dist_ref_points(spapr);
-> +    int vcpu_assoc_size =3D get_vcpu_assoc_size(spapr);
-> +    uint32_t *vcpu_assoc =3D g_new(uint32_t, vcpu_assoc_size);
->      int index =3D spapr_get_vcpu_id(cpu);
-> =20
->      /*
-> @@ -249,10 +278,10 @@ static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMac=
-hineState *spapr,
->       * 0, put cpu_id last, then copy the remaining associativity
->       * domains.
->       */
-> -    vcpu_assoc[0] =3D cpu_to_be32(MAX_DISTANCE_REF_POINTS + 1);
-> -    vcpu_assoc[VCPU_ASSOC_SIZE - 1] =3D cpu_to_be32(index);
-> +    vcpu_assoc[0] =3D cpu_to_be32(max_distance_ref_points + 1);
-> +    vcpu_assoc[vcpu_assoc_size - 1] =3D cpu_to_be32(index);
->      memcpy(vcpu_assoc + 1, spapr->numa_assoc_array[cpu->node_id] + 1,
-> -           (VCPU_ASSOC_SIZE - 2) * sizeof(uint32_t));
-> +           (vcpu_assoc_size - 2) * sizeof(uint32_t));
-> =20
->      return vcpu_assoc;
->  }
-> @@ -261,12 +290,13 @@ int spapr_numa_fixup_cpu_dt(SpaprMachineState *spap=
-r, void *fdt,
->                              int offset, PowerPCCPU *cpu)
->  {
->      g_autofree uint32_t *vcpu_assoc =3D NULL;
-> +    int vcpu_assoc_size =3D get_vcpu_assoc_size(spapr);
-> =20
->      vcpu_assoc =3D spapr_numa_get_vcpu_assoc(spapr, cpu);
-> =20
->      /* Advertise NUMA via ibm,associativity */
->      return fdt_setprop(fdt, offset, "ibm,associativity", vcpu_assoc,
-> -                       VCPU_ASSOC_SIZE * sizeof(uint32_t));
-> +                       vcpu_assoc_size * sizeof(uint32_t));
->  }
-> =20
-> =20
-> @@ -274,17 +304,18 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachi=
-neState *spapr, void *fdt,
->                                           int offset)
->  {
->      MachineState *machine =3D MACHINE(spapr);
-> +    int max_distance_ref_points =3D get_max_dist_ref_points(spapr);
->      int nb_numa_nodes =3D machine->numa_state->num_nodes;
->      int nr_nodes =3D nb_numa_nodes ? nb_numa_nodes : 1;
->      uint32_t *int_buf, *cur_index, buf_len;
->      int ret, i;
-> =20
->      /* ibm,associativity-lookup-arrays */
-> -    buf_len =3D (nr_nodes * MAX_DISTANCE_REF_POINTS + 2) * sizeof(uint32=
-_t);
-> +    buf_len =3D (nr_nodes * max_distance_ref_points + 2) * sizeof(uint32=
-_t);
->      cur_index =3D int_buf =3D g_malloc0(buf_len);
->      int_buf[0] =3D cpu_to_be32(nr_nodes);
->       /* Number of entries per associativity list */
-> -    int_buf[1] =3D cpu_to_be32(MAX_DISTANCE_REF_POINTS);
-> +    int_buf[1] =3D cpu_to_be32(max_distance_ref_points);
->      cur_index +=3D 2;
->      for (i =3D 0; i < nr_nodes; i++) {
->          /*
-> @@ -293,8 +324,8 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachine=
-State *spapr, void *fdt,
->           */
->          uint32_t *associativity =3D spapr->numa_assoc_array[i];
->          memcpy(cur_index, ++associativity,
-> -               sizeof(uint32_t) * MAX_DISTANCE_REF_POINTS);
-> -        cur_index +=3D MAX_DISTANCE_REF_POINTS;
-> +               sizeof(uint32_t) * max_distance_ref_points);
-> +        cur_index +=3D max_distance_ref_points;
->      }
->      ret =3D fdt_setprop(fdt, offset, "ibm,associativity-lookup-arrays", =
-int_buf,
->                        (cur_index - int_buf) * sizeof(uint32_t));
-> @@ -383,6 +414,7 @@ static target_ulong h_home_node_associativity(PowerPC=
-CPU *cpu,
->      target_ulong procno =3D args[1];
->      PowerPCCPU *tcpu;
->      int idx, assoc_idx;
-> +    int vcpu_assoc_size =3D get_vcpu_assoc_size(spapr);
-> =20
->      /* only support procno from H_REGISTER_VPA */
->      if (flags !=3D 0x1) {
-> @@ -401,7 +433,7 @@ static target_ulong h_home_node_associativity(PowerPC=
-CPU *cpu,
->       * 12 associativity domains for vcpus. Assert and bail if that's
->       * not the case.
->       */
-> -    G_STATIC_ASSERT((VCPU_ASSOC_SIZE - 1) <=3D 12);
-> +    g_assert((vcpu_assoc_size - 1) <=3D 12);
-> =20
->      vcpu_assoc =3D spapr_numa_get_vcpu_assoc(spapr, tcpu);
->      /* assoc_idx starts at 1 to skip associativity size */
-> @@ -422,9 +454,9 @@ static target_ulong h_home_node_associativity(PowerPC=
-CPU *cpu,
->           * macro. The ternary will fill the remaining registers with -1
->           * after we went through vcpu_assoc[].
->           */
-> -        a =3D assoc_idx < VCPU_ASSOC_SIZE ?
-> +        a =3D assoc_idx < vcpu_assoc_size ?
->              be32_to_cpu(vcpu_assoc[assoc_idx++]) : -1;
-> -        b =3D assoc_idx < VCPU_ASSOC_SIZE ?
-> +        b =3D assoc_idx < vcpu_assoc_size ?
->              be32_to_cpu(vcpu_assoc[assoc_idx++]) : -1;
-> =20
->          args[idx] =3D ASSOCIATIVITY(a, b);
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 637652ad16..814e087e98 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -100,23 +100,23 @@ typedef enum {
-> =20
->  #define FDT_MAX_SIZE                    0x200000
-> =20
-> +/* Max number of GPUs per system */
-> +#define NVGPU_MAX_NUM              6
-> +
-> +/* Max number of NUMA nodes */
-> +#define NUMA_NODES_MAX_NUM         (MAX_NODES + NVGPU_MAX_NUM)
-> +
->  /*
-> - * NUMA related macros. MAX_DISTANCE_REF_POINTS was taken
-> - * from Linux kernel arch/powerpc/mm/numa.h. It represents the
-> - * amount of associativity domains for non-CPU resources.
-> + * NUMA FORM1 macros. FORM1_DIST_REF_POINTS was taken from
-> + * MAX_DISTANCE_REF_POINTS in arch/powerpc/mm/numa.h from Linux
-> + * kernel source. It represents the amount of associativity domains
-> + * for non-CPU resources.
->   *
-> - * NUMA_ASSOC_SIZE is the base array size of an ibm,associativity
-> + * FORM1_NUMA_ASSOC_SIZE is the base array size of an ibm,associativity
->   * array for any non-CPU resource.
-> - *
-> - * VCPU_ASSOC_SIZE represents the size of ibm,associativity array
-> - * for CPUs, which has an extra element (vcpu_id) in the end.
->   */
-> -#define MAX_DISTANCE_REF_POINTS    4
-> -#define NUMA_ASSOC_SIZE            (MAX_DISTANCE_REF_POINTS + 1)
-> -#define VCPU_ASSOC_SIZE            (NUMA_ASSOC_SIZE + 1)
-> -
-> -/* Max number of these GPUsper a physical box */
-> -#define NVGPU_MAX_NUM                6
-> +#define FORM1_DIST_REF_POINTS            4
-> +#define FORM1_NUMA_ASSOC_SIZE            (FORM1_DIST_REF_POINTS + 1)
-> =20
->  typedef struct SpaprCapabilities SpaprCapabilities;
->  struct SpaprCapabilities {
-> @@ -249,7 +249,7 @@ struct SpaprMachineState {
->      unsigned gpu_numa_id;
->      SpaprTpmProxy *tpm_proxy;
-> =20
-> -    uint32_t numa_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE=
-];
-> +    uint32_t numa_assoc_array[NUMA_NODES_MAX_NUM][FORM1_NUMA_ASSOC_SIZE]=
-;
-> =20
->      Error *fwnmi_migration_blocker;
->  };
+>> 
+>> 2. Like 1, but omit "boring" elements of @member, and empty @member.
+>> 
+>>    @values does not become redundant.  Output of query-qmp-schema
+>>    grows only as we make enum members non-boring.
+>
+> Does not change whether libvirt would have to learn to query the new
+> members, but adds a mandatory fallback step for learning about boring
+> members (although the fallback step will have to be there anyway for
+> older qemu).  Peter probably has a better idea of which version is
+> nicer.
+>
+>> 
+>> 3. Versioned query-qmp-schema.
+>> 
+>>    query-qmp-schema provides either @values or @members.  The QMP
+>>    client can select which version it wants.
+>
+> Sounds more complicated to implement.  I'm not opposed to it, but am
+> leaning towards 1 or 2 myself.
+
+More on this in my reply to Peter.
+
+>
+>> 
+>> This commit implements 1. simply because it's the solution I thought
+>> of first.  I'm prepared to implement one of the others if we decide
+>> that's what we want.
+>> 
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>  qapi/introspect.json       | 20 ++++++++++++++++++--
+>>  scripts/qapi/introspect.py | 18 ++++++++++++++----
+>>  2 files changed, 32 insertions(+), 6 deletions(-)
+>> 
+>> diff --git a/qapi/introspect.json b/qapi/introspect.json
+>> index 39bd303778..250748cd95 100644
+>> --- a/qapi/introspect.json
+>> +++ b/qapi/introspect.json
+>> @@ -142,14 +142,30 @@
+>>  #
+>>  # Additional SchemaInfo members for meta-type 'enum'.
+>>  #
+>> -# @values: the enumeration type's values, in no particular order.
+>> +# @members: the enum type's members, in no particular order.
+>
+> Missing a '(since 6.2)' tag.
+
+Yes.
+
+>> +#
+>> +# @values: the enumeration type's member names, in no particular order.
+>> +#          Redundant with @members.  Just for backward compatibility.
+>
+> Worth marking as deprecated in this patch, or in a followup?
+
+If we intend to deprecate, we can just as well do it right away.
+
+>>  #
+>>  # Values of this type are JSON string on the wire.
+>>  #
+>>  # Since: 2.5
+>>  ##
+>>  { 'struct': 'SchemaInfoEnum',
+>> -  'data': { 'values': ['str'] } }
+>> +  'data': { 'members': [ 'SchemaInfoEnumMember' ],
+>> +            'values': ['str'] } }
+>> +
+>> +##
+>> +# @SchemaInfoEnumMember:
+>> +#
+>> +# An object member.
+>> +#
+>> +# @name: the member's name, as defined in the QAPI schema.
+>> +#
+>> +# Since: 6.1
+>
+> 6.2
+
+Whoops!
+
+>> +##
+>> +{ 'struct': 'SchemaInfoEnumMember',
+>> +  'data': { 'name': 'str' } }
+>>
+>
+> Definitely more flexible.
 
 
