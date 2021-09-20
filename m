@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD2B4128FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 00:43:28 +0200 (CEST)
-Received: from localhost ([::1]:55990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B144128DE
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 00:29:01 +0200 (CEST)
+Received: from localhost ([::1]:55630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSS0V-0002MR-Jk
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 18:43:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36468)
+	id 1mSRmW-0007gh-M4
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 18:29:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSRAz-0003jN-4n
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:50:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32184)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSRAw-0005lM-7S
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:50:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632174607;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5KVqxceY64jEWMD//03vWpQXJjfSqUn292xoSEjbqO0=;
- b=NfkeKs33uRWhXOho/gV9rSI3d3+09UJkz1Z4eLE4Y+41w/oYD20G/+Lt39y4u0Pf4o8Szp
- AeP8UOu3+BuO1j4iAM/BXRd4YanuTN5X17tGHznygg3fPlBf8ZZu5LuUlt2wyAfchq8t+N
- fXOmYe1ZnUZVbv98sgCG74icD+Mjpas=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-KltokqJKO9Syr982QUpGpQ-1; Mon, 20 Sep 2021 17:50:04 -0400
-X-MC-Unique: KltokqJKO9Syr982QUpGpQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 643C1835DE0;
- Mon, 20 Sep 2021 21:50:03 +0000 (UTC)
-Received: from redhat.com (ovpn-115-8.phx2.redhat.com [10.3.115.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA6F160C17;
- Mon, 20 Sep 2021 21:49:54 +0000 (UTC)
-Date: Mon, 20 Sep 2021 16:49:52 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 22/23] tests/qapi-schema: Rename flat-union-* test
- cases to union-*
-Message-ID: <20210920214952.hxtjsnxi2s52astr@redhat.com>
-References: <20210917143134.412106-1-armbru@redhat.com>
- <20210917143134.412106-23-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mSRBA-0003oh-31
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:50:24 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:37655)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mSRB5-0005tm-HK
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:50:23 -0400
+Received: by mail-pg1-x535.google.com with SMTP id 17so18743790pgp.4
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 14:50:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=YSSmLY7q9yW0R0pSTS3V43vaVN9issM1Fhw60iXn+n0=;
+ b=fVSK83oG1VzVu943QH9PNjhBk8k6IMCVI5ehnHWHhRnLA4rIDYHf6x8LaE283qEE+M
+ 3bTaui915ob3I/nryhgD9ygApUx5xeIsHDVMcJqxStGA+eBiR3VRyBA/bIRX2Vzqwxcq
+ yIScagvm+Fw/N9taSJTXdczYfor5kGThWDZlGwHD76Emtsr8QHh44JOIyVhQqkTUmsGH
+ w13WtWrwhcokBN54WpLXNG5Zq0cVnrt49kvtnRMU8f6qlQyBuusbmMgeB+YKqsH4pja3
+ 3CI7Dlgq9wdWMPR7igqXZzrJqdYDkmNtZPOh/kZrbVqnsWBzPm6bCl95zgAurWPPJyR3
+ KZow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YSSmLY7q9yW0R0pSTS3V43vaVN9issM1Fhw60iXn+n0=;
+ b=1UNXTBh+4bpYV37YcLUAFvOAB4GkXcmxIrDhBp7NqeyguxmgMONrUctu6EaDWQFgdj
+ JmQMFzptRzTw5i7/M0WoVzB0WAFhs2LWJ/r63bB/Z0njn1DwQG/jwfFyr7sACtAJMf4i
+ 1PLI007wdcbpqVZ6SQI/d5I0gkZ+Bz0B4Uop5L5zKTJ7V09ZUGuJIVbBdkTS/RX6X6as
+ m9nDWND6b58qqZLK2ja7EOzjytM6BZ7JeXynjcDVavkZjFe7ReIneS04avCJfKDpkyRY
+ mJz7toFTPq98u96kUh/Pg2EGZcIZkE3oM8Cqc46uQ9zQzoLn6nGYuOWqaSQ4Wqb1H9ZR
+ 62Og==
+X-Gm-Message-State: AOAM531kXKp5x/4Ah+uaXEb7A46yZdx/Un8newdgDJtrdsPc6arwWKsa
+ HGSnafYXgqPsyFrmQl8TrzMF029hY29pfg==
+X-Google-Smtp-Source: ABdhPJy+AL1A+bGfbRh25iGx+g9BEVMxW4pnWVis34dknY3kjEvpgsB35dNaRE3bujs4sy6sFg/kTA==
+X-Received: by 2002:aa7:8434:0:b0:43c:222b:1d3d with SMTP id
+ q20-20020aa78434000000b0043c222b1d3dmr27106477pfn.84.1632174617523; 
+ Mon, 20 Sep 2021 14:50:17 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id l22sm17422330pgo.45.2021.09.20.14.50.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Sep 2021 14:50:17 -0700 (PDT)
+Subject: Re: [PATCH v5 12/31] target/cris: Restrict has_work() handler to
+ sysemu
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210920214447.2998623-1-f4bug@amsat.org>
+ <20210920214447.2998623-13-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a8e2bc46-cc65-5e5b-e77e-7571bdce595a@linaro.org>
+Date: Mon, 20 Sep 2021 14:50:15 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210917143134.412106-23-armbru@redhat.com>
-User-Agent: NeoMutt/20210205-772-2b4c52
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210920214447.2998623-13-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,81 +90,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 17, 2021 at 04:31:33PM +0200, Markus Armbruster wrote:
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On 9/20/21 2:44 PM, Philippe Mathieu-Daudé wrote:
+> Restrict has_work() to sysemu.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
+>   target/cris/cpu.c | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
 
->  65 files changed, 48 insertions(+), 48 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-The diff is harder to read in email (due to file rename comparison
-sometimes going astray on short and similar file contents) when
-compared to applying the patch and inspecting the directory proper,
-but either way, it looks okay to me.
-
-> +++ b/tests/qapi-schema/meson.build
-> @@ -107,22 +107,6 @@ schemas = [
->    'features-name-bad-type.json',
->    'features-no-list.json',
->    'features-unknown-key.json',
-> -  'flat-union-array-branch.json',
-> -  'flat-union-bad-base.json',
-> -  'flat-union-bad-discriminator.json',
-> -  'flat-union-base-any.json',
-> -  'flat-union-base-union.json',
-> -  'flat-union-clash-member.json',
-> -  'flat-union-discriminator-bad-name.json',
-> -  'flat-union-empty.json',
-> -  'flat-union-inline-invalid-dict.json',
-> -  'flat-union-int-branch.json',
-> -  'flat-union-invalid-branch-key.json',
-> -  'flat-union-invalid-discriminator.json',
-> -  'flat-union-invalid-if-discriminator.json',
-> -  'flat-union-no-base.json',
-> -  'flat-union-optional-discriminator.json',
-> -  'flat-union-string-discriminator.json',
->    'funny-char.json',
->    'funny-word.json',
->    'ident-with-escape.json',
-> @@ -190,12 +174,28 @@ schemas = [
->    'unclosed-list.json',
->    'unclosed-object.json',
->    'unclosed-string.json',
-> +  'union-array-branch.json',
-> +  'union-bad-base.json',
-> +  'union-bad-discriminator.json',
-> +  'union-base-any.json',
->    'union-base-empty.json',
->    'union-base-no-discriminator.json',
-> +  'union-base-union.json',
->    'union-branch-if-invalid.json',
->    'union-branch-invalid-dict.json',
-> +  'union-clash-member.json',
-> +  'union-discriminator-bad-name.json',
-> +  'union-empty.json',
-> +  'union-inline-invalid-dict.json',
-> +  'union-int-branch.json',
->    'union-invalid-base.json',
-> +  'union-invalid-branch-key.json',
->    'union-invalid-data.json',
-> +  'union-invalid-discriminator.json',
-> +  'union-invalid-if-discriminator.json',
-> +  'union-no-base.json',
-> +  'union-optional-discriminator.json',
-> +  'union-string-discriminator.json',
->    'union-unknown.json',
-
-This is probably the best part of the patch to focus on.
-
-Reviewed-by: Eric Blake <eblake@redhat.com
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
