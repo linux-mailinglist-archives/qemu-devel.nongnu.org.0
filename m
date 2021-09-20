@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D1E4110D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 10:20:05 +0200 (CEST)
-Received: from localhost ([::1]:38462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0634A4110E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 10:23:38 +0200 (CEST)
+Received: from localhost ([::1]:47036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSEWy-0004Xe-5B
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 04:20:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49984)
+	id 1mSEaP-00020T-1s
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 04:23:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSERo-0005Fg-E5
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:14:44 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:44790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSERi-0007o2-J9
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:14:44 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- f62-20020a1c1f41000000b0030b42643f72so6429046wmf.3
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 01:14:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=nFZoEBqVVgcZagv00xcAj9jVWGZZXZ05XEYJlFzyQw8=;
- b=qi2BWgEmcWaD1p62Znp0upi2vYhYPQ9cY3rcnmqNlILb1GqE9q0w2nnpi3o+r5R2c3
- /CiiqGEIPt7ph8QCqv4AQnvmmkNyvghIxABLhR84qb2Pjkt03zq6EreXhJ1iPt6vHR86
- MFdDQ+y95W+CKKJ4kSBtB7H2hN5+VRooU6ILnthsEytFoeGdw/CRcIDiafTujKqit8+C
- aNPGdKCjWWZyJLIbboJThgg6N8YLL58MjCIMvopER5aORua0O20F6RF4Z2In1cMv2hg1
- oyTYT/Bitiy2dnXPDAUXt2Zz/z/iA4xUf10z9MJxSAcun50NIx+ktz9PDPBf2EEnS1t3
- z1Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nFZoEBqVVgcZagv00xcAj9jVWGZZXZ05XEYJlFzyQw8=;
- b=5fy5jY6U7dl+xP3sRgdn9gzRSZCBgi8Egh+TxxFg1WAGRkLTEnENgNxkqc1V9ML5fX
- 6vIYJnhjJPFlA6xIepfG0kr4LdYnngvczKELYsgyWHu+0JQ7E921cFq16dh2R2Xt+Ogi
- XTIjQ9+ZBi94YIe+nOT1blrbBE0vuZEjZeAB6mH8Nt50nfnXydYJiMGZoOa+h/lxGf4i
- NDZT9cYHHh3x2ReBb/6CfRr9avPwD3t3+mHLwZGaQZtv4unTN5Csz6PinUZhnFQ00g+r
- m+MqacCnzzKpjSiurt2QFNbsb1+ZowPq2dT6tcjGI3queIzb03l5UBAj8PA/JhFGb5QZ
- i/3Q==
-X-Gm-Message-State: AOAM532o+Xh3MTCN6RVQsNzftgWHkpe//3Hrmdqc64v+lR5h1KzymWKw
- 9/6TBAQgpIi2yse4/MIAaoAXEnArD5N+7wXfexXVXg==
-X-Google-Smtp-Source: ABdhPJxg3202jlUgTua79McG+Ci3yKMRZhuZoHcmJcmjUNGfXdoEIadBMqo9Jy2GMCnvCBQVjaCTs7C6uCXEC29a1j0=
-X-Received: by 2002:a7b:c0c5:: with SMTP id s5mr28501663wmh.126.1632125676722; 
- Mon, 20 Sep 2021 01:14:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mSES3-0005nr-O9
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:15:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30679)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mSES2-00083u-6m
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:14:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632125697;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=k4zig1haLJYBP4XD1brPOhOE3YsKZl1LMURyGuAnRmA=;
+ b=EIHgBlaryJ+ISA9ZqdXicdOG01wYNJlRwKJXNdCqJ5+NBAOSbqMttJ4HDxrwdYsLNLmEPA
+ yhXEKXzxnh91g4l6Li+EbrxBAy1MegfQjbYXlkTaZV3LuRiFVL3oz8cBgmkPhPebNCuDZf
+ GaggCFugEp3+ziAzS+T+URfgNH/1Ip4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-160-co_2MPB7OYykAMpKQ5jaIQ-1; Mon, 20 Sep 2021 04:14:53 -0400
+X-MC-Unique: co_2MPB7OYykAMpKQ5jaIQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D23D41800D41;
+ Mon, 20 Sep 2021 08:14:52 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.236])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DE131F436;
+ Mon, 20 Sep 2021 08:14:28 +0000 (UTC)
+Date: Mon, 20 Sep 2021 10:14:26 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: lishan <lishan24@huawei.com>
+Subject: Re: [PATCH] block/file-posix: Limit max_iov to IOV_MAX
+Message-ID: <YUhC4pvNdlmnMzsh@redhat.com>
+References: <20210918073300.30224-1-lishan24@huawei.com>
 MIME-Version: 1.0
-References: <YURYvaOpya498Xx2@yekko> <87k0jfh88i.fsf@redhat.com>
- <CAJ+F1CJJvqVQrG5iPXV2s7oLbduHfAhHs0pHdZ8XbxLkNi42VQ@mail.gmail.com>
- <YUR2BjppxkBo8mD0@yekko> <dc2df310-ee28-a912-3aad-4d3e38974182@linaro.org>
- <YUgC8HThCulgUFcB@yekko>
-In-Reply-To: <YUgC8HThCulgUFcB@yekko>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Sep 2021 09:13:44 +0100
-Message-ID: <CAFEAcA8kd9h32eoXaFVQjvf1hzOhw6Bky_Nkfa5vhsPw=zG45w@mail.gmail.com>
-Subject: Re: Rust in Qemu BoF followup: Rust vs. qemu platform support
-To: David Gibson <david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210918073300.30224-1-lishan24@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.476,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,41 +75,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sergio Lopez <slp@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, QEMU <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: hreitz@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ eric.fangyi@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 Sept 2021 at 06:07, David Gibson <david@gibson.dropbear.id.au> w=
-rote:
-> On Sat, Sep 18, 2021 at 01:01:35PM -0700, Richard Henderson wrote:
-> > We dropped host support for sparcv8 (true 32-bit) a long time ago.
-> > We only support sparcv9 in ilp32 (sparcv8plus) and lp64 (sparc64).
->
-> We really need to update
-> https://qemu-project.gitlab.io/qemu/about/build-platforms.html
-> to clarify this then.  I don't really know what the procedures are for
-> updating the website.
+Am 18.09.2021 um 09:33 hat lishan geschrieben:
+> AIO read/write. The size of iocb->aio_nbytes in the kernel cannot exceed UIO_MAXIOV = 1024.
+> max_segments read from the block device layer may be greater than UIO_MAXIOV,
+> this causes the ioq_submit interface to return a -22(-EINVAL) error result.
 
-It's automatically updated by building the documentation from current
-head-of-git, so the answer is "submit a patch to change
-docs/about/build-platforms.rst". (That's a pretty new file, and
-the stuff about CPU architectures has gone in only very recently,
-so it's not unsurprising if Marc-Andr=C3=A9 and I got some things wrong:
-we were just looking through tcg/ to see what it seemed to have
-support for.)
+You need a Signed-off-by line so that a patch can be accepted.
 
-The structure of the build-platforms page currently assumes that
-"supported host CPU architectures" and "supported host OSes" are
-basically orthogonal, because historically the nature of QEMU has
-been that this is more-or-less true. If we want to try to be more
-specific about that then we'd need to re-jig things.
+But Paolo intended to send a better solution anyway (splitting max_iov
+into two separate limits). Not sure what the status is there.
 
--- PMM
+Kevin
+
+>  block/file-posix.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index d81e15efa4..27ab8d8784 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -1273,7 +1273,8 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+>  
+>          ret = hdev_get_max_segments(s->fd, &st);
+>          if (ret > 0) {
+> -            bs->bl.max_iov = ret;
+> +            /* The maximum segment size allowed by the kernel is UIO_MAXIOV = 1024. */
+> +            bs->bl.max_iov = MIN(ret, bs->bl.max_iov);
+>          }
+>      }
+>  }
+> -- 
+> 2.19.1.windows.1
+> 
+> 
+
 
