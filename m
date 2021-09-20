@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F41D410F95
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 08:42:59 +0200 (CEST)
-Received: from localhost ([::1]:45242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11E49410F96
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 08:43:09 +0200 (CEST)
+Received: from localhost ([::1]:46042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSD0z-0003KM-PK
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 02:42:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33456)
+	id 1mSD1A-0003rQ-1k
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 02:43:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mSCyz-0001DH-7U
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 02:40:53 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35718)
+ id 1mSCz3-0001IU-Sg
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 02:40:57 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:50726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mSCyx-0004IK-NB
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 02:40:53 -0400
-Received: by mail-wr1-x434.google.com with SMTP id i23so26929621wrb.2
- for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 23:40:51 -0700 (PDT)
+ id 1mSCz2-0004N4-C6
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 02:40:57 -0400
+Received: by mail-wm1-x330.google.com with SMTP id 140so12283815wma.0
+ for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 23:40:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=s5i/nrmuLqKYjhJSNFR0Rf5VEUuslQhRWANTWm1SZRo=;
- b=cyCal7ejGVtjsTYzaFDAPRQ7w+2cJ6pmtTE2XX3wJgPNPZ7xWezEU/0sMTS8SAWc3s
- qkopLgyHrf7yVfz6wHLfvS9l7qBXFWesG394WSw89ynf0+cafFHV1P3NiUVuukDaSn6H
- C1BDzGGX/yVCFYojCThh5vQBmyhqcbhZIcCn43W2seCdZbsSMyQ7j1GHaB2dWgzATeNy
- c2RRl77U28FnbkXxZg0fFEJVak5tzvLR7pyo0bW51lmtfNMeORrgSmbv9MSLAL0rGSHr
- eVhvYyGWjZWJty7Z72npYogfY/w3QWWKDJ8TwaxFOvOizHBA6uRQeJsvKhgHnUD+ioS5
- Z0ag==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=THd7jeuPtRUebml8cZHFdTMlOfIa5gz3RTHrt9j0Rw8=;
+ b=cVUzwVwFkWTXu91F9FLMg/QX1A5dJQZ0nsojpOwsMynWpvvqBTNPupgzrl5gzSwamI
+ oAA0xcIUXIWb0UNO2Bou3fY35E1+rgDnki/wXP7XJiLJs0L+JzWm+Ezti76CGxFIAO6y
+ wEC43Mwop7ldvP7+AIueUg02y2K9/kzgEhJ1d5XCJ/NK5wPABX14IuLXDUfn8LrSW3ry
+ Q5A/GhSZp+ilt2FScbG0v7XAGhrngIs3wb5iaRQpPrEQbVN5jfT7MsV7R7X8hkTZnKd5
+ xR93vRrwtt+x+ci2ucrBs1tE0dhCos8/No0lwBe+P7kJJFRG7Zmg0vJOgr/H1KxtLSJd
+ JB5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=s5i/nrmuLqKYjhJSNFR0Rf5VEUuslQhRWANTWm1SZRo=;
- b=pR43z8UeMTvhgluudGmPfD+ZZprXmmAX3r+SRQHI1aHHt/cyipq44kQ5ksdcQMR+3D
- FL09Gk7xiE1TTXikxtyYKgKrPN/irRRBULZacBOlC6QZvfoF6TRLrQgJe9a04u75qBU2
- 6EBh7UYzcaNw/BeKfdEnSz7+LiLd5Tp6QObNwVXmpKMxz2xjT/JJ7Xt38pGR4/4O1FcG
- GM/1PFqj/ll0BYdE/JzthLCbXjDl9QwS63qa0qA3flsJlBVTsKGmyLDk2RcMUJCs4Rxt
- 0pNqkmkllpWPgTxABjTCaTimwUvosWJIvsVOJywbH59U0/jHq+Em342uXYuwEHw00OXe
- 61Ng==
-X-Gm-Message-State: AOAM530+fL1Hk7vOaJf9EspLyR+5v0O6UzgDR+Zzs5J7+px0pPb93mwY
- u97yJamiuCt9RYIuMXxujzJSXcBtOLQ=
-X-Google-Smtp-Source: ABdhPJzOal7+pbkHljVtoM/nFibmbaw+mP9C3a0yMRoXcsywe96zD0Zdw0Ga53n4aE9uefQM+HsHBw==
-X-Received: by 2002:a05:6000:11c6:: with SMTP id
- i6mr26021807wrx.177.1632120050012; 
- Sun, 19 Sep 2021 23:40:50 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=THd7jeuPtRUebml8cZHFdTMlOfIa5gz3RTHrt9j0Rw8=;
+ b=ugCamIbxpQHqNTFabFG76oFeHcaj6cee3Qjpmw1g3LvlqNHeZEXLwZjLXWShBmsXGa
+ AA8yELuZe8dVUtJLMw+mhiZYz1KVxIn4isVnBRSZgBZIY7JKD23Alpe6dg2WdypSWQjL
+ whbu9F9pc6MP8MH60J2dHR7Dp86q7GqXi4x59RZOhH/El2Hb7LY93WIBpqAufCtWAPVA
+ RJLOBrgbvIueRcrcyk5GMz+aeV55ie4dEDdEHxJ+3YLzXrsLaPd4J6UKj+dyrzYlqHYa
+ YIHx+p76oRxybN4rkhyvMAqiBAdYyYu4AOIyG8L7baRpzl36rlYSWH6LMYJ02wTAPHcV
+ dXQg==
+X-Gm-Message-State: AOAM532gILdqMt7glG0SUvILZDmmEVLZnBOEWN5siwkEavj8arLtEKte
+ KVfZOnnk3ozAthWTeOc+77yeNzSQpSM=
+X-Google-Smtp-Source: ABdhPJyZl1UOlGxwlWvuE4u+O7s8gBPyNn+ss5cy+XJ0UZaJiJPgv0lTv7sG1zlHduPdK9305+IGeg==
+X-Received: by 2002:a05:600c:5109:: with SMTP id
+ o9mr18256587wms.90.1632120054550; 
+ Sun, 19 Sep 2021 23:40:54 -0700 (PDT)
 Received: from x1w.. (14.red-83-35-25.dynamicip.rima-tde.net. [83.35.25.14])
- by smtp.gmail.com with ESMTPSA id q7sm14917948wru.56.2021.09.19.23.40.48
+ by smtp.gmail.com with ESMTPSA id m18sm14695169wrn.85.2021.09.19.23.40.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Sep 2021 23:40:49 -0700 (PDT)
+ Sun, 19 Sep 2021 23:40:54 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] hw/input/lasips2: QOM'ify the Lasi PS/2
-Date: Mon, 20 Sep 2021 08:40:45 +0200
-Message-Id: <20210920064048.2729397-1-f4bug@amsat.org>
+Subject: [PATCH 1/3] hw/input/lasips2: Fix typos in function names
+Date: Mon, 20 Sep 2021 08:40:46 +0200
+Message-Id: <20210920064048.2729397-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210920064048.2729397-1-f4bug@amsat.org>
+References: <20210920064048.2729397-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,20 +91,55 @@ Cc: Sven Schnelle <svens@stackframe.org>, Helge Deller <deller@gmx.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Slowly nuking non-QOM devices: Lasi PS/2's turn.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (3):=0D
-  hw/input/lasips2: Fix typos in function names=0D
-  hw/input/lasips2: Move LASIPS2State declaration to=0D
-    'hw/input/lasips2.h'=0D
-  hw/input/lasips2: QOM'ify the Lasi PS/2=0D
-=0D
- include/hw/input/lasips2.h | 31 ++++++++++++++++--=0D
- hw/hppa/lasi.c             | 10 +++++-=0D
- hw/input/lasips2.c         | 64 +++++++++++++++++++-------------------=0D
- 3 files changed, 70 insertions(+), 35 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+Artist is another device, this one is the Lasi PS/2.
+Rename the functions accordingly.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/input/lasips2.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
+index e7faf24058b..68d741d3421 100644
+--- a/hw/input/lasips2.c
++++ b/hw/input/lasips2.c
+@@ -96,7 +96,7 @@ typedef enum {
+     LASIPS2_STATUS_CLKSHD = 0x80,
+ } lasips2_status_reg_t;
+ 
+-static const char *artist_read_reg_name(uint64_t addr)
++static const char *lasips2_read_reg_name(uint64_t addr)
+ {
+     switch (addr & 0xc) {
+     case REG_PS2_ID:
+@@ -116,7 +116,7 @@ static const char *artist_read_reg_name(uint64_t addr)
+     }
+ }
+ 
+-static const char *artist_write_reg_name(uint64_t addr)
++static const char *lasips2_write_reg_name(uint64_t addr)
+ {
+     switch (addr & 0x0c) {
+     case REG_PS2_RESET:
+@@ -145,7 +145,7 @@ static void lasips2_reg_write(void *opaque, hwaddr addr, uint64_t val,
+     LASIPS2Port *port = opaque;
+ 
+     trace_lasips2_reg_write(size, port->id, addr,
+-                            artist_write_reg_name(addr), val);
++                            lasips2_write_reg_name(addr), val);
+ 
+     switch (addr & 0xc) {
+     case REG_PS2_CONTROL:
+@@ -239,7 +239,7 @@ static uint64_t lasips2_reg_read(void *opaque, hwaddr addr, unsigned size)
+         break;
+     }
+     trace_lasips2_reg_read(size, port->id, addr,
+-                           artist_read_reg_name(addr), ret);
++                           lasips2_read_reg_name(addr), ret);
+ 
+     return ret;
+ }
+-- 
+2.31.1
+
 
