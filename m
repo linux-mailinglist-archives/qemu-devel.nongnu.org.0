@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6106641105A
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 09:41:42 +0200 (CEST)
-Received: from localhost ([::1]:33466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6F141103B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 09:36:53 +0200 (CEST)
+Received: from localhost ([::1]:56794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSDvp-0003v3-Ca
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 03:41:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42326)
+	id 1mSDrA-0000Pj-HY
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 03:36:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mSDmt-0006g1-Qy; Mon, 20 Sep 2021 03:32:27 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:42275 helo=ozlabs.org)
+ id 1mSDms-0006di-Sc; Mon, 20 Sep 2021 03:32:26 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:59685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mSDmq-0006Aq-LV; Mon, 20 Sep 2021 03:32:27 -0400
+ id 1mSDmq-0006Aw-Kn; Mon, 20 Sep 2021 03:32:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1632123140;
- bh=1Vn0Pnjj7eSOm3I8EG5LaZxTdxV0gCkW72JEm57is/E=;
+ bh=COFehanaxSWv9YkZTYA8ZM+qc9MSYc0QXLHNMCkkywA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=E/5JMCai9JzOKClC7FM4XEVNDECRfSqppaHx0ZtyTPG5PDi0RDSx6UHeWRQHzUwP/
- ZUXZo6Asr44OPyRGC/o5/ahB9M3azJpHOIznQiI93zLZvF4gDBEGAhAYDnK08uy+dC
- zSlnt6Xf8yhquhEUMPWHFPrSl78MbAe0GPDW6M9s=
+ b=WTVQNBMed2Bv5cm7sRe0sOg0EXC7FnS7fPV8EYsNaMWhTpEkwabot3G+i4MENvwWS
+ 1GcTNxwtDgv0C4USCaa75zJ6vhNCXG3zir1LdhpMWDTfRTJvcGp0U67GGWrno6Gzs/
+ N6HQFt6DHmXd+ZEojCQigf0i+/BWMcLZt4zqMOq8=
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4HCbqS1HK0z9sW5; Mon, 20 Sep 2021 17:32:20 +1000 (AEST)
-Date: Mon, 20 Sep 2021 16:54:38 +1000
+ id 4HCbqS1ZQJz9sSs; Mon, 20 Sep 2021 17:32:20 +1000 (AEST)
+Date: Mon, 20 Sep 2021 16:55:12 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v4 1/4] target/ppc: Convert debug to trace events
- (exceptions)
-Message-ID: <YUgwLr7OTNJDv3kL@yekko>
+Subject: Re: [PATCH v4 2/4] target/ppc: Replace debug messages by asserts for
+ unknown IRQ pins
+Message-ID: <YUgwUCocwHsy4AA/@yekko>
 References: <20210920061203.989563-1-clg@kaod.org>
- <20210920061203.989563-2-clg@kaod.org>
+ <20210920061203.989563-3-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LkqCFkUJNqCccLXl"
+ protocol="application/pgp-signature"; boundary="q7aBjEUDdARa4Ecv"
 Content-Disposition: inline
-In-Reply-To: <20210920061203.989563-2-clg@kaod.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210920061203.989563-3-clg@kaod.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,168 +64,99 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---LkqCFkUJNqCccLXl
+--q7aBjEUDdARa4Ecv
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 20, 2021 at 08:12:00AM +0200, C=E9dric Le Goater wrote:
+On Mon, Sep 20, 2021 at 08:12:01AM +0200, C=E9dric Le Goater wrote:
+> If an unknown pin of the IRQ controller is raised, something is very
+> wrong in the QEMU model. It is better to abort.
+>=20
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
 Applied to ppc-for-6.2, thanks.
 
 > ---
->  target/ppc/excp_helper.c | 38 ++++++++++----------------------------
->  target/ppc/trace-events  |  8 ++++++++
->  2 files changed, 18 insertions(+), 28 deletions(-)
+>  hw/ppc/ppc.c | 24 ++++++------------------
+>  1 file changed, 6 insertions(+), 18 deletions(-)
 >=20
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index d7e32ee107e0..b7d176792098 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -23,20 +23,14 @@
->  #include "internal.h"
->  #include "helper_regs.h"
-> =20
-> +#include "trace.h"
-> +
->  #ifdef CONFIG_TCG
->  #include "exec/helper-proto.h"
->  #include "exec/cpu_ldst.h"
->  #endif
-> =20
-> -/* #define DEBUG_OP */
->  /* #define DEBUG_SOFTWARE_TLB */
-> -/* #define DEBUG_EXCEPTIONS */
-> -
-> -#ifdef DEBUG_EXCEPTIONS
-> -#  define LOG_EXCP(...) qemu_log(__VA_ARGS__)
-> -#else
-> -#  define LOG_EXCP(...) do { } while (0)
-> -#endif
-> =20
->  /***********************************************************************=
-******/
->  /* Exception processing */
-> @@ -414,12 +408,10 @@ static inline void powerpc_excp(PowerPCCPU *cpu, in=
-t excp_model, int excp)
+> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+> index 7375bf4fa910..a327206a0a1e 100644
+> --- a/hw/ppc/ppc.c
+> +++ b/hw/ppc/ppc.c
+> @@ -165,9 +165,7 @@ static void ppc6xx_set_irq(void *opaque, int pin, int=
+ level)
+>              ppc_set_irq(cpu, PPC_INTERRUPT_RESET, level);
+>              break;
+>          default:
+> -            /* Unknown pin - do nothing */
+> -            LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
+> -            return;
+> +            g_assert_not_reached();
 >          }
->          break;
->      case POWERPC_EXCP_DSI:       /* Data storage exception              =
-     */
-> -        LOG_EXCP("DSI exception: DSISR=3D" TARGET_FMT_lx" DAR=3D" TARGET=
-_FMT_lx
-> -                 "\n", env->spr[SPR_DSISR], env->spr[SPR_DAR]);
-> +        trace_ppc_excp_dsi(env->spr[SPR_DSISR], env->spr[SPR_DAR]);
->          break;
->      case POWERPC_EXCP_ISI:       /* Instruction storage exception       =
-     */
-> -        LOG_EXCP("ISI exception: msr=3D" TARGET_FMT_lx ", nip=3D" TARGET=
-_FMT_lx
-> -                 "\n", msr, env->nip);
-> +        trace_ppc_excp_isi(msr, env->nip);
->          msr |=3D env->error_code;
->          break;
->      case POWERPC_EXCP_EXTERNAL:  /* External input                      =
-     */
-> @@ -474,7 +466,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int =
-excp_model, int excp)
->          switch (env->error_code & ~0xF) {
->          case POWERPC_EXCP_FP:
->              if ((msr_fe0 =3D=3D 0 && msr_fe1 =3D=3D 0) || msr_fp =3D=3D =
-0) {
-> -                LOG_EXCP("Ignore floating point exception\n");
-> +                trace_ppc_excp_fp_ignore();
->                  cs->exception_index =3D POWERPC_EXCP_NONE;
->                  env->error_code =3D 0;
->                  return;
-> @@ -489,7 +481,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int =
-excp_model, int excp)
->              env->spr[SPR_BOOKE_ESR] =3D ESR_FP;
+>          if (level)
+>              env->irq_input_state |=3D 1 << pin;
+> @@ -252,9 +250,7 @@ static void ppc970_set_irq(void *opaque, int pin, int=
+ level)
+>              /* XXX: TODO */
 >              break;
->          case POWERPC_EXCP_INVAL:
-> -            LOG_EXCP("Invalid instruction at " TARGET_FMT_lx "\n", env->=
-nip);
-> +            trace_ppc_excp_inval(env->nip);
->              msr |=3D 0x00080000;
->              env->spr[SPR_BOOKE_ESR] =3D ESR_PIL;
+>          default:
+> -            /* Unknown pin - do nothing */
+> -            LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
+> -            return;
+> +            g_assert_not_reached();
+>          }
+>          if (level)
+>              env->irq_input_state |=3D 1 << pin;
+> @@ -287,9 +283,7 @@ static void power7_set_irq(void *opaque, int pin, int=
+ level)
+>          ppc_set_irq(cpu, PPC_INTERRUPT_EXT, level);
+>          break;
+>      default:
+> -        /* Unknown pin - do nothing */
+> -        LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
+> -        return;
+> +        g_assert_not_reached();
+>      }
+>  }
+> =20
+> @@ -323,9 +317,7 @@ static void power9_set_irq(void *opaque, int pin, int=
+ level)
+>          ppc_set_irq(cpu, PPC_INTERRUPT_HVIRT, level);
+>          break;
+>      default:
+> -        /* Unknown pin - do nothing */
+> -        LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
+> -        return;
+> +        g_assert_not_reached();
+>      }
+>  }
+> =20
+> @@ -459,9 +451,7 @@ static void ppc40x_set_irq(void *opaque, int pin, int=
+ level)
+>              ppc_set_irq(cpu, PPC_INTERRUPT_DEBUG, level);
 >              break;
-> @@ -547,10 +539,10 @@ static inline void powerpc_excp(PowerPCCPU *cpu, in=
-t excp_model, int excp)
->          break;
->      case POWERPC_EXCP_FIT:       /* Fixed-interval timer interrupt      =
-     */
->          /* FIT on 4xx */
-> -        LOG_EXCP("FIT exception\n");
-> +        trace_ppc_excp_print("FIT");
->          break;
->      case POWERPC_EXCP_WDT:       /* Watchdog timer interrupt            =
-     */
-> -        LOG_EXCP("WDT exception\n");
-> +        trace_ppc_excp_print("WDT");
->          switch (excp_model) {
->          case POWERPC_EXCP_BOOKE:
->              srr0 =3D SPR_BOOKE_CSRR0;
-> @@ -657,7 +649,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int =
-excp_model, int excp)
->  #endif
->          break;
->      case POWERPC_EXCP_PIT:       /* Programmable interval timer interrup=
-t    */
-> -        LOG_EXCP("PIT exception\n");
-> +        trace_ppc_excp_print("PIT");
->          break;
->      case POWERPC_EXCP_IO:        /* IO error exception                  =
-     */
->          /* XXX: TODO */
-> @@ -1115,14 +1107,6 @@ bool ppc_cpu_exec_interrupt(CPUState *cs, int inte=
-rrupt_request)
-> =20
->  #endif /* !CONFIG_USER_ONLY */
-> =20
-> -#if defined(DEBUG_OP)
-> -static void cpu_dump_rfi(target_ulong RA, target_ulong msr)
-> -{
-> -    qemu_log("Return from exception at " TARGET_FMT_lx " with flags "
-> -             TARGET_FMT_lx "\n", RA, msr);
-> -}
-> -#endif
-> -
->  /***********************************************************************=
-******/
->  /* Exceptions processing helpers */
-> =20
-> @@ -1221,9 +1205,7 @@ static inline void do_rfi(CPUPPCState *env, target_=
-ulong nip, target_ulong msr)
->      /* XXX: beware: this is false if VLE is supported */
->      env->nip =3D nip & ~((target_ulong)0x00000003);
->      hreg_store_msr(env, msr, 1);
-> -#if defined(DEBUG_OP)
-> -    cpu_dump_rfi(env->nip, env->msr);
-> -#endif
-> +    trace_ppc_excp_rfi(env->nip, env->msr);
->      /*
->       * No need to raise an exception here, as rfi is always the last
->       * insn of a TB
-> diff --git a/target/ppc/trace-events b/target/ppc/trace-events
-> index c88cfccf8d19..53b107f56eb6 100644
-> --- a/target/ppc/trace-events
-> +++ b/target/ppc/trace-events
-> @@ -28,3 +28,11 @@ kvm_handle_epr(void) "handle epr"
->  kvm_handle_watchdog_expiry(void) "handle watchdog expiry"
->  kvm_handle_debug_exception(void) "handle debug exception"
->  kvm_handle_nmi_exception(void) "handle NMI exception"
-> +
-> +# excp_helper.c
-> +ppc_excp_rfi(uint64_t nip, uint64_t msr) "Return from exception at 0x%" =
-PRIx64 " with flags 0x%016" PRIx64
-> +ppc_excp_dsi(uint64_t dsisr, uint64_t dar) "DSI exception: DSISR=3D0x%" =
-PRIx64 " DAR=3D0x%" PRIx64
-> +ppc_excp_isi(uint64_t msr, uint64_t nip) "ISI exception: msr=3D0x%016" P=
-RIx64 " nip=3D0x%" PRIx64
-> +ppc_excp_fp_ignore(void) "Ignore floating point exception"
-> +ppc_excp_inval(uint64_t nip) "Invalid instruction at 0x%" PRIx64
-> +ppc_excp_print(const char *excp) "%s exception"
+>          default:
+> -            /* Unknown pin - do nothing */
+> -            LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
+> -            return;
+> +            g_assert_not_reached();
+>          }
+>          if (level)
+>              env->irq_input_state |=3D 1 << pin;
+> @@ -523,9 +513,7 @@ static void ppce500_set_irq(void *opaque, int pin, in=
+t level)
+>              ppc_set_irq(cpu, PPC_INTERRUPT_DEBUG, level);
+>              break;
+>          default:
+> -            /* Unknown pin - do nothing */
+> -            LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
+> -            return;
+> +            g_assert_not_reached();
+>          }
+>          if (level)
+>              env->irq_input_state |=3D 1 << pin;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -234,25 +164,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---LkqCFkUJNqCccLXl
+--q7aBjEUDdARa4Ecv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFIMCwACgkQbDjKyiDZ
-s5IMFxAAxcTIkSgyp7WqWsaef2DLczztl3KQzJmsvtAu2IIV+A9Io6NdUQIErISu
-O/VJsU4//8aSR28xNn7/bCXGS2kWOchSsdcpkCL4bEa3l4BKgj665DN923Rd40ny
-1u13WNGJXhcURlpa+6gco59h3S1wjw5Z7T6mu098ZceHgycY7i2BDncwJMbvaR+w
-A7QOMaaCSXrgGL+UeyUvVgzekU4UW7HzHytFUnNvZxagf9hvxVjCLO8zi7OrXzG1
-dxLTONJFiPRw4AphZW+gUUbks6QyGFrrfOiKm1TLcZbtFHaIb59tNgSvZgKTJAqb
-ax5RissNYqsdtlmMvjnDvmXIulnEH1itJTa4G7I5/+ayBlkVOcs12MUeCk2rUr/P
-d4luG2GZHRTGk3PAxlZNr0KIOKYAFROh9HtJeH6hF6MfElQlzxY2Fuizg4Y+vNip
-Hz7KphDCjZbLtXFBgV92Y3LqOo/NnF9jycdzciVqw5QrV8LCcqTiEzW0QCvbQ1h7
-c2nt8MjIuUkSM2mRdoKttrwxsC1Ld/uNVRPpXfHx/+dQh3TQOuYnYtCfR568IlnV
-ZEAIiQu/X4IimcBLwcvCI10c+/XqJWaye1Nol+Hspy4BFo2IDwSnEFphoZ1khYK0
-vlhkHzytkOzxqMM4oH4yNd1u5QnivCkx09VzdePLYlskagcz5aU=
-=gRsy
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFIMFAACgkQbDjKyiDZ
+s5IVvA/8Da1uzIR/0FpIxNWf10bC8GGG5GtyzcOIXacQVDAHWcixPEOJJCzgRMba
+nU9Vs6UpH2Hq0JEiYqucrw8+dCC098oLMDVn5w25gE2j+4Sbqlu6j9z1cw+mZP5z
+raCRiBkOHVrZzssUSDD4c7RPpxQK3HCApzbTSNh0CadFh63NV/QkI8+zwP8DEH7s
+Tm8J7FMe5Mt0s3NRx3dIdeOA0KUbnCxFwcyRkf+dfPHZOVih0HPOtvQ6oBxICdM0
+UYbKKh0eFeJdq0TyUqMgnch584YyBLPDET8VHUnDbvRb278IinFWSD1lPyH316aM
+Peu/Y5EhfF0jOKVX8EU2Pt5/AtjIKFYs9RDKg+SB2q5iK9hX/LNl2HP2pNhDWyG5
+fP/gUxvWJHetGFLTnvhJOhkBKgPyHkiLuCX8Sn3/CoqJhk15m637abS2ex8o9k0a
+RnUMK7Tnf9tpB6IeZBQ70yuRGRKqrVDGMKIi6/mcWcg2Bsf/M/J79EIgEUfcPRuE
+ny7n+Rg+1NAlj0HNkNHtuXp6/ZF6cU2vrDrGXxELJ8WWK6csojWFbdxXpN47BHLf
+Dpm70boBJ/JIDV9ZEoUIyz2xW/5dT+INfKMM0YqsyDpKU3mIH1f3W2qaZiE+/Av8
+BHCQwBrKXWG7S+uAut08haadzImhf1Rnyj2eHjP1M5n5t4Y3zbM=
+=Qib8
 -----END PGP SIGNATURE-----
 
---LkqCFkUJNqCccLXl--
+--q7aBjEUDdARa4Ecv--
 
