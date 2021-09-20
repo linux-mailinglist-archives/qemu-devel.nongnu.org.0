@@ -2,51 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B6F141103B
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 09:36:53 +0200 (CEST)
-Received: from localhost ([::1]:56794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD1C410FC7
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 09:03:14 +0200 (CEST)
+Received: from localhost ([::1]:47872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSDrA-0000Pj-HY
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 03:36:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42320)
+	id 1mSDKb-0007mc-4H
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 03:03:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mSDms-0006di-Sc; Mon, 20 Sep 2021 03:32:26 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:59685)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mSDmq-0006Aw-Kn; Mon, 20 Sep 2021 03:32:26 -0400
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mSDIt-0005CM-Ls
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 03:01:27 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:37737)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mSDIo-0004e5-Hk
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 03:01:27 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id j14so3275263plx.4
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 00:01:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1632123140;
- bh=COFehanaxSWv9YkZTYA8ZM+qc9MSYc0QXLHNMCkkywA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WTVQNBMed2Bv5cm7sRe0sOg0EXC7FnS7fPV8EYsNaMWhTpEkwabot3G+i4MENvwWS
- 1GcTNxwtDgv0C4USCaa75zJ6vhNCXG3zir1LdhpMWDTfRTJvcGp0U67GGWrno6Gzs/
- N6HQFt6DHmXd+ZEojCQigf0i+/BWMcLZt4zqMOq8=
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4HCbqS1ZQJz9sSs; Mon, 20 Sep 2021 17:32:20 +1000 (AEST)
-Date: Mon, 20 Sep 2021 16:55:12 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v4 2/4] target/ppc: Replace debug messages by asserts for
- unknown IRQ pins
-Message-ID: <YUgwUCocwHsy4AA/@yekko>
-References: <20210920061203.989563-1-clg@kaod.org>
- <20210920061203.989563-3-clg@kaod.org>
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HpnZG0QmTQuaU6YiLWA5coj7jxH6Vu7iW1GM6tT6QVA=;
+ b=ed4crKdN1GIienmNOcWFAtU9J90l9hlRc/OKCwR1/S7bAYscJIAPKPUHRMeiW7dfKR
+ XYeaRZQdTF5G9R/otTVOSCqkk3chkCY1sk4YJurbslN9QePxlomI8huL2HBUwNyCaSzt
+ 4kO2rzeHZ0ARlz8PN11r+W+OKSMC/3v+n50Zz/+D0LomVO0p34pRUndtHDvoHRpMdgh0
+ R5jWu4NJcsweyZ1/tv9QhK6b9bwbw16/gZDTFzWB3O6Fcddj/p7U+wqs4Om1U57uLeyy
+ cxWfH3Miy+lhk5l/AC29dly2gEQ98Acf4XHIez0Wkl02vb7Qo2Ga5S5W/NQiZBv8GHGj
+ N/Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HpnZG0QmTQuaU6YiLWA5coj7jxH6Vu7iW1GM6tT6QVA=;
+ b=gDGYZKihff1Spy2hMKGsmtAirge6cjuY1VKjQyxJgWpFdb54K9CeVDdfIqJ+chQaBD
+ BzoJqw47eGuVuJnAQFlaGmUZ1eZ3iR7fuAtFi95v2rV83wA85cRukr80ZVeg7/7BsMPb
+ z1lHB3fft0FVfxEXPWgJY0W3eSt/AEATVUU4jrtF9O3Ol7LDk+6PilV11avmDCru5HsU
+ 0kmor3By1E6pz+4Hif05IHxVvy64GyOkLYIvm5f7SV2L813gbeBNCkXYBsmCdINKLicD
+ K5pkQ6dLx6kyxx2SodMwNPlUH2SraVjxcBTYhRAPlf/5TYvxVF4C7Nw04Rb6SUWJy26j
+ QprQ==
+X-Gm-Message-State: AOAM5339QwZx/2PSjn7rg7eVsPb2KI4KsDiP1kaC2MhWOL9D07K9iEz7
+ SxIidX2XygYtzT8FZfpKsB558Pz0AM88bA==
+X-Google-Smtp-Source: ABdhPJxqr5NQI7nRW3qMolPh45ZQvdXrnl+h8A1aOR3+Mb4U5+Bs7H7GOKIVJ/vHq0ZIfjNotHKhfg==
+X-Received: by 2002:a17:90b:2243:: with SMTP id
+ hk3mr36590950pjb.203.1632121280328; 
+ Mon, 20 Sep 2021 00:01:20 -0700 (PDT)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.109.20])
+ by smtp.googlemail.com with ESMTPSA id
+ o20sm12897901pfd.188.2021.09.20.00.01.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Sep 2021 00:01:19 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/3] tests/acpi/pcihp: add unit tests for hotplug on
+ multifunction bridges for q35
+Date: Mon, 20 Sep 2021 12:30:44 +0530
+Message-Id: <20210920070047.3937292-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="q7aBjEUDdARa4Ecv"
-Content-Disposition: inline
-In-Reply-To: <20210920061203.989563-3-clg@kaod.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,130 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Ani Sinha <ani@anisinha.ca>, imammedo@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patchset adds a unit test to exercize acpi hotplug support for multifunction
+bridges on q35 machines. This support was added with the commit:
 
---q7aBjEUDdARa4Ecv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction bridges")
 
-On Mon, Sep 20, 2021 at 08:12:01AM +0200, C=E9dric Le Goater wrote:
-> If an unknown pin of the IRQ controller is raised, something is very
-> wrong in the QEMU model. It is better to abort.
->=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+changelist:
+v1 : initial RFC patch.
+v2: incorporated some of the feedbacks from Igor.
+v3: forgot to add the ASL diff for patch 3 in commit log for v2. Added now.
 
-Applied to ppc-for-6.2, thanks.
+Ani Sinha (3):
+  tests/acpi/bios-tables-test: add and allow changes to a new q35 DSDT
+    table blob
+  tests/acpi/pcihp: add unit tests for hotplug on multifunction bridges
+    for q35
+  tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge
+    test
 
-> ---
->  hw/ppc/ppc.c | 24 ++++++------------------
->  1 file changed, 6 insertions(+), 18 deletions(-)
->=20
-> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-> index 7375bf4fa910..a327206a0a1e 100644
-> --- a/hw/ppc/ppc.c
-> +++ b/hw/ppc/ppc.c
-> @@ -165,9 +165,7 @@ static void ppc6xx_set_irq(void *opaque, int pin, int=
- level)
->              ppc_set_irq(cpu, PPC_INTERRUPT_RESET, level);
->              break;
->          default:
-> -            /* Unknown pin - do nothing */
-> -            LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
-> -            return;
-> +            g_assert_not_reached();
->          }
->          if (level)
->              env->irq_input_state |=3D 1 << pin;
-> @@ -252,9 +250,7 @@ static void ppc970_set_irq(void *opaque, int pin, int=
- level)
->              /* XXX: TODO */
->              break;
->          default:
-> -            /* Unknown pin - do nothing */
-> -            LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
-> -            return;
-> +            g_assert_not_reached();
->          }
->          if (level)
->              env->irq_input_state |=3D 1 << pin;
-> @@ -287,9 +283,7 @@ static void power7_set_irq(void *opaque, int pin, int=
- level)
->          ppc_set_irq(cpu, PPC_INTERRUPT_EXT, level);
->          break;
->      default:
-> -        /* Unknown pin - do nothing */
-> -        LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
-> -        return;
-> +        g_assert_not_reached();
->      }
->  }
-> =20
-> @@ -323,9 +317,7 @@ static void power9_set_irq(void *opaque, int pin, int=
- level)
->          ppc_set_irq(cpu, PPC_INTERRUPT_HVIRT, level);
->          break;
->      default:
-> -        /* Unknown pin - do nothing */
-> -        LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
-> -        return;
-> +        g_assert_not_reached();
->      }
->  }
-> =20
-> @@ -459,9 +451,7 @@ static void ppc40x_set_irq(void *opaque, int pin, int=
- level)
->              ppc_set_irq(cpu, PPC_INTERRUPT_DEBUG, level);
->              break;
->          default:
-> -            /* Unknown pin - do nothing */
-> -            LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
-> -            return;
-> +            g_assert_not_reached();
->          }
->          if (level)
->              env->irq_input_state |=3D 1 << pin;
-> @@ -523,9 +513,7 @@ static void ppce500_set_irq(void *opaque, int pin, in=
-t level)
->              ppc_set_irq(cpu, PPC_INTERRUPT_DEBUG, level);
->              break;
->          default:
-> -            /* Unknown pin - do nothing */
-> -            LOG_IRQ("%s: unknown IRQ pin %d\n", __func__, pin);
-> -            return;
-> +            g_assert_not_reached();
->          }
->          if (level)
->              env->irq_input_state |=3D 1 << pin;
+ tests/data/acpi/q35/DSDT.multi-bridge | Bin 0 -> 8435 bytes
+ tests/qtest/bios-tables-test.c        |  18 ++++++++++++++++++
+ 2 files changed, 18 insertions(+)
+ create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+-- 
+2.25.1
 
---q7aBjEUDdARa4Ecv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFIMFAACgkQbDjKyiDZ
-s5IVvA/8Da1uzIR/0FpIxNWf10bC8GGG5GtyzcOIXacQVDAHWcixPEOJJCzgRMba
-nU9Vs6UpH2Hq0JEiYqucrw8+dCC098oLMDVn5w25gE2j+4Sbqlu6j9z1cw+mZP5z
-raCRiBkOHVrZzssUSDD4c7RPpxQK3HCApzbTSNh0CadFh63NV/QkI8+zwP8DEH7s
-Tm8J7FMe5Mt0s3NRx3dIdeOA0KUbnCxFwcyRkf+dfPHZOVih0HPOtvQ6oBxICdM0
-UYbKKh0eFeJdq0TyUqMgnch584YyBLPDET8VHUnDbvRb278IinFWSD1lPyH316aM
-Peu/Y5EhfF0jOKVX8EU2Pt5/AtjIKFYs9RDKg+SB2q5iK9hX/LNl2HP2pNhDWyG5
-fP/gUxvWJHetGFLTnvhJOhkBKgPyHkiLuCX8Sn3/CoqJhk15m637abS2ex8o9k0a
-RnUMK7Tnf9tpB6IeZBQ70yuRGRKqrVDGMKIi6/mcWcg2Bsf/M/J79EIgEUfcPRuE
-ny7n+Rg+1NAlj0HNkNHtuXp6/ZF6cU2vrDrGXxELJ8WWK6csojWFbdxXpN47BHLf
-Dpm70boBJ/JIDV9ZEoUIyz2xW/5dT+INfKMM0YqsyDpKU3mIH1f3W2qaZiE+/Av8
-BHCQwBrKXWG7S+uAut08haadzImhf1Rnyj2eHjP1M5n5t4Y3zbM=
-=Qib8
------END PGP SIGNATURE-----
-
---q7aBjEUDdARa4Ecv--
 
