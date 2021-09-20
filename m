@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF66A411C64
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 19:08:16 +0200 (CEST)
-Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43920411CD7
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 19:13:30 +0200 (CEST)
+Received: from localhost ([::1]:35876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSMm7-000123-Jn
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 13:08:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43676)
+	id 1mSMrA-0008Lk-Qn
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 13:13:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSMWl-0001Pb-2I
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:52:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26529)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSMWh-00024C-UC
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:52:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632156738;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=W9Yj9R456etmwLG9YtWsaFIue/2i5r0XIlFDdUXnDXU=;
- b=W6sLe7ceR3qAX3C/SA0jGuhRexuiYscF/mGV2xobjyZ1m1Lliwu9I0v355PrIz3XqWxGO8
- 2LMEYei8p7+uT4pjVaRJNtkHffzERPaWijSO+/FB1ztrQG5bxIBYq6e1GEyyc+QINhGIqx
- TClb9xhpOLfvdTdxVR8rFAbByxVb6H0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-TE-Nnq2FPA6HNK4z_MIy5w-1; Mon, 20 Sep 2021 12:52:15 -0400
-X-MC-Unique: TE-Nnq2FPA6HNK4z_MIy5w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EE311800D41;
- Mon, 20 Sep 2021 16:52:14 +0000 (UTC)
-Received: from redhat.com (ovpn-114-117.phx2.redhat.com [10.3.114.117])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DBF0560C17;
- Mon, 20 Sep 2021 16:52:13 +0000 (UTC)
-Date: Mon, 20 Sep 2021 11:52:12 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Nir Soffer <nsoffer@redhat.com>
-Subject: Re: [PATCH] qemu-nbd: Change default cache mode to writeback
-Message-ID: <20210920165212.la2z7pyizm4sv4t4@redhat.com>
-References: <20210813205519.50518-1-nsoffer@redhat.com>
- <20210816155028.6rfmuxpdmc6yniit@redhat.com>
- <CAMRbyytKnLWFm7G5-bq5A-3nny63ESoxYYQt4sigYg2c4f9Ryg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mSMos-0006Dm-LD
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 13:11:10 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:40591)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mSMon-0000vi-NZ
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 13:11:06 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ n13-20020a17090a4e0d00b0017946980d8dso15673215pjh.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 10:11:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=dJmfX02vlRZ0Bt5+QpeNsUnHRIMRA2VH0hvYP2kiGfo=;
+ b=BuXq7w5y+vF0ElTN6fjL56ZdPC5BwSeZ+XQqXbdE2ZwGE/NdzPtgjpIV/e3qiL8vzz
+ +Gp9d6Jq/d/z3/ODa2nj9WSeZLsIpJR82JQc2QbdojK8SUfqbTMPdp/7B3dwakmPB+q+
+ s0p0WBGA6G+Ctn6CdTqSdfZCgQgNSKmvTNddlMutJjbz2c7m5N2TR53YbmYMFTYf3ujn
+ XAbszCw+qiycVqkT60Y7jaGIs1cU+G369R35EqXqSVoZVZUcfWCrY2Sl8COCq1oL//xi
+ +IF6h0A2gYVlopDQNYpShPnEHdud7y/NYdWV4dMNcF+pmNPXPpd2BwaZ+L0qbPVjdooS
+ lAUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dJmfX02vlRZ0Bt5+QpeNsUnHRIMRA2VH0hvYP2kiGfo=;
+ b=zKP5M8KEGEgKfOJJ6Y/xu2ZJXp1TPmFytV4XWYK8Swxtc08+6d7+w1bNUHg2NNqtNK
+ hvaL/QPCYqKhvlxlTQSqtH5f6MD5wT5pk5ro9HJEVwoqOK7LaZFq5kyjsHAKwF3HJiC+
+ YWxgv01KbejjJ2ZGpskoax8jvRtNwye0doTpzAoP4j9f9X25UN/AcjSHxZUGHawX/7c7
+ 2d4W+YWu1WNy21eEu0Sw/rmJh/lAKWuAMNy7hq6XDWwhyicxGni8rCjyEcfr/72m82qd
+ 231wRQNIHUJFqrkpG1s09jIGQnEPeg7fADRKo7bRRn0puJ738nOLiTKYzxdsyqtGTuWf
+ 5TSw==
+X-Gm-Message-State: AOAM531CLuVsA0StKPom55xNpjpb9LFETYtY47h62wNEIWxr/M2aEEoh
+ eT6MHzX1SGx5RKYoFbvbiKdrFwdH9JKM5w==
+X-Google-Smtp-Source: ABdhPJwC7NWLyMQQ6jGNbo3Q3TLPlY6ule7T5eaCeubK+PW0cKQuOywOPEJjieN/wStNLiXm6SDOtQ==
+X-Received: by 2002:a17:90a:fb91:: with SMTP id
+ cp17mr37430pjb.237.1632157860006; 
+ Mon, 20 Sep 2021 10:11:00 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id b142sm7907242pfb.17.2021.09.20.10.10.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Sep 2021 10:10:59 -0700 (PDT)
+Subject: Re: [PATCH 23/30] tcg/loongarch: Add softmmu load/store helpers,
+ implement qemu_ld/qemu_st ops
+To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
+References: <20210920080451.408655-1-git@xen0n.name>
+ <20210920080451.408655-24-git@xen0n.name>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <bd7c4980-6840-79f5-225b-4dba2d530e6f@linaro.org>
+Date: Mon, 20 Sep 2021 10:10:58 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <CAMRbyytKnLWFm7G5-bq5A-3nny63ESoxYYQt4sigYg2c4f9Ryg@mail.gmail.com>
-User-Agent: NeoMutt/20210205-772-2b4c52
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210920080451.408655-24-git@xen0n.name>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,50 +90,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block <qemu-block@nongnu.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Nir Soffer <nirsof@gmail.com>,
- qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 19, 2021 at 10:56:58PM +0300, Nir Soffer wrote:
-> On Mon, Aug 16, 2021 at 6:50 PM Eric Blake <eblake@redhat.com> wrote:
-> >
-> > On Fri, Aug 13, 2021 at 11:55:19PM +0300, Nir Soffer wrote:
-> > > Both qemu and qemu-img use writeback cache mode by default, which is
-> > > already documented in qemu(1). qemu-nbd uses writethrough cache mode by
-> > > default, and the default cache mode is not documented.
-> > >
-> > > According to the qemu-nbd(8):
-> > >
-> > >    --cache=CACHE
-> > >           The  cache  mode  to be used with the file.  See the
-> > >           documentation of the emulator's -drive cache=... option for
-> > >           allowed values.
-> > >
-> > > qemu(1) says:
-> > >
-> > >     The default mode is cache=writeback.
-> > >
-> > > So users have no reason to assume that qemu-nbd is using writethough
-> > > cache mode. The only hint is the painfully slow writing when using the
-> > > defaults.
-> >
-> > Oh, good catch.  Unfortunately too late for 6.1 proper, but I'll add
-> > qemu-stable in cc and queue this through my NBD tree for 6.2.
-> 
-> I don't see this in master, lost in your NBD tree?
+On 9/20/21 1:04 AM, WANG Xuerui wrote:
+> +static void tcg_out_goto(TCGContext *s, const tcg_insn_unit *target)
+> +{
+> +    tcg_out_opc_b(s, 0);
+> +    bool ok = reloc_sd10k16(s->code_ptr - 1, target);
+> +    tcg_debug_assert(ok);
+> +}
 
-It's on my tree:
-https://repo.or.cz/qemu/ericb.git/shortlog/refs/heads/nbd
+Hmm.  This is an existing bug in tcg/riscv/.  We should have no asserts on relocations 
+being in range.  We should always be able to tell our caller that the relocation failed, 
+and we'll try again with a smaller TB.
 
-I just haven't bundled up enough patches for a pull request yet.  I'll
-get one out this week, probably with a few more patches included.
+In this case, return the result of reloc_sd10k16 and ...
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+> +
+> +    tcg_out_goto(s, l->raddr);
+> +    return true;
+> +}
 
+... return the result of tcg_out_goto.
+
+
+> +static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl, TCGMemOpIdx oi,
+> +                             tcg_insn_unit **label_ptr, bool is_load)
+> +{
+> +    MemOp opc = get_memop(oi);
+> +    unsigned s_bits = opc & MO_SIZE;
+> +    unsigned a_bits = get_alignment_bits(opc);
+> +    tcg_target_long compare_mask;
+> +    int mem_index = get_mmuidx(oi);
+> +    int fast_ofs = TLB_MASK_TABLE_OFS(mem_index);
+> +    int mask_ofs = fast_ofs + offsetof(CPUTLBDescFast, mask);
+> +    int table_ofs = fast_ofs + offsetof(CPUTLBDescFast, table);
+> +    TCGReg mask_base = TCG_AREG0, table_base = TCG_AREG0;
+> +
+> +    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, mask_base, mask_ofs);
+> +    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP1, table_base, table_ofs);
+
+I think we can eliminate the mask_base and table_base variables now.  This dates from the 
+TCG_TARGET_TLB_DISPLACEMENT_BITS thing, where we would need to compute an intermediate 
+offset, and adjust these base registers.
+
+> +    /* Clear the non-page, non-alignment bits from the address.  */
+> +    compare_mask = (tcg_target_long)TARGET_PAGE_MASK | ((1 << a_bits) - 1);
+> +    if (compare_mask == sextreg(compare_mask, 0, 12)) {
+> +        tcg_out_opc_andi(s, TCG_REG_TMP1, addrl, compare_mask);
+
+LoongArch uses an unsigned mask for andi, not signed.  The immediate case will never match 
+for LoongArch.
+
+> +static bool tcg_out_qemu_ld_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
+> +{
+> +    TCGMemOpIdx oi = l->oi;
+> +    MemOp opc = get_memop(oi);
+> +    TCGReg a0 = tcg_target_call_iarg_regs[0];
+> +    TCGReg a1 = tcg_target_call_iarg_regs[1];
+> +    TCGReg a2 = tcg_target_call_iarg_regs[2];
+> +    TCGReg a3 = tcg_target_call_iarg_regs[3];
+
+Drop these, since you've already named TCG_REG_A0 etc.
+
+> +
+> +    /* We don't support oversize guests */
+> +    if (TCG_TARGET_REG_BITS < TARGET_LONG_BITS) {
+> +        g_assert_not_reached();
+> +    }
+
+This is redundant with TCG_TARGET_REG_BITS == 64.
+
+> +    tcg_out_call(s, qemu_ld_helpers[opc & MO_SSIZE]);
+> +    tcg_out_mov(s, (opc & MO_SIZE) == MO_64, l->datalo_reg, a0);
+
+Because you have single-insn sign-extend instructions, it's better to always call the 
+unsigned load function, and then sign-extend here.  See the aarch64 version.
+
+> +    tcg_out_mov(s, TCG_TYPE_PTR, a2, l->datalo_reg);
+> +    switch (s_bits) {
+> +    case MO_8:
+> +        tcg_out_ext8u(s, a2, a2);
+> +        break;
+> +    case MO_16:
+> +        tcg_out_ext16u(s, a2, a2);
+> +        break;
+> +    default:
+> +        break;
+> +    }
+
+Do you have a pointer to the LoongArch ABI?  Do 32-bit values need to be sign- or 
+zero-extended in the call arguments?
+
+Anyway, merge the move and extend.
+
+> +    tcg_out_movi(s, TCG_TYPE_PTR, a4, (tcg_target_long)l->raddr);
+
+Oh, just FYI, this is another case where movi wants to handle pc-relative addresses.
+
+> +    if (guest_base == 0) {
+> +        tcg_out_opc_add_d(s, base, addr_regl, TCG_REG_ZERO);
+
+Don't add zero.  RISCV bug that's been fixed recently.
+
+> +static void tcg_out_qemu_st_direct(TCGContext *s, TCGReg lo,
+> +                                   TCGReg base, MemOp opc)
+> +{
+> +    /* Byte swapping is left to middle-end expansion.  */
+> +    tcg_debug_assert((opc & MO_BSWAP) == 0);
+> +
+> +    switch (opc & (MO_SSIZE)) {
+
+MO_SIZE here.
+
+> +static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is_64)
+
+Shouldn't need is_64 argument for store.  It's only relevant to load so that TCG_TYPE_I32 
+values are always sign-extended in the host register.
+
+
+r~
 
