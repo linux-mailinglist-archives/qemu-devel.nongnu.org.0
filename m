@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 344C6410E81
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 04:49:08 +0200 (CEST)
-Received: from localhost ([::1]:47372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7A1410E7D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 04:48:22 +0200 (CEST)
+Received: from localhost ([::1]:44264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mS9Mh-0001iM-8O
-	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 22:49:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57502)
+	id 1mS9Lw-00085E-TT
+	for lists+qemu-devel@lfdr.de; Sun, 19 Sep 2021 22:48:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mS9Iu-0005D8-R2
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 22:45:12 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:46618)
+ id 1mS9Is-0005Cm-Ky
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 22:45:10 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:34576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mS9Iq-0008CU-5l
- for qemu-devel@nongnu.org; Sun, 19 Sep 2021 22:45:11 -0400
-Received: by mail-pg1-x531.google.com with SMTP id m21so6658134pgu.13
- for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 19:45:07 -0700 (PDT)
+ id 1mS9Iq-0008Ca-NC
+ for qemu-devel@nongnu.org; Sun, 19 Sep 2021 22:45:10 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id g14so14936718pfm.1
+ for <qemu-devel@nongnu.org>; Sun, 19 Sep 2021 19:45:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Zp6udU6vABHfcwT1lj6jsBUaWhiJFkUto34nvU8EJkI=;
- b=s0SpX4GRTo/TlrZ+CXhb3V608xcbIPDzEApbITrgbFP3mE0i2/iEiIBrsfKloIVP/Q
- S7fNEmAjqH64nJXfWqPf5X+Ivc9CGFHdH5iCn+w4sBBdaPvJRcI9q6jEiTo9YdS3FqCd
- q3ArKGetbm1JDjuaPY8/Refwh3WMKFMn9RI1Bv4qW0pxH8w11V01uSfLfEAhnprjb5Oz
- O6fZlJv/H8tCHn+BMicLAY+5mh9vvdnGU1I6Xj+ycfEJgr7ZWJztUN6KcHHbXgjWxlZI
- XYG9+BJN5+YwfWzCTKmZNWHpwAG/XIFFG5J9Nupm+p7/elkeCxhxgxsUZDeAa18cqYLu
- m/Vg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=CtQUY+VgkQT1rox5MwFOniOvDKV16giSUD56+x0u+Dc=;
+ b=jq+L2dnpHgrIK8wcRbWEzdX1zmYvJLjQfMVbUGR4wS88LLKplbSxzc4XWI6Aik9tJ1
+ PH/bvimKg1PX70MeUorumde1SLeQgR7AmRRIjDxFihVrgnsHDg/8dAZBzByqroPcPJa1
+ UH0cawgvVP3AUID2VAIcK0pAr7YYvzqyWu2cr9RDvTbmnE2Jench5Hur/ggt/6nnwExk
+ 9qWnipQvfkI+Kd3/7cTvJUg96W/2a5PO0XW6oDio2+RWdWB/4EBLIHApSV6Z9kTWC5cO
+ a1kRrEdzysZS11olOY8N4Hra8SKhE+Aqaz8RtOwKdrIzbubzRRC61W+16bf+racCXJHB
+ sGhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Zp6udU6vABHfcwT1lj6jsBUaWhiJFkUto34nvU8EJkI=;
- b=WiFgLVCJTTuL/8Nnf37ovF/IOq+4JIewIOQWQdjOvCVQvT9HEQFkBFB6Vrr2YYMLpB
- PES6+dmSPa/MNaTAY85HMiXjD2r8yuLdNt/3m2+ofoeH7wGiAKxc3ADxHFoYAvuUW1zk
- kQqzjnLIkCva9UWfgXTTnOl+tk+b3RD8Wrn8vaGG9arNVUcG53baG7czf3mfiIUO7VPo
- gi2NS2znlZuYzbtundYPu1Bvw7ZNO96RXnq8Q1P4J9X6zzA8GeNM0ihJZsx4JqsN274E
- FVDuuggl7+zMJ63Q1ea5Un5Hwoq+GBCDtjU3J7UXTxCBwbsmzuo8OvTzAPV+rNXE8B3y
- SsqA==
-X-Gm-Message-State: AOAM531MsUwymkB5zXLjis8IAo4nOHXLq1mtpss9iUnMH8wKQ6Tr6I3i
- ziW73os9cCEh3osD0aMBalC4EMkDio0few==
-X-Google-Smtp-Source: ABdhPJx/v5Z+MJP8lm1OpeW+UfRe4PRjEZYq9jp4Vulj/xR9I5hM9tJKh5VOiayhOEixzImutmpTKg==
-X-Received: by 2002:a63:b448:: with SMTP id n8mr21467978pgu.31.1632105906228; 
- Sun, 19 Sep 2021 19:45:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=CtQUY+VgkQT1rox5MwFOniOvDKV16giSUD56+x0u+Dc=;
+ b=0u7O/08xkQlyGdP/uCUyLiyw3YGH0E0sTNc5Gfbt6marp3ajH7sl04Nbp1E1mbeqkN
+ dMBnJ74YztKAlCEjVnSJntH1MZ4miLUEagCG0xhvfEUkrLrnmM/iUiuLCiakUoYuFe1K
+ gWflzsnmwefz6yAYZB4NyJcjDVWg2NBxUR4sCgsBpRJTIeopkz0SR5Im+Onca++x5QMt
+ hIXMByqjZPAFByfPwqGsJKc/wVt+tnMZxuz3d0GK0wx2trmJ6hqk1Zfvuel/YTgyOhHB
+ uaIR1wkz4zbkGI7JJfsLPJ4LFvU/tzsLxZ06LlA8otwfpbXSXGKDExn0JYyq+6U4M1mG
+ RvVg==
+X-Gm-Message-State: AOAM531FbhEsHkPqg1odLz8orMMyWl0CnMtRUySBuU5Son0FfATKjvkc
+ xqpePgRr5Wwc0F3hyk5kN+HIPon1fKMMtw==
+X-Google-Smtp-Source: ABdhPJyYR9qBS4L93E7BENRUPkFYmrGz6MebrvpJacEv/ZYH5nfvp91CO0yiLPJezhmCh73PEO9AWw==
+X-Received: by 2002:a65:6487:: with SMTP id e7mr21295360pgv.27.1632105907014; 
+ Sun, 19 Sep 2021 19:45:07 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id fh3sm16164767pjb.8.2021.09.19.19.45.05
+ by smtp.gmail.com with ESMTPSA id fh3sm16164767pjb.8.2021.09.19.19.45.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Sep 2021 19:45:05 -0700 (PDT)
+ Sun, 19 Sep 2021 19:45:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/6] target/arm: Fix insn exception priorities
-Date: Sun, 19 Sep 2021 19:44:58 -0700
-Message-Id: <20210920024504.625965-1-richard.henderson@linaro.org>
+Subject: [PATCH v3 1/6] linux-user/aarch64: Handle EC_PCALIGNMENT
+Date: Sun, 19 Sep 2021 19:44:59 -0700
+Message-Id: <20210920024504.625965-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210920024504.625965-1-richard.henderson@linaro.org>
+References: <20210920024504.625965-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,58 +82,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Raise pc alignment faults.
-Fix single-step and pc-align priority over breakpoints.
-Not yet fixing insn abort priority over breakpoints.
+This will shortly be raised for execution with a misaligned pc.
 
-Based-on: 20210919015718.466207-1-richard.henderson@linaro.org
-("linux-user: Clean up siginfo_t handling")
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/aarch64/cpu_loop.c | 44 +++++++++++++++++++++--------------
+ 1 file changed, 27 insertions(+), 17 deletions(-)
 
-Changes for v3:
-  * Rebase on siginfo_t patch set -- while probably only
-    force_sig_fault is required, I suspect minor conflicts
-    with the other cleanups.
-  * Typo fix.
-
-Changes for v2:
-  * Handle the exceptions in cpu_loop.
-  * Fix how the instruction is raised for aa32 el1.
-  * Add pc alignment test cases.
-
-
-r~
-
-
-Richard Henderson (6):
-  linux-user/aarch64: Handle EC_PCALIGNMENT
-  linux-user/arm: Report SIGBUS and SIGSEGV correctly
-  target/arm: Take an exception if PC is misaligned
-  target/arm: Assert thumb pc is aligned
-  target/arm: Suppress bp for exceptions with more priority
-  tests/tcg: Add arm and aarch64 pc alignment tests
-
- target/arm/helper.h               |  1 +
- target/arm/syndrome.h             |  5 ++++
- linux-user/aarch64/cpu_loop.c     | 44 +++++++++++++++++------------
- linux-user/arm/cpu_loop.c         | 39 ++++++++++++++++++++++----
- target/arm/debug_helper.c         | 23 ++++++++++++++++
- target/arm/gdbstub.c              |  9 ++++--
- target/arm/machine.c              |  9 ++++++
- target/arm/tlb_helper.c           | 24 ++++++++++++++++
- target/arm/translate-a64.c        | 23 ++++++++++++++--
- target/arm/translate.c            | 42 +++++++++++++++++++++++-----
- tests/tcg/aarch64/pcalign-a64.c   | 37 +++++++++++++++++++++++++
- tests/tcg/arm/pcalign-a32.c       | 46 +++++++++++++++++++++++++++++++
- tests/tcg/aarch64/Makefile.target |  4 +--
- tests/tcg/arm/Makefile.target     |  4 +++
- 14 files changed, 274 insertions(+), 36 deletions(-)
- create mode 100644 tests/tcg/aarch64/pcalign-a64.c
- create mode 100644 tests/tcg/arm/pcalign-a32.c
-
+diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
+index 11e34cb100..6e03afb2bd 100644
+--- a/linux-user/aarch64/cpu_loop.c
++++ b/linux-user/aarch64/cpu_loop.c
+@@ -78,7 +78,7 @@
+ void cpu_loop(CPUARMState *env)
+ {
+     CPUState *cs = env_cpu(env);
+-    int trapnr, ec, fsc, si_code;
++    int trapnr, ec, fsc, si_sig, si_code;
+     abi_long ret;
+ 
+     for (;;) {
+@@ -112,28 +112,38 @@ void cpu_loop(CPUARMState *env)
+             break;
+         case EXCP_PREFETCH_ABORT:
+         case EXCP_DATA_ABORT:
+-            /* We should only arrive here with EC in {DATAABORT, INSNABORT}. */
+             ec = syn_get_ec(env->exception.syndrome);
+-            assert(ec == EC_DATAABORT || ec == EC_INSNABORT);
+-
+-            /* Both EC have the same format for FSC, or close enough. */
+-            fsc = extract32(env->exception.syndrome, 0, 6);
+-            switch (fsc) {
+-            case 0x04 ... 0x07: /* Translation fault, level {0-3} */
+-                si_code = TARGET_SEGV_MAPERR;
++            switch (ec) {
++            case EC_DATAABORT:
++            case EC_INSNABORT:
++                /* Both EC have the same format for FSC, or close enough. */
++                fsc = extract32(env->exception.syndrome, 0, 6);
++                switch (fsc) {
++                case 0x04 ... 0x07: /* Translation fault, level {0-3} */
++                    si_sig = TARGET_SIGSEGV;
++                    si_code = TARGET_SEGV_MAPERR;
++                    break;
++                case 0x09 ... 0x0b: /* Access flag fault, level {1-3} */
++                case 0x0d ... 0x0f: /* Permission fault, level {1-3} */
++                    si_sig = TARGET_SIGSEGV;
++                    si_code = TARGET_SEGV_ACCERR;
++                    break;
++                case 0x11: /* Synchronous Tag Check Fault */
++                    si_sig = TARGET_SIGSEGV;
++                    si_code = TARGET_SEGV_MTESERR;
++                    break;
++                default:
++                    g_assert_not_reached();
++                }
+                 break;
+-            case 0x09 ... 0x0b: /* Access flag fault, level {1-3} */
+-            case 0x0d ... 0x0f: /* Permission fault, level {1-3} */
+-                si_code = TARGET_SEGV_ACCERR;
+-                break;
+-            case 0x11: /* Synchronous Tag Check Fault */
+-                si_code = TARGET_SEGV_MTESERR;
++            case EC_PCALIGNMENT:
++                si_sig = TARGET_SIGBUS;
++                si_code = TARGET_BUS_ADRALN;
+                 break;
+             default:
+                 g_assert_not_reached();
+             }
+-
+-            force_sig_fault(TARGET_SIGSEGV, si_code, env->exception.vaddress);
++            force_sig_fault(si_sig, si_code, env->exception.vaddress);
+             break;
+         case EXCP_DEBUG:
+         case EXCP_BKPT:
 -- 
 2.25.1
 
