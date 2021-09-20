@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544714119A0
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 18:18:59 +0200 (CEST)
-Received: from localhost ([::1]:36540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE9C4119A3
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 18:19:04 +0200 (CEST)
+Received: from localhost ([::1]:36912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSM0Q-0007ki-Bg
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 12:18:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36650)
+	id 1mSM0V-0007zn-Ia
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 12:19:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSLxs-00062A-I4
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:16:20 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:35489)
+ id 1mSLyS-00069j-Nl
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:16:56 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:33336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSLxq-00077x-0a
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:16:19 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id bb10so11413851plb.2
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 09:16:16 -0700 (PDT)
+ id 1mSLyR-0007eE-8u
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 12:16:56 -0400
+Received: by mail-pg1-x533.google.com with SMTP id u18so17936290pgf.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 09:16:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=GSuEVBq2pFQSZkx3es4SCDmILneqpevOQrLVr7YXF+E=;
- b=tzQT5IsA+EE9PGsMfQ/Gqhhf2p+5XUcMqJxupl4FQcQ7k1QSy7vHAZ0niv4xX0RifL
- HNmK4OaBUtfRvzSgqEIWewI/z6UkvMt3ae70HKXmnnI/Or2XT12YuyjmnTbZ7IqmrKeT
- sbsognaPjCWpxCrhAcDjLKlY2vX514M56dy0r4Th4kfMi5StVM2eAH9wzFC+BDjwP0hK
- HI+cQG6P3djAhHpLokCJpyGvPWtM6uxe2ldyeyZYW8t03KN5ZWaDECUWYW16FahsTxRs
- 9xXEImAvYuCxxBoDCsvl3a0+SUMcjHkbhrK+yP0/1noNbdMfxNr424VFqNuVxG3UCzL8
- TaZQ==
+ bh=oocGRP6iDUioVwuOybphaC+kztuj5DBccsVpL1Mtw1E=;
+ b=LWzAkClVi1hl42iUFKOF2QIEdwjHem29u2LaEv5+y41e1cfEjqbBL4N964zjPHj2jQ
+ DX9Mty//eKSEopUhAg9gpBKGbLon/mnL0P/gId04B5553FJJrAMdtka+I/tTEbHH0Tv1
+ Rh1v1Jb2OTokqqIqlWKJM2p5HWfRmrdSQHjMeOSSrml0pqCx6PULGm/LZy/o/H4RwJjm
+ k5o0pHhPXHwais/VSyG02QqSp1lg1gqaK2etRY61w1ACUF5fFK0satyLQF2mKES/c1Nd
+ fOg2Vwx3pOjDu8JYk9+A97T2f/uRKSksgrmGTgX1r/Xr/YhIEfJUoT2a01FOxeyCQVlT
+ VuWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=GSuEVBq2pFQSZkx3es4SCDmILneqpevOQrLVr7YXF+E=;
- b=JDfCIxWFRTFtWBFBYO2n0aHNDYljw/s1jwYBAciMtjGdKXWs4/6QVKl2VY6e8ly7qY
- ej13r1Lx1srCpbZ3gd5oQtJCwRvwm5XzSZI5FzEn2+PWfaNbnFoFp+UxjJlA76Dutum9
- V23nakPBXFM88J/JTdgu1+3LWUZ8U4zqZxvlkahromiPnCOvDW+e3q0HGv4kxPmQPOYB
- EKDTfGxtW7XfMPmy5xPgVk4W9H6XyJChOTYoaiYEvU9goSUInvB0awYhTf+fbicaK6tz
- EhNtDP+FNd+z4dVWnyVGsyBpzfWRDk1L00EfhxgN8qfbIYH90WD7HxTwd4zE1dz6VXtD
- woFQ==
-X-Gm-Message-State: AOAM533oatlwXOfOvf0s6nkFAc04KoNTT1CYL4lvu1htaUiD5fcuEMNp
- qA1rVQNJbrLR3c2fLSbztGM81ANArDvb8A==
-X-Google-Smtp-Source: ABdhPJxJ9nvk1bGWCAgTIyCu58/VhyiqvXr/JExP71OaHd/0TDuqdiFsGIEJNBGAarpysDEGAEgZGA==
-X-Received: by 2002:a17:90a:7345:: with SMTP id
- j5mr39326640pjs.48.1632154575677; 
- Mon, 20 Sep 2021 09:16:15 -0700 (PDT)
+ bh=oocGRP6iDUioVwuOybphaC+kztuj5DBccsVpL1Mtw1E=;
+ b=yovKhecsa/LCclZ28buRs13l51JH7jyDVeUP1UWAJiCAkRe7GS5yL3lezPTVQcQ14S
+ hmv985wbV35+S3Tu337FdMfd1Ves7Y5kTry2GqPAX77cFEmlwOu13RUXZagQNw3E2tJg
+ oo8LUC6JndiivHTued8KOsvCDdLH3jrExu5S9DMX3TUmujL9Mw8PzrsHY2lcb/M0lpIu
+ 9xpEUDE/r3DlzF4q4NRItOAQ6FJYi/aXKA2UJhPX1H7rEKtKCj1VERM82GwjwDl512fY
+ ufGQuoHay1kjUV3cEwtvFZZCLhuSFEwqzTF9Xa/xWTTqx31qI8jbXbSvbz9lJPTi9HIo
+ XdJQ==
+X-Gm-Message-State: AOAM5337g3mQ9/+7/QlKCMroTQ7tC8FOOxeVcciyyvBidoXGTROca4vs
+ XxLncjjDIWjhgYg/ZPtxoBzm8xGIEg6zCA==
+X-Google-Smtp-Source: ABdhPJyz4/R/7UabtzzH/IhVcGeGvJheZ2zeFSDJJ7dhnwamUlpra1OF78jL9t15Dg9WoHSLey8TWA==
+X-Received: by 2002:a63:5f16:: with SMTP id t22mr24347283pgb.86.1632154614000; 
+ Mon, 20 Sep 2021 09:16:54 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id n185sm15795862pfn.171.2021.09.20.09.16.15
+ by smtp.gmail.com with ESMTPSA id q2sm19268937pjo.27.2021.09.20.09.16.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Sep 2021 09:16:15 -0700 (PDT)
-Subject: Re: [PATCH 17/30] tcg/loongarch: Implement neg/add/sub ops
+ Mon, 20 Sep 2021 09:16:53 -0700 (PDT)
+Subject: Re: [PATCH 18/30] tcg/loongarch: Implement
+ mul/mulsh/muluh/div/divu/rem/remu ops
 To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
 References: <20210920080451.408655-1-git@xen0n.name>
- <20210920080451.408655-18-git@xen0n.name>
+ <20210920080451.408655-19-git@xen0n.name>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d360d8fd-6f8d-9977-342c-b23cdb484510@linaro.org>
-Date: Mon, 20 Sep 2021 09:16:13 -0700
+Message-ID: <dbd11615-a89d-a676-d9b4-bb1b880af68b@linaro.org>
+Date: Mon, 20 Sep 2021 09:16:51 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210920080451.408655-18-git@xen0n.name>
+In-Reply-To: <20210920080451.408655-19-git@xen0n.name>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,15 +94,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 9/20/21 1:04 AM, WANG Xuerui wrote:
 > Signed-off-by: WANG Xuerui<git@xen0n.name>
 > ---
->   tcg/loongarch/tcg-target-con-set.h |  2 ++
->   tcg/loongarch/tcg-target.c.inc     | 47 ++++++++++++++++++++++++++++++
->   2 files changed, 49 insertions(+)
-
-You shouldn't have needed to implement neg, since tcg should have figured out that it 
-could use subtract from zero.  But anyway,
+>   tcg/loongarch/tcg-target-con-set.h |  1 +
+>   tcg/loongarch/tcg-target.c.inc     | 65 ++++++++++++++++++++++++++++++
+>   2 files changed, 66 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
