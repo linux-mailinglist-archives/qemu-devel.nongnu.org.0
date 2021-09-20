@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F2114110D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 10:19:59 +0200 (CEST)
-Received: from localhost ([::1]:37966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D1E4110D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 10:20:05 +0200 (CEST)
+Received: from localhost ([::1]:38462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSEWs-0004BS-7D
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 04:19:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49366)
+	id 1mSEWy-0004Xe-5B
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 04:20:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mSEOx-0007ul-1P
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:11:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40166)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mSEOt-0005T4-UU
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:11:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632125502;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=b65bQNSNGQEr40tkBHjYc2yyoVsni+DLvIwzWaEv1ic=;
- b=YigdhuhMEXsCn68fFuSOZK7C52BQRDp3WAcndpyCSDuE9na7HXPP4EHz29SgxA/FGyFZwy
- d1zAgCCYKbEtVsTuQ67i8QIMuhfWuT/3hT7pxjbrwBK3Um//vP3kPkjb4JsY6MfDqDNu9w
- IdylOrkIk7zt+SX5IvL/BLPHzjx2Lsk=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-581-0v2Uv37zMIeqW2N7Qv0lKQ-1; Mon, 20 Sep 2021 04:11:42 -0400
-X-MC-Unique: 0v2Uv37zMIeqW2N7Qv0lKQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- l29-20020a50d6dd000000b003d80214566cso10512524edj.21
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 01:11:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mSERo-0005Fg-E5
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:14:44 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:44790)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mSERi-0007o2-J9
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:14:44 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ f62-20020a1c1f41000000b0030b42643f72so6429046wmf.3
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 01:14:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=nFZoEBqVVgcZagv00xcAj9jVWGZZXZ05XEYJlFzyQw8=;
+ b=qi2BWgEmcWaD1p62Znp0upi2vYhYPQ9cY3rcnmqNlILb1GqE9q0w2nnpi3o+r5R2c3
+ /CiiqGEIPt7ph8QCqv4AQnvmmkNyvghIxABLhR84qb2Pjkt03zq6EreXhJ1iPt6vHR86
+ MFdDQ+y95W+CKKJ4kSBtB7H2hN5+VRooU6ILnthsEytFoeGdw/CRcIDiafTujKqit8+C
+ aNPGdKCjWWZyJLIbboJThgg6N8YLL58MjCIMvopER5aORua0O20F6RF4Z2In1cMv2hg1
+ oyTYT/Bitiy2dnXPDAUXt2Zz/z/iA4xUf10z9MJxSAcun50NIx+ktz9PDPBf2EEnS1t3
+ z1Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=b65bQNSNGQEr40tkBHjYc2yyoVsni+DLvIwzWaEv1ic=;
- b=C7OMjHQN60HBhVfZsJ5hhrdTjhleY3HKf2oIw2Z9e+UB+QpbBM8vIRVQmFXPJUJDfi
- nbSiWKwCnVTj3jlVOxnaDVFyj3h9DfaSp55dJvfQ2v/JhDuLN3YrXyW5aHj/q7DW+dl5
- jj88eWIakknhLv8ngSmYySfqNav4JucnZgp/Sk/GVgf2dXFW7vamtQtaZkbEBSOLU3Jt
- xBR3iCrixv735QM7aZEl3hUBybvOva2B8x/jsEOeLhUEV9Mf17wazklhIUL8f8yGsjWB
- 90/qkU1vw1YP27n3m7+JSZjNLIXYNz4DEz/uw+URN+hAscUPVO0TUFFkoVAw2gtQPyLE
- TmGQ==
-X-Gm-Message-State: AOAM533ixYAjpxCMufHy3iYc4KosF+9Li+x9ByFj0I3uIF+uADUUHelE
- HEP8645Lg95LLyrCOKv+ZlqUuXdEXWK7zLx4gVG3pMiJ5hUe1C2bVAEOolPcVvYqTcExG21w664
- L/HLYsDTz6hp6I4U=
-X-Received: by 2002:a05:6402:42ca:: with SMTP id
- i10mr27721428edc.258.1632125500718; 
- Mon, 20 Sep 2021 01:11:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxLA3ZE/m7WBjJZhFJU4Ml3bEfz9G/9GA09DZ1HtStbuSKBqA/X7kAdEFlShuL1fmuBVo82dA==
-X-Received: by 2002:a05:6402:42ca:: with SMTP id
- i10mr27721396edc.258.1632125500497; 
- Mon, 20 Sep 2021 01:11:40 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id m17sm5850853ejn.108.2021.09.20.01.11.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 01:11:40 -0700 (PDT)
-Date: Mon, 20 Sep 2021 10:11:38 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v3 04/10] hw/arm/virt: Reject instantiation of multiple
- IOMMUs
-Message-ID: <20210920101138.5fe6f728@redhat.com>
-In-Reply-To: <20210914142004.2433568-5-jean-philippe@linaro.org>
-References: <20210914142004.2433568-1-jean-philippe@linaro.org>
- <20210914142004.2433568-5-jean-philippe@linaro.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nFZoEBqVVgcZagv00xcAj9jVWGZZXZ05XEYJlFzyQw8=;
+ b=5fy5jY6U7dl+xP3sRgdn9gzRSZCBgi8Egh+TxxFg1WAGRkLTEnENgNxkqc1V9ML5fX
+ 6vIYJnhjJPFlA6xIepfG0kr4LdYnngvczKELYsgyWHu+0JQ7E921cFq16dh2R2Xt+Ogi
+ XTIjQ9+ZBi94YIe+nOT1blrbBE0vuZEjZeAB6mH8Nt50nfnXydYJiMGZoOa+h/lxGf4i
+ NDZT9cYHHh3x2ReBb/6CfRr9avPwD3t3+mHLwZGaQZtv4unTN5Csz6PinUZhnFQ00g+r
+ m+MqacCnzzKpjSiurt2QFNbsb1+ZowPq2dT6tcjGI3queIzb03l5UBAj8PA/JhFGb5QZ
+ i/3Q==
+X-Gm-Message-State: AOAM532o+Xh3MTCN6RVQsNzftgWHkpe//3Hrmdqc64v+lR5h1KzymWKw
+ 9/6TBAQgpIi2yse4/MIAaoAXEnArD5N+7wXfexXVXg==
+X-Google-Smtp-Source: ABdhPJxg3202jlUgTua79McG+Ci3yKMRZhuZoHcmJcmjUNGfXdoEIadBMqo9Jy2GMCnvCBQVjaCTs7C6uCXEC29a1j0=
+X-Received: by 2002:a7b:c0c5:: with SMTP id s5mr28501663wmh.126.1632125676722; 
+ Mon, 20 Sep 2021 01:14:36 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.476,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <YURYvaOpya498Xx2@yekko> <87k0jfh88i.fsf@redhat.com>
+ <CAJ+F1CJJvqVQrG5iPXV2s7oLbduHfAhHs0pHdZ8XbxLkNi42VQ@mail.gmail.com>
+ <YUR2BjppxkBo8mD0@yekko> <dc2df310-ee28-a912-3aad-4d3e38974182@linaro.org>
+ <YUgC8HThCulgUFcB@yekko>
+In-Reply-To: <YUgC8HThCulgUFcB@yekko>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 20 Sep 2021 09:13:44 +0100
+Message-ID: <CAFEAcA8kd9h32eoXaFVQjvf1hzOhw6Bky_Nkfa5vhsPw=zG45w@mail.gmail.com>
+Subject: Re: Rust in Qemu BoF followup: Rust vs. qemu platform support
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,48 +82,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
- mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- eric.auger@redhat.com, qemu-arm@nongnu.org, ani@anisinha.ca,
- pbonzini@redhat.com
+Cc: Sergio Lopez <slp@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, QEMU <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Hanna Reitz <hreitz@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Sep 2021 15:19:59 +0100
-Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+On Mon, 20 Sept 2021 at 06:07, David Gibson <david@gibson.dropbear.id.au> w=
+rote:
+> On Sat, Sep 18, 2021 at 01:01:35PM -0700, Richard Henderson wrote:
+> > We dropped host support for sparcv8 (true 32-bit) a long time ago.
+> > We only support sparcv9 in ilp32 (sparcv8plus) and lp64 (sparc64).
+>
+> We really need to update
+> https://qemu-project.gitlab.io/qemu/about/build-platforms.html
+> to clarify this then.  I don't really know what the procedures are for
+> updating the website.
 
-> We do not support instantiating multiple IOMMUs. Before adding a
-> virtio-iommu, check that no other IOMMU is present. This will detect
-> both "iommu=smmuv3" machine parameter and another virtio-iommu instance.
-> 
-> Fixes: 70e89132c9 ("hw/arm/virt: Add the virtio-iommu device tree mappings")
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
->  hw/arm/virt.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index f238766aa1..26069f943a 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -2471,6 +2471,11 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
->      if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
->          PCIDevice *pdev = PCI_DEVICE(dev);
->  
-> +        if (vms->iommu != VIRT_IOMMU_NONE) {
-> +            error_setg(errp, "virt machine does not support multiple IOMMUs");
-> +            return;
-> +        }
+It's automatically updated by building the documentation from current
+head-of-git, so the answer is "submit a patch to change
+docs/about/build-platforms.rst". (That's a pretty new file, and
+the stuff about CPU architectures has gone in only very recently,
+so it's not unsurprising if Marc-Andr=C3=A9 and I got some things wrong:
+we were just looking through tcg/ to see what it seemed to have
+support for.)
 
-can you move check into 'pre_plug' callback?
+The structure of the build-platforms page currently assumes that
+"supported host CPU architectures" and "supported host OSes" are
+basically orthogonal, because historically the nature of QEMU has
+been that this is more-or-less true. If we want to try to be more
+specific about that then we'd need to re-jig things.
 
-(plug should not fail and just finish up whatever was
-verified/set by pre_plug, there are plans to remove errp
-argument from 'plug' callback)
-> +
->          vms->iommu = VIRT_IOMMU_VIRTIO;
->          vms->virtio_iommu_bdf = pci_get_bdf(pdev);
->          create_virtio_iommu_dt_bindings(vms);
-
+-- PMM
 
