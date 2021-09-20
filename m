@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E6041161C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 15:54:15 +0200 (CEST)
-Received: from localhost ([::1]:46540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C23041161D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 15:54:25 +0200 (CEST)
+Received: from localhost ([::1]:47108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSJkL-0007Wd-Uj
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 09:54:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59060)
+	id 1mSJkW-0007sy-3r
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 09:54:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSJj0-0006B2-Dx
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 09:52:50 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40853)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mSJiq-0005xK-7l
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 09:52:40 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSJiw-00086N-LJ
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 09:52:50 -0400
-Received: by mail-wr1-x434.google.com with SMTP id q26so29917199wrc.7
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 06:52:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ZnXPIm25okUAcwe7KV2dTLuUG2hlJAzwBp/vSzV9XyM=;
- b=iPPQay94geKKr13/Wtya1YFNGfbliX2M/o+YpKlMhBV1T3zIZ+phfkFOHmNQuoZ6hx
- 0YiW9d6Iz89/UozpI1OfmDAfey+nk8Fme3ghxAtzpp2QH8D4f7D32GCp//084Z7TAihZ
- 7LGvK5LlFsaZb6ebK6xgNTJYVO6fhC1gf4P/RnOdVWlfLOZnlFkrwWCBMjwsX0a3g4bt
- eHnfWKMc6OC4CTyznCQTS04A0oDTF5DgFPYdJ2U9lHCd1A1ApZD+FI8RrOvFUfgsFvdX
- t9mhu/3b+t0/ebItqx8nwIU5yaz6dK6x7ZMUEndjAohD6fOqVGeHs3cwUdAB+fcmfBvK
- QY6w==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mSJio-000803-L7
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 09:52:40 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id t18so30003764wrb.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 06:52:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=sxECO6B3BOmyCxmIO9t2RtHYUHcrjgGDKK7SjhlprsM=;
+ b=ovOHeYzhmiROWw3B21sdPXayFLmKxVFDImuwp1Qa7/FI5i1xRyU0wMBGCre0gLeE7+
+ ikD90u9B7guTbvgzANZZah14x0ad26rbiNhicqP6AvX74UfetcqTwsJNX3u85lREnjEE
+ +VSCwvAGj7Kncczdem1RdZ/dfrbybntbPx2tbkbPFBHyCSMWXnBuDVerPIrACElJM2gg
+ MPACyMafWD+f+Vnh5OgYgjkMLxr3C1nERQqASpVf5dPsDiSVcPf0P0XaV22LX2U/6jXU
+ SWdmj1U5WJxCxp+vLdVDVpSr8vgKM4Lk/qAYe653684dyNwBHmhLo/ileLi9AzS0sRb6
+ 2PcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ZnXPIm25okUAcwe7KV2dTLuUG2hlJAzwBp/vSzV9XyM=;
- b=O5pyd/rbxAw/cUwiPOKm4S1G5aV9Nad9zqPzlsn1PEmfEJAzTmWXcvHa9b7trQUlM8
- mxRIdn09nBr2d+ESICUCFPhzJ6jxKtAaDUVAa68ppi/q1X77TjmPVDzpY5oTDkn9UC7P
- HSeo3jVVLHxbRjM7/+4mA106E7E7MGtg/5am2nyPRitFlXkF2DFX38yC3auVKoPtHzNX
- uBaZCQWFcz/kcJ+Hn+TJK1vXmtZQRavVcSF+DELBopR+0QfMsQJpATURG4ngErIYeXu/
- gyDX8oLAm/8B3DQNkqGzjmDMJQmZ1pcGGb+vjRwtrJvArx6doJHPaqEiQjLiZiMILcUR
- MxVw==
-X-Gm-Message-State: AOAM532U4X2zy6isBLQcNspzyDN/u6ll/JKPHkpJvwzAVsqiwqJveGoA
- vkLFmnZZawHHKROO0ShTCWn02GpO9SY6XuijPC9p0g==
-X-Google-Smtp-Source: ABdhPJyXz/oSxj/nG08VaS9/lt8O+r8jfpbL/G+sebLHs91/afX/kuTPRw9nyb6w5JieqrwYDiUTpVqCEfaP5T1V2BQ=
-X-Received: by 2002:a05:600c:4848:: with SMTP id
- j8mr29590353wmo.21.1632145964049; 
- Mon, 20 Sep 2021 06:52:44 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=sxECO6B3BOmyCxmIO9t2RtHYUHcrjgGDKK7SjhlprsM=;
+ b=1DHvjmjiUbFfV9s+nb+OBrHWfDTrqb+clSJVHnrHf7vCXyNQ+hLvV0NhFZWncmbvHi
+ 02mTwKl97GX7T+E+x+4oYkHPO3Cf6fXKzhsNIOp2lpPX5UxH8rA7qq04I+2FLzdLRn25
+ WZ6LUS+CCt/RUWV2U/v31R5/zIoyW+fDQelFF6rDP7iR8wK4veJbvzy/rpSgBXnWaNU5
+ pJ3OmS8CBpHaC/NJzGfhVFao72zk4rAcN26jKnR7EyugetDt4NQW9d13L6cCUmMq1HYe
+ bADDfBTQTeQoxRaPl9BrdovlzsvPiIVP8RQdT4zrOx8C4sFoB1DEoBVgR3jbmxAkzwFZ
+ PJBg==
+X-Gm-Message-State: AOAM532bwoJES76Qxnz5imusduHazkUEDHLbRWESmKuWIpANUBoxmeCF
+ AbFggd2JYH/pCiuzmRgUt9U=
+X-Google-Smtp-Source: ABdhPJxTpQwQautNM4FXybTvKVgcY2Ee0AZBmvVoULXREo5ZmcOtD4pTPzc9rdY/d4rBWCSdA2Vdnw==
+X-Received: by 2002:a5d:5042:: with SMTP id h2mr28137663wrt.57.1632145956915; 
+ Mon, 20 Sep 2021 06:52:36 -0700 (PDT)
+Received: from [192.168.1.36] (14.red-83-35-25.dynamicip.rima-tde.net.
+ [83.35.25.14])
+ by smtp.gmail.com with ESMTPSA id c14sm10371163wrd.50.2021.09.20.06.52.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Sep 2021 06:52:35 -0700 (PDT)
+Message-ID: <a85376bc-c986-4f47-2e07-2476a1a63b35@amsat.org>
+Date: Mon, 20 Sep 2021 15:52:34 +0200
 MIME-Version: 1.0
-References: <20210815162738.75461-1-kevin.townsend@linaro.org>
- <20210815162738.75461-2-kevin.townsend@linaro.org>
- <CAFEAcA8L7N0m1XRzRnyLt8QUOdrX436-2Xa9a04oYGOd6E0agw@mail.gmail.com>
- <CAFPHj6PJZdLXRiYXfz-zwgCaUwvTB8sbUsXcNL=aweqXR2hxQA@mail.gmail.com>
-In-Reply-To: <CAFPHj6PJZdLXRiYXfz-zwgCaUwvTB8sbUsXcNL=aweqXR2hxQA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Sep 2021 14:51:51 +0100
-Message-ID: <CAFEAcA_T4i9HL45h_AXfir+5U6ab8YFd7Sb2_6mGMtQuKh5UXg@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/sensor: Add lsm303dlhc magnetometer device
-To: Kevin Townsend <kevin.townsend@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PULL 00/35] tcg patch queue
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20210916153025.1944763-1-richard.henderson@linaro.org>
+ <CAFEAcA9XxgFYj6jzNGEhgMHhB2UQF_X3ZLigu4sRPrR3Zfj8sg@mail.gmail.com>
+ <a0f85ea3-c677-bc7a-995a-ddc8d4856b4f@amsat.org>
+In-Reply-To: <a0f85ea3-c677-bc7a-995a-ddc8d4856b4f@amsat.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,156 +96,55 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 Sept 2021 at 14:38, Kevin Townsend <kevin.townsend@linaro.org> w=
-rote:
->
-> Hi Peter,
->
-> Thanks for the review, and sorry for the slow reply, just getting back fr=
-om holidays myself.
->
-> On Thu, 26 Aug 2021 at 17:39, Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
+On 9/20/21 15:14, Philippe Mathieu-Daudé wrote:
+> On 9/20/21 12:07, Peter Maydell wrote:
+>> On Thu, 16 Sept 2021 at 16:30, Richard Henderson
+>> <richard.henderson@linaro.org> wrote:
+>>>
+>>> The following changes since commit 57b6f58c1d0df757c9311496c32d502925056894:
+>>>
+>>>   Merge remote-tracking branch 'remotes/hreitz/tags/pull-block-2021-09-15' into staging (2021-09-15 18:55:59 +0100)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210916
+>>>
+>>> for you to fetch changes up to 50febfe212f24a9b91b4224d03f653415fddf8e1:
+>>>
+>>>   tcg/mips: Drop special alignment for code_gen_buffer (2021-09-16 09:37:39 -0400)
+>>>
+>>> ----------------------------------------------------------------
+>>> Restrict cpu_has_work to sysemu, and move to AccelOpsClass.
+>>> Move cpu_signal_handler declaration out of target/.
+>>> Misc tcg/mips/ cleanups.
+>>>
 >>
->>
->> So if I'm reading the datasheet correctly, the LM303DLHC is
->> really two completely distinct i2c devices in a single
->> package with different slave addresses; this QEMU device
->> implements only the magnetometer i2c device, and if we wanted
->> to add the accelerometer device we'd implement that as a
->> second separate QEMU i2c device ?
->
->
-> This is correct. There are two distinct dies in the chip with separate I2=
-C addresses, etc.,
-> and this should probably be modelled separately. I chose the magnetometer=
- since it's
-> a far simpler device to model than the accelrometer, but still solves the=
- need for a
-> more complex I2C sensor that can be used in testing with the I2C bus.
->
->> > +    if (value > 2047 || value < -2048) {
->> > +        error_setg(errp, "value %d lsb is out of range", value);
->>
->> Why "lsb" ?
->>
->
-> In my head, using LSB seemed more precise since I know exactly what value=
- will
-> be set to the registers, and exactly what I will get back when reading ve=
-rsus passing
-> in a float that's needs to be conveted as a 'best-fit' scenario in 0.125=
-=C2=B0C steps?
+> 
+>> The 'check-acceptance' job also hits a timeout on the emcraft_sf2
+>> test:
+>> https://gitlab.com/qemu-project/qemu/-/jobs/1604251596
+> 
+> cd0d814b4b9b732f11885889070adacf87447751 is the first bad commit
+> 
+>     accel/tcg: Implement AccelOpsClass::has_work() as stub
+> 
+>     Add TCG target-specific has_work() handler in TCGCPUOps,
+>     and add tcg_cpu_has_work() as AccelOpsClass has_work()
+>     implementation.
 
-My question was really, "what does 'lsb' mean here"?  I would usually
-assume "least significant bit", but that makes no sense in this context.
+-- >8 --
+diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
+index ed4ebe735fe..2f96553f6f7 100644
+--- a/accel/tcg/tcg-accel-ops.c
++++ b/accel/tcg/tcg-accel-ops.c
+@@ -79,7 +79,7 @@ static bool tcg_cpu_has_work(CPUState *cpu)
+     CPUClass *cc = CPU_GET_CLASS(cpu);
 
-
->> > +
->> > +/**
->> > + * @brief Callback handler when DeviceState 'reset' is set to true.
->> > + */
->> > +static void lsm303dlhc_mag_reset(DeviceState *dev)
->> > +{
->> > +    I2CSlave *i2c =3D I2C_SLAVE(dev);
->> > +    LSM303DLHC_Mag_State *s =3D LSM303DLHC_MAG(i2c);
->> > +
->> > +       /* Set the device into is default reset state. */
->> > +       lsm303dlhc_mag_default_cfg(&s->parent_obj);
->>
->> Misindentation.
->>
->> Also, don't use the parent_obj field;
->> always use the QOM cast macro when you need the pointer
->> to something as a different type. In this case you already
->> have the I2CSlave*, in 'i2c'. But better would be to make
->> lsm303dlhc_mag_default_cfg() take a LSM303DLHC_Mag_State*
->> directly rather than taking an I2CSlave* and casting it
->> internally.
->
->
-> Do you have an example, just to be sure I follow? I've changed the code
-> as follows:
->
-> static void lsm303dlhc_mag_reset(DeviceState *dev)
-> {
->     I2CSlave *i2c =3D I2C_SLAVE(dev);
->     LSM303DLHCMagState *s =3D LSM303DLHC_MAG(i2c);
->
->     /* Set the device into its default reset state. */
->     lsm303dlhc_mag_default_cfg(s);
-> }
->
-> static void lsm303dlhc_mag_default_cfg(LSM303DLHCMagState *s)
->
-> Is this sufficient?
-
-Yes, that's right.
-
->> > +static void lsm303dlhc_mag_initfn(Object *obj)
->> > +{
->> > +    object_property_add(obj, LSM303DLHC_MSG_PROP_MAGX, "int",
->> > +                lsm303dlhc_mag_get_xyz,
->> > +                lsm303dlhc_mag_set_xyz, NULL, NULL);
->> > +
->> > +    object_property_add(obj, LSM303DLHC_MSG_PROP_MAGY, "int",
->> > +                lsm303dlhc_mag_get_xyz,
->> > +                lsm303dlhc_mag_set_xyz, NULL, NULL);
->> > +
->> > +    object_property_add(obj, LSM303DLHC_MSG_PROP_MAGZ, "int",
->> > +                lsm303dlhc_mag_get_xyz,
->> > +                lsm303dlhc_mag_set_xyz, NULL, NULL);
->>
->> What units are these in? It looks like your implementation just
->> uses the property values as the raw -2048..+2048 value that the
->> X/Y/Z registers read as. Would it be better for the properties to
->> set the value in Gauss, and then the model to honour the
->> gain settings in CRB_REG_M.GN{0,1,2} ?  That way guest code that
->> adjusts the gain will get the results it is expecting.
->
->
-> I guess I found raw units that the sensor uses more intuitive personally,
-> with no room for unexpected translations and not having to deal with floa=
-ts,
-> but if you feel gauss or degrees C is better, I can change these.
-
-Well, given that the device specifically changes the value it
-shows the guest based on guest-programmable gain settings,
-it does seem to me to be more natural to specify the values
-in some way that represents the "real world data" that the
-sensor is measuring. Ideally we would then if/when we add more
-magnetometer implementations have them all use the same units,
-for consistency. This is the first magnetometer we have, so this
-is where we get to pick the convention.
-
-> In that case, should I accept floating point inputs, however, or stick to=
- integers?
-> When dealing with magnetometers the values can be very small, so it's not=
- the
-> same as a temp sensor where we can provide 2300 for 23.00C.
-
-What sort of range and precision requirements are we talking about
-here? If we can avoid having to use float that would be nice...
-
->>
->> > +
->> > +    object_property_add(obj, LSM303DLHC_MSG_PROP_TEMP, "int",
->> > +                lsm303dlhc_mag_get_temperature,
->> > +                lsm303dlhc_mag_set_temperature, NULL, NULL);
->>
->> What units is this in?
->
->
-> LSB where 1 LSB =3D 0.125 C, documented elsewhere, but as per the above
-> I can change this to degrees if you can clarify if this should be in floa=
-t or something
-> integere based with a specific scale factor.
-
-Our existing temperature sensors use integer properties whose
-value is "temperature in degrees C, units of 0.001 C".
-Consistency with that would be best. (We should write these
-conventions down somewhere. Not sure where...)
-
-thanks
--- PMM
+     if (!cc->tcg_ops->has_work) {
+-        return false;
++        return true;
+     }
+     return cc->tcg_ops->has_work(cpu);
+ }
+---
 
