@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4203941288E
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 23:56:51 +0200 (CEST)
-Received: from localhost ([::1]:35162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFCA041288B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 23:55:32 +0200 (CEST)
+Received: from localhost ([::1]:59160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSRHO-0005oL-85
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 17:56:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34220)
+	id 1mSRG7-0002tz-O1
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 17:55:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSQym-0006a9-2x
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:37:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54315)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSR1P-000365-Lj
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:40:20 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:45585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSQyi-000446-43
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:37:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632173850;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UN03SYhaZzzfjePcKY52YlJLP7wHnut/SvacHqFU/b0=;
- b=P3Yb80WstX/pIyMeb3swSMNgtFdeIFY4cc9j7h4aVf7i19ximT62tXSrKS475THgaMkDm3
- afKlbCpi6f+Hv4fAMKnJNnMECd3epfio8BFJ5vFeHQ/bh4dl+xmAUmWEVA017+0maK93sd
- SzgyEacCUF1bKlnFah/8V3Ou47sa/pI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-49QQ_NEQPpu7zHQFGuN7SQ-1; Mon, 20 Sep 2021 17:37:29 -0400
-X-MC-Unique: 49QQ_NEQPpu7zHQFGuN7SQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DC3E8145E6;
- Mon, 20 Sep 2021 21:37:28 +0000 (UTC)
-Received: from redhat.com (ovpn-115-8.phx2.redhat.com [10.3.115.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B86315C1B4;
- Mon, 20 Sep 2021 21:37:17 +0000 (UTC)
-Date: Mon, 20 Sep 2021 16:37:15 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Stefan Reiter <s.reiter@proxmox.com>
-Subject: Re: [PATCH v3 3/3] monitor: refactor set/expire_password and allow
- VNC display id
-Message-ID: <20210920213715.nraywxmxjs4jiqx2@redhat.com>
-References: <20210920105641.258104-1-s.reiter@proxmox.com>
- <20210920105641.258104-4-s.reiter@proxmox.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSR1M-00068O-Fd
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 17:40:18 -0400
+Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MRSdf-1mGWGe3QX7-00NOtj; Mon, 20 Sep 2021 23:40:13 +0200
+Subject: Re: [PATCH v4 20/20] q800: configure nubus available slots for Quadra
+ 800
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+References: <20210917075057.20924-1-mark.cave-ayland@ilande.co.uk>
+ <20210917075057.20924-21-mark.cave-ayland@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <0289c039-3b4a-5ca3-69df-476d1648437a@vivier.eu>
+Date: Mon, 20 Sep 2021 23:40:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210920105641.258104-4-s.reiter@proxmox.com>
-User-Agent: NeoMutt/20210205-772-2b4c52
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210917075057.20924-21-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:wN5UiHmY2xMjeg1CyVfGQp0um+/BDU1nUsozJE3fOvUyQfAkx/O
+ zrIbeTJNbNJ9SsoRdf3LR4JWmzBs/F+0Q8rdmfms3LGojXyevwgvHFmnKCAGo32kd7wiMOf
+ 64ms+CzGym4xrvakZIzgAJPhKkx4/hsRMYcSPYvFh+UzwGRSDulfnKInpiPjKk/L42N3PBB
+ N6hSYUokAe2t0Cn+WQOMQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MbcrgRIui5g=:neDwnVUXk/onTJOICk8ppK
+ +oSTxf/amm3N2MxtT5nOVS5co/NZf858zXWEZO9GcRDULSvaPIP/9AUl7iXHIRAorda1E/Pkg
+ vPyTqYcXaRgMnW3C4R+LUE91rw5RDaOPw1MouEzQKWhsYQXFPYW6WRPT2MPrioMptazohaZnu
+ yjJsvmCLSY9iqAGXTv+NsNHu5l7nS2Et0JR4OzE+kcxefHI8hX3K8wuCTAUPtY71C1ROr7Pph
+ asiNbp9PoLilmrnydvVLZoEiaZ1MbQipZ8cUdnPCeb9pdwaB6SNeEVeTvu+vvZ7uvJQYQszdJ
+ 0K+jjxBDBJDM8hb2oc6TOEPnxV75ZV4lgkzLda62rzOnOU4EG4/nLnB9jypm9A+VYieQwErme
+ Wisxw3MQut6ZHbmZar4pXWESX1aHzNxy3BOMI6uniANgRhrDrm/YfxgMkD4dHGceBiNTTHcBh
+ lJ3bB1nhoW66grzj6Id/6D1rRqakCywP5QRsxdljvvt/9/Z/b4doFbK8up+CNx81VtlxQwfAa
+ EIB7SIqETMIHWAKks/0nkhCqELZyta2lEufoaYFNcBfOpl/St+JveoI1I6OMJzTBYpY8TLBKs
+ kDG9o3XHffxqAYQquu5Zg18lV5KKZ8Sl4W8QC1nnO7BEzg3d+jaZ8DRcG7kjGuzwulSc90kTY
+ 8FORQypO16HlnzPc3YQm0kF2pRs/J7wp+T99H7kcL+CoiQJ9J2bwYm9/QVX0OqnmTjVlS0LaA
+ j5OfVPoUnf0diK5rkASVagdmEDLyhjnsF90A1Q==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,307 +71,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 20, 2021 at 12:56:41PM +0200, Stefan Reiter wrote:
-> It is possible to specify more than one VNC server on the command line,
-> either with an explicit ID or the auto-generated ones à la "default",
-> "vnc2", "vnc3", ...
+Le 17/09/2021 à 09:50, Mark Cave-Ayland a écrit :
+> Slot 0x9 is reserved for use by the in-built framebuffer whilst only slots
+> 0xc, 0xd and 0xe physically exist on the Quadra 800.
 > 
-> It is not possible to change the password on one of these extra VNC
-> displays though. Fix this by adding a "display" parameter to the
-> "set_password" and "expire_password" QMP and HMP commands.
-> 
-> For HMP, the display is specified using the "-d" value flag.
-> 
-> For QMP, the schema is updated to explicitly express the supported
-> variants of the commands with protocol-discriminated unions.
-> 
-> Suggested-by: Eric Blake <eblake@redhat.com>
-> Suggested-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
+>  hw/m68k/q800.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> The union schema simplifies the QMP code, but makes the HMP part a bit more
-> involved. Since the parameters are practically the same, is there a way to just
-> pass the HMP generated qdict off to the qapi parser to get the correct struct
-> for calling the qmp_ methods?
-
-Possibly, but I don't know it off-hand.
-
+> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+> index fbc45a301f..63f42764eb 100644
+> --- a/hw/m68k/q800.c
+> +++ b/hw/m68k/q800.c
+> @@ -78,6 +78,13 @@
+>  
+>  #define MAC_CLOCK  3686418
+>  
+> +/*
+> + * Slot 0x9 is reserved for use by the in-built framebuffer whilst only
+> + * slots 0xc, 0xd and 0xe physically exist on the Quadra 800
+> + */
+> +#define Q800_NUBUS_SLOTS_AVAILABLE    (BIT(0x9) | BIT(0xc) | BIT(0xd) | \
+> +                                       BIT(0xe))
+> +
+>  /*
+>   * The GLUE (General Logic Unit) is an Apple custom integrated circuit chip
+>   * that performs a variety of functions (RAM management, clock generation, ...).
+> @@ -392,6 +399,8 @@ static void q800_init(MachineState *machine)
+>      /* NuBus */
+>  
+>      dev = qdev_new(TYPE_MAC_NUBUS_BRIDGE);
+> +    qdev_prop_set_uint32(dev, "slot-available-mask",
+> +                         Q800_NUBUS_SLOTS_AVAILABLE);
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 9 * NUBUS_SUPER_SLOT_SIZE);
+>      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 1, NUBUS_SLOT_BASE +
 > 
->  hmp-commands.hx    |  29 ++++----
->  monitor/hmp-cmds.c |  60 +++++++++++++++-
->  monitor/qmp-cmds.c |  62 ++++++-----------
->  qapi/ui.json       | 168 +++++++++++++++++++++++++++++++++++++--------
->  4 files changed, 235 insertions(+), 84 deletions(-)
-> 
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index 8e45bce2cd..d78e4cfc47 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1514,34 +1514,35 @@ ERST
->  
->      {
->          .name       = "set_password",
-> -        .args_type  = "protocol:s,password:s,connected:s?",
-> -        .params     = "protocol password action-if-connected",
-> +        .args_type  = "protocol:s,password:s,display:-dS,connected:s?",
-> +        .params     = "protocol password [-d display] [action-if-connected]",
 
-Puts your new -xS of patch 2/3 to use.
-
-> +++ b/monitor/hmp-cmds.c
-> @@ -1451,10 +1451,43 @@ void hmp_set_password(Monitor *mon, const QDict *qdict)
->  {
->      const char *protocol  = qdict_get_str(qdict, "protocol");
->      const char *password  = qdict_get_str(qdict, "password");
-> +    const char *display = qdict_get_try_str(qdict, "display");
->      const char *connected = qdict_get_try_str(qdict, "connected");
->      Error *err = NULL;
-> +    DisplayProtocol proto;
->  
-> -    qmp_set_password(protocol, password, !!connected, connected, &err);
-> +    SetPasswordOptions opts = {
-> +        .password = g_strdup(password),
-> +        .u.vnc.display = NULL,
-> +    };
-> +
-> +    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
-> +                            DISPLAY_PROTOCOL_VNC, &err);
-> +    if (err) {
-> +        hmp_handle_error(mon, err);
-> +        return;
-> +    }
-> +    opts.protocol = proto;
-> +
-> +    if (proto == DISPLAY_PROTOCOL_VNC) {
-> +        if ((opts.u.vnc.has_display = !!display)) {
-
-Assignment as a side-effect of the 'if' is a bit unusual in qemu
-style.
-
-> +            opts.u.vnc.display = g_strdup(display);
-> +        }
-
-In fact, g_strdup(NULL) does what you want; you can just write:
-
-opts.u.vnc.has_display = !!display;
-opts.u.vnc.display = g_strdup(display);
-
-without an 'if'.
-
-> +    } else if (proto == DISPLAY_PROTOCOL_SPICE) {
-> +        if ((opts.u.spice.has_connected = !!connected)) {
-
-And again.
-
-> +            opts.u.spice.connected =
-> +                qapi_enum_parse(&SetPasswordAction_lookup, connected,
-> +                                SET_PASSWORD_ACTION_KEEP, &err);
-> +            if (err) {
-> +                hmp_handle_error(mon, err);
-> +                return;
-> +            }
-> +        }
-> +    }
-> +
-> +    qmp_set_password(&opts, &err);
-> +    g_free(opts.password);
-> +    g_free(opts.u.vnc.display);
->      hmp_handle_error(mon, err);
->  }
->  
-> @@ -1462,9 +1495,32 @@ void hmp_expire_password(Monitor *mon, const QDict *qdict)
->  {
->      const char *protocol  = qdict_get_str(qdict, "protocol");
->      const char *whenstr = qdict_get_str(qdict, "time");
-> +    const char *display = qdict_get_try_str(qdict, "display");
->      Error *err = NULL;
-> +    DisplayProtocol proto;
->  
-> -    qmp_expire_password(protocol, whenstr, &err);
-> +    ExpirePasswordOptions opts = {
-> +        .time = g_strdup(whenstr),
-> +        .u.vnc.display = NULL,
-> +    };
-> +
-> +    proto = qapi_enum_parse(&DisplayProtocol_lookup, protocol,
-> +                            DISPLAY_PROTOCOL_VNC, &err);
-> +    if (err) {
-> +        hmp_handle_error(mon, err);
-> +        return;
-> +    }
-> +    opts.protocol = proto;
-> +
-> +    if (proto == DISPLAY_PROTOCOL_VNC) {
-> +        if ((opts.u.vnc.has_display = !!display)) {
-> +            opts.u.vnc.display = g_strdup(display);
-
-and again
-
-> +        }
-> +    }
-> +
-> +    qmp_expire_password(&opts, &err);
-> +    g_free(opts.time);
-> +    g_free(opts.u.vnc.display);
->      hmp_handle_error(mon, err);
->  }
->  
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 5c0d5e116b..cb229c01f8 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-...
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index b2cf7a6759..494c92a65e 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -9,22 +9,23 @@
->  { 'include': 'common.json' }
->  { 'include': 'sockets.json' }
->  
-> +##
-> +# @DisplayProtocol:
-> +#
-> +# Display protocols which support changing password options.
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'enum': 'DisplayProtocol',
-> +  'data': [ { 'name': 'vnc', 'if': 'CONFIG_VNC' },
-> +            { 'name': 'spice', 'if': 'CONFIG_SPICE' } ] }
-> +
->  ##
->  # @set_password:
->  #
->  # Sets the password of a remote display session.
->  #
-> -# @protocol: - 'vnc' to modify the VNC server password
-> -#            - 'spice' to modify the Spice server password
-> -#
-> -# @password: the new password
-> -#
-> -# @connected: how to handle existing clients when changing the
-> -#             password.  If nothing is specified, defaults to 'keep'
-> -#             'fail' to fail the command if clients are connected
-> -#             'disconnect' to disconnect existing clients
-> -#             'keep' to maintain existing clients
-> -#
->  # Returns: - Nothing on success
->  #          - If Spice is not enabled, DeviceNotFound
->  #
-> @@ -37,33 +38,101 @@
->  # <- { "return": {} }
->  #
->  ##
-> -{ 'command': 'set_password',
-> -  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str'} }
-> +{ 'command': 'set_password', 'boxed': true, 'data': 'SetPasswordOptions' }
-> +
-> +##
-> +# @SetPasswordOptions:
-> +#
-> +# Data required to set a new password on a display server protocol.
-> +#
-> +# @protocol: - 'vnc' to modify the VNC server password
-> +#            - 'spice' to modify the Spice server password
-> +#
-> +# @password: the new password
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'union': 'SetPasswordOptions',
-> +  'base': { 'protocol': 'DisplayProtocol',
-> +            'password': 'str' },
-> +  'discriminator': 'protocol',
-> +  'data': { 'vnc': 'SetPasswordOptionsVnc',
-> +            'spice': 'SetPasswordOptionsSpice' } }
-> +
-> +##
-> +# @SetPasswordAction:
-> +#
-> +# An action to take on changing a password on a connection with active clients.
-> +#
-> +# @fail: fail the command if clients are connected
-> +#
-> +# @disconnect: disconnect existing clients
-> +#
-> +# @keep: maintain existing clients
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'enum': 'SetPasswordAction',
-> +  'data': [ 'fail', 'disconnect', 'keep' ] }
-> +
-> +##
-> +# @SetPasswordActionVnc:
-> +#
-> +# See @SetPasswordAction. VNC only supports the keep action. 'connection'
-> +# should just be omitted for VNC, this is kept for backwards compatibility.
-> +#
-> +# @keep: maintain existing clients
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'enum': 'SetPasswordActionVnc',
-> +  'data': [ 'keep' ] }
-> +
-> +##
-> +# @SetPasswordOptionsSpice:
-> +#
-> +# Options for set_password specific to the VNC procotol.
-> +#
-> +# @connected: How to handle existing clients when changing the
-> +#             password. If nothing is specified, defaults to 'keep'.
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'struct': 'SetPasswordOptionsSpice',
-> +  'data': { '*connected': 'SetPasswordAction' } }
-> +
-> +##
-> +# @SetPasswordOptionsVnc:
-> +#
-> +# Options for set_password specific to the VNC procotol.
-> +#
-> +# @display: The id of the display where the password should be changed.
-> +#           Defaults to the first.
-> +#
-> +# @connected: How to handle existing clients when changing the
-> +#             password. Will always be 'keep' for VNC, parameter is
-> +#             deprecated and should be omitted.
-> +#
-> +# Since: 6.2
-> +#
-> +##
-> +{ 'struct': 'SetPasswordOptionsVnc',
-> +  'data': { '*display': 'str', '*connected': 'SetPasswordActionVnc' } }
-
-Doesn't have to be in this patch (as you are refactoring a
-pre-existing problem), but we should consider a followup patch to
-actually use the QAPI 'features':'deprected' ability to actually
-declare the deprecation through introspection.
-
-Overall, the QAPI changes look sane to me.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
