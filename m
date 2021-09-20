@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53DA641173E
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 16:37:33 +0200 (CEST)
-Received: from localhost ([::1]:54650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C1B4117AD
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 16:56:38 +0200 (CEST)
+Received: from localhost ([::1]:43702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSKQG-0002yk-CT
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 10:37:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37318)
+	id 1mSKii-00087N-9I
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 10:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSK9s-0002up-2A
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 10:20:42 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:34363)
+ id 1mSK9h-0002qx-Ed
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 10:20:26 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSK9O-0000sW-E5
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 10:20:35 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id t8so23198511wri.1
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 07:20:02 -0700 (PDT)
+ id 1mSK9O-0000tV-Dz
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 10:20:25 -0400
+Received: by mail-wr1-x430.google.com with SMTP id w29so30194815wra.8
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 07:20:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=bGyQolpDC0WxJwUFe4Om+K2PK2F8NfHQfO1EqhthdEE=;
- b=x3Cohvf3+4jDkWBEvPxD01RHQPSO53gjUrAl/s/au509bfUdgiTAH3vs07Zny68Hu+
- 3Cb3mqVfButG2AutqhEbxGRvZ4rNd7Fh0PIgWh67zMv1kHlkpQgVFi/Y/mODmAe8xbQf
- mEzcMXoykhVSAE1weAyPeMpmkWVlV/g+MLXFpoAjhQxmH3z3WFEeDBxg5CJV+gSvkkRS
- D+gmI4ImBwWi3VE7ZMTAnZKab2HfGWaWeprHOCwkQEo4FSOr0WrvfYSDW51DFIWnGsBh
- Nn6S7CUHRUjfZQbnzEIfRAtnFtReSTsEiY2ixLL5KwVG//9ZRoueRuvLJAAmqi8YeTDB
- xZaQ==
+ bh=xu+mK8AOnXi204q+XHXbI1+B7494jG7C23y0nQnHqpg=;
+ b=AWnorpxNH5EkQJZhM7wkyfKai3qNM0H+I+oWM782rgsk2YA93qjkBoWCjrKgUIM9/N
+ H2KcQrpUDPlMb6DNUAs3x9MwD8OVIdqDyjZHvNRBlpuspy919Br7ry9b8IVdOqkIZIUk
+ rGwknR/8UmCTNbIdr1u/hqGio4KuisMn0AMg6iar6F6e9vtRjgereI/2SLUQyVKkaTZH
+ c5XUKL8EATOzc7AEDPJXLrW7y8cOMeIcKCw6mhYuiylGu0NKeRBhFhUroZ8zNFAlUMxs
+ C2KK2rD+S6nydAXLkaZXwRrKTeZi0ZJdqt/Ua638U4nlT6UgCF3dFPQN4qmv67Nb5Rv9
+ FStg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bGyQolpDC0WxJwUFe4Om+K2PK2F8NfHQfO1EqhthdEE=;
- b=H6nxjZlrT6GX3ZGEOGpqF5FfF7FO/+cwbNPDmEEzV0nD/MEw3Kw20C/5aVdZFeU1U9
- CSTIsS+zjHoyMJdFChes1si+MpIC+I2b2y+ZOOtwZWpbPvsn3Pc85vl6dM8F3QOEKicI
- LoCYssE6WwaKGPW4xHnZnEqYL232vkFWIlhNODYhwk+uMFiRuMuBbqN3+6ZyaqdHxx5F
- LGMKFBbFOkdinSiMRFqLwRs2GpQ6gYtMsBM6SAv8LPqbZnPb4ifUkGungpZ0XEcVNM4b
- 5huMyWBjacgYX2kwcYVyDv7Q8+Fa1Ju3PGMXjdIfru2W9S8GOrmna29JZtftC0jaljuo
- Hh8g==
-X-Gm-Message-State: AOAM531FvcN5FmjyBf6o5y5gAqCBJAnxSfYcNJPE1Cei6/d7QUUbUrAs
- IaQslLZ/umM2RlxY6K/yJtmQ8RjcZdCbog==
-X-Google-Smtp-Source: ABdhPJzLyHWhgMXu4N6mTcU1DshPccr4+DD51+sBCel4jpcTkM5tKKIBp4WkIFn+XQDVGpQuIjWXKw==
-X-Received: by 2002:a5d:69c8:: with SMTP id s8mr28480670wrw.330.1632147601918; 
- Mon, 20 Sep 2021 07:20:01 -0700 (PDT)
+ bh=xu+mK8AOnXi204q+XHXbI1+B7494jG7C23y0nQnHqpg=;
+ b=WLsmGU1ZKnd0+hE+BgtZ0xRXJ7LAyrGwCx5FrKF6IqXY9BReP9m61GM+w4Wuh7MAsT
+ EgnYsbURQP9LhwTtHQ0bvkPdc9S+9JM8Ve5WGV/i1ZYV7ye4mVUjJNfzR1VcG+O/kD2A
+ MBU3eCes0rdkZjS8L92H65t/jAjdDJkmEwERbeC++SVfiJXlbg/rPlMVE9ey9LEIv2+D
+ hMDEnPjaH8RcSyeN4ZIZeOGZpTHzjfCYLq7dsFyKvTctdiuaRwh376CXINwylM8o9y+3
+ 2ZUJNzJlSOD2ghlV260xWUpusgrc0JTdyvV7VDwoFpNOm225XETB0mE6vIyqpSEC680X
+ +aAg==
+X-Gm-Message-State: AOAM530qGG+3FArD2+Gqm2eq6pe2gPLZqoG8C3qOyBbwXKx9787UnIta
+ kCy9+Z3tHseEuar6SVwO+k5EBt3dCyNX2g==
+X-Google-Smtp-Source: ABdhPJxriO3XasuuF4EVwaBXdzPj88GHjbXqZ0d0DgstxM0ygIb081qRfoJG2b+mJs8z/6dor+nbcQ==
+X-Received: by 2002:adf:cc82:: with SMTP id p2mr29451315wrj.5.1632147602542;
+ Mon, 20 Sep 2021 07:20:02 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id n17sm16229693wrp.17.2021.09.20.07.20.01
+ by smtp.gmail.com with ESMTPSA id n17sm16229693wrp.17.2021.09.20.07.20.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 07:20:01 -0700 (PDT)
+ Mon, 20 Sep 2021 07:20:02 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/27] target/arm: Avoid goto_tb if we're trying to exit to the
- main loop
-Date: Mon, 20 Sep 2021 15:19:36 +0100
-Message-Id: <20210920141947.5537-17-peter.maydell@linaro.org>
+Subject: [PULL 17/27] target/arm: Enforce that FPDSCR.LTPSIZE is 4 on inbound
+ migration
+Date: Mon, 20 Sep 2021 15:19:37 +0100
+Message-Id: <20210920141947.5537-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210920141947.5537-1-peter.maydell@linaro.org>
 References: <20210920141947.5537-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,74 +87,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently gen_jmp_tb() assumes that if it is called then the jump it
-is handling is the only reason that we might be trying to end the TB,
-so it will use goto_tb if it can.  This is usually the case: mostly
-"we did something that means we must end the TB" happens on a
-non-branch instruction.  However, there are cases where we decide
-early in handling an instruction that we need to end the TB and
-return to the main loop, and then the insn is a complex one that
-involves gen_jmp_tb().  For instance, for M-profile FP instructions,
-in gen_preserve_fp_state() which is called from vfp_access_check() we
-want to force an exit to the main loop if lazy state preservation is
-active and we are in icount mode.
+Architecturally, for an M-profile CPU with the LOB feature the
+LTPSIZE field in FPDSCR is always constant 4.  QEMU's implementation
+enforces this everywhere, except that we don't check that it is true
+in incoming migration data.
 
-Make gen_jmp_tb() look at the current value of is_jmp, and only use
-goto_tb if the previous is_jmp was DISAS_NEXT or DISAS_TOO_MANY.
+We're going to add come in gen_update_fp_context() which relies on
+the "always 4" property.  Since this is TCG-only, we don't actually
+need to be robust to bogus incoming migration data, and the effect of
+it being wrong would be wrong code generation rather than a QEMU
+crash; but if it did ever happen somehow it would be very difficult
+to track down the cause.  Add a check so that we fail the inbound
+migration if the FPDSCR.LTPSIZE value is incorrect.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210913095440.13462-2-peter.maydell@linaro.org
+Message-id: 20210913095440.13462-3-peter.maydell@linaro.org
 ---
- target/arm/translate.c | 34 +++++++++++++++++++++++++++++++++-
- 1 file changed, 33 insertions(+), 1 deletion(-)
+ target/arm/machine.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index caefb1e1a17..cf31e0237da 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -2610,8 +2610,40 @@ static inline void gen_jmp_tb(DisasContext *s, uint32_t dest, int tbno)
-         /* An indirect jump so that we still trigger the debug exception.  */
-         gen_set_pc_im(s, dest);
-         s->base.is_jmp = DISAS_JUMP;
--    } else {
-+        return;
-+    }
-+    switch (s->base.is_jmp) {
-+    case DISAS_NEXT:
-+    case DISAS_TOO_MANY:
-+    case DISAS_NORETURN:
-+        /*
-+         * The normal case: just go to the destination TB.
-+         * NB: NORETURN happens if we generate code like
-+         *    gen_brcondi(l);
-+         *    gen_jmp();
-+         *    gen_set_label(l);
-+         *    gen_jmp();
-+         * on the second call to gen_jmp().
-+         */
-         gen_goto_tb(s, tbno, dest);
-+        break;
-+    case DISAS_UPDATE_NOCHAIN:
-+    case DISAS_UPDATE_EXIT:
-+        /*
-+         * We already decided we're leaving the TB for some other reason.
-+         * Avoid using goto_tb so we really do exit back to the main loop
-+         * and don't chain to another TB.
-+         */
-+        gen_set_pc_im(s, dest);
-+        gen_goto_ptr();
-+        s->base.is_jmp = DISAS_NORETURN;
-+        break;
-+    default:
-+        /*
-+         * We shouldn't be emitting code for a jump and also have
-+         * is_jmp set to one of the special cases like DISAS_SWI.
-+         */
-+        g_assert_not_reached();
-     }
- }
+diff --git a/target/arm/machine.c b/target/arm/machine.c
+index 81e30de8243..c74d8c3f4b3 100644
+--- a/target/arm/machine.c
++++ b/target/arm/machine.c
+@@ -781,6 +781,19 @@ static int cpu_post_load(void *opaque, int version_id)
+     hw_breakpoint_update_all(cpu);
+     hw_watchpoint_update_all(cpu);
  
++    /*
++     * TCG gen_update_fp_context() relies on the invariant that
++     * FPDSCR.LTPSIZE is constant 4 for M-profile with the LOB extension;
++     * forbid bogus incoming data with some other value.
++     */
++    if (arm_feature(env, ARM_FEATURE_M) && cpu_isar_feature(aa32_lob, cpu)) {
++        if (extract32(env->v7m.fpdscr[M_REG_NS],
++                      FPCR_LTPSIZE_SHIFT, FPCR_LTPSIZE_LENGTH) != 4 ||
++            extract32(env->v7m.fpdscr[M_REG_S],
++                      FPCR_LTPSIZE_SHIFT, FPCR_LTPSIZE_LENGTH) != 4) {
++            return -1;
++        }
++    }
+     if (!kvm_enabled()) {
+         pmu_op_finish(&cpu->env);
+     }
 -- 
 2.20.1
 
