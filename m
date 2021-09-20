@@ -2,90 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F3A411122
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 10:41:30 +0200 (CEST)
-Received: from localhost ([::1]:58986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6E1411160
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 10:52:30 +0200 (CEST)
+Received: from localhost ([::1]:35916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSErh-00040e-1s
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 04:41:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54752)
+	id 1mSF2L-00084W-MO
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 04:52:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mSEq0-0002PF-99
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:39:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41399)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mSEpy-0003ce-3f
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:39:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632127181;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LLW8feb35vQkeFSkgOZH7oZVlvYkZWbF7TR5s1LFyI4=;
- b=VuesLYhkavpTHzYf0uGYYd/c/tv4SA+nCYgk7H5NJRm/OYuKdywqqPdmCwI+c0LR5a7id9
- HAWFa86ShS7ZwBHILb8GUe/oWgc49ZLhx7tdYQxpfT6M8sF4Xn+M/hjkvhI2mB1DQUF2rY
- M2jeIsxhv1cIa13mcHFKASnhGMfKU9s=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-elMDvsNkObi7CwFUjpeftg-1; Mon, 20 Sep 2021 04:39:39 -0400
-X-MC-Unique: elMDvsNkObi7CwFUjpeftg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- r11-20020aa7cfcb000000b003d4fbd652b9so14928311edy.14
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 01:39:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mSF0w-0007OJ-SL
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:51:02 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44849)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mSF0u-0004p7-74
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:51:02 -0400
+Received: by mail-wr1-x430.google.com with SMTP id d6so27411499wrc.11
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 01:50:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0sMUT7p8bEPX0PjXxAGhf2Z00A+d0ITKD5EqQ4e6FAI=;
+ b=oWU6Iq9SSvdvobp5WZYf56cmRR/AJw/if0XzHJPX3z/zDJWWr2wTWLZLhUO7jQ4mId
+ 8zrdLNFajR3u/33VpvFgUSBSqmnUtsQ7FCmYQPmXYPq+D6V5wwZ0U6VZG48ce0Tn+6y9
+ 3Qs+KtBl7Nw4stFM8FU11tUB/eidDZZj/gUodXtT2YgVDysqd0JF6rLZQVBtdr+/8yX+
+ vOXthBMBYwgb3M9s4gO85nlXPloujCT8/T1srIf6+11BCr3wLbtJpYCDxP+BiTLuP2Fr
+ SElRU6fdX6x/Of+qJMMKni+XenqpPH9JFny0/9Rdk3R8YOgvsqqm9EqlVBz8/fG/SYaw
+ yRlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LLW8feb35vQkeFSkgOZH7oZVlvYkZWbF7TR5s1LFyI4=;
- b=Dyh2aBtBkD/ijgQ70xVCEk6JiVKd2kaT6MG+OniPfCbO96CoWzcn1Fm08PGO7Wyky4
- X5K4U1iy+ZJ59mmEr9n6lGIxo4z9uKgtYz/zuGArbqaQJRlCjRts/KsCKl9mZHtkHJht
- 1TFApfpvtDj1ss4eKCoilzE5qR/qJU0Vv7OqbYbuEd4Pcp2BGqmkwfnGsFpX1zNS0bXV
- vv2zGA60HyatHaTnmEgtLIVFQk3029nW9QR+20PP3GWfMnhFzTFpu72ecQbR5RmHG8V5
- pWc5MPRydakyquQghODj29W+4MBDN2Vb55m4tsgPqeLLAVDdmIIEBdOv00ijCR1nQyaS
- X3xw==
-X-Gm-Message-State: AOAM531WCeA39M/EqMONGSiZLnUXqsa3C/ks9dyENRkRUQMn7ZazFhR1
- a6PIfDI474PS+LAfS6825g390+UOtfZ+8d26qk0s4ZhP38I9EncyjNugD+O4yzjVRwQznEs7N4v
- zsESOJoGUmcdYAHQ=
-X-Received: by 2002:a17:906:27c9:: with SMTP id
- k9mr27852134ejc.124.1632127178377; 
- Mon, 20 Sep 2021 01:39:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxMoC0jVZAVMmxiLIystIIuy5V40BXbw9FcB2aCCVGriChdUdTzaA9jEZWS+YplmleoMukMgw==
-X-Received: by 2002:a17:906:27c9:: with SMTP id
- k9mr27852117ejc.124.1632127178188; 
- Mon, 20 Sep 2021 01:39:38 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id v25sm5791969eja.83.2021.09.20.01.39.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 01:39:37 -0700 (PDT)
-Date: Mon, 20 Sep 2021 10:39:36 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v3 07/10] tests/acpi: add test cases for VIOT
-Message-ID: <20210920103936.2cc94969@redhat.com>
-In-Reply-To: <20210914142004.2433568-8-jean-philippe@linaro.org>
-References: <20210914142004.2433568-1-jean-philippe@linaro.org>
- <20210914142004.2433568-8-jean-philippe@linaro.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0sMUT7p8bEPX0PjXxAGhf2Z00A+d0ITKD5EqQ4e6FAI=;
+ b=YRx1axbd3MhP5U4hhzX5Uybq6Qgm/TkhZRpxT0eH98JUDNuGO/h1vnX1lRzWd6SraW
+ wp6e8l2KLnsyI6gc5eORcKx2gxi5W/ANINgCpl4FKXLFqlvnJsSeZZmLQ97XcpAfy9TU
+ ZnSdC75Rwe8wn0N38iz5aRzqGR1FcZupYIllyezr68WWTdruXUo99df11cB/Zaoykjwq
+ 4ukXLnQm/BTv64DEb9pvQFGJyYmfYK4zg1Sl/H9Fa3iNMH5JvUcbNsZcobFLc/Sjx8Hm
+ MsDELRYYWF/lgQELf8uG+dK3+jsY4rp0l66tbf/MNZ0sgo8F7H/T87XEsYIp5UI76i3q
+ gtLA==
+X-Gm-Message-State: AOAM530tWltoBvyxGjXxwkHedoXo8JD1v7ED021vSFVzqa0BLtscQCtR
+ inBmPMaj0Vj2sDDhyoG+W3MlJ8QFeockADJ6fyAjMQ==
+X-Google-Smtp-Source: ABdhPJzKzMjKPiYMcQUJZQ5JkEUncdGIJVOseWkd/+VoFEY8dZu/TkWqh3GjYm5ltUCeljgIzSBf4vlo5FkY99Y+6Cg=
+X-Received: by 2002:adf:f185:: with SMTP id h5mr27463103wro.302.1632127858564; 
+ Mon, 20 Sep 2021 01:50:58 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.476,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210916135241.150566-1-dgilbert@redhat.com>
+In-Reply-To: <20210916135241.150566-1-dgilbert@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 20 Sep 2021 09:50:06 +0100
+Message-ID: <CAFEAcA8-zv9nhj_P_XpQG4b1WLrZiEh43h+T7AH+BrdcaTpNjw@mail.gmail.com>
+Subject: Re: [PULL 0/2] virtiofs queue
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,91 +76,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, shannon.zhaosl@gmail.com,
- mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- eric.auger@redhat.com, qemu-arm@nongnu.org, ani@anisinha.ca,
- pbonzini@redhat.com
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Sep 2021 15:20:02 +0100
-Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+On Thu, 16 Sept 2021 at 14:58, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
+>
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>
+> The following changes since commit 57b6f58c1d0df757c9311496c32d502925056894:
+>
+>   Merge remote-tracking branch 'remotes/hreitz/tags/pull-block-2021-09-15' into staging (2021-09-15 18:55:59 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20210916
+>
+> for you to fetch changes up to 046d91c83caac29e2ba26c63fd7d685a57463f6d:
+>
+>   virtiofsd: Reverse req_list before processing it (2021-09-16 14:50:48 +0100)
+>
+> ----------------------------------------------------------------
+> virtiofsd pull 2021-08-16
+>
+> Two minor fixes; one for performance, the other seccomp
+> on s390x.
+>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-> Add two test cases for VIOT, one on the q35 machine and the other on
-> virt. To test complex topologies the q35 test has two PCIe buses that
-> bypass the IOMMU (and are therefore not described by VIOT), and two
-> buses that are translated by virtio-iommu.
-> 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
->  tests/qtest/bios-tables-test.c | 39 ++++++++++++++++++++++++++++++++++
->  1 file changed, 39 insertions(+)
-> 
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index 4f11d03055..f8bfe2f247 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -1403,6 +1403,43 @@ static void test_acpi_virt_tcg(void)
->      free_test_data(&data);
->  }
->  
-> +static void test_acpi_q35_viot(void)
-> +{
-> +    test_data data = {
-> +        .machine = MACHINE_Q35,
-> +        .variant = ".viot",
 
-> +        .blkdev = "virtio-blk,bus=pcie.0",
-why is this necessary?
+Applied, thanks.
 
-> +    };
-> +
-> +    /*
-> +     * To keep things interesting, two buses bypass the IOMMU.
-> +     * VIOT should only describes the other two buses.
-> +     */
-> +    test_acpi_one("-machine default_bus_bypass_iommu=on "
-> +                  "-device virtio-iommu "
-> +                  "-device pxb-pcie,bus_nr=0x10,id=pcie.100,bus=pcie.0 "
-> +                  "-device pxb-pcie,bus_nr=0x20,id=pcie.200,bus=pcie.0,bypass_iommu=on "
-> +                  "-device pxb-pcie,bus_nr=0x30,id=pcie.300,bus=pcie.0",
-> +                  &data);
-> +    free_test_data(&data);
-> +}
-> +
-> +static void test_acpi_virt_viot(void)
-> +{
-> +    test_data data = {
-> +        .machine = "virt",
-> +        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
-> +        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
-> +        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
-> +        .ram_start = 0x40000000ULL,
-> +        .scan_len = 128ULL * 1024 * 1024,
-> +    };
-> +
-> +    test_acpi_one("-cpu cortex-a57 "
-> +                  "-device virtio-iommu", &data);
-> +    free_test_data(&data);
-> +}
-> +
->  static void test_oem_fields(test_data *data)
->  {
->      int i;
-> @@ -1567,12 +1604,14 @@ int main(int argc, char *argv[])
->          if (strcmp(arch, "x86_64") == 0) {
->              qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
->          }
-> +        qtest_add_func("acpi/q35/viot", test_acpi_q35_viot);
->      } else if (strcmp(arch, "aarch64") == 0) {
->          qtest_add_func("acpi/virt", test_acpi_virt_tcg);
->          qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
->          qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
->          qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
->          qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
-> +        qtest_add_func("acpi/virt/viot", test_acpi_virt_viot);
->      }
->      ret = g_test_run();
->      boot_sector_cleanup(disk);
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
+for any user-visible changes.
 
+-- PMM
 
