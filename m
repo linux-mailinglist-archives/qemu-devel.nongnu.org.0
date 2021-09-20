@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1171C41156F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 15:21:45 +0200 (CEST)
-Received: from localhost ([::1]:40576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 522BE411572
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 15:24:12 +0200 (CEST)
+Received: from localhost ([::1]:44780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSJEu-00087Z-4q
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 09:21:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49794)
+	id 1mSJHH-0002hC-Dq
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 09:24:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSJ9n-0003kV-Ld
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 09:16:27 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46891)
+ id 1mSJDI-00083H-FC
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 09:20:04 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSJ9j-00080t-LO
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 09:16:27 -0400
-Received: by mail-wr1-x434.google.com with SMTP id x6so29553766wrv.13
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 06:16:22 -0700 (PDT)
+ id 1mSJDF-0002BE-My
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 09:20:04 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id t8so29628507wrq.4
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 06:20:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZguIa521U18HbwJbV2pzKFToLaIWEAyyTnnLXXFG/4A=;
- b=Oe0CDgMdiwCuQu0k2FmSWfo0zOcJs+uBoRBCgzOABODQu0sGIABWSfC0cPjtdhH67e
- f4h4XJ+kEKnO0zAdEFiy3i0b5trahHPp4eIrAojgMysOcCRD7FrN5GthKvdlKFgfW4k/
- cMr9x3Z76jnDoIf/DAbEYrt3RUQQEz6xkFD9TnVZX8xi8Au4pHeKU3krIYclu4/+52Hn
- Et+GTCwJg9GMDv6brqUXBgwG57LP8QCHcLJRp/uVeQSxoG6Czv4ZrCrAHwX7Fza7Qxxd
- usQ4VwUmhQJNbdDxS7HakZTSncYOJ/MJ+O2GZmrJUzSGjeXlc+ZBnfZUKukDlsxGEbXl
- uN/Q==
+ :cc; bh=d9yRxejweatrNxIZjk0kjobQ1xzMStatk2llZQ1FgaY=;
+ b=kf36DGYQtLHjclixqctPL667t8Xkd6DV39vWUqnXF9hnuudAEqPvc9mGp8Yjzp5YI8
+ Dqq47xgHvbg/h8emkQSxdC+m+TSz8n3Eqk0SIJjlow/wpwIht/4Ydo0ASxR7AgC1eXHz
+ m0QLflG2FE3LUFqjwbta1jiqKSe1EA1j9Wh3TPF0GAK0THdoYCWWS2WEH9KPuBDLu4Cm
+ SRd1V2hwmy/BihxbvBxlAPAxORgGvoZ4xBtO4oTTy+ccfDdBy4RUB9byligkXOJy7+DW
+ qpX1/3FIAhHYFiCeFg1al/a4V+AGYqbLHccWNxrAV1MOtqfirRvAIHaAIvlResD38NG7
+ 6I0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ZguIa521U18HbwJbV2pzKFToLaIWEAyyTnnLXXFG/4A=;
- b=E1xKyznCMkjeu1FQ51RoRnXqbsza80XvT/hsbtc6vaafPVip4TCiRxmu9krWJWvLX8
- 2P8gnOXD+I/bqMYahoxHdeD8p9YcJ6fg6Qa+iuBOxkkAtVdYUEqPxJRHEUrAmK/4c/Ml
- 2mC8z2mbSI97hbnvWlBNB8uh4yFuY39GyUT5xsAmK4DpLZWKwVOd7Rql1KfQB0GP6K15
- KzUctcB+j0bGrevgqgAqY1qgZ2TpGHt+Y2jO91nCRaxA7W+3Y4ZcJrRI3/20TGkMUEWK
- 3XGsFH0OEoAaRrqmFf1eIdTSDZRtWz1U3i2XycEWU1dr/ireAYNnvqZLsNeQjn1Mcfci
- XoIQ==
-X-Gm-Message-State: AOAM533ixRNH7E27UDhl6HqZx2acl9QCDpxMWx+ugf6BIGP4zNvzGkxf
- z/OLYeKNrlv+mEEkP3CMtDcmITldwtB5vc038d3A/w==
-X-Google-Smtp-Source: ABdhPJwLvLZFi4r40LWFNJzkp25iBHg5qIh2oCSZNxTrpT9hLzVFzDiaz6JTJ8t7ZAHp0b5ElRSriQLTUIu6n9mc8/U=
-X-Received: by 2002:a05:600c:4848:: with SMTP id
- j8mr29398576wmo.21.1632143781287; 
- Mon, 20 Sep 2021 06:16:21 -0700 (PDT)
+ bh=d9yRxejweatrNxIZjk0kjobQ1xzMStatk2llZQ1FgaY=;
+ b=fhmB4y9L3dlBSUSpTExc1DHhL8NLbFcNPmjEw5JLU7IlTfu7maFvBe48rb3k4Bajey
+ FeyB4udv1ngH2BD1hshNAxok6b+vjFpAjFOU5ueKC2N8cKWJbwX7sNzlVfk5MLM5gIJR
+ A/pXlWr16TIGzBEf60P9dS1bDm/puZslWbekK7ddYjKXPRoFnVkPs5Y+iQ4oTakk4WR0
+ qWtbQzbebeZwy+oA4+3zhL20UWmwxgvuRLchYwzzeBlUZuJIFJjBrjoeoMZhacs5Ee3Q
+ v0BXQFTkzQFNTDtjwBZ7MCgIE6X3I70HjmcZ6PLb1dSJuwFo/CGjIlIuBL0PzbcaG/eU
+ HI1A==
+X-Gm-Message-State: AOAM530iC/G9tyDm8z/qrKihXln+Le9phyNMInzHdCDaSGCW284UkZQ9
+ MERGtMG1r+fb2bdC5+bSkFFw6VSlC7OwO2tgGYiUQA==
+X-Google-Smtp-Source: ABdhPJyvPE367iPe/hDP0lNA2JSA1TkiEIlOwgMMP3YjttaXbUB3aPXASDpUDxJcmE6bPPOTOvK69nllRPDHPxQWYDw=
+X-Received: by 2002:a7b:c194:: with SMTP id y20mr20498549wmi.37.1632143999726; 
+ Mon, 20 Sep 2021 06:19:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210916155404.86958-1-agraf@csgraf.de>
- <CAFEAcA-LrvO7sg9gY0ZKnvXJyJuFc2Ej1Ve1245FZ7YkH-Oj2A@mail.gmail.com>
-In-Reply-To: <CAFEAcA-LrvO7sg9gY0ZKnvXJyJuFc2Ej1Ve1245FZ7YkH-Oj2A@mail.gmail.com>
+References: <20210916214904.734206-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20210916214904.734206-1-alistair.francis@opensource.wdc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Sep 2021 14:15:29 +0100
-Message-ID: <CAFEAcA_Hkqg16VbA1qACK4RG22iXHo8b3VZWQoBRZL0HuBazZA@mail.gmail.com>
-Subject: Re: [PATCH v12 00/10] hvf: Implement Apple Silicon Support
-To: Alexander Graf <agraf@csgraf.de>
+Date: Mon, 20 Sep 2021 14:19:07 +0100
+Message-ID: <CAFEAcA9rO-M_CS=1BrJO+3-WOPsvcAMYMzhcyqDzOfY21sXeYg@mail.gmail.com>
+Subject: Re: [PULL 00/21] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,62 +76,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Peter Collingbourne <pcc@google.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Alistair Francis <alistair23@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 Sept 2021 at 11:11, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Thu, 16 Sept 2021 at 22:49, Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
 >
-> On Thu, 16 Sept 2021 at 16:54, Alexander Graf <agraf@csgraf.de> wrote:
-> >
-> > Now that Apple Silicon is widely available, people are obviously excited
-> > to try and run virtualized workloads on them, such as Linux and Windows.
-> >
-> > This patch set implements a fully functional version to get the ball
-> > going on that. With this applied, I can successfully run both Linux and
-> > Windows as guests. I am not aware of any limitations specific to
-> > Hypervisor.framework apart from:
-> >
-> >   - gdbstub debugging (breakpoints)
-> >   - missing GICv3 support
-> >   - Windows will not work due to UDEF SMC implementation
-> >
-> > To use hvf support, please make sure to run -M virt,highmem=off to fit
-> > in M1's physical address space limits and use -cpu host.
+> From: Alistair Francis <alistair.francis@wdc.com>
 >
-> Applied to target-arm.next, thanks (with the unnecessary #include
-> in patch 6 removed).
+> The following changes since commit d1fe59377bbbf91dfded1f08ffe3c636e9db8dc0:
+>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-6.2-pull-request' into staging (2021-09-16 16:02:31 +0100)
+>
+> are available in the Git repository at:
+>
+>   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210917
+>
+> for you to fetch changes up to c14620db9b66de88bb4fef1d0cfc283bb3d53f85:
+>
+>   hw/riscv: opentitan: Correct the USB Dev address (2021-09-17 07:43:55 +1000)
+>
+> ----------------------------------------------------------------
+> Second RISC-V PR for QEMU 6.2
+>
+>  - ePMP CSR address updates
+>  - Convert internal interrupts to use QEMU GPIO lines
+>  - SiFive PWM support
+>  - Support for RISC-V ACLINT
+>  - SiFive PDMA fixes
+>  - Update to u-boot instructions for sifive_u
+>  - mstatus.SD bug fix for hypervisor extensions
+>  - OpenTitan fix for USB dev address
+>
 
-Turns out that the final patch breaks "make check-acceptance".
-All the orangepi boot tests timeout:
+Hi; this fails to build on clang:
 
- (15/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi:
-INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
-Timeout reached\nOriginal status: ERROR\n{'name':
-'15-tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi',
-'logdir': '/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/tests/...
-(90.24 s)
- (16/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_initrd:
-INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
-Timeout reached\nOriginal status: ERROR\n{'name':
-'16-tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_initrd',
-'logdir': '/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang...
-(90.24 s)
- (17/58) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd:
-INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
-Timeout reached\nOriginal status: ERROR\n{'name':
-'17-tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd',
-'logdir': '/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/tes...
-(90.24 s)
+../../target/riscv/cpu_helper.c:109:64: error: implicit conversion
+from 'unsigned long long' to 'target_ulong' (aka 'unsigned int')
+changes value from 9223372036854775808 to 0
+[-Werror,-Wconstant-conversion]
+    target_ulong sd = riscv_cpu_is_32bit(env) ? MSTATUS32_SD : MSTATUS64_SD;
+                 ~~                                            ^~~~~~~~~~~~
+../../target/riscv/cpu_bits.h:362:29: note: expanded from macro 'MSTATUS64_SD'
+#define MSTATUS64_SD        0x8000000000000000ULL
+                            ^~~~~~~~~~~~~~~~~~~~~
+1 error generated.
 
-So I'm going to drop that one; we need to work out what's
-going wrong with the orangepi-pc machine.
 
 thanks
 -- PMM
