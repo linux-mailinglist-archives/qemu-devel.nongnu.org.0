@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72C2E412720
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 22:03:37 +0200 (CEST)
-Received: from localhost ([::1]:44280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 567C6412735
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 22:13:15 +0200 (CEST)
+Received: from localhost ([::1]:51002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSPVo-0005Zw-9n
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 16:03:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47778)
+	id 1mSPf7-00022C-O7
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 16:13:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSPUF-0004A4-0t
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 16:02:00 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:54395)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSPeA-0001LQ-TO
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 16:12:14 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:40127)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSPUD-0002Ul-9X
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 16:01:58 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mSPe9-0002g5-2A
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 16:12:14 -0400
 Received: from [192.168.100.1] ([82.64.211.94]) by mrelayeu.kundenserver.de
  (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N7hw4-1mxXJR1d5e-014hrj; Mon, 20 Sep 2021 22:01:55 +0200
-Subject: Re: [PATCH v4 09/20] macfb: don't register declaration ROM
+ 1MJEpp-1m9MI51lpz-00Kfgn; Mon, 20 Sep 2021 22:12:10 +0200
+Subject: Re: [PATCH v4 17/20] nubus-bridge: make slot_available_mask a qdev
+ property
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 References: <20210917075057.20924-1-mark.cave-ayland@ilande.co.uk>
- <20210917075057.20924-10-mark.cave-ayland@ilande.co.uk>
+ <20210917075057.20924-18-mark.cave-ayland@ilande.co.uk>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <a65fbc89-681c-22b5-87d4-31d37de15559@vivier.eu>
-Date: Mon, 20 Sep 2021 22:01:54 +0200
+Message-ID: <2fa5aa17-00dc-99ae-de29-d61515eafd2d@vivier.eu>
+Date: Mon, 20 Sep 2021 22:12:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210917075057.20924-10-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210917075057.20924-18-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bV6UkrGv+LMlcZAWpnNWewZWGINnh8xc82eUaTCIlM86xIKd3N7
- gEUNHkw8ojWPwu1JQS6VbgxbApaKTR5gglQkRJE7G9n3fub4DaZrUBTjYOQnibc4t3JA5H0
- F0u3D67VDgQ6es7WROMa5SkTBCwMhhRs352JdvD8r028twUz4q0Y0Kxfl8yaOg5RqV1eJ6r
- Qkv3DcUI2naOG5UJAQ+pg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:uB5D7oV5wKU=:rPmjd7Cu93s7mLCpek1zVW
- VuJKozUTDY9PwvnXeCwoVZIeq7REWFJVAs+g1+6l6mkr3unTDCI6RlKpjKaKfV+awkcgyhmTH
- QW1hWXtTaLZZ4qcIjNQfADrWrp3V2pv8qsQcdpj8H5tTgNdIz6FjruDp5WsPCXFvqy6NzA1tF
- jgjPiqM5FNyUjMT9ZGpOPBur/vLql1Osyl7fLpvQr1rrFR6iQxlny7FlJ8e3O8mE9bPj6ZnBE
- h35kf4NgVQjbZsX986ymCRtGoSi/DT68Vbuc4pMn2Z9zi6rWkv4OTt7O64grg3yT1JoCGbhi/
- cuEQxEOVHFoa617McKMZCPTTNFIKHMeVKN2gDRZFkF37IV++22bwE6OvKmegE97MBr3btqRzI
- mSpzNw8PXqgKp03JoQx+UCFFccNlxo04RNZJ/fEQuBci6zijqizlN2RiCIwuMl+iQdm70zqV2
- JB2IPrHmRudyFvRZcSjJiVv0u9Mv2IY/BUURDnc14ncgL8zyBw87dMOa+OaH6dspvZpZF9vCS
- YQOo0fkGnd7mzmNB4JWC5IngYYI6r9OSK3wIdTz70khP+AzDjgrGHARi6Gw6SDI/AXgmLhFE0
- avR4ASNJ+ZSYbz5gTX9bGfUj7WJ0PhtvgeosylcQEwcrNpVjru+Or8f/RFToYIbF+WpixjN/j
- jK2DvBdpYIjMiT/RjMiJwaIbXsu875eNpQ8bV8/VZyfPXmiNLBnJVvjCowGqqswfTASBFbvHD
- rNHBeoCb35zbEYw0lylJmWDKVJ2m2yqw0qm3Gg==
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Nr9rlShicyeleomSvKQ+6vn1c5NlQS91KdHcVlkUmRDxi/AAKZU
+ mxPO4mu3TpQRlUTwfAPBRf19QBVqgbjeQKiZL9pVVW/ZlY7CxqLmJEYckQ/IT1vWF2hRXLo
+ ttXbzgruPWNKu75BNPh39KvjPoCtY5l5UFOupvAuUazt20eLlGtIl4nmso981eaBkCtXl2N
+ ESjwPzDFS9v7y7ooVyDtw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+6PJBaoKEUQ=:YNGaHScSuC/vPNmFWm3hCU
+ o5ChBCG23xAGVt1jMCIqnZEZa2/drOpeCwFOraoUZX8skWs/e9D2oVEZXWaSDe6KpLJdVPXhM
+ SMWtnLsFQ7bVrc3rJLYzhaSCYr3hicnz6uTfM327NCqHNfijhtj03ya4b9No590Ge40KqJnJ1
+ 5Tf61d5VOxzBLaQAMShyGWvEryZM3/KUbEThJEBT0dy96cZfDVqXtgNIy4O+GhMeKaPqpZnBn
+ G9pu6hIkvsMnxw31ek0issHAM0AzHcvvypqAyOjXqaks1PUYkLjVQYbQS1uWBJhK7gP79f4q1
+ 6GBoeTI3E2K4ZPrC+Jqt57WB7tp4IzDAEEUDCP1HPj/fyuhxwEJVYoDFg4J0d+xP7uWRHPWmx
+ OVqo/wyWpYn+YOSAVhga/ZDW7GlHaxdG0cLxRkihrAbRpNQFuQQa30wGUa3KK3EXXDoRqIVuo
+ GAf2YV5SkX6Hdf85eewtsuAByq+mYYao7bMODGp51VpFG7lfYwv1G4QsD4lCifqLV+UZadmqL
+ 4tnvKCdthbz/UfiphnXBfvQjjHiMhFpqklRarA68R6ImoIN4a25o4Kp4sb4FKEh9LrB2+UhBf
+ pU/yBk2cyGt5P+wLZ3SDHD5D79fCyFREZ9h2FR1L+B5z3rQYVguCdVwz4wJCyoIc85FjFm7sl
+ iRKAOnAruqhe+yJP3rGC40Vi6rdSrYfiN/b5He/MJIoNz7PaIAdn1RG99akOPrAsOtc7ae7rU
+ TAMpv/tIny8eDUO5ShcLO7qV+LgUGMKbrh+Kjg==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,42 +75,42 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 17/09/2021 à 09:50, Mark Cave-Ayland a écrit :
-> The macfb device is an on-board framebuffer and so is initialised by the
-> system declaration ROM included within the MacOS toolbox ROM.
+> This is to allow Macintosh machines to further specify which slots are available
+> since the number of addressable slots may not match the number of physical slots
+> present in the machine.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/display/macfb.c | 6 ------
->  1 file changed, 6 deletions(-)
+>  hw/nubus/nubus-bridge.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-> index d8183b9bbd..76808b69cc 100644
-> --- a/hw/display/macfb.c
-> +++ b/hw/display/macfb.c
-> @@ -383,10 +383,6 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
->      sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_vram);
+> diff --git a/hw/nubus/nubus-bridge.c b/hw/nubus/nubus-bridge.c
+> index 1adda7f5a6..2c7c4ee121 100644
+> --- a/hw/nubus/nubus-bridge.c
+> +++ b/hw/nubus/nubus-bridge.c
+> @@ -21,11 +21,18 @@ static void nubus_bridge_init(Object *obj)
+>      qbus_create_inplace(bus, sizeof(s->bus), TYPE_NUBUS_BUS, DEVICE(s), NULL);
 >  }
 >  
-> -const uint8_t macfb_rom[] = {
-> -    255, 0, 0, 0,
-> -};
-> -
->  static void macfb_nubus_realize(DeviceState *dev, Error **errp)
+> +static Property nubus_bridge_properties[] = {
+> +    DEFINE_PROP_UINT32("slot-available-mask", NubusBridge,
+> +                       bus.slot_available_mask, 0xffff),
+
+So you can remove the "nubus->slot_available_mask = MAKE_64BIT_MASK(0, 16);" in nubus_init()?
+
+> +    DEFINE_PROP_END_OF_LIST()
+> +};
+> +
+>  static void nubus_bridge_class_init(ObjectClass *klass, void *data)
 >  {
->      NubusDevice *nd = NUBUS_DEVICE(dev);
-> @@ -399,8 +395,6 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
->      macfb_common_realize(dev, ms, errp);
->      memory_region_add_subregion(&nd->slot_mem, DAFB_BASE, &ms->mem_ctrl);
->      memory_region_add_subregion(&nd->slot_mem, VIDEO_BASE, &ms->mem_vram);
-> -
-> -    nubus_register_rom(nd, macfb_rom, sizeof(macfb_rom), 1, 9, 0xf);
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+>  
+>      dc->fw_name = "nubus";
+> +    device_class_set_props(dc, nubus_bridge_properties);
 >  }
 >  
->  static void macfb_sysbus_reset(DeviceState *d)
+>  static const TypeInfo nubus_bridge_info = {
 > 
 
-Will macfb continue to work with "-kernel" and without providing any MacOS ROM?
-
-Thanks,
-Laurent
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
