@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A070410FCB
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 09:03:39 +0200 (CEST)
-Received: from localhost ([::1]:48704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A69410FD4
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 09:06:06 +0200 (CEST)
+Received: from localhost ([::1]:55458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSDL0-0008LM-DL
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 03:03:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36478)
+	id 1mSDNN-0004av-OQ
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 03:06:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mSDJ1-0005Wr-Lk
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 03:01:35 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:44854)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mSDLc-0003Fo-KR
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 03:04:16 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:43528)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mSDIv-0004kA-NH
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 03:01:35 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- nn5-20020a17090b38c500b0019af1c4b31fso11919925pjb.3
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 00:01:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mSDLb-00074m-8v
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 03:04:16 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id r2so16361448pgl.10
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 00:04:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QNdQrHirsbAlYE0D9B9QpCHnXDgDihE3SYTFQNccfaE=;
- b=1CWgVIAlwDQL7jibwTNX8uclC9t8jHIzHPs9jCkNcbySuKdcc7MWUP5VHRGUBewRve
- BfdMVkvhNeeWqDDMcZPr2qKlAbCPb9pF3ya44Qvjm2OGW2DITJkw9noIejNdnRFXnPfj
- 75bKSPyB2K1onnKpDn5j5z4AWtemYTXmxsb3JxVa4DHTET7wu6gTPajWKezpdQynpV7T
- yllpyQGTPz9xYE/Yu0wukU9AHL9gJVk6xDKzsmHWnqjxFp4GmaaZ3OmJKjcQMJThfc+f
- WC95eYH9XOvCQKyk65mr1/6HOM63t1uYLAuXFPjWre/GK/vX+td7XeaQweFqEdZcXd30
- EudA==
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=3oZRP8+uBY3kDlzy2yje/yvYjNkR8rAxVFJ+kTiQ2pc=;
+ b=0xU0wWBo33tTa5ODgFQtz1+dLTcrodE/lUHhBe4wMBaop2pPM735INxfGp5+tYXhKF
+ fnxl12Iz3iyfqkJmv+rm92lAP5TgCjzfwC3m16bCd6jAGsraNt9gmgPkRNtpJMhwm4Ms
+ WNrMykfODmwKCnf2P9dmp95WVmWPQ6kLo+01rtWxyu2J4ztY3W3ulJKnDfhrjaZyWx27
+ 9c0E+WDljL/Xd0fB/3qEXDOVf2LJZgH1e6z8YvYqq+1cTIqiwTgWdLfYZeRM1GLSstwa
+ qDmlumAhWQWR1RHS7EQb11DeQIHffK8PKtI37/EYDZDZv2UPEyqa1Tj3nGcHEt55q78m
+ /5nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=QNdQrHirsbAlYE0D9B9QpCHnXDgDihE3SYTFQNccfaE=;
- b=5RtX9R6HI7j7lsqNcXsLs8iLIFzJsLzLDuua1OsOt0WURnLP2abSFCZJZ02vIDPUVB
- 40XuhUAkOgoEUznH53jTl5ouwscoOzCZU4KotpQmBuXodQABwfbWCnopeEo9NTdfPn3n
- OWLa2EjXQB6+1iN6ldlBKR04PuTstfhxb/UM8IzsD1Ag7Rqg3kOaSW2x34Oq/zoDhi4Z
- /i7juC5C7pygQWvz0+GihPJGXh38OQYIKibNMoynB0IplzmdEwRRNHn7Xqvge51fSavK
- j2B5f78iOJPbaqQme4OVECFJfgojxDZEhrntrB5Ya0RxunmRPYtdECrO9YZfrjJ7+WT3
- li1g==
-X-Gm-Message-State: AOAM530303+ge8YlRAJMVWubMmESwWw/6EaO4yfXp90vVOR7gLKVkr+P
- ZaIgF4e+/eUnlZr584qS8vkyx2lfdfbZzg==
-X-Google-Smtp-Source: ABdhPJwqeL/j4JHLNxDPIWfAXHgpJFQjjpGKAfUEW6QXW/+rmdb7VTqlIsoePcKk58TKqCPUuMF2yg==
-X-Received: by 2002:a17:90b:1bc6:: with SMTP id
- oa6mr1105885pjb.58.1632121288079; 
- Mon, 20 Sep 2021 00:01:28 -0700 (PDT)
-Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.109.20])
- by smtp.googlemail.com with ESMTPSA id
- o20sm12897901pfd.188.2021.09.20.00.01.25
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=3oZRP8+uBY3kDlzy2yje/yvYjNkR8rAxVFJ+kTiQ2pc=;
+ b=ps46xdVUOXvGJbH2zBUwih6T9rJoUdapITiMUVUCYHs721qMML4JSsIhWign1bUg8B
+ Tl5+ykl8kNx2l3suDLzq1On4Qxc66n50oPuInyzp1T2IwdsQiNPVoMKCx5As9VJYqnKH
+ odqjvTm9/+mB+gtCvr4Q8dAJKtwwi8ytPGgIdc+iYBV68AlC4N/UzevOM2eXknCiCdsN
+ iSf5lZ+sQd/cgS5b26vrAIyNsnPVUomylbuAhqg1tbjGttXP3eGpN+ZAHpihdk8PeIIN
+ AxC6Heg1lFjdzCc9/GBfG1hxU9fwlZIqHd7n3P5eVYWrhdcR5Ce0s55kpOStccLWXArL
+ Gttw==
+X-Gm-Message-State: AOAM531fMhfefuvowTJ3LxPyDon/583gMfEbPAqqIVyejPrKNG915gdQ
+ JmP0j5tGKli+5GJRQcBeaCiz0g==
+X-Google-Smtp-Source: ABdhPJyEtk7KlAEhchdowlNXxud4Aaao3TvCeMSZxlxobHPf43IwiDgnIG20IYv1UryJb1VJiKll1w==
+X-Received: by 2002:a63:1f5b:: with SMTP id q27mr22236436pgm.324.1632121453877; 
+ Mon, 20 Sep 2021 00:04:13 -0700 (PDT)
+Received: from anisinha-lenovo ([115.96.109.20])
+ by smtp.googlemail.com with ESMTPSA id h9sm17942164pjg.9.2021.09.20.00.04.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 00:01:27 -0700 (PDT)
+ Mon, 20 Sep 2021 00:04:13 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/3] tests/acpi/bios-tables-test: update DSDT blob for
- multifunction bridge test
-Date: Mon, 20 Sep 2021 12:30:47 +0530
-Message-Id: <20210920070047.3937292-4-ani@anisinha.ca>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210920070047.3937292-1-ani@anisinha.ca>
-References: <20210920070047.3937292-1-ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Mon, 20 Sep 2021 12:34:08 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [RFC PATCH] tests/acpi/pcihp: add unit tests for hotplug on
+ multifunction bridges for q35
+In-Reply-To: <20210920080333.1ca6bb3d@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2109201233180.3937404@anisinha-lenovo>
+References: <20210806174642.490023-1-ani@anisinha.ca>
+ <20210806174642.490023-2-ani@anisinha.ca>
+ <20210917153248.6ef88697@redhat.com>
+ <alpine.DEB.2.22.394.2109190814020.3818584@anisinha-lenovo>
+ <alpine.DEB.2.22.394.2109190822510.3818584@anisinha-lenovo>
+ <20210920080333.1ca6bb3d@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1031;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1031.google.com
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, LOTS_OF_MONEY=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,245 +88,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, imammedo@redhat.com, mst@redhat.com
+Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We added a new unit test for testing acpi hotplug on multifunction bridges in
-q35 machines. Here, we update the DSDT table gloden master blob for this unit
-test.
 
-Following is the ASL diff between the original DSDT table and the modified DSDT
-table due to the unit test:
 
-@@ -5,13 +5,13 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/q35/DSDT, Mon Sep 20 12:22:11 2021
-+ * Disassembly of tests/data/acpi/q35/DSDT.multi-bridge, Mon Sep 20 12:22:31 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x00002061 (8289)
-+ *     Length           0x000020F3 (8435)
-  *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
-- *     Checksum         0xE5
-+ *     Checksum         0x1B
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPC    "
-  *     OEM Revision     0x00000001 (1)
-@@ -184,42 +184,6 @@
-             })
-         }
+On Mon, 20 Sep 2021, Igor Mammedov wrote:
 
--        Device (LPT1)
--        {
--            Name (_HID, EisaId ("PNP0400") /* Standard LPT Parallel Port */)  // _HID: Hardware ID
--            Name (_UID, One)  // _UID: Unique ID
--            Name (_STA, 0x0F)  // _STA: Status
--            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
--            {
--                IO (Decode16,
--                    0x0378,             // Range Minimum
--                    0x0378,             // Range Maximum
--                    0x08,               // Alignment
--                    0x08,               // Length
--                    )
--                IRQNoFlags ()
--                    {7}
--            })
--        }
--
--        Device (COM1)
--        {
--            Name (_HID, EisaId ("PNP0501") /* 16550A-compatible COM Serial Port */)  // _HID: Hardware ID
--            Name (_UID, One)  // _UID: Unique ID
--            Name (_STA, 0x0F)  // _STA: Status
--            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
--            {
--                IO (Decode16,
--                    0x03F8,             // Range Minimum
--                    0x03F8,             // Range Maximum
--                    0x00,               // Alignment
--                    0x08,               // Length
--                    )
--                IRQNoFlags ()
--                    {4}
--            })
--        }
--
-         Device (RTC)
-         {
-             Name (_HID, EisaId ("PNP0B00") /* AT Real-Time Clock */)  // _HID: Hardware ID
-@@ -3262,24 +3226,77 @@
-             Device (S08)
-             {
-                 Name (_ADR, 0x00010000)  // _ADR: Address
--                Method (_S1D, 0, NotSerialized)  // _S1D: S1 Device State
-+                Name (BSEL, One)
-+                Device (S00)
-                 {
--                    Return (Zero)
-+                    Name (_SUN, Zero)  // _SUN: Slot User Number
-+                    Name (_ADR, Zero)  // _ADR: Address
-+                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
-+                    {
-+                        PCEJ (BSEL, _SUN)
-+                    }
-+
-+                    Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
-+                    {
-+                        Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, _SUN))
-+                    }
-                 }
 
--                Method (_S2D, 0, NotSerialized)  // _S2D: S2 Device State
-+                Method (DVNT, 2, NotSerialized)
-                 {
--                    Return (Zero)
-+                    If ((Arg0 & One))
-+                    {
-+                        Notify (S00, Arg1)
-+                    }
-                 }
+> > > > > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> > > > > index 51d3a4e239..c92b70e8b8 100644
+> > > > > --- a/tests/qtest/bios-tables-test.c
+> > > > > +++ b/tests/qtest/bios-tables-test.c
+> > > > > @@ -859,6 +859,33 @@ static void test_acpi_q35_tcg_bridge(void)
+> > > > >      free_test_data(&data);
+> > > > >  }
+> > > > >
+> > > > > +static void test_acpi_q35_multif_bridge(void)
+> > > > > +{
+> > > > > +    test_data data = {
+> > > > > +        .machine = MACHINE_Q35,
+> > > > > +        .variant = ".multi-bridge",
+> > > >
+> > > > > +        .required_struct_types = base_required_struct_types,
+> > > > > +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types)
+> > > > do we care, i.e. why is this here?
+> > >
+> > > This verifies the smbios struct. It seems most of the other tests uses it.
+> > > So I left it in this test also.
+> > > Which of the tests should not be testing smbios?
+> >
+> > Right now smbios is only tested for non-uefi firmware. There are lots
+> > of tests that does not use uefi yet exercize the smbios struct tests.
+> > For example:
+> >
+> > test_acpi_piix4_tcg
+> > test_acpi_piix4_tcg_bridge
+> > test_acpi_piix4_no_root_hotplug
+> > test_acpi_piix4_no_bridge_hotplug
+> > test_acpi_piix4_no_acpi_pci_hotplug
+> > test_acpi_q35_tcg
+> > test_acpi_q35_tcg_bridge
+> > test_acpi_q35_tcg_mmio64
+> > test_acpi_q35_tcg_ipmi
+> > test_acpi_piix4_tcg_ipmi
+> >
+> > Should the smbios struct verification tests be removed from all of them?
+>
+> I'd leave them alone, and just remove smbios testing from this patch.
+>
 
--                Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
-+                Method (PCNT, 0, NotSerialized)
-                 {
--                    Return (Zero)
-+                    BNUM = One
-+                    DVNT (PCIU, One)
-+                    DVNT (PCID, 0x03)
-+                }
-+            }
-+
-+            Device (S09)
-+            {
-+                Name (_ADR, 0x00010001)  // _ADR: Address
-+                Name (BSEL, Zero)
-+                Device (S00)
-+                {
-+                    Name (_SUN, Zero)  // _SUN: Slot User Number
-+                    Name (_ADR, Zero)  // _ADR: Address
-+                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
-+                    {
-+                        PCEJ (BSEL, _SUN)
-+                    }
-+
-+                    Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
-+                    {
-+                        Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, _SUN))
-+                    }
-+                }
-+
-+                Method (DVNT, 2, NotSerialized)
-+                {
-+                    If ((Arg0 & One))
-+                    {
-+                        Notify (S00, Arg1)
-+                    }
-+                }
-+
-+                Method (PCNT, 0, NotSerialized)
-+                {
-+                    BNUM = Zero
-+                    DVNT (PCIU, One)
-+                    DVNT (PCID, 0x03)
-                 }
-             }
-
-             Method (PCNT, 0, NotSerialized)
-             {
-+                ^S09.PCNT ()
-+                ^S08.PCNT ()
-             }
-         }
-     }
-
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
----
- tests/data/acpi/q35/DSDT.multi-bridge       | Bin 0 -> 8435 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   1 -
- 2 files changed, 1 deletion(-)
-
-diff --git a/tests/data/acpi/q35/DSDT.multi-bridge b/tests/data/acpi/q35/DSDT.multi-bridge
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..a6565acc5cc390826f4ac23585912f9cf1d9acb9 100644
-GIT binary patch
-literal 8435
-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
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dabc024f53..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/q35/DSDT.multi-bridge",
--- 
-2.25.1
+I have sent a v3. Please ignore v2.
 
 
