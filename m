@@ -2,68 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6E1411160
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 10:52:30 +0200 (CEST)
-Received: from localhost ([::1]:35916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CA5411177
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 10:56:50 +0200 (CEST)
+Received: from localhost ([::1]:38340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSF2L-00084W-MO
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 04:52:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56674)
+	id 1mSF6X-0001SO-AS
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 04:56:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSF0w-0007OJ-SL
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:51:02 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44849)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSF0u-0004p7-74
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:51:02 -0400
-Received: by mail-wr1-x430.google.com with SMTP id d6so27411499wrc.11
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 01:50:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0sMUT7p8bEPX0PjXxAGhf2Z00A+d0ITKD5EqQ4e6FAI=;
- b=oWU6Iq9SSvdvobp5WZYf56cmRR/AJw/if0XzHJPX3z/zDJWWr2wTWLZLhUO7jQ4mId
- 8zrdLNFajR3u/33VpvFgUSBSqmnUtsQ7FCmYQPmXYPq+D6V5wwZ0U6VZG48ce0Tn+6y9
- 3Qs+KtBl7Nw4stFM8FU11tUB/eidDZZj/gUodXtT2YgVDysqd0JF6rLZQVBtdr+/8yX+
- vOXthBMBYwgb3M9s4gO85nlXPloujCT8/T1srIf6+11BCr3wLbtJpYCDxP+BiTLuP2Fr
- SElRU6fdX6x/Of+qJMMKni+XenqpPH9JFny0/9Rdk3R8YOgvsqqm9EqlVBz8/fG/SYaw
- yRlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0sMUT7p8bEPX0PjXxAGhf2Z00A+d0ITKD5EqQ4e6FAI=;
- b=YRx1axbd3MhP5U4hhzX5Uybq6Qgm/TkhZRpxT0eH98JUDNuGO/h1vnX1lRzWd6SraW
- wp6e8l2KLnsyI6gc5eORcKx2gxi5W/ANINgCpl4FKXLFqlvnJsSeZZmLQ97XcpAfy9TU
- ZnSdC75Rwe8wn0N38iz5aRzqGR1FcZupYIllyezr68WWTdruXUo99df11cB/Zaoykjwq
- 4ukXLnQm/BTv64DEb9pvQFGJyYmfYK4zg1Sl/H9Fa3iNMH5JvUcbNsZcobFLc/Sjx8Hm
- MsDELRYYWF/lgQELf8uG+dK3+jsY4rp0l66tbf/MNZ0sgo8F7H/T87XEsYIp5UI76i3q
- gtLA==
-X-Gm-Message-State: AOAM530tWltoBvyxGjXxwkHedoXo8JD1v7ED021vSFVzqa0BLtscQCtR
- inBmPMaj0Vj2sDDhyoG+W3MlJ8QFeockADJ6fyAjMQ==
-X-Google-Smtp-Source: ABdhPJzKzMjKPiYMcQUJZQ5JkEUncdGIJVOseWkd/+VoFEY8dZu/TkWqh3GjYm5ltUCeljgIzSBf4vlo5FkY99Y+6Cg=
-X-Received: by 2002:adf:f185:: with SMTP id h5mr27463103wro.302.1632127858564; 
- Mon, 20 Sep 2021 01:50:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mSF48-0000UE-FT
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:54:20 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:54792)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mSF46-0007VX-43
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:54:20 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-120-ZRtu6c8ZNDS1lm8vpCTO9w-1; Mon, 20 Sep 2021 04:54:04 -0400
+X-MC-Unique: ZRtu6c8ZNDS1lm8vpCTO9w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41C9C1023F4E;
+ Mon, 20 Sep 2021 08:54:03 +0000 (UTC)
+Received: from bahia.huguette (unknown [10.39.193.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1723619E7E;
+ Mon, 20 Sep 2021 08:54:01 +0000 (UTC)
+Date: Mon, 20 Sep 2021 10:54:00 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v8 3/7] spapr_numa.c: parametrize FORM1 macros
+Message-ID: <20210920105400.15ded535@bahia.huguette>
+In-Reply-To: <20210917212802.424481-4-danielhb413@gmail.com>
+References: <20210917212802.424481-1-danielhb413@gmail.com>
+ <20210917212802.424481-4-danielhb413@gmail.com>
 MIME-Version: 1.0
-References: <20210916135241.150566-1-dgilbert@redhat.com>
-In-Reply-To: <20210916135241.150566-1-dgilbert@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 Sep 2021 09:50:06 +0100
-Message-ID: <CAFEAcA8-zv9nhj_P_XpQG4b1WLrZiEh43h+T7AH+BrdcaTpNjw@mail.gmail.com>
-Subject: Re: [PULL 0/2] virtiofs queue
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,42 +63,327 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Sergio Lopez <slp@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- vgoyal@redhat.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Sept 2021 at 14:58, Dr. David Alan Gilbert (git)
-<dgilbert@redhat.com> wrote:
->
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->
-> The following changes since commit 57b6f58c1d0df757c9311496c32d502925056894:
->
->   Merge remote-tracking branch 'remotes/hreitz/tags/pull-block-2021-09-15' into staging (2021-09-15 18:55:59 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/dagrh/qemu.git tags/pull-virtiofs-20210916
->
-> for you to fetch changes up to 046d91c83caac29e2ba26c63fd7d685a57463f6d:
->
->   virtiofsd: Reverse req_list before processing it (2021-09-16 14:50:48 +0100)
->
-> ----------------------------------------------------------------
-> virtiofsd pull 2021-08-16
->
-> Two minor fixes; one for performance, the other seccomp
-> on s390x.
->
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+On Fri, 17 Sep 2021 18:27:58 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
+> The next preliminary step to introduce NUMA FORM2 affinity is to make
+> the existing code independent of FORM1 macros and values, i.e.
+> MAX_DISTANCE_REF_POINTS, NUMA_ASSOC_SIZE and VCPU_ASSOC_SIZE. This patch
+> accomplishes that by doing the following:
+>=20
+> - move the NUMA related macros from spapr.h to spapr_numa.c where they
+> are used. spapr.h gets instead a 'NUMA_NODES_MAX_NUM' macro that is used
+> to refer to the maximum number of NUMA nodes, including GPU nodes, that
+> the machine can support;
+>=20
+> - MAX_DISTANCE_REF_POINTS and NUMA_ASSOC_SIZE are renamed to
+> FORM1_DIST_REF_POINTS and FORM1_NUMA_ASSOC_SIZE. These FORM1 specific
+> macros are used in FORM1 init functions;
+>=20
+> - code that uses MAX_DISTANCE_REF_POINTS now retrieves the
+> max_dist_ref_points value using get_max_dist_ref_points().
+> NUMA_ASSOC_SIZE is replaced by get_numa_assoc_size() and VCPU_ASSOC_SIZE
+> is replaced by get_vcpu_assoc_size(). These functions are used by the
+> generic device tree functions and h_home_node_associativity() and will
+> allow them to switch between FORM1 and FORM2 without changing their core
+> logic.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
 
-Applied, thanks.
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
-for any user-visible changes.
+>  hw/ppc/spapr_numa.c    | 74 ++++++++++++++++++++++++++++++------------
+>  include/hw/ppc/spapr.h | 28 ++++++++--------
+>  2 files changed, 67 insertions(+), 35 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+> index bf520d42b2..08e2d6aed8 100644
+> --- a/hw/ppc/spapr_numa.c
+> +++ b/hw/ppc/spapr_numa.c
+> @@ -19,6 +19,33 @@
+>  /* Moved from hw/ppc/spapr_pci_nvlink2.c */
+>  #define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
+> =20
+> +/*
+> + * Retrieves max_dist_ref_points of the current NUMA affinity.
+> + */
+> +static int get_max_dist_ref_points(SpaprMachineState *spapr)
+> +{
+> +    return FORM1_DIST_REF_POINTS;
+> +}
+> +
+> +/*
+> + * Retrieves numa_assoc_size of the current NUMA affinity.
+> + */
+> +static int get_numa_assoc_size(SpaprMachineState *spapr)
+> +{
+> +    return FORM1_NUMA_ASSOC_SIZE;
+> +}
+> +
+> +/*
+> + * Retrieves vcpu_assoc_size of the current NUMA affinity.
+> + *
+> + * vcpu_assoc_size is the size of ibm,associativity array
+> + * for CPUs, which has an extra element (vcpu_id) in the end.
+> + */
+> +static int get_vcpu_assoc_size(SpaprMachineState *spapr)
+> +{
+> +    return get_numa_assoc_size(spapr) + 1;
+> +}
+> +
+>  static bool spapr_numa_is_symmetrical(MachineState *ms)
+>  {
+>      int src, dst;
+> @@ -96,7 +123,7 @@ static void spapr_numa_define_FORM1_domains(SpaprMachi=
+neState *spapr)
+>       * considered a match with associativity domains of node 0.
+>       */
+>      for (i =3D 1; i < nb_numa_nodes; i++) {
+> -        for (j =3D 1; j < MAX_DISTANCE_REF_POINTS; j++) {
+> +        for (j =3D 1; j < FORM1_DIST_REF_POINTS; j++) {
+>              spapr->numa_assoc_array[i][j] =3D cpu_to_be32(i);
+>          }
+>      }
+> @@ -134,7 +161,7 @@ static void spapr_numa_define_FORM1_domains(SpaprMach=
+ineState *spapr)
+>               *
+>               * The Linux kernel will assume that the distance between sr=
+c and
+>               * dst, in this case of no match, is 10 (local distance) dou=
+bled
+> -             * for each NUMA it didn't match. We have MAX_DISTANCE_REF_P=
+OINTS
+> +             * for each NUMA it didn't match. We have FORM1_DIST_REF_POI=
+NTS
+>               * levels (4), so this gives us 10*2*2*2*2 =3D 160.
+>               *
+>               * This logic can be seen in the Linux kernel source code, a=
+s of
+> @@ -169,7 +196,7 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachi=
+neState *spapr,
+> =20
+>      /*
+>       * For all associativity arrays: first position is the size,
+> -     * position MAX_DISTANCE_REF_POINTS is always the numa_id,
+> +     * position FORM1_DIST_REF_POINTS is always the numa_id,
+>       * represented by the index 'i'.
+>       *
+>       * This will break on sparse NUMA setups, when/if QEMU starts
+> @@ -177,8 +204,8 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachi=
+neState *spapr,
+>       * 'i' will be a valid node_id set by the user.
+>       */
+>      for (i =3D 0; i < nb_numa_nodes; i++) {
+> -        spapr->numa_assoc_array[i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_P=
+OINTS);
+> -        spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_b=
+e32(i);
+> +        spapr->numa_assoc_array[i][0] =3D cpu_to_be32(FORM1_DIST_REF_POI=
+NTS);
+> +        spapr->numa_assoc_array[i][FORM1_DIST_REF_POINTS] =3D cpu_to_be3=
+2(i);
+>      }
+> =20
+>      /*
+> @@ -192,15 +219,15 @@ static void spapr_numa_FORM1_affinity_init(SpaprMac=
+hineState *spapr,
+>      max_nodes_with_gpus =3D nb_numa_nodes + NVGPU_MAX_NUM;
+> =20
+>      for (i =3D nb_numa_nodes; i < max_nodes_with_gpus; i++) {
+> -        spapr->numa_assoc_array[i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_P=
+OINTS);
+> +        spapr->numa_assoc_array[i][0] =3D cpu_to_be32(FORM1_DIST_REF_POI=
+NTS);
+> =20
+> -        for (j =3D 1; j < MAX_DISTANCE_REF_POINTS; j++) {
+> +        for (j =3D 1; j < FORM1_DIST_REF_POINTS; j++) {
+>              uint32_t gpu_assoc =3D smc->pre_5_1_assoc_refpoints ?
+>                                   SPAPR_GPU_NUMA_ID : cpu_to_be32(i);
+>              spapr->numa_assoc_array[i][j] =3D gpu_assoc;
+>          }
+> =20
+> -        spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_b=
+e32(i);
+> +        spapr->numa_assoc_array[i][FORM1_DIST_REF_POINTS] =3D cpu_to_be3=
+2(i);
+>      }
+> =20
+>      /*
+> @@ -234,13 +261,15 @@ void spapr_numa_write_associativity_dt(SpaprMachine=
+State *spapr, void *fdt,
+>  {
+>      _FDT((fdt_setprop(fdt, offset, "ibm,associativity",
+>                        spapr->numa_assoc_array[nodeid],
+> -                      sizeof(spapr->numa_assoc_array[nodeid]))));
+> +                      get_numa_assoc_size(spapr) * sizeof(uint32_t))));
+>  }
+> =20
+>  static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMachineState *spapr,
+>                                             PowerPCCPU *cpu)
+>  {
+> -    uint32_t *vcpu_assoc =3D g_new(uint32_t, VCPU_ASSOC_SIZE);
+> +    int max_distance_ref_points =3D get_max_dist_ref_points(spapr);
+> +    int vcpu_assoc_size =3D get_vcpu_assoc_size(spapr);
+> +    uint32_t *vcpu_assoc =3D g_new(uint32_t, vcpu_assoc_size);
+>      int index =3D spapr_get_vcpu_id(cpu);
+> =20
+>      /*
+> @@ -249,10 +278,10 @@ static uint32_t *spapr_numa_get_vcpu_assoc(SpaprMac=
+hineState *spapr,
+>       * 0, put cpu_id last, then copy the remaining associativity
+>       * domains.
+>       */
+> -    vcpu_assoc[0] =3D cpu_to_be32(MAX_DISTANCE_REF_POINTS + 1);
+> -    vcpu_assoc[VCPU_ASSOC_SIZE - 1] =3D cpu_to_be32(index);
+> +    vcpu_assoc[0] =3D cpu_to_be32(max_distance_ref_points + 1);
+> +    vcpu_assoc[vcpu_assoc_size - 1] =3D cpu_to_be32(index);
+>      memcpy(vcpu_assoc + 1, spapr->numa_assoc_array[cpu->node_id] + 1,
+> -           (VCPU_ASSOC_SIZE - 2) * sizeof(uint32_t));
+> +           (vcpu_assoc_size - 2) * sizeof(uint32_t));
+> =20
+>      return vcpu_assoc;
+>  }
+> @@ -261,12 +290,13 @@ int spapr_numa_fixup_cpu_dt(SpaprMachineState *spap=
+r, void *fdt,
+>                              int offset, PowerPCCPU *cpu)
+>  {
+>      g_autofree uint32_t *vcpu_assoc =3D NULL;
+> +    int vcpu_assoc_size =3D get_vcpu_assoc_size(spapr);
+> =20
+>      vcpu_assoc =3D spapr_numa_get_vcpu_assoc(spapr, cpu);
+> =20
+>      /* Advertise NUMA via ibm,associativity */
+>      return fdt_setprop(fdt, offset, "ibm,associativity", vcpu_assoc,
+> -                       VCPU_ASSOC_SIZE * sizeof(uint32_t));
+> +                       vcpu_assoc_size * sizeof(uint32_t));
+>  }
+> =20
+> =20
+> @@ -274,17 +304,18 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachi=
+neState *spapr, void *fdt,
+>                                           int offset)
+>  {
+>      MachineState *machine =3D MACHINE(spapr);
+> +    int max_distance_ref_points =3D get_max_dist_ref_points(spapr);
+>      int nb_numa_nodes =3D machine->numa_state->num_nodes;
+>      int nr_nodes =3D nb_numa_nodes ? nb_numa_nodes : 1;
+>      uint32_t *int_buf, *cur_index, buf_len;
+>      int ret, i;
+> =20
+>      /* ibm,associativity-lookup-arrays */
+> -    buf_len =3D (nr_nodes * MAX_DISTANCE_REF_POINTS + 2) * sizeof(uint32=
+_t);
+> +    buf_len =3D (nr_nodes * max_distance_ref_points + 2) * sizeof(uint32=
+_t);
+>      cur_index =3D int_buf =3D g_malloc0(buf_len);
+>      int_buf[0] =3D cpu_to_be32(nr_nodes);
+>       /* Number of entries per associativity list */
+> -    int_buf[1] =3D cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+> +    int_buf[1] =3D cpu_to_be32(max_distance_ref_points);
+>      cur_index +=3D 2;
+>      for (i =3D 0; i < nr_nodes; i++) {
+>          /*
+> @@ -293,8 +324,8 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachine=
+State *spapr, void *fdt,
+>           */
+>          uint32_t *associativity =3D spapr->numa_assoc_array[i];
+>          memcpy(cur_index, ++associativity,
+> -               sizeof(uint32_t) * MAX_DISTANCE_REF_POINTS);
+> -        cur_index +=3D MAX_DISTANCE_REF_POINTS;
+> +               sizeof(uint32_t) * max_distance_ref_points);
+> +        cur_index +=3D max_distance_ref_points;
+>      }
+>      ret =3D fdt_setprop(fdt, offset, "ibm,associativity-lookup-arrays", =
+int_buf,
+>                        (cur_index - int_buf) * sizeof(uint32_t));
+> @@ -383,6 +414,7 @@ static target_ulong h_home_node_associativity(PowerPC=
+CPU *cpu,
+>      target_ulong procno =3D args[1];
+>      PowerPCCPU *tcpu;
+>      int idx, assoc_idx;
+> +    int vcpu_assoc_size =3D get_vcpu_assoc_size(spapr);
+> =20
+>      /* only support procno from H_REGISTER_VPA */
+>      if (flags !=3D 0x1) {
+> @@ -401,7 +433,7 @@ static target_ulong h_home_node_associativity(PowerPC=
+CPU *cpu,
+>       * 12 associativity domains for vcpus. Assert and bail if that's
+>       * not the case.
+>       */
+> -    G_STATIC_ASSERT((VCPU_ASSOC_SIZE - 1) <=3D 12);
+> +    g_assert((vcpu_assoc_size - 1) <=3D 12);
+> =20
+>      vcpu_assoc =3D spapr_numa_get_vcpu_assoc(spapr, tcpu);
+>      /* assoc_idx starts at 1 to skip associativity size */
+> @@ -422,9 +454,9 @@ static target_ulong h_home_node_associativity(PowerPC=
+CPU *cpu,
+>           * macro. The ternary will fill the remaining registers with -1
+>           * after we went through vcpu_assoc[].
+>           */
+> -        a =3D assoc_idx < VCPU_ASSOC_SIZE ?
+> +        a =3D assoc_idx < vcpu_assoc_size ?
+>              be32_to_cpu(vcpu_assoc[assoc_idx++]) : -1;
+> -        b =3D assoc_idx < VCPU_ASSOC_SIZE ?
+> +        b =3D assoc_idx < vcpu_assoc_size ?
+>              be32_to_cpu(vcpu_assoc[assoc_idx++]) : -1;
+> =20
+>          args[idx] =3D ASSOCIATIVITY(a, b);
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 637652ad16..814e087e98 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -100,23 +100,23 @@ typedef enum {
+> =20
+>  #define FDT_MAX_SIZE                    0x200000
+> =20
+> +/* Max number of GPUs per system */
+> +#define NVGPU_MAX_NUM              6
+> +
+> +/* Max number of NUMA nodes */
+> +#define NUMA_NODES_MAX_NUM         (MAX_NODES + NVGPU_MAX_NUM)
+> +
+>  /*
+> - * NUMA related macros. MAX_DISTANCE_REF_POINTS was taken
+> - * from Linux kernel arch/powerpc/mm/numa.h. It represents the
+> - * amount of associativity domains for non-CPU resources.
+> + * NUMA FORM1 macros. FORM1_DIST_REF_POINTS was taken from
+> + * MAX_DISTANCE_REF_POINTS in arch/powerpc/mm/numa.h from Linux
+> + * kernel source. It represents the amount of associativity domains
+> + * for non-CPU resources.
+>   *
+> - * NUMA_ASSOC_SIZE is the base array size of an ibm,associativity
+> + * FORM1_NUMA_ASSOC_SIZE is the base array size of an ibm,associativity
+>   * array for any non-CPU resource.
+> - *
+> - * VCPU_ASSOC_SIZE represents the size of ibm,associativity array
+> - * for CPUs, which has an extra element (vcpu_id) in the end.
+>   */
+> -#define MAX_DISTANCE_REF_POINTS    4
+> -#define NUMA_ASSOC_SIZE            (MAX_DISTANCE_REF_POINTS + 1)
+> -#define VCPU_ASSOC_SIZE            (NUMA_ASSOC_SIZE + 1)
+> -
+> -/* Max number of these GPUsper a physical box */
+> -#define NVGPU_MAX_NUM                6
+> +#define FORM1_DIST_REF_POINTS            4
+> +#define FORM1_NUMA_ASSOC_SIZE            (FORM1_DIST_REF_POINTS + 1)
+> =20
+>  typedef struct SpaprCapabilities SpaprCapabilities;
+>  struct SpaprCapabilities {
+> @@ -249,7 +249,7 @@ struct SpaprMachineState {
+>      unsigned gpu_numa_id;
+>      SpaprTpmProxy *tpm_proxy;
+> =20
+> -    uint32_t numa_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE=
+];
+> +    uint32_t numa_assoc_array[NUMA_NODES_MAX_NUM][FORM1_NUMA_ASSOC_SIZE]=
+;
+> =20
+>      Error *fwnmi_migration_blocker;
+>  };
 
--- PMM
 
