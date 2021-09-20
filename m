@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA0DB411106
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 10:33:34 +0200 (CEST)
-Received: from localhost ([::1]:45778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FBF94110F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 10:28:07 +0200 (CEST)
+Received: from localhost ([::1]:34020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSEk2-0003Oy-0w
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 04:33:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48922)
+	id 1mSEek-0003o6-DD
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 04:28:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mSENB-0004bs-K6
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:09:57 -0400
-Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253]:36745)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mSEMx-0003nO-4g
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mSEN7-0004aT-8d
  for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:09:53 -0400
+Received: from 6.mo552.mail-out.ovh.net ([188.165.49.222]:57861)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mSEMx-0003na-4C
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 04:09:52 -0400
 Received: from mxplan5.mail.ovh.net (unknown [10.108.4.132])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 10450213E6;
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 46DDD213DA;
  Mon, 20 Sep 2021 08:09:40 +0000 (UTC)
 Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 20 Sep
  2021 10:09:39 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005c8fe341e-af88-4fe2-b401-37be9b7af0ba,
+ (GARM-103G005064a6373-6fa5-4868-a13c-5c64ee2b07c1,
  C584E5EC745A9DFF7B561FC81DF43D5934FDEC9F) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 13/14] hw/arm/aspeed: Allow machine to set UART default
-Date: Mon, 20 Sep 2021 10:09:27 +0200
-Message-ID: <20210920080928.1055567-14-clg@kaod.org>
+Subject: [PULL 14/14] hw/arm/aspeed: Add Fuji machine type
+Date: Mon, 20 Sep 2021 10:09:28 +0200
+Message-ID: <20210920080928.1055567-15-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210920080928.1055567-1-clg@kaod.org>
 References: <20210920080928.1055567-1-clg@kaod.org>
@@ -42,18 +42,18 @@ Content-Transfer-Encoding: 8bit
 X-Originating-IP: [37.59.142.103]
 X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 2f040a50-838b-4981-be80-b2d7606c4234
-X-Ovh-Tracer-Id: 4738631235959229289
+X-Ovh-Tracer-GUID: 4de07f88-f096-4c82-92a3-131d5abaacef
+X-Ovh-Tracer-Id: 4738912711681870697
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudeivdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehheefgeejiedtffefteejudevjeeufeeugfdtfeeuleeuteevleeihffhgfdtleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
- helo=7.mo552.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudeivdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofgjfhggtgfgihesthekredtredtjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigfdvvdffffevleefgefhheegtedutdfgueevfeffleegledvuefhteetueekjeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
+ helo=6.mo552.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,130 +75,178 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Delevoryas <pdel@fb.com>
 
-When you run QEMU with an Aspeed machine and a single serial device
-using stdio like this:
+This adds a new machine type "fuji-bmc" based on the following device tree:
 
-    qemu -machine ast2600-evb -drive ... -serial stdio
+https://github.com/torvalds/linux/blob/40cb6373b46/arch/arm/boot/dts/aspeed-bmc-facebook-fuji.dts
 
-The guest OS can read and write to the UART5 registers at 0x1E784000 and
-it will receive from stdin and write to stdout. The Aspeed SoC's have a
-lot more UART's though (AST2500 has 5, AST2600 has 13) and depending on
-the board design, may be using any of them as the serial console. (See
-"stdout-path" in a DTS to check which one is chosen).
+Most of the i2c devices are not there, they're added here:
 
-Most boards, including all of those currently defined in
-hw/arm/aspeed.c, just use UART5, but some use UART1. This change adds
-some flexibility for different boards without requiring users to change
-their command-line invocation of QEMU.
+https://github.com/facebook/openbmc/blob/fb2ed12002fb/meta-facebook/meta-fuji/recipes-utils/openbmc-utils/files/setup_i2c.sh
 
-I tested this doesn't break existing code by booting an AST2500 OpenBMC
-image and an AST2600 OpenBMC image, each using UART5 as the console.
-
-Then I tested switching the default to UART1 and booting an AST2600
-OpenBMC image that uses UART1, and that worked too.
+I tested this by building a Fuji image from Facebook's OpenBMC repo,
+booting, and ssh'ing from host-to-guest.
 
 Signed-off-by: Peter Delevoryas <pdel@fb.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20210901153615.2746885-2-pdel@fb.com>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+[ clg: On 32-bit hosts, lower RAM to 1G because of 2047 MB limit ]
+Message-Id: <20210906133124.3674661-1-pdel@fb.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/arm/aspeed.h     | 1 +
- include/hw/arm/aspeed_soc.h | 1 +
- hw/arm/aspeed.c             | 3 +++
- hw/arm/aspeed_ast2600.c     | 8 ++++----
- hw/arm/aspeed_soc.c         | 8 +++++---
- 5 files changed, 14 insertions(+), 7 deletions(-)
+ hw/arm/aspeed.c | 120 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 120 insertions(+)
 
-diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
-index c9747b15fc5f..cbeacb214ca4 100644
---- a/include/hw/arm/aspeed.h
-+++ b/include/hw/arm/aspeed.h
-@@ -38,6 +38,7 @@ struct AspeedMachineClass {
-     uint32_t num_cs;
-     uint32_t macs_mask;
-     void (*i2c_init)(AspeedMachineState *bmc);
-+    uint32_t uart_default;
- };
- 
- 
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index d9161d26d645..87d76c92598b 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -65,6 +65,7 @@ struct AspeedSoCState {
-     AspeedSDHCIState sdhci;
-     AspeedSDHCIState emmc;
-     AspeedLPCState lpc;
-+    uint32_t uart_default;
- };
- 
- #define TYPE_ASPEED_SOC "aspeed-soc"
 diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 886e5992cdf3..7a9459340cf4 100644
+index 7a9459340cf4..ba5f1dc5af78 100644
 --- a/hw/arm/aspeed.c
 +++ b/hw/arm/aspeed.c
-@@ -350,6 +350,8 @@ static void aspeed_machine_init(MachineState *machine)
-         object_property_set_int(OBJECT(&bmc->soc), "hw-prot-key",
-                                 ASPEED_SCU_PROT_KEY, &error_abort);
-     }
-+    qdev_prop_set_uint32(DEVICE(&bmc->soc), "uart-default",
-+                         amc->uart_default);
-     qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
+@@ -159,6 +159,10 @@ struct AspeedMachineState {
+ #define RAINIER_BMC_HW_STRAP1 0x00000000
+ #define RAINIER_BMC_HW_STRAP2 0x00000000
  
-     memory_region_add_subregion(get_system_memory(),
-@@ -848,6 +850,7 @@ static void aspeed_machine_class_init(ObjectClass *oc, void *data)
-     mc->no_parallel = 1;
-     mc->default_ram_id = "ram";
-     amc->macs_mask = ASPEED_MAC0_ON;
-+    amc->uart_default = ASPEED_DEV_UART5;
- 
-     aspeed_machine_class_props_init(oc);
++/* Fuji hardware value */
++#define FUJI_BMC_HW_STRAP1    0x00000000
++#define FUJI_BMC_HW_STRAP2    0x00000000
++
+ /*
+  * The max ram region is for firmwares that scan the address space
+  * with load/store to guess how much RAM the SoC has.
+@@ -772,6 +776,91 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
+     aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 15), 0x50, 64 * KiB);
  }
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 8e1993790e6f..9d70e8e060c6 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -322,10 +322,10 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
-     }
  
--    /* UART - attach an 8250 to the IO space as our UART5 */
--    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
--                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
--                   38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
-+    /* UART - attach an 8250 to the IO space as our UART */
-+    serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
-+                   aspeed_soc_get_irq(s, s->uart_default), 38400,
-+                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
- 
-     /* I2C */
-     object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr),
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 3ad6c56fa9a9..ed84502e238a 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -287,9 +287,9 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
-     }
- 
--    /* UART - attach an 8250 to the IO space as our UART5 */
--    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
--                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5), 38400,
-+    /* UART - attach an 8250 to the IO space as our UART */
-+    serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
-+                   aspeed_soc_get_irq(s, s->uart_default), 38400,
-                    serial_hd(0), DEVICE_LITTLE_ENDIAN);
- 
-     /* I2C */
-@@ -439,6 +439,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
- static Property aspeed_soc_properties[] = {
-     DEFINE_PROP_LINK("dram", AspeedSoCState, dram_mr, TYPE_MEMORY_REGION,
-                      MemoryRegion *),
-+    DEFINE_PROP_UINT32("uart-default", AspeedSoCState, uart_default,
-+                       ASPEED_DEV_UART5),
-     DEFINE_PROP_END_OF_LIST(),
++static void get_pca9548_channels(I2CBus *bus, uint8_t mux_addr,
++                                 I2CBus **channels)
++{
++    I2CSlave *mux = i2c_slave_create_simple(bus, "pca9548", mux_addr);
++    for (int i = 0; i < 8; i++) {
++        channels[i] = pca954x_i2c_get_bus(mux, i);
++    }
++}
++
++#define TYPE_LM75 TYPE_TMP105
++#define TYPE_TMP75 TYPE_TMP105
++#define TYPE_TMP422 "tmp422"
++
++static void fuji_bmc_i2c_init(AspeedMachineState *bmc)
++{
++    AspeedSoCState *soc = &bmc->soc;
++    I2CBus *i2c[144] = {};
++
++    for (int i = 0; i < 16; i++) {
++        i2c[i] = aspeed_i2c_get_bus(&soc->i2c, i);
++    }
++    I2CBus *i2c180 = i2c[2];
++    I2CBus *i2c480 = i2c[8];
++    I2CBus *i2c600 = i2c[11];
++
++    get_pca9548_channels(i2c180, 0x70, &i2c[16]);
++    get_pca9548_channels(i2c480, 0x70, &i2c[24]);
++    /* NOTE: The device tree skips [32, 40) in the alias numbering */
++    get_pca9548_channels(i2c600, 0x77, &i2c[40]);
++    get_pca9548_channels(i2c[24], 0x71, &i2c[48]);
++    get_pca9548_channels(i2c[25], 0x72, &i2c[56]);
++    get_pca9548_channels(i2c[26], 0x76, &i2c[64]);
++    get_pca9548_channels(i2c[27], 0x76, &i2c[72]);
++    for (int i = 0; i < 8; i++) {
++        get_pca9548_channels(i2c[40 + i], 0x76, &i2c[80 + i * 8]);
++    }
++
++    i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4c);
++    i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4d);
++
++    aspeed_eeprom_init(i2c[19], 0x52, 64 * KiB);
++    aspeed_eeprom_init(i2c[20], 0x50, 2 * KiB);
++    aspeed_eeprom_init(i2c[22], 0x52, 2 * KiB);
++
++    i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x48);
++    i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x49);
++    i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x4a);
++    i2c_slave_create_simple(i2c[3], TYPE_TMP422, 0x4c);
++
++    aspeed_eeprom_init(i2c[8], 0x51, 64 * KiB);
++    i2c_slave_create_simple(i2c[8], TYPE_LM75, 0x4a);
++
++    i2c_slave_create_simple(i2c[50], TYPE_LM75, 0x4c);
++    aspeed_eeprom_init(i2c[50], 0x52, 64 * KiB);
++    i2c_slave_create_simple(i2c[51], TYPE_TMP75, 0x48);
++    i2c_slave_create_simple(i2c[52], TYPE_TMP75, 0x49);
++
++    i2c_slave_create_simple(i2c[59], TYPE_TMP75, 0x48);
++    i2c_slave_create_simple(i2c[60], TYPE_TMP75, 0x49);
++
++    aspeed_eeprom_init(i2c[65], 0x53, 64 * KiB);
++    i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x49);
++    i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x48);
++    aspeed_eeprom_init(i2c[68], 0x52, 64 * KiB);
++    aspeed_eeprom_init(i2c[69], 0x52, 64 * KiB);
++    aspeed_eeprom_init(i2c[70], 0x52, 64 * KiB);
++    aspeed_eeprom_init(i2c[71], 0x52, 64 * KiB);
++
++    aspeed_eeprom_init(i2c[73], 0x53, 64 * KiB);
++    i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x49);
++    i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x48);
++    aspeed_eeprom_init(i2c[76], 0x52, 64 * KiB);
++    aspeed_eeprom_init(i2c[77], 0x52, 64 * KiB);
++    aspeed_eeprom_init(i2c[78], 0x52, 64 * KiB);
++    aspeed_eeprom_init(i2c[79], 0x52, 64 * KiB);
++    aspeed_eeprom_init(i2c[28], 0x50, 2 * KiB);
++
++    for (int i = 0; i < 8; i++) {
++        aspeed_eeprom_init(i2c[81 + i * 8], 0x56, 64 * KiB);
++        i2c_slave_create_simple(i2c[82 + i * 8], TYPE_TMP75, 0x48);
++        i2c_slave_create_simple(i2c[83 + i * 8], TYPE_TMP75, 0x4b);
++        i2c_slave_create_simple(i2c[84 + i * 8], TYPE_TMP75, 0x4a);
++    }
++}
++
+ static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
+ {
+     return ASPEED_MACHINE(obj)->mmio_exec;
+@@ -1070,6 +1159,33 @@ static void aspeed_machine_rainier_class_init(ObjectClass *oc, void *data)
+         aspeed_soc_num_cpus(amc->soc_name);
  };
  
++/* On 32-bit hosts, lower RAM to 1G because of the 2047 MB limit */
++#if HOST_LONG_BITS == 32
++#define FUJI_BMC_RAM_SIZE (1 * GiB)
++#else
++#define FUJI_BMC_RAM_SIZE (2 * GiB)
++#endif
++
++static void aspeed_machine_fuji_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
++
++    mc->desc = "Facebook Fuji BMC (Cortex-A7)";
++    amc->soc_name = "ast2600-a3";
++    amc->hw_strap1 = FUJI_BMC_HW_STRAP1;
++    amc->hw_strap2 = FUJI_BMC_HW_STRAP2;
++    amc->fmc_model = "mx66l1g45g";
++    amc->spi_model = "mx66l1g45g";
++    amc->num_cs = 2;
++    amc->macs_mask = ASPEED_MAC3_ON;
++    amc->i2c_init = fuji_bmc_i2c_init;
++    amc->uart_default = ASPEED_DEV_UART1;
++    mc->default_ram_size = FUJI_BMC_RAM_SIZE;
++    mc->default_cpus = mc->min_cpus = mc->max_cpus =
++        aspeed_soc_num_cpus(amc->soc_name);
++};
++
+ static const TypeInfo aspeed_machine_types[] = {
+     {
+         .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
+@@ -1119,6 +1235,10 @@ static const TypeInfo aspeed_machine_types[] = {
+         .name          = MACHINE_TYPE_NAME("rainier-bmc"),
+         .parent        = TYPE_ASPEED_MACHINE,
+         .class_init    = aspeed_machine_rainier_class_init,
++    }, {
++        .name          = MACHINE_TYPE_NAME("fuji-bmc"),
++        .parent        = TYPE_ASPEED_MACHINE,
++        .class_init    = aspeed_machine_fuji_class_init,
+     }, {
+         .name          = TYPE_ASPEED_MACHINE,
+         .parent        = TYPE_MACHINE,
 -- 
 2.31.1
 
