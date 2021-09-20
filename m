@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7C1412055
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 19:53:01 +0200 (CEST)
-Received: from localhost ([::1]:51302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F1D412045
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Sep 2021 19:52:30 +0200 (CEST)
+Received: from localhost ([::1]:50362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSNTQ-0005Gj-NR
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 13:53:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54366)
+	id 1mSNSv-0004dy-GX
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 13:52:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mSNQZ-0001ii-Nt; Mon, 20 Sep 2021 13:50:05 -0400
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:43567)
+ id 1mSNQb-0001iz-6S; Mon, 20 Sep 2021 13:50:05 -0400
+Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:33300)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mSNQX-0008QJ-5i; Mon, 20 Sep 2021 13:50:03 -0400
-Received: by mail-qt1-x82b.google.com with SMTP id a13so2291512qtw.10;
- Mon, 20 Sep 2021 10:50:00 -0700 (PDT)
+ id 1mSNQZ-0008RT-0x; Mon, 20 Sep 2021 13:50:04 -0400
+Received: by mail-qk1-x733.google.com with SMTP id d207so20150739qkg.0;
+ Mon, 20 Sep 2021 10:50:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uCwUlAEuHu9NPWjIuULqWyr2j0RMt56Ie8slVpbbpAE=;
- b=PQWKIB4S0Zxvt1It95Sesq/Q74CrDLcV81sw18LPMvThIewANb9HxZWpV8ll6E+jIA
- /b5ruzU9craQVCeRYQuMUa0YFE7FYMxqsum7hYhWp9qj7Vj0zGOpOn9Ed3wFe95lkKjf
- JKi2CfAcN3hclwQY5VLbyXAULbqN4pYZ9XaLtIqEmQbi/oqwpVengLt64b9a9t6fd+ZX
- UpHx/n+FHXVadtSNXzNzxLem4YbDk5AWeyF7rpKlZf2xNsRQ/63slSWxqsfGadVIgCky
- Jkj4oaJN162SJkS6+829415929S0iTa1Gptrz9W52TzcfPWBGXGWG0ClSX0Y/n10Zzri
- xvbA==
+ bh=9snP2SQ90EsaopUkwhiL3G+yqbxkthjiliUkz9xzmQM=;
+ b=WqNDZyw7l5AS1oQW/eSJTLxSDtu/bYsFFKB4TfpmEjXhMCfvt+VJbj3FQdq1XRRfa7
+ CoXoXQg82erJphWu15EVonXlOjCaEDTWxkVWOlttYqtxwjUQJ5cxaJJk55Jqqdv/s2Hh
+ jMD9lwzD5RCbmgR8GlEnlL4UK6VwRaX5ZPTEL5I2n+Y7INApBa/fCqA/1M/3ULBC4vl8
+ tZrBRf0SwgbqFYopMTgt7CscW20xmXpwC6U/cMMbfte2Rw/gbhPKkeyfUq8ve9ucRlgg
+ QEKZi0gIDFtImrVQXl1yzQCyS4Vdk5U/T1O6paYu8FJzExrsgt7Fal2457gPk9PqOP60
+ Yncw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uCwUlAEuHu9NPWjIuULqWyr2j0RMt56Ie8slVpbbpAE=;
- b=HM9JMe9SMxOtGJNGWVU7Rn82R362PRJFLfDOg6FdR6dyedhkvEpnONtHsjhH3sGANf
- eQx6oe2mFbhxDlE0jlcoQBJ9Kqpwq3qqB/VDzK9RKld56LnuBwesVTUCNL+uqxdAEY3t
- bqcTG62f85wvyiwkeHovCoVW4gyOOb4eA49zWtsYLtceHhNtq7wY05S1nfUP7ep01S+Z
- kh5U8yQEGi3HcMvp5OMGFR4yhwG/dbx2tlCO5ESBb4lcyqFDMR5o8GR6iZYwWbUPWCMP
- HJ48OFHjCItsxhCl7shKxJ/Xu2xM6XYaRBxocwxshr9kvG0DRKER2bfotH2r872KpyGn
- fZ4w==
-X-Gm-Message-State: AOAM530AscGQJhMvG/AyLEE366wzW/6kgiqycNMam7KXg/eyUwvh0B8K
- tnlYHEn6UUsRmFQgyYLlWyhtT1TJgPE=
-X-Google-Smtp-Source: ABdhPJyfBIBB0Tg991s6zFfIXX/XKeTv50Hg1dYwsADcm3q1CaAMFLbCfMH5UwecSZsmyFREOWWILw==
-X-Received: by 2002:ac8:5796:: with SMTP id v22mr24013805qta.373.1632160199880; 
- Mon, 20 Sep 2021 10:49:59 -0700 (PDT)
+ bh=9snP2SQ90EsaopUkwhiL3G+yqbxkthjiliUkz9xzmQM=;
+ b=q9cpZaLhtBx8wA8YhZhwar5JcmEx1CjUeCG2/kin6HIInbpVaQ2Xq3fbJgJTQAIjNa
+ FWiBEMLcXTZ0QdkS+6O9wR5rxbeCTN+i2jyBCTFXaMdh5rX4gDov6YHbwsxNQw0zHF6o
+ o4CbijbioFgV+3j02ZuQOxTBXr+krEddI7iAH4/+3gMOiYLxgFg+2Dj0HX7zwiG+t3El
+ IMI8/FawIbKz6/LcLbVMrhSBf+hofu6jypDL/5zdbaRlNZet07Jpsf5epiL4zAKJrZzc
+ jP++RJOWx3yqGE5ohUXC/L90PVotzIpYJHOheygN8ibE7fO5TKjvWKtPX7M3BVhwpwv/
+ 4HKQ==
+X-Gm-Message-State: AOAM532mbJdf2uE17JdeXyDvPQZGSY/Dd49cKbQUYXx5MZhBZzXlLtbo
+ OD9GW1FeN8G9wAqB179u+wq1212Obps=
+X-Google-Smtp-Source: ABdhPJxuz8D2m6+X2l1Mug6MHgqSeYzheuO3UTUDu8E57cBBd0xQ2wJb3w493m8qnHKanq8wfx/ZWA==
+X-Received: by 2002:a37:482:: with SMTP id 124mr12118026qke.241.1632160201731; 
+ Mon, 20 Sep 2021 10:50:01 -0700 (PDT)
 Received: from rekt.COMFAST ([177.189.43.50])
- by smtp.gmail.com with ESMTPSA id l28sm6073614qkl.127.2021.09.20.10.49.58
+ by smtp.gmail.com with ESMTPSA id l28sm6073614qkl.127.2021.09.20.10.50.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 10:49:59 -0700 (PDT)
+ Mon, 20 Sep 2021 10:50:01 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 1/7] spapr_numa.c: split FORM1 code into helpers
-Date: Mon, 20 Sep 2021 14:49:41 -0300
-Message-Id: <20210920174947.556324-2-danielhb413@gmail.com>
+Subject: [PATCH v9 2/7] spapr_numa.c: scrap 'legacy_numa' concept
+Date: Mon, 20 Sep 2021 14:49:42 -0300
+Message-Id: <20210920174947.556324-3-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210920174947.556324-1-danielhb413@gmail.com>
 References: <20210920174947.556324-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x733.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -86,97 +86,124 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The upcoming FORM2 NUMA affinity will support asymmetric NUMA topologies
-and doesn't need be concerned with all the legacy support for older
-pseries FORM1 guests.
+When first introduced, 'legacy_numa' was a way to refer to guests that
+either wouldn't be affected by associativity domain calculations, namely
+the ones with only 1 NUMA node, and pre 5.2 guests that shouldn't be
+affected by it because it would be an userspace change. Calling these
+cases 'legacy_numa' was a convenient way to label these cases.
 
-We're also not going to calculate associativity domains based on numa
-distance (via spapr_numa_define_associativity_domains) since the
-distances will be written directly into new DT properties.
+We're about to introduce a new NUMA affinity, FORM2, and this concept
+of 'legacy_numa' is now a bit misleading because, although it is called
+'legacy' it is in fact a FORM1 exclusive contraint.
 
-Let's split FORM1 code into its own functions to allow for easier
-insertion of FORM2 logic later on.
+This patch removes spapr_machine_using_legacy_numa() and open code the
+conditions in each caller. While we're at it, move the chunk inside
+spapr_numa_FORM1_affinity_init() that sets all numa_assoc_array domains
+with 'node_id' to spapr_numa_define_FORM1_domains(). This chunk was
+being executed if !pre_5_2_numa_associativity and num_nodes => 1, the
+same conditions in which spapr_numa_define_FORM1_domains() is called
+shortly after.
 
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_numa.c | 35 +++++++++++++++++++++++++----------
- 1 file changed, 25 insertions(+), 10 deletions(-)
+ hw/ppc/spapr_numa.c | 47 +++++++++++++++++++--------------------------
+ 1 file changed, 20 insertions(+), 27 deletions(-)
 
 diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index 779f18b994..786def7c73 100644
+index 786def7c73..bf520d42b2 100644
 --- a/hw/ppc/spapr_numa.c
 +++ b/hw/ppc/spapr_numa.c
-@@ -92,7 +92,7 @@ static uint8_t spapr_numa_get_numa_level(uint8_t distance)
-     return 0;
- }
+@@ -19,15 +19,6 @@
+ /* Moved from hw/ppc/spapr_pci_nvlink2.c */
+ #define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
  
--static void spapr_numa_define_associativity_domains(SpaprMachineState *spapr)
-+static void spapr_numa_define_FORM1_domains(SpaprMachineState *spapr)
+-static bool spapr_machine_using_legacy_numa(SpaprMachineState *spapr)
+-{
+-    MachineState *machine = MACHINE(spapr);
+-    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(machine);
+-
+-    return smc->pre_5_2_numa_associativity ||
+-           machine->numa_state->num_nodes <= 1;
+-}
+-
+ static bool spapr_numa_is_symmetrical(MachineState *ms)
  {
+     int src, dst;
+@@ -97,7 +88,18 @@ static void spapr_numa_define_FORM1_domains(SpaprMachineState *spapr)
      MachineState *ms = MACHINE(spapr);
      NodeInfo *numa_info = ms->numa_state->nodes;
-@@ -155,8 +155,11 @@ static void spapr_numa_define_associativity_domains(SpaprMachineState *spapr)
+     int nb_numa_nodes = ms->numa_state->num_nodes;
+-    int src, dst, i;
++    int src, dst, i, j;
++
++    /*
++     * Fill all associativity domains of non-zero NUMA nodes with
++     * node_id. This is required because the default value (0) is
++     * considered a match with associativity domains of node 0.
++     */
++    for (i = 1; i < nb_numa_nodes; i++) {
++        for (j = 1; j < MAX_DISTANCE_REF_POINTS; j++) {
++            spapr->numa_assoc_array[i][j] = cpu_to_be32(i);
++        }
++    }
  
- }
- 
--void spapr_numa_associativity_init(SpaprMachineState *spapr,
--                                   MachineState *machine)
-+/*
-+ * Set NUMA machine state data based on FORM1 affinity semantics.
-+ */
-+static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
-+                                           MachineState *machine)
- {
+     for (src = 0; src < nb_numa_nodes; src++) {
+         for (dst = src; dst < nb_numa_nodes; dst++) {
+@@ -164,7 +166,6 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
      SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
      int nb_numa_nodes = machine->numa_state->num_nodes;
-@@ -225,7 +228,13 @@ void spapr_numa_associativity_init(SpaprMachineState *spapr,
-         exit(EXIT_FAILURE);
+     int i, j, max_nodes_with_gpus;
+-    bool using_legacy_numa = spapr_machine_using_legacy_numa(spapr);
+ 
+     /*
+      * For all associativity arrays: first position is the size,
+@@ -178,17 +179,6 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
+     for (i = 0; i < nb_numa_nodes; i++) {
+         spapr->numa_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+         spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
+-
+-        /*
+-         * Fill all associativity domains of non-zero NUMA nodes with
+-         * node_id. This is required because the default value (0) is
+-         * considered a match with associativity domains of node 0.
+-         */
+-        if (!using_legacy_numa && i != 0) {
+-            for (j = 1; j < MAX_DISTANCE_REF_POINTS; j++) {
+-                spapr->numa_assoc_array[i][j] = cpu_to_be32(i);
+-            }
+-        }
      }
  
--    spapr_numa_define_associativity_domains(spapr);
-+    spapr_numa_define_FORM1_domains(spapr);
-+}
-+
-+void spapr_numa_associativity_init(SpaprMachineState *spapr,
-+                                   MachineState *machine)
-+{
-+    spapr_numa_FORM1_affinity_init(spapr, machine);
- }
+     /*
+@@ -214,11 +204,13 @@ static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
+     }
  
- void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *fdt,
-@@ -302,12 +311,8 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
-     return ret;
- }
+     /*
+-     * Legacy NUMA guests (pseries-5.1 and older, or guests with only
+-     * 1 NUMA node) will not benefit from anything we're going to do
+-     * after this point.
++     * Guests pseries-5.1 and older uses zeroed associativity domains,
++     * i.e. no domain definition based on NUMA distance input.
++     *
++     * Same thing with guests that have only one NUMA node.
+      */
+-    if (using_legacy_numa) {
++    if (smc->pre_5_2_numa_associativity ||
++        machine->numa_state->num_nodes <= 1) {
+         return;
+     }
  
--/*
-- * Helper that writes ibm,associativity-reference-points and
-- * max-associativity-domains in the RTAS pointed by @rtas
-- * in the DT @fdt.
-- */
--void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
-+static void spapr_numa_FORM1_write_rtas_dt(SpaprMachineState *spapr,
-+                                           void *fdt, int rtas)
- {
-     MachineState *ms = MACHINE(spapr);
-     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
-@@ -365,6 +370,16 @@ void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
-                      maxdomains, sizeof(maxdomains)));
- }
+@@ -334,7 +326,8 @@ static void spapr_numa_FORM1_write_rtas_dt(SpaprMachineState *spapr,
+         cpu_to_be32(maxdomain)
+     };
  
-+/*
-+ * Helper that writes ibm,associativity-reference-points and
-+ * max-associativity-domains in the RTAS pointed by @rtas
-+ * in the DT @fdt.
-+ */
-+void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
-+{
-+    spapr_numa_FORM1_write_rtas_dt(spapr, fdt, rtas);
-+}
-+
- static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
-                                               SpaprMachineState *spapr,
-                                               target_ulong opcode,
+-    if (spapr_machine_using_legacy_numa(spapr)) {
++    if (smc->pre_5_2_numa_associativity ||
++        ms->numa_state->num_nodes <= 1) {
+         uint32_t legacy_refpoints[] = {
+             cpu_to_be32(0x4),
+             cpu_to_be32(0x4),
 -- 
 2.31.1
 
