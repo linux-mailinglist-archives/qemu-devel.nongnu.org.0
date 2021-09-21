@@ -2,92 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F8A412F08
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 09:06:31 +0200 (CEST)
-Received: from localhost ([::1]:36174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C07412F20
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 09:12:42 +0200 (CEST)
+Received: from localhost ([::1]:51094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSZrK-0005y5-5z
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 03:06:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53144)
+	id 1mSZxJ-0007vI-LL
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 03:12:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=891501f09=alistair.francis@opensource.wdc.com>)
- id 1mSZhH-0000ZS-Ff
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:56:08 -0400
+ id 1mSZhM-0000dm-Eg
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:56:12 -0400
 Received: from esa5.hgst.iphmx.com ([216.71.153.144]:4211)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=891501f09=alistair.francis@opensource.wdc.com>)
- id 1mSZhF-0004v9-Pj
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:56:07 -0400
+ id 1mSZhK-0004v9-IS
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:56:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1632207364; x=1663743364;
+ t=1632207369; x=1663743369;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CafDIZfOhoTiZSYGDtKIWyAk5qAT60BGAU38ssKl+R8=;
- b=FRZweEbvNrkvpSGWmNQBIRz+Mqa56fr+w07jQMJ/oIzCKl1v7d44gL1k
- ozCjsLCKV/ilUgC5vwqkNjM8J8nJ7TG3IUFNRf1CaWOW/mlbddsoo5N/u
- tjHQhO8mlJ2AFLfeaqBvvBQVGBOhh0sgmtSBWHgch6LmQWf/9C6ps23rR
- QNyskZt8ymiHBdHTf/nnRcQBVCv3Ig9Il68PhwIpSZwGN8nph3hQ6KWcq
- gTizl3GCwFhUwP4sleZV9BeKz9dk52a9c4grEfkW7uuOb6QSHm/fKflu3
- DGm53L20uNnDqzOaWCdoR4vIVUvsfFepG3HjEv3IjEeTWs3XuWXeH3bM3 g==;
-X-IronPort-AV: E=Sophos;i="5.85,310,1624291200"; d="scan'208";a="180529489"
+ bh=JOYrITYOgFWibJzKv6pDdhk12xFdWfw2/yl3Et4aAfg=;
+ b=kLwm3z/JsqrJW9b/pUpKSEwykpmKs2+g/1X0HQG9t8UNZdMJseNzuZcw
+ gFxk45/LjeJd8YNHzhJisxiy0cUpz72HFepg5beMpaDThmpzqch/yqreB
+ 7Q1hCkKuVyHb74rGTtxXEOSbxxvwLs6OG5zHNTkIJ7OSaY2Lh0vIVBzym
+ z89+5EAS1vR/4jnW/gttE8grpjasSvURxRiYoRrc7ITzUGY0erHJ2hOvG
+ CNbC/xgcRWhafial/eZITd2UUamJHJ1COV32AvaV6ATr7ZR/eZWbf5Hdy
+ +b8RCGaj/nnZraENlXNMxiIAnJXpHnR/2uWavyCy4wfm87dyY9vTKDT8g w==;
+X-IronPort-AV: E=Sophos;i="5.85,310,1624291200"; d="scan'208";a="180529496"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 21 Sep 2021 14:56:03 +0800
-IronPort-SDR: i6j0uD+5AgP+Cr3/VxeguKHoPQ2uJUu17M41kvPZhLPxl/mVu6mHh5fEFPt+vyR0i8eVZ/oDng
- yRfvN3huTIdTOIhyFDUbhMRLtzFJazKcflR3RqSkob6Sqvs6qyl4/X1v2iOnUVwmNmgUdSSsmx
- uG6iGvX5wCibmeTfXwBssbpPYKNiT+bDTZ6wqbSYwsxxPTV+S9LIBOLPGRrYuxX+2vLRnzorLX
- 8LHG9ICfjZqjcJ5g+9AVjz3xg3YfLzUOMDBuWg4pAfermCVgJUxND2l7q9MiZftUkNuzjyLBg6
- OepD6bOI4Y25esNhYabSUDmL
+ by ob1.hgst.iphmx.com with ESMTP; 21 Sep 2021 14:56:07 +0800
+IronPort-SDR: Y6cIRlLI3pcGxD/h+Me1DjB9oRtYOEk0C9cIe91+G3h4kVlYZssOYX9BS9abyIeohygFyrAfpk
+ z5anEdRWMaPZY27RD09Ek2grt4cK/y8DDH9RutnaWDCoTrfQDwo0i39P/OdKxGNTpEJTuObg/f
+ kdk4ZhLtd2F2Xmq/GftWspMPwjIAvXbY9mEV8q3Q6EQX64pThDFhKPckt4gyAsnSMLVoWUM+mh
+ H6n9fxBfx1EBoKciru0TWkoM0RKYth9nrppfivQbNcIT4vw+S9ctfs3boTpxDKx00f9N9GmDHW
+ /29xq1YcXtd3WBtkVy36ZPbN
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 23:30:46 -0700
-IronPort-SDR: PbkqG5SFeSyls6ETt2iBBusrKjq/vU69mQmTThDVEEnKgz96HHZz03RYVazVPaxUPIO6C7+45K
- bIxKPvRJOiOf+AOh993U3iIi6g4CJfnA9opZ+mR0tsgzZuoBDGUBtVgBQ0nHz+P+sP8MQLOYAm
- +eyUlLhgpXksR5mXDDWRSKM/7lz+PxdSdT+KPbeCDwJLJxRqxxlMUbf2eE1CbHJvqLhSpXF/Ra
- IbW8d15QJ+WV1E0WIf9RGzCI6DSXO0fsou+VBqaNlfNH3OFAO1BRR4PpscMLQ/gwsWccCgmE2n
- muA=
+ 20 Sep 2021 23:30:51 -0700
+IronPort-SDR: GsWAX7rpQBGOnhGGBgjMsrK/equwdHg3PD1vt9zM2ol2DfhiaobtWlTLFe9vLbHGui4p6pI15h
+ b5YVdfvLT5Jh4v20JEKFgq9dw9gymIs+rUohFS59YkgNr1RPuvkuIeO7iflYrwsHjlvuJi9uEd
+ iK1dtuwP6hUYC12zx2db3pqoS3IoGk+F6B6XLFn/jAYR5MevqPSr/2P8CtYh1z+GUqP/E47sq8
+ xwje5Z5x1ej26Mynfvv573/aNtEVtxCtSo8EVHkoIgPanaMI2sYsATfpc9QO8dlXaixkG94i3n
+ Zb8=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 23:56:04 -0700
+ 20 Sep 2021 23:56:09 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HDBz81r1kz1Rws4
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 23:56:04 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HDBzF1QX2z1Rws6
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 23:56:09 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1632207363; x=1634799364; bh=CafDIZfOhoTiZSYGDt
- KIWyAk5qAT60BGAU38ssKl+R8=; b=SA0w9CxEA0AVCJi+HOTKoxTplyCAePRGdz
- HMrus1np0ASKiLixQKX9n2EXTaPuT3/nwIsQ/eHq9Wn9OLliOxHUuoW8rtQYRoaW
- 8aO9HeRoqgGhsEh97Ggms6DHP9QH1Mx01rqBuitgvBpbmrwJZupuA35k1NeA5rCY
- /F+j74Igp2EKuX4dZ/igTx6Ez8jG1BKpuYLcPq5QGwB/zsIxU8EX9AcSSagdsV4x
- XkM22xk2jx1htQdqC2o3ubIiYrwG0EwnBiijRywvyB5+GmoGCgCaorEEHZkIvDZk
- hI6OHB01j7UOeSncX18lq5dt0+H/ibqLKafR9eJH8N8+gzZzsWbg==
+ :from; s=dkim; t=1632207368; x=1634799369; bh=JOYrITYOgFWibJzKv6
+ pDdhk12xFdWfw2/yl3Et4aAfg=; b=DXDSiFb9et4mtWZry2GhwfrH1G/K48fmz4
+ ZRGstydFMFsmXwPJOpJ2clEZUAI1jjVNNfRN2hfsxFJPACB+jTC/cqumfJQ1RNHf
+ DzRzmntQgSRnKtfu1awY3wEAM1DEg/PDH51eJXSN8DtyX6elXcsYKoS7fn2smseJ
+ RiM2QiMb3gEQJA9Ny+0hPVTQAPFeietIRU8mi4q4h/dsdjA0XMMIiwN7rBKYpxjC
+ HV8gjPXAEg1/D+1COrdlyae+x2LjUE2ECYNtSc1Wvd3rDkyJfre9mWADztNt990I
+ bvvtCVkLFM+XpIYEOYLFX9odv6mwGZr4yc8ppH0F8lfugf/vj3qQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id zc8_fDsfG9xe for <qemu-devel@nongnu.org>;
- Mon, 20 Sep 2021 23:56:03 -0700 (PDT)
+ port 10026) with ESMTP id bn8N277DnkaS for <qemu-devel@nongnu.org>;
+ Mon, 20 Sep 2021 23:56:08 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.26])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HDBz20wpbz1RvlH;
- Mon, 20 Sep 2021 23:55:57 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HDBz84Y91z1RvlH;
+ Mon, 20 Sep 2021 23:56:04 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
- Max Hsu <max.hsu@sifive.com>, Bin Meng <bmeng.cn@gmail.com>,
+Cc: alistair23@gmail.com, Bin Meng <bmeng.cn@gmail.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL v2 17/21] hw/dma: sifive_pdma: don't set Control.error if 0
- bytes to transfer
-Date: Tue, 21 Sep 2021 16:54:08 +1000
-Message-Id: <20210921065412.312381-18-alistair.francis@opensource.wdc.com>
+Subject: [PULL v2 18/21] docs/system/riscv: sifive_u: Update U-Boot
+ instructions
+Date: Tue, 21 Sep 2021 16:54:09 +1000
+Message-Id: <20210921065412.312381-19-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210921065412.312381-1-alistair.francis@opensource.wdc.com>
 References: <20210921065412.312381-1-alistair.francis@opensource.wdc.com>
@@ -118,90 +117,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+From: Bin Meng <bmeng.cn@gmail.com>
 
-Real PDMA doesn't set Control.error if there are 0 bytes to be
-transferred. The DMA transfer is still success.
+In U-Boot v2021.07 release, there were 2 major changes for the
+SiFive Unleashed board support:
 
-The following result is PDMA tested in U-Boot on Unmatched board:
+- Board config name was changed from sifive_fu540_defconfig to
+  sifive_unleashed_defconfig
+- The generic binman tool was used to generate the FIT image
+  (combination of U-Boot proper, DTB and OpenSBI firmware)
 
-=3D> mw.l 0x3000000 0x0                      <=3D Disclaim channel 0
-=3D> mw.l 0x3000000 0x1                      <=3D Claim channel 0
-=3D> mw.l 0x3000004 0x55000000               <=3D wsize =3D rsize =3D 5 (=
-2^5 =3D 32 bytes)
-=3D> mw.q 0x3000008 0x0                      <=3D NextBytes =3D 0
-=3D> mw.q 0x3000010 0x84000000               <=3D NextDestination =3D 0x8=
-4000000
-=3D> mw.q 0x3000018 0x84001000               <=3D NextSource =3D 0x840010=
-00
-=3D> mw.l 0x84000000 0x87654321              <=3D Fill test data to dst
-=3D> mw.l 0x84001000 0x12345678              <=3D Fill test data to src
-=3D> md.l 0x84000000 1; md.l 0x84001000 1    <=3D Dump src/dst memory con=
-tents
-84000000: 87654321                               !Ce.
-84001000: 12345678                               xV4.
-=3D> md.l 0x3000000 8                        <=3D Dump PDMA status
-03000000: 00000001 55000000 00000000 00000000    .......U........
-03000010: 84000000 00000000 84001000 00000000    ................
-=3D> mw.l 0x3000000 0x3                      <=3D Set channel 0 run and c=
-laim bits
-=3D> md.l 0x3000000 8                        <=3D Dump PDMA status
-03000000: 40000001 55000000 00000000 00000000    ...@...U........
-03000010: 84000000 00000000 84001000 00000000    ................
-=3D> md.l 0x84000000 1; md.l 0x84001000 1    <=3D Dump src/dst memory con=
-tents
-84000000: 87654321                               !Ce.
-84001000: 12345678                               xV4.
+which make the existing U-Boot instructions out of date.
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Tested-by: Max Hsu <max.hsu@sifive.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: 20210912130553.179501-5-frank.chang@sifive.com
+Update the doc with latest instructions.
+
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20210911153431.10362-1-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/dma/sifive_pdma.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ docs/system/riscv/sifive_u.rst | 49 ++++++++++++++++++----------------
+ 1 file changed, 26 insertions(+), 23 deletions(-)
 
-diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
-index d7d2c53e97..b4fd40573a 100644
---- a/hw/dma/sifive_pdma.c
-+++ b/hw/dma/sifive_pdma.c
-@@ -80,7 +80,7 @@ static void sifive_pdma_run(SiFivePDMAState *s, int ch)
+diff --git a/docs/system/riscv/sifive_u.rst b/docs/system/riscv/sifive_u.=
+rst
+index 7c65e9c440..7b166567f9 100644
+--- a/docs/system/riscv/sifive_u.rst
++++ b/docs/system/riscv/sifive_u.rst
+@@ -210,15 +210,16 @@ command line options with ``qemu-system-riscv32``.
+ Running U-Boot
+ --------------
 =20
-     /* do nothing if bytes to transfer is zero */
-     if (!bytes) {
--        goto error;
-+        goto done;
-     }
+-U-Boot mainline v2021.01 release is tested at the time of writing. To bu=
+ild a
++U-Boot mainline v2021.07 release is tested at the time of writing. To bu=
+ild a
+ U-Boot mainline bootloader that can be booted by the ``sifive_u`` machin=
+e, use
+-the sifive_fu540_defconfig with similar commands as described above for =
+Linux:
++the sifive_unleashed_defconfig with similar commands as described above =
+for
++Linux:
 =20
-     /*
-@@ -135,11 +135,6 @@ static void sifive_pdma_run(SiFivePDMAState *s, int =
-ch)
-         s->chan[ch].exec_bytes -=3D remainder;
-     }
+ .. code-block:: bash
 =20
--    /* indicate a DMA transfer is done */
--    s->chan[ch].state =3D DMA_CHAN_STATE_DONE;
--    s->chan[ch].control &=3D ~CONTROL_RUN;
--    s->chan[ch].control |=3D CONTROL_DONE;
+   $ export CROSS_COMPILE=3Driscv64-linux-
+   $ export OPENSBI=3D/path/to/opensbi-riscv64-generic-fw_dynamic.bin
+-  $ make sifive_fu540_defconfig
++  $ make sifive_unleashed_defconfig
+=20
+ You will get spl/u-boot-spl.bin and u-boot.itb file in the build tree.
+=20
+@@ -313,31 +314,29 @@ board on QEMU ``sifive_u`` machine out of the box. =
+This allows users to
+ develop and test the recommended RISC-V boot flow with a real world use
+ case: ZSBL (in QEMU) loads U-Boot SPL from SD card or SPI flash to L2LIM=
+,
+ then U-Boot SPL loads the combined payload image of OpenSBI fw_dynamic
+-firmware and U-Boot proper. However sometimes we want to have a quick te=
+st
+-of booting U-Boot on QEMU without the needs of preparing the SPI flash o=
+r
+-SD card images, an alternate way can be used, which is to create a U-Boo=
+t
+-S-mode image by modifying the configuration of U-Boot:
++firmware and U-Boot proper.
++
++However sometimes we want to have a quick test of booting U-Boot on QEMU
++without the needs of preparing the SPI flash or SD card images, an alter=
+nate
++way can be used, which is to create a U-Boot S-mode image by modifying t=
+he
++configuration of U-Boot:
+=20
+ .. code-block:: bash
+=20
++  $ export CROSS_COMPILE=3Driscv64-linux-
++  $ make sifive_unleashed_defconfig
+   $ make menuconfig
+=20
+-then manually select the following configuration in U-Boot:
 -
-     /* reload exec_ registers if repeat is required */
-     if (s->chan[ch].next_config & CONFIG_REPEAT) {
-         s->chan[ch].exec_bytes =3D bytes;
-@@ -147,6 +142,11 @@ static void sifive_pdma_run(SiFivePDMAState *s, int =
-ch)
-         s->chan[ch].exec_src =3D src;
-     }
+-  Device Tree Control > Provider of DTB for DT Control > Prior Stage boo=
+tloader DTB
++then manually select the following configuration:
 =20
-+done:
-+    /* indicate a DMA transfer is done */
-+    s->chan[ch].state =3D DMA_CHAN_STATE_DONE;
-+    s->chan[ch].control &=3D ~CONTROL_RUN;
-+    s->chan[ch].control |=3D CONTROL_DONE;
-     return;
+-This lets U-Boot to use the QEMU generated device tree blob. During the =
+build,
+-a build error will be seen below:
++  * Device Tree Control ---> Provider of DTB for DT Control ---> Prior S=
+tage bootloader DTB
 =20
- error:
+-.. code-block:: none
++and unselect the following configuration:
+=20
+-  MKIMAGE u-boot.img
+-  ./tools/mkimage: Can't open arch/riscv/dts/hifive-unleashed-a00.dtb: N=
+o such file or directory
+-  ./tools/mkimage: failed to build FIT
+-  make: *** [Makefile:1440: u-boot.img] Error 1
++  * Library routines ---> Allow access to binman information in the devi=
+ce tree
+=20
+-The above errors can be safely ignored as we don't run U-Boot SPL under =
+QEMU
+-in this alternate configuration.
++This changes U-Boot to use the QEMU generated device tree blob, and bypa=
+ss
++running the U-Boot SPL stage.
+=20
+ Boot the 64-bit U-Boot S-mode image directly:
+=20
+@@ -352,14 +351,18 @@ It's possible to create a 32-bit U-Boot S-mode imag=
+e as well.
+ .. code-block:: bash
+=20
+   $ export CROSS_COMPILE=3Driscv64-linux-
+-  $ make sifive_fu540_defconfig
++  $ make sifive_unleashed_defconfig
+   $ make menuconfig
+=20
+ then manually update the following configuration in U-Boot:
+=20
+-  Device Tree Control > Provider of DTB for DT Control > Prior Stage boo=
+tloader DTB
+-  RISC-V architecture > Base ISA > RV32I
+-  Boot images > Text Base > 0x80400000
++  * Device Tree Control ---> Provider of DTB for DT Control ---> Prior S=
+tage bootloader DTB
++  * RISC-V architecture ---> Base ISA ---> RV32I
++  * Boot options ---> Boot images ---> Text Base ---> 0x80400000
++
++and unselect the following configuration:
++
++  * Library routines ---> Allow access to binman information in the devi=
+ce tree
+=20
+ Use the same command line options to boot the 32-bit U-Boot S-mode image=
+:
+=20
 --=20
 2.31.1
 
