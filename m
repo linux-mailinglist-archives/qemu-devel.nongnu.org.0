@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 379B0413646
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 17:35:58 +0200 (CEST)
-Received: from localhost ([::1]:47632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AADD41364E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 17:37:32 +0200 (CEST)
+Received: from localhost ([::1]:50554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mShoL-0002Bc-9b
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 11:35:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34122)
+	id 1mShpr-0004IU-9D
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 11:37:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mShkR-0007C0-Sh
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 11:31:55 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46734)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mShkP-0000yK-QX
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 11:31:55 -0400
-Received: by mail-wr1-x432.google.com with SMTP id t7so7196340wrw.13
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 08:31:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5Ab2qMNNL6ztA4tCDOx1kMF8pJCOKDHsTXqf3rtUFR4=;
- b=ks+9zEgB7EjEO7tjNuZTw3LQInrmYqyZLkrjt+h2mcUkZJ0KRNedn91Gh0AetBiMaZ
- hQGmqvBJ5i0+41FJI6pX4Qmsm5VV21QCa6vcpTc3XtB3NzhpxxJ86pkzzJOeKjGYCDlf
- 1JNAuWSK8UR3rmUoFqHUn3bxf+5JFxqb/PgTNZuEtpuOQ/7LmBG6/ZbPRhSwpIZcxRRt
- X112AYAipXIQdmX5fGeabXDl7tq4PqwhiSm/qKgfX1smizGeOfbWSuwOm8xBWMThaNTD
- sqkXMSRyj+CseCYDKuUKug2nfl+eczo6nAQzUMFzvakVOHwBv88dOLbNvQy9DXjf1/p7
- qyTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5Ab2qMNNL6ztA4tCDOx1kMF8pJCOKDHsTXqf3rtUFR4=;
- b=qWOdNh2mSg0AkUyhPtz/GY8aEgioAwK5XelyiYFpRxqFd+EYZZu+Wf022x/aiXbE/6
- tho5zbBsfph8SfD+DxA7tPznEEWy0YL/Q5abQu0T5w/P91+R9mQGXHPKW8AIyfrcReuV
- DZF83nT5UTTapk30TCLjE/shvuZub2R98JISS96yJ74XQuCB+yc8qQgBJv51ogsve7jN
- BtxUkbjIh8l7869BV75QImxIj+/se+ZfaDWaWg4xb926VzGN0tVg1Lgb0RzuFassa05g
- dKIvMV3plvrNdNmDpzLfOPwaM0K5XjmXCZq1IusaP39ZcoDXpW5I6jvToqcG1vMzIeVL
- AVgg==
-X-Gm-Message-State: AOAM530Ct5KdxeAITt9MM3S8WnBtW9xm3PbBcewt5RU1KQaAZ38xbTDA
- QzjS9erBMVZ/8nIsdWDi8YE/jOtEDie5rQ==
-X-Google-Smtp-Source: ABdhPJwPmh53JMnuKCulvq0wj+9KQaL88HHVTJPTTo2JTXoRzf+ZuRoZABROEOAL6/qRS7zwctMAPA==
-X-Received: by 2002:a1c:2313:: with SMTP id j19mr5227065wmj.189.1632238311382; 
- Tue, 21 Sep 2021 08:31:51 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t126sm3247796wma.4.2021.09.21.08.31.50
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Sep 2021 08:31:51 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/27] target-arm queuea
-Date: Tue, 21 Sep 2021 16:31:49 +0100
-Message-Id: <20210921153149.10113-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mShnL-0001yC-MY
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 11:34:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29479)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mShnK-0003ar-1j
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 11:34:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632238493;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rBs4gfdd2DrxSPEKcZAccO5Dh4lDmeyTeYlqeiOzvMU=;
+ b=dYuKTkhadtIssSRaiLb/x/0BCLsK6vTZZjtGIatwhghnBmPuKQ6klgcTSL0v12VE4DcQqW
+ 4pB083R9bmeg/CJ4pS3ygxqC8wS/POPWn5fH28xTgAo7swcywVEt0Jl4hmcW0qF0Z2aC7S
+ nasdj9yRAGJIpghg0dxCd089MiqNL3g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-179-xoA7OjyiNRmEAEVd2Zu2Fg-1; Tue, 21 Sep 2021 11:34:52 -0400
+X-MC-Unique: xoA7OjyiNRmEAEVd2Zu2Fg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04242BAF81;
+ Tue, 21 Sep 2021 15:34:51 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F0AF100EBD0;
+ Tue, 21 Sep 2021 15:34:50 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D9AC0180098D; Tue, 21 Sep 2021 17:34:48 +0200 (CEST)
+Date: Tue, 21 Sep 2021 17:34:48 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Jose R. Ziviani" <jziviani@suse.de>
+Subject: Re: [PATCH 1/2] meson: introduce modules_arch
+Message-ID: <20210921153448.hagpsj3ygvxefask@sirius.home.kraxel.org>
+References: <20210917012904.26544-1-jziviani@suse.de>
+ <20210917012904.26544-2-jziviani@suse.de>
+ <20210917071404.efhv3tlnad2ezz3e@sirius.home.kraxel.org>
+ <YUSS0Jp+GBwNwYg3@pizza>
+ <20210920051532.tzanl2asdqzuxlzn@sirius.home.kraxel.org>
+ <YUiGcjBviIqPIyJB@pizza>
+ <20210921052542.h4ehwc3ovt2wo2en@sirius.home.kraxel.org>
+ <YUnfiJyiEMjMcksQ@pizza>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YUnfiJyiEMjMcksQ@pizza>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,94 +84,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2: added missing #include to fix osx/x86.
+On Tue, Sep 21, 2021 at 10:35:04AM -0300, Jose R. Ziviani wrote:
+> Hello!!
+> 
+> On Tue, Sep 21, 2021 at 07:25:42AM +0200, Gerd Hoffmann wrote:
+> >   Hi,
+> > 
+> > > But, in anyway, I'll still need to store the target architecture that
+> > > can use such core module, like I did here in this patch. Otherwise,
+> > > if I compile different targets at the same time, I'll end up with the
+> > > same problem of targets trying to load wrong modules.
+> > 
+> > That all works just fine today.  If you have target-specific modules
+> > (i.e. source files added to specific_ss instead of softmmu_ss when
+> > compiling into core qemu) you only need to add those to the
+> > target_modules[] (instead of modules[]) and you are set.
+> > 
+> > In-tree example: qtest accelerator.
+> 
+> Exactly, but what it doesn't seem to work (or I'm not understanding it
+> well) is: how the target will know whether it can or cannot load a
+> module.
 
-The following changes since commit 7adb961995a3744f51396502b33ad04a56a317c3:
+Well, for target-specific modules that is easy:  You get one module per
+target, and each target loads the matching module only.
 
-  Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20210916' into staging (2021-09-19 18:53:29 +0100)
+> For example, suppose I build target-list=s390x-softmmu,x86_64-softmmu.
+> Both targets will be linked to the same modinfo.c object, which will
+> have a 'hw-display-virtio-gpu-pci' entry (it wouldn't if I build only
+> s390x-softmmu). When I execute ./qemu-system-s390x, it will try to
+> load hw-display-virtio-gpu-pci and will throw the errors I mentioned
+> earlier.
 
-are available in the Git repository at:
+Yes.  That isn't a target-specific module.  It will load into any target
+which has pci support.  You can add aarch64-softmmu to the list above,
+and then notice that both aarch64-softmmu and x86_64-softmmu can load
+the very same hw-display-virtio-gpu-pci module.
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210921
+> If, for example, I add that module_need(PCI_BUS), we will continue
+> not knowing whether the target in execution has the required bus
+> (without injecting dependencies in module.c).
 
-for you to fetch changes up to 4b445c926add3fdec13958736e482e88857bcad8:
+Yes, you'll need a 'module_provides(PCI_BUS)' somewhere in the pci
+initialization code (likewise for the other features), so the module
+code knows which features are present and can check that against the
+list of 'module_needs(...)' of the module.
 
-  target/arm: Optimize MVE 1op-immediate insns (2021-09-21 16:28:27 +0100)
+Trying to have kconfig export that information instead of adding
+"module_needs()" + "module_provides()" annotations to the source
+should work too.  Not sure which is easier.
 
-----------------------------------------------------------------
-target-arm queue:
- * Optimize codegen for MVE when predication not active
- * hvf: Add Apple Silicon support
- * hw/intc: Set GIC maintenance interrupt level to only 0 or 1
- * Fix mishandling of MVE FPSCR.LTPSIZE reset for usermode emulator
- * elf2dmp: Fix coverity nits
+With the kconfig approach you have all information needed at compile
+time, so you can do compile-time filtering and build per-target modinfo
+lists (paolo's idea) instead of using a single list with
+runtime-filtering (which is what we have now).
 
-----------------------------------------------------------------
-Alexander Graf (7):
-      arm: Move PMC register definitions to internals.h
-      hvf: Add execute to dirty log permission bitmap
-      hvf: Introduce hvf_arch_init() callback
-      hvf: Add Apple Silicon support
-      hvf: arm: Implement PSCI handling
-      arm: Add Hypervisor.framework build target
-      hvf: arm: Add rudimentary PMC support
+take care,
+  Gerd
 
-Peter Collingbourne (1):
-      arm/hvf: Add a WFI handler
-
-Peter Maydell (18):
-      elf2dmp: Check curl_easy_setopt() return value
-      elf2dmp: Fail cleanly if PDB file specifies zero block_size
-      target/arm: Don't skip M-profile reset entirely in user mode
-      target/arm: Always clear exclusive monitor on reset
-      target/arm: Consolidate ifdef blocks in reset
-      hvf: arm: Implement -cpu host
-      target/arm: Avoid goto_tb if we're trying to exit to the main loop
-      target/arm: Enforce that FPDSCR.LTPSIZE is 4 on inbound migration
-      target/arm: Add TB flag for "MVE insns not predicated"
-      target/arm: Optimize MVE logic ops
-      target/arm: Optimize MVE arithmetic ops
-      target/arm: Optimize MVE VNEG, VABS
-      target/arm: Optimize MVE VDUP
-      target/arm: Optimize MVE VMVN
-      target/arm: Optimize MVE VSHL, VSHR immediate forms
-      target/arm: Optimize MVE VSHLL and VMOVL
-      target/arm: Optimize MVE VSLI and VSRI
-      target/arm: Optimize MVE 1op-immediate insns
-
-Shashi Mallela (1):
-      hw/intc: Set GIC maintenance interrupt level to only 0 or 1
-
- meson.build                   |    8 +
- include/sysemu/hvf_int.h      |   12 +-
- target/arm/cpu.h              |    6 +-
- target/arm/hvf_arm.h          |   18 +
- target/arm/internals.h        |   44 ++
- target/arm/kvm_arm.h          |    2 -
- target/arm/translate.h        |    2 +
- accel/hvf/hvf-accel-ops.c     |   21 +-
- contrib/elf2dmp/download.c    |   22 +-
- contrib/elf2dmp/pdb.c         |    4 +
- hw/intc/arm_gicv3_cpuif.c     |    5 +-
- target/arm/cpu.c              |   56 +-
- target/arm/helper.c           |   77 ++-
- target/arm/hvf/hvf.c          | 1278 +++++++++++++++++++++++++++++++++++++++++
- target/arm/machine.c          |   13 +
- target/arm/translate-m-nocp.c |    8 +-
- target/arm/translate-mve.c    |  310 +++++++---
- target/arm/translate-vfp.c    |   33 +-
- target/arm/translate.c        |   42 +-
- target/i386/hvf/hvf.c         |   11 +
- MAINTAINERS                   |    5 +
- target/arm/hvf/meson.build    |    3 +
- target/arm/hvf/trace-events   |   11 +
- target/arm/meson.build        |    2 +
- 24 files changed, 1825 insertions(+), 168 deletions(-)
- create mode 100644 target/arm/hvf_arm.h
- create mode 100644 target/arm/hvf/hvf.c
- create mode 100644 target/arm/hvf/meson.build
- create mode 100644 target/arm/hvf/trace-events
 
