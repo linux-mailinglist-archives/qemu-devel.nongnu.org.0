@@ -2,93 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FF2E412EE2
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 08:58:09 +0200 (CEST)
-Received: from localhost ([::1]:46104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF9A412EF3
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 09:02:32 +0200 (CEST)
+Received: from localhost ([::1]:54592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSZjE-00023g-5f
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 02:58:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52824)
+	id 1mSZnT-0007n2-7T
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 03:02:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=891501f09=alistair.francis@opensource.wdc.com>)
- id 1mSZfo-0007Zp-PS
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:54:37 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:32908)
+ id 1mSZfq-0007a6-6G
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:54:39 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:32915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=891501f09=alistair.francis@opensource.wdc.com>)
- id 1mSZfl-0003Yx-GM
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:54:36 -0400
+ id 1mSZfo-0003fY-Gs
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:54:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1632207274; x=1663743274;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=PgTTt6J6HKA1KPNJM09XhkMnxvKqRZr161jbIPUQqnU=;
- b=assbzYTVa3VoXTdvcr83ncn6VUBmfHixQp0GvKMYoCQmL3D53etyvBjv
- LWqBEQq/63dPnCXm7wfPd+XL2GSHoEEERt4iQdSPVpERyP93UY+feH3qW
- pKdpW6JCayZp/ZntzV5nIeWHoJ55Ju12YjYxOJ5XFGijoGKqrUmmvQ3Qy
- s36SCfc0qfApoB9Ge0d1rCI5iGwwUSuBvgu++cI37O6JXey1xbYhed5oK
- JgVRr/UvNqpsrzxV1aT0xSv/xVgGhvmR88BkNt/2sMa/lDVGNBBfmz5GO
- xz29ZAKTmgIIMCFk26sYp51fWl4/QYppySocKP1O8nW8JwX6TH8+SkXQJ w==;
-X-IronPort-AV: E=Sophos;i="5.85,310,1624291200"; d="scan'208";a="181039162"
+ t=1632207277; x=1663743277;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=/By8hcMfszR6aj98qjgmS+3rf+WKkLvhUWvMd941eg4=;
+ b=r7NUbXGEb0UECps+5Y+maiyewGgt7iZ1s9Ql4ZGLfydfJXXSF1hYJE8K
+ TMO6thb8k7EX5J1DcH9b1SG4BxHj+ukivkjth8stJejwqxxrcsGT14y2Q
+ hwLexaRemh2xi4bC+lymd47X9xet5bE6/xuAnFb12pcqSHS1qHfPNhwHL
+ 2WAGK7D8tnw5kEwJnRj85M4Kzv96y4N3AB8bCmS9vWOT3iCpl0Wg6H93u
+ JclSbgRB1LbM+X5Vr5STqAjXKI0gzCTiAQNXOHWZYRQzFJ15sQXjFaEYJ
+ w4bzX9AMNZf8+tBWRnBr6WmvohubQhqo+MN83XxFV6zWenQxgCRA0VtlS A==;
+X-IronPort-AV: E=Sophos;i="5.85,310,1624291200"; d="scan'208";a="181039173"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 Sep 2021 14:54:27 +0800
-IronPort-SDR: mhWGV5wwn/j/saSyM3QiyVPHnXpV75ih8ZHUkSKKLHE2a2mztlg2RNNQOqZ3L0TsP+tlkdqGQ2
- AXSImEHs1iMVh+dex47/90APRU7ksIQeYJak4H6aPIXK0Skg8ZZEM4vys8k+xQz3yE6Ifb7WY6
- rBMqRjglZP5Oyp6hjAd8PT3Bb+LC4ndcF0NgIfX/UWCddl8nCSD8sUug4XHDjDsj+z+JZBQhtD
- /96WCsFFXmOqHzdyv7pymk0zhwbIn6lJYTcfLZA8jcfnFF9KVYAK+HhyS9uhCYPm5j04a473mX
- EiQ5VS9bjuysTC2KIiQNSjC+
+ by ob1.hgst.iphmx.com with ESMTP; 21 Sep 2021 14:54:30 +0800
+IronPort-SDR: y6YfYAcpB2zNYjll7ETPaQIUSiYtSFuzksFEcdDGb8RXdlltJc94IOpLauXcyRo2nkP6yhtnFb
+ 8mna2G+dPfJVfBHmJCkCNc6KGK4bElLG7vcYn98TsvZpaAVUhns1ardOXXnFadXIAds4M/fq5Z
+ 08bqOy9UfY8jO2RxKylAEDYtol3ppbxY/R9AWT6hDs34ZuhQOfznm8PDAp+m9dAAVsU32sv22F
+ KqzbcrGfnjyvF2yCYYo26O1emRj3BQNO2n/0aMuLr3Xx0ZRHfqGOkpWtcBZcBIiZpEZRebw7jH
+ rX8Y00nQSEjDeeTsROl5FOhu
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 23:30:41 -0700
-IronPort-SDR: iUhsqzrJiKrEpK8eKljU/PkvzewgkdOyWf9EhCyNAvbo8fuazeVl/LIom9zq2geSkItXkq92YB
- RLg9NpNefObDPksUXortPpWkkuKwIrL+Gb0/f+ltbMU8/+J1Ghhtnq8x7BVIHduV7JglWSm7UL
- 1CJrwR88cj/AgBaxfVs/uhb6u9W1GOfHR6DEkf9PIomNIqKXh+y1u06XILiHMiB0Bwn/H01uu6
- JUk1R0gICemTi4DQ9Wm2k9nTRD4KqGUp87xVumjY13KKIw1EMLX36WT1aWnjPsiEGKBDKILRqh
- j4c=
+ 20 Sep 2021 23:30:44 -0700
+IronPort-SDR: VjVlMzsmTSFis/FaCpBuPR578vvUDRH3pBPN9vqdMnm1fam/CjXcrlmeCCxXsWMtxOvpOJx3oF
+ KK/8EfAwOBAYKoCTByWp2geHxUO57y52jpVNkgCOs8q3ZiQg0T9FHIZu+z44Nx5mDgTJicZjQN
+ irly1GwfNOJQp7kUsrolwhIr82eQ+TvwXDpqSwrgV+V7lg98s5RZ8SY/KV+ecrYqS4xY13I3gm
+ 4YB5Vgq/y6vkzsbeExapqjlipqIcs0fqp1vOAI7rUJHfgRtH7f1yqWk/g+GTS0pX1V0nzsFfKC
+ hmA=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 23:54:27 -0700
+ 20 Sep 2021 23:54:31 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HDBxG3Jz3z1Rws4
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 23:54:26 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HDBxK5bLLz1Rws4
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 23:54:29 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:x-mailer:message-id:date:subject:to:from; s=dkim;
- t=1632207264; x=1634799265; bh=PgTTt6J6HKA1KPNJM09XhkMnxvKqRZr1
- 61jbIPUQqnU=; b=cqnO0uE5tjBDYi8Qh5iM8LyyYpuTvxpIWfA0MHTERWEvIfEn
- HkildRN5L6jWBL9S92AeHnYou5IAtecVJ2hQMh9JxNvtrOYHiU7pA8jBt4tEMD+l
- WpKJe9YQ3MMXxK6YQ9WxFlkxNcLoJZWR6a5ACuEasT4yGSXmppEldvFc7C0NkIWL
- DIMNcVq4Xwd3MfezWkbu+Y6H6NLDKAQR6GLuluBjR32F1q/ZXslD//rcVaYKKKCR
- wNdXTSLzycb+TKD7SqSDaCLhiD1ifd1IFzDk0GlAisdqGqfep8eJiU4CAV2dcUFu
- TuyQSqNafZ9qQYbinIKnZ1eSfyKowkkGvjBkkw==
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1632207269; x=1634799270; bh=/By8hcMfszR6aj98qj
+ gmS+3rf+WKkLvhUWvMd941eg4=; b=lXZTU8h6eVsQ6kQIdXVjf/K2n+eI9Qn9bZ
+ 5/iTNwx616grsdlXb8BZXeaY744QFKsWeC3xxHsUm658rdFkMHd4LX4RgS80yp9k
+ dD6A2Hi7hc30uU6/0BOfMZm0xr6Ko7sIcPl3C5ExYmQTGTSvVtU7hxkqyRnS41yT
+ wVpfCv7+M+VjUm6DAzjXl1O9uUEZ+4yDdTbBKV4qC29d96FogmhU32/f3VRIytQ9
+ 0VJqu5yBmhd9nevZEj6GYmPWk2BBUCoEzNL0a1QVpVLrObyUv9ScO3UnbIpJ6tVz
+ t/1yxeqTgHdob8B4sH0N9ol2DHgXAfxb7rF1AgpLVeoK76WQe7vw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id VlWReJnzKceH for <qemu-devel@nongnu.org>;
- Mon, 20 Sep 2021 23:54:24 -0700 (PDT)
+ port 10026) with ESMTP id Izg5PKJK-eTX for <qemu-devel@nongnu.org>;
+ Mon, 20 Sep 2021 23:54:29 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.26])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HDBx90pKfz1RvlH;
- Mon, 20 Sep 2021 23:54:20 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HDBxF5qrpz1Rwry;
+ Mon, 20 Sep 2021 23:54:25 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Cc: alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL v2 00/21] riscv-to-apply queue
-Date: Tue, 21 Sep 2021 16:53:51 +1000
-Message-Id: <20210921065412.312381-1-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bmeng.cn@gmail.com>
+Subject: [PULL v2 01/21] target/riscv: Update the ePMP CSR address
+Date: Tue, 21 Sep 2021 16:53:52 +1000
+Message-Id: <20210921065412.312381-2-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210921065412.312381-1-alistair.francis@opensource.wdc.com>
+References: <20210921065412.312381-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.71.154.45;
  envelope-from=prvs=891501f09=alistair.francis@opensource.wdc.com;
@@ -117,110 +118,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-The following changes since commit 326ff8dd09556fc2e257196c49f35009700794=
-ac:
+Update the ePMP CSRs to match the 0.9.3 ePMP spec
+https://github.com/riscv/riscv-tee/blob/61455747230a26002d741f64879dd78cc=
+9689323/Smepmp/Smepmp.pdf
 
-  Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' i=
-nto staging (2021-09-20 16:17:05 +0100)
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Message-id: 28c908de60b9b04fa20e63d113885c98586053f3.1630543194.git.alist=
+air.francis@wdc.com
+---
+ target/riscv/cpu_bits.h | 4 ++--
+ target/riscv/cpu.c      | 1 +
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-are available in the Git repository at:
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 7330ff5a19..ce9dcc030c 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -210,8 +210,8 @@
+ #define CSR_MTVAL2          0x34b
+=20
+ /* Enhanced Physical Memory Protection (ePMP) */
+-#define CSR_MSECCFG         0x390
+-#define CSR_MSECCFGH        0x391
++#define CSR_MSECCFG         0x747
++#define CSR_MSECCFGH        0x757
+ /* Physical Memory Protection */
+ #define CSR_PMPCFG0         0x3a0
+ #define CSR_PMPCFG1         0x3a1
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 13575c1408..d4d5961807 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -599,6 +599,7 @@ static Property riscv_cpu_properties[] =3D {
+     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
+     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
++    /* ePMP 0.9.3 */
+     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+=20
+     DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec, DEFAULT_RSTVE=
+C),
+--=20
+2.31.1
 
-  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210921
-
-for you to fetch changes up to ed481d9837250aa682f5156528bc923e1b214f76:
-
-  hw/riscv: opentitan: Correct the USB Dev address (2021-09-21 12:10:47 +=
-1000)
-
-----------------------------------------------------------------
-Second RISC-V PR for QEMU 6.2
-
- - ePMP CSR address updates
- - Convert internal interrupts to use QEMU GPIO lines
- - SiFive PWM support
- - Support for RISC-V ACLINT
- - SiFive PDMA fixes
- - Update to u-boot instructions for sifive_u
- - mstatus.SD bug fix for hypervisor extensions
- - OpenTitan fix for USB dev address
-
-----------------------------------------------------------------
-Alistair Francis (9):
-      target/riscv: Update the ePMP CSR address
-      target/riscv: Expose interrupt pending bits as GPIO lines
-      hw/intc: sifive_clint: Use RISC-V CPU GPIO lines
-      hw/intc: ibex_plic: Convert the PLIC to use RISC-V CPU GPIO lines
-      hw/intc: sifive_plic: Convert the PLIC to use RISC-V CPU GPIO lines
-      hw/intc: ibex_timer: Convert the timer to use RISC-V CPU GPIO lines
-      hw/timer: Add SiFive PWM support
-      sifive_u: Connect the SiFive PWM device
-      hw/riscv: opentitan: Correct the USB Dev address
-
-Anup Patel (4):
-      hw/intc: Rename sifive_clint sources to riscv_aclint sources
-      hw/intc: Upgrade the SiFive CLINT implementation to RISC-V ACLINT
-      hw/riscv: virt: Re-factor FDT generation
-      hw/riscv: virt: Add optional ACLINT support to virt machine
-
-Bin Meng (2):
-      docs/system/riscv: sifive_u: Update U-Boot instructions
-      target/riscv: csr: Rename HCOUNTEREN_CY and friends
-
-Frank Chang (4):
-      hw/dma: sifive_pdma: reset Next* registers when Control.claim is se=
-t
-      hw/dma: sifive_pdma: claim bit must be set before DMA transactions
-      hw/dma: sifive_pdma: don't set Control.error if 0 bytes to transfer
-      target/riscv: Backup/restore mstatus.SD bit when virtual register s=
-wapped
-
-Green Wan (1):
-      hw/dma: sifive_pdma: allow non-multiple transaction size transactio=
-ns
-
-LIU Zhiwei (1):
-      target/riscv: Fix satp write
-
- docs/system/riscv/sifive_u.rst |  50 ++--
- docs/system/riscv/virt.rst     |  10 +
- include/hw/intc/ibex_plic.h    |   2 +
- include/hw/intc/riscv_aclint.h |  80 +++++
- include/hw/intc/sifive_clint.h |  60 ----
- include/hw/intc/sifive_plic.h  |   4 +
- include/hw/riscv/sifive_u.h    |  14 +-
- include/hw/riscv/virt.h        |   2 +
- include/hw/timer/ibex_timer.h  |   2 +
- include/hw/timer/sifive_pwm.h  |  62 ++++
- target/riscv/cpu_bits.h        |  12 +-
- hw/dma/sifive_pdma.c           |  54 +++-
- hw/intc/ibex_plic.c            |  17 +-
- hw/intc/riscv_aclint.c         | 460 +++++++++++++++++++++++++++++
- hw/intc/sifive_clint.c         | 287 ------------------
- hw/intc/sifive_plic.c          |  30 +-
- hw/riscv/microchip_pfsoc.c     |  13 +-
- hw/riscv/opentitan.c           |  13 +-
- hw/riscv/shakti_c.c            |  16 +-
- hw/riscv/sifive_e.c            |  15 +-
- hw/riscv/sifive_u.c            |  68 ++++-
- hw/riscv/spike.c               |  16 +-
- hw/riscv/virt.c                | 654 ++++++++++++++++++++++++++++-------=
-------
- hw/timer/ibex_timer.c          |  17 +-
- hw/timer/sifive_pwm.c          | 468 +++++++++++++++++++++++++++++
- target/riscv/cpu.c             |  31 ++
- target/riscv/cpu_helper.c      |   3 +-
- target/riscv/csr.c             |  26 +-
- hw/intc/Kconfig                |   2 +-
- hw/intc/meson.build            |   2 +-
- hw/riscv/Kconfig               |  13 +-
- hw/timer/Kconfig               |   3 +
- hw/timer/meson.build           |   1 +
- hw/timer/trace-events          |   6 +
- 34 files changed, 1844 insertions(+), 669 deletions(-)
- create mode 100644 include/hw/intc/riscv_aclint.h
- delete mode 100644 include/hw/intc/sifive_clint.h
- create mode 100644 include/hw/timer/sifive_pwm.h
- create mode 100644 hw/intc/riscv_aclint.c
- delete mode 100644 hw/intc/sifive_clint.c
- create mode 100644 hw/timer/sifive_pwm.c
 
