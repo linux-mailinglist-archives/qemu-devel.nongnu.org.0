@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52480413BA8
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 22:44:41 +0200 (CEST)
-Received: from localhost ([::1]:45114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FF5413BCB
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 22:53:34 +0200 (CEST)
+Received: from localhost ([::1]:33892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSmd6-0002Mh-Bc
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 16:44:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45584)
+	id 1mSmlh-0005ZL-Uy
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 16:53:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSmFM-0005MS-EC
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 16:20:08 -0400
-Received: from [115.28.160.31] (port=56040 helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSmFL-0005Jr-2Z
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 16:20:07 -0400
+Received: from [115.28.160.31] (port=56042 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSmFJ-0000fh-96
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 16:20:08 -0400
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSmFJ-0000fm-9e
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 16:20:06 -0400
 Received: from ld50.lan (unknown [101.88.29.172])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 8F0966340F;
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id ACDF963410;
  Wed, 22 Sep 2021 04:19:29 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632255569; bh=ATDpU388Ry4cv2DxjYAhmVThNmqFD/sQQjdLvosqxIA=;
+ t=1632255569; bh=H+Vw9fju16A1TtZe3j6yTSXD9fA4Un29hG8ZHWm8TZY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hxLESv93ngGkc/qKhq7s1UwLUhhLnDhLE5ho3N93BwSymmtYg2WS4LbgDe4jjRGVv
- 7UaYXZFSc6zpLyfPI2CVayHnxxZyjUkgyGzpXH5Jbii8LCts+liP5+L0afnA6i2pS8
- hNebEYaIv7YzpRf00jjnDEuLwE9vUBljzwBrdFFE=
+ b=BsM4/x9mOyyf/yUHJ1vR5z6NakkdrV8xBr8AZgPm2RZY+OTyjvkrVhArhe8Z2mZg1
+ fmJ2dpNyzBhKcqKpNLxOdmEeLbVBfhU7DrJB/mP2bC6LQdCuokDEkirFwwkDRoKNF3
+ ljEjh0emIBBgk1eZmIJw5vTyteZN2tIYyuLbt2xc=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 29/30] accel/tcg/user-exec: Implement CPU-specific signal
- handler for loongarch64 hosts
-Date: Wed, 22 Sep 2021 04:19:14 +0800
-Message-Id: <20210921201915.601245-30-git@xen0n.name>
+Subject: [PATCH v2 30/30] configure,
+ meson.build: Mark support for loongarch64 hosts
+Date: Wed, 22 Sep 2021 04:19:15 +0800
+Message-Id: <20210921201915.601245-31-git@xen0n.name>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210921201915.601245-1-git@xen0n.name>
 References: <20210921201915.601245-1-git@xen0n.name>
@@ -66,98 +66,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 ---
- accel/tcg/user-exec.c | 78 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 78 insertions(+)
+ configure   | 7 ++++++-
+ meson.build | 4 +++-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 8fed542622..87660903b2 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -878,6 +878,84 @@ int cpu_signal_handler(int host_signum, void *pinfo,
-     return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
- }
+diff --git a/configure b/configure
+index 1043ccce4f..3a9035385d 100755
+--- a/configure
++++ b/configure
+@@ -659,6 +659,8 @@ elif check_define __arm__ ; then
+   cpu="arm"
+ elif check_define __aarch64__ ; then
+   cpu="aarch64"
++elif check_define __loongarch64 ; then
++  cpu="loongarch64"
+ else
+   cpu=$(uname -m)
+ fi
+@@ -667,7 +669,7 @@ ARCH=
+ # Normalise host CPU name and set ARCH.
+ # Note that this case should only have supported host CPUs, not guests.
+ case "$cpu" in
+-  ppc|ppc64|s390x|sparc64|x32|riscv32|riscv64)
++  ppc|ppc64|s390x|sparc64|x32|riscv32|riscv64|loongarch64)
+   ;;
+   ppc64le)
+     ARCH="ppc64"
+@@ -4969,6 +4971,9 @@ if test "$linux" = "yes" ; then
+   aarch64)
+     linux_arch=arm64
+     ;;
++  loongarch*)
++    linux_arch=loongarch
++    ;;
+   mips64)
+     linux_arch=mips
+     ;;
+diff --git a/meson.build b/meson.build
+index 2711cbb789..10e527423a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -57,7 +57,7 @@ python = import('python').find_installation()
  
-+#elif defined(__loongarch64)
-+
-+int cpu_signal_handler(int host_signum, void *pinfo,
-+                       void *puc)
-+{
-+    siginfo_t *info = pinfo;
-+    ucontext_t *uc = puc;
-+    greg_t pc = uc->uc_mcontext.__pc;
-+    uint32_t insn = *(uint32_t *)pc;
-+    int is_write = 0;
-+
-+    /* Detect store by reading the instruction at the program counter.  */
-+    switch ((insn >> 26) & 0b111111) {
-+    case 0b001000: /* {ll,sc}.[wd] */
-+        switch ((insn >> 24) & 0b11) {
-+        case 0b01: /* sc.w */
-+        case 0b11: /* sc.d */
-+            is_write = 1;
-+            break;
-+        }
-+        break;
-+    case 0b001001: /* {ld,st}ox4.[wd] ({ld,st}ptr.[wd]) */
-+        switch ((insn >> 24) & 0b11) {
-+        case 0b01: /* stox4.w (stptr.w) */
-+        case 0b11: /* stox4.d (stptr.d) */
-+            is_write = 1;
-+            break;
-+        }
-+        break;
-+    case 0b001010: /* {ld,st}.* family */
-+        switch ((insn >> 22) & 0b1111) {
-+        case 0b0100: /* st.b */
-+        case 0b0101: /* st.h */
-+        case 0b0110: /* st.w */
-+        case 0b0111: /* st.d */
-+        case 0b1101: /* fst.s */
-+        case 0b1111: /* fst.d */
-+            is_write = 1;
-+            break;
-+        }
-+        break;
-+    case 0b001110: /* indexed, atomic, bounds-checking memory operations */
-+        uint32_t sel = (insn >> 15) & 0b11111111111;
-+
-+        switch (sel) {
-+        case 0b00000100000: /* stx.b */
-+        case 0b00000101000: /* stx.h */
-+        case 0b00000110000: /* stx.w */
-+        case 0b00000111000: /* stx.d */
-+        case 0b00001110000: /* fstx.s */
-+        case 0b00001111000: /* fstx.d */
-+        case 0b00011101100: /* fstgt.s */
-+        case 0b00011101101: /* fstgt.d */
-+        case 0b00011101110: /* fstle.s */
-+        case 0b00011101111: /* fstle.d */
-+        case 0b00011111000: /* stgt.b */
-+        case 0b00011111001: /* stgt.h */
-+        case 0b00011111010: /* stgt.w */
-+        case 0b00011111011: /* stgt.d */
-+        case 0b00011111100: /* stle.b */
-+        case 0b00011111101: /* stle.h */
-+        case 0b00011111110: /* stle.w */
-+        case 0b00011111111: /* stle.d */
-+            is_write = 1;
-+            break;
-+        default:
-+            /* test for am* instruction range */
-+            if (0b00011000000 <= sel && sel <= 0b00011100011) {
-+                is_write = 1;
-+            }
-+            break;
-+        }
-+        break;
-+    }
-+
-+    return handle_cpu_signal(pc, info, is_write, &uc->uc_sigmask);
-+}
-+
- #else
+ supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
+ supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv32', 'riscv64', 'x86', 'x86_64',
+-  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
++  'arm', 'aarch64', 'loongarch64', 'mips', 'mips64', 'sparc', 'sparc64']
  
- #error host CPU specific signal handler needed
+ cpu = host_machine.cpu_family()
+ targetos = host_machine.system()
+@@ -269,6 +269,8 @@ if not get_option('tcg').disabled()
+     tcg_arch = 's390'
+   elif config_host['ARCH'] in ['x86_64', 'x32']
+     tcg_arch = 'i386'
++  elif config_host['ARCH'] == 'loongarch64'
++    tcg_arch = 'loongarch64'
+   elif config_host['ARCH'] == 'ppc64'
+     tcg_arch = 'ppc'
+   elif config_host['ARCH'] in ['riscv32', 'riscv64']
 -- 
 2.33.0
 
