@@ -2,84 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584414136E8
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 18:03:36 +0200 (CEST)
-Received: from localhost ([::1]:39684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC1E5413705
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 18:13:14 +0200 (CEST)
+Received: from localhost ([::1]:57722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSiF4-0008SP-To
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 12:03:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40282)
+	id 1mSiOP-0003py-Bt
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 12:13:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSiB1-0007Ce-JO
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 11:59:23 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:39561)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSiB0-0005kN-15
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 11:59:23 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- h3-20020a17090a580300b0019ce70f8243so2301062pji.4
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 08:59:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iNBOwKrz29PzeY0aPQ6ZCUeJTzQJnB6T60Fejf33ROM=;
- b=tH6pej040ZNc3M/pn7WfYsWIk7QVP8xcXKH4AQNqFwe9GXyjxRTOUQctllEsNo+JbX
- 34ppkvr+XqywISDVfwK0fd8+IO7GWDAlRGRDC7Gm/gtxTSLhoKNHwELZ0o3/TTFB1kji
- yoessugzABkVKBsTAoNpLWOc2BlmZRQinwElKW0+JpcOrTXPbqNyh8nxGLSEL2ghSVE0
- Wm3ersYEZ0B9/Zl9OENxjAJpjssJFvuV8dUopsdNB3jALDrOXFQmgjDHypPaJLOMmaLy
- DBbrq8Tict8m9gR7UQGvvoSWEHZfrjr9/DwLsjLV+HGbu++98tBRZsI53kyh2ud6jizK
- 4R3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iNBOwKrz29PzeY0aPQ6ZCUeJTzQJnB6T60Fejf33ROM=;
- b=S0pHDmGfSm0gldPhqtMAUzfejbejuvZSRFRWSNjck1nIGK1tFnD/SKJvYmKS6dT01t
- g99Q9I8FtR1RmFn2GB5jDy5WlhsYkZpKhxKjfnNoIVTC9XFXbppRFauzwuxEsr401IeW
- 6vs7zdHN3BI8Y5fZt6z6CD5QGlREMoukqf1LHfRznpGTYJx52oyqfH40i/ieyIOCRbaC
- I5/QOGz1uT1Ej++O6IXGnLShEhqdQk5cm23B3mrop+7QvERP4jsjEJ3MceWpOMRHcSDh
- wVXm0Roc0DdKYzjFnIzhNNS7u1tjkfiZj0UFoZ2kD5FPduCvnYr3oDtdDkd/DwvcoWlY
- 5w4w==
-X-Gm-Message-State: AOAM530tkgKqDYPF5Vgk9ld8bVD/uA6Q0iy5c2OX8MoQI4qqP18wTXSX
- r3vvMxmnJtzriJR05uNrfijwVfZGdIHsAw==
-X-Google-Smtp-Source: ABdhPJwWrcWoCQGsEdPQ+CVl9V0G1lnMeDU7IqcppZyTYo2Rlrcm5pNLKx79bkhULdoS1YXUm5RYtg==
-X-Received: by 2002:a17:902:7e0f:b0:139:fdd6:77bc with SMTP id
- b15-20020a1709027e0f00b00139fdd677bcmr28031560plm.22.1632239960293; 
- Tue, 21 Sep 2021 08:59:20 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id c199sm18111581pfb.152.2021.09.21.08.59.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Sep 2021 08:59:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mSiKp-0000w4-DV
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 12:09:31 -0400
+Received: from [115.28.160.31] (port=53514 helo=mailbox.box.xen0n.name)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mSiKm-0004Hh-6v
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 12:09:30 -0400
+Received: from [192.168.9.172] (unknown [101.88.29.172])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 88C0B600FF;
+ Wed, 22 Sep 2021 00:09:20 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1632240560; bh=ok70pgASaD0gEMaQUOYdPcamIUfxDdb5BNehopLef7k=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=XYULna6ToxR6uLgmU2hX2atFVaWtkCLzQ+WF+Ovt2UWzdLukwbtJHlBtEQ2sr1W6A
+ RRDlZd1UsYytwxImnoG6lC2UWOCw3aezWtnnsK68VO3aLUnyTaRVRLfqTWYS/nsfim
+ k+lUIk1/ShoF7b0KGrRJiAqt67RZ4oLl2oxXDogQ=
+Message-ID: <af8eb7dc-f194-aae8-f3ac-544c88d46e5d@xen0n.name>
+Date: Wed, 22 Sep 2021 00:09:19 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
+ Thunderbird/94.0a1
 Subject: Re: [PATCH 28/30] configure, meson.build: Mark support for 64-bit
  LoongArch hosts
-To: Peter Maydell <peter.maydell@linaro.org>
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
 References: <20210920080451.408655-1-git@xen0n.name>
  <20210920080451.408655-29-git@xen0n.name>
  <de7efdfe-24ae-015c-015d-50acc245df1c@linaro.org>
  <CAFEAcA9QPxceBR4hn8FpNbX44y3d28rRmyzrkEABU8dChdBqtw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5f41c283-1c83-2093-9dbf-be422b7586fa@linaro.org>
-Date: Tue, 21 Sep 2021 08:59:17 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-MIME-Version: 1.0
+From: WANG Xuerui <i.qemu@xen0n.name>
 In-Reply-To: <CAFEAcA9QPxceBR4hn8FpNbX44y3d28rRmyzrkEABU8dChdBqtw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,33 +68,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: WANG Xuerui <git@xen0n.name>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/21/21 7:42 AM, Peter Maydell wrote:
+Hi Peter,
+
+On 9/21/21 22:42, Peter Maydell wrote:
 > On Mon, 20 Sept 2021 at 18:25, Richard Henderson
 > <richard.henderson@linaro.org> wrote:
->>
 >> On 9/20/21 1:04 AM, WANG Xuerui wrote:
 >>> Signed-off-by: WANG Xuerui <git@xen0n.name>
-> 
 >> Be consistent with loongarch or loongarch64 everywhere.
 >>
 >> If there's no loongarch32, and never will be, then there's probably no point in keeping
 >> the '64' suffix.
-> 
 > What does Linux 'uname -m' call the architecture, and what is the
-> name in the gcc triplet?
+> name in the gcc triplet? Generally I think we should prefer to follow
+> those precedents (which hopefully don't point in different directions)
+> rather than making up our own architecture names.
 
-The kernel will report
+uname -m says "loongarch64", the GNU triple arch name is also 
+"loongarch64". I'd say it's similar to the situation of RISC-V or MIPS; 
+except that a Linux port to the 32-bit variant of LoongArch might not 
+happen, precluding a QEMU port.
 
-arch/loongarch/Makefile:UTS_MACHINE := loongarch64
+I think cpu=loongarch64 but ARCH=loongarch should be okay; at least it's 
+better than, say, the Go language or Gentoo, where this architecture is 
+named "loong64" and "loong"; or the binutils internals where it's "larch".
 
-and it appears that the toolchain is using loongarch64 as well.
-
-So, Xuerui, I think there's your answer...
-
-
-r~
+>
+> thanks
+> -- PMM
 
