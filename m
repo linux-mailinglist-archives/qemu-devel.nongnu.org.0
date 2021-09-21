@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EEB412B06
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 04:04:01 +0200 (CEST)
-Received: from localhost ([::1]:58062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD2A412BBD
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 04:28:01 +0200 (CEST)
+Received: from localhost ([::1]:35322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSV8Z-0003gD-Ls
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 22:03:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39902)
+	id 1mSVVo-0008Jp-Sb
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 22:28:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mSV7P-0002vK-Ao
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 22:02:47 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:46648)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mSVTY-0005Wt-Ka
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 22:25:40 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:44927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1mSV7M-0007dQ-DM
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 22:02:47 -0400
-Received: by mail-pl1-x633.google.com with SMTP id w11so2785045plz.13
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 19:02:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mSVTW-0006Du-GF
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 22:25:40 -0400
+Received: by mail-pg1-x531.google.com with SMTP id s11so19300940pgr.11
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 19:25:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=dVMXzPwOyaeaAttXl7zgflq14txZYmFH/rS+ZOzgO9Y=;
- b=FOlB+SXwv86iX4tBKivElntaDSLhTy9ozudZu5BfmrLPDgHkbBnDvFYSxjhCopVjFG
- Y1Tiu8jF2U67qckXVmUPavzAVlbL0ssn1zzyEXRvVl98N8/lvp3LIacXzelnC+nSc6im
- toc2wCNG93Vud87BWRnfWJDDdQZHy9DccdAoQPk2+AVPElKR308xJ9KHfP52XWiZ1e/D
- bYMtAAaCyfUpWWPg8/PQL9nT4Hkfo0D79L2abCfU0/pIeCD6ecJ+IAKs77kFa+TqpIYs
- bLFiIqVl9fD5bqCwGX9h5KPaboj2DtwV/v8GzJGmN7TSjLUHDtpb9VFU1Vhl7kipEtwN
- 9jQw==
+ bh=kuZfkwT6TB9nWNiqSl5AuHsN/91Jerg+tZupkKJ6w5o=;
+ b=wgFsSyidXtCI2VdQGxirxbOOr8tN3IS6Xi04UnkrHa05SMSe6sodgRhGOVo/aGlaqH
+ DNbeNv8oikAVz3l80+jNpkmXM3/brW2rX7jSg2IWIyDYQurqu/BKVw0CM4vzaenbr2p6
+ 9S2ESN4xvYLOqsLxX6t8S5Gn7FX+ITib9/HMGMYEvwxUd4UVhiztum7ZgHmokwU983dP
+ 98ehDtSVaj+i2Re9TDTMPhTU2Dnmrwn8kNYa3yKln6fHj88aKfKStAGTCMWqms/uO+r5
+ pEnlPgwoDPP90c50S4OGJoRbDjnYbsDI6u4Em5/zHpTrTgXFbNQFHhPOEwHuCF+kEu0p
+ XK2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=dVMXzPwOyaeaAttXl7zgflq14txZYmFH/rS+ZOzgO9Y=;
- b=tqddt0q0GpIIbLKzl+V8TjZ8a68YqRkRMIcKa0X6fZ5Dx20j4h2Ib8FA0u0eScFpTG
- mbF3phK2kZfMr2HA5rI1nfusfPVMqJnZ0TWf2oJA16N3LxBzX/xVMuDoGOuU/iO9ts/a
- psUZjryBMX9JNjpTtIh4nEkb9/outOmiI/tCqkty02Z2+z3QPVnQc6QArpgEd3n27oC9
- 67AzWLPh6ez2p8eVwNioHfiLW6LZwglCfDT1fwUeNXx6jWuXLBQkze5fpFf6yeYLfKgc
- YtxFBGcyDQJ2F1OoJaVmIi7pfOJU1sOKALOu61/IHu0BVh4m/1PjGtjTRuchRc9dIQ8t
- aKyQ==
-X-Gm-Message-State: AOAM5319VzRA4LV6Ep92akXp8spFUY+CZ72lzrZ7LUhBGiA1xG9eSzKr
- qaeAhIsJHL1x9l7QE2iCRi9sh7DS081zfA==
-X-Google-Smtp-Source: ABdhPJwB2sxFQCX/Ig63IozjYlLfkSc5rfPc9f+b1o1ExGh8rWKWZdk/htQIUI9Ni2pc/YhuJqHEdA==
-X-Received: by 2002:a17:90a:7e90:: with SMTP id
- j16mr2327075pjl.139.1632189761279; 
- Mon, 20 Sep 2021 19:02:41 -0700 (PDT)
-Received: from localhost.localdomain (123-193-74-252.dynamic.kbronet.com.tw.
- [123.193.74.252])
- by smtp.gmail.com with ESMTPSA id t14sm16264645pga.62.2021.09.20.19.02.38
+ bh=kuZfkwT6TB9nWNiqSl5AuHsN/91Jerg+tZupkKJ6w5o=;
+ b=13qPSVg5BBkd4LMeVHkybn02YSbp9JsSZwiXbn6+TmJUQzZKm5w24OYqD8OwF/390L
+ e0kYWP+fivfXPn3lOsuTAC+eLRHJS/Hu6iwI78jeh0tQIkK+TJ0zLC8JkDrr/AV3mkzE
+ j1woEbFIB7246TpJ+c1uuUpo10A1ec48TqTbMJ7v05eUqM0OR0n8AhA1vGzZYlTb5fho
+ E2G8mdjUS3Wq1EMT4UrFriDtqMhcj0kL8ic4H5juGVcWwtLuUlWM+iO3NGKW35KcHrz6
+ TP634TFvVc+4EKTdDfNK35T3htuRlgOByAeo/Mllsdorqw6SoDoXqxCwKcUpV5cuslk3
+ aHXQ==
+X-Gm-Message-State: AOAM531BeIpajYxp2EoxOXVtU3vAcgY7b2DoS4yyFdypRuzmBZS/k1v1
+ lvlbXxPBz1oLVkb/J9ULE1soqkvfbDSacw==
+X-Google-Smtp-Source: ABdhPJwL/bdg/dsvEcg3QAAI+tOf9rtKdCkAlhqqYWfaYKBKOvHs9L/uE/O1t1GXIQukF5ygMEx+4g==
+X-Received: by 2002:a05:6a00:a8a:b029:356:be61:7f18 with SMTP id
+ b10-20020a056a000a8ab0290356be617f18mr28000805pfl.29.1632191136408; 
+ Mon, 20 Sep 2021 19:25:36 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id n9sm15297621pff.37.2021.09.20.19.25.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 19:02:40 -0700 (PDT)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v3] target/riscv: Set mstatus_hs.[SD|FS] bits if Clean and V=1
- in mark_fs_dirty()
-Date: Tue, 21 Sep 2021 10:02:33 +0800
-Message-Id: <20210921020234.123448-1-frank.chang@sifive.com>
+ Mon, 20 Sep 2021 19:25:36 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/10] tcg patch queue, v2
+Date: Mon, 20 Sep 2021 19:25:24 -0700
+Message-Id: <20210921022534.365291-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,120 +82,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Vincent Chen <vincent.chen@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+Drop has_work patches.
+Add a few more misc cleanups.
 
-When V=1, both vsstauts.FS and HS-level sstatus.FS are in effect.
-Modifying the floating-point state when V=1 causes both fields to
-be set to 3 (Dirty).
 
-However, it's possible that HS-level sstatus.FS is Clean and VS-level
-vsstatus.FS is Dirty at the time mark_fs_dirty() is called when V=1.
-We can't early return for this case because we still need to set
-sstatus.FS to Dirty according to spec.
+The following changes since commit 326ff8dd09556fc2e257196c49f35009700794ac:
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Vincent Chen <vincent.chen@sifive.com>
-Tested-by: Vincent Chen <vincent.chen@sifive.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/cpu.h       |  4 ++++
- target/riscv/translate.c | 30 +++++++++++++++++-------------
- 2 files changed, 21 insertions(+), 13 deletions(-)
+  Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2021-09-20 16:17:05 +0100)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index e735e53e26c..bef7c551646 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -394,6 +394,7 @@ FIELD(TB_FLAGS, SEW, 5, 3)
- FIELD(TB_FLAGS, VILL, 8, 1)
- /* Is a Hypervisor instruction load/store allowed? */
- FIELD(TB_FLAGS, HLSX, 9, 1)
-+FIELD(TB_FLAGS, MSTATUS_HS_FS, 10, 2)
- 
- bool riscv_cpu_is_32bit(CPURISCVState *env);
- 
-@@ -450,6 +451,9 @@ static inline void cpu_get_tb_cpu_state(CPURISCVState *env, target_ulong *pc,
-                 get_field(env->hstatus, HSTATUS_HU))) {
-             flags = FIELD_DP32(flags, TB_FLAGS, HLSX, 1);
-         }
-+
-+        flags = FIELD_DP32(flags, TB_FLAGS, MSTATUS_HS_FS,
-+                           get_field(env->mstatus_hs, MSTATUS_FS));
-     }
- #endif
- 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 74b33fa3c90..6be22347426 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -58,6 +58,7 @@ typedef struct DisasContext {
-     target_ulong misa;
-     uint32_t opcode;
-     uint32_t mstatus_fs;
-+    uint32_t mstatus_hs_fs;
-     uint32_t mem_idx;
-     /* Remember the rounding mode encoded in the previous fp instruction,
-        which we have already installed into env->fp_status.  Or -1 for
-@@ -280,27 +281,29 @@ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
- static void mark_fs_dirty(DisasContext *ctx)
- {
-     TCGv tmp;
--    target_ulong sd;
-+    target_ulong sd = is_32bit(ctx) ? MSTATUS32_SD : MSTATUS64_SD;
- 
--    if (ctx->mstatus_fs == MSTATUS_FS) {
--        return;
--    }
--    /* Remember the state change for the rest of the TB.  */
--    ctx->mstatus_fs = MSTATUS_FS;
-+    if (ctx->mstatus_fs != MSTATUS_FS) {
-+        /* Remember the state change for the rest of the TB. */
-+        ctx->mstatus_fs = MSTATUS_FS;
- 
--    tmp = tcg_temp_new();
--    sd = is_32bit(ctx) ? MSTATUS32_SD : MSTATUS64_SD;
-+        tmp = tcg_temp_new();
-+        tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
-+        tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
-+        tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
-+        tcg_temp_free(tmp);
-+    }
- 
--    tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
--    tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
--    tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus));
-+    if (ctx->virt_enabled && ctx->mstatus_hs_fs != MSTATUS_FS) {
-+        /* Remember the stage change for the rest of the TB. */
-+        ctx->mstatus_hs_fs = MSTATUS_FS;
- 
--    if (ctx->virt_enabled) {
-+        tmp = tcg_temp_new();
-         tcg_gen_ld_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
-         tcg_gen_ori_tl(tmp, tmp, MSTATUS_FS | sd);
-         tcg_gen_st_tl(tmp, cpu_env, offsetof(CPURISCVState, mstatus_hs));
-+        tcg_temp_free(tmp);
-     }
--    tcg_temp_free(tmp);
- }
- #else
- static inline void mark_fs_dirty(DisasContext *ctx) { }
-@@ -533,6 +536,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->frm = -1;  /* unknown rounding mode */
-     ctx->ext_ifencei = cpu->cfg.ext_ifencei;
-     ctx->vlen = cpu->cfg.vlen;
-+    ctx->mstatus_hs_fs = FIELD_EX32(tb_flags, TB_FLAGS, MSTATUS_HS_FS);
-     ctx->hlsx = FIELD_EX32(tb_flags, TB_FLAGS, HLSX);
-     ctx->vill = FIELD_EX32(tb_flags, TB_FLAGS, VILL);
-     ctx->sew = FIELD_EX32(tb_flags, TB_FLAGS, SEW);
--- 
-2.25.1
+are available in the Git repository at:
 
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210920
+
+for you to fetch changes up to b21ba5dfe3f4a367910d490d10fa7c9fa76f1504:
+
+  tcg/riscv: Remove add with zero on user-only memory access (2021-09-20 14:17:54 -0700)
+
+----------------------------------------------------------------
+Move cpu_signal_handler declaration.
+Restrict cpu_handle_halt to sysemu.
+Make do_unaligned_access noreturn.
+Misc tcg/mips cleanup
+Misc tcg/sparc cleanup
+Misc tcg/riscv cleanup
+
+----------------------------------------------------------------
+Philippe Mathieu-Daudé (1):
+      accel/tcg: Restrict cpu_handle_halt() to sysemu
+
+Richard Henderson (9):
+      include/exec: Move cpu_signal_handler declaration
+      tcg/mips: Drop inline markers
+      tcg/mips: Allow JAL to be out of range in tcg_out_bswap_subr
+      tcg/mips: Unset TCG_TARGET_HAS_direct_jump
+      tcg/mips: Drop special alignment for code_gen_buffer
+      tcg/sparc: Drop inline markers
+      tcg/sparc: Introduce tcg_out_mov_delay
+      hw/core: Make do_unaligned_access noreturn
+      tcg/riscv: Remove add with zero on user-only memory access
+
+ include/exec/exec-all.h        |  13 +++++
+ include/hw/core/tcg-cpu-ops.h  |   3 +-
+ target/alpha/cpu.h             |  10 +---
+ target/arm/cpu.h               |   7 ---
+ target/arm/internals.h         |   2 +-
+ target/avr/cpu.h               |   2 -
+ target/cris/cpu.h              |   8 ----
+ target/hexagon/cpu.h           |   3 --
+ target/hppa/cpu.h              |   3 --
+ target/i386/cpu.h              |   7 ---
+ target/m68k/cpu.h              |   8 ----
+ target/microblaze/cpu.h        |   9 +---
+ target/mips/cpu.h              |   3 --
+ target/mips/internal.h         |   2 -
+ target/mips/tcg/tcg-internal.h |   4 +-
+ target/nios2/cpu.h             |   6 +--
+ target/openrisc/cpu.h          |   2 -
+ target/ppc/cpu.h               |   7 ---
+ target/ppc/internal.h          |   4 +-
+ target/riscv/cpu.h             |   4 +-
+ target/rx/cpu.h                |   4 --
+ target/s390x/cpu.h             |   7 ---
+ target/s390x/s390x-internal.h  |   4 +-
+ target/sh4/cpu.h               |   7 +--
+ target/sparc/cpu.h             |   2 -
+ target/tricore/cpu.h           |   2 -
+ target/xtensa/cpu.h            |   6 +--
+ tcg/mips/tcg-target.h          |  12 ++---
+ accel/tcg/cpu-exec.c           |   6 ++-
+ target/hppa/cpu.c              |   7 +--
+ tcg/region.c                   |  91 -----------------------------------
+ tcg/mips/tcg-target.c.inc      | 105 ++++++++++++++---------------------------
+ tcg/riscv/tcg-target.c.inc     |  10 +---
+ tcg/sparc/tcg-target.c.inc     |  64 ++++++++++++++-----------
+ 34 files changed, 119 insertions(+), 315 deletions(-)
 
