@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6905B41329F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 13:34:41 +0200 (CEST)
-Received: from localhost ([::1]:54632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E6544132AB
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 13:36:07 +0200 (CEST)
+Received: from localhost ([::1]:57642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSe2q-0007ON-2x
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 07:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52504)
+	id 1mSe4E-00011j-98
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 07:36:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mSe0Z-0006EP-UJ
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 07:32:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26102)
+ id 1mSe1I-0006sh-1Z
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 07:33:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mSe0Q-0006tG-88
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 07:32:18 -0400
+ id 1mSe1F-0007IH-KX
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 07:33:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632223928;
+ s=mimecast20190719; t=1632223979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9CGYQ1e6P94b6EsYsFQfr5miJ//eLAOI5sfZ0QlQH0c=;
- b=F7ZetmcOXmK/VJ+qqpuYDpjj+FGz2l9BK4VIf32VDFCy2mN/9xkMtuKSd74iA2oGwFZi1K
- vBRE8UK2elvYaWV9QcMy7Ju+rrqK4AjqrTxVbJPE8JqYyZOuKdeHxt70z2ygK8xtljpZd2
- AMLtUfOhu/eNrc4QytokL1DicmL1xH4=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-iU7E1sW-NFmcgSSfKJFtpg-1; Tue, 21 Sep 2021 07:32:05 -0400
-X-MC-Unique: iU7E1sW-NFmcgSSfKJFtpg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- d1-20020a50f681000000b003d860fcf4ffso5970414edn.22
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 04:32:04 -0700 (PDT)
+ bh=nWs9yyLBFqnyqCgXz5BkJHc9qA1V8caDMo+P2PfOzhE=;
+ b=HI5V+uUuSkMrYFMOIVV+j3EJKWz0yKB/as+w/5vK1KHh4dcqwhhorxhZVX8cie3pa8yLQS
+ j88KQl2Nrl/XLh6aCM4l+X6z7Bdf6TW0lMBcn9v13e1HcnOA3/ZW1NVAbaAsTAGu6Tq+2W
+ G0+We20EWXTQpwvCrFuGZR15AurOUOI=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-205-XjEXaaszO9K9SyNugFNxZA-1; Tue, 21 Sep 2021 07:32:58 -0400
+X-MC-Unique: XjEXaaszO9K9SyNugFNxZA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ 14-20020a508e4e000000b003d84544f33eso7451677edx.2
+ for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 04:32:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9CGYQ1e6P94b6EsYsFQfr5miJ//eLAOI5sfZ0QlQH0c=;
- b=w416N7MFE9gMuu859rpkT9ivUSJg0cg87j447F/3GSumzgbrMOkObG/p5SzkYK6SwF
- BdhUohi8SSPLnzXSdg/nM0zgIJ9D3GZaGQe0ftDBd5zaNfaN/KxVRDPwpW4FhIB+hkr4
- pSzyg5ObWzjD+HIHSSfOUTe4yNSQ50fP2oFF3LsTJEYFgnNghdN/DzKRNSfA8ZOmG+o4
- NtLNAhQGRpwga2IY3YKql4dbi8gNl2XFqZGerjfJdQkxw7DS0n3wLyZa7X6HH++71ci+
- fqSSAzQBtZCTzOIm2r3B6LRcQ86tvTLiXNYgB8ipQRRsq9StRl5iy8RuBdykKHt5lL7n
- +4aA==
-X-Gm-Message-State: AOAM533K8Pm5OAk8mo8KUqUFgvO7xIlGvvXuGdUETfNwzHv//4cIJIZx
- zZ08n4CF1MSO7YCj4oKJ/10fS9VW9C7d+lpJWqG8srNZEex42BCTdVlsnGZUTxbV2rYp7O0RALs
- mkovwsnPCl812odU=
-X-Received: by 2002:a17:907:785a:: with SMTP id
- lb26mr35120760ejc.77.1632223923826; 
- Tue, 21 Sep 2021 04:32:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJytGg6whyv/ElGqlm1JNnpM9m5eRJw1SWHaVmo5o1+S3rAuAO9xhiwTS4xvE47o2hOtylq+Ig==
-X-Received: by 2002:a17:907:785a:: with SMTP id
- lb26mr35120738ejc.77.1632223923625; 
- Tue, 21 Sep 2021 04:32:03 -0700 (PDT)
+ bh=nWs9yyLBFqnyqCgXz5BkJHc9qA1V8caDMo+P2PfOzhE=;
+ b=i7X0NcSrAHnJ7m1KeLQ+UZcT/AGBxUtcFJFtOfC/n2PQbwv3fEhn3FhLZTTlhdIphN
+ orD2au6U+B5enNZP75Ym/nlvwKy0SmGUlofV0V6NkEa9HBPBFs0e32OQPLgWZSX636Hy
+ w+Q4KOnx7WR/GXeLPo6SHny1FGCIOX7S7YtfNxcvLO/oxMcUyf1Dj6Z7+V5LuJfmkUQI
+ QAS6rT1nF3oOSh2cIAIvDz4IBhptGlPnm2HqQr8Sz9i3DnLjTz0XRUTvxcTAvZoZMGzt
+ +euwFEZLP3n4AcTIPeQTiQ48PJ46aAR/TKzP+wBgJ88lrjY15/JQfYDG4NAe+zWMi/Pu
+ P0Aw==
+X-Gm-Message-State: AOAM530zdXiAnRxNHxtVS4D+Io0mpg0tp90mqtwaP5lbCrMt4UfaX9sA
+ a6ALCj8MzEQSOvCwvclZll8Ihxdw7T7/OgIAEDN46CXsE1EBolK+oFhfpAq2D0xdHsZHia3R1Vi
+ fVZodhYBYdbt//Mg=
+X-Received: by 2002:a50:d9c5:: with SMTP id x5mr25015443edj.37.1632223977357; 
+ Tue, 21 Sep 2021 04:32:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJweBGHq8t5N/srVzVKcQ3Dk9C7zBk1B2i+QUo35qr/X6ii318FHR8xb1oOMSdSDNiGxJVSWNA==
+X-Received: by 2002:a50:d9c5:: with SMTP id x5mr25015435edj.37.1632223977212; 
+ Tue, 21 Sep 2021 04:32:57 -0700 (PDT)
 Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id k21sm7160894ejj.55.2021.09.21.04.32.02
+ by smtp.gmail.com with ESMTPSA id w13sm8996612ede.24.2021.09.21.04.32.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Sep 2021 04:32:03 -0700 (PDT)
-Date: Tue, 21 Sep 2021 13:32:02 +0200
+ Tue, 21 Sep 2021 04:32:56 -0700 (PDT)
+Date: Tue, 21 Sep 2021 13:32:55 +0200
 From: Igor Mammedov <imammedo@redhat.com>
 To: Eric DeVolder <eric.devolder@oracle.com>
-Subject: Re: [PATCH v6 09/10] ACPI ERST: bios-tables-test testcase
-Message-ID: <20210921133202.28e05608@redhat.com>
-In-Reply-To: <1628202639-16361-10-git-send-email-eric.devolder@oracle.com>
+Subject: Re: [PATCH v6 03/10] ACPI ERST: PCI device_id for ERST
+Message-ID: <20210921133255.02a67ad9@redhat.com>
+In-Reply-To: <1628202639-16361-4-git-send-email-eric.devolder@oracle.com>
 References: <1628202639-16361-1-git-send-email-eric.devolder@oracle.com>
- <1628202639-16361-10-git-send-email-eric.devolder@oracle.com>
+ <1628202639-16361-4-git-send-email-eric.devolder@oracle.com>
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
@@ -77,7 +75,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -104,80 +102,31 @@ Cc: ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu,  5 Aug 2021 18:30:38 -0400
+On Thu,  5 Aug 2021 18:30:32 -0400
 Eric DeVolder <eric.devolder@oracle.com> wrote:
 
-> This change implements the test suite checks for the ERST table.
+> This change reserves the PCI device_id for the new ACPI ERST
+> device.
 > 
 > Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> ---
->  tests/qtest/bios-tables-test.c | 43 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 43 insertions(+)
-> 
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index 51d3a4e..6ee78ec 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -1378,6 +1378,45 @@ static void test_acpi_piix4_tcg_acpi_hmat(void)
->      test_acpi_tcg_acpi_hmat(MACHINE_PC);
->  }
->  
-> +static void test_acpi_erst(const char *machine)
-> +{
-> +    test_data data;
-> +
-> +    memset(&data, 0, sizeof(data));
-> +    data.machine = machine;
-> +    /*data.variant = ".acpierst";*/
-> +    test_acpi_one(" -object memory-backend-file,id=erstnvram,"
-> +                    "mem-path=tests/acpi-erst.XXXXXX,size=0x10000,share=on"
-> +                    " -device acpi-erst,memdev=erstnvram",
-> +                  &data);
-> +    free_test_data(&data);
-> +}
-> +
-> +static void test_acpi_piix4_erst(void)
-> +{
-> +    test_acpi_erst(MACHINE_PC);
-> +}
-> +
-> +static void test_acpi_q35_erst(void)
-> +{
-> +    test_acpi_erst(MACHINE_Q35);
-> +}
-> +
-> +static void test_acpi_microvm_erst(void)
-> +{
-> +    test_data data;
-> +
-> +    test_acpi_microvm_prepare(&data);
-> +    data.variant = ".pcie";
-> +    data.tcg_only = true; /* need constant host-phys-bits */
-> +    test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,rtc=off,pcie=on "
-> +                    "-object memory-backend-file,id=erstnvram,"
-> +                    "mem-path=tests/acpi-erst.XXXXXX,size=0x10000,share=on "
-                                 ^^^^
-shouldn't the path be generated with g_dir_make_tmp() & co + corresponding cleanup
 
-> +                    "-device acpi-erst,memdev=erstnvram",
-> +                  &data);
-> +    free_test_data(&data);
-> +}
-> +
->  static void test_acpi_virt_tcg(void)
->  {
->      test_data data = {
-> @@ -1560,7 +1599,11 @@ int main(int argc, char *argv[])
->          qtest_add_func("acpi/microvm/oem-fields", test_acpi_oem_fields_microvm);
->          if (strcmp(arch, "x86_64") == 0) {
->              qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
-> +            qtest_add_func("acpi/microvm/acpierst", test_acpi_microvm_erst);
->          }
-> +        qtest_add_func("acpi/piix4/acpierst", test_acpi_piix4_erst);
-> +        qtest_add_func("acpi/q35/acpierst", test_acpi_q35_erst);
-> +
->      } else if (strcmp(arch, "aarch64") == 0) {
->          qtest_add_func("acpi/virt", test_acpi_virt_tcg);
->          qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+Acked-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+>  include/hw/pci/pci.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index d0f4266..58101d8 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -108,6 +108,7 @@ extern bool pci_available;
+>  #define PCI_DEVICE_ID_REDHAT_MDPY        0x000f
+>  #define PCI_DEVICE_ID_REDHAT_NVME        0x0010
+>  #define PCI_DEVICE_ID_REDHAT_PVPANIC     0x0011
+> +#define PCI_DEVICE_ID_REDHAT_ACPI_ERST   0x0012
+>  #define PCI_DEVICE_ID_REDHAT_QXL         0x0100
+>  
+>  #define FMT_PCIBUS                      PRIx64
 
 
