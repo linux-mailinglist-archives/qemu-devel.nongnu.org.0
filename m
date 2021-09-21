@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1E5413705
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 18:13:14 +0200 (CEST)
-Received: from localhost ([::1]:57722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3218B413758
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 18:19:09 +0200 (CEST)
+Received: from localhost ([::1]:35196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSiOP-0003py-Bt
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 12:13:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42416)
+	id 1mSiU7-0007t2-QE
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 12:19:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mSiKp-0000w4-DV
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 12:09:31 -0400
-Received: from [115.28.160.31] (port=53514 helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mSiS2-00065d-82
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 12:16:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mSiKm-0004Hh-6v
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 12:09:30 -0400
-Received: from [192.168.9.172] (unknown [101.88.29.172])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mSiRz-0001Xx-Ch
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 12:16:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632241013;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MzufzfoaVIjeJEWGeE1c3ShLd7bibxKDKALHfziOsi8=;
+ b=EFYEDlS8ROWDEFEOCkx1liO47Bcpk54herafSfZJ0KVSnHiJDtmiCaeoqihQLPxToRVkKn
+ 1MBVRzt5iilXVVtTI8lVo6FbYqeLPlJz7CtT2qhKtiG9TwQs5mAMURTkjGd15XZZUWAhaV
+ +JC8G6jnugUlapMpg1VVmsdA9crbWyI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-409-esnI9GTPNPqwtiHvacaTxQ-1; Tue, 21 Sep 2021 12:16:52 -0400
+X-MC-Unique: esnI9GTPNPqwtiHvacaTxQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 88C0B600FF;
- Wed, 22 Sep 2021 00:09:20 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632240560; bh=ok70pgASaD0gEMaQUOYdPcamIUfxDdb5BNehopLef7k=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=XYULna6ToxR6uLgmU2hX2atFVaWtkCLzQ+WF+Ovt2UWzdLukwbtJHlBtEQ2sr1W6A
- RRDlZd1UsYytwxImnoG6lC2UWOCw3aezWtnnsK68VO3aLUnyTaRVRLfqTWYS/nsfim
- k+lUIk1/ShoF7b0KGrRJiAqt67RZ4oLl2oxXDogQ=
-Message-ID: <af8eb7dc-f194-aae8-f3ac-544c88d46e5d@xen0n.name>
-Date: Wed, 22 Sep 2021 00:09:19 +0800
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1A601015DA4;
+ Tue, 21 Sep 2021 16:16:49 +0000 (UTC)
+Received: from steredhat.redhat.com (unknown [10.39.194.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 30C5F69FAE;
+ Tue, 21 Sep 2021 16:16:42 +0000 (UTC)
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] vhost-vsock: fixes for seqpacket support
+Date: Tue, 21 Sep 2021 18:16:40 +0200
+Message-Id: <20210921161642.206461-1-sgarzare@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
- Thunderbird/94.0a1
-Subject: Re: [PATCH 28/30] configure, meson.build: Mark support for 64-bit
- LoongArch hosts
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20210920080451.408655-1-git@xen0n.name>
- <20210920080451.408655-29-git@xen0n.name>
- <de7efdfe-24ae-015c-015d-50acc245df1c@linaro.org>
- <CAFEAcA9QPxceBR4hn8FpNbX44y3d28rRmyzrkEABU8dChdBqtw@mail.gmail.com>
-From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <CAFEAcA9QPxceBR4hn8FpNbX44y3d28rRmyzrkEABU8dChdBqtw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,36 +75,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Jiang Wang <jiang.wang@bytedance.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Arseny Krasnov <arseny.krasnov@kaspersky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+This series includes 2 patches: the first is similar of v1, but using
+OnOffAuto property.
+The second patch moves the `seqpacket` handling in the vhost-vsock-common
+class to reuse the same code/properties also in vhost-user-vsock devices.
 
-On 9/21/21 22:42, Peter Maydell wrote:
-> On Mon, 20 Sept 2021 at 18:25, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->> On 9/20/21 1:04 AM, WANG Xuerui wrote:
->>> Signed-off-by: WANG Xuerui <git@xen0n.name>
->> Be consistent with loongarch or loongarch64 everywhere.
->>
->> If there's no loongarch32, and never will be, then there's probably no point in keeping
->> the '64' suffix.
-> What does Linux 'uname -m' call the architecture, and what is the
-> name in the gcc triplet? Generally I think we should prefer to follow
-> those precedents (which hopefully don't point in different directions)
-> rather than making up our own architecture names.
+Perhaps the patches can be merged into a single one, but to simplify the
+backport I left them separate.
 
-uname -m says "loongarch64", the GNU triple arch name is also 
-"loongarch64". I'd say it's similar to the situation of RISC-V or MIPS; 
-except that a Linux port to the 32-bit variant of LoongArch might not 
-happen, precluding a QEMU port.
+v1: https://lore.kernel.org/qemu-devel/20210907124935.147164-1-sgarzare@redhat.com/
 
-I think cpu=loongarch64 but ARCH=loongarch should be okay; at least it's 
-better than, say, the Go language or Gentoo, where this architecture is 
-named "loong64" and "loong"; or the binutils internals where it's "larch".
+v2:
+- used OnOffAuto `seqpacket` property instead of boolean `features` [stefanha]
+- moved `seqpacket` property to vhost-vsock-common class
 
->
-> thanks
-> -- PMM
+Stefano Garzarella (2):
+  vhost-vsock: fix migration issue when seqpacket is supported
+  vhost-vsock: handle common features in vhost-vsock-common
+
+ include/hw/virtio/vhost-vsock-common.h |  5 +++++
+ hw/core/machine.c                      |  5 ++++-
+ hw/virtio/vhost-user-vsock.c           |  4 +++-
+ hw/virtio/vhost-vsock-common.c         | 31 ++++++++++++++++++++++++++
+ hw/virtio/vhost-vsock.c                | 11 +--------
+ 5 files changed, 44 insertions(+), 12 deletions(-)
+
+-- 
+2.31.1
+
 
