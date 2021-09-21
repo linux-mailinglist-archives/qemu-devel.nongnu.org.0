@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB9F5412F5E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 09:27:53 +0200 (CEST)
-Received: from localhost ([::1]:55018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE3C241300A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 10:15:28 +0200 (CEST)
+Received: from localhost ([::1]:46400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSaC0-0004ef-Pi
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 03:27:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57846)
+	id 1mSavz-0003UK-K2
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 04:15:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mSaAK-0002bS-2d
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 03:26:08 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:38867)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mSauO-0002dc-BC; Tue, 21 Sep 2021 04:13:44 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mSaAI-0004Yl-Gs
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 03:26:07 -0400
-Received: by mail-ed1-x529.google.com with SMTP id dj4so14979783edb.5
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 00:26:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mSauM-0002r7-5g; Tue, 21 Sep 2021 04:13:44 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id u15so36640206wru.6;
+ Tue, 21 Sep 2021 01:13:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xoaxEoG6PwrspGMocHlFHQ31PuFZgKjAtC32n8y+EA4=;
- b=I0TwZbLQT21iGW486pqX8kn4UC56jRrqonEF2bJ77+PrIIMlUD44Apvb9nBB4aSsvo
- QovarHVGSLYK+OlA0k9g7DYiUPznwOSDZRjTVvNUUOThDI9xaJRMT1QxvqDPQr/rcFzQ
- pTfC4OVoncmjcOAPwNUb5v/rB4qOd2ctQzIiSbqIVF8XJxA+ojw1I2F341Jprsmq3gOM
- /s03eFe2qWdOZGianzVjF+DQ3YxaC0bkMahKgAx2zYlLMcf0KF/ZHODmXpiDhCnEqjmF
- ZUaCaO2Z+t+/H/HK5C07TJUMegrHEM/y7Rqlj1UyltwswMhOUIB5Ls8N+ocZrTy3X5JG
- cd1g==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=NN9NFCtCjYb3CNMK7XCn0Ryw3nySBEkOY8TnmsDwP5U=;
+ b=QYiEyJoHBmrZ/5oE3p5Dhnmezv2toy55EtwLXwBDv1IK6L958cwUAIMNrrKEhkM0qa
+ DyIqKE3YGn3/t893RvHroq8IXBq16oXQk0THrFT3K88wnPiaeaaLGIUO9dmij7UBueyo
+ GcWsLg3cis4G3gAWASP5qYdqd1tVT1hwuLlU09cuuo6/t6RIV6fgy4kOT3QHfhgpX9+l
+ 0ULJmZs+IxwBbe0CbAUQtc9McwZrh/3ePB+yPtZh/byhP4+tP888tWxu2Gfsp8KMnb32
+ WLOFD5WGN2CV0o/GFtvU7c6NrC9XlCcUm10XazVpTpjrKN0zhWsfGqGcejB3zOH4azoB
+ twTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=xoaxEoG6PwrspGMocHlFHQ31PuFZgKjAtC32n8y+EA4=;
- b=dAwaiMNg5WcEXv4jqsN+Lc9w+m2DTM2vZm4sK1ehse40RTh/2J9o7/JtZRZAlRnYzH
- 8HM+Ervv2GCmFfqqYqNITzL5gcUFQUznzXoBkPaAnXSJoLurjXQrFnPBf1l3xTAFUSFt
- wPiPFaX79spkSpmdMJOaQqJGMxqBlrB9Y9nWBJz5y/sZ0oC6EkpUe0uWOK7244IUmPjO
- u3WNuNmBtz9fElRlwRnIE8/ijoJo3NWcnySHynquVRtcNtQSVtMcykq1t7HmJLk0sBQ0
- uKaOPt2jaourX4fhUqB9Ici0Hc3k0cIuV4qWXhQY2Q7bmtpuWFsvds0v/eNaTzHNXpv5
- cEYQ==
-X-Gm-Message-State: AOAM530HkwiWirvHscmIyTq8E1TKrgxi1dkzgABeY4B1lNh2UxFCGIZ/
- UsQInMtv4/OLQP63M2CGLB8uwLVs2PM=
-X-Google-Smtp-Source: ABdhPJzGPLdBcog5+5Dnlnxr3YaJ4u/oUgbz7M2AStnk2yExufrjLd6iDpBW9rRe+y5oTNl4sCd9Zw==
-X-Received: by 2002:aa7:d582:: with SMTP id r2mr34043256edq.324.1632209164822; 
- Tue, 21 Sep 2021 00:26:04 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id v13sm7044232ejh.62.2021.09.21.00.26.03
+ bh=NN9NFCtCjYb3CNMK7XCn0Ryw3nySBEkOY8TnmsDwP5U=;
+ b=KFsqFSZqzrBLB4RGbbnqg75qbvhFul7Inin3iI8PpmuGiHcdRI1gVTq5OCfLSwKdCs
+ qxyAGDu4/SEZvVFEKQv2C+7p/Uew1ojWpOsYWgvWXSP/q635SC++aZEVCvWmAVlYuieX
+ ZDohNacBKJDD/UpZ726wtNQI3lI5Y3BC0yWBzHO8b/Gmx4ZX/DdsbBOhGSk5kTlI6f0c
+ ekEh+UqM6A8PRiMIOjevWnw2IacguhcRyZRYpFl9wYywqL1N96L/ubE6szbG2SjAJRvZ
+ 4O/gaIrHZxE5KAIj1JFmB039sCJBoCP662AYytcGpTxYmxUNGe8hiuR2buJxsw0ZIr3/
+ dU9A==
+X-Gm-Message-State: AOAM5313mfTKvuhO8Gzq7wF4zeNvPetsxoySbhe9Ow5hX5PtUxnkYxbh
+ b1FUyOksoOV7yYF6QjHugyw=
+X-Google-Smtp-Source: ABdhPJy3euQu6UHNGlpueYHNWJSa88RG9EnVCBVjgmXRe4xVVLtIFkSihksMTOslDhnM/Qg9t55qJg==
+X-Received: by 2002:a5d:6846:: with SMTP id o6mr14226604wrw.327.1632212017891; 
+ Tue, 21 Sep 2021 01:13:37 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id n15sm4208016wrg.58.2021.09.21.01.13.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Sep 2021 00:26:04 -0700 (PDT)
-Subject: Re: [PATCH 2/3] scsi: make io_timeout configurable
-To: Hannes Reinecke <hare@suse.de>
-References: <20201116183114.55703-1-hare@suse.de>
- <20201116183114.55703-3-hare@suse.de>
- <CABgObfbUH4Djyicuie0-Bbu1zKrYN3+NDd56c5KA16s+Q+Liww@mail.gmail.com>
- <1f46ca6f-4ea7-247e-b3e9-680e3f60b2b2@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <35e66c97-0124-be61-b79e-84eba6c17fbb@redhat.com>
-Date: Tue, 21 Sep 2021 09:25:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Tue, 21 Sep 2021 01:13:37 -0700 (PDT)
+Message-ID: <c329c9a4-0662-4a4f-70fc-b3eda07cb149@amsat.org>
+Date: Tue, 21 Sep 2021 10:13:36 +0200
 MIME-Version: 1.0
-In-Reply-To: <1f46ca6f-4ea7-247e-b3e9-680e3f60b2b2@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [RESEND PATCH 1/3] hw/intc: openpic: Correct the reset value of
+ IPIDR for FSL chipset
 Content-Language: en-US
+To: David Gibson <david@gibson.dropbear.id.au>, Bin Meng <bmeng.cn@gmail.com>
+References: <20210918032653.646370-1-bin.meng@windriver.com>
+ <YUlQo68s9mxISwEs@yekko>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <YUlQo68s9mxISwEs@yekko>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,21 +89,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Maarten Koning <maarten.koning@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/09/21 07:39, Hannes Reinecke wrote:
-> It would, but then anyone attempting to use tapes via qemu emulation 
-> deserves to suffer.
-> Tapes are bitchy even when used normally, so attempting to use them 
-> under qemu emulation will land you with lots of unhappy experiences, 
-> where the timeout is the least of your problems.
-> I sincerely doubt anyone will be using tapes here.
-> Not in real-world scenarios.
+On 9/21/21 05:25, David Gibson wrote:
+> On Sat, Sep 18, 2021 at 11:26:51AM +0800, Bin Meng wrote:
+>> The reset value of IPIDR should be zero for Freescale chipset, per
+>> the following 2 manuals I checked:
+>>
+>> - P2020RM (https://www.nxp.com/webapp/Download?colCode=P2020RM)
+>> - P4080RM (https://www.nxp.com/webapp/Download?colCode=P4080RM)
+>>
+>> Currently it is set to 1, which leaves the IPI enabled on core 0
+>> after power-on reset. Such may cause unexpected interrupt to be
+>> delivered to core 0 if the IPI is triggered from core 0 to other
+>> cores later.
+>>
+>> Fixes: ffd5e9fe0276 ("openpic: Reset IRQ source private members")
+>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/584
+>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> 
+> Since these patches are very simple and look sensible, I've applied
+> them to ppc-for-6.2.
+> 
+> However, you should note that Greg and I are both moving into other
+> areas and don't have much capacity for ppc maintainership any more.
+> Therefore I'll shortly be sending some MAINTAINERS updates moving
+> openpic (amongst other things) to "Orphan" status.
 
-Hmm, I have customers that disagree.  Probably the timeout should be 
-kept infinite for tapes.
+I'm not trying to force Bin to become (yet) another maintainer,
+but from his previous contributions, he demonstrated a very good
+knowledge of embedded PowerPC ISA & chipsets, his patches have good
+quality and description, and he is consistent over time in his
+contributions. So if he is interested, I'd vouch for him as a
+maintainer for embedded ppc. Now up to him, his time and/or employer :)
 
-Paolo
+Regards,
+
+Phil.
 
