@@ -2,94 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD10412EF7
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 09:02:36 +0200 (CEST)
-Received: from localhost ([::1]:54794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4876412EE3
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 08:58:14 +0200 (CEST)
+Received: from localhost ([::1]:46532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSZnX-0007vU-Mj
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 03:02:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52888)
+	id 1mSZjJ-0002L8-Tj
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 02:58:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=891501f09=alistair.francis@opensource.wdc.com>)
- id 1mSZg2-0007eH-Rs
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:54:52 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:4105)
+ id 1mSZg7-0007gZ-Ma
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:54:56 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:4117)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=891501f09=alistair.francis@opensource.wdc.com>)
- id 1mSZg0-0003lr-Vu
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:54:50 -0400
+ id 1mSZg5-0003uI-SX
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:54:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1632207288; x=1663743288;
+ t=1632207292; x=1663743292;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=AO1JuK3l7xcyFrzBrmx/exn5X0AAf6QqVyw+XZ3D90c=;
- b=aE13hpXaUznoRpVOkghseXExJExniVmLelVJOgb/xC8aFk8I65DsH4od
- ISkX3Fxhk/n5y+II6y0MAQh05BlkfzUgNZGR49dKFZYnbho3ktWteFhAI
- PXX4Fo0YAjaA5TEuYESRUkxS5efE4SYgR1DcJy8WBPOqShyAI/Irh6p0u
- FDzZNswX5x1xQscDfL0ApyM9fi9d+5AAz5zBdrRgjS7HHAuzs4h5NzYQK
- D0irr++RJHb7WN+kkOInzNOsF2zrx2ZYUeyoAQHxbr78opWZLNle7fTgU
- M05iKHP+a1auXxgQXShu3y6+l2k/y1YhBvzwWrBoSLxN6AnSxuU+9RZBP g==;
-X-IronPort-AV: E=Sophos;i="5.85,310,1624291200"; d="scan'208";a="180529383"
+ bh=w9dqhyHMYdF9AOlQecux0OsVIWEFoz2IeXGIHMuQrRc=;
+ b=hxPRXop57cRJ0cmNxHlvaGPFCyu8AKFKzJg995PD9QsDsDay95yAoulz
+ SbeHGwHl7SvXB/XCHpQ3yg1mwpqOO5jRsiUnakZqLXOddFwvVucTXHq/C
+ PUrcABQQBBfz2UkPx/EFvhNOvZ/pX7FTdAN/0GyoCJTdfs4y34SZVhKIr
+ bhRVrc+SRzPKSizd9t3NNI+vsME20yC7Sfa8tkwYoQMFBtWi/CP0is9Gg
+ Y+7jHLMe6jKJlOjpF1RZtGdHHm9RH37EujM4cX4265nn5tDJ7DNB00qVh
+ bnzct0APHqkWEwMCd0pO74pYTF4NM0Y+0M5DrEvkR6T83DOONQLSCDLeS Q==;
+X-IronPort-AV: E=Sophos;i="5.85,310,1624291200"; d="scan'208";a="180529388"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 Sep 2021 14:54:47 +0800
-IronPort-SDR: HX8mWQvxjnur27whV4U/rTC+PYnHgMPORx6x/XUyVpTG/pY1F4jE8sOMAB8x6lxM5ZrYhZb2gs
- Zk4gacNMdjrmM6PARPiSVjdEcizD9PMyCIX6edK9KLU5dw0RaqgkbpGtyw86xZyzOzeW1N8Roz
- lgNCLkmjwo+6fhN85QHHc+N/Tsld7D630cM2DGzX08MhEBYnR0xXMtuaURJT+DaIardgzTMt6/
- wOwdS02W17IL9vopbrBepxU9hJyTNJmH7ykctREksuelR4YMgnmYhST3AxqcYpyoBM27XkN981
- z1dN/i+ewR8JIh+5pPwNy9Ww
+ by ob1.hgst.iphmx.com with ESMTP; 21 Sep 2021 14:54:50 +0800
+IronPort-SDR: +P/f7jShZPE0DF5XOlQ41kL7y2hStOeB3YlHlYqureHau2YSAi5bHR/YeDDJenSEshSN48FlhI
+ LByzgyrooU1trW5y1xQ/ZjYQALNGwDFRzSy6/LTPf3Z8PXTRuBym+eXB6WWA5JFBXSo57Ia2ZC
+ XKfJ6di8OrVXsVX/YhhwhtfE0tEYUzI7UaH/1F3ZJuDizRIfBbdAi6WkQNePq660cn17q/cy/v
+ 92etuFf8lTfUDVpzHO6T86a3P+RiA1f7JbLzvvxnp7enNt26hHks/Fd/6Rjvxi6Q1XRahPx4bk
+ I+5yScNIPDHmZ+OW7QG/hEIc
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 23:31:02 -0700
-IronPort-SDR: oeJ/6yK97b5KrL5CbFY2P4Gmtqxu/zJ1o00hZks0+oksZUXF2YMPCWKocpvVmcmsTqTr10Tf2u
- dtYWhSxcBUkpTvk8uARfAOH6507akAZSj8YdmRtSqWbYtXwsoLaNwOE92qDKr9dh2tHE+Wgray
- wVN38rRURHwv3tyMPjyracKe4XOpTUInn0JOO1ZzdsU/sllG/zT46ofqeammm1Ya4Pte6kXGnI
- xOdF20DPEyYw3aoEGkiMjbwMSWqlxWDy0M38Y2mnS/SAp2cCf/3bWdQ+KkObT02RsNqIj5ru/w
- hHk=
+ 20 Sep 2021 23:31:06 -0700
+IronPort-SDR: DVdDUo0+U+lPnhNDtJG4b1VvwaHkdf0UM4w+eQmJADv4N3mZ2pPy6EM8lbiFxC06Mll4q1L6uK
+ dAWSV9AzxfxAK5TUllsWOEhVieHtoAAKNxCtsxSjSo/S8N3r6cfS6F9m/Z6iMrWt3R0mMaRsyA
+ dHZo3O3nuXLCFjcyFZ4C/AU5RJH4m6alaMD9EjSp7Q1LCIqeJ3Ip890Vq04OquGPwSuhJTJ2BX
+ kWGaoVXvWostAdQ4Tn2Nbk3UghCeKLEaSwT7f374pW6e3w4ptyoMwbRZwDUFJLJZV2a/mCg5Rr
+ LN0=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 23:54:49 -0700
+ 20 Sep 2021 23:54:53 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HDBxg6d01z1Rws0
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 23:54:47 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HDBxm333kz1Rws4
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 23:54:52 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1632207287; x=1634799288; bh=AO1JuK3l7xcyFrzBrm
- x/exn5X0AAf6QqVyw+XZ3D90c=; b=ssvxBo806cPznaSxB1eyqPr7TTJNDSrgBV
- rwn48xaBHX8vQmczmr0Xtz3eF1Wooz0E/hzGZSs6DcQP76OFGW8h5A8NSLEhPAUe
- xMHu563di9HLfGHlbR0lt1FChrEEPQRCDtza1XoFXbDl4oUtwLt3XvgHsnX5iPoh
- ozweLLfGs5brbuZQ//W3ztnp6eX81YUzhQ2E9rKEBmUl0x65wtNmdR7jbaoyRITt
- CNveeD60xWB+gfANy7t1AesLczuL6Trft283yXooB9McInC1/9IuVpGj1iL+ZARL
- eB+3wZqu8ayqo0WB80QFzahMNKjedDjYLk5RjEVAYl9vI8R9dq/A==
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:references:in-reply-to:x-mailer:message-id:date
+ :subject:to:from; s=dkim; t=1632207291; x=1634799292; bh=w9dqhyH
+ MYdF9AOlQecux0OsVIWEFoz2IeXGIHMuQrRc=; b=dmvPCz4yYUmXhUoIFigziwL
+ dNrjiIGUb0813qquv05xr7J2R4r2rM9xCXlkjBC2MyP25hFmNQlIsIb3+LvSIgcQ
+ 4+zd1M5jFB4OZ+D8sYZGb4+H9ighEDJtTuePcngSdeBJeyiwmoMLMxXhQvWZ0Oib
+ YA+XGmTY3lnM/43yfqGQrGrrOn4TwcWo/7Z5CGx1HAzlwWOiiyPxNKhWtM28wzLd
+ JzHhhAdIDbY6D9eWHpBKIF45qGx0Ma8ZAdDcwNsmdXVyV38AcquHBaY/djmBg5Oy
+ P+AQ3+fls5i/L6Ae5oVykI89jTp/CBYHPRmKEn1rBFRk/Wc7PcSRYqtEi6OxWuw=
+ =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id YrxdE0lQAdrn for <qemu-devel@nongnu.org>;
- Mon, 20 Sep 2021 23:54:47 -0700 (PDT)
+ port 10026) with ESMTP id lJv4rBCEuFzk for <qemu-devel@nongnu.org>;
+ Mon, 20 Sep 2021 23:54:51 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.26])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HDBxZ3bpKz1RvlH;
- Mon, 20 Sep 2021 23:54:41 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HDBxh0gWtz1RvlH;
+ Mon, 20 Sep 2021 23:54:47 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bmeng.cn@gmail.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
-Subject: [PULL v2 04/21] hw/intc: sifive_clint: Use RISC-V CPU GPIO lines
-Date: Tue, 21 Sep 2021 16:53:55 +1000
-Message-Id: <20210921065412.312381-5-alistair.francis@opensource.wdc.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL v2 05/21] hw/intc: ibex_plic: Convert the PLIC to use RISC-V
+ CPU GPIO lines
+Date: Tue, 21 Sep 2021 16:53:56 +1000
+Message-Id: <20210921065412.312381-6-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210921065412.312381-1-alistair.francis@opensource.wdc.com>
 References: <20210921065412.312381-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=891501f09=alistair.francis@opensource.wdc.com;
@@ -119,209 +123,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Alistair Francis <alistair.francis@wdc.com>
 
 Instead of using riscv_cpu_update_mip() let's instead use the new RISC-V
-CPU GPIO lines to set the timer and soft MIP bits.
+CPU GPIO lines to set the external MIP bits.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-id: 946e1ef5e268b24084c7ddad84c146de62a56736.1630301632.git.alist=
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 0a76946981852f5bd15f0c37ab35b253371027a8.1630301632.git.alist=
 air.francis@wdc.com
 ---
- include/hw/intc/sifive_clint.h |  2 +
- hw/intc/sifive_clint.c         | 68 ++++++++++++++++++++++++----------
- 2 files changed, 50 insertions(+), 20 deletions(-)
+ include/hw/intc/ibex_plic.h |  2 ++
+ hw/intc/ibex_plic.c         | 17 ++++++-----------
+ hw/riscv/opentitan.c        |  8 ++++++++
+ 3 files changed, 16 insertions(+), 11 deletions(-)
 
-diff --git a/include/hw/intc/sifive_clint.h b/include/hw/intc/sifive_clin=
-t.h
-index a30be0f3d6..921b1561dd 100644
---- a/include/hw/intc/sifive_clint.h
-+++ b/include/hw/intc/sifive_clint.h
-@@ -40,6 +40,8 @@ typedef struct SiFiveCLINTState {
-     uint32_t time_base;
-     uint32_t aperture_size;
-     uint32_t timebase_freq;
-+    qemu_irq *timer_irqs;
-+    qemu_irq *soft_irqs;
- } SiFiveCLINTState;
+diff --git a/include/hw/intc/ibex_plic.h b/include/hw/intc/ibex_plic.h
+index 7fc495db99..d596436e06 100644
+--- a/include/hw/intc/ibex_plic.h
++++ b/include/hw/intc/ibex_plic.h
+@@ -60,6 +60,8 @@ struct IbexPlicState {
+     uint32_t threshold_base;
 =20
- DeviceState *sifive_clint_create(hwaddr addr, hwaddr size,
-diff --git a/hw/intc/sifive_clint.c b/hw/intc/sifive_clint.c
-index 99c870ced2..ab172d8e40 100644
---- a/hw/intc/sifive_clint.c
-+++ b/hw/intc/sifive_clint.c
-@@ -28,6 +28,12 @@
- #include "hw/qdev-properties.h"
- #include "hw/intc/sifive_clint.h"
- #include "qemu/timer.h"
+     uint32_t claim_base;
++
++    qemu_irq *external_irqs;
+ };
+=20
+ #endif /* HW_IBEX_PLIC_H */
+diff --git a/hw/intc/ibex_plic.c b/hw/intc/ibex_plic.c
+index edf76e4f61..ff430356f8 100644
+--- a/hw/intc/ibex_plic.c
++++ b/hw/intc/ibex_plic.c
+@@ -27,6 +27,7 @@
+ #include "target/riscv/cpu_bits.h"
+ #include "target/riscv/cpu.h"
+ #include "hw/intc/ibex_plic.h"
 +#include "hw/irq.h"
-+
-+typedef struct sifive_clint_callback {
-+    SiFiveCLINTState *s;
-+    int num;
-+} sifive_clint_callback;
 =20
- static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
+ static bool addr_between(uint32_t addr, uint32_t base, uint32_t num)
  {
-@@ -39,7 +45,9 @@ static uint64_t cpu_riscv_read_rtc(uint32_t timebase_fr=
-eq)
-  * Called when timecmp is written to update the QEMU timer or immediatel=
-y
-  * trigger timer interrupt if mtimecmp <=3D current timer value.
-  */
--static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
-+static void sifive_clint_write_timecmp(SiFiveCLINTState *s, RISCVCPU *cp=
-u,
-+                                       int hartid,
-+                                       uint64_t value,
-                                        uint32_t timebase_freq)
+@@ -92,19 +93,10 @@ static bool ibex_plic_irqs_pending(IbexPlicState *s, =
+uint32_t context)
+=20
+ static void ibex_plic_update(IbexPlicState *s)
  {
-     uint64_t next;
-@@ -51,12 +59,12 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu,=
- uint64_t value,
-     if (cpu->env.timecmp <=3D rtc_r) {
-         /* if we're setting an MTIMECMP value in the "past",
-            immediately raise the timer interrupt */
--        riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
-+        qemu_irq_raise(s->timer_irqs[hartid - s->hartid_base]);
-         return;
-     }
+-    CPUState *cpu;
+-    int level, i;
++    int i;
 =20
-     /* otherwise, set up the future timer interrupt */
--    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(0));
-+    qemu_irq_lower(s->timer_irqs[hartid - s->hartid_base]);
-     diff =3D cpu->env.timecmp - rtc_r;
-     /* back to ns (note args switched in muldiv64) */
-     uint64_t ns_diff =3D muldiv64(diff, NANOSECONDS_PER_SECOND, timebase=
-_freq);
-@@ -91,8 +99,9 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu, u=
-int64_t value,
-  */
- static void sifive_clint_timer_cb(void *opaque)
- {
--    RISCVCPU *cpu =3D opaque;
--    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
-+    sifive_clint_callback *state =3D opaque;
-+
-+    qemu_irq_raise(state->s->timer_irqs[state->num]);
- }
-=20
- /* CPU wants to read rtc or timecmp register */
-@@ -158,7 +167,7 @@ static void sifive_clint_write(void *opaque, hwaddr a=
-ddr, uint64_t value,
-         if (!env) {
-             error_report("clint: invalid timecmp hartid: %zu", hartid);
-         } else if ((addr & 0x3) =3D=3D 0) {
--            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MSIP, BOOL_TO_MASK(=
-value));
-+            qemu_set_irq(clint->soft_irqs[hartid - clint->hartid_base], =
-value);
-         } else {
-             error_report("clint: invalid sip write: %08x", (uint32_t)add=
-r);
-         }
-@@ -174,13 +183,13 @@ static void sifive_clint_write(void *opaque, hwaddr=
- addr, uint64_t value,
-         } else if ((addr & 0x7) =3D=3D 0) {
-             /* timecmp_lo */
-             uint64_t timecmp_hi =3D env->timecmp >> 32;
--            sifive_clint_write_timecmp(RISCV_CPU(cpu),
-+            sifive_clint_write_timecmp(clint, RISCV_CPU(cpu), hartid,
-                 timecmp_hi << 32 | (value & 0xFFFFFFFF), clint->timebase=
-_freq);
-             return;
-         } else if ((addr & 0x7) =3D=3D 4) {
-             /* timecmp_hi */
-             uint64_t timecmp_lo =3D env->timecmp;
--            sifive_clint_write_timecmp(RISCV_CPU(cpu),
-+            sifive_clint_write_timecmp(clint, RISCV_CPU(cpu), hartid,
-                 value << 32 | (timecmp_lo & 0xFFFFFFFF), clint->timebase=
-_freq);
-         } else {
-             error_report("clint: invalid timecmp write: %08x", (uint32_t=
-)addr);
-@@ -226,6 +235,12 @@ static void sifive_clint_realize(DeviceState *dev, E=
-rror **errp)
-     memory_region_init_io(&s->mmio, OBJECT(dev), &sifive_clint_ops, s,
-                           TYPE_SIFIVE_CLINT, s->aperture_size);
-     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
-+
-+    s->timer_irqs =3D g_malloc(sizeof(qemu_irq) * s->num_harts);
-+    qdev_init_gpio_out(dev, s->timer_irqs, s->num_harts);
-+
-+    s->soft_irqs =3D g_malloc(sizeof(qemu_irq) * s->num_harts);
-+    qdev_init_gpio_out(dev, s->soft_irqs, s->num_harts);
- }
-=20
- static void sifive_clint_class_init(ObjectClass *klass, void *data)
-@@ -249,7 +264,6 @@ static void sifive_clint_register_types(void)
-=20
- type_init(sifive_clint_register_types)
-=20
+     for (i =3D 0; i < s->num_cpus; i++) {
+-        cpu =3D qemu_get_cpu(i);
 -
- /*
-  * Create CLINT device.
-  */
-@@ -259,29 +273,43 @@ DeviceState *sifive_clint_create(hwaddr addr, hwadd=
-r size,
-     bool provide_rdtime)
- {
-     int i;
-+
-+    DeviceState *dev =3D qdev_new(TYPE_SIFIVE_CLINT);
-+    qdev_prop_set_uint32(dev, "hartid-base", hartid_base);
-+    qdev_prop_set_uint32(dev, "num-harts", num_harts);
-+    qdev_prop_set_uint32(dev, "sip-base", sip_base);
-+    qdev_prop_set_uint32(dev, "timecmp-base", timecmp_base);
-+    qdev_prop_set_uint32(dev, "time-base", time_base);
-+    qdev_prop_set_uint32(dev, "aperture-size", size);
-+    qdev_prop_set_uint32(dev, "timebase-freq", timebase_freq);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
-+
-     for (i =3D 0; i < num_harts; i++) {
-         CPUState *cpu =3D qemu_get_cpu(hartid_base + i);
-+        RISCVCPU *rvcpu =3D RISCV_CPU(cpu);
-         CPURISCVState *env =3D cpu ? cpu->env_ptr : NULL;
-+        sifive_clint_callback *cb =3D g_malloc0(sizeof(sifive_clint_call=
-back));
-+
-         if (!env) {
-+            g_free(cb);
-             continue;
-         }
-         if (provide_rdtime) {
-             riscv_cpu_set_rdtime_fn(env, cpu_riscv_read_rtc, timebase_fr=
-eq);
-         }
-+
-+        cb->s =3D SIFIVE_CLINT(dev);
-+        cb->num =3D i;
-         env->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL,
--                                  &sifive_clint_timer_cb, cpu);
-+                                  &sifive_clint_timer_cb, cb);
-         env->timecmp =3D 0;
-+
-+        qdev_connect_gpio_out(dev, i,
-+                              qdev_get_gpio_in(DEVICE(rvcpu), IRQ_M_TIME=
-R));
-+        qdev_connect_gpio_out(dev, num_harts + i,
-+                              qdev_get_gpio_in(DEVICE(rvcpu), IRQ_M_SOFT=
-));
+-        if (!cpu) {
+-            continue;
+-        }
+-
+-        level =3D ibex_plic_irqs_pending(s, 0);
+-
+-        riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MEIP, BOOL_TO_MASK(leve=
+l));
++        qemu_set_irq(s->external_irqs[i], ibex_plic_irqs_pending(s, 0));
      }
-=20
--    DeviceState *dev =3D qdev_new(TYPE_SIFIVE_CLINT);
--    qdev_prop_set_uint32(dev, "hartid-base", hartid_base);
--    qdev_prop_set_uint32(dev, "num-harts", num_harts);
--    qdev_prop_set_uint32(dev, "sip-base", sip_base);
--    qdev_prop_set_uint32(dev, "timecmp-base", timecmp_base);
--    qdev_prop_set_uint32(dev, "time-base", time_base);
--    qdev_prop_set_uint32(dev, "aperture-size", size);
--    qdev_prop_set_uint32(dev, "timebase-freq", timebase_freq);
--    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
--    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
-     return dev;
  }
+=20
+@@ -268,6 +260,9 @@ static void ibex_plic_realize(DeviceState *dev, Error=
+ **errp)
+=20
+     qdev_init_gpio_in(dev, ibex_plic_irq_request, s->num_sources);
+=20
++    s->external_irqs =3D g_malloc(sizeof(qemu_irq) * s->num_cpus);
++    qdev_init_gpio_out(dev, s->external_irqs, s->num_cpus);
++
+     /*
+      * We can't allow the supervisor to control SEIP as this would allow=
+ the
+      * supervisor to clear a pending external interrupt which will resul=
+t in
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index 36a41c8b5b..048aced0ec 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -118,6 +118,7 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
+_soc, Error **errp)
+     MachineState *ms =3D MACHINE(qdev_get_machine());
+     LowRISCIbexSoCState *s =3D RISCV_IBEX_SOC(dev_soc);
+     MemoryRegion *sys_mem =3D get_system_memory();
++    int i;
+=20
+     object_property_set_str(OBJECT(&s->cpus), "cpu-type", ms->cpu_type,
+                             &error_abort);
+@@ -149,6 +150,13 @@ static void lowrisc_ibex_soc_realize(DeviceState *de=
+v_soc, Error **errp)
+     }
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->plic), 0, memmap[IBEX_DEV_PLIC].b=
+ase);
+=20
++    for (i =3D 0; i < ms->smp.cpus; i++) {
++        CPUState *cpu =3D qemu_get_cpu(i);
++
++        qdev_connect_gpio_out(DEVICE(&s->plic), i,
++                              qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
++    }
++
+     /* UART */
+     qdev_prop_set_chr(DEVICE(&(s->uart)), "chardev", serial_hd(0));
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->uart), errp)) {
 --=20
 2.31.1
 
