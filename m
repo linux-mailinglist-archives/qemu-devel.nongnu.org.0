@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806F9412EC5
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 08:44:15 +0200 (CEST)
-Received: from localhost ([::1]:60118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A81F5412ECF
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 08:47:37 +0200 (CEST)
+Received: from localhost ([::1]:35386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSZVm-0000SE-KH
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 02:44:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50346)
+	id 1mSZZ2-0002xh-Pb
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 02:47:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mSZPB-00046D-Qx
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:37:25 -0400
-Received: from [115.28.160.31] (port=48226 helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mSZUr-0000FA-9V
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:43:17 -0400
+Received: from [115.28.160.31] (port=48292 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mSZP9-0005j7-6A
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:37:25 -0400
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mSZUk-00027m-SC
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:43:13 -0400
 Received: from [192.168.9.172] (unknown [101.88.29.172])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 947FD600FF;
- Tue, 21 Sep 2021 14:37:14 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 060CB600FF;
+ Tue, 21 Sep 2021 14:42:59 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632206234; bh=pOQvKMyBJYWPrF8mHqkCPfctmtovFugbHIxT2vNk0m4=;
+ t=1632206580; bh=nCQKR4/QLFS4W6Hso+7nH6Asm/yWDeJfewyli3FuDs0=;
  h=Date:Subject:To:References:From:In-Reply-To:From;
- b=x61cBtWXJdH6RiDHya6Dfmf/KLjuahQcl6Dj1ueqnxj9ECF6YWTMMTSNbt1avNlRD
- rDlBCLUjPhUvAkCmuWjOeSdzYwX58C33rU8uIJ2WEoaeu5v/VdovEugagfChNTvzkN
- HIcilZS/E2LhxZcFS52Z8451rprXa8qw56jKkLDw=
-Message-ID: <f9c0c0c2-73e6-4cd3-aded-7c00b7d9b871@xen0n.name>
-Date: Tue, 21 Sep 2021 14:37:14 +0800
+ b=hu/6vaet/B89hfG8I6OBxtKd4tX6mqi8AgJej9MguLG8JSMIszLy5O3HwGn7Yskor
+ 49Ua+4K8ysxv0zuQBVFw98sVKNr6DKIbBxUtZmeR5+5XffaaEX5gj01wULmBfL+l1t
+ KBnIzUFA3X+LES6p//CPs1JEPQy8zX0t/ch8LeYs=
+Message-ID: <733b9bb1-fd35-dd7f-2162-3362659e864f@xen0n.name>
+Date: Tue, 21 Sep 2021 14:42:59 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
  Thunderbird/94.0a1
-Subject: Re: [PATCH 14/30] tcg/loongarch: Implement bswap32_i32/bswap64_i64
+Subject: Re: [PATCH 21/30] tcg/loongarch: Implement tcg_out_call
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210920080451.408655-1-git@xen0n.name>
- <20210920080451.408655-15-git@xen0n.name>
- <7e8ae810-fd12-a62e-2039-3b1cc4c824cb@linaro.org>
+ <20210920080451.408655-22-git@xen0n.name>
+ <0176e1cb-faaf-ca08-a35d-879811c18670@linaro.org>
+ <9c4f7220-1c6a-03f4-f265-b337909583e5@linaro.org>
 From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <7e8ae810-fd12-a62e-2039-3b1cc4c824cb@linaro.org>
+In-Reply-To: <9c4f7220-1c6a-03f4-f265-b337909583e5@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
@@ -70,41 +71,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi Richard,
 
-On 9/20/21 23:11, Richard Henderson wrote:
-> On 9/20/21 1:04 AM, WANG Xuerui wrote:
->> +    case INDEX_op_bswap32_i32:
->> +        tcg_out_opc_revb_2h(s, a0, a1);
->> +        tcg_out_opc_rotri_w(s, a0, a0, 16);
->> +        break;
->> +    case INDEX_op_bswap64_i64:
->> +        tcg_out_opc_revb_d(s, a0, a1);
->> +        break;
+On 9/21/21 00:35, Richard Henderson wrote:
+> On 9/20/21 9:31 AM, Richard Henderson wrote:
+>> On 9/20/21 1:04 AM, WANG Xuerui wrote:
+>>> +    } else if (TCG_TARGET_REG_BITS == 32 || offset == 
+>>> (int32_t)offset) {
+>>> +        /* long jump: +/- 2GiB */
+>>> +        tcg_out_opc_pcaddu12i(s, TCG_REG_TMP0, 0);
+>>> +        tcg_out_opc_jirl(s, link, TCG_REG_TMP0, 0);
+>>> +        ret = reloc_call(s->code_ptr - 2, arg);
+>>> +        tcg_debug_assert(ret == true);
+>>
+>> Just inline reloc_call here, so that you can provide the correct 
+>> offsets to the pcadd and jirl instructions directly.  The assert will 
+>> vanish, because you've already done the range check with "offset == 
+>> (int32_t)offset".
 >
-> You're missing INDEX_op_bswap32_i64, which in addition has a third 
-> argument consisting of TCG_BSWAP_* bits.
+> Actually, don't you want offset == sextract64(offset, 0, 34), and use 
+> pcaddu18i? Depending on the memory map of qemu, those extra bits could 
+> make the difference in directly reaching the main executable.
 >
-> I would have expected revb_2w to be the preferred implementation of 
-> bswap32.  I would expect something like
->
->
->     case INDEX_op_bswap32_i32:
->         /* All 32-bit values are computed sign-extended in the 
-> register. */
->         a2 = TCG_BSWAP_OS;
->         /* fall through */
->     case INDEX_op_bswap32_i64:
->         tcg_out_opc_revb_2w(s, a0, a1);
->         if (a2 & TCG_BSWAP_OS) {
->             tcg_out_ext32s(s, a0, a0);
->         } else if (a2 & TCG_BSWAP_OZ) {
->             tcg_out_ext32u(s, a0, a0);
->         }
->         break;
->
-You're right when we're supporting only 64-bit hosts. While I was 
-writing that code I hadn't decided whether to remove support for 32-bit 
-hosts, so I didn't make use of 64-bit instructions for the 32-bit ops. 
-I'll fix this in v2.
+Whoa, silly me, I actually didn't realize a single expected use case of 
+pcaddu18i until I read this, the low 2 bits are always clear so 18 is 
+exactly the amount of shift needed when paired with jirl!
+
+I'll of course rework this to use pcaddu18i+jirl instead.
+
 >
 > r~
 
