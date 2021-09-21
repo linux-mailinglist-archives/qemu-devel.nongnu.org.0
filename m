@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A7F413B56
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 22:28:09 +0200 (CEST)
-Received: from localhost ([::1]:35778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B66C8413B33
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 22:22:32 +0200 (CEST)
+Received: from localhost ([::1]:47242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSmN6-0001Sy-7L
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 16:28:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45268)
+	id 1mSmHf-0006yL-P3
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 16:22:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSmEu-00041g-I4
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSmEu-00042R-OV
  for qemu-devel@nongnu.org; Tue, 21 Sep 2021 16:19:41 -0400
-Received: from [115.28.160.31] (port=55990 helo=mailbox.box.xen0n.name)
+Received: from [115.28.160.31] (port=55994 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSmEr-0000Qi-Jm
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 16:19:39 -0400
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSmEs-0000TS-5f
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 16:19:40 -0400
 Received: from ld50.lan (unknown [101.88.29.172])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 7C2B8633F7;
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 9CC8F633F8;
  Wed, 22 Sep 2021 04:19:26 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632255566; bh=l9LSxSxnOf1JOSGIGDUrx72FxS3YE2HXZfooNq+1FaQ=;
+ t=1632255566; bh=3oLxhl7nP2wXWycImvg28oHXfb5Kr/OWF5P/kgaiv34=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oJPqAMNnMjsH51Ry91NiOO9woMptnIkyczm/3lIkElcuLApK9ZY22ZpT6WuK+MuvU
- d4Vai9ceroW5WP3r5VAo9/AfDIIoCMGm3itGYBVi6t/N0GuvS+vwy/Ku21Ew/Tnh99
- MwWBwftJO5kvegugqtj+SZ4+Hc2zmmHEuj2ozNMc=
+ b=g8TyHjNj6L9rptjG/59hXAXgKKmBs93t4QTObW1krozXTeLTbcCKJ2RxFxe7hkd40
+ K4gLwwx/UFI3qNR+V+MN49R1MmRSmmNqV+gx91ltRkadc1TqU8WU8erd3D2zN+07mq
+ kd+3VBgNj20d7kU3O6v+WlC4j2yjydtqkH/NVDKs=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/30] tcg/loongarch64: Define the operand constraints
-Date: Wed, 22 Sep 2021 04:18:51 +0800
-Message-Id: <20210921201915.601245-7-git@xen0n.name>
+Subject: [PATCH v2 07/30] tcg/loongarch64: Implement necessary relocation
+ operations
+Date: Wed, 22 Sep 2021 04:18:52 +0800
+Message-Id: <20210921201915.601245-8-git@xen0n.name>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210921201915.601245-1-git@xen0n.name>
 References: <20210921201915.601245-1-git@xen0n.name>
@@ -41,12 +42,12 @@ Content-Transfer-Encoding: 8bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
 Received-SPF: pass client-ip=115.28.160.31; envelope-from=git@xen0n.name;
  helo=mailbox.box.xen0n.name
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,104 +66,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 ---
- tcg/loongarch64/tcg-target-con-str.h | 28 +++++++++++++++
- tcg/loongarch64/tcg-target.c.inc     | 52 ++++++++++++++++++++++++++++
- 2 files changed, 80 insertions(+)
- create mode 100644 tcg/loongarch64/tcg-target-con-str.h
+ tcg/loongarch64/tcg-target.c.inc | 66 ++++++++++++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
 
-diff --git a/tcg/loongarch64/tcg-target-con-str.h b/tcg/loongarch64/tcg-target-con-str.h
-new file mode 100644
-index 0000000000..c3986a4fd4
---- /dev/null
-+++ b/tcg/loongarch64/tcg-target-con-str.h
-@@ -0,0 +1,28 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Define LoongArch target-specific operand constraints.
-+ *
-+ * Copyright (c) 2021 WANG Xuerui <git@xen0n.name>
-+ *
-+ * Based on tcg/riscv/tcg-target-con-str.h
-+ *
-+ * Copyright (c) 2021 Linaro
-+ */
-+
-+/*
-+ * Define constraint letters for register sets:
-+ * REGS(letter, register_mask)
-+ */
-+REGS('r', ALL_GENERAL_REGS)
-+REGS('L', ALL_GENERAL_REGS & ~SOFTMMU_RESERVE_REGS)
-+
-+/*
-+ * Define constraint letters for constants:
-+ * CONST(letter, TCG_CT_CONST_* bit set)
-+ */
-+CONST('I', TCG_CT_CONST_S12)
-+CONST('N', TCG_CT_CONST_N12)
-+CONST('U', TCG_CT_CONST_U12)
-+CONST('Z', TCG_CT_CONST_ZERO)
-+CONST('C', TCG_CT_CONST_C12)
-+CONST('W', TCG_CT_CONST_WSZ)
 diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index 42eebef78e..f0930f77ef 100644
+index f0930f77ef..69e882ba5d 100644
 --- a/tcg/loongarch64/tcg-target.c.inc
 +++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -116,3 +116,55 @@ static const int tcg_target_call_oarg_regs[] = {
-     TCG_REG_A0,
-     TCG_REG_A1,
- };
+@@ -168,3 +168,69 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
+     }
+     return 0;
+ }
 +
-+#define TCG_CT_CONST_ZERO  0x100
-+#define TCG_CT_CONST_S12   0x200
-+#define TCG_CT_CONST_N12   0x400
-+#define TCG_CT_CONST_U12   0x800
-+#define TCG_CT_CONST_C12   0x1000
-+#define TCG_CT_CONST_WSZ   0x2000
-+
-+#define ALL_GENERAL_REGS      MAKE_64BIT_MASK(0, 32)
 +/*
-+ * For softmmu, we need to avoid conflicts with the first 5
-+ * argument registers to call the helper.  Some of these are
-+ * also used for the tlb lookup.
++ * Relocations
 + */
-+#ifdef CONFIG_SOFTMMU
-+#define SOFTMMU_RESERVE_REGS  MAKE_64BIT_MASK(TCG_REG_A0, 5)
-+#else
-+#define SOFTMMU_RESERVE_REGS  0
-+#endif
 +
++/*
++ * Relocation records defined in LoongArch ELF psABI v1.00 is way too
++ * complicated; a whopping stack machine is needed to stuff the fields, at
++ * the very least one SOP_PUSH and one SOP_POP (of the correct format) are
++ * needed.
++ *
++ * Hence, define our own simpler relocation types. Numbers are chosen as to
++ * not collide with potential future additions to the true ELF relocation
++ * type enum.
++ */
 +
-+static inline tcg_target_long sextreg(tcg_target_long val, int pos, int len)
++/* Field Sk16, shifted right by 2; suitable for conditional jumps */
++#define R_LOONGARCH_BR_SK16     256
++/* Field Sd10k16, shifted right by 2; suitable for B and BL */
++#define R_LOONGARCH_BR_SD10K16  257
++
++static bool reloc_br_sk16(tcg_insn_unit *src_rw, const tcg_insn_unit *target)
 +{
-+    return sextract64(val, pos, len);
++    const tcg_insn_unit *src_rx = tcg_splitwx_to_rx(src_rw);
++    intptr_t offset = (intptr_t)target - (intptr_t)src_rx;
++
++    tcg_debug_assert((offset & 3) == 0);
++    offset >>= 2;
++    if (offset == sextreg(offset, 0, 16)) {
++        *src_rw |= (offset << 10) & 0x3fffc00;
++        return true;
++    }
++
++    return false;
 +}
 +
-+/* test if a constant matches the constraint */
-+static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
++static bool reloc_br_sd10k16(tcg_insn_unit *src_rw,
++                             const tcg_insn_unit *target)
 +{
-+    if (ct & TCG_CT_CONST) {
-+        return 1;
++    const tcg_insn_unit *src_rx = tcg_splitwx_to_rx(src_rw);
++    intptr_t offset = (intptr_t)target - (intptr_t)src_rx;
++
++    tcg_debug_assert((offset & 3) == 0);
++    offset >>= 2;
++    if (offset == sextreg(offset, 0, 26)) {
++        *src_rw |= (offset >> 16) & 0x3ff; /* slot d10 */
++        *src_rw |= ((offset & 0xffff) << 10) & 0x3fffc00; /* slot k16 */
++        return true;
 +    }
-+    if ((ct & TCG_CT_CONST_ZERO) && val == 0) {
-+        return 1;
++
++    return false;
++}
++
++static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
++                        intptr_t value, intptr_t addend)
++{
++    tcg_debug_assert(addend == 0);
++    switch (type) {
++    case R_LOONGARCH_BR_SK16:
++        return reloc_br_sk16(code_ptr, (tcg_insn_unit *)value);
++    case R_LOONGARCH_BR_SD10K16:
++        return reloc_br_sd10k16(code_ptr, (tcg_insn_unit *)value);
++    default:
++        g_assert_not_reached();
 +    }
-+    if ((ct & TCG_CT_CONST_S12) && val == sextreg(val, 0, 12)) {
-+        return 1;
-+    }
-+    if ((ct & TCG_CT_CONST_N12) && -val == sextreg(-val, 0, 12)) {
-+        return 1;
-+    }
-+    if ((ct & TCG_CT_CONST_U12) && val >= 0 && val <= 0xfff) {
-+        return 1;
-+    }
-+    if ((ct & TCG_CT_CONST_C12) && ~val >= 0 && ~val <= 0xfff) {
-+        return 1;
-+    }
-+    if ((ct & TCG_CT_CONST_WSZ) && val == (type == TCG_TYPE_I32 ? 32 : 64)) {
-+        return 1;
-+    }
-+    return 0;
 +}
 -- 
 2.33.0
