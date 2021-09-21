@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0988841339F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 14:58:15 +0200 (CEST)
-Received: from localhost ([::1]:44150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D974133E1
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 15:15:01 +0200 (CEST)
+Received: from localhost ([::1]:59014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSfLh-0003nl-J4
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 08:58:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44394)
+	id 1mSfbw-0006ft-6C
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 09:15:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSfJt-0002lz-TQ
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 08:56:22 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46050)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mSfZy-000587-Na
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 09:12:58 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSfJq-0000CN-Lk
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 08:56:21 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id d21so38832828wra.12
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 05:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Sy/CpQh7eJVrtAeqt9h614OGuu9b4ePNnqstjuZxuOU=;
- b=D9DuWkQISN3B4UBGLLzbAONPYLXkL/2uq5nqN532ESMCDLqikLYXgeH2SHVNt8hS62
- dWxYEu8/RQj3bNg0hxzMJ81hs9lTdROyINRZZyDuJH6gI+B+ERoiJb7lSxkVSfFAg3VN
- Gp1xwqX3+0HAa6k5WCOkB7ELMue4wwe+feHPthMRzP1zDiV4QWMGWDtE4FtOiBLuIE1B
- 3VbzzrwTAScdlq8YXUh/amR3Dl6FQReryYDaeezNtS0+oqYTS1QrTkD831L5hagtzf7v
- 7GVGTw8UaQTexrVHMm0cHipI3O3/sH8TnIDxVk7PNzHnBj9/Ysl34pznIIBz8H7V4utS
- ifWg==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mSfZw-00037f-V4
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 09:12:58 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id q26so38996439wrc.7
+ for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 06:12:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=P8266PFHnW2T7lXnUwtuxqe/FB4BDNIDttZGp4EB/k0=;
+ b=Q8q/a044sSt8GMy21+sHwacTS+PBNE+PbbTHWSYSxaqhC/A/kM0SQx8auoGw5yJR4f
+ fl9wp5J1DnYsGetBE0YY8QAQsA3E0dXn5DtUgFc+VKxaSUdGyhMbD8kUNnrlFezwGQMW
+ AWoQ5EG4jHy70KtJ8Gg3MAMcg/iAO6cuwVAr9A/ToiEsdZLpvJ0e0p/49aT95oi/4W1a
+ q/9BbYIPkE+fpntNHB5eyTuEjsTu7CGSC6Pz+NJfL0SZ0i/Ptcn/THXTudwduHBGxkQ2
+ Ke5Rp7TO8CJ3bDn8tgLHHt20MGPvq9KjooqqD1QiO19XZ2zP3763m0GFfK3JwlkB+NLX
+ KR/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Sy/CpQh7eJVrtAeqt9h614OGuu9b4ePNnqstjuZxuOU=;
- b=1agUcUGlfOL3hQ45em/IuuQ3MuRgcG1xC/uQOiK3JRuzphas/2WjAgHuEoGgeOVBRq
- FTMXWkrg3ag3szTfRpMcmrsak48yRxJpOUEuXL6/TAivvseBMxccxdK9/sXeygnb84ds
- 3+8wsd4Q3v24g0fkKLkNp5mQPrvCFuAiqRp2IW6WAyBcsbQtohCOFNtzCcD6C2GxpHze
- 9/XmDprP+AOEQAVbCWy26plLuLyhb14jGVeb6K7mCu6sPZBbwChYuLXTfBMpD8Z/SNVY
- 5JKRcbNvh6Oxrc6+6I0/WfLjgHFHplmJ5gc7BcB/x/n9Uujkr9+6gZC7mM+GOeH6UYb2
- SYZQ==
-X-Gm-Message-State: AOAM530TUXDyazYdxYiSzYoxeC1TDL4pOBENIDJn9iJaqG1xYUXmjWmP
- iNs4LTBpvghb8bZ90ijWdLrNLyoGRhbThNSZ56bL8w==
-X-Google-Smtp-Source: ABdhPJwRO6igdW/yX4Ftx1f3/KdJKY1BHUkc5o5bD1JRNYzD222yvcR/a8sNa/PFHPOknx1niwj9i3hqmNfJ53xb7go=
-X-Received: by 2002:a05:600c:4848:: with SMTP id
- j8mr4506874wmo.21.1632228975917; 
- Tue, 21 Sep 2021 05:56:15 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=P8266PFHnW2T7lXnUwtuxqe/FB4BDNIDttZGp4EB/k0=;
+ b=NB4fcMzgpqGgWIbpnEYma5KPQ7AOnshCcmcu5TUrsKKWBGGDnETPBw8d9SpNf1MvRG
+ jzDCTHeNopN9hMaNaMmmAD6JCmOIPhrLQn5eLY2WluU+5ZqF5VOY6ybFIwnS3tQXqeXb
+ XtRA6w98pTh3JZNVvBuAecVeA8FspcLXxRK38VLB1UtnJ1UfLi+wBZZzZP7cp/VTWFO9
+ VIYnHQdl6Aly29KXWWa78UKPcwF5EmnM4Fr7PDOkrdEtIZn/h36Ca0vj7krmlvdsPeGg
+ 1nwtHao0wBdvKiXhIJgKESRkUwdmUpzEYSOHdjvoy1WDGTGu9+nErUptj7VAp/4MEJo0
+ YfVg==
+X-Gm-Message-State: AOAM5336k8oKPKnR15K6/6FOrJe9r2H0L/LoZxfQEKWKJA+RVhV2fA0q
+ t5I82AY5OaZPDrujUhNGst6Nn0GAmqE=
+X-Google-Smtp-Source: ABdhPJzes52GD1qQ6rwx7nAljzpNXN4zn6i8eudLz259UW8j99NMlzxe6ikw05VB+vagJ14GCcTcOw==
+X-Received: by 2002:a5d:5408:: with SMTP id g8mr35354778wrv.34.1632229975166; 
+ Tue, 21 Sep 2021 06:12:55 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id y1sm3114683wmq.43.2021.09.21.06.12.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Sep 2021 06:12:54 -0700 (PDT)
+Subject: Re: [PULL 0/3] Update meson version
+To: Peter Maydell <peter.maydell@linaro.org>
 References: <20210918093140.5797-1-pbonzini@redhat.com>
  <CAFEAcA_07d87j7y1qnBeTuoKQw=9=fY0Ci=6ky=XxBQbuEqDnw@mail.gmail.com>
- <YUnUn100vx++0n5C@redhat.com>
-In-Reply-To: <YUnUn100vx++0n5C@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Sep 2021 13:55:23 +0100
-Message-ID: <CAFEAcA9Ywv+7M+60Rb=kvhE9pXY2hcuZmTs11nkWUpyLfcu+8g@mail.gmail.com>
-Subject: Re: [PULL 0/3] Update meson version
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <1b872fec-dcaf-16e2-abc7-cd5d639407f8@redhat.com>
+Date: Tue, 21 Sep 2021 15:12:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA_07d87j7y1qnBeTuoKQw=9=fY0Ci=6ky=XxBQbuEqDnw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,28 +89,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Sept 2021 at 13:48, Daniel P. Berrang=C3=A9 <berrange@redhat.com=
-> wrote:
->
-> On Tue, Sep 21, 2021 at 01:40:36PM +0100, Peter Maydell wrote:
-> > Is there anything that can be done to make meson version bumps
-> > not a horrific pain to back out ? This seems to go wrong pretty
-> > much every time.
->
-> Save your previous 'build' directory contents somewhere safe
-> and record the submodule checkout hashes, so they can be
-> reset to that ?
+On 21/09/21 14:40, Peter Maydell wrote:
+> Is there anything that can be done to make meson version bumps
+> not a horrific pain to back out ? This seems to go wrong pretty
+> much every time.
 
-I want this fixed on the Meson end, because if I run into this
-kind of thing while testing and then backing out pull requests
-then it seems quite likely that it will also happen to people
-as they try to bisect across the merge once it eventually gets
-into git.
+Downgrading works fine in 0.58 and newer releases, but the fix is not in 
+0.55.x.  The reason why it goes wrong every time is that we've never 
+updated past a version that has the fix.
 
--- PMM
+What were the issues?
+
+Paolo
 
