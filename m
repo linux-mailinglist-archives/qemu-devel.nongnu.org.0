@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8E7E412BC4
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 04:32:33 +0200 (CEST)
-Received: from localhost ([::1]:51020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2A7412BBF
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 04:28:07 +0200 (CEST)
+Received: from localhost ([::1]:35440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSVaC-00024n-T6
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 22:32:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43314)
+	id 1mSVVu-0008Ou-Gz
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 22:28:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSVTe-0005cZ-1r
+ id 1mSVTe-0005cd-3s
  for qemu-devel@nongnu.org; Mon, 20 Sep 2021 22:25:46 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:46713)
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:52107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSVTZ-0006G2-7i
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 22:25:44 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id w11so2822851plz.13
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 19:25:40 -0700 (PDT)
+ id 1mSVTa-0006GQ-1v
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 22:25:45 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id dw14so13362323pjb.1
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 19:25:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sx9OxIFdY4NzqELX94oh/fd9umRX24uKGyg1w/4NOWY=;
- b=W4ia7N9/nMd8n4QGsBSHGjXueGIRm0W5pnzrPSfMO/yHUj0POKixXtJXZbR4cbjcWQ
- /+9loy7Zyvy5Gj5lsNHNbyM8OiAaiYa3Tu5ji1TGKZ0UcaWXhRsbycJUsTLjK4YmUjZW
- 9UngvPYih68cEBVxwZQi7uOwmVGvIkLe8qhz3utew7HjJAt+mmSlffzhOVBUu/bb/sid
- IxYfdg2ucXwDfMzUetgOx+swEZ7NsiSZFpOxqEYy5EryPKV1CB+6axXSvBHxvkeH4Gnn
- /LrXRGfY1jGTYFbEKxz85jqxGYSo+otQOYO99jWZfektYj2b1SupCGTzmHhfjSHGezLa
- eZ4w==
+ bh=zxXZyIG+Pw01TAIshh/v24ac5SJa+rYMBmTa7I6pYe8=;
+ b=tMsuVb0c7DPDVCHzKFDcDtDIl/ZWI+ikUQA6kaXWcjHV2g0zrmCp1scoINEIzwat2B
+ il7i2IuVgvAvxzDisdORXbxu9QnoOS+VTP6UKL3O6jUqtgGPDkQLP9uh7FpN5CtydvgL
+ yX/Ox2m1LpCxz7P/fVhxml/Mil7Qfnd8VmtkIe/g079a5ymQd6sDQHvNAIiqG1at+Rdl
+ Tf9jdC+apPcuVxDc8oqXuVBe0je/np50kXSVg5p9pd+dICMUc36maqmmNQyxh52ngtId
+ QEGNvqo5unH771LurX2VwVZXrUtR6Dl7rqkDiVt2Hma8bcvtGSxvivW6OEhTrCe4rUS2
+ ZvyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sx9OxIFdY4NzqELX94oh/fd9umRX24uKGyg1w/4NOWY=;
- b=6UgaqSr8Lh19NLC+WlCdHJc1nlgO9iaUTkQkDLjxMGHjfwf7gEmXY5VaSJbPG3kQcT
- cWKQ2rvAoqBeMAlrOFVo31c2jvVnysJSyw8IO0xXoIFfjGF+Ha52pblnJ6DvPwRCGryt
- KqN68IVM+QSU6uwtYNFntzRZJ7l49U+xNA0/x3wERbI63aQoVPRVsuOasNHdcXsVQCQz
- F/aeVoEWRYEmH6Paek59r5PAnSChoAPgmuIvV+fsikjxKlMs2gtk5GNJzUipQ6+GJMNb
- X0OO4N00DfNAejNbn6V8wMPhp3faT11g5KDR4tmNPnw8CP8VGDE/9eCMgFKFFzDg7bGJ
- IKcQ==
-X-Gm-Message-State: AOAM530nWkBZ3atMzkYeuuZKx7DyYOquemoMdx6OOatHlD0AgQCc9sb9
- BDYY+rXDz7I8IAYc06GI/4bHyRI9U0CuCA==
-X-Google-Smtp-Source: ABdhPJxXO1Mx8W2VUgXfNoZNfW/UWhitqoFnFYNn9/pTI6RRPkufZLn/hy2l39tEFy0KMf2vAHnTpA==
-X-Received: by 2002:a17:90a:e547:: with SMTP id
- ei7mr2500575pjb.177.1632191139951; 
- Mon, 20 Sep 2021 19:25:39 -0700 (PDT)
+ bh=zxXZyIG+Pw01TAIshh/v24ac5SJa+rYMBmTa7I6pYe8=;
+ b=AvwiQaQV2bVTNGFtG3zPwS86c4mFpSM4NybdbWzhABBqu9D7IuqvC7uEu4sr9epirp
+ JAEHsc2r0PtlwHWUXI6NQqkg+IvBwMVcameYnzZ9zO+srRlDXq1xoF9WKU4XmNivyYQM
+ 6eSCK7HnaSAx+S5X7H0vHCag2EimLoRMGl4iuVedjNFbgUfCBc1nE5wnmFiJVkao8Oko
+ rA5j53JrwVDAbqxtcYSceRfmGB38B6j8GpYQVypkewU/7LPBwq7sQBIShMSOzt4UqLLo
+ /doSx/DOdrPBGvA36+UFynPUXFWfeNQAlepjS5KLpQCxnp9JPB/3sgbXWue/wLKWqBRb
+ jFNQ==
+X-Gm-Message-State: AOAM530BogRni7UwKSJmqagD9GqDdQg7uwbflD0VUDmTgTcVziQghIEu
+ 3QPB9UdW84KpWRhsTYcYlng/yuHiUVE5ww==
+X-Google-Smtp-Source: ABdhPJzTmgoPDewBhPTRZooQ2LrvwcM6pmdHQAvlluhyIlevqOov5tPFHcQzEyHrwmMCsJPN1OhROQ==
+X-Received: by 2002:a17:902:ed8a:b0:13b:7a09:5215 with SMTP id
+ e10-20020a170902ed8a00b0013b7a095215mr25354753plj.56.1632191140637; 
+ Mon, 20 Sep 2021 19:25:40 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id n9sm15297621pff.37.2021.09.20.19.25.39
+ by smtp.gmail.com with ESMTPSA id n9sm15297621pff.37.2021.09.20.19.25.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 19:25:39 -0700 (PDT)
+ Mon, 20 Sep 2021 19:25:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/10] tcg/mips: Unset TCG_TARGET_HAS_direct_jump
-Date: Mon, 20 Sep 2021 19:25:29 -0700
-Message-Id: <20210921022534.365291-6-richard.henderson@linaro.org>
+Subject: [PULL 06/10] tcg/mips: Drop special alignment for code_gen_buffer
+Date: Mon, 20 Sep 2021 19:25:30 -0700
+Message-Id: <20210921022534.365291-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210921022534.365291-1-richard.henderson@linaro.org>
 References: <20210921022534.365291-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,94 +89,144 @@ Cc: peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only use indirect jumps.  Finish weaning away from the
-unique alignment requirements for code_gen_buffer.
-
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/mips/tcg-target.h     | 12 +++++-------
- tcg/mips/tcg-target.c.inc | 23 +++++------------------
- 2 files changed, 10 insertions(+), 25 deletions(-)
+ tcg/region.c | 91 ----------------------------------------------------
+ 1 file changed, 91 deletions(-)
 
-diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
-index 3a62055f04..c366fdf74b 100644
---- a/tcg/mips/tcg-target.h
-+++ b/tcg/mips/tcg-target.h
-@@ -39,11 +39,7 @@
- #define TCG_TARGET_TLB_DISPLACEMENT_BITS 16
- #define TCG_TARGET_NB_REGS 32
+diff --git a/tcg/region.c b/tcg/region.c
+index e64c3ea230..9cc30d4922 100644
+--- a/tcg/region.c
++++ b/tcg/region.c
+@@ -467,38 +467,6 @@ static size_t tcg_n_regions(size_t tb_size, unsigned max_cpus)
+   (DEFAULT_CODE_GEN_BUFFER_SIZE_1 < MAX_CODE_GEN_BUFFER_SIZE \
+    ? DEFAULT_CODE_GEN_BUFFER_SIZE_1 : MAX_CODE_GEN_BUFFER_SIZE)
  
+-#ifdef __mips__
 -/*
-- * We have a 256MB branch region, but leave room to make sure the
-- * main executable is also within that region.
+- * In order to use J and JAL within the code_gen_buffer, we require
+- * that the buffer not cross a 256MB boundary.
 - */
--#define MAX_CODE_GEN_BUFFER_SIZE  (128 * MiB)
-+#define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
- 
- typedef enum {
-     TCG_REG_ZERO = 0,
-@@ -136,7 +132,7 @@ extern bool use_mips32r2_instructions;
- #define TCG_TARGET_HAS_muluh_i32        1
- #define TCG_TARGET_HAS_mulsh_i32        1
- #define TCG_TARGET_HAS_bswap32_i32      1
--#define TCG_TARGET_HAS_direct_jump      1
-+#define TCG_TARGET_HAS_direct_jump      0
- 
- #if TCG_TARGET_REG_BITS == 64
- #define TCG_TARGET_HAS_add2_i32         0
-@@ -207,7 +203,9 @@ extern bool use_mips32r2_instructions;
- #define TCG_TARGET_DEFAULT_MO (0)
- #define TCG_TARGET_HAS_MEMORY_BSWAP     1
- 
--void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
-+/* not defined -- call should be eliminated at compile time */
-+void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t)
-+    QEMU_ERROR("code path is reachable");
- 
- #ifdef CONFIG_SOFTMMU
- #define TCG_TARGET_NEED_LDST_LABELS
-diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index 3a40af8799..41ffa28394 100644
---- a/tcg/mips/tcg-target.c.inc
-+++ b/tcg/mips/tcg-target.c.inc
-@@ -1654,17 +1654,11 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         }
-         break;
-     case INDEX_op_goto_tb:
--        if (s->tb_jmp_insn_offset) {
--            /* direct jump method */
--            s->tb_jmp_insn_offset[a0] = tcg_current_code_size(s);
--            /* Avoid clobbering the address during retranslation.  */
--            tcg_out32(s, OPC_J | (*(uint32_t *)s->code_ptr & 0x3ffffff));
--        } else {
--            /* indirect jump method */
--            tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP0, TCG_REG_ZERO,
--                       (uintptr_t)(s->tb_jmp_target_addr + a0));
--            tcg_out_opc_reg(s, OPC_JR, 0, TCG_TMP0, 0);
--        }
-+        /* indirect jump method */
-+        tcg_debug_assert(s->tb_jmp_insn_offset == 0);
-+        tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP0, TCG_REG_ZERO,
-+                   (uintptr_t)(s->tb_jmp_target_addr + a0));
-+        tcg_out_opc_reg(s, OPC_JR, 0, TCG_TMP0, 0);
-         tcg_out_nop(s);
-         set_jmp_reset_offset(s, a0);
-         break;
-@@ -2538,13 +2532,6 @@ static void tcg_target_init(TCGContext *s)
-     tcg_regset_set_reg(s->reserved_regs, TCG_REG_GP);   /* global pointer */
- }
- 
--void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
--                              uintptr_t jmp_rw, uintptr_t addr)
+-static inline bool cross_256mb(void *addr, size_t size)
 -{
--    qatomic_set((uint32_t *)jmp_rw, deposit32(OPC_J, 0, 26, addr >> 2));
--    flush_idcache_range(jmp_rx, jmp_rw, 4);
+-    return ((uintptr_t)addr ^ ((uintptr_t)addr + size)) & ~0x0ffffffful;
 -}
 -
- typedef struct {
-     DebugFrameHeader h;
-     uint8_t fde_def_cfa[4];
+-/*
+- * We weren't able to allocate a buffer without crossing that boundary,
+- * so make do with the larger portion of the buffer that doesn't cross.
+- * Returns the new base and size of the buffer in *obuf and *osize.
+- */
+-static inline void split_cross_256mb(void **obuf, size_t *osize,
+-                                     void *buf1, size_t size1)
+-{
+-    void *buf2 = (void *)(((uintptr_t)buf1 + size1) & ~0x0ffffffful);
+-    size_t size2 = buf1 + size1 - buf2;
+-
+-    size1 = buf2 - buf1;
+-    if (size1 < size2) {
+-        size1 = size2;
+-        buf1 = buf2;
+-    }
+-
+-    *obuf = buf1;
+-    *osize = size1;
+-}
+-#endif
+-
+ #ifdef USE_STATIC_CODE_GEN_BUFFER
+ static uint8_t static_code_gen_buffer[DEFAULT_CODE_GEN_BUFFER_SIZE]
+     __attribute__((aligned(CODE_GEN_ALIGN)));
+@@ -526,12 +494,6 @@ static int alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
+         size = QEMU_ALIGN_DOWN(tb_size, qemu_real_host_page_size);
+     }
+ 
+-#ifdef __mips__
+-    if (cross_256mb(buf, size)) {
+-        split_cross_256mb(&buf, &size, buf, size);
+-    }
+-#endif
+-
+     region.start_aligned = buf;
+     region.total_size = size;
+ 
+@@ -573,39 +535,6 @@ static int alloc_code_gen_buffer_anon(size_t size, int prot,
+         return -1;
+     }
+ 
+-#ifdef __mips__
+-    if (cross_256mb(buf, size)) {
+-        /*
+-         * Try again, with the original still mapped, to avoid re-acquiring
+-         * the same 256mb crossing.
+-         */
+-        size_t size2;
+-        void *buf2 = mmap(NULL, size, prot, flags, -1, 0);
+-        switch ((int)(buf2 != MAP_FAILED)) {
+-        case 1:
+-            if (!cross_256mb(buf2, size)) {
+-                /* Success!  Use the new buffer.  */
+-                munmap(buf, size);
+-                break;
+-            }
+-            /* Failure.  Work with what we had.  */
+-            munmap(buf2, size);
+-            /* fallthru */
+-        default:
+-            /* Split the original buffer.  Free the smaller half.  */
+-            split_cross_256mb(&buf2, &size2, buf, size);
+-            if (buf == buf2) {
+-                munmap(buf + size2, size - size2);
+-            } else {
+-                munmap(buf, size - size2);
+-            }
+-            size = size2;
+-            break;
+-        }
+-        buf = buf2;
+-    }
+-#endif
+-
+     region.start_aligned = buf;
+     region.total_size = size;
+     return prot;
+@@ -620,35 +549,15 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
+     void *buf_rw = NULL, *buf_rx = MAP_FAILED;
+     int fd = -1;
+ 
+-#ifdef __mips__
+-    /* Find space for the RX mapping, vs the 256MiB regions. */
+-    if (alloc_code_gen_buffer_anon(size, PROT_NONE,
+-                                   MAP_PRIVATE | MAP_ANONYMOUS |
+-                                   MAP_NORESERVE, errp) < 0) {
+-        return false;
+-    }
+-    /* The size of the mapping may have been adjusted. */
+-    buf_rx = region.start_aligned;
+-    size = region.total_size;
+-#endif
+-
+     buf_rw = qemu_memfd_alloc("tcg-jit", size, 0, &fd, errp);
+     if (buf_rw == NULL) {
+         goto fail;
+     }
+ 
+-#ifdef __mips__
+-    void *tmp = mmap(buf_rx, size, PROT_READ | PROT_EXEC,
+-                     MAP_SHARED | MAP_FIXED, fd, 0);
+-    if (tmp != buf_rx) {
+-        goto fail_rx;
+-    }
+-#else
+     buf_rx = mmap(NULL, size, PROT_READ | PROT_EXEC, MAP_SHARED, fd, 0);
+     if (buf_rx == MAP_FAILED) {
+         goto fail_rx;
+     }
+-#endif
+ 
+     close(fd);
+     region.start_aligned = buf_rw;
 -- 
 2.25.1
 
