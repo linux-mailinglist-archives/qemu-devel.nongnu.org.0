@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A574130E5
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 11:46:19 +0200 (CEST)
-Received: from localhost ([::1]:47652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB354130EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 11:48:31 +0200 (CEST)
+Received: from localhost ([::1]:51810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mScLy-0004Yz-Dn
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 05:46:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54296)
+	id 1mScO6-0007Ub-7O
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 05:48:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mScHo-0002as-6J
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 05:42:00 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45768)
+ id 1mScLC-0004tN-AQ
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 05:45:31 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mScHm-0002tx-IL
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 05:41:59 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id d21so37189503wra.12
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 02:41:58 -0700 (PDT)
+ id 1mScLA-0005nd-7U
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 05:45:29 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id w29so37276699wra.8
+ for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 02:45:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=OEgUg0wTP/3KjX+6dESwhDMou3aqagEAiX9HEbjvfJo=;
- b=ShS6i9TLbsf9Wn0dZB9nwLUUpmoZ2xXwluQJ9UJ82Jl7f1S65UMbyjhknC8ZGD6ObX
- rCsv1urwe2cAAfPIOlVni2l8B70tACBihAxgxKfr2yuqEyPfEjE+tP6Ooa4Bc25g/TWC
- gbr/scvib2BrYElnZH2SQQpEEkGYMhP235m/U184URw671x3EaWC4tZprP5TxCK6LYup
- AguEckwQCV81Oui8AKsMOpgNnhiho6PkRN+YJZWUT1jgamfl+rLrl+CMrg5mKrbiQ8Du
- IoM9jNTPz4bXBa/hBIhShBehYsG1nvI/z0mxD55wDhbIrd1T5SVNR0EJ/xzHIXaRQ27C
- a/hw==
+ bh=dqrR/yqGz5yGeCuMzX7WmGrVbksvk4sPBuRVJV9SBhk=;
+ b=awDwxtYAzntPxMKnF2YHUXTclTAs509Dfk3u8aU5EUebzGdshUyFpHqR+og4lSyClG
+ 6dUFJdc9yIinv04oY7zuR097Ef7gXWUDnJsq32y4QbYCaqQlXvFPhuRb+AaPgfkNWOs1
+ +AZ17x9hG9e7BeAkzqDxEZQqCeJM5hIKD3jPwb2N2AtR8LENH4JtBsB9vr7nkOAlOdNo
+ ay6MUzNKZQaNGj5vlWK1u0QMn+HZhBnv61EtqNIeuU1CGMRUX9uYaduJC1DmwH6kOBCg
+ vMriCC9CdVNULea6+ErimZ5JXlsrdQMJ0CfA0n1QWKmO0K0cEKyoFQLQJm4wT6il/1ok
+ zMug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=OEgUg0wTP/3KjX+6dESwhDMou3aqagEAiX9HEbjvfJo=;
- b=dgI0MNou9IJ//I3wdfqsGmJsyQ7QP6i1xoTd23SjVV/nFLTYo7YLSv8IbzzEPlSakC
- r9Y3oG2C0GXzCJBZaAYUXSuTAPkUbm18NhOWWdkN+RVZVGG2kJPMzskMovfp7HRkP6HO
- CCeRDsyhhYitIfSwXWv10FUP+yVYdzSEz8mNCq/j7/VSqbR7in5cswYUfmiY99fINWmz
- M2IYVeYgkR7zy/5KsrpFONKM4/ZM5W1GpkJV12ebIBXcT8hwXDTT2OlNhA/k/OD74aT+
- XlQCPcvUdrdwFqXHnC386c3TFSOscKA5Qib4OfhTAYkRcJT+NB+jRwcwROQTQERPyYTF
- 851Q==
-X-Gm-Message-State: AOAM533AJUMR9UI6tylYPTzPktF2JyMHKwt0dsDjU6J2FQ+GaBNwnBy5
- Wck8mafnMjKfG0vDTTaSwdg=
-X-Google-Smtp-Source: ABdhPJxQxm88a98/TqnAZPZmbTyySRLdsPrqNG3+v0F4fwrc6QtVodp3ZmrG7tUhPCIPRSk3VqEaag==
-X-Received: by 2002:a05:600c:1d16:: with SMTP id
- l22mr1783520wms.101.1632217317023; 
- Tue, 21 Sep 2021 02:41:57 -0700 (PDT)
+ bh=dqrR/yqGz5yGeCuMzX7WmGrVbksvk4sPBuRVJV9SBhk=;
+ b=C7jgvp3JqE3pozRmMQD6sWl3m0Fd8ET3guIJ55+mc7arsEbd57QPBT4c8p2CoQoxfR
+ yDOBJRSUYySYP4YucVPtBE96p5twNvmxwVI5PZQcMwAmboqKYk8cW6dHZZ2/gNaTUKhK
+ icbft6TaaGD6IXHa+A/4Afm7yt4uGJ18wJQLnPf4Eag41IsNc7Xb3djqURoNUqSc7LAh
+ qoc0HrykYA9HSKUfqEgME76FSKO3LCqX2EPryEymu6XcNZrgp7ttApiTEjxy834HciH6
+ DKhwZ81/t9w4+PH+tcahK8j/D2JSKZVBMxfNyRtSZkicd1pWwkA16o8nkF40OFReTvjG
+ 4CgQ==
+X-Gm-Message-State: AOAM5316vYBrJoTTY2/ENW/2BdKaHsXaFM8BE8pLWg1q+U3rWMb4GAkH
+ l0Wpr0vQTFcqfPLV/IQKuXU=
+X-Google-Smtp-Source: ABdhPJwiKlMmUo8tyQqww245zp6BIeVpLyfOjN5wpdoZY4rfZB5m10rIt4yq7RlVql3Vcc3qG9kt/Q==
+X-Received: by 2002:a5d:4608:: with SMTP id t8mr33696526wrq.136.1632217526752; 
+ Tue, 21 Sep 2021 02:45:26 -0700 (PDT)
 Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id l2sm2789795wmi.1.2021.09.21.02.41.56
+ by smtp.gmail.com with ESMTPSA id r5sm18275804wrm.79.2021.09.21.02.45.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Sep 2021 02:41:56 -0700 (PDT)
-Message-ID: <c89c508e-bfe7-ad2e-b974-373e1e8e66a6@amsat.org>
-Date: Tue, 21 Sep 2021 11:41:55 +0200
+ Tue, 21 Sep 2021 02:45:26 -0700 (PDT)
+Message-ID: <90d882ac-968e-26f0-e5a4-8a2a401119cc@amsat.org>
+Date: Tue, 21 Sep 2021 11:45:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.1.0
-Subject: Re: [PULL 00/35] tcg patch queue
+Subject: Re: [PATCH v5 01/31] target/arm: Implement arm_v7m_cpu_has_work()
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210916153025.1944763-1-richard.henderson@linaro.org>
- <CAFEAcA9XxgFYj6jzNGEhgMHhB2UQF_X3ZLigu4sRPrR3Zfj8sg@mail.gmail.com>
- <a0f85ea3-c677-bc7a-995a-ddc8d4856b4f@amsat.org>
- <a85376bc-c986-4f47-2e07-2476a1a63b35@amsat.org>
- <b4d17773-b226-b537-0374-46a668df0af2@amsat.org>
- <CAFEAcA-+pwETXYtSawvCRjLk2qio8PdEhnhW4yFhF85VvijVeQ@mail.gmail.com>
+References: <20210920214447.2998623-1-f4bug@amsat.org>
+ <20210920214447.2998623-2-f4bug@amsat.org>
+ <CAFEAcA_UfuKjXamxH-Y-4rs2mu+JM=7p8tGc2QixzPzDqZxcWg@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <CAFEAcA-+pwETXYtSawvCRjLk2qio8PdEhnhW4yFhF85VvijVeQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA_UfuKjXamxH-Y-4rs2mu+JM=7p8tGc2QixzPzDqZxcWg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,16 +91,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
+Cc: Michael Davidsaver <mdavidsaver@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/21/21 11:28, Peter Maydell wrote:
-> On Mon, 20 Sept 2021 at 22:16, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->> Forget this crap. The missing piece was:
+On 9/21/21 11:34, Peter Maydell wrote:
+> On Mon, 20 Sept 2021 at 22:44, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
 >>
->> -- >8 --
+>> Implement SysemuCPUOps::has_work() handler for the ARM v7M CPU.
+>>
+>> See the comments added in commit 7ecdaa4a963 ("armv7m: Fix
+>> condition check for taking exceptions") which eventually
+>> forgot to implement this has_work() handler:
+> 
+> Huh? M-profile and A-profile share the same arm_cpu_has_work()
+> function. Some of the checks the code there does are perhaps
+> unnecessary for M-profile, but they're harmless.
+> 
+>>    * ARMv7-M interrupt masking works differently than -A or -R.
+>>    * There is no FIQ/IRQ distinction.
+>>
+>> The NVIC signal any pending interrupt by raising ARM_CPU_IRQ
+>> (see commit 56b7c66f498: "armv7m: QOMify the armv7m container")
+>> which ends setting the CPU_INTERRUPT_HARD bit in interrupt_request.
+>>
+>> Thus arm_v7m_cpu_has_work() implementation is thus quite trivial,
+>> we simply need to check for this bit.
+>>
+>> Cc: Peter Maydell <peter.maydell@linaro.org>
+>> Cc: Michael Davidsaver <mdavidsaver@gmail.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   target/arm/cpu_tcg.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
 >> diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
 >> index 0d5adccf1a7..da348938407 100644
 >> --- a/target/arm/cpu_tcg.c
@@ -118,10 +140,14 @@ On 9/21/21 11:28, Peter Maydell wrote:
 >> +    return cs->interrupt_request & CPU_INTERRUPT_HARD;
 >> +}
 > 
-> Is this really all that's needed ? I would have expected
-> at least a check on the power_state.
+> This seems to be missing at least the check on
+> cpu->power_state and the CPU_INTERRUPT_EXITTB test.
+> 
+> Is there any reason why we shouldn't just continue to
+> share the same function between A and M profile, and avoid
+> the extra function and the ifdefs ?
 
-I started reading the PSCI spec this morning and you are right,
-it doesn't seem restricted to A/R profiles, M profiles also have
-it.
+The only reason I can think of is I should have been resting
+instead of posting this patch :/ I'll re-use arm_cpu_has_work()
+which is, as you said, harmless and safer.
 
