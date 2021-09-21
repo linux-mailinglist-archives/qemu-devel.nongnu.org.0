@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1510B4131A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 12:34:01 +0200 (CEST)
-Received: from localhost ([::1]:58856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F6424131B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 12:35:54 +0200 (CEST)
+Received: from localhost ([::1]:33710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSd68-0008AM-4J
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 06:34:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32990)
+	id 1mSd7x-0001rs-6x
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 06:35:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mSctm-0001lW-DA; Tue, 21 Sep 2021 06:21:14 -0400
+ id 1mSctp-0001rn-Rd; Tue, 21 Sep 2021 06:21:17 -0400
 Received: from mail-eopbgr140125.outbound.protection.outlook.com
  ([40.107.14.125]:6053 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mSctk-0002LA-Sp; Tue, 21 Sep 2021 06:21:14 -0400
+ id 1mSctn-0002LA-4F; Tue, 21 Sep 2021 06:21:17 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ae61FhVJYwzt1OLaaK+f0r7bSD7y97ny+2wzTzI0Pi7VpPzzwn7dhxGahRwdvhEXkZ2TLuWwVY+BjZmyWTd4BOa7c4zXWf+d9HskEwFLXEk+5oa39OqZkLDGNximnnjBY4ylbee4nCZ3zdRn+XBtafhSr0lI7SgpIHr5OpAym5ozFIOtWCwZ0pOgXHsKBw2PWHqfMXrT2vQDbAmI2XS2iEQWHRjHgWzgolJz44hzutMPBjsZY+FFXTO/HhnF2UPVJQ7cq06E8j615I2vEqLJrYXXcUHEP3nbZkM44lDqq35XQv6DyfUhF1d0/ZvWfR7l15LQH4/zOtl78PTvYx6C4w==
+ b=cakLbVwLOIeF1gyEV2gPc97nKITRAjLudbZBjmT68tKE7xJLmkzURilnlLmAa1UMf3JJHFnETjunuJe5J/mg+fdYgwWWtSWfy3QQk/KvOlN1rNjEHLJpwUyptmjhxugIgxP3DboVamKQgBx+QnYT1wmFO0d3TdZ7E6e7su73coQJCUJwVxfQKQKcV1pYPd9A+r1EbmeD8M2IW+x4P7QgNUV80i2Ju2xAvYuVUYPCaLJLAyJirlcV4k/o/PNzcZjMzT5i2ak2ndsu7J9MU3Ti370WnXKeyc9ZQdcxIphQbljPtk65h9FnmjP9rUcTRfEw2GqYBx6hI12/u+MZVczo8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=2xvaZssygm8Bh7rOi1eUrBCnt039W0hM5xTn0rgu0DI=;
- b=Cl6wr0eHtzGW5egPgPqXoU/EFpNl4CcPPpHkvoRubSKigl0JvWCL/kwzuKnoTiUI44ehaeU9Jfg5/o7O8UyEXhgQ4qnhRdccA7Uxx48o/o2kvdFhu021//J3YFn5N0IlJ4eTVlceRHTiB0hWyNoUhM2TeoqYB9QqN4ho4MrffJnhajRrrFN2d81e0lWI663KrQ2j2DqysjVT4TqWi9pxWNzVvE0xhoN8kq/L7UY6hjFb9hUWcVsPNF6ZTUOmAFNF4MiUu28WwpLqJiXygI05r7UX9E30QN8EHw3glOby/g1hjxVLyAARlictJXnXNhAg1FGm957pHfhm3X0LDZZA3g==
+ bh=VIXJutVACpokyHPbm1tWI3UYIF9w7tCcMxrb0wrbD2Q=;
+ b=hXG1Bk5YiC8GSjLxdTM3+pAF6gx2UlsygqHxqU7K4zsBQcgRJQqUSyGwn9O+pyabyC56D+lpCScrWwjbElOI9ZpdxMnPiX1aRX1DaAaA9xPB+xFv1nLHxL/DHgnuyZoQVhmUlkEQ1PdLSEDNcUOcQ5BllQYOs7zsIlLijoOv9uAToThsjc1gDVuJjwDLaNQqZxyJH1KLgVLvaW8WLbV5BIDUT1212lF1wO/esNGqIIgAQFKm3BhgKQvn+N9BXo4orqf8B8nr+LDA5sBABWObUkK3Ho5FP6/XOcCjM/XoMa3EbqI0e+yYmdbU8plIVpnE1ZGm7/D2MRV/RajJllPHhA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2xvaZssygm8Bh7rOi1eUrBCnt039W0hM5xTn0rgu0DI=;
- b=PYA/Do3xR/zVL8MA4voUO0iZoRqNokVjNAshaAHZg4tTMO+3Iwe3gAeHX0kw5dqTuVBq4k8TXqv9lj4g30oiPtVswOMlwrfQo/IDKnyf6YXRuSdmSl7ststStpz4f0DZnngVch7fRhFLybLAa0RPS4rgeJd79PE6q3+coS9Z/hs=
+ bh=VIXJutVACpokyHPbm1tWI3UYIF9w7tCcMxrb0wrbD2Q=;
+ b=kdfsQlDOrKfPRn1xNH01wCzZLbvG0Nvkw8hQBf6oAGIVPGhptV2IiACsQ1GTEjaVU5/7tMi48s305fOigHGq99x+SzpWxUmGZBhCVO/fsNRVjCwkosmrDbuA+iXG7sW9zZNaMZruKoAFguo4+wei4lfQVtDJLQRkNCQdIVSjfnY=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6631.eurprd08.prod.outlook.com (2603:10a6:20b:339::12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.16; Tue, 21 Sep
- 2021 10:20:46 +0000
+ 2021 10:20:47 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.013; Tue, 21 Sep 2021
- 10:20:46 +0000
+ 10:20:47 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, kwolf@redhat.com,
- hreitz@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
- Eric Blake <eblake@redhat.com>
-Subject: [PULL 11/12] mirror: Do not clear .cancelled
-Date: Tue, 21 Sep 2021 13:20:16 +0300
-Message-Id: <20210921102017.273679-12-vsementsov@virtuozzo.com>
+ hreitz@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com
+Subject: [PULL 12/12] iotests: Add mirror-ready-cancel-error test
+Date: Tue, 21 Sep 2021 13:20:17 +0300
+Message-Id: <20210921102017.273679-13-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210921102017.273679-1-vsementsov@virtuozzo.com>
 References: <20210921102017.273679-1-vsementsov@virtuozzo.com>
@@ -64,54 +63,54 @@ MIME-Version: 1.0
 Received: from localhost.localdomain (185.215.60.205) by
  HE1PR06CA0127.eurprd06.prod.outlook.com (2603:10a6:7:16::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4523.16 via Frontend Transport; Tue, 21 Sep 2021 10:20:45 +0000
+ 15.20.4523.16 via Frontend Transport; Tue, 21 Sep 2021 10:20:46 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e855656d-4212-49d3-91f1-08d97ce97a01
+X-MS-Office365-Filtering-Correlation-Id: 745d1ddf-c427-4c44-24de-08d97ce97a9d
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6631:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6631535869F3836CF5FD4140C1A19@AS8PR08MB6631.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB66315CE25C707068DE8D403FC1A19@AS8PR08MB6631.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CPZa5l9sUxkdWc1fzF1oyvqnnUiZ4mTDBN/I/k7Ue1yw1pYB6zCZd/Mvpwp/ykYVPfhLPoZ70xNTNGKFpH6f8t5c74g/dhdn+krBI7fIaK7fy9JphEKaUlc9G3Nme1gKzkMo0JuUAQGX5d1hQ+qMB97EB4TzgdvH5WfQyhNPDwEemHrQwYbqsK10YyoysYkxaJSNzUSW+SjhZl8JS3pUepuVGAtL6PniOX4v7zWgOJn7b8ZF++fstx0VuarOE3RzRCOCLzggXxLjFA/xK0/rVbYInerC0Zr8qKFuGrwV98NtMA3Sfe4lF6Smetk9q6PZ0YsV8+T+GWKzsImrraHbGVR44r1hy5ytS6GZcCnBF+cmn0kAlbFlpCWmGd9yfkSD01Tcr/dI//c23mnVYgoNpR8Y71n71uGfODjIAxaW3aahmgH/ogNVeeAaVcXHSS94f8MJ/uYelRxfAqUQurEiT0Bu+KJnH+51iT//O8PIP6LNQYQ8vXqJOFTJOHoqsoMVR4bSxjmPKXJJIIga+09tvQUWiUNaFnFnlANbLcL1oksRlhCgrN/zP0mrC0Ql2CG3XOmUvVqMXhAUo0fZYI+Pq7dWl4IhdmBk+DcI8R9T82x60hFo8UmJLJqwRe+565F2hgeL3IvRs6DaENT6Mqk4TNfqLSfHWAyJbw/kFyq/kV4xx9ENWS/4x4eFaH8E6u1Nc3mYVgEHTXsTB+s0AhjRgE++WC5UlL6WJcenFHSl1NA=
+X-Microsoft-Antispam-Message-Info: AyK/kWpFDWFCHVO8ng4nFPX7FoUB4if5+g0PONO5pKRQixeASLxd04+TrqRNWjcIov3Tn6+wpSkmRK1hL+RW+37F7BcRQRWpvMlS4pP44nr62HM9PICeGUfq5oJJN2GdWudVOVHq8KNRFH2akdt3+hJsVsP7Pl5zUL3G9I4myLkqqIgH62OI66poETCAEUNvvMWcMRGOy+vGo2F1f7iymTlKChKDfnn1CWtS2mjrHQOq1KajYXQ45H60vqW8B0CMO0Gbatcg1clOhwByPUvof9+EMmagrSPwjgOTNkgmKe+o62SyvQlpslSSp/y1vXl568SUdUgH4cWwVLm7gPYjzhyuk9WMg7AWGWLE4GcMT9CnatfdgAzeCwf/lSHKWfOeAsnBAsUeDEs3p0MDNgPL1F3sYyZrWIS8wo7iwMIASgWTCG1zPUutuRXLQOU11IdEzf8Hi2CgLqmaEAWsUBkrNMuQQ9yOTS29qilhJ5EKFEqkFu78451DNItNe7BoN27T2vMDYUKCeYXO2ht3OWx55+Oh9JmimSCEVJdluwz/WHuJe/5cHQkiygDKhxTvliZd4bKDwcZUWs6ta30TWMFjpLhPPfGOy0VSq46asyC4fsSak5TBH0hEhhQ6WTUBdRXFTXSRBDJzQuL1le23md/zv5uzHdyrMqjuqJ9sPCtWHQ+P1zqHbCqGOcSgO2hXq/YZhjaZ5S6m3azWDZSk5O6FYD6p3gdc3cVQNqg0FfTgNFWBI+Uv6zea6AU19vUoWxBgn+zJGDjL0VTrmjWUfB0zbberekWdKbnUfFsNFRd3fnhjsME4LnOP3t9N4Ajh/WAJ
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(1076003)(38350700002)(38100700002)(186003)(86362001)(8676002)(316002)(4326008)(6916009)(8936002)(6512007)(6666004)(2906002)(26005)(52116002)(5660300002)(6506007)(83380400001)(6486002)(956004)(2616005)(66476007)(36756003)(66556008)(508600001)(66946007)(142923001);
+ SFS:(4636009)(366004)(1076003)(38350700002)(38100700002)(186003)(86362001)(8676002)(316002)(4326008)(6916009)(8936002)(6512007)(6666004)(2906002)(26005)(52116002)(5660300002)(6506007)(83380400001)(6486002)(956004)(2616005)(66476007)(36756003)(66556008)(508600001)(66946007)(2004002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HQ+OYrpHCp4zugiglH/1uCDVZKW7RQHM2c07PnX1flxpeUhYqt/lIHWanSd3?=
- =?us-ascii?Q?XHWpmbS7pQATvoGeacvM2uRbeMSpWwVdC4Kl+JfU6y3T1KJw/rTpHnSXMZ35?=
- =?us-ascii?Q?RuxDiofwlyoXn04Vd63fDbgsyTHDr2pTOrBs4uNs47dEhyefHP8NI/3lFvKB?=
- =?us-ascii?Q?ZVWteZ7ap8RG24N5p8bk00V+XcAuRb+8XCIEpXK/E14mPXzLAyggsXUdKIAx?=
- =?us-ascii?Q?sltllM7DIe47CYD1tCw/aIxZCD6J+GBy51xe5H+NYaJW/Z8fpk9eBc/pM0WB?=
- =?us-ascii?Q?OSuQ6YlNOKPlol7hCoATMZPoxGPjIHlTfSoo6tQpfNpi4cf5AwjUArQjutdM?=
- =?us-ascii?Q?PU/ZYNWxo4oJEk0BB9X0QrlhtGlw0sPANHg6ns4oagshJtAf6TEqi9tkhUgO?=
- =?us-ascii?Q?e771GapRU3Y5MI5Hu3794w7OrA4mB7h4Q++HWi5SFyVR3BHM8HskoDy/Fi4s?=
- =?us-ascii?Q?6tOQ9zT3Dukjo6ENaAl/ncQTG8OI/JHVCvDHi2k7OyxOgy+HuUJzXMKUEU5O?=
- =?us-ascii?Q?6F5VVYKqFPSyN2UWV1qd311Mbd37u/kFA7Hvde9X2XMhCrd74LUS0VYUItga?=
- =?us-ascii?Q?HjWRePTfKDvdG9bX2idI9sYHkb4vpl8z2W70usJgQSSGQObByw9x8mxcgdaX?=
- =?us-ascii?Q?1d396qxNpyROW8hyNTBxC83VtygpI9BcQuI12On8gCQMzIFlCsHBCV0BK5h2?=
- =?us-ascii?Q?nOwEmdcxOc5l38K20o6wRc74ZHeGv6+Dchq/ooTEDq1VkMiHvn1RP2xNVBh6?=
- =?us-ascii?Q?AYsqjVIwrsLm7tiIf4tlLXV5Q7o+J7Yr0WPIpdqsWL5+pTKQOYpQCf9e/oOF?=
- =?us-ascii?Q?19itX0zPiftIqwEHs1hrlyhYepFOKJghj7nWTZ6pMUfJa2+4qprZ5tb8rX81?=
- =?us-ascii?Q?jk2zqQ8UOhFteZNovUt+hFvzIBV7zCpm6KvO+uiIo1iy20hT18zYHkZ+1gce?=
- =?us-ascii?Q?QzYMxjEVdtzNHSxd2Liy6FObF/ps3suo9HRNC1/BI0SLksfeEQH9mpx4MPq0?=
- =?us-ascii?Q?Kve45n4+Td6h324CJuayURBB9SyTSAz94K5MITsF/+hAzGK6yab1VTp5oyL/?=
- =?us-ascii?Q?weqPgFP28o61ItR8jMOlg4XPScCsnSpdFBqitcpYgvmHLEou2zRYaYZoSEPg?=
- =?us-ascii?Q?7G11NLPdqVcrCPoEr/opRVqZ1ccbnxO81B0Gi/tcbvMxUjTU9J0kOCUKmoxJ?=
- =?us-ascii?Q?tPpEQi75AFR3+KAOCa+muE8YAtsaOpaxn8+gI75eB12QeEvNuy3GuHRBYqDq?=
- =?us-ascii?Q?IvVCcm54XGYEbbMIvOTh0ijgGEoQkx4PgrLW+r49SEYvTr/782Lq1pCSY/JC?=
- =?us-ascii?Q?8Xu0J/S07Cm+iDE+zO6ZBpPt?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2caC+qn5ds8/Dj1MUzKVCVxvmN0jC1Pd0GVX5XylHzOteakDBUjHvBJyJ+rk?=
+ =?us-ascii?Q?lolG06tfRxECfd+OH3v94VzI7OzwwV8gHQKLtZDXVjdQSbOk244j1R6uhKV7?=
+ =?us-ascii?Q?64tReO1fUMdw2FuTiZtGZsPNA8eRzLOtVWMAYBJiL4SZ3A9IX4CYKl/mEYCJ?=
+ =?us-ascii?Q?/2xuy8Mbi6Zud7gecoO2JKHpKeBgbUt7/UquplmJaO7JOFFndxWDfiRj5mfM?=
+ =?us-ascii?Q?tQt/41X8qrbMa+grsV5MczLYX+WCymZVpMIuEpKBsc8iLXfcjOpBDHfTzMmm?=
+ =?us-ascii?Q?pKTHqgpspdbuHmdkr/iK/Gk6W5DixLM8TCxyzPQl36W3Nb3theH/Mw8xCN6W?=
+ =?us-ascii?Q?ZUqYxrDznJifY7Suieuu+gTdo1CAT5wXU+FfgJAbjsr+yasuhuIDLEMehruR?=
+ =?us-ascii?Q?xTXW39V5KWMs1sQCg9b7MGuwxbov7J6GPPvpW3pV4WeC1by3zzFgjej4QmPW?=
+ =?us-ascii?Q?wMVKyx9JUAXrLKL0CxKH9YvIOVuz1TGqhNpRp9kPIlPJVidBLVm6zKjqKjMr?=
+ =?us-ascii?Q?x9tU+jtb8FmtSNF8z/2sVXMjFNCK41q6oVr4lSii9tyqG34BJ7OSHA4j5Y2b?=
+ =?us-ascii?Q?kecykWsQWkENujpv+nyUWrVqoCaRPwJNbL3+S4h7kCfHvUgNiyB+aJSs5PuG?=
+ =?us-ascii?Q?2H3uu27N+0ZU/prwC9KPbMBTDNJO4fIhsgbGBm9nz1yDz8cajXXh9OW4Akve?=
+ =?us-ascii?Q?X9+X8mZAlzJk/i+R/twZBH9Zy1xIFTmScAcL8U2NUX/lMFywKvcSbVoKeLjg?=
+ =?us-ascii?Q?s4ZzBimdEGSUdFjIU8oFxU9VWKrwQoSRz9eTm7NyaLkskZPOIhskAbG1YxOu?=
+ =?us-ascii?Q?A3xHhIJBfFbQ1U4itSayBDK5qYlvQjsa+aDP7qLaf/tVIlUsQ+rDw6tpSPuY?=
+ =?us-ascii?Q?RZAjJmbIWMVwphVfAXpvZ0DdygnbukoQF8jM1Oi5mvVUeD1z23XwwJEyt6sh?=
+ =?us-ascii?Q?61thqY+HcaJxJfVGjojTbYNmawn2PLD9aYfHRVvUmwZc+CFtj/kuSxGY3n5p?=
+ =?us-ascii?Q?oS7/soLCLYlnup/X7R7jhW2DSGvpw8ZY5R5SAKf3IVnsWFk+ZZXQ568AEKY0?=
+ =?us-ascii?Q?sVZbnxSscb/LAhf2SZeSYVFPpL5lGP44bWI+ELKa+Yx1CNkq35t/1RyJQA2H?=
+ =?us-ascii?Q?dHqlaMntOmkjCMSjo9lmjfjB7M1+rws22WZwyIwbqdqHw13x2sGnNHy/SW/8?=
+ =?us-ascii?Q?Fv8KV6GoiQH2eKybnbcd44Rn7ezcLjOCumvlI8AHJvbB5rZpf7qc+R1hyYzH?=
+ =?us-ascii?Q?CADSkHxsxHfCbJvIf80/f5rxg8hvwciSS7/bXGcglvspOf6CRpGbkCBwwW/5?=
+ =?us-ascii?Q?6eRA5VlV7y4GwZCwAjWAjeGc?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e855656d-4212-49d3-91f1-08d97ce97a01
+X-MS-Exchange-CrossTenant-Network-Message-Id: 745d1ddf-c427-4c44-24de-08d97ce97a9d
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2021 10:20:46.7177 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2021 10:20:47.7183 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WUVuEJQcr9lh0awEkWej/LoWfUISdF3MLcIiyxmEK4JLW4IjGeo3n6dgSDYjmoKsXC+GDzVtCPfQNarbKDmmezqO7GZEToOQPt96E9O9tms=
+X-MS-Exchange-CrossTenant-UserPrincipalName: +RlQoKE2BKXnxD5LayYQKkvpJb693vJkpkbcA6/bkiepvv2jOA2WXcXx/X53eWrLHgRC10yblrN474t8vxqia49sKjahvZS1jLVqslBh5t0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6631
 Received-SPF: pass client-ip=40.107.14.125;
  envelope-from=vsementsov@virtuozzo.com;
@@ -141,71 +140,181 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hanna Reitz <hreitz@redhat.com>
 
-Clearing .cancelled before leaving the main loop when the job has been
-soft-cancelled is no longer necessary since job_is_cancelled() only
-returns true for jobs that have been force-cancelled.
-
-Therefore, this only makes a differences in places that call
-job_cancel_requested().  In block/mirror.c, this is done only before
-.cancelled was cleared.
-
-In job.c, there are two callers:
-- job_completed_txn_abort() asserts that .cancelled is true, so keeping
-  it true will not affect this place.
-
-- job_complete() refuses to let a job complete that has .cancelled set.
-  It is correct to refuse to let the user invoke job-complete on mirror
-  jobs that have already been soft-cancelled.
-
-With this change, there are no places that reset .cancelled to false and
-so we can be sure that .force_cancel can only be true if .cancelled is
-true as well.  Assert this in job_is_cancelled().
+Test what happens when there is an I/O error after a mirror job in the
+READY phase has been cancelled.
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20210907124245.143492-12-hreitz@redhat.com>
+Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20210907124245.143492-13-hreitz@redhat.com>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/mirror.c | 2 --
- job.c          | 4 +++-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ .../tests/mirror-ready-cancel-error           | 143 ++++++++++++++++++
+ .../tests/mirror-ready-cancel-error.out       |   5 +
+ 2 files changed, 148 insertions(+)
+ create mode 100755 tests/qemu-iotests/tests/mirror-ready-cancel-error
+ create mode 100644 tests/qemu-iotests/tests/mirror-ready-cancel-error.out
 
-diff --git a/block/mirror.c b/block/mirror.c
-index bbf5815fd7..bb837db46e 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -946,7 +946,6 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
-         while (!job_cancel_requested(&s->common.job) && !s->should_complete) {
-             job_yield(&s->common.job);
-         }
--        s->common.job.cancelled = false;
-         goto immediate_exit;
-     }
- 
-@@ -1085,7 +1084,6 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
-              * completion.
-              */
-             assert(QLIST_EMPTY(&bs->tracked_requests));
--            s->common.job.cancelled = false;
-             need_drain = false;
-             break;
-         }
-diff --git a/job.c b/job.c
-index be878ca5fc..85c0216734 100644
---- a/job.c
-+++ b/job.c
-@@ -217,7 +217,9 @@ const char *job_type_str(const Job *job)
- 
- bool job_is_cancelled(Job *job)
- {
--    return job->cancelled && job->force_cancel;
-+    /* force_cancel may be true only if cancelled is true, too */
-+    assert(job->cancelled || !job->force_cancel);
-+    return job->force_cancel;
- }
- 
- bool job_cancel_requested(Job *job)
+diff --git a/tests/qemu-iotests/tests/mirror-ready-cancel-error b/tests/qemu-iotests/tests/mirror-ready-cancel-error
+new file mode 100755
+index 0000000000..f2dc88881f
+--- /dev/null
++++ b/tests/qemu-iotests/tests/mirror-ready-cancel-error
+@@ -0,0 +1,143 @@
++#!/usr/bin/env python3
++# group: rw quick
++#
++# Test what happens when errors occur to a mirror job after it has
++# been cancelled in the READY phase
++#
++# Copyright (C) 2021 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++import os
++import iotests
++
++
++image_size = 1 * 1024 * 1024
++source = os.path.join(iotests.test_dir, 'source.img')
++target = os.path.join(iotests.test_dir, 'target.img')
++
++
++class TestMirrorReadyCancelError(iotests.QMPTestCase):
++    def setUp(self) -> None:
++        assert iotests.qemu_img_create('-f', iotests.imgfmt, source,
++                                       str(image_size)) == 0
++        assert iotests.qemu_img_create('-f', iotests.imgfmt, target,
++                                       str(image_size)) == 0
++
++        self.vm = iotests.VM()
++        self.vm.launch()
++
++    def tearDown(self) -> None:
++        self.vm.shutdown()
++        os.remove(source)
++        os.remove(target)
++
++    def add_blockdevs(self, once: bool) -> None:
++        res = self.vm.qmp('blockdev-add',
++                          **{'node-name': 'source',
++                             'driver': iotests.imgfmt,
++                             'file': {
++                                 'driver': 'file',
++                                 'filename': source
++                             }})
++        self.assert_qmp(res, 'return', {})
++
++        # blkdebug notes:
++        # Enter state 2 on the first flush, which happens before the
++        # job enters the READY state.  The second flush will happen
++        # when the job is about to complete, and we want that one to
++        # fail.
++        res = self.vm.qmp('blockdev-add',
++                          **{'node-name': 'target',
++                             'driver': iotests.imgfmt,
++                             'file': {
++                                 'driver': 'blkdebug',
++                                 'image': {
++                                     'driver': 'file',
++                                     'filename': target
++                                 },
++                                 'set-state': [{
++                                     'event': 'flush_to_disk',
++                                     'state': 1,
++                                     'new_state': 2
++                                 }],
++                                 'inject-error': [{
++                                     'event': 'flush_to_disk',
++                                     'once': once,
++                                     'immediately': True,
++                                     'state': 2
++                                 }]}})
++        self.assert_qmp(res, 'return', {})
++
++    def start_mirror(self) -> None:
++        res = self.vm.qmp('blockdev-mirror',
++                          job_id='mirror',
++                          device='source',
++                          target='target',
++                          filter_node_name='mirror-top',
++                          sync='full',
++                          on_target_error='stop')
++        self.assert_qmp(res, 'return', {})
++
++    def cancel_mirror_with_error(self) -> None:
++        self.vm.event_wait('BLOCK_JOB_READY')
++
++        # Write something so will not leave the job immediately, but
++        # flush first (which will fail, thanks to blkdebug)
++        res = self.vm.qmp('human-monitor-command',
++                          command_line='qemu-io mirror-top "write 0 64k"')
++        self.assert_qmp(res, 'return', '')
++
++        # Drain status change events
++        while self.vm.event_wait('JOB_STATUS_CHANGE', timeout=0.0) is not None:
++            pass
++
++        res = self.vm.qmp('block-job-cancel', device='mirror')
++        self.assert_qmp(res, 'return', {})
++
++        self.vm.event_wait('BLOCK_JOB_ERROR')
++
++    def test_transient_error(self) -> None:
++        self.add_blockdevs(True)
++        self.start_mirror()
++        self.cancel_mirror_with_error()
++
++        while True:
++            e = self.vm.event_wait('JOB_STATUS_CHANGE')
++            if e['data']['status'] == 'standby':
++                # Transient error, try again
++                self.vm.qmp('block-job-resume', device='mirror')
++            elif e['data']['status'] == 'null':
++                break
++
++    def test_persistent_error(self) -> None:
++        self.add_blockdevs(False)
++        self.start_mirror()
++        self.cancel_mirror_with_error()
++
++        while True:
++            e = self.vm.event_wait('JOB_STATUS_CHANGE')
++            if e['data']['status'] == 'standby':
++                # Persistent error, no point in continuing
++                self.vm.qmp('block-job-cancel', device='mirror', force=True)
++            elif e['data']['status'] == 'null':
++                break
++
++
++if __name__ == '__main__':
++    # LUKS would require special key-secret handling in add_blockdevs()
++    iotests.main(supported_fmts=['generic'],
++                 unsupported_fmts=['luks'],
++                 supported_protocols=['file'])
+diff --git a/tests/qemu-iotests/tests/mirror-ready-cancel-error.out b/tests/qemu-iotests/tests/mirror-ready-cancel-error.out
+new file mode 100644
+index 0000000000..fbc63e62f8
+--- /dev/null
++++ b/tests/qemu-iotests/tests/mirror-ready-cancel-error.out
+@@ -0,0 +1,5 @@
++..
++----------------------------------------------------------------------
++Ran 2 tests
++
++OK
 -- 
 2.29.2
 
