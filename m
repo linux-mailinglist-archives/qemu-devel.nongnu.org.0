@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E035A413761
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 18:19:23 +0200 (CEST)
-Received: from localhost ([::1]:36294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 752B141379A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 18:33:03 +0200 (CEST)
+Received: from localhost ([::1]:51636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSiUM-00009H-Ty
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 12:19:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43890)
+	id 1mSihZ-0002i8-3B
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 12:33:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSiSP-0006Tu-8l
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 12:17:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25329)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSiSN-0001vX-Qo
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 12:17:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632241039;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=eUZareu40yc3LfoZKtmzupV/LoF0ScfTB+CIPfGwpao=;
- b=VQhO9Qk2OBAVDP9J9PKaC3x3L0WqcR++TxI0tu3ntyvw/ChkIXxchLZZARMyycZs0L5CmI
- NoFC4g3bMGXhPY77AIl3KrB23QeaStlfTRWDoV+PkK6p+MiQ/QacMrNOs5wPGceEj5C2pp
- dmiDCVW+fBKNbHE+5jMj+PE4zhWeveI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-298-CRnai8WyOnKgHegpII-z5A-1; Tue, 21 Sep 2021 12:17:18 -0400
-X-MC-Unique: CRnai8WyOnKgHegpII-z5A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F7F083DD1B;
- Tue, 21 Sep 2021 16:17:17 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-115-8.phx2.redhat.com [10.3.115.8])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A1915C23A;
- Tue, 21 Sep 2021 16:17:06 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] nbd/client: Request larger block status by default
-Date: Tue, 21 Sep 2021 11:17:03 -0500
-Message-Id: <20210921161703.2682802-1-eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mSido-0008Lu-H2
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 12:29:08 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mSidl-000298-Kn
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 12:29:08 -0400
+Received: by mail-wr1-x432.google.com with SMTP id t8so41003769wrq.4
+ for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 09:29:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=anYZWD/qRzaU2uLmQ5ODwyA34rNw2sBFKIUWhqd0x0U=;
+ b=FaH8az2mhPt1B/EKyriHYV5Ofilnjv7m6lzgcM1GSEsz8SW0Dby9lOGEfdRmABxp3O
+ Fz4hbot72bWQX0zSLmsFSt83vjd1Qb3//N4MSTOPUYxjijT2mhB2Oc/4gI2QxjejHVMd
+ 2hdc9SFqfCJlRec2XY2jBEpfJuW4bTWCk+zXYMzCAjcspEsdKAQOn4RVv16s+e+NkDjZ
+ piFfu6ckCIacx6lunYy8pre9UmO4plvXfPq5E9XXOJ5sgt3G7aj2RZnUqULR9Acwhjje
+ BlUB0SR2mheCT6um1cx5SC9KMcr86/YYKlzCUHgqVPlJAhnhea2pPgFlH8QOkYGhtVmg
+ DsCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=anYZWD/qRzaU2uLmQ5ODwyA34rNw2sBFKIUWhqd0x0U=;
+ b=Y80hBVDjbqBhWgHYtGZgp7P4fMjpaJsL9G0UVbcqRGIp6RomfzAUnIvpCTbspIROrT
+ z7nxEslrLaVkAzUrrPL6jJcsnDhICRAdm/vzRjnrP4llyHVwjwzSmybxFZbh3a1cp584
+ YXYKNX32RaUkVspuB2adyLp2ZjEGEhYRZDMYs6E/7aNjDF+/DN+ZP6g+4i8DeVMZORCo
+ ShhJ6viBfALnFk7c46krwItuDcliad17LzSoN+RrUSXG/vbVjNJ5xFEgYV+sdBphPvOS
+ q/wprcSf64rmtRJi80hdmZ0VV8KxN/QTG6Iw6GQXuJWNarWlhd3CdUd/S5SL2NCRpMNF
+ vL2w==
+X-Gm-Message-State: AOAM533bK8X9Qd4Qcu8U3yunv4LAluLop7zU9Hv6OH96hTNwwRKLYl57
+ DKR9tfoI2A0TEWi0u6W/u4EL0g==
+X-Google-Smtp-Source: ABdhPJzyG1Jb4oZQhF2b7tdub1RvWdhc8NVqcu0PnZRPpJ2C2qZTIHkiVE2Flh+u0Mmsi2D6t1XGzg==
+X-Received: by 2002:a05:600c:21d6:: with SMTP id
+ x22mr5698503wmj.121.1632241743626; 
+ Tue, 21 Sep 2021 09:29:03 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id q7sm19841014wru.56.2021.09.21.09.29.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Sep 2021 09:29:03 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/5] target/arm: Support MVE in gdbstub
+Date: Tue, 21 Sep 2021 17:28:56 +0100
+Message-Id: <20210921162901.17508-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,50 +81,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, hreitz@redhat.com, vsementsov@virtuozzo.com,
- qemu-block@nongnu.org
+Cc: Luis Machado <luis.machado@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that commit 5a1cfd21 has clarified that a driver's block_status
-can report larger *pnum than in the original request, we can take
-advantage of that in the NBD driver.  Rather that limiting our request
-to the server based on the maximum @bytes our caller mentioned, we
-instead ask for as much status as possible (the minimum of our 4G
-limit or the rest of the export); the server will still only give us
-one extent in its answer (because we are using NBD_CMD_FLAG_REQ_ONE),
-but now the block layer's caching of data areas can take advantage of
-cases where the server gives us a large answer to avoid the need for
-future NBD_CMD_BLOCK_STATUS calls.
+This patchset's aim is to report MVE to gdb via the gdbstub.
+That is done by the final patch, which is an RFC because the
+gdb patches to support it are not yet upstream and so the XML
+format isn't final. (Sending the XML works fine with a GDB
+without the MVE support; you just don't get the auto-generated
+pseudo-registers that display the Q-regs, so all you see is the
+S and D reg versions of the data.)
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- block/nbd.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Patches 1 through 4 are cleanup of the arm gdbstub related code of
+various kinds; this part of the series should be OK to go into QEMU
+as soon as it's reviewed.
 
-diff --git a/block/nbd.c b/block/nbd.c
-index f6ff1c4fb472..7c4ec058b0aa 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -1479,10 +1479,15 @@ static int coroutine_fn nbd_client_co_block_status(
-     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
-     Error *local_err = NULL;
+Luis: you'll find that with this entire patchset a GDB built with
+your patches doesn't crash, because in patch 4 I stopped QEMU
+reporting FPSID and FPEXC in the org.gnu.gdb.arm.vfp XML feature.
 
-+    /*
-+     * No need to limit our over-the-wire request to @bytes; rather,
-+     * ask the server for as much as it can send in one go, and the
-+     * block layer will then cap things.
-+     */
-     NBDRequest request = {
-         .type = NBD_CMD_BLOCK_STATUS,
-         .from = offset,
-         .len = MIN(QEMU_ALIGN_DOWN(INT_MAX, bs->bl.request_alignment),
--                   MIN(bytes, s->info.size - offset)),
-+                   s->info.size - offset),
-         .flags = NBD_CMD_FLAG_REQ_ONE,
-     };
+thanks
+-- PMM
+
+Peter Maydell (5):
+  configs: Don't include 32-bit-only GDB XML in aarch64 linux configs
+  target/arm: Fix coding style issues in gdbstub code in helper.c
+  target/arm: Move gdbstub related code out of helper.c
+  target/arm: Don't put FPEXC and FPSID in org.gnu.gdb.arm.vfp XML
+  [RFC] target/arm: Advertise MVE to gdb when present
+
+ configs/targets/aarch64-linux-user.mak    |   2 +-
+ configs/targets/aarch64-softmmu.mak       |   2 +-
+ configs/targets/aarch64_be-linux-user.mak |   2 +-
+ configs/targets/arm-linux-user.mak        |   2 +-
+ configs/targets/arm-softmmu.mak           |   2 +-
+ configs/targets/armeb-linux-user.mak      |   2 +-
+ target/arm/internals.h                    |   7 +
+ target/arm/gdbstub.c                      | 179 +++++++++++++++
+ target/arm/gdbstub64.c                    | 140 ++++++++++++
+ target/arm/helper.c                       | 262 ----------------------
+ gdb-xml/arm-m-profile-mve.xml             |  19 ++
+ gdb-xml/arm-neon.xml                      |   2 -
+ gdb-xml/arm-vfp-sysregs.xml               |  17 ++
+ gdb-xml/arm-vfp.xml                       |   2 -
+ gdb-xml/arm-vfp3.xml                      |   2 -
+ 15 files changed, 368 insertions(+), 274 deletions(-)
+ create mode 100644 gdb-xml/arm-m-profile-mve.xml
+ create mode 100644 gdb-xml/arm-vfp-sysregs.xml
 
 -- 
-2.31.1
+2.20.1
 
 
