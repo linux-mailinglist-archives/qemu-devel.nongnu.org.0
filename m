@@ -2,58 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EA3B4132C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 13:42:33 +0200 (CEST)
-Received: from localhost ([::1]:33634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53056413382
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 14:44:13 +0200 (CEST)
+Received: from localhost ([::1]:58396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSeAS-00049P-7t
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 07:42:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53808)
+	id 1mSf87-0001XB-WF
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 08:44:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mSe8r-0002tG-CW
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 07:40:53 -0400
-Received: from [115.28.160.31] (port=51022 helo=mailbox.box.xen0n.name)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mSe8n-0002eK-2H
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 07:40:52 -0400
-Received: from [192.168.9.172] (unknown [101.88.29.172])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id D3C1E600FF;
- Tue, 21 Sep 2021 19:40:42 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632224442; bh=IPEJHwWII5LUooU6RAav5VQpH/upI5UJnW24lc1JWfY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=p4Up5bU0pjen+oFLm3DsgTOntI6MmhepbVjCAfP6CKG+DYu1fr/mg6A7e/Oh3n1m6
- q0JE6nPPwoCaxz2xb4PkfEHnL5xI8HvvOMrDSMBs4pzZmxzVLpdPeA/lIjBBOkGrRO
- n9ONPKqKTlNbQFvbNBLmzSCOsElXVay7maXS+0ls=
-Message-ID: <c91cbd8a-ccf5-07e5-bcda-45afd844433e@xen0n.name>
-Date: Tue, 21 Sep 2021 19:40:42 +0800
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mSf5h-0000Cx-Ab
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 08:41:41 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mSf5W-00088L-Ug
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 08:41:40 -0400
+Received: by mail-wr1-x433.google.com with SMTP id q26so38716002wrc.7
+ for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 05:41:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TgVCMqttYjBLFjBkXWwh5RvmoR4Gp/bH35/ocszkT6A=;
+ b=W8Nz5KmqaWOjLZ3ekflFDCFboN+jWcwumGRDLcX4IWb1VGhkVMQ/jjGI9jNmNInn4m
+ vjBVJk6WYuUCWIxDmC6GaUlDDpynY0zRKc+zR4ZIqexZC1qnaYT/EP4yTP7alEXIw3i9
+ 099nST/qV71SzQWd6p3bUMU7RoJUSUrM9cmp3j3EOUjM693mODeO7m7/Cb8CDsgiFAtG
+ WeBUwGqqC/f9GkPJDQBPZl5St3RL1rGIJIQTW9GVSFQBVtsjfuFoN7IpD9+VtobB4oAS
+ cJFPSCGCeTogo5fvREwuKHY4VOb9hayadc92VszRVL/TSFZIm9r7BESOSYRjQO/5TIS3
+ eiMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TgVCMqttYjBLFjBkXWwh5RvmoR4Gp/bH35/ocszkT6A=;
+ b=kmjehkrwFUrxgX5XII5TfU519o7K80lEUjaKLOL3DXIboE9txf+zowHs/Z+xB889ao
+ wsLeum1kWkJBd4dhrGHmscq9tHj1IGHHTmby66NjGXUhOlR0yFd1GrxTHw1K7sqoPTrD
+ fOc1s+0RZzNvB0AxGU2S5CSZgujsQ/lGyus+6uEbzsrJwodLM2xR+l2qcWxpjRZU4Ozj
+ ZBFE3YBo76sTCtEGrcXSggLRsDd2ssAnVI+8vGrBnP8ccLLSOnYssedKJ2csi7JytM8H
+ BIgFUeVxYJGU8GoIsYn1G74nRJe/fmLxQgLM4FGhvsg7lRZjW6Jyc+W/3p6+RX52AHVg
+ s45A==
+X-Gm-Message-State: AOAM530/DO9F2WxfpFcfbOKg6cjeNAVlE+5L8TjlVPmu2iQWTFenIFaf
+ 0YiP5ekmr2DLlS76kfXF3Y73aAFjbUHIu57eC/L71Q==
+X-Google-Smtp-Source: ABdhPJxXtbBujmZE11ibSStIK64NBnvM1Tmy4qXaMwd79drCgjzL7ZCK/BQJsYHQcB7+NzF0llRtK939RoQeQeq15N8=
+X-Received: by 2002:a05:600c:2259:: with SMTP id
+ a25mr4443678wmm.133.1632228088906; 
+ Tue, 21 Sep 2021 05:41:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
- Thunderbird/94.0a1
-Subject: Re: [PATCH 04/30] tcg/loongarch: Add generated instruction opcodes
- and encoding helpers
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210920080451.408655-1-git@xen0n.name>
- <20210920080451.408655-5-git@xen0n.name>
- <37d8ad22-a440-83b1-6d2d-d851df96723b@amsat.org>
-From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <37d8ad22-a440-83b1-6d2d-d851df96723b@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210918093140.5797-1-pbonzini@redhat.com>
+In-Reply-To: <20210918093140.5797-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 Sep 2021 13:40:36 +0100
+Message-ID: <CAFEAcA_07d87j7y1qnBeTuoKQw=9=fY0Ci=6ky=XxBQbuEqDnw@mail.gmail.com>
+Subject: Re: [PULL 0/3] Update meson version
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,35 +76,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
-
-On 9/21/21 17:58, Philippe Mathieu-Daudé wrote:
-> On 9/20/21 10:04, WANG Xuerui wrote:
->> Signed-off-by: WANG Xuerui <git@xen0n.name>
->> ---
->>   tcg/loongarch/tcg-insn-defs.c.inc | 1080 +++++++++++++++++++++++++++++
->>   1 file changed, 1080 insertions(+)
->>   create mode 100644 tcg/loongarch/tcg-insn-defs.c.inc
+On Sat, 18 Sept 2021 at 10:34, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
->> +static int32_t encode_dj_slots(LoongArchInsn opc, uint32_t d, 
->> uint32_t j)
->> +{
-> Can we move the range check to the callee and avoid masking the values
-> in the caller?
+> The following changes since commit 831aaf24967a49d7750090b9dcfd6bf356f16529:
 >
->        tcg_debug_assert(d < 0x20);
->        tcg_debug_assert(j < 0x20);
+>   Merge remote-tracking branch 'remotes/marcandre/tags/misc-pull-request' into staging (2021-09-14 18:14:56 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to ccc3f971c37bd2202a21abc9f0be093f10426364:
+>
+>   hexagon: use env keyword argument to pass PYTHONPATH (2021-09-15 09:12:55 +0200)
+>
+> ----------------------------------------------------------------
+> * Update Meson to 0.58.2
+>
+> ----------------------------------------------------------------
+> Paolo Bonzini (3):
+>       meson: bump submodule to 0.58.2
+>       meson: switch minimum meson version to 0.58.2
+>       hexagon: use env keyword argument to pass PYTHONPATH
 
-Making use of tcg_debug_assert would be rather nice, but in fact 
-different instructions could have differently sized fields start from 
-the same offset. Take the "bstrpick.w" and "bstrpick.d" instructions, 
-they belong to DJUk5Um5 and DJUk6Um6 formats respectively; the "Uk5" and 
-"Uk6" fields both start from the 10th bit but have different value 
-ranges. So the range checks necessarily live in encoders for the 
-individual formats.
+So, I tried merging this, ran into some "is this an issue with this
+pullreq or is it just an intermittent or infrastructure" issues,
+and decided to postpone the merge for a bit and retry it later.
 
+It has made an absolute mess of my incremental build setups.
+They now all fail with errors like this, even after having blown
+away the build directory and re-created it:
+
+Darwin manooth.archaic.org.uk 19.6.0 x86_64
+make: Entering directory '/Users/pm215/src/qemu-for-merges/build/all'
+/usr/local/bin/ninja  build.ninja && touch build.ninja.stamp
+  GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3
+tests/fp/berkeley-softfloat-3 dtc capstone slirp
+[0/1] Regenerating build files.
+Traceback (most recent call last):
+  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/mesonmain.py",
+line 140, in run
+    return options.run_func(options)
+  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/msetup.py",
+line 245, in run
+    app.generate()
+  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/msetup.py",
+line 154, in generate
+    env = environment.Environment(self.source_dir, self.build_dir, self.options)
+  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/environment.py",
+line 523, in __init__
+    self.coredata = coredata.load(self.get_build_dir())
+  File "/Users/pm215/src/qemu-for-merges/meson/mesonbuild/coredata.py",
+line 1016, in load
+    obj = pickle.load(f)
+ModuleNotFoundError: No module named 'mesonbuild.mesonlib.universal';
+'mesonbuild.mesonlib' is not a package
+FAILED: build.ninja
+
+Is there anything that can be done to make meson version bumps
+not a horrific pain to back out ? This seems to go wrong pretty
+much every time.
+
+thanks
+-- PMM
 
