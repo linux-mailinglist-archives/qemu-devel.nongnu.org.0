@@ -2,76 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AADD41364E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 17:37:32 +0200 (CEST)
-Received: from localhost ([::1]:50554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C121413683
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 17:50:04 +0200 (CEST)
+Received: from localhost ([::1]:59130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mShpr-0004IU-9D
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 11:37:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35026)
+	id 1mSi1y-00029R-MJ
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 11:50:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mShnL-0001yC-MY
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 11:34:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29479)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mSi0z-0001Ti-FB
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 11:49:02 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:24063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mShnK-0003ar-1j
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 11:34:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632238493;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rBs4gfdd2DrxSPEKcZAccO5Dh4lDmeyTeYlqeiOzvMU=;
- b=dYuKTkhadtIssSRaiLb/x/0BCLsK6vTZZjtGIatwhghnBmPuKQ6klgcTSL0v12VE4DcQqW
- 4pB083R9bmeg/CJ4pS3ygxqC8wS/POPWn5fH28xTgAo7swcywVEt0Jl4hmcW0qF0Z2aC7S
- nasdj9yRAGJIpghg0dxCd089MiqNL3g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-xoA7OjyiNRmEAEVd2Zu2Fg-1; Tue, 21 Sep 2021 11:34:52 -0400
-X-MC-Unique: xoA7OjyiNRmEAEVd2Zu2Fg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04242BAF81;
- Tue, 21 Sep 2021 15:34:51 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F0AF100EBD0;
- Tue, 21 Sep 2021 15:34:50 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D9AC0180098D; Tue, 21 Sep 2021 17:34:48 +0200 (CEST)
-Date: Tue, 21 Sep 2021 17:34:48 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: "Jose R. Ziviani" <jziviani@suse.de>
-Subject: Re: [PATCH 1/2] meson: introduce modules_arch
-Message-ID: <20210921153448.hagpsj3ygvxefask@sirius.home.kraxel.org>
-References: <20210917012904.26544-1-jziviani@suse.de>
- <20210917012904.26544-2-jziviani@suse.de>
- <20210917071404.efhv3tlnad2ezz3e@sirius.home.kraxel.org>
- <YUSS0Jp+GBwNwYg3@pizza>
- <20210920051532.tzanl2asdqzuxlzn@sirius.home.kraxel.org>
- <YUiGcjBviIqPIyJB@pizza>
- <20210921052542.h4ehwc3ovt2wo2en@sirius.home.kraxel.org>
- <YUnfiJyiEMjMcksQ@pizza>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mSi0v-00071m-MZ
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 11:49:00 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 7D5C4748F4C;
+ Tue, 21 Sep 2021 17:48:52 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id E8C94746353; Tue, 21 Sep 2021 17:48:51 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id E67517457EE;
+ Tue, 21 Sep 2021 17:48:51 +0200 (CEST)
+Date: Tue, 21 Sep 2021 17:48:51 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: ensuring a machine's buses have unique names
+In-Reply-To: <CAFEAcA_ExFiv3AurBAtTan10yuXRnsHMQS0yHa-vJpwB9u4HoA@mail.gmail.com>
+Message-ID: <71bb7b84-28a3-dd4b-d375-4b2494832655@eik.bme.hu>
+References: <CAFEAcA8Q2XEANtKfk_Ak2GgeM8b_=kf_qduLztCuL=E_k36FWg@mail.gmail.com>
+ <87czq0l2mn.fsf@dusky.pond.sub.org>
+ <CAFEAcA-1cGjt54XDEmKiDctySW4zdQptoc2taGp0XxMOtKvGCw@mail.gmail.com>
+ <87mtoe4g40.fsf@dusky.pond.sub.org>
+ <CAFEAcA_ExFiv3AurBAtTan10yuXRnsHMQS0yHa-vJpwB9u4HoA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YUnfiJyiEMjMcksQ@pizza>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,66 +60,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 21, 2021 at 10:35:04AM -0300, Jose R. Ziviani wrote:
-> Hello!!
-> 
-> On Tue, Sep 21, 2021 at 07:25:42AM +0200, Gerd Hoffmann wrote:
-> >   Hi,
-> > 
-> > > But, in anyway, I'll still need to store the target architecture that
-> > > can use such core module, like I did here in this patch. Otherwise,
-> > > if I compile different targets at the same time, I'll end up with the
-> > > same problem of targets trying to load wrong modules.
-> > 
-> > That all works just fine today.  If you have target-specific modules
-> > (i.e. source files added to specific_ss instead of softmmu_ss when
-> > compiling into core qemu) you only need to add those to the
-> > target_modules[] (instead of modules[]) and you are set.
-> > 
-> > In-tree example: qtest accelerator.
-> 
-> Exactly, but what it doesn't seem to work (or I'm not understanding it
-> well) is: how the target will know whether it can or cannot load a
-> module.
+On Tue, 21 Sep 2021, Peter Maydell wrote:
+> On Wed, 15 Sept 2021 at 05:28, Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>>> I'm not sure how best to sort this tangle out. We could:
+>>>  * make controller devices pass in NULL as bus name; this
+>>>    means that some bus names will change, which is an annoying
+>>>    breakage but for these minor bus types we can probably
+>>>    get away with it. This brings these buses into line with
+>>>    how we've been handling uniqueness for ide and scsi.
+>>
+>> To gauge the breakage, we need a list of the affected bus names.
+>
+> Looking through, there are a few single-use or special
+> purpose buses I'm going to ignore for now (eg vmbus, or
+> the s390 ones). The four big bus types where controllers
+> often specify a bus name and override the 'autogenerate
+> unique name' handling are pci, ssi, sd, and i2c. (pci mostly
+> gets away with it I expect by machines only having one pci
+> bus.) Of those, I've gone through i2c. These are all the
+> places where we create a specifically-named i2c bus (via
+> i2c_init_bus()), together with the affected boards:
+>
+>   hw/arm/pxa2xx.c
+>    - the PXA SoC code creates both the intended-for-use
+>      i2c buses (which get auto-names) and also several i2c
+>      buses intended for internal board-code use only which
+>      are all given the same name "dummy".
+>      Boards: connex, verdex, tosa, mainstone, akita, spitz,
+>      borzoi, terrier, z2
+>   hw/arm/stellaris.c
+>    - The i2c controller names its bus "i2c". There is only one i2c
+>      controller on these boards, so no name conflicts.
+>      Boards: lm3s811evb, lm3s6965evb
+>   hw/display/ati.c
+>    - The ATI VGA device has an on-board i2c controller which it
+>      connects the DDC that holds the EDID information. The bus is
+>      always named "ati-vga.ddc", so if you have multiple of this
+>      PCI device in the system the buses have the same names.
+>   hw/display/sm501.c
+>    - Same as ATI, but the bus name is "sm501.i2c"
+>   hw/i2c/aspeed_i2c.c
+>    - This I2C controller has either 14 or 16 (!) different i2c
+>      buses, and it assigns them names "aspeed.i2c.N" for N = 0,1,2,...
+>      The board code mostly seems to use these to wire up various
+>      on-board i2c devices.
+>      Boards: palmetto-bmc, supermicrox11-bmc, ast2500-evb, romulus-bmc,
+>      swift-bmc, sonorapass-bmc, witherspoon-bmc, ast2600-evb,
+>      tacoma-bmc, g220a-bmc, quanta-q71l-bmc, rainier-bmc
+>   hw/i2c/bitbang_i2c.c
+>    - the "GPIO to I2C bridge" device always names its bus "i2c".
+>      Used only on musicpal, which only creates one of these buses.
+>      Boards: musicpal
+>   hw/i2c/exynos4210_i2c.c
+>    - This i2c controller always names its bus "i2c". There are 9
+>      of these controllers on the board, so they all have clashing
+>      names.
+>      Boards: nuri, smdkc210
+>   hw/i2c/i2c_mux_pca954x.c
+>    - This is an i2c multiplexer. All the child buses are named
+>      "i2c-bus". The multiplexer is used by the aspeed and npcm7xx
+>      boards. (There's a programmable way to get at individual
+>      downstream i2c buses despite the name clash; none of the boards
+>      using this multiplexer actually connect any devices downstream of
+>      it yet.)
+>      Boards: palmetto-bmc, supermicrox11-bmc, ast2500-evb, romulus-bmc,
+>      swift-bmc, sonorapass-bmc, witherspoon-bmc, ast2600-evb,
+>      tacoma-bmc, g220a-bmc, quanta-q71l-bmc, rainier-bmc,
+>      npcm750-evb, quanta-gsj, quanta-gbs-bmc, kudo-bmc
+>   hw/i2c/mpc_i2c.c
+>    - This controller always names its bus "i2c". There is only one
+>      of these controllers in the machine.
+>      Boards: ppce500, mpc8544ds
+>   hw/i2c/npcm7xx_smbus.c
+>    - This controller always names its bus "i2c-bus". There are multiple
+>      controllers on the boards. The name also clashes with the one used
+>      by the pca954x muxes on these boards (see above).
+>      Boards: npcm750-evb, quanta-gsj, quanta-gbs-bmc, kudo-bmc
+>   hw/i2c/pm_smbus.c
+>    - This is the PC SMBUS implementation (it is not a QOM device...)
+>      The bus is always called "i2c".
+>      Boards: haven't worked through; at least all the x86 PC-like
+>      boards, I guess
+>   hw/i2c/ppc4xx_i2c.c
+>    - This controller always names its bus "i2c". The taihu and
+>      ref405ep have only one controller, but sam460ex has two which
+>      will have non-unique names.
+>      Boards: taihu, ref405ep, sam460ex
+>   hw/i2c/versatile_i2c.c
+>    - This controller always names its bus "i2c". The MPS boards all
+>      have multiples of this controller with clashing names; the others
+>      have only one controller.
+>      Boards: mps2-an385, mps2-an386, mps2-an500, mps2-an511,
+>      mps2-an505, mps2-an521, mps3-an524, mps3-an547,
+>      realview-eb, realview-eb-mpcore, realview-pb-a8, realview-pbx-a9,
+>      versatileab, versatilepb, vexpress-a9, vexpress-a15
+>
+> In a lot of these cases I suspect the i2c controllers are
+> provided either to allow connection of various internal-to-the-board
+> devices, or simply so that guest OS bootup code that initializes
+> the i2c controller doesn't fall over. However since there's
+> nothing stopping users from creating i2c devices themselves
+> on the commandline, some people might be doing that.
+>
+> In some of these cases (eg the i2c bus on the ATI VGA driver)
+> I suspect the desired behaviour is "unique bus name based on
+> a standard template, eg 'ati-vga.ddc.0/1/...'. It sounds like
+> we can't do that, though. (Also they probably don't want to
+> permit users to command-line plug i2c devices into it...)
 
-Well, for target-specific modules that is easy:  You get one module per
-target, and each target loads the matching module only.
+To me it looks like device code can't really set a globally unique name on 
+creating the bus without getting some help from upper levels. So maybe 
+naming busses should be done by qdev (or whatever is handling this) 
+instead of passing the name as an argument to qbus_create or only use that 
+name as a unique component within the device and append it to a unique 
+name for the device. Thus we would get names like sys.pci-0.ati-vga-0.ddc 
+or so but not sure we want that as it's hard to use on command line. 
+Alternatively we can accept non unique names but use another unique 
+property such as device id to identify devices which could be generated as 
+an integer incremented after every device add or some hash which would 
+result in shorter unique ids. Such id is already used by -drive and -net 
+options where used supplies a unique id and then can use that to reference 
+the created object by that id in other options. This could be extended to 
+devices and buses if it had a unique id, then it's not a problem to have 
+non-unique names.
 
-> For example, suppose I build target-list=s390x-softmmu,x86_64-softmmu.
-> Both targets will be linked to the same modinfo.c object, which will
-> have a 'hw-display-virtio-gpu-pci' entry (it wouldn't if I build only
-> s390x-softmmu). When I execute ./qemu-system-s390x, it will try to
-> load hw-display-virtio-gpu-pci and will throw the errors I mentioned
-> earlier.
-
-Yes.  That isn't a target-specific module.  It will load into any target
-which has pci support.  You can add aarch64-softmmu to the list above,
-and then notice that both aarch64-softmmu and x86_64-softmmu can load
-the very same hw-display-virtio-gpu-pci module.
-
-> If, for example, I add that module_need(PCI_BUS), we will continue
-> not knowing whether the target in execution has the required bus
-> (without injecting dependencies in module.c).
-
-Yes, you'll need a 'module_provides(PCI_BUS)' somewhere in the pci
-initialization code (likewise for the other features), so the module
-code knows which features are present and can check that against the
-list of 'module_needs(...)' of the module.
-
-Trying to have kconfig export that information instead of adding
-"module_needs()" + "module_provides()" annotations to the source
-should work too.  Not sure which is easier.
-
-With the kconfig approach you have all information needed at compile
-time, so you can do compile-time filtering and build per-target modinfo
-lists (paolo's idea) instead of using a single list with
-runtime-filtering (which is what we have now).
-
-take care,
-  Gerd
-
+Regards,
+BALATON Zoltan
 
