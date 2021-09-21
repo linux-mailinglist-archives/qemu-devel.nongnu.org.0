@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9604131E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 12:41:39 +0200 (CEST)
-Received: from localhost ([::1]:47732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D2D413195
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 12:30:05 +0200 (CEST)
+Received: from localhost ([::1]:51024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSdDW-00039K-3U
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 06:41:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32936)
+	id 1mSd2H-0002dv-CI
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 06:30:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mScta-0001Z7-N6; Tue, 21 Sep 2021 06:21:02 -0400
-Received: from mail-eopbgr150090.outbound.protection.outlook.com
- ([40.107.15.90]:45198 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ id 1mSctj-0001iV-Ef; Tue, 21 Sep 2021 06:21:11 -0400
+Received: from mail-eopbgr140125.outbound.protection.outlook.com
+ ([40.107.14.125]:6053 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mSctY-0002Rp-MQ; Tue, 21 Sep 2021 06:21:02 -0400
+ id 1mScth-0002LA-NY; Tue, 21 Sep 2021 06:21:11 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OVPUL1L2hM6BIPsL9YGib2uhnuJGy1m/HnHyujW2hLB+1j2T8SmUmSc+l0u0PpEXFtth1l8UzOG+t4fMHAZI1r4N0ANDI6YmiABgZeMfTnToXpWmSflYm4KfKHDwZiULu3WyxqYkZlGn31u3tbsEdTjeEp1BpMeh2SCbhidYNTi+3GOT6KhsUYZJ1YheCct2aja39STKHsfBa/+UcFLOjeXoMD6J4sKLpHHMYIhA94YnMgQoACGkBe/ah3k1eFhjKEztbPcOqxknDU/aQ9G6caYN3C3w5lUf0zrcgHHrROBWjMHDePY8KcJXuNZx1XzWqiu2PUC5epz1amWClE8T0g==
+ b=Sj8TkRhZDtlBIQ6Wt2Q2SzexBR7fayoMbViuJ0sLthmtFqhZNeEzjEATO+YXRPDZ8zAsdEx8xKjp3VrrlOw45QNcwuowlUsaZlqGtlQdaI0VH5KjYmA/NPh+uzHIHj2UvMCfJYNfhyBDDqL9T8BP7cgn6PxnIr/KZMygRKYm4hEoTnNJNWIyrsvscGIzYQ6sgp3daRN8pBDTBE1FAJKOoaqeV5spbsZZwvFrZErwBPIZ51bSsG2Ur8cJkWUYo818eBdIchxWpzVizAkedZE0aiGKg81D4Qfw7ZfJ3BXVVBOJAFHRxqNtDOccDaPbVSOdA8VAiSHGL3EvWEvOTV52mg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=Q8sBAJiPB3seyvv/kNpVsfzY0FjTRbwCyERWd1+yC+0=;
- b=KaLa29TGbM4qkuHBc0nmXIPnpZzph61zqtZcXL3svC4e6hnteKTkhIB4YXNSSOvVD3GSUmaE4iDD0m9aCyeSFBwilEbK7e/dSss9+7ZuzG2TbuWp4Xi632SiDisnv0oC4otUjLMHOrpJ1FRgVHmPIdpG3KwzvJ7mW9Dl62HSHOT4WGIPtEl1n/4HVojePiWIU0DwGAbfcphpntosPf5083XnECq/UwbRh01boJClw+ZhY68OPiD/so66eTewzb+Lw9FfjNC9qIHqGUttG8dxSPVG6LbkbDIajgoxR/FKZ0k4Q+EsJo6cZwtNbduaAR5DaGJhPQ4oiv6I166Jugdjhw==
+ bh=u9lySSfMpZdn6DCAK7M2drBdaju30zyu0LdPb9dS29I=;
+ b=GBBdVN+XioyKSyfgwBqHPrlsVUHEL+3SJMH1YQ/nIPLoZaTZMPklQmfh3bRu5EEfL5cd7iC7Rbn6c0pOeLNLV6Hslu8yFOWU66FQMTKGh5yLGy7ELjCBWvKzlZyBzwh8mc2FWfqsiNu21v0gPXSFzRJf6vxFnt/0qstra0N1R0iC0P7T31XIK8r7GY8UP1avU0PurjK7m4yOgIEJJttRubMbVOEfmQr9qmtVo5xB+dHsX/1bo8QIM83pxrwt+PXJr9t07M5BDszzSohlg2rJQT/B2dC0MHhXukPIgp96i+XjGoNgwrnVLKif00IgbgkcoZ6g1T95vy6FmjpXNJvQlg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q8sBAJiPB3seyvv/kNpVsfzY0FjTRbwCyERWd1+yC+0=;
- b=fvHbamnT00hlLbTgVA1/J8VoT9N5orAh+RzLbNjhxB1ET4lZDFINWI/Im7ka4WxnpDCR2m0ZW/+VQQ0zxXT0kwTE3MUmtJC0jA/wMUCAQjQu8lcj1dUzOLZHgtbHRkm8+3AbEEB6D0jajWk6giozOlHBRU/JkoHAcK2P4fwmrE8=
+ bh=u9lySSfMpZdn6DCAK7M2drBdaju30zyu0LdPb9dS29I=;
+ b=gtWWyWrJU7MWE4RfLthfS1rfQZoDSDvrAummU8Hg3lpkAsz0zRJUb1VkV2naITaUCs4sB1dSwFP2Nfu6YZX4J8/Xit7dZsb6nHTjetpxcXby4eCcJVJ3AVOQ6H+cCq7ca30Lt4hBD8TkqKWpZS8eiV+1VPGlcpZ4pxQNrMjLcdI=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB5944.eurprd08.prod.outlook.com (2603:10a6:20b:297::11)
+ by AS8PR08MB6631.eurprd08.prod.outlook.com (2603:10a6:20b:339::12)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14; Tue, 21 Sep
- 2021 10:20:44 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.16; Tue, 21 Sep
+ 2021 10:20:45 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.013; Tue, 21 Sep 2021
- 10:20:44 +0000
+ 10:20:45 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, kwolf@redhat.com,
  hreitz@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  Eric Blake <eblake@redhat.com>
-Subject: [PULL 09/12] mirror: Check job_is_cancelled() earlier
-Date: Tue, 21 Sep 2021 13:20:14 +0300
-Message-Id: <20210921102017.273679-10-vsementsov@virtuozzo.com>
+Subject: [PULL 10/12] mirror: Stop active mirroring after force-cancel
+Date: Tue, 21 Sep 2021 13:20:15 +0300
+Message-Id: <20210921102017.273679-11-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210921102017.273679-1-vsementsov@virtuozzo.com>
 References: <20210921102017.273679-1-vsementsov@virtuozzo.com>
@@ -64,58 +64,58 @@ MIME-Version: 1.0
 Received: from localhost.localdomain (185.215.60.205) by
  HE1PR06CA0127.eurprd06.prod.outlook.com (2603:10a6:7:16::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4523.16 via Frontend Transport; Tue, 21 Sep 2021 10:20:43 +0000
+ 15.20.4523.16 via Frontend Transport; Tue, 21 Sep 2021 10:20:44 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c7639a2f-fb96-41a3-6676-08d97ce9789c
-X-MS-TrafficTypeDiagnostic: AS8PR08MB5944:
+X-MS-Office365-Filtering-Correlation-Id: 5d9fdcf5-bd1f-43a1-5cd6-08d97ce9795b
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6631:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB5944D1C1DDB29951244ED923C1A19@AS8PR08MB5944.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:660;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6631828458AF54E951AFC373C1A19@AS8PR08MB6631.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:404;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FkBw20Un9ytTM3nlqgHw3c86ib4IFPMQnEQNkCGz39NmbRbJ5pLhSmTdPzkFVaO84dVeBxdREkhlM1RyJGUiDHHKyJhaAmeRQd8B1ixM2Ro2B97PbAEdpbx7JnlpLK9Tq8t6kY+mzXTHu5cMl3YuZSUAIBDBavauPbxGZMDG9itSq28ZabchzWb3eZYCh+1IcLUX1A8lB7LC9dV8wlCzEIXayvKebBq4D9RMfhiEA+MgSf/VVk3uL58NmnJXM3xrEU09MPnjq+o7MuGDlTcJ+vwI9I9JJ3a/EdZLiM2kmeJL7xcgpUxwZbMG0lrWLqG9/IoKamMgP5WJ2jsZAvQKCMPM+6/b4DTAUi5t9eNjspHC6gteA3qSoDSFo6P38zSX4Uc4e+gMbf078Fv5pFhc0uU+LhrSY3+Q3Il+i6gyfeuE/UZjV4jru4u0kWuGosNZBrfv3Uv9fYjh8mvZaxPZVhi0fIqSrBR9WiLyaSDJXeKgJRPKXHIBVhWcLXswpdTFXpc57eG1b8D2POwjpDpifAaAmVe/blU2mjhtgsFEIi4XAJL013liQzAaEFWzHHzKE2ZESeY86wvE4ECBQGKWgz4TI5alrTeVDAF+9EOxO5Xvib5nQ+ICk+Kgr7A4OsAlecMf55ZbtEferaqX4ocFxFWcgHwASfuLZtPxx9sum6KyutALfKo4Mp/W7Xsh0rIcbcj3vj2A4QloZTG3w3tqK/N4DQYMCWifKutfoOJ00M29S5omqemM2m3/5rOvYCS7kwvsyeodd5pptRmMd2+PVrZpzTFWuHiU5wHozGzCKzU=
+X-Microsoft-Antispam-Message-Info: cTXO660xMbSaP0tUUkp5ofK/Ap7tmWg1IbKDE46f0oMNyM2fZy9kRY+TGrMm/LXjrzV1zgg233iwjbifrDv7ZeO3WlTtu0kc3ZK0HKcxhnofkd+fDcgZO4ZoXTNu+RH4S4qAa2NblVIIiRqU/sPvPT7zoLjpKEa6GjxYPOQpWpUUVPL8LfFK1HSUST2vknPj2800HbrMa9EvKYZh2b3TGrpZdixyqA1C9IN2wCLwKieGAf8PAwBihHTWTKwf4WSFE4zE032Fcc3xkMsF4KoeHeZCrX8lLS0sdSINSAsf+gR1vFQ7RRHEmq4+T2Y8z8h01ZBwyVeNRLg2QQ/TcuH4PpvygGioGTtuwiex7i2aH5opF8CzVa1xET1yXD3dLOfThwj13BbctjgjJCFajWyrzbPF68XmLTzgtKe3xIWTbZGZRxfk2vomkIVW4JnNeuT76ga5yFcTe+Ie7KBZvmnIBpyYxopvaSYPhHeCRzJ545gz2V5rila+O9t/CN+jilxNNPB9iEEScOSKckhI1cEZfkgkSvlD8W1nbOqzBh1oIEKkjBfFLDt3A30KQHEBRobQv+bBxBnk4AQOAgpaEZ7eIBn/9qJMmS9YkCvCbroa9eoozQ66lud2mo7kVE8Fo8Pcfwrv8sn9XNH4eYJVl1r27yHmvTzZvBx5jGyC04TeBWi+wP75TVADHvsKfVb//uLRqxAJYfzVD+oM0zzWzakM8w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(8676002)(6512007)(83380400001)(86362001)(1076003)(8936002)(6916009)(186003)(38350700002)(316002)(52116002)(508600001)(66476007)(6666004)(66556008)(6506007)(2906002)(26005)(36756003)(66946007)(966005)(4326008)(6486002)(2616005)(956004)(38100700002)(5660300002);
+ SFS:(4636009)(366004)(1076003)(38350700002)(38100700002)(186003)(86362001)(8676002)(316002)(4326008)(6916009)(8936002)(6512007)(6666004)(2906002)(26005)(52116002)(5660300002)(6506007)(83380400001)(6486002)(956004)(2616005)(66476007)(36756003)(66556008)(508600001)(66946007);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MOlEbrfXr43TIcu/DCmvtsjvaeaw5HXkeyVnDoL+cO9pNuGuFoiUZ9uNuZlI?=
- =?us-ascii?Q?JKZghFfFV884dtYNzgE0/Ai92IkP5LpcQ+jg/1Cz25S+rcLctTjqRlBsVQ6Z?=
- =?us-ascii?Q?SMg2Jv2df9KjT2y4At6cb9bFekudFvtkN/6Q+MfV/fLR4Ri4hsGW5W/7jKfi?=
- =?us-ascii?Q?Qdis7Df/O2kzRwOwQMm3ZXrp9+TCYXbXVoUa4uAEqcgcTTlsGYXTYP840sL0?=
- =?us-ascii?Q?gDmGiHdYHQ6q9/aw7n0ef1LqFqDLrr61NPfqr+/aKMFi1R4zY/qaY7Djfjh/?=
- =?us-ascii?Q?440fTvXROEhH9oHtEnhkOwzZiHq3MJvy9dE6MOD7ATPkG1NFq+7r2GO3xGf/?=
- =?us-ascii?Q?AN81ZxhGPzAOGmTZsJfFKLtcb77N2kMz+pQXWta30QSMMVodozaprvJmi1eI?=
- =?us-ascii?Q?VYj1xbYxoZdmNVhC17pAGj3JFNWBanFiN9AD2oMjJYvHOCxQ4GZSpCdD9bdC?=
- =?us-ascii?Q?DiSvhLML4EtKUu4vRRPOpAXP9pUKBihmHMjdgu0KLO86ELnZgvZqQ5Lcmntl?=
- =?us-ascii?Q?jtoAmPe5oKOBPDRV/Ca9q6FvSLQxI383mRQ+PVrskcd65HaiOEDAF7Bmq/CV?=
- =?us-ascii?Q?DzkU1/64zD4M90HoYqNKzi/dp7RFp7TGAQxeAt/U4N7CnwL40OEzWDB4qUDf?=
- =?us-ascii?Q?Z+ijEF/l+l9wIBVBYKbNN4NW/NYoB4FhMUST75uK5uz5fwA4GfuR/i0B83Ms?=
- =?us-ascii?Q?4QQ8nLmFmj+vFsSg4878p6vIMM45UqIkpNefhmbciKo+lmc+3ippGNtqrbrJ?=
- =?us-ascii?Q?ejB4k2dQQ1Uzb1z7FCJi0No5ZEgyDiDf8x3KW/4eTRULt4BUNAX2DepV0Zjg?=
- =?us-ascii?Q?CtjPaCHFnWluFUbCoVY4rJSLwSXpED2obHmCn6kNpo2ygsylUyYRtrmxpOUT?=
- =?us-ascii?Q?xEdWP4MAFScnDmJTRACG/Ah4kMDmrXYfIsA6ijzJqfxr85fHGqYitotBopQz?=
- =?us-ascii?Q?ivysI4VEC5915N6mnRmNq+6LhEgHKMSar7TBm8YJn0ezMIMVZg5a7NfPq35s?=
- =?us-ascii?Q?jIKCBtP0hZ0HdJvOQrlSG5FlNy7ZWQb2/cSULd9uvxQa8bfj8ZHWWeVNEu42?=
- =?us-ascii?Q?nrslpT6PyUgEvrVGekBI57K+z624TrvFMnO+bKdEwR8mczwElXxKczY1Qrft?=
- =?us-ascii?Q?jjdBF8edSWAvmoj7VKIKeWpV8/iQ1GpzWq9aP/dKe/SavMnRyXtC/T7YpqaV?=
- =?us-ascii?Q?QXMZdWTNLj9ee4ZGfAIM155P4RHeBwVIkL7Hhg0kyNybA+/AVWNFyX/Fd7e/?=
- =?us-ascii?Q?JamJDz7a247BiP4Qm15vox8IcJN/B8xvNCwbfJ9HWxX892lSSu8l8womEFPQ?=
- =?us-ascii?Q?fTRbWoI7lgoJDabTFcV61tc6?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QNRaBO0asHuG5XaDFBxwH52Syxx9dJkC0jkp/DehS9EYxiMZPD2dDz4OoqNT?=
+ =?us-ascii?Q?5FaClZrdMRP716t4NlZoSMaY7PanB9BIYDfL19Knld/KaewWAF0sZPfZmCaI?=
+ =?us-ascii?Q?/ZkWDkPchDlfmVla0cconGiFr1A3soJHVExB7rTpt4dYqItSgP806ffrrEL0?=
+ =?us-ascii?Q?X674JtoWy9OjvXaHyhnENP2fg92bEa9q51Eafjy1D6n0JJ2Ce5gT0j2JoS1m?=
+ =?us-ascii?Q?FwDqiiQBbcbAIFTq+KnfIo1lhshH45MXLBqTDBj1ZacLMSW9FFQ97e7svfRV?=
+ =?us-ascii?Q?0ZweGnCP1Zy7h0Wer5wWETdUPUVp8QDn+CRnqlMcTWjapEh42jDYKUHo+mKw?=
+ =?us-ascii?Q?F6F+yc7Kx7YIghezJk7R+EDiWzvYeryiabIk0pL4cN67G9YQk7b1ImYfJCGJ?=
+ =?us-ascii?Q?G89ijGk9ghq1WDTrAGmM4G0sI40G2ACBuLzrLgQR8YtAVRccKCsGkkfZjGgo?=
+ =?us-ascii?Q?T4IIkgub7QY8j/2kpE5JJHe98Rbzay4ltTQvWES3UgxgW+It+24H4607p0d8?=
+ =?us-ascii?Q?d5MM1inu7KuOzykT34B3SI1ZOYHnsGZDT3BkWjhbneCfbjgbXuOX+WYE1dsG?=
+ =?us-ascii?Q?jhY4FQB7itOyGKfQl1REUl8l1BFutk4gfkv4GNIpnHBoD4VOLN2h6wUbDq3T?=
+ =?us-ascii?Q?cN7+NBesJPPo9upmHiaSJ7NuYkrZZGSAjJXiAhItjCoSAEDErrG5h2WUvI8E?=
+ =?us-ascii?Q?NXIyMCvrpHJ892plkO17zKm0LeQp9JI/XNy7NexNxoc5CfVeTj383KyD7jPq?=
+ =?us-ascii?Q?lzI/6aFKy7pD/3DBiKNG2bcGyF1YirkOcjpsAMR/i2mfpg3My73M9pKzcJhF?=
+ =?us-ascii?Q?zAZ62e1weeIlbwTBmaTFkDIESy3/ET/rRaxCmhkRZxlkDWDCZWU6xV0vAW0g?=
+ =?us-ascii?Q?m54LqotqQG0fPNSC5chWCcpiPDB6bt7cIC88Ja7/jdokiSdI3bf2sOqwIBWA?=
+ =?us-ascii?Q?KYfh3oxpel94PUg4Fg7/QnYW20lYOn3EXtVzQ6AyFFY4fLLwjSXfcBhlckNF?=
+ =?us-ascii?Q?fEKin5VDycaJuIewOKumnK7ctS6Z5XVcZcKvt8Zd43vgypEJnQ2hdwmNOVnN?=
+ =?us-ascii?Q?EXz3JlqTJlt+ncIbcQIcZL2B0fz3BrXKO45pOK+axffR8BMmTRWI//GiEQep?=
+ =?us-ascii?Q?+FJyuhHg0REY3XuLKxsfTld1yVNBkRmUeV0FSjNSD8MiHNMxESnH4yEcZYm+?=
+ =?us-ascii?Q?8Ip3vFiEg7vpXIx6nkRMxJmf7sf2Dp5pSzqfRKAH6QDgkq7P/G6/QGDiKD9z?=
+ =?us-ascii?Q?Pzy+HZOQjqTqze9WAb01C0K8l8Z1ZPAWoDtW4xhEgH3AK9hgNKfYm3S2ry5e?=
+ =?us-ascii?Q?RShJN1dlOSoEAHZtepjQFuJe?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7639a2f-fb96-41a3-6676-08d97ce9789c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d9fdcf5-bd1f-43a1-5cd6-08d97ce9795b
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2021 10:20:44.5014 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2021 10:20:45.6264 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ryN3uKzL8HTIETuBCtPoLvA39zq2e9H8Qq9O398J5jO4DTGiaAQPyx/YdSQWStmYtoKQUAzS2IKzCMAoeM7m5rSNwd0GUONkGM+YMmOLLDU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5944
-Received-SPF: pass client-ip=40.107.15.90;
+X-MS-Exchange-CrossTenant-UserPrincipalName: QYjqTd+bGA1ZvFzLx7a7aJqC1WWIbYlC7vtQinkQgesceV0EmLsFPqmWZkOdSR0ldGVY3EHkOqRNtiT2wKtnK7HcBZ4INfRnyvq9g/Ib1Eo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6631
+Received-SPF: pass client-ip=40.107.14.125;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-DB5-obe.outbound.protection.outlook.com
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -141,62 +141,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hanna Reitz <hreitz@redhat.com>
 
-We must check whether the job is force-cancelled early in our main loop,
-most importantly before any `continue` statement.  For example, we used
-to have `continue`s before our current checking location that are
-triggered by `mirror_flush()` failing.  So, if `mirror_flush()` kept
-failing, force-cancelling the job would not terminate it.
+Once the mirror job is force-cancelled (job_is_cancelled() is true), we
+should not generate new I/O requests.  This applies to active mirroring,
+too, so stop it once the job is cancelled.
 
-Jobs can be cancelled while they yield, and once they are
-(force-cancelled), they should not generate new I/O requests.
-Therefore, we should put the check after the last yield before
-mirror_iteration() is invoked.
+(We must still forward all I/O requests to the source, though, of
+course, but those are not really I/O requests generated by the job, so
+this is fine.)
 
-Buglink: https://gitlab.com/qemu-project/qemu/-/issues/462
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20210907124245.143492-10-hreitz@redhat.com>
+Message-Id: <20210907124245.143492-11-hreitz@redhat.com>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/mirror.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ block/mirror.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/block/mirror.c b/block/mirror.c
-index cfebe50845..1dbf648311 100644
+index 1dbf648311..bbf5815fd7 100644
 --- a/block/mirror.c
 +++ b/block/mirror.c
-@@ -1007,6 +1007,11 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
+@@ -1425,6 +1425,7 @@ static int coroutine_fn bdrv_mirror_top_do_write(BlockDriverState *bs,
+     bool copy_to_target;
  
-         job_pause_point(&s->common.job);
+     copy_to_target = s->job->ret >= 0 &&
++                     !job_is_cancelled(&s->job->common.job) &&
+                      s->job->copy_mode == MIRROR_COPY_MODE_WRITE_BLOCKING;
  
-+        if (job_is_cancelled(&s->common.job)) {
-+            ret = 0;
-+            goto immediate_exit;
-+        }
-+
-         cnt = bdrv_get_dirty_count(s->dirty_bitmap);
-         /* cnt is the number of dirty bytes remaining and s->bytes_in_flight is
-          * the number of bytes currently being processed; together those are
-@@ -1085,8 +1090,6 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
-             break;
-         }
+     if (copy_to_target) {
+@@ -1473,6 +1474,7 @@ static int coroutine_fn bdrv_mirror_top_pwritev(BlockDriverState *bs,
+     bool copy_to_target;
  
--        ret = 0;
--
-         if (job_is_ready(&s->common.job) && !should_complete) {
-             delay_ns = (s->in_flight == 0 &&
-                         cnt == 0 ? BLOCK_JOB_SLICE_TIME : 0);
-@@ -1094,9 +1097,6 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
-         trace_mirror_before_sleep(s, cnt, job_is_ready(&s->common.job),
-                                   delay_ns);
-         job_sleep_ns(&s->common.job, delay_ns);
--        if (job_is_cancelled(&s->common.job)) {
--            break;
--        }
-         s->last_pause_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-     }
+     copy_to_target = s->job->ret >= 0 &&
++                     !job_is_cancelled(&s->job->common.job) &&
+                      s->job->copy_mode == MIRROR_COPY_MODE_WRITE_BLOCKING;
  
+     if (copy_to_target) {
 -- 
 2.29.2
 
