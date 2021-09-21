@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018894139CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 20:10:18 +0200 (CEST)
-Received: from localhost ([::1]:37838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614AE4139D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 20:12:29 +0200 (CEST)
+Received: from localhost ([::1]:42054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSkDh-0004fX-IO
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 14:10:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45236)
+	id 1mSkFo-0007bh-Fo
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 14:12:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSkCR-0003ri-TH
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 14:08:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54009)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSkCO-0006vZ-P1
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 14:08:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632247734;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7iNZGRkUbkorEGUAPufyz6l1Ev/TZiJeBSsJN8Fit0A=;
- b=brP8klsdHo2LtCK7EhgpFfPHCaDJ+lhkj1MYEf0AGYf48qJ40lVxtEZESqiJ7c5rDYF/To
- fPeAaAijTgeSGgUjO1yjQfTokSEhAK+cxEotaTrkFVfyGVlFwlxbYmSmwOToAb/W6NGDjk
- L8gb0oEUI+0kb1yxrRZGl9kd7B8pgGg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-nCwim-0yOueRVCTA7rtWPw-1; Tue, 21 Sep 2021 14:08:47 -0400
-X-MC-Unique: nCwim-0yOueRVCTA7rtWPw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10F20180830E;
- Tue, 21 Sep 2021 18:08:46 +0000 (UTC)
-Received: from redhat.com (ovpn-115-8.phx2.redhat.com [10.3.115.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 820335C3DF;
- Tue, 21 Sep 2021 18:08:45 +0000 (UTC)
-Date: Tue, 21 Sep 2021 13:08:43 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH] nbd/client: Request larger block status by default
-Message-ID: <20210921180843.6tfubsqvf56hkyro@redhat.com>
-References: <20210921161703.2682802-1-eblake@redhat.com>
- <5b9402dd-4c37-2fc6-7c65-a13c4c5e6383@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mSkDl-0005TW-Fu; Tue, 21 Sep 2021 14:10:27 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:41961)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mSkDj-0007t7-UM; Tue, 21 Sep 2021 14:10:21 -0400
+Received: by mail-wr1-x429.google.com with SMTP id w29so41874340wra.8;
+ Tue, 21 Sep 2021 11:10:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9RxyTgtNKqgQrlrP5Sept7NqDe5PL8egCdnkfXDUkcI=;
+ b=HPPUIrgf5+R+DJu7a0gYPpmnT+TGJrsh6e5pg/ir0z1E12oz4GhH78knwFyYJYZnjM
+ 1pL8AXk0YcamIsS6w1RuR+GAXhvm2uBxa7nKeyfRQfM2AiJz6LQdQf37iNCNrRbicO1H
+ KH3ZXkalUUiQv8fWO7opbcc3UcRzjke66Y1AvECBVq6gt9aYxiTrGQGVjxvHNv8To5am
+ BPTScw8BpyceYCuV3KkgiKsNNQrkuayhUT6ZQTT3vUxMtt8Ilkdw7Ygdw6s/WkuZEV+P
+ +BkPR5qiQ8jpnCrule53oJeuoyXuGTdevMPU5XsKSbRaavFRSuDlB0qgCKVOQg7T1dbu
+ zpGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9RxyTgtNKqgQrlrP5Sept7NqDe5PL8egCdnkfXDUkcI=;
+ b=XKeG1O6dATNQFP27Ibcgh5YwAKkwJUK2Lt9EKnsxK7x5jq/0OqGZ3Z+XCSUTuegZMv
+ mt0RKniozgVs634O3PqKiOdwptv+Mfx8Q/ilP8gqBPHu3VaH+RAiAJN+BxJE7oWXdunT
+ dQqsKtlUfwtNPKKeHA63idakVGwS2JUg4MJHPE+D9mmzMDSW2WHkZA7TyOBEJPDW63ij
+ oi3GB+axb1Fq6vhf8uTAU0XsoHha2tLqxGyzM9wCBqm4XdRNkf/esGyDMz183nAWAEty
+ qUrG5GCxUHfMOJ8ClrRv3Djk1e2jfyTAJqOTK57V+tEZpXySxstIfH28mTihlSO2MMge
+ IiRw==
+X-Gm-Message-State: AOAM530/Lkx1ucI2QcyaoEp3Qzux3J6EsXqxCkgCzmZFM24xG3SPnTZG
+ IpAYlKp4KRP/ZJv2pPCTPUc=
+X-Google-Smtp-Source: ABdhPJykJQTBLTgl2E8uKpgKwzN9zeuxYzxbRT8n/HJ4EFJxgLA7CrdoZuAy9yLZp2lCRnZPbPP+Bw==
+X-Received: by 2002:a5d:5903:: with SMTP id v3mr36318996wrd.232.1632247817935; 
+ Tue, 21 Sep 2021 11:10:17 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id m29sm21323709wrb.89.2021.09.21.11.10.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Sep 2021 11:10:17 -0700 (PDT)
+Message-ID: <9e781cf7-d769-05fd-880d-7e38236ad198@amsat.org>
+Date: Tue, 21 Sep 2021 20:10:15 +0200
 MIME-Version: 1.0
-In-Reply-To: <5b9402dd-4c37-2fc6-7c65-a13c4c5e6383@virtuozzo.com>
-User-Agent: NeoMutt/20210205-772-2b4c52
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 2/5] target/arm: Fix coding style issues in gdbstub code
+ in helper.c
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210921162901.17508-1-peter.maydell@linaro.org>
+ <20210921162901.17508-3-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20210921162901.17508-3-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,52 +90,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, hreitz@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Luis Machado <luis.machado@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 21, 2021 at 08:25:11PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> 21.09.2021 19:17, Eric Blake wrote:
-> > Now that commit 5a1cfd21 has clarified that a driver's block_status
-> > can report larger *pnum than in the original request, we can take
-> > advantage of that in the NBD driver.  Rather that limiting our request
-> > to the server based on the maximum @bytes our caller mentioned, we
-> > instead ask for as much status as possible (the minimum of our 4G
-> > limit or the rest of the export); the server will still only give us
-> > one extent in its answer (because we are using NBD_CMD_FLAG_REQ_ONE),
-> > but now the block layer's caching of data areas can take advantage of
-> > cases where the server gives us a large answer to avoid the need for
-> > future NBD_CMD_BLOCK_STATUS calls.
-> > 
-> > Signed-off-by: Eric Blake <eblake@redhat.com>
-> > ---
-
+On 9/21/21 18:28, Peter Maydell wrote:
+> We're going to move this code to a different file; fix the coding
+> style first so checkpatch doesn't complain.  This includes deleting
+> the spurious 'break' statements after returns in the
+> vfp_gdb_get_reg() function.
 > 
-> I remember we already discussed that, but can't find.
-> 
-> The problem is that it's not for free:
-> 
-> In server code in blockstatus_to_extents, we loop though the disk, trying to merge extents of the same type.
-> 
-> With full allocated qcow2, we'll have to load all L2 tables and handle them, to merge all block status into one big "allocated" extent.
-> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   target/arm/helper.c | 23 ++++++++++++++++-------
+>   1 file changed, 16 insertions(+), 7 deletions(-)
 
-We don't have to loop that far.  The NBD protocol allows the server to
-stop looping at whatever point makes sense, as long as it makes
-progress.
-
-> Maybe, we need some additional negotiation flag, to allow BLOCK_STATUS command with NBD_CMD_FLAG_REQ_ONE flag to return an extent larger than required when that information is available for free?
-
-That's one possibility.  Another does not add anything to the NBD
-protocol, but instead limits the code that tries to loop over block
-status to deteremine a larger "allocated" answer to return to instead
-stop looping after a finite number of extents have been merged
-together.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
