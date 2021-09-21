@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD2A412BBD
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 04:28:01 +0200 (CEST)
-Received: from localhost ([::1]:35322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E71EA412BC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 04:29:57 +0200 (CEST)
+Received: from localhost ([::1]:44040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSVVo-0008Jp-Sb
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 22:28:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43230)
+	id 1mSVXg-0005er-Vj
+	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 22:29:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSVTY-0005Wt-Ka
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 22:25:40 -0400
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:44927)
+ id 1mSVTe-0005cc-2P
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 22:25:46 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:35598)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSVTW-0006Du-GF
- for qemu-devel@nongnu.org; Mon, 20 Sep 2021 22:25:40 -0400
-Received: by mail-pg1-x531.google.com with SMTP id s11so19300940pgr.11
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 19:25:37 -0700 (PDT)
+ id 1mSVTW-0006Dw-Mp
+ for qemu-devel@nongnu.org; Mon, 20 Sep 2021 22:25:44 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id e7so19320129pgk.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 19:25:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kuZfkwT6TB9nWNiqSl5AuHsN/91Jerg+tZupkKJ6w5o=;
- b=wgFsSyidXtCI2VdQGxirxbOOr8tN3IS6Xi04UnkrHa05SMSe6sodgRhGOVo/aGlaqH
- DNbeNv8oikAVz3l80+jNpkmXM3/brW2rX7jSg2IWIyDYQurqu/BKVw0CM4vzaenbr2p6
- 9S2ESN4xvYLOqsLxX6t8S5Gn7FX+ITib9/HMGMYEvwxUd4UVhiztum7ZgHmokwU983dP
- 98ehDtSVaj+i2Re9TDTMPhTU2Dnmrwn8kNYa3yKln6fHj88aKfKStAGTCMWqms/uO+r5
- pEnlPgwoDPP90c50S4OGJoRbDjnYbsDI6u4Em5/zHpTrTgXFbNQFHhPOEwHuCF+kEu0p
- XK2w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=b0a6x8YG6fiEgthZKVT+Y1l/wqv7IPJugG1mhUmd6xQ=;
+ b=PDE8VLAjg0Lqfp8jZDbSZhmBqAtLrIxhGWg43RCZSm/ZTun0etGWQmv+Er75xlOQUX
+ KLAt/1gH/zm1jiPSv/7i6HOxog0HUlo1rup7E3Ou5XvsyYrRS3DNYQb9FgU9gem0hiFy
+ aguKt8jYr771yXc65NYxjX2nnoGorTHG1teNZrx9dUHoSeuluBVgk4qcfR/9wk2TzOT2
+ B1iLzEM5tBfiVucx7y9YNz7riwwEA/Xkh8wM/WNatAmH0xls8nLk2Zw8Y6cAMIfRbNn+
+ ktCztfdvL3KQ8/9mmTF3zLRt40XJAdH/oec6kCu+mKy4bOF7fP7yHsFeFI46dTcItnYw
+ qIrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kuZfkwT6TB9nWNiqSl5AuHsN/91Jerg+tZupkKJ6w5o=;
- b=13qPSVg5BBkd4LMeVHkybn02YSbp9JsSZwiXbn6+TmJUQzZKm5w24OYqD8OwF/390L
- e0kYWP+fivfXPn3lOsuTAC+eLRHJS/Hu6iwI78jeh0tQIkK+TJ0zLC8JkDrr/AV3mkzE
- j1woEbFIB7246TpJ+c1uuUpo10A1ec48TqTbMJ7v05eUqM0OR0n8AhA1vGzZYlTb5fho
- E2G8mdjUS3Wq1EMT4UrFriDtqMhcj0kL8ic4H5juGVcWwtLuUlWM+iO3NGKW35KcHrz6
- TP634TFvVc+4EKTdDfNK35T3htuRlgOByAeo/Mllsdorqw6SoDoXqxCwKcUpV5cuslk3
- aHXQ==
-X-Gm-Message-State: AOAM531BeIpajYxp2EoxOXVtU3vAcgY7b2DoS4yyFdypRuzmBZS/k1v1
- lvlbXxPBz1oLVkb/J9ULE1soqkvfbDSacw==
-X-Google-Smtp-Source: ABdhPJwL/bdg/dsvEcg3QAAI+tOf9rtKdCkAlhqqYWfaYKBKOvHs9L/uE/O1t1GXIQukF5ygMEx+4g==
-X-Received: by 2002:a05:6a00:a8a:b029:356:be61:7f18 with SMTP id
- b10-20020a056a000a8ab0290356be617f18mr28000805pfl.29.1632191136408; 
- Mon, 20 Sep 2021 19:25:36 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=b0a6x8YG6fiEgthZKVT+Y1l/wqv7IPJugG1mhUmd6xQ=;
+ b=aMqqvQtbUN2LrgREf89yPtfTYCtxR3atj+RbLrTvWodIKDBNunJ60VHAocy8J+4Lbb
+ vdeXsSbKHDS2T1p37gO8rNQphXlL5O8jJYpaX4h0vt+qUV2y3Y/Zk4S/E+RUJWe307j+
+ Xz7xF9CjrytZodNO+YGMaysnCtzpBvM7lDPFbuG6uLOrSMwKwIEv2TEaAmZJYjjZcj/g
+ JV/piUx5ueSsoyKLZoSRyMC8bKx32T8L9B8AFyICyL6zJLIYCre2xA3Gk+yrwu3z3KXD
+ kXd5ZUasbx24OMKwuaUwvYp1GQgqA4MYCsOGK98mdVlzNDGVTCigehNG0NxnUvDNzYOs
+ fhrg==
+X-Gm-Message-State: AOAM53059oajVxXedwIflooeGl3pHWaUvNw+nVuvDHyds+D/kg0zwNUg
+ tJUHgVW4hzwXWx4+wz4rSv95sKQU4rMwaA==
+X-Google-Smtp-Source: ABdhPJzaIZiBiM01peg/hc3JOGn/9BPxrnLl8x6ZumWir97dYK3RK3lkM7t6ofHQU24LFr7fpy2JGQ==
+X-Received: by 2002:aa7:9833:0:b0:444:d028:5edb with SMTP id
+ q19-20020aa79833000000b00444d0285edbmr20718169pfl.55.1632191137155; 
+ Mon, 20 Sep 2021 19:25:37 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id n9sm15297621pff.37.2021.09.20.19.25.35
+ by smtp.gmail.com with ESMTPSA id n9sm15297621pff.37.2021.09.20.19.25.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 20 Sep 2021 19:25:36 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/10] tcg patch queue, v2
-Date: Mon, 20 Sep 2021 19:25:24 -0700
-Message-Id: <20210921022534.365291-1-richard.henderson@linaro.org>
+Subject: [PULL 01/10] include/exec: Move cpu_signal_handler declaration
+Date: Mon, 20 Sep 2021 19:25:25 -0700
+Message-Id: <20210921022534.365291-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210921022534.365291-1-richard.henderson@linaro.org>
+References: <20210921022534.365291-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,82 +84,494 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drop has_work patches.
-Add a few more misc cleanups.
+There is nothing target specific about this.  The implementation
+is host specific, but the declaration is 100% common.
 
+Reviewed-By: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/exec/exec-all.h | 13 +++++++++++++
+ target/alpha/cpu.h      |  6 ------
+ target/arm/cpu.h        |  7 -------
+ target/avr/cpu.h        |  2 --
+ target/cris/cpu.h       |  8 --------
+ target/hexagon/cpu.h    |  3 ---
+ target/hppa/cpu.h       |  3 ---
+ target/i386/cpu.h       |  7 -------
+ target/m68k/cpu.h       |  8 --------
+ target/microblaze/cpu.h |  7 -------
+ target/mips/cpu.h       |  3 ---
+ target/mips/internal.h  |  2 --
+ target/nios2/cpu.h      |  2 --
+ target/openrisc/cpu.h   |  2 --
+ target/ppc/cpu.h        |  7 -------
+ target/riscv/cpu.h      |  2 --
+ target/rx/cpu.h         |  4 ----
+ target/s390x/cpu.h      |  7 -------
+ target/sh4/cpu.h        |  3 ---
+ target/sparc/cpu.h      |  2 --
+ target/tricore/cpu.h    |  2 --
+ target/xtensa/cpu.h     |  2 --
+ 22 files changed, 13 insertions(+), 89 deletions(-)
 
-The following changes since commit 326ff8dd09556fc2e257196c49f35009700794ac:
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 5d1b6d80fb..9d5987ba04 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -662,6 +662,19 @@ static inline tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env,
+     }
+     return addr;
+ }
++
++/**
++ * cpu_signal_handler
++ * @signum: host signal number
++ * @pinfo: host siginfo_t
++ * @puc: host ucontext_t
++ *
++ * To be called from the SIGBUS and SIGSEGV signal handler to inform the
++ * virtual cpu of exceptions.  Returns true if the signal was handled by
++ * the virtual CPU.
++ */
++int cpu_signal_handler(int signum, void *pinfo, void *puc);
++
+ #else
+ static inline void mmap_lock(void) {}
+ static inline void mmap_unlock(void) {}
+diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+index 4e993bd15b..ce9ec32199 100644
+--- a/target/alpha/cpu.h
++++ b/target/alpha/cpu.h
+@@ -287,7 +287,6 @@ void alpha_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+                                    int mmu_idx, uintptr_t retaddr);
+ 
+ #define cpu_list alpha_cpu_list
+-#define cpu_signal_handler cpu_alpha_signal_handler
+ 
+ typedef CPUAlphaState CPUArchState;
+ typedef AlphaCPU ArchCPU;
+@@ -440,11 +439,6 @@ void alpha_translate_init(void);
+ #define CPU_RESOLVING_TYPE TYPE_ALPHA_CPU
+ 
+ void alpha_cpu_list(void);
+-/* you can call this signal handler from your SIGBUS and SIGSEGV
+-   signal handlers to inform the virtual CPU of exceptions. non zero
+-   is returned if the signal was handled by the virtual CPU.  */
+-int cpu_alpha_signal_handler(int host_signum, void *pinfo,
+-                             void *puc);
+ bool alpha_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                         MMUAccessType access_type, int mmu_idx,
+                         bool probe, uintptr_t retaddr);
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 09d9027734..751141915d 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1121,12 +1121,6 @@ static inline bool is_a64(CPUARMState *env)
+     return env->aarch64;
+ }
+ 
+-/* you can call this signal handler from your SIGBUS and SIGSEGV
+-   signal handlers to inform the virtual CPU of exceptions. non zero
+-   is returned if the signal was handled by the virtual CPU.  */
+-int cpu_arm_signal_handler(int host_signum, void *pinfo,
+-                           void *puc);
+-
+ /**
+  * pmu_op_start/finish
+  * @env: CPUARMState
+@@ -3015,7 +3009,6 @@ bool write_cpustate_to_list(ARMCPU *cpu, bool kvm_sync);
+ #define ARM_CPU_TYPE_NAME(name) (name ARM_CPU_TYPE_SUFFIX)
+ #define CPU_RESOLVING_TYPE TYPE_ARM_CPU
+ 
+-#define cpu_signal_handler cpu_arm_signal_handler
+ #define cpu_list arm_cpu_list
+ 
+ /* ARM has the following "translation regimes" (as the ARM ARM calls them):
+diff --git a/target/avr/cpu.h b/target/avr/cpu.h
+index 93e3faa0a9..dceacf3cd7 100644
+--- a/target/avr/cpu.h
++++ b/target/avr/cpu.h
+@@ -175,7 +175,6 @@ static inline void set_avr_feature(CPUAVRState *env, int feature)
+ }
+ 
+ #define cpu_list avr_cpu_list
+-#define cpu_signal_handler cpu_avr_signal_handler
+ #define cpu_mmu_index avr_cpu_mmu_index
+ 
+ static inline int avr_cpu_mmu_index(CPUAVRState *env, bool ifetch)
+@@ -187,7 +186,6 @@ void avr_cpu_tcg_init(void);
+ 
+ void avr_cpu_list(void);
+ int cpu_avr_exec(CPUState *cpu);
+-int cpu_avr_signal_handler(int host_signum, void *pinfo, void *puc);
+ int avr_cpu_memory_rw_debug(CPUState *cs, vaddr address, uint8_t *buf,
+                             int len, bool is_write);
+ 
+diff --git a/target/cris/cpu.h b/target/cris/cpu.h
+index be021899ae..6603565f83 100644
+--- a/target/cris/cpu.h
++++ b/target/cris/cpu.h
+@@ -199,12 +199,6 @@ int crisv10_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int cris_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int cris_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ 
+-/* you can call this signal handler from your SIGBUS and SIGSEGV
+-   signal handlers to inform the virtual CPU of exceptions. non zero
+-   is returned if the signal was handled by the virtual CPU.  */
+-int cpu_cris_signal_handler(int host_signum, void *pinfo,
+-                           void *puc);
+-
+ void cris_initialize_tcg(void);
+ void cris_initialize_crisv10_tcg(void);
+ 
+@@ -250,8 +244,6 @@ enum {
+ #define CRIS_CPU_TYPE_NAME(name) (name CRIS_CPU_TYPE_SUFFIX)
+ #define CPU_RESOLVING_TYPE TYPE_CRIS_CPU
+ 
+-#define cpu_signal_handler cpu_cris_signal_handler
+-
+ /* MMU modes definitions */
+ #define MMU_USER_IDX 1
+ static inline int cpu_mmu_index (CPUCRISState *env, bool ifetch)
+diff --git a/target/hexagon/cpu.h b/target/hexagon/cpu.h
+index 2855dd3881..f7d043865b 100644
+--- a/target/hexagon/cpu.h
++++ b/target/hexagon/cpu.h
+@@ -129,9 +129,6 @@ typedef struct HexagonCPU {
+ 
+ #include "cpu_bits.h"
+ 
+-#define cpu_signal_handler cpu_hexagon_signal_handler
+-int cpu_hexagon_signal_handler(int host_signum, void *pinfo, void *puc);
+-
+ static inline void cpu_get_tb_cpu_state(CPUHexagonState *env, target_ulong *pc,
+                                         target_ulong *cs_base, uint32_t *flags)
+ {
+diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
+index 7854675b90..d3cb7a279f 100644
+--- a/target/hppa/cpu.h
++++ b/target/hppa/cpu.h
+@@ -319,9 +319,6 @@ static inline void cpu_hppa_change_prot_id(CPUHPPAState *env) { }
+ void cpu_hppa_change_prot_id(CPUHPPAState *env);
+ #endif
+ 
+-#define cpu_signal_handler cpu_hppa_signal_handler
+-
+-int cpu_hppa_signal_handler(int host_signum, void *pinfo, void *puc);
+ hwaddr hppa_cpu_get_phys_page_debug(CPUState *cs, vaddr addr);
+ int hppa_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int hppa_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 7dd664791a..c2954c71ea 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1947,12 +1947,6 @@ void cpu_x86_frstor(CPUX86State *s, target_ulong ptr, int data32);
+ void cpu_x86_fxsave(CPUX86State *s, target_ulong ptr);
+ void cpu_x86_fxrstor(CPUX86State *s, target_ulong ptr);
+ 
+-/* you can call this signal handler from your SIGBUS and SIGSEGV
+-   signal handlers to inform the virtual CPU of exceptions. non zero
+-   is returned if the signal was handled by the virtual CPU.  */
+-int cpu_x86_signal_handler(int host_signum, void *pinfo,
+-                           void *puc);
+-
+ /* cpu.c */
+ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+                               uint32_t vendor2, uint32_t vendor3);
+@@ -2020,7 +2014,6 @@ uint64_t cpu_get_tsc(CPUX86State *env);
+ #define TARGET_DEFAULT_CPU_TYPE X86_CPU_TYPE_NAME("qemu32")
+ #endif
+ 
+-#define cpu_signal_handler cpu_x86_signal_handler
+ #define cpu_list x86_cpu_list
+ 
+ /* MMU modes definitions */
+diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+index 550eb028b6..a3423729ef 100644
+--- a/target/m68k/cpu.h
++++ b/target/m68k/cpu.h
+@@ -177,13 +177,6 @@ int m68k_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ 
+ void m68k_tcg_init(void);
+ void m68k_cpu_init_gdb(M68kCPU *cpu);
+-/*
+- * you can call this signal handler from your SIGBUS and SIGSEGV
+- * signal handlers to inform the virtual CPU of exceptions. non zero
+- * is returned if the signal was handled by the virtual CPU.
+- */
+-int cpu_m68k_signal_handler(int host_signum, void *pinfo,
+-                           void *puc);
+ uint32_t cpu_m68k_get_ccr(CPUM68KState *env);
+ void cpu_m68k_set_ccr(CPUM68KState *env, uint32_t);
+ void cpu_m68k_set_sr(CPUM68KState *env, uint32_t);
+@@ -563,7 +556,6 @@ enum {
+ #define M68K_CPU_TYPE_NAME(model) model M68K_CPU_TYPE_SUFFIX
+ #define CPU_RESOLVING_TYPE TYPE_M68K_CPU
+ 
+-#define cpu_signal_handler cpu_m68k_signal_handler
+ #define cpu_list m68k_cpu_list
+ 
+ /* MMU modes definitions */
+diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+index 40401c33b7..13ed3cd4dd 100644
+--- a/target/microblaze/cpu.h
++++ b/target/microblaze/cpu.h
+@@ -385,16 +385,9 @@ static inline void mb_cpu_write_msr(CPUMBState *env, uint32_t val)
+ }
+ 
+ void mb_tcg_init(void);
+-/* you can call this signal handler from your SIGBUS and SIGSEGV
+-   signal handlers to inform the virtual CPU of exceptions. non zero
+-   is returned if the signal was handled by the virtual CPU.  */
+-int cpu_mb_signal_handler(int host_signum, void *pinfo,
+-                          void *puc);
+ 
+ #define CPU_RESOLVING_TYPE TYPE_MICROBLAZE_CPU
+ 
+-#define cpu_signal_handler cpu_mb_signal_handler
+-
+ /* MMU modes definitions */
+ #define MMU_NOMMU_IDX   0
+ #define MMU_KERNEL_IDX  1
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 1dfe69c6c0..56b1cbd091 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -1193,7 +1193,6 @@ struct MIPSCPU {
+ 
+ void mips_cpu_list(void);
+ 
+-#define cpu_signal_handler cpu_mips_signal_handler
+ #define cpu_list mips_cpu_list
+ 
+ extern void cpu_wrdsp(uint32_t rs, uint32_t mask_num, CPUMIPSState *env);
+@@ -1277,8 +1276,6 @@ enum {
+  */
+ #define CPU_INTERRUPT_WAKE CPU_INTERRUPT_TGT_INT_0
+ 
+-int cpu_mips_signal_handler(int host_signum, void *pinfo, void *puc);
+-
+ #define MIPS_CPU_TYPE_SUFFIX "-" TYPE_MIPS_CPU
+ #define MIPS_CPU_TYPE_NAME(model) model MIPS_CPU_TYPE_SUFFIX
+ #define CPU_RESOLVING_TYPE TYPE_MIPS_CPU
+diff --git a/target/mips/internal.h b/target/mips/internal.h
+index eecdd10116..daddb05fd4 100644
+--- a/target/mips/internal.h
++++ b/target/mips/internal.h
+@@ -156,8 +156,6 @@ extern const VMStateDescription vmstate_mips_cpu;
+ 
+ #endif /* !CONFIG_USER_ONLY */
+ 
+-#define cpu_signal_handler cpu_mips_signal_handler
+-
+ static inline bool cpu_mips_hw_interrupts_enabled(CPUMIPSState *env)
+ {
+     return (env->CP0_Status & (1 << CP0St_IE)) &&
+diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+index 2ab82fdc71..88a511209c 100644
+--- a/target/nios2/cpu.h
++++ b/target/nios2/cpu.h
+@@ -193,7 +193,6 @@ struct Nios2CPU {
+ 
+ void nios2_tcg_init(void);
+ void nios2_cpu_do_interrupt(CPUState *cs);
+-int cpu_nios2_signal_handler(int host_signum, void *pinfo, void *puc);
+ void dump_mmu(CPUNios2State *env);
+ void nios2_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+ hwaddr nios2_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+@@ -206,7 +205,6 @@ void do_nios2_semihosting(CPUNios2State *env);
+ #define CPU_RESOLVING_TYPE TYPE_NIOS2_CPU
+ 
+ #define cpu_gen_code cpu_nios2_gen_code
+-#define cpu_signal_handler cpu_nios2_signal_handler
+ 
+ #define CPU_SAVE_VERSION 1
+ 
+diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
+index be6df81a81..187a4a114e 100644
+--- a/target/openrisc/cpu.h
++++ b/target/openrisc/cpu.h
+@@ -320,11 +320,9 @@ void openrisc_translate_init(void);
+ bool openrisc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                            MMUAccessType access_type, int mmu_idx,
+                            bool probe, uintptr_t retaddr);
+-int cpu_openrisc_signal_handler(int host_signum, void *pinfo, void *puc);
+ int print_insn_or1k(bfd_vma addr, disassemble_info *info);
+ 
+ #define cpu_list cpu_openrisc_list
+-#define cpu_signal_handler cpu_openrisc_signal_handler
+ 
+ #ifndef CONFIG_USER_ONLY
+ extern const VMStateDescription vmstate_openrisc_cpu;
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 362e7c4c5c..01d3773bc7 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1278,12 +1278,6 @@ extern const VMStateDescription vmstate_ppc_cpu;
+ 
+ /*****************************************************************************/
+ void ppc_translate_init(void);
+-/*
+- * you can call this signal handler from your SIGBUS and SIGSEGV
+- * signal handlers to inform the virtual CPU of exceptions. non zero
+- * is returned if the signal was handled by the virtual CPU.
+- */
+-int cpu_ppc_signal_handler(int host_signum, void *pinfo, void *puc);
+ bool ppc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                       MMUAccessType access_type, int mmu_idx,
+                       bool probe, uintptr_t retaddr);
+@@ -1371,7 +1365,6 @@ int ppc_dcr_write(ppc_dcr_t *dcr_env, int dcrn, uint32_t val);
+ #define POWERPC_CPU_TYPE_NAME(model) model POWERPC_CPU_TYPE_SUFFIX
+ #define CPU_RESOLVING_TYPE TYPE_POWERPC_CPU
+ 
+-#define cpu_signal_handler cpu_ppc_signal_handler
+ #define cpu_list ppc_cpu_list
+ 
+ /* MMU modes definitions */
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index e735e53e26..465142616a 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -356,7 +356,6 @@ void riscv_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+ char *riscv_isa_string(RISCVCPU *cpu);
+ void riscv_cpu_list(void);
+ 
+-#define cpu_signal_handler riscv_cpu_signal_handler
+ #define cpu_list riscv_cpu_list
+ #define cpu_mmu_index riscv_cpu_mmu_index
+ 
+@@ -372,7 +371,6 @@ void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
+ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv);
+ 
+ void riscv_translate_init(void);
+-int riscv_cpu_signal_handler(int host_signum, void *pinfo, void *puc);
+ void QEMU_NORETURN riscv_raise_exception(CPURISCVState *env,
+                                          uint32_t exception, uintptr_t pc);
+ 
+diff --git a/target/rx/cpu.h b/target/rx/cpu.h
+index faa3606f52..4ac71aec37 100644
+--- a/target/rx/cpu.h
++++ b/target/rx/cpu.h
+@@ -134,13 +134,9 @@ int rx_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ hwaddr rx_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ 
+ void rx_translate_init(void);
+-int cpu_rx_signal_handler(int host_signum, void *pinfo,
+-                           void *puc);
+-
+ void rx_cpu_list(void);
+ void rx_cpu_unpack_psw(CPURXState *env, uint32_t psw, int rte);
+ 
+-#define cpu_signal_handler cpu_rx_signal_handler
+ #define cpu_list rx_cpu_list
+ 
+ #include "exec/cpu-all.h"
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index b26ae8fff2..3153d053e9 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -809,13 +809,6 @@ void s390_set_qemu_cpu_model(uint16_t type, uint8_t gen, uint8_t ec_ga,
+ #define S390_CPU_TYPE_NAME(name) (name S390_CPU_TYPE_SUFFIX)
+ #define CPU_RESOLVING_TYPE TYPE_S390_CPU
+ 
+-/* you can call this signal handler from your SIGBUS and SIGSEGV
+-   signal handlers to inform the virtual CPU of exceptions. non zero
+-   is returned if the signal was handled by the virtual CPU.  */
+-int cpu_s390x_signal_handler(int host_signum, void *pinfo, void *puc);
+-#define cpu_signal_handler cpu_s390x_signal_handler
+-
+-
+ /* interrupt.c */
+ #define RA_IGNORED                  0
+ void s390_program_interrupt(CPUS390XState *env, uint32_t code, uintptr_t ra);
+diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+index 017a770214..56f7c32df9 100644
+--- a/target/sh4/cpu.h
++++ b/target/sh4/cpu.h
+@@ -213,8 +213,6 @@ void superh_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+                                     int mmu_idx, uintptr_t retaddr);
+ 
+ void sh4_translate_init(void);
+-int cpu_sh4_signal_handler(int host_signum, void *pinfo,
+-                           void *puc);
+ bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                          MMUAccessType access_type, int mmu_idx,
+                          bool probe, uintptr_t retaddr);
+@@ -250,7 +248,6 @@ void cpu_load_tlb(CPUSH4State * env);
+ #define SUPERH_CPU_TYPE_NAME(model) model SUPERH_CPU_TYPE_SUFFIX
+ #define CPU_RESOLVING_TYPE TYPE_SUPERH_CPU
+ 
+-#define cpu_signal_handler cpu_sh4_signal_handler
+ #define cpu_list sh4_cpu_list
+ 
+ /* MMU modes definitions */
+diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+index 1f40d768d8..5a7f1ed5d6 100644
+--- a/target/sparc/cpu.h
++++ b/target/sparc/cpu.h
+@@ -648,13 +648,11 @@ hwaddr cpu_get_phys_page_nofault(CPUSPARCState *env, target_ulong addr,
+                                            int mmu_idx);
+ #endif
+ #endif
+-int cpu_sparc_signal_handler(int host_signum, void *pinfo, void *puc);
+ 
+ #define SPARC_CPU_TYPE_SUFFIX "-" TYPE_SPARC_CPU
+ #define SPARC_CPU_TYPE_NAME(model) model SPARC_CPU_TYPE_SUFFIX
+ #define CPU_RESOLVING_TYPE TYPE_SPARC_CPU
+ 
+-#define cpu_signal_handler cpu_sparc_signal_handler
+ #define cpu_list sparc_cpu_list
+ 
+ /* MMU modes definitions */
+diff --git a/target/tricore/cpu.h b/target/tricore/cpu.h
+index 4b61a2c03f..c461387e71 100644
+--- a/target/tricore/cpu.h
++++ b/target/tricore/cpu.h
+@@ -362,7 +362,6 @@ void fpu_set_state(CPUTriCoreState *env);
+ 
+ void tricore_cpu_list(void);
+ 
+-#define cpu_signal_handler cpu_tricore_signal_handler
+ #define cpu_list tricore_cpu_list
+ 
+ static inline int cpu_mmu_index(CPUTriCoreState *env, bool ifetch)
+@@ -377,7 +376,6 @@ typedef TriCoreCPU ArchCPU;
+ 
+ void cpu_state_reset(CPUTriCoreState *s);
+ void tricore_tcg_init(void);
+-int cpu_tricore_signal_handler(int host_signum, void *pinfo, void *puc);
+ 
+ static inline void cpu_get_tb_cpu_state(CPUTriCoreState *env, target_ulong *pc,
+                                         target_ulong *cs_base, uint32_t *flags)
+diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+index cbb720e7cc..646965f379 100644
+--- a/target/xtensa/cpu.h
++++ b/target/xtensa/cpu.h
+@@ -584,7 +584,6 @@ void xtensa_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+                                     MMUAccessType access_type,
+                                     int mmu_idx, uintptr_t retaddr);
+ 
+-#define cpu_signal_handler cpu_xtensa_signal_handler
+ #define cpu_list xtensa_cpu_list
+ 
+ #define XTENSA_CPU_TYPE_SUFFIX "-" TYPE_XTENSA_CPU
+@@ -613,7 +612,6 @@ void check_interrupts(CPUXtensaState *s);
+ void xtensa_irq_init(CPUXtensaState *env);
+ qemu_irq *xtensa_get_extints(CPUXtensaState *env);
+ qemu_irq xtensa_get_runstall(CPUXtensaState *env);
+-int cpu_xtensa_signal_handler(int host_signum, void *pinfo, void *puc);
+ void xtensa_cpu_list(void);
+ void xtensa_sync_window_from_phys(CPUXtensaState *env);
+ void xtensa_sync_phys_from_window(CPUXtensaState *env);
+-- 
+2.25.1
 
-  Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2021-09-20 16:17:05 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210920
-
-for you to fetch changes up to b21ba5dfe3f4a367910d490d10fa7c9fa76f1504:
-
-  tcg/riscv: Remove add with zero on user-only memory access (2021-09-20 14:17:54 -0700)
-
-----------------------------------------------------------------
-Move cpu_signal_handler declaration.
-Restrict cpu_handle_halt to sysemu.
-Make do_unaligned_access noreturn.
-Misc tcg/mips cleanup
-Misc tcg/sparc cleanup
-Misc tcg/riscv cleanup
-
-----------------------------------------------------------------
-Philippe Mathieu-Daudé (1):
-      accel/tcg: Restrict cpu_handle_halt() to sysemu
-
-Richard Henderson (9):
-      include/exec: Move cpu_signal_handler declaration
-      tcg/mips: Drop inline markers
-      tcg/mips: Allow JAL to be out of range in tcg_out_bswap_subr
-      tcg/mips: Unset TCG_TARGET_HAS_direct_jump
-      tcg/mips: Drop special alignment for code_gen_buffer
-      tcg/sparc: Drop inline markers
-      tcg/sparc: Introduce tcg_out_mov_delay
-      hw/core: Make do_unaligned_access noreturn
-      tcg/riscv: Remove add with zero on user-only memory access
-
- include/exec/exec-all.h        |  13 +++++
- include/hw/core/tcg-cpu-ops.h  |   3 +-
- target/alpha/cpu.h             |  10 +---
- target/arm/cpu.h               |   7 ---
- target/arm/internals.h         |   2 +-
- target/avr/cpu.h               |   2 -
- target/cris/cpu.h              |   8 ----
- target/hexagon/cpu.h           |   3 --
- target/hppa/cpu.h              |   3 --
- target/i386/cpu.h              |   7 ---
- target/m68k/cpu.h              |   8 ----
- target/microblaze/cpu.h        |   9 +---
- target/mips/cpu.h              |   3 --
- target/mips/internal.h         |   2 -
- target/mips/tcg/tcg-internal.h |   4 +-
- target/nios2/cpu.h             |   6 +--
- target/openrisc/cpu.h          |   2 -
- target/ppc/cpu.h               |   7 ---
- target/ppc/internal.h          |   4 +-
- target/riscv/cpu.h             |   4 +-
- target/rx/cpu.h                |   4 --
- target/s390x/cpu.h             |   7 ---
- target/s390x/s390x-internal.h  |   4 +-
- target/sh4/cpu.h               |   7 +--
- target/sparc/cpu.h             |   2 -
- target/tricore/cpu.h           |   2 -
- target/xtensa/cpu.h            |   6 +--
- tcg/mips/tcg-target.h          |  12 ++---
- accel/tcg/cpu-exec.c           |   6 ++-
- target/hppa/cpu.c              |   7 +--
- tcg/region.c                   |  91 -----------------------------------
- tcg/mips/tcg-target.c.inc      | 105 ++++++++++++++---------------------------
- tcg/riscv/tcg-target.c.inc     |  10 +---
- tcg/sparc/tcg-target.c.inc     |  64 ++++++++++++++-----------
- 34 files changed, 119 insertions(+), 315 deletions(-)
 
