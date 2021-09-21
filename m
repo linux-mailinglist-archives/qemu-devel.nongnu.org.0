@@ -2,50 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0F48412D7F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 05:32:38 +0200 (CEST)
-Received: from localhost ([::1]:47952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39119412E23
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 07:19:05 +0200 (CEST)
+Received: from localhost ([::1]:49838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSWWL-0004Dw-BL
-	for lists+qemu-devel@lfdr.de; Mon, 20 Sep 2021 23:32:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50978)
+	id 1mSYBL-0004RU-Oo
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 01:19:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mSWSW-0002py-K3; Mon, 20 Sep 2021 23:28:40 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:57277 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mSYAN-0003nN-KP
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 01:18:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mSWSS-0005lU-4Y; Mon, 20 Sep 2021 23:28:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1632194910;
- bh=rqSC4bIJjfz5iwTDRB9XTBMuMhUoTpF9d4l7w8Ot3T8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SIbFIazJXUNX8aY/2Bx6+U/95FNyi5r4cztpsgrw1/8nmOgc4xZ5MRyHScvX1CYQm
- nzdLV46HB/kFfA2IzQFEQY2QNhT8JKY1iLykbQCi5ZNCh0p4VkkvqGn6jyrkNXmW07
- UVGO8nSEQY9yBOojdExAUxDtTvVjw9b8LJ1ex5RA=
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4HD6Mf1Wqlz9t0k; Tue, 21 Sep 2021 13:28:30 +1000 (AEST)
-Date: Tue, 21 Sep 2021 13:25:23 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [RESEND PATCH 1/3] hw/intc: openpic: Correct the reset value of
- IPIDR for FSL chipset
-Message-ID: <YUlQo68s9mxISwEs@yekko>
-References: <20210918032653.646370-1-bin.meng@windriver.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mSYAK-000767-21
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 01:18:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632201477;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=p5CL3Up9iYqgiAMfODj8LNxywVffDHdxKNSxLiOV814=;
+ b=S1bemkV56uf2nHXefgu6foHDUSpZ88wEts8ypYyza6/g9kPGZMBJnNu+DrLjISc30fvbIm
+ EqpHMk04NtJsbl4jWByvTpruKuzKi1nwmH+BDo6879ZimioSlcvC2X9AFvgC1UEJLcVw5y
+ Oyu69Di2O0YyleSMd3bG4y85rOixl2I=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-235-96ebjbLPMv6PyhiUTI8NfQ-1; Tue, 21 Sep 2021 01:17:56 -0400
+X-MC-Unique: 96ebjbLPMv6PyhiUTI8NfQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ e1-20020adfa741000000b0015e424fdd01so7370974wrd.11
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 22:17:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=p5CL3Up9iYqgiAMfODj8LNxywVffDHdxKNSxLiOV814=;
+ b=ohe5E4JDZVuwT9Le4JDWtrPFNwJaT0SW5ibRckdf4kY6ZqxM9vwb5cu5u3ZYs/fp9V
+ 57M7+63ZmD408Xp5IRYrcGqmzSQSpOoQM/w1bnihbzBmwnKHYYXUuKdJIMH1I46HMv39
+ hemObnKQhAWsHi2AjUvz2PkeyjeTcHXoHQ8CWPZ5UWMF2knstuQHsj6IY/N86PUJ7N1d
+ q9EglFPwc7bMnCXAvZxfoJrGnzYQaKbPrWi682EeYAIM5hHxMOgpL+Qxjp/vfYFfhCFe
+ 9IhQTsJJuSsUFnvniNAUACPt1dph3y+/sbzFhKXnl4lqX1/0hhdYtW1nCbbarUEz0O+I
+ illA==
+X-Gm-Message-State: AOAM531InLwtAWgeaCYmXml5h8zxj1MBx1ADT3ajxoTRH1pHgTu9a1dF
+ heZ5FmLEceIwhWb1E94QbtXoaRhQ0nRRzan+mNk7WdX4N3E11RrcyqoT1tQSplId4V++ZSFiE4s
+ 0gmcdIw9xwaJgcKY=
+X-Received: by 2002:a5d:444a:: with SMTP id x10mr32425835wrr.360.1632201474987; 
+ Mon, 20 Sep 2021 22:17:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyyQDWd0916nAm4tTBQJK2m/R3BUudLaaeNRGzJijp/knO8xwcpZyKPAkqfS0EBipnc8jEa3w==
+X-Received: by 2002:a5d:444a:: with SMTP id x10mr32425814wrr.360.1632201474783; 
+ Mon, 20 Sep 2021 22:17:54 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id k1sm18297338wrz.61.2021.09.20.22.17.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Sep 2021 22:17:54 -0700 (PDT)
+Message-ID: <f5d29087-9952-6782-d19b-331d95bd0f11@redhat.com>
+Date: Tue, 21 Sep 2021 07:17:53 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VdsJWNCLXY2coTdb"
-Content-Disposition: inline
-In-Reply-To: <20210918032653.646370-1-bin.meng@windriver.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v2 23/23] test-clone-visitor: Correct an accidental rename
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210917143134.412106-1-armbru@redhat.com>
+ <20210917143134.412106-24-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20210917143134.412106-24-armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,91 +98,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: michael.roth@amd.com, jsnow@redhat.com, eblake@redhat.com,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---VdsJWNCLXY2coTdb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Sep 18, 2021 at 11:26:51AM +0800, Bin Meng wrote:
-> The reset value of IPIDR should be zero for Freescale chipset, per
-> the following 2 manuals I checked:
->=20
-> - P2020RM (https://www.nxp.com/webapp/Download?colCode=3DP2020RM)
-> - P4080RM (https://www.nxp.com/webapp/Download?colCode=3DP4080RM)
->=20
-> Currently it is set to 1, which leaves the IPI enabled on core 0
-> after power-on reset. Such may cause unexpected interrupt to be
-> delivered to core 0 if the IPI is triggered from core 0 to other
-> cores later.
->=20
-> Fixes: ffd5e9fe0276 ("openpic: Reset IRQ source private members")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/584
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-
-Since these patches are very simple and look sensible, I've applied
-them to ppc-for-6.2.
-
-However, you should note that Greg and I are both moving into other
-areas and don't have much capacity for ppc maintainership any more.
-Therefore I'll shortly be sending some MAINTAINERS updates moving
-openpic (amongst other things) to "Orphan" status.
-
+On 9/17/21 16:31, Markus Armbruster wrote:
+> Commit b359f4b203 "tests: Rename UserDefNativeListUnion to
+> UserDefListUnion" renamed test_clone_native_list() to
+> test_clone_list_union().  The function has nothing to do with unions.
+> Rename it to test_clone_list().
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
 > ---
->=20
->  hw/intc/openpic.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->=20
-> diff --git a/hw/intc/openpic.c b/hw/intc/openpic.c
-> index 9b4c17854d..2790c6710a 100644
-> --- a/hw/intc/openpic.c
-> +++ b/hw/intc/openpic.c
-> @@ -1276,6 +1276,15 @@ static void openpic_reset(DeviceState *d)
->              break;
->          }
-> =20
-> +        /* Mask all IPI interrupts for Freescale OpenPIC */
-> +        if ((opp->model =3D=3D OPENPIC_MODEL_FSL_MPIC_20) ||
-> +            (opp->model =3D=3D OPENPIC_MODEL_FSL_MPIC_42)) {
-> +            if (i >=3D opp->irq_ipi0 && i < opp->irq_tim0) {
-> +                write_IRQreg_idr(opp, i, 0);
-> +                continue;
-> +            }
-> +        }
-> +
->          write_IRQreg_idr(opp, i, opp->idr_reset);
->      }
->      /* Initialise IRQ destinations */
+>  tests/unit/test-clone-visitor.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Maybe nitpicking, while this patch is related to the series,
+although I understand you noticed the mistake while working
+on this series, I'd move this cleanup as 1/23.
 
---VdsJWNCLXY2coTdb
-Content-Type: application/pgp-signature; name="signature.asc"
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmFJUKEACgkQbDjKyiDZ
-s5Ju3Q/7BOTqJGQrDn168x+G9tKYwljA4EhuV5UjpCmn5oMvwCjMyOdSkI5D4O5H
-C1oObEZkKOGdOyh0l09zKnsKkPIIs3PtrivyFxu9ahuVioCBsMXEWelLIlwiDG1h
-CztCDW1UFBy6o8EHiruJ4TwngZF6b8zXqE+ECWQ7gnRBuYToIErNqi89u851vOSg
-T8iwXKVQ/lf3VDxVHVfoNDk/ofaygFUjWwKo6cTZL4xO1vP2Dwr2K91sixhiUMBc
-/ei7/WDlvXZ8Q//hdOxMR7RrhmOrHciK4O54OKCF1M3EiF2QuwBQCZrVHaCwxe91
-JzC7L8dPnPE6imTQX/cXqYYvWKbggMbm8r/UWoLsf+uVA1n9xYK5uLk+/JXHJ1v6
-+JA6PW2+6dhtM3VguEGL3vIUBBDEYlsU1WayCnRYamnABdu0Hr9w0Gsg6BAVSzen
-R0Gjpjb8825uPG3yapLVv9BLsvotZspT5zV5QqvUUGU63kweedrO3cd+P+y2bKMd
-jkXLlDRIMUbE8Oq0hCGd/Hl9usCu+lsbucFlE5pLexJYQ3j0m/q0v+AiYNPM55od
-ro/NeP76hVmgmqRnoQNpspmWPizPtdPdPTic5IWM1rLad4t9WhWcl6GXh8v4/keJ
-xUEILbUMZRrnaZgLIgAQM1aDwJ9Gq9FRk0G2rXz71TZf+Kb3tOQ=
-=LCFz
------END PGP SIGNATURE-----
-
---VdsJWNCLXY2coTdb--
 
