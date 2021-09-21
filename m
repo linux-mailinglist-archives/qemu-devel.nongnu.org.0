@@ -2,75 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 514694137B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 18:37:49 +0200 (CEST)
-Received: from localhost ([::1]:33116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90181413804
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 19:07:27 +0200 (CEST)
+Received: from localhost ([::1]:50976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSimC-0000zK-99
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 12:37:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47176)
+	id 1mSjEs-0006HW-4j
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 13:07:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSidr-0008Sa-K5
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 12:29:11 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36831)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSido-0002Bc-LY
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 12:29:11 -0400
-Received: by mail-wr1-x432.google.com with SMTP id g16so40940195wrb.3
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 09:29:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3E7kwGW+up3GsQ28CwtzAbDb2VBzaxcDFqWQbjPeAEA=;
- b=pvKVaQn2e8Q+WDlpeh1skSR+tN/P7fC+WrGZG0hhddp/Ru/Jgjy4/36LQQ3/qdUynf
- poLwiSsiR14PTEF8W9zHZBx0dbuNWU6S4WquA1m7g1z3C1Fd+IKqqYZO2ELuSUemRxrI
- aJ1nu8WmFoaVJHLwmszoxVjFRWrGI+sWWhi6gN0WwWyH2WAvI5mRz1DLDtH2psN5IMSw
- AcaBTCIfdyOqPn2dINVhzIbon/kQfZbOo6iz/qKLN1dI4C7kuOlsHuobffLJJOqRn1cn
- XxPLI8DqzTQEK1ERycgYFTHUVtkAt2okk9IF/kROQ1dadfvGo1V6PShRKR19QQi+6OVg
- 1aWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3E7kwGW+up3GsQ28CwtzAbDb2VBzaxcDFqWQbjPeAEA=;
- b=M7je9I56CNdDU0ASFzte/aKdNRRGbiYFmxGx0YleQj0lvZb7+3OW8ynK15Lek4/E9F
- Vg0oLCLVwY39Ygajy0hoNLHdT2SR7EotgbfJmPtYlThChEqdvcpoM26G+msVxrnv4ZlR
- 4qCR7iAmRdXrIdtBpCuHYKT4+JjnSBMWuntI1S1QB+j25QCbDwdbi+XACMHuUJM1R1pv
- gxuwq7u0x+0DSvn1JN7HNe4FoHnktpOumx70I/XWE9bYDZ6YW/JXOwQl8JD3piFQXnPm
- 1u3lkXa9IbrHJaRv8YiBij3t3j5Ck4PHCK/4PToyt3hM5PfQazfOpM2PepmliknBz1mr
- Ts8Q==
-X-Gm-Message-State: AOAM532br1Csat9ZsEPwMPiUGB3EpQzmuV38GHhkYU6aWKBNhjkPw7XZ
- 3zMXQbPhNkzFZ818L8//bilthOxutjDF8w==
-X-Google-Smtp-Source: ABdhPJxXInD1Otfu/jruvW7LweOG2oWJ2MkBC+UD2qkgBbOq/6xEaMmhkHo7qzurAi/xZ5UpzocBwQ==
-X-Received: by 2002:a7b:c405:: with SMTP id k5mr5615050wmi.24.1632241747252;
- Tue, 21 Sep 2021 09:29:07 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q7sm19841014wru.56.2021.09.21.09.29.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Sep 2021 09:29:06 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 5/5] [RFC] target/arm: Advertise MVE to gdb when present
-Date: Tue, 21 Sep 2021 17:29:01 +0100
-Message-Id: <20210921162901.17508-6-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210921162901.17508-1-peter.maydell@linaro.org>
-References: <20210921162901.17508-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1mSjCj-0004HF-G5; Tue, 21 Sep 2021 13:05:14 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:54180 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1mSjCh-00038f-Ek; Tue, 21 Sep 2021 13:05:13 -0400
+Received: from MacBook-Air.alex.local
+ (dynamic-077-007-123-111.77.7.pool.telefonica.de [77.7.123.111])
+ by csgraf.de (Postfix) with ESMTPSA id 2EB3B60800D4;
+ Tue, 21 Sep 2021 19:05:08 +0200 (CEST)
+Subject: Re: [PATCH v12 04/10] hvf: Add Apple Silicon support
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210916155404.86958-1-agraf@csgraf.de>
+ <20210916155404.86958-5-agraf@csgraf.de>
+ <CAFEAcA-Us-4H8FTFCY38s3=65imNGJ6WP_WYup_EoAxPyDghKQ@mail.gmail.com>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <d0456d36-1ac0-56cd-0f84-ed80cae2361f@csgraf.de>
+Date: Tue, 21 Sep 2021 19:05:09 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <CAFEAcA-Us-4H8FTFCY38s3=65imNGJ6WP_WYup_EoAxPyDghKQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,150 +55,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luis Machado <luis.machado@linaro.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cortex-M CPUs with MVE should advertise this fact to gdb, using the
-org.gnu.gdb.arm.m-profile-mve XML feature, which defines the VPR
-register.  Presence of this feature also tells gdb to create
-pseudo-registers Q0..Q7, so we do not need to tell gdb about them
-separately.
 
-Note that unless you have a very recent GDB that includes this fix:
-http://patches-tcwg.linaro.org/patch/58133/ gdb will mis-print the
-individual fields of the VPR register as zero (but showing the whole
-thing as hex, eg with "print /x $vpr" will give the correct value).
+On 21.09.21 17:30, Peter Maydell wrote:
+> On Thu, 16 Sept 2021 at 16:54, Alexander Graf <agraf@csgraf.de> wrote:
+>> With Apple Silicon available to the masses, it's a good time to add support
+>> for driving its virtualization extensions from QEMU.
+>>
+>> This patch adds all necessary architecture specific code to get basic VMs
+>> working, including save/restore.
+>>
+>> Known limitations:
+>>
+>>   - WFI handling is missing (follows in later patch)
+>>   - No watchpoint/breakpoint support
+>>
+>> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+>> Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+>> Reviewed-by: Sergio Lopez <slp@redhat.com>
+>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> This broke compilation on x86 osx:
+>
+>> --- a/target/i386/hvf/hvf.c
+>> +++ b/target/i386/hvf/hvf.c
+>> @@ -206,6 +206,11 @@ static inline bool apic_bus_freq_is_known(CPUX86State *env)
+>>      return env->apic_bus_freq != 0;
+>>  }
+>>
+>> +void hvf_kick_vcpu_thread(CPUState *cpu)
+>> +{
+>> +    cpus_kick_thread(cpu);
+>> +}
+> This won't build without an extra #include "sysemu/cpus.h".
+> I've folded in the fix.
 
-NB: the gdb patches to implement this have not yet landed in
-gdb upstream, so this patch is RFC status only until that
-happens and the XML is finalized.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- configs/targets/aarch64-softmmu.mak  |  2 +-
- configs/targets/arm-linux-user.mak   |  2 +-
- configs/targets/arm-softmmu.mak      |  2 +-
- configs/targets/armeb-linux-user.mak |  2 +-
- target/arm/gdbstub.c                 | 25 +++++++++++++++++++++++++
- gdb-xml/arm-m-profile-mve.xml        | 19 +++++++++++++++++++
- 6 files changed, 48 insertions(+), 4 deletions(-)
- create mode 100644 gdb-xml/arm-m-profile-mve.xml
+Thanks a lot! I test compiled all the earlier versions of the patch set
+on x86 as well, but no longer have easy access to an x86 macOS system
+:(. They're just so insanely slow in comparison!
 
-diff --git a/configs/targets/aarch64-softmmu.mak b/configs/targets/aarch64-softmmu.mak
-index 13d40b55e6d..d489e6da830 100644
---- a/configs/targets/aarch64-softmmu.mak
-+++ b/configs/targets/aarch64-softmmu.mak
-@@ -1,5 +1,5 @@
- TARGET_ARCH=aarch64
- TARGET_BASE_ARCH=arm
- TARGET_SUPPORTS_MTTCG=y
--TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
-+TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml
- TARGET_NEED_FDT=y
-diff --git a/configs/targets/arm-linux-user.mak b/configs/targets/arm-linux-user.mak
-index acecc339e38..3e10d6b15d5 100644
---- a/configs/targets/arm-linux-user.mak
-+++ b/configs/targets/arm-linux-user.mak
-@@ -1,6 +1,6 @@
- TARGET_ARCH=arm
- TARGET_SYSTBL_ABI=common,oabi
- TARGET_SYSTBL=syscall.tbl
--TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
-+TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml
- TARGET_HAS_BFLT=y
- CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
-diff --git a/configs/targets/arm-softmmu.mak b/configs/targets/arm-softmmu.mak
-index f6c95ba07a4..92c8349b964 100644
---- a/configs/targets/arm-softmmu.mak
-+++ b/configs/targets/arm-softmmu.mak
-@@ -1,4 +1,4 @@
- TARGET_ARCH=arm
- TARGET_SUPPORTS_MTTCG=y
--TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
-+TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml
- TARGET_NEED_FDT=y
-diff --git a/configs/targets/armeb-linux-user.mak b/configs/targets/armeb-linux-user.mak
-index 662c73d8fbd..f81e5bf1fe4 100644
---- a/configs/targets/armeb-linux-user.mak
-+++ b/configs/targets/armeb-linux-user.mak
-@@ -2,6 +2,6 @@ TARGET_ARCH=arm
- TARGET_SYSTBL_ABI=common,oabi
- TARGET_SYSTBL=syscall.tbl
- TARGET_WORDS_BIGENDIAN=y
--TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
-+TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml
- TARGET_HAS_BFLT=y
- CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index e0dcb33e325..134da0d0ae3 100644
---- a/target/arm/gdbstub.c
-+++ b/target/arm/gdbstub.c
-@@ -199,6 +199,27 @@ static int vfp_gdb_set_sysreg(CPUARMState *env, uint8_t *buf, int reg)
-     return 0;
- }
- 
-+static int mve_gdb_get_reg(CPUARMState *env, GByteArray *buf, int reg)
-+{
-+    switch (reg) {
-+    case 0:
-+        return gdb_get_reg32(buf, env->v7m.vpr);
-+    default:
-+        return 0;
-+    }
-+}
-+
-+static int mve_gdb_set_reg(CPUARMState *env, uint8_t *buf, int reg)
-+{
-+    switch (reg) {
-+    case 0:
-+        env->v7m.vpr = ldl_p(buf);
-+        return 4;
-+    default:
-+        return 0;
-+    }
-+}
-+
- /**
-  * arm_get/set_gdb_*: get/set a gdb register
-  * @env: the CPU state
-@@ -468,6 +489,10 @@ void arm_cpu_register_gdb_regs_for_features(ARMCPU *cpu)
-                                      2, "arm-vfp-sysregs.xml", 0);
-         }
-     }
-+    if (cpu_isar_feature(aa32_mve, cpu)) {
-+        gdb_register_coprocessor(cs, mve_gdb_get_reg, mve_gdb_set_reg,
-+                                 1, "arm-m-profile-mve.xml", 0);
-+    }
-     gdb_register_coprocessor(cs, arm_gdb_get_sysreg, arm_gdb_set_sysreg,
-                              arm_gen_dynamic_sysreg_xml(cs, cs->gdb_num_regs),
-                              "system-registers.xml", 0);
-diff --git a/gdb-xml/arm-m-profile-mve.xml b/gdb-xml/arm-m-profile-mve.xml
-new file mode 100644
-index 00000000000..cba664c4c5b
---- /dev/null
-+++ b/gdb-xml/arm-m-profile-mve.xml
-@@ -0,0 +1,19 @@
-+<?xml version="1.0"?>
-+<!-- Copyright (C) 2021 Free Software Foundation, Inc.
-+
-+     Copying and distribution of this file, with or without modification,
-+     are permitted in any medium without royalty provided the copyright
-+     notice and this notice are preserved.  -->
-+
-+<!DOCTYPE feature SYSTEM "gdb-target.dtd">
-+<feature name="org.gnu.gdb.arm.m-profile-mve">
-+  <flags id="vpr_reg" size="4">
-+    <!-- ARMv8.1-M and MVE: Unprivileged and privileged Access.  -->
-+    <field name="P0" start="0" end="15"/>
-+    <!-- ARMv8.1-M: Privileged Access only.  -->
-+    <field name="MASK01" start="16" end="19"/>
-+    <!-- ARMv8.1-M: Privileged Access only.  -->
-+    <field name="MASK23" start="20" end="23"/>
-+  </flags>
-+  <reg name="vpr" bitsize="32" type="vpr_reg"/>
-+</feature>
--- 
-2.20.1
+
+Alex
 
 
