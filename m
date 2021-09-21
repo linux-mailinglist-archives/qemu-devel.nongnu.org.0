@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C09F1413C03
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 23:08:39 +0200 (CEST)
-Received: from localhost ([::1]:55496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0AD8413C1C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 23:13:20 +0200 (CEST)
+Received: from localhost ([::1]:59932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSn0I-0003XF-9m
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 17:08:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53114)
+	id 1mSn4p-0006gM-Qp
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 17:13:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
- id 1mSmzU-0002dH-0o
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 17:07:48 -0400
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:41880)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mSn36-0005Qd-Ly; Tue, 21 Sep 2021 17:11:32 -0400
+Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:35594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
- id 1mSmzS-0000Jq-Iu
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 17:07:47 -0400
-Received: by mail-ot1-x336.google.com with SMTP id
- 97-20020a9d006a000000b00545420bff9eso358172ota.8
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 14:07:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mSn34-0002tX-GK; Tue, 21 Sep 2021 17:11:32 -0400
+Received: by mail-qt1-x831.google.com with SMTP id c20so701730qtb.2;
+ Tue, 21 Sep 2021 14:11:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=6GOD7Kd3l+JUBk4hLfB4HbFIwKwjnFs2h36q0wUmJXs=;
- b=GMBLg3DygpM2h6102Z7xi2VgYpkGAJcQQmSAk7hZS5E8qpRkNVvqVzCfFfujB1q086
- ctb+PYrONqwTyKSJVxFGJ3wV2tMC1D44PWSqHfuCDqlsiWNeRkPsVUhwaTRyCi/faing
- TqkF/ojw3jJ5J1e0z/iz4a4zk6dP0JHD1u74riXpsFxpEEEv81qlihrbRiN7xG8ktcIL
- nY10UZEWkia+8OfghAy0wRGy60VRy8XZtCD4LpO8JQ7/Z9Wt/l05fkDqHR0JGoW7FWAU
- 8vN5YbwqLotGNEmC2gMJAGYx6TjFzNd1OCc084FyKP2q3HWKdEGhqLqIVTQOqz6NVNKL
- PDNg==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=PVJU4lV8HPwFEC2T2QODYaxh4slEkWwCUF3U59Eekdk=;
+ b=XW6RfRsTvgZi6mU4SZv4KMpMDDBbabILTTYaJOZLY4IceGwSOSYlzp+9ksuzlCANYG
+ l5yqX+pJT7GUbXF0s2Z7HJz1zmkw8Cn8fQm/IQgk+Zrl1xVSiSv6iuRhUABWJxXk3coB
+ SStxCwwz5LMJfesTRlK3+khK0D7Rkway3CIEF4U8LUKKG2pWG0pyF4QlTDg75SHQvIRc
+ fP8fmhwFEwIYKsCh70hTqulxUszfZ9NbvRElKdu+3T//Gz4Ejx3M78bpSFd049xt6NDm
+ 6BpOFoucLzryKWWSeTLYodyE9O7/w/D6XQ3WoYEG4dTjaBwVd7U/K89sHxJus8Toliku
+ Ai0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=6GOD7Kd3l+JUBk4hLfB4HbFIwKwjnFs2h36q0wUmJXs=;
- b=WH3ah4LTFpcLqeDoUYkgnmH5Nfwx7wAX+QE+UX9Zf98QGM5bnb5zB7xpmP6XaQFZAL
- 1+QKLmb9e3OpS0lmctW5zCMBQMaSkWtJVZFvwPpFZZWQHyWGFw7HN/pSHNzXQYHTQ6gG
- PL5DKJVR7PXIf+uERgzMM+ABg8vlidGu/SRc6iSzbVLkw0DrqnqBz/yesYOSxpe8/V7T
- CgtNMylWjmc9Cq3ovdPWj9QWWlfUaUeINvDesHxFhaxftXRZJExqqB3YBVhLl4TMSaaL
- JVMPXXJB7kpciKO/WaKF/NkPCbCw0RJJL3XKiHFFLutq6Ucl01L5HsRLKWB5/hXrv4Up
- sgGw==
-X-Gm-Message-State: AOAM533r8wB5fMmBvx5w50YjS8OrLW/NuK+cnZP8MsbfCqIg3DP1kukX
- NZ/4k7obUBFHPNdyxRFJhg8LEM3RB8suOSz6PD/kn1d2CtM=
-X-Google-Smtp-Source: ABdhPJzsxw0AN+brfVtRvZzUbzi+Baqsl67gDN7fJeuj5BxjzE9RC0m0nwIERQQnhmdyQEYGfOaFK3NKOUcL545G/us=
-X-Received: by 2002:a9d:71c6:: with SMTP id z6mr27477526otj.382.1632258464705; 
- Tue, 21 Sep 2021 14:07:44 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=PVJU4lV8HPwFEC2T2QODYaxh4slEkWwCUF3U59Eekdk=;
+ b=j1egIS46tcU3M++wuvYhK1l7np09ptNrAWEv/kEpC2zjy5YSGaZFnxrDizq32RHVW2
+ 7//GppQ1W5TpEUNHSy2owkyGQl2XRgJcKfruw0g+nbkbaiCfmpZC2AMh4n3vHmuCQABz
+ 18Amszu32rSOCHhZLK3DZHX78yBWBqn+EcUnaCssBsz4IXUjwTSRcrhIcqlYs0bEY8Bj
+ t/agIeBhYqdtyhQA8l0hwxJHuRV6DvkAOPFo258VQFFmtEVFTqnhbf7agUbYi9qdlUoq
+ X6DhiJzAa83LPMx/QMtJrFSftKwgUc1oEzgcRltnQmxjeFs/6lf84mSa+ARJ3y6q5FWo
+ XOsg==
+X-Gm-Message-State: AOAM531MUQblSAhuTbokyPMlW98xKidlqOXej7gHFkgtRg+Edoqvi5qP
+ 1SVzs8wywGhEl9pImA9znly+rJwXb2w=
+X-Google-Smtp-Source: ABdhPJzYiNV6S9XSjp4O6ZVYoJLKNHeCfkOHoY8oWMObXJULKR5H2Vw8nRQD0fJx97hv0+ZPi8revw==
+X-Received: by 2002:ac8:4555:: with SMTP id z21mr2181381qtn.311.1632258688890; 
+ Tue, 21 Sep 2021 14:11:28 -0700 (PDT)
+Received: from [192.168.10.222] ([177.189.43.50])
+ by smtp.gmail.com with ESMTPSA id z6sm156170qke.24.2021.09.21.14.11.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Sep 2021 14:11:28 -0700 (PDT)
+Message-ID: <8bb98814-4cc8-91e5-7ad2-b27b7bf9122e@gmail.com>
+Date: Tue, 21 Sep 2021 18:11:24 -0300
 MIME-Version: 1.0
-From: Kenneth Adam Miller <kennethadammiller@gmail.com>
-Date: Tue, 21 Sep 2021 17:07:33 -0400
-Message-ID: <CAK7rcp9HjoCVbFmT9rwAteAVdCCMgobt1jvCLuhL3CCBKJZSsA@mail.gmail.com>
-Subject: Change TCG cache size?
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000f8716b05cc87c915"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
- envelope-from=kennethadammiller@gmail.com; helo=mail-ot1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH v3 05/15] target/ppc: PMU: add instruction counting
+Content-Language: en-US
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210903203116.80628-1-danielhb413@gmail.com>
+ <20210903203116.80628-6-danielhb413@gmail.com> <YTbG7x0acChUIC4j@yekko>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <YTbG7x0acChUIC4j@yekko>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x831.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,26 +86,331 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, clg@kaod.org, matheus.ferst@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f8716b05cc87c915
-Content-Type: text/plain; charset="UTF-8"
 
-Hello all,
 
-I just want to ask this one question: if I change the qemu tcg cache size (
-TB_JMP_CACHE_SIZE), will that force any errors at run time?
+On 9/6/21 22:57, David Gibson wrote:
+> On Fri, Sep 03, 2021 at 05:31:06PM -0300, Daniel Henrique Barboza wrote:
+>> The PMU is already counting cycles by calculating time elapsed in
+>> nanoseconds. Counting instructions is a different matter and requires
+>> another approach.
+>>
+>> This patch adds the capability of counting completed instructions
+>> (Perf event PM_INST_CMPL) by counting the amount of instructions
+>> translated in each translation block right before exiting it.
+>>
+>> A new pmu_count_insns() helper in translation.c was added to do that.
+>> After verifying that the PMU is running (MMCR0_FC bit not set), call
+>> helper_insns_inc(). This new helper from power8_pmu.c will add the
+>> instructions to the relevant counters. It'll also be responsible for
+>> triggering counter negative overflows later on.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>   target/ppc/cpu.h         |  1 +
+>>   target/ppc/helper.h      |  1 +
+>>   target/ppc/helper_regs.c |  3 ++
+>>   target/ppc/power8_pmu.c  | 70 ++++++++++++++++++++++++++++++++++++----
+>>   target/ppc/translate.c   | 46 ++++++++++++++++++++++++++
+>>   5 files changed, 114 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+>> index 74698a3600..4d4886ac74 100644
+>> --- a/target/ppc/cpu.h
+>> +++ b/target/ppc/cpu.h
+>> @@ -628,6 +628,7 @@ enum {
+>>       HFLAGS_FP = 13,  /* MSR_FP */
+>>       HFLAGS_PR = 14,  /* MSR_PR */
+>>       HFLAGS_PMCCCLEAR = 15, /* PMU MMCR0 PMCC equal to 0b00 */
+>> +    HFLAGS_MMCR0FC = 16, /* MMCR0 FC bit */
+>>       HFLAGS_VSX = 23, /* MSR_VSX if cpu has VSX */
+>>       HFLAGS_VR = 25,  /* MSR_VR if cpu has VRE */
+>>   
+>> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+>> index 5122632784..47dbbe6da1 100644
+>> --- a/target/ppc/helper.h
+>> +++ b/target/ppc/helper.h
+>> @@ -21,6 +21,7 @@ DEF_HELPER_1(hrfid, void, env)
+>>   DEF_HELPER_2(store_lpcr, void, env, tl)
+>>   DEF_HELPER_2(store_pcr, void, env, tl)
+>>   DEF_HELPER_2(store_mmcr0, void, env, tl)
+>> +DEF_HELPER_2(insns_inc, void, env, i32)
+>>   #endif
+>>   DEF_HELPER_1(check_tlb_flush_local, void, env)
+>>   DEF_HELPER_1(check_tlb_flush_global, void, env)
+>> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+>> index 4c1d9575ac..27d139edd8 100644
+>> --- a/target/ppc/helper_regs.c
+>> +++ b/target/ppc/helper_regs.c
+>> @@ -109,6 +109,9 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
+>>       if (((env->spr[SPR_POWER_MMCR0] & MMCR0_PMCC) >> 18) == 0) {
+>>           hflags |= 1 << HFLAGS_PMCCCLEAR;
+>>       }
+>> +    if (env->spr[SPR_POWER_MMCR0] & MMCR0_FC) {
+>> +        hflags |= 1 << HFLAGS_MMCR0FC;
+>> +    }
+>>   
+>>   #ifndef CONFIG_USER_ONLY
+>>       if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
+>> diff --git a/target/ppc/power8_pmu.c b/target/ppc/power8_pmu.c
+>> index 3f7b305f4f..9769c0ff35 100644
+>> --- a/target/ppc/power8_pmu.c
+>> +++ b/target/ppc/power8_pmu.c
+>> @@ -31,10 +31,13 @@ static void update_PMC_PM_CYC(CPUPPCState *env, int sprn,
+>>       env->spr[sprn] += time_delta;
+>>   }
+>>   
+>> -static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
+>> -                                        uint64_t time_delta)
+>> +static uint8_t get_PMC_event(CPUPPCState *env, int sprn)
+> 
+> I like the idea of splitting out a helper to get the selected event
+> (might even make sense to move that to the earlier patch).  What would
+> be even nicer is if it also included handling of the fact that some
+> events are specific to particular PMCs (like 0xF0 for PMC1).  That
+> means that all the event selection logic will be here, rather than
+> having to check the PMC number again in the caller.  Obviously to do
+> that you'll need some special "bad event" return value, which might
+> mean changing the return type.
 
---000000000000f8716b05cc87c915
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The initial idea of this function was to be a simple event extractor
+returning 0 if MMCR1 is blank. In the end of the series there are 3 callers
+of this function that will execute a specific action based on the event
+returned by it.
 
-<div dir=3D"ltr">Hello all,<br><br>I just want to ask this one question: if=
- I change the qemu tcg cache size (<span style=3D"color:rgb(29,28,29);font-=
-family:Monaco,Menlo,Consolas,&quot;Courier New&quot;,monospace;font-size:12=
-px;font-variant-ligatures:none;white-space:pre-wrap">TB_JMP_CACHE_SIZE)</sp=
-an>, will that force any errors at=C2=A0run time?<br></div>
+I suppose that we can use the return value 0 as a 'bad value' based on the
+PMC events we're going to support, but that will not prevent the callers
+from doing a 'switch()' like logic, rechecking the PMC, to see which action
+is supposed to be taken.
 
---000000000000f8716b05cc87c915--
+IIUC, your idea would require an additional layer of abstraction, e.g. a
+PMCEvent object, that would tie together PMC + event. Then get_PMC_event()
+would return a PMCEvent object and the caller wouldn't need to re-check the
+PMC again.
+
+I'll see how hard it would be to introduce this new concept in this existing
+series. If it ends up being too much rework I'll suggest to do this in a
+follow-up.
+
+
+
+Thanks,
+
+
+Daniel
+
+> 
+>>   {
+>> -    uint8_t event, evt_extr;
+>> +    uint8_t evt_extr = 0;
+>> +
+>> +    if (env->spr[SPR_POWER_MMCR1] == 0) {
+>> +        return 0;
+>> +    }
+>>   
+>>       switch (sprn) {
+>>       case SPR_POWER_PMC1:
+>> @@ -50,10 +53,16 @@ static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
+>>           evt_extr = MMCR1_PMC4EVT_EXTR;
+>>           break;
+>>       default:
+>> -        return;
+>> +        return 0;
+>>       }
+>>   
+>> -    event = extract64(env->spr[SPR_POWER_MMCR1], evt_extr, MMCR1_EVT_SIZE);
+>> +    return extract64(env->spr[SPR_POWER_MMCR1], evt_extr, MMCR1_EVT_SIZE);
+>> +}
+>> +
+>> +static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
+>> +                                        uint64_t time_delta)
+>> +{
+>> +    uint8_t event = get_PMC_event(env, sprn);
+>>   
+>>       /*
+>>        * MMCR0_PMC1SEL = 0xF0 is the architected PowerISA v3.1 event
+>> @@ -99,8 +108,9 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
+>>   
+>>       env->spr[SPR_POWER_MMCR0] = value;
+>>   
+>> -    /* MMCR0 writes can change HFLAGS_PMCCCLEAR */
+>> -    if ((curr_value & MMCR0_PMCC) != (value & MMCR0_PMCC)) {
+>> +    /* MMCR0 writes can change HFLAGS_PMCCCLEAR and HFLAGS_MMCR0FC */
+>> +    if (((curr_value & MMCR0_PMCC) != (value & MMCR0_PMCC)) ||
+>> +        (curr_FC != new_FC)) {
+>>           hreg_compute_hflags(env);
+>>       }
+>>   
+>> @@ -123,4 +133,50 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
+>>       }
+>>   }
+>>   
+>> +static bool pmc_counting_insns(CPUPPCState *env, int sprn)
+>> +{
+>> +    bool ret = false;
+>> +    uint8_t event;
+>> +
+>> +    if (sprn == SPR_POWER_PMC5) {
+>> +        return true;
+>> +    }
+>> +
+>> +    event = get_PMC_event(env, sprn);
+>> +
+>> +    /*
+>> +     * Event 0x2 is an implementation-dependent event that IBM
+>> +     * POWER chips implement (at least since POWER8) that is
+>> +     * equivalent to PM_INST_CMPL. Let's support this event on
+>> +     * all programmable PMCs.
+>> +     *
+>> +     * Event 0xFE is the PowerISA v3.1 architected event to
+>> +     * sample PM_INST_CMPL using PMC1.
+>> +     */
+>> +    switch (sprn) {
+>> +    case SPR_POWER_PMC1:
+>> +        return event == 0x2 || event == 0xFE;
+>> +    case SPR_POWER_PMC2:
+>> +    case SPR_POWER_PMC3:
+>> +    case SPR_POWER_PMC4:
+>> +        return event == 0x2;
+>> +    default:
+>> +        break;
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +/* This helper assumes that the PMC is running. */
+>> +void helper_insns_inc(CPUPPCState *env, uint32_t num_insns)
+>> +{
+>> +    int sprn;
+>> +
+>> +    for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC5; sprn++) {
+>> +        if (pmc_counting_insns(env, sprn)) {
+>> +            env->spr[sprn] += num_insns;
+>> +        }
+>> +    }
+>> +}
+>> +
+>>   #endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
+>> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+>> index c3e2e3d329..b7235a2be0 100644
+>> --- a/target/ppc/translate.c
+>> +++ b/target/ppc/translate.c
+>> @@ -176,6 +176,7 @@ struct DisasContext {
+>>       bool tm_enabled;
+>>       bool gtse;
+>>       bool pmcc_clear;
+>> +    bool pmu_frozen;
+>>       ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
+>>       int singlestep_enabled;
+>>       uint32_t flags;
+>> @@ -411,6 +412,12 @@ void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn)
+>>        */
+>>       gen_icount_io_start(ctx);
+>>       gen_helper_store_mmcr0(cpu_env, cpu_gpr[gprn]);
+>> +
+>> +    /*
+>> +     * End the translation block because MMCR0 writes can change
+>> +     * ctx->pmu_frozen.
+>> +     */
+>> +    ctx->base.is_jmp = DISAS_EXIT_UPDATE;
+>>   }
+>>   #else
+>>   void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn)
+>> @@ -4407,6 +4414,22 @@ static inline void gen_update_cfar(DisasContext *ctx, target_ulong nip)
+>>   #endif
+>>   }
+>>   
+>> +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+>> +static void pmu_count_insns(DisasContext *ctx)
+>> +{
+>> +    /* Do not bother calling the helper if the PMU is frozen */
+>> +    if (ctx->pmu_frozen) {
+>> +        return;
+>> +    }
+>> +
+>> +    gen_helper_insns_inc(cpu_env, tcg_constant_i32(ctx->base.num_insns));
+>> +}
+>> +#else
+>> +static void pmu_count_insns(DisasContext *ctx)
+>> +{
+>> +    return;
+>> +}
+>> +#endif
+>>   static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
+>>   {
+>>       return translator_use_goto_tb(&ctx->base, dest);
+>> @@ -4421,9 +4444,17 @@ static void gen_lookup_and_goto_ptr(DisasContext *ctx)
+>>           } else if (sse & (CPU_SINGLE_STEP | CPU_BRANCH_STEP)) {
+>>               gen_helper_raise_exception(cpu_env, tcg_constant_i32(gen_prep_dbgex(ctx)));
+>>           } else {
+>> +            pmu_count_insns(ctx);
+>>               tcg_gen_exit_tb(NULL, 0);
+>>           }
+>>       } else {
+>> +        /*
+>> +         * tcg_gen_lookup_and_goto_ptr will exit the TB if
+>> +         * CF_NO_GOTO_PTR is set. Count insns now.
+>> +         */
+>> +        if (ctx->base.tb->flags & CF_NO_GOTO_PTR) {
+>> +            pmu_count_insns(ctx);
+>> +        }
+>>           tcg_gen_lookup_and_goto_ptr();
+>>       }
+>>   }
+>> @@ -4435,6 +4466,8 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
+>>           dest = (uint32_t) dest;
+>>       }
+>>       if (use_goto_tb(ctx, dest)) {
+>> +        pmu_count_insns(ctx);
+>> +
+>>           tcg_gen_goto_tb(n);
+>>           tcg_gen_movi_tl(cpu_nip, dest & ~3);
+>>           tcg_gen_exit_tb(ctx->base.tb, n);
+>> @@ -8648,6 +8681,7 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>>       ctx->tm_enabled = (hflags >> HFLAGS_TM) & 1;
+>>       ctx->gtse = (hflags >> HFLAGS_GTSE) & 1;
+>>       ctx->pmcc_clear = (hflags >> HFLAGS_PMCCCLEAR) & 1;
+>> +    ctx->pmu_frozen = (hflags >> HFLAGS_MMCR0FC) & 1;
+>>   
+>>       ctx->singlestep_enabled = 0;
+>>       if ((hflags >> HFLAGS_SE) & 1) {
+>> @@ -8767,6 +8801,8 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+>>       switch (is_jmp) {
+>>       case DISAS_TOO_MANY:
+>>           if (use_goto_tb(ctx, nip)) {
+>> +            pmu_count_insns(ctx);
+>> +
+>>               tcg_gen_goto_tb(0);
+>>               gen_update_nip(ctx, nip);
+>>               tcg_gen_exit_tb(ctx->base.tb, 0);
+>> @@ -8777,6 +8813,14 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+>>           gen_update_nip(ctx, nip);
+>>           /* fall through */
+>>       case DISAS_CHAIN:
+>> +        /*
+>> +         * tcg_gen_lookup_and_goto_ptr will exit the TB if
+>> +         * CF_NO_GOTO_PTR is set. Count insns now.
+>> +         */
+>> +        if (ctx->base.tb->flags & CF_NO_GOTO_PTR) {
+>> +            pmu_count_insns(ctx);
+>> +        }
+>> +
+>>           tcg_gen_lookup_and_goto_ptr();
+>>           break;
+>>   
+>> @@ -8784,6 +8828,8 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+>>           gen_update_nip(ctx, nip);
+>>           /* fall through */
+>>       case DISAS_EXIT:
+>> +        pmu_count_insns(ctx);
+>> +
+>>           tcg_gen_exit_tb(NULL, 0);
+>>           break;
+>>   
+> 
 
