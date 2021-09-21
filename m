@@ -2,71 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07561413B10
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 22:03:13 +0200 (CEST)
-Received: from localhost ([::1]:35542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47793413B35
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 22:22:35 +0200 (CEST)
+Received: from localhost ([::1]:47268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSlyy-0006I0-9i
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 16:03:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41600)
+	id 1mSmHh-0006zP-Rh
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 16:22:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSlwP-0005OY-9f
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 16:00:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31893)
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSmEr-000414-Qm
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 16:19:37 -0400
+Received: from [115.28.160.31] (port=55952 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSlwJ-0003vw-VT
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 16:00:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632254424;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xqOiomyoXScQ00jF1zpJf2WXdV0GOjEWNgXx+FA6mn0=;
- b=QCn0VDsijTbQALzbvkp8T9RGHDx9E3TR/ZOlYBkPLpOpTcnWEKrxLfEcMmbim7XP4G/UZy
- pKO3SfCX2Lo7rwoc7htLsA/VdGwDuTOVWglLn0e4NQhxnjmUAxLvP6lhtutB8PsQCZ3G2J
- c9pfI/jsVkLqCJeLYAtN2/V7iJZjyx4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-ksDuVvhSMTGZ42zf7Jv12g-1; Tue, 21 Sep 2021 16:00:21 -0400
-X-MC-Unique: ksDuVvhSMTGZ42zf7Jv12g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mSmEj-0000Hl-Um
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 16:19:37 -0400
+Received: from ld50.lan (unknown [101.88.29.172])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 327A11808301;
- Tue, 21 Sep 2021 20:00:20 +0000 (UTC)
-Received: from redhat.com (ovpn-115-8.phx2.redhat.com [10.3.115.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 71F426D98B;
- Tue, 21 Sep 2021 20:00:19 +0000 (UTC)
-Date: Tue, 21 Sep 2021 15:00:17 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH] nbd/client: Request larger block status by default
-Message-ID: <20210921200017.huvks6mtothvv74p@redhat.com>
-References: <20210921161703.2682802-1-eblake@redhat.com>
- <5b9402dd-4c37-2fc6-7c65-a13c4c5e6383@virtuozzo.com>
- <20210921180843.6tfubsqvf56hkyro@redhat.com>
- <95d19c17-1541-4a34-fe3c-6a085255a586@virtuozzo.com>
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id CB80A600FF;
+ Wed, 22 Sep 2021 04:19:19 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1632255559; bh=0npNsZVwT7L5a0aRXmQDpnUCeH65DDLYXSdGOzbfwAo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=v65Dt0HJjui6dNXxM5GN3xAN7Mr7mib8WLwt2nX0jwG6AeMYKspYiRSjoYJdiVaS8
+ 0ghfo9ysQi5s/amlIh1IeJL/VQxKOL3NgvhYRwAbvbxf+ONFfHngBd8HZSzh/kIcq+
+ 1WfvdbCxcpgwe/tp6WaydsQXSRRsYbydLx4kr84Q=
+From: WANG Xuerui <git@xen0n.name>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/30] LoongArch64 port of QEMU TCG
+Date: Wed, 22 Sep 2021 04:18:45 +0800
+Message-Id: <20210921201915.601245-1-git@xen0n.name>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-In-Reply-To: <95d19c17-1541-4a34-fe3c-6a085255a586@virtuozzo.com>
-User-Agent: NeoMutt/20210205-772-2b4c52
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=git@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,128 +57,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, hreitz@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: WANG Xuerui <git@xen0n.name>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Sep 21, 2021 at 10:12:02PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> 21.09.2021 21:08, Eric Blake wrote:
-> > On Tue, Sep 21, 2021 at 08:25:11PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> > > 21.09.2021 19:17, Eric Blake wrote:
-> > > > Now that commit 5a1cfd21 has clarified that a driver's block_status
-> > > > can report larger *pnum than in the original request, we can take
-> > > > advantage of that in the NBD driver.  Rather that limiting our request
-> > > > to the server based on the maximum @bytes our caller mentioned, we
-> > > > instead ask for as much status as possible (the minimum of our 4G
-> > > > limit or the rest of the export); the server will still only give us
-> > > > one extent in its answer (because we are using NBD_CMD_FLAG_REQ_ONE),
-> > > > but now the block layer's caching of data areas can take advantage of
-> > > > cases where the server gives us a large answer to avoid the need for
-> > > > future NBD_CMD_BLOCK_STATUS calls.
-> > > > 
-> > > > Signed-off-by: Eric Blake <eblake@redhat.com>
-> > > > ---
-> > 
-> > > 
-> > > I remember we already discussed that, but can't find.
-> > > 
-> > > The problem is that it's not for free:
-> > > 
-> > > In server code in blockstatus_to_extents, we loop though the disk, trying to merge extents of the same type.
-> > > 
-> > > With full allocated qcow2, we'll have to load all L2 tables and handle them, to merge all block status into one big "allocated" extent.
-> > > 
-> > 
-> > We don't have to loop that far.  The NBD protocol allows the server to
-> > stop looping at whatever point makes sense, as long as it makes
-> > progress.
-> > 
-> > > Maybe, we need some additional negotiation flag, to allow BLOCK_STATUS command with NBD_CMD_FLAG_REQ_ONE flag to return an extent larger than required when that information is available for free?
+Hi all,
 
-That's already the case when FLAG_REQ_ONE is not present.  The reason
-that REQ_ONE clamps things at the requested limit is because older
-qemu had a bug that it rejected the server sending extra information,
-even when that info was free.
+This is a port of QEMU TCG to the brand-new CPU architecture LoongArch,
+introduced by Loongson with their 3A5000 chips. Test suite all passed
+except one timeout that is test-crypto-tlssession, but this particular
+case runs well when relatively few targets are enabled, so it may be
+just a case of low performance (4C4T 2.5GHz). I also boot-tested x86_64
+(Debian and Gentoo installation CDs) and install-tested aarch64 (Debian
+netboot installer), and ran riscv64 linux-user emulation with a chroot;
+everything seems fine so far.
 
-> > 
-> > That's one possibility.  Another does not add anything to the NBD
-> > protocol, but instead limits the code that tries to loop over block
-> > status to deteremine a larger "allocated" answer to return to instead
-> > stop looping after a finite number of extents have been merged
-> > together.
-> > 
-> 
-> In this case we should answer a question: when to stop looping? I'm not sure we can simply drop the loop:
-> 
-> For example, for compressed clusters, bdrv_co_block_status() will return them one-by-one, and sending them one by one to the wire, when user requested large range would be inefficient.
-> Or should we change block-status behavior for compressed clusters? And may be add flag to block_status() that we are not interested in valid_offset, so it can return an extent corresponding to the whole L2 table chunk (if all entries are allocated, but not consecutive)?
+## About the series
 
-Currently, bdrv_co_block_status() takes 'bool want_zero' that says
-what the client wants.  Maybe it's worth expanding that into an enum
-or bitmask to allow finer-grained client requests (the notion of
-whether valid_offset matters to the caller IS relevant for deciding
-when to clamp vs. loop).
+Only the LP64 ABI is supported, as this is the only one fully
+implemented and supported by Loongson. 32-bit support is incomplete from
+outset, and removed from the very latest upstream submissions, so you
+can't even configure for that.
 
-> 
-> 
-> Hmm. So, if not update spec, we'll have to "fix" implementation. That means actually, that we should update spec anyway, at least to note that: "clients tend to request large regions in hope that server will not spend too much time to serve them but instead return shorter answer"..
+The architecture's documentation is already translated into English;
+it can be browsed at https://loongson.github.io/LoongArch-Documentation/.
+The LoongArch ELF psABI doc (version 1.00) could be found at [1];
+if anything is missing there, it's most likely the same as RISC-V, but
+you can always raise an issue over their issue tracker at [2].
 
-I'm really hoping we don't have to tweak the NBD spec on this one, but
-rather improve the quality of implementation in qemu.
+[1]: https://loongson.github.io/LoongArch-Documentation/LoongArch-ELF-ABI-EN.html
+[2]: https://github.com/loongson/LoongArch-Documentation/issues
 
-> 
-> And you'll never have guarantee, that some another (non-qemu) NBD server will not try to satisfy the whole request in on go.
+In this series I made use of generated instruction encodings and
+emitters from https://github.com/loongson-community/loongarch-opcodes
+(a community project started by myself, something I must admit), as the
+LoongArch encoding is highly irregular even for a fixed 32-bit ISA, and
+I want to minimize the maintenance burden for future collaboration. This
+is something not seen in any of the other TCG ports out there, so I'd
+like to see if this is acceptable practice (and also maybe bikeshed the
+file name).
 
-That's true, but the NBD spec has always tried to encourage servers to
-provide more information when it was free, but to give up early if it
-gets too expensive.  It's a judgment call on where that line lies, and
-may indeed be different between different servers.
+This series touches some of the same files as Song Gao's previous
+submission of LoongArch *target* support, which is a bit unfortunate;
+one of us will have to rebase after either series gets in. Actual
+conflict should only happen on build system bits and include/elf.h,
+though, as we're working on entirely different areas.
 
-> 
-> 
-> In other words:
-> 
-> 1. We want block_status of some region
-> 2. If there some free information available about larger region we are happy to cache it
-> 
-> With your solution, we just request a lot larger region, so we lose information of [1]. That means that sever can't imagine, how much of requested region is really needed, i.e. if we do some additional work to return more information (still within boundaries of the request) will it be:
->  - good work to minimize network traffic
-> OR
->  - extra work, waste server time, client will cache this information but probably never use (or even lose it soon, as our cache is very simple)
-> 
-> With additional negotiation flag we don't lose [1], i.e how much client wants now.
-> 
-> 
-> So, for me, modifying the protocol looks nicer..
-> 
-> Another approach is do request without NBD_CMD_FLAG_REQ_ONE and handle several extents.
+## How to build and test this
 
-_This_ idea is nicer.  It allows the client to request an actual
-length it is interested in now, but allows the server to give extra
-information back if it is free.  And it works without changing the NBD
-protocol or existing qemu server; it is a client-only change, just
-like this patch tried to be, but may have nicer performance
-implications.
+Upstream support for LoongArch is largely WIP for now, which means you
+must apply a lot of patches if you want to even cross-build for this arch.
+The main sources I used are as follows:
 
-> 
-> 
-> Are you optimizing some concrete scenario?
+* binutils: https://github.com/xen0n/binutils-gdb/tree/for-gentoo-2.37-v2
+  based on https://github.com/loongson/binutils-gdb/tree/loongarch/upstream_v6_a1d65b3
+* gcc: https://github.com/xen0n/gcc/tree/for-gentoo-gcc-12-v2
+  based on https://github.com/loongson/gcc/tree/loongarch_upstream
+* glibc: https://github.com/xen0n/glibc/tree/for-gentoo-glibc-2.34
+  based on https://github.com/loongson/glibc/tree/loongarch_2_34_for_upstream
+* Linux: https://github.com/xen0n/linux/tree/loongarch-playground
+  based on https://github.com/loongson/linux/tree/loongarch-next
+* Gentoo overlay: https://github.com/xen0n/loongson-overlay
 
-Not at this point, so much as observing the effects of commit 5a1cfd21
-and seeing if we should update our behavior to match.
+I have made ready-to-use Gentoo stage3 tarballs, but they're served with
+CDN off my personal cloud account, and I don't want the link to be
+exposed so that my bills skyrocket; you can reach me off-list to get the
+links if you're interested.
 
-For v2, I'll try switching to just drop our REQ_ONE artificial
-limitations from the client.  We are still throwing away a lot of
-useful information because we don't cache anything beyond the first
-extent returned by the server.  At worst, maybe it will require adding
-a tuning knob in the QAPI when creating the NBD client to decide which
-of the two approaches to favor for a given client's connection to a
-particular server.
+As for the hardware availability, the boards can already be bought in
+China on Taobao, and I think some people at Loongson might be able to
+arrange for testing environments, if testing on real hardware other than
+mine is required before merging; they have their in-house Debian spin-off
+from the early days of this architecture. Their kernel is
+ABI-incompatible with the version being upstreamed and used by me, but
+QEMU should work there regardless.
+
+Lastly, I'm new to QEMU development and this is my first patch series
+here; apologizes if I get anything wrong, and any help or suggestion is
+certainly appreciated!
+
+## Changelog
+
+v2 -> v1:
+
+- Addressed all review comments from v1
+  - Use "loongarch64" everywhere, tcg directory renamed to "tcg/loongarch64"
+  - Removed all redundant TCG_TARGET_REG_BITS conditional
+  - Removed support for the neg op
+  - Added support for eqv and bswap32_i64 ops
+  - Added safe syscall handling for linux-user
+  - Fixed everything else I could see
+- Updated generated instruction definitions to latest
+- Reordered the configure/meson.build changes to come last
+
+v1: https://patchew.org/QEMU/20210920080451.408655-1-git@xen0n.name/
+
+WANG Xuerui (30):
+  elf: Add machine type value for LoongArch
+  MAINTAINERS: Add tcg/loongarch64 entry with myself as maintainer
+  tcg/loongarch64: Add the tcg-target.h file
+  tcg/loongarch64: Add generated instruction opcodes and encoding
+    helpers
+  tcg/loongarch64: Add register names, allocation order and input/output
+    sets
+  tcg/loongarch64: Define the operand constraints
+  tcg/loongarch64: Implement necessary relocation operations
+  tcg/loongarch64: Implement the memory barrier op
+  tcg/loongarch64: Implement tcg_out_mov and tcg_out_movi
+  tcg/loongarch64: Implement goto_ptr
+  tcg/loongarch64: Implement sign-/zero-extension ops
+  tcg/loongarch64: Implement not/and/or/xor/nor/andc/orc/eqv ops
+  tcg/loongarch64: Implement deposit/extract ops
+  tcg/loongarch64: Implement bswap32_i32/bswap32_i64/bswap64_i64
+  tcg/loongarch64: Implement clz/ctz ops
+  tcg/loongarch64: Implement shl/shr/sar/rotl/rotr ops
+  tcg/loongarch64: Implement add/sub ops
+  tcg/loongarch64: Implement mul/mulsh/muluh/div/divu/rem/remu ops
+  tcg/loongarch64: Implement br/brcond ops
+  tcg/loongarch64: Implement setcond ops
+  tcg/loongarch64: Implement tcg_out_call
+  tcg/loongarch64: Implement simple load/store ops
+  tcg/loongarch64: Add softmmu load/store helpers, implement
+    qemu_ld/qemu_st ops
+  tcg/loongarch64: Implement tcg_target_qemu_prologue
+  tcg/loongarch64: Implement exit_tb/goto_tb
+  tcg/loongarch64: Implement tcg_target_init
+  tcg/loongarch64: Register the JIT
+  linux-user: Add safe syscall handling for loongarch64 hosts
+  accel/tcg/user-exec: Implement CPU-specific signal handler for
+    loongarch64 hosts
+  configure, meson.build: Mark support for loongarch64 hosts
+
+ MAINTAINERS                                   |    5 +
+ accel/tcg/user-exec.c                         |   78 +
+ configure                                     |    7 +-
+ include/elf.h                                 |    2 +
+ linux-user/host/loongarch64/hostdep.h         |   34 +
+ .../host/loongarch64/safe-syscall.inc.S       |   80 +
+ meson.build                                   |    4 +-
+ tcg/loongarch64/tcg-insn-defs.c.inc           |  873 +++++++++
+ tcg/loongarch64/tcg-target-con-set.h          |   30 +
+ tcg/loongarch64/tcg-target-con-str.h          |   28 +
+ tcg/loongarch64/tcg-target.c.inc              | 1614 +++++++++++++++++
+ tcg/loongarch64/tcg-target.h                  |  180 ++
+ 12 files changed, 2933 insertions(+), 2 deletions(-)
+ create mode 100644 linux-user/host/loongarch64/hostdep.h
+ create mode 100644 linux-user/host/loongarch64/safe-syscall.inc.S
+ create mode 100644 tcg/loongarch64/tcg-insn-defs.c.inc
+ create mode 100644 tcg/loongarch64/tcg-target-con-set.h
+ create mode 100644 tcg/loongarch64/tcg-target-con-str.h
+ create mode 100644 tcg/loongarch64/tcg-target.c.inc
+ create mode 100644 tcg/loongarch64/tcg-target.h
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.33.0
 
 
