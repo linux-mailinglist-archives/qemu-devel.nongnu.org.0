@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A8D3413515
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 16:12:43 +0200 (CEST)
-Received: from localhost ([::1]:49088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80416413553
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 16:29:27 +0200 (CEST)
+Received: from localhost ([::1]:32776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSgVm-0002uc-Nj
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 10:12:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44228)
+	id 1mSglx-0003Ok-Q1
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 10:29:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mSgUH-0001Ir-0L
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 10:11:09 -0400
-Received: from [115.28.160.31] (port=52410 helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSgky-0002cN-6p
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 10:28:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49106)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mSgUE-000604-I1
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 10:11:08 -0400
-Received: from [192.168.9.172] (unknown [101.88.29.172])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mSgkt-0004Bm-IE
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 10:28:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632234498;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DFeZHRfdiEyj66cVnkmuGSh3dW7f37BZxkFbnTl5xs0=;
+ b=TY0OWeCzZXkLZavqM/aCO4FHFYPXzfmtS853523aDzKKxKzpFVp39zLrACmXhaTcTj0YVI
+ /m1ZIqaNGP2tdI+YB7WGjkTgRjx/Dcl5XPjZLcSRMTOmNoWIE0izA6TMPA+Lkn0QuHW5LJ
+ qPLr8A8+HyptewolyyV1CwtaMtRolTM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-172-XKt3Uf6YPDqQFWbwoSUOgQ-1; Tue, 21 Sep 2021 10:28:17 -0400
+X-MC-Unique: XKt3Uf6YPDqQFWbwoSUOgQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 74DCF633F2;
- Tue, 21 Sep 2021 22:11:00 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632233460; bh=rsr+13MkhCA2nTzsZLzGKjjGhsSY3pFVx1xqlyMWkkk=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=cidgUCblR3zMeHk3xDWGxu4hYpR7/JKyfsdtSfYskQFBucMWXaepqJxfnfR3+KvOT
- RmIqNX0jiMxzVPmkmn5kpUOf4SkoDOHQ9gsMxUxJOFtSVA1SB1NgJY7Wz1kO3byAtO
- ETvVYpPSZvm/trOw9fX5R9i+uvLZ3UlNufCu55IQ=
-Message-ID: <a9135c8b-6f75-a75d-2e97-748839954c6a@xen0n.name>
-Date: Tue, 21 Sep 2021 22:10:59 +0800
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B200100CCC2;
+ Tue, 21 Sep 2021 14:28:16 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-115-8.phx2.redhat.com [10.3.115.8])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AAC3F19733;
+ Tue, 21 Sep 2021 14:28:15 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qemu-img: Consistent docs for convert -F
+Date: Tue, 21 Sep 2021 09:28:12 -0500
+Message-Id: <20210921142812.2631605-1-eblake@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
- Thunderbird/94.0a1
-Subject: Re: [PATCH 28/30] configure, meson.build: Mark support for 64-bit
- LoongArch hosts
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210920080451.408655-1-git@xen0n.name>
- <20210920080451.408655-29-git@xen0n.name>
- <de7efdfe-24ae-015c-015d-50acc245df1c@linaro.org>
- <baa4bcf7-9e4f-1745-5957-6d715a14f711@xen0n.name>
- <b8d75100-3d0a-7864-fb48-419f77a48035@linaro.org>
- <2d1c4431-1d69-bd71-fc74-6a29cbd10f04@xen0n.name>
-From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <2d1c4431-1d69-bd71-fc74-6a29cbd10f04@xen0n.name>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,34 +73,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, hreitz@redhat.com, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/21/21 22:07, WANG Xuerui wrote:
+Use consistent capitalization, and fix a missed line (we duplicate the
+qemu-img synopses in too many places).
 
-> Hi Richard,
->
-> On 9/21/21 21:30, Richard Henderson wrote:
->> On 9/20/21 11:02 PM, WANG Xuerui wrote:
->>
->>> So should I drop the explicit probing for __loongarch64, instead 
->>> just probe for __loongarch__ and later #error out the 
->>> non-__loongarch64 cases individually?
->>
->> I'm ok with checking the __loongarch64 define, but I thing 
->> ARCH=loongarch is sufficient. That name will apply to 
->> linux-user/host/$ARCH/ and tcg/$ARCH/.
->>
-> I just dug deeper into this while waiting for compilations; indeed the 
-> cpu variable must be "loongarch64" but ARCH could be just "loongarch". 
-> The $cpu is shoved directly into the meson cross file as CPU family 
-> name, for which only "loongarch64" is valid [1]. I'll keep probing for 
-> __loongarch64 but just transform the ARCH value.
->
-Ah wait, it seems the used value is $ARCH... But some changes around the 
-$cpu/$ARCH handling are necessary anyway. Sorry for the noise!
-> [1]: https://mesonbuild.com/Reference-tables.html#cpu-families
->
->
->
+Fixes: 1899bf4737 (qemu-img: Add -F shorthand to convert)
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ docs/tools/qemu-img.rst | 2 +-
+ qemu-img-cmds.hx        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+index d58980aef83d..c0a444314679 100644
+--- a/docs/tools/qemu-img.rst
++++ b/docs/tools/qemu-img.rst
+@@ -415,7 +415,7 @@ Command description:
+   4
+     Error on reading data
+
+-.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps [--skip-broken-bitmaps]] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE [-F backing_fmt]] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-r RATE_LIMIT] [-m NUM_COROUTINES] [-W] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
++.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps [--skip-broken-bitmaps]] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE [-F BACKING_FMT]] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-r RATE_LIMIT] [-m NUM_COROUTINES] [-W] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
+
+   Convert the disk image *FILENAME* or a snapshot *SNAPSHOT_PARAM*
+   to disk image *OUTPUT_FILENAME* using format *OUTPUT_FMT*. It can
+diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
+index 4c4d94ab2267..72bcdcfbfad9 100644
+--- a/qemu-img-cmds.hx
++++ b/qemu-img-cmds.hx
+@@ -48,7 +48,7 @@ ERST
+ DEF("convert", img_convert,
+     "convert [--object objectdef] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cache] [-T src_cache] [-O output_fmt] [-B backing_file [-F backing_fmt]] [-o options] [-l snapshot_param] [-S sparse_size] [-r rate_limit] [-m num_coroutines] [-W] [--salvage] filename [filename2 [...]] output_filename")
+ SRST
+-.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-r RATE_LIMIT] [-m NUM_COROUTINES] [-W] [--salvage] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
++.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE [-F BACKING_FMT]] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-r RATE_LIMIT] [-m NUM_COROUTINES] [-W] [--salvage] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
+ ERST
+
+ DEF("create", img_create,
+-- 
+2.31.1
+
 
