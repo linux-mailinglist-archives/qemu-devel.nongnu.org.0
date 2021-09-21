@@ -2,98 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1EA0412EF6
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 09:02:34 +0200 (CEST)
-Received: from localhost ([::1]:54690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD151412F0C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 09:08:32 +0200 (CEST)
+Received: from localhost ([::1]:42504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSZnV-0007rG-Cg
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 03:02:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52950)
+	id 1mSZtH-0001yv-Jm
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 03:08:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=891501f09=alistair.francis@opensource.wdc.com>)
- id 1mSZgM-0007yl-Im
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:55:10 -0400
+ id 1mSZgU-00081u-4L
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:55:18 -0400
 Received: from esa3.hgst.iphmx.com ([216.71.153.141]:30721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=891501f09=alistair.francis@opensource.wdc.com>)
- id 1mSZgJ-000449-F0
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:55:10 -0400
+ id 1mSZgP-000449-U4
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 02:55:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1632207306; x=1663743306;
+ t=1632207313; x=1663743313;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=99ImnJFBOxDe61AbQqL9Ht7fJhvAnx0MQ2riekjsr3k=;
- b=e/GtYarGa14SoxRN+q1Q0sLEMtCfgMvsu3k+r/KYxhRXdx1pm1W+XKc6
- BKvH3BArBDPk5yyBcrWBjGbXOmCgMXxywB/fFRyooeMZffDXCAeWWFgTP
- XNl8x4LpfyxrL1xO+hjNS/qM7jIYhWKUoL3DzLLo1KO65LZ22gUCKskck
- pf/uUmi1G+hWpRkpl6AzRfqrE3GZHD/JThkTY3CjNu6NJIRqoEr41vqB6
- LERS71g4pjQ3vtqu/R4MOxCbNexTPP1uoSw/khR1PWp4In96u7HPrWlP/
- Gen/PoMGFrlg6ETMIfPum+Nv78x4nWy/ihTiFdsHfEDr2LqzmjXFIBRsq g==;
-X-IronPort-AV: E=Sophos;i="5.85,310,1624291200"; d="scan'208";a="185304873"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 21 Sep 2021 14:55:03 +0800
-IronPort-SDR: y2posg3Y118uSYzJPQNfRqM3AyA7hvx1i6Qbaqhcvb4mjrKB5kixziuyKLr/e4zjigPXQa1AXS
- NsEn7jfwfB6VUY+Ul7PIjG6wLKOW5ileeb/k5kXvlpJfC3uKNlsZysgD5Bwl29TtBLs+pJBpic
- /RqkICrGbTTv3Ds1/JgXqkvLFz2luKKciaLSa3njeX9jScTMaCn5oOXC2DyANk928rJqR47+x2
- SdgHjX5xGoV3/Hm1PNrAlEjoWizsMI/bxgG/NvJ9/owFPGPhDpyK5Gf6Xlrr+Rcju+voolZ9jX
- NWMWLsiRvfKADnzB7As9t1Nt
+ bh=Ih+WOH6zS1mvCqJQSxv/+oEkEzr9juiZ1Si3cVEYs8E=;
+ b=E2+jnE9MSaUNukcYU3hEWZSMSmduj1in4IkZcpWGvrX1g8nyZdhnSg/I
+ NS+ZTjJfUZUDHPXQ43FBl5CFlI4+/MqjQeN5eNeYQIRrCyXcklOW4IEoz
+ z3mTrSCCbcytGccXUmmRxypzVMF96PaLgB1yiUXbKBLyyVlhGG0ry3ju/
+ AsfOgXfyc+170ZRz8u23HgrPgFEMkGkZ7GpovKOrqJm3CCWK5oFGjEYTJ
+ 5VEo6KsIwsxERAb9WVW9Oqo4aJWHojTJmeoXxXciOYLfM1Af3jChZXlez
+ dx8IA+MQJILdSyV9mJNRCTB2e6EEOFeQRqRjf/So6pbdKo4j6TRrAFOlx w==;
+X-IronPort-AV: E=Sophos;i="5.85,310,1624291200"; d="scan'208";a="185304886"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 21 Sep 2021 14:55:12 +0800
+IronPort-SDR: T2XgCZ+yM/oWEJYqJpY2IZpa9uLPqRxew0MYOnbTKuiqTLrAiVYx2XwkmFrP0wZ3qbDAsPNTYd
+ 2uno2e2H1K7QyrR9wGPfT4dqEyCgIsO1ntuZiuxkS0Mgp7JiFpUQLyJr1B/jSgLDu8tU7qy4QB
+ jRovofFmHNXTpEGjhnGg9jYhh0pv+k1VUSajABAMDqZQFEEOc5SMY60fDBNeIQchDplaKM6zol
+ dURBhlFd8eKNgwfmOsZFCivRV+NmL8Fin35UgHetchJjXwppkhc3T/KbGtRSiYyYH8dimAzOr9
+ /681J0U01dn0fXAhsrZ5vml/
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 23:31:18 -0700
-IronPort-SDR: MzE5RiZRUvFFHG4tr5MU3L4CU5ouqb5nSYYn2KyhIYIfwL+t3I/KjVsrHXi37d7HtTVY69oih0
- uh3pbq6Ve0yxCnqdF6ph6gggRXPgwnyTB7P4WSkyPyA8S26IY/4Hvn1MGBQ5au89jsGPHwiOyu
- f7DfbwguDb8dnR6GLjOGbwGsDdYPYme9C6R0oSklK0ZXZUI5ZrnI86fnB546MQk8Lp/sXxWqfs
- xLd9Qpt42Bds8peveCMpNOnscJkaLUcPoSQCwp3Mcgu72AiwIg60HfoogiNCy5EbWXZ9pveqND
- VqM=
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2021 23:29:54 -0700
+IronPort-SDR: pa9sz7YLOfONqUlXlCF9EJtkWTytqLbJyeTcN5KX0asXoqDTN1LSAhZHwlDHLY+UUlN61n1zN4
+ CLrYiyEsg/7t5YSA0aka2kzaEIk07w+B45G5A4vaWF4ryfTzaL2AVJVrlJ1UYFTnmPDeydpKXE
+ BgzsFsperl2h2aiq04Ehappcz+SiZ9MeDgC6dXhHJoi45VNM4i7mx20VHW5Dg8RLxroyKjadUa
+ OZ+8Y4FwnjcGhUDY1PAsgSAzmuYcF//cDUFIoi14m4yP0LXlKNIDLqpkPprCK7fWnRdsufHm5/
+ c9s=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 23:55:05 -0700
+ 20 Sep 2021 23:55:14 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HDBy02BJfz1Rwry
- for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 23:55:04 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4HDBy85vMFz1Rws9
+ for <qemu-devel@nongnu.org>; Mon, 20 Sep 2021 23:55:12 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1632207303; x=1634799304; bh=99ImnJF
- BOxDe61AbQqL9Ht7fJhvAnx0MQ2riekjsr3k=; b=ZtxSpeViSzGO7Py/NJhl1DA
- Axax/dz1NO//eO8nwddjTaf5SP5MuE0tuGNIyn5D5Ay3f7mxPiNMXb2JrN6WYzWG
- hmHawvmgJy+c2tnwL1bwPmrkPmJzCwH1SWnxUN8EUEKMEVh912purh3OxMEPnome
- BrBfDK52M32gLyn9OolM/zBcXKpzkjFxSm0B9JsTufydWg+qBKtaSUNDiSrEuVJz
- hXzcR7DvzQhwuXabBZpUQMVh2jOzyY/KPU9ZiBaCvM3buY2SjVnc3AD2+9XPtGmP
- X2IrfXUNM3HNQwqWr5dzG+X0L0BXCo+R8BJaQ8bfGuZHGsSDSGRnFZBWJHS1UAQ=
- =
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1632207310; x=1634799311; bh=Ih+WOH6zS1mvCqJQSx
+ v/+oEkEzr9juiZ1Si3cVEYs8E=; b=R5KWv41zI1zggVIhQymFhtgQUiQRnZTwPj
+ mieiOD/lpIfcB4f9hpoKuctiIDks7NuwfjMnXD6jHF5JfQTzVG2bBn+dCP8hevff
+ 7aPDVI6yNI4rw7KyVBf5BTg2AKWZHHghawDnqcQyLn6om2QsP+MkamIX52jR9vW8
+ 38oSTGBYlAgjqvbWvxP2zlrKdFlk2xiOkwDbbWKZq/eSnATSlrtcl7NFLrTezoHU
+ MrL64Ea7YHmt+UaZWjiDgpSFmWnOSbgx3KSiAPYI6XaD0kVUfU34MSeKqp1LjW/F
+ pg8SkCJ85ccbK0ks0JdthjCmGf29pasZlkBEL5LD+750eMC1QqXQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 1in5tGBIN5n7 for <qemu-devel@nongnu.org>;
- Mon, 20 Sep 2021 23:55:03 -0700 (PDT)
+ port 10026) with ESMTP id 2GmbV7iYAph9 for <qemu-devel@nongnu.org>;
+ Mon, 20 Sep 2021 23:55:10 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.26])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HDBxt6wKZz1RvlH;
- Mon, 20 Sep 2021 23:54:58 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4HDBy11bDxz1RvlH;
+ Mon, 20 Sep 2021 23:55:04 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL v2 07/21] hw/intc: ibex_timer: Convert the timer to use RISC-V
- CPU GPIO lines
-Date: Tue, 21 Sep 2021 16:53:58 +1000
-Message-Id: <20210921065412.312381-8-alistair.francis@opensource.wdc.com>
+ Justin Restivo <jrestivo@draper.com>,
+ Alexandra Clifford <aclifford@draper.com>,
+ Amanda Strnad <astrnad@draper.com>, Bin Meng <bmeng.cn@gmail.com>
+Subject: [PULL v2 08/21] hw/timer: Add SiFive PWM support
+Date: Tue, 21 Sep 2021 16:53:59 +1000
+Message-Id: <20210921065412.312381-9-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210921065412.312381-1-alistair.francis@opensource.wdc.com>
 References: <20210921065412.312381-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.71.153.141;
  envelope-from=prvs=891501f09=alistair.francis@opensource.wdc.com;
@@ -122,105 +120,654 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-Instead of using riscv_cpu_update_mip() let's instead use the new RISC-V
-CPU GPIO lines to set the timer MIP bits.
+This is the initial commit of the SiFive PWM timer. This is used by
+guest software as a timer and is included in the SiFive FU540 SoC.
 
+Signed-off-by: Justin Restivo <jrestivo@draper.com>
+Signed-off-by: Alexandra Clifford <aclifford@draper.com>
+Signed-off-by: Amanda Strnad <astrnad@draper.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 84d5b1d5783d2e79eee69a2f7ac480cc0c070db3.1630301632.git.alist=
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Message-id: 9f70a210acbfaf0e1ea6ad311ab892ac69134d8b.1631159656.git.alist=
 air.francis@wdc.com
 ---
- include/hw/timer/ibex_timer.h |  2 ++
- hw/riscv/opentitan.c          |  3 +++
- hw/timer/ibex_timer.c         | 17 ++++++++++++-----
- 3 files changed, 17 insertions(+), 5 deletions(-)
+ include/hw/timer/sifive_pwm.h |  62 +++++
+ hw/timer/sifive_pwm.c         | 468 ++++++++++++++++++++++++++++++++++
+ hw/timer/Kconfig              |   3 +
+ hw/timer/meson.build          |   1 +
+ hw/timer/trace-events         |   6 +
+ 5 files changed, 540 insertions(+)
+ create mode 100644 include/hw/timer/sifive_pwm.h
+ create mode 100644 hw/timer/sifive_pwm.c
 
-diff --git a/include/hw/timer/ibex_timer.h b/include/hw/timer/ibex_timer.=
+diff --git a/include/hw/timer/sifive_pwm.h b/include/hw/timer/sifive_pwm.=
 h
-index 6a43537003..b6f69b38ee 100644
---- a/include/hw/timer/ibex_timer.h
-+++ b/include/hw/timer/ibex_timer.h
-@@ -48,5 +48,7 @@ struct IbexTimerState {
-     uint32_t timebase_freq;
-=20
-     qemu_irq irq;
+new file mode 100644
+index 0000000000..6a8cf7b29e
+--- /dev/null
++++ b/include/hw/timer/sifive_pwm.h
+@@ -0,0 +1,62 @@
++/*
++ * SiFive PWM
++ *
++ * Copyright (c) 2020 Western Digital
++ *
++ * Author:  Alistair Francis <alistair.francis@wdc.com>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining=
+ a copy
++ * of this software and associated documentation files (the "Software"),=
+ to deal
++ * in the Software without restriction, including without limitation the=
+ rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
+sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be includ=
+ed in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
+SS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
+TY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
+LL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
+OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
+NG FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
+S IN
++ * THE SOFTWARE.
++ */
 +
-+    qemu_irq m_timer_irq;
- };
- #endif /* HW_IBEX_TIMER_H */
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 048aced0ec..f7cfcf1c3a 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -183,6 +183,9 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev=
-_soc, Error **errp)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->timer),
-                        0, qdev_get_gpio_in(DEVICE(&s->plic),
-                        IBEX_TIMER_TIMEREXPIRED0_0));
-+    qdev_connect_gpio_out(DEVICE(&s->timer), 0,
-+                          qdev_get_gpio_in(DEVICE(qemu_get_cpu(0)),
-+                                           IRQ_M_TIMER));
-=20
-     create_unimplemented_device("riscv.lowrisc.ibex.gpio",
-         memmap[IBEX_DEV_GPIO].base, memmap[IBEX_DEV_GPIO].size);
-diff --git a/hw/timer/ibex_timer.c b/hw/timer/ibex_timer.c
-index 5befb53506..66e1f8e48c 100644
---- a/hw/timer/ibex_timer.c
-+++ b/hw/timer/ibex_timer.c
-@@ -77,7 +77,7 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
-         /*
-          * If the mtimecmp was in the past raise the interrupt now.
-          */
--        riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
-+        qemu_irq_raise(s->m_timer_irq);
-         if (s->timer_intr_enable & R_INTR_ENABLE_IE_0_MASK) {
-             s->timer_intr_state |=3D R_INTR_STATE_IS_0_MASK;
-             qemu_set_irq(s->irq, true);
-@@ -86,7 +86,7 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
-     }
-=20
-     /* Setup a timer to trigger the interrupt in the future */
--    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(0));
-+    qemu_irq_lower(s->m_timer_irq);
-     qemu_set_irq(s->irq, false);
-=20
-     diff =3D cpu->env.timecmp - now;
-@@ -106,10 +106,8 @@ static void ibex_timer_update_irqs(IbexTimerState *s=
-)
- static void ibex_timer_cb(void *opaque)
- {
-     IbexTimerState *s =3D opaque;
--    CPUState *cs =3D qemu_get_cpu(0);
--    RISCVCPU *cpu =3D RISCV_CPU(cs);
-=20
--    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
-+    qemu_irq_raise(s->m_timer_irq);
-     if (s->timer_intr_enable & R_INTR_ENABLE_IE_0_MASK) {
-         s->timer_intr_state |=3D R_INTR_STATE_IS_0_MASK;
-         qemu_set_irq(s->irq, true);
-@@ -280,12 +278,21 @@ static void ibex_timer_init(Object *obj)
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
- }
-=20
-+static void ibex_timer_realize(DeviceState *dev, Error **errp)
++#ifndef HW_SIFIVE_PWM_H
++#define HW_SIFIVE_PWM_H
++
++#include "hw/sysbus.h"
++#include "qemu/timer.h"
++#include "qom/object.h"
++
++#define TYPE_SIFIVE_PWM "sifive-pwm"
++
++#define SIFIVE_PWM(obj) \
++    OBJECT_CHECK(SiFivePwmState, (obj), TYPE_SIFIVE_PWM)
++
++#define SIFIVE_PWM_CHANS          4
++#define SIFIVE_PWM_IRQS           SIFIVE_PWM_CHANS
++
++typedef struct SiFivePwmState {
++    /* <private> */
++    SysBusDevice parent_obj;
++
++    /* <public> */
++    MemoryRegion mmio;
++    QEMUTimer timer[SIFIVE_PWM_CHANS];
++    /*
++     * if en bit(s) set, is the number of ticks when pwmcount was 0
++     * if en bit(s) not set, is the number of ticks in pwmcount
++     */
++    uint64_t tick_offset;
++    uint64_t freq_hz;
++
++    uint32_t pwmcfg;
++    uint32_t pwmcmp[SIFIVE_PWM_CHANS];
++
++    qemu_irq irqs[SIFIVE_PWM_IRQS];
++} SiFivePwmState;
++
++#endif /* HW_SIFIVE_PWM_H */
+diff --git a/hw/timer/sifive_pwm.c b/hw/timer/sifive_pwm.c
+new file mode 100644
+index 0000000000..c664480ccf
+--- /dev/null
++++ b/hw/timer/sifive_pwm.c
+@@ -0,0 +1,468 @@
++/*
++ * SiFive PWM
++ *
++ * Copyright (c) 2020 Western Digital
++ *
++ * Author:  Alistair Francis <alistair.francis@wdc.com>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining=
+ a copy
++ * of this software and associated documentation files (the "Software"),=
+ to deal
++ * in the Software without restriction, including without limitation the=
+ rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
+sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be includ=
+ed in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
+SS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
+TY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
+LL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
+OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
+NG FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
+S IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "trace.h"
++#include "hw/irq.h"
++#include "hw/timer/sifive_pwm.h"
++#include "hw/qdev-properties.h"
++#include "hw/registerfields.h"
++#include "migration/vmstate.h"
++#include "qemu/log.h"
++#include "qemu/module.h"
++
++#define HAS_PWM_EN_BITS(cfg) ((cfg & R_CONFIG_ENONESHOT_MASK) || \
++                              (cfg & R_CONFIG_ENALWAYS_MASK))
++
++#define PWMCMP_MASK 0xFFFF
++#define PWMCOUNT_MASK 0x7FFFFFFF
++
++REG32(CONFIG,                   0x00)
++    FIELD(CONFIG, SCALE,            0, 4)
++    FIELD(CONFIG, STICKY,           8, 1)
++    FIELD(CONFIG, ZEROCMP,          9, 1)
++    FIELD(CONFIG, DEGLITCH,         10, 1)
++    FIELD(CONFIG, ENALWAYS,         12, 1)
++    FIELD(CONFIG, ENONESHOT,        13, 1)
++    FIELD(CONFIG, CMP0CENTER,       16, 1)
++    FIELD(CONFIG, CMP1CENTER,       17, 1)
++    FIELD(CONFIG, CMP2CENTER,       18, 1)
++    FIELD(CONFIG, CMP3CENTER,       19, 1)
++    FIELD(CONFIG, CMP0GANG,         24, 1)
++    FIELD(CONFIG, CMP1GANG,         25, 1)
++    FIELD(CONFIG, CMP2GANG,         26, 1)
++    FIELD(CONFIG, CMP3GANG,         27, 1)
++    FIELD(CONFIG, CMP0IP,           28, 1)
++    FIELD(CONFIG, CMP1IP,           29, 1)
++    FIELD(CONFIG, CMP2IP,           30, 1)
++    FIELD(CONFIG, CMP3IP,           31, 1)
++REG32(COUNT,                    0x08)
++REG32(PWMS,                     0x10)
++REG32(PWMCMP0,                  0x20)
++REG32(PWMCMP1,                  0x24)
++REG32(PWMCMP2,                  0x28)
++REG32(PWMCMP3,                  0x2C)
++
++static inline uint64_t sifive_pwm_ns_to_ticks(SiFivePwmState *s,
++                                                uint64_t time)
 +{
-+    IbexTimerState *s =3D IBEX_TIMER(dev);
-+
-+    qdev_init_gpio_out(dev, &s->m_timer_irq, 1);
++    return muldiv64(time, s->freq_hz, NANOSECONDS_PER_SECOND);
 +}
 +
++static inline uint64_t sifive_pwm_ticks_to_ns(SiFivePwmState *s,
++                                                uint64_t ticks)
++{
++    return muldiv64(ticks, NANOSECONDS_PER_SECOND, s->freq_hz);
++}
 +
- static void ibex_timer_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
++static inline uint64_t sifive_pwm_compute_scale(SiFivePwmState *s)
++{
++    return s->pwmcfg & R_CONFIG_SCALE_MASK;
++}
++
++static void sifive_pwm_set_alarms(SiFivePwmState *s)
++{
++    uint64_t now_ns =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++
++    if (HAS_PWM_EN_BITS(s->pwmcfg)) {
++        /*
++         * Subtract ticks from number of ticks when the timer was zero
++         * and mask to the register width.
++         */
++        uint64_t pwmcount =3D (sifive_pwm_ns_to_ticks(s, now_ns) -
++                             s->tick_offset) & PWMCOUNT_MASK;
++        uint64_t scale =3D sifive_pwm_compute_scale(s);
++        /* PWMs only contains PWMCMP_MASK bits starting at scale */
++        uint64_t pwms =3D (pwmcount & (PWMCMP_MASK << scale)) >> scale;
++
++        for (int i =3D 0; i < SIFIVE_PWM_CHANS; i++) {
++            uint64_t pwmcmp =3D s->pwmcmp[i] & PWMCMP_MASK;
++            uint64_t pwmcmp_ticks =3D pwmcmp << scale;
++
++            /*
++             * Per circuit diagram and spec, both cases raises correspon=
+ding
++             * IP bit one clock cycle after time expires.
++             */
++            if (pwmcmp > pwms) {
++                uint64_t offset =3D pwmcmp_ticks - pwmcount + 1;
++                uint64_t when_to_fire =3D now_ns +
++                                          sifive_pwm_ticks_to_ns(s, offs=
+et);
++
++                trace_sifive_pwm_set_alarm(when_to_fire, now_ns);
++                timer_mod(&s->timer[i], when_to_fire);
++            } else {
++                /* Schedule interrupt for next cycle */
++                trace_sifive_pwm_set_alarm(now_ns + 1, now_ns);
++                timer_mod(&s->timer[i], now_ns + 1);
++            }
++
++        }
++    } else {
++        /*
++         * If timer incrementing disabled, just do pwms > pwmcmp check s=
+ince
++         * a write may have happened to PWMs.
++         */
++        uint64_t pwmcount =3D (s->tick_offset) & PWMCOUNT_MASK;
++        uint64_t scale =3D sifive_pwm_compute_scale(s);
++        uint64_t pwms =3D (pwmcount & (PWMCMP_MASK << scale)) >> scale;
++
++        for (int i =3D 0; i < SIFIVE_PWM_CHANS; i++) {
++            uint64_t pwmcmp =3D s->pwmcmp[i] & PWMCMP_MASK;
++
++            if (pwms >=3D pwmcmp) {
++                trace_sifive_pwm_set_alarm(now_ns + 1, now_ns);
++                timer_mod(&s->timer[i], now_ns + 1);
++            } else {
++                /* Effectively disable timer by scheduling far in future=
+. */
++                trace_sifive_pwm_set_alarm(0xFFFFFFFFFFFFFF, now_ns);
++                timer_mod(&s->timer[i], 0xFFFFFFFFFFFFFF);
++            }
++        }
++    }
++}
++
++static void sifive_pwm_interrupt(SiFivePwmState *s, int num)
++{
++    uint64_t now =3D sifive_pwm_ns_to_ticks(s,
++                                        qemu_clock_get_ns(QEMU_CLOCK_VIR=
+TUAL));
++    bool was_incrementing =3D HAS_PWM_EN_BITS(s->pwmcfg);
++
++    trace_sifive_pwm_interrupt(num);
++
++    s->pwmcfg |=3D R_CONFIG_CMP0IP_MASK << num;
++    qemu_irq_raise(s->irqs[num]);
++
++    /*
++     * If the zerocmp is set and pwmcmp0 raised the interrupt
++     * reset the zero ticks.
++     */
++    if ((s->pwmcfg & R_CONFIG_ZEROCMP_MASK) && (num =3D=3D 0)) {
++        /* If reset signal conditions, disable ENONESHOT. */
++        s->pwmcfg &=3D ~R_CONFIG_ENONESHOT_MASK;
++
++        if (was_incrementing) {
++            /* If incrementing, time in ticks is when pwmcount is zero *=
+/
++            s->tick_offset =3D now;
++        } else {
++            /* If not incrementing, pwmcount =3D 0 */
++            s->tick_offset =3D 0;
++        }
++    }
++
++    /*
++     * If carryout bit set, which we discern via looking for overflow,
++     * also reset ENONESHOT.
++     */
++    if (was_incrementing &&
++        ((now & PWMCOUNT_MASK) < (s->tick_offset & PWMCOUNT_MASK))) {
++        s->pwmcfg &=3D ~R_CONFIG_ENONESHOT_MASK;
++    }
++
++    /* Schedule or disable interrupts */
++    sifive_pwm_set_alarms(s);
++
++    /* If was enabled, and now not enabled, switch tick rep */
++    if (was_incrementing && !HAS_PWM_EN_BITS(s->pwmcfg)) {
++        s->tick_offset =3D (now - s->tick_offset) & PWMCOUNT_MASK;
++    }
++}
++
++static void sifive_pwm_interrupt_0(void *opaque)
++{
++    SiFivePwmState *s =3D opaque;
++
++    sifive_pwm_interrupt(s, 0);
++}
++
++static void sifive_pwm_interrupt_1(void *opaque)
++{
++    SiFivePwmState *s =3D opaque;
++
++    sifive_pwm_interrupt(s, 1);
++}
++
++static void sifive_pwm_interrupt_2(void *opaque)
++{
++    SiFivePwmState *s =3D opaque;
++
++    sifive_pwm_interrupt(s, 2);
++}
++
++static void sifive_pwm_interrupt_3(void *opaque)
++{
++    SiFivePwmState *s =3D opaque;
++
++    sifive_pwm_interrupt(s, 3);
++}
++
++static uint64_t sifive_pwm_read(void *opaque, hwaddr addr,
++                                  unsigned int size)
++{
++    SiFivePwmState *s =3D opaque;
++    uint64_t cur_time, scale;
++    uint64_t now =3D sifive_pwm_ns_to_ticks(s,
++                                        qemu_clock_get_ns(QEMU_CLOCK_VIR=
+TUAL));
++
++    trace_sifive_pwm_read(addr);
++
++    switch (addr) {
++    case A_CONFIG:
++        return s->pwmcfg;
++    case A_COUNT:
++        cur_time =3D s->tick_offset;
++
++        if (HAS_PWM_EN_BITS(s->pwmcfg)) {
++            cur_time =3D now - cur_time;
++        }
++
++        /*
++         * Return the value in the counter with bit 31 always 0
++         * This is allowed to wrap around so we don't need to check that=
+.
++         */
++        return cur_time & PWMCOUNT_MASK;
++    case A_PWMS:
++        cur_time =3D s->tick_offset;
++        scale =3D sifive_pwm_compute_scale(s);
++
++        if (HAS_PWM_EN_BITS(s->pwmcfg)) {
++            cur_time =3D now - cur_time;
++        }
++
++        return ((cur_time & PWMCOUNT_MASK) >> scale) & PWMCMP_MASK;
++    case A_PWMCMP0:
++        return s->pwmcmp[0] & PWMCMP_MASK;
++    case A_PWMCMP1:
++        return s->pwmcmp[1] & PWMCMP_MASK;
++    case A_PWMCMP2:
++        return s->pwmcmp[2] & PWMCMP_MASK;
++    case A_PWMCMP3:
++        return s->pwmcmp[3] & PWMCMP_MASK;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad offset 0x%"HWADDR_PRIx"\n", __func__, add=
+r);
++        return 0;
++    }
++
++    return 0;
++}
++
++static void sifive_pwm_write(void *opaque, hwaddr addr,
++                               uint64_t val64, unsigned int size)
++{
++    SiFivePwmState *s =3D opaque;
++    uint32_t value =3D val64;
++    uint64_t new_offset, scale;
++    uint64_t now =3D sifive_pwm_ns_to_ticks(s,
++                                        qemu_clock_get_ns(QEMU_CLOCK_VIR=
+TUAL));
++
++    trace_sifive_pwm_write(value, addr);
++
++    switch (addr) {
++    case A_CONFIG:
++        if (value & (R_CONFIG_CMP0CENTER_MASK | R_CONFIG_CMP1CENTER_MASK=
+ |
++                     R_CONFIG_CMP2CENTER_MASK | R_CONFIG_CMP3CENTER_MASK=
+)) {
++            qemu_log_mask(LOG_UNIMP, "%s: CMPxCENTER is not supported\n"=
+,
++                          __func__);
++        }
++
++        if (value & (R_CONFIG_CMP0GANG_MASK | R_CONFIG_CMP1GANG_MASK |
++                     R_CONFIG_CMP2GANG_MASK | R_CONFIG_CMP3GANG_MASK)) {
++            qemu_log_mask(LOG_UNIMP, "%s: CMPxGANG is not supported\n",
++                          __func__);
++        }
++
++        if (value & (R_CONFIG_CMP0IP_MASK | R_CONFIG_CMP1IP_MASK |
++                     R_CONFIG_CMP2IP_MASK | R_CONFIG_CMP3IP_MASK)) {
++            qemu_log_mask(LOG_UNIMP, "%s: CMPxIP is not supported\n",
++                          __func__);
++        }
++
++        if (!(value & R_CONFIG_CMP0IP_MASK)) {
++            qemu_irq_lower(s->irqs[0]);
++        }
++
++        if (!(value & R_CONFIG_CMP1IP_MASK)) {
++            qemu_irq_lower(s->irqs[1]);
++        }
++
++        if (!(value & R_CONFIG_CMP2IP_MASK)) {
++            qemu_irq_lower(s->irqs[2]);
++        }
++
++        if (!(value & R_CONFIG_CMP3IP_MASK)) {
++            qemu_irq_lower(s->irqs[3]);
++        }
++
++        /*
++         * If this write enables the timer increment
++         * set the time when pwmcount was zero to be cur_time - pwmcount=
+.
++         * If this write disables the timer increment
++         * convert back from pwmcount to the time in ticks
++         * when pwmcount was zero.
++         */
++        if ((!HAS_PWM_EN_BITS(s->pwmcfg) && HAS_PWM_EN_BITS(value)) ||
++            (HAS_PWM_EN_BITS(s->pwmcfg) && !HAS_PWM_EN_BITS(value))) {
++            s->tick_offset =3D (now - s->tick_offset) & PWMCOUNT_MASK;
++        }
++
++        s->pwmcfg =3D value;
++        break;
++    case A_COUNT:
++        /* The guest changed the counter, updated the offset value. */
++        new_offset =3D value;
++
++        if (HAS_PWM_EN_BITS(s->pwmcfg)) {
++            new_offset =3D now - new_offset;
++        }
++
++        s->tick_offset =3D new_offset;
++        break;
++    case A_PWMS:
++        scale =3D sifive_pwm_compute_scale(s);
++        new_offset =3D (((value & PWMCMP_MASK) << scale) & PWMCOUNT_MASK=
+);
++
++        if (HAS_PWM_EN_BITS(s->pwmcfg)) {
++            new_offset =3D now - new_offset;
++        }
++
++        s->tick_offset =3D new_offset;
++        break;
++    case A_PWMCMP0:
++        s->pwmcmp[0] =3D value & PWMCMP_MASK;
++        break;
++    case A_PWMCMP1:
++        s->pwmcmp[1] =3D value & PWMCMP_MASK;
++        break;
++    case A_PWMCMP2:
++        s->pwmcmp[2] =3D value & PWMCMP_MASK;
++        break;
++    case A_PWMCMP3:
++        s->pwmcmp[3] =3D value & PWMCMP_MASK;
++        break;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Bad offset 0x%"HWADDR_PRIx"\n", __func__, add=
+r);
++    }
++
++    /* Update the alarms to reflect possible updated values */
++    sifive_pwm_set_alarms(s);
++}
++
++static void sifive_pwm_reset(DeviceState *dev)
++{
++    SiFivePwmState *s =3D SIFIVE_PWM(dev);
++    uint64_t now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++
++    s->pwmcfg =3D 0x00000000;
++    s->pwmcmp[0] =3D 0x00000000;
++    s->pwmcmp[1] =3D 0x00000000;
++    s->pwmcmp[2] =3D 0x00000000;
++    s->pwmcmp[3] =3D 0x00000000;
++
++    s->tick_offset =3D sifive_pwm_ns_to_ticks(s, now);
++}
++
++static const MemoryRegionOps sifive_pwm_ops =3D {
++    .read =3D sifive_pwm_read,
++    .write =3D sifive_pwm_write,
++    .endianness =3D DEVICE_NATIVE_ENDIAN,
++};
++
++static const VMStateDescription vmstate_sifive_pwm =3D {
++    .name =3D TYPE_SIFIVE_PWM,
++    .version_id =3D 1,
++    .minimum_version_id =3D 1,
++    .fields =3D (VMStateField[]) {
++        VMSTATE_TIMER_ARRAY(timer, SiFivePwmState, 4),
++        VMSTATE_UINT64(tick_offset, SiFivePwmState),
++        VMSTATE_UINT32(pwmcfg, SiFivePwmState),
++        VMSTATE_UINT32_ARRAY(pwmcmp, SiFivePwmState, 4),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static Property sifive_pwm_properties[] =3D {
++    /* 0.5Ghz per spec after FSBL */
++    DEFINE_PROP_UINT64("clock-frequency", struct SiFivePwmState,
++                       freq_hz, 500000000ULL),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void sifive_pwm_init(Object *obj)
++{
++    SiFivePwmState *s =3D SIFIVE_PWM(obj);
++    int i;
++
++    for (i =3D 0; i < SIFIVE_PWM_IRQS; i++) {
++        sysbus_init_irq(SYS_BUS_DEVICE(obj), &s->irqs[i]);
++    }
++
++    memory_region_init_io(&s->mmio, obj, &sifive_pwm_ops, s,
++                          TYPE_SIFIVE_PWM, 0x100);
++    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
++}
++
++static void sifive_pwm_realize(DeviceState *dev, Error **errp)
++{
++    SiFivePwmState *s =3D SIFIVE_PWM(dev);
++
++    timer_init_ns(&s->timer[0], QEMU_CLOCK_VIRTUAL,
++                  sifive_pwm_interrupt_0, s);
++
++    timer_init_ns(&s->timer[1], QEMU_CLOCK_VIRTUAL,
++                  sifive_pwm_interrupt_1, s);
++
++    timer_init_ns(&s->timer[2], QEMU_CLOCK_VIRTUAL,
++                  sifive_pwm_interrupt_2, s);
++
++    timer_init_ns(&s->timer[3], QEMU_CLOCK_VIRTUAL,
++                  sifive_pwm_interrupt_3, s);
++}
++
++static void sifive_pwm_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc =3D DEVICE_CLASS(klass);
++
++    dc->reset =3D sifive_pwm_reset;
++    device_class_set_props(dc, sifive_pwm_properties);
++    dc->vmsd =3D &vmstate_sifive_pwm;
++    dc->realize =3D sifive_pwm_realize;
++}
++
++static const TypeInfo sifive_pwm_info =3D {
++    .name          =3D TYPE_SIFIVE_PWM,
++    .parent        =3D TYPE_SYS_BUS_DEVICE,
++    .instance_size =3D sizeof(SiFivePwmState),
++    .instance_init =3D sifive_pwm_init,
++    .class_init    =3D sifive_pwm_class_init,
++};
++
++static void sifive_pwm_register_types(void)
++{
++    type_register_static(&sifive_pwm_info);
++}
++
++type_init(sifive_pwm_register_types)
+diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
+index 1e73da7e12..010be7ed1f 100644
+--- a/hw/timer/Kconfig
++++ b/hw/timer/Kconfig
+@@ -25,6 +25,9 @@ config ALLWINNER_A10_PIT
+     bool
+     select PTIMER
 =20
-     dc->reset =3D ibex_timer_reset;
-     dc->vmsd =3D &vmstate_ibex_timer;
-+    dc->realize =3D ibex_timer_realize;
-     device_class_set_props(dc, ibex_timer_properties);
- }
++config SIFIVE_PWM
++    bool
++
+ config STM32F2XX_TIMER
+     bool
 =20
+diff --git a/hw/timer/meson.build b/hw/timer/meson.build
+index e67478a8f1..03092e2ceb 100644
+--- a/hw/timer/meson.build
++++ b/hw/timer/meson.build
+@@ -35,5 +35,6 @@ softmmu_ss.add(when: 'CONFIG_STELLARIS_GPTM', if_true: =
+files('stellaris-gptm.c')
+ softmmu_ss.add(when: 'CONFIG_STM32F2XX_TIMER', if_true: files('stm32f2xx=
+_timer.c'))
+ softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_timer.c'))
+ specific_ss.add(when: 'CONFIG_IBEX', if_true: files('ibex_timer.c'))
++softmmu_ss.add(when: 'CONFIG_SIFIVE_PWM', if_true: files('sifive_pwm.c')=
+)
+=20
+ specific_ss.add(when: 'CONFIG_AVR_TIMER16', if_true: files('avr_timer16.=
+c'))
+diff --git a/hw/timer/trace-events b/hw/timer/trace-events
+index 5234c0ea9e..d0edcd2a80 100644
+--- a/hw/timer/trace-events
++++ b/hw/timer/trace-events
+@@ -88,3 +88,9 @@ sse_counter_reset(void) "SSE system counter: reset"
+ sse_timer_read(uint64_t offset, uint64_t data, unsigned size) "SSE syste=
+m timer read: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
+ sse_timer_write(uint64_t offset, uint64_t data, unsigned size) "SSE syst=
+em timer write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
+ sse_timer_reset(void) "SSE system timer: reset"
++
++# sifive_pwm.c
++sifive_pwm_set_alarm(uint64_t alarm, uint64_t now) "Setting alarm to: 0x=
+%" PRIx64 ", now: 0x%" PRIx64
++sifive_pwm_interrupt(int num) "Interrupt %d"
++sifive_pwm_read(uint64_t offset) "Read at address: 0x%" PRIx64
++sifive_pwm_write(uint64_t data, uint64_t offset) "Write 0x%" PRIx64 " at=
+ address: 0x%" PRIx64
 --=20
 2.31.1
 
