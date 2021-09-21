@@ -2,71 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9769B4133FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 15:23:06 +0200 (CEST)
-Received: from localhost ([::1]:39324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05743413445
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 15:33:41 +0200 (CEST)
+Received: from localhost ([::1]:51320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSfjl-0004zk-7I
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 09:23:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54608)
+	id 1mSftz-00068l-DH
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 09:33:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSfib-00046n-Ns
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 09:21:53 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:40469)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mSfiZ-0003OY-F8
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 09:21:53 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id q26so39076193wrc.7
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 06:21:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LVent6tBEZOYvocvaNsg2R0U+fsvZwB/53sqr23aNrM=;
- b=tSXP4ze3HfDwYlPZOz5CI/XDgmiNJTJm/kEeAyX5Z8BXCcnqvAyF1nSzTHHnMk8oRA
- K9jHs1ImLG0GrAlXDFQuRttWdXq1fa7xnbaFot1kh+Q3pfrpaucN7vd9DoGB7Buni6n8
- 83+6+IoYADnBCoh6lgk3+dQnCd8lG0jzpcerhfXMtK/H4vSBh0mBUTvrLSWshfbxniwz
- zCB6j2Wkl5Z206Qn3y73FSKWJzkLlxBnodDPfG6qVskIYsDIrgPMQRQprVaWPDvFevM7
- 4Ci2gDbZAQnyWzDNWl5uKEHQ6t59SDDZrJpJJGezEuYAx+3q719uCpTY/PpockA2TkSI
- jezg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LVent6tBEZOYvocvaNsg2R0U+fsvZwB/53sqr23aNrM=;
- b=EDB82ihpVBfOr28RJ6J1SoYHJEN1ifJN+hDTEXF+8a3Brr50Q0UYNXvgaYSs/zSuOg
- I4fl1IkYP7dPQAzChvsB++q3omZqjRp/aPJ9OMt62g1oKNSTXbV2YhojGQRH9CchYG9B
- 9kXKtdjsSBpV48lVhbpUyD14AV2KisHUl7bxXnMXqXnlbPVVqcUMUgHc/2g4QWIY+MrR
- tENVAGXb8Gjdk+9Icbrwxl0hQkcYrU+lw+keWPb+uRYpqIMQFMU95CWZzCmz6M5tOHR1
- D6GEkgm1fWUUdpOvSp9ixchJZWwHbV2ZNAyxQhz0pU3SeGuY/PIFqg52b3xhmonHqGsr
- 194g==
-X-Gm-Message-State: AOAM5333VyLfr48fLrjGC4FxNq84smFGvVfopGNT731i4H4RpF+d2EVp
- Az3b4BTDpuR0zDYMvdxJiLVLHTNxD+0Y11huDlvFLQ==
-X-Google-Smtp-Source: ABdhPJyJSqKWYJ1N+eL7ZdW67HvcFn77Er7rirjyEjSGeHxjpizrzdfD1dr/nRUPPc4qcDGMOorimZbxhNTOqRVbvdM=
-X-Received: by 2002:a5d:4a08:: with SMTP id m8mr34419577wrq.263.1632230509362; 
- Tue, 21 Sep 2021 06:21:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1mSfqh-0004MP-KC; Tue, 21 Sep 2021 09:30:15 -0400
+Received: from mail.csgraf.de ([85.25.223.15]:54060 helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1mSfqe-0002ZZ-17; Tue, 21 Sep 2021 09:30:14 -0400
+Received: from MacBook-Air.alex.local
+ (dynamic-077-007-123-111.77.7.pool.telefonica.de [77.7.123.111])
+ by csgraf.de (Postfix) with ESMTPSA id 59BC36080369;
+ Tue, 21 Sep 2021 15:30:07 +0200 (CEST)
+Subject: Re: [PATCH v12 00/10] hvf: Implement Apple Silicon Support
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210916155404.86958-1-agraf@csgraf.de>
+ <CAFEAcA-LrvO7sg9gY0ZKnvXJyJuFc2Ej1Ve1245FZ7YkH-Oj2A@mail.gmail.com>
+ <CAFEAcA_Hkqg16VbA1qACK4RG22iXHo8b3VZWQoBRZL0HuBazZA@mail.gmail.com>
+ <d4859cae-d9c1-2879-0682-080d4b5efe90@amsat.org>
+ <27a265d5-2e7c-f234-0d09-f40a731e588d@csgraf.de>
+ <bdeef51c-901b-f5a8-0415-03c464255b1f@amsat.org>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <60aac468-973b-daee-49ce-71829c234af8@csgraf.de>
+Date: Tue, 21 Sep 2021 15:30:08 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <CAFEAcA8Q2XEANtKfk_Ak2GgeM8b_=kf_qduLztCuL=E_k36FWg@mail.gmail.com>
- <87czq0l2mn.fsf@dusky.pond.sub.org>
- <CAFEAcA-1cGjt54XDEmKiDctySW4zdQptoc2taGp0XxMOtKvGCw@mail.gmail.com>
- <87mtoe4g40.fsf@dusky.pond.sub.org>
-In-Reply-To: <87mtoe4g40.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 Sep 2021 14:20:57 +0100
-Message-ID: <CAFEAcA_ExFiv3AurBAtTan10yuXRnsHMQS0yHa-vJpwB9u4HoA@mail.gmail.com>
-Subject: Re: ensuring a machine's buses have unique names
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <bdeef51c-901b-f5a8-0415-03c464255b1f@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,120 +59,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 Sept 2021 at 05:28, Markus Armbruster <armbru@redhat.com> wrote:
+
+On 21.09.21 11:29, Philippe Mathieu-Daudé wrote:
+> On 9/20/21 22:21, Alexander Graf wrote:
+>> On 20.09.21 18:17, Philippe Mathieu-Daudé wrote:
+>>> On 9/20/21 15:15, Peter Maydell wrote:
+>>>> On Mon, 20 Sept 2021 at 11:11, Peter Maydell
+>>>> <peter.maydell@linaro.org> wrote:
+>>>>> On Thu, 16 Sept 2021 at 16:54, Alexander Graf <agraf@csgraf.de>
+>>>>> wrote:
+>>>>>> Now that Apple Silicon is widely available, people are obviously
+>>>>>> excited
+>>>>>> to try and run virtualized workloads on them, such as Linux and
+>>>>>> Windows.
+>>>>>>
+>>>>>> This patch set implements a fully functional version to get the ball
+>>>>>> going on that. With this applied, I can successfully run both
+>>>>>> Linux and
+>>>>>> Windows as guests. I am not aware of any limitations specific to
+>>>>>> Hypervisor.framework apart from:
+>>>>>>
+>>>>>>    - gdbstub debugging (breakpoints)
+>>>>>>    - missing GICv3 support
+>>>>>>    - Windows will not work due to UDEF SMC implementation
+>>>>>>
+>>>>>> To use hvf support, please make sure to run -M virt,highmem=off
+>>>>>> to fit
+>>>>>> in M1's physical address space limits and use -cpu host.
+>>>>> Applied to target-arm.next, thanks (with the unnecessary #include
+>>>>> in patch 6 removed).
+>>>> Turns out that the final patch breaks "make check-acceptance".
+>>>> All the orangepi boot tests timeout:
+>>>>
+>>>>   (15/58)
+>>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi:
+>>>> INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
+>>>> Timeout reached\nOriginal status: ERROR\n{'name':
+>>>> '15-tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi',
+>>>>
+>>>> 'logdir':
+>>>> '/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/tests/...
+>>>> (90.24 s)
+>>>>   (16/58)
+>>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_initrd:
+>>>> INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
+>>>> Timeout reached\nOriginal status: ERROR\n{'name':
+>>>> '16-tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_initrd',
+>>>>
+>>>> 'logdir':
+>>>> '/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang...
+>>>> (90.24 s)
+>>>>   (17/58)
+>>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd:
+>>>> INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
+>>>> Timeout reached\nOriginal status: ERROR\n{'name':
+>>>> '17-tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd',
+>>>>
+>>>> 'logdir':
+>>>> '/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/arm-clang/tes...
+>>>> (90.24 s)
+>>> Works for me on x86_64 Fedora 34 built with
+>>> --enable-trace-backends=log --enable-debug:
+>>>
+>>> $ ./tests/venv/bin/avocado run
+>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi
+>>>
+>>> Fetching asset from
+>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi
+>>>
+>>> Fetching asset from
+>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_initrd
+>>>
+>>> Fetching asset from
+>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_initrd
+>>>
+>>> Fetching asset from
+>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd
+>>>
+>>> Fetching asset from
+>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd
+>>>
+>>> Fetching asset from
+>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic_20_08
+>>>
+>>> Fetching asset from
+>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboot_netbsd9
+>>>
+>>> Fetching asset from
+>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboot_netbsd9
+>>>
+>>> JOB ID     : b19f151f7320def3a432255f3a99c0dde3da95c0
+>>> JOB LOG    :
+>>> /home/phil/avocado/job-results/job-2021-09-20T18.12-b19f151/job.log
+>>>   (1/5)
+>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi:
+>>>
+>>> PASS (6.29 s)
+>>>   (2/5)
+>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_initrd:
+>>>
+>>> PASS (51.23 s)
+>>>   (3/5)
+>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_sd:
+>>>
+>>> PASS (76.53 s)
+>>>   (4/5)
+>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_bionic_20_08:
+>>>
+>>> SKIP: storage limited
+>>>   (5/5)
+>>> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orangepi_uboot_netbsd9:
+>>>
+>>> SKIP: storage limited
+>>> RESULTS    : PASS 3 | ERROR 0 | FAIL 0 | SKIP 2 | WARN 0 | INTERRUPT
+>>> 0 |
+>>> CANCEL 0
+>>> JOB TIME   : 135.18 s
+>>>
+>>
+>> The OrangePi kernel goes into an endless loop here:
+>>
+>>  
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/compressed/head.S?h=v5.10#n637
 >
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> > I'm not sure how best to sort this tangle out. We could:
-> >  * make controller devices pass in NULL as bus name; this
-> >    means that some bus names will change, which is an annoying
-> >    breakage but for these minor bus types we can probably
-> >    get away with it. This brings these buses into line with
-> >    how we've been handling uniqueness for ide and scsi.
+> As you said, this is a Linux specific behavior, ...
+
+
+It's not really Linux specific behavior. Linux just includes preloader
+code that moves it into HYP mode when booted in SVC mode.
+
+
 >
-> To gauge the breakage, we need a list of the affected bus names.
+>> The reason is simple: It tries to install its own HYP code using the old
+>> "install HYP handler, then invoke it" trick based on SPSR's indication
+>> that HYP is available, but fails to do so because HYP calls get handled
+>> by QEMU instead because the PSCI conduit is configured to HVC.
+>>
+>> The patch below seems to fix it for me. Please advise how you want to
+>> proceed.
+>>
+>>
+>> Alex
+>>
+>>
+>> diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
+>> index 27f1070145..f9b7ed1871 100644
+>> --- a/hw/arm/allwinner-h3.c
+>> +++ b/hw/arm/allwinner-h3.c
+>> @@ -237,7 +237,7 @@ static void allwinner_h3_realize(DeviceState *dev,
+>> Error **errp)
+>>
+>>           /* Provide Power State Coordination Interface */
+>>           qdev_prop_set_int32(DEVICE(&s->cpus[i]), "psci-conduit",
+>> -                            QEMU_PSCI_CONDUIT_HVC);
+>> +                            QEMU_PSCI_CONDUIT_SMC);
+>
+> ... so I'd rather follow the approach taken on the Versal board,
+> see versal_virt_init() in commit 6f16da53ffe ("hw/arm: versal:
+> Add a virtual Xilinx Versal board"):
+>
+> 1/ add "psci-conduit" property in TYPE_AW_H3,
+>    forward this property to each core in allwinner_h3_realize()
+>
+> 2/ set property in orangepi_init():
+>
+>    object_property_set_int(OBJECT(h3), "psci-conduit",
+>                            machine->kernel_filename
+>                            ? QEMU_PSCI_CONDUIT_SMC
+>                            : QEMU_PSCI_CONDUIT_HVC,
+>                            &error_abort);
+>
+> That way we don't break non-Linux firmwares.
 
-Looking through, there are a few single-use or special
-purpose buses I'm going to ignore for now (eg vmbus, or
-the s390 ones). The four big bus types where controllers
-often specify a bus name and override the 'autogenerate
-unique name' handling are pci, ssi, sd, and i2c. (pci mostly
-gets away with it I expect by machines only having one pci
-bus.) Of those, I've gone through i2c. These are all the
-places where we create a specifically-named i2c bus (via
-i2c_init_bus()), together with the affected boards:
 
-   hw/arm/pxa2xx.c
-    - the PXA SoC code creates both the intended-for-use
-      i2c buses (which get auto-names) and also several i2c
-      buses intended for internal board-code use only which
-      are all given the same name "dummy".
-      Boards: connex, verdex, tosa, mainstone, akita, spitz,
-      borzoi, terrier, z2
-   hw/arm/stellaris.c
-    - The i2c controller names its bus "i2c". There is only one i2c
-      controller on these boards, so no name conflicts.
-      Boards: lm3s811evb, lm3s6965evb
-   hw/display/ati.c
-    - The ATI VGA device has an on-board i2c controller which it
-      connects the DDC that holds the EDID information. The bus is
-      always named "ati-vga.ddc", so if you have multiple of this
-      PCI device in the system the buses have the same names.
-   hw/display/sm501.c
-    - Same as ATI, but the bus name is "sm501.i2c"
-   hw/i2c/aspeed_i2c.c
-    - This I2C controller has either 14 or 16 (!) different i2c
-      buses, and it assigns them names "aspeed.i2c.N" for N = 0,1,2,...
-      The board code mostly seems to use these to wire up various
-      on-board i2c devices.
-      Boards: palmetto-bmc, supermicrox11-bmc, ast2500-evb, romulus-bmc,
-      swift-bmc, sonorapass-bmc, witherspoon-bmc, ast2600-evb,
-      tacoma-bmc, g220a-bmc, quanta-q71l-bmc, rainier-bmc
-   hw/i2c/bitbang_i2c.c
-    - the "GPIO to I2C bridge" device always names its bus "i2c".
-      Used only on musicpal, which only creates one of these buses.
-      Boards: musicpal
-   hw/i2c/exynos4210_i2c.c
-    - This i2c controller always names its bus "i2c". There are 9
-      of these controllers on the board, so they all have clashing
-      names.
-      Boards: nuri, smdkc210
-   hw/i2c/i2c_mux_pca954x.c
-    - This is an i2c multiplexer. All the child buses are named
-      "i2c-bus". The multiplexer is used by the aspeed and npcm7xx
-      boards. (There's a programmable way to get at individual
-      downstream i2c buses despite the name clash; none of the boards
-      using this multiplexer actually connect any devices downstream of
-      it yet.)
-      Boards: palmetto-bmc, supermicrox11-bmc, ast2500-evb, romulus-bmc,
-      swift-bmc, sonorapass-bmc, witherspoon-bmc, ast2600-evb,
-      tacoma-bmc, g220a-bmc, quanta-q71l-bmc, rainier-bmc,
-      npcm750-evb, quanta-gsj, quanta-gbs-bmc, kudo-bmc
-   hw/i2c/mpc_i2c.c
-    - This controller always names its bus "i2c". There is only one
-      of these controllers in the machine.
-      Boards: ppce500, mpc8544ds
-   hw/i2c/npcm7xx_smbus.c
-    - This controller always names its bus "i2c-bus". There are multiple
-      controllers on the boards. The name also clashes with the one used
-      by the pca954x muxes on these boards (see above).
-      Boards: npcm750-evb, quanta-gsj, quanta-gbs-bmc, kudo-bmc
-   hw/i2c/pm_smbus.c
-    - This is the PC SMBUS implementation (it is not a QOM device...)
-      The bus is always called "i2c".
-      Boards: haven't worked through; at least all the x86 PC-like
-      boards, I guess
-   hw/i2c/ppc4xx_i2c.c
-    - This controller always names its bus "i2c". The taihu and
-      ref405ep have only one controller, but sam460ex has two which
-      will have non-unique names.
-      Boards: taihu, ref405ep, sam460ex
-   hw/i2c/versatile_i2c.c
-    - This controller always names its bus "i2c". The MPS boards all
-      have multiples of this controller with clashing names; the others
-      have only one controller.
-      Boards: mps2-an385, mps2-an386, mps2-an500, mps2-an511,
-      mps2-an505, mps2-an521, mps3-an524, mps3-an547,
-      realview-eb, realview-eb-mpcore, realview-pb-a8, realview-pbx-a9,
-      versatileab, versatilepb, vexpress-a9, vexpress-a15
+This doesn't make sense to me. We need to decide what we want from the
+OrangePi emulation:
 
-In a lot of these cases I suspect the i2c controllers are
-provided either to allow connection of various internal-to-the-board
-devices, or simply so that guest OS bootup code that initializes
-the i2c controller doesn't fall over. However since there's
-nothing stopping users from creating i2c devices themselves
-on the commandline, some people might be doing that.
+  1) Guest owns USR, SVC. HYP's PSCI is emulated by QEMU
+  2) Guest owns USR, SVC, HYP. MON's PSCI is emulated by QEMU
+  3) Guest owns USR, SVC, HYP, MON. PSCI is handled 100% inside the guest.
 
-In some of these cases (eg the i2c bus on the ATI VGA driver)
-I suspect the desired behaviour is "unique bus name based on
-a standard template, eg 'ati-vga.ddc.0/1/...'. It sounds like
-we can't do that, though. (Also they probably don't want to
-permit users to command-line plug i2c devices into it...)
+We currently advertise to the guest that it can use HYP, but don't allow
+it to run anything in MON (option 2), but then at the same time override
+parts of HYP with QEMU code. That's just plain wrong - we're breaking
+hypervisors running on OrangePi :).
 
-thanks
--- PMM
+So if the goal of that board is to run OrangePi ATF (does it do ATF?)
+code or any other "full firmware", then we would need to move QEMU
+completely out of the conduit picture, implement option 3 and ship
+pre-HYP firmware with QEMU.
+
+If the goal is to just make HYP and below work, the fix above is the
+best path forward IMHO.
+
+Option 1 would require us to tell the guest that it can not make use of
+HYP. That's possible, but why should we?
+
+I don't really see why we should even consider option 1. 2 and 3 make
+sense. 3 is a lot of work. 2 is a one line fix that makes the board at
+least do what it's supposed to do :).
+
+
+Alex
+
 
