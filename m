@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB93341319A
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 12:32:47 +0200 (CEST)
-Received: from localhost ([::1]:55278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D91441316C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Sep 2021 12:23:12 +0200 (CEST)
+Received: from localhost ([::1]:41080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSd4w-0005c9-Pz
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 06:32:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60996)
+	id 1mScve-0004At-GY
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 06:23:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mSctI-0001GR-6a; Tue, 21 Sep 2021 06:20:44 -0400
+ id 1mSctK-0001HN-KO; Tue, 21 Sep 2021 06:20:46 -0400
 Received: from mail-eopbgr140125.outbound.protection.outlook.com
  ([40.107.14.125]:6053 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mSctE-0002LA-1h; Tue, 21 Sep 2021 06:20:43 -0400
+ id 1mSctI-0002LA-6i; Tue, 21 Sep 2021 06:20:46 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R2GTnn6Q1vECNiN7izjC4QmqI3iKAsD+ZurVCAq8nKSnLAL3gc7p0bD0RlWkkoj8hD1UKzt0AFxCZRT5DklCQm7aMqAOYo6bR1tL6ulkwbGTJlsX8teAZJunXP9YOt/ouoIW1R2zd0R0+uwhZJn7PdKd9kpGryKiAkldl11+lAQNxpH7zvZUCOxq/RVGtRz4fe0A3VvLdrvlU9rpkmW/do63mAShYknYVnIYJZ1JCqgc5WU0VLtRmJYSlnq97hAn2DF45Y5OWovVd+sZJJjWWnHq+nmT2zfCObWlf1RsKD524VvoJPN/LyNuSvdfAaS/3bU99iH/wn8LkXMcZH52Qw==
+ b=NkNWQU4TlEBGigeF44y3FH8s/wmw+nH2BcY9b6lTmTD4nny9Uonj1uexMgqdW/EA/G6zuUsL7ygP5CA7IDKwvbSy/U/nz+OlIh5LdsnKsQfIhcyhYOjXZfmsirL494C6Cjmn+ZlPzS4zK/BkcCCwtk+r57JA86h3vn2aRB+9fmkUGESt0GhPgd/NntCvlA+IBG/hitvkVcZvVJCwAsFEUd3Hfz9JlYzjEIYHoa4wFDqRtdhj2FjVVopLCyHrP4QgZcLVReYAixOv9tB5JygGWbvWkSxOSlNw5/+tLjqcWcNYjBgpDBLvtL1Gt4Nn2JBDrecJkyyfDnIOJ6YIoqe0Yw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=f4O0cQd183KP87XfC2HqX/xinJk5oGSw0QAp/hRCTg4=;
- b=BdKzEbZxWyYDBfYL8vUFxXqPBECq5R6zECSPHjNcTiRH+OykYDVygBDcTn+YiuTo+7lb8taREmPr7v03XZUVXx21OFldjT9kAms7i0SoD3PU7Sl8i7mQeQFHkhuCaRzEp0OvG4b1XGCMBIVOujLzJeTuRu7fyfw1kATUFnNoqyeZnbVc2/5RRI1NEIEWRrTxMi/nE3EAezmJZX1ZkLqI/LeGTdVz3xdamS2aDcJC+VJn8CkDBRmEDSRM6GdkAKgNkvy/0FzYxRbg8tRbpQPZZTmuohKXHZMrduHj/XO5fp4zvkJPMyEZfONDUSfv1FqFm6NlB0urEx6PieEtKJf2Yg==
+ bh=GGGyH9opW9gsNAVl9bR0Y/OZG7Q/NAepFfY7PMujBE4=;
+ b=jGU9iVtdMMnEb2gJq62/i/bOxkGftoMzosHvM59EWSUlIez9tb0B8B76+IsmQKHDKwixVR7UYz7cmjIPi1D2dR62z6fGgqsS5ng82DBg2i0Jya6E/gfAgjZrY5FyPc6hpmc04qvCY03ti/KN+FDYLbRbBWw+QGnpwApP/5RHEbVwbJKP/oZRiRWZF3ut6s5yOZcZNjF3rLjCIriE2G2yHKd+wv8tLZiXAZIGoGenhbiOFxRGRNT/e7AqKRdDfsIreb4krC8ab1USfugB4FXb8LnOwvkZCZircpGmMMHZyilbUAAjY2f1OPE9SlWnyQukb54c07/Pj4iv/KbgrsD19Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f4O0cQd183KP87XfC2HqX/xinJk5oGSw0QAp/hRCTg4=;
- b=PhVolDeivEJrlxgf/Kq3tQJLD9GyNv2Svp4VPCh00A/pu0u0Enx/stOb+OkG96tb1VxY93BXc3iJdla+2irwEXN1y+Z7K8rP+RKwO6BeFynOgVbCQHQwdI3q3CyfQN83nP1dJrmgwZuE5JYsCJhaSM1b15Q/dbQRatzpFwJos4Q=
+ bh=GGGyH9opW9gsNAVl9bR0Y/OZG7Q/NAepFfY7PMujBE4=;
+ b=neMJvoE3X6h6vG6djinLjDZDsVAoRznOluKKx9QPKE8LmnkdDAD4KmQ/IpOfB5dTim9Z1VCJ3yJAlhAguMbt9PVehRQyuEr3AGhdTAH8SgICulDeWk9my6yDrsDoUCAfGN2+pebjR/J0oo07RcXdjGvrP4WL/gizHp1+RCPMtno=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6631.eurprd08.prod.outlook.com (2603:10a6:20b:339::12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.16; Tue, 21 Sep
- 2021 10:20:33 +0000
+ 2021 10:20:35 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.013; Tue, 21 Sep 2021
- 10:20:33 +0000
+ 10:20:35 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, kwolf@redhat.com,
  hreitz@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com
-Subject: [PULL 00/12] jobs: mirror: Handle errors after READY cancel
-Date: Tue, 21 Sep 2021 13:20:05 +0300
-Message-Id: <20210921102017.273679-1-vsementsov@virtuozzo.com>
+Subject: [PULL 01/12] job: Context changes in job_completed_txn_abort()
+Date: Tue, 21 Sep 2021 13:20:06 +0300
+Message-Id: <20210921102017.273679-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210921102017.273679-1-vsementsov@virtuozzo.com>
+References: <20210921102017.273679-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: HE1PR06CA0127.eurprd06.prod.outlook.com
@@ -61,54 +63,54 @@ MIME-Version: 1.0
 Received: from localhost.localdomain (185.215.60.205) by
  HE1PR06CA0127.eurprd06.prod.outlook.com (2603:10a6:7:16::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4523.16 via Frontend Transport; Tue, 21 Sep 2021 10:20:32 +0000
+ 15.20.4523.16 via Frontend Transport; Tue, 21 Sep 2021 10:20:34 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0a57258c-3a69-4546-1346-08d97ce97220
+X-MS-Office365-Filtering-Correlation-Id: f4127a5c-17a9-47ee-afc8-08d97ce97355
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6631:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6631E04A8FF14282077DC423C1A19@AS8PR08MB6631.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:79;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6631B74524C12E783FC30090C1A19@AS8PR08MB6631.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CvNkvwtrpQ9czQf5uf+E7sUm2qqnjhTrm4/sVBE+pMKS1shpl2xjRsA2Iw5ut+irnHvkvnZz22AGpDR2vvuMLM7MKzqpzCeGDq8YM0U6GwuAtjesvZu7ZFFGHX+o+cDpn2DpiurbDOknO4zAWSl5N9K4JhiW6aYXwl807Z6IiorPXS1PZ7OzE7/85Rzx0ABNpXo8lMugB0KILG/CK2q21PrxQc6tD6NcIudG/T3i1jU3Q1CYR2mqftwNeXEzOVbq6WwsTWOgMxx8xrxzTsAzjjoEK3fYN+9oZweW2KhxsQ+bwr+wUyfUw0Qd0sW29WXEq0+jP+fnXzaB8QsG59lnazyIocSGe29xyn24mtIs/c31gAYToxz9wHEAF97HKqFSWis1EHih+MeHCuLmq8jAkZUA6lIZUDB0tRXcQAwZ6pPBP3CGLRjW8Ol+8crBOAIgjkGcnMvhYXbwd2tXKTYUQXECO6jlA5oewcyZ+tw0iUv9Gt6P4AK2TRnE35lrGHSFFwvNicNL7IHNfK7NIVwGR5WFuVh3ORa6vXgyZ3JWQ2x2DsJL/UcaW3RgTmO0JuZnfkaF42Z2vg8LmrviGPSXeCeMYOd9F3oDrHMmNaLAtw83Q7LSO5K2s9tp+tWwO7SE8bjrXWkc/Fr6cDKojT7mYzpwtAtM+noI4kD3YzcHWzbKfuq+vCd0artBvfb4R8pZixKAmhKSfC6nbrepDEi9QSOk8J1JNe1yFynprMx7O555IlkNqK/u+I47h4oT6Xpip/GFX+Uh4kZ27zd8l7fyv2io1DY9WyFofXJbmQk9/g8=
+X-Microsoft-Antispam-Message-Info: mN1dIpE6CYDFV2EmdKzKXYpplX771H9RFNLHC5Tk4m6hfjZ5VqQUO6BV4uneOQrVUgSOxSdVQmGle9Qal8c+LxV4zS0V6bk0xYfnHCEb4woNfgplu31MhIoZuGruRMF+QOORWVNAvFIMTDCcD0yAddlyZZpnyhNota6n2XwuUuXcHLNKNAyDhNycjsiUrIPqWwFHs5JhjKE0b7I9tHchrZ2NfbiKGhBG/MH/sAJWPkJyBVgcjbJyuKynpAvDdRewgq6Sfd8+K1s0mW1amN/YFLQcbZhBhBc1++tVWTGE91It7tgQaHIQYbBjdWncmdSNaJPhKrIPHJx/69wubvNEDXp74ajUBG/oQSpKo1B59Zg5oEpGh/xeHLKEO2mQ4qCTrWdjIhRLYs3bHpA03OePJ4OCsHeUy2Ww21xhPGAOlk6ZVFVzumiJ6KZwXKus58HrqdbXgOzGnI0Qs4vtAjmpi0jYOBRJOGr8NQQmBKLoC2m3PNK5i1AnawQ2WQ4sx3LvARDCUnilg/+SgS2mNSIuAFZVy5uOYk8oSVr9zWqekNq5PzQ8WU3YbDES9e5MuAUvugTul6fhtQVj/Dnx1bGr6yieA9sNT0wUtp2ZtgS1r0rBkLLHVts7FbG3GOidtrwJ/2KM0YAYUt+M6b9MAhgG0o4kFYImLYSamDe2nEtF+TaNLzjCUFAQ4iWE6HQutUVHO7HrQT8l3C26yWNqhubgKQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(1076003)(966005)(38350700002)(38100700002)(186003)(86362001)(8676002)(316002)(4326008)(6916009)(8936002)(6512007)(6666004)(2906002)(26005)(52116002)(5660300002)(6506007)(83380400001)(6486002)(956004)(2616005)(66476007)(36756003)(66556008)(508600001)(66946007);
+ SFS:(4636009)(366004)(1076003)(38350700002)(38100700002)(186003)(86362001)(8676002)(316002)(4326008)(6916009)(8936002)(6512007)(6666004)(2906002)(26005)(52116002)(5660300002)(6506007)(83380400001)(6486002)(956004)(2616005)(66476007)(36756003)(66556008)(508600001)(66946007);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LMfqYewgBpWvdDstD2TwRbLaj1h/CpAMAjVTtwZGwcHyw76E01gfx3wj+9yp?=
- =?us-ascii?Q?gMzga5UGnwBANhqpZoi5uvNxKQFcjFyzL+nzPVostYfMShECghIIr2gTPtsq?=
- =?us-ascii?Q?QuIPCQM0TckK2yVguxwmOfHdGENDu4/gbo7OTUEPJUY+P2QwtGCNLYmw55do?=
- =?us-ascii?Q?VreOPaaLLTgiAV0gMSdjaUYYnDJU/Mf2kR+rBevZlNx1G9PsjJAANxth3bsH?=
- =?us-ascii?Q?kZSaaRMwWlD+IipPANfSVBmZTBY5ZZRQzw/Y+oDn/Ex7lUFdFIOlxoa1XaIJ?=
- =?us-ascii?Q?PCZP11jqhmHBfJQ2i3GOzEF7ZvTp3g7YpvQm2B9SWYzYikowkuPns2qclH6y?=
- =?us-ascii?Q?EHDeY9c+CilhHQW3TqxI5TcYrh56nygO/uRzNAJEUcOTKrmpAki0OXIn4AdK?=
- =?us-ascii?Q?g6LCGUFA5dobWPjt4YDH+isArGlrtBlUZMDGxoRDzqaSbXdAAeDpCxbpWzzb?=
- =?us-ascii?Q?eDtjJheQXijiewRc5EPsT3R3kF+ZFdMdKQqgyMazJfi7uWjKPdGxiHY9ij4r?=
- =?us-ascii?Q?16fxssWN9WSvWayBXW5uyjDMaBd95kD8feKyxX+GO14p7qP8dOByv8SYQJnX?=
- =?us-ascii?Q?6WbAeKTjsT0n6glpfiHlDHETTE0OhonX/7kWvEhcNOqiTX8RQJAJzNeiilzh?=
- =?us-ascii?Q?D5JGW31PgYRCdCr9cQurp/0JPhOhR9YsnEanCQjXprpctHEFVqFsvXVbzgai?=
- =?us-ascii?Q?iFPfTzEC+gIT2dwfLouxRDPkAqIixkqXBYVD3jwN72p+fpPchJkCKZ6bQVwM?=
- =?us-ascii?Q?SxsERWfz+4ihwZBVoC8HovvFxo+VZZZfXS7DWoXbKrZUqiIq7uo0PMbx/wqL?=
- =?us-ascii?Q?Rfh+ROeJEvLMV1etoRB0qrfFfYEGhJrCO9N9aqzaT3m2oj9nsGd4HROeFSoB?=
- =?us-ascii?Q?NbFvhM7p5wvG1wy0t5JU9+2YyYGTdEFQuVKvStTSCRBKEaCsAtIm2+08CrTz?=
- =?us-ascii?Q?34gAZ7YaeCJ70bFwQcwo+4Gnf2w/vn26bTzIYFLUsv08x5X6gCj7gcvYK5xN?=
- =?us-ascii?Q?l11nUrZPVORD/hTNftz15qQdDxumTHMpLI+CpRDPcffBX2pTjxgR+DH87b5l?=
- =?us-ascii?Q?1JceZRQoQXTncAfjlYeGIeij683B0mqSlvtTGl8SNYb1O9SOx+apQ9AC0YDe?=
- =?us-ascii?Q?GtU5HT3Mo87nGyVDoPnhE9OpmYjhfU+XLi+r1zKbeizMWBWE0HGZcUjt8CG5?=
- =?us-ascii?Q?D7XbitLv+1vysTPhR/2xXtQ68UgIqCfE+9BtnmzHuquUdi45LNz1M91qWmfu?=
- =?us-ascii?Q?Vf+3dPWbtPDVNHRRWaMK+U+vo5b9fzi3TjBi9Wa4AaEzA/43cwRVqYOvymkz?=
- =?us-ascii?Q?CtWm8wRinYsQtzJPJHtVU73E?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0l7H53E8/qZEWWzsZ425Ry17n5Yn+MhmluyE8f+Hojz3zYt+TawRdLBPoJ4r?=
+ =?us-ascii?Q?U94YW9/YWH+CQQaE+67Z1Eg92B9XbRDREoHiX1NQwMyWcLqAZinEpowoupH8?=
+ =?us-ascii?Q?6aVP5QE8tn7IBzsjRSsB+WtvSu0GEmjkhB7XK2Trl8kdoa0eOy1TOfxd4ymC?=
+ =?us-ascii?Q?lOKKrl+JWJoF2QOCWUX2Rc8AfQJUt0ygGywWZhzfn61D3/dmsjhX0dFSQ2pq?=
+ =?us-ascii?Q?VPwKLCzf2BjSlXRPEFJPnqY/I9nIl5iCGvGTp/A6m0Rus3wCbGXE1YbSgli8?=
+ =?us-ascii?Q?LGIjJE55icLZtbw/k33L8QD/e4FVeDxvV9jo50iD1iIJCmky20rEoF+jfYRd?=
+ =?us-ascii?Q?3yBmJ2Nkc20ESILNrdzwgmv9ve7peAezJ1e3PGvAh7uvmB7P3eahFhkDLNWs?=
+ =?us-ascii?Q?jiaPahzCTKZHcUTaAkwAv2UrwqoH47Dy09DZQuuqCYRUl6X1D+szayNSbi6O?=
+ =?us-ascii?Q?w5yc0mVDnDGsvYAKI1SMWaRTXKH7c6nIDYBdnjEqrBT1nMhAvcRRVPWU1CuD?=
+ =?us-ascii?Q?SEDLgB/5mZjphSDCwzgH0LztkqpXnVqMcvHPAVHaCetgd/VYeS0/IFeMhfAn?=
+ =?us-ascii?Q?7v+yOeAouLKgQ+SFYHZO3L70muu1ipM0BRdE3DVIiAp1kY5KD91MpXfRUF7p?=
+ =?us-ascii?Q?C7Pq8iW2x3OHaN+Njrx5RQZfhAVGHQPK+0cbNZgXT8O7D5urBuMiDYpflTG6?=
+ =?us-ascii?Q?u6SnRq/AuoMs+qBDwcB5Q7S+yza/Vqd2sXb+MQ9eexyTVPlVoAdIKV8U/oPm?=
+ =?us-ascii?Q?EH1Pej+IGVeKRnJ9ydqpg256XoH5RXMbZuuQ2oxf0Gp8D5TmwOxn+LGtkqTw?=
+ =?us-ascii?Q?JyjCDnnVJynNOPVgdIa3DjuZSerbjzOBwOVjtPRgt2Wf67ibBFbcxLLl2ZSR?=
+ =?us-ascii?Q?rzdyt5oC+IDEURDV1i5upk4unW/U9DZtT8VFhfpQSbXhaevz01ytrgFdjX0N?=
+ =?us-ascii?Q?XWUm3fqzUfXgNBStCmJHSROEol6OuFWO6ylzgHebnXxMbg8NgGcvMHUMzTnY?=
+ =?us-ascii?Q?2MibWw3sWNze8sST4MnINdPxc0r7oeWq0eAVlzyGrhZOjSu2sI2AdYsfR2/+?=
+ =?us-ascii?Q?L0ekXUPJXRr4t9eSRnIG1BS4gj0WHLB57o0dYBmDgULEWxT+z2qH2UnGRKAA?=
+ =?us-ascii?Q?dcs0sgB18+5gVa0snyYZinNztMUcBQoiwB3proWR+qi5GUHnUXrgelfdOwPa?=
+ =?us-ascii?Q?GWZvcHeQWMVmq6wYeabMrnhwv4uHOhJH6gHZ+/Z1qVLPPK6gqPh651xTS/JC?=
+ =?us-ascii?Q?gG4SMTNrZRSTBxinGsZf9eh6yfjTLxZmEVwst+19Ch8/Ygghb9iJdn3wV0rW?=
+ =?us-ascii?Q?eebLsqR/nurn2AWgypr5+Jfu?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a57258c-3a69-4546-1346-08d97ce97220
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4127a5c-17a9-47ee-afc8-08d97ce97355
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2021 10:20:33.5755 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2021 10:20:35.4970 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6U38TyR8oc3PiZbXEnf2zJ0VXh+VODHM2q2FdZRbYaYWKEW7UVVvaNmIVj188Y99hLeZw2EgnRG7/bG4rzUySWzdjqtbP6BzKNU8fxUn+do=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7u3NdD67FZVyFZblHkL4iBl/a4IV0rHgO1hf+GaZEumo3Gnb/zMUHi6jPd99NdP+ZXbo3V3kRSognmLtlpBbAa2lh3k6AqaDbavspgixNQI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6631
 Received-SPF: pass client-ip=40.107.14.125;
  envelope-from=vsementsov@virtuozzo.com;
@@ -136,51 +138,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 326ff8dd09556fc2e257196c49f35009700794ac:
+From: Hanna Reitz <hreitz@redhat.com>
 
-  Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2021-09-20 16:17:05 +0100)
+Finalizing the job may cause its AioContext to change.  This is noted by
+job_exit(), which points at job_txn_apply() to take this fact into
+account.
 
-are available in the Git repository at:
+However, job_completed() does not necessarily invoke job_txn_apply()
+(through job_completed_txn_success()), but potentially also
+job_completed_txn_abort().  The latter stores the context in a local
+variable, and so always acquires the same context at its end that it has
+released in the beginning -- which may be a different context from the
+one that job_exit() releases at its end.  If it is different, qemu
+aborts ("qemu_mutex_unlock_impl: Operation not permitted").
 
-  https://src.openvz.org/scm/~vsementsov/qemu.git tags/pull-jobs-2021-09-21
+Drop the local @outer_ctx variable from job_completed_txn_abort(), and
+instead re-acquire the actual job's context at the end of the function,
+so job_exit() will release the same.
 
-for you to fetch changes up to c9489c04319cac75c76af8fc27c254f46e10214c:
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20210907124245.143492-2-hreitz@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ job.c | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
-  iotests: Add mirror-ready-cancel-error test (2021-09-21 11:56:11 +0300)
-
-----------------------------------------------------------------
-mirror: Handle errors after READY cancel
-
-----------------------------------------------------------------
-Hanna Reitz (12):
-      job: Context changes in job_completed_txn_abort()
-      mirror: Keep s->synced on error
-      mirror: Drop s->synced
-      job: Force-cancel jobs in a failed transaction
-      job: @force parameter for job_cancel_sync()
-      jobs: Give Job.force_cancel more meaning
-      job: Add job_cancel_requested()
-      mirror: Use job_is_cancelled()
-      mirror: Check job_is_cancelled() earlier
-      mirror: Stop active mirroring after force-cancel
-      mirror: Do not clear .cancelled
-      iotests: Add mirror-ready-cancel-error test
-
- include/qemu/job.h                                     |  29 ++++++---
- block/backup.c                                         |   3 +-
- block/mirror.c                                         |  56 +++++++++--------
- block/replication.c                                    |   4 +-
- blockdev.c                                             |   4 +-
- job.c                                                  |  64 +++++++++++++++----
- tests/unit/test-blockjob.c                             |   2 +-
- tests/qemu-iotests/109.out                             |  60 ++++++++----------
- tests/qemu-iotests/tests/mirror-ready-cancel-error     | 143 +++++++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/tests/mirror-ready-cancel-error.out |   5 ++
- tests/qemu-iotests/tests/qsd-jobs.out                  |   2 +-
- 11 files changed, 286 insertions(+), 86 deletions(-)
- create mode 100755 tests/qemu-iotests/tests/mirror-ready-cancel-error
- create mode 100644 tests/qemu-iotests/tests/mirror-ready-cancel-error.out
-
+diff --git a/job.c b/job.c
+index e7a5d28854..810e6a2065 100644
+--- a/job.c
++++ b/job.c
+@@ -737,7 +737,6 @@ static void job_cancel_async(Job *job, bool force)
+ 
+ static void job_completed_txn_abort(Job *job)
+ {
+-    AioContext *outer_ctx = job->aio_context;
+     AioContext *ctx;
+     JobTxn *txn = job->txn;
+     Job *other_job;
+@@ -751,10 +750,14 @@ static void job_completed_txn_abort(Job *job)
+     txn->aborting = true;
+     job_txn_ref(txn);
+ 
+-    /* We can only hold the single job's AioContext lock while calling
++    /*
++     * We can only hold the single job's AioContext lock while calling
+      * job_finalize_single() because the finalization callbacks can involve
+-     * calls of AIO_WAIT_WHILE(), which could deadlock otherwise. */
+-    aio_context_release(outer_ctx);
++     * calls of AIO_WAIT_WHILE(), which could deadlock otherwise.
++     * Note that the job's AioContext may change when it is finalized.
++     */
++    job_ref(job);
++    aio_context_release(job->aio_context);
+ 
+     /* Other jobs are effectively cancelled by us, set the status for
+      * them; this job, however, may or may not be cancelled, depending
+@@ -769,6 +772,10 @@ static void job_completed_txn_abort(Job *job)
+     }
+     while (!QLIST_EMPTY(&txn->jobs)) {
+         other_job = QLIST_FIRST(&txn->jobs);
++        /*
++         * The job's AioContext may change, so store it in @ctx so we
++         * release the same context that we have acquired before.
++         */
+         ctx = other_job->aio_context;
+         aio_context_acquire(ctx);
+         if (!job_is_completed(other_job)) {
+@@ -779,7 +786,12 @@ static void job_completed_txn_abort(Job *job)
+         aio_context_release(ctx);
+     }
+ 
+-    aio_context_acquire(outer_ctx);
++    /*
++     * Use job_ref()/job_unref() so we can read the AioContext here
++     * even if the job went away during job_finalize_single().
++     */
++    aio_context_acquire(job->aio_context);
++    job_unref(job);
+ 
+     job_txn_unref(txn);
+ }
 -- 
 2.29.2
 
