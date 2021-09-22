@@ -2,82 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47AD9415051
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 21:02:44 +0200 (CEST)
-Received: from localhost ([::1]:44528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 054B0415077
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 21:26:45 +0200 (CEST)
+Received: from localhost ([::1]:33680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT7Vz-0004gO-3Z
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 15:02:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49498)
+	id 1mT7tD-0003fc-RW
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 15:26:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mT7BC-0001We-Se
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 14:41:15 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46872)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mT7BB-0007W3-Fk
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 14:41:14 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id t7so9642037wrw.13
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 11:41:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=JZDyt9WDbc/wjZ/FNCkm+Gok2DGHDyedT9FRUhJ+eXE=;
- b=JsyA75nZlnhY9grUeFwI2H2+XK+FaqdF0bMWABbzu0ntpstia3XtjOp9IrFSWKJspM
- b70hdcIikpVCVmCDkz28Z2jOim1Jfv7L+3nVFc6mO8WzNPSKqyZ/4oto4DT3UzGgaZL6
- hb7ys/b0UnxeDIYvCLQed5tDw8Zs57eS91yPeV5rXE5chYx2k+2mLZZQ85uUEmDWT/7q
- AtmL3sfFB6t88VkY3ok3zYMRmkR3QZq/OEwEO7IOjr4d88yGSlDIjj6PPXSJMxrE1D6p
- jmxtx2NpRAygWQM8BC1Yn1DD5827trUr7+Lp1DHB1y4Qm2ZQFtUQfu7gLPK2NegtOiMH
- +GeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=JZDyt9WDbc/wjZ/FNCkm+Gok2DGHDyedT9FRUhJ+eXE=;
- b=uEjUHaOzLunG+GuKVc6uFTzx3aTAV7fQSsWfxttn1jfvxqm4ZZy/Q4N8j4xOWLgMTt
- EktI56yBwdMZXmRijyhzVvS52ziGeePbCE/9sVv7KIEjHWUoiTrkBrLY63VXrMy9O4Ao
- xULXO+LKqvKBtv9vAMZ36aaVIHZ67VJMjYBfcgv58M1GI2USxnfPdPWKWpW0zwLtgZXh
- ZIlSCXFosNz6htuH1YA7J8nrgRAz6+Hb1bzzo7ny4P4qxkz9lhfzaTqCCCeGE2Dq8SZA
- yrG7VAVS5/CgyRT/lmFBrAGqRm7uBgftn9NSfQDyVwVg4hP2c0lFqkfNgW0xkv6tEs65
- 9X4A==
-X-Gm-Message-State: AOAM531PXhj1H/9Z9Vz1XYxxu/yJmK3lVJChNMNpTki9e6fE71ZWZVyN
- vCGLhhGYS5N+dpXy12x0ds0N9YWj6eQ=
-X-Google-Smtp-Source: ABdhPJxnMqokhOzHsrBCZV0duMvn0heCqxDNkewcBQWS3KmDM2y07BG0bCs/O/XA6wkKoDJE8Ts9mA==
-X-Received: by 2002:a5d:4488:: with SMTP id j8mr571161wrq.260.1632336071999;
- Wed, 22 Sep 2021 11:41:11 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id q201sm8089020wme.2.2021.09.22.11.41.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Sep 2021 11:41:11 -0700 (PDT)
-Message-ID: <5e1286b2-83c7-db59-a4db-02af7c7dbcd2@amsat.org>
-Date: Wed, 22 Sep 2021 20:41:10 +0200
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mT7HX-0005uJ-No
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 14:47:47 -0400
+Received: from [115.28.160.31] (port=40898 helo=mailbox.box.xen0n.name)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mT7HU-00047w-OM
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 14:47:47 -0400
+Received: from [192.168.9.172] (unknown [101.88.29.172])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 74CED63412;
+ Thu, 23 Sep 2021 02:47:38 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1632336458; bh=DlC3w/QanuZBN72fgur5lRkW0fh6lHQRQR0WdNelm/Q=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=nmaqMcexLJ5u06quJ2fwXrgOFC0Usm+yAPW7qz05DkKZDcbj0kXk6il1/rhO70bwm
+ BKaAPo7Puh4lVWIrP7uJVyAiW6NlMmF8d6ATAE3UW+uGQBfOHem4K/Sx2a9Hcpldfa
+ PlXcmf8m0r2eCd+id7KmRMawjltYBIIkvH2iKQ8E=
+Message-ID: <273478e1-7c02-f971-e78e-a383a25f54f1@xen0n.name>
+Date: Thu, 23 Sep 2021 02:47:37 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3 07/30] tcg/loongarch64: Implement necessary relocation
- operations
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
+ Thunderbird/94.0a1
+Subject: Re: [PATCH v3 03/30] tcg/loongarch64: Add the tcg-target.h file
 Content-Language: en-US
-To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 References: <20210922180927.666273-1-git@xen0n.name>
- <20210922180927.666273-8-git@xen0n.name>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20210922180927.666273-8-git@xen0n.name>
+ <20210922180927.666273-4-git@xen0n.name>
+ <5023a346-3d9e-104f-d51f-bf9815f720af@amsat.org>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <5023a346-3d9e-104f-d51f-bf9815f720af@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,35 +72,161 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/21 20:09, WANG Xuerui wrote:
-> Signed-off-by: WANG Xuerui <git@xen0n.name>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   tcg/loongarch64/tcg-target.c.inc | 66 ++++++++++++++++++++++++++++++++
->   1 file changed, 66 insertions(+)
+Hi Philippe,
 
-> +/* Field Sk16, shifted right by 2; suitable for conditional jumps */
-> +#define R_LOONGARCH_BR_SK16     256
-> +/* Field Sd10k16, shifted right by 2; suitable for B and BL */
-> +#define R_LOONGARCH_BR_SD10K16  257
-> +
-> +static bool reloc_br_sk16(tcg_insn_unit *src_rw, const tcg_insn_unit *target)
-> +{
-> +    const tcg_insn_unit *src_rx = tcg_splitwx_to_rx(src_rw);
-> +    intptr_t offset = (intptr_t)target - (intptr_t)src_rx;
-> +
-> +    tcg_debug_assert((offset & 3) == 0);
-> +    offset >>= 2;
-> +    if (offset == sextreg(offset, 0, 16)) {
-> +        *src_rw |= (offset << 10) & 0x3fffc00;
+On 9/23/21 02:34, Philippe Mathieu-Daudé wrote:
+> On 9/22/21 20:09, WANG Xuerui wrote:
+>> Support for all optional TCG ops are initially marked disabled; the bits
+>> are to be set in individual commits later.
+>>
+>> Signed-off-by: WANG Xuerui <git@xen0n.name>
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   tcg/loongarch64/tcg-target.h | 180 +++++++++++++++++++++++++++++++++++
+>>   1 file changed, 180 insertions(+)
+>>   create mode 100644 tcg/loongarch64/tcg-target.h
+>>
+>> diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
+>> new file mode 100644
+>> index 0000000000..0fd9b61e6d
+>> --- /dev/null
+>> +++ b/tcg/loongarch64/tcg-target.h
+>> @@ -0,0 +1,180 @@
+>> +/*
+>> + * Tiny Code Generator for QEMU
+>> + *
+>> + * Copyright (c) 2021 WANG Xuerui <git@xen0n.name>
+>> + *
+>> + * Based on tcg/riscv/tcg-target.h
+>> + *
+>> + * Copyright (c) 2018 SiFive, Inc
+>
+> I thought you could drop this line.
+That's the original file's copyright line, and I always thought dropping 
+it in derivative files wouldn't be nice?
+>
+>> + *
+>> + * Permission is hereby granted, free of charge, to any person 
+>> obtaining a copy
+>> + * of this software and associated documentation files (the 
+>> "Software"), to deal
+>> + * in the Software without restriction, including without limitation 
+>> the rights
+>> + * to use, copy, modify, merge, publish, distribute, sublicense, 
+>> and/or sell
+>> + * copies of the Software, and to permit persons to whom the 
+>> Software is
+>> + * furnished to do so, subject to the following conditions:
+>> + *
+>> + * The above copyright notice and this permission notice shall be 
+>> included in
+>> + * all copies or substantial portions of the Software.
+>> + *
+>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
+>> EXPRESS OR
+>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
+>> MERCHANTABILITY,
+>> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT 
+>> SHALL
+>> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES 
+>> OR OTHER
+>> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+>> ARISING FROM,
+>> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+>> DEALINGS IN
+>> + * THE SOFTWARE.
+>> + */
+>> +
+>> +#ifndef LOONGARCH_TCG_TARGET_H
+>> +#define LOONGARCH_TCG_TARGET_H
+>> +
+>> +/*
+>> + * Loongson removed the (incomplete) 32-bit support from kernel and 
+>> toolchain
+>> + * for the initial upstreaming of this architecture, so don't bother 
+>> and just
+>> + * support the LP64 ABI for now.
+>> + */
+>> +#if defined(__loongarch64)
+>> +# define TCG_TARGET_REG_BITS 64
+>> +#else
+>> +# error unsupported LoongArch register size
+>> +#endif
+>> +
+>> +#define TCG_TARGET_INSN_UNIT_SIZE 4
+>> +#define TCG_TARGET_NB_REGS 32
+>> +#define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
+>
+> Is this SIZE_MAX?
 
-Alternatively easier to read:
+I just did a quick grep across the tcg ports and found little similarity 
+so far...
 
-            *src_rw = deposit64(*src_rw , 10, 16, offset);
+     aarch64      (2 * GiB)
+     arm          UINT32_MAX
+     i386         (2 * GiB)
+     i386         UINT32_MAX
+     loongarch64  ((size_t)-1)
+     mips         (128 * MiB)
+     ppc          (2 * GiB)
+     ppc          (32 * MiB)
+     riscv        ((size_t)-1)
+     s390         (3 * GiB)
+     sparc        (2 * GiB)
+     tci          ((size_t)-1)
 
-> +        return true;
-> +    }
-> +
-> +    return false;
-> +}
+In that case, I think maybe SIZE_MAX would indeed be better for 
+readability, so I'm going to change that...
+
+>
+>> +
+>> +typedef enum {
+>> +    TCG_REG_ZERO,
+>> +    TCG_REG_RA,
+>> +    TCG_REG_TP,
+>> +    TCG_REG_SP,
+>> +    TCG_REG_A0,
+>> +    TCG_REG_A1,
+>> +    TCG_REG_A2,
+>> +    TCG_REG_A3,
+>> +    TCG_REG_A4,
+>> +    TCG_REG_A5,
+>> +    TCG_REG_A6,
+>> +    TCG_REG_A7,
+>> +    TCG_REG_T0,
+>> +    TCG_REG_T1,
+>> +    TCG_REG_T2,
+>> +    TCG_REG_T3,
+>> +    TCG_REG_T4,
+>> +    TCG_REG_T5,
+>> +    TCG_REG_T6,
+>> +    TCG_REG_T7,
+>> +    TCG_REG_T8,
+>> +    TCG_REG_RESERVED,
+>> +    TCG_REG_S9,
+>> +    TCG_REG_S0,
+>> +    TCG_REG_S1,
+>> +    TCG_REG_S2,
+>> +    TCG_REG_S3,
+>> +    TCG_REG_S4,
+>> +    TCG_REG_S5,
+>> +    TCG_REG_S6,
+>> +    TCG_REG_S7,
+>> +    TCG_REG_S8,
+>
+> Here could go:
+>
+>        TCG_TARGET_NB_REGS,
+Good idea, something no other TCG ports has done... maybe we could 
+refactor them all to avoid a little redundancy. I'll do this in v4.
+>
+>> +
+>> +    /* aliases */
+>> +    TCG_AREG0    = TCG_REG_S0,
+>> +    TCG_REG_TMP0 = TCG_REG_T8,
+>> +    TCG_REG_TMP1 = TCG_REG_T7,
+>> +    TCG_REG_TMP2 = TCG_REG_T6,
+>> +} TCGReg;
+>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
