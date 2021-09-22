@@ -2,67 +2,134 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1412C414385
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 10:17:25 +0200 (CEST)
-Received: from localhost ([::1]:57786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD734143B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 10:27:05 +0200 (CEST)
+Received: from localhost ([::1]:37956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSxRT-0006WS-GY
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 04:17:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49802)
+	id 1mSxap-0004AX-PI
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 04:27:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mSxPG-0004yv-KP
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 04:15:06 -0400
-Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117]:46283)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mSxYM-00034I-E3; Wed, 22 Sep 2021 04:24:30 -0400
+Received: from mail-db8eur05on2131.outbound.protection.outlook.com
+ ([40.107.20.131]:14401 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mSxPC-0003IK-N3
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 04:15:06 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.235])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id D07B721C4C;
- Wed, 22 Sep 2021 08:14:58 +0000 (UTC)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mSxYJ-00035w-Nz; Wed, 22 Sep 2021 04:24:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ku7Hg9s2L1KZbwL2l5SyxzVk5PgXs62swi9DKxgesyEcbW2gx54LK3yqajh5BVwcchgKOe58+9R3E98VBMxjIwbX6rcZLX+7OxKdYCJequ2Uc9vkJzhclsN8MKmUM6amGhKcpKheGS8ZYdb1ZkRC7k9In+0jd0eEiKLELV9vwp7WB/7rYQwY4mWbGMk5tY7J/jzIoilikRXhrLUy6fsSQAukMfPa2Krn+OTfGnOz9h42JFpNfyqKHOKL+SP2vPbSQTT3viUEWFKxsuPr9CIwF15lPlGggt9abKhCFC9QpF7ppmZBVJaq78wJ7gm7sPTurUmtZl06vdH4XP5m+MG+1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=0zihjrzbG+c+yEWLnNui4jjQ6BqTJPLu3cBKgqueSJA=;
+ b=V70i/R1VZQ4FnzUAKpWBtAGSQde3y6HsuojoD7spC3/+wqNyLxA2vbk/7ECtwbZviQL/YrsPu+apB3GK6y5t61EODrtktI2fvs6MZnBYOaS7RfsZ0q7URx+RUzAxNiXNRu42mIvEE/rqGpnHVNzjxXHgqVvW5TemK1vZfBOjd1iDmU1XtUKJ5dTAlPZfitcVt3R5s6MeD1/PSOziFu1KOdeETkl1pgcSFnS3LtXsZer/1WatWjhVlvUrKDHAldiwQgjih3SUXTgh+0QCmUgTpa/IkbzN1ZWFKx9vGuL90B7lg+HmqBnPDNbbnT8/FLGI7U6DSvKGidVeaoFStp4u2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0zihjrzbG+c+yEWLnNui4jjQ6BqTJPLu3cBKgqueSJA=;
+ b=wQqv0ZfbnA8XdxjPuOcHZhKfrspUvnF8KtMsxrPIiX6yW4pj8KItJU1Ien8FYlx1aq0QEQhhDXyAzls3VAxhRMpEGyISbKpqOWH/H5uXxlYCMgCH8BIhqs/GB+nfBkuxx4kXdkRiSZzXfxsWmbJAAuKKXxnGJEaQGjUe5OatUCg=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3720.eurprd08.prod.outlook.com (2603:10a6:20b:8f::29)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 22 Sep
- 2021 10:14:58 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002fd55f96e-84cc-4582-b3d8-b98ae82d67b3,
- 2BB727CE71B327F05EAAC08E3CEBB2C417F62D6E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <05a1dcc3-c480-cebc-222a-3172b2bfd510@kaod.org>
-Date: Wed, 22 Sep 2021 10:14:57 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: ensuring a machine's buses have unique names
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.17; Wed, 22 Sep
+ 2021 08:24:23 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.013; Wed, 22 Sep 2021
+ 08:24:23 +0000
+Subject: Re: [PATCH v7 00/11] qcow2: fix parallel rewrite and discard (reqlist)
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com
+References: <20210904162428.222008-1-vsementsov@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <b5045c7f-9d0d-37ec-fa2e-52e95f21b433@virtuozzo.com>
+Date: Wed, 22 Sep 2021 11:24:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <20210904162428.222008-1-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>
-References: <CAFEAcA8Q2XEANtKfk_Ak2GgeM8b_=kf_qduLztCuL=E_k36FWg@mail.gmail.com>
- <87czq0l2mn.fsf@dusky.pond.sub.org>
- <CAFEAcA-1cGjt54XDEmKiDctySW4zdQptoc2taGp0XxMOtKvGCw@mail.gmail.com>
- <87mtoe4g40.fsf@dusky.pond.sub.org>
- <CAFEAcA_ExFiv3AurBAtTan10yuXRnsHMQS0yHa-vJpwB9u4HoA@mail.gmail.com>
- <878rzprt3b.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <878rzprt3b.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 4091fc54-58ff-4d7d-a08c-c2a92c1d8bb3
-X-Ovh-Tracer-Id: 16573809581238946784
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudeijedgtdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepfhegsghughesrghmshgrthdrohhrgh
-Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
- helo=1.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-ClientProxiedBy: AM3PR07CA0142.eurprd07.prod.outlook.com
+ (2603:10a6:207:8::28) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+Received: from [192.168.100.5] (185.215.60.205) by
+ AM3PR07CA0142.eurprd07.prod.outlook.com (2603:10a6:207:8::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4544.13 via Frontend Transport; Wed, 22 Sep 2021 08:24:23 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 11752345-1c32-483c-5e0c-08d97da26217
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3720:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3720F2BE2609C500F5F7B870C1A29@AM6PR08MB3720.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gdAqdriMqm53aqmBq8ZIrZ6yc008ZPxQlgcRhD9TKu5qS80hBzKrsWxJkWATjn6NaUn7hgw1YbaNvL8gQ2p+xCfhb/g7rjvHF7YmeRX18e2YBGd4eWInytBDFpKbruORTok753AWKtZyRA0ac6RmBaBKLXlUvFUl2QhjQJmMYvZ4fPUGuvwMKUAg9G+66glUQOyCiFNq+8hWan1wkCTMXqHTBe1sHPiWFrYbTJCH6IHhwWnDDHenDf308rhkjAM9SrXST/d4VAd/l3I/rfHgCpr2cbzeojUVgORVCtnM0302jF+Bt8tfcRUSZ48zM+FYfM6EiyK3pQyw5XqdNsvI6DCPU4VtQ4XgErOqSeaRCDkxkOP94T/7x93tKUVkHEFS40x10WIM4aRAoRbMw0uzKx6GY8+BstjCAD3zXDsNrUptrJr92g3yaoVsxvStzj89xzuu3/X1koSaxA77g7upbd3Z6B19JvfQtUbj4Ki3FUB7hqUR9GxUOi5S78WP1uKU7jB3d8tabDdikC28FY3LHjNwYEjBvJ0/2edigrVkWCKFXGdGGNhMgxGEO3rwR2b3zJcjBPP9lY1d8aVzk+Dg1v62BG2g3wxqbZVjRAdfPgTIuUm5rYu6iGgabV8Y07FKL+UolPkPrD7iDT34nZn7GZikYg2O2pA0upsLw6Z/32D1bMPM+Z5d8rH9GaBu3wEFrIXHwa8icxxxFYXQOSNV0xViK/9CiZS+GukK/sBxK/agAbCIkl3BfHsuYTQsLP7+mHG6kv1Yx0OCDsejT+I7hw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(5660300002)(16576012)(36756003)(956004)(508600001)(31686004)(6916009)(316002)(186003)(26005)(83380400001)(2616005)(86362001)(8936002)(8676002)(2906002)(4326008)(31696002)(38350700002)(38100700002)(66946007)(66476007)(52116002)(66556008)(6486002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cHA2YllQb2NIaGtYeGoyd0dQV3drTnZ0dHZpS1NiYytycXl2K0NkS1pld3Iz?=
+ =?utf-8?B?Q2FjRS9pVEdrb2N6ak5zS2Nhc3RwLzh4NzNBRWh1bDVaN0paUWcrVzBkeDdz?=
+ =?utf-8?B?SzBvUkF5UFNPL2l2YmRjL3QwaCttMEorOURkMXhidmVwTk9Bc1RWcFdQbDJa?=
+ =?utf-8?B?Y2U5blJFS1JZcVpRdWViM0pGY1V2NWRNUGE4WHRvZTk0L0R0bEV4MWxHQ0Fr?=
+ =?utf-8?B?a2RXVW80TEk4akxHQ3FGTSttanMvbFlTcllydHVhNytzZzF5Q1QwSWJTQmVl?=
+ =?utf-8?B?VjVjWDVIbmVneXVOUGx2Z1FQTU1aTmZENFhoNG5yZXoxcVFERjNZcThXNHJI?=
+ =?utf-8?B?S3hNejcyTVZaeWFxdzdhQkdUZ20wSE9hckgzMXNxZEM0bU90Z29pMlpJRVp0?=
+ =?utf-8?B?NEpwQVhXdmszZjdvOE5KVklydkQzYXRYcEFBRjZVckU1bG54T2VuZXZrdzF6?=
+ =?utf-8?B?ejY2Q0xJRjA4TkFBQ0dremFJMzV4aWVxbWRkek1WMHRSRzUvbFZZZDNtUXJn?=
+ =?utf-8?B?djlTOERBcG0yTHNXdUY0WGhlL2VaUGZtU1B1dXgycERFVXAzU0ErV1ZzNk9Z?=
+ =?utf-8?B?RXNzUVRxZzN3RzB1a1FJcnBiZWNkSEJmSGZIeVlqT2xNT2RMOWFJbm5hamZN?=
+ =?utf-8?B?dGFPSDRnUUF4dGJpd2RicVRQdUxTeE5NYWhwS0FvSEhScGRhUXJLNnZKclBK?=
+ =?utf-8?B?RnBzZU9RaUtiTS9WUEI0K1d5VUJWcElRaDNGTkVTbmlJbHZLY3VUeUJ6a1l2?=
+ =?utf-8?B?SzlPcTlQbmRSWUQ3RnpMRys1VFhidHN2MDNxY0ZsZTZQUVNZMHcvaGd3Q3BW?=
+ =?utf-8?B?TGlLcjFMTDR6bGJXVngrWEdoZEFOZzhrTUZnLzFxYVl0aWdUbC9KT1J1bnVM?=
+ =?utf-8?B?dWpaR3NiaEFiVUNKTDVpd09UVjRsQTFJekVqUDZsc3haZUdLWnpjSUpvcFpJ?=
+ =?utf-8?B?K0tFL2lUQ0tRZ3BCekVicGhabWdYYzg2dXBQZVc4cVhKZ2YySkJ3UFBRcGF6?=
+ =?utf-8?B?c2NzeDJmRHJ5bjRVTlZYTlJQdmFoUUFMVWU5c2IzdnVJYVNPM0Z0d1pOLzFa?=
+ =?utf-8?B?V2dGUG1pcmM1Vk1jQ3gyelUyMmZEcVk3U1NhR0pYNzVVdGFSWHdJNDlFSjRn?=
+ =?utf-8?B?YWVFaWM4anoraktDei9vNVZ3WUdNOWllWW9lcm11Tm9PTGxERExFVG9ia2tH?=
+ =?utf-8?B?Wm9Ka3R0eW9GaTdhM3diNDdiSVRXNWpyZWwvVHNQdUhkalBiblRlVURnczJH?=
+ =?utf-8?B?VzlyclhDK2xqUmtOZ09DUTh0N3lMRE4wWDA5cWtrNnp0dGpIYUg0eEUrOWFI?=
+ =?utf-8?B?Wks0alZWSlFqVUFBaXliMC96VWU1OFUzeU5US3J5M3NSanlReURMSDJXQng5?=
+ =?utf-8?B?U0ZFejVNZE9EcUlPZlFra09sRHUwNVhncFc0NEwvUHAvNlpZd0tLMFB0dkdR?=
+ =?utf-8?B?eDVYWER5UDQzWmU5MmN2bGxtdHBBM2J1YzgzNHViOVkwWEdZY3k4cjQ1UDMw?=
+ =?utf-8?B?Zy9Cc3diajg1Mlp6bXZLc2RNWXBMUFhvY1FqWURhSHhuT21aWkVQU3Jha2hU?=
+ =?utf-8?B?V3Z4ZEJzU3Y4djdnRlZjRjRQSFIxSHg0Z3UvNVJidTdkWlJsOU5YbWdnY04r?=
+ =?utf-8?B?UjdtcVhFWnRHdWl2elkzRVh1NzZmK3BleGpaN2ZoK0w3Nm9UWUVZeVFvejU1?=
+ =?utf-8?B?WFZJbkYxdHFkZCt5cG9zalhTQkZZQzdiZjI1MGJYSmxBNTU5RStoRDdxNDVl?=
+ =?utf-8?Q?jlxi5+nUPsDZM6xHPQ9NEKsAzTuoq/njgwxvhwl?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11752345-1c32-483c-5e0c-08d97da26217
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2021 08:24:23.4444 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yZiVewTW8mJjZ9z1QP5JUL+RrbjJKv+KlXbH5M7pWoLXwAlpcH7m8wWETFDGJXIfSRjdjg3UvdTH4HU4JUHSVChYCFbfU4YPRz7RLYtZHZk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3720
+Received-SPF: pass client-ip=40.107.20.131;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,232 +142,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/21 09:02, Markus Armbruster wrote:
-> Peter Maydell <peter.maydell@linaro.org> writes:
-> 
->> On Wed, 15 Sept 2021 at 05:28, Markus Armbruster <armbru@redhat.com> wrote:
->>>
->>> Peter Maydell <peter.maydell@linaro.org> writes:
->>>> I'm not sure how best to sort this tangle out. We could:
->>>>   * make controller devices pass in NULL as bus name; this
->>>>     means that some bus names will change, which is an annoying
->>>>     breakage but for these minor bus types we can probably
->>>>     get away with it. This brings these buses into line with
->>>>     how we've been handling uniqueness for ide and scsi.
->>>
->>> To gauge the breakage, we need a list of the affected bus names.
->>
->> Looking through, there are a few single-use or special
->> purpose buses I'm going to ignore for now (eg vmbus, or
->> the s390 ones). The four big bus types where controllers
->> often specify a bus name and override the 'autogenerate
->> unique name' handling are pci, ssi, sd, and i2c. (pci mostly
->> gets away with it I expect by machines only having one pci
->> bus.) Of those, I've gone through i2c. These are all the
->> places where we create a specifically-named i2c bus (via
->> i2c_init_bus()), together with the affected boards:
->>
->>     hw/arm/pxa2xx.c
->>      - the PXA SoC code creates both the intended-for-use
->>        i2c buses (which get auto-names) and also several i2c
->>        buses intended for internal board-code use only which
->>        are all given the same name "dummy".
->>        Boards: connex, verdex, tosa, mainstone, akita, spitz,
->>        borzoi, terrier, z2
->>     hw/arm/stellaris.c
->>      - The i2c controller names its bus "i2c". There is only one i2c
->>        controller on these boards, so no name conflicts.
->>        Boards: lm3s811evb, lm3s6965evb
->>     hw/display/ati.c
->>      - The ATI VGA device has an on-board i2c controller which it
->>        connects the DDC that holds the EDID information. The bus is
->>        always named "ati-vga.ddc", so if you have multiple of this
->>        PCI device in the system the buses have the same names.
->>     hw/display/sm501.c
->>      - Same as ATI, but the bus name is "sm501.i2c"
->>     hw/i2c/aspeed_i2c.c
->>      - This I2C controller has either 14 or 16 (!) different i2c
->>        buses, and it assigns them names "aspeed.i2c.N" for N = 0,1,2,...
->>        The board code mostly seems to use these to wire up various
->>        on-board i2c devices.
->>        Boards: palmetto-bmc, supermicrox11-bmc, ast2500-evb, romulus-bmc,
->>        swift-bmc, sonorapass-bmc, witherspoon-bmc, ast2600-evb,
->>        tacoma-bmc, g220a-bmc, quanta-q71l-bmc, rainier-bmc
->>     hw/i2c/bitbang_i2c.c
->>      - the "GPIO to I2C bridge" device always names its bus "i2c".
->>        Used only on musicpal, which only creates one of these buses.
->>        Boards: musicpal
->>     hw/i2c/exynos4210_i2c.c
->>      - This i2c controller always names its bus "i2c". There are 9
->>        of these controllers on the board, so they all have clashing
->>        names.
->>        Boards: nuri, smdkc210
->>     hw/i2c/i2c_mux_pca954x.c
->>      - This is an i2c multiplexer. All the child buses are named
->>        "i2c-bus". The multiplexer is used by the aspeed and npcm7xx
->>        boards. (There's a programmable way to get at individual
->>        downstream i2c buses despite the name clash; none of the boards
->>        using this multiplexer actually connect any devices downstream of
->>        it yet.)
->>        Boards: palmetto-bmc, supermicrox11-bmc, ast2500-evb, romulus-bmc,
->>        swift-bmc, sonorapass-bmc, witherspoon-bmc, ast2600-evb,
->>        tacoma-bmc, g220a-bmc, quanta-q71l-bmc, rainier-bmc,
->>        npcm750-evb, quanta-gsj, quanta-gbs-bmc, kudo-bmc
->>     hw/i2c/mpc_i2c.c
->>      - This controller always names its bus "i2c". There is only one
->>        of these controllers in the machine.
->>        Boards: ppce500, mpc8544ds
->>     hw/i2c/npcm7xx_smbus.c
->>      - This controller always names its bus "i2c-bus". There are multiple
->>        controllers on the boards. The name also clashes with the one used
->>        by the pca954x muxes on these boards (see above).
->>        Boards: npcm750-evb, quanta-gsj, quanta-gbs-bmc, kudo-bmc
->>     hw/i2c/pm_smbus.c
->>      - This is the PC SMBUS implementation (it is not a QOM device...)
->>        The bus is always called "i2c".
->>        Boards: haven't worked through; at least all the x86 PC-like
->>        boards, I guess
->>     hw/i2c/ppc4xx_i2c.c
->>      - This controller always names its bus "i2c". The taihu and
->>        ref405ep have only one controller, but sam460ex has two which
->>        will have non-unique names.
->>        Boards: taihu, ref405ep, sam460ex
->>     hw/i2c/versatile_i2c.c
->>      - This controller always names its bus "i2c". The MPS boards all
->>        have multiples of this controller with clashing names; the others
->>        have only one controller.
->>        Boards: mps2-an385, mps2-an386, mps2-an500, mps2-an511,
->>        mps2-an505, mps2-an521, mps3-an524, mps3-an547,
->>        realview-eb, realview-eb-mpcore, realview-pb-a8, realview-pbx-a9,
->>        versatileab, versatilepb, vexpress-a9, vexpress-a15
->>
->> In a lot of these cases I suspect the i2c controllers are
->> provided either to allow connection of various internal-to-the-board
->> devices, or simply so that guest OS bootup code that initializes
->> the i2c controller doesn't fall over. However since there's
->> nothing stopping users from creating i2c devices themselves
->> on the commandline, some people might be doing that.
-> 
-> What are the devices they could add?  Anything they could *reasonably*
-> want to add?  Breaking "unreasonable" uses could be defendable.
+Ping.
 
-A reasonable dev scenario is to add extra I2C devices on the command
-line to test a new DT and kernel.
+Hi Kevin!
 
-C.
+Could you look at description in cover-letter and 07-09, and say do you like the approach in general? Then I can resend with reqlist included and without "Based-on".
 
+Or do you still prefer the solution with RWLock?
+
+I don't like RWLock-based blocking solution, because:
+
+1. Mirror does discards in parallel with other requests, so blocking discard may decrease mirror performance
+2. Backup (in push-backup-with-fleecing scheme) will do discards on temporary image, again blocking discard is bad in this case
+3. block-commit and block-stream will at some moment do discard-after-copy to not waste disk space
+4. It doesn't seem possible to pass ownership on RWLock to task coroutine (as we can't lock it in one coroutine and release in another)
+
+
+04.09.2021 19:24, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
 > 
-> The only spot where we set ->bus_type = TYPE_I2C_BUS is
-> i2c_slave_class_init().  Therefore, only the concrete subtypes of
-> TYPE_I2C_SLAVE can go on an i2c bus, which makes sense.  These are:
+> This is a new (third :)) variant of solving the problem in qcow2 that we
+> lack synchronisation in reallocating host clusters with refcount=0 and
+> guest reads/writes that may still be in progress on these clusters.
 > 
->      TYPE_ADM1272            "adm1272"
->      TYPE_AER915             "aer915"
->      TYPE_AT24C_EE           "at24c-eeprom"
->      TYPE_DS1338             "ds1338"
->                              "emc1413"
->                              "emc1414"
->      TYPE_I2CDDC             "i2c-ddc"
->      TYPE_LM8323             "lm8323"
->      TYPE_M41T80             "m41t80"
->      TYPE_MAX34451           "max34451"
->      TYPE_MAX7310            "max7310"
->      TYPE_PCA9546            "pca9546"
->      TYPE_PCA9548            "pca9548"
->      TYPE_PCA9552            "pca9552"
->      TYPE_PXA2XX_I2C_SLAVE   "pxa2xx-i2c-slave"
->      TYPE_SII9022            "sii9022"
->      TYPE_SMBUS_DEVICE       "smbus-device"
->      TYPE_SMBUS_EEPROM       "smbus-eeprom"
->      TYPE_SMBUS_IPMI         "smbus-ipmi"
->      TYPE_SSD0303            "ssd0303"
->      TYPE_TMP105             "tmp105"
->                              "tmp421"
->                              "tmp422"
->                              "tmp423"
->      TYPE_TOSA_DAC           "tosa_dac"
->      TYPE_TWL92230           "twl92230"
->      TYPE_WM8750             "wm8750"
+> Previous version was
+> "[PATCH v6 00/12] qcow2: fix parallel rewrite and discard (lockless)"
+> Supersedes: <20210422163046.442932-1-vsementsov@virtuozzo.com>
 > 
-> Grep hits in:
+> Key features of new solution:
 > 
->      hw/arm/aspeed.c
->      hw/arm/musicpal.c
->      hw/arm/npcm7xx_boards.c
->      hw/arm/nseries.c
->      hw/arm/pxa2xx.c
->      hw/arm/realview.c
->      hw/arm/spitz.c
->      hw/arm/stellaris.c
->      hw/arm/tosa.c
->      hw/arm/versatilepb.c
->      hw/arm/vexpress.c
->      hw/arm/z2.c
->      hw/audio/marvell_88w8618.c
->      hw/audio/wm8750.c
->      hw/display/ati.c
->      hw/display/i2c-ddc.c
->      hw/display/sii9022.c
->      hw/display/sm501.c
->      hw/display/ssd0303.c
->      hw/display/xlnx_dp.c
->      hw/gpio/max7310.c
->      hw/i2c/i2c_mux_pca954x.c
->      hw/i2c/pmbus_device.c
->      hw/i2c/smbus_eeprom.c
->      hw/i2c/smbus_slave.c
->      hw/input/lm832x.c
->      hw/ipmi/smbus_ipmi.c
->      hw/misc/pca9552.c
->      hw/nvram/eeprom_at24c.c
->      hw/ppc/e500.c
->      hw/ppc/sam460ex.c
->      hw/rtc/ds1338.c
->      hw/rtc/m41t80.c
->      hw/rtc/twl92230.c
->      hw/sensor/adm1272.c
->      hw/sensor/emc141x.c
->      hw/sensor/max34451.c
->      hw/sensor/tmp105.c
->      hw/sensor/tmp421.c
->      include/hw/audio/wm8750.h
->      include/hw/display/i2c-ddc.h
->      include/hw/i2c/i2c_mux_pca954x.h
->      include/hw/i2c/smbus_slave.h
->      include/hw/input/lm832x.h
->      include/hw/misc/pca9552.h
->      include/hw/sensor/tmp105.h
->      tests/qtest/adm1272-test.c
->      tests/qtest/ds1338-test.c
->      tests/qtest/emc141x-test.c
->      tests/qtest/max34451-test.c
->      tests/qtest/pca9552-test.c
->      tests/qtest/tmp105-test.c
+> 1. Simpler data structure: requests list instead of "dynamic refcount"
+>     concept. What is good is that request list data structure is
+>     implemented and used in other my series. So we can improve and reuse
+>     it.
 > 
->>
->> In some of these cases (eg the i2c bus on the ATI VGA driver)
->> I suspect the desired behaviour is "unique bus name based on
->> a standard template, eg 'ati-vga.ddc.0/1/...'. It sounds like
->> we can't do that, though.
+> 2. Don't care about discrads: my previous attempts were complicated by
+>     trying to postpone discards when we have in-flight operations on
+>     cluster which refcounts becomes 0. Don't bother with it anymore.
+>     Nothing bad in discard: it similar as when guest does simultaneous
+>     writes into same cluster: we don't care to serialize these writes.
+>     So keep discards as is.
 > 
-> We could add yet another case to qbus_init(): if name is non-null, and
-> bus->parent has a flag set, we use
+> So now the whole fix may be described in one sentence: don't consider a
+> host cluster "free" (for allocation) if there are still some in-flight
+> guest operations on it.
 > 
->      "%s.%d", name, bus->parent->num_child_bus.
+> What patches are:
 > 
-> "Could" doesn not imply "should".
+> 1-2: simple additions to reqlist (see also *)
 > 
->>                            (Also they probably don't want to
->> permit users to command-line plug i2c devices into it...)
+> 3: test. It's unchanged since previous solution
 > 
-> Then they should massage the bus so it doesn't accept additional
-> devices.  Didn't you post a patch related to this recently?
+> 4-5: simpler refactorings
 > 
+> 6-7: implement guest requests tracking in qcow2
+> 
+> 8: refactoring for [9]
+> 9: BUG FIX: use request tracking to avoid reallocating clusters under
+>     guest operation
+> 
+> 10-11: improvement if request tracking to avoid extra small critical
+> sections that were added in [7]
+> 
+> [*]:
+> For this series to work we also need
+>   "[PATCH v2 06/19] block: intoduce reqlist":
+> Based-on: <20210827181808.311670-7-vsementsov@virtuozzo.com>
+> 
+> Still, note that we use only simple core of reqlist and don't use its
+> coroutine-related features. That probably means that I should split a
+> kind of BlockReqListBase data structure out of BlockReqList, and then
+> will have separate
+> 
+> CoBlockReqList for "[PATCH v2 00/19] Make image fleecing more usable"
+> series and Qcow2ReqList for this series..
+> 
+> But that a side question.
+> 
+> Vladimir Sementsov-Ogievskiy (11):
+>    block/reqlist: drop extra assertion
+>    block/reqlist: add reqlist_new_req() and reqlist_free_req()
+>    iotests: add qcow2-discard-during-rewrite
+>    qcow2: introduce qcow2_parse_compressed_cluster_descriptor()
+>    qcow2: refactor qcow2_co_preadv_task() to have one return
+>    qcow2: prepare for tracking guest io requests in data_file
+>    qcow2: track guest io requests in data_file
+>    qcow2: introduce is_cluster_free() helper
+>    qcow2: don't reallocate host clusters under guest operation
+>    block/reqlist: implement reqlist_mark_req_invalid()
+>    qcow2: use reqlist_mark_req_invalid()
+> 
+>   block/qcow2.h                                 |  15 ++-
+>   include/block/reqlist.h                       |  33 ++++++
+>   block/qcow2-cluster.c                         |  45 ++++++-
+>   block/qcow2-refcount.c                        |  34 +++++-
+>   block/qcow2.c                                 | 112 +++++++++++++-----
+>   block/reqlist.c                               |  25 +++-
+>   .../tests/qcow2-discard-during-rewrite        |  72 +++++++++++
+>   .../tests/qcow2-discard-during-rewrite.out    |  21 ++++
+>   8 files changed, 310 insertions(+), 47 deletions(-)
+>   create mode 100755 tests/qemu-iotests/tests/qcow2-discard-during-rewrite
+>   create mode 100644 tests/qemu-iotests/tests/qcow2-discard-during-rewrite.out
 > 
 
+
+-- 
+Best regards,
+Vladimir
 
