@@ -2,76 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A8DA414CD6
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 17:17:07 +0200 (CEST)
-Received: from localhost ([::1]:56296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA8A414CDA
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 17:17:52 +0200 (CEST)
+Received: from localhost ([::1]:58012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT3ze-0000Kb-MR
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 11:17:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59810)
+	id 1mT40N-0001Vw-HP
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 11:17:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mT3yO-0007to-NN
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:15:49 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34369)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mT3yH-0005aW-A9
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:15:47 -0400
-Received: by mail-wr1-x430.google.com with SMTP id t8so8015808wri.1
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 08:15:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LWlwonPv52RW4xdQ6KuhV9HP9phCb3hl23YysT8XHdM=;
- b=Ei5VbExmn+6wJN8QI51tHYFMgtZ6AWnWg35xt3BFvg9ZlyyjKeRpaC7h/UwihurP9V
- McAzilIo0/2j2Zpm0FjI7oLyKYSjWWvK608v8nQJtlwkI6cxm/EHEIgXKvguKIPfEIf3
- 5/M9FEjZssLFsVYkeNKo2SuIHgRwMFK0TX8wAnJauIYLDrsoheveRwHPxlGvpYblSgHy
- 3v1matpzQyrwH3fCnWREONtGZkx/yaXAHxleb15lpIcMLvVBq3SluBMnSoK5RYupg5yi
- obos2ny4gVUiyTx5BczWRGW7P+guLcjTmNUa6jpMhNkmMp4LBzexmTfI4/zXl+a9SQXM
- t9VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LWlwonPv52RW4xdQ6KuhV9HP9phCb3hl23YysT8XHdM=;
- b=KJW50lp6sRfZOc7BUKlsnh4DHahGi80VgSvtttuBbOhubYaN8Z4U2UDMxf3OQeNsyY
- 5hxHjOFgcWO8/NNYn9Fzw3YsvoDHWBc7ug4MyeZQ306DKmNrDgXh7AIwgF4tlqhgWfR6
- E08WAbqxUh5zrsDs5Sv6C6eQHexetCzflC/P0WwFa6BudZbE2G6HTroz0+ShlNjWBl4m
- I0uOiAjNkPKbB6H3tMCNKGnmGtciNWbUyvWTCRr1yx6EfcnFtpeb+ggaLCcm0/NEIyY4
- pnn02OBVCV1W/CS8P/enVHCoW/p14Q7NCCacp5/+Ftd5/KqY+Tm7Ag8nI6UYpFdgSa7Q
- bvGQ==
-X-Gm-Message-State: AOAM531OeRFLQ4Zg22vyWraqhqLZfcRAp6JfjBmibhNqAhgpD+z5lQLi
- waqHWFwAhRKbqE8JkGrMZId4yw==
-X-Google-Smtp-Source: ABdhPJyRcbUDWLaWw61+wQEJmd2as/K23O6c2+4JiiVmOIMKv4f1UE+g+INPOcQ7+igvE5uV81pw5A==
-X-Received: by 2002:a1c:4e11:: with SMTP id g17mr10768727wmh.130.1632323737003; 
- Wed, 22 Sep 2021 08:15:37 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z5sm6857058wmp.26.2021.09.22.08.15.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Sep 2021 08:15:35 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 611461FF96;
- Wed, 22 Sep 2021 16:15:34 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] tests/docker: add a debian-native image and make available
-Date: Wed, 22 Sep 2021 16:15:27 +0100
-Message-Id: <20210922151528.2192966-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mT3yv-0008R1-0x
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:16:21 -0400
+Received: from [115.28.160.31] (port=38440 helo=mailbox.box.xen0n.name)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mT3yq-00063v-V9
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:16:20 -0400
+Received: from [192.168.9.172] (unknown [101.88.29.172])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 210F1633F2;
+ Wed, 22 Sep 2021 23:16:07 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1632323767; bh=ixEjrV654ri/mXiUZn0tllL4e/hK0kkqMlYBNC2VJVo=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=OFwGP8+Xy4kbifIx7PvqJE2FeOJ06UA7/leR3PFayEYOa+eZKNQFmIjy3VR3IKLXF
+ PRQhKQHUzKl5EA4vsGCkvTbunbVAlYSvGdz+5SoKakZrF9FpKoOtgkr77o8PQUJRaX
+ 8pZxvpU8mQNfJd+47tFsFJ4Q41zcsBfZnnxFBEQo=
+Message-ID: <75621c34-5cf8-3ae9-86cf-ce3cf53b4669@xen0n.name>
+Date: Wed, 22 Sep 2021 23:16:06 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
+ Thunderbird/94.0a1
+Subject: Re: [PATCH v2 09/30] tcg/loongarch64: Implement tcg_out_mov and
+ tcg_out_movi
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210921201915.601245-1-git@xen0n.name>
+ <20210921201915.601245-10-git@xen0n.name>
+ <0717a7de-7c41-990d-ec7a-51b44f49724e@linaro.org>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <0717a7de-7c41-990d-ec7a-51b44f49724e@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,123 +66,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Anders Roxell <anders.roxell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This image is intended for building whatever the native versions of
-QEMU are for the host architecture. This will hopefully be an aid for
-3rd parties who want to be able to build QEMU themselves without
-redoing all the dependencies themselves.
+Hi Richard,
 
-We disable the registry because we currently don't have multi-arch
-support there.
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Anders Roxell <anders.roxell@linaro.org>
----
- tests/docker/Makefile.include                 |  4 ++
- tests/docker/common.rc                        | 10 +++-
- tests/docker/dockerfiles/debian-native.docker | 49 +++++++++++++++++++
- 3 files changed, 61 insertions(+), 2 deletions(-)
- create mode 100644 tests/docker/dockerfiles/debian-native.docker
-
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 3b03763186..2f276cc4b2 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -145,6 +145,10 @@ docker-image-debian-s390x-cross: docker-image-debian10
- docker-image-debian-sh4-cross: docker-image-debian10
- docker-image-debian-sparc64-cross: docker-image-debian10
- 
-+# The native build should never use the registry
-+docker-image-debian-native: DOCKER_REGISTRY=
-+
-+
- #
- # The build rule for hexagon-cross is special in so far for most of
- # the time we don't want to build it. While dockers caching does avoid
-diff --git a/tests/docker/common.rc b/tests/docker/common.rc
-index c5cc33d366..e6f8cee0d6 100755
---- a/tests/docker/common.rc
-+++ b/tests/docker/common.rc
-@@ -12,8 +12,14 @@
- # the top-level directory.
- 
- # This might be set by ENV of a docker container... it is always
--# overriden by TARGET_LIST if the user sets it.
--DEF_TARGET_LIST=${DEF_TARGET_LIST:-"x86_64-softmmu,aarch64-softmmu"}
-+# overriden by TARGET_LIST if the user sets it. We special case
-+# "none" to allow for other options like --disable-tcg to restrict the
-+# builds we eventually do.
-+if test "$DEF_TARGET_LIST" = "none"; then
-+    DEF_TARGET_LIST=""
-+else
-+    DEF_TARGET_LIST=${DEF_TARGET_LIST:-"x86_64-softmmu,aarch64-softmmu"}
-+fi
- 
- requires_binary()
- {
-diff --git a/tests/docker/dockerfiles/debian-native.docker b/tests/docker/dockerfiles/debian-native.docker
-new file mode 100644
-index 0000000000..efd55cb6e0
---- /dev/null
-+++ b/tests/docker/dockerfiles/debian-native.docker
-@@ -0,0 +1,49 @@
-+#
-+# Docker Debian Native
-+#
-+# This this intended to build QEMU on native host systems. Debian is
-+# chosen due to the broadest range on supported host systems for QEMU.
-+#
-+# This docker target is based on the docker.io Debian Bullseye base
-+# image rather than QEMU's base because we would otherwise confuse the
-+# build grabbing stuff from the registry built for other
-+# architectures.
-+#
-+FROM docker.io/library/debian:bullseye-slim
-+MAINTAINER Alex Bennée <alex.bennee@linaro.org>
-+
-+# Duplicate deb line as deb-src
-+RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
-+
-+# Install common build utilities
-+RUN apt update && \
-+    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata
-+
-+RUN apt update && \
-+    DEBIAN_FRONTEND=noninteractive eatmydata \
-+    apt build-dep -yy --arch-only qemu
-+
-+RUN apt update && \
-+    DEBIAN_FRONTEND=noninteractive eatmydata \
-+    apt install -y --no-install-recommends \
-+        cscope \
-+        genisoimage \
-+        exuberant-ctags \
-+        global \
-+        libbz2-dev \
-+        liblzo2-dev \
-+        libgcrypt20-dev \
-+        libfdt-dev \
-+        librdmacm-dev \
-+        libsasl2-dev \
-+        libsnappy-dev \
-+        libvte-dev \
-+        netcat-openbsd \
-+        ninja-build \
-+        openssh-client \
-+        python3-numpy \
-+        python3-opencv \
-+        python3-venv
-+
-+ENV QEMU_CONFIGURE_OPTS $QEMU_CONFIGURE_OPTS
-+ENV DEF_TARGET_LIST "none"
--- 
-2.30.2
-
+On 9/22/21 12:25, Richard Henderson wrote:
+> On 9/21/21 1:18 PM, WANG Xuerui wrote:
+>> +    /* Test for PC-relative values that can be loaded faster.  */
+>> +    intptr_t pc_offset = val - (uintptr_t)s->code_ptr;
+>
+> This isn't quite right for split r^x code buffer.
+> You should have seen this with --enable-debug-tcg...
+>
+> You need pc_offset = tcg_pcrel_diff(s, (void *)val).
+Indeed; I just realized TCG debugging isn't fully enabled with 
+--enable-debug only. Will fix in v3.
+>
+>> +    if (pc_offset == (int32_t)pc_offset) {
+>> +        tcg_target_long lo = sextreg(pc_offset, 0, 12);
+>> +        tcg_target_long hi = pc_offset - lo;
+>> +        tcg_out_opc_pcaddu12i(s, rd, hi >> 12);
+>
+> And... this doesn't quite work, right at the edges.  If lo is 
+> negative, hi can overflow out of range.  There are a number of ways to 
+> fix this.  One is to extract the pieces and re-assemble to see if it 
+> matches.  Another is to rearrange the arithmetic just a little and use 
+> PCALAU12I.
+I actually wrote a small test program to test for this, but found no 
+overflow issues here; rather the tcg_out_opc_ori call below has 
+signedness problem (need to mask the low variable, which is signed, with 
+0xfff to avoid overwriting the opcode field). I think I'll add a 
+tcg_debug_assert here, but keep the logic intact.
+>
+>> +    tcg_target_long upper = (val >> 12) & 0xfffff;
+>> +    tcg_target_long higher = (val >> 32) & 0xfffff;
+>
+> Better to use extract64(val, 12, 20) and extract64(val, 32, 30).
+Sure; but as the instructions perform sign-extension, thus taking signed 
+operands, sextract64 or the wrapped sextreg will do it.
+>
+>
+> r~
 
