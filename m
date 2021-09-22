@@ -2,139 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B59414B11
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 15:51:51 +0200 (CEST)
-Received: from localhost ([::1]:45140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 093F7414B38
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 15:57:01 +0200 (CEST)
+Received: from localhost ([::1]:53748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT2f6-0006kZ-Eg
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 09:51:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60026)
+	id 1mT2k8-0004Ry-3g
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 09:57:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mT2cd-0005nK-7r; Wed, 22 Sep 2021 09:49:15 -0400
-Received: from mail-eopbgr30095.outbound.protection.outlook.com
- ([40.107.3.95]:29508 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mT2i1-0003Rp-Sz
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 09:54:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mT2ca-0004pp-MT; Wed, 22 Sep 2021 09:49:14 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S2SUWoedqf/+D2wReBl9vPSD6S2JRgil/+w0tdEhgK1U9uZCg2IIcqnCpZxwEmR0NqQySjF3uU7RfxQIg6/CjIHTe8p6fz1ZrKQAoHLvct8gKV0h88zzSmBKeOvLi5AN352m5vF3lZbTDrBIj7t+girDbh/8XH77v8rzRjB2ASOdpIFW3Rml/L6eniHJHAgofT77Is7ZHG6yO6Rf0J9LkEvsHwweDlTsNlD2CTWLc57Q7bdWJ4SZ1MS+defr25KCDVGJ4Rs3v+j0bxKHxUObSPEpNaH8GgdwRuIITkxfwS+Wkktw9eMNxfNPncN1QWNtTfqC8tz9nzyLnLbl0EmX+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=/JqHmoPLz80npVxX5BdaxOVr/LG90bD0gRsRJ76GkO4=;
- b=GQkxKImn2mNUwHWrQrDnrtq0ZnROPYyJSI3l6c6/kQucOrfzs3raWkKKM19GC2+FFxhil19OuCm0hDQtN0OQL9Ldjv4LZ4dnSDNqoLJGhXu4HuA5vXp8yJ21rhiJ7eoo3zGmLYa6GR9hlmAD0TVZfmDAjcHC/ki5wmSv64ojL4490J/hel+DVBx0XarjRw5zDAAckk7NmdfVlEEYUkeovGUEa6Pg6JOkCt1g17hZWraP5lbuTWtyhPUBuaH4NjDLA6Xqg9afGkzsmrqsvvA9Oso7YLUs7LJzxdi/ouiWJ4hQVxRUlJqgnKD/77sg5gBEMClAdz3tl5eUgyTaea3tVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/JqHmoPLz80npVxX5BdaxOVr/LG90bD0gRsRJ76GkO4=;
- b=rqvSVH5PKEvBtOXOs1m9fXdf/GfrKTMAEf0+u+rPGdPJqScgz0IwPLaqTD7H6Fs+Ej88SElWaGPVxdrOC1sy0FDOCXjSOW7jBt2gt255NI3VRLi6iMfqXOP+Vei9l9407CsNuMxS9XAspqxpdDZpNIfitFbVzMI/hrWNuAcdw5M=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6568.eurprd08.prod.outlook.com (2603:10a6:20b:338::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Wed, 22 Sep
- 2021 13:49:07 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.013; Wed, 22 Sep 2021
- 13:49:07 +0000
-Subject: Re: [PATCH v6 0/5] block/nbd: drop connection_co
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, hreitz@redhat.com,
- kwolf@redhat.com, rkagan@virtuozzo.com
-References: <20210902103805.25686-1-vsementsov@virtuozzo.com>
- <1dba982d-06aa-de41-a1a4-d12c5ce6e336@virtuozzo.com>
- <20210922131242.ghootz5i554mppfn@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <d2a8bffc-9adf-01ed-c01c-30501f0316ac@virtuozzo.com>
-Date: Wed, 22 Sep 2021 16:49:04 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <20210922131242.ghootz5i554mppfn@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR2P264CA0011.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101::23)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mT2hy-0000Fi-20
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 09:54:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632318885;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0MHh1CG0eFrD6r2vENJRe3lvCu4TN5BdJuDhm2v5rao=;
+ b=APdXy8uXdLimNsnpsUUyES+tX7f3PgDYiNsBtnNxuJ9B5a9IHpl1ONVoZL8KLPI2buvBvb
+ 6So/1P3C3vAjEEae1pCWcWAc/+kKavcbXLrj/mSgXOcH9IGd+Ow2IiJpTyvJKRa6mCRQ+5
+ juXxTTn9Mpvmoaor5k40UiwclftZ8c8=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-45-a2o1j5MmP8iEztUo8FOl8g-1; Wed, 22 Sep 2021 09:54:43 -0400
+X-MC-Unique: a2o1j5MmP8iEztUo8FOl8g-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ h15-20020aa7de0f000000b003d02f9592d6so3114063edv.17
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 06:54:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=xETEb0SCLK+fSfX5uMcZ+LhzAdJZ6JlkPbrvT/sEWsM=;
+ b=QJdc+tuyyJqfboEZ4mc6P1PxqfHEIU4jZRRpE7JSepSpKLrKzAA27u6NNWWZlf+LIG
+ 2qsU8tul2WTDSwTudeGO3/lGPwmQwQ47eky7xCEFYweYqQB/DeKjP1wlQtfjMkcwxe6v
+ o1neuhBBjRrKrURDAY52qhZotDZa6YKopgTtOJDRpmWZX67O4wcAt8K8j88LAD/Vtxgk
+ 888otLNKUo6q+vJCFK9+QdjdM9LN+TUUhykOfeJDHvcKQT2JGidWOn52x8lVSucGlr2g
+ zlb/C+gnMrqsbfeHYdVjlA6GgV+pfXgG5EuOVMvPiqyN7dCKBz31GJpUuhP3EvY2QkcD
+ HNlg==
+X-Gm-Message-State: AOAM533Xz5bFw2HB2GmcEK+3V48QTWNdN6GGlhZE+uEocCCo0ecAtjT5
+ byIi+tUxu8+HRgTQZG37wrKmydO+NRAXkaM8WesMqyUo6G67EdzHhGGVpJkWVF3Y48kuxKrpd2/
+ DXYVeih51iT8IvqE=
+X-Received: by 2002:a17:907:6297:: with SMTP id
+ nd23mr42865505ejc.62.1632318882709; 
+ Wed, 22 Sep 2021 06:54:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw0aet3drl0jTvky2RyIVKAvek0RMsn0T+et5rCyf3ntyMRosxdtK29GKv0OoN1xO/0MKsnAg==
+X-Received: by 2002:a17:907:6297:: with SMTP id
+ nd23mr42865473ejc.62.1632318882478; 
+ Wed, 22 Sep 2021 06:54:42 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id dn28sm1255796edb.76.2021.09.22.06.54.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Sep 2021 06:54:42 -0700 (PDT)
+Date: Wed, 22 Sep 2021 15:54:40 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v3 29/35] acpi: arm/virt: convert build_iort() to endian
+ agnostic build_append_FOO() API
+Message-ID: <20210922155440.2bf5ea9f@redhat.com>
+In-Reply-To: <febc8040-ec03-4716-a626-ccdf353f4e32@redhat.com>
+References: <20210907144814.741785-1-imammedo@redhat.com>
+ <20210907144814.741785-30-imammedo@redhat.com>
+ <febc8040-ec03-4716-a626-ccdf353f4e32@redhat.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Received: from [192.168.100.5] (185.215.60.205) by
- PR2P264CA0011.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4544.13 via Frontend Transport; Wed, 22 Sep 2021 13:49:06 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0ffb1b86-9f84-4cf4-e5cc-08d97dcfbf54
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6568:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB65686A5672FA921204FF7B46C1A29@AS8PR08MB6568.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: glFkCMHRnAujNpQ2BFHM6vrhokvwI02MWhkxqxeKJ6nJIrzA9RBKp4NaOIXpVNBK1+z0Fzd4tPBAMga35FzU/8+n5lJMbTTarpx6v2BeB2H/2dQn+Nf/GL8fQKQ3VxwAHz3naQQaNn6CNp4um/h/4gBjLezVrIDsTuMMXew7Oig0vP45CnopVvpfpD1uT9i4MUHSlheG2l5rxfP2XFBlqmI5GUrmN1PiHuSVk+aOqU/V4qrSw348UsZtmJjcvSa46nl5M+USuTaSV8wxaSGq0Z8Gct6xVLxVFZw5IVcvshYiOEVwD8EZv+jHcAHQwjMFLjqs6dJVynT228xrGp4Kh10V7RV3DPqr7w2MXImGzyWiJSpthMiT2s1U5s7MOfMQd2G5m3ywdn4AksEDImT7YOe6zBTfHYgMMK2RjNu9o1PGpHUlzJLLyaCvPI+94D67fnlmw2hBgT0MQu44iVNiySrS+ujSoPrfQY7nBNenklhI1B+QzDehiH15RJM9NSjjyZLFl2hzppgwFmaKloAbe8u7bpDNUtZ9WLM4Q/qGzjf9zODz7jxfls/9p/wkTLApwMHb5sxBmp9YNOu/YgtQBszRDYRbfROORHYek32Hq72HDKBLscUxoqQsyk6bCSYQbT9VLEFENLbllY+7IEh9nk30cy2FDFe/rO2HeRIr+HfTsWprJeJAQwoF6QoyAhLSjf5efDVL5a7czVKs8anwzoLeyjTNh6PgyQE1I7iNKE0fipJADV2te0ymuxxX+V/zOsWDoFLYl7TzhyzxxcYYog==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(36756003)(186003)(66476007)(5660300002)(86362001)(6916009)(956004)(8936002)(2906002)(8676002)(66946007)(6486002)(38350700002)(16576012)(31696002)(66556008)(31686004)(38100700002)(316002)(4744005)(83380400001)(508600001)(107886003)(26005)(52116002)(2616005)(4326008)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cktSOE4zU2lveG1YeENOeGM2RmhmOHB5OVVMc0kwTkJIazNtL051aXJYeGph?=
- =?utf-8?B?ME5ZZXFNbVFpV0NlN1d6b1BKdkVQMlBCam5DMlJpOFhVbTZhYkg1L0lRL1FB?=
- =?utf-8?B?bHcxSlpwTlpHZFpFejRFaHZxbC93a0FCU2dYS083ek04bU9DbVlhOGVXdHpF?=
- =?utf-8?B?Mk9ybWZueEpUb0o1TEQwRktpMEJtS24xelI5RFh3Zk96N1lKWXA2aU4yaWNM?=
- =?utf-8?B?UDFrYVlBWERSVExvTUtjcWdObnZQZ1ZWYjF5UWJvQnNEckkvcktDWmp2OVZM?=
- =?utf-8?B?ZXl3WS9IdnUxV0hkNTdsQUoyQmlqemVQVkpGNHZlVUdQK1VsdHV0Zm4yTEto?=
- =?utf-8?B?TENadGx1ZFNuN3hMaUZpSFRoMmp2cThJRGZneE90cG93eXdmS1BwMkZaT0Fl?=
- =?utf-8?B?RkVidmZUNlREaHJNK0YzOEJhTWNZeXM0cTB1ZjBycFNrQ0RyejhSV0JVMWlm?=
- =?utf-8?B?M0pTRFZFUmQrQ1A5aWhCV3lmS3M3Z3MwOEJwUEFYS08zNVF0R21OQlV1Mjcw?=
- =?utf-8?B?ZE9aN1lSZzMrSWNaYnBrTXpuYXZVK3lnNmIyMVdXbEZTSjJqekRqVk5UK0RX?=
- =?utf-8?B?QnlVTDQ5NTIraGJTUE9qelNsWHpBZG9jbjJ1a1JLTEp3TlA1ZDdmdVBhSG1U?=
- =?utf-8?B?emU4VlFLOEw0UzFnVC9NeWpVUDA3eVVhdWk1NVJMOFMvdTUwVUNCY0ZFTlFD?=
- =?utf-8?B?UVlkS3NmVzBYTEtJaXNGS0Q5V0FseE1rWjBBR1RaU05oNkNlbFBWMEg5VUYr?=
- =?utf-8?B?bW9zemlwTXlrVjl1RmJqUVZlK25NZk5JNkhUUitKS2RtQ1VNbFJRUVUrL3I5?=
- =?utf-8?B?ZDlUd2ZTN1dFSTRUME1ybXRzMmhzZkJ0SGRQMWp2U2cxWWUyTkg3QnNwbFBX?=
- =?utf-8?B?SUFOK3gyNG5CRkk3bkVxMUt3R3dqczk2OEJKbXd1S3dlU2JNOFZvcUhoZHd1?=
- =?utf-8?B?eVZRUEdac3ZPcU1DY1hTQWMxNG1oTzJ2TkJPVUFlN0hEdklBSlA3OGRrYXF0?=
- =?utf-8?B?R05HY1Z4VG53WVg0ZXRZdWNneTRvNTVGWGhGUDhFRzhPNE5NSUtEMHA5ak5r?=
- =?utf-8?B?dzh2anlmY0doWGpzNFVqODRDMmRHeTY5TGpLT2tSMnZYUVNxL3hCTHRJb3c5?=
- =?utf-8?B?U1VtTUNVcVc2aEFoUHV6QmVTTGJDams5YUhiWm1zRXdEZnJQUUFZN01WcU9B?=
- =?utf-8?B?WnV0Z09BZ1YwU1NzS1dPdW5SQlpQSlozYTdnOHJQa0FDeFNCWFdtTzFIUVVm?=
- =?utf-8?B?ZEp3MU9nd3lGSXZvZUFQdGRTTDdPaWlpNXdMZjhYRktBNHcxV2NzUnEydzhs?=
- =?utf-8?B?TTd4ZUJSUktYTUZ5dCtwbkZqdkdBUzAvRDAyalBlRVRJd3ZhcDk0R1l0SW5j?=
- =?utf-8?B?RHFwNEZEeVRKYVVRMUVIS0tzWVpRTzJMTytoMlpKaW9Zd3ltbzlnR1hyc05n?=
- =?utf-8?B?dkh4ZGxlNkNRZEd1b1NVOENpVTliVlBIaGh6ZWl1OVZXSTA4UkNrRVh4YlVQ?=
- =?utf-8?B?UlF3ZnFZcnFmcmpLcU02UEplZTNJZStHQmg3TzJyZDRmU2VoUWwwdjJnWWF4?=
- =?utf-8?B?UFNYc1pDODd2QVNTY0NLWXdyZTRmSVhmZXJTb0Vaa0pBRzBCOG52TEIrWXhl?=
- =?utf-8?B?V2hWanlLUHF2SmZYT2dKZmRRV2hyak9FdkpyYmVKbTZ5S1dWd2FINElRcmRs?=
- =?utf-8?B?NTBhZlEyWE9Na09xcWwvQW1IVVRtTkJQR2xWSmVzQ0pibG1nMzNvMnZ0ZUww?=
- =?utf-8?Q?y1ozBXlsXMoXhO71EJ78/yTvBIiJo/7fgdxOGPK?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ffb1b86-9f84-4cf4-e5cc-08d97dcfbf54
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2021 13:49:07.2933 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xKzRQHkV6jYn6Y8LpzKxkqYRxr9ISq1/GVY9RPpNEcFpZXNx1g9zYZlxsngc2sdLvlc8UONjGZrb7dtK/s8xmdkRM2cwXbWGJOFaKjr4NRQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6568
-Received-SPF: pass client-ip=40.107.3.95;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -147,24 +100,407 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, wangxingang5@huawei.com,
+ mst@redhat.com, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-22.09.2021 16:12, Eric Blake wrote:
-> On Wed, Sep 22, 2021 at 10:48:58AM +0300, Vladimir Sementsov-Ogievskiy wrote:
->> ping)
->>
->> Only one patch is not reviewed. But the biggest one :(
-> 
-> Yeah, and it's on my list for this week.  I'm overdue for a pull
-> request, so I want to get this series in if at all possible, which
-> means I'll get on that (large) review soon.  Meanwhile, the ping is
-> appreciated!
-> 
+On Wed, 22 Sep 2021 15:26:49 +0200
+Eric Auger <eric.auger@redhat.com> wrote:
 
-Thanks!
+I'll fix patch up as suggested,
+though there is a question, see below
 
--- 
-Best regards,
-Vladimir
+> On 9/7/21 4:48 PM, Igor Mammedov wrote:
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> > v3:
+> >   * practically rewritten, due to conflicts wiht bypass iommu feature
+> >
+> > CC: drjones@redhat.com
+> > CC: peter.maydell@linaro.org
+> > CC: shannon.zhaosl@gmail.com
+> > CC: qemu-arm@nongnu.org
+> > CC: wangxingang5@huawei.com
+> > CC: Eric Auger <eric.auger@redhat.com>
+> > ---
+> >  include/hw/acpi/acpi-defs.h |  71 ---------------
+> >  hw/arm/virt-acpi-build.c    | 167 ++++++++++++++++++++----------------
+> >  2 files changed, 91 insertions(+), 147 deletions(-)
+> >
+> > diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> > index 195f90caf6..6f2f08a9de 100644
+> > --- a/include/hw/acpi/acpi-defs.h
+> > +++ b/include/hw/acpi/acpi-defs.h
+> > @@ -188,75 +188,4 @@ struct AcpiGenericTimerTable {
+> >  } QEMU_PACKED;
+> >  typedef struct AcpiGenericTimerTable AcpiGenericTimerTable;
+> > =20
+> > -/*
+> > - * IORT node types
+> > - */
+> > -
+> > -#define ACPI_IORT_NODE_HEADER_DEF   /* Node format common fields */ \
+> > -    uint8_t  type;          \
+> > -    uint16_t length;        \
+> > -    uint8_t  revision;      \
+> > -    uint32_t reserved;      \
+> > -    uint32_t mapping_count; \
+> > -    uint32_t mapping_offset;
+> > -
+> > -/* Values for node Type above */
+> > -enum {
+> > -        ACPI_IORT_NODE_ITS_GROUP =3D 0x00,
+> > -        ACPI_IORT_NODE_NAMED_COMPONENT =3D 0x01,
+> > -        ACPI_IORT_NODE_PCI_ROOT_COMPLEX =3D 0x02,
+> > -        ACPI_IORT_NODE_SMMU =3D 0x03,
+> > -        ACPI_IORT_NODE_SMMU_V3 =3D 0x04
+> > -};
+> > -
+> > -struct AcpiIortIdMapping {
+> > -    uint32_t input_base;
+> > -    uint32_t id_count;
+> > -    uint32_t output_base;
+> > -    uint32_t output_reference;
+> > -    uint32_t flags;
+> > -} QEMU_PACKED;
+> > -typedef struct AcpiIortIdMapping AcpiIortIdMapping;
+> > -
+> > -struct AcpiIortMemoryAccess {
+> > -    uint32_t cache_coherency;
+> > -    uint8_t  hints;
+> > -    uint16_t reserved;
+> > -    uint8_t  memory_flags;
+> > -} QEMU_PACKED;
+> > -typedef struct AcpiIortMemoryAccess AcpiIortMemoryAccess;
+> > -
+> > -struct AcpiIortItsGroup {
+> > -    ACPI_IORT_NODE_HEADER_DEF
+> > -    uint32_t its_count;
+> > -    uint32_t identifiers[];
+> > -} QEMU_PACKED;
+> > -typedef struct AcpiIortItsGroup AcpiIortItsGroup;
+> > -
+> > -#define ACPI_IORT_SMMU_V3_COHACC_OVERRIDE 1
+> > -
+> > -struct AcpiIortSmmu3 {
+> > -    ACPI_IORT_NODE_HEADER_DEF
+> > -    uint64_t base_address;
+> > -    uint32_t flags;
+> > -    uint32_t reserved2;
+> > -    uint64_t vatos_address;
+> > -    uint32_t model;
+> > -    uint32_t event_gsiv;
+> > -    uint32_t pri_gsiv;
+> > -    uint32_t gerr_gsiv;
+> > -    uint32_t sync_gsiv;
+> > -    AcpiIortIdMapping id_mapping_array[];
+> > -} QEMU_PACKED;
+> > -typedef struct AcpiIortSmmu3 AcpiIortSmmu3;
+> > -
+> > -struct AcpiIortRC {
+> > -    ACPI_IORT_NODE_HEADER_DEF
+> > -    AcpiIortMemoryAccess memory_properties;
+> > -    uint32_t ats_attribute;
+> > -    uint32_t pci_segment_number;
+> > -    AcpiIortIdMapping id_mapping_array[];
+> > -} QEMU_PACKED;
+> > -typedef struct AcpiIortRC AcpiIortRC;
+> > -
+> >  #endif
+> > diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> > index bceb1b3b7e..4c682e7b09 100644
+> > --- a/hw/arm/virt-acpi-build.c
+> > +++ b/hw/arm/virt-acpi-build.c
+> > @@ -240,6 +240,28 @@ static void acpi_dsdt_add_tpm(Aml *scope, VirtMach=
+ineState *vms)
+> >  }
+> >  #endif
+> > =20
+> > +#define ID_MAPPING_ENTRY_SIZE 20
+> > +#define SMMU_V3_ENTRY_SIZE 60
+> > +#define ROOT_COMPLEX_ENTRY_SIZE 32
+> > +#define IORT_NODE_OFFSET 48
+> > +
+> > +static void build_iort_id_mapping(GArray *table_data, uint32_t input_b=
+ase,
+> > +                                  uint32_t id_count, uint32_t out_ref)
+> > +{
+> > +    /* Identity RID mapping covering the whole input RID range */
+> > +    build_append_int_noprefix(table_data, input_base, 4); /* Input bas=
+e */
+> > +    build_append_int_noprefix(table_data, id_count, 4); /* Number of I=
+Ds */
+> > +    build_append_int_noprefix(table_data, input_base, 4); /* Output ba=
+se */
+> > +    build_append_int_noprefix(table_data, out_ref, 4); /* Output Refer=
+ence */
+> > +    build_append_int_noprefix(table_data, 0, 4); /* Flags */
+> > +}
+> > +
+> > +struct AcpiIortIdMapping {
+> > +    uint32_t input_base;
+> > +    uint32_t id_count;
+> > +};
+> > +typedef struct AcpiIortIdMapping AcpiIortIdMapping;
+> > +
+> >  /* Build the iort ID mapping to SMMUv3 for a given PCI host bridge */
+> >  static int
+> >  iort_host_bridges(Object *obj, void *opaque)
+> > @@ -281,18 +303,17 @@ static int iort_idmap_compare(gconstpointer a, gc=
+onstpointer b)
+> >  static void
+> >  build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *v=
+ms)
+> >  {
+> > -    int i, nb_nodes, rc_mapping_count;
+> > -    AcpiIortIdMapping *idmap;
+> > -    AcpiIortItsGroup *its;
+> > -    AcpiIortSmmu3 *smmu;
+> > -    AcpiIortRC *rc;
+> > +    int i, rc_mapping_count;
+> >      const uint32_t iort_node_offset =3D 48; =20
+> can be replaced by IORT_NODE_OFFSET now
+> >      size_t node_size, smmu_offset =3D 0;
+> > +    AcpiIortIdMapping *idmap;
+> >      GArray *smmu_idmaps =3D g_array_new(false, true, sizeof(AcpiIortId=
+Mapping));
+> >      GArray *its_idmaps =3D g_array_new(false, true, sizeof(AcpiIortIdM=
+apping));
+> > =20
+> >      AcpiTable table =3D { .sig =3D "IORT", .rev =3D 0, .oem_id =3D vms=
+->oem_id,
+> >                          .oem_table_id =3D vms->oem_table_id };
+> > +    /* Table 2 The IORT */
+> > +    acpi_table_begin(&table, table_data); =20
+> nit: you could have done this move in previous patch.
+> > =20
+> >      if (vms->iommu =3D=3D VIRT_IOMMU_SMMUV3) {
+> > =20
+> > @@ -325,106 +346,100 @@ build_iort(GArray *table_data, BIOSLinker *link=
+er, VirtMachineState *vms)
+> >              g_array_append_val(its_idmaps, next_range);
+> >          }
+> > =20
+> > -        nb_nodes =3D 3; /* RC, ITS, SMMUv3 */
+> >          rc_mapping_count =3D smmu_idmaps->len + its_idmaps->len;
+> > +        /* Number of IORT Nodes */
+> > +        build_append_int_noprefix(table_data, 3 /* RC, ITS, SMMUv3 */,=
+ 4);
+> >      } else {
+> > -        nb_nodes =3D 2; /* RC, ITS */
+> >          rc_mapping_count =3D 1;
+> > +        /* Number of IORT Nodes */
+> > +        build_append_int_noprefix(table_data, 2 /* RC, ITS */, 4); =20
+> I think I would prefer to keep the nb_nodes variable and do the
+> corresponding build_append_int_noprefix only once. There may be
+> additional nodes added with increased complexity and potential extra
+> duplication.
+> >      }
+> > =20
+> > -    /* Table 2 The IORT */
+> > -    acpi_table_begin(&table, table_data);
+> > -    /* Number of IORT Nodes */
+> > -    build_append_int_noprefix(table_data, nb_nodes, 4);
+> >      /* Offset to Array of IORT Nodes */
+> > -    build_append_int_noprefix(table_data, iort_node_offset, 4);
+> > +    build_append_int_noprefix(table_data, IORT_NODE_OFFSET, 4);
+> >      build_append_int_noprefix(table_data, 0, 4); /* Reserved */
+> > =20
+> > -    /* ITS group node */
+> > -    node_size =3D  sizeof(*its) + sizeof(uint32_t);
+> > -    its =3D acpi_data_push(table_data, node_size);
+> > -
+> > -    its->type =3D ACPI_IORT_NODE_ITS_GROUP;
+> > -    its->length =3D cpu_to_le16(node_size);
+> > -    its->its_count =3D cpu_to_le32(1);
+> > -    its->identifiers[0] =3D 0; /* MADT translation_id */
+> > +    /* 3.1.1.3 ITS group node */
+> > +    build_append_int_noprefix(table_data, 0 /* ITS Group */, 1); /* Ty=
+pe */
+> > +    node_size =3D  20 /* fixed header size */ + 4 /* 1 GIC ITS Identif=
+ier */;
+> > +    build_append_int_noprefix(table_data, node_size, 2); /* Length */
+> > +    build_append_int_noprefix(table_data, 0, 1); /* Revision */
+> > +    build_append_int_noprefix(table_data, 0, 4); /* Reserved */
+> > +    build_append_int_noprefix(table_data, 0, 4); /* Number of ID mappi=
+ngs */
+> > +    build_append_int_noprefix(table_data, 0, 4); /* Reference to ID Ar=
+ray */
+> > +    build_append_int_noprefix(table_data, 1, 4); /* Number of ITSs */
+> > +    /* GIC ITS Identifier Array */
+> > +    build_append_int_noprefix(table_data, 0 /* MADT translation_id */,=
+ 4);
+> > =20
+> >      if (vms->iommu =3D=3D VIRT_IOMMU_SMMUV3) {
+> >          int irq =3D  vms->irqmap[VIRT_SMMU] + ARM_SPI_BASE;
+> > =20
+> > -        /* SMMUv3 node */
+> > -        smmu_offset =3D iort_node_offset + node_size;
+> > -        node_size =3D sizeof(*smmu) + sizeof(*idmap);
+> > -        smmu =3D acpi_data_push(table_data, node_size);
+> > -
+> > -        smmu->type =3D ACPI_IORT_NODE_SMMU_V3;
+> > -        smmu->length =3D cpu_to_le16(node_size);
+> > -        smmu->mapping_count =3D cpu_to_le32(1);
+> > -        smmu->mapping_offset =3D cpu_to_le32(sizeof(*smmu));
+> > -        smmu->base_address =3D cpu_to_le64(vms->memmap[VIRT_SMMU].base=
+);
+> > -        smmu->flags =3D cpu_to_le32(ACPI_IORT_SMMU_V3_COHACC_OVERRIDE)=
+;
+> > -        smmu->event_gsiv =3D cpu_to_le32(irq);
+> > -        smmu->pri_gsiv =3D cpu_to_le32(irq + 1);
+> > -        smmu->sync_gsiv =3D cpu_to_le32(irq + 2);
+> > -        smmu->gerr_gsiv =3D cpu_to_le32(irq + 3);
+> > -
+> > -        /* Identity RID mapping covering the whole input RID range */
+> > -        idmap =3D &smmu->id_mapping_array[0];
+> > -        idmap->input_base =3D 0;
+> > -        idmap->id_count =3D cpu_to_le32(0xFFFF);
+> > -        idmap->output_base =3D 0;
+> > -        /* output IORT node is the ITS group node (the first node) */
+> > -        idmap->output_reference =3D cpu_to_le32(iort_node_offset);
+> > +        smmu_offset =3D table_data->len - table.table_offset;
+> > +        /* 3.1.1.2 SMMUv3 */
+> > +        build_append_int_noprefix(table_data, 4 /* SMMUv3 */, 1); /* T=
+ype */
+> > +        node_size =3D  SMMU_V3_ENTRY_SIZE + ID_MAPPING_ENTRY_SIZE;
+> > +        build_append_int_noprefix(table_data, node_size, 2); /* Length=
+ */
+> > +        build_append_int_noprefix(table_data, 0, 1); /* Revision */
+> > +        build_append_int_noprefix(table_data, 0, 4); /* Reserved */
+> > +        build_append_int_noprefix(table_data, 1, 4); /* Number of ID m=
+appings */
+> > +        /* Reference to ID Array */
+> > +        build_append_int_noprefix(table_data, SMMU_V3_ENTRY_SIZE, 4);
+> > +        /* Base address */
+> > +        build_append_int_noprefix(table_data, vms->memmap[VIRT_SMMU].b=
+ase, 8);
+> > +        /* Flags */
+> > +        build_append_int_noprefix(table_data, 1 /* COHACC OverrideNote=
+ */, 4);
+> > +        build_append_int_noprefix(table_data, 0, 4); /* Reserved */
+> > +        build_append_int_noprefix(table_data, 0, 8); /* VATOS address =
+*/
+> > +        /* Model */
+> > +        build_append_int_noprefix(table_data, 0 /* Generic SMMU-v3 */,=
+ 4);
+> > +        build_append_int_noprefix(table_data, irq, 4); /* Event */
+> > +        build_append_int_noprefix(table_data, irq + 1, 4); /* PRI */
+> > +        build_append_int_noprefix(table_data, irq + 3, 4); /* GERR */
+> > +        build_append_int_noprefix(table_data, irq + 2, 4); /* Sync */ =
+=20
+> Please keep that comment. I think it helps
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* output IORT node is the ITS group=
+ node (the first node) */
+> > +
+> > +        build_iort_id_mapping(table_data, 0, 0xFFFF, IORT_NODE_OFFSET)=
+;
+> >      }
+> > =20
+> > -    /* Root Complex Node */
+> > -    node_size =3D sizeof(*rc) + sizeof(*idmap) * rc_mapping_count;
+> > -    rc =3D acpi_data_push(table_data, node_size);
+> > -
+> > -    rc->type =3D ACPI_IORT_NODE_PCI_ROOT_COMPLEX;
+> > -    rc->length =3D cpu_to_le16(node_size);
+> > -    rc->mapping_count =3D cpu_to_le32(rc_mapping_count);
+> > -    rc->mapping_offset =3D cpu_to_le32(sizeof(*rc));
+> > -
+> > +    /* Table 16 Root Complex Node */
+> > +    build_append_int_noprefix(table_data, 2 /* Root complex */, 1); /*=
+ Type */
+> > +    node_size =3D  ROOT_COMPLEX_ENTRY_SIZE +
+> > +                 ID_MAPPING_ENTRY_SIZE * rc_mapping_count;
+> > +    build_append_int_noprefix(table_data, node_size, 2); /* Length */
+> > +    build_append_int_noprefix(table_data, 0, 1); /* Revision */
+> > +    build_append_int_noprefix(table_data, 0, 4); /* Reserved */
+> > +    /* Number of ID mappings */
+> > +    build_append_int_noprefix(table_data, rc_mapping_count, 4);
+> > +    /* Reference to ID Array */
+> > +    build_append_int_noprefix(table_data, ROOT_COMPLEX_ENTRY_SIZE, 4);
+> >      /* fully coherent device */ =20
+> this comment should become /* Memory access properties */ for homogenity
+> > -    rc->memory_properties.cache_coherency =3D cpu_to_le32(1);
+> > -    rc->memory_properties.memory_flags =3D 0x3; /* CCA =3D CPM =3D DCA=
+S =3D 1 */
+> > -    rc->pci_segment_number =3D 0; /* MCFG pci_segment */
+> > -
+> > +    build_append_int_noprefix(table_data,
+> > +        1 | /* CCA: Cache Coherent Attribute, The device is fully cohe=
+rent */
+> > +        (3ULL << 7 * 8) /* MAF: Memory Access Flags, CCA =3D CPM =3D D=
+CAS =3D 1 */,
+> > +        8); =20
+> I think we would gain in readability if we were to split into multiple
+>=20
+> build_append_int_noprefix according to Table 13 fields
+
+in spec I've got it's "Table 14: Memory access properties"
+Do you have any preference which spec/rev/ we should use for IORT?
+
+>=20
+> > +    build_append_int_noprefix(table_data, 0, 4); /* ATS Attribute */
+> > +    /* MCFG pci_segment */
+> > +    build_append_int_noprefix(table_data, 0, 4); /* PCI Segment number=
+ */
+> > +
+> > +    /* Output Reference */
+> >      if (vms->iommu =3D=3D VIRT_IOMMU_SMMUV3) {
+> >          AcpiIortIdMapping *range;
+> > =20
+> >          /* translated RIDs connect to SMMUv3 node: RC -> SMMUv3 -> ITS=
+ */
+> >          for (i =3D 0; i < smmu_idmaps->len; i++) {
+> > -            idmap =3D &rc->id_mapping_array[i];
+> >              range =3D &g_array_index(smmu_idmaps, AcpiIortIdMapping, i=
+);
+> > -
+> > -            idmap->input_base =3D cpu_to_le32(range->input_base);
+> > -            idmap->id_count =3D cpu_to_le32(range->id_count);
+> > -            idmap->output_base =3D cpu_to_le32(range->input_base);
+> > -            /* output IORT node is the smmuv3 node */
+> > -            idmap->output_reference =3D cpu_to_le32(smmu_offset); =20
+> please keep the original comment
+> > +            build_iort_id_mapping(table_data, range->input_base,
+> > +                                  range->id_count, smmu_offset);
+> >          }
+> > =20
+> >          /* bypassed RIDs connect to ITS group node directly: RC -> ITS=
+ */
+> >          for (i =3D 0; i < its_idmaps->len; i++) {
+> > -            idmap =3D &rc->id_mapping_array[smmu_idmaps->len + i];
+> >              range =3D &g_array_index(its_idmaps, AcpiIortIdMapping, i)=
+;
+> > -
+> > -            idmap->input_base =3D cpu_to_le32(range->input_base);
+> > -            idmap->id_count =3D cpu_to_le32(range->id_count);
+> > -            idmap->output_base =3D cpu_to_le32(range->input_base);
+> > -            /* output IORT node is the ITS group node (the first node)=
+ */
+> > -            idmap->output_reference =3D cpu_to_le32(iort_node_offset);=
+ =20
+> same, at least it helps me ;-)
+> > +            build_iort_id_mapping(table_data, range->input_base,
+> > +                                  range->id_count, iort_node_offset);
+> >          }
+> >      } else {
+> > -        /* Identity RID mapping covering the whole input RID range */
+> > -        idmap =3D &rc->id_mapping_array[0];
+> > -        idmap->input_base =3D cpu_to_le32(0);
+> > -        idmap->id_count =3D cpu_to_le32(0xFFFF);
+> > -        idmap->output_base =3D cpu_to_le32(0);
+> >          /* output IORT node is the ITS group node (the first node) */
+> > -        idmap->output_reference =3D cpu_to_le32(iort_node_offset);
+> > +        build_iort_id_mapping(table_data, 0, 0xFFFF, IORT_NODE_OFFSET)=
+;
+> >      }
+> > =20
+> >      acpi_table_end(linker, &table); =20
+> Thanks
+>=20
+> Eric
+>=20
+
 
