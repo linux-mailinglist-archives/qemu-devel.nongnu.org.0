@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41E2641404E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 06:07:12 +0200 (CEST)
-Received: from localhost ([::1]:53216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10BA841404D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 06:06:20 +0200 (CEST)
+Received: from localhost ([::1]:49842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mStXL-00070C-4A
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 00:07:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60186)
+	id 1mStWV-0004dc-3f
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 00:06:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mStT9-0002cu-QV
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 00:02:51 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:43750)
+ id 1mStUJ-0003Hj-LZ
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 00:04:03 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:51924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mStT8-0002DO-7v
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 00:02:51 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- k23-20020a17090a591700b001976d2db364so1269016pji.2
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 21:02:49 -0700 (PDT)
+ id 1mStUH-0003F2-PZ
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 00:04:02 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id dw14so1116982pjb.1
+ for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 21:04:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=Od2m78DAbIxhQjgJYb1X3kfwzhF88vFCZbfbLzS1j8w=;
- b=sq0VqD6U88ncxt50xsTjYenr8S+NQ1Putk2LkxY/pysZ3TwY4bUINVGyQ1ykpW7SrO
- k1gsS3BoUAfr3z1uTsQftTgfgPwUjsxZAtX+lpg/xvg4jXX1KXi5eha2gVTWyBa1ld0O
- 5XFz002OFpAz+4LpVJHib8faVTWpQrZzPolbmgPCerfUgatWr1RW2SCRp0V0EBfBipsJ
- 0THEKrCY1Qlx6uCNxLErS2EzhcVlSO6X5IhIzEEFnAYczXFEuJFEULikqQ7nn6wycKC1
- 6Nilmd86bwMhHNEQ9gvDbVva0mrCRsgXsqFZX2exmNilBTZe1daNHyDiWscIHqpOHr3p
- Yb8w==
+ bh=aBZ9Y6JixdTABdKZL7c67EZhJOUoGrnUq3CFbOfEngM=;
+ b=hnnCvkMMT0RsVddTXScGFT3yg8mkQ7boTXqvRAu/3m6XXIdvmpkxJl4Xqkvv4oGfiq
+ YHAGcUE/e0vfnnq0YwNdcwow6GWAV+Q36Py/pipaaca/mlT8fN4tH+2VASkjOMHjdtsS
+ ruJv2LvzVnkQyD8WmBNtySZ46CtzZWX743FEzwsE1KahOsXcdrZyKIQyhFnqOrS79yVZ
+ tTix7D9pMDVoRvgFps7hVX9udKhZg5cWF3FSiX2fCgAjs+JcEyhjL6ZCSut6Er4h/Zll
+ QbKM6mSG7Nr5eTaZkN8I2+Haour0/6lKnJuk60cCLCrma67CRvP4hDVG6xJWjo6jhhSV
+ efnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Od2m78DAbIxhQjgJYb1X3kfwzhF88vFCZbfbLzS1j8w=;
- b=Boiyxc8ocgsSLjW9W3PBeJB8rLoEtDzPEdF8qk8daN19yAZPhJDnD88vxbbfVEf37V
- v3MTWRC+++UxvMBNItEnNXZOZ3Rm6NXohI2MqRWF4v8m+TaUUA6o2ziYeS/9fspevZCv
- 8DgUsiUJK4Gn7gPwn0/9ODlpSKe8upe0sfbMg4I4ZhAlNEo4G+jVFzTwF65UP5MYr5na
- pNHSRGRsNhfobiHoxpJZRnpcmDhb+m42kXWHNqinsBQNguQkk+UH7wYPUDsLyqlkJfa/
- 3xVOZ414F8uoOoxB5Rvshoso0BT7BkKY84PfeB7Udco0h59MxGCUUZ47xzAfX7l7LeVi
- gAHA==
-X-Gm-Message-State: AOAM532gU8PXmNhOE3BvrYQCqhkVImYqXorZz3bthaX7mBLEoO+yKL0j
- veYnXnwKUYlLLOpUKiiS9+mCC6i/gGA7WA==
-X-Google-Smtp-Source: ABdhPJxGuJHvhajHRdDZPckBdc4++mEa3BE1q9lVLHrcizcBb0ItNbu7Ws3CBVin/dOWxgstGTOaJQ==
-X-Received: by 2002:a17:90b:3508:: with SMTP id
- ls8mr8914611pjb.240.1632283368572; 
- Tue, 21 Sep 2021 21:02:48 -0700 (PDT)
+ bh=aBZ9Y6JixdTABdKZL7c67EZhJOUoGrnUq3CFbOfEngM=;
+ b=szSt6Tn/ZvSOetYwOI4VFX5Q/X1Nj+9V+ruHJsEtV2K9QUop+W9KHleQo3c2R0Pu6f
+ kNdR0bJ7e+zAwjNILjndI/q4abeLTtPPjE2Bqc+T42Q2PIM7YZ+z88JVEcxQJ+tawh5f
+ jWV6G2lb7uEehMXZqj1H6QYqH9phxJyfly9hgkl1P5rKhU+cNZfMFfxmlAUljOK3jaBN
+ P9OVGmk4S42T4lK4982NwCKvNckUQwj0FfhBSHvJYU1qxaB5eV2pA2ooQkzVWps27+kx
+ G28Gi542uBK8Mwp6/hWZN/0RHhZHW0xguxfn5xqeUk5/IWLq6A78rdWLC1f3UZvJkyqn
+ ebxQ==
+X-Gm-Message-State: AOAM5331Ps339dJ58Efd6cgehAPHg2XxF5pk1uB58ThnLHES5HYAvpw9
+ 9KAGLLB1f3dRzwLmqfVbDjLr1ifG30sCSQ==
+X-Google-Smtp-Source: ABdhPJy0qA2pdJGnoGC4v1QwvVDuZAfW+SydWe/fZONsiOwya6+IsjJ3OwnAF7cbkrm8JEcrPRWHNw==
+X-Received: by 2002:a17:902:be0f:b0:13a:95e:a51 with SMTP id
+ r15-20020a170902be0f00b0013a095e0a51mr30309255pls.44.1632283440316; 
+ Tue, 21 Sep 2021 21:04:00 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id b6sm400086pfo.98.2021.09.21.21.02.48
+ by smtp.gmail.com with ESMTPSA id m10sm3688979pjs.21.2021.09.21.21.03.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Sep 2021 21:02:48 -0700 (PDT)
-Subject: Re: [PATCH v2 07/30] tcg/loongarch64: Implement necessary relocation
- operations
+ Tue, 21 Sep 2021 21:03:59 -0700 (PDT)
+Subject: Re: [PATCH v2 08/30] tcg/loongarch64: Implement the memory barrier op
 To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
 References: <20210921201915.601245-1-git@xen0n.name>
- <20210921201915.601245-8-git@xen0n.name>
+ <20210921201915.601245-9-git@xen0n.name>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <88cf4c62-9736-3951-4e37-67e6a65d7dee@linaro.org>
-Date: Tue, 21 Sep 2021 21:02:46 -0700
+Message-ID: <dda5d777-5e83-b877-0dc6-419f31e4dbcb@linaro.org>
+Date: Tue, 21 Sep 2021 21:03:58 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210921201915.601245-8-git@xen0n.name>
+In-Reply-To: <20210921201915.601245-9-git@xen0n.name>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,10 +94,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 9/21/21 1:18 PM, WANG Xuerui wrote:
 > Signed-off-by: WANG Xuerui<git@xen0n.name>
 > ---
->   tcg/loongarch64/tcg-target.c.inc | 66 ++++++++++++++++++++++++++++++++
->   1 file changed, 66 insertions(+)
+>   tcg/loongarch64/tcg-target.c.inc | 32 ++++++++++++++++++++++++++++++++
+>   1 file changed, 32 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-r~
+r
 
