@@ -2,52 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EEBB415056
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 21:07:32 +0200 (CEST)
-Received: from localhost ([::1]:51530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD602415025
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 20:49:57 +0200 (CEST)
+Received: from localhost ([::1]:39576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT7ac-0001Dt-GH
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 15:07:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44100)
+	id 1mT7Jc-0006yI-Ig
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 14:49:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mT6hO-0007DW-LP
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 14:10:29 -0400
-Received: from [115.28.160.31] (port=40390 helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mT6iW-0000Bf-0w
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 14:11:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29888)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mT6hK-0007RT-UV
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 14:10:25 -0400
-Received: from ld50.lan (unknown [101.88.29.172])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 11D7C63411;
- Thu, 23 Sep 2021 02:09:46 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632334186; bh=TNNQFvX5KdoW4SMbwwlehpe4Z+vXbC8CH6v++qzY5+g=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DJXJSNBdg5HjFMa+DzO+GS0MKSnL5sCmeiOu7/cUcx6ltOlL7K8Xz3Pd+3MrKubRR
- vYlbkw1ckkEfDelMOvuBx4AQYdcDav38JAPVCwTQQ2IU8wQ0qC+RYyccNOaC3ouZxl
- TAqx1yKbkt6LwdMtpz9ODqrDl1Q/StKx66HglIe0=
-From: WANG Xuerui <git@xen0n.name>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 30/30] configure,
- meson.build: Mark support for loongarch64 hosts
-Date: Thu, 23 Sep 2021 02:09:27 +0800
-Message-Id: <20210922180927.666273-31-git@xen0n.name>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210922180927.666273-1-git@xen0n.name>
-References: <20210922180927.666273-1-git@xen0n.name>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mT6iT-0000E7-3k
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 14:11:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632334291;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hreoTlOpvGeDs9ZxE6u81avzhM+jNn6GPDjU4arsshM=;
+ b=RPoxavRkvjLagSvNtioPclcFFccYZlAIGwV+a3N8d0eaWjLLt4JRZYtMkYNwHBXVrCPMYD
+ OAdnE8d9A4OuzooOINxEMGJj9UvXSdsYomtL74XNvwmP6HsTV2yyOBDOgJzzcW18ZSDTVd
+ y9k2rjTekiQgcHmrQk/DqWHUxQcFOKk=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-MPbh6lfbNk2A3BYJ5VZe5Q-1; Wed, 22 Sep 2021 14:11:24 -0400
+X-MC-Unique: MPbh6lfbNk2A3BYJ5VZe5Q-1
+Received: by mail-oi1-f197.google.com with SMTP id
+ m3-20020aca1e03000000b00268ff33ea91so2246725oic.5
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 11:11:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hreoTlOpvGeDs9ZxE6u81avzhM+jNn6GPDjU4arsshM=;
+ b=lxC5hfxHT7+dcJX8DVAyUM+LSYvzDU8Sh3m7WNgwtIBrehPeKxuQco1RqyvH6gPQNe
+ Yvvvy7FpDj5Yvbio9fMU5kdOUYlQYzSW6Mi1RkzAkncNNeeqlNtygE5aHCNckpjzxlUb
+ /upFUVK5RH48BHKAOLjTqldYX0pc6xivVuwA9qg9gAqSnlk3lDt6xYL52xXAtjgnZWHD
+ +7q+uBvS3up4Y8xKHDGiSvKOmixdWeLu+88r9yhF5j1ljNrkqU2HXOq4S7BK2FUUzyAe
+ 8mM51gIbjHZrA2x5suUgB2usBviEBlB46ci8tb1KF1GRQzUnQpWbnMRavT7IyI8Dmc6u
+ eKjw==
+X-Gm-Message-State: AOAM531oaE+STzcvJrQibaotJoCYUr9b3bq+n6oOrsEwJHCkWzZO8HR6
+ s4b08a6JtBkUnCJejExmCb204DUnslEzcwsmYeAyvarBZq+lENAgiXR4gESFkasZoxOqSQSIbx1
+ RhjN5WwQw1Qb59+S+0f3Gn4sM+evmfB8=
+X-Received: by 2002:a4a:da05:: with SMTP id e5mr242889oou.52.1632334284021;
+ Wed, 22 Sep 2021 11:11:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz9vmMFmIonYcegBR54XJSaGdPSQo+W+qoqlogK81mpjTlN3jSwfcQazoMxqcN/XPJqSsWTPbWTSR3sRMnC+TY=
+X-Received: by 2002:a4a:da05:: with SMTP id e5mr242876oou.52.1632334283845;
+ Wed, 22 Sep 2021 11:11:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=git@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210922125619.670673-1-armbru@redhat.com>
+ <20210922125619.670673-3-armbru@redhat.com>
+In-Reply-To: <20210922125619.670673-3-armbru@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 22 Sep 2021 14:11:13 -0400
+Message-ID: <CAFn=p-Z3AbFgZT8T0ig2tuA8PEaEKr-553+_5wX8D2a0BXUh5w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] tests/qapi-schema: Make test-qapi.py -u work when
+ files are absent
+To: Markus Armbruster <armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000024c4fb05cc99712e"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,66 +88,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: WANG Xuerui <git@xen0n.name>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: marcandre.lureau@gmail.com, qemu-devel <qemu-devel@nongnu.org>,
+ mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: WANG Xuerui <git@xen0n.name>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- configure   | 7 ++++++-
- meson.build | 2 +-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+--00000000000024c4fb05cc99712e
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/configure b/configure
-index 1043ccce4f..3a9035385d 100755
---- a/configure
-+++ b/configure
-@@ -659,6 +659,8 @@ elif check_define __arm__ ; then
-   cpu="arm"
- elif check_define __aarch64__ ; then
-   cpu="aarch64"
-+elif check_define __loongarch64 ; then
-+  cpu="loongarch64"
- else
-   cpu=$(uname -m)
- fi
-@@ -667,7 +669,7 @@ ARCH=
- # Normalise host CPU name and set ARCH.
- # Note that this case should only have supported host CPUs, not guests.
- case "$cpu" in
--  ppc|ppc64|s390x|sparc64|x32|riscv32|riscv64)
-+  ppc|ppc64|s390x|sparc64|x32|riscv32|riscv64|loongarch64)
-   ;;
-   ppc64le)
-     ARCH="ppc64"
-@@ -4969,6 +4971,9 @@ if test "$linux" = "yes" ; then
-   aarch64)
-     linux_arch=arm64
-     ;;
-+  loongarch*)
-+    linux_arch=loongarch
-+    ;;
-   mips64)
-     linux_arch=mips
-     ;;
-diff --git a/meson.build b/meson.build
-index 15ef4d3c41..fc55712ac3 100644
---- a/meson.build
-+++ b/meson.build
-@@ -57,7 +57,7 @@ python = import('python').find_installation()
- 
- supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
- supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv32', 'riscv64', 'x86', 'x86_64',
--  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
-+  'arm', 'aarch64', 'loongarch64', 'mips', 'mips64', 'sparc', 'sparc64']
- 
- cpu = host_machine.cpu_family()
- targetos = host_machine.system()
--- 
-2.33.0
+On Wed, Sep 22, 2021 at 8:56 AM Markus Armbruster <armbru@redhat.com> wrote:
+
+> test-qapi.py -u updates the expected files.  Since it fails when they
+> are absent, users have to create them manually before they can use
+> test-qapi.py to fill in the contents, say for a new test.  Silly.
+> Improve -u to create them.
+>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  tests/qapi-schema/test-qapi.py | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
+>
+> diff --git a/tests/qapi-schema/test-qapi.py
+> b/tests/qapi-schema/test-qapi.py
+> index 2e384f5efd..c717a7a90b 100755
+> --- a/tests/qapi-schema/test-qapi.py
+> +++ b/tests/qapi-schema/test-qapi.py
+> @@ -132,6 +132,17 @@ def test_frontend(fname):
+>              print('    section=%s\n%s' % (section.name, section.text))
+>
+>
+> +def open_test_result(dir_name, file_name, update):
+> +    mode = 'r+' if update else 'r'
+> +    try:
+> +        fp = open(os.path.join(dir_name, file_name), mode)
+> +    except FileNotFoundError:
+> +        if not update:
+> +            raise
+> +        fp = open(os.path.join(dir_name, file_name), 'w+')
+> +    return fp
+> +
+> +
+>  def test_and_diff(test_name, dir_name, update):
+>      sys.stdout = StringIO()
+>      try:
+> @@ -148,10 +159,9 @@ def test_and_diff(test_name, dir_name, update):
+>          sys.stdout.close()
+>          sys.stdout = sys.__stdout__
+>
+> -    mode = 'r+' if update else 'r'
+>      try:
+> -        outfp = open(os.path.join(dir_name, test_name + '.out'), mode)
+> -        errfp = open(os.path.join(dir_name, test_name + '.err'), mode)
+> +        outfp = open_test_result(dir_name, test_name + '.out', update)
+> +        errfp = open_test_result(dir_name, test_name + '.err', update)
+>          expected_out = outfp.readlines()
+>          expected_err = errfp.readlines()
+>      except OSError as err:
+> --
+> 2.31.1
+>
+>
+Sure boss, why not?
+
+Reviewed-by: John Snow <jsnow@redhat.com>
+
+--00000000000024c4fb05cc99712e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 22, 2021 at 8:56 AM Marku=
+s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">test=
+-qapi.py -u updates the expected files.=C2=A0 Since it fails when they<br>
+are absent, users have to create them manually before they can use<br>
+test-qapi.py to fill in the contents, say for a new test.=C2=A0 Silly.<br>
+Improve -u to create them.<br>
+<br>
+Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" t=
+arget=3D"_blank">armbru@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0tests/qapi-schema/test-qapi.py | 16 +++++++++++++---<br>
+=C2=A01 file changed, 13 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/tests/qapi-schema/test-qapi.py b/tests/qapi-schema/test-qapi.p=
+y<br>
+index 2e384f5efd..c717a7a90b 100755<br>
+--- a/tests/qapi-schema/test-qapi.py<br>
++++ b/tests/qapi-schema/test-qapi.py<br>
+@@ -132,6 +132,17 @@ def test_frontend(fname):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0print(&#39;=C2=A0 =C2=A0 se=
+ction=3D%s\n%s&#39; % (<a href=3D"http://section.name" rel=3D"noreferrer" t=
+arget=3D"_blank">section.name</a>, section.text))<br>
+<br>
+<br>
++def open_test_result(dir_name, file_name, update):<br>
++=C2=A0 =C2=A0 mode =3D &#39;r+&#39; if update else &#39;r&#39;<br>
++=C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fp =3D open(os.path.join(dir_name, file_name),=
+ mode)<br>
++=C2=A0 =C2=A0 except FileNotFoundError:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not update:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fp =3D open(os.path.join(dir_name, file_name),=
+ &#39;w+&#39;)<br>
++=C2=A0 =C2=A0 return fp<br>
++<br>
++<br>
+=C2=A0def test_and_diff(test_name, dir_name, update):<br>
+=C2=A0 =C2=A0 =C2=A0sys.stdout =3D StringIO()<br>
+=C2=A0 =C2=A0 =C2=A0try:<br>
+@@ -148,10 +159,9 @@ def test_and_diff(test_name, dir_name, update):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sys.stdout.close()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sys.stdout =3D sys.__stdout__<br>
+<br>
+-=C2=A0 =C2=A0 mode =3D &#39;r+&#39; if update else &#39;r&#39;<br>
+=C2=A0 =C2=A0 =C2=A0try:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 outfp =3D open(os.path.join(dir_name, test_nam=
+e + &#39;.out&#39;), mode)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 errfp =3D open(os.path.join(dir_name, test_nam=
+e + &#39;.err&#39;), mode)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 outfp =3D open_test_result(dir_name, test_name=
+ + &#39;.out&#39;, update)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 errfp =3D open_test_result(dir_name, test_name=
+ + &#39;.err&#39;, update)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0expected_out =3D outfp.readlines()<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0expected_err =3D errfp.readlines()<br>
+=C2=A0 =C2=A0 =C2=A0except OSError as err:<br>
+-- <br>
+2.31.1<br>
+<br></blockquote><div><br></div><div>Sure boss, why not?<br></div><br><div>=
+Reviewed-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat=
+.com</a>&gt;</div><div><br></div></div></div>
+
+--00000000000024c4fb05cc99712e--
 
 
