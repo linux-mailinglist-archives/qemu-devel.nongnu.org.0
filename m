@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5F34414E5D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:51:05 +0200 (CEST)
-Received: from localhost ([::1]:55568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BBE0414E5B
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:49:12 +0200 (CEST)
+Received: from localhost ([::1]:51966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT5Sa-0006Al-Jc
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:51:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47144)
+	id 1mT5Ql-0003fM-Ab
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:49:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mT57J-0008N9-TR
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:29:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55115)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mT5Af-0001kT-SD
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:32:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32647)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mT57G-0007bW-U4
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:29:05 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mT5AR-0001r6-Q1
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:32:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632328142;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1632328335;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sO/TeJZnxXfRGkBMXHoOfx8lihPRYtH3YWmNIWFlnXs=;
- b=IRg1F8h4d0Q6IGid5JYZCvns0eidPbV2iTsF4gt97mOw6NK9bSj5xAm43ZKb9GuNDVNx/T
- x+TdMCmLo2FG6rN0dqS2vZa+DiNxwJhEeRpt/+RcK6tAJ9S6k94aFjaQqdroORMfuvoXmn
- ZsvEzXRdUib7pDWt2axIIR0lJcHdLz8=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-nHoVseUFOmqCq0HNH47K5w-1; Wed, 22 Sep 2021 12:29:00 -0400
-X-MC-Unique: nHoVseUFOmqCq0HNH47K5w-1
-Received: by mail-pj1-f69.google.com with SMTP id
- rm6-20020a17090b3ec600b0019ce1db4eaeso5624962pjb.5
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 09:29:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sO/TeJZnxXfRGkBMXHoOfx8lihPRYtH3YWmNIWFlnXs=;
- b=MEt+RDMVTSwPzASYTn7CzozNwCdpSBL9byI11scpRiINVBBeRXP9ZIOybVe1/etFnQ
- kPM4pY0HsYvLtjOssCvkwfM+lOfGA0lFms5lFK8C0TGc3vhmsAW133cIoZq/OU9hWGDt
- dPBHMgGufmCgeEHkhJJfiXv1bWADYiendEXSptvDTL8lALnROkAYAxvXO/Hg0dTkINQD
- 3m3Rsn4ObHKm8HGDpGf6jeepquxyHBKZVDLPdl+3KqxwK62rgmKyEJFPalaAvOADtSMF
- +Oa0KXdEO6S0WA/K2T8ehrW+rdfYC/RAZamLJWZRJTsppuSK3CvkfFr5swyddUwNRDiD
- ut3w==
-X-Gm-Message-State: AOAM532n72y2ikHdCkfYh7q4W05gDdpryFZnNwC9lFz1gLyhprhODgwF
- BM6pLLrU0kuOYQhrKS0S9FDRE94CjAtSgD1YmzVwFnOPTLge5JQfEBW2yL4Pn7fcgmCUYibh+nH
- Ppj90VFIK3AZNC0s5ke3T4FnIsdNKyNg=
-X-Received: by 2002:a05:6a00:10:b0:43e:ede6:2b7 with SMTP id
- h16-20020a056a00001000b0043eede602b7mr503300pfk.42.1632328139066; 
- Wed, 22 Sep 2021 09:28:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxMIWzmexknIZTdC543wLC9ArNuEbFiRAiL3C1wdygvWN9Tr78+Z6seT1A1zEhb10JeAzGdG7s5d6iRF6PM2pA=
-X-Received: by 2002:a05:6a00:10:b0:43e:ede6:2b7 with SMTP id
- h16-20020a056a00001000b0043eede602b7mr503272pfk.42.1632328138732; Wed, 22 Sep
- 2021 09:28:58 -0700 (PDT)
+ bh=tGml+z5wri++cNviwkr9uOImZi4qRo1/XZ9h9m3hxa4=;
+ b=cUl77KfgRCL9fbX9h3g40vvnZ+5ypfq6D/R8HQJFDSUNB9AUNngiYuzVKmBY0MjmhcHE/x
+ HEbQ7yLCFOYw1tYrBGkD7yhUK6o3K3iz/vcDJibPDglAMfrOUJhCyG5twKkwIZ5NuAkVaC
+ HqEzp74bTAZDtWd2DCb6h0TYsgQk7RY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-138-ZN6EHD2bOcehOHZg4VtXTQ-1; Wed, 22 Sep 2021 12:32:00 -0400
+X-MC-Unique: ZN6EHD2bOcehOHZg4VtXTQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50C8E1006AA5;
+ Wed, 22 Sep 2021 16:31:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 097F119724;
+ Wed, 22 Sep 2021 16:30:47 +0000 (UTC)
+Date: Wed, 22 Sep 2021 17:30:44 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Dongli Zhang <dongli.zhang@oracle.com>
+Subject: Re: [PATCH v2 38/53] qapi: introduce x-query-lapic QMP command
+Message-ID: <YUtaNGQ6kHuZ5FY2@redhat.com>
+References: <20210914142042.1655100-1-berrange@redhat.com>
+ <20210914142042.1655100-39-berrange@redhat.com>
+ <68cebe2f-ba56-545f-686a-b9ac2120c5c4@oracle.com>
 MIME-Version: 1.0
-References: <20210922162009.125622-1-peterx@redhat.com>
- <20210922162009.125622-4-peterx@redhat.com>
-In-Reply-To: <20210922162009.125622-4-peterx@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 22 Sep 2021 20:28:47 +0400
-Message-ID: <CAMxuvaxPYftDCQu2cot6uA0hrvnZ3SB9sm1F1kn6fNh15q-2WQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] dump-guest-memory: Block live migration
-To: Peter Xu <peterx@redhat.com>
+In-Reply-To: <68cebe2f-ba56-545f-686a-b9ac2120c5c4@oracle.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000ddce4f05cc98028f"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) DKIMWL_WL_HIGH=-1.472, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,210 +82,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
+ David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
+ Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ddce4f05cc98028f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, Sep 20, 2021 at 10:27:06PM -0700, Dongli Zhang wrote:
+> Hi Daniel,
+> 
+> On 9/14/21 7:20 AM, Daniel P. Berrangé wrote:
+> > This is a counterpart to the HMP "info lapic" command. It is being
+> > added with an "x-" prefix because this QMP command is intended as an
+> > adhoc debugging tool and will thus not be modelled in QAPI as fully
+> > structured data, nor will it have long term guaranteed stability.
+> > The existing HMP command is rewritten to call the QMP command.
+> > 
+> > This command is unable to use the pre-existing HumanReadableText,
+> > because if 'common.json' is included into 'machine-target.json'
+> > the static marshalling method for HumanReadableText will be reported
+> > as unused by the compiler on all architectures except s390x.
+> > 
+> > Possible options were
+> > 
+> >  1 Support 'if' conditionals on 'include' statements in QAPI
+> >  2 Add further commands to 'machine-target.json' that use
+> >    HumanReadableText, such that it has at least one usage
+> >    on all architecture targets.
+> >  3 Duplicate HumanReadableText as TargetHumanReadableText
+> >    adding conditions
+> > 
+> > This patch takes option (3) in the belief that we will eventually
+> > get to a point where option (2) happens, and TargetHumanReadableText
+> > can be removed again.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >  hw/core/cpu-common.c     |   7 ++
+> >  include/hw/core/cpu.h    |  10 +++
+> >  qapi/machine-target.json |  19 ++++-
+> >  target/i386/cpu-dump.c   | 161 ++++++++++++++++++++-------------------
+> >  target/i386/cpu.h        |   4 +-
+> >  target/i386/monitor.c    |  46 +++++++++--
+> >  6 files changed, 160 insertions(+), 87 deletions(-)
 
-On Wed, Sep 22, 2021 at 8:20 PM Peter Xu <peterx@redhat.com> wrote:
 
-> Both dump-guest-memory and live migration caches vm state at the beginnin=
-g.
-> Either of them entering the other one will cause race on the vm state, an=
-d
-> even
-> more severe on that (please refer to the crash report in the bug link).
->
-> Let's block live migration in dump-guest-memory, and that'll also block
-> dump-guest-memory if it detected that we're during a live migration.
->
-> Side note: migrate_del_blocker() can be called even if the blocker is not
-> inserted yet, so it's safe to unconditionally delete that blocker in
-> dump_cleanup (g_slist_remove allows no-entry-found case).
->
-> Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=3D1996609
-> Signed-off-by: Peter Xu <peterx@redhat.com>
->
+> > diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+> > index 19468c4e85..fc09f90059 100644
+> > --- a/target/i386/monitor.c
+> > +++ b/target/i386/monitor.c
+> > @@ -33,6 +33,7 @@
+> >  #include "qapi/error.h"
+> >  #include "sev_i386.h"
+> >  #include "qapi/qapi-commands-misc-target.h"
+> > +#include "qapi/qapi-commands-machine-target.h"
+> >  #include "qapi/qapi-commands-misc.h"
+> >  #include "hw/i386/pc.h"
+> >  
+> > @@ -650,23 +651,52 @@ const MonitorDef *target_monitor_defs(void)
+> >      return monitor_defs;
+> >  }
+> >  
+> > +TargetHumanReadableText *qmp_x_query_lapic(int64_t apicid,
+> > +                                           Error **errp)
+> > +{
+> > +    TargetHumanReadableText *ret;
+> > +    g_autoptr(GString) buf = NULL;
+> > +    CPUState *cs = cpu_by_arch_id(apicid);
+> > +
+> > +    if (!cs) {
+> > +        error_setg(errp, "No CPU with APIC ID %" PRId64 " available", apicid);
+> > +        return NULL;
+> > +    }
+> 
+> Suppose the accelerator is KVM, the CPUState (cs) might not be syncrhonized with
+> KVM kernel space (APIC+PIR). As a result, the data is stale.
+> 
+> I sent below patch long time ago but it never got reviewed.
+> 
+> https://lore.kernel.org/qemu-devel/20210908143803.29191-1-dongli.zhang@oracle.com/
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+I'll include your patch in the next version of this series
+just before this patch, and then update this patch to  take
+it into account.
 
----
->  dump/dump.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->
-> diff --git a/dump/dump.c b/dump/dump.c
-> index ab625909f3..662d0a62cd 100644
-> --- a/dump/dump.c
-> +++ b/dump/dump.c
-> @@ -29,6 +29,7 @@
->  #include "qemu/error-report.h"
->  #include "qemu/main-loop.h"
->  #include "hw/misc/vmcoreinfo.h"
-> +#include "migration/blocker.h"
->
->  #ifdef TARGET_X86_64
->  #include "win_dump.h"
-> @@ -47,6 +48,8 @@
->
->  #define MAX_GUEST_NOTE_SIZE (1 << 20) /* 1MB should be enough */
->
-> +static Error *dump_migration_blocker;
-> +
->  #define ELF_NOTE_SIZE(hdr_size, name_size, desc_size)   \
->      ((DIV_ROUND_UP((hdr_size), 4) +                     \
->        DIV_ROUND_UP((name_size), 4) +                    \
-> @@ -101,6 +104,7 @@ static int dump_cleanup(DumpState *s)
->              qemu_mutex_unlock_iothread();
->          }
->      }
-> +    migrate_del_blocker(dump_migration_blocker);
->
->      return 0;
->  }
-> @@ -2005,6 +2009,21 @@ void qmp_dump_guest_memory(bool paging, const char
-> *file,
->          return;
->      }
->
-> +    if (!dump_migration_blocker) {
-> +        error_setg(&dump_migration_blocker,
-> +                   "Live migration disabled: dump-guest-memory in
-> progress");
-> +    }
-> +
-> +    /*
-> +     * Allows even for -only-migratable, but forbid migration during the
-> +     * process of dump guest memory.
-> +     */
-> +    if (migrate_add_blocker_internal(dump_migration_blocker, errp)) {
-> +        /* Remember to release the fd before passing it over to dump
-> state */
-> +        close(fd);
-> +        return;
-> +    }
-> +
->      s =3D &dump_state_global;
->      dump_state_prepare(s);
->
-> --
-> 2.31.1
->
->
+> 
+> > +
+> > +    buf = x86_cpu_format_local_apic_state(cs, CPU_DUMP_FPU, errp);
+> > +    if (!buf) {
+> > +        return NULL;
+> > +    }
+> > +
+> > +    ret = g_new0(TargetHumanReadableText, 1);
+> > +    ret->human_readable_text = g_steal_pointer(&buf->str);
+> > +    return ret;
+> > +}
+> > +
+> >  void hmp_info_local_apic(Monitor *mon, const QDict *qdict)
+> >  {
+> > -    CPUState *cs;
+> > +    Error *err = NULL;
+> > +    g_autoptr(TargetHumanReadableText) info = NULL;
+> > +    int64_t apicid;
+> >  
+> >      if (qdict_haskey(qdict, "apic-id")) {
+> > -        int id = qdict_get_try_int(qdict, "apic-id", 0);
+> > -        cs = cpu_by_arch_id(id);
+> > +        apicid = qdict_get_try_int(qdict, "apic-id", 0);
+> 
+> Here is where I used to fix with the patch.
+> 
+> Thank you very much!
+> 
+> Dongli Zhang
+> 
+> >      } else {
+> > -        cs = mon_get_cpu(mon);
+> > +        CPUState *cs = mon_get_cpu(mon);
+> > +        if (!cs) {
+> > +            monitor_printf(mon, "No CPU available\n");
+> > +            return;
+> > +        }
+> > +        apicid = cpu_get_arch_id(cs);
+> >      }
+> >  
+> > -
+> > -    if (!cs) {
+> > -        monitor_printf(mon, "No CPU available\n");
+> > +    info = qmp_x_query_lapic(apicid, &err);
+> > +    if (err) {
+> > +        error_report_err(err);
+> >          return;
+> >      }
+> > -    x86_cpu_dump_local_apic_state(cs, CPU_DUMP_FPU);
+> > +
+> > +    monitor_printf(mon, "%s", info->human_readable_text);
+> >  }
+> >  
+> >  SevInfo *qmp_query_sev(Error **errp)
+> > 
+> 
 
---000000000000ddce4f05cc98028f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 22, 2021 at 8:20 PM Peter=
- Xu &lt;<a href=3D"mailto:peterx@redhat.com">peterx@redhat.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Both dump-gue=
-st-memory and live migration caches vm state at the beginning.<br>
-Either of them entering the other one will cause race on the vm state, and =
-even<br>
-more severe on that (please refer to the crash report in the bug link).<br>
-<br>
-Let&#39;s block live migration in dump-guest-memory, and that&#39;ll also b=
-lock<br>
-dump-guest-memory if it detected that we&#39;re during a live migration.<br=
->
-<br>
-Side note: migrate_del_blocker() can be called even if the blocker is not<b=
-r>
-inserted yet, so it&#39;s safe to unconditionally delete that blocker in<br=
->
-dump_cleanup (g_slist_remove allows no-entry-found case).<br>
-<br>
-Suggested-by: Dr. David Alan Gilbert &lt;<a href=3D"mailto:dgilbert@redhat.=
-com" target=3D"_blank">dgilbert@redhat.com</a>&gt;<br>
-Bugzilla: <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1996609"=
- rel=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.=
-cgi?id=3D1996609</a><br>
-Signed-off-by: Peter Xu &lt;<a href=3D"mailto:peterx@redhat.com" target=3D"=
-_blank">peterx@redhat.com</a>&gt;<br></blockquote><div><br></div><div>Revie=
-wed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redha=
-t.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0dump/dump.c | 19 +++++++++++++++++++<br>
-=C2=A01 file changed, 19 insertions(+)<br>
-<br>
-diff --git a/dump/dump.c b/dump/dump.c<br>
-index ab625909f3..662d0a62cd 100644<br>
---- a/dump/dump.c<br>
-+++ b/dump/dump.c<br>
-@@ -29,6 +29,7 @@<br>
-=C2=A0#include &quot;qemu/error-report.h&quot;<br>
-=C2=A0#include &quot;qemu/main-loop.h&quot;<br>
-=C2=A0#include &quot;hw/misc/vmcoreinfo.h&quot;<br>
-+#include &quot;migration/blocker.h&quot;<br>
-<br>
-=C2=A0#ifdef TARGET_X86_64<br>
-=C2=A0#include &quot;win_dump.h&quot;<br>
-@@ -47,6 +48,8 @@<br>
-<br>
-=C2=A0#define MAX_GUEST_NOTE_SIZE (1 &lt;&lt; 20) /* 1MB should be enough *=
-/<br>
-<br>
-+static Error *dump_migration_blocker;<br>
-+<br>
-=C2=A0#define ELF_NOTE_SIZE(hdr_size, name_size, desc_size)=C2=A0 =C2=A0\<b=
-r>
-=C2=A0 =C2=A0 =C2=A0((DIV_ROUND_UP((hdr_size), 4) +=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0DIV_ROUND_UP((name_size), 4) +=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-@@ -101,6 +104,7 @@ static int dump_cleanup(DumpState *s)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_mutex_unlock_iothread(=
-);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 migrate_del_blocker(dump_migration_blocker);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-@@ -2005,6 +2009,21 @@ void qmp_dump_guest_memory(bool paging, const char *=
-file,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-+=C2=A0 =C2=A0 if (!dump_migration_blocker) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(&amp;dump_migration_blocker,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot=
-;Live migration disabled: dump-guest-memory in progress&quot;);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* Allows even for -only-migratable, but forbid migrati=
-on during the<br>
-+=C2=A0 =C2=A0 =C2=A0* process of dump guest memory.<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 if (migrate_add_blocker_internal(dump_migration_blocker, err=
-p)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Remember to release the fd before passing i=
-t over to dump state */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(fd);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0s =3D &amp;dump_state_global;<br>
-=C2=A0 =C2=A0 =C2=A0dump_state_prepare(s);<br>
-<br>
--- <br>
-2.31.1<br>
-<br>
-</blockquote></div></div>
-
---000000000000ddce4f05cc98028f--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
