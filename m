@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E1B5415367
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 00:26:25 +0200 (CEST)
-Received: from localhost ([::1]:39976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD6C241536A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 00:27:14 +0200 (CEST)
+Received: from localhost ([::1]:41454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTAh4-0000SM-QO
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 18:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37278)
+	id 1mTAht-0001RV-FD
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 18:27:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1mTAf3-0007QZ-8X
+ id 1mTAf3-0007QO-8J
  for qemu-devel@nongnu.org; Wed, 22 Sep 2021 18:24:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27778)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1mTAez-0000cx-4E
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 18:24:15 -0400
+ id 1mTAez-0000eC-9e
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 18:24:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632349450;
+ s=mimecast20190719; t=1632349452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=QU6dUvXnXyNAoj9/TqdyKsPw6HkS3kIBNIo3PTQO9J0=;
- b=UrxQ7hTtfSh+TqrZmnQS8p/j0mpILeC7oEDLtFsRag2FtEKT8AozkE6VFSAvn3EefHup4a
- +0ELPYTeHthV+1iat1D/RMxR9P360nH2IHDXvR+7kJBP04RxiUMrUkvO/Hd27QkZ3Bwej9
- DDQlkflQluvhZMRVSSPY3Bct3H2DUK8=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-pOz32r4SMsCaA1jVCFeDtQ-1; Wed, 22 Sep 2021 18:24:09 -0400
-X-MC-Unique: pOz32r4SMsCaA1jVCFeDtQ-1
-Received: by mail-qv1-f72.google.com with SMTP id
- z8-20020a056214040800b00380dea65c01so15383077qvx.4
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 15:24:09 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vnguP+2mrXxmtwsSKrnUDw8Lm8Nix0Q4Eotebo7a3uQ=;
+ b=dgf7wgmn/vTTWgDM5NtGMEYXfQ515eb/8PJMe7BhSUezUMNJ+dy1YHcmIVAMqpnsYzoR0P
+ uMaP0elgv8SNPxU/A9ArggF3ochj6xcQRYRv0ljZRtMgzY7xGsCCA/eJLuhXybb0ioJNOf
+ V+WlDnblPEeP7kf++mzdoqIrYhGjIl4=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-341-LgSatzx5NXGiFRUMQc4ySQ-1; Wed, 22 Sep 2021 18:24:11 -0400
+X-MC-Unique: LgSatzx5NXGiFRUMQc4ySQ-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ e6-20020a0cb446000000b0037eeb9851dfso14329693qvf.17
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 15:24:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QU6dUvXnXyNAoj9/TqdyKsPw6HkS3kIBNIo3PTQO9J0=;
- b=vUtcEZeW0nwiYIp4n1zwyJOomT8ok/6uFiuGz8NvhlEO1WAU4o9YH6ZxNgWyo2/YwF
- Llic6Rf64PEQ9fxsa1/zwH9vbaNL75AdXf7XIuyXqECKeITD7+ttS4wF8RpI2L5O4a6w
- RyAMUdGqkPEYsAFHgEH7wp2uM/q4WwAlogIDB8sc5cK8Xq9w0SL2lNw08PXKSmcFTe+x
- AAXXVnJzEzWJVfE9NkzxArTULe5gjoEv1oY1Oho+/dLO2RTzVSyR4Q/QKQ+SIaiQKCTY
- mRC4mg98EMcHNyPJh4QicEOWe+2BjurcMSUHAXwSG9G7NWPprH9zId45OgczWzKnem9E
- AiYA==
-X-Gm-Message-State: AOAM532zHIt3hg2GqLeLaVinMHFBOqveIb6vjIRDbm9aCumlC/qSJi9v
- 9rJgg0tcucAax/eS5hniBGI7gjMUmpqd+v9hQo5dDX3Fy7ITna4FGZT+gFZZbGzO10xuhDjqV1F
- 4pzIDPfjLv3p7Io0=
-X-Received: by 2002:ac8:6b43:: with SMTP id x3mr1780476qts.190.1632349448047; 
- Wed, 22 Sep 2021 15:24:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw4resFXrKaczz7vedq7uAVX5XPZ7I6CaGXmZKXREwU4diWYUB2jmeRzmCICDerFYs8x/CMNw==
-X-Received: by 2002:ac8:6b43:: with SMTP id x3mr1780457qts.190.1632349447886; 
- Wed, 22 Sep 2021 15:24:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=vnguP+2mrXxmtwsSKrnUDw8Lm8Nix0Q4Eotebo7a3uQ=;
+ b=5mlkqdPdhhXbLtT/5WDCf8bsUz6n+5xDqKyRxmE7xQsMdDdJrE9q1SDsDIeHUc9gky
+ bMioyH53NPFlRkumnCrEFwwc53oJK4zD3IKc95QtQWueL7KGv4JLFkHqI74kIeBpZn76
+ smEkFpqt6XJDqkJEtnDBBeyKIwXd88AQFTZN8LiaEMknGyx1QcehiCUIbdS48iTz4cVZ
+ xevM/IILUrLUTCb04SjCimuOAw1PBexosRZyn4wyo39yn9ccGcMfPsshpSdiPwZkmxzl
+ n8tdTLHoeu21OuJqc0y+n1r9XBCoN+g5FlqS/qe9jRoh2dLZsTlFYeIoS91qqQtU5Wek
+ gz2Q==
+X-Gm-Message-State: AOAM533DUFHosdT0zcqPaHxLOAC9MkH5E2+G7a4Ac2fJCT/XCNqb+5Z0
+ L6z01VTIFz8Wxakc1cETHP6B8R5YiqaH6AUk0LRVPelYlOQPvJFOrX7hx36wKfX62G82FGN0Q3y
+ K4upknRwijXJOBqg=
+X-Received: by 2002:a37:9a06:: with SMTP id c6mr1768974qke.53.1632349450329;
+ Wed, 22 Sep 2021 15:24:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwunVHImBa7SThiApptPUxUA4kJp8do5E+vUzT2hPGCchAyBAwHf7WJE0oO3FspELeUXgfosA==
+X-Received: by 2002:a37:9a06:: with SMTP id c6mr1768957qke.53.1632349450142;
+ Wed, 22 Sep 2021 15:24:10 -0700 (PDT)
 Received: from LeoBras.redhat.com ([2804:431:c7f0:e5d7:bbae:108a:d2ca:1c18])
- by smtp.gmail.com with ESMTPSA id 9sm2948633qkc.52.2021.09.22.15.24.05
+ by smtp.gmail.com with ESMTPSA id 9sm2948633qkc.52.2021.09.22.15.24.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Sep 2021 15:24:07 -0700 (PDT)
+ Wed, 22 Sep 2021 15:24:09 -0700 (PDT)
 From: Leonardo Bras <leobras@redhat.com>
 To: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PATCH v3 0/3] QIOChannel async_write & async_flush + MSG_ZEROCOPY +
- multifd
-Date: Wed, 22 Sep 2021 19:24:20 -0300
-Message-Id: <20210922222423.644444-1-leobras@redhat.com>
+Subject: [PATCH v3 1/3] QIOChannel: Add io_async_writev & io_async_flush
+ callbacks
+Date: Wed, 22 Sep 2021 19:24:21 -0300
+Message-Id: <20210922222423.644444-2-leobras@redhat.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210922222423.644444-1-leobras@redhat.com>
+References: <20210922222423.644444-1-leobras@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=leobras@redhat.com
@@ -100,44 +103,268 @@ Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series intends to enable MSG_ZEROCOPY in QIOChannel, and make
-use of it for multifd migration performance improvement.
+Adds io_async_writev and io_async_flush as optional callback to QIOChannelClass,
+allowing the implementation of asynchronous writes by subclasses.
 
-Patch #1 creates new callbacks for QIOChannel, allowing the implementation
-of asynchronous writing.
+How to use them:
+- Write data using qio_channel_async_writev(),
+- Wait write completion with qio_channel_async_flush().
 
-Patch #2 implements async_write and async_flush on QIOChannelSocket,
+Notes:
+Some asynchronous implementations may benefit from zerocopy mechanisms, so it's
+recommended to keep the write buffer untouched until the return of
+qio_channel_async_flush().
 
-Patch #3 Makes use of async_write + async_flush to enable MSG_ZEROCOPY
-for migration using multifd nocomp.
+As the new callbacks are optional, if a subclass does not implement them
+there will be a fallback to the mandatory synchronous implementation:
+- io_async_writev will fallback to io_writev,
+- io_async_flush will return without changing anything.
+This makes simpler for the user to make use of the asynchronous implementation.
 
-Results:
-So far, the resource usage of __sys_sendmsg() reduced 15 times, and the
-overall migration took 13-18% less time, based in synthetic workload.
+Also, some functions like qio_channel_writev_full_all() were adapted to
+offer an async version, and make better use of the new callbacks.
 
-The objective is to reduce migration time in hosts with heavy cpu usage.
-
+Signed-off-by: Leonardo Bras <leobras@redhat.com>
 ---
-Changes since v2:
-- Patch #1: One more fallback
-- Patch #2: Fall back to sync if fails to lock buffer memory in MSG_ZEROCOPY send.
+ include/io/channel.h | 93 +++++++++++++++++++++++++++++++++++++-------
+ io/channel.c         | 66 ++++++++++++++++++++++++-------
+ 2 files changed, 129 insertions(+), 30 deletions(-)
 
-Changes since v1:
-- Reimplemented the patchset using async_write + async_flush approach.
-- Implemented a flush to be able to tell whenever all data was written.
-
-Leonardo Bras (3):
-  QIOChannel: Add io_async_writev & io_async_flush callbacks
-  QIOChannelSocket: Implement io_async_write & io_async_flush
-  multifd: Send using asynchronous write on nocomp to send RAM pages.
-
- include/io/channel-socket.h |   2 +
- include/io/channel.h        |  94 ++++++++++++++++---
- io/channel-socket.c         | 176 ++++++++++++++++++++++++++++++++++--
- io/channel.c                |  66 +++++++++++---
- migration/multifd.c         |   3 +-
- 5 files changed, 300 insertions(+), 41 deletions(-)
-
+diff --git a/include/io/channel.h b/include/io/channel.h
+index 88988979f8..74f2e3ae8a 100644
+--- a/include/io/channel.h
++++ b/include/io/channel.h
+@@ -136,6 +136,14 @@ struct QIOChannelClass {
+                                   IOHandler *io_read,
+                                   IOHandler *io_write,
+                                   void *opaque);
++    ssize_t (*io_async_writev)(QIOChannel *ioc,
++                               const struct iovec *iov,
++                               size_t niov,
++                               int *fds,
++                               size_t nfds,
++                               Error **errp);
++   void (*io_async_flush)(QIOChannel *ioc,
++                          Error **errp);
+ };
+ 
+ /* General I/O handling functions */
+@@ -255,12 +263,17 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
+  * or QIO_CHANNEL_ERR_BLOCK if no data is can be sent
+  * and the channel is non-blocking
+  */
+-ssize_t qio_channel_writev_full(QIOChannel *ioc,
+-                                const struct iovec *iov,
+-                                size_t niov,
+-                                int *fds,
+-                                size_t nfds,
+-                                Error **errp);
++ssize_t __qio_channel_writev_full(QIOChannel *ioc,
++                                  const struct iovec *iov,
++                                  size_t niov,
++                                  int *fds,
++                                  size_t nfds,
++                                  bool async,
++                                  Error **errp);
++#define qio_channel_writev_full(ioc, iov, niov, fds, nfds, errp) \
++    __qio_channel_writev_full(ioc, iov, niov, fds, nfds, false, errp)
++#define qio_channel_async_writev_full(ioc, iov, niov, fds, nfds, errp) \
++    __qio_channel_writev_full(ioc, iov, niov, fds, nfds, true, errp)
+ 
+ /**
+  * qio_channel_readv_all_eof:
+@@ -339,10 +352,15 @@ int qio_channel_readv_all(QIOChannel *ioc,
+  *
+  * Returns: 0 if all bytes were written, or -1 on error
+  */
+-int qio_channel_writev_all(QIOChannel *ioc,
+-                           const struct iovec *iov,
+-                           size_t niov,
+-                           Error **erp);
++int __qio_channel_writev_all(QIOChannel *ioc,
++                             const struct iovec *iov,
++                             size_t niov,
++                             bool async,
++                             Error **erp);
++#define qio_channel_writev_all(ioc, iov, niov, erp) \
++    __qio_channel_writev_all(ioc, iov, niov, false, erp)
++#define qio_channel_async_writev_all(ioc, iov, niov, erp) \
++    __qio_channel_writev_all(ioc, iov, niov, true, erp)
+ 
+ /**
+  * qio_channel_readv:
+@@ -849,10 +867,55 @@ int qio_channel_readv_full_all(QIOChannel *ioc,
+  * Returns: 0 if all bytes were written, or -1 on error
+  */
+ 
+-int qio_channel_writev_full_all(QIOChannel *ioc,
+-                                const struct iovec *iov,
+-                                size_t niov,
+-                                int *fds, size_t nfds,
+-                                Error **errp);
++int __qio_channel_writev_full_all(QIOChannel *ioc,
++                                  const struct iovec *iov,
++                                  size_t niov,
++                                  int *fds, size_t nfds,
++                                  bool async, Error **errp);
++#define qio_channel_writev_full_all(ioc, iov, niov, fds, nfds, errp) \
++    __qio_channel_writev_full_all(ioc, iov, niov, fds, nfds, false, errp)
++#define qio_channel_async_writev_full_all(ioc, iov, niov, fds, nfds, errp) \
++    __qio_channel_writev_full_all(ioc, iov, niov, fds, nfds, true, errp)
++
++/**
++ * qio_channel_async_writev:
++ * @ioc: the channel object
++ * @iov: the array of memory regions to write data from
++ * @niov: the length of the @iov array
++ * @fds: an array of file handles to send
++ * @nfds: number of file handles in @fds
++ * @errp: pointer to a NULL-initialized error object
++ *
++ * Behaves like qio_channel_writev_full, but will send
++ * data asynchronously, this meaning this function
++ * may return before the data is actually sent.
++ *
++ * If at some point it's necessary wait for all data to be
++ * sent, use qio_channel_async_flush().
++ *
++ * If not implemented, falls back to the default writev
++ */
++
++ssize_t qio_channel_async_writev(QIOChannel *ioc,
++                                 const struct iovec *iov,
++                                 size_t niov,
++                                 int *fds,
++                                 size_t nfds,
++                                 Error **errp);
++
++/**
++ * qio_channel_async_flush:
++ * @ioc: the channel object
++ * @errp: pointer to a NULL-initialized error object
++ *
++ * Will lock until every packet queued with qio_channel_async_writev()
++ * is sent.
++ *
++ * If not implemented, returns without changing anything.
++ */
++
++void qio_channel_async_flush(QIOChannel *ioc,
++                             Error **errp);
++
+ 
+ #endif /* QIO_CHANNEL_H */
+diff --git a/io/channel.c b/io/channel.c
+index e8b019dc36..c4819b922f 100644
+--- a/io/channel.c
++++ b/io/channel.c
+@@ -67,12 +67,13 @@ ssize_t qio_channel_readv_full(QIOChannel *ioc,
+ }
+ 
+ 
+-ssize_t qio_channel_writev_full(QIOChannel *ioc,
+-                                const struct iovec *iov,
+-                                size_t niov,
+-                                int *fds,
+-                                size_t nfds,
+-                                Error **errp)
++ssize_t __qio_channel_writev_full(QIOChannel *ioc,
++                                  const struct iovec *iov,
++                                  size_t niov,
++                                  int *fds,
++                                  size_t nfds,
++                                  bool async,
++                                  Error **errp)
+ {
+     QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
+ 
+@@ -83,6 +84,10 @@ ssize_t qio_channel_writev_full(QIOChannel *ioc,
+         return -1;
+     }
+ 
++    if (async && klass->io_async_writev) {
++        return klass->io_async_writev(ioc, iov, niov, fds, nfds, errp);
++    }
++
+     return klass->io_writev(ioc, iov, niov, fds, nfds, errp);
+ }
+ 
+@@ -212,19 +217,20 @@ int qio_channel_readv_full_all(QIOChannel *ioc,
+     return ret;
+ }
+ 
+-int qio_channel_writev_all(QIOChannel *ioc,
+-                           const struct iovec *iov,
+-                           size_t niov,
+-                           Error **errp)
++int __qio_channel_writev_all(QIOChannel *ioc,
++                             const struct iovec *iov,
++                             size_t niov,
++                             bool async,
++                             Error **errp)
+ {
+-    return qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, errp);
++    return __qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, async, errp);
+ }
+ 
+-int qio_channel_writev_full_all(QIOChannel *ioc,
++int __qio_channel_writev_full_all(QIOChannel *ioc,
+                                 const struct iovec *iov,
+                                 size_t niov,
+                                 int *fds, size_t nfds,
+-                                Error **errp)
++                                bool async, Error **errp)
+ {
+     int ret = -1;
+     struct iovec *local_iov = g_new(struct iovec, niov);
+@@ -237,8 +243,8 @@ int qio_channel_writev_full_all(QIOChannel *ioc,
+ 
+     while (nlocal_iov > 0) {
+         ssize_t len;
+-        len = qio_channel_writev_full(ioc, local_iov, nlocal_iov, fds, nfds,
+-                                      errp);
++        len = __qio_channel_writev_full(ioc, local_iov, nlocal_iov, fds, nfds,
++                                        async, errp);
+         if (len == QIO_CHANNEL_ERR_BLOCK) {
+             if (qemu_in_coroutine()) {
+                 qio_channel_yield(ioc, G_IO_OUT);
+@@ -474,6 +480,36 @@ off_t qio_channel_io_seek(QIOChannel *ioc,
+ }
+ 
+ 
++ssize_t qio_channel_async_writev(QIOChannel *ioc,
++                                 const struct iovec *iov,
++                                 size_t niov,
++                                 int *fds,
++                                 size_t nfds,
++                                 Error **errp)
++{
++     QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
++
++    if (!klass->io_async_writev) {
++        return klass->io_writev(ioc, iov, niov, fds, nfds, errp);
++    }
++
++     return klass->io_async_writev(ioc, iov, niov, fds, nfds, errp);
++}
++
++
++void qio_channel_async_flush(QIOChannel *ioc,
++                             Error **errp)
++{
++     QIOChannelClass *klass = QIO_CHANNEL_GET_CLASS(ioc);
++
++    if (!klass->io_async_flush) {
++        return;
++    }
++
++     klass->io_async_flush(ioc, errp);
++}
++
++
+ static void qio_channel_restart_read(void *opaque)
+ {
+     QIOChannel *ioc = opaque;
 -- 
 2.33.0
 
