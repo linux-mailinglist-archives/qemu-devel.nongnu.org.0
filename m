@@ -2,91 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8636D414CB2
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 17:07:11 +0200 (CEST)
-Received: from localhost ([::1]:45752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B39414CB5
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 17:07:40 +0200 (CEST)
+Received: from localhost ([::1]:47772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT3q2-0000aD-GY
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 11:07:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50688)
+	id 1mT3qV-00022L-7V
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 11:07:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mT3mE-0005cz-2Z
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:03:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20717)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mT3mB-0002JQ-7t
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:03:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632322990;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JzsHO1aXNTpASgWfR2jsUzpCg3jAqWOuZLYSsYVZUHU=;
- b=ZQTPiA/CPMaA7MLEsFT3hJoHhHk+rUp2oWbXUvsDVMmh0SpVrJYZyCcD81njIS4/dToKYQ
- 4HM+CiOFD/FzwgE/DwMiq3AkMGvEsN6dOvGsTmv31Zyid4wOtwToVtWYViOgQ9M72WRzWN
- cyqYEEpiceq3bVLw2uafs8/CuaSCxXA=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-WFMzsOEsMBeH6lEhQp0S3w-1; Wed, 22 Sep 2021 11:03:00 -0400
-X-MC-Unique: WFMzsOEsMBeH6lEhQp0S3w-1
-Received: by mail-ed1-f69.google.com with SMTP id
- b7-20020a50e787000000b003d59cb1a923so3427762edn.5
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 08:03:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mT3ob-0008I7-Ma
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:05:41 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33624)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mT3oY-0004W7-P9
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:05:41 -0400
+Received: by mail-wr1-x430.google.com with SMTP id t18so7925828wrb.0
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 08:05:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SndzXqSOfOA8dWfOJFHUbwBvaix5hsWflCASiMU6O6I=;
+ b=U5/GFfUl/bC8vjjpMWFZGS8gcufWlfPeLqHgtrpnAzq5/b3YpvbdcoNk5oxx+CTPZK
+ v79gPvGRdZwIITIf+86bQny7YRD3JlktLiYr7qzykivZv2rhl5ZZLbszamdVjkeQK58U
+ GrBT6mkbeK2k2JdrKZKB9Pm59TTX6XT6+syGw48gp1XCCZFQQwOIz1fTCiv+pFlSGfSb
+ KJbyyEuBdXq4JsumrJeSztigaHw5XAEZAokxvr8wnkBjVGvriP07RXZ6dnlZcE1EZNDH
+ AKxn6wbBHSaRVLUle3+UP8MY2Z2XUOySxpy17Pmcu8SXWnx0N2AonY9byX3UTQLwyj7e
+ mIvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=JzsHO1aXNTpASgWfR2jsUzpCg3jAqWOuZLYSsYVZUHU=;
- b=VpbK8LAGkYneKssJBiWTQgyyTV4PnaoTQAg1GmqBZxpdEnCi4wC5Dol6xtbZrac5oV
- PeBxu7hwVkhS5GLcvvFSVWKwNR6LH81tb42dFSJK7gOVCQ0vnwH709SOWTHTK9xbw3H2
- N571cKtOSTjJttJ0ZAmIm4HE6vjfIE4zjcxT5TT3v4VCTX2JYGdumVdMC/xRNDet19zp
- O6xl+Q37SOSWXEBe8z7Hd9Us5rae0tyjzKm4GywVnBC8ftGnmIQuLxYUAGKbPjbQXnSy
- tZPWWf/elzINd04gisyipf0Bf3Dz+YbrY86HcfOn4KGXhM4drNfHqgO9N1GZX0SBJGPr
- 1fDA==
-X-Gm-Message-State: AOAM531WQTXcw0WhaSP6JyA9SzHu98DbhGK9E3PJVbMcKW4VZKQbtJ8B
- WWUa30yNOpCHSOemESvfRsHMdZPOJO2947vMiqR4mLqwYjngoTk8JRa5JRHlYPpHowkavWOnYQL
- MKLasRAqxXi/P8qk=
-X-Received: by 2002:a17:907:75ed:: with SMTP id
- jz13mr7658ejc.506.1632322979750; 
- Wed, 22 Sep 2021 08:02:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyNOuj9IJLouBkZ+EuCxdxd7dbC2VsFUpHxvYFydNKwiUMz4W+4Jxgw3bJH5eBcFCC4hAIFiw==
-X-Received: by 2002:a17:907:75ed:: with SMTP id
- jz13mr7615ejc.506.1632322979323; 
- Wed, 22 Sep 2021 08:02:59 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id o7sm1320681edt.68.2021.09.22.08.02.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Sep 2021 08:02:58 -0700 (PDT)
-Date: Wed, 22 Sep 2021 17:02:57 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eric Auger <eauger@redhat.com>
-Subject: Re: [PATCH v3 16/35] acpi: arm/x86: build_srat: use
- acpi_table_begin()/acpi_table_end() instead of build_header()
-Message-ID: <20210922170257.208d79f7@redhat.com>
-In-Reply-To: <44b92fd3-1f4b-04f1-e628-9f55e6b4df84@redhat.com>
-References: <20210907144814.741785-1-imammedo@redhat.com>
- <20210907144814.741785-17-imammedo@redhat.com>
- <44b92fd3-1f4b-04f1-e628-9f55e6b4df84@redhat.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SndzXqSOfOA8dWfOJFHUbwBvaix5hsWflCASiMU6O6I=;
+ b=cC6SHYgjKVOz60nIkR0p7r61ak5ktCyofs2Ui5y0hwiU5eDbW6fKJy1KUZZg0Sjp+Q
+ OR1ggv5BM/mVmByjEYztt5ufrHmn6VTcVt2ze5izh3D+IPC7+FF/NpWD4gzUdppNIQLr
+ Pv10anUCNz2eA+O/XI0KV1/87J//Wwr5gSnfSO4O0KwBb+hLnCw13/PHQMAkkFaXRDbu
+ 2VAZxC7LEv9/1pomESDd+4Ti1WiNAa2fOJKBZG1TpmD6VCLtnX9Vss+8CV12/VSiPImo
+ Zn3DqGU5nFhnwRVBpg/lc9ZEvPXny+bo6OxIjxYqhQaooBNYYxcJNVgEzEFgZhdZY6hr
+ yMhg==
+X-Gm-Message-State: AOAM533x7hQ0ZpUA48QI1rI6p+DQImsFLqeI0HgWD7scSiGHhxQS6UUi
+ pOWkJLLU/is1iwCQThXrxkmDlT48m8k6cS9Um24=
+X-Google-Smtp-Source: ABdhPJzVsHu+hKQwV0ElD+eqOhrAtJwBfAc76ZqVA28eydpxv1eRaEk5VEZW8DWn2B2smg3SgHLA7VLprZm6Rx2pZew=
+X-Received: by 2002:a5d:6ace:: with SMTP id u14mr76600wrw.70.1632323134778;
+ Wed, 22 Sep 2021 08:05:34 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210826185813.248441-1-peterx@redhat.com>
+ <20210826185813.248441-2-peterx@redhat.com>
+In-Reply-To: <20210826185813.248441-2-peterx@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 22 Sep 2021 19:05:23 +0400
+Message-ID: <CAJ+F1CK6AwBBvg40DyYKE+nhy2vOTHnG3dMAjXxVNX_u79mgcA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] migration: Make migration blocker work for
+ snapshots too
+To: Peter Xu <peterx@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000009b727b05cc96d889"
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,168 +78,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, mst@redhat.com,
- qemu-devel@nongnu.org, shannon.zhaosl@gmail.com, qemu-arm@nongnu.org
+Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Sep 2021 09:38:14 +0200
-Eric Auger <eauger@redhat.com> wrote:
+--0000000000009b727b05cc96d889
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Hi Igor,
-> 
-> On 9/7/21 4:47 PM, Igor Mammedov wrote:
-> > it replaces error-prone pointer arithmetic for build_header() API,
-> > with 2 calls to start and finish table creation,
-> > which hides offsets magic from API user.  
+On Thu, Aug 26, 2021 at 11:00 PM Peter Xu <peterx@redhat.com> wrote:
 
-> nit: also removes AcpiSystemResourceAffinityTable and use
-> build_append_int_noprefix for reserved fields
+> save_snapshot() checks migration blocker, which looks sane.  At the
+> meantime we
+> should also teach the blocker add helper to fail if during a snapshot, ju=
+st
+> like for migrations.
+>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+>
 
-I didn't find it as worth of mentioning, the same is done
-in some other patches where header wasn't standard one.
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> > v3:
-> >   * s/acpi_init_table|acpi_table_composed/acpi_table_begin|acpi_table_end/
-> > 
-> > CC: shannon.zhaosl@gmail.com
-> > CC: peter.maydell@linaro.org
-> > CC: marcel.apfelbaum@gmail.com
-> > CC: qemu-arm@nongnu.org
-> > CC: drjones@redhat.com
-> > CC: eauger@redhat.com
-> > ---
-> >  include/hw/acpi/acpi-defs.h | 11 -----------
-> >  hw/arm/virt-acpi-build.c    | 15 +++++++--------
-> >  hw/i386/acpi-build.c        | 18 +++++++-----------
-> >  3 files changed, 14 insertions(+), 30 deletions(-)
-> > 
-> > diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-> > index 3b42b138f0..5826ee04b6 100644
-> > --- a/include/hw/acpi/acpi-defs.h
-> > +++ b/include/hw/acpi/acpi-defs.h
-> > @@ -358,17 +358,6 @@ struct AcpiGenericTimerTable {
-> >  } QEMU_PACKED;
-> >  typedef struct AcpiGenericTimerTable AcpiGenericTimerTable;
-> >  
-> > -/*
-> > - * SRAT (NUMA topology description) table  
-> Missing version reference if any
-> https://uefi.org/specs/ACPI/6.4/05_ACPI_Software_Programming_Model/ACPI_Software_Programming_Model.html#system-resource-affinity-table-srat
-> 5.2.16. System Resource Affinity Table (SRAT)
+---
+>  migration/migration.c | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
+>
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 041b8451a6..f476e2101e 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -2062,15 +2062,16 @@ int migrate_add_blocker(Error *reason, Error
+> **errp)
+>          return -EACCES;
+>      }
+>
+> -    if (migration_is_idle()) {
+> -        migration_blockers =3D g_slist_prepend(migration_blockers, reaso=
+n);
+> -        return 0;
+> +    /* Snapshots are similar to migrations, so check RUN_STATE_SAVE_VM
+> too. */
+> +    if (runstate_check(RUN_STATE_SAVE_VM) || !migration_is_idle()) {
+> +        error_propagate_prepend(errp, error_copy(reason),
+> +                                "disallowing migration blocker "
+> +                                "(migration/snapshot in progress) for: "=
+);
+> +        return -EBUSY;
+>      }
+>
+> -    error_propagate_prepend(errp, error_copy(reason),
+> -                            "disallowing migration blocker "
+> -                            "(migration in progress) for: ");
+> -    return -EBUSY;
+> +    migration_blockers =3D g_slist_prepend(migration_blockers, reason);
+> +    return 0;
+>  }
+>
+>  void migrate_del_blocker(Error *reason)
+> --
+> 2.31.1
+>
+>
+>
 
-next patch adds missing doc comment(s) when converting
-to build_append_int_noprefix()
+--=20
+Marc-Andr=C3=A9 Lureau
 
+--0000000000009b727b05cc96d889
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > - */
-> > -
-> > -struct AcpiSystemResourceAffinityTable {
-> > -    ACPI_TABLE_HEADER_DEF
-> > -    uint32_t    reserved1;
-> > -    uint32_t    reserved2[2];
-> > -} QEMU_PACKED;
-> > -typedef struct AcpiSystemResourceAffinityTable AcpiSystemResourceAffinityTable;
-> > -
-> >  #define ACPI_SRAT_PROCESSOR_APIC     0
-> >  #define ACPI_SRAT_MEMORY             1
-> >  #define ACPI_SRAT_PROCESSOR_x2APIC   2
-> > diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> > index 037cc1fd82..21efe7fe34 100644
-> > --- a/hw/arm/virt-acpi-build.c
-> > +++ b/hw/arm/virt-acpi-build.c
-> > @@ -477,18 +477,19 @@ build_spcr(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-> >  static void
-> >  build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-> >  {
-> > -    AcpiSystemResourceAffinityTable *srat;
-> >      AcpiSratProcessorGiccAffinity *core;
-> >      AcpiSratMemoryAffinity *numamem;
-> > -    int i, srat_start;
-> > +    int i;
-> >      uint64_t mem_base;
-> >      MachineClass *mc = MACHINE_GET_CLASS(vms);
-> >      MachineState *ms = MACHINE(vms);
-> >      const CPUArchIdList *cpu_list = mc->possible_cpu_arch_ids(ms);
-> > +    AcpiTable table = { .sig = "SRAT", .rev = 3, .oem_id = vms->oem_id,
-> > +                        .oem_table_id = vms->oem_table_id };
-> >  
-> > -    srat_start = table_data->len;
-> > -    srat = acpi_data_push(table_data, sizeof(*srat));
-> > -    srat->reserved1 = cpu_to_le32(1);
-> > +    acpi_table_begin(&table, table_data);
-> > +    build_append_int_noprefix(table_data, 1, 4); /* Reserved */
-> > +    build_append_int_noprefix(table_data, 0, 8); /* Reserved */
-> >  
-> >      for (i = 0; i < cpu_list->len; ++i) {
-> >          core = acpi_data_push(table_data, sizeof(*core));
-> > @@ -522,9 +523,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-> >                            MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
-> >      }
-> >  
-> > -    build_header(linker, table_data, (void *)(table_data->data + srat_start),
-> > -                 "SRAT", table_data->len - srat_start, 3, vms->oem_id,
-> > -                 vms->oem_table_id);
-> > +    acpi_table_end(linker, &table);
-> >  }
-> >  
-> >  /* GTDT */
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index c329580cff..41c0a63b30 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -1920,11 +1920,10 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-> >  static void
-> >  build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-> >  {
-> > -    AcpiSystemResourceAffinityTable *srat;
-> >      AcpiSratMemoryAffinity *numamem;
-> >  
-> >      int i;
-> > -    int srat_start, numa_start, slots;
-> > +    int numa_start, slots;
-> >      uint64_t mem_len, mem_base, next_base;
-> >      MachineClass *mc = MACHINE_GET_CLASS(machine);
-> >      X86MachineState *x86ms = X86_MACHINE(machine);
-> > @@ -1935,11 +1934,12 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-> >      ram_addr_t hotplugabble_address_space_size =
-> >          object_property_get_int(OBJECT(pcms), PC_MACHINE_DEVMEM_REGION_SIZE,
-> >                                  NULL);
-> > +    AcpiTable table = { .sig = "SRAT", .rev = 1, .oem_id = x86ms->oem_id,
-> > +                        .oem_table_id = x86ms->oem_table_id };
-> >  
-> > -    srat_start = table_data->len;
-> > -
-> > -    srat = acpi_data_push(table_data, sizeof *srat);
-> > -    srat->reserved1 = cpu_to_le32(1);
-> > +    acpi_table_begin(&table, table_data);
-> > +    build_append_int_noprefix(table_data, 1, 4); /* Reserved */
-> > +    build_append_int_noprefix(table_data, 0, 8); /* Reserved */
-> >  
-> >      for (i = 0; i < apic_ids->len; i++) {
-> >          int node_id = apic_ids->cpus[i].props.node_id;
-> > @@ -2045,11 +2045,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-> >                            MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
-> >      }
-> >  
-> > -    build_header(linker, table_data,
-> > -                 (void *)(table_data->data + srat_start),
-> > -                 "SRAT",
-> > -                 table_data->len - srat_start, 1, x86ms->oem_id,
-> > -                 x86ms->oem_table_id);
-> > +    acpi_table_end(linker, &table);
-> >  }
-> >  
-> >  /*
-> >   
-> Besides
-> 
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> 
-> 
-> Eric
-> 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 26, 2021 at 11:00 PM Pete=
+r Xu &lt;<a href=3D"mailto:peterx@redhat.com">peterx@redhat.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">save_snapsho=
+t() checks migration blocker, which looks sane.=C2=A0 At the meantime we<br=
+>
+should also teach the blocker add helper to fail if during a snapshot, just=
+<br>
+like for migrations.<br>
+<br>
+Signed-off-by: Peter Xu &lt;<a href=3D"mailto:peterx@redhat.com" target=3D"=
+_blank">peterx@redhat.com</a>&gt;<br></blockquote><div><br></div><div>Revie=
+wed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redha=
+t.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0migration/migration.c | 15 ++++++++-------<br>
+=C2=A01 file changed, 8 insertions(+), 7 deletions(-)<br>
+<br>
+diff --git a/migration/migration.c b/migration/migration.c<br>
+index 041b8451a6..f476e2101e 100644<br>
+--- a/migration/migration.c<br>
++++ b/migration/migration.c<br>
+@@ -2062,15 +2062,16 @@ int migrate_add_blocker(Error *reason, Error **errp=
+)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EACCES;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-=C2=A0 =C2=A0 if (migration_is_idle()) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 migration_blockers =3D g_slist_prepend(migrati=
+on_blockers, reason);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
++=C2=A0 =C2=A0 /* Snapshots are similar to migrations, so check RUN_STATE_S=
+AVE_VM too. */<br>
++=C2=A0 =C2=A0 if (runstate_check(RUN_STATE_SAVE_VM) || !migration_is_idle(=
+)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate_prepend(errp, error_copy(reaso=
+n),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;disallowing migration blocker =
+&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;(migration/snapshot in progres=
+s) for: &quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EBUSY;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-=C2=A0 =C2=A0 error_propagate_prepend(errp, error_copy(reason),<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 &quot;disallowing migration blocker &quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 &quot;(migration in progress) for: &quot;);<br>
+-=C2=A0 =C2=A0 return -EBUSY;<br>
++=C2=A0 =C2=A0 migration_blockers =3D g_slist_prepend(migration_blockers, r=
+eason);<br>
++=C2=A0 =C2=A0 return 0;<br>
+=C2=A0}<br>
+<br>
+=C2=A0void migrate_del_blocker(Error *reason)<br>
+-- <br>
+2.31.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
+--0000000000009b727b05cc96d889--
 
