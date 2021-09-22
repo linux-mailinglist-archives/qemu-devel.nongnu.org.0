@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E3C414F0E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:28:29 +0200 (CEST)
-Received: from localhost ([::1]:53838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EABE414F3F
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:37:55 +0200 (CEST)
+Received: from localhost ([::1]:39824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT62m-0000GO-3w
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:28:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44778)
+	id 1mT6Bu-0002G0-GF
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:37:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mT4v2-0003If-93; Wed, 22 Sep 2021 12:16:24 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:39240)
+ id 1mT4v4-0003M6-8P; Wed, 22 Sep 2021 12:16:27 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:39278)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mT4v0-0005Ro-C6; Wed, 22 Sep 2021 12:16:24 -0400
+ id 1mT4v1-0005S5-AB; Wed, 22 Sep 2021 12:16:26 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id B455E21ED2;
- Wed, 22 Sep 2021 16:15:59 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 879E321ED3;
+ Wed, 22 Sep 2021 16:16:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1632327360;
+ s=mail; t=1632327361;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cfebBfH6GVdfSl+a3M3Z0yLytuwrCU0s61tJ+ZXVGyA=;
- b=4+57fmZZrqqfiMZEPQV/HtYezQjVslO9aiAmXDY9Q9U4w+pBohuF9d/PLrpAJIwjoBNO49
- 4DN2/DjmOHhL4T4VsHSwLEPNnD/2srj0nVTR7h5YqWSOh3iImVQU3JbPlA8mSUE2Ei2E1r
- K/SqfsawzVu+ASUu//lxvgY7OHHBmXc=
+ bh=Lg6JGGOuMKgOK9bkuvAzYukD8OqEWtmOgbk2hQPItz8=;
+ b=ND0iqKFzTzDcZ27ooxhDOEEEV8AccARG7AJHhC9a02u1e9KnwGeBRww88INrFwYdnUiGLU
+ iWgot6Scekg2EdCjx5zulK0cCIpl/uZhww0kpehf4I9kg6qVmrIhlxI6IZCWAofixBVreB
+ IFn8x3hm1X67NsswL2KN8XfRLNp4fgc=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 13/16] hw/mem/system-memory: add a memory sysbus device
-Date: Wed, 22 Sep 2021 18:14:02 +0200
-Message-Id: <20210922161405.140018-14-damien.hedde@greensocs.com>
+Subject: [RFC PATCH v2 14/16] docs/system: add doc about the initialized
+ machine phase and an example
+Date: Wed, 22 Sep 2021 18:14:03 +0200
+Message-Id: <20210922161405.140018-15-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210922161405.140018-1-damien.hedde@greensocs.com>
 References: <20210922161405.140018-1-damien.hedde@greensocs.com>
@@ -80,166 +81,97 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This device can be used to create some memories using standard
-device_add qmp command.
-
-This device has one property 'readonly' which allows
-to choose between a ram or a rom.
-The device holds the adequate memory region and can be put on
-the sysbus.
-
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
+ docs/system/managed-startup.rst | 77 +++++++++++++++++++++++++++++++++
+ 1 file changed, 77 insertions(+)
 
-Should we add a related CONFIG_ variable in the build system ?
-
-Depending on the chosen condition to add a device, the commit may
-change.
----
- include/hw/mem/sysbus-memory.h | 32 +++++++++++++
- hw/mem/sysbus-memory.c         | 83 ++++++++++++++++++++++++++++++++++
- hw/mem/meson.build             |  2 +
- 3 files changed, 117 insertions(+)
- create mode 100644 include/hw/mem/sysbus-memory.h
- create mode 100644 hw/mem/sysbus-memory.c
-
-diff --git a/include/hw/mem/sysbus-memory.h b/include/hw/mem/sysbus-memory.h
-new file mode 100644
-index 0000000000..3e1271dbfd
---- /dev/null
-+++ b/include/hw/mem/sysbus-memory.h
-@@ -0,0 +1,32 @@
-+/*
-+ * QEMU memory SysBusDevice
-+ *
-+ * Copyright (c) 2021 Greensocs
-+ *
-+ * Author:
-+ * + Damien Hedde
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
+diff --git a/docs/system/managed-startup.rst b/docs/system/managed-startup.rst
+index 9bcf98ea79..af12a10d27 100644
+--- a/docs/system/managed-startup.rst
++++ b/docs/system/managed-startup.rst
+@@ -32,4 +32,81 @@ machine, including but not limited to:
+ - ``query-qmp-schema``
+ - ``query-commands``
+ - ``query-status``
++- ``x-machine-init``
+ - ``x-exit-preconfig``
 +
-+#ifndef HW_SYSBUS_MEMORY_H
-+#define HW_SYSBUS_MEMORY_H
++In particular these commands allow to advance and stop qemu at different
++phases of the VM creation and finally to leave the "preconfig" state. The
++accessible phases are:
 +
-+#include "hw/sysbus.h"
-+#include "qom/object.h"
++- ``accel-created``
++- ``initialized``
++- ``ready``
 +
-+#define TYPE_SYSBUS_MEMORY "sysbus-memory"
-+OBJECT_DECLARE_SIMPLE_TYPE(SysBusMemoryState, SYSBUS_MEMORY)
++The order of the phases is enforced. It is not possible to go backwards.
++Note that other early phases exist, but they are not attainable with
++``--preconfig``. Depending on the phase, QMP commands can be issued to modify
++some part of the VM creation.
 +
-+struct SysBusMemoryState {
-+    /* <private> */
-+    SysBusDevice parent_obj;
-+    uint64_t size;
-+    bool readonly;
++accel-created phase
++-------------------
 +
-+    /* <public> */
-+    MemoryRegion mem;
-+};
++Initial phase entered with ``--preconfig``.
 +
-+#endif /* HW_SYSBUS_MEMORY_H */
-diff --git a/hw/mem/sysbus-memory.c b/hw/mem/sysbus-memory.c
-new file mode 100644
-index 0000000000..897fa154f0
---- /dev/null
-+++ b/hw/mem/sysbus-memory.c
-@@ -0,0 +1,83 @@
-+/*
-+ * QEMU memory SysBusDevice
-+ *
-+ * Copyright (c) 2021 Greensocs
-+ *
-+ * Author:
-+ * + Damien Hedde
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
++initialized phase
++-----------------
 +
-+#include "qemu/osdep.h"
-+#include "hw/mem/sysbus-memory.h"
-+#include "hw/qdev-properties.h"
-+#include "qemu/log.h"
-+#include "qemu/module.h"
-+#include "qapi/error.h"
++``x-machine-init`` advances to ``initialized`` phase. During this phase, the
++machine is initialized and populated with buses and devices. The following QMP
++commands are available to manually populate or modify the machine:
 +
-+static Property sysbus_memory_properties[] = {
-+    DEFINE_PROP_UINT64("size", SysBusMemoryState, size, 0),
-+    DEFINE_PROP_BOOL("readonly", SysBusMemoryState, readonly, false),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
++- ``device_add``
++- ``x-sysbus-mmio-map``
++- ``qom-set``
 +
-+static void sysbus_memory_realize(DeviceState *dev, Error **errp)
-+{
-+    SysBusMemoryState *s = SYSBUS_MEMORY(dev);
-+    gchar *name;
++ready phase
++-----------
 +
-+    if (!s->size) {
-+        error_setg(errp, "'size' must be non-zero.");
-+        return;
-+    }
++``x-exit-preconfig`` advances to the final phase. When entering this phase,
++the VM creation finishes. "preconfig" state is then done and QEMU goes to
++normal execution.
 +
-+    /*
-+     * We impose having an id (which is unique) because we need to generate
-+     * a unique name for the memory region.
-+     * memory_region_init_ram/rom() will abort() (in qemu_ram_set_idstr()
-+     * function if 2 system-memory devices are created with the same name
-+     * for the memory region).
-+     */
-+    if (!dev->id) {
-+        error_setg(errp, "system-memory device must have an id.");
-+        return;
-+    }
-+    name = g_strdup_printf("%s.region", dev->id);
++Machine creation example
++------------------------
 +
-+    if (s->readonly) {
-+        memory_region_init_rom(&s->mem, OBJECT(dev), name, s->size, errp);
-+    } else {
-+        memory_region_init_ram(&s->mem, OBJECT(dev), name, s->size, errp);
-+    }
++The following is an example that shows how to add some devices with qmp
++commands, memory map them, and add interrupts::
 +
-+    g_free(name);
++  x-machine-init
 +
-+    if (!*errp) {
-+        sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->mem);
-+    }
-+}
++  device_add        driver=sysbus-memory id=rom size=0x4000 readonly=true
++  x-sysbus-mmio-map device=rom addr=32768
 +
-+static void sysbus_memory_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
++  device_add        driver=sysbus-memory id=flash size=0x80000 readonly=true
++  x-sysbus-mmio-map device=flash addr=536870912
 +
-+    dc->user_creatable = true;
-+    dc->realize = sysbus_memory_realize;
-+    device_class_set_props(dc, sysbus_memory_properties);
-+}
++  device_add        driver=sysbus-memory id=ram size=0x10000
++  x-sysbus-mmio-map device=ram addr=268435456
 +
-+static const TypeInfo sysbus_memory_info = {
-+    .name          = TYPE_SYSBUS_MEMORY,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(SysBusMemoryState),
-+    .class_init    = sysbus_memory_class_init,
-+};
++  device_add        driver=ibex-plic id=plic
++  x-sysbus-mmio-map device=plic addr=1090584576
 +
-+static void sysbus_memory_register_types(void)
-+{
-+    type_register_static(&sysbus_memory_info);
-+}
++  device_add        driver=ibex-uart id=uart chardev=serial0
++  x-sysbus-mmio-map device=uart addr=1073741824
++  qom-set path=uart property=sysbus-irq[0] value=plic/unnamed-gpio-in[1]
++  qom-set path=uart property=sysbus-irq[1] value=plic/unnamed-gpio-in[2]
++  qom-set path=uart property=sysbus-irq[2] value=plic/unnamed-gpio-in[3]
++  qom-set path=uart property=sysbus-irq[3] value=plic/unnamed-gpio-in[4]
 +
-+type_init(sysbus_memory_register_types)
-diff --git a/hw/mem/meson.build b/hw/mem/meson.build
-index 3c8fdef9f9..81e2de1d34 100644
---- a/hw/mem/meson.build
-+++ b/hw/mem/meson.build
-@@ -7,3 +7,5 @@ mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
- softmmu_ss.add_all(when: 'CONFIG_MEM_DEVICE', if_true: mem_ss)
- 
- softmmu_ss.add(when: 'CONFIG_FUZZ', if_true: files('sparse-mem.c'))
++  x-exit-preconfig
 +
-+softmmu_ss.add(files('sysbus-memory.c'))
++These commands reproduce a subset of the riscv32 opentitan (hw/riscv/opentitan)
++machine. We can start qemu using::
++
++  qemu-sytem-riscv32 -preconfig -qmp unix:./qmp-sock,server \
++  -machine none -cpu lowriscv-ibex -serial mon:stdio ...
++
++Then we just have to issue the commands, for example using `qmp-shell`. If the
++previous commands were in a file named `machine.qmp`, we could do::
++
++  qmp-shell ./qmp-sock < machine.qmp
 -- 
 2.33.0
 
