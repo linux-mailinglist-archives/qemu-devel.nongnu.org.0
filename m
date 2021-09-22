@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6483A4141CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 08:26:52 +0200 (CEST)
-Received: from localhost ([::1]:59352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09735414190
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 08:18:01 +0200 (CEST)
+Received: from localhost ([::1]:39728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSviV-0000yV-GN
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 02:26:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52590)
+	id 1mSvZw-0004Hu-1l
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 02:18:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSvWs-0001M9-Qp
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 02:14:51 -0400
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:42891)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSvWq-0001JE-CW
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 02:14:48 -0400
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:33477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSvWo-0007Th-NF
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 02:14:50 -0400
-Received: by mail-io1-xd35.google.com with SMTP id b10so1920157ioq.9
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 23:14:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSvWo-0007UD-SI
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 02:14:48 -0400
+Received: by mail-io1-xd2b.google.com with SMTP id n71so2056347iod.0
+ for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 23:14:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k8/U+V4On1a0jp4LKCee8f0RCpT6m/1m5ZiCNYWdnpo=;
- b=A6l3w4ljprehLgyZOZHVTFuh2RNaBYHjVxgGJZqahzuqib9eDHNB5cPnQWiJwc+Pft
- wSfss0jB8NoGR/wxvsJao4tYZfkcckRmBWbvIEp67CKix8/S5M6I1Au7dfR/W2WDu+gj
- U6olBcnkL6VWGZiM5IdZ5KSzyycAw1q8i8FLQ1gKXwDiRpIPx/HH/X+OPvfeEiywcww8
- ugHhdzu/Zu7xw7zB3UWaGN2mxKg4+1++QisJ4tCiSN3S8WQV3EpmVDArvr3oh8sg1Ziv
- SYIn1j+1mD/ueMMzlyFWjFdNw35kFNoEI7VwV1l4cvjn3oOss8WUvN3BHV0j4T1qFlkn
- +CCw==
+ bh=BV9QoUo+n57AQjEYGXu9vkmc6azqGybk3j9BhDuzsdQ=;
+ b=T1ehAf+3/evmWRqM3hwWgif7dpbEDslpmnuOTqd3Bm9jIYZ+ULqsnPHQIWSJVVAQ5j
+ d5ViJ8V7IXitITMp8KSvvOhzT3vYHJYGFKAzJmmjm3s//0TFdeLVAASVT+oUlVbsZKRs
+ yk8JS2O65OFOr7GJgP0JyhwXd26NDxvQtXTrKgYZGguCvusGHCVQ5rhl2TBaMFSBpLGU
+ ckILLXI7beBAYKkqvHPr1Lp3cao4GfP98f3hHEcrXLmqZq0iDUzNX/lAGCWjyXsT8oLm
+ AmGPqHLZDUhmxPjzj9LyjxO7hO5Y1Q949+enryQlOnVkn0HIBek3n1vBMkVVy1ShI6AZ
+ ZtoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=k8/U+V4On1a0jp4LKCee8f0RCpT6m/1m5ZiCNYWdnpo=;
- b=I2FtmCdB7k8X1vOwEVaPlDq6Xc7GOJCsap2gESDnUAqOFPzuNLrK+2YXYp14kbsM6W
- GezqxZrsq7eXm1zKx7CNnqsIkWGyOuCP3RyS4xGBjgsoEKgnsWZ9BuS7l6igkBXWX92w
- DK1fqolCK3exFwIt0UKFl27DNj9SIyBxRv3uji542wClngWq2YpHfbi/sVWOWFEVHqG6
- 369WjgK86EvlmndMW2bujXxwcX49YJ2D3r6bCaao0h8WQa7QnmXUYYNvnlKPtwUy347B
- Hhn3JarfFlsSi10fNn1fCSrMd9t6nbu3N6jkuSH1IIRTGTMhieVVGf9aNhjxMyv038up
- zw7w==
-X-Gm-Message-State: AOAM531U/0EPXEvimumw/f6mijo8I25y/EktLWhvIx9gtx04u8e1keKA
- zPekFW37uElUkXEW1n/FrJE6LyMmnsRcFwDJt9c=
-X-Google-Smtp-Source: ABdhPJxxNdGUhzUqgGen+xs3Ibs34WwTwn7gbS5nVZQc+QtCHSq9i8McrdT0eZkEKl4p/AJ+jOxSBg==
-X-Received: by 2002:a05:6602:117:: with SMTP id
- s23mr3128645iot.124.1632291284743; 
- Tue, 21 Sep 2021 23:14:44 -0700 (PDT)
+ bh=BV9QoUo+n57AQjEYGXu9vkmc6azqGybk3j9BhDuzsdQ=;
+ b=bi+yw74e1qRk0lCy4iaFX+q+naJciGYPVm5IcmZMyRKYCvvqkHRtJGEnPkrMLtTSLw
+ hHJASIEmqbDzszZSZGsBJx11A/TMOycrPUvn10UGLd27eUVvedTVB25nJcJSmEXNDt3R
+ P7ugk6CZ0lK0RuxDNBYein4dh4ndot+3wkaYAZi4Wc1H4Wb/vuNxpPj4UfHg5kSVd3KY
+ LnwHi25rYeTzNFw53qn9Xu1lSHvJYIBDSCWHZNj9XAEnKApY+gsL7kx4CSP6iMGTHQhU
+ cqcHo090xOR8Kmq7QMCGhB/5c5rSpoxK4JFzWa7/3strNAjOWwPFEIw8NUn6SsU3V6am
+ g6IQ==
+X-Gm-Message-State: AOAM5301iEouznsLeNVnekhqxwCX+Jz/WRv6sptd74VY1A7HNShkoM1U
+ F3zW05Kjqivrzyse5QoKA+gkxyFnawDEVunY/wc=
+X-Google-Smtp-Source: ABdhPJwZJfEIAUjiyHoKUal0RWZ1Ylxg+WKTSNchShls2AeHWTkq4hAr33M3MuxDyh++XhB/2XmEGA==
+X-Received: by 2002:a5e:a60e:: with SMTP id q14mr2976710ioi.55.1632291285646; 
+ Tue, 21 Sep 2021 23:14:45 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
  by smtp.gmail.com with ESMTPSA id a25sm540817ioq.46.2021.09.21.23.14.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Sep 2021 23:14:44 -0700 (PDT)
+ Tue, 21 Sep 2021 23:14:45 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/14] bsd-user: export get_errno and is_error from syscall.c
-Date: Wed, 22 Sep 2021 00:14:28 -0600
-Message-Id: <20210922061438.27645-5-imp@bsdimp.com>
+Subject: [PATCH 05/14] bsd-user/errno_defs.h: Add internal error numbers
+Date: Wed, 22 Sep 2021 00:14:29 -0600
+Message-Id: <20210922061438.27645-6-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210922061438.27645-1-imp@bsdimp.com>
 References: <20210922061438.27645-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d35;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd35.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -83,62 +82,54 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kyle Evans <kevans@freebsd.org>, richard.henderson@linaro.org,
- f4bug@amsat.org, Warner Losh <imp@bsdimp.com>
+ f4bug@amsat.org, Warner Losh <imp@bsdimp.com>, Stacey Son <sson@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make get_errno and is_error global so files other than syscall.c can use
-them.
+From: Stacey Son <sson@FreeBSD.org>
 
+To emulate signals and interrupted system calls, we need to have the
+same mechanisms we have in the kernel, including these errno values.
+
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/qemu.h    |  4 ++++
- bsd-user/syscall.c | 10 +++++-----
- 2 files changed, 9 insertions(+), 5 deletions(-)
+ bsd-user/errno_defs.h | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 522d6c4031..22fc3a6c30 100644
---- a/bsd-user/qemu.h
-+++ b/bsd-user/qemu.h
-@@ -235,6 +235,10 @@ extern unsigned long target_dflssiz;
- extern unsigned long target_maxssiz;
- extern unsigned long target_sgrowsiz;
+diff --git a/bsd-user/errno_defs.h b/bsd-user/errno_defs.h
+index 1efa502a12..b538dd93da 100644
+--- a/bsd-user/errno_defs.h
++++ b/bsd-user/errno_defs.h
+@@ -1,6 +1,3 @@
+-/*      $OpenBSD: errno.h,v 1.20 2007/09/03 14:37:52 millert Exp $      */
+-/*      $NetBSD: errno.h,v 1.10 1996/01/20 01:33:53 jtc Exp $   */
+-
+ /*
+  * Copyright (c) 1982, 1986, 1989, 1993
+  *      The Regents of the University of California.  All rights reserved.
+@@ -37,6 +34,9 @@
+  *      @(#)errno.h     8.5 (Berkeley) 1/21/94
+  */
  
-+/* syscall.c */
-+abi_long get_errno(abi_long ret);
-+int is_error(abi_long ret);
++#ifndef _ERRNO_DEFS_H_
++#define _ERRNO_DEFS_H_
 +
- /* user access */
- 
- #define VERIFY_READ  PAGE_READ
-diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-index 372836d44d..a579d52ede 100644
---- a/bsd-user/syscall.c
-+++ b/bsd-user/syscall.c
-@@ -33,18 +33,18 @@
- static abi_ulong target_brk;
- static abi_ulong target_original_brk;
- 
--static inline abi_long get_errno(abi_long ret)
-+abi_long get_errno(abi_long ret)
- {
--    if (ret == -1)
-+    if (ret == -1) {
-         /* XXX need to translate host -> target errnos here */
-         return -(errno);
--    else
--        return ret;
-+    }
-+    return ret;
- }
- 
- #define target_to_host_bitmask(x, tbl) (x)
- 
--static inline int is_error(abi_long ret)
-+int is_error(abi_long ret)
- {
-     return (abi_ulong)ret >= (abi_ulong)(-4096);
- }
+ #define TARGET_EPERM            1               /* Operation not permitted */
+ #define TARGET_ENOENT           2               /* No such file or directory */
+ #define TARGET_ESRCH            3               /* No such process */
+@@ -147,3 +147,11 @@
+ #define TARGET_EIDRM            89              /* Identifier removed */
+ #define TARGET_ENOMSG           90              /* No message of desired type */
+ #define TARGET_ELAST            90              /* Must be equal largest errno */
++
++/* Internal errors: */
++#define TARGET_EJUSTRETURN      254             /* Just return without
++                                                   modifing regs */
++#define TARGET_ERESTART         255             /* Restart syscall */
++#define TARGET_ERESTARTSYS      TARGET_ERESTART /* Linux compat */
++
++#endif /* !  _ERRNO_DEFS_H_ */
 -- 
 2.32.0
 
