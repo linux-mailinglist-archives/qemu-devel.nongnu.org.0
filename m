@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73FFC414CE1
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 17:20:13 +0200 (CEST)
-Received: from localhost ([::1]:35512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0BCF414D0E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 17:34:15 +0200 (CEST)
+Received: from localhost ([::1]:45262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT42e-0005Ob-Hf
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 11:20:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60686)
+	id 1mT4GE-0004EK-9c
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 11:34:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mT411-0003yf-LB
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:18:31 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mT40y-00084H-UO
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:18:31 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id d21so7799628wra.12
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 08:18:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Qk9U05FComn+y5lqHXPjGVD+SFDL4uxSOKhdyz8hUlY=;
- b=LLRbgexUYm35nqoy6+zwUuqg8FNS26KF3jc0qtitB98AUO/BQ6tM4BKwuk6ad0AcNw
- rflUjTAeJDfnf8kR93OUUnAAcAbQHqcNI3YsETdw0VcUZADpk2kVSJb79l3E2WAn+RIP
- 6sxLMn7zBpOvxKyoT2GWcl8zxj9XcxI7g2+Gf56wQ9QnLoNUIjHh9hNwU/MSwsmgEijv
- bQCuiBYYpPLNpuh3/KiKHHgUSQRHcRf2LD5YEYtdy+pNsITHtpgycxsT/waKBfDkqBJ9
- SO+DHr4CWbnXwg5Y9loD2/C2a55ShClPHGmve7CIocXeBpactpqaApXSTM6qQFozY/Vx
- ISug==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mT4D3-0002N7-1h
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:30:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58170)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mT4Cn-0001aT-M4
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:30:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632324639;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+k+7ZTfDe5K+kgo9zOlsJxQq8IKbzP0TvfjqxQk9rQA=;
+ b=jONcfqwnFNGoXAdhRkMGEeZ8+GOF5Kt2fbjMolzkupxVbqecJlcT9mMPEsx0SOqcxlO2dr
+ Q2BFASoUWYBzpVHz7bvl3bHOJRU6djpebDvH0g+6OQuk0ENnm4Gek9IItnR9pShlICJUNf
+ X1/PgXVitch6MnRjcrII/vIbOaqGi74=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-349-iGJ4hw7-NDKpHXs3BmSI8Q-1; Wed, 22 Sep 2021 11:30:37 -0400
+X-MC-Unique: iGJ4hw7-NDKpHXs3BmSI8Q-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ r11-20020aa7cfcb000000b003d4fbd652b9so3464556edy.14
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 08:30:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Qk9U05FComn+y5lqHXPjGVD+SFDL4uxSOKhdyz8hUlY=;
- b=2DZgD41t8Ej5GgyLLhY8hvBZv3PZP6MOkPzp88qDP5YECsywNEkHCzLwY1pJadIign
- n2ZRY1jl8RoX3jTyiBv3tDl8XTbwcGyIi1JQZX6IBSXyyFObrbHCDCdqGoRHY/luGqP9
- 6w7y0NSSCB90NNwlXgOOZXb+GMhlPt419jwGz9dNU95+uRKFyWjTdG5pGmpSP8sNjE0U
- HTmyZgm2F5jTEqpK/f6iTcNzUwZETiE+E5WX63dvsvH4wnvSsky6jQtksNXh+hSmRZIR
- SlVJtfpJ/WYtxsMgt3EkkVj9uDn2EOwwsxxOPkIS4R4RNtZLa5Ig/3zY92N5NH0kyU3k
- S3bQ==
-X-Gm-Message-State: AOAM532nky91IwTs7svDUHGy5azrUsZs+tTxB5N094OsS3gWzCdPYrh1
- f8c5+A9VPsKeij0/BT0hLclPU+8j8VlABRmK0NHfd1e+SY4=
-X-Google-Smtp-Source: ABdhPJwy8tCnlJBnwsGddl5hnPcFCYMMJOlKyaCAZK2p1c9BfqYkX6ytTRjWBXevfJD1Kz9zQ8gN2owiUWlN9fTkUoE=
-X-Received: by 2002:a05:600c:3b1b:: with SMTP id
- m27mr11060150wms.15.1632323907450; 
- Wed, 22 Sep 2021 08:18:27 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=oj86qgKPXUFpkadctTo64B9mh4aweJKUmbqxRTEq3Mc=;
+ b=qbeIzBCnwa6CJmgDYWeGlBY/x1F2wPk+SnCxeJjuzHTtMVTZcLvrXY4LBJTeF2nuje
+ q6F4jrSk5h/Ogz+86E1+Uvx7KT32MhAx14zo25/g7z1kvSuii18w4LlNrnwoZkez6wHI
+ 3hxuB54IJCUtWbSzGu+Sh90R7VqT64Ds0VC+LesxQA6qtWuniY9ayua5SDkW8he8/5dV
+ z5NhwN42evw/cR9JJLUC6mqcRGBMIdHJxfForWYpSxkor4PmjkGogYNa3Wimm6Ny8ZYa
+ gH7z7x+E619+rqJ0n84YT7VZSurHbXX6dPyTbyjQ9LT7jNZqRDf+cQHLHWxt7HafKfqr
+ heXA==
+X-Gm-Message-State: AOAM531uCbkgoijNg4v1AtBE++ePAyuMd7rVJMVZ+2ioS1o1MCejsMMa
+ EhS8vWfS6pNCLdZwv/5Cw9Bl55l+VDcjYiRSe50e9IX2m73+jhttisCf1TWSaTRVxkcb/ablWUD
+ j6Rqa/qkISadpcwM=
+X-Received: by 2002:a17:907:2624:: with SMTP id
+ aq4mr159909ejc.448.1632324636489; 
+ Wed, 22 Sep 2021 08:30:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJye1pj1U2LoC3Q5hfmCGMraKYuAjtoYKT7DELLE6fOIjLLo3d0k6sQxGS7IRGc8YGGCsETS4Q==
+X-Received: by 2002:a17:907:2624:: with SMTP id
+ aq4mr159865ejc.448.1632324636165; 
+ Wed, 22 Sep 2021 08:30:36 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id m10sm1193067ejx.76.2021.09.22.08.30.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Sep 2021 08:30:35 -0700 (PDT)
+Date: Wed, 22 Sep 2021 17:30:34 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eric Auger <eauger@redhat.com>
+Subject: Re: [PATCH v3 24/35] acpi: x86: madt: use
+ build_append_int_noprefix() API to compose MADT table
+Message-ID: <20210922173034.0909b671@redhat.com>
+In-Reply-To: <0cfb534a-afb4-ff3e-2359-6906eaf16d8a@redhat.com>
+References: <20210907144814.741785-1-imammedo@redhat.com>
+ <20210907144814.741785-25-imammedo@redhat.com>
+ <0cfb534a-afb4-ff3e-2359-6906eaf16d8a@redhat.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210826185813.248441-1-peterx@redhat.com>
- <20210826185813.248441-4-peterx@redhat.com>
-In-Reply-To: <20210826185813.248441-4-peterx@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 22 Sep 2021 19:18:15 +0400
-Message-ID: <CAJ+F1C+52DJb4c8Qx66xA1QS6dNGRhkgJYM883bAqcsez6gZAw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] dump-guest-memory: Block live migration
-To: Peter Xu <peterx@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000a9805305cc9706e8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,254 +100,345 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a9805305cc9706e8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, 22 Sep 2021 12:20:54 +0200
+Eric Auger <eauger@redhat.com> wrote:
 
-Hi
+> On 9/7/21 4:48 PM, Igor Mammedov wrote:
+> > Drop usage of packed structures and explicit endian conversions
+> > when building MADT table for arm/x86 and use endian agnostic
+> > build_append_int_noprefix() API to build it.
+> >=20
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> > CC: marcel.apfelbaum@gmail.com
+> > CC: eauger@redhat.com
+> > ---
+> >  include/hw/acpi/acpi-defs.h |  64 ------------------
+> >  hw/i386/acpi-common.c       | 127 ++++++++++++++++++------------------
+> >  2 files changed, 65 insertions(+), 126 deletions(-)
+> >=20
+> > diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> > index af4fa412a5..3f174ba208 100644
+> > --- a/include/hw/acpi/acpi-defs.h
+> > +++ b/include/hw/acpi/acpi-defs.h
+> > @@ -165,17 +165,6 @@ typedef struct AcpiFacsDescriptorRev1 AcpiFacsDesc=
+riptorRev1;
+> > =20
+> >  /* Values for Type in APIC sub-headers */
+> > =20
+> > -#define ACPI_APIC_PROCESSOR          0
+> > -#define ACPI_APIC_IO                 1
+> > -#define ACPI_APIC_XRUPT_OVERRIDE     2
+> > -#define ACPI_APIC_NMI                3
+> > -#define ACPI_APIC_LOCAL_NMI          4
+> > -#define ACPI_APIC_ADDRESS_OVERRIDE   5
+> > -#define ACPI_APIC_IO_SAPIC           6
+> > -#define ACPI_APIC_LOCAL_SAPIC        7
+> > -#define ACPI_APIC_XRUPT_SOURCE       8
+> > -#define ACPI_APIC_LOCAL_X2APIC       9
+> > -#define ACPI_APIC_LOCAL_X2APIC_NMI      10
+> >  #define ACPI_APIC_GENERIC_CPU_INTERFACE 11
+> >  #define ACPI_APIC_GENERIC_DISTRIBUTOR   12
+> >  #define ACPI_APIC_GENERIC_MSI_FRAME     13
+> > @@ -192,59 +181,6 @@ typedef struct AcpiFacsDescriptorRev1 AcpiFacsDesc=
+riptorRev1;
+> > =20
+> >  /* Sub-structures for MADT */
+> > =20
+> > -struct AcpiMadtProcessorApic {
+> > -    ACPI_SUB_HEADER_DEF
+> > -    uint8_t  processor_id;           /* ACPI processor id */
+> > -    uint8_t  local_apic_id;          /* Processor's local APIC id */
+> > -    uint32_t flags;
+> > -} QEMU_PACKED;
+> > -typedef struct AcpiMadtProcessorApic AcpiMadtProcessorApic;
+> > -
+> > -struct AcpiMadtIoApic {
+> > -    ACPI_SUB_HEADER_DEF
+> > -    uint8_t  io_apic_id;             /* I/O APIC ID */
+> > -    uint8_t  reserved;               /* Reserved - must be zero */
+> > -    uint32_t address;                /* APIC physical address */
+> > -    uint32_t interrupt;              /* Global system interrupt where =
+INTI
+> > -                                 * lines start */
+> > -} QEMU_PACKED;
+> > -typedef struct AcpiMadtIoApic AcpiMadtIoApic;
+> > -
+> > -struct AcpiMadtIntsrcovr {
+> > -    ACPI_SUB_HEADER_DEF
+> > -    uint8_t  bus;
+> > -    uint8_t  source;
+> > -    uint32_t gsi;
+> > -    uint16_t flags;
+> > -} QEMU_PACKED;
+> > -typedef struct AcpiMadtIntsrcovr AcpiMadtIntsrcovr;
+> > -
+> > -struct AcpiMadtLocalNmi {
+> > -    ACPI_SUB_HEADER_DEF
+> > -    uint8_t  processor_id;           /* ACPI processor id */
+> > -    uint16_t flags;                  /* MPS INTI flags */
+> > -    uint8_t  lint;                   /* Local APIC LINT# */
+> > -} QEMU_PACKED;
+> > -typedef struct AcpiMadtLocalNmi AcpiMadtLocalNmi;
+> > -
+> > -struct AcpiMadtProcessorX2Apic {
+> > -    ACPI_SUB_HEADER_DEF
+> > -    uint16_t reserved;
+> > -    uint32_t x2apic_id;              /* Processor's local x2APIC ID */
+> > -    uint32_t flags;
+> > -    uint32_t uid;                    /* Processor object _UID */
+> > -} QEMU_PACKED;
+> > -typedef struct AcpiMadtProcessorX2Apic AcpiMadtProcessorX2Apic;
+> > -
+> > -struct AcpiMadtLocalX2ApicNmi {
+> > -    ACPI_SUB_HEADER_DEF
+> > -    uint16_t flags;                  /* MPS INTI flags */
+> > -    uint32_t uid;                    /* Processor object _UID */
+> > -    uint8_t  lint;                   /* Local APIC LINT# */
+> > -    uint8_t  reserved[3];            /* Local APIC LINT# */
+> > -} QEMU_PACKED;
+> > -typedef struct AcpiMadtLocalX2ApicNmi AcpiMadtLocalX2ApicNmi;
+> > -
+> >  struct AcpiMadtGenericCpuInterface {
+> >      ACPI_SUB_HEADER_DEF
+> >      uint16_t reserved;
+> > diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+> > index 7983a13a93..aa7b5c357e 100644
+> > --- a/hw/i386/acpi-common.c
+> > +++ b/hw/i386/acpi-common.c
+> > @@ -38,7 +38,9 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+> >                         bool force_enabled)
+> >  {
+> >      uint32_t apic_id =3D apic_ids->cpus[uid].arch_id;
+> > -    uint32_t flags =3D apic_ids->cpus[uid].cpu !=3D NULL || force_enab=
+led ? 1 : 0;
+> > +    /* Flags =E2=80=93 Local APIC Flags */ =20
+> nit: move that comment at the place of the build_append_int_noprefix
 
-On Thu, Aug 26, 2021 at 11:01 PM Peter Xu <peterx@redhat.com> wrote:
+that place(s) already has comment in expected format, here is just reminder
+about what is initialized here.
 
-> Both dump-guest-memory and live migration caches vm state at the beginnin=
-g.
-> Either of them entering the other one will cause race on the vm state, an=
-d
-> even
-> more severe on that (please refer to the crash report in the bug link).
->
-> Let's block live migration in dump-guest-memory, and that'll also block
-> dump-guest-memory if it detected that we're during a live migration.
->
-> Side note: migrate_del_blocker() can be called even if the blocker is not
-> inserted yet, so it's safe to unconditionally delete that blocker in
-> dump_cleanup (g_slist_remove allows no-entry-found case).
->
-> Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=3D1996609
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  dump/dump.c | 24 +++++++++++++++++++-----
->  1 file changed, 19 insertions(+), 5 deletions(-)
->
-> diff --git a/dump/dump.c b/dump/dump.c
-> index ab625909f3..9c1c1fb738 100644
-> --- a/dump/dump.c
-> +++ b/dump/dump.c
-> @@ -29,6 +29,7 @@
->  #include "qemu/error-report.h"
->  #include "qemu/main-loop.h"
->  #include "hw/misc/vmcoreinfo.h"
-> +#include "migration/blocker.h"
->
->  #ifdef TARGET_X86_64
->  #include "win_dump.h"
-> @@ -47,6 +48,8 @@
->
->  #define MAX_GUEST_NOTE_SIZE (1 << 20) /* 1MB should be enough */
->
-> +static Error *dump_migration_blocker;
-> +
->  #define ELF_NOTE_SIZE(hdr_size, name_size, desc_size)   \
->      ((DIV_ROUND_UP((hdr_size), 4) +                     \
->        DIV_ROUND_UP((name_size), 4) +                    \
-> @@ -101,6 +104,7 @@ static int dump_cleanup(DumpState *s)
->              qemu_mutex_unlock_iothread();
->          }
->      }
-> +    migrate_del_blocker(dump_migration_blocker);
->
->      return 0;
->  }
-> @@ -1927,11 +1931,6 @@ void qmp_dump_guest_memory(bool paging, const char
-> *file,
->      Error *local_err =3D NULL;
->      bool detach_p =3D false;
->
-> -    if (runstate_check(RUN_STATE_INMIGRATE)) {
->
+> > +    uint32_t flags =3D apic_ids->cpus[uid].cpu !=3D NULL || force_enab=
+led ?
+> > +                     1 /* Enabled */ : 0;
+> > =20
+> >      /* ACPI spec says that LAPIC entry for non present
+> >       * CPU may be omitted from MADT or it must be marked
+> > @@ -47,24 +49,47 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+> >       * should be put in MADT but kept disabled.
+> >       */
+> >      if (apic_id < 255) {
+> > -        AcpiMadtProcessorApic *apic =3D acpi_data_push(entry, sizeof *=
+apic);
+> > -
+> > -        apic->type =3D ACPI_APIC_PROCESSOR;
+> > -        apic->length =3D sizeof(*apic);
+> > -        apic->processor_id =3D uid;
+> > -        apic->local_apic_id =3D apic_id;
+> > -        apic->flags =3D cpu_to_le32(flags);
+> > +        /* Rev 1.0b, Table 5-13 Processor Local APIC Structure */
+> > +        build_append_int_noprefix(entry, 0, 1);       /* Type */
+> > +        build_append_int_noprefix(entry, 8, 1);       /* Length */
+> > +        build_append_int_noprefix(entry, uid, 1);     /* ACPI Processo=
+r ID */ =20
+> nit s/ID/UID
 
-This INMIGRATE check,
+it's ID in 1.0b
 
--        error_setg(errp, "Dump not allowed during incoming migration.");
-> -        return;
-> -    }
-> -
->      /* if there is a dump in background, we should wait until the dump
->       * finished */
->      if (dump_in_progress()) {
-> @@ -2005,6 +2004,21 @@ void qmp_dump_guest_memory(bool paging, const char
-> *file,
->          return;
->      }
->
-> +    if (!dump_migration_blocker) {
-> +        error_setg(&dump_migration_blocker,
-> +                   "Live migration disabled: dump-guest-memory in
-> progress");
-> +    }
-> +
-> +    /*
-> +     * Allows even for -only-migratable, but forbid migration during the
-> +     * process of dump guest memory.
-> +     */
-> +    if (migrate_add_blocker_internal(dump_migration_blocker, errp)) {
->
+> > +        build_append_int_noprefix(entry, apic_id, 1); /* APIC ID */
+> > +        build_append_int_noprefix(entry, flags, 4); /* Flags */
+> >      } else {
+> > -        AcpiMadtProcessorX2Apic *apic =3D acpi_data_push(entry, sizeof=
+ *apic);
+> > -
+> > -        apic->type =3D ACPI_APIC_LOCAL_X2APIC;
+> > -        apic->length =3D sizeof(*apic);
+> > -        apic->uid =3D cpu_to_le32(uid);
+> > -        apic->x2apic_id =3D cpu_to_le32(apic_id);
+> > -        apic->flags =3D cpu_to_le32(flags);
+> > +        /* Rev 4.0, 5.2.12.12 Processor Local x2APIC Structure */
+> > +        build_append_int_noprefix(entry, 9, 1);       /* Type */
+> > +        build_append_int_noprefix(entry, 16, 1);      /* Length */
+> > +        build_append_int_noprefix(entry, 0, 2);       /* Reserved */
+> > +        build_append_int_noprefix(entry, apic_id, 4); /* X2APIC ID */
+> > +        build_append_int_noprefix(entry, flags, 4);   /* Flags */
+> > +        build_append_int_noprefix(entry, uid, 4);     /* ACPI Processo=
+r UID */
+> >      }
+> >  }
+> > =20
+> > +static void build_ioapic(GArray *entry, uint8_t id, uint32_t addr, uin=
+t32_t irq)
+> > +{
+> > +    /* Rev 1.0b, 5.2.8.2 IO APIC */
+> > +    build_append_int_noprefix(entry, 1, 1);    /* Type */
+> > +    build_append_int_noprefix(entry, 12, 1);   /* Length */
+> > +    build_append_int_noprefix(entry, id, 1);   /* IO APIC ID */
+> > +    build_append_int_noprefix(entry, 0, 1);    /* Reserved */
+> > +    build_append_int_noprefix(entry, addr, 4); /* IO APIC Address */
+> > +    build_append_int_noprefix(entry, irq, 4);  /* System Vector Base *=
+/
+> > +}
+> > +
+> > +static void
+> > +build_xrupt_override(GArray *entry, uint8_t src, uint32_t gsi, uint16_=
+t flags)
+> > +{
+> > +    /* Rev 1.0b, 5.2.8.3.1 Interrupt Source Overrides */
+> > +    build_append_int_noprefix(entry, 2, 1);  /* Type */
+> > +    build_append_int_noprefix(entry, 10, 1); /* Length */
+> > +    build_append_int_noprefix(entry, 0, 1);  /* Bus */
+> > +    build_append_int_noprefix(entry, src, 1);  /* Source */
+> > +    /* Global System Interrupt Vector */
+> > +    build_append_int_noprefix(entry, gsi, 4);
+> > +    build_append_int_noprefix(entry, flags, 2);  /* Flags */
+> > +}
+> > +
+> >  /*
+> >   * ACPI spec, Revision 1.0b
+> >   * 5.2.8 Multiple APIC Description Table
+> > @@ -73,14 +98,11 @@ void acpi_build_madt(GArray *table_data, BIOSLinker=
+ *linker,
+> >                       X86MachineState *x86ms, AcpiDeviceIf *adev,
+> >                       const char *oem_id, const char *oem_table_id)
+> >  {
+> > +    int i;
+> > +    bool x2apic_mode =3D false;
+> >      MachineClass *mc =3D MACHINE_GET_CLASS(x86ms);
+> >      const CPUArchIdList *apic_ids =3D mc->possible_cpu_arch_ids(MACHIN=
+E(x86ms));
+> >      AcpiDeviceIfClass *adevc =3D ACPI_DEVICE_IF_GET_CLASS(adev);
+> > -    bool x2apic_mode =3D false;
+> > -
+> > -    AcpiMadtIoApic *io_apic;
+> > -    AcpiMadtIntsrcovr *intsrcovr;
+> > -    int i;
+> >      AcpiTable table =3D { .sig =3D "APIC", .rev =3D 1, .oem_id =3D oem=
+_id,
+> >                          .oem_table_id =3D oem_table_id };
+> > =20
+> > @@ -96,30 +118,14 @@ void acpi_build_madt(GArray *table_data, BIOSLinke=
+r *linker,
+> >          }
+> >      }
+> > =20
+> > -    io_apic =3D acpi_data_push(table_data, sizeof *io_apic);
+> > -    io_apic->type =3D ACPI_APIC_IO;
+> > -    io_apic->length =3D sizeof(*io_apic);
+> > -    io_apic->io_apic_id =3D ACPI_BUILD_IOAPIC_ID;
+> > -    io_apic->address =3D cpu_to_le32(IO_APIC_DEFAULT_ADDRESS);
+> > -    io_apic->interrupt =3D cpu_to_le32(0);
+> > -
+> > +    build_ioapic(table_data, ACPI_BUILD_IOAPIC_ID, IO_APIC_DEFAULT_ADD=
+RESS, 0);
+> >      if (x86ms->ioapic2) {
+> > -        AcpiMadtIoApic *io_apic2;
+> > -        io_apic2 =3D acpi_data_push(table_data, sizeof *io_apic);
+> > -        io_apic2->type =3D ACPI_APIC_IO;
+> > -        io_apic2->length =3D sizeof(*io_apic);
+> > -        io_apic2->io_apic_id =3D ACPI_BUILD_IOAPIC_ID + 1;
+> > -        io_apic2->address =3D cpu_to_le32(IO_APIC_SECONDARY_ADDRESS);
+> > -        io_apic2->interrupt =3D cpu_to_le32(IO_APIC_SECONDARY_IRQBASE)=
+;
+> > +        build_ioapic(table_data, ACPI_BUILD_IOAPIC_ID + 1,
+> > +                     IO_APIC_SECONDARY_ADDRESS, IO_APIC_SECONDARY_IRQB=
+ASE);
+> >      }
+> > =20
+> >      if (x86ms->apic_xrupt_override) {
+> > -        intsrcovr =3D acpi_data_push(table_data, sizeof *intsrcovr);
+> > -        intsrcovr->type   =3D ACPI_APIC_XRUPT_OVERRIDE;
+> > -        intsrcovr->length =3D sizeof(*intsrcovr);
+> > -        intsrcovr->source =3D 0;
+> > -        intsrcovr->gsi    =3D cpu_to_le32(2);
+> > -        intsrcovr->flags  =3D cpu_to_le16(0); /* conforms to bus speci=
+fications */
+> > +        build_xrupt_override(table_data, 0, 2, 0); =20
 
-is now handled here with migration_is_idle() ?
+> lost /* conforms to bus specifications */ comment for the flag during
+> the battle/ Don't know if it is useful though
 
-I am not familiar enough with the run & migration states intricacies here
 
-+        /* Remember to release the fd before passing it over to dump state
-> */
-> +        close(fd);
-> +        return;
-> +    }
-> +
->      s =3D &dump_state_global;
->      dump_state_prepare(s);
->
-> --
-> 2.31.1
->
->
->
+> >      }
+> > =20
+> >      for (i =3D 1; i < 16; i++) {
+> > @@ -127,32 +133,29 @@ void acpi_build_madt(GArray *table_data, BIOSLink=
+er *linker,
+> >              /* No need for a INT source override structure. */
+> >              continue;
+> >          }
+> > -        intsrcovr =3D acpi_data_push(table_data, sizeof *intsrcovr);
+> > -        intsrcovr->type   =3D ACPI_APIC_XRUPT_OVERRIDE;
+> > -        intsrcovr->length =3D sizeof(*intsrcovr);
+> > -        intsrcovr->source =3D i;
+> > -        intsrcovr->gsi    =3D cpu_to_le32(i);
+> > -        intsrcovr->flags  =3D cpu_to_le16(0xd); /* active high, level =
+triggered */
+> > +        build_xrupt_override(table_data, i, i, 0xd); =20
+> Lost for the flag /* active high, level triggered */
+> >      }
+> > =20
+> >      if (x2apic_mode) {
+> > -        AcpiMadtLocalX2ApicNmi *local_nmi;
+> > -
+> > -        local_nmi =3D acpi_data_push(table_data, sizeof *local_nmi);
+> > -        local_nmi->type   =3D ACPI_APIC_LOCAL_X2APIC_NMI;
+> > -        local_nmi->length =3D sizeof(*local_nmi);
+> > -        local_nmi->uid    =3D 0xFFFFFFFF; /* all processors */
+> > -        local_nmi->flags  =3D cpu_to_le16(0);
+> > -        local_nmi->lint   =3D 1; /* ACPI_LINT1 */
+> > +        /* Rev 4.0, 5.2.12.13 Local x2APIC NMI Structure*/
+> > +        build_append_int_noprefix(table_data, 0xA, 1); /* Type */
+> > +        build_append_int_noprefix(table_data, 12, 1);  /* Length */
+> > +        build_append_int_noprefix(table_data, 0, 2);   /* Flags */
+> > +        /* ACPI Processor UID */
+> > +        build_append_int_noprefix(table_data, 0xFFFFFFFF /* all proces=
+sors */,
+> > +                                  4);
+> > +        /* Local x2APIC INTI# */ =20
+> Local x2APIC LINT#
+> > +        build_append_int_noprefix(table_data, 1 /* ACPI_LINT1 */, 1);
+> > +        build_append_int_noprefix(table_data, 0, 3); =20
+> /* reserved */
+> >      } else {
+> > -        AcpiMadtLocalNmi *local_nmi;
+> > -
+> > -        local_nmi =3D acpi_data_push(table_data, sizeof *local_nmi);
+> > -        local_nmi->type         =3D ACPI_APIC_LOCAL_NMI;
+> > -        local_nmi->length       =3D sizeof(*local_nmi);
+> > -        local_nmi->processor_id =3D 0xff; /* all processors */
+> > -        local_nmi->flags        =3D cpu_to_le16(0);
+> > -        local_nmi->lint         =3D 1; /* ACPI_LINT1 */
+> > +        /* Rev 1.0b, 5.2.8.3.3 Local APIC NMI */
+> > +        build_append_int_noprefix(table_data, 4, 1);  /* Type */
+> > +        build_append_int_noprefix(table_data, 6, 1);  /* Length */
+> > +        /* ACPI Processor ID */
+> > +        build_append_int_noprefix(table_data, 0xff /* all processors *=
+/, 1); =20
+> 0xFF
 
---=20
-Marc-Andr=C3=A9 Lureau
+> > +        build_append_int_noprefix(table_data, 0, 2);  /* Flags */
+> > +        /* Local APIC INTI# */ =20
+> Local APIC LINT#
 
---000000000000a9805305cc9706e8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+it's "Local APIC INTI#" in 1.0b
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 26, 2021 at 11:01 PM Pe=
-ter Xu &lt;<a href=3D"mailto:peterx@redhat.com">peterx@redhat.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Both dump-=
-guest-memory and live migration caches vm state at the beginning.<br>
-Either of them entering the other one will cause race on the vm state, and =
-even<br>
-more severe on that (please refer to the crash report in the bug link).<br>
-<br>
-Let&#39;s block live migration in dump-guest-memory, and that&#39;ll also b=
-lock<br>
-dump-guest-memory if it detected that we&#39;re during a live migration.<br=
->
-<br>
-Side note: migrate_del_blocker() can be called even if the blocker is not<b=
-r>
-inserted yet, so it&#39;s safe to unconditionally delete that blocker in<br=
->
-dump_cleanup (g_slist_remove allows no-entry-found case).<br>
-<br>
-Suggested-by: Dr. David Alan Gilbert &lt;<a href=3D"mailto:dgilbert@redhat.=
-com" target=3D"_blank">dgilbert@redhat.com</a>&gt;<br>
-Bugzilla: <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1996609"=
- rel=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.=
-cgi?id=3D1996609</a><br>
-Signed-off-by: Peter Xu &lt;<a href=3D"mailto:peterx@redhat.com" target=3D"=
-_blank">peterx@redhat.com</a>&gt;<br>
----<br>
-=C2=A0dump/dump.c | 24 +++++++++++++++++++-----<br>
-=C2=A01 file changed, 19 insertions(+), 5 deletions(-)<br>
-<br>
-diff --git a/dump/dump.c b/dump/dump.c<br>
-index ab625909f3..9c1c1fb738 100644<br>
---- a/dump/dump.c<br>
-+++ b/dump/dump.c<br>
-@@ -29,6 +29,7 @@<br>
-=C2=A0#include &quot;qemu/error-report.h&quot;<br>
-=C2=A0#include &quot;qemu/main-loop.h&quot;<br>
-=C2=A0#include &quot;hw/misc/vmcoreinfo.h&quot;<br>
-+#include &quot;migration/blocker.h&quot;<br>
-<br>
-=C2=A0#ifdef TARGET_X86_64<br>
-=C2=A0#include &quot;win_dump.h&quot;<br>
-@@ -47,6 +48,8 @@<br>
-<br>
-=C2=A0#define MAX_GUEST_NOTE_SIZE (1 &lt;&lt; 20) /* 1MB should be enough *=
-/<br>
-<br>
-+static Error *dump_migration_blocker;<br>
-+<br>
-=C2=A0#define ELF_NOTE_SIZE(hdr_size, name_size, desc_size)=C2=A0 =C2=A0\<b=
-r>
-=C2=A0 =C2=A0 =C2=A0((DIV_ROUND_UP((hdr_size), 4) +=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0DIV_ROUND_UP((name_size), 4) +=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-@@ -101,6 +104,7 @@ static int dump_cleanup(DumpState *s)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_mutex_unlock_iothread(=
-);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 migrate_del_blocker(dump_migration_blocker);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-@@ -1927,11 +1931,6 @@ void qmp_dump_guest_memory(bool paging, const char *=
-file,<br>
-=C2=A0 =C2=A0 =C2=A0Error *local_err =3D NULL;<br>
-=C2=A0 =C2=A0 =C2=A0bool detach_p =3D false;<br>
-<br>
--=C2=A0 =C2=A0 if (runstate_check(RUN_STATE_INMIGRATE)) {<br></blockquote><=
-div><br></div><div>This INMIGRATE check,</div><div><br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;Dump not allowed during=
- incoming migration.&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
-=C2=A0 =C2=A0 =C2=A0/* if there is a dump in background, we should wait unt=
-il the dump<br>
-=C2=A0 =C2=A0 =C2=A0 * finished */<br>
-=C2=A0 =C2=A0 =C2=A0if (dump_in_progress()) {<br>
-@@ -2005,6 +2004,21 @@ void qmp_dump_guest_memory(bool paging, const char *=
-file,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-+=C2=A0 =C2=A0 if (!dump_migration_blocker) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(&amp;dump_migration_blocker,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot=
-;Live migration disabled: dump-guest-memory in progress&quot;);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* Allows even for -only-migratable, but forbid migrati=
-on during the<br>
-+=C2=A0 =C2=A0 =C2=A0* process of dump guest memory.<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 if (migrate_add_blocker_internal(dump_migration_blocker, err=
-p)) {<br></blockquote><div><br></div><div>is now handled here with migratio=
-n_is_idle() ?</div><div><br></div><div>I am not familiar enough with the ru=
-n &amp; migration states intricacies here<br></div><div> <br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Remember to release the fd before passing i=
-t over to dump state */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(fd);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0s =3D &amp;dump_state_global;<br>
-=C2=A0 =C2=A0 =C2=A0dump_state_prepare(s);<br>
-<br>
--- <br>
-2.31.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+> > +        build_append_int_noprefix(table_data, 1 /* ACPI_LINT1 */, 1);
+> >      }
+> > =20
+> >      acpi_table_end(linker, &table);
+> >  =20
 
---000000000000a9805305cc9706e8--
+the rest is fixed up
+
+> Besides
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+>=20
+> Eric
+>=20
+
 
