@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95643415059
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 21:08:36 +0200 (CEST)
-Received: from localhost ([::1]:53032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ABA7415084
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 21:36:06 +0200 (CEST)
+Received: from localhost ([::1]:46592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT7bf-0002Gq-F5
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 15:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55076)
+	id 1mT82G-0004fC-Tc
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 15:36:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1mT7XJ-0007jV-Qy
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 15:04:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25737)
+ id 1mT7XQ-0007nm-S3
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 15:04:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1mT7XH-0001Ke-QN
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 15:04:05 -0400
+ id 1mT7XK-0001O2-JD
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 15:04:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632337442;
+ s=mimecast20190719; t=1632337445;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qyGv+jUkaiNZrkCbm48yg6N6bqxMZJ08FZ5CDm1k5KU=;
- b=cKIL0t5eDhwDuzPAEbogelUDAb5vZ0FU6IU400qFZQrXEj1pl4IxWJZxavXVDlMkRmXTtX
- dxXPX3stkpLlXnna2Qf5J4K6kdudK8jhCprGrAG8Iuq3bthFSyEq41o7yIttrQO9bgx7qE
- nDZ/RL+4NUjropdHJb2lsnDX69Bpp04=
+ bh=mmxoXwyzLt2fjGdQjT7Sct651d94pXp25vKmdQ4/J74=;
+ b=T+6xOjm0rK4zMs7zyQ+lJJ/Rghr+1UWmp7HE1eaBWoeoC2WQdCnZtFqppo3gDbqoc2TiJ8
+ jOPT3d5vztzR8MuoKydUlPk0hIeh/m37k7tmP+yP1bv6XeHPb9fSlaUGL2YA8Wo4i7PH6i
+ BddXtPZVcwN6HOP1u1okdjHPoLAxzjY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-d4XVu3FrPXaxP_Sn2RaHDA-1; Wed, 22 Sep 2021 15:04:01 -0400
-X-MC-Unique: d4XVu3FrPXaxP_Sn2RaHDA-1
+ us-mta-202-UD3xJFq6NFWypc0364FCiw-1; Wed, 22 Sep 2021 15:04:04 -0400
+X-MC-Unique: UD3xJFq6NFWypc0364FCiw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BC2B100D684;
- Wed, 22 Sep 2021 19:04:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A40B718D6A2C;
+ Wed, 22 Sep 2021 19:04:03 +0000 (UTC)
 Received: from wrampazz.redhat.com (unknown [10.22.32.237])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB2215D9CA;
- Wed, 22 Sep 2021 19:03:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B9C6E5D9CA;
+ Wed, 22 Sep 2021 19:04:00 +0000 (UTC)
 From: Willian Rampazzo <willianr@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] docs/devel/testing: add instruction to run a single
- acceptance test
-Date: Wed, 22 Sep 2021 16:03:23 -0300
-Message-Id: <20210922190324.190227-2-willianr@redhat.com>
+Subject: [PATCH 2/2] tests/Makefile: add TESTFILES option to make
+ check-acceptance
+Date: Wed, 22 Sep 2021 16:03:24 -0300
+Message-Id: <20210922190324.190227-3-willianr@redhat.com>
 In-Reply-To: <20210922190324.190227-1-willianr@redhat.com>
 References: <20210922190324.190227-1-willianr@redhat.com>
 MIME-Version: 1.0
@@ -88,39 +88,78 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add instructions to the Acceptance tests section about running a
-single test file or a test within the test file.
+Add the possibility of running all the tests from a single file, or
+multiple files, running a single test within a file or multiple tests
+within multiple files using `make check-acceptance` and the TESTFILES
+environment variable.
 
 Signed-off-by: Willian Rampazzo <willianr@redhat.com>
 ---
- docs/devel/testing.rst | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ docs/devel/testing.rst | 27 +++++++++++++++++++++++++++
+ tests/Makefile.include |  5 ++++-
+ 2 files changed, 31 insertions(+), 1 deletion(-)
 
 diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 4a0abbf23d..b03df34f7b 100644
+index b03df34f7b..f887463f2e 100644
 --- a/docs/devel/testing.rst
 +++ b/docs/devel/testing.rst
-@@ -740,6 +740,20 @@ may be invoked by running:
+@@ -732,6 +732,33 @@ available.  On Debian and Ubuntu based systems, depending on the
+ specific version, they may be on packages named ``python3-venv`` and
+ ``python3-pip``.
  
-   tests/venv/bin/avocado run $OPTION1 $OPTION2 tests/acceptance/
- 
-+It is also possible to run tests from a single file or a single test
-+within a test file. To run tests from a single file within the build
-+tree, use:
++To run a single test file, a couple of them, or a test within a file
++using the ``make check-acceptance`` command, set the ``TESTFILES``
++environment variable with the test files or test names. To run all
++tests from a single file, use:
 +
 + .. code::
 +
-+  tests/venv/bin/avocado run tests/acceptance/$TESTFILE
++  make check-acceptance TESTFILES=$FILEPATH
 +
-+To run a single test within a test file, use:
++The same is valid to run tests from multiple test files:
 +
 + .. code::
 +
-+  tests/venv/bin/avocado run tests/acceptance/$TESTFILE:$TESTCLASS.$TESTNAME
++  make check-acceptance TESTFILES='$FILEPATH1 $FILEPATH2'
 +
- Manual Installation
- -------------------
++To run a single test within a file, use:
++
++ .. code::
++
++  make check-acceptance TESTFILES=$FILEPATH:$TESTCLASS.$TESTNAME
++
++The same is valid to run single tests from multiple test files:
++
++ .. code::
++
++  make check-acceptance TESTFILES='$FILEPATH1:$TESTCLASS1.$TESTNAME1 $FILEPATH2:$TESTCLASS2.$TESTNAME2'
++
+ The scripts installed inside the virtual environment may be used
+ without an "activation".  For instance, the Avocado test runner
+ may be invoked by running:
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 6e16c05f10..82d7ef7a20 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -88,6 +88,9 @@ clean-tcg: $(CLEAN_TCG_TARGET_RULES)
+ TESTS_VENV_DIR=$(BUILD_DIR)/tests/venv
+ TESTS_VENV_REQ=$(SRC_PATH)/tests/requirements.txt
+ TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
++ifndef TESTFILES
++	TESTFILES=tests/acceptance
++endif
+ # Controls the output generated by Avocado when running tests.
+ # Any number of command separated loggers are accepted.  For more
+ # information please refer to "avocado --help".
+@@ -130,7 +133,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+             --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+             --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
+             $(AVOCADO_TAGS) \
+-            $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
++            $(if $(GITLAB_CI),,--failfast) $(TESTFILES), \
+             "AVOCADO", "tests/acceptance")
  
+ # Consolidated targets
 -- 
 2.31.1
 
