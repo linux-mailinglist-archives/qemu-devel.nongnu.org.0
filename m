@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BFF0414E6F
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:57:27 +0200 (CEST)
-Received: from localhost ([::1]:36674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC9F414E6D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:56:49 +0200 (CEST)
+Received: from localhost ([::1]:35160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT5Yk-0004FY-FH
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:57:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53488)
+	id 1mT5Y8-00038I-CD
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:56:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mT5St-0007AC-24
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:51:24 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:43702)
+ id 1mT5VT-0001bO-Rd
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:54:03 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:42979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mT5Sr-0001Mr-9i
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:51:22 -0400
-Received: by mail-pg1-x532.google.com with SMTP id r2so3308072pgl.10
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 09:51:20 -0700 (PDT)
+ id 1mT5VS-0003k7-CN
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:54:03 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ p12-20020a17090adf8c00b0019c959bc795so2798520pjv.1
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 09:54:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=A3zE+oL9mgaMO2xZIZsXiF1WIR3x20XhlwgBoq9cl1Y=;
- b=whhrZ2ZvX0NeAQPWMbyB+NdumSONxs5nujBtf6ojs9i7LqypBkYqTLuY6KGRsAsuoq
- W2McauYIy9FzUo/erLAbwT7cT53LO+Te+/Y7f+lKpw8cToyHfjg4MjuCvDZ12kl6Y0s2
- Wbv+A/Jhno6mgf0Z4jYhXhKwj4z4y6BqsLQYISU01Ql9wtyZmKZhWpGfctFD1rTdQIaR
- 8+Nbw9ZGC+IJ418SuVcJlXHKDtnxShNUZ7dAZmRapYP7h1enIxoLACRv7yoGkEsQMkrx
- 1SB2cCqzp+Bl1N2/DrL4WpnUuCVkH89sbxzBZInS1iln7NV2Pn4I1DwEE1JCkRSVAX5q
- Azgg==
+ bh=i+/0G7sj2BORX7hJoSNpuNyqQW1P1b60J85H0nEtSpI=;
+ b=yiMlU6nl9R9lcN+xKMYqridQbDGUIFOov8ceIpT/ANUB9MefL/tzZnlshD/9nM8LK1
+ Gj7QsLHuodbXo8cJXWV90ykikeei/4YvnAwfjw8iVMsulLkIYBnW1xfNLEPoC24NBaGQ
+ L5pKlYWS8zF/P5Qutx+g31OUn6mmUyJzqC+dZFPcCCJ9UCH5NqzXQoAtVQ3h33eQpNRJ
+ OGIqYVOgoyu5WvaH0XcFxqh+6p8dUGh10xFAasdPMIsDbYYZRPT8ZdhQ7nB5uDTLNPNU
+ ZqvdPfsISR6xX9as/JEkKxMpZI2AVN3LyyBBCshUBRE8ulhHiS3UUjAm7nVRd4G2vPgq
+ Usig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=A3zE+oL9mgaMO2xZIZsXiF1WIR3x20XhlwgBoq9cl1Y=;
- b=tZBdMJT3XAFe0o5W+ylk/rtMh7C7WKgTNsJcoj5S1JXRNqIwZxf7HaVcQJHoah+jXm
- evyYJlQvTxvfb2T74Bd8lOsqJ4EMEyefBfWmTkoyJq2Sr3EK8v8oNOvb9baRE4XD2QjS
- NiYgwAB+n64JqBdJRDbaRU+qPPh1UvUJ8ILo4WMK6fqe58lMckPwM+rG2P4fiRi+ZbJG
- GE2KRs9DoMUyEBJMgsxh+j87RixmBTCr/yESw33YrRtZlRPiSZ0tLq/7KLxH/JYOXLSJ
- UT4lFXq+XV9HoxN6NpIqfeMGnvXaHIU5QJ8PkaBXTKhEKoUGZV7LDvhakFOsOFoV9DD5
- u+9A==
-X-Gm-Message-State: AOAM530VmHjhLT3uT5Jbln+qwLkuBYvxibvLQ3NUTTGkTplAX7ptOj5m
- Uu6DaRDEs8YJq05G0lkUNYEY+5zh+ZKF/A==
-X-Google-Smtp-Source: ABdhPJwyvi4h0lEyOQgRtLl05EegTf3zl/dxL7EJOqQbakuRzgcpHSmAASaS9S67o9EA0VC3erouAw==
-X-Received: by 2002:a63:1e16:: with SMTP id e22mr573597pge.153.1632329479783; 
- Wed, 22 Sep 2021 09:51:19 -0700 (PDT)
+ bh=i+/0G7sj2BORX7hJoSNpuNyqQW1P1b60J85H0nEtSpI=;
+ b=nJrXExNrRlPspZLn0PHKVlKS3riUSj/hIyRpT0jJKHIvKexaV7DIXx/iLRu27SGp+I
+ jvBfzhVHnzbmQFakw0/0IaF+etrs9BdItHSqkkk1HZ6JMh6+MvHWmf4b3j8Zv0ffPVUi
+ K4qTwiLhB69ULf2EdaSmWEeEGiJe++VJBc2LtKRCef92yDuLCm7PgI1yoJBQJU7SlcZ5
+ AtI4YmUy213N3MW8ZFoCxO+b74rcJKvNG8Qa2I2FBOe0opTlRJegHEOHG0VRJFTV26r2
+ e22zJUsqM9zsWBR3r3V1ycMHFFDhWoC7KQvh5nj1T2w0H2SpH/ThFt9Yn4Rf/d2xhwmP
+ Ncpg==
+X-Gm-Message-State: AOAM532H+dl8jHOKJ+3YmJ5xjPKoJZyv0CNjiVaOKVCu8CG/9NnaubWC
+ jNaHLPkj3QrxknFCQqQYHduLk5AAh+8oSw==
+X-Google-Smtp-Source: ABdhPJyl7G1vKHDeyFHwjKUd56i1xFBRRc6Lf3N7l703D0irBaJ9NBMCsglLDZVp4dy3btNEOhANNg==
+X-Received: by 2002:a17:90a:9310:: with SMTP id p16mr9999pjo.204.1632329640766; 
+ Wed, 22 Sep 2021 09:54:00 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id e8sm102079pfc.153.2021.09.22.09.51.19
+ by smtp.gmail.com with ESMTPSA id b17sm3337031pgl.61.2021.09.22.09.54.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Sep 2021 09:51:19 -0700 (PDT)
-Subject: Re: [PATCH v2 29/30] accel/tcg/user-exec: Implement CPU-specific
- signal handler for loongarch64 hosts
+ Wed, 22 Sep 2021 09:54:00 -0700 (PDT)
+Subject: Re: [PATCH v2 30/30] configure, meson.build: Mark support for
+ loongarch64 hosts
 To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
 References: <20210921201915.601245-1-git@xen0n.name>
- <20210921201915.601245-30-git@xen0n.name>
+ <20210921201915.601245-31-git@xen0n.name>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9e95577b-3c91-5ea0-fe0d-d14dd0bc079b@linaro.org>
-Date: Wed, 22 Sep 2021 09:51:17 -0700
+Message-ID: <67c1c4bd-b6df-eee8-8229-942dea2446ce@linaro.org>
+Date: Wed, 22 Sep 2021 09:53:58 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210921201915.601245-30-git@xen0n.name>
+In-Reply-To: <20210921201915.601245-31-git@xen0n.name>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,21 +93,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/21/21 1:19 PM, WANG Xuerui wrote:
-> +        case 0b00011111110: /* stle.w */
-> +        case 0b00011111111: /* stle.d */
-> +            is_write = 1;
-> +            break;
-> +        default:
-> +            /* test for am* instruction range */
-> +            if (0b00011000000 <= sel && sel <= 0b00011100011) {
-> +                is_write = 1;
-> +            }
+> @@ -269,6 +269,8 @@ if not get_option('tcg').disabled()
+>       tcg_arch = 's390'
+>     elif config_host['ARCH'] in ['x86_64', 'x32']
+>       tcg_arch = 'i386'
+> +  elif config_host['ARCH'] == 'loongarch64'
+> +    tcg_arch = 'loongarch64'
 
-Probably better to fold the range check into the switch with
-
-   case 0b00011000000 ... 0b00011100011:  /* am* insn range */
-
-Otherwise,
+You can drop this hunk.  Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
