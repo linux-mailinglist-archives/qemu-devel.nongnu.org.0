@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BBE0414E5B
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:49:12 +0200 (CEST)
-Received: from localhost ([::1]:51966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BFF0414E6F
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:57:27 +0200 (CEST)
+Received: from localhost ([::1]:36674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT5Ql-0003fM-Ab
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:49:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48504)
+	id 1mT5Yk-0004FY-FH
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:57:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mT5Af-0001kT-SD
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:32:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32647)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mT5AR-0001r6-Q1
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:32:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632328335;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tGml+z5wri++cNviwkr9uOImZi4qRo1/XZ9h9m3hxa4=;
- b=cUl77KfgRCL9fbX9h3g40vvnZ+5ypfq6D/R8HQJFDSUNB9AUNngiYuzVKmBY0MjmhcHE/x
- HEbQ7yLCFOYw1tYrBGkD7yhUK6o3K3iz/vcDJibPDglAMfrOUJhCyG5twKkwIZ5NuAkVaC
- HqEzp74bTAZDtWd2DCb6h0TYsgQk7RY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-138-ZN6EHD2bOcehOHZg4VtXTQ-1; Wed, 22 Sep 2021 12:32:00 -0400
-X-MC-Unique: ZN6EHD2bOcehOHZg4VtXTQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50C8E1006AA5;
- Wed, 22 Sep 2021 16:31:56 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 097F119724;
- Wed, 22 Sep 2021 16:30:47 +0000 (UTC)
-Date: Wed, 22 Sep 2021 17:30:44 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Dongli Zhang <dongli.zhang@oracle.com>
-Subject: Re: [PATCH v2 38/53] qapi: introduce x-query-lapic QMP command
-Message-ID: <YUtaNGQ6kHuZ5FY2@redhat.com>
-References: <20210914142042.1655100-1-berrange@redhat.com>
- <20210914142042.1655100-39-berrange@redhat.com>
- <68cebe2f-ba56-545f-686a-b9ac2120c5c4@oracle.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mT5St-0007AC-24
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:51:24 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:43702)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mT5Sr-0001Mr-9i
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:51:22 -0400
+Received: by mail-pg1-x532.google.com with SMTP id r2so3308072pgl.10
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 09:51:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=A3zE+oL9mgaMO2xZIZsXiF1WIR3x20XhlwgBoq9cl1Y=;
+ b=whhrZ2ZvX0NeAQPWMbyB+NdumSONxs5nujBtf6ojs9i7LqypBkYqTLuY6KGRsAsuoq
+ W2McauYIy9FzUo/erLAbwT7cT53LO+Te+/Y7f+lKpw8cToyHfjg4MjuCvDZ12kl6Y0s2
+ Wbv+A/Jhno6mgf0Z4jYhXhKwj4z4y6BqsLQYISU01Ql9wtyZmKZhWpGfctFD1rTdQIaR
+ 8+Nbw9ZGC+IJ418SuVcJlXHKDtnxShNUZ7dAZmRapYP7h1enIxoLACRv7yoGkEsQMkrx
+ 1SB2cCqzp+Bl1N2/DrL4WpnUuCVkH89sbxzBZInS1iln7NV2Pn4I1DwEE1JCkRSVAX5q
+ Azgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=A3zE+oL9mgaMO2xZIZsXiF1WIR3x20XhlwgBoq9cl1Y=;
+ b=tZBdMJT3XAFe0o5W+ylk/rtMh7C7WKgTNsJcoj5S1JXRNqIwZxf7HaVcQJHoah+jXm
+ evyYJlQvTxvfb2T74Bd8lOsqJ4EMEyefBfWmTkoyJq2Sr3EK8v8oNOvb9baRE4XD2QjS
+ NiYgwAB+n64JqBdJRDbaRU+qPPh1UvUJ8ILo4WMK6fqe58lMckPwM+rG2P4fiRi+ZbJG
+ GE2KRs9DoMUyEBJMgsxh+j87RixmBTCr/yESw33YrRtZlRPiSZ0tLq/7KLxH/JYOXLSJ
+ UT4lFXq+XV9HoxN6NpIqfeMGnvXaHIU5QJ8PkaBXTKhEKoUGZV7LDvhakFOsOFoV9DD5
+ u+9A==
+X-Gm-Message-State: AOAM530VmHjhLT3uT5Jbln+qwLkuBYvxibvLQ3NUTTGkTplAX7ptOj5m
+ Uu6DaRDEs8YJq05G0lkUNYEY+5zh+ZKF/A==
+X-Google-Smtp-Source: ABdhPJwyvi4h0lEyOQgRtLl05EegTf3zl/dxL7EJOqQbakuRzgcpHSmAASaS9S67o9EA0VC3erouAw==
+X-Received: by 2002:a63:1e16:: with SMTP id e22mr573597pge.153.1632329479783; 
+ Wed, 22 Sep 2021 09:51:19 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id e8sm102079pfc.153.2021.09.22.09.51.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Sep 2021 09:51:19 -0700 (PDT)
+Subject: Re: [PATCH v2 29/30] accel/tcg/user-exec: Implement CPU-specific
+ signal handler for loongarch64 hosts
+To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
+References: <20210921201915.601245-1-git@xen0n.name>
+ <20210921201915.601245-30-git@xen0n.name>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <9e95577b-3c91-5ea0-fe0d-d14dd0bc079b@linaro.org>
+Date: Wed, 22 Sep 2021 09:51:17 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <68cebe2f-ba56-545f-686a-b9ac2120c5c4@oracle.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) DKIMWL_WL_HIGH=-1.472, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210921201915.601245-30-git@xen0n.name>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,173 +88,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
- Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Markus Armbruster <armbru@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Sep 20, 2021 at 10:27:06PM -0700, Dongli Zhang wrote:
-> Hi Daniel,
-> 
-> On 9/14/21 7:20 AM, Daniel P. Berrangé wrote:
-> > This is a counterpart to the HMP "info lapic" command. It is being
-> > added with an "x-" prefix because this QMP command is intended as an
-> > adhoc debugging tool and will thus not be modelled in QAPI as fully
-> > structured data, nor will it have long term guaranteed stability.
-> > The existing HMP command is rewritten to call the QMP command.
-> > 
-> > This command is unable to use the pre-existing HumanReadableText,
-> > because if 'common.json' is included into 'machine-target.json'
-> > the static marshalling method for HumanReadableText will be reported
-> > as unused by the compiler on all architectures except s390x.
-> > 
-> > Possible options were
-> > 
-> >  1 Support 'if' conditionals on 'include' statements in QAPI
-> >  2 Add further commands to 'machine-target.json' that use
-> >    HumanReadableText, such that it has at least one usage
-> >    on all architecture targets.
-> >  3 Duplicate HumanReadableText as TargetHumanReadableText
-> >    adding conditions
-> > 
-> > This patch takes option (3) in the belief that we will eventually
-> > get to a point where option (2) happens, and TargetHumanReadableText
-> > can be removed again.
-> > 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >  hw/core/cpu-common.c     |   7 ++
-> >  include/hw/core/cpu.h    |  10 +++
-> >  qapi/machine-target.json |  19 ++++-
-> >  target/i386/cpu-dump.c   | 161 ++++++++++++++++++++-------------------
-> >  target/i386/cpu.h        |   4 +-
-> >  target/i386/monitor.c    |  46 +++++++++--
-> >  6 files changed, 160 insertions(+), 87 deletions(-)
+On 9/21/21 1:19 PM, WANG Xuerui wrote:
+> +        case 0b00011111110: /* stle.w */
+> +        case 0b00011111111: /* stle.d */
+> +            is_write = 1;
+> +            break;
+> +        default:
+> +            /* test for am* instruction range */
+> +            if (0b00011000000 <= sel && sel <= 0b00011100011) {
+> +                is_write = 1;
+> +            }
+
+Probably better to fold the range check into the switch with
+
+   case 0b00011000000 ... 0b00011100011:  /* am* insn range */
+
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-> > diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-> > index 19468c4e85..fc09f90059 100644
-> > --- a/target/i386/monitor.c
-> > +++ b/target/i386/monitor.c
-> > @@ -33,6 +33,7 @@
-> >  #include "qapi/error.h"
-> >  #include "sev_i386.h"
-> >  #include "qapi/qapi-commands-misc-target.h"
-> > +#include "qapi/qapi-commands-machine-target.h"
-> >  #include "qapi/qapi-commands-misc.h"
-> >  #include "hw/i386/pc.h"
-> >  
-> > @@ -650,23 +651,52 @@ const MonitorDef *target_monitor_defs(void)
-> >      return monitor_defs;
-> >  }
-> >  
-> > +TargetHumanReadableText *qmp_x_query_lapic(int64_t apicid,
-> > +                                           Error **errp)
-> > +{
-> > +    TargetHumanReadableText *ret;
-> > +    g_autoptr(GString) buf = NULL;
-> > +    CPUState *cs = cpu_by_arch_id(apicid);
-> > +
-> > +    if (!cs) {
-> > +        error_setg(errp, "No CPU with APIC ID %" PRId64 " available", apicid);
-> > +        return NULL;
-> > +    }
-> 
-> Suppose the accelerator is KVM, the CPUState (cs) might not be syncrhonized with
-> KVM kernel space (APIC+PIR). As a result, the data is stale.
-> 
-> I sent below patch long time ago but it never got reviewed.
-> 
-> https://lore.kernel.org/qemu-devel/20210908143803.29191-1-dongli.zhang@oracle.com/
-
-I'll include your patch in the next version of this series
-just before this patch, and then update this patch to  take
-it into account.
-
-> 
-> > +
-> > +    buf = x86_cpu_format_local_apic_state(cs, CPU_DUMP_FPU, errp);
-> > +    if (!buf) {
-> > +        return NULL;
-> > +    }
-> > +
-> > +    ret = g_new0(TargetHumanReadableText, 1);
-> > +    ret->human_readable_text = g_steal_pointer(&buf->str);
-> > +    return ret;
-> > +}
-> > +
-> >  void hmp_info_local_apic(Monitor *mon, const QDict *qdict)
-> >  {
-> > -    CPUState *cs;
-> > +    Error *err = NULL;
-> > +    g_autoptr(TargetHumanReadableText) info = NULL;
-> > +    int64_t apicid;
-> >  
-> >      if (qdict_haskey(qdict, "apic-id")) {
-> > -        int id = qdict_get_try_int(qdict, "apic-id", 0);
-> > -        cs = cpu_by_arch_id(id);
-> > +        apicid = qdict_get_try_int(qdict, "apic-id", 0);
-> 
-> Here is where I used to fix with the patch.
-> 
-> Thank you very much!
-> 
-> Dongli Zhang
-> 
-> >      } else {
-> > -        cs = mon_get_cpu(mon);
-> > +        CPUState *cs = mon_get_cpu(mon);
-> > +        if (!cs) {
-> > +            monitor_printf(mon, "No CPU available\n");
-> > +            return;
-> > +        }
-> > +        apicid = cpu_get_arch_id(cs);
-> >      }
-> >  
-> > -
-> > -    if (!cs) {
-> > -        monitor_printf(mon, "No CPU available\n");
-> > +    info = qmp_x_query_lapic(apicid, &err);
-> > +    if (err) {
-> > +        error_report_err(err);
-> >          return;
-> >      }
-> > -    x86_cpu_dump_local_apic_state(cs, CPU_DUMP_FPU);
-> > +
-> > +    monitor_printf(mon, "%s", info->human_readable_text);
-> >  }
-> >  
-> >  SevInfo *qmp_query_sev(Error **errp)
-> > 
-> 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+r~
 
