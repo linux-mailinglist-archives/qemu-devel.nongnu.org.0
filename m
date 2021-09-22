@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB6F4148FA
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 14:34:01 +0200 (CEST)
-Received: from localhost ([::1]:54120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F2241491A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 14:38:51 +0200 (CEST)
+Received: from localhost ([::1]:34614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT1Ro-0006GN-28
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 08:34:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40982)
+	id 1mT1WU-0004i4-Ni
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 08:38:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mT1N7-0003X4-6d; Wed, 22 Sep 2021 08:29:09 -0400
-Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:45871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mT1N5-0006DB-JR; Wed, 22 Sep 2021 08:29:08 -0400
-Received: by mail-qt1-x832.google.com with SMTP id r1so2375545qta.12;
- Wed, 22 Sep 2021 05:29:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=qWLppC0iflpYDFuKgFW+L1AVCM+gTGVt9aLRE3Xcljs=;
- b=CwlxadknjLaAiRtbVgtGzA4a7suZ3MqhEquQ4H+IV1N8wl2mG9vmzmSgOHKPX759VF
- 2nvIlYsmO3saFi6WgRTDKp2a9t2VIjQYtHsIyqlbkwNIE7YK8R/QptQz+XJk6jBaTTL/
- q6dOgQvbfPXh/xvYbtyJcmRfaBR0o1InV6Cvp95DwwVKi0LInP4ajYW4nXZ5xQXKH59u
- ZSGflODRl2wX5f1jrnPvhXVxo4+2+GivlkputXPxbRQ9Ht+ijXkH8Wbk1mCvLDlUV6Ng
- hW3SMX378IRv4TWobH5qD+qDJbPWathUehRuZoreQ1GNeFaCvqLOc7vjlUJLNLC/W/mH
- uZkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=qWLppC0iflpYDFuKgFW+L1AVCM+gTGVt9aLRE3Xcljs=;
- b=XojrEL7u3CQ148ncsEOm6hC3uqAj6NhY8QhMWv9swOsYLMg6EFcmK4M76q8kGGeSwF
- cOXCC2ZvGKHgNlAK21jaG+UBEX/+WkI8zYYZDPeyZk07Xng99QSmM0gCto0PQgzxvNtV
- bBBgq0gVBnO4dSG9rCvzUk5JmdktpDr2ih+D7doxh57vj7X8DYsGvcioLsRpkhDxJCA+
- o15dYmGMXkLR87g81Vv8Dhy2Ykvwm6UnzPziZ1kxDaMP4CvrD0UmCBCYTt5b8T9T1AAU
- Xk9EleOD5HWvpPigxgX0kEbCQ837hx/uYGnzeEYcv3Wj6UY8+wVfiCLwxOzEGK11G0/5
- 6qPw==
-X-Gm-Message-State: AOAM530ihgEderjtdYgia4OBAq/2fUu21JefQVw+ONC5V1Bv37P5SqHH
- ZXaN9oDz0ZTFN8dkMWzohrCD81zl8ns=
-X-Google-Smtp-Source: ABdhPJwj32YDmUCDeJGCd/qRcSlC2f39Tzm8J4A2adZ+ACgQe3rloQJAt76KzlcCHVcHBlH09lo4IQ==
-X-Received: by 2002:a05:622a:48d:: with SMTP id
- p13mr33757474qtx.282.1632313746136; 
- Wed, 22 Sep 2021 05:29:06 -0700 (PDT)
-Received: from rekt.COMFAST ([177.189.43.50])
- by smtp.gmail.com with ESMTPSA id bm27sm1631186qkb.6.2021.09.22.05.29.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Sep 2021 05:29:05 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/1] spapr_numa.c: fixes in
- spapr_numa_FORM2_write_rtas_tables()
-Date: Wed, 22 Sep 2021 09:28:52 -0300
-Message-Id: <20210922122852.130054-2-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210922122852.130054-1-danielhb413@gmail.com>
-References: <20210922122852.130054-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mT1ON-0004oS-Be
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 08:30:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46686)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mT1OJ-0007E1-0r
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 08:30:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632313820;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jxYBomOSutjGd4VUrWwmss+Iqr0DKxw9CJsdofGJXFo=;
+ b=cweUPWWIuU7fYCFWr6MxiVAcw0pIZogfOt/4kh9ytpYb2OFJOKh4WcU5RmqWwNhA8Vxa3p
+ Apz79u0Ja+yig+xm8TlwjvdkCksAuf8AzwIF1US0ElWbjXn9m9SSiDD7tT3C4kDjj8pJCY
+ 1jGNZKYXNsbCed5SVR5fHP6QQo5RjTk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-0EPz-w6NNquGCy7dFha9AA-1; Wed, 22 Sep 2021 08:30:19 -0400
+X-MC-Unique: 0EPz-w6NNquGCy7dFha9AA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B5A719067E7
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 12:30:19 +0000 (UTC)
+Received: from horse.redhat.com (unknown [10.22.9.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DDF2E19C79;
+ Wed, 22 Sep 2021 12:30:18 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 5F301222E4F; Wed, 22 Sep 2021 08:30:18 -0400 (EDT)
+Date: Wed, 22 Sep 2021 08:30:18 -0400
+From: Vivek Goyal <vgoyal@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 0/2] virtiofsd: Add capability to block xattrs
+Message-ID: <YUsh2s/oJhVCLpoL@redhat.com>
+References: <20210826211937.317558-1-vgoyal@redhat.com>
+ <YUsMwfZI3sQyT/Rj@work-vm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x832.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YUsMwfZI3sQyT/Rj@work-vm>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,85 +78,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, groug@kaod.org,
- qemu-ppc@nongnu.org, philmd@redhat.com, david@gibson.dropbear.id.au
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch has a handful of modifications for the recent added
-FORM2 support:
+On Wed, Sep 22, 2021 at 12:00:17PM +0100, Dr. David Alan Gilbert wrote:
+> * Vivek Goyal (vgoyal@redhat.com) wrote:
+> > As of now we have a knob "-o xattr/no_xattr" which either enables
+> > all xattrs or disables all xattrs.
+> 
+> Hi Vivek,
+>   Thanks for this.
+> 
+> > We need something more fine grained where we can selectively disable
+> > only certain xattrs (and not all).
+> > 
+> > For example, in some cases we want to disable "security.selinux"
+> > xattr. This is equivalent to virtiofs not supporting security.selinux
+> > and guest kernel will fallback to a single label for whole fs
+> > (virtiofs_t).
+> > 
+> > So add an option "-o block_xattr=<list-of-xattrs>" which will allow
+> > specifying a list of xattrs to block.
+> 
+> This is quite interesting; I'd not noticed you had the exisitng blocking
+> mechanism,
 
-- to not allocate more than the necessary size in 'distance_table'.
-At this moment the array is oversized due to allocating uint32_t for
-all elements, when most of them fits in an uint8_t. Fix it by
-changing the array to uint8_t and allocating the exact size;
+Yes, that's for blocking posix acl xattrs if needed. If xattr map
+support blocking, then we could probably insert an internal rule
+to block posix acl xattrs. But that's more of a cleanup exercise
+I will take up some other time.
 
-- use stl_be_p() to store the uint32_t at the start of 'distance_table';
+> however, as discussed, I think my preference is if this could
+> be done as a modification of the xattrmap it would avoid another set of
+> options.
+> 
+> The mapping code already has 'type's of:
+> 
+>   prefix, ok, bad
+> 
+> I think you just need to add a 'reject' type
+> that produces the error code you need.
 
-- use sizeof(uint32_t) to skip the uint32_t length when populating the
-distances;
+How about "unsupported" and then return -EOPNOTSUPP? 
 
-- use the NUMA_DISTANCE_MIN macro from sysemu/numa.h to avoid hardcoding
-the local distance value.
+I am looking at selinux kernel code and it expect -EOPNOTSUPP to decide
+that selinux xattr is not supported and looks into fallback options.
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/ppc/spapr_numa.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+static int sb_check_xattr_support(struct super_block *sb)
+{
+        rc = __vfs_getxattr(root, root_inode, XATTR_NAME_SELINUX, NULL, 0);
+        if (rc < 0 && rc != -ENODATA) {
+                if (rc == -EOPNOTSUPP) {
+                        pr_warn("SELinux: (dev %s, type %s) has no security xattr handler\n",
+                                sb->s_id, sb->s_type->name);
+                        goto fallback;
+...
+...
+}
 
-diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index 58d5dc7084..5822938448 100644
---- a/hw/ppc/spapr_numa.c
-+++ b/hw/ppc/spapr_numa.c
-@@ -502,9 +502,8 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
-     int nb_numa_nodes = ms->numa_state->num_nodes;
-     int distance_table_entries = nb_numa_nodes * nb_numa_nodes;
-     g_autofree uint32_t *lookup_index_table = NULL;
--    g_autofree uint32_t *distance_table = NULL;
-+    g_autofree uint8_t *distance_table = NULL;
-     int src, dst, i, distance_table_size;
--    uint8_t *node_distances;
- 
-     /*
-      * ibm,numa-lookup-index-table: array with length and a
-@@ -531,11 +530,13 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
-      * array because NUMA ids can be sparse (node 0 is the first,
-      * node 8 is the second ...).
-      */
--    distance_table = g_new0(uint32_t, distance_table_entries + 1);
--    distance_table[0] = cpu_to_be32(distance_table_entries);
-+    distance_table_size = distance_table_entries * sizeof(uint8_t) +
-+                          sizeof(uint32_t);
-+    distance_table = g_new0(uint8_t, distance_table_size);
-+    stl_be_p(distance_table, distance_table_entries);
- 
--    node_distances = (uint8_t *)&distance_table[1];
--    i = 0;
-+    /* Skip the uint32_t array length at the start */
-+    i = sizeof(uint32_t);
- 
-     for (src = 0; src < nb_numa_nodes; src++) {
-         for (dst = 0; dst < nb_numa_nodes; dst++) {
-@@ -546,16 +547,14 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
-              * adding the numa_info to retrieve distance info from.
-              */
-             if (src == dst) {
--                node_distances[i++] = 10;
-+                distance_table[i++] = NUMA_DISTANCE_MIN;
-                 continue;
-             }
- 
--            node_distances[i++] = numa_info[src].distance[dst];
-+            distance_table[i++] = numa_info[src].distance[dst];
-         }
-     }
- 
--    distance_table_size = distance_table_entries * sizeof(uint8_t) +
--                          sizeof(uint32_t);
-     _FDT(fdt_setprop(fdt, rtas, "ibm,numa-distance-table",
-                      distance_table, distance_table_size));
- }
--- 
-2.31.1
+Vivek
 
 
