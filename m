@@ -2,62 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FB14414266
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 09:13:44 +0200 (CEST)
-Received: from localhost ([::1]:55200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1157C41429D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 09:25:13 +0200 (CEST)
+Received: from localhost ([::1]:35480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSwRr-0005UR-E4
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 03:13:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35540)
+	id 1mSwcx-0003RG-Ji
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 03:25:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mSwQ7-000491-Em; Wed, 22 Sep 2021 03:11:58 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:50937)
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mSwbF-0002D7-FH
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 03:23:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mSwQ4-0006kQ-74; Wed, 22 Sep 2021 03:11:55 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.201])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 43DBEBF4B102;
- Wed, 22 Sep 2021 09:11:47 +0200 (CEST)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 22 Sep
- 2021 09:11:47 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G0061ec201c0-0e0c-4cfa-a6ad-2d89dd356128,
- 2BB727CE71B327F05EAAC08E3CEBB2C417F62D6E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <2afa987c-ee6d-c775-cabd-462cc556414c@kaod.org>
-Date: Wed, 22 Sep 2021 09:11:46 +0200
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mSwbC-0000E4-Dx
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 03:23:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632295401;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=h4rcCxjBdWR9Bf2gZhPB6ECMSfGAjn1QAQAEiiGeZfo=;
+ b=TVi2Uh5rPOWsWOsljKtIpaimvVvEX4OGPBvrr9WUuyrRclrEF8jdhLUOp5Pz8W/7GQOgcJ
+ KfNqzm+2yMqkHxPtZbq2LJSxDzCmZPXbLzNrAVAgbUf6z6OZC+1u++Qd1tKYWg7EzLZ/Bo
+ YWZoSZmJjTcK6mVNQAmXAWlB8klQkig=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-312-TDhOTcCYO2yPHCLasmvrpw-1; Wed, 22 Sep 2021 03:23:19 -0400
+X-MC-Unique: TDhOTcCYO2yPHCLasmvrpw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ e1-20020adfa741000000b0015e424fdd01so1256359wrd.11
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 00:23:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=h4rcCxjBdWR9Bf2gZhPB6ECMSfGAjn1QAQAEiiGeZfo=;
+ b=P/mk9jEQk2Yb0F9EAgnfS3kQSGEM/Q6XxDYkxUlip2QV/VU6/FfkTV9uRJUvBxjCRX
+ WUr4Ahp3tre9WOcCSPNxQNRFeebSXpoLKTN0F6RSvjRV4a/vAbb+UD78/I9BEA0nSGxn
+ tFSaQnrt2WZfLWB+FEOtR5PV3QNAFyyQUUMV9f0QIp/HWpP4vWKdbNUmkp447jmELSZ9
+ UfpbGk++oont+nRiRiKoFX0z16EVqMeVrwHgk7tNVrJMr/5hxnYjAjEYu09kiuNN1Ngj
+ 15OvOJnW/nLYPpKihNbY1UoEUPVRBZqlILxdVaoWTa0HUKsZqsJbBUIntNmIUHxfKY9B
+ V2TA==
+X-Gm-Message-State: AOAM530h7Fl+E4xsHLZo+sxzE9q6e+Ro+IWHOjKgr7g19CjEDt2XIJmu
+ TPb8/7s/akZNwZsqpZzBd1IkpsKRwoSY/QX6/uVxVzJpmFeSH/feQheFubzdiG8oONLhUq+oY9S
+ lHF2Eh2XoZmKFcoo=
+X-Received: by 2002:a5d:5246:: with SMTP id k6mr39109254wrc.431.1632295398545; 
+ Wed, 22 Sep 2021 00:23:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxrYViXRkfi4GomVDPVf0J6SarPvfBdgrxHuXBMEQBgTYUROKAN56IuDzI/qR+krbzrBSeiCg==
+X-Received: by 2002:a5d:5246:: with SMTP id k6mr39109235wrc.431.1632295398256; 
+ Wed, 22 Sep 2021 00:23:18 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id y64sm1113185wmc.38.2021.09.22.00.23.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Sep 2021 00:23:17 -0700 (PDT)
+Subject: Re: [PATCH v3 12/35] acpi: vmgenid_build_acpi: use
+ acpi_table_begin()/acpi_table_end() instead of build_header()
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20210907144814.741785-1-imammedo@redhat.com>
+ <20210907144814.741785-13-imammedo@redhat.com>
+From: Eric Auger <eauger@redhat.com>
+Message-ID: <5938a956-e67f-be8d-2a31-e9e068597afb@redhat.com>
+Date: Wed, 22 Sep 2021 09:23:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v2] spapr/xive: Fix kvm_xive_source_reset trace event
+In-Reply-To: <20210907144814.741785-13-imammedo@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eauger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: Greg Kurz <groug@kaod.org>
-References: <20210922070205.1235943-1-clg@kaod.org>
- <20210922090627.12378b3b@bahia.huguette>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20210922090627.12378b3b@bahia.huguette>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: b20f6a90-fc62-411f-b4d0-cde8d0308009
-X-Ovh-Tracer-Id: 15506737945440521184
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudeiiedgudduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,54 +99,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/21 09:06, Greg Kurz wrote:
-> On Wed, 22 Sep 2021 09:02:05 +0200
-> Cédric Le Goater <clg@kaod.org> wrote:
-> 
->> The trace event was placed in the wrong routine. Move it under
->> kvmppc_xive_source_reset_one().
->>
->> Fixes: 4e960974d4ee ("xive: Add trace events")
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
-> 
-> Reviewed-by: Greg Kurz <groug@kaod.org>
 
-Thanks,
 
-C.
+On 9/7/21 4:47 PM, Igor Mammedov wrote:
+> it replaces error-prone pointer arithmetic for build_header() API,
+> with 2 calls to start and finish table creation,
+> which hides offsets magic from API user.
+> 
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+> v3:
+>   * s/acpi_init_table|acpi_table_composed/acpi_table_begin|acpi_table_end/
+> ---
+>  hw/acpi/vmgenid.c | 16 +++++++---------
+>  1 file changed, 7 insertions(+), 9 deletions(-)
+> 
+> diff --git a/hw/acpi/vmgenid.c b/hw/acpi/vmgenid.c
+> index 4f41a13ea0..95f94a2510 100644
+> --- a/hw/acpi/vmgenid.c
+> +++ b/hw/acpi/vmgenid.c
+> @@ -29,6 +29,8 @@ void vmgenid_build_acpi(VmGenIdState *vms, GArray *table_data, GArray *guid,
+>      Aml *ssdt, *dev, *scope, *method, *addr, *if_ctx;
+>      uint32_t vgia_offset;
+>      QemuUUID guid_le;
+> +    AcpiTable table = { .sig = "SSDT", .rev = 1,
+> +                        .oem_id = oem_id, .oem_table_id = "VMGENID" };
+>  
+>      /* Fill in the GUID values.  These need to be converted to little-endian
+>       * first, since that's what the guest expects
+> @@ -42,15 +44,12 @@ void vmgenid_build_acpi(VmGenIdState *vms, GArray *table_data, GArray *guid,
+>      g_array_insert_vals(guid, VMGENID_GUID_OFFSET, guid_le.data,
+>                          ARRAY_SIZE(guid_le.data));
+>  
+> -    /* Put this in a separate SSDT table */
+> +    /* Put VMGNEID into a separate SSDT table */
+> +    acpi_table_begin(&table, table_data);
+>      ssdt = init_aml_allocator();
+>  
+> -    /* Reserve space for header */
+> -    acpi_data_push(ssdt->buf, sizeof(AcpiTableHeader));
+> -
+>      /* Storage for the GUID address */
+> -    vgia_offset = table_data->len +
+> -        build_append_named_dword(ssdt->buf, "VGIA");
+> +    vgia_offset = table_data->len + build_append_named_dword(ssdt->buf, "VGIA");
+not mandated but well
 
+>      scope = aml_scope("\\_SB");
+>      dev = aml_device("VGEN");
+>      aml_append(dev, aml_name_decl("_HID", aml_string("QEMUVGID")));
+> @@ -116,9 +115,8 @@ void vmgenid_build_acpi(VmGenIdState *vms, GArray *table_data, GArray *guid,
+>          ACPI_BUILD_TABLE_FILE, vgia_offset, sizeof(uint32_t),
+>          VMGENID_GUID_FW_CFG_FILE, 0);
+>  
+> -    build_header(linker, table_data,
+> -        (void *)(table_data->data + table_data->len - ssdt->buf->len),
+> -        "SSDT", ssdt->buf->len, 1, oem_id, "VMGENID");
+> +    /* must be called after above command to ensure correct table checksum */
+ditto
+> +    acpi_table_end(linker, &table);
+>      free_aml_allocator();
+>  }
+>  
 > 
->>   hw/intc/spapr_xive_kvm.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
->> index beb904d5bdee..bf43ffb54018 100644
->> --- a/hw/intc/spapr_xive_kvm.c
->> +++ b/hw/intc/spapr_xive_kvm.c
->> @@ -236,6 +236,8 @@ int kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **errp)
->>       SpaprXive *xive = SPAPR_XIVE(xsrc->xive);
->>       uint64_t state = 0;
->>   
->> +    trace_kvm_xive_source_reset(srcno);
->> +
->>       assert(xive->fd != -1);
->>   
->>       if (xive_source_irq_is_lsi(xsrc, srcno)) {
->> @@ -328,8 +330,6 @@ uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int srcno, uint32_t offset,
->>           return xive_esb_rw(xsrc, srcno, offset, data, 1);
->>       }
->>   
->> -    trace_kvm_xive_source_reset(srcno);
->> -
->>       /*
->>        * Special Load EOI handling for LSI sources. Q bit is never set
->>        * and the interrupt should be re-triggered if the level is still
-> 
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+
+Eric
 
 
