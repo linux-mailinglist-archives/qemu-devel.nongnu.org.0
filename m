@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB7E414A64
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 15:20:10 +0200 (CEST)
-Received: from localhost ([::1]:59850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 874C6414A5F
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 15:18:53 +0200 (CEST)
+Received: from localhost ([::1]:57848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT2AT-00014W-IA
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 09:20:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49384)
+	id 1mT29E-00089d-3G
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 09:18:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mT23R-00033v-6R
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 09:12:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38118)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mT24R-0003fA-6y
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 09:13:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mT23P-0003yS-NT
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 09:12:52 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mT24O-0004as-Sk
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 09:13:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632316370;
+ s=mimecast20190719; t=1632316431;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=WWbP7TtJppH4THr37OhQACG2qnqOHb38yi5cTzFl7Vw=;
- b=XfLUffiTePnlTnBPr2r4ydz7AZtNVbaPKbryNEUGI9xTxItizLiXsVT39YtcAejW5PzNWO
- yL7I2F0O5KjdF1uxMcyRel8s+fnla/UKmeuOqydqsenHtIov1bGIsLQsAka+FCHGujbqVN
- A608RLI1Ih1ANXVRxl3MI4NM39wewyk=
+ bh=N7zI6WeuhkIhXIbj5UUyC4ClsB/GADoXi9RosmRsdxE=;
+ b=Uh3tO7xQjvud9Daa7vdiBSy4rVNBNUmizxDpXHoTMVT+hbtjbmUJniA7vbfNJ5WNXCQkaO
+ E4isji70jZtaae4byQdhfAaEsm08ZGZncR8cWmrgT0Mv3BlZ/1hQQ39dJ9hONkn34P1snG
+ 9lRomHqq5iw9aLdsCfDk6A8/1Aers1o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-19mrTcbUNcurICaIEF6RMA-1; Wed, 22 Sep 2021 09:12:46 -0400
-X-MC-Unique: 19mrTcbUNcurICaIEF6RMA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-517--77ICfp8Nb2sJczGxZXzpA-1; Wed, 22 Sep 2021 09:13:48 -0400
+X-MC-Unique: -77ICfp8Nb2sJczGxZXzpA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA31984A5E1;
- Wed, 22 Sep 2021 13:12:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F239B824FB8;
+ Wed, 22 Sep 2021 13:13:44 +0000 (UTC)
 Received: from redhat.com (ovpn-115-8.phx2.redhat.com [10.3.115.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 303505453A;
- Wed, 22 Sep 2021 13:12:44 +0000 (UTC)
-Date: Wed, 22 Sep 2021 08:12:42 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F11C60854;
+ Wed, 22 Sep 2021 13:13:28 +0000 (UTC)
+Date: Wed, 22 Sep 2021 08:13:26 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v6 0/5] block/nbd: drop connection_co
-Message-ID: <20210922131242.ghootz5i554mppfn@redhat.com>
-References: <20210902103805.25686-1-vsementsov@virtuozzo.com>
- <1dba982d-06aa-de41-a1a4-d12c5ce6e336@virtuozzo.com>
+Subject: Re: [PATCH v6 00/11] 64bit block-layer: part II
+Message-ID: <20210922131326.hpi2ir4hq2t7s23u@redhat.com>
+References: <20210903102807.27127-1-vsementsov@virtuozzo.com>
+ <9029492b-5b9c-2697-8d87-716859f96382@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <1dba982d-06aa-de41-a1a4-d12c5ce6e336@virtuozzo.com>
+In-Reply-To: <9029492b-5b9c-2697-8d87-716859f96382@virtuozzo.com>
 User-Agent: NeoMutt/20210205-772-2b4c52
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -77,39 +77,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, hreitz@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, rkagan@virtuozzo.com
+Cc: fam@euphon.net, kwolf@redhat.com, integration@gluster.org, berto@igalia.com,
+ stefanha@redhat.com, qemu-block@nongnu.org, pavel.dovgaluk@ispras.ru,
+ sw@weilnetz.de, pl@kamp.de, qemu-devel@nongnu.org, jsnow@redhat.com,
+ hreitz@redhat.com, kraxel@redhat.com, ronniesahlberg@gmail.com,
+ pbonzini@redhat.com, idryomov@gmail.com, philmd@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 22, 2021 at 10:48:58AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> ping)
+On Wed, Sep 22, 2021 at 10:52:20AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Ping)
 > 
-> Only one patch is not reviewed. But the biggest one :(
+> Not reviewed: 6,7,10
 
-Yeah, and it's on my list for this week.  I'm overdue for a pull
-request, so I want to get this series in if at all possible, which
-means I'll get on that (large) review soon.  Meanwhile, the ping is
-appreciated!
+Also on my list to see what I can get in this week's NBD pull request.
 
 > 
-> 02.09.2021 13:38, Vladimir Sementsov-Ogievskiy wrote:
-> > v6:
-> > 01,02: add Eric's r-b
-> > 03: make new interface clearer
-> > 04,05: rebased on updated 03
+> 03.09.2021 13:27, Vladimir Sementsov-Ogievskiy wrote:
+> > Hi all!
 > > 
-> > Vladimir Sementsov-Ogievskiy (5):
-> >    block/nbd: nbd_channel_error() shutdown channel unconditionally
-> >    block/nbd: move nbd_recv_coroutines_wake_all() up
-> >    block/nbd: refactor nbd_recv_coroutines_wake_all()
-> >    block/nbd: drop connection_co
-> >    block/nbd: check that received handle is valid
+> > Sorry for a long delay:(  Finally, here is v6.
 > > 
-> >   block/nbd.c  | 412 +++++++++++++++------------------------------------
-> >   nbd/client.c |   2 -
-> >   2 files changed, 121 insertions(+), 293 deletions(-)
-> > 
+
+> > Vladimir Sementsov-Ogievskiy (11):
+> >    block/io: bring request check to bdrv_co_(read,write)v_vmstate
+> >    qcow2: check request on vmstate save/load path
+> >    block: use int64_t instead of uint64_t in driver read handlers
+> >    block: use int64_t instead of uint64_t in driver write handlers
+> >    block: use int64_t instead of uint64_t in copy_range driver handlers
+> >    block: make BlockLimits::max_pwrite_zeroes 64bit
+> >    block: use int64_t instead of int in driver write_zeroes handlers
+> >    block/io: allow 64bit write-zeroes requests
+> >    block: make BlockLimits::max_pdiscard 64bit
+> >    block: use int64_t instead of int in driver discard handlers
+> >    block/io: allow 64bit discard requests
 > 
 > 
 > -- 
