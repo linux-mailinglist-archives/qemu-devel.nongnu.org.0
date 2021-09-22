@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D55604141AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 08:24:32 +0200 (CEST)
-Received: from localhost ([::1]:53544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F2B94141CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 08:26:57 +0200 (CEST)
+Received: from localhost ([::1]:59516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSvgF-0005M9-Tu
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 02:24:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52574)
+	id 1mSvia-000150-4K
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 02:26:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSvWr-0001LQ-S4
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 02:14:50 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:44630)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSvWs-0001M7-Iq
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 02:14:51 -0400
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:33480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSvWq-0007VX-Dd
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 02:14:49 -0400
-Received: by mail-io1-xd31.google.com with SMTP id y197so1881342iof.11
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSvWr-0007Wn-6j
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 02:14:50 -0400
+Received: by mail-io1-xd2e.google.com with SMTP id n71so2056436iod.0
  for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 23:14:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9zW08+Vc3ElhFXMnF/RFJwdGBp3FBijIjwjDeGhfTQ0=;
- b=vsX9F6F7yn6EkXWxsTkaoZzqcaodZcBx4/Xi+fvk6CutK+tWVdEX/p7YUjnld4Z0Cv
- U2Obvm8DY9TCGpEvezHQwj5uRn1Afi7MmMZGnzQAc1bHNzvU627nAfMDbr6zEWxerBir
- B1MYrIC33wKVcSvSb52/zzycm4Xc7imA83mYOwiXj3Syf1xv1+ScbucnFfsRLGlzM10a
- XJ1pElg9F8/Xf+x94jfgQlUJwuK5H5XsmLp5wdGqokgDBv9GIo1BLSM6YIKGfuPO+bqE
- E0xIPMjaA+e4jiPNl8IcJK9rpMGI/gTM/k8ZcRnFASuIQBpA7Yp7/ePZJd4Yf284zBdr
- 073g==
+ bh=zdMf1pNNEOvkez9WfeJ2j4FMzgl9gPUSEytioy1vA84=;
+ b=Z7yUD4RrJ8NMlIev2cx3rK2JzwVUtYEiZBMtwJ4S+o1UtCF5vuVjrGETVgkLWqesCF
+ 8j7ytjafFo+KSullRGPhW3UjKNvuS6DucIlz9nTGS+4lnHB1RBEDaZW86iU8yVI3detL
+ Bjk9xEGo+RmcJ4X2JXYyed/R5YnHZgl1tWOj/LykkR4NQ+sMZVA/FuPo3GcBBtHKd3/l
+ NgUmGZ/VJQGiwMpGAq4tZaf0yrnDsnDlZYTb6eZh5bX26tjC69c1A+GSqgh1rcEL/3vn
+ g96MCL3Ik6BVDTjv/5+RFMzVLFCR1oEwDwCVxl6y08qhR2gQ7TJJkEn41BkzbCrS730o
+ Ek8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9zW08+Vc3ElhFXMnF/RFJwdGBp3FBijIjwjDeGhfTQ0=;
- b=ebY5yhi66dzztPphqkfbmi3/ZylzYc1bOTne/LC0vHDJD+wXXv//kHpA25OgxNCVXO
- Wp+O7WaThfdq5SaMPWk7aGRPkpoyAiai+u6fHXJq2HPBWGFQ/Z02GG2V7KNAHqCEP8ZL
- 77tBShZg+M4e/QsANS5nTIBLgIF65ln8uLPcLXdFlZZRZ+OARg8svSVxZBYKnFR2s0xu
- HUXtFlSsKTi8KQ9moXjxt+40bMCDtEQbDA88eEXgomNMi8FtD5rGlQ2jiE1yq2wYvNXp
- lJCoRGKsu5miwwRiQbh8EjjmKwu8ZhU/FLqOVYODv5+DS7T/ph7L3bZgDwGYtk1sCSlc
- zw2g==
-X-Gm-Message-State: AOAM530BhVfD6wV441iaXti/ejl7e3uu2+hLj0k+yZidl+VclreY+X+K
- dVjBFgJE6L6biCDZ29pFxOkPkjDmEDOClpK5mRc=
-X-Google-Smtp-Source: ABdhPJzyMJIzvp8sgf3lb/Oi1vV1DMODeWSb+m/C/6BUdqKfsSVJ9MN7S+CoVbDP7XIVlWM97uqjPg==
-X-Received: by 2002:a6b:5918:: with SMTP id n24mr3130712iob.108.1632291287105; 
+ bh=zdMf1pNNEOvkez9WfeJ2j4FMzgl9gPUSEytioy1vA84=;
+ b=F2dEzFUgGrbBAPR2Lf3+t/FnO+G7kYwQ/vOos/VgWd4dAvrkzqZdObuC8LI1+fLVW7
+ 4L7a7TMLDTqGJTNutF+bbiB4nkEDPkaYxRIdXivtlziGiM/lvdjWXj4RAkXHdWwM9WaR
+ xxh7qVBwb5mDA96bBImcRR85s+rjXpoCC2B/hobrDBxM3+pf1VDo/w3PfkFONYWj2k8v
+ JGbmnBkpGtZBSq4aj01yzZl5b1qv0elh6Hvop4Wcld7OtljcIhwJf98Ws72ZDpgOR3Zb
+ XWIWm9lv9PcPrhR46Ysn0Yq0+vvLQH+q9YCP12CIHgrnX8DokKHPdUX4uOm2N6WNVhar
+ W8iQ==
+X-Gm-Message-State: AOAM5322sP5E7XbFH9bi4/2XzOhIfpSQaBIQgcWT4u9HSkYtRUtpbI4H
+ NPyJQNNtq87q0iW4Zl255bpLj1ee204AyroESSg=
+X-Google-Smtp-Source: ABdhPJyhHeC2F4WyKi2VXDgp9nqv1i/Dy6QaqA6TpV1tUylsq9abzXDN/qjQxIp1OciMQshWV3hPsQ==
+X-Received: by 2002:a6b:b785:: with SMTP id h127mr3052597iof.149.1632291287887; 
  Tue, 21 Sep 2021 23:14:47 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a25sm540817ioq.46.2021.09.21.23.14.46
+ by smtp.gmail.com with ESMTPSA id a25sm540817ioq.46.2021.09.21.23.14.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Sep 2021 23:14:46 -0700 (PDT)
+ Tue, 21 Sep 2021 23:14:47 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/14] bsd-user/target_os_elf.h: Remove fallback ELF_HWCAP and
- reorder
-Date: Wed, 22 Sep 2021 00:14:31 -0600
-Message-Id: <20210922061438.27645-8-imp@bsdimp.com>
+Subject: [PATCH 08/14] bsd-user/target_os_elf: If ELF_HWCAP2 is defined,
+ publish it
+Date: Wed, 22 Sep 2021 00:14:32 -0600
+Message-Id: <20210922061438.27645-9-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210922061438.27645-1-imp@bsdimp.com>
 References: <20210922061438.27645-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd31.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -87,44 +87,30 @@ Cc: Kyle Evans <kevans@freebsd.org>, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All architectures have a ELF_HWCAP, so remove the fallback ifdef.
-Place ELF_HWCAP in the same order as on native FreeBSD.
+Some architecutres publish AT_HWCAP2 as well as AT_HWCAP. Those
+architectures will define this in their target_arch_elf.h files.  If it
+is defined, then publish it.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/freebsd/target_os_elf.h | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ bsd-user/freebsd/target_os_elf.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/bsd-user/freebsd/target_os_elf.h b/bsd-user/freebsd/target_os_elf.h
-index 2d03a883aa..adcffd1ddb 100644
+index adcffd1ddb..e5ac8e8e50 100644
 --- a/bsd-user/freebsd/target_os_elf.h
 +++ b/bsd-user/freebsd/target_os_elf.h
-@@ -38,10 +38,6 @@
- #define ELF_PLATFORM (NULL)
- #endif
- 
--#ifndef ELF_HWCAP
--#define ELF_HWCAP 0
--#endif
--
- /* XXX Look at the other conflicting AT_* values. */
- #define FREEBSD_AT_NCPUS     19
- #define FREEBSD_AT_HWCAP     25
-@@ -114,12 +110,12 @@ static abi_ulong target_create_elf_tables(abi_ulong p, int argc, int envc,
-         NEW_AUX_ENT(AT_FLAGS, (abi_ulong)0);
-         NEW_AUX_ENT(FREEBSD_AT_NCPUS, (abi_ulong)bsd_get_ncpu());
+@@ -112,6 +112,10 @@ static abi_ulong target_create_elf_tables(abi_ulong p, int argc, int envc,
          NEW_AUX_ENT(AT_ENTRY, load_bias + exec->e_entry);
-+        features = ELF_HWCAP;
-+        NEW_AUX_ENT(FREEBSD_AT_HWCAP, features);
+         features = ELF_HWCAP;
+         NEW_AUX_ENT(FREEBSD_AT_HWCAP, features);
++#ifdef ELF_HWCAP2
++        features = ELF_HWCAP2;
++        NEW_AUX_ENT(FREEBSD_AT_HWCAP2, features);
++#endif
          NEW_AUX_ENT(AT_UID, (abi_ulong)getuid());
          NEW_AUX_ENT(AT_EUID, (abi_ulong)geteuid());
          NEW_AUX_ENT(AT_GID, (abi_ulong)getgid());
-         NEW_AUX_ENT(AT_EGID, (abi_ulong)getegid());
--        features = ELF_HWCAP;
--        NEW_AUX_ENT(FREEBSD_AT_HWCAP, features);
-         target_auxents = sp; /* Note where the aux entries are in the target */
- #ifdef ARCH_DLINFO
-         /*
 -- 
 2.32.0
 
