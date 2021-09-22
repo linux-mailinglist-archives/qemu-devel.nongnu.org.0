@@ -2,88 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3DEB414DC3
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:08:54 +0200 (CEST)
-Received: from localhost ([::1]:49194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05562414DC5
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:09:50 +0200 (CEST)
+Received: from localhost ([::1]:51228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT4nk-0002gY-Ij
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:08:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40986)
+	id 1mT4oe-00043O-TC
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:09:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mT4gJ-0004Wc-9F
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:01:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55719)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mT4ja-0000J1-W7
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:04:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mT4g8-0001kC-7h
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:01:09 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mT4jX-0004Oy-Ru
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:04:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632326458;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1632326670;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=b+PZVJpqCWE4RVL5iERYpI69r+EbymTWq0r81wyQi2Y=;
- b=dy9EwAO8M0E5EllzoUemBFSPsCrM/JrnqO3lRSHOXsvwXNmmvxbFSwHBvjbPwEsRHOGsZU
- GDLRUzsdxWCqQyPKUP1BxoLRJU062zuTe62c8cMRDw1g5PE1TqtaXuKFfkONtDtDYfbum0
- Cf48Xlk9RexLFdhZW/Bad29M55i7L50=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-EVfHbfasNruFIukH-b2BzQ-1; Wed, 22 Sep 2021 12:00:57 -0400
-X-MC-Unique: EVfHbfasNruFIukH-b2BzQ-1
-Received: by mail-qv1-f69.google.com with SMTP id
- ib9-20020a0562141c8900b003671c3a1243so11810173qvb.21
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 09:00:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=b+PZVJpqCWE4RVL5iERYpI69r+EbymTWq0r81wyQi2Y=;
- b=KAKs5IbaKsnsNtohNDkgD/LPTzh367fruzxp4Lwh+s1y2rRp6/HBfVVjCv08r6wRg2
- vjKmfhlBvCFhO/aD+sGnVuqNTPnrdF9LNIWaXNxqg8VSQY67l+EtaLOoXcveC/dUNS6C
- p2DifUNSbV3hm0jCI4s63WOiRWGoPqt9xPNkaDGCwOeVnq7agbg3Xj+NsacgVgDD37bM
- rlZTC2olT9zsZXmVz1BUe2QG3pRTgVahYkXXfTJLC7rbJ7V+sQyeDBvwhbGQj6pu8ko+
- nFCSXKhsu7BQoIbkCzj4zeVNQQLYxjDic4FUhhbAr+fTMsegURBuIDvh2kLsvp0xmH0j
- TJ5A==
-X-Gm-Message-State: AOAM531zCYPV5US/YvRDshAvWQjwViqGyAyrXs2uliPR12aB6Lt9bI82
- +oL7g5CrKpOQZDD7Dz5vDUVtdGm7fcorGuOK3wcYHGeEA+DpL62fNNCqXGclx3glwEndAna8hu4
- e5zVE1TIPnbPURT0=
-X-Received: by 2002:ac8:5905:: with SMTP id 5mr254101qty.286.1632326456291;
- Wed, 22 Sep 2021 09:00:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwHo8XiSMdYXLswaY9LxJgdEDl9ciq+NtV2AbfSTX2YOUWleH/yjxfa4+sY7YGs1z75XpFzTQ==
-X-Received: by 2002:ac8:5905:: with SMTP id 5mr254064qty.286.1632326455952;
- Wed, 22 Sep 2021 09:00:55 -0700 (PDT)
-Received: from t490s ([2607:fea8:56a2:9100::d3ec])
- by smtp.gmail.com with ESMTPSA id b14sm854682qkl.81.2021.09.22.09.00.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Sep 2021 09:00:55 -0700 (PDT)
-Date: Wed, 22 Sep 2021 12:00:53 -0400
-From: Peter Xu <peterx@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH v2 3/3] dump-guest-memory: Block live migration
-Message-ID: <YUtTNZiGH4oFtVQi@t490s>
-References: <20210826185813.248441-1-peterx@redhat.com>
- <20210826185813.248441-4-peterx@redhat.com>
- <CAJ+F1C+52DJb4c8Qx66xA1QS6dNGRhkgJYM883bAqcsez6gZAw@mail.gmail.com>
+ bh=QebOB2SYHOmYM3jUpMCe05d9zHZjO5/ZfL4UGrTq+EM=;
+ b=ejX35bdMmV60vaxQDfiQ0T6xYXxkY3xe779kUBMkCCOH5wKmsAlfQ3WxWJrKp1i9nTCW7P
+ 7P8Xe5ePjVwPmuy6Mk1B2OBjITGoyi5bC5TD0pG7qoueQldhPnXXleEUZCOnOIa9zvGpeB
+ +geXWqYpDp7wV8EUjHBvmNnRV4Nw0sI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-18-7eIC7RurO66dIJH9eiFOlg-1; Wed, 22 Sep 2021 12:04:16 -0400
+X-MC-Unique: 7eIC7RurO66dIJH9eiFOlg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C88551923768;
+ Wed, 22 Sep 2021 16:04:11 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BE661865D;
+ Wed, 22 Sep 2021 16:02:27 +0000 (UTC)
+Date: Wed, 22 Sep 2021 17:02:24 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 01/53] docs/devel: rename file for writing monitor
+ commands
+Message-ID: <YUtTkO9SFnA5xs2v@redhat.com>
+References: <20210914142042.1655100-1-berrange@redhat.com>
+ <20210914142042.1655100-2-berrange@redhat.com>
+ <87a6k74rsl.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1C+52DJb4c8Qx66xA1QS6dNGRhkgJYM883bAqcsez6gZAw@mail.gmail.com>
+In-Reply-To: <87a6k74rsl.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,126 +84,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
+ David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
+ Taylor Simpson <tsimpson@quicinc.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Eric Blake <eblake@redhat.com>,
+ Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Peter Xu <peterx@redhat.com>, Stafford Horne <shorne@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 22, 2021 at 07:18:15PM +0400, Marc-André Lureau wrote:
-> Hi
-
-Hi, Marc-André,
-
+On Mon, Sep 20, 2021 at 09:42:02AM +0200, Markus Armbruster wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
 > 
-> On Thu, Aug 26, 2021 at 11:01 PM Peter Xu <peterx@redhat.com> wrote:
-> 
-> > Both dump-guest-memory and live migration caches vm state at the beginning.
-> > Either of them entering the other one will cause race on the vm state, and
-> > even
-> > more severe on that (please refer to the crash report in the bug link).
+> > The file already covers writing new style HMP commands, in addition to
+> > the QMP commands, so it deserves a more general name.
 > >
-> > Let's block live migration in dump-guest-memory, and that'll also block
-> > dump-guest-memory if it detected that we're during a live migration.
-> >
-> > Side note: migrate_del_blocker() can be called even if the blocker is not
-> > inserted yet, so it's safe to unconditionally delete that blocker in
-> > dump_cleanup (g_slist_remove allows no-entry-found case).
-> >
-> > Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1996609
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > > ---
-> >  dump/dump.c | 24 +++++++++++++++++++-----
-> >  1 file changed, 19 insertions(+), 5 deletions(-)
+> >  docs/devel/index.rst                                        | 2 +-
+> >  ...riting-qmp-commands.rst => writing-monitor-commands.rst} | 6 +++---
+> >  2 files changed, 4 insertions(+), 4 deletions(-)
+> >  rename docs/devel/{writing-qmp-commands.rst => writing-monitor-commands.rst} (99%)
 > >
-> > diff --git a/dump/dump.c b/dump/dump.c
-> > index ab625909f3..9c1c1fb738 100644
-> > --- a/dump/dump.c
-> > +++ b/dump/dump.c
-> > @@ -29,6 +29,7 @@
-> >  #include "qemu/error-report.h"
-> >  #include "qemu/main-loop.h"
-> >  #include "hw/misc/vmcoreinfo.h"
-> > +#include "migration/blocker.h"
-> >
-> >  #ifdef TARGET_X86_64
-> >  #include "win_dump.h"
-> > @@ -47,6 +48,8 @@
-> >
-> >  #define MAX_GUEST_NOTE_SIZE (1 << 20) /* 1MB should be enough */
-> >
-> > +static Error *dump_migration_blocker;
-> > +
-> >  #define ELF_NOTE_SIZE(hdr_size, name_size, desc_size)   \
-> >      ((DIV_ROUND_UP((hdr_size), 4) +                     \
-> >        DIV_ROUND_UP((name_size), 4) +                    \
-> > @@ -101,6 +104,7 @@ static int dump_cleanup(DumpState *s)
-> >              qemu_mutex_unlock_iothread();
-> >          }
-> >      }
-> > +    migrate_del_blocker(dump_migration_blocker);
-> >
-> >      return 0;
-> >  }
-> > @@ -1927,11 +1931,6 @@ void qmp_dump_guest_memory(bool paging, const char
-> > *file,
-> >      Error *local_err = NULL;
-> >      bool detach_p = false;
-> >
-> > -    if (runstate_check(RUN_STATE_INMIGRATE)) {
-> >
+> > diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+> > index f95df10b3e..7c25177c5d 100644
+> > --- a/docs/devel/index.rst
+> > +++ b/docs/devel/index.rst
+> > @@ -44,4 +44,4 @@ modifying QEMU's source code.
+> >     ebpf_rss
+> >     vfio-migration
+> >     qapi-code-gen
+> > -   writing-qmp-commands
+> > +   writing-monitor-commands
+> > diff --git a/docs/devel/writing-qmp-commands.rst b/docs/devel/writing-monitor-commands.rst
+> > similarity index 99%
+> > rename from docs/devel/writing-qmp-commands.rst
+> > rename to docs/devel/writing-monitor-commands.rst
+> > index 6a10a06c48..497c9ce0d5 100644
+> > --- a/docs/devel/writing-qmp-commands.rst
+> > +++ b/docs/devel/writing-monitor-commands.rst
+> > @@ -1,8 +1,8 @@
+> > -How to write QMP commands using the QAPI framework
+> > -==================================================
+> > +How to write monitor commands
+> > +=============================
+> >  
+> >  This document is a step-by-step guide on how to write new QMP commands using
+> > -the QAPI framework. It also shows how to implement new style HMP commands.
+> > +the QAPI framework and new style HMP commands.
 > 
-> This INMIGRATE check,
-> 
-> -        error_setg(errp, "Dump not allowed during incoming migration.");
-> > -        return;
-> > -    }
-> > -
-> >      /* if there is a dump in background, we should wait until the dump
-> >       * finished */
-> >      if (dump_in_progress()) {
-> > @@ -2005,6 +2004,21 @@ void qmp_dump_guest_memory(bool paging, const char
-> > *file,
-> >          return;
-> >      }
-> >
-> > +    if (!dump_migration_blocker) {
-> > +        error_setg(&dump_migration_blocker,
-> > +                   "Live migration disabled: dump-guest-memory in
-> > progress");
-> > +    }
-> > +
-> > +    /*
-> > +     * Allows even for -only-migratable, but forbid migration during the
-> > +     * process of dump guest memory.
-> > +     */
-> > +    if (migrate_add_blocker_internal(dump_migration_blocker, errp)) {
-> >
-> 
-> is now handled here with migration_is_idle() ?
-> 
-> I am not familiar enough with the run & migration states intricacies here
+> Recommend to drop "new style", here and in the commit message.
 
-Hmm, I thought it covers both src/dst, but after I double checked it seems
-not..
+Ok, will do.
 
-On the destination side, we seem to have used MigrationState somewhere like in
-migration_channel_process_incoming for reading parameters and capabilities, but
-OTOH we used MigrationIncomingState for most of the rest operations, e.g., to
-maintain dst migration state changes.  Then migration_is_idle() won't work on
-dst indeed..
-
-I think we should rename migration_is_idle() to migration_src_is_idle() at some
-point.
-
-For now, I'll respin and just keep the RUN_STATE_INMIGRATE check above.
-
-Thanks!
-
+Regards,
+Daniel
 -- 
-Peter Xu
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
