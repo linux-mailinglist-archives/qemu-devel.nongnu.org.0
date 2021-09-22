@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EF84414E07
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:23:42 +0200 (CEST)
-Received: from localhost ([::1]:40818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5EDC414E29
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:32:56 +0200 (CEST)
+Received: from localhost ([::1]:52296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT525-0008V4-C2
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:23:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44568)
+	id 1mT5B1-0008Cu-LA
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:32:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mT4uX-0002Zh-24; Wed, 22 Sep 2021 12:15:53 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:38906)
+ id 1mT4uY-0002bQ-9U; Wed, 22 Sep 2021 12:15:54 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:38948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mT4uV-0005I8-2n; Wed, 22 Sep 2021 12:15:52 -0400
+ id 1mT4uV-0005JR-Ex; Wed, 22 Sep 2021 12:15:53 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 52F9C21EBA;
- Wed, 22 Sep 2021 16:15:47 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 16B1021EBD;
+ Wed, 22 Sep 2021 16:15:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1632327348;
+ s=mail; t=1632327349;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DGnYGLYTZlt4UtXZbiZtPB9v0oVww6LTMwGhigIhC4w=;
- b=UPbC1fzbJrfdLTp7ZSQj2uQcWDXflOXpR/G4vVRGW9kdVFULzUF67xhe1kfuNYSz/JpOy1
- wbygKgvKMOyqx7pbbTbb6Y8z+9IiPW9zihN9nMV81AsEGbTgqsQrzORivur2m5ElixWh2H
- hKLkReYRjURA8IUJP7ZqkVTFDvxTEQs=
+ bh=XKa7YpvCaHNP7B/Gx81xxfSEDEFxmlko5ypNT6F1RPs=;
+ b=wtOmf1TGRi5+LsCZ7dTaWkdafLDUIQXjxY7cZKMSJPwbDnsncS8770qaxVmTeU8tVxHdsy
+ 98gXhs3KUKW1OrVqW4NQVrvc+Q9klOB56ADRcupW0/lzsumJ9QGaU1grDQEcXmiK54ZKOs
+ 5X4IsCXiqP+1fadiUoWHXRzy0Q+v+Wo=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 03/16] qapi: Implement x-machine-init QMP command
-Date: Wed, 22 Sep 2021 18:13:52 +0200
-Message-Id: <20210922161405.140018-4-damien.hedde@greensocs.com>
+Subject: [RFC PATCH v2 04/16] softmmu/qdev-monitor: add error handling in
+ qdev_set_id
+Date: Wed, 22 Sep 2021 18:13:53 +0200
+Message-Id: <20210922161405.140018-5-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210922161405.140018-1-damien.hedde@greensocs.com>
 References: <20210922161405.140018-1-damien.hedde@greensocs.com>
@@ -80,104 +81,142 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mirela Grujic <mirela.grujic@greensocs.com>
+qdev_set_id() is mostly used when the user adds a device (using
+-device cli option or device_add qmp command). This commit adds
+an error parameter to handle the case where the given id is
+already taken.
 
-The x-machine-init QMP command is available only if the -preconfig option
-is used and the current machine initialization phase is accel-created.
+Also document the function and add a return value in order to
+be able to capture success/failure: the function now returns the
+id in case of success, or NULL in case of failure.
 
-The command triggers QEMU to enter machine initialized phase and wait
-for the QMP configuration. In future commits, we will add the possiblity
-to create devices at this point.
+The commit modifies the 2 calling places (qdev-monitor and
+xen-legacy-backend) to add the error object parameter.
 
-To exit the initialized phase use the x-exit-preconfig QMP command.
+Note that the id is, right now, guaranteed to be unique because
+all ids came from the "device" QemuOptsList where the id is used
+as key. This addition is a preparation for a future commit which
+will relax the uniqueness.
 
-Signed-off-by: Mirela Grujic <mirela.grujic@greensocs.com>
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- qapi/machine.json | 23 +++++++++++++++++++++++
- softmmu/vl.c      | 19 +++++++++++++++----
- 2 files changed, 38 insertions(+), 4 deletions(-)
+ include/monitor/qdev.h      | 25 +++++++++++++++++++++++-
+ hw/xen/xen-legacy-backend.c |  3 ++-
+ softmmu/qdev-monitor.c      | 38 +++++++++++++++++++++++++++----------
+ 3 files changed, 54 insertions(+), 12 deletions(-)
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 969d37fb03..56330c0e8e 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1368,3 +1368,26 @@
- ##
- { 'command': 'query-machine-phase', 'returns': 'MachineInitPhaseStatus',
-              'allow-preconfig': true }
+diff --git a/include/monitor/qdev.h b/include/monitor/qdev.h
+index eaa947d73a..23c31f5296 100644
+--- a/include/monitor/qdev.h
++++ b/include/monitor/qdev.h
+@@ -9,6 +9,29 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp);
+ 
+ int qdev_device_help(QemuOpts *opts);
+ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp);
+-void qdev_set_id(DeviceState *dev, const char *id);
 +
-+##
-+# @x-machine-init:
-+#
-+# Enter machine initialized phase
-+#
-+# Since: 6.2
-+#
-+# Returns: If successful, nothing
-+#
-+# Notes: This command will trigger QEMU to execute initialization steps
-+#        that are required to enter the machine initialized phase. The command
-+#        is available only if the -preconfig command line option was passed and
-+#        if the machine is currently in the accel-created phase. To exit the
-+#        machine initialized phase use the x-exit-preconfig command.
-+#
-+# Example:
-+#
-+# -> { "execute": "x-machine-init" }
-+# <- { "return": {} }
-+#
-+##
-+{ 'command': 'x-machine-init', 'allow-preconfig': true }
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index d2552ba8ac..84c5132ad7 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -123,6 +123,7 @@
- #include "qapi/qapi-visit-qom.h"
- #include "qapi/qapi-commands-ui.h"
- #include "qapi/qmp/qdict.h"
-+#include "qapi/qapi-commands-machine.h"
- #include "qapi/qmp/qerror.h"
- #include "sysemu/iothread.h"
- #include "qemu/guest-random.h"
-@@ -2610,10 +2611,16 @@ static void qemu_init_displays(void)
-     }
++/**
++ * qdev_set_id: parent the device and set its id if provided.
++ * @dev: device to handle
++ * @id: id to be given to the device, or NULL.
++ *
++ * Returns: the id of the device in case of success; otherwise NULL.
++ *
++ * @dev must be unrealized, unparented and must not have an id.
++ *
++ * If @id is non-NULL, this function tries to setup @dev qom path as
++ * "/peripheral/id". If @id is already taken, it fails. If it succeeds,
++ * the id field of @dev is set to @id (@dev now owns the given @id
++ * parameter).
++ *
++ * If @id is NULL, this function generates a unique name and setups @dev
++ * qom path as "/peripheral-anon/name". This name is not set as the id
++ * of @dev.
++ *
++ * Upon success, it returns the id/name (generated or provided). The
++ * returned string is owned by the corresponding child property and must
++ * not be freed by the caller.
++ */
++const char *qdev_set_id(DeviceState *dev, const char *id, Error **errp);
+ 
+ #endif
+diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
+index dd8ae1452d..f541cfa0e9 100644
+--- a/hw/xen/xen-legacy-backend.c
++++ b/hw/xen/xen-legacy-backend.c
+@@ -276,7 +276,8 @@ static struct XenLegacyDevice *xen_be_get_xendev(const char *type, int dom,
+     xendev = g_malloc0(ops->size);
+     object_initialize(&xendev->qdev, ops->size, TYPE_XENBACKEND);
+     OBJECT(xendev)->free = g_free;
+-    qdev_set_id(DEVICE(xendev), g_strdup_printf("xen-%s-%d", type, dev));
++    qdev_set_id(DEVICE(xendev), g_strdup_printf("xen-%s-%d", type, dev),
++                &error_fatal);
+     qdev_realize(DEVICE(xendev), xen_sysbus, &error_fatal);
+     object_unref(OBJECT(xendev));
+ 
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index 25275984bd..0007698ff3 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -578,22 +578,34 @@ static BusState *qbus_find(const char *path, Error **errp)
+     return bus;
  }
  
--static void qemu_init_board(void)
-+void qmp_x_machine_init(Error **errp)
+-void qdev_set_id(DeviceState *dev, const char *id)
++const char *qdev_set_id(DeviceState *dev, const char *id, Error **errp)
  {
-     MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
- 
-+    if (phase_check(MACHINE_INIT_PHASE_INITIALIZED)) {
-+        error_setg(errp, "The command is permitted only before "
-+                         "the machine is initialized");
-+        return;
-+    }
++    ObjectProperty *prop;
 +
-     if (machine_class->default_ram_id && current_machine->ram_size &&
-         numa_uses_legacy_mem() && !current_machine->ram_memdev_id) {
-         create_default_memdev(current_machine, mem_path);
-@@ -2692,12 +2699,16 @@ static void qemu_machine_creation_done(void)
++    assert(!dev->id && !dev->realized);
++
++    /*
++     * object_property_[try_]add_child() below will assert the device
++     * has no parent
++     */
+     if (id) {
+-        dev->id = id;
+-    }
+-
+-    if (dev->id) {
+-        object_property_add_child(qdev_get_peripheral(), dev->id,
+-                                  OBJECT(dev));
++        prop = object_property_try_add_child(qdev_get_peripheral(), id,
++                                             OBJECT(dev), NULL);
++        if (prop) {
++            dev->id = id;
++        } else {
++            error_setg(errp, "Duplicate device ID '%s'", id);
++            return NULL;
++        }
+     } else {
+         static int anon_count;
+         gchar *name = g_strdup_printf("device[%d]", anon_count++);
+-        object_property_add_child(qdev_get_peripheral_anon(), name,
+-                                  OBJECT(dev));
++        prop = object_property_add_child(qdev_get_peripheral_anon(), name,
++                                         OBJECT(dev));
+         g_free(name);
+     }
++
++    return prop->name;
+ }
  
- void qmp_x_exit_preconfig(Error **errp)
- {
--    if (phase_check(MACHINE_INIT_PHASE_INITIALIZED)) {
--        error_setg(errp, "The command is permitted only before machine initialization");
-+    if (phase_check(MACHINE_INIT_PHASE_READY)) {
-+        error_setg(errp, "The command is permitted only before "
-+                         "the machine is ready");
-         return;
+ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+@@ -677,7 +689,13 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+         }
      }
  
--    qemu_init_board();
-+    if (!phase_check(MACHINE_INIT_PHASE_INITIALIZED)) {
-+        qmp_x_machine_init(errp);
+-    qdev_set_id(dev, qemu_opts_id(opts));
++    /*
++     * set dev's parent and register its id.
++     * If it fails it means the id is already taken.
++     */
++    if (!qdev_set_id(dev, qemu_opts_id(opts), errp)) {
++        goto err_del_dev;
 +    }
-+
-     qemu_create_cli_devices();
-     qemu_machine_creation_done();
  
+     /* set properties */
+     if (qemu_opt_foreach(opts, set_property, dev, errp)) {
 -- 
 2.33.0
 
