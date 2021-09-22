@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2BF4141D0
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 08:28:44 +0200 (CEST)
-Received: from localhost ([::1]:35466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F7B4141AD
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 08:25:02 +0200 (CEST)
+Received: from localhost ([::1]:55196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSvkJ-0003xC-Vj
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 02:28:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52654)
+	id 1mSvgj-0006UD-8e
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 02:25:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSvWx-0001PN-6Z
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 02:14:55 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:42888)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSvWv-0007Zx-OU
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 02:14:54 -0400
-Received: by mail-io1-xd31.google.com with SMTP id b10so1920646ioq.9
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 23:14:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NNhKAq0Hehk07nStkX54pJwuqwCV1f5deD76MoX6Rzw=;
- b=xdTn1jRTAOawVo4jB2+K+E5FRWIY2jMMD5bR7r0slx9yqt72CDfRw8oRI6av/UHvL2
- sTBzF9JWUUV33BRVIGnQOOjZVD/7XP++/X31mgOlzRrdkqWg+6B6mlVSqAoUFiE0MKxX
- YOinPVHD9jzqGeAVdw0WdgMx0r7FMgJVUKv9pBQflypp41/wdMqsMDspUE2H80gVukw9
- I3ooIi0qdgN/ykUU3Vk4mh6mrL+9gpvV6cHYGYuNZyS2Ti02ungl/U7VcDdaVhrsGLcj
- CUSt+/k7Ylewd3qlh4rBf+6lMQTYTm9w3QmLNtz9sWkk2Wd9CYBPiZon1dZagyD97z/H
- UYJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NNhKAq0Hehk07nStkX54pJwuqwCV1f5deD76MoX6Rzw=;
- b=Cc1gacJ9G9J5VBOnoa7Me5INMTKNlvl0I1neucoADjY2V/BdWC5zletlhPCXQ0+CsJ
- rU7b1kDDa3flieNyU7LXbtNlzjsQNH6qD0oxsdwpSUwfs2EpfvbIpUCX3xq/A/VfmY6A
- pTBUGQ2kSUBWvKV0rgq8tvOQDTpRpTAZWHbh23D6yhc47kMFa+LrFsf6KTpR6Lq70too
- KCyaq4E3zAgB9bac6K7MgE907gj7sB0fqfS1W2U8b0a9mWaZFWPtd2wFdSG7gAQUoc3m
- fKT25dvzZN/lFE7QcxdUgWPD8PziAuQgj6GxWcrmFY9eWFXv7DDISNu1FMBHMw9javDh
- Y43g==
-X-Gm-Message-State: AOAM5310ziB9hH6suFkoeTeU822vO0Ve24R5Dq8cNbNMfWAoQwaQwjbr
- EUQ7L79VrJARIO2kWYw1lLvigxA8aPqSk6VyMvk=
-X-Google-Smtp-Source: ABdhPJyCMEXn1CbJjIwdv7YNlRPH2I39KA4sHl9gq4qKPwlU5aQUjD2LkzcFSyZXNDIZDnRtyMBiTQ==
-X-Received: by 2002:a02:6988:: with SMTP id e130mr1092054jac.97.1632291292621; 
- Tue, 21 Sep 2021 23:14:52 -0700 (PDT)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a25sm540817ioq.46.2021.09.21.23.14.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Sep 2021 23:14:52 -0700 (PDT)
-From: Warner Losh <imp@bsdimp.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 14/14] bsd-user/signal: Create a dummy signal queueing function
-Date: Wed, 22 Sep 2021 00:14:38 -0600
-Message-Id: <20210922061438.27645-15-imp@bsdimp.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210922061438.27645-1-imp@bsdimp.com>
-References: <20210922061438.27645-1-imp@bsdimp.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1mSvee-0004Rh-Ud
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 02:22:53 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:38162 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1mSveb-0005iN-QC
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 02:22:52 -0400
+Received: from localhost.localdomain (unknown [10.20.42.112])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr2qty0phfgANAA--.7874S3;
+ Wed, 22 Sep 2021 14:22:39 +0800 (CST)
+Subject: Re: [PATCH v6 00/21] Add LoongArch linux-user emulation support
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <1631866380-31017-1-git-send-email-gaosong@loongson.cn>
+ <5d524802-1083-7280-97a7-9cd80037d5a3@linaro.org>
+From: Song Gao <gaosong@loongson.cn>
+Message-ID: <77e2f5b9-ff55-aad4-77dc-13a5547717b1@loongson.cn>
+Date: Wed, 22 Sep 2021 14:22:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd31.google.com
+In-Reply-To: <5d524802-1083-7280-97a7-9cd80037d5a3@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: AQAAf9Dxr2qty0phfgANAA--.7874S3
+X-Coremail-Antispam: 1UD129KBjvdXoWrKw4ftr45Aw4fAF1xtw1xAFb_yoWxuFcE93
+ yrKr1Du3s8Wr4UG3Z5Jr1SvF43tw4Fva48ta4Iq3yrZwnIvFZaqwn5CF9av3ZayFs5Zrn8
+ CFyUX3Z2kryUXjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbh8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+ wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+ vE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2
+ jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
+ Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
+ 6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
+ 1lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
+ e2xFo4CEbIxvr21lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY2
+ 0_XrWUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2Iq
+ xVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42
+ IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY
+ 6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
+ Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UUUUU
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,54 +72,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, richard.henderson@linaro.org,
- f4bug@amsat.org, Warner Losh <imp@bsdimp.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
+ yangxiaojuan@loongson.cn, laurent@vivier.eu, peterx@redhat.com,
+ f4bug@amsat.org, alistair.francis@wdc.com, maobibo@loongson.cn,
+ pbonzini@redhat.com, bmeng.cn@gmail.com, alex.bennee@linaro.org,
+ chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create dummy signal queueing function so we can start to integrate other
-architectures (at the cost of signals remaining broken) to tame the
-dependency graph a bit and to bring in signals in a more controlled
-fashion.
+Hi, Richard.
 
-Signed-off-by: Warner Losh <imp@bsdimp.com>
----
- bsd-user/qemu.h   | 1 +
- bsd-user/signal.c | 8 ++++++++
- 2 files changed, 9 insertions(+)
+On 09/21/2021 05:17 AM, Richard Henderson wrote:
+> On 9/17/21 1:12 AM, Song Gao wrote:
+>> The 'o32' code has been deleted at the latest kernel [1]. This series only support
+>> linux-user emulation.
+> 
+> I have now reviewed all but the linux-user/ portion.
+> 
+Thank you!
+> I see that kernel upstreaming is in progress,
+> 
+> https://lore.kernel.org/linux-kernel/20210917035736.3934017-1-chenhuacai@loongson.cn/
+> 
+> so hopefully this will be resolved soon.
+> 
+> Have you started working on system mode support for LoongArch, so that one may run that kernel?
+> Yes. We already support running the old kernel, but we don't support running the latest kernel yet.
 
-diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 5a2fd87e44..85d1f8fd2a 100644
---- a/bsd-user/qemu.h
-+++ b/bsd-user/qemu.h
-@@ -209,6 +209,7 @@ void process_pending_signals(CPUArchState *cpu_env);
- void signal_init(void);
- long do_sigreturn(CPUArchState *env);
- long do_rt_sigreturn(CPUArchState *env);
-+int queue_signal(CPUArchState *env, int sig, target_siginfo_t *info);
- abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
- 
- /* mmap.c */
-diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-index ad6d935569..4e7f618944 100644
---- a/bsd-user/signal.c
-+++ b/bsd-user/signal.c
-@@ -19,6 +19,14 @@
- #include "qemu/osdep.h"
- 
- #include "qemu.h"
-+/*
-+ * Queue a signal so that it will be send to the virtual CPU as soon as
-+ * possible.
-+ */
-+int queue_signal(CPUArchState *env, int sig, target_siginfo_t *info)
-+{
-+    return 1;
-+}
- 
- void signal_init(void)
- {
--- 
-2.32.0
+Song Gao
+thanks
+> 
+> r~
 
 
