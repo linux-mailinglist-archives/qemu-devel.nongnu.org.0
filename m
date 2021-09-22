@@ -2,53 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1E24145AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 11:59:24 +0200 (CEST)
-Received: from localhost ([::1]:60106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 962854145B8
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 12:04:02 +0200 (CEST)
+Received: from localhost ([::1]:34200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSz2B-0000d6-9P
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 05:59:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40870)
+	id 1mSz6f-0002Sx-LI
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 06:04:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mSz1L-0008Ni-R6
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 05:58:31 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:15185)
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mSz4Y-0001cc-16
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 06:01:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mSz1I-0000Oq-2y
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 05:58:30 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8CFD0746353;
- Wed, 22 Sep 2021 11:58:24 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 516AB745953; Wed, 22 Sep 2021 11:58:24 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 4F7D27457EE;
- Wed, 22 Sep 2021 11:58:24 +0200 (CEST)
-Date: Wed, 22 Sep 2021 11:58:24 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: ensuring a machine's buses have unique names
-In-Reply-To: <87y27przt6.fsf@dusky.pond.sub.org>
-Message-ID: <79a46e17-ddae-eab8-9ff6-80c3a64d0cb@eik.bme.hu>
-References: <CAFEAcA8Q2XEANtKfk_Ak2GgeM8b_=kf_qduLztCuL=E_k36FWg@mail.gmail.com>
- <87czq0l2mn.fsf@dusky.pond.sub.org>
- <CAFEAcA-1cGjt54XDEmKiDctySW4zdQptoc2taGp0XxMOtKvGCw@mail.gmail.com>
- <87mtoe4g40.fsf@dusky.pond.sub.org>
- <CAFEAcA_ExFiv3AurBAtTan10yuXRnsHMQS0yHa-vJpwB9u4HoA@mail.gmail.com>
- <71bb7b84-28a3-dd4b-d375-4b2494832655@eik.bme.hu>
- <87y27przt6.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mSz4K-00036B-MZ
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 06:01:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632304893;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RTRuldrya7LExhkbbi3PW8c+WO+Y3wSG3DR5T2tOs9w=;
+ b=hdcKPNCC+Q/PujDu4/fguYEj4MyQeCt/qzt77U/MlTcWtR/53NQfb4etgKq+D6Fbkl7+SV
+ lY3QJ/b/5GQJG4U/4xSmlCV/JOQSHegDznFPMgQsCqNgblPSjl/UIFhzluD2dsYxF+cuc8
+ 4ixaYePyINw71Iws8Y4STX5EpPuD/0I=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-463-tHg6S3J0PIGmnqWZ5eaf_A-1; Wed, 22 Sep 2021 06:01:32 -0400
+X-MC-Unique: tHg6S3J0PIGmnqWZ5eaf_A-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ f11-20020adfc98b000000b0015fedc2a8d4so1717028wrh.0
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 03:01:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RTRuldrya7LExhkbbi3PW8c+WO+Y3wSG3DR5T2tOs9w=;
+ b=BLiLeDP84e3OgQhBh8Ojmt7BMJNjTYA2BZ3wqf0I71IGcdDLhBRhBSPpCMSBnYc0mg
+ 9uWB1gfTynYcte+2kS62FmAykH5LsORWLVupfGW04pZGRdkOq/BSemM5Lkq4bpFSSrck
+ s2YjxkSdQicn0eXUqnr8B5hSoTVkbl5R9OM5pN4X3X5jUngQfLB9p+X6mvpn250oWdg9
+ WTpc/Kf8lO5hAcHkr59dd20Fx5tBIcvN70IK1FQPrZ3/mBaIalzw//LCSl/8Xu53ZizA
+ eU11luY5zlKzjmBMJo6Ewqffhc4YRVzy2dfvIqOzcxCwpu/ZheMl8WzQoSpASSSgL6iR
+ tnnw==
+X-Gm-Message-State: AOAM530yscSC7/UBxuuKR5eD7nSXnHwVpNLuCUbCkN1ppoDdVSTP3/Gc
+ K2NokrvDAMqNBclaJ5qesTxoZkU8tbpnuBfY8T67N75lms0l1DYlcvyZvCu3GtwMpzPrqh43nHN
+ ENsWMXYS7HImcQB8=
+X-Received: by 2002:adf:fac7:: with SMTP id a7mr40190177wrs.341.1632304890645; 
+ Wed, 22 Sep 2021 03:01:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw2PqpimOxGRWezUENo4r1a4qujFSYoKBK/QYz+DVEaWXcmKDYi9THvxCrO1720zRP1dp6BDw==
+X-Received: by 2002:adf:fac7:: with SMTP id a7mr40190160wrs.341.1632304890474; 
+ Wed, 22 Sep 2021 03:01:30 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id z19sm6770232wma.0.2021.09.22.03.01.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Sep 2021 03:01:29 -0700 (PDT)
+Subject: Re: [PATCH v3 26/35] acpi: build_dsdt_microvm: use
+ acpi_table_begin()/acpi_table_end() instead of build_header()
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20210907144814.741785-1-imammedo@redhat.com>
+ <20210907144814.741785-27-imammedo@redhat.com>
+From: Eric Auger <eauger@redhat.com>
+Message-ID: <a7e76d75-2fd3-9e64-7811-767139026d5a@redhat.com>
+Date: Wed, 22 Sep 2021 12:01:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210907144814.741785-27-imammedo@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eauger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eauger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,161 +99,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: kraxel@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Sep 2021, Markus Armbruster wrote:
-> BALATON Zoltan <balaton@eik.bme.hu> writes:
->
->> On Tue, 21 Sep 2021, Peter Maydell wrote:
->>> On Wed, 15 Sept 2021 at 05:28, Markus Armbruster <armbru@redhat.com> wrote:
->>>>
->>>> Peter Maydell <peter.maydell@linaro.org> writes:
->>>>> I'm not sure how best to sort this tangle out. We could:
->>>>>  * make controller devices pass in NULL as bus name; this
->>>>>    means that some bus names will change, which is an annoying
->>>>>    breakage but for these minor bus types we can probably
->>>>>    get away with it. This brings these buses into line with
->>>>>    how we've been handling uniqueness for ide and scsi.
->>>>
->>>> To gauge the breakage, we need a list of the affected bus names.
->>>
->>> Looking through, there are a few single-use or special
->>> purpose buses I'm going to ignore for now (eg vmbus, or
->>> the s390 ones). The four big bus types where controllers
->>> often specify a bus name and override the 'autogenerate
->>> unique name' handling are pci, ssi, sd, and i2c. (pci mostly
->>> gets away with it I expect by machines only having one pci
->>> bus.) Of those, I've gone through i2c. These are all the
->>> places where we create a specifically-named i2c bus (via
->>> i2c_init_bus()), together with the affected boards:
->>>
->>>   hw/arm/pxa2xx.c
->>>    - the PXA SoC code creates both the intended-for-use
->>>      i2c buses (which get auto-names) and also several i2c
->>>      buses intended for internal board-code use only which
->>>      are all given the same name "dummy".
->>>      Boards: connex, verdex, tosa, mainstone, akita, spitz,
->>>      borzoi, terrier, z2
->>>   hw/arm/stellaris.c
->>>    - The i2c controller names its bus "i2c". There is only one i2c
->>>      controller on these boards, so no name conflicts.
->>>      Boards: lm3s811evb, lm3s6965evb
->>>   hw/display/ati.c
->>>    - The ATI VGA device has an on-board i2c controller which it
->>>      connects the DDC that holds the EDID information. The bus is
->>>      always named "ati-vga.ddc", so if you have multiple of this
->>>      PCI device in the system the buses have the same names.
->>>   hw/display/sm501.c
->>>    - Same as ATI, but the bus name is "sm501.i2c"
->>>   hw/i2c/aspeed_i2c.c
->>>    - This I2C controller has either 14 or 16 (!) different i2c
->>>      buses, and it assigns them names "aspeed.i2c.N" for N = 0,1,2,...
->>>      The board code mostly seems to use these to wire up various
->>>      on-board i2c devices.
->>>      Boards: palmetto-bmc, supermicrox11-bmc, ast2500-evb, romulus-bmc,
->>>      swift-bmc, sonorapass-bmc, witherspoon-bmc, ast2600-evb,
->>>      tacoma-bmc, g220a-bmc, quanta-q71l-bmc, rainier-bmc
->>>   hw/i2c/bitbang_i2c.c
->>>    - the "GPIO to I2C bridge" device always names its bus "i2c".
->>>      Used only on musicpal, which only creates one of these buses.
->>>      Boards: musicpal
->>>   hw/i2c/exynos4210_i2c.c
->>>    - This i2c controller always names its bus "i2c". There are 9
->>>      of these controllers on the board, so they all have clashing
->>>      names.
->>>      Boards: nuri, smdkc210
->>>   hw/i2c/i2c_mux_pca954x.c
->>>    - This is an i2c multiplexer. All the child buses are named
->>>      "i2c-bus". The multiplexer is used by the aspeed and npcm7xx
->>>      boards. (There's a programmable way to get at individual
->>>      downstream i2c buses despite the name clash; none of the boards
->>>      using this multiplexer actually connect any devices downstream of
->>>      it yet.)
->>>      Boards: palmetto-bmc, supermicrox11-bmc, ast2500-evb, romulus-bmc,
->>>      swift-bmc, sonorapass-bmc, witherspoon-bmc, ast2600-evb,
->>>      tacoma-bmc, g220a-bmc, quanta-q71l-bmc, rainier-bmc,
->>>      npcm750-evb, quanta-gsj, quanta-gbs-bmc, kudo-bmc
->>>   hw/i2c/mpc_i2c.c
->>>    - This controller always names its bus "i2c". There is only one
->>>      of these controllers in the machine.
->>>      Boards: ppce500, mpc8544ds
->>>   hw/i2c/npcm7xx_smbus.c
->>>    - This controller always names its bus "i2c-bus". There are multiple
->>>      controllers on the boards. The name also clashes with the one used
->>>      by the pca954x muxes on these boards (see above).
->>>      Boards: npcm750-evb, quanta-gsj, quanta-gbs-bmc, kudo-bmc
->>>   hw/i2c/pm_smbus.c
->>>    - This is the PC SMBUS implementation (it is not a QOM device...)
->>>      The bus is always called "i2c".
->>>      Boards: haven't worked through; at least all the x86 PC-like
->>>      boards, I guess
->>>   hw/i2c/ppc4xx_i2c.c
->>>    - This controller always names its bus "i2c". The taihu and
->>>      ref405ep have only one controller, but sam460ex has two which
->>>      will have non-unique names.
->>>      Boards: taihu, ref405ep, sam460ex
->>>   hw/i2c/versatile_i2c.c
->>>    - This controller always names its bus "i2c". The MPS boards all
->>>      have multiples of this controller with clashing names; the others
->>>      have only one controller.
->>>      Boards: mps2-an385, mps2-an386, mps2-an500, mps2-an511,
->>>      mps2-an505, mps2-an521, mps3-an524, mps3-an547,
->>>      realview-eb, realview-eb-mpcore, realview-pb-a8, realview-pbx-a9,
->>>      versatileab, versatilepb, vexpress-a9, vexpress-a15
->>>
->>> In a lot of these cases I suspect the i2c controllers are
->>> provided either to allow connection of various internal-to-the-board
->>> devices, or simply so that guest OS bootup code that initializes
->>> the i2c controller doesn't fall over. However since there's
->>> nothing stopping users from creating i2c devices themselves
->>> on the commandline, some people might be doing that.
->>>
->>> In some of these cases (eg the i2c bus on the ATI VGA driver)
->>> I suspect the desired behaviour is "unique bus name based on
->>> a standard template, eg 'ati-vga.ddc.0/1/...'. It sounds like
->>> we can't do that, though. (Also they probably don't want to
->>> permit users to command-line plug i2c devices into it...)
->>
->> To me it looks like device code can't really set a globally unique
->> name on creating the bus without getting some help from upper
->> levels. So maybe naming busses should be done by qdev (or whatever is
->> handling this) instead of passing the name as an argument to
->> qbus_create or only use that name as a unique component within the
->> device and append it to a unique name for the device.
->
-> Have you read the whole thread?  qdev does come up with a name when
 
-No I haven't. This just got my attention because I'm responsible for 
-adding ati-vga.ddc and sm501.i2c and some ppc440 stuff so I was wondering 
-what could I do better bur otherwise I did not check the whole thread so 
-just ignore what I said if it's not useful in this context.
 
-Regards,
-BALATON Zoltan
+On 9/7/21 4:48 PM, Igor Mammedov wrote:
+> it replaces error-prone pointer arithmetic for build_header() API,
+> with 2 calls to start and finish table creation,
+> which hides offsets magic from API user.
+> 
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
-> passed a null pointer.  The problem is that we often don't.  Another
-> problem is that qdev can come up with non-unique names unless the user
-> is careful with device IDs (the values of -device / device_add parameter
-> id).
->
->>                                                       Thus we would
->> get names like sys.pci-0.ati-vga-0.ddc or so but not sure we want that
->> as it's hard to use on command line. Alternatively we can accept non
->> unique names but use another unique property such as device id to
->> identify devices which could be generated as an integer incremented
->> after every device add or some hash which would result in shorter
->> unique ids. Such id is already used by -drive and -net options where
->> used supplies a unique id and then can use that to reference the
->> created object by that id in other options. This could be extended to
->> devices and buses if it had a unique id, then it's not a problem to
->> have non-unique names.
->>
->> Regards,
->> BALATON Zoltan
->
->
+Eric
+> ---
+> v3:
+>   * s/acpi_init_table|acpi_table_composed/acpi_table_begin|acpi_table_end/
+> 
+> CC: marcel.apfelbaum@gmail.com
+> CC: kraxel@redhat.com
+> ---
+>  hw/i386/acpi-microvm.c | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
+> index 1a0f77b911..196d318499 100644
+> --- a/hw/i386/acpi-microvm.c
+> +++ b/hw/i386/acpi-microvm.c
+> @@ -113,16 +113,16 @@ build_dsdt_microvm(GArray *table_data, BIOSLinker *linker,
+>      Aml *dsdt, *sb_scope, *scope, *pkg;
+>      bool ambiguous;
+>      Object *isabus;
+> +    AcpiTable table = { .sig = "DSDT", .rev = 2, .oem_id = x86ms->oem_id,
+> +                        .oem_table_id = x86ms->oem_table_id };
+>  
+>      isabus = object_resolve_path_type("", TYPE_ISA_BUS, &ambiguous);
+>      assert(isabus);
+>      assert(!ambiguous);
+>  
+> +    acpi_table_begin(&table, table_data);
+>      dsdt = init_aml_allocator();
+>  
+> -    /* Reserve space for header */
+> -    acpi_data_push(dsdt->buf, sizeof(AcpiTableHeader));
+> -
+>      sb_scope = aml_scope("_SB");
+>      fw_cfg_add_acpi_dsdt(sb_scope, x86ms->fw_cfg);
+>      isa_build_aml(ISA_BUS(isabus), sb_scope);
+> @@ -144,11 +144,10 @@ build_dsdt_microvm(GArray *table_data, BIOSLinker *linker,
+>      aml_append(scope, aml_name_decl("_S5", pkg));
+>      aml_append(dsdt, scope);
+>  
+> -    /* copy AML table into ACPI tables blob and patch header there */
+> +    /* copy AML bytecode into ACPI tables blob */
+>      g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len);
+> -    build_header(linker, table_data,
+> -        (void *)(table_data->data + table_data->len - dsdt->buf->len),
+> -                 "DSDT", dsdt->buf->len, 2, x86ms->oem_id, x86ms->oem_table_id);
+> +
+> +    acpi_table_end(linker, &table);
+>      free_aml_allocator();
+>  }
+>  
+> 
+
 
