@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2451415039
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 20:54:20 +0200 (CEST)
-Received: from localhost ([::1]:52310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7537F415034
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 20:54:05 +0200 (CEST)
+Received: from localhost ([::1]:50980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT7Nr-0007YQ-MQ
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 14:54:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45918)
+	id 1mT7Nc-0006dl-3E
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 14:54:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mT6oG-0001JX-AI
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 14:17:33 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:44980)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mT6tZ-0008Mr-9W
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 14:23:01 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mT6oE-0005Gm-GC
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 14:17:31 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- nn5-20020a17090b38c500b0019af1c4b31fso2982673pjb.3
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 11:17:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mT6tX-0001Du-2h
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 14:23:00 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id u18so9627013wrg.5
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 11:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mksIt7IgFL4jU8JdOJhd/wd9CX/3SBkm4ZKbp2cPuD8=;
- b=y+2cKJBzyR+itfR6PvRZvhzIFadLMrHDJcRCAen2FBeForkPpBaz+2w53zYO3LW+2t
- kJHw+GKjG4qQFSFHt2maidlmnh4eSts6Pjzk+4ztCpUB0OQ31HD7znzAS/0mzpUL9ATo
- YwrhRI7P7fW2gvv1/oe1UjSFp6T/IL4GJuxz6FaZVRF5q/F9guWRcHN697KTbj70XNv2
- pwX7bUA1QDaVawuQan3IaOxvMaCr5PobvcLYbooqPbRCq0ZHIrv/4MBIdMJ1yG2gyaFq
- Ikwo3cazGohxlxmM0U2CXdtyWoXOC+k4op0zanWIpg7gAtKftUftORLUSOm3XM0O8mzW
- Cm8Q==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PR5CyJoHncj7xlsbEoL7F6aIdj1E6AnK0za2Kw2KYro=;
+ b=Vz19gh9aEXyCbKXfxMg5Di6jaeT9A9/2ggWYzXevsMRWRUjuVUztH9kjDBzA6sd2Dd
+ kzXvxu2JAPxFmANMOgo7ibrX/EuXTEwxigF9Cctfoaxtq1HMfo1wZQ9HpmckUBdZD7Lg
+ UnhDLuxBPKH11IZAODMxZe56gj9LU8dUCngehFYFdViAb8Et5xIEzQ1qYaLmwXDcRful
+ VckX8qrK8ADSFYkRuV6HlWVL8R/f+Yf97R1nEUJ4slHRu5iUR6rEdYcmPRD6fuw/lMwc
+ YFFysq7IkI7wxYqQxlHYLRdMaEIKoGp/SqRvK/J/DkjwrSfwhtUYPy0rLuctWmGtxZuG
+ DRYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mksIt7IgFL4jU8JdOJhd/wd9CX/3SBkm4ZKbp2cPuD8=;
- b=A2Wq9/6GvLe3m42OQpa5AJvFXSCMLkwOB7k4+a6C1uBXltNkvS9ZddFDLou9UrYMd9
- cChVpGwp3g9aUo738NuaBolxVAwLqV6vS2c9N9uvA1bgmaQumDSlwFrxXkDKWyVYT8ZO
- 3ZWSFcHbb4uSu1CQcufWvPrEg3KMLcca+QerMCkgp86sBWRrVR2+ATMzO80Mp0EEtZq8
- BhO9dYq4mFT33qL6FMUUvTasJhle3jyxPQ7TAW17nh19DHxgAY7FUNmKS40p+nIssxb1
- FsMlpbv6CUyx99yA+CST1aVM9FNH2mwpIaCsWXXBID/zB0V9zrV+Wd+JNU2tKLsKsR8m
- V6oA==
-X-Gm-Message-State: AOAM532wG1BmviJphdE4cWDhXoBW+RzRLz4rkli0T3o/9m4IvHaAZui2
- fwia1sWS0JyFiGF4Y1Bh2xO5BA==
-X-Google-Smtp-Source: ABdhPJxrlgdRYIEt56b/6fsJ+FR2TUBo1AEjDl0vPARvSLjX04VzVu63Hq6GVaaNRv2sJtr1ooulqQ==
-X-Received: by 2002:a17:90b:80a:: with SMTP id
- bk10mr407448pjb.127.1632334648229; 
- Wed, 22 Sep 2021 11:17:28 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id m20sm3585076pgc.25.2021.09.22.11.17.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Sep 2021 11:17:27 -0700 (PDT)
-Subject: Re: [PATCH v3 01/30] elf: Add machine type value for LoongArch
-To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
-References: <20210922180927.666273-1-git@xen0n.name>
- <20210922180927.666273-2-git@xen0n.name>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2cc2e563-b35d-8eab-b559-fb9bcf156af6@linaro.org>
-Date: Wed, 22 Sep 2021 11:17:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PR5CyJoHncj7xlsbEoL7F6aIdj1E6AnK0za2Kw2KYro=;
+ b=BnfLPXlgVoL3wOqwnBPoDvAm/DSygwNqYd5nPkshi0IoJXGQvH7uwX1S60Wn7bjFRe
+ KtG52wHN0sCph4ifhF94q9DGmOWVUR7iCEUElyuxeNoKUXpwSwDux6vJVKC4gac8UP+r
+ 2iVuyTOAPjEqEG4zYcUKuTL/4a3uJFbmxiCLOP7SutYXH+i6EkMiGdx14bakF4a/EuGB
+ sA2zYJkN2HfeUy0pwWUkTQtBeP6WwaB0pRPVkIHriMfq4azellCTbBySMrdazFqx3mqX
+ RFw5RM9MGwB3689vFEfay2z5Zu82iUI7up8gsoxwmDudBiiDQpbvNB5kLj8u1QR/nkzt
+ AdcA==
+X-Gm-Message-State: AOAM531b8WCsZQPUsf6NcoPrqLOIt86mujshRXCmk4GRzWQZQXSvMMQJ
+ 7cu5mYDSwCIinbHLLWKZXCBSyIUqByANehnzrNVMXQ==
+X-Google-Smtp-Source: ABdhPJxexSUWTragAwwI8+Jeb4J6AsCMS6XT8dwAfhfpPBG6vrACXxnrne/pU0A+3gIYSksSqDqrzEdXtOpv8y9Y2R4=
+X-Received: by 2002:a05:600c:2259:: with SMTP id
+ a25mr465632wmm.133.1632334977164; 
+ Wed, 22 Sep 2021 11:22:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210922180927.666273-2-git@xen0n.name>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+References: <20210918093140.5797-1-pbonzini@redhat.com>
+ <CAFEAcA_07d87j7y1qnBeTuoKQw=9=fY0Ci=6ky=XxBQbuEqDnw@mail.gmail.com>
+In-Reply-To: <CAFEAcA_07d87j7y1qnBeTuoKQw=9=fY0Ci=6ky=XxBQbuEqDnw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 22 Sep 2021 19:22:04 +0100
+Message-ID: <CAFEAcA_rhpcE9jMXazbG2vdfcDuaczdM488bZChDFHORbr23JA@mail.gmail.com>
+Subject: Re: [PULL 0/3] Update meson version
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,26 +78,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/21 11:08 AM, WANG Xuerui wrote:
-> This is already officially allocated as recorded in GNU binutils
-> repo [1], and the description is updated in [2]. Add to enable further
-> work.
-> 
-> [1]:https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=4cf2ad720078a9f490dd5b5bc8893a926479196e
-> [2]:https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=01a8c731aacbdbed0eb5682d13cc074dc7e25fb3
-> 
-> Signed-off-by: WANG Xuerui<git@xen0n.name>
-> ---
->   include/elf.h | 2 ++
->   1 file changed, 2 insertions(+)
+On Tue, 21 Sept 2021 at 13:40, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Sat, 18 Sept 2021 at 10:34, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >
+> > The following changes since commit 831aaf24967a49d7750090b9dcfd6bf356f16529:
+> >
+> >   Merge remote-tracking branch 'remotes/marcandre/tags/misc-pull-request' into staging (2021-09-14 18:14:56 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+> >
+> > for you to fetch changes up to ccc3f971c37bd2202a21abc9f0be093f10426364:
+> >
+> >   hexagon: use env keyword argument to pass PYTHONPATH (2021-09-15 09:12:55 +0200)
+> >
+> > ----------------------------------------------------------------
+> > * Update Meson to 0.58.2
+> >
+> > ----------------------------------------------------------------
+> > Paolo Bonzini (3):
+> >       meson: bump submodule to 0.58.2
+> >       meson: switch minimum meson version to 0.58.2
+> >       hexagon: use env keyword argument to pass PYTHONPATH
+>
+> So, I tried merging this, ran into some "is this an issue with this
+> pullreq or is it just an intermittent or infrastructure" issues,
+> and decided to postpone the merge for a bit and retry it later.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I had another go at this. As far as I can tell it causes all
+the vm-build-{openbsd,netbsd,freebsd} build-and-tests to hang.
+At any rate the VMs are sat there eating host CPU.
+Does 'make vm-build-freebsd' etc work for you ?
 
-r~
+-- PMM
 
