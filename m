@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA68414105
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 07:02:31 +0200 (CEST)
-Received: from localhost ([::1]:57150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E994414112
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 07:08:04 +0200 (CEST)
+Received: from localhost ([::1]:42476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSuOs-0006ml-Lv
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 01:02:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41282)
+	id 1mSuUE-0007eU-R0
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 01:08:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSuJS-0006fs-BY
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 00:56:54 -0400
-Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:46855)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSuJQ-0007oY-RG
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 00:56:54 -0400
-Received: by mail-il1-x130.google.com with SMTP id h20so1325226ilj.13
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 21:56:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=j/SZajdj1q4GBzUgoYeNuK9i6EevpvYpkOKU5eddA5M=;
- b=PdCadxxVB9ZgYS2Qvtkcd98GiTg19qWVhucKwUQ4az4nzjzc+KP6xOADCN3nBYx4bw
- 822PRBhfzlmyvkT8XDlhw9MCLMHczbRxAseqd54WYJHImXBvWiICxvF9QRsQmGQJ3V8X
- 1I+eK10fy2ZpdpstrNmTtoqEbhTFKZP73b//g3V7fli3WYa4IlhFIJ6CM7iqgLzwgQwy
- dZrQ4H1gxxeb7gOJfi0qSaCsMtqh1pSBdyQvN6oYPgp4LS2qAay69AZ/ex6IAkl1qwy2
- XQYoZm2kBb2Zvze40RXGYLvUuTWJmY1N4DegmxF5bU/g8JYMLDjyC4lomm0yNFHl/wNN
- pwPg==
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1mSuPm-0001yf-Bn
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 01:03:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57250)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1mSuPi-0004v4-HG
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 01:03:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632287000;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TG1pdPDNk3CVlUpfWwFFCcSEwIHKL1ktxT7Q8juMo1U=;
+ b=AyKNmhcI0vhdpQLv/+K4TwZpU4OfGVEDlAcASfVg8INU92sc+wSIEq1OoUd3XyaUXAoKst
+ +3CByfDySGM8gkLyaRkRjCDdYLPBHJWcpe3UB336ZH+MCbZJi9RH466Mar4NOTOXvEPGeI
+ 9/T5p+1FbQX4a/lipKCb0LG4bcxJl5w=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-452-XOD2DqRpP2a3G4ef3fQ1WQ-1; Wed, 22 Sep 2021 01:03:19 -0400
+X-MC-Unique: XOD2DqRpP2a3G4ef3fQ1WQ-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ j4-20020ad454c4000000b0037a900dda7aso9156776qvx.14
+ for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 22:03:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=j/SZajdj1q4GBzUgoYeNuK9i6EevpvYpkOKU5eddA5M=;
- b=f4i9vnZtvYdoa1Sf+PgqLrAp7kj6XNpasPCRn6xOg8IOCPJvMa4wfLSbIBXU/7tg3t
- 2EpRHMgXr/DmKmgMXMkTPwgIO38SnSR3WmuVJHE73umGTm6o0DM7z2GMuZ2gqLbMtA9A
- 9iDBHub8t1DS/nW3aGuBaN/K5LARZGKnE9X8HlHLV3d6hgFwdc6U4qxWRQIfAlyiWBS/
- 4NC6M7r3gyxfS5AjmoRg3zA7Lv9ETHiGnsVQehc7zeUmXEJJYJTa9KmIRLpfF7Qt5yhb
- 0pzAgKoA5ivt/oBWPlP5S3giHSUjKBy14Nq3lAdS4YVYjUeUJD6GO4ss4LyhizvxSHsI
- WBvA==
-X-Gm-Message-State: AOAM531FPrmMBykS8U2HBt2+KMNANkWHafmKlaPEKc0qt2YGHIvHTorQ
- 7t2spRYZrBGKl6k6u7DVU0UTbit3gQOYvyvytbE=
-X-Google-Smtp-Source: ABdhPJwUOAU3qzH2qx7D6VBr4s+eLcgG9WmP9DNX+PqvCOyuM1MZXSsb3FqqeyWj4fMxxb42TVeR5w==
-X-Received: by 2002:a05:6e02:1a84:: with SMTP id
- k4mr16745287ilv.146.1632286611527; 
- Tue, 21 Sep 2021 21:56:51 -0700 (PDT)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id j5sm512833ilk.58.2021.09.21.21.56.50
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TG1pdPDNk3CVlUpfWwFFCcSEwIHKL1ktxT7Q8juMo1U=;
+ b=vAqC17b1G6/gd+Vh10dnjGv2mdRnkhUJuMEpoE3eViqTWPP7P0qztmUWYj/zFDvDet
+ GYlrhS9WlGJ3z8Rhn0uRz0uNk6sgI+knTegBdBpcsgmjT3OSJBVFGDZb9j3ZI3ywVT67
+ /hzdzBw49eyy0FN+X+HjS1b3jRyJy7z//Q73eRG+euLLaFYTgq9FxWkvwHqP8Zi/Kcrr
+ pPSDhbjw633LJ+VZk11eWaF/Cu6QDNqCEmOLOZ6E78rm9uQSqugMmmC/2fIPlF4dFOyR
+ xSVvVl/1vbEsDKm+Uoo9sqqXM694/OBiZPlzf+4Sxw2JLiCYBCwgjXdkbVoDdLM6YH1T
+ 753Q==
+X-Gm-Message-State: AOAM533O8m5jqEue3NliVOKAfzI0lyV+qqNpD4v2FfYryDtjppV8fgkT
+ ZtQPJkbBMeB2GeWJ9efZIubA7FZckRa+6hE5I7evcOlSy73yvMZobvoTwo3n6xofz/HqnygO6K4
+ A3PoC9PtMxQM9Y80=
+X-Received: by 2002:ad4:5591:: with SMTP id e17mr35039114qvx.50.1632286999401; 
+ Tue, 21 Sep 2021 22:03:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyASq8ocPMoPFgjrmBxd4lfVy+6f5Z7cwJWW7gIBNs5tAiyIsh3SFf//ZC5X4gjJrS1Romu2A==
+X-Received: by 2002:ad4:5591:: with SMTP id e17mr35039100qvx.50.1632286999216; 
+ Tue, 21 Sep 2021 22:03:19 -0700 (PDT)
+Received: from LeoBras.redhat.com ([2804:431:c7f0:e5d7:bbae:108a:d2ca:1c18])
+ by smtp.gmail.com with ESMTPSA id q192sm926675qka.93.2021.09.21.22.03.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Sep 2021 21:56:51 -0700 (PDT)
-From: Warner Losh <imp@bsdimp.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 9/9] bsd-user/mmap.c: assert that target_mprotect cannot
- fail
-Date: Tue, 21 Sep 2021 22:56:36 -0600
-Message-Id: <20210922045636.25206-10-imp@bsdimp.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210922045636.25206-1-imp@bsdimp.com>
-References: <20210922045636.25206-1-imp@bsdimp.com>
+ Tue, 21 Sep 2021 22:03:18 -0700 (PDT)
+From: Leonardo Bras <leobras@redhat.com>
+To: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>
+Subject: [PATCH v2 0/3] QIOChannel async_write & async_flush + MSG_ZEROCOPY +
+ multifd
+Date: Wed, 22 Sep 2021 02:03:37 -0300
+Message-Id: <20210922050340.614781-1-leobras@redhat.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=leobras@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::130;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x130.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,44 +96,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org,
- =?UTF-8?q?Mika=C3=ABl=20Urankar?= <mikael.urankar@gmail.com>,
- richard.henderson@linaro.org, f4bug@amsat.org, Warner Losh <imp@bsdimp.com>
+Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to the equivalent linux-user change 86abac06c14. All error
-conditions that target_mprotect checks are also checked by target_mmap.
-EACCESS cannot happen because we are just removing PROT_WRITE.  ENOMEM
-should not happen because we are modifying a whole VMA (and we have
-bigger problems anyway if it happens).
+This patch series intends to enable MSG_ZEROCOPY in QIOChannel, and make
+use of it for multifd migration performance improvement.
 
-Fixes a Coverity false positive, where Coverity complains about
-target_mprotect's return value being passed to tb_invalidate_phys_range.
+Patch #1 creates new callbacks for QIOChannel, allowing the implementation
+of asynchronous writing.
 
-Signed-off-by: Mikaël Urankar <mikael.urankar@gmail.com>
-Signed-off-by: Warner Losh <imp@bsdimp.com>
+Patch #2 implements async_write and async_flush on QIOChannelSocket,
+
+Patch #3 Makes use of async_write + async_flush to enable MSG_ZEROCOPY
+for migration using multifd nocomp. 
+
+
+Results:
+So far, the resource usage of __sys_sendmsg() reduced 15 times, and the
+overall migration took 13-18% less time, based in synthetic workload.
+
+The objective is to reduce migration time in hosts with heavy cpu usage.
+
 ---
- bsd-user/mmap.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+Changes since v1:
+- Reimplemented the patchset using async_write + async_flush approach.
+- Implemented a flush to be able to tell whenever all data was written.
 
-diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c
-index 792ff00548..4ddbd50b62 100644
---- a/bsd-user/mmap.c
-+++ b/bsd-user/mmap.c
-@@ -591,10 +591,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-                 goto fail;
-             if (!(prot & PROT_WRITE)) {
-                 ret = target_mprotect(start, len, prot);
--                if (ret != 0) {
--                    start = ret;
--                    goto the_end;
--                }
-+                assert(ret == 0);
-             }
-             goto the_end;
-         }
+Leonardo Bras (3):
+  QIOCHannel: Add io_async_writev & io_async_flush callbacks
+  QIOChannelSocket: Implement io_async_write & io_async_flush
+  multifd: Send using asynchronous write on nocomp to send RAM pages.
+
+ include/io/channel-socket.h |   2 +
+ include/io/channel.h        |  93 +++++++++++++++++++----
+ io/channel-socket.c         | 145 ++++++++++++++++++++++++++++++++++--
+ io/channel.c                |  66 ++++++++++++----
+ migration/multifd.c         |   3 +-
+ 5 files changed, 271 insertions(+), 38 deletions(-)
+
 -- 
-2.32.0
+2.33.0
 
 
