@@ -2,81 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31FD841408E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 06:26:46 +0200 (CEST)
-Received: from localhost ([::1]:58292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7105C414099
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 06:34:27 +0200 (CEST)
+Received: from localhost ([::1]:60612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mStqG-0003Ix-OB
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 00:26:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37312)
+	id 1mStxi-0005Mg-Gt
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 00:34:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mStoq-0002WF-ER
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 00:25:16 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:51994)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mStoo-00059G-W8
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 00:25:16 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id dw14so1145491pjb.1
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 21:25:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=CexT/r0fHm90zamNCKz/ocV4g8Wv8T1WIqCQeXP1ptA=;
- b=x2PmRly0wN9ss/qXP5XBGgd92xjAlaeJpzgKhhN9bpqbnFSprt2c9yGQiMvr0d5hnv
- Iu0V3xWfH3lwiuSABZG9MLAJ2CdP9HVS0ZrMwQihyU6cqrIbghuF78jSbRd35rwzjOx4
- ZvhIdx5fHNletOzi0jIuuaVYPa2ruOxU3e3cMfEqduPLnNTnJBz1UmkT0CnBxjAF5/Zq
- Wkf7mHvRnD2xFUBJDdlfyPIRuEbXX4VHiLx10TPfwZp46K+0TMKpWALFLdy+30cKS3VF
- GvL3+fWlnQU42Dd3dBxh2q8pKX8EptpHP2uk26s4wbVdXG9rQhTc5w95B9agJiBoZ1nA
- 47iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CexT/r0fHm90zamNCKz/ocV4g8Wv8T1WIqCQeXP1ptA=;
- b=SRxcUGyAmwRPN/jpphajvKdstjAWpMz+S2Trz8tdnPbuyy5OB46LAtcaahqPvGMyHL
- pBs8U9Jsii0nNWhzQ3JzMnSzIg+ju08DMqsEtAzPa1wol4BF1z1EstqfWAE+gBXTEUtu
- pMBgnzLu60O00CMR6qhezDJ4NRLOmnK23C49PLAdB9+guG45v6rtQzJUHzoIY19QmjuP
- m7sPXACuaUfJxYGSZB7S0+S6fgc1pdrBiqJ+UVsq+L3Bc167mldXY0PiZKJpFJW9QdGm
- e2Das1FpryztOAEesmRfHcryw0OzLvMx0koaI0NXQCnn+ZBW1L5YEs9nzGRNOysFhUhW
- f2fA==
-X-Gm-Message-State: AOAM530AC9d/UPi7PyM8b22ZitRFIsqak3kb2lFSByIPeiBUkJ5Ih6PA
- ZHKYEGU5HKg/X7ugEMUfzOwvROlH52UQTQ==
-X-Google-Smtp-Source: ABdhPJzkezU71QHsZ1gu7fLFau78f1FGohbrSQkt0p0FFjfJcQqrjo4mqNhaSdT+0KqIWfDr3xsWJw==
-X-Received: by 2002:a17:90a:3ec5:: with SMTP id
- k63mr9078729pjc.185.1632284712941; 
- Tue, 21 Sep 2021 21:25:12 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id p189sm631113pfp.167.2021.09.21.21.25.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Sep 2021 21:25:12 -0700 (PDT)
-Subject: Re: [PATCH v2 09/30] tcg/loongarch64: Implement tcg_out_mov and
- tcg_out_movi
-To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
-References: <20210921201915.601245-1-git@xen0n.name>
- <20210921201915.601245-10-git@xen0n.name>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0717a7de-7c41-990d-ec7a-51b44f49724e@linaro.org>
-Date: Tue, 21 Sep 2021 21:25:10 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mStwg-0004ej-Bl
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 00:33:22 -0400
+Received: from [115.28.160.31] (port=60726 helo=mailbox.box.xen0n.name)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mStwd-0003n7-OV
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 00:33:21 -0400
+Received: from [192.168.9.172] (unknown [101.88.29.172])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 38479600FF;
+ Wed, 22 Sep 2021 12:33:10 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1632285190; bh=4HCL2d6ndr/TInCxZ+hbEZtxWKzktPakPDIuCmOBPVg=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=cqwwzHyCUNdjngjuPeaYV5YVeRRBgTDnCELrfi7LoFwP1DN3TZ+3TRsUOK2zRpbIF
+ GVqTwckK/qtFrco3fr6fjtCyUcxghvag+vWVs46+67UYnhttGmSawBvZKKtxhsK7bI
+ hrsgyvW9rKnYUNFUl8uesZC+2dySCIb7xXANzzHs=
+Message-ID: <9d072cc6-c4d8-7b00-36b6-6e91de8734e5@xen0n.name>
+Date: Wed, 22 Sep 2021 12:33:09 +0800
 MIME-Version: 1.0
-In-Reply-To: <20210921201915.601245-10-git@xen0n.name>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
+ Thunderbird/94.0a1
+Subject: Re: [PATCH v2 03/30] tcg/loongarch64: Add the tcg-target.h file
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210921201915.601245-1-git@xen0n.name>
+ <20210921201915.601245-4-git@xen0n.name>
+ <e73b36c7-05c7-9f9d-0912-5f8d8517fe83@linaro.org>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <e73b36c7-05c7-9f9d-0912-5f8d8517fe83@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,30 +68,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/21/21 1:18 PM, WANG Xuerui wrote:
-> +    /* Test for PC-relative values that can be loaded faster.  */
-> +    intptr_t pc_offset = val - (uintptr_t)s->code_ptr;
+Hi Richard,
 
-This isn't quite right for split r^x code buffer.
-You should have seen this with --enable-debug-tcg...
-
-You need pc_offset = tcg_pcrel_diff(s, (void *)val).
-
-> +    if (pc_offset == (int32_t)pc_offset) {
-> +        tcg_target_long lo = sextreg(pc_offset, 0, 12);
-> +        tcg_target_long hi = pc_offset - lo;
-> +        tcg_out_opc_pcaddu12i(s, rd, hi >> 12);
-
-And... this doesn't quite work, right at the edges.  If lo is negative, hi can overflow 
-out of range.  There are a number of ways to fix this.  One is to extract the pieces and 
-re-assemble to see if it matches.  Another is to rearrange the arithmetic just a little 
-and use PCALAU12I.
-
-> +    tcg_target_long upper = (val >> 12) & 0xfffff;
-> +    tcg_target_long higher = (val >> 32) & 0xfffff;
-
-Better to use extract64(val, 12, 20) and extract64(val, 32, 30).
-
-
-r~
+On 9/22/21 11:55, Richard Henderson wrote:
+> On 9/21/21 1:18 PM, WANG Xuerui wrote:
+>> Signed-off-by: WANG Xuerui<git@xen0n.name>
+>> ---
+>>   tcg/loongarch64/tcg-target.h | 180 +++++++++++++++++++++++++++++++++++
+>>   1 file changed, 180 insertions(+)
+>>   create mode 100644 tcg/loongarch64/tcg-target.h
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+> However...
+>
+>
+>> +#define TCG_TARGET_HAS_sub2_i32         0
+>> +#define TCG_TARGET_HAS_mulu2_i32        0
+>> +#define TCG_TARGET_HAS_muls2_i32        0
+>> +#define TCG_TARGET_HAS_muluh_i32        1
+>> +#define TCG_TARGET_HAS_mulsh_i32        1
+>> +#define TCG_TARGET_HAS_ext8s_i32        1
+>> +#define TCG_TARGET_HAS_ext16s_i32       1
+>> +#define TCG_TARGET_HAS_ext8u_i32        1
+>> +#define TCG_TARGET_HAS_ext16u_i32       1
+>> +#define TCG_TARGET_HAS_bswap16_i32      0
+>
+> It might be better to enable these with the patch that adds the insns.
+Sounds like a good idea, I'll re-organize to enable these individually 
+in each commit in v3.
+>
+> r~
 
