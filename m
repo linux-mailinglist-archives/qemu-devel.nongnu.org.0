@@ -2,38 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C46414596
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 11:53:58 +0200 (CEST)
-Received: from localhost ([::1]:52840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA1E24145AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 11:59:24 +0200 (CEST)
+Received: from localhost ([::1]:60106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSywv-0003vL-G3
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 05:53:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39420)
+	id 1mSz2B-0000d6-9P
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 05:59:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mSyuO-0000Tu-D2; Wed, 22 Sep 2021 05:51:20 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:17890)
+ id 1mSz1L-0008Ni-R6
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 05:58:31 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:15185)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mSyuI-0002Ww-Ef; Wed, 22 Sep 2021 05:51:19 -0400
+ id 1mSz1I-0000Oq-2y
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 05:58:30 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 55B73748F56;
- Wed, 22 Sep 2021 11:51:08 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 8CFD0746353;
+ Wed, 22 Sep 2021 11:58:24 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2877C748F52; Wed, 22 Sep 2021 11:51:08 +0200 (CEST)
+ id 516AB745953; Wed, 22 Sep 2021 11:58:24 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 26486748F4C;
- Wed, 22 Sep 2021 11:51:08 +0200 (CEST)
-Date: Wed, 22 Sep 2021 11:51:08 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 4F7D27457EE;
+ Wed, 22 Sep 2021 11:58:24 +0200 (CEST)
+Date: Wed, 22 Sep 2021 11:58:24 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] spapr_numa.c: fixes in
- spapr_numa_FORM2_write_rtas_tables()
-In-Reply-To: <20210922102625.43c89e1f@bahia.huguette>
-Message-ID: <e58f3fce-b1b5-1e90-10a1-3a76169e3940@eik.bme.hu>
-References: <20210921194347.52347-1-danielhb413@gmail.com>
- <20210922102625.43c89e1f@bahia.huguette>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: ensuring a machine's buses have unique names
+In-Reply-To: <87y27przt6.fsf@dusky.pond.sub.org>
+Message-ID: <79a46e17-ddae-eab8-9ff6-80c3a64d0cb@eik.bme.hu>
+References: <CAFEAcA8Q2XEANtKfk_Ak2GgeM8b_=kf_qduLztCuL=E_k36FWg@mail.gmail.com>
+ <87czq0l2mn.fsf@dusky.pond.sub.org>
+ <CAFEAcA-1cGjt54XDEmKiDctySW4zdQptoc2taGp0XxMOtKvGCw@mail.gmail.com>
+ <87mtoe4g40.fsf@dusky.pond.sub.org>
+ <CAFEAcA_ExFiv3AurBAtTan10yuXRnsHMQS0yHa-vJpwB9u4HoA@mail.gmail.com>
+ <71bb7b84-28a3-dd4b-d375-4b2494832655@eik.bme.hu>
+ <87y27przt6.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-Spam-Probability: 8%
@@ -56,148 +62,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Sep 2021, Greg Kurz wrote:
-> On Tue, 21 Sep 2021 16:43:47 -0300
-> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+On Wed, 22 Sep 2021, Markus Armbruster wrote:
+> BALATON Zoltan <balaton@eik.bme.hu> writes:
 >
->> This patch has a handful of modifications for the recent added
->> FORM2 support:
+>> On Tue, 21 Sep 2021, Peter Maydell wrote:
+>>> On Wed, 15 Sept 2021 at 05:28, Markus Armbruster <armbru@redhat.com> wrote:
+>>>>
+>>>> Peter Maydell <peter.maydell@linaro.org> writes:
+>>>>> I'm not sure how best to sort this tangle out. We could:
+>>>>>  * make controller devices pass in NULL as bus name; this
+>>>>>    means that some bus names will change, which is an annoying
+>>>>>    breakage but for these minor bus types we can probably
+>>>>>    get away with it. This brings these buses into line with
+>>>>>    how we've been handling uniqueness for ide and scsi.
+>>>>
+>>>> To gauge the breakage, we need a list of the affected bus names.
+>>>
+>>> Looking through, there are a few single-use or special
+>>> purpose buses I'm going to ignore for now (eg vmbus, or
+>>> the s390 ones). The four big bus types where controllers
+>>> often specify a bus name and override the 'autogenerate
+>>> unique name' handling are pci, ssi, sd, and i2c. (pci mostly
+>>> gets away with it I expect by machines only having one pci
+>>> bus.) Of those, I've gone through i2c. These are all the
+>>> places where we create a specifically-named i2c bus (via
+>>> i2c_init_bus()), together with the affected boards:
+>>>
+>>>   hw/arm/pxa2xx.c
+>>>    - the PXA SoC code creates both the intended-for-use
+>>>      i2c buses (which get auto-names) and also several i2c
+>>>      buses intended for internal board-code use only which
+>>>      are all given the same name "dummy".
+>>>      Boards: connex, verdex, tosa, mainstone, akita, spitz,
+>>>      borzoi, terrier, z2
+>>>   hw/arm/stellaris.c
+>>>    - The i2c controller names its bus "i2c". There is only one i2c
+>>>      controller on these boards, so no name conflicts.
+>>>      Boards: lm3s811evb, lm3s6965evb
+>>>   hw/display/ati.c
+>>>    - The ATI VGA device has an on-board i2c controller which it
+>>>      connects the DDC that holds the EDID information. The bus is
+>>>      always named "ati-vga.ddc", so if you have multiple of this
+>>>      PCI device in the system the buses have the same names.
+>>>   hw/display/sm501.c
+>>>    - Same as ATI, but the bus name is "sm501.i2c"
+>>>   hw/i2c/aspeed_i2c.c
+>>>    - This I2C controller has either 14 or 16 (!) different i2c
+>>>      buses, and it assigns them names "aspeed.i2c.N" for N = 0,1,2,...
+>>>      The board code mostly seems to use these to wire up various
+>>>      on-board i2c devices.
+>>>      Boards: palmetto-bmc, supermicrox11-bmc, ast2500-evb, romulus-bmc,
+>>>      swift-bmc, sonorapass-bmc, witherspoon-bmc, ast2600-evb,
+>>>      tacoma-bmc, g220a-bmc, quanta-q71l-bmc, rainier-bmc
+>>>   hw/i2c/bitbang_i2c.c
+>>>    - the "GPIO to I2C bridge" device always names its bus "i2c".
+>>>      Used only on musicpal, which only creates one of these buses.
+>>>      Boards: musicpal
+>>>   hw/i2c/exynos4210_i2c.c
+>>>    - This i2c controller always names its bus "i2c". There are 9
+>>>      of these controllers on the board, so they all have clashing
+>>>      names.
+>>>      Boards: nuri, smdkc210
+>>>   hw/i2c/i2c_mux_pca954x.c
+>>>    - This is an i2c multiplexer. All the child buses are named
+>>>      "i2c-bus". The multiplexer is used by the aspeed and npcm7xx
+>>>      boards. (There's a programmable way to get at individual
+>>>      downstream i2c buses despite the name clash; none of the boards
+>>>      using this multiplexer actually connect any devices downstream of
+>>>      it yet.)
+>>>      Boards: palmetto-bmc, supermicrox11-bmc, ast2500-evb, romulus-bmc,
+>>>      swift-bmc, sonorapass-bmc, witherspoon-bmc, ast2600-evb,
+>>>      tacoma-bmc, g220a-bmc, quanta-q71l-bmc, rainier-bmc,
+>>>      npcm750-evb, quanta-gsj, quanta-gbs-bmc, kudo-bmc
+>>>   hw/i2c/mpc_i2c.c
+>>>    - This controller always names its bus "i2c". There is only one
+>>>      of these controllers in the machine.
+>>>      Boards: ppce500, mpc8544ds
+>>>   hw/i2c/npcm7xx_smbus.c
+>>>    - This controller always names its bus "i2c-bus". There are multiple
+>>>      controllers on the boards. The name also clashes with the one used
+>>>      by the pca954x muxes on these boards (see above).
+>>>      Boards: npcm750-evb, quanta-gsj, quanta-gbs-bmc, kudo-bmc
+>>>   hw/i2c/pm_smbus.c
+>>>    - This is the PC SMBUS implementation (it is not a QOM device...)
+>>>      The bus is always called "i2c".
+>>>      Boards: haven't worked through; at least all the x86 PC-like
+>>>      boards, I guess
+>>>   hw/i2c/ppc4xx_i2c.c
+>>>    - This controller always names its bus "i2c". The taihu and
+>>>      ref405ep have only one controller, but sam460ex has two which
+>>>      will have non-unique names.
+>>>      Boards: taihu, ref405ep, sam460ex
+>>>   hw/i2c/versatile_i2c.c
+>>>    - This controller always names its bus "i2c". The MPS boards all
+>>>      have multiples of this controller with clashing names; the others
+>>>      have only one controller.
+>>>      Boards: mps2-an385, mps2-an386, mps2-an500, mps2-an511,
+>>>      mps2-an505, mps2-an521, mps3-an524, mps3-an547,
+>>>      realview-eb, realview-eb-mpcore, realview-pb-a8, realview-pbx-a9,
+>>>      versatileab, versatilepb, vexpress-a9, vexpress-a15
+>>>
+>>> In a lot of these cases I suspect the i2c controllers are
+>>> provided either to allow connection of various internal-to-the-board
+>>> devices, or simply so that guest OS bootup code that initializes
+>>> the i2c controller doesn't fall over. However since there's
+>>> nothing stopping users from creating i2c devices themselves
+>>> on the commandline, some people might be doing that.
+>>>
+>>> In some of these cases (eg the i2c bus on the ATI VGA driver)
+>>> I suspect the desired behaviour is "unique bus name based on
+>>> a standard template, eg 'ati-vga.ddc.0/1/...'. It sounds like
+>>> we can't do that, though. (Also they probably don't want to
+>>> permit users to command-line plug i2c devices into it...)
 >>
->> - there is no particular reason for both 'lookup_index_table' and
->> 'distance_table' to be allocated in the heap, since their sizes are
->> known right at the start of the function. Use static allocation in
->> them to spare a couple of g_new0() calls;
->>
->> - to not allocate more than the necessary size in 'distance_table'. At
->> this moment the array is oversized due to allocating uint32_t for all
->> elements, when most of them fits in an uint8_t;
->>
->> - create a NUMA_LOCAL_DISTANCE macro to avoid hardcoding the local
->> distance value.
->>
+>> To me it looks like device code can't really set a globally unique
+>> name on creating the bus without getting some help from upper
+>> levels. So maybe naming busses should be done by qdev (or whatever is
+>> handling this) instead of passing the name as an argument to
+>> qbus_create or only use that name as a unique component within the
+>> device and append it to a unique name for the device.
 >
-> Not needed. A notion of minimal distance, which is obviously
-> synonymous to local, already exists in the "sysemu/numa.h"
-> header :
->
-> #define NUMA_DISTANCE_MIN         10
->
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>  hw/ppc/spapr_numa.c | 35 +++++++++++++++++++----------------
->>  1 file changed, 19 insertions(+), 16 deletions(-)
->>
->> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
->> index 58d5dc7084..039a0439c6 100644
->> --- a/hw/ppc/spapr_numa.c
->> +++ b/hw/ppc/spapr_numa.c
->> @@ -19,6 +19,9 @@
->>  /* Moved from hw/ppc/spapr_pci_nvlink2.c */
->>  #define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
->>
->> +/* Macro to avoid hardcoding the local distance value */
->> +#define NUMA_LOCAL_DISTANCE         10
->> +
->>  /*
->>   * Retrieves max_dist_ref_points of the current NUMA affinity.
->>   */
->> @@ -500,17 +503,21 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
->>      MachineState *ms = MACHINE(spapr);
->>      NodeInfo *numa_info = ms->numa_state->nodes;
->>      int nb_numa_nodes = ms->numa_state->num_nodes;
->> +    /* Lookup index table has an extra uint32_t with its length */
->> +    uint32_t lookup_index_table[nb_numa_nodes + 1];
->>      int distance_table_entries = nb_numa_nodes * nb_numa_nodes;
->> -    g_autofree uint32_t *lookup_index_table = NULL;
->> -    g_autofree uint32_t *distance_table = NULL;
->> -    int src, dst, i, distance_table_size;
->> -    uint8_t *node_distances;
->> +    /*
->> +     * Distance table is an uint8_t array with a leading uint32_t
->> +     * containing its length.
->> +     */
->> +    uint8_t distance_table[distance_table_entries + 4];
->> +    uint32_t *distance_table_length;
->> +    int src, dst, i;
->>
->>      /*
->>       * ibm,numa-lookup-index-table: array with length and a
->>       * list of NUMA ids present in the guest.
->>       */
->> -    lookup_index_table = g_new0(uint32_t, nb_numa_nodes + 1);
->>      lookup_index_table[0] = cpu_to_be32(nb_numa_nodes);
->>
->>      for (i = 0; i < nb_numa_nodes; i++) {
->> @@ -518,8 +525,7 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
->>      }
->>
->>      _FDT(fdt_setprop(fdt, rtas, "ibm,numa-lookup-index-table",
->> -                     lookup_index_table,
->> -                     (nb_numa_nodes + 1) * sizeof(uint32_t)));
->> +                     lookup_index_table, sizeof(lookup_index_table)));
->>
->>      /*
->>       * ibm,numa-distance-table: contains all node distances. First
->> @@ -531,11 +537,10 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
->>       * array because NUMA ids can be sparse (node 0 is the first,
->>       * node 8 is the second ...).
->>       */
->> -    distance_table = g_new0(uint32_t, distance_table_entries + 1);
->> -    distance_table[0] = cpu_to_be32(distance_table_entries);
->> +    distance_table_length = (uint32_t *)distance_table;
->> +    distance_table_length[0] = cpu_to_be32(distance_table_entries);
->>
->> -    node_distances = (uint8_t *)&distance_table[1];
->> -    i = 0;
->> +    i = 4;
->>
->
-> A comment reminding why we're doing that wouldn't hurt, e.g.
->
-> /* Skip the array size (uint32_t) */
+> Have you read the whole thread?  qdev does come up with a name when
 
-Then maybe instead of (or in addition to) a comment you could write 
-sizeof(uint32_t) or sizeof(distance_rable[0]) instead of constant 4 to 
-make this more explicit.
+No I haven't. This just got my attention because I'm responsible for 
+adding ati-vga.ddc and sm501.i2c and some ppc440 stuff so I was wondering 
+what could I do better bur otherwise I did not check the whole thread so 
+just ignore what I said if it's not useful in this context.
 
 Regards,
 BALATON Zoltan
 
-> With these fixed, especially using NUMA_DISTANCE_MIN, you
-> can add:
+> passed a null pointer.  The problem is that we often don't.  Another
+> problem is that qdev can come up with non-unique names unless the user
+> is careful with device IDs (the values of -device / device_add parameter
+> id).
 >
-> Reviewed-by: Greg Kurz <groug@kaod.org>
->
->>      for (src = 0; src < nb_numa_nodes; src++) {
->>          for (dst = 0; dst < nb_numa_nodes; dst++) {
->> @@ -546,18 +551,16 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
->>               * adding the numa_info to retrieve distance info from.
->>               */
->>              if (src == dst) {
->> -                node_distances[i++] = 10;
->> +                distance_table[i++] = NUMA_LOCAL_DISTANCE;
->>                  continue;
->>              }
+>>                                                       Thus we would
+>> get names like sys.pci-0.ati-vga-0.ddc or so but not sure we want that
+>> as it's hard to use on command line. Alternatively we can accept non
+>> unique names but use another unique property such as device id to
+>> identify devices which could be generated as an integer incremented
+>> after every device add or some hash which would result in shorter
+>> unique ids. Such id is already used by -drive and -net options where
+>> used supplies a unique id and then can use that to reference the
+>> created object by that id in other options. This could be extended to
+>> devices and buses if it had a unique id, then it's not a problem to
+>> have non-unique names.
 >>
->> -            node_distances[i++] = numa_info[src].distance[dst];
->> +            distance_table[i++] = numa_info[src].distance[dst];
->>          }
->>      }
->>
->> -    distance_table_size = distance_table_entries * sizeof(uint8_t) +
->> -                          sizeof(uint32_t);
->>      _FDT(fdt_setprop(fdt, rtas, "ibm,numa-distance-table",
->> -                     distance_table, distance_table_size));
->> +                     distance_table, sizeof(distance_table)));
->>  }
->>
->>  /*
->
+>> Regards,
+>> BALATON Zoltan
 >
 >
 
