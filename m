@@ -2,57 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB18414F38
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:36:03 +0200 (CEST)
-Received: from localhost ([::1]:39140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C653C414F39
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:36:24 +0200 (CEST)
+Received: from localhost ([::1]:39940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT6A5-0001j7-9P
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:36:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34604)
+	id 1mT6AQ-0002KZ-Rv
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:36:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mT66i-0007ZV-FT
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:32:32 -0400
-Received: from [115.28.160.31] (port=39844 helo=mailbox.box.xen0n.name)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mT66b-0000Vy-T1
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:32:32 -0400
-Received: from [192.168.9.172] (unknown [101.88.29.172])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 6D624633F2;
- Thu, 23 Sep 2021 01:32:20 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632331940; bh=8zDOXjhgew2/NmjfWvfXVWPL4E6TWqAnyZfp/4BfuRY=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=WZpIFaYXaVEUzE8CyF6NF20IRpSqWwaz+C2nDuf/5ED5jHL5uBCSUHxqWz7V0tzdm
- Dmfifz/7TLk2jmqdiH8iAaBbhFnVlZvqS4p7w9I0A9vxbzwcMesfCQW0KqFYavX8C1
- RJXSJWWeVOuvQgt2ZasKY887bRcMqm+gu48yGjzk=
-Message-ID: <3a02530c-c757-5494-0468-e467353c1d4b@xen0n.name>
-Date: Thu, 23 Sep 2021 01:32:20 +0800
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mT67g-0008EX-OB
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:33:32 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:46816)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mT67f-0001Pe-2z
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:33:32 -0400
+Received: by mail-wr1-x430.google.com with SMTP id t7so9058728wrw.13
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 10:33:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=LuHOtbpjl7U3RpmrPs3rpowDqeOj/YPTp4rDXMp3zD4=;
+ b=jqh66/j06tRCD9eSeLc0RLXnvFa8BN9MT8BTu9RHcYBIuRaG+bHpYm0tDxNQ2vasjm
+ zJo6q+Gr26KoS7NhUhMTXgcnN6wFB+68dNGwI+eKg/kTuP9Kt8752uMu4liBorr90DCs
+ fMmiNzo4PoBIxRJlS6CqBFk0sOeIKcCFZGuEflJOsyZfbHH5rhL+yEe0YyxPwO9Q0Dhc
+ rq4nZvVBxpSDoApA8LyqjrvPucFvoiVcMpysxKRSJ15n9iDFp5jHJFFYyYtPIQTIOdEs
+ 8hZdS0UjX7wRdd/OKJbAVMxXLqDGlM8npFn4UTYn/AXL8G9TYeLXDFFbIcNpNTQCeeNs
+ n2Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=LuHOtbpjl7U3RpmrPs3rpowDqeOj/YPTp4rDXMp3zD4=;
+ b=mR8Yd/AhDHxcjbfTzNrJ0iuRvv5lkKSQyLS8S75bi53hbJSy3Rh6+1bfOBnw/+rOP2
+ 9RS5qv5PX3FQZtBJWj1YVmHjcEDd5iQAnggl6Iq2a1BFKbp4R0pEaWexTu2Lwmji2Kd5
+ Wzr/fN+EZ2r75crfwCmNm+yYLz65ZPojOuUbmw7V4sUW/85dUXUXGIn8q7fzUzLHIib1
+ NjNQZcMFaE2jIp9tnqlmu2tpi41rpgTf8ghjwETv/Ub5JfLL/XjXdugY7WoU6twckjNB
+ pkEmKsznzfU8kG7jfOzjg7MNL6G7R2jKqUc9zKgkcfiolZf5WR087cQ1cSLN92pWxpPd
+ H14w==
+X-Gm-Message-State: AOAM532SMvUIQh1l1MTRv/M5JIVwdDFy6ufYw7onnOPzkXUxs5Z6iYos
+ sVq6lq8iaXMPEkPYjWuKL04=
+X-Google-Smtp-Source: ABdhPJwNmMxywYPwaPKW7mI01WTn1jahtHTs6/FapHWmDXMk2GxFzcitfnccT4iVQKZKCuwWzy+awA==
+X-Received: by 2002:a1c:2246:: with SMTP id i67mr222330wmi.157.1632332009041; 
+ Wed, 22 Sep 2021 10:33:29 -0700 (PDT)
+Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.118])
+ by smtp.gmail.com with ESMTPSA id r4sm2836905wma.48.2021.09.22.10.33.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Sep 2021 10:33:28 -0700 (PDT)
+Message-ID: <a311ab77-50bb-1d4b-f1ec-2d52d7a9546c@amsat.org>
+Date: Wed, 22 Sep 2021 19:33:27 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
- Thunderbird/94.0a1
-Subject: Re: [PATCH v2 23/30] tcg/loongarch64: Add softmmu load/store helpers, 
- implement qemu_ld/qemu_st ops
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [RFC PATCH] tests/docker: add a debian-native image and make
+ available
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210921201915.601245-1-git@xen0n.name>
- <20210921201915.601245-24-git@xen0n.name>
- <69924e4b-53dc-fd75-db6b-d094cec103b5@linaro.org>
-From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <69924e4b-53dc-fd75-db6b-d094cec103b5@linaro.org>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210922151528.2192966-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20210922151528.2192966-1-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,109 +91,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Anders Roxell <anders.roxell@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+On 9/22/21 17:15, Alex Bennée wrote:
+> This image is intended for building whatever the native versions of
+> QEMU are for the host architecture. This will hopefully be an aid for
+> 3rd parties who want to be able to build QEMU themselves without
+> redoing all the dependencies themselves.
+> 
+> We disable the registry because we currently don't have multi-arch
+> support there.
 
-On 9/23/21 00:29, Richard Henderson wrote:
-> On 9/21/21 1:19 PM, WANG Xuerui wrote:
->> +    /* Compare masked address with the TLB entry.  */
->> +    label_ptr[0] = s->code_ptr;
->> +    tcg_out_opc_bne(s, TCG_REG_TMP0, TCG_REG_TMP1, 0);
->> +
->> +    /* TLB Hit - translate address using addend.  */
->> +    tcg_out_opc_add_d(s, TCG_REG_TMP0, TCG_REG_TMP2, addrl);
->
-> You removed a little too much here.  You still need
->
->     if (TARGET_LONG_BITS == 32) {
->         tcg_out_ext32u(s, TCG_REG_TMP0, addrl);
->         addrl = TCG_REG_TMP0;
->     }
->     tcg_out_opc_add_d(s, TCG_REG_TMP0, TCG_REG_TMP2, addrl);
-Ah, of course that was necessary because TARGET_LONG_BITS depends on the 
-*target*... silly me. Thanks for catching this, I was just about to 
-debug the "mysterious" segfaults on all the 32-bit targets :facepalm:
->
->> +static void add_qemu_ldst_label(TCGContext *s, int is_ld, 
->> TCGMemOpIdx oi,
->> +                                TCGReg datalo, TCGReg addrlo,
->> +                                void *raddr, tcg_insn_unit **label_ptr)
->> +{
->> +    TCGLabelQemuLdst *label = new_ldst_label(s);
->> +
->> +    label->is_ld = is_ld;
->> +    label->oi = oi;
->> +    label->type = 0;
->
-> Type should be set based on "is_64" argument to tcg_out_qemu_ld (or 
-> indeed, is_64 could be replaced by "type", which would probably make 
-> more sense).
->
-> This will be used to fix...
->
->> +    if (opc & MO_SIGN) {
->> +        /* Sign-extend directly into destination.  */
->> +        switch (size) {
->> +        case MO_8:
->> +            tcg_out_ext8s(s, l->datalo_reg, TCG_REG_A0);
->> +            break;
->> +        case MO_16:
->> +            tcg_out_ext16s(s, l->datalo_reg, TCG_REG_A0);
->> +            break;
->> +        case MO_32:
->> +            tcg_out_ext32s(s, l->datalo_reg, TCG_REG_A0);
->> +            break;
->> +        default:
->> +            g_assert_not_reached();
->> +            break;
->> +        }
->> +    } else {
->> +        tcg_out_mov(s, size == MO_64, l->datalo_reg, TCG_REG_A0);
->> +    }
->
-> ... this, where TCG_TYPE_I32 loads should always be sign-extended from 
-> 32-bits.  Something like
->
->     switch (opc & MO_SSIZE) {
->     case MO_SB:
->         ext8s;
->         break;
->     case MO_SH:
->         ext16s;
->         break;
->     case MO_SL:
->         ext32s;
->         break;
->     case MO_UL:
->         if (type == TCG_TYPE_I32) {
->             ext32s;
->             break;
->         }
->         /* fall through */
->     default:
->         tcg_out_mov(s, TCG_TYPE_REG, datalo, A0);
->         break;
->     }
-Ack; I'll modify tcg_out_qemu_ld and add_qemu_ldst_label to take a TCGType.
->
->> +    case MO_64:
->> +        tcg_out_mov(s, TCG_TYPE_PTR, TCG_REG_A2, l->datalo_reg);
->
-> TCG_TYPE_I64, to match MO_64.
-Ack; will fix.
->
->> +    if (USE_GUEST_BASE) {
->> +        tcg_out_opc_add_d(s, base, TCG_GUEST_BASE_REG, addr_regl);
->> +    } else {
->> +        tcg_out_opc_add_d(s, base, addr_regl, TCG_REG_ZERO);
->> +    }
->
-> Still adding zero in tcg_out_qemu_st.
-One probably should not even attempt to fix code at 4 am, esp. while 
-going through tens of review comments...
->
->
-> r~
+Appreciated!
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Anders Roxell <anders.roxell@linaro.org>
+> ---
+>   tests/docker/Makefile.include                 |  4 ++
+>   tests/docker/common.rc                        | 10 +++-
+>   tests/docker/dockerfiles/debian-native.docker | 49 +++++++++++++++++++
+>   3 files changed, 61 insertions(+), 2 deletions(-)
+>   create mode 100644 tests/docker/dockerfiles/debian-native.docker
 
