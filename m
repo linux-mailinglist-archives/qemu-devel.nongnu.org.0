@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E59D3414E16
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:27:38 +0200 (CEST)
-Received: from localhost ([::1]:47280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10844414ED6
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:09:30 +0200 (CEST)
+Received: from localhost ([::1]:46442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT55t-0004bX-R1
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44676)
+	id 1mT5kO-0002i9-RR
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:09:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mT4ue-0002xf-Tq; Wed, 22 Sep 2021 12:16:00 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:39108)
+ id 1mT4ug-00032v-84; Wed, 22 Sep 2021 12:16:02 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:39132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mT4uc-0005O0-1i; Wed, 22 Sep 2021 12:16:00 -0400
+ id 1mT4uc-0005OV-8A; Wed, 22 Sep 2021 12:16:01 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 615DE21EC9;
- Wed, 22 Sep 2021 16:15:54 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 4E73021ECB;
+ Wed, 22 Sep 2021 16:15:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1632327354;
+ s=mail; t=1632327355;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PDCjVxFBi4vz75aeR9pd9AbmoW6STuPuMbNBE/FSM7I=;
- b=ICuAAVCXm0R5uk9SjJ8PoZaJwYoy4CElxlYLonWdbRGOal6uenKQyWFhRGYtaMcpNGrB6U
- a6eNGZVWTngTm/nJTjQ651qUUGJcEfSF62QKzWyQ8J+LWw+rY7XTtY9hl/Kg9JWezPiQT2
- mj0ltS02PcDOghYVnG1qEo0ZJHBn8H4=
+ bh=ow5aMrqN/i5D/dv1vm+J5tz7Z/sAyFJH5Io1/i7HEmw=;
+ b=cHbJePzpcvHXQEkqOdmaeWcRNrJ837qUy9Smnwsf4FkYlw79QNCGGyVPvnpY0eWxfDYkrY
+ Gcyfi8h/ljklnuDrFdhj+SC0Q9suuCMFH6X6PkgUXB/DYK4rXoUWqJXJJmrOrjy7EPcEAj
+ CWsJ/7O0ROaTwhJk7Qw6cuIAJX3Xrb8=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 09/16] hw/core/machine: Remove the dynamic sysbus
- devices type check
-Date: Wed, 22 Sep 2021 18:13:58 +0200
-Message-Id: <20210922161405.140018-10-damien.hedde@greensocs.com>
+Subject: [RFC PATCH v2 10/16] qdev-monitor: allow adding any sysbus device
+ before machine is ready
+Date: Wed, 22 Sep 2021 18:13:59 +0200
+Message-Id: <20210922161405.140018-11-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210922161405.140018-1-damien.hedde@greensocs.com>
 References: <20210922161405.140018-1-damien.hedde@greensocs.com>
@@ -81,90 +81,41 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we check sysbus device types during device creation, we
-can remove the check done in the machine init done notifier.
-This was the only thing done by this notifier, so we remove the
-whole sysbus_notifier structure of the MachineState.
+Skip the sysbus device type per-machine allow-list check before the
+MACHINE_INIT_PHASE_READY phase.
 
-Note: This notifier was checking all /peripheral and /peripheral-anon
-sysbus devices. Now we only check those added by -device cli option or
-device_add qmp command when handling the command/option. So if there
-are some devices added in one of these containers manually (eg in
-machine C code), these will not be checked anymore.
-This use case does not seem to appear apart from
-hw/xen/xen-legacy-backend.c (it uses qdev_set_id() and in this case,
-not for a sysbus device, so it's ok).
+This patch permits adding any sysbus device (it still needs to be
+user_creatable) when using the -preconfig experimental option.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- include/hw/boards.h |  1 -
- hw/core/machine.c   | 27 ---------------------------
- 2 files changed, 28 deletions(-)
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 934443c1cd..ccbc40355a 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -311,7 +311,6 @@ typedef struct CpuTopology {
- struct MachineState {
-     /*< private >*/
-     Object parent_obj;
--    Notifier sysbus_notifier;
- 
-     /*< public >*/
- 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 1a18912dc8..521438e90a 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -571,18 +571,6 @@ bool machine_class_is_dynamic_sysbus_dev_allowed(MachineClass *mc,
-     return allowed;
- }
- 
--static void validate_sysbus_device(SysBusDevice *sbdev, void *opaque)
--{
--    MachineState *machine = opaque;
--    MachineClass *mc = MACHINE_GET_CLASS(machine);
--
--    if (!device_is_dynamic_sysbus(mc, DEVICE(sbdev))) {
--        error_report("Option '-device %s' cannot be handled by this machine",
--                     object_class_get_name(object_get_class(OBJECT(sbdev))));
--        exit(1);
--    }
--}
--
- static char *machine_get_memdev(Object *obj, Error **errp)
- {
-     MachineState *ms = MACHINE(obj);
-@@ -598,17 +586,6 @@ static void machine_set_memdev(Object *obj, const char *value, Error **errp)
-     ms->ram_memdev_id = g_strdup(value);
- }
- 
--static void machine_init_notify(Notifier *notifier, void *data)
--{
--    MachineState *machine = MACHINE(qdev_get_machine());
--
--    /*
--     * Loop through all dynamically created sysbus devices and check if they are
--     * all allowed.  If a device is not allowed, error out.
--     */
--    foreach_dynamic_sysbus_device(validate_sysbus_device, machine);
--}
--
- HotpluggableCPUList *machine_query_hotpluggable_cpus(MachineState *machine)
- {
-     int i;
-@@ -1030,10 +1007,6 @@ static void machine_initfn(Object *obj)
-                                         "Table (HMAT)");
+This commit is RFC. Depending on the condition to allow a device
+to be added, it may change.
+---
+ softmmu/qdev-monitor.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index f1c9242855..73b991adda 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -269,8 +269,13 @@ static DeviceClass *qdev_get_device_class(const char **driver, Error **errp)
+         return NULL;
      }
  
--    /* Register notifier when init is done for sysbus sanity checks */
--    ms->sysbus_notifier.notify = machine_init_notify;
--    qemu_add_machine_init_done_notifier(&ms->sysbus_notifier);
--
-     /* default to mc->default_cpus */
-     ms->smp.cpus = mc->default_cpus;
-     ms->smp.max_cpus = mc->default_cpus;
+-    if (object_class_dynamic_cast(oc, TYPE_SYS_BUS_DEVICE)) {
+-        /* sysbus devices need to be allowed by the machine */
++    if (object_class_dynamic_cast(oc, TYPE_SYS_BUS_DEVICE) &&
++        phase_check(MACHINE_INIT_PHASE_READY)) {
++        /*
++         * Sysbus devices need to be allowed by the machine.
++         * We only check that after the machine is ready in order to let
++         * us add any user_creatable sysbus device during machine creation.
++         */
+         MachineClass *mc = MACHINE_CLASS(object_get_class(qdev_get_machine()));
+         if (!machine_class_is_dynamic_sysbus_dev_allowed(mc, *driver)) {
+             error_setg(errp, "'%s' is not an allowed pluggable sysbus device "
 -- 
 2.33.0
 
