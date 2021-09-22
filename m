@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 227D9413FC5
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 04:51:43 +0200 (CEST)
-Received: from localhost ([::1]:50478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B75D8413FE4
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 05:06:30 +0200 (CEST)
+Received: from localhost ([::1]:53180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSsMH-0006b1-PP
-	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 22:51:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51196)
+	id 1mSsab-0000vA-Ae
+	for lists+qemu-devel@lfdr.de; Tue, 21 Sep 2021 23:06:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSsLF-0005sm-KB
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 22:50:37 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:38402)
+ id 1mSsYj-0008JB-CL
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 23:04:33 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:39482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mSsLD-0007Fj-Rk
- for qemu-devel@nongnu.org; Tue, 21 Sep 2021 22:50:37 -0400
-Received: by mail-pf1-x433.google.com with SMTP id y4so1434362pfe.5
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 19:50:32 -0700 (PDT)
+ id 1mSsYc-0002WD-KT
+ for qemu-devel@nongnu.org; Tue, 21 Sep 2021 23:04:33 -0400
+Received: by mail-pf1-x430.google.com with SMTP id e16so1455093pfc.6
+ for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 20:04:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bS5TG+ZF3gtTGUyek7vqzOfYXC/RB+1kpLPOu3JfcWI=;
- b=US1HQWR7/bZ3kjzY6laBdgtL85IJQIMYifvE/nJyZ01CK8Bn/zv/jSTomqJxyUQgua
- YipR74/JAM36+QKQFsUP3+v7s1AMdgVPn9kAOEoD+j1W8fyKVFDRGIzJtXu1Em68YZXt
- BgJW7uJr9VyrgmRVY5u3ejZ1EpPTqb/pA7DOXdcsPLwPasxz67lHir5ABExjhDrFI/NK
- ckTOiQPFA2BGWFatFjxK8Eg8jW4SJT/81Z0YOC821hNBD/hW5gFkEH2jt1UYy1+lLGWH
- CLpIHNDx8EISkNPne9laQet1t9uAKO+UczHrLYPzHbWOzYxB4ABi8wAzNZPpb5qWznj8
- cvnw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9RrXmvYVWwjZWWFTWqfAImmx/l9eEEMuwuSGE48QpwI=;
+ b=xbQDp+R8DEkfZAyS2BNeblzscUAeXRqgRM1KEIcLwQoNPSmBQdkuH6nLpHfesIeuGl
+ gHdqgyw484gKvonrkE9fitnhYfCjHT0FSasYPQO5l3zHq16D6eguQFN1hW+UuBS6NyIN
+ mYcF59+/qmbyycX4JD/olvHUkXxNhMQm5tm5PZKByyW3LNnJ3JUVlBooMII0UMAOxOxM
+ aliL62fB/ZPqB6phLeDkjtSNeZWHuLSuRujODDsQUalUlE6bwbXt3/lYFQAhARDKJ+H2
+ 3AEC5JzRu8hJy2gNgmo2iUSHvRojcu9PJ8xW5lp/z3Z0GD7BHVbQV1DKqzyfj1G5g4jG
+ XzzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=bS5TG+ZF3gtTGUyek7vqzOfYXC/RB+1kpLPOu3JfcWI=;
- b=H6qn8QhJIEBnIA0AB6EA/ftJCDskayJnGhdIQa4GrpjcafQYe6jWwisp0qQpJUk3Q8
- CWQ+dOaZhUwN6lnvylJFRZMd/XW84pDW/AVhOHvLA3GbvNyV+7k/WHrAqE9tN5Pjpmsv
- lHolje+wwAy/L3lNJXH4vdE52HmYX60KouuQtqnH2YVd4Nad2mBgg9mdSVXmNsfAdxVG
- 2kfZdqYSP3M1S19iQgBmBmSWaaAZfDmVa3lx4rFQ4vqEOlS9b0nLLp4VeH38n2/aYTIk
- 8f9qJMGOZQ1DDnjX+IxixDPx21d3UvSVchbsGQGpvZu/abPQYCb3F8o4zX2ioSDu7gO/
- 8yJQ==
-X-Gm-Message-State: AOAM532xTGc3j9YM2U7WVjJHg2SjfoKIu3AQ8N4m439tXsTq6UEYf63O
- 1j0EhH8hkBDu86tcd05gCBLN6RKW4sfsvA==
-X-Google-Smtp-Source: ABdhPJzd6gGMAJjnatBuFYYJ4DDhNX85LjV10pWoaMyb9hZ0I5dDUmf38idRZzpmkNQjFnj0wuIL0w==
-X-Received: by 2002:a63:b20c:: with SMTP id x12mr23888865pge.10.1632279031801; 
- Tue, 21 Sep 2021 19:50:31 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id x13sm433112pfp.133.2021.09.21.19.50.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Sep 2021 19:50:31 -0700 (PDT)
+ bh=9RrXmvYVWwjZWWFTWqfAImmx/l9eEEMuwuSGE48QpwI=;
+ b=gW3HTRcXTWOVAwUMZWRkGHhU6pKvfUmnMvIyITFLePHl+meF8HezbKB38CsprMMOP6
+ JXoOZsCf6XVoOlgwQI58BFhVR75vSOS+hEqirUvnxjHps1DixMlByhOKkfpaeBFWRDDo
+ 87kHha5uFAgouH1sNfRRCVtx3gtymPdvXioaeGIs8H90C4fk3VxuUQIlwIEyJp7GcUWy
+ E+5GR02BFKK3TPD/LMCkw+ST1XEepsTkcdnikMYRkT0oRc+nSwkb5wfHS08GKMQ5njZW
+ V4AfvbwvOpqK5gTyf1aTSYTVJoGK9LdLsUotfmfuCB2yphc8EED8BzLAYsMiZdrxhRgx
+ LL7w==
+X-Gm-Message-State: AOAM532aDNZ0heVFuSxnihyR5ANwwq57GpfNxlOevAZ782hmBP0ie14D
+ UXEyRf0zYgTZK3eX5JciBtcfBA==
+X-Google-Smtp-Source: ABdhPJzmW1k9nyX32PGaTR9j4arfGajIyBDBlUVvumod80JooCIhihionHWxXhnJsSLnj52zMKPJxQ==
+X-Received: by 2002:a62:ce0d:0:b0:438:71f1:4442 with SMTP id
+ y13-20020a62ce0d000000b0043871f14442mr34059616pfg.21.1632279863719; 
+ Tue, 21 Sep 2021 20:04:23 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.134.125])
+ by smtp.gmail.com with ESMTPSA id w8sm471249pfc.93.2021.09.21.20.04.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Sep 2021 20:04:23 -0700 (PDT)
+Subject: Re: [PATCH 1/5] configs: Don't include 32-bit-only GDB XML in aarch64
+ linux configs
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210921162901.17508-1-peter.maydell@linaro.org>
+ <20210921162901.17508-2-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 00/10] tcg patch queue, v3
-Date: Tue, 21 Sep 2021 19:50:30 -0700
-Message-Id: <20210922025030.574829-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+Message-ID: <a70b4d62-8493-479b-f0db-f39b112096c3@linaro.org>
+Date: Tue, 21 Sep 2021 20:04:21 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+In-Reply-To: <20210921162901.17508-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,83 +90,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Luis Machado <luis.machado@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rebase and resolve minor conflict.
+On 9/21/21 9:28 AM, Peter Maydell wrote:
+> The aarch64-linux QEMU usermode binaries can never run 32-bit
+> code, so they do not need to include the GDB XML for it.
+> (arm_cpu_register_gdb_regs_for_features() will not use these
+> XML files if the CPU has ARM_FEATURE_AARCH64, so we will not
+> advertise to gdb that we have them.)
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   configs/targets/aarch64-linux-user.mak    | 2 +-
+>   configs/targets/aarch64_be-linux-user.mak | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
-
-The following changes since commit 2c3e83f92d93fbab071b8a96b8ab769b01902475:
-
-  Merge remote-tracking branch 'remotes/alistair23/tags/pull-riscv-to-apply-20210921' into staging (2021-09-21 10:57:48 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210921
-
-for you to fetch changes up to 81c65ee223ba759c15c11068f9b292a59a900451:
-
-  tcg/riscv: Remove add with zero on user-only memory access (2021-09-21 19:36:44 -0700)
-
-----------------------------------------------------------------
-Move cpu_signal_handler declaration.
-Restrict cpu_handle_halt to sysemu.
-Make do_unaligned_access noreturn.
-Misc tcg/mips cleanup
-Misc tcg/sparc cleanup
-Misc tcg/riscv cleanup
-
-----------------------------------------------------------------
-Philippe Mathieu-Daudé (1):
-      accel/tcg: Restrict cpu_handle_halt() to sysemu
-
-Richard Henderson (9):
-      include/exec: Move cpu_signal_handler declaration
-      tcg/mips: Drop inline markers
-      tcg/mips: Allow JAL to be out of range in tcg_out_bswap_subr
-      tcg/mips: Unset TCG_TARGET_HAS_direct_jump
-      tcg/mips: Drop special alignment for code_gen_buffer
-      tcg/sparc: Drop inline markers
-      tcg/sparc: Introduce tcg_out_mov_delay
-      hw/core: Make do_unaligned_access noreturn
-      tcg/riscv: Remove add with zero on user-only memory access
-
- include/exec/exec-all.h        |  13 +++++
- include/hw/core/tcg-cpu-ops.h  |   3 +-
- target/alpha/cpu.h             |  10 +---
- target/arm/cpu.h               |   7 ---
- target/arm/internals.h         |   2 +-
- target/avr/cpu.h               |   2 -
- target/cris/cpu.h              |   8 ----
- target/hexagon/cpu.h           |   3 --
- target/hppa/cpu.h              |   3 --
- target/i386/cpu.h              |   7 ---
- target/m68k/cpu.h              |   8 ----
- target/microblaze/cpu.h        |   9 +---
- target/mips/cpu.h              |   3 --
- target/mips/internal.h         |   2 -
- target/mips/tcg/tcg-internal.h |   4 +-
- target/nios2/cpu.h             |   6 +--
- target/openrisc/cpu.h          |   2 -
- target/ppc/cpu.h               |   7 ---
- target/ppc/internal.h          |   4 +-
- target/riscv/cpu.h             |   4 +-
- target/rx/cpu.h                |   4 --
- target/s390x/cpu.h             |   7 ---
- target/s390x/s390x-internal.h  |   4 +-
- target/sh4/cpu.h               |   7 +--
- target/sparc/cpu.h             |   2 -
- target/tricore/cpu.h           |   2 -
- target/xtensa/cpu.h            |   6 +--
- tcg/mips/tcg-target.h          |  12 ++---
- accel/tcg/cpu-exec.c           |   6 ++-
- target/hppa/cpu.c              |   7 +--
- tcg/region.c                   |  91 -----------------------------------
- tcg/mips/tcg-target.c.inc      | 105 ++++++++++++++---------------------------
- tcg/riscv/tcg-target.c.inc     |  10 +---
- tcg/sparc/tcg-target.c.inc     |  64 ++++++++++++++-----------
- 34 files changed, 119 insertions(+), 315 deletions(-)
 
