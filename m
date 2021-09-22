@@ -2,89 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C237441501D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 20:47:13 +0200 (CEST)
-Received: from localhost ([::1]:60902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 884F4415026
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 20:50:46 +0200 (CEST)
+Received: from localhost ([::1]:41292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT7Gy-0002Hh-KM
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 14:47:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38716)
+	id 1mT7KP-0008G3-B3
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 14:50:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mT6O8-0006MU-3G
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:50:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51618)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mT6O5-0007QK-CX
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:50:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632333028;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=324sILhdYxvnznF1+1US9ZnfMNECSzr9WbsW6XTulSY=;
- b=E8n8ZbaW45XShjIhrUOs3CPPG5KGfBn/cqikXFx/c+QJOzSkZ5DeFKx98tfBhyGzil9Lbz
- MBpIw5rRRYw7I5H3q/gW6yb/tA5F3xey/sFYq+ov5+/AhULIRPIIvnavV84fDYB4ghNWMa
- yopUA6OjsQfqVBv2klDEIW6l7jH4xSE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-liDOWW2bNNaZyn-slVa-Ow-1; Wed, 22 Sep 2021 13:50:26 -0400
-X-MC-Unique: liDOWW2bNNaZyn-slVa-Ow-1
-Received: by mail-wr1-f70.google.com with SMTP id
- m18-20020adfe952000000b0015b0aa32fd6so2863758wrn.12
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 10:50:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
+ id 1mT6OM-0006Rc-4N
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:50:46 -0400
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:34805)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
+ id 1mT6OJ-0007c6-FK
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:50:45 -0400
+Received: by mail-ot1-x329.google.com with SMTP id
+ n65-20020a9d2047000000b00547334367efso4705902ota.1
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 10:50:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=haotaG3i7HLwPQGLhCu+xPMFntE+JWr/eXhVfw6+8qQ=;
+ b=J1CF9gsbSLOl9Pdkj6z2m6BSbOmhjtroLLo9HM5kS8Y0+nJKhYg1TorYznaJTkL/zx
+ 2PwINGjzYMR2X8Mf0een5nEKJP+NWi4KKfzNkC4FPhYRDdks0th3JwsMjVXJWebHY1b3
+ SxCLhUNGnPoZrZK53o97aDIdHU4KmxLFp5Jlh+HeigCrtX4Rwt5TPK5tXJey5ezJi7Wz
+ F9hMOnEFTcGsx4RzcZPxbYQctYjnxhoShFFywmuLjOQdCrzYBiVsd2TrkpqPSyvT83jD
+ BAnO8KOUn0yydTVzHNfEMUYx9PbdZbmp9CDAIMoN51SCOEq6lRuZmEELd18O7lMOBOUG
+ RAtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=324sILhdYxvnznF1+1US9ZnfMNECSzr9WbsW6XTulSY=;
- b=bM1Z3+dD0ScBE3XfuCsaUbkgMrSrG0SlaZ/UuYviF6kqN97qLi1rORfL2xcrviknFx
- AJo4B6TKy1CfsxHYdyS4ftmtbfbj3FKaAx6q0M+N5jN+w4fdfwcbFV9IS42sfNkEsPaw
- kgYouRLyoSHyOqyjKp1sVOqFCSAinUX7ow0hxCv/TtZEdfygKoiMG++i/wrdp8LB7zK8
- VaEVzapORKuK4fWAPA+k40HC+GtLYtCwOKrgWjcIh8sPs6k6GDatBjlLjjtSrcopuUab
- SVq4fztWuCrZgN8s0ze+/AtWrN9kv1eFPNkCsWQJ4h3fANQ4VX4j4YIfLsxf11L7KkLm
- Y0mg==
-X-Gm-Message-State: AOAM533UNf416iVs2L4TpIqlq70gnWFAbyj4ta+imQaeFkkvXpfBiZ5Q
- bq54WxSalveDj9qToOouobPeTugg4fQr11spFsWtQX8qLAOuqlEA0rjBPUpMNnto7O9iwNP7qzr
- SGVYKF68wDgM+2is=
-X-Received: by 2002:adf:d084:: with SMTP id y4mr217239wrh.249.1632333025506;
- Wed, 22 Sep 2021 10:50:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxkTAxtj4TUqlJA16lEOK2zxOqi0Lnhv+gZIrdsyM50ICcEZWWLl648/QwzUYzfSBk/7cFBmA==
-X-Received: by 2002:adf:d084:: with SMTP id y4mr217213wrh.249.1632333025297;
- Wed, 22 Sep 2021 10:50:25 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id g205sm2940929wmg.18.2021.09.22.10.50.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Sep 2021 10:50:24 -0700 (PDT)
-Message-ID: <a4debda9-f00b-dc99-7e7c-37ea9b4d7b5c@redhat.com>
-Date: Wed, 22 Sep 2021 19:50:22 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=haotaG3i7HLwPQGLhCu+xPMFntE+JWr/eXhVfw6+8qQ=;
+ b=iGHVbmrMt7p5i7XujJkASZyFgu1XhPfPped5sYmjk87kJrG2BupYJWpUFwiTZWXP+P
+ AhVTmwkulvq13pPv72+n578aJqmxrp027Sgxh0yJK3m5BN2jMJ+XgBSrhHuXg7aQPu1r
+ MX/RC/J4UX/5UKCgRBIxsIZHasGcH7ee/cOh88mce/3VwP3Edm54X1/W1oFAXGjSIYBn
+ YWhHlpSEkSbRIKd/QcFpdf/SVOog8LGi+Kl8qH8a4BFCubmOsIQFVOwLlfVvgC486+1c
+ TTp9s3r587AXBs7TBdlm9QwleahQ0I/5vY8BUvmoDz+ZLK/O72T8hQpMJdCULb/KRTnk
+ sL9Q==
+X-Gm-Message-State: AOAM530QeyjxanObha7c4Fd+jlsT4Zrr1dxEphobLamE1z+VF3LZfJPb
+ ZmQXEW4SbhcMNyp08xZnwlkY7BmSXuZbl5rdw0I=
+X-Google-Smtp-Source: ABdhPJzjfYPN8LlAX+3+TzJV0ZczfjVGMHQ2HUwNUAJ9FKrL0Oko4RcGaOKfcWfqrUxsxZ/nPAvyLIrWXyK4uTs30SM=
+X-Received: by 2002:a9d:192c:: with SMTP id j44mr368056ota.302.1632333042150; 
+ Wed, 22 Sep 2021 10:50:42 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [RFC PATCH v2 00/16] Initial support for machine creation via QMP
-To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
-References: <20210922161405.140018-1-damien.hedde@greensocs.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20210922161405.140018-1-damien.hedde@greensocs.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CAK7rcp9HjoCVbFmT9rwAteAVdCCMgobt1jvCLuhL3CCBKJZSsA@mail.gmail.com>
+ <87a6k4op6n.fsf@linaro.org>
+ <CAK7rcp_gSO+eCWOPBSbEEB3GMhj7aXrkK166eYxrUr1Yj8HKkg@mail.gmail.com>
+ <875yuso6g7.fsf@linaro.org>
+In-Reply-To: <875yuso6g7.fsf@linaro.org>
+From: Kenneth Adam Miller <kennethadammiller@gmail.com>
+Date: Wed, 22 Sep 2021 13:50:31 -0400
+Message-ID: <CAK7rcp9tGBqN5xkZBcN7+9u7U8wcocaNQ1MgYyy4FfzmpY_fZg@mail.gmail.com>
+Subject: Re: Change TCG cache size?
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000021f07005cc992710"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
+ envelope-from=kennethadammiller@gmail.com; helo=mail-ot1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,55 +80,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
- mirela.grujic@greensocs.com, Alistair Francis <Alistair.Francis@wdc.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Eric Blake <eblake@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Paul Durrant <paul@xen.org>,
- Eric Auger <eric.auger@redhat.com>, xen-devel@lists.xenproject.org,
- qemu-riscv@nongnu.org,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- mark.burton@greensocs.com, edgari@xilinx.com,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Damien,
+--00000000000021f07005cc992710
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/22/21 18:13, Damien Hedde wrote:
-> 
-> The goal of this work is to bring dynamic machine creation to QEMU:
-> we want to setup a machine without compiling a specific machine C
-> code. It would ease supporting highly configurable platforms (for
-> example resulting from an automated design flow). The requirements
-> for such configuration include begin able to specify the number of
-> cores, available peripherals, emmory mapping, IRQ mapping, etc.
-> 
-> This series focuses on the first step: populating a machine with
-> devices during its creation. We propose patches to support this
-> using QMP commands. This is a working set of patches and improves
-> over the earlier rfc (posted in May):
-> https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg03706.html
+It's just the overhead of running a cross architecture emulation. For Arm
+to x86_64, the overhead is very high. I was wondering if there is some
+command line argument that I was missing in order to reduce this. I read
+somewhere that the tcg cache is defaulted to some value, and wanted to
+check in to make sure that that wasn't it.
 
-Do you have a roadmap for the following steps? Or are you done with
-this series?
+I can't see it right now, I was just looking into it.
 
-Yesterday I was thinking about this, and one thing I was wondering is
-if it would be possible to have DeviceClass and MachineClass implement
-a populate_fdt() handler, to automatically generate custom DTB for these
-custom machines.
+On Wed, Sep 22, 2021 at 1:39 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 
-Maybe in your case you don't need that, as your framework generating the
-QEMU machine also generates the DTB, or even parse a DTB to generate the
-machine... :)
+>
+> Kenneth Adam Miller <kennethadammiller@gmail.com> writes:
+>
+> > Well, maybe I'm understanding that wrong. I am talking the cache that
+> the tcg keeps of translated code. If I got that variable wrong then
+> > please let me know.
+>
+> TB_JMP_CACHE_SIZE is used to keep a lookup of address to  translated
+> blocks (TBs). This is used to find the next TB on a computed jump
+> without doing a full lookup in the QHT hash.
+>
+> The total size of the translation cache is tb-size in MBs (as in -accel
+> tcg,tb-size=3D1024). We have some heuristics to guess at a size (see
+> DEFAULT_CODE_GEN_BUFFER_SIZE in tcg/region.c) but you are free to
+> specify your own.
+>
+> > But I want to make sure that that is large enough to keep from having
+> > to run TCG again. How can I do that?
+>
+> Specifying a large tb-size will reduce the churn caused by running out
+> of translation cache but you will never be able to eliminate it
+> entirely. There are a number of places where tb_flush() has to get
+> called and that will require stuff to get re-translated. Also the
+> translator partitions the regions up per-CPU (for softmmu) so if one
+> vCPU is responsible for all code generation it will run out sooner.
+>
+> You can observe the total number of flushes via the HMP and "info jit".
+> What is the behaviour your seeing? What workload is it?
+>
+> >
+> > On Wed, Sep 22, 2021, 6:54 AM Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> wrote:
+> >
+> >  Kenneth Adam Miller <kennethadammiller@gmail.com> writes:
+> >
+> >  > Hello all,
+> >  >
+> >  > I just want to ask this one question: if I change the qemu tcg cache
+> >  > size (TB_JMP_CACHE_SIZE), will that force any errors at run time?
+> >
+> >  Hopefully not - for both user-mode and softmmu we take some care to
+> >  ensure tb_jmp_cache_hash_func and tb_jmp_cache_hash_page return
+> >  appropriately masked values for the table lookup.
+> >
+> >  What has not been done since Emilio's work in 6f1653180f (tb-hash:
+> >  improve tb_jmp_cache hash function in user mode) is a deeper look at t=
+he
+> >  hit rate and bounce rate of the softmmu jump table hashing. Any
+> >  suggested changes will need some benchmarking to show what difference =
+it
+> >  makes.
+> >
+> >  --
+> >  Alex Benn=C3=A9e
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
 
-Regards,
+--00000000000021f07005cc992710
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Phil.
+<div dir=3D"ltr">It&#39;s just the overhead of running a cross architecture=
+ emulation. For Arm to x86_64, the overhead is very high. I was wondering i=
+f there is some command line argument that I was missing in order to reduce=
+ this. I read somewhere that the tcg cache is defaulted to some value, and =
+wanted to check in to make sure that that wasn&#39;t it.<br><br>I can&#39;t=
+ see it right now, I was just looking into it.</div><br><div class=3D"gmail=
+_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 22, 2021 at 1:39 =
+PM Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.benn=
+ee@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex"><br>
+Kenneth Adam Miller &lt;<a href=3D"mailto:kennethadammiller@gmail.com" targ=
+et=3D"_blank">kennethadammiller@gmail.com</a>&gt; writes:<br>
+<br>
+&gt; Well, maybe I&#39;m understanding that wrong. I am talking the cache t=
+hat the tcg keeps of translated code. If I got that variable wrong then<br>
+&gt; please let me know.<br>
+<br>
+TB_JMP_CACHE_SIZE is used to keep a lookup of address to=C2=A0 translated<b=
+r>
+blocks (TBs). This is used to find the next TB on a computed jump<br>
+without doing a full lookup in the QHT hash.<br>
+<br>
+The total size of the translation cache is tb-size in MBs (as in -accel<br>
+tcg,tb-size=3D1024). We have some heuristics to guess at a size (see<br>
+DEFAULT_CODE_GEN_BUFFER_SIZE in tcg/region.c) but you are free to<br>
+specify your own.<br>
+<br>
+&gt; But I want to make sure that that is large enough to keep from having<=
+br>
+&gt; to run TCG again. How can I do that?<br>
+<br>
+Specifying a large tb-size will reduce the churn caused by running out<br>
+of translation cache but you will never be able to eliminate it<br>
+entirely. There are a number of places where tb_flush() has to get<br>
+called and that will require stuff to get re-translated. Also the<br>
+translator partitions the regions up per-CPU (for softmmu) so if one<br>
+vCPU is responsible for all code generation it will run out sooner.<br>
+<br>
+You can observe the total number of flushes via the HMP and &quot;info jit&=
+quot;.<br>
+What is the behaviour your seeing? What workload is it?<br>
+<br>
+&gt;<br>
+&gt; On Wed, Sep 22, 2021, 6:54 AM Alex Benn=C3=A9e &lt;<a href=3D"mailto:a=
+lex.bennee@linaro.org" target=3D"_blank">alex.bennee@linaro.org</a>&gt; wro=
+te:<br>
+&gt;<br>
+&gt;=C2=A0 Kenneth Adam Miller &lt;<a href=3D"mailto:kennethadammiller@gmai=
+l.com" target=3D"_blank">kennethadammiller@gmail.com</a>&gt; writes:<br>
+&gt;<br>
+&gt;=C2=A0 &gt; Hello all,<br>
+&gt;=C2=A0 &gt;<br>
+&gt;=C2=A0 &gt; I just want to ask this one question: if I change the qemu =
+tcg cache<br>
+&gt;=C2=A0 &gt; size (TB_JMP_CACHE_SIZE), will that force any errors at run=
+ time?<br>
+&gt;<br>
+&gt;=C2=A0 Hopefully not - for both user-mode and softmmu we take some care=
+ to<br>
+&gt;=C2=A0 ensure tb_jmp_cache_hash_func and tb_jmp_cache_hash_page return<=
+br>
+&gt;=C2=A0 appropriately masked values for the table lookup.<br>
+&gt;<br>
+&gt;=C2=A0 What has not been done since Emilio&#39;s work in 6f1653180f (tb=
+-hash:<br>
+&gt;=C2=A0 improve tb_jmp_cache hash function in user mode) is a deeper loo=
+k at the<br>
+&gt;=C2=A0 hit rate and bounce rate of the softmmu jump table hashing. Any<=
+br>
+&gt;=C2=A0 suggested changes will need some benchmarking to show what diffe=
+rence it<br>
+&gt;=C2=A0 makes.<br>
+&gt;<br>
+&gt;=C2=A0 -- <br>
+&gt;=C2=A0 Alex Benn=C3=A9e<br>
+<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+</blockquote></div>
 
+--00000000000021f07005cc992710--
 
