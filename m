@@ -2,90 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE75415065
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 21:17:32 +0200 (CEST)
-Received: from localhost ([::1]:44310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5721415071
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 21:24:54 +0200 (CEST)
+Received: from localhost ([::1]:58712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT7kJ-0007h4-8k
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 15:17:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55854)
+	id 1mT7rR-0001O8-KW
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 15:24:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mT7br-0004NQ-AK
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 15:08:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28787)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mT7iH-0005sO-RF
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 15:15:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mT7bl-00054w-1d
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 15:08:46 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mT7iF-0002C0-F0
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 15:15:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632337720;
+ s=mimecast20190719; t=1632338122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8gjVXhbzQq0tV6lMoFHw6DErK4JR9+I+6GxdaDmlybk=;
- b=KvFe0A+D3+xqzaFlo0g4BB3/+otjv25Hsgxknu683Pa4TT7ZJDA2HREhjciRXs1ny3J6h5
- O6mbpkPQttLmBb3a0o+H1Rrgk90ZnPCbT4hrS3u3EUzJSOttY1oA8G1gr904g8cNNcKDVA
- N3NxOF7f//iIFaTvXyNhyTvxEYG0MI4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-117-uB5alimKONOtRptS2U4MyQ-1; Wed, 22 Sep 2021 15:08:35 -0400
-X-MC-Unique: uB5alimKONOtRptS2U4MyQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- x7-20020a5d6507000000b0015dada209b1so3028870wru.15
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 12:08:35 -0700 (PDT)
+ bh=EXnux09JI4hDK4azp02tpAGhnUl9TPuHr/rlssKhzL4=;
+ b=ieHxY7/yKXAPL1XtAee7qw8r5RIxAA7z3PzzPPwhHDYC6cXPl21XMLV8RsoYc+5iXfRlZm
+ p/GLUmV5rNY5m523sfkrDdlWuY+GvPelYJyvfEXsHG2sY4kcyecANQOzydc3joku3MHVnd
+ 1PBeoCm545jHXtkQTQ6hhBoyQ/xs5nE=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-386-en7P4ZvJPX-xuF2lWjPnqA-1; Wed, 22 Sep 2021 15:15:21 -0400
+X-MC-Unique: en7P4ZvJPX-xuF2lWjPnqA-1
+Received: by mail-oi1-f198.google.com with SMTP id
+ bd4-20020a056808220400b00268fe826fffso2350546oib.13
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 12:15:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=8gjVXhbzQq0tV6lMoFHw6DErK4JR9+I+6GxdaDmlybk=;
- b=E0U3wuw8uS7321JIY7KC09sdS85Ov6nUTWFam3U7CO6W4QSG/nsCKk1rh8y+CSE5z5
- 20O0GgtS0Xu35fqciKLxdr+/hA5k0Uoj+sJ+yLbYgktJPlQl7P/N8tfHw7HLwOPnajBI
- Zhn4yL1O+F6kaFWcJaVpueC0a+j+Ux9PNsOGQg4g5+k70ZoiDnArC34L1pSOY13mePJc
- sWR70cFcecaGasQkjFG6hRYfR99VWtNlLkFWswJEIfg1q4/r65lmVVl/ef2fIogdb/hK
- eHyHyHS11IlVtXA0CTby1arPHGaAXI5arohypXLV+yBIOyBL+mEllZUQ/lAVsoHRdb4O
- y0xA==
-X-Gm-Message-State: AOAM533R1ZlkHQqL4EBqt4Uq/utYV+Ny8sysrhuVnKeQD3eGcgvuHt3S
- HoUdH2ZDkO27Z33aaZHkJregAMaV7c1kuZKc+Umu++GMjovEVX2AqtxIaZoAcJ1eEDDWrCjL/Cz
- bYzeMgMqfrve0aXg=
-X-Received: by 2002:adf:ec4b:: with SMTP id w11mr588722wrn.389.1632337714438; 
- Wed, 22 Sep 2021 12:08:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxDmC2pyJQiG2zgKi6SWaqaqnHBDHGieIXzosPSAL9epaDUjIlJDjRQmz7Cr9I8WaAnn6BVog==
-X-Received: by 2002:adf:ec4b:: with SMTP id w11mr588693wrn.389.1632337714213; 
- Wed, 22 Sep 2021 12:08:34 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id f1sm3100809wri.43.2021.09.22.12.08.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Sep 2021 12:08:33 -0700 (PDT)
-Message-ID: <1fba1ffa-559b-7c5b-24e0-817f4b855fc5@redhat.com>
-Date: Wed, 22 Sep 2021 21:08:33 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EXnux09JI4hDK4azp02tpAGhnUl9TPuHr/rlssKhzL4=;
+ b=1YKN8m9xjQ0v8cE+Z8qSGCUKuQLpUPTbl/rItKjGalmafr8mX9lRa7903UsIPBE52A
+ i8Crjd+FOy1tdal+eiIuCXvISUtWGlDM4Jm1AF5KIH5yghHMBfj7fI1RUyG4/MfAxZK+
+ 3gjy3rrO+wSPywyw54w2YiJ8hJmz8xs9wrX7aFa16T8+/TxTCeV8txK7oyXy66QZIxW7
+ ceO/ksFPGzoOvmZMnKuwiM4lAApDvzztw70lo391vHRMswkVmw9m1fnUv2ezLqNAr28O
+ OGRKGyJ/WTMMrm8J5Hlrja0/xRtcyV70JHz9USdAn4YMSlx8B1IGYrJfUmoA78y9Y/e0
+ XObA==
+X-Gm-Message-State: AOAM530dG5by+lwD9MafAl1pJIX9Ro/y6xP6zRDExTRWLnv3bODK3Act
+ BIJKOsmYGrwBFMScx5Bssa4N3dmR6MOnTGyvaEnJphkOu0NOc0dbzYww+gv3aPv7dGx4PBBPZ5z
+ I1hElfG/RXsX9CfF2umt7oRINhMpSktA=
+X-Received: by 2002:a05:6830:310c:: with SMTP id
+ b12mr731940ots.252.1632338120348; 
+ Wed, 22 Sep 2021 12:15:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz8nVnRZYEZRh5Z+p5OcDclVXgN6IC0+Rg1wH/logFFoS7we6o+EJdCVabMkMvdJAP1owgdj0XSSUHAJey/28E=
+X-Received: by 2002:a05:6830:310c:: with SMTP id
+ b12mr731924ots.252.1632338120154; 
+ Wed, 22 Sep 2021 12:15:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 2/2] tests/Makefile: add TESTFILES option to make
- check-acceptance
-To: Willian Rampazzo <willianr@redhat.com>, qemu-devel@nongnu.org
-References: <20210922190324.190227-1-willianr@redhat.com>
- <20210922190324.190227-3-willianr@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20210922190324.190227-3-willianr@redhat.com>
+References: <20210916040955.628560-1-jsnow@redhat.com>
+ <20210916040955.628560-4-jsnow@redhat.com>
+ <5d44034d-d629-95cb-4a54-8e2785d94439@redhat.com>
+In-Reply-To: <5d44034d-d629-95cb-4a54-8e2785d94439@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 22 Sep 2021 15:15:09 -0400
+Message-ID: <CAFn=p-ZMgTLK4aGrO-T8=1Z-CZ7fayE+XOHpqxYOnPZg_w0teg@mail.gmail.com>
+Subject: Re: [PATCH v3 03/16] iotests/migrate-bitmaps-postcopy-test: declare
+ instance variables
+To: Hanna Reitz <hreitz@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/alternative; boundary="000000000000ce374005cc9a5535"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,53 +91,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/21 21:03, Willian Rampazzo wrote:
-> Add the possibility of running all the tests from a single file, or
-> multiple files, running a single test within a file or multiple tests
-> within multiple files using `make check-acceptance` and the TESTFILES
-> environment variable.
-> 
-> Signed-off-by: Willian Rampazzo <willianr@redhat.com>
-> ---
->   docs/devel/testing.rst | 27 +++++++++++++++++++++++++++
->   tests/Makefile.include |  5 ++++-
->   2 files changed, 31 insertions(+), 1 deletion(-)
+--000000000000ce374005cc9a5535
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index 6e16c05f10..82d7ef7a20 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -88,6 +88,9 @@ clean-tcg: $(CLEAN_TCG_TARGET_RULES)
->   TESTS_VENV_DIR=$(BUILD_DIR)/tests/venv
->   TESTS_VENV_REQ=$(SRC_PATH)/tests/requirements.txt
->   TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
-> +ifndef TESTFILES
-> +	TESTFILES=tests/acceptance
-> +endif
->   # Controls the output generated by Avocado when running tests.
->   # Any number of command separated loggers are accepted.  For more
->   # information please refer to "avocado --help".
-> @@ -130,7 +133,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
->               --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
->               --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
->               $(AVOCADO_TAGS) \
-> -            $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
-> +            $(if $(GITLAB_CI),,--failfast) $(TESTFILES), \
+On Fri, Sep 17, 2021 at 4:37 AM Hanna Reitz <hreitz@redhat.com> wrote:
 
-Since this is Avocado specific, maybe call the variable
-AVOCADO_TESTFILES (similar to AVOCADO_TAGS)?
+> On 16.09.21 06:09, John Snow wrote:
+> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > ---
+> >   tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test | 3 +++
+> >   1 file changed, 3 insertions(+)
+> >
+> > diff --git a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+> b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+> > index 00ebb5c251..9c00ae61c8 100755
+> > --- a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+> > +++ b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+> > @@ -115,6 +115,9 @@ class
+> TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
+> >           self.vm_a_events =3D []
+> >           self.vm_b_events =3D []
+> >
+> > +        self.discards1_sha256: str
+> > +        self.all_discards_sha256: str
+> > +
+> >       def start_postcopy(self):
+> >           """ Run migration until RESUME event on target. Return this
+> event. """
+> >           for i in range(nb_bitmaps):
+>
+> Isn=E2=80=99t this obsolete after e2ad17a62d9da45fbcddc3faa3d6ced519a9453=
+a?
+>
+> Hanna
+>
+>
+Yes, my apologies.
 
->               "AVOCADO", "tests/acceptance")
->   
->   # Consolidated targets
-> 
+--js
+
+--000000000000ce374005cc9a5535
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 17, 2021 at 4:37 AM Hanna=
+ Reitz &lt;<a href=3D"mailto:hreitz@redhat.com">hreitz@redhat.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 16.09.2=
+1 06:09, John Snow wrote:<br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test | 3=
+ +++<br>
+&gt;=C2=A0 =C2=A01 file changed, 3 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test b/=
+tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test<br>
+&gt; index 00ebb5c251..9c00ae61c8 100755<br>
+&gt; --- a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test<br>
+&gt; +++ b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test<br>
+&gt; @@ -115,6 +115,9 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMP=
+TestCase):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.vm_a_events =3D []<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.vm_b_events =3D []<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.discards1_sha256: str<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.all_discards_sha256: str<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0def start_postcopy(self):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot; Run migrati=
+on until RESUME event on target. Return this event. &quot;&quot;&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for i in range(nb_bitmaps):<br=
+>
+<br>
+Isn=E2=80=99t this obsolete after e2ad17a62d9da45fbcddc3faa3d6ced519a9453a?=
+<br>
+<br>
+Hanna<br>
+<br></blockquote><div><br></div><div>Yes, my apologies.</div><div><br></div=
+><div>--js<br></div></div></div>
+
+--000000000000ce374005cc9a5535--
 
 
