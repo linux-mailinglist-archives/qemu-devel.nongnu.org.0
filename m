@@ -2,56 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B80E414942
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 14:43:15 +0200 (CEST)
-Received: from localhost ([::1]:42610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 361C7414974
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 14:47:13 +0200 (CEST)
+Received: from localhost ([::1]:46808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT1ak-000292-K2
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 08:43:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42814)
+	id 1mT1ea-00059s-6q
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 08:47:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mT1YL-0008AY-GR
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 08:40:46 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:47354)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mT1YJ-0007HV-Mv
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 08:40:45 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-505-GsPQsIAHN_mygVT9y6gbyA-1; Wed, 22 Sep 2021 08:40:40 -0400
-X-MC-Unique: GsPQsIAHN_mygVT9y6gbyA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F125D1B18BC0;
- Wed, 22 Sep 2021 12:40:38 +0000 (UTC)
-Received: from bahia.huguette (unknown [10.39.192.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 381A25D9DC;
- Wed, 22 Sep 2021 12:40:36 +0000 (UTC)
-Date: Wed, 22 Sep 2021 14:40:34 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 1/1] spapr_numa.c: fixes in
- spapr_numa_FORM2_write_rtas_tables()
-Message-ID: <20210922144034.4b44bec1@bahia.huguette>
-In-Reply-To: <20210922122852.130054-2-danielhb413@gmail.com>
-References: <20210922122852.130054-1-danielhb413@gmail.com>
- <20210922122852.130054-2-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mT1cs-0004Ck-9e
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 08:45:27 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42880)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mT1cp-0001t7-Gp
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 08:45:26 -0400
+Received: by mail-wr1-x434.google.com with SMTP id q11so6346334wrr.9
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 05:45:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MipNfkz7Nf1NrUuqmrUvxfk/BhvFLDdy9e8n769BM4s=;
+ b=jAykGCXOXSZlzrxIWWA/UYwi8cIvmdZ2tzs5v5nFSQdSuITubhPJnilD2E1flp22Z8
+ q352j2MyOHhnJKAdrLYsXQ+QFLzf/RZi5MbWiOaTBxZN5If97Ko+N9gPEt1Z59x9ycrm
+ s/h5Igt9aCYUQk/leL8mfycAR4C4B9Aedo165DAFoQyZvYOGEejNUkFjMx4q4Ej29zp3
+ n0UFGb0QvhM9Had01SamW/I3tq7TjUZlAWDS1puD/c0BgCUw61eJzclFBGGrsW1Hjm2c
+ 2jfmwwgi/bZv1Vfp5uCuuqeXrd1ALbZPUxLKKub3ty97BEi/gw/mkXSOYDx5RceUWqTH
+ tXVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MipNfkz7Nf1NrUuqmrUvxfk/BhvFLDdy9e8n769BM4s=;
+ b=ZCoDJ5Or5mVKGioNjpCoASgEP/sV4WGexdyhXvS2YYEn7vWIMFUkLhXxlZNqXjONZ0
+ QvwH3Ih/Z8k3thfjSav8ZFG9iyRoIKofuFpb5jsz//Qh8LCCmSavkAlliQuBOIuXdTCe
+ SGMhkEHvrM42jGJ2+sIkJtiuh/+s1MY/Kk6jv6dtDcJgbxnqCOeYrbvhTn10Aq0pdvEu
+ 27e4ksJ2YeAH/BzfUYWJUHZV8RMLftbsf2NMlm2dJNa35ET9I0vgirb3T+xBcIEYsB/f
+ 6KHZV9jSOL0f3fCzo9KuOa7mHwdPh9Z6LMsMWlyi0RYolTHibKDquqJXZ4gd+wKMkn3d
+ MgsQ==
+X-Gm-Message-State: AOAM5315qzHUvg9vwH7pe5ZCXukz63z/KYqdXYW6bGJh0ZOlvd741MAw
+ FOG+dh/TVIQhPdKjHfR4TeP7PyTYBLmz6c9eGDJsUg==
+X-Google-Smtp-Source: ABdhPJzbolRcqeqwH3ApyA5lF2VHTQSjX0D6T5XmcXRiXSqugGCSxspaD6jg2qae+qfBg1NPO+yySI83Tiaz0RGKtNA=
+X-Received: by 2002:a05:600c:4848:: with SMTP id
+ j8mr10366151wmo.21.1632314719411; 
+ Wed, 22 Sep 2021 05:45:19 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+References: <20210915181049.27597-1-agraf@csgraf.de>
+ <20210915181049.27597-7-agraf@csgraf.de>
+ <CAFEAcA9JZZ4nb8WAvKVYpwqxb_E5NFOVW9rKF3u7GhFqfNZgOQ@mail.gmail.com>
+ <8e219cb0-8b65-faf8-f636-5c1d24471f84@csgraf.de>
+ <CAFEAcA8xs3x5WCqT+FnPYip=nbQx6=UEH90Dkjq48YLboV9qAw@mail.gmail.com>
+ <CAMj1kXEEN+J4k_Kib8gRHcy8v1vVRwk7c847yT_Kuv+jnLf9ww@mail.gmail.com>
+ <CAFEAcA8yd6m-S90Uq1G=HTYFAerp6cZdJk9B=CFrHMn5tEMZ5w@mail.gmail.com>
+ <CAMj1kXGXbjrG4XanWr=-H=f5wsUk6YVu-oTA9A_np3F8ELNcxw@mail.gmail.com>
+In-Reply-To: <CAMj1kXGXbjrG4XanWr=-H=f5wsUk6YVu-oTA9A_np3F8ELNcxw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 22 Sep 2021 13:44:27 +0100
+Message-ID: <CAFEAcA_fxW0yKwxqBuDi8+ux-jtVKeJxNhDV1=ROb+VamLiZRQ@mail.gmail.com>
+Subject: Re: [PATCH v11 06/10] hvf: arm: Implement -cpu host
+To: Ard Biesheuvel <ardb@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,101 +84,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ qemu-arm <qemu-arm@nongnu.org>, Frank Yang <lfy@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Sep 2021 09:28:52 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+On Wed, 22 Sept 2021 at 12:41, Ard Biesheuvel <ardb@kernel.org> wrote:
+>
+> On Thu, 16 Sept 2021 at 18:17, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > On Thu, 16 Sept 2021 at 17:05, Ard Biesheuvel <ardb@kernel.org> wrote:
+> > > I'd argue that compliance with the architecture means that the
+> > > software should not clear RES1 bits
+> >
+> > Architecturally, RES1 means that "software
+> >  * Must not rely on the bit reading as 1.
+> >  * Must use an SBOP policy to write to the bit."
+> > (SBOP=="should be 1 or preserved", ie you can preserve the existing value,
+> > as in "read register, change some bits, write back", or you can write a 1.)
+> >
+>
+> OVMF preserves the bit, and does not reason or care about its value.
+> So in this sense, it is compliant.
 
-> This patch has a handful of modifications for the recent added
-> FORM2 support:
->=20
-> - to not allocate more than the necessary size in 'distance_table'.
-> At this moment the array is oversized due to allocating uint32_t for
-> all elements, when most of them fits in an uint8_t. Fix it by
-> changing the array to uint8_t and allocating the exact size;
->=20
-> - use stl_be_p() to store the uint32_t at the start of 'distance_table';
->=20
-> - use sizeof(uint32_t) to skip the uint32_t length when populating the
-> distances;
->=20
-> - use the NUMA_DISTANCE_MIN macro from sysemu/numa.h to avoid hardcoding
-> the local distance value.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  hw/ppc/spapr_numa.c | 19 +++++++++----------
->  1 file changed, 9 insertions(+), 10 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index 58d5dc7084..5822938448 100644
-> --- a/hw/ppc/spapr_numa.c
-> +++ b/hw/ppc/spapr_numa.c
-> @@ -502,9 +502,8 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprM=
-achineState *spapr,
->      int nb_numa_nodes =3D ms->numa_state->num_nodes;
->      int distance_table_entries =3D nb_numa_nodes * nb_numa_nodes;
->      g_autofree uint32_t *lookup_index_table =3D NULL;
-> -    g_autofree uint32_t *distance_table =3D NULL;
-> +    g_autofree uint8_t *distance_table =3D NULL;
->      int src, dst, i, distance_table_size;
-> -    uint8_t *node_distances;
-> =20
->      /*
->       * ibm,numa-lookup-index-table: array with length and a
-> @@ -531,11 +530,13 @@ static void spapr_numa_FORM2_write_rtas_tables(Spap=
-rMachineState *spapr,
->       * array because NUMA ids can be sparse (node 0 is the first,
->       * node 8 is the second ...).
->       */
-> -    distance_table =3D g_new0(uint32_t, distance_table_entries + 1);
-> -    distance_table[0] =3D cpu_to_be32(distance_table_entries);
+Hmm. Alex, can you give more details about what fails here ?
 
-I personally liked the comment from v1:
+> > > but I don't think we can blame it
+> > > for not touching bits that were in in invalid state upon entry.
+> >
+> > SCTLR_EL1.SPAN == 0 is perfectly valid for a CPU that supports the
+> > PAN feature. It's just not the value OVMF wants, so OVMF should
+> > be setting it to what it does want. Also, as the first thing to
+> > run after reset (ie firmware) OVMF absolutely is responsible for
+> > dealing with system registers which have UNKNOWN values out of
+> > reset.
+> >
+>
+> Fair enough. But I'd still suggest fixing this at both ends.
 
-+    /*
-+     * Distance table is an uint8_t array with a leading uint32_t
-+     * containing its length.
-+     */
+Yes, the version of this code that we committed sets SPAN to 1.
+(This argument is mostly about what the comment justifying that
+value should say :-))
 
-but I guess the code is simple enough to understand that, so :
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
-> +    distance_table_size =3D distance_table_entries * sizeof(uint8_t) +
-> +                          sizeof(uint32_t);
-> +    distance_table =3D g_new0(uint8_t, distance_table_size);
-> +    stl_be_p(distance_table, distance_table_entries);
-> =20
-> -    node_distances =3D (uint8_t *)&distance_table[1];
-> -    i =3D 0;
-> +    /* Skip the uint32_t array length at the start */
-> +    i =3D sizeof(uint32_t);
-> =20
->      for (src =3D 0; src < nb_numa_nodes; src++) {
->          for (dst =3D 0; dst < nb_numa_nodes; dst++) {
-> @@ -546,16 +547,14 @@ static void spapr_numa_FORM2_write_rtas_tables(Spap=
-rMachineState *spapr,
->               * adding the numa_info to retrieve distance info from.
->               */
->              if (src =3D=3D dst) {
-> -                node_distances[i++] =3D 10;
-> +                distance_table[i++] =3D NUMA_DISTANCE_MIN;
->                  continue;
->              }
-> =20
-> -            node_distances[i++] =3D numa_info[src].distance[dst];
-> +            distance_table[i++] =3D numa_info[src].distance[dst];
->          }
->      }
-> =20
-> -    distance_table_size =3D distance_table_entries * sizeof(uint8_t) +
-> -                          sizeof(uint32_t);
->      _FDT(fdt_setprop(fdt, rtas, "ibm,numa-distance-table",
->                       distance_table, distance_table_size));
->  }
-
+-- PMM
 
