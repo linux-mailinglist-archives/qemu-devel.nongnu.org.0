@@ -2,76 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361C7414974
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 14:47:13 +0200 (CEST)
-Received: from localhost ([::1]:46808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BFCA41499B
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 14:49:26 +0200 (CEST)
+Received: from localhost ([::1]:49246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT1ea-00059s-6q
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 08:47:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43814)
+	id 1mT1gj-00074R-GI
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 08:49:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mT1cs-0004Ck-9e
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 08:45:27 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mT1cp-0001t7-Gp
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 08:45:26 -0400
-Received: by mail-wr1-x434.google.com with SMTP id q11so6346334wrr.9
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 05:45:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MipNfkz7Nf1NrUuqmrUvxfk/BhvFLDdy9e8n769BM4s=;
- b=jAykGCXOXSZlzrxIWWA/UYwi8cIvmdZ2tzs5v5nFSQdSuITubhPJnilD2E1flp22Z8
- q352j2MyOHhnJKAdrLYsXQ+QFLzf/RZi5MbWiOaTBxZN5If97Ko+N9gPEt1Z59x9ycrm
- s/h5Igt9aCYUQk/leL8mfycAR4C4B9Aedo165DAFoQyZvYOGEejNUkFjMx4q4Ej29zp3
- n0UFGb0QvhM9Had01SamW/I3tq7TjUZlAWDS1puD/c0BgCUw61eJzclFBGGrsW1Hjm2c
- 2jfmwwgi/bZv1Vfp5uCuuqeXrd1ALbZPUxLKKub3ty97BEi/gw/mkXSOYDx5RceUWqTH
- tXVQ==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mT1dD-0004Ka-CN
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 08:45:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22404)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mT1d8-0002E4-IU
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 08:45:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632314740;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5Hr12uIVIGuRGIipdmTDfM4S/Wjxx3R2l7hlwcsNYQA=;
+ b=Bmiobx1HarxxDacqqmIJYjdFORX8Sbdbrm/u4MrRtJKxb2bpwdt7DFWoIBkP1RlEO6OLV/
+ +c9mCItp9dLx1Axk6eqHptZfDzwVNDLu9ZyQS7AiPVJgYTrQx3ADV4M0jk1/v29ftCrcgc
+ vJYzWPVhEPL1b3hGwp1i/V5l0kPDTQk=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-426-2NUl-Am8O360Sn9g5ug00g-1; Wed, 22 Sep 2021 08:45:39 -0400
+X-MC-Unique: 2NUl-Am8O360Sn9g5ug00g-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ e1-20020adfa741000000b0015e424fdd01so2044603wrd.11
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 05:45:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MipNfkz7Nf1NrUuqmrUvxfk/BhvFLDdy9e8n769BM4s=;
- b=ZCoDJ5Or5mVKGioNjpCoASgEP/sV4WGexdyhXvS2YYEn7vWIMFUkLhXxlZNqXjONZ0
- QvwH3Ih/Z8k3thfjSav8ZFG9iyRoIKofuFpb5jsz//Qh8LCCmSavkAlliQuBOIuXdTCe
- SGMhkEHvrM42jGJ2+sIkJtiuh/+s1MY/Kk6jv6dtDcJgbxnqCOeYrbvhTn10Aq0pdvEu
- 27e4ksJ2YeAH/BzfUYWJUHZV8RMLftbsf2NMlm2dJNa35ET9I0vgirb3T+xBcIEYsB/f
- 6KHZV9jSOL0f3fCzo9KuOa7mHwdPh9Z6LMsMWlyi0RYolTHibKDquqJXZ4gd+wKMkn3d
- MgsQ==
-X-Gm-Message-State: AOAM5315qzHUvg9vwH7pe5ZCXukz63z/KYqdXYW6bGJh0ZOlvd741MAw
- FOG+dh/TVIQhPdKjHfR4TeP7PyTYBLmz6c9eGDJsUg==
-X-Google-Smtp-Source: ABdhPJzbolRcqeqwH3ApyA5lF2VHTQSjX0D6T5XmcXRiXSqugGCSxspaD6jg2qae+qfBg1NPO+yySI83Tiaz0RGKtNA=
-X-Received: by 2002:a05:600c:4848:: with SMTP id
- j8mr10366151wmo.21.1632314719411; 
- Wed, 22 Sep 2021 05:45:19 -0700 (PDT)
+ h=x-gm-message-state:subject:from:to:cc:references:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=5Hr12uIVIGuRGIipdmTDfM4S/Wjxx3R2l7hlwcsNYQA=;
+ b=eUB4pEM11gS2Dii6L9hCxTC+rH4ojrQtaujDFt3liuuX1eYnPSuUTTE9XkguOIOEg3
+ cDK5/eF/U26ej73sVaeG3lklGQbliVEAgfxnV9Y5IidZMwgOnPTwyKLsWzw8MDYzTKhF
+ vEwFk9X5dPRn8FA3Z/XJ/wyGm7CiwrBVCkk0ap7fS2/d8X5/njbgKc10oqTG6bTpd2Iw
+ fUYBJX75FMJ5TQ51kCfUHUHRiTQsSMBGbv1nu51a1zV/SLx6flfqkiA6vCtE+2fNoEDx
+ upkcJArIpMnmXR0Th8VfwjlEZB31NsRwJW8XR9MxCqRxAb7bZx6B5460sgOT+9NhHjkP
+ AQWg==
+X-Gm-Message-State: AOAM532JMxXhs5FWPvAqWFyqya32YPgAqAxXMMWUE4kKEk7O2GnwxzzX
+ J9nv2ETgnmYSohuRD5oTLxBWfjJp5UIcv4BQO6a/Uo2loRuh/1Nw0sO1kR3BPxLsosS9w+iS++F
+ PzVo2qnEnUImBahI=
+X-Received: by 2002:adf:8b19:: with SMTP id n25mr44464195wra.216.1632314738288; 
+ Wed, 22 Sep 2021 05:45:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw1UgqVKqqv+OwmlG9EsBmZZaBnsdYjUqeDqD6xwYrLDUaZEwEzLX6h98DnqtS4Lkbyb2pcPQ==
+X-Received: by 2002:adf:8b19:: with SMTP id n25mr44464170wra.216.1632314738050; 
+ Wed, 22 Sep 2021 05:45:38 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c64dd.dip0.t-ipconnect.de. [91.12.100.221])
+ by smtp.gmail.com with ESMTPSA id s15sm2169384wrb.22.2021.09.22.05.45.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Sep 2021 05:45:37 -0700 (PDT)
+Subject: Re: [PATCH v1] monitor: Consider "id" when rate-limiting
+ MEMORY_DEVICE_SIZE_CHANGE qapi events
+From: David Hildenbrand <david@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210921102434.24273-1-david@redhat.com>
+ <878rzolsim.fsf@dusky.pond.sub.org>
+ <3f70fe6d-d7b3-5a51-df5f-b4cd3efa7a36@redhat.com>
+Organization: Red Hat
+Message-ID: <13509a92-7be0-ae59-fa0e-1d45ca4fc0ff@redhat.com>
+Date: Wed, 22 Sep 2021 14:45:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210915181049.27597-1-agraf@csgraf.de>
- <20210915181049.27597-7-agraf@csgraf.de>
- <CAFEAcA9JZZ4nb8WAvKVYpwqxb_E5NFOVW9rKF3u7GhFqfNZgOQ@mail.gmail.com>
- <8e219cb0-8b65-faf8-f636-5c1d24471f84@csgraf.de>
- <CAFEAcA8xs3x5WCqT+FnPYip=nbQx6=UEH90Dkjq48YLboV9qAw@mail.gmail.com>
- <CAMj1kXEEN+J4k_Kib8gRHcy8v1vVRwk7c847yT_Kuv+jnLf9ww@mail.gmail.com>
- <CAFEAcA8yd6m-S90Uq1G=HTYFAerp6cZdJk9B=CFrHMn5tEMZ5w@mail.gmail.com>
- <CAMj1kXGXbjrG4XanWr=-H=f5wsUk6YVu-oTA9A_np3F8ELNcxw@mail.gmail.com>
-In-Reply-To: <CAMj1kXGXbjrG4XanWr=-H=f5wsUk6YVu-oTA9A_np3F8ELNcxw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 22 Sep 2021 13:44:27 +0100
-Message-ID: <CAFEAcA_fxW0yKwxqBuDi8+ux-jtVKeJxNhDV1=ROb+VamLiZRQ@mail.gmail.com>
-Subject: Re: [PATCH v11 06/10] hvf: arm: Implement -cpu host
-To: Ard Biesheuvel <ardb@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <3f70fe6d-d7b3-5a51-df5f-b4cd3efa7a36@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,52 +100,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- qemu-arm <qemu-arm@nongnu.org>, Frank Yang <lfy@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Sept 2021 at 12:41, Ard Biesheuvel <ardb@kernel.org> wrote:
->
-> On Thu, 16 Sept 2021 at 18:17, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Thu, 16 Sept 2021 at 17:05, Ard Biesheuvel <ardb@kernel.org> wrote:
-> > > I'd argue that compliance with the architecture means that the
-> > > software should not clear RES1 bits
-> >
-> > Architecturally, RES1 means that "software
-> >  * Must not rely on the bit reading as 1.
-> >  * Must use an SBOP policy to write to the bit."
-> > (SBOP=="should be 1 or preserved", ie you can preserve the existing value,
-> > as in "read register, change some bits, write back", or you can write a 1.)
-> >
->
-> OVMF preserves the bit, and does not reason or care about its value.
-> So in this sense, it is compliant.
+On 22.09.21 14:20, David Hildenbrand wrote:
+> On 22.09.21 14:11, Markus Armbruster wrote:
+>> David Hildenbrand <david@redhat.com> writes:
+>>
+>>> We have to consider the device id, otherwise we'll lose some events for
+>>> unrelated devices. If the device does not have a device id (very unlikely),
+>>> the target of the notifications has to update the size of all devices
+>>> manually either way.
+>>>
+>>> This was noticed by starting a VM with two virtio-mem devices that each
+>>> have a requested size > 0. The Linux guest will initialize both devices
+>>> in parallel, resulting in losing MEMORY_DEVICE_SIZE_CHANGE events for
+>>> one of the devices.
+>>
+>> Fascinating.
+>>
+>> Event rate limiting works as follows.
+>>
+>> An event is rate-limited when monitor_qapi_event_conf[event].rate != 0.
+>>
+>> When such an event arrives, it is held in a bucket until a timer
+>> associated with the bucket expires.  Putting an event in an empty bucket
+>> starts its timer.  Putting an event in a non-empty bucket replaces its
+>> old contents.
+>>
+>> The bucket to use for an event depends on its event type, and for some
+>> events also on certain event arguments.
+>>
+>> This patch solves the "MEMORY_DEVICE_SIZE_CHANGE events from different
+>> devices eat each other" by splitting the event's bucket.
+> 
+> Right, that's how it's getting used in libvirt where we noticed it.
+> 
+>>
+>> The split is imperfect: each device with a qdev ID gets its own bucket,
+>> all devices without ID have to share a bucket.
+> 
+> Yes, it's far from perfect. Fortunately upper layers (libvirt) barely do
+> that.
+> 
+>>
+>> This is actually a flaw in the event's design: you can't distinguish
+>> events from different devices without IDs.
+>>
+>> To fix that flaw, add the QOM path to the event.
+> 
+> So the idea would be to extend the event by an optional QOM path
+> (because it's an existing event), but always setting it internally?
+> 
 
-Hmm. Alex, can you give more details about what fails here ?
+Thinking about it, not optional, because we always have a QOM path and 
+extending an event with something not optional should just work AFAIKT.
 
-> > > but I don't think we can blame it
-> > > for not touching bits that were in in invalid state upon entry.
-> >
-> > SCTLR_EL1.SPAN == 0 is perfectly valid for a CPU that supports the
-> > PAN feature. It's just not the value OVMF wants, so OVMF should
-> > be setting it to what it does want. Also, as the first thing to
-> > run after reset (ie firmware) OVMF absolutely is responsible for
-> > dealing with system registers which have UNKNOWN values out of
-> > reset.
-> >
->
-> Fair enough. But I'd still suggest fixing this at both ends.
+Just implemented it, seems to work just fine. Will send a v2 -- thanks!
 
-Yes, the version of this code that we committed sets SPAN to 1.
-(This argument is mostly about what the comment justifying that
-value should say :-))
+-- 
+Thanks,
 
--- PMM
+David / dhildenb
+
 
