@@ -2,128 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 747864142DE
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 09:48:02 +0200 (CEST)
-Received: from localhost ([::1]:54868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DD24142E0
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 09:49:03 +0200 (CEST)
+Received: from localhost ([::1]:56726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSwz2-0000xC-4g
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 03:48:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42080)
+	id 1mSx02-0002CV-Ed
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 03:49:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mSwx2-0008T4-Bu; Wed, 22 Sep 2021 03:45:56 -0400
-Received: from mail-am6eur05on2131.outbound.protection.outlook.com
- ([40.107.22.131]:49088 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ id 1mSwyE-0000pl-L2; Wed, 22 Sep 2021 03:47:14 -0400
+Received: from mail-db8eur05on2131.outbound.protection.outlook.com
+ ([40.107.20.131]:25441 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mSwwz-0002qn-Jo; Wed, 22 Sep 2021 03:45:55 -0400
+ id 1mSwy8-0003tG-VW; Wed, 22 Sep 2021 03:47:10 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fxPNrc9YYT3RIO6ewWPG+oVO4VAN0vizNz1Ep1zxoFMeGhMRM31kvwEsgcbollPjTwTdi/w5XanQhl4wWfZqYg7hmaKTAyy/yAozKarm05gis4pR8Nfma+HcBM1Y9XpBIjlsB7Ob1vc4led74f+RJRIdxcGHO0UGZcQxgxZZIr+IZGonti9mYtIhbj/T4s6lp1Je4g9JCIAa7zkgFXP+5d+Ryooz62Tc4FjO46q2tvJcF0AmOZ3Y92oBtUrWzbv55NECnV8l9DdcOF2khFj4Yk9XSjq+jIwb6zB80AAG5UszgvSdGilA/G0ruasUcALlYvTskmChVWk9xg9vDKVltA==
+ b=kmio0SFLgqgFEp2L3swvX3OC+xRjbXzXSYWJuFut7MyXHjwpFubTDZ3ByPg1rnzZNbrJRjKvEEYozWaNe6ujNA2g1u/FCWl+bKlrmXz/qew0gKM2MEjW8u0HL2WBl7q/3Guwz8GFgP80jaQIwsdjxclLBdgNxz1o4lU+fSt5KEiOSdna6U4txVd1GLKcc1I5lx4AMf0c1t98Dmfo3HiWoZzyeVKQcVFUs0EZPgtU2WAeYRWeGclWx4FDWCCorsmDCkDWFnRxXz43PwxrEo2IoUzgCik1LjmxztqEqq5YWkP8NaqO6eq2KRe8z8JDs15f8Wt8WoDCNB+Cv+MKDm4m9A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=/lVmeByL5P2Me1I8iGpiNv5w9bb+/qNFPbJgNceWZRY=;
- b=TBzz4PQHrP6wyUKGu/FpyMIgE0Llw+Gx1cK6fxgxo3rhYLCgCmzMxWU7M4umPrzA6M5ZCMwLP7TcC/uqjAKOlzdAAkfGsdgtNF9RfCB6VCbV3KsUVkmEeH9YgMhnxdJptauuUMOLvOAmQ1yGULsoAGkhtwydndfB4LIEZwjhGAz1HpkifSbGk853P5QGO44O4wPMLCWk/92g2caox15vYLVuddtbjiml54PhdwbwDzgUQDUsxaAlCRqeprpmyEpt2o/DqMEAP5U27odaWOfcd/IbKUfbgpL7qwiJXOkj3u8NHN05jsZJhwm2FUY2bRkscwFUzNM0B80XDS3r8ES9Pg==
+ bh=sYSOz2sQUODkL4/HOoLefnbN9aLm935KSYZfRLM9WCA=;
+ b=egUzOrlOGGfu2tIlYDORGAkU4UgWb74nCgQ3ORZM6wti0VnvhMtbAr/T4hfkz+MbugPce3vogu5bcjDzqwFp1H0+9NfQ7BReWEqX2OWIjaWwqKegD/rwXwePPvG9aiARLi0acn+bjZxJa2Q84efN6CD1FTfQGWz3wJkyRcxx+nuR5KtcIwmg66vGW+ap0VRLAa+qm2EenXu+gK8n2EBRnZk11MCM/mQIao2zqojW2dJvpr1QwNzuT88Z7xKQ8wGfWurFpIkHIvwsemZHouiyzo6fq8i5yy0+vrFJINsYDSXmiX7e6tcw7No5WSGZOitNxGK+/uP07C/RHB1kyfwwBw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/lVmeByL5P2Me1I8iGpiNv5w9bb+/qNFPbJgNceWZRY=;
- b=k1bOEXQ6GbMlx1s0Tgiv4FE2+rLBC1+dd7jIE+H4nT8VYMREsKoGtbpzUui9KbGYPLIO+A6Pm6g5OVCBVzhFV3mrqZNvtcojoWfT3pmVV8hPILJJKQeuL9UicNIOkL+2lKSDWtP+RS0ouHgOIurO9aDB3DA8geibDP2Sh7sPDL4=
+ bh=sYSOz2sQUODkL4/HOoLefnbN9aLm935KSYZfRLM9WCA=;
+ b=ic5WbipQnAu0HN7dBHfdplIjhEBwG/TW86MEM/4nPkr4v66AknxO9HtLPoq7RGA9VxB63dnes+GUfnpsfwkFchs7GODnM4uNLyCM+vcHI3v0VpHW6G69EBgBu4NDuMamLS4MrAUgH+GggSDVfLl4DiuovQcfUfaCx3FAT3jeF18=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3447.eurprd08.prod.outlook.com (2603:10a6:20b:44::20)
+ by AM7PR08MB5447.eurprd08.prod.outlook.com (2603:10a6:20b:10b::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.17; Wed, 22 Sep
- 2021 07:45:49 +0000
+ 2021 07:47:00 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.013; Wed, 22 Sep 2021
- 07:45:49 +0000
-Subject: Re: [PATCH v2 00/19] Make image fleecing more usable
+ 07:47:00 +0000
+Subject: Re: [PATCH v2] iotests/check: move long options to double dash
 To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, xiechanglong.d@gmail.com,
- wencongyang2@huawei.com, eblake@redhat.com, hreitz@redhat.com,
- kwolf@redhat.com, jsnow@redhat.com
-References: <20210827181808.311670-1-vsementsov@virtuozzo.com>
+Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
+ willianr@redhat.com, wainersm@redhat.com, thuth@redhat.com, f4bug@amsat.org,
+ alex.bennee@linaro.org, pbonzini@redhat.com, eesposit@redhat.com,
+ eblake@redhat.com
+References: <20210903120039.41418-1-vsementsov@virtuozzo.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <87a2d181-55b2-6a23-5499-5d82b2144e33@virtuozzo.com>
-Date: Wed, 22 Sep 2021 10:45:47 +0300
+Message-ID: <856208b1-cfce-fb99-5a04-f15e277b6cf4@virtuozzo.com>
+Date: Wed, 22 Sep 2021 10:46:58 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
-In-Reply-To: <20210827181808.311670-1-vsementsov@virtuozzo.com>
+In-Reply-To: <20210903120039.41418-1-vsementsov@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR3P189CA0042.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:53::17) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: PR3P189CA0033.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:53::8) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 Received: from [192.168.100.5] (185.215.60.205) by
- PR3P189CA0042.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:53::17) with Microsoft
+ PR3P189CA0033.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:53::8) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4523.16 via Frontend Transport; Wed, 22 Sep 2021 07:45:48 +0000
+ 15.20.4544.13 via Frontend Transport; Wed, 22 Sep 2021 07:46:59 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7149159c-357a-40d8-1204-08d97d9cfefa
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3447:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB34470EB71279394AF72B5BCBC1A29@AM6PR08MB3447.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:165;
+X-MS-Office365-Filtering-Correlation-Id: 0857bd6f-08df-4a51-f88c-08d97d9d291f
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5447:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB54478373ACF57747515AB79CC1A29@AM7PR08MB5447.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TSG1WB4lYrT61y5OSYWuOVAzgh0i7V1bfCw2pOrqz/x7dlvbOzBq6muysmQTXpswhgu125LwWZ/NZ7Xmg9mZ5+ddtDsFBk2/rHXhm6RyPyzwYhHncJq/cmftMdjRxm0529r48nRl5DTJZtRPvFAgARjsZnIvSLVxsPXvd6c55m/bv4bTTxbtZ2rUrjgr/5ihVWNYjTeghm+/5UhEgvnJM6ayu6uU9v/GON8z6Mdc+KJS5r2Xnih/ZKqAef29+iJgvMP/Z2HclnAx6Lwu/xc2EkztpdDSplLRhqNNckXSqSrqG3XlRIollntLWBu2k+XwMyVr8Ia7JEsy4TBirBBgz/okVFE2ddXRTj+aaZ30G+JX0v0cwiBprE75BCBVk6LCEEk1r4K2LGIzTjgnyNNCH4NYNzU8ApuShFV2ilJa+uUcbWUv6i89/e5FQcD+Tf2R47JUv2nX5lA2C49awTnbXjMvZyzQBKBzUDPhA6ze4qedmr/Ryr8uICJdSbpYI+artph6rPVPoFrakSGtfzKL1l8OUq1flTCby2COIQ+lMLjMYpvqCeQNAwBk69QYin+6B+x45pUGewi4iWBfTMnUeWY/T/RElEAtwHGABxgf0AVZzFq6bG2V9Qd67k4hc6Un+uYP1JM3VhLKNsKCCLqaEGaOmr1h7rnQMZep05qjedW5FJV91rOnu9MmKRJrsX7rPPPFDZsWFkqttLQEA19UVaNkrmx8jiBagMos5hhLisVnAbB18kSmKbBKMuLbpkXwFoVdPL781L7gKq/v18EkVw==
+X-Microsoft-Antispam-Message-Info: RZu/tBF7/AV0Y4CssejDbIDlkNov9GocjkYvXBHVQkHt8LIaIRBA2VDp23maj94vdxL94qPpZ5jwgV9KvBE+1WehF/KkjaaKr/V+rxoou4HEf2T9yMkBm3Wd5O/2NB7LQax7nAb3L+PyFHi5kMMuKpmQj/kb6lKJ0TDnGqx+d0akuHXHo4oB18U+kVFWBnHzuNlIC6lSpzUUAUhXqKHDsMt/UgtegVo193DTDzS00US4a838E5uwY4NzP8wiMG+sjlRa8auOoVwr66swgPCyjlVjcy7JE4rKe/g8FFHc+AIB4BEHNcd230Z0twZpr4nH0ga8rKi7lS9JCYUqCQ71ZqzF90YsVy6hKLCFt1eF2ltZ7uUkrAFZU0C/SG+WQLW6J8FV6BQwiHhGVg43MNstXX47HOX6by7pgMYEv+vr/tuYmlTsq6tTGFWf/OyWeWCbgf603znpG8ioeD78BkIK/IAQd/0Lo8V3nQnSIDlDWCrDgJY/YKsQDnHhUU5B3TY2pDlN7KXeKtD93xN5BcCD+ugF3bgpzplWCJnd1lXxFZMHeRRQku44lETI14zDm6qQB3mZ3P6IiXjSpILy+ArTk1PuLWnkGcxEfFlovzDfBPU2ZtzCi+e/NqxZOjRd3wZC2uiKiuemliTXFYARkA1jWui6/pHRusSqe+cphX7ZfHKH7h1meusUm1caOZ+C5xzT9cPmvmDWefsxlKvepyUxTonjR+YAmMI+Plw9r7t1iUt93o/D0o8+gigvZIwJaCjGMrn9MWqZzuincXlDuaLxPw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6486002)(66946007)(52116002)(83380400001)(86362001)(66556008)(66476007)(31696002)(8936002)(4326008)(8676002)(26005)(36756003)(6916009)(2906002)(38100700002)(31686004)(508600001)(2616005)(38350700002)(316002)(5660300002)(186003)(956004)(16576012)(43740500002)(45980500001);
+ SFS:(4636009)(366004)(316002)(66556008)(16576012)(31686004)(36756003)(5660300002)(26005)(83380400001)(186003)(508600001)(7416002)(66476007)(8676002)(31696002)(86362001)(66946007)(6486002)(4326008)(956004)(38100700002)(38350700002)(52116002)(8936002)(2906002)(2616005)(6916009)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WmZjZzZJa2tSMlA1WHAzaThZdVEwSWZPNm0vM3V1Z3F6TFdkallic2VQT3RY?=
- =?utf-8?B?djdmVm5SZnhXdnF4UmVLcWVBUVhWdlg0RXpOMFV0MTd6bG5Cbzg0NnJGRjhQ?=
- =?utf-8?B?aTFscW00alNpblNFTFNMN0dwSzdJK0RXRlc0TXBGUlVWYlErTVlmUlkxNVB3?=
- =?utf-8?B?WC9qS2lVZnJKNVFUTnlHaHdGaG81MmNnSTB6ZUkvVm9vdFpMVGp5WHVzczBl?=
- =?utf-8?B?bG00ZHhQQXRtQmRPVGVaZGVONEQyMExBR0JLQ0RoZGw1bDVjWEtEamIyUmpK?=
- =?utf-8?B?QzVWaWgrVnVyckxwQ1krVk9xTjRadjRFRDNXTk5ZaUpCR3R5ckh4QTF2cVlH?=
- =?utf-8?B?eXkrbkt4b3UwaUhuYzBZYVBWang1ZXZVc2IwdzFEZHhBQUJZWlBva2RPb05L?=
- =?utf-8?B?dXhtekQ2MDlKa1dMNFdaeElmcEE3b2pqTnFTQis1NVNIdkxmQ0xuSUFWbVRx?=
- =?utf-8?B?a3FSandrWTRGTE90bFpYQU1KS3lqR1R6bDE3NFdGTlNadzQ0alBqVEZ5MXp3?=
- =?utf-8?B?YTBHdjlmcGpGMEYwcm5IcExzY0kvVi9nNzJ6Y1dESkhCbTVRZjlkdk1oVlI4?=
- =?utf-8?B?WFFVdkRBUUU3SjhVaVNEdkc4UURWd1VTNXdaS1YvbTIwd2UxeHJnNWF1b1c5?=
- =?utf-8?B?STZ3UWpBTmU0dGRFalZmZmcvSnlPMVVpMzBxWmJ2TFFKdElvTUdzV2Z6eFB5?=
- =?utf-8?B?UzQwYytjTWVDL3ZKR1JJTzZoRUVPVm85UEtLWkxsT1lvM2p0UVg3SnVyR21s?=
- =?utf-8?B?b0Y1RGFoNVhSSzJPU2RnTmNXVjNEb3NZakUwOTBzUGpqWFlJQ1FHSnRtWkYx?=
- =?utf-8?B?VnhKNWJHd3dJdWtkYzQ5eXBROVk1S2R1UE1FRUR4RFhzV3JiL2ptNW5zTVFz?=
- =?utf-8?B?bVdxSTgyRHhLdHF0Wm5lTnhnNzRrT0QzTXR2Q1V0cThTSnFkYUo2ZlN6a0NB?=
- =?utf-8?B?aEZuRENKQ1FXTmdQaU03MWowSGFNU3lNSk5mRkRGVkJJbzlMTFZaL0Rla25E?=
- =?utf-8?B?T1pyaDV1VEptZ3NaSDNmZFhuR2ErUUp5QW9jVDlDeWlyZjJpd3FqVGlJSUFP?=
- =?utf-8?B?TUNjTk1uR0xhR3M2WnlPVUVOeDBVSkZ0NXlxRXU5TE5qU1UrSHRSRjF0Zjhk?=
- =?utf-8?B?ZEJRK1grUjloeGtrdkxzTjlVVStJaWhhclpORHFjTm9ibHl4WDhWVnNtRmk5?=
- =?utf-8?B?S25ocHF5SmV6b3k3a2JOa3oxRXRKMHl4cXRjazlvT1Bwd0VsdGF1ak90MkFI?=
- =?utf-8?B?TStIbnRkS0U1NGdPMGhSeDEvRktGNXVHNFVaWlREaGVsSXMyU2p2eGFDeXB6?=
- =?utf-8?B?eFFwSnVXK3RyK3RtaHRkS3A4bFpDQmd3THJMeUdSTlJ1d3BuK0N1WFh1MUZO?=
- =?utf-8?B?Y3FYaUI3OXlTUXFzSkl0aWwvSnhyYlpjV3I5WlVkcUFFbU02SWtYY091SVNw?=
- =?utf-8?B?SlpVWnFIRzFJT2dLbVIvam5kTjJXYjZQSlFIYnQyaWNZMFVNUEpGMnc3a21h?=
- =?utf-8?B?L1dkcjgrV0RhSEE4QUtXV3ZHQm9LcVZnRWRjOTBqSGZZSWhJc0JHQ3d1MnR6?=
- =?utf-8?B?Sm9sQ2pkRWI1Y1p0U2xRY1BldEs5dzZVWUp0YzlKNEI5V3A0WGNhTFJvaGl2?=
- =?utf-8?B?ZkYrREVSdFFEdVRnY2IxUEtudjBXd24xWDRoY0lWMytFL2NiZ3RwSVVGelMy?=
- =?utf-8?B?T2ZQd2ZUa1VWdXdiYk5WR3hmRndmZlFUcnhHQ2huUVJmRjQ4aW9zM3ppWW1q?=
- =?utf-8?Q?TnUhukDnmUNUR3wd69K1U8AZgPsqu3GcHIkuqLE?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SVNmaEZ1RjJ0bDRTTldMNUs0aFVBZlNTVGNvSklwcVpJWXNqSXBqSW1iOTNT?=
+ =?utf-8?B?UEE1ZG5zdUVyY3I0cURpZE00czE4dVY3Yi80RGNtU0VVd2dPYUhobjFyZ2t5?=
+ =?utf-8?B?ZUpOTUwreFkrelM0bkoxK1hNSVdvK2JpWmVvS2w1SG8xeWpGNS82MFZsTHR5?=
+ =?utf-8?B?eFBZTFBtNlMvdXo4TjJlTU9RSXVrSnNtbnZvV0dZcnEreWd2TElVZi9FUFpO?=
+ =?utf-8?B?VWgyaitaM3hkbGF0RTVGS2hHbVNScHU5TlVRZ3pRUkdwSXdXeEtwUG1haTF3?=
+ =?utf-8?B?endrSGdKZEllZ3ZpUTlVOFluWGJNL3hRQXpldVM4ckdHODR4TmlQaTY0Skwv?=
+ =?utf-8?B?TlZ4N0JEWEx5cTgwSjBMZHVMRTdzOGJVYXZVTVJYVnB2bmdQek85Q3diNFFz?=
+ =?utf-8?B?djMrQmpmY2pHa2c0V3M2TEpibjI1QzduWkVibkZuQ3JiWmcvZCs0L2pmKzRH?=
+ =?utf-8?B?aGxIQXpTMEh5Ym9waXVERFhpb2d0NmJtcmJBcURmRVkwaFVrRWpWN0M4Rldy?=
+ =?utf-8?B?Nlh6a01ieU9zdUp1ak05cGs1S0E5V3ZsUzRPZ3JYS2ptOElsV0V5L1RaRi9p?=
+ =?utf-8?B?elBLUkJUODJjUVRmTGU0WUZwY3ZhcC9zaUw2bWtjU0lKV0xNVGVlZmxjOGk4?=
+ =?utf-8?B?M3FYZDNUamFIZ3lqR1Y2cWl5ZEZDNmZpNUduQjBvRk03cXZFSTNYVE9qUHhv?=
+ =?utf-8?B?L2t1cjJ0NWtFcEZDVWhpM1NOeXRFN3RKcDNnb2oxOW5taGl3T3Bwb2lEMTJE?=
+ =?utf-8?B?UGVURSs0SzZDaU5aaGxNVEprQlJtY0NXQlB5QUtrUjNxdTFBZStocTBJbHp5?=
+ =?utf-8?B?azlHVmdudENEbElKL2ZyN0diMXFKZGs3bkNCVkxibkI0aFlUUkRXeFdHMFBQ?=
+ =?utf-8?B?azJWRXRwNEdlOHhpU1JLU2JRb3ZrSEF4U0VaalczbEJmWVUyM3N5Q0F2TTJs?=
+ =?utf-8?B?WEpMcllRc1B2VDhOTkhJU002am5sY01VbXIzTnJLWTVjWWx4b0VqeWV5SFZO?=
+ =?utf-8?B?d1NrbkRSWmNNelQyazRUTEZMcnBlQlN0Zk5kMm9BL01QK210SmQ4U1JjVlRB?=
+ =?utf-8?B?U0I3TG9hUktxSUZSKzN6RnZOeStrU1JvMDhZSGdEbkRyc1BRK200S2ZQTXN5?=
+ =?utf-8?B?Y1ZHWWxaeEdXMCtKQTZtRnRDU04xWEsrYUtxVnBCOVJJQVF0dm5hUkhGOHZy?=
+ =?utf-8?B?ck0xR1lhRTlkajZTcjRkZU5jYWo3Qkk4Mi9rR0RVYUNXcDRVTVUwbnBKYzZn?=
+ =?utf-8?B?TUU0cTVTNkVMYjIvajdrdGNrSVh4QWNyUUhQU1RCRElucUNYTno1U0QxRWRp?=
+ =?utf-8?B?NitHNzVXTnFxalErK3V1aHYzYUhpZ3gzc2dreHVYWlB3TG9SVWYxMUdndXFu?=
+ =?utf-8?B?TlNHZnBjNkQ2TFJJVWdNUEE1SHFLNlBMbXBud0h0ek03Mnd6Mk1vTU0xMm13?=
+ =?utf-8?B?SkZuQUk1UXZpc0NBSUUweng0Uk01NDUvSkpBWFZHS0Ezam9SU1RQNGR6NW0z?=
+ =?utf-8?B?bW1WeFRNdWRLK1BtbkZna1FPOGc1VVpDYlRBOS9Id01zcWd0ektWNHNWTDlQ?=
+ =?utf-8?B?bmpHakY5clRwdytGV3lucURVR24zeWtpVjJkOXRYWFNPSzBLd1RuNHh2NWNW?=
+ =?utf-8?B?cEJRV2dvekh4OEtJczFILzNUeTRnQVFsTjVWanVuUHNnb0JvdkwrSVJLc1ZN?=
+ =?utf-8?B?ZEVEcFJScG9LMU9aTkxOTVdGYzZEOEs3OVNRaDZDZlcwUkREa0NjZVB4M3hG?=
+ =?utf-8?Q?MENEgmNy/SbeDIUGdTagkSVG2kLSZJsItS2AysZ?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7149159c-357a-40d8-1204-08d97d9cfefa
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0857bd6f-08df-4a51-f88c-08d97d9d291f
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2021 07:45:49.7111 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2021 07:47:00.4766 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6iM8QLH1TYOzEO2vcgsgz4MEW3VanLWZsCJcK0h0HfPSTRpwDI6lJnUUEdb1rxRI1Zc3EttNA04Is9NQqrCzDXy02z3JJroQ1kzsDJq6XEM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3447
-Received-SPF: pass client-ip=40.107.22.131;
+X-MS-Exchange-CrossTenant-UserPrincipalName: QRG0+wFp3BxMe1AdZ3VrTZUjDwOLqfp3hlPBy7gEQufSMELDL97KpeGDnm82dRDHcwgRuIHm9mbzc6l4+YtWonQzx2YCBfFtD+1SW6d5fww=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5447
+Received-SPF: pass client-ip=40.107.20.131;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -147,84 +148,219 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping )
+ping.
 
-27.08.2021 21:17, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
+Patch is reviewed)
+
+03.09.2021 15:00, Vladimir Sementsov-Ogievskiy wrote:
+> So, the change:
 > 
-> That continues "[PATCH RFC DRAFT 00/11] Make image fleecing more usable"
-> and supersedes "[PATCH v2 for-6.2 0/6] push backup with fleecing"
+>    -makecheck -> --makecheck
+>    -gdb       -> --gdb
+>    -valgrind  -> --valgrind
+>    -misalign  -> --misalign
+>    -nocache   -> --nocache
+>    -qcow2 (and other formats) -> --qcow2
+>    -file (and other protocols) -> --file
 > 
-> Supersedes: <20210804131750.127574-1-vsementsov@virtuozzo.com>
-> Supersedes: <20210721140424.163701-1-vsementsov@virtuozzo.com>
+> Motivation:
 > 
-> There several improvements to fleecing scheme:
+> 1. check scripts uses ArgumentParser to parse options, which supports
+>     combining of short options. So using one dash for long options is a
+>     bit ambiguous.
 > 
-> 1. support bitmap in copy-before-write filter
+> 2. Several long options are already have double dash:
+>    --dry-run, --color, --groups, --exclude-groups, --start-from
 > 
-> 2. introduce fleecing block driver, which opens the door for a lot of
->     image fleecing improvements.
->     See "block: introduce fleecing block driver" commit message for
->     details.
+> 3. -misalign is used to add --misalign option (two dashes) to qemu-io
 > 
-> 3. support "push backup with fleecing" scheme, when backup job is a
->     client of common fleecing scheme. That helps when writes to final
->     backup target are slow and we don't want guest writes hang waiting
->     for copy-before-write operations to final target.
+> 4. qemu-io and qemu-nbd has --nocache option (two dashes)
 > 
-> Vladimir Sementsov-Ogievskiy (19):
->    block/block-copy: move copy_bitmap initialization to
->      block_copy_state_new()
->    block/dirty-bitmap: bdrv_merge_dirty_bitmap(): add return value
->    block/block-copy: block_copy_state_new(): add bitmap parameter
->    block/copy-before-write: add bitmap open parameter
->    block/block-copy: add block_copy_reset()
->    block: intoduce reqlist
->    block/dirty-bitmap: introduce bdrv_dirty_bitmap_status()
->    block/reqlist: add reqlist_wait_all()
->    block: introduce FleecingState class
->    block: introduce fleecing block driver
->    block/copy-before-write: support fleecing block driver
->    block/block-copy: add write-unchanged mode
->    block/copy-before-write: use write-unchanged in fleecing mode
->    iotests/image-fleecing: add test-case for fleecing format node
->    iotests.py: add qemu_io_pipe_and_status()
->    iotests/image-fleecing: add test case with bitmap
->    block: blk_root(): return non-const pointer
->    qapi: backup: add immutable-source parameter
->    iotests/image-fleecing: test push backup with fleecing
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
 > 
->   qapi/block-core.json                        |  39 ++-
->   block/fleecing.h                            | 151 ++++++++++++
->   include/block/block-copy.h                  |   4 +-
->   include/block/block_int.h                   |   1 +
->   include/block/dirty-bitmap.h                |   4 +-
->   include/block/reqlist.h                     |  75 ++++++
->   include/qemu/hbitmap.h                      |  11 +
->   include/sysemu/block-backend.h              |   2 +-
->   block/backup.c                              |  61 ++++-
->   block/block-backend.c                       |   2 +-
->   block/block-copy.c                          | 157 +++++-------
->   block/copy-before-write.c                   |  70 +++++-
->   block/dirty-bitmap.c                        |  15 +-
->   block/fleecing-drv.c                        | 260 ++++++++++++++++++++
->   block/fleecing.c                            | 182 ++++++++++++++
->   block/monitor/bitmap-qmp-cmds.c             |   5 +-
->   block/replication.c                         |   2 +-
->   block/reqlist.c                             |  84 +++++++
->   blockdev.c                                  |   1 +
->   util/hbitmap.c                              |  36 +++
->   MAINTAINERS                                 |   7 +-
->   block/meson.build                           |   3 +
->   tests/qemu-iotests/iotests.py               |   4 +
->   tests/qemu-iotests/tests/image-fleecing     | 178 +++++++++++---
->   tests/qemu-iotests/tests/image-fleecing.out | 221 ++++++++++++++++-
->   25 files changed, 1420 insertions(+), 155 deletions(-)
->   create mode 100644 block/fleecing.h
->   create mode 100644 include/block/reqlist.h
->   create mode 100644 block/fleecing-drv.c
->   create mode 100644 block/fleecing.c
->   create mode 100644 block/reqlist.c
+> v2: cover more things, update also format and protocol options
+> 
+>   docs/devel/testing.rst       | 12 ++++++------
+>   .gitlab-ci.d/buildtest.yml   |  4 ++--
+>   tests/check-block.sh         |  2 +-
+>   tests/qemu-iotests/README    |  7 ++++---
+>   tests/qemu-iotests/check     | 14 +++++++-------
+>   tests/qemu-iotests/common.rc |  4 ++--
+>   6 files changed, 22 insertions(+), 21 deletions(-)
+> 
+> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+> index 4a0abbf23d..907b18a600 100644
+> --- a/docs/devel/testing.rst
+> +++ b/docs/devel/testing.rst
+> @@ -153,16 +153,16 @@ with arguments:
+>   .. code::
+>   
+>     # test with qcow2 format
+> -  ./check -qcow2
+> +  ./check --qcow2
+>     # or test a different protocol
+> -  ./check -nbd
+> +  ./check --nbd
+>   
+>   It's also possible to list test numbers explicitly:
+>   
+>   .. code::
+>   
+>     # run selected cases with qcow2 format
+> -  ./check -qcow2 001 030 153
+> +  ./check --qcow2 001 030 153
+>   
+>   Cache mode can be selected with the "-c" option, which may help reveal bugs
+>   that are specific to certain cache mode.
+> @@ -229,7 +229,7 @@ Debugging a test case
+>   The following options to the ``check`` script can be useful when debugging
+>   a failing test:
+>   
+> -* ``-gdb`` wraps every QEMU invocation in a ``gdbserver``, which waits for a
+> +* ``--gdb`` wraps every QEMU invocation in a ``gdbserver``, which waits for a
+>     connection from a gdb client.  The options given to ``gdbserver`` (e.g. the
+>     address on which to listen for connections) are taken from the ``$GDB_OPTIONS``
+>     environment variable.  By default (if ``$GDB_OPTIONS`` is empty), it listens on
+> @@ -237,10 +237,10 @@ a failing test:
+>     It is possible to connect to it for example with
+>     ``gdb -iex "target remote $addr"``, where ``$addr`` is the address
+>     ``gdbserver`` listens on.
+> -  If the ``-gdb`` option is not used, ``$GDB_OPTIONS`` is ignored,
+> +  If the ``--gdb`` option is not used, ``$GDB_OPTIONS`` is ignored,
+>     regardless of whether it is set or not.
+>   
+> -* ``-valgrind`` attaches a valgrind instance to QEMU. If it detects
+> +* ``--valgrind`` attaches a valgrind instance to QEMU. If it detects
+>     warnings, it will print and save the log in
+>     ``$TEST_DIR/<valgrind_pid>.valgrind``.
+>     The final command line will be ``valgrind --log-file=$TEST_DIR/
+> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+> index e74998efb9..139c27554d 100644
+> --- a/.gitlab-ci.d/buildtest.yml
+> +++ b/.gitlab-ci.d/buildtest.yml
+> @@ -303,10 +303,10 @@ build-tcg-disabled:
+>       - make check-unit
+>       - make check-qapi-schema
+>       - cd tests/qemu-iotests/
+> -    - ./check -raw 001 002 003 004 005 008 009 010 011 012 021 025 032 033 048
+> +    - ./check --raw 001 002 003 004 005 008 009 010 011 012 021 025 032 033 048
+>               052 063 077 086 101 104 106 113 148 150 151 152 157 159 160 163
+>               170 171 183 184 192 194 208 221 226 227 236 253 277 image-fleecing
+> -    - ./check -qcow2 028 051 056 057 058 065 068 082 085 091 095 096 102 122
+> +    - ./check --qcow2 028 051 056 057 058 065 068 082 085 091 095 096 102 122
+>               124 132 139 142 144 145 151 152 155 157 165 194 196 200 202
+>               208 209 216 218 227 234 246 247 248 250 254 255 257 258
+>               260 261 262 263 264 270 272 273 277 279 image-fleecing
+> diff --git a/tests/check-block.sh b/tests/check-block.sh
+> index f86cb863de..cff1263c0b 100755
+> --- a/tests/check-block.sh
+> +++ b/tests/check-block.sh
+> @@ -77,7 +77,7 @@ export PYTHONUTF8=1
+>   
+>   ret=0
+>   for fmt in $format_list ; do
+> -    ${PYTHON} ./check -makecheck -$fmt $group || ret=1
+> +    ${PYTHON} ./check --makecheck --$fmt $group || ret=1
+>   done
+>   
+>   exit $ret
+> diff --git a/tests/qemu-iotests/README b/tests/qemu-iotests/README
+> index 6079b401ae..8e1f3e19c3 100644
+> --- a/tests/qemu-iotests/README
+> +++ b/tests/qemu-iotests/README
+> @@ -10,9 +10,10 @@ but no actual block drivers like ide, scsi or virtio.
+>   
+>   * Usage
+>   
+> -Just run ./check to run all tests for the raw image format, or ./check
+> --qcow2 to test the qcow2 image format.  The output of ./check -h explains
+> -additional options to test further image formats or I/O methods.
+> +Just run ./check to run all tests for the raw image format,
+> +or ./check --qcow2 to test the qcow2 image format.  The output of
+> +./check -h explains additional options to test further image formats
+> +or I/O methods.
+>   
+>   * Feedback and patches
+>   
+> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+> index da1bfb839e..5ca9f31950 100755
+> --- a/tests/qemu-iotests/check
+> +++ b/tests/qemu-iotests/check
+> @@ -32,20 +32,20 @@ def make_argparser() -> argparse.ArgumentParser:
+>   
+>       p.add_argument('-n', '--dry-run', action='store_true',
+>                      help='show me, do not run tests')
+> -    p.add_argument('-makecheck', action='store_true',
+> +    p.add_argument('--makecheck', action='store_true',
+>                      help='pretty print output for make check')
+>   
+>       p.add_argument('-d', dest='debug', action='store_true', help='debug')
+>       p.add_argument('-p', dest='print', action='store_true',
+>                   help='redirects qemu\'s stdout and stderr to the test output')
+> -    p.add_argument('-gdb', action='store_true',
+> +    p.add_argument('--gdb', action='store_true',
+>                      help="start gdbserver with $GDB_OPTIONS options \
+>                           ('localhost:12345' if $GDB_OPTIONS is empty)")
+> -    p.add_argument('-valgrind', action='store_true',
+> +    p.add_argument('--valgrind', action='store_true',
+>                       help='use valgrind, sets VALGRIND_QEMU environment '
+>                       'variable')
+>   
+> -    p.add_argument('-misalign', action='store_true',
+> +    p.add_argument('--misalign', action='store_true',
+>                      help='misalign memory allocations')
+>       p.add_argument('--color', choices=['on', 'off', 'auto'],
+>                      default='auto', help="use terminal colors. The default "
+> @@ -55,7 +55,7 @@ def make_argparser() -> argparse.ArgumentParser:
+>       mg = g_env.add_mutually_exclusive_group()
+>       # We don't set default for cachemode, as we need to distinguish default
+>       # from user input later.
+> -    mg.add_argument('-nocache', dest='cachemode', action='store_const',
+> +    mg.add_argument('--nocache', dest='cachemode', action='store_const',
+>                       const='none', help='set cache mode "none" (O_DIRECT), '
+>                       'sets CACHEMODE environment variable')
+>       mg.add_argument('-c', dest='cachemode',
+> @@ -74,7 +74,7 @@ def make_argparser() -> argparse.ArgumentParser:
+>           'At most one choice is allowed, default is "raw"')
+>       mg = g_fmt.add_mutually_exclusive_group()
+>       for fmt in format_list:
+> -        mg.add_argument('-' + fmt, dest='imgfmt', action='store_const',
+> +        mg.add_argument('--' + fmt, dest='imgfmt', action='store_const',
+>                           const=fmt, help=f'test {fmt}')
+>   
+>       protocol_list = ['file', 'rbd', 'nbd', 'ssh', 'nfs', 'fuse']
+> @@ -84,7 +84,7 @@ def make_argparser() -> argparse.ArgumentParser:
+>           'At most one choice is allowed, default is "file"')
+>       mg = g_prt.add_mutually_exclusive_group()
+>       for prt in protocol_list:
+> -        mg.add_argument('-' + prt, dest='imgproto', action='store_const',
+> +        mg.add_argument('--' + prt, dest='imgproto', action='store_const',
+>                           const=prt, help=f'test {prt}')
+>   
+>       g_bash = p.add_argument_group('bash tests options',
+> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+> index d8582454de..0817756814 100644
+> --- a/tests/qemu-iotests/common.rc
+> +++ b/tests/qemu-iotests/common.rc
+> @@ -124,7 +124,7 @@ fi
+>   
+>   # Set the variables to the empty string to turn Valgrind off
+>   # for specific processes, e.g.
+> -# $ VALGRIND_QEMU_IO= ./check -qcow2 -valgrind 015
+> +# $ VALGRIND_QEMU_IO= ./check --qcow2 --valgrind 015
+>   
+>   : ${VALGRIND_QEMU_VM=$VALGRIND_QEMU}
+>   : ${VALGRIND_QEMU_IMG=$VALGRIND_QEMU}
+> @@ -134,7 +134,7 @@ fi
+>   
+>   # The Valgrind own parameters may be set with
+>   # its environment variable VALGRIND_OPTS, e.g.
+> -# $ VALGRIND_OPTS="--leak-check=yes" ./check -qcow2 -valgrind 015
+> +# $ VALGRIND_OPTS="--leak-check=yes" ./check --qcow2 --valgrind 015
+>   
+>   _qemu_proc_exec()
+>   {
 > 
 
 
