@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6DDC414F5F
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:48:59 +0200 (CEST)
-Received: from localhost ([::1]:51918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35AEE414F7B
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:57:31 +0200 (CEST)
+Received: from localhost ([::1]:59438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT6Mc-0002p4-Ii
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:48:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44816)
+	id 1mT6Ur-00009d-Tl
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:57:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mT4v5-0003Nt-Pn; Wed, 22 Sep 2021 12:16:27 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:39312)
+ id 1mT4v6-0003Qr-VU; Wed, 22 Sep 2021 12:16:28 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:39364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mT4v2-0005So-8d; Wed, 22 Sep 2021 12:16:27 -0400
+ id 1mT4v3-0005U5-O2; Wed, 22 Sep 2021 12:16:28 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 89D1B21ED5;
- Wed, 22 Sep 2021 16:16:01 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 98B7F21ED8;
+ Wed, 22 Sep 2021 16:16:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1632327362;
+ s=mail; t=1632327363;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V/wXO8Fw46s42gvXscl9fDzKCmjnZalAaCkoeLW9idc=;
- b=fzmPX4ObaVsIGjwR4GzoY/SbGumd3hE8zzTj5wQNt93NX3hZr8kYnEk/i6a/ahRb3BcyzH
- r4OPUKes6fAREsZ6M/d6oRgJNM/rLp/UW1rGVvosF72Xhv4ZT3ZMvT7X96ovqsT8bIwjFg
- MzDwJiVoSLVcg/Nq1RzI5wAN8p9MecQ=
+ bh=20eMulj3Qy/DZxWmekzYSt42bv07Z1NJC97opChMppc=;
+ b=0GTRQNrK+8eC4nSIBI1SyRdVgk/yz3AcWIgo1jZc+3/ixKzyuHi/rbXlOmb7SF5gwUT4je
+ Kafcyz3ZizvLJ94FKvPqVu6mxe7wLyPq9T2y/XORwkJswxh9nvcCQaC5xGv/EED3DiFvN+
+ S0CxATzuTlW34AF4O/BZxkpylFrb5Mg=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 15/16] hw/char/ibex_uart: set user_creatable
-Date: Wed, 22 Sep 2021 18:14:04 +0200
-Message-Id: <20210922161405.140018-16-damien.hedde@greensocs.com>
+Subject: [RFC PATCH v2 16/16] hw/intc/ibex_plic: set user_creatable
+Date: Wed, 22 Sep 2021 18:14:05 +0200
+Message-Id: <20210922161405.140018-17-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210922161405.140018-1-damien.hedde@greensocs.com>
 References: <20210922161405.140018-1-damien.hedde@greensocs.com>
@@ -90,21 +90,21 @@ Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 Depending on chosen condition for a device to be added, this commit
 may change.
 ---
- hw/char/ibex_uart.c | 1 +
+ hw/intc/ibex_plic.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
-index 9b0a817713..b1646422c0 100644
---- a/hw/char/ibex_uart.c
-+++ b/hw/char/ibex_uart.c
-@@ -546,6 +546,7 @@ static void ibex_uart_class_init(ObjectClass *klass, void *data)
+diff --git a/hw/intc/ibex_plic.c b/hw/intc/ibex_plic.c
+index edf76e4f61..8abd5ee613 100644
+--- a/hw/intc/ibex_plic.c
++++ b/hw/intc/ibex_plic.c
+@@ -291,6 +291,7 @@ static void ibex_plic_class_init(ObjectClass *klass, void *data)
  {
      DeviceClass *dc = DEVICE_CLASS(klass);
  
 +    dc->user_creatable = true;
-     dc->reset = ibex_uart_reset;
-     dc->realize = ibex_uart_realize;
-     dc->vmsd = &vmstate_ibex_uart;
+     dc->reset = ibex_plic_reset;
+     device_class_set_props(dc, ibex_plic_properties);
+     dc->realize = ibex_plic_realize;
 -- 
 2.33.0
 
