@@ -2,48 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3505A414F00
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:26:13 +0200 (CEST)
-Received: from localhost ([::1]:52144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C827B414F03
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:26:54 +0200 (CEST)
+Received: from localhost ([::1]:54220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT60Z-0007Yl-DW
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:26:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32772)
+	id 1mT61F-0000ZI-OH
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:26:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mT5xU-0005w6-Jv
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:23:00 -0400
-Received: from [115.28.160.31] (port=39742 helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mT5y2-0006Fl-JU
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:23:35 -0400
+Received: from [115.28.160.31] (port=39750 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mT5xR-0000vg-F9
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:23:00 -0400
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mT5y1-0001Pu-0Z
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:23:34 -0400
 Received: from [192.168.9.172] (unknown [101.88.29.172])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 3F709633F2;
- Thu, 23 Sep 2021 01:22:50 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 928B6633F2;
+ Thu, 23 Sep 2021 01:23:28 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632331370; bh=jaJkrmIgB27M4P+V5/kKzlDabr09FQW9T7rUNfyQ3Ww=;
+ t=1632331408; bh=jKsJ80w75FefNPHD6jfIE12QntCbueYaRtpESoKYS7s=;
  h=Date:Subject:To:References:From:In-Reply-To:From;
- b=ofv56Dam3eJeZCKPtBcRj657vovZ8ibYaelzBgroTXDmfv19fYYZh4TFKiuAY+BFu
- tx3jqI1zZY8XDzXGA/EJsf31cFP9x2x5UhZw/tbQ9RCkDBIWl8uuPJbTma8LdjzOHG
- 8k6e+crI/XZGNKDasmKjk/dH2BN+RcBJ8m9RIjT4=
-Message-ID: <2e8e9087-2f17-1536-585e-c666ee568b1a@xen0n.name>
-Date: Thu, 23 Sep 2021 01:22:49 +0800
+ b=tQRNsTlphSh9bt/zcA0oGG13Ylmh5eqmD+8JW+og3MQGqG6mPwQ9vgZY0/crdZDmv
+ 4EM/dXgM9WlaDJro4eU8reqbv1wlZ9/urI+Jy8siWjAEgqeUzzaOyUE3OLWu5Dn8fd
+ T0bH5qf4AFkReyGKGnHjlhQKr32CcWpK34OYjqZM=
+Message-ID: <3f5d0a19-ba9a-8328-f8f0-229a96597c87@xen0n.name>
+Date: Thu, 23 Sep 2021 01:23:28 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
  Thunderbird/94.0a1
-Subject: Re: [PATCH v2 09/30] tcg/loongarch64: Implement tcg_out_mov and
- tcg_out_movi
+Subject: Re: [PATCH v2 12/30] tcg/loongarch64: Implement
+ not/and/or/xor/nor/andc/orc/eqv ops
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210921201915.601245-1-git@xen0n.name>
- <20210921201915.601245-10-git@xen0n.name>
- <0717a7de-7c41-990d-ec7a-51b44f49724e@linaro.org>
- <75621c34-5cf8-3ae9-86cf-ce3cf53b4669@xen0n.name>
- <d0a802cf-a916-f7ff-6894-87930f07a667@linaro.org>
+ <20210921201915.601245-13-git@xen0n.name>
+ <90820738-c1f4-398c-308d-ec89be2d985f@linaro.org>
 From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <d0a802cf-a916-f7ff-6894-87930f07a667@linaro.org>
+In-Reply-To: <90820738-c1f4-398c-308d-ec89be2d985f@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
@@ -73,25 +71,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi Richard,
 
-On 9/22/21 23:17, Richard Henderson wrote:
-> On 9/22/21 8:16 AM, WANG Xuerui wrote:
->> Hi Richard,
->>
->> On 9/22/21 12:25, Richard Henderson wrote:
->>> On 9/21/21 1:18 PM, WANG Xuerui wrote:
->>>> +    /* Test for PC-relative values that can be loaded faster.  */
->>>> +    intptr_t pc_offset = val - (uintptr_t)s->code_ptr;
->>>
->>> This isn't quite right for split r^x code buffer.
->>> You should have seen this with --enable-debug-tcg...
->>>
->>> You need pc_offset = tcg_pcrel_diff(s, (void *)val).
->> Indeed; I just realized TCG debugging isn't fully enabled with 
->> --enable-debug only.
+On 9/22/21 12:35, Richard Henderson wrote:
+> On 9/21/21 1:18 PM, WANG Xuerui wrote:
+>> +    case INDEX_op_eqv_i32:
+>> +    case INDEX_op_eqv_i64:
+>> +        if (c2) {
+>> +            /* guaranteed to fit due to constraint */
+>> +            tcg_out_opc_xori(s, a0, a1, ~a2);
+>> +        } else {
+>> +            tcg_out_opc_nor(s, a0, a2, TCG_REG_ZERO);
+>> +            tcg_out_opc_xor(s, a0, a1, a0);
+>> +        }
+>> +        break;
 >
-> Um... it should be.
-Hmm, maybe I was having the wrong impression, I even grepped for 
-CONFIG_DEBUG_TCG and it showed 1, yet my assertions didn't fire during 
-one of my debugging sessions... Maybe I was just asserting at the wrong 
-place. Never mind though, problems are all solved now.
+> You don't actually have eqv (xnor), so don't pretend that you do. The 
+> middle-end will expand this as xor + not on its own.
+Sure; I'll remove support for eqv in v3.
+>
+> Otherwise,
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+>
+> r~
 
