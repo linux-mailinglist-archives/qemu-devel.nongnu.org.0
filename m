@@ -2,66 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7B1414DF0
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:18:06 +0200 (CEST)
-Received: from localhost ([::1]:33768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BAF2414E0B
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:25:02 +0200 (CEST)
+Received: from localhost ([::1]:43346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT4wd-0003UV-CR
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:18:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43348)
+	id 1mT53L-0001me-Ul
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:25:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
- id 1mT4pi-0006hJ-Rs; Wed, 22 Sep 2021 12:10:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57536)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mT4uj-00038P-Ae; Wed, 22 Sep 2021 12:16:05 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:38792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
- id 1mT4pg-0001GG-9T; Wed, 22 Sep 2021 12:10:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 851B061168;
- Wed, 22 Sep 2021 16:10:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632327050;
- bh=ZQEjt+lvFpI8dA+77HmtCoPQ51l7Q3ZOfcyOEbTaXso=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=n6/GGS0YHV7LTkGgzG5UP1PRO48X/zx2paVTm9KUHn0JqIs2XLnPEX53y7jBogpQN
- eHQz+VA4g0vj/CymcrO3mXMcBgunvgZWRMuJDRyYNvTi8aI/TLlsq5aSEfzx/On34G
- +obbUVRj6xUxzIkezvGekIbBWBd5JXMmCp33r/3NhVeDNBYxoQeYtmgi7SUH7UtimD
- Tnv6G+8zAcyFbTsvxUpPNAFMQfezP9nv7v28YE3cG6I/8IuxdOYq/4b8VL1ZoS2+yA
- qMmaFTfiooz0+fCFvW4xlcEMBnKbGKD4vvXBBhYMnvT95h8Zx4A0KwVc7fnsOnikMo
- wWaUuArk0Xvdw==
-Received: by mail-oi1-f182.google.com with SMTP id x124so5140153oix.9;
- Wed, 22 Sep 2021 09:10:50 -0700 (PDT)
-X-Gm-Message-State: AOAM53135Ksa+pe2S0vU81BDfi8JzruwamasXqGBcXK5u4a+jucO9WMo
- hvLFWp2SbPfSIesDuQJ+oNvauyeS7K4bm5HLumg=
-X-Google-Smtp-Source: ABdhPJybpo+2q3DOTCZNjGuTk5X/GyhYb0eKAmNuXxRWhFSmmQScqw18wocvEYCz0CeB19FNSS0Jgn3QxIOEBhKNqp4=
-X-Received: by 2002:aca:3114:: with SMTP id x20mr28574oix.174.1632327049808;
- Wed, 22 Sep 2021 09:10:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mT4uO-00057v-DZ; Wed, 22 Sep 2021 12:16:05 -0400
+Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
+ by beetle.greensocs.com (Postfix) with ESMTPS id D4A5120787;
+ Wed, 22 Sep 2021 16:15:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1632327333;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=p52VqvjsCznljFY2xO4Rt/Nf2Duz4eWTG3QEtLzwHk4=;
+ b=ew6f8RpIgUvMpeGq1oW3jHrqPK8H2iO+ccW5V5LopATHnIAc/5JmP0kO1GUCNtrVUBg0cJ
+ QT30XZEqF9IENJ34znQQjNMjtUpMYNa0HJ6F++N+WdqDnf2XtZ2AtpOoC8qXWKxmwJ7ZAK
+ u3YYtGzUu+N4fWJfxLOXmE9BpPy7KnE=
+From: Damien Hedde <damien.hedde@greensocs.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH v2 00/16] Initial support for machine creation via QMP
+Date: Wed, 22 Sep 2021 18:13:49 +0200
+Message-Id: <20210922161405.140018-1-damien.hedde@greensocs.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20210915181049.27597-1-agraf@csgraf.de>
- <20210915181049.27597-7-agraf@csgraf.de>
- <CAFEAcA9JZZ4nb8WAvKVYpwqxb_E5NFOVW9rKF3u7GhFqfNZgOQ@mail.gmail.com>
- <8e219cb0-8b65-faf8-f636-5c1d24471f84@csgraf.de>
- <CAFEAcA8xs3x5WCqT+FnPYip=nbQx6=UEH90Dkjq48YLboV9qAw@mail.gmail.com>
- <CAMj1kXEEN+J4k_Kib8gRHcy8v1vVRwk7c847yT_Kuv+jnLf9ww@mail.gmail.com>
- <CAFEAcA8yd6m-S90Uq1G=HTYFAerp6cZdJk9B=CFrHMn5tEMZ5w@mail.gmail.com>
- <CAMj1kXGXbjrG4XanWr=-H=f5wsUk6YVu-oTA9A_np3F8ELNcxw@mail.gmail.com>
- <CAFEAcA_fxW0yKwxqBuDi8+ux-jtVKeJxNhDV1=ROb+VamLiZRQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA_fxW0yKwxqBuDi8+ux-jtVKeJxNhDV1=ROb+VamLiZRQ@mail.gmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Wed, 22 Sep 2021 18:10:38 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXG6VDp_rSU+S_TTPdK8rUt2zF=V1E+brGfzsTUa7oF+yw@mail.gmail.com>
-Message-ID: <CAMj1kXG6VDp_rSU+S_TTPdK8rUt2zF=V1E+brGfzsTUa7oF+yw@mail.gmail.com>
-Subject: Re: [PATCH v11 06/10] hvf: arm: Implement -cpu host
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=ardb@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) DKIMWL_WL_HIGH=-1.472, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Spam: Yes
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,66 +58,279 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- qemu-arm <qemu-arm@nongnu.org>, Frank Yang <lfy@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Peter Xu <peterx@redhat.com>, mirela.grujic@greensocs.com,
+ Alistair Francis <Alistair.Francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Eric Blake <eblake@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ Paul Durrant <paul@xen.org>, Markus Armbruster <armbru@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-riscv@nongnu.org, Damien Hedde <damien.hedde@greensocs.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ mark.burton@greensocs.com, edgari@xilinx.com,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Sept 2021 at 14:45, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Wed, 22 Sept 2021 at 12:41, Ard Biesheuvel <ardb@kernel.org> wrote:
-> >
-> > On Thu, 16 Sept 2021 at 18:17, Peter Maydell <peter.maydell@linaro.org> wrote:
-> > >
-> > > On Thu, 16 Sept 2021 at 17:05, Ard Biesheuvel <ardb@kernel.org> wrote:
-> > > > I'd argue that compliance with the architecture means that the
-> > > > software should not clear RES1 bits
-> > >
-> > > Architecturally, RES1 means that "software
-> > >  * Must not rely on the bit reading as 1.
-> > >  * Must use an SBOP policy to write to the bit."
-> > > (SBOP=="should be 1 or preserved", ie you can preserve the existing value,
-> > > as in "read register, change some bits, write back", or you can write a 1.)
-> > >
-> >
-> > OVMF preserves the bit, and does not reason or care about its value.
-> > So in this sense, it is compliant.
->
-> Hmm. Alex, can you give more details about what fails here ?
->
+Hi,
 
-It seems that EDK2 ends up setting EL0 r/o or r/w permissions on some
-mappings, even though it never runs anything at EL0. So any execution
-that gets initiated via the timer interrupt causing a EL1->EL1 IRQ
-exception will run with PAN enabled and lose access to those mappings.
+The goal of this work is to bring dynamic machine creation to QEMU:
+we want to setup a machine without compiling a specific machine C
+code. It would ease supporting highly configurable platforms (for
+example resulting from an automated design flow). The requirements
+for such configuration include begin able to specify the number of
+cores, available peripherals, emmory mapping, IRQ mapping, etc.
 
-So it seems like a definite bug that is unrelated to reset state of
-the registers and assumptions related to that.
+This series focuses on the first step: populating a machine with
+devices during its creation. We propose patches to support this
+using QMP commands. This is a working set of patches and improves
+over the earlier rfc (posted in May):
+https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg03706.html
 
+Although it is working and could be merged, it is tag as an RFC:
+we probably need to discuss the conditions for allowing a device to
+be created at an early stage. Patches 6, 10 and 13, 15 and 16 depend
+on such conditions and are subject to change. Other patches are
+unrelated to this point.
 
+We address several issues in this series. They are detailed below.
 
-> > > > but I don't think we can blame it
-> > > > for not touching bits that were in in invalid state upon entry.
-> > >
-> > > SCTLR_EL1.SPAN == 0 is perfectly valid for a CPU that supports the
-> > > PAN feature. It's just not the value OVMF wants, so OVMF should
-> > > be setting it to what it does want. Also, as the first thing to
-> > > run after reset (ie firmware) OVMF absolutely is responsible for
-> > > dealing with system registers which have UNKNOWN values out of
-> > > reset.
-> > >
-> >
-> > Fair enough. But I'd still suggest fixing this at both ends.
->
-> Yes, the version of this code that we committed sets SPAN to 1.
-> (This argument is mostly about what the comment justifying that
-> value should say :-))
->
+## 1. Stoping QEMU to populate the machine with devices
 
-OK, that makes sense. But I'd like to get EDK2 fixed as well, obviously.
+QEMU goes through several steps (called _machine phases_) when
+creating the machine: 'no-machine', 'machine-created',
+'accel-created', 'initialized', and finally 'ready'. At 'ready'
+phase, QEMU is ready to start (see Paolo's page
+https://wiki.qemu.org/User:Paolo_Bonzini/Machine_init_sequence for
+more details).
+
+Using the -preconfig CLI option, QEMU can be stopped today during
+the 'accel-created' phase. Then the 'x-exit-preconfig' QMP command
+triggers QEMU moving forwards to the completion of the machine
+creation ('ready' phase).
+
+The devices are created during the 'initialized' phase. 
+In this phase the machine init() method has been executed and thus
+machine properties have been handled. Although the sysbus exists and
+the machine may have been populated by the init(), 
+_machine_init_done_ notifiers have not been called yet. At this point
+we can add more devices to a machine.
+
+We propose to add 2 QMP commands:
++ The 'query-machine-phase' command would return the current machine
+  phase.
++ The 'x-machine-init' command would advance the machine phase to
+  'initialized'. 'x-exit-preconfig' could then still be used to
+  advance to the last phase.
+
+## 2. Adding devices
+
+Right now, the user can create devices in 2 ways: using '-device' CLI
+option or 'device_add' QMP command. Both are executed after the
+machine is ready: such devices are hot-plugged. We propose to allow
+'device_add' QMP command to be used during the 'initialized' phase.
+
+In this series, we keep the constraint that the device must be
+'user-creatable' (this is a device class flag). We do not see any
+reason why a device the user can hot-plug could not be created at an
+earlier stage.
+
+This part is still RFC because, as Peter mentioned it (in this thread
+https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg01933.html),
+we may want additional or distinct conditions for:
++ device we can hot-plug
++ device we can add in '-preconfig' (cold-plug)
+We are open to suggestions. We could for example add a
+'preconfig-creatable' or 'init-creatable' flag to device class, which
+can identify a set of devices we can create this way.
+
+The main addition is how we handle the case of sysbus devices. Sysbus
+devices are particular because unlike, for example, pci devices, you
+have to manually handle the memory mapping and interrupts wiring. So
+right now, a sysbus device is dynamically creatable (using -device
+CLI option or device_add QMP command) only if:
++ it is 'user_creatable' (like any other device),
++ and it is in the current machine sysbus device allow list.
+
+In this series, we propose to relax the second constraint during the
+earlier phases of machine creation so that when using -preconfig we
+can create any 'user-creatable' sysbus device. When the machine
+progresses to the 'ready' phase, sysbus devices creation will come
+back to the legacy behavior: it will be possible only based on the
+per-machine authorization basis.
+
+For sysbus devices, wiring interrupts is not a problem as we can use
+the 'qom-set' QMP command, but memory mapping is.
+
+## 3. Memory mapping
+
+There is no point allowing the creation sysbus devices if we cannot
+map them onto the memory bus (the 'sysbus').
+
+As far as we know, right now, there is no way to add memory mapping
+for sysbus device using QMP commands. We propose a 'x-sysbus-mmio-map'
+command to do this. This command would only be allowed during the
+'initialized' phase when using -preconfig.
+
+## 4. Working example
+
+The last patches of the series add and modify devices in order to
+build a working machine starting from the 'none' machine.
+
+We add a new sysbus device modeling a simple memory (ram or rom). We
+also set 'user-creatable' flag of some sysbus devices. These are
+trivial patches, but they depends on the conditions we choose to allow
+creating devices with -preconfig. Therefore, there is really no need
+to review them until we settled on the device conditions first.
+
+With these devices (memory, ibex_uart, ibex_plic) we can dynamically
+configure a part (we did not add the timer, but we could) the
+opentitan machine very easily and run firmwares which demonstrates
+interrupts and memory-mapping are working.
+
+We use the existing qmp-shell script to issue machine devices
+from a qmp commands script file which contains qmp commands listed in
+a file.
+
+The following qmp commands add some memories, an interrupt controller
+and an uart with an interrupt.
+
+cat > opentitan.qmp <<EOF
+x-machine-init
+
+# ROM 0x00008000
+device_add        driver=sysbus-memory id=rom size=0x4000 readonly=true
+x-sysbus-mmio-map device=rom addr=32768
+
+# FLASH 0x20000000
+device_add        driver=sysbus-memory id=flash size=0x80000 readonly=true
+x-sysbus-mmio-map device=flash addr=536870912
+
+# RAM 0x10000000
+device_add        driver=sysbus-memory id=ram size=0x10000
+x-sysbus-mmio-map device=ram addr=268435456
+
+# PLIC 0x41010000
+device_add        driver=ibex-plic id=plic
+x-sysbus-mmio-map device=plic addr=1090584576
+
+# UART 0x40000000
+device_add        driver=ibex-uart id=uart chardev=serial0
+x-sysbus-mmio-map device=uart addr=1073741824
+qom-set path=uart property=sysbus-irq[1] value=plic/unnamed-gpio-in[2]
+
+x-exit-preconfig
+EOF
+
+We've put the opentitan.qmp and a firmware opentitan-echo.elf here
+(among some other qmp machine files we are working on):
+https://github.com/GreenSocs/qemu-qmp-machines
+This firmware is just a small interrupt-based program echoing back
+whatever is sent in the uart.
+
+QEMU should be run using the following command:
+qemu-system-riscv32 -preconfig -qmp unix:/tmp/qmp-socket,server \
+    -display none \
+    -M none -cpu lowrisc-ibex \
+    -serial mon:stdio \
+    -device loader,addr=0x8090,cpu-num=0 \
+    -device loader,file=opentitan-hello.elf \
+
+and in other terminal to do the configuration (grep is just here to
+remove comments):
+grep -v -e '^#' opentitan.qmp | qmp-shell -v /tmp/qmp-socket
+
+Alternatively we can load the firmware on the existing machine and
+observe the same behavior:
+qemu-system-riscv32 -display none \
+     -M opentitan \
+     -serial mon:stdio \
+     -kernel opentitan-echo.elf
+
+We chose this example because it is very simple and does not need a
+lot of devices.
+
+This work has still a lot of limitations. Cpus config is done the
+normal way (the C machine does that): in our example we used the
+'none' machine. We have work to do for handling backend
+connection (for example net/nic are complicated) because the way it
+is done in machine C code does not translate easily in QMP commands.
+Firmware loading is also a bit tricky. We plan to work on this in
+follow-up series.
+
+The series is organized as follows:
+- Patches 1 to 3 add qmp support to stop QEMU at an early phase
+  to populate the machine with devices.
+- Patches 4 to 6 prepare and allow issuing device_add during this phase.
+- Patches 7 to 10 prepare and allow creating sysbus device during this phase.
+- Patches 11 and 12 add the x-sysbus-mmio-map QMP command
+- Patch 13 add the memory sysbus device to model ram and rom 
+- Patch 14 adds some documentation
+- Patches 15 and 16 set 'user_creatable' flag of ibex_uart and ibex_plic.
+
+This work is supported by Greensocs, Sifive and Xilinx.
+
+Thanks,
+--
+Damien
+
+Damien Hedde (12):
+  softmmu/qdev-monitor: add error handling in qdev_set_id
+  qdev-monitor: prevent conflicts between qmp/device_add and cli/-device
+  hw/core/machine: add machine_class_is_dynamic_sysbus_dev_allowed
+  qdev-monitor: Check sysbus device type before creating it
+  hw/core/machine: Remove the dynamic sysbus devices type check
+  qdev-monitor: allow adding any sysbus device before machine is ready
+  softmmu/memory: add memory_region_try_add_subregion function
+  add x-sysbus-mmio-map qmp command
+  hw/mem/system-memory: add a memory sysbus device
+  docs/system: add doc about the initialized machine phase and an
+    example
+  hw/char/ibex_uart: set user_creatable
+  hw/intc/ibex_plic: set user_creatable
+
+Mirela Grujic (4):
+  rename MachineInitPhase enum constants for QAPI compatibility
+  qapi: Implement query-machine-phase QMP command
+  qapi: Implement x-machine-init QMP command
+  qapi: Allow device_add to execute in machine initialized phase
+
+ docs/system/managed-startup.rst | 77 +++++++++++++++++++++++++++++
+ qapi/machine.json               | 79 ++++++++++++++++++++++++++++++
+ qapi/qdev.json                  | 24 ++++++++-
+ include/exec/memory.h           | 22 +++++++++
+ include/hw/boards.h             | 18 ++++++-
+ include/hw/mem/sysbus-memory.h  | 32 ++++++++++++
+ include/hw/qdev-core.h          | 30 +-----------
+ include/monitor/qdev.h          | 25 +++++++++-
+ hw/char/ibex_uart.c             |  1 +
+ hw/core/machine-qmp-cmds.c      | 11 ++++-
+ hw/core/machine.c               | 48 ++++++------------
+ hw/core/qdev.c                  |  7 ++-
+ hw/core/sysbus.c                | 41 ++++++++++++++++
+ hw/intc/ibex_plic.c             |  1 +
+ hw/mem/sysbus-memory.c          | 83 +++++++++++++++++++++++++++++++
+ hw/pci/pci.c                    |  2 +-
+ hw/usb/core.c                   |  2 +-
+ hw/virtio/virtio-iommu.c        |  2 +-
+ hw/xen/xen-legacy-backend.c     |  3 +-
+ monitor/hmp.c                   |  2 +-
+ monitor/misc.c                  |  2 +-
+ softmmu/memory.c                | 22 ++++++---
+ softmmu/qdev-monitor.c          | 86 +++++++++++++++++++++++++++------
+ softmmu/vl.c                    | 23 ++++++---
+ ui/console.c                    |  3 +-
+ hw/mem/meson.build              |  2 +
+ 26 files changed, 547 insertions(+), 101 deletions(-)
+ create mode 100644 include/hw/mem/sysbus-memory.h
+ create mode 100644 hw/mem/sysbus-memory.c
+
+-- 
+2.33.0
+
 
