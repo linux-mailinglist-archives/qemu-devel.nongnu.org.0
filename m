@@ -2,137 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07E94142DB
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 09:44:50 +0200 (CEST)
-Received: from localhost ([::1]:51568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747864142DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 09:48:02 +0200 (CEST)
+Received: from localhost ([::1]:54868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSwvx-0006z1-KV
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 03:44:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41386)
+	id 1mSwz2-0000xC-4g
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 03:48:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mSwtF-0004ux-TB
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 03:42:03 -0400
-Received: from mail-eopbgr70107.outbound.protection.outlook.com
- ([40.107.7.107]:8837 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ id 1mSwx2-0008T4-Bu; Wed, 22 Sep 2021 03:45:56 -0400
+Received: from mail-am6eur05on2131.outbound.protection.outlook.com
+ ([40.107.22.131]:49088 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mSwtC-00080d-AB
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 03:42:01 -0400
+ id 1mSwwz-0002qn-Jo; Wed, 22 Sep 2021 03:45:55 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WbW7Vt9exZqUx9l0+YITBgU7Lrrrmlxr9mVSsVMT8zCNB9RHg01Vpviu94mo6iXqUfOFxJn0YadZB683ukW+e6XzkBLApFvTBfBZS9hFIVZI44KaMRkLa37UqoFWf4QX0HWjGaZL8Cp9XOGl/e540k/8DKqx0i9wZJlsj/lSNFDzhtBIWBEDTGXq6ux07PRgalQPkHWPNQISZ8v07qkwDoT8Brp334h67XXM3eHywR29QRGb/pApPbem25jZL3sTzVuGFbmgrCl7EfllPecTlBGekc1y8D5hepwymsNZRrIULnxPQfi6vwJF+zyuQu6J3FrPDXmd9K23/2gG1WEIfw==
+ b=fxPNrc9YYT3RIO6ewWPG+oVO4VAN0vizNz1Ep1zxoFMeGhMRM31kvwEsgcbollPjTwTdi/w5XanQhl4wWfZqYg7hmaKTAyy/yAozKarm05gis4pR8Nfma+HcBM1Y9XpBIjlsB7Ob1vc4led74f+RJRIdxcGHO0UGZcQxgxZZIr+IZGonti9mYtIhbj/T4s6lp1Je4g9JCIAa7zkgFXP+5d+Ryooz62Tc4FjO46q2tvJcF0AmOZ3Y92oBtUrWzbv55NECnV8l9DdcOF2khFj4Yk9XSjq+jIwb6zB80AAG5UszgvSdGilA/G0ruasUcALlYvTskmChVWk9xg9vDKVltA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=WBoQ5H8rUY+Z0Eyy4kPrYpKbwBy6K5N4DKniM5K7xP8=;
- b=Y5PUnGOYpiURKqe8Lc4teCdAx/7JcosSpPTyHV+oYsk55bls2Srl4J4QCEpLnBY6L8Fbdv7vL5yV5XAgfjC/o6LouQ08AtLAAKwXmsiEcW8dQ4KTLgbiKNs5Z2bK3XFp0U+Ch1IgM8vIIHYW3C4KTIQIKmjKrcigEqBuwg7U5HhopTjf6j60l2gd6l4MvXnKuhljynGSZOccPa/tg2pk3IOdVzLx7fmfuZiDF9ZjOcsq7ApHzJ12FKqquqx6lyrFj6oPgKFGwXICn50aRRWYMsaBZf4+zt71XoBaNSMXrfWtUnABmQZ1kJjt0eE1YoHcCHhlJpnCMO7unmMWUt10nQ==
+ bh=/lVmeByL5P2Me1I8iGpiNv5w9bb+/qNFPbJgNceWZRY=;
+ b=TBzz4PQHrP6wyUKGu/FpyMIgE0Llw+Gx1cK6fxgxo3rhYLCgCmzMxWU7M4umPrzA6M5ZCMwLP7TcC/uqjAKOlzdAAkfGsdgtNF9RfCB6VCbV3KsUVkmEeH9YgMhnxdJptauuUMOLvOAmQ1yGULsoAGkhtwydndfB4LIEZwjhGAz1HpkifSbGk853P5QGO44O4wPMLCWk/92g2caox15vYLVuddtbjiml54PhdwbwDzgUQDUsxaAlCRqeprpmyEpt2o/DqMEAP5U27odaWOfcd/IbKUfbgpL7qwiJXOkj3u8NHN05jsZJhwm2FUY2bRkscwFUzNM0B80XDS3r8ES9Pg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WBoQ5H8rUY+Z0Eyy4kPrYpKbwBy6K5N4DKniM5K7xP8=;
- b=Xqiw+u3LQML8SZlbzmn8Avu/zf6a+5kSuM7igYQnj0VrDQqqXKSLqJ2QAxWHmlKkQRfhMjKxPdZCsYTYtdqew5v8TKSqG8K/RDMEycXimUaxP3JX7YOMPqMfKJsFAZu7DGa0ILjqe8xkECzWPpm0ycYetPEaXozK10TgJwilEls=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
+ bh=/lVmeByL5P2Me1I8iGpiNv5w9bb+/qNFPbJgNceWZRY=;
+ b=k1bOEXQ6GbMlx1s0Tgiv4FE2+rLBC1+dd7jIE+H4nT8VYMREsKoGtbpzUui9KbGYPLIO+A6Pm6g5OVCBVzhFV3mrqZNvtcojoWfT3pmVV8hPILJJKQeuL9UicNIOkL+2lKSDWtP+RS0ouHgOIurO9aDB3DA8geibDP2Sh7sPDL4=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6423.eurprd08.prod.outlook.com (2603:10a6:20b:318::13)
+ by AM6PR08MB3447.eurprd08.prod.outlook.com (2603:10a6:20b:44::20)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14; Wed, 22 Sep
- 2021 07:41:55 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.17; Wed, 22 Sep
+ 2021 07:45:49 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.013; Wed, 22 Sep 2021
- 07:41:55 +0000
-Subject: Re: [PATCH v15] qapi: introduce 'query-x86-cpuid' QMP command.
-To: Valeriy Vdovin <valery.vdovin.s@gmail.com>, qemu-devel@nongnu.org
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Eric Blake
- <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- kvm@vger.kernel.org, Denis Lunev <den@openvz.org>,
- Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
-References: <20210816145132.9636-1-valery.vdovin.s@gmail.com>
+ 07:45:49 +0000
+Subject: Re: [PATCH v2 00/19] Make image fleecing more usable
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, xiechanglong.d@gmail.com,
+ wencongyang2@huawei.com, eblake@redhat.com, hreitz@redhat.com,
+ kwolf@redhat.com, jsnow@redhat.com
+References: <20210827181808.311670-1-vsementsov@virtuozzo.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <24143eb0-9ab4-bcf7-94e7-32037ad49b2e@virtuozzo.com>
-Date: Wed, 22 Sep 2021 10:41:52 +0300
+Message-ID: <87a2d181-55b2-6a23-5499-5d82b2144e33@virtuozzo.com>
+Date: Wed, 22 Sep 2021 10:45:47 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
-In-Reply-To: <20210816145132.9636-1-valery.vdovin.s@gmail.com>
+In-Reply-To: <20210827181808.311670-1-vsementsov@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR04CA0101.eurprd04.prod.outlook.com
- (2603:10a6:208:be::42) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: PR3P189CA0042.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:53::17) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 Received: from [192.168.100.5] (185.215.60.205) by
- AM0PR04CA0101.eurprd04.prod.outlook.com (2603:10a6:208:be::42) with Microsoft
+ PR3P189CA0042.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:53::17) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4544.13 via Frontend Transport; Wed, 22 Sep 2021 07:41:53 +0000
+ 15.20.4523.16 via Frontend Transport; Wed, 22 Sep 2021 07:45:48 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a0420d6e-aaaf-42e3-b604-08d97d9c72c4
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6423:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6423D85E2EC4C72071EF2501C1A29@AS8PR08MB6423.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 7149159c-357a-40d8-1204-08d97d9cfefa
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3447:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB34470EB71279394AF72B5BCBC1A29@AM6PR08MB3447.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:165;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1uphQ/ya1GMq04RDRdaNBQ8TlH4C2rdLTVmWdbfs0Lj0g/tIbCHZsecqwC6dB8GxoaQYFjR3Y8ftcH0omYkh3+RFSva6SE3H+r1LzSOw9cHWDMPFQiRoXv3GPaQI4hJ7ktjZ2r9QbVtEZlpwvH7fQg8xy5W1Nqm7tECK0ZJ9p8jFXj9PcfhPIePUvl1FVkpMuCQnMwzoHcDa+EkUHFnDuEOmKkVk0KNA3aKdmjNGWcyfuXzYCOT2DYOZ3qJarRiuja9Ofb48IcFoHPHDHVCQTrrPzpc9OWUjgDhrOe/lcDCk3E5wmx7ncr1g4FOcveil1nszOdHxVoS9PSNk6k6JBAsgN61f+yZhzGTuJcvFzuRDP+8cDDOdGqhIPEGxcB1FerR5sMwpGS8CqWIy+0qJSeocAGiFYPx1MsvLP/BJxjCjnkcMwkK3HfzG9I4QUygwvhxeaURPY7Nx/zTTRyjGmtS/QauqRL/vBek/pOePOLSWPWSLoZCVibtxJikDaoQBc7c0k3kzm6AGzW80tF3Db5stJ+9VF05B42LxRujkT/JayPG1/4A48vkQFFALTwZ2t258CnRVahl6zoFPXrQiXHH5YTlmMNiSP6baHnxjbkuIHeUGSqOFb+gVdc96UuLQkvw6aCXPWd+mGzit4miKX5zHb/gKAPCbV7FEsE3sQwG0wmtR5U1VdnMtL28aedZgKp1Sben9r4Zs2gxm8XuohbHrs5ZVJmTP8TPMVXz+JlGuRtPGG0fC3Oo59WAJnXwNQNXOUaBxmE1PiDWbeN//jw==
+X-Microsoft-Antispam-Message-Info: TSG1WB4lYrT61y5OSYWuOVAzgh0i7V1bfCw2pOrqz/x7dlvbOzBq6muysmQTXpswhgu125LwWZ/NZ7Xmg9mZ5+ddtDsFBk2/rHXhm6RyPyzwYhHncJq/cmftMdjRxm0529r48nRl5DTJZtRPvFAgARjsZnIvSLVxsPXvd6c55m/bv4bTTxbtZ2rUrjgr/5ihVWNYjTeghm+/5UhEgvnJM6ayu6uU9v/GON8z6Mdc+KJS5r2Xnih/ZKqAef29+iJgvMP/Z2HclnAx6Lwu/xc2EkztpdDSplLRhqNNckXSqSrqG3XlRIollntLWBu2k+XwMyVr8Ia7JEsy4TBirBBgz/okVFE2ddXRTj+aaZ30G+JX0v0cwiBprE75BCBVk6LCEEk1r4K2LGIzTjgnyNNCH4NYNzU8ApuShFV2ilJa+uUcbWUv6i89/e5FQcD+Tf2R47JUv2nX5lA2C49awTnbXjMvZyzQBKBzUDPhA6ze4qedmr/Ryr8uICJdSbpYI+artph6rPVPoFrakSGtfzKL1l8OUq1flTCby2COIQ+lMLjMYpvqCeQNAwBk69QYin+6B+x45pUGewi4iWBfTMnUeWY/T/RElEAtwHGABxgf0AVZzFq6bG2V9Qd67k4hc6Un+uYP1JM3VhLKNsKCCLqaEGaOmr1h7rnQMZep05qjedW5FJV91rOnu9MmKRJrsX7rPPPFDZsWFkqttLQEA19UVaNkrmx8jiBagMos5hhLisVnAbB18kSmKbBKMuLbpkXwFoVdPL781L7gKq/v18EkVw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(86362001)(4326008)(7416002)(8676002)(5660300002)(38100700002)(66556008)(52116002)(83380400001)(38350700002)(26005)(16576012)(66946007)(8936002)(2616005)(54906003)(31686004)(2906002)(6486002)(66476007)(316002)(31696002)(508600001)(956004)(36756003)(107886003)(186003)(45980500001)(43740500002);
+ SFS:(4636009)(366004)(6486002)(66946007)(52116002)(83380400001)(86362001)(66556008)(66476007)(31696002)(8936002)(4326008)(8676002)(26005)(36756003)(6916009)(2906002)(38100700002)(31686004)(508600001)(2616005)(38350700002)(316002)(5660300002)(186003)(956004)(16576012)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TkZoVHVvN2FHdUNJYStvcFNtRGZEa2FBb3h5OWFXWWJvamZYRzh1d2RTbXJl?=
- =?utf-8?B?TTg1QW5nalZ1bEFwWjQxZUdMbWdwdlJ2UGlWLzRGRWZVRC9qV2xCWk9YLzRP?=
- =?utf-8?B?WUVQSllGcCt5L21mQk1qSGYrS0xFeUhYQ1RHN01yNVEwdUprZHJrc253em5Y?=
- =?utf-8?B?WTg4dkJtQlJRS2gveXZCT0xmOUhQTGVHV3lkUks2dGtVT2F4alpEQ21OVzdN?=
- =?utf-8?B?RUJJaC8wR1V0SEFJRnl2SWRMUnpEZzZXQmdyTGJJVCtTenlQZ2VaWGIzL1kv?=
- =?utf-8?B?ZDdSWFp1WlltV0RZbkYyU0Z1V2U4UW1LWE4vRVZqRWMyZXFmb2M4VzJxUmNu?=
- =?utf-8?B?Ym1nZCtZa0pPc0pwTUc1MnEwME93bFB4N2NZNmxiaXYraFpOYjZsMWtaWFFs?=
- =?utf-8?B?NkQxeEY5dHRNQmJ5a1duMnZ0cjlGY2Q3YWpzOEl0WW91UlhGcnJMMXVQb01o?=
- =?utf-8?B?Y1FEbjV3Zk1vNDF4QWVKRWFpWFJHbXhSdzI0M0RYTzQ0aW8zb2IzenRFRzQz?=
- =?utf-8?B?anVyVFoyUVFTLzVidHpPWnl2SmVYV2tnVlQrM2JURXVxdDg3dW42TUVncFVQ?=
- =?utf-8?B?OVA5d2JDUkl1ZGRZenBpanZhYWR6UUt2alBpS2N3dTBHRThkWFNsZ2FXbWJI?=
- =?utf-8?B?bVVmdmpWckJKdFpOeHBGSjRwNkdUcVB1VkpuNFl5VWJLSVZRSE4rUFdIWjRG?=
- =?utf-8?B?UnlDWG82ckZweVJTTzlqUjcvam1YS0ExaUxQMEtqZUJyRUYxQWZrd1Y0VjZv?=
- =?utf-8?B?c24wQVJKTUxDWExiaE5rMHNEUzIyNUdkU25WdlRKTFE4ODUwM2tQdWV3cEpu?=
- =?utf-8?B?bVlZclR3NzR3SlB2VjdST1hiSGg2TFZPdVpwVjBtVENtbEp6Z3o1YlJIeW1L?=
- =?utf-8?B?SHBkTitvbytqMlZDbVNDUDBDWXBkdUhLS3ZLU3hmQlFJY2F1Q3djZUVYOVFy?=
- =?utf-8?B?OUplZzl6ZnhPa21RZElsZkZqQXJDVThYZ2lyZXFvYU1Ub1NUVjBTSDl4UUFR?=
- =?utf-8?B?dE1ySm1FS0toNm02WkhmQjM3T0J3UDVuclhWdzc0Q0VTQ3JxNGJWT1ZmTmpN?=
- =?utf-8?B?MWpVMXRoUHZRakc0WWIrL3B2T1UwN2t5djFXRmNRM25EakYrOGdXSkU0c2tT?=
- =?utf-8?B?N1JKdFJ6TE95cUhuNzQwaURaTEt2TTErL2RvYmdaN1RQdExvakt4dXdnRy9l?=
- =?utf-8?B?QVhvaU5pQmFYSkEzMDZBRWtZRlRIS1VXcnR2T0dvamE3VGxkRkFrYndWVzBw?=
- =?utf-8?B?OGdESUlDSFU0MnRmS0Z5V0RQMzF6Vy8vOEZJeXpQSGF1d3djaUZvVE1qZms3?=
- =?utf-8?B?bkVlMHB2TFhvRDRGeEhPR3pxY2tnNC9YY0FrUUxPaEh2UXgzN2x0eGdtVklV?=
- =?utf-8?B?eTJRdm9ZbURHSnEwalN6ZDJrL2hMZHgxN3dxZEpVVElvTVZ3ei9uUThCWi9t?=
- =?utf-8?B?aVpacW1WRHNpZ21tTUpUSHl5dFJIQlZmaTJYbll1YUYrRG9MRnBUWEc1WXlJ?=
- =?utf-8?B?U0JLaldPN0FtbkJ3Y3o2b0ZwaDlNSGl4Ky9vd1VMeUJJdkFOSWR3T2NCQVM3?=
- =?utf-8?B?UnE4N1I1VHEzWmx6Z0tQelRSOHV1VGpjSFdHc0NVT2N0TW9JSjMxNFVrRU1Y?=
- =?utf-8?B?Vzhnd2hncnVVUUxMWFlzalpkS2x1T00wMTNXUnhURWJNcHlMN0N3cHhRdVMx?=
- =?utf-8?B?RUJZcTJYaTl0Q3o2QUcyLzNMUkx5UUNZTG4waUFFV1BrYStDUUp2eWw0SEg2?=
- =?utf-8?Q?9myi1jnzARLyA5bApanALFc2Wq+tgyCbH6LNthW?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WmZjZzZJa2tSMlA1WHAzaThZdVEwSWZPNm0vM3V1Z3F6TFdkallic2VQT3RY?=
+ =?utf-8?B?djdmVm5SZnhXdnF4UmVLcWVBUVhWdlg0RXpOMFV0MTd6bG5Cbzg0NnJGRjhQ?=
+ =?utf-8?B?aTFscW00alNpblNFTFNMN0dwSzdJK0RXRlc0TXBGUlVWYlErTVlmUlkxNVB3?=
+ =?utf-8?B?WC9qS2lVZnJKNVFUTnlHaHdGaG81MmNnSTB6ZUkvVm9vdFpMVGp5WHVzczBl?=
+ =?utf-8?B?bG00ZHhQQXRtQmRPVGVaZGVONEQyMExBR0JLQ0RoZGw1bDVjWEtEamIyUmpK?=
+ =?utf-8?B?QzVWaWgrVnVyckxwQ1krVk9xTjRadjRFRDNXTk5ZaUpCR3R5ckh4QTF2cVlH?=
+ =?utf-8?B?eXkrbkt4b3UwaUhuYzBZYVBWang1ZXZVc2IwdzFEZHhBQUJZWlBva2RPb05L?=
+ =?utf-8?B?dXhtekQ2MDlKa1dMNFdaeElmcEE3b2pqTnFTQis1NVNIdkxmQ0xuSUFWbVRx?=
+ =?utf-8?B?a3FSandrWTRGTE90bFpYQU1KS3lqR1R6bDE3NFdGTlNadzQ0alBqVEZ5MXp3?=
+ =?utf-8?B?YTBHdjlmcGpGMEYwcm5IcExzY0kvVi9nNzJ6Y1dESkhCbTVRZjlkdk1oVlI4?=
+ =?utf-8?B?WFFVdkRBUUU3SjhVaVNEdkc4UURWd1VTNXdaS1YvbTIwd2UxeHJnNWF1b1c5?=
+ =?utf-8?B?STZ3UWpBTmU0dGRFalZmZmcvSnlPMVVpMzBxWmJ2TFFKdElvTUdzV2Z6eFB5?=
+ =?utf-8?B?UzQwYytjTWVDL3ZKR1JJTzZoRUVPVm85UEtLWkxsT1lvM2p0UVg3SnVyR21s?=
+ =?utf-8?B?b0Y1RGFoNVhSSzJPU2RnTmNXVjNEb3NZakUwOTBzUGpqWFlJQ1FHSnRtWkYx?=
+ =?utf-8?B?VnhKNWJHd3dJdWtkYzQ5eXBROVk1S2R1UE1FRUR4RFhzV3JiL2ptNW5zTVFz?=
+ =?utf-8?B?bVdxSTgyRHhLdHF0Wm5lTnhnNzRrT0QzTXR2Q1V0cThTSnFkYUo2ZlN6a0NB?=
+ =?utf-8?B?aEZuRENKQ1FXTmdQaU03MWowSGFNU3lNSk5mRkRGVkJJbzlMTFZaL0Rla25E?=
+ =?utf-8?B?T1pyaDV1VEptZ3NaSDNmZFhuR2ErUUp5QW9jVDlDeWlyZjJpd3FqVGlJSUFP?=
+ =?utf-8?B?TUNjTk1uR0xhR3M2WnlPVUVOeDBVSkZ0NXlxRXU5TE5qU1UrSHRSRjF0Zjhk?=
+ =?utf-8?B?ZEJRK1grUjloeGtrdkxzTjlVVStJaWhhclpORHFjTm9ibHl4WDhWVnNtRmk5?=
+ =?utf-8?B?S25ocHF5SmV6b3k3a2JOa3oxRXRKMHl4cXRjazlvT1Bwd0VsdGF1ak90MkFI?=
+ =?utf-8?B?TStIbnRkS0U1NGdPMGhSeDEvRktGNXVHNFVaWlREaGVsSXMyU2p2eGFDeXB6?=
+ =?utf-8?B?eFFwSnVXK3RyK3RtaHRkS3A4bFpDQmd3THJMeUdSTlJ1d3BuK0N1WFh1MUZO?=
+ =?utf-8?B?Y3FYaUI3OXlTUXFzSkl0aWwvSnhyYlpjV3I5WlVkcUFFbU02SWtYY091SVNw?=
+ =?utf-8?B?SlpVWnFIRzFJT2dLbVIvam5kTjJXYjZQSlFIYnQyaWNZMFVNUEpGMnc3a21h?=
+ =?utf-8?B?L1dkcjgrV0RhSEE4QUtXV3ZHQm9LcVZnRWRjOTBqSGZZSWhJc0JHQ3d1MnR6?=
+ =?utf-8?B?Sm9sQ2pkRWI1Y1p0U2xRY1BldEs5dzZVWUp0YzlKNEI5V3A0WGNhTFJvaGl2?=
+ =?utf-8?B?ZkYrREVSdFFEdVRnY2IxUEtudjBXd24xWDRoY0lWMytFL2NiZ3RwSVVGelMy?=
+ =?utf-8?B?T2ZQd2ZUa1VWdXdiYk5WR3hmRndmZlFUcnhHQ2huUVJmRjQ4aW9zM3ppWW1q?=
+ =?utf-8?Q?TnUhukDnmUNUR3wd69K1U8AZgPsqu3GcHIkuqLE?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a0420d6e-aaaf-42e3-b604-08d97d9c72c4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7149159c-357a-40d8-1204-08d97d9cfefa
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2021 07:41:54.9344 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2021 07:45:49.7111 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /qBaJRpAFCHqzVjnnQeW7avUC1innT8DvQHHHc8XOEm46Tl1rmbLw/DVfPrPp5bMoitc86srFwB7VO82dmeB+mkrZM4tmE7ifamAmhYWAQM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6423
-Received-SPF: pass client-ip=40.107.7.107;
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6iM8QLH1TYOzEO2vcgsgz4MEW3VanLWZsCJcK0h0HfPSTRpwDI6lJnUUEdb1rxRI1Zc3EttNA04Is9NQqrCzDXy02z3JJroQ1kzsDJq6XEM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3447
+Received-SPF: pass client-ip=40.107.22.131;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -156,320 +147,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping.
+ping )
 
-Hi! Any chance for this to land?
-
-The solution is very simple now: we don't modify any logic and just export kvm_cpuid2 entries as simple and flat QAPI list. What's the problem with it?
-
-If any doubts, we can go with x- prefix for a new command.
-
-16.08.2021 17:51, Valeriy Vdovin wrote:
-> From: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+27.08.2021 21:17, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
 > 
-> Introducing new QMP command 'query-x86-cpuid'. This command can be used to
-> get virtualized cpu model info generated by QEMU during VM initialization in
-> the form of cpuid representation.
+> That continues "[PATCH RFC DRAFT 00/11] Make image fleecing more usable"
+> and supersedes "[PATCH v2 for-6.2 0/6] push backup with fleecing"
 > 
-> Diving into more details about virtual CPU generation: QEMU first parses '-cpu'
-> command line option. From there it takes the name of the model as the basis for
-> feature set of the new virtual CPU. After that it uses trailing '-cpu' options,
-> that state if additional cpu features should be present on the virtual CPU or
-> excluded from it (tokens '+'/'-' or '=on'/'=off').
-> After that QEMU checks if the host's cpu can actually support the derived
-> feature set and applies host limitations to it.
-> After this initialization procedure, virtual CPU has it's model and
-> vendor names, and a working feature set and is ready for identification
-> instructions such as CPUID.
+> Supersedes: <20210804131750.127574-1-vsementsov@virtuozzo.com>
+> Supersedes: <20210721140424.163701-1-vsementsov@virtuozzo.com>
 > 
-> To learn exactly how virtual CPU is presented to the guest machine via CPUID
-> instruction, new QMP command can be used. By calling 'query-x86-cpuid'
-> command, one can get a full listing of all CPUID leaves with subleaves which are
-> supported by the initialized virtual CPU.
+> There several improvements to fleecing scheme:
 > 
-> Other than debug, the command is useful in cases when we would like to
-> utilize QEMU's virtual CPU initialization routines and put the retrieved
-> values into kernel CPUID overriding mechanics for more precise control
-> over how various processes perceive its underlying hardware with
-> container processes as a good example.
+> 1. support bitmap in copy-before-write filter
 > 
-> The command is specific to x86. It is currenly only implemented for KVM acceleator.
+> 2. introduce fleecing block driver, which opens the door for a lot of
+>     image fleecing improvements.
+>     See "block: introduce fleecing block driver" commit message for
+>     details.
 > 
-> Output format:
-> The output is a plain list of leaf/subleaf argument combinations, that
-> return 4 words in registers EAX, EBX, ECX, EDX.
+> 3. support "push backup with fleecing" scheme, when backup job is a
+>     client of common fleecing scheme. That helps when writes to final
+>     backup target are slow and we don't want guest writes hang waiting
+>     for copy-before-write operations to final target.
 > 
-> Use example:
-> qmp_request: {
->    "execute": "query-x86-cpuid"
-> }
+> Vladimir Sementsov-Ogievskiy (19):
+>    block/block-copy: move copy_bitmap initialization to
+>      block_copy_state_new()
+>    block/dirty-bitmap: bdrv_merge_dirty_bitmap(): add return value
+>    block/block-copy: block_copy_state_new(): add bitmap parameter
+>    block/copy-before-write: add bitmap open parameter
+>    block/block-copy: add block_copy_reset()
+>    block: intoduce reqlist
+>    block/dirty-bitmap: introduce bdrv_dirty_bitmap_status()
+>    block/reqlist: add reqlist_wait_all()
+>    block: introduce FleecingState class
+>    block: introduce fleecing block driver
+>    block/copy-before-write: support fleecing block driver
+>    block/block-copy: add write-unchanged mode
+>    block/copy-before-write: use write-unchanged in fleecing mode
+>    iotests/image-fleecing: add test-case for fleecing format node
+>    iotests.py: add qemu_io_pipe_and_status()
+>    iotests/image-fleecing: add test case with bitmap
+>    block: blk_root(): return non-const pointer
+>    qapi: backup: add immutable-source parameter
+>    iotests/image-fleecing: test push backup with fleecing
 > 
-> qmp_response: {
->    "return": [
->      {
->        "eax": 1073741825,
->        "edx": 77,
->        "in-eax": 1073741824,
->        "ecx": 1447775574,
->        "ebx": 1263359563
->      },
->      {
->        "eax": 16777339,
->        "edx": 0,
->        "in-eax": 1073741825,
->        "ecx": 0,
->        "ebx": 0
->      },
->      {
->        "eax": 13,
->        "edx": 1231384169,
->        "in-eax": 0,
->        "ecx": 1818588270,
->        "ebx": 1970169159
->      },
->      {
->        "eax": 198354,
->        "edx": 126614527,
->        "in-eax": 1,
->        "ecx": 2176328193,
->        "ebx": 2048
->      },
->      ....
->      {
->        "eax": 12328,
->        "edx": 0,
->        "in-eax": 2147483656,
->        "ecx": 0,
->        "ebx": 0
->      }
->    ]
-> }
-> 
-> Signed-off-by: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
-> ---
-> v2: - Removed leaf/subleaf iterators.
->      - Modified cpu_x86_cpuid to return false in cases when count is
->        greater than supported subleaves.
-> v3: - Fixed structure name coding style.
->      - Added more comments
->      - Ensured buildability for non-x86 targets.
-> v4: - Fixed cpu_x86_cpuid return value logic and handling of 0xA leaf.
->      - Fixed comments.
->      - Removed target check in qmp_query_cpu_model_cpuid.
-> v5: - Added error handling code in qmp_query_cpu_model_cpuid
-> v6: - Fixed error handling code. Added method to query_error_class
-> v7: - Changed implementation in favor of cached cpuid_data for
->        KVM_SET_CPUID2
-> v8: - Renamed qmp method to query-kvm-cpuid and some fields in response.
->      - Modified documentation to qmp method
->      - Removed helper struct declaration
-> v9: - Renamed 'in_eax' / 'in_ecx' fields to 'in-eax' / 'in-ecx'
->      - Pasted more complete response to commit message.
-> v10:
->      - Subject changed
->      - Fixes in commit message
->      - Small fixes in QMP command docs
-> v11:
->      - Added explanation about CONFIG_KVM to the commit message.
-> v12:
->      - Changed title from query-kvm-cpuid to query-x86-cpuid
->      - Removed CONFIG_KVM ifdefs
->      - Added detailed error messages for some stub/unimplemented cases.
-> v13:
->      - Tagged with since 6.2
-> v14:
->      - Rebased to latest master 632eda54043d6f26ff87dac16233e14b4708b967
->      - Added note about error return cases in api documentation.
-> v15:
->      - Rearranged nested if statements.
->      - Made use of kvm_enabled() instead of custom function.
->      - Removed generated typedefs
->      - Added indentation to qapi docementation.
-> 
->   qapi/machine-target.json   | 46 ++++++++++++++++++++++++++++++++++++++
->   softmmu/cpus.c             |  2 +-
->   target/i386/kvm/kvm-stub.c |  9 ++++++++
->   target/i386/kvm/kvm.c      | 44 ++++++++++++++++++++++++++++++++++++
->   tests/qtest/qmp-cmd-test.c |  1 +
->   5 files changed, 101 insertions(+), 1 deletion(-)
-> 
-> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
-> index e7811654b7..75398bc1a4 100644
-> --- a/qapi/machine-target.json
-> +++ b/qapi/machine-target.json
-> @@ -329,3 +329,49 @@
->   ##
->   { 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo'],
->     'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
-> +
-> +##
-> +# @CpuidEntry:
-> +#
-> +# A single entry of a CPUID response.
-> +#
-> +# One entry holds full set of information (leaf) returned to the guest
-> +# in response to it calling a CPUID instruction with eax, ecx used as
-> +# the arguments to that instruction. ecx is an optional argument as
-> +# not all of the leaves support it.
-> +#
-> +# @in-eax: CPUID argument in eax
-> +# @in-ecx: CPUID argument in ecx
-> +# @eax: CPUID result in eax
-> +# @ebx: CPUID result in ebx
-> +# @ecx: CPUID result in ecx
-> +# @edx: CPUID result in edx
-> +#
-> +# Since: 6.2
-> +##
-> +{ 'struct': 'CpuidEntry',
-> +  'data': { 'in-eax' : 'uint32',
-> +            '*in-ecx' : 'uint32',
-> +            'eax' : 'uint32',
-> +            'ebx' : 'uint32',
-> +            'ecx' : 'uint32',
-> +            'edx' : 'uint32'
-> +          },
-> +  'if': 'defined(TARGET_I386)' }
-> +
-> +##
-> +# @query-x86-cpuid:
-> +#
-> +# Returns raw data from the emulated CPUID table for the first VCPU.
-> +# The emulated CPUID table defines the response to the CPUID
-> +# instruction when executed by the guest operating system.
-> +#
-> +#
-> +# Returns: a list of CpuidEntry. Returns error when qemu is configured with
-> +#          --disable-kvm flag or if qemu is run with any other accelerator than KVM.
-> +#
-> +# Since: 6.2
-> +##
-> +{ 'command': 'query-x86-cpuid',
-> +  'returns': ['CpuidEntry'],
-> +  'if': 'defined(TARGET_I386)' }
-> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-> index 071085f840..8501081897 100644
-> --- a/softmmu/cpus.c
-> +++ b/softmmu/cpus.c
-> @@ -129,7 +129,7 @@ void hw_error(const char *fmt, ...)
->   /*
->    * The chosen accelerator is supposed to register this.
->    */
-> -static const AccelOpsClass *cpus_accel;
-> +const AccelOpsClass *cpus_accel;
->   
->   void cpu_synchronize_all_states(void)
->   {
-> diff --git a/target/i386/kvm/kvm-stub.c b/target/i386/kvm/kvm-stub.c
-> index f6e7e4466e..feb0d7664d 100644
-> --- a/target/i386/kvm/kvm-stub.c
-> +++ b/target/i386/kvm/kvm-stub.c
-> @@ -12,6 +12,7 @@
->   #include "qemu/osdep.h"
->   #include "cpu.h"
->   #include "kvm_i386.h"
-> +#include "qapi/error.h"
->   
->   #ifndef __OPTIMIZE__
->   bool kvm_has_smm(void)
-> @@ -44,3 +45,11 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
->   {
->       abort();
->   }
-> +
-> +CpuidEntryList *qmp_query_x86_cpuid(Error **errp);
-> +
-> +CpuidEntryList *qmp_query_x86_cpuid(Error **errp)
-> +{
-> +    error_setg(errp, "Not implemented in --disable-kvm configuration");
-> +    return NULL;
-> +}
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index e69abe48e3..d69d46c5c6 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -20,11 +20,13 @@
->   
->   #include <linux/kvm.h>
->   #include "standard-headers/asm-x86/kvm_para.h"
-> +#include "qapi/qapi-commands-machine-target.h"
->   
->   #include "cpu.h"
->   #include "host-cpu.h"
->   #include "sysemu/sysemu.h"
->   #include "sysemu/hw_accel.h"
-> +#include "sysemu/accel-ops.h"
->   #include "sysemu/kvm_int.h"
->   #include "sysemu/runstate.h"
->   #include "kvm_i386.h"
-> @@ -1540,6 +1542,44 @@ static Error *invtsc_mig_blocker;
->   
->   #define KVM_MAX_CPUID_ENTRIES  100
->   
-> +struct kvm_cpuid2 *cpuid_data_cached;
-> +
-> +
-> +CpuidEntryList *qmp_query_x86_cpuid(Error **errp)
-> +{
-> +    int i;
-> +    struct kvm_cpuid_entry2 *kvm_entry;
-> +    CpuidEntryList *head = NULL, **tail = &head;
-> +    CpuidEntry *entry;
-> +
-> +    if (!kvm_enabled()) {
-> +        error_setg(errp, "Not implemented for non-kvm accel");
-> +        return NULL;
-> +    }
-> +
-> +    if (!cpuid_data_cached) {
-> +        error_setg(errp, "VCPU was not initialized yet");
-> +        return NULL;
-> +    }
-> +
-> +    for (i = 0; i < cpuid_data_cached->nent; ++i) {
-> +        kvm_entry = &cpuid_data_cached->entries[i];
-> +        entry = g_malloc0(sizeof(*entry));
-> +        entry->in_eax = kvm_entry->function;
-> +        if (kvm_entry->flags & KVM_CPUID_FLAG_SIGNIFCANT_INDEX) {
-> +            entry->in_ecx = kvm_entry->index;
-> +            entry->has_in_ecx = true;
-> +        }
-> +        entry->eax = kvm_entry->eax;
-> +        entry->ebx = kvm_entry->ebx;
-> +        entry->ecx = kvm_entry->ecx;
-> +        entry->edx = kvm_entry->edx;
-> +        QAPI_LIST_APPEND(tail, entry);
-> +    }
-> +
-> +    return head;
-> +}
-> +
->   int kvm_arch_init_vcpu(CPUState *cs)
->   {
->       struct {
-> @@ -1923,6 +1963,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
->       if (r) {
->           goto fail;
->       }
-> +    if (!cpuid_data_cached) {
-> +        cpuid_data_cached = g_malloc0(sizeof(cpuid_data));
-> +        memcpy(cpuid_data_cached, &cpuid_data, sizeof(cpuid_data));
-> +    }
->   
->       if (has_xsave) {
->           env->xsave_buf_len = sizeof(struct kvm_xsave);
-> diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
-> index c98b78d033..bd883f7f52 100644
-> --- a/tests/qtest/qmp-cmd-test.c
-> +++ b/tests/qtest/qmp-cmd-test.c
-> @@ -46,6 +46,7 @@ static int query_error_class(const char *cmd)
->           { "query-balloon", ERROR_CLASS_DEVICE_NOT_ACTIVE },
->           { "query-hotpluggable-cpus", ERROR_CLASS_GENERIC_ERROR },
->           { "query-vm-generation-id", ERROR_CLASS_GENERIC_ERROR },
-> +        { "query-x86-cpuid", ERROR_CLASS_GENERIC_ERROR },
->           { NULL, -1 }
->       };
->       int i;
+>   qapi/block-core.json                        |  39 ++-
+>   block/fleecing.h                            | 151 ++++++++++++
+>   include/block/block-copy.h                  |   4 +-
+>   include/block/block_int.h                   |   1 +
+>   include/block/dirty-bitmap.h                |   4 +-
+>   include/block/reqlist.h                     |  75 ++++++
+>   include/qemu/hbitmap.h                      |  11 +
+>   include/sysemu/block-backend.h              |   2 +-
+>   block/backup.c                              |  61 ++++-
+>   block/block-backend.c                       |   2 +-
+>   block/block-copy.c                          | 157 +++++-------
+>   block/copy-before-write.c                   |  70 +++++-
+>   block/dirty-bitmap.c                        |  15 +-
+>   block/fleecing-drv.c                        | 260 ++++++++++++++++++++
+>   block/fleecing.c                            | 182 ++++++++++++++
+>   block/monitor/bitmap-qmp-cmds.c             |   5 +-
+>   block/replication.c                         |   2 +-
+>   block/reqlist.c                             |  84 +++++++
+>   blockdev.c                                  |   1 +
+>   util/hbitmap.c                              |  36 +++
+>   MAINTAINERS                                 |   7 +-
+>   block/meson.build                           |   3 +
+>   tests/qemu-iotests/iotests.py               |   4 +
+>   tests/qemu-iotests/tests/image-fleecing     | 178 +++++++++++---
+>   tests/qemu-iotests/tests/image-fleecing.out | 221 ++++++++++++++++-
+>   25 files changed, 1420 insertions(+), 155 deletions(-)
+>   create mode 100644 block/fleecing.h
+>   create mode 100644 include/block/reqlist.h
+>   create mode 100644 block/fleecing-drv.c
+>   create mode 100644 block/fleecing.c
+>   create mode 100644 block/reqlist.c
 > 
 
 
