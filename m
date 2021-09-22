@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780BD414DDB
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:14:16 +0200 (CEST)
-Received: from localhost ([::1]:58082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D965414DF7
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:18:40 +0200 (CEST)
+Received: from localhost ([::1]:35236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT4sx-0000VO-Bj
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:14:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41952)
+	id 1mT4xD-0004bk-4W
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:18:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mT4kx-0001Ey-Hb
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:06:02 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:44885)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mT4ku-0005cH-SU
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:05:58 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- nn5-20020a17090b38c500b0019af1c4b31fso2671314pjb.3
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 09:05:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gdZmzb41cBVJ3L26iX7wYCpROif9V4koKML563vKBpI=;
- b=c08dKumoaczzhW6suBzUiG+sr4+vTAq/bO11V0IovDhMyFfY/woAGHmfC06tNaR+df
- t7Nz4iQTRlz9J+CkP4NN655UYoO3Fi7XGx1Z9W0kYiS609Z/iuGqSJzTn7lDqtYfKrIH
- o3AwtCeDUf7NnP8tJ9ANSRuZMtVmBt2sOKZ/Ltwqh7uekVcK2f6TpM1yUTA32phLPtMv
- wNvP2OlNR6J6GRrsiP56axewvLsDRTKuY3lIro6pBWoWRoSju5Sc92lrM6LAo4KPi0ZM
- 7WABR45C/eS01MYLA8EhP8O3ed9KjH4hwDjrZ5ypeQCt4dstgQlGZnD2d3jK303SG2Jx
- mILQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mT4nH-0003vF-QS
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:08:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37645)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mT4nD-0007ak-Ig
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:08:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632326898;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JwuQYYmREihEezL2rpcg8g9c+5JldAgejKACnvIU4uY=;
+ b=Omlg1J1Re/JsVGcyFwxPLhmzKS26yckTN1KvsoiNbzyqs8rSOdi4xIhGoPD88uB6CXm3En
+ 8TL8OyfTJp83YuR8ZpgZBCg9OdCEXPrpTLPTeAHWqoFJV0UzpLR0G21Ol0sG7l3LofGP+i
+ rwI0PAVGqKkgZLM173q6YXUc0HILE78=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-344-ilzD16u4N0ShJ4UhMlSciA-1; Wed, 22 Sep 2021 12:08:17 -0400
+X-MC-Unique: ilzD16u4N0ShJ4UhMlSciA-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ r18-20020ad454b2000000b00380e8260f8eso11964391qvy.20
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 09:08:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gdZmzb41cBVJ3L26iX7wYCpROif9V4koKML563vKBpI=;
- b=EqNCwYW1u2nfjoZQdAsf4MQD/21dv+KYYYgZEPelXo/pZJS9J0NZhsXBjoSZd/sj1u
- FP5wCuz+Gb3QKkixbWU0Di9MKsWjJ8vinCkntF0BhzdmwRi7hclGC4qUI//yvjYlZYJ8
- xao041guSGyZD20V/NoQKOwPwjdCdyTV4Yxdotq++c8U+F5+shvbp+8ONBMHy+PbtaoQ
- 09mEZdMWGEB9OUBUinTJcYVw/b2eLBJ5y2iDs6sXpxHaVk5+KmbULBLkDQ73acZ1F/Xl
- miKYq4efGUgELmtLJfGov8C6KmLN64P15771weY57W2g4IIjxCBZ9jjegJ6eYg3tOaPk
- xWXQ==
-X-Gm-Message-State: AOAM5313RNJMcVrq7lXpkbW9zp4jIJgYh30LtliJoduIgPhC1GXiK/86
- IO7s+rh+Xhoy5eUT5KbwK86vxw==
-X-Google-Smtp-Source: ABdhPJxhHQaZPwtlFJmurgzuyGGbjKxyrWFBPKtMFpl31TIgmjSO9gFlh60Q/Uonqa+y4KqYjBuOlA==
-X-Received: by 2002:a17:90a:5583:: with SMTP id
- c3mr139628pji.133.1632326755151; 
- Wed, 22 Sep 2021 09:05:55 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.134.125])
- by smtp.gmail.com with ESMTPSA id r193sm2895412pfc.197.2021.09.22.09.05.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Sep 2021 09:05:54 -0700 (PDT)
-Subject: Re: [PULL 00/12] jobs: mirror: Handle errors after READY cancel
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210921102017.273679-1-vsementsov@virtuozzo.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4a51243d-5746-260d-3045-b48650aa5047@linaro.org>
-Date: Wed, 22 Sep 2021 09:05:52 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=JwuQYYmREihEezL2rpcg8g9c+5JldAgejKACnvIU4uY=;
+ b=vgyhNmxZhYRdGbr4Uji8E3jPSn+u2UXbc1bMW+yU8aF6VwKK5RUyzeKb6t/yzLx1xo
+ aqD3D5XWY8+DjsasVinnwoO25ozWlXlZo6u/2wsusFlm9vQYCoErL/mLe7X7tSnCO/Up
+ SdjHRahkriVlzo0AbOtxvmRh+ac9qH88jz/GljhyEdW+w4m97LkqxUwhbBK/7hrBBmXn
+ KEEDyPigYxjfKPrR9AoSTaZqi8nqfS21d7Gw8K1bJHChYOv4edxnlEfmMn06dxPtB0bA
+ pqpJJytnDeIcf1LI2E3YABotrNJsGX2HV7ITX5K6LpLB9aDxFTWdiCQLEyLpOKQnu2En
+ Ru4w==
+X-Gm-Message-State: AOAM531IZtIdCzPk2h/BY3Lws5t+wjkXm7euFvTUMwX+MnkUCSApfJY+
+ 65gyb32F1XC3/oLImT/wmUMFy29AmntEr5jxRrW2rRZdH1Ooxeea8KAPqD0pGxYeW4uRFzw5j53
+ EKCof8DWdRHgppeEfZNs5leLAz8ghRWEUOdXxc4cj1f4xHyxf6JrhMXxmydiNQoTg
+X-Received: by 2002:a05:6214:50b:: with SMTP id
+ v11mr538988qvw.41.1632326896735; 
+ Wed, 22 Sep 2021 09:08:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxbsK41Z/5ZDnwD07NyOnR/or9huAVgEJXQRiPFdTGgW1jz7VGpcnNFIMsdatfasRaXhiQgxg==
+X-Received: by 2002:a05:6214:50b:: with SMTP id
+ v11mr538963qvw.41.1632326896429; 
+ Wed, 22 Sep 2021 09:08:16 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a2:9100::d3ec])
+ by smtp.gmail.com with ESMTPSA id t194sm2200442qka.72.2021.09.22.09.08.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Sep 2021 09:08:15 -0700 (PDT)
+Date: Wed, 22 Sep 2021 12:08:14 -0400
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 0/2] Makefile: A few fixes to tag generation
+Message-ID: <YUtU7sjakW6zGPiQ@t490s>
+References: <20210804132328.41353-1-peterx@redhat.com> <YTeZbVXvYdXxlo8a@t490s>
 MIME-Version: 1.0
-In-Reply-To: <20210921102017.273679-1-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YTeZbVXvYdXxlo8a@t490s>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,53 +93,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, hreitz@redhat.com,
- jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/21/21 3:20 AM, Vladimir Sementsov-Ogievskiy wrote:
-> The following changes since commit 326ff8dd09556fc2e257196c49f35009700794ac:
+On Tue, Sep 07, 2021 at 12:55:09PM -0400, Peter Xu wrote:
+> On Wed, Aug 04, 2021 at 09:23:26AM -0400, Peter Xu wrote:
+> > I didn't squash patch 1 because they fix different things at different places
+> > (patch 1 removes the "meson" dir warning on master branch already for gtags).
+> > Patch 2 is the same as posted previous on the list.
+> > 
+> > Please have a look, thanks.
+> > 
+> > Peter Xu (2):
+> >   Makefile: Fix gtags generation
+> >   Makefile: Fix cscope issues on MacOS and soft links
+> > 
+> >  Makefile | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
->    Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2021-09-20 16:17:05 +0100)
+> Ping - Anyone would like to pick this up?   Even on linux I still see:
 > 
-> are available in the Git repository at:
-> 
->    https://src.openvz.org/scm/~vsementsov/qemu.git  tags/pull-jobs-2021-09-21
-> 
-> for you to fetch changes up to c9489c04319cac75c76af8fc27c254f46e10214c:
-> 
->    iotests: Add mirror-ready-cancel-error test (2021-09-21 11:56:11 +0300)
-> 
-> ----------------------------------------------------------------
-> mirror: Handle errors after READY cancel
-> 
-> ----------------------------------------------------------------
-> Hanna Reitz (12):
->        job: Context changes in job_completed_txn_abort()
->        mirror: Keep s->synced on error
->        mirror: Drop s->synced
->        job: Force-cancel jobs in a failed transaction
->        job: @force parameter for job_cancel_sync()
->        jobs: Give Job.force_cancel more meaning
->        job: Add job_cancel_requested()
->        mirror: Use job_is_cancelled()
->        mirror: Check job_is_cancelled() earlier
->        mirror: Stop active mirroring after force-cancel
->        mirror: Do not clear .cancelled
->        iotests: Add mirror-ready-cancel-error test
+> cscope: cannot find file subprojects/libvhost-user/include/atomic.h
 
-This fails testing with errors like so:
+Ping?
 
-Running test test-replication
-test-replication: ../job.c:186: job_state_transition: Assertion `JobSTT[s0][s1]' failed.
-ERROR test-replication - too few tests run (expected 13, got 8)
-make: *** [Makefile.mtest:816: run-test-100] Error 1
-Cleaning up project directory and file based variables
-ERROR: Job failed: exit code 1
+-- 
+Peter Xu
 
-https://gitlab.com/qemu-project/qemu/-/pipelines/375324015/failures
-
-
-r~
 
