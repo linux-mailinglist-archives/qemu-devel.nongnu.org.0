@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0BB241509A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 21:43:30 +0200 (CEST)
-Received: from localhost ([::1]:37574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED54741509E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 21:44:03 +0200 (CEST)
+Received: from localhost ([::1]:40652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT89R-00019Z-KG
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 15:43:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34586)
+	id 1mT89y-0003EH-O9
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 15:44:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mT87E-0006ec-Ou; Wed, 22 Sep 2021 15:41:13 -0400
-Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a]:33471)
+ (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1mT87l-0007Sf-Ij; Wed, 22 Sep 2021 15:41:46 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:35763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mT87C-0007Yd-8e; Wed, 22 Sep 2021 15:41:12 -0400
-Received: by mail-qv1-xf2a.google.com with SMTP id a9so2795412qvf.0;
- Wed, 22 Sep 2021 12:41:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1mT87h-00084o-RH; Wed, 22 Sep 2021 15:41:45 -0400
+Received: by mail-pg1-x530.google.com with SMTP id e7so3869193pgk.2;
+ Wed, 22 Sep 2021 12:41:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=BwNwTxv8bE4tvbd5vOo/coq/puh1jsNAu8D2wwqyWKM=;
- b=WVk7EH06OReAIk7Ily4aysbZP7JgQsyS3m9q7QdPs1O5KFRgjmmFt64V1Q3f/AIqKo
- muo0vXKvWBpkINjrx8wlsANwS4UeMMiTO+UEIkpX/HJ6/9QaoftTZ6dTmKjAFbSQusvK
- qyzubT42Z4GapbaJt9GLhZQuxh0ZcGvE6CnANrunvupp90gTTN4OkO1Uz3ZKQqxYbpGp
- g2Br9Xu99nb4T8LxoPWBRkr0vG8VRieVthVnj1hKBeLPoH93YTqe9LUNeXH3WQtGGTZv
- WrihzA6YAMhuuR7DAvnhDMoZ4M+yJW3cIarV/NxxHS2RPahsn+R/KGYDcPl5bZhDCL0d
- TW5w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Wp58RszS4TEKcT4ZHqt95ma/3tIcpS88hgqai/G6jjA=;
+ b=SmQ7JVkyNpPQhED31170d1TT8ilKii51IlOL1OauXnKenFmjV+u3zekf9XV953BI76
+ 7XepYwFbDU2HQuF/0mrmcqyXzFZ0TE/vMQfk/M/6VVRWRNtPrHeDD67z0l6OkU8/Vqv8
+ GhsxTubWU4JU5aFgxAezzIQR/AtmuFi5hIaHyq3O+52Z7GAX+jKXgy07vHiG1ntWLagu
+ 7Dd/JnJlMBkUfyurpW5e3rlEPPwzB12s3r3pmQ6BTuHu+lBF8NSXOgtrkP+2zzNeI4kx
+ T1M0p/VPn/+d+xUnVJdo4if1vAeqEM0SnPTlD5f7IUeLA8NOP3AZZnRr8TydKx/qcDkr
+ nuvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=BwNwTxv8bE4tvbd5vOo/coq/puh1jsNAu8D2wwqyWKM=;
- b=yDmKRombgWiEbaDALXgy5uPMN7t1V30WSrFSO7UTE2UU3gyszcc7v3dgYOjF3SxAU/
- aLIkjQGcA5zyouP9PvPJMe/7Y6GvAwdjl8FQBq1itloUwK9IImdCNxi7wmx/FVWr7i1Y
- t9qRbt7PTsCxiT942TBa46s4SedAgigjg5SYJB6VimTnQcnkrtcpfDLC4WjWUosr1E5B
- sb/ZTA+cTOv6kqKZ3UNgGsIPESfVNZ39jzVfHyp4Q8WAW5vnH+26eNT+DSSlqFRhQlrW
- EhfO1VwQuqhkgZ71CmKCRcI83i+Mu1QAI7bCg2cW4XNnda6MAU/mS7C5fAWwdYcSylU4
- Teig==
-X-Gm-Message-State: AOAM530sbu9jOHPFlqRHro7oGRCyzOs1c91qDrveHGaUyJj52xEu3FYp
- e514l15uDh6q2A8F4GR+U9M=
-X-Google-Smtp-Source: ABdhPJyHtgJh17Plena57wfcOkln8TvqrhG4560rIzGYw/iAT4ygveX6FwbIn80yc5i553qke6EEbA==
-X-Received: by 2002:a05:6214:40d:: with SMTP id
- z13mr591012qvx.38.1632339668846; 
- Wed, 22 Sep 2021 12:41:08 -0700 (PDT)
-Received: from [192.168.10.222] ([177.189.43.50])
- by smtp.gmail.com with ESMTPSA id b14sm1880470qtk.64.2021.09.22.12.41.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Sep 2021 12:41:08 -0700 (PDT)
-Message-ID: <7c28e504-f3d8-44ed-caa3-d3eb8422e5b7@gmail.com>
-Date: Wed, 22 Sep 2021 16:41:05 -0300
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Wp58RszS4TEKcT4ZHqt95ma/3tIcpS88hgqai/G6jjA=;
+ b=Uv7R/L6NbB8XWF/S3Jm50/ajCyhfo8KvbHcMelNsN7N27/hN6+4b87DIXr0NBXDDRd
+ +q/Eut328EcRF2H8NbyPAdlYwRDEdLaE2qQK3lUr8aavKE88Li+5NOL5dFjuZXl+vuqV
+ sEp2YFKcyjnr/t+wAxU6o4+NZdbs+KG2Xwne81Idart4Tx968gKJTXBC1O7w16iYVimt
+ PDQjjlLYwF0bP4KWvdXKlU+itMPDzTCXem/UyOySNoi3dPzaYCI6VYbEEgNZndJuGrEJ
+ d8t6lo0qvj9jD2NBvZhYKOdueyZOh0Ze61zTpXEqSKnbEaLLANTWWEDPxnMFrDiWD/91
+ YBYg==
+X-Gm-Message-State: AOAM533djzg0zHN6gfTmDvD/HOJzQupOXs3Oqk7R7xieUKF4UDVp1sd6
+ PjxGzDahdGUSgB6nes7NTaJIN1vZ+Sx6/EUYE1I=
+X-Google-Smtp-Source: ABdhPJw0i0Dhh2GCdjUOr83MSJvIkuJVFQBsw41jwJRxXF1e45tLb+fCBEat9nJ885xgOIx+a4NNXlbkYd1gKrSB+Mc=
+X-Received: by 2002:a65:64c3:: with SMTP id t3mr583363pgv.244.1632339698990;
+ Wed, 22 Sep 2021 12:41:38 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3 08/15] PPC64/TCG: Implement 'rfebb' instruction
-Content-Language: en-US
-To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org
-References: <20210903203116.80628-1-danielhb413@gmail.com>
- <20210903203116.80628-9-danielhb413@gmail.com>
- <7baa1efb-f8e2-fdfb-8ade-9794bff914a0@eldorado.org.br>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <7baa1efb-f8e2-fdfb-8ade-9794bff914a0@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf2a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.039,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20210920203931.66527-1-agraf@csgraf.de>
+In-Reply-To: <20210920203931.66527-1-agraf@csgraf.de>
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
+Date: Wed, 22 Sep 2021 21:41:27 +0200
+Message-ID: <CAPan3WpYNJgOE9AVpHPegf4Njm=80YXDQYT_jKhKKhUm=r2=hA@mail.gmail.com>
+Subject: Re: [PATCH] allwinner-h3: Switch to SMC as PSCI conduit
+To: Alexander Graf <agraf@csgraf.de>
+Content-Type: multipart/alternative; boundary="000000000000e940e605cc9ab3de"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=nieklinnenbank@gmail.com; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,220 +74,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, clg@kaod.org, qemu-ppc@nongnu.org,
- groug@kaod.org, david@gibson.dropbear.id.au
+Cc: Beniamino Galvani <b.galvani@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000e940e605cc9ab3de
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Alexander,
 
-On 9/9/21 08:47, Matheus K. Ferst wrote:
-> On 03/09/2021 17:31, Daniel Henrique Barboza wrote:
->> An Event-Based Branch (EBB) allows applications to change the NIA when a
->> event-based exception occurs. Event-based exceptions are enabled by
->> setting the Branch Event Status and Control Register (BESCR). If the
->> event-based exception is enabled when the exception occurs, an EBB
->> happens.
->>
->> The following operations happens during an EBB:
->>
->> - Global Enable (GE) bit of BESCR is set to 0;
->> - bits 0-61 of the Event-Based Branch Return Register (EBBRR) are set
->> to the the effective address of the NIA that would have executed if the EBB
->> didn't happen;
->> - Instruction fetch and execution will continue in the effective address
->> contained in the Event-Based Branch Handler Register (EBBHR).
->>
->> The EBB Handler will process the event and then execute the Return From
->> Event-Based Branch (rfebb) instruction. rfebb sets BESCR_GE and then
->> redirects execution to the address pointed in EBBRR. This process is
->> described in the PowerISA v3.1, Book II, Chapter 6 [1].
->>
->> This patch implements the rfebb instruction. Descriptions of all
->> relevant BESCR bits are also added - this patch is only using BESCR_GE,
->> but the next patches will use the remaining bits.
->>
->> [1] https://wiki.raptorcs.com/w/images/f/f5/PowerISA_public.v3.1.pdf
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   target/ppc/cpu.h                       | 13 ++++++++++
->>   target/ppc/excp_helper.c               | 31 ++++++++++++++++++++++++
->>   target/ppc/helper.h                    |  1 +
->>   target/ppc/insn32.decode               |  5 ++++
->>   target/ppc/translate.c                 |  2 ++
->>   target/ppc/translate/branch-impl.c.inc | 33 ++++++++++++++++++++++++++
->>   6 files changed, 85 insertions(+)
->>   create mode 100644 target/ppc/translate/branch-impl.c.inc
->>
->> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->> index 93f4a46827..26624508fa 100644
->> --- a/target/ppc/cpu.h
->> +++ b/target/ppc/cpu.h
->> @@ -368,6 +368,19 @@ typedef struct ppc_v3_pate_t {
->>   /* PMU uses CTRL_RUN to sample PM_RUN_INST_CMPL */
->>   #define CTRL_RUN PPC_BIT(63)
->>
->> +/* EBB/BESCR bits */
->> +/* Global Enable */
->> +#define BESCR_GE PPC_BIT(0)
->> +/* External Event-based Exception Enable */
->> +#define BESCR_EE PPC_BIT(30)
->> +/* Performance Monitor Event-based Exception Enable */
->> +#define BESCR_PME PPC_BIT(31)
->> +/* External Event-based Exception Occurred */
->> +#define BESCR_EEO PPC_BIT(62)
->> +/* Performance Monitor Event-based Exception Occurred */
->> +#define BESCR_PMEO PPC_BIT(63)
->> +#define BESCR_INVALID PPC_BITMASK(32, 33)
->> +
->>   /* LPCR bits */
->>   #define LPCR_VPM0         PPC_BIT(0)
->>   #define LPCR_VPM1         PPC_BIT(1)
->> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->> index 7b6ac16eef..22f9835383 100644
->> --- a/target/ppc/excp_helper.c
->> +++ b/target/ppc/excp_helper.c
->> @@ -1281,6 +1281,37 @@ void helper_hrfid(CPUPPCState *env)
->>   }
->>   #endif
->>
->> +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
->> +void helper_rfebb(CPUPPCState *env, target_ulong s)
->> +{
->> +    target_ulong msr = env->msr;
->> +
->> +    /*
->> +     * Handling of BESCR bits 32:33 according to PowerISA v3.1:
->> +     *
->> +     * "If BESCR 32:33 != 0b00 the instruction is treated as if
->> +     *  the instruction form were invalid."
->> +     */
->> +    if (env->spr[SPR_BESCR] & BESCR_INVALID) {
->> +        raise_exception_err(env, POWERPC_EXCP_PROGRAM,
->> +                            POWERPC_EXCP_INVAL | POWERPC_EXCP_INVAL_INVAL);
->> +    }
->> +
->> +    env->nip = env->spr[SPR_EBBRR];
->> +
->> +    /* Switching to 32-bit ? Crop the nip */
->> +    if (!msr_is_64bit(env, msr)) {
->> +        env->nip = (uint32_t)env->spr[SPR_EBBRR];
->> +    }
->> +
->> +    if (s) {
->> +        env->spr[SPR_BESCR] |= BESCR_GE;
->> +    } else {
->> +        env->spr[SPR_BESCR] &= ~BESCR_GE;
->> +    }
->> +}
->> +#endif
->> +
->>   /*****************************************************************************/
->>   /* Embedded PowerPC specific helpers */
->>   void helper_40x_rfci(CPUPPCState *env)
->> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
->> index 47dbbe6da1..91a86992a5 100644
->> --- a/target/ppc/helper.h
->> +++ b/target/ppc/helper.h
->> @@ -18,6 +18,7 @@ DEF_HELPER_2(pminsn, void, env, i32)
->>   DEF_HELPER_1(rfid, void, env)
->>   DEF_HELPER_1(rfscv, void, env)
->>   DEF_HELPER_1(hrfid, void, env)
->> +DEF_HELPER_2(rfebb, void, env, tl)
->>   DEF_HELPER_2(store_lpcr, void, env, tl)
->>   DEF_HELPER_2(store_pcr, void, env, tl)
->>   DEF_HELPER_2(store_mmcr0, void, env, tl)
->> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
->> index 9fd8d6b817..deb7374ea4 100644
->> --- a/target/ppc/insn32.decode
->> +++ b/target/ppc/insn32.decode
->> @@ -124,3 +124,8 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
->>   ## Vector Bit Manipulation Instruction
->>
->>   VCFUGED         000100 ..... ..... ..... 10101001101    @VX
->> +
->> +### rfebb
->> +&XL_s           s:uint8_t
->> +@XL_s           ......-------------- s:1 .......... -   &XL_s
->> +RFEBB           010011-------------- .   0010010010 -   @XL_s
-> 
-> nit: Since the arg_fmt is now XL_s...
-> 
->> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
->> index 866b1d2b34..7a3104ecf9 100644
->> --- a/target/ppc/translate.c
->> +++ b/target/ppc/translate.c
->> @@ -7636,6 +7636,8 @@ static int times_4(DisasContext *ctx, int x)
->>
->>   #include "translate/spe-impl.c.inc"
->>
->> +#include "translate/branch-impl.c.inc"
->> +
->>   /* Handles lfdp, lxsd, lxssp */
->>   static void gen_dform39(DisasContext *ctx)
->>   {
->> diff --git a/target/ppc/translate/branch-impl.c.inc b/target/ppc/translate/branch-impl.c.inc
->> new file mode 100644
->> index 0000000000..9c991d9abb
->> --- /dev/null
->> +++ b/target/ppc/translate/branch-impl.c.inc
->> @@ -0,0 +1,33 @@
->> +/*
->> + * Power ISA decode for branch instructions
->> + *
->> + *  Copyright IBM Corp. 2021
->> + *
->> + * Authors:
->> + *  Daniel Henrique Barboza      <danielhb413@gmail.com>
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
->> + * See the COPYING file in the top-level directory.
->> + */
->> +
->> +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
->> +
->> +static bool trans_RFEBB(DisasContext *ctx, arg_RFEBB *arg)
-> 
-> I think it's a bit more readable to use arg_XL_s instead of arg_RFEBB. Anyway,
+I've tested your patch on the acceptance tests and they all pass:
 
+ARMBIAN_ARTIFACTS_CACHED=yes AVOCADO_ALLOW_LARGE_STORAGE=yes avocado
+--show=app,console run -t machine:orangepi-pc
+tests/acceptance/boot_linux_console.py
+...
+RESULTS    : PASS 5 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 |
+CANCEL 0
+JOB TIME   : 116.08 s
 
-I forgot to rename the function argument together with the decode tree arg.
+Also the latest linux kernel is working OK with all cores booting up fine.
 
-I'll rename it in the next version.
+At first I couldn't really figure out why simply changing the conduit there
+works, without also changing the Linux kernel to match.
+But it turns out we just override the provided DTB for this in
+fdt_add_psci_node() in hw/arm/boot.c and the Linux kernel then uses that to
+decide between HVC and SMC.
 
-> 
-> Reviewed-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+So looks fine to me:
+  Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+  Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
 
+Regards,
+Niek
 
-Thanks!
+On Mon, Sep 20, 2021 at 10:39 PM Alexander Graf <agraf@csgraf.de> wrote:
 
+> The Allwinner H3 SoC uses Cortex-A7 cores which support virtualization.
+> However, today we are configuring QEMU to use HVC as PSCI conduit.
+>
+> That means HVC calls get trapped into QEMU instead of the guest's own
+> emulated CPU and thus break the guest's ability to execute virtualization.
+>
+> Fix this by moving to SMC as conduit, freeing up HYP completely to the VM.
+>
+> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+> Fixes: 740dafc0ba0 ("hw/arm: add Allwinner H3 System-on-Chip")
+> ---
+>  hw/arm/allwinner-h3.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c
+> index 27f1070145..f9b7ed1871 100644
+> --- a/hw/arm/allwinner-h3.c
+> +++ b/hw/arm/allwinner-h3.c
+> @@ -237,7 +237,7 @@ static void allwinner_h3_realize(DeviceState *dev,
+> Error **errp)
+>
+>          /* Provide Power State Coordination Interface */
+>          qdev_prop_set_int32(DEVICE(&s->cpus[i]), "psci-conduit",
+> -                            QEMU_PSCI_CONDUIT_HVC);
+> +                            QEMU_PSCI_CONDUIT_SMC);
+>
+>          /* Disable secondary CPUs */
+>          qdev_prop_set_bit(DEVICE(&s->cpus[i]), "start-powered-off",
+> --
+> 2.30.1 (Apple Git-130)
+>
+>
 
-Daniel
+-- 
+Niek Linnenbank
 
+--000000000000e940e605cc9ab3de
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
->> +{
->> +    REQUIRE_INSNS_FLAGS2(ctx, ISA207S);
->> +
->> +    gen_icount_io_start(ctx);
->> +    gen_update_cfar(ctx, ctx->cia);
->> +    gen_helper_rfebb(cpu_env, cpu_gpr[arg->s]);
->> +
->> +    ctx->base.is_jmp = DISAS_CHAIN;
->> +
->> +    return true;
->> +}
->> +#else
->> +static bool trans_RFEBB(DisasContext *ctx, arg_RFEBB *arg)
->> +{
->> +    gen_invalid(ctx);
->> +    return true;
->> +}
->> +#endif
->> -- 
->> 2.31.1
->>
-> 
-> 
+<div dir=3D"ltr"><div>Hi Alexander,</div><div><br></div><div>I&#39;ve teste=
+d your patch on the acceptance tests and they all pass:</div><div><br></div=
+><div>ARMBIAN_ARTIFACTS_CACHED=3Dyes AVOCADO_ALLOW_LARGE_STORAGE=3Dyes avoc=
+ado --show=3Dapp,console run -t machine:orangepi-pc tests/acceptance/boot_l=
+inux_console.py</div><div>...<br></div><div>RESULTS =C2=A0 =C2=A0: PASS 5 |=
+ ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0<br>JOB TIME =
+=C2=A0 : 116.08 s</div><div><br></div><div>Also the latest linux kernel is =
+working OK with all cores booting up fine.</div><div><br></div><div>At firs=
+t I couldn&#39;t really figure out why simply changing the conduit there wo=
+rks, without also changing the Linux kernel to match.</div><div>But it turn=
+s out we just override the provided DTB for this in fdt_add_psci_node() in =
+hw/arm/boot.c and the Linux kernel then uses that to decide between HVC and=
+ SMC.</div><div><br></div><div>So looks fine to me:</div><div>=C2=A0 Review=
+ed-by: Niek Linnenbank &lt;<a href=3D"mailto:nieklinnenbank@gmail.com">niek=
+linnenbank@gmail.com</a>&gt;</div><div>=C2=A0 Tested-by: Niek Linnenbank &l=
+t;<a href=3D"mailto:nieklinnenbank@gmail.com">nieklinnenbank@gmail.com</a>&=
+gt;</div><div><br></div><div>Regards,</div><div>Niek<br></div></div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 2=
+0, 2021 at 10:39 PM Alexander Graf &lt;<a href=3D"mailto:agraf@csgraf.de">a=
+graf@csgraf.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">The Allwinner H3 SoC uses Cortex-A7 cores which support virtu=
+alization.<br>
+However, today we are configuring QEMU to use HVC as PSCI conduit.<br>
+<br>
+That means HVC calls get trapped into QEMU instead of the guest&#39;s own<b=
+r>
+emulated CPU and thus break the guest&#39;s ability to execute virtualizati=
+on.<br>
+<br>
+Fix this by moving to SMC as conduit, freeing up HYP completely to the VM.<=
+br>
+<br>
+Signed-off-by: Alexander Graf &lt;<a href=3D"mailto:agraf@csgraf.de" target=
+=3D"_blank">agraf@csgraf.de</a>&gt;<br>
+Fixes: 740dafc0ba0 (&quot;hw/arm: add Allwinner H3 System-on-Chip&quot;)<br=
+>
+---<br>
+=C2=A0hw/arm/allwinner-h3.c | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/hw/arm/allwinner-h3.c b/hw/arm/allwinner-h3.c<br>
+index 27f1070145..f9b7ed1871 100644<br>
+--- a/hw/arm/allwinner-h3.c<br>
++++ b/hw/arm/allwinner-h3.c<br>
+@@ -237,7 +237,7 @@ static void allwinner_h3_realize(DeviceState *dev, Erro=
+r **errp)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Provide Power State Coordination Inter=
+face */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qdev_prop_set_int32(DEVICE(&amp;s-&gt;cpu=
+s[i]), &quot;psci-conduit&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 QEMU_PSCI_CONDUIT_HVC);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 QEMU_PSCI_CONDUIT_SMC);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Disable secondary CPUs */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qdev_prop_set_bit(DEVICE(&amp;s-&gt;cpus[=
+i]), &quot;start-powered-off&quot;,<br>
+-- <br>
+2.30.1 (Apple Git-130)<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
+div>
+
+--000000000000e940e605cc9ab3de--
 
