@@ -2,64 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1B1414817
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 13:45:04 +0200 (CEST)
-Received: from localhost ([::1]:37190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 478BA414832
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 13:53:04 +0200 (CEST)
+Received: from localhost ([::1]:42560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT0gQ-0006Ig-UN
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 07:45:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59580)
+	id 1mT0oB-00020i-Bq
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 07:53:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
- id 1mT0d5-0004NI-KM; Wed, 22 Sep 2021 07:41:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34154)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
- id 1mT0d0-0006rI-24; Wed, 22 Sep 2021 07:41:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E26F161156;
- Wed, 22 Sep 2021 11:41:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632310886;
- bh=oAi+OsMtAqSHKW/FLc9QCL2v7Sz76bM4o7/zM79ZI3E=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=fD9xrbiZDXqMHnU3sNdb8buOacMVMwcksK5ipEPGXpPE9npKf82XGPXheKnJf90OT
- ecP/hHQee7wYzk8e4WRagtKLvAJnWkSMc4xehcEsyGHTP5a8wnPwPXN/WOc7OsFa4F
- 3HFPwJp6dMOCtZoWWhx2D+/Vw+ay1XSQkgdRPgIbPxHkZ6ODaJBqJNfoA/mjpn7C2q
- CGRiDQIPZG3kIO7noO2dCbgSoejt7vB6ahvT+TXNAT+FOT5zQf46lB2mHNcUv+HEVp
- ZOabnAUrF8KokLusb+DUOWTmHbmGriHFkxSru02ID5TwxBozgjidAK5htLTfuBQp4H
- 0OYW0+7Fk3qSA==
-Received: by mail-oi1-f180.google.com with SMTP id w19so3926293oik.10;
- Wed, 22 Sep 2021 04:41:26 -0700 (PDT)
-X-Gm-Message-State: AOAM530ph47GYkVtEb2kNi5JsCgzspg00nnZGwiMS6ZEXuS6UoVu19Xm
- AoEPtaqMaMUt7UHkHmYaaRv3vjh5y7vttLzj21k=
-X-Google-Smtp-Source: ABdhPJxabQ/iF4lQEHQR+uyIE641khOWvkZqIZKJQYVKQY2NL5BzjUJibt3IjC6KqBSOItiUCKaMZQmA5r/d3EKJz/Q=
-X-Received: by 2002:aca:3114:: with SMTP id x20mr7684255oix.174.1632310886338; 
- Wed, 22 Sep 2021 04:41:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mT0mC-0000Q0-F5; Wed, 22 Sep 2021 07:51:02 -0400
+Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:45924)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mT0mA-0006qV-1t; Wed, 22 Sep 2021 07:50:59 -0400
+Received: by mail-qv1-xf2f.google.com with SMTP id w9so1672763qvs.12;
+ Wed, 22 Sep 2021 04:50:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=pgaIamTkQI8yJRczKySH4uN8K7vsoQzSYOvWUIj6rcs=;
+ b=BK1yx5gsp8qna1kjwN2Geeu90DyP0jp9HbFIOaberMB3lyKZPI3rE67j5VENoX/0zj
+ /pwB453HTv8Ives8ZDQ01TkyJck0RsDS1AZ2bnKOPOH9C1qEFoSU8BrXDiq4+gwc2YVG
+ IvbKmT4V5DOBJ4EEHmAYZDnLnmfw+aHlVzTG4g7ZUejIn3psi3YR70yJK6+gBcMpPcM7
+ w6vjI6V4B0kQ/geAXB7T5oN62gd8BUQhEBwDJHKvHJ0NU9lcH2RCVmwBVPs8j8Qzf+XP
+ z/rzD2itGTnaBsFGFJB94LqSQJPSmkEuKU34IJLN2w9zhpnpGDPTGTkCJItvN+2XVz3H
+ kLsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=pgaIamTkQI8yJRczKySH4uN8K7vsoQzSYOvWUIj6rcs=;
+ b=VTqjjeKJHePNgeyv4DwUDDqbiQq+EXEwNj80hTtdJJg31TbpHWF/yJzNc28Ne7G4fW
+ uA+3m7kDgp3PVnD7GQkfwrSPnZsNqvLzNSoI4zDExJ0OSWwfLMUI/iYOtCXifHsmB/2M
+ I/Bp4ZE37EQPNEeXdNGcujEgncRN4CqcK7z2+ImG7nchcMkRbKc7BKCWsyW0YmpeNS8B
+ Hgm5xWk4sdgS9nP8z8BLP3+jkhauW7hZ3wEcuLJDjZiz3z9/Tvq17Lxib6es+wuHfeH4
+ LqAoD6y+uG990dQ+B6CTK7njzMkF1j6QLsrz9uk8D+KD2JcWvdE1+Y0MMyeqK5zp6E39
+ tgdg==
+X-Gm-Message-State: AOAM533jl3A/SCLIwZbTHQcqIxO1P/B4mO1l7+bAuC7tLnoohpYxt5bq
+ 3krMkCmeueUw1rOabm1qANrF4R8r4DI=
+X-Google-Smtp-Source: ABdhPJzenzKXm2DfEze49UR5pwyKe0FuwqzSRobT/Ekhfrk/FH5NFCIYhtbBjkS9nCX/OZou1F7VFA==
+X-Received: by 2002:a0c:b44f:: with SMTP id e15mr36687161qvf.32.1632311456720; 
+ Wed, 22 Sep 2021 04:50:56 -0700 (PDT)
+Received: from [192.168.10.222] ([177.189.43.50])
+ by smtp.gmail.com with ESMTPSA id v24sm1525618qkv.11.2021.09.22.04.50.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Sep 2021 04:50:56 -0700 (PDT)
+Message-ID: <594420a3-189f-86db-8140-a508b9a9add8@gmail.com>
+Date: Wed, 22 Sep 2021 08:50:53 -0300
 MIME-Version: 1.0
-References: <20210915181049.27597-1-agraf@csgraf.de>
- <20210915181049.27597-7-agraf@csgraf.de>
- <CAFEAcA9JZZ4nb8WAvKVYpwqxb_E5NFOVW9rKF3u7GhFqfNZgOQ@mail.gmail.com>
- <8e219cb0-8b65-faf8-f636-5c1d24471f84@csgraf.de>
- <CAFEAcA8xs3x5WCqT+FnPYip=nbQx6=UEH90Dkjq48YLboV9qAw@mail.gmail.com>
- <CAMj1kXEEN+J4k_Kib8gRHcy8v1vVRwk7c847yT_Kuv+jnLf9ww@mail.gmail.com>
- <CAFEAcA8yd6m-S90Uq1G=HTYFAerp6cZdJk9B=CFrHMn5tEMZ5w@mail.gmail.com>
-In-Reply-To: <CAFEAcA8yd6m-S90Uq1G=HTYFAerp6cZdJk9B=CFrHMn5tEMZ5w@mail.gmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Wed, 22 Sep 2021 13:41:13 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXGXbjrG4XanWr=-H=f5wsUk6YVu-oTA9A_np3F8ELNcxw@mail.gmail.com>
-Message-ID: <CAMj1kXGXbjrG4XanWr=-H=f5wsUk6YVu-oTA9A_np3F8ELNcxw@mail.gmail.com>
-Subject: Re: [PATCH v11 06/10] hvf: arm: Implement -cpu host
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=ardb@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -85
-X-Spam_score: -8.6
-X-Spam_bar: --------
-X-Spam_report: (-8.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH] spapr_numa.c: fixes in
+ spapr_numa_FORM2_write_rtas_tables()
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210921194347.52347-1-danielhb413@gmail.com>
+ <78cc89be-4e4b-c23a-e40a-b41865037008@redhat.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <78cc89be-4e4b-c23a-e40a-b41865037008@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf2f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,47 +88,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- qemu-arm <qemu-arm@nongnu.org>, Frank Yang <lfy@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
+Cc: qemu-ppc@nongnu.org, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Sept 2021 at 18:17, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Thu, 16 Sept 2021 at 17:05, Ard Biesheuvel <ardb@kernel.org> wrote:
-> > I'd argue that compliance with the architecture means that the
-> > software should not clear RES1 bits
->
-> Architecturally, RES1 means that "software
->  * Must not rely on the bit reading as 1.
->  * Must use an SBOP policy to write to the bit."
-> (SBOP=="should be 1 or preserved", ie you can preserve the existing value,
-> as in "read register, change some bits, write back", or you can write a 1.)
->
 
-OVMF preserves the bit, and does not reason or care about its value.
-So in this sense, it is compliant.
 
-> > but I don't think we can blame it
-> > for not touching bits that were in in invalid state upon entry.
->
-> SCTLR_EL1.SPAN == 0 is perfectly valid for a CPU that supports the
-> PAN feature. It's just not the value OVMF wants, so OVMF should
-> be setting it to what it does want. Also, as the first thing to
-> run after reset (ie firmware) OVMF absolutely is responsible for
-> dealing with system registers which have UNKNOWN values out of
-> reset.
->
+On 9/22/21 08:17, Philippe Mathieu-Daudé wrote:
+> On 9/21/21 21:43, Daniel Henrique Barboza wrote:
+>> This patch has a handful of modifications for the recent added
+>> FORM2 support:
+>>
+>> - there is no particular reason for both 'lookup_index_table' and
+>> 'distance_table' to be allocated in the heap, since their sizes are
+>> known right at the start of the function. Use static allocation in
+>> them to spare a couple of g_new0() calls;
+>>
+>> - to not allocate more than the necessary size in 'distance_table'. At
+>> this moment the array is oversized due to allocating uint32_t for all
+>> elements, when most of them fits in an uint8_t;
+>>
+>> - create a NUMA_LOCAL_DISTANCE macro to avoid hardcoding the local
+>> distance value.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>   hw/ppc/spapr_numa.c | 35 +++++++++++++++++++----------------
+>>   1 file changed, 19 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+>> index 58d5dc7084..039a0439c6 100644
+>> --- a/hw/ppc/spapr_numa.c
+>> +++ b/hw/ppc/spapr_numa.c
+>> @@ -19,6 +19,9 @@
+>>   /* Moved from hw/ppc/spapr_pci_nvlink2.c */
+>>   #define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
+>> +/* Macro to avoid hardcoding the local distance value */
+>> +#define NUMA_LOCAL_DISTANCE         10
+>> +
+>>   /*
+>>    * Retrieves max_dist_ref_points of the current NUMA affinity.
+>>    */
+>> @@ -500,17 +503,21 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
+>>       MachineState *ms = MACHINE(spapr);
+>>       NodeInfo *numa_info = ms->numa_state->nodes;
+>>       int nb_numa_nodes = ms->numa_state->num_nodes;
+>> +    /* Lookup index table has an extra uint32_t with its length */
+>> +    uint32_t lookup_index_table[nb_numa_nodes + 1];
+>>       int distance_table_entries = nb_numa_nodes * nb_numa_nodes;
+>> -    g_autofree uint32_t *lookup_index_table = NULL;
+>> -    g_autofree uint32_t *distance_table = NULL;
+>> -    int src, dst, i, distance_table_size;
+>> -    uint8_t *node_distances;
+> 
+> This should have be of ptrdiff_t type.
+> 
+>> +    /*
+>> +     * Distance table is an uint8_t array with a leading uint32_t
+>> +     * containing its length.
+>> +     */
+>> +    uint8_t distance_table[distance_table_entries + 4];
+> 
+> The previous code seems better by using the heap, now we have
+> to worry about stack overflow...
 
-Fair enough. But I'd still suggest fixing this at both ends.
-> Put another way, if you want to argue that this is an "invalid
-> state" you need to point to the specification that defines
-> the valid state that OVMF should see when it is handed control.
->
-> -- PMM
+
+Fair point.
+
+Since no one asked for this change in previous reviews I guess it's fine to keep
+using the heap.
+
+
+Daniel
+
+
+> 
+>> +    uint32_t *distance_table_length;
+> 
+> Please drop, ...
+> 
+>> +    int src, dst, i;
+>>       /*
+>>        * ibm,numa-lookup-index-table: array with length and a
+>>        * list of NUMA ids present in the guest.
+>>        */
+>> -    lookup_index_table = g_new0(uint32_t, nb_numa_nodes + 1);
+>>       lookup_index_table[0] = cpu_to_be32(nb_numa_nodes);
+>>       for (i = 0; i < nb_numa_nodes; i++) {
+>> @@ -518,8 +525,7 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
+>>       }
+>>       _FDT(fdt_setprop(fdt, rtas, "ibm,numa-lookup-index-table",
+>> -                     lookup_index_table,
+>> -                     (nb_numa_nodes + 1) * sizeof(uint32_t)));
+>> +                     lookup_index_table, sizeof(lookup_index_table)));
+>>       /*
+>>        * ibm,numa-distance-table: contains all node distances. First
+>> @@ -531,11 +537,10 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
+>>        * array because NUMA ids can be sparse (node 0 is the first,
+>>        * node 8 is the second ...).
+>>        */
+>> -    distance_table = g_new0(uint32_t, distance_table_entries + 1);
+>> -    distance_table[0] = cpu_to_be32(distance_table_entries);
+>> +    distance_table_length = (uint32_t *)distance_table;
+>> +    distance_table_length[0] = cpu_to_be32(distance_table_entries);
+> 
+> ... and use instead:
+> 
+>         stl_be_p(distance_table, distance_table_entries);
+> 
+>> -    node_distances = (uint8_t *)&distance_table[1];
+>> -    i = 0;
+>> +    i = 4;
+>>       for (src = 0; src < nb_numa_nodes; src++) {
+>>           for (dst = 0; dst < nb_numa_nodes; dst++) {
+>> @@ -546,18 +551,16 @@ static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spapr,
+>>                * adding the numa_info to retrieve distance info from.
+>>                */
+>>               if (src == dst) {
+>> -                node_distances[i++] = 10;
+>> +                distance_table[i++] = NUMA_LOCAL_DISTANCE;
+>>                   continue;
+>>               }
+>> -            node_distances[i++] = numa_info[src].distance[dst];
+>> +            distance_table[i++] = numa_info[src].distance[dst];
+>>           }
+>>       }
+>> -    distance_table_size = distance_table_entries * sizeof(uint8_t) +
+>> -                          sizeof(uint32_t);
+>>       _FDT(fdt_setprop(fdt, rtas, "ibm,numa-distance-table",
+>> -                     distance_table, distance_table_size));
+>> +                     distance_table, sizeof(distance_table)));
+>>   }
+>>   /*
+>>
+> 
 
