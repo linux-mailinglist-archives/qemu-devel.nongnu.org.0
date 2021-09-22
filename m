@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EABE414F3F
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:37:55 +0200 (CEST)
-Received: from localhost ([::1]:39824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6DDC414F5F
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:48:59 +0200 (CEST)
+Received: from localhost ([::1]:51918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT6Bu-0002G0-GF
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:37:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44808)
+	id 1mT6Mc-0002p4-Ii
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:48:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mT4v4-0003M6-8P; Wed, 22 Sep 2021 12:16:27 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:39278)
+ id 1mT4v5-0003Nt-Pn; Wed, 22 Sep 2021 12:16:27 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:39312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mT4v1-0005S5-AB; Wed, 22 Sep 2021 12:16:26 -0400
+ id 1mT4v2-0005So-8d; Wed, 22 Sep 2021 12:16:27 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 879E321ED3;
- Wed, 22 Sep 2021 16:16:00 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 89D1B21ED5;
+ Wed, 22 Sep 2021 16:16:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1632327361;
+ s=mail; t=1632327362;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Lg6JGGOuMKgOK9bkuvAzYukD8OqEWtmOgbk2hQPItz8=;
- b=ND0iqKFzTzDcZ27ooxhDOEEEV8AccARG7AJHhC9a02u1e9KnwGeBRww88INrFwYdnUiGLU
- iWgot6Scekg2EdCjx5zulK0cCIpl/uZhww0kpehf4I9kg6qVmrIhlxI6IZCWAofixBVreB
- IFn8x3hm1X67NsswL2KN8XfRLNp4fgc=
+ bh=V/wXO8Fw46s42gvXscl9fDzKCmjnZalAaCkoeLW9idc=;
+ b=fzmPX4ObaVsIGjwR4GzoY/SbGumd3hE8zzTj5wQNt93NX3hZr8kYnEk/i6a/ahRb3BcyzH
+ r4OPUKes6fAREsZ6M/d6oRgJNM/rLp/UW1rGVvosF72Xhv4ZT3ZMvT7X96ovqsT8bIwjFg
+ MzDwJiVoSLVcg/Nq1RzI5wAN8p9MecQ=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 14/16] docs/system: add doc about the initialized
- machine phase and an example
-Date: Wed, 22 Sep 2021 18:14:03 +0200
-Message-Id: <20210922161405.140018-15-damien.hedde@greensocs.com>
+Subject: [RFC PATCH v2 15/16] hw/char/ibex_uart: set user_creatable
+Date: Wed, 22 Sep 2021 18:14:04 +0200
+Message-Id: <20210922161405.140018-16-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210922161405.140018-1-damien.hedde@greensocs.com>
 References: <20210922161405.140018-1-damien.hedde@greensocs.com>
@@ -81,97 +80,31 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patch allows to create the device using device_add
+using -preconfig mode. This sysbus device still needs to
+be allowed by a machine to be created after preconfig is done.
+
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- docs/system/managed-startup.rst | 77 +++++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
 
-diff --git a/docs/system/managed-startup.rst b/docs/system/managed-startup.rst
-index 9bcf98ea79..af12a10d27 100644
---- a/docs/system/managed-startup.rst
-+++ b/docs/system/managed-startup.rst
-@@ -32,4 +32,81 @@ machine, including but not limited to:
- - ``query-qmp-schema``
- - ``query-commands``
- - ``query-status``
-+- ``x-machine-init``
- - ``x-exit-preconfig``
-+
-+In particular these commands allow to advance and stop qemu at different
-+phases of the VM creation and finally to leave the "preconfig" state. The
-+accessible phases are:
-+
-+- ``accel-created``
-+- ``initialized``
-+- ``ready``
-+
-+The order of the phases is enforced. It is not possible to go backwards.
-+Note that other early phases exist, but they are not attainable with
-+``--preconfig``. Depending on the phase, QMP commands can be issued to modify
-+some part of the VM creation.
-+
-+accel-created phase
-+-------------------
-+
-+Initial phase entered with ``--preconfig``.
-+
-+initialized phase
-+-----------------
-+
-+``x-machine-init`` advances to ``initialized`` phase. During this phase, the
-+machine is initialized and populated with buses and devices. The following QMP
-+commands are available to manually populate or modify the machine:
-+
-+- ``device_add``
-+- ``x-sysbus-mmio-map``
-+- ``qom-set``
-+
-+ready phase
-+-----------
-+
-+``x-exit-preconfig`` advances to the final phase. When entering this phase,
-+the VM creation finishes. "preconfig" state is then done and QEMU goes to
-+normal execution.
-+
-+Machine creation example
-+------------------------
-+
-+The following is an example that shows how to add some devices with qmp
-+commands, memory map them, and add interrupts::
-+
-+  x-machine-init
-+
-+  device_add        driver=sysbus-memory id=rom size=0x4000 readonly=true
-+  x-sysbus-mmio-map device=rom addr=32768
-+
-+  device_add        driver=sysbus-memory id=flash size=0x80000 readonly=true
-+  x-sysbus-mmio-map device=flash addr=536870912
-+
-+  device_add        driver=sysbus-memory id=ram size=0x10000
-+  x-sysbus-mmio-map device=ram addr=268435456
-+
-+  device_add        driver=ibex-plic id=plic
-+  x-sysbus-mmio-map device=plic addr=1090584576
-+
-+  device_add        driver=ibex-uart id=uart chardev=serial0
-+  x-sysbus-mmio-map device=uart addr=1073741824
-+  qom-set path=uart property=sysbus-irq[0] value=plic/unnamed-gpio-in[1]
-+  qom-set path=uart property=sysbus-irq[1] value=plic/unnamed-gpio-in[2]
-+  qom-set path=uart property=sysbus-irq[2] value=plic/unnamed-gpio-in[3]
-+  qom-set path=uart property=sysbus-irq[3] value=plic/unnamed-gpio-in[4]
-+
-+  x-exit-preconfig
-+
-+These commands reproduce a subset of the riscv32 opentitan (hw/riscv/opentitan)
-+machine. We can start qemu using::
-+
-+  qemu-sytem-riscv32 -preconfig -qmp unix:./qmp-sock,server \
-+  -machine none -cpu lowriscv-ibex -serial mon:stdio ...
-+
-+Then we just have to issue the commands, for example using `qmp-shell`. If the
-+previous commands were in a file named `machine.qmp`, we could do::
-+
-+  qmp-shell ./qmp-sock < machine.qmp
+Depending on chosen condition for a device to be added, this commit
+may change.
+---
+ hw/char/ibex_uart.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
+index 9b0a817713..b1646422c0 100644
+--- a/hw/char/ibex_uart.c
++++ b/hw/char/ibex_uart.c
+@@ -546,6 +546,7 @@ static void ibex_uart_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
++    dc->user_creatable = true;
+     dc->reset = ibex_uart_reset;
+     dc->realize = ibex_uart_realize;
+     dc->vmsd = &vmstate_ibex_uart;
 -- 
 2.33.0
 
