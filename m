@@ -2,56 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E58414D8C
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 17:56:39 +0200 (CEST)
-Received: from localhost ([::1]:37516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3DEB414DC3
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:08:54 +0200 (CEST)
+Received: from localhost ([::1]:49194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT4bu-0002uu-N7
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 11:56:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40014)
+	id 1mT4nk-0002gY-Ij
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:08:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mT4aS-0002BR-Pr
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:55:08 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:35529)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mT4gJ-0004Wc-9F
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:01:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mT4aQ-00057u-Oq
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:55:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=Ulz2kA9pCISpkmcW9TwXErbR0EytoDwo3IkNaYx8woI=; b=osP1yvdkUt2IBjcytIkv+3JPK/
- 9/OW3aAUfefnJUnCt7W8hkQVaVVeLXsomltxzW1WafaRpuLvNGzVyGUb6qTgJJ6ybVHklbtCir4st
- h4B4eCltIgVFyYS4kOUSISGOhZIRo4NkgMPMB9yjW0KOBpMjqmYb6WO1GcLH6+Ef8YJyJAu7/n04b
- Agh+pZwVD8JFnxXVeVVc0olAPthGqOdmMy2yO4aB28fuJcwUhDAOfNb9uvJXT+ry2tBEmziFNrXFr
- /dlrWrwmqR7clTCUP7TUbZkiZkrkKqEW8CoTee8h2Em8BTuTMiKNMAswQ+6UmOYTUVL2NxLFncpfM
- Gev5SXiijQubz+Fz0alARLVQ3Qn468xnh6Si0k44GdBpKyDcouDxvlTYvGpg+0Qx8F4SI0zBE0Nqg
- GeAp1URGg55QA5mKMOLy0sS+2bvelJmFYZiGg9NJhDv2TZF9NE2IV1caM3Dw1n7wnp7qTUFzCcRZo
- YLwPbyOp1QJtef0EjdYXIW5dUBsLzwSZdel2A8FSFgVtHvL9QnivJmceQwqIL7thmO2y86u57qqQ/
- BnvquAEaf/F7ekXNrqwembg1iE+Bgprrb3T2X0KUEJZhEHMB9m+y2OnMlKlbCzvr+pe2JlxO7DpoY
- fqyc55rXPZWICq3tjsj7Hu3Wb8dYwm+XgW9soksxM=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>
-Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] 9pfs: fix wrong I/O block size in Rgetattr
-Date: Wed, 22 Sep 2021 17:55:02 +0200
-Message-ID: <5479323.DnaQ8grZgu@silver>
-In-Reply-To: <a78b8af7-a61a-c9dc-181c-cccc307482eb@redhat.com>
-References: <E1mT2Js-0000DW-OH@lizzy.crudebyte.com>
- <a78b8af7-a61a-c9dc-181c-cccc307482eb@redhat.com>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mT4g8-0001kC-7h
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:01:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632326458;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=b+PZVJpqCWE4RVL5iERYpI69r+EbymTWq0r81wyQi2Y=;
+ b=dy9EwAO8M0E5EllzoUemBFSPsCrM/JrnqO3lRSHOXsvwXNmmvxbFSwHBvjbPwEsRHOGsZU
+ GDLRUzsdxWCqQyPKUP1BxoLRJU062zuTe62c8cMRDw1g5PE1TqtaXuKFfkONtDtDYfbum0
+ Cf48Xlk9RexLFdhZW/Bad29M55i7L50=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-EVfHbfasNruFIukH-b2BzQ-1; Wed, 22 Sep 2021 12:00:57 -0400
+X-MC-Unique: EVfHbfasNruFIukH-b2BzQ-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ ib9-20020a0562141c8900b003671c3a1243so11810173qvb.21
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 09:00:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=b+PZVJpqCWE4RVL5iERYpI69r+EbymTWq0r81wyQi2Y=;
+ b=KAKs5IbaKsnsNtohNDkgD/LPTzh367fruzxp4Lwh+s1y2rRp6/HBfVVjCv08r6wRg2
+ vjKmfhlBvCFhO/aD+sGnVuqNTPnrdF9LNIWaXNxqg8VSQY67l+EtaLOoXcveC/dUNS6C
+ p2DifUNSbV3hm0jCI4s63WOiRWGoPqt9xPNkaDGCwOeVnq7agbg3Xj+NsacgVgDD37bM
+ rlZTC2olT9zsZXmVz1BUe2QG3pRTgVahYkXXfTJLC7rbJ7V+sQyeDBvwhbGQj6pu8ko+
+ nFCSXKhsu7BQoIbkCzj4zeVNQQLYxjDic4FUhhbAr+fTMsegURBuIDvh2kLsvp0xmH0j
+ TJ5A==
+X-Gm-Message-State: AOAM531zCYPV5US/YvRDshAvWQjwViqGyAyrXs2uliPR12aB6Lt9bI82
+ +oL7g5CrKpOQZDD7Dz5vDUVtdGm7fcorGuOK3wcYHGeEA+DpL62fNNCqXGclx3glwEndAna8hu4
+ e5zVE1TIPnbPURT0=
+X-Received: by 2002:ac8:5905:: with SMTP id 5mr254101qty.286.1632326456291;
+ Wed, 22 Sep 2021 09:00:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwHo8XiSMdYXLswaY9LxJgdEDl9ciq+NtV2AbfSTX2YOUWleH/yjxfa4+sY7YGs1z75XpFzTQ==
+X-Received: by 2002:ac8:5905:: with SMTP id 5mr254064qty.286.1632326455952;
+ Wed, 22 Sep 2021 09:00:55 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a2:9100::d3ec])
+ by smtp.gmail.com with ESMTPSA id b14sm854682qkl.81.2021.09.22.09.00.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Sep 2021 09:00:55 -0700 (PDT)
+Date: Wed, 22 Sep 2021 12:00:53 -0400
+From: Peter Xu <peterx@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH v2 3/3] dump-guest-memory: Block live migration
+Message-ID: <YUtTNZiGH4oFtVQi@t490s>
+References: <20210826185813.248441-1-peterx@redhat.com>
+ <20210826185813.248441-4-peterx@redhat.com>
+ <CAJ+F1C+52DJb4c8Qx66xA1QS6dNGRhkgJYM883bAqcsez6gZAw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAJ+F1C+52DJb4c8Qx66xA1QS6dNGRhkgJYM883bAqcsez6gZAw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,104 +96,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 22. September 2021 17:42:08 CEST Philippe Mathieu-Daud=E9 wrot=
-e:
-> On 9/22/21 15:13, Christian Schoenebeck wrote:
-> > When client sent a 9p Tgetattr request then the wrong I/O block
-> > size value was returned by 9p server; instead of host file
-> > system's I/O block size it should rather return an I/O block
-> > size according to 9p session's 'msize' value, because the value
-> > returned to client should be an "optimum" block size for I/O
-> > (i.e. to maximize performance), it should not reflect the actual
-> > physical block size of the underlying storage media.
-> >=20
-> > The I/O block size of a host filesystem is typically 4k, so the
-> > value returned was far too low for good 9p I/O performance.
-> >=20
-> > This patch adds stat_to_iounit() with a similar approach as the
-> > existing get_iounit() function.
-> >=20
-> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+On Wed, Sep 22, 2021 at 07:18:15PM +0400, Marc-André Lureau wrote:
+> Hi
+
+Hi, Marc-André,
+
+> 
+> On Thu, Aug 26, 2021 at 11:01 PM Peter Xu <peterx@redhat.com> wrote:
+> 
+> > Both dump-guest-memory and live migration caches vm state at the beginning.
+> > Either of them entering the other one will cause race on the vm state, and
+> > even
+> > more severe on that (please refer to the crash report in the bug link).
+> >
+> > Let's block live migration in dump-guest-memory, and that'll also block
+> > dump-guest-memory if it detected that we're during a live migration.
+> >
+> > Side note: migrate_del_blocker() can be called even if the blocker is not
+> > inserted yet, so it's safe to unconditionally delete that blocker in
+> > dump_cleanup (g_slist_remove allows no-entry-found case).
+> >
+> > Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1996609
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
 > > ---
-> >=20
-> >   hw/9pfs/9p.c | 21 ++++++++++++++++++++-
-> >   1 file changed, 20 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > index c857b31321..708b030474 100644
-> > --- a/hw/9pfs/9p.c
-> > +++ b/hw/9pfs/9p.c
-> > @@ -1262,6 +1262,25 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU
-> > *pdu, V9fsPath *path,>=20
-> >   #define P9_STATS_ALL           0x00003fffULL /* Mask for All fields
-> >   above */>=20
-> > +static int32_t stat_to_iounit(const V9fsPDU *pdu, const struct stat
-> > *stbuf) +{
-> > +    int32_t iounit =3D 0;
-> > +    V9fsState *s =3D pdu->s;
+> >  dump/dump.c | 24 +++++++++++++++++++-----
+> >  1 file changed, 19 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/dump/dump.c b/dump/dump.c
+> > index ab625909f3..9c1c1fb738 100644
+> > --- a/dump/dump.c
+> > +++ b/dump/dump.c
+> > @@ -29,6 +29,7 @@
+> >  #include "qemu/error-report.h"
+> >  #include "qemu/main-loop.h"
+> >  #include "hw/misc/vmcoreinfo.h"
+> > +#include "migration/blocker.h"
+> >
+> >  #ifdef TARGET_X86_64
+> >  #include "win_dump.h"
+> > @@ -47,6 +48,8 @@
+> >
+> >  #define MAX_GUEST_NOTE_SIZE (1 << 20) /* 1MB should be enough */
+> >
+> > +static Error *dump_migration_blocker;
+> > +
+> >  #define ELF_NOTE_SIZE(hdr_size, name_size, desc_size)   \
+> >      ((DIV_ROUND_UP((hdr_size), 4) +                     \
+> >        DIV_ROUND_UP((name_size), 4) +                    \
+> > @@ -101,6 +104,7 @@ static int dump_cleanup(DumpState *s)
+> >              qemu_mutex_unlock_iothread();
+> >          }
+> >      }
+> > +    migrate_del_blocker(dump_migration_blocker);
+> >
+> >      return 0;
+> >  }
+> > @@ -1927,11 +1931,6 @@ void qmp_dump_guest_memory(bool paging, const char
+> > *file,
+> >      Error *local_err = NULL;
+> >      bool detach_p = false;
+> >
+> > -    if (runstate_check(RUN_STATE_INMIGRATE)) {
+> >
+> 
+> This INMIGRATE check,
+> 
+> -        error_setg(errp, "Dump not allowed during incoming migration.");
+> > -        return;
+> > -    }
+> > -
+> >      /* if there is a dump in background, we should wait until the dump
+> >       * finished */
+> >      if (dump_in_progress()) {
+> > @@ -2005,6 +2004,21 @@ void qmp_dump_guest_memory(bool paging, const char
+> > *file,
+> >          return;
+> >      }
+> >
+> > +    if (!dump_migration_blocker) {
+> > +        error_setg(&dump_migration_blocker,
+> > +                   "Live migration disabled: dump-guest-memory in
+> > progress");
+> > +    }
 > > +
 > > +    /*
-> > +     * iounit should be multiples of st_blksize (host filesystem block
-> > size) +     * as well as less than (client msize - P9_IOHDRSZ)
+> > +     * Allows even for -only-migratable, but forbid migration during the
+> > +     * process of dump guest memory.
 > > +     */
-> > +    if (stbuf->st_blksize) {
-> > +        iounit =3D stbuf->st_blksize;
-> > +        iounit *=3D (s->msize - P9_IOHDRSZ) / stbuf->st_blksize;
->=20
-> Is that:
->=20
->    iounit =3D QEMU_ALIGN_DOWN(s->msize - P9_IOHDRSZ, stbuf->st_blksize);
->=20
-> ?
->=20
+> > +    if (migrate_add_blocker_internal(dump_migration_blocker, errp)) {
+> >
+> 
+> is now handled here with migration_is_idle() ?
+> 
+> I am not familiar enough with the run & migration states intricacies here
 
-Yes it is, thanks for the hint! :)
+Hmm, I thought it covers both src/dst, but after I double checked it seems
+not..
 
-I actually just took the equivalent, already existing code from get_iounit(=
-):
-https://github.com/qemu/qemu/blob/2c3e83f92d93fbab071b8a96b8ab769b01902475/=
-hw/9pfs/9p.c#L1880
+On the destination side, we seem to have used MigrationState somewhere like in
+migration_channel_process_incoming for reading parameters and capabilities, but
+OTOH we used MigrationIncomingState for most of the rest operations, e.g., to
+maintain dst migration state changes.  Then migration_is_idle() won't work on
+dst indeed..
 
-Would it be OK to do that subsequently with cleanup patches? My plan was to
-first address this with one patch, and addressing the cleanup issues
-separately later on, because this patch is required for testing the followi=
-ng
-kernel patches:
-https://lore.kernel.org/netdev/cover.1632156835.git.linux_oss@crudebyte.com/
+I think we should rename migration_is_idle() to migration_src_is_idle() at some
+point.
 
-And I wanted to keep things simple by only requiring one patch on QEMU side
-for now.
+For now, I'll respin and just keep the RUN_STATE_INMIGRATE check above.
 
+Thanks!
 
-> > +    }
-> > +    if (!iounit) {
-> > +        iounit =3D s->msize - P9_IOHDRSZ;
-> > +    }
-> > +    return iounit;
-> > +}
-> > +
-> >=20
-> >   static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
-> >  =20
-> >                                   V9fsStatDotl *v9lstat)
-> >  =20
-> >   {
-> >=20
-> > @@ -1273,7 +1292,7 @@ static int stat_to_v9stat_dotl(V9fsPDU *pdu, const
-> > struct stat *stbuf,>=20
-> >       v9lstat->st_gid =3D stbuf->st_gid;
-> >       v9lstat->st_rdev =3D stbuf->st_rdev;
-> >       v9lstat->st_size =3D stbuf->st_size;
-> >=20
-> > -    v9lstat->st_blksize =3D stbuf->st_blksize;
-> > +    v9lstat->st_blksize =3D stat_to_iounit(pdu, stbuf);
-> >=20
-> >       v9lstat->st_blocks =3D stbuf->st_blocks;
-> >       v9lstat->st_atime_sec =3D stbuf->st_atime;
-> >       v9lstat->st_atime_nsec =3D stbuf->st_atim.tv_nsec;
-
+-- 
+Peter Xu
 
 
