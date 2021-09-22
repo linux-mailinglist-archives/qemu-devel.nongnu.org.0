@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80A03414A4E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 15:12:41 +0200 (CEST)
-Received: from localhost ([::1]:46910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57638414A50
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 15:14:44 +0200 (CEST)
+Received: from localhost ([::1]:51046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT23E-0000OF-Bk
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 09:12:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48462)
+	id 1mT25D-0003CT-EN
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 09:14:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mT1y4-0002zs-4r
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 09:07:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34485)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mT1y0-0000KC-C9
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 09:07:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632316035;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aDM7xOqS5HjF6fVHT1+JkA7AXGph9YObLe5E6VBatXs=;
- b=INdXEYE3tcFKxQWLa5TEBDRXP1ejH7hvyqCZcAtLhvGhO1kGgJEHVD0+ABUe61u+BmvUZK
- oLN4IUKEw0sLfxcmFrzaKwbRou/Wx+XdSq6mFzAgkOf/sxQqfWwi2RAvxWubLqBrV86qGp
- qZPIgeOU9yp0yl9BLlWbP3+7AvKCFBI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-mMVwcUf8Ory4Xo0VrS8Q4A-1; Wed, 22 Sep 2021 09:07:14 -0400
-X-MC-Unique: mMVwcUf8Ory4Xo0VrS8Q4A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 059C784A5E7;
- Wed, 22 Sep 2021 13:07:13 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CBF145DEB8;
- Wed, 22 Sep 2021 13:07:12 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 646F9113865F; Wed, 22 Sep 2021 15:07:11 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: ensuring a machine's buses have unique names
-References: <CAFEAcA8Q2XEANtKfk_Ak2GgeM8b_=kf_qduLztCuL=E_k36FWg@mail.gmail.com>
- <87czq0l2mn.fsf@dusky.pond.sub.org>
- <CAFEAcA-1cGjt54XDEmKiDctySW4zdQptoc2taGp0XxMOtKvGCw@mail.gmail.com>
- <87mtoe4g40.fsf@dusky.pond.sub.org>
- <CAFEAcA_ExFiv3AurBAtTan10yuXRnsHMQS0yHa-vJpwB9u4HoA@mail.gmail.com>
- <71bb7b84-28a3-dd4b-d375-4b2494832655@eik.bme.hu>
- <87y27przt6.fsf@dusky.pond.sub.org>
- <79a46e17-ddae-eab8-9ff6-80c3a64d0cb@eik.bme.hu>
-Date: Wed, 22 Sep 2021 15:07:11 +0200
-In-Reply-To: <79a46e17-ddae-eab8-9ff6-80c3a64d0cb@eik.bme.hu> (BALATON
- Zoltan's message of "Wed, 22 Sep 2021 11:58:24 +0200 (CEST)")
-Message-ID: <878rzokbcw.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mT22F-0000cQ-BN
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 09:11:39 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34742)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mT22D-00038O-90
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 09:11:39 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id t8so6767731wri.1
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 06:11:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tlwiCK4DHVzvpSglfXg0vTqSDkLCdTZPyJoUKJr36Z0=;
+ b=CVVGYPFBnlLeKGF6/F2BziarmV15/moqGh7qaNQtcX6G7d2Dize1BICKId2U8zlrcs
+ zecERmUMsmGIqIRyoC3JWR+Ariwzap1sAjQBBS6j0pXqwQcvaCd7Kd0DCnItjeZhER+7
+ T+oOrrbLkFBt1Q7v59XPiHHxQ0qIN52rO3IFcpHZGGmPXxzxeOHRsYQqrbwfuO0YSxDt
+ TpkDE2Pj5X5dZ9Fd+98A1auwYXHl8NJooD422TNS8OvydWPraq1AtwnVmaoAbtd9mirX
+ AMJupmYqgC0ab9+fGk450v0t74KgXNNhlbyAS7+XUx+ov1eKKCOceSvQyz0nCqR5pIIT
+ FiTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tlwiCK4DHVzvpSglfXg0vTqSDkLCdTZPyJoUKJr36Z0=;
+ b=fnkvm8W2XP7NPpqfR1RSaYSUnjvMDk0uHJ+cNIKwS/J+R74QN4BOW8HP0t9l0dNtCq
+ 6mwymSzUPCsWeIAuPh7Nfo4RRlRIBtDxgqRqCuSSheksFZdzwKSUKhqQZe5QYDP199eR
+ p69Z5aMmJHBhaRirHkv+e2Uv6idrAyizGYn5DMYm/ssphP3w4xFV3SlJZgDTzF/2iNF0
+ 4xFnunofJl/1JVx0N0gERRJpLaMJGqwfhb7memRhiaGjVfBU6xL5qf0EFoqV9rh1dhFj
+ 2XdLxS1uDrXvu0LMaLWppKp4gK2uX3l0Y46zII52BTYGO/mFFksQkvBqkbTD5Lzt0+4D
+ PpiA==
+X-Gm-Message-State: AOAM5325CWLpI5Hc1/zPrbGkNC5BQK+vgq/7bg5hNNjSkF8As5lp0HmR
+ HXBXdMfMxzo3ZJn88c8DxiWV/mEdz5qNE6X3mtl9rg==
+X-Google-Smtp-Source: ABdhPJw8BnKWQq1szdzItA3GeLWWMpNX6nfAj7gCGpZ5oOWF6o4O1gsIWgb2AYBTDpCwgElrBVj68Lzz8ahCkGemoEc=
+X-Received: by 2002:adf:ee48:: with SMTP id w8mr4990649wro.263.1632316295562; 
+ Wed, 22 Sep 2021 06:11:35 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210922121054.1458051-1-kchamart@redhat.com>
+ <20210922121054.1458051-2-kchamart@redhat.com>
+In-Reply-To: <20210922121054.1458051-2-kchamart@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 22 Sep 2021 14:10:43 +0100
+Message-ID: <CAFEAcA8gZxk_F_0MhSShDU5EUet6UZM483Y8R54PXvVCVwUEMw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] docs: rSTify the "SpellCheck" wiki
+To: Kashyap Chamarthy <kchamart@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,37 +77,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-?= =?utf-8?Q?Daud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-BALATON Zoltan <balaton@eik.bme.hu> writes:
-
-> On Wed, 22 Sep 2021, Markus Armbruster wrote:
->> BALATON Zoltan <balaton@eik.bme.hu> writes:
->>> To me it looks like device code can't really set a globally unique
->>> name on creating the bus without getting some help from upper
->>> levels. So maybe naming busses should be done by qdev (or whatever is
->>> handling this) instead of passing the name as an argument to
->>> qbus_create or only use that name as a unique component within the
->>> device and append it to a unique name for the device.
->>
->> Have you read the whole thread?  qdev does come up with a name when
+On Wed, 22 Sept 2021 at 13:11, Kashyap Chamarthy <kchamart@redhat.com> wrote:
 >
-> No I haven't. This just got my attention because I'm responsible for
-> adding ati-vga.ddc and sm501.i2c and some ppc440 stuff so I was
-> wondering what could I do better bur otherwise I did not check the
-> whole thread so just ignore what I said if it's not useful in this
-> context.
+> The original wiki is here[1].  I converted by copying the wiki source[2]
+> into a .wiki file and convert to rST using `pandoc`:
+>
+>     $ pandoc -f Mediawiki -t rst spell-check.wiki -o spell-check.rst
+>
+> [1] https://wiki.qemu.org/Contribute/SpellCheck
+> [2] https://web.archive.org/web/20170721031029/http://wiki.qemu.org/index.php?title=Contribute/SubmitAPatch&action=edit
+>
+> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
+> ---
+>  docs/devel/spell-check.rst | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>  create mode 100644 docs/devel/spell-check.rst
+>
+> diff --git a/docs/devel/spell-check.rst b/docs/devel/spell-check.rst
+> new file mode 100644
+> index 0000000000..998cd7ef51
+> --- /dev/null
+> +++ b/docs/devel/spell-check.rst
+> @@ -0,0 +1,29 @@
+> +===========
+> +Spell Check
+> +===========
+> +
+> +QEMU uses British or American English in code and documentation. There
+> +are some typical spelling bugs which can be easily avoided by using
+> +tools like codespell.
+> +
+> +codespell is a python script which detects (and optionally fixes) the
+> +most common spelling bugs.
+> +
+> +If you installed codespell in your HOME directory, it can be called from
+> +the QEMU source directory like this::
+> +
+> +    ~/bin/codespell.py -d -r -s -x scripts/codespell.exclude -q 2 ~/share/codespell/dictionary.txt
+> +
+> +``-x scripts/codespell.exclude`` excludes some known lines from the check
+> +and needs a file which is not yet committed.
 
-I wouldn't call it "not useful".
+This command doesn't actually work, because there is no
+scripts/codespell.exclude in the source tree. It also
+assumes you have a ~/share/codespell/dictionary.txt in your
+home directory.
 
-What you could do better in future code: pass a null bus name.  This is
-not obvious.  As Peter noted "we created a family of easy-to-misuse
-APIs".
+I think Stefan proposed a patch adding the excludelist file to
+the source repository back when he wrote this wiki page a decade
+ago, but it did not get through code review.
 
-[...]
-
+thanks
+-- PMM
 
