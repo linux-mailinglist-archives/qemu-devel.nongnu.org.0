@@ -2,91 +2,145 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E8214142D3
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 09:40:12 +0200 (CEST)
-Received: from localhost ([::1]:46822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D07E94142DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 09:44:50 +0200 (CEST)
+Received: from localhost ([::1]:51568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSwrT-0003eG-1p
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 03:40:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40938)
+	id 1mSwvx-0006z1-KV
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 03:44:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mSwpn-0002kA-PC
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 03:38:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29848)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mSwtF-0004ux-TB
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 03:42:03 -0400
+Received: from mail-eopbgr70107.outbound.protection.outlook.com
+ ([40.107.7.107]:8837 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mSwpk-00056H-Br
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 03:38:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632296303;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4Y5KZJuAYKi+1M22/csvgOOMW2BKZ3fzhscAOQl7sK8=;
- b=BrURx3qtdORB82mshH4uN2IWUw4ziq/ndiCXgSzlisHhWF/6gT6xG7Q3UaBJSfMSpXGiji
- qmxlKspxByvJYUJjlKjYw2GTX/fdnM9GcMZELCWO2yH38qHEz5KxBhD/brOSSVimAah/+X
- IJRR8f2v58BU7YP5UcnQZdcRMc/TyKI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-580-K3Ql9UtNMQOp6GkA5F5fQQ-1; Wed, 22 Sep 2021 03:38:17 -0400
-X-MC-Unique: K3Ql9UtNMQOp6GkA5F5fQQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- l9-20020adfc789000000b00160111fd4e8so1276671wrg.17
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 00:38:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4Y5KZJuAYKi+1M22/csvgOOMW2BKZ3fzhscAOQl7sK8=;
- b=F6/lMe96x/QCrod4ihcYI3ir4AuqcjH5GIGKenMRpQRKKzanqboAeifVaSKx1/9VX+
- uJOS45dzoLNkpBobPi+VzZPBl3NtUDWOQUqb3lDhgJeQd3qlgr2Rilm53eObXt5rZlXP
- Zysed92Au4SoxkFyDXljyg+hQsRDIwmc6xTBXYAziOQ05rVCWTOoGL2ZCmT5+JSupp0o
- RYykbLkdjDPABpOm4ZbN7/MB/Pw0+d/WkPILZipneP5a/8osRvOi93NKYKeY36dMAMGT
- 1dsYIDsQW/9gtb5o88WegyjJY8g4TVTxxJc19W5NzTkHzZbJlxV7A4ywT/YDKCrDWmXi
- EP9g==
-X-Gm-Message-State: AOAM531i9/ELliwtvkuce9ryfV4zijL6JaUqM9OU7VLGND+SsqXo3rF4
- I+VoTsSwgNHoDlxz6p/rcsoKc6m0W+pFNiglVz5nOTHbw0cJ44qkjcfvW5RahE5/Z+ILA0qNoXJ
- GUiHHgdqRIYTpfjI=
-X-Received: by 2002:a5d:5989:: with SMTP id n9mr37236883wri.89.1632296296666; 
- Wed, 22 Sep 2021 00:38:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzKfdMjDjrt9hwbvZerjhv89T0h2XGN135pbGtDjbmwFClPdOjgPNAy6Xzp2XTZG3w1aEklHQ==
-X-Received: by 2002:a5d:5989:: with SMTP id n9mr37236860wri.89.1632296296491; 
- Wed, 22 Sep 2021 00:38:16 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id f5sm1080246wmb.47.2021.09.22.00.38.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Sep 2021 00:38:15 -0700 (PDT)
-Subject: Re: [PATCH v3 16/35] acpi: arm/x86: build_srat: use
- acpi_table_begin()/acpi_table_end() instead of build_header()
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20210907144814.741785-1-imammedo@redhat.com>
- <20210907144814.741785-17-imammedo@redhat.com>
-From: Eric Auger <eauger@redhat.com>
-Message-ID: <44b92fd3-1f4b-04f1-e628-9f55e6b4df84@redhat.com>
-Date: Wed, 22 Sep 2021 09:38:14 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mSwtC-00080d-AB
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 03:42:01 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WbW7Vt9exZqUx9l0+YITBgU7Lrrrmlxr9mVSsVMT8zCNB9RHg01Vpviu94mo6iXqUfOFxJn0YadZB683ukW+e6XzkBLApFvTBfBZS9hFIVZI44KaMRkLa37UqoFWf4QX0HWjGaZL8Cp9XOGl/e540k/8DKqx0i9wZJlsj/lSNFDzhtBIWBEDTGXq6ux07PRgalQPkHWPNQISZ8v07qkwDoT8Brp334h67XXM3eHywR29QRGb/pApPbem25jZL3sTzVuGFbmgrCl7EfllPecTlBGekc1y8D5hepwymsNZRrIULnxPQfi6vwJF+zyuQu6J3FrPDXmd9K23/2gG1WEIfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=WBoQ5H8rUY+Z0Eyy4kPrYpKbwBy6K5N4DKniM5K7xP8=;
+ b=Y5PUnGOYpiURKqe8Lc4teCdAx/7JcosSpPTyHV+oYsk55bls2Srl4J4QCEpLnBY6L8Fbdv7vL5yV5XAgfjC/o6LouQ08AtLAAKwXmsiEcW8dQ4KTLgbiKNs5Z2bK3XFp0U+Ch1IgM8vIIHYW3C4KTIQIKmjKrcigEqBuwg7U5HhopTjf6j60l2gd6l4MvXnKuhljynGSZOccPa/tg2pk3IOdVzLx7fmfuZiDF9ZjOcsq7ApHzJ12FKqquqx6lyrFj6oPgKFGwXICn50aRRWYMsaBZf4+zt71XoBaNSMXrfWtUnABmQZ1kJjt0eE1YoHcCHhlJpnCMO7unmMWUt10nQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WBoQ5H8rUY+Z0Eyy4kPrYpKbwBy6K5N4DKniM5K7xP8=;
+ b=Xqiw+u3LQML8SZlbzmn8Avu/zf6a+5kSuM7igYQnj0VrDQqqXKSLqJ2QAxWHmlKkQRfhMjKxPdZCsYTYtdqew5v8TKSqG8K/RDMEycXimUaxP3JX7YOMPqMfKJsFAZu7DGa0ILjqe8xkECzWPpm0ycYetPEaXozK10TgJwilEls=
+Authentication-Results: virtuozzo.com; dkim=none (message not signed)
+ header.d=none;virtuozzo.com; dmarc=none action=none
+ header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6423.eurprd08.prod.outlook.com (2603:10a6:20b:318::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14; Wed, 22 Sep
+ 2021 07:41:55 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.013; Wed, 22 Sep 2021
+ 07:41:55 +0000
+Subject: Re: [PATCH v15] qapi: introduce 'query-x86-cpuid' QMP command.
+To: Valeriy Vdovin <valery.vdovin.s@gmail.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Eric Blake
+ <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ kvm@vger.kernel.org, Denis Lunev <den@openvz.org>,
+ Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+References: <20210816145132.9636-1-valery.vdovin.s@gmail.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <24143eb0-9ab4-bcf7-94e7-32037ad49b2e@virtuozzo.com>
+Date: Wed, 22 Sep 2021 10:41:52 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <20210907144814.741785-17-imammedo@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eauger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ Thunderbird/78.14.0
+In-Reply-To: <20210816145132.9636-1-valery.vdovin.s@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.475,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-ClientProxiedBy: AM0PR04CA0101.eurprd04.prod.outlook.com
+ (2603:10a6:208:be::42) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+Received: from [192.168.100.5] (185.215.60.205) by
+ AM0PR04CA0101.eurprd04.prod.outlook.com (2603:10a6:208:be::42) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4544.13 via Frontend Transport; Wed, 22 Sep 2021 07:41:53 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a0420d6e-aaaf-42e3-b604-08d97d9c72c4
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6423:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6423D85E2EC4C72071EF2501C1A29@AS8PR08MB6423.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1uphQ/ya1GMq04RDRdaNBQ8TlH4C2rdLTVmWdbfs0Lj0g/tIbCHZsecqwC6dB8GxoaQYFjR3Y8ftcH0omYkh3+RFSva6SE3H+r1LzSOw9cHWDMPFQiRoXv3GPaQI4hJ7ktjZ2r9QbVtEZlpwvH7fQg8xy5W1Nqm7tECK0ZJ9p8jFXj9PcfhPIePUvl1FVkpMuCQnMwzoHcDa+EkUHFnDuEOmKkVk0KNA3aKdmjNGWcyfuXzYCOT2DYOZ3qJarRiuja9Ofb48IcFoHPHDHVCQTrrPzpc9OWUjgDhrOe/lcDCk3E5wmx7ncr1g4FOcveil1nszOdHxVoS9PSNk6k6JBAsgN61f+yZhzGTuJcvFzuRDP+8cDDOdGqhIPEGxcB1FerR5sMwpGS8CqWIy+0qJSeocAGiFYPx1MsvLP/BJxjCjnkcMwkK3HfzG9I4QUygwvhxeaURPY7Nx/zTTRyjGmtS/QauqRL/vBek/pOePOLSWPWSLoZCVibtxJikDaoQBc7c0k3kzm6AGzW80tF3Db5stJ+9VF05B42LxRujkT/JayPG1/4A48vkQFFALTwZ2t258CnRVahl6zoFPXrQiXHH5YTlmMNiSP6baHnxjbkuIHeUGSqOFb+gVdc96UuLQkvw6aCXPWd+mGzit4miKX5zHb/gKAPCbV7FEsE3sQwG0wmtR5U1VdnMtL28aedZgKp1Sben9r4Zs2gxm8XuohbHrs5ZVJmTP8TPMVXz+JlGuRtPGG0fC3Oo59WAJnXwNQNXOUaBxmE1PiDWbeN//jw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(86362001)(4326008)(7416002)(8676002)(5660300002)(38100700002)(66556008)(52116002)(83380400001)(38350700002)(26005)(16576012)(66946007)(8936002)(2616005)(54906003)(31686004)(2906002)(6486002)(66476007)(316002)(31696002)(508600001)(956004)(36756003)(107886003)(186003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TkZoVHVvN2FHdUNJYStvcFNtRGZEa2FBb3h5OWFXWWJvamZYRzh1d2RTbXJl?=
+ =?utf-8?B?TTg1QW5nalZ1bEFwWjQxZUdMbWdwdlJ2UGlWLzRGRWZVRC9qV2xCWk9YLzRP?=
+ =?utf-8?B?WUVQSllGcCt5L21mQk1qSGYrS0xFeUhYQ1RHN01yNVEwdUprZHJrc253em5Y?=
+ =?utf-8?B?WTg4dkJtQlJRS2gveXZCT0xmOUhQTGVHV3lkUks2dGtVT2F4alpEQ21OVzdN?=
+ =?utf-8?B?RUJJaC8wR1V0SEFJRnl2SWRMUnpEZzZXQmdyTGJJVCtTenlQZ2VaWGIzL1kv?=
+ =?utf-8?B?ZDdSWFp1WlltV0RZbkYyU0Z1V2U4UW1LWE4vRVZqRWMyZXFmb2M4VzJxUmNu?=
+ =?utf-8?B?Ym1nZCtZa0pPc0pwTUc1MnEwME93bFB4N2NZNmxiaXYraFpOYjZsMWtaWFFs?=
+ =?utf-8?B?NkQxeEY5dHRNQmJ5a1duMnZ0cjlGY2Q3YWpzOEl0WW91UlhGcnJMMXVQb01o?=
+ =?utf-8?B?Y1FEbjV3Zk1vNDF4QWVKRWFpWFJHbXhSdzI0M0RYTzQ0aW8zb2IzenRFRzQz?=
+ =?utf-8?B?anVyVFoyUVFTLzVidHpPWnl2SmVYV2tnVlQrM2JURXVxdDg3dW42TUVncFVQ?=
+ =?utf-8?B?OVA5d2JDUkl1ZGRZenBpanZhYWR6UUt2alBpS2N3dTBHRThkWFNsZ2FXbWJI?=
+ =?utf-8?B?bVVmdmpWckJKdFpOeHBGSjRwNkdUcVB1VkpuNFl5VWJLSVZRSE4rUFdIWjRG?=
+ =?utf-8?B?UnlDWG82ckZweVJTTzlqUjcvam1YS0ExaUxQMEtqZUJyRUYxQWZrd1Y0VjZv?=
+ =?utf-8?B?c24wQVJKTUxDWExiaE5rMHNEUzIyNUdkU25WdlRKTFE4ODUwM2tQdWV3cEpu?=
+ =?utf-8?B?bVlZclR3NzR3SlB2VjdST1hiSGg2TFZPdVpwVjBtVENtbEp6Z3o1YlJIeW1L?=
+ =?utf-8?B?SHBkTitvbytqMlZDbVNDUDBDWXBkdUhLS3ZLU3hmQlFJY2F1Q3djZUVYOVFy?=
+ =?utf-8?B?OUplZzl6ZnhPa21RZElsZkZqQXJDVThYZ2lyZXFvYU1Ub1NUVjBTSDl4UUFR?=
+ =?utf-8?B?dE1ySm1FS0toNm02WkhmQjM3T0J3UDVuclhWdzc0Q0VTQ3JxNGJWT1ZmTmpN?=
+ =?utf-8?B?MWpVMXRoUHZRakc0WWIrL3B2T1UwN2t5djFXRmNRM25EakYrOGdXSkU0c2tT?=
+ =?utf-8?B?N1JKdFJ6TE95cUhuNzQwaURaTEt2TTErL2RvYmdaN1RQdExvakt4dXdnRy9l?=
+ =?utf-8?B?QVhvaU5pQmFYSkEzMDZBRWtZRlRIS1VXcnR2T0dvamE3VGxkRkFrYndWVzBw?=
+ =?utf-8?B?OGdESUlDSFU0MnRmS0Z5V0RQMzF6Vy8vOEZJeXpQSGF1d3djaUZvVE1qZms3?=
+ =?utf-8?B?bkVlMHB2TFhvRDRGeEhPR3pxY2tnNC9YY0FrUUxPaEh2UXgzN2x0eGdtVklV?=
+ =?utf-8?B?eTJRdm9ZbURHSnEwalN6ZDJrL2hMZHgxN3dxZEpVVElvTVZ3ei9uUThCWi9t?=
+ =?utf-8?B?aVpacW1WRHNpZ21tTUpUSHl5dFJIQlZmaTJYbll1YUYrRG9MRnBUWEc1WXlJ?=
+ =?utf-8?B?U0JLaldPN0FtbkJ3Y3o2b0ZwaDlNSGl4Ky9vd1VMeUJJdkFOSWR3T2NCQVM3?=
+ =?utf-8?B?UnE4N1I1VHEzWmx6Z0tQelRSOHV1VGpjSFdHc0NVT2N0TW9JSjMxNFVrRU1Y?=
+ =?utf-8?B?Vzhnd2hncnVVUUxMWFlzalpkS2x1T00wMTNXUnhURWJNcHlMN0N3cHhRdVMx?=
+ =?utf-8?B?RUJZcTJYaTl0Q3o2QUcyLzNMUkx5UUNZTG4waUFFV1BrYStDUUp2eWw0SEg2?=
+ =?utf-8?Q?9myi1jnzARLyA5bApanALFc2Wq+tgyCbH6LNthW?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0420d6e-aaaf-42e3-b604-08d97d9c72c4
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2021 07:41:54.9344 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /qBaJRpAFCHqzVjnnQeW7avUC1innT8DvQHHHc8XOEm46Tl1rmbLw/DVfPrPp5bMoitc86srFwB7VO82dmeB+mkrZM4tmE7ifamAmhYWAQM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6423
+Received-SPF: pass client-ip=40.107.7.107;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,156 +153,327 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, mst@redhat.com,
- shannon.zhaosl@gmail.com, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Igor,
+Ping.
 
-On 9/7/21 4:47 PM, Igor Mammedov wrote:
-> it replaces error-prone pointer arithmetic for build_header() API,
-> with 2 calls to start and finish table creation,
-> which hides offsets magic from API user.
-nit: also removes AcpiSystemResourceAffinityTable and use
-build_append_int_noprefix for reserved fields
-> 
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
-> v3:
->   * s/acpi_init_table|acpi_table_composed/acpi_table_begin|acpi_table_end/
-> 
-> CC: shannon.zhaosl@gmail.com
-> CC: peter.maydell@linaro.org
-> CC: marcel.apfelbaum@gmail.com
-> CC: qemu-arm@nongnu.org
-> CC: drjones@redhat.com
-> CC: eauger@redhat.com
-> ---
->  include/hw/acpi/acpi-defs.h | 11 -----------
->  hw/arm/virt-acpi-build.c    | 15 +++++++--------
->  hw/i386/acpi-build.c        | 18 +++++++-----------
->  3 files changed, 14 insertions(+), 30 deletions(-)
-> 
-> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-> index 3b42b138f0..5826ee04b6 100644
-> --- a/include/hw/acpi/acpi-defs.h
-> +++ b/include/hw/acpi/acpi-defs.h
-> @@ -358,17 +358,6 @@ struct AcpiGenericTimerTable {
->  } QEMU_PACKED;
->  typedef struct AcpiGenericTimerTable AcpiGenericTimerTable;
->  
-> -/*
-> - * SRAT (NUMA topology description) table
-Missing version reference if any
-https://uefi.org/specs/ACPI/6.4/05_ACPI_Software_Programming_Model/ACPI_Software_Programming_Model.html#system-resource-affinity-table-srat
-5.2.16. System Resource Affinity Table (SRAT)
+Hi! Any chance for this to land?
 
-> - */
-> -
-> -struct AcpiSystemResourceAffinityTable {
-> -    ACPI_TABLE_HEADER_DEF
-> -    uint32_t    reserved1;
-> -    uint32_t    reserved2[2];
-> -} QEMU_PACKED;
-> -typedef struct AcpiSystemResourceAffinityTable AcpiSystemResourceAffinityTable;
-> -
->  #define ACPI_SRAT_PROCESSOR_APIC     0
->  #define ACPI_SRAT_MEMORY             1
->  #define ACPI_SRAT_PROCESSOR_x2APIC   2
-> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> index 037cc1fd82..21efe7fe34 100644
-> --- a/hw/arm/virt-acpi-build.c
-> +++ b/hw/arm/virt-acpi-build.c
-> @@ -477,18 +477,19 @@ build_spcr(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->  static void
->  build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->  {
-> -    AcpiSystemResourceAffinityTable *srat;
->      AcpiSratProcessorGiccAffinity *core;
->      AcpiSratMemoryAffinity *numamem;
-> -    int i, srat_start;
+The solution is very simple now: we don't modify any logic and just export kvm_cpuid2 entries as simple and flat QAPI list. What's the problem with it?
+
+If any doubts, we can go with x- prefix for a new command.
+
+16.08.2021 17:51, Valeriy Vdovin wrote:
+> From: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+> 
+> Introducing new QMP command 'query-x86-cpuid'. This command can be used to
+> get virtualized cpu model info generated by QEMU during VM initialization in
+> the form of cpuid representation.
+> 
+> Diving into more details about virtual CPU generation: QEMU first parses '-cpu'
+> command line option. From there it takes the name of the model as the basis for
+> feature set of the new virtual CPU. After that it uses trailing '-cpu' options,
+> that state if additional cpu features should be present on the virtual CPU or
+> excluded from it (tokens '+'/'-' or '=on'/'=off').
+> After that QEMU checks if the host's cpu can actually support the derived
+> feature set and applies host limitations to it.
+> After this initialization procedure, virtual CPU has it's model and
+> vendor names, and a working feature set and is ready for identification
+> instructions such as CPUID.
+> 
+> To learn exactly how virtual CPU is presented to the guest machine via CPUID
+> instruction, new QMP command can be used. By calling 'query-x86-cpuid'
+> command, one can get a full listing of all CPUID leaves with subleaves which are
+> supported by the initialized virtual CPU.
+> 
+> Other than debug, the command is useful in cases when we would like to
+> utilize QEMU's virtual CPU initialization routines and put the retrieved
+> values into kernel CPUID overriding mechanics for more precise control
+> over how various processes perceive its underlying hardware with
+> container processes as a good example.
+> 
+> The command is specific to x86. It is currenly only implemented for KVM acceleator.
+> 
+> Output format:
+> The output is a plain list of leaf/subleaf argument combinations, that
+> return 4 words in registers EAX, EBX, ECX, EDX.
+> 
+> Use example:
+> qmp_request: {
+>    "execute": "query-x86-cpuid"
+> }
+> 
+> qmp_response: {
+>    "return": [
+>      {
+>        "eax": 1073741825,
+>        "edx": 77,
+>        "in-eax": 1073741824,
+>        "ecx": 1447775574,
+>        "ebx": 1263359563
+>      },
+>      {
+>        "eax": 16777339,
+>        "edx": 0,
+>        "in-eax": 1073741825,
+>        "ecx": 0,
+>        "ebx": 0
+>      },
+>      {
+>        "eax": 13,
+>        "edx": 1231384169,
+>        "in-eax": 0,
+>        "ecx": 1818588270,
+>        "ebx": 1970169159
+>      },
+>      {
+>        "eax": 198354,
+>        "edx": 126614527,
+>        "in-eax": 1,
+>        "ecx": 2176328193,
+>        "ebx": 2048
+>      },
+>      ....
+>      {
+>        "eax": 12328,
+>        "edx": 0,
+>        "in-eax": 2147483656,
+>        "ecx": 0,
+>        "ebx": 0
+>      }
+>    ]
+> }
+> 
+> Signed-off-by: Valeriy Vdovin <valeriy.vdovin@virtuozzo.com>
+> ---
+> v2: - Removed leaf/subleaf iterators.
+>      - Modified cpu_x86_cpuid to return false in cases when count is
+>        greater than supported subleaves.
+> v3: - Fixed structure name coding style.
+>      - Added more comments
+>      - Ensured buildability for non-x86 targets.
+> v4: - Fixed cpu_x86_cpuid return value logic and handling of 0xA leaf.
+>      - Fixed comments.
+>      - Removed target check in qmp_query_cpu_model_cpuid.
+> v5: - Added error handling code in qmp_query_cpu_model_cpuid
+> v6: - Fixed error handling code. Added method to query_error_class
+> v7: - Changed implementation in favor of cached cpuid_data for
+>        KVM_SET_CPUID2
+> v8: - Renamed qmp method to query-kvm-cpuid and some fields in response.
+>      - Modified documentation to qmp method
+>      - Removed helper struct declaration
+> v9: - Renamed 'in_eax' / 'in_ecx' fields to 'in-eax' / 'in-ecx'
+>      - Pasted more complete response to commit message.
+> v10:
+>      - Subject changed
+>      - Fixes in commit message
+>      - Small fixes in QMP command docs
+> v11:
+>      - Added explanation about CONFIG_KVM to the commit message.
+> v12:
+>      - Changed title from query-kvm-cpuid to query-x86-cpuid
+>      - Removed CONFIG_KVM ifdefs
+>      - Added detailed error messages for some stub/unimplemented cases.
+> v13:
+>      - Tagged with since 6.2
+> v14:
+>      - Rebased to latest master 632eda54043d6f26ff87dac16233e14b4708b967
+>      - Added note about error return cases in api documentation.
+> v15:
+>      - Rearranged nested if statements.
+>      - Made use of kvm_enabled() instead of custom function.
+>      - Removed generated typedefs
+>      - Added indentation to qapi docementation.
+> 
+>   qapi/machine-target.json   | 46 ++++++++++++++++++++++++++++++++++++++
+>   softmmu/cpus.c             |  2 +-
+>   target/i386/kvm/kvm-stub.c |  9 ++++++++
+>   target/i386/kvm/kvm.c      | 44 ++++++++++++++++++++++++++++++++++++
+>   tests/qtest/qmp-cmd-test.c |  1 +
+>   5 files changed, 101 insertions(+), 1 deletion(-)
+> 
+> diff --git a/qapi/machine-target.json b/qapi/machine-target.json
+> index e7811654b7..75398bc1a4 100644
+> --- a/qapi/machine-target.json
+> +++ b/qapi/machine-target.json
+> @@ -329,3 +329,49 @@
+>   ##
+>   { 'command': 'query-cpu-definitions', 'returns': ['CpuDefinitionInfo'],
+>     'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
+> +
+> +##
+> +# @CpuidEntry:
+> +#
+> +# A single entry of a CPUID response.
+> +#
+> +# One entry holds full set of information (leaf) returned to the guest
+> +# in response to it calling a CPUID instruction with eax, ecx used as
+> +# the arguments to that instruction. ecx is an optional argument as
+> +# not all of the leaves support it.
+> +#
+> +# @in-eax: CPUID argument in eax
+> +# @in-ecx: CPUID argument in ecx
+> +# @eax: CPUID result in eax
+> +# @ebx: CPUID result in ebx
+> +# @ecx: CPUID result in ecx
+> +# @edx: CPUID result in edx
+> +#
+> +# Since: 6.2
+> +##
+> +{ 'struct': 'CpuidEntry',
+> +  'data': { 'in-eax' : 'uint32',
+> +            '*in-ecx' : 'uint32',
+> +            'eax' : 'uint32',
+> +            'ebx' : 'uint32',
+> +            'ecx' : 'uint32',
+> +            'edx' : 'uint32'
+> +          },
+> +  'if': 'defined(TARGET_I386)' }
+> +
+> +##
+> +# @query-x86-cpuid:
+> +#
+> +# Returns raw data from the emulated CPUID table for the first VCPU.
+> +# The emulated CPUID table defines the response to the CPUID
+> +# instruction when executed by the guest operating system.
+> +#
+> +#
+> +# Returns: a list of CpuidEntry. Returns error when qemu is configured with
+> +#          --disable-kvm flag or if qemu is run with any other accelerator than KVM.
+> +#
+> +# Since: 6.2
+> +##
+> +{ 'command': 'query-x86-cpuid',
+> +  'returns': ['CpuidEntry'],
+> +  'if': 'defined(TARGET_I386)' }
+> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+> index 071085f840..8501081897 100644
+> --- a/softmmu/cpus.c
+> +++ b/softmmu/cpus.c
+> @@ -129,7 +129,7 @@ void hw_error(const char *fmt, ...)
+>   /*
+>    * The chosen accelerator is supposed to register this.
+>    */
+> -static const AccelOpsClass *cpus_accel;
+> +const AccelOpsClass *cpus_accel;
+>   
+>   void cpu_synchronize_all_states(void)
+>   {
+> diff --git a/target/i386/kvm/kvm-stub.c b/target/i386/kvm/kvm-stub.c
+> index f6e7e4466e..feb0d7664d 100644
+> --- a/target/i386/kvm/kvm-stub.c
+> +++ b/target/i386/kvm/kvm-stub.c
+> @@ -12,6 +12,7 @@
+>   #include "qemu/osdep.h"
+>   #include "cpu.h"
+>   #include "kvm_i386.h"
+> +#include "qapi/error.h"
+>   
+>   #ifndef __OPTIMIZE__
+>   bool kvm_has_smm(void)
+> @@ -44,3 +45,11 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
+>   {
+>       abort();
+>   }
+> +
+> +CpuidEntryList *qmp_query_x86_cpuid(Error **errp);
+> +
+> +CpuidEntryList *qmp_query_x86_cpuid(Error **errp)
+> +{
+> +    error_setg(errp, "Not implemented in --disable-kvm configuration");
+> +    return NULL;
+> +}
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index e69abe48e3..d69d46c5c6 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -20,11 +20,13 @@
+>   
+>   #include <linux/kvm.h>
+>   #include "standard-headers/asm-x86/kvm_para.h"
+> +#include "qapi/qapi-commands-machine-target.h"
+>   
+>   #include "cpu.h"
+>   #include "host-cpu.h"
+>   #include "sysemu/sysemu.h"
+>   #include "sysemu/hw_accel.h"
+> +#include "sysemu/accel-ops.h"
+>   #include "sysemu/kvm_int.h"
+>   #include "sysemu/runstate.h"
+>   #include "kvm_i386.h"
+> @@ -1540,6 +1542,44 @@ static Error *invtsc_mig_blocker;
+>   
+>   #define KVM_MAX_CPUID_ENTRIES  100
+>   
+> +struct kvm_cpuid2 *cpuid_data_cached;
+> +
+> +
+> +CpuidEntryList *qmp_query_x86_cpuid(Error **errp)
+> +{
 > +    int i;
->      uint64_t mem_base;
->      MachineClass *mc = MACHINE_GET_CLASS(vms);
->      MachineState *ms = MACHINE(vms);
->      const CPUArchIdList *cpu_list = mc->possible_cpu_arch_ids(ms);
-> +    AcpiTable table = { .sig = "SRAT", .rev = 3, .oem_id = vms->oem_id,
-> +                        .oem_table_id = vms->oem_table_id };
->  
-> -    srat_start = table_data->len;
-> -    srat = acpi_data_push(table_data, sizeof(*srat));
-> -    srat->reserved1 = cpu_to_le32(1);
-> +    acpi_table_begin(&table, table_data);
-> +    build_append_int_noprefix(table_data, 1, 4); /* Reserved */
-> +    build_append_int_noprefix(table_data, 0, 8); /* Reserved */
->  
->      for (i = 0; i < cpu_list->len; ++i) {
->          core = acpi_data_push(table_data, sizeof(*core));
-> @@ -522,9 +523,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->                            MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
->      }
->  
-> -    build_header(linker, table_data, (void *)(table_data->data + srat_start),
-> -                 "SRAT", table_data->len - srat_start, 3, vms->oem_id,
-> -                 vms->oem_table_id);
-> +    acpi_table_end(linker, &table);
->  }
->  
->  /* GTDT */
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index c329580cff..41c0a63b30 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1920,11 +1920,10 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
->  static void
->  build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->  {
-> -    AcpiSystemResourceAffinityTable *srat;
->      AcpiSratMemoryAffinity *numamem;
->  
->      int i;
-> -    int srat_start, numa_start, slots;
-> +    int numa_start, slots;
->      uint64_t mem_len, mem_base, next_base;
->      MachineClass *mc = MACHINE_GET_CLASS(machine);
->      X86MachineState *x86ms = X86_MACHINE(machine);
-> @@ -1935,11 +1934,12 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->      ram_addr_t hotplugabble_address_space_size =
->          object_property_get_int(OBJECT(pcms), PC_MACHINE_DEVMEM_REGION_SIZE,
->                                  NULL);
-> +    AcpiTable table = { .sig = "SRAT", .rev = 1, .oem_id = x86ms->oem_id,
-> +                        .oem_table_id = x86ms->oem_table_id };
->  
-> -    srat_start = table_data->len;
-> -
-> -    srat = acpi_data_push(table_data, sizeof *srat);
-> -    srat->reserved1 = cpu_to_le32(1);
-> +    acpi_table_begin(&table, table_data);
-> +    build_append_int_noprefix(table_data, 1, 4); /* Reserved */
-> +    build_append_int_noprefix(table_data, 0, 8); /* Reserved */
->  
->      for (i = 0; i < apic_ids->len; i++) {
->          int node_id = apic_ids->cpus[i].props.node_id;
-> @@ -2045,11 +2045,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->                            MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
->      }
->  
-> -    build_header(linker, table_data,
-> -                 (void *)(table_data->data + srat_start),
-> -                 "SRAT",
-> -                 table_data->len - srat_start, 1, x86ms->oem_id,
-> -                 x86ms->oem_table_id);
-> +    acpi_table_end(linker, &table);
->  }
->  
->  /*
+> +    struct kvm_cpuid_entry2 *kvm_entry;
+> +    CpuidEntryList *head = NULL, **tail = &head;
+> +    CpuidEntry *entry;
+> +
+> +    if (!kvm_enabled()) {
+> +        error_setg(errp, "Not implemented for non-kvm accel");
+> +        return NULL;
+> +    }
+> +
+> +    if (!cpuid_data_cached) {
+> +        error_setg(errp, "VCPU was not initialized yet");
+> +        return NULL;
+> +    }
+> +
+> +    for (i = 0; i < cpuid_data_cached->nent; ++i) {
+> +        kvm_entry = &cpuid_data_cached->entries[i];
+> +        entry = g_malloc0(sizeof(*entry));
+> +        entry->in_eax = kvm_entry->function;
+> +        if (kvm_entry->flags & KVM_CPUID_FLAG_SIGNIFCANT_INDEX) {
+> +            entry->in_ecx = kvm_entry->index;
+> +            entry->has_in_ecx = true;
+> +        }
+> +        entry->eax = kvm_entry->eax;
+> +        entry->ebx = kvm_entry->ebx;
+> +        entry->ecx = kvm_entry->ecx;
+> +        entry->edx = kvm_entry->edx;
+> +        QAPI_LIST_APPEND(tail, entry);
+> +    }
+> +
+> +    return head;
+> +}
+> +
+>   int kvm_arch_init_vcpu(CPUState *cs)
+>   {
+>       struct {
+> @@ -1923,6 +1963,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>       if (r) {
+>           goto fail;
+>       }
+> +    if (!cpuid_data_cached) {
+> +        cpuid_data_cached = g_malloc0(sizeof(cpuid_data));
+> +        memcpy(cpuid_data_cached, &cpuid_data, sizeof(cpuid_data));
+> +    }
+>   
+>       if (has_xsave) {
+>           env->xsave_buf_len = sizeof(struct kvm_xsave);
+> diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+> index c98b78d033..bd883f7f52 100644
+> --- a/tests/qtest/qmp-cmd-test.c
+> +++ b/tests/qtest/qmp-cmd-test.c
+> @@ -46,6 +46,7 @@ static int query_error_class(const char *cmd)
+>           { "query-balloon", ERROR_CLASS_DEVICE_NOT_ACTIVE },
+>           { "query-hotpluggable-cpus", ERROR_CLASS_GENERIC_ERROR },
+>           { "query-vm-generation-id", ERROR_CLASS_GENERIC_ERROR },
+> +        { "query-x86-cpuid", ERROR_CLASS_GENERIC_ERROR },
+>           { NULL, -1 }
+>       };
+>       int i;
 > 
-Besides
-
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
 
-Eric
-
+-- 
+Best regards,
+Vladimir
 
