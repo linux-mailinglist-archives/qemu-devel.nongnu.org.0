@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88001414E37
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:38:27 +0200 (CEST)
-Received: from localhost ([::1]:60236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4DC414E3E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:40:50 +0200 (CEST)
+Received: from localhost ([::1]:36740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT5GM-0005jo-IO
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:38:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45540)
+	id 1mT5If-0000di-BA
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:40:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mT4yo-0007eV-Ly
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:20:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23016)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mT4yr-0007jD-AN
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:20:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mT4ym-0000cg-EB
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:20:18 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mT4yo-0000dn-Qz
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 12:20:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632327615;
+ s=mimecast20190719; t=1632327617;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2cjd8utIBAh8JzqAuJRPGpgy/cy0qCGBlHK1sSTFBVI=;
- b=alhlQVmq8XS9vsdqxXnk1rRF1pjiDiE13VOyB2fBG5DavuYJBdcJsXj+gzb/b+4knMHoGz
- iCYbP6XqUFu3eIdHuDN6663fP92Qqgn1gh9cWPkRsKaa4JpAdm0QzybEoneDlcyuTS+HDv
- cC9eVJPBJOToNb3TnwkKgc+CXkzchi0=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-PKU9zcDAPmSk-xsTZaJBgA-1; Wed, 22 Sep 2021 12:20:14 -0400
-X-MC-Unique: PKU9zcDAPmSk-xsTZaJBgA-1
-Received: by mail-qt1-f197.google.com with SMTP id
- w10-20020ac87e8a000000b002a68361412bso9840508qtj.7
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 09:20:14 -0700 (PDT)
+ bh=1lqAmhYOfqA4rnTNpzJDoCXhwIm0tgwIW69+uoJ6iSY=;
+ b=Ak8ktG2RV1E05r/NGrSuT4K44n0DDzT3Ig6GIV95YIUZ8C4xbaw9ySRTcylUGLsvi7NLIc
+ ZGRK1AmLtBjjx1WBJPo4STTClwELP2kTVAwTsbQvgiKTI5FktbseGi0MGQdslgZBSIIKum
+ WzWUISpvnPEWojJZ82EzBDvVJuQgteY=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-314-bsN8iyseM5ifMTK_IrU2iA-1; Wed, 22 Sep 2021 12:20:16 -0400
+X-MC-Unique: bsN8iyseM5ifMTK_IrU2iA-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ h4-20020a05620a244400b004334ede5036so10823183qkn.13
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 09:20:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2cjd8utIBAh8JzqAuJRPGpgy/cy0qCGBlHK1sSTFBVI=;
- b=SfT17WHOnndXlMOikadruPZ9tkLhyA4LO7fJazOHz1FlNKaIRkt8IPlzZ/5aM4at8s
- HHfOJCXghTR6Q5zct/4h5ruSs+tSnIgjM83e+FzNY5W0cE+TW/PxCN0u8DDHNzNlHUrK
- OszAHI47uAFgNOHS/FHAzx/FYKxrGRG5+OJRskorJPPGKcdjDPjVgvl72HHGf/nhRK+w
- IcXDU1D5Bk5xewK6VbztHdGRG7A2QdEbDtZZ8VaXuSJ35KU1f1Yq8hVyl1VCVXCvqsYS
- bKrlVdg7GqbEB9jEhY/zyhxtkNTvEeYUddJynh3/QgD7NHkLyiSfBkZ5bGDamFwjNSLN
- ChrA==
-X-Gm-Message-State: AOAM530L8qvFhLuquEdIIrLgr0RvbdQZ+yh5QW+5bWYKTIg1LHNIlUp9
- Zghm9ffkAxhu1x9xZ4EmkamkkBZNhnFn5y1JNEv6uaMYHQiwKuQcu6Juc18s5IUM/Auws0nipil
- mcpfmBbF+DmuCT2nO/EkoV65o6qt2YalL+UCcviqPgy4G4EgHtubKHKFAD+xta2LB
-X-Received: by 2002:a37:6708:: with SMTP id b8mr31070qkc.283.1632327613848;
- Wed, 22 Sep 2021 09:20:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzc7kkKzLDNTYSaPRglIrk4GOAIuUytdkK4VE5g4o8+6iXc6TR9jeSpJgfaBOFljJY+KsWRQA==
-X-Received: by 2002:a37:6708:: with SMTP id b8mr31039qkc.283.1632327613604;
- Wed, 22 Sep 2021 09:20:13 -0700 (PDT)
+ bh=1lqAmhYOfqA4rnTNpzJDoCXhwIm0tgwIW69+uoJ6iSY=;
+ b=u8DoeufAphusL6fZT7lTQG/yGWkSXiSyeMU1jQqPYMraKs/cTHEvxVlSXjZtxRSD1M
+ ueJitdOgaNI+UZGzM0pz1MRaDi4RKUXKFU43uLEje0GP6qguoM4ztPEPnxKl7ABIEk7V
+ o3Hq/tWRVaugafXWVkDeaZ14KlIN4MuEGZCyLst1tyIn5SEZMVv/rcO8jMTNrysMy42m
+ 9JYvPIESEtqBKY3Av8DOdWPHCoIQM1spXy1CnkT2gosv0ICKY1Z1bfMhQwECMYPpiaZf
+ MtPfTFqU1xbpkej+HjNwtn3EE0sZy+I2sau9pnUNFI2JfHFx4QIWN5+HcX97x0jIxaMp
+ nkPQ==
+X-Gm-Message-State: AOAM530ejqRiYcQaW52FSgg6wMG7AM1UUp6NOun6tCyRYbP4+Uqk2eWn
+ KjHJ+Ll+YFXonILAXj/7iFG6hOMfNL2ikKXdHy0AXZdIcZTFJqf8VzbaY9e/QJE8kFEgqxlMxGu
+ Kkm6XeVFM2+JrA4q53sYRwPftmcOf3RiiM5Qh0te7WHdePO3/Y0T66pKvzYc9ig5q
+X-Received: by 2002:a37:747:: with SMTP id 68mr55483qkh.526.1632327615731;
+ Wed, 22 Sep 2021 09:20:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxYNLuS8P9WbH4x4Frw/tBir01OxR8g38esnwbAf5Zv2z4DI5BzGbnH156SioV/ETAJIBbaaw==
+X-Received: by 2002:a37:747:: with SMTP id 68mr55451qkh.526.1632327615453;
+ Wed, 22 Sep 2021 09:20:15 -0700 (PDT)
 Received: from t490s.redhat.com ([2607:fea8:56a2:9100::d3ec])
- by smtp.gmail.com with ESMTPSA id z186sm2094811qke.59.2021.09.22.09.20.12
+ by smtp.gmail.com with ESMTPSA id z186sm2094811qke.59.2021.09.22.09.20.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Sep 2021 09:20:13 -0700 (PDT)
+ Wed, 22 Sep 2021 09:20:14 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/3] migration: Make migration blocker work for snapshots
- too
-Date: Wed, 22 Sep 2021 12:20:07 -0400
-Message-Id: <20210922162009.125622-2-peterx@redhat.com>
+Subject: [PATCH v3 2/3] migration: Add migrate_add_blocker_internal()
+Date: Wed, 22 Sep 2021 12:20:08 -0400
+Message-Id: <20210922162009.125622-3-peterx@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210922162009.125622-1-peterx@redhat.com>
 References: <20210922162009.125622-1-peterx@redhat.com>
@@ -103,44 +102,84 @@ Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-save_snapshot() checks migration blocker, which looks sane.  At the meantime we
-should also teach the blocker add helper to fail if during a snapshot, just
-like for migrations.
+An internal version that removes -only-migratable implications.  It can be used
+for temporary migration blockers like dump-guest-memory.
 
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/migration.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ include/migration/blocker.h | 16 ++++++++++++++++
+ migration/migration.c       | 21 +++++++++++++--------
+ 2 files changed, 29 insertions(+), 8 deletions(-)
 
+diff --git a/include/migration/blocker.h b/include/migration/blocker.h
+index acd27018e9..9cebe2ba06 100644
+--- a/include/migration/blocker.h
++++ b/include/migration/blocker.h
+@@ -25,6 +25,22 @@
+  */
+ int migrate_add_blocker(Error *reason, Error **errp);
+ 
++/**
++ * @migrate_add_blocker_internal - prevent migration from proceeding without
++ *                                 only-migrate implications
++ *
++ * @reason - an error to be returned whenever migration is attempted
++ *
++ * @errp - [out] The reason (if any) we cannot block migration right now.
++ *
++ * @returns - 0 on success, -EBUSY on failure, with errp set.
++ *
++ * Some of the migration blockers can be temporary (e.g., for a few seconds),
++ * so it shouldn't need to conflict with "-only-migratable".  For those cases,
++ * we can call this function rather than @migrate_add_blocker().
++ */
++int migrate_add_blocker_internal(Error *reason, Error **errp);
++
+ /**
+  * @migrate_del_blocker - remove a blocking error from migration
+  *
 diff --git a/migration/migration.c b/migration/migration.c
-index bb909781b7..6f7177daa0 100644
+index 6f7177daa0..d6207c53f0 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -2048,15 +2048,16 @@ int migrate_add_blocker(Error *reason, Error **errp)
-         return -EACCES;
-     }
- 
--    if (migration_is_idle()) {
--        migration_blockers = g_slist_prepend(migration_blockers, reason);
--        return 0;
-+    /* Snapshots are similar to migrations, so check RUN_STATE_SAVE_VM too. */
-+    if (runstate_check(RUN_STATE_SAVE_VM) || !migration_is_idle()) {
-+        error_propagate_prepend(errp, error_copy(reason),
-+                                "disallowing migration blocker "
-+                                "(migration/snapshot in progress) for: ");
-+        return -EBUSY;
-     }
- 
--    error_propagate_prepend(errp, error_copy(reason),
--                            "disallowing migration blocker "
--                            "(migration in progress) for: ");
--    return -EBUSY;
-+    migration_blockers = g_slist_prepend(migration_blockers, reason);
-+    return 0;
+@@ -2039,15 +2039,8 @@ void migrate_init(MigrationState *s)
+     s->threshold_size = 0;
  }
  
+-int migrate_add_blocker(Error *reason, Error **errp)
++int migrate_add_blocker_internal(Error *reason, Error **errp)
+ {
+-    if (only_migratable) {
+-        error_propagate_prepend(errp, error_copy(reason),
+-                                "disallowing migration blocker "
+-                                "(--only-migratable) for: ");
+-        return -EACCES;
+-    }
+-
+     /* Snapshots are similar to migrations, so check RUN_STATE_SAVE_VM too. */
+     if (runstate_check(RUN_STATE_SAVE_VM) || !migration_is_idle()) {
+         error_propagate_prepend(errp, error_copy(reason),
+@@ -2060,6 +2053,18 @@ int migrate_add_blocker(Error *reason, Error **errp)
+     return 0;
+ }
+ 
++int migrate_add_blocker(Error *reason, Error **errp)
++{
++    if (only_migratable) {
++        error_propagate_prepend(errp, error_copy(reason),
++                                "disallowing migration blocker "
++                                "(--only-migratable) for: ");
++        return -EACCES;
++    }
++
++    return migrate_add_blocker_internal(reason, errp);
++}
++
  void migrate_del_blocker(Error *reason)
+ {
+     migration_blockers = g_slist_remove(migration_blockers, reason);
 -- 
 2.31.1
 
