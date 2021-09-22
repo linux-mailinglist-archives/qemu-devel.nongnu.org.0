@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C827B414F03
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:26:54 +0200 (CEST)
-Received: from localhost ([::1]:54220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A490B414F09
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:27:51 +0200 (CEST)
+Received: from localhost ([::1]:56594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT61F-0000ZI-OH
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32900)
+	id 1mT62A-0002Hm-NR
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:27:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mT5y2-0006Fl-JU
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:23:35 -0400
-Received: from [115.28.160.31] (port=39750 helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mT5z8-0008DT-FA
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:24:42 -0400
+Received: from [115.28.160.31] (port=39766 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mT5y1-0001Pu-0Z
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:23:34 -0400
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1mT5z6-0002Np-Ru
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:24:42 -0400
 Received: from [192.168.9.172] (unknown [101.88.29.172])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 928B6633F2;
- Thu, 23 Sep 2021 01:23:28 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 0D35F633F2;
+ Thu, 23 Sep 2021 01:24:36 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632331408; bh=jKsJ80w75FefNPHD6jfIE12QntCbueYaRtpESoKYS7s=;
+ t=1632331477; bh=N7hOZ4nx03RWvqGqiPir9YE8QzljraRSBKIRtiIbk5g=;
  h=Date:Subject:To:References:From:In-Reply-To:From;
- b=tQRNsTlphSh9bt/zcA0oGG13Ylmh5eqmD+8JW+og3MQGqG6mPwQ9vgZY0/crdZDmv
- 4EM/dXgM9WlaDJro4eU8reqbv1wlZ9/urI+Jy8siWjAEgqeUzzaOyUE3OLWu5Dn8fd
- T0bH5qf4AFkReyGKGnHjlhQKr32CcWpK34OYjqZM=
-Message-ID: <3f5d0a19-ba9a-8328-f8f0-229a96597c87@xen0n.name>
-Date: Thu, 23 Sep 2021 01:23:28 +0800
+ b=Um8g8wY0qbgzUFVhd77OnrPmAB4EBwjHRXXOGRzJD3Fu5iMIh4l3innN71d+Xo77T
+ uyWAb2to3q8hvvf4NFD4eFIDD13+fgsPJbV3jyI28IdX1VVgZi18lFWs9CRzA1OIer
+ 2lbdlwauFi+oK4xiBFxt7Rhu0eUkrrmohP6NXFYI=
+Message-ID: <511e9308-cd42-ea25-08c3-2f5ca2edcb65@xen0n.name>
+Date: Thu, 23 Sep 2021 01:24:36 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:94.0) Gecko/20100101
  Thunderbird/94.0a1
-Subject: Re: [PATCH v2 12/30] tcg/loongarch64: Implement
- not/and/or/xor/nor/andc/orc/eqv ops
+Subject: Re: [PATCH v2 14/30] tcg/loongarch64: Implement
+ bswap32_i32/bswap32_i64/bswap64_i64
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210921201915.601245-1-git@xen0n.name>
- <20210921201915.601245-13-git@xen0n.name>
- <90820738-c1f4-398c-308d-ec89be2d985f@linaro.org>
+ <20210921201915.601245-15-git@xen0n.name>
+ <6c009208-6afe-5efe-a067-dcc44421cd7b@linaro.org>
 From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <90820738-c1f4-398c-308d-ec89be2d985f@linaro.org>
+In-Reply-To: <6c009208-6afe-5efe-a067-dcc44421cd7b@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
@@ -71,25 +71,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi Richard,
 
-On 9/22/21 12:35, Richard Henderson wrote:
+On 9/22/21 22:54, Richard Henderson wrote:
 > On 9/21/21 1:18 PM, WANG Xuerui wrote:
->> +    case INDEX_op_eqv_i32:
->> +    case INDEX_op_eqv_i64:
->> +        if (c2) {
->> +            /* guaranteed to fit due to constraint */
->> +            tcg_out_opc_xori(s, a0, a1, ~a2);
->> +        } else {
->> +            tcg_out_opc_nor(s, a0, a2, TCG_REG_ZERO);
->> +            tcg_out_opc_xor(s, a0, a1, a0);
+>> +    case INDEX_op_bswap32_i32:
+>> +        /* All 32-bit values are computed sign-extended in the 
+>> register.  */
+>> +        a2 = TCG_BSWAP_OS;
+>> +        /* fallthrough */
+>> +    case INDEX_op_bswap32_i64:
+>> +        tcg_out_opc_revb_2w(s, a0, a1);
+>> +        if (a2 & TCG_BSWAP_OS) {
+>> +            tcg_out_ext32s(s, a0, a0);
+>> +        } else if ((a2 & (TCG_BSWAP_IZ | TCG_BSWAP_OZ)) == 
+>> TCG_BSWAP_OZ) {
+>> +            tcg_out_ext32u(s, a0, a0);
 >> +        }
 >> +        break;
 >
-> You don't actually have eqv (xnor), so don't pretend that you do. The 
-> middle-end will expand this as xor + not on its own.
-Sure; I'll remove support for eqv in v3.
->
-> Otherwise,
+> Looks good so far, so:
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+> We'll also want INDEX_op_bswap16_{i32,i64}.  This should look just 
+> like bswap32_i64, except with revb_2h and ext16{s,u}.
+Thanks for the suggestion; I'll add these in v3, since they're 
+relatively light-weight to implement.
 >
 >
 > r~
