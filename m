@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8252414631
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 12:28:55 +0200 (CEST)
-Received: from localhost ([::1]:50106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B8A414632
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 12:30:17 +0200 (CEST)
+Received: from localhost ([::1]:52252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSzUk-00065K-U0
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 06:28:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47208)
+	id 1mSzW4-0007Vm-DR
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 06:30:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mSzT6-0004b6-CX
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 06:27:12 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47074
+ id 1mSzUb-0006P1-3M
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 06:28:45 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47086
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mSzT2-0000eP-BF
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 06:27:11 -0400
+ id 1mSzUZ-0002Ak-Jw
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 06:28:44 -0400
 Received: from [2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1]
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mSzSr-0009ZK-DF; Wed, 22 Sep 2021 11:27:01 +0100
+ id 1mSzUP-0009Zy-AK; Wed, 22 Sep 2021 11:28:37 +0100
 To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 References: <20210917075057.20924-1-mark.cave-ayland@ilande.co.uk>
- <20210917075057.20924-6-mark.cave-ayland@ilande.co.uk>
- <1ba42a8c-d7b7-4717-0432-63c0c0b39d2a@vivier.eu>
+ <20210917075057.20924-10-mark.cave-ayland@ilande.co.uk>
+ <a65fbc89-681c-22b5-87d4-31d37de15559@vivier.eu>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <caef8cd5-80e3-2057-c1ea-8e2dfa8827a6@ilande.co.uk>
-Date: Wed, 22 Sep 2021 11:26:57 +0100
+Message-ID: <85fd0aef-31cb-cc34-250a-ca7f1e74d1e9@ilande.co.uk>
+Date: Wed, 22 Sep 2021 11:28:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <1ba42a8c-d7b7-4717-0432-63c0c0b39d2a@vivier.eu>
+In-Reply-To: <a65fbc89-681c-22b5-87d4-31d37de15559@vivier.eu>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8b9d:4100:5d98:71b5:90ca:dad1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v4 05/20] nubus: move slot bitmap checks from NubusDevice
- realize() to BusClass check_address()
+Subject: Re: [PATCH v4 09/20] macfb: don't register declaration ROM
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -68,118 +67,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/09/2021 20:56, Laurent Vivier wrote:
+On 20/09/2021 21:01, Laurent Vivier wrote:
 
 > Le 17/09/2021 à 09:50, Mark Cave-Ayland a écrit :
->> Allow Nubus to manage the slot allocations itself using the BusClass check_address()
->> virtual function rather than managing this during NubusDevice realize().
+>> The macfb device is an on-board framebuffer and so is initialised by the
+>> system declaration ROM included within the MacOS toolbox ROM.
 >>
 >> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 >> ---
->>   hw/nubus/nubus-bus.c    | 37 +++++++++++++++++++++++++++++++++++++
->>   hw/nubus/nubus-device.c | 29 -----------------------------
->>   2 files changed, 37 insertions(+), 29 deletions(-)
+>>   hw/display/macfb.c | 6 ------
+>>   1 file changed, 6 deletions(-)
 >>
->> diff --git a/hw/nubus/nubus-bus.c b/hw/nubus/nubus-bus.c
->> index 404c1032e0..141876b579 100644
->> --- a/hw/nubus/nubus-bus.c
->> +++ b/hw/nubus/nubus-bus.c
->> @@ -87,11 +87,48 @@ static void nubus_init(Object *obj)
->>       nubus->slot_available_mask = MAKE_64BIT_MASK(0, 16);
+>> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+>> index d8183b9bbd..76808b69cc 100644
+>> --- a/hw/display/macfb.c
+>> +++ b/hw/display/macfb.c
+>> @@ -383,10 +383,6 @@ static void macfb_sysbus_realize(DeviceState *dev, Error **errp)
+>>       sysbus_init_mmio(SYS_BUS_DEVICE(s), &ms->mem_vram);
 >>   }
 >>   
->> +static bool nubus_check_address(BusState *bus, DeviceState *dev, Error **errp)
->> +{
->> +    NubusDevice *nd = NUBUS_DEVICE(dev);
->> +    NubusBus *nubus = NUBUS_BUS(bus);
->> +    uint16_t s;
->> +
->> +    if (nd->slot == -1) {
->> +        /* No slot specified, find first available free slot */
->> +        s = ctz32(nubus->slot_available_mask);
->> +        if (s != 32) {
->> +            nd->slot = s;
->> +        } else {
->> +            error_setg(errp, "Cannot register nubus card, no free slot "
->> +                             "available");
->> +            return false;
->> +        }
->> +    } else {
->> +        /* Slot specified, make sure the slot is available */
->> +        if (!(nubus->slot_available_mask & BIT(nd->slot))) {
->> +            error_setg(errp, "Cannot register nubus card, slot %d is "
->> +                             "unavailable or already occupied", nd->slot);
->> +            return false;
->> +        }
->> +    }
->> +
->> +    if (nd->slot < NUBUS_FIRST_SLOT || nd->slot > NUBUS_LAST_SLOT) {
->> +        error_setg(errp, "Cannot register nubus card, slot must be "
->> +                         "between %d and %d", NUBUS_FIRST_SLOT,
->> +                         NUBUS_LAST_SLOT);
->> +        return false;
->> +    }
->> +
->> +    nubus->slot_available_mask &= ~BIT(nd->slot);
->> +    return true;
->> +}
->> +
->>   static void nubus_class_init(ObjectClass *oc, void *data)
+>> -const uint8_t macfb_rom[] = {
+>> -    255, 0, 0, 0,
+>> -};
+>> -
+>>   static void macfb_nubus_realize(DeviceState *dev, Error **errp)
 >>   {
->>       BusClass *bc = BUS_CLASS(oc);
->>   
->>       bc->realize = nubus_realize;
->> +    bc->check_address = nubus_check_address;
+>>       NubusDevice *nd = NUBUS_DEVICE(dev);
+>> @@ -399,8 +395,6 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
+>>       macfb_common_realize(dev, ms, errp);
+>>       memory_region_add_subregion(&nd->slot_mem, DAFB_BASE, &ms->mem_ctrl);
+>>       memory_region_add_subregion(&nd->slot_mem, VIDEO_BASE, &ms->mem_vram);
+>> -
+>> -    nubus_register_rom(nd, macfb_rom, sizeof(macfb_rom), 1, 9, 0xf);
 >>   }
 >>   
->>   static const TypeInfo nubus_bus_info = {
->> diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
->> index d91a1e4af3..7a32c8c95b 100644
->> --- a/hw/nubus/nubus-device.c
->> +++ b/hw/nubus/nubus-device.c
->> @@ -160,35 +160,6 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
->>       NubusDevice *nd = NUBUS_DEVICE(dev);
->>       char *name;
->>       hwaddr slot_offset;
->> -    uint16_t s;
->> -
->> -    if (nd->slot == -1) {
->> -        /* No slot specified, find first available free slot */
->> -        s = ctz32(nubus->slot_available_mask);
->> -        if (s != 32) {
->> -            nd->slot = s;
->> -        } else {
->> -            error_setg(errp, "Cannot register nubus card, no free slot "
->> -                             "available");
->> -            return;
->> -        }
->> -    } else {
->> -        /* Slot specified, make sure the slot is available */
->> -        if (!(nubus->slot_available_mask & BIT(nd->slot))) {
->> -            error_setg(errp, "Cannot register nubus card, slot %d is "
->> -                             "unavailable or already occupied", nd->slot);
->> -            return;
->> -        }
->> -    }
->> -
->> -    if (nd->slot < NUBUS_FIRST_SLOT || nd->slot > NUBUS_LAST_SLOT) {
->> -        error_setg(errp, "Cannot register nubus card, slot must be "
->> -                         "between %d and %d", NUBUS_FIRST_SLOT,
->> -                         NUBUS_LAST_SLOT);
->> -        return;
->> -    }
->> -
->> -    nubus->slot_available_mask &= ~BIT(nd->slot);
->>   
->>       /* Super */
->>       slot_offset = (nd->slot - 6) * NUBUS_SUPER_SLOT_SIZE;
+>>   static void macfb_sysbus_reset(DeviceState *d)
 >>
 > 
-> For the code move (but I think it needs some update in patch 4):
-> 
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Will macfb continue to work with "-kernel" and without providing any MacOS ROM?
 
-Yes, that will be resolved by rebasing onto an updated patch 2.
+Yes indeed, since on the Quadra 800 the declaration ROM for the framebuffer is 
+embedded within the MacOS toolbox ROM.
 
 
 ATB,
