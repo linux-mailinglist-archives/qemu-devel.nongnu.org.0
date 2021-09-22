@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A524414102
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 07:02:25 +0200 (CEST)
-Received: from localhost ([::1]:56586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA70414104
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 07:02:30 +0200 (CEST)
+Received: from localhost ([::1]:57148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mSuOm-0006QF-8U
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 01:02:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41244)
+	id 1mSuOr-0006mh-Qg
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 01:02:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSuJP-0006YG-9s
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSuJP-0006bB-UD
  for qemu-devel@nongnu.org; Wed, 22 Sep 2021 00:56:51 -0400
-Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:45938)
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:37775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSuJN-0007kG-Pi
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mSuJO-0007lD-CV
  for qemu-devel@nongnu.org; Wed, 22 Sep 2021 00:56:51 -0400
-Received: by mail-il1-x133.google.com with SMTP id b8so1337714ilh.12
- for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 21:56:49 -0700 (PDT)
+Received: by mail-io1-xd2e.google.com with SMTP id s20so1777398ioa.4
+ for <qemu-devel@nongnu.org>; Tue, 21 Sep 2021 21:56:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6zJfAxDT5Nlo6odfG5trP7Orh8JxL9FZBJtXEayWB6M=;
- b=OjCLlB0TSh2qoimsRo3VWVDajLZC44Gkg+Yzq8TsDDIxWGL77C79GlEBq5p6U4lCE/
- QBJY2etWxYP7PN1+oVi3sQGBfhFiTlDj4QSR0LGUa65tDBtx5QPEFASXgsmyM3rBTBGW
- isHP4SoxIXwEqzaaG0e44FZiUAf6ZQxH7ARBIK9ufVBn36IOS9dCoRspEtE9X4rezCDZ
- UyrqT4dudyVrC+vYT76wdcMWfK6Vd8hbaD5LAjBAtM3+XzMGqZvDtzgmDhe+tV8B0eJX
- z3ep2EfPHY0LxKtXmuDJvk34BWIFpmEFdFMMC9I4Jfx2wSyH2Czb39XlRfCRV+xu3Nhz
- 5Yiw==
+ bh=YABXt7N5hYjs3+JGLkXDo6wCkHqEJQ3WPYs4NvgmbNI=;
+ b=7WfSY3R9j2gJ/xVYkyHeoAZkIAbIder4dOHXHJihEXvIYubYxA9zd0eMoLxbb5Sjj4
+ RCs4JLget78OqdlKID8yMtIFFDpRNzwCTpt/d/qcKjE4CTNhB232KIHSMeXSfw1vm7P7
+ jyXpFC6/Zzp/x8I80M71269w2ho4ZQfybWy89v0mvJHCJMClsvYzSvXWLEZqK2bVWDCO
+ TAaejUj0FDby131Dvbun4DXSBEV1Nba9/C9Wzcqc5y1MfWL111ohUAHFFWVUxrfztpEg
+ Qav2zW6Si1Vq3RNDEtxbU2plw/D8N6Mf5UryUGRBQxPxFi5lQ98esnnLvJ4Ztjhc89az
+ JZfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6zJfAxDT5Nlo6odfG5trP7Orh8JxL9FZBJtXEayWB6M=;
- b=ZM4mZsX/ok4JTgJCKFPTYOUXV15HRPpMg86uW7WE9Wbp6Rz88yCMlKae0fmlJX5xLS
- T+0Y3JQY+fg2EgGxJ8FRVFjuyyG8vIoKOLgQfKjQuzRtcXN7zHEV/bxyLGhgnvoRCWrR
- P70LygIyz0GUMIIkTynjMrI3gYPHseYXtUdcPBzkYJSbqHpx7JVmF8rB/KLqQyhCn2FX
- cXBjKzJsaUKeekcTtkMYmcInHMoJfEXiD5mMvxxvR8ru5Y9bk6FqudX4gQlhT4ZGF82Z
- gbxXKckTSUoi6FVkqJKgPgx9+3j2x62Ecs5AL4W97RNF1bGnQ2z+9RclCAQU2dVHxOqD
- 8ROw==
-X-Gm-Message-State: AOAM530N4HMQwRIYcNX6DleHZRltVeURtK8kM8DJ47i60k83jp2dxfrg
- 765F/amC7C00OR/6LMSMEABJrpobgOHLuAQ29m0=
-X-Google-Smtp-Source: ABdhPJxN5TTZK4z3sRdLkg6hm/QeMEapUHD0cONnS4hSKCXLHFcbW820+XTxYVuq97xAUI4nnPODRw==
-X-Received: by 2002:a92:d483:: with SMTP id p3mr24619930ilg.131.1632286608477; 
- Tue, 21 Sep 2021 21:56:48 -0700 (PDT)
+ bh=YABXt7N5hYjs3+JGLkXDo6wCkHqEJQ3WPYs4NvgmbNI=;
+ b=PaOF6vVkDZSMt09IAvIIkiZsjbK5MUsGlr25k8xJ9X+2IcrOJ0TPvkUsdwQ+DlOkEe
+ 9V+eN9rcUo3zfn2hki9sDQnJ18lFQJZ4XG6ssQ0NeYLTbwKlqDKDfz+03JsrIcxZSw0M
+ Ej4yJ0I79nXrauwQelP9Jki4UYmdHZ6MHM9JSIp5SBpxjZ7mkvEIkHrlePTERQxUwYw2
+ Rl+/a55zg70eqORJGBvUg6LqArBAZq/ejCaZ/e9RtjVTlp4ZTmMlvAv8gP26AyJd9nea
+ F+WiGR5W08tl6SqDkidOIb1CX9t53m+j7WjhYN6iXD2gvvbGYAF+VpKrDyemU0+0skdg
+ tyaA==
+X-Gm-Message-State: AOAM533UE3f7Y3hPvg8TUz4jhVGQ4a+obqldPjig6ELm07AhFkOOF85m
+ vgHgfVqDA0LsbRWys5A+bfFYfpOg+GxNi9P5xIU=
+X-Google-Smtp-Source: ABdhPJyo0FvNT0+4CvayD9jMM/jGkkiKzBWemdpkHYHiEuBdPrcbGvD3qYv9kUoz6jygG1oJ76iSPw==
+X-Received: by 2002:a6b:f610:: with SMTP id n16mr2902215ioh.139.1632286609179; 
+ Tue, 21 Sep 2021 21:56:49 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id j5sm512833ilk.58.2021.09.21.21.56.47
+ by smtp.gmail.com with ESMTPSA id j5sm512833ilk.58.2021.09.21.21.56.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 21 Sep 2021 21:56:48 -0700 (PDT)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/9] bsd-user/mmap.c: mmap prefer MAP_ANON for BSD
-Date: Tue, 21 Sep 2021 22:56:32 -0600
-Message-Id: <20210922045636.25206-6-imp@bsdimp.com>
+Subject: [PATCH v2 6/9] bsd-user/mmap.c: line wrap change
+Date: Tue, 21 Sep 2021 22:56:33 -0600
+Message-Id: <20210922045636.25206-7-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210922045636.25206-1-imp@bsdimp.com>
 References: <20210922045636.25206-1-imp@bsdimp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::133;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x133.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -87,65 +86,29 @@ Cc: kevans@freebsd.org, richard.henderson@linaro.org, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MAP_ANON and MAP_ANONYMOUS are identical. Prefer MAP_ANON for BSD since
-the file is now a confusing mix of the two.
+Keep the shifted expression on one line. It's the same number of lines
+and easier to read like this.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- bsd-user/mmap.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ bsd-user/mmap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/bsd-user/mmap.c b/bsd-user/mmap.c
-index 0acc2db712..bafbdacd31 100644
+index bafbdacd31..8b763fffc3 100644
 --- a/bsd-user/mmap.c
 +++ b/bsd-user/mmap.c
-@@ -284,7 +284,7 @@ static abi_ulong mmap_find_vma_aligned(abi_ulong start, abi_ulong size,
-     addr = start;
-     wrapped = repeat = 0;
-     prev = 0;
--    flags = MAP_ANONYMOUS | MAP_PRIVATE;
-+    flags = MAP_ANON | MAP_PRIVATE;
-     if (alignment != 0) {
-         flags |= MAP_ALIGNED(alignment);
-     }
-@@ -408,7 +408,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-         if (flags & MAP_FIXED) {
-             printf("MAP_FIXED ");
+@@ -399,8 +399,8 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
+                prot & PROT_WRITE ? 'w' : '-',
+                prot & PROT_EXEC ? 'x' : '-');
+         if (flags & MAP_ALIGNMENT_MASK) {
+-            printf("MAP_ALIGNED(%u) ", (flags & MAP_ALIGNMENT_MASK)
+-                    >> MAP_ALIGNMENT_SHIFT);
++            printf("MAP_ALIGNED(%u) ",
++                   (flags & MAP_ALIGNMENT_MASK) >> MAP_ALIGNMENT_SHIFT);
          }
--        if (flags & MAP_ANONYMOUS) {
-+        if (flags & MAP_ANON) {
-             printf("MAP_ANON ");
-         }
-         if (flags & MAP_EXCL) {
-@@ -430,7 +430,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-     }
- #endif
- 
--    if ((flags & MAP_ANONYMOUS) && fd != -1) {
-+    if ((flags & MAP_ANON) && fd != -1) {
-         errno = EINVAL;
-         goto fail;
-     }
-@@ -532,7 +532,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int prot,
-          * qemu_real_host_page_size
-          */
-         p = mmap(g2h_untagged(start), host_len, prot,
--                 flags | MAP_FIXED | ((fd != -1) ? MAP_ANONYMOUS : 0), -1, 0);
-+                 flags | MAP_FIXED | ((fd != -1) ? MAP_ANON : 0), -1, 0);
-         if (p == MAP_FAILED)
-             goto fail;
-         /* update start so that it points to the file position at 'offset' */
-@@ -694,8 +694,7 @@ static void mmap_reserve(abi_ulong start, abi_ulong size)
-     }
-     if (real_start != real_end) {
-         mmap(g2h_untagged(real_start), real_end - real_start, PROT_NONE,
--                 MAP_FIXED | MAP_ANONYMOUS | MAP_PRIVATE,
--                 -1, 0);
-+                 MAP_FIXED | MAP_ANON | MAP_PRIVATE, -1, 0);
-     }
- }
- 
+         if (flags & MAP_GUARD) {
+             printf("MAP_GUARD ");
 -- 
 2.32.0
 
