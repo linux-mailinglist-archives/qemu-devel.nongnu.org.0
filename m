@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A100414F58
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:42:36 +0200 (CEST)
-Received: from localhost ([::1]:48036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFABB414F69
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:51:14 +0200 (CEST)
+Received: from localhost ([::1]:55690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT6GR-0008AB-4N
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:42:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35730)
+	id 1mT6Oo-0005pu-0t
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:51:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mT6Bv-0006LO-Dr
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:37:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40552)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mT6N5-0004jP-K3
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:49:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mT6Br-00052x-S8
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:37:55 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mT6N2-0006Y4-7H
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 13:49:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632332269;
+ s=mimecast20190719; t=1632332963;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w1l0AiXwDhCyCu/u0vTki8Ygujm+OCz4LudDX2/nmkU=;
- b=O3ocui0qCFzw/Q8mEsUfC9BGpUhdsun9gDBL8u9hgwcjKNWX2tjdxEIpNbHE6gWTMaLU+I
- pwRit7KWC6mhJrQf7pl+wPde8Km5Xh3q/pnD50zq103BuMoawBM19flDfe4i7ce7weitsR
- P5J9euhmmCcBMe9fa3vxcjsNxLBuk3Y=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-Y_Tfy1FKPtC2fAX3pm1U8Q-1; Wed, 22 Sep 2021 13:37:47 -0400
-X-MC-Unique: Y_Tfy1FKPtC2fAX3pm1U8Q-1
-Received: by mail-wr1-f70.google.com with SMTP id
- k2-20020adfc702000000b0016006b2da9bso2858457wrg.1
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 10:37:47 -0700 (PDT)
+ bh=8R2eWgo3mCPiEWKHImVoU3s0Qt0O78iy+gHqpXKDMHg=;
+ b=Ag07l4jLOAcBPXgy08f5PMjSH8BISpFcZxHWZ3NGnZCCw7EE04gLvZDd+bE4A/TshlKUM5
+ Y6Z3qfmDFq7fmG6SXXJthZfZldme8mgOvhqpi/w/LyrcsIdAnS4XuiDMVtKiCYaiwv7yB5
+ 0Yum6r0WiiSNefvjClMXaBHTJ4Ou5Ec=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-589-OnR8R5W_Plulwg3c1sqa7w-1; Wed, 22 Sep 2021 13:49:22 -0400
+X-MC-Unique: OnR8R5W_Plulwg3c1sqa7w-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ c15-20020a5d4ccf000000b0015dff622f39so2829538wrt.21
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 10:49:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=w1l0AiXwDhCyCu/u0vTki8Ygujm+OCz4LudDX2/nmkU=;
- b=N1PJyXCuNsa0o+UtwRliWuW9sgez7HlRX6E/Umt8hx98U4gK2q3CI16TXcHx7djIUE
- nlOjE+dGSai7ZZ09ML/BedfAKvJVT6ZNjrmeg1uDtdjNqi5EaGPQLitsD9nZYmnzWU2L
- IMwsET2MUT4IW4lOnCHN/DJpLRlisJM3KPrLv/wGORyxV5lTrwgkwTOo1i1UrHLNfqhq
- IqSP3RyvmO4Abv598UK0ZdSCWofqfegVwCRaSYyT30qnfxk6CMwpYXSdJVEqb5Ar81xm
- JTyyfXWO4oMrn0NIXEtdspjeyyCqs9jXKDzUxtiGNKoPAPPptjozsld4/lSoAlK+YteP
- S5Zw==
-X-Gm-Message-State: AOAM531SFhKXsobdvN8M+jpP6VtuibvShTXL/CWEfzAGW7Oou859uzDj
- MNsM7D/uD7BbWwzv/DAKoWtqFUs4j149rOtrvHOLi8t/1+d6sK3z0Ss3E2eikMXBqfmLGfmkJCZ
- WYj7jLlUrUEEz2ms=
-X-Received: by 2002:a05:600c:2046:: with SMTP id
- p6mr12223529wmg.88.1632332266708; 
- Wed, 22 Sep 2021 10:37:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyg6vmpdLqfWALQ+aYScr0ufGB6YbggOHa9PzO72FTcIBc1TC/o6Tu07FmCA0vADFzchZXYUQ==
-X-Received: by 2002:a05:600c:2046:: with SMTP id
- p6mr12223500wmg.88.1632332266506; 
- Wed, 22 Sep 2021 10:37:46 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id v10sm3041925wri.29.2021.09.22.10.37.44
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=8R2eWgo3mCPiEWKHImVoU3s0Qt0O78iy+gHqpXKDMHg=;
+ b=BuQO0wJGBRy0wMxlixPhW6luDOpH0SLZSGIQvzgiqeXSYy05QLzhJta/5w+awnBqO+
+ kgyc4DJO4hw4DUwJlKHzcgMMHiOIbfZ2sqSazV1V+xI+eCcaptFCW9L3+qc0HWe6jwv+
+ wE4wSFBVAuMfTH8oeSS+mZqDIauy6K08PMkroEOYumg+UR8pCMJGl9ZEvhT4KHXa7kM6
+ RFq9LzeBpOAJvGmqejOJqrgOGs3RiDmbD38H20/MEMzoALdo85VzseEf6eN0ng+UT/ND
+ zeVK9P62ouPUvdMNFkB04BHFtI54moaDM1iqjc0NSvo/+vR5TFxbH25OIZQYS3WMAYPQ
+ RLmw==
+X-Gm-Message-State: AOAM530yfN2NUaMZZk/vaNHn3/MC4igsT0tweU0taVeehyh6mDZM4sFA
+ gbUfL7bV+Y3TmZSiS6cWeGwkpRMSM0FRcHDYpFOBxeXfHUUjHdHSl5dQIXK6bMMSo3D9bgi3FBS
+ +DzyynWnG7Dv8ijs=
+X-Received: by 2002:a05:6000:1844:: with SMTP id
+ c4mr187152wri.355.1632332961339; 
+ Wed, 22 Sep 2021 10:49:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwDZycGgzlG5PLVo/6Isj0bTJcO/O5J4WdjAYiBchkHxW5ecBClNDAyi9t+1qZPrUoaXfO12g==
+X-Received: by 2002:a05:6000:1844:: with SMTP id
+ c4mr187105wri.355.1632332961083; 
+ Wed, 22 Sep 2021 10:49:21 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c64dd.dip0.t-ipconnect.de. [91.12.100.221])
+ by smtp.gmail.com with ESMTPSA id m4sm3482985wrx.81.2021.09.22.10.49.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Sep 2021 10:37:46 -0700 (PDT)
-Message-ID: <d27c5829-e28f-4d17-966e-6cb86ebe00e6@redhat.com>
-Date: Wed, 22 Sep 2021 19:37:43 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [RFC PATCH v2 02/16] qapi: Implement query-machine-phase QMP
- command
+ Wed, 22 Sep 2021 10:49:20 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 11/16] softmmu/memory: add
+ memory_region_try_add_subregion function
 To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
 References: <20210922161405.140018-1-damien.hedde@greensocs.com>
- <20210922161405.140018-3-damien.hedde@greensocs.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20210922161405.140018-3-damien.hedde@greensocs.com>
+ <20210922161405.140018-12-damien.hedde@greensocs.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <8ff0d8c9-94f1-cc21-a9f9-bb5fcd1cc3e7@redhat.com>
+Date: Wed, 22 Sep 2021 19:49:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <20210922161405.140018-12-damien.hedde@greensocs.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -102,40 +102,136 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>,
  mirela.grujic@greensocs.com, Alistair Francis <Alistair.Francis@wdc.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Ani Sinha <ani@anisinha.ca>,
  Eric Blake <eblake@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ xen-devel@lists.xenproject.org, Paul Durrant <paul@xen.org>,
+ Markus Armbruster <armbru@redhat.com>,
  Anthony Perard <anthony.perard@citrix.com>,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Paul Durrant <paul@xen.org>,
- Eric Auger <eric.auger@redhat.com>, xen-devel@lists.xenproject.org,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  qemu-riscv@nongnu.org,
  =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  mark.burton@greensocs.com, edgari@xilinx.com,
- Paolo Bonzini <pbonzini@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/22/21 18:13, Damien Hedde wrote:
-> From: Mirela Grujic <mirela.grujic@greensocs.com>
+On 22.09.21 18:14, Damien Hedde wrote:
+> It allows to try to add a subregion to a memory region with error
+> handling. Like memory_region_add_subregion_overlap, it handles
+> priority as well.
+> Apart the error handling, the behavior is the same. It can be used
+> to do the simple memory_region_add_subregion() (with no overlap) by
+> setting the priority parameter to 0.
 > 
-> The command returns current machine initialization phase.
->  From now on, the MachineInitPhase enum is generated from the
-> QAPI schema.
+> This commit is a preparation to further use this function in the
+> context of qmp command which needs error handling support.
 > 
-> Signed-off-by: Mirela Grujic <mirela.grujic@greensocs.com>
-
-Missing your S-o-b, otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 > ---
->   qapi/machine.json          | 56 ++++++++++++++++++++++++++++++++++++++
->   include/hw/qdev-core.h     | 30 ++------------------
->   hw/core/machine-qmp-cmds.c |  9 ++++++
->   hw/core/qdev.c             |  5 ++++
->   4 files changed, 72 insertions(+), 28 deletions(-)
+> 
+> Adding a new function is obviously not ideal. But there is ~900
+> occurrences of memory_region_add_subregion[_overlap] calls in the code
+> base. We do not really see an alternative here.
+> ---
+>   include/exec/memory.h | 22 ++++++++++++++++++++++
+>   softmmu/memory.c      | 22 ++++++++++++++--------
+>   2 files changed, 36 insertions(+), 8 deletions(-)
+> 
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index c3d417d317..422e1eda67 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -2162,6 +2162,28 @@ void memory_region_add_subregion_overlap(MemoryRegion *mr,
+>                                            MemoryRegion *subregion,
+>                                            int priority);
+>   
+> +/**
+> + * memory_region_try_add_subregion: Add a subregion to a container
+> + *                                  with error handling.
+> + *
+> + * Behaves like memory_region_add_subregion_overlap(), but errors are
+> + * reported if the subregion cannot be added.
+> + *
+> + * @mr: the region to contain the new subregion; must be a container
+> + *      initialized with memory_region_init().
+> + * @offset: the offset relative to @mr where @subregion is added.
+> + * @subregion: the subregion to be added.
+> + * @priority: used for resolving overlaps; highest priority wins.
+> + * @errp: pointer to Error*, to store an error if it happens.
+> + *
+> + * Returns: True in case of success, false otherwise.
+> + */
+> +bool memory_region_try_add_subregion(MemoryRegion *mr,
+> +                                     hwaddr offset,
+> +                                     MemoryRegion *subregion,
+> +                                     int priority,
+> +                                     Error **errp);
+> +
+>   /**
+>    * memory_region_get_ram_addr: Get the ram address associated with a memory
+>    *                             region
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index bfedaf9c4d..eac61f8236 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -2513,22 +2513,28 @@ done:
+>       memory_region_transaction_commit();
+>   }
+>   
+> -static void memory_region_add_subregion_common(MemoryRegion *mr,
+> -                                               hwaddr offset,
+> -                                               MemoryRegion *subregion)
+> +bool memory_region_try_add_subregion(MemoryRegion *mr,
+> +                                     hwaddr offset,
+> +                                     MemoryRegion *subregion,
+> +                                     int priority,
+> +                                     Error **errp)
+>   {
+> -    assert(!subregion->container);
+> +    if (subregion->container) {
+> +        error_setg(errp, "The memory region is already in another region");
+> +        return false;
+> +    }
+> +    subregion->priority = priority;
+>       subregion->container = mr;
+>       subregion->addr = offset;
+>       memory_region_update_container_subregions(subregion);
+> +    return true;
+>   }
+>   
+>   void memory_region_add_subregion(MemoryRegion *mr,
+>                                    hwaddr offset,
+>                                    MemoryRegion *subregion)
+>   {
+> -    subregion->priority = 0;
+> -    memory_region_add_subregion_common(mr, offset, subregion);
+> +    memory_region_try_add_subregion(mr, offset, subregion, 0, &error_abort);
+>   }
+>   
+>   void memory_region_add_subregion_overlap(MemoryRegion *mr,
+> @@ -2536,8 +2542,8 @@ void memory_region_add_subregion_overlap(MemoryRegion *mr,
+>                                            MemoryRegion *subregion,
+>                                            int priority)
+>   {
+> -    subregion->priority = priority;
+> -    memory_region_add_subregion_common(mr, offset, subregion);
+> +    memory_region_try_add_subregion(mr, offset, subregion, priority,
+> +                                    &error_abort);
+>   }
+>   
+>   void memory_region_del_subregion(MemoryRegion *mr,
+> 
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
