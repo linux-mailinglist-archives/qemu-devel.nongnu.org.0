@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10844414ED6
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:09:30 +0200 (CEST)
-Received: from localhost ([::1]:46442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED45C414E36
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:36:31 +0200 (CEST)
+Received: from localhost ([::1]:55878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT5kO-0002i9-RR
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:09:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44688)
+	id 1mT5EU-0002Vi-SX
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:36:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mT4ug-00032v-84; Wed, 22 Sep 2021 12:16:02 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:39132)
+ id 1mT4uz-0003Ey-C1; Wed, 22 Sep 2021 12:16:21 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:39170)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mT4uc-0005OV-8A; Wed, 22 Sep 2021 12:16:01 -0400
+ id 1mT4ux-0005Ow-JW; Wed, 22 Sep 2021 12:16:21 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 4E73021ECB;
- Wed, 22 Sep 2021 16:15:55 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 3C58E21ECD;
+ Wed, 22 Sep 2021 16:15:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1632327355;
+ s=mail; t=1632327356;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ow5aMrqN/i5D/dv1vm+J5tz7Z/sAyFJH5Io1/i7HEmw=;
- b=cHbJePzpcvHXQEkqOdmaeWcRNrJ837qUy9Smnwsf4FkYlw79QNCGGyVPvnpY0eWxfDYkrY
- Gcyfi8h/ljklnuDrFdhj+SC0Q9suuCMFH6X6PkgUXB/DYK4rXoUWqJXJJmrOrjy7EPcEAj
- CWsJ/7O0ROaTwhJk7Qw6cuIAJX3Xrb8=
+ bh=83vzCH47KASlUcuFQINQpuff64c+MWa6MS19Qg8Yxnk=;
+ b=P7hcyu+pxVIWKnhY3fU1nC0/ApGUVDeZbSeiHxcpgkCZWg35zWms2xJ3anjKnSVUoSAD8c
+ H+qh2umF75EUBiBBC7qMvIrQtuaCSddKC0OjRXsV4MQS+CTdyIeI2BmpDSKe3DXTKRIt0Q
+ VCthFEhyqAq/QRJQzHUCvH2QWSOp70s=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 10/16] qdev-monitor: allow adding any sysbus device
- before machine is ready
-Date: Wed, 22 Sep 2021 18:13:59 +0200
-Message-Id: <20210922161405.140018-11-damien.hedde@greensocs.com>
+Subject: [RFC PATCH v2 11/16] softmmu/memory: add
+ memory_region_try_add_subregion function
+Date: Wed, 22 Sep 2021 18:14:00 +0200
+Message-Id: <20210922161405.140018-12-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210922161405.140018-1-damien.hedde@greensocs.com>
 References: <20210922161405.140018-1-damien.hedde@greensocs.com>
@@ -81,41 +81,110 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Skip the sysbus device type per-machine allow-list check before the
-MACHINE_INIT_PHASE_READY phase.
+It allows to try to add a subregion to a memory region with error
+handling. Like memory_region_add_subregion_overlap, it handles
+priority as well.
+Apart the error handling, the behavior is the same. It can be used
+to do the simple memory_region_add_subregion() (with no overlap) by
+setting the priority parameter to 0.
 
-This patch permits adding any sysbus device (it still needs to be
-user_creatable) when using the -preconfig experimental option.
+This commit is a preparation to further use this function in the
+context of qmp command which needs error handling support.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
 
-This commit is RFC. Depending on the condition to allow a device
-to be added, it may change.
+Adding a new function is obviously not ideal. But there is ~900
+occurrences of memory_region_add_subregion[_overlap] calls in the code
+base. We do not really see an alternative here.
 ---
- softmmu/qdev-monitor.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ include/exec/memory.h | 22 ++++++++++++++++++++++
+ softmmu/memory.c      | 22 ++++++++++++++--------
+ 2 files changed, 36 insertions(+), 8 deletions(-)
 
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index f1c9242855..73b991adda 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -269,8 +269,13 @@ static DeviceClass *qdev_get_device_class(const char **driver, Error **errp)
-         return NULL;
-     }
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index c3d417d317..422e1eda67 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2162,6 +2162,28 @@ void memory_region_add_subregion_overlap(MemoryRegion *mr,
+                                          MemoryRegion *subregion,
+                                          int priority);
  
--    if (object_class_dynamic_cast(oc, TYPE_SYS_BUS_DEVICE)) {
--        /* sysbus devices need to be allowed by the machine */
-+    if (object_class_dynamic_cast(oc, TYPE_SYS_BUS_DEVICE) &&
-+        phase_check(MACHINE_INIT_PHASE_READY)) {
-+        /*
-+         * Sysbus devices need to be allowed by the machine.
-+         * We only check that after the machine is ready in order to let
-+         * us add any user_creatable sysbus device during machine creation.
-+         */
-         MachineClass *mc = MACHINE_CLASS(object_get_class(qdev_get_machine()));
-         if (!machine_class_is_dynamic_sysbus_dev_allowed(mc, *driver)) {
-             error_setg(errp, "'%s' is not an allowed pluggable sysbus device "
++/**
++ * memory_region_try_add_subregion: Add a subregion to a container
++ *                                  with error handling.
++ *
++ * Behaves like memory_region_add_subregion_overlap(), but errors are
++ * reported if the subregion cannot be added.
++ *
++ * @mr: the region to contain the new subregion; must be a container
++ *      initialized with memory_region_init().
++ * @offset: the offset relative to @mr where @subregion is added.
++ * @subregion: the subregion to be added.
++ * @priority: used for resolving overlaps; highest priority wins.
++ * @errp: pointer to Error*, to store an error if it happens.
++ *
++ * Returns: True in case of success, false otherwise.
++ */
++bool memory_region_try_add_subregion(MemoryRegion *mr,
++                                     hwaddr offset,
++                                     MemoryRegion *subregion,
++                                     int priority,
++                                     Error **errp);
++
+ /**
+  * memory_region_get_ram_addr: Get the ram address associated with a memory
+  *                             region
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index bfedaf9c4d..eac61f8236 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -2513,22 +2513,28 @@ done:
+     memory_region_transaction_commit();
+ }
+ 
+-static void memory_region_add_subregion_common(MemoryRegion *mr,
+-                                               hwaddr offset,
+-                                               MemoryRegion *subregion)
++bool memory_region_try_add_subregion(MemoryRegion *mr,
++                                     hwaddr offset,
++                                     MemoryRegion *subregion,
++                                     int priority,
++                                     Error **errp)
+ {
+-    assert(!subregion->container);
++    if (subregion->container) {
++        error_setg(errp, "The memory region is already in another region");
++        return false;
++    }
++    subregion->priority = priority;
+     subregion->container = mr;
+     subregion->addr = offset;
+     memory_region_update_container_subregions(subregion);
++    return true;
+ }
+ 
+ void memory_region_add_subregion(MemoryRegion *mr,
+                                  hwaddr offset,
+                                  MemoryRegion *subregion)
+ {
+-    subregion->priority = 0;
+-    memory_region_add_subregion_common(mr, offset, subregion);
++    memory_region_try_add_subregion(mr, offset, subregion, 0, &error_abort);
+ }
+ 
+ void memory_region_add_subregion_overlap(MemoryRegion *mr,
+@@ -2536,8 +2542,8 @@ void memory_region_add_subregion_overlap(MemoryRegion *mr,
+                                          MemoryRegion *subregion,
+                                          int priority)
+ {
+-    subregion->priority = priority;
+-    memory_region_add_subregion_common(mr, offset, subregion);
++    memory_region_try_add_subregion(mr, offset, subregion, priority,
++                                    &error_abort);
+ }
+ 
+ void memory_region_del_subregion(MemoryRegion *mr,
 -- 
 2.33.0
 
