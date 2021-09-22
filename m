@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDA26414D12
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 17:35:06 +0200 (CEST)
-Received: from localhost ([::1]:49062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2AF5414D3D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 17:39:42 +0200 (CEST)
+Received: from localhost ([::1]:52876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT4H3-0006qz-VM
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 11:35:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35366)
+	id 1mT4LV-0001Nx-O6
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 11:39:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mT4FA-0004aQ-D8
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:33:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60894)
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mT4Jk-0000TB-Dj
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:37:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mT4F8-0003UC-2x
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:33:08 -0400
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mT4Jh-0007Z5-Lu
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 11:37:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632324785;
+ s=mimecast20190719; t=1632325068;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RaRBW8SCOY/5/nydt2XtF5PZ/Jn3QlDknaaezzeApG8=;
- b=Djvbygl61EcmQR66IsHMfJQVfUbmQNNye5ZerjKOIqL43XCOcfspzE3ofvkcgUlL1hrtQS
- k99Qe/r0mdCwfbQLJo3U+6cKCHY8XhLhryy8kcvU9S1kNxh0Kttyce8x2uSczp0XleRlpY
- FSCb1Wx5AHngIOP/Htms5AGDZ58C88U=
+ bh=UA7VfzKhcwTJeOo1i76R13mPkXDFigQrTAt6ay8/yP0=;
+ b=D9sbTsZtlgy5uNcMoM2Klh1MeklkCJVhJfim7DqedLzcp5bvgiCsFMpwrLw6c/12I3royV
+ Rp0XdWAA2GNd1itJ8sPbK4dhbA4Y7PUaPa6oi6RnRfJPX5fo2RyCO5Fdun9vZHgr6nA7Dc
+ wA0bpIdVeWZS0w5gP6aL31qZtMw8buI=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-Ry-9wWPWM-GESENNLlES5Q-1; Wed, 22 Sep 2021 11:33:04 -0400
-X-MC-Unique: Ry-9wWPWM-GESENNLlES5Q-1
+ us-mta-324-8q9taYR-PhGffZMbGO3aUw-1; Wed, 22 Sep 2021 11:37:43 -0400
+X-MC-Unique: 8q9taYR-PhGffZMbGO3aUw-1
 Received: by mail-wr1-f70.google.com with SMTP id
- r5-20020adfb1c5000000b0015cddb7216fso2549762wra.3
- for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 08:33:04 -0700 (PDT)
+ s14-20020adff80e000000b001601b124f50so2552001wrp.5
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 08:37:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=RaRBW8SCOY/5/nydt2XtF5PZ/Jn3QlDknaaezzeApG8=;
- b=JYUGGTsjvtR3MOJB7Mijt/NOMNo82GJwmFH+FdbXkkXDBi6V+3xsIaExwyJN5XcoP7
- VJMlLI3AHihtqVWbxZJVp/C8hCAKtmBWBblgRJfuRuqCx5bB+MZs8uizsliuGTcF48Hg
- NwEE+lPwvYJqIxxSPVd2T0yNc6feM0dqja+azpSHFJgZFBnuHpo7kwEOS1L3YunUn8YQ
- cK7o2rV+BGK+iwgJzaOmeCcU2zAcB7KkC/ztiU/b3pIch90MA01LLh2UjYbh3sRwsjKe
- RW//0vV8r/P6KndBFLhcb3uVZAe3DXUqGRHDGMytTyBgcukzY0tF9PF99bLu0GOhCuc8
- RMcw==
-X-Gm-Message-State: AOAM532rk10fJgKlhNJQmILZG6X+q3uhpQKm7fjo1Iejp+nYkcmumO5N
- kspZQnKCJIIHnUlqJ4EZs4VN4GwP+Luk9coC8dMWFXaboqT2ECSBRRSEpOmzwcMT5HN5dzb4JPd
- lfxsGHndEY228jQQ=
-X-Received: by 2002:adf:e44c:: with SMTP id t12mr204979wrm.49.1632324781177;
- Wed, 22 Sep 2021 08:33:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6C6CrNkomw4fIfm/7cmJrPUMgrzo6jx7Fm1w54P08eyZovbbgfONG2jx9TZveCw6r+Z3yJQ==
-X-Received: by 2002:adf:e44c:: with SMTP id t12mr204940wrm.49.1632324780959;
- Wed, 22 Sep 2021 08:33:00 -0700 (PDT)
+ bh=UA7VfzKhcwTJeOo1i76R13mPkXDFigQrTAt6ay8/yP0=;
+ b=qWF0Z8de7lMUDoAqX0hH+w9dLIiybwzy65Mz7CVWvIVh+Mmt+Zh/b3PRIdSm4AwzRC
+ oua01brEMBgV3cgx/vSVU5T5VFgWClV4ic2cgYM+Geh8z4aDWL+jKoI2PqLEjnI9KpkA
+ AGF2S/xg5r54+D5rpvcmZ91oW97m8mlJ/GKoL2uQIH+nB/6UURSf6TBBXUIU6id19tvV
+ xet8IiLEC9aZSst9bIqbH23VXqiP8Be+nz8dCElxEgn1WyKZoNnvxZIbHSNgf/p8G0l/
+ RnWiY/JiCm3b+SaumafYc80g/KXjsUystOCe4HpSsBp438nrL69UWTaZabvv7RZGrqfH
+ MOaQ==
+X-Gm-Message-State: AOAM531Pk+sTIsG/W2gwje52RN2+hHgaybBeMTu3sF+OgsWQg4W89kv3
+ WeELaw4PPFLMs7BbHjVStIchA+9SF3g2I41M37yL8SFEF8J3s3he1OBDdSwEJpKEizu7un6Y5zS
+ 4drYjOCjmqG0cBBA=
+X-Received: by 2002:adf:f247:: with SMTP id b7mr193700wrp.283.1632325062491;
+ Wed, 22 Sep 2021 08:37:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzCCqgop/XDRQzj5ABMTmotPgye1A6MaxzTZcqJZ+LGyH0tEe7cyAauN9da3dGTEfVcW2Fqdg==
+X-Received: by 2002:adf:f247:: with SMTP id b7mr193662wrp.283.1632325062189;
+ Wed, 22 Sep 2021 08:37:42 -0700 (PDT)
 Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
  ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id v191sm2346695wme.36.2021.09.22.08.32.59
+ by smtp.gmail.com with ESMTPSA id g25sm2448225wrc.88.2021.09.22.08.37.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Sep 2021 08:33:00 -0700 (PDT)
-Subject: Re: [PATCH v3 17/35] acpi: use build_append_int_noprefix() API to
- compose SRAT table
+ Wed, 22 Sep 2021 08:37:41 -0700 (PDT)
+Subject: Re: [PATCH v3 24/35] acpi: x86: madt: use build_append_int_noprefix()
+ API to compose MADT table
 To: Igor Mammedov <imammedo@redhat.com>
 References: <20210907144814.741785-1-imammedo@redhat.com>
- <20210907144814.741785-18-imammedo@redhat.com>
- <e52922cc-e477-bd4f-626d-1c91704dce8e@redhat.com>
- <20210922120252.3944b140@redhat.com>
+ <20210907144814.741785-25-imammedo@redhat.com>
+ <0cfb534a-afb4-ff3e-2359-6906eaf16d8a@redhat.com>
+ <20210922173034.0909b671@redhat.com>
 From: Eric Auger <eauger@redhat.com>
-Message-ID: <8bc90654-55a4-167a-c09e-c16742310bb6@redhat.com>
-Date: Wed, 22 Sep 2021 17:32:59 +0200
+Message-ID: <b0f2aac1-f5ba-b709-0cd3-4af259cf2e81@redhat.com>
+Date: Wed, 22 Sep 2021 17:37:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20210922120252.3944b140@redhat.com>
+In-Reply-To: <20210922173034.0909b671@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eauger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eauger@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -101,389 +101,327 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, xiaoguangrong.eric@gmail.com,
- mst@redhat.com, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 9/22/21 12:02 PM, Igor Mammedov wrote:
-> On Wed, 22 Sep 2021 10:55:20 +0200
+Hi,
+On 9/22/21 5:30 PM, Igor Mammedov wrote:
+> On Wed, 22 Sep 2021 12:20:54 +0200
 > Eric Auger <eauger@redhat.com> wrote:
 > 
->> On 9/7/21 4:47 PM, Igor Mammedov wrote:
+>> On 9/7/21 4:48 PM, Igor Mammedov wrote:
 >>> Drop usage of packed structures and explicit endian conversions
->>> when building SRAT tables for arm/x86 and use endian agnostic
+>>> when building MADT table for arm/x86 and use endian agnostic
 >>> build_append_int_noprefix() API to build it.
 >>>
 >>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 >>> ---
->>> v3:
->>>  * rebase on top of (e77af21a7a2 hw/i386/acpi-build: Get NUMA information from struct NumaState)
->>> CC: xiaoguangrong.eric@gmail.com
->>> CC: shannon.zhaosl@gmail.com
->>> CC: peter.maydell@linaro.org
 >>> CC: marcel.apfelbaum@gmail.com
->>> CC: qemu-arm@nongnu.org
->>> CC: drjones@redhat.com
 >>> CC: eauger@redhat.com
 >>> ---
->>>  include/hw/acpi/acpi-defs.h | 49 -----------------------
->>>  include/hw/acpi/aml-build.h |  2 +-
->>>  hw/acpi/aml-build.c         | 24 ++++++++----
->>>  hw/acpi/nvdimm.c            |  4 +-
->>>  hw/arm/virt-acpi-build.c    | 29 ++++++++------
->>>  hw/i386/acpi-build.c        | 78 +++++++++++++++++++++----------------
->>>  6 files changed, 80 insertions(+), 106 deletions(-)
+>>>  include/hw/acpi/acpi-defs.h |  64 ------------------
+>>>  hw/i386/acpi-common.c       | 127 ++++++++++++++++++------------------
+>>>  2 files changed, 65 insertions(+), 126 deletions(-)
 >>>
 >>> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
->>> index 5826ee04b6..d293304f9c 100644
+>>> index af4fa412a5..3f174ba208 100644
 >>> --- a/include/hw/acpi/acpi-defs.h
 >>> +++ b/include/hw/acpi/acpi-defs.h
->>> @@ -358,55 +358,6 @@ struct AcpiGenericTimerTable {
->>>  } QEMU_PACKED;
->>>  typedef struct AcpiGenericTimerTable AcpiGenericTimerTable;
+>>> @@ -165,17 +165,6 @@ typedef struct AcpiFacsDescriptorRev1 AcpiFacsDescriptorRev1;
 >>>  
->>> -#define ACPI_SRAT_PROCESSOR_APIC     0
->>> -#define ACPI_SRAT_MEMORY             1
->>> -#define ACPI_SRAT_PROCESSOR_x2APIC   2
->>> -#define ACPI_SRAT_PROCESSOR_GICC     3
->>> -
->>> -struct AcpiSratProcessorAffinity {
->>> -    ACPI_SUB_HEADER_DEF
->>> -    uint8_t     proximity_lo;
->>> -    uint8_t     local_apic_id;
->>> -    uint32_t    flags;
->>> -    uint8_t     local_sapic_eid;
->>> -    uint8_t     proximity_hi[3];
->>> -    uint32_t    reserved;
->>> -} QEMU_PACKED;
->>> -typedef struct AcpiSratProcessorAffinity AcpiSratProcessorAffinity;
->>> -
->>> -struct AcpiSratProcessorX2ApicAffinity {
->>> -    ACPI_SUB_HEADER_DEF
->>> -    uint16_t    reserved;
->>> -    uint32_t    proximity_domain;
->>> -    uint32_t    x2apic_id;
->>> -    uint32_t    flags;
->>> -    uint32_t    clk_domain;
->>> -    uint32_t    reserved2;
->>> -} QEMU_PACKED;
->>> -typedef struct AcpiSratProcessorX2ApicAffinity AcpiSratProcessorX2ApicAffinity;
->>> -
->>> -struct AcpiSratMemoryAffinity {
->>> -    ACPI_SUB_HEADER_DEF
->>> -    uint32_t    proximity;
->>> -    uint16_t    reserved1;
->>> -    uint64_t    base_addr;
->>> -    uint64_t    range_length;
->>> -    uint32_t    reserved2;
->>> -    uint32_t    flags;
->>> -    uint32_t    reserved3[2];
->>> -} QEMU_PACKED;
->>> -typedef struct AcpiSratMemoryAffinity AcpiSratMemoryAffinity;
->>> -
->>> -struct AcpiSratProcessorGiccAffinity {
->>> -    ACPI_SUB_HEADER_DEF
->>> -    uint32_t    proximity;
->>> -    uint32_t    acpi_processor_uid;
->>> -    uint32_t    flags;
->>> -    uint32_t    clock_domain;
->>> -} QEMU_PACKED;
->>> -
->>> -typedef struct AcpiSratProcessorGiccAffinity AcpiSratProcessorGiccAffinity;
->>> -
->>>  /* DMAR - DMA Remapping table r2.2 */
->>>  struct AcpiTableDmar {
->>>      ACPI_TABLE_HEADER_DEF
->>> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
->>> index 4242382399..6e1f42e119 100644
->>> --- a/include/hw/acpi/aml-build.h
->>> +++ b/include/hw/acpi/aml-build.h
->>> @@ -487,7 +487,7 @@ Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set, uint32_t io_offset,
->>>                 uint32_t mmio32_offset, uint64_t mmio64_offset,
->>>                 uint16_t bus_nr_offset);
+>>>  /* Values for Type in APIC sub-headers */
 >>>  
->>> -void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
->>> +void build_srat_memory(GArray *table_data, uint64_t base,
->>>                         uint64_t len, int node, MemoryAffinityFlags flags);
+>>> -#define ACPI_APIC_PROCESSOR          0
+>>> -#define ACPI_APIC_IO                 1
+>>> -#define ACPI_APIC_XRUPT_OVERRIDE     2
+>>> -#define ACPI_APIC_NMI                3
+>>> -#define ACPI_APIC_LOCAL_NMI          4
+>>> -#define ACPI_APIC_ADDRESS_OVERRIDE   5
+>>> -#define ACPI_APIC_IO_SAPIC           6
+>>> -#define ACPI_APIC_LOCAL_SAPIC        7
+>>> -#define ACPI_APIC_XRUPT_SOURCE       8
+>>> -#define ACPI_APIC_LOCAL_X2APIC       9
+>>> -#define ACPI_APIC_LOCAL_X2APIC_NMI      10
+>>>  #define ACPI_APIC_GENERIC_CPU_INTERFACE 11
+>>>  #define ACPI_APIC_GENERIC_DISTRIBUTOR   12
+>>>  #define ACPI_APIC_GENERIC_MSI_FRAME     13
+>>> @@ -192,59 +181,6 @@ typedef struct AcpiFacsDescriptorRev1 AcpiFacsDescriptorRev1;
 >>>  
->>>  void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
->>> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
->>> index 5e8bfb631c..050fdb3f37 100644
->>> --- a/hw/acpi/aml-build.c
->>> +++ b/hw/acpi/aml-build.c
->>> @@ -1936,15 +1936,25 @@ build_xsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
->>>      acpi_table_end(linker, &table);
->>>  }
+>>>  /* Sub-structures for MADT */
 >>>  
->>> -void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
->>> +/*
->>> + * ACPI spec, Revision 4.0
->>> + * 5.2.16.2 Memory Affinity Structure
->>> + */
->>> +void build_srat_memory(GArray *table_data, uint64_t base,
->>>                         uint64_t len, int node, MemoryAffinityFlags flags)
+>>> -struct AcpiMadtProcessorApic {
+>>> -    ACPI_SUB_HEADER_DEF
+>>> -    uint8_t  processor_id;           /* ACPI processor id */
+>>> -    uint8_t  local_apic_id;          /* Processor's local APIC id */
+>>> -    uint32_t flags;
+>>> -} QEMU_PACKED;
+>>> -typedef struct AcpiMadtProcessorApic AcpiMadtProcessorApic;
+>>> -
+>>> -struct AcpiMadtIoApic {
+>>> -    ACPI_SUB_HEADER_DEF
+>>> -    uint8_t  io_apic_id;             /* I/O APIC ID */
+>>> -    uint8_t  reserved;               /* Reserved - must be zero */
+>>> -    uint32_t address;                /* APIC physical address */
+>>> -    uint32_t interrupt;              /* Global system interrupt where INTI
+>>> -                                 * lines start */
+>>> -} QEMU_PACKED;
+>>> -typedef struct AcpiMadtIoApic AcpiMadtIoApic;
+>>> -
+>>> -struct AcpiMadtIntsrcovr {
+>>> -    ACPI_SUB_HEADER_DEF
+>>> -    uint8_t  bus;
+>>> -    uint8_t  source;
+>>> -    uint32_t gsi;
+>>> -    uint16_t flags;
+>>> -} QEMU_PACKED;
+>>> -typedef struct AcpiMadtIntsrcovr AcpiMadtIntsrcovr;
+>>> -
+>>> -struct AcpiMadtLocalNmi {
+>>> -    ACPI_SUB_HEADER_DEF
+>>> -    uint8_t  processor_id;           /* ACPI processor id */
+>>> -    uint16_t flags;                  /* MPS INTI flags */
+>>> -    uint8_t  lint;                   /* Local APIC LINT# */
+>>> -} QEMU_PACKED;
+>>> -typedef struct AcpiMadtLocalNmi AcpiMadtLocalNmi;
+>>> -
+>>> -struct AcpiMadtProcessorX2Apic {
+>>> -    ACPI_SUB_HEADER_DEF
+>>> -    uint16_t reserved;
+>>> -    uint32_t x2apic_id;              /* Processor's local x2APIC ID */
+>>> -    uint32_t flags;
+>>> -    uint32_t uid;                    /* Processor object _UID */
+>>> -} QEMU_PACKED;
+>>> -typedef struct AcpiMadtProcessorX2Apic AcpiMadtProcessorX2Apic;
+>>> -
+>>> -struct AcpiMadtLocalX2ApicNmi {
+>>> -    ACPI_SUB_HEADER_DEF
+>>> -    uint16_t flags;                  /* MPS INTI flags */
+>>> -    uint32_t uid;                    /* Processor object _UID */
+>>> -    uint8_t  lint;                   /* Local APIC LINT# */
+>>> -    uint8_t  reserved[3];            /* Local APIC LINT# */
+>>> -} QEMU_PACKED;
+>>> -typedef struct AcpiMadtLocalX2ApicNmi AcpiMadtLocalX2ApicNmi;
+>>> -
+>>>  struct AcpiMadtGenericCpuInterface {
+>>>      ACPI_SUB_HEADER_DEF
+>>>      uint16_t reserved;
+>>> diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+>>> index 7983a13a93..aa7b5c357e 100644
+>>> --- a/hw/i386/acpi-common.c
+>>> +++ b/hw/i386/acpi-common.c
+>>> @@ -38,7 +38,9 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+>>>                         bool force_enabled)
 >>>  {
->>> -    numamem->type = ACPI_SRAT_MEMORY;
->>> -    numamem->length = sizeof(*numamem);
->>> -    numamem->proximity = cpu_to_le32(node);
->>> -    numamem->flags = cpu_to_le32(flags);
->>> -    numamem->base_addr = cpu_to_le64(base);
->>> -    numamem->range_length = cpu_to_le64(len);
->>> +    build_append_int_noprefix(table_data, 1, 1); /* Type */
->>> +    build_append_int_noprefix(table_data, 40, 1); /* Length */
->>> +    build_append_int_noprefix(table_data, node, 4); /* Proximity Domain */
->>> +    build_append_int_noprefix(table_data, 0, 2); /* Reserved */
->>> +    build_append_int_noprefix(table_data, base, 4); /* Base Address Low */
->>> +    /* Base Address High */
->>> +    build_append_int_noprefix(table_data, base >> 32, 4);
->>> +    build_append_int_noprefix(table_data, len, 4); /* Length Low */
->>> +    build_append_int_noprefix(table_data, len >> 32, 4); /* Length High */
->>> +    build_append_int_noprefix(table_data, 0, 4); /* Reserved */
->>> +    build_append_int_noprefix(table_data, flags, 4); /* Flags */
->>> +    build_append_int_noprefix(table_data, 0, 8); /* Reserved */
+>>>      uint32_t apic_id = apic_ids->cpus[uid].arch_id;
+>>> -    uint32_t flags = apic_ids->cpus[uid].cpu != NULL || force_enabled ? 1 : 0;
+>>> +    /* Flags – Local APIC Flags */  
+>> nit: move that comment at the place of the build_append_int_noprefix
+> 
+> that place(s) already has comment in expected format, here is just reminder
+> about what is initialized here.
+> 
+>>> +    uint32_t flags = apic_ids->cpus[uid].cpu != NULL || force_enabled ?
+>>> +                     1 /* Enabled */ : 0;
+>>>  
+>>>      /* ACPI spec says that LAPIC entry for non present
+>>>       * CPU may be omitted from MADT or it must be marked
+>>> @@ -47,24 +49,47 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+>>>       * should be put in MADT but kept disabled.
+>>>       */
+>>>      if (apic_id < 255) {
+>>> -        AcpiMadtProcessorApic *apic = acpi_data_push(entry, sizeof *apic);
+>>> -
+>>> -        apic->type = ACPI_APIC_PROCESSOR;
+>>> -        apic->length = sizeof(*apic);
+>>> -        apic->processor_id = uid;
+>>> -        apic->local_apic_id = apic_id;
+>>> -        apic->flags = cpu_to_le32(flags);
+>>> +        /* Rev 1.0b, Table 5-13 Processor Local APIC Structure */
+>>> +        build_append_int_noprefix(entry, 0, 1);       /* Type */
+>>> +        build_append_int_noprefix(entry, 8, 1);       /* Length */
+>>> +        build_append_int_noprefix(entry, uid, 1);     /* ACPI Processor ID */  
+>> nit s/ID/UID
+> 
+> it's ID in 1.0b
+> 
+>>> +        build_append_int_noprefix(entry, apic_id, 1); /* APIC ID */
+>>> +        build_append_int_noprefix(entry, flags, 4); /* Flags */
+>>>      } else {
+>>> -        AcpiMadtProcessorX2Apic *apic = acpi_data_push(entry, sizeof *apic);
+>>> -
+>>> -        apic->type = ACPI_APIC_LOCAL_X2APIC;
+>>> -        apic->length = sizeof(*apic);
+>>> -        apic->uid = cpu_to_le32(uid);
+>>> -        apic->x2apic_id = cpu_to_le32(apic_id);
+>>> -        apic->flags = cpu_to_le32(flags);
+>>> +        /* Rev 4.0, 5.2.12.12 Processor Local x2APIC Structure */
+>>> +        build_append_int_noprefix(entry, 9, 1);       /* Type */
+>>> +        build_append_int_noprefix(entry, 16, 1);      /* Length */
+>>> +        build_append_int_noprefix(entry, 0, 2);       /* Reserved */
+>>> +        build_append_int_noprefix(entry, apic_id, 4); /* X2APIC ID */
+>>> +        build_append_int_noprefix(entry, flags, 4);   /* Flags */
+>>> +        build_append_int_noprefix(entry, uid, 4);     /* ACPI Processor UID */
+>>>      }
 >>>  }
 >>>  
+>>> +static void build_ioapic(GArray *entry, uint8_t id, uint32_t addr, uint32_t irq)
+>>> +{
+>>> +    /* Rev 1.0b, 5.2.8.2 IO APIC */
+>>> +    build_append_int_noprefix(entry, 1, 1);    /* Type */
+>>> +    build_append_int_noprefix(entry, 12, 1);   /* Length */
+>>> +    build_append_int_noprefix(entry, id, 1);   /* IO APIC ID */
+>>> +    build_append_int_noprefix(entry, 0, 1);    /* Reserved */
+>>> +    build_append_int_noprefix(entry, addr, 4); /* IO APIC Address */
+>>> +    build_append_int_noprefix(entry, irq, 4);  /* System Vector Base */
+>>> +}
+>>> +
+>>> +static void
+>>> +build_xrupt_override(GArray *entry, uint8_t src, uint32_t gsi, uint16_t flags)
+>>> +{
+>>> +    /* Rev 1.0b, 5.2.8.3.1 Interrupt Source Overrides */
+>>> +    build_append_int_noprefix(entry, 2, 1);  /* Type */
+>>> +    build_append_int_noprefix(entry, 10, 1); /* Length */
+>>> +    build_append_int_noprefix(entry, 0, 1);  /* Bus */
+>>> +    build_append_int_noprefix(entry, src, 1);  /* Source */
+>>> +    /* Global System Interrupt Vector */
+>>> +    build_append_int_noprefix(entry, gsi, 4);
+>>> +    build_append_int_noprefix(entry, flags, 2);  /* Flags */
+>>> +}
+>>> +
 >>>  /*
->>> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
->>> index e050b47c2b..baab81f7a6 100644
->>> --- a/hw/acpi/nvdimm.c
->>> +++ b/hw/acpi/nvdimm.c
->>> @@ -1336,7 +1336,6 @@ void nvdimm_build_srat(GArray *table_data)
->>>      GSList *device_list = nvdimm_get_device_list();
->>>  
->>>      for (; device_list; device_list = device_list->next) {
->>> -        AcpiSratMemoryAffinity *numamem = NULL;
->>>          DeviceState *dev = device_list->data;
->>>          Object *obj = OBJECT(dev);
->>>          uint64_t addr, size;
->>> @@ -1346,8 +1345,7 @@ void nvdimm_build_srat(GArray *table_data)
->>>          addr = object_property_get_uint(obj, PC_DIMM_ADDR_PROP, &error_abort);
->>>          size = object_property_get_uint(obj, PC_DIMM_SIZE_PROP, &error_abort);
->>>  
->>> -        numamem = acpi_data_push(table_data, sizeof *numamem);
->>> -        build_srat_memory(numamem, addr, size, node,
->>> +        build_srat_memory(table_data, addr, size, node,
->>>                            MEM_AFFINITY_ENABLED | MEM_AFFINITY_NON_VOLATILE);
->>>      }
->>>      g_slist_free(device_list);
->>> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
->>> index 21efe7fe34..6ba02cf281 100644
->>> --- a/hw/arm/virt-acpi-build.c
->>> +++ b/hw/arm/virt-acpi-build.c
->>> @@ -474,11 +474,13 @@ build_spcr(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->>>                   vms->oem_table_id);
->>>  }
->>>  
->>> +/*
->>> + * ACPI spec, Revision 5.1
->>> + * 5.2.16 System Resource Affinity Table (SRAT)
->>> + */
->>>  static void
->>>  build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>>>   * ACPI spec, Revision 1.0b
+>>>   * 5.2.8 Multiple APIC Description Table
+>>> @@ -73,14 +98,11 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+>>>                       X86MachineState *x86ms, AcpiDeviceIf *adev,
+>>>                       const char *oem_id, const char *oem_table_id)
 >>>  {
->>> -    AcpiSratProcessorGiccAffinity *core;
->>> -    AcpiSratMemoryAffinity *numamem;
->>>      int i;
->>>      uint64_t mem_base;
->>>      MachineClass *mc = MACHINE_GET_CLASS(vms);
->>> @@ -492,19 +494,23 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->>>      build_append_int_noprefix(table_data, 0, 8); /* Reserved */
+>>> +    int i;
+>>> +    bool x2apic_mode = false;
+>>>      MachineClass *mc = MACHINE_GET_CLASS(x86ms);
+>>>      const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(MACHINE(x86ms));
+>>>      AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_GET_CLASS(adev);
+>>> -    bool x2apic_mode = false;
+>>> -
+>>> -    AcpiMadtIoApic *io_apic;
+>>> -    AcpiMadtIntsrcovr *intsrcovr;
+>>> -    int i;
+>>>      AcpiTable table = { .sig = "APIC", .rev = 1, .oem_id = oem_id,
+>>>                          .oem_table_id = oem_table_id };
 >>>  
->>>      for (i = 0; i < cpu_list->len; ++i) {
->>> -        core = acpi_data_push(table_data, sizeof(*core));
->>> -        core->type = ACPI_SRAT_PROCESSOR_GICC;
->>> -        core->length = sizeof(*core);
->>> -        core->proximity = cpu_to_le32(cpu_list->cpus[i].props.node_id);
->>> -        core->acpi_processor_uid = cpu_to_le32(i);
->>> -        core->flags = cpu_to_le32(1);
->>> +        uint32_t nodeid = cpu_list->cpus[i].props.node_id;
->>> +        /*
->>> +         * 5.2.16.4 GICC Affinity Structure
->>> +         */
->>> +        build_append_int_noprefix(table_data, 3, 1);      /* Type */
->>> +        build_append_int_noprefix(table_data, 18, 1);     /* Length */
->>> +        build_append_int_noprefix(table_data, nodeid, 4); /* Proximity Domain */
->>> +        build_append_int_noprefix(table_data, i, 4); /* ACPI Processor UID */
->>> +        /* Flags, Table 5-76 */
->>> +        build_append_int_noprefix(table_data, 1 /* Enabled */, 4);
->>> +        build_append_int_noprefix(table_data, 0, 4); /* Clock Domain */
+>>> @@ -96,30 +118,14 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+>>>          }
 >>>      }
 >>>  
->>>      mem_base = vms->memmap[VIRT_MEM].base;
->>>      for (i = 0; i < ms->numa_state->num_nodes; ++i) {
->>>          if (ms->numa_state->nodes[i].node_mem > 0) {
->>> -            numamem = acpi_data_push(table_data, sizeof(*numamem));
->>> -            build_srat_memory(numamem, mem_base,
->>> +            build_srat_memory(table_data, mem_base,
->>>                                ms->numa_state->nodes[i].node_mem, i,
->>>                                MEM_AFFINITY_ENABLED);
->>>              mem_base += ms->numa_state->nodes[i].node_mem;
->>> @@ -516,8 +522,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+>>> -    io_apic = acpi_data_push(table_data, sizeof *io_apic);
+>>> -    io_apic->type = ACPI_APIC_IO;
+>>> -    io_apic->length = sizeof(*io_apic);
+>>> -    io_apic->io_apic_id = ACPI_BUILD_IOAPIC_ID;
+>>> -    io_apic->address = cpu_to_le32(IO_APIC_DEFAULT_ADDRESS);
+>>> -    io_apic->interrupt = cpu_to_le32(0);
+>>> -
+>>> +    build_ioapic(table_data, ACPI_BUILD_IOAPIC_ID, IO_APIC_DEFAULT_ADDRESS, 0);
+>>>      if (x86ms->ioapic2) {
+>>> -        AcpiMadtIoApic *io_apic2;
+>>> -        io_apic2 = acpi_data_push(table_data, sizeof *io_apic);
+>>> -        io_apic2->type = ACPI_APIC_IO;
+>>> -        io_apic2->length = sizeof(*io_apic);
+>>> -        io_apic2->io_apic_id = ACPI_BUILD_IOAPIC_ID + 1;
+>>> -        io_apic2->address = cpu_to_le32(IO_APIC_SECONDARY_ADDRESS);
+>>> -        io_apic2->interrupt = cpu_to_le32(IO_APIC_SECONDARY_IRQBASE);
+>>> +        build_ioapic(table_data, ACPI_BUILD_IOAPIC_ID + 1,
+>>> +                     IO_APIC_SECONDARY_ADDRESS, IO_APIC_SECONDARY_IRQBASE);
 >>>      }
 >>>  
->>>      if (ms->device_memory) {
->>> -        numamem = acpi_data_push(table_data, sizeof *numamem);
->>> -        build_srat_memory(numamem, ms->device_memory->base,
->>> +        build_srat_memory(table_data, ms->device_memory->base,
->>>                            memory_region_size(&ms->device_memory->mr),
->>>                            ms->numa_state->num_nodes - 1,
->>>                            MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
->>> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
->>> index 41c0a63b30..51e0ba07b6 100644
->>> --- a/hw/i386/acpi-build.c
->>> +++ b/hw/i386/acpi-build.c
->>> @@ -1917,13 +1917,15 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
->>>  #define HOLE_640K_START  (640 * KiB)
->>>  #define HOLE_640K_END   (1 * MiB)
+>>>      if (x86ms->apic_xrupt_override) {
+>>> -        intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
+>>> -        intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
+>>> -        intsrcovr->length = sizeof(*intsrcovr);
+>>> -        intsrcovr->source = 0;
+>>> -        intsrcovr->gsi    = cpu_to_le32(2);
+>>> -        intsrcovr->flags  = cpu_to_le16(0); /* conforms to bus specifications */
+>>> +        build_xrupt_override(table_data, 0, 2, 0);  
+> 
+>> lost /* conforms to bus specifications */ comment for the flag during
+>> the battle/ Don't know if it is useful though
+> 
+> 
+>>>      }
 >>>  
->>> +/*
->>> + * ACPI spec, Revision 3.0
->>> + * 5.2.15 System Resource Affinity Table (SRAT)
->>> + */
->>>  static void
->>>  build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->>>  {
->>> -    AcpiSratMemoryAffinity *numamem;
->>> -
->>>      int i;
->>> -    int numa_start, slots;
->>> +    int numa_mem_start, slots;
->>>      uint64_t mem_len, mem_base, next_base;
->>>      MachineClass *mc = MACHINE_GET_CLASS(machine);
->>>      X86MachineState *x86ms = X86_MACHINE(machine);
->>> @@ -1946,34 +1948,41 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->>>          uint32_t apic_id = apic_ids->cpus[i].arch_id;
+>>>      for (i = 1; i < 16; i++) {
+>>> @@ -127,32 +133,29 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+>>>              /* No need for a INT source override structure. */
+>>>              continue;
+>>>          }
+>>> -        intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
+>>> -        intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
+>>> -        intsrcovr->length = sizeof(*intsrcovr);
+>>> -        intsrcovr->source = i;
+>>> -        intsrcovr->gsi    = cpu_to_le32(i);
+>>> -        intsrcovr->flags  = cpu_to_le16(0xd); /* active high, level triggered */
+>>> +        build_xrupt_override(table_data, i, i, 0xd);  
+>> Lost for the flag /* active high, level triggered */
+>>>      }
 >>>  
->>>          if (apic_id < 255) {
->>> -            AcpiSratProcessorAffinity *core;
+>>>      if (x2apic_mode) {
+>>> -        AcpiMadtLocalX2ApicNmi *local_nmi;
 >>> -
->>> -            core = acpi_data_push(table_data, sizeof *core);
->>> -            core->type = ACPI_SRAT_PROCESSOR_APIC;
->>> -            core->length = sizeof(*core);
->>> -            core->local_apic_id = apic_id;
->>> -            core->proximity_lo = node_id;
->>> -            memset(core->proximity_hi, 0, 3);
->>> -            core->local_sapic_eid = 0;
->>> -            core->flags = cpu_to_le32(1);
->>> +            /* 5.2.15.1 Processor Local APIC/SAPIC Affinity Structure */
->>> +            build_append_int_noprefix(table_data, 0, 1);  /* Type  */
->>> +            build_append_int_noprefix(table_data, 16, 1); /* Length */
->>> +            /* Proximity Domain [7:0] */
->>> +            build_append_int_noprefix(table_data, node_id, 1);
->>> +            build_append_int_noprefix(table_data, apic_id, 1); /* APIC ID */
->>> +            /* Flags, Table 5-36 */
->>> +            build_append_int_noprefix(table_data, 1, 4);
->>> +            build_append_int_noprefix(table_data, 0, 1); /* Local SAPIC EID */
->>> +            /* Proximity Domain [31:8] */
->>> +            build_append_int_noprefix(table_data, 0, 3);
->>> +            build_append_int_noprefix(table_data, 0, 4); /* Reserved */  
->> clock domain?
-> not in 3.0,  it was renamed later (4.0)
-OK I must have looked at some other version. Not always easy to find
-older ones.
+>>> -        local_nmi = acpi_data_push(table_data, sizeof *local_nmi);
+>>> -        local_nmi->type   = ACPI_APIC_LOCAL_X2APIC_NMI;
+>>> -        local_nmi->length = sizeof(*local_nmi);
+>>> -        local_nmi->uid    = 0xFFFFFFFF; /* all processors */
+>>> -        local_nmi->flags  = cpu_to_le16(0);
+>>> -        local_nmi->lint   = 1; /* ACPI_LINT1 */
+>>> +        /* Rev 4.0, 5.2.12.13 Local x2APIC NMI Structure*/
+>>> +        build_append_int_noprefix(table_data, 0xA, 1); /* Type */
+>>> +        build_append_int_noprefix(table_data, 12, 1);  /* Length */
+>>> +        build_append_int_noprefix(table_data, 0, 2);   /* Flags */
+>>> +        /* ACPI Processor UID */
+>>> +        build_append_int_noprefix(table_data, 0xFFFFFFFF /* all processors */,
+>>> +                                  4);
+>>> +        /* Local x2APIC INTI# */  
+>> Local x2APIC LINT#
+>>> +        build_append_int_noprefix(table_data, 1 /* ACPI_LINT1 */, 1);
+>>> +        build_append_int_noprefix(table_data, 0, 3);  
+>> /* reserved */
+>>>      } else {
+>>> -        AcpiMadtLocalNmi *local_nmi;
+>>> -
+>>> -        local_nmi = acpi_data_push(table_data, sizeof *local_nmi);
+>>> -        local_nmi->type         = ACPI_APIC_LOCAL_NMI;
+>>> -        local_nmi->length       = sizeof(*local_nmi);
+>>> -        local_nmi->processor_id = 0xff; /* all processors */
+>>> -        local_nmi->flags        = cpu_to_le16(0);
+>>> -        local_nmi->lint         = 1; /* ACPI_LINT1 */
+>>> +        /* Rev 1.0b, 5.2.8.3.3 Local APIC NMI */
+>>> +        build_append_int_noprefix(table_data, 4, 1);  /* Type */
+>>> +        build_append_int_noprefix(table_data, 6, 1);  /* Length */
+>>> +        /* ACPI Processor ID */
+>>> +        build_append_int_noprefix(table_data, 0xff /* all processors */, 1);  
+>> 0xFF
+> 
+>>> +        build_append_int_noprefix(table_data, 0, 2);  /* Flags */
+>>> +        /* Local APIC INTI# */  
+>> Local APIC LINT#
+> 
+> it's "Local APIC INTI#" in 1.0b
+OK sorry for the noise. Maybe we should add this link somewhere
+https://uefi.org/acpi/specs
+
+I may have looked at some other references when reviewing.
+
+Thanks
 
 Eric
 > 
->>>          } else {
->>> -            AcpiSratProcessorX2ApicAffinity *core;
->>> -
->>> -            core = acpi_data_push(table_data, sizeof *core);
->>> -            core->type = ACPI_SRAT_PROCESSOR_x2APIC;
->>> -            core->length = sizeof(*core);
->>> -            core->x2apic_id = cpu_to_le32(apic_id);
->>> -            core->proximity_domain = cpu_to_le32(node_id);
->>> -            core->flags = cpu_to_le32(1);
->>> +            /*
->>> +             * ACPI spec, Revision 4.0
->>> +             * 5.2.16.3 Processor Local x2APIC Affinity Structure
->>> +             */
->>> +            build_append_int_noprefix(table_data, 2, 1);  /* Type  */
->>> +            build_append_int_noprefix(table_data, 24, 1); /* Length */
->>> +            build_append_int_noprefix(table_data, 0, 2); /* Reserved */
->>> +            /* Proximity Domain */
->>> +            build_append_int_noprefix(table_data, node_id, 4);
->>> +            build_append_int_noprefix(table_data, apic_id, 4); /* X2APIC ID */
->>> +            /* Flags, Table 5-39 */
->>> +            build_append_int_noprefix(table_data, 1 /* Enabled */, 4);
->>> +            build_append_int_noprefix(table_data, 0, 4); /* Clock Domain */
->>> +            build_append_int_noprefix(table_data, 0, 4); /* Reserved */
->>>          }
+>>> +        build_append_int_noprefix(table_data, 1 /* ACPI_LINT1 */, 1);
 >>>      }
 >>>  
->>> -
->>>      /* the memory map is a bit tricky, it contains at least one hole
->>>       * from 640k-1M and possibly another one from 3.5G-4G.
->>>       */
->>>      next_base = 0;
->>> -    numa_start = table_data->len;
->>> +    numa_mem_start = table_data->len;
->>>  
->>>      for (i = 1; i < nb_numa_nodes + 1; ++i) {
->>>          mem_base = next_base;
->>> @@ -1985,8 +1994,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->>>              next_base > HOLE_640K_START) {
->>>              mem_len -= next_base - HOLE_640K_START;
->>>              if (mem_len > 0) {
->>> -                numamem = acpi_data_push(table_data, sizeof *numamem);
->>> -                build_srat_memory(numamem, mem_base, mem_len, i - 1,
->>> +                build_srat_memory(table_data, mem_base, mem_len, i - 1,
->>>                                    MEM_AFFINITY_ENABLED);
->>>              }
->>>  
->>> @@ -2004,8 +2012,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->>>              next_base > x86ms->below_4g_mem_size) {
->>>              mem_len -= next_base - x86ms->below_4g_mem_size;
->>>              if (mem_len > 0) {
->>> -                numamem = acpi_data_push(table_data, sizeof *numamem);
->>> -                build_srat_memory(numamem, mem_base, mem_len, i - 1,
->>> +                build_srat_memory(table_data, mem_base, mem_len, i - 1,
->>>                                    MEM_AFFINITY_ENABLED);
->>>              }
->>>              mem_base = 1ULL << 32;
->>> @@ -2014,8 +2021,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->>>          }
->>>  
->>>          if (mem_len > 0) {
->>> -            numamem = acpi_data_push(table_data, sizeof *numamem);
->>> -            build_srat_memory(numamem, mem_base, mem_len, i - 1,
->>> +            build_srat_memory(table_data, mem_base, mem_len, i - 1,
->>>                                MEM_AFFINITY_ENABLED);
->>>          }
->>>      }
->>> @@ -2024,10 +2030,15 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->>>          nvdimm_build_srat(table_data);
->>>      }
->>>  
->>> -    slots = (table_data->len - numa_start) / sizeof *numamem;
->>> +    /*
->>> +     * TODO: this part is not in ACPI spec and current linux kernel boots fine
->>> +     * without these entries. But I recall there were issues the last time I
->>> +     * tried to remove it with some ancient guest OS, however I can't remember
->>> +     * what that was so keep this around for now
->>> +     */
->>> +    slots = (table_data->len - numa_mem_start) / 40 /* mem affinity len */;
->>>      for (; slots < nb_numa_nodes + 2; slots++) {
->>> -        numamem = acpi_data_push(table_data, sizeof *numamem);
->>> -        build_srat_memory(numamem, 0, 0, 0, MEM_AFFINITY_NOFLAGS);
->>> +        build_srat_memory(table_data, 0, 0, 0, MEM_AFFINITY_NOFLAGS);
->>>      }
->>>  
->>>      /*
->>> @@ -2039,8 +2050,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
->>>       * providing _PXM method if necessary.
->>>       */
->>>      if (hotplugabble_address_space_size) {
->>> -        numamem = acpi_data_push(table_data, sizeof *numamem);
->>> -        build_srat_memory(numamem, machine->device_memory->base,
->>> +        build_srat_memory(table_data, machine->device_memory->base,
->>>                            hotplugabble_address_space_size, nb_numa_nodes - 1,
->>>                            MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
->>>      }
+>>>      acpi_table_end(linker, &table);
 >>>   
+> 
+> the rest is fixed up
+> 
 >> Besides
 >> Reviewed-by: Eric Auger <eric.auger@redhat.com>
 >>
