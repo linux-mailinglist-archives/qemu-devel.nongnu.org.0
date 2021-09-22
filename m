@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC90414E28
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 18:32:48 +0200 (CEST)
-Received: from localhost ([::1]:52020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E3C414F0E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 19:28:29 +0200 (CEST)
+Received: from localhost ([::1]:53838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT5At-00081D-Gf
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 12:32:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44770)
+	id 1mT62m-0000GO-3w
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 13:28:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mT4v1-0003Id-H5; Wed, 22 Sep 2021 12:16:24 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:39206)
+ id 1mT4v2-0003If-93; Wed, 22 Sep 2021 12:16:24 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:39240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mT4uz-0005RD-LI; Wed, 22 Sep 2021 12:16:23 -0400
+ id 1mT4v0-0005Ro-C6; Wed, 22 Sep 2021 12:16:24 -0400
 Received: from crumble.bar.greensocs.com (unknown [172.17.10.6])
- by beetle.greensocs.com (Postfix) with ESMTPS id 29DC821ECF;
- Wed, 22 Sep 2021 16:15:57 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id B455E21ED2;
+ Wed, 22 Sep 2021 16:15:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1632327359;
+ s=mail; t=1632327360;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YFwTgaEumzc2XGbjK4hpWpdj4pZUzdb1skxz4Vmg8i8=;
- b=J+Wmqk4a8kuzHCMVCeIGgJjNaAhGIf80oYCh+/fvuoSlwd8WukKbcCqGi6wVcYUIS4uQKG
- /a8dur7Nk0YA6/FfoYgSVEqf/P0POAC01x1RLhg1ZUWOh0CgUNQ4C0nG1dSJsSu+dGdi1N
- f1rziCvvT/vfiWxVDVTEbOMcSei2Y0c=
+ bh=cfebBfH6GVdfSl+a3M3Z0yLytuwrCU0s61tJ+ZXVGyA=;
+ b=4+57fmZZrqqfiMZEPQV/HtYezQjVslO9aiAmXDY9Q9U4w+pBohuF9d/PLrpAJIwjoBNO49
+ 4DN2/DjmOHhL4T4VsHSwLEPNnD/2srj0nVTR7h5YqWSOh3iImVQU3JbPlA8mSUE2Ei2E1r
+ K/SqfsawzVu+ASUu//lxvgY7OHHBmXc=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 12/16] add x-sysbus-mmio-map qmp command
-Date: Wed, 22 Sep 2021 18:14:01 +0200
-Message-Id: <20210922161405.140018-13-damien.hedde@greensocs.com>
+Subject: [RFC PATCH v2 13/16] hw/mem/system-memory: add a memory sysbus device
+Date: Wed, 22 Sep 2021 18:14:02 +0200
+Message-Id: <20210922161405.140018-14-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210922161405.140018-1-damien.hedde@greensocs.com>
 References: <20210922161405.140018-1-damien.hedde@greensocs.com>
@@ -80,125 +80,166 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This command allows to map an mmio region of sysbus device onto
-the system memory. Its behavior mimics the sysbus_mmio_map()
-function apart from the automatic unmap (the C function unmaps
-the region if it is already mapped).
-For the qmp function we consider it is an error to try to map
-an already mapped function. If unmapping is required, it is
-probably better to add a sysbus-mmip-unmap function.
+This device can be used to create some memories using standard
+device_add qmp command.
 
-This command is still experimental (hence the x prefix), as it
-is related to the sysbus device creation through qmp commands.
-
-In future, we expect to have to handle the overlap/priority
-parameter but also multiple mapping of one mmio. For some
-devices, one mmio is mapped several times at different addresses on
-the bus (which is not supported by sysbus_mmio_map() function and
-requires the use of memory region aliases).
+This device has one property 'readonly' which allows
+to choose between a ram or a rom.
+The device holds the adequate memory region and can be put on
+the sysbus.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
 
-Note: this qmp command is required to be able to build a machine from
-scratch as there is no qmp-way of doing a memory mapping today.
+Should we add a related CONFIG_ variable in the build system ?
 
-We've added the command into qapi/qdev.json section. It does not seem to
-have any really adequate section yet. Any idea ? should we create for
-example a new one: qapi/sysbus.json or qapi/memory.json ?
+Depending on the chosen condition to add a device, the commit may
+change.
 ---
- qapi/qdev.json   | 21 +++++++++++++++++++++
- hw/core/sysbus.c | 41 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 62 insertions(+)
+ include/hw/mem/sysbus-memory.h | 32 +++++++++++++
+ hw/mem/sysbus-memory.c         | 83 ++++++++++++++++++++++++++++++++++
+ hw/mem/meson.build             |  2 +
+ 3 files changed, 117 insertions(+)
+ create mode 100644 include/hw/mem/sysbus-memory.h
+ create mode 100644 hw/mem/sysbus-memory.c
 
-diff --git a/qapi/qdev.json b/qapi/qdev.json
-index ad669ae175..dfc1104197 100644
---- a/qapi/qdev.json
-+++ b/qapi/qdev.json
-@@ -125,3 +125,24 @@
- ##
- { 'event': 'DEVICE_DELETED',
-   'data': { '*device': 'str', 'path': 'str' } }
+diff --git a/include/hw/mem/sysbus-memory.h b/include/hw/mem/sysbus-memory.h
+new file mode 100644
+index 0000000000..3e1271dbfd
+--- /dev/null
++++ b/include/hw/mem/sysbus-memory.h
+@@ -0,0 +1,32 @@
++/*
++ * QEMU memory SysBusDevice
++ *
++ * Copyright (c) 2021 Greensocs
++ *
++ * Author:
++ * + Damien Hedde
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
 +
-+##
-+# @x-sysbus-mmio-map:
-+#
-+# Map a sysbus device mmio onto the main system bus.
-+#
-+# @device: the device's QOM path
-+#
-+# @mmio: The mmio number to be mapped (defaults to 0).
-+#
-+# @addr: The base address for the mapping.
-+#
-+# Since: 6.2
-+#
-+# Returns: Nothing on success
-+#
-+##
++#ifndef HW_SYSBUS_MEMORY_H
++#define HW_SYSBUS_MEMORY_H
 +
-+{ 'command': 'x-sysbus-mmio-map',
-+  'data': {'device': 'str', '*mmio': 'uint8', 'addr': 'uint64'},
-+  'allow-preconfig' : true }
-diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
-index aaae8e23cc..b0891f37b6 100644
---- a/hw/core/sysbus.c
-+++ b/hw/core/sysbus.c
-@@ -23,6 +23,7 @@
- #include "hw/sysbus.h"
- #include "monitor/monitor.h"
- #include "exec/address-spaces.h"
-+#include "qapi/qapi-commands-qdev.h"
- 
- static void sysbus_dev_print(Monitor *mon, DeviceState *dev, int indent);
- static char *sysbus_get_fw_dev_path(DeviceState *dev);
-@@ -154,6 +155,46 @@ static void sysbus_mmio_map_common(SysBusDevice *dev, int n, hwaddr addr,
-     }
- }
- 
-+void qmp_x_sysbus_mmio_map(const char *device, bool has_mmio, uint8_t mmio,
-+                           uint64_t addr, Error **errp)
++#include "hw/sysbus.h"
++#include "qom/object.h"
++
++#define TYPE_SYSBUS_MEMORY "sysbus-memory"
++OBJECT_DECLARE_SIMPLE_TYPE(SysBusMemoryState, SYSBUS_MEMORY)
++
++struct SysBusMemoryState {
++    /* <private> */
++    SysBusDevice parent_obj;
++    uint64_t size;
++    bool readonly;
++
++    /* <public> */
++    MemoryRegion mem;
++};
++
++#endif /* HW_SYSBUS_MEMORY_H */
+diff --git a/hw/mem/sysbus-memory.c b/hw/mem/sysbus-memory.c
+new file mode 100644
+index 0000000000..897fa154f0
+--- /dev/null
++++ b/hw/mem/sysbus-memory.c
+@@ -0,0 +1,83 @@
++/*
++ * QEMU memory SysBusDevice
++ *
++ * Copyright (c) 2021 Greensocs
++ *
++ * Author:
++ * + Damien Hedde
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/mem/sysbus-memory.h"
++#include "hw/qdev-properties.h"
++#include "qemu/log.h"
++#include "qemu/module.h"
++#include "qapi/error.h"
++
++static Property sysbus_memory_properties[] = {
++    DEFINE_PROP_UINT64("size", SysBusMemoryState, size, 0),
++    DEFINE_PROP_BOOL("readonly", SysBusMemoryState, readonly, false),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void sysbus_memory_realize(DeviceState *dev, Error **errp)
 +{
-+    Object *obj = object_resolve_path_type(device, TYPE_SYS_BUS_DEVICE, NULL);
-+    SysBusDevice *dev;
++    SysBusMemoryState *s = SYSBUS_MEMORY(dev);
++    gchar *name;
 +
-+    if (phase_get() != MACHINE_INIT_PHASE_INITIALIZED) {
-+        error_setg(errp, "The command is permitted only when "
-+                         "the machine is in initialized phase");
++    if (!s->size) {
++        error_setg(errp, "'size' must be non-zero.");
 +        return;
 +    }
 +
-+    if (obj == NULL) {
-+        error_setg(errp, "Device '%s' not found", device);
++    /*
++     * We impose having an id (which is unique) because we need to generate
++     * a unique name for the memory region.
++     * memory_region_init_ram/rom() will abort() (in qemu_ram_set_idstr()
++     * function if 2 system-memory devices are created with the same name
++     * for the memory region).
++     */
++    if (!dev->id) {
++        error_setg(errp, "system-memory device must have an id.");
 +        return;
 +    }
++    name = g_strdup_printf("%s.region", dev->id);
 +
-+    dev = SYS_BUS_DEVICE(obj);
-+    if (!has_mmio) {
-+        mmio = 0;
-+    }
-+    if (mmio >= dev->num_mmio) {
-+        error_setg(errp, "MMIO index '%u' is out of range", mmio);
-+        return;
++    if (s->readonly) {
++        memory_region_init_rom(&s->mem, OBJECT(dev), name, s->size, errp);
++    } else {
++        memory_region_init_ram(&s->mem, OBJECT(dev), name, s->size, errp);
 +    }
 +
-+    if (dev->mmio[mmio].addr != (hwaddr)-1) {
-+        error_setg(errp, "MMIO index '%u' is already mapped", mmio);
-+        return;
-+    }
++    g_free(name);
 +
-+    if (!memory_region_try_add_subregion(get_system_memory(), addr,
-+                                         dev->mmio[mmio].memory, 0,
-+                                         errp)) {
-+        return;
++    if (!*errp) {
++        sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->mem);
 +    }
-+
-+    dev->mmio[mmio].addr = addr;
 +}
 +
- void sysbus_mmio_unmap(SysBusDevice *dev, int n)
- {
-     assert(n >= 0 && n < dev->num_mmio);
++static void sysbus_memory_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->user_creatable = true;
++    dc->realize = sysbus_memory_realize;
++    device_class_set_props(dc, sysbus_memory_properties);
++}
++
++static const TypeInfo sysbus_memory_info = {
++    .name          = TYPE_SYSBUS_MEMORY,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(SysBusMemoryState),
++    .class_init    = sysbus_memory_class_init,
++};
++
++static void sysbus_memory_register_types(void)
++{
++    type_register_static(&sysbus_memory_info);
++}
++
++type_init(sysbus_memory_register_types)
+diff --git a/hw/mem/meson.build b/hw/mem/meson.build
+index 3c8fdef9f9..81e2de1d34 100644
+--- a/hw/mem/meson.build
++++ b/hw/mem/meson.build
+@@ -7,3 +7,5 @@ mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
+ softmmu_ss.add_all(when: 'CONFIG_MEM_DEVICE', if_true: mem_ss)
+ 
+ softmmu_ss.add(when: 'CONFIG_FUZZ', if_true: files('sparse-mem.c'))
++
++softmmu_ss.add(files('sysbus-memory.c'))
 -- 
 2.33.0
 
