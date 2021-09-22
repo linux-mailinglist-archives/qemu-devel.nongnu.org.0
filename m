@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AEB4414841
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 13:57:58 +0200 (CEST)
-Received: from localhost ([::1]:48414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 547B4414872
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 14:07:01 +0200 (CEST)
+Received: from localhost ([::1]:55012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT0sv-0006CD-NG
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 07:57:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33992)
+	id 1mT11f-0002xl-PY
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 08:06:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mT0rw-0005My-Mp
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 07:56:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25480)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mT0yU-0001Fc-RA
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 08:03:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mT0rs-0003W8-VM
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 07:56:55 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mT0yS-0001Mb-BP
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 08:03:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632311810;
+ s=mimecast20190719; t=1632312219;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Nia9fum0x+rofU9L3I4VLHCSy69E7+hqzEv3NZJZW4U=;
- b=LGY98bkdcqCYAwElNSU08oeDAJxdC3oushztLICqrOSddeKI0BelXiKIgIP0QTHzEF3oWK
- nhNgNka8EIRc8uxKfjBmDkgv/+m53oTVFsy+yGOm7sqE3gRB7bOQXtdEqaEoeFa4Nv9JQV
- L0ctzOgWTCYxLMBsB4ewld/WEAjvcFc=
+ bh=Id15OmwOYpHt4W6UZVVVxdKZNaOzicTVYKV6mP9YM/w=;
+ b=Mt0JyTU59SUbfjBOzVqEVcPvckFx/vS2GiUb7v2XqPrFDPXf18wjvvUdiGAelzfUgeIZLr
+ 4an3JUZERtshJpQ4LMDjkUM311v4VFOtI0cIqNMMRUfIT/TPN8YaKJ7Eke5YHkr6qVsCg5
+ mKI/VurJau0IPn1yPrBL5zuwDKTBfPo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-mBc6Ltz3OzCnyRcNxQXwtw-1; Wed, 22 Sep 2021 07:56:49 -0400
-X-MC-Unique: mBc6Ltz3OzCnyRcNxQXwtw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-468-aH59LM-DM-usdaFL9gdTGA-1; Wed, 22 Sep 2021 08:03:36 -0400
+X-MC-Unique: aH59LM-DM-usdaFL9gdTGA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 987E8BBF16;
- Wed, 22 Sep 2021 11:56:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5EE0E802937;
+ Wed, 22 Sep 2021 12:03:35 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
  [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BA335D9DD;
- Wed, 22 Sep 2021 11:56:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C3D2189C4;
+ Wed, 22 Sep 2021 12:03:35 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 08D62113865F; Wed, 22 Sep 2021 13:56:47 +0200 (CEST)
+ id AC6A2113865F; Wed, 22 Sep 2021 14:03:33 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: david@gibson.dropbear.id.au
 Subject: Re: [PATCH v7 0/7] DEVICE_UNPLUG_GUEST_ERROR QAPI event
 References: <20210825004835.472919-1-danielhb413@gmail.com>
-Date: Wed, 22 Sep 2021 13:56:47 +0200
-In-Reply-To: <20210825004835.472919-1-danielhb413@gmail.com> (Daniel Henrique
- Barboza's message of "Tue, 24 Aug 2021 21:48:28 -0300")
-Message-ID: <874kac258g.fsf@dusky.pond.sub.org>
+ <874kac258g.fsf@dusky.pond.sub.org>
+Date: Wed, 22 Sep 2021 14:03:33 +0200
+In-Reply-To: <874kac258g.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+ of "Wed, 22 Sep 2021 13:56:47 +0200")
+Message-ID: <87wnn8zuju.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -79,11 +80,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not yet merged.  David, would you like to do the pull request?
+Markus Armbruster <armbru@redhat.com> writes:
+
+> Not yet merged.  David, would you like to do the pull request?
+
+Oops, there's v8.  Take that one of course.
 
 
