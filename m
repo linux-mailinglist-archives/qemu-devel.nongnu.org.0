@@ -2,56 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF78B414C47
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 16:43:15 +0200 (CEST)
-Received: from localhost ([::1]:51776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C7A414C66
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Sep 2021 16:48:55 +0200 (CEST)
+Received: from localhost ([::1]:56190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mT3Ss-00007O-W3
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 10:43:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44430)
+	id 1mT3YM-0003tf-0P
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 10:48:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mT3RH-0007PB-Ho; Wed, 22 Sep 2021 10:41:39 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:44215)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mT3Wy-0002bI-6t
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 10:47:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mT3RE-0008Fo-SM; Wed, 22 Sep 2021 10:41:35 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.206])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 0E565BF69DA2;
- Wed, 22 Sep 2021 16:41:28 +0200 (CEST)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 22 Sep
- 2021 16:41:28 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001dd4b5fe6-f864-43e8-af27-559fe86daa5f,
- 2BB727CE71B327F05EAAC08E3CEBB2C417F62D6E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-Subject: [RFC PATCH] spapr/xive: Allocate vCPU IPIs from local context
-Date: Wed, 22 Sep 2021 16:41:20 +0200
-Message-ID: <20210922144120.1277504-1-clg@kaod.org>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mT3WZ-0004sh-Dj
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 10:47:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632322022;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/mBOx389Hl4hjnDGmf0oJ2TTiSMWSCOhj0meYYpoSw0=;
+ b=IW3b3FwhwR16j1Fzd1yQKxIENxtwpwdCmt3ISGHph73d66ggG5AqF8J4XhtSuUfhhlkiU4
+ 0fTGktwZz6aYp4iPezUmAMHhw8R5R4u9KHdDCmRpwWqM85GEIA3Fvt4TeV6vn/wbDf2i+r
+ Zk2DvAWguo3R1RCL1z4kVSpJ1gQqCzM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-75-E0LuHp34M-mHJ37PHrd3Gg-1; Wed, 22 Sep 2021 10:47:00 -0400
+X-MC-Unique: E0LuHp34M-mHJ37PHrd3Gg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ d1-20020a50f681000000b003d860fcf4ffso3275436edn.22
+ for <qemu-devel@nongnu.org>; Wed, 22 Sep 2021 07:47:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/mBOx389Hl4hjnDGmf0oJ2TTiSMWSCOhj0meYYpoSw0=;
+ b=8LW8B3S9D0IoWJN82+l3wzjUjsZvSf1m8CUC5SwnmAGHzpE2D3Y7kCil72pqzPywZk
+ yt4K4vm4co/+MInB+W8I2KSEJaPLHi8rN9nlUJa3d1MH/l0xwEkJ61pjDmmHSLwi7fbg
+ Pa+Fbu1BPl46n/RJ+r2tZ85JcpmB6uPzUORTsVP+tpJBC0GlXEURaDmAiD31olNmCZwb
+ 0axX74N5P7MOmmPVMQHGsqRepRyDWI0xgxHsiWGU1ci9Bc4ZpfIzz82KN66YBBuCK7L7
+ 6DY6+m8pcf9TWICXJa+6OSyICbt7kvgzmre8zZIKMc24/CQYZ6WjDhaIjmSZHP49xqer
+ 10Eg==
+X-Gm-Message-State: AOAM531beLZsdveC844N13FjuNvlDW+1L+6nWY5EUfkNXdNCbLqT1nh3
+ pCoFi0swT0oXRpPpCE5dyZmtxq4vUAW20SlzQ5uENoynMMS9oQ78VDBEja5s/Ce7xK1+0eHpTi6
+ 9vpylh2/MpadIPXY=
+X-Received: by 2002:a17:906:d541:: with SMTP id
+ cr1mr43389185ejc.81.1632322019092; 
+ Wed, 22 Sep 2021 07:46:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzIiWvtw2JQju6w8Sk98xCJa5YP/8donjrygB+wf9VzwAWOalK93ZiHDlmY98UGW8pmpMjk/w==
+X-Received: by 2002:a17:906:d541:: with SMTP id
+ cr1mr43389162ejc.81.1632322018778; 
+ Wed, 22 Sep 2021 07:46:58 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id g10sm1177134ejj.44.2021.09.22.07.46.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Sep 2021 07:46:58 -0700 (PDT)
+Date: Wed, 22 Sep 2021 16:46:57 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eric Auger <eauger@redhat.com>
+Subject: Re: [PATCH v3 12/35] acpi: vmgenid_build_acpi: use
+ acpi_table_begin()/acpi_table_end() instead of build_header()
+Message-ID: <20210922164657.0ea21a7a@redhat.com>
+In-Reply-To: <5938a956-e67f-be8d-2a31-e9e068597afb@redhat.com>
+References: <20210907144814.741785-1-imammedo@redhat.com>
+ <20210907144814.741785-13-imammedo@redhat.com>
+ <5938a956-e67f-be8d-2a31-e9e068597afb@redhat.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 82b41686-569d-4578-963a-e8e2e6dbb312
-X-Ovh-Tracer-Id: 4654470216649837350
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudeijedgjeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffogggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedvuedtvdeikeekuefhkedujeejgffggffhtefglefgveevfeeghfdvgedtleevnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,159 +100,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When QEMU switches to the XIVE interrupt mode, it creates all possible
-guest interrupts at the level of the KVM device. These interrupts are
-backed by real HW interrupts from the IPI interrupt pool of the XIVE
-controller.
+On Wed, 22 Sep 2021 09:23:16 +0200
+Eric Auger <eauger@redhat.com> wrote:
 
-Currently, this is done from the QEMU main thread, which results in
-allocating all interrupts from the chip on which QEMU is running. IPIs
-are not distributed across the system and the load is not well
-balanced across the interrupt controllers.
+> On 9/7/21 4:47 PM, Igor Mammedov wrote:
+> > it replaces error-prone pointer arithmetic for build_header() API,
+> > with 2 calls to start and finish table creation,
+> > which hides offsets magic from API user.
+> > 
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> > v3:
+> >   * s/acpi_init_table|acpi_table_composed/acpi_table_begin|acpi_table_end/
+> > ---
+> >  hw/acpi/vmgenid.c | 16 +++++++---------
+> >  1 file changed, 7 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/hw/acpi/vmgenid.c b/hw/acpi/vmgenid.c
+> > index 4f41a13ea0..95f94a2510 100644
+> > --- a/hw/acpi/vmgenid.c
+> > +++ b/hw/acpi/vmgenid.c
+> > @@ -29,6 +29,8 @@ void vmgenid_build_acpi(VmGenIdState *vms, GArray *table_data, GArray *guid,
+> >      Aml *ssdt, *dev, *scope, *method, *addr, *if_ctx;
+> >      uint32_t vgia_offset;
+> >      QemuUUID guid_le;
+> > +    AcpiTable table = { .sig = "SSDT", .rev = 1,
+> > +                        .oem_id = oem_id, .oem_table_id = "VMGENID" };
+> >  
+> >      /* Fill in the GUID values.  These need to be converted to little-endian
+> >       * first, since that's what the guest expects
+> > @@ -42,15 +44,12 @@ void vmgenid_build_acpi(VmGenIdState *vms, GArray *table_data, GArray *guid,
+> >      g_array_insert_vals(guid, VMGENID_GUID_OFFSET, guid_le.data,
+> >                          ARRAY_SIZE(guid_le.data));
+> >  
+> > -    /* Put this in a separate SSDT table */
+> > +    /* Put VMGNEID into a separate SSDT table */
+> > +    acpi_table_begin(&table, table_data);
+> >      ssdt = init_aml_allocator();
+> >  
+> > -    /* Reserve space for header */
+> > -    acpi_data_push(ssdt->buf, sizeof(AcpiTableHeader));
+> > -
+> >      /* Storage for the GUID address */
+> > -    vgia_offset = table_data->len +
+> > -        build_append_named_dword(ssdt->buf, "VGIA");
+> > +    vgia_offset = table_data->len + build_append_named_dword(ssdt->buf, "VGIA");  
+> not mandated but well
 
-To improve distribution on the system, we should try to allocate the
-underlying HW IPI from the vCPU context. This also benefits to
-configurations using CPU pinning. In this case, the HW IPI is
-allocated on the local chip, rerouting between interrupt controllers
-is reduced and performance improved.
+dropped
 
-This moves the initialization of the vCPU IPIs from reset time to the
-H_INT_SET_SOURCE_CONFIG hcall which is called from the vCPU context.
-But this needs some extra checks in the sequences getting and setting
-the source states to make sure a valid HW IPI is backing the guest
-interrupt. For that, we check if a target was configured in the END in
-case of a vCPU IPI.
+> 
+> >      scope = aml_scope("\\_SB");
+> >      dev = aml_device("VGEN");
+> >      aml_append(dev, aml_name_decl("_HID", aml_string("QEMUVGID")));
+> > @@ -116,9 +115,8 @@ void vmgenid_build_acpi(VmGenIdState *vms, GArray *table_data, GArray *guid,
+> >          ACPI_BUILD_TABLE_FILE, vgia_offset, sizeof(uint32_t),
+> >          VMGENID_GUID_FW_CFG_FILE, 0);
+> >  
+> > -    build_header(linker, table_data,
+> > -        (void *)(table_data->data + table_data->len - ssdt->buf->len),
+> > -        "SSDT", ssdt->buf->len, 1, oem_id, "VMGENID");
+> > +    /* must be called after above command to ensure correct table checksum */  
+> ditto
+I'd prefer to keep this reminder until there is a way to
+enforce valid order.
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
-
- I have tested different SMT configurations, kernel_irqchip=off/on,
- did some migrations, CPU hotplug, etc. It's not enough and I would
- like more testing but, at least, it is not making anymore the bad
- assumption vCPU id = IPI number.
-
- Comments ? 
-
- hw/intc/spapr_xive.c     | 17 +++++++++++++++++
- hw/intc/spapr_xive_kvm.c | 36 +++++++++++++++++++++++++++++++-----
- 2 files changed, 48 insertions(+), 5 deletions(-)
-
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 6f31ce74f198..2dc594a720b1 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -1089,6 +1089,23 @@ static target_ulong h_int_set_source_config(PowerPCCPU *cpu,
-     if (spapr_xive_in_kernel(xive)) {
-         Error *local_err = NULL;
- 
-+        /*
-+         * Initialize the vCPU IPIs from the vCPU context to allocate
-+         * the backing HW IPI on the local chip. This improves
-+         * distribution of the IPIs in the system and when the vCPUs
-+         * are pinned, it reduces rerouting between interrupt
-+         * controllers for better performance.
-+         */
-+        if (lisn < SPAPR_XIRQ_BASE) {
-+            XiveSource *xsrc = &xive->source;
-+
-+            kvmppc_xive_source_reset_one(xsrc, lisn, &local_err);
-+            if (local_err) {
-+                error_report_err(local_err);
-+                return H_HARDWARE;
-+            }
-+        }
-+
-         kvmppc_xive_set_source_config(xive, lisn, &new_eas, &local_err);
-         if (local_err) {
-             error_report_err(local_err);
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 53731d158625..1607a59e9483 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -254,7 +254,12 @@ static int kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
-     SpaprXive *xive = SPAPR_XIVE(xsrc->xive);
-     int i;
- 
--    for (i = 0; i < xsrc->nr_irqs; i++) {
-+    /*
-+     * vCPU IPIs are initialized at the KVM level when configured by
-+     * H_INT_SET_SOURCE_CONFIG.
-+     */
-+
-+    for (i = SPAPR_XIRQ_BASE; i < xsrc->nr_irqs; i++) {
-         int ret;
- 
-         if (!xive_eas_is_valid(&xive->eat[i])) {
-@@ -342,6 +347,27 @@ uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int srcno, uint32_t offset,
-     }
- }
- 
-+static bool xive_source_is_initialized(SpaprXive *xive, int lisn)
-+{
-+    assert(lisn < xive->nr_irqs);
-+
-+    if (!xive_eas_is_valid(&xive->eat[lisn])) {
-+        return false;
-+    }
-+
-+    /*
-+     * vCPU IPIs are initialized at the KVM level when configured by
-+     * H_INT_SET_SOURCE_CONFIG, in which case, we should have a valid
-+     * target (server, priority) in the END.
-+     */
-+    if (lisn < SPAPR_XIRQ_BASE) {
-+        return !!xive_get_field64(EAS_END_INDEX, xive->eat[lisn].w);
-+    }
-+
-+    /* Device sources */
-+    return true;
-+}
-+
- static void kvmppc_xive_source_get_state(XiveSource *xsrc)
- {
-     SpaprXive *xive = SPAPR_XIVE(xsrc->xive);
-@@ -350,7 +376,7 @@ static void kvmppc_xive_source_get_state(XiveSource *xsrc)
-     for (i = 0; i < xsrc->nr_irqs; i++) {
-         uint8_t pq;
- 
--        if (!xive_eas_is_valid(&xive->eat[i])) {
-+        if (!xive_source_is_initialized(xive, i)) {
-             continue;
-         }
- 
-@@ -533,7 +559,7 @@ static void kvmppc_xive_change_state_handler(void *opaque, bool running,
-             uint8_t pq;
-             uint8_t old_pq;
- 
--            if (!xive_eas_is_valid(&xive->eat[i])) {
-+            if (!xive_source_is_initialized(xive, i)) {
-                 continue;
-             }
- 
-@@ -561,7 +587,7 @@ static void kvmppc_xive_change_state_handler(void *opaque, bool running,
-     for (i = 0; i < xsrc->nr_irqs; i++) {
-         uint8_t pq;
- 
--        if (!xive_eas_is_valid(&xive->eat[i])) {
-+        if (!xive_source_is_initialized(xive, i)) {
-             continue;
-         }
- 
-@@ -666,7 +692,7 @@ int kvmppc_xive_post_load(SpaprXive *xive, int version_id)
- 
-     /* Restore the EAT */
-     for (i = 0; i < xive->nr_irqs; i++) {
--        if (!xive_eas_is_valid(&xive->eat[i])) {
-+        if (!xive_source_is_initialized(xive, i)) {
-             continue;
-         }
- 
--- 
-2.31.1
+> > +    acpi_table_end(linker, &table);
+> >      free_aml_allocator();
+> >  }
+> >  
+> >   
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> 
+> Eric
+> 
 
 
