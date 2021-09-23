@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E454161BD
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 17:08:35 +0200 (CEST)
-Received: from localhost ([::1]:60552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8D64161E0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 17:17:38 +0200 (CEST)
+Received: from localhost ([::1]:39664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTQKw-0000YI-8X
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 11:08:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59660)
+	id 1mTQTh-0005ws-6F
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 11:17:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mTQGv-0005pS-Lz; Thu, 23 Sep 2021 11:04:27 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:50999)
+ id 1mTQR9-0003pa-Gq; Thu, 23 Sep 2021 11:14:59 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:60633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mTQGt-0004qS-Ut; Thu, 23 Sep 2021 11:04:25 -0400
+ id 1mTQR7-0005po-QX; Thu, 23 Sep 2021 11:14:59 -0400
 Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mi2aH-1n78jb181x-00e1dz; Thu, 23 Sep 2021 17:04:18 +0200
-Subject: Re: [PATCH 2/2] hmp: Drop a bogus sentence from set_password's
- documentation
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20210909081219.308065-1-armbru@redhat.com>
- <20210909081219.308065-3-armbru@redhat.com>
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MTAJr-1mIFbB48xb-00UWkp; Thu, 23 Sep 2021 17:14:43 +0200
+Subject: Re: [PATCH-for-6.2 0/2] disas/nios2: Simplify endianess conversion
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>
+References: <20210807110939.95853-1-f4bug@amsat.org>
+ <a99e29c5-0aed-2a7c-cbdd-ebaecc99a448@amsat.org>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <0e397341-ada6-88d0-a7f8-e5e79be46cae@vivier.eu>
-Date: Thu, 23 Sep 2021 17:04:17 +0200
+Message-ID: <aa70868b-78b0-838a-55cd-3a7399fc041f@vivier.eu>
+Date: Thu, 23 Sep 2021 17:14:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210909081219.308065-3-armbru@redhat.com>
+In-Reply-To: <a99e29c5-0aed-2a7c-cbdd-ebaecc99a448@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6xTomTTIVXTTAge02eFnj52a7F+YTY4Xul0E5dyD8kkckU/bc0I
- ZjuhYEPQ+qVAwrXMv29wbLMBSv1qXAG0YUXXLWHuZW8uVnve8hYXkr7IAuLYCqnryWG5VUg
- 3fHxn1j0pTSISvqlXOlMy2BQYBHyrMTSmNicxbWvPDuvaIgEPStC9/sj1a5znziHvg3ffYu
- z9QpQlaLIHZoWk0ZyrJiw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kmornE4Vn3U=:Mz/40mJUZ4b1OSLxPHMPwh
- oNbiAHiE275B8Z/AyuFnuyIR29+ZxS4Tkxaf3pPE5x6MdwaAwDI0EqQ2A4+fUpmhJ7tvfkVNn
- jrvCBPgwxPausoLiWfQvBbZUxylHYZLG5mkNtHbCdYb+5Ay7z10WG3/VDKFRDP41jXoKtGMY9
- GlMAiahJRqUqpeMNeOt39BSJFh/rpgqQ886yp9cASKceB7u9cPrt391FvcXd9iOoQ9V5Dv9tF
- Gfxu3AEcXVhPqRrTHNb4uIdzTjV+kGy1BJjYx2FA7F+tEc5WZ0RHkmjncgK74izjYGd9bv170
- wEnfnMhEllCUhrhj07Ehlno085lm3SbTAdNfTgKWQ1asReXbbIjTTODtRiQbduSS97krJK2kB
- 2RS3lVJhICN5y1oqqZuAe/jUz5iP7ZCr4fvaGE/++AUYJ8yg0ti7G6+wft8ZkRzkbR8VWBkUq
- wEc+ADFcdhkSVIXZ4kURU1u+6qTO9zkO4ls/fEmF1eqYYjtWpB6DMIFoLqRLrov6qVkJU7ACf
- OU0aBuaZP2fbk74bUY6SWOx01bDbHgm4fWKNdSyyf/TdTmVxskR3CIK6s9iVTxNjuV9Odz4mi
- gfKV06cBOwAXt+ns8VtxsF89QSNHPKkkxxUmX51ka/BVziVLv+bBvZy6Iopj0zH8itXXyrI2q
- Cw1GAGKkf9UgpcjkZSljK3RVOP/8Fk6ki2Hf9F120aVfWnDvt4awLQmOiyduU8/XLMvShvURG
- +csjAvpxRUx9QnB7MINzp80X+RUMbS1qJgRQ4w==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:KHo14FXEPo83wCnlwqlpa3CteBaXcro0a2Zgg6Os7y+vAa95Pug
+ HhvgirUGBUSol279b/+z+78SYYmeEDAOOCnkSwEJSBSIf/qDdrgO3wU3NhJJVP2s1PspPNn
+ BEb5AIbVUB5VwMrLK5demZHbKVgZfpupF8GsTt0HXetmF9vx5C62kgG6oyqoOmJUjvKWuOS
+ j+JFTTbdm538K7qbY/vMA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zz++I2N9hWY=:VZCWv33ulyamY27miiONMJ
+ CNmGk5q1hvkryVDs1mHCm0suJjpDsIRzzx2MQgJmuFGf0yLX08JR5EXMguJRk5EZzTWA1fge+
+ 7iq9/VpvkykAIIrEpk23qriDTnVxjsr/aQsWptRQ8tUTYXKs5dAtfbFVOaKEYD+eTbG8//TmL
+ 4jAYmTdc65cdH7zZH4xTqTe3xxN7XiOIyqEvC2Z+pd3fS8dmSEcYHxQs/4Ys5mF/XL8WOhhQD
+ GrwYey4zYUACdFW2V0M9TRlb3ABK0gzuGjutXKYi063ZBeVNw4Yuw7rA3RuRIrGsnmGT+1rSF
+ igcFSPe7Facq+12fGSpUCKmUKNwf3CAmzV5BkZ055MZHRpvf4mD6iw6Vn6irTJsKv93hauOlV
+ T5Pw122Jx0noDRZvYKyw/bplKts4h4LLx+wKP6lmxSEZ26+KbMtjZDhBejxdpcEyFt5i1MjyD
+ Nw69dBKCRbithn2Cw4ZTHHvNsvPOWwNfgffOnF5WLEblgEem+iioAYELaGIVuTDMZg7NcRdHh
+ 8nhLUbD0HmaEV88bStT5XH0xQ19qOlCzGq9wKkzxzDi8cHYN9vNQ1xGRWcfsNo1KtqB73OdmH
+ esOuvC1c/j29xIWWlMvbm25J3bVTQXHFsVKR+O/yfep24nu8JcqpYKBFIbO+cbJRT/PQGsqOV
+ TOFnaO4h2FTWiqdGoma34bUYzObHvk1Wg4nAzb5hKGWqbGDv0tCcC16X612nTAE3b08vlkV5Y
+ 7ui0GF4HO/bmJQimLQbENqkncHCNEbVOXLa1zw==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,44 +71,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>, pbonzini@redhat.com,
- dgilbert@redhat.com, kraxel@redhat.com
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/09/2021 à 10:12, Markus Armbruster a écrit :
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  hmp-commands.hx | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index 8e45bce2cd..cf723c69ac 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1522,12 +1522,11 @@ ERST
->  
->  SRST
->  ``set_password [ vnc | spice ] password [ action-if-connected ]``
-> -  Change spice/vnc password.  Use zero to make the password stay valid
-> -  forever.  *action-if-connected* specifies what should happen in
-> -  case a connection is established: *fail* makes the password change
-> -  fail.  *disconnect* changes the password and disconnects the
-> -  client.  *keep* changes the password and keeps the connection up.
-> -  *keep* is the default.
-> +  Change spice/vnc password.  *action-if-connected* specifies what
-> +  should happen in case a connection is established: *fail* makes the
-> +  password change fail.  *disconnect* changes the password and
-> +  disconnects the client.  *keep* changes the password and keeps the
-> +  connection up.  *keep* is the default.
->  ERST
->  
->      {
-> 
+Le 18/09/2021 à 11:19, Philippe Mathieu-Daudé a écrit :
+> Cc'ing qemu-trivial@ (series fully reviewed).
+>
 
-Applied to my trivial-patches branch.
+An Acked-by from one of NiosII maintainers would be welcome.
 
 Thanks,
 Laurent
+
+> On 8/7/21 13:09, Philippe Mathieu-Daudé wrote:
+>> After chatting with Richard Henderson and Paolo Bonzini, we
+>> concluded the load/store API is mature enough to have target
+>> code endianess-agnostic.
+>> Thus we could remove the TARGET_WORDS_BIGENDIAN definition from
+>> target-specific code (restricting it to the binary format loaders).
+>>
+>> While experimenting, I noticed the Nios2 disassembler is an easy
+>> win. MIPS will follow shortly.
+>>
+>> Philippe Mathieu-Daudé (2):
+>>   disas/nios2: Fix style in print_insn_nios2()
+>>   disas/nios2: Simplify endianess conversion
+>>
+>>  include/disas/dis-asm.h |  3 +-
+>>  disas/nios2.c           | 71 ++++++++++++++++-------------------------
+>>  target/nios2/cpu.c      |  6 +---
+>>  3 files changed, 29 insertions(+), 51 deletions(-)
+>>
+> 
 
 
