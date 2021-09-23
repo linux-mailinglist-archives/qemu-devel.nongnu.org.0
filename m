@@ -2,61 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6391D41587C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 08:54:41 +0200 (CEST)
-Received: from localhost ([::1]:45364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF7C4158EC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 09:16:44 +0200 (CEST)
+Received: from localhost ([::1]:57002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTIcx-0003dK-8g
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 02:54:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42518)
+	id 1mTIyJ-0005qO-2S
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 03:16:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTIby-0002xL-GE
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 02:53:38 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:44145)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTIbw-00046L-Ll
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 02:53:38 -0400
-Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MBjA4-1mYlj303H2-00CDkr; Thu, 23 Sep 2021 08:53:13 +0200
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1631866380-31017-1-git-send-email-gaosong@loongson.cn>
- <1631866380-31017-18-git-send-email-gaosong@loongson.cn>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v6 17/21] LoongArch Linux User Emulation
-Message-ID: <559cd34a-723d-f7e7-261a-014218e054c1@vivier.eu>
-Date: Thu, 23 Sep 2021 08:53:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mTIwD-0004xF-Eb
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 03:14:33 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:45794)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mTIwA-00056b-Pk
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 03:14:33 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id n18so5363223pgm.12
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 00:14:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=c8V3IDOXZHJK3ehTvL9cy4Jbkf2JzWN4Ozk+Oa0q4n8=;
+ b=02ATylKGtr/kMy53q4lWPUcG1jKKr4N4TSKipbScL/K0Itbm2zCnFUJD8EimdeW6Ri
+ qylSEjfnYp80xRdBqCBpVVVeq15fXtWGF3Fs4JCQMzf8kD0WSAhjDuNiwbZsA3ysyKrG
+ WTE/STXt9NjmwCWMVVT5VG088nY8lCYSAACYXuaiuXIRoVe/anPM/uMCIXfzLBIRTw1t
+ 2sOQD0pXBgZdGC9L43QlvNAHcLZxslc4u2l9YD3YHcksM1xMkYQkEw8YPS+yLOP/+O5K
+ 1IAFiOHdxKjWRpNOtakh842AhZ8giIxWPtqcMxjB5u9TxeS3NLSAabZ8deEQCoorS8fn
+ UL0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=c8V3IDOXZHJK3ehTvL9cy4Jbkf2JzWN4Ozk+Oa0q4n8=;
+ b=OgsCsUxyateAlmVV8i8ErnkWxHmkICB9Ow3+E+UoaRF3VNkQmBdVCXFDWJTppCoG+b
+ quUrQIg7KKPO62RqzMvactLNkPh1mCCcC40LqHQJcTkbDYFUSsuGA4fgdd4wtQ/LT6BD
+ j5OQceDpeWoXBB340YHJ4Fl3Ovnc0C92kCCrXZtUR+jFANLPFoz+vGDokI8RXpvcvWUM
+ eIpswB63FxCxhRDtCJDLeAgzzpxmvz41BYH5HLFynbYlH77T98s99D8u4uzT/+MF1BIQ
+ 54s9YTA/ENxZ8sMOaOyBKoFjPP5NAbv2g7uz5hg7K7LsLS1Kq07H7WNT1PPV0aYOiew7
+ v/MA==
+X-Gm-Message-State: AOAM531w+nuY6ctMjOhVj0WKgd7w5qrNC9TjuvdyaJpUtC2m/IYhjaPw
+ 9m375mmgOzqTKVJ/8vHlg0vaKA==
+X-Google-Smtp-Source: ABdhPJzaQCC154aHMpbYW/qv0HRY5i4a5LNWcu7XkpEl/kQhM4UmaO/K19gM9M6e0ICGV8KW+1WQDA==
+X-Received: by 2002:a63:ac57:: with SMTP id z23mr2853333pgn.239.1632381268471; 
+ Thu, 23 Sep 2021 00:14:28 -0700 (PDT)
+Received: from anisinha-lenovo ([115.96.156.170])
+ by smtp.googlemail.com with ESMTPSA id bv16sm4331250pjb.12.2021.09.23.00.14.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Sep 2021 00:14:28 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Thu, 23 Sep 2021 12:44:22 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH v3 0/3] tests/acpi/pcihp: add unit tests for hotplug on
+ multifunction bridges for q35
+In-Reply-To: <20210920070047.3937292-1-ani@anisinha.ca>
+Message-ID: <alpine.DEB.2.22.394.2109231244190.630@anisinha-lenovo>
+References: <20210920070047.3937292-1-ani@anisinha.ca>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <1631866380-31017-18-git-send-email-gaosong@loongson.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:N+PfXcAStLhT25+BoWvogvH6VK+OZe7168hxV6/6n9uB8aFYHhV
- l5Vg9yoEnbRaT9KQurIZRMKgN2lFCXoApujmZ3mAgSePHIk4uDFE9V2mPUWmDnIcKswYidI
- Z/m9NMCZLSsjxLLMOW9QhwwZBGTSj4CkJgUixr0IXxLEuFvhcTzq2DXlvt60T6m0eISh6QV
- MXke474Ln0nZoIeJUhoQg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GOnasfbaCjE=:kSze7BrIqZ4nBMstCElkia
- akNVHatFVHfaou4T12vXrxWBJOHwoff/gi99nutw4JIRw6OVmTRIDvV/wsUgYSWLVpxBOJx43
- D+MQhtQ/ycR1+vs1ePPI7tL8Tk/4Sx2+SWNTR3/1wDTIyqSZEp4YtpIVzKFhFsc0e6/u4c8hO
- DxITnID40TSzhs2bPzzcj10/ysjMGcUiuthjP77/M8CqzXyy70ML96qvzK4Av2k4KXcF/z9xb
- o0wabbASpy+9i2AJDBSmG/TxQornXi0dfQFvNk8/QSoYlzJtCY7Qjr8MdWLnrev7d/X7WTtWe
- LoeaxH4qiWLc0iv8p9zIjBbmoZrO+DwknKwpJjiiOo2E3AibFMiqRKeeljxLjUGpCAsAqMSMm
- tX9DDKmEjVaRfqNOS8Gi3maMw55VeaszGp0wvOS+lSB76M2l4plF2eXuJ/Ggbp5IhTBM4OQEn
- OKYKKs74qAFqMaYobW/RoI17prDgRkEL+qHZnZEh8JE8KpTpSyai6iZMPFs/3RCd9bxZXO2nA
- o9brVpEeny5Umrg5mEedU22ZTfrtkrPljpA0pr+Ev+KiJgQX9KCSpgXQ93nDafCqt0RvPT7Fk
- cjiVqTIJZUfoDvZESH9FuTDYkg/WCSjcOTht5F4Td9n1ARwEmCTd40flur7sRnUvq0E456zoO
- DaDfcz50pwymoyPWTLtp/tSjy62ItLZ/uifLUezdjKJ2E/38XG+fzpteXb35TIPWHUhG5umI2
- +RCW86QcJzqxxyhluUic52xdcpkWoIx5kRQT/Q==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=ani@anisinha.ca; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,74 +83,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
- richard.henderson@linaro.org, f4bug@amsat.org, peterx@redhat.com,
- yangxiaojuan@loongson.cn, alistair.francis@wdc.com, maobibo@loongson.cn,
- pbonzini@redhat.com, bmeng.cn@gmail.com, alex.bennee@linaro.org,
- chenhuacai@loongson.cn
+Cc: imammedo@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 17/09/2021 à 10:12, Song Gao a écrit :
-> Implementation of linux user emulation for LoongArch.
-> 
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> Signed-off-by: XiaoJuan Yang <yangxiaojuan@loongson.cn>
-> ---
->  accel/tcg/user-exec.c                      |  15 ++
->  configure                                  |   5 +
->  include/elf.h                              |   2 +
->  linux-user/elfload.c                       |  58 ++++++
->  linux-user/host/loongarch/hostdep.h        |  11 +
->  linux-user/loongarch64/cpu_loop.c          |  97 +++++++++
->  linux-user/loongarch64/signal.c            | 162 +++++++++++++++
->  linux-user/loongarch64/sockbits.h          |   1 +
->  linux-user/loongarch64/syscall_nr.h        | 312 +++++++++++++++++++++++++++++
->  linux-user/loongarch64/target_cpu.h        |  35 ++++
->  linux-user/loongarch64/target_elf.h        |  14 ++
->  linux-user/loongarch64/target_errno_defs.h |   7 +
->  linux-user/loongarch64/target_fcntl.h      |  12 ++
->  linux-user/loongarch64/target_signal.h     |  30 +++
->  linux-user/loongarch64/target_structs.h    |  49 +++++
->  linux-user/loongarch64/target_syscall.h    |  46 +++++
->  linux-user/loongarch64/termbits.h          |   1 +
->  linux-user/syscall_defs.h                  |  10 +-
->  18 files changed, 863 insertions(+), 4 deletions(-)
->  create mode 100644 linux-user/host/loongarch/hostdep.h
->  create mode 100644 linux-user/loongarch64/cpu_loop.c
->  create mode 100644 linux-user/loongarch64/signal.c
->  create mode 100644 linux-user/loongarch64/sockbits.h
->  create mode 100644 linux-user/loongarch64/syscall_nr.h
->  create mode 100644 linux-user/loongarch64/target_cpu.h
->  create mode 100644 linux-user/loongarch64/target_elf.h
->  create mode 100644 linux-user/loongarch64/target_errno_defs.h
->  create mode 100644 linux-user/loongarch64/target_fcntl.h
->  create mode 100644 linux-user/loongarch64/target_signal.h
->  create mode 100644 linux-user/loongarch64/target_structs.h
->  create mode 100644 linux-user/loongarch64/target_syscall.h
->  create mode 100644 linux-user/loongarch64/termbits.h
-> 
-...
+ping ...
 
-> diff --git a/linux-user/loongarch64/syscall_nr.h b/linux-user/loongarch64/syscall_nr.h
-> new file mode 100644
-> index 0000000..8fbf287
-> --- /dev/null
-> +++ b/linux-user/loongarch64/syscall_nr.h
-> @@ -0,0 +1,312 @@
-> +/*
-> + * This file contains the system call numbers.
-> + * Do not modify.
-> + * This file is generated by scripts/gensyscalls.sh
-> + */
+On Mon, 20 Sep 2021, Ani Sinha wrote:
 
-Where are the changes to scripts/gensyscalls.sh?
-
-You need to add something like:
-
-generate_syscall_nr loongarch 64 "$output/linux-user/loongarch64/syscall_nr.h"
-
-
-Thanks,
-Laurent
+> This patchset adds a unit test to exercize acpi hotplug support for multifunction
+> bridges on q35 machines. This support was added with the commit:
+>
+> d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction bridges")
+>
+> changelist:
+> v1 : initial RFC patch.
+> v2: incorporated some of the feedbacks from Igor.
+> v3: forgot to add the ASL diff for patch 3 in commit log for v2. Added now.
+>
+> Ani Sinha (3):
+>   tests/acpi/bios-tables-test: add and allow changes to a new q35 DSDT
+>     table blob
+>   tests/acpi/pcihp: add unit tests for hotplug on multifunction bridges
+>     for q35
+>   tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge
+>     test
+>
+>  tests/data/acpi/q35/DSDT.multi-bridge | Bin 0 -> 8435 bytes
+>  tests/qtest/bios-tables-test.c        |  18 ++++++++++++++++++
+>  2 files changed, 18 insertions(+)
+>  create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
+>
+> --
+> 2.25.1
+>
+>
 
