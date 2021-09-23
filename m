@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 065344154FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 03:08:02 +0200 (CEST)
-Received: from localhost ([::1]:52000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2746241550A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 03:12:00 +0200 (CEST)
+Received: from localhost ([::1]:59780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTDDT-0002rd-GF
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 21:07:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56562)
+	id 1mTDHK-0008Nz-PP
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 21:11:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTD6s-0003VU-OT
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTD6u-0003WT-Aa
  for qemu-devel@nongnu.org; Wed, 22 Sep 2021 21:01:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55479)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45346)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTD6p-00053B-5z
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 21:01:08 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTD6s-000555-6A
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 21:01:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632358866;
+ s=mimecast20190719; t=1632358869;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NFkEFxGNqyCaM3Y3ZPkb127mQ8fuYWM7B4Yx7QcPNtQ=;
- b=UFVlZBoZ4+e1C/qPihxxNiPeUFS1C5SAI9lY9SZ9sktuBFLvH8W2EN7YQtUH9YfAIn2Dcf
- vgWRk/y/auAkIRIi1FnhvZV7YeZX7r22o0gFzEtUZRWypfLcDLjGziSW2qJsJNc0oTf6R6
- qnYzn5TDcdMrhJ54YJb6/jMPuiK4x/U=
+ bh=YUK/4ITG6QvCpGIwX10NaSj4/Z3cFmKW8rO1pxjrFOg=;
+ b=Xsn9liGR7uAkt0o95pcJbg6zPyxJUM3N/vHYMwkgV2GZ6CRtTh6iMePTcl3W1IltkpG8EI
+ vtE8YwXzqjbtYzYedMt6lKoIjKVWLE5xGh4EaOkxVWLsFx4+GTHznlL+rRFUoKV/9tO84X
+ Q4QK+VGi0tMAeOu8ZcFs30AxpkU/Yr8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-_w_X51oNPAi-3uyOPoiwgw-1; Wed, 22 Sep 2021 21:01:05 -0400
-X-MC-Unique: _w_X51oNPAi-3uyOPoiwgw-1
+ us-mta-388-685bWxNZPZ-Zg1roi7da5w-1; Wed, 22 Sep 2021 21:01:06 -0400
+X-MC-Unique: 685bWxNZPZ-Zg1roi7da5w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E3EA18D6A2E;
- Thu, 23 Sep 2021 01:01:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 500761084684;
+ Thu, 23 Sep 2021 01:01:05 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9793A5FC25;
- Thu, 23 Sep 2021 01:01:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8263B68D7D;
+ Thu, 23 Sep 2021 01:01:04 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/7] docs/devel: create "Developing QEMU" subsection
-Date: Wed, 22 Sep 2021 21:00:56 -0400
-Message-Id: <20210923010101.4002759-3-jsnow@redhat.com>
+Subject: [PATCH v3 3/7] docs/devel: create "Testing & Debugging" subsection
+Date: Wed, 22 Sep 2021 21:00:57 -0400
+Message-Id: <20210923010101.4002759-4-jsnow@redhat.com>
 In-Reply-To: <20210923010101.4002759-1-jsnow@redhat.com>
 References: <20210923010101.4002759-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,56 +85,54 @@ Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/devel/index.rst               |  6 +-----
- docs/devel/section-development.rst | 12 ++++++++++++
+ docs/devel/index.rst                     |  6 +-----
+ docs/devel/section-testing-debugging.rst | 12 ++++++++++++
  2 files changed, 13 insertions(+), 5 deletions(-)
- create mode 100644 docs/devel/section-development.rst
+ create mode 100644 docs/devel/section-testing-debugging.rst
 
 diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index b5cb57124d3..915e44f05f9 100644
+index 915e44f05f9..35a7de4d0a4 100644
 --- a/docs/devel/index.rst
 +++ b/docs/devel/index.rst
-@@ -11,9 +11,7 @@ modifying QEMU's source code.
-    :includehidden:
+@@ -12,19 +12,15 @@ modifying QEMU's source code.
  
     section-community-governance
--   build-system
--   style
--   kconfig
-+   section-development
-    testing
-    fuzzing
+    section-development
+-   testing
+-   fuzzing
++   section-testing-debugging
     control-flow-integrity
-@@ -21,11 +19,9 @@ modifying QEMU's source code.
+    loads-stores
     memory
     migration
     atomics
--   stable-process
-    ci
-    qtest
+-   ci
+-   qtest
     decodetree
--   secure-coding-practices
     tcg
     tcg-icount
-    tracing
-diff --git a/docs/devel/section-development.rst b/docs/devel/section-development.rst
+-   tracing
+    multi-thread-tcg
+    tcg-plugins
+    bitops
+diff --git a/docs/devel/section-testing-debugging.rst b/docs/devel/section-testing-debugging.rst
 new file mode 100644
-index 00000000000..bba4fea30cb
+index 00000000000..e59ddab4cf5
 --- /dev/null
-+++ b/docs/devel/section-development.rst
++++ b/docs/devel/section-testing-debugging.rst
 @@ -0,0 +1,12 @@
-+Developing QEMU
-+===============
++Testing & Debugging
++===================
 +
 +.. toctree::
 +   :maxdepth: 2
 +   :includehidden:
 +
-+   build-system
-+   kconfig
-+   style
-+   secure-coding-practices
-+   stable-process
++   ci
++   fuzzing
++   qtest
++   testing
++   tracing
 -- 
 2.31.1
 
