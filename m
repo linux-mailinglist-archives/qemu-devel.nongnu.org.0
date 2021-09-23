@@ -2,67 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DA96416782
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 23:33:26 +0200 (CEST)
-Received: from localhost ([::1]:52492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7D04167BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 23:52:47 +0200 (CEST)
+Received: from localhost ([::1]:37806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTWLM-00029U-TN
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 17:33:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35582)
+	id 1mTWe6-0004Z9-Cg
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 17:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mTWJv-0001T8-3N
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 17:32:01 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37639)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mTWJn-0001ax-My
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 17:31:53 -0400
-Received: by mail-wr1-x434.google.com with SMTP id t8so21186687wrq.4
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 14:31:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vrull-eu.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vdNbrx0oncsyHBcKhKv+xBGz+DqInAcsRuS36p8/MJs=;
- b=R8zak2p4K+jKSjs0CET7yBMbrRBtOvbkoZMgqdFmRjD215lzp8KHZAWKVAqcCMj3ao
- zwwFHyDyie4Oj4hTsmCsHn8BaDqdkHOyiqB8hcJZT9ITTK0HtaLWQpft1M7B3rqYXBH0
- GNT3tyYkphvEw+sOLkV1M6/e/FeAXNqnjq+KGzZ0hb4cqVHODRxMXShmcEJaQWRmMFnG
- 2CKxNd5GaQHOSxK4xCVbqNdtyIgawB30Xd0fIVkbF5dSfq/TgYJqTcjMl//BOhQmSePl
- JfTEQR6SA6oKW1FbJAAuGBfDwTUpd4hmS/bJjDEn+Ea5elhdoviP3YYn119rS6ao9osE
- dGGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vdNbrx0oncsyHBcKhKv+xBGz+DqInAcsRuS36p8/MJs=;
- b=kMDJhoHip3j2Wq3fNWhucCZwC+i5G1fqVmLXh2oSR/0/8D4WHU1zD3LxfE7MSG+Fjq
- shfhsB341hO8BjNizT5SOh2RKp5eGraZzCcdEMyUVOaLsyVZ+C11LafRE4Ks1H6ENVH9
- JjHkDTBfFPlkPK45l4TxyEFqpNGEHncgc93a3s98CcpHEzA8Iudr6QJ/P4lsOuLgrxi8
- Xjz8kZ06m8U1MQLzs0OIrDc5twVF9KJPOypj/aw4SZDnAIQ555Z3v4QJ8bydoWfNiT5e
- 3VEb7FIlNPwQxaGVXN/yrvdefjCqtaj2hZJjRKx8djRE5zYAcPvpFD0RuGfoveMrfs79
- GNPw==
-X-Gm-Message-State: AOAM530pDakhzvMvSKjtqMxaq+AwuckBPZlnmR1IjLEMEBBtawhwq9qq
- RuOCqT+EOOG+sTtQtznNq+CvLVF5Uy3IpzG2fEO6WbxOuImD/w==
-X-Google-Smtp-Source: ABdhPJzVrcqjfZHdMNcmOELt74UbzL0sFU8f2X7FsrC4H15x3vIBWuYwYPKFRHu3QgLEyZDxme0JwCFKstiGZidBEY4=
-X-Received: by 2002:a5d:6545:: with SMTP id z5mr7692138wrv.90.1632432704241;
- Thu, 23 Sep 2021 14:31:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mTWcI-0002pp-GB; Thu, 23 Sep 2021 17:50:54 -0400
+Received: from mail-db8eur05on2118.outbound.protection.outlook.com
+ ([40.107.20.118]:52672 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mTWcE-0003gE-4I; Thu, 23 Sep 2021 17:50:53 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YpQLuHnyXCfT7M9dHxrUg8PdON5XfxZmsHegjxoXrvTg6HYXsp7csYl9bVzOHc9QT124Dd+rwdlDN3g/yW1F1fy2ExEGXNBhNJom7DcAmfGR99KBTCzAV9beHu1X1Wvof6v/c9zzWQScqeYRH82EBD0v8fZo/KgLNii5sFrvzhzavxY/yHy1NM3/zKHlxegeltwIyWY3TATVG+uqFw5soHTw0AdWhwIfKTitrU01WXGs+fUGPeZfkh0BVo+YUhygkOW2sLd8X0hiHOuIebZyLBTeD9Xj620/aEojTp3UlmEk+hCaKqorztIIOs0GH9ENxUs2w1xcJMqt35Og9Pu2RA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=TRQGOYhA0iGev2XaMhZ0hce//V8te6CkSi+8LCKHaqE=;
+ b=QK+Zk7dHsm2Jny7uTs6kubyERcgIB7XiHwspKJTrnCjsDa3FH2YFmuTZXSExCAVqN7ox/mvqb0nLl1iH/Vlk/wCk6+/OVjrki2a8asSXZ1AUF3RtgXB0j0EKdUowq5xrQ+E6f05wefUwNcW5KMCsDuIvn6snyr4UbLM6WGhV09lW9NTMJtZVJTMfaTyYCyyjOiGmsWPGGnQMFZuB3SnrAhfjYyosn9vypUFyX0+4th7TvPEPUA4whezMA4LL72hFzL4IWJ4tU3gf9QpP2zSHo+zwJR+6awXFoZZPAPj5BXdZhS2/xpVSN+OjXEFchIFbyRAU1osjDazqjor9kXuQlg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TRQGOYhA0iGev2XaMhZ0hce//V8te6CkSi+8LCKHaqE=;
+ b=vB/k0Cag/zEf2mlUn5ugrrR/eQKAlugxam1HIJBNpKYfnC+88B3Hv/esG4P3LD0TqHSZn1NAyYfypB0Osg+dGojVvg3xAa8iZcEK5bSKVE4l4HSI8NUj/w+/CI0oX5krzi6zOKvrzlMIovT8zhFnvyVfYaaykCHtY1JJf+e+EbA=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1906.eurprd08.prod.outlook.com (2603:10a6:203:48::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.15; Thu, 23 Sep
+ 2021 21:50:44 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.015; Thu, 23 Sep 2021
+ 21:50:44 +0000
+Subject: Re: [PATCH v6 07/11] block: use int64_t instead of int in driver
+ write_zeroes handlers
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, integration@gluster.org,
+ kraxel@redhat.com, idryomov@gmail.com, berto@igalia.com, philmd@redhat.com,
+ pl@kamp.de, ronniesahlberg@gmail.com, fam@euphon.net, sw@weilnetz.de,
+ jsnow@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
+ pavel.dovgaluk@ispras.ru, ari@tuxera.com, hreitz@redhat.com, kwolf@redhat.com
+References: <20210903102807.27127-1-vsementsov@virtuozzo.com>
+ <20210903102807.27127-8-vsementsov@virtuozzo.com>
+ <20210923203345.efajcgbm3qd2sam5@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <07e2d433-766a-4a46-44f2-a8e19729c04d@virtuozzo.com>
+Date: Fri, 24 Sep 2021 00:50:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+In-Reply-To: <20210923203345.efajcgbm3qd2sam5@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PR3P192CA0017.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:102:56::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
-In-Reply-To: <20210911140016.834071-1-philipp.tomsich@vrull.eu>
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Date: Thu, 23 Sep 2021 23:31:33 +0200
-Message-ID: <CAAeLtUBY4Q-YoWVpp1L6ehG3p9RK3EvQ6JCgaXfhG8Qjyn1Z0g@mail.gmail.com>
-Subject: Re: [PATCH v11 00/16] target/riscv: Update QEmu for Zb[abcs] 1.0.0
-To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received: from [192.168.100.5] (185.215.60.205) by
+ PR3P192CA0017.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:56::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4544.13 via Frontend Transport; Thu, 23 Sep 2021 21:50:43 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0af0370a-f6c0-49f4-7317-08d97edc31d9
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1906:
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB19067439AA0007FE4B21B131C1A39@AM5PR0801MB1906.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Kamp7Oq8LEWv3qZLj2gLXwyvKrpO69pBteT8mjLqkR/e6xLMZ6YzIZCVWZqg+eWPE2CM9ajrKtDB9YMBu4dKH8yCcBjjJHO5Nh/ebqCgbPuN6BNPe0qMo95NsmKCRgUmB7dLZYCeL0PG0rwlOZ5g7n218PHzdIikhp9iH952o68uEdye523N0rh054/Ps+Mu1FkZmUKu/zcye/UKrdHyscuYLpRr475QgIAB5Xr12vkN1GBxHuhwiKyQ/21uX0N2sW1ohia/nkl11v8M7TCf8thRdNIE5pP4hg7yk8QIoF3BuWiOUQygOBJ9wnyHwFCGV88Hei9f7Q2SyDlMaVJdcaBOk4XRAWwf39wtczvAFOGXJduuUXbFy06v/mc1A1UTuRnmstKUdkcOIiYuRkgl8BUpU2e2FxGtCE9pX8TqfAEjcBeLBoid+jIH0rLXFyU+En8yRUGc3awyWFxyidqCyp1Q2L5dDJntLAzJG2xUBy3O+EFrXUYfNVUZPAePdnZTMJsgR4AxdiZSVoOotz+7dWvjqJ4ZHZdeGWu+6QRYnQ8xuWgIEbRQVOJ6/qcDMwPGtSwsRItvuI8pWeDWtV6X0oVoRVZ5wKW6ZxrD4S9iwZTip9IrvNAIzoskcq2RJ+uLcDK/nsNfiUWTwNBiy/zsptD8bh4kcfnO9kFxSI4Hyx606bI+DfskwBKvplzT+gQfMcTt1a7+otPqOcwagtuc1OiJWUp2egfdTQPH6D06IAF86zjKaBWWCQyVVUvz1T3X
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(5660300002)(83380400001)(66556008)(36756003)(86362001)(8676002)(4326008)(2616005)(31696002)(956004)(16576012)(7416002)(6916009)(38350700002)(66476007)(31686004)(38100700002)(52116002)(508600001)(8936002)(66946007)(2906002)(6486002)(316002)(26005)(186003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c1FQVFdteWxRajdIdGpGNWc4MFdrTHRzK3A3eFpiMGVXdC9NUUg5K0o2RlN4?=
+ =?utf-8?B?YWMyZWhyYzlnQTJBNmhFOGFWcERIR3E2R0pzOFNEZDR5bUlJM2tTMzBWM2RV?=
+ =?utf-8?B?MVdhZ3ozVXF2RWp3L1NJazFJcitCaTdKODJJQnpEclBQZDhodDNUK0JlTXZR?=
+ =?utf-8?B?RWZ2NHlYNmMwUE1QU200d2IvRXU4WFVkQ0pkWkdtTXZVenNONU9CZ1htYXMy?=
+ =?utf-8?B?ZXhML1liVnFsdk4vaDgxY21qRDJ3WkZlejNxaGpoc1U1OGdWL2ozN3ZzTEdZ?=
+ =?utf-8?B?TVA3UTByejFSMFVOVTJ1QU9YbHZYSnRtb1hyMWJzdHUrRlZrNkdBTkhoNE45?=
+ =?utf-8?B?SnJ2dnBaRENacmgzdis2bXduRllOMVBsYVZTamZHY1YyZ080M0FTcWg5RE96?=
+ =?utf-8?B?djlwTDlOQ3orcVg1clMrcUVsbzBsNXF2d2srOHdTNTgvSUpsQnh6cU5xN2pW?=
+ =?utf-8?B?SEROczNISXMyZkRDcVBJSFVuVFZuMFdPTDZ6aTlqV0RwYjNtWDZobGkwVXdq?=
+ =?utf-8?B?Z3RhOURLSmJHTzNoZlZrTTlnNlMrVGFnOThFQUxHaG8rSFIvNXRoNWU2ZjV0?=
+ =?utf-8?B?TVAwdzViOGV3cndkVndtNmg0QWsyZ0gwbXBaQW9ra05aQVVnbjNGTTRTaEFB?=
+ =?utf-8?B?SzFOWTJhdStHUGN3ajYvb1dSY05GUXUxL0wza3hoVWhIUDdtVGx4eTRPUWQ2?=
+ =?utf-8?B?Y1dCaXZ0TWM3eHltMFhxWVh4WFJiekltME1NbHBHWU5mUm9CaStCTGE0QWxo?=
+ =?utf-8?B?RjZTWHV1MVY4ZGE5YmVzVzdZblpZNzd1emhOS0x2VlZjZnJTc3R0YXhNM25s?=
+ =?utf-8?B?d0N4eis0czM2eVhUY1JBaHJ0TW1oNzh6RVd1YzBTdCtDZWhpbFNHbTNIbGlW?=
+ =?utf-8?B?b204eFFCNzdjRWVWZ3NvZHRlZDFaU0FzMkV3MmdyeUQyWmQ3VU5ZNndZRjZs?=
+ =?utf-8?B?UUdxL05QaGpxanNwTVd0YmxqYjhDcGo4ai93SFBWYTdrS3EzTUlkNDRtWFA2?=
+ =?utf-8?B?QWtjNmVqN1ZQOG9WU2QvQ2JyZjRZSTNLQ1ErQnpIVUsxdnpHQUVIZmNMK2Y0?=
+ =?utf-8?B?eVQrY254MVAwY1FCd291UkszOXYveUIyaEZrS1psbmEwU3lvS0U2NlNsNmxY?=
+ =?utf-8?B?NWUwNk5oY0o5TzZxcHNrNTlxcEZWaXY3emh5TjluSTljenV3SVY0dG5kVng0?=
+ =?utf-8?B?dVRkYjdQV0JVUlEzR2p6M3lRQTFYSVJ1dHl0V3Q5cGtGRnlFR2ZVRVlTUjJt?=
+ =?utf-8?B?RWFqWXFSTTJJekpaWURVVkN3ZEl4RFNoTk5LZjBDUjlncVFpVkdObGVCQVZi?=
+ =?utf-8?B?amZ3V3N1OVFYbkhRNkhrQjQyUnBMbmE0RWx3d2lGZmp4cmdJbmpnOG1jM0Vp?=
+ =?utf-8?B?bmU1MU94K0l2RTdnWkg3dWUxMldTTHNyM0x4OFFsckFrenNSZ2N1bXAzUGdR?=
+ =?utf-8?B?MXpBQWhyVkZNQXY1cWZwdjVRMDZhMGJrd2Yyem1OMmd1aGxkMiswMldMbng5?=
+ =?utf-8?B?Q2p3SFRUSjY4ekVmbzh4bWxqWkRVUFV0Y2hONmg1bTg5d0dlK1EzMUJCOURl?=
+ =?utf-8?B?aHNOV1ZkZzR6Ym1HWHl0QVU0NVRrNENvN2xXVUVxdmVtaEx3WjdIenRaTEtu?=
+ =?utf-8?B?Y1BiTlRGY3ZUSUUycDZnZWFobmtLNXFsR3QvZzNNb0t2NHpVYW9MN0ZVYzhL?=
+ =?utf-8?B?Sm5lV1lpMDlZOGg0TjhEbTJVKytYYUlXRXZtbUNsUEJJR1RYK2RnV3B6dHhU?=
+ =?utf-8?Q?IpY7BXwD2B4Oc+9pESoHgmsTBbhetT+B1o7LqjT?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0af0370a-f6c0-49f4-7317-08d97edc31d9
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2021 21:50:44.6503 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yeeSatBF+i7Yt80fViWFSmPSMHMhFREyKljvek5e0qbhNUYb/KrSeefFSPsmVw6TrSTZxBuaAihzW38M3le+NiXuy71dr7aOhyn5Ayxud8k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1906
+Received-SPF: pass client-ip=40.107.20.118;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,157 +149,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Kito Cheng <kito.cheng@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alistair,
+23.09.2021 23:33, Eric Blake wrote:
+> On Fri, Sep 03, 2021 at 01:28:03PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+>> We are generally moving to int64_t for both offset and bytes parameters
+>> on all io paths.
+>>
+>> Main motivation is realization of 64-bit write_zeroes operation for
+>> fast zeroing large disk chunks, up to the whole disk.
+>>
+>> We chose signed type, to be consistent with off_t (which is signed) and
+>> with possibility for signed return type (where negative value means
+>> error).
+>>
+>> So, convert driver write_zeroes handlers bytes parameter to int64_t.
+>>
+>> The only caller of all updated function is bdrv_co_do_pwrite_zeroes().
+>>
+>> bdrv_co_do_pwrite_zeroes() itself is of course OK with widening of
+>> callee parameter type. Also, bdrv_co_do_pwrite_zeroes()'s
+>> max_write_zeroes is limited to INT_MAX. So, updated functions all are
+>> safe, they will not get "bytes" larger than before.
+>>
+>> Still, let's look through all updated functions, and add assertions to
+>> the ones which are actually unprepared to values larger than INT_MAX.
+>> For these drivers also set explicit max_pwrite_zeroes limit.
+>>
+> [snip]
+>>
+>> At this point all block drivers are prepared to support 64bit
+>> write-zero requests, or have explicitly set max_pwrite_zeroes.
+> 
+> The long commit message is essential, but the analysis looks sane.
+> 
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+> 
+>> +++ b/block/iscsi.c
+> 
+>> @@ -1250,11 +1250,21 @@ coroutine_fn iscsi_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
+>>       iscsi_co_init_iscsitask(iscsilun, &iTask);
+>>   retry:
+>>       if (use_16_for_ws) {
+>> +        /*
+>> +         * iscsi_writesame16_task num_blocks argument is uint32_t. We rely here
+>> +         * on our max_pwrite_zeroes limit.
+>> +         */
+>> +        assert(nb_blocks < UINT32_MAX);
+>>           iTask.task = iscsi_writesame16_task(iscsilun->iscsi, iscsilun->lun, lba,
+>>                                               iscsilun->zeroblock, iscsilun->block_size,
+>>                                               nb_blocks, 0, !!(flags & BDRV_REQ_MAY_UNMAP),
+>>                                               0, 0, iscsi_co_generic_cb, &iTask);
+> 
+> Should this be <= instead of < ?
+> 
+>>       } else {
+>> +        /*
+>> +         * iscsi_writesame10_task num_blocks argument is uint16_t. We rely here
+>> +         * on our max_pwrite_zeroes limit.
+>> +         */
+>> +        assert(nb_blocks < UINT16_MAX);
+>>           iTask.task = iscsi_writesame10_task(iscsilun->iscsi, iscsilun->lun, lba,
+>>                                               iscsilun->zeroblock, iscsilun->block_size,
+>>                                               nb_blocks, 0, !!(flags & BDRV_REQ_MAY_UNMAP),
+> 
+> here too.  The 16-bit limit is where we're most likely to run into
+> someone actually trying to zeroize that much at once.
+> 
+>> +++ b/block/nbd.c
+>> @@ -1407,15 +1407,17 @@ static int nbd_client_co_pwritev(BlockDriverState *bs, int64_t offset,
+>>   }
+>>   
+>>   static int nbd_client_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
+>> -                                       int bytes, BdrvRequestFlags flags)
+>> +                                       int64_t bytes, BdrvRequestFlags flags)
+>>   {
+>>       BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+>>       NBDRequest request = {
+>>           .type = NBD_CMD_WRITE_ZEROES,
+>>           .from = offset,
+>> -        .len = bytes,
+>> +        .len = bytes,  /* .len is uint32_t actually */
+>>       };
+>>   
+>> +    assert(bytes < UINT32_MAX); /* relay on max_pwrite_zeroes */
+> 
+> And again.  Here, you happen to get by with < because we clamped
+> bl.max_pwrite_zeroes at BDRV_REQUEST_MAX_BYTES, which is INT_MAX
+> rounded down.  But I had to check; whereas using <= would be less
+> worrisome, even if we never get a request that large.
+> 
+> If you agree with my analysis, I can make that change while preparing
+> my pull request.
 
-Is there something that is holding this series up?
-I believe we should avoid having an outdated draft version of the
-bitmanip proposal in 6.2.
+I agree, <= should be right thing, thanks!
 
-Thanks,
-Philipp.
+> 
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> 
 
 
-On Sat, 11 Sept 2021 at 16:00, Philipp Tomsich <philipp.tomsich@vrull.eu> wrote:
->
->
-> The Zb[abcs] extensions have complete public review and are nearing
-> ratifications. These individual extensions are one part of what was
-> previously though of as the "BitManip" (B) extension, leaving the
-> final details of future Zb* extensions open as they will undergo
-> further public discourse.
->
-> This series updates the earlier support for the B extension by
->  - removing those instructions that are not included in Zb[abcs]
->  - splitting this into 4 separate extensions that can be independently
->    enabled: Zba (addressing), Zbb (basic bit-manip), Zbc (carryless
->    multiplication), Zbs (single-bit operations)
->  - update the to the 1.0.0 version (e.g. w-forms of rev8 and Zbs
->    instructions are not included in Zb[abcs])
->
-> For the latest version of the public review speicifcaiton
-> (incorporating some editorial fixes and corrections from the review
-> period), refer to:
->   https://github.com/riscv/riscv-bitmanip/releases/download/1.0.0/bitmanip-1.0.0-31-g2af7256.pdf
->
->
-> Changes in v11:
-> - Swaps out the EXT_ZERO to EXT_NONE, as no extension is to be performed.
-> - Fix typos in commit message.
->
-> Changes in v10:
-> - New patch
-> - New patch, fixing regressions discovered with x264_r.
-> - New patch, fixing correctnes for clzw called on a register with undefined
->   (as in: not properly sign-extended) upper bits.
-> - Retested with CF3 and SPEC2017 (size=test, size=ref); addressing new
->   regressions (due to bugs in gen_clzw) from testing with SPEC2017 using
->   different optimization levels
-> - Split off gen_add_uw() fix into a separate patch, as requested.
->
-> Changes in v9:
-> - Retested with CF3 and SPEC2017 (size=test only).
-> - Rebased to 8880cc4362.
-> - Update gen_add_uw() to use a temporary instead of messing with
->   arg1 (fixes a regression after rebase on CF3 and SPEC2017).
-> - Rebased to 8880cc4362.
-> - Picked up Alistair's Reviewed-by, after patman had failed to catch
->   it for v8.
-> - Rebased to 8880cc4362.
-> - Fixes a whitespace-at-the-end-of-line warning for the rev8 comment
->   in insn32.decode
-> - Rebased to 8880cc4362.
->
-> Changes in v8:
-> - Optimize orc.b further by reordering the shift/and, updating the
->   comment to reflect that we put the truth-value into the LSB, and
->   putting the (now only) constant in a temporary
-> - Fold the final bitwise-not into the second and, using and andc.
->
-> Changes in v7:
-> - Free TCG temporary in gen_orc_b().
->
-> Changes in v6:
-> - Move gen_clmulh to trans_rvb.c.inc, as per Richard H's request.
-> - Fixed orc.b (now passes SPEC w/ optimized string functions) by
->   adding the missing final negation.
->
-> Changes in v5:
-> - Introduce gen_clmulh (as suggested by Richard H) and use to simplify
->   trans_clmulh().
->
-> Changes in v4:
-> - Drop rewrite of slli.uw (to match formal specification), as it would
->   remove an optimization.
-> - Change orc.b to implementation suggested by Richard Henderson
-> - reorder trans_rev8* functions to be sequential
-> - rename rev8 to rev8_32 in decoder
-> - Renamed RV32 variant to zext_h_32.
-> - Reordered trans_zext_h_{32,64} to be next to each other.
->
-> Changes in v3:
-> - Split off removal of 'x-b' property and 'ext_b' field into a separate
->   patch to ensure bisectability.
-> - The changes to the Zba instructions (i.e. the REQUIRE_ZBA macro
->   and its use for qualifying the Zba instructions) are moved into
->   a separate commit.
-> - Remove the W-form instructions from Zbs in a separate commit.
-> - Remove shift-one instructions in a separate commit.
-> - The changes to the Zbs instructions (i.e. the REQUIRE_ZBS macro) and
->   its use for qualifying the Zba instructions) are moved into a
->   separate commit.
-> - This adds the Zbc instructions as a spearate commit.
-> - Uses a helper for clmul/clmulr instead of inlining the calculation of
->   the result (addressing a comment from Richard Henderson).
-> - The changes to the Zbb instructions (i.e. use the REQUIRE_ZBB macro)
->   are now in a separate commit.
-> - Moved orc.b and gorc/gorci changes into separate commit.
-> - Using the simpler orc.b implementation suggested by Richard Henderson
-> - Moved the REQUIRE_32BIT macro into a separate commit.
-> - rev8-addition & grevi*-removal moved to a separate commit
-> - Moved zext.h-addition & pack*-removal to a separate commit.
-> - Removing RVB moved into a separate commit at the tail-end of the series.
->
-> Changes in v2:
-> - Fix missing ';' from last-minute whitespace cleanups.
->
-> Philipp Tomsich (16):
->   target/riscv: Introduce temporary in gen_add_uw()
->   target/riscv: fix clzw implementation to operate on arg1
->   target/riscv: clwz must ignore high bits (use shift-left & changed
->     logic)
->   target/riscv: Add x-zba, x-zbb, x-zbc and x-zbs properties
->   target/riscv: Reassign instructions to the Zba-extension
->   target/riscv: Remove the W-form instructions from Zbs
->   target/riscv: Remove shift-one instructions (proposed Zbo in pre-0.93
->     draft-B)
->   target/riscv: Reassign instructions to the Zbs-extension
->   target/riscv: Add instructions of the Zbc-extension
->   target/riscv: Reassign instructions to the Zbb-extension
->   target/riscv: Add orc.b instruction for Zbb, removing gorc/gorci
->   target/riscv: Add a REQUIRE_32BIT macro
->   target/riscv: Add rev8 instruction, removing grev/grevi
->   target/riscv: Add zext.h instructions to Zbb, removing
->     pack/packu/packh
->   target/riscv: Remove RVB (replaced by Zb[abcs])
->   disas/riscv: Add Zb[abcs] instructions
->
->  disas/riscv.c                           | 157 ++++++++-
->  target/riscv/bitmanip_helper.c          |  65 +---
->  target/riscv/cpu.c                      |  30 +-
->  target/riscv/cpu.h                      |   7 +-
->  target/riscv/helper.h                   |   6 +-
->  target/riscv/insn32.decode              | 115 +++----
->  target/riscv/insn_trans/trans_rvb.c.inc | 419 ++++++++----------------
->  target/riscv/translate.c                |   6 +
->  8 files changed, 366 insertions(+), 439 deletions(-)
->
-> --
-> 2.25.1
->
+-- 
+Best regards,
+Vladimir
 
