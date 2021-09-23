@@ -2,142 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 403EB416163
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 16:47:53 +0200 (CEST)
-Received: from localhost ([::1]:39168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BFB41616C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 16:50:06 +0200 (CEST)
+Received: from localhost ([::1]:42202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTQ0u-00025X-AZ
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 10:47:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55720)
+	id 1mTQ33-0004Dg-6h
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 10:50:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1mTPyr-0001Ki-Dd
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 10:45:46 -0400
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:18760)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1mTQ1Y-0002vV-Us; Thu, 23 Sep 2021 10:48:32 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:32798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1mTPyn-0006DF-QA
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 10:45:44 -0400
-Received: from pps.filterd (m0127840.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18NE52sw002096; 
- Thu, 23 Sep 2021 07:45:34 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=proofpoint20171006;
- bh=qP/e8os3SWnpSnTKE9F7ira9foXW3jvEmtEaWBG/UfQ=;
- b=PbaCAsfbijQA+cyRQbjdwNZw450vsR/b/lYQkriqAvTzIleVUqfYTKzxYg1NJWMnfE9q
- 2Zv2FVJY2KY7XK0mAqB8Yj7eZEMwiCfWugNynbfLkRBGmO919BbvGt3VJLtn7CTf5hJQ
- Y3ERGBzG1BPh+/6zGIsYyAxyec05A0wdqg8vxf9qd2FAoxDeAjnKshEz6DVc9Rq9NE/d
- MNNeagBdNc26zldC9A5XLOGXK0nEi9NIC4qlPtka4Khedl2GWzPe17tBCXmWzjAbf5Y+
- OKbOg5kGy+6QKPYCVOCq7uioux1acwWGA7QxxfaMOOErXVU/Pc12MxjrOvCc1wBgZN0n Gg== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
- by mx0a-002c1b01.pphosted.com with ESMTP id 3b8arksu1t-1
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1mTQ1W-0000D8-3P; Thu, 23 Sep 2021 10:48:32 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18NDISt4017556; 
+ Thu, 23 Sep 2021 10:48:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=cw5/R1CSN0L2vascfWrE89FkwXnI98+6Z3RrVn4cEMM=;
+ b=Jkvaoii4iY+8K0Rg8IHBZd/PAszKIRiEEI/Mns5HN0EwNEMgu2/a23cg+OD/vUYBZVCu
+ v0QlZ0UrBTkond+DPbmYEqUR6YUBNGN/GvFoheEn4QyMbfBMLJsPWNrpcrjvIskU0v5O
+ xdw8TsZ5FNaertU4BfDt7OfCQim6jqlnscLSu0/hvKah9q4o/HyoXPm9e+EuLJgHLFwJ
+ JNqzev5QIxSYPkMTiZhfQIPHvNa2mXbh3JKofSRqzM4CV3byTR3I69qEjfEwEoA/25Vy
+ T8h5Iqt9tWaUDr4/aweRbMpHktJO/KPPaRknFwT/VcXO/gseJzbm0Mj4ezcZfVkLpfCf Hw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3b8tbr2fxa-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Sep 2021 07:45:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NLJSncksmYlVScpPZT6EYZcq47zYeBOaU0WJsISFwemPHscsGSbM0xm5hbvqq9fxb7sYxN2XS9QSFRduLxzmAf2Cn5Tx1BgVAgu9apQDRzKmB5B3DSUNnhD34QO9gx0zwiCeHgdcvGT0w5g84yKC+6FjU9gtPva6prOOIG1CzBAl20lFseMJqW+iDpD+bQe1+rlCNVWR1jx6Uz+JsR7poNCCuD67J+900gGOwfyWTb0swi0zh45zw/ieGgNDNsYbjPkQqYjVO0PgMdZo3zOuGCYxLL9zA0/AkIwoPvPx+WbdYsZrC/1L56vyhf3yKAboh4M9N5R9NBBoGFKiodOWng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=qP/e8os3SWnpSnTKE9F7ira9foXW3jvEmtEaWBG/UfQ=;
- b=g1HqWf2WHgc3X+R2n7xkus2M3lg12jQWMpSHLOW3w+po3GfI9NJZj0IfQ0bn7BXXRH852r0Hkqbbn1M0HM8fgchMVi1zwO5v9SmXq1PpNk65DFyicscYpboGC1lzaPCsuGvo42kIEQeWisrSIpYkBSB9Cxn6J+bkSh7fd5gAADmJVoARcMRxZlSJt9v2n25f9aFugUIJYYQnY+UKQMXGxDvvW8WBxIHErAJ9PWcq6NwbZVXXWug+RBojthAs8OiIcxudpBCL0lWLFn3xDp6PGLvDPWI6yoOBhjf8U9cKNbpCliHcIfDtF0QEWdKZNBgGIC59s/24s3wXikjJJAxU6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from SN6PR02MB4543.namprd02.prod.outlook.com (2603:10b6:805:b1::24)
- by SN4PR0201MB3583.namprd02.prod.outlook.com (2603:10b6:803:45::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Thu, 23 Sep
- 2021 14:45:30 +0000
-Received: from SN6PR02MB4543.namprd02.prod.outlook.com
- ([fe80::992f:b2c5:6a7c:3cfd]) by SN6PR02MB4543.namprd02.prod.outlook.com
- ([fe80::992f:b2c5:6a7c:3cfd%3]) with mapi id 15.20.4544.015; Thu, 23 Sep 2021
- 14:45:30 +0000
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: "mst@redhat.com" <mst@redhat.com>, "peter.maydell@linaro.org"
- <peter.maydell@linaro.org>, "eblake@redhat.com" <eblake@redhat.com>
-Subject: [PATCH v3] Prevent vhost-user-blk-test hang
-Thread-Topic: [PATCH v3] Prevent vhost-user-blk-test hang
-Thread-Index: AQHXsImndLAOcgO8DEuf/MI2vsXIgA==
-Date: Thu, 23 Sep 2021 14:45:30 +0000
-Message-ID: <20210923144520.21873-1-raphael.norwitz@nutanix.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: git-send-email 2.20.1
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ceaf0fc6-d009-429d-9fd9-08d97ea0ca47
-x-ms-traffictypediagnostic: SN4PR0201MB3583:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN4PR0201MB3583D54A535DAE99BD841DB3EAA39@SN4PR0201MB3583.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:773;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xrTSUp7hrnLOAnVzV6aNvRcrCh3ipFlSt6PCSjOYTRabH0Cj3bedGdvYmqQTAx6vivxNtYmMJKqv+dHpb3xJojGu7v/rNmwoJA/MKaVlcZEcfRfPo8/IEiyHjhJ5zBA2QqC1pL7T+uVbJwwhDfnaUwZs5W5xR6R9LJkFDlp/LTtG3+ZE0TnZSUs3lOHwSELn4XeJhCEay+HkK5QzrCKoeGckUrvSKAPIQBAlm0V8b8nHQQ1uRDa/vHGkyDbNFljxg9PKQm+dba+1rukm8dklBZfoyh+yw8fQdqM8WRiNjxFeDXtF3RT0B0n02DX3oVjySv9lVJwAji410TVxuigQEXuEc6Kxdqb4uTdPf49Qmvl0yXIMvOj6RbaFkjJn3+vWOXcDsH/zsfA//CtHD/bC0SKmYZ6sa1GZmKFFeCO9IZm9Bu61pFqsKxbBvoVS4lP688kLIc9S/iQ5cotCvKAdmrWbfqS1o8g8PTXYId8hd3bd6HdUGRf+rCpZhPWbbS93VSucEqJ8ZKURg8Se9vRY80ekSuEArpJvJbtlfWDzBeh1Hshc/F6qi3P/u5uhJCBqHowJbCBhN4frudsO1QngrRKpOxM7Rv0zcMHN9ZWbj/txi57XM8I3FHcgE9B681gBlliFKvAARZ6ElrejK9qabk8GMNAzb5u/rYWdlWAcPamFjcFxQJtSx07fhw+ixpke2oFmcGk9Ux2LzTbNvsdZpup/ycU4g2H+0k2yUynFOtfAP3dxqPQN3Tyym6D1K8ik6YCGa6L1UUjPBIVWZ+h/9SqfqrOmKaaJ6/4dOMg6pN4=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR02MB4543.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(107886003)(44832011)(1076003)(6486002)(71200400001)(86362001)(4326008)(36756003)(6512007)(76116006)(91956017)(66446008)(66556008)(66476007)(26005)(966005)(8676002)(186003)(2616005)(6506007)(110136005)(316002)(38100700002)(54906003)(38070700005)(122000001)(83380400001)(5660300002)(66946007)(8936002)(508600001)(2906002)(64756008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?QVsz/vipjpJBGXL1IkK8rVBZgjNGYR+wuknluXBgF+Cj/jWTDFhG/P4jAx?=
- =?iso-8859-1?Q?srph+JfvSp9SEiuHyHGtoNtBOW4y9DmIR0qXlnB4kME288rOJ/UHtVDagJ?=
- =?iso-8859-1?Q?uGQ8UvCiP0RFGTe9wr74sGEKUi5L8NS/XQN+9+gz5cLegzZUNMl9Kst5ko?=
- =?iso-8859-1?Q?SeFr3dE1ZnhyBQqZLauw84vl6dcwyoIHxtZBq33xJRPh5fkP/7PsbXaqOI?=
- =?iso-8859-1?Q?pSUhsSvTL/pK68WwlhGJOPpYIfVN651wXiD//x1bUALg349Z++kxqJ9gvP?=
- =?iso-8859-1?Q?NbUNDzcdDyu7QB6i5ErHusPFEiUEP0q1ml6OskGgATXubmBbA780kQ78uC?=
- =?iso-8859-1?Q?rmGJgiOSTOmvbhuPD5kVHtDGSvnRzNnJpXu3GmkHEEodLzYnRB5dsPDHnZ?=
- =?iso-8859-1?Q?1jOlD8FuGMBdq5QbFaVWA39TYYHuhzhBBX+FlSJDt3rXA3rvERQkjL6znR?=
- =?iso-8859-1?Q?chYJNTGUDD3mC72BBsmA+BhwftH4Z1jyKXwWeDO8gyL3Q4vU4xnDR67A4N?=
- =?iso-8859-1?Q?xtkE6tZ9VFzIm84ut7nr/VrvSH5hac1XQOyzlbdmU5ka1O/hb1WzAcE8/M?=
- =?iso-8859-1?Q?vwdzYJ7stgyJCTGfcHJ8y7/dqd2/bpqivmOJt0qz9P50TK896NZQrvTjgk?=
- =?iso-8859-1?Q?Adb2qIFPJnpJ8kejYUhCDvIGp3WUorPHmTr2wN65BxrX+VQGT2b9bY5t2p?=
- =?iso-8859-1?Q?QDC6A6YNKSboUYRaGH8sT5L5tRiBMD15k4Q1RzdbUnW+Qm2RoMPzZCyDw/?=
- =?iso-8859-1?Q?hDJ6ls65CrHDpbPi70HMk9CBQfOfdZOCInK1h8BBLPPLpGTd9i/F7D8unC?=
- =?iso-8859-1?Q?XWnzvKQsiIN7GCxkavZaOiUPPPtU3cnQtIil9EjYyrXYNMyMvcLNDFpYHU?=
- =?iso-8859-1?Q?7WV0uCYJMoRHqK9Mkb69UpLNSzG3lhDdNzD6gr0e8hvqKRaWXm+nJlEDb1?=
- =?iso-8859-1?Q?uaOdJhY+XviW+oVs/6Xdl+FjJynHq8nqXrEu4EjdE8xcyBzTJxAPWY8VYn?=
- =?iso-8859-1?Q?7QCcK+DTGCDJdvR+FVrUepQYava9RkGx3yyYzihhYWkVEBYik7jlSALTyU?=
- =?iso-8859-1?Q?A1I0muWZRTB4qe9CF02G2dHO2HL3oonkVk8CSPwZZ50+zo2qJJgfe3bwHu?=
- =?iso-8859-1?Q?iVzjN+TqOS9R2flFqnSsNFIVmxUqlNbKGISKq38hDQX8Am9/av8Z50WeM0?=
- =?iso-8859-1?Q?eu0oMTkp5jeYPA1NCnAHSSuZEnX9F3i8jPRTCVS/oT2XNS9iq5mTousOFw?=
- =?iso-8859-1?Q?TrUb/60NDgo0RI+CgpsTFtAl3zvLTST/6E8w0OeS3eyc56PWgLU8DRgpfi?=
- =?iso-8859-1?Q?U4MnZc0YppxELrbwRDpY9jRENZqIf1kHTS++ZDi4Owm/0MOMNNEAPO+3We?=
- =?iso-8859-1?Q?MecF5d5ymH?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ Thu, 23 Sep 2021 10:48:27 -0400
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18NEbmC6028718;
+ Thu, 23 Sep 2021 10:48:27 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3b8tbr2fw6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 10:48:27 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18NEm7tY013354;
+ Thu, 23 Sep 2021 14:48:24 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3b7q6rbquy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 14:48:24 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 18NEhU9H52756936
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Sep 2021 14:43:30 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4D8B84C05A;
+ Thu, 23 Sep 2021 14:48:22 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E8A9F4C04A;
+ Thu, 23 Sep 2021 14:48:21 +0000 (GMT)
+Received: from li-43c5434c-23b8-11b2-a85c-c4958fb47a68.ibm.com (unknown
+ [9.171.83.132])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 23 Sep 2021 14:48:21 +0000 (GMT)
+Subject: Re: [PATCH] block: introduce max_hw_iov for use in scsi-generic
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210923130436.1187591-1-pbonzini@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <5ab3b92b-92ef-e13d-4ec0-f73bec5a3782@de.ibm.com>
+Date: Thu, 23 Sep 2021 16:48:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4543.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ceaf0fc6-d009-429d-9fd9-08d97ea0ca47
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2021 14:45:30.1755 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cCc9Dv1b8WjgIF+6svujoA7y0hmPp5AZ9rGZMXQ3zSXc1kdb3/TCAoIjHI2KXJaFTtquWqsgqZKQJP+zdPcOZdITZ9VbLsQiX3Wwy6rlIf4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR0201MB3583
-X-Proofpoint-GUID: KuJGhAeA03nI8DtvQEhTnQ4UqD9H4E6u
-X-Proofpoint-ORIG-GUID: KuJGhAeA03nI8DtvQEhTnQ4UqD9H4E6u
+In-Reply-To: <20210923130436.1187591-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: mWpeGdtYwN8MjOyA4lhdQ9sIVTYWxXPd
+X-Proofpoint-ORIG-GUID: pTsIc791oYdG5sFCxw-Xua_3C1ES-XJz
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
  definitions=2021-09-23_04,2021-09-23_01,2020-04-07_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.151.68;
- envelope-from=raphael.norwitz@nutanix.com; helo=mx0a-002c1b01.pphosted.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0
+ adultscore=0 priorityscore=1501 malwarescore=0 lowpriorityscore=0
+ clxscore=1015 suspectscore=0 phishscore=0 bulkscore=0 impostorscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109200000 definitions=main-2109230091
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -151,108 +112,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "sgarzare@redhat.com" <sgarzare@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the vhost-user-blk-test, as of now there is nothing stoping
-vhost-user-blk in QEMU writing to the socket right after forking off the
-storage daemon before it has a chance to come up properly, leaving the
-test hanging forever. This intermittently hanging test has caused QEMU
-automation failures reported multiple times on the mailing list [1].
 
-This change makes the storage-daemon notify the vhost-user-blk-test
-that it is fully initialized and ready to handle client connections by
-creating a pidfile on initialiation. This ensures that the storage-daemon
-backend won't miss vhost-user messages and thereby resolves the hang.
 
-[1] https://lore.kernel.org/qemu-devel/CAFEAcA8kYpz9LiPNxnWJAPSjc=3Dnv532bE=
-dyfynaBeMeohqBp3A@mail.gmail.com/
+Am 23.09.21 um 15:04 schrieb Paolo Bonzini:
+> Linux limits the size of iovecs to 1024 (UIO_MAXIOV in the kernel
+> sources, IOV_MAX in POSIX).  Because of this, on some host adapters
+> requests with many iovecs are rejected with -EINVAL by the
+> io_submit() or readv()/writev() system calls.
+> 
+> In fact, the same limit applies to SG_IO as well.  To fix both the
+> EINVAL and the possible performance issues from using fewer iovecs
+> than allowed by Linux (some HBAs have max_segments as low as 128),
+> introduce a separate entry in BlockLimits to hold the max_segments
+> value from sysfs.  This new limit is used only for SG_IO and clamped
+> to bs->bl.max_iov anyway, just like max_hw_transfer is clamped to
+> bs->bl.max_transfer.
+> 
+> Reported-by: Halil Pasic <pasic@linux.ibm.com>
+> Cc: Hanna Reitz <hreitz@redhat.com>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: qemu-block@nongnu.org
+> Fixes: 18473467d5 ("file-posix: try BLKSECTGET on block devices too, do not round to power of 2", 2021-06-25)
 
-Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
----
- tests/qtest/vhost-user-blk-test.c | 27 ++++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+This sneaked in shortly before the 6.1 release (between rc0 and rc1 I think).
+Shouldnt that go to stable in cass this still exist?
 
-diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk=
--test.c
-index 6f108a1b62..0e26266522 100644
---- a/tests/qtest/vhost-user-blk-test.c
-+++ b/tests/qtest/vhost-user-blk-test.c
-@@ -24,6 +24,7 @@
- #define TEST_IMAGE_SIZE         (64 * 1024 * 1024)
- #define QVIRTIO_BLK_TIMEOUT_US  (30 * 1000 * 1000)
- #define PCI_SLOT_HP             0x06
-+#define PIDFILE_RETRIES         5
-=20
- typedef struct {
-     pid_t pid;
-@@ -885,7 +886,8 @@ static void start_vhost_user_blk(GString *cmd_line, int=
- vus_instances,
-                                  int num_queues)
- {
-     const char *vhost_user_blk_bin =3D qtest_qemu_storage_daemon_binary();
--    int i;
-+    int i, retries;
-+    char *daemon_pidfile_path;
-     gchar *img_path;
-     GString *storage_daemon_command =3D g_string_new(NULL);
-     QemuStorageDaemonState *qsd;
-@@ -898,6 +900,9 @@ static void start_vhost_user_blk(GString *cmd_line, int=
- vus_instances,
-             " -object memory-backend-memfd,id=3Dmem,size=3D256M,share=3Don=
- "
-             " -M memory-backend=3Dmem -m 256M ");
-=20
-+    daemon_pidfile_path =3D g_strdup_printf("/tmp/daemon-%d", getpid());
-+    g_assert_cmpint((uintptr_t) daemon_pidfile_path, !=3D, (uintptr_t) NUL=
-L);
-+
-     for (i =3D 0; i < vus_instances; i++) {
-         int fd;
-         char *sock_path =3D create_listen_socket(&fd);
-@@ -914,6 +919,9 @@ static void start_vhost_user_blk(GString *cmd_line, int=
- vus_instances,
-                                i + 1, sock_path);
-     }
-=20
-+    g_string_append_printf(storage_daemon_command, "--pidfile %s ",
-+                           daemon_pidfile_path);
-+
-     g_test_message("starting vhost-user backend: %s",
-                    storage_daemon_command->str);
-     pid_t pid =3D fork();
-@@ -930,7 +938,24 @@ static void start_vhost_user_blk(GString *cmd_line, in=
-t vus_instances,
-         execlp("/bin/sh", "sh", "-c", storage_daemon_command->str, NULL);
-         exit(1);
-     }
-+
-+    /*
-+     * Ensure the storage-daemon has come up properly before allowing the
-+     * test to proceed.
-+     */
-+    retries =3D 0;
-+    while (access(daemon_pidfile_path, F_OK) !=3D 0) {
-+        g_assert_cmpint(retries, <, PIDFILE_RETRIES);
-+
-+        retries++;
-+        g_usleep(1000);
-+    }
-+
-     g_string_free(storage_daemon_command, true);
-+    if (access(daemon_pidfile_path, F_OK) =3D=3D 0) {
-+        unlink(daemon_pidfile_path);
-+    }
-+    free(daemon_pidfile_path);
-=20
-     qsd =3D g_new(QemuStorageDaemonState, 1);
-     qsd->pid =3D pid;
---=20
-2.20.1
+
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   block/block-backend.c          | 6 ++++++
+>   block/file-posix.c             | 2 +-
+>   block/io.c                     | 1 +
+>   hw/scsi/scsi-generic.c         | 2 +-
+>   include/block/block_int.h      | 7 +++++++
+>   include/sysemu/block-backend.h | 1 +
+>   6 files changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/block/block-backend.c b/block/block-backend.c
+> index 6140d133e2..ba2b5ebb10 100644
+> --- a/block/block-backend.c
+> +++ b/block/block-backend.c
+> @@ -1986,6 +1986,12 @@ uint32_t blk_get_max_transfer(BlockBackend *blk)
+>       return ROUND_DOWN(max, blk_get_request_alignment(blk));
+>   }
+>   
+> +int blk_get_max_hw_iov(BlockBackend *blk)
+> +{
+> +    return MIN_NON_ZERO(blk->root->bs->bl.max_hw_iov,
+> +                        blk->root->bs->bl.max_iov);
+> +}
+> +
+>   int blk_get_max_iov(BlockBackend *blk)
+>   {
+>       return blk->root->bs->bl.max_iov;
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index cb9bffe047..1567edb3d5 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -1273,7 +1273,7 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+>   
+>           ret = hdev_get_max_segments(s->fd, &st);
+>           if (ret > 0) {
+> -            bs->bl.max_iov = ret;
+> +            bs->bl.max_hw_iov = ret;
+>           }
+>       }
+>   }
+> diff --git a/block/io.c b/block/io.c
+> index a19942718b..f38e7f81d8 100644
+> --- a/block/io.c
+> +++ b/block/io.c
+> @@ -136,6 +136,7 @@ static void bdrv_merge_limits(BlockLimits *dst, const BlockLimits *src)
+>       dst->min_mem_alignment = MAX(dst->min_mem_alignment,
+>                                    src->min_mem_alignment);
+>       dst->max_iov = MIN_NON_ZERO(dst->max_iov, src->max_iov);
+> +    dst->max_hw_iov = MIN_NON_ZERO(dst->max_hw_iov, src->max_hw_iov);
+>   }
+>   
+>   typedef struct BdrvRefreshLimitsState {
+> diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+> index 665baf900e..0306ccc7b1 100644
+> --- a/hw/scsi/scsi-generic.c
+> +++ b/hw/scsi/scsi-generic.c
+> @@ -180,7 +180,7 @@ static int scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s, int len)
+>           page = r->req.cmd.buf[2];
+>           if (page == 0xb0) {
+>               uint64_t max_transfer = blk_get_max_hw_transfer(s->conf.blk);
+> -            uint32_t max_iov = blk_get_max_iov(s->conf.blk);
+> +            uint32_t max_iov = blk_get_max_hw_iov(s->conf.blk);
+>   
+>               assert(max_transfer);
+>               max_transfer = MIN_NON_ZERO(max_transfer, max_iov * qemu_real_host_page_size)
+> diff --git a/include/block/block_int.h b/include/block/block_int.h
+> index f1a54db0f8..c31cbd034a 100644
+> --- a/include/block/block_int.h
+> +++ b/include/block/block_int.h
+> @@ -702,6 +702,13 @@ typedef struct BlockLimits {
+>        */
+>       uint64_t max_hw_transfer;
+>   
+> +    /* Maximal number of scatter/gather elements allowed by the hardware.
+> +     * Applies whenever transfers to the device bypass the kernel I/O
+> +     * scheduler, for example with SG_IO.  If larger than max_iov
+> +     * or if zero, blk_get_max_hw_iov will fall back to max_iov.
+> +     */
+> +    int max_hw_iov;
+> +
+>       /* memory alignment, in bytes so that no bounce buffer is needed */
+>       size_t min_mem_alignment;
+>   
+> diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
+> index 29d4fdbf63..82bae55161 100644
+> --- a/include/sysemu/block-backend.h
+> +++ b/include/sysemu/block-backend.h
+> @@ -211,6 +211,7 @@ uint32_t blk_get_request_alignment(BlockBackend *blk);
+>   uint32_t blk_get_max_transfer(BlockBackend *blk);
+>   uint64_t blk_get_max_hw_transfer(BlockBackend *blk);
+>   int blk_get_max_iov(BlockBackend *blk);
+> +int blk_get_max_hw_iov(BlockBackend *blk);
+>   void blk_set_guest_block_size(BlockBackend *blk, int align);
+>   void *blk_try_blockalign(BlockBackend *blk, size_t size);
+>   void *blk_blockalign(BlockBackend *blk, size_t size);
+> 
 
