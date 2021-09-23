@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F2D3415E3B
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 14:22:11 +0200 (CEST)
-Received: from localhost ([::1]:38038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DFD415E55
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 14:27:38 +0200 (CEST)
+Received: from localhost ([::1]:42796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTNju-00072d-4j
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 08:22:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48222)
+	id 1mTNpB-0002kd-M3
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 08:27:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mTNaB-0008FT-0i
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 08:12:07 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45692)
+ id 1mTNaE-0008LL-4b
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 08:12:10 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35339)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mTNa7-000086-Nt
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 08:12:06 -0400
-Received: by mail-wr1-x435.google.com with SMTP id d21so16444895wra.12
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 05:12:01 -0700 (PDT)
+ id 1mTNa7-00008C-PJ
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 08:12:08 -0400
+Received: by mail-wr1-x434.google.com with SMTP id i23so16659782wrb.2
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 05:12:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=i0EIucpdA0ASmsRWp6b5c32ZveUUUuCBniIlSc0yYHo=;
- b=c84qvuD5aCGW/saXMd+GqbJkFa3xtwuSI8XYi5zYecNJDWr3DO5sw8XiYeQouuO2O5
- rZg3vZ0vX0uCCbgRusj9/npmvDP2jiiJZgJMWmtRfUuOQmuMdHZiCYg4GbKhQPW8iLxL
- zSH9qvthH7+7klMsxK4I6rbm/FW3t0Py9oOErnJrWt95gDmeTTSsqSjrTHg3NRqXITYX
- x64LUXBQqZy3OEpeLZxY8qxDQq4URN56tNR0aF72ojWyStAjYJOx1GJzzQKnu2q82m4X
- XOJHJ2bRkY2YcDyK4875kVVxivFPp9x3AY+ndJFpXa54lZhOJ/Qncbp4fbaRkd7m7K0A
- stfw==
+ bh=NqGX50JWUsn0lugL7TUpmmBavOBIgju0z9fvsOt74lU=;
+ b=gJY5Zsm4yKn0988E5vdzIHCdeI5NtXZLr0vW5NXuOHgv3FKgd7GyUZcyP7kfRNd8lC
+ jYkMx65Xak9D5IcWwqmKh0zVtTFX3vp7w9olh7ru8HRFftMuFIgygTVT3Dq+AwRWvuf6
+ NeR5hEvi4egCHsA4FDru6vIPJzmtjSOf0vb+PNxlVN5PNSl8Lmnf0pqNwZM5p4MUr7g+
+ NDMbG0z4I/UdTUn5jLOOWOn4jyenWmur8AeppU7RVAzqZwYp2Fkoc93D67r08GDZxt1S
+ KEIwnRH6CzmhkPeH18RS5fxtwe9XNEhEHBKRUK4+Zobbpfd6nBSFnrTB72IJWdH9RVuI
+ cywQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=i0EIucpdA0ASmsRWp6b5c32ZveUUUuCBniIlSc0yYHo=;
- b=mlRnrmsWDjHPLUk0RVAQfByJUf1bEMwkEEs9yinnt7Oh9U6SFvTWsQSVOQxeyVa2He
- rEz3detMA1y4pHOjPpMDBkhzOnxPCAmHkeeu6fW2j6sEjevwwxIG+T+UKMhk763sAnpz
- Gzc2ZailXXWKGSCIAqDoRU1FazOGrf/5UzEbKt7mrcD0JIX+lDTh8HCDR4nmddCa091R
- nkNbqpddZHHfCznmPNPTSmYFoFQwdtOn/RTS5PzhvZyWpQhA1nrtEmVURHOOsbegNr83
- vBSR6TRh30eGR6h0F2xOfOuSvGlZTX54HbH8vpISpUW1GRjRn1m1pHLLo6ctjMtcKEhg
- 6xRw==
-X-Gm-Message-State: AOAM533yNYDiGsxEFNUuxa3fLjXi2IUomRkSHlXOxzKEKODVyrpovpql
- uyYZiKsVqKFiAqjPwHKpY/3aVcOfPTmLDA==
-X-Google-Smtp-Source: ABdhPJwl+JiHCQpk8ikOY5OVXeCzaaIklzz/F6OnyYlL7lOdEcvRrE44mFzuJNIG7BLy+33ji7u5lA==
-X-Received: by 2002:a05:6000:c7:: with SMTP id
- q7mr4675146wrx.257.1632399120668; 
- Thu, 23 Sep 2021 05:12:00 -0700 (PDT)
+ bh=NqGX50JWUsn0lugL7TUpmmBavOBIgju0z9fvsOt74lU=;
+ b=41gSk1bfI/6hitIoydc2JVRMKbqJKpVAnwzSXlFCFb0B/upN7RQpc+UE2wnvA1Qgjp
+ sreVL0pZx/QWRUz9hYsG41LoKkE+Y4H8HlA/fRIB19N8D9l41tcq3T6VEzynVojkeRX5
+ OKIU6CJFzHAjnB03ahCXwNAi0X4VQOdDhrKkXNVEf5uLzEdxXJb64MoloIZ++fvHfROG
+ YC92RLgMW90i60oxyvFlNFu4dlakhgL7szhQRduo8/X7p+UoX8wEEqzGksxAtxj+fCq3
+ 6bZzPhIuf/83YNJsEb7JA9pX4EUzyECcjyJP1YSxk25JnmvRCjFks8h7AdPUKdoaOwUf
+ BHgw==
+X-Gm-Message-State: AOAM531l/8p2s6egV8tVEtxkRkVViaMFaiutwq+gpmP86+ieNMXJoIWw
+ /pAdiR1VCI+ea4UwfMpg2rKgibRQ1GLdaA==
+X-Google-Smtp-Source: ABdhPJzcpHs+gRJ/VkbsmtjS6VdnCc5ONkXQ6gMCNkipk2SrUSTBkhypsEQjBPqWEXynCZWewo93aw==
+X-Received: by 2002:a05:6000:1a89:: with SMTP id
+ f9mr4676673wry.19.1632399121705; 
+ Thu, 23 Sep 2021 05:12:01 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t22sm1382349wmj.30.2021.09.23.05.11.59
+ by smtp.gmail.com with ESMTPSA id t22sm1382349wmj.30.2021.09.23.05.12.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Sep 2021 05:12:00 -0700 (PDT)
+ Thu, 23 Sep 2021 05:12:01 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] qbus: Rename qbus_create_inplace() to qbus_init()
-Date: Thu, 23 Sep 2021 13:11:51 +0100
-Message-Id: <20210923121153.23754-5-peter.maydell@linaro.org>
+Subject: [PATCH 5/6] qbus: Rename qbus_create() to qbus_new()
+Date: Thu, 23 Sep 2021 13:11:52 +0100
+Message-Id: <20210923121153.23754-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210923121153.23754-1-peter.maydell@linaro.org>
 References: <20210923121153.23754-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,516 +90,223 @@ Cc: Fam Zheng <fam@euphon.net>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename qbus_create_inplace() to qbus_init(); this is more in line
-with our usual naming convention for functions that in-place
-initialize objects.
+Rename the "allocate and return" qbus creation function to
+qbus_new(), to bring it into line with our _init vs _new convention.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/qdev-core.h        |  4 ++--
- hw/audio/intel-hda.c          |  2 +-
- hw/block/fdc.c                |  2 +-
- hw/block/swim.c               |  3 +--
- hw/char/virtio-serial-bus.c   |  4 ++--
- hw/core/bus.c                 | 11 ++++++-----
- hw/core/sysbus.c              | 10 ++++++----
- hw/gpio/bcm2835_gpio.c        |  3 +--
- hw/ide/qdev.c                 |  2 +-
- hw/ipack/ipack.c              |  2 +-
- hw/misc/mac_via.c             |  4 ++--
- hw/misc/macio/cuda.c          |  4 ++--
- hw/misc/macio/macio.c         |  4 ++--
- hw/misc/macio/pmu.c           |  4 ++--
- hw/nvme/ctrl.c                |  4 ++--
- hw/nvme/subsys.c              |  3 +--
- hw/pci/pci.c                  |  2 +-
- hw/pci/pci_bridge.c           |  4 ++--
- hw/s390x/event-facility.c     |  4 ++--
- hw/s390x/virtio-ccw.c         |  3 +--
- hw/scsi/scsi-bus.c            |  2 +-
- hw/sd/allwinner-sdhost.c      |  4 ++--
- hw/sd/bcm2835_sdhost.c        |  4 ++--
- hw/sd/pl181.c                 |  3 +--
- hw/sd/pxa2xx_mmci.c           |  4 ++--
- hw/sd/sdhci.c                 |  3 +--
- hw/sd/ssi-sd.c                |  3 +--
- hw/usb/bus.c                  |  2 +-
- hw/usb/dev-smartcard-reader.c |  3 +--
- hw/virtio/virtio-mmio.c       |  3 +--
- hw/virtio/virtio-pci.c        |  3 +--
- 31 files changed, 53 insertions(+), 60 deletions(-)
+ include/hw/qdev-core.h      | 2 +-
+ hw/core/bus.c               | 2 +-
+ hw/hyperv/vmbus.c           | 2 +-
+ hw/i2c/core.c               | 2 +-
+ hw/isa/isa-bus.c            | 2 +-
+ hw/misc/auxbus.c            | 2 +-
+ hw/nubus/mac-nubus-bridge.c | 2 +-
+ hw/pci/pci.c                | 2 +-
+ hw/ppc/spapr_vio.c          | 2 +-
+ hw/s390x/ap-bridge.c        | 2 +-
+ hw/s390x/css-bridge.c       | 2 +-
+ hw/s390x/s390-pci-bus.c     | 2 +-
+ hw/ssi/ssi.c                | 2 +-
+ hw/xen/xen-bus.c            | 2 +-
+ hw/xen/xen-legacy-backend.c | 2 +-
+ 15 files changed, 15 insertions(+), 15 deletions(-)
 
 diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 34c8a7506a1..ebca8cf9fca 100644
+index ebca8cf9fca..4ff19c714bd 100644
 --- a/include/hw/qdev-core.h
 +++ b/include/hw/qdev-core.h
-@@ -678,8 +678,8 @@ DeviceState *qdev_find_recursive(BusState *bus, const char *id);
- typedef int (qbus_walkerfn)(BusState *bus, void *opaque);
- typedef int (qdev_walkerfn)(DeviceState *dev, void *opaque);
+@@ -680,7 +680,7 @@ typedef int (qdev_walkerfn)(DeviceState *dev, void *opaque);
  
--void qbus_create_inplace(void *bus, size_t size, const char *typename,
--                         DeviceState *parent, const char *name);
-+void qbus_init(void *bus, size_t size, const char *typename,
-+               DeviceState *parent, const char *name);
- BusState *qbus_create(const char *typename, DeviceState *parent, const char *name);
+ void qbus_init(void *bus, size_t size, const char *typename,
+                DeviceState *parent, const char *name);
+-BusState *qbus_create(const char *typename, DeviceState *parent, const char *name);
++BusState *qbus_new(const char *typename, DeviceState *parent, const char *name);
  bool qbus_realize(BusState *bus, Error **errp);
  void qbus_unrealize(BusState *bus);
-diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
-index 4330213fff1..8ce9df64e3e 100644
---- a/hw/audio/intel-hda.c
-+++ b/hw/audio/intel-hda.c
-@@ -52,7 +52,7 @@ void hda_codec_bus_init(DeviceState *dev, HDACodecBus *bus, size_t bus_size,
-                         hda_codec_response_func response,
-                         hda_codec_xfer_func xfer)
- {
--    qbus_create_inplace(bus, bus_size, TYPE_HDA_BUS, dev, NULL);
-+    qbus_init(bus, bus_size, TYPE_HDA_BUS, dev, NULL);
-     bus->response = response;
-     bus->xfer = xfer;
- }
-diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-index 9014cd30b3a..fa933cd3263 100644
---- a/hw/block/fdc.c
-+++ b/hw/block/fdc.c
-@@ -77,7 +77,7 @@ static const TypeInfo floppy_bus_info = {
  
- static void floppy_bus_create(FDCtrl *fdc, FloppyBus *bus, DeviceState *dev)
- {
--    qbus_create_inplace(bus, sizeof(FloppyBus), TYPE_FLOPPY_BUS, dev, NULL);
-+    qbus_init(bus, sizeof(FloppyBus), TYPE_FLOPPY_BUS, dev, NULL);
-     bus->fdc = fdc;
- }
- 
-diff --git a/hw/block/swim.c b/hw/block/swim.c
-index 509c2f49003..333da08ce09 100644
---- a/hw/block/swim.c
-+++ b/hw/block/swim.c
-@@ -421,8 +421,7 @@ static void sysbus_swim_realize(DeviceState *dev, Error **errp)
-     Swim *sys = SWIM(dev);
-     SWIMCtrl *swimctrl = &sys->ctrl;
- 
--    qbus_create_inplace(&swimctrl->bus, sizeof(SWIMBus), TYPE_SWIM_BUS, dev,
--                        NULL);
-+    qbus_init(&swimctrl->bus, sizeof(SWIMBus), TYPE_SWIM_BUS, dev, NULL);
-     swimctrl->bus.ctrl = swimctrl;
- }
- 
-diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
-index dd6bc27b3b5..f01ec2137c9 100644
---- a/hw/char/virtio-serial-bus.c
-+++ b/hw/char/virtio-serial-bus.c
-@@ -1048,8 +1048,8 @@ static void virtio_serial_device_realize(DeviceState *dev, Error **errp)
-                 config_size);
- 
-     /* Spawn a new virtio-serial bus on which the ports will ride as devices */
--    qbus_create_inplace(&vser->bus, sizeof(vser->bus), TYPE_VIRTIO_SERIAL_BUS,
--                        dev, vdev->bus_name);
-+    qbus_init(&vser->bus, sizeof(vser->bus), TYPE_VIRTIO_SERIAL_BUS,
-+              dev, vdev->bus_name);
-     qbus_set_hotplug_handler(BUS(&vser->bus), OBJECT(vser));
-     vser->bus.vser = vser;
-     QTAILQ_INIT(&vser->ports);
 diff --git a/hw/core/bus.c b/hw/core/bus.c
-index 9cfbc3a6877..cec49985024 100644
+index cec49985024..c7831b5293b 100644
 --- a/hw/core/bus.c
 +++ b/hw/core/bus.c
-@@ -99,7 +99,8 @@ static void bus_reset_child_foreach(Object *obj, ResettableChildCallback cb,
-     }
+@@ -159,7 +159,7 @@ void qbus_init(void *bus, size_t size, const char *typename,
+     qbus_init_internal(bus, parent, name);
  }
  
--static void qbus_init(BusState *bus, DeviceState *parent, const char *name)
-+static void qbus_init_internal(BusState *bus, DeviceState *parent,
-+                               const char *name)
+-BusState *qbus_create(const char *typename, DeviceState *parent, const char *name)
++BusState *qbus_new(const char *typename, DeviceState *parent, const char *name)
  {
-     const char *typename = object_get_typename(OBJECT(bus));
-     BusClass *bc;
-@@ -151,11 +152,11 @@ static void bus_unparent(Object *obj)
-     bus->parent = NULL;
- }
- 
--void qbus_create_inplace(void *bus, size_t size, const char *typename,
--                         DeviceState *parent, const char *name)
-+void qbus_init(void *bus, size_t size, const char *typename,
-+               DeviceState *parent, const char *name)
- {
-     object_initialize(bus, size, typename);
--    qbus_init(bus, parent, name);
-+    qbus_init_internal(bus, parent, name);
- }
- 
- BusState *qbus_create(const char *typename, DeviceState *parent, const char *name)
-@@ -163,7 +164,7 @@ BusState *qbus_create(const char *typename, DeviceState *parent, const char *nam
      BusState *bus;
  
-     bus = BUS(object_new(typename));
--    qbus_init(bus, parent, name);
-+    qbus_init_internal(bus, parent, name);
- 
-     return bus;
- }
-diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
-index aaae8e23cc4..05c1da3d311 100644
---- a/hw/core/sysbus.c
-+++ b/hw/core/sysbus.c
-@@ -340,11 +340,13 @@ static BusState *main_system_bus;
- 
- static void main_system_bus_create(void)
- {
--    /* assign main_system_bus before qbus_create_inplace()
--     * in order to make "if (bus != sysbus_get_default())" work */
-+    /*
-+     * assign main_system_bus before qbus_init()
-+     * in order to make "if (bus != sysbus_get_default())" work
-+     */
-     main_system_bus = g_malloc0(system_bus_info.instance_size);
--    qbus_create_inplace(main_system_bus, system_bus_info.instance_size,
--                        TYPE_SYSTEM_BUS, NULL, "main-system-bus");
-+    qbus_init(main_system_bus, system_bus_info.instance_size,
-+              TYPE_SYSTEM_BUS, NULL, "main-system-bus");
-     OBJECT(main_system_bus)->free = g_free;
- }
- 
-diff --git a/hw/gpio/bcm2835_gpio.c b/hw/gpio/bcm2835_gpio.c
-index abdddbc67c2..c995bba1d9f 100644
---- a/hw/gpio/bcm2835_gpio.c
-+++ b/hw/gpio/bcm2835_gpio.c
-@@ -299,8 +299,7 @@ static void bcm2835_gpio_init(Object *obj)
-     DeviceState *dev = DEVICE(obj);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
- 
--    qbus_create_inplace(&s->sdbus, sizeof(s->sdbus),
--                        TYPE_SD_BUS, DEVICE(s), "sd-bus");
-+    qbus_init(&s->sdbus, sizeof(s->sdbus), TYPE_SD_BUS, DEVICE(s), "sd-bus");
- 
-     memory_region_init_io(&s->iomem, obj,
-             &bcm2835_gpio_ops, s, "bcm2835_gpio", 0x1000);
-diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
-index e70ebc83a07..ca844419106 100644
---- a/hw/ide/qdev.c
-+++ b/hw/ide/qdev.c
-@@ -71,7 +71,7 @@ static const TypeInfo ide_bus_info = {
- void ide_bus_new(IDEBus *idebus, size_t idebus_size, DeviceState *dev,
-                  int bus_id, int max_units)
- {
--    qbus_create_inplace(idebus, idebus_size, TYPE_IDE_BUS, dev, NULL);
-+    qbus_init(idebus, idebus_size, TYPE_IDE_BUS, dev, NULL);
-     idebus->bus_id = bus_id;
-     idebus->max_units = max_units;
- }
-diff --git a/hw/ipack/ipack.c b/hw/ipack/ipack.c
-index d28e7f6449e..ae20f36da68 100644
---- a/hw/ipack/ipack.c
-+++ b/hw/ipack/ipack.c
-@@ -35,7 +35,7 @@ void ipack_bus_init(IPackBus *bus, size_t bus_size,
-                     uint8_t n_slots,
-                     qemu_irq_handler handler)
- {
--    qbus_create_inplace(bus, bus_size, TYPE_IPACK_BUS, parent, NULL);
-+    qbus_init(bus, bus_size, TYPE_IPACK_BUS, parent, NULL);
-     bus->n_slots = n_slots;
-     bus->set_irq = handler;
- }
-diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
-index d1abcd97b51..993bac017db 100644
---- a/hw/misc/mac_via.c
-+++ b/hw/misc/mac_via.c
-@@ -1038,8 +1038,8 @@ static void mos6522_q800_via1_init(Object *obj)
-     sysbus_init_mmio(sbd, &v1s->via_mem);
- 
-     /* ADB */
--    qbus_create_inplace((BusState *)&v1s->adb_bus, sizeof(v1s->adb_bus),
--                        TYPE_ADB_BUS, DEVICE(v1s), "adb.0");
-+    qbus_init((BusState *)&v1s->adb_bus, sizeof(v1s->adb_bus),
-+              TYPE_ADB_BUS, DEVICE(v1s), "adb.0");
- 
-     qdev_init_gpio_in(DEVICE(obj), via1_irq_request, VIA1_IRQ_NB);
- }
-diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
-index edbd4186b2a..e917a6a095b 100644
---- a/hw/misc/macio/cuda.c
-+++ b/hw/misc/macio/cuda.c
-@@ -553,8 +553,8 @@ static void cuda_init(Object *obj)
-     memory_region_init_io(&s->mem, obj, &mos6522_cuda_ops, s, "cuda", 0x2000);
-     sysbus_init_mmio(sbd, &s->mem);
- 
--    qbus_create_inplace(&s->adb_bus, sizeof(s->adb_bus), TYPE_ADB_BUS,
--                        DEVICE(obj), "adb.0");
-+    qbus_init(&s->adb_bus, sizeof(s->adb_bus), TYPE_ADB_BUS,
-+              DEVICE(obj), "adb.0");
- }
- 
- static Property cuda_properties[] = {
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index 4515296e66a..c1fad43f6c6 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -387,8 +387,8 @@ static void macio_instance_init(Object *obj)
- 
-     memory_region_init(&s->bar, obj, "macio", 0x80000);
- 
--    qbus_create_inplace(&s->macio_bus, sizeof(s->macio_bus), TYPE_MACIO_BUS,
--                        DEVICE(obj), "macio.0");
-+    qbus_init(&s->macio_bus, sizeof(s->macio_bus), TYPE_MACIO_BUS,
-+              DEVICE(obj), "macio.0");
- 
-     object_initialize_child(OBJECT(s), "dbdma", &s->dbdma, TYPE_MAC_DBDMA);
- 
-diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
-index 71924d4768c..4ad4f50e08c 100644
---- a/hw/misc/macio/pmu.c
-+++ b/hw/misc/macio/pmu.c
-@@ -754,8 +754,8 @@ static void pmu_realize(DeviceState *dev, Error **errp)
-     timer_mod(s->one_sec_timer, s->one_sec_target);
- 
-     if (s->has_adb) {
--        qbus_create_inplace(&s->adb_bus, sizeof(s->adb_bus), TYPE_ADB_BUS,
--                            dev, "adb.0");
-+        qbus_init(&s->adb_bus, sizeof(s->adb_bus), TYPE_ADB_BUS,
-+                  dev, "adb.0");
-         adb_register_autopoll_callback(adb_bus, pmu_adb_poll, s);
-     }
- }
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 6baf9e0420d..6b29d832351 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -6530,8 +6530,8 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
+index c9887d5a7bc..dbce3b35fba 100644
+--- a/hw/hyperv/vmbus.c
++++ b/hw/hyperv/vmbus.c
+@@ -2729,7 +2729,7 @@ static void vmbus_bridge_realize(DeviceState *dev, Error **errp)
          return;
      }
  
--    qbus_create_inplace(&n->bus, sizeof(NvmeBus), TYPE_NVME_BUS,
--                        &pci_dev->qdev, n->parent_obj.qdev.id);
-+    qbus_init(&n->bus, sizeof(NvmeBus), TYPE_NVME_BUS,
-+              &pci_dev->qdev, n->parent_obj.qdev.id);
- 
-     nvme_init_state(n);
-     if (nvme_init_pci(n, pci_dev, errp)) {
-diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
-index 93c35950d69..495dcff5ebb 100644
---- a/hw/nvme/subsys.c
-+++ b/hw/nvme/subsys.c
-@@ -50,8 +50,7 @@ static void nvme_subsys_realize(DeviceState *dev, Error **errp)
- {
-     NvmeSubsystem *subsys = NVME_SUBSYS(dev);
- 
--    qbus_create_inplace(&subsys->bus, sizeof(NvmeBus), TYPE_NVME_BUS, dev,
--                        dev->id);
-+    qbus_init(&subsys->bus, sizeof(NvmeBus), TYPE_NVME_BUS, dev, dev->id);
- 
-     nvme_subsys_setup(subsys);
+-    bridge->bus = VMBUS(qbus_create(TYPE_VMBUS, dev, "vmbus"));
++    bridge->bus = VMBUS(qbus_new(TYPE_VMBUS, dev, "vmbus"));
  }
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 19881c84f23..14cb15a0aa1 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -466,7 +466,7 @@ void pci_root_bus_init(PCIBus *bus, size_t bus_size, DeviceState *parent,
-                        MemoryRegion *address_space_io,
-                        uint8_t devfn_min, const char *typename)
+ 
+ static char *vmbus_bridge_ofw_unit_address(const SysBusDevice *dev)
+diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+index 416372ad00c..0e7d2763b9e 100644
+--- a/hw/i2c/core.c
++++ b/hw/i2c/core.c
+@@ -60,7 +60,7 @@ I2CBus *i2c_init_bus(DeviceState *parent, const char *name)
  {
--    qbus_create_inplace(bus, bus_size, typename, parent, name);
-+    qbus_init(bus, bus_size, typename, parent, name);
-     pci_root_bus_internal_init(bus, parent, address_space_mem,
-                                address_space_io, devfn_min);
- }
-diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
-index 3789c17edc2..d1f902ee862 100644
---- a/hw/pci/pci_bridge.c
-+++ b/hw/pci/pci_bridge.c
-@@ -374,8 +374,8 @@ void pci_bridge_initfn(PCIDevice *dev, const char *typename)
-             br->bus_name = dev->qdev.id;
+     I2CBus *bus;
+ 
+-    bus = I2C_BUS(qbus_create(TYPE_I2C_BUS, parent, name));
++    bus = I2C_BUS(qbus_new(TYPE_I2C_BUS, parent, name));
+     QLIST_INIT(&bus->current_devs);
+     vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY, &vmstate_i2c_bus, bus);
+     return bus;
+diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+index cffaa35e9cf..6c31398dda6 100644
+--- a/hw/isa/isa-bus.c
++++ b/hw/isa/isa-bus.c
+@@ -64,7 +64,7 @@ ISABus *isa_bus_new(DeviceState *dev, MemoryRegion* address_space,
+         sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
      }
  
--    qbus_create_inplace(sec_bus, sizeof(br->sec_bus), typename, DEVICE(dev),
--                        br->bus_name);
-+    qbus_init(sec_bus, sizeof(br->sec_bus), typename, DEVICE(dev),
-+              br->bus_name);
-     sec_bus->parent_dev = dev;
-     sec_bus->map_irq = br->map_irq ? br->map_irq : pci_swizzle_map_irq_fn;
-     sec_bus->address_space_mem = &br->address_space_mem;
-diff --git a/hw/s390x/event-facility.c b/hw/s390x/event-facility.c
-index ed92ce510d9..6fa47b889ca 100644
---- a/hw/s390x/event-facility.c
-+++ b/hw/s390x/event-facility.c
-@@ -427,8 +427,8 @@ static void init_event_facility(Object *obj)
-                              sclp_event_set_allow_all_mask_sizes);
+-    isabus = ISA_BUS(qbus_create(TYPE_ISA_BUS, dev, NULL));
++    isabus = ISA_BUS(qbus_new(TYPE_ISA_BUS, dev, NULL));
+     isabus->address_space = address_space;
+     isabus->address_space_io = address_space_io;
+     return isabus;
+diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
+index 434ff8d910d..8a8012f5f08 100644
+--- a/hw/misc/auxbus.c
++++ b/hw/misc/auxbus.c
+@@ -65,7 +65,7 @@ AUXBus *aux_bus_init(DeviceState *parent, const char *name)
+     AUXBus *bus;
+     Object *auxtoi2c;
  
-     /* Spawn a new bus for SCLP events */
--    qbus_create_inplace(&event_facility->sbus, sizeof(event_facility->sbus),
--                        TYPE_SCLP_EVENTS_BUS, sdev, NULL);
-+    qbus_init(&event_facility->sbus, sizeof(event_facility->sbus),
-+              TYPE_SCLP_EVENTS_BUS, sdev, NULL);
+-    bus = AUX_BUS(qbus_create(TYPE_AUX_BUS, parent, name));
++    bus = AUX_BUS(qbus_new(TYPE_AUX_BUS, parent, name));
+     auxtoi2c = object_new_with_props(TYPE_AUXTOI2C, OBJECT(bus), "i2c",
+                                      &error_abort, NULL);
  
-     object_initialize_child(obj, TYPE_SCLP_QUIESCE,
-                             &event_facility->quiesce,
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index 6a2df1c1e9a..c845a92c3a8 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -1261,8 +1261,7 @@ static void virtio_ccw_bus_new(VirtioBusState *bus, size_t bus_size,
-     DeviceState *qdev = DEVICE(dev);
-     char virtio_bus_name[] = "virtio-bus";
+diff --git a/hw/nubus/mac-nubus-bridge.c b/hw/nubus/mac-nubus-bridge.c
+index 7c329300b82..148979dab13 100644
+--- a/hw/nubus/mac-nubus-bridge.c
++++ b/hw/nubus/mac-nubus-bridge.c
+@@ -16,7 +16,7 @@ static void mac_nubus_bridge_init(Object *obj)
+     MacNubusState *s = MAC_NUBUS_BRIDGE(obj);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
  
--    qbus_create_inplace(bus, bus_size, TYPE_VIRTIO_CCW_BUS,
--                        qdev, virtio_bus_name);
-+    qbus_init(bus, bus_size, TYPE_VIRTIO_CCW_BUS, qdev, virtio_bus_name);
+-    s->bus = NUBUS_BUS(qbus_create(TYPE_NUBUS_BUS, DEVICE(s), NULL));
++    s->bus = NUBUS_BUS(qbus_new(TYPE_NUBUS_BUS, DEVICE(s), NULL));
+ 
+     sysbus_init_mmio(sbd, &s->bus->super_slot_io);
+     sysbus_init_mmio(sbd, &s->bus->slot_io);
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 14cb15a0aa1..186758ee11f 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -478,7 +478,7 @@ PCIBus *pci_root_bus_new(DeviceState *parent, const char *name,
+ {
+     PCIBus *bus;
+ 
+-    bus = PCI_BUS(qbus_create(typename, parent, name));
++    bus = PCI_BUS(qbus_new(typename, parent, name));
+     pci_root_bus_internal_init(bus, parent, address_space_mem,
+                                address_space_io, devfn_min);
+     return bus;
+diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
+index b59452bcd62..b975ed29cad 100644
+--- a/hw/ppc/spapr_vio.c
++++ b/hw/ppc/spapr_vio.c
+@@ -577,7 +577,7 @@ SpaprVioBus *spapr_vio_bus_init(void)
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+ 
+     /* Create bus on bridge device */
+-    qbus = qbus_create(TYPE_SPAPR_VIO_BUS, dev, "spapr-vio");
++    qbus = qbus_new(TYPE_SPAPR_VIO_BUS, dev, "spapr-vio");
+     bus = SPAPR_VIO_BUS(qbus);
+     bus->next_reg = SPAPR_VIO_REG_BASE;
+ 
+diff --git a/hw/s390x/ap-bridge.c b/hw/s390x/ap-bridge.c
+index 8bcf8ece9dd..ef8fa2b15be 100644
+--- a/hw/s390x/ap-bridge.c
++++ b/hw/s390x/ap-bridge.c
+@@ -55,7 +55,7 @@ void s390_init_ap(void)
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+ 
+     /* Create bus on bridge device */
+-    bus = qbus_create(TYPE_AP_BUS, dev, TYPE_AP_BUS);
++    bus = qbus_new(TYPE_AP_BUS, dev, TYPE_AP_BUS);
+ 
+     /* Enable hotplugging */
+     qbus_set_hotplug_handler(bus, OBJECT(dev));
+diff --git a/hw/s390x/css-bridge.c b/hw/s390x/css-bridge.c
+index 191b29f0771..4017081d49c 100644
+--- a/hw/s390x/css-bridge.c
++++ b/hw/s390x/css-bridge.c
+@@ -106,7 +106,7 @@ VirtualCssBus *virtual_css_bus_init(void)
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+ 
+     /* Create bus on bridge device */
+-    bus = qbus_create(TYPE_VIRTUAL_CSS_BUS, dev, "virtual-css");
++    bus = qbus_new(TYPE_VIRTUAL_CSS_BUS, dev, "virtual-css");
+     cbus = VIRTUAL_CSS_BUS(bus);
+ 
+     /* Enable hotplugging */
+diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+index 6c0225c3a01..6fafffb029a 100644
+--- a/hw/s390x/s390-pci-bus.c
++++ b/hw/s390x/s390-pci-bus.c
+@@ -813,7 +813,7 @@ static void s390_pcihost_realize(DeviceState *dev, Error **errp)
+     qbus_set_hotplug_handler(bus, OBJECT(dev));
+     phb->bus = b;
+ 
+-    s->bus = S390_PCI_BUS(qbus_create(TYPE_S390_PCI_BUS, dev, NULL));
++    s->bus = S390_PCI_BUS(qbus_new(TYPE_S390_PCI_BUS, dev, NULL));
+     qbus_set_hotplug_handler(BUS(s->bus), OBJECT(dev));
+ 
+     s->iommu_table = g_hash_table_new_full(g_int64_hash, g_int64_equal,
+diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
+index e5d7ce95237..003931fb509 100644
+--- a/hw/ssi/ssi.c
++++ b/hw/ssi/ssi.c
+@@ -107,7 +107,7 @@ DeviceState *ssi_create_peripheral(SSIBus *bus, const char *name)
+ SSIBus *ssi_create_bus(DeviceState *parent, const char *name)
+ {
+     BusState *bus;
+-    bus = qbus_create(TYPE_SSI_BUS, parent, name);
++    bus = qbus_new(TYPE_SSI_BUS, parent, name);
+     return SSI_BUS(bus);
  }
  
- static void virtio_ccw_bus_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index e28a6ea053a..77325d8cc7a 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -137,7 +137,7 @@ void scsi_device_unit_attention_reported(SCSIDevice *s)
- void scsi_bus_init_named(SCSIBus *bus, size_t bus_size, DeviceState *host,
-                          const SCSIBusInfo *info, const char *bus_name)
+diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
+index 8c588920d9f..416583f130b 100644
+--- a/hw/xen/xen-bus.c
++++ b/hw/xen/xen-bus.c
+@@ -1398,7 +1398,7 @@ type_init(xen_register_types)
+ void xen_bus_init(void)
  {
--    qbus_create_inplace(bus, bus_size, TYPE_SCSI_BUS, host, bus_name);
-+    qbus_init(bus, bus_size, TYPE_SCSI_BUS, host, bus_name);
-     bus->busnr = next_scsi_bus++;
-     bus->info = info;
-     qbus_set_bus_hotplug_handler(BUS(bus));
-diff --git a/hw/sd/allwinner-sdhost.c b/hw/sd/allwinner-sdhost.c
-index bea6d97ef87..9166d6638de 100644
---- a/hw/sd/allwinner-sdhost.c
-+++ b/hw/sd/allwinner-sdhost.c
-@@ -738,8 +738,8 @@ static void allwinner_sdhost_init(Object *obj)
- {
-     AwSdHostState *s = AW_SDHOST(obj);
+     DeviceState *dev = qdev_new(TYPE_XEN_BRIDGE);
+-    BusState *bus = qbus_create(TYPE_XEN_BUS, dev, NULL);
++    BusState *bus = qbus_new(TYPE_XEN_BUS, dev, NULL);
  
--    qbus_create_inplace(&s->sdbus, sizeof(s->sdbus),
--                         TYPE_AW_SDHOST_BUS, DEVICE(s), "sd-bus");
-+    qbus_init(&s->sdbus, sizeof(s->sdbus),
-+              TYPE_AW_SDHOST_BUS, DEVICE(s), "sd-bus");
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+     qbus_set_bus_hotplug_handler(bus);
+diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
+index dd8ae1452d1..be3cf4a195e 100644
+--- a/hw/xen/xen-legacy-backend.c
++++ b/hw/xen/xen-legacy-backend.c
+@@ -702,7 +702,7 @@ int xen_be_init(void)
  
-     memory_region_init_io(&s->iomem, obj, &allwinner_sdhost_ops, s,
-                            TYPE_AW_SDHOST, 4 * KiB);
-diff --git a/hw/sd/bcm2835_sdhost.c b/hw/sd/bcm2835_sdhost.c
-index 50f5fdb88bc..088a7ac6ed4 100644
---- a/hw/sd/bcm2835_sdhost.c
-+++ b/hw/sd/bcm2835_sdhost.c
-@@ -403,8 +403,8 @@ static void bcm2835_sdhost_init(Object *obj)
- {
-     BCM2835SDHostState *s = BCM2835_SDHOST(obj);
+     xen_sysdev = qdev_new(TYPE_XENSYSDEV);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(xen_sysdev), &error_fatal);
+-    xen_sysbus = qbus_create(TYPE_XENSYSBUS, xen_sysdev, "xen-sysbus");
++    xen_sysbus = qbus_new(TYPE_XENSYSBUS, xen_sysdev, "xen-sysbus");
+     qbus_set_bus_hotplug_handler(xen_sysbus);
  
--    qbus_create_inplace(&s->sdbus, sizeof(s->sdbus),
--                        TYPE_BCM2835_SDHOST_BUS, DEVICE(s), "sd-bus");
-+    qbus_init(&s->sdbus, sizeof(s->sdbus),
-+              TYPE_BCM2835_SDHOST_BUS, DEVICE(s), "sd-bus");
- 
-     memory_region_init_io(&s->iomem, obj, &bcm2835_sdhost_ops, s,
-                           TYPE_BCM2835_SDHOST, 0x1000);
-diff --git a/hw/sd/pl181.c b/hw/sd/pl181.c
-index 960f1550981..5e554bd4676 100644
---- a/hw/sd/pl181.c
-+++ b/hw/sd/pl181.c
-@@ -506,8 +506,7 @@ static void pl181_init(Object *obj)
-     qdev_init_gpio_out_named(dev, &s->card_readonly, "card-read-only", 1);
-     qdev_init_gpio_out_named(dev, &s->card_inserted, "card-inserted", 1);
- 
--    qbus_create_inplace(&s->sdbus, sizeof(s->sdbus),
--                        TYPE_PL181_BUS, dev, "sd-bus");
-+    qbus_init(&s->sdbus, sizeof(s->sdbus), TYPE_PL181_BUS, dev, "sd-bus");
- }
- 
- static void pl181_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/sd/pxa2xx_mmci.c b/hw/sd/pxa2xx_mmci.c
-index 3dd2fc7a83f..124fbf8bbd4 100644
---- a/hw/sd/pxa2xx_mmci.c
-+++ b/hw/sd/pxa2xx_mmci.c
-@@ -560,8 +560,8 @@ static void pxa2xx_mmci_instance_init(Object *obj)
-     qdev_init_gpio_out_named(dev, &s->rx_dma, "rx-dma", 1);
-     qdev_init_gpio_out_named(dev, &s->tx_dma, "tx-dma", 1);
- 
--    qbus_create_inplace(&s->sdbus, sizeof(s->sdbus),
--                        TYPE_PXA2XX_MMCI_BUS, DEVICE(obj), "sd-bus");
-+    qbus_init(&s->sdbus, sizeof(s->sdbus),
-+              TYPE_PXA2XX_MMCI_BUS, DEVICE(obj), "sd-bus");
- }
- 
- static void pxa2xx_mmci_class_init(ObjectClass *klass, void *data)
-diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index 5b8678110b0..c9dc065cc52 100644
---- a/hw/sd/sdhci.c
-+++ b/hw/sd/sdhci.c
-@@ -1337,8 +1337,7 @@ static void sdhci_init_readonly_registers(SDHCIState *s, Error **errp)
- 
- void sdhci_initfn(SDHCIState *s)
- {
--    qbus_create_inplace(&s->sdbus, sizeof(s->sdbus),
--                        TYPE_SDHCI_BUS, DEVICE(s), "sd-bus");
-+    qbus_init(&s->sdbus, sizeof(s->sdbus), TYPE_SDHCI_BUS, DEVICE(s), "sd-bus");
- 
-     s->insert_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, sdhci_raise_insertion_irq, s);
-     s->transfer_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, sdhci_data_transfer, s);
-diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
-index 97ee58e20cf..e60854eeefc 100644
---- a/hw/sd/ssi-sd.c
-+++ b/hw/sd/ssi-sd.c
-@@ -373,8 +373,7 @@ static void ssi_sd_realize(SSIPeripheral *d, Error **errp)
-     DeviceState *carddev;
-     DriveInfo *dinfo;
- 
--    qbus_create_inplace(&s->sdbus, sizeof(s->sdbus), TYPE_SD_BUS,
--                        DEVICE(d), "sd-bus");
-+    qbus_init(&s->sdbus, sizeof(s->sdbus), TYPE_SD_BUS, DEVICE(d), "sd-bus");
- 
-     /* Create and plug in the sd card */
-     /* FIXME use a qdev drive property instead of drive_get_next() */
-diff --git a/hw/usb/bus.c b/hw/usb/bus.c
-index 07083349f51..5d441a70650 100644
---- a/hw/usb/bus.c
-+++ b/hw/usb/bus.c
-@@ -82,7 +82,7 @@ const VMStateDescription vmstate_usb_device = {
- void usb_bus_new(USBBus *bus, size_t bus_size,
-                  USBBusOps *ops, DeviceState *host)
- {
--    qbus_create_inplace(bus, bus_size, TYPE_USB_BUS, host, NULL);
-+    qbus_init(bus, bus_size, TYPE_USB_BUS, host, NULL);
-     qbus_set_bus_hotplug_handler(BUS(bus));
-     bus->ops = ops;
-     bus->busnr = next_usb_bus++;
-diff --git a/hw/usb/dev-smartcard-reader.c b/hw/usb/dev-smartcard-reader.c
-index f7043075be5..91ffd9f8ae8 100644
---- a/hw/usb/dev-smartcard-reader.c
-+++ b/hw/usb/dev-smartcard-reader.c
-@@ -1320,8 +1320,7 @@ static void ccid_realize(USBDevice *dev, Error **errp)
- 
-     usb_desc_create_serial(dev);
-     usb_desc_init(dev);
--    qbus_create_inplace(&s->bus, sizeof(s->bus), TYPE_CCID_BUS, DEVICE(dev),
--                        NULL);
-+    qbus_init(&s->bus, sizeof(s->bus), TYPE_CCID_BUS, DEVICE(dev), NULL);
-     qbus_set_hotplug_handler(BUS(&s->bus), OBJECT(dev));
-     s->intr = usb_ep_get(dev, USB_TOKEN_IN, CCID_INT_IN_EP);
-     s->bulk = usb_ep_get(dev, USB_TOKEN_IN, CCID_BULK_IN_EP);
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index 1af48a1b044..7b3ebca1781 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -733,8 +733,7 @@ static void virtio_mmio_realizefn(DeviceState *d, Error **errp)
-     VirtIOMMIOProxy *proxy = VIRTIO_MMIO(d);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(d);
- 
--    qbus_create_inplace(&proxy->bus, sizeof(proxy->bus), TYPE_VIRTIO_MMIO_BUS,
--                        d, NULL);
-+    qbus_init(&proxy->bus, sizeof(proxy->bus), TYPE_VIRTIO_MMIO_BUS, d, NULL);
-     sysbus_init_irq(sbd, &proxy->irq);
- 
-     if (!kvm_eventfds_enabled()) {
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 6e16e2705ce..750aa47ec14 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -2187,8 +2187,7 @@ static void virtio_pci_bus_new(VirtioBusState *bus, size_t bus_size,
-     DeviceState *qdev = DEVICE(dev);
-     char virtio_bus_name[] = "virtio-bus";
- 
--    qbus_create_inplace(bus, bus_size, TYPE_VIRTIO_PCI_BUS, qdev,
--                        virtio_bus_name);
-+    qbus_init(bus, bus_size, TYPE_VIRTIO_PCI_BUS, qdev, virtio_bus_name);
- }
- 
- static void virtio_pci_bus_class_init(ObjectClass *klass, void *data)
+     return 0;
 -- 
 2.20.1
 
