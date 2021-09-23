@@ -2,83 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6F2415C5F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 12:57:48 +0200 (CEST)
-Received: from localhost ([::1]:37984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A7DE415C66
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 13:00:50 +0200 (CEST)
+Received: from localhost ([::1]:43772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTMQF-0005O7-LM
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 06:57:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34992)
+	id 1mTMTA-0000ol-Gq
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 07:00:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mTMOd-0003wH-QG; Thu, 23 Sep 2021 06:56:07 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46968)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mTMOc-0001Aw-58; Thu, 23 Sep 2021 06:56:07 -0400
-Received: by mail-wr1-x432.google.com with SMTP id t7so15830461wrw.13;
- Thu, 23 Sep 2021 03:56:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=GUdYhZ+D8xeVs7E95RdOwd83S7jw2Ky4yiX7s8ev2R8=;
- b=Qw4IucOjasPdpgSwkmeAFXnNS/3xOUBLw4B8toOyEO4gboaOX+7ClnLVJ94TGDoRbt
- 8/WztWtn/AsJpFAkJU/A4p88e3ROyrIZvtOjl99MHIModyrcs8+ihPQXAhMl/+R0IzNS
- D5scAubT8jkq7AwkqryU8RxqrB0Z6gtOrq1h+ybfCLIfohP2XzzyOamEMo0YuYf21KKb
- sDj0XYBJCE/5BzFzn8bYkl5OYqaaOyG1WyENuKt3YeslmTILtQwDtw0FERhPmUr5cZP1
- i0w/MIiU9ayow7ZAe0W+NbZ+GktLZZsC4zowxMc1VXKyEv3Pr71n1NgYbvwT41bx4Nk8
- zx/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=GUdYhZ+D8xeVs7E95RdOwd83S7jw2Ky4yiX7s8ev2R8=;
- b=aueZqR3P9LBcftygbZ/AYfQCIVvm1ZCgXILb6WbtuehMQ1i3CW3tDYjMuNblUVu6SZ
- apMmyUNsjb4Foj1CksLjoqfqMrnSP+zNrFk33Ly5+4K5kgBdYrmKwKcxw/xim58ORPwv
- vF1Q7aty65JjbxCMCyuyp/4YfxKY2Lzx4vzlO6WsMOjuzuA4xk5EO1Ny8s/EPIbpPcf5
- uoJUVP1ei3yUsGpx36ZL7HACbMmI+1No0KtLf7Cw1a19Sj8rE7/wdax5mGxA15pSg4Wg
- QmdT9V3UXgt6p++P0oFbANP4//iE0KJRq1qRUhUKhJ+ayEAyHuYlo6+LKiYmgVt6pd2u
- e0OQ==
-X-Gm-Message-State: AOAM533/f0VelCi9Vv5qKgRuUYj2L80ECa3FomX6sPTiaQPyGvlloNjv
- A3zu6cU/YnAIDsprIm7dy08=
-X-Google-Smtp-Source: ABdhPJy21Sg1jT1k4jxuQ2eIsLP1o+5VrgJjffGOL+H9MDA1+lyya298q8M6udakrtmv3oEcL22FnA==
-X-Received: by 2002:a5d:44d1:: with SMTP id z17mr4236660wrr.187.1632394563396; 
- Thu, 23 Sep 2021 03:56:03 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id r27sm4960893wrr.70.2021.09.23.03.56.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Sep 2021 03:56:02 -0700 (PDT)
-Message-ID: <e6e6bdca-775b-ec39-4cac-c308f7cca166@amsat.org>
-Date: Thu, 23 Sep 2021 12:56:01 +0200
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTMPx-00063v-81
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:57:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48814)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mTMPv-0002Ho-3H
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:57:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632394646;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=p7kWxEG3HntAECVgt4whAZ60S9Hr42s8N3YLCyRQutc=;
+ b=gB9gVtWr8e1ENdGEi6mYjwMwCL4SscPcOwSA0ioMRGbZacVvU0RwcFtd81UV9gomGuhN+f
+ J9wrZvHCCFaNJ2CaaRvzgDCG/oq/QmU6FiUfsxygsVXFcLRUudMECa0ueqBVUTX+xAkq3U
+ WhD9P16/5qFzF0lz5wkdqZIpQkddUpw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-_m29v4ZtN9WtrOh_LyA-sA-1; Thu, 23 Sep 2021 06:57:23 -0400
+X-MC-Unique: _m29v4ZtN9WtrOh_LyA-sA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 070FF9F92A;
+ Thu, 23 Sep 2021 10:57:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.235])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 52A625F707;
+ Thu, 23 Sep 2021 10:57:18 +0000 (UTC)
+Date: Thu, 23 Sep 2021 12:57:16 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 2/6] iotests: add warning for rogue 'qemu' packages
+Message-ID: <YUxdjJnwhABAvfbR@redhat.com>
+References: <20210923001625.3996451-1-jsnow@redhat.com>
+ <20210923001625.3996451-3-jsnow@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] hw/char/mchp_pfsoc_mmuart: QOM'ify PolarFire MMUART
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210918180738.2506799-1-f4bug@amsat.org>
- <CAEUhbmX_PPdLPgGTtfJZg-Nd0pPxVC93ZYoeVpngnOvdLB0Tww@mail.gmail.com>
- <0cfcd1c1-8bff-f0dc-02ac-ac12ac392fc8@amsat.org>
- <CAFEAcA9aZ3HXmHc12X58N5k=1dfk6SZWEU9Uf1ErajNj0EHWxg@mail.gmail.com>
- <58a51968-39b9-1477-5c18-db9638fa66e3@amsat.org>
-In-Reply-To: <58a51968-39b9-1477-5c18-db9638fa66e3@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210923001625.3996451-3-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,60 +76,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Markus Armbruster <armbru@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Alistair Francis <alistair23@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/21 12:52, Philippe Mathieu-Daudé wrote:
-> On 9/23/21 12:41, Peter Maydell wrote:
->> On Thu, 23 Sept 2021 at 11:29, Philippe Mathieu-Daudé 
->> <f4bug@amsat.org> wrote:
->>> On 9/23/21 07:16, Bin Meng wrote:> On Sun, Sep 19, 2021 at 2:07 AM
->>> Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>>>> +static void mchp_pfsoc_mmuart_realize(DeviceState *dev, Error **errp)
->>>>> +{
->>>>> +    MchpPfSoCMMUartState *s = MCHP_PFSOC_UART(dev);
->>>>> +
->>>>> +    qdev_prop_set_uint8(DEVICE(&s->serial_mm), "regshift", 2);
->>>>> +    qdev_prop_set_uint32(DEVICE(&s->serial_mm), "baudbase", 399193);
->>>>> +    qdev_prop_set_uint8(DEVICE(&s->serial_mm), "endianness",
->>>>> +                        DEVICE_LITTLE_ENDIAN);
->>>>
->>>> It looks like serial_mm_init() does one more thing:
->>>>
->>>>       qdev_set_legacy_instance_id(DEVICE(smm), base, 2);
->>>>
->>>> I am not sure what that is.
->>>
->>> I'll defer on Paolo / Marc-André for that part, I think this is for
->>> migrating legacy (x86?) machines, which is not the case.
->>
->> Yes, this is only needed for backwards-compatibility of incoming
->> migration data with old versions of QEMU which implemented migration
->> of devices with hand-rolled code. If a device didn't previously
->> handle migration at all then it should not now be setting the
->> legacy instance ID.
+Am 23.09.2021 um 02:16 hat John Snow geschrieben:
+> Add a warning for when 'iotests' runs against a qemu namespace that
+> isn't the one in the source tree. This might occur if you have
+> (accidentally) installed the Python namespace package to your local
+> packages.
 > 
-> Thanks. I'll try to add that in the documentation somewhere.
+> (I'm not going to say that this is because I bit myself with this,
+> but. You can fill in the blanks.)
 > 
->> Speaking of migration, I notice that this QOM conversion does
->> not add a vmstate, which usually we do as part of the QOM conversion.
->> The device is also missing a reset method.
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  tests/qemu-iotests/testenv.py | 21 ++++++++++++++++++++-
+>  1 file changed, 20 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+> index 88104dace90..8a43b193af5 100644
+> --- a/tests/qemu-iotests/testenv.py
+> +++ b/tests/qemu-iotests/testenv.py
+> @@ -16,6 +16,8 @@
+>  # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+>  #
+>  
+> +import importlib.util
+> +import logging
+>  import os
+>  import sys
+>  import tempfile
+> @@ -25,7 +27,7 @@
+>  import random
+>  import subprocess
+>  import glob
+> -from typing import List, Dict, Any, Optional, ContextManager
+> +from typing import List, Dict, Any, Optional, ContextManager, cast
+>  
+>  DEF_GDB_OPTIONS = 'localhost:12345'
+>  
+> @@ -112,6 +114,22 @@ def init_directories(self) -> None:
+>          # Path where qemu goodies live in this source tree.
+>          qemu_srctree_path = Path(__file__, '../../../python').resolve()
+>  
+> +        # warn if we happen to be able to find 'qemu' packages from an
+> +        # unexpected location (i.e. the package is already installed in
+> +        # the user's environment)
+> +        qemu_spec = importlib.util.find_spec('qemu.qmp')
+> +        if qemu_spec:
+> +            spec_path = Path(cast(str, qemu_spec.origin))
 
-Sigh, you reminded me of this series:
-"hw: Mark devices with no migratable fields"
-https://lore.kernel.org/qemu-devel/20210117192446.23753-19-f4bug@amsat.org/
+You're casting Optional[str] to str here. The source type is not obvious
+from the local code, so unless you spend some time actively figuring it
+out, this could be casting anything to str. But even knowing this, just
+casting Optional away looks fishy anyway.
 
-> 
-> OK, I'll add that in a previous patch.
-> 
-> Thanks,
-> 
-> Phil.
-> 
+Looking up the ModuleSpec docs, it seems okay to assume that it's never
+None in our case, but wouldn't it be much cleaner to just 'assert
+qemu_spec.origin' first and then use it without the cast?
+
+> +            try:
+> +                _ = spec_path.relative_to(qemu_srctree_path)
+> +            except ValueError:
+> +                self._logger.warning(
+> +                    "WARNING: 'qemu' package will be imported from outside "
+> +                    "the source tree!")
+> +                self._logger.warning(
+> +                    "Importing from: '%s'",
+> +                    spec_path.parents[1])
+> +
+>          self.pythonpath = os.getenv('PYTHONPATH')
+>          self.pythonpath = os.pathsep.join(filter(None, (
+>              self.source_iotests,
+> @@ -231,6 +249,7 @@ def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
+>  
+>          self.build_root = os.path.join(self.build_iotests, '..', '..')
+>  
+> +        self._logger = logging.getLogger('qemu.iotests')
+>          self.init_directories()
+>          self.init_binaries()
+
+Looks good otherwise.
+
+Kevin
+
 
