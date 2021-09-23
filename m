@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FBE04154EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 03:03:56 +0200 (CEST)
-Received: from localhost ([::1]:43446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640584154FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 03:04:55 +0200 (CEST)
+Received: from localhost ([::1]:45110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTD9X-0005Qb-60
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 21:03:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55844)
+	id 1mTDAU-0006Y6-Dl
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 21:04:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCwK-0001q5-N3
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCwL-0001q7-Ei
  for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:50:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45469)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCwH-0006a7-Pv
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:50:16 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCwI-0006aJ-6q
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:50:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1632358213;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aR+36WWBwa8EzhnKZlbtqPJM6PiVw8Qa4zmRz3QWYZ4=;
- b=IJ/XfOycCtvXcsso8Q9yr3kCNenRbC91j+TIPnyxrYMVurZQ4T/c45BYe32bkBiNFGQtBH
- rRy9zthJolMMrUv9dcRlQSr6H2G4wit12+djfLoK59GEjse+Rj8B7Z9AAxbmxk/yiZ5MsM
- 4QHUFSj4mNJqFa4NBMdir796AlmnRbU=
+ bh=Rhvx6sUQzndXcFI4jrnLkWb3ULoLpEBvD5i7UMzUPTU=;
+ b=MruLKE6dCFc95H9AXY2JeIEZ0VvITzNeV2hNzh2a2rRvU/hx3Ub1ZFbtGvMGeMN1W9U4eW
+ 7ibsiOtB/lrON783OM4Z78OSZo+X7u8w9Wz01may9jmlqtnAqRBVF6+WromgLYlQImn0cS
+ uxms4iY/UYi7MJVN3JJWhhwiEAo1tFY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-nSTEJ5TDO5avhU_bqxe7WA-1; Wed, 22 Sep 2021 20:50:11 -0400
-X-MC-Unique: nSTEJ5TDO5avhU_bqxe7WA-1
+ us-mta-311-PFGBv19wMZK39IIwDraYCQ-1; Wed, 22 Sep 2021 20:50:12 -0400
+X-MC-Unique: PFGBv19wMZK39IIwDraYCQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31AE61006AA2;
- Thu, 23 Sep 2021 00:50:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A6BB1006AA4;
+ Thu, 23 Sep 2021 00:50:11 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0DA9A60BF1;
- Thu, 23 Sep 2021 00:50:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5EB9A60BF1;
+ Thu, 23 Sep 2021 00:50:10 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/17] python/aqmp: Remove scary message
-Date: Wed, 22 Sep 2021 20:49:37 -0400
-Message-Id: <20210923004938.3999963-17-jsnow@redhat.com>
+Subject: [PATCH v2 17/17] python, iotests: replace qmp with aqmp
+Date: Wed, 22 Sep 2021 20:49:38 -0400
+Message-Id: <20210923004938.3999963-18-jsnow@redhat.com>
 In-Reply-To: <20210923004938.3999963-1-jsnow@redhat.com>
 References: <20210923004938.3999963-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -57,13 +57,13 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) DKIMWL_WL_HIGH=-1.472, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,44 +84,45 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The scary message interferes with the iotests output. Coincidentally, if
-iotests works by removing this, then it's good evidence that we don't
-really need to scare people away from using it.
+Swap out the synchronous QEMUMonitorProtocol from qemu.qmp with the sync
+wrapper from qemu.aqmp instead.
+
+Add an escape hatch in the form of the environment variable
+QEMU_PYTHON_LEGACY_QMP which allows you to cajole QEMUMachine into using
+the old implementatin, proving that both implementations work
+concurrently.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Tested-by: Hanna Reitz <hreitz@redhat.com>
 ---
- python/qemu/aqmp/__init__.py | 12 ------------
- 1 file changed, 12 deletions(-)
+ python/qemu/machine/machine.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
-index d1b0e4dc3d3..880d5b6fa7f 100644
---- a/python/qemu/aqmp/__init__.py
-+++ b/python/qemu/aqmp/__init__.py
-@@ -22,7 +22,6 @@
- # the COPYING file in the top-level directory.
+diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+index c33a78a2d9f..32879faeb40 100644
+--- a/python/qemu/machine/machine.py
++++ b/python/qemu/machine/machine.py
+@@ -41,7 +41,6 @@
+ )
  
- import logging
--import warnings
+ from qemu.qmp import (  # pylint: disable=import-error
+-    QEMUMonitorProtocol,
+     QMPMessage,
+     QMPReturnValue,
+     SocketAddrT,
+@@ -50,6 +49,12 @@
+ from . import console_socket
  
- from .error import AQMPError
- from .events import EventListener
-@@ -31,17 +30,6 @@
- from .qmp_client import ExecInterruptedError, ExecuteError, QMPClient
  
++if os.environ.get('QEMU_PYTHON_LEGACY_QMP'):
++    from qemu.qmp import QEMUMonitorProtocol
++else:
++    from qemu.aqmp.legacy import QEMUMonitorProtocol
++
++
+ LOG = logging.getLogger(__name__)
  
--_WMSG = """
--
--The Asynchronous QMP library is currently in development and its API
--should be considered highly fluid and subject to change. It should
--not be used by any other scripts checked into the QEMU tree.
--
--Proceed with caution!
--"""
--
--warnings.warn(_WMSG, FutureWarning)
--
- # Suppress logging unless an application engages it.
- logging.getLogger('qemu.aqmp').addHandler(logging.NullHandler())
  
 -- 
 2.31.1
