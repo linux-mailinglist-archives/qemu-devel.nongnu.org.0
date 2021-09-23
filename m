@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0997041592F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 09:37:50 +0200 (CEST)
-Received: from localhost ([::1]:42988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB0F41599C
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 09:51:47 +0200 (CEST)
+Received: from localhost ([::1]:53180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTJIj-0007x0-1G
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 03:37:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49720)
+	id 1mTJW9-000768-9q
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 03:51:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mTJHR-0006TA-Al
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 03:36:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41323)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mTJSm-0004lr-1m
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 03:48:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mTJHN-0007Iw-Fs
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 03:36:27 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mTJSh-0000ff-BQ
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 03:48:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632382584;
+ s=mimecast20190719; t=1632383286;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CoP0thARdeTPemimHQ7zP25ax0Lu0ZBJw0EM47IUfmY=;
- b=hbiTPp0JXqfGyKJhbjUUr2F2DI199M3TTS70K0xbdiPg93hSpDzu9v1iLJYE3PobarcFRQ
- bWLrGWh/Uktt3kQZCKGY6q9+Azl3QtJZGdsvXi1CuCAwKIiyaJI6+6PM7lI1DPGsxj1t1U
- DImQtJEYXUe1DwiHJRib+LhvTKwSJ50=
+ bh=vKLmQihFbtho5HfrD1k+7nYzvjh7ZHaQACmH6LhK7NQ=;
+ b=Lm2xw4uEp6lq3q7pvaOWJpCubF1gElDJRFmOE5creXemXYtz2ehRwqt7q2Gxu9KwI2NIc/
+ drr340Tlem5C1VDOQqKYa02D0OXhOHrCuPwkYCHLTG9LYmXgV+qDsQOXO5hpo5sM7g5szU
+ tZI1PaHU1WBcnO/+6m/ia0gyktKo//8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-VmZLdIK7PTSDq-pTy1tmoA-1; Thu, 23 Sep 2021 03:36:23 -0400
-X-MC-Unique: VmZLdIK7PTSDq-pTy1tmoA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-12-b32KxNz2NS2TihtmSMOXYg-1; Thu, 23 Sep 2021 03:48:03 -0400
+X-MC-Unique: b32KxNz2NS2TihtmSMOXYg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9199A100C660
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 07:36:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-14.ams2.redhat.com
- [10.36.112.14])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 576EB60854;
- Thu, 23 Sep 2021 07:36:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BBBB5113865F; Thu, 23 Sep 2021 09:36:20 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2] monitor: Rate-limit MEMORY_DEVICE_SIZE_CHANGE qapi
- events per device
-References: <20210922125734.79712-1-david@redhat.com>
- <YUtOTk+R9G8spK6a@work-vm>
-Date: Thu, 23 Sep 2021 09:36:20 +0200
-In-Reply-To: <YUtOTk+R9G8spK6a@work-vm> (David Alan Gilbert's message of "Wed, 
- 22 Sep 2021 16:39:58 +0100")
-Message-ID: <87fstvhhfv.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80AA691277;
+ Thu, 23 Sep 2021 07:48:02 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 12A9F6B54A;
+ Thu, 23 Sep 2021 07:47:44 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 29/35] acpi: arm/virt: convert build_iort() to endian
+ agnostic build_append_FOO() API
+Date: Thu, 23 Sep 2021 03:47:43 -0400
+Message-Id: <20210923074743.1417615-1-imammedo@redhat.com>
+In-Reply-To: <1a81ed47-6e60-7f74-2323-1f3d81a34cb1@redhat.com>
+References: <1a81ed47-6e60-7f74-2323-1f3d81a34cb1@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -81,92 +80,344 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael
- S . Tsirkin" <mst@redhat.com>, Michal Privoznik <mprivozn@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com, wangxingang5@huawei.com,
+ shannon.zhaosl@gmail.com, Eric Auger <eric.auger@redhat.com>,
+ qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
+Drop usage of packed structures and explicit endian conversions
+when building IORT table use endian agnostic build_append_int_noprefix()
+API to build it.
 
-> * David Hildenbrand (david@redhat.com) wrote:
->> We want to rate-limit MEMORY_DEVICE_SIZE_CHANGE events per device,
->> otherwise we can lose some events for devices. As we might not always have
->> a device id, add the qom-path to the event and use that to rate-limit
->> per device.
->> 
->> This was noticed by starting a VM with two virtio-mem devices that each
->> have a requested size > 0. The Linux guest will initialize both devices
->> in parallel, resulting in losing MEMORY_DEVICE_SIZE_CHANGE events for
->> one of the devices.
->> 
->> Fixes: 722a3c783ef4 ("virtio-pci: Send qapi events when the virtio-mem size changes")
->> Suggested-by: Markus Armbruster <armbru@redhat.com>
->> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->> Cc: Markus Armbruster <armbru@redhat.com>
->> Cc: Michael S. Tsirkin <mst@redhat.com>
->> Cc: Eric Blake <eblake@redhat.com>
->> Cc: Igor Mammedov <imammedo@redhat.com>
->> Cc: Michal Privoznik <mprivozn@redhat.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->> 
->> Follow up of:
->>     https://lkml.kernel.org/r/20210921102434.24273-1-david@redhat.com
->> 
->> v1 -> v2:
->> - Add the qom-path and use that identifier to rate-limit per device
->> - Rephrase subject/description
->> 
->> ---
->>  hw/virtio/virtio-mem-pci.c | 3 ++-
->>  monitor/monitor.c          | 9 +++++++++
->>  qapi/machine.json          | 5 ++++-
->>  3 files changed, 15 insertions(+), 2 deletions(-)
->> 
->> diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
->> index fa5395cd88..dd5085497f 100644
->> --- a/hw/virtio/virtio-mem-pci.c
->> +++ b/hw/virtio/virtio-mem-pci.c
->> @@ -87,6 +87,7 @@ static void virtio_mem_pci_size_change_notify(Notifier *notifier, void *data)
->>      VirtIOMEMPCI *pci_mem = container_of(notifier, VirtIOMEMPCI,
->>                                           size_change_notifier);
->>      DeviceState *dev = DEVICE(pci_mem);
->> +    const char * qom_path = object_get_canonical_path(OBJECT(dev));
->>      const uint64_t * const size_p = data;
->>      const char *id = NULL;
->>  
->> @@ -94,7 +95,7 @@ static void virtio_mem_pci_size_change_notify(Notifier *notifier, void *data)
->>          id = g_strdup(dev->id);
->>      }
->>  
->> -    qapi_event_send_memory_device_size_change(!!id, id, *size_p);
->> +    qapi_event_send_memory_device_size_change(!!id, id, *size_p, qom_path);
->>  }
->>  
->>  static void virtio_mem_pci_class_init(ObjectClass *klass, void *data)
->> diff --git a/monitor/monitor.c b/monitor/monitor.c
->> index 46a171bca6..21c7a68758 100644
->> --- a/monitor/monitor.c
->> +++ b/monitor/monitor.c
->> @@ -474,6 +474,10 @@ static unsigned int qapi_event_throttle_hash(const void *key)
->>          hash += g_str_hash(qdict_get_str(evstate->data, "node-name"));
->>      }
->>  
->> +    if (evstate->event == QAPI_EVENT_MEMORY_DEVICE_SIZE_CHANGE) {
->> +        hash += g_str_hash(qdict_get_str(evstate->data, "qom-path"));
->> +    }
->
-> It makes me wonder if all these entries could turn into:
->   str = qdict_get_try_str(qdict, "qom-path");
->   if (str) {
->       hash += g_str_hash(str);
->   }
->
-> and then stop worrying about checking each eventtype there?
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+CC: Eric Auger <eric.auger@redhat.com>
 
-Prone to accidental capture when we add to event data later on.  I feel
-it's better to be explicit.
+v4:
+  - (Eric Auger <eric.auger@redhat.com>)
+    * keep nb_nodes
+    * encode 'Memory access properties' as separate entries according to
+      Table 13
+    * keep some comments
+v3:
+  * practically rewritten, due to conflicts wiht bypass iommu feature
+
+CC: drjones@redhat.com
+CC: peter.maydell@linaro.org
+CC: shannon.zhaosl@gmail.com
+CC: qemu-arm@nongnu.org
+CC: wangxingang5@huawei.com
+CC: Eric Auger <eric.auger@redhat.com>
+---
+ include/hw/acpi/acpi-defs.h |  71 ----------------
+ hw/arm/virt-acpi-build.c    | 164 ++++++++++++++++++++----------------
+ 2 files changed, 93 insertions(+), 142 deletions(-)
+
+diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+index 195f90caf6..6f2f08a9de 100644
+--- a/include/hw/acpi/acpi-defs.h
++++ b/include/hw/acpi/acpi-defs.h
+@@ -188,75 +188,4 @@ struct AcpiGenericTimerTable {
+ } QEMU_PACKED;
+ typedef struct AcpiGenericTimerTable AcpiGenericTimerTable;
+ 
+-/*
+- * IORT node types
+- */
+-
+-#define ACPI_IORT_NODE_HEADER_DEF   /* Node format common fields */ \
+-    uint8_t  type;          \
+-    uint16_t length;        \
+-    uint8_t  revision;      \
+-    uint32_t reserved;      \
+-    uint32_t mapping_count; \
+-    uint32_t mapping_offset;
+-
+-/* Values for node Type above */
+-enum {
+-        ACPI_IORT_NODE_ITS_GROUP = 0x00,
+-        ACPI_IORT_NODE_NAMED_COMPONENT = 0x01,
+-        ACPI_IORT_NODE_PCI_ROOT_COMPLEX = 0x02,
+-        ACPI_IORT_NODE_SMMU = 0x03,
+-        ACPI_IORT_NODE_SMMU_V3 = 0x04
+-};
+-
+-struct AcpiIortIdMapping {
+-    uint32_t input_base;
+-    uint32_t id_count;
+-    uint32_t output_base;
+-    uint32_t output_reference;
+-    uint32_t flags;
+-} QEMU_PACKED;
+-typedef struct AcpiIortIdMapping AcpiIortIdMapping;
+-
+-struct AcpiIortMemoryAccess {
+-    uint32_t cache_coherency;
+-    uint8_t  hints;
+-    uint16_t reserved;
+-    uint8_t  memory_flags;
+-} QEMU_PACKED;
+-typedef struct AcpiIortMemoryAccess AcpiIortMemoryAccess;
+-
+-struct AcpiIortItsGroup {
+-    ACPI_IORT_NODE_HEADER_DEF
+-    uint32_t its_count;
+-    uint32_t identifiers[];
+-} QEMU_PACKED;
+-typedef struct AcpiIortItsGroup AcpiIortItsGroup;
+-
+-#define ACPI_IORT_SMMU_V3_COHACC_OVERRIDE 1
+-
+-struct AcpiIortSmmu3 {
+-    ACPI_IORT_NODE_HEADER_DEF
+-    uint64_t base_address;
+-    uint32_t flags;
+-    uint32_t reserved2;
+-    uint64_t vatos_address;
+-    uint32_t model;
+-    uint32_t event_gsiv;
+-    uint32_t pri_gsiv;
+-    uint32_t gerr_gsiv;
+-    uint32_t sync_gsiv;
+-    AcpiIortIdMapping id_mapping_array[];
+-} QEMU_PACKED;
+-typedef struct AcpiIortSmmu3 AcpiIortSmmu3;
+-
+-struct AcpiIortRC {
+-    ACPI_IORT_NODE_HEADER_DEF
+-    AcpiIortMemoryAccess memory_properties;
+-    uint32_t ats_attribute;
+-    uint32_t pci_segment_number;
+-    AcpiIortIdMapping id_mapping_array[];
+-} QEMU_PACKED;
+-typedef struct AcpiIortRC AcpiIortRC;
+-
+ #endif
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 42ea460313..8c382915a9 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -240,6 +240,28 @@ static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
+ }
+ #endif
+ 
++#define ID_MAPPING_ENTRY_SIZE 20
++#define SMMU_V3_ENTRY_SIZE 60
++#define ROOT_COMPLEX_ENTRY_SIZE 32
++#define IORT_NODE_OFFSET 48
++
++static void build_iort_id_mapping(GArray *table_data, uint32_t input_base,
++                                  uint32_t id_count, uint32_t out_ref)
++{
++    /* Identity RID mapping covering the whole input RID range */
++    build_append_int_noprefix(table_data, input_base, 4); /* Input base */
++    build_append_int_noprefix(table_data, id_count, 4); /* Number of IDs */
++    build_append_int_noprefix(table_data, input_base, 4); /* Output base */
++    build_append_int_noprefix(table_data, out_ref, 4); /* Output Reference */
++    build_append_int_noprefix(table_data, 0, 4); /* Flags */
++}
++
++struct AcpiIortIdMapping {
++    uint32_t input_base;
++    uint32_t id_count;
++};
++typedef struct AcpiIortIdMapping AcpiIortIdMapping;
++
+ /* Build the iort ID mapping to SMMUv3 for a given PCI host bridge */
+ static int
+ iort_host_bridges(Object *obj, void *opaque)
+@@ -282,17 +304,16 @@ static void
+ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+ {
+     int i, nb_nodes, rc_mapping_count;
+-    AcpiIortIdMapping *idmap;
+-    AcpiIortItsGroup *its;
+-    AcpiIortSmmu3 *smmu;
+-    AcpiIortRC *rc;
+-    const uint32_t iort_node_offset = 48;
++    const uint32_t iort_node_offset = IORT_NODE_OFFSET;
+     size_t node_size, smmu_offset = 0;
++    AcpiIortIdMapping *idmap;
+     GArray *smmu_idmaps = g_array_new(false, true, sizeof(AcpiIortIdMapping));
+     GArray *its_idmaps = g_array_new(false, true, sizeof(AcpiIortIdMapping));
+ 
+     AcpiTable table = { .sig = "IORT", .rev = 0, .oem_id = vms->oem_id,
+                         .oem_table_id = vms->oem_table_id };
++    /* Table 2 The IORT */
++    acpi_table_begin(&table, table_data);
+ 
+     if (vms->iommu == VIRT_IOMMU_SMMUV3) {
+         AcpiIortIdMapping next_range = {0};
+@@ -330,100 +351,101 @@ build_iort(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+         nb_nodes = 2; /* RC, ITS */
+         rc_mapping_count = 1;
+     }
+-
+-    /* Table 2 The IORT */
+-    acpi_table_begin(&table, table_data);
+     /* Number of IORT Nodes */
+     build_append_int_noprefix(table_data, nb_nodes, 4);
++
+     /* Offset to Array of IORT Nodes */
+-    build_append_int_noprefix(table_data, iort_node_offset, 4);
++    build_append_int_noprefix(table_data, IORT_NODE_OFFSET, 4);
+     build_append_int_noprefix(table_data, 0, 4); /* Reserved */
+ 
+-    /* ITS group node */
+-    node_size =  sizeof(*its) + sizeof(uint32_t);
+-    its = acpi_data_push(table_data, node_size);
+-
+-    its->type = ACPI_IORT_NODE_ITS_GROUP;
+-    its->length = cpu_to_le16(node_size);
+-    its->its_count = cpu_to_le32(1);
+-    its->identifiers[0] = 0; /* MADT translation_id */
++    /* 3.1.1.3 ITS group node */
++    build_append_int_noprefix(table_data, 0 /* ITS Group */, 1); /* Type */
++    node_size =  20 /* fixed header size */ + 4 /* 1 GIC ITS Identifier */;
++    build_append_int_noprefix(table_data, node_size, 2); /* Length */
++    build_append_int_noprefix(table_data, 0, 1); /* Revision */
++    build_append_int_noprefix(table_data, 0, 4); /* Reserved */
++    build_append_int_noprefix(table_data, 0, 4); /* Number of ID mappings */
++    build_append_int_noprefix(table_data, 0, 4); /* Reference to ID Array */
++    build_append_int_noprefix(table_data, 1, 4); /* Number of ITSs */
++    /* GIC ITS Identifier Array */
++    build_append_int_noprefix(table_data, 0 /* MADT translation_id */, 4);
+ 
+     if (vms->iommu == VIRT_IOMMU_SMMUV3) {
+         int irq =  vms->irqmap[VIRT_SMMU] + ARM_SPI_BASE;
+ 
+-        /* SMMUv3 node */
+-        smmu_offset = iort_node_offset + node_size;
+-        node_size = sizeof(*smmu) + sizeof(*idmap);
+-        smmu = acpi_data_push(table_data, node_size);
+-
+-        smmu->type = ACPI_IORT_NODE_SMMU_V3;
+-        smmu->length = cpu_to_le16(node_size);
+-        smmu->mapping_count = cpu_to_le32(1);
+-        smmu->mapping_offset = cpu_to_le32(sizeof(*smmu));
+-        smmu->base_address = cpu_to_le64(vms->memmap[VIRT_SMMU].base);
+-        smmu->flags = cpu_to_le32(ACPI_IORT_SMMU_V3_COHACC_OVERRIDE);
+-        smmu->event_gsiv = cpu_to_le32(irq);
+-        smmu->pri_gsiv = cpu_to_le32(irq + 1);
+-        smmu->sync_gsiv = cpu_to_le32(irq + 2);
+-        smmu->gerr_gsiv = cpu_to_le32(irq + 3);
+-
+-        /* Identity RID mapping covering the whole input RID range */
+-        idmap = &smmu->id_mapping_array[0];
+-        idmap->input_base = 0;
+-        idmap->id_count = cpu_to_le32(0xFFFF);
+-        idmap->output_base = 0;
++        smmu_offset = table_data->len - table.table_offset;
++        /* 3.1.1.2 SMMUv3 */
++        build_append_int_noprefix(table_data, 4 /* SMMUv3 */, 1); /* Type */
++        node_size =  SMMU_V3_ENTRY_SIZE + ID_MAPPING_ENTRY_SIZE;
++        build_append_int_noprefix(table_data, node_size, 2); /* Length */
++        build_append_int_noprefix(table_data, 0, 1); /* Revision */
++        build_append_int_noprefix(table_data, 0, 4); /* Reserved */
++        build_append_int_noprefix(table_data, 1, 4); /* Number of ID mappings */
++        /* Reference to ID Array */
++        build_append_int_noprefix(table_data, SMMU_V3_ENTRY_SIZE, 4);
++        /* Base address */
++        build_append_int_noprefix(table_data, vms->memmap[VIRT_SMMU].base, 8);
++        /* Flags */
++        build_append_int_noprefix(table_data, 1 /* COHACC OverrideNote */, 4);
++        build_append_int_noprefix(table_data, 0, 4); /* Reserved */
++        build_append_int_noprefix(table_data, 0, 8); /* VATOS address */
++        /* Model */
++        build_append_int_noprefix(table_data, 0 /* Generic SMMU-v3 */, 4);
++        build_append_int_noprefix(table_data, irq, 4); /* Event */
++        build_append_int_noprefix(table_data, irq + 1, 4); /* PRI */
++        build_append_int_noprefix(table_data, irq + 3, 4); /* GERR */
++        build_append_int_noprefix(table_data, irq + 2, 4); /* Sync */
++
+         /* output IORT node is the ITS group node (the first node) */
+-        idmap->output_reference = cpu_to_le32(iort_node_offset);
++        build_iort_id_mapping(table_data, 0, 0xFFFF, IORT_NODE_OFFSET);
+     }
+ 
+-    /* Root Complex Node */
+-    node_size = sizeof(*rc) + sizeof(*idmap) * rc_mapping_count;
+-    rc = acpi_data_push(table_data, node_size);
+-
+-    rc->type = ACPI_IORT_NODE_PCI_ROOT_COMPLEX;
+-    rc->length = cpu_to_le16(node_size);
+-    rc->mapping_count = cpu_to_le32(rc_mapping_count);
+-    rc->mapping_offset = cpu_to_le32(sizeof(*rc));
+-
+-    /* fully coherent device */
+-    rc->memory_properties.cache_coherency = cpu_to_le32(1);
+-    rc->memory_properties.memory_flags = 0x3; /* CCA = CPM = DCAS = 1 */
+-    rc->pci_segment_number = 0; /* MCFG pci_segment */
+-
++    /* Table 16 Root Complex Node */
++    build_append_int_noprefix(table_data, 2 /* Root complex */, 1); /* Type */
++    node_size =  ROOT_COMPLEX_ENTRY_SIZE +
++                 ID_MAPPING_ENTRY_SIZE * rc_mapping_count;
++    build_append_int_noprefix(table_data, node_size, 2); /* Length */
++    build_append_int_noprefix(table_data, 0, 1); /* Revision */
++    build_append_int_noprefix(table_data, 0, 4); /* Reserved */
++    /* Number of ID mappings */
++    build_append_int_noprefix(table_data, rc_mapping_count, 4);
++    /* Reference to ID Array */
++    build_append_int_noprefix(table_data, ROOT_COMPLEX_ENTRY_SIZE, 4);
++
++    /* Table 13 Memory access properties */
++    /* CCA: Cache Coherent Attribute */
++    build_append_int_noprefix(table_data, 1 /* fully coherent */, 4);
++    build_append_int_noprefix(table_data, 0, 1); /* AH: Note Allocation Hints */
++    build_append_int_noprefix(table_data, 0, 2); /* Reserved */
++    /* MAF: Note Memory Access Flags */
++    build_append_int_noprefix(table_data, 0x3 /* CCA = CPM = DCAS = 1 */, 1);
++
++    build_append_int_noprefix(table_data, 0, 4); /* ATS Attribute */
++    /* MCFG pci_segment */
++    build_append_int_noprefix(table_data, 0, 4); /* PCI Segment number */
++
++    /* Output Reference */
+     if (vms->iommu == VIRT_IOMMU_SMMUV3) {
+         AcpiIortIdMapping *range;
+ 
+         /* translated RIDs connect to SMMUv3 node: RC -> SMMUv3 -> ITS */
+         for (i = 0; i < smmu_idmaps->len; i++) {
+-            idmap = &rc->id_mapping_array[i];
+             range = &g_array_index(smmu_idmaps, AcpiIortIdMapping, i);
+-
+-            idmap->input_base = cpu_to_le32(range->input_base);
+-            idmap->id_count = cpu_to_le32(range->id_count);
+-            idmap->output_base = cpu_to_le32(range->input_base);
+             /* output IORT node is the smmuv3 node */
+-            idmap->output_reference = cpu_to_le32(smmu_offset);
++            build_iort_id_mapping(table_data, range->input_base,
++                                  range->id_count, smmu_offset);
+         }
+ 
+         /* bypassed RIDs connect to ITS group node directly: RC -> ITS */
+         for (i = 0; i < its_idmaps->len; i++) {
+-            idmap = &rc->id_mapping_array[smmu_idmaps->len + i];
+             range = &g_array_index(its_idmaps, AcpiIortIdMapping, i);
+-
+-            idmap->input_base = cpu_to_le32(range->input_base);
+-            idmap->id_count = cpu_to_le32(range->id_count);
+-            idmap->output_base = cpu_to_le32(range->input_base);
+             /* output IORT node is the ITS group node (the first node) */
+-            idmap->output_reference = cpu_to_le32(iort_node_offset);
++            build_iort_id_mapping(table_data, range->input_base,
++                                  range->id_count, iort_node_offset);
+         }
+     } else {
+-        /* Identity RID mapping covering the whole input RID range */
+-        idmap = &rc->id_mapping_array[0];
+-        idmap->input_base = cpu_to_le32(0);
+-        idmap->id_count = cpu_to_le32(0xFFFF);
+-        idmap->output_base = cpu_to_le32(0);
+         /* output IORT node is the ITS group node (the first node) */
+-        idmap->output_reference = cpu_to_le32(iort_node_offset);
++        build_iort_id_mapping(table_data, 0, 0xFFFF, IORT_NODE_OFFSET);
+     }
+ 
+     acpi_table_end(linker, &table);
+-- 
+2.27.0
 
 
