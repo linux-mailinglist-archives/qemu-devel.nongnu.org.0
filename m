@@ -2,78 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02B74416144
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 16:40:45 +0200 (CEST)
-Received: from localhost ([::1]:36426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 403EB416163
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 16:47:53 +0200 (CEST)
+Received: from localhost ([::1]:39168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTPu0-0008CP-33
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 10:40:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54362)
+	id 1mTQ0u-00025X-AZ
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 10:47:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mTPsf-0007KH-T2; Thu, 23 Sep 2021 10:39:21 -0400
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:33466)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mTPsd-00019e-FF; Thu, 23 Sep 2021 10:39:21 -0400
-Received: by mail-qt1-x829.google.com with SMTP id x9so6445887qtv.0;
- Thu, 23 Sep 2021 07:39:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=mCPXUWyYl4SnRQOPsk3ib3vYfTfAovvvfIrBOpnWbUU=;
- b=GNpvFcLNyJ/p0dJ2jMQbNDEjEhkAcp2rJUTbprf/Lj+L0t/MzK2Wi/WPHukDmCN4u3
- kihFJsqM3hR0V+wBu+6viRyOdiUcVLEcZ9D+fPdKhOHea/P4ydoS0E3KqSaLPPLe3Pj6
- HPKh4v21231bBplEl95aijMDlmXwRcFstMhKiZgFYZe+3OGDutnHTFX0j5chcKKl1cFL
- eajjcMYlHTsQEwqzzSmvVF0hqjwQpduzvkUtWPI0MzlXYL2xepcE1lFZFOqGzz4B3rOd
- APCiaSu37QGKQ4+gTWUzYVEfT0QA5QZpAmDbM20WjXDObQEYMQ1GeBWRQDFUFVV2g+Bn
- 6o1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mCPXUWyYl4SnRQOPsk3ib3vYfTfAovvvfIrBOpnWbUU=;
- b=AI+rCH/G2yraWkEdwTtyhjLSB7mh2e3O6fNsiBSDDNh1RRcL3i36uUyLgFZhxcmGb2
- YQ+TLSfdwoWEVseX06CKp2GZK5YPulN4GTfBNZvjr6p53/PGZvTX/uNx9mcpd3EGE8Oh
- MM8s15CDJrspwS6UWOu2YTvIHKxbXXJFILrn8nsiWdhCHwOG9bIwm4kwwsCUm2lv4p0P
- QHDeCrHJdpRkbmut5dc2C4weDVoTa9LcNqz+PDK+Kbzl3Cf3BalxLHNv4pGmTkxO3dV9
- b43xXARN2wa6fS9mwEFZp8pdEapZvdjPRcwrCYB2g++Zv6ag3KqmDDct80sG3LEKm95X
- BaDg==
-X-Gm-Message-State: AOAM532On671LOp+3e2irZElgs+xxCCT/XOvkocYac7vDa2UnM2ekjyT
- O04tA3z22XI07F+N/hPSI4g=
-X-Google-Smtp-Source: ABdhPJwIDOcrI3bzGQirx6nawbbk9usX7pCRE9NClrGBIFajEoXvqmMEFwkX55QDhRB2kh5lsixnhw==
-X-Received: by 2002:ac8:5b8d:: with SMTP id a13mr5024531qta.130.1632407957759; 
- Thu, 23 Sep 2021 07:39:17 -0700 (PDT)
-Received: from [192.168.10.222] ([177.189.43.50])
- by smtp.gmail.com with ESMTPSA id d13sm3548281qtm.32.2021.09.23.07.39.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Sep 2021 07:39:17 -0700 (PDT)
-Message-ID: <587d197b-25a4-c5c2-3c3c-4132ac4cdf6b@gmail.com>
-Date: Thu, 23 Sep 2021 11:39:14 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3 02/15] target/ppc: add user write access control for
- PMU SPRs
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1mTPyr-0001Ki-Dd
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 10:45:46 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:18760)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1mTPyn-0006DF-QA
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 10:45:44 -0400
+Received: from pps.filterd (m0127840.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18NE52sw002096; 
+ Thu, 23 Sep 2021 07:45:34 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=proofpoint20171006;
+ bh=qP/e8os3SWnpSnTKE9F7ira9foXW3jvEmtEaWBG/UfQ=;
+ b=PbaCAsfbijQA+cyRQbjdwNZw450vsR/b/lYQkriqAvTzIleVUqfYTKzxYg1NJWMnfE9q
+ 2Zv2FVJY2KY7XK0mAqB8Yj7eZEMwiCfWugNynbfLkRBGmO919BbvGt3VJLtn7CTf5hJQ
+ Y3ERGBzG1BPh+/6zGIsYyAxyec05A0wdqg8vxf9qd2FAoxDeAjnKshEz6DVc9Rq9NE/d
+ MNNeagBdNc26zldC9A5XLOGXK0nEi9NIC4qlPtka4Khedl2GWzPe17tBCXmWzjAbf5Y+
+ OKbOg5kGy+6QKPYCVOCq7uioux1acwWGA7QxxfaMOOErXVU/Pc12MxjrOvCc1wBgZN0n Gg== 
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
+ by mx0a-002c1b01.pphosted.com with ESMTP id 3b8arksu1t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 07:45:33 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NLJSncksmYlVScpPZT6EYZcq47zYeBOaU0WJsISFwemPHscsGSbM0xm5hbvqq9fxb7sYxN2XS9QSFRduLxzmAf2Cn5Tx1BgVAgu9apQDRzKmB5B3DSUNnhD34QO9gx0zwiCeHgdcvGT0w5g84yKC+6FjU9gtPva6prOOIG1CzBAl20lFseMJqW+iDpD+bQe1+rlCNVWR1jx6Uz+JsR7poNCCuD67J+900gGOwfyWTb0swi0zh45zw/ieGgNDNsYbjPkQqYjVO0PgMdZo3zOuGCYxLL9zA0/AkIwoPvPx+WbdYsZrC/1L56vyhf3yKAboh4M9N5R9NBBoGFKiodOWng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=qP/e8os3SWnpSnTKE9F7ira9foXW3jvEmtEaWBG/UfQ=;
+ b=g1HqWf2WHgc3X+R2n7xkus2M3lg12jQWMpSHLOW3w+po3GfI9NJZj0IfQ0bn7BXXRH852r0Hkqbbn1M0HM8fgchMVi1zwO5v9SmXq1PpNk65DFyicscYpboGC1lzaPCsuGvo42kIEQeWisrSIpYkBSB9Cxn6J+bkSh7fd5gAADmJVoARcMRxZlSJt9v2n25f9aFugUIJYYQnY+UKQMXGxDvvW8WBxIHErAJ9PWcq6NwbZVXXWug+RBojthAs8OiIcxudpBCL0lWLFn3xDp6PGLvDPWI6yoOBhjf8U9cKNbpCliHcIfDtF0QEWdKZNBgGIC59s/24s3wXikjJJAxU6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from SN6PR02MB4543.namprd02.prod.outlook.com (2603:10b6:805:b1::24)
+ by SN4PR0201MB3583.namprd02.prod.outlook.com (2603:10b6:803:45::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Thu, 23 Sep
+ 2021 14:45:30 +0000
+Received: from SN6PR02MB4543.namprd02.prod.outlook.com
+ ([fe80::992f:b2c5:6a7c:3cfd]) by SN6PR02MB4543.namprd02.prod.outlook.com
+ ([fe80::992f:b2c5:6a7c:3cfd%3]) with mapi id 15.20.4544.015; Thu, 23 Sep 2021
+ 14:45:30 +0000
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+To: "mst@redhat.com" <mst@redhat.com>, "peter.maydell@linaro.org"
+ <peter.maydell@linaro.org>, "eblake@redhat.com" <eblake@redhat.com>
+Subject: [PATCH v3] Prevent vhost-user-blk-test hang
+Thread-Topic: [PATCH v3] Prevent vhost-user-blk-test hang
+Thread-Index: AQHXsImndLAOcgO8DEuf/MI2vsXIgA==
+Date: Thu, 23 Sep 2021 14:45:30 +0000
+Message-ID: <20210923144520.21873-1-raphael.norwitz@nutanix.com>
+Accept-Language: en-US
 Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210903203116.80628-1-danielhb413@gmail.com>
- <20210903203116.80628-3-danielhb413@gmail.com> <YTbCnSz86hsUAF/+@yekko>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <YTbCnSz86hsUAF/+@yekko>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x829.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: git-send-email 2.20.1
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ceaf0fc6-d009-429d-9fd9-08d97ea0ca47
+x-ms-traffictypediagnostic: SN4PR0201MB3583:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN4PR0201MB3583D54A535DAE99BD841DB3EAA39@SN4PR0201MB3583.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:773;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: xrTSUp7hrnLOAnVzV6aNvRcrCh3ipFlSt6PCSjOYTRabH0Cj3bedGdvYmqQTAx6vivxNtYmMJKqv+dHpb3xJojGu7v/rNmwoJA/MKaVlcZEcfRfPo8/IEiyHjhJ5zBA2QqC1pL7T+uVbJwwhDfnaUwZs5W5xR6R9LJkFDlp/LTtG3+ZE0TnZSUs3lOHwSELn4XeJhCEay+HkK5QzrCKoeGckUrvSKAPIQBAlm0V8b8nHQQ1uRDa/vHGkyDbNFljxg9PKQm+dba+1rukm8dklBZfoyh+yw8fQdqM8WRiNjxFeDXtF3RT0B0n02DX3oVjySv9lVJwAji410TVxuigQEXuEc6Kxdqb4uTdPf49Qmvl0yXIMvOj6RbaFkjJn3+vWOXcDsH/zsfA//CtHD/bC0SKmYZ6sa1GZmKFFeCO9IZm9Bu61pFqsKxbBvoVS4lP688kLIc9S/iQ5cotCvKAdmrWbfqS1o8g8PTXYId8hd3bd6HdUGRf+rCpZhPWbbS93VSucEqJ8ZKURg8Se9vRY80ekSuEArpJvJbtlfWDzBeh1Hshc/F6qi3P/u5uhJCBqHowJbCBhN4frudsO1QngrRKpOxM7Rv0zcMHN9ZWbj/txi57XM8I3FHcgE9B681gBlliFKvAARZ6ElrejK9qabk8GMNAzb5u/rYWdlWAcPamFjcFxQJtSx07fhw+ixpke2oFmcGk9Ux2LzTbNvsdZpup/ycU4g2H+0k2yUynFOtfAP3dxqPQN3Tyym6D1K8ik6YCGa6L1UUjPBIVWZ+h/9SqfqrOmKaaJ6/4dOMg6pN4=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR02MB4543.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(107886003)(44832011)(1076003)(6486002)(71200400001)(86362001)(4326008)(36756003)(6512007)(76116006)(91956017)(66446008)(66556008)(66476007)(26005)(966005)(8676002)(186003)(2616005)(6506007)(110136005)(316002)(38100700002)(54906003)(38070700005)(122000001)(83380400001)(5660300002)(66946007)(8936002)(508600001)(2906002)(64756008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?QVsz/vipjpJBGXL1IkK8rVBZgjNGYR+wuknluXBgF+Cj/jWTDFhG/P4jAx?=
+ =?iso-8859-1?Q?srph+JfvSp9SEiuHyHGtoNtBOW4y9DmIR0qXlnB4kME288rOJ/UHtVDagJ?=
+ =?iso-8859-1?Q?uGQ8UvCiP0RFGTe9wr74sGEKUi5L8NS/XQN+9+gz5cLegzZUNMl9Kst5ko?=
+ =?iso-8859-1?Q?SeFr3dE1ZnhyBQqZLauw84vl6dcwyoIHxtZBq33xJRPh5fkP/7PsbXaqOI?=
+ =?iso-8859-1?Q?pSUhsSvTL/pK68WwlhGJOPpYIfVN651wXiD//x1bUALg349Z++kxqJ9gvP?=
+ =?iso-8859-1?Q?NbUNDzcdDyu7QB6i5ErHusPFEiUEP0q1ml6OskGgATXubmBbA780kQ78uC?=
+ =?iso-8859-1?Q?rmGJgiOSTOmvbhuPD5kVHtDGSvnRzNnJpXu3GmkHEEodLzYnRB5dsPDHnZ?=
+ =?iso-8859-1?Q?1jOlD8FuGMBdq5QbFaVWA39TYYHuhzhBBX+FlSJDt3rXA3rvERQkjL6znR?=
+ =?iso-8859-1?Q?chYJNTGUDD3mC72BBsmA+BhwftH4Z1jyKXwWeDO8gyL3Q4vU4xnDR67A4N?=
+ =?iso-8859-1?Q?xtkE6tZ9VFzIm84ut7nr/VrvSH5hac1XQOyzlbdmU5ka1O/hb1WzAcE8/M?=
+ =?iso-8859-1?Q?vwdzYJ7stgyJCTGfcHJ8y7/dqd2/bpqivmOJt0qz9P50TK896NZQrvTjgk?=
+ =?iso-8859-1?Q?Adb2qIFPJnpJ8kejYUhCDvIGp3WUorPHmTr2wN65BxrX+VQGT2b9bY5t2p?=
+ =?iso-8859-1?Q?QDC6A6YNKSboUYRaGH8sT5L5tRiBMD15k4Q1RzdbUnW+Qm2RoMPzZCyDw/?=
+ =?iso-8859-1?Q?hDJ6ls65CrHDpbPi70HMk9CBQfOfdZOCInK1h8BBLPPLpGTd9i/F7D8unC?=
+ =?iso-8859-1?Q?XWnzvKQsiIN7GCxkavZaOiUPPPtU3cnQtIil9EjYyrXYNMyMvcLNDFpYHU?=
+ =?iso-8859-1?Q?7WV0uCYJMoRHqK9Mkb69UpLNSzG3lhDdNzD6gr0e8hvqKRaWXm+nJlEDb1?=
+ =?iso-8859-1?Q?uaOdJhY+XviW+oVs/6Xdl+FjJynHq8nqXrEu4EjdE8xcyBzTJxAPWY8VYn?=
+ =?iso-8859-1?Q?7QCcK+DTGCDJdvR+FVrUepQYava9RkGx3yyYzihhYWkVEBYik7jlSALTyU?=
+ =?iso-8859-1?Q?A1I0muWZRTB4qe9CF02G2dHO2HL3oonkVk8CSPwZZ50+zo2qJJgfe3bwHu?=
+ =?iso-8859-1?Q?iVzjN+TqOS9R2flFqnSsNFIVmxUqlNbKGISKq38hDQX8Am9/av8Z50WeM0?=
+ =?iso-8859-1?Q?eu0oMTkp5jeYPA1NCnAHSSuZEnX9F3i8jPRTCVS/oT2XNS9iq5mTousOFw?=
+ =?iso-8859-1?Q?TrUb/60NDgo0RI+CgpsTFtAl3zvLTST/6E8w0OeS3eyc56PWgLU8DRgpfi?=
+ =?iso-8859-1?Q?U4MnZc0YppxELrbwRDpY9jRENZqIf1kHTS++ZDi4Owm/0MOMNNEAPO+3We?=
+ =?iso-8859-1?Q?MecF5d5ymH?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4543.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ceaf0fc6-d009-429d-9fd9-08d97ea0ca47
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2021 14:45:30.1755 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cCc9Dv1b8WjgIF+6svujoA7y0hmPp5AZ9rGZMXQ3zSXc1kdb3/TCAoIjHI2KXJaFTtquWqsgqZKQJP+zdPcOZdITZ9VbLsQiX3Wwy6rlIf4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR0201MB3583
+X-Proofpoint-GUID: KuJGhAeA03nI8DtvQEhTnQ4UqD9H4E6u
+X-Proofpoint-ORIG-GUID: KuJGhAeA03nI8DtvQEhTnQ4UqD9H4E6u
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-23_04,2021-09-23_01,2020-04-07_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68;
+ envelope-from=raphael.norwitz@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,274 +151,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org, matheus.ferst@eldorado.org.br
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "sgarzare@redhat.com" <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+In the vhost-user-blk-test, as of now there is nothing stoping
+vhost-user-blk in QEMU writing to the socket right after forking off the
+storage daemon before it has a chance to come up properly, leaving the
+test hanging forever. This intermittently hanging test has caused QEMU
+automation failures reported multiple times on the mailing list [1].
 
+This change makes the storage-daemon notify the vhost-user-blk-test
+that it is fully initialized and ready to handle client connections by
+creating a pidfile on initialiation. This ensures that the storage-daemon
+backend won't miss vhost-user messages and thereby resolves the hang.
 
-On 9/6/21 22:38, David Gibson wrote:
-> On Fri, Sep 03, 2021 at 05:31:03PM -0300, Daniel Henrique Barboza wrote:
->> The PMU needs to enable writing of its uregs to userspace, otherwise
->> Perf applications will not able to setup the counters correctly. This
->> patch enables user space writing of all PMU uregs.
->>
->> MMCR0 is a special case because its userspace writing access is controlled
->> by MMCR0_PMCC bits. There are 4 configurations available (0b00, 0b01,
->> 0b10 and 0b11) but for our purposes here we're handling only
->> MMCR0_PMCC = 0b00. In this case, if userspace tries to write MMCR0, a
->> hypervisor emulation assistance interrupt occurs.
->>
->> This is being done by adding HFLAGS_PMCCCLEAR to hflags. This flag
->> indicates if MMCR0_PMCC is cleared (0b00), and a new 'pmcc_clear' flag in
->> DisasContext allow us to use it in spr_write_MMCR0_ureg().
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   target/ppc/cpu.h         |  1 +
->>   target/ppc/cpu_init.c    | 18 +++++++-------
->>   target/ppc/helper_regs.c |  3 +++
->>   target/ppc/spr_tcg.h     |  3 ++-
->>   target/ppc/translate.c   | 53 +++++++++++++++++++++++++++++++++++++++-
->>   5 files changed, 67 insertions(+), 11 deletions(-)
->>
->> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->> index f68bb8d8aa..8dfbb62022 100644
->> --- a/target/ppc/cpu.h
->> +++ b/target/ppc/cpu.h
->> @@ -616,6 +616,7 @@ enum {
->>       HFLAGS_SE = 10,  /* MSR_SE -- from elsewhere on embedded ppc */
->>       HFLAGS_FP = 13,  /* MSR_FP */
->>       HFLAGS_PR = 14,  /* MSR_PR */
->> +    HFLAGS_PMCCCLEAR = 15, /* PMU MMCR0 PMCC equal to 0b00 */
->>       HFLAGS_VSX = 23, /* MSR_VSX if cpu has VSX */
->>       HFLAGS_VR = 25,  /* MSR_VR if cpu has VRE */
->>   
->> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
->> index 9efc6c2d87..bb5ea04c61 100644
->> --- a/target/ppc/cpu_init.c
->> +++ b/target/ppc/cpu_init.c
->> @@ -6867,7 +6867,7 @@ static void register_book3s_pmu_sup_sprs(CPUPPCState *env)
->>   static void register_book3s_pmu_user_sprs(CPUPPCState *env)
->>   {
->>       spr_register(env, SPR_POWER_UMMCR0, "UMMCR0",
->> -                 &spr_read_MMCR0_ureg, SPR_NOACCESS,
->> +                 &spr_read_MMCR0_ureg, &spr_write_MMCR0_ureg,
->>                    &spr_read_ureg, &spr_write_ureg,
->>                    0x00000000);
->>       spr_register(env, SPR_POWER_UMMCR1, "UMMCR1",
->> @@ -6875,31 +6875,31 @@ static void register_book3s_pmu_user_sprs(CPUPPCState *env)
->>                    &spr_read_ureg, &spr_write_ureg,
->>                    0x00000000);
->>       spr_register(env, SPR_POWER_UMMCRA, "UMMCRA",
->> -                 &spr_read_ureg, SPR_NOACCESS,
->> +                 &spr_read_ureg, &spr_write_ureg,
->>                    &spr_read_ureg, &spr_write_ureg,
->>                    0x00000000);
->>       spr_register(env, SPR_POWER_UPMC1, "UPMC1",
->> -                 &spr_read_ureg, SPR_NOACCESS,
->> +                 &spr_read_ureg, &spr_write_ureg,
-> 
-> Surely this can't be write.  AFAICT spr_write_ureg() will
-> unconditionally allow full userspace write access.  That can't be
-> right - otherwise the OS could never safely use the PMU for itself.
+[1] https://lore.kernel.org/qemu-devel/CAFEAcA8kYpz9LiPNxnWJAPSjc=3Dnv532bE=
+dyfynaBeMeohqBp3A@mail.gmail.com/
 
-My assumption here was that the user mode SPRs (UMMCR* and UPMC*) were created to
-allow userspace read/write of PMU regs, while the regular regs (MMCR* and PMC*)
-are the supermode privileged SPRs that can't be written by userspace. At least this
-is my understanding from reading commit fd51ff6328e3d98158 that introduced these
-userspace PMC regs.
+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+---
+ tests/qtest/vhost-user-blk-test.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-The reason why these are marked as SPR_NOACCESS is because we didn't bothered
-writing into them from userspace because we had no PMU logic to work with.
-
-
-> 
->>                    &spr_read_ureg, &spr_write_ureg,
->>                    0x00000000);
->>       spr_register(env, SPR_POWER_UPMC2, "UPMC2",
->> -                 &spr_read_ureg, SPR_NOACCESS,
->> +                 &spr_read_ureg, &spr_write_ureg,
->>                    &spr_read_ureg, &spr_write_ureg,
->>                    0x00000000);
->>       spr_register(env, SPR_POWER_UPMC3, "UPMC3",
->> -                 &spr_read_ureg, SPR_NOACCESS,
->> +                 &spr_read_ureg, &spr_write_ureg,
->>                    &spr_read_ureg, &spr_write_ureg,
->>                    0x00000000);
->>       spr_register(env, SPR_POWER_UPMC4, "UPMC4",
->> -                 &spr_read_ureg, SPR_NOACCESS,
->> +                 &spr_read_ureg, &spr_write_ureg,
->>                    &spr_read_ureg, &spr_write_ureg,
->>                    0x00000000);
->>       spr_register(env, SPR_POWER_UPMC5, "UPMC5",
->> -                 &spr_read_ureg, SPR_NOACCESS,
->> +                 &spr_read_ureg, &spr_write_ureg,
->>                    &spr_read_ureg, &spr_write_ureg,
->>                    0x00000000);
->>       spr_register(env, SPR_POWER_UPMC6, "UPMC6",
->> -                 &spr_read_ureg, SPR_NOACCESS,
->> +                 &spr_read_ureg, &spr_write_ureg,
->>                    &spr_read_ureg, &spr_write_ureg,
->>                    0x00000000);
->>       spr_register(env, SPR_POWER_USIAR, "USIAR",
->> @@ -6975,7 +6975,7 @@ static void register_power8_pmu_sup_sprs(CPUPPCState *env)
->>   static void register_power8_pmu_user_sprs(CPUPPCState *env)
->>   {
->>       spr_register(env, SPR_POWER_UMMCR2, "UMMCR2",
->> -                 &spr_read_MMCR2_ureg, SPR_NOACCESS,
->> +                 &spr_read_MMCR2_ureg, &spr_write_ureg,
->>                    &spr_read_ureg, &spr_write_ureg,
->>                    0x00000000);
->>       spr_register(env, SPR_POWER_USIER, "USIER",
->> diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
->> index 405450d863..4c1d9575ac 100644
->> --- a/target/ppc/helper_regs.c
->> +++ b/target/ppc/helper_regs.c
->> @@ -106,6 +106,9 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
->>       if (env->spr[SPR_LPCR] & LPCR_GTSE) {
->>           hflags |= 1 << HFLAGS_GTSE;
->>       }
->> +    if (((env->spr[SPR_POWER_MMCR0] & MMCR0_PMCC) >> 18) == 0) {
->> +        hflags |= 1 << HFLAGS_PMCCCLEAR;
->> +    }
->>   
->>   #ifndef CONFIG_USER_ONLY
->>       if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
->> diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
->> index 30cb6c3fdc..094466a2b2 100644
->> --- a/target/ppc/spr_tcg.h
->> +++ b/target/ppc/spr_tcg.h
->> @@ -42,6 +42,8 @@ void spr_read_601_rtcl(DisasContext *ctx, int gprn, int sprn);
->>   void spr_read_601_rtcu(DisasContext *ctx, int gprn, int sprn);
->>   void spr_read_spefscr(DisasContext *ctx, int gprn, int sprn);
->>   void spr_write_spefscr(DisasContext *ctx, int sprn, int gprn);
->> +void spr_write_ureg(DisasContext *ctx, int sprn, int gprn);
->> +void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn);
->>   
->>   #ifndef CONFIG_USER_ONLY
->>   void spr_write_generic32(DisasContext *ctx, int sprn, int gprn);
->> @@ -96,7 +98,6 @@ void spr_read_mas73(DisasContext *ctx, int gprn, int sprn);
->>   #ifdef TARGET_PPC64
->>   void spr_read_cfar(DisasContext *ctx, int gprn, int sprn);
->>   void spr_write_cfar(DisasContext *ctx, int sprn, int gprn);
->> -void spr_write_ureg(DisasContext *ctx, int sprn, int gprn);
->>   void spr_read_purr(DisasContext *ctx, int gprn, int sprn);
->>   void spr_write_purr(DisasContext *ctx, int sprn, int gprn);
->>   void spr_read_hdecr(DisasContext *ctx, int gprn, int sprn);
->> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
->> index b2ead144d1..0babde3131 100644
->> --- a/target/ppc/translate.c
->> +++ b/target/ppc/translate.c
->> @@ -175,6 +175,7 @@ struct DisasContext {
->>       bool spe_enabled;
->>       bool tm_enabled;
->>       bool gtse;
->> +    bool pmcc_clear;
->>       ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
->>       int singlestep_enabled;
->>       uint32_t flags;
->> @@ -561,7 +562,56 @@ void spr_write_ureg(DisasContext *ctx, int sprn, int gprn)
->>   {
->>       gen_store_spr(sprn + 0x10, cpu_gpr[gprn]);
->>   }
->> -#endif
->> +
->> +void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
-> 
-> 
-> Could you put this def in the PMU specific file, rather than the
-> enormous translate.c?
-
-Moving into the existing power8_pmu.c helper is annoying because, being a helper file,
-there is no access to the whole DisasContext declaration (that is open coded in
-translate.c), and other internal translate.c data like cpu_grp[].
-
-What I was able to do is create a new file in the target/ppc/translate/ dir,
-power8-pmu-regs.c.impl, and moved all these declarations over there. At very least we're
-not overloading translate.c.
-
-Eldorado, is that ok with you guys? I'm aware that this dir was holding new
-decode-tree insns implementations but, in this case, it would hold old format
-spr_read/spr_write code.
-
-
-
-
-
-> 
->> +{
->> +    TCGv t0, t1;
->> +
->> +    /*
->> +     * For group A PMU sprs, if PMCC = 0b00, PowerISA v3.1
->> +     * dictates that:
->> +     *
->> +     * "If an attempt is made to write to an SPR in group A in
->> +     * problem state, a Hypervisor Emulation Assistance
->> +     * interrupt will occur."
->> +     *
->> +     * MMCR0 is a Group A SPR and can't be written by userspace
->> +     * if PMCC = 0b00.
->> +     */
->> +    if (ctx->pmcc_clear) {
->> +        gen_hvpriv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
->> +        return;
->> +    }
->> +
->> +    t0 = tcg_temp_new();
->> +    t1 = tcg_temp_new();
->> +
->> +    /*
->> +     * Filter out all bits but FC, PMAO, and PMAE, according
->> +     * to ISA v3.1, in 10.4.4 Monitor Mode Control Register 0,
->> +     * fourth paragraph.
->> +     */
->> +    tcg_gen_andi_tl(t0, cpu_gpr[gprn], MMCR0_UREG_MASK);
->> +    gen_load_spr(t1, SPR_POWER_MMCR0);
->> +    tcg_gen_andi_tl(t1, t1, ~(MMCR0_UREG_MASK));
->> +    /* Keep all other bits intact */
->> +    tcg_gen_or_tl(t1, t1, t0);
->> +    gen_store_spr(SPR_POWER_MMCR0, t1);
->> +
->> +    tcg_temp_free(t0);
->> +    tcg_temp_free(t1);
->> +}
->> +#else
->> +void spr_write_ureg(DisasContext *ctx, int sprn, int gprn)
-> 
-> Why do you need another definition of spr_write_ureg() here?
-
-That's an ooopsie.
-
-
-
-Thanks,
-
-
-Daniel
-
-> 
->> +{
->> +    spr_noaccess(ctx, gprn, sprn);
->> +}
->> +
->> +void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
->> +{
->> +    spr_noaccess(ctx, gprn, sprn);
->> +}
->> +#endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
->>   
->>   /* SPR common to all non-embedded PowerPC */
->>   /* DECR */
->> @@ -8576,6 +8626,7 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->>       ctx->vsx_enabled = (hflags >> HFLAGS_VSX) & 1;
->>       ctx->tm_enabled = (hflags >> HFLAGS_TM) & 1;
->>       ctx->gtse = (hflags >> HFLAGS_GTSE) & 1;
->> +    ctx->pmcc_clear = (hflags >> HFLAGS_PMCCCLEAR) & 1;
->>   
->>       ctx->singlestep_enabled = 0;
->>       if ((hflags >> HFLAGS_SE) & 1) {
-> 
+diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk=
+-test.c
+index 6f108a1b62..0e26266522 100644
+--- a/tests/qtest/vhost-user-blk-test.c
++++ b/tests/qtest/vhost-user-blk-test.c
+@@ -24,6 +24,7 @@
+ #define TEST_IMAGE_SIZE         (64 * 1024 * 1024)
+ #define QVIRTIO_BLK_TIMEOUT_US  (30 * 1000 * 1000)
+ #define PCI_SLOT_HP             0x06
++#define PIDFILE_RETRIES         5
+=20
+ typedef struct {
+     pid_t pid;
+@@ -885,7 +886,8 @@ static void start_vhost_user_blk(GString *cmd_line, int=
+ vus_instances,
+                                  int num_queues)
+ {
+     const char *vhost_user_blk_bin =3D qtest_qemu_storage_daemon_binary();
+-    int i;
++    int i, retries;
++    char *daemon_pidfile_path;
+     gchar *img_path;
+     GString *storage_daemon_command =3D g_string_new(NULL);
+     QemuStorageDaemonState *qsd;
+@@ -898,6 +900,9 @@ static void start_vhost_user_blk(GString *cmd_line, int=
+ vus_instances,
+             " -object memory-backend-memfd,id=3Dmem,size=3D256M,share=3Don=
+ "
+             " -M memory-backend=3Dmem -m 256M ");
+=20
++    daemon_pidfile_path =3D g_strdup_printf("/tmp/daemon-%d", getpid());
++    g_assert_cmpint((uintptr_t) daemon_pidfile_path, !=3D, (uintptr_t) NUL=
+L);
++
+     for (i =3D 0; i < vus_instances; i++) {
+         int fd;
+         char *sock_path =3D create_listen_socket(&fd);
+@@ -914,6 +919,9 @@ static void start_vhost_user_blk(GString *cmd_line, int=
+ vus_instances,
+                                i + 1, sock_path);
+     }
+=20
++    g_string_append_printf(storage_daemon_command, "--pidfile %s ",
++                           daemon_pidfile_path);
++
+     g_test_message("starting vhost-user backend: %s",
+                    storage_daemon_command->str);
+     pid_t pid =3D fork();
+@@ -930,7 +938,24 @@ static void start_vhost_user_blk(GString *cmd_line, in=
+t vus_instances,
+         execlp("/bin/sh", "sh", "-c", storage_daemon_command->str, NULL);
+         exit(1);
+     }
++
++    /*
++     * Ensure the storage-daemon has come up properly before allowing the
++     * test to proceed.
++     */
++    retries =3D 0;
++    while (access(daemon_pidfile_path, F_OK) !=3D 0) {
++        g_assert_cmpint(retries, <, PIDFILE_RETRIES);
++
++        retries++;
++        g_usleep(1000);
++    }
++
+     g_string_free(storage_daemon_command, true);
++    if (access(daemon_pidfile_path, F_OK) =3D=3D 0) {
++        unlink(daemon_pidfile_path);
++    }
++    free(daemon_pidfile_path);
+=20
+     qsd =3D g_new(QemuStorageDaemonState, 1);
+     qsd->pid =3D pid;
+--=20
+2.20.1
 
