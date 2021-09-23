@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9BAD4168B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 02:07:22 +0200 (CEST)
-Received: from localhost ([::1]:33254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 203814168B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 02:07:17 +0200 (CEST)
+Received: from localhost ([::1]:32956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTYkL-0004g2-Rk
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 20:07:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39824)
+	id 1mTYkG-0004R3-4i
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 20:07:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mTYgu-0001pH-Dv; Thu, 23 Sep 2021 20:03:48 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:60189)
+ id 1mTYgf-0001ad-Ma; Thu, 23 Sep 2021 20:03:36 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:48131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mTYgs-0005wD-LY; Thu, 23 Sep 2021 20:03:48 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id E03135C019D;
- Thu, 23 Sep 2021 20:03:45 -0400 (EDT)
+ id 1mTYge-0005nZ-86; Thu, 23 Sep 2021 20:03:33 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 83F3F5C0198;
+ Thu, 23 Sep 2021 20:03:31 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 23 Sep 2021 20:03:45 -0400
+ by compute3.internal (MEProxy); Thu, 23 Sep 2021 20:03:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:date:from:in-reply-to:message-id
  :references:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm3; bh=TbSWpafMo8Kfp9k0Ir5UbxAx68Nqj
- kbe+zXc52aXycw=; b=FYaK5d9aeARvmOZk5W06sujc9y4MUJOLSXJXmOAUDm5ox
- xgDKG9arw80N1/4kIEG7Zx2DRqF3z0v+9jve3kqDgW3i2iWRpxJGkoBNJCYQUOaj
- qmOYZWmrVpOCsIUQIfedIXYEGYy8fsZoTUQ/t/k4j/9cK47Zk01bdddHaIoPksb7
- 2UeVNhqb3bXvmwsIXWSzL8F4nWPpm9y5bnCrIc+Nq5LR7o0Bpq6Uu+hlQl+6IH6P
- 0wAmRQXaQP3kigaf5Rk24M2XYndVbEFHsD73jfEmYQB+bmNRLLogbRZ6o6oKaDQG
- w3El+B/E6UcZ2CiRfSv4rSLgIEiP6by8ziAsBOnJQ==
-X-ME-Sender: <xms:4RVNYXcOQxSWHZCvu2gb2lnMgSJk3VgHFN9_bI64zASrT6Jqq_8Gtw>
- <xme:4RVNYdMuNq_5Url6drhmJJRQ3tlNIMu5xZrqXMwwZY39R-y0kZVi3M_625rBY_yON
- xh9xxhZqnoHfpmnQtA>
-X-ME-Received: <xmr:4RVNYQjaB2RdTH3NsMxfJtjWYUidmBxYuO710UaNU0aP5LmLNoHFiwfGliqyOJ9CeFHI_jYLVE4XP-RcgZje-WIpBPPsJ_iBK-1pvQ>
+ :x-me-sender:x-sasl-enc; s=fm3; bh=8G1kpbvi3qLf34z7Dqvs6y2wkUaWA
+ eyy9+jflbgSWyg=; b=Ks7hdW+6Bye+nVVhoUrtSBlGHzCjpctW124YZmmj+CjaU
+ DTNPSaAVwvENpRXFoenWG23jixWwR3rxmDuPK0ubmtOnHvrxp8VebMWXLAMn4dI0
+ eNln0EFGcFlB36Iu4QiK13+dQTxqNzUk4vnvW6QukgiqKW4Muim1e+cTXaWVZn2d
+ i59Z0flytM3sdWL2ESgADrMeNqxQ0dXP3bnaTsjepbCyiE+JGqxMnHsLcpnotEuo
+ +/JfuZ8ahOXvyb6+EDSYfeSSty1NJPiQcPbWVklihs3qwlkmxYwGPUmqkL1i9jdv
+ EL+qLnqenMIPnK1/Mjt2cGyRDWtycwVQXDz5uWYOA==
+X-ME-Sender: <xms:0xVNYXbe2PLz-i1ix4OFcOyrL4IHhOGByRB3Llj34hj58_MFiph8Jw>
+ <xme:0xVNYWbY8u4s5Aib-TUpMYeudbBag20Wf6W4an41vXzFa2lMLYvZFbHLczmvNe9_J
+ GIOwtGYcxYwIgiXsco>
+X-ME-Received: <xmr:0xVNYZ8fOtXI6Le7YuPSxemJr2bpmB1Mn3gZWqeYYm4aWlWyEi0cv3-UAAMNtJvr29oOhjbdLiYsw7RwrQMsNFpTOnVLgN6ICX2EWw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddgvdejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -44,19 +44,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddgvdejucetufdoteggod
  hrnhephfetledtgeffuedujedvteevgfdtudeufeekvdfhveekkefhgfevtdfhveeuueet
  necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfhhthh
  grihhnsehlihhnuhigqdhmieekkhdrohhrgh
-X-ME-Proxy: <xmx:4RVNYY9xftkCSmyyDkqZdyWC0Dy6pOVSVGK2wl0Ewlo8PQ6xC-ogZQ>
- <xmx:4RVNYTuY9CLSbHSNG5DGhBcG4f0vjfwgC1pR2zg32lKDyLCkB5Xi1Q>
- <xmx:4RVNYXFvNKRJTFFqfRHTVJckZWEi_UbgRz9l8gjkUTvJaUuu_XIbXQ>
- <xmx:4RVNYc5RZs6yq6Yow0_LPoRMHHyzzAMd8tfc4ScPrsX3rOBZa0viMA>
+X-ME-Proxy: <xmx:0xVNYdq8n08BzV8pcwzcKKvcknYyiFxUfNAcQOc7kgQS58EQ6NRBQg>
+ <xmx:0xVNYSoJ68vx4nlNSu9fdCm6Ytqx-oPJMpkERqdHdipNAvEFvZuQfQ>
+ <xmx:0xVNYTQ_7VwiVWOCzwPMqZ0Ud379lYHQ0NOh3wv3AcalRvcSfjgdFQ>
+ <xmx:0xVNYZ1R2mlKD-apwc8U0P1n71139-dp_Ay8DwKdMNIESBVvNuEWrg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Sep 2021 20:03:44 -0400 (EDT)
+ 23 Sep 2021 20:03:30 -0400 (EDT)
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Greg Kurz <groug@kaod.org>
-Message-Id: <005b55c5dccb3786d15188f76f689002448383ae.1632437396.git.fthain@linux-m68k.org>
+Message-Id: <331f68f7b849ab366206f88ba8aed67c3c84d90f.1632437396.git.fthain@linux-m68k.org>
 In-Reply-To: <cover.1632437396.git.fthain@linux-m68k.org>
 References: <cover.1632437396.git.fthain@linux-m68k.org>
 From: Finn Thain <fthain@linux-m68k.org>
-Subject: [PATCH v1 5/9] hw/mos6522: Fix initial timer counter reload
+Subject: [PATCH v1 3/9] hw/mos6522: Remove redundant mos6522_timer1_update()
+ calls
 Date: Fri, 24 Sep 2021 08:49:56 +1000
 Received-SPF: none client-ip=66.111.4.29; envelope-from=fthain@linux-m68k.org;
  helo=out5-smtp.messagingengine.com
@@ -83,70 +84,51 @@ Cc: qemu-ppc@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The first reload of timer 1 is early by half of a clock cycle as it gets
-measured from a falling edge. By contrast, the succeeding reloads are
-measured from rising edge to rising edge.
-
-Neglecting that complication, the behaviour of the counter should be the
-same from one reload to the next. The sequence is always:
-
-N, N-1, N-2, ... 2, 1, 0, -1, N, N-1, N-2, ...
-
-But at the first reload, the present driver does this instead:
-
-N, N-1, N-2, ... 2, 1, 0, -1, N-1, N-2, ...
-
-Fix this deviation for both timer 1 and timer 2, and allow for the fact
-that on a real 6522 the timer 2 counter is not reloaded when it wraps.
+Reads and writes to the TL and TC registers have no immediate effect on
+a running timer, with the exception of a write to TCH. Hence these
+mos6522_timer_update() calls are not needed.
 
 Signed-off-by: Finn Thain <fthain@linux-m68k.org>
 ---
- hw/misc/mos6522.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ hw/misc/mos6522.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
 diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-index c0d6bee4cc..6bd60f2118 100644
+index ff246b5437..1d4a56077e 100644
 --- a/hw/misc/mos6522.c
 +++ b/hw/misc/mos6522.c
-@@ -63,15 +63,16 @@ static unsigned int get_counter(MOS6522State *s, MOS6522Timer *ti)
-     if (ti->index == 0) {
-         /* the timer goes down from latch to -1 (period of latch + 2) */
-         if (d <= (ti->counter_value + 1)) {
--            counter = (ti->counter_value - d) & 0xffff;
-+            counter = ti->counter_value - d;
-         } else {
--            counter = (d - (ti->counter_value + 1)) % (ti->latch + 2);
--            counter = (ti->latch - counter) & 0xffff;
-+            int64_t d_post_reload = d - (ti->counter_value + 2);
-+            /* XXX this calculation assumes that ti->latch has not changed */
-+            counter = ti->latch - (d_post_reload % (ti->latch + 2));
-         }
-     } else {
--        counter = (ti->counter_value - d) & 0xffff;
-+        counter = ti->counter_value - d;
-     }
--    return counter;
-+    return counter & 0xffff;
- }
- 
- static void set_counter(MOS6522State *s, MOS6522Timer *ti, unsigned int val)
-@@ -102,11 +103,13 @@ static int64_t get_next_irq_time(MOS6522State *s, MOS6522Timer *ti,
- 
-     /* the timer goes down from latch to -1 (period of latch + 2) */
-     if (d <= (ti->counter_value + 1)) {
--        counter = (ti->counter_value - d) & 0xffff;
-+        counter = ti->counter_value - d;
-     } else {
--        counter = (d - (ti->counter_value + 1)) % (ti->latch + 2);
--        counter = (ti->latch - counter) & 0xffff;
-+        int64_t d_post_reload = d - (ti->counter_value + 2);
-+        /* XXX this calculation assumes that ti->latch has not changed */
-+        counter = ti->latch - (d_post_reload % (ti->latch + 2));
-     }
-+    counter &= 0xffff;
- 
-     /* Note: we consider the irq is raised on 0 */
-     if (counter == 0xffff) {
+@@ -234,7 +234,6 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size)
+         val = s->timers[0].latch & 0xff;
+         break;
+     case VIA_REG_T1LH:
+-        /* XXX: check this */
+         val = (s->timers[0].latch >> 8) & 0xff;
+         break;
+     case VIA_REG_T2CL:
+@@ -303,8 +302,6 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+         break;
+     case VIA_REG_T1CL:
+         s->timers[0].latch = (s->timers[0].latch & 0xff00) | val;
+-        mos6522_timer1_update(s, &s->timers[0],
+-                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
+         break;
+     case VIA_REG_T1CH:
+         s->timers[0].latch = (s->timers[0].latch & 0xff) | (val << 8);
+@@ -313,14 +310,10 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+         break;
+     case VIA_REG_T1LL:
+         s->timers[0].latch = (s->timers[0].latch & 0xff00) | val;
+-        mos6522_timer1_update(s, &s->timers[0],
+-                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
+         break;
+     case VIA_REG_T1LH:
+         s->timers[0].latch = (s->timers[0].latch & 0xff) | (val << 8);
+         s->ifr &= ~T1_INT;
+-        mos6522_timer1_update(s, &s->timers[0],
+-                              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL));
+         break;
+     case VIA_REG_T2CL:
+         s->timers[1].latch = (s->timers[1].latch & 0xff00) | val;
 -- 
 2.26.3
 
