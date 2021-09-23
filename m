@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49687415493
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 02:19:27 +0200 (CEST)
-Received: from localhost ([::1]:55296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D34C1415497
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 02:22:55 +0200 (CEST)
+Received: from localhost ([::1]:34520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTCSU-0005HW-Ai
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 20:19:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51508)
+	id 1mTCVq-00023L-VH
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 20:22:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCPn-0001e0-Rg
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:16:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58105)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCPq-0001f3-H2
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:16:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCPl-0000vu-4D
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:16:39 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCPn-0000y9-LI
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:16:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632356196;
+ s=mimecast20190719; t=1632356198;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CgzOlYuQ2C4BKVmMAal1eWQcAlSTvPVlEid5eTvaag8=;
- b=X8nfrN6EFiJ/VH9V1fchdHV6ag4o+2ynfAsDzEYwYs9b8MEneszu0hFg1ggAjWI/cnbzfN
- N/MKkVnd5YzxiNguZu2WbAcgki93peza6kovDetzVPiMF3aqB6j+VYRBZggyYdW8Ps8mjO
- orUSPbNRNcPN8rQxzS5irjk7PZpcEGA=
+ bh=TwEaOgFJ6mGKGW3hDP9CjHHnJdlXb6kzgxy3oyVHq5k=;
+ b=UmpXO2RhCjoUDnfdt4BpQrSM6O2XnQ4nWvV4QWON44gbSKnBV/x6Vmgi9Ev4zP8LjQXO6N
+ KENd5K76HmleuMQRh3azLeV57LwY/ClTVFrw9r4FXyAZ3PE1jDfVjy2/V7TLqO//6YEpPx
+ 1JtViVIodrrWeBhcCicaXyHAeAfJjlc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-j5UDWuaJPoms1ACandYZQA-1; Wed, 22 Sep 2021 20:16:35 -0400
-X-MC-Unique: j5UDWuaJPoms1ACandYZQA-1
+ us-mta-563-q8w4dYvCMMKgjjLEFsrlew-1; Wed, 22 Sep 2021 20:16:36 -0400
+X-MC-Unique: q8w4dYvCMMKgjjLEFsrlew-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CE2F802921;
- Thu, 23 Sep 2021 00:16:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D990D1808306;
+ Thu, 23 Sep 2021 00:16:35 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0B76710023AB;
- Thu, 23 Sep 2021 00:16:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B5A5D10023AB;
+ Thu, 23 Sep 2021 00:16:34 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] iotests/mirror-top-perms: Adjust imports
-Date: Wed, 22 Sep 2021 20:16:23 -0400
-Message-Id: <20210923001625.3996451-5-jsnow@redhat.com>
+Subject: [PATCH 5/6] iotests/migrate-bitmaps-test: delint
+Date: Wed, 22 Sep 2021 20:16:24 -0400
+Message-Id: <20210923001625.3996451-6-jsnow@redhat.com>
 In-Reply-To: <20210923001625.3996451-1-jsnow@redhat.com>
 References: <20210923001625.3996451-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -83,51 +83,93 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need to import things from the qemu namespace; importing the
-namespace alone doesn't bring the submodules with it -- unless someone
-else (like iotests.py) imports them too.
-
-Adjust the imports.
+Mostly uninteresting stuff. Move the test injections under a function
+named main() so that the variables used during that process aren't in
+the global scope.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/tests/mirror-top-perms | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/tests/migrate-bitmaps-test | 50 +++++++++++--------
+ 1 file changed, 28 insertions(+), 22 deletions(-)
 
-diff --git a/tests/qemu-iotests/tests/mirror-top-perms b/tests/qemu-iotests/tests/mirror-top-perms
-index 73138a0ef91..3d475aa3a54 100755
---- a/tests/qemu-iotests/tests/mirror-top-perms
-+++ b/tests/qemu-iotests/tests/mirror-top-perms
-@@ -21,7 +21,8 @@
+diff --git a/tests/qemu-iotests/tests/migrate-bitmaps-test b/tests/qemu-iotests/tests/migrate-bitmaps-test
+index dc431c35b35..c23df3d75c7 100755
+--- a/tests/qemu-iotests/tests/migrate-bitmaps-test
++++ b/tests/qemu-iotests/tests/migrate-bitmaps-test
+@@ -19,10 +19,11 @@
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ #
  
- import os
- 
--import qemu
-+from qemu import qmp
-+from qemu.machine import machine
- 
+-import os
+ import itertools
+ import operator
++import os
+ import re
++
  import iotests
- from iotests import qemu_img
-@@ -46,7 +47,7 @@ class TestMirrorTopPerms(iotests.QMPTestCase):
-     def tearDown(self):
-         try:
-             self.vm.shutdown()
--        except qemu.machine.machine.AbnormalShutdown:
-+        except machine.AbnormalShutdown:
-             pass
+ from iotests import qemu_img, qemu_img_create, Timeout
  
-         if self.vm_b is not None:
-@@ -101,7 +102,7 @@ class TestMirrorTopPerms(iotests.QMPTestCase):
-             self.vm_b.launch()
-             print('ERROR: VM B launched successfully, this should not have '
-                   'happened')
--        except qemu.qmp.QMPConnectError:
-+        except qmp.QMPConnectError:
-             assert 'Is another process using the image' in self.vm_b.get_log()
+@@ -224,25 +225,6 @@ def inject_test_case(klass, suffix, method, *args, **kwargs):
+     setattr(klass, 'test_' + method + suffix, lambda self: mc(self))
  
-         result = self.vm.qmp('block-job-cancel',
+ 
+-for cmb in list(itertools.product((True, False), repeat=5)):
+-    name = ('_' if cmb[0] else '_not_') + 'persistent_'
+-    name += ('_' if cmb[1] else '_not_') + 'migbitmap_'
+-    name += '_online' if cmb[2] else '_offline'
+-    name += '_shared' if cmb[3] else '_nonshared'
+-    if cmb[4]:
+-        name += '__pre_shutdown'
+-
+-    inject_test_case(TestDirtyBitmapMigration, name, 'do_test_migration',
+-                     *list(cmb))
+-
+-for cmb in list(itertools.product((True, False), repeat=2)):
+-    name = ('_' if cmb[0] else '_not_') + 'persistent_'
+-    name += ('_' if cmb[1] else '_not_') + 'migbitmap'
+-
+-    inject_test_case(TestDirtyBitmapMigration, name,
+-                     'do_test_migration_resume_source', *list(cmb))
+-
+-
+ class TestDirtyBitmapBackingMigration(iotests.QMPTestCase):
+     def setUp(self):
+         qemu_img_create('-f', iotests.imgfmt, base_a, size)
+@@ -304,6 +286,30 @@ class TestDirtyBitmapBackingMigration(iotests.QMPTestCase):
+         self.assert_qmp(result, 'return', {})
+ 
+ 
++def main() -> None:
++    for cmb in list(itertools.product((True, False), repeat=5)):
++        name = ('_' if cmb[0] else '_not_') + 'persistent_'
++        name += ('_' if cmb[1] else '_not_') + 'migbitmap_'
++        name += '_online' if cmb[2] else '_offline'
++        name += '_shared' if cmb[3] else '_nonshared'
++        if cmb[4]:
++            name += '__pre_shutdown'
++
++        inject_test_case(TestDirtyBitmapMigration, name, 'do_test_migration',
++                         *list(cmb))
++
++    for cmb in list(itertools.product((True, False), repeat=2)):
++        name = ('_' if cmb[0] else '_not_') + 'persistent_'
++        name += ('_' if cmb[1] else '_not_') + 'migbitmap'
++
++        inject_test_case(TestDirtyBitmapMigration, name,
++                         'do_test_migration_resume_source', *list(cmb))
++
++    iotests.main(
++        supported_fmts=['qcow2'],
++        supported_protocols=['file']
++    )
++
++
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2'],
+-                 supported_protocols=['file'])
++    main()
 -- 
 2.31.1
 
