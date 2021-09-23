@@ -2,90 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE1C416021
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 15:38:29 +0200 (CEST)
-Received: from localhost ([::1]:48378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3DA0416027
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 15:39:51 +0200 (CEST)
+Received: from localhost ([::1]:50994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTOvk-00085o-Ay
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 09:38:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39072)
+	id 1mTOx4-0001vt-PV
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 09:39:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mTOto-0006Yx-5x
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 09:36:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23053)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mTOtj-0000ki-Ax
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 09:36:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632404181;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BhP0jMNZvguZ2zXFiPgplmpsCZ4iaSShiL51nud58qA=;
- b=WqIfK1QdMUv1Rnz7XTroaHAezp8zl/IC7L3/wHT8HYFD3KwPl9Bpy8joV7bqCxUVqjBs0u
- VyNgE9krJytTkSv1Wsr7cYm0ifITTRg2w/Oq667/yG0tN7+2jeVFVmVm1+sx2CfSTt/XZL
- QiqH6woj4sQyBqo2N1ZDWu6sUQuV3FU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-windbexMMte1-Iz2qRWP_w-1; Thu, 23 Sep 2021 09:36:19 -0400
-X-MC-Unique: windbexMMte1-Iz2qRWP_w-1
-Received: by mail-wr1-f70.google.com with SMTP id
- f11-20020adfc98b000000b0015fedc2a8d4so5221024wrh.0
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 06:36:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mTOuz-0008Od-Qc
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 09:37:41 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:41910)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mTOur-0001LS-Go
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 09:37:40 -0400
+Received: by mail-ed1-x531.google.com with SMTP id s17so5284366edd.8
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 06:37:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=innJT4adYpTZDgPbOUm4yaLAcv5no0LJupKq0mjrc48=;
+ b=Nsmt2UHCU2bAeoGDaH5nDVu5/Kyht5/f9XY3c21SSWMOh1mik3zzhOnOzo1VIhHD2A
+ TFnBk9RkWPMLK4GC3XdMjY+ZFuROY4kZcxHbN9e5Ok2LA6wZ/LoKUehrYoCWvmJH1jzy
+ T0oNAxqn8pQ0sK1vvAtPRhWo9V9AHveOAd1aNEaecLT/ALer7ABgT8emRlAx3//NUes/
+ hnqMtGpHbe7eDXdECoHF8YKZf+W5rXcDYFZ8VZG2CsE/touFbRYtsVnA52NXpR7oaPsI
+ iKER/LO3cgKWjy94MQndGrlsgU9i7zo13km6BybNqO39wmb3dey5Wgb3mS2JK/04rEn5
+ 8tdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BhP0jMNZvguZ2zXFiPgplmpsCZ4iaSShiL51nud58qA=;
- b=0VoJNLXqSzS3AmeXsDfHA6u99JsGD0UYL7w7Q8+GWxFVfTxRDs/S+DFa42PYoDH9eQ
- i+brjDG8/8TYkqlMLlSA63LthtVG4VgLoGErsnvm1kfQG9kqhosWUvhx76eOYha31i8Y
- yE6Mo/Ytaq+e8ATwRyvP1hxFaDUHYSxiD3Kpz2TnN/l8VnKGYd8zHBVz4oppbFMbhi26
- V/FJG1N+tFZprT2FnFNIfzSdzBf2Wz5LPhJC1yZfeUMRh5h3S7FVJVfMv9g8AWE4keS/
- FmG+3Wa8QAwt1o+8GqAE+jCaLRaNq5l3ISpc/WeZpbIMZ7fLBJIgyoePxQKHuaxIxqVS
- h3Fw==
-X-Gm-Message-State: AOAM533WKuVMv62YEFp1Pio61LqiBiEvSr1YyhwxcWHu82TzzIU+tYzO
- b1r/eBHF+ufICnMKme+HJszsVcpCHK9nfosiGi/t3XIwrqWKa7ExwwuBbJv+/V3QXZnA7svgzSn
- PWs0+cCuG0Et0uGM=
-X-Received: by 2002:a05:6000:3:: with SMTP id h3mr5208616wrx.408.1632404178536; 
- Thu, 23 Sep 2021 06:36:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyuGpTn5B3RsOA04W5lkfrXFNmoDbZijkFwtlHlWo0jsIIkiPLs70Z/LCDbMpIsB1B/YNSMMw==
-X-Received: by 2002:a05:6000:3:: with SMTP id h3mr5208577wrx.408.1632404178290; 
- Thu, 23 Sep 2021 06:36:18 -0700 (PDT)
-Received: from [192.168.1.36] (118.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.118])
- by smtp.gmail.com with ESMTPSA id z17sm5485990wrr.49.2021.09.23.06.36.17
+ bh=innJT4adYpTZDgPbOUm4yaLAcv5no0LJupKq0mjrc48=;
+ b=hbSKi/lT1GDFh3E9LezS2mrzWcqlux1UwIkHznuRa/dK8TEoJglThx47VQBXW0W46B
+ ETPR8DIZL1Zl0NcTfaC5Gr4kUaHRYbb2D8+kbXSVHWHz/vXPOCK+d4KsCDPaOmpDMi7a
+ ZhyHkv4XKVRC9zh4Lqs7Pf2Gyjf4rQtyrghxOcKEMPniCQktbLiAfnAjCRZBfYbgEcsw
+ 2b83f1q3tqniTUT2uPP9Z3HtHllnVqggakaU5t+DNyAshgkfM8OGKY2W0ZYPRu2/nu79
+ Ep9CyDWF9g4t9inW1Dr+EXpX26qWbzKgiQ5/H+kfd0sxAaCtymexmg/J5pMqaFzaT/0Z
+ 7kSQ==
+X-Gm-Message-State: AOAM5326HVyXHkD9Veus1H3oimhmc1tJNJWNkPXFzcRcV0LhfSu/0Bu8
+ kU20WhohWuKvbjQ2pcPS6fs=
+X-Google-Smtp-Source: ABdhPJzudyOJSn+xWGfLB172Q7Ue+wSR6cdcojm5fk4ciyJgMXNrubiaHlMhEBjYLMal/eI86zhZkg==
+X-Received: by 2002:a05:6402:5163:: with SMTP id
+ d3mr5717753ede.220.1632404251728; 
+ Thu, 23 Sep 2021 06:37:31 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id b3sm3595209edx.55.2021.09.23.06.37.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Sep 2021 06:36:17 -0700 (PDT)
-Message-ID: <1702cda3-cc83-2026-89b4-a9eb6d7a8cd5@redhat.com>
-Date: Thu, 23 Sep 2021 15:36:16 +0200
+ Thu, 23 Sep 2021 06:37:31 -0700 (PDT)
+Subject: Re: [Qemu-devel] [PULL 18/18] qapi: move RTC_CHANGE to the target
+ schema
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20190218140607.31998-1-armbru@redhat.com>
+ <20190218140607.31998-19-armbru@redhat.com>
+ <CAFEAcA9tzLOwbzO56HjhPUM2yTT7xxfkkOYX3OHVfKT-UC14gA@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <202e75d5-e2b4-780e-a282-099ac33c2986@redhat.com>
+Date: Thu, 23 Sep 2021 15:37:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 0/6] Improve consistency of bus init function names
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210923121153.23754-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20210923121153.23754-1-peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAFEAcA9tzLOwbzO56HjhPUM2yTT7xxfkkOYX3OHVfKT-UC14gA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, CTE_8BIT_MISMATCH=0.034,
- DKIMWL_WL_HIGH=-1.473, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,64 +93,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alberto Garcia <berto@igalia.com>, John Snow <jsnow@redhat.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/23/21 14:11, Peter Maydell wrote:
-> Currently we have a bit of a mishmash of different function
-> names for bus creation. There are two basic patterns: you
-> can have a function that allocates and returns a new bus
-> object; or you can have a function that takes a pointer to
-> a bus object and initializes it in-place. We have to some
-> extent a convention for those: the allocate-and-return
-> function is 'foo_new()', and the 'init in-place' function
-> is 'foo_init()'. However many of our bus creation functions
-> don't follow that; some use 'foo_new' vs 'foo_new_inplace';
-> some use 'foo_new' for the in-place init version; and
-> the bottom level qbus functions are 'qbus_create' vs
-> 'qbus_create_inplace'. This series tries to bring at least
-> scsi, ipack, pci, ide, and qbus into line with the
-> _new-vs-_init naming convention.
+On 23/09/21 15:14, Peter Maydell wrote:
 > 
-> The other issue with bus creation functions is that some
-> of them take a 'name' argument which can be NULL, and some
-> do not. Generally "pass in a specific name" should be the
-> rare case, but our API design here is easy to misuse, and
-> so a lot of callsites (especially for i2c, sd, ssi) pass
-> in names when they should not. Untangling that mess is
-> going to be tricky (see other thread for more), but as
-> a first step, this series proposes a split between
-> foo_bus_new() and foo_bus_new_named() where the latter
-> takes a name parameter and the former does not. I do
-> this only for scsi (and implicitly ide, whose ide_bus_new
-> function already doesn't take a name argument) for the
-> moment, as the other bus types have more of a mess of
-> "pass name when they should not" callsites, so I didn't
-> want to put in too much work before finding out if we
-> had agreement on this as a naming convention.
+> It also means that now rtc devices that emit this event need to
+> change in meson.build from softmmu_ss to specific_ss, because the
+> qapi_event_send_rtc_change() prototype is in the generated
+> qapi/qapi-events-misc-target.h header, and that header uses
+> TARGET_* defines which are poisoned for softmmu compiles.
+> So instead of being able to build the RTC device once for
+> all targets, we need to build it over and over again for
+> each target.
 > 
-> There are definitely more buses that can be cleaned up
-> to follow the init vs new convention, but this series is
-> already touching 70 files and trying to do every bus in
-> one series seems like a recipe for merge conflicts.
-> So this seemed like enough to be going on with...
-> 
-> thanks
-> -- PMM
-> 
-> Peter Maydell (6):
->    scsi: Replace scsi_bus_new() with scsi_bus_init(),
->      scsi_bus_init_named()
->    ipack: Rename ipack_bus_new_inplace() to ipack_bus_init()
->    pci: Rename pci_root_bus_new_inplace() to pci_root_bus_init()
->    qbus: Rename qbus_create_inplace() to qbus_init()
->    qbus: Rename qbus_create() to qbus_new()
->    ide: Rename ide_bus_new() to ide_bus_init()
+> Could we reconsider this change? It seems to me to be adding
+> complexity and build time and I don't really see the advantage
+> that compensates for that.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+I agree, RTC_CHANGE is part of the management API.  If only some devices 
+implement it, that's only laziness and not an intrinsic property of the 
+event.  In some sense, lack of support for RTC_CHANGE is an incomplete 
+transition and this patch is making it harder to complete it.
 
+Paolo
 
