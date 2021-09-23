@@ -2,90 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8B6A415B08
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 11:34:57 +0200 (CEST)
-Received: from localhost ([::1]:58706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D25415B21
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 11:39:52 +0200 (CEST)
+Received: from localhost ([::1]:43388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTL84-00043S-RQ
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 05:34:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43866)
+	id 1mTLCp-0004WU-8q
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 05:39:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mTKsL-00088D-Bw
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 05:18:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26815)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1mTKsQ-0008Ob-LU; Thu, 23 Sep 2021 05:18:47 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36568
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mTKsH-0003Or-VP
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 05:18:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632388716;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=u0nfkoTm1+gFM06a6SRZanFP20VjBjy+qzh4ODrmqeI=;
- b=IQFJLRp8siUOqSVhU3Alv8Wgss5eQS3TbPpjjjqN2I6iXqqffDmlALsqYxIup1FUqFEkwP
- Hkh6N1AdK3VDezJwpCNeNQVMVIOKu6Pg0+QeP9S6pW80qmqiLyVFdCOP1UFadqvdMlUX+u
- RAccteQ9bSqtnUTGstTmqIe68Gbqv44=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-_M5XApKeM1Og60YdE6IVxg-1; Thu, 23 Sep 2021 05:18:32 -0400
-X-MC-Unique: _M5XApKeM1Og60YdE6IVxg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- e7-20020aa7d7c7000000b003d3e6df477cso6101350eds.20
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 02:18:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=u0nfkoTm1+gFM06a6SRZanFP20VjBjy+qzh4ODrmqeI=;
- b=vf3te08NmWh028yZE/2OSeDFUzhvHQNHQLlBdUs9lZogeTxRytLfotjDcOkV40pfPe
- hsgfX/19IFmiviP4p6lFOfbYdmiavnW1zTqcmNbHhhQudzhaefmuk2BXR73iM9j0EhKd
- WadU3jDk0Rq2ISGc8cHm0aaIhcp22uSlSphDUNDm6fKEkS1qiyXzR5XMWzdtW2iStV4J
- vMF7qyTmTXIqfDo/E9P/NLh4HrgF54kv8HRPbn+Z+rCgKMEEKbeUL5IlsOUe/kzF7c10
- wgOn6LVF0Nx1U9gaRw3rQewv7QC6jlF8TXxK0pn1gSkcOiQu9xnw4mbmdUhRFyHcWhvU
- KF4w==
-X-Gm-Message-State: AOAM5313CM/RJ75I3TFqFVMwbz9LrsOfe9eQRvuH1J1+9BE8GoJ5qd3d
- DmZgXaaRE2Z/SLG/si+JIIJx9+wTFSd9sgVPIsnmnQs9VSUXp55RF5q3eBda9gC6RmrqCWtq4bi
- iU8JQob01JQbO/0I=
-X-Received: by 2002:a17:906:942:: with SMTP id
- j2mr3963138ejd.303.1632388711516; 
- Thu, 23 Sep 2021 02:18:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxxB6kMS+ebNK3ESPL5P8v9jaxf9aGxb7qxE65qIVG1VGbZamLgJoxtuc42gMKcxQJdGS/WDg==
-X-Received: by 2002:a17:906:942:: with SMTP id
- j2mr3963116ejd.303.1632388711162; 
- Thu, 23 Sep 2021 02:18:31 -0700 (PDT)
-Received: from steredhat (host-79-26-68-6.retail.telecomitalia.it.
- [79.26.68.6])
- by smtp.gmail.com with ESMTPSA id 90sm3031913edc.36.2021.09.23.02.18.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Sep 2021 02:18:30 -0700 (PDT)
-Date: Thu, 23 Sep 2021 11:18:28 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: "Jiang Wang ." <jiang.wang@bytedance.com>
-Subject: Re: [RFC v7] virtio/vsock: add two more queues for datagram types
-Message-ID: <20210923091828.e2ao3mra6ps5osc2@steredhat>
-References: <CAP_N_Z8p+qsOAm15TtUFhCG-bJHM+zOQ4UJkr4XBdUQnm2wtzQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAP_N_Z8p+qsOAm15TtUFhCG-bJHM+zOQ4UJkr4XBdUQnm2wtzQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1mTKsO-0003SE-48; Thu, 23 Sep 2021 05:18:46 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18N99SeQ008681; 
+ Thu, 23 Sep 2021 05:18:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=s+uv/NL44JXDt7pESSOoLlCOGsyC8UiEzuAPep9Qcuo=;
+ b=Hxqclnom0RtS1jMXSoVwdaklBpC5idBUd2jsPLnRxit19/xL4dWMy0MEsJREUTfyM9ZB
+ 3oKOAnGrOANrFROP87HxZpetFevszUkXGaG7yXjrxyy01OWX0Arqu39PrZgaRiUw6mfX
+ E76tg5GJ7nA72ws/qPPJmNDL7y3uyU1foiJ36VwYH0aT54rN3LqNBT+URr454fSZl9yA
+ COdP4O5G3T7zJcddBWRNeUPB+Ze02z01ylYBz9fulIW+5bVFqT2UkJWyFzjmZGKrYHkY
+ 89Ukd7of6zlvuuFQBMq242CLM3bBWxm9feKacDxenwmnQ/2789x7JPfB3n936zLJxrFb MA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3b8n88tff4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 05:18:38 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18N8Tt9h015269;
+ Thu, 23 Sep 2021 05:18:38 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3b8n88tfeg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 05:18:38 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18N9C3Pd014919;
+ Thu, 23 Sep 2021 09:18:36 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3b7q6r83wv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 09:18:36 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 18N9IWWB40894948
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Sep 2021 09:18:32 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EB8A84204B;
+ Thu, 23 Sep 2021 09:18:31 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 55C7C42041;
+ Thu, 23 Sep 2021 09:18:31 +0000 (GMT)
+Received: from li-43c5434c-23b8-11b2-a85c-c4958fb47a68.ibm.com (unknown
+ [9.171.67.19]) by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 23 Sep 2021 09:18:31 +0000 (GMT)
+Subject: Recent qemu patch results in aio failures with host DASD disks
+ resulting in guest I/O errors
+To: Halil Pasic <pasic@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210625141822.1368639-1-pbonzini@redhat.com>
+ <20210625141822.1368639-19-pbonzini@redhat.com>
+ <20210906162420.5af35eb9.pasic@linux.ibm.com>
+ <20210922215143.7f289016.pasic@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <8a64618b-5314-02d0-98b2-c031c02610e4@de.ibm.com>
+Date: Thu, 23 Sep 2021 11:18:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <20210922215143.7f289016.pasic@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 0R8ynoXdRb6YPS-Bu1mF3uMg490mF72O
+X-Proofpoint-GUID: 0TKIQTrekzZ73_9eb1NBom1l4fjJnVXn
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-23_03,2021-09-22_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ adultscore=0 mlxscore=0 spamscore=0 malwarescore=0 impostorscore=0
+ phishscore=0 clxscore=1011 mlxlogscore=999 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2109200000 definitions=main-2109230056
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,298 +116,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Arseny Krasnov <arseny.krasnov@kaspersky.com>,
- Jason Wang <jasowang@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:AIO" <linux-aio@kvack.org>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Benjamin LaHaise <bcrl@kvack.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Jan Hoeppner <Jan.Hoeppner@de.ibm.com>, Stefan Haberland <sth@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 22, 2021 at 10:36:24AM -0700, Jiang Wang . wrote:
->On Wed, Sep 22, 2021 at 2:23 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
+Am 22.09.21 um 21:51 schrieb Halil Pasic:
+> On Mon, 6 Sep 2021 16:24:20 +0200
+> Halil Pasic <pasic@linux.ibm.com> wrote:
+> 
+>> On Fri, 25 Jun 2021 16:18:12 +0200
+>> Paolo Bonzini <pbonzini@redhat.com> wrote:
 >>
->> On Wed, Sep 22, 2021 at 12:00:24AM +0000, Jiang Wang wrote:
->> >Datagram sockets are connectionless and unreliable.
->> >The sender does not know the capacity of the receiver
->> >and may send more packets than the receiver can handle.
->> >
->> >Add two more dedicate virtqueues for datagram sockets,
->> >so that it will not unfairly steal resources from
->> >stream and future connection-oriented sockets.
->> >
->> >The two new virtqueues are enabled by default and will
->> >be removed if the guest does not support. This will help
->> >migration work.
->> >
->> >btw: enable_dgram argument in vhost_vsock_common_realize
->> >is redundant for now, but will be used later when we
->> >want to disable DGRAM feature bit for old versions.
->> >
->> >Signed-off-by: Jiang Wang <jiang.wang@bytedance.com>
->> >---
->> >v1 -> v2: use qemu cmd option to control number of queues,
->> >        removed configuration settings for dgram.
->> >v2 -> v3: use ioctl to get features and decide number of
->> >        virt queues, instead of qemu cmd option.
->> >v3 -> v4: change DGRAM feature bit value to 2. Add an argument
->> >        in vhost_vsock_common_realize to indicate dgram is supported or not.
->> >v4 -> v5: don't open dev to get vhostfd. Removed leftover definition of
->> >        enable_dgram
->> >v5 -> v6: fix style errors. Imporve error handling of
->> >        vhost_vsock_dgram_supported. Rename MAX_VQS_WITH_DGRAM and another one.
->> >v6 -> v7: Always enable dgram for vhost-user and vhost kernel.
->> >        Delete unused virtqueues at the beginning of
->> >        vhost_vsock_common_start for migration. Otherwise, migration will fail.
->> >
->> > hw/virtio/vhost-user-vsock.c                  |  2 +-
->> > hw/virtio/vhost-vsock-common.c                | 32 +++++++++++++++++--
->> > hw/virtio/vhost-vsock.c                       |  6 +++-
->> > include/hw/virtio/vhost-vsock-common.h        |  6 ++--
->> > include/hw/virtio/vhost-vsock.h               |  3 ++
->> > include/standard-headers/linux/virtio_vsock.h |  1 +
->> > 6 files changed, 43 insertions(+), 7 deletions(-)
->> >
->> >diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
->> >index 6095ed7349..9823a2f3bd 100644
->> >--- a/hw/virtio/vhost-user-vsock.c
->> >+++ b/hw/virtio/vhost-user-vsock.c
->> >@@ -105,7 +105,7 @@ static void vuv_device_realize(DeviceState *dev, Error **errp)
->> >         return;
->> >     }
->> >
->> >-    vhost_vsock_common_realize(vdev, "vhost-user-vsock");
->> >+    vhost_vsock_common_realize(vdev, "vhost-user-vsock", true);
->> >
->> >     vhost_dev_set_config_notifier(&vvc->vhost_dev, &vsock_ops);
->> >
->> >diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
->> >index 4ad6e234ad..7d89b4d242 100644
->> >--- a/hw/virtio/vhost-vsock-common.c
->> >+++ b/hw/virtio/vhost-vsock-common.c
->> >@@ -26,6 +26,18 @@ int vhost_vsock_common_start(VirtIODevice *vdev)
->> >     int ret;
->> >     int i;
->> >
->> >+    if (!virtio_has_feature(vdev->guest_features, VIRTIO_VSOCK_F_DGRAM)) {
->> >+        struct vhost_virtqueue *vqs;
->> >+        virtio_delete_queue(vvc->dgram_recv_vq);
->> >+        virtio_delete_queue(vvc->dgram_trans_vq);
->> >+
+>>> bs->sg is only true for character devices, but block devices can also
+>>> be used with scsi-block and scsi-generic.  Unfortunately BLKSECTGET
+>>> returns bytes in an int for /dev/sgN devices, and sectors in a short
+>>> for block devices, so account for that in the code.
+>>>
+>>> The maximum transfer also need not be a power of 2 (for example I have
+>>> seen disks with 1280 KiB maximum transfer) so there's no need to pass
+>>> the result through pow2floor.
+>>>
+>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 >>
->> Are you sure it works removing queues here?
->> The event_queue would always be #4, but the guest will use #2 which
->> we're removing.
+>> We have found that this patch leads to in guest I/O errors when DASD
+>> is used as a source device. I.e. libvirt domain xml wise something like:
 >>
->Yes, this works. In fact, I should include this in v6 and my tests done
->in my previous emails have these changes. But before I submitted the patch,
->I thought this code was redundant and removed it without further testing.
-
-Just tried on an host that doesn't support F_DGRAM and I have the 
-following errors:
-qemu-system-x86_64: -device vhost-vsock-pci,guest-cid=6: vhost_set_vring_call failed: No buffer space available (105)
-qemu-system-x86_64: -device vhost-vsock-pci,guest-cid=6: Failed to initialize virtqueue 2: No buffer space available
-
-I thinks we should re-add the feature discovery before call 
-vhost_dev_init().
-
->
->To explain it, I think the event queue number does not matter for the
->vhost and qemu. The vhost-vsock kernel module does not allocate any
->data structure for the event queue.  Qemu also only allocates an array of
->size 2 or 4 for the tx, rx queues. The event queue is handled separately.
->
->The event queue number only shows up in the spec, but in real code, I don't
->see anywhere that the event queue number is used explicitly or implicitly.
->The Event queue looks independent of tx, rx queues.
-
-Yep, it is used in the linux driver. Look at 
-virtio_transport_event_work(), it uses VSOCK_VQ_EVENT (2).
-
-The main test to do is to migrate a guest with active connections that 
-doesn't support F_DGRAM on an host that support it and check if, after 
-the migration, the connections are reset and the CID updated.
-
-I think is not working now.
-
->
->> >+        vqs = vvc->vhost_dev.vqs;
->> >+        vvc->vhost_dev.nvqs = MAX_VQS_WITHOUT_DGRAM;
->> >+        vvc->vhost_dev.vqs = g_new0(struct vhost_virtqueue,
->> >+                                   vvc->vhost_dev.nvqs);
->> >+        g_free(vqs);
->> >+    }
->> >+
->> >     if (!k->set_guest_notifiers) {
->> >         error_report("binding does not support guest notifiers");
->> >         return -ENOSYS;
->> >@@ -196,9 +208,11 @@ int vhost_vsock_common_post_load(void *opaque, int version_id)
->> >     return 0;
->> > }
->> >
->> >-void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name)
->> >+void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name,
->> >+                               bool enable_dgram)
->>                                        ^
->> It seems always true, and also unused.
+>>      <disk type='block' device='disk'>
+>>        <driver name='qemu' type='raw' cache='none' io='native' iothread='1'/>
+>>        <source dev='/dev/disk/by-id/ccw-XXXXXXX'/>
+>>        <backingStore/>
+>>        <target dev='vdb' bus='virtio'/>
+>>        <address type='ccw' cssid='0xfe' ssid='0x0' devno='0x0008'/>
+>>      </disk>
 >>
->Yes, I can remove it. I am just wondering when we modify the feature
->bit as in your recent seqpacket patch, do we want to change it to false when
->the feature is not supported and make the code logically more 
->resonable？
->Or do we still make it true even if the feature bit is not supported?
-
-Maybe we need to use it because now vhost_dev_init is failing if the 
-host doesn't support F_DGRAM since we are registering more queues than 
-the device can handle.
-
->
->> > {
->> >     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
->> >+    int nvqs = MAX_VQS_WITH_DGRAM;
->> >
->> >     virtio_init(vdev, name, VIRTIO_ID_VSOCK,
->> >                 sizeof(struct virtio_vsock_config));
->> >@@ -209,12 +223,17 @@ void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name)
->> >     vvc->trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
->> >                                        vhost_vsock_common_handle_output);
->> >
->> >+    vvc->dgram_recv_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
->> >+                                          vhost_vsock_common_handle_output);
->> >+    vvc->dgram_trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
->> >+                                          vhost_vsock_common_handle_output);
->> >+
->> >     /* The event queue belongs to QEMU */
->> >     vvc->event_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
->> >                                        vhost_vsock_common_handle_output);
->> >
->> >-    vvc->vhost_dev.nvqs = ARRAY_SIZE(vvc->vhost_vqs);
->> >-    vvc->vhost_dev.vqs = vvc->vhost_vqs;
->> >+    vvc->vhost_dev.nvqs = nvqs;
->> >+    vvc->vhost_dev.vqs = g_new0(struct vhost_virtqueue, vvc->vhost_dev.nvqs);
->> >
->> >     vvc->post_load_timer = NULL;
->> > }
->> >@@ -227,6 +246,13 @@ void vhost_vsock_common_unrealize(VirtIODevice *vdev)
->> >
->> >     virtio_delete_queue(vvc->recv_vq);
->> >     virtio_delete_queue(vvc->trans_vq);
->> >+    if (vvc->vhost_dev.nvqs == MAX_VQS_WITH_DGRAM) {
->> >+        virtio_delete_queue(vvc->dgram_recv_vq);
->> >+        virtio_delete_queue(vvc->dgram_trans_vq);
->> >+    }
->> >+
->> >+    g_free(vvc->vhost_dev.vqs);
->> >+
->> >     virtio_delete_queue(vvc->event_vq);
->> >     virtio_cleanup(vdev);
->> > }
->> >diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
->> >index 1b1a5c70ed..6e315ecf23 100644
->> >--- a/hw/virtio/vhost-vsock.c
->> >+++ b/hw/virtio/vhost-vsock.c
->> >@@ -23,6 +23,7 @@
->> >
->> > const int feature_bits[] = {
->> >     VIRTIO_VSOCK_F_SEQPACKET,
->> >+    VIRTIO_VSOCK_F_DGRAM,
->> >     VHOST_INVALID_FEATURE_BIT
->> > };
->> >
->> >@@ -116,6 +117,9 @@ static uint64_t vhost_vsock_get_features(VirtIODevice *vdev,
->> >     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
->> >
->> >     virtio_add_feature(&requested_features, VIRTIO_VSOCK_F_SEQPACKET);
->> >+    if (vvc->vhost_dev.nvqs == MAX_VQS_WITH_DGRAM) {
->> >+        virtio_add_feature(&requested_features, VIRTIO_VSOCK_F_DGRAM);
->> >+    }
+>> I don't think it is the fault of this patch: it LGTM. But it correlates
+>> 100%, furthermore the problem seems to be related to the value of
+>> bl.max_iov which now comes from sysfs.
 >>
->> Take a look at
->> https://lore.kernel.org/qemu-devel/20210921161642.206461-1-sgarzare@redhat.com/
+>> We are still investigating what is actually wrong. Just wanted to give
+>> everybody a heads-up that this does seem to cause a nasty regression on
+>> s390x, even if the code itself is perfect.
 >>
->Yes, I noticed that email. Thanks for reminding me. I did not make
->similar changes yet because I want to wait for that patch to be merged.
->I can start to make similar changes in the next version.
+> 
+> We have figured out what is going on here. The problem seems to be
+> specific to linux aio, which seems to limit the size of the iovec to
+> 1024 (UIO_MAXIOV).
+> 
+> Because of this requests get rejected with -EINVAL by the io_submit()
+> syscall. Here comes a real world example:
+> 
+> (gdb) p *laiocb
+> $5 = {co = 0x3ff700072c0, ctx = 0x3fe60002650, iocb = {data = 0x0, aio_rw_flags = 0, key = 0,
+>      aio_lio_opcode = 8, aio_reqprio = 0, aio_fildes = 38, u = {c = {buf = 0x3ff70055bc0,
+>          nbytes = 1274, offset = 19977953280, __pad3 = 0, flags = 1, resfd = 43}, v = {
+>          vec = 0x3ff70055bc0, nr = 0, offset = 19977953280}, poll = {__pad1 = 1023,
+>          events = 1879399360}, saddr = {addr = 0x3ff70055bc0, len = 0}}}, ret = -22,
+>    nbytes = 20586496, qiov = 0x3ff700382f8, is_read = false, next = {sqe_next = 0x0}}
+> 
+> On the host kernel side, the -EINVAL comes from this line:
+> https://elixir.bootlin.com/linux/v5.15-rc2/source/lib/iov_iter.c#L1863
+> in iovec_from_user() roughly via: __do_sys_io_submit()->
+> io_submit_one() -> aio_write() -> aio_setup_rw() -> __import_iovec().
+> 
+> Based on the offline discussion with the DASD maintainers, and on the
+> linux in source tree documentation (Documentation/block/queue-sysfs.rst
+> und Documentation/block/biodoc.rst), I believe that the DASD driver is
+> not wrong when advertising the value 65535 for queue/max_segments.
+> 
+> I believe QEMU jumps to the wrong conclusion in blk_get_max_iov() or
+> in virtio_blk_submit_multireq(), I can't really tell because I'm not
+> sure what the semantic of blk_get_max_iov() is. But if, I had to, I would
+> bet that blk_get_max_iov() returns the wrong value, when linux aio is
+> used. I'm not sure what is the exact relationship between max_segments
+> and max_iov.
+> 
+> One idea on how to fix this would be, to cap max_iov to UIO_MAXIOV
+> (unconditionally, or when linux aio is used). But I have to admit, I
+> don't have clarity. I couldn't even find documentation that states
+> this limitation of linux aio (I didn't look for it too hard though), so
+> I can not even be sure this is a QEMU problem.
+> 
+> That is why I decided to write this up first, and start a discussion on
+> who is playing foul with the most relevant people posted. I intend to try
+> myself fixing the problem once my understanding of it reaches a
+> sufficient level.
+> 
+> Thanks in advance for your contribution!
 
-Yep, better to wait comments on that series.
+Changing subject to reflect what we see.
+For reference the QEMU patch is
 
->
->> If it will be accepted, we should use something similar (e.g.
->> `datagram` prop) and handle this flag in vhost-vsock-common.
->>
->> And we should change a bit the queue handling:
->> - if QEMU (new `datagram` prop is `on` or `auto`) and the kernel
->>    supports F_DGRAM, we can allocate 5 queues.
->Agree with the new prop. But when the kernel supports F_DGRAM, qemu
->still only allocates 4 queues. As in the following code：
->
->vvc->vhost_dev.nvqs = nvqs;
->vvc->vhost_dev.vqs = g_new0(struct vhost_virtqueue, 
->vvc->vhost_dev.nvqs);
->
->// nvqs will be either 2 or 4. Will not be 5. btw, in the new version, it will
->// always be 4.
-
-Sorry, with allocating I meant virtio_add_queue() calls.
-
-Just to be clear, I think we should do something like this:
-
-#define VHOST_VSOCK_NVQS          3
-#define VHOST_VSOCK_NVQS_DGRAM    5
-#define VHOST_VSOCK_MAX_VQS       VHOST_VSOCK_NVQS_DGRAM
-
-struct VHostVSockCommon {
-     ...
-
-     VirtQueue *vqs[VHOST_VSOCK_MAX_VQS];
-
-     int event_vq_id;
-}
-
-void vhost_vsock_common_realize(...)
-{
-     int nvqs = VHOST_VSOCK_NVQS;
-
-     ...
-
-     if (enable_dgram) {
-         nvqs = VHOST_VSOCK_NVQS_DGRAM;
-     }
-
-     ...
-
-     for (i = 0; i < nvqs; i++) {
-         vvc->vqs[i] = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
-                                        vhost_vsock_common_handle_output);
-     }
-
-     /* event queue is not handled by the vhost device */
-     vvc->vhost_dev.nvqs = nvqs - 1;
-     vvc->vhost_dev.vqs = g_new0(struct vhost_virtqueue, vvc->vhost_dev.nvqs);
-
-     ...
-}
-
-int vhost_vsock_common_start(...)
-{
-     ...
-
-     if (virtio_has_feature(vdev->guest_features, VIRTIO_VSOCK_F_DGRAM)) {
-         vvc->event_vq_id = VHOST_VSOCK_NVQS_DGRAM - 1;
-     } else {
-         vvc->event_vq_id = VHOST_VSOCK_NVQS - 1;
-     }
-
-     ...
-}
-
-Then use `vvc->event_vq_id` in :
-- vhost_vsock_common_send_transport_reset()
-- vhost_vsock_common_post_load() (instead of 2 wired in the code)
-
-Maybe in vhost_vsock_common_send_transport_reset() we can skip the 
-message enqueueing if the device is not started 
-(vvc->vhost_dev.started).
-
-Thanks,
-Stefano
-
+https://git.qemu.org/?p=qemu.git;a=commitdiff;h=18473467d55a20d643b6c9b3a52de42f705b4d35;hp=24b36e9813ec15da7db62e3b3621730710c5f020
 
