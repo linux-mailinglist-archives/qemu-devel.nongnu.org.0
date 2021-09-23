@@ -2,136 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF019416283
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 17:53:59 +0200 (CEST)
-Received: from localhost ([::1]:57888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CCEC4162BB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 18:06:38 +0200 (CEST)
+Received: from localhost ([::1]:42642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTR2s-0005Z8-7O
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 11:53:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53242)
+	id 1mTRF5-00068D-Lc
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 12:06:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mTR0r-0003XT-Ff; Thu, 23 Sep 2021 11:51:53 -0400
-Received: from mail-eopbgr70133.outbound.protection.outlook.com
- ([40.107.7.133]:56745 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mTR0o-000695-1w; Thu, 23 Sep 2021 11:51:53 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WtoNxCjuEzp/k1SyrNz0NCm1jOf23QXFaC18M4qnvc9j+xRUDDwwr/YNRzmbW/y4Yvpc31Lm729YyjGTE7rZSrzZu72X1v6zWKrRvaaLR8TZ9kmCMvFKPwyDBJdjKagoH1LwCezBoZPkUUPKCcw/cM+tcwv0u7dYmIIy2QWuIgofVn9/2oeLTyk3ILhu3CjUXr/peF2SZJXV8oRAo92KcSY/2osBuKtgEqonuAdFwLhkY9xkKCwlHqPgQfpmPfbw87qNWV8DKXcoVdbXkX6E9XxkmNmyEZvVoL5ZVsCbpxzFA6THzTSXy8KAYkJl6UYR+VizeVZ6EI7sU01Qki6L9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=gpoMjKGOGLaUfkalKr9kfIQnwJpehTJkSLMx/hC1t38=;
- b=SQYdL9Rb0y/1YyikwQgv/+eGS50uSHMGUf85HcLWhkupYsC5F00P4ywi/9mMRblrHy2iTRf4iofA2Z671aU3uvoeIqoL+3PsuTaP52jYaZqeqn0wunUVGYVWtj3UAnLWrukaOEPtiJIAuT5g/CTaLW30n4rsioB488gGUqBk5LGVQ7pKF4lNkiUo+tzTHTCMIcVmkpqB3rGsFwsKdB2BuVMEWcP+f0sjjfpaPBsvEgad5jTiidE60QSoHOk29bVeaYihwG4lzoo7N75CByFBoxoZwafyFmRPu7dHz1Gsjtr8uVpdZBq8wliHgwt4VGmKjcpVfxRrvnuSRJAKZTA7cw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gpoMjKGOGLaUfkalKr9kfIQnwJpehTJkSLMx/hC1t38=;
- b=iO0cV8Lcxha5Z+QKGwEKZwoGK3aKD3VeFXAihuKOarQSEcLflLOUcwOESp5UoI6h9DzSj1jzQx1QX277sLpbnn4XSSx/DqjIuMBLVjnuRTdKGCA06r3ZE9+H5iLGt0WpnM6ZUQHTr6Kg6QvZXAXljqIaguYJscTrZIglB5Nqe4A=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6790.eurprd08.prod.outlook.com (2603:10a6:20b:397::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.14; Thu, 23 Sep
- 2021 15:51:46 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.015; Thu, 23 Sep 2021
- 15:51:46 +0000
-Subject: Re: [PATCH 6/6] iotests: Update for pylint 2.11.1
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>
-References: <20210923001625.3996451-1-jsnow@redhat.com>
- <20210923001625.3996451-7-jsnow@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <a78149a1-79fc-9bb5-3a44-af571092e8b1@virtuozzo.com>
-Date: Thu, 23 Sep 2021 18:51:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <20210923001625.3996451-7-jsnow@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR0P264CA0203.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:1f::23) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1mTR9D-00029p-1f
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 12:00:31 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:41815)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1mTR99-00056E-Th
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 12:00:30 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id s24so7738561oij.8
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 09:00:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=GvlaqHPy6utlO3qyGzjZALw6+K1gDZiId/VB+Aknv9U=;
+ b=oCIeV7bPTbAVc9FlZ23YU6PCdCKx1bDGKvsW4lt4z3pSR0FrQJfSgEpEgWHUgyfTU5
+ uiUkt8rH/WjTdIaUer/mklxmUKcUJyedBaiVMy6ycdrilBcTQoNTR+lPgQ7Z2aTPPLub
+ g44cgRLrRs8GpE/+iQgnoatc+sx6Wa3lWt5WsaXiM4DoW4NC3jEjd+EHruEpLLheqyd/
+ 4PiNgfTX0u8EoxF8GF3t1/4+oyfhaz4d3NoE+4B39HjimrGIawzyxIa2TlIBwN++IsBD
+ 7YOVh37HJiW9bos6jhs1FO0wnfiDoDXf60MxDmTyiYQcgvAP39Thyg6f1pMFrEiYFfrW
+ n7Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition:in-reply-to;
+ bh=GvlaqHPy6utlO3qyGzjZALw6+K1gDZiId/VB+Aknv9U=;
+ b=Z/P17XzYcAu4SBDU3LwWRx2UK9+XPDQ7yhDmtSp5rjqVdKn2pvVYVWUbinduV6diFM
+ Vh3VuBu5yxXZPzKq1VR0jksdEELgV9aPP7XF1alAAUD5FQZBfmY/2J3J7+5kBw7aOf6c
+ 1dQNUL+kjStvTxFhcMk5BiwIgdBjlvviXB9B1iEzauBCoR9KEMYwu3aciD+v0EXcQxLL
+ 1OURrQ6WzzRUJedIQSmArRG/nXsa7n/J8Z42YCg2OplYHVSbZghnf2+GAWmC96XP8dXj
+ eBcOoQZW1aQxLXEFYBXDz/CULq10iLh2PuRHPNr7nUhI7KQKoGVLbTOXzWvCS9xK0ZJd
+ aR7g==
+X-Gm-Message-State: AOAM5333pLq3FYAOy4RIV9YF7VaCOyv5Opva4f//jrh88FhxjNOPJCTE
+ szuUiBvJ0iQlFHaLaZNbWA==
+X-Google-Smtp-Source: ABdhPJylz26haQSI7RibX1cNA+pfpyVnuBi5mQXKwCNGtAG8g2wkhDFp+53tJfJR3qyCH+wchUzV3Q==
+X-Received: by 2002:a05:6808:d51:: with SMTP id
+ w17mr13018117oik.179.1632412824284; 
+ Thu, 23 Sep 2021 09:00:24 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id 64sm1373089otx.51.2021.09.23.09.00.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Sep 2021 09:00:23 -0700 (PDT)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:c8d6:d400:67d8:3383])
+ by serve.minyard.net (Postfix) with ESMTPSA id 0ABA81800F0;
+ Thu, 23 Sep 2021 16:00:22 +0000 (UTC)
+Date: Thu, 23 Sep 2021 11:00:20 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 5/6] qbus: Rename qbus_create() to qbus_new()
+Message-ID: <20210923160020.GI4867@minyard.net>
+References: <20210923121153.23754-1-peter.maydell@linaro.org>
+ <20210923121153.23754-6-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Received: from [192.168.100.5] (185.215.60.205) by
- PR0P264CA0203.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1f::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4544.13 via Frontend Transport; Thu, 23 Sep 2021 15:51:46 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c9601ed0-c232-4a6c-88e6-08d97eaa0c4c
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6790:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB67906208A91614049702336EC1A39@AS8PR08MB6790.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QyRhwLyZehYLL7jgd0GmXnvKJDN+c7SI5SlHLDYvuppT6MneMYAh/I0vVZInq/YOBuGRYv9pU79F3lSGfOeSZyezior5YBY3PK4WRS6zp3DisqMJvRb5L/PZ1/qfH2Rn4nF+iFd269Z/sC0N8AnF6ExYoV4ToUUeUtJ3zKSk9Wva0KqLsg1TlLjWGQ6xEgz0nzMLGE6Lac6WUvdlb8bR11ZzfzWD1ePAdQHX/NbO7Q3OSejkF44PoToR5F5MR9VCpv0p0+68tU61/G4zKgfg7V1AvkYaWq5k2V/cPN8nbFM2svNXQoWY6iVtAz13/Qf03RzNb/a6P2fcCR8n0x0Z7ae4UQtF5naKkNK8kNrIcaYDp9RT77lCljmxWPV8QDPHTKGcz2jk3tnD7CnrRezSjAOAv8T9msa/rxpkxdhn0Oel8p4vI35s6kPkLeluyXEtkBtO7sQdhmf7askqgnBndFDfnt2PUyKUsgssCZAKGgfFGInO/U4aKr7626w2R8JzUJGBRH4PEE+M6o9kq802vQNRWZXRifau8J3aaGcBG2/X/aZzReH5uSV9vfHHnoyIRQbKtBX5Ui2phVOO0TCL4NkpBBaEZQchHFCE+7YzVpISvb9qYob4rUKK0kP7fZvPGe+Bs7foqIZHpyvqY2H+P3noyh1ze7KZQi8rCWJfc+AyCJcejFFPBxCvT28ukVjB65/3+3lPGpol3L12Nq5FIbn46W5V1IqhB5W3kVPWYBsYrJ9GGGznkTlk7vwRqPGVq5qYcwtwxXn4LYOPdQXXuw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(26005)(8676002)(66476007)(66556008)(66946007)(186003)(956004)(8936002)(38350700002)(4326008)(2906002)(2616005)(6486002)(38100700002)(31686004)(52116002)(83380400001)(316002)(54906003)(4744005)(5660300002)(36756003)(16576012)(31696002)(508600001)(86362001)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L0d6UjlDNXJNQ25XQm56b01PL055a3kyZjZMM0RXNjlScFAwR09wU29WMnk4?=
- =?utf-8?B?ZVVOZG5MTmJQck45NzBMdG9td2V1cncyUVZxTjU3TzEzS0NjNm5LbU00M3U3?=
- =?utf-8?B?a0l4RHcrRkpIOHhTSGE3TmIzVHBRUTA4UTVUdEJYd3Vra2xGbVBiSStoMWtL?=
- =?utf-8?B?V1J5Vk9BY1ZZOFd2V3ExVWxRdVVxSUUrSkRDZk42OXF0bHI0OHJEQnFqMnps?=
- =?utf-8?B?bVc4SE9hODhHT2owVlAyWTRneVBtc2duVWZqVFdnMG9XWENyTWZnZkIwWWRP?=
- =?utf-8?B?cHRzYWdOdkdJekFJZnpIcWdGaEYvbU1zRjBla240N0E1b0FreXV5QVVYK2Zw?=
- =?utf-8?B?dExOUDNjVVBPVlNXdGptSmlNMmxrV0JyV0lLOHhOdVE2eWN5bHZyMUlCL3d1?=
- =?utf-8?B?b0J0b2R6Y0k3Y0pqei9oU1lHMkE4aHJ5YTJscTVOWFAxcmZCeUNET1g1SnBm?=
- =?utf-8?B?TTRYaUFwQWorWEh4NmpsZU9RK0g1TGdBS2p5cjJxT0ZGRUtMZXYyaEx6MHBi?=
- =?utf-8?B?R2Q2WW01cG44ZjgxbmtyZDRRM0QxODd0RWY5TEFWTGJUOWdNcXRzS0sxeDN0?=
- =?utf-8?B?M3lMbkF1cGx0eDZOQW4zQkV1NXJmZ21rREUvZFVNb3gzK3RQdkVCWStSc1lk?=
- =?utf-8?B?SnA1N2pPeUdUSytXRG5laUZ0UmNtcy8wdmI0R09la3RIckRmUEwvMllwTFYx?=
- =?utf-8?B?dDEwdmkyYmFyb1FBNldWSUdrQ1JKbm1tY2o4dGx3K3IranE3MzQ1VVBtWFlQ?=
- =?utf-8?B?OHFuMWhMUE84Z05USFlZeTFGVDlRZVo3b2EyRVR0VFZ2VmNUSmVKNE0xNWJJ?=
- =?utf-8?B?TkZ6VzdDcWhidzQ0REJiOWhzN25acXN0R3NOdzhraVM5V3BNNUlFeGRNRzVy?=
- =?utf-8?B?M2dWdmNYOS9JZ05ZaExiTjh1YThpcTc5RWIySXJFa0tEOUM2N0lBRG1uUndn?=
- =?utf-8?B?enFlek5nOW1qMHBjMk92cmJGUmZVSlRmODZCdlA4QmZYNUVCVTM3c1FZdTI5?=
- =?utf-8?B?dmNDMTNINmdUa2pkSzU3V0lZNkZSYkNGYlpXd3diK1NSRDAwbmkzS3FxQnpp?=
- =?utf-8?B?MXFMckF4Ym5XRC9CSlI0NUYxTkVyU0o5M0tjdm9BVmNXNHI4U1hIODhsUDgx?=
- =?utf-8?B?WWtrUXRPbnovRjA1YjR3V0JKR3RVMllUSkFFM25PZFFPSXN1U0d1dEE0MnZq?=
- =?utf-8?B?c1hlZytSMDliaFk1cHVuQ1Z3dFFPUDNrb2dUWWxIQ1laOUh6cXBSamVyaUVy?=
- =?utf-8?B?aXRlc0RWS0lLYVRuWndsOVF3ajMwc3ZVWU9kUTNETDg2QTJGbGFWdHdtcmJn?=
- =?utf-8?B?TExPbWJ3Q3E2d3BscVZRSnJENjNORURyM1JjYjZCQlNtRWJUZ0dlLzRLUXN0?=
- =?utf-8?B?U01UbWZmL0NYUzRIWnpLSzNJMFh5SUFBc0pxYXpFZDhSVjBlVjcxUzdPMjhK?=
- =?utf-8?B?TFl3V1BLOXkvd2FreklyTnhRdTlwYmRQenFSaDFuUzdqb2l4ak5TaEE1bk82?=
- =?utf-8?B?TkNmRVJLRlRrdmlqSU1MMmZpS3V0WEV6VkhvaGFOYUNSN2Zxb3BxZVlJOEQ5?=
- =?utf-8?B?ODIvQWNaNjIxUEo1L1NoN0k4Vm1NL2UwbGsrTkdiQjNDa20rSTZsQzM2VzBa?=
- =?utf-8?B?Y2MvTUtiNXZGTVZSdDBQd0Jya2Jhb0lYZS9KVlJpdDRESkhtZEVrQ2s1UFNL?=
- =?utf-8?B?eHNVcXJSQWRjODhwVFQ2RUxta3lLd1M4WFY4WXd5OGI4NC9BOE5qODlqM21o?=
- =?utf-8?Q?mN5il/jcPaN7RMWTYYLrUljGiHIhC+0o6fSKhIh?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c9601ed0-c232-4a6c-88e6-08d97eaa0c4c
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2021 15:51:46.6583 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6Sy2lMc+4L6RLO5nJ1eFdLJ+/IIL+jnzvW9zcQvUM45L2uMm/S++skB6crZkB91HvBA3tsJZe38a2xiJTzWuCUcx+q4lcDBN/oMiy85QgNs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6790
-Received-SPF: pass client-ip=40.107.7.133;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210923121153.23754-6-peter.maydell@linaro.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=tcminyard@gmail.com; helo=mail-oi1-x22f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -144,25 +89,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: minyard@acm.org
+Cc: Fam Zheng <fam@euphon.net>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-23.09.2021 03:16, John Snow wrote:
-> 1. Ignore the new f-strings warning, we're not interested in doing a
->     full conversion at this time.
-> 
-> 2. Just mute the unbalanced-tuple-unpacking warning, it's not a real
->     error in this case and muting the dozens of callsites is just not
->     worth it.
-> 
-> 3. Add encodings to read_text().
-> 
-> Signed-off-by: John Snow<jsnow@redhat.com>
+On Thu, Sep 23, 2021 at 01:11:52PM +0100, Peter Maydell wrote:
+> Rename the "allocate and return" qbus creation function to
+> qbus_new(), to bring it into line with our _init vs _new convention.
 
+This looks like a good idea to me.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Corey Minyard <cminyard@mvista.com>
 
--- 
-Best regards,
-Vladimir
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  include/hw/qdev-core.h      | 2 +-
+>  hw/core/bus.c               | 2 +-
+>  hw/hyperv/vmbus.c           | 2 +-
+>  hw/i2c/core.c               | 2 +-
+>  hw/isa/isa-bus.c            | 2 +-
+>  hw/misc/auxbus.c            | 2 +-
+>  hw/nubus/mac-nubus-bridge.c | 2 +-
+>  hw/pci/pci.c                | 2 +-
+>  hw/ppc/spapr_vio.c          | 2 +-
+>  hw/s390x/ap-bridge.c        | 2 +-
+>  hw/s390x/css-bridge.c       | 2 +-
+>  hw/s390x/s390-pci-bus.c     | 2 +-
+>  hw/ssi/ssi.c                | 2 +-
+>  hw/xen/xen-bus.c            | 2 +-
+>  hw/xen/xen-legacy-backend.c | 2 +-
+>  15 files changed, 15 insertions(+), 15 deletions(-)
+> 
+> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> index ebca8cf9fca..4ff19c714bd 100644
+> --- a/include/hw/qdev-core.h
+> +++ b/include/hw/qdev-core.h
+> @@ -680,7 +680,7 @@ typedef int (qdev_walkerfn)(DeviceState *dev, void *opaque);
+>  
+>  void qbus_init(void *bus, size_t size, const char *typename,
+>                 DeviceState *parent, const char *name);
+> -BusState *qbus_create(const char *typename, DeviceState *parent, const char *name);
+> +BusState *qbus_new(const char *typename, DeviceState *parent, const char *name);
+>  bool qbus_realize(BusState *bus, Error **errp);
+>  void qbus_unrealize(BusState *bus);
+>  
+> diff --git a/hw/core/bus.c b/hw/core/bus.c
+> index cec49985024..c7831b5293b 100644
+> --- a/hw/core/bus.c
+> +++ b/hw/core/bus.c
+> @@ -159,7 +159,7 @@ void qbus_init(void *bus, size_t size, const char *typename,
+>      qbus_init_internal(bus, parent, name);
+>  }
+>  
+> -BusState *qbus_create(const char *typename, DeviceState *parent, const char *name)
+> +BusState *qbus_new(const char *typename, DeviceState *parent, const char *name)
+>  {
+>      BusState *bus;
+>  
+> diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
+> index c9887d5a7bc..dbce3b35fba 100644
+> --- a/hw/hyperv/vmbus.c
+> +++ b/hw/hyperv/vmbus.c
+> @@ -2729,7 +2729,7 @@ static void vmbus_bridge_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>  
+> -    bridge->bus = VMBUS(qbus_create(TYPE_VMBUS, dev, "vmbus"));
+> +    bridge->bus = VMBUS(qbus_new(TYPE_VMBUS, dev, "vmbus"));
+>  }
+>  
+>  static char *vmbus_bridge_ofw_unit_address(const SysBusDevice *dev)
+> diff --git a/hw/i2c/core.c b/hw/i2c/core.c
+> index 416372ad00c..0e7d2763b9e 100644
+> --- a/hw/i2c/core.c
+> +++ b/hw/i2c/core.c
+> @@ -60,7 +60,7 @@ I2CBus *i2c_init_bus(DeviceState *parent, const char *name)
+>  {
+>      I2CBus *bus;
+>  
+> -    bus = I2C_BUS(qbus_create(TYPE_I2C_BUS, parent, name));
+> +    bus = I2C_BUS(qbus_new(TYPE_I2C_BUS, parent, name));
+>      QLIST_INIT(&bus->current_devs);
+>      vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY, &vmstate_i2c_bus, bus);
+>      return bus;
+> diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
+> index cffaa35e9cf..6c31398dda6 100644
+> --- a/hw/isa/isa-bus.c
+> +++ b/hw/isa/isa-bus.c
+> @@ -64,7 +64,7 @@ ISABus *isa_bus_new(DeviceState *dev, MemoryRegion* address_space,
+>          sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>      }
+>  
+> -    isabus = ISA_BUS(qbus_create(TYPE_ISA_BUS, dev, NULL));
+> +    isabus = ISA_BUS(qbus_new(TYPE_ISA_BUS, dev, NULL));
+>      isabus->address_space = address_space;
+>      isabus->address_space_io = address_space_io;
+>      return isabus;
+> diff --git a/hw/misc/auxbus.c b/hw/misc/auxbus.c
+> index 434ff8d910d..8a8012f5f08 100644
+> --- a/hw/misc/auxbus.c
+> +++ b/hw/misc/auxbus.c
+> @@ -65,7 +65,7 @@ AUXBus *aux_bus_init(DeviceState *parent, const char *name)
+>      AUXBus *bus;
+>      Object *auxtoi2c;
+>  
+> -    bus = AUX_BUS(qbus_create(TYPE_AUX_BUS, parent, name));
+> +    bus = AUX_BUS(qbus_new(TYPE_AUX_BUS, parent, name));
+>      auxtoi2c = object_new_with_props(TYPE_AUXTOI2C, OBJECT(bus), "i2c",
+>                                       &error_abort, NULL);
+>  
+> diff --git a/hw/nubus/mac-nubus-bridge.c b/hw/nubus/mac-nubus-bridge.c
+> index 7c329300b82..148979dab13 100644
+> --- a/hw/nubus/mac-nubus-bridge.c
+> +++ b/hw/nubus/mac-nubus-bridge.c
+> @@ -16,7 +16,7 @@ static void mac_nubus_bridge_init(Object *obj)
+>      MacNubusState *s = MAC_NUBUS_BRIDGE(obj);
+>      SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+>  
+> -    s->bus = NUBUS_BUS(qbus_create(TYPE_NUBUS_BUS, DEVICE(s), NULL));
+> +    s->bus = NUBUS_BUS(qbus_new(TYPE_NUBUS_BUS, DEVICE(s), NULL));
+>  
+>      sysbus_init_mmio(sbd, &s->bus->super_slot_io);
+>      sysbus_init_mmio(sbd, &s->bus->slot_io);
+> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> index 14cb15a0aa1..186758ee11f 100644
+> --- a/hw/pci/pci.c
+> +++ b/hw/pci/pci.c
+> @@ -478,7 +478,7 @@ PCIBus *pci_root_bus_new(DeviceState *parent, const char *name,
+>  {
+>      PCIBus *bus;
+>  
+> -    bus = PCI_BUS(qbus_create(typename, parent, name));
+> +    bus = PCI_BUS(qbus_new(typename, parent, name));
+>      pci_root_bus_internal_init(bus, parent, address_space_mem,
+>                                 address_space_io, devfn_min);
+>      return bus;
+> diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
+> index b59452bcd62..b975ed29cad 100644
+> --- a/hw/ppc/spapr_vio.c
+> +++ b/hw/ppc/spapr_vio.c
+> @@ -577,7 +577,7 @@ SpaprVioBus *spapr_vio_bus_init(void)
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>  
+>      /* Create bus on bridge device */
+> -    qbus = qbus_create(TYPE_SPAPR_VIO_BUS, dev, "spapr-vio");
+> +    qbus = qbus_new(TYPE_SPAPR_VIO_BUS, dev, "spapr-vio");
+>      bus = SPAPR_VIO_BUS(qbus);
+>      bus->next_reg = SPAPR_VIO_REG_BASE;
+>  
+> diff --git a/hw/s390x/ap-bridge.c b/hw/s390x/ap-bridge.c
+> index 8bcf8ece9dd..ef8fa2b15be 100644
+> --- a/hw/s390x/ap-bridge.c
+> +++ b/hw/s390x/ap-bridge.c
+> @@ -55,7 +55,7 @@ void s390_init_ap(void)
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>  
+>      /* Create bus on bridge device */
+> -    bus = qbus_create(TYPE_AP_BUS, dev, TYPE_AP_BUS);
+> +    bus = qbus_new(TYPE_AP_BUS, dev, TYPE_AP_BUS);
+>  
+>      /* Enable hotplugging */
+>      qbus_set_hotplug_handler(bus, OBJECT(dev));
+> diff --git a/hw/s390x/css-bridge.c b/hw/s390x/css-bridge.c
+> index 191b29f0771..4017081d49c 100644
+> --- a/hw/s390x/css-bridge.c
+> +++ b/hw/s390x/css-bridge.c
+> @@ -106,7 +106,7 @@ VirtualCssBus *virtual_css_bus_init(void)
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>  
+>      /* Create bus on bridge device */
+> -    bus = qbus_create(TYPE_VIRTUAL_CSS_BUS, dev, "virtual-css");
+> +    bus = qbus_new(TYPE_VIRTUAL_CSS_BUS, dev, "virtual-css");
+>      cbus = VIRTUAL_CSS_BUS(bus);
+>  
+>      /* Enable hotplugging */
+> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+> index 6c0225c3a01..6fafffb029a 100644
+> --- a/hw/s390x/s390-pci-bus.c
+> +++ b/hw/s390x/s390-pci-bus.c
+> @@ -813,7 +813,7 @@ static void s390_pcihost_realize(DeviceState *dev, Error **errp)
+>      qbus_set_hotplug_handler(bus, OBJECT(dev));
+>      phb->bus = b;
+>  
+> -    s->bus = S390_PCI_BUS(qbus_create(TYPE_S390_PCI_BUS, dev, NULL));
+> +    s->bus = S390_PCI_BUS(qbus_new(TYPE_S390_PCI_BUS, dev, NULL));
+>      qbus_set_hotplug_handler(BUS(s->bus), OBJECT(dev));
+>  
+>      s->iommu_table = g_hash_table_new_full(g_int64_hash, g_int64_equal,
+> diff --git a/hw/ssi/ssi.c b/hw/ssi/ssi.c
+> index e5d7ce95237..003931fb509 100644
+> --- a/hw/ssi/ssi.c
+> +++ b/hw/ssi/ssi.c
+> @@ -107,7 +107,7 @@ DeviceState *ssi_create_peripheral(SSIBus *bus, const char *name)
+>  SSIBus *ssi_create_bus(DeviceState *parent, const char *name)
+>  {
+>      BusState *bus;
+> -    bus = qbus_create(TYPE_SSI_BUS, parent, name);
+> +    bus = qbus_new(TYPE_SSI_BUS, parent, name);
+>      return SSI_BUS(bus);
+>  }
+>  
+> diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
+> index 8c588920d9f..416583f130b 100644
+> --- a/hw/xen/xen-bus.c
+> +++ b/hw/xen/xen-bus.c
+> @@ -1398,7 +1398,7 @@ type_init(xen_register_types)
+>  void xen_bus_init(void)
+>  {
+>      DeviceState *dev = qdev_new(TYPE_XEN_BRIDGE);
+> -    BusState *bus = qbus_create(TYPE_XEN_BUS, dev, NULL);
+> +    BusState *bus = qbus_new(TYPE_XEN_BUS, dev, NULL);
+>  
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>      qbus_set_bus_hotplug_handler(bus);
+> diff --git a/hw/xen/xen-legacy-backend.c b/hw/xen/xen-legacy-backend.c
+> index dd8ae1452d1..be3cf4a195e 100644
+> --- a/hw/xen/xen-legacy-backend.c
+> +++ b/hw/xen/xen-legacy-backend.c
+> @@ -702,7 +702,7 @@ int xen_be_init(void)
+>  
+>      xen_sysdev = qdev_new(TYPE_XENSYSDEV);
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(xen_sysdev), &error_fatal);
+> -    xen_sysbus = qbus_create(TYPE_XENSYSBUS, xen_sysdev, "xen-sysbus");
+> +    xen_sysbus = qbus_new(TYPE_XENSYSBUS, xen_sysdev, "xen-sysbus");
+>      qbus_set_bus_hotplug_handler(xen_sysbus);
+>  
+>      return 0;
+> -- 
+> 2.20.1
+> 
+> 
 
