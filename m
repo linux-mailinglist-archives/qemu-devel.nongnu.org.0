@@ -2,82 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0304163BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 18:58:44 +0200 (CEST)
-Received: from localhost ([::1]:42178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 059014163CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 19:03:41 +0200 (CEST)
+Received: from localhost ([::1]:47462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTS3X-0004P1-1I
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 12:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38794)
+	id 1mTS8K-0008HH-24
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 13:03:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTS0S-0001ub-Lp
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 12:55:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41576)
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTS4l-0005Nn-13
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 12:59:59 -0400
+Received: from [115.28.160.31] (port=54276 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTS0O-0001A7-6b
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 12:55:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632416126;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/SzwoMV+1h1Fhfw2tCKBLkNnB+qaG2+ft85NWt8sF9A=;
- b=CAsbINZ0s3rvc5DDTuthhNQPXYWyh2l2xHbAs5pfcVO4azdZGwAjFDt+/j4+JEd5drMF21
- EZfeCZYuBx/T/c1iBVvIcJA3siglo8foQIstlR11VUOtfmpAJRTcFRdODMMHgnc2lIqkb2
- yQtgug/GCjPtj4cRQ2dye3ufxc0kOCI=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-mVEsbyUQNA-XkUGcGdq1tg-1; Thu, 23 Sep 2021 12:55:24 -0400
-X-MC-Unique: mVEsbyUQNA-XkUGcGdq1tg-1
-Received: by mail-oo1-f72.google.com with SMTP id
- d18-20020a4a9cd2000000b0029afc2f9586so4188277ook.19
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 09:55:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/SzwoMV+1h1Fhfw2tCKBLkNnB+qaG2+ft85NWt8sF9A=;
- b=Fxvaz52c1trBxsLv9yqZO4yZv5gc4j7Nzj8x/601gXpFTu0c+PWYi3FDlOKczecJzk
- jFvJDHdF/sIuqFUS5sfPbYpQAPFf73zY/WAqEZMd1fS/WW6pC2tC3gq/7p4PTliiXk65
- FBu6V+5Ln6QQ5tuwbTznQx35DuRvjrg5cksmOsrKP81tCWe4W8MmWKKITezcllGwQw/A
- z7ZAAuKOl5TGHaii9psnea2MJbEN1zxLhHmNXUQoh/hzK+8ounOpaSQvitk8yo9ui55D
- HYrC1uofOxirNHuOgC/8hV30Evo9BsIuEScuKZdrLBJbaeez9vRU/L7GjSfSHP3vO1D9
- icwg==
-X-Gm-Message-State: AOAM533prmhRmFnGCtNZ7iE9ZPIhb5iUfMD0G5Vkvdud1UBmiR0g9nIM
- JNxrEL4GNsbSO7OcHmFPzDX/WkjxBttHOnO7YtT+W92YecoiGX9PRQBi/BuAuwz89GUgf/PUkMQ
- ja4vKtksmIm7RQaUP4tA4rTiUTIz0Z9c=
-X-Received: by 2002:a9d:7281:: with SMTP id t1mr5366871otj.129.1632416123204; 
- Thu, 23 Sep 2021 09:55:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz1KRT3nNbOyu7TdUf/9UOmbTR0Kv2uwgN96UK4Wv/yf2+Fih/mjGwG6o8MzRpx+mejCmng5KsIulZBy8MfA90=
-X-Received: by 2002:a9d:7281:: with SMTP id t1mr5366856otj.129.1632416123010; 
- Thu, 23 Sep 2021 09:55:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTS4h-00050t-Jt
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 12:59:58 -0400
+Received: from ld50.lan (unknown [101.88.29.172])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id B8C62601A2;
+ Fri, 24 Sep 2021 00:59:45 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1632416385; bh=l+AFsCmCBFA7TiWlOM5qK7LGVuWk7qr0cUcGVONFDBw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Sw9ZEqp1b8B10q9WIpbsawRADr936315GdkNbqBAR6Xp6DceHUWDIQC8Uy0YJ9e+e
+ mw3h5TEjSL5q6DUJeuJ53RRBoJ+1FSLtCtrlIkSHayIcgucbB6nUAvxZ5ITSCiWnFm
+ VTmE/WsRg3h7m9m/p1OnOt7LpFLs2p9oS7XRgjY0=
+From: WANG Xuerui <git@xen0n.name>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/30] LoongArch64 port of QEMU TCG
+Date: Fri, 24 Sep 2021 00:59:09 +0800
+Message-Id: <20210923165939.729081-1-git@xen0n.name>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20210922125619.670673-1-armbru@redhat.com>
- <20210922125619.670673-2-armbru@redhat.com>
- <CAFn=p-YasVLZbFWqx=rxFNLcwyHhBKxcJgeKpQLjDZC2bj-_nQ@mail.gmail.com>
- <87o88jfxfw.fsf@dusky.pond.sub.org>
-In-Reply-To: <87o88jfxfw.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 23 Sep 2021 12:55:12 -0400
-Message-ID: <CAFn=p-ZYxJsR8EUQOm447y6K1CAt1+hcqZf=qGckRtMJ4SGybg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] tests/qapi-schema: Use Python OSError instead of
- outmoded IOError
-To: Markus Armbruster <armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000002354f305ccac7f7e"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 115.28.160.31 (failed)
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=git@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,193 +58,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@gmail.com, qemu-devel <qemu-devel@nongnu.org>,
- mdroth@linux.vnet.ibm.com
+Cc: WANG Xuerui <git@xen0n.name>, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002354f305ccac7f7e
-Content-Type: text/plain; charset="UTF-8"
+Hi all,
 
-On Thu, Sep 23, 2021 at 5:33 AM Markus Armbruster <armbru@redhat.com> wrote:
+This is a port of QEMU TCG to the brand-new CPU architecture LoongArch,
+introduced by Loongson with their 3A5000 chips.
 
-> John Snow <jsnow@redhat.com> writes:
->
-> > On Wed, Sep 22, 2021 at 8:56 AM Markus Armbruster <armbru@redhat.com>
-> wrote:
-> >
-> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> >> ---
-> >>  tests/qapi-schema/test-qapi.py | 4 ++--
-> >>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/tests/qapi-schema/test-qapi.py
-> >> b/tests/qapi-schema/test-qapi.py
-> >> index 73cffae2b6..2e384f5efd 100755
-> >> --- a/tests/qapi-schema/test-qapi.py
-> >> +++ b/tests/qapi-schema/test-qapi.py
-> >> @@ -154,7 +154,7 @@ def test_and_diff(test_name, dir_name, update):
-> >>          errfp = open(os.path.join(dir_name, test_name + '.err'), mode)
-> >>          expected_out = outfp.readlines()
-> >>          expected_err = errfp.readlines()
-> >> -    except IOError as err:
-> >> +    except OSError as err:
-> >>          print("%s: can't open '%s': %s"
-> >>                % (sys.argv[0], err.filename, err.strerror),
-> >>                file=sys.stderr)
-> >> @@ -180,7 +180,7 @@ def test_and_diff(test_name, dir_name, update):
-> >>          errfp.truncate(0)
-> >>          errfp.seek(0)
-> >>          errfp.writelines(actual_err)
-> >> -    except IOError as err:
-> >> +    except OSError as err:
-> >>          print("%s: can't write '%s': %s"
-> >>                % (sys.argv[0], err.filename, err.strerror),
-> >>                file=sys.stderr)
-> >> --
-> >> 2.31.1
-> >>
-> >>
-> > If you're happy with the expanded scope of the exception-catcher, I am
-> too.
->
-> https://docs.python.org/3.6/library/exceptions.html has
->
->     Changed in version 3.3: EnvironmentError, IOError, WindowsError,
->     socket.error, select.error and mmap.error have been merged into
->     OSError, and the constructor may return a subclass.
->
-> and
->
->     The following exceptions are kept for compatibility with previous
->     versions; starting from Python 3.3, they are aliases of OSError.
->
->     exception EnvironmentError
->
->     exception IOError
->
->     exception WindowsError
->
->         Only available on Windows.
->
-> So unless I'm misunderstanding something (which is quite possible),
-> we're catching exactly the same exceptions as before, we just switch to
-> their preferred name.
->
-> > Reviewed-by: John Snow <jsnow@redhat.com>
->
-> Thanks!
->
->
-Yeah, I suppose the 3.3 upgrade already "expanded" the coverage here, so
-you aren't expanding anything. It's just an expansion of intent in the
-source code, if that distinction makes sense. The code is obviously fine so
-far as I can tell. My RB stands!
+Tests (run with `ninja test`) all passed, as usual; I also boot-tested
+x86_64 (Debian and Gentoo installation CDs) and install-tested aarch64
+(Debian netboot installer), and ran riscv64 linux-user emulation with a
+chroot; everything seems fine.
 
---js
+## About the series
 
---0000000000002354f305ccac7f7e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Only the LP64 ABI is supported, as this is the only one fully
+implemented and supported by Loongson. 32-bit support is incomplete from
+outset, and removed from the very latest upstream submissions, so you
+can't even configure for that.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 23, 2021 at 5:33 AM Marku=
-s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">John=
- Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank">jsnow@redha=
-t.com</a>&gt; writes:<br>
-<br>
-&gt; On Wed, Sep 22, 2021 at 8:56 AM Markus Armbruster &lt;<a href=3D"mailt=
-o:armbru@redhat.com" target=3D"_blank">armbru@redhat.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;&gt; Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redh=
-at.com" target=3D"_blank">armbru@redhat.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 tests/qapi-schema/test-qapi.py | 4 ++--<br>
-&gt;&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/tests/qapi-schema/test-qapi.py<br>
-&gt;&gt; b/tests/qapi-schema/test-qapi.py<br>
-&gt;&gt; index 73cffae2b6..2e384f5efd 100755<br>
-&gt;&gt; --- a/tests/qapi-schema/test-qapi.py<br>
-&gt;&gt; +++ b/tests/qapi-schema/test-qapi.py<br>
-&gt;&gt; @@ -154,7 +154,7 @@ def test_and_diff(test_name, dir_name, update)=
-:<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 errfp =3D open(os.path.join(dir_=
-name, test_name + &#39;.err&#39;), mode)<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_out =3D outfp.readlines=
-()<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_err =3D errfp.readlines=
-()<br>
-&gt;&gt; -=C2=A0 =C2=A0 except IOError as err:<br>
-&gt;&gt; +=C2=A0 =C2=A0 except OSError as err:<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 print(&quot;%s: can&#39;t open &=
-#39;%s&#39;: %s&quot;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 % (sys.argv=
-[0], err.filename, err.strerror),<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=3Dsys.=
-stderr)<br>
-&gt;&gt; @@ -180,7 +180,7 @@ def test_and_diff(test_name, dir_name, update)=
-:<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 errfp.truncate(0)<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 errfp.seek(0)<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 errfp.writelines(actual_err)<br>
-&gt;&gt; -=C2=A0 =C2=A0 except IOError as err:<br>
-&gt;&gt; +=C2=A0 =C2=A0 except OSError as err:<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 print(&quot;%s: can&#39;t write =
-&#39;%s&#39;: %s&quot;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 % (sys.argv=
-[0], err.filename, err.strerror),<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=3Dsys.=
-stderr)<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.31.1<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt; If you&#39;re happy with the expanded scope of the exception-catcher, =
-I am too.<br>
-<br>
-<a href=3D"https://docs.python.org/3.6/library/exceptions.html" rel=3D"nore=
-ferrer" target=3D"_blank">https://docs.python.org/3.6/library/exceptions.ht=
-ml</a> has<br>
-<br>
-=C2=A0 =C2=A0 Changed in version 3.3: EnvironmentError, IOError, WindowsErr=
-or,<br>
-=C2=A0 =C2=A0 socket.error, select.error and mmap.error have been merged in=
-to<br>
-=C2=A0 =C2=A0 OSError, and the constructor may return a subclass.<br>
-<br>
-and<br>
-<br>
-=C2=A0 =C2=A0 The following exceptions are kept for compatibility with prev=
-ious<br>
-=C2=A0 =C2=A0 versions; starting from Python 3.3, they are aliases of OSErr=
-or.<br>
-<br>
-=C2=A0 =C2=A0 exception EnvironmentError<br>
-<br>
-=C2=A0 =C2=A0 exception IOError<br>
-<br>
-=C2=A0 =C2=A0 exception WindowsError<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Only available on Windows.<br>
-<br>
-So unless I&#39;m misunderstanding something (which is quite possible),<br>
-we&#39;re catching exactly the same exceptions as before, we just switch to=
-<br>
-their preferred name.<br>
-<br>
-&gt; Reviewed-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=
-=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-<br>
-Thanks!<br>
-<br></blockquote><div><br></div><div>Yeah, I suppose the 3.3 upgrade alread=
-y &quot;expanded&quot; the coverage here, so you aren&#39;t expanding anyth=
-ing. It&#39;s just an expansion of intent in the source code, if that disti=
-nction makes sense. The code is obviously fine so far as I can tell. My RB =
-stands!<br></div><div><br></div><div>--js<br></div></div></div>
+The architecture's documentation is already translated into English;
+it can be browsed at https://loongson.github.io/LoongArch-Documentation/.
+The LoongArch ELF psABI doc (version 1.00) could be found at [1];
+if anything is missing there, it's most likely the same as RISC-V, but
+you can always raise an issue over their issue tracker at [2].
 
---0000000000002354f305ccac7f7e--
+[1]: https://loongson.github.io/LoongArch-Documentation/LoongArch-ELF-ABI-EN.html
+[2]: https://github.com/loongson/LoongArch-Documentation/issues
+
+In this series I made use of generated instruction encodings and
+emitters from https://github.com/loongson-community/loongarch-opcodes
+(a community project started by myself, something I must admit), as the
+LoongArch encoding is highly irregular even for a fixed 32-bit ISA, and
+I want to minimize the maintenance burden for future collaboration. This
+is something not seen in any of the other TCG ports out there, so I'd
+like to see if this is acceptable practice (and also maybe bikeshed the
+file name).
+
+This series touches some of the same files as Song Gao's previous
+submission of LoongArch *target* support, which is a bit unfortunate;
+one of us will have to rebase after either series gets in. Actual
+conflict should only happen on build system bits and include/elf.h,
+though, as we're working on entirely different areas.
+
+## How to build and test this
+
+Upstream support for LoongArch is largely WIP for now, which means you
+must apply a lot of patches if you want to even cross-build for this arch.
+The main sources I used are as follows:
+
+* binutils: https://github.com/xen0n/binutils-gdb/tree/for-gentoo-2.37-v2
+  based on https://github.com/loongson/binutils-gdb/tree/loongarch/upstream_v6_a1d65b3
+* gcc: https://github.com/xen0n/gcc/tree/for-gentoo-gcc-12-v2
+  based on https://github.com/loongson/gcc/tree/loongarch_upstream
+* glibc: https://github.com/xen0n/glibc/tree/for-gentoo-glibc-2.34
+  based on https://github.com/loongson/glibc/tree/loongarch_2_34_for_upstream
+* Linux: https://github.com/xen0n/linux/tree/loongarch-playground
+  based on https://github.com/loongson/linux/tree/loongarch-next
+* Gentoo overlay: https://github.com/xen0n/loongson-overlay
+
+I have made ready-to-use Gentoo stage3 tarballs, but they're served with
+CDN off my personal cloud account, and I don't want the link to be
+exposed so that my bills skyrocket; you can reach me off-list to get the
+links if you're interested.
+
+As for the hardware availability, the boards can already be bought in
+China on Taobao, and I think some people at Loongson might be able to
+arrange for testing environments, if testing on real hardware other than
+mine is required before merging; they have their in-house Debian spin-off
+from the early days of this architecture. Their kernel is
+ABI-incompatible with the version being upstreamed and used by me, but
+QEMU should work there regardless.
+
+Lastly, I'm new to QEMU development and this is my first patch series
+here; apologizes if I get anything wrong, and any help or suggestion is
+certainly appreciated!
+
+## Changelog
+
+v4 -> v3:
+
+- Addressed all review comments from v3
+  - Made MAX_CODE_GEN_BUFFER_SIZE to be just SIZE_MAX (but kept
+    TCG_TARGET_NB_REGS as macro definition)
+  - Updated generated instruction definition, made it clear that the
+    whole file is generated
+  - Used deposit64 for hand-written relocation code
+  - Reworked tcg_out_movi
+    - Use pcalau12i + ori for PC-relative values whose offset fits in
+      32-bit
+    - Every individual insn in the slow path (lu12i.w + ori + cu32i.d +
+      cu52i.d) can be suppressed if not needed
+  - Fixed constraint of setcond ops, don't allow constant zero for 1st
+    operand
+
+v3 -> v2:
+
+- Addressed all review comments from v2
+  - Re-organized changes to tcg-target.h so that it's incrementally
+    updated in each commit implementing ops
+  - Removed support for the eqv op
+  - Added support for bswap16_i{32,64} ops
+  - Fixed and refactored various places as pointed out during review
+- Updated generated instruction definitions to latest
+
+v2 -> v1:
+
+- Addressed all review comments from v1
+  - Use "loongarch64" everywhere, tcg directory renamed to "tcg/loongarch64"
+  - Removed all redundant TCG_TARGET_REG_BITS conditional
+  - Removed support for the neg op
+  - Added support for eqv and bswap32_i64 ops
+  - Added safe syscall handling for linux-user
+  - Fixed everything else I could see
+- Updated generated instruction definitions to latest
+- Reordered the configure/meson.build changes to come last
+
+v3: https://patchew.org/QEMU/20210922180927.666273-1-git@xen0n.name/
+v2: https://patchew.org/QEMU/20210921201915.601245-1-git@xen0n.name/
+v1: https://patchew.org/QEMU/20210920080451.408655-1-git@xen0n.name/
+
+WANG Xuerui (30):
+  elf: Add machine type value for LoongArch
+  MAINTAINERS: Add tcg/loongarch64 entry with myself as maintainer
+  tcg/loongarch64: Add the tcg-target.h file
+  tcg/loongarch64: Add generated instruction opcodes and encoding
+    helpers
+  tcg/loongarch64: Add register names, allocation order and input/output
+    sets
+  tcg/loongarch64: Define the operand constraints
+  tcg/loongarch64: Implement necessary relocation operations
+  tcg/loongarch64: Implement the memory barrier op
+  tcg/loongarch64: Implement tcg_out_mov and tcg_out_movi
+  tcg/loongarch64: Implement goto_ptr
+  tcg/loongarch64: Implement sign-/zero-extension ops
+  tcg/loongarch64: Implement not/and/or/xor/nor/andc/orc ops
+  tcg/loongarch64: Implement deposit/extract ops
+  tcg/loongarch64: Implement bswap{16,32,64} ops
+  tcg/loongarch64: Implement clz/ctz ops
+  tcg/loongarch64: Implement shl/shr/sar/rotl/rotr ops
+  tcg/loongarch64: Implement add/sub ops
+  tcg/loongarch64: Implement mul/mulsh/muluh/div/divu/rem/remu ops
+  tcg/loongarch64: Implement br/brcond ops
+  tcg/loongarch64: Implement setcond ops
+  tcg/loongarch64: Implement tcg_out_call
+  tcg/loongarch64: Implement simple load/store ops
+  tcg/loongarch64: Add softmmu load/store helpers, implement
+    qemu_ld/qemu_st ops
+  tcg/loongarch64: Implement tcg_target_qemu_prologue
+  tcg/loongarch64: Implement exit_tb/goto_tb
+  tcg/loongarch64: Implement tcg_target_init
+  tcg/loongarch64: Register the JIT
+  linux-user: Add safe syscall handling for loongarch64 hosts
+  accel/tcg/user-exec: Implement CPU-specific signal handler for
+    loongarch64 hosts
+  configure, meson.build: Mark support for loongarch64 hosts
+
+ MAINTAINERS                                   |    5 +
+ accel/tcg/user-exec.c                         |   73 +
+ configure                                     |    7 +-
+ include/elf.h                                 |    2 +
+ linux-user/host/loongarch64/hostdep.h         |   34 +
+ .../host/loongarch64/safe-syscall.inc.S       |   80 +
+ meson.build                                   |    2 +-
+ tcg/loongarch64/tcg-insn-defs.c.inc           |  891 +++++++++
+ tcg/loongarch64/tcg-target-con-set.h          |   31 +
+ tcg/loongarch64/tcg-target-con-str.h          |   28 +
+ tcg/loongarch64/tcg-target.c.inc              | 1640 +++++++++++++++++
+ tcg/loongarch64/tcg-target.h                  |  180 ++
+ 12 files changed, 2971 insertions(+), 2 deletions(-)
+ create mode 100644 linux-user/host/loongarch64/hostdep.h
+ create mode 100644 linux-user/host/loongarch64/safe-syscall.inc.S
+ create mode 100644 tcg/loongarch64/tcg-insn-defs.c.inc
+ create mode 100644 tcg/loongarch64/tcg-target-con-set.h
+ create mode 100644 tcg/loongarch64/tcg-target-con-str.h
+ create mode 100644 tcg/loongarch64/tcg-target.c.inc
+ create mode 100644 tcg/loongarch64/tcg-target.h
+
+-- 
+2.33.0
 
 
