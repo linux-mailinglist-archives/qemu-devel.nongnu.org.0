@@ -2,62 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E7B4159AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 09:56:38 +0200 (CEST)
-Received: from localhost ([::1]:60118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199F74159F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 10:16:21 +0200 (CEST)
+Received: from localhost ([::1]:37974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTJav-0003cR-3T
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 03:56:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54896)
+	id 1mTJtz-0008OR-JY
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 04:16:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mTJZF-0001rS-UH; Thu, 23 Sep 2021 03:54:54 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:38791)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mTJsL-0007gs-4D
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 04:14:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mTJZC-0006gL-LQ; Thu, 23 Sep 2021 03:54:53 -0400
-Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MNKuI-1mEWVd299O-00Oo1Z; Thu, 23 Sep 2021 09:54:43 +0200
-Subject: Re: [PATCH] hw/loader: Restrict PC_ROM_* definitions to hw/i386/pc
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210917185949.2244956-1-philmd@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <06575b5a-2b3b-99f9-4810-6fd3ae3d568a@vivier.eu>
-Date: Thu, 23 Sep 2021 09:54:42 +0200
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mTJsG-0007EE-3s
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 04:14:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632384869;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=b0PpjiE7aew2A+W/g1wQ5hIPAdrQJnVgesl5jvNncC4=;
+ b=cD1XaxLr87dLar12T+j1v7xu+3j2RkRsSDsxjmZzW9F3+rtj4zz9CRU+7f74CpKG2rrAUR
+ HjjByvG+eGNNX55QN0nq23Gir2CGNI8mhidhd06SsiVxmiqECvj+nvAH9h17sU91CKal3h
+ fyW6pNRcau2qc7WLmnJv2TnS4d5HSIc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-EqPap-XzP8GivU2oMPW7jA-1; Thu, 23 Sep 2021 04:14:28 -0400
+X-MC-Unique: EqPap-XzP8GivU2oMPW7jA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ x7-20020a5d6507000000b0015dada209b1so4422939wru.15
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 01:14:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=b0PpjiE7aew2A+W/g1wQ5hIPAdrQJnVgesl5jvNncC4=;
+ b=FZtbs7D58ID2Pl5PB3LKnvGd/kUkVt4FddqeJsTr40bZxKbvB+hZnYUpnO0zlrRj3U
+ 3b9srs45YmLxQrcmh28pH0mKBMWtx8C/Z4N4+iXjMX0kzBhcr9WpHz6K6I24V66b9Hmx
+ Ak8IpkisYpYuqWyVPDpKXU35EOGFgggjtNRcnaK+M3a4ZHG/9yzi3zyAdJxsrXu8LY99
+ 4ZlbPoP3uL3rXDeNe13rSrPjKjiFIJDbzGYViRwxN7a0+umI+1BluJa0RaUGhqea30SZ
+ O3mbes3WXxANZ1eIh5v7pmzY2fBEKbNPjQnQL19Ns/10KdIcR+ar5xDKciE45DZh4JOz
+ 9s5A==
+X-Gm-Message-State: AOAM531p+XZcnWDqOzD/8fg+VXJc4wrYT6MlotpX3kP3GWAJ7ZmYo2py
+ SGxhMNyqnDov+WxhhjI9mmB6eUl1kUukvDl9RRmCkmYNamlHG4sg6kckmIBbjCmJDqE2TF4gfsH
+ VkKhbpDQ/ahx/dxA=
+X-Received: by 2002:a7b:c392:: with SMTP id s18mr2952550wmj.184.1632384867462; 
+ Thu, 23 Sep 2021 01:14:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyQTA6r25l9jNLVoquoQ3AiLoXxVRobBBTrvX9Ed9fgfbVsKqNz+d8Lcs1tjJHnRmLRtEHOPg==
+X-Received: by 2002:a7b:c392:: with SMTP id s18mr2952525wmj.184.1632384867280; 
+ Thu, 23 Sep 2021 01:14:27 -0700 (PDT)
+Received: from [192.168.3.132] (p4ff23e5d.dip0.t-ipconnect.de. [79.242.62.93])
+ by smtp.gmail.com with ESMTPSA id
+ j4sm4782378wrt.67.2021.09.23.01.14.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Sep 2021 01:14:26 -0700 (PDT)
+Subject: Re: [PATCH v2] monitor: Rate-limit MEMORY_DEVICE_SIZE_CHANGE qapi
+ events per device
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210922125734.79712-1-david@redhat.com>
+ <87k0j7hhj0.fsf@dusky.pond.sub.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <a18dc84c-51c3-f661-da54-14889222d97b@redhat.com>
+Date: Thu, 23 Sep 2021 10:14:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210917185949.2244956-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:kYS5MSsvu62nBEiV0icCqO5CwvIQBPKToD2BY8VH6nT7RLVawMQ
- dEhWWQs664eYHFTL1EP+BNbcmuLb/6IxXBlXKbPun4D1pijtPzM3L7ehUGdbIUZrUT8BZZK
- 5Hl16cFzlksOeGBh7O5vdk2wfNKag++imsF05RaCr7augUeF9R5z7mGC+6slwGME9RwZ3v6
- Xp70vTbgnesDBqRCs6Jwg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jLcYNE3QssE=:cWmKHK5oNRuePSnnMaQS6s
- ak0QrpER/Yh67gjXmyNLKfhX7bkjL7hc6t7Bw7c8SpVyR2F8ljI+MASSfv1VTj1Kmv0n8l42a
- YZL9YTqb8/DjPVuYfDhIkounKRfqsjDnW4neaKXaZLQ+3C970OdIlWYG305NpuX2Y7n3Aj/qv
- PHbOK+wVZNXr8I2LaJ9WXohIZcpqC6kw3EBRn1ZMHh9qtFvuK6+rHFvn61/MoaE7NExpplgtJ
- QEVoqu3ZLIwzJAHnLe/lmTkt/78o4MWoz3KLHNL/A0l1jsYc1zUfiTIZf89o4Y1xggV3PQ+g3
- ubKfYLYN9aGoPocV7u9GW2vwgQAj7BLbSWSBkW9C7/4MFqfkAJ+Ku34z653+fjQJJRZj7X1q0
- NdJMhs1zSubxybZ++Uf1tLfrgM/zaItM+DBAToJOZhfxHuj7BkH8nnDK9i8RX1G0qjQXzRsIk
- nfdImR8pd9O318HKHIWv2YokMgVtI4GAZLUbXBUYvTgO31SsjmMWUsKdY7IYVutDbSyB0Z+vb
- XJhhVvuBNdbA1saCfCbCv8SLAK7JKCf9EvQS+5jLFpqemcwRjCqqEtmpkbxlBZKuEcQJ73/1U
- NnLZf02Qv9dfQOgN1Bbuhi506SjfTLzuPybu3m479rdopqsZgtCSZOI6cbElZV2Y9PkI0fju7
- xhs4BTgZf2VB3j3ltOmpZ5FLdiKvhISsib8Pd9N7duG3bXmnu1EfWzD+v+co7ReAYhu79kNTN
- f1vsCJsK4BDBWH3JzXsIFgX+nreViifcMKWU6A==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87k0j7hhj0.fsf@dusky.pond.sub.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.472,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,59 +100,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 17/09/2021 à 20:59, Philippe Mathieu-Daudé a écrit :
-> The PC_ROM_* definitions are only used by the PC machine,
-> and are irrelevant to the other architectures / machines.
-> Reduce their scope by moving them to hw/i386/pc.c.
+On 23.09.21 09:34, Markus Armbruster wrote:
+> David Hildenbrand <david@redhat.com> writes:
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  include/hw/loader.h | 6 ------
->  hw/i386/pc.c        | 6 ++++++
->  2 files changed, 6 insertions(+), 6 deletions(-)
+>> We want to rate-limit MEMORY_DEVICE_SIZE_CHANGE events per device,
+>> otherwise we can lose some events for devices. As we might not always have
+>> a device id, add the qom-path to the event and use that to rate-limit
+>> per device.
 > 
-> diff --git a/include/hw/loader.h b/include/hw/loader.h
-> index cbfc1848737..81104cb02fe 100644
-> --- a/include/hw/loader.h
-> +++ b/include/hw/loader.h
-> @@ -336,12 +336,6 @@ void hmp_info_roms(Monitor *mon, const QDict *qdict);
->  #define rom_add_blob_fixed_as(_f, _b, _l, _a, _as)      \
->      rom_add_blob(_f, _b, _l, _l, _a, NULL, NULL, NULL, _as, true)
->  
-> -#define PC_ROM_MIN_VGA     0xc0000
-> -#define PC_ROM_MIN_OPTION  0xc8000
-> -#define PC_ROM_MAX         0xe0000
-> -#define PC_ROM_ALIGN       0x800
-> -#define PC_ROM_SIZE        (PC_ROM_MAX - PC_ROM_MIN_VGA)
-> -
->  int rom_add_vga(const char *file);
->  int rom_add_option(const char *file, int32_t bootindex);
->  
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 7e523b913ca..557d49c9f8f 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -843,6 +843,12 @@ void xen_load_linux(PCMachineState *pcms)
->      x86ms->fw_cfg = fw_cfg;
->  }
->  
-> +#define PC_ROM_MIN_VGA     0xc0000
-> +#define PC_ROM_MIN_OPTION  0xc8000
-> +#define PC_ROM_MAX         0xe0000
-> +#define PC_ROM_ALIGN       0x800
-> +#define PC_ROM_SIZE        (PC_ROM_MAX - PC_ROM_MIN_VGA)
-> +
->  void pc_memory_init(PCMachineState *pcms,
->                      MemoryRegion *system_memory,
->                      MemoryRegion *rom_memory,
+> There are actually two reasons for adding qom-path.  One, you need it to
+> fix the rate limiting.  But adding to an external interface just to fix
+> an internal issue would be questionable.  Fortunately, there's also two:
+> make the event useful regardless of whether the user gave it an ID.  If
+> you have to respin, consider working two into the commit message.
+> 
+> I'd split this patch into "add qom-path" and "fix rate limiting".
+> Suggestion, not demand.
+
+Sure, makes sense.
+
+> 
+>> This was noticed by starting a VM with two virtio-mem devices that each
+>> have a requested size > 0. The Linux guest will initialize both devices
+>> in parallel, resulting in losing MEMORY_DEVICE_SIZE_CHANGE events for
+>> one of the devices.
+>>
+>> Fixes: 722a3c783ef4 ("virtio-pci: Send qapi events when the virtio-mem size changes")
+>> Suggested-by: Markus Armbruster <armbru@redhat.com>
+>> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>> Cc: Markus Armbruster <armbru@redhat.com>
+>> Cc: Michael S. Tsirkin <mst@redhat.com>
+>> Cc: Eric Blake <eblake@redhat.com>
+>> Cc: Igor Mammedov <imammedo@redhat.com>
+>> Cc: Michal Privoznik <mprivozn@redhat.com>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>
+>> Follow up of:
+>>      https://lkml.kernel.org/r/20210921102434.24273-1-david@redhat.com
+>>
+>> v1 -> v2:
+>> - Add the qom-path and use that identifier to rate-limit per device
+>> - Rephrase subject/description
+>>
+>> ---
+>>   hw/virtio/virtio-mem-pci.c | 3 ++-
+>>   monitor/monitor.c          | 9 +++++++++
+>>   qapi/machine.json          | 5 ++++-
+>>   3 files changed, 15 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
+>> index fa5395cd88..dd5085497f 100644
+>> --- a/hw/virtio/virtio-mem-pci.c
+>> +++ b/hw/virtio/virtio-mem-pci.c
+>> @@ -87,6 +87,7 @@ static void virtio_mem_pci_size_change_notify(Notifier *notifier, void *data)
+>>       VirtIOMEMPCI *pci_mem = container_of(notifier, VirtIOMEMPCI,
+>>                                            size_change_notifier);
+>>       DeviceState *dev = DEVICE(pci_mem);
+>> +    const char * qom_path = object_get_canonical_path(OBJECT(dev));
+> 
+> No space after this *, please.
+
+Whoops :)
+
+> 
+>>       const uint64_t * const size_p = data;
+>>       const char *id = NULL;
+>>   
+>> @@ -94,7 +95,7 @@ static void virtio_mem_pci_size_change_notify(Notifier *notifier, void *data)
+>>           id = g_strdup(dev->id);
+>>       }
+>>   
+>> -    qapi_event_send_memory_device_size_change(!!id, id, *size_p);
+>> +    qapi_event_send_memory_device_size_change(!!id, id, *size_p, qom_path);
+> 
+> Doesn't this leak @qom_path?
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+I was asking myself the same question, but ended up essentially copying 
+what hw/core/machine.c:machine_query_hotpluggable_cpus() does.
+
+object_get_canonical_path() will end up doing a g_strdup(), just like we 
+do with id here. I assume qapi code will end up freeing both strings, right?
+
+[...]
+
+>>   
+>>   ##
+> 
+> With the two code remarks addressed:
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> 
+
+Thanks, I'll respin!
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
