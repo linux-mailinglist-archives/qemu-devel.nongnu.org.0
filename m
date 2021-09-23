@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E76F415C1B
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 12:40:26 +0200 (CEST)
-Received: from localhost ([::1]:37644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81164415C11
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 12:38:50 +0200 (CEST)
+Received: from localhost ([::1]:34556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTM9Q-0002Nw-PP
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 06:40:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59630)
+	id 1mTM7t-0000Ie-Fa
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 06:38:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTM3D-0002K9-GD
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:33:59 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:33405)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTM4X-0004Sf-K2
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:35:24 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:43173)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTM3B-00084I-N0
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:33:59 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTM4W-0000gS-1S
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:35:21 -0400
 Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N3sZs-1mtrCG073A-00zk30; Thu, 23 Sep 2021 12:33:56 +0200
-Subject: Re: [PATCH v5 12/20] nubus: move nubus to its own 32-bit address space
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N2lv2-1mqYJe2mwm-0136oy; Thu, 23 Sep 2021 12:35:18 +0200
+Subject: Re: [PATCH v5 13/20] nubus-bridge: introduce separate NubusBridge
+ structure
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 References: <20210923091308.13832-1-mark.cave-ayland@ilande.co.uk>
- <20210923091308.13832-13-mark.cave-ayland@ilande.co.uk>
+ <20210923091308.13832-14-mark.cave-ayland@ilande.co.uk>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <5b407986-515f-4403-3ece-cfbfc9699b0f@vivier.eu>
-Date: Thu, 23 Sep 2021 12:33:55 +0200
+Message-ID: <80ea6b09-6517-1965-18d0-1c05e6f7dd8f@vivier.eu>
+Date: Thu, 23 Sep 2021 12:35:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210923091308.13832-13-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210923091308.13832-14-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qn8UeR/LlEQf2U1SoOvVi0w4A/LMPwtXhGzB6wThoGxfuCWXa9j
- 0p18wmd60qSiucioWjsqHG2MKnwxG6WONW4JsDdiLp1y3QTEpb90kScI8m2N3qlht/tblKD
- EC8hMu++pe6Me7SFrtFLvMOFGdt8Y8Q7FGHcx5EyS2UzK4tW6/KHwKbUljtSd3BKa6LjzTm
- qdd4nuFEQPyQFGblBBjDA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xCVKYBnaCRs=:ym9Uyhlm0UXk99siZEPbdT
- 3NOt4Pwo+U4grgDzyb5BlckP5eeDv59RgIPNMadXCWK+OHqbQb2FwJ3Vqs/0p3EBfp3O2gnko
- 92JHyU3KTPrGHILhFwXbQnf1gzmwjDbw4x9vpX4jIPrbQko64y/uvVHsBgPReAfZpSq9OlwRo
- N9xHRii/S0YBokjpa2Vn2pQBoyXHGgOXAs26fJrW1HzNxMI6VCCOSNzzeWElRu4GvSGUR0HZb
- TXWYUykGshKXpHVa32MpfKW5jCOuQru2t7aCkfrNj1HG1F/kMlUAZjpg7ursS6s7dX1at63Uz
- F4xNy0G1Aq0Ftk2O58W4RKpaEDq3TUHrt71ZNeGEtTFnCqV6D2H5UBp9UyMQ8SSGE4KoO0a2j
- l+BYms/qCfMGSQjJ8gaEh9CSzpPSdQdbG17HIu2QBar448PsR0PIocD3Jkv/wexsdgIrEGfJg
- q0cEnlyiSu5V4jVLJCRFdRhtXMA2Ervb5WY5cQm8OqVTfmty6Qma+/UuuendFsTt9xaaNnLvs
- hSw8qxBcLkEpIexdPsbzEjHvKRg0TksCfdbyd7BDP16T6mxGWi59Y+O4ovIQ6UjyYJGFNQJYa
- FpheDvkKxN+b0ZWVqXgmvp1rdKlflICwym9tGZXLjtDFV1RAdv7vmYVS+KHiLJr6r0cJTba/N
- cxTqX+kshEZgqvkIhCECiVEGC15G7vebHSjcBZeYAW0OfKz8j7+M4mTxYGdo//Dc0/hLAXsIz
- 4Wv+zndgTTTpC+qEWLROONqVRnhWyGATT2NJXQ==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:9bx5HurRCErBCOXaUFNCP5uodUACd8gmL+LpIcxxcBZ9rSWTrWh
+ OfN71eki8aStGb4Ran9Q+gxWzUKXXzeOJ/Z7svaDG9hAh3cDtHVRQQtqwSJoX58R0+O/O1N
+ wBPlKDXFDj2+nGsTzBsVHX1gDxxTJv1pZCRLku7qoSo2ybiBiGo5YZc/k3Cin7s4RvJs26U
+ 9PwxIyf289cT6n9bNZRgw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dN9y3hTXsP0=:4xmO5uljgmm31y6Ht5FNBO
+ 6SWtfqOjUrpLntM6z6lDohlGo6xslg/tIYzdo29u4Xgi2HUFZELPlXmlyB2vfl00XnqvsRavI
+ 42ODCFItIXPOgfczeyKLcj18ZEVy/YGpg9xBxvrRKj+ywPB+Gn9Zt+r6fsMHhAs86IKgzmV4d
+ 0owBWhpU6WDStkCrsPvFNHH7mS2xGZ4ufm5Zm2JYfk91pzX7zbWiGtnl2rLV8Z3mD+7GYGJZ4
+ noLELySgLilmHgVqNiVTVjz1e70tVAg7HfztXZRTs2vkAfCN9PzNOYQO3V/qsDd691sMisoMd
+ 2FH4Wk1pH7aG2ttmUrBzYMVKk40wcvW7k3KLzQJFGDO4KUN6ASH9vLpzit9srSqsVVLxiJeoU
+ xaAgcISPS3h8kTjrrlU4iaMdXUHFP9MwO5esNgqdG16ojYltBau/3OFSoKcZYeq4XNN9HX5XW
+ /O2vVjV+go+wB37JGDW48mN8mDRetElRtCsy+zcDpKsnnb56baEDfa3q7KCy7gK1lufblkRit
+ DlyuOz0HYvAHTYoKy/RTnViA/PiWye/PZDuU0eeJKmbr8PNps8JkVYcM2VlQvQfr78BvXNEHD
+ OdBcZwSsbrB/QevjZsOcxBfbbcIquLs3PmRACwozlTV0AgT1st51/QWXQw0Dte0IIqUdC774z
+ sf0zNi/L1wfOvCBAqGTVeQeWr7dAvxGe6M/qgNCbgRP2GqW724Aw8lAqkT0wQIyDRGEIiRxYF
+ M2e7DTzdIvLswhMjj5rrYdcf1SyZtOkN/yzcSw==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -74,24 +75,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 23/09/2021 à 11:13, Mark Cave-Ayland a écrit :
-> According to "Designing Cards and Drivers for the Macintosh Family" the Nubus
-> has its own 32-bit address space based upon physical slot addressing.
-> 
-> Move Nubus to its own 32-bit address space and then use memory region aliases
-> to map available slot and super slot ranges into the q800 system address
-> space via the Macintosh Nubus bridge.
+> This is to allow the Nubus bridge to store its own additional state. Also update
+> the comment in the file header to reflect that nubus-bridge is not specific to
+> the Macintosh.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/m68k/q800.c                      |  9 ++++-----
->  hw/nubus/mac-nubus-bridge.c         | 16 ++++++++++++++--
->  hw/nubus/nubus-bus.c                | 18 ++++++++++++++++++
->  include/hw/nubus/mac-nubus-bridge.h |  2 ++
->  include/hw/nubus/nubus.h            |  6 ++++++
->  5 files changed, 44 insertions(+), 7 deletions(-)
+>  hw/nubus/nubus-bridge.c             | 4 ++--
+>  include/hw/nubus/mac-nubus-bridge.h | 2 +-
+>  include/hw/nubus/nubus.h            | 6 ++++++
+>  3 files changed, 9 insertions(+), 3 deletions(-)
 > 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+
+I think it could be merged with next patch.
 
 
