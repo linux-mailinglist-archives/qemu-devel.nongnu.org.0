@@ -2,135 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739B8416542
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 20:35:16 +0200 (CEST)
-Received: from localhost ([::1]:47920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDFC3416545
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 20:36:43 +0200 (CEST)
+Received: from localhost ([::1]:51028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTTYx-0006EB-FM
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 14:35:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33258)
+	id 1mTTaN-0008QE-2R
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 14:36:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mTTWO-0004dL-US; Thu, 23 Sep 2021 14:32:38 -0400
-Received: from mail-eopbgr70099.outbound.protection.outlook.com
- ([40.107.7.99]:18854 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mTTXY-0006CD-IB
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 14:33:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mTTWM-0008O4-99; Thu, 23 Sep 2021 14:32:36 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S/woRV+SmHStSlUncPx4yNHYWIszyACQFcex3dxD3GaPILHLqwMfQAZfZ6Q7hNhN71Cnr2+T5TNSTqFpekCdbcFUQxueCbLaEpO8ntdQjOArvPozQ+cBD79IEQNcyr8cDcIJdmCaezO8RSaC9vC5z8XbrnHAbrOs6DcSHYqlBzbiV99PAlvc1V0VTIwEZP8NCB1rHGnQxIVP49LLldGuzqaQTlQwC/VZyVbuZSYPuLH7pqyKJVb8R5qS3TLrs3HeJIGNU2FK4Bzj295OXwIJ5K15lDZchPTmJ80iHWk1DH8VS446QtAl+VYT+P1530RD/81Xw4O+Kw625I3azyTxrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=NlwxlS7hkLVck158s/3m5SP4r4Ua8elgiv4IRfDtluo=;
- b=m9h/M85S0dYzIf6XGfaQQEr1LnroBl+txUvPUtIV8SfoxEjCleB8V5O5CgTY90uehXeSVNRXWDNMJY4zvL3zapOoNKphONQHMV4vtrS3tNOZvfzKD+k9x7IXfpzcMZ4YSDtWV5Oad9Q4Sq5bccP5Rd0fGyEBYGFZBLMn3UPLrXd/tynf9gCaDpQSGXPLlMeSyDpoUL7O5HWVLacxfWAOOFgl9Z52ML0ynW8jmSyhI4L9c4ZkwcDaiskyoLIg+MQoEJBP0wIGJbR9BykgkXnS1Kt5FSf+zW10ebcylp9H61JqAlm/W7Sfc2h2AespZSOMWc0vf3MxUhMVgft5/fBtnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NlwxlS7hkLVck158s/3m5SP4r4Ua8elgiv4IRfDtluo=;
- b=QeH3ld1gf4UpZMTfIkrLd7ou7ggmkatgBbmD3lVDTdqv7xF7qQkYYipZm2wvy4h+MV6vpXXMSaCPyReWfriLAoMCTgfjX5yu2k12pv07+h48MAELQWUBm0YYzlEAyI1efMpebyw3PEX0Vsus8VE1c8bvq7gkptGrEQJZ10/prtY=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6551.eurprd08.prod.outlook.com (2603:10a6:20b:319::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Thu, 23 Sep
- 2021 18:32:29 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22%9]) with mapi id 15.20.4544.015; Thu, 23 Sep 2021
- 18:32:29 +0000
-Subject: Re: [PATCH v2 2/6] iotests: add warning for rogue 'qemu' packages
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, qemu-block@nongnu.org
-References: <20210923180715.4168522-1-jsnow@redhat.com>
- <20210923180715.4168522-3-jsnow@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <d9c1be2a-e927-49a1-b30e-f99d48946928@virtuozzo.com>
-Date: Thu, 23 Sep 2021 21:32:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-In-Reply-To: <20210923180715.4168522-3-jsnow@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR1P264CA0011.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:19e::16) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mTTXV-0000zn-TI
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 14:33:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632422023;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fAlMgdL0Vw9nInX5uCMlq/RBcOQVLep+BVDfrSZZx/E=;
+ b=TeeUmwNIPqqvUOK3GaF/Kxz9YgZOIwtTeS6aPyygcSr86p//2NZNW3H7NxseLxmuQDAurW
+ bL8BfySjZNBsWDCzEROj/rSHaX0Ae+JMKVUALPQ6ppZbZp0Fai6vV/d2SAbZr+W5Xctn9u
+ nMhQ/GEqVvHYTxGFnNrzYTNicHWOnss=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-200-JQqOOqkIOi2pd7-sPvySNA-1; Thu, 23 Sep 2021 14:33:42 -0400
+X-MC-Unique: JQqOOqkIOi2pd7-sPvySNA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5E075074C;
+ Thu, 23 Sep 2021 18:33:40 +0000 (UTC)
+Received: from localhost (unknown [10.22.8.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9229153E08;
+ Thu, 23 Sep 2021 18:33:00 +0000 (UTC)
+Date: Thu, 23 Sep 2021 14:32:59 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 1/2] docs: remove non-reference uses of single backticks
+Message-ID: <20210923183259.pbfbmrq3fnlxukr4@habkost.net>
+References: <20210923182204.4187601-1-jsnow@redhat.com>
+ <20210923182204.4187601-2-jsnow@redhat.com>
 MIME-Version: 1.0
-Received: from [192.168.100.5] (185.215.60.205) by
- PR1P264CA0011.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:19e::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4544.13 via Frontend Transport; Thu, 23 Sep 2021 18:32:28 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 723a3c2e-865f-4240-2a31-08d97ec07fa6
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6551:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB655129181956F9465FD1F523C1A39@AS8PR08MB6551.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:205;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kcIX36udJB93xWB0M96bly7cRRkFBaSqQ5ntR4IDKC+HjotI0WjQCBB5NcWZyYw+eYYTrVQSlfwHcGHSOxsV3227Ytb7n5Pt0ySoUzHS2GwXzLIbBxDJF3/5BesC0ndjjAlkNW7xBhoYX8aMA+o65Bi1olcHJE45020ugOKRjEHTwtUk6OoueINOOsYL1wnd7gap/INWHVsuDOj8SLXsAsW1IAQHDbk1jdjP+DkzWec9LfwBPIcNBDjSfECJQ/JkHBSXcNFKo3SmVSCq+6kdV86259GFZTAtaFvwLcMh/18eubw2aCq34YnFZ+LcOTZSENq+Rmu1nh3kkkWtEZG+VXrl9QI2qMZOkWZCx7kt0GVmCbdtHuP6ug1IpPvIWNOJzA3EZTi5wCbcMBFNCcyoLoO3EoZR077e57CGQ/dRof+W7PSL+dXbmP75d0FpXfNSEXWLa0UC+6CjlUreUcFysR2/iHNmQiybLR3mLOtVTbS8+5/1/kJUjxr3ViH9ukg7uDuzOrHvwLTFPYOfv2FhfTzNN2w8fULqTYS9HnDHeT5VMb5cXVw8Ozd2E+J7rMP5Lya8I3Sn+KqhDCH7W3+DKCcDryuWVkuPZc6d2t/RGXZkFCMAR2yjWXv2FbUoltXHqwENujEer7kH0nyuEA7U8vjO6jkXu2AtPZFWjgSJQCHdV2IyWYPCYbNWnxPd7maCEt6e5qgEsLObquOfw6NxNHUoZjgUX2zvWLnBmEsA4AxaHRdbYveeuazStf+ku70KHVbSw75izYN0bq8lNa0Yq8FCk8O9mV5iJXcu2DUq/s1T7cP+W7kLYN1GMZB2uwiyjobL/Bp+FSou2Xx8UMCpXdAyKq1rKdoARHt0u526rBc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(38100700002)(38350700002)(86362001)(508600001)(16576012)(316002)(54906003)(8676002)(8936002)(36756003)(5660300002)(66476007)(66556008)(52116002)(31696002)(4326008)(186003)(26005)(956004)(2616005)(6486002)(2906002)(83380400001)(31686004)(66946007)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dXdnOW5wdmtPK1NvOU11Z0dVazJUOWtxL0RkUU5ib2lURDJ4VUlRRWc1Ni9I?=
- =?utf-8?B?K044bnhXQ2ZwZFMycDk1T215Z1o5aWR2N29YblE1ZnRjd3NaOEV1SWwxRnF5?=
- =?utf-8?B?RkJHS0cyZmdkWDI4ZDQzNXhPYi9HV1c2bGVYbVJ0Ly9JNUt0QjNPSk1nZktx?=
- =?utf-8?B?blJOckx5eW14ZURHU0JjamJqcG9mVUo2TmFvQjJQUkNEYW82Y29id1JrVmha?=
- =?utf-8?B?YmdXOWQzUDdOMVRjODZURnQ5cDR4SERuMW0wNGpaMDgvcnlKK0dpeHJwS3Zm?=
- =?utf-8?B?VlRaY0ltT0hTWm1jVEsxN0x6VTdmWjlkd0xMNU9leHBQczJlZXFIZS8ybnZr?=
- =?utf-8?B?YzV6ZlMzSEJQcUtHcUtZWUlxR3RXNDAzMlZIUWwyWHdIS21FbDY1MXlJTTdX?=
- =?utf-8?B?TVQrTmhoeitRaFZHRXpUUE5SQkI3Mk5KL3I5a2hMRmV6TUN4amFwb1hiNFBQ?=
- =?utf-8?B?b0hNVDBCbmI1ZFcxSHNHdiswdGhqSGlFN09TWlRNVW5jQm5nNll2WFFzNlBh?=
- =?utf-8?B?UDdXRlBFdlJvTUhBallkVnU4S1pZMkxPNzdSUGRJZC9UUnpnOXpWWTcvZXZp?=
- =?utf-8?B?ZGYzZlJaZkU0NEhMc2pZMGJyVXV6SlYyL2cwRjZSRWZOTWl1SkVFTGdreUU2?=
- =?utf-8?B?cnlUQS9aZmdiZFg3QnB4SHhMWDFSdGVESXBFWG5xS1dFMjNyZjF0bHZpTDg0?=
- =?utf-8?B?MXU3WFgwYUdtWkZFN09Jbi9SSjFPU1Axa01NeVFnRjhRQ0FvekV3STQ1Tk1h?=
- =?utf-8?B?TWJrOCtlNEU2a1kvUkpBMGcvd2tldnpNM25tQlFDcnN4RTBpd0dTS2U3UHFI?=
- =?utf-8?B?a2pYMnBrWWZpaFRyckVZVTh5b3BKQUZKWmNaSVJmb3VobzhtVlNXVEJFbURi?=
- =?utf-8?B?bittZFVGZEJqQ1Q3Q3BkWGQ1YXVxZzd5N3JKTXE5RWZDZWExd1dMWnBQc1RB?=
- =?utf-8?B?RWZuTGpnZ2dQazJtcmNHanpldDJHTU1tQ2xiVTRoOWZoazBDQVVRSDVTVXMz?=
- =?utf-8?B?R01xWllIL1JvY1B0bDdzaDZaNkNyaDJDMnlZZVZjWEROS1dDZHNhZkZCVnFi?=
- =?utf-8?B?REV5bXd5eVAyNERUYnp6d2ozQXFFVUJab3JpT2NwbWZQakFQc2drSnRVSHY1?=
- =?utf-8?B?WkFTL1BGRjBIb1gwT2c1aDhDaXdFQ0ZkOHBkSnM4WFBUUXhPUW5xNmMrazJm?=
- =?utf-8?B?T1luS1Z6eWFaT3JmRjN3YkQvcGdUby9UOEdYWjQwREFyaFVjUklEclZwRHJD?=
- =?utf-8?B?d0wveUN1WnBzL28yVjljUG5ZanhSYlBuV01NMFA1ai9ZQ0svaHA0aFhPdWZB?=
- =?utf-8?B?UVVtK1l1K3A1RUsyb1cvUlJRblozaUJTOGFxVzRnUGRHM0p1dlZIQkkyR2xj?=
- =?utf-8?B?UE93YytOeWh1N3ZaQU02a1JRR3JWVlRrTDY1TkE1SlJxMWsyTEcyNDVVY3lI?=
- =?utf-8?B?OGFkWFJIVnFVWTRMM3dsc00xdHpPSjR4NFNCc1BGNGZFNHdjV3hnQjFQR2xi?=
- =?utf-8?B?UFFjYUlxeWJndHVJN1djYWRTU20xV2poOEp3b1RaSC93akhqbXlQTDIzYmRT?=
- =?utf-8?B?ZXRkMmZXOUNaaEZXcDJ2V3FPYjlpM2pCT1ZSQTJWb29Cd0pWV0RmdEVlWWho?=
- =?utf-8?B?NFViUzRFZ0lQYmN2eHkxL2Y0Y0IyU1R0R2RScnByaTN6NnIwNDBTU3Vha1Qr?=
- =?utf-8?B?ejh6U0xVYmVCS2xTd0xHZkdNUjBXUzY1SEpvQ2VhWlVDQWtuRGJZMnp6RENL?=
- =?utf-8?Q?CKqnBTE7Y4MefE5J3OrJoQHCsJlgEcYJlT+ruDm?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 723a3c2e-865f-4240-2a31-08d97ec07fa6
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2021 18:32:29.1665 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bWfNniH6XYFtBz/H5bI7yqUpWI4h2oInRf6IqKLOYJwmyeL9XWoSR6T1HPRpUKNMEiJpCDPjvktQTp4JB3v8zhHDpFtLTwzv0XGDmqpcIdo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6551
-Received-SPF: pass client-ip=40.107.7.99;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20210923182204.4187601-2-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -144,99 +78,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Juan Quintela <quintela@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-23.09.2021 21:07, John Snow wrote:
-> Add a warning for when 'iotests' runs against a qemu namespace that
-> isn't the one in the source tree. This might occur if you have
-> (accidentally) installed the Python namespace package to your local
-> packages.
+On Thu, Sep 23, 2021 at 02:22:03PM -0400, John Snow wrote:
+> The single backtick markup in ReST is the "default role". Currently,
+> Sphinx's default role is called "content". Sphinx suggests you can use
+> the "Any" role instead to turn any single-backtick enclosed item into a
+> cross-reference.
 > 
-> (I'm not going to say that this is because I bit myself with this,
-> but you can fill in the blanks.)
+> This is useful for things like autodoc for Python docstrings, where it's
+> often nicer to reference other types with `foo` instead of the more
+> laborious :py:meth:`foo`. It's also useful in multi-domain cases to
+> easily reference definitions from other Sphinx domains, such as
+> referencing C code definitions from outside of kerneldoc comments.
 > 
-> In the future, we will pivot to always preferring a specific installed
-> instance of qemu python packages managed directly by iotests. For now
-> simply warn if there is an ambiguity over which instance that iotests
-> might use.
-> 
-> Example: If a user has navigated to ~/src/qemu/python and executed
-> `pip install .`, you will see output like this when running `./check`:
-> 
-> WARNING: 'qemu' python packages will be imported from outside the source tree ('/home/jsnow/src/qemu/python')
->           Importing instead from '/home/jsnow/.local/lib/python3.9/site-packages/qemu'
+> Before we do that, though, we'll need to turn all existing usages of the
+> "content" role to inline verbatim markup wherever it does not correctly
+> resolve into a cross-refernece by using double backticks instead.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   tests/qemu-iotests/testenv.py | 24 ++++++++++++++++++++++++
->   1 file changed, 24 insertions(+)
-> 
-> diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-> index 99a57a69f3a..1c0f6358538 100644
-> --- a/tests/qemu-iotests/testenv.py
-> +++ b/tests/qemu-iotests/testenv.py
-> @@ -16,6 +16,8 @@
->   # along with this program.  If not, see <http://www.gnu.org/licenses/>.
->   #
->   
-> +import importlib.util
-> +import logging
->   import os
->   import sys
->   import tempfile
-> @@ -112,6 +114,27 @@ def init_directories(self) -> None:
->           # Path where qemu goodies live in this source tree.
->           qemu_srctree_path = Path(__file__, '../../../python').resolve()
->   
-> +        # Warn if we happen to be able to find qemu namespace packages
-> +        # (using qemu.qmp as a bellwether) from an unexpected location.
-> +        # i.e. the package is already installed in the user's environment.
-> +        try:
-> +            qemu_spec = importlib.util.find_spec('qemu.qmp')
-> +        except ModuleNotFoundError:
-> +            qemu_spec = None
-> +
-> +        if qemu_spec and qemu_spec.origin:
-> +            spec_path = Path(qemu_spec.origin)
-> +            try:
-> +                _ = spec_path.relative_to(qemu_srctree_path)
 
-It took some time and looking at specification trying to understand what's going on here :)
+Clear demonstration of the usefulness of patch 2/2 (these
+occurrences of `foo` wouldn't have been added if the default role
+was "any" because "any" errors out on invalid references).
 
-Could we just use:
+However, it looks like there are unrelated changes:
 
-if not Path(qemu_spec.origin).is_relative_to(qemu_srctree_path):
-    ... logging ...
+[...]
+> diff --git a/docs/devel/migration.rst b/docs/devel/migration.rst
+> index 24012534827..6b1230f2d7f 100644
+> --- a/docs/devel/migration.rst
+> +++ b/docs/devel/migration.rst
+> @@ -403,8 +403,8 @@ version_id.  And the function ``load_state_old()`` (if present) is able to
+>  load state from minimum_version_id_old to minimum_version_id.  This
+>  function is deprecated and will be removed when no more users are left.
+>  
+> -There are *_V* forms of many ``VMSTATE_`` macros to load fields for version dependent fields,
+> -e.g.
+> +There are *_V* forms of many ``VMSTATE_`` macros to load fields for
+> +version dependent fields, e.g.
 
+Unrelated?  Line wrapping change only.
 
-> +            except ValueError:
-> +                self._logger.warning(
-> +                    "WARNING: 'qemu' python packages will be imported from"
-> +                    " outside the source tree ('%s')",
-> +                    qemu_srctree_path)
-> +                self._logger.warning(
-> +                    "         Importing instead from '%s'",
-> +                    spec_path.parents[1])
-> +
+>  
+>  .. code:: c
+>  
+> @@ -819,9 +819,9 @@ Postcopy now works with hugetlbfs backed memory:
+>  Postcopy with shared memory
+>  ---------------------------
+>  
+> -Postcopy migration with shared memory needs explicit support from the other
+> -processes that share memory and from QEMU. There are restrictions on the type of
+> -memory that userfault can support shared.
+> +Postcopy migration with shared memory needs explicit support from the
+> +other processes that share memory and from QEMU. There are restrictions
+> +on the type of memory that userfault can support shared.
 
-Also, I'd move this new chunk of code to a separate function (may be even out of class, as the only usage of self is self._logger, which you introduce with this patch. Still a method would be OK too). And then, just call it from __init__(). Just to keep init_directories() simpler. And with this new code we don't init any directories to pass to further test execution, it's just a check for runtime environment.
+Unrelated?  Line wrapping change only.
 
->           self.pythonpath = os.pathsep.join(filter(None, (
->               self.source_iotests,
->               str(qemu_srctree_path),
-> @@ -230,6 +253,7 @@ def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
->   
->           self.build_root = os.path.join(self.build_iotests, '..', '..')
->   
-> +        self._logger = logging.getLogger('qemu.iotests')
->           self.init_directories()
->           self.init_binaries()
->   
-> 
-
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>  # if unrelated line wrapping changes are dropped
 
 -- 
-Best regards,
-Vladimir
+Eduardo
+
 
