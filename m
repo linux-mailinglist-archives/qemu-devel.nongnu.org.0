@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622FB415DF8
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 14:16:36 +0200 (CEST)
-Received: from localhost ([::1]:59766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E79DE415E3A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 14:21:51 +0200 (CEST)
+Received: from localhost ([::1]:37694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTNeV-0002RX-D3
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 08:16:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48204)
+	id 1mTNja-0006oZ-V0
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 08:21:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mTNaB-0008F0-9O
+ id 1mTNaB-0008Fj-9g
  for qemu-devel@nongnu.org; Thu, 23 Sep 2021 08:12:07 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36714)
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mTNa7-00006d-Jf
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 08:12:05 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id g16so16598251wrb.3
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 05:11:59 -0700 (PDT)
+ id 1mTNa7-00007z-P1
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 08:12:07 -0400
+Received: by mail-wr1-x432.google.com with SMTP id d6so16443315wrc.11
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 05:12:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hveLEdA+sdzfjh3b2QjPTxzFWqeMryq8cwWocCTW/OE=;
- b=j1fNH08s2uBrT8LvoxbJvVWN8c/5DWkj+rLsOrs0zXiX+Ve14tLa4SRc7rJOjLXAJt
- 6a4WEfCpd00A0DMFRLfisT7B97VBHaeXeOkUGudMN1+5bp0QGosp23EU08QUJlgnsCKm
- fSAzM69H10fs/0KL8qrVwRNFkLxFrOjBnZ1BalxG7TuPBT9Rgkk4mSduYy+p1H70no+E
- CZ5eWyYBXINT9DCkwLXFX4B+HBVwsVM1Tp7h7pBsXG6aBEe2a/OeLKxNwBKPHJLR2v+a
- QbKU5oszyN+dj1qn/MSm4SE5d1KCmHrf5B7+oFkSNDAVlOw+1ywxUQ5d05s/jLGMRpnc
- RO7A==
+ bh=bYElJSRbcuOsZvzZcFV0uqO3MSH2O42EiYaZzwAUeRo=;
+ b=Qkh/gs9Y1TXmyPPlgH0bCyDK8Jwex08Znxfs0zI1nlx26PCir9ysIIJAlUnGDx4H/s
+ /qRH70M8D3L1rY1ODgcHpVaIt6/r2JO0QkBRmIIhxxeP5rNoFLVj1JlUt7+mAaw49vOn
+ 3fcrQkM51rE4mIvZLudqCqmkW9jYScj2NXkGa5kCI7JfCYBk8oAcvmXjs3PwNQyH6hY7
+ 910d5GPKdXXtLBRwu7qgTRcBKhl6aADdT5cB4VEU64is/dP8fOLnezhpMzdu+6UwH1ZF
+ 2wvvM3LqLzDkHhKIVh08+gvdw5Wx7M4oofvppoXMwFmVW0avtLO6SSmvsV6c/4sppqGP
+ UE6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hveLEdA+sdzfjh3b2QjPTxzFWqeMryq8cwWocCTW/OE=;
- b=N9wBSuvPEWnKs99W/NJ3O5angllz1KuOs+4SLEXYfS7zj317mDpok0rwBInz6xH570
- cehQvve0n6GXSeg4xaWKi62i0TEqYotf9YeIWWURaPIT+DJcP6fnRh2SAOriTJVqYJq0
- APH+IP0pd3sU3lVTaCoFG7olkYjiEbXcioNY1SR03O8Be1uqxqScbfjFFeOOVBfPsuEu
- hUViFhcCR9tObY6Gnl2dkh0YxIyYXxFhXx7Zhny6R4YcLusyYwLI/1+rXk+YDTQQ6E3U
- gTVYIjIsZHOk4RQkBu9Wlp2mtlSo3aYN0hLe2j0KrBzvFLDBi6+45OdI+ZDLchztl55T
- HAyA==
-X-Gm-Message-State: AOAM5301q0JNbI6PiVB1+XwFnORAk9a4HSrCoyEUyPg7M26//WAJ1YyS
- WPy8kPnsJoq+nZCp5W49uZl2kdozWCUcCg==
-X-Google-Smtp-Source: ABdhPJzw0m0XrDO2vV8Vl19H8gZwUzAj0Jpb6uihj2MwYhR9c1RlHDNa0b7cLhDeUY0z0lcZoi2Hxg==
-X-Received: by 2002:a1c:7d4d:: with SMTP id y74mr4009549wmc.181.1632399118452; 
- Thu, 23 Sep 2021 05:11:58 -0700 (PDT)
+ bh=bYElJSRbcuOsZvzZcFV0uqO3MSH2O42EiYaZzwAUeRo=;
+ b=uL5/1HzYs7vRJtAj8iqmnmE07vBNUdSIFMHcZBAjfl90OTu3r+0zTmebE6sireXf+H
+ HiSs+TSCrrGFooxRI2U+WiHiDu1dGzblujC7UeBQyZo8iDWcMpadLPj7RRNr5JiNv21V
+ TAvoIc4J9yFfd1ut5u84dh8VxJzMV9aiikhlurANC/mfsPFp6mIK+8B5aPytmg3n8Cpq
+ S8Dx/TRx3GFMGTZj5Ena2l6C1fAH4vOQgLGuHzPX5aqVxZ0ZFCxW0MVALLyoQ8F6LVHp
+ dbD8THi3O75Dn63LtCnoOkCHm4gPFFU2lwZ4KVlEpLyZ/8RF4ZrL6a0NRoyp76pa65Om
+ H95Q==
+X-Gm-Message-State: AOAM531PP7C7cSOiRmWk7BMFzbm0CfQa99qltK4TphEtTIhuQzMnJdB8
+ Azo74eJBYtzMAgYcC8p+rtSVe2nVC21TlQ==
+X-Google-Smtp-Source: ABdhPJww4RJdW4dmX/E3f28Z4sXNV2r+L4poetauTbMMJf0T2LN9NLAuOrZzFXzhfLQeFDtDQmDgfg==
+X-Received: by 2002:a5d:65d0:: with SMTP id e16mr4666660wrw.182.1632399119465; 
+ Thu, 23 Sep 2021 05:11:59 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id t22sm1382349wmj.30.2021.09.23.05.11.57
+ by smtp.gmail.com with ESMTPSA id t22sm1382349wmj.30.2021.09.23.05.11.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Sep 2021 05:11:58 -0700 (PDT)
+ Thu, 23 Sep 2021 05:11:59 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/6] ipack: Rename ipack_bus_new_inplace() to ipack_bus_init()
-Date: Thu, 23 Sep 2021 13:11:49 +0100
-Message-Id: <20210923121153.23754-3-peter.maydell@linaro.org>
+Subject: [PATCH 3/6] pci: Rename pci_root_bus_new_inplace() to
+ pci_root_bus_init()
+Date: Thu, 23 Sep 2021 13:11:50 +0100
+Message-Id: <20210923121153.23754-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210923121153.23754-1-peter.maydell@linaro.org>
 References: <20210923121153.23754-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,75 +91,131 @@ Cc: Fam Zheng <fam@euphon.net>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename ipack_bus_new_inplace() to ipack_bus_init(), to bring it in to
-line with a "_init for in-place init, _new for allocate-and-return"
-convention.  Drop the 'name' argument, because the only caller does
-not pass in a name.  If a future caller does need to specify the bus
-name, we should create an ipack_bus_init_named() function at that
-point.
+Rename the pci_root_bus_new_inplace() function to
+pci_root_bus_init(); this brings the bus type in to line with a
+"_init for in-place init, _new for allocate-and-return" convention.
+To do this we need to rename the implementation-internal function
+that was using the pci_root_bus_init() name to
+pci_root_bus_internal_init().
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/ipack/ipack.h |  8 ++++----
- hw/ipack/ipack.c         | 10 +++++-----
- hw/ipack/tpci200.c       |  4 ++--
- 3 files changed, 11 insertions(+), 11 deletions(-)
+I have not attempted to tackle a possible _named vs not
+split here because a lot of callsites specify a name when
+they arguably should not.
+---
+ include/hw/pci/pci.h    | 10 +++++-----
+ hw/pci-host/raven.c     |  4 ++--
+ hw/pci-host/versatile.c |  6 +++---
+ hw/pci/pci.c            | 26 +++++++++++++-------------
+ 4 files changed, 23 insertions(+), 23 deletions(-)
 
-diff --git a/include/hw/ipack/ipack.h b/include/hw/ipack/ipack.h
-index 75014e74ae1..cbcdda509d3 100644
---- a/include/hw/ipack/ipack.h
-+++ b/include/hw/ipack/ipack.h
-@@ -73,9 +73,9 @@ extern const VMStateDescription vmstate_ipack_device;
-     VMSTATE_STRUCT(_field, _state, 1, vmstate_ipack_device, IPackDevice)
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index d0f4266e372..7fc90132cf1 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -403,11 +403,11 @@ OBJECT_DECLARE_TYPE(PCIBus, PCIBusClass, PCI_BUS)
  
- IPackDevice *ipack_device_find(IPackBus *bus, int32_t slot);
--void ipack_bus_new_inplace(IPackBus *bus, size_t bus_size,
--                           DeviceState *parent,
--                           const char *name, uint8_t n_slots,
--                           qemu_irq_handler handler);
-+void ipack_bus_init(IPackBus *bus, size_t bus_size,
-+                    DeviceState *parent,
-+                    uint8_t n_slots,
-+                    qemu_irq_handler handler);
+ bool pci_bus_is_express(PCIBus *bus);
  
- #endif
-diff --git a/hw/ipack/ipack.c b/hw/ipack/ipack.c
-index f19ecaeb1cf..d28e7f6449e 100644
---- a/hw/ipack/ipack.c
-+++ b/hw/ipack/ipack.c
-@@ -30,12 +30,12 @@ IPackDevice *ipack_device_find(IPackBus *bus, int32_t slot)
-     return NULL;
+-void pci_root_bus_new_inplace(PCIBus *bus, size_t bus_size, DeviceState *parent,
+-                              const char *name,
+-                              MemoryRegion *address_space_mem,
+-                              MemoryRegion *address_space_io,
+-                              uint8_t devfn_min, const char *typename);
++void pci_root_bus_init(PCIBus *bus, size_t bus_size, DeviceState *parent,
++                       const char *name,
++                       MemoryRegion *address_space_mem,
++                       MemoryRegion *address_space_io,
++                       uint8_t devfn_min, const char *typename);
+ PCIBus *pci_root_bus_new(DeviceState *parent, const char *name,
+                          MemoryRegion *address_space_mem,
+                          MemoryRegion *address_space_io,
+diff --git a/hw/pci-host/raven.c b/hw/pci-host/raven.c
+index 3be27f0a14d..6e514f75eb8 100644
+--- a/hw/pci-host/raven.c
++++ b/hw/pci-host/raven.c
+@@ -300,8 +300,8 @@ static void raven_pcihost_initfn(Object *obj)
+     memory_region_add_subregion_overlap(address_space_mem, PCI_IO_BASE_ADDR,
+                                         &s->pci_io_non_contiguous, 1);
+     memory_region_add_subregion(address_space_mem, 0xc0000000, &s->pci_memory);
+-    pci_root_bus_new_inplace(&s->pci_bus, sizeof(s->pci_bus), DEVICE(obj), NULL,
+-                             &s->pci_memory, &s->pci_io, 0, TYPE_PCI_BUS);
++    pci_root_bus_init(&s->pci_bus, sizeof(s->pci_bus), DEVICE(obj), NULL,
++                      &s->pci_memory, &s->pci_io, 0, TYPE_PCI_BUS);
+ 
+     /* Bus master address space */
+     memory_region_init(&s->bm, obj, "bm-raven", 4 * GiB);
+diff --git a/hw/pci-host/versatile.c b/hw/pci-host/versatile.c
+index 3553277f941..f66384fa02d 100644
+--- a/hw/pci-host/versatile.c
++++ b/hw/pci-host/versatile.c
+@@ -405,9 +405,9 @@ static void pci_vpb_realize(DeviceState *dev, Error **errp)
+     memory_region_init(&s->pci_io_space, OBJECT(s), "pci_io", 4 * GiB);
+     memory_region_init(&s->pci_mem_space, OBJECT(s), "pci_mem", 4 * GiB);
+ 
+-    pci_root_bus_new_inplace(&s->pci_bus, sizeof(s->pci_bus), dev, "pci",
+-                             &s->pci_mem_space, &s->pci_io_space,
+-                             PCI_DEVFN(11, 0), TYPE_PCI_BUS);
++    pci_root_bus_init(&s->pci_bus, sizeof(s->pci_bus), dev, "pci",
++                      &s->pci_mem_space, &s->pci_io_space,
++                      PCI_DEVFN(11, 0), TYPE_PCI_BUS);
+     h->bus = &s->pci_bus;
+ 
+     object_initialize(&s->pci_dev, sizeof(s->pci_dev), TYPE_VERSATILE_PCI_HOST);
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 23d2ae2ab23..19881c84f23 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -432,10 +432,10 @@ bool pci_bus_bypass_iommu(PCIBus *bus)
+     return host_bridge->bypass_iommu;
  }
  
--void ipack_bus_new_inplace(IPackBus *bus, size_t bus_size,
--                           DeviceState *parent,
--                           const char *name, uint8_t n_slots,
--                           qemu_irq_handler handler)
-+void ipack_bus_init(IPackBus *bus, size_t bus_size,
-+                    DeviceState *parent,
-+                    uint8_t n_slots,
-+                    qemu_irq_handler handler)
+-static void pci_root_bus_init(PCIBus *bus, DeviceState *parent,
+-                              MemoryRegion *address_space_mem,
+-                              MemoryRegion *address_space_io,
+-                              uint8_t devfn_min)
++static void pci_root_bus_internal_init(PCIBus *bus, DeviceState *parent,
++                                       MemoryRegion *address_space_mem,
++                                       MemoryRegion *address_space_io,
++                                       uint8_t devfn_min)
  {
--    qbus_create_inplace(bus, bus_size, TYPE_IPACK_BUS, parent, name);
-+    qbus_create_inplace(bus, bus_size, TYPE_IPACK_BUS, parent, NULL);
-     bus->n_slots = n_slots;
-     bus->set_irq = handler;
- }
-diff --git a/hw/ipack/tpci200.c b/hw/ipack/tpci200.c
-index d107e134c4e..1f764fc85ba 100644
---- a/hw/ipack/tpci200.c
-+++ b/hw/ipack/tpci200.c
-@@ -611,8 +611,8 @@ static void tpci200_realize(PCIDevice *pci_dev, Error **errp)
-     pci_register_bar(&s->dev, 4, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->las2);
-     pci_register_bar(&s->dev, 5, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->las3);
- 
--    ipack_bus_new_inplace(&s->bus, sizeof(s->bus), DEVICE(pci_dev), NULL,
--                          N_MODULES, tpci200_set_irq);
-+    ipack_bus_init(&s->bus, sizeof(s->bus), DEVICE(pci_dev),
-+                   N_MODULES, tpci200_set_irq);
+     assert(PCI_FUNC(devfn_min) == 0);
+     bus->devfn_min = devfn_min;
+@@ -460,15 +460,15 @@ bool pci_bus_is_express(PCIBus *bus)
+     return object_dynamic_cast(OBJECT(bus), TYPE_PCIE_BUS);
  }
  
- static const VMStateDescription vmstate_tpci200 = {
+-void pci_root_bus_new_inplace(PCIBus *bus, size_t bus_size, DeviceState *parent,
+-                              const char *name,
+-                              MemoryRegion *address_space_mem,
+-                              MemoryRegion *address_space_io,
+-                              uint8_t devfn_min, const char *typename)
++void pci_root_bus_init(PCIBus *bus, size_t bus_size, DeviceState *parent,
++                       const char *name,
++                       MemoryRegion *address_space_mem,
++                       MemoryRegion *address_space_io,
++                       uint8_t devfn_min, const char *typename)
+ {
+     qbus_create_inplace(bus, bus_size, typename, parent, name);
+-    pci_root_bus_init(bus, parent, address_space_mem, address_space_io,
+-                      devfn_min);
++    pci_root_bus_internal_init(bus, parent, address_space_mem,
++                               address_space_io, devfn_min);
+ }
+ 
+ PCIBus *pci_root_bus_new(DeviceState *parent, const char *name,
+@@ -479,8 +479,8 @@ PCIBus *pci_root_bus_new(DeviceState *parent, const char *name,
+     PCIBus *bus;
+ 
+     bus = PCI_BUS(qbus_create(typename, parent, name));
+-    pci_root_bus_init(bus, parent, address_space_mem, address_space_io,
+-                      devfn_min);
++    pci_root_bus_internal_init(bus, parent, address_space_mem,
++                               address_space_io, devfn_min);
+     return bus;
+ }
+ 
 -- 
 2.20.1
 
