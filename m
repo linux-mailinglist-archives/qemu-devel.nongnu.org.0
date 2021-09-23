@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E37941717E
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 14:06:31 +0200 (CEST)
-Received: from localhost ([::1]:52898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A189417178
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 14:04:00 +0200 (CEST)
+Received: from localhost ([::1]:46502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTjyI-0005OC-BA
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 08:06:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41114)
+	id 1mTjvq-0000vU-Jc
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 08:03:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mTjrn-00067F-MZ
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 07:59:47 -0400
-Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:41674)
+ id 1mTjrr-0006CJ-Ub
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 07:59:53 -0400
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:46632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mTjrm-0002Vf-Df
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 07:59:47 -0400
-Received: by mail-qt1-x82f.google.com with SMTP id t2so2608414qtx.8
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 04:59:46 -0700 (PDT)
+ id 1mTjrq-0002av-2X
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 07:59:51 -0400
+Received: by mail-qt1-x82f.google.com with SMTP id e16so9033957qte.13
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 04:59:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4xE7JG30iIZW4zTRFzi0+OafnNCgzKIHt8jCjoue404=;
- b=x0mEBK5iNoVY8x+If01N1onZT3DJWqCW/VQzLO44gjpih1K0+LV1h85OoNaTdncAfL
- JnT8iAxgmqfLH93QqueCDzS0JJ3cvgVXRPehqg+8l+tMCOLjbCSI5hsCg5JDakkKrXA4
- 4EeS4q5yxrTqxLux8AK1mppbNHNAkPiCyj1+tAuHWIPca5zKka3Ofyah8CQrGyQHs0k/
- SuR+/07G8je93JSByjwGIk1h0h9YJtcD1ESeo42gDuD5SMBfq8bSzSIrZbi8Gedw7+yy
- ODrRbOdLD0rjRDPVFz2oafipIwfZqKhrr3VoVPPJYysE2jmfUfezGgtf8kRp9ZOX6pLx
- 4KYQ==
+ bh=m02CTkaJvOt8vebGe9ytTOI1qXpjwEGR4Uir06EQOog=;
+ b=XWUPaHjx6jnCUkgVGXQeJpBgwrYK4z8YxRyR3pzqn7vlFva4W3dKJgMGipDb+EWurB
+ 3zj6Hon7VWcbQGQPyQyV4HLhni61WZcPCEUF+gFkCtZEYCeE79GqqWktrM50OxnkTCrF
+ mkPViqSud6ysKse7cdAmK5SIJTSc7pPpc9ImPaWtBT74Vbo4+ujpdFgVBV+B08PHdiLq
+ NmLesmwK9wqqwZ9FY7GXyhZHpXQT2bONLDRwC8WiZv1BYhirRMmDO0cngMiuJ9lSJD3J
+ Ms3MntJBx6Debr/dWwu+9m45YryXS5zjWDCNe+4WEi3K6nOJaFkj+jARDAbscB1Nhsux
+ 8iBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=4xE7JG30iIZW4zTRFzi0+OafnNCgzKIHt8jCjoue404=;
- b=hTSwHmnz5t7ZSAuMDwxutNMD8CE4+SI6acghGK9oqP42fq3TpKp84OKpZsM/Z6mcw7
- 9/U51NH1kyrfVDFhg27aMCSGKCIqkjq5jQL24gBCSz/xozCoesWh3/0B1AhFjE9f1xig
- Yg8BWTSIHwIKDmqmKlifzQ7RRhiyQIqQUYHY6m2KZ4AaKL265fuK9N3WjiNNcUX0DPDE
- riDv8NnKo9iiU4R4zeQkp7UGQyln/x9URhLlGeyeKjIgn+7wN6dO9o4xKAQIs8Q1Z0Pz
- kpZ4o3XjWXTaSVRfsXgIKLG0cU9qyDjZDdb9aW1KC/dstI7PVmNI1aW12UO3TMCbOlbk
- pR7g==
-X-Gm-Message-State: AOAM533fvlZGtdzcBv/3LFE28yBiwC5jUUbt9jnm4cXgpOMwU6dHzD9k
- 2NBVTchSRvvQfTjDWE9zAevfEcmp51d/Cg==
-X-Google-Smtp-Source: ABdhPJx/UOMKpTMkXlLTiQZZ7jlzANDIbBHT+1ZbywB9PXlUbkFyJw/S2iE8+/z3iuP+cD8XQ4M4mQ==
-X-Received: by 2002:ac8:5392:: with SMTP id x18mr3645111qtp.180.1632484785505; 
- Fri, 24 Sep 2021 04:59:45 -0700 (PDT)
+ bh=m02CTkaJvOt8vebGe9ytTOI1qXpjwEGR4Uir06EQOog=;
+ b=rY4PIl23nTPTZM6Db2oCw/OWkOgqO8fUpNxW/QZQBD3NYUu2FBowd/Vm/+yx4s5/Di
+ V8nTTfIfStCLYvsI8TJiodS3Qr+s1E8hAWAyeIQROOXM8948Sf+B3AeQE55G8PgPoFjd
+ NtTz5BvucyXYVuAcNvmYfKWU6koeNJeNeDWX190GKleIQDVUkKfnfnIYWaAJAZ/mPs/r
+ ZPHvQKGckhFa1fncvVnPt0VVgl7nRx9yFcLDOqmM2g2dVuLEE0nutY/f9rY6tEDuZqnN
+ fNMJBTPPqzEG31MlZFooabS54bqzrUVfcUTKYFQjtBpH54Y6+m4j+bugzGeGdTJIWHtv
+ KVGw==
+X-Gm-Message-State: AOAM530F1XTrKxJjycDmfP0hm+m2SjLa4N406IJqo/jVAlnhgRjB/j/o
+ q1uXwBqQ1XGtHNm3mZHT5/F15g==
+X-Google-Smtp-Source: ABdhPJzoIwBt/1JBLLQL+3Fu5ZxYSMw22Cmgpny7XzDz7eQBIaxPjITnbntUrCzZgoTvoNy5+p+FvQ==
+X-Received: by 2002:a05:622a:188d:: with SMTP id
+ v13mr3646681qtc.294.1632484789097; 
+ Fri, 24 Sep 2021 04:59:49 -0700 (PDT)
 Received: from [192.168.3.43] (cpe-24-74-129-96.carolina.res.rr.com.
  [24.74.129.96])
- by smtp.gmail.com with ESMTPSA id j21sm5034825qkl.25.2021.09.24.04.59.44
+ by smtp.gmail.com with ESMTPSA id v23sm6035700qkj.76.2021.09.24.04.59.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Sep 2021 04:59:45 -0700 (PDT)
-Subject: Re: [PATCH v2 1/9] bsd-user/mmap.c: Always zero MAP_ANONYMOUS memory
- in mmap_frag()
+ Fri, 24 Sep 2021 04:59:48 -0700 (PDT)
+Subject: Re: [PATCH v2 2/9] bsd-user/mmap.c: check pread's return value to fix
+ warnings with _FORTIFY_SOURCE
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20210922045636.25206-1-imp@bsdimp.com>
- <20210922045636.25206-2-imp@bsdimp.com>
+ <20210922045636.25206-3-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ef5ea2bd-d7c2-e83c-9ccb-139c6222613d@linaro.org>
-Date: Thu, 23 Sep 2021 10:35:41 -0700
+Message-ID: <261b4ee5-07d0-ac11-21a6-a5e1c4865fe1@linaro.org>
+Date: Thu, 23 Sep 2021 10:36:53 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210922045636.25206-2-imp@bsdimp.com>
+In-Reply-To: <20210922045636.25206-3-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -95,20 +96,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/21/21 9:56 PM, Warner Losh wrote:
-> From: Mikaël Urankar<mikael.urankar@gmail.com>
+> From: Mikaël Urankar <mikael.urankar@gmail.com>
 > 
-> Similar to the equivalent linux-user commit e6deac9cf99
+> Simmilar to the equivalent linux-user: commit fb7e378cf9c, which added
+> checking to pread's return value.
 > 
-> When mapping MAP_ANONYMOUS memory fragments, still need notice about to
-> set it zero, or it will cause issues.
-> 
-> Signed-off-by: Mikaël Urankar<mikael.urankar@gmail.com>
-> Signed-off-by: Warner Losh<imp@bsdimp.com>
+> Signed-off-by: Mikaël Urankar <mikael.urankar@gmail.com>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
 > ---
->   bsd-user/mmap.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+>   bsd-user/mmap.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+> -        pread(fd, g2h_untagged(start), end - start, offset);
+> +        if (pread(fd, g2h_untagged(start), end - start, offset) == -1)
+> +            return -1;
+
+If it's not too annoying wrt rebasing other cleanups, please add the braces now.
+
 
 r~
 
