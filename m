@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8023E4171C3
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 14:25:04 +0200 (CEST)
-Received: from localhost ([::1]:34022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E09417193
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Sep 2021 14:14:21 +0200 (CEST)
+Received: from localhost ([::1]:44216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTkGF-0007lD-BZ
-	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 08:25:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41504)
+	id 1mTk5s-00021k-KX
+	for lists+qemu-devel@lfdr.de; Fri, 24 Sep 2021 08:14:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mTjsM-0006tD-4J
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:00:27 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:39665)
+ id 1mTjsT-0006xG-Eu
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:00:29 -0400
+Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:41683)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mTjsG-0002yO-88
- for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:00:21 -0400
-Received: by mail-qk1-x731.google.com with SMTP id f130so27648607qke.6
- for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 05:00:13 -0700 (PDT)
+ id 1mTjsL-00033R-Ad
+ for qemu-devel@nongnu.org; Fri, 24 Sep 2021 08:00:28 -0400
+Received: by mail-qt1-x834.google.com with SMTP id t2so2609776qtx.8
+ for <qemu-devel@nongnu.org>; Fri, 24 Sep 2021 05:00:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=RQLP+dx9Yg3DXwd8zxerCI726Yo7uqFSQQieYV5Dxnw=;
- b=vCh1Z9Rj22PyDpkzisoJ0qFuLT4xdax2Rr33MwkqydfupzvwTBBOz3PWXGC/gfZp7r
- MyDj09n+lCD7NeV9yyP1nOiFWWW+SPbWlt/+WPFj0rJ7MckfD/wap6H73dHYl6dBj4x1
- Mhq0PcV5mQCC8Bew07ARNbtUBvRNtkTd7mWkQTxTXK0kLvl2kBXlXuesob6/0Y3dja7C
- HpnwLyIJPdgI5EW01HKAibpVVKyWxG7yQalT3/RWKQwEGxhKoRQ0C4R6kJot4qzcYU7T
- q1MFbsUSv3bVtJhKtUpCijXWiauKfCU9tBfypO/rbFWPcBuscdEg+FdADlxj91m0Mqx3
- bbYg==
+ bh=S0S0yPDhoGhJADWDnLuHpe0rhKINYSjmQqBSRA58SO0=;
+ b=Z4Tc82PwKYdqhgphd9IqH5e6OOOjm6UfMBTIFOF2UbyT/N6qiNzv2gLG85hrEU6rnS
+ jqeCxeqIvN5aEiVm7sNUsvdrtdJnhltGugYCfUtzu4/Iihlr/qOq0BCpGZq/9khpEnF5
+ m6zv3iY8QcQ/kZtfLLc1K52qvIpmfbnDxqqGX7bpSeS1EHELgM6FmECyF7ouVQ5nBvd7
+ HhnyWXfgLO0uD5cOqcQ/c5nvzbQuE6Hci0F8gm5wrAzD/kkwmcJKOmP+gJAfQ4YMK8vZ
+ BK3K46ikCYd0MvhL1CbgHT6/GSKiZJiN3Clsv9WAD6AfNohsIDtKUBvkgg9OYYxjutSG
+ iOtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=RQLP+dx9Yg3DXwd8zxerCI726Yo7uqFSQQieYV5Dxnw=;
- b=GwKq2rc3n5FtxBjgU1qhtWNniOnFV3z7vmhSA0GY2nxBLnxGMuT3Hv8Gb2JeJhPJyZ
- P4XZDTmKI3IU2prlIFj6wZpJp9RvgnTjH54t5DqKQUidd4CPW1KlYEkQo8ygYbbFdy70
- ThSfUMZ1WNAegAhhXUnBA8qo9C0/qgQN1Cm4eZmyCKdcdEooeMl4KEswzXT0tPnEH1wj
- TYayetyxNB19FYhXFX+zLFnH/nNsHNlOu2U9+QL5RDQy4Ew5HgBEbOT3vzg+SeiyEXd0
- zzx7+TgMvv1UBYls6RSIlvkNf4hnnuPcdSle8Eb2vSeF5kZW3SbbgDUhnapKOG+zByju
- joOQ==
-X-Gm-Message-State: AOAM532GNcorLfSeofALFRD8GlmEycD2fDuRCSgoc5AxQvfyepmL8lp4
- X45ihUczG+aH0rXOnZWKK0koEw==
-X-Google-Smtp-Source: ABdhPJyNRjQ4cwkKF1nx5No1rHfRdrSVPGcpzEqm/JkYEG5E4ur/InL0L5K6uL6Kh16hJ9FePwolYw==
-X-Received: by 2002:a37:a193:: with SMTP id k141mr9749099qke.447.1632484813064; 
- Fri, 24 Sep 2021 05:00:13 -0700 (PDT)
+ bh=S0S0yPDhoGhJADWDnLuHpe0rhKINYSjmQqBSRA58SO0=;
+ b=Ae2gfreLRnD42wanml0YZbQLJqOwLd1/wJzzsfqXeBs9paEPTDeStM1H0kRP9PfMLu
+ apxVyXrd3kwTF7LAiiRuoWJF/GU2fUXy7mmoSfkyJVdtIagcGSdB7N3YFpgO2BDzYgbD
+ 21jOGabfpkqEkDvL6St6KvJHRlwYeCfs3fZcaTjD8L1AqCfKXLHhUy0iJnO/LTQtc5Na
+ hi6k15mGb/Hcj7IfBNCFyGh0jyWvRR5Kf4RLO3A3k33fRtehJWr1m/4FBoXQo1/cBbTf
+ wiZvRRvRGrnsvYhTvj4OK0iMYitQSaPGC8nmqT1s4ekMfbcPr5miAawozxdW8bp/2G07
+ 5H7Q==
+X-Gm-Message-State: AOAM532xDntVtCSqBMKrzrtDLt8m31aQWy6yhwb/va4ebxWGg31Mhpa4
+ xozkTqaezufvg3S8TJrkdXXizg==
+X-Google-Smtp-Source: ABdhPJzTnrZKcZCPMnAtkZ9HAZxmNYhsij9zAoj1NDX5/vzgdj3bhSYG6Q1pMi59vGXn1WqpGYGD9w==
+X-Received: by 2002:ac8:5b04:: with SMTP id m4mr3666633qtw.344.1632484815472; 
+ Fri, 24 Sep 2021 05:00:15 -0700 (PDT)
 Received: from [192.168.3.43] (cpe-24-74-129-96.carolina.res.rr.com.
  [24.74.129.96])
- by smtp.gmail.com with ESMTPSA id k19sm367033qko.115.2021.09.24.05.00.12
+ by smtp.gmail.com with ESMTPSA id u13sm5867873qki.38.2021.09.24.05.00.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Sep 2021 05:00:12 -0700 (PDT)
-Subject: Re: [PATCH 04/14] bsd-user: export get_errno and is_error from
- syscall.c
+ Fri, 24 Sep 2021 05:00:14 -0700 (PDT)
+Subject: Re: [PATCH 05/14] bsd-user/errno_defs.h: Add internal error numbers
 To: Warner Losh <imp@bsdimp.com>, qemu-devel@nongnu.org
 References: <20210922061438.27645-1-imp@bsdimp.com>
- <20210922061438.27645-5-imp@bsdimp.com>
+ <20210922061438.27645-6-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <aaa6ddac-8fda-239a-da25-22dd87df4e7d@linaro.org>
-Date: Thu, 23 Sep 2021 10:58:18 -0700
+Message-ID: <2e359095-524e-75ba-9ff0-76c47b10382e@linaro.org>
+Date: Thu, 23 Sep 2021 10:59:07 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210922061438.27645-5-imp@bsdimp.com>
+In-Reply-To: <20210922061438.27645-6-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=richard.henderson@linaro.org; helo=mail-qk1-x731.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x834.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -89,19 +88,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, f4bug@amsat.org
+Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@FreeBSD.org>,
+ f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/21/21 11:14 PM, Warner Losh wrote:
-> Make get_errno and is_error global so files other than syscall.c can use
-> them.
+> From: Stacey Son<sson@FreeBSD.org>
 > 
+> To emulate signals and interrupted system calls, we need to have the
+> same mechanisms we have in the kernel, including these errno values.
+> 
+> Signed-off-by: Stacey Son<sson@FreeBSD.org>
 > Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   bsd-user/qemu.h    |  4 ++++
->   bsd-user/syscall.c | 10 +++++-----
->   2 files changed, 9 insertions(+), 5 deletions(-)
+>   bsd-user/errno_defs.h | 14 +++++++++++---
+>   1 file changed, 11 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
