@@ -2,57 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8848A415490
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 02:19:07 +0200 (CEST)
-Received: from localhost ([::1]:54014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA89D415491
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 02:19:09 +0200 (CEST)
+Received: from localhost ([::1]:54138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTCS9-0004Qw-PL
-	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 20:19:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51440)
+	id 1mTCSC-0004Vb-U3
+	for lists+qemu-devel@lfdr.de; Wed, 22 Sep 2021 20:19:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCPl-0001de-TN
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:16:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52831)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCPn-0001dp-1p
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:16:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCPg-0000sa-BF
- for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:16:36 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mTCPh-0000tY-Hx
+ for qemu-devel@nongnu.org; Wed, 22 Sep 2021 20:16:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632356190;
+ s=mimecast20190719; t=1632356192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WiTuEiQKm8JOsPWadW3pQctkKAW2futR3jRN7jPi4Fw=;
- b=J6v2QeVzYRAIg/CII9K1cZYqzo+okhmwczBpjI5RF6H/6CYuFy7V5Txm/VvAkfs4ArFWI9
- 4MJQDjherTkYIEDop7XzDB5/vM+2ZJ/77+8XPGTV3PZP1EBOoYC+p/ym0C7vi5nNBOYBG1
- I6CcbCogGVACf0m5fXD1tqksagJGc+E=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=09yd4UBzkttV1nDsSh++TA/2xfvjsfL1hvTmlU2J4Zs=;
+ b=B6HHsDRtBbpHXVOJmeJbOVuTX1cPR1L54IysNDSwLpk8bodjtzPGJ8DLrZxosshHPnxK6U
+ ixhQTuwmVWiqxFG0b3JKBH0vhCn4st9fNkbpEhoA3C6ppfJwUrF6CB5NW4cZGbKUGE/0LU
+ BhLJ2RkN52x9FVhKb8HYEjpwODBC2Yc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-487-tvBk94MPML2knqyC_hF0zA-1; Wed, 22 Sep 2021 20:16:28 -0400
-X-MC-Unique: tvBk94MPML2knqyC_hF0zA-1
+ us-mta-556-P7-h2pl8OTeOldpU1UjH3A-1; Wed, 22 Sep 2021 20:16:30 -0400
+X-MC-Unique: P7-h2pl8OTeOldpU1UjH3A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AED311084692;
- Thu, 23 Sep 2021 00:16:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 743E4835DE3;
+ Thu, 23 Sep 2021 00:16:29 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.9.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B6131017E36;
- Thu, 23 Sep 2021 00:16:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F30B710023AB;
+ Thu, 23 Sep 2021 00:16:27 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/6] iotests: update environment and linting configuration
-Date: Wed, 22 Sep 2021 20:16:19 -0400
-Message-Id: <20210923001625.3996451-1-jsnow@redhat.com>
+Subject: [PATCH 1/6] iotests: add 'qemu' package location to PYTHONPATH in
+ testenv
+Date: Wed, 22 Sep 2021 20:16:20 -0400
+Message-Id: <20210923001625.3996451-2-jsnow@redhat.com>
+In-Reply-To: <20210923001625.3996451-1-jsnow@redhat.com>
+References: <20210923001625.3996451-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -79,46 +83,135 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-package-iotest-pt1=
-=0D
-CI: https://gitlab.com/jsnow/qemu/-/pipelines/375630185=0D
-=0D
-This series partially supersedes:=0D
-  [PATCH v3 00/16] python/iotests: Run iotest linters during Python CI'=0D
-=0D
-Howdy, this is good stuff we want even if we aren't yet in agreement=0D
-about the best way to run iotest 297 from CI.=0D
-=0D
-- Update linting config to tolerate pylint 2.11.1=0D
-- Eliminate sys.path hacking in individual test files=0D
-- make mypy execution in test 297 faster=0D
-=0D
-The rest of the actual "run at CI time" stuff can get handled separately=0D
-and later pending some discussion on the other series.=0D
-=0D
---js=0D
-=0D
-John Snow (6):=0D
-  iotests: add 'qemu' package location to PYTHONPATH in testenv=0D
-  iotests: add warning for rogue 'qemu' packages=0D
-  iotests/linters: check mypy files all at once=0D
-  iotests/mirror-top-perms: Adjust imports=0D
-  iotests/migrate-bitmaps-test: delint=0D
-  iotests: Update for pylint 2.11.1=0D
-=0D
- tests/qemu-iotests/235                        |  2 -=0D
- tests/qemu-iotests/297                        | 50 ++++++++-----------=0D
- tests/qemu-iotests/300                        |  7 ++-=0D
- tests/qemu-iotests/iotests.py                 |  2 -=0D
- tests/qemu-iotests/pylintrc                   |  6 ++-=0D
- tests/qemu-iotests/testenv.py                 | 35 ++++++++++---=0D
- tests/qemu-iotests/testrunner.py              |  7 +--=0D
- tests/qemu-iotests/tests/migrate-bitmaps-test | 50 +++++++++++--------=0D
- tests/qemu-iotests/tests/mirror-top-perms     | 12 ++---=0D
- 9 files changed, 95 insertions(+), 76 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+We can drop the sys.path hacking in various places by doing
+this. Additionally, by doing it in one place right up top, we can print
+interesting warnings in case the environment does not look correct.
+
+If we ever decide to change how the environment is crafted, all of the
+"help me find my python packages" goop is all in one place, right in one
+function.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ tests/qemu-iotests/235                    |  2 --
+ tests/qemu-iotests/297                    |  6 ------
+ tests/qemu-iotests/300                    |  7 +++----
+ tests/qemu-iotests/iotests.py             |  2 --
+ tests/qemu-iotests/testenv.py             | 14 +++++++++-----
+ tests/qemu-iotests/tests/mirror-top-perms |  7 +++----
+ 6 files changed, 15 insertions(+), 23 deletions(-)
+
+diff --git a/tests/qemu-iotests/235 b/tests/qemu-iotests/235
+index 8aed45f9a76..4de920c3801 100755
+--- a/tests/qemu-iotests/235
++++ b/tests/qemu-iotests/235
+@@ -24,8 +24,6 @@ import os
+ import iotests
+ from iotests import qemu_img_create, qemu_io, file_path, log
+ 
+-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+-
+ from qemu.machine import QEMUMachine
+ 
+ iotests.script_initialize(supported_fmts=['qcow2'])
+diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
+index b04cba53667..467b712280e 100755
+--- a/tests/qemu-iotests/297
++++ b/tests/qemu-iotests/297
+@@ -68,12 +68,6 @@ def run_linters():
+     # Todo notes are fine, but fixme's or xxx's should probably just be
+     # fixed (in tests, at least)
+     env = os.environ.copy()
+-    qemu_module_path = os.path.join(os.path.dirname(__file__),
+-                                    '..', '..', 'python')
+-    try:
+-        env['PYTHONPATH'] += os.pathsep + qemu_module_path
+-    except KeyError:
+-        env['PYTHONPATH'] = qemu_module_path
+     subprocess.run(('pylint-3', '--score=n', '--notes=FIXME,XXX', *files),
+                    env=env, check=False)
+ 
+diff --git a/tests/qemu-iotests/300 b/tests/qemu-iotests/300
+index fe94de84edd..10f9f2a8da6 100755
+--- a/tests/qemu-iotests/300
++++ b/tests/qemu-iotests/300
+@@ -24,12 +24,11 @@ import random
+ import re
+ from typing import Dict, List, Optional
+ 
+-import iotests
+-
+-# Import qemu after iotests.py has amended sys.path
+-# pylint: disable=wrong-import-order
+ from qemu.machine import machine
+ 
++import iotests
++
++
+ BlockBitmapMapping = List[Dict[str, object]]
+ 
+ mig_sock = os.path.join(iotests.sock_dir, 'mig_sock')
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index ce06cf56304..b06ad76e0c5 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -36,8 +36,6 @@
+ 
+ from contextlib import contextmanager
+ 
+-# pylint: disable=import-error, wrong-import-position
+-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+ from qemu.machine import qtest
+ from qemu.qmp import QMPMessage
+ 
+diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+index 70da0d60c80..88104dace90 100644
+--- a/tests/qemu-iotests/testenv.py
++++ b/tests/qemu-iotests/testenv.py
+@@ -108,12 +108,16 @@ def init_directories(self) -> None:
+              SAMPLE_IMG_DIR
+              OUTPUT_DIR
+         """
++
++        # Path where qemu goodies live in this source tree.
++        qemu_srctree_path = Path(__file__, '../../../python').resolve()
++
+         self.pythonpath = os.getenv('PYTHONPATH')
+-        if self.pythonpath:
+-            self.pythonpath = self.source_iotests + os.pathsep + \
+-                self.pythonpath
+-        else:
+-            self.pythonpath = self.source_iotests
++        self.pythonpath = os.pathsep.join(filter(None, (
++            self.source_iotests,
++            str(qemu_srctree_path),
++            self.pythonpath,
++        )))
+ 
+         self.test_dir = os.getenv('TEST_DIR',
+                                   os.path.join(os.getcwd(), 'scratch'))
+diff --git a/tests/qemu-iotests/tests/mirror-top-perms b/tests/qemu-iotests/tests/mirror-top-perms
+index 2fc8dd66e0a..73138a0ef91 100755
+--- a/tests/qemu-iotests/tests/mirror-top-perms
++++ b/tests/qemu-iotests/tests/mirror-top-perms
+@@ -20,13 +20,12 @@
+ #
+ 
+ import os
++
++import qemu
++
+ import iotests
+ from iotests import qemu_img
+ 
+-# Import qemu after iotests.py has amended sys.path
+-# pylint: disable=wrong-import-order
+-import qemu
+-
+ 
+ image_size = 1 * 1024 * 1024
+ source = os.path.join(iotests.test_dir, 'source.img')
+-- 
+2.31.1
 
 
