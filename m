@@ -2,63 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5288E415BFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 12:33:05 +0200 (CEST)
-Received: from localhost ([::1]:48666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2D34415C18
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 12:39:47 +0200 (CEST)
+Received: from localhost ([::1]:36724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTM2K-0007Ki-7P
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 06:33:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58912)
+	id 1mTM8o-0001m6-Pm
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 06:39:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTLzb-0005Gl-So
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:30:15 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:41261)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTLza-0004rU-DK
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:30:15 -0400
-Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MZkYx-1mOcV808xD-00WpqH; Thu, 23 Sep 2021 12:30:13 +0200
-Subject: Re: [PATCH v5 05/20] nubus: move slot bitmap checks from NubusDevice
- realize() to BusClass check_address()
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20210923091308.13832-1-mark.cave-ayland@ilande.co.uk>
- <20210923091308.13832-6-mark.cave-ayland@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <459e7ce4-e481-78e0-4a80-d699eebfb8ad@vivier.eu>
-Date: Thu, 23 Sep 2021 12:30:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1mTLzu-0005Z2-Oo; Thu, 23 Sep 2021 06:30:35 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:52032)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1mTLzt-0005Ar-8h; Thu, 23 Sep 2021 06:30:34 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id dw14so4148290pjb.1;
+ Thu, 23 Sep 2021 03:30:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=y0LVBfFctC45wGutn9FkRommMJ/f7Xgr3xw2hOA3/6Q=;
+ b=np85ghUSqcHZhKsWgew8WL/cX+8IBDOxUtdLBEZvkat68QFrOYoL2AfDp2hKv+pZw2
+ UQsQ/5Xn19rR7St3LzJAnGGtvYZDznRyVGjrkhk0dSjuSjqJx34FMwg/Jh4nfg0ztqD9
+ IvSQp+/QSwIxDF1Qc05YuUd+1urNKkC1Du6dwU3jpavLHIrvvZq4hBnoQBYBmcjkfJlP
+ qWyPJ5IVNVK/6pYFFqtXSQgXgZwI0HFVMQNaAZJhib1G1pW95ais65RIkvn0P9zG3Umw
+ NuEZd3wSIqGyfo3JAl23Q896+IPNgikAJP8hEPa9+BT3GMX1cyvHIVD2m3doKYPihInt
+ X+6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=y0LVBfFctC45wGutn9FkRommMJ/f7Xgr3xw2hOA3/6Q=;
+ b=1SjEd9EifuQyXXi+9iBhwOMOvCzqHjlYlzZnDH1cdFCoN0DoLxYJfhSYeXidz+P8TF
+ /jg27cHaRUdA7e+V4JOGy9zXRJoLfyHZdVEaIwBnSQt9C0Jo++qzF2e5Tyx9vImm6NAV
+ yOeyxS2ZjXpVScYE0STcgnLXCIgMHwRd+64TEoga4r0A84hbiAdYezWwNNzn9mZ55ey0
+ VWW3LB7ad9HIMPbxFCE/YACdt1iVaZtJ2B+Eh/m0+8JlsBf+210rMaVAB2D2pLQuzmih
+ G/OqF/e5AmqIhTZTDQA8trxKEUZQNWqDgD/tCu7F9WGmvihjU2IMwUkFqPa7wFm3jwWS
+ lcKA==
+X-Gm-Message-State: AOAM5300yP5H6Shkb3KlttajxeLaRq1NzwCpVIDEaiweP8KDOH7+i6RC
+ mfvefrRXMkMgY7Z6uTALlnQ=
+X-Google-Smtp-Source: ABdhPJyEKDM8koYk7LRv0bknHW99vAB8C9HmdE5ddGWuMCu8fzihkoWwgvedwMftoW5Qxwz0shyNvQ==
+X-Received: by 2002:a17:902:b68b:b0:13a:1239:b8d9 with SMTP id
+ c11-20020a170902b68b00b0013a1239b8d9mr3245949pls.25.1632393031318; 
+ Thu, 23 Sep 2021 03:30:31 -0700 (PDT)
+Received: from lb01399.pb.local ([2405:201:5506:80a4:42e:ff20:b88b:632e])
+ by smtp.gmail.com with ESMTPSA id p52sm5208050pfw.132.2021.09.23.03.30.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Sep 2021 03:30:30 -0700 (PDT)
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+To: xiaoguangrong.eric@gmail.com, pankaj.gupta.linux@gmail.com,
+ lvivier@redhat.com, stefanha@redhat.com, pankaj.gupta@ionos.com
+Subject: [PATCH v2] docs/nvdimm: Update nvdimm option value in machine example
+Date: Thu, 23 Sep 2021 12:30:15 +0200
+Message-Id: <20210923103015.135262-1-pankaj.gupta.linux@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210923091308.13832-6-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:BWlDMr6IYoc/eD3DtZ839KxiavxaYqhmNnuZ/uub8Urh+oOMaql
- Wsw+7LXmNMm2MqnkFoKkhm9dMaVtVc8qqy2a1Hdfne4HtFFudEWmtHfn3PvBVAZCsvWceqx
- PjyEQy2aEcuipXFw9PRxKHohjaTg2dcshsDiMieHpXxjQMXF3f/1OwnWGDghjg2sbaB6HV1
- yZrUKhVZBkCzbohUnTQ4Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7oj1q+2hEjA=:q4sSX73YpQOVwVUBHxnstQ
- 08klLwhlq2My34Mth5V+ijAIiT6NzbnqBJCr8/Ezn/5hSzt9qRD/HY18UocTG1HlbEaOGKQJn
- h3wTkaVbmma0fn6LfzFcTytw9BFli6gxRivJXnhiZ0uiG3etZMZv353e7ouFOYklCDxGu4Swu
- DHAfQvR/zSQR2AnJ3kGtsSaBQ2TwMyUO1W4Lov40oe707CTs6ATbCwrsxZmouBpnlaB1yFQPZ
- c81ao/hFjJ6jmKNoP5LucPKqOeetaNG7qFaKBvFDTdWVTQaOSoe3C36EuKtuHdowcCZIRL4Gb
- B3x7l93Yr/OgS2RnE1bxL+boHC/5iUo8bEVrZs2Bm9yHds67nO6G6XA5GzEF2Bl3pP8V1Por+
- sO7dXJXuePPj9vWyhTC1zww9XvNv59m95GcZh+TycHYmwBU+3gWyDG007t1wT13fg4eqvsnug
- Z9MIf/jVVeb5zSn/ehh6Lh5AYHxbLY5V9MqF2Aw+fkW1t/FQ0IFWWAt5BemfS3mLMQhS+PGku
- kfQklD0i2B0tcCNLDJwZ1xjb8qtegzcOznlJWxccDXBYSLViDuZA4Xt8DswWWmpWDrCgIcmpM
- LI+0XqJdjBWH3Z+phMB5IHn0il9jl/0gPCqcIyknSgmOxV4/hPWhD6qiN3iMYOmW++CGZ6kkR
- zxCDJFbnPjpXgwe/Sw+Ly9oG+XyDbG0YJ9edkZC2MfSo5PkleZ42b5z1QE2D7raVqF8a22jxu
- WwDpmo/PD7uKNoIlkXiBfUPO0bJyCrvZLVW3pA==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,22 +80,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 23/09/2021 à 11:12, Mark Cave-Ayland a écrit :
-> Allow Nubus to manage the slot allocations itself using the BusClass check_address()
-> virtual function rather than managing this during NubusDevice realize().
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> ---
->  hw/nubus/nubus-bus.c    | 30 ++++++++++++++++++++++++++++++
->  hw/nubus/nubus-device.c | 22 ----------------------
->  2 files changed, 30 insertions(+), 22 deletions(-)
-> 
->
+Update nvdimm option value in example command from "-machine pc,nvdimm"
+to "-machine pc,nvdimm=on" as former complains with the below error:
+
+"qemu-system-x86_64: -machine pc,nvdimm: Expected '=' after parameter 'nvdimm'"
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+---
+ docs/nvdimm.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
+index 0aae682be3..fd7773dc5a 100644
+--- a/docs/nvdimm.txt
++++ b/docs/nvdimm.txt
+@@ -15,7 +15,7 @@ backend (i.e. memory-backend-file and memory-backend-ram). A simple
+ way to create a vNVDIMM device at startup time is done via the
+ following command line options:
+ 
+- -machine pc,nvdimm
++ -machine pc,nvdimm=on
+  -m $RAM_SIZE,slots=$N,maxmem=$MAX_SIZE
+  -object memory-backend-file,id=mem1,share=on,mem-path=$PATH,size=$NVDIMM_SIZE,readonly=off
+  -device nvdimm,id=nvdimm1,memdev=mem1,unarmed=off
+-- 
+2.25.1
 
 
