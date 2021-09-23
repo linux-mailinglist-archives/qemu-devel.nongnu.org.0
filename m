@@ -2,70 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2519B416326
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 18:24:54 +0200 (CEST)
-Received: from localhost ([::1]:52576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF68416399
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 18:49:12 +0200 (CEST)
+Received: from localhost ([::1]:34288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTRWn-00076w-7D
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 12:24:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58180)
+	id 1mTRuJ-0006zV-6v
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 12:49:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1mTRKQ-0008Fd-Tm
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 12:12:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20390)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mTRt5-0006B9-7g; Thu, 23 Sep 2021 12:47:55 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64424
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1mTRKO-000670-8w
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 12:12:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632413523;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rqvAI2/YQRuRf3sfE2dlQ+fu+PbcL2r7DmceI790m4Y=;
- b=Vtb8Y26iAniQFWTa58tMxu/PJ6PlJWe/lQCHyLM1qNnNRvVjNGw07opWFjh59VKPVJrMl2
- IgT3B1eYBzX8bOAGQUhmZBpGGvLJgPCReGQ2DzGBqb10Am0iKtzBDscDqIkeNlZaMy42mc
- sy3rB+xm0YKW+I3RefJCy+SG35bZcSw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-V56St038NAmbP1-Vfwyi2A-1; Thu, 23 Sep 2021 12:12:01 -0400
-X-MC-Unique: V56St038NAmbP1-Vfwyi2A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6FA9835DE6;
- Thu, 23 Sep 2021 16:12:00 +0000 (UTC)
-Received: from wrampazz.redhat.com (unknown [10.22.32.245])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1BE9102482F;
- Thu, 23 Sep 2021 16:11:57 +0000 (UTC)
-From: Willian Rampazzo <willianr@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/3] tests/Makefile: add AVOCADO_TESTS option to make
- check-acceptance
-Date: Thu, 23 Sep 2021 13:11:41 -0300
-Message-Id: <20210923161141.232208-4-willianr@redhat.com>
-In-Reply-To: <20210923161141.232208-1-willianr@redhat.com>
-References: <20210923161141.232208-1-willianr@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=willianr@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1mTRt1-0002sK-AY; Thu, 23 Sep 2021 12:47:54 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18NG0En5008148; 
+ Thu, 23 Sep 2021 12:47:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=4zcnOhAJnRiOi5BPkyYBW2cKSZhvgA8MxOoRBB4VPD8=;
+ b=NR00wTTmbFFoYZhQHkegz8L1E9QhpPWy2tS4wXHUpnC77fEkk2UCvFvnFfyofNvAweLY
+ sHHX7UwtrY46RJb2wRq34xOZWA0MZlsCK3ICilegfJIzJCgM/vFjdkMuqw2zNYhvPgHJ
+ jBjDlUxN5FZjjplA8ARnU113i3tk0rgiF/sP2MtrhzOPm8FkZzaaYM4BBQ0vGosN6gtR
+ 4YtWTMbh3sxOTR+S4vkQboQ2LY9jXmQSIxgcX5X2pg0r2JoPrcUYPEAz80tzHn6eekP4
+ mVKxT2eJtb8KIU+7pe0ZlUv1LxQjHvKrD6tohVB2rcQUEpJ3Zy/91pqxXvSAOiYsS9Ug YQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3b8vqk9asv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 12:47:48 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18NGHga5014401;
+ Thu, 23 Sep 2021 12:47:48 -0400
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3b8vqk9as9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 12:47:48 -0400
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18NGg79g024478;
+ Thu, 23 Sep 2021 16:47:46 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma02fra.de.ibm.com with ESMTP id 3b7q6s3xx1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 16:47:46 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 18NGlh1j57344308
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Sep 2021 16:47:43 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4719B42049;
+ Thu, 23 Sep 2021 16:47:43 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D564E42052;
+ Thu, 23 Sep 2021 16:47:42 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.13.138])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 23 Sep 2021 16:47:42 +0000 (GMT)
+Date: Thu, 23 Sep 2021 18:47:40 +0200
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] block: introduce max_hw_iov for use in scsi-generic
+Message-ID: <20210923184740.6363ea31.pasic@linux.ibm.com>
+In-Reply-To: <20210923162811.3ab68c5f.pasic@linux.ibm.com>
+References: <20210923130436.1187591-1-pbonzini@redhat.com>
+ <20210923162811.3ab68c5f.pasic@linux.ibm.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Content-Type: text/plain; charset=US-ASCII
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: yYDFtFDjl0dwTd5xX6w2pWZKMPN7az2P
+X-Proofpoint-GUID: cWC5ARZJD1Llyixyp0yJF_YmDAIxG4-_
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=willianr@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-23_05,2021-09-23_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ suspectscore=0 mlxscore=0 phishscore=0 impostorscore=0 mlxlogscore=982
+ malwarescore=0 priorityscore=1501 spamscore=0 adultscore=0 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109200000 definitions=main-2109230102
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,89 +113,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the possibility of running all the tests from a single file, or
-multiple files, running a single test within a file or multiple tests
-within multiple files using `make check-acceptance` and the
-AVOCADO_TESTS environment variable.
+On Thu, 23 Sep 2021 16:28:11 +0200
+Halil Pasic <pasic@linux.ibm.com> wrote:
 
-Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Willian Rampazzo <willianr@redhat.com>
----
- docs/devel/testing.rst | 27 +++++++++++++++++++++++++++
- tests/Makefile.include |  5 ++++-
- 2 files changed, 31 insertions(+), 1 deletion(-)
+> Can't we use some of the established constants instead of hard coding a
+> qemu specific IOV_MAX?
+> 
+> POSIX.1 seems to guarantee the availability of IOV_MAX in <limits.h>
+> according to: https://man7.org/linux/man-pages/man2/readv.2.html
+> and <sys/uio.h> may have UIO_MAXIOV defined.
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index c9f6b97f87..64c9744795 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -746,6 +746,33 @@ tags, see:
- 
-  https://avocado-framework.readthedocs.io/en/latest/guides/user/chapters/tags.html
- 
-+To run a single test file, a couple of them, or a test within a file
-+using the ``make check-acceptance`` command, set the ``AVOCADO_TESTS``
-+environment variable with the test files or test names. To run all
-+tests from a single file, use:
-+
-+ .. code::
-+
-+  make check-acceptance AVOCADO_TESTS=$FILEPATH
-+
-+The same is valid to run tests from multiple test files:
-+
-+ .. code::
-+
-+  make check-acceptance AVOCADO_TESTS='$FILEPATH1 $FILEPATH2'
-+
-+To run a single test within a file, use:
-+
-+ .. code::
-+
-+  make check-acceptance AVOCADO_TESTS=$FILEPATH:$TESTCLASS.$TESTNAME
-+
-+The same is valid to run single tests from multiple test files:
-+
-+ .. code::
-+
-+  make check-acceptance AVOCADO_TESTS='$FILEPATH1:$TESTCLASS1.$TESTNAME1 $FILEPATH2:$TESTCLASS2.$TESTNAME2'
-+
- The scripts installed inside the virtual environment may be used
- without an "activation".  For instance, the Avocado test runner
- may be invoked by running:
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index f6484e5b31..e69c4fae53 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -88,6 +88,9 @@ clean-tcg: $(CLEAN_TCG_TARGET_RULES)
- TESTS_VENV_DIR=$(BUILD_DIR)/tests/venv
- TESTS_VENV_REQ=$(SRC_PATH)/tests/requirements.txt
- TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
-+ifndef AVOCADO_TESTS
-+	AVOCADO_TESTS=tests/acceptance
-+endif
- # Controls the output generated by Avocado when running tests.
- # Any number of command separated loggers are accepted.  For more
- # information please refer to "avocado --help".
-@@ -136,7 +139,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
-             $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
- 			--filter-by-tags-include-empty-key) \
-             $(AVOCADO_CMDLINE_TAGS) \
--            $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
-+            $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), \
-             "AVOCADO", "tests/acceptance")
- 
- # Consolidated targets
--- 
-2.31.1
+Never mind, the 
+#define IOV_MAX 1024
+in osdep.h is conditional and I guess we already use IOV_MAX from limit
+when CONFIG_IOVEC is defined, i.e. when we don't emulate the interface.
 
+Sorry for the noise.
+
+Regards,
+Halil
 
