@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDEE6416486
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 19:36:29 +0200 (CEST)
-Received: from localhost ([::1]:39582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9285F416487
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 19:37:55 +0200 (CEST)
+Received: from localhost ([::1]:43222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTSe4-0001x2-Oq
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 13:36:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40648)
+	id 1mTSfS-0004XA-LV
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 13:37:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTS5v-0006L0-En
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTS5x-0006L4-2e
  for qemu-devel@nongnu.org; Thu, 23 Sep 2021 13:01:14 -0400
-Received: from [115.28.160.31] (port=54548 helo=mailbox.box.xen0n.name)
+Received: from [115.28.160.31] (port=54566 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTS5q-00061w-TQ
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 13:01:10 -0400
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTS5s-00063D-UC
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 13:01:11 -0400
 Received: from ld50.lan (unknown [101.88.29.172])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 74DBE60B06;
- Fri, 24 Sep 2021 01:00:53 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 41A6360B07;
+ Fri, 24 Sep 2021 01:00:55 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632416453; bh=pN1CNWQSCWlkL4RGHI3RaXP13iEMQOnzvSHUPLXBThg=;
+ t=1632416455; bh=B8BdMBIB3pmiyzRY7XBJyNw0snzfgdgdUQeNNZB2jl4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Rp7XH7Bjr19DNKGK0zrF7ZAK2Vg0XC/lMHTlCBw8abYvNBnPC+vG8Cxk5B7r1lnBN
- 30GkNtYVLBXPiG10be2DNp2SLVrvHMiUrpCSfNRtI2+Lk4iuYPGbGtsEr6dI6KFx5v
- FANqUVbsJ6fpLbsaIC4x+htohaXU78C8YsyHq95o=
+ b=FvBu7W6ikKVZmNnV/MBlGUl9U4CRgCqHrnbpvb5wXi63DR6ktt3hTbMUsh77npcrE
+ YT30PrdT/L0K/h/pKntrjaMnfSbnDQVvC0BWbSAy5Vp5esMkUSAN20yMJR9RfJBFrB
+ 0HgbLNWPoIwnL9us1aEJKtrH1G9GEqMDkApPMRyw=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 26/30] tcg/loongarch64: Implement tcg_target_init
-Date: Fri, 24 Sep 2021 00:59:35 +0800
-Message-Id: <20210923165939.729081-27-git@xen0n.name>
+Subject: [PATCH v4 27/30] tcg/loongarch64: Register the JIT
+Date: Fri, 24 Sep 2021 00:59:36 +0800
+Message-Id: <20210923165939.729081-28-git@xen0n.name>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210923165939.729081-1-git@xen0n.name>
 References: <20210923165939.729081-1-git@xen0n.name>
@@ -46,8 +46,7 @@ X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- TVD_SPACE_RATIO=0.001 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,43 +69,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/loongarch64/tcg-target.c.inc | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ tcg/loongarch64/tcg-target.c.inc | 44 ++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
 diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index e09bf832bd..83b8bcdfdf 100644
+index 83b8bcdfdf..bce03a96d7 100644
 --- a/tcg/loongarch64/tcg-target.c.inc
 +++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -1567,3 +1567,30 @@ static void tcg_target_qemu_prologue(TCGContext *s)
-     tcg_out_opc_addi_d(s, TCG_REG_SP, TCG_REG_SP, FRAME_SIZE);
-     tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_RA, 0);
+@@ -1594,3 +1594,47 @@ static void tcg_target_init(TCGContext *s)
+     tcg_regset_set_reg(s->reserved_regs, TCG_REG_TP);
+     tcg_regset_set_reg(s->reserved_regs, TCG_REG_RESERVED);
  }
 +
-+static void tcg_target_init(TCGContext *s)
++typedef struct {
++    DebugFrameHeader h;
++    uint8_t fde_def_cfa[4];
++    uint8_t fde_reg_ofs[ARRAY_SIZE(tcg_target_callee_save_regs) * 2];
++} DebugFrame;
++
++#define ELF_HOST_MACHINE EM_LOONGARCH
++
++static const DebugFrame debug_frame = {
++    .h.cie.len = sizeof(DebugFrameCIE) - 4, /* length after .len member */
++    .h.cie.id = -1,
++    .h.cie.version = 1,
++    .h.cie.code_align = 1,
++    .h.cie.data_align = -(TCG_TARGET_REG_BITS / 8) & 0x7f, /* sleb128 */
++    .h.cie.return_column = TCG_REG_RA,
++
++    /* Total FDE size does not include the "len" member.  */
++    .h.fde.len = sizeof(DebugFrame) - offsetof(DebugFrame, h.fde.cie_offset),
++
++    .fde_def_cfa = {
++        12, TCG_REG_SP,                 /* DW_CFA_def_cfa sp, ...  */
++        (FRAME_SIZE & 0x7f) | 0x80,     /* ... uleb128 FRAME_SIZE */
++        (FRAME_SIZE >> 7)
++    },
++    .fde_reg_ofs = {
++        0x80 + 23, 11,                  /* DW_CFA_offset, s0, -88 */
++        0x80 + 24, 10,                  /* DW_CFA_offset, s1, -80 */
++        0x80 + 25, 9,                   /* DW_CFA_offset, s2, -72 */
++        0x80 + 26, 8,                   /* DW_CFA_offset, s3, -64 */
++        0x80 + 27, 7,                   /* DW_CFA_offset, s4, -56 */
++        0x80 + 28, 6,                   /* DW_CFA_offset, s5, -48 */
++        0x80 + 29, 5,                   /* DW_CFA_offset, s6, -40 */
++        0x80 + 30, 4,                   /* DW_CFA_offset, s7, -32 */
++        0x80 + 31, 3,                   /* DW_CFA_offset, s8, -24 */
++        0x80 + 22, 2,                   /* DW_CFA_offset, s9, -16 */
++        0x80 + 1 , 1,                   /* DW_CFA_offset, ra, -8 */
++    }
++};
++
++void tcg_register_jit(const void *buf, size_t buf_size)
 +{
-+    tcg_target_available_regs[TCG_TYPE_I32] = ALL_GENERAL_REGS;
-+    tcg_target_available_regs[TCG_TYPE_I64] = ALL_GENERAL_REGS;
-+
-+    tcg_target_call_clobber_regs = ALL_GENERAL_REGS;
-+    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S0);
-+    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S1);
-+    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S2);
-+    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S3);
-+    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S4);
-+    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S5);
-+    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S6);
-+    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S7);
-+    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S8);
-+    tcg_regset_reset_reg(tcg_target_call_clobber_regs, TCG_REG_S9);
-+
-+    s->reserved_regs = 0;
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_ZERO);
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_TMP0);
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_TMP1);
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_TMP2);
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_SP);
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_TP);
-+    tcg_regset_set_reg(s->reserved_regs, TCG_REG_RESERVED);
++    tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
 +}
 -- 
 2.33.0
