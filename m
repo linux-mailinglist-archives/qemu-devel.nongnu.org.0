@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2760416709
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 23:01:52 +0200 (CEST)
-Received: from localhost ([::1]:36214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC0D41676A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 23:23:58 +0200 (CEST)
+Received: from localhost ([::1]:47612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTVqn-0006NU-S8
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 17:01:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59210)
+	id 1mTWCD-0006wR-Ic
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 17:23:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mTVoJ-0004ru-M5
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 16:59:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34133)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mTWB4-00063P-2J
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 17:22:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mTVoH-00079b-Al
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 16:59:15 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mTWB0-00025O-G5
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 17:22:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632430752;
+ s=mimecast20190719; t=1632432160;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=V1TkF2x5nfz17VNMBvauL/kUfjaEJfTCx3yirY1jNlk=;
- b=TmMnV0TOHSDIhmgvMYnU6SuWWfWjns9+vl02EdhslzPiZRpt39baKL5w3qWoX1iX7L0blg
- j4CXoo5jbYImLCCLbZ2R8K//vWFmdYDnvIVEDml7N+LCiwPr1I7mCoz8HaNHNSvtokRUbl
- 2t1NEmoh4iWURbIokPYht6thvTNgsZo=
+ bh=i5VLqd60ZDnN32R+Lri+ovxmt2vr805NUOS1WU6wVq0=;
+ b=HdYp2WQ1kRf6hKLb/5IfKhsHlufGxmYQbhYVGThyZl0A0PFysZGyy/bVKo/jvCu0OH95WC
+ mBEJzSq4atCSpv3JSY6KIuioJKqaCJhogquSNdk6TxCa/qvM0BSUkEIMqCWOag8jhfshDA
+ KLP5sCVxkRNc0WQ8hUsUnixyppsHsws=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-gjHErX0cO6OnmwAHG4y5JQ-1; Thu, 23 Sep 2021 16:59:09 -0400
-X-MC-Unique: gjHErX0cO6OnmwAHG4y5JQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-73-Jxk1jGFRPu2Hh-qW4Hqfmw-1; Thu, 23 Sep 2021 17:22:36 -0400
+X-MC-Unique: Jxk1jGFRPu2Hh-qW4Hqfmw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D43E1084688;
- Thu, 23 Sep 2021 20:59:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70E5FA40C0;
+ Thu, 23 Sep 2021 21:22:35 +0000 (UTC)
 Received: from redhat.com (ovpn-115-8.phx2.redhat.com [10.3.115.8])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5079F5D9DC;
- Thu, 23 Sep 2021 20:58:54 +0000 (UTC)
-Date: Thu, 23 Sep 2021 15:58:52 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v6 10/11] block: use int64_t instead of int in driver
- discard handlers
-Message-ID: <20210923205852.oevcy7upj2ieirlb@redhat.com>
-References: <20210903102807.27127-1-vsementsov@virtuozzo.com>
- <20210903102807.27127-11-vsementsov@virtuozzo.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C59419C59;
+ Thu, 23 Sep 2021 21:22:22 +0000 (UTC)
+Date: Thu, 23 Sep 2021 16:22:21 -0500
+From: "eblake@redhat.com" <eblake@redhat.com>
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Subject: Re: [PATCH v4] Prevent vhost-user-blk-test hang
+Message-ID: <20210923212221.3xpweokv7jmz6c7w@redhat.com>
+References: <20210923151610.26615-1-raphael.norwitz@nutanix.com>
 MIME-Version: 1.0
-In-Reply-To: <20210903102807.27127-11-vsementsov@virtuozzo.com>
+In-Reply-To: <20210923151610.26615-1-raphael.norwitz@nutanix.com>
 User-Agent: NeoMutt/20210205-773-8890a5
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -65,7 +63,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,63 +76,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, integration@gluster.org, berto@igalia.com,
- stefanha@redhat.com, qemu-block@nongnu.org, pavel.dovgaluk@ispras.ru,
- sw@weilnetz.de, pl@kamp.de, qemu-devel@nongnu.org, jsnow@redhat.com,
- hreitz@redhat.com, kraxel@redhat.com, ronniesahlberg@gmail.com,
- pbonzini@redhat.com, idryomov@gmail.com, philmd@redhat.com, ari@tuxera.com
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "sgarzare@redhat.com" <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 03, 2021 at 01:28:06PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> We are generally moving to int64_t for both offset and bytes parameters
-> on all io paths.
+On Thu, Sep 23, 2021 at 03:16:17PM +0000, Raphael Norwitz wrote:
+> In the vhost-user-blk-test, as of now there is nothing stoping
+> vhost-user-blk in QEMU writing to the socket right after forking off the
+> storage daemon before it has a chance to come up properly, leaving the
+> test hanging forever. This intermittently hanging test has caused QEMU
+> automation failures reported multiple times on the mailing list [1].
 > 
-> Main motivation is realization of 64-bit write_zeroes operation for
-> fast zeroing large disk chunks, up to the whole disk.
+> This change makes the storage-daemon notify the vhost-user-blk-test
+> that it is fully initialized and ready to handle client connections by
+> creating a pidfile on initialiation. This ensures that the storage-daemon
+> backend won't miss vhost-user messages and thereby resolves the hang.
 > 
-> We chose signed type, to be consistent with off_t (which is signed) and
-> with possibility for signed return type (where negative value means
-> error).
+> [1] https://lore.kernel.org/qemu-devel/CAFEAcA8kYpz9LiPNxnWJAPSjc=nv532bEdyfynaBeMeohqBp3A@mail.gmail.com/
 > 
-> So, convert driver discard handlers bytes parameter to int64_t.
-> 
-> The only caller of all updated function is bdrv_co_pdiscard in
-> block/io.c. It is already prepared to work with 64bit requests, but
-> pass at most max(bs->bl.max_pdiscard, INT_MAX) to the driver.
-> 
-> Let's look at all updated functions:
-
-> 
-> Great! Now all drivers are prepared to handle 64bit discard requests,
-> or else have explicit max_pdiscard limits.
-
-Very similar analysis to the write-zeroes.
-
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 > ---
-
-> +++ b/block/nbd.c
-> @@ -1457,15 +1457,17 @@ static int nbd_client_co_flush(BlockDriverState *bs)
->  }
+> Accidentally left a raw free() in v3. Converted it to g_free() here.
+> 
+>  tests/qtest/vhost-user-blk-test.c | 27 ++++++++++++++++++++++++++-
+>  1 file changed, 26 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
+> index 6f108a1b62..6898f55f11 100644
+> --- a/tests/qtest/vhost-user-blk-test.c
+> +++ b/tests/qtest/vhost-user-blk-test.c
+> @@ -24,6 +24,7 @@
+>  #define TEST_IMAGE_SIZE         (64 * 1024 * 1024)
+>  #define QVIRTIO_BLK_TIMEOUT_US  (30 * 1000 * 1000)
+>  #define PCI_SLOT_HP             0x06
+> +#define PIDFILE_RETRIES         5
 >  
->  static int nbd_client_co_pdiscard(BlockDriverState *bs, int64_t offset,
-> -                                  int bytes)
-> +                                  int64_t bytes)
+>  typedef struct {
+>      pid_t pid;
+> @@ -885,7 +886,8 @@ static void start_vhost_user_blk(GString *cmd_line, int vus_instances,
+>                                   int num_queues)
 >  {
->      BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
->      NBDRequest request = {
->          .type = NBD_CMD_TRIM,
->          .from = offset,
-> -        .len = bytes,
-> +        .len = bytes, /* len is uint32_t */
->      };
+>      const char *vhost_user_blk_bin = qtest_qemu_storage_daemon_binary();
+> -    int i;
+> +    int i, retries;
+> +    char *daemon_pidfile_path;
+>      gchar *img_path;
+>      GString *storage_daemon_command = g_string_new(NULL);
+>      QemuStorageDaemonState *qsd;
+> @@ -898,6 +900,9 @@ static void start_vhost_user_blk(GString *cmd_line, int vus_instances,
+>              " -object memory-backend-memfd,id=mem,size=256M,share=on "
+>              " -M memory-backend=mem -m 256M ");
 >  
-> +    assert(bytes <= UINT32_MAX); /* rely on max_pdiscard */
+> +    daemon_pidfile_path = g_strdup_printf("/tmp/daemon-%d", getpid());
+> +    g_assert_cmpint((uintptr_t) daemon_pidfile_path, !=, (uintptr_t) NULL);
 
-Aha - you used <= here, compared to < in 7/11 on write zeroes.
-Consistency says we want <= in both places.
+Feels verbose compared to:
+g_assert(daemon_pidfile_path)
+
+For that matter, can g_strdup_printf() ever return NULL?  On memory
+error, it exit()s rather than returning.  So this assert feels like
+overkill.
+
+Otherwise,
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
