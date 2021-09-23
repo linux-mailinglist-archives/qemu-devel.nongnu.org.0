@@ -2,63 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF489415C22
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 12:43:21 +0200 (CEST)
-Received: from localhost ([::1]:45966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83FE0415C26
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 12:45:11 +0200 (CEST)
+Received: from localhost ([::1]:50762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTMCG-0008Ck-Pr
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 06:43:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60298)
+	id 1mTME2-000318-Da
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 06:45:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTM6g-0007bO-87
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:37:35 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:43385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mTM6Y-0002Vu-LX
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:37:30 -0400
-Received: from [192.168.100.1] ([82.142.21.142]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MlNYj-1n8Uo51OcX-00litM; Thu, 23 Sep 2021 12:37:24 +0200
-Subject: Re: [PATCH v5 16/20] nubus-bridge: embed the NubusBus object directly
- within nubus-bridge
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20210923091308.13832-1-mark.cave-ayland@ilande.co.uk>
- <20210923091308.13832-17-mark.cave-ayland@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <9d21226d-d91e-9809-7d71-1e0a0b1dcd5e@vivier.eu>
-Date: Thu, 23 Sep 2021 12:37:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mTMAz-0006HL-KC
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:42:01 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40571)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mTMAx-0006CG-KK
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 06:42:01 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id t28so2456496wra.7
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 03:41:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=NOZnnYyGpWEW51WXd6nrKYJpZ7o2sT3xFQtWxmfjndU=;
+ b=MVAaOEj7MtCCWRXA69xRYMU72SR+Ov5KydBrTqzQjM2lXGrp4/g+lq0rmvliH5bjrl
+ g6xZa1t24sVfhfLwcS7pCV6dpL4a+seG+G7E4fWt9kFPb3HFm6Lvm3IJftXpbqlmsNcr
+ CTWBwNE3USakWK0lJYdeMG/e2S0oIJDu/dtzjt+03ffkIbr5pPPXvaK8tVTmqwuqE21u
+ Tt5HOwvZYontnS+VCsXtWfLQeHtCDdLn0WWEtTiNQ584tvb9AkeBAltaXmDEgYZiKFv1
+ 6UcjtBNSVRUjfRw6tMoqo+EK1W+BiZJilM/6bF3OkpW8yzqMZ19frXT4TX6Tb1hAaeSv
+ 80ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=NOZnnYyGpWEW51WXd6nrKYJpZ7o2sT3xFQtWxmfjndU=;
+ b=6R/os/TT8xSt2idKsJUrCCIl82tAqYF8NMOYuq8x06CYG6ySDzV5lsSSnRH65Yp3yn
+ G4suf99QbMJtTXyJAIbrzIloJPWXG9qIFpRVDQCMG5UfzSBRa140xHCxl7nx2wLijFJ4
+ EEmvp0Xdc1p6SqNC+NVzkA0ot1H9YxgX5o22ruNSd4VxJy1MD/Mpt3jNdR0sx1vvrNUq
+ ZZj99Yi82/HuqaCVAwnLLXpziqEwvxqr9zBaNubvw+eEs7QuIOVqq+nHXua0CYKgbcSW
+ CzbpwcFc2amDxHYCr51Uz3OK/IEfI5OdEBREpJocJGOtYTeo7aTP+nZ7g41op2To2ncA
+ NhUA==
+X-Gm-Message-State: AOAM530Pg2ciKhVag2PSf2h0iZSZSrs1fv5l9Q2wWn3+LxyPMPic3Jt0
+ 1IFTpGuM7m6Hoz2qrjFEez20GmNT6ZsxbCtDbBJVPA==
+X-Google-Smtp-Source: ABdhPJwuW+5/aURJ5RG6a2DoELZZtMSRRqLXoK0K2PclO3Ml5Bh23pFwidsnKCvbflXKnGPy2//bnzgV2Tay9spTG2M=
+X-Received: by 2002:a7b:c194:: with SMTP id y20mr15311248wmi.37.1632393717980; 
+ Thu, 23 Sep 2021 03:41:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210923091308.13832-17-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:axAum1U+iOZfk9A8wbrDVOBCFLDfhJbBfBp2kwzWtPSgSe/8FX9
- eZVXEa455KME+/gWLpDGt+CPiC/IUnKZBW1QK3IlaydDowyMFlrLkl77R6SHfPCYNDgouvl
- Lb0Wh/PMNECeh6QDg6RQk8q+j7Aq2Fe94Kv4LT7q7uJ1Rh1ohJ9yU7vTJtZ8KgSySVojDNR
- /RAkmvE3CQWkwHfaVu4jQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MaUB/QjiVy4=:888mKu+vl4WwcwlOT70Z1J
- UGrFbTOQ/FVnep3capq/4RjQBdrNLbfYjDVHJ/6vKRo1NL/RlCXI+/WMwaXWo1dFI5hNDOaa8
- WxpzaNU5qlGTB4NqsJ/Zw/gMTOMJ+1qyO+COtWkAGlr1n+ifJSMX88s6b2OUALH6KIKpmLjJm
- kR0g9JnFXkAuW4qM/sD/SwqjsmglYLyf6luZlWk9zgT8VZV0/Ia75pPqfp3aERJs/7rx1KFSx
- 0khIMe79vr4kUmC2qQD/bvrKLFlII5zWhOHOQ9DPw7laXHmO0YX5wMqYClW+Ya5eCL+fL4yq2
- Vr404VMq57lhILjhEPtDHx7+nPcNu/gO9QDFX/uQIrCqjmA467mQXdu31fv3Wlm8+PJAxofnF
- Qgj/2bYIoabsLcfo042FjLys06v309NYy2DWDkH4ATyVv52h8hnW2jQW2iHx6peOevEKnPn73
- tJpxKdd/q3Ri1vaDDRu34OhRMpBwnIXruc64eTg2e3i3HHBL06dHgxuW7S30B0FEq1Dt1pc38
- 4+U2XOocsU1gs2hGJdY7yZUNkSettY79beFwDDmvT3NSzawOW6xIlJlIlno2liC5/ebuNIFFQ
- QPg3iya7Hx0VikxdKNZeHDrzwtf43qjRshRIpHT7OVQL/MMmkoWlgVb517bcIWcFe0B5f2VxQ
- uude1KZ941Vssnf/Gb3nKJaFeTJSS9wZydqA+yzWaUnQOgreo+0GZOMlvAv4QTX8fxv4SDBEN
- SDouDHVQHxheczTWGk06l2NMRFKH4o8Od1urLg==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210918180738.2506799-1-f4bug@amsat.org>
+ <CAEUhbmX_PPdLPgGTtfJZg-Nd0pPxVC93ZYoeVpngnOvdLB0Tww@mail.gmail.com>
+ <0cfcd1c1-8bff-f0dc-02ac-ac12ac392fc8@amsat.org>
+In-Reply-To: <0cfcd1c1-8bff-f0dc-02ac-ac12ac392fc8@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 23 Sep 2021 11:41:05 +0100
+Message-ID: <CAFEAcA9aZ3HXmHc12X58N5k=1dfk6SZWEU9Uf1ErajNj0EHWxg@mail.gmail.com>
+Subject: Re: [PATCH] hw/char/mchp_pfsoc_mmuart: QOM'ify PolarFire MMUART
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,24 +80,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Markus Armbruster <armbru@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Alistair Francis <alistair23@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 23/09/2021 à 11:13, Mark Cave-Ayland a écrit :
-> Since nubus-bridge is a container for NubusBus then it should be embedded
-> directly within the bridge device using qbus_create_inplace().
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  hw/m68k/q800.c              | 2 +-
->  hw/nubus/mac-nubus-bridge.c | 9 +++++----
->  hw/nubus/nubus-bridge.c     | 3 ++-
->  include/hw/nubus/nubus.h    | 2 +-
->  4 files changed, 9 insertions(+), 7 deletions(-)
-> 
+On Thu, 23 Sept 2021 at 11:29, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
+>
+> On 9/23/21 07:16, Bin Meng wrote:> On Sun, Sep 19, 2021 at 2:07 AM
+> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+> >> +static void mchp_pfsoc_mmuart_realize(DeviceState *dev, Error **errp)
+> >> +{
+> >> +    MchpPfSoCMMUartState *s =3D MCHP_PFSOC_UART(dev);
+> >> +
+> >> +    qdev_prop_set_uint8(DEVICE(&s->serial_mm), "regshift", 2);
+> >> +    qdev_prop_set_uint32(DEVICE(&s->serial_mm), "baudbase", 399193);
+> >> +    qdev_prop_set_uint8(DEVICE(&s->serial_mm), "endianness",
+> >> +                        DEVICE_LITTLE_ENDIAN);
+> >
+> > It looks like serial_mm_init() does one more thing:
+> >
+> >      qdev_set_legacy_instance_id(DEVICE(smm), base, 2);
+> >
+> > I am not sure what that is.
+>
+> I'll defer on Paolo / Marc-Andr=C3=A9 for that part, I think this is for
+> migrating legacy (x86?) machines, which is not the case.
 
+Yes, this is only needed for backwards-compatibility of incoming
+migration data with old versions of QEMU which implemented migration
+of devices with hand-rolled code. If a device didn't previously
+handle migration at all then it should not now be setting the
+legacy instance ID.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Speaking of migration, I notice that this QOM conversion does
+not add a vmstate, which usually we do as part of the QOM conversion.
+The device is also missing a reset method.
 
+thanks
+-- PMM
 
