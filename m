@@ -2,85 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159C2415CFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 13:44:40 +0200 (CEST)
-Received: from localhost ([::1]:38618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D789415D23
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 13:57:30 +0200 (CEST)
+Received: from localhost ([::1]:43556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTN9a-0002rQ-Lk
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 07:44:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41174)
+	id 1mTNM0-00078E-KQ
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 07:57:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mTN5t-0001nO-32
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 07:40:50 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:37599)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mTN5r-0006YR-69
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 07:40:48 -0400
-Received: by mail-wr1-x436.google.com with SMTP id t8so16353862wrq.4
- for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 04:40:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1tRyC4xj69pF8P0DcEwBTF/cCmmQ1WXOLn8J9OAcepE=;
- b=h7VeZyoq6q4qf4a7QtaBS/VvJACL1JqUpsR3J1XKZue0Wf0Rd/ogK6HyuU8H8wUD/b
- BLOpQe7WW1qVQpNIt+PxyGAUblWawC/jhoAs9rK04+4Ys/Gei2uEc4z1BuETFKGAsUkm
- wxp8bxBG3tuyzqjW+pN9C2Y/HNSs8J+o1Uhg7ON0OSMN9u6PiM2Z9aYHe2Ot2JSn2O0U
- FaaxTKc/sj02TGWkjXcLZyKCnF7S8+I+Ed3TJBhZGfRest/sd25UOB848qHs9T9rkRPG
- 9ACgcDDdSCME2nG4eEllvI3PQAqwCFTWoTw8ksrWJUrNx0H9RZcVqDT3ODSQD/u42DNQ
- IU6w==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mTNJB-00059e-Gz
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 07:54:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35110)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mTNJ6-0001XX-VU
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 07:54:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632398066;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=E/48hcO3Nl+2Eae9kgz5lKoXIAi1Er9TV0fJgO+ryoc=;
+ b=LywgvyOsNGNwqDEXP9o6U5Bu1KFPZDsNxP/qDPvFjRmBj1OOcnyBe6bAYynuzOQyHFYOju
+ qBh9VxLaQ30qciSyv2n4M8MKT7IoE6E5zalU53e6iZPtLUhxFl4OKl9q5LF8P+oZBBZGzZ
+ g0QjxZyIKMceWNMOojQR6ua3g0cuM5A=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-587-UMk9pognNaSunFl45_n1Gw-1; Thu, 23 Sep 2021 07:54:20 -0400
+X-MC-Unique: UMk9pognNaSunFl45_n1Gw-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ rm6-20020a17090b3ec600b0019ce1db4eaeso7403443pjb.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Sep 2021 04:54:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1tRyC4xj69pF8P0DcEwBTF/cCmmQ1WXOLn8J9OAcepE=;
- b=NpKM4/UyB1SyLa1FPcYwKF0EOzjGg5kxbyni7AGVg3o8UQthMgAc2RlFmSnzFP+Ixg
- 1IHkbOD9cQqSkpR6fwL5pVW9FWmSk8roH1Y8JLTlHcZUuHQUM31B2uhJ5WMG7aF6/RlI
- /y1AWoM7gED2x76YuF2ikCPDK+wL8v9e/ReCHVZO+vShFzBhFe+vsH5IsbfX9/DC5vvJ
- AUdw0wVDk60g4eCKhBgO2Xnq7Jiq/4d3NnfHYsulczeX9T5M1Rs3ki3H4pRyNwn7R5IR
- 8Ve94G0WH7ai2lll8kyKs8xdgVUUb/ZLkhCArTn+3U9MLcqPLRPcfTBBDEecyWYJLkeG
- UvpA==
-X-Gm-Message-State: AOAM530RkLj9YXPP127Tp6Z7V5kVk0HWEwkTVeMRu6VVcE/V9W27/m8Y
- JBzpqgkMkYeEBY27CxlxeJAsllK2+7g=
-X-Google-Smtp-Source: ABdhPJzlmiwrVFnO25LPW0vp+FZ/9v4aXWWANr6LxyBD5PLTZDGxLDctZzJ/gH4Oy1fbGkyB0TPdsA==
-X-Received: by 2002:a5d:59ae:: with SMTP id p14mr4657221wrr.278.1632397244238; 
- Thu, 23 Sep 2021 04:40:44 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id k17sm10852185wmj.0.2021.09.23.04.40.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Sep 2021 04:40:43 -0700 (PDT)
-Subject: Re: [PATCH] tests: qtest: bios-tables-test depends on the unpacked
- edk2 ROMs
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210923081555.3648310-1-pbonzini@redhat.com>
- <YUw5Pglv2lcS2Nz6@redhat.com>
- <aac1894b-e515-cbc7-5b51-aaddc6fc3de4@amsat.org>
- <02853d4e-a708-5141-f38b-0dd48329f305@redhat.com>
- <CAFEAcA--6NfnjuY46LbTmpQ6as+uaxQ0aaMwAOUJ4CHaR4xnsg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <47fe32de-e796-bea9-b295-064fdcfeed24@redhat.com>
-Date: Thu, 23 Sep 2021 13:40:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=E/48hcO3Nl+2Eae9kgz5lKoXIAi1Er9TV0fJgO+ryoc=;
+ b=Qtk0byw7AJ1xTlrFuX2sONYgN0p5JB4tbeRaxXrQNuLlYMtJNN8gBQSKElYCkBzGiA
+ XrLSov57VV7KxVuTsaHrHtVmiEXdvlSxFXNkWt3df645GVdJMLRj12kY43RijWD/OkMX
+ ne1hNhJw/Je+LDmmRygyYQutLoo2Sk6SeOi3K18EId/U/yGiVPkZ3rR6NFHsTqOskJwR
+ NzHt082uP9RAAgQ6j/yxkYlWznMHVLNggbb0MAHSJXGwOMgCryKZkgE5dmhSLF7g/ogC
+ 8AyuHBnQPCBLYLQKAC4cedILh29dfFxIM9vuIzx25lezAkCa1u8uWlnOF/EBBOYiurCL
+ G0sQ==
+X-Gm-Message-State: AOAM532yKjljkp3KenfKIQZUYulGW2LGRdgnw83ETmNMuo9F4sGjny+G
+ ybnqEJTiR20avd2vLRZG3YnYUBBz49uPotj4ptYwpj3452B4Qn4bQ3u2Wrgny5aFwJrBJjHFkDH
+ a5ssmWFaCLlRXEXkr+FCfgrxCs4V7gCc=
+X-Received: by 2002:a17:90b:1bd2:: with SMTP id
+ oa18mr17364524pjb.123.1632398059682; 
+ Thu, 23 Sep 2021 04:54:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxR1k4FY3swOjQL5A1HA94ddjYAr7yUTsxA+Dy7Nthjh8h5wwvI9sW7MOPdgK/6aD70mVzIAA/fwrl7PlJVpRI=
+X-Received: by 2002:a17:90b:1bd2:: with SMTP id
+ oa18mr17364497pjb.123.1632398059316; 
+ Thu, 23 Sep 2021 04:54:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA--6NfnjuY46LbTmpQ6as+uaxQ0aaMwAOUJ4CHaR4xnsg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210922190324.190227-1-willianr@redhat.com>
+ <20210922190324.190227-2-willianr@redhat.com>
+ <YUw6akmum97xkT14@redhat.com>
+In-Reply-To: <YUw6akmum97xkT14@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Thu, 23 Sep 2021 08:53:53 -0300
+Message-ID: <CAKJDGDaF6TgEQDKojHsfR3ZC04uxBxC4_rDMtYqHGbmpuXe21A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] docs/devel/testing: add instruction to run a single
+ acceptance test
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.473,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,53 +95,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/09/21 12:44, Peter Maydell wrote:
-> On Thu, 23 Sept 2021 at 11:32, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> On 23/09/21 12:00, Philippe Mathieu-Daudé wrote:
->>> See also "blobs: Only install required (system emulation) files":
->>> https://lore.kernel.org/qemu-devel/20210323155132.238193-1-f4bug@amsat.org/
->>
->> Nice and makes a lot of sense.  Regarding "there is probably a nicer way
->> to do this with Meson", I would do without all the variables and do
->> something like
->>
->> foreach target : target_dirs
->>     if target in ['...']
->>       blobs_ss.add('...')
->>     elif target in ['...']
->>       blobs_ss.add('...')
->>     endif
->> endforeach
->>
->> directly in pc-bios/meson.build.
-> 
-> Is it possible also to have meson handle the "symlink the blob from
-> the source dir to the build dir" which currently configure is doing ?
+On Thu, Sep 23, 2021 at 5:27 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Wed, Sep 22, 2021 at 04:03:23PM -0300, Willian Rampazzo wrote:
+> > Add instructions to the Acceptance tests section about running a
+> > single test file or a test within the test file.
+> >
+> > Signed-off-by: Willian Rampazzo <willianr@redhat.com>
+> > ---
+> >  docs/devel/testing.rst | 14 ++++++++++++++
+> >  1 file changed, 14 insertions(+)
+> >
+> > diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+> > index 4a0abbf23d..b03df34f7b 100644
+> > --- a/docs/devel/testing.rst
+> > +++ b/docs/devel/testing.rst
+> > @@ -740,6 +740,20 @@ may be invoked by running:
+> >
+> >    tests/venv/bin/avocado run $OPTION1 $OPTION2 tests/acceptance/
+> >
+> > +It is also possible to run tests from a single file or a single test
+> > +within a test file. To run tests from a single file within the build
+> > +tree, use:
+> > +
+> > + .. code::
+> > +
+> > +  tests/venv/bin/avocado run tests/acceptance/$TESTFILE
+>
+> Before running this users may well need to run
+>
+>    make check-venv
+>
+> we can't assume they have previously done "make check-acceptance"
+> as they're possibly just reproducing a failure from gitlab
+> CI locally, not running the whole suite.
 
-Yes, though I would have to check the details on how to do that best 
-(for example whether to keep them at configure time or move them to make).
+Indeed!
 
-By the way, I think a lot of the DIRS in configure are not needed 
-anymore; meson would create them anyway and they're not needed by the 
-LINKS loop below.
+>
+> > +
+> > +To run a single test within a test file, use:
+> > +
+> > + .. code::
+> > +
+> > +  tests/venv/bin/avocado run tests/acceptance/$TESTFILE:$TESTCLASS.$TE=
+STNAME
+> > +
+>
+> Valid test names are visible in the output from any previous execution
+> of avocado, and can also be queried using
+>
+>   tests/venv/bin/avocado list tests/acceptance
+>
 
-> That would mean we could avoid having effectively two lists of blobs.
-> (Somebody would need to cross-check that all the blobs the wildcards in
-> configure are linking in are listed in the meson list.) I guess
-> the question is whether other parts of the build system assume those
-> links already exist (ie they don't explicitly declare a dependency
-> on the existence of the blob and would need to change to do so).
+Ack.
 
-Yeah, that's also why in my patch I didn't bother adding the roms 
-dependency to bios-tables-test only.  It's less prone to failure if 
-they're just built before any qtest is run.
+> >  Manual Installation
+> >  -------------------
+> >
+> > --
+> > 2.31.1
+> >
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
-Paolo
 
