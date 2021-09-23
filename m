@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C7F416445
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 19:20:51 +0200 (CEST)
-Received: from localhost ([::1]:33520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F1E4163DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Sep 2021 19:09:08 +0200 (CEST)
+Received: from localhost ([::1]:35762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mTSOw-00041j-Bc
-	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 13:20:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40478)
+	id 1mTSDb-0002d4-W8
+	for lists+qemu-devel@lfdr.de; Thu, 23 Sep 2021 13:09:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTS5a-0006Fb-UM
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTS5e-0006G8-5R
  for qemu-devel@nongnu.org; Thu, 23 Sep 2021 13:01:02 -0400
-Received: from [115.28.160.31] (port=54466 helo=mailbox.box.xen0n.name)
+Received: from [115.28.160.31] (port=54472 helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTS5Y-0005nl-2B
- for qemu-devel@nongnu.org; Thu, 23 Sep 2021 13:00:50 -0400
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mTS5a-0005oN-3U
+ for qemu-devel@nongnu.org; Thu, 23 Sep 2021 13:00:53 -0400
 Received: from ld50.lan (unknown [101.88.29.172])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 3F56260AFE;
- Fri, 24 Sep 2021 01:00:35 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 7144F60AFF;
+ Fri, 24 Sep 2021 01:00:36 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1632416435; bh=KS8wnILTkQNVjeZfDyFNeM4RaIl5U9AY2SPtbMfkv8Q=;
+ t=1632416436; bh=kxDIZ1B4BHpWnLNs7GqI5Zf5geF68WXI/NhJu2qWVV0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jAoaiBgnhx/rx4cXr7K0qkJ/tdzGqmqNbOdSZNVtsnqk9Lg3jbXZrSwbgeVozAX0p
- Jui2dZKY3kHyC9dPgmfZPpb5BfWD3RLPrna4TEZZsk6HDP/HP1eykJz4GO6zisL3Or
- 0EEg7yOB4DxSNNrDJSIaYKlKLY/VXi8VtQ00GFuA=
+ b=URWscaoM5hgApO+77eayg6LonO6/NWj6tPx3WMjl+2aAeSknEBuN+xPsv+lRviLZe
+ TqdZb6dupAYPhp2nrL4enl/Jj+OVdbwgP8uSGmBJ2nj6zWLOs3WYMJQHJqFaC30MXo
+ Whve7wzc/7pLW+nhaTXKk+L6myz7DQsDjkQUNiRQ=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 18/30] tcg/loongarch64: Implement
- mul/mulsh/muluh/div/divu/rem/remu ops
-Date: Fri, 24 Sep 2021 00:59:27 +0800
-Message-Id: <20210923165939.729081-19-git@xen0n.name>
+Subject: [PATCH v4 19/30] tcg/loongarch64: Implement br/brcond ops
+Date: Fri, 24 Sep 2021 00:59:28 +0800
+Message-Id: <20210923165939.729081-20-git@xen0n.name>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210923165939.729081-1-git@xen0n.name>
 References: <20210923165939.729081-1-git@xen0n.name>
@@ -71,150 +70,99 @@ Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
  tcg/loongarch64/tcg-target-con-set.h |  1 +
- tcg/loongarch64/tcg-target.c.inc     | 65 ++++++++++++++++++++++++++++
- tcg/loongarch64/tcg-target.h         | 16 +++----
- 3 files changed, 74 insertions(+), 8 deletions(-)
+ tcg/loongarch64/tcg-target.c.inc     | 53 ++++++++++++++++++++++++++++
+ 2 files changed, 54 insertions(+)
 
 diff --git a/tcg/loongarch64/tcg-target-con-set.h b/tcg/loongarch64/tcg-target-con-set.h
-index 4b8ce85897..fb56f3a295 100644
+index fb56f3a295..367689c2e2 100644
 --- a/tcg/loongarch64/tcg-target-con-set.h
 +++ b/tcg/loongarch64/tcg-target-con-set.h
-@@ -23,3 +23,4 @@ C_O1_I2(r, r, rU)
- C_O1_I2(r, r, rW)
- C_O1_I2(r, 0, rZ)
- C_O1_I2(r, rZ, rN)
-+C_O1_I2(r, rZ, rZ)
+@@ -15,6 +15,7 @@
+  * tcg-target-con-str.h; the constraint combination is inclusive or.
+  */
+ C_O0_I1(r)
++C_O0_I2(rZ, rZ)
+ C_O1_I1(r, r)
+ C_O1_I2(r, r, rC)
+ C_O1_I2(r, r, ri)
 diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index b389052180..a92f50b165 100644
+index a92f50b165..f081388d2d 100644
 --- a/tcg/loongarch64/tcg-target.c.inc
 +++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -691,6 +691,55 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         }
+@@ -408,6 +408,44 @@ static void tcg_out_clzctz(TCGContext *s, LoongArchInsn opc,
+     tcg_out_opc_or(s, a0, TCG_REG_TMP0, a0);
+ }
+ 
++/*
++ * Branch helpers
++ */
++
++static const struct {
++    LoongArchInsn op;
++    bool swap;
++} tcg_brcond_to_loongarch[] = {
++    [TCG_COND_EQ] =  { OPC_BEQ,  false },
++    [TCG_COND_NE] =  { OPC_BNE,  false },
++    [TCG_COND_LT] =  { OPC_BGT,  true  },
++    [TCG_COND_GE] =  { OPC_BLE,  true  },
++    [TCG_COND_LE] =  { OPC_BLE,  false },
++    [TCG_COND_GT] =  { OPC_BGT,  false },
++    [TCG_COND_LTU] = { OPC_BGTU, true  },
++    [TCG_COND_GEU] = { OPC_BLEU, true  },
++    [TCG_COND_LEU] = { OPC_BLEU, false },
++    [TCG_COND_GTU] = { OPC_BGTU, false }
++};
++
++static void tcg_out_brcond(TCGContext *s, TCGCond cond, TCGReg arg1,
++                           TCGReg arg2, TCGLabel *l)
++{
++    LoongArchInsn op = tcg_brcond_to_loongarch[cond].op;
++
++    tcg_debug_assert(op != 0);
++
++    if (tcg_brcond_to_loongarch[cond].swap) {
++        TCGReg t = arg1;
++        arg1 = arg2;
++        arg2 = t;
++    }
++
++    /* all conditional branch insns belong to DJSk16-format */
++    tcg_out_reloc(s, s->code_ptr, R_LOONGARCH_BR_SK16, l, 0);
++    tcg_out32(s, encode_djsk16_insn(op, arg1, arg2, 0));
++}
++
+ /*
+  * Entry-points
+  */
+@@ -430,6 +468,17 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+         tcg_out_opc_jirl(s, TCG_REG_ZERO, a0, 0);
          break;
  
-+    case INDEX_op_mul_i32:
-+        tcg_out_opc_mul_w(s, a0, a1, a2);
-+        break;
-+    case INDEX_op_mul_i64:
-+        tcg_out_opc_mul_d(s, a0, a1, a2);
-+        break;
-+
-+    case INDEX_op_mulsh_i32:
-+        tcg_out_opc_mulh_w(s, a0, a1, a2);
-+        break;
-+    case INDEX_op_mulsh_i64:
-+        tcg_out_opc_mulh_d(s, a0, a1, a2);
++    case INDEX_op_br:
++        tcg_out_reloc(s, s->code_ptr, R_LOONGARCH_BR_SD10K16, arg_label(a0),
++                      0);
++        tcg_out_opc_b(s, 0);
 +        break;
 +
-+    case INDEX_op_muluh_i32:
-+        tcg_out_opc_mulh_wu(s, a0, a1, a2);
-+        break;
-+    case INDEX_op_muluh_i64:
-+        tcg_out_opc_mulh_du(s, a0, a1, a2);
++    case INDEX_op_brcond_i32:
++    case INDEX_op_brcond_i64:
++        tcg_out_brcond(s, a2, a0, a1, arg_label(args[3]));
 +        break;
 +
-+    case INDEX_op_div_i32:
-+        tcg_out_opc_div_w(s, a0, a1, a2);
-+        break;
-+    case INDEX_op_div_i64:
-+        tcg_out_opc_div_d(s, a0, a1, a2);
-+        break;
-+
-+    case INDEX_op_divu_i32:
-+        tcg_out_opc_div_wu(s, a0, a1, a2);
-+        break;
-+    case INDEX_op_divu_i64:
-+        tcg_out_opc_div_du(s, a0, a1, a2);
-+        break;
-+
-+    case INDEX_op_rem_i32:
-+        tcg_out_opc_mod_w(s, a0, a1, a2);
-+        break;
-+    case INDEX_op_rem_i64:
-+        tcg_out_opc_mod_d(s, a0, a1, a2);
-+        break;
-+
-+    case INDEX_op_remu_i32:
-+        tcg_out_opc_mod_wu(s, a0, a1, a2);
-+        break;
-+    case INDEX_op_remu_i64:
-+        tcg_out_opc_mod_du(s, a0, a1, a2);
-+        break;
-+
-     case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
-     case INDEX_op_mov_i64:
-     default:
-@@ -782,6 +831,22 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_sub_i64:
-         return C_O1_I2(r, rZ, rN);
+     case INDEX_op_ext8s_i32:
+     case INDEX_op_ext8s_i64:
+         tcg_out_ext8s(s, a0, a1);
+@@ -753,6 +802,10 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_goto_ptr:
+         return C_O0_I1(r);
  
-+    case INDEX_op_mul_i32:
-+    case INDEX_op_mul_i64:
-+    case INDEX_op_mulsh_i32:
-+    case INDEX_op_mulsh_i64:
-+    case INDEX_op_muluh_i32:
-+    case INDEX_op_muluh_i64:
-+    case INDEX_op_div_i32:
-+    case INDEX_op_div_i64:
-+    case INDEX_op_divu_i32:
-+    case INDEX_op_divu_i64:
-+    case INDEX_op_rem_i32:
-+    case INDEX_op_rem_i64:
-+    case INDEX_op_remu_i32:
-+    case INDEX_op_remu_i64:
-+        return C_O1_I2(r, rZ, rZ);
++    case INDEX_op_brcond_i32:
++    case INDEX_op_brcond_i64:
++        return C_O0_I2(rZ, rZ);
 +
-     default:
-         g_assert_not_reached();
-     }
-diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
-index e59c2a7bec..2ac2c342c7 100644
---- a/tcg/loongarch64/tcg-target.h
-+++ b/tcg/loongarch64/tcg-target.h
-@@ -93,8 +93,8 @@ typedef enum {
- 
- /* optional instructions */
- #define TCG_TARGET_HAS_movcond_i32      0
--#define TCG_TARGET_HAS_div_i32          0
--#define TCG_TARGET_HAS_rem_i32          0
-+#define TCG_TARGET_HAS_div_i32          1
-+#define TCG_TARGET_HAS_rem_i32          1
- #define TCG_TARGET_HAS_div2_i32         0
- #define TCG_TARGET_HAS_rot_i32          1
- #define TCG_TARGET_HAS_deposit_i32      1
-@@ -105,8 +105,8 @@ typedef enum {
- #define TCG_TARGET_HAS_sub2_i32         0
- #define TCG_TARGET_HAS_mulu2_i32        0
- #define TCG_TARGET_HAS_muls2_i32        0
--#define TCG_TARGET_HAS_muluh_i32        0
--#define TCG_TARGET_HAS_mulsh_i32        0
-+#define TCG_TARGET_HAS_muluh_i32        1
-+#define TCG_TARGET_HAS_mulsh_i32        1
- #define TCG_TARGET_HAS_ext8s_i32        1
- #define TCG_TARGET_HAS_ext16s_i32       1
- #define TCG_TARGET_HAS_ext8u_i32        1
-@@ -130,8 +130,8 @@ typedef enum {
- 
- /* 64-bit operations */
- #define TCG_TARGET_HAS_movcond_i64      0
--#define TCG_TARGET_HAS_div_i64          0
--#define TCG_TARGET_HAS_rem_i64          0
-+#define TCG_TARGET_HAS_div_i64          1
-+#define TCG_TARGET_HAS_rem_i64          1
- #define TCG_TARGET_HAS_div2_i64         0
- #define TCG_TARGET_HAS_rot_i64          1
- #define TCG_TARGET_HAS_deposit_i64      1
-@@ -163,8 +163,8 @@ typedef enum {
- #define TCG_TARGET_HAS_sub2_i64         0
- #define TCG_TARGET_HAS_mulu2_i64        0
- #define TCG_TARGET_HAS_muls2_i64        0
--#define TCG_TARGET_HAS_muluh_i64        0
--#define TCG_TARGET_HAS_mulsh_i64        0
-+#define TCG_TARGET_HAS_muluh_i64        1
-+#define TCG_TARGET_HAS_mulsh_i64        1
- 
- /* not defined -- call should be eliminated at compile time */
- void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+     case INDEX_op_ext8s_i32:
+     case INDEX_op_ext8s_i64:
+     case INDEX_op_ext8u_i32:
 -- 
 2.33.0
 
